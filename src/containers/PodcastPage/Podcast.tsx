@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   AudioPlayer,
@@ -19,18 +19,21 @@ import {
   getGroupedContributorDescriptionList,
   getLicenseCredits,
   podcastEpisodeApa7CopyString,
+  figureApa7CopyString,
 } from '@ndla/licenses';
 import { initArticleScripts } from '@ndla/article-scripts';
 import styled from '@emotion/styled';
+import { gql } from '@apollo/client';
 import { MastheadHeightPx } from '../../constants';
 
 import CopyTextButton from '../../components/license/CopyTextButton';
 import AnchorButton from '../../components/license/AnchorButton';
 import config from '../../config';
-import { GQLAudio } from '../../graphqlTypes';
+import { GQLPodcastAudioFragment } from '../../graphqlTypes';
+import { copyrightInfoFragment } from '../../queries';
 
 interface Props {
-  podcast: GQLAudio;
+  podcast: GQLPodcastAudioFragment;
   seriesId: string;
 }
 
@@ -49,9 +52,11 @@ const Podcast = ({ podcast, seriesId }: Props) => {
     podcast.copyright?.license &&
     getLicenseByAbbreviation(podcast.copyright?.license?.license, language);
 
-  const image = podcast.podcastMeta?.coverPhoto && {
-    url: podcast.podcastMeta?.coverPhoto?.url,
-    alt: podcast.podcastMeta?.coverPhoto?.altText,
+  const image = podcast.podcastMeta?.image;
+
+  const simpleImage = image && {
+    url: image.imageUrl,
+    alt: image.altText,
   };
 
   const { t } = useTranslation();
@@ -63,7 +68,7 @@ const Podcast = ({ podcast, seriesId }: Props) => {
     }
   }, [mounted]);
 
-  const messages = {
+  const podcastMessages = {
     learnAboutLicenses: license
       ? license.linkText
       : t('license.learnMore') || '',
@@ -75,9 +80,19 @@ const Podcast = ({ podcast, seriesId }: Props) => {
     download: t('audio.download'),
   };
 
+  const imageMessages = {
+    learnAboutLicenses: t('license.learnMore'),
+    title: t('title'),
+    close: t('close'),
+    source: t('source'),
+    rulesForUse: t('license.image.rules'),
+    reuse: t('image.reuse'),
+    download: t('image.download'),
+  };
+
   const licenseCredits = getLicenseCredits(podcast.copyright);
 
-  const contributors = getGroupedContributorDescriptionList(
+  const podcastContributors = getGroupedContributorDescriptionList(
     licenseCredits,
     language,
   ).map(item => ({
@@ -85,8 +100,22 @@ const Podcast = ({ podcast, seriesId }: Props) => {
     type: item.label,
   }));
 
+  const imageContributors =
+    image &&
+    getGroupedContributorDescriptionList(licenseCredits, language).map(
+      item => ({
+        name: item.description,
+        type: item.label,
+      }),
+    );
+
+  const imageRights =
+    image &&
+    getLicenseByAbbreviation(image.copyright.license.license, language).rights;
+
   const id = podcast.id.toString();
   const figurePodcastId = `figure-podcast-${id}`;
+  const figureImageId = `figure-image-${podcast?.podcastMeta?.image?.id}`;
 
   return (
     <Figure id={figurePodcastId} type="full-column">
@@ -95,7 +124,7 @@ const Podcast = ({ podcast, seriesId }: Props) => {
         src={podcast.audioFile.url}
         title={podcast.title.title}
         description={podcast.podcastMeta?.introduction}
-        img={image}
+        img={simpleImage}
         textVersion={podcast.manuscript?.manuscript}
       />
       <FigureCaption
@@ -106,17 +135,17 @@ const Podcast = ({ podcast, seriesId }: Props) => {
         caption={podcast.title.title}
         licenseRights={license?.rights || []}
         reuseLabel={t('other.reuse')}
-        authors={contributors}>
+        authors={podcastContributors}>
         {mounted && (
           <FigureLicenseDialog
             id={id}
-            authors={contributors}
+            authors={podcastContributors}
             locale={language}
             license={getLicenseByAbbreviation(
               podcast.copyright.license?.license!,
               'nb',
             )}
-            messages={messages}
+            messages={podcastMessages}
             title={podcast.title.title}
             origin={podcast.copyright.origin}>
             <CopyTextButton
@@ -144,8 +173,90 @@ const Podcast = ({ podcast, seriesId }: Props) => {
           </FigureLicenseDialog>
         )}
       </FigureCaption>
+      {image && (
+        <FigureCaption
+          figureId={figureImageId}
+          id={image.id}
+          licenseRights={imageRights || []}
+          locale={language}
+          key="caption"
+          reuseLabel={t('other.reuse')}
+          authors={imageContributors}>
+          {mounted && (
+            <FigureLicenseDialog
+              id={id}
+              authors={imageContributors}
+              locale={language}
+              license={getLicenseByAbbreviation(
+                image.copyright.license.license!,
+                'nb',
+              )}
+              messages={imageMessages}
+              title={image.title}
+              origin={image.copyright.origin}>
+              <CopyTextButton
+                stringToCopy={figureApa7CopyString(
+                  image.title,
+                  undefined,
+                  undefined,
+                  `/podkast/${seriesId}#episode-${podcast.id}`,
+                  image.copyright,
+                  image.copyright.license.license,
+                  config.ndlaFrontendDomain,
+                  key => t(key),
+                  language,
+                )}
+                copyTitle={t('license.copyTitle')}
+                hasCopiedTitle={t('license.hasCopiedTitle')}
+              />
+              {image.copyright.license?.license !== 'COPYRIGHTED' && (
+                <AnchorButton
+                  href={image.imageUrl}
+                  download
+                  appearance="outline">
+                  {t('license.download')}
+                </AnchorButton>
+              )}
+            </FigureLicenseDialog>
+          )}
+        </FigureCaption>
+      )}
     </Figure>
   );
+};
+
+Podcast.fragments = {
+  podcast: gql`
+    fragment PodcastAudio on Audio {
+      id
+      title {
+        title
+      }
+      audioFile {
+        url
+      }
+      copyright {
+        ...CopyrightInfo
+      }
+      manuscript {
+        manuscript
+      }
+      created
+      podcastMeta {
+        introduction
+        image {
+          copyright {
+            ...CopyrightInfo
+          }
+          id
+          imageUrl
+          title
+          altText
+        }
+      }
+    }
+    ${copyrightInfoFragment}
+  `,
 };
 
 export default Podcast;

@@ -6,9 +6,9 @@
  *
  */
 
+import { gql } from '@apollo/client';
 import styled from '@emotion/styled';
 import { colors, fonts, spacing } from '@ndla/core';
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { GQLPodcastSeriesSummary } from '../../graphqlTypes';
 
@@ -72,6 +72,24 @@ const PodcastSeries = ({
       </div>
     </FlexWrapper>
   );
+};
+
+PodcastSeries.fragments = {
+  series: gql`
+    fragment PodcastSeriesSummary on PodcastSeriesSummary {
+      id
+      title {
+        title
+      }
+      description {
+        description
+      }
+      coverPhoto {
+        url
+        altText
+      }
+    }
+  `,
 };
 
 export default PodcastSeries;

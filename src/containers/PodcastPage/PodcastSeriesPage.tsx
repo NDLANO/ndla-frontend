@@ -6,26 +6,23 @@
  *
  */
 
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { ArticleTitle, OneColumn } from '@ndla/ui';
+import compact from 'lodash.compact';
 import { Redirect, withRouter } from 'react-router-dom';
 import { RouteComponentProps, useLocation } from 'react-router';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { useTranslation } from 'react-i18next';
-import { useQuery } from '@apollo/client';
+import { gql, useQuery } from '@apollo/client';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
-import { podcastSeriesQuery } from '../../queries';
 import Podcast from './Podcast';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { LocaleType } from '.../../../interfaces';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
-import {
-  GQLPodcastSeries,
-  GQLPodcastSeriesQueryQuery,
-} from '../../graphqlTypes';
 import { PODCAST_SERIES_LIST_PAGE_PATH } from '../../constants';
 import config from '../../config';
+import { GQLPodcastSeriesQueryQuery } from '../../graphqlTypes';
 
 interface RouteParams {
   id: string;
@@ -95,7 +92,9 @@ const PodcastSeriesPage = ({
 
   const { t } = useTranslation();
 
-  const getDocumentTitle = (podcast: GQLPodcastSeries) => {
+  const getDocumentTitle = (
+    podcast: GQLPodcastSeriesQueryQuery['podcastSeries'],
+  ) => {
     return `${podcast?.title?.title || t('podcastPage.podcast')} - ${t(
       'htmlTitles.titleTemplate',
     )}`;
@@ -158,7 +157,7 @@ const PodcastSeriesPage = ({
           {podcastSeries.episodes?.length ? (
             <>
               <h2>{t('podcastPage.episodes')}</h2>
-              {podcastSeries.episodes?.map(episode => (
+              {compact(podcastSeries.episodes).map(episode => (
                 <Podcast podcast={episode} seriesId={id} />
               ))}
             </>
@@ -170,5 +169,29 @@ const PodcastSeriesPage = ({
     </>
   );
 };
+const podcastSeriesQuery = gql`
+  ${Podcast.fragments.podcast}
+  query podcastSeriesQuery($id: Int!) {
+    podcastSeries(id: $id) {
+      id
+      title {
+        title
+      }
+      description {
+        description
+      }
+      supportedLanguages
+      coverPhoto {
+        url
+      }
+      episodes {
+        ...PodcastAudio
+        tags {
+          tags
+        }
+      }
+    }
+  }
+`;
 
 export default withRouter(PodcastSeriesPage);

@@ -6,17 +6,16 @@
  *
  */
 
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { OneColumn, Spinner } from '@ndla/ui';
 import Pager from '@ndla/pager';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useLocation } from 'react-router';
-import { useApolloClient, useQuery } from '@apollo/client';
+import { gql, useApolloClient, useQuery } from '@apollo/client';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { parse, stringify } from 'query-string';
 import { HelmetWithTracker } from '@ndla/tracker';
-import { podcastSeriesSearchQuery } from '../../queries';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import { GQLPodcastSeriesSearchQueryQuery } from '../../graphqlTypes';
 import PodcastSeries from './PodcastSeries';
@@ -150,5 +149,17 @@ const PodcastSeriesListPage = () => {
     </>
   );
 };
+
+const podcastSeriesSearchQuery = gql`
+  ${PodcastSeries.fragments.series}
+  query podcastSeriesSearchQuery($page: Int!, $pageSize: Int!) {
+    podcastSeriesSearch(page: $page, pageSize: $pageSize) {
+      results {
+        ...PodcastSeriesSummary
+      }
+      totalCount
+    }
+  }
+`;
 
 export default PodcastSeriesListPage;

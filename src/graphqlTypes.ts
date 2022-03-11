@@ -1194,6 +1194,76 @@ export type GQLAllSubjectsQuery = {
   >;
 };
 
+export type GQLPodcastAudioFragment = {
+  __typename?: 'Audio';
+  id: number;
+  created: string;
+  title: { __typename?: 'Title'; title: string };
+  audioFile: { __typename?: 'AudioFile'; url: string };
+  copyright: { __typename?: 'Copyright' } & GQLCopyrightInfoFragment;
+  manuscript?: Maybe<{ __typename?: 'Manuscript'; manuscript: string }>;
+  podcastMeta?: Maybe<{
+    __typename?: 'PodcastMeta';
+    introduction: string;
+    image?: Maybe<{
+      __typename?: 'ImageMetaInformation';
+      id: string;
+      imageUrl: string;
+      title: string;
+      altText: string;
+      copyright: { __typename?: 'Copyright' } & GQLCopyrightInfoFragment;
+    }>;
+  }>;
+};
+
+export type GQLPodcastSeriesSummaryFragment = {
+  __typename?: 'PodcastSeriesSummary';
+  id: number;
+  title: { __typename?: 'Title'; title: string };
+  description: { __typename?: 'Description'; description: string };
+  coverPhoto: { __typename?: 'CoverPhoto'; url: string; altText: string };
+};
+
+export type GQLPodcastSeriesSearchQueryQueryVariables = Exact<{
+  page: Scalars['Int'];
+  pageSize: Scalars['Int'];
+}>;
+
+export type GQLPodcastSeriesSearchQueryQuery = {
+  __typename?: 'Query';
+  podcastSeriesSearch?: Maybe<{
+    __typename?: 'PodcastSeriesSearch';
+    totalCount: number;
+    results: Array<
+      { __typename?: 'PodcastSeriesSummary' } & GQLPodcastSeriesSummaryFragment
+    >;
+  }>;
+};
+
+export type GQLPodcastSeriesQueryQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+export type GQLPodcastSeriesQueryQuery = {
+  __typename?: 'Query';
+  podcastSeries?: Maybe<{
+    __typename?: 'PodcastSeriesWithEpisodes';
+    id: number;
+    supportedLanguages: Array<string>;
+    title: { __typename?: 'Title'; title: string };
+    description: { __typename?: 'Description'; description: string };
+    coverPhoto: { __typename?: 'CoverPhoto'; url: string };
+    episodes?: Maybe<
+      Array<
+        {
+          __typename?: 'Audio';
+          tags: { __typename?: 'Tags'; tags: Array<string> };
+        } & GQLPodcastAudioFragment
+      >
+    >;
+  }>;
+};
+
 export type GQLContributorInfoFragment = {
   __typename?: 'Contributor';
   name: string;
@@ -2463,177 +2533,4 @@ export type GQLResourcePageQuery = {
       >;
     } & GQLResourceInfoFragment
   >;
-};
-
-export type GQLAudioFragment = {
-  __typename?: 'Audio';
-  id: number;
-  revision: number;
-  supportedLanguages: Array<string>;
-  audioType: string;
-  created: string;
-  updated: string;
-  title: { __typename?: 'Title'; title: string; language: string };
-  audioFile: {
-    __typename?: 'AudioFile';
-    url: string;
-    mimeType: string;
-    fileSize: number;
-    language: string;
-  };
-  copyright: { __typename?: 'Copyright' } & GQLCopyrightInfoFragment;
-  tags: { __typename?: 'Tags'; tags: Array<string>; language: string };
-  manuscript?: Maybe<{
-    __typename?: 'Manuscript';
-    manuscript: string;
-    language: string;
-  }>;
-  podcastMeta?: Maybe<{
-    __typename?: 'PodcastMeta';
-    introduction: string;
-    language: string;
-    coverPhoto: {
-      __typename?: 'CoverPhoto';
-      id: string;
-      url: string;
-      altText: string;
-    };
-  }>;
-};
-
-export type GQLAudioSummaryFragment = {
-  __typename?: 'AudioSummary';
-  id: number;
-  url: string;
-  license: string;
-  supportedLanguages: Array<string>;
-  audioType: string;
-  lastUpdated: string;
-  title: { __typename?: 'Title'; title: string; language: string };
-  manuscript?: Maybe<{
-    __typename?: 'Manuscript';
-    manuscript: string;
-    language: string;
-  }>;
-  podcastMeta?: Maybe<{
-    __typename?: 'PodcastMeta';
-    introduction: string;
-    language: string;
-    coverPhoto: {
-      __typename?: 'CoverPhoto';
-      id: string;
-      url: string;
-      altText: string;
-    };
-  }>;
-};
-
-export type GQLPodcastSeriesFragment = {
-  __typename?: 'PodcastSeries';
-  id: number;
-  supportedLanguages: Array<string>;
-  title: { __typename?: 'Title'; title: string; language: string };
-  description: {
-    __typename?: 'Description';
-    description: string;
-    language: string;
-  };
-  coverPhoto: {
-    __typename?: 'CoverPhoto';
-    id: string;
-    url: string;
-    altText: string;
-  };
-};
-
-export type GQLPodcastSeriesSummaryFragment = {
-  __typename?: 'PodcastSeriesSummary';
-  id: number;
-  supportedLanguages?: Maybe<Array<string>>;
-  title: { __typename?: 'Title'; title: string; language: string };
-  description: {
-    __typename?: 'Description';
-    description: string;
-    language: string;
-  };
-  coverPhoto: {
-    __typename?: 'CoverPhoto';
-    id: string;
-    url: string;
-    altText: string;
-  };
-};
-
-export type GQLAudioWithSeriesFragment = {
-  __typename?: 'Audio';
-  series?: Maybe<{ __typename?: 'PodcastSeries' } & GQLPodcastSeriesFragment>;
-} & GQLAudioFragment;
-
-export type GQLPodcastSeriesWithEpisodesFragment = {
-  __typename?: 'PodcastSeries';
-  episodes?: Maybe<Array<{ __typename?: 'Audio' } & GQLAudioFragment>>;
-} & GQLPodcastSeriesFragment;
-
-export type GQLPodcastSeriesWithEpisodesSummaryFragment = {
-  __typename?: 'PodcastSeriesSummary';
-  episodes?: Maybe<
-    Array<{ __typename?: 'AudioSummary' } & GQLAudioSummaryFragment>
-  >;
-} & GQLPodcastSeriesSummaryFragment;
-
-export type GQLPodcastQueryQueryVariables = Exact<{
-  id: Scalars['Int'];
-}>;
-
-export type GQLPodcastQueryQuery = {
-  __typename?: 'Query';
-  podcast?: Maybe<{ __typename?: 'Audio' } & GQLAudioWithSeriesFragment>;
-};
-
-export type GQLPodcastSearchQueryQueryVariables = Exact<{
-  page: Scalars['Int'];
-  pageSize: Scalars['Int'];
-}>;
-
-export type GQLPodcastSearchQueryQuery = {
-  __typename?: 'Query';
-  podcastSearch?: Maybe<{
-    __typename?: 'AudioSearch';
-    totalCount: number;
-    page?: Maybe<number>;
-    pageSize: number;
-    results: Array<{ __typename?: 'Audio' } & GQLAudioWithSeriesFragment>;
-  }>;
-};
-
-export type GQLPodcastSeriesQueryQueryVariables = Exact<{
-  id: Scalars['Int'];
-}>;
-
-export type GQLPodcastSeriesQueryQuery = {
-  __typename?: 'Query';
-  podcastSeries?: Maybe<
-    { __typename?: 'PodcastSeries' } & GQLPodcastSeriesWithEpisodesFragment
-  >;
-};
-
-export type GQLPodcastSeriesSearchQueryQueryVariables = Exact<{
-  page: Scalars['Int'];
-  pageSize: Scalars['Int'];
-}>;
-
-export type GQLPodcastSeriesSearchQueryQuery = {
-  __typename?: 'Query';
-  podcastSeriesSearch?: Maybe<{
-    __typename?: 'PodcastSeriesSearch';
-    totalCount: number;
-    page?: Maybe<number>;
-    pageSize: number;
-    language: string;
-    results: Array<
-      {
-        __typename?: 'PodcastSeriesSummary';
-      } & GQLPodcastSeriesWithEpisodesSummaryFragment
-    >;
-  }>;
 };
