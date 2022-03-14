@@ -112,10 +112,6 @@ const PodcastSeriesPage = ({
     return <DefaultErrorMessage />;
   }
 
-  const imageUrlObj = podcastSeries.coverPhoto?.url
-    ? { url: podcastSeries.coverPhoto.url }
-    : undefined;
-
   const rssUrl = `${config?.ndlaFrontendDomain}/podkast/${podcastSeries.id}/feed.xml`;
 
   return (
@@ -141,7 +137,7 @@ const PodcastSeriesPage = ({
           supportedLanguages: podcastSeries.supportedLanguages,
         }}
         description={podcastSeries.description.description}
-        image={imageUrlObj}
+        imageUrl={podcastSeries.coverPhoto.url}
       />
       <OneColumn>
         <TitleWrapper>
