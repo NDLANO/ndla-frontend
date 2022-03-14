@@ -6,6 +6,7 @@
  *
  */
 
+import { gql } from '@apollo/client';
 import { uuid } from '@ndla/util';
 import {
   MediaList,
@@ -22,7 +23,7 @@ import {
 import { FileDocumentOutline } from '@ndla/icons/common';
 import { useTranslation } from 'react-i18next';
 import CopyTextButton from './CopyTextButton';
-import { GQLCopyrightInfoFragment } from '../../graphqlTypes';
+import { GQLTextLicenseList_CopyrightFragment } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
 import { licenseCopyrightToCopyrightType } from './licenseHelpers';
 
@@ -75,7 +76,7 @@ const TextLicenseInfo = ({ text, locale }: TextLicenseInfoProps) => {
 };
 
 interface TextItem {
-  copyright: GQLCopyrightInfoFragment;
+  copyright: GQLTextLicenseList_CopyrightFragment;
   updated: string;
   copyText?: string;
   title?: string;
@@ -99,6 +100,28 @@ const TextLicenseList = ({ texts, locale }: Props) => {
       </MediaList>
     </div>
   );
+};
+
+TextLicenseList.fragments = {
+  copyright: gql`
+    fragment TextLicenseList_Copyright on Copyright {
+      license {
+        license
+      }
+      creators {
+        name
+        type
+      }
+      processors {
+        name
+        type
+      }
+      rightsholders {
+        name
+        type
+      }
+    }
+  `,
 };
 
 export default TextLicenseList;

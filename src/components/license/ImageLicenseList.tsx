@@ -6,6 +6,7 @@
  *
  */
 
+import { gql } from '@apollo/client';
 import { uuid } from '@ndla/util';
 import {
   Image,
@@ -24,7 +25,7 @@ import queryString from 'query-string';
 import { useTranslation } from 'react-i18next';
 import CopyTextButton from './CopyTextButton';
 import AnchorButton from './AnchorButton';
-import { GQLImageLicense } from '../../graphqlTypes';
+import { GQLImageLicenseList_ImageLicenseFragment } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
 import { licenseCopyrightToCopyrightType } from './licenseHelpers';
 
@@ -37,7 +38,7 @@ export const downloadUrl = (imageSrc: string) => {
 };
 
 interface ImageLicenseInfoProps {
-  image: GQLImageLicense;
+  image: GQLImageLicenseList_ImageLicenseFragment;
   locale: LocaleType;
 }
 
@@ -101,7 +102,7 @@ const ImageLicenseInfo = ({ image, locale }: ImageLicenseInfoProps) => {
 };
 
 interface Props {
-  images: GQLImageLicense[];
+  images: GQLImageLicenseList_ImageLicenseFragment[];
   locale: LocaleType;
 }
 
@@ -118,6 +119,35 @@ const ImageLicenseList = ({ images, locale }: Props) => {
       </MediaList>
     </div>
   );
+};
+
+ImageLicenseList.fragments = {
+  image: gql`
+    fragment ImageLicenseList_ImageLicense on ImageLicense {
+      title
+      altText
+      src
+      copyText
+      copyright {
+        origin
+        license {
+          license
+        }
+        creators {
+          name
+          type
+        }
+        processors {
+          name
+          type
+        }
+        rightsholders {
+          name
+          type
+        }
+      }
+    }
+  `,
 };
 
 export default ImageLicenseList;

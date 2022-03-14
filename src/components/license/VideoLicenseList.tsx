@@ -6,6 +6,7 @@
  *
  */
 
+import { gql } from '@apollo/client';
 import { uuid } from '@ndla/util';
 import {
   MediaList,
@@ -22,12 +23,12 @@ import {
 import { useTranslation } from 'react-i18next';
 import CopyTextButton from './CopyTextButton';
 import AnchorButton from './AnchorButton';
-import { GQLBrightcoveLicense } from '../../graphqlTypes';
+import { GQLVideoLicenseList_BrightcoveLicenseFragment } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
 import { licenseCopyrightToCopyrightType } from './licenseHelpers';
 
 interface VideoLicenseInfoProps {
-  video: GQLBrightcoveLicense;
+  video: GQLVideoLicenseList_BrightcoveLicenseFragment;
   locale: LocaleType;
 }
 
@@ -74,7 +75,7 @@ const VideoLicenseInfo = ({ video, locale }: VideoLicenseInfoProps) => {
 };
 
 interface Props {
-  videos: GQLBrightcoveLicense[];
+  videos: GQLVideoLicenseList_BrightcoveLicenseFragment[];
   locale: LocaleType;
 }
 
@@ -91,6 +92,39 @@ const VideoLicenseList = ({ videos, locale }: Props) => {
       </MediaList>
     </div>
   );
+};
+
+VideoLicenseList.fragments = {
+  video: gql`
+    fragment VideoLicenseList_BrightcoveLicense on BrightcoveLicense {
+      title
+      download
+      src
+      cover
+      iframe {
+        width
+        height
+        src
+      }
+      copyright {
+        license {
+          license
+        }
+        creators {
+          name
+          type
+        }
+        processors {
+          name
+          type
+        }
+        rightsholders {
+          name
+          type
+        }
+      }
+    }
+  `,
 };
 
 export default VideoLicenseList;

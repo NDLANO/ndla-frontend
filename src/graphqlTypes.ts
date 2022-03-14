@@ -1185,6 +1185,183 @@ export type GQLSubjectLinkListSubjectFragment = {
   name: string;
 };
 
+export type GQLAudioLicenseList_AudioLicenseFragment = {
+  __typename?: 'AudioLicense';
+  src: string;
+  copyText?: Maybe<string>;
+  title: string;
+  copyright: {
+    __typename?: 'Copyright';
+    origin?: Maybe<string>;
+    license: { __typename?: 'License'; license: string };
+    creators: Array<{ __typename?: 'Contributor'; name: string; type: string }>;
+    processors: Array<{
+      __typename?: 'Contributor';
+      name: string;
+      type: string;
+    }>;
+    rightsholders: Array<{
+      __typename?: 'Contributor';
+      name: string;
+      type: string;
+    }>;
+  };
+};
+
+export type GQLConceptLicenseList_ConceptLicenseFragment = {
+  __typename?: 'ConceptLicense';
+  title: string;
+  src?: Maybe<string>;
+  copyright?: Maybe<{
+    __typename?: 'ConceptCopyright';
+    license?: Maybe<{ __typename?: 'License'; license: string }>;
+    creators: Array<{ __typename?: 'Contributor'; name: string; type: string }>;
+    processors: Array<{
+      __typename?: 'Contributor';
+      name: string;
+      type: string;
+    }>;
+    rightsholders: Array<{
+      __typename?: 'Contributor';
+      name: string;
+      type: string;
+    }>;
+  }>;
+};
+
+export type GQLH5pLicenseList_H5pLicenseFragment = {
+  __typename?: 'H5pLicense';
+  title: string;
+  src?: Maybe<string>;
+  copyright: {
+    __typename?: 'Copyright';
+    license: { __typename?: 'License'; license: string };
+    creators: Array<{ __typename?: 'Contributor'; name: string; type: string }>;
+    processors: Array<{
+      __typename?: 'Contributor';
+      name: string;
+      type: string;
+    }>;
+    rightsholders: Array<{
+      __typename?: 'Contributor';
+      name: string;
+      type: string;
+    }>;
+  };
+};
+
+export type GQLImageLicenseList_ImageLicenseFragment = {
+  __typename?: 'ImageLicense';
+  title: string;
+  altText: string;
+  src: string;
+  copyText?: Maybe<string>;
+  copyright: {
+    __typename?: 'Copyright';
+    origin?: Maybe<string>;
+    license: { __typename?: 'License'; license: string };
+    creators: Array<{ __typename?: 'Contributor'; name: string; type: string }>;
+    processors: Array<{
+      __typename?: 'Contributor';
+      name: string;
+      type: string;
+    }>;
+    rightsholders: Array<{
+      __typename?: 'Contributor';
+      name: string;
+      type: string;
+    }>;
+  };
+};
+
+export type GQLLicenseBox_ArticleFragment = {
+  __typename?: 'Article';
+  title: string;
+  oembed?: Maybe<string>;
+  published: string;
+  copyright: {
+    __typename?: 'Copyright';
+  } & GQLTextLicenseList_CopyrightFragment;
+  metaData?: Maybe<{
+    __typename?: 'ArticleMetaData';
+    copyText?: Maybe<string>;
+    concepts?: Maybe<
+      Array<
+        {
+          __typename?: 'ConceptLicense';
+        } & GQLConceptLicenseList_ConceptLicenseFragment
+      >
+    >;
+    h5ps?: Maybe<
+      Array<
+        { __typename?: 'H5pLicense' } & GQLH5pLicenseList_H5pLicenseFragment
+      >
+    >;
+    brightcoves?: Maybe<
+      Array<
+        {
+          __typename?: 'BrightcoveLicense';
+        } & GQLVideoLicenseList_BrightcoveLicenseFragment
+      >
+    >;
+    audios?: Maybe<
+      Array<
+        {
+          __typename?: 'AudioLicense';
+        } & GQLAudioLicenseList_AudioLicenseFragment
+      >
+    >;
+    images?: Maybe<
+      Array<
+        {
+          __typename?: 'ImageLicense';
+        } & GQLImageLicenseList_ImageLicenseFragment
+      >
+    >;
+  }>;
+};
+
+export type GQLTextLicenseList_CopyrightFragment = {
+  __typename?: 'Copyright';
+  license: { __typename?: 'License'; license: string };
+  creators: Array<{ __typename?: 'Contributor'; name: string; type: string }>;
+  processors: Array<{ __typename?: 'Contributor'; name: string; type: string }>;
+  rightsholders: Array<{
+    __typename?: 'Contributor';
+    name: string;
+    type: string;
+  }>;
+};
+
+export type GQLVideoLicenseList_BrightcoveLicenseFragment = {
+  __typename?: 'BrightcoveLicense';
+  title: string;
+  download?: Maybe<string>;
+  src?: Maybe<string>;
+  cover?: Maybe<string>;
+  iframe?: Maybe<{
+    __typename?: 'BrightcoveIframe';
+    width: number;
+    height: number;
+    src: string;
+  }>;
+  copyright: {
+    __typename?: 'Copyright';
+    license: { __typename?: 'License'; license: string };
+    creators: Array<{ __typename?: 'Contributor'; name: string; type: string }>;
+    processors: Array<{
+      __typename?: 'Contributor';
+      name: string;
+      type: string;
+    }>;
+    rightsholders: Array<{
+      __typename?: 'Contributor';
+      name: string;
+      type: string;
+    }>;
+  };
+};
+
 export type GQLAllSubjectsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GQLAllSubjectsQuery = {
