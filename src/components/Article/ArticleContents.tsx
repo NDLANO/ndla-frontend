@@ -6,6 +6,7 @@
  *
  */
 
+import { gql } from '@apollo/client';
 import { useMemo } from 'react';
 import { Remarkable } from 'remarkable';
 import {
@@ -20,11 +21,11 @@ import {
 
 import LicenseBox from '../license/LicenseBox';
 import { transformArticle } from '../../util/transformArticle';
-import { GQLTopicQueryTopicFragment } from '../../graphqlTypes';
+import { GQLArticleContents_TopicFragment } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
 
 interface Props {
-  topic: GQLTopicQueryTopicFragment;
+  topic: GQLArticleContents_TopicFragment;
   copyPageUrlLink: string;
   locale: LocaleType;
   modifier: 'clean' | 'in-topic';
@@ -85,6 +86,33 @@ const ArticleContents = ({
       </LayoutItem>
     </ArticleWrapper>
   );
+};
+
+ArticleContents.fragments = {
+  topic: gql`
+    fragment ArticleContents_Topic on Topic {
+      article {
+        id
+        content
+        created
+        updated
+        introduction
+        metaData {
+          footnotes {
+            ref
+            authors
+            edition
+            publisher
+            year
+            url
+            title
+          }
+        }
+        ...LicenseBox_Article
+      }
+    }
+    ${LicenseBox.fragments.article}
+  `,
 };
 
 export default ArticleContents;

@@ -1179,6 +1179,35 @@ export type GQLEmbedVisualelement = {
   visualElement?: Maybe<GQLVisualElement>;
 };
 
+export type GQLArticleContents_TopicFragment = {
+  __typename?: 'Topic';
+  article?: Maybe<
+    {
+      __typename?: 'Article';
+      id: number;
+      content: string;
+      created: string;
+      updated: string;
+      introduction?: Maybe<string>;
+      metaData?: Maybe<{
+        __typename?: 'ArticleMetaData';
+        footnotes?: Maybe<
+          Array<{
+            __typename?: 'FootNote';
+            ref: number;
+            authors: Array<string>;
+            edition?: Maybe<string>;
+            publisher?: Maybe<string>;
+            year: string;
+            url?: Maybe<string>;
+            title: string;
+          }>
+        >;
+      }>;
+    } & GQLLicenseBox_ArticleFragment
+  >;
+};
+
 export type GQLSubjectLinkListSubjectFragment = {
   __typename?: 'Subject';
   id: string;
