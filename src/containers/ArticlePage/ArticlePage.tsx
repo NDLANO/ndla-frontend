@@ -159,7 +159,7 @@ const ArticlePage = ({
         title={htmlTitle(article.title, [subject?.name])}
         trackableContent={article}
         description={article.metaDescription}
-        image={article.metaImage}
+        imageUrl={article.metaImage?.url}
       />
       <OneColumn>
         <Article

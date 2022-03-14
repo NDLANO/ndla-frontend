@@ -181,9 +181,6 @@ const ToolboxSubjectContainer = (props: Props) => {
 
   const socialMediaMetaData = getSocialMediaMetaData(props, selectedTopics);
 
-  const imageUrlObj = socialMediaMetaData.image?.url
-    ? { url: socialMediaMetaData.image.url }
-    : undefined;
   return (
     <>
       <Helmet>
@@ -199,7 +196,7 @@ const ToolboxSubjectContainer = (props: Props) => {
       <SocialMediaMetadata
         title={socialMediaMetaData.title}
         description={socialMediaMetaData.description}
-        image={imageUrlObj}
+        imageUrl={socialMediaMetaData.image?.url}
       />
       <OneColumn className={''}>
         <ToolboxInfo

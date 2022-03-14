@@ -75,9 +75,6 @@ const PlainLearningpathContainer = ({
     return <ErrorPage locale={locale} />;
   }
 
-  const imageUrlObj = learningpath.coverphoto?.url
-    ? { url: learningpath.coverphoto.url }
-    : undefined;
   return (
     <div>
       <Helmet>
@@ -88,7 +85,7 @@ const PlainLearningpathContainer = ({
         title={htmlTitle(learningpath.title, [t('htmlTitles.titleTemplate')])}
         trackableContent={learningpath}
         description={learningpath.description}
-        image={imageUrlObj}
+        imageUrl={learningpath.coverphoto?.url}
       />
       <Learningpath
         learningpath={learningpath}

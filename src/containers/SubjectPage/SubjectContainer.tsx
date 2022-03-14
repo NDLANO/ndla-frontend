@@ -215,9 +215,6 @@ const SubjectContainer = ({
   const supportedLanguages =
     topicsOnPage[topicsOnPage.length - 1]?.supportedLanguages;
 
-  const imageUrlObj = socialMediaMetadata.image?.url
-    ? { url: socialMediaMetadata.image.url }
-    : undefined;
   return (
     <>
       <Helmet>
@@ -234,7 +231,7 @@ const SubjectContainer = ({
             <SocialMediaMetadata
               title={socialMediaMetadata.title}
               description={socialMediaMetadata.description}
-              image={imageUrlObj}
+              imageUrl={socialMediaMetadata.image?.url}
               trackableContent={{ supportedLanguages }}
             />
 
