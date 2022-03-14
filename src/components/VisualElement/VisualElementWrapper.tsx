@@ -1,3 +1,4 @@
+import { gql } from '@apollo/client';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FigureCaption, FigureLicenseDialog, Figure } from '@ndla/ui';
@@ -7,13 +8,13 @@ import {
 } from '@ndla/licenses';
 import { initArticleScripts } from '@ndla/article-scripts';
 import { uuid } from '@ndla/util';
-import { GQLVisualElement } from '../../graphqlTypes';
+import { GQLVisualElementWrapper_VisualElementFragment } from '../../graphqlTypes';
 import VisualElement from './VisualElement';
 import VisualElementLicenseButtons from './VisualElementLicenseButtons';
 import { LocaleType, ResourceType } from '../../interfaces';
 
 interface Props {
-  visualElement: GQLVisualElement;
+  visualElement: GQLVisualElementWrapper_VisualElementFragment;
   locale: LocaleType;
 }
 
@@ -106,6 +107,42 @@ const VisualElementWrapper = ({ visualElement, locale }: Props) => {
       )}
     </Figure>
   );
+};
+
+VisualElementWrapper.fragments = {
+  visualElement: gql`
+    fragment VisualElementWrapper_VisualElement on VisualElement {
+      resource
+      copyright {
+        origin
+        license {
+          license
+        }
+        creators {
+          name
+          type
+        }
+        processors {
+          name
+          type
+        }
+        rightsholders {
+          name
+          type
+        }
+      }
+      image {
+        caption
+      }
+      brightcove {
+        caption
+      }
+      ...VisualElement_VisualElement
+      ...VisualElementLicenseButtons_VisualElement
+    }
+    ${VisualElement.fragments.visualElement}
+    ${VisualElementLicenseButtons.fragments.visualElement}
+  `,
 };
 
 export default VisualElementWrapper;

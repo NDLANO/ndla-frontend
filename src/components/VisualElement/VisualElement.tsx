@@ -1,9 +1,10 @@
+import { gql } from '@apollo/client';
 import { Image } from '@ndla/ui';
-import { GQLVisualElement } from '../../graphqlTypes';
+import { GQLVisualElement_VisualElementFragment } from '../../graphqlTypes';
 import { getCrop, getFocalPoint } from '../../util/imageHelpers';
 
 interface Props {
-  visualElement: GQLVisualElement;
+  visualElement: GQLVisualElement_VisualElementFragment;
 }
 
 export const getIframeSrcFromHtmlString = (
@@ -56,6 +57,41 @@ const VisualElement = ({ visualElement }: Props) => {
     );
   }
   return null;
+};
+
+VisualElement.fragments = {
+  visualElement: gql`
+    fragment VisualElement_VisualElement on VisualElement {
+      url
+      title
+      image {
+        alt
+        altText
+        src
+        focalX
+        focalY
+        lowerRightX
+        lowerRightY
+        upperLeftX
+        upperLeftY
+      }
+      oembed {
+        html
+        fullscreen
+        title
+      }
+      brightcove {
+        iframe {
+          height
+          width
+        }
+      }
+      # unused, but used for type checking
+      h5p {
+        src
+      }
+    }
+  `,
 };
 
 export default VisualElement;

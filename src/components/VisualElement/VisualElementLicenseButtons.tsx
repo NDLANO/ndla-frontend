@@ -1,8 +1,9 @@
+import { gql } from '@apollo/client';
 import { useTranslation } from 'react-i18next';
 import { StyledButton } from '@ndla/button';
 import queryString from 'query-string';
 import CopyTextButton from '../license/CopyTextButton';
-import { GQLVisualElement } from '../../graphqlTypes';
+import { GQLVisualElementLicenseButtons_VisualElementFragment } from '../../graphqlTypes';
 
 const makeIframeString = (
   url: string,
@@ -30,7 +31,7 @@ const downloadUrl = (imageSrc?: string) => {
 };
 
 interface Props {
-  visualElement: GQLVisualElement;
+  visualElement: GQLVisualElementLicenseButtons_VisualElementFragment;
   resourceType: string;
 }
 
@@ -75,6 +76,30 @@ const VisualElementLicenseButtons = ({
       )}
     </>
   );
+};
+
+VisualElementLicenseButtons.fragments = {
+  visualElement: gql`
+    fragment VisualElementLicenseButtons_VisualElement on VisualElement {
+      copyright {
+        license {
+          license
+        }
+      }
+      image {
+        src
+        copyText
+      }
+      brightcove {
+        download
+        iframe {
+          width
+          height
+          src
+        }
+      }
+    }
+  `,
 };
 
 export default VisualElementLicenseButtons;
