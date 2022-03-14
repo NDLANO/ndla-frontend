@@ -50,6 +50,14 @@ const VisualElementWrapper = ({ visualElement, locale }: Props) => {
     type: item.label,
   }));
 
+  const possibleAuthors = [
+    copyright?.creators,
+    copyright?.processors,
+    copyright?.rightsholders,
+  ];
+  const authors =
+    possibleAuthors.find(grouping => grouping && grouping.length > 0) ?? [];
+
   const caption =
     visualElement.image?.caption || visualElement.brightcove?.caption || '';
 
@@ -80,12 +88,7 @@ const VisualElementWrapper = ({ visualElement, locale }: Props) => {
           caption={caption}
           reuseLabel={messages.reuse}
           licenseRights={license.rights}
-          authors={
-            copyright?.creators ||
-            copyright?.rightsholders ||
-            copyright?.processors ||
-            []
-          }>
+          authors={authors}>
           <FigureLicenseDialog
             id={id}
             authors={contributors}
