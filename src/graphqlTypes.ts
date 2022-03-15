@@ -1198,6 +1198,7 @@ export type GQLPodcastAudioFragment = {
   __typename?: 'Audio';
   id: number;
   created: string;
+  audioType: string;
   title: { __typename?: 'Title'; title: string };
   audioFile: { __typename?: 'AudioFile'; url: string };
   copyright: { __typename?: 'Copyright' } & GQLCopyrightInfoFragment;
