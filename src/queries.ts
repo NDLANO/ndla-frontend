@@ -1234,3 +1234,12 @@ export const resourcePageQuery = gql`
   ${articleInfoFragment}
   ${resourceInfoFragment}
 `;
+
+export const alertsQuery = gql`
+  query alerts {
+    alerts {
+      title
+      body
+    }
+  }
+`;

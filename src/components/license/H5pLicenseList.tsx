@@ -26,6 +26,7 @@ import { GQLH5pLicenseList_H5pLicenseFragment } from '../../graphqlTypes';
 import CopyTextButton from './CopyTextButton';
 import { LocaleType } from '../../interfaces';
 import { licenseCopyrightToCopyrightType } from './licenseHelpers';
+import { licenseListCopyrightFragment } from './licenseFragments';
 
 interface H5pLicenseInfoProps {
   h5p: GQLH5pLicenseList_H5pLicenseFragment;
@@ -97,23 +98,10 @@ H5pLicenseList.fragments = {
       title
       src
       copyright {
-        license {
-          license
-        }
-        creators {
-          name
-          type
-        }
-        processors {
-          name
-          type
-        }
-        rightsholders {
-          name
-          type
-        }
+        ...LicenseListCopyright
       }
     }
+    ${licenseListCopyrightFragment}
   `,
 };
 
