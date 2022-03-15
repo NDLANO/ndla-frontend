@@ -8,7 +8,7 @@
 
 import { useEffect } from 'react';
 import { ArticleTitle, OneColumn } from '@ndla/ui';
-import compact from 'lodash.compact';
+import { compact } from 'lodash';
 import { Redirect, withRouter } from 'react-router-dom';
 import { RouteComponentProps, useLocation } from 'react-router';
 import { HelmetWithTracker } from '@ndla/tracker';

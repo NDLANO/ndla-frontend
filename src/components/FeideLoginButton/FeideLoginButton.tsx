@@ -9,7 +9,7 @@
 import { ReactElement, useContext } from 'react';
 import { RouteProps, useHistory } from 'react-router';
 import { useTranslation } from 'react-i18next';
-import compact from 'lodash.compact';
+import { compact } from 'lodash';
 
 import { AuthModal } from '@ndla/ui';
 import styled from '@emotion/styled';
