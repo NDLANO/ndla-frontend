@@ -1194,6 +1194,37 @@ export type GQLAllSubjectsQuery = {
   >;
 };
 
+export type GQLResources_ResourceTypeDefinitionFragment = {
+  __typename?: 'ResourceTypeDefinition';
+  id: string;
+  name: string;
+};
+
+export type GQLResources_ResourceFragment = {
+  __typename?: 'Resource';
+  id: string;
+  name: string;
+  contentUri?: Maybe<string>;
+  path: string;
+  paths: Array<string>;
+  rank?: Maybe<number>;
+  resourceTypes?: Maybe<
+    Array<{ __typename?: 'ResourceType'; id: string; name: string }>
+  >;
+};
+
+export type GQLResources_TopicFragment = {
+  __typename?: 'Topic';
+  name: string;
+  coreResources?: Maybe<
+    Array<{ __typename?: 'Resource' } & GQLResources_ResourceFragment>
+  >;
+  supplementaryResources?: Maybe<
+    Array<{ __typename?: 'Resource' } & GQLResources_ResourceFragment>
+  >;
+  metadata: { __typename?: 'TaxonomyMetadata'; customFields: any };
+};
+
 export type GQLContributorInfoFragment = {
   __typename?: 'Contributor';
   name: string;
