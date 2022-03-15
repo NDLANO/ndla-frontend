@@ -1185,6 +1185,89 @@ export type GQLSubjectLinkListSubjectFragment = {
   name: string;
 };
 
+export type GQLVisualElement_VisualElementFragment = {
+  __typename?: 'VisualElement';
+  url?: Maybe<string>;
+  title?: Maybe<string>;
+  image?: Maybe<{
+    __typename?: 'ImageElement';
+    alt?: Maybe<string>;
+    altText: string;
+    src: string;
+    focalX?: Maybe<number>;
+    focalY?: Maybe<number>;
+    lowerRightX?: Maybe<number>;
+    lowerRightY?: Maybe<number>;
+    upperLeftX?: Maybe<number>;
+    upperLeftY?: Maybe<number>;
+  }>;
+  oembed?: Maybe<{
+    __typename?: 'VisualElementOembed';
+    html?: Maybe<string>;
+    fullscreen?: Maybe<boolean>;
+    title?: Maybe<string>;
+  }>;
+  brightcove?: Maybe<{
+    __typename?: 'BrightcoveElement';
+    iframe?: Maybe<{
+      __typename?: 'BrightcoveIframe';
+      height: number;
+      width: number;
+    }>;
+  }>;
+  h5p?: Maybe<{ __typename?: 'H5pElement'; src?: Maybe<string> }>;
+};
+
+export type GQLVisualElementLicenseButtons_VisualElementFragment = {
+  __typename?: 'VisualElement';
+  copyright?: Maybe<{
+    __typename?: 'Copyright';
+    license: { __typename?: 'License'; license: string };
+  }>;
+  image?: Maybe<{
+    __typename?: 'ImageElement';
+    src: string;
+    copyText?: Maybe<string>;
+  }>;
+  brightcove?: Maybe<{
+    __typename?: 'BrightcoveElement';
+    download?: Maybe<string>;
+    iframe?: Maybe<{
+      __typename?: 'BrightcoveIframe';
+      width: number;
+      height: number;
+      src: string;
+    }>;
+  }>;
+};
+
+export type GQLVisualElementWrapper_VisualElementFragment = {
+  __typename?: 'VisualElement';
+  resource?: Maybe<string>;
+  copyright?: Maybe<{
+    __typename?: 'Copyright';
+    origin?: Maybe<string>;
+    license: { __typename?: 'License'; license: string };
+    creators: Array<{ __typename?: 'Contributor'; name: string; type: string }>;
+    processors: Array<{
+      __typename?: 'Contributor';
+      name: string;
+      type: string;
+    }>;
+    rightsholders: Array<{
+      __typename?: 'Contributor';
+      name: string;
+      type: string;
+    }>;
+  }>;
+  image?: Maybe<{ __typename?: 'ImageElement'; caption?: Maybe<string> }>;
+  brightcove?: Maybe<{
+    __typename?: 'BrightcoveElement';
+    caption?: Maybe<string>;
+  }>;
+} & GQLVisualElement_VisualElementFragment &
+  GQLVisualElementLicenseButtons_VisualElementFragment;
+
 export type GQLAllSubjectsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GQLAllSubjectsQuery = {
