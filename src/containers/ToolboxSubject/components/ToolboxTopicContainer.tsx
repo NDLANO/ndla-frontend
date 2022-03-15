@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useContext } from 'react';
+import { useContext, MouseEvent } from 'react';
 import { Spinner } from '@ndla/ui';
 import DefaultErrorMessage from '../../../components/DefaultErrorMessage';
 import { AuthContext } from '../../../components/AuthenticationContext';
@@ -22,7 +22,7 @@ interface Props {
   topicId: string;
   locale: LocaleType;
   onSelectTopic: (
-    e: React.MouseEvent<HTMLAnchorElement>,
+    e: MouseEvent<HTMLAnchorElement>,
     index: number,
     id?: string,
   ) => void;

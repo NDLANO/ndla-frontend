@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useRef } from 'react';
+import { useRef, MouseEvent } from 'react';
 import {
   ArticleSideBar,
   Breadcrumblist,
@@ -28,6 +28,7 @@ import {
 } from '../../../graphqlTypes';
 import { LocaleType } from '../../../interfaces';
 import { FeideUserWithGroups } from '../../../util/feideApi';
+import { transformArticle } from '../../../util/transformArticle';
 
 const filterCodes: Record<string, 'publicHealth' | 'democracy' | 'climate'> = {
   TT1: 'publicHealth',
@@ -54,7 +55,7 @@ const MultidisciplinarySubjectArticle = ({
   skipToContentId,
 }: Props) => {
   const resourcesRef = useRef(null);
-  const onLinkToResourcesClick = (e: React.MouseEvent) => {
+  const onLinkToResourcesClick = (e: MouseEvent) => {
     e.preventDefault();
     scrollToRef(resourcesRef, 0);
   };
@@ -73,6 +74,8 @@ const MultidisciplinarySubjectArticle = ({
     ?.filter(grepCode => grepCode.startsWith('TT'))
     .map(code => filterCodes[code]!);
 
+  const article = transformArticle(topic.article, locale);
+
   return (
     <>
       <Breadcrumblist hideOnNarrow items={[]} startOffset={268}>
@@ -89,7 +92,7 @@ const MultidisciplinarySubjectArticle = ({
       <OneColumn>
         <Article
           id={skipToContentId}
-          article={topic.article}
+          article={article}
           label=""
           locale={locale}
           isTopicArticle={false}

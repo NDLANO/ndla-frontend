@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 import Spinner from '@ndla/ui/lib/Spinner';
 import { Helmet } from 'react-helmet';
@@ -81,11 +81,7 @@ const MultidisciplinarySubjectArticlePage = ({
         title={socialMediaMetaData.title}
         description={socialMediaMetaData.description}
         locale={locale}
-        image={
-          socialMediaMetaData.image && {
-            url: socialMediaMetaData.image.url,
-          }
-        }
+        imageUrl={socialMediaMetaData.image?.url}
         trackableContent={{
           supportedLanguages: topic.article?.supportedLanguages,
           tags: topic.article?.tags,

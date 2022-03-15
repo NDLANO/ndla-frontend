@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Remarkable } from 'remarkable';
 import { Topic as UITopic } from '@ndla/ui';
 import { TopicProps } from '@ndla/ui/lib/Topic/Topic';

@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { uuid } from '@ndla/util';
 import {
   MediaList,
@@ -35,6 +34,13 @@ const TextLicenseInfo = ({ text, locale }: TextLicenseInfoProps) => {
   const { t } = useTranslation();
   const safeCopyright = licenseCopyrightToCopyrightType(text.copyright);
   const items = getGroupedContributorDescriptionList(safeCopyright, locale);
+  if (text.title) {
+    items.unshift({
+      label: t('title'),
+      description: text.title,
+      metaType: metaTypes.other,
+    });
+  }
   items.push({
     label: t('license.text.published'),
     description: text.updated,
@@ -72,6 +78,7 @@ interface TextItem {
   copyright: GQLCopyrightInfoFragment;
   updated: string;
   copyText?: string;
+  title?: string;
 }
 
 interface Props {

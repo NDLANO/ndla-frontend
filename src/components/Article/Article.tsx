@@ -6,7 +6,13 @@
  *
  */
 
-import React, { ComponentType, ReactNode, useEffect, useMemo } from 'react';
+import {
+  ComponentType,
+  ReactNode,
+  ReactElement,
+  useEffect,
+  useMemo,
+} from 'react';
 import { useLocation } from 'react-router';
 import { Remarkable } from 'remarkable';
 import { Article as UIArticle, ContentTypeBadge } from '@ndla/ui';
@@ -62,7 +68,7 @@ interface Props {
   article: GQLArticleInfoFragment;
   resourceType?: string;
   isTopicArticle?: boolean;
-  children?: React.ReactElement;
+  children?: ReactElement;
   contentType?: string;
   label: string;
   locale: LocaleType;

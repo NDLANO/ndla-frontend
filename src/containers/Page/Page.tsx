@@ -6,7 +6,7 @@
  *
  */
 
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { Helmet } from 'react-helmet';
 import { RouteProps } from 'react-router';
 import { PageContainer } from '@ndla/ui';

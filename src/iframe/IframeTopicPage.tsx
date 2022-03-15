@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { Helmet } from 'react-helmet';
 import { withTracker } from '@ndla/tracker';
 import { OneColumn, CreatedBy, constants } from '@ndla/ui';
@@ -75,7 +74,7 @@ export const IframeTopicPage = ({
       {article && (
         <SocialMediaMetadata
           description={article.metaDescription}
-          image={article.metaImage}
+          imageUrl={article.metaImage?.url}
           title={article.title}
           trackableContent={article}
           locale={locale}

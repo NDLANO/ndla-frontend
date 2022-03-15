@@ -1,9 +1,16 @@
-import React from 'react';
+/**
+ * Copyright (C) 2021 -present, NDLA
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+import { gql } from '@apollo/client';
 import { useTranslation } from 'react-i18next';
 import { StyledButton } from '@ndla/button';
 import queryString from 'query-string';
 import CopyTextButton from '../license/CopyTextButton';
-import { GQLVisualElement } from '../../graphqlTypes';
+import { GQLVisualElementLicenseButtons_VisualElementFragment } from '../../graphqlTypes';
 
 const makeIframeString = (
   url: string,
@@ -31,7 +38,7 @@ const downloadUrl = (imageSrc?: string) => {
 };
 
 interface Props {
-  visualElement: GQLVisualElement;
+  visualElement: GQLVisualElementLicenseButtons_VisualElementFragment;
   resourceType: string;
 }
 
@@ -42,10 +49,7 @@ const VisualElementLicenseButtons = ({
   const { t } = useTranslation();
   const Button = StyledButton.withComponent('a');
 
-  const copyText =
-    visualElement.brightcove?.copyText ||
-    visualElement.image?.copyText ||
-    visualElement.h5p?.copyText;
+  const copyText = visualElement.image?.copyText;
 
   return (
     <>
@@ -79,6 +83,30 @@ const VisualElementLicenseButtons = ({
       )}
     </>
   );
+};
+
+VisualElementLicenseButtons.fragments = {
+  visualElement: gql`
+    fragment VisualElementLicenseButtons_VisualElement on VisualElement {
+      copyright {
+        license {
+          license
+        }
+      }
+      image {
+        src
+        copyText
+      }
+      brightcove {
+        download
+        iframe {
+          width
+          height
+          src
+        }
+      }
+    }
+  `,
 };
 
 export default VisualElementLicenseButtons;

@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { OneColumn, LayoutItem } from '@ndla/ui';
 import { withTracker } from '@ndla/tracker';
@@ -35,15 +35,15 @@ import config from '../../config';
 import {
   GQLResourcePageQuery,
   GQLResourceTypeDefinition,
-  GQLTopic,
 } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
 import { FeideUserWithGroups } from '../../util/feideApi';
+import { TopicPaths } from '../ResourcePage/ResourcePage';
 
 interface Props extends WithTranslation {
   resource?: Required<GQLResourcePageQuery>['resource'];
   topic?: GQLResourcePageQuery['topic'];
-  topicPath: Omit<GQLTopic, 'metadata' | 'paths'>[];
+  topicPath: TopicPaths;
   relevance: string;
   subject?: GQLResourcePageQuery['subject'];
   resourceTypes?: GQLResourceTypeDefinition[];
@@ -164,7 +164,7 @@ const ArticlePage = ({
         trackableContent={article}
         description={article.metaDescription}
         locale={locale}
-        image={article.metaImage}
+        imageUrl={article.metaImage?.url}
       />
       <OneColumn>
         <Article

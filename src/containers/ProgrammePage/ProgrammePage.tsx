@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { RouteComponentProps, useHistory, withRouter } from 'react-router';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { getProgrammeBySlug } from '../../data/programmes';

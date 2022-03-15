@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { Helmet } from 'react-helmet';
 
 import { OneColumn, CreatedBy } from '@ndla/ui';
@@ -63,7 +62,7 @@ const IframeArticlePage = ({
       </Helmet>
       <SocialMediaMetadata
         title={article.title}
-        image={article.metaImage}
+        imageUrl={article.metaImage?.url}
         description={article.metaDescription}
         locale={locale}
         trackableContent={article}

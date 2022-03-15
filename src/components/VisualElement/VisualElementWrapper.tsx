@@ -1,4 +1,12 @@
-import React, { useEffect } from 'react';
+/**
+ * Copyright (C) 2021 -present, NDLA
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+import { gql } from '@apollo/client';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FigureCaption, FigureLicenseDialog, Figure } from '@ndla/ui';
 import {
@@ -7,13 +15,13 @@ import {
 } from '@ndla/licenses';
 import { initArticleScripts } from '@ndla/article-scripts';
 import { uuid } from '@ndla/util';
-import { GQLVisualElement } from '../../graphqlTypes';
+import { GQLVisualElementWrapper_VisualElementFragment } from '../../graphqlTypes';
 import VisualElement from './VisualElement';
 import VisualElementLicenseButtons from './VisualElementLicenseButtons';
 import { LocaleType, ResourceType } from '../../interfaces';
 
 interface Props {
-  visualElement: GQLVisualElement;
+  visualElement: GQLVisualElementWrapper_VisualElementFragment;
   locale: LocaleType;
 }
 
@@ -50,6 +58,14 @@ const VisualElementWrapper = ({ visualElement, locale }: Props) => {
     type: item.label,
   }));
 
+  const possibleAuthors = [
+    copyright?.creators,
+    copyright?.processors,
+    copyright?.rightsholders,
+  ];
+  const authors =
+    possibleAuthors.find(grouping => grouping && grouping.length > 0) ?? [];
+
   const caption =
     visualElement.image?.caption || visualElement.brightcove?.caption || '';
 
@@ -80,12 +96,7 @@ const VisualElementWrapper = ({ visualElement, locale }: Props) => {
           caption={caption}
           reuseLabel={messages.reuse}
           licenseRights={license.rights}
-          authors={
-            copyright?.creators ||
-            copyright?.rightsholders ||
-            copyright?.processors ||
-            []
-          }>
+          authors={authors}>
           <FigureLicenseDialog
             id={id}
             authors={contributors}
@@ -103,6 +114,42 @@ const VisualElementWrapper = ({ visualElement, locale }: Props) => {
       )}
     </Figure>
   );
+};
+
+VisualElementWrapper.fragments = {
+  visualElement: gql`
+    fragment VisualElementWrapper_VisualElement on VisualElement {
+      resource
+      copyright {
+        origin
+        license {
+          license
+        }
+        creators {
+          name
+          type
+        }
+        processors {
+          name
+          type
+        }
+        rightsholders {
+          name
+          type
+        }
+      }
+      image {
+        caption
+      }
+      brightcove {
+        caption
+      }
+      ...VisualElement_VisualElement
+      ...VisualElementLicenseButtons_VisualElement
+    }
+    ${VisualElement.fragments.visualElement}
+    ${VisualElementLicenseButtons.fragments.visualElement}
+  `,
 };
 
 export default VisualElementWrapper;

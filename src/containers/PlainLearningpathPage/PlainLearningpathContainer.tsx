@@ -7,7 +7,7 @@
  */
 
 import { withTracker } from '@ndla/tracker';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { CustomWithTranslation, withTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
@@ -75,9 +75,6 @@ const PlainLearningpathContainer = ({
     return <ErrorPage locale={locale} />;
   }
 
-  const imageUrlObj = learningpath.coverphoto?.url
-    ? { url: learningpath.coverphoto.url }
-    : undefined;
   return (
     <div>
       <Helmet>
@@ -89,7 +86,7 @@ const PlainLearningpathContainer = ({
         trackableContent={learningpath}
         description={learningpath.description}
         locale={locale}
-        image={imageUrlObj}
+        imageUrl={learningpath.coverphoto?.url}
       />
       <Learningpath
         learningpath={learningpath}

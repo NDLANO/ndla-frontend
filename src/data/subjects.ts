@@ -34,9 +34,9 @@ export const activeSubjects = [
       en: 'Engelsk',
     },
     longName: {
-      nb: 'Engelsk (YF)',
-      nn: 'Engelsk (YF)',
-      en: 'Engelsk (YF)',
+      nb: 'English (YF)',
+      nn: 'English (YF)',
+      en: 'English (YF)',
     },
     id: 'urn:subject:1:9b93cd9e-a45c-428c-a8fb-b4955169efdf',
   },
@@ -47,9 +47,9 @@ export const activeSubjects = [
       en: 'Engelsk',
     },
     longName: {
-      nb: 'Engelsk (SF)',
-      nn: 'Engelsk (SF)',
-      en: 'Engelsk (SF)',
+      nb: 'English (SF)',
+      nn: 'English (SF)',
+      en: 'English (SF)',
     },
     id: 'urn:subject:1:4ad7fe49-b14a-4caf-8e19-ad402d1e2ce6',
   },
@@ -1551,9 +1551,9 @@ export const activeSubjects = [
   },
   {
     longName: {
-      en: 'Engelsk 1',
-      nb: 'Engelsk 1',
-      nn: 'Engelsk 1',
+      en: 'English 1',
+      nb: 'English 1',
+      nn: 'English 1',
     },
     name: {
       en: 'Engelsk 1',
@@ -1655,9 +1655,9 @@ export const activeSubjects = [
   },
   {
     longName: {
-      en: 'Engelskspråklig litteratur og kultur (LK06)',
-      nb: 'Engelskspråklig litteratur og kultur (LK06)',
-      nn: 'Engelskspråkleg litteratur og kultur (LK06)',
+      en: 'English Literature and Culture (LK06)',
+      nb: 'English Literature and Culture (LK06)',
+      nn: 'English Literature and Culture (LK06)',
     },
     name: {
       en: 'Engelskspråklig litteratur og kultur',
@@ -1668,9 +1668,9 @@ export const activeSubjects = [
   },
   {
     longName: {
-      en: 'Samfunnsfaglig engelsk (LK06)',
-      nb: 'Samfunnsfaglig engelsk (LK06)',
-      nn: 'Samfunnsfagleg engelsk (LK06)',
+      en: 'Social Studies English (LK06)',
+      nb: 'Social Studies English (LK06)',
+      nn: 'Social Studies English (LK06)',
     },
     name: {
       en: 'Samfunnsfaglig engelsk',
@@ -2399,9 +2399,9 @@ export const archivedSubjects = [
   },
   {
     longName: {
-      en: 'Engelsk (Utgått) (SF vg1) (LK06)',
-      nb: 'Engelsk (Utgått) (SF vg1) (LK06)',
-      nn: 'Engelsk (Utgått) (SF vg1) (LK06)',
+      en: 'English (Utgått) (SF vg1) (LK06)',
+      nb: 'English (Utgått) (SF vg1) (LK06)',
+      nn: 'English (Utgått) (SF vg1) (LK06)',
     },
     name: {
       en: 'Engelsk (Utgått) (LK06)',
@@ -2523,9 +2523,9 @@ export const archivedSubjects = [
   },
   {
     longName: {
-      en: 'Internasjonal engelsk (Utgått) (LK06)',
-      nb: 'Internasjonal engelsk (Utgått) (LK06)',
-      nn: 'Internasjonal engelsk (Utgått) (LK06)',
+      en: 'International English (Utgått) (LK06)',
+      nb: 'International English (Utgått) (LK06)',
+      nn: 'International English (Utgått) (LK06)',
     },
     name: {
       en: 'Internasjonal engelsk (Utgått)',
@@ -2552,9 +2552,9 @@ export const betaSubjects = [
   },
   {
     longName: {
-      en: 'Engelsk 2 - BETA',
-      nb: 'Engelsk 2 - BETA',
-      nn: 'Engelsk 2 - BETA',
+      en: 'English 2 - BETA',
+      nb: 'English 2 - BETA',
+      nn: 'English 2 - BETA',
     },
     name: {
       en: 'Engelsk 2 - BETA',

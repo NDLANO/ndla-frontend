@@ -18,11 +18,11 @@ const contributorInfoFragment = gql`
 export const searchQuery = gql`
   query Search(
     $query: String
-    $page: String
-    $pageSize: String
+    $page: Int
+    $pageSize: Int
     $contextTypes: String
     $language: String
-    $ids: String
+    $ids: [Int!]
     $resourceTypes: String
     $contextFilters: String
     $sort: String
@@ -151,7 +151,7 @@ export const searchFilmQuery = gql`
     $query: String
     $contextTypes: String
     $language: String
-    $ids: String
+    $ids: [Int!]
     $resourceTypes: String
     $contextFilters: String
     $sort: String
@@ -217,8 +217,8 @@ export const groupSearchQuery = gql`
     $contextTypes: String
     $subjects: String
     $query: String
-    $page: String
-    $pageSize: String
+    $page: Int
+    $pageSize: Int
     $language: String
     $fallback: String
     $grepCodes: String
@@ -319,12 +319,10 @@ export const visualElementFragment = gql`
         width
       }
       uploadDate
-      copyText
     }
     h5p {
       src
       thumbnail
-      copyText
     }
     oembed {
       title
@@ -494,6 +492,7 @@ export const topicInfoFragment = gql`
     path
     parent
     relevanceId
+    supportedLanguages
     meta {
       ...MetaInfo
     }
@@ -585,7 +584,6 @@ export const articleInfoFragment = gql`
         copyright {
           ...CopyrightInfo
         }
-        copyText
       }
       audios {
         title
@@ -610,7 +608,6 @@ export const articleInfoFragment = gql`
           ...CopyrightInfo
         }
         uploadDate
-        copyText
       }
       concepts {
         title
@@ -618,7 +615,6 @@ export const articleInfoFragment = gql`
         copyright {
           ...ConceptCopyrightInfo
         }
-        copyText
       }
     }
     competenceGoals {
@@ -729,13 +725,13 @@ export const subjectPageQueryWithTopics = gql`
     $subjectId: String!
     $topicId: String!
     $includeTopic: Boolean!
+    $metadataFilterKey: String
+    $metadataFilterValue: String
   ) {
     subject(id: $subjectId) {
       ...SubjectInfo
       topics {
-        article {
-          supportedLanguages
-        }
+        supportedLanguages
         availability
         ...TopicInfo
       }
@@ -753,13 +749,17 @@ export const subjectPageQueryWithTopics = gql`
         id
         name
         path
+        supportedLanguages
         breadcrumbs
         meta {
           ...MetaInfo
         }
       }
     }
-    subjects {
+    subjects(
+      metadataFilterKey: $metadataFilterKey
+      metadataFilterValue: $metadataFilterValue
+    ) {
       ...SubjectInfo
       metadata {
         customFields
@@ -773,15 +773,22 @@ export const subjectPageQueryWithTopics = gql`
   ${subjectInfoFragment}
 `;
 
+export const subjectPageQueryInfoFragment = gql`
+  fragment SubjectPageQueryInfo on Subject {
+    id
+    name
+    path
+    topics {
+      ...TopicInfo
+    }
+  }
+  ${topicInfoFragment}
+`;
+
 export const subjectPageQuery = gql`
   query subjectPage($subjectId: String!) {
     subject(id: $subjectId) {
-      id
-      name
-      path
-      topics {
-        ...TopicInfo
-      }
+      ...SubjectPageQueryInfo
       allTopics: topics(all: true) {
         ...TopicInfo
       }
@@ -790,18 +797,31 @@ export const subjectPageQuery = gql`
       }
     }
   }
+  ${subjectPageQueryInfoFragment}
   ${topicInfoFragment}
   ${subjectpageInfo}
-  ${taxonomyEntityInfo}
 `;
 
-export const subjectsQuery = gql`
-  query subjects {
-    subjects {
-      ...SubjectInfo
+export const multiDisciplinarySubjectPageQuery = gql`
+  query multiDisciplinarySubjectPage($subjectId: String!) {
+    subject(id: $subjectId) {
+      ...SubjectPageQueryInfo
+      allTopics: topics(all: true) {
+        ...TopicInfo
+      }
     }
   }
-  ${subjectInfoFragment}
+  ${subjectPageQueryInfoFragment}
+  ${topicInfoFragment}
+`;
+
+export const filmSubjectPageQuery = gql`
+  query filmSubjectPage($subjectId: String!) {
+    subject(id: $subjectId) {
+      ...SubjectPageQueryInfo
+    }
+  }
+  ${subjectPageQueryInfoFragment}
 `;
 
 export const searchPageQuery = gql`
@@ -964,6 +984,9 @@ export const topicQueryWithPathTopics = gql`
       relevanceId
       meta {
         ...MetaInfo
+      }
+      metadata {
+        customFields
       }
       subtopics {
         id
@@ -1209,6 +1232,7 @@ export const resourcePageQuery = gql`
       name
       path
       relevanceId
+      supportedLanguages
       coreResources(subjectId: $subjectId) {
         ...ResourceInfo
       }
@@ -1234,4 +1258,13 @@ export const resourcePageQuery = gql`
   ${resourceInfoFragment}
   ${articleInfoFragment}
   ${resourceInfoFragment}
+`;
+
+export const alertsQuery = gql`
+  query alerts {
+    alerts {
+      title
+      body
+    }
+  }
 `;

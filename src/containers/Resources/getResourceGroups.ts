@@ -47,7 +47,9 @@ export const groupResourcesByResourceTypes = (
   }, {});
 };
 
-export const sortResourceTypes = (resourceTypes: GQLResourceType[]) =>
+type SharedResourceType = Pick<GQLResourceType, 'id' | 'name'>;
+
+export const sortResourceTypes = (resourceTypes: SharedResourceType[]) =>
   [...resourceTypes].sort((a, b) => {
     if (!sortOrder[a.id] && !sortOrder[b.id]) return 0;
     if (sortOrder[a.id] === undefined) return 1;
@@ -58,7 +60,7 @@ export const sortResourceTypes = (resourceTypes: GQLResourceType[]) =>
   });
 
 export const getResourceGroups = (
-  resourceTypes: GQLResourceType[],
+  resourceTypes: SharedResourceType[],
   supplementaryResources: GQLResourceInfoFragment[],
   coreResouces: GQLResourceInfoFragment[],
 ): GQLResourceType[] => {

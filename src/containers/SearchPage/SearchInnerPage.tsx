@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Location } from 'history';
 import SearchContainer from './SearchContainer';
@@ -113,8 +113,8 @@ const SearchInnerPage = ({
     variables: {
       ...stateSearchParams,
       language: i18n.language,
-      page: '1',
-      pageSize: '12',
+      page: 1,
+      pageSize: 12,
       ...getTypeParams([], resourceTypes),
       aggregatePaths: ['contexts.resourceTypes.id'],
       grepCodesList: searchParams.grepCodes,

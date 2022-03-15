@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useContext, useRef } from 'react';
+import { useContext, useRef } from 'react';
 import { Redirect, withRouter } from 'react-router-dom';
 import { RouteComponentProps } from 'react-router';
 import SubjectContainer from './SubjectContainer';
@@ -56,6 +56,8 @@ const SubjectPage = ({ match, locale, skipToContentId, ndlaFilm }: Props) => {
       subjectId: subjectId!,
       topicId: topicId || '',
       includeTopic: isFirstRenderWithTopicId(),
+      metadataFilterKey: OLD_SUBJECT_PAGE_REDIRECT_CUSTOM_FIELD,
+      metadataFilterValue: subjectId,
     },
   });
 
@@ -76,10 +78,7 @@ const SubjectPage = ({ match, locale, skipToContentId, ndlaFilm }: Props) => {
   }
 
   if (!data.subject || !subjectId) {
-    const redirect = data.subjects?.find(sub => {
-      const customFields = sub.metadata?.customFields;
-      return customFields[OLD_SUBJECT_PAGE_REDIRECT_CUSTOM_FIELD] === subjectId;
-    });
+    const redirect = data.subjects?.[0];
     if (!redirect) {
       return <NotFoundPage />;
     } else {

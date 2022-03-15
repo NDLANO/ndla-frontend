@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, ReactNode } from 'react';
 import {
   Masthead,
   MastheadItem,
@@ -46,7 +46,7 @@ import config from '../../config';
 
 interface Props extends RouteComponentProps {
   locale: LocaleType;
-  infoContent?: React.ReactNode;
+  infoContent?: ReactNode;
   ndlaFilm?: boolean;
   skipToMainContentId?: string;
   hideBreadcrumb?: boolean;

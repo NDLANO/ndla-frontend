@@ -6,7 +6,7 @@
  *
  */
 
-import React, { RefObject, useEffect } from 'react';
+import { RefObject, useEffect, MouseEvent } from 'react';
 import { NavigationBox } from '@ndla/ui';
 import { RELEVANCE_SUPPLEMENTARY } from '../../../constants';
 import { scrollToRef } from '../subjectPageHelpers';
@@ -19,7 +19,7 @@ interface Props {
   subject: GQLSubjectContainerType;
   locale: LocaleType;
   ndlaFilm?: boolean;
-  onClickTopics: (e: React.MouseEvent<HTMLAnchorElement>) => void;
+  onClickTopics: (e: MouseEvent<HTMLAnchorElement>) => void;
   topicIds: Array<string>;
   refs: Array<RefObject<HTMLDivElement>>;
   setBreadCrumb: (topic: BreadcrumbItem) => void;
@@ -56,7 +56,7 @@ const SubjectPageContent = ({
         invertedStyle={ndlaFilm}
         listDirection="horizontal"
         onClick={e => {
-          onClickTopics(e as React.MouseEvent<HTMLAnchorElement>);
+          onClickTopics(e as MouseEvent<HTMLAnchorElement>);
         }}
       />
       {topicIds.map((topicId, index) => {

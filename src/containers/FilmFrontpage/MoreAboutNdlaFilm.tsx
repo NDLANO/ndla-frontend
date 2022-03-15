@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { WithTranslation, withTranslation } from 'react-i18next';
 
 const MoreAboutNdlaFilm = ({ t }: WithTranslation) => (

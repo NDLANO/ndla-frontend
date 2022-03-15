@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { CustomWithTranslation, withTranslation } from 'react-i18next';
 import { OneColumn } from '@ndla/ui';
@@ -76,7 +76,7 @@ const PlainArticleContainer = ({
         title={article.title}
         description={article.metaDescription}
         locale={locale}
-        image={article.metaImage}
+        imageUrl={article.metaImage?.url}
         trackableContent={article}
       />
       <OneColumn>

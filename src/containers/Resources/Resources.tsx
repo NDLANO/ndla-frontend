@@ -6,7 +6,8 @@
  *
  */
 
-import React, { useEffect, useState } from 'react';
+import { gql } from '@apollo/client';
+import { useEffect, useState } from 'react';
 import { ResourcesWrapper, ResourcesTopicTitle, ResourceGroup } from '@ndla/ui';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -17,9 +18,8 @@ import {
   TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE,
 } from '../../constants';
 import {
-  GQLResource,
-  GQLResourceType,
-  GQLTopicQueryTopicFragment,
+  GQLResources_ResourceTypeDefinitionFragment,
+  GQLResources_TopicFragment,
 } from '../../graphqlTypes';
 
 interface MatchProps {
@@ -29,15 +29,9 @@ interface MatchProps {
   resourceId?: string;
 }
 
-interface ResourcesTopic extends Omit<GQLTopicQueryTopicFragment, 'metadata'> {
-  metadata?: GQLTopicQueryTopicFragment['metadata'];
-}
-
 interface Props extends RouteComponentProps<MatchProps> {
-  topic: ResourcesTopic;
-  resourceTypes?: Pick<GQLResourceType, 'id' | 'name'>[];
-  coreResources?: Omit<GQLResource, 'metadata'>[];
-  supplementaryResources?: Omit<GQLResource, 'metadata'>[];
+  topic: GQLResources_TopicFragment;
+  resourceTypes?: GQLResources_ResourceTypeDefinitionFragment[];
   ndlaFilm?: boolean;
 }
 const Resources = ({
@@ -187,6 +181,43 @@ const Resources = ({
         ))}
     </ResourcesWrapper>
   );
+};
+
+Resources.fragments = {
+  resourceType: gql`
+    fragment Resources_ResourceTypeDefinition on ResourceTypeDefinition {
+      id
+      name
+    }
+  `,
+  resource: gql`
+    fragment Resources_Resource on Resource {
+      id
+      name
+      contentUri
+      path
+      paths
+      rank
+      resourceTypes {
+        id
+        name
+      }
+    }
+  `,
+  topic: gql`
+    fragment Resources_Topic on Topic {
+      name
+      coreResources {
+        ...Resources_Resource
+      }
+      supplementaryResources {
+        ...Resources_Resource
+      }
+      metadata {
+        customFields
+      }
+    }
+  `,
 };
 
 export default withRouter(Resources);

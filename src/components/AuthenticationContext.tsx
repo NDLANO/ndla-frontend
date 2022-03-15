@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, { useState, createContext, useEffect } from 'react';
+import { useState, createContext, useEffect, ReactNode } from 'react';
 import {
   FeideUserWithGroups,
   fetchFeideUserWithGroups,
@@ -29,7 +29,7 @@ export const AuthContext = createContext<AuthContextType>({
 });
 
 interface Props {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 const AuthenticationContext = ({ children }: Props) => {

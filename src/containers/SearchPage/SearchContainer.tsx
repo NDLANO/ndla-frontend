@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React from 'react';
 import { Location } from 'history';
 import styled from '@emotion/styled';
 import {
