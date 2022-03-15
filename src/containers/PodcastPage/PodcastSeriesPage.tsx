@@ -8,7 +8,6 @@
 
 import { useEffect } from 'react';
 import { ArticleTitle, OneColumn } from '@ndla/ui';
-import { compact } from 'lodash';
 import { Redirect, withRouter } from 'react-router-dom';
 import { RouteComponentProps, useLocation } from 'react-router';
 import { HelmetWithTracker } from '@ndla/tracker';
@@ -153,7 +152,7 @@ const PodcastSeriesPage = ({
           {podcastSeries.episodes?.length ? (
             <>
               <h2>{t('podcastPage.episodes')}</h2>
-              {compact(podcastSeries.episodes).map(episode => (
+              {podcastSeries.episodes.map(episode => (
                 <Podcast podcast={episode} seriesId={id} />
               ))}
             </>
