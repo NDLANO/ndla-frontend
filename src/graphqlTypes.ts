@@ -2464,3 +2464,14 @@ export type GQLResourcePageQuery = {
     } & GQLResourceInfoFragment
   >;
 };
+
+export type GQLAlertsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GQLAlertsQuery = {
+  __typename?: 'Query';
+  alerts?: Maybe<
+    Array<
+      Maybe<{ __typename?: 'UptimeAlert'; title: string; body?: Maybe<string> }>
+    >
+  >;
+};
