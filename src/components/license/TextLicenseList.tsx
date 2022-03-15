@@ -26,6 +26,7 @@ import CopyTextButton from './CopyTextButton';
 import { GQLTextLicenseList_CopyrightFragment } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
 import { licenseCopyrightToCopyrightType } from './licenseHelpers';
+import { licenseListCopyrightFragment } from './licenseFragments';
 
 interface TextLicenseInfoProps {
   text: TextItem;
@@ -105,22 +106,9 @@ const TextLicenseList = ({ texts, locale }: Props) => {
 TextLicenseList.fragments = {
   copyright: gql`
     fragment TextLicenseList_Copyright on Copyright {
-      license {
-        license
-      }
-      creators {
-        name
-        type
-      }
-      processors {
-        name
-        type
-      }
-      rightsholders {
-        name
-        type
-      }
+      ...LicenseListCopyright
     }
+    ${licenseListCopyrightFragment}
   `,
 };
 

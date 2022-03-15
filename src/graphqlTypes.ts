@@ -1193,19 +1193,7 @@ export type GQLAudioLicenseList_AudioLicenseFragment = {
   copyright: {
     __typename?: 'Copyright';
     origin?: Maybe<string>;
-    license: { __typename?: 'License'; license: string };
-    creators: Array<{ __typename?: 'Contributor'; name: string; type: string }>;
-    processors: Array<{
-      __typename?: 'Contributor';
-      name: string;
-      type: string;
-    }>;
-    rightsholders: Array<{
-      __typename?: 'Contributor';
-      name: string;
-      type: string;
-    }>;
-  };
+  } & GQLLicenseListCopyrightFragment;
 };
 
 export type GQLConceptLicenseList_ConceptLicenseFragment = {
@@ -1233,21 +1221,7 @@ export type GQLH5pLicenseList_H5pLicenseFragment = {
   __typename?: 'H5pLicense';
   title: string;
   src?: Maybe<string>;
-  copyright: {
-    __typename?: 'Copyright';
-    license: { __typename?: 'License'; license: string };
-    creators: Array<{ __typename?: 'Contributor'; name: string; type: string }>;
-    processors: Array<{
-      __typename?: 'Contributor';
-      name: string;
-      type: string;
-    }>;
-    rightsholders: Array<{
-      __typename?: 'Contributor';
-      name: string;
-      type: string;
-    }>;
-  };
+  copyright: { __typename?: 'Copyright' } & GQLLicenseListCopyrightFragment;
 };
 
 export type GQLImageLicenseList_ImageLicenseFragment = {
@@ -1259,19 +1233,7 @@ export type GQLImageLicenseList_ImageLicenseFragment = {
   copyright: {
     __typename?: 'Copyright';
     origin?: Maybe<string>;
-    license: { __typename?: 'License'; license: string };
-    creators: Array<{ __typename?: 'Contributor'; name: string; type: string }>;
-    processors: Array<{
-      __typename?: 'Contributor';
-      name: string;
-      type: string;
-    }>;
-    rightsholders: Array<{
-      __typename?: 'Contributor';
-      name: string;
-      type: string;
-    }>;
-  };
+  } & GQLLicenseListCopyrightFragment;
 };
 
 export type GQLLicenseBox_ArticleFragment = {
@@ -1323,15 +1285,7 @@ export type GQLLicenseBox_ArticleFragment = {
 
 export type GQLTextLicenseList_CopyrightFragment = {
   __typename?: 'Copyright';
-  license: { __typename?: 'License'; license: string };
-  creators: Array<{ __typename?: 'Contributor'; name: string; type: string }>;
-  processors: Array<{ __typename?: 'Contributor'; name: string; type: string }>;
-  rightsholders: Array<{
-    __typename?: 'Contributor';
-    name: string;
-    type: string;
-  }>;
-};
+} & GQLLicenseListCopyrightFragment;
 
 export type GQLVideoLicenseList_BrightcoveLicenseFragment = {
   __typename?: 'BrightcoveLicense';
@@ -1345,21 +1299,19 @@ export type GQLVideoLicenseList_BrightcoveLicenseFragment = {
     height: number;
     src: string;
   }>;
-  copyright: {
-    __typename?: 'Copyright';
-    license: { __typename?: 'License'; license: string };
-    creators: Array<{ __typename?: 'Contributor'; name: string; type: string }>;
-    processors: Array<{
-      __typename?: 'Contributor';
-      name: string;
-      type: string;
-    }>;
-    rightsholders: Array<{
-      __typename?: 'Contributor';
-      name: string;
-      type: string;
-    }>;
-  };
+  copyright: { __typename?: 'Copyright' } & GQLLicenseListCopyrightFragment;
+};
+
+export type GQLLicenseListCopyrightFragment = {
+  __typename?: 'Copyright';
+  license: { __typename?: 'License'; license: string };
+  creators: Array<{ __typename?: 'Contributor'; name: string; type: string }>;
+  processors: Array<{ __typename?: 'Contributor'; name: string; type: string }>;
+  rightsholders: Array<{
+    __typename?: 'Contributor';
+    name: string;
+    type: string;
+  }>;
 };
 
 export type GQLAllSubjectsQueryVariables = Exact<{ [key: string]: never }>;

@@ -26,6 +26,7 @@ import AnchorButton from './AnchorButton';
 import { GQLVideoLicenseList_BrightcoveLicenseFragment } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
 import { licenseCopyrightToCopyrightType } from './licenseHelpers';
+import { licenseListCopyrightFragment } from './licenseFragments';
 
 interface VideoLicenseInfoProps {
   video: GQLVideoLicenseList_BrightcoveLicenseFragment;
@@ -107,23 +108,10 @@ VideoLicenseList.fragments = {
         src
       }
       copyright {
-        license {
-          license
-        }
-        creators {
-          name
-          type
-        }
-        processors {
-          name
-          type
-        }
-        rightsholders {
-          name
-          type
-        }
+        ...LicenseListCopyright
       }
     }
+    ${licenseListCopyrightFragment}
   `,
 };
 

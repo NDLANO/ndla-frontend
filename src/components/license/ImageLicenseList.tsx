@@ -28,6 +28,7 @@ import AnchorButton from './AnchorButton';
 import { GQLImageLicenseList_ImageLicenseFragment } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
 import { licenseCopyrightToCopyrightType } from './licenseHelpers';
+import { licenseListCopyrightFragment } from './licenseFragments';
 
 export const downloadUrl = (imageSrc: string) => {
   const urlObject = queryString.parseUrl(imageSrc);
@@ -130,23 +131,10 @@ ImageLicenseList.fragments = {
       copyText
       copyright {
         origin
-        license {
-          license
-        }
-        creators {
-          name
-          type
-        }
-        processors {
-          name
-          type
-        }
-        rightsholders {
-          name
-          type
-        }
+        ...LicenseListCopyright
       }
     }
+    ${licenseListCopyrightFragment}
   `,
 };
 

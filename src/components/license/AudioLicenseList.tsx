@@ -27,6 +27,7 @@ import AnchorButton from './AnchorButton';
 import { GQLAudioLicenseList_AudioLicenseFragment } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
 import { licenseCopyrightToCopyrightType } from './licenseHelpers';
+import { licenseListCopyrightFragment } from './licenseFragments';
 
 interface AudioLicenseInfoProps {
   audio: GQLAudioLicenseList_AudioLicenseFragment;
@@ -116,23 +117,10 @@ AudioLicenseList.fragments = {
       title
       copyright {
         origin
-        license {
-          license
-        }
-        creators {
-          name
-          type
-        }
-        processors {
-          name
-          type
-        }
-        rightsholders {
-          name
-          type
-        }
+        ...LicenseListCopyright
       }
     }
+    ${licenseListCopyrightFragment}
   `,
 };
 
