@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
+import { gql } from '@apollo/client';
 import { useEffect, useMemo, useState, MouseEvent } from 'react';
 import { Remarkable } from 'remarkable';
 import { TFunction, withTranslation, WithTranslation } from 'react-i18next';
@@ -25,15 +27,15 @@ import {
 } from '../../../util/imageHelpers';
 import { getSubjectLongName } from '../../../data/subjects';
 import {
-  GQLResourceTypeDefinition,
-  GQLTopicQueryTopicFragment,
+  GQLTopic_ResourceTypeDefinitionFragment,
+  GQLTopic_SubjectFragment,
+  GQLTopic_TopicFragment,
 } from '../../../graphqlTypes';
 import { LocaleType } from '../../../interfaces';
 import VisualElementWrapper, {
   getResourceType,
 } from '../../../components/VisualElement/VisualElementWrapper';
 import { FeideUserWithGroups } from '../../../util/feideApi';
-import { GQLSubjectContainerType } from '../SubjectContainer';
 
 const getDocumentTitle = ({
   t,
@@ -54,10 +56,10 @@ type Props = {
   onClickTopics: (e: MouseEvent<HTMLAnchorElement>) => void;
   index?: number;
   showResources?: boolean;
-  subject?: GQLSubjectContainerType;
+  subject?: GQLTopic_SubjectFragment;
   loading?: boolean;
-  topic: GQLTopicQueryTopicFragment;
-  resourceTypes?: Array<GQLResourceTypeDefinition>;
+  topic: GQLTopic_TopicFragment;
+  resourceTypes?: GQLTopic_ResourceTypeDefinitionFragment[];
   user?: FeideUserWithGroups;
 } & WithTranslation;
 
@@ -208,6 +210,51 @@ Topic.getDimensions = ({ topic, locale, subject, user }: Props) => {
     undefined,
     true,
   );
+};
+
+export const topicFragments = {
+  subject: gql`
+    fragment Topic_Subject on Subject {
+      id
+      name
+      allTopics {
+        id
+        name
+      }
+    }
+  `,
+  topic: gql`
+    fragment Topic_Topic on Topic {
+      path
+      name
+      relevanceId
+      subtopics {
+        id
+        name
+        relevanceId
+      }
+      article {
+        metaImage {
+          url
+          alt
+        }
+        visualElement {
+          ...VisualElementWrapper_VisualElement
+        }
+      }
+      ...ArticleContents_Topic
+      ...Resources_Topic
+    }
+    ${VisualElementWrapper.fragments.visualElement}
+    ${ArticleContents.fragments.topic}
+    ${Resources.fragments.topic}
+  `,
+  resourceType: gql`
+    fragment Topic_ResourceTypeDefinition on ResourceTypeDefinition {
+      ...Resources_ResourceTypeDefinition
+    }
+    ${Resources.fragments.resourceType}
+  `,
 };
 
 export default withTranslation()(withTracker(Topic));

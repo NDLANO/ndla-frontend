@@ -1,14 +1,17 @@
+import { gql } from '@apollo/client';
 import { useContext, useEffect, MouseEvent } from 'react';
 import { useHistory, useLocation } from 'react-router';
 import { withTranslation, WithTranslation } from 'react-i18next';
 import Spinner from '@ndla/ui/lib/Spinner';
 import { AuthContext } from '../../../components/AuthenticationContext';
-import Topic from './Topic';
-import { topicQuery } from '../../../queries';
+import Topic, { topicFragments } from './Topic';
 import { useGraphQuery } from '../../../util/runQueries';
 import handleError, { isAccessDeniedError } from '../../../util/handleError';
 import { BreadcrumbItem, LocaleType } from '../../../interfaces';
-import { GQLTopicQuery, GQLTopicQueryVariables } from '../../../graphqlTypes';
+import {
+  GQLTopicWrapperQuery,
+  GQLTopicWrapperQueryVariables,
+} from '../../../graphqlTypes';
 import { GQLSubjectContainerType } from '../SubjectContainer';
 
 type Props = {
@@ -23,6 +26,20 @@ type Props = {
   showResources: boolean;
   subject: GQLSubjectContainerType;
 } & WithTranslation;
+
+const topicWrapperQuery = gql`
+  query topicWrapper($topicId: String!, $subjectId: String) {
+    topic(id: $topicId, subjectId: $subjectId) {
+      id
+      ...Topic_Topic
+    }
+    resourceTypes {
+      ...Topic_ResourceTypeDefinition
+    }
+  }
+  ${topicFragments.topic}
+  ${topicFragments.resourceType}
+`;
 
 const TopicWrapper = ({
   subTopicId,
@@ -40,9 +57,9 @@ const TopicWrapper = ({
   const history = useHistory();
   const { user } = useContext(AuthContext);
   const { data, loading, error } = useGraphQuery<
-    GQLTopicQuery,
-    GQLTopicQueryVariables
-  >(topicQuery, {
+    GQLTopicWrapperQuery,
+    GQLTopicWrapperQueryVariables
+  >(topicWrapperQuery, {
     variables: { topicId, subjectId },
     onCompleted: data => {
       if (data.topic) {
