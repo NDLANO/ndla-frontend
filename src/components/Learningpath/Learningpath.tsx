@@ -6,6 +6,7 @@
  *
  */
 
+import { gql } from '@apollo/client';
 import { useEffect, useState } from 'react';
 import { useWindowSize } from '@ndla/hooks';
 import {
@@ -28,22 +29,25 @@ import config from '../../config';
 import { getContentType } from '../../util/getContentType';
 import { Breadcrumb as BreadcrumbType, LocaleType } from '../../interfaces';
 import {
-  GQLLearningpathInfoFragment,
-  GQLResourcePageQuery,
-  GQLSubjectInfoFragment,
+  GQLLearningpath_LearningpathFragment,
+  GQLLearningpath_LearningpathStepFragment,
+  GQLLearningpath_ResourceFragment,
+  GQLLearningpath_ResourceTypeDefinitionFragment,
+  GQLLearningpath_SubjectFragment,
+  GQLLearningpath_TopicFragment,
 } from '../../graphqlTypes';
 import { TopicPaths } from '../../containers/ResourcePage/ResourcePage';
 
 const LEARNING_PATHS_STORAGE_KEY = 'LEARNING_PATHS_COOKIES_KEY';
 
 interface Props {
-  learningpath: GQLLearningpathInfoFragment;
-  learningpathStep: GQLLearningpathInfoFragment['learningsteps'][0];
-  topic?: Required<GQLResourcePageQuery>['topic'];
+  learningpath: GQLLearningpath_LearningpathFragment;
+  learningpathStep: GQLLearningpath_LearningpathStepFragment;
+  topic?: GQLLearningpath_TopicFragment;
   topicPath?: TopicPaths;
-  resourceTypes?: Required<GQLResourcePageQuery>['resourceTypes'];
-  subject?: Omit<GQLSubjectInfoFragment, 'metadata'>;
-  resource?: Required<GQLResourcePageQuery>['resource'];
+  resourceTypes?: GQLLearningpath_ResourceTypeDefinitionFragment[];
+  subject?: GQLLearningpath_SubjectFragment;
+  resource?: GQLLearningpath_ResourceFragment;
   skipToContentId?: string;
   locale: LocaleType;
   ndlaFilm: boolean;
@@ -211,6 +215,75 @@ const Learningpath = ({
       </LearningPathSticky>
     </LearningPathWrapper>
   );
+};
+
+Learningpath.fragments = {
+  topic: gql`
+    fragment Learningpath_Topic on Topic {
+      ...LastLearningpathStepInfo_Topic
+      ...LearningpathEmbed_Topic
+    }
+    ${LearningpathEmbed.fragments.topic}
+    ${LastLearningpathStepInfo.fragments.topic}
+  `,
+  resourceType: gql`
+    fragment Learningpath_ResourceTypeDefinition on ResourceTypeDefinition {
+      ...LastLearningpathStepInfo_ResourceTypeDefinition
+    }
+    ${LastLearningpathStepInfo.fragments.resourceType}
+  `,
+  subject: gql`
+    fragment Learningpath_Subject on Subject {
+      ...LastLearningpathStepInfo_Subject
+    }
+    ${LastLearningpathStepInfo.fragments.subject}
+  `,
+  learningpathStep: gql`
+    fragment Learningpath_LearningpathStep on LearningpathStep {
+      seqNo
+      id
+      showTitle
+      title
+      description
+      license {
+        license
+      }
+      ...LearningpathEmbed_LearningpathStep
+    }
+    ${LearningpathEmbed.fragments.learningpathStep}
+  `,
+  resource: gql`
+    fragment Learningpath_Resource on Resource {
+      path
+    }
+  `,
+  learningpath: gql`
+    fragment Learningpath_Learningpath on Learningpath {
+      id
+      title
+      lastUpdated
+      copyright {
+        license {
+          license
+        }
+        contributors {
+          type
+          name
+        }
+      }
+      learningsteps {
+        title
+        resource {
+          id
+          resourceTypes {
+            id
+            name
+          }
+        }
+        id
+      }
+    }
+  `,
 };
 
 export default Learningpath;

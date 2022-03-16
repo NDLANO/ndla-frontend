@@ -1262,6 +1262,121 @@ export type GQLArticleContents_TopicFragment = {
   >;
 };
 
+export type GQLLastLearningpathStepInfo_TopicFragment = {
+  __typename?: 'Topic';
+  id: string;
+} & GQLResources_TopicFragment;
+
+export type GQLLastLearningpathStepInfo_SubjectFragment = {
+  __typename?: 'Subject';
+  path: string;
+  name: string;
+};
+
+export type GQLLastLearningpathStepInfo_ResourceTypeDefinitionFragment = {
+  __typename?: 'ResourceTypeDefinition';
+} & GQLResources_ResourceTypeDefinitionFragment;
+
+export type GQLLearningpath_TopicFragment = {
+  __typename?: 'Topic';
+} & GQLLastLearningpathStepInfo_TopicFragment &
+  GQLLearningpathEmbed_TopicFragment;
+
+export type GQLLearningpath_ResourceTypeDefinitionFragment = {
+  __typename?: 'ResourceTypeDefinition';
+} & GQLLastLearningpathStepInfo_ResourceTypeDefinitionFragment;
+
+export type GQLLearningpath_SubjectFragment = {
+  __typename?: 'Subject';
+} & GQLLastLearningpathStepInfo_SubjectFragment;
+
+export type GQLLearningpath_LearningpathStepFragment = {
+  __typename?: 'LearningpathStep';
+  seqNo: number;
+  id: number;
+  showTitle: boolean;
+  title: string;
+  description?: Maybe<string>;
+  license?: Maybe<{ __typename?: 'License'; license: string }>;
+} & GQLLearningpathEmbed_LearningpathStepFragment;
+
+export type GQLLearningpath_ResourceFragment = {
+  __typename?: 'Resource';
+  path: string;
+};
+
+export type GQLLearningpath_LearningpathFragment = {
+  __typename?: 'Learningpath';
+  id: number;
+  title: string;
+  lastUpdated: string;
+  copyright: {
+    __typename?: 'LearningpathCopyright';
+    license: { __typename?: 'License'; license: string };
+    contributors: Array<{
+      __typename?: 'Contributor';
+      type: string;
+      name: string;
+    }>;
+  };
+  learningsteps: Array<{
+    __typename?: 'LearningpathStep';
+    title: string;
+    id: number;
+    resource?: Maybe<{
+      __typename?: 'Resource';
+      id: string;
+      resourceTypes?: Maybe<
+        Array<{ __typename?: 'ResourceType'; id: string; name: string }>
+      >;
+    }>;
+  }>;
+};
+
+export type GQLLearningpathEmbed_TopicFragment = {
+  __typename?: 'Topic';
+  supplementaryResources?: Maybe<
+    Array<{ __typename?: 'Resource'; id: string }>
+  >;
+};
+
+export type GQLLearningpathEmbed_LearningpathStepFragment = {
+  __typename?: 'LearningpathStep';
+  resource?: Maybe<{
+    __typename?: 'Resource';
+    id: string;
+    article?: Maybe<
+      {
+        __typename?: 'Article';
+        id: number;
+        metaDescription: string;
+        created: string;
+        updated: string;
+        requiredLibraries?: Maybe<
+          Array<{
+            __typename?: 'ArticleRequiredLibrary';
+            name: string;
+            url: string;
+            mediaType: string;
+          }>
+        >;
+      } & GQLStructuredArticleDataFragment &
+        GQLArticle_ArticleFragment
+    >;
+  }>;
+  embedUrl?: Maybe<{
+    __typename?: 'LearningpathStepEmbedUrl';
+    embedType: string;
+    url: string;
+  }>;
+  oembed?: Maybe<{
+    __typename?: 'LearningpathStepOembed';
+    html: string;
+    width: number;
+    height: number;
+  }>;
+};
+
 export type GQLSubjectLinkListSubjectFragment = {
   __typename?: 'Subject';
   id: string;
@@ -1527,6 +1642,43 @@ export type GQLArticleHero_MetaImageFragment = {
   url: string;
   alt: string;
 };
+
+export type GQLLearningpathPage_TopicFragment = {
+  __typename?: 'Topic';
+} & GQLLearningpath_TopicFragment;
+
+export type GQLLearningpathPage_SubjectFragment = {
+  __typename?: 'Subject';
+  id: string;
+} & GQLLearningpath_SubjectFragment;
+
+export type GQLLearningpathPage_ResourceTypeDefinitionFragment = {
+  __typename?: 'ResourceTypeDefinition';
+} & GQLLearningpath_ResourceTypeDefinitionFragment;
+
+export type GQLLearningpathPage_ResourceFragment = {
+  __typename?: 'Resource';
+  id: string;
+  learningpath?: Maybe<
+    {
+      __typename?: 'Learningpath';
+      supportedLanguages: Array<string>;
+      tags: Array<string>;
+      description: string;
+      coverphoto?: Maybe<{
+        __typename?: 'LearningpathCoverphoto';
+        url: string;
+        metaUrl: string;
+      }>;
+      learningsteps: Array<
+        {
+          __typename?: 'LearningpathStep';
+          type: string;
+        } & GQLLearningpath_LearningpathStepFragment
+      >;
+    } & GQLLearningpath_LearningpathFragment
+  >;
+} & GQLLearningpath_ResourceFragment;
 
 export type GQLResources_ResourceFragment = {
   __typename?: 'Resource';
