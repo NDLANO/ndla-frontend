@@ -6,6 +6,7 @@
  *
  */
 
+import { gql } from '@apollo/client';
 import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { OneColumn, LayoutItem } from '@ndla/ui';
@@ -17,7 +18,9 @@ import ArticleHero from './components/ArticleHero';
 import ArticleErrorMessage from './components/ArticleErrorMessage';
 import { getContentType, isHeroContentType } from '../../util/getContentType';
 import { getArticleScripts, Scripts } from '../../util/getArticleScripts';
-import getStructuredDataFromArticle from '../../util/getStructuredDataFromArticle';
+import getStructuredDataFromArticle, {
+  structuredArticleDataFragment,
+} from '../../util/getStructuredDataFromArticle';
 import { htmlTitle } from '../../util/titleHelper';
 import { getArticleProps } from '../../util/getArticleProps';
 import { getAllDimensions } from '../../util/trackingUtil';
@@ -33,20 +36,22 @@ import { toBreadcrumbItems } from '../../routeHelpers';
 import { getSubjectLongName } from '../../data/subjects';
 import config from '../../config';
 import {
+  GQLArticlePage_ResourceFragment,
+  GQLArticlePage_ResourceTypeFragment,
+  GQLArticlePage_SubjectFragment,
   GQLResourcePageQuery,
-  GQLResourceTypeDefinition,
 } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
 import { FeideUserWithGroups } from '../../util/feideApi';
 import { TopicPaths } from '../ResourcePage/ResourcePage';
 
 interface Props extends WithTranslation {
-  resource?: Required<GQLResourcePageQuery>['resource'];
+  resource?: GQLArticlePage_ResourceFragment;
   topic?: GQLResourcePageQuery['topic'];
   topicPath: TopicPaths;
   relevance: string;
-  subject?: GQLResourcePageQuery['subject'];
-  resourceTypes?: GQLResourceTypeDefinition[];
+  subject?: GQLArticlePage_SubjectFragment;
+  resourceTypes?: GQLArticlePage_ResourceTypeFragment[];
   errors?: readonly GraphQLError[];
   ndlaFilm: boolean;
   loading?: boolean;
@@ -216,8 +221,8 @@ ArticlePage.getDimensions = (props: Props) => {
 
 const getDocumentTitle = (
   t: TFunction,
-  resource?: Props['resource'],
-  subject?: GQLResourcePageQuery['subject'],
+  resource?: GQLArticlePage_ResourceFragment,
+  subject?: GQLArticlePage_SubjectFragment,
 ) =>
   htmlTitle(resource?.article?.title, [
     subject?.name,
@@ -226,5 +231,41 @@ const getDocumentTitle = (
 
 ArticlePage.getDocumentTitle = ({ t, resource, subject }: Props) =>
   getDocumentTitle(t, resource, subject);
+
+ArticlePage.fragments = {
+  resourceType: gql`
+    fragment ArticlePage_ResourceType on ResourceTypeDefinition {
+      ...Resources_ResourceTypeDefinition
+    }
+    ${Resources.fragments.resourceType}
+  `,
+  subject: gql`
+    fragment ArticlePage_Subject on Subject {
+      name
+      ...ArticleHero_Subject
+    }
+    ${ArticleHero.fragments.subject}
+  `,
+  resource: gql`
+    fragment ArticlePage_Resource on Resource {
+      id
+      name
+      contentUri
+      article {
+        created
+        updated
+        metaDescription
+        metaImage {
+          ...ArticleHero_MetaImage
+        }
+        ...StructuredArticleData
+        ...Article_Article
+      }
+    }
+    ${structuredArticleDataFragment}
+    ${ArticleHero.fragments.metaImage}
+    ${Article.fragments.article}
+  `,
+};
 
 export default withTranslation()(withTracker(ArticlePage));

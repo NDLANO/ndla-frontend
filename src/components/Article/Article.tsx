@@ -6,6 +6,7 @@
  *
  */
 
+import { gql } from '@apollo/client';
 import {
   ComponentType,
   ReactElement,
@@ -20,13 +21,13 @@ import { Article as UIArticle, ContentTypeBadge } from '@ndla/ui';
 import config from '../../config';
 import LicenseBox from '../license/LicenseBox';
 import CompetenceGoals from '../CompetenceGoals';
-import { GQLArticleInfoFragment } from '../../graphqlTypes';
+import { GQLArticle_ArticleFragment } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
 import VisualElementWrapper from '../VisualElement/VisualElementWrapper';
 import { MastheadHeightPx } from '../../constants';
 
 function renderCompetenceGoals(
-  article: GQLArticleInfoFragment,
+  article: GQLArticle_ArticleFragment,
   locale: LocaleType,
   isTopicArticle: boolean,
   subjectId?: string,
@@ -37,10 +38,7 @@ function renderCompetenceGoals(
     }) => ReactNode)
   | null {
   // Don't show competence goals for topics or articles without grepCodes
-  if (
-    !isTopicArticle &&
-    (article.competenceGoals?.length || article.coreElements?.length)
-  ) {
+  if (!isTopicArticle && article.competenceGoals?.length) {
     return ({
       Dialog,
       dialogProps,
@@ -67,7 +65,7 @@ function renderCompetenceGoals(
 
 interface Props {
   id?: string;
-  article: GQLArticleInfoFragment;
+  article: GQLArticle_ArticleFragment;
   resourceType?: string;
   isTopicArticle?: boolean;
   children?: ReactElement;
@@ -81,7 +79,10 @@ interface Props {
   subjectId?: string;
 }
 
-const renderNotions = (article: GQLArticleInfoFragment, locale: LocaleType) => {
+const renderNotions = (
+  article: GQLArticle_ArticleFragment,
+  locale: LocaleType,
+) => {
   const notions =
     article.concepts?.map(concept => {
       const { content: text, copyright, subjectNames, visualElement } = concept;
@@ -220,4 +221,55 @@ const Article = ({
   );
 };
 
+Article.fragments = {
+  article: gql`
+    fragment Article_Article on Article {
+      id
+      content
+      supportedLanguages
+      grepCodes
+      oldNdlaUrl
+      introduction
+      metaData {
+        footnotes {
+          ref
+          title
+          year
+          authors
+          edition
+          publisher
+          url
+        }
+      }
+      relatedContent {
+        title
+        url
+      }
+      concepts {
+        copyright {
+          license {
+            license
+          }
+          creators {
+            name
+            type
+          }
+        }
+        subjectNames
+        id
+        title
+        content
+        visualElement {
+          ...VisualElementWrapper_VisualElement
+        }
+      }
+      competenceGoals {
+        type
+      }
+      ...LicenseBox_Article
+    }
+    ${VisualElementWrapper.fragments.visualElement}
+    ${LicenseBox.fragments.article}
+  `,
+};
 export default Article;
