@@ -59,9 +59,8 @@ const VisualElementWrapper = ({ visualElement, locale }: Props) => {
   }));
 
   const possibleAuthors = [
-    copyright?.creators,
+    [...(copyright?.creators || []), ...(copyright?.rightsholders || [])],
     copyright?.processors,
-    copyright?.rightsholders,
   ];
   const authors =
     possibleAuthors.find(grouping => grouping && grouping.length > 0) ?? [];
