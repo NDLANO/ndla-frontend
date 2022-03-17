@@ -16,7 +16,11 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router';
 import { Remarkable } from 'remarkable';
-import { Article as UIArticle, ContentTypeBadge } from '@ndla/ui';
+import {
+  Article as UIArticle,
+  ContentTypeBadge,
+  getMastheadHeight,
+} from '@ndla/ui';
 import config from '../../config';
 import LicenseBox from '../license/LicenseBox';
 import CompetenceGoals from '../CompetenceGoals';
@@ -153,7 +157,8 @@ const Article = ({
         const elementTop = element?.getBoundingClientRect().top ?? 0;
         const bodyTop = document.body.getBoundingClientRect().top ?? 0;
         const absoluteTop = elementTop - bodyTop;
-        const scrollPosition = absoluteTop - MastheadHeightPx * 2;
+        const scrollPosition =
+          absoluteTop - (getMastheadHeight() || MastheadHeightPx) - 20;
 
         window.scrollTo({
           top: scrollPosition,
