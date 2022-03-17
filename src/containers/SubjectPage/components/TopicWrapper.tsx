@@ -1,7 +1,6 @@
 import { gql } from '@apollo/client';
 import { useContext, useEffect, MouseEvent } from 'react';
 import { useHistory, useLocation } from 'react-router';
-import { withTranslation, WithTranslation } from 'react-i18next';
 import Spinner from '@ndla/ui/lib/Spinner';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import Topic, { topicFragments } from './Topic';
@@ -11,8 +10,8 @@ import { BreadcrumbItem, LocaleType } from '../../../interfaces';
 import {
   GQLTopicWrapperQuery,
   GQLTopicWrapperQueryVariables,
+  GQLTopicWrapper_SubjectFragment,
 } from '../../../graphqlTypes';
-import { GQLSubjectContainerType } from '../SubjectContainer';
 
 type Props = {
   topicId: string;
@@ -24,8 +23,8 @@ type Props = {
   setBreadCrumb: (item: BreadcrumbItem) => void;
   index: number;
   showResources: boolean;
-  subject: GQLSubjectContainerType;
-} & WithTranslation;
+  subject: GQLTopicWrapper_SubjectFragment;
+};
 
 const topicWrapperQuery = gql`
   query topicWrapper($topicId: String!, $subjectId: String) {
@@ -110,4 +109,13 @@ const TopicWrapper = ({
     />
   );
 };
-export default withTranslation()(TopicWrapper);
+
+TopicWrapper.fragments = {
+  subject: gql`
+    fragment TopicWrapper_Subject on Subject {
+      ...Topic_Subject
+    }
+    ${topicFragments.subject}
+  `,
+};
+export default TopicWrapper;
