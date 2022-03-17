@@ -9,11 +9,11 @@
 import { gql } from '@apollo/client';
 import { Image, SubjectArchive } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
-import { GQLSubjectTopical_ResourceFragment } from '../../../graphqlTypes';
+import { GQLSubjectTopical_TaxonomyEntityFragment } from '../../../graphqlTypes';
 import SubjectPageFlexChild from './SubjectPageFlexChild';
 
 interface Props {
-  topical?: GQLSubjectTopical_ResourceFragment;
+  topical?: GQLSubjectTopical_TaxonomyEntityFragment;
   twoColumns?: boolean;
 }
 
