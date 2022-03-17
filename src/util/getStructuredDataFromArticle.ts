@@ -6,14 +6,15 @@
  *
  */
 
+import { gql } from '@apollo/client';
 import format from 'date-fns/format';
 import {
-  GQLArticleInfoFragment,
-  GQLAudioLicense,
-  GQLBrightcoveLicense,
   GQLContributor,
-  GQLCopyright,
-  GQLImageLicense,
+  GQLStructuredArticleData_CopyrightFragment,
+  GQLStructuredArticleDataFragment,
+  GQLStructuredArticleData_AudioLicenseFragment,
+  GQLStructuredArticleData_BrightcoveLicenseFragment,
+  GQLStructuredArticleData_ImageLicenseFragment,
 } from '../graphqlTypes';
 import config from '../config';
 import { Breadcrumb } from '../interfaces';
@@ -48,7 +49,11 @@ interface StructuredData {
 }
 
 interface Mediaelements {
-  data: GQLImageLicense | GQLAudioLicense | GQLBrightcoveLicense | null;
+  data:
+    | GQLStructuredArticleData_ImageLicenseFragment
+    | GQLStructuredArticleData_AudioLicenseFragment
+    | GQLStructuredArticleData_BrightcoveLicenseFragment
+    | null;
   type: string;
 }
 
@@ -85,7 +90,9 @@ const mapType = (
     name: item.name,
   }));
 
-const getCopyrightData = (copyright: GQLCopyright): StructuredData => {
+const getCopyrightData = (
+  copyright: GQLStructuredArticleData_CopyrightFragment,
+): StructuredData => {
   const { creators, rightsholders, license, processors } = copyright;
   return {
     license: license?.url,
@@ -119,8 +126,92 @@ const getBreadcrumbs = (
   };
 };
 
+export const structuredArticleCopyrightFragment = gql`
+  fragment StructuredArticleData_Copyright on Copyright {
+    license {
+      url
+    }
+    creators {
+      name
+      type
+    }
+    processors {
+      name
+      type
+    }
+    rightsholders {
+      name
+      type
+    }
+  }
+`;
+
+const imageLicenseFragment = gql`
+  fragment StructuredArticleData_ImageLicense on ImageLicense {
+    src
+    title
+    copyright {
+      ...StructuredArticleData_Copyright
+    }
+  }
+`;
+
+const audioLicenseFragment = gql`
+  fragment StructuredArticleData_AudioLicense on AudioLicense {
+    src
+    title
+    copyright {
+      ...StructuredArticleData_Copyright
+    }
+  }
+`;
+
+const brightcoveLicenseFragment = gql`
+  fragment StructuredArticleData_BrightcoveLicense on BrightcoveLicense {
+    src
+    title
+    cover
+    description
+    download
+    uploadDate
+    copyright {
+      ...StructuredArticleData_Copyright
+    }
+  }
+`;
+
+export const structuredArticleDataFragment = gql`
+  fragment StructuredArticleData on Article {
+    title
+    metaDescription
+    published
+    updated
+    copyright {
+      ...StructuredArticleData_Copyright
+    }
+    metaImage {
+      url
+    }
+    metaData {
+      images {
+        ...StructuredArticleData_ImageLicense
+      }
+      audios {
+        ...StructuredArticleData_AudioLicense
+      }
+      brightcoves {
+        ...StructuredArticleData_BrightcoveLicense
+      }
+    }
+  }
+  ${structuredArticleCopyrightFragment}
+  ${brightcoveLicenseFragment}
+  ${audioLicenseFragment}
+  ${imageLicenseFragment}
+`;
+
 const getStructuredDataFromArticle = (
-  article: GQLArticleInfoFragment,
+  article: GQLStructuredArticleDataFragment,
   breadcrumbItems?: Breadcrumb[],
 ) => {
   const articleData: StructuredData = {
@@ -165,7 +256,9 @@ const createMediaData = (media: Mediaelements[]): StructuredData[] =>
     };
   });
 
-const createVideoData = (videos: GQLBrightcoveLicense[]): StructuredData[] =>
+const createVideoData = (
+  videos: GQLStructuredArticleData_BrightcoveLicenseFragment[],
+): StructuredData[] =>
   videos.map(video => {
     return {
       ...structuredDataBase,
