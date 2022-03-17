@@ -48,7 +48,7 @@ SubjectPageInformation.fragments = {
   subjectpage: gql`
     fragment SubjectPageInformation_SubjectPage on SubjectPage {
       topical {
-        ...SubjectTopical_Resource
+        ...SubjectTopical_TaxonomyEntity
       }
       about {
         ...SubjectPageAbout_SubjectPageAbout

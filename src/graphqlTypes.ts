@@ -1814,7 +1814,7 @@ export type GQLSubjectPageContent_SubjectFragment = {
 export type GQLSubjectPageInformation_SubjectPageFragment = {
   __typename?: 'SubjectPage';
   topical?: Maybe<
-    | ({ __typename?: 'Resource' } & GQLSubjectTopical_ResourceFragment)
+    | ({ __typename?: 'Resource' } & GQLSubjectTopical_TaxonomyEntityFragment)
     | { __typename?: 'Subject' }
     | { __typename?: 'Topic' }
   >;
@@ -1825,7 +1825,7 @@ export type GQLSubjectPageInformation_SubjectPageFragment = {
   >;
 };
 
-export type GQLSubjectTopical_ResourceFragment = {
+export type GQLSubjectTopical_TaxonomyEntityFragment = {
   __typename?: 'Resource';
   path: string;
   meta?: Maybe<{
