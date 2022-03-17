@@ -6,16 +6,21 @@
  *
  */
 
+import { gql } from '@apollo/client';
 import { LearningPathLastStepNavigation } from '@ndla/ui';
 import Resources from '../../containers/Resources/Resources';
-import { GQLResourcePageQuery } from '../../graphqlTypes';
+import {
+  GQLLastLearningpathStepInfo_ResourceTypeDefinitionFragment,
+  GQLLastLearningpathStepInfo_SubjectFragment,
+  GQLLastLearningpathStepInfo_TopicFragment,
+} from '../../graphqlTypes';
 import { TopicPaths } from '../../containers/ResourcePage/ResourcePage';
 
 interface Props {
-  topic?: Required<GQLResourcePageQuery>['topic'];
-  subject?: Required<GQLResourcePageQuery>['subject'];
+  topic?: GQLLastLearningpathStepInfo_TopicFragment;
+  subject?: GQLLastLearningpathStepInfo_SubjectFragment;
   topicPath?: TopicPaths;
-  resourceTypes?: Required<GQLResourcePageQuery>['resourceTypes'];
+  resourceTypes?: GQLLastLearningpathStepInfo_ResourceTypeDefinitionFragment[];
   seqNo: number;
   numberOfLearningSteps: number;
   title: string;
@@ -73,6 +78,28 @@ const LastLearningpathStepInfo = ({
       )}
     </LearningPathLastStepNavigation>
   );
+};
+
+LastLearningpathStepInfo.fragments = {
+  topic: gql`
+    fragment LastLearningpathStepInfo_Topic on Topic {
+      id
+      ...Resources_Topic
+    }
+    ${Resources.fragments.topic}
+  `,
+  subject: gql`
+    fragment LastLearningpathStepInfo_Subject on Subject {
+      path
+      name
+    }
+  `,
+  resourceType: gql`
+    fragment LastLearningpathStepInfo_ResourceTypeDefinition on ResourceTypeDefinition {
+      ...Resources_ResourceTypeDefinition
+    }
+    ${Resources.fragments.resourceType}
+  `,
 };
 
 export default LastLearningpathStepInfo;

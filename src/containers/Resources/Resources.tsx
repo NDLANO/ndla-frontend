@@ -9,7 +9,7 @@
 import { gql } from '@apollo/client';
 import { useEffect, useState } from 'react';
 import { ResourcesWrapper, ResourcesTopicTitle, ResourceGroup } from '@ndla/ui';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { useRouteMatch } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { contentTypeMapping } from '../../util/getContentType';
 import { getResourceGroups, sortResourceTypes } from './getResourceGroups';
@@ -29,17 +29,13 @@ interface MatchProps {
   resourceId?: string;
 }
 
-interface Props extends RouteComponentProps<MatchProps> {
+interface Props {
   topic: GQLResources_TopicFragment;
   resourceTypes?: GQLResources_ResourceTypeDefinitionFragment[];
   ndlaFilm?: boolean;
 }
-const Resources = ({
-  match: { params },
-  topic,
-  resourceTypes,
-  ndlaFilm,
-}: Props) => {
+const Resources = ({ topic, resourceTypes, ndlaFilm }: Props) => {
+  const { params } = useRouteMatch<MatchProps>();
   const [showAdditionalResources, setShowAdditionalResources] = useState(false);
   const { t } = useTranslation();
 
@@ -183,25 +179,26 @@ const Resources = ({
   );
 };
 
+const resourceFragment = gql`
+  fragment Resources_Resource on Resource {
+    id
+    name
+    contentUri
+    path
+    paths
+    rank
+    resourceTypes {
+      id
+      name
+    }
+  }
+`;
+
 Resources.fragments = {
   resourceType: gql`
     fragment Resources_ResourceTypeDefinition on ResourceTypeDefinition {
       id
       name
-    }
-  `,
-  resource: gql`
-    fragment Resources_Resource on Resource {
-      id
-      name
-      contentUri
-      path
-      paths
-      rank
-      resourceTypes {
-        id
-        name
-      }
     }
   `,
   topic: gql`
@@ -217,7 +214,8 @@ Resources.fragments = {
         customFields
       }
     }
+    ${resourceFragment}
   `,
 };
 
-export default withRouter(Resources);
+export default Resources;

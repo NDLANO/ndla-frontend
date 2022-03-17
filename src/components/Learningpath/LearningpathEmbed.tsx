@@ -6,20 +6,23 @@
  *
  */
 
+import { gql } from '@apollo/client';
 import { Helmet } from 'react-helmet';
 import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
 import Article from '../Article';
 import { transformArticle } from '../../util/transformArticle';
 import { getArticleScripts } from '../../util/getArticleScripts';
-import getStructuredDataFromArticle from '../../util/getStructuredDataFromArticle';
+import getStructuredDataFromArticle, {
+  structuredArticleDataFragment,
+} from '../../util/getStructuredDataFromArticle';
 import { getArticleProps } from '../../util/getArticleProps';
 import LearningpathIframe from './LearningpathIframe';
 import { Breadcrumb, LocaleType } from '../../interfaces';
 import ErrorPage from '../../containers/ErrorPage';
 import {
-  GQLLearningpathInfoFragment,
-  GQLResourcePageQuery,
+  GQLLearningpathEmbed_LearningpathStepFragment,
+  GQLLearningpathEmbed_TopicFragment,
 } from '../../graphqlTypes';
 
 interface StyledIframeContainerProps {
@@ -38,8 +41,8 @@ const StyledIframeContainer = styled.div<StyledIframeContainerProps>`
 `;
 
 interface Props {
-  learningpathStep: GQLLearningpathInfoFragment['learningsteps'][0];
-  topic?: Required<GQLResourcePageQuery>['topic'];
+  learningpathStep: GQLLearningpathEmbed_LearningpathStepFragment;
+  topic?: GQLLearningpathEmbed_TopicFragment;
   skipToContentId?: string;
   locale: LocaleType;
   breadcrumbItems: Breadcrumb[];
@@ -116,6 +119,48 @@ const LearningpathEmbed = ({
       />
     </>
   );
+};
+
+LearningpathEmbed.fragments = {
+  topic: gql`
+    fragment LearningpathEmbed_Topic on Topic {
+      supplementaryResources {
+        id
+      }
+    }
+  `,
+  learningpathStep: gql`
+    fragment LearningpathEmbed_LearningpathStep on LearningpathStep {
+      resource {
+        id
+        article {
+          id
+          metaDescription
+          created
+          updated
+          metaDescription
+          requiredLibraries {
+            name
+            url
+            mediaType
+          }
+          ...StructuredArticleData
+          ...Article_Article
+        }
+      }
+      embedUrl {
+        embedType
+        url
+      }
+      oembed {
+        html
+        width
+        height
+      }
+    }
+    ${structuredArticleDataFragment}
+    ${Article.fragments.article}
+  `,
 };
 
 export default LearningpathEmbed;

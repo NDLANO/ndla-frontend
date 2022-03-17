@@ -6,6 +6,7 @@
  *
  */
 
+import { gql } from '@apollo/client';
 import {
   ComponentType,
   ReactNode,
@@ -29,28 +30,23 @@ import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router';
 import { withTranslation, WithTranslation } from 'react-i18next';
 import SubjectPageContent from './components/SubjectPageContent';
-import SubjectEditorChoices from './components/SubjectEditorChoices';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { scrollToRef } from './subjectPageHelpers';
-import SubjectPageInformation from './components/SubjectPageInformation';
 import CompetenceGoals from '../../components/CompetenceGoals';
 import { getSubjectBySubjectId, getSubjectLongName } from '../../data/subjects';
 import { parseAndMatchUrl } from '../../util/urlHelper';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { htmlTitle } from '../../util/titleHelper';
 import { BreadcrumbItem, LocaleType } from '../../interfaces';
-import { GQLSubjectPageWithTopicsQuery } from '../../graphqlTypes';
+import { GQLSubjectContainer_SubjectFragment } from '../../graphqlTypes';
 import { FeideUserWithGroups } from '../../util/feideApi';
 
-export type GQLSubjectContainerType = Required<
-  GQLSubjectPageWithTopicsQuery
->['subject'];
 type Props = {
   locale: LocaleType;
   skipToContentId?: string;
   subjectId: string;
   topicIds: string[];
-  subject: GQLSubjectContainerType;
+  subject: GQLSubjectContainer_SubjectFragment;
   ndlaFilm?: boolean;
   loading?: boolean;
   user?: FeideUserWithGroups;
@@ -70,7 +66,6 @@ const SubjectContainer = ({
 
   const metaDescription = subject.subjectpage?.metaDescription;
   const about = subject.subjectpage?.about;
-  const editorsChoices = subject.subjectpage?.editorsChoices;
 
   const [currentLevel, setCurrentLevel] = useState<number | string | undefined>(
     0,
@@ -131,7 +126,7 @@ const SubjectContainer = ({
   };
 
   function renderCompetenceGoals(
-    subject: GQLSubjectContainerType,
+    subject: GQLSubjectContainer_SubjectFragment,
     locale: LocaleType,
   ):
     | ((inp: {
@@ -264,7 +259,7 @@ const SubjectContainer = ({
           negativeTopMargin={moveBannerUp}
         />
       )}
-      {false && subject.subjectpage?.about && (
+      {/* {false && subject.subjectpage?.about && (
         <OneColumn wide>
           <SubjectPageInformation subjectpage={subject.subjectpage} wide />
         </OneColumn>
@@ -275,7 +270,7 @@ const SubjectContainer = ({
           editorsChoices={editorsChoices}
           locale={locale}
         />
-      )}
+      )} */}
       <OneColumn wide>
         <Breadcrumblist
           items={breadCrumbs}
@@ -315,6 +310,42 @@ SubjectContainer.getDimensions = (props: Props) => {
     filter: longName,
     user,
   });
+};
+
+export const subjectContainerFragments = {
+  subject: gql`
+    fragment SubjectContainer_Subject on Subject {
+      grepCodes
+      topics {
+        id
+        supportedLanguages
+      }
+      allTopics {
+        id
+        name
+        meta {
+          metaDescription
+          metaImage {
+            url
+          }
+        }
+      }
+      subjectpage {
+        metaDescription
+        about {
+          title
+          visualElement {
+            url
+          }
+        }
+        banner {
+          desktopUrl
+        }
+      }
+      ...SubjectPageContent_Subject
+    }
+    ${SubjectPageContent.fragments.subject}
+  `,
 };
 
 export default withTranslation()(withRouter(withTracker(SubjectContainer)));

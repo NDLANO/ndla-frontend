@@ -6,6 +6,7 @@
  *
  */
 
+import { gql } from '@apollo/client';
 import { uuid } from '@ndla/util';
 import {
   MediaList,
@@ -21,13 +22,14 @@ import {
 } from '@ndla/licenses';
 import { H5PBold } from '@ndla/icons/editor';
 import { useTranslation } from 'react-i18next';
-import { GQLH5pLicense } from '../../graphqlTypes';
+import { GQLH5pLicenseList_H5pLicenseFragment } from '../../graphqlTypes';
 import CopyTextButton from './CopyTextButton';
 import { LocaleType } from '../../interfaces';
 import { licenseCopyrightToCopyrightType } from './licenseHelpers';
+import { licenseListCopyrightFragment } from './licenseFragments';
 
 interface H5pLicenseInfoProps {
-  h5p: GQLH5pLicense;
+  h5p: GQLH5pLicenseList_H5pLicenseFragment;
   locale: LocaleType;
 }
 
@@ -71,7 +73,7 @@ const H5pLicenseInfo = ({ h5p, locale }: H5pLicenseInfoProps) => {
 };
 
 interface Props {
-  h5ps: GQLH5pLicense[];
+  h5ps: GQLH5pLicenseList_H5pLicenseFragment[];
   locale: LocaleType;
 }
 
@@ -88,6 +90,19 @@ const H5pLicenseList = ({ h5ps, locale }: Props) => {
       </MediaList>
     </div>
   );
+};
+
+H5pLicenseList.fragments = {
+  h5p: gql`
+    fragment H5pLicenseList_H5pLicense on H5pLicense {
+      title
+      src
+      copyright {
+        ...LicenseListCopyright
+      }
+    }
+    ${licenseListCopyrightFragment}
+  `,
 };
 
 export default H5pLicenseList;

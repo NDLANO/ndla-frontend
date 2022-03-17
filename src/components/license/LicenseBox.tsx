@@ -6,6 +6,7 @@
  *
  */
 
+import { gql } from '@apollo/client';
 import Tabs from '@ndla/tabs';
 import { useTranslation, TFunction } from 'react-i18next';
 import ImageLicenseList from './ImageLicenseList';
@@ -15,11 +16,11 @@ import VideoLicenseList from './VideoLicenseList';
 import H5pLicenseList from './H5pLicenseList';
 import ConceptLicenseList from './ConceptLicenseList';
 import OembedItem from './OembedItem';
-import { GQLArticleInfoFragment } from '../../graphqlTypes';
+import { GQLLicenseBox_ArticleFragment } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
 
 function buildLicenseTabList(
-  article: GQLArticleInfoFragment,
+  article: GQLLicenseBox_ArticleFragment,
   locale: LocaleType,
   t: TFunction,
 ) {
@@ -93,7 +94,7 @@ function buildLicenseTabList(
 }
 
 interface Props {
-  article: GQLArticleInfoFragment;
+  article: GQLLicenseBox_ArticleFragment;
   locale: LocaleType;
 }
 
@@ -106,6 +107,43 @@ const LicenseBox = ({ article, locale }: Props) => {
       <Tabs tabs={tabs} />
     </div>
   );
+};
+
+LicenseBox.fragments = {
+  article: gql`
+    fragment LicenseBox_Article on Article {
+      title
+      oembed
+      published
+      copyright {
+        ...TextLicenseList_Copyright
+      }
+      metaData {
+        copyText
+        concepts {
+          ...ConceptLicenseList_ConceptLicense
+        }
+        h5ps {
+          ...H5pLicenseList_H5pLicense
+        }
+        brightcoves {
+          ...VideoLicenseList_BrightcoveLicense
+        }
+        audios {
+          ...AudioLicenseList_AudioLicense
+        }
+        images {
+          ...ImageLicenseList_ImageLicense
+        }
+      }
+    }
+    ${ConceptLicenseList.fragments.concept}
+    ${H5pLicenseList.fragments.h5p}
+    ${VideoLicenseList.fragments.video}
+    ${AudioLicenseList.fragments.audio}
+    ${ImageLicenseList.fragments.image}
+    ${TextLicenseList.fragments.copyright}
+  `,
 };
 
 export default LicenseBox;

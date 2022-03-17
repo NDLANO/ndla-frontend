@@ -6,6 +6,7 @@
  *
  */
 
+import { gql } from '@apollo/client';
 import {
   ComponentType,
   ReactNode,
@@ -18,13 +19,13 @@ import { Remarkable } from 'remarkable';
 import { Article as UIArticle, ContentTypeBadge } from '@ndla/ui';
 import LicenseBox from '../license/LicenseBox';
 import CompetenceGoals from '../CompetenceGoals';
-import { GQLArticleInfoFragment } from '../../graphqlTypes';
+import { GQLArticle_ArticleFragment } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
 import { MastheadHeightPx } from '../../constants';
 import config from '../../config';
 
 function renderCompetenceGoals(
-  article: GQLArticleInfoFragment,
+  article: GQLArticle_ArticleFragment,
   locale: LocaleType,
   isTopicArticle: boolean,
   subjectId?: string,
@@ -35,10 +36,7 @@ function renderCompetenceGoals(
     }) => ReactNode)
   | null {
   // Don't show competence goals for topics or articles without grepCodes
-  if (
-    !isTopicArticle &&
-    (article.competenceGoals?.length || article.coreElements?.length)
-  ) {
+  if (!isTopicArticle && article.competenceGoals?.length) {
     return ({
       Dialog,
       dialogProps,
@@ -65,7 +63,7 @@ function renderCompetenceGoals(
 
 interface Props {
   id?: string;
-  article: GQLArticleInfoFragment;
+  article: GQLArticle_ArticleFragment;
   resourceType?: string;
   isTopicArticle?: boolean;
   children?: ReactElement;
@@ -79,7 +77,7 @@ interface Props {
   subjectId?: string;
 }
 
-const renderNotions = (article: GQLArticleInfoFragment) => {
+const renderNotions = (article: GQLArticle_ArticleFragment) => {
   const notions =
     article.concepts?.map(concept => {
       return {
@@ -211,4 +209,55 @@ const Article = ({
   );
 };
 
+Article.fragments = {
+  article: gql`
+    fragment Article_Article on Article {
+      id
+      content
+      supportedLanguages
+      grepCodes
+      oldNdlaUrl
+      introduction
+      metaData {
+        footnotes {
+          ref
+          title
+          year
+          authors
+          edition
+          publisher
+          url
+        }
+      }
+      relatedContent {
+        title
+        url
+      }
+      concepts {
+        copyright {
+          license {
+            license
+          }
+          creators {
+            name
+            type
+          }
+        }
+        image {
+          src
+          altText
+        }
+        subjectNames
+        id
+        title
+        content
+      }
+      competenceGoals {
+        type
+      }
+      ...LicenseBox_Article
+    }
+    ${LicenseBox.fragments.article}
+  `,
+};
 export default Article;

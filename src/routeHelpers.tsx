@@ -85,7 +85,7 @@ type Resource = {
 export function toLearningPath(
   pathId?: string | number,
   stepId?: string | number,
-  resource?: Resource,
+  resource?: Pick<Resource, 'path'>,
 ) {
   if (resource) {
     return stepId ? `${resource.path}/${stepId}` : resource.path;
