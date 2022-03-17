@@ -1179,6 +1179,36 @@ export type GQLEmbedVisualelement = {
   visualElement?: Maybe<GQLVisualElement>;
 };
 
+export type GQLArticle_ConceptFragment = {
+  __typename?: 'Concept';
+  subjectNames?: Maybe<Array<string>>;
+  id: number;
+  title: string;
+  content: string;
+  copyright?: Maybe<{
+    __typename?: 'ConceptCopyright';
+    license?: Maybe<{ __typename?: 'License'; license: string }>;
+    creators: Array<{ __typename?: 'Contributor'; name: string; type: string }>;
+  }>;
+  visualElement?: Maybe<
+    {
+      __typename?: 'VisualElement';
+    } & GQLVisualElementWrapper_VisualElementFragment
+  >;
+};
+
+export type GQLArticleConceptsQueryVariables = Exact<{
+  conceptIds: Array<Scalars['Int']> | Scalars['Int'];
+}>;
+
+export type GQLArticleConceptsQuery = {
+  __typename?: 'Query';
+  conceptSearch?: Maybe<{
+    __typename?: 'ConceptResult';
+    concepts: Array<{ __typename?: 'Concept' } & GQLArticle_ConceptFragment>;
+  }>;
+};
+
 export type GQLArticle_ArticleFragment = {
   __typename?: 'Article';
   id: number;
@@ -1187,6 +1217,7 @@ export type GQLArticle_ArticleFragment = {
   grepCodes?: Maybe<Array<string>>;
   oldNdlaUrl?: Maybe<string>;
   introduction?: Maybe<string>;
+  conceptIds?: Maybe<Array<number>>;
   metaData?: Maybe<{
     __typename?: 'ArticleMetaData';
     footnotes?: Maybe<
@@ -1204,29 +1235,6 @@ export type GQLArticle_ArticleFragment = {
   }>;
   relatedContent?: Maybe<
     Array<{ __typename?: 'RelatedContent'; title: string; url: string }>
-  >;
-  concepts?: Maybe<
-    Array<{
-      __typename?: 'Concept';
-      subjectNames?: Maybe<Array<string>>;
-      id: number;
-      title: string;
-      content: string;
-      copyright?: Maybe<{
-        __typename?: 'ConceptCopyright';
-        license?: Maybe<{ __typename?: 'License'; license: string }>;
-        creators: Array<{
-          __typename?: 'Contributor';
-          name: string;
-          type: string;
-        }>;
-      }>;
-      visualElement?: Maybe<
-        {
-          __typename?: 'VisualElement';
-        } & GQLVisualElementWrapper_VisualElementFragment
-      >;
-    }>
   >;
   competenceGoals?: Maybe<
     Array<{ __typename?: 'CompetenceGoal'; type: string }>
@@ -1277,6 +1285,13 @@ export type GQLLastLearningpathStepInfo_ResourceTypeDefinitionFragment = {
   __typename?: 'ResourceTypeDefinition';
 } & GQLResources_ResourceTypeDefinitionFragment;
 
+export type GQLLastLearningpathStepInfo_TopicPathFragment = {
+  __typename?: 'Topic';
+  id: string;
+  name: string;
+  path: string;
+};
+
 export type GQLLearningpath_TopicFragment = {
   __typename?: 'Topic';
 } & GQLLastLearningpathStepInfo_TopicFragment &
@@ -1304,6 +1319,10 @@ export type GQLLearningpath_ResourceFragment = {
   __typename?: 'Resource';
   path: string;
 };
+
+export type GQLLearningpath_TopicPathFragment = {
+  __typename?: 'Topic';
+} & GQLLastLearningpathStepInfo_TopicPathFragment;
 
 export type GQLLearningpath_LearningpathFragment = {
   __typename?: 'Learningpath';
@@ -1632,6 +1651,17 @@ export type GQLArticlePage_ResourceFragment = {
   >;
 };
 
+export type GQLArticlePage_TopicFragment = {
+  __typename?: 'Topic';
+  path: string;
+} & GQLResources_TopicFragment;
+
+export type GQLArticlePage_TopicPathFragment = {
+  __typename?: 'Topic';
+  id: string;
+  name: string;
+};
+
 export type GQLArticleHero_SubjectFragment = {
   __typename?: 'Subject';
   id: string;
@@ -1679,6 +1709,77 @@ export type GQLLearningpathPage_ResourceFragment = {
     } & GQLLearningpath_LearningpathFragment
   >;
 } & GQLLearningpath_ResourceFragment;
+
+export type GQLLearningpathPage_TopicPathFragment = {
+  __typename?: 'Topic';
+} & GQLLearningpath_TopicPathFragment;
+
+export type GQLMovedResourcePage_ResourceFragment = {
+  __typename?: 'Resource';
+  id: string;
+  name: string;
+  path: string;
+  paths: Array<string>;
+  breadcrumbs?: Maybe<Array<Array<string>>>;
+  article?: Maybe<{
+    __typename?: 'Article';
+    id: number;
+    metaDescription: string;
+    metaImage?: Maybe<{ __typename?: 'MetaImage'; url: string; alt: string }>;
+  }>;
+  learningpath?: Maybe<{
+    __typename?: 'Learningpath';
+    id: number;
+    description: string;
+    coverphoto?: Maybe<{ __typename?: 'LearningpathCoverphoto'; url: string }>;
+  }>;
+  resourceTypes?: Maybe<
+    Array<{ __typename?: 'ResourceType'; id: string; name: string }>
+  >;
+};
+
+export type GQLResourcePageQueryVariables = Exact<{
+  topicId: Scalars['String'];
+  subjectId: Scalars['String'];
+  resourceId: Scalars['String'];
+}>;
+
+export type GQLResourcePageQuery = {
+  __typename?: 'Query';
+  subject?: Maybe<
+    {
+      __typename?: 'Subject';
+      topics?: Maybe<
+        Array<
+          { __typename?: 'Topic' } & GQLLearningpathPage_TopicPathFragment &
+            GQLArticlePage_TopicPathFragment
+        >
+      >;
+    } & GQLLearningpathPage_SubjectFragment &
+      GQLArticlePage_SubjectFragment
+  >;
+  resourceTypes?: Maybe<
+    Array<
+      {
+        __typename?: 'ResourceTypeDefinition';
+      } & GQLArticlePage_ResourceTypeFragment &
+        GQLLearningpathPage_ResourceTypeDefinitionFragment
+    >
+  >;
+  topic?: Maybe<
+    { __typename?: 'Topic' } & GQLLearningpathPage_TopicFragment &
+      GQLArticlePage_TopicFragment
+  >;
+  resource?: Maybe<
+    {
+      __typename?: 'Resource';
+      relevanceId?: Maybe<string>;
+      paths: Array<string>;
+    } & GQLMovedResourcePage_ResourceFragment &
+      GQLArticlePage_ResourceFragment &
+      GQLLearningpathPage_ResourceFragment
+  >;
+};
 
 export type GQLResources_ResourceFragment = {
   __typename?: 'Resource';
@@ -3087,71 +3188,6 @@ export type GQLMastHeadQuery = {
     supplementaryResources?: Maybe<
       Array<{ __typename?: 'Resource' } & GQLResourceInfoFragment>
     >;
-  }>;
-  resource?: Maybe<
-    {
-      __typename?: 'Resource';
-      article?: Maybe<{ __typename?: 'Article' } & GQLArticleInfoFragment>;
-      learningpath?: Maybe<
-        { __typename?: 'Learningpath' } & GQLLearningpathInfoFragment
-      >;
-    } & GQLResourceInfoFragment
-  >;
-};
-
-export type GQLResourcePageQueryVariables = Exact<{
-  topicId: Scalars['String'];
-  subjectId: Scalars['String'];
-  resourceId: Scalars['String'];
-}>;
-
-export type GQLResourcePageQuery = {
-  __typename?: 'Query';
-  subject?: Maybe<{
-    __typename?: 'Subject';
-    id: string;
-    name: string;
-    path: string;
-    topics?: Maybe<
-      Array<{
-        __typename?: 'Topic';
-        id: string;
-        name: string;
-        parent?: Maybe<string>;
-        path: string;
-        relevanceId?: Maybe<string>;
-        meta?: Maybe<{ __typename?: 'Meta' } & GQLMetaInfoFragment>;
-      }>
-    >;
-  }>;
-  resourceTypes?: Maybe<
-    Array<{
-      __typename?: 'ResourceTypeDefinition';
-      id: string;
-      name: string;
-      subtypes?: Maybe<
-        Array<{
-          __typename?: 'ResourceTypeDefinition';
-          id: string;
-          name: string;
-        }>
-      >;
-    }>
-  >;
-  topic?: Maybe<{
-    __typename?: 'Topic';
-    id: string;
-    name: string;
-    path: string;
-    relevanceId?: Maybe<string>;
-    supportedLanguages: Array<string>;
-    coreResources?: Maybe<
-      Array<{ __typename?: 'Resource' } & GQLResourceInfoFragment>
-    >;
-    supplementaryResources?: Maybe<
-      Array<{ __typename?: 'Resource' } & GQLResourceInfoFragment>
-    >;
-    metadata: { __typename?: 'TaxonomyMetadata'; customFields: any };
   }>;
   resource?: Maybe<
     {

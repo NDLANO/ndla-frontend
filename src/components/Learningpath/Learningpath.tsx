@@ -35,8 +35,8 @@ import {
   GQLLearningpath_ResourceTypeDefinitionFragment,
   GQLLearningpath_SubjectFragment,
   GQLLearningpath_TopicFragment,
+  GQLLearningpath_TopicPathFragment,
 } from '../../graphqlTypes';
-import { TopicPaths } from '../../containers/ResourcePage/ResourcePage';
 
 const LEARNING_PATHS_STORAGE_KEY = 'LEARNING_PATHS_COOKIES_KEY';
 
@@ -44,7 +44,7 @@ interface Props {
   learningpath: GQLLearningpath_LearningpathFragment;
   learningpathStep: GQLLearningpath_LearningpathStepFragment;
   topic?: GQLLearningpath_TopicFragment;
-  topicPath?: TopicPaths;
+  topicPath?: GQLLearningpath_TopicPathFragment[];
   resourceTypes?: GQLLearningpath_ResourceTypeDefinitionFragment[];
   subject?: GQLLearningpath_SubjectFragment;
   resource?: GQLLearningpath_ResourceFragment;
@@ -256,6 +256,12 @@ Learningpath.fragments = {
     fragment Learningpath_Resource on Resource {
       path
     }
+  `,
+  topicPath: gql`
+    fragment Learningpath_TopicPath on Topic {
+      ...LastLearningpathStepInfo_TopicPath
+    }
+    ${LastLearningpathStepInfo.fragments.topicPath}
   `,
   learningpath: gql`
     fragment Learningpath_Learningpath on Learningpath {
