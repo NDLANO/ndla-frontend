@@ -13,13 +13,13 @@ import {
   GQLLastLearningpathStepInfo_ResourceTypeDefinitionFragment,
   GQLLastLearningpathStepInfo_SubjectFragment,
   GQLLastLearningpathStepInfo_TopicFragment,
+  GQLLastLearningpathStepInfo_TopicPathFragment,
 } from '../../graphqlTypes';
-import { TopicPaths } from '../../containers/ResourcePage/ResourcePage';
 
 interface Props {
   topic?: GQLLastLearningpathStepInfo_TopicFragment;
   subject?: GQLLastLearningpathStepInfo_SubjectFragment;
-  topicPath?: TopicPaths;
+  topicPath?: GQLLastLearningpathStepInfo_TopicPathFragment[];
   resourceTypes?: GQLLastLearningpathStepInfo_ResourceTypeDefinitionFragment[];
   seqNo: number;
   numberOfLearningSteps: number;
@@ -99,6 +99,13 @@ LastLearningpathStepInfo.fragments = {
       ...Resources_ResourceTypeDefinition
     }
     ${Resources.fragments.resourceType}
+  `,
+  topicPath: gql`
+    fragment LastLearningpathStepInfo_TopicPath on Topic {
+      id
+      name
+      path
+    }
   `,
 };
 

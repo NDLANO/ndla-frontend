@@ -39,16 +39,16 @@ import {
   GQLArticlePage_ResourceFragment,
   GQLArticlePage_ResourceTypeFragment,
   GQLArticlePage_SubjectFragment,
-  GQLResourcePageQuery,
+  GQLArticlePage_TopicFragment,
+  GQLArticlePage_TopicPathFragment,
 } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
 import { FeideUserWithGroups } from '../../util/feideApi';
-import { TopicPaths } from '../ResourcePage/ResourcePage';
 
 interface Props extends WithTranslation {
   resource?: GQLArticlePage_ResourceFragment;
-  topic?: GQLResourcePageQuery['topic'];
-  topicPath: TopicPaths;
+  topic?: GQLArticlePage_TopicFragment;
+  topicPath: GQLArticlePage_TopicPathFragment[];
   relevance: string;
   subject?: GQLArticlePage_SubjectFragment;
   resourceTypes?: GQLArticlePage_ResourceTypeFragment[];
@@ -232,7 +232,7 @@ const getDocumentTitle = (
 ArticlePage.getDocumentTitle = ({ t, resource, subject }: Props) =>
   getDocumentTitle(t, resource, subject);
 
-ArticlePage.fragments = {
+export const articlePageFragments = {
   resourceType: gql`
     fragment ArticlePage_ResourceType on ResourceTypeDefinition {
       ...Resources_ResourceTypeDefinition
@@ -265,6 +265,19 @@ ArticlePage.fragments = {
     ${structuredArticleDataFragment}
     ${ArticleHero.fragments.metaImage}
     ${Article.fragments.article}
+  `,
+  topic: gql`
+    fragment ArticlePage_Topic on Topic {
+      path
+      ...Resources_Topic
+    }
+    ${Resources.fragments.topic}
+  `,
+  topicPath: gql`
+    fragment ArticlePage_TopicPath on Topic {
+      id
+      name
+    }
   `,
 };
 
