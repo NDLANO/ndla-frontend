@@ -6,6 +6,7 @@
  *
  */
 
+import { gql } from '@apollo/client';
 import { uuid } from '@ndla/util';
 import {
   MediaList,
@@ -23,12 +24,13 @@ import {
 import { useTranslation } from 'react-i18next';
 import CopyTextButton from './CopyTextButton';
 import AnchorButton from './AnchorButton';
-import { GQLAudioLicense } from '../../graphqlTypes';
+import { GQLAudioLicenseList_AudioLicenseFragment } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
 import { licenseCopyrightToCopyrightType } from './licenseHelpers';
+import { licenseListCopyrightFragment } from './licenseFragments';
 
 interface AudioLicenseInfoProps {
-  audio: GQLAudioLicense;
+  audio: GQLAudioLicenseList_AudioLicenseFragment;
   locale: LocaleType;
 }
 
@@ -89,7 +91,7 @@ const AudioLicenseInfo = ({ audio, locale }: AudioLicenseInfoProps) => {
 };
 
 interface Props {
-  audios: GQLAudioLicense[];
+  audios: GQLAudioLicenseList_AudioLicenseFragment[];
   locale: LocaleType;
 }
 
@@ -106,6 +108,21 @@ const AudioLicenseList = ({ audios, locale }: Props) => {
       </MediaList>
     </div>
   );
+};
+
+AudioLicenseList.fragments = {
+  audio: gql`
+    fragment AudioLicenseList_AudioLicense on AudioLicense {
+      src
+      copyText
+      title
+      copyright {
+        origin
+        ...LicenseListCopyright
+      }
+    }
+    ${licenseListCopyrightFragment}
+  `,
 };
 
 export default AudioLicenseList;
