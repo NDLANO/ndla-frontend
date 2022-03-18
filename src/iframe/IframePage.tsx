@@ -6,15 +6,20 @@
  *
  */
 
+import { gql } from '@apollo/client';
 import { useLocation } from 'react-router';
 import { OneColumn, ErrorMessage } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
 import { useGraphQuery } from '../util/runQueries';
-import { iframeArticleQuery } from '../queries';
-import IframeArticlePage from './IframeArticlePage';
-import IframeTopicPage from './IframeTopicPage';
+import IframeArticlePage, {
+  iframeArticlePageFragments,
+} from './IframeArticlePage';
+import IframeTopicPage, { iframeTopicPageFragments } from './IframeTopicPage';
 import { LocaleType } from '../interfaces';
-import { GQLIframeArticleQuery } from '../graphqlTypes';
+import {
+  GQLIframePageQuery,
+  GQLIframePageQueryVariables,
+} from '../graphqlTypes';
 
 if (process.env.NODE_ENV !== 'production') {
   // Can't require in production because of multiple asses emit to the same filename..
@@ -48,6 +53,32 @@ interface Props {
   isTopicArticle?: boolean;
 }
 
+const iframePageQuery = gql`
+  query iframePage(
+    $articleId: String!
+    $isOembed: String
+    $path: String
+    $taxonomyId: String!
+    $includeResource: Boolean!
+    $includeTopic: Boolean!
+  ) {
+    article(id: $articleId, isOembed: $isOembed, path: $path) {
+      ...IframeTopicPage_Article
+      ...IframeArticlePage_Article
+    }
+    resource(id: $taxonomyId) @include(if: $includeResource) {
+      ...IframeArticlePage_Resource
+    }
+    topic(id: $taxonomyId) @include(if: $includeTopic) {
+      ...IframeTopicPage_Topic
+    }
+  }
+  ${iframeArticlePageFragments.resource}
+  ${iframeArticlePageFragments.article}
+  ${iframeTopicPageFragments.topic}
+  ${iframeTopicPageFragments.article}
+`;
+
 export const IframePage = ({
   status,
   locale,
@@ -59,21 +90,22 @@ export const IframePage = ({
   const location = useLocation();
   const includeResource = !isTopicArticle && taxonomyId !== undefined;
   const includeTopic = isTopicArticle;
-  const { loading, data } = useGraphQuery<GQLIframeArticleQuery>(
-    iframeArticleQuery,
-    {
-      variables: {
-        articleId,
-        isOembed,
-        path: location.pathname,
-        taxonomyId: taxonomyId || '',
-        includeResource,
-        includeTopic,
-      },
+  const { loading, data } = useGraphQuery<
+    GQLIframePageQuery,
+    GQLIframePageQueryVariables
+  >(iframePageQuery, {
+    variables: {
+      articleId: articleId!,
+      isOembed,
+      path: location.pathname,
+      taxonomyId: taxonomyId || '',
+      includeResource,
+      includeTopic,
     },
-  );
+    skip: !articleId,
+  });
 
-  if (status !== 'success') {
+  if (status !== 'success' || !articleId) {
     return <Error />;
   }
 
@@ -88,13 +120,7 @@ export const IframePage = ({
   }
 
   if (isTopicArticle) {
-    return (
-      <IframeTopicPage
-        article={article}
-        topic={{ article, ...topic }}
-        locale={locale}
-      />
-    );
+    return <IframeTopicPage article={article} topic={topic} locale={locale} />;
   }
   return (
     <IframeArticlePage locale={locale} resource={resource} article={article} />
