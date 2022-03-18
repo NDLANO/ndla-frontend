@@ -29,11 +29,11 @@ import { MastheadHeightPx } from '../../constants';
 import CopyTextButton from '../../components/license/CopyTextButton';
 import AnchorButton from '../../components/license/AnchorButton';
 import config from '../../config';
-import { GQLPodcastAudioFragment } from '../../graphqlTypes';
+import { GQLPodcast_AudioFragment } from '../../graphqlTypes';
 import { copyrightInfoFragment } from '../../queries';
 
 interface Props {
-  podcast: GQLPodcastAudioFragment;
+  podcast: GQLPodcast_AudioFragment;
   seriesId: string;
 }
 
@@ -226,7 +226,7 @@ const Podcast = ({ podcast, seriesId }: Props) => {
 
 Podcast.fragments = {
   podcast: gql`
-    fragment PodcastAudio on Audio {
+    fragment Podcast_Audio on Audio {
       id
       title {
         title

@@ -17,7 +17,7 @@ import { spacing } from '@ndla/core';
 import { parse, stringify } from 'query-string';
 import { HelmetWithTracker } from '@ndla/tracker';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
-import { GQLPodcastSeriesSearchQueryQuery } from '../../graphqlTypes';
+import { GQLPodcastSeriesListPageQuery } from '../../graphqlTypes';
 import PodcastSeries from './PodcastSeries';
 
 type SearchObject = {
@@ -61,8 +61,8 @@ const PodcastSeriesListPage = () => {
   const apolloClient = useApolloClient();
 
   const { error, loading, data, previousData } = useQuery<
-    GQLPodcastSeriesSearchQueryQuery
-  >(podcastSeriesSearchQuery, {
+    GQLPodcastSeriesListPageQuery
+  >(podcastSeriesListPageQuery, {
     variables: {
       page: page,
       pageSize: pageSize,
@@ -81,7 +81,7 @@ const PodcastSeriesListPage = () => {
     const nextPage = page + 1;
     if (nextPage <= pageSize) {
       apolloClient.query({
-        query: podcastSeriesSearchQuery,
+        query: podcastSeriesListPageQuery,
         variables: {
           page: nextPage,
           pageSize: pageSize,
@@ -150,12 +150,12 @@ const PodcastSeriesListPage = () => {
   );
 };
 
-const podcastSeriesSearchQuery = gql`
+const podcastSeriesListPageQuery = gql`
   ${PodcastSeries.fragments.series}
-  query podcastSeriesSearchQuery($page: Int!, $pageSize: Int!) {
+  query podcastSeriesListPage($page: Int!, $pageSize: Int!) {
     podcastSeriesSearch(page: $page, pageSize: $pageSize) {
       results {
-        ...PodcastSeriesSummary
+        ...PodcastSeries_PodcastSeriesSummary
       }
       totalCount
     }

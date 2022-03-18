@@ -21,7 +21,7 @@ import { LocaleType } from '.../../../interfaces';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import { PODCAST_SERIES_LIST_PAGE_PATH } from '../../constants';
 import config from '../../config';
-import { GQLPodcastSeriesQueryQuery } from '../../graphqlTypes';
+import { GQLPodcastSeriesPageQuery } from '../../graphqlTypes';
 
 interface RouteParams {
   id: string;
@@ -66,8 +66,8 @@ const PodcastSeriesPage = ({
   },
 }: Props) => {
   const { error, loading, data: { podcastSeries } = {} } = useQuery<
-    GQLPodcastSeriesQueryQuery
-  >(podcastSeriesQuery, {
+    GQLPodcastSeriesPageQuery
+  >(podcastSeriesPageQuery, {
     variables: { id: Number(id) },
   });
 
@@ -92,7 +92,7 @@ const PodcastSeriesPage = ({
   const { t } = useTranslation();
 
   const getDocumentTitle = (
-    podcast: GQLPodcastSeriesQueryQuery['podcastSeries'],
+    podcast: GQLPodcastSeriesPageQuery['podcastSeries'],
   ) => {
     return `${podcast?.title?.title || t('podcastPage.podcast')} - ${t(
       'htmlTitles.titleTemplate',
@@ -164,9 +164,9 @@ const PodcastSeriesPage = ({
     </>
   );
 };
-const podcastSeriesQuery = gql`
+const podcastSeriesPageQuery = gql`
   ${Podcast.fragments.podcast}
-  query podcastSeriesQuery($id: Int!) {
+  query podcastSeriesPage($id: Int!) {
     podcastSeries(id: $id) {
       id
       title {
@@ -180,7 +180,7 @@ const podcastSeriesQuery = gql`
         url
       }
       episodes {
-        ...PodcastAudio
+        ...Podcast_Audio
         tags {
           tags
         }
