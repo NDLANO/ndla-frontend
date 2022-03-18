@@ -188,7 +188,6 @@ test('IframeArticlePage with article renderers correctly', () => {
                   locale={locale}
                   resource={{
                     id: 'urn:resource:1',
-                    name: 'Ressurs',
                     path: '/subject:1/resource:1',
                     resourceTypes: [],
                   }}
