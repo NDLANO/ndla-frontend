@@ -81,6 +81,7 @@ interface Props {
   copyPageUrlLink?: string;
   printUrl?: string;
   subjectId?: string;
+  isPlainArticle?: boolean;
 }
 
 const renderNotions = (
@@ -190,6 +191,7 @@ const Article = ({
   printUrl,
   id,
   subjectId,
+  isPlainArticle,
   ...rest
 }: Props) => {
   const markdown = useMemo(() => {
@@ -209,7 +211,8 @@ const Article = ({
     skip:
       typeof window === 'undefined' || // only fetch on client. ssr: false does not work.
       !article.conceptIds ||
-      article.conceptIds.length === 0,
+      article.conceptIds.length === 0 ||
+      isPlainArticle,
   });
   const location = useLocation();
 
@@ -279,10 +282,14 @@ const Article = ({
         subjectId,
       )}
       competenceGoalTypes={competenceGoalTypes}
-      notions={renderNotions(
-        concepts?.conceptSearch?.concepts ?? [],
-        article.relatedContent,
-      )}
+      notions={
+        isPlainArticle
+          ? undefined
+          : renderNotions(
+              concepts?.conceptSearch?.concepts ?? [],
+              article.relatedContent,
+            )
+      }
       renderMarkdown={renderMarkdown}
       modifier={isResourceArticle ? resourceType : modifier ?? 'clean'}
       copyPageUrlLink={copyPageUrlLink}
