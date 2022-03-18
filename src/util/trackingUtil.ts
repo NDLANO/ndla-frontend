@@ -10,7 +10,6 @@ import {
   GQLArticle,
   GQLSubject,
   GQLTopic,
-  GQLLearningpathInfoFragment,
   GQLLearningpathStep,
 } from '../graphqlTypes';
 import { FeideUserWithGroups } from './feideApi';
@@ -107,11 +106,15 @@ export const convertToGaOrGtmDimension = (
 const getGrepCodeOfType = (pattern: string, grepCodes?: string[]) =>
   grepCodes?.filter(code => code?.startsWith(pattern))?.join('|') || undefined;
 
+type RequiredLearningpath = {
+  learningsteps?: any[];
+};
+
 interface Props {
   article?: Pick<GQLArticle, 'title' | 'grepCodes' | 'copyright'>;
   subject?: Pick<GQLSubject, 'name'>;
   topicPath?: (Pick<GQLTopic, 'name'> | undefined)[];
-  learningpath?: GQLLearningpathInfoFragment;
+  learningpath?: RequiredLearningpath;
   relevance?: string;
   learningstep?: Pick<GQLLearningpathStep, 'seqNo'>;
   filter?: string;

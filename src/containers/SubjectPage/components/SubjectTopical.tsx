@@ -6,22 +6,25 @@
  *
  */
 
-import PropTypes from 'prop-types';
+import { gql } from '@apollo/client';
 import { Image, SubjectArchive } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
-import { GraphQLResourceShape } from '../../../graphqlShapes';
+import { GQLSubjectTopical_TaxonomyEntityFragment } from '../../../graphqlTypes';
 import SubjectPageFlexChild from './SubjectPageFlexChild';
 
-const SubjectTopical = ({ topical, twoColumns }) => {
+interface Props {
+  topical?: GQLSubjectTopical_TaxonomyEntityFragment;
+  twoColumns?: boolean;
+}
+
+const SubjectTopical = ({ topical, twoColumns = false }: Props) => {
   const { t } = useTranslation();
-  if (!topical || !topical.resource || !topical.resource.meta) {
+  if (!topical || !topical.meta) {
     return null;
   }
   const {
-    resource: {
-      meta: { metaImage, title, metaDescription },
-      path,
-    },
+    meta: { metaImage, title, metaDescription },
+    path,
   } = topical;
 
   return (
@@ -33,7 +36,7 @@ const SubjectTopical = ({ topical, twoColumns }) => {
               <Image alt={metaImage.alt} src={metaImage.url} />
             ) : null,
           heading: title,
-          description: metaDescription,
+          description: metaDescription ?? '',
           url: path,
         }}
         archiveArticles={[]}
@@ -47,13 +50,20 @@ const SubjectTopical = ({ topical, twoColumns }) => {
   );
 };
 
-SubjectTopical.propTypes = {
-  topical: GraphQLResourceShape,
-  twoColumns: PropTypes.bool,
-};
-
-SubjectTopical.defaultProps = {
-  twoColumns: false,
+SubjectTopical.fragments = {
+  topical: gql`
+    fragment SubjectTopical_TaxonomyEntity on Resource {
+      path
+      meta {
+        title
+        metaDescription
+        metaImage {
+          url
+          alt
+        }
+      }
+    }
+  `,
 };
 
 export default SubjectTopical;

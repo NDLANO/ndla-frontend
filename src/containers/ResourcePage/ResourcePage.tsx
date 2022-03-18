@@ -6,6 +6,7 @@
  *
  */
 
+import { gql } from '@apollo/client';
 import { useContext } from 'react';
 import { Redirect, RouteComponentProps, withRouter } from 'react-router-dom';
 import { Location } from 'history';
@@ -14,10 +15,11 @@ import { useTranslation } from 'react-i18next';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import { getUrnIdsFromProps } from '../../routeHelpers';
 import { getTopicPath } from '../../util/getTopicPath';
-import { resourcePageQuery } from '../../queries';
 import { isLearningPathResource } from '../Resources/resourceHelpers';
-import LearningpathPage from '../LearningpathPage/LearningpathPage';
-import ArticlePage from '../ArticlePage/ArticlePage';
+import LearningpathPage, {
+  learningpathPageFragments,
+} from '../LearningpathPage/LearningpathPage';
+import ArticlePage, { articlePageFragments } from '../ArticlePage/ArticlePage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import MovedResourcePage from '../MovedResourcePage/MovedResourcePage';
 import { useGraphQuery } from '../../util/runQueries';
@@ -45,11 +47,48 @@ const urlInPaths = (
 
 type Props = RootComponentProps & RouteComponentProps<MatchParams>;
 
-export type TopicPaths = Exclude<
-  Required<GQLResourcePageQuery>['subject']['topics'],
-  undefined
->;
-
+const resourcePageQuery = gql`
+  query resourcePage(
+    $topicId: String!
+    $subjectId: String!
+    $resourceId: String!
+  ) {
+    subject(id: $subjectId) {
+      topics(all: true) {
+        ...LearningpathPage_TopicPath
+        ...ArticlePage_TopicPath
+      }
+      ...LearningpathPage_Subject
+      ...ArticlePage_Subject
+    }
+    resourceTypes {
+      ...ArticlePage_ResourceType
+      ...LearningpathPage_ResourceTypeDefinition
+    }
+    topic(id: $topicId, subjectId: $subjectId) {
+      ...LearningpathPage_Topic
+      ...ArticlePage_Topic
+    }
+    resource(id: $resourceId, subjectId: $subjectId, topicId: $topicId) {
+      relevanceId
+      paths
+      ...MovedResourcePage_Resource
+      ...ArticlePage_Resource
+      ...LearningpathPage_Resource
+    }
+  }
+  ${articlePageFragments.topic}
+  ${MovedResourcePage.fragments.resource}
+  ${articlePageFragments.resource}
+  ${articlePageFragments.resourceType}
+  ${articlePageFragments.subject}
+  ${articlePageFragments.topicPath}
+  ${learningpathPageFragments.topic}
+  ${learningpathPageFragments.resourceType}
+  ${learningpathPageFragments.resource}
+  ${learningpathPageFragments.subject}
+  ${learningpathPageFragments.topicPath}
+`;
 const ResourcePage = (props: Props) => {
   const { t } = useTranslation();
   const { user } = useContext(AuthContext);
@@ -95,7 +134,7 @@ const ResourcePage = (props: Props) => {
     relevanceId === RELEVANCE_SUPPLEMENTARY
       ? t('searchPage.searchFilterMessages.supplementaryRelevance')
       : t('searchPage.searchFilterMessages.coreRelevance');
-  const topicPath: TopicPaths =
+  const topicPath =
     subject && topic ? getTopicPath(subject.id, topic.id, subject.topics) : [];
   if (isLearningPathResource(resource)) {
     return (

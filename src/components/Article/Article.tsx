@@ -6,6 +6,7 @@
  *
  */
 
+import { gql } from '@apollo/client';
 import {
   ComponentType,
   ReactElement,
@@ -24,13 +25,19 @@ import {
 import config from '../../config';
 import LicenseBox from '../license/LicenseBox';
 import CompetenceGoals from '../CompetenceGoals';
-import { GQLArticleInfoFragment } from '../../graphqlTypes';
+import {
+  GQLArticleConceptsQuery,
+  GQLArticleConceptsQueryVariables,
+  GQLArticle_ArticleFragment,
+  GQLArticle_ConceptFragment,
+} from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
 import VisualElementWrapper from '../VisualElement/VisualElementWrapper';
 import { MastheadHeightPx } from '../../constants';
+import { useGraphQuery } from '../../util/runQueries';
 
 function renderCompetenceGoals(
-  article: GQLArticleInfoFragment,
+  article: GQLArticle_ArticleFragment,
   locale: LocaleType,
   isTopicArticle: boolean,
   subjectId?: string,
@@ -41,10 +48,7 @@ function renderCompetenceGoals(
     }) => ReactNode)
   | null {
   // Don't show competence goals for topics or articles without grepCodes
-  if (
-    !isTopicArticle &&
-    (article.competenceGoals?.length || article.coreElements?.length)
-  ) {
+  if (!isTopicArticle && article.competenceGoals?.length) {
     return ({
       Dialog,
       dialogProps,
@@ -71,7 +75,7 @@ function renderCompetenceGoals(
 
 interface Props {
   id?: string;
-  article: GQLArticleInfoFragment;
+  article: GQLArticle_ArticleFragment;
   resourceType?: string;
   isTopicArticle?: boolean;
   children?: ReactElement;
@@ -85,9 +89,13 @@ interface Props {
   subjectId?: string;
 }
 
-const renderNotions = (article: GQLArticleInfoFragment, locale: LocaleType) => {
+const renderNotions = (
+  concepts: GQLArticle_ConceptFragment[],
+  relatedContent: GQLArticle_ArticleFragment['relatedContent'],
+  locale: LocaleType,
+) => {
   const notions =
-    article.concepts?.map(concept => {
+    concepts?.map(concept => {
       const { content: text, copyright, subjectNames, visualElement } = concept;
       const { creators: authors, license } = copyright!;
       return {
@@ -105,7 +113,7 @@ const renderNotions = (article: GQLArticleInfoFragment, locale: LocaleType) => {
       };
     }) ?? [];
   const related =
-    article.relatedContent?.map(rc => ({
+    relatedContent?.map(rc => ({
       ...rc,
       label: rc.title,
     })) ?? [];
@@ -120,6 +128,39 @@ const renderNotions = (article: GQLArticleInfoFragment, locale: LocaleType) => {
   }
   return undefined;
 };
+
+const articleConceptFragment = gql`
+  fragment Article_Concept on Concept {
+    copyright {
+      license {
+        license
+      }
+      creators {
+        name
+        type
+      }
+    }
+    subjectNames
+    id
+    title
+    content
+    visualElement {
+      ...VisualElementWrapper_VisualElement
+    }
+  }
+  ${VisualElementWrapper.fragments.visualElement}
+`;
+
+const articleConceptQuery = gql`
+  query articleConcepts($conceptIds: [Int!]!) {
+    conceptSearch(ids: $conceptIds) {
+      concepts {
+        ...Article_Concept
+      }
+    }
+  }
+  ${articleConceptFragment}
+`;
 
 const Article = ({
   article,
@@ -145,6 +186,18 @@ const Article = ({
     return md;
   }, []);
 
+  const { data: concepts } = useGraphQuery<
+    GQLArticleConceptsQuery,
+    GQLArticleConceptsQueryVariables
+  >(articleConceptQuery, {
+    variables: {
+      conceptIds: article.conceptIds!,
+    },
+    skip:
+      typeof window === 'undefined' || // only fetch on client. ssr: false does not work.
+      !article.conceptIds ||
+      article.conceptIds.length === 0,
+  });
   const location = useLocation();
 
   // Scroll to element with ID passed in as a query-parameter.
@@ -214,7 +267,11 @@ const Article = ({
         subjectId,
       )}
       competenceGoalTypes={competenceGoalTypes}
-      notions={renderNotions(article, i18n.language as LocaleType)}
+      notions={renderNotions(
+        concepts?.conceptSearch?.concepts ?? [],
+        article.relatedContent,
+        i18n.language as LocaleType,
+      )}
       renderMarkdown={renderMarkdown}
       modifier={isResourceArticle ? resourceType : modifier ?? 'clean'}
       copyPageUrlLink={copyPageUrlLink}
@@ -225,4 +282,37 @@ const Article = ({
   );
 };
 
+Article.fragments = {
+  article: gql`
+    fragment Article_Article on Article {
+      id
+      content
+      supportedLanguages
+      grepCodes
+      oldNdlaUrl
+      introduction
+      conceptIds
+      metaData {
+        footnotes {
+          ref
+          title
+          year
+          authors
+          edition
+          publisher
+          url
+        }
+      }
+      relatedContent {
+        title
+        url
+      }
+      competenceGoals {
+        type
+      }
+      ...LicenseBox_Article
+    }
+    ${LicenseBox.fragments.article}
+  `,
+};
 export default Article;

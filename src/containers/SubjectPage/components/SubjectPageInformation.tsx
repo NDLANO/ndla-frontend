@@ -6,12 +6,13 @@
  *
  */
 
+import { gql } from '@apollo/client';
 import SubjectTopical from './SubjectTopical';
 import SubjectPageAbout from './SubjectPageAbout';
-import { GQLSubjectContainerType } from '../SubjectContainer';
+import { GQLSubjectPageInformation_SubjectPageFragment } from '../../../graphqlTypes';
 
 interface Props {
-  subjectpage?: GQLSubjectContainerType['subjectpage'];
+  subjectpage?: GQLSubjectPageInformation_SubjectPageFragment;
   twoColumns?: boolean;
   wide: boolean;
 }
@@ -26,11 +27,13 @@ export const SubjectPageInformation = ({
 
   return (
     <>
-      <SubjectTopical
-        key="subjectpage_information_topical"
-        twoColumns={twoColumns}
-        topical={topical}
-      />
+      {topical.__typename === 'Resource' && (
+        <SubjectTopical
+          key="subjectpage_information_topical"
+          twoColumns={twoColumns}
+          topical={topical}
+        />
+      )}
       <SubjectPageAbout
         key="subjectpage_information_about"
         twoColumns={twoColumns}
@@ -39,6 +42,21 @@ export const SubjectPageInformation = ({
       />
     </>
   );
+};
+
+SubjectPageInformation.fragments = {
+  subjectpage: gql`
+    fragment SubjectPageInformation_SubjectPage on SubjectPage {
+      topical {
+        ...SubjectTopical_TaxonomyEntity
+      }
+      about {
+        ...SubjectPageAbout_SubjectPageAbout
+      }
+    }
+    ${SubjectTopical.fragments.topical}
+    ${SubjectPageAbout.fragments.about}
+  `,
 };
 
 export default SubjectPageInformation;
