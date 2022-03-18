@@ -7,7 +7,7 @@
  */
 
 import { useContext } from 'react';
-import { Spinner } from '@ndla/ui';
+import { ContentPlaceholder } from '@ndla/ui';
 import { RouteComponentProps, withRouter } from 'react-router';
 
 import { learningPathStepQuery } from '../../queries';
@@ -36,7 +36,7 @@ const PlainLearningpathPage = ({ locale, skipToContentId, match }: Props) => {
   );
 
   if (loading) {
-    return <Spinner />;
+    return <ContentPlaceholder />;
   }
   if (
     !data ||

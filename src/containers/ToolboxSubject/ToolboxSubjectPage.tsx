@@ -8,6 +8,7 @@
 
 import { useContext } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { ContentPlaceholder } from '@ndla/ui';
 import { getUrnIdsFromProps } from '../../routeHelpers';
 import { useGraphQuery } from '../../util/runQueries';
 import { subjectPageQuery } from '../../queries';
@@ -39,7 +40,7 @@ const ToolboxSubjectPage = ({ match, locale }: Props) => {
   });
 
   if (loading) {
-    return null;
+    return <ContentPlaceholder />;
   }
 
   if (!data?.subject) {

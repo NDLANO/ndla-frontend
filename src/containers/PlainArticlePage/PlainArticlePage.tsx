@@ -8,6 +8,7 @@
 
 import { useContext } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
+import { ContentPlaceholder } from '@ndla/ui';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { useGraphQuery } from '../../util/runQueries';
@@ -38,7 +39,7 @@ const PlainArticlePage = ({ locale, match, skipToContentId }: Props) => {
   );
 
   if (loading) {
-    return null;
+    return <ContentPlaceholder />;
   }
 
   if (error) {

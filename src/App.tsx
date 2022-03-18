@@ -68,17 +68,17 @@ const NDLARoute = ({
       render={(props: RouteComponentProps) => {
         return (
           <Page background={background} ndlaFilm={ndlaFilm} location={location}>
+            {!hideMasthead && (
+              <Masthead
+                skipToMainContentId={SKIP_TO_CONTENT_ID}
+                locale={locale}
+                ndlaFilm={ndlaFilm}
+                hideBreadcrumb={hideBreadcrumb}
+                initialSelectMenu={initialSelectMenu}
+                {...props}
+              />
+            )}
             <Content>
-              {!hideMasthead && (
-                <Masthead
-                  skipToMainContentId={SKIP_TO_CONTENT_ID}
-                  locale={locale}
-                  ndlaFilm={ndlaFilm}
-                  hideBreadcrumb={hideBreadcrumb}
-                  initialSelectMenu={initialSelectMenu}
-                  {...props}
-                />
-              )}
               <Component
                 {...props}
                 locale={locale}

@@ -8,7 +8,7 @@
 
 import { gql } from '@apollo/client';
 import { HelmetWithTracker } from '@ndla/tracker';
-import { OneColumn, ErrorMessage } from '@ndla/ui';
+import { OneColumn, ErrorMessage, ContentPlaceholder } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
 
 import { SubjectLinkList } from '../../components';
@@ -29,7 +29,7 @@ const AllSubjectsPage = () => {
   const { error, loading, data } = useGraphQuery<GQLAllSubjectsQuery>(
     allSubjectsPageQuery,
   );
-  if (loading) return null;
+  if (loading) return <ContentPlaceholder />;
   return (
     <div className="c-resources u-padding-top-large">
       <HelmetWithTracker title={t('htmlTitles.subjectsPage')} />
