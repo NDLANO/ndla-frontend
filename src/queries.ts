@@ -1198,68 +1198,6 @@ export const mastHeadQuery = gql`
   ${resourceInfoFragment}
 `;
 
-export const resourcePageQuery = gql`
-  query resourcePage(
-    $topicId: String!
-    $subjectId: String!
-    $resourceId: String!
-  ) {
-    subject(id: $subjectId) {
-      id
-      name
-      path
-      topics(all: true) {
-        id
-        name
-        parent
-        path
-        relevanceId
-        meta {
-          ...MetaInfo
-        }
-      }
-    }
-    resourceTypes {
-      id
-      name
-      subtypes {
-        id
-        name
-      }
-    }
-    topic(id: $topicId, subjectId: $subjectId) {
-      id
-      name
-      path
-      relevanceId
-      supportedLanguages
-      coreResources(subjectId: $subjectId) {
-        ...ResourceInfo
-      }
-      supplementaryResources(subjectId: $subjectId) {
-        ...ResourceInfo
-      }
-      metadata {
-        customFields
-      }
-    }
-    resource(id: $resourceId, subjectId: $subjectId, topicId: $topicId) {
-      ...ResourceInfo
-      article(subjectId: $subjectId) {
-        ...ArticleInfo
-      }
-      learningpath {
-        ...LearningpathInfo
-      }
-    }
-  }
-  ${metaInfoFragment}
-  ${learningpathInfoFragment}
-  ${resourceInfoFragment}
-  ${articleInfoFragment}
-  ${resourceInfoFragment}
-`;
-
 export const alertsQuery = gql`
   query alerts {
     alerts {

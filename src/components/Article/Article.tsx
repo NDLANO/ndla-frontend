@@ -19,9 +19,15 @@ import { Remarkable } from 'remarkable';
 import { Article as UIArticle, ContentTypeBadge } from '@ndla/ui';
 import LicenseBox from '../license/LicenseBox';
 import CompetenceGoals from '../CompetenceGoals';
-import { GQLArticle_ArticleFragment } from '../../graphqlTypes';
+import {
+  GQLArticleConceptsQuery,
+  GQLArticleConceptsQueryVariables,
+  GQLArticle_ArticleFragment,
+  GQLArticle_ConceptFragment,
+} from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
 import { MastheadHeightPx } from '../../constants';
+import { useGraphQuery } from '../../util/runQueries';
 import config from '../../config';
 
 function renderCompetenceGoals(
@@ -77,9 +83,12 @@ interface Props {
   subjectId?: string;
 }
 
-const renderNotions = (article: GQLArticle_ArticleFragment) => {
+const renderNotions = (
+  concepts: GQLArticle_ConceptFragment[],
+  relatedContent: GQLArticle_ArticleFragment['relatedContent'],
+) => {
   const notions =
-    article.concepts?.map(concept => {
+    concepts?.map(concept => {
       return {
         ...concept,
         labels: concept.subjectNames ?? [],
@@ -91,7 +100,7 @@ const renderNotions = (article: GQLArticle_ArticleFragment) => {
       };
     }) ?? [];
   const related =
-    article.relatedContent?.map(rc => ({
+    relatedContent?.map(rc => ({
       ...rc,
       label: rc.title,
     })) ?? [];
@@ -106,6 +115,66 @@ const renderNotions = (article: GQLArticle_ArticleFragment) => {
   }
   return undefined;
 };
+
+const articleConceptFragment = gql`
+  fragment Article_Concept on Concept {
+    copyright {
+      license {
+        license
+      }
+      creators {
+        name
+        type
+      }
+    }
+    subjectNames
+    id
+    title
+    content
+    image {
+      src
+      altText
+    }
+    visualElement {
+      resource
+      title
+      url
+      copyright {
+        license {
+          license
+        }
+        creators {
+          name
+          type
+        }
+        processors {
+          name
+          type
+        }
+        rightsholders {
+          name
+          type
+        }
+        origin
+      }
+      image {
+        src
+        alt
+      }
+    }
+  }
+`;
+
+const articleConceptQuery = gql`
+  query articleConcepts($conceptIds: [Int!]!) {
+    conceptSearch(ids: $conceptIds) {
+      concepts {
+        ...Article_Concept
+      }
+    }
+  }
+  ${articleConceptFragment}
+`;
 
 const Article = ({
   article,
@@ -130,6 +199,18 @@ const Article = ({
     return md;
   }, []);
 
+  const { data: concepts } = useGraphQuery<
+    GQLArticleConceptsQuery,
+    GQLArticleConceptsQueryVariables
+  >(articleConceptQuery, {
+    variables: {
+      conceptIds: article.conceptIds!,
+    },
+    skip:
+      typeof window === 'undefined' || // only fetch on client. ssr: false does not work.
+      !article.conceptIds ||
+      article.conceptIds.length === 0,
+  });
   const location = useLocation();
 
   // Scroll to element with ID passed in as a query-parameter.
@@ -198,7 +279,10 @@ const Article = ({
         subjectId,
       )}
       competenceGoalTypes={competenceGoalTypes}
-      notions={renderNotions(article)}
+      notions={renderNotions(
+        concepts?.conceptSearch?.concepts ?? [],
+        article.relatedContent,
+      )}
       renderMarkdown={renderMarkdown}
       modifier={isResourceArticle ? resourceType : modifier ?? 'clean'}
       copyPageUrlLink={copyPageUrlLink}
@@ -218,6 +302,7 @@ Article.fragments = {
       grepCodes
       oldNdlaUrl
       introduction
+      conceptIds
       metaData {
         footnotes {
           ref
@@ -232,25 +317,6 @@ Article.fragments = {
       relatedContent {
         title
         url
-      }
-      concepts {
-        copyright {
-          license {
-            license
-          }
-          creators {
-            name
-            type
-          }
-        }
-        image {
-          src
-          altText
-        }
-        subjectNames
-        id
-        title
-        content
       }
       competenceGoals {
         type

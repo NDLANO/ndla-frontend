@@ -26,17 +26,17 @@ import {
   GQLLearningpathPage_ResourceTypeDefinitionFragment,
   GQLLearningpathPage_SubjectFragment,
   GQLLearningpathPage_TopicFragment,
+  GQLLearningpathPage_TopicPathFragment,
   GQLLearningpathStep,
   GQLSubject,
 } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
 import { FeideUserWithGroups } from '../../util/feideApi';
-import { TopicPaths } from '../ResourcePage/ResourcePage';
 
 interface PropData {
   relevance: string;
   topic?: GQLLearningpathPage_TopicFragment;
-  topicPath: TopicPaths;
+  topicPath: GQLLearningpathPage_TopicPathFragment[];
   subject?: GQLLearningpathPage_SubjectFragment;
   resourceTypes?: GQLLearningpathPage_ResourceTypeDefinitionFragment[];
   resource?: GQLLearningpathPage_ResourceFragment;
@@ -265,6 +265,12 @@ export const learningpathPageFragments = {
     ${Learningpath.fragments.learningpathStep}
     ${Learningpath.fragments.learningpath}
     ${Learningpath.fragments.resource}
+  `,
+  topicPath: gql`
+    fragment LearningpathPage_TopicPath on Topic {
+      ...Learningpath_TopicPath
+    }
+    ${Learningpath.fragments.topicPath}
   `,
 };
 
