@@ -5,7 +5,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   margin-top: 26px;
   padding-top: 26px;
   padding-bottom: 6.5px;
-  border-top: 2px solid #eff0f2;
+  border-top: 1px solid #e8e3e3;
   font-size: 14px;
   font-size: 0.7777777777777778rem;
   line-height: 18px;
