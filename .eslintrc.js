@@ -7,8 +7,7 @@ module.exports = {
     },
     {
       files: ['*.graphql'],
-      parser: '@graphql-eslint/eslint-plugin',
-      plugins: ['@graphql-eslint'],
+      extends: ['plugin:@graphql-eslint/schema-recommended'],
       rules: {
         '@graphql-eslint/known-type-names': 'error',
       },
