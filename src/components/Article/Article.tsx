@@ -100,7 +100,7 @@ const renderNotions = (
       const { creators: authors, license } = copyright!;
       return {
         ...concept,
-        id: concept.id.toString(),
+        id: concept.id,
         title: concept.title,
         text,
         locale,

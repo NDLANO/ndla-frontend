@@ -7,7 +7,7 @@
  */
 
 import { useEffect } from 'react';
-import { ArticleTitle, OneColumn } from '@ndla/ui';
+import { ArticleTitle, getMastheadHeight, OneColumn } from '@ndla/ui';
 import { Redirect, withRouter } from 'react-router-dom';
 import { RouteComponentProps, useLocation } from 'react-router';
 import { HelmetWithTracker } from '@ndla/tracker';
@@ -19,7 +19,10 @@ import Podcast from './Podcast';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { LocaleType } from '.../../../interfaces';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
-import { PODCAST_SERIES_LIST_PAGE_PATH } from '../../constants';
+import {
+  MastheadHeightPx,
+  PODCAST_SERIES_LIST_PAGE_PATH,
+} from '../../constants';
 import config from '../../config';
 import { GQLPodcastSeriesPageQuery } from '../../graphqlTypes';
 
@@ -79,7 +82,9 @@ const PodcastSeriesPage = ({
         const element = document.getElementById(location.hash.slice(1));
         const elementTop = element?.getBoundingClientRect().top ?? 0;
         const bodyTop = document.body.getBoundingClientRect().top ?? 0;
-        const scrollPosition = elementTop - bodyTop;
+        const absoluteTop = elementTop - bodyTop;
+        const scrollPosition =
+          absoluteTop - (getMastheadHeight() || MastheadHeightPx) - 20;
 
         window.scrollTo({
           top: scrollPosition,
