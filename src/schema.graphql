@@ -14,7 +14,9 @@ Export this locally resolved field as a variable to be used in the remainder of 
 https://www.apollographql.com/docs/react/essentials/local-state/#using-client-fields-as-variables
 """
 directive @export(
-  """The variable name to export this field as."""
+  """
+  The variable name to export this field as.
+  """
   as: String!
 ) on FIELD
 
@@ -23,7 +25,9 @@ Specify a custom store key for this result. See
 https://www.apollographql.com/docs/react/advanced/caching/#the-connection-directive
 """
 directive @connection(
-  """Specify the store key."""
+  """
+  Specify the store key.
+  """
   key: String!
 
   """
@@ -876,27 +880,93 @@ type UptimeAlert {
 
 type Query {
   resource(id: String!, subjectId: String, topicId: String): Resource
-  article(id: String!, subjectId: String, isOembed: String, path: String, showVisualElement: String): Article
+  article(
+    id: String!
+    subjectId: String
+    isOembed: String
+    path: String
+    showVisualElement: String
+  ): Article
   subject(id: String!): Subject
   subjectpage(id: Int!): SubjectPage
   filmfrontpage: FilmFrontpage
   learningpath(pathId: String!): Learningpath
-  subjects(metadataFilterKey: String, metadataFilterValue: String, filterVisible: Boolean): [Subject!]
+  subjects(
+    metadataFilterKey: String
+    metadataFilterValue: String
+    filterVisible: Boolean
+  ): [Subject!]
   topic(id: String!, subjectId: String): Topic
   topics(contentUri: String, filterVisible: Boolean): [Topic!]
   frontpage: Frontpage
-  competenceGoals(codes: [String], nodeId: String, language: String): [CompetenceGoal!]
+  competenceGoals(
+    codes: [String]
+    nodeId: String
+    language: String
+  ): [CompetenceGoal!]
   competenceGoal(code: String!, language: String): CompetenceGoal
   coreElements(codes: [String], language: String): [CoreElement!]
   coreElement(code: String!, language: String): CoreElement
-  search(query: String, page: Int, pageSize: Int, contextTypes: String, language: String, ids: [Int!], resourceTypes: String, contextFilters: String, levels: String, sort: String, fallback: String, subjects: String, languageFilter: String, relevance: String, grepCodes: String, aggregatePaths: [String!]): Search
+  search(
+    query: String
+    page: Int
+    pageSize: Int
+    contextTypes: String
+    language: String
+    ids: [Int!]
+    resourceTypes: String
+    contextFilters: String
+    levels: String
+    sort: String
+    fallback: String
+    subjects: String
+    languageFilter: String
+    relevance: String
+    grepCodes: String
+    aggregatePaths: [String!]
+  ): Search
   resourceTypes: [ResourceTypeDefinition!]
-  groupSearch(query: String, subjects: String, levels: String, resourceTypes: String, contextTypes: String, page: Int, pageSize: Int, language: String, fallback: String, grepCodes: String, aggregatePaths: [String!]): [GroupSearch!]
+  groupSearch(
+    query: String
+    subjects: String
+    levels: String
+    resourceTypes: String
+    contextTypes: String
+    page: Int
+    pageSize: Int
+    language: String
+    fallback: String
+    grepCodes: String
+    aggregatePaths: [String!]
+  ): [GroupSearch!]
   listingPage(subjects: String): ListingPage
   concept(id: Int!): Concept
-  conceptSearch(query: String, subjects: String, tags: String, ids: [Int!], page: Int, pageSize: Int, exactMatch: Boolean, language: String, fallback: Boolean): ConceptResult
+  conceptSearch(
+    query: String
+    subjects: String
+    tags: String
+    ids: [Int!]
+    page: Int
+    pageSize: Int
+    exactMatch: Boolean
+    language: String
+    fallback: Boolean
+  ): ConceptResult
   frontpageSearch(query: String): FrontpageSearch
-  searchWithoutPagination(query: String, contextTypes: String, language: String, ids: [Int!], resourceTypes: String, contextFilters: String, levels: String, sort: String, fallback: String, subjects: String, languageFilter: String, relevance: String): SearchWithoutPagination
+  searchWithoutPagination(
+    query: String
+    contextTypes: String
+    language: String
+    ids: [Int!]
+    resourceTypes: String
+    contextFilters: String
+    levels: String
+    sort: String
+    fallback: String
+    subjects: String
+    languageFilter: String
+    relevance: String
+  ): SearchWithoutPagination
   podcast(id: Int!): AudioWithSeries
   podcastSearch(page: Int!, pageSize: Int!): AudioSearch
   podcastSeries(id: Int!): PodcastSeriesWithEpisodes
