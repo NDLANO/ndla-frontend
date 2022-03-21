@@ -12,12 +12,7 @@ const resourceId = 'urn:resource:1:124037';
 
 describe('Iframe resource page', () => {
   beforeEach(() => {
-    cy.apiIntercept(
-      'POST',
-      '**/graphql',
-      ['iframeResourceGraphQL', 'competenceGoalsGraphQL'],
-      ['iframeArticle', 'competenceGoals'],
-    );
+    cy.apiIntercept('POST', '**/graphql', 'iframeResourceGraphQL');
   });
 
   it('contains content', () => {
@@ -25,7 +20,7 @@ describe('Iframe resource page', () => {
       `/article-iframe/nb/${resourceId}/3?disableSSR=true`,
       visitOptions,
     );
-    cy.apiwait(['@iframeResourceGraphQL', '@competenceGoalsGraphQL']);
+    cy.apiwait(['@iframeResourceGraphQL']);
     cy.get('.c-article').within(() => {
       cy.get('h1').contains('Meninger og kunnskap om samfunnet');
     });
