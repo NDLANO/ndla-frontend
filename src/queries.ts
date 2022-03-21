@@ -273,7 +273,7 @@ export const groupSearchQuery = gql`
   ${GroupSearchResourceFragment}
 `;
 
-const copyrightInfoFragment = gql`
+export const copyrightInfoFragment = gql`
   ${contributorInfoFragment}
   fragment CopyrightInfo on Copyright {
     license {
