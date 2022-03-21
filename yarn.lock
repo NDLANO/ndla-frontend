@@ -2949,15 +2949,6 @@
     "@ndla/core" "^2.0.0"
     "@ndla/icons" "^1.6.1"
 
-"@ndla/carousel@^1.2.1":
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/@ndla/carousel/-/carousel-1.2.1.tgz#c861d18f06f80bb851d4f9f26f985cd1c112b27e"
-  integrity sha512-Dt9zbcRqoo/ycY08peTjujXQAm/RtplS2Y/jxNiBYtDjbVCohsjQflMjaZG4EKk6/Xqlgrp6xoD/LS6L2J7OPw==
-  dependencies:
-    "@ndla/core" "^1.0.1"
-    "@ndla/icons" "^1.6.1"
-    react-swipeable "^6.2.0"
-
 "@ndla/carousel@^1.2.2":
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/@ndla/carousel/-/carousel-1.2.2.tgz#4cf10f368a47361fe487e508a882f418e71d3d1e"
@@ -3006,14 +2997,6 @@
   resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-1.6.1.tgz#fdb2766d87f49da9f07b461c04de9f2e59c29efe"
   integrity sha512-oIX44dB4vTKVWnwRk7IBX33nqs0/Z1sALgp65B2Mvj1D4dCUFoFih8qo0tck9nz13ysruvPJ5NfUeEA/8Fweog==
 
-"@ndla/licenses@^4.0.0":
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/@ndla/licenses/-/licenses-4.0.0.tgz#e3e1538e7003ed961c10ad6c3e9b2b9c139ff8df"
-  integrity sha512-TP0EiAQ7CGXfkQDBARe+8rvUU4XRIL9mrpp2hHgsZqhijbjDVkLbGNeb3q3nl2+XNs0TpSQ/+Pm4ce3s/NLnEA==
-  dependencies:
-    "@ndla/core" "^1.0.1"
-    "@ndla/icons" "^1.6.1"
-
 "@ndla/licenses@^4.0.1":
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/@ndla/licenses/-/licenses-4.0.1.tgz#ca0f9ccef7b359bb028203c78dab4c7b6dcf6335"
@@ -3021,15 +3004,6 @@
   dependencies:
     "@ndla/core" "^2.0.0"
     "@ndla/icons" "^1.6.1"
-
-"@ndla/modal@^1.2.1":
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/@ndla/modal/-/modal-1.2.1.tgz#16982921beda544c0279d2b4762a2aa492319e48"
-  integrity sha512-pPeykc5IZjCiHN7QCd515CtjBPaCWQhexSWh9Bz2mW4GjZqQdSyw0zVI79JqEe8KB/ED3NG+Z8Z/kKgoMYWmkA==
-  dependencies:
-    "@ndla/core" "^1.0.1"
-    "@ndla/icons" "^1.6.1"
-    "@reach/dialog" "^0.16.2"
 
 "@ndla/modal@^1.2.2":
   version "1.2.2"
@@ -3040,13 +3014,13 @@
     "@ndla/icons" "^1.6.1"
     "@reach/dialog" "^0.16.2"
 
-"@ndla/pager@^1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@ndla/pager/-/pager-1.1.1.tgz#40a19d47eef9d9081edb95d99da76115602a2ede"
-  integrity sha512-nOPZYIpqzszRCNwyuH5lJSVVWh2nCN7bV0Uc9mGz+NtUVMIfGHdNy3HltyXFAkyeugyHTDBFJpiD1USDIe8w3g==
+"@ndla/pager@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@ndla/pager/-/pager-1.1.2.tgz#ad0dc3fc86ae6c56108fd973fc574d4f391ae6ab"
+  integrity sha512-+aNr9k03lV9MQrvd/FldSuCnXLtpPoMyf+k6/T4UeLnG7FfxaA3Iqwi3ELo2RPgv4oq/82CeeFo9/u6Z8UFXOg==
   dependencies:
-    "@ndla/core" "^1.0.1"
-    "@ndla/safelink" "^1.1.1"
+    "@ndla/core" "^2.0.0"
+    "@ndla/safelink" "^1.1.2"
 
 "@ndla/polyfill@^0.1.15":
   version "0.1.15"
@@ -3056,14 +3030,6 @@
     core-js "^3.10.2"
     details-polyfill "^1.1.0"
     react-app-polyfill "^0.2.1"
-
-"@ndla/safelink@^1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@ndla/safelink/-/safelink-1.1.1.tgz#b8feeb6ad4cc410c3daa1be32a8f8837aa579187"
-  integrity sha512-vdSPt8q6hgE5WMu0hUA9oCGhhffI537/GlnVXJxwtsnexZEX/FW2Uy9ACGK6trDXwsHpPe0Lhgj4R65Plbl0kw==
-  dependencies:
-    "@ndla/button" "^2.1.1"
-    "@ndla/icons" "^1.6.1"
 
 "@ndla/safelink@^1.1.2":
   version "1.1.2"
