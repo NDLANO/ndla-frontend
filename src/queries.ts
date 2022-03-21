@@ -1183,3 +1183,12 @@ export const mastHeadQuery = gql`
   ${articleInfoFragment}
   ${resourceInfoFragment}
 `;
+
+export const alertsQuery = gql`
+  query alerts {
+    alerts {
+      title
+      body
+    }
+  }
+`;
