@@ -1190,11 +1190,38 @@ export type GQLArticle_ConceptFragment = {
     license?: Maybe<{ __typename?: 'License'; license: string }>;
     creators: Array<{ __typename?: 'Contributor'; name: string; type: string }>;
   }>;
-  visualElement?: Maybe<
-    {
-      __typename?: 'VisualElement';
-    } & GQLVisualElementWrapper_VisualElementFragment
-  >;
+  image?: Maybe<{ __typename?: 'ImageLicense'; src: string; altText: string }>;
+  visualElement?: Maybe<{
+    __typename?: 'VisualElement';
+    resource?: Maybe<string>;
+    title?: Maybe<string>;
+    url?: Maybe<string>;
+    copyright?: Maybe<{
+      __typename?: 'Copyright';
+      origin?: Maybe<string>;
+      license: { __typename?: 'License'; license: string };
+      creators: Array<{
+        __typename?: 'Contributor';
+        name: string;
+        type: string;
+      }>;
+      processors: Array<{
+        __typename?: 'Contributor';
+        name: string;
+        type: string;
+      }>;
+      rightsholders: Array<{
+        __typename?: 'Contributor';
+        name: string;
+        type: string;
+      }>;
+    }>;
+    image?: Maybe<{
+      __typename?: 'ImageElement';
+      src: string;
+      alt?: Maybe<string>;
+    }>;
+  }>;
 };
 
 export type GQLArticleConceptsQueryVariables = Exact<{
@@ -2390,11 +2417,97 @@ export type GQLGroupSearchQuery = {
   >;
 };
 
+export type GQLCopyrightInfoFragment = {
+  __typename?: 'Copyright';
+  origin?: Maybe<string>;
+  license: { __typename?: 'License'; license: string; url?: Maybe<string> };
+  creators: Array<{ __typename?: 'Contributor' } & GQLContributorInfoFragment>;
+  processors: Array<
+    { __typename?: 'Contributor' } & GQLContributorInfoFragment
+  >;
+  rightsholders: Array<
+    { __typename?: 'Contributor' } & GQLContributorInfoFragment
+  >;
+};
+
+export type GQLVisualElementInfoFragment = {
+  __typename?: 'VisualElement';
+  title?: Maybe<string>;
+  resource?: Maybe<string>;
+  url?: Maybe<string>;
+  language?: Maybe<string>;
+  embed?: Maybe<string>;
+  copyright?: Maybe<{ __typename?: 'Copyright' } & GQLCopyrightInfoFragment>;
+  brightcove?: Maybe<{
+    __typename?: 'BrightcoveElement';
+    videoid?: Maybe<string>;
+    player?: Maybe<string>;
+    account?: Maybe<string>;
+    caption?: Maybe<string>;
+    description?: Maybe<string>;
+    cover?: Maybe<string>;
+    src?: Maybe<string>;
+    download?: Maybe<string>;
+    uploadDate?: Maybe<string>;
+    iframe?: Maybe<{
+      __typename?: 'BrightcoveIframe';
+      src: string;
+      height: number;
+      width: number;
+    }>;
+  }>;
+  h5p?: Maybe<{
+    __typename?: 'H5pElement';
+    src?: Maybe<string>;
+    thumbnail?: Maybe<string>;
+  }>;
+  oembed?: Maybe<{
+    __typename?: 'VisualElementOembed';
+    title?: Maybe<string>;
+    html?: Maybe<string>;
+    fullscreen?: Maybe<boolean>;
+  }>;
+  image?: Maybe<{
+    __typename?: 'ImageElement';
+    resourceid?: Maybe<string>;
+    alt?: Maybe<string>;
+    caption?: Maybe<string>;
+    lowerRightX?: Maybe<number>;
+    lowerRightY?: Maybe<number>;
+    upperLeftX?: Maybe<number>;
+    upperLeftY?: Maybe<number>;
+    focalX?: Maybe<number>;
+    focalY?: Maybe<number>;
+    src: string;
+    altText: string;
+    contentType?: Maybe<string>;
+    copyText?: Maybe<string>;
+  }>;
+};
+
 export type GQLConceptSearchConceptFragment = {
   __typename?: 'Concept';
   id: number;
   title: string;
+  subjectNames?: Maybe<Array<string>>;
   text: string;
+  visualElement?: Maybe<
+    { __typename?: 'VisualElement' } & GQLVisualElementInfoFragment
+  >;
+  copyright?: Maybe<{
+    __typename?: 'ConceptCopyright';
+    origin?: Maybe<string>;
+    license?: Maybe<{ __typename?: 'License'; license: string }>;
+    creators: Array<
+      { __typename?: 'Contributor' } & GQLContributorInfoFragment
+    >;
+    processors: Array<
+      { __typename?: 'Contributor' } & GQLContributorInfoFragment
+    >;
+    rightsholders: Array<
+      { __typename?: 'Contributor' } & GQLContributorInfoFragment
+    >;
+  }>;
   image: { __typename?: 'MetaImage'; url: string; alt: string };
 };
 
@@ -2496,19 +2609,6 @@ export type GQLConceptCopyrightInfoFragment = {
   >;
 };
 
-export type GQLCopyrightInfoFragment = {
-  __typename?: 'Copyright';
-  origin?: Maybe<string>;
-  license: { __typename?: 'License'; license: string; url?: Maybe<string> };
-  creators: Array<{ __typename?: 'Contributor' } & GQLContributorInfoFragment>;
-  processors: Array<
-    { __typename?: 'Contributor' } & GQLContributorInfoFragment
-  >;
-  rightsholders: Array<
-    { __typename?: 'Contributor' } & GQLContributorInfoFragment
-  >;
-};
-
 export type GQLMetaInfoFragment = {
   __typename?: 'Meta';
   id: number;
@@ -2552,61 +2652,6 @@ export type GQLResourceInfoFragment = {
   resourceTypes?: Maybe<
     Array<{ __typename?: 'ResourceType'; id: string; name: string }>
   >;
-};
-
-export type GQLVisualElementInfoFragment = {
-  __typename?: 'VisualElement';
-  title?: Maybe<string>;
-  resource?: Maybe<string>;
-  url?: Maybe<string>;
-  language?: Maybe<string>;
-  embed?: Maybe<string>;
-  copyright?: Maybe<{ __typename?: 'Copyright' } & GQLCopyrightInfoFragment>;
-  brightcove?: Maybe<{
-    __typename?: 'BrightcoveElement';
-    videoid?: Maybe<string>;
-    player?: Maybe<string>;
-    account?: Maybe<string>;
-    caption?: Maybe<string>;
-    description?: Maybe<string>;
-    cover?: Maybe<string>;
-    src?: Maybe<string>;
-    download?: Maybe<string>;
-    uploadDate?: Maybe<string>;
-    iframe?: Maybe<{
-      __typename?: 'BrightcoveIframe';
-      src: string;
-      height: number;
-      width: number;
-    }>;
-  }>;
-  h5p?: Maybe<{
-    __typename?: 'H5pElement';
-    src?: Maybe<string>;
-    thumbnail?: Maybe<string>;
-  }>;
-  oembed?: Maybe<{
-    __typename?: 'VisualElementOembed';
-    title?: Maybe<string>;
-    html?: Maybe<string>;
-    fullscreen?: Maybe<boolean>;
-  }>;
-  image?: Maybe<{
-    __typename?: 'ImageElement';
-    resourceid?: Maybe<string>;
-    alt?: Maybe<string>;
-    caption?: Maybe<string>;
-    lowerRightX?: Maybe<number>;
-    lowerRightY?: Maybe<number>;
-    upperLeftX?: Maybe<number>;
-    upperLeftY?: Maybe<number>;
-    focalX?: Maybe<number>;
-    focalY?: Maybe<number>;
-    src: string;
-    altText: string;
-    contentType?: Maybe<string>;
-    copyText?: Maybe<string>;
-  }>;
 };
 
 export type GQLArticleInfoFragment = {
@@ -2752,6 +2797,11 @@ export type GQLArticleInfoFragment = {
       copyright?: Maybe<
         { __typename?: 'ConceptCopyright' } & GQLConceptCopyrightInfoFragment
       >;
+      image?: Maybe<{
+        __typename?: 'ImageLicense';
+        src: string;
+        altText: string;
+      }>;
       visualElement?: Maybe<
         { __typename?: 'VisualElement' } & GQLVisualElementInfoFragment
       >;

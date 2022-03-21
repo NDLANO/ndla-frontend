@@ -9,12 +9,11 @@
 import { gql } from '@apollo/client';
 import {
   ComponentType,
-  ReactElement,
   ReactNode,
+  ReactElement,
   useEffect,
   useMemo,
 } from 'react';
-import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router';
 import { Remarkable } from 'remarkable';
 import {
@@ -32,7 +31,6 @@ import {
   GQLArticle_ConceptFragment,
 } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
-import VisualElementWrapper from '../VisualElement/VisualElementWrapper';
 import { MastheadHeightPx } from '../../constants';
 import { useGraphQuery } from '../../util/runQueries';
 
@@ -87,29 +85,23 @@ interface Props {
   copyPageUrlLink?: string;
   printUrl?: string;
   subjectId?: string;
+  isPlainArticle?: boolean;
 }
 
 const renderNotions = (
   concepts: GQLArticle_ConceptFragment[],
   relatedContent: GQLArticle_ArticleFragment['relatedContent'],
-  locale: LocaleType,
 ) => {
   const notions =
     concepts?.map(concept => {
-      const { content: text, copyright, subjectNames, visualElement } = concept;
-      const { creators: authors, license } = copyright!;
       return {
         ...concept,
-        id: concept.id,
-        title: concept.title,
-        text,
-        locale,
-        labels: subjectNames,
-        authors,
-        license: license?.license,
-        media: visualElement && (
-          <VisualElementWrapper visualElement={visualElement} locale={locale} />
-        ),
+        labels: concept.subjectNames ?? [],
+        text: concept.content ?? '',
+        image: concept.image && {
+          src: concept.image.src,
+          alt: concept.image.altText,
+        },
       };
     }) ?? [];
   const related =
@@ -144,11 +136,38 @@ const articleConceptFragment = gql`
     id
     title
     content
+    image {
+      src
+      altText
+    }
     visualElement {
-      ...VisualElementWrapper_VisualElement
+      resource
+      title
+      url
+      copyright {
+        license {
+          license
+        }
+        creators {
+          name
+          type
+        }
+        processors {
+          name
+          type
+        }
+        rightsholders {
+          name
+          type
+        }
+        origin
+      }
+      image {
+        src
+        alt
+      }
     }
   }
-  ${VisualElementWrapper.fragments.visualElement}
 `;
 
 const articleConceptQuery = gql`
@@ -176,9 +195,9 @@ const Article = ({
   printUrl,
   id,
   subjectId,
+  isPlainArticle,
   ...rest
 }: Props) => {
-  const { i18n } = useTranslation();
   const markdown = useMemo(() => {
     const md = new Remarkable({ breaks: true });
     md.inline.ruler.enable(['sub', 'sup']);
@@ -196,7 +215,8 @@ const Article = ({
     skip:
       typeof window === 'undefined' || // only fetch on client. ssr: false does not work.
       !article.conceptIds ||
-      article.conceptIds.length === 0,
+      article.conceptIds.length === 0 ||
+      isPlainArticle,
   });
   const location = useLocation();
 
@@ -267,11 +287,14 @@ const Article = ({
         subjectId,
       )}
       competenceGoalTypes={competenceGoalTypes}
-      notions={renderNotions(
-        concepts?.conceptSearch?.concepts ?? [],
-        article.relatedContent,
-        i18n.language as LocaleType,
-      )}
+      notions={
+        isPlainArticle
+          ? undefined
+          : renderNotions(
+              concepts?.conceptSearch?.concepts ?? [],
+              article.relatedContent,
+            )
+      }
       renderMarkdown={renderMarkdown}
       modifier={isResourceArticle ? resourceType : modifier ?? 'clean'}
       copyPageUrlLink={copyPageUrlLink}
