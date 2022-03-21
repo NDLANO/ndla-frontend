@@ -375,7 +375,7 @@ const conceptCopyrightInfoFragment = gql`
   }
 `;
 
-const copyrightInfoFragment = gql`
+export const copyrightInfoFragment = gql`
   ${contributorInfoFragment}
   fragment CopyrightInfo on Copyright {
     license {
@@ -884,15 +884,6 @@ export const movedResourceQuery = gql`
   }
 `;
 
-export const plainArticleQuery = gql`
-  query plainArticle($articleId: String!, $isOembed: String, $path: String) {
-    article(id: $articleId, isOembed: $isOembed, path: $path) {
-      ...ArticleInfo
-    }
-  }
-  ${articleInfoFragment}
-`;
-
 export const iframeResourceFragment = gql`
   fragment IframeResource on Resource {
     id
@@ -1038,15 +1029,6 @@ export const topicQuery = gql`
     }
   }
   ${topicQueryTopicFragment}
-`;
-
-export const learningPathStepQuery = gql`
-  query learningPathStep($pathId: String!) {
-    learningpath(pathId: $pathId) {
-      ...LearningpathInfo
-    }
-  }
-  ${learningpathInfoFragment}
 `;
 
 export const competenceGoalsQuery = gql`

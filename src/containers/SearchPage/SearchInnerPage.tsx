@@ -252,8 +252,8 @@ const SearchInnerPage = ({
       const activeFilters = getActiveFilters(type);
       fetchMore({
         variables: {
-          page: page.toString(),
-          pageSize: pageSize.toString(),
+          page: page,
+          pageSize: pageSize,
           ...getTypeParams(
             activeFilters.length ? activeFilters : [type],
             resourceTypes,

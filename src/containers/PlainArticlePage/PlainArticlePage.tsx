@@ -6,6 +6,7 @@
  *
  */
 
+import { gql } from '@apollo/client';
 import { useContext } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { ContentPlaceholder } from '@ndla/ui';
@@ -14,15 +15,32 @@ import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { useGraphQuery } from '../../util/runQueries';
 import { isAccessDeniedError } from '../../util/handleError';
 import AccessDeniedPage from '../AccessDeniedPage/AccessDeniedPage';
-import PlainArticleContainer from './PlainArticleContainer';
-import { plainArticleQuery } from '../../queries';
-import { GQLPlainArticleQuery } from '../../graphqlTypes';
+import PlainArticleContainer, {
+  plainArticleContainerFragments,
+} from './PlainArticleContainer';
+import {
+  GQLPlainArticlePageQuery,
+  GQLPlainArticlePageQueryVariables,
+} from '../../graphqlTypes';
 import { RootComponentProps } from '../../routes';
 import { AuthContext } from '../../components/AuthenticationContext';
 
 interface MatchParams {
   articleId: string;
 }
+
+const plainArticlePageQuery = gql`
+  query plainArticlePage(
+    $articleId: String!
+    $isOembed: String
+    $path: String
+  ) {
+    article(id: $articleId, isOembed: $isOembed, path: $path) {
+      ...PlainArticleContainer_Article
+    }
+  }
+  ${plainArticleContainerFragments.article}
+`;
 
 interface Props extends RootComponentProps, RouteComponentProps<MatchParams> {}
 const PlainArticlePage = ({ locale, match, skipToContentId }: Props) => {
@@ -31,12 +49,12 @@ const PlainArticlePage = ({ locale, match, skipToContentId }: Props) => {
     url,
     params: { articleId },
   } = match;
-  const { loading, data, error } = useGraphQuery<GQLPlainArticleQuery>(
-    plainArticleQuery,
-    {
-      variables: { articleId, isOembed: 'false', path: url },
-    },
-  );
+  const { loading, data, error } = useGraphQuery<
+    GQLPlainArticlePageQuery,
+    GQLPlainArticlePageQueryVariables
+  >(plainArticlePageQuery, {
+    variables: { articleId, isOembed: 'false', path: url },
+  });
 
   if (loading) {
     return <ContentPlaceholder />;

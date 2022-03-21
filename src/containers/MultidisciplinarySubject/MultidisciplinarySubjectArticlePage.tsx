@@ -80,7 +80,6 @@ const MultidisciplinarySubjectArticlePage = ({
       <SocialMediaMetadata
         title={socialMediaMetaData.title}
         description={socialMediaMetaData.description}
-        locale={locale}
         imageUrl={socialMediaMetaData.image?.url}
         trackableContent={{
           supportedLanguages: topic.article?.supportedLanguages,

@@ -1738,6 +1738,124 @@ export type GQLMovedResourcePage_ResourceFragment = {
   >;
 };
 
+export type GQLPlainArticleContainer_ArticleFragment = {
+  __typename?: 'Article';
+  created: string;
+} & GQLArticle_ArticleFragment &
+  GQLStructuredArticleDataFragment;
+
+export type GQLPlainArticlePageQueryVariables = Exact<{
+  articleId: Scalars['String'];
+  isOembed?: Maybe<Scalars['String']>;
+  path?: Maybe<Scalars['String']>;
+}>;
+
+export type GQLPlainArticlePageQuery = {
+  __typename?: 'Query';
+  article?: Maybe<
+    { __typename?: 'Article' } & GQLPlainArticleContainer_ArticleFragment
+  >;
+};
+
+export type GQLPlainLearningpathContainer_LearningpathFragment = {
+  __typename?: 'Learningpath';
+  supportedLanguages: Array<string>;
+  tags: Array<string>;
+  description: string;
+  coverphoto?: Maybe<{ __typename?: 'LearningpathCoverphoto'; url: string }>;
+  learningsteps: Array<
+    {
+      __typename?: 'LearningpathStep';
+    } & GQLLearningpath_LearningpathStepFragment
+  >;
+} & GQLLearningpath_LearningpathFragment;
+
+export type GQLPlainLearningpathPageQueryVariables = Exact<{
+  pathId: Scalars['String'];
+}>;
+
+export type GQLPlainLearningpathPageQuery = {
+  __typename?: 'Query';
+  learningpath?: Maybe<
+    {
+      __typename?: 'Learningpath';
+    } & GQLPlainLearningpathContainer_LearningpathFragment
+  >;
+};
+
+export type GQLPodcast_AudioFragment = {
+  __typename?: 'Audio';
+  id: number;
+  created: string;
+  audioType: string;
+  title: { __typename?: 'Title'; title: string };
+  audioFile: { __typename?: 'AudioFile'; url: string };
+  copyright: { __typename?: 'Copyright' } & GQLCopyrightInfoFragment;
+  manuscript?: Maybe<{ __typename?: 'Manuscript'; manuscript: string }>;
+  podcastMeta?: Maybe<{
+    __typename?: 'PodcastMeta';
+    introduction: string;
+    image?: Maybe<{
+      __typename?: 'ImageMetaInformation';
+      id: string;
+      imageUrl: string;
+      title: string;
+      altText: string;
+      copyright: { __typename?: 'Copyright' } & GQLCopyrightInfoFragment;
+    }>;
+  }>;
+};
+
+export type GQLPodcastSeries_PodcastSeriesSummaryFragment = {
+  __typename?: 'PodcastSeriesSummary';
+  id: number;
+  title: { __typename?: 'Title'; title: string };
+  description: { __typename?: 'Description'; description: string };
+  coverPhoto: { __typename?: 'CoverPhoto'; url: string; altText: string };
+};
+
+export type GQLPodcastSeriesListPageQueryVariables = Exact<{
+  page: Scalars['Int'];
+  pageSize: Scalars['Int'];
+}>;
+
+export type GQLPodcastSeriesListPageQuery = {
+  __typename?: 'Query';
+  podcastSeriesSearch?: Maybe<{
+    __typename?: 'PodcastSeriesSearch';
+    totalCount: number;
+    results: Array<
+      {
+        __typename?: 'PodcastSeriesSummary';
+      } & GQLPodcastSeries_PodcastSeriesSummaryFragment
+    >;
+  }>;
+};
+
+export type GQLPodcastSeriesPageQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+export type GQLPodcastSeriesPageQuery = {
+  __typename?: 'Query';
+  podcastSeries?: Maybe<{
+    __typename?: 'PodcastSeriesWithEpisodes';
+    id: number;
+    supportedLanguages: Array<string>;
+    title: { __typename?: 'Title'; title: string };
+    description: { __typename?: 'Description'; description: string };
+    coverPhoto: { __typename?: 'CoverPhoto'; url: string };
+    episodes?: Maybe<
+      Array<
+        {
+          __typename?: 'Audio';
+          tags: { __typename?: 'Tags'; tags: Array<string> };
+        } & GQLPodcast_AudioFragment
+      >
+    >;
+  }>;
+};
+
 export type GQLResourcePageQueryVariables = Exact<{
   topicId: Scalars['String'];
   subjectId: Scalars['String'];
@@ -2921,17 +3039,6 @@ export type GQLMovedResourceQuery = {
   }>;
 };
 
-export type GQLPlainArticleQueryVariables = Exact<{
-  articleId: Scalars['String'];
-  isOembed?: Maybe<Scalars['String']>;
-  path?: Maybe<Scalars['String']>;
-}>;
-
-export type GQLPlainArticleQuery = {
-  __typename?: 'Query';
-  article?: Maybe<{ __typename?: 'Article' } & GQLArticleInfoFragment>;
-};
-
 export type GQLIframeResourceFragment = {
   __typename?: 'Resource';
   id: string;
@@ -3061,17 +3168,6 @@ export type GQLTopicQuery = {
   topic?: Maybe<{ __typename?: 'Topic' } & GQLTopicQueryTopicFragment>;
   resourceTypes?: Maybe<
     Array<{ __typename?: 'ResourceTypeDefinition'; id: string; name: string }>
-  >;
-};
-
-export type GQLLearningPathStepQueryVariables = Exact<{
-  pathId: Scalars['String'];
-}>;
-
-export type GQLLearningPathStepQuery = {
-  __typename?: 'Query';
-  learningpath?: Maybe<
-    { __typename?: 'Learningpath' } & GQLLearningpathInfoFragment
   >;
 };
 
