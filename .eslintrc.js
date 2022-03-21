@@ -17,5 +17,4 @@ module.exports = {
     },
   ],
   plugins: ['@graphql-eslint'],
-  ignorePatterns: ['./src/schema.graphql'],
 };
