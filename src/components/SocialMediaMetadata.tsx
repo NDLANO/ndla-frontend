@@ -13,7 +13,6 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 import config from '../config';
 import { preferredLocales, isValidLocale } from '../i18n';
 import { useBaseName } from './BaseNameContext';
-import { LocaleType } from '../interfaces';
 
 export const getCanonicalUrl = (location: Location) => {
   if (!location.pathname.includes('article-iframe')) {
@@ -66,7 +65,6 @@ interface TrackableContent {
 interface Props extends RouteComponentProps {
   title: string;
   description?: string;
-  locale: LocaleType;
   imageUrl?: string;
   trackableContent?: TrackableContent;
   children?: ReactNode;

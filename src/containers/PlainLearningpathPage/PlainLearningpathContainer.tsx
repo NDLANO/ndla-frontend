@@ -85,7 +85,6 @@ const PlainLearningpathContainer = ({
         title={htmlTitle(learningpath.title, [t('htmlTitles.titleTemplate')])}
         trackableContent={learningpath}
         description={learningpath.description}
-        locale={locale}
         imageUrl={learningpath.coverphoto?.url}
       />
       <Learningpath

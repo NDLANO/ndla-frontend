@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-     /* Full property definition at https://aka.ms/tsconfig.json */
+    /* Full property definition at https://aka.ms/tsconfig.json */
     "target": "es5",
     "module": "commonjs",
     "lib": ["es2019", "esnext.asynciterable", "dom"],

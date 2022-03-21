@@ -75,7 +75,6 @@ const PlainArticleContainer = ({
       <SocialMediaMetadata
         title={article.title}
         description={article.metaDescription}
-        locale={locale}
         imageUrl={article.metaImage?.url}
         trackableContent={article}
       />
