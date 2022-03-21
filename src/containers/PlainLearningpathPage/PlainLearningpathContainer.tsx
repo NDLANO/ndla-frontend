@@ -6,13 +6,14 @@
  *
  */
 
+import { gql } from '@apollo/client';
 import { withTracker } from '@ndla/tracker';
 import { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { CustomWithTranslation, withTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
-import { GQLLearningpathInfoFragment } from '../../graphqlTypes';
+import { GQLPlainLearningpathContainer_LearningpathFragment } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
 import { toLearningPath } from '../../routeHelpers';
 import { htmlTitle } from '../../util/titleHelper';
@@ -28,7 +29,7 @@ const getDocumentTitle = ({
   htmlTitle(learningpath.title, [t('htmlTitles.titleTemplate')]);
 
 interface Props extends CustomWithTranslation {
-  learningpath: GQLLearningpathInfoFragment;
+  learningpath: GQLPlainLearningpathContainer_LearningpathFragment;
   locale: LocaleType;
   stepId: string | undefined;
   skipToContentId?: string;
@@ -121,5 +122,24 @@ PlainLearningpathContainer.getDimensions = (props: Props) => {
 };
 
 PlainLearningpathContainer.getDocumentTitle = getDocumentTitle;
+
+export const plainLearningpathContainerFragments = {
+  learningpath: gql`
+    fragment PlainLearningpathContainer_Learningpath on Learningpath {
+      supportedLanguages
+      tags
+      description
+      coverphoto {
+        url
+      }
+      learningsteps {
+        ...Learningpath_LearningpathStep
+      }
+      ...Learningpath_Learningpath
+    }
+    ${Learningpath.fragments.learningpath}
+    ${Learningpath.fragments.learningpathStep}
+  `,
+};
 
 export default withTranslation()(withTracker(PlainLearningpathContainer));
