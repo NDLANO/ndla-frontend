@@ -1139,6 +1139,10 @@ export const mastHeadQuery = gql`
     $skipTopic: Boolean!
     $skipResource: Boolean!
   ) {
+    alerts {
+      title
+      body
+    }
     subject(id: $subjectId) {
       id
       name
@@ -1178,13 +1182,4 @@ export const mastHeadQuery = gql`
   ${learningpathInfoFragment}
   ${articleInfoFragment}
   ${resourceInfoFragment}
-`;
-
-export const alertsQuery = gql`
-  query alerts {
-    alerts {
-      title
-      body
-    }
-  }
 `;

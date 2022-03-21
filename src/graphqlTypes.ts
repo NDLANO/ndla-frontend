@@ -3314,6 +3314,11 @@ export type GQLMastHeadQueryVariables = Exact<{
 
 export type GQLMastHeadQuery = {
   __typename?: 'Query';
+  alerts?: Maybe<
+    Array<
+      Maybe<{ __typename?: 'UptimeAlert'; title: string; body?: Maybe<string> }>
+    >
+  >;
   subject?: Maybe<{
     __typename?: 'Subject';
     id: string;
@@ -3343,17 +3348,6 @@ export type GQLMastHeadQuery = {
         { __typename?: 'Learningpath' } & GQLLearningpathInfoFragment
       >;
     } & GQLResourceInfoFragment
-  >;
-};
-
-export type GQLAlertsQueryVariables = Exact<{ [key: string]: never }>;
-
-export type GQLAlertsQuery = {
-  __typename?: 'Query';
-  alerts?: Maybe<
-    Array<
-      Maybe<{ __typename?: 'UptimeAlert'; title: string; body?: Maybe<string> }>
-    >
   >;
 };
 

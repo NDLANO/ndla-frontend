@@ -16,7 +16,7 @@ import {
   BreadcrumbBlock,
 } from '@ndla/ui';
 import { RouteComponentProps } from 'react-router';
-import { useLazyQuery, useQuery } from '@apollo/client';
+import { useLazyQuery } from '@apollo/client';
 
 import { Feide } from '@ndla/icons/common';
 import { useTranslation } from 'react-i18next';
@@ -25,7 +25,7 @@ import { getUrnIdsFromProps, toBreadcrumbItems } from '../../routeHelpers';
 import FeideLoginButton from '../../components/FeideLoginButton';
 import MastheadSearch from './components/MastheadSearch';
 import MastheadMenu from './components/MastheadMenu';
-import { alertsQuery, mastHeadQuery } from '../../queries';
+import { mastHeadQuery } from '../../queries';
 import { getLocaleUrls } from '../../util/localeHelpers';
 import ErrorBoundary from '../ErrorPage/ErrorBoundary';
 import { mapMastheadData } from './mastheadHelpers';
@@ -37,7 +37,6 @@ import { getProgrammeBySlug } from '../../data/programmes';
 import { mapGradesData } from '../ProgrammePage/ProgrammePage';
 import { LocaleType } from '../../interfaces';
 import {
-  GQLAlertsQuery,
   GQLMastHeadQuery,
   GQLMastHeadQueryVariables,
   GQLResourceType,
@@ -75,8 +74,6 @@ const MastheadContainer = ({
   const [topicId, setTopicId] = useState('');
   const [state, setState] = useState<State>({});
   const { t, i18n } = useTranslation();
-
-  const { data: alertData } = useQuery<GQLAlertsQuery>(alertsQuery);
 
   useEffect(() => {
     updateData();
@@ -165,7 +162,7 @@ const MastheadContainer = ({
       />
     );
 
-  const alerts = alertData?.alerts?.map(alert => alert.body || alert.title);
+  const alerts = data?.alerts?.map(alert => alert.body || alert.title);
 
   return (
     <ErrorBoundary>
