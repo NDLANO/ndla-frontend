@@ -8,7 +8,6 @@
 
 import { useContext } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
-import Spinner from '@ndla/ui/lib/Spinner';
 import { Helmet } from 'react-helmet';
 import { useTranslation } from 'react-i18next';
 import { useGraphQuery } from '../../util/runQueries';
@@ -49,7 +48,7 @@ const MultidisciplinarySubjectArticlePage = ({
   });
 
   if (loading) {
-    return <Spinner />;
+    return null;
   }
 
   if (!data?.topic || !data?.subject) {
