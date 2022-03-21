@@ -29,7 +29,7 @@
     "e2e-ci": "cross-env BABEL_ENV=test CYPRESS_USE_FIXTURES=true cypress run --record --parallel",
     "now-build": "npm run build",
     "now-start": "cross-env NODE_ENV=production NOW=true node build/server | bunyan",
-    "get-gql-schema-local": "apollo schema:download --endpoint=http://localhost:4000/graphql-api/graphql src/gqlSchema.json",
+    "get-gql-schema-local": "rm src/schema.graphql -f && apollo client:download-schema --endpoint=http://localhost:4000/graphql-api/graphql src/schema.graphql",    
     "generate-gql-types": "graphql-codegen --config codegen.yml && yarn format",
     "check-translations": "cross-env BABEL_ENV=test NODE_ENV=unittest jest src/messages/__tests__/"
   },

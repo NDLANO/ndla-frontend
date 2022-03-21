@@ -1,9 +1,12 @@
 module.exports = {
   client: {
-    name: 'graphql',
     service: {
-      url: 'http://localhost:4000/graphql-api/graphql',
+      name: 'graphql',
+      localSchemaFile: './src/schema.graphql',
+      includes: ['./src/**/*.{ts,tsx,js,jsx}'],
+      // excludes: ['**/__tests__/**', './src/schema.graphql'],
     },
-    includes: ['./src/**/*.{ts,tsx,js,jsx,graphql}'],
+
+    excludes: ['**/__tests__/**', './src/schema.graphql'],
   },
 };
