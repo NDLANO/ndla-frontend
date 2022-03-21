@@ -196,7 +196,6 @@ const ToolboxSubjectContainer = (props: Props) => {
       <SocialMediaMetadata
         title={socialMediaMetaData.title}
         description={socialMediaMetaData.description}
-        locale={locale}
         imageUrl={socialMediaMetaData.image?.url}
       />
       <OneColumn className={''}>

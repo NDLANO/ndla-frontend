@@ -158,7 +158,6 @@ const MultidisciplinarySubjectPage = ({ match, locale }: Props) => {
       <SocialMediaMetadata
         title={socialMediaMetaData.title}
         description={socialMediaMetaData.description}
-        locale={locale}
         imageUrl={socialMediaMetaData.image?.url}
       />
       <MultidisciplinarySubject

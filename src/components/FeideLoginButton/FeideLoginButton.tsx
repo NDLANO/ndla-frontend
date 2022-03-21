@@ -65,7 +65,7 @@ const FeideLoginButton = ({ footer, children, location }: Props) => {
 
   const collectedInfo: string[] = compact([
     primarySchool?.displayName,
-    affiliationRole ? t('user.role.' + affiliationRole) : undefined,
+    affiliationRole ? (t('user.role.' + affiliationRole) as string) : undefined,
     user?.displayName,
     ...(user?.mail ? user.mail : []),
   ]);

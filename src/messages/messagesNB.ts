@@ -18,6 +18,7 @@ const messages = {
     notFound: `Siden finnes ikke - ${titleTemplate}`,
     accessDenied: `Ingen tilgang - ${titleTemplate}`,
     subject: 'Fag',
+    podcast: `Podkast - Side {{pageNumber}} - ${titleTemplate}`,
     lti: `LTI - ${titleTemplate}`,
     movedResourcePage: `Siden har flyttet - ${titleTemplate}`,
     toolbox: {
@@ -25,6 +26,13 @@ const messages = {
       introduction:
         'Hva vil det si å arbeide utforskende? Hvordan kan du lære bedre? Hva skal til for å få gruppearbeid til å fungere? I Verktøykassa finner både elever og lærere ressurser som er aktuelle for alle fag, og som støtter opp under læringsarbeid og utvikling av kunnskap, ferdigheter og forståelse.',
     },
+  },
+  podcastPage: {
+    episodes: 'Episoder',
+    podcast: 'Podkast',
+    podcasts: 'Podkaster',
+    pageInfo: 'Side {{page}} av {{lastPage}}',
+    noResults: '...Ingen episoder',
   },
   blogPosts: {
     blog1: {
