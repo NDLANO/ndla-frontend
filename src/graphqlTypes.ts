@@ -1738,6 +1738,51 @@ export type GQLMovedResourcePage_ResourceFragment = {
   >;
 };
 
+export type GQLPlainArticleContainer_ArticleFragment = {
+  __typename?: 'Article';
+  created: string;
+} & GQLArticle_ArticleFragment &
+  GQLStructuredArticleDataFragment;
+
+export type GQLPlainArticlePageQueryVariables = Exact<{
+  articleId: Scalars['String'];
+  isOembed?: Maybe<Scalars['String']>;
+  path?: Maybe<Scalars['String']>;
+}>;
+
+export type GQLPlainArticlePageQuery = {
+  __typename?: 'Query';
+  article?: Maybe<
+    { __typename?: 'Article' } & GQLPlainArticleContainer_ArticleFragment
+  >;
+};
+
+export type GQLPlainLearningpathContainer_LearningpathFragment = {
+  __typename?: 'Learningpath';
+  supportedLanguages: Array<string>;
+  tags: Array<string>;
+  description: string;
+  coverphoto?: Maybe<{ __typename?: 'LearningpathCoverphoto'; url: string }>;
+  learningsteps: Array<
+    {
+      __typename?: 'LearningpathStep';
+    } & GQLLearningpath_LearningpathStepFragment
+  >;
+} & GQLLearningpath_LearningpathFragment;
+
+export type GQLPlainLearningpathPageQueryVariables = Exact<{
+  pathId: Scalars['String'];
+}>;
+
+export type GQLPlainLearningpathPageQuery = {
+  __typename?: 'Query';
+  learningpath?: Maybe<
+    {
+      __typename?: 'Learningpath';
+    } & GQLPlainLearningpathContainer_LearningpathFragment
+  >;
+};
+
 export type GQLPodcast_AudioFragment = {
   __typename?: 'Audio';
   id: number;
@@ -2994,17 +3039,6 @@ export type GQLMovedResourceQuery = {
   }>;
 };
 
-export type GQLPlainArticleQueryVariables = Exact<{
-  articleId: Scalars['String'];
-  isOembed?: Maybe<Scalars['String']>;
-  path?: Maybe<Scalars['String']>;
-}>;
-
-export type GQLPlainArticleQuery = {
-  __typename?: 'Query';
-  article?: Maybe<{ __typename?: 'Article' } & GQLArticleInfoFragment>;
-};
-
 export type GQLIframeResourceFragment = {
   __typename?: 'Resource';
   id: string;
@@ -3134,17 +3168,6 @@ export type GQLTopicQuery = {
   topic?: Maybe<{ __typename?: 'Topic' } & GQLTopicQueryTopicFragment>;
   resourceTypes?: Maybe<
     Array<{ __typename?: 'ResourceTypeDefinition'; id: string; name: string }>
-  >;
-};
-
-export type GQLLearningPathStepQueryVariables = Exact<{
-  pathId: Scalars['String'];
-}>;
-
-export type GQLLearningPathStepQuery = {
-  __typename?: 'Query';
-  learningpath?: Maybe<
-    { __typename?: 'Learningpath' } & GQLLearningpathInfoFragment
   >;
 };
 
