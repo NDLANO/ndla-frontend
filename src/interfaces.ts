@@ -40,6 +40,17 @@ export interface NDLAWindow {
   browserHistory: History;
 }
 
+export interface License {
+  license: string;
+  description: string;
+  url?: string;
+}
+
+export interface Author {
+  name: string;
+  type: string;
+}
+
 export type LocaleType = typeof LocaleValues[number];
 
 export type BreadcrumbItem = BreadcrumbItemProps & { index?: number };

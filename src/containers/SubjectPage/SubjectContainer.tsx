@@ -226,7 +226,6 @@ const SubjectContainer = ({
             <SocialMediaMetadata
               title={socialMediaMetadata.title}
               description={socialMediaMetadata.description}
-              locale={locale}
               imageUrl={socialMediaMetadata.image?.url}
               trackableContent={{ supportedLanguages }}
             />

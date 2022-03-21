@@ -40,6 +40,8 @@ import {
   SUBJECTS,
   SUBJECT_PAGE_PATH,
   MULTIDISCIPLINARY_SUBJECT_ARTICLE_PAGE_PATH,
+  PODCAST_SERIES_PAGE_PATH,
+  PODCAST_SERIES_LIST_PAGE_PATH,
   TOOLBOX_TEACHER_PAGE_PATH,
   TOOLBOX_STUDENT_PAGE_PATH,
 } from './constants';
@@ -49,6 +51,8 @@ import ErrorBoundary from './containers/ErrorPage/ErrorBoundary';
 import { I18nWrapper } from './I18nWrapper';
 import config from './config';
 import AccessDeniedPage from './containers/AccessDeniedPage/AccessDeniedPage';
+import PodcastSeriesListPage from './containers/PodcastPage/PodcastSeriesListPage';
+import PodcastSeriesPage from './containers/PodcastPage/PodcastSeriesPage';
 
 export interface RootComponentProps {
   locale: LocaleType;
@@ -136,6 +140,16 @@ let routeArray: RouteType[] = [
   {
     path: SUBJECTS,
     component: AllSubjectsPage,
+    background: false,
+  },
+  {
+    path: PODCAST_SERIES_PAGE_PATH,
+    component: PodcastSeriesPage,
+    background: false,
+  },
+  {
+    path: PODCAST_SERIES_LIST_PAGE_PATH,
+    component: PodcastSeriesListPage,
     background: false,
   },
   {

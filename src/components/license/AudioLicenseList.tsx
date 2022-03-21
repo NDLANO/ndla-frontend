@@ -59,6 +59,7 @@ const AudioLicenseInfo = ({ audio, locale }: AudioLicenseInfoProps) => {
       <MediaListItemImage>
         <AudioDocument className="c-medialist__icon" />
       </MediaListItemImage>
+
       <MediaListItemBody
         title={t('license.audio.rules')}
         license={audio.copyright.license?.license}
