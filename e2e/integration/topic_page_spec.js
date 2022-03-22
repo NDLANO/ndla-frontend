@@ -15,10 +15,9 @@ describe('Topic page', () => {
     cy.apiIntercept(
       'POST',
       '**/graphql',
-      ['uptimeGraphQL', 'medieutrykkGraphQL'],
-      ['alerts', 'subjectPageTest'],
+      ['medieutrykkGraphQL'],
+      ['subjectPageTest'],
     );
-    cy.apiwait('@uptimeGraphQL');
     cy.get('[data-testid="category-list"]  button:contains("Alle fag"):visible')
       .click()
       .get('a:contains("Medieuttrykk 3 og mediesamfunnet 3")')
