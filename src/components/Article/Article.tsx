@@ -46,7 +46,8 @@ function renderCompetenceGoals(
   // Don't show competence goals for topics or articles without grepCodes
   if (
     !isTopicArticle &&
-    (article.competenceGoals?.length || article.grepCodes?.length)
+    (article.competenceGoals?.length ||
+      article.grepCodes?.filter(gc => gc.toUpperCase().startsWith('K'))?.length)
   ) {
     return ({
       Dialog,
