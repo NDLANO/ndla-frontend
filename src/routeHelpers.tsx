@@ -155,11 +155,13 @@ export function toBreadcrumbItems(
   };
 
   const links = [breadcrumbSubject, ...rest];
-  const breadcrumbs = links.reduce<Breadcrumb[]>((acc, link) => {
-    const prefix = acc.length ? acc[acc.length - 1]?.to : '';
-    const to = `${prefix}/${removeUrn(link.id)}`;
-    return acc.concat([{ to: fixEndSlash(to), name: link.name }]);
-  }, []);
+  const breadcrumbs = links
+    .reduce<Breadcrumb[]>((acc, link) => {
+      const prefix = acc.length ? acc[acc.length - 1]?.to : '';
+      const to = `${prefix}/${removeUrn(link.id)}`;
+      return acc.concat([{ to, name: link.name }]);
+    }, [])
+    .map(bc => ({ ...bc, to: fixEndSlash(bc.to) }));
   return [{ to: '/', name: rootName }, ...breadcrumbs];
 }
 
