@@ -22,9 +22,7 @@ import {
   figureApa7CopyString,
 } from '@ndla/licenses';
 import { initArticleScripts } from '@ndla/article-scripts';
-import styled from '@emotion/styled';
 import { gql } from '@apollo/client';
-import { MastheadHeightPx } from '../../constants';
 
 import CopyTextButton from '../../components/license/CopyTextButton';
 import AnchorButton from '../../components/license/AnchorButton';
@@ -36,11 +34,6 @@ interface Props {
   podcast: GQLPodcast_AudioFragment;
   seriesId: string;
 }
-
-const InvisibleAnchor = styled.a`
-  top: -${MastheadHeightPx + 20}px;
-  position: absolute;
-`;
 
 const Podcast = ({ podcast, seriesId }: Props) => {
   const [mounted, setMounted] = useState(false);
@@ -114,11 +107,10 @@ const Podcast = ({ podcast, seriesId }: Props) => {
     getLicenseByAbbreviation(image.copyright.license.license, language).rights;
 
   const id = podcast.id.toString();
-  const figureId = `figure-${id}`;
+  const figureId = `episode-${id}`;
 
   return (
     <Figure id={figureId} type="full-column">
-      <InvisibleAnchor id={`episode-${id}`} />
       <AudioPlayer
         src={podcast.audioFile.url}
         title={podcast.title.title}
