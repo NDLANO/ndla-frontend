@@ -145,31 +145,23 @@ export function toBreadcrumbItems(
   const safePaths = paths.filter(
     (p): p is GQLTopic | GQLResource | GQLSubject => p !== undefined,
   );
-  if (safePaths.length < 1) return [];
+  const [subject, ...rest] = safePaths;
+  if (!subject) return [];
   // henter longname fra filter og bruk i stedet for første ledd i path
-  const subject = safePaths[0]!;
   const longName = getSubjectLongName(subject.id, locale);
   const breadcrumbSubject = {
     ...subject,
     name: longName || subject.name,
   };
 
-  const prelinks = [breadcrumbSubject, ...safePaths.splice(1)];
-  const filteredLinks = prelinks.filter(l => !!l);
-  const breadcrumbs = filteredLinks
+  const links = [breadcrumbSubject, ...rest];
+  const breadcrumbs = links
     .reduce<Breadcrumb[]>((acc, link) => {
-      const to =
-        (acc.length ? acc?.[acc.length - 1]?.to : '') +
-        '/' +
-        removeUrn(link.id);
+      const prefix = acc.length ? acc[acc.length - 1]?.to : '';
+      const to = `${prefix}/${removeUrn(link.id)}`;
       return acc.concat([{ to, name: link.name }]);
     }, [])
-    .map(bc => {
-      if (bc.to) {
-        bc.to = fixEndSlash(bc.to);
-      }
-      return bc;
-    });
+    .map(bc => ({ ...bc, to: fixEndSlash(bc.to) }));
   return [{ to: '/', name: rootName }, ...breadcrumbs];
 }
 
