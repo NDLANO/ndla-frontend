@@ -1,3 +1,7 @@
+// cypress/plugins/index.ts
+
+/// <reference types="cypress" />
+
 /**
  * Copyright (c) 2016-present, NDLA.
  *
@@ -10,9 +14,17 @@ const path = require('path');
 
 const fixturesDir = path.join(__dirname, '..', 'fixtures');
 
+interface Fixture {
+  name: string;
+  json: string;
+}
+
+/**
+ * @type {Cypress.PluginConfig}
+ */
 module.exports = on => {
   on('task', {
-    writeFixtures: fixtures =>
+    writeFixtures: (fixtures: Fixture[]) =>
       fixtures.map(fixture => {
         const fileName = path.join(fixturesDir, `${fixture.name}.json`);
         fs.writeFileSync(fileName, fixture.json, 'utf-8');

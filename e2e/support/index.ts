@@ -8,6 +8,6 @@
 
 import './commands';
 
-Cypress.on('window:before:load', win => {
+Cypress.on('window:before:load', (win: Window) => {
   delete win.fetch;
 });
