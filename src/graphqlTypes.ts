@@ -3314,11 +3314,6 @@ export type GQLMastHeadQueryVariables = Exact<{
 
 export type GQLMastHeadQuery = {
   __typename?: 'Query';
-  alerts?: Maybe<
-    Array<
-      Maybe<{ __typename?: 'UptimeAlert'; title: string; body?: Maybe<string> }>
-    >
-  >;
   subject?: Maybe<{
     __typename?: 'Subject';
     id: string;

@@ -43,6 +43,7 @@ import {
   GQLTopicInfoFragment,
 } from '../../graphqlTypes';
 import config from '../../config';
+import { useAlerts } from '../../components/AlertsContext';
 
 interface Props extends RouteComponentProps {
   locale: LocaleType;
@@ -162,7 +163,7 @@ const MastheadContainer = ({
       />
     );
 
-  const alerts = data?.alerts?.map(alert => alert.body || alert.title);
+  const alerts = useAlerts().map(alert => alert.body || alert.title);
 
   return (
     <ErrorBoundary>

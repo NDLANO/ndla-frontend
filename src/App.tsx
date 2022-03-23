@@ -36,6 +36,7 @@ import { initializeI18n } from './i18n';
 import config from './config';
 import AuthenticationContext from './components/AuthenticationContext';
 import { BaseNameProvider } from './components/BaseNameContext';
+import { AlertsProvider } from './components/AlertsContext';
 interface NDLARouteProps extends RouteProps {
   initialProps?: InitialProps;
   locale: LocaleType;
@@ -257,31 +258,33 @@ class App extends Component<AppProps, AppState> {
 
     const isNdlaFilm = location.pathname.includes(FILM_PAGE_PATH);
     return (
-      <BaseNameProvider value={this.props.locale}>
-        <AuthenticationContext>
-          <Switch>
-            {routes
-              .filter(route => route !== undefined)
-              .map(route => (
-                <NDLARoute
-                  key={`route_${route.path}`}
-                  exact={route.exact}
-                  hideMasthead={route.hideMasthead}
-                  hideBreadcrumb={route.hideBreadcrumb}
-                  initialSelectMenu={route.initialSelectMenu}
-                  initialProps={this.state.data}
-                  //@ts-ignore
-                  locale={this.props.i18n.language}
-                  component={route.component}
-                  background={route.background ?? false}
-                  path={route.path}
-                  ndlaFilm={isNdlaFilm}
-                  location={location}
-                />
-              ))}
-          </Switch>
-        </AuthenticationContext>
-      </BaseNameProvider>
+      <AlertsProvider>
+        <BaseNameProvider value={this.props.locale}>
+          <AuthenticationContext>
+            <Switch>
+              {routes
+                .filter(route => route !== undefined)
+                .map(route => (
+                  <NDLARoute
+                    key={`route_${route.path}`}
+                    exact={route.exact}
+                    hideMasthead={route.hideMasthead}
+                    hideBreadcrumb={route.hideBreadcrumb}
+                    initialSelectMenu={route.initialSelectMenu}
+                    initialProps={this.state.data}
+                    //@ts-ignore
+                    locale={this.props.i18n.language}
+                    component={route.component}
+                    background={route.background ?? false}
+                    path={route.path}
+                    ndlaFilm={isNdlaFilm}
+                    location={location}
+                  />
+                ))}
+            </Switch>
+          </AuthenticationContext>
+        </BaseNameProvider>
+      </AlertsProvider>
     );
   }
 }

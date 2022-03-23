@@ -1139,10 +1139,6 @@ export const mastHeadQuery = gql`
     $skipTopic: Boolean!
     $skipResource: Boolean!
   ) {
-    alerts {
-      title
-      body
-    }
     subject(id: $subjectId) {
       id
       name
