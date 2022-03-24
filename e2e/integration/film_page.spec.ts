@@ -11,7 +11,7 @@ describe('Film page', () => {
     cy.fixCypressSpec('/e2e/integration/film_page.spec.ts');
     cy.gqlIntercept({
       alias: 'filmPage',
-      operations: ['filmFrontPage', 'filmSubjectPage', 'mastHead'],
+      operations: ['filmFrontPage', 'mastHead'],
     });
   });
 
