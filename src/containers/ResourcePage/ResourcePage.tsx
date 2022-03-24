@@ -55,6 +55,7 @@ const resourcePageQuery = gql`
   ) {
     subject(id: $subjectId) {
       topics(all: true) {
+        parent
         ...LearningpathPage_TopicPath
         ...ArticlePage_TopicPath
       }

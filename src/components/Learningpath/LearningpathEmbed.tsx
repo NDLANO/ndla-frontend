@@ -125,7 +125,7 @@ const LearningpathEmbed = ({
 LearningpathEmbed.fragments = {
   topic: gql`
     fragment LearningpathEmbed_Topic on Topic {
-      supplementaryResources {
+      supplementaryResources(subjectId: $subjectId) {
         id
       }
     }

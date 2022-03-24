@@ -204,10 +204,10 @@ Resources.fragments = {
   topic: gql`
     fragment Resources_Topic on Topic {
       name
-      coreResources {
+      coreResources(subjectId: $subjectId) {
         ...Resources_Resource
       }
-      supplementaryResources {
+      supplementaryResources(subjectId: $subjectId) {
         ...Resources_Resource
       }
       metadata {
