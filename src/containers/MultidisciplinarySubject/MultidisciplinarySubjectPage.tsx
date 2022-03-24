@@ -6,20 +6,19 @@
  *
  */
 
+import { gql } from '@apollo/client';
 import { createRef, useContext, useEffect } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { MultidisciplinarySubject, NavigationBox } from '@ndla/ui';
-
 import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet';
 import { getUrnIdsFromProps, toTopic } from '../../routeHelpers';
 import { useGraphQuery } from '../../util/runQueries';
-import { multiDisciplinarySubjectPageQuery } from '../../queries';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import MultidisciplinaryTopicWrapper from './components/MultidisciplinaryTopicWrapper';
 import {
-  GQLMultiDisciplinarySubjectPageQuery,
-  GQLMultiDisciplinarySubjectPageQueryVariables,
+  GQLMultidisciplinarySubjectPageQuery,
+  GQLMultidisciplinarySubjectPageQueryVariables,
 } from '../../graphqlTypes';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { AuthContext } from '../../components/AuthenticationContext';
@@ -27,6 +26,34 @@ import { htmlTitle } from '../../util/titleHelper';
 import { RootComponentProps } from '../../routes';
 
 interface Props extends RootComponentProps, RouteComponentProps {}
+
+const multidisciplinarySubjectPageQuery = gql`
+  query multidisciplinarySubjectPage($subjectId: String!) {
+    subject(id: $subjectId) {
+      topics {
+        id
+        name
+      }
+      allTopics {
+        name
+        id
+        parent
+        path
+        meta {
+          title
+          introduction
+          metaDescription
+          metaImage {
+            url
+            alt
+          }
+        }
+      }
+      ...MultidisciplinaryTopicWrapper_Subject
+    }
+  }
+  ${MultidisciplinaryTopicWrapper.fragments.subject}
+`;
 
 const MultidisciplinarySubjectPage = ({ match, locale }: Props) => {
   const { t } = useTranslation();
@@ -51,9 +78,9 @@ const MultidisciplinarySubjectPage = ({ match, locale }: Props) => {
   }, [refs, selectedTopics]);
 
   const { loading, data } = useGraphQuery<
-    GQLMultiDisciplinarySubjectPageQuery,
-    GQLMultiDisciplinarySubjectPageQueryVariables
-  >(multiDisciplinarySubjectPageQuery, {
+    GQLMultidisciplinarySubjectPageQuery,
+    GQLMultidisciplinarySubjectPageQueryVariables
+  >(multidisciplinarySubjectPageQuery, {
     variables: {
       subjectId: subjectId!,
     },

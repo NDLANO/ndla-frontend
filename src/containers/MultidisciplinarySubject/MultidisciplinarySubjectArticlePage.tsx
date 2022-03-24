@@ -6,18 +6,20 @@
  *
  */
 
+import { gql } from '@apollo/client';
 import { useContext } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { Helmet } from 'react-helmet';
 import { useTranslation } from 'react-i18next';
 import { useGraphQuery } from '../../util/runQueries';
-import { topicQueryWithPathTopics } from '../../queries';
 import { getUrnIdsFromProps } from '../../routeHelpers';
-import MultidisciplinarySubjectArticle from './components/MultidisciplinarySubjectArticle';
+import MultidisciplinarySubjectArticle, {
+  multidisciplinarySubjectArticleFragments,
+} from './components/MultidisciplinarySubjectArticle';
 import config from '../../config';
 import {
-  GQLTopicWithPathTopicsQuery,
-  GQLTopicWithPathTopicsQueryVariables,
+  GQLMultidisciplinarySubjectArticlePageQuery,
+  GQLMultidisciplinarySubjectArticlePageQueryVariables,
 } from '../../graphqlTypes';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import { htmlTitle } from '../../util/titleHelper';
@@ -26,6 +28,34 @@ import { RootComponentProps } from '../../routes';
 import { AuthContext } from '../../components/AuthenticationContext';
 
 interface Props extends RootComponentProps, RouteComponentProps {}
+
+const multidisciplinarySubjectArticlePageQuery = gql`
+  query multidisciplinarySubjectArticlePage(
+    $topicId: String!
+    $subjectId: String!
+  ) {
+    subject(id: $subjectId) {
+      ...MultidisciplinarySubjectArticle_Subject
+    }
+    topic(id: $topicId, subjectId: $subjectId) {
+      id
+      article(showVisualElement: "true") {
+        metaDescription
+        tags
+        metaImage {
+          url
+        }
+      }
+      ...MultidisciplinarySubjectArticle_Topic
+    }
+    resourceTypes {
+      ...MultidisciplinarySubjectArticle_ResourceTypeDefinition
+    }
+  }
+  ${multidisciplinarySubjectArticleFragments.resourceType}
+  ${multidisciplinarySubjectArticleFragments.topic}
+  ${multidisciplinarySubjectArticleFragments.subject}
+`;
 
 const MultidisciplinarySubjectArticlePage = ({
   match,
@@ -37,13 +67,12 @@ const MultidisciplinarySubjectArticlePage = ({
   const { topicId, subjectId } = getUrnIdsFromProps({ match });
 
   const { data, loading } = useGraphQuery<
-    GQLTopicWithPathTopicsQuery,
-    GQLTopicWithPathTopicsQueryVariables
-  >(topicQueryWithPathTopics, {
+    GQLMultidisciplinarySubjectArticlePageQuery,
+    GQLMultidisciplinarySubjectArticlePageQueryVariables
+  >(multidisciplinarySubjectArticlePageQuery, {
     variables: {
       topicId: topicId!,
       subjectId: subjectId!,
-      showVisualElement: 'true',
     },
   });
 
