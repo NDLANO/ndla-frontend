@@ -1,0 +1,52 @@
+/**
+ * Copyright (c) 2016-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+describe('Subjects page', () => {
+  beforeEach(() => {
+    cy.fixCypressSpec('/e2e/integration/subjects_page.spec.ts');
+    cy.visit('/?disableSSR=true');
+
+    cy.gqlIntercept({
+      alias: 'alerts',
+      operations: ['alerts'],
+    });
+
+    cy.gqlIntercept({
+      alias: 'subjectpage',
+      operations: ['subjectPageTest', 'mastHead'],
+    });
+    cy.gqlIntercept({
+      alias: 'competenceGoals',
+      operations: ['competenceGoals'],
+    });
+    cy.gqlWait('@alerts');
+
+    cy.get('[data-testid="category-list"]  button:contains("Alle fag"):visible')
+      .click()
+      .get('a:contains("Medie- og informasjonskunnskap")')
+      .last()
+      .click({ force: true });
+    cy.gqlWait('@subjectpage');
+    cy.gqlWait('@competenceGoals');
+  });
+
+  it('should include a list of valid topic links', () => {
+    cy.get('[data-testid="nav-box-item"] span').contains(/\w+/);
+
+    cy.get('[data-testid="nav-box-list"] li a').each(el => {
+      cy.wrap(el).should('have.attr', 'href');
+      cy.wrap(el).contains(/\w+/);
+    });
+  });
+
+  it('should have a valid breadcrumb', () => {
+    cy.get('[data-testid="breadcrumb-list"] a')
+      .should('have.length', 1)
+      .and('have.attr', 'href');
+  });
+});
