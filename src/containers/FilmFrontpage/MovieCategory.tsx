@@ -8,19 +8,18 @@
 
 import React from 'react';
 import { CarouselAutosize } from '@ndla/carousel';
-//@ts-ignore
-import { CalculatedCarouselProps, FilmMovieList, MovieGrid } from '@ndla/ui';
+import { FilmMovieList, MovieGrid } from '@ndla/ui';
 import { gql } from '@apollo/client';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { breakpoints, findName } from './filmHelper';
-import { GQLMovieCategoryThemeFragment } from '../../graphqlTypes';
+import { GQLMovieCategory_MovieThemeFragment } from '../../graphqlTypes';
 import { MoviesByType } from './NdlaFilmFrontpage';
 import { movieFragment } from '../../queries';
 
 interface Props {
   fetchingMoviesByType?: boolean;
   resourceTypeName?: { name: string; id: string };
-  themes: GQLMovieCategoryThemeFragment[];
+  themes: GQLMovieCategory_MovieThemeFragment[];
   resourceTypes: { name: string; id: string }[];
   moviesByType?: MoviesByType[];
   resourceTypeSelected?: string;
@@ -35,48 +34,51 @@ const MovieCategory = ({
   fetchingMoviesByType,
   resourceTypeSelected,
   loadingPlaceholderHeight,
-  t,
-  i18n,
-}: Props & WithTranslation) => (
-  <CarouselAutosize breakpoints={breakpoints} itemsLength={themes.length}>
-    {(autoSizedProps: CalculatedCarouselProps) =>
-      resourceTypeSelected ? (
-        <MovieGrid
-          autoSizedProps={autoSizedProps}
-          resourceTypeName={resourceTypeName}
-          fetchingMoviesByType={!!fetchingMoviesByType}
-          moviesByType={moviesByType ?? []}
-          resourceTypes={resourceTypes}
-          loadingPlaceholderHeight={loadingPlaceholderHeight}
-        />
-      ) : (
-        themes.map(theme => (
-          <FilmMovieList
-            key={theme.name[0]?.name}
-            name={findName(theme.name ?? [], i18n.language)}
-            movies={theme.movies}
+}: Props) => {
+  const { t, i18n } = useTranslation();
+  return (
+    <CarouselAutosize breakpoints={breakpoints} itemsLength={themes.length}>
+      {autoSizedProps =>
+        resourceTypeSelected ? (
+          <MovieGrid
             autoSizedProps={autoSizedProps}
-            slideForwardsLabel={t('ndlaFilm.slideForwardsLabel')}
-            slideBackwardsLabel={t('ndlaFilm.slideBackwardsLabel')}
+            resourceTypeName={resourceTypeName}
+            fetchingMoviesByType={!!fetchingMoviesByType}
+            moviesByType={moviesByType ?? []}
             resourceTypes={resourceTypes}
+            loadingPlaceholderHeight={loadingPlaceholderHeight}
           />
-        ))
-      )
-    }
-  </CarouselAutosize>
-);
+        ) : (
+          themes.map(theme => (
+            <FilmMovieList
+              key={theme.name[0]?.name}
+              name={findName(theme.name ?? [], i18n.language)}
+              movies={theme.movies}
+              autoSizedProps={autoSizedProps}
+              slideForwardsLabel={t('ndlaFilm.slideForwardsLabel')}
+              slideBackwardsLabel={t('ndlaFilm.slideBackwardsLabel')}
+              resourceTypes={resourceTypes}
+            />
+          ))
+        )
+      }
+    </CarouselAutosize>
+  );
+};
 
-export default withTranslation()(MovieCategory);
+MovieCategory.fragments = {
+  movieTheme: gql`
+    fragment MovieCategory_MovieTheme on MovieTheme {
+      name {
+        name
+        language
+      }
+      movies {
+        ...MovieInfo
+      }
+    }
+    ${movieFragment}
+  `,
+};
 
-export const movieCategoryThemeFragment = gql`
-  fragment MovieCategoryTheme on MovieTheme {
-    name {
-      name
-      language
-    }
-    movies {
-      ...MovieInfo
-    }
-  }
-  ${movieFragment}
-`;
+export default MovieCategory;

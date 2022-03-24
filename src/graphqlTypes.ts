@@ -1118,7 +1118,7 @@ export type GQLEmbedVisualelement = {
   visualElement?: Maybe<GQLVisualElement>;
 };
 
-export type GQLFilmFrontpageSubjectFragment = {
+export type GQLFilmFrontpage_SubjectFragment = {
   __typename?: 'Subject';
   name: string;
   topics?: Maybe<
@@ -1126,11 +1126,11 @@ export type GQLFilmFrontpageSubjectFragment = {
   >;
 };
 
-export type GQLFilmFrontpageInfoFragment = {
+export type GQLFilmFrontpage_FilmFrontpageFragment = {
   __typename?: 'FilmFrontpage';
   slideShow: Array<{ __typename?: 'Movie' } & GQLMovieInfoFragment>;
   movieThemes: Array<
-    { __typename?: 'MovieTheme' } & GQLMovieCategoryThemeFragment
+    { __typename?: 'MovieTheme' } & GQLMovieCategory_MovieThemeFragment
   >;
   about: Array<{
     __typename?: 'FilmPageAbout';
@@ -1146,7 +1146,7 @@ export type GQLFilmFrontpageInfoFragment = {
   }>;
 };
 
-export type GQLMovieCategoryThemeFragment = {
+export type GQLMovieCategory_MovieThemeFragment = {
   __typename?: 'MovieTheme';
   name: Array<{ __typename?: 'Name'; name: string; language: string }>;
   movies: Array<{ __typename?: 'Movie' } & GQLMovieInfoFragment>;
@@ -1159,9 +1159,11 @@ export type GQLFilmFrontPageQueryVariables = Exact<{
 export type GQLFilmFrontPageQuery = {
   __typename?: 'Query';
   filmfrontpage?: Maybe<
-    { __typename?: 'FilmFrontpage' } & GQLFilmFrontpageInfoFragment
+    { __typename?: 'FilmFrontpage' } & GQLFilmFrontpage_FilmFrontpageFragment
   >;
-  subject?: Maybe<{ __typename?: 'Subject' } & GQLFilmFrontpageSubjectFragment>;
+  subject?: Maybe<
+    { __typename?: 'Subject' } & GQLFilmFrontpage_SubjectFragment
+  >;
 };
 
 export type GQLContributorInfoFragment = {

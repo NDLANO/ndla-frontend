@@ -23,11 +23,11 @@ import {
 } from '@ndla/ui';
 import { TFunction, withTranslation, WithTranslation } from 'react-i18next';
 
-import MovieCategory, { movieCategoryThemeFragment } from './MovieCategory';
+import MovieCategory from './MovieCategory';
 import { htmlTitle } from '../../util/titleHelper';
 import {
-  GQLFilmFrontpageInfoFragment,
-  GQLFilmFrontpageSubjectFragment,
+  GQLFilmFrontpage_FilmFrontpageFragment,
+  GQLFilmFrontpage_SubjectFragment,
 } from '../../graphqlTypes';
 import MoreAboutNdlaFilm from './MoreAboutNdlaFilm';
 import { MoviesByType } from './NdlaFilmFrontpage';
@@ -47,18 +47,18 @@ const sortAlphabetically = (movies: MoviesByType[], locale: string) =>
   });
 
 interface Props extends WithTranslation {
-  filmFrontpage?: GQLFilmFrontpageInfoFragment;
+  filmFrontpage?: GQLFilmFrontpage_FilmFrontpageFragment;
   showingAll?: boolean;
   fetchingMoviesByType?: boolean;
   moviesByType?: MoviesByType[];
-  subject?: GQLFilmFrontpageSubjectFragment;
+  subject?: GQLFilmFrontpage_SubjectFragment;
   resourceTypes: { id: string; name: string }[];
   onSelectedMovieByType: (resourceId: string) => void;
   skipToContentId?: string;
 }
 const getDocumentTitle = (
   t: TFunction,
-  subject: GQLFilmFrontpageSubjectFragment | undefined,
+  subject: GQLFilmFrontpage_SubjectFragment | undefined,
 ) => htmlTitle(subject?.name, [t('htmlTitles.titleTemplate')]);
 
 const FilmFrontpage = ({
@@ -151,38 +151,39 @@ FilmFrontpage.getDocumentTitle = ({ t, subject }: Props) => {
   return getDocumentTitle(t, subject);
 };
 
-export const filmFrontpageSubjectFragment = gql`
-  fragment FilmFrontpageSubject on Subject {
-    name
-    topics {
-      id
-      path
+export const filmFrontpageFragments = {
+  subject: gql`
+    fragment FilmFrontpage_Subject on Subject {
       name
-    }
-  }
-`;
-
-export const filmFrontpageFragment = gql`
-  fragment FilmFrontpageInfo on FilmFrontpage {
-    slideShow {
-      ...MovieInfo
-    }
-    movieThemes {
-      ...MovieCategoryTheme
-    }
-    about {
-      title
-      description
-      visualElement {
-        alt
-        url
-        type
+      topics {
+        id
+        path
+        name
       }
-      language
     }
-  }
-  ${movieCategoryThemeFragment}
-  ${movieFragment}
-`;
+  `,
+  filmFrontpage: gql`
+    fragment FilmFrontpage_FilmFrontpage on FilmFrontpage {
+      slideShow {
+        ...MovieInfo
+      }
+      movieThemes {
+        ...MovieCategory_MovieTheme
+      }
+      about {
+        title
+        description
+        visualElement {
+          alt
+          url
+          type
+        }
+        language
+      }
+    }
+    ${MovieCategory.fragments.movieTheme}
+    ${movieFragment}
+  `,
+};
 
 export default withTranslation()(FilmFrontpage);

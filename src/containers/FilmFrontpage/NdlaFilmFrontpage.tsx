@@ -10,10 +10,7 @@ import React, { useState, useEffect } from 'react';
 import { gql, useLazyQuery } from '@apollo/client';
 
 import { useTranslation } from 'react-i18next';
-import FilmFrontpage, {
-  filmFrontpageFragment,
-  filmFrontpageSubjectFragment,
-} from './FilmFrontpage';
+import FilmFrontpage, { filmFrontpageFragments } from './FilmFrontpage';
 import { searchFilmQuery } from '../../queries';
 import { movieResourceTypes } from './resourceTypes';
 import { useGraphQuery } from '../../util/runQueries';
@@ -40,14 +37,14 @@ export type MoviesByType = {
 const filmFrontPageQuery = gql`
   query filmFrontPage($subjectId: String!) {
     filmfrontpage {
-      ...FilmFrontpageInfo
+      ...FilmFrontpage_FilmFrontpage
     }
     subject(id: $subjectId) {
-      ...FilmFrontpageSubject
+      ...FilmFrontpage_Subject
     }
   }
-  ${filmFrontpageFragment}
-  ${filmFrontpageSubjectFragment}
+  ${filmFrontpageFragments.subject}
+  ${filmFrontpageFragments.filmFrontpage}
 `;
 
 const NdlaFilm = ({ skipToContentId }: Props) => {
