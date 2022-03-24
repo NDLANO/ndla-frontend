@@ -40,6 +40,7 @@ const filmFrontPageQuery = gql`
       ...FilmFrontpage_FilmFrontpage
     }
     subject(id: $subjectId) {
+      id
       ...FilmFrontpage_Subject
     }
   }
