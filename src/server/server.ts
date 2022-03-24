@@ -211,7 +211,7 @@ app.get(
 );
 
 app.get(
-  '/sitemap-utdanningsprogram.txt',
+  '/utdanningsprogram-sitemap.txt',
   ndlaMiddleware,
   async (_req: Request, res: Response) => {
     res.setHeader('Content-Type', 'application/txt');
