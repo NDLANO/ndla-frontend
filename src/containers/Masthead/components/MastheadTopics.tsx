@@ -13,6 +13,7 @@ import {
 import { ProgramSubjectType } from '../../../util/programmesSubjectsHelper';
 import { LocaleType } from '../../../interfaces';
 import { MastheadProgramme } from './MastheadMenu';
+import { useAlerts } from '../../../components/AlertsContext';
 
 export function toTopicWithBoundParams(
   subjectId: string,
@@ -89,9 +90,11 @@ const MastheadTopics = ({
   const handleSubjectClick = (): string | undefined => {
     return subject ? toSubject(subject.id) : undefined;
   };
+  const alerts = useAlerts().map(alert => alert.body || alert.title);
 
   return (
     <TopicMenu
+      messages={alerts}
       close={onClose}
       toFrontpage={() => '/'}
       searchFieldComponent={searchFieldComponent}
