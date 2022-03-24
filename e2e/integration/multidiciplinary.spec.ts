@@ -18,7 +18,7 @@ describe('Multidiciplinary page', () => {
 
     cy.gqlIntercept({
       alias: 'multidisciplinary',
-      operations: ['mastHead', 'multiDisciplinarySubjectPage'],
+      operations: ['mastHead', 'multidisciplinarySubjectPage'],
     });
     cy.get('a:contains("Se caser for tverrfaglige temaer")').click({
       force: true,
