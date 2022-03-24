@@ -6,23 +6,33 @@
  *
  */
 
+import { gql } from '@apollo/client';
 import { useContext } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { ContentPlaceholder } from '@ndla/ui';
 import { getUrnIdsFromProps } from '../../routeHelpers';
 import { useGraphQuery } from '../../util/runQueries';
-import { subjectPageQuery } from '../../queries';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import { AuthContext } from '../../components/AuthenticationContext';
 import {
-  GQLSubjectPageQuery,
-  GQLSubjectPageQueryVariables,
+  GQLToolboxSubjectPageQuery,
+  GQLToolboxSubjectPageQueryVariables,
 } from '../../graphqlTypes';
-import ToolboxSubjectContainer from './ToolboxSubjectContainer';
+import ToolboxSubjectContainer, {
+  toolboxSubjectContainerFragments,
+} from './ToolboxSubjectContainer';
 import { RootComponentProps } from '../../routes';
 
 interface Props extends RootComponentProps, RouteComponentProps {}
 
+const toolboxSubjectPageQuery = gql`
+  query toolboxSubjectPage($subjectId: String!) {
+    subject(id: $subjectId) {
+      ...ToolboxSubjectContainer_Subject
+    }
+  }
+  ${toolboxSubjectContainerFragments.subject}
+`;
 const ToolboxSubjectPage = ({ match, locale }: Props) => {
   const { user } = useContext(AuthContext);
   const { subjectId, topicList } = getUrnIdsFromProps({
@@ -31,9 +41,9 @@ const ToolboxSubjectPage = ({ match, locale }: Props) => {
   });
 
   const { loading, data } = useGraphQuery<
-    GQLSubjectPageQuery,
-    GQLSubjectPageQueryVariables
-  >(subjectPageQuery, {
+    GQLToolboxSubjectPageQuery,
+    GQLToolboxSubjectPageQueryVariables
+  >(toolboxSubjectPageQuery, {
     variables: {
       subjectId: subjectId!,
     },
