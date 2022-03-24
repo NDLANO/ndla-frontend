@@ -3081,10 +3081,10 @@
   dependencies:
     warning "^4.0.3"
 
-"@ndla/ui@^6.1.1":
-  version "6.1.1"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-6.1.1.tgz#613808d5ec45c7619a91a09d2819bd0a3ecb368e"
-  integrity sha512-ZKf401BmPyVc7gw5K9/qXMloarjHXGFD832UW8icqz/mTTxOJlTMrce+cZRuhIlNlX1OJNaGsPsDZ0YzqbRvvA==
+"@ndla/ui@^6.1.2":
+  version "6.1.2"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-6.1.2.tgz#a88b2c8d0e17da8e047e54195bce7123df8929b3"
+  integrity sha512-MuxC4IXM4X9ytcufDDFEkEN/nE/fSZGTHoPqtfmZsfHyTUjsaXn3i6x9FDawANHMBHxrqT3/nbHsw2xEF0ywTQ==
   dependencies:
     "@ndla/button" "^2.1.2"
     "@ndla/carousel" "^1.2.2"
