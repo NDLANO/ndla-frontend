@@ -2032,14 +2032,14 @@ export const activeSubjects = [
   },
   {
     longName: {
-      en: 'Biologi 1 - BETA',
-      nb: 'Biologi 1 - BETA',
-      nn: 'Biologi 1 - BETA',
+      en: 'Biologi 1',
+      nb: 'Biologi 1',
+      nn: 'Biologi 1',
     },
     name: {
-      en: 'Biologi 1 - BETA',
-      nb: 'Biologi 1 - BETA',
-      nn: 'Biologi 1 - BETA',
+      en: 'Biologi 1',
+      nb: 'Biologi 1',
+      nn: 'Biologi 1',
     },
     id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
   },

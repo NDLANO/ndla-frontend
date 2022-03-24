@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
+import { gql } from '@apollo/client';
 import { MouseEvent } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { Topic } from '@ndla/ui';
@@ -18,19 +20,19 @@ import { getCrop, getFocalPoint } from '../../../util/imageHelpers';
 import Resources from '../../Resources/Resources';
 import { LocaleType } from '../../../interfaces';
 import {
-  GQLResourceTypeDefinition,
-  GQLTopicQueryTopicFragment,
+  GQLToolboxTopicWrapper_ResourceTypeDefinitionFragment,
+  GQLToolboxTopicWrapper_SubjectFragment,
+  GQLToolboxTopicWrapper_TopicFragment,
 } from '../../../graphqlTypes';
 import { getSubjectLongName } from '../../../data/subjects';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import { htmlTitle } from '../../../util/titleHelper';
 import { FeideUserWithGroups } from '../../../util/feideApi';
-import { ToolboxSubjectType } from '../ToolboxSubjectContainer';
 
 interface Props extends WithTranslation {
-  subject: ToolboxSubjectType;
-  topic: GQLTopicQueryTopicFragment;
-  resourceTypes?: GQLResourceTypeDefinition[];
+  subject: GQLToolboxTopicWrapper_SubjectFragment;
+  topic: GQLToolboxTopicWrapper_TopicFragment;
+  resourceTypes?: GQLToolboxTopicWrapper_ResourceTypeDefinitionFragment[];
   locale: LocaleType;
   onSelectTopic: (
     e: MouseEvent<HTMLAnchorElement>,
@@ -114,17 +116,15 @@ const ToolboxTopicWrapper = ({
   });
 
   return (
-    <>
-      <Topic
-        frame={subTopics?.length === 0}
-        isLoading={loading}
-        subTopics={subTopics}
-        onSubTopicSelected={(e: MouseEvent<HTMLElement>, id?: string) =>
-          onSelectTopic(e as MouseEvent<HTMLAnchorElement>, index + 1, id)
-        }
-        topic={toolboxTopic.topic}
-      />
-    </>
+    <Topic
+      frame={subTopics?.length === 0}
+      isLoading={loading}
+      subTopics={subTopics}
+      onSubTopicSelected={(e: MouseEvent<HTMLElement>, id?: string) =>
+        onSelectTopic(e as MouseEvent<HTMLAnchorElement>, index + 1, id)
+      }
+      topic={toolboxTopic.topic}
+    />
   );
 };
 
@@ -161,6 +161,78 @@ ToolboxTopicWrapper.getDimensions = (props: Props) => {
     undefined,
     topicList.length > 0,
   );
+};
+
+export const toolboxTopicWrapperFragments = {
+  subject: gql`
+    fragment ToolboxTopicWrapper_Subject on Subject {
+      id
+      name
+      allTopics {
+        id
+        name
+      }
+    }
+  `,
+  resourceType: gql`
+    fragment ToolboxTopicWrapper_ResourceTypeDefinition on ResourceTypeDefinition {
+      id
+      name
+    }
+  `,
+  topic: gql`
+    fragment ToolboxTopicWrapper_Topic on Topic {
+      name
+      path
+      article {
+        title
+        introduction
+        copyright {
+          license {
+            license
+          }
+          creators {
+            name
+            type
+          }
+          processors {
+            name
+            type
+          }
+          rightsholders {
+            name
+            type
+          }
+        }
+        metaImage {
+          alt
+          url
+        }
+        visualElement {
+          resource
+          image {
+            src
+            alt
+            lowerRightX
+            lowerRightY
+            upperLeftX
+            upperLeftY
+            focalX
+            focalY
+          }
+          ...VisualElementWrapper_VisualElement
+        }
+      }
+      subtopics {
+        id
+        name
+        path
+      }
+      ...Resources_Topic
+    }
+    ${VisualElementWrapper.fragments.visualElement}
+    ${Resources.fragments.topic}
+  `,
 };
 
 export default withTranslation()(withTracker(ToolboxTopicWrapper));
