@@ -13,11 +13,11 @@ describe('Iframe resource page', () => {
     cy.fixCypressSpec('/e2e/integration/iframe_resource.spec.ts');
     cy.gqlIntercept({
       alias: 'iframeResource',
-      operations: ['iframeArticle'],
+      operations: ['iframePage'],
     });
     cy.gqlIntercept({
       alias: 'articleConcepts',
-      operations: ['articleConcepts'],
+      operations: ['articleConcepts', 'competenceGoals'],
     });
   });
 

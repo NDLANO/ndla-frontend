@@ -1869,7 +1869,10 @@ export type GQLResourcePageQuery = {
       __typename?: 'Subject';
       topics?: Maybe<
         Array<
-          { __typename?: 'Topic' } & GQLLearningpathPage_TopicPathFragment &
+          {
+            __typename?: 'Topic';
+            parent?: Maybe<string>;
+          } & GQLLearningpathPage_TopicPathFragment &
             GQLArticlePage_TopicPathFragment
         >
       >;
@@ -2239,6 +2242,55 @@ export type GQLToolboxTopicWrapper_TopicFragment = {
     Array<{ __typename?: 'Topic'; id: string; name: string; path: string }>
   >;
 } & GQLResources_TopicFragment;
+
+export type GQLIframeArticlePage_ArticleFragment = {
+  __typename?: 'Article';
+  created: string;
+  updated: string;
+  metaDescription: string;
+  metaImage?: Maybe<{ __typename?: 'MetaImage'; url: string }>;
+} & GQLArticle_ArticleFragment;
+
+export type GQLIframeArticlePage_ResourceFragment = {
+  __typename?: 'Resource';
+  id: string;
+  path: string;
+  resourceTypes?: Maybe<
+    Array<{ __typename?: 'ResourceType'; id: string; name: string }>
+  >;
+};
+
+export type GQLIframePageQueryVariables = Exact<{
+  articleId: Scalars['String'];
+  isOembed?: Maybe<Scalars['String']>;
+  path?: Maybe<Scalars['String']>;
+  taxonomyId: Scalars['String'];
+  includeResource: Scalars['Boolean'];
+  includeTopic: Scalars['Boolean'];
+}>;
+
+export type GQLIframePageQuery = {
+  __typename?: 'Query';
+  article?: Maybe<
+    { __typename?: 'Article' } & GQLIframeTopicPage_ArticleFragment &
+      GQLIframeArticlePage_ArticleFragment
+  >;
+  resource?: Maybe<
+    { __typename?: 'Resource' } & GQLIframeArticlePage_ResourceFragment
+  >;
+  topic?: Maybe<{ __typename?: 'Topic' } & GQLIframeTopicPage_TopicFragment>;
+};
+
+export type GQLIframeTopicPage_ArticleFragment = {
+  __typename?: 'Article';
+  created: string;
+} & GQLArticle_ArticleFragment &
+  GQLStructuredArticleDataFragment;
+
+export type GQLIframeTopicPage_TopicFragment = {
+  __typename?: 'Topic';
+  path: string;
+};
 
 export type GQLContributorInfoFragment = {
   __typename?: 'Contributor';
