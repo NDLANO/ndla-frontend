@@ -3041,7 +3041,7 @@
   dependencies:
     "@ndla/core" "^2.0.1"
 
-"@ndla/tabs@^1.1.2", "@ndla/tabs@^1.1.3":
+"@ndla/tabs@^1.1.2":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@ndla/tabs/-/tabs-1.1.2.tgz#5833bbc2326df3b9dfb2277f9547d44cd6fd5890"
   integrity sha512-vxc0AiU2bFQWhTIjWz7NvQ/iz/0Cw84MZUggs/BCY+Va/JSGLO3YHSCX6+HPvA4ejS7gCEEsjoK3+rfPJfetnA==
