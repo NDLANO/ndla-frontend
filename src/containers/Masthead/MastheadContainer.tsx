@@ -6,16 +6,12 @@
  *
  */
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, ReactNode } from 'react';
 import {
-  //@ts-ignore
   Masthead,
-  //@ts-ignore
   MastheadItem,
   LanguageSelector,
-  //@ts-ignore
   Logo,
-  //@ts-ignore
   DisplayOnPageYOffset,
   BreadcrumbBlock,
 } from '@ndla/ui';
@@ -50,7 +46,7 @@ import config from '../../config';
 
 interface Props extends RouteComponentProps {
   locale: LocaleType;
-  infoContent?: React.ReactNode;
+  infoContent?: ReactNode;
   ndlaFilm?: boolean;
   skipToMainContentId?: string;
   hideBreadcrumb?: boolean;

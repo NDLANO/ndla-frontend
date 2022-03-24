@@ -6,18 +6,20 @@
  *
  */
 
-import React, { ReactNode } from 'react';
-import PropTypes from 'prop-types';
-//@ts-ignore
+import { gql } from '@apollo/client';
+import { ReactNode } from 'react';
 import { Hero, OneColumn, Breadcrumb, NdlaFilmHero } from '@ndla/ui';
 import { HeroContentType } from '@ndla/ui/lib/Hero';
-import { GQLMetaImage, GQLResourcePageQuery } from '../../../graphqlTypes';
+import {
+  GQLArticleHero_MetaImageFragment,
+  GQLArticleHero_SubjectFragment,
+} from '../../../graphqlTypes';
 import { Breadcrumb as BreadcrumbType } from '../../../interfaces';
 interface WrapperProps {
   children: ReactNode;
   resourceType?: HeroContentType;
   ndlaFilm?: boolean;
-  metaImage?: GQLMetaImage;
+  metaImage?: GQLArticleHero_MetaImageFragment;
 }
 const WrapperComponent = ({
   children,
@@ -36,20 +38,11 @@ const WrapperComponent = ({
   return <Hero contentType={resourceType}>{children}</Hero>;
 };
 
-WrapperComponent.propTypes = {
-  resourceType: PropTypes.string,
-  ndlaFilm: PropTypes.bool,
-  metaImage: PropTypes.shape({
-    url: PropTypes.string,
-    alt: PropTypes.string,
-  }),
-};
-
 interface Props {
   ndlaFilm?: boolean;
-  subject?: GQLResourcePageQuery['subject'];
+  subject?: GQLArticleHero_SubjectFragment;
   resourceType?: HeroContentType;
-  metaImage?: GQLMetaImage;
+  metaImage?: GQLArticleHero_MetaImageFragment;
   breadcrumbItems: BreadcrumbType[];
 }
 
@@ -82,5 +75,19 @@ const ArticleHero = ({
     </OneColumn>
   </WrapperComponent>
 );
+
+ArticleHero.fragments = {
+  subject: gql`
+    fragment ArticleHero_Subject on Subject {
+      id
+    }
+  `,
+  metaImage: gql`
+    fragment ArticleHero_MetaImage on MetaImage {
+      url
+      alt
+    }
+  `,
+};
 
 export default ArticleHero;

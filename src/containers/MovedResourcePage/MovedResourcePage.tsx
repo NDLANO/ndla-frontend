@@ -6,10 +6,10 @@
  *
  */
 
-import React from 'react';
 //@ts-ignore
 import { SearchResultList, OneColumn } from '@ndla/ui';
 
+import { gql } from '@apollo/client';
 import { useTranslation } from 'react-i18next';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { movedResourceQuery } from '../../queries';
@@ -19,12 +19,12 @@ import { contentTypeMapping } from '../../util/getContentType';
 import { resultsWithContentTypeBadgeAndImage } from '../SearchPage/searchHelpers';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import {
+  GQLMovedResourcePage_ResourceFragment,
   GQLMovedResourceQuery,
-  GQLResourcePageQuery,
 } from '../../graphqlTypes';
 
 interface Props {
-  resource: Required<GQLResourcePageQuery>['resource'];
+  resource: GQLMovedResourcePage_ResourceFragment;
 }
 
 const MovedResourcePage = ({ resource }: Props) => {
@@ -39,7 +39,7 @@ const MovedResourcePage = ({ resource }: Props) => {
   );
 
   const convertResourceToResult = (
-    resource: Required<GQLResourcePageQuery>['resource'],
+    resource: GQLMovedResourcePage_ResourceFragment,
   ) => {
     const resultId = isLearningpath
       ? resource.learningpath?.id
@@ -105,6 +105,37 @@ const MovedResourcePage = ({ resource }: Props) => {
       </OneColumn>
     </>
   );
+};
+
+MovedResourcePage.fragments = {
+  resource: gql`
+    fragment MovedResourcePage_Resource on Resource {
+      id
+      name
+      path
+      paths
+      breadcrumbs
+      article {
+        id
+        metaDescription
+        metaImage {
+          url
+          alt
+        }
+      }
+      learningpath {
+        id
+        description
+        coverphoto {
+          url
+        }
+      }
+      resourceTypes {
+        id
+        name
+      }
+    }
+  `,
 };
 
 export default MovedResourcePage;

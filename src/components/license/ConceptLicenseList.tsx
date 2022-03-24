@@ -6,19 +6,13 @@
  *
  */
 
-import React from 'react';
+import { gql } from '@apollo/client';
 import {
-  //@ts-ignore
   MediaList,
-  //@ts-ignore
   MediaListItem,
-  //@ts-ignore
   MediaListItemImage,
-  //@ts-ignore
   MediaListItemBody,
-  //@ts-ignore
   MediaListItemActions,
-  //@ts-ignore
   MediaListItemMeta,
 } from '@ndla/ui';
 import {
@@ -28,12 +22,12 @@ import {
 import { Concept } from '@ndla/icons/editor';
 import { useTranslation } from 'react-i18next';
 import CopyTextButton from './CopyTextButton';
-import { GQLConceptLicense } from '../../graphqlTypes';
+import { GQLConceptLicenseList_ConceptLicenseFragment } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
 import { licenseCopyrightToCopyrightType } from './licenseHelpers';
 
 interface ConceptLicenseInfoProps {
-  concept: GQLConceptLicense;
+  concept: GQLConceptLicenseList_ConceptLicenseFragment;
   locale: LocaleType;
 }
 
@@ -71,11 +65,6 @@ const ConceptLicenseInfo = ({ concept, locale }: ConceptLicenseInfoProps) => {
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />
             <CopyTextButton
-              stringToCopy={concept.copyText}
-              copyTitle={t('license.copyTitle')}
-              hasCopiedTitle={t('license.hasCopiedTitle')}
-            />
-            <CopyTextButton
               stringToCopy={`<iframe title="${concept.title}" aria-label="${concept.title}" height="400" width="500" frameborder="0" src="${src}" allowfullscreen=""></iframe>`}
               copyTitle={t('license.embed')}
               hasCopiedTitle={t('license.embedCopied')}
@@ -88,7 +77,7 @@ const ConceptLicenseInfo = ({ concept, locale }: ConceptLicenseInfoProps) => {
 };
 
 interface Props {
-  concepts: GQLConceptLicense[];
+  concepts: GQLConceptLicenseList_ConceptLicenseFragment[];
   locale: LocaleType;
 }
 
@@ -105,6 +94,32 @@ const ConceptLicenseList = ({ concepts, locale }: Props) => {
       </MediaList>
     </div>
   );
+};
+
+ConceptLicenseList.fragments = {
+  concept: gql`
+    fragment ConceptLicenseList_ConceptLicense on ConceptLicense {
+      title
+      src
+      copyright {
+        license {
+          license
+        }
+        creators {
+          name
+          type
+        }
+        processors {
+          name
+          type
+        }
+        rightsholders {
+          name
+          type
+        }
+      }
+    }
+  `,
 };
 
 export default ConceptLicenseList;

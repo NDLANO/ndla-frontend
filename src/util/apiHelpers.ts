@@ -92,7 +92,7 @@ const getParentType = (type: string, aggregations?: GQLBucketResult[]) => {
 const mergeGroupSearch = (
   existing: GQLGroupSearch[],
   incoming: GQLGroupSearch[],
-  page: string,
+  page: number,
 ) => {
   if (!existing) return incoming;
   return existing.map(group => {
@@ -111,7 +111,7 @@ const mergeGroupSearch = (
       return {
         ...group,
         resources:
-          page === '1'
+          page === 1
             ? result.resources
             : [...group.resources, ...result.resources],
         totalCount: result.totalCount,

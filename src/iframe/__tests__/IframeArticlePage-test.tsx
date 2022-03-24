@@ -7,7 +7,6 @@
  * @jest-environment jsdom
  */
 
-import React from 'react';
 import renderer from 'react-test-renderer';
 import serializer from 'jest-emotion';
 import { MockedProvider } from '@apollo/client/testing';
@@ -173,32 +172,33 @@ test('IframeArticlePage with article renderers correctly', () => {
     supportedLanguages: ['nb'],
   };
   const component = renderer.create(
-    <StaticRouter
-      location={{
-        pathname: '/article-iframe/urn:resource:1/128',
-        search: 'asd',
-        hash: '',
-      }}>
-      <I18nextProvider i18n={i18nInstance}>
-        <Translation>
-          {(_, { i18n }) => {
-            i18n.language = locale;
-            return (
-              <IframeArticlePage
-                locale={locale}
-                resource={{
-                  id: 'urn:resource:1',
-                  name: 'Ressurs',
-                  path: '/subject:1/resource:1',
-                  resourceTypes: [],
-                }}
-                article={article}
-              />
-            );
-          }}
-        </Translation>
-      </I18nextProvider>
-    </StaticRouter>,
+    <MockedProvider mocks={[]}>
+      <StaticRouter
+        location={{
+          pathname: '/article-iframe/urn:resource:1/128',
+          search: 'asd',
+          hash: '',
+        }}>
+        <I18nextProvider i18n={i18nInstance}>
+          <Translation>
+            {(_, { i18n }) => {
+              i18n.language = locale;
+              return (
+                <IframeArticlePage
+                  locale={locale}
+                  resource={{
+                    id: 'urn:resource:1',
+                    path: '/subject:1/resource:1',
+                    resourceTypes: [],
+                  }}
+                  article={article}
+                />
+              );
+            }}
+          </Translation>
+        </I18nextProvider>
+      </StaticRouter>
+    </MockedProvider>,
   );
 
   expect(component.toJSON()).toMatchSnapshot();

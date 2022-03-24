@@ -34,9 +34,9 @@ export const activeSubjects = [
       en: 'Engelsk',
     },
     longName: {
-      nb: 'Engelsk (YF)',
-      nn: 'Engelsk (YF)',
-      en: 'Engelsk (YF)',
+      nb: 'English (YF)',
+      nn: 'English (YF)',
+      en: 'English (YF)',
     },
     id: 'urn:subject:1:9b93cd9e-a45c-428c-a8fb-b4955169efdf',
   },
@@ -47,9 +47,9 @@ export const activeSubjects = [
       en: 'Engelsk',
     },
     longName: {
-      nb: 'Engelsk (SF)',
-      nn: 'Engelsk (SF)',
-      en: 'Engelsk (SF)',
+      nb: 'English (SF)',
+      nn: 'English (SF)',
+      en: 'English (SF)',
     },
     id: 'urn:subject:1:4ad7fe49-b14a-4caf-8e19-ad402d1e2ce6',
   },
@@ -235,21 +235,6 @@ export const activeSubjects = [
     },
     id: 'urn:subject:1:11c4696f-e844-4c98-8df7-49d43f59ec33',
   },
-  /* {
-    longName: {
-      en: 'Åarjelsaemien voestesgïeline (YF)',
-      nb: 'Åarjelsaemien voestesgïeline (YF)',
-      nn: 'Åarjelsaemien voestesgïeline (YF)',
-    },
-    name: {
-      en: 'Sørsamisk som førstespråk (Utgått)',
-      nb: 'Sørsamisk som førstespråk (Utgått)',
-      nn: 'Sørsamisk som førstespråk (Utgått)',
-    },
-    id: 'urn:subject:1:2a1420a8-a485-4000-8593-6fe0341a8a22',
-  },
- */
-
   {
     longName: {
       en: 'Matematikk 1P-Y (BA)',
@@ -1189,6 +1174,32 @@ export const activeSubjects = [
   },
   {
     longName: {
+      en: 'Produktutvikling og produksjon (FD-FBI vg1)',
+      nb: 'Produktutvikling og produksjon (FD-FBI vg1)',
+      nn: 'Produktutvikling og produksjon (FD-FBI vg1)',
+    },
+    name: {
+      en: 'Produktutvikling og produksjon',
+      nb: 'Produktutvikling og produksjon',
+      nn: 'Produktutvikling og produksjon',
+    },
+    id: 'urn:subject:31f764fe-d885-4fc6-93f5-53e1d50670fa',
+  },
+  {
+    longName: {
+      en: 'Kommunikasjon, kunde og arbeidsliv (FD-FBI vg1)',
+      nb: 'Kommunikasjon, kunde og arbeidsliv (FD-FBI vg1)',
+      nn: 'Kommunikasjon, kunde og arbeidsliv (FD-FBI vg1)',
+    },
+    name: {
+      en: 'Kommunikasjon, kunde og arbeidsliv',
+      nb: 'Kommunikasjon, kunde og arbeidsliv',
+      nn: 'Kommunikasjon, kunde og arbeidsliv',
+    },
+    id: 'urn:subject:52b154e8-eb71-49cb-b046-c41303eb9b99',
+  },
+  {
+    longName: {
       en: 'Håndverk, design og produktutvikling vg1',
       nb: 'Håndverk, design og produktutvikling vg1',
       nn: 'Handverk, design og produktutvikling vg1',
@@ -1199,6 +1210,32 @@ export const activeSubjects = [
       nn: 'Programfag HDP',
     },
     id: 'urn:subject:7509b507-548d-48e1-bef3-a06758e4820c',
+  },
+  {
+    longName: {
+      en: 'Materialer og teknikker (DT-DTH vg1)',
+      nb: 'Materialer og teknikker (DT-DTH vg1)',
+      nn: 'Materialar og teknikkar (DT-DTH vg1)',
+    },
+    name: {
+      en: 'Materialer og teknikker',
+      nb: 'Materialer og teknikker',
+      nn: 'Materialar og teknikkar',
+    },
+    id: 'urn:subject:6055d62b-8373-47d3-8b56-e3d4c5560ff5',
+  },
+  {
+    longName: {
+      en: 'Produktutvikling og skapende prosesser (DT-DTH vg1)',
+      nb: 'Produktutvikling og skapende prosesser (DT-DTH vg1)',
+      nn: 'Produktutvikling og skapande prosessar (DT-DTH vg1)',
+    },
+    name: {
+      en: 'Produktutvikling og skapende prosesser',
+      nb: 'Produktutvikling og skapende prosesser',
+      nn: 'Produktutvikling og skapande prosessar',
+    },
+    id: 'urn:subject:2fc808ef-7cd4-4982-a429-fa0939e784aa',
   },
   {
     longName: {
@@ -1514,9 +1551,9 @@ export const activeSubjects = [
   },
   {
     longName: {
-      en: 'Engelsk 1',
-      nb: 'Engelsk 1',
-      nn: 'Engelsk 1',
+      en: 'English 1',
+      nb: 'English 1',
+      nn: 'English 1',
     },
     name: {
       en: 'Engelsk 1',
@@ -1618,9 +1655,9 @@ export const activeSubjects = [
   },
   {
     longName: {
-      en: 'Engelskspråklig litteratur og kultur (LK06)',
-      nb: 'Engelskspråklig litteratur og kultur (LK06)',
-      nn: 'Engelskspråkleg litteratur og kultur (LK06)',
+      en: 'English Literature and Culture (LK06)',
+      nb: 'English Literature and Culture (LK06)',
+      nn: 'English Literature and Culture (LK06)',
     },
     name: {
       en: 'Engelskspråklig litteratur og kultur',
@@ -1631,9 +1668,9 @@ export const activeSubjects = [
   },
   {
     longName: {
-      en: 'Samfunnsfaglig engelsk (LK06)',
-      nb: 'Samfunnsfaglig engelsk (LK06)',
-      nn: 'Samfunnsfagleg engelsk (LK06)',
+      en: 'Social Studies English (LK06)',
+      nb: 'Social Studies English (LK06)',
+      nn: 'Social Studies English (LK06)',
     },
     name: {
       en: 'Samfunnsfaglig engelsk',
@@ -1995,14 +2032,14 @@ export const activeSubjects = [
   },
   {
     longName: {
-      en: 'Biologi 1 - BETA',
-      nb: 'Biologi 1 - BETA',
-      nn: 'Biologi 1 - BETA',
+      en: 'Biologi 1',
+      nb: 'Biologi 1',
+      nn: 'Biologi 1',
     },
     name: {
-      en: 'Biologi 1 - BETA',
-      nb: 'Biologi 1 - BETA',
-      nn: 'Biologi 1 - BETA',
+      en: 'Biologi 1',
+      nb: 'Biologi 1',
+      nn: 'Biologi 1',
     },
     id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
   },
@@ -2362,9 +2399,9 @@ export const archivedSubjects = [
   },
   {
     longName: {
-      en: 'Engelsk (Utgått) (SF vg1) (LK06)',
-      nb: 'Engelsk (Utgått) (SF vg1) (LK06)',
-      nn: 'Engelsk (Utgått) (SF vg1) (LK06)',
+      en: 'English (Utgått) (SF vg1) (LK06)',
+      nb: 'English (Utgått) (SF vg1) (LK06)',
+      nn: 'English (Utgått) (SF vg1) (LK06)',
     },
     name: {
       en: 'Engelsk (Utgått) (LK06)',
@@ -2486,9 +2523,9 @@ export const archivedSubjects = [
   },
   {
     longName: {
-      en: 'Internasjonal engelsk (Utgått) (LK06)',
-      nb: 'Internasjonal engelsk (Utgått) (LK06)',
-      nn: 'Internasjonal engelsk (Utgått) (LK06)',
+      en: 'International English (Utgått) (LK06)',
+      nb: 'International English (Utgått) (LK06)',
+      nn: 'International English (Utgått) (LK06)',
     },
     name: {
       en: 'Internasjonal engelsk (Utgått)',
@@ -2513,14 +2550,196 @@ export const betaSubjects = [
     },
     id: 'urn:subject:1:bb834c76-d1e4-46c4-8c0a-8f978bd2c956',
   },
+  {
+    longName: {
+      en: 'English 2 - BETA',
+      nb: 'English 2 - BETA',
+      nn: 'English 2 - BETA',
+    },
+    name: {
+      en: 'Engelsk 2 - BETA',
+      nb: 'Engelsk 2 - BETA',
+      nn: 'Engelsk 2 - BETA',
+    },
+    id: 'urn:subject:6e2e2319-cb8a-4dd2-b382-e30f001633bb',
+  },
+  {
+    longName: {
+      en: 'Historie påbygg 2022/2023 - BETA',
+      nb: 'Historie påbygg 2022/2023 - BETA',
+      nn: 'Historie påbygg 2022/2023 - BETA',
+    },
+    name: {
+      en: 'Historie - BETA',
+      nb: 'Historie - BETA',
+      nn: 'Historie - BETA',
+    },
+    id: 'urn:subject:846a7552-ea6c-4174-89a4-85d6ba48c96e',
+  },
+  {
+    longName: {
+      en: 'Historie vg3 2022/2023 - BETA',
+      nb: 'Historie vg3 2022/2023 - BETA',
+      nn: 'Historie vg3 2022/2023 - BETA',
+    },
+    name: {
+      en: 'Historie - BETA',
+      nb: 'Historie - BETA',
+      nn: 'Historie - BETA',
+    },
+    id: 'urn:subject:cc109c51-a083-413b-b497-7f80a0569a92',
+  },
+  {
+    longName: {
+      en: 'Kommunikasjon og kultur 2 2022/2023 - BETA',
+      nb: 'Kommunikasjon og kultur 2 2022/2023 - BETA',
+      nn: 'Kommunikasjon og kultur 2 2022/2023 - BETA',
+    },
+    name: {
+      en: 'Kommunikasjon og kultur 2 - BETA',
+      nb: 'Kommunikasjon og kultur 2 - BETA',
+      nn: 'Kommunikasjon og kultur 2 - BETA',
+    },
+    id: 'urn:subject:ea9e2be1-461d-4929-9dae-590e8cb9657f',
+  },
+  {
+    longName: {
+      en: 'Kommunikasjon og kultur 3 2022/2023 - BETA',
+      nb: 'Kommunikasjon og kultur 3 2022/2023 - BETA',
+      nn: 'Kommunikasjon og kultur 3 2022/2023 - BETA',
+    },
+    name: {
+      en: 'Kommunikasjon og kultur 3 - BETA',
+      nb: 'Kommunikasjon og kultur 3 - BETA',
+      nn: 'Kommunikasjon og kultur 3 - BETA',
+    },
+    id: 'urn:subject:f2ef1c73-d706-44e9-b1bd-7923842d6b4e',
+  },
+  {
+    longName: {
+      en: 'Matematikk R2 2022/2023 - BETA',
+      nb: 'Matematikk R2 2022/2023 - BETA',
+      nn: 'Matematikk R2 2022/2023 - BETA',
+    },
+    name: {
+      en: 'Matematikk R2 - BETA',
+      nb: 'Matematikk R2 - BETA',
+      nn: 'Matematikk R2 - BETA',
+    },
+    id: 'urn:subject:c499dbee-cfdd-4b76-8836-ae685db03baa',
+  },
+  {
+    longName: {
+      en: 'Matematikk S2 2022/2023 - BETA',
+      nb: 'Matematikk S2 2022/2023 - BETA',
+      nn: 'Matematikk S2 2022/2023 - BETA',
+    },
+    name: {
+      en: 'Matematikk S2 - BETA',
+      nb: 'Matematikk S2 - BETA',
+      nn: 'Matematikk S2 - BETA',
+    },
+    id: 'urn:subject:da2379d0-3c91-4e4d-94d7-fc42f69593d2',
+  },
+  {
+    longName: {
+      en: 'Medie- og informasjonskunnskap 2 2022/2023 - BETA',
+      nb: 'Medie- og informasjonskunnskap 2 2022/2023 - BETA',
+      nn: 'Medie- og informasjonskunnskap 2 2022/2023 - BETA',
+    },
+    name: {
+      en: 'Medie- og informasjonskunnskap 2 - BETA',
+      nb: 'Medie- og informasjonskunnskap 2 - BETA',
+      nn: 'Medie- og informasjonskunnskap 2 - BETA',
+    },
+    id: 'urn:subject:1:576cc40f-cc74-4418-9721-9b15ffd29cff',
+  },
+  {
+    longName: {
+      en: 'Mediesamfunnet 3 2022/2023 - BETA',
+      nb: 'Mediesamfunnet 3 2022/2023 - BETA',
+      nn: 'Mediesamfunnet 3 2022/2023 - BETA',
+    },
+    name: {
+      en: 'Mediesamfunnet 3 - BETA',
+      nb: 'Mediesamfunnet 3 - BETA',
+      nn: 'Mediesamfunnet 3 - BETA',
+    },
+    id: 'urn:subject:1:7588cdad-751d-46a8-8546-caa28075a167',
+  },
+  {
+    longName: {
+      en: 'Medieuttrykk 3 2022/2023 - BETA',
+      nb: 'Medieuttrykk 3 2022/2023 - BETA',
+      nn: 'Medieuttrykk 3 2022/2023 - BETA',
+    },
+    name: {
+      en: 'Medieuttrykk 3 - BETA',
+      nb: 'Medieuttrykk 3 - BETA',
+      nn: 'Medieuttrykk 3 - BETA',
+    },
+    id: 'urn:subject:1:20bc82bc-62e3-4276-8629-84a65b8a6ad2',
+  },
+  {
+    longName: {
+      en: 'Norsk (SF vg3) 2022/2023 - BETA',
+      nb: 'Norsk (SF vg3) 2022/2023 - BETA',
+      nn: 'Norsk (SF vg3) 2022/2023 - BETA',
+    },
+    name: {
+      en: 'Norsk - BETA',
+      nb: 'Norsk - BETA',
+      nn: 'Norsk - BETA',
+    },
+    id: 'urn:subject:30bcefff-7577-4e0b-afc6-b07f437ea354',
+  },
+  {
+    longName: {
+      en: 'Norsk påbygg 2022/2023 - BETA',
+      nb: 'Norsk påbygg 2022/2023 - BETA',
+      nn: 'Norsk påbygg 2022/2023 - BETA',
+    },
+    name: {
+      en: 'Norsk - BETA',
+      nb: 'Norsk - BETA',
+      nn: 'Norsk - BETA',
+    },
+    id: 'urn:subject:af91136f-7da8-4cf1-b0ba-0ea6acdf1489',
+  },
+  {
+    longName: {
+      en: 'Religion og etikk 2022/2023 - BETA',
+      nb: 'Religion og etikk 2022/2023 - BETA',
+      nn: 'Religion og etikk 2022/2023 - BETA',
+    },
+    name: {
+      en: 'Religion og etikk - BETA',
+      nb: 'Religion og etikk - BETA',
+      nn: 'Religion og etikk - BETA',
+    },
+    id: 'urn:subject:ea2822da-52f0-4517-bf01-c63f8e96f446',
+  },
+  {
+    longName: {
+      en: 'Matematikk 2P-Y 2022/2023 - BETA',
+      nb: 'Matematikk 2P-Y 2022/2023 - BETA',
+      nn: 'Matematikk 2P-Y 2022/2023 - BETA',
+    },
+    name: {
+      en: 'Matematikk 2P-Y - BETA',
+      nb: 'Matematikk 2P-Y - BETA',
+      nn: 'Matematikk 2P-Y - BETA',
+    },
+    id: 'urn:subject:ad7d24b5-57be-4eff-87e0-1eaf79b27825',
+  },
 ];
 
 export const multidisciplinaryTopics = [
   {
     name: {
       nb: 'Folkehelse og livsmestring',
-      nn: 'Folkehelse og livsmestring',
-      en: 'Folkehelse og livsmestring',
+      nn: 'Folkehelse og livsmeistring',
+      en: 'Public health and life management',
     },
     topicId: 'urn:topic:3cdf9349-4593-498c-a899-9310133a4788',
     id: 'urn:topic:3cdf9349-4593-498c-a899-9310133a4788',
@@ -2528,8 +2747,8 @@ export const multidisciplinaryTopics = [
   {
     name: {
       nb: 'Demokrati og medborgerskap',
-      nn: 'Demokrati og medborgerskap',
-      en: 'Demokrati og medborgerskap',
+      nn: 'Demokrati og medborgarskap',
+      en: 'Democracy and citizenship',
     },
     topicId: 'urn:topic:077a5e01-6bb8-4c0b-b1d4-94b683d91803',
     id: 'urn:topic:077a5e01-6bb8-4c0b-b1d4-94b683d91803',
@@ -2537,8 +2756,8 @@ export const multidisciplinaryTopics = [
   {
     name: {
       nb: 'Bærekraftig utvikling',
-      nn: 'Bærekraftig utvikling',
-      en: 'Bærekraftig utvikling',
+      nn: 'Berekraftig utvikling',
+      en: 'Sustainable development',
     },
     topicId: 'urn:topic:a2f5aaa0-ab52-49d5-aabf-e7ffeac47fa2',
     id: 'urn:topic:a2f5aaa0-ab52-49d5-aabf-e7ffeac47fa2',
@@ -2566,8 +2785,8 @@ export const subjectsCategories = [
   {
     name: {
       nb: 'Kommende',
-      nn: 'Komande',
-      en: 'Coming',
+      nn: 'Kommande',
+      en: 'Revised',
     },
     subjects: betaSubjects,
     visible: true,

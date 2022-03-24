@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { gql, useLazyQuery } from '@apollo/client';
 
 import { useTranslation } from 'react-i18next';

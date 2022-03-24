@@ -6,22 +6,15 @@
  *
  */
 
-import React from 'react';
+import { gql } from '@apollo/client';
 import { uuid } from '@ndla/util';
 import {
-  //@ts-ignore
   Image,
-  //@ts-ignore
   MediaList,
-  //@ts-ignore
   MediaListItem,
-  //@ts-ignore
   MediaListItemImage,
-  //@ts-ignore
   MediaListItemBody,
-  //@ts-ignore
   MediaListItemActions,
-  //@ts-ignore
   MediaListItemMeta,
 } from '@ndla/ui';
 import {
@@ -32,9 +25,10 @@ import queryString from 'query-string';
 import { useTranslation } from 'react-i18next';
 import CopyTextButton from './CopyTextButton';
 import AnchorButton from './AnchorButton';
-import { GQLImageLicense } from '../../graphqlTypes';
+import { GQLImageLicenseList_ImageLicenseFragment } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
 import { licenseCopyrightToCopyrightType } from './licenseHelpers';
+import { licenseListCopyrightFragment } from './licenseFragments';
 
 export const downloadUrl = (imageSrc: string) => {
   const urlObject = queryString.parseUrl(imageSrc);
@@ -45,7 +39,7 @@ export const downloadUrl = (imageSrc: string) => {
 };
 
 interface ImageLicenseInfoProps {
-  image: GQLImageLicense;
+  image: GQLImageLicenseList_ImageLicenseFragment;
   locale: LocaleType;
 }
 
@@ -84,18 +78,22 @@ const ImageLicenseInfo = ({ image, locale }: ImageLicenseInfoProps) => {
         <MediaListItemActions>
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />
-            <CopyTextButton
-              stringToCopy={image.copyText}
-              copyTitle={t('license.copyTitle')}
-              hasCopiedTitle={t('license.hasCopiedTitle')}
-            />
             {image.copyright.license?.license !== 'COPYRIGHTED' && (
-              <AnchorButton
-                href={downloadUrl(image.src)}
-                appearance="outline"
-                download>
-                {t('license.download')}
-              </AnchorButton>
+              <>
+                {image.copyText && (
+                  <CopyTextButton
+                    stringToCopy={image.copyText}
+                    copyTitle={t('license.copyTitle')}
+                    hasCopiedTitle={t('license.hasCopiedTitle')}
+                  />
+                )}
+                <AnchorButton
+                  href={downloadUrl(image.src)}
+                  appearance="outline"
+                  download>
+                  {t('license.download')}
+                </AnchorButton>
+              </>
             )}
           </div>
         </MediaListItemActions>
@@ -105,7 +103,7 @@ const ImageLicenseInfo = ({ image, locale }: ImageLicenseInfoProps) => {
 };
 
 interface Props {
-  images: GQLImageLicense[];
+  images: GQLImageLicenseList_ImageLicenseFragment[];
   locale: LocaleType;
 }
 
@@ -122,6 +120,22 @@ const ImageLicenseList = ({ images, locale }: Props) => {
       </MediaList>
     </div>
   );
+};
+
+ImageLicenseList.fragments = {
+  image: gql`
+    fragment ImageLicenseList_ImageLicense on ImageLicense {
+      title
+      altText
+      src
+      copyText
+      copyright {
+        origin
+        ...LicenseListCopyright
+      }
+    }
+    ${licenseListCopyrightFragment}
+  `,
 };
 
 export default ImageLicenseList;

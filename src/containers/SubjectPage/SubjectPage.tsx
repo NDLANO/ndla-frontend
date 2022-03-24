@@ -6,12 +6,14 @@
  *
  */
 
-import React, { useContext, useRef } from 'react';
+import { gql } from '@apollo/client';
+import { useContext, useRef } from 'react';
 import { Redirect, withRouter } from 'react-router-dom';
 import { RouteComponentProps } from 'react-router';
-import SubjectContainer from './SubjectContainer';
+import SubjectContainer, {
+  subjectContainerFragments,
+} from './SubjectContainer';
 import { getUrnIdsFromProps } from '../../routeHelpers';
-import { subjectPageQueryWithTopics } from '../../queries';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { useGraphQuery } from '../../util/runQueries';
@@ -20,8 +22,8 @@ import { OLD_SUBJECT_PAGE_REDIRECT_CUSTOM_FIELD } from '../../constants';
 import { LocaleType } from '../../interfaces';
 import { AuthContext } from '../../components/AuthenticationContext';
 import {
-  GQLSubjectPageWithTopicsQuery,
-  GQLSubjectPageWithTopicsQueryVariables,
+  GQLSubjectPageTestQuery,
+  GQLSubjectPageTestQueryVariables,
 } from '../../graphqlTypes';
 
 type MatchParams = {
@@ -38,6 +40,36 @@ interface Props extends RouteComponentProps<MatchParams> {
   ndlaFilm?: boolean;
 }
 
+const subjectPageQuery = gql`
+  query subjectPageTest(
+    $subjectId: String!
+    $topicId: String!
+    $includeTopic: Boolean!
+    $metadataFilterKey: String
+    $metadataFilterValue: String
+  ) {
+    subject(id: $subjectId) {
+      ...SubjectContainer_Subject
+    }
+    topic(id: $topicId) @include(if: $includeTopic) {
+      alternateTopics {
+        ...MovedTopicPage_Topic
+      }
+    }
+    subjects(
+      metadataFilterKey: $metadataFilterKey
+      metadataFilterValue: $metadataFilterValue
+    ) {
+      path
+      metadata {
+        customFields
+      }
+    }
+  }
+  ${MovedTopicPage.fragments.topic}
+  ${subjectContainerFragments.subject}
+`;
+
 const SubjectPage = ({ match, locale, skipToContentId, ndlaFilm }: Props) => {
   const { user } = useContext(AuthContext);
   const { subjectId, topicList, topicId } = getUrnIdsFromProps({
@@ -49,13 +81,15 @@ const SubjectPage = ({ match, locale, skipToContentId, ndlaFilm }: Props) => {
   const isFirstRenderWithTopicId = () => initialLoad.current && !!topicId;
 
   const { loading, data } = useGraphQuery<
-    GQLSubjectPageWithTopicsQuery,
-    GQLSubjectPageWithTopicsQueryVariables
-  >(subjectPageQueryWithTopics, {
+    GQLSubjectPageTestQuery,
+    GQLSubjectPageTestQueryVariables
+  >(subjectPageQuery, {
     variables: {
       subjectId: subjectId!,
       topicId: topicId || '',
       includeTopic: isFirstRenderWithTopicId(),
+      metadataFilterKey: OLD_SUBJECT_PAGE_REDIRECT_CUSTOM_FIELD,
+      metadataFilterValue: subjectId,
     },
   });
 
@@ -76,10 +110,7 @@ const SubjectPage = ({ match, locale, skipToContentId, ndlaFilm }: Props) => {
   }
 
   if (!data.subject || !subjectId) {
-    const redirect = data.subjects?.find(sub => {
-      const customFields = sub.metadata?.customFields;
-      return customFields[OLD_SUBJECT_PAGE_REDIRECT_CUSTOM_FIELD] === subjectId;
-    });
+    const redirect = data.subjects?.[0];
     if (!redirect) {
       return <NotFoundPage />;
     } else {

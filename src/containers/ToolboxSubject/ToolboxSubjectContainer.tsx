@@ -6,9 +6,10 @@
  *
  */
 
+import { gql } from '@apollo/client';
 import { withTracker } from '@ndla/tracker';
 import { OneColumn, SubjectBanner, ToolboxInfo } from '@ndla/ui';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState, MouseEvent, createRef } from 'react';
 import { Helmet } from 'react-helmet';
 import {
   useTranslation,
@@ -17,7 +18,7 @@ import {
 } from 'react-i18next';
 import { RouteComponentProps, useLocation, withRouter } from 'react-router';
 import { getSubjectLongName } from '../../data/subjects';
-import { GQLSubjectPageQuery } from '../../graphqlTypes';
+import { GQLToolboxSubjectContainer_SubjectFragment } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
 import { toTopic } from '../../routeHelpers';
 import { htmlTitle } from '../../util/titleHelper';
@@ -27,10 +28,8 @@ import { ToolboxTopicContainer } from './components/ToolboxTopicContainer';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { FeideUserWithGroups } from '../../util/feideApi';
 
-export type ToolboxSubjectType = Required<GQLSubjectPageQuery>['subject'];
-
 interface Props extends WithTranslation, RouteComponentProps {
-  subject: ToolboxSubjectType;
+  subject: GQLToolboxSubjectContainer_SubjectFragment;
   topicList: string[];
   locale: LocaleType;
   user?: FeideUserWithGroups;
@@ -73,7 +72,7 @@ const getDocumentTitle = (props: Props) => {
 
 const getInitialSelectedTopics = (
   topicList: string[],
-  subject: ToolboxSubjectType,
+  subject: GQLToolboxSubjectContainer_SubjectFragment,
 ): string[] => {
   let initialSelectedTopics: string[] = [];
   topicList.forEach(topicId => {
@@ -94,7 +93,7 @@ const ToolboxSubjectContainer = (props: Props) => {
   const { t } = useTranslation();
   const location = useLocation();
 
-  const refs = topicList.map(() => React.createRef<HTMLDivElement>());
+  const refs = topicList.map(() => createRef<HTMLDivElement>());
   const initialSelectedTopics = getInitialSelectedTopics(topicList, subject);
   const [selectedTopics, setSelectedTopics] = useState(initialSelectedTopics);
 
@@ -133,7 +132,7 @@ const ToolboxSubjectContainer = (props: Props) => {
   });
 
   const onSelectTopic = (
-    e: React.MouseEvent<HTMLAnchorElement>,
+    e: MouseEvent<HTMLAnchorElement>,
     index: number,
     id?: string,
   ) => {
@@ -181,9 +180,6 @@ const ToolboxSubjectContainer = (props: Props) => {
 
   const socialMediaMetaData = getSocialMediaMetaData(props, selectedTopics);
 
-  const imageUrlObj = socialMediaMetaData.image?.url
-    ? { url: socialMediaMetaData.image.url }
-    : undefined;
   return (
     <>
       <Helmet>
@@ -199,14 +195,13 @@ const ToolboxSubjectContainer = (props: Props) => {
       <SocialMediaMetadata
         title={socialMediaMetaData.title}
         description={socialMediaMetaData.description}
-        locale={locale}
-        image={imageUrlObj}
+        imageUrl={socialMediaMetaData.image?.url}
       />
       <OneColumn className={''}>
         <ToolboxInfo
           topics={topics}
-          onSelectTopic={(e: React.MouseEvent<HTMLElement>, id?: string) =>
-            onSelectTopic(e as React.MouseEvent<HTMLAnchorElement>, 0, id)
+          onSelectTopic={(e: MouseEvent<HTMLElement>, id?: string) =>
+            onSelectTopic(e as MouseEvent<HTMLAnchorElement>, 0, id)
           }
           title={getSubjectLongName(subject.id, locale) || subject.name}
           introduction={t('htmlTitles.toolbox.introduction')}
@@ -221,6 +216,44 @@ const ToolboxSubjectContainer = (props: Props) => {
       </OneColumn>
     </>
   );
+};
+
+export const toolboxSubjectContainerFragments = {
+  subject: gql`
+    fragment ToolboxSubjectContainer_Subject on Subject {
+      topics {
+        name
+        id
+      }
+      allTopics {
+        id
+        name
+        meta {
+          metaDescription
+          introduction
+          title
+          metaImage {
+            url
+          }
+        }
+      }
+      subjectpage {
+        about {
+          title
+          description
+          visualElement {
+            url
+          }
+        }
+        banner {
+          desktopUrl
+        }
+        metaDescription
+      }
+      ...ToolboxTopicContainer_Subject
+    }
+    ${ToolboxTopicContainer.fragments.subject}
+  `,
 };
 
 ToolboxSubjectContainer.getDocumentTitle = getDocumentTitle;

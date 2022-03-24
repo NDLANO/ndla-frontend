@@ -6,12 +6,15 @@
  *
  */
 
-import React from 'react';
 // @ts-ignore
 import { SearchResultList, OneColumn } from '@ndla/ui';
+import { gql } from '@apollo/client';
 import { useTranslation } from 'react-i18next';
 import { resultsWithContentTypeBadgeAndImage } from '../../SearchPage/searchHelpers';
-import { GQLSearchResult, GQLTopic } from '../../../graphqlTypes';
+import {
+  GQLMovedTopicPage_TopicFragment,
+  GQLSearchResult,
+} from '../../../graphqlTypes';
 
 interface GQLSearchResultExtended
   extends Omit<
@@ -29,7 +32,7 @@ interface GQLSearchResultExtended
 }
 
 const convertTopicToResult = (
-  topic: Omit<GQLTopic, 'metadata' | 'paths'>,
+  topic: GQLMovedTopicPage_TopicFragment,
 ): GQLSearchResultExtended => {
   return {
     metaImage: topic.meta?.metaImage,
@@ -59,7 +62,7 @@ const mergeTopicSubjects = (results: GQLSearchResultExtended[]) => {
 };
 
 interface Props {
-  topics: Omit<GQLTopic, 'metadata' | 'paths'>[];
+  topics: GQLMovedTopicPage_TopicFragment[];
 }
 
 const MovedTopicPage = ({ topics }: Props) => {
@@ -76,6 +79,24 @@ const MovedTopicPage = ({ topics }: Props) => {
       </div>
     </OneColumn>
   );
+};
+
+MovedTopicPage.fragments = {
+  topic: gql`
+    fragment MovedTopicPage_Topic on Topic {
+      id
+      path
+      name
+      meta {
+        metaDescription
+        metaImage {
+          url
+          alt
+        }
+      }
+      breadcrumbs
+    }
+  `,
 };
 
 export default MovedTopicPage;

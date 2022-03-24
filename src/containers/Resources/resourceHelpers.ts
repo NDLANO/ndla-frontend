@@ -60,7 +60,6 @@ export const resourceToLinkProps = (
     return {
       to: toLearningPath(undefined, undefined, {
         path: resource.path!,
-        id: resource.id,
       }),
     };
   }

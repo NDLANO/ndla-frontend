@@ -6,15 +6,13 @@
  *
  */
 
-import React from 'react';
+import { ReactNode } from 'react';
 import { Helmet } from 'react-helmet';
 import { Location } from 'history';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import config from '../config';
 import { preferredLocales, isValidLocale } from '../i18n';
 import { useBaseName } from './BaseNameContext';
-import { LocaleType } from '../interfaces';
-import { GQLMetaImage } from '../graphqlTypes';
 
 export const getCanonicalUrl = (location: Location) => {
   if (!location.pathname.includes('article-iframe')) {
@@ -67,15 +65,14 @@ interface TrackableContent {
 interface Props extends RouteComponentProps {
   title: string;
   description?: string;
-  locale: LocaleType;
-  image?: Pick<GQLMetaImage, 'url'>;
+  imageUrl?: string;
   trackableContent?: TrackableContent;
-  children?: React.ReactNode;
+  children?: ReactNode;
 }
 
 const SocialMediaMetadata = ({
   title,
-  image,
+  imageUrl,
   description,
   trackableContent,
   location,
@@ -106,9 +103,9 @@ const SocialMediaMetadata = ({
       {title && <meta name="twitter:title" content={`${title} - NDLA`} />}
       {description && <meta property="og:description" content={description} />}
       {description && <meta name="twitter:description" content={description} />}
-      {image?.url && <meta property="og:image" content={image.url} />}
-      {image?.url && <meta name="twitter:image:src" content={image.url} />}
-      {!image || !image.url ? (
+      {imageUrl && <meta property="og:image" content={imageUrl} />}
+      {imageUrl && <meta name="twitter:image:src" content={imageUrl} />}
+      {!imageUrl ? (
         <meta
           name="twitter:image:src"
           content={`${config.ndlaFrontendDomain}/static/metalogo.jpg`}
@@ -116,7 +113,7 @@ const SocialMediaMetadata = ({
       ) : (
         ''
       )}
-      {!image || !image.url ? (
+      {!imageUrl ? (
         <meta
           property="og:image"
           content={`${config.ndlaFrontendDomain}/static/metalogo.jpg`}

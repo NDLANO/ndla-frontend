@@ -6,7 +6,8 @@
  *
  */
 
-import React, { useEffect, useState } from 'react';
+import { gql } from '@apollo/client';
+import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { OneColumn, LayoutItem } from '@ndla/ui';
 import { withTracker } from '@ndla/tracker';
@@ -17,7 +18,9 @@ import ArticleHero from './components/ArticleHero';
 import ArticleErrorMessage from './components/ArticleErrorMessage';
 import { getContentType, isHeroContentType } from '../../util/getContentType';
 import { getArticleScripts, Scripts } from '../../util/getArticleScripts';
-import getStructuredDataFromArticle from '../../util/getStructuredDataFromArticle';
+import getStructuredDataFromArticle, {
+  structuredArticleDataFragment,
+} from '../../util/getStructuredDataFromArticle';
 import { htmlTitle } from '../../util/titleHelper';
 import { getArticleProps } from '../../util/getArticleProps';
 import { getAllDimensions } from '../../util/trackingUtil';
@@ -33,21 +36,22 @@ import { toBreadcrumbItems } from '../../routeHelpers';
 import { getSubjectLongName } from '../../data/subjects';
 import config from '../../config';
 import {
-  GQLResource,
-  GQLResourcePageQuery,
-  GQLResourceTypeDefinition,
-  GQLTopic,
+  GQLArticlePage_ResourceFragment,
+  GQLArticlePage_ResourceTypeFragment,
+  GQLArticlePage_SubjectFragment,
+  GQLArticlePage_TopicFragment,
+  GQLArticlePage_TopicPathFragment,
 } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
 import { FeideUserWithGroups } from '../../util/feideApi';
 
 interface Props extends WithTranslation {
-  resource?: Required<GQLResourcePageQuery>['resource'];
-  topic?: GQLResourcePageQuery['topic'];
-  topicPath: Omit<GQLTopic, 'metadata' | 'paths'>[];
+  resource?: GQLArticlePage_ResourceFragment;
+  topic?: GQLArticlePage_TopicFragment;
+  topicPath: GQLArticlePage_TopicPathFragment[];
   relevance: string;
-  subject?: GQLResourcePageQuery['subject'];
-  resourceTypes?: GQLResourceTypeDefinition[];
+  subject?: GQLArticlePage_SubjectFragment;
+  resourceTypes?: GQLArticlePage_ResourceTypeFragment[];
   errors?: readonly GraphQLError[];
   ndlaFilm: boolean;
   loading?: boolean;
@@ -160,8 +164,7 @@ const ArticlePage = ({
         title={htmlTitle(article.title, [subject?.name])}
         trackableContent={article}
         description={article.metaDescription}
-        locale={locale}
-        image={article.metaImage}
+        imageUrl={article.metaImage?.url}
       />
       <OneColumn>
         <Article
@@ -217,8 +220,8 @@ ArticlePage.getDimensions = (props: Props) => {
 
 const getDocumentTitle = (
   t: TFunction,
-  resource?: Pick<GQLResource, 'article'>,
-  subject?: GQLResourcePageQuery['subject'],
+  resource?: GQLArticlePage_ResourceFragment,
+  subject?: GQLArticlePage_SubjectFragment,
 ) =>
   htmlTitle(resource?.article?.title, [
     subject?.name,
@@ -227,5 +230,54 @@ const getDocumentTitle = (
 
 ArticlePage.getDocumentTitle = ({ t, resource, subject }: Props) =>
   getDocumentTitle(t, resource, subject);
+
+export const articlePageFragments = {
+  resourceType: gql`
+    fragment ArticlePage_ResourceType on ResourceTypeDefinition {
+      ...Resources_ResourceTypeDefinition
+    }
+    ${Resources.fragments.resourceType}
+  `,
+  subject: gql`
+    fragment ArticlePage_Subject on Subject {
+      name
+      ...ArticleHero_Subject
+    }
+    ${ArticleHero.fragments.subject}
+  `,
+  resource: gql`
+    fragment ArticlePage_Resource on Resource {
+      id
+      name
+      contentUri
+      article {
+        created
+        updated
+        metaDescription
+        metaImage {
+          ...ArticleHero_MetaImage
+        }
+        ...StructuredArticleData
+        ...Article_Article
+      }
+    }
+    ${structuredArticleDataFragment}
+    ${ArticleHero.fragments.metaImage}
+    ${Article.fragments.article}
+  `,
+  topic: gql`
+    fragment ArticlePage_Topic on Topic {
+      path
+      ...Resources_Topic
+    }
+    ${Resources.fragments.topic}
+  `,
+  topicPath: gql`
+    fragment ArticlePage_TopicPath on Topic {
+      id
+      name
+    }
+  `,
+};
 
 export default withTranslation()(withTracker(ArticlePage));

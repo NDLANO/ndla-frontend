@@ -6,7 +6,8 @@
  *
  */
 
-import React, { useEffect } from 'react';
+import { gql } from '@apollo/client';
+import { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { CustomWithTranslation, withTranslation } from 'react-i18next';
 import { OneColumn } from '@ndla/ui';
@@ -16,16 +17,18 @@ import { getArticleScripts } from '../../util/getArticleScripts';
 import Article from '../../components/Article';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
-import getStructuredDataFromArticle from '../../util/getStructuredDataFromArticle';
+import getStructuredDataFromArticle, {
+  structuredArticleDataFragment,
+} from '../../util/getStructuredDataFromArticle';
 import { htmlTitle } from '../../util/titleHelper';
-import { GQLArticle } from '../../graphqlTypes';
+import { GQLPlainArticleContainer_ArticleFragment } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
 import { getArticleProps } from '../../util/getArticleProps';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { FeideUserWithGroups } from '../../util/feideApi';
 
 interface Props extends CustomWithTranslation {
-  article: GQLArticle;
+  article: GQLPlainArticleContainer_ArticleFragment;
   locale: LocaleType;
   user?: FeideUserWithGroups;
   skipToContentId?: string;
@@ -75,8 +78,7 @@ const PlainArticleContainer = ({
       <SocialMediaMetadata
         title={article.title}
         description={article.metaDescription}
-        locale={locale}
-        image={article.metaImage}
+        imageUrl={article.metaImage?.url}
         trackableContent={article}
       />
       <OneColumn>
@@ -107,4 +109,15 @@ PlainArticleContainer.getDimensions = (props: Props) => {
 
 PlainArticleContainer.getDocumentTitle = getDocumentTitle;
 
+export const plainArticleContainerFragments = {
+  article: gql`
+    fragment PlainArticleContainer_Article on Article {
+      created
+      ...Article_Article
+      ...StructuredArticleData
+    }
+    ${structuredArticleDataFragment}
+    ${Article.fragments.article}
+  `,
+};
 export default withTranslation()(withTracker(PlainArticleContainer));

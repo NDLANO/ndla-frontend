@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { CarouselAutosize } from '@ndla/carousel';
 import { FilmMovieList, MovieGrid } from '@ndla/ui';
 import { gql } from '@apollo/client';

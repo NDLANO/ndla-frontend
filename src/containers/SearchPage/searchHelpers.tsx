@@ -1,8 +1,7 @@
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import queryString from 'query-string';
 import { TFunction } from 'i18next';
 import { Location } from 'history';
-//@ts-ignore
 import { ContentTypeBadge, Image } from '@ndla/ui';
 import {
   contentTypeMapping,

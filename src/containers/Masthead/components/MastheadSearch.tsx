@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, FormEvent } from 'react';
+import { useState, useRef, useEffect, FormEvent } from 'react';
 import {
   //@ts-ignore
   SearchField,
@@ -9,7 +9,7 @@ import {
 import queryString from 'query-string';
 import { useLazyQuery } from '@apollo/client';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-import debounce from 'lodash.debounce';
+import { debounce } from 'lodash';
 
 import { useTranslation } from 'react-i18next';
 import { groupSearchQuery } from '../../../queries';

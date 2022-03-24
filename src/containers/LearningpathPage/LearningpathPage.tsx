@@ -6,8 +6,8 @@
  *
  */
 
-import React, { useEffect } from 'react';
-
+import { useEffect } from 'react';
+import { gql } from '@apollo/client';
 import { Helmet } from 'react-helmet';
 import { withTracker } from '@ndla/tracker';
 import { TFunction, WithTranslation, withTranslation } from 'react-i18next';
@@ -22,26 +22,28 @@ import { toBreadcrumbItems, toLearningPath } from '../../routeHelpers';
 import { getSubjectLongName } from '../../data/subjects';
 import {
   GQLLearningpath,
+  GQLLearningpathPage_ResourceFragment,
+  GQLLearningpathPage_ResourceTypeDefinitionFragment,
+  GQLLearningpathPage_SubjectFragment,
+  GQLLearningpathPage_TopicFragment,
+  GQLLearningpathPage_TopicPathFragment,
   GQLLearningpathStep,
-  GQLResourcePageQuery,
-  GQLResourceTypeDefinition,
-  GQLSubjectInfoFragment,
-  GQLTopicInfoFragment,
+  GQLSubject,
 } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
 import { FeideUserWithGroups } from '../../util/feideApi';
 
 interface PropData {
   relevance: string;
-  topic?: GQLTopicInfoFragment;
-  topicPath: Omit<GQLTopicInfoFragment, 'metadata'>[];
-  subject?: Omit<GQLSubjectInfoFragment, 'metadata'>;
-  resourceTypes?: GQLResourceTypeDefinition[];
-  resource?: Required<GQLResourcePageQuery>['resource'];
+  topic?: GQLLearningpathPage_TopicFragment;
+  topicPath: GQLLearningpathPage_TopicPathFragment[];
+  subject?: GQLLearningpathPage_SubjectFragment;
+  resourceTypes?: GQLLearningpathPage_ResourceTypeDefinitionFragment[];
+  resource?: GQLLearningpathPage_ResourceFragment;
 }
 
 interface Props extends WithTranslation {
-  locale: string;
+  locale: LocaleType;
   loading: boolean;
   ndlaFilm?: boolean;
   data: PropData;
@@ -140,14 +142,7 @@ const LearningpathPage = ({
         ])}
         trackableContent={learningpath}
         description={learningpath.description}
-        locale={locale as LocaleType}
-        image={
-          learningpath.coverphoto?.url
-            ? {
-                url: learningpath.coverphoto?.url,
-              }
-            : undefined
-        }
+        imageUrl={learningpath.coverphoto?.url}
       />
       <Learningpath
         skipToContentId={skipToContentId}
@@ -160,7 +155,7 @@ const LearningpathPage = ({
         resourceTypes={resourceTypes}
         topicPath={topicPath}
         locale={locale}
-        ndlaFilm={ndlaFilm}
+        ndlaFilm={!!ndlaFilm}
         breadcrumbItems={breadcrumbItems}
       />
     </div>
@@ -206,7 +201,7 @@ LearningpathPage.getDimensions = (props: Props) => {
 };
 
 const getTitle = (
-  subject?: Pick<GQLSubjectInfoFragment, 'name'>,
+  subject?: Pick<GQLSubject, 'name'>,
   learningpath?: Pick<GQLLearningpath, 'title'>,
   learningpathStep?: Pick<GQLLearningpathStep, 'title'>,
 ) => {
@@ -226,5 +221,56 @@ const getDocumentTitle = (t: TFunction, data: PropData) => {
 
 LearningpathPage.getDocumentTitle = ({ t, data }: Props) =>
   getDocumentTitle(t, data);
+
+export const learningpathPageFragments = {
+  topic: gql`
+    fragment LearningpathPage_Topic on Topic {
+      ...Learningpath_Topic
+    }
+    ${Learningpath.fragments.topic}
+  `,
+  subject: gql`
+    fragment LearningpathPage_Subject on Subject {
+      id
+      ...Learningpath_Subject
+    }
+    ${Learningpath.fragments.subject}
+  `,
+  resourceType: gql`
+    fragment LearningpathPage_ResourceTypeDefinition on ResourceTypeDefinition {
+      ...Learningpath_ResourceTypeDefinition
+    }
+    ${Learningpath.fragments.resourceType}
+  `,
+  resource: gql`
+    fragment LearningpathPage_Resource on Resource {
+      id
+      ...Learningpath_Resource
+      learningpath {
+        supportedLanguages
+        tags
+        description
+        coverphoto {
+          url
+          metaUrl
+        }
+        learningsteps {
+          type
+          ...Learningpath_LearningpathStep
+        }
+        ...Learningpath_Learningpath
+      }
+    }
+    ${Learningpath.fragments.learningpathStep}
+    ${Learningpath.fragments.learningpath}
+    ${Learningpath.fragments.resource}
+  `,
+  topicPath: gql`
+    fragment LearningpathPage_TopicPath on Topic {
+      ...Learningpath_TopicPath
+    }
+    ${Learningpath.fragments.topicPath}
+  `,
+};
 
 export default withTranslation()(withTracker(LearningpathPage));

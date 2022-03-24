@@ -6,11 +6,8 @@
  */
 
 import React, { ComponentType } from 'react';
-import { CompetenceGoalTab } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
-import { isValidElementType } from 'react-is';
-import Spinner from '@ndla/ui/lib/Spinner';
-
+import { CompetenceGoalTab } from '@ndla/ui';
 import { competenceGoalsQuery } from '../queries';
 import handleError from '../util/handleError';
 import {
@@ -201,7 +198,7 @@ const CompetenceGoals = ({
   wrapperComponentProps,
 }: Props) => {
   const { t } = useTranslation();
-  const { error, data, loading } = useGraphQuery<GQLCompetenceGoalsQuery>(
+  const { error, data } = useGraphQuery<GQLCompetenceGoalsQuery>(
     competenceGoalsQuery,
     {
       variables: { codes, nodeId, language },
@@ -211,10 +208,6 @@ const CompetenceGoals = ({
   if (error) {
     handleError(error);
     return null;
-  }
-
-  if (loading) {
-    return <Spinner />;
   }
 
   if (!data) return null;
@@ -265,17 +258,6 @@ const CompetenceGoals = ({
       <CompetenceGoalTab list={competenceGoalsList} />
     </Component>
   );
-};
-
-CompetenceGoals.propTypes = {
-  wrapperComponent: (props: any, propName: string) => {
-    if (props[propName] && !isValidElementType(props[propName])) {
-      return new Error(
-        `Invalid prop 'component' supplied to 'CompetenceGoals': the prop is not a valid React component`,
-      );
-    }
-    return null;
-  },
 };
 
 export default CompetenceGoals;

@@ -7,7 +7,6 @@
  *
  */
 
-import React from 'react';
 import { FrontpageProgramMenu } from '@ndla/ui';
 
 import {
@@ -23,6 +22,7 @@ const FrontpageSubjects = ({ locale }: Props) => (
   <FrontpageProgramMenu
     programItems={getProgrammes(locale)}
     subjectCategories={getCategorizedSubjects(locale)}
+    showBetaCursor
   />
 );
 

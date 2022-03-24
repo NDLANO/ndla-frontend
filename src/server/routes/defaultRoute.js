@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { StaticRouter } from 'react-router';
 import { matchPath } from 'react-router-dom';
 import url from 'url';

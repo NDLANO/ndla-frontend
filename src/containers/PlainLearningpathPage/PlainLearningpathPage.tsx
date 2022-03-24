@@ -6,15 +6,19 @@
  *
  */
 
-import React, { useContext } from 'react';
+import { gql } from '@apollo/client';
+import { useContext } from 'react';
 import { Spinner } from '@ndla/ui';
 import { RouteComponentProps, withRouter } from 'react-router';
-
-import { learningPathStepQuery } from '../../queries';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import { useGraphQuery } from '../../util/runQueries';
-import PlainLearningpathContainer from './PlainLearningpathContainer';
-import { GQLLearningPathStepQuery } from '../../graphqlTypes';
+import PlainLearningpathContainer, {
+  plainLearningpathContainerFragments,
+} from './PlainLearningpathContainer';
+import {
+  GQLPlainLearningpathPageQuery,
+  GQLPlainLearningpathPageQueryVariables,
+} from '../../graphqlTypes';
 import { RootComponentProps } from '../../routes';
 import { AuthContext } from '../../components/AuthenticationContext';
 
@@ -23,17 +27,26 @@ interface MatchParams {
   stepId?: string;
 }
 
+const plainLearningpathPageQuery = gql`
+  query plainLearningpathPage($pathId: String!) {
+    learningpath(pathId: $pathId) {
+      ...PlainLearningpathContainer_Learningpath
+    }
+  }
+  ${plainLearningpathContainerFragments.learningpath}
+`;
+
 interface Props extends RootComponentProps, RouteComponentProps<MatchParams> {}
 const PlainLearningpathPage = ({ locale, skipToContentId, match }: Props) => {
   const { stepId, learningpathId } = match.params;
   const { user } = useContext(AuthContext);
 
-  const { data, loading } = useGraphQuery<GQLLearningPathStepQuery>(
-    learningPathStepQuery,
-    {
-      variables: { pathId: learningpathId },
-    },
-  );
+  const { data, loading } = useGraphQuery<
+    GQLPlainLearningpathPageQuery,
+    GQLPlainLearningpathPageQueryVariables
+  >(plainLearningpathPageQuery, {
+    variables: { pathId: learningpathId },
+  });
 
   if (loading) {
     return <Spinner />;

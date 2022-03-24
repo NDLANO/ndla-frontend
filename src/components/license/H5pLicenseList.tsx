@@ -6,20 +6,14 @@
  *
  */
 
-import React from 'react';
+import { gql } from '@apollo/client';
 import { uuid } from '@ndla/util';
 import {
-  //@ts-ignore
   MediaList,
-  //@ts-ignore
   MediaListItem,
-  //@ts-ignore
   MediaListItemImage,
-  //@ts-ignore
   MediaListItemBody,
-  //@ts-ignore
   MediaListItemActions,
-  //@ts-ignore
   MediaListItemMeta,
 } from '@ndla/ui';
 import {
@@ -28,13 +22,14 @@ import {
 } from '@ndla/licenses';
 import { H5PBold } from '@ndla/icons/editor';
 import { useTranslation } from 'react-i18next';
-import { GQLH5pLicense } from '../../graphqlTypes';
+import { GQLH5pLicenseList_H5pLicenseFragment } from '../../graphqlTypes';
 import CopyTextButton from './CopyTextButton';
 import { LocaleType } from '../../interfaces';
 import { licenseCopyrightToCopyrightType } from './licenseHelpers';
+import { licenseListCopyrightFragment } from './licenseFragments';
 
 interface H5pLicenseInfoProps {
-  h5p: GQLH5pLicense;
+  h5p: GQLH5pLicenseList_H5pLicenseFragment;
   locale: LocaleType;
 }
 
@@ -66,11 +61,6 @@ const H5pLicenseInfo = ({ h5p, locale }: H5pLicenseInfoProps) => {
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />
             <CopyTextButton
-              stringToCopy={h5p.copyText}
-              copyTitle={t('license.copyTitle')}
-              hasCopiedTitle={t('license.hasCopiedTitle')}
-            />
-            <CopyTextButton
               stringToCopy={`<iframe title="${h5p.title}" aria-label="${h5p.src}" height="400" width="500" frameborder="0" src="${h5p.src}" allowfullscreen=""></iframe>`}
               copyTitle={t('license.embed')}
               hasCopiedTitle={t('license.embedCopied')}
@@ -83,7 +73,7 @@ const H5pLicenseInfo = ({ h5p, locale }: H5pLicenseInfoProps) => {
 };
 
 interface Props {
-  h5ps: GQLH5pLicense[];
+  h5ps: GQLH5pLicenseList_H5pLicenseFragment[];
   locale: LocaleType;
 }
 
@@ -100,6 +90,19 @@ const H5pLicenseList = ({ h5ps, locale }: Props) => {
       </MediaList>
     </div>
   );
+};
+
+H5pLicenseList.fragments = {
+  h5p: gql`
+    fragment H5pLicenseList_H5pLicense on H5pLicense {
+      title
+      src
+      copyright {
+        ...LicenseListCopyright
+      }
+    }
+    ${licenseListCopyrightFragment}
+  `,
 };
 
 export default H5pLicenseList;

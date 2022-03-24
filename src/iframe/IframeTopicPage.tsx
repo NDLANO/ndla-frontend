@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import { gql } from '@apollo/client';
 import { Helmet } from 'react-helmet';
 import { withTracker } from '@ndla/tracker';
 import { OneColumn, CreatedBy, constants } from '@ndla/ui';
@@ -17,22 +17,27 @@ import { getArticleScripts } from '../util/getArticleScripts';
 import PostResizeMessage from './PostResizeMessage';
 import FixDialogPosition from './FixDialogPosition';
 import SocialMediaMetadata from '../components/SocialMediaMetadata';
-import getStructuredDataFromArticle from '../util/getStructuredDataFromArticle';
+import getStructuredDataFromArticle, {
+  structuredArticleDataFragment,
+} from '../util/getStructuredDataFromArticle';
 import config from '../config';
-import { GQLArticle, GQLTopic } from '../graphqlTypes';
+import {
+  GQLIframeTopicPage_ArticleFragment,
+  GQLIframeTopicPage_TopicFragment,
+} from '../graphqlTypes';
 import { LocaleType } from '../interfaces';
 
 interface Props extends CustomWithTranslation {
   locale?: LocaleType;
-  article: GQLArticle;
-  topic: Partial<GQLTopic> & { article?: GQLArticle };
+  article: GQLIframeTopicPage_ArticleFragment;
+  topic?: GQLIframeTopicPage_TopicFragment;
   status?: 'success' | 'error';
   skipToContentId?: string;
 }
 
-const getDocumentTitle = ({ topic }: Pick<Props, 'topic'>) => {
-  if (topic?.article?.id) {
-    return `NDLA | ${topic.article.title}`;
+const getDocumentTitle = ({ article }: Pick<Props, 'article'>) => {
+  if (article?.id) {
+    return `NDLA | ${article.title}`;
   }
   return '';
 };
@@ -47,13 +52,13 @@ export const IframeTopicPage = ({
   const locale = localeProp ?? i18n.language;
   const article = transformArticle(propArticle, locale);
   const scripts = getArticleScripts(article);
-  const contentUrl = topic.path
+  const contentUrl = topic?.path
     ? `${config.ndlaFrontendDomain}${topic.path}`
     : undefined;
   return (
     <>
       <Helmet>
-        <title>{`${getDocumentTitle({ topic })}`}</title>
+        <title>{`${getDocumentTitle({ article })}`}</title>
         <meta name="robots" content="noindex" />
         {article && article.metaDescription && (
           <meta name="description" content={article.metaDescription} />
@@ -73,10 +78,9 @@ export const IframeTopicPage = ({
       {article && (
         <SocialMediaMetadata
           description={article.metaDescription}
-          image={article.metaImage}
+          imageUrl={article.metaImage?.url}
           title={article.title}
           trackableContent={article}
-          locale={locale}
         />
       )}
       <PostResizeMessage />
@@ -99,14 +103,31 @@ export const IframeTopicPage = ({
   );
 };
 
+export const iframeTopicPageFragments = {
+  article: gql`
+    fragment IframeTopicPage_Article on Article {
+      created
+      ...Article_Article
+      ...StructuredArticleData
+    }
+    ${Article.fragments.article}
+    ${structuredArticleDataFragment}
+  `,
+  topic: gql`
+    fragment IframeTopicPage_Topic on Topic {
+      path
+    }
+  `,
+};
+
 IframeTopicPage.getDocumentTitle = getDocumentTitle;
 
 IframeTopicPage.willTrackPageView = (
   trackPageView: (currentProps: Props) => void,
   currentProps: Props,
 ) => {
-  const { topic } = currentProps;
-  if (topic?.article?.id) {
+  const { article } = currentProps;
+  if (article?.id) {
     trackPageView(currentProps);
   }
 };

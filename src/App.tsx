@@ -6,7 +6,7 @@
  *
  */
 
-import React, { ErrorInfo } from 'react';
+import { ErrorInfo, ComponentType, Component } from 'react';
 import { configureTracker } from '@ndla/tracker';
 import {
   Route,
@@ -45,7 +45,7 @@ interface NDLARouteProps extends RouteProps {
   skipToContent?: string;
   hideBreadcrumb?: boolean;
   initialSelectMenu?: string;
-  component: React.ComponentType<RootComponentProps>;
+  component: ComponentType<RootComponentProps>;
 }
 
 const NDLARoute = ({
@@ -150,7 +150,7 @@ interface AppState {
   location: H.Location | null;
 }
 
-class App extends React.Component<AppProps, AppState> {
+class App extends Component<AppProps, AppState> {
   private location: H.Location | null;
 
   constructor(props: AppProps) {

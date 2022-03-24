@@ -6,20 +6,14 @@
  *
  */
 
-import React from 'react';
+import { gql } from '@apollo/client';
 import { uuid } from '@ndla/util';
 import {
-  //@ts-ignore
   MediaList,
-  //@ts-ignore
   MediaListItem,
-  //@ts-ignore
   MediaListItemImage,
-  //@ts-ignore
   MediaListItemBody,
-  //@ts-ignore
   MediaListItemActions,
-  //@ts-ignore
   MediaListItemMeta,
 } from '@ndla/ui';
 import {
@@ -29,12 +23,13 @@ import {
 import { useTranslation } from 'react-i18next';
 import CopyTextButton from './CopyTextButton';
 import AnchorButton from './AnchorButton';
-import { GQLBrightcoveLicense } from '../../graphqlTypes';
+import { GQLVideoLicenseList_BrightcoveLicenseFragment } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
 import { licenseCopyrightToCopyrightType } from './licenseHelpers';
+import { licenseListCopyrightFragment } from './licenseFragments';
 
 interface VideoLicenseInfoProps {
-  video: GQLBrightcoveLicense;
+  video: GQLVideoLicenseList_BrightcoveLicenseFragment;
   locale: LocaleType;
 }
 
@@ -63,11 +58,6 @@ const VideoLicenseInfo = ({ video, locale }: VideoLicenseInfoProps) => {
         <MediaListItemActions>
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />
-            <CopyTextButton
-              stringToCopy={video.copyText}
-              copyTitle={t('license.copyTitle')}
-              hasCopiedTitle={t('license.hasCopiedTitle')}
-            />
             {video.copyright.license?.license !== 'COPYRIGHTED' && (
               <AnchorButton href={video.download} download appearance="outline">
                 {t('license.download')}
@@ -86,7 +76,7 @@ const VideoLicenseInfo = ({ video, locale }: VideoLicenseInfoProps) => {
 };
 
 interface Props {
-  videos: GQLBrightcoveLicense[];
+  videos: GQLVideoLicenseList_BrightcoveLicenseFragment[];
   locale: LocaleType;
 }
 
@@ -103,6 +93,26 @@ const VideoLicenseList = ({ videos, locale }: Props) => {
       </MediaList>
     </div>
   );
+};
+
+VideoLicenseList.fragments = {
+  video: gql`
+    fragment VideoLicenseList_BrightcoveLicense on BrightcoveLicense {
+      title
+      download
+      src
+      cover
+      iframe {
+        width
+        height
+        src
+      }
+      copyright {
+        ...LicenseListCopyright
+      }
+    }
+    ${licenseListCopyrightFragment}
+  `,
 };
 
 export default VideoLicenseList;

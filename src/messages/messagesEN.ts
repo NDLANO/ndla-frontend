@@ -18,6 +18,7 @@ const messages = {
     notFound: `Page not found - ${titleTemplate}`,
     accessDenied: `Access denied - ${titleTemplate}`,
     subject: 'Subject',
+    podcast: `Podcast - Page {{page}} - ${titleTemplate}`,
     lti: `LTI - ${titleTemplate}`,
     movedResourcePage: `The page has been moved - ${titleTemplate}`,
     toolbox: {
@@ -25,6 +26,13 @@ const messages = {
       introduction:
         'What will it mean to work exploratory? How can you learn better? What is needed in order to make group work function? In the toolbox both students and teach find resources that are current for every subject, and that support learning work and development of knowledge, skills and understanding.',
     },
+  },
+  podcastPage: {
+    episodes: 'Episodes',
+    podcast: 'Podcast',
+    podcasts: 'Podcasts',
+    pageInfo: 'Page {{page}} of {{lastPage}}',
+    noResults: '...No episodes',
   },
   blogPosts: {
     blog1: {

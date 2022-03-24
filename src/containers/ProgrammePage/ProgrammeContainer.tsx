@@ -8,7 +8,6 @@
 
 import { withTracker } from '@ndla/tracker';
 import { Programme } from '@ndla/ui';
-import React from 'react';
 import { Helmet } from 'react-helmet';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { LocaleType, ProgrammeType } from '../../interfaces';

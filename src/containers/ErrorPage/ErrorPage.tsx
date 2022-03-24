@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import PropTypes from 'prop-types';
 import { Content, Masthead, MastheadItem, Logo } from '@ndla/ui';
 import { RouteProps } from 'react-router';

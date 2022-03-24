@@ -10,13 +10,6 @@ import fetch from 'node-fetch';
 import express, { Request, Response, NextFunction } from 'express';
 import helmet from 'helmet';
 import bodyParser from 'body-parser';
-import {
-  OK,
-  INTERNAL_SERVER_ERROR,
-  MOVED_PERMANENTLY,
-  TEMPORARY_REDIRECT,
-  BAD_REQUEST,
-} from 'http-status';
 import { matchPath } from 'react-router-dom';
 import {
   defaultRoute,
@@ -39,7 +32,15 @@ import {
   feideLogout,
 } from './helpers/openidHelper';
 import { podcastFeedRoute } from './routes/podcastFeedRoute';
+import programmeSitemap from './programmeSitemap';
 import config from '../config';
+import {
+  OK,
+  INTERNAL_SERVER_ERROR,
+  MOVED_PERMANENTLY,
+  TEMPORARY_REDIRECT,
+  BAD_REQUEST,
+} from '../statusCodes';
 
 // @ts-ignore
 global.fetch = fetch;
@@ -206,6 +207,15 @@ app.get(
     res.removeHeader('X-Frame-Options');
     res.setHeader('Content-Type', 'application/xml');
     res.send(ltiConfig());
+  },
+);
+
+app.get(
+  '/utdanningsprogram-sitemap.txt',
+  ndlaMiddleware,
+  async (_req: Request, res: Response) => {
+    res.setHeader('Content-Type', 'application/txt');
+    res.send(programmeSitemap());
   },
 );
 

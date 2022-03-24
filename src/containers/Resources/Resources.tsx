@@ -6,9 +6,10 @@
  *
  */
 
-import React, { useEffect, useState } from 'react';
+import { gql } from '@apollo/client';
+import { useEffect, useState } from 'react';
 import { ResourcesWrapper, ResourcesTopicTitle, ResourceGroup } from '@ndla/ui';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { useRouteMatch } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { contentTypeMapping } from '../../util/getContentType';
 import { getResourceGroups, sortResourceTypes } from './getResourceGroups';
@@ -17,9 +18,8 @@ import {
   TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE,
 } from '../../constants';
 import {
-  GQLResource,
-  GQLResourceType,
-  GQLTopicQueryTopicFragment,
+  GQLResources_ResourceTypeDefinitionFragment,
+  GQLResources_TopicFragment,
 } from '../../graphqlTypes';
 
 interface MatchProps {
@@ -29,23 +29,13 @@ interface MatchProps {
   resourceId?: string;
 }
 
-interface ResourcesTopic extends Omit<GQLTopicQueryTopicFragment, 'metadata'> {
-  metadata?: GQLTopicQueryTopicFragment['metadata'];
-}
-
-interface Props extends RouteComponentProps<MatchProps> {
-  topic: ResourcesTopic;
-  resourceTypes?: Pick<GQLResourceType, 'id' | 'name'>[];
-  coreResources?: GQLResource[];
-  supplementaryResources?: GQLResource[];
+interface Props {
+  topic: GQLResources_TopicFragment;
+  resourceTypes?: GQLResources_ResourceTypeDefinitionFragment[];
   ndlaFilm?: boolean;
 }
-const Resources = ({
-  match: { params },
-  topic,
-  resourceTypes,
-  ndlaFilm,
-}: Props) => {
+const Resources = ({ topic, resourceTypes, ndlaFilm }: Props) => {
+  const { params } = useRouteMatch<MatchProps>();
   const [showAdditionalResources, setShowAdditionalResources] = useState(false);
   const { t } = useTranslation();
 
@@ -189,4 +179,43 @@ const Resources = ({
   );
 };
 
-export default withRouter(Resources);
+const resourceFragment = gql`
+  fragment Resources_Resource on Resource {
+    id
+    name
+    contentUri
+    path
+    paths
+    rank
+    resourceTypes {
+      id
+      name
+    }
+  }
+`;
+
+Resources.fragments = {
+  resourceType: gql`
+    fragment Resources_ResourceTypeDefinition on ResourceTypeDefinition {
+      id
+      name
+    }
+  `,
+  topic: gql`
+    fragment Resources_Topic on Topic {
+      name
+      coreResources(subjectId: $subjectId) {
+        ...Resources_Resource
+      }
+      supplementaryResources(subjectId: $subjectId) {
+        ...Resources_Resource
+      }
+      metadata {
+        customFields
+      }
+    }
+    ${resourceFragment}
+  `,
+};
+
+export default Resources;

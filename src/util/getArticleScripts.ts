@@ -16,7 +16,9 @@ export interface Scripts {
   defer?: boolean;
 }
 
-export function getArticleScripts(article: GQLArticle) {
+export function getArticleScripts(
+  article: Pick<GQLArticle, 'requiredLibraries' | 'content'>,
+) {
   const scripts: Array<Scripts> =
     article.requiredLibraries?.map(lib => ({
       src: lib.url,

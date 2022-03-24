@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { copyTextToClipboard } from '@ndla/util';
 import Button from '@ndla/button';
 

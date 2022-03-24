@@ -6,9 +6,8 @@
  *
  */
 
-import React from 'react';
+import { gql } from '@apollo/client';
 import { Helmet } from 'react-helmet';
-
 import { OneColumn, CreatedBy } from '@ndla/ui';
 import { withTracker } from '@ndla/tracker';
 import { CustomWithTranslation, withTranslation } from 'react-i18next';
@@ -22,12 +21,15 @@ import FixDialogPosition from './FixDialogPosition';
 import SocialMediaMetadata from '../components/SocialMediaMetadata';
 import config from '../config';
 import { LocaleType } from '../interfaces';
-import { GQLArticle, GQLIframeResourceFragment } from '../graphqlTypes';
+import {
+  GQLIframeArticlePage_ArticleFragment,
+  GQLIframeArticlePage_ResourceFragment,
+} from '../graphqlTypes';
 
 interface Props extends CustomWithTranslation {
   locale?: LocaleType;
-  resource?: GQLIframeResourceFragment;
-  article: GQLArticle;
+  resource?: GQLIframeArticlePage_ResourceFragment;
+  article: GQLIframeArticlePage_ArticleFragment;
 }
 
 const IframeArticlePage = ({
@@ -60,9 +62,8 @@ const IframeArticlePage = ({
       </Helmet>
       <SocialMediaMetadata
         title={article.title}
-        image={article.metaImage}
+        imageUrl={article.metaImage?.url}
         description={article.metaDescription}
-        locale={locale}
         trackableContent={article}
       />
       <PostResizeMessage />
@@ -80,6 +81,31 @@ const IframeArticlePage = ({
       </Article>
     </OneColumn>
   );
+};
+
+export const iframeArticlePageFragments = {
+  article: gql`
+    fragment IframeArticlePage_Article on Article {
+      created
+      updated
+      metaDescription
+      metaImage {
+        url
+      }
+      ...Article_Article
+    }
+    ${Article.fragments.article}
+  `,
+  resource: gql`
+    fragment IframeArticlePage_Resource on Resource {
+      id
+      path
+      resourceTypes {
+        id
+        name
+      }
+    }
+  `,
 };
 
 IframeArticlePage.getDocumentTitle = ({ article }: Pick<Props, 'article'>) => {

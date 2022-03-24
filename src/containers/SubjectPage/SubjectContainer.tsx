@@ -6,7 +6,15 @@
  *
  */
 
-import React, { ComponentType, ReactNode, useState, useRef } from 'react';
+import { gql } from '@apollo/client';
+import {
+  ComponentType,
+  ReactNode,
+  useState,
+  useRef,
+  createRef,
+  MouseEvent,
+} from 'react';
 import { Helmet } from 'react-helmet';
 import {
   ArticleHeaderWrapper,
@@ -22,28 +30,23 @@ import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router';
 import { withTranslation, WithTranslation } from 'react-i18next';
 import SubjectPageContent from './components/SubjectPageContent';
-import SubjectEditorChoices from './components/SubjectEditorChoices';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { scrollToRef } from './subjectPageHelpers';
-import SubjectPageInformation from './components/SubjectPageInformation';
 import CompetenceGoals from '../../components/CompetenceGoals';
 import { getSubjectBySubjectId, getSubjectLongName } from '../../data/subjects';
 import { parseAndMatchUrl } from '../../util/urlHelper';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { htmlTitle } from '../../util/titleHelper';
 import { BreadcrumbItem, LocaleType } from '../../interfaces';
-import { GQLSubjectPageWithTopicsQuery } from '../../graphqlTypes';
+import { GQLSubjectContainer_SubjectFragment } from '../../graphqlTypes';
 import { FeideUserWithGroups } from '../../util/feideApi';
 
-export type GQLSubjectContainerType = Required<
-  GQLSubjectPageWithTopicsQuery
->['subject'];
 type Props = {
   locale: LocaleType;
   skipToContentId?: string;
   subjectId: string;
   topicIds: string[];
-  subject: GQLSubjectContainerType;
+  subject: GQLSubjectContainer_SubjectFragment;
   ndlaFilm?: boolean;
   loading?: boolean;
   user?: FeideUserWithGroups;
@@ -63,7 +66,6 @@ const SubjectContainer = ({
 
   const metaDescription = subject.subjectpage?.metaDescription;
   const about = subject.subjectpage?.about;
-  const editorsChoices = subject.subjectpage?.editorsChoices;
 
   const [currentLevel, setCurrentLevel] = useState<number | string | undefined>(
     0,
@@ -124,7 +126,7 @@ const SubjectContainer = ({
   };
 
   function renderCompetenceGoals(
-    subject: GQLSubjectContainerType,
+    subject: GQLSubjectContainer_SubjectFragment,
     locale: LocaleType,
   ):
     | ((inp: {
@@ -154,12 +156,9 @@ const SubjectContainer = ({
   }
 
   const headerRef = useRef<HTMLDivElement>(null);
-  const topicRefs = topicIds.map(_ => React.createRef<HTMLDivElement>());
+  const topicRefs = topicIds.map(_ => createRef<HTMLDivElement>());
 
-  const handleNav = (
-    e: React.MouseEvent<HTMLElement>,
-    item: BreadcrumbItem,
-  ) => {
+  const handleNav = (e: MouseEvent<HTMLElement>, item: BreadcrumbItem) => {
     e.preventDefault();
     const { typename, index } = item;
     if (typename === 'Subjecttype' || typename === 'Subject') {
@@ -174,7 +173,7 @@ const SubjectContainer = ({
     }
   };
 
-  const onClickTopics = (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const onClickTopics = (e: MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     const path = parseAndMatchUrl(e.currentTarget?.href, true);
     history.push({ pathname: path?.url });
@@ -209,11 +208,8 @@ const SubjectContainer = ({
       : subject.topics) || [];
 
   const supportedLanguages =
-    topicsOnPage[topicsOnPage.length - 1]?.article?.supportedLanguages;
+    topicsOnPage[topicsOnPage.length - 1]?.supportedLanguages;
 
-  const imageUrlObj = socialMediaMetadata.image?.url
-    ? { url: socialMediaMetadata.image.url }
-    : undefined;
   return (
     <>
       <Helmet>
@@ -230,8 +226,7 @@ const SubjectContainer = ({
             <SocialMediaMetadata
               title={socialMediaMetadata.title}
               description={socialMediaMetadata.description}
-              locale={locale}
-              image={imageUrlObj}
+              imageUrl={socialMediaMetadata.image?.url}
               trackableContent={{ supportedLanguages }}
             />
 
@@ -263,7 +258,7 @@ const SubjectContainer = ({
           negativeTopMargin={moveBannerUp}
         />
       )}
-      {false && subject.subjectpage?.about && (
+      {/* {false && subject.subjectpage?.about && (
         <OneColumn wide>
           <SubjectPageInformation subjectpage={subject.subjectpage} wide />
         </OneColumn>
@@ -274,7 +269,7 @@ const SubjectContainer = ({
           editorsChoices={editorsChoices}
           locale={locale}
         />
-      )}
+      )} */}
       <OneColumn wide>
         <Breadcrumblist
           items={breadCrumbs}
@@ -314,6 +309,42 @@ SubjectContainer.getDimensions = (props: Props) => {
     filter: longName,
     user,
   });
+};
+
+export const subjectContainerFragments = {
+  subject: gql`
+    fragment SubjectContainer_Subject on Subject {
+      grepCodes
+      topics {
+        id
+        supportedLanguages
+      }
+      allTopics {
+        id
+        name
+        meta {
+          metaDescription
+          metaImage {
+            url
+          }
+        }
+      }
+      subjectpage {
+        metaDescription
+        about {
+          title
+          visualElement {
+            url
+          }
+        }
+        banner {
+          desktopUrl
+        }
+      }
+      ...SubjectPageContent_Subject
+    }
+    ${SubjectPageContent.fragments.subject}
+  `,
 };
 
 export default withTranslation()(withRouter(withTracker(SubjectContainer)));

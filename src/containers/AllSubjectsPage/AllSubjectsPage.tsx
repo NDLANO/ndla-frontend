@@ -6,20 +6,28 @@
  *
  */
 
-import React from 'react';
+import { gql } from '@apollo/client';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { OneColumn, ErrorMessage } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
 
 import { SubjectLinkList } from '../../components';
 import { useGraphQuery } from '../../util/runQueries';
-import { subjectsQuery } from '../../queries';
-import { GQLSubjectsQuery } from '../../graphqlTypes';
+import { GQLAllSubjectsQuery } from '../../graphqlTypes';
+
+const allSubjectsPageQuery = gql`
+  query allSubjects {
+    subjects {
+      ...SubjectLinkListSubject
+    }
+  }
+  ${SubjectLinkList.fragments.subject}
+`;
 
 const AllSubjectsPage = () => {
   const { t } = useTranslation();
-  const { error, loading, data } = useGraphQuery<GQLSubjectsQuery>(
-    subjectsQuery,
+  const { error, loading, data } = useGraphQuery<GQLAllSubjectsQuery>(
+    allSubjectsPageQuery,
   );
   if (loading) return null;
   return (

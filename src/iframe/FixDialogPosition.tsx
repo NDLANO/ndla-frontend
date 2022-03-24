@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import { Component } from 'react';
 import { Helmet } from 'react-helmet';
 import {
   forEachElement,
@@ -19,7 +19,7 @@ import {
  * our css for align dialogs in the middle of the screen does not work. The
  * solution is to postions the dialogs absolutely.
  */
-class FixDialogPosition extends React.Component {
+class FixDialogPosition extends Component {
   componentDidMount() {
     window.addEventListener('resize', this.updateDialogPositions);
     this.updateDialogPositions();
