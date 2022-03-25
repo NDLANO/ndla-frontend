@@ -9,6 +9,7 @@
 import { gql } from '@apollo/client';
 import { useContext } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { ContentPlaceholder } from '@ndla/ui';
 import { getUrnIdsFromProps } from '../../routeHelpers';
 import { useGraphQuery } from '../../util/runQueries';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
@@ -49,7 +50,7 @@ const ToolboxSubjectPage = ({ match, locale }: Props) => {
   });
 
   if (loading) {
-    return null;
+    return <ContentPlaceholder />;
   }
 
   if (!data?.subject) {

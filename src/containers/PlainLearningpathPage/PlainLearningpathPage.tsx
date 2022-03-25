@@ -8,7 +8,7 @@
 
 import { gql } from '@apollo/client';
 import { useContext } from 'react';
-import { Spinner } from '@ndla/ui';
+import { ContentPlaceholder } from '@ndla/ui';
 import { RouteComponentProps, withRouter } from 'react-router';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import { useGraphQuery } from '../../util/runQueries';
@@ -49,7 +49,7 @@ const PlainLearningpathPage = ({ locale, skipToContentId, match }: Props) => {
   });
 
   if (loading) {
-    return <Spinner />;
+    return <ContentPlaceholder />;
   }
   if (
     !data ||

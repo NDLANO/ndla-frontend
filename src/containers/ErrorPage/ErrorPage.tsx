@@ -23,12 +23,12 @@ const ErrorPage = ({ locale, location }: Props) => {
   const { t } = useTranslation();
   return (
     <Page location={location}>
+      <Masthead fixed>
+        <MastheadItem right>
+          <Logo to="/" locale={locale} label={t('logo.altText')} />
+        </MastheadItem>
+      </Masthead>
       <Content>
-        <Masthead showLoaderWhenNeeded={false} fixed>
-          <MastheadItem right>
-            <Logo to="/" locale={locale} label={t('logo.altText')} />
-          </MastheadItem>
-        </Masthead>
         <DefaultErrorMessage />
       </Content>
     </Page>

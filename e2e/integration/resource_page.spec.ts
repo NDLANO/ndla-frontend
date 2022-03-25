@@ -11,7 +11,7 @@ describe('Resource page', () => {
     cy.fixCypressSpec('/e2e/integration/resource_page.spec.ts');
     cy.gqlIntercept({
       alias: 'resourcePage',
-      operations: ['resourcePage', 'mastHead'],
+      operations: ['resourcePage', 'mastHead', 'alerts'],
     });
   });
 

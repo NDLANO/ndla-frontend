@@ -43,6 +43,7 @@ import {
   GQLTopicInfoFragment,
 } from '../../graphqlTypes';
 import config from '../../config';
+import { useAlerts } from '../../components/AlertsContext';
 
 interface Props extends RouteComponentProps {
   locale: LocaleType;
@@ -162,13 +163,16 @@ const MastheadContainer = ({
       />
     );
 
+  const alerts = useAlerts().map(alert => alert.body || alert.title);
+
   return (
     <ErrorBoundary>
       <Masthead
         fixed
         ndlaFilm={ndlaFilm}
         skipToMainContentId={skipToMainContentId}
-        infoContent={infoContent}>
+        infoContent={infoContent}
+        messages={alerts}>
         <MastheadItem left>
           <MastheadMenu
             subject={subject}
@@ -191,10 +195,8 @@ const MastheadContainer = ({
                         .slice(1)
                         .map(uri => ({ name: uri.name!, to: uri.to! }))
                     : []
-                }>
-                {/* Requires a child */}
-                <></>
-              </BreadcrumbBlock>
+                }
+              />
             </DisplayOnPageYOffset>
           )}
         </MastheadItem>

@@ -11,6 +11,7 @@ import { useContext } from 'react';
 import { Redirect, RouteComponentProps, withRouter } from 'react-router-dom';
 import { Location } from 'history';
 import { useTranslation } from 'react-i18next';
+import { ContentPlaceholder } from '@ndla/ui';
 
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import { getUrnIdsFromProps } from '../../routeHelpers';
@@ -106,7 +107,7 @@ const ResourcePage = (props: Props) => {
   );
 
   if (loading) {
-    return null;
+    return <ContentPlaceholder />;
   }
 
   if (isAccessDeniedError(error)) {
