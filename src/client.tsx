@@ -100,7 +100,6 @@ function removeUniversalPortals() {
   }
 }
 
-// somewhere later in the application
 removeUniversalPortals();
 
 renderOrHydrate(
