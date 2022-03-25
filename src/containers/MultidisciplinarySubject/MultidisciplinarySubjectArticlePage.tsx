@@ -8,6 +8,7 @@
 
 import { useContext } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
+import { ContentPlaceholder } from '@ndla/ui';
 import { Helmet } from 'react-helmet';
 import { useTranslation } from 'react-i18next';
 import { useGraphQuery } from '../../util/runQueries';
@@ -48,7 +49,7 @@ const MultidisciplinarySubjectArticlePage = ({
   });
 
   if (loading) {
-    return null;
+    return <ContentPlaceholder />;
   }
 
   if (!data?.topic || !data?.subject) {

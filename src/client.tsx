@@ -84,6 +84,24 @@ const RouterComponent = ({ children }: RCProps) =>
     <Router history={browserHistory}>{children}</Router>
   );
 
+function canUseDOM() {
+  return !!(
+    typeof window !== 'undefined' &&
+    window.document &&
+    window.document.createElement
+  );
+}
+
+function removeUniversalPortals() {
+  if (canUseDOM()) {
+    document.querySelectorAll('[data-react-universal-portal]').forEach(node => {
+      node.remove();
+    });
+  }
+}
+
+removeUniversalPortals();
+
 renderOrHydrate(
   <ApolloProvider client={client}>
     <CacheProvider value={cache}>

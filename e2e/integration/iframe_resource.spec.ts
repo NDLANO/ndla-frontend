@@ -16,15 +16,15 @@ describe('Iframe resource page', () => {
       operations: ['iframePage'],
     });
     cy.gqlIntercept({
-      alias: 'articleConcepts',
-      operations: ['articleConcepts', 'competenceGoals'],
+      alias: 'competenceGoals',
+      operations: ['competenceGoals'],
     });
   });
 
   it('contains content', () => {
     cy.visit(`/article-iframe/nb/${resourceId}/3?disableSSR=true`);
     cy.gqlWait('@iframeResource');
-    cy.gqlWait('@articleConcepts');
+    cy.gqlWait('@competenceGoals');
     cy.get('.c-article').within(() => {
       cy.get('h1').contains('Meninger og kunnskap om samfunnet');
     });
