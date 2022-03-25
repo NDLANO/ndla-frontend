@@ -6,19 +6,26 @@
  *
  */
 
-import { visitOptions } from '../support';
-
 describe('Toolbox page', () => {
   beforeEach(() => {
-    cy.visit('/?disableSSR=true', visitOptions);
+    cy.fixCypressSpec('/e2e/integration/toolbox.spec.ts');
+    cy.gqlIntercept({
+      alias: 'alerts',
+      operations: ['alerts'],
+    });
+    cy.visit('/?disableSSR=true');
+    cy.gqlWait('@alerts');
   });
 
   it('Toolbox for students shows OK', () => {
-    cy.apiIntercept('POST', '**/graphql', 'toolboxStudentsGraphQL');
+    cy.gqlIntercept({
+      alias: 'toolboxStudents',
+      operations: ['toolboxSubjectPage', 'mastHead'],
+    });
     cy.get('a:contains("Se alle tipsene for elever")').click({
       force: true,
     });
-    cy.apiwait('@toolboxStudentsGraphQL');
+    cy.gqlWait('@toolboxStudents');
 
     cy.get('[class="o-wrapper "] h1:contains("Verktøykassa – for elev")');
 
@@ -31,11 +38,14 @@ describe('Toolbox page', () => {
   });
 
   it('Toolbox for teachers shows OK', () => {
-    cy.apiIntercept('POST', '**/graphql', 'toolboxTeachersGraphQL');
+    cy.gqlIntercept({
+      alias: 'toolboxTeachers',
+      operations: ['toolboxSubjectPage', 'mastHead'],
+    });
     cy.get('a:contains("Se alle tipsene for lærere")').click({
       force: true,
     });
-    cy.apiwait('@toolboxTeachersGraphQL');
+    cy.gqlWait('@toolboxTeachers');
 
     cy.get('[class="o-wrapper "] h1:contains("Verktøykassa – for lærer")');
 

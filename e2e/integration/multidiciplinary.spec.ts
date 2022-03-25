@@ -6,17 +6,24 @@
  *
  */
 
-import { visitOptions } from '../support';
-
 describe('Multidiciplinary page', () => {
   beforeEach(() => {
-    cy.visit('/?disableSSR=true', visitOptions);
+    cy.fixCypressSpec('/e2e/integration/multidisciplinary.spec.ts');
+    cy.gqlIntercept({
+      alias: 'alerts',
+      operations: ['alerts'],
+    });
+    cy.visit('/?disableSSR=true');
+    cy.gqlWait('@alerts');
 
-    cy.apiIntercept('POST', '**/graphql', 'multidiciplinaryGraphQL');
+    cy.gqlIntercept({
+      alias: 'multidisciplinary',
+      operations: ['mastHead', 'multiDisciplinarySubjectPage'],
+    });
     cy.get('a:contains("Se caser for tverrfaglige temaer")').click({
       force: true,
     });
-    cy.apiwait('@multidiciplinaryGraphQL');
+    cy.gqlWait('@multidisciplinary');
   });
 
   it('should include a list of valid topic links', () => {

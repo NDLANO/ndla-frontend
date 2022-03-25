@@ -6,16 +6,18 @@
  *
  */
 
-import { visitOptions } from '../support';
-
 describe('Film page', () => {
   beforeEach(() => {
-    cy.apiIntercept('POST', '**/graphql', 'filmPageGraphQL');
+    cy.fixCypressSpec('/e2e/integration/film_page.spec.ts');
+    cy.gqlIntercept({
+      alias: 'filmPage',
+      operations: ['filmFrontPage', 'filmSubjectPage', 'mastHead', 'alerts'],
+    });
   });
 
   it('has content', () => {
-    cy.visit('/subject:20?disableSSR=true', visitOptions);
-    cy.apiwait('@filmPageGraphQL');
+    cy.visit('/subject:20?disableSSR=true');
+    cy.gqlWait('@filmPage');
     cy.get('.c-film-slideshow').within(() => {
       cy.get('h1').contains('Systemsprengeren');
     });

@@ -6,26 +6,20 @@
  *
  */
 
-import { visitOptions } from '../support';
-
 const resourceId = 'urn:resource:1:124037';
 
 describe('Iframe resource page', () => {
   beforeEach(() => {
-    cy.apiIntercept(
-      'POST',
-      '**/graphql',
-      ['iframeResourceGraphQL', 'competenceGoalsGraphQL'],
-      ['iframeArticle', 'competenceGoals'],
-    );
+    cy.fixCypressSpec('/e2e/integration/iframe_resource.spec.ts');
+    cy.gqlIntercept({
+      alias: 'iframeResource',
+      operations: ['iframeArticle'],
+    });
   });
 
   it('contains content', () => {
-    cy.visit(
-      `/article-iframe/nb/${resourceId}/3?disableSSR=true`,
-      visitOptions,
-    );
-    cy.apiwait(['@iframeResourceGraphQL', '@competenceGoalsGraphQL']);
+    cy.visit(`/article-iframe/nb/${resourceId}/3?disableSSR=true`);
+    cy.gqlWait('@iframeResource');
     cy.get('.c-article').within(() => {
       cy.get('h1').contains('Meninger og kunnskap om samfunnet');
     });

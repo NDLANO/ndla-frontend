@@ -6,19 +6,33 @@
  *
  */
 
-import { visitOptions } from '../support';
-
 describe('Subjects page', () => {
   beforeEach(() => {
-    cy.visit('/?disableSSR=true', visitOptions);
+    cy.fixCypressSpec('/e2e/integration/subjects_page.spec.ts');
+    cy.visit('/?disableSSR=true');
 
-    cy.apiIntercept('POST', '**/graphql', 'subjectpageGraphQL');
+    cy.gqlIntercept({
+      alias: 'alerts',
+      operations: ['alerts'],
+    });
+
+    cy.gqlIntercept({
+      alias: 'subjectpage',
+      operations: ['subjectPageTest', 'mastHead'],
+    });
+    cy.gqlIntercept({
+      alias: 'competenceGoals',
+      operations: ['competenceGoals'],
+    });
+    cy.gqlWait('@alerts');
+
     cy.get('[data-testid="category-list"]  button:contains("Alle fag"):visible')
       .click()
       .get('a:contains("Medie- og informasjonskunnskap")')
       .last()
       .click({ force: true });
-    cy.apiwait('@subjectpageGraphQL');
+    cy.gqlWait('@subjectpage');
+    cy.gqlWait('@competenceGoals');
   });
 
   it('should include a list of valid topic links', () => {

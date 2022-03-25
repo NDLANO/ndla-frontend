@@ -6,16 +6,18 @@
  *
  */
 
-import { visitOptions } from '../support';
-
 describe('Plain learningpath page', () => {
   beforeEach(() => {
-    cy.apiIntercept('POST', '**/graphql', 'plainLearningpathGraphQL');
+    cy.fixCypressSpec('/e2e/integration/plain_learningpath.spec.ts');
+    cy.gqlIntercept({
+      alias: 'plainLearningpath',
+      operations: ['plainLearningpathPage', 'alerts'],
+    });
   });
 
   it('contains content', () => {
-    cy.visit('/learningpaths/8/?disableSSR=true', visitOptions);
-    cy.apiwait('@plainLearningpathGraphQL');
+    cy.visit('/learningpaths/8/?disableSSR=true');
+    cy.gqlWait('@plainLearningpath');
     cy.get('[data-testid="learningpath-content"]').within(() => {
       cy.get('h1').contains('Introduksjon');
     });

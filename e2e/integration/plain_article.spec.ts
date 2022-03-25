@@ -6,16 +6,18 @@
  *
  */
 
-import { visitOptions } from '../support';
-
 describe('Plain article page', () => {
   beforeEach(() => {
-    cy.apiIntercept('POST', '**/graphql', 'plainArticleGraphQL');
+    cy.fixCypressSpec('/e2e/integration/plain_article.spec.ts');
+    cy.gqlIntercept({
+      alias: 'plainArticle',
+      operations: ['plainArticlePage', 'alerts'],
+    });
   });
 
   it('contains content', () => {
-    cy.visit('/article/1/?disableSSR=true', visitOptions);
-    cy.apiwait('@plainArticleGraphQL');
+    cy.visit('/article/1/?disableSSR=true');
+    cy.gqlWait('@plainArticle');
     cy.get('[id="SkipToContentId"]').within(() => {
       cy.get('h1').contains('Utforskeren');
     });

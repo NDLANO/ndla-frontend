@@ -705,9 +705,6 @@ export const programmes: ProgrammeType[] = [
             },
             subjects: [
               {
-                id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
-              },
-              {
                 id: 'urn:subject:1:1a05c6c7-121e-49e2-933c-580da74afe1a',
               },
 
@@ -1084,10 +1081,6 @@ export const programmes: ProgrammeType[] = [
             },
             subjects: [
               {
-                id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
-              },
-
-              {
                 id: 'urn:subject:1:1a05c6c7-121e-49e2-933c-580da74afe1a',
               },
 
@@ -1340,9 +1333,6 @@ export const programmes: ProgrammeType[] = [
             },
             subjects: [
               {
-                id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
-              },
-              {
                 id: 'urn:subject:1:1a05c6c7-121e-49e2-933c-580da74afe1a',
               },
               {
@@ -1587,10 +1577,6 @@ export const programmes: ProgrammeType[] = [
               en: 'Valgfrie programfag',
             },
             subjects: [
-              {
-                id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
-              },
-
               {
                 id: 'urn:subject:1:1a05c6c7-121e-49e2-933c-580da74afe1a',
               },
@@ -2253,9 +2239,6 @@ export const programmes: ProgrammeType[] = [
             },
             subjects: [
               {
-                id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
-              },
-              {
                 id: 'urn:subject:1:734bd33b-da6d-49b0-bb34-c6df5b956f8e',
               },
               {
@@ -2345,7 +2328,7 @@ export const programmes: ProgrammeType[] = [
               {
                 id: 'urn:subject:1:ebaf899b-4161-4281-80ab-2cb7eebecca4',
               },
-              //todo biologi 1
+
               {
                 id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
               },

@@ -6,19 +6,23 @@
  *
  */
 
-import { visitOptions } from '../support';
-
 describe('Topic menu', () => {
   beforeEach(() => {
-    cy.visit('/?disableSSR=true', visitOptions);
+    cy.fixCypressSpec('/e2e/integration/topic_menu.spec.ts');
+    cy.gqlIntercept({ alias: 'alerts', operations: ['alerts'] });
+    cy.visit('/?disableSSR=true');
+    cy.gqlWait('@alerts');
+    cy.gqlIntercept({
+      alias: 'subjectpageTopicMenu',
+      operations: ['mastHead', 'subjectPageTest'],
+    });
 
-    cy.apiIntercept('POST', '**/graphql', 'subjectpageTopicmenuGraphQL');
     cy.get('[data-testid="category-list"]  button:contains("Alle fag"):visible')
       .click()
       .get('a:contains("Markedsføring og ledelse 1")')
       .last()
       .click({ force: true });
-    cy.apiwait('@subjectpageTopicmenuGraphQL');
+    cy.gqlWait('@subjectpageTopicMenu');
 
     cy.get('[data-testid=masthead-menu-button]').click();
   });

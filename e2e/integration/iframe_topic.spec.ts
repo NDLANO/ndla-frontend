@@ -6,19 +6,18 @@
  *
  */
 
-import { visitOptions } from '../support';
-
 describe('Iframe topic page', () => {
   beforeEach(() => {
-    cy.apiIntercept('POST', '**/graphql', 'iframeTopicGraphQL');
+    cy.fixCypressSpec('/e2e/integration/iframe_topic.spec.ts');
+    cy.gqlIntercept({
+      alias: 'iframeTopic',
+      operations: ['iframeArticle'],
+    });
   });
 
   it('contains content', () => {
-    cy.visit(
-      '/article-iframe/nb/urn:topic:2:170165/2?disableSSR=true',
-      visitOptions,
-    );
-    cy.apiwait('@iframeTopicGraphQL');
+    cy.visit('/article-iframe/nb/urn:topic:2:170165/2?disableSSR=true');
+    cy.gqlWait('@iframeTopic');
     cy.get('.c-article').within(() => {
       cy.get('h1').contains('Samfunnsfaglige tenkemåter');
     });

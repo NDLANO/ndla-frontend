@@ -6,11 +6,15 @@
  *
  */
 
-import { visitOptions } from '../support';
-
 describe('Front page', () => {
   beforeEach(() => {
-    cy.visit('/?disableSSR=true', visitOptions);
+    cy.fixCypressSpec('/e2e/integration/frontpage.spec.ts');
+    cy.gqlIntercept({
+      alias: 'alerts',
+      operations: ['alerts'],
+    });
+    cy.visit('/?disableSSR=true');
+    cy.gqlWait('@alerts');
   });
   it('should have a list of valid links on front page', () => {
     cy.get('[data-testid="category-list"] nav a').each(el => {
