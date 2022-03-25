@@ -1075,37 +1075,6 @@ export const movieFragment = gql`
   }
 `;
 
-export const filmFrontPageQuery = gql`
-  query filmFrontPage {
-    filmfrontpage {
-      name
-      about {
-        title
-        description
-        language
-        visualElement {
-          type
-          alt
-          url
-        }
-      }
-      movieThemes {
-        name {
-          name
-          language
-        }
-        movies {
-          ...MovieInfo
-        }
-      }
-      slideShow {
-        ...MovieInfo
-      }
-    }
-  }
-  ${movieFragment}
-`;
-
 export const mastHeadQuery = gql`
   query mastHead(
     $subjectId: String!
