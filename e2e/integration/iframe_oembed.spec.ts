@@ -11,7 +11,7 @@ describe('Iframe oembed page', () => {
     cy.fixCypressSpec('/e2e/integration/iframe_oembed.spec.ts');
     cy.gqlIntercept({
       alias: 'iframeOembed',
-      operations: ['iframeArticle'],
+      operations: ['iframePage'],
     });
   });
 

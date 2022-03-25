@@ -7,21 +7,16 @@
  */
 
 import { useState, useEffect } from 'react';
-import { useLazyQuery } from '@apollo/client';
+import { gql, useLazyQuery } from '@apollo/client';
 
 import { useTranslation } from 'react-i18next';
-import FilmFrontpage from './FilmFrontpage';
-import {
-  filmSubjectPageQuery,
-  filmFrontPageQuery,
-  searchFilmQuery,
-} from '../../queries';
+import FilmFrontpage, { filmFrontpageFragments } from './FilmFrontpage';
+import { searchFilmQuery } from '../../queries';
 import { movieResourceTypes } from './resourceTypes';
 import { useGraphQuery } from '../../util/runQueries';
 import {
   GQLFilmFrontPageQuery,
   GQLSearchWithoutPaginationQuery,
-  GQLFilmSubjectPageQuery,
 } from '../../graphqlTypes';
 
 const ALL_MOVIES_ID = 'ALL_MOVIES_ID';
@@ -39,19 +34,30 @@ export type MoviesByType = {
   title: string;
 };
 
+const filmFrontPageQuery = gql`
+  query filmFrontPage($subjectId: String!) {
+    filmfrontpage {
+      ...FilmFrontpage_FilmFrontpage
+    }
+    subject(id: $subjectId) {
+      id
+      ...FilmFrontpage_Subject
+    }
+  }
+  ${filmFrontpageFragments.subject}
+  ${filmFrontpageFragments.filmFrontpage}
+`;
+
 const NdlaFilm = ({ skipToContentId }: Props) => {
   const [moviesByType, setMoviesByType] = useState<MoviesByType[]>([]);
   const [showingAll, setShowingAll] = useState(false);
   const [fetchingMoviesByType, setFetchingMoviesByType] = useState(false);
   const { t, i18n } = useTranslation();
 
-  const { data: { filmfrontpage } = {} } = useGraphQuery<GQLFilmFrontPageQuery>(
-    filmFrontPageQuery,
-  );
-  const { data: { subject } = {} } = useGraphQuery<GQLFilmSubjectPageQuery>(
-    filmSubjectPageQuery,
-    { variables: { subjectId: 'urn:subject:20' } },
-  );
+  const { data: { filmfrontpage, subject } = {} } = useGraphQuery<
+    GQLFilmFrontPageQuery
+  >(filmFrontPageQuery, { variables: { subjectId: 'urn:subject:20' } });
+
   const [searchAllMovies, { data: allMovies }] = useLazyQuery<
     GQLSearchWithoutPaginationQuery
   >(searchFilmQuery, {
@@ -95,10 +101,6 @@ const NdlaFilm = ({ skipToContentId }: Props) => {
     });
   };
 
-  const about = filmfrontpage?.about?.find(
-    about => about.language === i18n.language,
-  );
-
   const allResources = {
     name: t('filmfrontpage.resourcetype.all'),
     id: ALL_MOVIES_ID,
@@ -116,7 +118,6 @@ const NdlaFilm = ({ skipToContentId }: Props) => {
       subject={subject}
       resourceTypes={allResourceTypes}
       onSelectedMovieByType={onSelectedMovieByType}
-      aboutNDLAVideo={about}
       fetchingMoviesByType={fetchingMoviesByType}
       skipToContentId={skipToContentId}
     />

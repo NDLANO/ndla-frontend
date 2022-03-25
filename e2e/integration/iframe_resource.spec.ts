@@ -13,13 +13,18 @@ describe('Iframe resource page', () => {
     cy.fixCypressSpec('/e2e/integration/iframe_resource.spec.ts');
     cy.gqlIntercept({
       alias: 'iframeResource',
-      operations: ['iframeArticle'],
+      operations: ['iframePage'],
+    });
+    cy.gqlIntercept({
+      alias: 'competenceGoals',
+      operations: ['competenceGoals'],
     });
   });
 
   it('contains content', () => {
     cy.visit(`/article-iframe/nb/${resourceId}/3?disableSSR=true`);
     cy.gqlWait('@iframeResource');
+    cy.gqlWait('@competenceGoals');
     cy.get('.c-article').within(() => {
       cy.get('h1').contains('Meninger og kunnskap om samfunnet');
     });

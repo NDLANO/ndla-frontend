@@ -1700,6 +1700,54 @@ export type GQLArticleHero_MetaImageFragment = {
   alt: string;
 };
 
+export type GQLFilmFrontpage_SubjectFragment = {
+  __typename?: 'Subject';
+  name: string;
+  topics?: Maybe<
+    Array<{ __typename?: 'Topic'; id: string; path: string; name: string }>
+  >;
+};
+
+export type GQLFilmFrontpage_FilmFrontpageFragment = {
+  __typename?: 'FilmFrontpage';
+  slideShow: Array<{ __typename?: 'Movie' } & GQLMovieInfoFragment>;
+  movieThemes: Array<
+    { __typename?: 'MovieTheme' } & GQLMovieCategory_MovieThemeFragment
+  >;
+  about: Array<{
+    __typename?: 'FilmPageAbout';
+    title: string;
+    description: string;
+    language: string;
+    visualElement: {
+      __typename?: 'SubjectPageVisualElement';
+      alt?: Maybe<string>;
+      url: string;
+      type: string;
+    };
+  }>;
+};
+
+export type GQLMovieCategory_MovieThemeFragment = {
+  __typename?: 'MovieTheme';
+  name: Array<{ __typename?: 'Name'; name: string; language: string }>;
+  movies: Array<{ __typename?: 'Movie' } & GQLMovieInfoFragment>;
+};
+
+export type GQLFilmFrontPageQueryVariables = Exact<{
+  subjectId: Scalars['String'];
+}>;
+
+export type GQLFilmFrontPageQuery = {
+  __typename?: 'Query';
+  filmfrontpage?: Maybe<
+    { __typename?: 'FilmFrontpage' } & GQLFilmFrontpage_FilmFrontpageFragment
+  >;
+  subject?: Maybe<
+    { __typename?: 'Subject' } & GQLFilmFrontpage_SubjectFragment
+  >;
+};
+
 export type GQLLearningpathPage_TopicFragment = {
   __typename?: 'Topic';
 } & GQLLearningpath_TopicFragment;
@@ -1896,7 +1944,10 @@ export type GQLResourcePageQuery = {
       __typename?: 'Subject';
       topics?: Maybe<
         Array<
-          { __typename?: 'Topic' } & GQLLearningpathPage_TopicPathFragment &
+          {
+            __typename?: 'Topic';
+            parent?: Maybe<string>;
+          } & GQLLearningpathPage_TopicPathFragment &
             GQLArticlePage_TopicPathFragment
         >
       >;
@@ -2266,6 +2317,55 @@ export type GQLToolboxTopicWrapper_TopicFragment = {
     Array<{ __typename?: 'Topic'; id: string; name: string; path: string }>
   >;
 } & GQLResources_TopicFragment;
+
+export type GQLIframeArticlePage_ArticleFragment = {
+  __typename?: 'Article';
+  created: string;
+  updated: string;
+  metaDescription: string;
+  metaImage?: Maybe<{ __typename?: 'MetaImage'; url: string }>;
+} & GQLArticle_ArticleFragment;
+
+export type GQLIframeArticlePage_ResourceFragment = {
+  __typename?: 'Resource';
+  id: string;
+  path: string;
+  resourceTypes?: Maybe<
+    Array<{ __typename?: 'ResourceType'; id: string; name: string }>
+  >;
+};
+
+export type GQLIframePageQueryVariables = Exact<{
+  articleId: Scalars['String'];
+  isOembed?: Maybe<Scalars['String']>;
+  path?: Maybe<Scalars['String']>;
+  taxonomyId: Scalars['String'];
+  includeResource: Scalars['Boolean'];
+  includeTopic: Scalars['Boolean'];
+}>;
+
+export type GQLIframePageQuery = {
+  __typename?: 'Query';
+  article?: Maybe<
+    { __typename?: 'Article' } & GQLIframeTopicPage_ArticleFragment &
+      GQLIframeArticlePage_ArticleFragment
+  >;
+  resource?: Maybe<
+    { __typename?: 'Resource' } & GQLIframeArticlePage_ResourceFragment
+  >;
+  topic?: Maybe<{ __typename?: 'Topic' } & GQLIframeTopicPage_TopicFragment>;
+};
+
+export type GQLIframeTopicPage_ArticleFragment = {
+  __typename?: 'Article';
+  created: string;
+} & GQLArticle_ArticleFragment &
+  GQLStructuredArticleDataFragment;
+
+export type GQLIframeTopicPage_TopicFragment = {
+  __typename?: 'Topic';
+  path: string;
+};
 
 export type GQLContributorInfoFragment = {
   __typename?: 'Contributor';
@@ -3401,34 +3501,6 @@ export type GQLMovieInfoFragment = {
     __typename?: 'ResourceType';
     id: string;
     name: string;
-  }>;
-};
-
-export type GQLFilmFrontPageQueryVariables = Exact<{ [key: string]: never }>;
-
-export type GQLFilmFrontPageQuery = {
-  __typename?: 'Query';
-  filmfrontpage?: Maybe<{
-    __typename?: 'FilmFrontpage';
-    name: string;
-    about: Array<{
-      __typename?: 'FilmPageAbout';
-      title: string;
-      description: string;
-      language: string;
-      visualElement: {
-        __typename?: 'SubjectPageVisualElement';
-        type: string;
-        alt?: Maybe<string>;
-        url: string;
-      };
-    }>;
-    movieThemes: Array<{
-      __typename?: 'MovieTheme';
-      name: Array<{ __typename?: 'Name'; name: string; language: string }>;
-      movies: Array<{ __typename?: 'Movie' } & GQLMovieInfoFragment>;
-    }>;
-    slideShow: Array<{ __typename?: 'Movie' } & GQLMovieInfoFragment>;
   }>;
 };
 
