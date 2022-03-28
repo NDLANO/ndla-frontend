@@ -255,7 +255,7 @@ export const mapResourcesToItems = (
     ...(resource.metaImage?.url && {
       img: {
         url: `${resource.metaImage.url}?width=${isLti ? '350' : '250'}`,
-        alt: resource.metaImage?.alt ?? '',
+        alt: resource.name ?? resource.metaImage?.alt ?? '',
       },
     }),
     children: isLti ? (
