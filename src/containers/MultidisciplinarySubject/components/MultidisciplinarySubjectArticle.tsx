@@ -6,6 +6,7 @@
  *
  */
 
+import { gql } from '@apollo/client';
 import { useRef, MouseEvent } from 'react';
 import {
   ArticleSideBar,
@@ -14,7 +15,6 @@ import {
   OneColumn,
 } from '@ndla/ui';
 import { withTracker } from '@ndla/tracker';
-
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import { htmlTitle } from '../../../util/titleHelper';
@@ -23,8 +23,9 @@ import Article from '../../../components/Article';
 import { scrollToRef } from '../../SubjectPage/subjectPageHelpers';
 import Resources from '../../Resources/Resources';
 import {
-  GQLResourceTypeDefinition,
-  GQLTopicWithPathTopicsQuery,
+  GQLMultidisciplinarySubjectArticle_ResourceTypeDefinitionFragment,
+  GQLMultidisciplinarySubjectArticle_SubjectFragment,
+  GQLMultidisciplinarySubjectArticle_TopicFragment,
 } from '../../../graphqlTypes';
 import { LocaleType } from '../../../interfaces';
 import { FeideUserWithGroups } from '../../../util/feideApi';
@@ -38,10 +39,10 @@ const filterCodes: Record<string, 'publicHealth' | 'democracy' | 'climate'> = {
 
 interface Props extends WithTranslation {
   copyPageUrlLink?: string;
-  topic: Required<GQLTopicWithPathTopicsQuery>['topic'];
-  subject: Required<GQLTopicWithPathTopicsQuery>['subject'];
+  topic: GQLMultidisciplinarySubjectArticle_TopicFragment;
+  subject: GQLMultidisciplinarySubjectArticle_SubjectFragment;
   locale: LocaleType;
-  resourceTypes?: GQLResourceTypeDefinition[];
+  resourceTypes?: GQLMultidisciplinarySubjectArticle_ResourceTypeDefinitionFragment[];
   user?: FeideUserWithGroups;
   skipToContentId?: string;
 }
@@ -104,6 +105,43 @@ const MultidisciplinarySubjectArticle = ({
       </OneColumn>
     </>
   );
+};
+
+export const multidisciplinarySubjectArticleFragments = {
+  topic: gql`
+    fragment MultidisciplinarySubjectArticle_Topic on Topic {
+      path
+      article(showVisualElement: "true") {
+        created
+        updated
+        crossSubjectTopics(subjectId: $subjectId) {
+          title
+          path
+        }
+        ...Article_Article
+      }
+      ...Resources_Topic
+    }
+    ${Resources.fragments.topic}
+    ${Article.fragments.article}
+  `,
+  subject: gql`
+    fragment MultidisciplinarySubjectArticle_Subject on Subject {
+      name
+      id
+      path
+      allTopics {
+        id
+        name
+      }
+    }
+  `,
+  resourceType: gql`
+    fragment MultidisciplinarySubjectArticle_ResourceTypeDefinition on ResourceTypeDefinition {
+      ...Resources_ResourceTypeDefinition
+    }
+    ${Resources.fragments.resourceType}
+  `,
 };
 
 MultidisciplinarySubjectArticle.getDocumentTitle = ({ t, topic }: Props) => {
