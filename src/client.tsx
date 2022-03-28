@@ -95,6 +95,9 @@ function canUseDOM() {
 function removeUniversalPortals() {
   if (canUseDOM()) {
     document.querySelectorAll('[data-react-universal-portal]').forEach(node => {
+      if (node.hasAttribute('data-from-article-converter')) {
+        return;
+      }
       node.remove();
     });
   }
