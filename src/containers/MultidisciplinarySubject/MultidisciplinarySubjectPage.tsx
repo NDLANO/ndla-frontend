@@ -9,7 +9,12 @@
 import { gql } from '@apollo/client';
 import { createRef, useContext, useEffect } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
-import { MultidisciplinarySubject, NavigationBox } from '@ndla/ui';
+import {
+  ContentPlaceholder,
+  MultidisciplinarySubject,
+  NavigationBox,
+} from '@ndla/ui';
+
 import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet';
 import { getUrnIdsFromProps, toTopic } from '../../routeHelpers';
@@ -87,7 +92,7 @@ const MultidisciplinarySubjectPage = ({ match, locale }: Props) => {
   });
 
   if (loading) {
-    return null;
+    return <ContentPlaceholder />;
   }
 
   if (!data?.subject) {

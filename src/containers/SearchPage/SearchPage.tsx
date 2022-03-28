@@ -6,7 +6,7 @@
  */
 
 import { HelmetWithTracker } from '@ndla/tracker';
-import { OneColumn } from '@ndla/ui';
+import { ContentPlaceholder, OneColumn } from '@ndla/ui';
 import queryString from 'query-string';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -70,7 +70,7 @@ const SearchPage = ({ location, locale, history }: Props) => {
   };
 
   if (loading) {
-    return null;
+    return <ContentPlaceholder />;
   }
 
   return (

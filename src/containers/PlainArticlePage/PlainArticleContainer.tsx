@@ -83,6 +83,7 @@ const PlainArticleContainer = ({
       />
       <OneColumn>
         <Article
+          isPlainArticle
           id={skipToContentId}
           article={article}
           locale={locale}

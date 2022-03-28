@@ -9,7 +9,10 @@
 describe('Search page', () => {
   beforeEach(() => {
     cy.fixCypressSpec('/e2e/integration/search_page.spec.ts');
-    cy.gqlIntercept({ alias: 'searchPage', operations: ['searchPage'] });
+    cy.gqlIntercept({
+      alias: 'searchPage',
+      operations: ['searchPage', 'alerts'],
+    });
     cy.gqlIntercept({ alias: 'groupSearch', operations: ['GroupSearch'] });
   });
 
@@ -22,7 +25,8 @@ describe('Search page', () => {
 
   it('LTI contains search bar', () => {
     cy.visit('/lti/?disableSSR=true');
-    cy.gqlWait('@searchPage');
+    cy.gqlIntercept({ alias: 'ltiSearch', operations: ['searchPage'] });
+    cy.gqlWait('@ltiSearch');
     cy.gqlWait('@groupSearch');
     cy.get('input').focus();
   });

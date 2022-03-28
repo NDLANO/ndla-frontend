@@ -112,6 +112,7 @@ const LearningpathEmbed = ({
         </script>
       </Helmet>
       <Article
+        isPlainArticle
         id={skipToContentId}
         article={article}
         locale={locale}

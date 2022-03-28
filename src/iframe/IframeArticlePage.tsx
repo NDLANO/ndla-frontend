@@ -71,6 +71,7 @@ const IframeArticlePage = ({
       <Article
         article={article}
         locale={locale}
+        isPlainArticle
         modifier="clean iframe"
         {...getArticleProps(resource)}>
         <CreatedBy

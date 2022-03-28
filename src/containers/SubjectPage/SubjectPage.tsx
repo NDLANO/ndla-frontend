@@ -10,6 +10,7 @@ import { gql } from '@apollo/client';
 import { useContext, useRef } from 'react';
 import { Redirect, withRouter } from 'react-router-dom';
 import { RouteComponentProps } from 'react-router';
+import { ContentPlaceholder } from '@ndla/ui';
 import SubjectContainer, {
   subjectContainerFragments,
 } from './SubjectContainer';
@@ -94,7 +95,7 @@ const SubjectPage = ({ match, locale, skipToContentId, ndlaFilm }: Props) => {
   });
 
   if (loading) {
-    return null;
+    return <ContentPlaceholder />;
   }
 
   if (!data) {
