@@ -1744,7 +1744,7 @@ export type GQLFilmFrontPageQuery = {
     { __typename?: 'FilmFrontpage' } & GQLFilmFrontpage_FilmFrontpageFragment
   >;
   subject?: Maybe<
-    { __typename?: 'Subject' } & GQLFilmFrontpage_SubjectFragment
+    { __typename?: 'Subject'; id: string } & GQLFilmFrontpage_SubjectFragment
   >;
 };
 
@@ -2011,6 +2011,7 @@ export type GQLResources_TopicFragment = {
 export type GQLSubjectContainer_SubjectFragment = {
   __typename?: 'Subject';
   grepCodes: Array<string>;
+  metadata: { __typename?: 'TaxonomyMetadata'; customFields: any };
   topics?: Maybe<
     Array<{
       __typename?: 'Topic';
