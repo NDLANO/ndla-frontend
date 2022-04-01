@@ -79,7 +79,7 @@ Disallow: /ndla_ontopia_connect_show_aim/
 Allow: /*/easyreader/
 Allow: /*/biblio
 Allow: /*/lightbox
-Aallow: /*/contentbrowser
+Allow: /*/contentbrowser
 
 
 Disallow: /*/taxonomy/
