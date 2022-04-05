@@ -3710,6 +3710,7 @@ export type GQLAlertsQuery = {
         title: string;
         body?: Maybe<string>;
         closable: boolean;
+        number: number;
       }>
     >
   >;

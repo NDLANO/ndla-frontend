@@ -1155,6 +1155,7 @@ export const alertsQuery = gql`
       title
       body
       closable
+      number
     }
   }
 `;
