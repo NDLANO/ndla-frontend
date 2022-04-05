@@ -1,29 +1,42 @@
+import { gql } from '@apollo/client';
 import Spinner from '@ndla/ui/lib/Spinner';
-import { topicQuery } from '../../../queries';
 import { useGraphQuery } from '../../../util/runQueries';
-import MultidisciplinaryTopic from './MultidisciplinaryTopic';
+import MultidisciplinaryTopic, {
+  multidisciplinaryTopicFragments,
+} from './MultidisciplinaryTopic';
 import {
-  GQLSubjectPageQuery,
-  GQLTopicQuery,
-  GQLTopicQueryVariables,
+  GQLMultidisciplinaryTopicWrapperQuery,
+  GQLMultidisciplinaryTopicWrapperQueryVariables,
+  GQLMultidisciplinaryTopic_SubjectFragment,
 } from '../../../graphqlTypes';
 import DefaultErrorMessage from '../../../components/DefaultErrorMessage';
 import { LocaleType } from '../../../interfaces';
 import { FeideUserWithGroups } from '../../../util/feideApi';
 
-export type MultiDisciplinarySubjectType = Required<
-  GQLSubjectPageQuery
->['subject'];
 interface Props {
   topicId: string;
   subjectId: string;
   subTopicId?: string;
   locale: LocaleType;
-  subject: MultiDisciplinarySubjectType;
+  subject: GQLMultidisciplinaryTopic_SubjectFragment;
   ndlaFilm?: boolean;
   disableNav?: boolean;
   user?: FeideUserWithGroups;
 }
+
+const multidisciplinaryTopicWrapperQuery = gql`
+  query multidisciplinaryTopicWrapper($topicId: String!, $subjectId: String) {
+    topic(id: $topicId, subjectId: $subjectId) {
+      id
+      ...MultidisciplinaryTopic_Topic
+    }
+    resourceTypes {
+      ...MultidisciplinaryTopic_ResourceTypeDefinition
+    }
+  }
+  ${multidisciplinaryTopicFragments.resourceType}
+  ${multidisciplinaryTopicFragments.topic}
+`;
 
 const MultidisciplinaryTopicWrapper = ({
   topicId,
@@ -36,9 +49,9 @@ const MultidisciplinaryTopicWrapper = ({
   user,
 }: Props) => {
   const { data, loading } = useGraphQuery<
-    GQLTopicQuery,
-    GQLTopicQueryVariables
-  >(topicQuery, {
+    GQLMultidisciplinaryTopicWrapperQuery,
+    GQLMultidisciplinaryTopicWrapperQueryVariables
+  >(multidisciplinaryTopicWrapperQuery, {
     variables: { topicId, subjectId },
   });
 
@@ -64,6 +77,15 @@ const MultidisciplinaryTopicWrapper = ({
       user={user}
     />
   );
+};
+
+MultidisciplinaryTopicWrapper.fragments = {
+  subject: gql`
+    fragment MultidisciplinaryTopicWrapper_Subject on Subject {
+      ...MultidisciplinaryTopic_Subject
+    }
+    ${multidisciplinaryTopicFragments.subject}
+  `,
 };
 
 export default MultidisciplinaryTopicWrapper;

@@ -1813,6 +1813,157 @@ export type GQLMovedResourcePage_ResourceFragment = {
   >;
 };
 
+export type GQLMultidisciplinarySubjectArticlePageQueryVariables = Exact<{
+  topicId: Scalars['String'];
+  subjectId: Scalars['String'];
+}>;
+
+export type GQLMultidisciplinarySubjectArticlePageQuery = {
+  __typename?: 'Query';
+  subject?: Maybe<
+    {
+      __typename?: 'Subject';
+    } & GQLMultidisciplinarySubjectArticle_SubjectFragment
+  >;
+  topic?: Maybe<
+    {
+      __typename?: 'Topic';
+      id: string;
+      article?: Maybe<{
+        __typename?: 'Article';
+        metaDescription: string;
+        tags?: Maybe<Array<string>>;
+        metaImage?: Maybe<{ __typename?: 'MetaImage'; url: string }>;
+      }>;
+    } & GQLMultidisciplinarySubjectArticle_TopicFragment
+  >;
+  resourceTypes?: Maybe<
+    Array<
+      {
+        __typename?: 'ResourceTypeDefinition';
+      } & GQLMultidisciplinarySubjectArticle_ResourceTypeDefinitionFragment
+    >
+  >;
+};
+
+export type GQLMultidisciplinarySubjectPageQueryVariables = Exact<{
+  subjectId: Scalars['String'];
+}>;
+
+export type GQLMultidisciplinarySubjectPageQuery = {
+  __typename?: 'Query';
+  subject?: Maybe<
+    {
+      __typename?: 'Subject';
+      topics?: Maybe<Array<{ __typename?: 'Topic'; id: string; name: string }>>;
+      allTopics?: Maybe<
+        Array<{
+          __typename?: 'Topic';
+          name: string;
+          id: string;
+          parent?: Maybe<string>;
+          path: string;
+          meta?: Maybe<{
+            __typename?: 'Meta';
+            title: string;
+            introduction?: Maybe<string>;
+            metaDescription?: Maybe<string>;
+            metaImage?: Maybe<{
+              __typename?: 'MetaImage';
+              url: string;
+              alt: string;
+            }>;
+          }>;
+        }>
+      >;
+    } & GQLMultidisciplinaryTopicWrapper_SubjectFragment
+  >;
+};
+
+export type GQLMultidisciplinarySubjectArticle_TopicFragment = {
+  __typename?: 'Topic';
+  path: string;
+  article?: Maybe<
+    {
+      __typename?: 'Article';
+      created: string;
+      updated: string;
+      crossSubjectTopics?: Maybe<
+        Array<{
+          __typename?: 'CrossSubjectElement';
+          title: string;
+          path?: Maybe<string>;
+        }>
+      >;
+    } & GQLArticle_ArticleFragment
+  >;
+} & GQLResources_TopicFragment;
+
+export type GQLMultidisciplinarySubjectArticle_SubjectFragment = {
+  __typename?: 'Subject';
+  name: string;
+  id: string;
+  path: string;
+  allTopics?: Maybe<Array<{ __typename?: 'Topic'; id: string; name: string }>>;
+};
+
+export type GQLMultidisciplinarySubjectArticle_ResourceTypeDefinitionFragment = {
+  __typename?: 'ResourceTypeDefinition';
+} & GQLResources_ResourceTypeDefinitionFragment;
+
+export type GQLMultidisciplinaryTopic_TopicFragment = {
+  __typename?: 'Topic';
+  path: string;
+  subtopics?: Maybe<Array<{ __typename?: 'Topic'; id: string; name: string }>>;
+  article?: Maybe<{
+    __typename?: 'Article';
+    metaImage?: Maybe<{ __typename?: 'MetaImage'; url: string; alt: string }>;
+    visualElement?: Maybe<
+      {
+        __typename?: 'VisualElement';
+      } & GQLVisualElementWrapper_VisualElementFragment
+    >;
+  }>;
+} & GQLArticleContents_TopicFragment &
+  GQLResources_TopicFragment;
+
+export type GQLMultidisciplinaryTopic_ResourceTypeDefinitionFragment = {
+  __typename?: 'ResourceTypeDefinition';
+} & GQLResources_ResourceTypeDefinitionFragment;
+
+export type GQLMultidisciplinaryTopic_SubjectFragment = {
+  __typename?: 'Subject';
+  id: string;
+  name: string;
+  allTopics?: Maybe<Array<{ __typename?: 'Topic'; id: string; name: string }>>;
+};
+
+export type GQLMultidisciplinaryTopicWrapperQueryVariables = Exact<{
+  topicId: Scalars['String'];
+  subjectId?: Maybe<Scalars['String']>;
+}>;
+
+export type GQLMultidisciplinaryTopicWrapperQuery = {
+  __typename?: 'Query';
+  topic?: Maybe<
+    {
+      __typename?: 'Topic';
+      id: string;
+    } & GQLMultidisciplinaryTopic_TopicFragment
+  >;
+  resourceTypes?: Maybe<
+    Array<
+      {
+        __typename?: 'ResourceTypeDefinition';
+      } & GQLMultidisciplinaryTopic_ResourceTypeDefinitionFragment
+    >
+  >;
+};
+
+export type GQLMultidisciplinaryTopicWrapper_SubjectFragment = {
+  __typename?: 'Subject';
+} & GQLMultidisciplinaryTopic_SubjectFragment;
+
 export type GQLPlainArticleContainer_ArticleFragment = {
   __typename?: 'Article';
   created: string;

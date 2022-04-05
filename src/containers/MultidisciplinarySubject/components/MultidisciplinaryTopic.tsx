@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+import { gql } from '@apollo/client';
 import { useEffect, useMemo, useState } from 'react';
 import { Remarkable } from 'remarkable';
 import { Topic as UITopic } from '@ndla/ui';
@@ -23,13 +24,12 @@ import VisualElementWrapper, {
   getResourceType,
 } from '../../../components/VisualElement/VisualElementWrapper';
 import {
-  GQLArticleInfoFragment,
+  GQLMultidisciplinaryTopic_SubjectFragment,
+  GQLMultidisciplinaryTopic_TopicFragment,
   GQLResourceTypeDefinition,
-  GQLTopicQueryTopicFragment,
 } from '../../../graphqlTypes';
 import { LocaleType } from '../../../interfaces';
 import { FeideUserWithGroups } from '../../../util/feideApi';
-import { MultiDisciplinarySubjectType } from './MultidisciplinaryTopicWrapper';
 
 interface Props extends WithTranslation {
   topicId: string;
@@ -37,8 +37,8 @@ interface Props extends WithTranslation {
   subTopicId?: string;
   locale: LocaleType;
   ndlaFilm?: boolean;
-  subject: MultiDisciplinarySubjectType;
-  topic: GQLTopicQueryTopicFragment;
+  subject: GQLMultidisciplinaryTopic_SubjectFragment;
+  topic: GQLMultidisciplinaryTopic_TopicFragment;
   resourceTypes?: GQLResourceTypeDefinition[];
   loading?: boolean;
   disableNav?: boolean;
@@ -87,7 +87,7 @@ const MultidisciplinaryTopic = ({
   const copyPageUrlLink = config.ndlaFrontendDomain + topic.path;
 
   const toTopicProps = (
-    article: GQLArticleInfoFragment | undefined,
+    article: GQLMultidisciplinaryTopic_TopicFragment['article'],
     locale: LocaleType,
   ): TopicProps | undefined => {
     if (!article) return;
@@ -151,6 +151,48 @@ const MultidisciplinaryTopic = ({
       />
     </UITopic>
   );
+};
+
+export const multidisciplinaryTopicFragments = {
+  topic: gql`
+    fragment MultidisciplinaryTopic_Topic on Topic {
+      path
+      subtopics {
+        id
+        name
+      }
+      article {
+        metaImage {
+          url
+          alt
+        }
+        visualElement {
+          ...VisualElementWrapper_VisualElement
+        }
+      }
+      ...ArticleContents_Topic
+      ...Resources_Topic
+    }
+    ${VisualElementWrapper.fragments.visualElement}
+    ${Resources.fragments.topic}
+    ${ArticleContents.fragments.topic}
+  `,
+  resourceType: gql`
+    fragment MultidisciplinaryTopic_ResourceTypeDefinition on ResourceTypeDefinition {
+      ...Resources_ResourceTypeDefinition
+    }
+    ${Resources.fragments.resourceType}
+  `,
+  subject: gql`
+    fragment MultidisciplinaryTopic_Subject on Subject {
+      id
+      name
+      allTopics {
+        id
+        name
+      }
+    }
+  `,
 };
 
 MultidisciplinaryTopic.getDocumentTitle = getDocumentTitle;
