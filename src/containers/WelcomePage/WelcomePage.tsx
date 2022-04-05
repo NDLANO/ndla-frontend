@@ -31,6 +31,7 @@ import { getSubjectById } from '../../data/subjects';
 import { LocaleType, SubjectType } from '../../interfaces';
 import { alertsQuery } from '../../queries';
 import { GQLAlertsQuery } from '../../graphqlTypes';
+import { setClosedAlert } from '../../components/AlertsContext';
 
 const getUrlFromSubjectId = (subjectId: string) => {
   const subject = getSubjectById(subjectId);
@@ -122,6 +123,9 @@ const WelcomePage = ({ locale, skipToContentId }: Props) => {
       {data?.alerts?.map(alert => (
         <MessageBox
           type={MessageBoxType.fullpage}
+          renderMarkdown={true}
+          onClose={() => setClosedAlert(alert.number)}
+          showCloseButton={alert.closable}
           children={alert.body ?? alert.title}
         />
       ))}
