@@ -163,7 +163,10 @@ const MastheadContainer = ({
       />
     );
 
-  const alerts = useAlerts().map(alert => alert.body || alert.title);
+  const alerts = useAlerts().map(alert => ({
+    content: alert.body || alert.title,
+    closable: alert.closable,
+  }));
 
   return (
     <ErrorBoundary>

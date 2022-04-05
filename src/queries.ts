@@ -1154,6 +1154,7 @@ export const alertsQuery = gql`
     alerts {
       title
       body
+      closable
     }
   }
 `;
