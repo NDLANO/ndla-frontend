@@ -61,9 +61,9 @@ const getSubjectCategoryMessage = (
   if (!subjectCategory || subjectCategory === 'active') {
     return undefined;
   } else if (subjectCategory === 'beta') {
-    return t('messageBoxInfo.frontPageBeta');
+    return t('messageBoxInfo.beta');
   } else if (subjectCategory === 'archive') {
-    return t('messageBoxInfo.frontPageExpired');
+    return t('messageBoxInfo.outdatedSubject');
   } else {
     return undefined;
   }
