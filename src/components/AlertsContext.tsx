@@ -1,7 +1,53 @@
 import { useQuery } from '@apollo/client';
-import { createContext, ReactNode, useContext } from 'react';
-import { GQLAlertsQuery, GQLAlertsQueryVariables } from '../graphqlTypes';
+import { partition, uniq } from 'lodash';
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
+import {
+  GQLAlertsQuery,
+  GQLAlertsQueryVariables,
+  GQLUptimeAlert,
+} from '../graphqlTypes';
 import { alertsQuery } from '../queries';
+
+const getClosedAlerts = (): number[] => {
+  try {
+    const stored = localStorage.getItem('closedAlerts');
+    if (stored) {
+      const ids = JSON.parse(stored);
+      if (Array.isArray(ids)) {
+        return ids;
+      }
+    }
+    return [];
+  } catch {
+    console.error('Could not read closedAlerts from localStorage.');
+    return [];
+  }
+};
+
+const setClosedAlert = (id: number) => {
+  try {
+    const stored = getClosedAlerts();
+    const updated = uniq([...stored, id]);
+    localStorage.setItem('closedAlerts', JSON.stringify(updated));
+  } catch {
+    console.error('Could not save closedAlerts to localStorage.');
+  }
+};
+
+const setClosedAlerts = (alerts: GQLUptimeAlert[]) => {
+  try {
+    const ids = alerts.map(alert => alert.number);
+    localStorage.setItem('closedAlerts', JSON.stringify(ids));
+  } catch {
+    console.error('Could not save closedAlerts to localStorage.');
+  }
+};
 
 const AlertsContext = createContext<GQLAlertsQuery['alerts']>([]);
 
@@ -10,13 +56,31 @@ interface Props {
 }
 
 const AlertsProvider = ({ children }: Props) => {
-  const { data } = useQuery<GQLAlertsQuery, GQLAlertsQueryVariables>(
-    alertsQuery,
-    { pollInterval: 5 * 60 * 1000 },
-  );
+  const [openAlerts, setOpenAlerts] = useState<GQLUptimeAlert[]>([]);
+  const { data: { alerts } = {} } = useQuery<
+    GQLAlertsQuery,
+    GQLAlertsQueryVariables
+  >(alertsQuery, { pollInterval: 10 * 60 * 1000 });
+
+  useEffect(() => {
+    if (alerts) {
+      const closedIds = getClosedAlerts();
+      if (closedIds.length > 0) {
+        const [closedAlerts, openAlerts] = partition(
+          alerts,
+          alert => closedIds.includes(alert.number) && alert.closable,
+        );
+        setOpenAlerts(openAlerts);
+        setClosedAlerts(closedAlerts);
+        return;
+      }
+
+      setOpenAlerts(alerts);
+    }
+  }, [alerts]);
 
   return (
-    <AlertsContext.Provider value={data?.alerts || []}>
+    <AlertsContext.Provider value={openAlerts}>
       {children}
     </AlertsContext.Provider>
   );
@@ -30,4 +94,10 @@ const useAlerts = () => {
   return context;
 };
 
-export { useAlerts, AlertsProvider };
+export {
+  useAlerts,
+  AlertsProvider,
+  getClosedAlerts,
+  setClosedAlert,
+  setClosedAlerts,
+};

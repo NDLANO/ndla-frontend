@@ -1145,6 +1145,8 @@ export type GQLTopicSupplementaryResourcesArgs = {
 export type GQLUptimeAlert = {
   __typename?: 'UptimeAlert';
   body?: Maybe<Scalars['String']>;
+  closable: Scalars['Boolean'];
+  number: Scalars['Int'];
   title: Scalars['String'];
 };
 
@@ -1744,7 +1746,7 @@ export type GQLFilmFrontPageQuery = {
     { __typename?: 'FilmFrontpage' } & GQLFilmFrontpage_FilmFrontpageFragment
   >;
   subject?: Maybe<
-    { __typename?: 'Subject' } & GQLFilmFrontpage_SubjectFragment
+    { __typename?: 'Subject'; id: string } & GQLFilmFrontpage_SubjectFragment
   >;
 };
 
@@ -3703,7 +3705,13 @@ export type GQLAlertsQuery = {
   __typename?: 'Query';
   alerts?: Maybe<
     Array<
-      Maybe<{ __typename?: 'UptimeAlert'; title: string; body?: Maybe<string> }>
+      Maybe<{
+        __typename?: 'UptimeAlert';
+        title: string;
+        body?: Maybe<string>;
+        closable: boolean;
+        number: number;
+      }>
     >
   >;
 };

@@ -43,7 +43,7 @@ import {
   GQLTopicInfoFragment,
 } from '../../graphqlTypes';
 import config from '../../config';
-import { useAlerts } from '../../components/AlertsContext';
+import { setClosedAlert, useAlerts } from '../../components/AlertsContext';
 
 interface Props extends RouteComponentProps {
   locale: LocaleType;
@@ -163,7 +163,11 @@ const MastheadContainer = ({
       />
     );
 
-  const alerts = useAlerts().map(alert => alert.body || alert.title);
+  const alerts = useAlerts().map(alert => ({
+    content: alert.body || alert.title,
+    closable: alert.closable,
+    number: alert.number,
+  }));
 
   return (
     <ErrorBoundary>
@@ -172,6 +176,7 @@ const MastheadContainer = ({
         ndlaFilm={ndlaFilm}
         skipToMainContentId={skipToMainContentId}
         infoContent={infoContent}
+        onCloseAlert={id => setClosedAlert(id)}
         messages={alerts}>
         <MastheadItem left>
           <MastheadMenu
