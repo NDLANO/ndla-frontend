@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client';
-import { compact, partition } from 'lodash';
+import { partition, uniq } from 'lodash';
 import {
   createContext,
   ReactNode,
@@ -33,7 +33,7 @@ const getClosedAlerts = (): number[] => {
 const setClosedAlert = (id: number) => {
   try {
     const stored = getClosedAlerts();
-    const updated = compact([...stored, id]);
+    const updated = uniq([...stored, id]);
     localStorage.setItem('closedAlerts', JSON.stringify(updated));
   } catch {
     console.error('Could not save closedAlerts to localStorage.');
