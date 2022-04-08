@@ -2164,6 +2164,7 @@ export type GQLResources_TopicFragment = {
 export type GQLSubjectContainer_SubjectFragment = {
   __typename?: 'Subject';
   grepCodes: Array<string>;
+  metadata: { __typename?: 'TaxonomyMetadata'; customFields: any };
   topics?: Maybe<
     Array<{
       __typename?: 'Topic';
