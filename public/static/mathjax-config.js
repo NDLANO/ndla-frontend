@@ -13,6 +13,13 @@ window.MathJax = {
     options:{
         renderActions:{
             addMenu: [0, '', '']
+        },
+        menuOptions:{
+            settings:{
+                assistiveMml: true,
+                collapsible: false,
+                explorer: true
+            }
         }
     }
 };
