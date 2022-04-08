@@ -115,6 +115,16 @@ interface MatchParams {
   topicPath?: string;
 }
 
+const isSearchUpdate = (prevLocation: H.Location, nextLocation: H.Location) => {
+  if (
+    nextLocation.pathname === '/search' &&
+    prevLocation.pathname === '/search'
+  ) {
+    return true;
+  }
+  return false;
+};
+
 function shouldScrollToTop(location: H.Location) {
   const multiMatch = matchPath<MatchParams>(
     location.pathname,
@@ -204,7 +214,8 @@ class App extends Component<AppProps, AppState> {
       };
     }
     const navigated = nextProps.location !== prevState.location;
-    if (navigated) {
+    const updateSearch = isSearchUpdate(nextProps.location, prevState.location);
+    if (navigated && !updateSearch) {
       if (shouldScrollToTop(nextProps.location)) {
         window.scrollTo(0, 0);
       }
