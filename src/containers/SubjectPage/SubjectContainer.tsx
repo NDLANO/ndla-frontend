@@ -23,12 +23,13 @@ import {
   LayoutItem,
   NavigationHeading,
   Breadcrumblist,
+  MessageBox,
 } from '@ndla/ui';
 import { withTracker } from '@ndla/tracker';
 import { useIntersectionObserver } from '@ndla/hooks';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router';
-import { withTranslation, WithTranslation } from 'react-i18next';
+import { withTranslation, WithTranslation, TFunction } from 'react-i18next';
 import SubjectPageContent from './components/SubjectPageContent';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { scrollToRef } from './subjectPageHelpers';
@@ -52,6 +53,21 @@ type Props = {
   user?: FeideUserWithGroups;
 } & WithTranslation &
   RouteComponentProps;
+
+const getSubjectCategoryMessage = (
+  subjectCategory: string | undefined,
+  t: TFunction,
+): string | undefined => {
+  if (!subjectCategory || subjectCategory === 'active') {
+    return undefined;
+  } else if (subjectCategory === 'beta') {
+    return t('messageBoxInfo.subjectBeta');
+  } else if (subjectCategory === 'archive') {
+    return t('messageBoxInfo.subjectOutdated');
+  } else {
+    return undefined;
+  }
+};
 
 const SubjectContainer = ({
   history,
@@ -210,6 +226,11 @@ const SubjectContainer = ({
   const supportedLanguages =
     topicsOnPage[topicsOnPage.length - 1]?.supportedLanguages;
 
+  const nonRegularSubjectMessage = getSubjectCategoryMessage(
+    subject.metadata.customFields['subjectCategory'],
+    t,
+  );
+
   return (
     <>
       <Helmet>
@@ -229,7 +250,6 @@ const SubjectContainer = ({
               imageUrl={socialMediaMetadata.image?.url}
               trackableContent={{ supportedLanguages }}
             />
-
             <div ref={headerRef}>
               <ArticleHeaderWrapper
                 competenceGoals={renderCompetenceGoals(subject, locale)}>
@@ -240,6 +260,9 @@ const SubjectContainer = ({
                 </NavigationHeading>
               </ArticleHeaderWrapper>
             </div>
+            {nonRegularSubjectMessage && (
+              <MessageBox>{nonRegularSubjectMessage}</MessageBox>
+            )}
             <SubjectPageContent
               locale={locale}
               subject={subject}
@@ -314,6 +337,9 @@ SubjectContainer.getDimensions = (props: Props) => {
 export const subjectContainerFragments = {
   subject: gql`
     fragment SubjectContainer_Subject on Subject {
+      metadata {
+        customFields
+      }
       grepCodes
       topics {
         id
