@@ -11,7 +11,7 @@ import queryString from 'query-string';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-import { searchPageQuery, conceptSearchQuery } from '../../queries';
+import { searchPageQuery } from '../../queries';
 import SearchInnerPage from './SearchInnerPage';
 import {
   converSearchStringToObject,
@@ -19,7 +19,7 @@ import {
 } from './searchHelpers';
 import { searchSubjects } from '../../util/searchHelpers';
 import { useGraphQuery } from '../../util/runQueries';
-import { GQLConceptSearchQuery, GQLSearchPageQuery } from '../../graphqlTypes';
+import { GQLSearchPageQuery } from '../../graphqlTypes';
 import { RootComponentProps } from '../../routes';
 
 const getStateSearchParams = (searchParams: Record<string, any>) => {
@@ -38,7 +38,7 @@ interface Props extends RouteComponentProps<MatchParams>, RootComponentProps {}
 const SearchPage = ({ location, locale, history }: Props) => {
   const { t } = useTranslation();
   const searchParams = converSearchStringToObject(location, locale);
-  const stateSearchParams = getStateSearchParams(searchParams);
+  //const stateSearchParams = getStateSearchParams(searchParams);
   const subjects = searchSubjects(searchParams.query);
   const subjectItems = subjects.map(subject => ({
     id: subject.id,
@@ -47,7 +47,7 @@ const SearchPage = ({ location, locale, history }: Props) => {
   }));
 
   const { data, loading } = useGraphQuery<GQLSearchPageQuery>(searchPageQuery);
-  const { data: conceptData } = useGraphQuery<GQLConceptSearchQuery>(
+  /*const { data: conceptData } = useGraphQuery<GQLConceptSearchQuery>(
     conceptSearchQuery,
     {
       skip: !searchParams.query,
@@ -57,7 +57,7 @@ const SearchPage = ({ location, locale, history }: Props) => {
         fallback: true,
       },
     },
-  );
+  );*/
 
   const handleSearchParamsChange = (searchParams: Record<string, any>) => {
     history.push({
@@ -85,7 +85,8 @@ const SearchPage = ({ location, locale, history }: Props) => {
           selectedFilters={searchParams.selectedFilters?.split(',') ?? []}
           activeSubFilters={searchParams.activeSubFilters?.split(',') ?? []}
           subjectItems={subjectItems}
-          concepts={conceptData?.conceptSearch?.concepts}
+          //concepts={conceptData?.conceptSearch?.concepts} // Save for later
+          concepts={undefined}
           resourceTypes={data?.resourceTypes}
           location={location}
         />
