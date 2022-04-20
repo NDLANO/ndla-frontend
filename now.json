@@ -7,7 +7,7 @@
     },
     {
       "src": "build/server.js",
-      "use": "@now/node-server"
+      "use": "@vercel/node"
     }
   ],
   "routes": [
