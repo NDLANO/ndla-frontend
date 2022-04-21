@@ -724,6 +724,12 @@ export const programmes: ProgrammeType[] = [
               {
                 id: 'urn:subject:1:1d441d40-358a-47a8-8cd5-7a80382a9062',
               },
+              {
+                id: 'urn:subject:1:c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
+              },
+              {
+                id: 'urn:subject:1:41cb93c0-abc7-4212-b69f-df81106ae3c0',
+              },
             ],
           },
         ],
@@ -808,6 +814,9 @@ export const programmes: ProgrammeType[] = [
               },
               {
                 id: 'urn:subject:1:80f10045-2faa-4f6f-be0f-4c7ec9618186',
+              },
+              {
+                id: 'urn:subject:1:06270029-7aa7-4a7a-b383-128b275ff150',
               },
             ],
           },
@@ -1102,6 +1111,12 @@ export const programmes: ProgrammeType[] = [
               {
                 id: 'urn:subject:1:1d441d40-358a-47a8-8cd5-7a80382a9062',
               },
+              {
+                id: 'urn:subject:1:c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
+              },
+              {
+                id: 'urn:subject:1:41cb93c0-abc7-4212-b69f-df81106ae3c0',
+              },
             ],
           },
         ],
@@ -1189,6 +1204,9 @@ export const programmes: ProgrammeType[] = [
               },
               {
                 id: 'urn:subject:1:80f10045-2faa-4f6f-be0f-4c7ec9618186',
+              },
+              {
+                id: 'urn:subject:1:06270029-7aa7-4a7a-b383-128b275ff150',
               },
             ],
           },
@@ -1323,6 +1341,9 @@ export const programmes: ProgrammeType[] = [
               {
                 id: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
               },
+              {
+                id: 'urn:subject:1:c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
+              },
             ],
           },
           {
@@ -1443,6 +1464,12 @@ export const programmes: ProgrammeType[] = [
               },
               {
                 id: 'urn:subject:1:80f10045-2faa-4f6f-be0f-4c7ec9618186',
+              },
+              {
+                id: 'urn:subject:1:41cb93c0-abc7-4212-b69f-df81106ae3c0',
+              },
+              {
+                id: 'urn:subject:1:06270029-7aa7-4a7a-b383-128b275ff150',
               },
             ],
           },
@@ -1568,6 +1595,9 @@ export const programmes: ProgrammeType[] = [
               {
                 id: 'urn:subject:1:fa2a7d6a-5e8e-4976-82c0-9a1266684c1c',
               },
+              {
+                id: 'urn:subject:1:c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
+              },
             ],
           },
           {
@@ -1686,6 +1716,12 @@ export const programmes: ProgrammeType[] = [
               },
               {
                 id: 'urn:subject:1:80f10045-2faa-4f6f-be0f-4c7ec9618186',
+              },
+              {
+                id: 'urn:subject:1:41cb93c0-abc7-4212-b69f-df81106ae3c0',
+              },
+              {
+                id: 'urn:subject:1:06270029-7aa7-4a7a-b383-128b275ff150',
               },
             ],
           },
@@ -2254,9 +2290,6 @@ export const programmes: ProgrammeType[] = [
             },
             subjects: [
               {
-                id: 'urn:subject:1:41cb93c0-abc7-4212-b69f-df81106ae3c0',
-              },
-              {
                 id: 'urn:subject:1:3170610c-6a5a-4da5-aeba-adb247aae48c',
               },
 
@@ -2341,6 +2374,9 @@ export const programmes: ProgrammeType[] = [
               en: 'Språk, samfunnsfag og økonomi',
             },
             subjects: [
+              {
+                id: 'urn:subject:1:41cb93c0-abc7-4212-b69f-df81106ae3c0',
+              },
               {
                 id: 'urn:subject:1:c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
               },
