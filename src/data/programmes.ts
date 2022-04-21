@@ -815,6 +815,9 @@ export const programmes: ProgrammeType[] = [
               {
                 id: 'urn:subject:1:06270029-7aa7-4a7a-b383-128b275ff150',
               },
+              {
+                id: 'urn:subject:1:41cb93c0-abc7-4212-b69f-df81106ae3c0',
+              },
             ],
           },
         ],
@@ -1905,6 +1908,9 @@ export const programmes: ProgrammeType[] = [
               },
               {
                 id: 'urn:subject:1:a532138d-e16a-4046-a46e-bd5bc9487b8b',
+              },
+              {
+                id: 'urn:subject:1:c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
               },
             ],
           },
