@@ -5,13 +5,14 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
+import { useState } from 'react';
 import { Location } from 'history';
 import styled from '@emotion/styled';
 import {
   SearchSubjectResult,
   SearchNotionsResult,
   //@ts-ignore
-  FilterButtons,
+  SearchFilterContent,
   LanguageSelector,
   ConceptNotion,
 } from '@ndla/ui';
@@ -19,7 +20,7 @@ import { spacingUnit } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 
 import SearchHeader from './components/SearchHeader';
-import SearchResults from './components/SearchResults';
+import SearchResults, { ViewType } from './components/SearchResults';
 import { SearchGroup, sortResourceTypes, TypeFilter } from './searchHelpers';
 import { GQLConceptSearchConceptFragment } from '../../graphqlTypes';
 import { SearchCompetenceGoal, SubjectItem } from './SearchInnerPage';
@@ -78,6 +79,7 @@ const SearchContainer = ({
   location,
 }: Props) => {
   const { t, i18n } = useTranslation();
+  const [listViewType, setListViewType] = useState<ViewType>('grid');
 
   const filterButtonItems = [];
   for (const [type, values] of Object.entries(typeFilter)) {
@@ -129,18 +131,12 @@ const SearchContainer = ({
       {searchGroups && searchGroups.length > 0 && (
         <>
           {sortedFilterButtonItems.length > 1 && (
-            <FilterButtons
-              heading={t(
-                'searchPage.searchFilterMessages.resourceTypeFilter.heading',
-              )}
+            <SearchFilterContent
               items={sortedFilterButtonItems}
               onFilterToggle={handleFilterToggle}
               onRemoveAllFilters={handleFilterReset}
-              labels={{
-                openFilter: t(
-                  'searchPage.searchFilterMessages.resourceTypeFilter.button',
-                ),
-              }}
+              viewType={listViewType}
+              onChangeViewType={viewType => setListViewType(viewType)}
             />
           )}
           <SearchResults
@@ -149,6 +145,7 @@ const SearchContainer = ({
             typeFilter={typeFilter}
             handleSubFilterClick={handleSubFilterClick}
             handleShowMore={handleShowMore}
+            viewType={listViewType}
             loading={loading}
           />
           {isLti && (
