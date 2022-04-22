@@ -724,6 +724,9 @@ export const programmes: ProgrammeType[] = [
               {
                 id: 'urn:subject:1:1d441d40-358a-47a8-8cd5-7a80382a9062',
               },
+              {
+                id: 'urn:subject:1:c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
+              },
             ],
           },
         ],
@@ -808,6 +811,12 @@ export const programmes: ProgrammeType[] = [
               },
               {
                 id: 'urn:subject:1:80f10045-2faa-4f6f-be0f-4c7ec9618186',
+              },
+              {
+                id: 'urn:subject:1:06270029-7aa7-4a7a-b383-128b275ff150',
+              },
+              {
+                id: 'urn:subject:1:41cb93c0-abc7-4212-b69f-df81106ae3c0',
               },
             ],
           },
@@ -1102,6 +1111,9 @@ export const programmes: ProgrammeType[] = [
               {
                 id: 'urn:subject:1:1d441d40-358a-47a8-8cd5-7a80382a9062',
               },
+              {
+                id: 'urn:subject:1:c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
+              },
             ],
           },
         ],
@@ -1189,6 +1201,12 @@ export const programmes: ProgrammeType[] = [
               },
               {
                 id: 'urn:subject:1:80f10045-2faa-4f6f-be0f-4c7ec9618186',
+              },
+              {
+                id: 'urn:subject:1:06270029-7aa7-4a7a-b383-128b275ff150',
+              },
+              {
+                id: 'urn:subject:1:41cb93c0-abc7-4212-b69f-df81106ae3c0',
               },
             ],
           },
@@ -1353,6 +1371,9 @@ export const programmes: ProgrammeType[] = [
               {
                 id: 'urn:subject:1:47678c7b-bc09-4fc8-b2d9-a2e3d709e105',
               },
+              {
+                id: 'urn:subject:1:c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
+              },
             ],
           },
         ],
@@ -1443,6 +1464,12 @@ export const programmes: ProgrammeType[] = [
               },
               {
                 id: 'urn:subject:1:80f10045-2faa-4f6f-be0f-4c7ec9618186',
+              },
+              {
+                id: 'urn:subject:1:41cb93c0-abc7-4212-b69f-df81106ae3c0',
+              },
+              {
+                id: 'urn:subject:1:06270029-7aa7-4a7a-b383-128b275ff150',
               },
             ],
           },
@@ -1599,6 +1626,9 @@ export const programmes: ProgrammeType[] = [
               {
                 id: 'urn:subject:1:1d441d40-358a-47a8-8cd5-7a80382a9062',
               },
+              {
+                id: 'urn:subject:1:c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
+              },
             ],
           },
         ],
@@ -1686,6 +1716,12 @@ export const programmes: ProgrammeType[] = [
               },
               {
                 id: 'urn:subject:1:80f10045-2faa-4f6f-be0f-4c7ec9618186',
+              },
+              {
+                id: 'urn:subject:1:41cb93c0-abc7-4212-b69f-df81106ae3c0',
+              },
+              {
+                id: 'urn:subject:1:06270029-7aa7-4a7a-b383-128b275ff150',
               },
             ],
           },
@@ -1813,7 +1849,35 @@ export const programmes: ProgrammeType[] = [
         name: 'Vg3',
         categories: [
           {
-            name: undefined,
+            name: {
+              nb: 'Fellesfag',
+              nn: 'Fellesfag',
+              en: 'Fellesfag',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:1:c2133910-2de5-4dc9-9057-f59fed74982f',
+              },
+              {
+                id: 'urn:subject:1:f3d2143b-66e3-428c-89ca-72c1abc659ea',
+              },
+              {
+                id: 'urn:subject:1:38bc9538-63fd-48f3-9085-c2142dafd64c',
+              },
+              {
+                id: 'urn:subject:1:9132d125-4d8f-41a6-b61d-77741662d5a9',
+              },
+              {
+                id: 'urn:subject:1:671bd263-eee6-4c56-9e23-a6bbd3130f33',
+              },
+            ],
+          },
+          {
+            name: {
+              nb: 'Valgfrie programfag',
+              nn: 'Valfrie programfag',
+              en: 'Valgfrie programfag',
+            },
             subjects: [
               {
                 id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
@@ -1845,29 +1909,8 @@ export const programmes: ProgrammeType[] = [
               {
                 id: 'urn:subject:1:a532138d-e16a-4046-a46e-bd5bc9487b8b',
               },
-            ],
-          },
-          {
-            name: {
-              nb: 'Fellesfag',
-              nn: 'Fellesfag',
-              en: 'Fellesfag',
-            },
-            subjects: [
               {
-                id: 'urn:subject:1:c2133910-2de5-4dc9-9057-f59fed74982f',
-              },
-              {
-                id: 'urn:subject:1:f3d2143b-66e3-428c-89ca-72c1abc659ea',
-              },
-              {
-                id: 'urn:subject:1:38bc9538-63fd-48f3-9085-c2142dafd64c',
-              },
-              {
-                id: 'urn:subject:1:9132d125-4d8f-41a6-b61d-77741662d5a9',
-              },
-              {
-                id: 'urn:subject:1:671bd263-eee6-4c56-9e23-a6bbd3130f33',
+                id: 'urn:subject:1:c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
               },
             ],
           },
@@ -2254,9 +2297,6 @@ export const programmes: ProgrammeType[] = [
             },
             subjects: [
               {
-                id: 'urn:subject:1:41cb93c0-abc7-4212-b69f-df81106ae3c0',
-              },
-              {
                 id: 'urn:subject:1:3170610c-6a5a-4da5-aeba-adb247aae48c',
               },
 
@@ -2341,6 +2381,9 @@ export const programmes: ProgrammeType[] = [
               en: 'Språk, samfunnsfag og økonomi',
             },
             subjects: [
+              {
+                id: 'urn:subject:1:41cb93c0-abc7-4212-b69f-df81106ae3c0',
+              },
               {
                 id: 'urn:subject:1:c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
               },
