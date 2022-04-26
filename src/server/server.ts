@@ -108,7 +108,7 @@ app.get(
   '/ukr',
   ndlaMiddleware,
   (_req: Request, res: Response, _next: NextFunction) => {
-    res.redirect(UKR_PAGE_PATH);
+    res.redirect(`/en${UKR_PAGE_PATH}`);
   },
 );
 

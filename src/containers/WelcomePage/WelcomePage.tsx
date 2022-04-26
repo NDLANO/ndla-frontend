@@ -134,7 +134,7 @@ const WelcomePage = ({ locale, skipToContentId }: Props) => {
           <BannerCardWrapper>
             <BannerCard
               link={UKR_PAGE_PATH}
-              title="Lær om det norske samfunn - på ukrainsk"
+              title="Lær om det norske samfunnet - på ukrainsk"
               content="Дізнайтеся про норвезьке суспільство – українською"
               linkText="Learn about Norwegian society - in Ukrainian"
               image={{
