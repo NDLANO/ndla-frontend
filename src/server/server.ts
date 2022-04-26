@@ -24,7 +24,11 @@ import handleError from '../util/handleError';
 import { routes as appRoutes } from '../routes';
 import { getLocaleInfoFromPath } from '../i18n';
 import ltiConfig from './ltiConfig';
-import { FILM_PAGE_PATH, NOT_FOUND_PAGE_PATH } from '../constants';
+import {
+  FILM_PAGE_PATH,
+  NOT_FOUND_PAGE_PATH,
+  UKR_PAGE_PATH,
+} from '../constants';
 import { generateOauthData } from './helpers/oauthHelper';
 import {
   getFeideToken,
@@ -97,6 +101,14 @@ app.get(
   ndlaMiddleware,
   (_req: Request, res: Response, _next: NextFunction) => {
     res.redirect(FILM_PAGE_PATH);
+  },
+);
+
+app.get(
+  '/ukr',
+  ndlaMiddleware,
+  (_req: Request, res: Response, _next: NextFunction) => {
+    res.redirect(UKR_PAGE_PATH);
   },
 );
 

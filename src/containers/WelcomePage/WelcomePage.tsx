@@ -22,7 +22,7 @@ import { spacing } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import WelcomePageInfo from './WelcomePageInfo';
 import FrontpageSubjects from './FrontpageSubjects';
-import { FILM_PAGE_PATH } from '../../constants';
+import { FILM_PAGE_PATH, UKR_PAGE_PATH } from '../../constants';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import config from '../../config';
 import BlogPosts from './BlogPosts';
@@ -133,7 +133,7 @@ const WelcomePage = ({ locale, skipToContentId }: Props) => {
         <OneColumn extraPadding>
           <BannerCardWrapper>
             <BannerCard
-              link="/subject:27e8623d-c092-4f00-9a6f-066438d6c466"
+              link={UKR_PAGE_PATH}
               title="Lær om det norske samfunn - på ukrainsk"
               content="Дізнайтеся про норвезьке суспільство – українською"
               linkText="Learn about Norwegian society - in Ukrainian"
