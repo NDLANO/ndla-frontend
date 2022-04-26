@@ -70,15 +70,8 @@ export const programmes: ProgrammeType[] = [
       },
       {
         name: 'Vg2',
+        missingProgrammeSubjects: true,
         categories: [
-          {
-            name: {
-              nb: 'Vi har dessverre ikke programfagene enda.',
-              nn: 'Vi har dessverre ikkje programfaga enno.',
-              en: 'Vi har dessverre ikke programfagene enda.',
-            },
-            subjects: [],
-          },
           {
             name: {
               nb: 'Fellesfag',
@@ -179,15 +172,8 @@ export const programmes: ProgrammeType[] = [
       },
       {
         name: 'Vg2',
+        missingProgrammeSubjects: true,
         categories: [
-          {
-            name: {
-              nb: 'Vi har dessverre ikke programfagene enda.',
-              nn: 'Vi har dessverre ikkje programfaga enno.',
-              en: 'Vi har dessverre ikke programfagene enda.',
-            },
-            subjects: [],
-          },
           {
             name: {
               nb: 'Fellesfag',
@@ -288,15 +274,8 @@ export const programmes: ProgrammeType[] = [
       },
       {
         name: 'Vg2',
+        missingProgrammeSubjects: true,
         categories: [
-          {
-            name: {
-              nb: 'Vi har dessverre ikke programfagene enda.',
-              nn: 'Vi har dessverre ikkje programfaga enno.',
-              en: 'Vi har dessverre ikke programfagene enda.',
-            },
-            subjects: [],
-          },
           {
             name: {
               nb: 'Fellesfag',
@@ -397,15 +376,8 @@ export const programmes: ProgrammeType[] = [
       },
       {
         name: 'Vg2',
+        missingProgrammeSubjects: true,
         categories: [
-          {
-            name: {
-              nb: 'Vi har dessverre ikke programfagene enda.',
-              nn: 'Vi har dessverre ikkje programfaga enno.',
-              en: 'Vi har dessverre ikke programfagene enda.',
-            },
-            subjects: [],
-          },
           {
             name: {
               nb: 'Fellesfag',
@@ -603,15 +575,8 @@ export const programmes: ProgrammeType[] = [
     grades: [
       {
         name: 'Vg1',
+        missingProgrammeSubjects: true,
         categories: [
-          {
-            name: {
-              nb: 'Vi har dessverre ikke programfagene enda.',
-              nn: 'Vi har dessverre ikkje programfaga enno.',
-              en: 'Vi har dessverre ikke programfagene enda.',
-            },
-            subjects: [],
-          },
           {
             name: {
               nb: 'Fellesfag',
@@ -658,15 +623,8 @@ export const programmes: ProgrammeType[] = [
       },
       {
         name: 'Vg2',
+        missingProgrammeSubjects: true,
         categories: [
-          {
-            name: {
-              nb: 'Vi har dessverre ikke programfagene enda.',
-              nn: 'Vi har dessverre ikkje programfaga enno.',
-              en: 'Vi har dessverre ikke programfagene enda.',
-            },
-            subjects: [],
-          },
           {
             name: {
               nb: 'Fellesfag',
@@ -733,15 +691,8 @@ export const programmes: ProgrammeType[] = [
       },
       {
         name: 'Vg3',
+        missingProgrammeSubjects: true,
         categories: [
-          {
-            name: {
-              nb: 'Vi har dessverre ikke programfagene enda.',
-              nn: 'Vi har dessverre ikkje programfaga enno.',
-              en: 'Vi har dessverre ikke programfagene enda.',
-            },
-            subjects: [],
-          },
           {
             name: {
               nb: 'Fellesfag',
@@ -982,15 +933,8 @@ export const programmes: ProgrammeType[] = [
     grades: [
       {
         name: 'Vg1',
+        missingProgrammeSubjects: true,
         categories: [
-          {
-            name: {
-              nb: 'Vi har dessverre ikke programfagene enda.',
-              nn: 'Vi har dessverre ikkje programfaga enno.',
-              en: 'Vi har dessverre ikke programfagene enda.',
-            },
-            subjects: [],
-          },
           {
             name: {
               nb: 'Fellesfag',
@@ -1040,15 +984,8 @@ export const programmes: ProgrammeType[] = [
       },
       {
         name: 'Vg2',
+        missingProgrammeSubjects: true,
         categories: [
-          {
-            name: {
-              nb: 'Vi har dessverre ikke programfagene enda.',
-              nn: 'Vi har dessverre ikkje programfaga enno.',
-              en: 'Vi har dessverre ikke programfagene enda.',
-            },
-            subjects: [],
-          },
           {
             name: {
               nb: 'Fellesfag',
@@ -1120,15 +1057,8 @@ export const programmes: ProgrammeType[] = [
       },
       {
         name: 'Vg3',
+        missingProgrammeSubjects: true,
         categories: [
-          {
-            name: {
-              nb: 'Vi har dessverre ikke programfagene enda.',
-              nn: 'Vi har dessverre ikkje programfaga enno.',
-              en: 'Vi har dessverre ikke programfagene enda.',
-            },
-            subjects: [],
-          },
           {
             name: {
               nb: 'Fellesfag',
@@ -1500,15 +1430,8 @@ export const programmes: ProgrammeType[] = [
     grades: [
       {
         name: 'Vg1',
+        missingProgrammeSubjects: true,
         categories: [
-          {
-            name: {
-              nb: 'Vi har dessverre ikke programfagene enda.',
-              nn: 'Vi har dessverre ikkje programfaga enno.',
-              en: 'Vi har dessverre ikke programfagene enda.',
-            },
-            subjects: [],
-          },
           {
             name: {
               nb: 'Fellesfag',
@@ -1555,15 +1478,8 @@ export const programmes: ProgrammeType[] = [
       },
       {
         name: 'Vg2',
+        missingProgrammeSubjects: true,
         categories: [
-          {
-            name: {
-              nb: 'Vi har dessverre ikke programfagene enda.',
-              nn: 'Vi har dessverre ikkje programfaga enno.',
-              en: 'Vi har dessverre ikke programfagene enda.',
-            },
-            subjects: [],
-          },
           {
             name: {
               nb: 'Fellesfag',
@@ -1635,15 +1551,8 @@ export const programmes: ProgrammeType[] = [
       },
       {
         name: 'Vg3',
+        missingProgrammeSubjects: true,
         categories: [
-          {
-            name: {
-              nb: 'Vi har dessverre ikke programfagene enda.',
-              nn: 'Vi har dessverre ikkje programfaga enno.',
-              en: 'Vi har dessverre ikke programfagene enda.',
-            },
-            subjects: [],
-          },
           {
             name: {
               nb: 'Fellesfag',
@@ -1795,15 +1704,8 @@ export const programmes: ProgrammeType[] = [
       },
       {
         name: 'Vg2',
+        missingProgrammeSubjects: true,
         categories: [
-          {
-            name: {
-              nb: 'Vi har dessverre ikke programfagene enda.',
-              nn: 'Vi har dessverre ikkje programfaga enno.',
-              en: 'Vi har dessverre ikke programfagene enda.',
-            },
-            subjects: [],
-          },
           {
             name: {
               nb: 'Fellesfag',
