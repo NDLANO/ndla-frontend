@@ -32,7 +32,7 @@ import {
   SUBJECT_PAGE_PATH,
 } from './constants';
 import { InitialProps, LocaleType } from './interfaces';
-import { initializeI18n } from './i18n';
+import { initializeI18n, isValidLocale } from './i18n';
 import config from './config';
 import AuthenticationContext from './components/AuthenticationContext';
 import { BaseNameProvider } from './components/BaseNameContext';
@@ -153,6 +153,7 @@ interface AppProps extends RouteComponentProps, WithTranslation {
   initialProps: InitialProps;
   locale?: LocaleType;
   client: ApolloClient<object>;
+  base?: string;
 }
 
 interface AppState {
@@ -194,6 +195,18 @@ class App extends Component<AppProps, AppState> {
   }
 
   componentDidUpdate() {
+    if (this.props.isClient) {
+      const [, maybeUrlLocale, ...rest] = window.location.pathname.split('/');
+      const urlLocale = isValidLocale(maybeUrlLocale)
+        ? maybeUrlLocale
+        : undefined;
+      if (urlLocale && this.props.base !== urlLocale) {
+        const path = rest.join('/');
+        const fullPath = path.startsWith('/') ? path : `/${path}`;
+        this.props.history.replace(`${fullPath}${this.props.location.search}`);
+      }
+    }
+
     if (!this.state.data || this.state.data.loading === true) {
       this.handleLoadInitialProps(this.props);
     }

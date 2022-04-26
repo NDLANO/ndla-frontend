@@ -8,13 +8,16 @@
 
 import { StaticRouter } from 'react-router';
 import { matchPath } from 'react-router-dom';
+import { I18nextProvider } from 'react-i18next';
+import { i18nInstance } from '@ndla/ui';
 import url from 'url';
 import { ApolloProvider } from '@apollo/client';
 import queryString from 'query-string';
 import { CacheProvider } from '@emotion/core';
 import createCache from '@emotion/cache';
 
-import routes, { routes as serverRoutes } from '../../routes';
+import App from '../../App';
+import { routes as serverRoutes } from '../../routes';
 import config from '../../config';
 import { createApolloClient } from '../../util/apiHelpers';
 import handleError from '../../util/handleError';
@@ -78,13 +81,24 @@ async function doRender(req) {
 
   const context = {};
   const Page = !disableSSR(req) ? (
-    <ApolloProvider client={client}>
-      <CacheProvider value={cache}>
-        <StaticRouter basename={basename} location={req.url} context={context}>
-          {routes({ ...initialProps, locale }, client, locale)}
-        </StaticRouter>
-      </CacheProvider>
-    </ApolloProvider>
+    <I18nextProvider i18n={i18nInstance}>
+      <ApolloProvider client={client}>
+        <CacheProvider value={cache}>
+          <StaticRouter
+            basename={basename}
+            location={req.url}
+            context={context}>
+            <App
+              initialProps={initialProps}
+              isClient={false}
+              client={client}
+              locale={locale}
+              key={locale}
+            />
+          </StaticRouter>
+        </CacheProvider>
+      </ApolloProvider>
+    </I18nextProvider>
   ) : (
     ''
   );
