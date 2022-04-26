@@ -200,10 +200,20 @@ class App extends Component<AppProps, AppState> {
       const urlLocale = isValidLocale(maybeUrlLocale)
         ? maybeUrlLocale
         : undefined;
-      if (urlLocale && this.props.base !== urlLocale) {
+      if (!urlLocale && this.props.base === '') {
+        // return because base does not exist. It means we are on the default locale.
+        return;
+      } else if (urlLocale && this.props.base === urlLocale) {
+        // return becase the url and the base are equal.
+        return;
+      } else if (urlLocale) {
+        // replace the url because base and url are not equal.
         const path = rest.join('/');
         const fullPath = path.startsWith('/') ? path : `/${path}`;
         this.props.history.replace(`${fullPath}${this.props.location.search}`);
+      } else {
+        // simply trigger a replace with the new base to get an updated location base.
+        this.props.history.replace(window.location.pathname);
       }
     }
 
