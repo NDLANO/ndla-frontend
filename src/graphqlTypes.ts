@@ -48,6 +48,7 @@ export type GQLArticle = {
   relatedContent?: Maybe<Array<GQLRelatedContent>>;
   requiredLibraries?: Maybe<Array<GQLArticleRequiredLibrary>>;
   revision: Scalars['Int'];
+  revisionDate?: Maybe<Scalars['String']>;
   supportedLanguages?: Maybe<Array<Scalars['String']>>;
   tags?: Maybe<Array<Scalars['String']>>;
   title: Scalars['String'];
@@ -1247,6 +1248,7 @@ export type GQLArticle_ArticleFragment = {
   oldNdlaUrl?: Maybe<string>;
   introduction?: Maybe<string>;
   conceptIds?: Maybe<Array<number>>;
+  revisionDate?: Maybe<string>;
   metaData?: Maybe<{
     __typename?: 'ArticleMetaData';
     footnotes?: Maybe<
