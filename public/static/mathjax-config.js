@@ -11,16 +11,15 @@ window.MathJax = {
         mathmlSpacing: false
     },
     options:{
-        renderActions:{
-            addMenu: [0, '', '']
-        },
+        enableMenu: true,
         menuOptions:{
             settings:{
                 assistiveMml: true,
-                collapsible: false,
+                collapsible: true,
                 explorer: true
             }
-        }
+        },
+        makeCollapsible: false
     }
 };
 
