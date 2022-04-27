@@ -21,6 +21,7 @@ import { RootComponentProps } from '../../routes';
 export interface GradesData {
   name: string;
   categories: {
+    missingProgrammeSubjects?: boolean;
     name: string;
     subjects: {
       label: string;
@@ -55,7 +56,11 @@ export const mapGradesData = (
       subjects.sort((a, b) => a.label.localeCompare(b.label, locale));
       return { name: category.name?.[locale] ?? '', subjects };
     });
-    return { name: grade.name, categories };
+    return {
+      name: grade.name,
+      categories,
+      missingProgrammeSubjects: grade.missingProgrammeSubjects,
+    };
   });
 };
 
