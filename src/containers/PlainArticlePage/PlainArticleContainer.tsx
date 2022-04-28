@@ -114,6 +114,7 @@ export const plainArticleContainerFragments = {
   article: gql`
     fragment PlainArticleContainer_Article on Article {
       created
+      tags
       ...Article_Article
       ...StructuredArticleData
     }

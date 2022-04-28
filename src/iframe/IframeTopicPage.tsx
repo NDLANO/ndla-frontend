@@ -108,6 +108,7 @@ export const iframeTopicPageFragments = {
   article: gql`
     fragment IframeTopicPage_Article on Article {
       created
+      tags
       ...Article_Article
       ...StructuredArticleData
     }
