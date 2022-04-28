@@ -23,6 +23,7 @@ import { NDLAWindow } from './interfaces';
 import routesFunc from './routes';
 import './style/index.css';
 import { createApolloClient } from './util/apiHelpers';
+import { VersionHashProvider } from './components/VersionHashContext';
 
 declare global {
   interface Window extends NDLAWindow {}
@@ -35,6 +36,8 @@ const {
 const { abbreviation, basename, basepath } = getLocaleInfoFromPath(
   serverPath ?? '',
 );
+
+const { versionHash } = queryString.parse(window.location.search);
 
 const serverQueryString = decodeURIComponent(
   queryString.stringify(serverQuery),
@@ -63,7 +66,7 @@ window.errorReporter = ErrorReporter.getInstance({
 window.hasHydrated = false;
 const renderOrHydrate = config.disableSSR ? ReactDOM.render : ReactDOM.hydrate;
 
-const client = createApolloClient(abbreviation, document.cookie);
+const client = createApolloClient(abbreviation, document.cookie, versionHash);
 const cache = createCache({ key: EmotionCacheKey });
 
 // Use memory router if running under google translate
@@ -108,15 +111,18 @@ removeUniversalPortals();
 renderOrHydrate(
   <ApolloProvider client={client}>
     <CacheProvider value={cache}>
-      <RouterComponent>
-        {routesFunc(
-          { ...initialProps, basename },
-          client,
-          //@ts-ignore
-          basename,
-          true,
-        )}
-      </RouterComponent>
+      <VersionHashProvider value={versionHash}>
+        <RouterComponent>
+          {routesFunc(
+            { ...initialProps, basename },
+            client,
+            //@ts-ignore
+            basename,
+            true,
+            versionHash,
+          )}
+        </RouterComponent>
+      </VersionHashProvider>
     </CacheProvider>
   </ApolloProvider>,
   document.getElementById('root'),
