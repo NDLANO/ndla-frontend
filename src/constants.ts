@@ -29,6 +29,7 @@ export const TOPIC_PATH =
 export const SUBJECT_PAGE_PATH = '/subject\\::subjectId/:topicPath*/';
 export const SUBJECTS = '/subjects';
 export const FILM_PAGE_PATH = '/subject:20';
+export const UKR_PAGE_PATH = '/subject:27e8623d-c092-4f00-9a6f-066438d6c466';
 export const PLAIN_LEARNINGPATH_PAGE_PATH = '/learningpaths/:learningpathId';
 export const PLAIN_LEARNINGPATHSTEP_PAGE_PATH =
   '/learningpaths/:learningpathId/steps/:stepId';
