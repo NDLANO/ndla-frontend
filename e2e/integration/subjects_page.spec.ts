@@ -11,10 +11,10 @@ describe('Subjects page', () => {
     cy.fixCypressSpec('/e2e/integration/subjects_page.spec.ts');
     cy.visit('/?disableSSR=true');
 
-    cy.gqlIntercept({
+    /*cy.gqlIntercept({
       alias: 'alerts',
       operations: ['alerts'],
-    });
+    });*/
 
     cy.gqlIntercept({
       alias: 'subjectpage',
@@ -24,7 +24,7 @@ describe('Subjects page', () => {
       alias: 'competenceGoals',
       operations: ['competenceGoals'],
     });
-    cy.gqlWait('@alerts');
+    //cy.gqlWait('@alerts');
 
     cy.get('[data-testid="category-list"]  button:contains("Alle fag"):visible')
       .click()
