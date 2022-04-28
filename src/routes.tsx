@@ -211,6 +211,7 @@ const routesFunc = function(
   client: ApolloClient<object>,
   locale?: LocaleType,
   isClient = false,
+  versionHash?: string,
 ) {
   if (!isClient) {
     i18nInstance.changeLanguage(locale);
@@ -222,6 +223,7 @@ const routesFunc = function(
       client={client}
       locale={locale}
       key={locale}
+      versionHash={versionHash}
     />
   );
 

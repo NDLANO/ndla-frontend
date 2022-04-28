@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
+import { useVersionHash } from './components/VersionHashContext';
 import { getDefaultLocale } from './config';
 import { STORED_LANGUAGE_KEY } from './constants';
 import { appLocales, isValidLocale } from './i18n';
@@ -21,6 +22,7 @@ export const I18nWrapper = ({ locale, initialProps }: Props) => {
   const [lang, setLang] = useState(locale);
   const firstRender = useRef(true);
   const apolloClient = useApolloClient();
+  const versionHash = useVersionHash();
 
   useEffect(() => {
     if (firstRender.current) {
@@ -37,7 +39,9 @@ export const I18nWrapper = ({ locale, initialProps }: Props) => {
           history.replace(
             `/${storedLang}${window.location.pathname}${window.location.search}`,
           );
-          apolloClient.setLink(createApolloLinks(storedLang, document.cookie));
+          apolloClient.setLink(
+            createApolloLinks(storedLang, document.cookie, versionHash),
+          );
           apolloClient.resetStore();
         }
       } else if (locale && !isValidLocale(locale)) {
@@ -75,6 +79,7 @@ export const I18nWrapper = ({ locale, initialProps }: Props) => {
         client={apolloClient}
         locale={lang}
         key={lang}
+        versionHash={versionHash}
       />
     </BrowserRouter>
   );
