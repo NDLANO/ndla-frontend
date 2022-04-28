@@ -6,7 +6,6 @@
  *
  */
 
-import { gql } from '@apollo/client';
 import {
   ComponentType,
   ReactNode,
@@ -14,9 +13,11 @@ import {
   useEffect,
   useMemo,
 } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router';
 import { Remarkable } from 'remarkable';
 import { format, isAfter } from 'date-fns';
+import { gql } from '@apollo/client';
 import {
   Article as UIArticle,
   ContentTypeBadge,
@@ -34,7 +35,6 @@ import {
 import { LocaleType } from '../../interfaces';
 import { MastheadHeightPx } from '../../constants';
 import { useGraphQuery } from '../../util/runQueries';
-import { useTranslation } from 'react-i18next';
 
 function renderCompetenceGoals(
   article: GQLArticle_ArticleFragment,

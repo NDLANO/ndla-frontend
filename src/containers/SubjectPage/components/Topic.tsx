@@ -10,6 +10,7 @@ import { gql } from '@apollo/client';
 import { useEffect, useMemo, useState, MouseEvent } from 'react';
 import { Remarkable } from 'remarkable';
 import { TFunction, withTranslation, WithTranslation } from 'react-i18next';
+import { format, isAfter } from 'date-fns';
 import { Topic as UITopic } from '@ndla/ui';
 import { TopicProps } from '@ndla/ui/lib/Topic/Topic';
 import { withTracker } from '@ndla/tracker';
@@ -72,6 +73,7 @@ const Topic = ({
   onClickTopics,
   topic,
   resourceTypes,
+  t,
 }: Props) => {
   const [showContent, setShowContent] = useState(false);
   const markdown = useMemo(() => {
@@ -150,6 +152,9 @@ const Topic = ({
     };
   });
   const copyPageUrlLink = config.ndlaFrontendDomain + topic.path;
+  const isOutdated = article.revisionDate
+    ? isAfter(new Date(), format(article.revisionDate))
+    : false;
 
   return (
     <UITopic
@@ -158,6 +163,7 @@ const Topic = ({
       }
       showContent={showContent}
       topic={transposedTopic.topic}
+      messageBox={isOutdated ? t('article.possiblyOutdated') : undefined}
       subTopics={subTopics}
       isLoading={false}
       renderMarkdown={renderMarkdown}
@@ -241,6 +247,7 @@ export const topicFragments = {
         visualElement {
           ...VisualElementWrapper_VisualElement
         }
+        revisionDate
       }
       ...ArticleContents_Topic
       ...Resources_Topic

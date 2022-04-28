@@ -2311,6 +2311,7 @@ export type GQLTopic_TopicFragment = {
   >;
   article?: Maybe<{
     __typename?: 'Article';
+    revisionDate?: Maybe<string>;
     metaImage?: Maybe<{ __typename?: 'MetaImage'; url: string; alt: string }>;
     visualElement?: Maybe<
       {

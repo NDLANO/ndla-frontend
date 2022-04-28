@@ -6,9 +6,9 @@
  *
  */
 
-import { gql } from '@apollo/client';
 import { useMemo } from 'react';
 import { Remarkable } from 'remarkable';
+import { gql } from '@apollo/client';
 import {
   ArticleWrapper,
   LayoutItem,
