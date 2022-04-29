@@ -104,6 +104,8 @@ const Podcast = ({ podcast, seriesId }: Props) => {
   const id = podcast.id.toString();
   const figureId = `episode-${id}`;
 
+  const imageId = `episode-${id}-image-${image?.id}`;
+
   return (
     <Figure id={figureId} type="full-column">
       <AudioPlayer
@@ -157,16 +159,16 @@ const Podcast = ({ podcast, seriesId }: Props) => {
         </FigureLicenseDialog>
       </FigureCaption>
       {image && (
-        <div id={image.id}>
+        <div id={imageId}>
           <FigureCaption
-            figureId={image.id}
-            id={image.id}
+            figureId={imageId}
+            id={imageId}
             licenseRights={imageRights || []}
             locale={language}
             reuseLabel={t('image.reuse')}
             authors={imageContributors}>
             <FigureLicenseDialog
-              id={image.id}
+              id={imageId}
               authors={imageContributors}
               locale={language}
               license={getLicenseByAbbreviation(
