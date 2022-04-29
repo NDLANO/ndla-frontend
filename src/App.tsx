@@ -154,6 +154,7 @@ interface AppProps extends RouteComponentProps, WithTranslation {
   locale?: LocaleType;
   client: ApolloClient<object>;
   base?: string;
+  versionHash?: string;
 }
 
 interface AppState {
@@ -168,7 +169,12 @@ class App extends Component<AppProps, AppState> {
   constructor(props: AppProps) {
     super(props);
     this.location = null;
-    initializeI18n(props.i18n, props.client, props.initialProps.resCookie);
+    initializeI18n(
+      props.i18n,
+      props.client,
+      props.initialProps.resCookie,
+      props.versionHash,
+    );
     props.i18n.changeLanguage(props.locale);
     this.state = {
       hasError: false,

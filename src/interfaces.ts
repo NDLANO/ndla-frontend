@@ -75,6 +75,7 @@ export interface ProgrammeType {
 export interface ProgrammeGrade {
   name: string;
   categories: GradeCategory[];
+  missingProgrammeSubjects?: boolean;
 }
 
 export interface GradeCategory {

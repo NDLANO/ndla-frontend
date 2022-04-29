@@ -76,6 +76,7 @@ export const initializeI18n = (
   i18n: i18n,
   client?: ApolloClient<object>,
   cookieString?: string,
+  versionHash?: string,
 ): void => {
   i18n.options.supportedLngs = supportedLanguages;
   i18n.addResourceBundle('en', 'translation', en, false, false);
@@ -89,7 +90,7 @@ export const initializeI18n = (
     if (typeof window != 'undefined') {
       if (client) {
         client.resetStore();
-        client.setLink(createApolloLinks(language, cookieString));
+        client.setLink(createApolloLinks(language, cookieString, versionHash));
       }
       window.localStorage.setItem(STORED_LANGUAGE_KEY, language);
     }

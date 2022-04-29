@@ -30,6 +30,10 @@ import './style/index.css';
 import { createApolloClient } from './util/apiHelpers';
 import { getDefaultLocale } from './config';
 import App from './App';
+import {
+  useVersionHash,
+  VersionHashProvider,
+} from './components/VersionHashContext';
 
 declare global {
   interface Window extends NDLAWindow {}
@@ -43,6 +47,8 @@ const { basepath } = getLocaleInfoFromPath(serverPath ?? '');
 
 const paths = window.location.pathname.split('/');
 const basename = isValidLocale(paths[1] ?? '') ? `${paths[1]}` : undefined;
+
+const { versionHash } = queryString.parse(window.location.search);
 
 const serverQueryString = decodeURIComponent(
   queryString.stringify(serverQuery),
@@ -69,7 +75,7 @@ window.errorReporter = ErrorReporter.getInstance({
 window.hasHydrated = false;
 const renderOrHydrate = config.disableSSR ? ReactDOM.render : ReactDOM.hydrate;
 
-const client = createApolloClient(basename, document.cookie);
+const client = createApolloClient(basename, document.cookie, versionHash);
 const cache = createCache({ key: EmotionCacheKey });
 
 // Use memory router if running under google translate
@@ -122,6 +128,7 @@ const constructNewPath = (newLocale?: LocaleType) => {
 const LanguageWrapper = ({ basename }: { basename?: string }) => {
   const { i18n } = useTranslation();
   const [base, setBase] = useState('');
+  const versionHash = useVersionHash();
   const firstRender = useRef(true);
   const client = useApolloClient();
 
@@ -176,6 +183,7 @@ const LanguageWrapper = ({ basename }: { basename?: string }) => {
         base={base}
         locale={i18n.language}
         key={i18n.language}
+        versionHash={versionHash}
       />
     </RouterComponent>
   );
@@ -187,7 +195,9 @@ renderOrHydrate(
   <I18nextProvider i18n={i18nInstance}>
     <ApolloProvider client={client}>
       <CacheProvider value={cache}>
-        <LanguageWrapper basename={basename} />
+        <VersionHashProvider value={versionHash}>
+          <LanguageWrapper basename={basename} />
+        </VersionHashProvider>
       </CacheProvider>
     </ApolloProvider>
   </I18nextProvider>,

@@ -24,6 +24,7 @@ import handleError from '../../util/handleError';
 import { getLocaleInfoFromPath } from '../../i18n';
 import { renderHtml, renderPageWithData } from '../helpers/render';
 import { EmotionCacheKey } from '../../constants';
+import { VersionHashProvider } from '../../components/VersionHashContext';
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST); //eslint-disable-line
 
@@ -57,11 +58,16 @@ const disableSSR = req => {
 async function doRender(req) {
   global.assets = assets; // used for including mathjax js in pages with math
   let initialProps = { loading: true, resCookie: req.headers['cookie'] };
+  const versionHash = req.query.versionHash;
   const { abbreviation: locale, basename, basepath } = getLocaleInfoFromPath(
     req.path,
   );
 
-  const client = createApolloClient(locale, initialProps.resCookie);
+  const client = createApolloClient(
+    locale,
+    initialProps.resCookie,
+    versionHash,
+  );
 
   if (!disableSSR(req)) {
     const route = serverRoutes.find(r => matchPath(basepath, r));
@@ -84,18 +90,21 @@ async function doRender(req) {
     <I18nextProvider i18n={i18nInstance}>
       <ApolloProvider client={client}>
         <CacheProvider value={cache}>
-          <StaticRouter
-            basename={basename}
-            location={req.url}
-            context={context}>
-            <App
-              initialProps={initialProps}
-              isClient={false}
-              client={client}
-              locale={locale}
-              key={locale}
-            />
-          </StaticRouter>
+          <VersionHashProvider value={versionHash}>
+            <StaticRouter
+              basename={basename}
+              location={req.url}
+              context={context}>
+              <App
+                initialProps={initialProps}
+                isClient={false}
+                client={client}
+                locale={locale}
+                versionHash={versionHash}
+                key={locale}
+              />
+            </StaticRouter>
+          </VersionHashProvider>
         </CacheProvider>
       </ApolloProvider>
     </I18nextProvider>

@@ -151,7 +151,11 @@ const typePolicies: TypePolicies = {
   },
 };
 
-export const createApolloClient = (language = 'nb', cookieString?: string) => {
+export const createApolloClient = (
+  language = 'nb',
+  cookieString?: string,
+  versionHash?: string,
+) => {
   const cache = __CLIENT__
     ? new InMemoryCache({ possibleTypes, typePolicies }).restore(
         window.DATA.apolloState,
@@ -162,12 +166,16 @@ export const createApolloClient = (language = 'nb', cookieString?: string) => {
 
   return new ApolloClient({
     ssrMode: true,
-    link: createApolloLinks(language, cookie),
+    link: createApolloLinks(language, cookie, versionHash),
     cache,
   });
 };
 
-export const createApolloLinks = (lang: string, cookieString?: string) => {
+export const createApolloLinks = (
+  lang: string,
+  cookieString?: string,
+  versionHash?: string,
+) => {
   const feideCookie = getFeideCookie(cookieString ?? '');
   const accessTokenValid = isAccessTokenValid(feideCookie);
   const accessToken = feideCookie?.access_token;
@@ -177,6 +185,7 @@ export const createApolloLinks = (lang: string, cookieString?: string) => {
       headers: {
         ...headers,
         'Accept-Language': lang,
+        versionHash: versionHash ?? 'default',
         ...(accessToken && accessTokenValid
           ? { FeideAuthorization: `Bearer ${accessToken}` }
           : {}),
