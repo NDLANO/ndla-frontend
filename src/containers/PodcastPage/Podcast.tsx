@@ -90,12 +90,13 @@ const Podcast = ({ podcast, seriesId }: Props) => {
 
   const imageContributors =
     image &&
-    getGroupedContributorDescriptionList(licenseCredits, language).map(
-      item => ({
-        name: item.description,
-        type: item.label,
-      }),
-    );
+    getGroupedContributorDescriptionList(
+      getLicenseCredits(image.copyright),
+      language,
+    ).map(item => ({
+      name: item.description,
+      type: item.label,
+    }));
 
   const imageRights =
     image &&
