@@ -169,6 +169,7 @@ class App extends Component<AppProps, AppState> {
     super(props);
     this.location = null;
     initializeI18n(props.i18n, props.client, props.initialProps.resCookie);
+    props.i18n.changeLanguage(props.locale);
     this.state = {
       hasError: false,
       data: props.initialProps,
