@@ -16,7 +16,6 @@ import {
 } from '@ndla/ui';
 import {
   getLicenseByAbbreviation,
-  getGroupedContributorDescriptionList,
   getLicenseCredits,
   podcastEpisodeApa7CopyString,
   figureApa7CopyString,
@@ -29,7 +28,20 @@ import AnchorButton from '../../components/license/AnchorButton';
 import config from '../../config';
 import { GQLPodcast_AudioFragment } from '../../graphqlTypes';
 import { copyrightInfoFragment } from '../../queries';
+import { Author } from '../../interfaces';
 
+const getPrioritizedAuthors = (authors: {
+  creators: Author[];
+  rightsholders: Author[];
+  processors: Author[];
+}): Author[] => {
+  const { creators, rightsholders, processors } = authors;
+
+  if (creators.length || rightsholders.length) {
+    return [...creators, ...rightsholders];
+  }
+  return processors;
+};
 interface Props {
   podcast: GQLPodcast_AudioFragment;
   seriesId: string;
@@ -80,23 +92,10 @@ const Podcast = ({ podcast, seriesId }: Props) => {
 
   const licenseCredits = getLicenseCredits(podcast.copyright);
 
-  const podcastContributors = getGroupedContributorDescriptionList(
-    licenseCredits,
-    language,
-  ).map(item => ({
-    name: item.description,
-    type: item.label,
-  }));
+  const podcastContributors = getPrioritizedAuthors(licenseCredits);
 
   const imageContributors =
-    image &&
-    getGroupedContributorDescriptionList(
-      getLicenseCredits(image.copyright),
-      language,
-    ).map(item => ({
-      name: item.description,
-      type: item.label,
-    }));
+    image && getPrioritizedAuthors(getLicenseCredits(image.copyright));
 
   const imageRights =
     image &&
