@@ -2,6 +2,19 @@ import { LocaleType, SubjectType } from '../interfaces';
 
 export const activeSubjects = [
   {
+    longname: {
+      en: 'Ukrainian resources in Norwegian Social Science',
+      nb: 'Ukrainske ressurser i samfunnskunnskap',
+      nn: 'Ukrainske ressurser i samfunnskunnskap',
+    },
+    name: {
+      en: 'Ukrainian resources in Norwegian Social Science',
+      nb: 'Ukrainske ressurser i samfunnskunnskap',
+      nn: 'Ukrainske ressurser i samfunnskunnskap',
+    },
+    id: 'subject:27e8623d-c092-4f00-9a6f-066438d6c466',
+  },
+  {
     longName: {
       en: 'Norsk (YF)',
       nb: 'Norsk (YF)',
