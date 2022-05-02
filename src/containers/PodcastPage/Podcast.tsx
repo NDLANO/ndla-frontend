@@ -19,6 +19,7 @@ import {
   getLicenseCredits,
   podcastEpisodeApa7CopyString,
   figureApa7CopyString,
+  getGroupedContributorDescriptionList,
 } from '@ndla/licenses';
 import { initArticleScripts } from '@ndla/article-scripts';
 import { gql } from '@apollo/client';
@@ -42,6 +43,21 @@ const getPrioritizedAuthors = (authors: {
   }
   return processors;
 };
+
+const getGroupedAuthors = (
+  authors: {
+    creators: Author[];
+    rightsholders: Author[];
+    processors: Author[];
+  },
+  language: string,
+) => {
+  return getGroupedContributorDescriptionList(authors, language).map(item => ({
+    name: item.description,
+    type: item.label,
+  }));
+};
+
 interface Props {
   podcast: GQLPodcast_AudioFragment;
   seriesId: string;
@@ -50,6 +66,7 @@ interface Props {
 const Podcast = ({ podcast, seriesId }: Props) => {
   const {
     i18n: { language },
+    t,
   } = useTranslation();
 
   const license =
@@ -63,7 +80,6 @@ const Podcast = ({ podcast, seriesId }: Props) => {
     alt: image.altText,
   };
 
-  const { t } = useTranslation();
   useEffect(() => {
     initArticleScripts();
   }, []);
@@ -97,6 +113,14 @@ const Podcast = ({ podcast, seriesId }: Props) => {
   const imageContributors =
     image && getPrioritizedAuthors(getLicenseCredits(image.copyright));
 
+  const podcastGroupedContributors = getGroupedAuthors(
+    licenseCredits,
+    language,
+  );
+
+  const imageGroupedContributors =
+    image && getGroupedAuthors(image.copyright, language);
+
   const imageRights =
     image &&
     getLicenseByAbbreviation(image.copyright.license.license, language).rights;
@@ -125,7 +149,7 @@ const Podcast = ({ podcast, seriesId }: Props) => {
         authors={podcastContributors}>
         <FigureLicenseDialog
           id={id}
-          authors={podcastContributors}
+          authors={podcastGroupedContributors}
           locale={language}
           license={getLicenseByAbbreviation(
             podcast.copyright.license?.license!,
@@ -169,7 +193,7 @@ const Podcast = ({ podcast, seriesId }: Props) => {
             authors={imageContributors}>
             <FigureLicenseDialog
               id={imageId}
-              authors={imageContributors}
+              authors={imageGroupedContributors}
               locale={language}
               license={getLicenseByAbbreviation(
                 image.copyright.license.license!,
