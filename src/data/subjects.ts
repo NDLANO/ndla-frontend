@@ -1915,14 +1915,14 @@ export const activeSubjects = [
   },
   {
     longName: {
-      en: 'Reiseliv og språk 1 - BETA',
-      nb: 'Reiseliv og språk 1 - BETA',
-      nn: 'Reiseliv og språk 1 - BETA',
+      en: 'Reiseliv og språk 1',
+      nb: 'Reiseliv og språk 1',
+      nn: 'Reiseliv og språk 1',
     },
     name: {
-      en: 'Reiseliv og språk 1 - BETA',
-      nb: 'Reiseliv og språk 1 - BETA',
-      nn: 'Reiseliv og språk 1 - BETA',
+      en: 'Reiseliv og språk 1',
+      nb: 'Reiseliv og språk 1',
+      nn: 'Reiseliv og språk 1',
     },
     id: 'urn:subject:e18b8bf0-326b-45f6-8e95-982de8f34264',
   },
