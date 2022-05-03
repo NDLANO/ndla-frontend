@@ -7,7 +7,6 @@
  */
 
 import { ReactNode } from 'react';
-import PropTypes from 'prop-types';
 import { OneColumn, ErrorMessage } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
 import AccessDeniedPage from '../../AccessDeniedPage/AccessDeniedPage';
@@ -45,11 +44,6 @@ const ArticleErrorMessage = ({ status, children }: Props) => {
       </article>
     </OneColumn>
   );
-};
-
-ArticleErrorMessage.propTypes = {
-  status: PropTypes.string.isRequired,
-  children: PropTypes.node,
 };
 
 export default ArticleErrorMessage;
