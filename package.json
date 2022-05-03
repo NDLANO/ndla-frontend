@@ -121,7 +121,6 @@
     "@ndla/util": "^2.0.4",
     "@ndla/zendesk": "^0.3.3",
     "babel-polyfill": "^6.26.0",
-    "body-parser": "^1.19.0",
     "bunyan": "^1.8.13",
     "create-emotion-server": "^10.0.14",
     "cross-env": "^5.2.0",
