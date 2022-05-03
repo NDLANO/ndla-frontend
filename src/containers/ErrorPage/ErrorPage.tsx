@@ -6,13 +6,11 @@
  *
  */
 
-import PropTypes from 'prop-types';
 import { Content, Masthead, MastheadItem, Logo } from '@ndla/ui';
 import { RouteProps } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import Page from '../Page/Page';
-import { LocationShape } from '../../shapes';
 import { LocaleType } from '../../interfaces';
 
 interface Props extends RouteProps {
@@ -33,11 +31,6 @@ const ErrorPage = ({ locale, location }: Props) => {
       </Content>
     </Page>
   );
-};
-
-ErrorPage.propTypes = {
-  locale: PropTypes.string.isRequired,
-  location: LocationShape,
 };
 
 export default ErrorPage;

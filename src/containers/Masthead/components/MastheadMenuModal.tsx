@@ -1,5 +1,4 @@
 import { ReactNode } from 'react';
-import PropTypes from 'prop-types';
 import Modal from '@ndla/modal';
 //@ts-ignore
 import { TopicMenuButton } from '@ndla/ui';
@@ -31,10 +30,5 @@ const MastheadMenuModal = ({
     {children}
   </Modal>
 );
-
-MastheadMenuModal.propTypes = {
-  onMenuExit: PropTypes.func,
-  ndlaFilm: PropTypes.bool,
-};
 
 export default withTranslation()(MastheadMenuModal);
