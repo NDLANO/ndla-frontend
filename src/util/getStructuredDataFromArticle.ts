@@ -41,7 +41,7 @@ interface StructuredData {
     '@type': string;
     name?: string;
     position: number;
-    item: { '@type': string; id: string };
+    item: string;
   }[];
   '@type'?: string;
   '@context'?: string;
@@ -60,7 +60,6 @@ interface Mediaelements {
 const CREATIVE_WORK_TYPE = 'Article';
 const BREADCRUMB_TYPE = 'BreadcrumbList';
 const ITEM_TYPE = 'ListItem';
-const THING_TYPE = 'Thing';
 
 const PERSON_TYPE = 'Person';
 const ORGANIZATION_TYPE = 'Organization';
@@ -112,10 +111,7 @@ const getBreadcrumbs = (
     '@type': ITEM_TYPE,
     name: item.name,
     position: index + 1,
-    item: {
-      '@type': THING_TYPE,
-      id: `${config.ndlaFrontendDomain}${item.to}`,
-    },
+    item: `${config.ndlaFrontendDomain}${item.to}`,
   }));
 
   return {
