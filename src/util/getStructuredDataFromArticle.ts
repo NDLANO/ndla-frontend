@@ -68,6 +68,9 @@ const IMAGE_TYPE = 'ImageObject';
 const VIDEO_TYPE = 'VideoObject';
 const AUDIO_TYPE = 'AudioObject';
 
+const acquireLicensePage =
+  'https://ndla.zendesk.com/hc/no/articles/360000945552-Bruk-av-lisenser-og-lisensiering';
+
 const publisher = {
   publisher: {
     '@type': ORGANIZATION_TYPE,
@@ -252,6 +255,7 @@ const createMediaData = (media: Mediaelements[]): StructuredData[] =>
       '@id': data?.src,
       name: data?.title,
       contentUrl: data?.src,
+      acquireLicensePage,
       ...getCopyrightData(data?.copyright!),
     };
   });
@@ -269,6 +273,7 @@ const createVideoData = (
       thumbnailUrl: video?.cover,
       description: video?.description,
       contentUrl: video?.download,
+      acquireLicensePage,
       uploadDate: format(video?.uploadDate!, 'YYYY-MM-DD'),
       ...getCopyrightData(video?.copyright!),
     };
