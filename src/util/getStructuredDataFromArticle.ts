@@ -41,7 +41,7 @@ interface StructuredData {
     '@type': string;
     name?: string;
     position: number;
-    item: { '@type': string; id: string };
+    item: string;
   }[];
   '@type'?: string;
   '@context'?: string;
@@ -60,13 +60,15 @@ interface Mediaelements {
 const CREATIVE_WORK_TYPE = 'Article';
 const BREADCRUMB_TYPE = 'BreadcrumbList';
 const ITEM_TYPE = 'ListItem';
-const THING_TYPE = 'Thing';
 
 const PERSON_TYPE = 'Person';
 const ORGANIZATION_TYPE = 'Organization';
 const IMAGE_TYPE = 'ImageObject';
 const VIDEO_TYPE = 'VideoObject';
 const AUDIO_TYPE = 'AudioObject';
+
+const acquireLicensePage =
+  'https://ndla.zendesk.com/hc/no/articles/360000945552-Bruk-av-lisenser-og-lisensiering';
 
 const publisher = {
   publisher: {
@@ -112,10 +114,7 @@ const getBreadcrumbs = (
     '@type': ITEM_TYPE,
     name: item.name,
     position: index + 1,
-    item: {
-      '@type': THING_TYPE,
-      id: `${config.ndlaFrontendDomain}${item.to}`,
-    },
+    item: `${config.ndlaFrontendDomain}${item.to}`,
   }));
 
   return {
@@ -252,6 +251,7 @@ const createMediaData = (media: Mediaelements[]): StructuredData[] =>
       '@id': data?.src,
       name: data?.title,
       contentUrl: data?.src,
+      acquireLicensePage,
       ...getCopyrightData(data?.copyright!),
     };
   });
@@ -269,6 +269,7 @@ const createVideoData = (
       thumbnailUrl: video?.cover,
       description: video?.description,
       contentUrl: video?.download,
+      acquireLicensePage,
       uploadDate: format(video?.uploadDate!, 'YYYY-MM-DD'),
       ...getCopyrightData(video?.copyright!),
     };

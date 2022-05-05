@@ -571,7 +571,7 @@ export const programmes: ProgrammeType[] = [
           'Utdanningsprogrammet består av programfaga aktivitetslære, treningslære, idrett og samfunn og treningsledelse. Du oppnår studiekompetanse.',
       },
     },
-    image: { url: 'https://api.ndla.no/image-api/raw/VEXPfqtg.jpg' },
+    image: { url: 'https://api.ndla.no/image-api/raw/tEoZoZj2.jpg' },
     grades: [
       {
         name: 'Vg1',
