@@ -6,7 +6,6 @@
  *
  */
 
-import { gql } from '@apollo/client';
 import {
   ComponentType,
   ReactNode,
@@ -14,8 +13,11 @@ import {
   useEffect,
   useMemo,
 } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router';
 import { Remarkable } from 'remarkable';
+import { format, isAfter } from 'date-fns';
+import { gql } from '@apollo/client';
 import {
   Article as UIArticle,
   ContentTypeBadge,
@@ -202,6 +204,7 @@ const Article = ({
   isPlainArticle,
   ...rest
 }: Props) => {
+  const { t } = useTranslation();
   const markdown = useMemo(() => {
     const md = new Remarkable({ breaks: true });
     md.inline.ruler.enable(['sub', 'sup']);
@@ -274,6 +277,15 @@ const Article = ({
     footNotes: article.metaData?.footnotes ?? [],
   };
 
+  const outdatedArticle = article.revisionDate
+    ? isAfter(new Date(), format(article.revisionDate))
+    : false;
+
+  const messages = {
+    label,
+    messageBox: outdatedArticle ? t('article.possiblyOutdated') : undefined,
+  };
+
   return (
     <UIArticle
       id={id ?? article.id.toString()}
@@ -281,9 +293,7 @@ const Article = ({
       icon={icon}
       locale={locale}
       licenseBox={<LicenseBox article={article} locale={locale} />}
-      messages={{
-        label,
-      }}
+      messages={messages}
       competenceGoals={renderCompetenceGoals(
         article,
         locale,
@@ -337,6 +347,7 @@ Article.fragments = {
       competenceGoals {
         type
       }
+      revisionDate
       ...LicenseBox_Article
     }
     ${LicenseBox.fragments.article}

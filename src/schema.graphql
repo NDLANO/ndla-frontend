@@ -486,6 +486,7 @@ type Article {
   concepts: [Concept!]
   relatedContent: [RelatedContent!]
   availability: String
+  revisionDate: String
 }
 
 type embedVisualelement {
