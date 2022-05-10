@@ -72,7 +72,6 @@ const Topic = ({
   onClickTopics,
   topic,
   resourceTypes,
-  t,
 }: Props) => {
   const [showContent, setShowContent] = useState(false);
   const markdown = useMemo(() => {
