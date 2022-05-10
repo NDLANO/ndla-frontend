@@ -50,11 +50,13 @@ module.exports = {
       };
     }
 
+    appConfig.externals = ['react-helmet'];
+
     if (target === 'node' && !dev) {
       // This change bundles node_modules into server.js. The result is smaller Docker images.
       // It triggers a couple of «Critical dependency: the request of a dependency is an
       // expression warning» which we can safely ignore.
-      appConfig.externals = [];
+      // appConfig.externals = [];
       // Razzle/CRA breaks the build on webpack warnings. Disable CI env to circumvent the check.
       process.env.CI = 'false';
     }
