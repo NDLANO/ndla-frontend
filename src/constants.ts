@@ -60,6 +60,8 @@ export const PODCAST_SERIES_PAGE_PATH = '/podkast/:id';
 export const PODCAST_SERIES_LIST_PAGE_PATH = '/podkast';
 export const TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES = 'topic-resources';
 export const TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE = 'ungrouped';
+export const TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY = 'subjectCategory';
+export const TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE = 'subjectType';
 export const OLD_SUBJECT_PAGE_REDIRECT_CUSTOM_FIELD = 'old-subject-id';
 
 export const LocaleValues = ['nb', 'nn', 'en'] as const;
