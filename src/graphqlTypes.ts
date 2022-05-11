@@ -3395,73 +3395,6 @@ export type GQLSearchPageQuery = {
   >;
 };
 
-export type GQLLearningpathInfoFragment = {
-  __typename?: 'Learningpath';
-  id: number;
-  title: string;
-  description: string;
-  duration?: Maybe<number>;
-  lastUpdated: string;
-  supportedLanguages: Array<string>;
-  tags: Array<string>;
-  copyright: {
-    __typename?: 'LearningpathCopyright';
-    license: {
-      __typename?: 'License';
-      license: string;
-      url?: Maybe<string>;
-      description?: Maybe<string>;
-    };
-    contributors: Array<
-      { __typename?: 'Contributor' } & GQLContributorInfoFragment
-    >;
-  };
-  coverphoto?: Maybe<{
-    __typename?: 'LearningpathCoverphoto';
-    url: string;
-    metaUrl: string;
-  }>;
-  learningsteps: Array<{
-    __typename?: 'LearningpathStep';
-    id: number;
-    title: string;
-    description?: Maybe<string>;
-    seqNo: number;
-    type: string;
-    showTitle: boolean;
-    oembed?: Maybe<{
-      __typename?: 'LearningpathStepOembed';
-      type: string;
-      version: string;
-      height: number;
-      html: string;
-      width: number;
-    }>;
-    embedUrl?: Maybe<{
-      __typename?: 'LearningpathStepEmbedUrl';
-      url: string;
-      embedType: string;
-    }>;
-    resource?: Maybe<
-      {
-        __typename?: 'Resource';
-        article?: Maybe<
-          {
-            __typename?: 'Article';
-            oembed?: Maybe<string>;
-          } & GQLArticleInfoFragment
-        >;
-      } & GQLResourceInfoFragment
-    >;
-    license?: Maybe<{
-      __typename?: 'License';
-      license: string;
-      url?: Maybe<string>;
-      description?: Maybe<string>;
-    }>;
-  }>;
-};
-
 export type GQLMovedResourceQueryVariables = Exact<{
   resourceId: Scalars['String'];
 }>;
@@ -3692,15 +3625,7 @@ export type GQLMastHeadQuery = {
       Array<{ __typename?: 'Resource' } & GQLResourceInfoFragment>
     >;
   }>;
-  resource?: Maybe<
-    {
-      __typename?: 'Resource';
-      article?: Maybe<{ __typename?: 'Article' } & GQLArticleInfoFragment>;
-      learningpath?: Maybe<
-        { __typename?: 'Learningpath' } & GQLLearningpathInfoFragment
-      >;
-    } & GQLResourceInfoFragment
-  >;
+  resource?: Maybe<{ __typename?: 'Resource' } & GQLResourceInfoFragment>;
 };
 
 export type GQLAlertsQueryVariables = Exact<{ [key: string]: never }>;

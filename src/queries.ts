@@ -841,66 +841,6 @@ export const searchPageQuery = gql`
   ${subjectInfoFragment}
 `;
 
-const learningpathInfoFragment = gql`
-  fragment LearningpathInfo on Learningpath {
-    id
-    title
-    description
-    duration
-    lastUpdated
-    supportedLanguages
-    tags
-    copyright {
-      license {
-        license
-        url
-        description
-      }
-      contributors {
-        ...ContributorInfo
-      }
-    }
-    coverphoto {
-      url
-      metaUrl
-    }
-    learningsteps {
-      id
-      title
-      description
-      seqNo
-      oembed {
-        type
-        version
-        height
-        html
-        width
-      }
-      embedUrl {
-        url
-        embedType
-      }
-      resource {
-        ...ResourceInfo
-        article(isOembed: "true") {
-          ...ArticleInfo
-          oembed
-        }
-      }
-      license {
-        license
-        url
-        description
-      }
-      type
-      showTitle
-    }
-  }
-  ${resourceInfoFragment}
-  ${contributorInfoFragment}
-  ${articleInfoFragment}
-`;
-
 export const movedResourceQuery = gql`
   query movedResource($resourceId: String!) {
     resource(id: $resourceId) {
@@ -1135,17 +1075,9 @@ export const mastHeadQuery = gql`
     resource(id: $resourceId, subjectId: $subjectId, topicId: $topicId)
       @skip(if: $skipResource) {
       ...ResourceInfo
-      article(subjectId: $subjectId) {
-        ...ArticleInfo
-      }
-      learningpath {
-        ...LearningpathInfo
-      }
     }
   }
   ${topicInfoFragment}
-  ${learningpathInfoFragment}
-  ${articleInfoFragment}
   ${resourceInfoFragment}
 `;
 
