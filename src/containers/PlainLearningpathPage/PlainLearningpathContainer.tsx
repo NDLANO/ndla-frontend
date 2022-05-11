@@ -9,7 +9,7 @@
 import { gql } from '@apollo/client';
 import { withTracker } from '@ndla/tracker';
 import { useEffect } from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { CustomWithTranslation, withTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';

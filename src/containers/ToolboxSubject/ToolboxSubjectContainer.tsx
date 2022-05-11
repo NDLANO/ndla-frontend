@@ -10,7 +10,7 @@ import { gql } from '@apollo/client';
 import { withTracker } from '@ndla/tracker';
 import { OneColumn, SubjectBanner, ToolboxInfo } from '@ndla/ui';
 import { useEffect, useState, MouseEvent, createRef } from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import {
   useTranslation,
   withTranslation,

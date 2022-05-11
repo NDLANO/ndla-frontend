@@ -6,6 +6,7 @@
  *
  */
 
+import { HelmetProvider } from 'react-helmet-async';
 import { MissingRouterContext } from '@ndla/safelink';
 import { INTERNAL_SERVER_ERROR } from '../../statusCodes';
 import ErrorPage from '../../containers/ErrorPage';
@@ -23,10 +24,13 @@ const getAssets = () => ({
 async function doRenderError(req, status = INTERNAL_SERVER_ERROR) {
   const { abbreviation } = getLocaleInfoFromPath(req.path);
   const context = { status };
+  const helmetContext = {};
   const Page = (
-    <MissingRouterContext.Provider value={true}>
-      <ErrorPage locale={abbreviation} />
-    </MissingRouterContext.Provider>
+    <HelmetProvider context={helmetContext}>
+      <MissingRouterContext.Provider value={true}>
+        <ErrorPage locale={abbreviation} />
+      </MissingRouterContext.Provider>
+    </HelmetProvider>
   );
 
   const { html, ...docProps } = renderPage(Page, getAssets());
@@ -35,10 +39,11 @@ async function doRenderError(req, status = INTERNAL_SERVER_ERROR) {
     html,
     docProps,
     context,
+    helmetContext,
   };
 }
 
 export async function errorRoute(req) {
-  const { html, context, docProps } = await doRenderError(req);
-  return renderHtml(req, html, context, docProps);
+  const { html, context, docProps, helmetContext } = await doRenderError(req);
+  return renderHtml(req, html, context, docProps, helmetContext);
 }

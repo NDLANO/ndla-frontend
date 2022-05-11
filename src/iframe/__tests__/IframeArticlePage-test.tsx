@@ -9,6 +9,7 @@
 
 import renderer from 'react-test-renderer';
 import serializer from 'jest-emotion';
+import { HelmetProvider } from 'react-helmet-async';
 import { MockedProvider } from '@apollo/client/testing';
 import { I18nextProvider, Translation } from 'react-i18next';
 import { configureTracker } from '@ndla/tracker';
@@ -21,6 +22,7 @@ import IframeArticlePage from '../IframeArticlePage';
 window.dataLayer = [];
 const history = createMemoryHistory();
 configureTracker({ listen: history.listen });
+HelmetProvider.canUseDOM = false;
 
 expect.addSnapshotSerializer(serializer);
 
@@ -172,33 +174,35 @@ test('IframeArticlePage with article renderers correctly', () => {
     supportedLanguages: ['nb'],
   };
   const component = renderer.create(
-    <MockedProvider mocks={[]}>
-      <StaticRouter
-        location={{
-          pathname: '/article-iframe/urn:resource:1/128',
-          search: 'asd',
-          hash: '',
-        }}>
-        <I18nextProvider i18n={i18nInstance}>
-          <Translation>
-            {(_, { i18n }) => {
-              i18n.language = locale;
-              return (
-                <IframeArticlePage
-                  locale={locale}
-                  resource={{
-                    id: 'urn:resource:1',
-                    path: '/subject:1/resource:1',
-                    resourceTypes: [],
-                  }}
-                  article={article}
-                />
-              );
-            }}
-          </Translation>
-        </I18nextProvider>
-      </StaticRouter>
-    </MockedProvider>,
+    <HelmetProvider>
+      <MockedProvider mocks={[]}>
+        <StaticRouter
+          location={{
+            pathname: '/article-iframe/urn:resource:1/128',
+            search: 'asd',
+            hash: '',
+          }}>
+          <I18nextProvider i18n={i18nInstance}>
+            <Translation>
+              {(_, { i18n }) => {
+                i18n.language = locale;
+                return (
+                  <IframeArticlePage
+                    locale={locale}
+                    resource={{
+                      id: 'urn:resource:1',
+                      path: '/subject:1/resource:1',
+                      resourceTypes: [],
+                    }}
+                    article={article}
+                  />
+                );
+              }}
+            </Translation>
+          </I18nextProvider>
+        </StaticRouter>
+      </MockedProvider>
+    </HelmetProvider>,
   );
 
   expect(component.toJSON()).toMatchSnapshot();
@@ -206,11 +210,13 @@ test('IframeArticlePage with article renderers correctly', () => {
 
 test('IframePage with article displays error message on status === error', () => {
   const component = renderer.create(
-    <MockedProvider mocks={[]}>
-      <StaticRouter>
-        <IframePageContainer locale={'nb'} status="error" />
-      </StaticRouter>
-    </MockedProvider>,
+    <HelmetProvider>
+      <MockedProvider mocks={[]}>
+        <StaticRouter>
+          <IframePageContainer locale={'nb'} status="error" />
+        </StaticRouter>
+      </MockedProvider>
+    </HelmetProvider>,
   );
 
   expect(component.toJSON()).toMatchSnapshot();

@@ -8,7 +8,7 @@
 
 import { ReactNode } from 'react';
 
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { PageContainer } from '@ndla/ui';
 import { useApolloClient } from '@apollo/client';
 import { MissingRouterContext } from '@ndla/safelink';

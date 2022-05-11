@@ -6,7 +6,7 @@
  *
  */
 
-import { HelmetData } from 'react-helmet';
+import { HelmetServerState } from 'react-helmet-async';
 import serialize from 'serialize-javascript';
 import ScriptLoader from '@ndla/polyfill/lib/ScriptLoader';
 import { GoogleTagMangerScript, GoogleTagMangerNoScript } from './Gtm';
@@ -29,7 +29,7 @@ interface DocumentData {
 }
 
 interface Props {
-  helmet: HelmetData;
+  helmet: HelmetServerState;
   assets: Assets;
   data?: DocumentData;
   css?: string;

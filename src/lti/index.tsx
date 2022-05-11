@@ -7,6 +7,7 @@
  */
 
 import 'isomorphic-unfetch';
+import { HelmetProvider } from 'react-helmet-async';
 import ReactDOM from 'react-dom';
 import { I18nextProvider } from 'react-i18next';
 import ErrorReporter from '@ndla/error-reporter';
@@ -33,13 +34,15 @@ window.errorReporter = ErrorReporter.getInstance({
 const client = createApolloClient(i18nInstance.language, document.cookie);
 
 ReactDOM.render(
-  <I18nextProvider i18n={i18nInstance}>
-    <ApolloProvider client={client}>
-      <MissingRouterContext.Provider value={true}>
-        <LtiProvider {...initialProps} />
-      </MissingRouterContext.Provider>
-    </ApolloProvider>
-  </I18nextProvider>,
+  <HelmetProvider>
+    <I18nextProvider i18n={i18nInstance}>
+      <ApolloProvider client={client}>
+        <MissingRouterContext.Provider value={true}>
+          <LtiProvider {...initialProps} />
+        </MissingRouterContext.Provider>
+      </ApolloProvider>
+    </I18nextProvider>
+  </HelmetProvider>,
   document.getElementById('root'),
 );
 

@@ -6,6 +6,7 @@
  *
  */
 
+import { HelmetProvider } from 'react-helmet-async';
 import { ApolloProvider } from '@apollo/client';
 import { CacheProvider } from '@emotion/core';
 // @ts-ignore
@@ -109,22 +110,24 @@ function removeUniversalPortals() {
 removeUniversalPortals();
 
 renderOrHydrate(
-  <ApolloProvider client={client}>
-    <CacheProvider value={cache}>
-      <VersionHashProvider value={versionHash}>
-        <RouterComponent>
-          {routesFunc(
-            { ...initialProps, basename },
-            client,
-            //@ts-ignore
-            basename,
-            true,
-            versionHash,
-          )}
-        </RouterComponent>
-      </VersionHashProvider>
-    </CacheProvider>
-  </ApolloProvider>,
+  <HelmetProvider>
+    <ApolloProvider client={client}>
+      <CacheProvider value={cache}>
+        <VersionHashProvider value={versionHash}>
+          <RouterComponent>
+            {routesFunc(
+              { ...initialProps, basename },
+              client,
+              //@ts-ignore
+              basename,
+              true,
+              versionHash,
+            )}
+          </RouterComponent>
+        </VersionHashProvider>
+      </CacheProvider>
+    </ApolloProvider>
+  </HelmetProvider>,
   document.getElementById('root'),
   () => {
     // See: /src/util/transformArticle.js for info on why this is needed.

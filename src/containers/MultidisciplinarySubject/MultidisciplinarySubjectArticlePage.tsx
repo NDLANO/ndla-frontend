@@ -10,7 +10,7 @@ import { gql } from '@apollo/client';
 import { useContext } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { ContentPlaceholder } from '@ndla/ui';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import { useGraphQuery } from '../../util/runQueries';
 import { getUrnIdsFromProps } from '../../routeHelpers';
