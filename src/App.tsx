@@ -8,6 +8,7 @@
 
 import { ErrorInfo, ComponentType, Component } from 'react';
 import { configureTracker } from '@ndla/tracker';
+import { CompatRoute } from 'react-router-dom-v5-compat';
 import {
   Route,
   RouteProps,
@@ -38,6 +39,7 @@ import AuthenticationContext from './components/AuthenticationContext';
 import { BaseNameProvider } from './components/BaseNameContext';
 import { AlertsProvider } from './components/AlertsContext';
 interface NDLARouteProps extends RouteProps {
+  isCompat?: boolean;
   initialProps?: InitialProps;
   locale: LocaleType;
   background: boolean;
@@ -60,10 +62,12 @@ const NDLARoute = ({
   location,
   hideBreadcrumb,
   initialSelectMenu,
+  isCompat,
   ...rest
 }: NDLARouteProps) => {
+  const RouteComponent = isCompat ? CompatRoute : Route;
   return (
-    <Route
+    <RouteComponent
       location={location}
       {...rest}
       render={(props: RouteComponentProps) => {
@@ -313,6 +317,7 @@ class App extends Component<AppProps, AppState> {
                     hideBreadcrumb={route.hideBreadcrumb}
                     initialSelectMenu={route.initialSelectMenu}
                     initialProps={this.state.data}
+                    isCompat={route.isCompat}
                     //@ts-ignore
                     locale={this.props.i18n.language}
                     component={route.component}

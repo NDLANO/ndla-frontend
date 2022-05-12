@@ -7,6 +7,7 @@
  */
 
 import { HelmetProvider } from 'react-helmet-async';
+import { CompatRouter } from 'react-router-dom-v5-compat';
 import { StaticRouter } from 'react-router';
 import { matchPath } from 'react-router-dom';
 import { I18nextProvider } from 'react-i18next';
@@ -98,14 +99,16 @@ async function doRender(req) {
                 basename={basename}
                 location={req.url}
                 context={context}>
-                <App
-                  initialProps={initialProps}
-                  isClient={false}
-                  client={client}
-                  locale={locale}
-                  versionHash={versionHash}
-                  key={locale}
-                />
+                <CompatRouter>
+                  <App
+                    initialProps={initialProps}
+                    isClient={false}
+                    client={client}
+                    locale={locale}
+                    versionHash={versionHash}
+                    key={locale}
+                  />
+                </CompatRouter>
               </StaticRouter>
             </VersionHashProvider>
           </CacheProvider>

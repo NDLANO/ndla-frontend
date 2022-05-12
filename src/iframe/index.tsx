@@ -13,6 +13,7 @@ import { configureTracker } from '@ndla/tracker';
 import ErrorReporter from '@ndla/error-reporter';
 import { CacheProvider } from '@emotion/core';
 import createCache from '@emotion/cache';
+import { CompatRouter } from 'react-router-dom-v5-compat';
 import { Router } from 'react-router';
 import IframePageContainer from './IframePageContainer';
 import { createHistory } from '../history';
@@ -53,7 +54,9 @@ renderOrHydrate(
     <ApolloProvider client={client}>
       <CacheProvider value={cache}>
         <Router history={browserHistory}>
-          <IframePageContainer {...initialProps} />
+          <CompatRouter>
+            <IframePageContainer {...initialProps} />
+          </CompatRouter>
         </Router>
       </CacheProvider>
     </ApolloProvider>

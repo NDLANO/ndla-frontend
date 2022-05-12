@@ -50,7 +50,7 @@ const getAssets = () => ({
 
 function doRenderPage(initialProps) {
   const helmetContext = {};
-  const Page = <HelmetProvider context={helmetContext}>''</HelmetProvider>;
+  const Page = <HelmetProvider context={helmetContext}>{''}</HelmetProvider>;
   const { html, ...docProps } = renderPage(Page, getAssets(), {
     initialProps,
   });

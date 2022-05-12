@@ -15,6 +15,7 @@ import { I18nextProvider, Translation } from 'react-i18next';
 import { configureTracker } from '@ndla/tracker';
 import { createMemoryHistory } from 'history';
 import { i18nInstance } from '@ndla/ui';
+import { CompatRouter } from 'react-router-dom-v5-compat';
 import { StaticRouter } from 'react-router';
 import IframePageContainer from '../IframePageContainer';
 import IframeArticlePage from '../IframeArticlePage';
@@ -182,24 +183,26 @@ test('IframeArticlePage with article renderers correctly', () => {
             search: 'asd',
             hash: '',
           }}>
-          <I18nextProvider i18n={i18nInstance}>
-            <Translation>
-              {(_, { i18n }) => {
-                i18n.language = locale;
-                return (
-                  <IframeArticlePage
-                    locale={locale}
-                    resource={{
-                      id: 'urn:resource:1',
-                      path: '/subject:1/resource:1',
-                      resourceTypes: [],
-                    }}
-                    article={article}
-                  />
-                );
-              }}
-            </Translation>
-          </I18nextProvider>
+          <CompatRouter>
+            <I18nextProvider i18n={i18nInstance}>
+              <Translation>
+                {(_, { i18n }) => {
+                  i18n.language = locale;
+                  return (
+                    <IframeArticlePage
+                      locale={locale}
+                      resource={{
+                        id: 'urn:resource:1',
+                        path: '/subject:1/resource:1',
+                        resourceTypes: [],
+                      }}
+                      article={article}
+                    />
+                  );
+                }}
+              </Translation>
+            </I18nextProvider>
+          </CompatRouter>
         </StaticRouter>
       </HelmetProvider>
     </MockedProvider>,
@@ -213,7 +216,9 @@ test('IframePage with article displays error message on status === error', () =>
     <MockedProvider mocks={[]}>
       <HelmetProvider>
         <StaticRouter>
-          <IframePageContainer locale={'nb'} status="error" />
+          <CompatRouter>
+            <IframePageContainer locale={'nb'} status="error" />
+          </CompatRouter>
         </StaticRouter>
       </HelmetProvider>
     </MockedProvider>,
