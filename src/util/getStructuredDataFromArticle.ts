@@ -268,7 +268,6 @@ const createVideoData = (
       embedUrl: video?.src,
       thumbnailUrl: video?.cover,
       description: video?.description,
-      contentUrl: video?.download,
       acquireLicensePage,
       uploadDate: format(video?.uploadDate!, 'YYYY-MM-DD'),
       ...getCopyrightData(video?.copyright!),
