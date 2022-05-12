@@ -35,6 +35,7 @@ type BaseArticle = Pick<
   | 'updated'
   | 'published'
   | 'requiredLibraries'
+  | 'revisionDate'
 >;
 export const transformArticle = <T extends BaseArticle>(
   article: T,

@@ -3,6 +3,19 @@ import { LocaleType, SubjectType } from '../interfaces';
 export const activeSubjects = [
   {
     longName: {
+      en: 'Ukrainian resources in Norwegian Social Science',
+      nb: 'Ukrainske ressurser i samfunnskunnskap',
+      nn: 'Ukrainske ressurser i samfunnskunnskap',
+    },
+    name: {
+      en: 'Ukrainian resources in Norwegian Social Science',
+      nb: 'Ukrainske ressurser i samfunnskunnskap',
+      nn: 'Ukrainske ressurser i samfunnskunnskap',
+    },
+    id: 'urn:subject:27e8623d-c092-4f00-9a6f-066438d6c466',
+  },
+  {
+    longName: {
       en: 'Norsk (YF)',
       nb: 'Norsk (YF)',
       nn: 'Norsk (YF)',
@@ -1915,14 +1928,14 @@ export const activeSubjects = [
   },
   {
     longName: {
-      en: 'Reiseliv og språk 1 - BETA',
-      nb: 'Reiseliv og språk 1 - BETA',
-      nn: 'Reiseliv og språk 1 - BETA',
+      en: 'Reiseliv og språk 1',
+      nb: 'Reiseliv og språk 1',
+      nn: 'Reiseliv og språk 1',
     },
     name: {
-      en: 'Reiseliv og språk 1 - BETA',
-      nb: 'Reiseliv og språk 1 - BETA',
-      nn: 'Reiseliv og språk 1 - BETA',
+      en: 'Reiseliv og språk 1',
+      nb: 'Reiseliv og språk 1',
+      nn: 'Reiseliv og språk 1',
     },
     id: 'urn:subject:e18b8bf0-326b-45f6-8e95-982de8f34264',
   },

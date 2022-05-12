@@ -7,7 +7,6 @@
  */
 
 import { matchPath } from 'react-router-dom';
-import Url from 'url-parse';
 import { match as RouterMatchType } from 'react-router';
 import { isValidLocale } from '../i18n';
 import {
@@ -49,7 +48,7 @@ export function parseAndMatchUrl<Params>(
   url: string,
   ignoreLocale: boolean = false,
 ): RouterMatchType<Params> | null {
-  const { pathname } = new Url(url);
+  const { pathname } = new URL(url);
   let paths = pathname.split('/');
   if (paths[1]) {
     paths[1] = paths[1] === 'unknown' ? 'nb' : paths[1];

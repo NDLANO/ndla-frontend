@@ -1103,7 +1103,7 @@ exports[`ErrorPage renderers correctly 1`] = `
           onClick={[Function]}
           type="button"
         >
-          Personvernerklæring
+          Personvernerklæring og cookies
         </button>
       </div>
     </div>

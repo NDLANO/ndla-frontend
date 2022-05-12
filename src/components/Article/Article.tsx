@@ -6,7 +6,6 @@
  *
  */
 
-import { gql } from '@apollo/client';
 import {
   ComponentType,
   ReactNode,
@@ -16,6 +15,7 @@ import {
 } from 'react';
 import { useLocation } from 'react-router';
 import { Remarkable } from 'remarkable';
+import { gql } from '@apollo/client';
 import {
   Article as UIArticle,
   ContentTypeBadge,
@@ -274,6 +274,10 @@ const Article = ({
     footNotes: article.metaData?.footnotes ?? [],
   };
 
+  const messages = {
+    label,
+  };
+
   return (
     <UIArticle
       id={id ?? article.id.toString()}
@@ -281,9 +285,7 @@ const Article = ({
       icon={icon}
       locale={locale}
       licenseBox={<LicenseBox article={article} locale={locale} />}
-      messages={{
-        label,
-      }}
+      messages={messages}
       competenceGoals={renderCompetenceGoals(
         article,
         locale,
@@ -337,6 +339,7 @@ Article.fragments = {
       competenceGoals {
         type
       }
+      revisionDate
       ...LicenseBox_Article
     }
     ${LicenseBox.fragments.article}

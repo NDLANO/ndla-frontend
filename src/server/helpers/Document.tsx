@@ -6,15 +6,37 @@
  *
  */
 
-import PropTypes from 'prop-types';
+import { HelmetData } from 'react-helmet';
 import serialize from 'serialize-javascript';
 import ScriptLoader from '@ndla/polyfill/lib/ScriptLoader';
 import { GoogleTagMangerScript, GoogleTagMangerNoScript } from './Gtm';
 import { Matomo } from './Matomo';
-import config from '../../config';
+import config, { ConfigType } from '../../config';
 import { EmotionCacheKey } from '../../constants';
 
-const Document = ({ helmet, assets, data, css, ids }) => {
+interface Assets {
+  css?: string;
+  js: { src: string }[];
+  mathJaxConfig: { js: string };
+  polyfill: { src: string };
+}
+
+interface DocumentData {
+  initialProps?: any;
+  apolloState?: any;
+  assets: Assets;
+  config: ConfigType;
+}
+
+interface Props {
+  helmet: HelmetData;
+  assets: Assets;
+  data?: DocumentData;
+  css?: string;
+  ids?: string[];
+}
+
+const Document = ({ helmet, assets, data, css, ids }: Props) => {
   const htmlAttrs = helmet.htmlAttributes.toComponent();
   const bodyAttrs = helmet.bodyAttributes.toComponent();
 
@@ -49,6 +71,7 @@ const Document = ({ helmet, assets, data, css, ids }) => {
             ${css}
           </style>
         )}
+        {helmet.script.toComponent()}
       </head>
       <body {...bodyAttrs}>
         <GoogleTagMangerNoScript />
@@ -69,24 +92,9 @@ const Document = ({ helmet, assets, data, css, ids }) => {
           }}
         />
         <ScriptLoader polyfill={assets.polyfill} scripts={assets.js} />
-        {helmet.script.toComponent()}
       </body>
     </html>
   );
-};
-
-Document.propTypes = {
-  helmet: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
-  data: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
-  assets: PropTypes.shape({
-    css: PropTypes.string,
-    js: PropTypes.array.isRequired,
-    polyfill: PropTypes.shape({
-      src: PropTypes.oneOfType([PropTypes.string, PropTypes.array]).isRequired,
-    }),
-  }).isRequired,
-  css: PropTypes.string,
-  ids: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default Document;
