@@ -59,6 +59,7 @@ export interface RouteType extends RouteProps {
   hideMasthead?: boolean;
   background?: boolean;
   initialSelectMenu?: string;
+  isCompat?: boolean;
   component: ComponentType<RootComponentProps>;
 }
 
