@@ -32,7 +32,7 @@ import {
   SUBJECT_PAGE_PATH,
 } from './constants';
 import { InitialProps, LocaleType } from './interfaces';
-import { initializeI18n } from './i18n';
+import { initializeI18n, isValidLocale } from './i18n';
 import config from './config';
 import AuthenticationContext from './components/AuthenticationContext';
 import { BaseNameProvider } from './components/BaseNameContext';
@@ -153,6 +153,7 @@ interface AppProps extends RouteComponentProps, WithTranslation {
   initialProps: InitialProps;
   locale?: LocaleType;
   client: ApolloClient<object>;
+  base?: string;
   versionHash?: string;
 }
 
@@ -174,6 +175,7 @@ class App extends Component<AppProps, AppState> {
       props.initialProps.resCookie,
       props.versionHash,
     );
+    props.i18n.changeLanguage(props.locale);
     this.state = {
       hasError: false,
       data: props.initialProps,
@@ -200,6 +202,28 @@ class App extends Component<AppProps, AppState> {
   }
 
   componentDidUpdate() {
+    if (this.props.isClient) {
+      const [, maybeUrlLocale, ...rest] = window.location.pathname.split('/');
+      const urlLocale = isValidLocale(maybeUrlLocale)
+        ? maybeUrlLocale
+        : undefined;
+      if (!urlLocale && this.props.base === '') {
+        // return because base does not exist. It means we are on the default locale.
+        return;
+      } else if (urlLocale && this.props.base === urlLocale) {
+        // return becase the url and the base are equal.
+        return;
+      } else if (urlLocale) {
+        // replace the url because base and url are not equal.
+        const path = rest.join('/');
+        const fullPath = path.startsWith('/') ? path : `/${path}`;
+        this.props.history.replace(`${fullPath}${this.props.location.search}`);
+      } else {
+        // simply trigger a replace with the new base to get an updated location base.
+        this.props.history.replace(window.location.pathname);
+      }
+    }
+
     if (!this.state.data || this.state.data.loading === true) {
       this.handleLoadInitialProps(this.props);
     }
