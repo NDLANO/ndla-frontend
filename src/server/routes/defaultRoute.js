@@ -18,6 +18,7 @@ import queryString from 'query-string';
 import { CacheProvider } from '@emotion/core';
 import createCache from '@emotion/cache';
 
+import RedirectContext from '../../components/RedirectContext';
 import App from '../../App';
 import { routes as serverRoutes } from '../../routes';
 import config from '../../config';
@@ -86,35 +87,34 @@ async function doRender(req) {
   }
 
   const cache = createCache({ key: EmotionCacheKey });
-
   const context = {};
+
   const helmetContext = {};
   const Page = !disableSSR(req) ? (
-    <HelmetProvider context={helmetContext}>
-      <I18nextProvider i18n={i18nInstance}>
-        <ApolloProvider client={client}>
-          <CacheProvider value={cache}>
-            <VersionHashProvider value={versionHash}>
-              <StaticRouter
-                basename={basename}
-                location={req.url}
-                context={context}>
-                <CompatRouter>
-                  <App
-                    initialProps={initialProps}
-                    isClient={false}
-                    client={client}
-                    locale={locale}
-                    versionHash={versionHash}
-                    key={locale}
-                  />
-                </CompatRouter>
-              </StaticRouter>
-            </VersionHashProvider>
-          </CacheProvider>
-        </ApolloProvider>
-      </I18nextProvider>
-    </HelmetProvider>
+    <RedirectContext.Provider value={context}>
+      <HelmetProvider context={helmetContext}>
+        <I18nextProvider i18n={i18nInstance}>
+          <ApolloProvider client={client}>
+            <CacheProvider value={cache}>
+              <VersionHashProvider value={versionHash}>
+                <StaticRouter basename={basename} location={req.url}>
+                  <CompatRouter>
+                    <App
+                      initialProps={initialProps}
+                      isClient={false}
+                      client={client}
+                      locale={locale}
+                      versionHash={versionHash}
+                      key={locale}
+                    />
+                  </CompatRouter>
+                </StaticRouter>
+              </VersionHashProvider>
+            </CacheProvider>
+          </ApolloProvider>
+        </I18nextProvider>
+      </HelmetProvider>
+    </RedirectContext.Provider>
   ) : (
     <HelmetProvider context={helmetContext}>{''}</HelmetProvider>
   );

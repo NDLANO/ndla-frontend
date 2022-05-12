@@ -11,21 +11,22 @@ import { CompatRouter } from 'react-router-dom-v5-compat';
 import { StaticRouter, MemoryRouter } from 'react-router';
 import renderer from 'react-test-renderer';
 import sinon from 'sinon';
+import RedirectContext from '../RedirectContext';
 import RedirectExternal from '../RedirectExternal';
 
 test('External redirect for static router', () => {
   const context = {};
   renderer.create(
-    <StaticRouter context={context}>
-      <CompatRouter>
-        <RedirectExternal to="https://google.com/" />
-      </CompatRouter>
-    </StaticRouter>,
+    <RedirectContext.Provider value={context}>
+      <StaticRouter>
+        <CompatRouter>
+          <RedirectExternal to="https://google.com/" />
+        </CompatRouter>
+      </StaticRouter>
+    </RedirectContext.Provider>,
   );
 
   expect(context).toEqual({
-    action: 'REPLACE',
-    location: 'https://google.com/',
     url: 'https://google.com/',
   });
 });
@@ -33,16 +34,16 @@ test('External redirect for static router', () => {
 test('External redirect for static router with basename', () => {
   const context = {};
   renderer.create(
-    <StaticRouter basename="/nb" context={context}>
-      <CompatRouter>
-        <RedirectExternal to="https://google.com/" />
-      </CompatRouter>
-    </StaticRouter>,
+    <RedirectContext.Provider value={context}>
+      <StaticRouter basename="/nb">
+        <CompatRouter>
+          <RedirectExternal to="https://google.com/" />
+        </CompatRouter>
+      </StaticRouter>
+    </RedirectContext.Provider>,
   );
 
   expect(context).toEqual({
-    action: 'REPLACE',
-    location: 'https://google.com/',
     url: 'https://google.com/',
   });
 });

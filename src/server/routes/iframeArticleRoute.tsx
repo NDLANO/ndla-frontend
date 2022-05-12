@@ -23,6 +23,7 @@ import { renderPageWithData, renderHtml } from '../helpers/render';
 import { EmotionCacheKey } from '../../constants';
 import { InitialProps } from '../../interfaces';
 import { createApolloClient } from '../../util/apiHelpers';
+import RedirectContext from '../../components/RedirectContext';
 
 const assets =
   process.env.NODE_ENV !== 'unittest' && process.env.RAZZLE_ASSETS_MANIFEST
@@ -68,18 +69,17 @@ async function doRenderPage(req: Request, initialProps: InitialProps) {
       {disableSSR(req) ? (
         ''
       ) : (
-        <ApolloProvider client={client}>
-          <CacheProvider value={cache}>
-            <StaticRouter
-              basename={initialProps.basename}
-              location={req.url}
-              context={context}>
-              <CompatRouter>
-                <IframePageContainer {...initialProps} />
-              </CompatRouter>
-            </StaticRouter>
-          </CacheProvider>
-        </ApolloProvider>
+        <RedirectContext.Provider value={context}>
+          <ApolloProvider client={client}>
+            <CacheProvider value={cache}>
+              <StaticRouter basename={initialProps.basename} location={req.url}>
+                <CompatRouter>
+                  <IframePageContainer {...initialProps} />
+                </CompatRouter>
+              </StaticRouter>
+            </CacheProvider>
+          </ApolloProvider>
+        </RedirectContext.Provider>
       )}
     </HelmetProvider>
   );
