@@ -8,7 +8,7 @@
 
 import url from 'url';
 import { Request } from 'express';
-import { Helmet } from 'react-helmet';
+import { HelmetProvider } from 'react-helmet-async';
 import { StaticRouter } from 'react-router';
 import { ApolloProvider } from '@apollo/client';
 import { CacheProvider } from '@emotion/core';
@@ -34,7 +34,7 @@ const assets =
       };
 
 if (process.env.NODE_ENV === 'unittest') {
-  Helmet.canUseDOM = false;
+  HelmetProvider.canUseDOM = false;
 }
 
 const getAssets = () => ({
@@ -60,20 +60,25 @@ async function doRenderPage(req: Request, initialProps: InitialProps) {
     initialProps.resCookie,
   );
 
+  const helmetContext = {};
   const cache = createCache({ key: EmotionCacheKey });
-  const Page = disableSSR(req) ? (
-    ''
-  ) : (
-    <ApolloProvider client={client}>
-      <CacheProvider value={cache}>
-        <StaticRouter
-          basename={initialProps.basename}
-          location={req.url}
-          context={context}>
-          <IframePageContainer {...initialProps} />
-        </StaticRouter>
-      </CacheProvider>
-    </ApolloProvider>
+  const Page = (
+    <HelmetProvider context={helmetContext}>
+      {disableSSR(req) ? (
+        ''
+      ) : (
+        <ApolloProvider client={client}>
+          <CacheProvider value={cache}>
+            <StaticRouter
+              basename={initialProps.basename}
+              location={req.url}
+              context={context}>
+              <IframePageContainer {...initialProps} />
+            </StaticRouter>
+          </CacheProvider>
+        </ApolloProvider>
+      )}
+    </HelmetProvider>
   );
   const assets = getAssets();
   const { html, ...docProps } = await renderPageWithData(
@@ -85,7 +90,7 @@ async function doRenderPage(req: Request, initialProps: InitialProps) {
     undefined,
     client,
   );
-  return { html, docProps };
+  return { html, docProps, helmetContext };
 }
 
 export async function iframeArticleRoute(req: Request) {
@@ -94,7 +99,7 @@ export async function iframeArticleRoute(req: Request) {
   const locale = isValidLocale(htmlLang) ? htmlLang : undefined;
   const { articleId, taxonomyId } = req.params;
   try {
-    const { html, docProps } = await doRenderPage(req, {
+    const { html, docProps, helmetContext } = await doRenderPage(req, {
       articleId,
       taxonomyId,
       isOembed: 'true',
@@ -104,19 +109,19 @@ export async function iframeArticleRoute(req: Request) {
       status: 'success',
     });
 
-    return renderHtml(req, html, { status: OK }, docProps);
+    return renderHtml(req, html, { status: OK }, docProps, helmetContext);
   } catch (error) {
     if (process.env.NODE_ENV !== 'unittest') {
       // skip log in unittests
       handleError(error);
     }
-    const { html, docProps } = await doRenderPage(req, {
+    const { html, docProps, helmetContext } = await doRenderPage(req, {
       basename: lang,
       locale,
       status: 'error',
     });
 
     const status = error.status || INTERNAL_SERVER_ERROR;
-    return renderHtml(req, html, { status }, docProps);
+    return renderHtml(req, html, { status }, docProps, helmetContext);
   }
 }

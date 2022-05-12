@@ -6,6 +6,7 @@
  *
  */
 
+import { HelmetProvider } from 'react-helmet-async';
 import { StaticRouter } from 'react-router';
 import { matchPath } from 'react-router-dom';
 import url from 'url';
@@ -83,27 +84,30 @@ async function doRender(req) {
   const cache = createCache({ key: EmotionCacheKey });
 
   const context = {};
+  const helmetContext = {};
   const Page = !disableSSR(req) ? (
-    <ApolloProvider client={client}>
-      <CacheProvider value={cache}>
-        <VersionHashProvider value={versionHash}>
-          <StaticRouter
-            basename={basename}
-            location={req.url}
-            context={context}>
-            {routes(
-              { ...initialProps, locale },
-              client,
-              locale,
-              false,
-              versionHash,
-            )}
-          </StaticRouter>
-        </VersionHashProvider>
-      </CacheProvider>
-    </ApolloProvider>
+    <HelmetProvider context={helmetContext}>
+      <ApolloProvider client={client}>
+        <CacheProvider value={cache}>
+          <VersionHashProvider value={versionHash}>
+            <StaticRouter
+              basename={basename}
+              location={req.url}
+              context={context}>
+              {routes(
+                { ...initialProps, locale },
+                client,
+                locale,
+                false,
+                versionHash,
+              )}
+            </StaticRouter>
+          </VersionHashProvider>
+        </CacheProvider>
+      </ApolloProvider>
+    </HelmetProvider>
   ) : (
-    ''
+    <HelmetProvider context={helmetContext}>{''}</HelmetProvider>
   );
 
   const apolloState = client.extract();
@@ -124,10 +128,11 @@ async function doRender(req) {
     docProps,
     html: docProps.html,
     context,
+    helmetContext,
   };
 }
 
 export async function defaultRoute(req) {
-  const { html, context, docProps } = await doRender(req);
-  return renderHtml(req, html, context, docProps);
+  const { html, context, docProps, helmetContext } = await doRender(req);
+  return renderHtml(req, html, context, docProps, helmetContext);
 }

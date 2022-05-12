@@ -22,13 +22,13 @@ exports[`Document renderers correctly 1`] = `
     />
     
     <title
-      data-react-helmet={true}
+      data-rh={true}
     >
       NDLA test title
     </title>
     <meta
       content="NDLA meta description"
-      data-react-helmet={true}
+      data-rh={true}
       name="description"
     />
     <link
