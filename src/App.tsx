@@ -8,6 +8,7 @@
 
 import { ErrorInfo, ComponentType, Component } from 'react';
 import { configureTracker } from '@ndla/tracker';
+import { CompatRoute } from 'react-router-dom-v5-compat';
 import {
   Route,
   RouteProps,
@@ -37,7 +38,6 @@ import config from './config';
 import AuthenticationContext from './components/AuthenticationContext';
 import { BaseNameProvider } from './components/BaseNameContext';
 import { AlertsProvider } from './components/AlertsContext';
-import { CompatRoute } from 'react-router-dom-v5-compat';
 interface NDLARouteProps extends RouteProps {
   isCompat?: boolean;
   initialProps?: InitialProps;
