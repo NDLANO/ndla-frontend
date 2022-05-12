@@ -30,7 +30,7 @@ import {
   PLAIN_LEARNINGPATH_PAGE_PATH,
   PLAIN_LEARNINGPATHSTEP_PAGE_PATH,
   PROGRAMME_PAGE_PATH,
-  PROGRAMME_PATH,
+  PROGRAMME_PAGE_PATH_WITH_GRADE,
   RESOURCE_PAGE_PATH,
   SEARCH_PATH,
   SUBJECTS,
@@ -148,21 +148,18 @@ let routeArray: RouteType[] = [
     background: false,
   },
   {
-    path: `${PROGRAMME_PAGE_PATH}${SUBJECT_PAGE_PATH}`,
-    component: SubjectPage,
-    hideBreadcrumb: true,
+    path: PROGRAMME_PAGE_PATH_WITH_GRADE,
+    component: ProgrammePage,
     background: false,
+    initialSelectMenu: 'programme',
+    isCompat: true,
   },
   {
     path: PROGRAMME_PAGE_PATH,
     component: ProgrammePage,
     background: false,
     initialSelectMenu: 'programme',
-  },
-  {
-    path: PROGRAMME_PATH,
-    component: AllSubjectsPage,
-    background: false,
+    isCompat: true,
   },
 ];
 

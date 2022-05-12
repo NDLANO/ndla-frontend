@@ -39,7 +39,8 @@ export const SUPPORTED_LANGUAGES = ['nb', 'nn', 'en'];
 export const STORED_LANGUAGE_KEY = 'language';
 
 export const PROGRAMME_PATH = '/utdanning';
-export const PROGRAMME_PAGE_PATH = '/utdanning/:programme/:grade?';
+export const PROGRAMME_PAGE_PATH = '/utdanning/:programme';
+export const PROGRAMME_PAGE_PATH_WITH_GRADE = `${PROGRAMME_PAGE_PATH}/:grade`;
 
 export const MULTIDISCIPLINARY_SUBJECT_PAGE_PATH =
   '/subject\\::subjectId(d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7)/:topicPath*/';
