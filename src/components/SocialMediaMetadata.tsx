@@ -7,7 +7,7 @@
  */
 
 import { ReactNode } from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { Location } from 'history';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import config from '../config';

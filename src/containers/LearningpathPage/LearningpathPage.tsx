@@ -8,7 +8,7 @@
 
 import { useEffect } from 'react';
 import { gql } from '@apollo/client';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { withTracker } from '@ndla/tracker';
 import { TFunction, WithTranslation, withTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';

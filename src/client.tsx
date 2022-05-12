@@ -6,6 +6,7 @@
  *
  */
 
+import { HelmetProvider } from 'react-helmet-async';
 import { CompatRouter } from 'react-router-dom-v5-compat';
 import { BrowserRouter, MemoryRouter } from 'react-router-dom';
 import { I18nextProvider, useTranslation } from 'react-i18next';
@@ -195,15 +196,17 @@ const LanguageWrapper = ({ basename }: { basename?: string }) => {
 removeUniversalPortals();
 
 renderOrHydrate(
-  <I18nextProvider i18n={i18nInstance}>
-    <ApolloProvider client={client}>
-      <CacheProvider value={cache}>
-        <VersionHashProvider value={versionHash}>
-          <LanguageWrapper basename={basename} />
-        </VersionHashProvider>
-      </CacheProvider>
-    </ApolloProvider>
-  </I18nextProvider>,
+  <HelmetProvider>
+    <I18nextProvider i18n={i18nInstance}>
+      <ApolloProvider client={client}>
+        <CacheProvider value={cache}>
+          <VersionHashProvider value={versionHash}>
+            <LanguageWrapper basename={basename} />
+          </VersionHashProvider>
+        </CacheProvider>
+      </ApolloProvider>
+    </I18nextProvider>
+  </HelmetProvider>,
   document.getElementById('root'),
   () => {
     // See: /src/util/transformArticle.js for info on why this is needed.

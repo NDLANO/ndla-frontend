@@ -6,6 +6,7 @@
  *
  */
 
+import { HelmetProvider } from 'react-helmet-async';
 import { CompatRouter } from 'react-router-dom-v5-compat';
 import { StaticRouter } from 'react-router';
 import { matchPath } from 'react-router-dom';
@@ -87,32 +88,35 @@ async function doRender(req) {
   const cache = createCache({ key: EmotionCacheKey });
 
   const context = {};
+  const helmetContext = {};
   const Page = !disableSSR(req) ? (
-    <I18nextProvider i18n={i18nInstance}>
-      <ApolloProvider client={client}>
-        <CacheProvider value={cache}>
-          <VersionHashProvider value={versionHash}>
-            <StaticRouter
-              basename={basename}
-              location={req.url}
-              context={context}>
-              <CompatRouter>
-                <App
-                  initialProps={initialProps}
-                  isClient={false}
-                  client={client}
-                  locale={locale}
-                  versionHash={versionHash}
-                  key={locale}
-                />
-              </CompatRouter>
-            </StaticRouter>
-          </VersionHashProvider>
-        </CacheProvider>
-      </ApolloProvider>
-    </I18nextProvider>
+    <HelmetProvider context={helmetContext}>
+      <I18nextProvider i18n={i18nInstance}>
+        <ApolloProvider client={client}>
+          <CacheProvider value={cache}>
+            <VersionHashProvider value={versionHash}>
+              <StaticRouter
+                basename={basename}
+                location={req.url}
+                context={context}>
+                <CompatRouter>
+                  <App
+                    initialProps={initialProps}
+                    isClient={false}
+                    client={client}
+                    locale={locale}
+                    versionHash={versionHash}
+                    key={locale}
+                  />
+                </CompatRouter>
+              </StaticRouter>
+            </VersionHashProvider>
+          </CacheProvider>
+        </ApolloProvider>
+      </I18nextProvider>
+    </HelmetProvider>
   ) : (
-    ''
+    <HelmetProvider context={helmetContext}>{''}</HelmetProvider>
   );
 
   const apolloState = client.extract();
@@ -133,10 +137,11 @@ async function doRender(req) {
     docProps,
     html: docProps.html,
     context,
+    helmetContext,
   };
 }
 
 export async function defaultRoute(req) {
-  const { html, context, docProps } = await doRender(req);
-  return renderHtml(req, html, context, docProps);
+  const { html, context, docProps, helmetContext } = await doRender(req);
+  return renderHtml(req, html, context, docProps, helmetContext);
 }
