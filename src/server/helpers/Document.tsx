@@ -71,6 +71,7 @@ const Document = ({ helmet, assets, data, css, ids }: Props) => {
             ${css}
           </style>
         )}
+        {helmet.script.toComponent()}
       </head>
       <body {...bodyAttrs}>
         <GoogleTagMangerNoScript />
@@ -91,7 +92,6 @@ const Document = ({ helmet, assets, data, css, ids }: Props) => {
           }}
         />
         <ScriptLoader polyfill={assets.polyfill} scripts={assets.js} />
-        {helmet.script.toComponent()}
       </body>
     </html>
   );

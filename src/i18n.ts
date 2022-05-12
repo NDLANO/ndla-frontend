@@ -16,7 +16,8 @@ import { STORED_LANGUAGE_KEY } from './constants';
 import { getDefaultLocale } from './config';
 import { LocaleType } from './interfaces';
 
-export const supportedLanguages = ['nb', 'nn'];
+export const supportedLanguages = ['nb', 'nn', 'en'];
+export const preferredLanguages = ['nb', 'nn'];
 
 type LocaleObject = {
   name: string;
@@ -78,7 +79,7 @@ export const initializeI18n = (
   cookieString?: string,
   versionHash?: string,
 ): void => {
-  i18n.options.supportedLngs = supportedLanguages;
+  i18n.options.supportedLngs = preferredLanguages;
   i18n.addResourceBundle('en', 'translation', en, false, false);
   i18n.addResourceBundle('nb', 'translation', nb, false, false);
   i18n.addResourceBundle('nn', 'translation', nn, false, false);
