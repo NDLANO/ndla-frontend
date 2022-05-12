@@ -6,6 +6,7 @@
  *
  */
 
+import { CompatRouter } from 'react-router-dom-v5-compat';
 import { BrowserRouter, MemoryRouter } from 'react-router-dom';
 import { I18nextProvider, useTranslation } from 'react-i18next';
 import { ApolloProvider, useApolloClient } from '@apollo/client';
@@ -176,15 +177,17 @@ const LanguageWrapper = ({ basename }: { basename?: string }) => {
 
   return (
     <RouterComponent base={base}>
-      <App
-        initialProps={initialProps}
-        isClient
-        client={client}
-        base={base}
-        locale={i18n.language}
-        key={i18n.language}
-        versionHash={versionHash}
-      />
+      <CompatRouter>
+        <App
+          initialProps={initialProps}
+          isClient
+          client={client}
+          base={base}
+          locale={i18n.language}
+          key={i18n.language}
+          versionHash={versionHash}
+        />
+      </CompatRouter>
     </RouterComponent>
   );
 };
