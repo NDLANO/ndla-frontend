@@ -9,7 +9,6 @@
 import { gql } from '@apollo/client';
 import { useContext } from 'react';
 import { ContentPlaceholder } from '@ndla/ui';
-import { RouteComponentProps, withRouter } from 'react-router';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import { useGraphQuery } from '../../util/runQueries';
 import PlainLearningpathContainer, {
@@ -21,8 +20,9 @@ import {
 } from '../../graphqlTypes';
 import { RootComponentProps } from '../../routes';
 import { AuthContext } from '../../components/AuthenticationContext';
+import { TypedParams, useTypedParams } from '../../routeHelpers';
 
-interface MatchParams {
+interface MatchParams extends TypedParams {
   learningpathId: string;
   stepId?: string;
 }
@@ -36,9 +36,9 @@ const plainLearningpathPageQuery = gql`
   ${plainLearningpathContainerFragments.learningpath}
 `;
 
-interface Props extends RootComponentProps, RouteComponentProps<MatchParams> {}
-const PlainLearningpathPage = ({ locale, skipToContentId, match }: Props) => {
-  const { stepId, learningpathId } = match.params;
+interface Props extends RootComponentProps {}
+const PlainLearningpathPage = ({ locale, skipToContentId }: Props) => {
+  const { learningpathId, stepId } = useTypedParams<MatchParams>();
   const { user } = useContext(AuthContext);
 
   const { data, loading } = useGraphQuery<
@@ -70,4 +70,4 @@ const PlainLearningpathPage = ({ locale, skipToContentId, match }: Props) => {
   );
 };
 
-export default withRouter(PlainLearningpathPage);
+export default PlainLearningpathPage;

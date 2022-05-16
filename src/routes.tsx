@@ -93,6 +93,7 @@ let routeArray: RouteType[] = [
     component: PlainLearningpathPage,
     background: true,
     initialSelectMenu: 'programmes',
+    isCompat: true,
   },
   {
     path: SEARCH_PATH,
