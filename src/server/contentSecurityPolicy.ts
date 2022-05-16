@@ -204,6 +204,20 @@ const frameSrc = (() => {
   return defaultFrameSrc;
 })();
 
+const fontSrc = (() => {
+  const defaultFontSrc = [
+    "'self'",
+    'data:',
+    'cdnjs.cloudflare.com',
+    'https://*.hotjar.com',
+    'cdn.jsdelivr.net',
+  ];
+  if (process.env.NODE_ENV === 'development') {
+    return defaultFontSrc.concat('http://localhost:3001');
+  }
+  return defaultFontSrc;
+})();
+
 const contentSecurityPolicy = {
   directives: {
     defaultSrc: ["'self'", 'blob:'],
@@ -214,21 +228,11 @@ const contentSecurityPolicy = {
       "'unsafe-inline'",
       "'unsafe-eval'",
       'https://optimize.google.com',
-      'https://fonts.googleapis.com',
-      'https://fonts.gstatic.com',
       'https://tagmanager.google.com',
       '*.twitter.com',
       '*.twimg.com',
     ],
-    fontSrc: [
-      "'self'",
-      'https://fonts.googleapis.com',
-      'https://fonts.gstatic.com',
-      'data:',
-      'cdnjs.cloudflare.com',
-      'https://*.hotjar.com',
-      'cdn.jsdelivr.net',
-    ],
+    fontSrc: fontSrc,
     imgSrc: [
       "'self'",
       'http://api-gateway.ndla-local',
