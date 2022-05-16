@@ -8,7 +8,7 @@
 
 import { gql } from '@apollo/client';
 import { useEffect, useState } from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { OneColumn, LayoutItem } from '@ndla/ui';
 import { withTracker } from '@ndla/tracker';
 import { TFunction, WithTranslation, withTranslation } from 'react-i18next';

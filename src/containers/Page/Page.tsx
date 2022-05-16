@@ -7,7 +7,7 @@
  */
 
 import { ReactNode } from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { RouteProps } from 'react-router';
 import { PageContainer } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';

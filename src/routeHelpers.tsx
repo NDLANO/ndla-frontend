@@ -7,14 +7,9 @@
  */
 
 import { matchPath, RouteComponentProps } from 'react-router-dom';
+import { useParams } from 'react-router-dom-v5-compat';
 import config from './config';
-import {
-  PROGRAMME_PAGE_PATH,
-  PROGRAMME_PATH,
-  SUBJECT_PAGE_PATH,
-  TOPIC_PATH,
-} from './constants';
-import { getProgrammeBySlug } from './data/programmes';
+import { PROGRAMME_PATH, SUBJECT_PAGE_PATH, TOPIC_PATH } from './constants';
 import { getSubjectLongName } from './data/subjects';
 import { GQLResource, GQLSubject, GQLTopic } from './graphqlTypes';
 import { Breadcrumb, LocaleType } from './interfaces';
@@ -219,13 +214,8 @@ export function isTopicPath(pathname: string) {
   return false;
 }
 
-export function getProgrammeByPath(pathname: string, locale: LocaleType) {
-  const match = matchPath<{ programme?: string }>(
-    pathname,
-    PROGRAMME_PAGE_PATH,
-  );
-  if (match?.params?.programme) {
-    return getProgrammeBySlug(match.params.programme, locale);
-  }
-  return null;
-}
+export type TypedParams = Record<string, string | undefined>;
+
+export const useTypedParams = <TParams extends TypedParams>() => {
+  return useParams() as TParams;
+};

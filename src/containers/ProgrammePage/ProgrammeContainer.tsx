@@ -8,7 +8,7 @@
 
 import { withTracker } from '@ndla/tracker';
 import { Programme } from '@ndla/ui';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { LocaleType, ProgrammeType } from '../../interfaces';
 import { FeideUserWithGroups } from '../../util/feideApi';

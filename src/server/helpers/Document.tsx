@@ -6,7 +6,7 @@
  *
  */
 
-import { HelmetData } from 'react-helmet';
+import { HelmetServerState } from 'react-helmet-async';
 import serialize from 'serialize-javascript';
 import ScriptLoader from '@ndla/polyfill/lib/ScriptLoader';
 import { GoogleTagMangerScript, GoogleTagMangerNoScript } from './Gtm';
@@ -29,7 +29,7 @@ interface DocumentData {
 }
 
 interface Props {
-  helmet: HelmetData;
+  helmet: HelmetServerState;
   assets: Assets;
   data?: DocumentData;
   css?: string;
@@ -67,6 +67,7 @@ const Document = ({ helmet, assets, data, css, ids }: Props) => {
             ${css}
           </style>
         )}
+        {helmet.script.toComponent()}
       </head>
       <body {...bodyAttrs}>
         <GoogleTagMangerNoScript />
@@ -87,7 +88,6 @@ const Document = ({ helmet, assets, data, css, ids }: Props) => {
           }}
         />
         <ScriptLoader polyfill={assets.polyfill} scripts={assets.js} />
-        {helmet.script.toComponent()}
       </body>
     </html>
   );

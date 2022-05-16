@@ -241,6 +241,7 @@ export const topicFragments = {
         visualElement {
           ...VisualElementWrapper_VisualElement
         }
+        revisionDate
       }
       ...ArticleContents_Topic
       ...Resources_Topic

@@ -76,7 +76,7 @@ jobs:
           echo -n "$GPG_KEY" | base64 --decode | gpg --import
       - name: "Install kubectl"
         run: |
-          curl -L https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl > kubectl
+          curl -L https://storage.googleapis.com/kubernetes-release/release/v1.21.11/bin/linux/amd64/kubectl > kubectl
           sudo mv kubectl /home/runner/bin/kubectl
           sudo chmod +x /home/runner/bin/kubectl
           mkdir -p ~/.kube

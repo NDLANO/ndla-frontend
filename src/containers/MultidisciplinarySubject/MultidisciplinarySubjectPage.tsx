@@ -16,7 +16,7 @@ import {
 } from '@ndla/ui';
 
 import { useTranslation } from 'react-i18next';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { getUrnIdsFromProps, toTopic } from '../../routeHelpers';
 import { useGraphQuery } from '../../util/runQueries';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';

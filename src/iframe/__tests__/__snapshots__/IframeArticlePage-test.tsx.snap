@@ -59,6 +59,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   margin-bottom: 0;
   margin-right: 0.2em;
   line-height: 1.3rem;
+  color: #20588f;
 }
 
 .emotion-2 span {

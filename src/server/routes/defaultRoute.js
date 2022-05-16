@@ -6,15 +6,20 @@
  *
  */
 
+import { HelmetProvider } from 'react-helmet-async';
+import { CompatRouter } from 'react-router-dom-v5-compat';
 import { StaticRouter } from 'react-router';
 import { matchPath } from 'react-router-dom';
+import { I18nextProvider } from 'react-i18next';
+import { i18nInstance } from '@ndla/ui';
 import url from 'url';
 import { ApolloProvider } from '@apollo/client';
 import queryString from 'query-string';
 import { CacheProvider } from '@emotion/core';
 import createCache from '@emotion/cache';
 
-import routes, { routes as serverRoutes } from '../../routes';
+import App from '../../App';
+import { routes as serverRoutes } from '../../routes';
 import config from '../../config';
 import { createApolloClient } from '../../util/apiHelpers';
 import handleError from '../../util/handleError';
@@ -83,27 +88,35 @@ async function doRender(req) {
   const cache = createCache({ key: EmotionCacheKey });
 
   const context = {};
+  const helmetContext = {};
   const Page = !disableSSR(req) ? (
-    <ApolloProvider client={client}>
-      <CacheProvider value={cache}>
-        <VersionHashProvider value={versionHash}>
-          <StaticRouter
-            basename={basename}
-            location={req.url}
-            context={context}>
-            {routes(
-              { ...initialProps, locale },
-              client,
-              locale,
-              false,
-              versionHash,
-            )}
-          </StaticRouter>
-        </VersionHashProvider>
-      </CacheProvider>
-    </ApolloProvider>
+    <HelmetProvider context={helmetContext}>
+      <I18nextProvider i18n={i18nInstance}>
+        <ApolloProvider client={client}>
+          <CacheProvider value={cache}>
+            <VersionHashProvider value={versionHash}>
+              <StaticRouter
+                basename={basename}
+                location={req.url}
+                context={context}>
+                <CompatRouter>
+                  <App
+                    initialProps={initialProps}
+                    isClient={false}
+                    client={client}
+                    locale={locale}
+                    versionHash={versionHash}
+                    key={locale}
+                  />
+                </CompatRouter>
+              </StaticRouter>
+            </VersionHashProvider>
+          </CacheProvider>
+        </ApolloProvider>
+      </I18nextProvider>
+    </HelmetProvider>
   ) : (
-    ''
+    <HelmetProvider context={helmetContext}>{''}</HelmetProvider>
   );
 
   const apolloState = client.extract();
@@ -124,10 +137,11 @@ async function doRender(req) {
     docProps,
     html: docProps.html,
     context,
+    helmetContext,
   };
 }
 
 export async function defaultRoute(req) {
-  const { html, context, docProps } = await doRender(req);
-  return renderHtml(req, html, context, docProps);
+  const { html, context, docProps, helmetContext } = await doRender(req);
+  return renderHtml(req, html, context, docProps, helmetContext);
 }

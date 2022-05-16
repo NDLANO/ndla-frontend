@@ -7,11 +7,13 @@
  */
 
 import ReactDOM from 'react-dom';
+import { HelmetProvider } from 'react-helmet-async';
 import { ApolloProvider } from '@apollo/client';
 import { configureTracker } from '@ndla/tracker';
 import ErrorReporter from '@ndla/error-reporter';
 import { CacheProvider } from '@emotion/core';
 import createCache from '@emotion/cache';
+import { CompatRouter } from 'react-router-dom-v5-compat';
 import { Router } from 'react-router';
 import IframePageContainer from './IframePageContainer';
 import { createHistory } from '../history';
@@ -48,13 +50,17 @@ const client = createApolloClient(initialProps.locale, initialProps.resCookie);
 
 const renderOrHydrate = disableSSR ? ReactDOM.render : ReactDOM.hydrate;
 renderOrHydrate(
-  <ApolloProvider client={client}>
-    <CacheProvider value={cache}>
-      <Router history={browserHistory}>
-        <IframePageContainer {...initialProps} />
-      </Router>
-    </CacheProvider>
-  </ApolloProvider>,
+  <HelmetProvider>
+    <ApolloProvider client={client}>
+      <CacheProvider value={cache}>
+        <Router history={browserHistory}>
+          <CompatRouter>
+            <IframePageContainer {...initialProps} />
+          </CompatRouter>
+        </Router>
+      </CacheProvider>
+    </ApolloProvider>
+  </HelmetProvider>,
   document.getElementById('root'),
   () => {
     window.hasHydrated = true;
