@@ -141,11 +141,13 @@ let routeArray: RouteType[] = [
     path: PODCAST_SERIES_PAGE_PATH,
     component: PodcastSeriesPage,
     background: false,
+    isCompat: true,
   },
   {
     path: PODCAST_SERIES_LIST_PAGE_PATH,
     component: PodcastSeriesListPage,
     background: false,
+    isCompat: true,
   },
   {
     path: PROGRAMME_PAGE_PATH_WITH_GRADE,
