@@ -23,7 +23,7 @@ export const NOT_FOUND_PAGE_PATH = '/404';
 export const RESOURCE_PAGE_PATH =
   '/(subjects)?/subject\\::subjectId/:topicPath*/:topicId/resource\\::resourceId/:stepId?';
 export const PLAIN_ARTICLE_PAGE_PATH = '/article/:articleId';
-export const SEARCH_PATH = '/search(.*)';
+export const SEARCH_PATH = '/search';
 export const TOPIC_PATH =
   '/(subjects)?/subject\\::subjectId/:topicPath(.*)?/:topicId';
 export const SUBJECT_PAGE_PATH = '/subject\\::subjectId/:topicPath*/';
