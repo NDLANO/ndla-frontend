@@ -136,6 +136,7 @@ let routeArray: RouteType[] = [
     path: SUBJECTS,
     component: AllSubjectsPage,
     background: false,
+    isCompat: true,
   },
   {
     path: PODCAST_SERIES_PAGE_PATH,
