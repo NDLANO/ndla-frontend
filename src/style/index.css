@@ -11,11 +11,9 @@
 @import '~@ndla/ui/src/main';
 @import '~@ndla/tabs/scss/tabs';
 @import '~@ndla/core/scss/utilities';
-
 .c-topic-resource__item--hidden {
   display: none;
 }
-
 mjx-container.MathJax[jax='CHTML'][display='true'] {
   display: inline-flex !important;
   overflow-x: hidden;
