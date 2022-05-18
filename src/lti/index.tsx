@@ -17,6 +17,8 @@ import { ApolloProvider } from '@apollo/client';
 import { createApolloClient } from '../util/apiHelpers';
 import LtiProvider from './LtiProvider';
 import '../style/index.css';
+import { initializeI18n, isValidLocale } from '../i18n';
+import { STORED_LANGUAGE_KEY } from '../constants';
 
 const {
   DATA: { initialProps, config },
@@ -32,10 +34,16 @@ window.errorReporter = ErrorReporter.getInstance({
 });
 
 const client = createApolloClient(i18nInstance.language, document.cookie);
+const storedLanguage = window.localStorage.getItem(STORED_LANGUAGE_KEY);
+const language = isValidLocale(storedLanguage)
+  ? storedLanguage
+  : config.defaultLocale;
+
+const i18n = initializeI18n(i18nInstance, language);
 
 ReactDOM.render(
   <HelmetProvider>
-    <I18nextProvider i18n={i18nInstance}>
+    <I18nextProvider i18n={i18n}>
       <ApolloProvider client={client}>
         <MissingRouterContext.Provider value={true}>
           <LtiProvider {...initialProps} />

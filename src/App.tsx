@@ -33,7 +33,7 @@ import {
   SUBJECT_PAGE_PATH,
 } from './constants';
 import { InitialProps, LocaleType } from './interfaces';
-import { initializeI18n, isValidLocale } from './i18n';
+import { isValidLocale } from './i18n';
 import config from './config';
 import AuthenticationContext from './components/AuthenticationContext';
 import { BaseNameProvider } from './components/BaseNameContext';
@@ -173,13 +173,6 @@ class App extends Component<AppProps, AppState> {
   constructor(props: AppProps) {
     super(props);
     this.location = null;
-    initializeI18n(
-      props.i18n,
-      props.client,
-      props.initialProps.resCookie,
-      props.versionHash,
-    );
-    props.i18n.changeLanguage(props.locale);
     this.state = {
       hasError: false,
       data: props.initialProps,

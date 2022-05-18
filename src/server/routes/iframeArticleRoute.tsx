@@ -14,15 +14,17 @@ import { StaticRouter } from 'react-router';
 import { ApolloProvider } from '@apollo/client';
 import { CacheProvider } from '@emotion/core';
 import createCache from '@emotion/cache';
+import { i18nInstance } from '@ndla/ui';
+import { I18nextProvider } from 'react-i18next';
 import { INTERNAL_SERVER_ERROR, OK } from '../../statusCodes';
-import { getHtmlLang, isValidLocale } from '../../i18n';
-import IframePageContainer from '../../iframe/IframePageContainer';
+import { getHtmlLang, initializeI18n, isValidLocale } from '../../i18n';
 import config from '../../config';
 import handleError from '../../util/handleError';
 import { renderPageWithData, renderHtml } from '../helpers/render';
 import { EmotionCacheKey } from '../../constants';
 import { InitialProps } from '../../interfaces';
 import { createApolloClient } from '../../util/apiHelpers';
+import IframePageContainer from '../../iframe/IframePageContainer';
 
 const assets =
   process.env.NODE_ENV !== 'unittest' && process.env.RAZZLE_ASSETS_MANIFEST
@@ -61,6 +63,11 @@ async function doRenderPage(req: Request, initialProps: InitialProps) {
     initialProps.resCookie,
   );
 
+  const i18n = initializeI18n(
+    i18nInstance,
+    initialProps.locale ?? config.defaultLocale,
+  );
+
   const helmetContext = {};
   const cache = createCache({ key: EmotionCacheKey });
   const Page = (
@@ -68,18 +75,20 @@ async function doRenderPage(req: Request, initialProps: InitialProps) {
       {disableSSR(req) ? (
         ''
       ) : (
-        <ApolloProvider client={client}>
-          <CacheProvider value={cache}>
-            <StaticRouter
-              basename={initialProps.basename}
-              location={req.url}
-              context={context}>
-              <CompatRouter>
-                <IframePageContainer {...initialProps} />
-              </CompatRouter>
-            </StaticRouter>
-          </CacheProvider>
-        </ApolloProvider>
+        <I18nextProvider i18n={i18n}>
+          <ApolloProvider client={client}>
+            <CacheProvider value={cache}>
+              <StaticRouter
+                basename={initialProps.basename}
+                location={req.url}
+                context={context}>
+                <CompatRouter>
+                  <IframePageContainer {...initialProps} />
+                </CompatRouter>
+              </StaticRouter>
+            </CacheProvider>
+          </ApolloProvider>
+        </I18nextProvider>
       )}
     </HelmetProvider>
   );

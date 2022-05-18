@@ -11,7 +11,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import renderer from 'react-test-renderer';
 import serializer from 'jest-emotion';
 import { MockedProvider } from '@apollo/client/testing';
-import { I18nextProvider, Translation } from 'react-i18next';
+import { I18nextProvider } from 'react-i18next';
 import { configureTracker } from '@ndla/tracker';
 import { createMemoryHistory } from 'history';
 import { i18nInstance } from '@ndla/ui';
@@ -19,6 +19,8 @@ import { CompatRouter } from 'react-router-dom-v5-compat';
 import { StaticRouter } from 'react-router';
 import IframePageContainer from '../IframePageContainer';
 import IframeArticlePage from '../IframeArticlePage';
+import { initializeI18n } from '../../i18n';
+import { LocaleType } from '../../interfaces';
 
 window.dataLayer = [];
 const history = createMemoryHistory();
@@ -29,6 +31,7 @@ expect.addSnapshotSerializer(serializer);
 
 test('IframeArticlePage with article renderers correctly', () => {
   const locale = 'nb';
+  const i18n = initializeI18n(i18nInstance, locale);
   const article = {
     id: 54,
     revision: 1,
@@ -175,53 +178,49 @@ test('IframeArticlePage with article renderers correctly', () => {
     supportedLanguages: ['nb'],
   };
   const component = renderer.create(
-    <MockedProvider mocks={[]}>
-      <HelmetProvider>
-        <StaticRouter
-          location={{
-            pathname: '/article-iframe/urn:resource:1/128',
-            search: 'asd',
-            hash: '',
-          }}>
-          <CompatRouter>
-            <I18nextProvider i18n={i18nInstance}>
-              <Translation>
-                {(_, { i18n }) => {
-                  i18n.language = locale;
-                  return (
-                    <IframeArticlePage
-                      locale={locale}
-                      resource={{
-                        id: 'urn:resource:1',
-                        path: '/subject:1/resource:1',
-                        resourceTypes: [],
-                      }}
-                      article={article}
-                    />
-                  );
+    <I18nextProvider i18n={i18n}>
+      <MockedProvider mocks={[]}>
+        <HelmetProvider>
+          <StaticRouter
+            location={{
+              pathname: '/article-iframe/urn:resource:1/128',
+              search: 'asd',
+              hash: '',
+            }}>
+            <CompatRouter>
+              <IframeArticlePage
+                locale={i18n.language as LocaleType}
+                resource={{
+                  id: 'urn:resource:1',
+                  path: '/subject:1/resource:1',
+                  resourceTypes: [],
                 }}
-              </Translation>
-            </I18nextProvider>
-          </CompatRouter>
-        </StaticRouter>
-      </HelmetProvider>
-    </MockedProvider>,
+                article={article}
+              />
+            </CompatRouter>
+          </StaticRouter>
+        </HelmetProvider>
+      </MockedProvider>
+    </I18nextProvider>,
   );
 
   expect(component.toJSON()).toMatchSnapshot();
 });
 
 test('IframePage with article displays error message on status === error', () => {
+  const i18n = initializeI18n(i18nInstance, 'nb');
   const component = renderer.create(
-    <MockedProvider mocks={[]}>
-      <HelmetProvider>
-        <StaticRouter>
-          <CompatRouter>
-            <IframePageContainer locale={'nb'} status="error" />
-          </CompatRouter>
-        </StaticRouter>
-      </HelmetProvider>
-    </MockedProvider>,
+    <I18nextProvider i18n={i18n}>
+      <MockedProvider mocks={[]}>
+        <HelmetProvider>
+          <StaticRouter>
+            <CompatRouter>
+              <IframePageContainer locale={'nb'} status="error" />
+            </CompatRouter>
+          </StaticRouter>
+        </HelmetProvider>
+      </MockedProvider>
+    </I18nextProvider>,
   );
 
   expect(component.toJSON()).toMatchSnapshot();

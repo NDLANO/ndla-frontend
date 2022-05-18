@@ -23,7 +23,7 @@ import { routes as serverRoutes } from '../../routes';
 import config from '../../config';
 import { createApolloClient } from '../../util/apiHelpers';
 import handleError from '../../util/handleError';
-import { getLocaleInfoFromPath } from '../../i18n';
+import { getLocaleInfoFromPath, initializeI18n } from '../../i18n';
 import { renderHtml, renderPageWithData } from '../helpers/render';
 import { EmotionCacheKey } from '../../constants';
 import { VersionHashProvider } from '../../components/VersionHashContext';
@@ -71,6 +71,8 @@ async function doRender(req) {
     versionHash,
   );
 
+  const i18n = initializeI18n(i18nInstance, locale);
+
   if (!disableSSR(req)) {
     const route = serverRoutes.find(r => matchPath(basepath, r));
     const match = matchPath(basepath, route);
@@ -91,7 +93,7 @@ async function doRender(req) {
   const helmetContext = {};
   const Page = !disableSSR(req) ? (
     <HelmetProvider context={helmetContext}>
-      <I18nextProvider i18n={i18nInstance}>
+      <I18nextProvider i18n={i18n}>
         <ApolloProvider client={client}>
           <CacheProvider value={cache}>
             <VersionHashProvider value={versionHash}>
