@@ -16,10 +16,6 @@ exports[`Document renderers correctly 1`] = `
       content="width=device-width, initial-scale=1 viewport-fit=cover"
       name="viewport"
     />
-    <link
-      href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,300i,400,400i,600,700|Source+Serif+Pro:400,700|Source+Code+Pro:400,700"
-      rel="stylesheet"
-    />
     
     <title
       data-rh={true}
