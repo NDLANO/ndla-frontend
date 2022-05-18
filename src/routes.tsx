@@ -81,6 +81,7 @@ let routeArray: RouteType[] = [
     component: PlainArticlePage,
     background: false,
     initialSelectMenu: 'programmes',
+    isCompat: true,
   },
   {
     path: PLAIN_LEARNINGPATHSTEP_PAGE_PATH,
