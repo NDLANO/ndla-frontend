@@ -99,6 +99,7 @@ let routeArray: RouteType[] = [
     component: SearchPage,
     background: false,
     initialSelectMenu: 'programmes',
+    isCompat: true,
   },
   {
     path: FILM_PAGE_PATH.replace(':', '\\:'),

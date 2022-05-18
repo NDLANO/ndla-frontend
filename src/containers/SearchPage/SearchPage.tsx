@@ -8,7 +8,7 @@
 import { HelmetWithTracker } from '@ndla/tracker';
 import { ContentPlaceholder, OneColumn } from '@ndla/ui';
 import queryString from 'query-string';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom-v5-compat';
 import { useTranslation } from 'react-i18next';
 
 import { searchPageQuery } from '../../queries';
@@ -30,13 +30,11 @@ const getStateSearchParams = (searchParams: Record<string, any>) => {
   return stateSearchParams;
 };
 
-interface MatchParams {
-  subjectId?: string;
-}
-
-interface Props extends RouteComponentProps<MatchParams>, RootComponentProps {}
-const SearchPage = ({ location, locale, history }: Props) => {
+interface Props extends RootComponentProps {}
+const SearchPage = ({ locale }: Props) => {
   const { t } = useTranslation();
+  const location = useLocation();
+  const navigate = useNavigate();
   const searchParams = converSearchStringToObject(location, locale);
   //const stateSearchParams = getStateSearchParams(searchParams);
   const subjects = searchSubjects(searchParams.query);
@@ -60,7 +58,7 @@ const SearchPage = ({ location, locale, history }: Props) => {
   );*/
 
   const handleSearchParamsChange = (searchParams: Record<string, any>) => {
-    history.push({
+    navigate({
       pathname: '/search',
       search: queryString.stringify({
         ...queryString.parse(location.search),
@@ -95,4 +93,4 @@ const SearchPage = ({ location, locale, history }: Props) => {
   );
 };
 
-export default withRouter(SearchPage);
+export default SearchPage;
