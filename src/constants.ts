@@ -23,7 +23,7 @@ export const NOT_FOUND_PAGE_PATH = '/404';
 export const RESOURCE_PAGE_PATH =
   '/(subjects)?/subject\\::subjectId/:topicPath*/:topicId/resource\\::resourceId/:stepId?';
 export const PLAIN_ARTICLE_PAGE_PATH = '/article/:articleId';
-export const SEARCH_PATH = '/search(.*)';
+export const SEARCH_PATH = '/search';
 export const TOPIC_PATH =
   '/(subjects)?/subject\\::subjectId/:topicPath(.*)?/:topicId';
 export const SUBJECT_PAGE_PATH = '/subject\\::subjectId/:topicPath*/';
@@ -39,7 +39,8 @@ export const SUPPORTED_LANGUAGES = ['nb', 'nn', 'en'];
 export const STORED_LANGUAGE_KEY = 'language';
 
 export const PROGRAMME_PATH = '/utdanning';
-export const PROGRAMME_PAGE_PATH = '/utdanning/:programme/:grade?';
+export const PROGRAMME_PAGE_PATH = '/utdanning/:programme';
+export const PROGRAMME_PAGE_PATH_WITH_GRADE = `${PROGRAMME_PAGE_PATH}/:grade`;
 
 export const MULTIDISCIPLINARY_SUBJECT_PAGE_PATH =
   '/subject\\::subjectId(d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7)/:topicPath*/';

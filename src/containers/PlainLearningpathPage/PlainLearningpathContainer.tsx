@@ -11,7 +11,7 @@ import { withTracker } from '@ndla/tracker';
 import { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { CustomWithTranslation, withTranslation } from 'react-i18next';
-import { useHistory } from 'react-router';
+import { useNavigate } from 'react-router-dom-v5-compat';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { GQLPlainLearningpathContainer_LearningpathFragment } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
@@ -42,7 +42,7 @@ const PlainLearningpathContainer = ({
   skipToContentId,
   stepId,
 }: Props) => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const steps = learningpath.learningsteps;
 
   useEffect(() => {
@@ -63,7 +63,7 @@ const PlainLearningpathContainer = ({
         step => step.seqNo === newSeqNo,
       );
       if (newLearningpathStep) {
-        history.push(toLearningPath(learningpath.id, newLearningpathStep.id));
+        navigate(toLearningPath(learningpath.id, newLearningpathStep.id));
       }
     }
   };
