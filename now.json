@@ -3,7 +3,7 @@
   "builds": [
     {
       "src": "build/public/**",
-      "use": "@now/static"
+      "use": "@vercel/static"
     },
     {
       "src": "build/server.js",
