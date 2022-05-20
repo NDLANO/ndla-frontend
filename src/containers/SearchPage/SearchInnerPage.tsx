@@ -7,7 +7,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Location } from 'history';
+import { Location } from 'react-router-dom';
 import SearchContainer from './SearchContainer';
 import {
   getTypeFilter,

@@ -7,23 +7,17 @@
  */
 
 import { Content, Masthead, MastheadItem, Logo } from '@ndla/ui';
-import { RouteProps } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import Page from '../Page/Page';
-import { LocaleType } from '../../interfaces';
 
-interface Props extends RouteProps {
-  locale: LocaleType;
-}
-
-const ErrorPage = ({ locale, location }: Props) => {
-  const { t } = useTranslation();
+const ErrorPage = () => {
+  const { t, i18n } = useTranslation();
   return (
-    <Page location={location}>
+    <Page>
       <Masthead fixed>
         <MastheadItem right>
-          <Logo to="/" locale={locale} label={t('logo.altText')} />
+          <Logo to="/" locale={i18n.language} label={t('logo.altText')} />
         </MastheadItem>
       </Masthead>
       <Content>

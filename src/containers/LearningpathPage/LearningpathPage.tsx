@@ -11,7 +11,7 @@ import { gql } from '@apollo/client';
 import { Helmet } from 'react-helmet-async';
 import { withTracker } from '@ndla/tracker';
 import { TFunction, WithTranslation, withTranslation } from 'react-i18next';
-import { useHistory } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import { getArticleProps } from '../../util/getArticleProps';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { htmlTitle } from '../../util/titleHelper';
@@ -60,7 +60,7 @@ const LearningpathPage = ({
   stepId,
   t,
 }: Props) => {
-  const history = useHistory();
+  const navigate = useNavigate();
   useEffect(() => {
     if (window.MathJax) {
       window.MathJax.typeset();
@@ -80,7 +80,7 @@ const LearningpathPage = ({
         const res = !!resource.path
           ? { path: resource.path, id: resource.id }
           : undefined;
-        history.push(
+        navigate(
           toLearningPath(
             data.resource!.learningpath!.id.toString(),
             newLearningpathStep.id.toString(),

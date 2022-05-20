@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
-import { useContext, useEffect, MouseEvent } from 'react';
-import { useHistory, useLocation } from 'react-router';
+import { useContext, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import Spinner from '@ndla/ui/lib/Spinner';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import Topic, { topicFragments } from './Topic';
@@ -19,7 +19,6 @@ type Props = {
   subTopicId?: string;
   locale: LocaleType;
   ndlaFilm?: boolean;
-  onClickTopics: (e: MouseEvent<HTMLAnchorElement>) => void;
   setBreadCrumb: (item: BreadcrumbItem) => void;
   index: number;
   showResources: boolean;
@@ -46,14 +45,13 @@ const TopicWrapper = ({
   subjectId,
   locale,
   ndlaFilm,
-  onClickTopics,
   setBreadCrumb,
   showResources,
   subject,
   index,
 }: Props) => {
   const location = useLocation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const { user } = useContext(AuthContext);
   const { data, loading, error } = useGraphQuery<
     GQLTopicWrapperQuery,
@@ -75,9 +73,9 @@ const TopicWrapper = ({
   if (error) {
     handleError(error);
     if (isAccessDeniedError(error)) {
-      history.replace('/403');
+      navigate('/403', { replace: true });
     } else {
-      history.replace('/404');
+      navigate('/404', { replace: true });
     }
   }
 
@@ -101,7 +99,6 @@ const TopicWrapper = ({
       subTopicId={subTopicId}
       locale={locale}
       ndlaFilm={ndlaFilm}
-      onClickTopics={onClickTopics}
       showResources={showResources}
       subject={subject}
       loading={loading}

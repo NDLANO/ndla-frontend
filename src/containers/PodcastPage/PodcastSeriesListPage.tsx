@@ -10,7 +10,7 @@ import { useEffect } from 'react';
 import { OneColumn, Spinner } from '@ndla/ui';
 import Pager from '@ndla/pager';
 import { useTranslation } from 'react-i18next';
-import { useNavigate, useLocation } from 'react-router-dom-v5-compat';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { gql, useApolloClient, useQuery } from '@apollo/client';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';

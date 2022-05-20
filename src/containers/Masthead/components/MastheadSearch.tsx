@@ -8,7 +8,7 @@ import {
 } from '@ndla/ui';
 import queryString from 'query-string';
 import { useLazyQuery } from '@apollo/client';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { debounce } from 'lodash';
 
 import { useTranslation } from 'react-i18next';
@@ -29,7 +29,7 @@ import {
 
 const debounceCall = debounce((fun: (func?: Function) => void) => fun(), 250);
 
-interface Props extends RouteComponentProps {
+interface Props {
   hideOnNarrowScreen?: boolean;
   subject?: GQLMastHeadQuery['subject'];
   ndlaFilm?: boolean;
@@ -38,9 +38,9 @@ interface Props extends RouteComponentProps {
 const MastheadSearch = ({
   hideOnNarrowScreen = false,
   ndlaFilm,
-  history,
   subject,
 }: Props) => {
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const inputRef = useRef(null);
   const [query, setQuery] = useState('');
@@ -124,10 +124,7 @@ const MastheadSearch = ({
   const onSearch = (evt: FormEvent) => {
     evt.preventDefault();
 
-    history.push({
-      pathname: '/search',
-      search: `?${searchString}`,
-    });
+    navigate({ pathname: '/search', search: `?${searchString}` });
   };
 
   const filters = subjects
@@ -174,4 +171,4 @@ const MastheadSearch = ({
   );
 };
 
-export default withRouter(MastheadSearch);
+export default MastheadSearch;

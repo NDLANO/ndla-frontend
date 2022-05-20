@@ -6,10 +6,14 @@
  *
  */
 
-import { matchPath, RouteComponentProps } from 'react-router-dom';
-import { useParams } from 'react-router-dom-v5-compat';
+import { useParams } from 'react-router-dom';
 import config from './config';
-import { PROGRAMME_PATH, SUBJECT_PAGE_PATH, TOPIC_PATH } from './constants';
+import {
+  MULTIDISCIPLINARY_SUBJECT_ID,
+  PROGRAMME_PATH,
+  TOOLBOX_STUDENT_SUBJECT_ID,
+  TOOLBOX_TEACHER_SUBJECT_ID,
+} from './constants';
 import { getSubjectLongName } from './data/subjects';
 import { GQLResource, GQLSubject, GQLTopic } from './graphqlTypes';
 import { Breadcrumb, LocaleType } from './interfaces';
@@ -20,32 +24,39 @@ export function toSearch(searchString?: string) {
 
 export const removeUrn = (str?: string) => (str ? str.replace('urn:', '') : '');
 
-export function getUrnIdsFromProps(props: {
-  ndlaFilm?: boolean;
-  match: RouteComponentProps<{
-    subjectId?: string;
-    topicPath?: string;
-    topicId?: string;
-    resourceId?: string;
-    articleId?: string;
-    topic1?: string;
-    topic2?: string;
-    programme?: string;
-  }>['match'];
-}) {
-  const {
-    ndlaFilm,
-    match: { params },
-  } = props;
-  const paramSubjectId = params.subjectId
-    ? `urn:subject:${params.subjectId}`
+export const getInitialMastheadMenu = (pathname: string) => {
+  if (pathname.startsWith('/utdanning/')) {
+    return 'programme';
+  } else if (
+    pathname.startsWith('/article/') ||
+    pathname.startsWith('/learningpaths/') ||
+    pathname.startsWith('/search')
+  ) {
+    return 'programmes';
+  } else return undefined;
+};
+
+interface MatchParams extends TypedParams {
+  subjectId?: string;
+  topicPath?: string;
+  topicId?: string;
+  resourceId?: string;
+  articleId?: string;
+  topic1?: string;
+  topic2?: string;
+  programme?: string;
+}
+
+export const useUrnIds = () => {
+  const params = useTypedParams<MatchParams>();
+  const subjectId = params.subjectId
+    ? `urn:subject${params.subjectId}`
     : undefined;
-  const subjectId = ndlaFilm ? `urn:subject:20` : paramSubjectId;
   const topics = params.topicPath?.split('/') || [];
   const topicList = topics.map((t: string) => `urn:${t}`);
-  const topicId = params.topicId ? `urn:${params.topicId}` : undefined;
-  const topic1 = params.topic1 ? `urn:topic:${params.topic1}` : undefined;
-  const topic2 = params.topic2 ? `urn:topic:${params.topic2}` : undefined;
+  const topicId = params.topicId ? `urn:topic${params.topicId}` : undefined;
+  const topic1 = params.topic1 ? `urn:topic${params.topic1}` : undefined;
+  const topic2 = params.topic2 ? `urn:topic${params.topic2}` : undefined;
   if (topic1) {
     topicList.push(topic1);
   }
@@ -60,13 +71,40 @@ export function getUrnIdsFromProps(props: {
     subjectId,
     topicList,
     resourceId: params.resourceId
-      ? `urn:resource:${params.resourceId}`
+      ? `urn:resource${params.resourceId}`
       : undefined,
     articleId: params.articleId,
     topicId: topicList[topicList.length - 1],
     programme: params.programme,
+    stepId: params.stepId,
   };
-}
+};
+
+type SubjectType =
+  | 'multiDisciplinary'
+  | 'standard'
+  | 'toolbox'
+  | 'film'
+  | undefined;
+
+export const useSubjectType = (): SubjectType => {
+  const { subjectId } = useUrnIds();
+
+  if (subjectId === MULTIDISCIPLINARY_SUBJECT_ID) {
+    return 'multiDisciplinary';
+  } else if (
+    subjectId === TOOLBOX_STUDENT_SUBJECT_ID ||
+    subjectId === TOOLBOX_TEACHER_SUBJECT_ID
+  ) {
+    return 'toolbox';
+  } else if (subjectId === 'urn:subject:20') {
+    return 'film';
+  } else if (typeof subjectId === 'string') {
+    return 'standard';
+  }
+
+  return undefined;
+};
 
 function toLearningpaths() {
   return '/learningpaths';
@@ -196,22 +234,6 @@ export function toProgrammeSubject(
   topicIds: string[],
 ) {
   return `${toProgramme(programmePath)}${toTopic(subjectId, ...topicIds)}`;
-}
-
-export function isSubjectPagePath(pathname: string) {
-  const match = matchPath(pathname, SUBJECT_PAGE_PATH);
-  if (match) {
-    return match.isExact;
-  }
-  return false;
-}
-
-export function isTopicPath(pathname: string) {
-  const match = matchPath(pathname, TOPIC_PATH);
-  if (match) {
-    return match.isExact;
-  }
-  return false;
 }
 
 export type TypedParams = Record<string, string | undefined>;

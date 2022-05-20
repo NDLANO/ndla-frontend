@@ -7,7 +7,7 @@
  */
 
 import { gql } from '@apollo/client';
-import { useEffect, useMemo, useState, MouseEvent } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Remarkable } from 'remarkable';
 import { TFunction, withTranslation, WithTranslation } from 'react-i18next';
 import { Topic as UITopic } from '@ndla/ui';
@@ -53,7 +53,6 @@ type Props = {
   subTopicId?: string;
   locale: LocaleType;
   ndlaFilm?: boolean;
-  onClickTopics: (e: MouseEvent<HTMLAnchorElement>) => void;
   index?: number;
   showResources?: boolean;
   subject?: GQLTopic_SubjectFragment;
@@ -69,7 +68,6 @@ const Topic = ({
   locale,
   subTopicId,
   ndlaFilm,
-  onClickTopics,
   topic,
   resourceTypes,
 }: Props) => {
@@ -162,10 +160,7 @@ const Topic = ({
       isLoading={false}
       renderMarkdown={renderMarkdown}
       invertedStyle={ndlaFilm}
-      isAdditionalTopic={topic.relevanceId === RELEVANCE_SUPPLEMENTARY}
-      onSubTopicSelected={(e: MouseEvent<HTMLElement>) =>
-        onClickTopics(e as MouseEvent<HTMLAnchorElement>)
-      }>
+      isAdditionalTopic={topic.relevanceId === RELEVANCE_SUPPLEMENTARY}>
       <ArticleContents
         topic={topic}
         copyPageUrlLink={copyPageUrlLink}

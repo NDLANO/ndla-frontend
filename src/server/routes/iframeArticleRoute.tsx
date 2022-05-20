@@ -9,8 +9,7 @@
 import url from 'url';
 import { Request } from 'express';
 import { HelmetProvider } from 'react-helmet-async';
-import { CompatRouter } from 'react-router-dom-v5-compat';
-import { StaticRouter } from 'react-router';
+import { StaticRouter } from 'react-router-dom/server';
 import { ApolloProvider } from '@apollo/client';
 import { CacheProvider } from '@emotion/core';
 import createCache from '@emotion/cache';
@@ -73,9 +72,7 @@ async function doRenderPage(req: Request, initialProps: InitialProps) {
           <ApolloProvider client={client}>
             <CacheProvider value={cache}>
               <StaticRouter basename={initialProps.basename} location={req.url}>
-                <CompatRouter>
-                  <IframePageContainer {...initialProps} />
-                </CompatRouter>
+                <IframePageContainer {...initialProps} />
               </StaticRouter>
             </CacheProvider>
           </ApolloProvider>

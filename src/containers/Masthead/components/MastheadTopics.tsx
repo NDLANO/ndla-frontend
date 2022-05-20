@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { useHistory, useParams } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 //@ts-ignore
 import { TopicMenu } from '@ndla/ui';
 import {
@@ -7,6 +7,7 @@ import {
   removeUrn,
   toTopic,
   toProgramme,
+  useTypedParams,
 } from '../../../routeHelpers';
 import { resourceToLinkProps } from '../../Resources/resourceHelpers';
 import { mapTopicResourcesToTopic } from '../mastheadHelpers';
@@ -72,8 +73,8 @@ const MastheadTopics = ({
   subjectCategories,
   initialSelectedMenu,
 }: Props) => {
-  const history = useHistory();
-  const { grade } = useParams<{ grade?: string }>();
+  const navigate = useNavigate();
+  const { grade } = useTypedParams<{ grade?: string }>();
   const expandedTopicIds = [expandedTopicId, ...expandedSubtopicsId];
 
   const topicsWithContentTypes =
@@ -106,7 +107,7 @@ const MastheadTopics = ({
     ) {
       return;
     }
-    history.push(toProgramme(currentProgramme.url, newGrade));
+    navigate(toProgramme(currentProgramme.url, newGrade));
   };
 
   return (

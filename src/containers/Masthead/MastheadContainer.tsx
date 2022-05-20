@@ -6,7 +6,7 @@
  *
  */
 
-import { useState, useEffect, ReactNode } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Masthead,
   MastheadItem,
@@ -15,12 +15,17 @@ import {
   DisplayOnPageYOffset,
   BreadcrumbBlock,
 } from '@ndla/ui';
-import { RouteComponentProps } from 'react-router';
+import { useLocation } from 'react-router-dom';
 import { useLazyQuery } from '@apollo/client';
 
 import { Feide } from '@ndla/icons/common';
 import { useTranslation } from 'react-i18next';
-import { getUrnIdsFromProps, toBreadcrumbItems } from '../../routeHelpers';
+import {
+  getInitialMastheadMenu,
+  toBreadcrumbItems,
+  useSubjectType,
+  useUrnIds,
+} from '../../routeHelpers';
 
 import FeideLoginButton from '../../components/FeideLoginButton';
 import MastheadSearch from './components/MastheadSearch';
@@ -35,7 +40,6 @@ import {
 } from '../../util/programmesSubjectsHelper';
 import { getProgrammeBySlug } from '../../data/programmes';
 import { mapGradesData } from '../ProgrammePage/ProgrammePage';
-import { LocaleType } from '../../interfaces';
 import {
   GQLMastHeadQuery,
   GQLMastHeadQueryVariables,
@@ -44,15 +48,7 @@ import {
 } from '../../graphqlTypes';
 import config from '../../config';
 import { setClosedAlert, useAlerts } from '../../components/AlertsContext';
-
-interface Props extends RouteComponentProps {
-  locale: LocaleType;
-  infoContent?: ReactNode;
-  ndlaFilm?: boolean;
-  skipToMainContentId?: string;
-  hideBreadcrumb?: boolean;
-  initialSelectMenu?: string;
-}
+import { SKIP_TO_CONTENT_ID } from '../../constants';
 
 interface State {
   subject?: GQLMastHeadQuery['subject'];
@@ -61,20 +57,16 @@ interface State {
   resource?: GQLMastHeadQuery['resource'];
 }
 
-const MastheadContainer = ({
-  infoContent,
-  locale,
-  location,
-  ndlaFilm,
-  match,
-  skipToMainContentId,
-  hideBreadcrumb,
-  initialSelectMenu,
-}: Props) => {
-  const [subjectId, setSubjectId] = useState('');
-  const [topicId, setTopicId] = useState('');
+const MastheadContainer = () => {
   const [state, setState] = useState<State>({});
   const { t, i18n } = useTranslation();
+  const locale = i18n.language;
+  const { subjectId, resourceId, topicId, programme } = useUrnIds();
+  const subjectType = useSubjectType();
+  const location = useLocation();
+  const ndlaFilm = subjectType === 'film';
+  const initialSelectedMenu = getInitialMastheadMenu(location.pathname);
+  const hideBreadcrumb = subjectType === 'standard' && !resourceId;
 
   useEffect(() => {
     updateData();
@@ -88,16 +80,16 @@ const MastheadContainer = ({
   useEffect(() => {
     // we set data in state to prevent it from disappearing in view when we refecth
     if (data) {
-      const stateData = mapMastheadData({ subjectId, topicId, data });
+      const stateData = mapMastheadData({
+        subjectId: subjectId ?? '',
+        topicId: topicId ?? '',
+        data,
+      });
       setState(stateData);
     }
   }, [data]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const updateData = () => {
-    const { subjectId, resourceId, topicId } = getUrnIdsFromProps({
-      ndlaFilm,
-      match,
-    });
     if (subjectId) {
       getData(subjectId, topicId, resourceId);
     }
@@ -112,10 +104,6 @@ const MastheadContainer = ({
   };
 
   const getData = (subjectId: string, topicId = '', resourceId = '') => {
-    setSubjectId(subjectId);
-    if (topicId) {
-      setTopicId(topicId);
-    }
     fetchData({
       variables: {
         subjectId,
@@ -127,7 +115,6 @@ const MastheadContainer = ({
     });
   };
 
-  const { programme } = getUrnIdsFromProps({ match });
   let currentProgramme;
   if (programme) {
     const programmeData = getProgrammeBySlug(programme, locale);
@@ -174,8 +161,7 @@ const MastheadContainer = ({
       <Masthead
         fixed
         ndlaFilm={ndlaFilm}
-        skipToMainContentId={skipToMainContentId}
-        infoContent={infoContent}
+        skipToMainContentId={SKIP_TO_CONTENT_ID}
         onCloseAlert={id => setClosedAlert(id)}
         messages={alerts}>
         <MastheadItem left>
@@ -189,7 +175,7 @@ const MastheadContainer = ({
             programmes={getProgrammes(locale)}
             currentProgramme={currentProgramme}
             subjectCategories={getCategorizedSubjects(locale)}
-            initialSelectMenu={initialSelectMenu}
+            initialSelectMenu={initialSelectedMenu}
           />
           {!hideBreadcrumb && (
             <DisplayOnPageYOffset yOffsetMin={150}>
@@ -212,7 +198,7 @@ const MastheadContainer = ({
             currentLanguage={i18n.language}
           />
           {config.feideEnabled && (
-            <FeideLoginButton location={location}>
+            <FeideLoginButton>
               <Feide title={t('user.buttonLogIn')} />
             </FeideLoginButton>
           )}

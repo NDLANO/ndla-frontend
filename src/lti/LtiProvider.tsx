@@ -81,7 +81,7 @@ const LtiProvider = ({ locale: propsLocale, ltiData }: Props) => {
 
   if (error && !data) {
     handleError(error);
-    return <ErrorPage locale={locale} />;
+    return <ErrorPage />;
   }
 
   return (

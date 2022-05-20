@@ -7,18 +7,19 @@
  */
 
 import { HelmetProvider } from 'react-helmet-async';
-import { CompatRouter } from 'react-router-dom-v5-compat';
-import { BrowserRouter, MemoryRouter } from 'react-router-dom';
+import { Router } from 'react-router-dom';
 import { I18nextProvider, useTranslation } from 'react-i18next';
 import { ApolloProvider, useApolloClient } from '@apollo/client';
 import { CacheProvider } from '@emotion/core';
+import { createBrowserHistory, createMemoryHistory, History } from 'history';
 // @ts-ignore
 import ErrorReporter from '@ndla/error-reporter';
 import { i18nInstance } from '@ndla/ui';
+import { configureTracker } from '@ndla/tracker';
 import createCache from '@emotion/cache';
 // @ts-ignore
 import queryString from 'query-string';
-import { ReactNode, useEffect, useRef, useState } from 'react';
+import { ReactNode, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
 import '@fontsource/shadows-into-light-two/index.css';
 import '@fontsource/source-sans-pro/index.css';
@@ -45,17 +46,14 @@ import './style/index.css';
 import { createApolloClient } from './util/apiHelpers';
 import { getDefaultLocale } from './config';
 import App from './App';
-import {
-  useVersionHash,
-  VersionHashProvider,
-} from './components/VersionHashContext';
+import { VersionHashProvider } from './components/VersionHashContext';
 
 declare global {
   interface Window extends NDLAWindow {}
 }
 
 const {
-  DATA: { initialProps, config, serverPath, serverQuery },
+  DATA: { config, serverPath, serverQuery },
 } = window;
 
 const { basepath } = getLocaleInfoFromPath(serverPath ?? '');
@@ -99,20 +97,48 @@ const isGoogleUrl =
   decodeURIComponent(window.location.search).indexOf(testLocation) > -1;
 
 interface RCProps {
-  children?: ReactNode;
+  children: (history: History) => ReactNode;
   base: string;
 }
 
-const RouterComponent = ({ children, base }: RCProps) =>
-  isGoogleUrl ? (
-    <MemoryRouter initialEntries={[locationFromServer]}>
-      {children}
-    </MemoryRouter>
-  ) : (
-    <BrowserRouter key={base} basename={base}>
-      {children}
-    </BrowserRouter>
+const NDLARouter = ({ children, base }: RCProps) => {
+  let historyRef = useRef<History>();
+  if (isGoogleUrl && historyRef.current == null) {
+    historyRef.current = createMemoryHistory({
+      initialEntries: [locationFromServer],
+    });
+  } else if (historyRef.current == null) {
+    historyRef.current = createBrowserHistory();
+  }
+
+  let history = historyRef.current!;
+  let [state, setState] = useState({
+    action: history.action,
+    location: history.location,
+  });
+
+  useLayoutEffect(() => history.listen(setState), [history]);
+
+  useLayoutEffect(() => {
+    configureTracker({
+      listen: history.listen,
+      gaTrackingId: window.location.host ? config?.gaTrackingId : '',
+      googleTagManagerId: config?.googleTagManagerId,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return (
+    <Router
+      key={!isGoogleUrl ? base : undefined}
+      basename={base}
+      children={children(history)}
+      location={state.location}
+      navigationType={state.action}
+      navigator={history}
+    />
   );
+};
 
 function canUseDOM() {
   return !!(
@@ -143,7 +169,6 @@ const constructNewPath = (newLocale?: LocaleType) => {
 const LanguageWrapper = ({ basename }: { basename?: string }) => {
   const { i18n } = useTranslation();
   const [base, setBase] = useState('');
-  const versionHash = useVersionHash();
   const firstRender = useRef(true);
   const client = useApolloClient();
 
@@ -190,19 +215,16 @@ const LanguageWrapper = ({ basename }: { basename?: string }) => {
   }, [basename]);
 
   return (
-    <RouterComponent base={base}>
-      <CompatRouter>
+    <NDLARouter base={base}>
+      {history => (
         <App
-          initialProps={initialProps}
-          isClient
-          client={client}
-          base={base}
           locale={i18n.language}
           key={i18n.language}
-          versionHash={versionHash}
+          history={history}
+          isClient
         />
-      </CompatRouter>
-    </RouterComponent>
+      )}
+    </NDLARouter>
   );
 };
 

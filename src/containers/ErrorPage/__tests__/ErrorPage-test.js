@@ -8,8 +8,7 @@
  */
 
 import { HelmetProvider } from 'react-helmet-async';
-import { CompatRouter } from 'react-router-dom-v5-compat';
-import { StaticRouter } from 'react-router';
+import { StaticRouter } from 'react-router-dom/server';
 import renderer from 'react-test-renderer';
 import serializer from 'jest-emotion';
 import { I18nextProvider, Translation } from 'react-i18next';
@@ -32,9 +31,7 @@ test('ErrorPage renderers correctly', () => {
             i18n.language = 'nb';
             return (
               <StaticRouter>
-                <CompatRouter>
-                  <ErrorPage locale="nb" location={{ pathname: '/' }} />
-                </CompatRouter>
+                <ErrorPage />
               </StaticRouter>
             );
           }}

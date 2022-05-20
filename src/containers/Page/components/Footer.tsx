@@ -6,7 +6,7 @@
  *
  */
 
-import { useLocation } from 'react-router';
+import { useLocation } from 'react-router-dom';
 import { Footer, LanguageSelector, FooterText, EditorName } from '@ndla/ui';
 import { Facebook, Twitter, EmailOutline, Youtube } from '@ndla/icons/common';
 import { useTranslation } from 'react-i18next';

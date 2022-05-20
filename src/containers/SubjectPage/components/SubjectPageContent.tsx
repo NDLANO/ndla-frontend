@@ -7,7 +7,7 @@
  */
 
 import { gql } from '@apollo/client';
-import { RefObject, useEffect, MouseEvent } from 'react';
+import { RefObject, useEffect } from 'react';
 import { NavigationBox } from '@ndla/ui';
 import { RELEVANCE_SUPPLEMENTARY } from '../../../constants';
 import { scrollToRef } from '../subjectPageHelpers';
@@ -20,7 +20,6 @@ interface Props {
   subject: GQLSubjectPageContent_SubjectFragment;
   locale: LocaleType;
   ndlaFilm?: boolean;
-  onClickTopics: (e: MouseEvent<HTMLAnchorElement>) => void;
   topicIds: Array<string>;
   refs: Array<RefObject<HTMLDivElement>>;
   setBreadCrumb: (topic: BreadcrumbItem) => void;
@@ -30,7 +29,6 @@ const SubjectPageContent = ({
   subject,
   locale,
   ndlaFilm,
-  onClickTopics,
   topicIds,
   refs,
   setBreadCrumb,
@@ -56,9 +54,6 @@ const SubjectPageContent = ({
         items={mainTopics || []}
         invertedStyle={ndlaFilm}
         listDirection="horizontal"
-        onClick={e => {
-          onClickTopics(e as MouseEvent<HTMLAnchorElement>);
-        }}
       />
       {topicIds.map((topicId, index) => {
         return (
@@ -70,7 +65,6 @@ const SubjectPageContent = ({
               subTopicId={topicIds[index + 1]}
               locale={locale}
               ndlaFilm={ndlaFilm}
-              onClickTopics={onClickTopics}
               index={index}
               showResources={!topicIds[index + 1]}
               subject={subject}

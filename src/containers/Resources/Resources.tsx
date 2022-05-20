@@ -9,7 +9,6 @@
 import { gql } from '@apollo/client';
 import { useEffect, useState } from 'react';
 import { ResourcesWrapper, ResourcesTopicTitle, ResourceGroup } from '@ndla/ui';
-import { useRouteMatch } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { contentTypeMapping } from '../../util/getContentType';
 import { getResourceGroups, sortResourceTypes } from './getResourceGroups';
@@ -21,8 +20,9 @@ import {
   GQLResources_ResourceTypeDefinitionFragment,
   GQLResources_TopicFragment,
 } from '../../graphqlTypes';
+import { TypedParams, useTypedParams } from '../../routeHelpers';
 
-interface MatchProps {
+interface MatchProps extends TypedParams {
   topicId?: string;
   topicPath?: string;
   subjectId?: string;
@@ -35,7 +35,7 @@ interface Props {
   ndlaFilm?: boolean;
 }
 const Resources = ({ topic, resourceTypes, ndlaFilm }: Props) => {
-  const { params } = useRouteMatch<MatchProps>();
+  const params = useTypedParams<MatchProps>();
   const [showAdditionalResources, setShowAdditionalResources] = useState(false);
   const { t } = useTranslation();
 

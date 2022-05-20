@@ -6,7 +6,7 @@
  */
 
 import { useState } from 'react';
-import { Location } from 'history';
+import { Location } from 'react-router-dom';
 import styled from '@emotion/styled';
 import {
   SearchSubjectResult,

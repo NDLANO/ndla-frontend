@@ -1,7 +1,5 @@
-import { Component, ReactNode } from 'react';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
-import { Location } from 'history';
-import { getUrnIdsFromProps } from '../../../routeHelpers';
+import { ReactNode, useEffect, useRef, useState } from 'react';
+import { useUrnIds } from '../../../routeHelpers';
 import { getSelectedTopic } from '../mastheadHelpers';
 import MastheadTopics from './MastheadTopics';
 import MastheadMenuModal from './MastheadMenuModal';
@@ -16,7 +14,7 @@ export interface MastheadProgramme {
   grades: GradesData[];
 }
 
-interface Props extends RouteComponentProps {
+interface Props {
   locale: LocaleType;
   subject?: GQLMastHeadQuery['subject'];
   topicResourcesByType: GQLResourceType[];
@@ -36,40 +34,54 @@ interface Props extends RouteComponentProps {
   initialSelectMenu?: string;
 }
 
-interface State {
-  expandedTopicId?: string;
-  expandedSubtopicsId: string[];
-  location?: Location;
-}
+const MastheadMenu = ({
+  onDataFetch,
+  ndlaFilm,
+  searchFieldComponent,
+  topicResourcesByType,
+  subject,
+  locale,
+  programmes,
+  currentProgramme,
+  subjectCategories,
+  initialSelectMenu,
+}: Props) => {
+  const [expandedTopicId, setExpandedTopicId] = useState<string | undefined>(
+    undefined,
+  );
+  const [expandedSubtopicsId, setExpandedSubtopicsId] = useState<string[]>([]);
+  const { subjectId, resourceId } = useUrnIds();
+  const { topicList } = useUrnIds();
+  const previousTopicList = useRef<string[] | null>(null);
 
-class MastheadMenu extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      expandedSubtopicsId: [],
-    };
-  }
+  useEffect(() => {
+    if (previousTopicList.current === null) {
+      previousTopicList.current = topicList;
+      return;
+    }
+    if (previousTopicList.current !== topicList) {
+      setExpandedTopicId(topicList?.[0]);
+      setExpandedSubtopicsId(topicList?.slice(1) ?? []);
+    }
+    previousTopicList.current = topicList;
+  }, []);
 
-  onNavigate = async (
+  const onNavigate = async (
     expandedTopicId: string,
     subtopicId?: string,
     currentIndex?: number,
   ) => {
-    const { onDataFetch } = this.props;
-    let { expandedSubtopicsId } = this.state;
-
+    let newExpandedSubtopics: string[] = [];
     if (expandedSubtopicsId.length > (currentIndex ?? 0)) {
-      expandedSubtopicsId = expandedSubtopicsId.slice(0, currentIndex);
+      newExpandedSubtopics = expandedSubtopicsId.slice(0, currentIndex);
     }
     if (subtopicId) {
-      expandedSubtopicsId.push(subtopicId);
+      newExpandedSubtopics.push(subtopicId);
     } else {
-      expandedSubtopicsId.pop();
+      newExpandedSubtopics.pop();
     }
-    this.setState({
-      expandedTopicId,
-      expandedSubtopicsId,
-    });
+    setExpandedTopicId(expandedTopicId);
+    setExpandedSubtopicsId(newExpandedSubtopics);
 
     const selectedTopicId = getSelectedTopic([
       expandedTopicId,
@@ -77,62 +89,30 @@ class MastheadMenu extends Component<Props, State> {
     ]);
 
     if (selectedTopicId) {
-      const { subjectId, resourceId } = getUrnIdsFromProps(this.props);
       onDataFetch(subjectId!, selectedTopicId, resourceId);
     }
   };
 
-  static getDerivedStateFromProps(nextProps: Props, prevState: State) {
-    const { location } = nextProps;
-    if (location !== prevState.location) {
-      const { topicList } = getUrnIdsFromProps(nextProps);
-      return {
-        expandedTopicId: topicList[0],
-        expandedSubtopicsId: topicList?.slice(1) || [],
-        location,
-      };
-    }
-    return null;
-  }
+  return (
+    <MastheadMenuModal ndlaFilm={ndlaFilm}>
+      {(onClose: () => void) => (
+        <MastheadTopics
+          onClose={onClose}
+          searchFieldComponent={searchFieldComponent}
+          expandedTopicId={expandedTopicId!}
+          expandedSubtopicsId={expandedSubtopicsId}
+          topicResourcesByType={topicResourcesByType}
+          subject={subject}
+          locale={locale}
+          programmes={programmes}
+          currentProgramme={currentProgramme}
+          subjectCategories={subjectCategories}
+          onNavigate={onNavigate}
+          initialSelectedMenu={initialSelectMenu}
+        />
+      )}
+    </MastheadMenuModal>
+  );
+};
 
-  render() {
-    const {
-      subject,
-      topicResourcesByType,
-      locale,
-      searchFieldComponent,
-      ndlaFilm,
-      programmes,
-      currentProgramme,
-      subjectCategories,
-      initialSelectMenu,
-    } = this.props;
-
-    const { expandedTopicId, expandedSubtopicsId } = this.state;
-
-    return (
-      <>
-        <MastheadMenuModal ndlaFilm={ndlaFilm}>
-          {(onClose: () => void) => (
-            <MastheadTopics
-              onClose={onClose}
-              searchFieldComponent={searchFieldComponent}
-              expandedTopicId={expandedTopicId!}
-              expandedSubtopicsId={expandedSubtopicsId}
-              topicResourcesByType={topicResourcesByType}
-              subject={subject}
-              locale={locale}
-              programmes={programmes}
-              currentProgramme={currentProgramme}
-              subjectCategories={subjectCategories}
-              onNavigate={this.onNavigate}
-              initialSelectedMenu={initialSelectMenu}
-            />
-          )}
-        </MastheadMenuModal>
-      </>
-    );
-  }
-}
-
-export default withRouter(MastheadMenu);
+export default MastheadMenu;

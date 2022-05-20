@@ -7,8 +7,8 @@
  * @jest-environment jsdom
  */
 
-import { CompatRouter } from 'react-router-dom-v5-compat';
-import { StaticRouter, MemoryRouter } from 'react-router';
+import { StaticRouter } from 'react-router-dom/server';
+import { MemoryRouter } from 'react-router-dom';
 import renderer from 'react-test-renderer';
 import sinon from 'sinon';
 import RedirectContext from '../RedirectContext';
@@ -19,9 +19,7 @@ test('External redirect for static router', () => {
   renderer.create(
     <RedirectContext.Provider value={context}>
       <StaticRouter>
-        <CompatRouter>
-          <RedirectExternal to="https://google.com/" />
-        </CompatRouter>
+        <RedirectExternal to="https://google.com/" />
       </StaticRouter>
     </RedirectContext.Provider>,
   );
@@ -36,9 +34,7 @@ test('External redirect for static router with basename', () => {
   renderer.create(
     <RedirectContext.Provider value={context}>
       <StaticRouter basename="/nb">
-        <CompatRouter>
-          <RedirectExternal to="https://google.com/" />
-        </CompatRouter>
+        <RedirectExternal to="https://google.com/" />
       </StaticRouter>
     </RedirectContext.Provider>,
   );
@@ -61,9 +57,7 @@ test('External redirect for (memory/dom) router', () => {
 
   renderer.create(
     <MemoryRouter basename="/nb" context={context}>
-      <CompatRouter>
-        <RedirectExternal to="https://google.com/" />
-      </CompatRouter>
+      <RedirectExternal to="https://google.com/" />
     </MemoryRouter>,
   );
 

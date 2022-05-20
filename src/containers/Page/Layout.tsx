@@ -1,32 +1,27 @@
-/**
- * Copyright (c) 2018-present, NDLA.
- *
- * This source code is licensed under the GPLv3 license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-
-import { ReactNode } from 'react';
-import { Helmet } from 'react-helmet-async';
 import { PageContainer } from '@ndla/ui';
-import { useTranslation } from 'react-i18next';
 import ZendeskButton from '@ndla/zendesk';
+import { Helmet } from 'react-helmet-async';
+import { useTranslation } from 'react-i18next';
+import { matchPath, Outlet, useLocation } from 'react-router-dom';
+import Masthead from '../Masthead';
 import config from '../../config';
-import Footer from './components/Footer';
 import FeideFooter from './components/FeideFooter';
+import Footer from './components/Footer';
 
-interface Props {
-  background?: boolean;
-  ndlaFilm?: boolean;
-  children?: ReactNode;
-}
-
-export const Page = ({ children, background = true, ndlaFilm }: Props) => {
+const Layout = () => {
   const { t, i18n } = useTranslation();
+  const { pathname } = useLocation();
   const zendeskLanguage =
     i18n.language === 'nb' || i18n.language === 'nn' ? 'no' : i18n.language;
+  const ndlaFilm = pathname.startsWith('/subject:20');
+  const showMasthead = pathname !== '/';
+  const backgroundWide = !!matchPath(
+    '/learningpaths/:learningpathId',
+    pathname,
+  );
+
   return (
-    <PageContainer backgroundWide={background} ndlaFilm={ndlaFilm}>
+    <PageContainer backgroundWide={backgroundWide} ndlaFilm={ndlaFilm}>
       <Helmet
         htmlAttributes={{ lang: i18n.language }}
         title="NDLA"
@@ -35,7 +30,8 @@ export const Page = ({ children, background = true, ndlaFilm }: Props) => {
       <Helmet>
         <meta property="fb:app_id" content="115263542481787" />
       </Helmet>
-      {children}
+      {showMasthead && <Masthead />}
+      <Outlet />
       <Footer inverted={ndlaFilm} />
       {config.feideEnabled && <FeideFooter />}
       {config.zendeskWidgetKey && (
@@ -48,5 +44,4 @@ export const Page = ({ children, background = true, ndlaFilm }: Props) => {
     </PageContainer>
   );
 };
-
-export default Page;
+export default Layout;
