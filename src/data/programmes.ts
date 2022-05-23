@@ -1865,6 +1865,9 @@ export const programmes: ProgrammeType[] = [
               {
                 id: 'urn:subject:1:cd3a3bb8-eed2-4d02-8c21-b3dca5a2a11b',
               },
+              {
+                id: 'urn:subject:b0fb73bc-fc75-4be1-9b24-605d9de0f469',
+              },
             ],
           },
           {
