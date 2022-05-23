@@ -24,7 +24,6 @@ interface Props {
     resourceId?: string,
   ) => void;
   searchFieldComponent: ReactNode;
-  ndlaFilm?: boolean;
   subjectCategories: {
     name: string;
     subjects: ProgramSubjectType[];
@@ -36,7 +35,6 @@ interface Props {
 
 const MastheadMenu = ({
   onDataFetch,
-  ndlaFilm,
   searchFieldComponent,
   topicResourcesByType,
   subject,
@@ -94,7 +92,7 @@ const MastheadMenu = ({
   };
 
   return (
-    <MastheadMenuModal ndlaFilm={ndlaFilm}>
+    <MastheadMenuModal>
       {(onClose: () => void) => (
         <MastheadTopics
           onClose={onClose}

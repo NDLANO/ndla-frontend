@@ -20,7 +20,7 @@ import {
   RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
   RESOURCE_TYPE_LEARNING_PATH,
 } from '../../../constants';
-import { toSearch } from '../../../routeHelpers';
+import { toSearch, useIsNdlaFilm } from '../../../routeHelpers';
 import {
   GQLGroupSearchQuery,
   GQLGroupSearchQueryVariables,
@@ -32,14 +32,10 @@ const debounceCall = debounce((fun: (func?: Function) => void) => fun(), 250);
 interface Props {
   hideOnNarrowScreen?: boolean;
   subject?: GQLMastHeadQuery['subject'];
-  ndlaFilm?: boolean;
 }
 
-const MastheadSearch = ({
-  hideOnNarrowScreen = false,
-  ndlaFilm,
-  subject,
-}: Props) => {
+const MastheadSearch = ({ hideOnNarrowScreen = false, subject }: Props) => {
+  const ndlaFilm = useIsNdlaFilm();
   const navigate = useNavigate();
   const { t } = useTranslation();
   const inputRef = useRef(null);

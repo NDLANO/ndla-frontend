@@ -92,7 +92,6 @@ const PlainLearningpathContainer = ({
         skipToContentId={skipToContentId}
         onKeyUpEvent={onKeyUpEvent}
         locale={i18n.language}
-        ndlaFilm={false}
         breadcrumbItems={[]}
       />
     </div>

@@ -14,7 +14,7 @@ import { ContentPlaceholder } from '@ndla/ui';
 import SubjectContainer, {
   subjectContainerFragments,
 } from './SubjectContainer';
-import { useSubjectType, useUrnIds } from '../../routeHelpers';
+import { useUrnIds } from '../../routeHelpers';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { useGraphQuery } from '../../util/runQueries';
@@ -60,7 +60,6 @@ const SubjectPage = () => {
   const { user } = useContext(AuthContext);
   const { subjectId, topicId, topicList } = useUrnIds();
   const { i18n } = useTranslation();
-  const subjectType = useSubjectType();
 
   const initialLoad = useRef(true);
   const isFirstRenderWithTopicId = () => initialLoad.current && !!topicId;
@@ -114,7 +113,6 @@ const SubjectPage = () => {
   return (
     <SubjectContainer
       locale={i18n.language}
-      ndlaFilm={subjectType === 'film'}
       subjectId={subjectId}
       topicIds={topicList}
       subject={data.subject}

@@ -53,7 +53,6 @@ interface Props extends WithTranslation {
   subject?: GQLArticlePage_SubjectFragment;
   resourceTypes?: GQLArticlePage_ResourceTypeFragment[];
   errors?: readonly GraphQLError[];
-  ndlaFilm: boolean;
   loading?: boolean;
   user?: FeideUserWithGroups;
   skipToContentId?: string;
@@ -66,7 +65,6 @@ const ArticlePage = ({
   subject,
   topicPath,
   errors,
-  ndlaFilm,
   i18n,
   t,
   skipToContentId,
@@ -102,13 +100,7 @@ const ArticlePage = ({
         <ArticleErrorMessage
           //@ts-ignore
           status={error?.status}>
-          {topic && (
-            <Resources
-              topic={topic}
-              resourceTypes={resourceTypes}
-              ndlaFilm={ndlaFilm}
-            />
-          )}
+          {topic && <Resources topic={topic} resourceTypes={resourceTypes} />}
         </ArticleErrorMessage>
       </div>
     );
@@ -133,7 +125,6 @@ const ArticlePage = ({
   return (
     <div>
       <ArticleHero
-        ndlaFilm={ndlaFilm}
         subject={subject}
         resourceType={resourceType}
         metaImage={article.metaImage}
@@ -180,11 +171,7 @@ const ArticlePage = ({
         />
         {topic && (
           <LayoutItem layout="extend">
-            <Resources
-              topic={topic}
-              resourceTypes={resourceTypes}
-              ndlaFilm={ndlaFilm}
-            />
+            <Resources topic={topic} resourceTypes={resourceTypes} />
           </LayoutItem>
         )}
       </OneColumn>

@@ -106,6 +106,11 @@ export const useSubjectType = (): SubjectType => {
   return undefined;
 };
 
+export const useIsNdlaFilm = () => {
+  const subjectType = useSubjectType();
+  return subjectType === 'film';
+};
+
 function toLearningpaths() {
   return '/learningpaths';
 }

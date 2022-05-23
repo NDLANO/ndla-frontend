@@ -43,13 +43,13 @@ import {
   TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE,
 } from '../../constants';
+import { useIsNdlaFilm } from '../../routeHelpers';
 
 type Props = {
   locale: LocaleType;
   subjectId: string;
   topicIds: string[];
   subject: GQLSubjectContainer_SubjectFragment;
-  ndlaFilm?: boolean;
   loading?: boolean;
   user?: FeideUserWithGroups;
 } & WithTranslation;
@@ -91,8 +91,8 @@ const SubjectContainer = ({
   subjectId,
   topicIds,
   subject,
-  ndlaFilm,
 }: Props) => {
+  const ndlaFilm = useIsNdlaFilm();
   const { name: subjectName } = subject;
 
   const metaDescription = subject.subjectpage?.metaDescription;
@@ -283,7 +283,6 @@ const SubjectContainer = ({
             <SubjectPageContent
               locale={locale}
               subject={subject}
-              ndlaFilm={ndlaFilm}
               topicIds={topicIds}
               refs={topicRefs}
               setBreadCrumb={setBreadCrumb}

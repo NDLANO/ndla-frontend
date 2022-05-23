@@ -7,13 +7,14 @@ import Masthead from '../Masthead';
 import config from '../../config';
 import FeideFooter from './components/FeideFooter';
 import Footer from './components/Footer';
+import { useIsNdlaFilm } from '../../routeHelpers';
 
 const Layout = () => {
   const { t, i18n } = useTranslation();
   const { pathname } = useLocation();
   const zendeskLanguage =
     i18n.language === 'nb' || i18n.language === 'nn' ? 'no' : i18n.language;
-  const ndlaFilm = pathname.startsWith('/subject:20');
+  const ndlaFilm = useIsNdlaFilm();
   const showMasthead = pathname !== '/';
   const backgroundWide = !!matchPath(
     '/learningpaths/:learningpathId',
@@ -32,7 +33,7 @@ const Layout = () => {
       </Helmet>
       {showMasthead && <Masthead />}
       <Outlet />
-      <Footer inverted={ndlaFilm} />
+      <Footer />
       {config.feideEnabled && <FeideFooter />}
       {config.zendeskWidgetKey && (
         <ZendeskButton

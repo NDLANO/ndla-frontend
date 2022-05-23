@@ -23,6 +23,7 @@ import { useTranslation } from 'react-i18next';
 import {
   getInitialMastheadMenu,
   toBreadcrumbItems,
+  useIsNdlaFilm,
   useSubjectType,
   useUrnIds,
 } from '../../routeHelpers';
@@ -64,7 +65,7 @@ const MastheadContainer = () => {
   const { subjectId, resourceId, topicId, programme } = useUrnIds();
   const subjectType = useSubjectType();
   const location = useLocation();
-  const ndlaFilm = subjectType === 'film';
+  const ndlaFilm = useIsNdlaFilm();
   const initialSelectedMenu = getInitialMastheadMenu(location.pathname);
   const hideBreadcrumb = subjectType === 'standard' && !resourceId;
 
@@ -145,7 +146,6 @@ const MastheadContainer = () => {
     (location.pathname.includes('utdanning') || subject) && (
       <MastheadSearch
         subject={subject}
-        ndlaFilm={ndlaFilm}
         hideOnNarrowScreen={hideOnNarrowScreen}
       />
     );
@@ -167,7 +167,6 @@ const MastheadContainer = () => {
         <MastheadItem left>
           <MastheadMenu
             subject={subject}
-            ndlaFilm={ndlaFilm}
             searchFieldComponent={renderSearchComponent(false)}
             onDataFetch={onDataFetch}
             topicResourcesByType={topicResourcesByType || []}

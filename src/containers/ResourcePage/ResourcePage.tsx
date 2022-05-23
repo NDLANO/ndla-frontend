@@ -14,7 +14,7 @@ import { useTranslation } from 'react-i18next';
 import { ContentPlaceholder } from '@ndla/ui';
 
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
-import { useSubjectType, useUrnIds } from '../../routeHelpers';
+import { useUrnIds } from '../../routeHelpers';
 import { getTopicPath } from '../../util/getTopicPath';
 import { isLearningPathResource } from '../Resources/resourceHelpers';
 import LearningpathPage, {
@@ -84,8 +84,6 @@ const ResourcePage = () => {
   const { t, i18n } = useTranslation();
   const { user } = useContext(AuthContext);
   const { subjectId, resourceId, topicId, stepId } = useUrnIds();
-  const subjectType = useSubjectType();
-  const ndlaFilm = subjectType === 'film';
   const location = useLocation();
   const { error, loading, data } = useGraphQuery<GQLResourcePageQuery>(
     resourcePageQuery,
@@ -134,7 +132,6 @@ const ResourcePage = () => {
     return (
       <LearningpathPage
         locale={i18n.language}
-        ndlaFilm={ndlaFilm}
         skipToContentId={SKIP_TO_CONTENT_ID}
         stepId={stepId}
         user={user}
@@ -153,7 +150,6 @@ const ResourcePage = () => {
       subject={data.subject}
       resourceTypes={data.resourceTypes}
       errors={error?.graphQLErrors}
-      ndlaFilm={ndlaFilm}
       loading={loading}
       user={user}
     />

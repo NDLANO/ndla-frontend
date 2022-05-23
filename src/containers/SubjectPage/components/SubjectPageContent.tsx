@@ -11,7 +11,7 @@ import { RefObject, useEffect } from 'react';
 import { NavigationBox } from '@ndla/ui';
 import { RELEVANCE_SUPPLEMENTARY } from '../../../constants';
 import { scrollToRef } from '../subjectPageHelpers';
-import { toTopic } from '../../../routeHelpers';
+import { toTopic, useIsNdlaFilm } from '../../../routeHelpers';
 import TopicWrapper from './TopicWrapper';
 import { BreadcrumbItem, LocaleType } from '../../../interfaces';
 import { GQLSubjectPageContent_SubjectFragment } from '../../../graphqlTypes';
@@ -19,7 +19,6 @@ import { GQLSubjectPageContent_SubjectFragment } from '../../../graphqlTypes';
 interface Props {
   subject: GQLSubjectPageContent_SubjectFragment;
   locale: LocaleType;
-  ndlaFilm?: boolean;
   topicIds: Array<string>;
   refs: Array<RefObject<HTMLDivElement>>;
   setBreadCrumb: (topic: BreadcrumbItem) => void;
@@ -28,11 +27,11 @@ interface Props {
 const SubjectPageContent = ({
   subject,
   locale,
-  ndlaFilm,
   topicIds,
   refs,
   setBreadCrumb,
 }: Props) => {
+  const ndlaFilm = useIsNdlaFilm();
   useEffect(() => {
     if (topicIds.length) scrollToRef(refs[topicIds.length - 1]!);
   }, [topicIds]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -64,7 +63,6 @@ const SubjectPageContent = ({
               setBreadCrumb={setBreadCrumb}
               subTopicId={topicIds[index + 1]}
               locale={locale}
-              ndlaFilm={ndlaFilm}
               index={index}
               showResources={!topicIds[index + 1]}
               subject={subject}

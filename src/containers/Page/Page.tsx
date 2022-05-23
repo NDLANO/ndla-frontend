@@ -14,15 +14,16 @@ import ZendeskButton from '@ndla/zendesk';
 import config from '../../config';
 import Footer from './components/Footer';
 import FeideFooter from './components/FeideFooter';
+import { useIsNdlaFilm } from '../../routeHelpers';
 
 interface Props {
   background?: boolean;
-  ndlaFilm?: boolean;
   children?: ReactNode;
 }
 
-export const Page = ({ children, background = true, ndlaFilm }: Props) => {
+export const Page = ({ children, background = true }: Props) => {
   const { t, i18n } = useTranslation();
+  const ndlaFilm = useIsNdlaFilm();
   const zendeskLanguage =
     i18n.language === 'nb' || i18n.language === 'nn' ? 'no' : i18n.language;
   return (
@@ -36,7 +37,7 @@ export const Page = ({ children, background = true, ndlaFilm }: Props) => {
         <meta property="fb:app_id" content="115263542481787" />
       </Helmet>
       {children}
-      <Footer inverted={ndlaFilm} />
+      <Footer />
       {config.feideEnabled && <FeideFooter />}
       {config.zendeskWidgetKey && (
         <ZendeskButton

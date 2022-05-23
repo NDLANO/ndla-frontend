@@ -11,21 +11,19 @@ import { Footer, LanguageSelector, FooterText, EditorName } from '@ndla/ui';
 import { Facebook, Twitter, EmailOutline, Youtube } from '@ndla/icons/common';
 import { useTranslation } from 'react-i18next';
 import { getLocaleUrls } from '../../../util/localeHelpers';
+import { useIsNdlaFilm } from '../../../routeHelpers';
 
-interface Props {
-  inverted?: boolean;
-}
-
-const FooterWrapper = ({ inverted }: Props) => {
+const FooterWrapper = () => {
   const location = useLocation();
   const { t, i18n } = useTranslation();
+  const ndlaFilm = useIsNdlaFilm();
 
   const languageSelector = (
     <LanguageSelector
       center
       outline
       alwaysVisible
-      inverted={inverted}
+      inverted={ndlaFilm}
       options={getLocaleUrls(i18n.language, location)}
       currentLanguage={i18n.language}
     />

@@ -18,7 +18,6 @@ type Props = {
   subjectId: string;
   subTopicId?: string;
   locale: LocaleType;
-  ndlaFilm?: boolean;
   setBreadCrumb: (item: BreadcrumbItem) => void;
   index: number;
   showResources: boolean;
@@ -44,7 +43,6 @@ const TopicWrapper = ({
   topicId,
   subjectId,
   locale,
-  ndlaFilm,
   setBreadCrumb,
   showResources,
   subject,
@@ -98,7 +96,6 @@ const TopicWrapper = ({
       subjectId={subjectId}
       subTopicId={subTopicId}
       locale={locale}
-      ndlaFilm={ndlaFilm}
       showResources={showResources}
       subject={subject}
       loading={loading}

@@ -20,7 +20,7 @@ import {
   GQLResources_ResourceTypeDefinitionFragment,
   GQLResources_TopicFragment,
 } from '../../graphqlTypes';
-import { TypedParams, useTypedParams } from '../../routeHelpers';
+import { TypedParams, useIsNdlaFilm, useTypedParams } from '../../routeHelpers';
 
 interface MatchProps extends TypedParams {
   topicId?: string;
@@ -32,11 +32,11 @@ interface MatchProps extends TypedParams {
 interface Props {
   topic: GQLResources_TopicFragment;
   resourceTypes?: GQLResources_ResourceTypeDefinitionFragment[];
-  ndlaFilm?: boolean;
 }
-const Resources = ({ topic, resourceTypes, ndlaFilm }: Props) => {
+const Resources = ({ topic, resourceTypes }: Props) => {
   const params = useTypedParams<MatchProps>();
   const [showAdditionalResources, setShowAdditionalResources] = useState(false);
+  const ndlaFilm = useIsNdlaFilm();
   const { t } = useTranslation();
 
   useEffect(() => {

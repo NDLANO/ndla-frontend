@@ -17,7 +17,7 @@ import config from '../../../config';
 import { RELEVANCE_SUPPLEMENTARY } from '../../../constants';
 import ArticleContents from '../../../components/Article/ArticleContents';
 import Resources from '../../Resources/Resources';
-import { toTopic } from '../../../routeHelpers';
+import { toTopic, useIsNdlaFilm } from '../../../routeHelpers';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import { htmlTitle } from '../../../util/titleHelper';
 import {
@@ -52,7 +52,6 @@ type Props = {
   subjectId: string;
   subTopicId?: string;
   locale: LocaleType;
-  ndlaFilm?: boolean;
   index?: number;
   showResources?: boolean;
   subject?: GQLTopic_SubjectFragment;
@@ -67,7 +66,6 @@ const Topic = ({
   subjectId,
   locale,
   subTopicId,
-  ndlaFilm,
   topic,
   resourceTypes,
 }: Props) => {
@@ -78,6 +76,7 @@ const Topic = ({
     md.block.ruler.disable(['list']);
     return md;
   }, []);
+  const ndlaFilm = useIsNdlaFilm();
   const renderMarkdown = (text: string) => markdown.render(text);
 
   useEffect(() => {
@@ -121,11 +120,7 @@ const Topic = ({
           }
         : undefined,
       resources: topic.subtopics ? (
-        <Resources
-          topic={topic}
-          resourceTypes={resourceTypes}
-          ndlaFilm={ndlaFilm}
-        />
+        <Resources topic={topic} resourceTypes={resourceTypes} />
       ) : (
         undefined
       ),
