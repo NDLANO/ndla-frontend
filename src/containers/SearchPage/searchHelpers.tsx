@@ -8,7 +8,6 @@ import {
   resourceTypeMapping,
 } from '../../util/getContentType';
 import LtiEmbed from '../../lti/LtiEmbed';
-import { parseAndMatchUrl } from '../../util/urlHelper';
 import { getSubjectLongName, getSubjectById } from '../../data/subjects';
 import { programmes } from '../../data/programmes';
 import { LocaleType, LtiData } from '../../interfaces';
@@ -119,29 +118,6 @@ export const convertProgramSearchParams = (
   };
 };
 
-const getResultUrl = (
-  id: string | number,
-  url: string | { href: string },
-  isLti: boolean,
-) => {
-  if (typeof url !== 'string' || !isLti) {
-    return url;
-  }
-
-  const parsedUrl = parseAndMatchUrl<{ topicId?: string; resourceId: string }>(
-    url,
-  );
-  if (!parsedUrl) {
-    return url;
-  }
-  const {
-    params: { topicId, resourceId },
-  } = parsedUrl;
-  const urnId =
-    topicId && !resourceId ? `urn:${topicId}` : `urn:resource:${resourceId}`;
-  return `/article-iframe/${urnId}/${id}`;
-};
-
 interface ResultBase {
   id: number | string;
   title?: string;
@@ -158,13 +134,12 @@ export const resultsWithContentTypeBadgeAndImage = <T extends ResultBase>(
   t: TFunction,
   includeEmbedButton?: boolean,
   ltiData?: LtiData,
-  isLti = false,
 ) =>
   results.map(result => {
-    const { id, url, contentType, metaImage } = result;
+    const { url, contentType, metaImage } = result;
     return {
       ...result,
-      url: getResultUrl(id, url, isLti),
+      url,
       contenttypeicon: (
         // defaults to empty div if contentType is undefined.
         <ContentTypeBadge type={contentType ?? ''} size="x-small" background />
