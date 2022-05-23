@@ -1511,6 +1511,19 @@ export const activeSubjects = [
     id: 'urn:subject:1:fdefda2a-7d3a-4749-92cf-24ad466a20db',
   },
   {
+    longName: {
+      en: 'Yrkesfaglig fordypning (RM-RMF vg1)',
+      nb: 'Yrkesfaglig fordypning (RM-RMF vg1)',
+      nn: 'Yrkesfagleg fordjuping (RM-RMF vg1)',
+    },
+    name: {
+      en: 'Yrkesfaglig fordypning',
+      nb: 'Yrkesfaglig fordypning',
+      nn: 'Yrkesfagleg fordjuping',
+    },
+    id: 'urn:subject:b0fb73bc-fc75-4be1-9b24-605d9de0f469',
+  },
+  {
     name: {
       nb: 'Virksomhetsstøtte (Utgått)',
       nn: 'Verksemdsstøtte (Utgått)',
