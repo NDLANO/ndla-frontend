@@ -71,7 +71,7 @@ async function doRenderPage(req: Request, initialProps: InitialProps) {
         <RedirectContext.Provider value={context}>
           <ApolloProvider client={client}>
             <CacheProvider value={cache}>
-              <StaticRouter basename={initialProps.basename} location={req.url}>
+              <StaticRouter location={req.url}>
                 <IframePageContainer {...initialProps} />
               </StaticRouter>
             </CacheProvider>

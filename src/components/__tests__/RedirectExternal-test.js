@@ -33,7 +33,7 @@ test('External redirect for static router with basename', () => {
   const context = {};
   renderer.create(
     <RedirectContext.Provider value={context}>
-      <StaticRouter basename="/nb">
+      <StaticRouter basename="nb" location={'/nb'}>
         <RedirectExternal to="https://google.com/" />
       </StaticRouter>
     </RedirectContext.Provider>,
@@ -56,7 +56,7 @@ test('External redirect for (memory/dom) router', () => {
   };
 
   renderer.create(
-    <MemoryRouter basename="/nb" context={context}>
+    <MemoryRouter basename="nb" context={context} initialEntries={['/nb']}>
       <RedirectExternal to="https://google.com/" />
     </MemoryRouter>,
   );

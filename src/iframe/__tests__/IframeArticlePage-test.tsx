@@ -212,7 +212,12 @@ test('IframePage with article displays error message on status === error', () =>
   const component = renderer.create(
     <MockedProvider mocks={[]}>
       <HelmetProvider>
-        <StaticRouter>
+        <StaticRouter
+          location={{
+            pathname: '/article-iframe/urn:resource:1/128',
+            search: 'asd',
+            hash: '',
+          }}>
           <IframePageContainer locale={'nb'} status="error" />
         </StaticRouter>
       </HelmetProvider>

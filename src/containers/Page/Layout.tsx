@@ -1,4 +1,4 @@
-import { PageContainer } from '@ndla/ui';
+import { Content, PageContainer } from '@ndla/ui';
 import ZendeskButton from '@ndla/zendesk';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
@@ -32,7 +32,9 @@ const Layout = () => {
         <meta property="fb:app_id" content="115263542481787" />
       </Helmet>
       {showMasthead && <Masthead />}
-      <Outlet />
+      <Content>
+        <Outlet />
+      </Content>
       <Footer />
       {config.feideEnabled && <FeideFooter />}
       {config.zendeskWidgetKey && (
