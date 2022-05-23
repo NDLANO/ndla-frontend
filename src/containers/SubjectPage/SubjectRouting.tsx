@@ -1,5 +1,5 @@
 import { Navigate } from 'react-router-dom';
-import { useSubjectType, useUrnIds } from '../../routeHelpers';
+import { useUrnIds } from '../../routeHelpers';
 import NdlaFilm from '../FilmFrontpage/NdlaFilmFrontpage';
 import MultidisciplinarySubjectArticlePage from '../MultidisciplinarySubject/MultidisciplinarySubjectArticlePage';
 import MultidisciplinarySubjectPage from '../MultidisciplinarySubject/MultidisciplinarySubjectPage';
@@ -7,8 +7,7 @@ import ToolboxSubjectPage from '../ToolboxSubject/ToolboxSubjectPage';
 import SubjectPage from './SubjectPage';
 
 const SubjectRouting = () => {
-  const subjectType = useSubjectType();
-  const { topicList } = useUrnIds();
+  const { topicList, subjectType } = useUrnIds();
 
   if (subjectType === 'standard') {
     return <SubjectPage />;

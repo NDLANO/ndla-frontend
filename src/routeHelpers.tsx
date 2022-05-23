@@ -77,6 +77,7 @@ export const useUrnIds = () => {
     topicId: topicList[topicList.length - 1],
     programme: params.programme,
     stepId: params.stepId,
+    subjectType: subjectId ? getSubjectType(subjectId) : undefined,
   };
 };
 
@@ -87,9 +88,7 @@ type SubjectType =
   | 'film'
   | undefined;
 
-export const useSubjectType = (): SubjectType => {
-  const { subjectId } = useUrnIds();
-
+export const getSubjectType = (subjectId: string): SubjectType => {
   if (subjectId === MULTIDISCIPLINARY_SUBJECT_ID) {
     return 'multiDisciplinary';
   } else if (
@@ -107,7 +106,7 @@ export const useSubjectType = (): SubjectType => {
 };
 
 export const useIsNdlaFilm = () => {
-  const subjectType = useSubjectType();
+  const { subjectType } = useUrnIds();
   return subjectType === 'film';
 };
 

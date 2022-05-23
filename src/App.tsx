@@ -6,7 +6,7 @@
  *
  */
 
-import { ErrorInfo, Component } from 'react';
+import { ErrorInfo, Component, ReactNode } from 'react';
 import { Outlet, Route, Routes } from 'react-router-dom';
 import { History } from 'history';
 import { configureTracker } from '@ndla/tracker';
@@ -36,127 +36,6 @@ import LogoutProviders from './containers/Logout/LogoutProviders';
 import LoginProviders from './containers/Login/LoginProviders';
 import LoginSuccess from './containers/Login/LoginSuccess';
 import LoginFailure from './containers/Login/LoginFailure';
-// interface NDLARouteProps extends RouteProps {
-//   isCompat?: boolean;
-//   initialProps?: InitialProps;
-//   locale: LocaleType;
-//   background: boolean;
-//   hideMasthead?: boolean;
-//   ndlaFilm?: boolean;
-//   skipToContent?: string;
-//   hideBreadcrumb?: boolean;
-//   initialSelectMenu?: string;
-//   component: ComponentType<RootComponentProps>;
-// }
-
-// const NDLARoute = ({
-//   component: Component,
-//   initialProps,
-//   locale,
-//   background,
-//   hideMasthead,
-//   ndlaFilm,
-//   skipToContent,
-//   location,
-//   hideBreadcrumb,
-//   initialSelectMenu,
-//   isCompat,
-//   ...rest
-// }: NDLARouteProps) => {
-//   return (
-//     <Route
-//       location={location}
-//       {...rest}
-//       render={(props: RouteComponentProps) => {
-//         return (
-//           <Page background={background} ndlaFilm={ndlaFilm}>
-//             {!hideMasthead && (
-//               <Masthead
-//                 skipToMainContentId={SKIP_TO_CONTENT_ID}
-//                 locale={locale}
-//                 ndlaFilm={ndlaFilm}
-//                 hideBreadcrumb={hideBreadcrumb}
-//                 initialSelectMenu={initialSelectMenu}
-//                 {...props}
-//               />
-//             )}
-//             <Content>
-//               <Component
-//                 {...props}
-//                 locale={locale}
-//                 ndlaFilm={ndlaFilm}
-//                 skipToContentId={SKIP_TO_CONTENT_ID}
-//                 {...initialProps}
-//               />
-//             </Content>
-//           </Page>
-//         );
-//       }}
-//     />
-//   );
-// };
-
-// async function loadInitialProps(pathname: string, ctx: AppProps) {
-//   const promises: any[] = [];
-//   routes.some((route: RouteType) => {
-//     const match = matchPath(pathname, route);
-//     // @ts-ignore
-//     if (match && route.component.getInitialProps) {
-//       // @ts-ignore
-//       promises.push(route.component.getInitialProps({ match, ...ctx }));
-//     }
-//     return !!match;
-//   });
-//   return Promise.all(promises);
-// }
-
-// interface MatchParams {
-//   topicId?: string;
-//   topic1?: string;
-//   topicPath?: string;
-// }
-
-// const isSearchUpdate = (prevLocation: H.Location, nextLocation: H.Location) => {
-//   if (
-//     nextLocation.pathname === '/search' &&
-//     prevLocation.pathname === '/search'
-//   ) {
-//     return true;
-//   }
-//   return false;
-// };
-
-// function shouldScrollToTop(location: H.Location) {
-//   const multiMatch = matchPath<MatchParams>(
-//     location.pathname,
-//     MULTIDISCIPLINARY_SUBJECT_ARTICLE_PAGE_PATH,
-//   );
-//   if (multiMatch?.isExact) {
-//     return (
-//       multiMatch?.params?.topicId || multiMatch?.params?.topic1 === undefined
-//     );
-//   }
-//   const subjectMatch = matchPath<MatchParams>(
-//     location.pathname,
-//     SUBJECT_PAGE_PATH,
-//   );
-//   if (subjectMatch?.isExact) {
-//     return (
-//       !subjectMatch?.params?.topicPath ||
-//       subjectMatch?.params?.topicPath?.includes('resource:')
-//     );
-//   }
-//   return true;
-// }
-
-// interface AppProps extends RouteComponentProps, WithTranslation {
-//   isClient: boolean;
-//   initialProps: InitialProps;
-//   locale?: LocaleType;
-//   client: ApolloClient<object>;
-//   base?: string;
-//   versionHash?: string;
-// }
 
 interface State {
   hasError: boolean;
@@ -200,77 +79,79 @@ class App extends Component<AppProps, State> {
     this.setState({ hasError: true });
   }
 
-  render() {
+  render(): ReactNode {
     if (this.state.hasError) {
       return <ErrorPage />;
     }
-    return (
-      <AlertsProvider>
-        <BaseNameProvider value={this.props.locale}>
-          <AuthenticationContext>
-            <Routes>
-              <Route path="/" element={<Layout />}>
-                <Route index element={<WelcomePage />} />
-                {config?.feideEnabled && (
-                  <>
-                    <Route path="login" element={<FeideUi />}>
-                      <Route index element={<LoginProviders />} />
-                      <Route path={'success'} element={<LoginSuccess />} />
-                      <Route path={'failure'} element={<LoginFailure />} />
-                    </Route>
-                    <Route path="logout" element={<FeideUi />}>
-                      <Route index element={<LogoutProviders />} />
-                      <Route path="session" element={<LogoutSession />} />
-                    </Route>
-                  </>
-                )}
-                <Route path="subjects" element={<AllSubjectsPage />} />
-                <Route path="search" element={<SearchPage />} />
-                <Route path="utdanning/:programme" element={<ProgrammePage />}>
-                  <Route path=":grade" />
-                </Route>
-                <Route path="podkast">
-                  <Route index element={<PodcastSeriesListPage />} />
-                  <Route path=":id" element={<PodcastSeriesPage />} />
-                </Route>
-                <Route
-                  path="article/:articleId"
-                  element={<PlainArticlePage />}
-                />
-                <Route
-                  path="learningpaths/:learningpathId"
-                  element={<PlainLearningpathPage />}>
-                  <Route path="steps/:stepId" />
-                </Route>
-                <Route path="subject:subjectId/topic:topicId/resource:resourceId">
-                  {resourceRoutes}
-                </Route>
-                <Route path="subject:subjectId/topic:topic1/topic:topicId/resource:resourceId">
-                  {resourceRoutes}
-                </Route>
-                <Route path="subject:subjectId/topic:topic1/topic:topic2/topic:topicId/resource:resourceId">
-                  {resourceRoutes}
-                </Route>
-                <Route path="subject:subjectId" element={<SubjectRouting />}>
-                  <Route path="topic:topicId" />
-                  <Route path="topic:topic1">
-                    <Route path="topic:topicId" />
-                    <Route path="topic:topic2">
-                      <Route path="topic:topicId" />
-                    </Route>
-                  </Route>
-                </Route>
-                <Route path="404" element={<NotFound />} />
-                <Route path="403" element={<AccessDenied />} />
-                <Route path="*" element={<NotFound />} />
-              </Route>
-            </Routes>
-          </AuthenticationContext>
-        </BaseNameProvider>
-      </AlertsProvider>
-    );
+
+    return <AppRoutes />;
   }
 }
+
+const AppRoutes = ({ locale }: AppProps) => {
+  return (
+    <AlertsProvider>
+      <BaseNameProvider value={locale}>
+        <AuthenticationContext>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<WelcomePage />} />
+              {config?.feideEnabled && (
+                <>
+                  <Route path="login" element={<FeideUi />}>
+                    <Route index element={<LoginProviders />} />
+                    <Route path={'success'} element={<LoginSuccess />} />
+                    <Route path={'failure'} element={<LoginFailure />} />
+                  </Route>
+                  <Route path="logout" element={<FeideUi />}>
+                    <Route index element={<LogoutProviders />} />
+                    <Route path="session" element={<LogoutSession />} />
+                  </Route>
+                </>
+              )}
+              <Route path="subjects" element={<AllSubjectsPage />} />
+              <Route path="search" element={<SearchPage />} />
+              <Route path="utdanning/:programme" element={<ProgrammePage />}>
+                <Route path=":grade" element={null} />
+              </Route>
+              <Route path="podkast" element={null}>
+                <Route index element={<PodcastSeriesListPage />} />
+                <Route path=":id" element={<PodcastSeriesPage />} />
+              </Route>
+              <Route path="article/:articleId" element={<PlainArticlePage />} />
+              <Route
+                path="learningpaths/:learningpathId"
+                element={<PlainLearningpathPage />}>
+                <Route path="steps/:stepId" element={null} />
+              </Route>
+              <Route path="subject:subjectId/topic:topicId/resource:resourceId">
+                {resourceRoutes}
+              </Route>
+              <Route path="subject:subjectId/topic:topic1/topic:topicId/resource:resourceId">
+                {resourceRoutes}
+              </Route>
+              <Route path="subject:subjectId/topic:topic1/topic:topic2/topic:topicId/resource:resourceId">
+                {resourceRoutes}
+              </Route>
+              <Route path="subject:subjectId" element={<SubjectRouting />}>
+                <Route path="topic:topicId" element={null} />
+                <Route path="topic:topic1" element={null}>
+                  <Route path="topic:topicId" element={null} />
+                  <Route path="topic:topic2" element={null}>
+                    <Route path="topic:topicId" element={null} />
+                  </Route>
+                </Route>
+              </Route>
+              <Route path="404" element={<NotFound />} />
+              <Route path="403" element={<AccessDenied />} />
+              <Route path="*" element={<NotFound />} />
+            </Route>
+          </Routes>
+        </AuthenticationContext>
+      </BaseNameProvider>
+    </AlertsProvider>
+  );
+};
 
 interface AppProps {
   locale?: LocaleType;

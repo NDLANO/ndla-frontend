@@ -24,7 +24,6 @@ import {
   getInitialMastheadMenu,
   toBreadcrumbItems,
   useIsNdlaFilm,
-  useSubjectType,
   useUrnIds,
 } from '../../routeHelpers';
 
@@ -62,8 +61,13 @@ const MastheadContainer = () => {
   const [state, setState] = useState<State>({});
   const { t, i18n } = useTranslation();
   const locale = i18n.language;
-  const { subjectId, resourceId, topicId, programme } = useUrnIds();
-  const subjectType = useSubjectType();
+  const {
+    subjectId,
+    resourceId,
+    topicId,
+    programme,
+    subjectType,
+  } = useUrnIds();
   const location = useLocation();
   const ndlaFilm = useIsNdlaFilm();
   const initialSelectedMenu = getInitialMastheadMenu(location.pathname);
