@@ -15,8 +15,9 @@ import {
   createRef,
   MouseEvent,
 } from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import {
+  constants,
   ArticleHeaderWrapper,
   OneColumn,
   SubjectBanner,
@@ -41,6 +42,10 @@ import { htmlTitle } from '../../util/titleHelper';
 import { BreadcrumbItem, LocaleType } from '../../interfaces';
 import { GQLSubjectContainer_SubjectFragment } from '../../graphqlTypes';
 import { FeideUserWithGroups } from '../../util/feideApi';
+import {
+  TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
+  TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE,
+} from '../../constants';
 
 type Props = {
   locale: LocaleType;
@@ -58,12 +63,28 @@ const getSubjectCategoryMessage = (
   subjectCategory: string | undefined,
   t: TFunction,
 ): string | undefined => {
-  if (!subjectCategory || subjectCategory === 'active') {
+  if (
+    !subjectCategory ||
+    subjectCategory === constants.subjectCategories.ACTIVE_SUBJECTS
+  ) {
     return undefined;
-  } else if (subjectCategory === 'beta') {
+  } else if (subjectCategory === constants.subjectCategories.BETA_SUBJECTS) {
     return t('messageBoxInfo.subjectBeta');
-  } else if (subjectCategory === 'archive') {
+  } else if (subjectCategory === constants.subjectCategories.ARCHIVE_SUBJECTS) {
     return t('messageBoxInfo.subjectOutdated');
+  } else {
+    return undefined;
+  }
+};
+
+const getSubjectTypeMessage = (
+  subjectType: string | undefined,
+  t: TFunction,
+): string | undefined => {
+  if (!subjectType || subjectType === constants.subjectTypes.SUBJECT) {
+    return undefined;
+  } else if (subjectType === constants.subjectTypes.RESOURCE_COLLECTION) {
+    return t('messageBoxInfo.resources');
   } else {
     return undefined;
   }
@@ -227,7 +248,12 @@ const SubjectContainer = ({
     topicsOnPage[topicsOnPage.length - 1]?.supportedLanguages;
 
   const nonRegularSubjectMessage = getSubjectCategoryMessage(
-    subject.metadata.customFields['subjectCategory'],
+    subject.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY],
+    t,
+  );
+
+  const nonRegularSubjectTypeMessage = getSubjectTypeMessage(
+    subject.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE],
     t,
   );
 
@@ -262,6 +288,9 @@ const SubjectContainer = ({
             </div>
             {nonRegularSubjectMessage && (
               <MessageBox>{nonRegularSubjectMessage}</MessageBox>
+            )}
+            {nonRegularSubjectTypeMessage && (
+              <MessageBox>{nonRegularSubjectTypeMessage}</MessageBox>
             )}
             <SubjectPageContent
               locale={locale}

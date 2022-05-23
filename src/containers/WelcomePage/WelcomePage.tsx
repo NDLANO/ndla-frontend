@@ -6,6 +6,7 @@
  *
  */
 
+import styled from '@emotion/styled';
 import { HelmetWithTracker } from '@ndla/tracker';
 import {
   FrontpageHeader,
@@ -15,11 +16,13 @@ import {
   FrontpageMultidisciplinarySubject,
   MessageBox,
   MessageBoxType,
+  BannerCard,
 } from '@ndla/ui';
+import { spacing } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import WelcomePageInfo from './WelcomePageInfo';
 import FrontpageSubjects from './FrontpageSubjects';
-import { FILM_PAGE_PATH } from '../../constants';
+import { FILM_PAGE_PATH, UKR_PAGE_PATH } from '../../constants';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import config from '../../config';
 import BlogPosts from './BlogPosts';
@@ -64,6 +67,10 @@ const getMultidisciplinaryTopics = (locale: LocaleType) => {
       };
     });
 };
+
+const BannerCardWrapper = styled.div`
+  padding-bottom: ${spacing.large};
+`;
 
 interface Props {
   locale: LocaleType;
@@ -124,6 +131,18 @@ const WelcomePage = ({ locale, skipToContentId }: Props) => {
       </FrontpageHeader>
       <main>
         <OneColumn extraPadding>
+          <BannerCardWrapper>
+            <BannerCard
+              link={UKR_PAGE_PATH}
+              title="Lær om det norske samfunnet - på ukrainsk"
+              content="Дізнайтеся про норвезьке суспільство – українською"
+              linkText="Learn about Norwegian society - in Ukrainian"
+              image={{
+                altText: 'Ukrainian flag',
+                imageSrc: '/static/flag_of_ukraine.svg',
+              }}
+            />
+          </BannerCardWrapper>
           <div data-testid="category-list" id={skipToContentId}>
             <FrontpageSubjects locale={locale} />
           </div>

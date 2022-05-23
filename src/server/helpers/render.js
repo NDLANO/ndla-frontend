@@ -9,7 +9,6 @@
 import { renderToString, renderToStaticMarkup } from 'react-dom/server';
 import { renderToStringWithData } from '@apollo/client/react/ssr';
 import { resetIdCounter } from '@ndla/tabs';
-import { Helmet } from 'react-helmet';
 import createEmotionServer from 'create-emotion-server';
 import { OK, MOVED_PERMANENTLY } from '../../statusCodes';
 
@@ -21,10 +20,8 @@ export function renderPage(Page, assets, data = {}, cache) {
   if (cache) {
     const { extractCritical } = createEmotionServer(cache);
     const { html, css, ids } = extractCritical(renderToString(Page));
-    const helmet = Helmet.renderStatic();
     return {
       html,
-      helmet,
       assets,
       css,
       ids,
@@ -37,10 +34,8 @@ export function renderPage(Page, assets, data = {}, cache) {
     };
   }
   const html = renderToString(Page);
-  const helmet = Helmet.renderStatic();
   return {
     html,
-    helmet,
     assets,
     // Following is serialized to window.DATA
     data: {
@@ -66,10 +61,8 @@ export async function renderPageWithData(
     );
 
     const apolloState = client?.extract();
-    const helmet = Helmet.renderStatic();
     return {
       html,
-      helmet,
       assets,
       css,
       ids,
@@ -84,10 +77,8 @@ export async function renderPageWithData(
   }
   const html = await renderToStringWithData(Page);
   const apolloState = client?.extract();
-  const helmet = Helmet.renderStatic();
   return {
     html,
-    helmet,
     assets,
     // Following is serialized to window.DATA
     data: {
@@ -99,8 +90,10 @@ export async function renderPageWithData(
   };
 }
 
-export async function renderHtml(req, html, context, props) {
-  const doc = renderToStaticMarkup(<Document {...props} />);
+export async function renderHtml(req, html, context, props, helmetContext) {
+  const doc = renderToStaticMarkup(
+    <Document {...props} helmet={helmetContext.helmet} />,
+  );
 
   if (context.url) {
     return {

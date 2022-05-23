@@ -7,33 +7,35 @@
  */
 
 import renderer from 'react-test-renderer';
-import { Helmet } from 'react-helmet';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { PageContainer } from '@ndla/ui';
 import Document from '../Document';
 
+HelmetProvider.canUseDOM = false;
+
 test('Document renderers correctly', () => {
+  const helmetContext = {};
   // Render page with Helmet component
   renderer.create(
-    <PageContainer locale="nb" t={() => 'dummy text'}>
-      <h1>Hello World</h1>
+    <HelmetProvider context={helmetContext}>
+      <PageContainer locale="nb" t={() => 'dummy text'}>
+        <h1>Hello World</h1>
 
-      <Helmet
-        htmlAttributes={{ lang: 'nb' }}
-        title="NDLA test title"
-        meta={[{ name: 'description', content: 'NDLA meta description' }]}
-      />
-    </PageContainer>,
+        <Helmet
+          htmlAttributes={{ lang: 'nb' }}
+          title="NDLA test title"
+          meta={[{ name: 'description', content: 'NDLA meta description' }]}
+        />
+      </PageContainer>
+    </HelmetProvider>,
   );
-
-  // Pretend we are serverside and render static
-  const helmet = Helmet.renderStatic();
 
   // Create and render Document. Match snapshot of rendered document.
   const component = renderer.create(
     <Document
       locale="nb"
       data={{}}
-      helmet={helmet}
+      helmet={helmetContext.helmet}
       assets={{
         css: '/main.css',
         js: [{ src: '/client.js' }, { src: '/vendor.js' }],

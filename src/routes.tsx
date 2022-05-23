@@ -8,9 +8,6 @@
 
 import { ComponentType } from 'react';
 import { RouteProps } from 'react-router';
-import { ApolloClient } from '@apollo/client';
-import { I18nextProvider } from 'react-i18next';
-import { i18nInstance } from '@ndla/ui';
 import WelcomePage from './containers/WelcomePage/WelcomePage';
 import PlainArticlePage from './containers/PlainArticlePage/PlainArticlePage';
 import SearchPage from './containers/SearchPage/SearchPage';
@@ -23,7 +20,6 @@ import ResourcePage from './containers/ResourcePage/ResourcePage';
 import MultidisciplinarySubjectPage from './containers/MultidisciplinarySubject/MultidisciplinarySubjectPage';
 import MultidisciplinarySubjectArticlePage from './containers/MultidisciplinarySubject/MultidisciplinarySubjectArticlePage';
 import ToolboxSubjectPage from './containers/ToolboxSubject/ToolboxSubjectPage';
-import App from './App';
 import Login from './containers/Login/Login';
 import Logout from './containers/Logout/Logout';
 
@@ -34,7 +30,7 @@ import {
   PLAIN_LEARNINGPATH_PAGE_PATH,
   PLAIN_LEARNINGPATHSTEP_PAGE_PATH,
   PROGRAMME_PAGE_PATH,
-  PROGRAMME_PATH,
+  PROGRAMME_PAGE_PATH_WITH_GRADE,
   RESOURCE_PAGE_PATH,
   SEARCH_PATH,
   SUBJECTS,
@@ -46,9 +42,7 @@ import {
   TOOLBOX_STUDENT_PAGE_PATH,
 } from './constants';
 import ProgrammePage from './containers/ProgrammePage/ProgrammePage';
-import { InitialProps, LocaleType } from './interfaces';
-import ErrorBoundary from './containers/ErrorPage/ErrorBoundary';
-import { I18nWrapper } from './I18nWrapper';
+import { LocaleType } from './interfaces';
 import config from './config';
 import AccessDeniedPage from './containers/AccessDeniedPage/AccessDeniedPage';
 import PodcastSeriesListPage from './containers/PodcastPage/PodcastSeriesListPage';
@@ -65,6 +59,7 @@ export interface RouteType extends RouteProps {
   hideMasthead?: boolean;
   background?: boolean;
   initialSelectMenu?: string;
+  isCompat?: boolean;
   component: ComponentType<RootComponentProps>;
 }
 
@@ -86,24 +81,28 @@ let routeArray: RouteType[] = [
     component: PlainArticlePage,
     background: false,
     initialSelectMenu: 'programmes',
+    isCompat: true,
   },
   {
     path: PLAIN_LEARNINGPATHSTEP_PAGE_PATH,
     component: PlainLearningpathPage,
     background: false,
     initialSelectMenu: 'programmes',
+    isCompat: true,
   },
   {
     path: PLAIN_LEARNINGPATH_PAGE_PATH,
     component: PlainLearningpathPage,
     background: true,
     initialSelectMenu: 'programmes',
+    isCompat: true,
   },
   {
     path: SEARCH_PATH,
     component: SearchPage,
     background: false,
     initialSelectMenu: 'programmes',
+    isCompat: true,
   },
   {
     path: FILM_PAGE_PATH.replace(':', '\\:'),
@@ -141,33 +140,33 @@ let routeArray: RouteType[] = [
     path: SUBJECTS,
     component: AllSubjectsPage,
     background: false,
+    isCompat: true,
   },
   {
     path: PODCAST_SERIES_PAGE_PATH,
     component: PodcastSeriesPage,
     background: false,
+    isCompat: true,
   },
   {
     path: PODCAST_SERIES_LIST_PAGE_PATH,
     component: PodcastSeriesListPage,
     background: false,
+    isCompat: true,
   },
   {
-    path: `${PROGRAMME_PAGE_PATH}${SUBJECT_PAGE_PATH}`,
-    component: SubjectPage,
-    hideBreadcrumb: true,
+    path: PROGRAMME_PAGE_PATH_WITH_GRADE,
+    component: ProgrammePage,
     background: false,
+    initialSelectMenu: 'programme',
+    isCompat: true,
   },
   {
     path: PROGRAMME_PAGE_PATH,
     component: ProgrammePage,
     background: false,
     initialSelectMenu: 'programme',
-  },
-  {
-    path: PROGRAMME_PATH,
-    component: AllSubjectsPage,
-    background: false,
+    isCompat: true,
   },
 ];
 
@@ -205,36 +204,3 @@ routeArray.push(
 );
 
 export const routes = routeArray;
-
-const routesFunc = function(
-  initialProps: InitialProps,
-  client: ApolloClient<object>,
-  locale?: LocaleType,
-  isClient = false,
-) {
-  if (!isClient) {
-    i18nInstance.changeLanguage(locale);
-  }
-  const app = (
-    <App
-      initialProps={initialProps}
-      isClient={isClient}
-      client={client}
-      locale={locale}
-      key={locale}
-    />
-  );
-
-  return (
-    <ErrorBoundary>
-      <I18nextProvider i18n={i18nInstance}>
-        {isClient ? (
-          <I18nWrapper locale={locale} initialProps={initialProps} />
-        ) : (
-          app
-        )}
-      </I18nextProvider>
-    </ErrorBoundary>
-  );
-};
-export default routesFunc;

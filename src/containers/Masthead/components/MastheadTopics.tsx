@@ -1,7 +1,13 @@
 import { ReactNode } from 'react';
+import { useHistory, useParams } from 'react-router';
 //@ts-ignore
 import { TopicMenu } from '@ndla/ui';
-import { toSubject, removeUrn, toTopic } from '../../../routeHelpers';
+import {
+  toSubject,
+  removeUrn,
+  toTopic,
+  toProgramme,
+} from '../../../routeHelpers';
 import { resourceToLinkProps } from '../../Resources/resourceHelpers';
 import { mapTopicResourcesToTopic } from '../mastheadHelpers';
 import { getSubjectLongName } from '../../../data/subjects';
@@ -66,6 +72,8 @@ const MastheadTopics = ({
   subjectCategories,
   initialSelectedMenu,
 }: Props) => {
+  const history = useHistory();
+  const { grade } = useParams<{ grade?: string }>();
   const expandedTopicIds = [expandedTopicId, ...expandedSubtopicsId];
 
   const topicsWithContentTypes =
@@ -92,6 +100,15 @@ const MastheadTopics = ({
   };
   const alerts = useAlerts().map(alert => alert.body || alert.title);
 
+  const onGradeChange = (newGrade: string) => {
+    if (
+      !currentProgramme?.grades.some(g => g.name.toLowerCase() === newGrade)
+    ) {
+      return;
+    }
+    history.push(toProgramme(currentProgramme.url, newGrade));
+  };
+
   return (
     <TopicMenu
       messages={alerts}
@@ -112,6 +129,8 @@ const MastheadTopics = ({
       subjectCategories={subjectCategories}
       initialSelectedMenu={initialSelectedMenu}
       locale={locale}
+      selectedGrade={grade}
+      onGradeChange={onGradeChange}
     />
   );
 };

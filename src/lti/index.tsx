@@ -8,11 +8,25 @@
 
 import 'isomorphic-unfetch';
 import ReactDOM from 'react-dom';
+import { HelmetProvider } from 'react-helmet-async';
 import { I18nextProvider } from 'react-i18next';
 import ErrorReporter from '@ndla/error-reporter';
 import { MissingRouterContext } from '@ndla/safelink';
 import { i18nInstance } from '@ndla/ui';
 import { ApolloProvider } from '@apollo/client';
+import '@fontsource/shadows-into-light-two/index.css';
+import '@fontsource/source-sans-pro/index.css';
+import '@fontsource/source-sans-pro/400-italic.css';
+import '@fontsource/source-sans-pro/300.css';
+import '@fontsource/source-sans-pro/300-italic.css';
+import '@fontsource/source-sans-pro/600.css';
+import '@fontsource/source-sans-pro/700.css';
+import '@fontsource/source-code-pro/index.css';
+import '@fontsource/source-code-pro/400-italic.css';
+import '@fontsource/source-code-pro/700.css';
+import '@fontsource/source-serif-pro/index.css';
+import '@fontsource/source-serif-pro/400-italic.css';
+import '@fontsource/source-serif-pro/700.css';
 import { createApolloClient } from '../util/apiHelpers';
 import LtiProvider from './LtiProvider';
 import '../style/index.css';
@@ -33,13 +47,15 @@ window.errorReporter = ErrorReporter.getInstance({
 const client = createApolloClient(i18nInstance.language, document.cookie);
 
 ReactDOM.render(
-  <I18nextProvider i18n={i18nInstance}>
-    <ApolloProvider client={client}>
-      <MissingRouterContext.Provider value={true}>
-        <LtiProvider {...initialProps} />
-      </MissingRouterContext.Provider>
-    </ApolloProvider>
-  </I18nextProvider>,
+  <HelmetProvider>
+    <I18nextProvider i18n={i18nInstance}>
+      <ApolloProvider client={client}>
+        <MissingRouterContext.Provider value={true}>
+          <LtiProvider {...initialProps} />
+        </MissingRouterContext.Provider>
+      </ApolloProvider>
+    </I18nextProvider>
+  </HelmetProvider>,
   document.getElementById('root'),
 );
 
