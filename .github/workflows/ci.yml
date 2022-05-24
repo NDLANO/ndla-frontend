@@ -10,7 +10,7 @@ env:
   DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
   NDLA_RELEASES: ${{ secrets.NDLA_RELEASES }}
   GH_TOKEN: ${{ secrets.CI_NOW_GH_TOKEN }}
-  NOW_TOKEN: ${{ secrets.NOW_TOKEN }}
+  VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
   GH_PR_NUMBER: ${{ github.event.number }}
   GH_PR_REPO: ${{ github.event.pull_request.head.repo.full_name }}
   GH_PR_SHA: ${{ github.event.pull_request.head.sha }}
@@ -72,5 +72,5 @@ jobs:
       - name: 'Run e2e-ci'
         run: yarn e2e-ci
       - name: 'Deploy now build'
-        run: yarn ndla-scripts now-github
+        run: yarn ndla-scripts vercel-github
         continue-on-error: true
