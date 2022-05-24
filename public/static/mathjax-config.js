@@ -7,13 +7,12 @@
  */
 
 window.MathJax = {
-    chtml:{
-        mathmlSpacing: false
+  chtml: {
+    mathmlSpacing: false,
+  },
+  options: {
+    renderActions: {
+      addMenu: [0, '', ''],
     },
-    options:{
-        renderActions:{
-            addMenu: [0, '', '']
-        }
-    }
+  },
 };
-

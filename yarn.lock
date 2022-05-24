@@ -3094,10 +3094,10 @@
   dependencies:
     warning "^4.0.3"
 
-"@ndla/ui@^11.1.0":
-  version "11.1.0"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-11.1.0.tgz#f352b2a6619224c0a14740ae5acb8c0921f77745"
-  integrity sha512-5iD80ut85A2NW+mI2bhw9Zeteyh2NVJG+ip2UZE5zIyFQmU2YLzTmIn8J+rEzLu1uUGAMSnBBk9TvaVFGl26Ow==
+"@ndla/ui@^11.1.2":
+  version "11.1.2"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-11.1.2.tgz#0fa3b82976887458e29c6b44b30eadbd8d5425bd"
+  integrity sha512-sAHU8ZEI3l2p/GOJQP1GZgCo/QlE+srey23KmgpaalGgnGUvYRMo4sk97wEZg+K0i8VWIzyWQerLA2LTOGTopg==
   dependencies:
     "@ndla/button" "^2.2.0"
     "@ndla/carousel" "^1.2.6"
