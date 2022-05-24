@@ -24,7 +24,3 @@ mjx-container.MathJax[jax='CHTML'][display='true'] {
   margin: 0;
   max-width: -webkit-stretch;
 }
-
-mjx-stretchy-v > mjx-ext > mjx-c {
-  transform: scaleY(200) translateY(0.075em) !important;
-}
