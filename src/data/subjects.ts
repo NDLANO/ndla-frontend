@@ -2604,6 +2604,19 @@ export const archivedSubjects = [
 export const betaSubjects = [
   {
     longName: {
+      en: 'Kroppsøving (vg3)',
+      nb: 'Kroppsøving (vg3)',
+      nn: 'Kroppsøving (vg3)',
+    },
+    name: {
+      en: 'Kroppsøving',
+      nb: 'Kroppsøving',
+      nn: 'Kroppsøving',
+    },
+    id: 'urn:subject:187c1484-84a5-474d-bf63-0c7915809a7d',
+  },
+  {
+    longName: {
       en: 'Naturfag (PB) 2022/23',
       nb: 'Naturfag (PB) 2022/23',
       nn: 'Naturfag (PB) 2022/23',
