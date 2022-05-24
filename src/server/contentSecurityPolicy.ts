@@ -22,7 +22,7 @@ const connectSrc = (() => {
     'https://*.hotjar.com',
     'https://*.hotjar.com:*',
     'https://*.google-analytics.com',
-    'https://*analytics.google.com',
+    'https://*.analytics.google.com',
     'https://*.zendesk.com',
     'https://ekr.zdassets.com',
     'https://optimize.google.com',
