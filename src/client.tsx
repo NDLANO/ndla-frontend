@@ -166,11 +166,29 @@ const constructNewPath = (newLocale?: string) => {
   return `${localePrefix}${fullPath}${window.location.search}`;
 };
 
+const useReactPath = () => {
+  const [path, setPath] = useState('');
+  const listenToPopstate = () => {
+    const winPath = window.location.pathname;
+    setPath(winPath);
+  };
+  useEffect(() => {
+    window.addEventListener('popstate', listenToPopstate);
+    window.addEventListener('pushstate', listenToPopstate);
+    return () => {
+      window.removeEventListener('popstate', listenToPopstate);
+      window.removeEventListener('pushstate', listenToPopstate);
+    };
+  }, []);
+  return path;
+};
+
 const LanguageWrapper = ({ basename }: { basename?: string }) => {
   const { i18n } = useTranslation();
   const [base, setBase] = useState(basename ?? '');
   const firstRender = useRef(true);
   const client = useApolloClient();
+  const windowPath = useReactPath();
 
   i18n.on('languageChanged', lang => {
     client.resetStore();
@@ -180,7 +198,7 @@ const LanguageWrapper = ({ basename }: { basename?: string }) => {
   });
 
   // handle path changes when the language is changed
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (firstRender.current) {
       firstRender.current = false;
     } else {
@@ -190,21 +208,22 @@ const LanguageWrapper = ({ basename }: { basename?: string }) => {
   }, [i18n.language]);
 
   // handle initial redirect if URL has wrong or missing locale prefix.
-  useEffect(() => {
+  useLayoutEffect(() => {
     const storedLanguage = window.localStorage.getItem(STORED_LANGUAGE_KEY)!;
     if (storedLanguage === getDefaultLocale() && !basename) return;
     if (isValidLocale(storedLanguage) && storedLanguage === basename) {
       setBase(storedLanguage);
-      return;
     }
     if (window.location.pathname.includes('/login/success')) return;
     setBase(storedLanguage);
     window.history.replaceState('', '', constructNewPath(storedLanguage));
-  }, [basename]);
+  }, [basename, windowPath]);
 
   return (
     <NDLARouter key={base} base={base}>
-      {history => <App locale={i18n.language} history={history} isClient />}
+      {history => (
+        <App locale={i18n.language} history={history} isClient base={base} />
+      )}
     </NDLARouter>
   );
 };

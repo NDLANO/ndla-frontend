@@ -84,14 +84,14 @@ class App extends Component<AppProps, State> {
       return <ErrorPage />;
     }
 
-    return <AppRoutes />;
+    return <AppRoutes base={this.props.base} />;
   }
 }
 
-const AppRoutes = ({ locale }: AppProps) => {
+const AppRoutes = ({ base }: AppProps) => {
   return (
     <AlertsProvider>
-      <BaseNameProvider value={locale}>
+      <BaseNameProvider value={base}>
         <AuthenticationContext>
           <Routes>
             <Route path="/" element={<Layout />}>
@@ -154,6 +154,7 @@ const AppRoutes = ({ locale }: AppProps) => {
 };
 
 interface AppProps {
+  base?: string;
   locale?: LocaleType;
   history?: History;
   isClient?: boolean;
