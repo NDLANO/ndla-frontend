@@ -71,6 +71,6 @@ jobs:
         run: yarn build
       - name: 'Run e2e-ci'
         run: yarn e2e-ci
-      - name: 'Deploy now build'
+      - name: 'Deploy vercel build'
         run: yarn ndla-scripts vercel-github
         continue-on-error: true
