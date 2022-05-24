@@ -16,6 +16,45 @@ export const activeSubjects = [
   },
   {
     longName: {
+      en: 'Brukerstøtte (IM-ITK vg2)',
+      nb: 'Brukerstøtte (IM-ITK vg2)',
+      nn: 'Brukarstøtte (IM-ITK vg2)',
+    },
+    name: {
+      en: 'Brukerstøtte',
+      nb: 'Brukerstøtte',
+      nn: 'Brukarstøtte',
+    },
+    id: 'urn:subject:f41eadfa-0749-4ab4-bc17-a500adad38b8',
+  },
+  {
+    longName: {
+      en: 'Driftsstøtte (IM-ITK vg2)',
+      nb: 'Driftsstøtte (IM-ITK vg2)',
+      nn: 'Driftsstøtte (IM-ITK vg2)',
+    },
+    name: {
+      en: 'Driftsstøtte',
+      nb: 'Driftsstøtte',
+      nn: 'Driftsstøtte',
+    },
+    id: 'urn:subject:26f1cd12-4242-486d-be22-75c3750a52a2',
+  },
+  {
+    longName: {
+      en: 'Utvikling (IM-ITK vg2)',
+      nb: 'Utvikling (IM-ITK vg2)',
+      nn: 'Utvikling (IM-ITK vg2)',
+    },
+    name: {
+      en: 'Utvikling',
+      nb: 'Utvikling',
+      nn: 'Utvikling',
+    },
+    id: 'urn:subject:5e53694a-c8eb-4871-8558-71523941c28e',
+  },
+  {
+    longName: {
       en: 'Norsk (YF)',
       nb: 'Norsk (YF)',
       nn: 'Norsk (YF)',
