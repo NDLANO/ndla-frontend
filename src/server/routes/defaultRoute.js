@@ -19,7 +19,7 @@ import RedirectContext from '../../components/RedirectContext';
 import App from '../../App';
 import config from '../../config';
 import { createApolloClient } from '../../util/apiHelpers';
-import { getLocaleInfoFromPath } from '../../i18n';
+import { getLocaleInfoFromPath, initializeI18n } from '../../i18n';
 import { renderHtml, renderPageWithData } from '../helpers/render';
 import { EmotionCacheKey } from '../../constants';
 import { VersionHashProvider } from '../../components/VersionHashContext';
@@ -56,11 +56,13 @@ async function doRender(req) {
   const cache = createCache({ key: EmotionCacheKey });
   const context = {};
 
+  const i18n = initializeI18n(i18nInstance, locale);
+
   const helmetContext = {};
   const Page = !disableSSR(req) ? (
     <RedirectContext.Provider value={context}>
       <HelmetProvider context={helmetContext}>
-        <I18nextProvider i18n={i18nInstance}>
+        <I18nextProvider i18n={i18n}>
           <ApolloProvider client={client}>
             <CacheProvider value={cache}>
               <VersionHashProvider value={versionHash}>

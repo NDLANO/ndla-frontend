@@ -41,9 +41,9 @@ import {
   isValidLocale,
   supportedLanguages,
 } from './i18n';
-import { LocaleType, NDLAWindow } from './interfaces';
+import { NDLAWindow } from './interfaces';
 import './style/index.css';
-import { createApolloClient } from './util/apiHelpers';
+import { createApolloClient, createApolloLinks } from './util/apiHelpers';
 import { getDefaultLocale } from './config';
 import App from './App';
 import { VersionHashProvider } from './components/VersionHashContext';
@@ -71,12 +71,13 @@ const locationFromServer = {
   search: serverQueryString ? `?${serverQueryString}` : '',
 };
 
-const storedLanguage = window.localStorage.getItem(STORED_LANGUAGE_KEY);
-if (basename && storedLanguage !== basename && isValidLocale(basename)) {
-  window.localStorage.setItem(STORED_LANGUAGE_KEY, basename);
-} else if (storedLanguage === null || storedLanguage === undefined) {
-  window.localStorage.setItem(STORED_LANGUAGE_KEY, 'nb');
+const maybeStoredLanguage = window.localStorage.getItem(STORED_LANGUAGE_KEY);
+// Set storedLanguage to a sane value if non-existent
+if (maybeStoredLanguage === null || maybeStoredLanguage === undefined) {
+  window.localStorage.setItem(STORED_LANGUAGE_KEY, config.defaultLocale);
 }
+const storedLanguage = window.localStorage.getItem(STORED_LANGUAGE_KEY)!;
+const i18n = initializeI18n(i18nInstance, storedLanguage);
 
 window.errorReporter = ErrorReporter.getInstance({
   logglyApiKey: config.logglyApiKey,
@@ -130,7 +131,6 @@ const NDLARouter = ({ children, base }: RCProps) => {
 
   return (
     <Router
-      key={!isGoogleUrl ? base : undefined}
       basename={base}
       children={children(history)}
       location={state.location}
@@ -158,7 +158,7 @@ function removeUniversalPortals() {
     });
   }
 }
-const constructNewPath = (newLocale?: LocaleType) => {
+const constructNewPath = (newLocale?: string) => {
   const regex = new RegExp(supportedLanguages.map(l => `/${l}/`).join('|'));
   const path = window.location.pathname.replace(regex, '');
   const fullPath = path.startsWith('/') ? path : `/${path}`;
@@ -168,25 +168,16 @@ const constructNewPath = (newLocale?: LocaleType) => {
 
 const LanguageWrapper = ({ basename }: { basename?: string }) => {
   const { i18n } = useTranslation();
-  const [base, setBase] = useState('');
+  const [base, setBase] = useState(basename ?? '');
   const firstRender = useRef(true);
   const client = useApolloClient();
 
-  useEffect(() => {
-    initializeI18n(i18n, client);
-    const storedLanguage = window.localStorage.getItem(
-      STORED_LANGUAGE_KEY,
-    ) as LocaleType;
-    const defaultLanguage = getDefaultLocale() as LocaleType;
-    if (
-      (!basename && !storedLanguage) ||
-      (!basename && storedLanguage === defaultLanguage)
-    ) {
-      i18n.changeLanguage(defaultLanguage);
-    } else if (storedLanguage && isValidLocale(storedLanguage)) {
-      i18n.changeLanguage(storedLanguage);
-    }
-  }, [basename, i18n, client]);
+  i18n.on('languageChanged', lang => {
+    client.resetStore();
+    client.setLink(createApolloLinks(lang, undefined, versionHash));
+    window.localStorage.setItem(STORED_LANGUAGE_KEY, lang);
+    document.documentElement.lang = lang;
+  });
 
   // handle path changes when the language is changed
   useEffect(() => {
@@ -200,11 +191,8 @@ const LanguageWrapper = ({ basename }: { basename?: string }) => {
 
   // handle initial redirect if URL has wrong or missing locale prefix.
   useEffect(() => {
-    const storedLanguage = window.localStorage.getItem(
-      STORED_LANGUAGE_KEY,
-    ) as LocaleType;
-    if ((!storedLanguage || storedLanguage === getDefaultLocale()) && !basename)
-      return;
+    const storedLanguage = window.localStorage.getItem(STORED_LANGUAGE_KEY)!;
+    if (storedLanguage === getDefaultLocale() && !basename) return;
     if (isValidLocale(storedLanguage) && storedLanguage === basename) {
       setBase(storedLanguage);
       return;
@@ -215,15 +203,8 @@ const LanguageWrapper = ({ basename }: { basename?: string }) => {
   }, [basename]);
 
   return (
-    <NDLARouter base={base}>
-      {history => (
-        <App
-          locale={i18n.language}
-          key={i18n.language}
-          history={history}
-          isClient
-        />
-      )}
+    <NDLARouter key={base} base={base}>
+      {history => <App locale={i18n.language} history={history} isClient />}
     </NDLARouter>
   );
 };
@@ -232,7 +213,7 @@ removeUniversalPortals();
 
 renderOrHydrate(
   <HelmetProvider>
-    <I18nextProvider i18n={i18nInstance}>
+    <I18nextProvider i18n={i18n}>
       <ApolloProvider client={client}>
         <CacheProvider value={cache}>
           <VersionHashProvider value={versionHash}>

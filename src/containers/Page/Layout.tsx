@@ -1,4 +1,12 @@
-import { useEffect, useRef } from 'react';
+/**
+ * Copyright (c) 2022-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { useEffect } from 'react';
 import { Content, PageContainer } from '@ndla/ui';
 import ZendeskButton from '@ndla/zendesk';
 import { Helmet } from 'react-helmet-async';
@@ -9,11 +17,12 @@ import config from '../../config';
 import FeideFooter from './components/FeideFooter';
 import Footer from './components/Footer';
 import { useIsNdlaFilm, useUrnIds } from '../../routeHelpers';
+import { usePrevious } from '../../util/utilityHooks';
 
 const Layout = () => {
   const { t, i18n } = useTranslation();
   const { pathname } = useLocation();
-  const prevPath = useRef<string | null>(null);
+  const prevPathname = usePrevious(pathname);
   const params = useUrnIds();
   const zendeskLanguage =
     i18n.language === 'nb' || i18n.language === 'nn' ? 'no' : i18n.language;
@@ -25,6 +34,9 @@ const Layout = () => {
   );
 
   useEffect(() => {
+    if (!prevPathname || pathname === prevPathname) {
+      return;
+    }
     const inSubjectOrTopic =
       params.subjectType !== 'multiDisciplinary' &&
       params.topicId &&
@@ -33,13 +45,11 @@ const Layout = () => {
       params.subjectType === 'multiDisciplinary' &&
       params.topicId &&
       params.topicList.length !== 3;
-    const searchUpdate =
-      pathname === '/search' && prevPath.current === '/search';
+    const searchUpdate = pathname === '/search' && prevPathname === '/search';
     if (!searchUpdate && !inSubjectOrTopic && !inMulti) {
       window.scrollTo(0, 0);
     }
-    prevPath.current = pathname;
-  }, [params, pathname]);
+  }, [params, pathname, prevPathname]);
 
   return (
     <PageContainer backgroundWide={backgroundWide} ndlaFilm={ndlaFilm}>

@@ -7,9 +7,11 @@
  */
 
 import ReactDOM from 'react-dom';
+import { I18nextProvider } from 'react-i18next';
 import { HelmetProvider } from 'react-helmet-async';
 import { ApolloProvider } from '@apollo/client';
 import { configureTracker } from '@ndla/tracker';
+import { i18nInstance } from '@ndla/ui';
 import ErrorReporter from '@ndla/error-reporter';
 import { CacheProvider } from '@emotion/core';
 import createCache from '@emotion/cache';
@@ -30,6 +32,7 @@ import '@fontsource/source-serif-pro/700.css';
 import IframePageContainer from './IframePageContainer';
 import { EmotionCacheKey } from '../constants';
 import { createApolloClient } from '../util/apiHelpers';
+import { initializeI18n } from '../i18n';
 
 const { config, initialProps } = window.DATA;
 
@@ -54,20 +57,25 @@ configureTracker({
   googleTagManagerId: config.googleTagManagerId,
 });
 
+const language = initialProps.locale ?? config.defaultLocale;
+
 const cache = createCache({ key: EmotionCacheKey });
 
-const client = createApolloClient(initialProps.locale, initialProps.resCookie);
+const client = createApolloClient(language, initialProps.resCookie);
+const i18n = initializeI18n(i18nInstance, language);
 
 const renderOrHydrate = disableSSR ? ReactDOM.render : ReactDOM.hydrate;
 renderOrHydrate(
   <HelmetProvider>
-    <ApolloProvider client={client}>
-      <CacheProvider value={cache}>
-        <BrowserRouter>
-          <IframePageContainer {...initialProps} />
-        </BrowserRouter>
-      </CacheProvider>
-    </ApolloProvider>
+    <I18nextProvider i18n={i18n}>
+      <ApolloProvider client={client}>
+        <CacheProvider value={cache}>
+          <BrowserRouter>
+            <IframePageContainer {...initialProps} />
+          </BrowserRouter>
+        </CacheProvider>
+      </ApolloProvider>
+    </I18nextProvider>
   </HelmetProvider>,
   document.getElementById('root'),
   () => {

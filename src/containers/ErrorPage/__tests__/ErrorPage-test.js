@@ -11,9 +11,10 @@ import { HelmetProvider } from 'react-helmet-async';
 import { StaticRouter } from 'react-router-dom/server';
 import renderer from 'react-test-renderer';
 import serializer from 'jest-emotion';
-import { I18nextProvider, Translation } from 'react-i18next';
+import { I18nextProvider } from 'react-i18next';
 import { i18nInstance } from '@ndla/ui';
 import ErrorPage from '../ErrorPage';
+import { initializeI18n } from '../../../i18n';
 
 HelmetProvider.canUseDOM = false;
 expect.addSnapshotSerializer(serializer);
@@ -23,19 +24,13 @@ jest.mock('../../../config', () => ({
 }));
 
 test('ErrorPage renderers correctly', () => {
+  const i18n = initializeI18n(i18nInstance, 'nb');
   const component = renderer.create(
     <HelmetProvider>
-      <I18nextProvider i18n={i18nInstance}>
-        <Translation>
-          {(_, { i18n }) => {
-            i18n.language = 'nb';
-            return (
-              <StaticRouter>
-                <ErrorPage />
-              </StaticRouter>
-            );
-          }}
-        </Translation>
+      <I18nextProvider i18n={i18n}>
+        <StaticRouter>
+          <ErrorPage />
+        </StaticRouter>
       </I18nextProvider>
     </HelmetProvider>,
   );

@@ -30,6 +30,8 @@ import '@fontsource/source-serif-pro/700.css';
 import { createApolloClient } from '../util/apiHelpers';
 import LtiProvider from './LtiProvider';
 import '../style/index.css';
+import { STORED_LANGUAGE_KEY } from '../constants';
+import { initializeI18n, isValidLocale } from '../i18n';
 
 const {
   DATA: { initialProps, config },
@@ -44,11 +46,16 @@ window.errorReporter = ErrorReporter.getInstance({
   ignoreUrls: [/https:\/\/.*hotjar\.com.*/],
 });
 
-const client = createApolloClient(i18nInstance.language, document.cookie);
+const storedLanguage = window.localStorage.getItem(STORED_LANGUAGE_KEY);
+const language = isValidLocale(storedLanguage)
+  ? storedLanguage
+  : config.defaultLocale;
+const client = createApolloClient(language, document.cookie);
+const i18n = initializeI18n(i18nInstance, language);
 
 ReactDOM.render(
   <HelmetProvider>
-    <I18nextProvider i18n={i18nInstance}>
+    <I18nextProvider i18n={i18n}>
       <ApolloProvider client={client}>
         <MissingRouterContext.Provider value={true}>
           <LtiProvider {...initialProps} />
