@@ -62,6 +62,7 @@ const MastheadMenu = ({
       setExpandedSubtopicsId(topicList?.slice(1) ?? []);
     }
     previousTopicList.current = topicList;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onNavigate = async (
