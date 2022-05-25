@@ -11,11 +11,7 @@ describe('Resource page', () => {
     cy.fixCypressSpec('/e2e/integration/resource_page.spec.ts');
     cy.gqlIntercept({
       alias: 'resourcePage',
-      operations: ['resourcePage', 'alerts'],
-    });
-    cy.gqlIntercept({
-      alias: 'mastHead',
-      operations: ['mastHead'],
+      operations: ['resourcePage', 'alerts', 'mastHead'],
     });
   });
 
@@ -24,7 +20,6 @@ describe('Resource page', () => {
       '/subject:1:94dfe81f-9e11-45fc-ab5a-fba63784d48e/topic:2:117982/resource:1:117868?disableSSR=true',
     );
     cy.gqlWait('@resourcePage');
-    cy.gqlWait('@mastHead');
     cy.get('.o-content').within(() => {
       cy.get('.c-breadcrumb__list > li').should($list => {
         expect($list).to.have.length(4);
