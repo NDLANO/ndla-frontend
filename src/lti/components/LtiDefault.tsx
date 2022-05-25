@@ -23,7 +23,9 @@ const LtiDefault = ({ item }: Props) => {
   const { t } = useTranslation();
   const showEmbedCode = async (item: LtiItem) => {
     if (typeof item.url === 'string') {
-      const oembed = await fetchArticleOembed(`${config.ndlaFrontendDomain}${item.url}`);
+      const oembed = await fetchArticleOembed(
+        `${config.ndlaFrontendDomain}${item.url}`,
+      );
       setEmbedCode(oembed.html);
     } else {
       setEmbedCode(
