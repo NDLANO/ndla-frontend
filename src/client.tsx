@@ -52,7 +52,7 @@ declare global {
 }
 
 const {
-  DATA: { config, serverPath, serverQuery },
+  DATA: { config, serverPath, serverQuery, resCookie },
 } = window;
 
 const { basepath } = getLocaleInfoFromPath(serverPath ?? '');
@@ -189,7 +189,7 @@ const LanguageWrapper = ({ basename }: { basename?: string }) => {
 
   i18n.on('languageChanged', lang => {
     client.resetStore();
-    client.setLink(createApolloLinks(lang, undefined, versionHash));
+    client.setLink(createApolloLinks(lang, resCookie, versionHash));
     window.localStorage.setItem(STORED_LANGUAGE_KEY, lang);
     document.documentElement.lang = lang;
   });

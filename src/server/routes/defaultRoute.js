@@ -43,15 +43,11 @@ const disableSSR = req => {
 
 async function doRender(req) {
   global.assets = assets; // used for including mathjax js in pages with math
-  let initialProps = { loading: true, resCookie: req.headers['cookie'] };
+  const resCookie = req.headers['cookie'];
   const versionHash = req.query.versionHash;
   const { abbreviation: locale, basename } = getLocaleInfoFromPath(req.path);
 
-  const client = createApolloClient(
-    locale,
-    initialProps.resCookie,
-    versionHash,
-  );
+  const client = createApolloClient(locale, resCookie, versionHash);
 
   const cache = createCache({ key: EmotionCacheKey });
   const context = {};
@@ -68,7 +64,6 @@ async function doRender(req) {
               <VersionHashProvider value={versionHash}>
                 <StaticRouter basename={basename} location={req.url}>
                   <App
-                    initialProps={initialProps}
                     isClient={false}
                     client={client}
                     locale={locale}
@@ -91,7 +86,7 @@ async function doRender(req) {
     Page,
     getAssets(),
     {
-      initialProps,
+      resCookie,
       apolloState,
       serverPath: req.path,
       serverQuery: req.query,

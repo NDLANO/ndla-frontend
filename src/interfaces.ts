@@ -25,6 +25,7 @@ export type InitialProps = {
 export interface WindowData {
   apolloState: NormalizedCacheObject;
   config: ConfigType;
+  resCookie?: string;
   initialProps: InitialProps;
   ltiData?: LtiData;
   serverPath?: string;
