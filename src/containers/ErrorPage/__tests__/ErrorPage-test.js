@@ -8,7 +8,7 @@
  */
 
 import { HelmetProvider } from 'react-helmet-async';
-import { StaticRouter } from 'react-router-dom/server';
+import { StaticRouter } from 'react-router-dom/server.js';
 import renderer from 'react-test-renderer';
 import serializer from 'jest-emotion';
 import { I18nextProvider } from 'react-i18next';

@@ -7,7 +7,7 @@
  */
 
 import { HelmetProvider } from 'react-helmet-async';
-import { StaticRouter } from 'react-router-dom/server';
+import { StaticRouter } from 'react-router-dom/server.js';
 import { I18nextProvider } from 'react-i18next';
 import { i18nInstance } from '@ndla/ui';
 import url from 'url';

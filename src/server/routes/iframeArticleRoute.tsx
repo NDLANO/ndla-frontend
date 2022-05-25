@@ -11,7 +11,7 @@ import { Request } from 'express';
 import { i18nInstance } from '@ndla/ui';
 import { I18nextProvider } from 'react-i18next';
 import { HelmetProvider } from 'react-helmet-async';
-import { StaticRouter } from 'react-router-dom/server';
+import { StaticRouter } from 'react-router-dom/server.js';
 import { ApolloProvider } from '@apollo/client';
 import { CacheProvider } from '@emotion/core';
 import createCache from '@emotion/cache';

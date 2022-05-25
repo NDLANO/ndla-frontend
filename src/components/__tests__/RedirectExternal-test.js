@@ -7,7 +7,7 @@
  * @jest-environment jsdom
  */
 
-import { StaticRouter } from 'react-router-dom/server';
+import { StaticRouter } from 'react-router-dom/server.js';
 import { MemoryRouter } from 'react-router-dom';
 import renderer from 'react-test-renderer';
 import sinon from 'sinon';
