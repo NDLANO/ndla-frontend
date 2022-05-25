@@ -64,7 +64,7 @@ export const getLocaleInfoFromPath = (path: string): RetType => {
   const basename = paths[1] && isValidLocale(paths[1]) ? paths[1] : '';
   const basepath = basename ? path.replace(`/${basename}`, '') : path;
   return {
-    basepath,
+    basepath: basepath.length === 0 ? '/' : basepath,
     basename,
     ...getLocaleObject(basename),
   };

@@ -159,7 +159,7 @@ function removeUniversalPortals() {
   }
 }
 const constructNewPath = (newLocale?: string) => {
-  const regex = new RegExp(supportedLanguages.map(l => `/${l}/`).join('|'));
+  const regex = new RegExp(`\\/(${supportedLanguages.join('|')})($|\\/)`, '');
   const path = window.location.pathname.replace(regex, '');
   const fullPath = path.startsWith('/') ? path : `/${path}`;
   const localePrefix = newLocale ? `/${newLocale}` : '';
