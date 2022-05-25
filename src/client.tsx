@@ -15,7 +15,6 @@ import { createBrowserHistory, createMemoryHistory, History } from 'history';
 // @ts-ignore
 import ErrorReporter from '@ndla/error-reporter';
 import { i18nInstance } from '@ndla/ui';
-import { configureTracker } from '@ndla/tracker';
 import createCache from '@emotion/cache';
 // @ts-ignore
 import queryString from 'query-string';
@@ -102,6 +101,13 @@ interface RCProps {
   base: string;
 }
 
+/*
+  This is a custom router based on the source code of BrowserRouter and MemoryRouter from
+  react-router-dom@6.3.0. It's intended purpose is to provide App with an instance of 
+  the internal history object without using the UNSAFE navigation context provided by RR,
+  as well as setting and replacing the Router basename in a safe way. The exposed history 
+  object should not be used or passed to anyting else than configureTracker.
+*/
 const NDLARouter = ({ children, base }: RCProps) => {
   let historyRef = useRef<History>();
   if (isGoogleUrl && historyRef.current == null) {
@@ -119,15 +125,6 @@ const NDLARouter = ({ children, base }: RCProps) => {
   });
 
   useLayoutEffect(() => history.listen(setState), [history]);
-
-  useLayoutEffect(() => {
-    configureTracker({
-      listen: history.listen,
-      gaTrackingId: window.location.host ? config?.gaTrackingId : '',
-      googleTagManagerId: config?.googleTagManagerId,
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <Router
