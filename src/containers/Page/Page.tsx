@@ -14,16 +14,15 @@ import ZendeskButton from '@ndla/zendesk';
 import config from '../../config';
 import Footer from './components/Footer';
 import FeideFooter from './components/FeideFooter';
-import { useIsNdlaFilm } from '../../routeHelpers';
 
 interface Props {
   background?: boolean;
   children?: ReactNode;
+  ndlaFilm?: boolean;
 }
 
-export const Page = ({ children, background = true }: Props) => {
+export const Page = ({ children, ndlaFilm, background = true }: Props) => {
   const { t, i18n } = useTranslation();
-  const ndlaFilm = useIsNdlaFilm();
   const zendeskLanguage =
     i18n.language === 'nb' || i18n.language === 'nn' ? 'no' : i18n.language;
   return (

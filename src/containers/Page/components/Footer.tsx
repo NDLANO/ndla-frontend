@@ -6,7 +6,6 @@
  *
  */
 
-import { useLocation } from 'react-router-dom';
 import { Footer, LanguageSelector, FooterText, EditorName } from '@ndla/ui';
 import { Facebook, Twitter, EmailOutline, Youtube } from '@ndla/icons/common';
 import { useTranslation } from 'react-i18next';
@@ -14,7 +13,6 @@ import { getLocaleUrls } from '../../../util/localeHelpers';
 import { useIsNdlaFilm } from '../../../routeHelpers';
 
 const FooterWrapper = () => {
-  const location = useLocation();
   const { t, i18n } = useTranslation();
   const ndlaFilm = useIsNdlaFilm();
 
@@ -24,7 +22,7 @@ const FooterWrapper = () => {
       outline
       alwaysVisible
       inverted={ndlaFilm}
-      options={getLocaleUrls(i18n.language, location)}
+      options={getLocaleUrls(i18n.language, window.location)}
       currentLanguage={i18n.language}
     />
   );
