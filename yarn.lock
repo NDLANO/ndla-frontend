@@ -3016,15 +3016,24 @@
     "@ndla/icons" "^1.7.0"
     "@reach/dialog" "^0.16.2"
 
-"@ndla/notion@^3.1.1":
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/@ndla/notion/-/notion-3.1.1.tgz#50004806542b31b88911f36de24a93b9501c1433"
-  integrity sha512-oeQcVxRSR2riXtM7WRpp+y8cmO+nMBFVE2YqnY+6KEGm0DiPq0W1HQ8Ut98YOE9GqnycZzwmabypG6ZWi8TFkQ==
+"@ndla/modal@^1.2.7":
+  version "1.2.7"
+  resolved "https://registry.yarnpkg.com/@ndla/modal/-/modal-1.2.7.tgz#78a7283713dfa176b92f27d9bad88f941370ee1c"
+  integrity sha512-O075w55Nn2hXGOp9nCDqT+wtOBiHsfheY0ozNHI9kd/EAc4Nz0WKvoWtgd10Hlus76mqfYSiKTMeqddyDqpcMw==
+  dependencies:
+    "@ndla/core" "^2.1.1"
+    "@ndla/icons" "^1.7.0"
+    "@reach/dialog" "^0.16.2"
+
+"@ndla/notion@^3.1.4":
+  version "3.1.4"
+  resolved "https://registry.yarnpkg.com/@ndla/notion/-/notion-3.1.4.tgz#883b198296cacb8e70efed2c8b5f6782a0d899e9"
+  integrity sha512-geESB1jpYE+co8U11ViULL7A9BDo+3RxUo1+m5daqWcQaKAQ42kayR7w5DBD2MP0Jgs1nkTCeiicICcer1+9Jw==
   dependencies:
     "@ndla/core" "^2.1.1"
     "@ndla/icons" "^1.7.0"
     "@ndla/licenses" "^4.1.0"
-    "@ndla/modal" "^1.2.6"
+    "@ndla/modal" "^1.2.7"
     "@ndla/safelink" "^1.1.7"
 
 "@ndla/pager@^1.1.7":
@@ -3094,10 +3103,10 @@
   dependencies:
     warning "^4.0.3"
 
-"@ndla/ui@^11.1.2":
-  version "11.1.2"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-11.1.2.tgz#0fa3b82976887458e29c6b44b30eadbd8d5425bd"
-  integrity sha512-sAHU8ZEI3l2p/GOJQP1GZgCo/QlE+srey23KmgpaalGgnGUvYRMo4sk97wEZg+K0i8VWIzyWQerLA2LTOGTopg==
+"@ndla/ui@^11.1.6":
+  version "11.1.6"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-11.1.6.tgz#94411e5bc59ef2b9bfec0e84a8f43df0d3d82d44"
+  integrity sha512-kqE+g/oNDPqXa7lj0uLKx8/RgGOSjiZHxt7KZVY7rOG4s0a98yrjKiUQYf1q6EYNrVFPtbbFnjUK6134FDl23Q==
   dependencies:
     "@ndla/button" "^2.2.0"
     "@ndla/carousel" "^1.2.6"
@@ -3105,8 +3114,8 @@
     "@ndla/hooks" "^1.1.4"
     "@ndla/icons" "^1.7.0"
     "@ndla/licenses" "^4.1.0"
-    "@ndla/modal" "^1.2.6"
-    "@ndla/notion" "^3.1.1"
+    "@ndla/modal" "^1.2.7"
+    "@ndla/notion" "^3.1.4"
     "@ndla/safelink" "^1.1.7"
     "@ndla/switch" "^0.1.5"
     "@ndla/tabs" "^1.1.5"
