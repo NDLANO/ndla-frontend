@@ -39,6 +39,14 @@ export function getArticleScripts(
       defer: true,
     });
   }
+  if (article && article.content.indexOf('h5p')) {
+    scripts.push({
+      src: 'https://h5p.org/sites/all/modules/h5p/library/js/h5p-resizer.js',
+      type: 'text/javascript',
+      async: false,
+      defer: true,
+    });
+  }
 
   return scripts;
 }
