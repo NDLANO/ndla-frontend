@@ -1,10 +1,7 @@
 {
   "functions": {
-    "build/public/**": {
-      "runtime": "@vercel/static"
-    },
     "build/server.js": {
-      "runtime": "@vercel/node"
+      "runtime": "@vercel/node@1.15.3"
     }
   },
   "rewrites": [
