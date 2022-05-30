@@ -1,9 +1,14 @@
 {
-  "functions": {
-    "build/server.js": {
-      "runtime": "@vercel/node@1.15.3"
+  "builds": [
+    {
+      "src": "build/public/**",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "build/server.js",
+      "use": "@vercel/node"
     }
-  },
+  ],
   "rewrites": [
     {
       "source": "/static/(.*)",
