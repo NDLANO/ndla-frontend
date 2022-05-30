@@ -37,21 +37,22 @@ import {
   GQLMastHeadQuery,
   GQLMastHeadQueryVariables,
   GQLResourceType,
+  GQLTopicInfoFragment,
 } from '../../graphqlTypes';
 import config from '../../config';
 import { setClosedAlert, useAlerts } from '../../components/AlertsContext';
 import { SKIP_TO_CONTENT_ID } from '../../constants';
-import { getTopicPath } from '../../util/getTopicPath';
 import MastheadMenuModal from './components/MastheadMenuModal';
 
 interface State {
   subject?: GQLMastHeadQuery['subject'];
+  topicPath: GQLTopicInfoFragment[];
   topicResourcesByType?: GQLResourceType[];
   resource?: GQLMastHeadQuery['resource'];
 }
 
 const MastheadContainer = () => {
-  const [state, setState] = useState<State>({});
+  const [state, setState] = useState<State>({ topicPath: [] });
   const { t, i18n } = useTranslation();
   const locale = i18n.language;
   const {
@@ -68,9 +69,14 @@ const MastheadContainer = () => {
   const [fetchData] = useLazyQuery<GQLMastHeadQuery, GQLMastHeadQueryVariables>(
     mastHeadQuery,
     {
-      onCompleted: data => setState(mapMastheadData({ subjectId, data })),
+      onCompleted: data =>
+        setState(mapMastheadData({ subjectId, topicId, data })),
     },
   );
+
+  useEffect(() => {
+    setTopicId(prev => topicIdParam ?? prev);
+  }, [topicIdParam]);
 
   useEffect(() => {
     if (!topicId && !resourceId && !subjectId) return;
@@ -86,16 +92,12 @@ const MastheadContainer = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [topicId, resourceId, subjectId]);
 
-  const { subject, topicResourcesByType, resource } = state;
-  const path =
-    subject?.topics && subjectId
-      ? getTopicPath(subjectId, topicId, subject.topics)
-      : [];
+  const { subject, topicResourcesByType, topicPath, resource } = state;
 
   const breadcrumbBlockItems = (subject?.id
     ? toBreadcrumbItems(
         t('breadcrumb.toFrontpage'),
-        [subject, ...path, ...(resource ? [resource] : [])],
+        [subject, ...topicPath, ...(resource ? [resource] : [])],
         locale,
       )
     : []

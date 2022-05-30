@@ -15,6 +15,7 @@ import {
   GQLResourceType,
   GQLTopic,
 } from '../../graphqlTypes';
+import { getTopicPath } from '../../util/getTopicPath';
 
 function getContentTypeResults(
   topicId: string,
@@ -73,9 +74,11 @@ export function mapTopicResourcesToTopic(
 
 export const mapMastheadData = ({
   subjectId = '',
+  topicId = '',
   data: { resourceTypes, subject, topic, resource },
 }: {
   subjectId?: string;
+  topicId?: string;
   data: GQLMastHeadQuery;
 }) => {
   const topicResourcesByType = topic
@@ -91,6 +94,8 @@ export const mapMastheadData = ({
       ?.filter(t => !t.parent || t.parent === subjectId)
       .map(t => toTopicMenu(t, subject.topics || [])) ?? [];
 
+  const topicPath = getTopicPath(subjectId, topicId, subject?.topics);
+
   const subjectWithTopics = subject && {
     ...subject,
     topics: topicsWithSubTopics,
@@ -100,5 +105,6 @@ export const mapMastheadData = ({
     subject: subjectWithTopics,
     topicResourcesByType,
     resource,
+    topicPath,
   };
 };
