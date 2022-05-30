@@ -3007,15 +3007,6 @@
     "@ndla/core" "^2.1.1"
     "@ndla/icons" "^1.7.0"
 
-"@ndla/modal@^1.2.6":
-  version "1.2.6"
-  resolved "https://registry.yarnpkg.com/@ndla/modal/-/modal-1.2.6.tgz#776b4fd64129e06cbff6a9b8f0e09c6926a20af4"
-  integrity sha512-2ZB6xJAbNlac0i64tfA09ZG/shKkJmgD52IudTWXa+LZLQ/DUYZIJjlUj43YUN+K5us1mU2Qdq9Ayr4TFeL8qA==
-  dependencies:
-    "@ndla/core" "^2.1.1"
-    "@ndla/icons" "^1.7.0"
-    "@reach/dialog" "^0.16.2"
-
 "@ndla/modal@^1.2.7":
   version "1.2.7"
   resolved "https://registry.yarnpkg.com/@ndla/modal/-/modal-1.2.7.tgz#78a7283713dfa176b92f27d9bad88f941370ee1c"
@@ -3036,10 +3027,10 @@
     "@ndla/modal" "^1.2.7"
     "@ndla/safelink" "^1.1.7"
 
-"@ndla/pager@^1.1.7":
-  version "1.1.7"
-  resolved "https://registry.yarnpkg.com/@ndla/pager/-/pager-1.1.7.tgz#edc01508a71c7a68e2b246c4e9fcef17260f18d9"
-  integrity sha512-AdSxRwfnm5iL4nYFaSTvQKMKVv3tcy5PNqAZOUVmLSq7FXCciuSSiNKlnAKByfyj27iBLX0L4Hsn3PcdZS4p1g==
+"@ndla/pager@^1.1.8":
+  version "1.1.8"
+  resolved "https://registry.yarnpkg.com/@ndla/pager/-/pager-1.1.8.tgz#d4eebd9556666782c20a1e6f3f03542caad6a219"
+  integrity sha512-ZSIAmJIDEE2oFZ9C3atrQSu2GTRseNsz1u7xQSrae0pY93zsxHt8z/CHlN2PYiwQ2AvlztUcjCkPLEdrBybUZQ==
   dependencies:
     "@ndla/core" "^2.1.1"
     "@ndla/safelink" "^1.1.7"
@@ -3103,10 +3094,10 @@
   dependencies:
     warning "^4.0.3"
 
-"@ndla/ui@^11.1.6":
-  version "11.1.6"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-11.1.6.tgz#94411e5bc59ef2b9bfec0e84a8f43df0d3d82d44"
-  integrity sha512-kqE+g/oNDPqXa7lj0uLKx8/RgGOSjiZHxt7KZVY7rOG4s0a98yrjKiUQYf1q6EYNrVFPtbbFnjUK6134FDl23Q==
+"@ndla/ui@^11.2.0":
+  version "11.2.0"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-11.2.0.tgz#6bc4c4660fa58496637e8275479822fd2d10e459"
+  integrity sha512-lbj3kPdaWkdGE88W/fP+ekMrkQf3WXhXKdG5PPk2DLGRZL1JdLH2DpDsaixcUa9OFdznN95tHjTpTRYv+unxhw==
   dependencies:
     "@ndla/button" "^2.2.0"
     "@ndla/carousel" "^1.2.6"
