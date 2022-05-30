@@ -133,12 +133,18 @@ const AppRoutes = ({ base }: AppProps) => {
               <Route path="subject:subjectId/topic:topic1/topic:topic2/topic:topicId/resource:resourceId">
                 {resourceRoutes}
               </Route>
+              <Route path="subject:subjectId/topic:topic1/topic:topic2/topic:topic3/topic:topicId/resource:resourceId">
+                {resourceRoutes}
+              </Route>
               <Route path="subject:subjectId" element={<SubjectRouting />}>
                 <Route path="topic:topicId" element={null} />
                 <Route path="topic:topic1" element={null}>
                   <Route path="topic:topicId" element={null} />
                   <Route path="topic:topic2" element={null}>
                     <Route path="topic:topicId" element={null} />
+                    <Route path="topic:topic3" element={null}>
+                      <Route path="topic:topicId" element={null} />
+                    </Route>
                   </Route>
                 </Route>
               </Route>

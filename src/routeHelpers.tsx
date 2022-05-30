@@ -44,6 +44,7 @@ interface MatchParams extends TypedParams {
   articleId?: string;
   topic1?: string;
   topic2?: string;
+  topic3?: string;
   programme?: string;
 }
 
@@ -57,11 +58,15 @@ export const useUrnIds = () => {
   const topicId = params.topicId ? `urn:topic${params.topicId}` : undefined;
   const topic1 = params.topic1 ? `urn:topic${params.topic1}` : undefined;
   const topic2 = params.topic2 ? `urn:topic${params.topic2}` : undefined;
+  const topic3 = params.topic3 ? `urn:topic${params.topic3}` : undefined;
   if (topic1) {
     topicList.push(topic1);
   }
   if (topic2) {
     topicList.push(topic2);
+  }
+  if (topic3) {
+    topicList.push(topic3);
   }
   if (topicId) {
     topicList.push(topicId);
