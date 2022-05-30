@@ -22,7 +22,7 @@ export function toSearch(searchString?: string) {
   return `/search?${searchString || ''}`;
 }
 
-export const removeUrn = (str?: string) => (str ? str.replace('urn:', '') : '');
+export const removeUrn = (str?: string) => str?.replace('urn:', '') ?? '';
 
 export const getInitialMastheadMenu = (pathname: string) => {
   if (pathname.startsWith('/utdanning/')) {

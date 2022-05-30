@@ -73,6 +73,7 @@ const MastheadContainer = () => {
   );
 
   useEffect(() => {
+    if (!topicId && !resourceId && !subjectId) return;
     fetchData({
       variables: {
         subjectId: subjectId ?? '',

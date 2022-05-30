@@ -38,6 +38,17 @@ interface Props {
   close: () => void;
 }
 
+export const toTopicWithBoundParams = (
+  subjectId?: string,
+  ...topicIds: string[]
+) => {
+  if (!subjectId) return '';
+  return (topicId: string) => {
+    const topics = takeWhile(topicIds, id => id !== topicId);
+    return toTopic(subjectId, ...topics, topicId);
+  };
+};
+
 const getProgramme = (programme: string | undefined, locale: LocaleType) => {
   if (!programme) return undefined;
   const data = getProgrammeBySlug(programme, locale);
@@ -162,14 +173,11 @@ const MastheadMenu = ({
         )
       }
       topics={topicsWithContentTypes ?? []}
-      toTopic={(topicId: string) => {
-        if (topicId === expandedTopicId) {
-          return toTopic(subject!.id, topicId);
-        } else {
-          const topics = takeWhile(expandedSubTopicIds, id => id !== topicId);
-          return toTopic(subject!.id, expandedTopicId, ...topics, topicId);
-        }
-      }}
+      toTopic={toTopicWithBoundParams(
+        subject?.id,
+        expandedTopicId,
+        ...expandedSubTopicIds,
+      )}
       toSubject={() => handleSubjectClick(subject?.id)}
       defaultCount={12}
       subjectTitle={subjectTitle}

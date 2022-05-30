@@ -6,9 +6,12 @@
  *
  */
 
-import { Footer, FooterText, EditorName } from '@ndla/ui';
+import { useLocation } from 'react-router-dom';
+import { Footer, FooterText, EditorName, LanguageSelector } from '@ndla/ui';
 import { Facebook, Twitter, EmailOutline, Youtube } from '@ndla/icons/common';
 import { useTranslation } from 'react-i18next';
+import { useIsNdlaFilm } from '../../../routeHelpers';
+import { getLocaleUrls } from '../../../util/localeHelpers';
 
 const FooterWrapper = () => {
   const { t, i18n } = useTranslation();
@@ -40,7 +43,10 @@ const FooterWrapper = () => {
     <Footer
       lang={i18n.language}
       //@ts-ignore Wrongly typed as an array with a single element in frontend-packages.
-      links={links}>
+      links={links}
+      languageSelector={
+        typeof window !== 'undefined' && <ClientLanguageSelector />
+      }>
       <FooterText>
         <EditorName
           title={t('footer.footerEditiorInChief')}
@@ -49,6 +55,22 @@ const FooterWrapper = () => {
         {t('footer.footerInfo')}
       </FooterText>
     </Footer>
+  );
+};
+
+const ClientLanguageSelector = () => {
+  const { i18n } = useTranslation();
+  const location = useLocation();
+  const ndlaFilm = useIsNdlaFilm();
+  return (
+    <LanguageSelector
+      center
+      outline
+      alwaysVisible
+      inverted={!!ndlaFilm}
+      options={getLocaleUrls(i18n.language, location)}
+      currentLanguage={i18n.language}
+    />
   );
 };
 

@@ -32,7 +32,7 @@ describe('Topic page', () => {
   it('contains article header and introduction', () => {
     cy.gqlIntercept({
       alias: 'topicpage',
-      operations: ['topicWrapper', 'mastHead'],
+      operations: ['topicWrapper'],
     });
     cy.get(
       '[data-testid="nav-box-list"] li a:contains("Idéskaping og mediedesign")',
@@ -49,7 +49,7 @@ describe('Topic page', () => {
   it('contains article header, introduction and content', () => {
     cy.gqlIntercept({
       alias: 'topicpageWithContent',
-      operations: ['topicWrapper', 'mastHead'],
+      operations: ['topicWrapper'],
     });
     cy.get(
       '[data-testid="nav-box-list"] li a:contains("Tverrfaglige medieoppdrag")',
