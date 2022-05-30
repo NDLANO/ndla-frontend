@@ -1,5 +1,4 @@
 {
-  "version": 2,
   "builds": [
     {
       "src": "build/public/**",
@@ -10,18 +9,39 @@
       "use": "@vercel/node"
     }
   ],
-  "routes": [
+  "rewrites": [
     {
-      "src": "/static/(.*)",
-      "headers": { "cache-control": "s-maxage=86400" },
-      "dest": "build/public/static/$1"
+      "source": "/static/(.*)",
+      "destination": "build/public/static/$1"
     },
     {
-      "src": "/favicon.ico",
-      "headers": { "cache-control": "s-maxage=86400" },
-      "dest": "build/public/favicon.ico"
+      "source": "/favicon.ico",
+      "destination": "build/public/favicon.ico"
     },
-    { "src": "/(.*)", "dest": "/build/server.js" }
+    {
+      "source": "/(.*)",
+      "destination": "/build/server.js"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/static/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "s-maxage=86400"
+        }
+      ]
+    },
+    {
+      "source": "/favicon.ico",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "s-maxage=86400"
+        }
+      ]
+    }
   ],
   "env": {
     "NDLA_ZENDESK_WIDGET_KEY": "@ndla_zendesk_widget_key"
