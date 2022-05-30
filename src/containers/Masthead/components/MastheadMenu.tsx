@@ -1,116 +1,190 @@
-import { ReactNode, useEffect, useRef, useState } from 'react';
-import { useUrnIds } from '../../../routeHelpers';
-import { getSelectedTopic } from '../mastheadHelpers';
-import MastheadTopics from './MastheadTopics';
-import MastheadMenuModal from './MastheadMenuModal';
-import { GQLMastHeadQuery, GQLResourceType } from '../../../graphqlTypes';
-import { ProgramSubjectType } from '../../../util/programmesSubjectsHelper';
+import { isEqual, takeWhile } from 'lodash';
+import { useEffect, useRef, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+//@ts-ignore
+import { TopicMenu } from '@ndla/ui';
+import {
+  GQLMastHeadQuery,
+  GQLResource,
+  GQLResourceType,
+} from '../../../graphqlTypes';
+import { useAlerts } from '../../../components/AlertsContext';
+import MastheadSearch from './MastheadSearch';
+import {
+  getInitialMastheadMenu,
+  removeUrn,
+  toProgramme,
+  toSubject,
+  toTopic,
+  useTypedParams,
+  useUrnIds,
+} from '../../../routeHelpers';
+import { getSubjectLongName } from '../../../data/subjects';
 import { LocaleType } from '../../../interfaces';
-import { GradesData } from '../../ProgrammePage/ProgrammePage';
-
-export interface MastheadProgramme {
-  name: string;
-  url: string;
-  grades: GradesData[];
-}
+import { resourceToLinkProps } from '../../Resources/resourceHelpers';
+import {
+  getCategorizedSubjects,
+  getProgrammes,
+} from '../../../util/programmesSubjectsHelper';
+import { getProgrammeBySlug } from '../../../data/programmes';
+import { mapGradesData } from '../../ProgrammePage/ProgrammePage';
+import { mapTopicResourcesToTopic } from '../mastheadHelpers';
 
 interface Props {
   locale: LocaleType;
   subject?: GQLMastHeadQuery['subject'];
   topicResourcesByType: GQLResourceType[];
-  onDataFetch: (
-    subjectId: string,
-    topicId?: string,
-    resourceId?: string,
-  ) => void;
-  searchFieldComponent: ReactNode;
-  subjectCategories: {
-    name: string;
-    subjects: ProgramSubjectType[];
-  }[];
-  programmes: ProgramSubjectType[];
-  currentProgramme?: MastheadProgramme;
-  initialSelectMenu?: string;
+  onTopicChange: (newId: string) => void;
+  close: () => void;
 }
 
+const getProgramme = (programme: string | undefined, locale: LocaleType) => {
+  if (!programme) return undefined;
+  const data = getProgrammeBySlug(programme, locale);
+  if (!data) return undefined;
+  const grades = mapGradesData(data.grades, locale);
+  return { name: data.name[locale], url: data.url[locale], grades };
+};
+
 const MastheadMenu = ({
-  onDataFetch,
-  searchFieldComponent,
+  locale,
   topicResourcesByType,
   subject,
-  locale,
-  programmes,
-  currentProgramme,
-  subjectCategories,
-  initialSelectMenu,
+  onTopicChange,
+  close,
 }: Props) => {
-  const [expandedTopicId, setExpandedTopicId] = useState<string | undefined>(
-    undefined,
+  const alerts = useAlerts();
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
+  const { grade } = useTypedParams<{ grade?: string }>();
+  const initialSelectedMenu = getInitialMastheadMenu(pathname);
+  const params = useUrnIds();
+  const initialParams = useRef<ReturnType<typeof useUrnIds>>(params);
+  const { topicList, programme } = params;
+  const [expandedTopicId, setExpandedTopicId] = useState<string>(
+    topicList[0] ?? '',
   );
-  const [expandedSubtopicsId, setExpandedSubtopicsId] = useState<string[]>([]);
-  const { subjectId, resourceId } = useUrnIds();
-  const { topicList } = useUrnIds();
-  const previousTopicList = useRef<string[] | null>(null);
+  const [expandedSubTopicIds, setExpandedSubTopicIds] = useState<string[]>(
+    topicList.slice(1) ?? [],
+  );
 
   useEffect(() => {
-    if (previousTopicList.current === null) {
-      previousTopicList.current = topicList;
-      return;
+    if (
+      params.subjectId !== initialParams.current.subjectId ||
+      params.resourceId !== initialParams.current.resourceId
+    ) {
+      initialParams.current = params;
+      close();
     }
-    if (previousTopicList.current !== topicList) {
-      setExpandedTopicId(topicList?.[0]);
-      setExpandedSubtopicsId(topicList?.slice(1) ?? []);
-    }
-    previousTopicList.current = topicList;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [params]);
 
-  const onNavigate = async (
-    expandedTopicId: string,
+  useEffect(() => {
+    const oldParams = initialParams.current;
+    if (oldParams.subjectId !== params.subjectId) {
+      setExpandedTopicId('');
+      setExpandedSubTopicIds([]);
+      initialParams.current = params;
+    } else if (!isEqual(oldParams.topicList, params.topicList)) {
+      setExpandedTopicId(params.topicList[0] ?? '');
+      setExpandedSubTopicIds(params.topicList.slice(1) ?? []);
+      initialParams.current = params;
+    }
+  }, [params]);
+
+  const subjectTitle = getSubjectLongName(subject?.id, locale) ?? subject?.name;
+  const currentProgramme = getProgramme(programme, locale);
+
+  const handleSubjectClick = (subjectId?: string) => {
+    return subjectId ? toSubject(subjectId) : '';
+  };
+
+  const localResourceToLinkProps = (
+    resource: Pick<GQLResource, 'id' | 'path' | 'contentUri'>,
+  ) => {
+    const subjectTopicPath = [
+      subject!.id,
+      expandedTopicId,
+      ...expandedSubTopicIds,
+    ]
+      .map(removeUrn)
+      .join('/');
+    return resourceToLinkProps(resource, '/' + subjectTopicPath);
+  };
+
+  const onNavigate = (
+    expandedTopicId?: string,
     subtopicId?: string,
     currentIndex?: number,
   ) => {
-    let newExpandedSubtopics: string[] = [];
-    if (expandedSubtopicsId.length > (currentIndex ?? 0)) {
-      newExpandedSubtopics = expandedSubtopicsId.slice(0, currentIndex);
-    }
-    if (subtopicId) {
-      newExpandedSubtopics.push(subtopicId);
-    } else {
-      newExpandedSubtopics.pop();
-    }
-    setExpandedTopicId(expandedTopicId);
-    setExpandedSubtopicsId(newExpandedSubtopics);
-
-    const selectedTopicId = getSelectedTopic([
-      expandedTopicId,
-      ...expandedSubtopicsId,
-    ]);
-
-    if (selectedTopicId) {
-      onDataFetch(subjectId!, selectedTopicId, resourceId);
+    if (currentIndex === undefined && expandedTopicId) {
+      setExpandedTopicId(expandedTopicId);
+      setExpandedSubTopicIds([]);
+      onTopicChange(expandedTopicId);
+    } else if (subtopicId) {
+      if (!currentIndex) {
+        setExpandedSubTopicIds([subtopicId]);
+      } else if (subtopicId && currentIndex) {
+        setExpandedSubTopicIds(prev =>
+          prev.slice(0, currentIndex).concat(subtopicId),
+        );
+      }
+      onTopicChange(subtopicId);
     }
   };
 
+  const onGradeChange = (newGrade: string) => {
+    if (currentProgramme?.grades.some(g => g.name.toLowerCase() === newGrade)) {
+      navigate(toProgramme(currentProgramme.url, newGrade));
+    }
+  };
+
+  const topicsWithContentTypes =
+    subject &&
+    mapTopicResourcesToTopic(
+      subject.topics ?? [],
+      expandedTopicId,
+      topicResourcesByType ?? [],
+      expandedSubTopicIds,
+    );
+
+  const shouldRenderSearch =
+    !pathname.includes('search') && (pathname.includes('utdanning') || subject);
+
   return (
-    <MastheadMenuModal>
-      {(onClose: () => void) => (
-        <MastheadTopics
-          onClose={onClose}
-          searchFieldComponent={searchFieldComponent}
-          expandedTopicId={expandedTopicId!}
-          expandedSubtopicsId={expandedSubtopicsId}
-          topicResourcesByType={topicResourcesByType}
-          subject={subject}
-          locale={locale}
-          programmes={programmes}
-          currentProgramme={currentProgramme}
-          subjectCategories={subjectCategories}
-          onNavigate={onNavigate}
-          initialSelectedMenu={initialSelectMenu}
-        />
-      )}
-    </MastheadMenuModal>
+    <TopicMenu
+      messages={alerts.map(a => a.body ?? a.title)}
+      close={close}
+      toFrontpage={() => '/'}
+      searchFieldComponent={
+        shouldRenderSearch && (
+          <MastheadSearch subject={subject} hideOnNarrowScreen={false} />
+        )
+      }
+      topics={topicsWithContentTypes ?? []}
+      toTopic={(topicId: string) => {
+        if (topicId === expandedTopicId) {
+          return toTopic(subject!.id, topicId);
+        } else {
+          const topics = takeWhile(expandedSubTopicIds, id => id !== topicId);
+          return toTopic(subject!.id, expandedTopicId, ...topics, topicId);
+        }
+      }}
+      toSubject={() => handleSubjectClick(subject?.id)}
+      defaultCount={12}
+      subjectTitle={subjectTitle}
+      resourceToLinkProps={localResourceToLinkProps}
+      onNavigate={onNavigate}
+      expandedTopicId={expandedTopicId}
+      expandedSubtopicsId={expandedSubTopicIds}
+      programmes={getProgrammes(locale)}
+      currentProgramme={currentProgramme}
+      subjectCategories={getCategorizedSubjects(locale)}
+      initialSelectedMenu={initialSelectedMenu}
+      locale={locale}
+      selectedGrade={grade}
+      onGradeChange={onGradeChange}
+    />
   );
 };
 

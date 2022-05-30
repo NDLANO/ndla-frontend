@@ -9,7 +9,6 @@
 import { contentTypeMapping } from '../../util/getContentType';
 import { getResourceGroups } from '../Resources/getResourceGroups';
 import { toTopicMenu } from '../../util/topicsHelper';
-import { getTopicPath } from '../../util/getTopicPath';
 import {
   GQLMastHeadQuery,
   GQLResource,
@@ -23,7 +22,7 @@ function getContentTypeResults(
   topicResourcesByType: GQLResourceType[],
 ) {
   if (!selectedTopicIds.includes(topicId)) {
-    return;
+    return [];
   }
   return topicResourcesByType.map(type => ({
     contentType: contentTypeMapping[type.id],
@@ -33,13 +32,11 @@ function getContentTypeResults(
 }
 
 type TransformedTopic = Omit<GQLTopic, 'subtopics' | 'metadata' | 'paths'> & {
-  contentTypeResults:
-    | {
-        contentType: string | undefined;
-        resources: GQLResource[] | undefined;
-        title: string;
-      }[]
-    | undefined;
+  contentTypeResults: {
+    contentType: string | undefined;
+    resources: GQLResource[] | undefined;
+    title: string;
+  }[];
   subtopics: TransformedTopic[];
 };
 
@@ -74,19 +71,11 @@ export function mapTopicResourcesToTopic(
   });
 }
 
-export function getSelectedTopic(topics: (string | undefined)[]) {
-  return [...topics] // prevent reverse mutation.
-    .reverse()
-    .find(topicId => topicId !== undefined && topicId !== null);
-}
-
 export const mapMastheadData = ({
-  subjectId,
-  topicId,
+  subjectId = '',
   data: { resourceTypes, subject, topic, resource },
 }: {
-  subjectId: string;
-  topicId: string;
+  subjectId?: string;
   data: GQLMastHeadQuery;
 }) => {
   const topicResourcesByType = topic
@@ -102,10 +91,6 @@ export const mapMastheadData = ({
       ?.filter(t => !t.parent || t.parent === subjectId)
       .map(t => toTopicMenu(t, subject.topics || [])) ?? [];
 
-  const topicPath = subject?.topics
-    ? getTopicPath(subjectId, topicId, subject.topics)
-    : [];
-
   const subjectWithTopics = subject && {
     ...subject,
     topics: topicsWithSubTopics,
@@ -113,7 +98,6 @@ export const mapMastheadData = ({
 
   return {
     subject: subjectWithTopics,
-    topicPath,
     topicResourcesByType,
     resource,
   };

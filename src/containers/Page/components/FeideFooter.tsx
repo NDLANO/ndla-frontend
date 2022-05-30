@@ -8,6 +8,7 @@
 
 import { useContext } from 'react';
 
+import { useInRouterContext } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { FeideText, LogIn } from '@ndla/icons/common';
@@ -51,6 +52,7 @@ const StyledFeideFooter = styled.div`
 
 const FeideFooter = () => {
   const { t } = useTranslation();
+  const inRouterContext = useInRouterContext();
   const { authenticated, user } = useContext(AuthContext);
   const affiliationRole = user?.eduPersonPrimaryAffiliation;
 
@@ -62,20 +64,22 @@ const FeideFooter = () => {
 
       <div>
         <p>{t('user.generalFooter')}</p>
-        <FeideLoginButton footer>
-          {authenticated ? (
-            <span>
-              {' '}
-              {t('user.loggedInAsButton', {
-                role: t('user.role.' + affiliationRole),
-              })}
-            </span>
-          ) : (
-            <span>
-              {t('user.buttonLogIn')} <LogIn className="c-icon--medium" />
-            </span>
-          )}
-        </FeideLoginButton>
+        {inRouterContext && (
+          <FeideLoginButton footer>
+            {authenticated ? (
+              <span>
+                {' '}
+                {t('user.loggedInAsButton', {
+                  role: t('user.role.' + affiliationRole),
+                })}
+              </span>
+            ) : (
+              <span>
+                {t('user.buttonLogIn')} <LogIn className="c-icon--medium" />
+              </span>
+            )}
+          </FeideLoginButton>
+        )}
       </div>
     </StyledFeideFooter>
   );

@@ -21,7 +21,6 @@ import { useLazyQuery } from '@apollo/client';
 import { Feide } from '@ndla/icons/common';
 import { useTranslation } from 'react-i18next';
 import {
-  getInitialMastheadMenu,
   toBreadcrumbItems,
   useIsNdlaFilm,
   useUrnIds,
@@ -35,24 +34,18 @@ import { getLocaleUrls } from '../../util/localeHelpers';
 import ErrorBoundary from '../ErrorPage/ErrorBoundary';
 import { mapMastheadData } from './mastheadHelpers';
 import {
-  getCategorizedSubjects,
-  getProgrammes,
-} from '../../util/programmesSubjectsHelper';
-import { getProgrammeBySlug } from '../../data/programmes';
-import { mapGradesData } from '../ProgrammePage/ProgrammePage';
-import {
   GQLMastHeadQuery,
   GQLMastHeadQueryVariables,
   GQLResourceType,
-  GQLTopicInfoFragment,
 } from '../../graphqlTypes';
 import config from '../../config';
 import { setClosedAlert, useAlerts } from '../../components/AlertsContext';
 import { SKIP_TO_CONTENT_ID } from '../../constants';
+import { getTopicPath } from '../../util/getTopicPath';
+import MastheadMenuModal from './components/MastheadMenuModal';
 
 interface State {
   subject?: GQLMastHeadQuery['subject'];
-  topicPath?: GQLTopicInfoFragment[];
   topicResourcesByType?: GQLResourceType[];
   resource?: GQLMastHeadQuery['resource'];
 }
@@ -64,77 +57,39 @@ const MastheadContainer = () => {
   const {
     subjectId,
     resourceId,
-    topicId,
-    programme,
+    topicId: topicIdParam,
     subjectType,
   } = useUrnIds();
+  const [topicId, setTopicId] = useState<string>(topicIdParam ?? '');
   const location = useLocation();
   const ndlaFilm = useIsNdlaFilm();
-  const initialSelectedMenu = getInitialMastheadMenu(location.pathname);
   const hideBreadcrumb = subjectType === 'standard' && !resourceId;
 
-  useEffect(() => {
-    updateData();
-  }, [location.pathname, location.search]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  const [fetchData, { data }] = useLazyQuery<
-    GQLMastHeadQuery,
-    GQLMastHeadQueryVariables
-  >(mastHeadQuery, { ssr: true });
+  const [fetchData] = useLazyQuery<GQLMastHeadQuery, GQLMastHeadQueryVariables>(
+    mastHeadQuery,
+    {
+      onCompleted: data => setState(mapMastheadData({ subjectId, data })),
+    },
+  );
 
   useEffect(() => {
-    // we set data in state to prevent it from disappearing in view when we refecth
-    if (data) {
-      const stateData = mapMastheadData({
-        subjectId: subjectId ?? '',
-        topicId: topicId ?? '',
-        data,
-      });
-      setState(stateData);
-    }
-  }, [data]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  const updateData = () => {
-    if (subjectId) {
-      getData(subjectId, topicId, resourceId);
-    }
-  };
-
-  const onDataFetch = (
-    subjectId: string,
-    topicId?: string,
-    resourceId?: string,
-  ) => {
-    getData(subjectId, topicId, resourceId);
-  };
-
-  const getData = (subjectId: string, topicId = '', resourceId = '') => {
     fetchData({
       variables: {
-        subjectId,
-        topicId,
-        resourceId,
+        subjectId: subjectId ?? '',
+        topicId: topicId ?? '',
+        resourceId: resourceId ?? '',
         skipTopic: !topicId,
         skipResource: !resourceId,
       },
     });
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [topicId, resourceId, subjectId]);
 
-  let currentProgramme;
-  if (programme) {
-    const programmeData = getProgrammeBySlug(programme, locale);
-    if (programmeData) {
-      const grades = mapGradesData(programmeData.grades, locale);
-      currentProgramme = {
-        name: programmeData.name[locale],
-        url: programmeData.url[locale],
-        grades,
-      };
-    }
-  }
-
-  const { subject, topicPath, topicResourcesByType, resource } = state;
-  const path = topicPath ?? [];
+  const { subject, topicResourcesByType, resource } = state;
+  const path =
+    subject?.topics && subjectId
+      ? getTopicPath(subjectId, topicId, subject.topics)
+      : [];
 
   const breadcrumbBlockItems = (subject?.id
     ? toBreadcrumbItems(
@@ -169,17 +124,17 @@ const MastheadContainer = () => {
         onCloseAlert={id => setClosedAlert(id)}
         messages={alerts}>
         <MastheadItem left>
-          <MastheadMenu
-            subject={subject}
-            searchFieldComponent={renderSearchComponent(false)}
-            onDataFetch={onDataFetch}
-            topicResourcesByType={topicResourcesByType || []}
-            locale={locale}
-            programmes={getProgrammes(locale)}
-            currentProgramme={currentProgramme}
-            subjectCategories={getCategorizedSubjects(locale)}
-            initialSelectMenu={initialSelectedMenu}
-          />
+          <MastheadMenuModal>
+            {(onClose: () => void) => (
+              <MastheadMenu
+                locale={locale}
+                subject={subject}
+                topicResourcesByType={topicResourcesByType ?? []}
+                onTopicChange={newId => setTopicId(newId)}
+                close={onClose}
+              />
+            )}
+          </MastheadMenuModal>
           {!hideBreadcrumb && (
             <DisplayOnPageYOffset yOffsetMin={150}>
               <BreadcrumbBlock

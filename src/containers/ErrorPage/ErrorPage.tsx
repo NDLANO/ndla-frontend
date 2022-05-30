@@ -6,15 +6,29 @@
  *
  */
 
-import { Content, Masthead, MastheadItem, Logo } from '@ndla/ui';
+import { Content, Masthead, MastheadItem, Logo, PageContainer } from '@ndla/ui';
+import ZendeskButton from '@ndla/zendesk';
+import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
-import Page from '../Page/Page';
+import config from '../../config';
+import FeideFooter from '../Page/components/FeideFooter';
+import Footer from '../Page/components/Footer';
 
 const ErrorPage = () => {
   const { t, i18n } = useTranslation();
+  const zendeskLanguage =
+    i18n.language === 'nb' || i18n.language === 'nn' ? 'no' : i18n.language;
   return (
-    <Page>
+    <PageContainer backgroundWide={true} ndlaFilm={false}>
+      <Helmet
+        htmlAttributes={{ lang: i18n.language }}
+        title="NDLA"
+        meta={[{ name: 'description', content: t('meta.description') }]}
+      />
+      <Helmet>
+        <meta property="fb:app_id" content="115263542481787" />
+      </Helmet>
       <Masthead fixed>
         <MastheadItem right>
           <Logo to="/" locale={i18n.language} label={t('logo.altText')} />
@@ -23,7 +37,16 @@ const ErrorPage = () => {
       <Content>
         <DefaultErrorMessage />
       </Content>
-    </Page>
+      <Footer />
+      {config.feideEnabled && <FeideFooter />}
+      {config.zendeskWidgetKey && (
+        <ZendeskButton
+          locale={zendeskLanguage}
+          widgetKey={config.zendeskWidgetKey}>
+          {t('askNDLA')}
+        </ZendeskButton>
+      )}
+    </PageContainer>
   );
 };
 
