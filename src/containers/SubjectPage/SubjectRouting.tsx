@@ -18,8 +18,10 @@ const SubjectRouting = () => {
     return <MultidisciplinarySubjectPage />;
   } else if (subjectType === 'toolbox') {
     return <ToolboxSubjectPage />;
-  } else if (subjectType === 'film') {
+  } else if (subjectType === 'film' && topicList.length === 0) {
     return <NdlaFilm />;
+  } else if (subjectType === 'film') {
+    return <SubjectPage />;
   }
 
   return <Navigate to="/404" replace />;
