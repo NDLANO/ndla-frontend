@@ -2843,11 +2843,7 @@ let subjectsIdx: SubjectIds;
 
 export const subjectObjectIds = () => {
   if (!subjectsIdx) {
-    const subjects = [
-      ...activeSubjects,
-      ...archivedSubjects,
-      ...betaSubjects,
-    ];
+    const subjects = [...activeSubjects, ...archivedSubjects, ...betaSubjects];
 
     subjectsIdx = subjects.reduce((obj: SubjectIds, item: SubjectType) => {
       obj[item.id] = item;

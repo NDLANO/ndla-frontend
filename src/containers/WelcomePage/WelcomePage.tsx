@@ -55,7 +55,7 @@ const getMultidisciplinaryTopics = (locale: LocaleType) => {
       title: topic.name[locale],
       url: toTopic(baseSubject.id, topic.id),
     };
-  })
+  });
 };
 
 const BannerCardWrapper = styled.div`

@@ -87,7 +87,7 @@ export type SubjectCategory = {
   name: Record<LocaleType, string>;
   subjects: SubjectType[];
   visible?: boolean;
-}
+};
 
 export type SubjectType = {
   name: Record<LocaleType, string>;
