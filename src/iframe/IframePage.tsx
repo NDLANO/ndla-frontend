@@ -107,7 +107,7 @@ export const IframePage = ({
       taxonomyId: taxonomyId || '',
       includeResource,
       includeTopic,
-      showVisualElement: isTopicArticle ? "true" : "false",
+      showVisualElement: isTopicArticle ? 'true' : 'false',
     },
     skip: !articleId,
   });
