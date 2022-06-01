@@ -16,6 +16,188 @@ export const activeSubjects = [
   },
   {
     longName: {
+      en: 'Historie påbygg  ',
+      nb: 'Historie påbygg  ',
+      nn: 'Historie påbygg  ',
+    },
+    name: {
+      en: 'Historie',
+      nb: 'Historie',
+      nn: 'Historie',
+    },
+    id: 'urn:subject:846a7552-ea6c-4174-89a4-85d6ba48c96e',
+  },
+  {
+    longName: {
+      en: 'Historie vg3',
+      nb: 'Historie vg3',
+      nn: 'Historie vg3',
+    },
+    name: {
+      en: 'Historie',
+      nb: 'Historie',
+      nn: 'Historie',
+    },
+    id: 'urn:subject:cc109c51-a083-413b-b497-7f80a0569a92',
+  },
+  {
+    longName: {
+      en: 'Kommunikasjon og kultur 2 ',
+      nb: 'Kommunikasjon og kultur 2 ',
+      nn: 'Kommunikasjon og kultur 2 ',
+    },
+    name: {
+      en: 'Kommunikasjon og kultur 2',
+      nb: 'Kommunikasjon og kultur 2',
+      nn: 'Kommunikasjon og kultur 2',
+    },
+    id: 'urn:subject:ea9e2be1-461d-4929-9dae-590e8cb9657f',
+  },
+  {
+    longName: {
+      en: 'Kommunikasjon og kultur 3',
+      nb: 'Kommunikasjon og kultur 3',
+      nn: 'Kommunikasjon og kultur 3',
+    },
+    name: {
+      en: 'Kommunikasjon og kultur 3',
+      nb: 'Kommunikasjon og kultur 3',
+      nn: 'Kommunikasjon og kultur 3',
+    },
+    id: 'urn:subject:f2ef1c73-d706-44e9-b1bd-7923842d6b4e',
+  },
+  {
+    longName: {
+      en: 'Matematikk R2',
+      nb: 'Matematikk R2',
+      nn: 'Matematikk R2',
+    },
+    name: {
+      en: 'Matematikk R2',
+      nb: 'Matematikk R2',
+      nn: 'Matematikk R2',
+    },
+    id: 'urn:subject:c499dbee-cfdd-4b76-8836-ae685db03baa',
+  },
+  {
+    longName: {
+      en: 'Matematikk S2',
+      nb: 'Matematikk S2',
+      nn: 'Matematikk S2',
+    },
+    name: {
+      en: 'Matematikk S2',
+      nb: 'Matematikk S2',
+      nn: 'Matematikk S2',
+    },
+    id: 'urn:subject:da2379d0-3c91-4e4d-94d7-fc42f69593d2',
+  },
+  {
+    longName: {
+      en: 'Medie- og informasjonskunnskap 2',
+      nb: 'Medie- og informasjonskunnskap 2',
+      nn: 'Medie- og informasjonskunnskap 2',
+    },
+    name: {
+      en: 'Medie- og informasjonskunnskap 2',
+      nb: 'Medie- og informasjonskunnskap 2',
+      nn: 'Medie- og informasjonskunnskap 2',
+    },
+    id: 'urn:subject:1:576cc40f-cc74-4418-9721-9b15ffd29cff',
+  },
+  {
+    longName: {
+      en: 'Mediesamfunnet 3',
+      nb: 'Mediesamfunnet 3',
+      nn: 'Mediesamfunnet 3',
+    },
+    name: {
+      en: 'Mediesamfunnet 3',
+      nb: 'Mediesamfunnet 3',
+      nn: 'Mediesamfunnet 3',
+    },
+    id: 'urn:subject:1:7588cdad-751d-46a8-8546-caa28075a167',
+  },
+  {
+    longName: {
+      en: 'Medieuttrykk 3',
+      nb: 'Medieuttrykk 3',
+      nn: 'Medieuttrykk 3',
+    },
+    name: {
+      en: 'Medieuttrykk 3',
+      nb: 'Medieuttrykk 3',
+      nn: 'Medieuttrykk 3',
+    },
+    id: 'urn:subject:1:20bc82bc-62e3-4276-8629-84a65b8a6ad2',
+  },
+  {
+    longName: {
+      en: 'Norsk (SF vg3)',
+      nb: 'Norsk (SF vg3)',
+      nn: 'Norsk (SF vg3)',
+    },
+    name: {
+      en: 'Norsk',
+      nb: 'Norsk',
+      nn: 'Norsk',
+    },
+    id: 'urn:subject:30bcefff-7577-4e0b-afc6-b07f437ea354',
+  },
+  {
+    longName: {
+      en: 'Norsk påbygg',
+      nb: 'Norsk påbygg',
+      nn: 'Norsk påbygg',
+    },
+    name: {
+      en: 'Norsk',
+      nb: 'Norsk',
+      nn: 'Norsk',
+    },
+    id: 'urn:subject:af91136f-7da8-4cf1-b0ba-0ea6acdf1489',
+  },
+  {
+    longName: {
+      en: 'Religion og etikk',
+      nb: 'Religion og etikk',
+      nn: 'Religion og etikk',
+    },
+    name: {
+      en: 'Religion og etikk',
+      nb: 'Religion og etikk',
+      nn: 'Religion og etikk',
+    },
+    id: 'urn:subject:ea2822da-52f0-4517-bf01-c63f8e96f446',
+  },
+  {
+    longName: {
+      en: 'Matematikk 2P-Y',
+      nb: 'Matematikk 2P-Y',
+      nn: 'Matematikk 2P-Y',
+    },
+    name: {
+      en: 'Matematikk 2P-Y',
+      nb: 'Matematikk 2P-Y',
+      nn: 'Matematikk 2P-Y',
+    },
+    id: 'urn:subject:ad7d24b5-57be-4eff-87e0-1eaf79b27825',
+  },
+  {
+    longName: {
+      en: 'English 2',
+      nb: 'English 2',
+      nn: 'English 2',
+    },
+    name: {
+      en: 'English 2',
+      nb: 'English 2',
+      nn: 'English 2',
+    },
+    id: 'urn:subject:6e2e2319-cb8a-4dd2-b382-e30f001633bb',
+  },
+  {
+    longName: {
       en: 'Brukerstøtte (IM-ITK vg2)',
       nb: 'Brukerstøtte (IM-ITK vg2)',
       nn: 'Brukarstøtte (IM-ITK vg2)',
@@ -131,19 +313,7 @@ export const activeSubjects = [
     },
     id: 'urn:subject:1:50dfc86d-6566-4a45-a531-d32b82e8bfa1',
   },
-  {
-    name: {
-      nb: 'Norsk',
-      nn: 'Norsk',
-      en: 'Norsk',
-    },
-    longName: {
-      nb: 'Norsk (SF vg3) (LK06)',
-      nn: 'Norsk (SF vg3) (LK06)',
-      en: 'Norsk (SF vg3) (LK06)',
-    },
-    id: 'urn:subject:1:cddc3895-a19b-4e30-bd27-2f91b4a02894',
-  },
+  
   {
     longName: {
       en: 'Kroppsøving (vg1)',
@@ -172,19 +342,6 @@ export const activeSubjects = [
   },
   {
     longName: {
-      en: 'Kroppsøving (vg3) (LK06)',
-      nb: 'Kroppsøving (vg3) (LK06)',
-      nn: 'Kroppsøving (vg3) (LK06)',
-    },
-    name: {
-      en: 'Kroppsøving',
-      nb: 'Kroppsøving',
-      nn: 'Kroppsøving',
-    },
-    id: 'urn:subject:1:c2133910-2de5-4dc9-9057-f59fed74982f',
-  },
-  {
-    longName: {
       en: 'Matematikk 1P',
       nb: 'Matematikk 1P',
       nn: 'Matematikk 1P',
@@ -195,19 +352,6 @@ export const activeSubjects = [
       nn: 'Matematikk 1P',
     },
     id: 'urn:subject:1:a3c1b65a-c41f-4879-b650-32a13fe1801b',
-  },
-  {
-    longName: {
-      en: 'Matematikk 2P-Y (LK06)',
-      nb: 'Matematikk 2P-Y (LK06)',
-      nn: 'Matematikk 2P-Y (LK06)',
-    },
-    name: {
-      en: 'Matematikk 2P-Y',
-      nb: 'Matematikk 2P-Y',
-      nn: 'Matematikk 2P-Y',
-    },
-    id: 'urn:subject:1:38bc9538-63fd-48f3-9085-c2142dafd64c',
   },
   {
     longName: {
@@ -235,19 +379,7 @@ export const activeSubjects = [
     },
     id: 'urn:subject:1:d78133ee-73be-4640-9eb6-50372cda2287',
   },
-  {
-    longName: {
-      en: 'Religion og etikk (LK06)',
-      nb: 'Religion og etikk (LK06)',
-      nn: 'Religion og etikk (LK06)',
-    },
-    name: {
-      en: 'Religion og etikk',
-      nb: 'Religion og etikk',
-      nn: 'Religion og etikk',
-    },
-    id: 'urn:subject:1:78e538a3-78bf-4db2-af00-2ca7d721cb25',
-  },
+  
   {
     longName: {
       en: 'Matematikk 1P-Y (TP)',
@@ -261,19 +393,7 @@ export const activeSubjects = [
     },
     id: 'urn:subject:1:3b74fa5e-aeb8-4bc3-b771-fb2c0230b5f4',
   },
-  {
-    longName: {
-      en: 'Åarjelsaemien voestesgïeline (Utgått) (SR vg2) (LK06)',
-      nb: 'Åarjelsaemien voestesgïeline (Utgått) (SR vg2) (LK06)',
-      nn: 'Åarjelsaemien voestesgïeline (Utgått) (SR vg2) (LK06)',
-    },
-    name: {
-      en: 'Sørsamisk som førstespråk (Utgått)',
-      nb: 'Sørsamisk som førstespråk (Utgått)',
-      nn: 'Sørsamisk som førstespråk (Utgått)',
-    },
-    id: 'urn:subject:1:d4511941-a1fc-4336-bc80-0a05c534a182',
-  },
+  
   {
     longName: {
       en: 'Åarjelsaemien voestesgïeline (BF vg1/vg2)',
@@ -665,32 +785,6 @@ export const activeSubjects = [
     id: 'urn:subject:1:a5d7da3a-8a19-4a83-9b3f-3c855621df70',
   },
   {
-    name: {
-      nb: 'Historie',
-      nn: 'Historie',
-      en: 'Historie',
-    },
-    longName: {
-      nb: 'Historie (SF vg3) (LK06)',
-      nn: 'Historie (SF vg3) (LK06)',
-      en: 'Historie (SF vg3) (LK06)',
-    },
-    id: 'urn:subject:1:e0a0faa8-cefd-481f-bf79-b45ad4d7c5e7',
-  },
-  {
-    name: {
-      nb: 'Historie',
-      nn: 'Historie',
-      en: 'Historie',
-    },
-    longName: {
-      nb: 'Historie (PB) (LK06)',
-      nn: 'Historie (PB) (LK06)',
-      en: 'Historie (PB) (LK06)',
-    },
-    id: 'urn:subject:1:9132d125-4d8f-41a6-b61d-77741662d5a9',
-  },
-  {
     longName: {
       en: 'Historie (SF vg2)',
       nb: 'Historie (SF vg2)',
@@ -703,32 +797,7 @@ export const activeSubjects = [
     },
     id: 'urn:subject:1:ff69c291-6374-4766-80c2-47d5840d8bbf',
   },
-  {
-    longName: {
-      en: 'Åarjelsaemien voestesgïeline (SR vg3) (LK06)',
-      nb: 'Åarjelsaemien voestesgïeline (SR vg3) (LK06)',
-      nn: 'Åarjelsaemien voestesgïeline (SR vg3) (LK06)',
-    },
-    name: {
-      en: 'Sørsamisk som førstespråk',
-      nb: 'Sørsamisk som førstespråk',
-      nn: 'Sørsamisk som førstespråk',
-    },
-    id: 'urn:subject:1:20e0fdca-5237-4095-a9e5-cea7d63866c0',
-  },
-  {
-    longName: {
-      en: 'Åarjelsaemien voestesgïeline (PB) (LK06)',
-      nb: 'Åarjelsaemien voestesgïeline (PB) (LK06)',
-      nn: 'Åarjelsaemien voestesgïeline (PB) (LK06)',
-    },
-    name: {
-      en: 'Sørsamisk som førstespråk',
-      nb: 'Sørsamisk som førstespråk',
-      nn: 'Sørsamisk som førstespråk',
-    },
-    id: 'urn:subject:1:a532138d-e16a-4046-a46e-bd5bc9487b8b',
-  },
+  
   {
     longName: {
       en: 'Tverrfaglige tema',
@@ -794,19 +863,7 @@ export const activeSubjects = [
     },
     id: 'urn:subject:1:f18b0daa-6507-4025-8998-b8a11c8ccc70',
   },
-  {
-    longName: {
-      en: 'Naturfag (PB) (LK06)',
-      nb: 'Naturfag (PB) (LK06)',
-      nn: 'Naturfag (PB) (LK06)',
-    },
-    name: {
-      en: 'Naturfag',
-      nb: 'Naturfag',
-      nn: 'Naturfag',
-    },
-    id: 'urn:subject:1:671bd263-eee6-4c56-9e23-a6bbd3130f33',
-  },
+  
   {
     longName: {
       en: 'NDLA Film',
@@ -1080,84 +1137,6 @@ export const activeSubjects = [
       nn: 'Kultur og kommunikasjon',
     },
     id: 'urn:subject:1:4aef7156-a5ae-4476-8e81-6d2a4842143a',
-  },
-  {
-    name: {
-      nb: 'Sikkerhet (Utgått)',
-      nn: 'Tryggleik (Utgått)',
-      en: 'Sikkerhet (Utgått)',
-    },
-    longName: {
-      nb: 'Sikkerhet (Utgått) (SS-SSS vg2) (LK06)',
-      nn: 'Tryggleik (Utgått) (SS-SSS vg2) (LK06)',
-      en: 'Sikkerhet (Utgått) (SS-SSS vg2) (LK06)',
-    },
-    id: 'urn:subject:1:b40855bb-9e21-4944-9257-c96679da549a',
-  },
-  {
-    longName: {
-      en: 'Økonomi og administrasjon (Utgått) (SS-SSS vg2) (LK06)',
-      nb: 'Økonomi og administrasjon (Utgått) (SS-SSS vg2) (LK06)',
-      nn: 'Økonomi og administrasjon (Utgått) (SS-SSS vg2) (LK06)',
-    },
-    name: {
-      en: 'Økonomi og administrasjon (Utgått)',
-      nb: 'Økonomi og administrasjon (Utgått)',
-      nn: 'Økonomi og administrasjon (Utgått)',
-    },
-    id: 'urn:subject:1:5b028a77-1c35-4774-8e10-49e1bac2d6fd',
-  },
-  {
-    longName: {
-      en: 'Markedsføring og salg (Utgått) (SS-SSS vg2) (LK06)',
-      nb: 'Markedsføring og salg (Utgått) (SS-SSS vg2) (LK06)',
-      nn: 'Marknadsføring og sal (Utgått) (SS-SSS vg2) (LK06)',
-    },
-    name: {
-      en: 'Markedsføring og salg (Utgått)',
-      nb: 'Markedsføring og salg (Utgått)',
-      nn: 'Marknadsføring og sal (Utgått)',
-    },
-    id: 'urn:subject:1:3687db4f-b3c9-471b-b0e6-9e36c39cc445',
-  },
-  {
-    longName: {
-      en: 'Salg og markedsføring (Utgått) (SS-RLV vg2) (LK06)',
-      nb: 'Salg og markedsføring (Utgått) (SS-RLV vg2) (LK06)',
-      nn: 'Sal og marknadsføring (Utgått) (SS-RLV vg2) (LK06)',
-    },
-    name: {
-      en: 'Salg og markedsføring (Utgått)',
-      nb: 'Salg og markedsføring (Utgått)',
-      nn: 'Sal og marknadsføring (Utgått)',
-    },
-    id: 'urn:subject:1:382e6cf8-0c78-4f78-b96a-2927cfef632a',
-  },
-  {
-    longName: {
-      en: 'Etablering og drift (Utgått) (SS-RLV vg2) (LK06)',
-      nb: 'Etablering og drift (Utgått) (SS-RLV vg2) (LK06)',
-      nn: 'Etablering og drift (Utgått) (SS-RLV vg2) (LK06)',
-    },
-    name: {
-      en: 'Etablering og drift (Utgått)',
-      nb: 'Etablering og drift (Utgått)',
-      nn: 'Etablering og drift (Utgått)',
-    },
-    id: 'urn:subject:1:8181c74a-d7cd-40de-b199-864e069ffb8b',
-  },
-  {
-    longName: {
-      en: 'Vertskapsrollen (Utgått) (SS-RLV vg2) (LK06)',
-      nb: 'Vertskapsrollen (Utgått) (SS-RLV vg2) (LK06)',
-      nn: 'Vertskapsrolla  (Utgått) (SS-RLV vg2) (LK06)',
-    },
-    name: {
-      en: 'Vertskapsrollen (Utgått)',
-      nb: 'Vertskapsrollen (Utgått)',
-      nn: 'Vertskapsrolla (Utgått)',
-    },
-    id: 'urn:subject:1:26a01df2-376e-4090-b0bf-eec2ca3d41dd',
   },
   {
     longName: {
@@ -1537,58 +1516,6 @@ export const activeSubjects = [
     id: 'urn:subject:b0fb73bc-fc75-4be1-9b24-605d9de0f469',
   },
   {
-    name: {
-      nb: 'Virksomhetsstøtte (Utgått)',
-      nn: 'Verksemdsstøtte (Utgått)',
-      en: 'Virksomhetsstøtte (Utgått)',
-    },
-    longName: {
-      nb: 'Virksomhetsstøtte (Utgått) (SS-ISF vg2) (LK06)',
-      nn: 'Verksemdsstøtte (Utgått) (SS-ISF vg2) (LK06)',
-      en: 'Virksomhetsstøtte (Utgått) (SS-ISF vg2) (LK06)',
-    },
-    id: 'urn:subject:1:9d6d3241-014d-4a5f-b0bc-ae0f83d1cd71',
-  },
-  {
-    name: {
-      nb: 'Bruker- og driftsstøtte (Utgått)',
-      nn: 'Brukar- og driftsstøtte (Utgått)',
-      en: 'Bruker- og driftsstøtte (Utgått)',
-    },
-    longName: {
-      nb: 'Bruker- og driftsstøtte (Utgått) (SS-ISF vg2) (LK06)',
-      nn: 'Brukar- og driftsstøtte (Utgått) (SS-ISF vg2) (LK06)',
-      en: 'Bruker- og driftsstøtte (Utgått) (SS-ISF vg2) (LK06)',
-    },
-    id: 'urn:subject:1:a9e14915-c279-462b-82fa-714ceee05116',
-  },
-  {
-    name: {
-      nb: 'Drift og vedlikehold (Utgått)',
-      nn: 'Drift og vedlikehald (Utgått)',
-      en: 'Drift og vedlikehold (Utgått)',
-    },
-    longName: {
-      nb: 'Drift og vedlikehold (Utgått) (SS-ISF vg2) (LK06)',
-      nn: 'Drift og vedlikehald (Utgått) (SS-ISF vg2) (LK06)',
-      en: 'Drift og vedlikehold (Utgått) (SS-ISF vg2) (LK06)',
-    },
-    id: 'urn:subject:1:d97809a8-47b6-4d26-ae5c-1839f4c27940',
-  },
-  {
-    name: {
-      nb: 'Yrkesfaglig fordypning (Utgått)',
-      nn: 'Yrkesfagleg fordjuping (Utgått)',
-      en: 'Yrkesfaglig fordypning (Utgått)',
-    },
-    longName: {
-      nb: 'Yrkesfaglig fordypning (Utgått) (SS-RLV vg2) (LK06)',
-      nn: 'Yrkesfagleg fordjuping (Utgått) (SS-RLV vg2) (LK06)',
-      en: 'Yrkesfaglig fordypning (Utgått) (SS-RLV vg2) (LK06)',
-    },
-    id: 'urn:subject:1:021e4beb-fbdf-4f1c-b408-23d08f6446f3',
-  },
-  {
     longName: {
       en: 'English 1',
       nb: 'English 1',
@@ -1694,32 +1621,6 @@ export const activeSubjects = [
   },
   {
     longName: {
-      en: 'English Literature and Culture (LK06)',
-      nb: 'English Literature and Culture (LK06)',
-      nn: 'English Literature and Culture (LK06)',
-    },
-    name: {
-      en: 'Engelskspråklig litteratur og kultur',
-      nb: 'Engelskspråklig litteratur og kultur',
-      nn: 'Engelskspråkleg litteratur og kultur',
-    },
-    id: 'urn:subject:1:41cb93c0-abc7-4212-b69f-df81106ae3c0',
-  },
-  {
-    longName: {
-      en: 'Social Studies English (LK06)',
-      nb: 'Social Studies English (LK06)',
-      nn: 'Social Studies English (LK06)',
-    },
-    name: {
-      en: 'Samfunnsfaglig engelsk',
-      nb: 'Samfunnsfaglig engelsk',
-      nn: 'Samfunnsfagleg engelsk',
-    },
-    id: 'urn:subject:1:06270029-7aa7-4a7a-b383-128b275ff150',
-  },
-  {
-    longName: {
       en: 'Tysk 1',
       nb: 'Tysk 1',
       nn: 'Tysk 1',
@@ -1744,32 +1645,7 @@ export const activeSubjects = [
     },
     id: 'urn:subject:1:ec288dfb-4768-4f82-8387-fe2d73fff1e1',
   },
-  {
-    longName: {
-      en: 'Kommunikasjon og kultur 2 (LK06)',
-      nb: 'Kommunikasjon og kultur 2 (LK06)',
-      nn: 'Kommunikasjon og kultur 2 (LK06)',
-    },
-    name: {
-      en: 'Kommunikasjon og kultur 2',
-      nb: 'Kommunikasjon og kultur 2',
-      nn: 'Kommunikasjon og kultur 2',
-    },
-    id: 'urn:subject:1:4a73afd7-f263-48fa-b6fb-49bd21e517ab',
-  },
-  {
-    longName: {
-      en: 'Kommunikasjon og kultur 3 (LK06)',
-      nb: 'Kommunikasjon og kultur 3 (LK06)',
-      nn: 'Kommunikasjon og kultur 3 (LK06)',
-    },
-    name: {
-      en: 'Kommunikasjon og kultur 3',
-      nb: 'Kommunikasjon og kultur 3',
-      nn: 'Kommunikasjon og kultur 3',
-    },
-    id: 'urn:subject:1:b9e86c43-93b8-49e9-81af-09dbc7d79401',
-  },
+  
   {
     longName: {
       en: 'Medie- og informasjonskunnskap 1',
@@ -1782,32 +1658,6 @@ export const activeSubjects = [
       nn: 'Medie- og informasjonskunnskap 1',
     },
     id: 'urn:subject:1:058bdbdb-aa5a-4a29-88fb-45e664999417',
-  },
-  {
-    longName: {
-      en: 'Matematikk R2 (LK06)',
-      nb: 'Matematikk R2 (LK06)',
-      nn: 'Matematikk R2 (LK06)',
-    },
-    name: {
-      en: 'Matematikk R2',
-      nb: 'Matematikk R2',
-      nn: 'Matematikk R2',
-    },
-    id: 'urn:subject:1:4200b774-5b7b-4900-bf1d-e0b298b9cb97',
-  },
-  {
-    longName: {
-      en: 'Matematikk S2 (LK06)',
-      nb: 'Matematikk S2 (LK06)',
-      nn: 'Matematikk S2 (LK06)',
-    },
-    name: {
-      en: 'Matematikk S2',
-      nb: 'Matematikk S2',
-      nn: 'Matematikk S2',
-    },
-    id: 'urn:subject:1:ebaf899b-4161-4281-80ab-2cb7eebecca4',
   },
   {
     longName: {
@@ -1835,19 +1685,7 @@ export const activeSubjects = [
     },
     id: 'urn:subject:1:e7b9fcee-cb8b-4e0e-a16d-d7dddbe0b643',
   },
-  {
-    longName: {
-      en: 'Medieuttrykk 3 og mediesamfunnet 3 (LK06)',
-      nb: 'Medieuttrykk 3 og mediesamfunnet 3 (LK06)',
-      nn: 'Medieuttrykk 3 og mediesamfunnet 3 (LK06)',
-    },
-    name: {
-      en: 'Medieuttrykk 3 og mediesamfunnet 3',
-      nb: 'Medieuttrykk 3 og mediesamfunnet 3',
-      nn: 'Medieuttrykk 3 og mediesamfunnet 3',
-    },
-    id: 'urn:subject:1:f7d7f164-fb40-4d21-9813-6a171603281d',
-  },
+  
   {
     longName: {
       en: 'Medieuttrykk 2',
@@ -1873,32 +1711,6 @@ export const activeSubjects = [
       nn: 'Mediesamfunnet 2',
     },
     id: 'urn:subject:1:ca0f428c-d59a-4836-83be-83cbc3191a23',
-  },
-  {
-    longName: {
-      en: 'Medie- og informasjonskunnskap 2 (LK06)',
-      nb: 'Medie- og informasjonskunnskap 2 (LK06)',
-      nn: 'Medie- og informasjonskunnskap 2 (LK06)',
-    },
-    name: {
-      en: 'Medie- og informasjonskunnskap 2',
-      nb: 'Medie- og informasjonskunnskap 2',
-      nn: 'Medie- og informasjonskunnskap 2',
-    },
-    id: 'urn:subject:1:80f10045-2faa-4f6f-be0f-4c7ec9618186',
-  },
-  {
-    name: {
-      nb: 'Norsk',
-      nn: 'Norsk',
-      en: 'Norsk',
-    },
-    longName: {
-      nb: 'Norsk (PB) (LK06)',
-      nn: 'Norsk (PB) (LK06)',
-      en: 'Norsk (PB) (LK06)',
-    },
-    id: 'urn:subject:1:f3d2143b-66e3-428c-89ca-72c1abc659ea',
   },
   {
     longName: {
@@ -2072,6 +1884,383 @@ export const activeSubjects = [
 ];
 
 export const archivedSubjects = [
+  {
+    name: {
+      nb: 'Virksomhetsstøtte (Utgått)',
+      nn: 'Verksemdsstøtte (Utgått)',
+      en: 'Virksomhetsstøtte (Utgått)',
+    },
+    longName: {
+      nb: 'Virksomhetsstøtte (Utgått) (SS-ISF vg2) (LK06)',
+      nn: 'Verksemdsstøtte (Utgått) (SS-ISF vg2) (LK06)',
+      en: 'Virksomhetsstøtte (Utgått) (SS-ISF vg2) (LK06)',
+    },
+    id: 'urn:subject:1:9d6d3241-014d-4a5f-b0bc-ae0f83d1cd71',
+  },
+  {
+    name: {
+      nb: 'Bruker- og driftsstøtte (Utgått)',
+      nn: 'Brukar- og driftsstøtte (Utgått)',
+      en: 'Bruker- og driftsstøtte (Utgått)',
+    },
+    longName: {
+      nb: 'Bruker- og driftsstøtte (Utgått) (SS-ISF vg2) (LK06)',
+      nn: 'Brukar- og driftsstøtte (Utgått) (SS-ISF vg2) (LK06)',
+      en: 'Bruker- og driftsstøtte (Utgått) (SS-ISF vg2) (LK06)',
+    },
+    id: 'urn:subject:1:a9e14915-c279-462b-82fa-714ceee05116',
+  },
+  {
+    name: {
+      nb: 'Drift og vedlikehold (Utgått)',
+      nn: 'Drift og vedlikehald (Utgått)',
+      en: 'Drift og vedlikehold (Utgått)',
+    },
+    longName: {
+      nb: 'Drift og vedlikehold (Utgått) (SS-ISF vg2) (LK06)',
+      nn: 'Drift og vedlikehald (Utgått) (SS-ISF vg2) (LK06)',
+      en: 'Drift og vedlikehold (Utgått) (SS-ISF vg2) (LK06)',
+    },
+    id: 'urn:subject:1:d97809a8-47b6-4d26-ae5c-1839f4c27940',
+  },
+  {
+    name: {
+      nb: 'Yrkesfaglig fordypning (Utgått)',
+      nn: 'Yrkesfagleg fordjuping (Utgått)',
+      en: 'Yrkesfaglig fordypning (Utgått)',
+    },
+    longName: {
+      nb: 'Yrkesfaglig fordypning (Utgått) (SS-RLV vg2) (LK06)',
+      nn: 'Yrkesfagleg fordjuping (Utgått) (SS-RLV vg2) (LK06)',
+      en: 'Yrkesfaglig fordypning (Utgått) (SS-RLV vg2) (LK06)',
+    },
+    id: 'urn:subject:1:021e4beb-fbdf-4f1c-b408-23d08f6446f3',
+  },
+  {
+    longName: {
+      en: 'Økonomi og administrasjon (Utgått) (SS-SSS vg2) (LK06)',
+      nb: 'Økonomi og administrasjon (Utgått) (SS-SSS vg2) (LK06)',
+      nn: 'Økonomi og administrasjon (Utgått) (SS-SSS vg2) (LK06)',
+    },
+    name: {
+      en: 'Økonomi og administrasjon (Utgått)',
+      nb: 'Økonomi og administrasjon (Utgått)',
+      nn: 'Økonomi og administrasjon (Utgått)',
+    },
+    id: 'urn:subject:1:5b028a77-1c35-4774-8e10-49e1bac2d6fd',
+  },
+  {
+    longName: {
+      en: 'Markedsføring og salg (Utgått) (SS-SSS vg2) (LK06)',
+      nb: 'Markedsføring og salg (Utgått) (SS-SSS vg2) (LK06)',
+      nn: 'Marknadsføring og sal (Utgått) (SS-SSS vg2) (LK06)',
+    },
+    name: {
+      en: 'Markedsføring og salg (Utgått)',
+      nb: 'Markedsføring og salg (Utgått)',
+      nn: 'Marknadsføring og sal (Utgått)',
+    },
+    id: 'urn:subject:1:3687db4f-b3c9-471b-b0e6-9e36c39cc445',
+  },
+  {
+    longName: {
+      en: 'Salg og markedsføring (Utgått) (SS-RLV vg2) (LK06)',
+      nb: 'Salg og markedsføring (Utgått) (SS-RLV vg2) (LK06)',
+      nn: 'Sal og marknadsføring (Utgått) (SS-RLV vg2) (LK06)',
+    },
+    name: {
+      en: 'Salg og markedsføring (Utgått)',
+      nb: 'Salg og markedsføring (Utgått)',
+      nn: 'Sal og marknadsføring (Utgått)',
+    },
+    id: 'urn:subject:1:382e6cf8-0c78-4f78-b96a-2927cfef632a',
+  },
+  {
+    longName: {
+      en: 'Etablering og drift (Utgått) (SS-RLV vg2) (LK06)',
+      nb: 'Etablering og drift (Utgått) (SS-RLV vg2) (LK06)',
+      nn: 'Etablering og drift (Utgått) (SS-RLV vg2) (LK06)',
+    },
+    name: {
+      en: 'Etablering og drift (Utgått)',
+      nb: 'Etablering og drift (Utgått)',
+      nn: 'Etablering og drift (Utgått)',
+    },
+    id: 'urn:subject:1:8181c74a-d7cd-40de-b199-864e069ffb8b',
+  },
+  {
+    longName: {
+      en: 'Vertskapsrollen (Utgått) (SS-RLV vg2) (LK06)',
+      nb: 'Vertskapsrollen (Utgått) (SS-RLV vg2) (LK06)',
+      nn: 'Vertskapsrolla  (Utgått) (SS-RLV vg2) (LK06)',
+    },
+    name: {
+      en: 'Vertskapsrollen (Utgått)',
+      nb: 'Vertskapsrollen (Utgått)',
+      nn: 'Vertskapsrolla (Utgått)',
+    },
+    id: 'urn:subject:1:26a01df2-376e-4090-b0bf-eec2ca3d41dd',
+  },
+  {
+    name: {
+      nb: 'Sikkerhet (Utgått)',
+      nn: 'Tryggleik (Utgått)',
+      en: 'Sikkerhet (Utgått)',
+    },
+    longName: {
+      nb: 'Sikkerhet (Utgått) (SS-SSS vg2) (LK06)',
+      nn: 'Tryggleik (Utgått) (SS-SSS vg2) (LK06)',
+      en: 'Sikkerhet (Utgått) (SS-SSS vg2) (LK06)',
+    },
+    id: 'urn:subject:1:b40855bb-9e21-4944-9257-c96679da549a',
+  },
+  {
+    longName: {
+      en: 'Åarjelsaemien voestesgïeline (Utgått) (SR vg3) (LK06)',
+      nb: 'Åarjelsaemien voestesgïeline (Utgått) (SR vg3) (LK06)',
+      nn: 'Åarjelsaemien voestesgïeline (Utgått) (SR vg3) (LK06)',
+    },
+    name: {
+      en: 'Sørsamisk som førstespråk (Utgått)',
+      nb: 'Sørsamisk som førstespråk (Utgått)',
+      nn: 'Sørsamisk som førstespråk (Utgått)',
+    },
+    id: 'urn:subject:1:20e0fdca-5237-4095-a9e5-cea7d63866c0',
+  },
+  {
+    longName: {
+      en: 'Åarjelsaemien voestesgïeline (Utgått) (PB) (LK06)',
+      nb: 'Åarjelsaemien voestesgïeline (Utgått) (PB) (LK06)',
+      nn: 'Åarjelsaemien voestesgïeline (Utgått) (PB) (LK06)',
+    },
+    name: {
+      en: 'Sørsamisk som førstespråk (Utgått)',
+      nb: 'Sørsamisk som førstespråk (Utgått)',
+      nn: 'Sørsamisk som førstespråk (Utgått)',
+    },
+    id: 'urn:subject:1:a532138d-e16a-4046-a46e-bd5bc9487b8b',
+  },
+  {
+    longName: {
+      en: 'Åarjelsaemien voestesgïeline (Utgått) (SR vg2) (LK06)',
+      nb: 'Åarjelsaemien voestesgïeline (Utgått) (SR vg2) (LK06)',
+      nn: 'Åarjelsaemien voestesgïeline (Utgått) (SR vg2) (LK06)',
+    },
+    name: {
+      en: 'Sørsamisk som førstespråk (Utgått)',
+      nb: 'Sørsamisk som førstespråk (Utgått)',
+      nn: 'Sørsamisk som førstespråk (Utgått)',
+    },
+    id: 'urn:subject:1:d4511941-a1fc-4336-bc80-0a05c534a182',
+  },
+  {
+    longName: {
+      en: 'Religion og etikk (Utgått) (LK06)',
+      nb: 'Religion og etikk (Utgått) (LK06)',
+      nn: 'Religion og etikk (Utgått) (LK06)',
+    },
+    name: {
+      en: 'Religion og etikk (Utgått)',
+      nb: 'Religion og etikk (Utgått)',
+      nn: 'Religion og etikk (Utgått)',
+    },
+    id: 'urn:subject:1:78e538a3-78bf-4db2-af00-2ca7d721cb25',
+  },
+  {
+    name: {
+      nb: 'Norsk (Utgått)',
+      nn: 'Norsk (Utgått)',
+      en: 'Norsk (Utgått)',
+    },
+    longName: {
+      nb: 'Norsk (Utgått) (SF vg3) (LK06)',
+      nn: 'Norsk (Utgått) (SF vg3) (LK06)',
+      en: 'Norsk (Utgått) (SF vg3) (LK06)',
+    },
+    id: 'urn:subject:1:cddc3895-a19b-4e30-bd27-2f91b4a02894',
+  },
+  {
+    longName: {
+      en: 'Naturfag (Utgått) (PB) (LK06)',
+      nb: 'Naturfag (Utgått) (PB) (LK06)',
+      nn: 'Naturfag (Utgått) (PB) (LK06)',
+    },
+    name: {
+      en: 'Naturfag (Utgått)',
+      nb: 'Naturfag (Utgått)',
+      nn: 'Naturfag (Utgått)',
+    },
+    id: 'urn:subject:1:671bd263-eee6-4c56-9e23-a6bbd3130f33',
+  },
+  {
+    longName: {
+      en: 'Medieuttrykk 3 og mediesamfunnet 3 (Utgått) (LK06)',
+      nb: 'Medieuttrykk 3 og mediesamfunnet 3 (Utgått) (LK06)',
+      nn: 'Medieuttrykk 3 og mediesamfunnet 3 (Utgått) (LK06)',
+    },
+    name: {
+      en: 'Medieuttrykk 3 og mediesamfunnet 3 (Utgått)',
+      nb: 'Medieuttrykk 3 og mediesamfunnet 3 (Utgått)',
+      nn: 'Medieuttrykk 3 og mediesamfunnet 3 (Utgått)',
+    },
+    id: 'urn:subject:1:f7d7f164-fb40-4d21-9813-6a171603281d',
+  },
+  {
+    longName: {
+      en: 'Medie- og informasjonskunnskap 2 (Utgått) (LK06)',
+      nb: 'Medie- og informasjonskunnskap 2 (Utgått) (LK06)',
+      nn: 'Medie- og informasjonskunnskap 2 (Utgått) (LK06)',
+    },
+    name: {
+      en: 'Medie- og informasjonskunnskap 2 (Utgått)',
+      nb: 'Medie- og informasjonskunnskap 2 (Utgått)',
+      nn: 'Medie- og informasjonskunnskap 2 (Utgått)',
+    },
+    id: 'urn:subject:1:80f10045-2faa-4f6f-be0f-4c7ec9618186',
+  },
+  {
+    name: {
+      nb: 'Norsk (Utgått)',
+      nn: 'Norsk (Utgått)',
+      en: 'Norsk (Utgått)',
+    },
+    longName: {
+      nb: 'Norsk (Utgått) (PB) (LK06)',
+      nn: 'Norsk (Utgått) (PB) (LK06)',
+      en: 'Norsk (Utgått) (PB) (LK06)',
+    },
+    id: 'urn:subject:1:f3d2143b-66e3-428c-89ca-72c1abc659ea',
+  },
+  {
+    longName: {
+      en: 'Matematikk R2 (Utgått) (LK06)',
+      nb: 'Matematikk R2 (Utgått) (LK06)',
+      nn: 'Matematikk R2 (Utgått) (LK06)',
+    },
+    name: {
+      en: 'Matematikk R2 (Utgått)',
+      nb: 'Matematikk R2 (Utgått)',
+      nn: 'Matematikk R2 (Utgått)',
+    },
+    id: 'urn:subject:1:4200b774-5b7b-4900-bf1d-e0b298b9cb97',
+  },
+  {
+    longName: {
+      en: 'Matematikk S2 (Utgått) (LK06)',
+      nb: 'Matematikk S2 (Utgått) (LK06)',
+      nn: 'Matematikk S2 (Utgått) (LK06)',
+    },
+    name: {
+      en: 'Matematikk S2',
+      nb: 'Matematikk S2',
+      nn: 'Matematikk S2',
+    },
+    id: 'urn:subject:1:ebaf899b-4161-4281-80ab-2cb7eebecca4',
+  },
+  {
+    longName: {
+      en: 'Matematikk 2P-Y (LK06)',
+      nb: 'Matematikk 2P-Y (LK06)',
+      nn: 'Matematikk 2P-Y (LK06)',
+    },
+    name: {
+      en: 'Matematikk 2P-Y (Utgått)',
+      nb: 'Matematikk 2P-Y (Utgått)',
+      nn: 'Matematikk 2P-Y (Utgått)',
+    },
+    id: 'urn:subject:1:38bc9538-63fd-48f3-9085-c2142dafd64c',
+  },
+  {
+    longName: {
+      en: 'Kroppsøving (Utgått) (vg3) (LK06)',
+      nb: 'Kroppsøving (Utgått) (vg3) (LK06)',
+      nn: 'Kroppsøving (Utgått) (vg3) (LK06)',
+    },
+    name: {
+      en: 'Kroppsøving (Utgått)',
+      nb: 'Kroppsøving (Utgått)',
+      nn: 'Kroppsøving (Utgått)',
+    },
+    id: 'urn:subject:1:c2133910-2de5-4dc9-9057-f59fed74982f',
+  },
+  {
+    longName: {
+      en: 'Kommunikasjon og kultur 2 (Utgått) (LK06)',
+      nb: 'Kommunikasjon og kultur 2 (Utgått) (LK06)',
+      nn: 'Kommunikasjon og kultur 2 (Utgått) (LK06)',
+    },
+    name: {
+      en: 'Kommunikasjon og kultur 2 (Utgått)',
+      nb: 'Kommunikasjon og kultur 2 (Utgått)',
+      nn: 'Kommunikasjon og kultur 2 (Utgått)',
+    },
+    id: 'urn:subject:1:4a73afd7-f263-48fa-b6fb-49bd21e517ab',
+  },
+  {
+    longName: {
+      en: 'Kommunikasjon og kultur 3 (Utgått) (LK06)',
+      nb: 'Kommunikasjon og kultur 3 (Utgått) (LK06)',
+      nn: 'Kommunikasjon og kultur 3 (Utgått) (LK06)',
+    },
+    name: {
+      en: 'Kommunikasjon og kultur 3 (Utgått)',
+      nb: 'Kommunikasjon og kultur 3 (Utgått)',
+      nn: 'Kommunikasjon og kultur 3 (Utgått)',
+    },
+    id: 'urn:subject:1:b9e86c43-93b8-49e9-81af-09dbc7d79401',
+  },
+  {
+    name: {
+      nb: 'Historie (Utgått)',
+      nn: 'Historie (Utgått)',
+      en: 'Historie (Utgått)',
+    },
+    longName: {
+      nb: 'Historie (Utgått) (SF vg3) (LK06)',
+      nn: 'Historie (Utgått) (SF vg3) (LK06)',
+      en: 'Historie (Utgått) (SF vg3) (LK06)',
+    },
+    id: 'urn:subject:1:e0a0faa8-cefd-481f-bf79-b45ad4d7c5e7',
+  },
+  {
+    name: {
+      nb: 'Historie (Utgått)',
+      nn: 'Historie (Utgått)',
+      en: 'Historie (Utgått)',
+    },
+    longName: {
+      nb: 'Historie (Utgått) (PB) (LK06)',
+      nn: 'Historie (Utgått) (PB) (LK06)',
+      en: 'Historie (Utgått) (PB) (LK06)',
+    },
+    id: 'urn:subject:1:9132d125-4d8f-41a6-b61d-77741662d5a9',
+  },
+  {
+    longName: {
+      en: 'English Literature and Culture (Utgått) (LK06)',
+      nb: 'English Literature and Culture (Utgått) (LK06)',
+      nn: 'English Literature and Culture (Utgått) (LK06)',
+    },
+    name: {
+      en: 'Engelskspråklig litteratur og kultur (Utgått)',
+      nb: 'Engelskspråklig litteratur og kultur (Utgått)',
+      nn: 'Engelskspråkleg litteratur og kultur (Utgått)',
+    },
+    id: 'urn:subject:1:41cb93c0-abc7-4212-b69f-df81106ae3c0',
+  },
+  {
+    longName: {
+      en: 'Social Studies English (Utgått) (LK06)',
+      nb: 'Social Studies English (Utgått) (LK06)',
+      nn: 'Social Studies English (Utgått) (LK06)',
+    },
+    name: {
+      en: 'Samfunnsfaglig engelsk (Utgått)',
+      nb: 'Samfunnsfaglig engelsk (Utgått)',
+      nn: 'Samfunnsfagleg engelsk (Utgått)',
+    },
+    id: 'urn:subject:1:06270029-7aa7-4a7a-b383-128b275ff150',
+  },
   {
     name: {
       nb: 'Norsk (Utgått)',
@@ -2456,9 +2645,9 @@ export const archivedSubjects = [
       en: 'Yrkesfaglig fordypning (Utgått)',
     },
     longName: {
-      nb: 'Yrkesfaglig fordypning (HS-BUA vg2) (Utgått) (LK06)',
-      nn: 'Yrkesfagleg fordjuping (HS-BUA vg2) (Utgått) (LK06)',
-      en: 'Yrkesfaglig fordypning (HS-BUA vg2) (Utgått) (LK06)',
+      nb: 'Yrkesfaglig fordypning (Utgått) (HS-BUA vg2) (LK06)',
+      nn: 'Yrkesfagleg fordjuping (Utgått) (HS-BUA vg2) (LK06)',
+      en: 'Yrkesfaglig fordypning (Utgått) (HS-BUA vg2) (LK06)',
     },
     id: 'urn:subject:1:cfa0043e-c52f-4930-b9c3-c65dcefafb62',
   },
@@ -2469,9 +2658,9 @@ export const archivedSubjects = [
       en: 'Yrkesfaglig fordypning  (Utgått) (LK06)',
     },
     longName: {
-      nb: 'Yrkesfaglig fordypning (HS-HEA vg2) (Utgått) (LK06)',
-      nn: 'Yrkesfagleg fordjuping (HS-HEA vg2) (Utgått) (LK06)',
-      en: 'Yrkesfaglig fordypning (HS-HEA vg2) (Utgått) (LK06)',
+      nb: 'Yrkesfaglig fordypning (Utgått) (HS-HEA vg2) (LK06)',
+      nn: 'Yrkesfagleg fordjuping (Utgått) (HS-HEA vg2) (LK06)',
+      en: 'Yrkesfaglig fordypning (Utgått) (HS-HEA vg2) (LK06)',
     },
     id: 'urn:subject:1:537bdc1a-159b-43d8-80f4-97e0cf8b78eb',
   },
@@ -2491,12 +2680,9 @@ export const archivedSubjects = [
   },
   {
     longName: {
-      en:
-        'Komplettering, produksjon og brønnvedlikehold (TP-BRT vg2) (Utgått) (LK06)',
-      nb:
-        'Komplettering, produksjon og brønnvedlikehold (TP-BRT vg2) (Utgått) (LK06)',
-      nn:
-        'Komplettering, produksjon og brønnvedlikehald (TP-BRT vg2) (Utgått) (LK06)',
+      en:  'Komplettering, produksjon og brønnvedlikehold (Utgått) (TP-BRT vg2) (LK06)',
+      nb:  'Komplettering, produksjon og brønnvedlikehold (Utgått) (TP-BRT vg2) (LK06)',
+      nn:  'Komplettering, produksjon og brønnvedlikehald (Utgått) (TP-BRT vg2) (LK06)',
     },
     name: {
       en: 'Komplettering, produksjon og brønnvedlikehold (Utgått)',
@@ -2508,9 +2694,9 @@ export const archivedSubjects = [
   },
   {
     longName: {
-      en: 'Leting og boring (TP-BRT vg2) (Utgått) (LK06)',
-      nb: 'Leting og boring (TP-BRT vg2) (Utgått) (LK06)',
-      nn: 'Leiting og boring (TP-BRT vg2) (Utgått) (LK06)',
+      en: 'Leting og boring (Utgått) (TP-BRT vg2) (LK06)',
+      nb: 'Leting og boring (Utgått) (TP-BRT vg2) (LK06)',
+      nn: 'Leiting og boring (Utgått) (TP-BRT vg2) (LK06)',
     },
     name: {
       en: 'Leting og boring (Utgått)',
@@ -2522,9 +2708,9 @@ export const archivedSubjects = [
   },
   {
     longName: {
-      en: 'HMS og kvalitet (TP-BRT vg2) (Utgått) (LK06)',
-      nb: 'HMS og kvalitet (TP-BRT vg2) (Utgått) (LK06)',
-      nn: 'HMS og kvalitet (TP-BRT vg2) (Utgått) (LK06)',
+      en: 'HMS og kvalitet (Utgått) (TP-BRT vg2) (LK06)',
+      nb: 'HMS og kvalitet (Utgått) (TP-BRT vg2) (LK06)',
+      nn: 'HMS og kvalitet (Utgått) (TP-BRT vg2) (LK06)',
     },
     name: {
       en: 'HMS og kvalitet (Utgått)',
@@ -2536,9 +2722,9 @@ export const archivedSubjects = [
   },
   {
     name: {
-      nb: 'Historie',
-      nn: 'Historie',
-      en: 'Historie',
+      nb: 'Historie (Utgått)',
+      nn: 'Historie (Utgått)',
+      en: 'Historie (Utgått)',
     },
     longName: {
       nb: 'Historie (SF vg2) (Utgått) (LK06)',
@@ -2562,211 +2748,29 @@ export const archivedSubjects = [
   },
   {
     longName: {
-      en: 'Kroppsøving (vg3)',
-      nb: 'Kroppsøving (vg3)',
-      nn: 'Kroppsøving (vg3)',
+      en: 'Kroppsøving (vg3) (Utgått)',
+      nb: 'Kroppsøving (vg3) (Utgått)',
+      nn: 'Kroppsøving (vg3) (Utgått)',
     },
     name: {
-      en: 'Kroppsøving',
-      nb: 'Kroppsøving',
-      nn: 'Kroppsøving',
+      en: 'Kroppsøving (Utgått)',
+      nb: 'Kroppsøving (Utgått)',
+      nn: 'Kroppsøving (Utgått)',
     },
     id: 'urn:subject:187c1484-84a5-474d-bf63-0c7915809a7d',
   },
   {
     longName: {
-      en: 'Naturfag (PB)',
-      nb: 'Naturfag (PB)',
-      nn: 'Naturfag (PB)',
+      en: 'Naturfag (Utgått) (PB)',
+      nb: 'Naturfag (Utgått) (PB)',
+      nn: 'Naturfag (Utgått) (PB)',
     },
     name: {
-      en: 'Naturfag',
-      nb: 'Naturfag',
-      nn: 'Naturfag',
+      en: 'Naturfag (Utgått)',
+      nb: 'Naturfag (Utgått)',
+      nn: 'Naturfag (Utgått)',
     },
     id: 'urn:subject:1:bb834c76-d1e4-46c4-8c0a-8f978bd2c956',
-  },
-  {
-    longName: {
-      en: 'English 2',
-      nb: 'English 2',
-      nn: 'English 2',
-    },
-    name: {
-      en: 'English 2',
-      nb: 'English 2',
-      nn: 'English 2',
-    },
-    id: 'urn:subject:6e2e2319-cb8a-4dd2-b382-e30f001633bb',
-  },
-  {
-    longName: {
-      en: 'Historie påbygg  ',
-      nb: 'Historie påbygg  ',
-      nn: 'Historie påbygg  ',
-    },
-    name: {
-      en: 'Historie',
-      nb: 'Historie',
-      nn: 'Historie',
-    },
-    id: 'urn:subject:846a7552-ea6c-4174-89a4-85d6ba48c96e',
-  },
-  {
-    longName: {
-      en: 'Historie vg3',
-      nb: 'Historie vg3',
-      nn: 'Historie vg3',
-    },
-    name: {
-      en: 'Historie',
-      nb: 'Historie',
-      nn: 'Historie',
-    },
-    id: 'urn:subject:cc109c51-a083-413b-b497-7f80a0569a92',
-  },
-  {
-    longName: {
-      en: 'Kommunikasjon og kultur 2 ',
-      nb: 'Kommunikasjon og kultur 2 ',
-      nn: 'Kommunikasjon og kultur 2 ',
-    },
-    name: {
-      en: 'Kommunikasjon og kultur 2',
-      nb: 'Kommunikasjon og kultur 2',
-      nn: 'Kommunikasjon og kultur 2',
-    },
-    id: 'urn:subject:ea9e2be1-461d-4929-9dae-590e8cb9657f',
-  },
-  {
-    longName: {
-      en: 'Kommunikasjon og kultur 3',
-      nb: 'Kommunikasjon og kultur 3',
-      nn: 'Kommunikasjon og kultur 3',
-    },
-    name: {
-      en: 'Kommunikasjon og kultur 3',
-      nb: 'Kommunikasjon og kultur 3',
-      nn: 'Kommunikasjon og kultur 3',
-    },
-    id: 'urn:subject:f2ef1c73-d706-44e9-b1bd-7923842d6b4e',
-  },
-  {
-    longName: {
-      en: 'Matematikk R2',
-      nb: 'Matematikk R2',
-      nn: 'Matematikk R2',
-    },
-    name: {
-      en: 'Matematikk R2',
-      nb: 'Matematikk R2',
-      nn: 'Matematikk R2',
-    },
-    id: 'urn:subject:c499dbee-cfdd-4b76-8836-ae685db03baa',
-  },
-  {
-    longName: {
-      en: 'Matematikk S2',
-      nb: 'Matematikk S2',
-      nn: 'Matematikk S2',
-    },
-    name: {
-      en: 'Matematikk S2',
-      nb: 'Matematikk S2',
-      nn: 'Matematikk S2',
-    },
-    id: 'urn:subject:da2379d0-3c91-4e4d-94d7-fc42f69593d2',
-  },
-  {
-    longName: {
-      en: 'Medie- og informasjonskunnskap 2',
-      nb: 'Medie- og informasjonskunnskap 2',
-      nn: 'Medie- og informasjonskunnskap 2',
-    },
-    name: {
-      en: 'Medie- og informasjonskunnskap 2',
-      nb: 'Medie- og informasjonskunnskap 2',
-      nn: 'Medie- og informasjonskunnskap 2',
-    },
-    id: 'urn:subject:1:576cc40f-cc74-4418-9721-9b15ffd29cff',
-  },
-  {
-    longName: {
-      en: 'Mediesamfunnet 3',
-      nb: 'Mediesamfunnet 3',
-      nn: 'Mediesamfunnet 3',
-    },
-    name: {
-      en: 'Mediesamfunnet 3',
-      nb: 'Mediesamfunnet 3',
-      nn: 'Mediesamfunnet 3',
-    },
-    id: 'urn:subject:1:7588cdad-751d-46a8-8546-caa28075a167',
-  },
-  {
-    longName: {
-      en: 'Medieuttrykk 3',
-      nb: 'Medieuttrykk 3',
-      nn: 'Medieuttrykk 3',
-    },
-    name: {
-      en: 'Medieuttrykk 3',
-      nb: 'Medieuttrykk 3',
-      nn: 'Medieuttrykk 3',
-    },
-    id: 'urn:subject:1:20bc82bc-62e3-4276-8629-84a65b8a6ad2',
-  },
-  {
-    longName: {
-      en: 'Norsk (SF vg3)',
-      nb: 'Norsk (SF vg3)',
-      nn: 'Norsk (SF vg3)',
-    },
-    name: {
-      en: 'Norsk',
-      nb: 'Norsk',
-      nn: 'Norsk',
-    },
-    id: 'urn:subject:30bcefff-7577-4e0b-afc6-b07f437ea354',
-  },
-  {
-    longName: {
-      en: 'Norsk påbygg',
-      nb: 'Norsk påbygg',
-      nn: 'Norsk påbygg',
-    },
-    name: {
-      en: 'Norsk',
-      nb: 'Norsk',
-      nn: 'Norsk',
-    },
-    id: 'urn:subject:af91136f-7da8-4cf1-b0ba-0ea6acdf1489',
-  },
-  {
-    longName: {
-      en: 'Religion og etikk',
-      nb: 'Religion og etikk',
-      nn: 'Religion og etikk',
-    },
-    name: {
-      en: 'Religion og etikk',
-      nb: 'Religion og etikk',
-      nn: 'Religion og etikk',
-    },
-    id: 'urn:subject:ea2822da-52f0-4517-bf01-c63f8e96f446',
-  },
-  {
-    longName: {
-      en: 'Matematikk 2P-Y',
-      nb: 'Matematikk 2P-Y',
-      nn: 'Matematikk 2P-Y',
-    },
-    name: {
-      en: 'Matematikk 2P-Y',
-      nb: 'Matematikk 2P-Y',
-      nn: 'Matematikk 2P-Y',
-    },
-    id: 'urn:subject:ad7d24b5-57be-4eff-87e0-1eaf79b27825',
   },
 ];
 
