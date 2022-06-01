@@ -1,6 +1,6 @@
-import { LocaleType, SubjectType } from '../interfaces';
+import { LocaleType, SubjectCategory, SubjectType } from '../interfaces';
 
-export const activeSubjects = [
+export const activeSubjects: SubjectType[] = [
   {
     longName: {
       en: 'Ukrainian resources in Norwegian Social Science',
@@ -1883,7 +1883,7 @@ export const activeSubjects = [
   },
 ];
 
-export const archivedSubjects = [
+export const archivedSubjects: SubjectType[] = [
   {
     name: {
       nb: 'Virksomhetsstøtte (Utgått)',
@@ -2777,7 +2777,7 @@ export const archivedSubjects = [
   },
 ];
 
-export const betaSubjects = [];
+export const betaSubjects: SubjectType[] = [];
 
 export const multidisciplinaryTopics = [
   {
@@ -2786,7 +2786,6 @@ export const multidisciplinaryTopics = [
       nn: 'Folkehelse og livsmeistring',
       en: 'Public health and life management',
     },
-    topicId: 'urn:topic:3cdf9349-4593-498c-a899-9310133a4788',
     id: 'urn:topic:3cdf9349-4593-498c-a899-9310133a4788',
   },
   {
@@ -2795,7 +2794,6 @@ export const multidisciplinaryTopics = [
       nn: 'Demokrati og medborgarskap',
       en: 'Democracy and citizenship',
     },
-    topicId: 'urn:topic:077a5e01-6bb8-4c0b-b1d4-94b683d91803',
     id: 'urn:topic:077a5e01-6bb8-4c0b-b1d4-94b683d91803',
   },
   {
@@ -2804,12 +2802,11 @@ export const multidisciplinaryTopics = [
       nn: 'Berekraftig utvikling',
       en: 'Sustainable development',
     },
-    topicId: 'urn:topic:a2f5aaa0-ab52-49d5-aabf-e7ffeac47fa2',
     id: 'urn:topic:a2f5aaa0-ab52-49d5-aabf-e7ffeac47fa2',
   },
 ];
 
-export const subjectsCategories = [
+export const subjectsCategories: SubjectCategory[] = [
   {
     name: {
       nb: 'Aktive',
@@ -2834,7 +2831,7 @@ export const subjectsCategories = [
       en: 'Revised',
     },
     subjects: betaSubjects,
-    visible: true,
+    visible: betaSubjects.length !== 0,
   },
 ];
 
@@ -2850,7 +2847,6 @@ export const subjectObjectIds = () => {
       ...activeSubjects,
       ...archivedSubjects,
       ...betaSubjects,
-      ...multidisciplinaryTopics,
     ];
 
     subjectsIdx = subjects.reduce((obj: SubjectIds, item: SubjectType) => {

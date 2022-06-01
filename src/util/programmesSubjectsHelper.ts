@@ -10,18 +10,8 @@ import { toProgramme, toSubject } from '../routeHelpers';
 import { subjectsCategories } from '../data/subjects';
 import { programmes } from '../data/programmes';
 import { removeUrn } from '../routeHelpers';
-import { LocaleType, SubjectType } from '../interfaces';
+import { LocaleType, SubjectCategory, SubjectType } from '../interfaces';
 
-export interface SubjectCategory {
-  name: Record<LocaleType, string>;
-  subjects: {
-    longName: Record<LocaleType, string>;
-    name: Record<LocaleType, string>;
-    id: string;
-    hideOnFrontPage?: boolean;
-  }[];
-  visible?: boolean;
-}
 interface ProgramSubjectBase {
   name: string;
   url: string;
@@ -49,7 +39,7 @@ export const createSubjectUrl = (subject: SubjectType) => {
 export const getCategorizedSubjects = (locale: LocaleType) => {
   return subjectsCategories.map((category: SubjectCategory) => {
     const subjects = category.subjects
-      .filter(subject => !subject.hideOnFrontPage)
+      .filter(subject => !subject.hideOnFrontpage)
       .map(subject => {
         const path = createSubjectUrl(subject);
         return {
