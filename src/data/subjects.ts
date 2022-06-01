@@ -16,6 +16,19 @@ export const activeSubjects: SubjectType[] = [
   },
   {
     longName: {
+      en: 'Kroppsøving (vg3)',
+      nb: 'Kroppsøving (vg3)',
+      nn: 'Kroppsøving (vg3)',
+    },
+    name: {
+      en: 'Kroppsøving',
+      nb: 'Kroppsøving',
+      nn: 'Kroppsøving',
+    },
+    id: 'urn:subject:187c1484-84a5-474d-bf63-0c7915809a7d',
+  },
+  {
+    longName: {
       en: 'Historie påbygg  ',
       nb: 'Historie påbygg  ',
       nn: 'Historie påbygg  ',
@@ -2749,19 +2762,7 @@ export const archivedSubjects: SubjectType[] = [
     },
     id: 'urn:subject:1:3d4efd60-aa24-4dc9-b1ad-71fb0ba2746c',
   },
-  {
-    longName: {
-      en: 'Kroppsøving (vg3) (Utgått)',
-      nb: 'Kroppsøving (vg3) (Utgått)',
-      nn: 'Kroppsøving (vg3) (Utgått)',
-    },
-    name: {
-      en: 'Kroppsøving (Utgått)',
-      nb: 'Kroppsøving (Utgått)',
-      nn: 'Kroppsøving (Utgått)',
-    },
-    id: 'urn:subject:187c1484-84a5-474d-bf63-0c7915809a7d',
-  },
+
   {
     longName: {
       en: 'Naturfag (Utgått) (PB)',
@@ -2814,6 +2815,7 @@ export const subjectsCategories: SubjectCategory[] = [
       en: 'Active',
     },
     subjects: activeSubjects,
+    visible: true,
   },
   {
     name: {
