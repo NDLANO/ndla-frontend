@@ -75,7 +75,7 @@ const MastheadContainer = () => {
   );
 
   useEffect(() => {
-    setTopicId(prev => topicIdParam ?? prev);
+    setTopicId(topicIdParam ?? '');
   }, [topicIdParam]);
 
   useEffect(() => {
