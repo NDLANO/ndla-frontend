@@ -29,9 +29,9 @@ export const activeSubjects: SubjectType[] = [
   },
   {
     longName: {
-      en: 'Historie påbygg  ',
-      nb: 'Historie påbygg  ',
-      nn: 'Historie påbygg  ',
+      en: 'Historie påbygg',
+      nb: 'Historie påbygg',
+      nn: 'Historie påbygg',
     },
     name: {
       en: 'Historie',
@@ -55,9 +55,9 @@ export const activeSubjects: SubjectType[] = [
   },
   {
     longName: {
-      en: 'Kommunikasjon og kultur 2 ',
-      nb: 'Kommunikasjon og kultur 2 ',
-      nn: 'Kommunikasjon og kultur 2 ',
+      en: 'Kommunikasjon og kultur 2',
+      nb: 'Kommunikasjon og kultur 2',
+      nn: 'Kommunikasjon og kultur 2',
     },
     name: {
       en: 'Kommunikasjon og kultur 2',
