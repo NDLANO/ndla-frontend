@@ -2680,12 +2680,9 @@ export const archivedSubjects = [
   },
   {
     longName: {
-      en:
-        'Komplettering, produksjon og brønnvedlikehold (Utgått) (TP-BRT vg2) (LK06)',
-      nb:
-        'Komplettering, produksjon og brønnvedlikehold (Utgått) (TP-BRT vg2) (LK06)',
-      nn:
-        'Komplettering, produksjon og brønnvedlikehald (Utgått) (TP-BRT vg2) (LK06)',
+      en: 'Komplettering, produksjon og brønnvedlikehold (Utgått) (TP-BRT vg2) (LK06)',
+      nb: 'Komplettering, produksjon og brønnvedlikehold (Utgått) (TP-BRT vg2) (LK06)',
+      nn: 'Komplettering, produksjon og brønnvedlikehald (Utgått) (TP-BRT vg2) (LK06)',
     },
     name: {
       en: 'Komplettering, produksjon og brønnvedlikehold (Utgått)',
