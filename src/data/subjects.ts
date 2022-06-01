@@ -1213,19 +1213,6 @@ export const activeSubjects = [
   },
   {
     longName: {
-      en: 'Frisør, blomster, interiør og eksponeringsdesign vg1',
-      nb: 'Frisør, blomster, interiør og eksponeringsdesign vg1',
-      nn: 'Frisør, blomar, interiør og eksponeringsdesign vg1',
-    },
-    name: {
-      en: 'Programfag FBIE',
-      nb: 'Programfag FBIE',
-      nn: 'Programfag FBIE',
-    },
-    id: 'urn:subject:d41a472f-5a93-4e46-b658-f1e681284901',
-  },
-  {
-    longName: {
       en: 'Produktutvikling og produksjon (FD-FBI vg1)',
       nb: 'Produktutvikling og produksjon (FD-FBI vg1)',
       nn: 'Produktutvikling og produksjon (FD-FBI vg1)',
@@ -1249,19 +1236,6 @@ export const activeSubjects = [
       nn: 'Kommunikasjon, kunde og arbeidsliv',
     },
     id: 'urn:subject:52b154e8-eb71-49cb-b046-c41303eb9b99',
-  },
-  {
-    longName: {
-      en: 'Håndverk, design og produktutvikling vg1',
-      nb: 'Håndverk, design og produktutvikling vg1',
-      nn: 'Handverk, design og produktutvikling vg1',
-    },
-    name: {
-      en: 'Programfag HDP',
-      nb: 'Programfag HDP',
-      nn: 'Programfag HDP',
-    },
-    id: 'urn:subject:7509b507-548d-48e1-bef3-a06758e4820c',
   },
   {
     longName: {
@@ -2081,19 +2055,6 @@ export const activeSubjects = [
       nn: 'Yrkesfagleg fordjuping',
     },
     id: 'urn:subject:1:0b8e17fe-2387-4e16-9b88-8517012fdf5f',
-  },
-  {
-    longName: {
-      en: 'Informasjonsteknologi (IM-ITK vg2)',
-      nb: 'Informasjonsteknologi (IM-ITK vg2)',
-      nn: 'Informasjonsteknologi (IM-ITK vg2)',
-    },
-    name: {
-      en: 'Programfag IT',
-      nb: 'Programfag IT',
-      nn: 'Programfag IT',
-    },
-    id: 'urn:subject:1:83cd145e-3412-4f06-8de6-961bae9ff452',
   },
   {
     longName: {
