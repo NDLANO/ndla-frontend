@@ -12,6 +12,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import { ApolloProvider } from '@apollo/client';
 import { configureTracker } from '@ndla/tracker';
 import { i18nInstance } from '@ndla/ui';
+import { MissingRouterContext } from '@ndla/safelink';
 import ErrorReporter from '@ndla/error-reporter';
 import { CacheProvider } from '@emotion/core';
 import createCache from '@emotion/cache';
@@ -71,7 +72,9 @@ renderOrHydrate(
       <ApolloProvider client={client}>
         <CacheProvider value={cache}>
           <BrowserRouter>
-            <IframePageContainer {...initialProps} />
+            <MissingRouterContext.Provider value={true}>
+              <IframePageContainer {...initialProps} />
+            </MissingRouterContext.Provider>
           </BrowserRouter>
         </CacheProvider>
       </ApolloProvider>
