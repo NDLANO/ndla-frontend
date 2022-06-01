@@ -61,8 +61,14 @@ const iframePageQuery = gql`
     $taxonomyId: String!
     $includeResource: Boolean!
     $includeTopic: Boolean!
+    $showVisualElement: String
   ) {
-    article(id: $articleId, isOembed: $isOembed, path: $path) {
+    article(
+      id: $articleId
+      isOembed: $isOembed
+      path: $path
+      showVisualElement: $showVisualElement
+    ) {
       ...IframeTopicPage_Article
       ...IframeArticlePage_Article
     }
@@ -101,6 +107,7 @@ export const IframePage = ({
       taxonomyId: taxonomyId || '',
       includeResource,
       includeTopic,
+      showVisualElement: isTopicArticle ? "true" : "false",
     },
     skip: !articleId,
   });
