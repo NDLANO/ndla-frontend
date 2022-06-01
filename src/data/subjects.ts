@@ -313,7 +313,7 @@ export const activeSubjects = [
     },
     id: 'urn:subject:1:50dfc86d-6566-4a45-a531-d32b82e8bfa1',
   },
-  
+
   {
     longName: {
       en: 'Kroppsøving (vg1)',
@@ -379,7 +379,7 @@ export const activeSubjects = [
     },
     id: 'urn:subject:1:d78133ee-73be-4640-9eb6-50372cda2287',
   },
-  
+
   {
     longName: {
       en: 'Matematikk 1P-Y (TP)',
@@ -393,7 +393,7 @@ export const activeSubjects = [
     },
     id: 'urn:subject:1:3b74fa5e-aeb8-4bc3-b771-fb2c0230b5f4',
   },
-  
+
   {
     longName: {
       en: 'Åarjelsaemien voestesgïeline (BF vg1/vg2)',
@@ -797,7 +797,7 @@ export const activeSubjects = [
     },
     id: 'urn:subject:1:ff69c291-6374-4766-80c2-47d5840d8bbf',
   },
-  
+
   {
     longName: {
       en: 'Tverrfaglige tema',
@@ -863,7 +863,7 @@ export const activeSubjects = [
     },
     id: 'urn:subject:1:f18b0daa-6507-4025-8998-b8a11c8ccc70',
   },
-  
+
   {
     longName: {
       en: 'NDLA Film',
@@ -1645,7 +1645,7 @@ export const activeSubjects = [
     },
     id: 'urn:subject:1:ec288dfb-4768-4f82-8387-fe2d73fff1e1',
   },
-  
+
   {
     longName: {
       en: 'Medie- og informasjonskunnskap 1',
@@ -1685,7 +1685,7 @@ export const activeSubjects = [
     },
     id: 'urn:subject:1:e7b9fcee-cb8b-4e0e-a16d-d7dddbe0b643',
   },
-  
+
   {
     longName: {
       en: 'Medieuttrykk 2',
@@ -2680,9 +2680,12 @@ export const archivedSubjects = [
   },
   {
     longName: {
-      en:  'Komplettering, produksjon og brønnvedlikehold (Utgått) (TP-BRT vg2) (LK06)',
-      nb:  'Komplettering, produksjon og brønnvedlikehold (Utgått) (TP-BRT vg2) (LK06)',
-      nn:  'Komplettering, produksjon og brønnvedlikehald (Utgått) (TP-BRT vg2) (LK06)',
+      en:
+        'Komplettering, produksjon og brønnvedlikehold (Utgått) (TP-BRT vg2) (LK06)',
+      nb:
+        'Komplettering, produksjon og brønnvedlikehold (Utgått) (TP-BRT vg2) (LK06)',
+      nn:
+        'Komplettering, produksjon og brønnvedlikehald (Utgått) (TP-BRT vg2) (LK06)',
     },
     name: {
       en: 'Komplettering, produksjon og brønnvedlikehold (Utgått)',
@@ -2774,8 +2777,7 @@ export const archivedSubjects = [
   },
 ];
 
-export const betaSubjects = [
-];
+export const betaSubjects = [];
 
 export const multidisciplinaryTopics = [
   {
