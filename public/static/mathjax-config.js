@@ -7,19 +7,18 @@
  */
 
 window.MathJax = {
-    chtml:{
-        mathmlSpacing: false
-    },
-    options:{
-        enableMenu: true,
-        menuOptions:{
-            settings:{
-                assistiveMml: true,
-                collapsible: true,
-                explorer: true
-            }
-        },
-        makeCollapsible: false
-    }
+  chtml: {
+    mathmlSpacing: false,
+  },
+  options:{
+      enableMenu: true,
+      menuOptions:{
+          settings:{
+              assistiveMml: true,
+              collapsible: true,
+              explorer: true
+          }
+      },
+      makeCollapsible: false
+  }
 };
-

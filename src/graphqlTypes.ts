@@ -2499,6 +2499,7 @@ export type GQLIframePageQueryVariables = Exact<{
   taxonomyId: Scalars['String'];
   includeResource: Scalars['Boolean'];
   includeTopic: Scalars['Boolean'];
+  showVisualElement?: Maybe<Scalars['String']>;
 }>;
 
 export type GQLIframePageQuery = {
