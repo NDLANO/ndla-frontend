@@ -35,8 +35,14 @@ const plainArticlePageQuery = gql`
     $articleId: String!
     $isOembed: String
     $path: String
+    $showVisualElement: String
   ) {
-    article(id: $articleId, isOembed: $isOembed, path: $path) {
+    article(
+      id: $articleId
+      isOembed: $isOembed
+      path: $path
+      showVisualElement: $showVisualElement
+    ) {
       ...PlainArticleContainer_Article
     }
   }
@@ -52,7 +58,12 @@ const PlainArticlePage = ({ locale, skipToContentId }: Props) => {
     GQLPlainArticlePageQuery,
     GQLPlainArticlePageQueryVariables
   >(plainArticlePageQuery, {
-    variables: { articleId, isOembed: 'false', path: pathname },
+    variables: {
+      articleId,
+      isOembed: 'false',
+      path: pathname,
+      showVisualElement: 'true',
+    },
   });
 
   if (loading) {
