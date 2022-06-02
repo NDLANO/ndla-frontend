@@ -2765,14 +2765,14 @@ export const archivedSubjects: SubjectType[] = [
 
   {
     longName: {
-      en: 'Naturfag (Utgått) (PB)',
-      nb: 'Naturfag (Utgått) (PB)',
-      nn: 'Naturfag (Utgått) (PB)',
+      en: 'Naturfag (PB)',
+      nb: 'Naturfag (PB)',
+      nn: 'Naturfag (PB)',
     },
     name: {
-      en: 'Naturfag (Utgått)',
-      nb: 'Naturfag (Utgått)',
-      nn: 'Naturfag (Utgått)',
+      en: 'Naturfag',
+      nb: 'Naturfag',
+      nn: 'Naturfag',
     },
     id: 'urn:subject:1:bb834c76-d1e4-46c4-8c0a-8f978bd2c956',
   },
