@@ -1535,9 +1535,9 @@ export const activeSubjects: SubjectType[] = [
       nn: 'English 1',
     },
     name: {
-      en: 'Engelsk 1',
-      nb: 'Engelsk 1',
-      nn: 'Engelsk 1',
+      en: 'English 1',
+      nb: 'English 1',
+      nn: 'English 1',
     },
     id: 'urn:subject:1:c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
   },
