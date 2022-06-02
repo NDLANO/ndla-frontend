@@ -24,7 +24,7 @@ import {
   isAccessTokenValid,
   renewAuth,
 } from './authHelpers';
-import { GQLBucketResult, GQLGroupSearch } from '../graphqlTypes';
+import { GQLGroupSearch } from '../graphqlTypes';
 
 export const fetch = createFetch;
 
@@ -81,14 +81,6 @@ const uri = (() => {
   return apiResourceUrl('/graphql-api/graphql');
 })();
 
-const getParentType = (type: string, aggregations?: GQLBucketResult[]) => {
-  if (!aggregations) return undefined;
-  const typeValue = aggregations.find(agg => agg.value === type);
-  return aggregations.find(
-    agg => agg.count === typeValue?.count && agg.value !== type,
-  )?.value;
-};
-
 const mergeGroupSearch = (
   existing: GQLGroupSearch[],
   incoming: GQLGroupSearch[],
@@ -97,10 +89,7 @@ const mergeGroupSearch = (
   if (!existing) return incoming;
   return existing.map(group => {
     const searchResults = incoming.filter(
-      result =>
-        group.resourceType === result.resourceType ||
-        group.resourceType ===
-          getParentType(result.resourceType, result.aggregations?.[0]?.values),
+      result => group.resourceType === result.resourceType,
     );
     if (searchResults.length) {
       const result = searchResults.reduce((accumulator, currentValue) => ({
