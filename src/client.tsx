@@ -207,14 +207,14 @@ const LanguageWrapper = ({ basename }: { basename?: string }) => {
   // handle initial redirect if URL has wrong or missing locale prefix.
   useLayoutEffect(() => {
     const storedLanguage = window.localStorage.getItem(STORED_LANGUAGE_KEY)!;
-    if (storedLanguage === getDefaultLocale() && !basename) return;
-    if (isValidLocale(storedLanguage) && storedLanguage === basename) {
+    if (storedLanguage === getDefaultLocale() && !base) return;
+    if (isValidLocale(storedLanguage) && storedLanguage === base) {
       setBase(storedLanguage);
     }
     if (window.location.pathname.includes('/login/success')) return;
     setBase(storedLanguage);
     window.history.replaceState('', '', constructNewPath(storedLanguage));
-  }, [basename, windowPath]);
+  }, [base, windowPath]);
 
   return (
     <NDLARouter key={base} base={base}>
