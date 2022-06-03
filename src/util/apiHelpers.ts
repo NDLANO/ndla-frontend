@@ -96,20 +96,22 @@ const mergeGroupSearch = (
 ) => {
   if (!existing) return incoming;
   return existing.map(group => {
-    const searchResults = incoming.filter(
-      result =>
-        group.resourceType === result.resourceType ||
-        group.resourceType ===
-          getParentType(result.resourceType, result.aggregations?.[0]?.values),
-    );
+    const searchResults = incoming.filter(result => {
+      if (group.resourceType === result.resourceType) {
+        return true;
+      } else if (result.resourceType === 'topic-article') {
+        return false;
+      } else
+        return (
+          group.resourceType ===
+          getParentType(result.resourceType, result.aggregations?.[0]?.values)
+        );
+    });
     if (searchResults.length) {
       const result = searchResults.reduce((accumulator, currentValue) => ({
         ...currentValue,
         resources: [...currentValue.resources, ...accumulator.resources],
-        totalCount:
-          currentValue.resourceType === group.resourceType
-            ? currentValue.totalCount
-            : accumulator.totalCount,
+        totalCount: currentValue.totalCount + accumulator.totalCount,
       }));
       return {
         ...group,
