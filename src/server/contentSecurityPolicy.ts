@@ -21,7 +21,8 @@ const connectSrc = (() => {
     'ws://*.hotjar.com wss://*.hotjar.com',
     'https://*.hotjar.com',
     'https://*.hotjar.com:*',
-    'https://www.google-analytics.com',
+    'https://*.google-analytics.com',
+    'https://*.analytics.google.com',
     'https://*.zendesk.com',
     'https://ekr.zdassets.com',
     'https://optimize.google.com',
@@ -193,6 +194,7 @@ const frameSrc = (() => {
     'flo.uri.sh',
     'ourworldindata.org',
     '*.sketchup.com',
+    'www.gapminder.org',
   ];
   if (process.env.NODE_ENV === 'development') {
     return [
@@ -237,7 +239,8 @@ const contentSecurityPolicy = {
       "'self'",
       'http://api-gateway.ndla-local',
       'https://*.ndla.no',
-      'https://www.google-analytics.com',
+      'https://*.google-analytics.com',
+      'https://*.analytics.google.com',
       'https://optimize.google.com',
       'https://stats.g.doubleclick.net',
       'http://metrics.brightcove.com',

@@ -1,0 +1,49 @@
+{
+  "builds": [
+    {
+      "src": "build/public/**",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "build/server.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/static/(.*)",
+      "destination": "build/public/static/$1"
+    },
+    {
+      "source": "/favicon.ico",
+      "destination": "build/public/favicon.ico"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/build/server.js"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/static/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "s-maxage=86400"
+        }
+      ]
+    },
+    {
+      "source": "/favicon.ico",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "s-maxage=86400"
+        }
+      ]
+    }
+  ],
+  "env": {
+    "NDLA_ZENDESK_WIDGET_KEY": "@ndla_zendesk_widget_key"
+  }
+}

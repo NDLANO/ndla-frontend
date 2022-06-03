@@ -865,6 +865,15 @@ export const programmes: ProgrammeType[] = [
               {
                 id: 'urn:subject:1:83cd145e-3412-4f06-8de6-961bae9ff452',
               },
+              {
+                id: 'urn:subject:f41eadfa-0749-4ab4-bc17-a500adad38b8',
+              },
+              {
+                id: 'urn:subject:26f1cd12-4242-486d-be22-75c3750a52a2',
+              },
+              {
+                id: 'urn:subject:5e53694a-c8eb-4871-8558-71523941c28e',
+              },
             ],
           },
           {
@@ -1864,6 +1873,9 @@ export const programmes: ProgrammeType[] = [
               },
               {
                 id: 'urn:subject:1:cd3a3bb8-eed2-4d02-8c21-b3dca5a2a11b',
+              },
+              {
+                id: 'urn:subject:b0fb73bc-fc75-4be1-9b24-605d9de0f469',
               },
             ],
           },

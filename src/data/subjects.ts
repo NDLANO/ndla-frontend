@@ -16,6 +16,45 @@ export const activeSubjects = [
   },
   {
     longName: {
+      en: 'Brukerstøtte (IM-ITK vg2)',
+      nb: 'Brukerstøtte (IM-ITK vg2)',
+      nn: 'Brukarstøtte (IM-ITK vg2)',
+    },
+    name: {
+      en: 'Brukerstøtte',
+      nb: 'Brukerstøtte',
+      nn: 'Brukarstøtte',
+    },
+    id: 'urn:subject:f41eadfa-0749-4ab4-bc17-a500adad38b8',
+  },
+  {
+    longName: {
+      en: 'Driftsstøtte (IM-ITK vg2)',
+      nb: 'Driftsstøtte (IM-ITK vg2)',
+      nn: 'Driftsstøtte (IM-ITK vg2)',
+    },
+    name: {
+      en: 'Driftsstøtte',
+      nb: 'Driftsstøtte',
+      nn: 'Driftsstøtte',
+    },
+    id: 'urn:subject:26f1cd12-4242-486d-be22-75c3750a52a2',
+  },
+  {
+    longName: {
+      en: 'Utvikling (IM-ITK vg2)',
+      nb: 'Utvikling (IM-ITK vg2)',
+      nn: 'Utvikling (IM-ITK vg2)',
+    },
+    name: {
+      en: 'Utvikling',
+      nb: 'Utvikling',
+      nn: 'Utvikling',
+    },
+    id: 'urn:subject:5e53694a-c8eb-4871-8558-71523941c28e',
+  },
+  {
+    longName: {
       en: 'Norsk (YF)',
       nb: 'Norsk (YF)',
       nn: 'Norsk (YF)',
@@ -1511,6 +1550,19 @@ export const activeSubjects = [
     id: 'urn:subject:1:fdefda2a-7d3a-4749-92cf-24ad466a20db',
   },
   {
+    longName: {
+      en: 'Yrkesfaglig fordypning (RM-RMF vg1)',
+      nb: 'Yrkesfaglig fordypning (RM-RMF vg1)',
+      nn: 'Yrkesfagleg fordjuping (RM-RMF vg1)',
+    },
+    name: {
+      en: 'Yrkesfaglig fordypning',
+      nb: 'Yrkesfaglig fordypning',
+      nn: 'Yrkesfagleg fordjuping',
+    },
+    id: 'urn:subject:b0fb73bc-fc75-4be1-9b24-605d9de0f469',
+  },
+  {
     name: {
       nb: 'Virksomhetsstøtte (Utgått)',
       nn: 'Verksemdsstøtte (Utgått)',
@@ -2550,6 +2602,19 @@ export const archivedSubjects = [
 ];
 
 export const betaSubjects = [
+  {
+    longName: {
+      en: 'Kroppsøving (vg3)',
+      nb: 'Kroppsøving (vg3)',
+      nn: 'Kroppsøving (vg3)',
+    },
+    name: {
+      en: 'Kroppsøving',
+      nb: 'Kroppsøving',
+      nn: 'Kroppsøving',
+    },
+    id: 'urn:subject:187c1484-84a5-474d-bf63-0c7915809a7d',
+  },
   {
     longName: {
       en: 'Naturfag (PB) 2022/23',
