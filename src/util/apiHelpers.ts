@@ -106,7 +106,10 @@ const mergeGroupSearch = (
       const result = searchResults.reduce((accumulator, currentValue) => ({
         ...currentValue,
         resources: [...currentValue.resources, ...accumulator.resources],
-        totalCount: group.totalCount,
+        totalCount:
+          currentValue.resourceType === group.resourceType
+            ? currentValue.totalCount
+            : accumulator.totalCount,
       }));
       return {
         ...group,
