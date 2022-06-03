@@ -50,7 +50,6 @@ const NoResult = styled.div`
 `;
 
 const PodcastSeriesListPage = () => {
-  console.log('cas');
   const { t } = useTranslation();
   const location = useLocation();
   const navigate = useNavigate();
