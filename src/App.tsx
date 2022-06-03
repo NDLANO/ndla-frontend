@@ -114,7 +114,7 @@ const AppRoutes = ({ base }: AppProps) => {
               <Route path="utdanning/:programme" element={<ProgrammePage />}>
                 <Route path=":grade" element={null} />
               </Route>
-              <Route path="podkast" element={null}>
+              <Route path="podkast">
                 <Route index element={<PodcastSeriesListPage />} />
                 <Route path=":id" element={<PodcastSeriesPage />} />
               </Route>
