@@ -65,7 +65,7 @@ const Layout = () => {
       <Content>
         <Outlet />
       </Content>
-      <Footer />
+      <Footer ndlaFilm={ndlaFilm} />
       {config.feideEnabled && <FeideFooter />}
       {config.zendeskWidgetKey && (
         <ZendeskButton
