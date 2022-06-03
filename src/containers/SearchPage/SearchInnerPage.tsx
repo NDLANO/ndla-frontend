@@ -124,12 +124,12 @@ const SearchInnerPage = ({
       grepCodesList: searchParams.grepCodes,
     },
     notifyOnNetworkStatusChange: true,
-    onCompleted: data => {
+    onCompleted: async data => {
       if (
         initialGQLCall.current &&
         activeSubFiltersWithoutLeading.length !== 0
       ) {
-        fetchMore({
+        await fetchMore({
           variables: {
             ...getTypeParams(activeSubFiltersWithoutLeading, resourceTypes),
           },
@@ -259,8 +259,12 @@ const SearchInnerPage = ({
           page: page,
           pageSize: pageSize,
           ...getTypeParams(
-            activeFilters.length ? activeFilters : [type],
-            resourceTypes,
+            activeFilters.length
+              ? activeFilters
+              : type === 'topic-article'
+              ? []
+              : [type],
+            type === 'topic-article' ? [] : resourceTypes,
           ),
         },
       });
