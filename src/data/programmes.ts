@@ -657,13 +657,14 @@ export const programmes: ProgrammeType[] = [
             },
             subjects: [
               {
+                id: 'urn:subject:1:734bd33b-da6d-49b0-bb34-c6df5b956f8e',
+              },
+              {
                 id: 'urn:subject:1:1a05c6c7-121e-49e2-933c-580da74afe1a',
               },
-
               {
                 id: 'urn:subject:1:b561f04f-d633-453e-b0ce-84985f97969b',
               },
-
               {
                 id: 'urn:subject:1:058bdbdb-aa5a-4a29-88fb-45e664999417',
               },
@@ -703,7 +704,6 @@ export const programmes: ProgrammeType[] = [
               {
                 id: 'urn:subject:cc109c51-a083-413b-b497-7f80a0569a92',
               },
-
               {
                 id: 'urn:subject:ea2822da-52f0-4517-bf01-c63f8e96f446',
               },
@@ -716,6 +716,12 @@ export const programmes: ProgrammeType[] = [
               en: 'Valgfrie programfag',
             },
             subjects: [
+              {
+                id: 'urn:subject:c499dbee-cfdd-4b76-8836-ae685db03baa',
+              },
+              {
+                id: 'urn:subject:1:734bd33b-da6d-49b0-bb34-c6df5b956f8e',
+              },
               {
                 id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
               },
@@ -758,7 +764,6 @@ export const programmes: ProgrammeType[] = [
               {
                 id: 'urn:subject:1:576cc40f-cc74-4418-9721-9b15ffd29cff',
               },
-
               {
                 id: 'urn:subject:6e2e2319-cb8a-4dd2-b382-e30f001633bb',
               },
@@ -809,7 +814,6 @@ export const programmes: ProgrammeType[] = [
               },
             ],
           },
-
           {
             name: {
               nb: 'Fellesfag',
@@ -1026,21 +1030,23 @@ export const programmes: ProgrammeType[] = [
             },
             subjects: [
               {
+                id: 'urn:subject:1:b561f04f-d633-453e-b0ce-84985f97969b',
+              },
+              {
+                id: 'urn:subject:1:734bd33b-da6d-49b0-bb34-c6df5b956f8e',
+              },
+              {
                 id: 'urn:subject:1:1a05c6c7-121e-49e2-933c-580da74afe1a',
               },
-
               {
                 id: 'urn:subject:1:b561f04f-d633-453e-b0ce-84985f97969b',
               },
-
               {
                 id: 'urn:subject:1:058bdbdb-aa5a-4a29-88fb-45e664999417',
               },
-
               {
                 id: 'urn:subject:1:1f1865fc-e4cc-48a0-918f-3530485ec424',
               },
-
               {
                 id: 'urn:subject:1:fb6ad516-0108-4059-acc3-3c5f13f49368',
               },
@@ -1069,12 +1075,14 @@ export const programmes: ProgrammeType[] = [
             },
             subjects: [
               {
+                id: 'urn:subject:187c1484-84a5-474d-bf63-0c7915809a7d',
+              },
+              {
                 id: 'urn:subject:30bcefff-7577-4e0b-afc6-b07f437ea354',
               },
               {
                 id: 'urn:subject:cc109c51-a083-413b-b497-7f80a0569a92',
               },
-
               {
                 id: 'urn:subject:ea2822da-52f0-4517-bf01-c63f8e96f446',
               },
@@ -1087,6 +1095,9 @@ export const programmes: ProgrammeType[] = [
               en: 'Valgfrie programfag',
             },
             subjects: [
+              {
+                id: 'urn:subject:1:734bd33b-da6d-49b0-bb34-c6df5b956f8e',
+              },
               {
                 id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
               },
@@ -1279,6 +1290,9 @@ export const programmes: ProgrammeType[] = [
             },
             subjects: [
               {
+                id: 'urn:subject:1:734bd33b-da6d-49b0-bb34-c6df5b956f8e',
+              },
+              {
                 id: 'urn:subject:1:1a05c6c7-121e-49e2-933c-580da74afe1a',
               },
               {
@@ -1352,6 +1366,12 @@ export const programmes: ProgrammeType[] = [
               en: 'Valgfrie programfag',
             },
             subjects: [
+              {
+                id: 'urn:subject:c499dbee-cfdd-4b76-8836-ae685db03baa',
+              },
+              {
+                id: 'urn:subject:1:734bd33b-da6d-49b0-bb34-c6df5b956f8e',
+              },
               {
                 id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
               },
@@ -1520,6 +1540,9 @@ export const programmes: ProgrammeType[] = [
             },
             subjects: [
               {
+                id: 'urn:subject:1:734bd33b-da6d-49b0-bb34-c6df5b956f8e',
+              },
+              {
                 id: 'urn:subject:1:1a05c6c7-121e-49e2-933c-580da74afe1a',
               },
 
@@ -1581,6 +1604,12 @@ export const programmes: ProgrammeType[] = [
               en: 'Valgfrie programfag',
             },
             subjects: [
+              {
+                id: 'urn:subject:c499dbee-cfdd-4b76-8836-ae685db03baa',
+              },
+              {
+                id: 'urn:subject:1:734bd33b-da6d-49b0-bb34-c6df5b956f8e',
+              },
               {
                 id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
               },
