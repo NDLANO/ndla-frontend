@@ -8,7 +8,8 @@
 
 import { gql } from '@apollo/client';
 import { useContext } from 'react';
-import { useLocation } from 'react-router-dom-v5-compat';
+import { useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { ContentPlaceholder } from '@ndla/ui';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
@@ -22,9 +23,9 @@ import {
   GQLPlainArticlePageQuery,
   GQLPlainArticlePageQueryVariables,
 } from '../../graphqlTypes';
-import { RootComponentProps } from '../../routes';
 import { AuthContext } from '../../components/AuthenticationContext';
 import { TypedParams, useTypedParams } from '../../routeHelpers';
+import { SKIP_TO_CONTENT_ID } from '../../constants';
 
 interface MatchParams extends TypedParams {
   articleId: string;
@@ -49,11 +50,11 @@ const plainArticlePageQuery = gql`
   ${plainArticleContainerFragments.article}
 `;
 
-interface Props extends RootComponentProps {}
-const PlainArticlePage = ({ locale, skipToContentId }: Props) => {
+const PlainArticlePage = () => {
   const { user } = useContext(AuthContext);
   const { articleId } = useTypedParams<MatchParams>();
   const { pathname } = useLocation();
+  const { i18n } = useTranslation();
   const { loading, data, error } = useGraphQuery<
     GQLPlainArticlePageQuery,
     GQLPlainArticlePageQueryVariables
@@ -88,9 +89,9 @@ const PlainArticlePage = ({ locale, skipToContentId }: Props) => {
   return (
     <PlainArticleContainer
       article={data.article}
-      locale={locale}
+      locale={i18n.language}
       user={user}
-      skipToContentId={skipToContentId}
+      skipToContentId={SKIP_TO_CONTENT_ID}
     />
   );
 };

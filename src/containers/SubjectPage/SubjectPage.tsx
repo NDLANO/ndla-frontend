@@ -8,38 +8,23 @@
 
 import { gql } from '@apollo/client';
 import { useContext, useRef } from 'react';
-import { Redirect, withRouter } from 'react-router-dom';
-import { RouteComponentProps } from 'react-router';
+import { Navigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { ContentPlaceholder } from '@ndla/ui';
 import SubjectContainer, {
   subjectContainerFragments,
 } from './SubjectContainer';
-import { getUrnIdsFromProps } from '../../routeHelpers';
+import { useUrnIds } from '../../routeHelpers';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { useGraphQuery } from '../../util/runQueries';
 import MovedTopicPage from './components/MovedTopicPage';
 import { OLD_SUBJECT_PAGE_REDIRECT_CUSTOM_FIELD } from '../../constants';
-import { LocaleType } from '../../interfaces';
 import { AuthContext } from '../../components/AuthenticationContext';
 import {
   GQLSubjectPageTestQuery,
   GQLSubjectPageTestQueryVariables,
 } from '../../graphqlTypes';
-
-type MatchParams = {
-  subjectId?: string;
-  topicPath?: string;
-  topicId?: string;
-  resourceId?: string;
-  articleId?: string;
-};
-
-interface Props extends RouteComponentProps<MatchParams> {
-  locale: LocaleType;
-  skipToContentId: string;
-  ndlaFilm?: boolean;
-}
 
 const subjectPageQuery = gql`
   query subjectPageTest(
@@ -71,12 +56,10 @@ const subjectPageQuery = gql`
   ${subjectContainerFragments.subject}
 `;
 
-const SubjectPage = ({ match, locale, skipToContentId, ndlaFilm }: Props) => {
+const SubjectPage = () => {
   const { user } = useContext(AuthContext);
-  const { subjectId, topicList, topicId } = getUrnIdsFromProps({
-    ndlaFilm,
-    match,
-  });
+  const { subjectId, topicId, topicList } = useUrnIds();
+  const { i18n } = useTranslation();
 
   const initialLoad = useRef(true);
   const isFirstRenderWithTopicId = () => initialLoad.current && !!topicId;
@@ -105,7 +88,7 @@ const SubjectPage = ({ match, locale, skipToContentId, ndlaFilm }: Props) => {
   const alternateTopics = data.topic?.alternateTopics;
   if (!data?.subject && alternateTopics && alternateTopics.length >= 1) {
     if (alternateTopics.length === 1) {
-      return <Redirect to={alternateTopics[0]!.path!} />;
+      return <Navigate to={alternateTopics[0]!.path!} replace />;
     }
     return <MovedTopicPage topics={alternateTopics} />;
   }
@@ -115,7 +98,7 @@ const SubjectPage = ({ match, locale, skipToContentId, ndlaFilm }: Props) => {
     if (!redirect) {
       return <NotFoundPage />;
     } else {
-      return <Redirect to={redirect.path || ''} />;
+      return <Navigate to={redirect.path || ''} replace />;
     }
   }
 
@@ -129,9 +112,7 @@ const SubjectPage = ({ match, locale, skipToContentId, ndlaFilm }: Props) => {
 
   return (
     <SubjectContainer
-      locale={locale}
-      skipToContentId={skipToContentId}
-      ndlaFilm={ndlaFilm}
+      locale={i18n.language}
       subjectId={subjectId}
       topicIds={topicList}
       subject={data.subject}
@@ -141,4 +122,4 @@ const SubjectPage = ({ match, locale, skipToContentId, ndlaFilm }: Props) => {
   );
 };
 
-export default withRouter(SubjectPage);
+export default SubjectPage;

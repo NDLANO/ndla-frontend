@@ -13,7 +13,7 @@ import {
   useEffect,
   useMemo,
 } from 'react';
-import { useLocation } from 'react-router';
+import { useLocation } from 'react-router-dom';
 import { Remarkable } from 'remarkable';
 import { gql } from '@apollo/client';
 import {

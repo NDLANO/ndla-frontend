@@ -8,7 +8,7 @@
 import { HelmetWithTracker } from '@ndla/tracker';
 import { ContentPlaceholder, OneColumn } from '@ndla/ui';
 import queryString from 'query-string';
-import { useLocation, useNavigate } from 'react-router-dom-v5-compat';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 import { searchPageQuery } from '../../queries';
@@ -20,7 +20,6 @@ import {
 import { searchSubjects } from '../../util/searchHelpers';
 import { useGraphQuery } from '../../util/runQueries';
 import { GQLSearchPageQuery } from '../../graphqlTypes';
-import { RootComponentProps } from '../../routes';
 
 const getStateSearchParams = (searchParams: Record<string, any>) => {
   const stateSearchParams: Record<string, any> = {};
@@ -30,12 +29,11 @@ const getStateSearchParams = (searchParams: Record<string, any>) => {
   return stateSearchParams;
 };
 
-interface Props extends RootComponentProps {}
-const SearchPage = ({ locale }: Props) => {
-  const { t } = useTranslation();
+const SearchPage = () => {
+  const { t, i18n } = useTranslation();
   const location = useLocation();
   const navigate = useNavigate();
-  const searchParams = converSearchStringToObject(location, locale);
+  const searchParams = converSearchStringToObject(location, i18n.language);
   //const stateSearchParams = getStateSearchParams(searchParams);
   const subjects = searchSubjects(searchParams.query);
   const subjectItems = subjects.map(subject => ({

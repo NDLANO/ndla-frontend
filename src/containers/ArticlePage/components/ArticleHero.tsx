@@ -15,6 +15,7 @@ import {
   GQLArticleHero_SubjectFragment,
 } from '../../../graphqlTypes';
 import { Breadcrumb as BreadcrumbType } from '../../../interfaces';
+import { useIsNdlaFilm } from '../../../routeHelpers';
 interface WrapperProps {
   children: ReactNode;
   resourceType?: HeroContentType;
@@ -39,7 +40,6 @@ const WrapperComponent = ({
 };
 
 interface Props {
-  ndlaFilm?: boolean;
   subject?: GQLArticleHero_SubjectFragment;
   resourceType?: HeroContentType;
   metaImage?: GQLArticleHero_MetaImageFragment;
@@ -49,32 +49,34 @@ interface Props {
 const ArticleHero = ({
   resourceType,
   metaImage,
-  ndlaFilm,
   subject,
   breadcrumbItems,
-}: Props) => (
-  <WrapperComponent
-    ndlaFilm={ndlaFilm}
-    resourceType={resourceType}
-    metaImage={metaImage}>
-    {ndlaFilm && metaImage && metaImage.url && (
-      <div className="c-hero__background">
-        <img src={metaImage.url} alt={metaImage.alt} />
-      </div>
-    )}
-    <OneColumn>
-      <div className="c-hero__content">
-        <section>
-          {subject && (
-            <Breadcrumb items={breadcrumbItems} invertedStyle={false}>
-              <></>
-            </Breadcrumb>
-          )}
-        </section>
-      </div>
-    </OneColumn>
-  </WrapperComponent>
-);
+}: Props) => {
+  const ndlaFilm = useIsNdlaFilm();
+  return (
+    <WrapperComponent
+      ndlaFilm={ndlaFilm}
+      resourceType={resourceType}
+      metaImage={metaImage}>
+      {ndlaFilm && metaImage && metaImage.url && (
+        <div className="c-hero__background">
+          <img src={metaImage.url} alt={metaImage.alt} />
+        </div>
+      )}
+      <OneColumn>
+        <div className="c-hero__content">
+          <section>
+            {subject && (
+              <Breadcrumb items={breadcrumbItems} invertedStyle={false}>
+                <></>
+              </Breadcrumb>
+            )}
+          </section>
+        </div>
+      </OneColumn>
+    </WrapperComponent>
+  );
+};
 
 ArticleHero.fragments = {
   subject: gql`

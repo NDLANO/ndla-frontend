@@ -8,14 +8,15 @@
 
 import url from 'url';
 import { Request } from 'express';
+import { i18nInstance } from '@ndla/ui';
+import { I18nextProvider } from 'react-i18next';
 import { HelmetProvider } from 'react-helmet-async';
-import { CompatRouter } from 'react-router-dom-v5-compat';
-import { StaticRouter } from 'react-router';
+import { StaticRouter } from 'react-router-dom/server.js';
 import { ApolloProvider } from '@apollo/client';
 import { CacheProvider } from '@emotion/core';
 import createCache from '@emotion/cache';
 import { INTERNAL_SERVER_ERROR, OK } from '../../statusCodes';
-import { getHtmlLang, isValidLocale } from '../../i18n';
+import { getHtmlLang, initializeI18n, isValidLocale } from '../../i18n';
 import IframePageContainer from '../../iframe/IframePageContainer';
 import config from '../../config';
 import handleError from '../../util/handleError';
@@ -23,6 +24,7 @@ import { renderPageWithData, renderHtml } from '../helpers/render';
 import { EmotionCacheKey } from '../../constants';
 import { InitialProps } from '../../interfaces';
 import { createApolloClient } from '../../util/apiHelpers';
+import RedirectContext from '../../components/RedirectContext';
 
 const assets =
   process.env.NODE_ENV !== 'unittest' && process.env.RAZZLE_ASSETS_MANIFEST
@@ -63,23 +65,27 @@ async function doRenderPage(req: Request, initialProps: InitialProps) {
 
   const helmetContext = {};
   const cache = createCache({ key: EmotionCacheKey });
+
+  const i18n = initializeI18n(
+    i18nInstance,
+    initialProps.locale ?? config.defaultLocale,
+  );
   const Page = (
     <HelmetProvider context={helmetContext}>
       {disableSSR(req) ? (
         ''
       ) : (
-        <ApolloProvider client={client}>
-          <CacheProvider value={cache}>
-            <StaticRouter
-              basename={initialProps.basename}
-              location={req.url}
-              context={context}>
-              <CompatRouter>
-                <IframePageContainer {...initialProps} />
-              </CompatRouter>
-            </StaticRouter>
-          </CacheProvider>
-        </ApolloProvider>
+        <I18nextProvider i18n={i18n}>
+          <RedirectContext.Provider value={context}>
+            <ApolloProvider client={client}>
+              <CacheProvider value={cache}>
+                <StaticRouter location={req.url}>
+                  <IframePageContainer {...initialProps} />
+                </StaticRouter>
+              </CacheProvider>
+            </ApolloProvider>
+          </RedirectContext.Provider>
+        </I18nextProvider>
       )}
     </HelmetProvider>
   );

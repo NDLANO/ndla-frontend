@@ -7,12 +7,9 @@
  */
 
 import { i18n } from 'i18next';
-import { ApolloClient } from '@apollo/client';
-import { createApolloLinks } from './util/apiHelpers';
 import nb from './messages/messagesNB';
 import nn from './messages/messagesNN';
 import en from './messages/messagesEN';
-import { STORED_LANGUAGE_KEY } from './constants';
 import { getDefaultLocale } from './config';
 import { LocaleType } from './interfaces';
 
@@ -48,7 +45,7 @@ export const getLocaleObject = (localeAbbreviation?: string): LocaleObject => {
 };
 
 export const isValidLocale = (
-  localeAbbreviation?: string,
+  localeAbbreviation: string | undefined | null,
 ): localeAbbreviation is LocaleType =>
   appLocales.find(l => l.abbreviation === localeAbbreviation) !== undefined;
 
@@ -67,33 +64,19 @@ export const getLocaleInfoFromPath = (path: string): RetType => {
   const basename = paths[1] && isValidLocale(paths[1]) ? paths[1] : '';
   const basepath = basename ? path.replace(`/${basename}`, '') : path;
   return {
-    basepath,
+    basepath: basepath.length === 0 ? '/' : basepath,
     basename,
     ...getLocaleObject(basename),
   };
 };
 
-export const initializeI18n = (
-  i18n: i18n,
-  client?: ApolloClient<object>,
-  cookieString?: string,
-  versionHash?: string,
-): void => {
-  i18n.options.supportedLngs = preferredLanguages;
+export const initializeI18n = (i18n: i18n, language: string): i18n => {
+  const instance = i18n.cloneInstance({
+    lng: language,
+    supportedLngs: preferredLanguages,
+  });
   i18n.addResourceBundle('en', 'translation', en, false, false);
   i18n.addResourceBundle('nb', 'translation', nb, false, false);
   i18n.addResourceBundle('nn', 'translation', nn, false, false);
-
-  i18n.on('languageChanged', function(language) {
-    if (typeof document != 'undefined') {
-      document.documentElement.lang = language;
-    }
-    if (typeof window != 'undefined') {
-      if (client) {
-        client.resetStore();
-        client.setLink(createApolloLinks(language, cookieString, versionHash));
-      }
-      window.localStorage.setItem(STORED_LANGUAGE_KEY, language);
-    }
-  });
+  return instance;
 };

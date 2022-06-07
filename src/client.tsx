@@ -7,18 +7,18 @@
  */
 
 import { HelmetProvider } from 'react-helmet-async';
-import { CompatRouter } from 'react-router-dom-v5-compat';
-import { BrowserRouter, MemoryRouter } from 'react-router-dom';
+import { Router } from 'react-router-dom';
 import { I18nextProvider, useTranslation } from 'react-i18next';
 import { ApolloProvider, useApolloClient } from '@apollo/client';
 import { CacheProvider } from '@emotion/core';
+import { createBrowserHistory, createMemoryHistory, History } from 'history';
 // @ts-ignore
 import ErrorReporter from '@ndla/error-reporter';
 import { i18nInstance } from '@ndla/ui';
 import createCache from '@emotion/cache';
 // @ts-ignore
 import queryString from 'query-string';
-import { ReactNode, useEffect, useRef, useState } from 'react';
+import { ReactNode, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
 import '@fontsource/shadows-into-light-two/index.css';
 import '@fontsource/source-sans-pro/index.css';
@@ -40,22 +40,19 @@ import {
   isValidLocale,
   supportedLanguages,
 } from './i18n';
-import { LocaleType, NDLAWindow } from './interfaces';
+import { NDLAWindow } from './interfaces';
 import './style/index.css';
-import { createApolloClient } from './util/apiHelpers';
+import { createApolloClient, createApolloLinks } from './util/apiHelpers';
 import { getDefaultLocale } from './config';
 import App from './App';
-import {
-  useVersionHash,
-  VersionHashProvider,
-} from './components/VersionHashContext';
+import { VersionHashProvider } from './components/VersionHashContext';
 
 declare global {
   interface Window extends NDLAWindow {}
 }
 
 const {
-  DATA: { initialProps, config, serverPath, serverQuery },
+  DATA: { config, serverPath, serverQuery, resCookie },
 } = window;
 
 const { basepath } = getLocaleInfoFromPath(serverPath ?? '');
@@ -73,12 +70,13 @@ const locationFromServer = {
   search: serverQueryString ? `?${serverQueryString}` : '',
 };
 
-const storedLanguage = window.localStorage.getItem(STORED_LANGUAGE_KEY);
-if (basename && storedLanguage !== basename && isValidLocale(basename)) {
-  window.localStorage.setItem(STORED_LANGUAGE_KEY, basename);
-} else if (storedLanguage === null || storedLanguage === undefined) {
-  window.localStorage.setItem(STORED_LANGUAGE_KEY, 'nb');
+const maybeStoredLanguage = window.localStorage.getItem(STORED_LANGUAGE_KEY);
+// Set storedLanguage to a sane value if non-existent
+if (maybeStoredLanguage === null || maybeStoredLanguage === undefined) {
+  window.localStorage.setItem(STORED_LANGUAGE_KEY, config.defaultLocale);
 }
+const storedLanguage = window.localStorage.getItem(STORED_LANGUAGE_KEY)!;
+const i18n = initializeI18n(i18nInstance, storedLanguage);
 
 window.errorReporter = ErrorReporter.getInstance({
   logglyApiKey: config.logglyApiKey,
@@ -99,20 +97,45 @@ const isGoogleUrl =
   decodeURIComponent(window.location.search).indexOf(testLocation) > -1;
 
 interface RCProps {
-  children?: ReactNode;
+  children: (history: History) => ReactNode;
   base: string;
 }
 
-const RouterComponent = ({ children, base }: RCProps) =>
-  isGoogleUrl ? (
-    <MemoryRouter initialEntries={[locationFromServer]}>
-      {children}
-    </MemoryRouter>
-  ) : (
-    <BrowserRouter key={base} basename={base}>
-      {children}
-    </BrowserRouter>
+/*
+  This is a custom router based on the source code of BrowserRouter and MemoryRouter from
+  react-router-dom@6.3.0. It's intended purpose is to provide App with an instance of 
+  the internal history object without using the UNSAFE navigation context provided by RR,
+  as well as setting and replacing the Router basename in a safe way. The exposed history 
+  object should not be used or passed to anyting else than configureTracker.
+*/
+const NDLARouter = ({ children, base }: RCProps) => {
+  let historyRef = useRef<History>();
+  if (isGoogleUrl && historyRef.current == null) {
+    historyRef.current = createMemoryHistory({
+      initialEntries: [locationFromServer],
+    });
+  } else if (historyRef.current == null) {
+    historyRef.current = createBrowserHistory();
+  }
+
+  let history = historyRef.current!;
+  let [state, setState] = useState({
+    action: history.action,
+    location: history.location,
+  });
+
+  useLayoutEffect(() => history.listen(setState), [history]);
+
+  return (
+    <Router
+      basename={base}
+      children={children(history)}
+      location={state.location}
+      navigationType={state.action}
+      navigator={history}
+    />
   );
+};
 
 function canUseDOM() {
   return !!(
@@ -132,39 +155,47 @@ function removeUniversalPortals() {
     });
   }
 }
-const constructNewPath = (newLocale?: LocaleType) => {
-  const regex = new RegExp(supportedLanguages.map(l => `/${l}/`).join('|'));
+const constructNewPath = (newLocale?: string) => {
+  const regex = new RegExp(`\\/(${supportedLanguages.join('|')})($|\\/)`, '');
   const path = window.location.pathname.replace(regex, '');
   const fullPath = path.startsWith('/') ? path : `/${path}`;
   const localePrefix = newLocale ? `/${newLocale}` : '';
   return `${localePrefix}${fullPath}${window.location.search}`;
 };
 
+const useReactPath = () => {
+  const [path, setPath] = useState('');
+  const listenToPopstate = () => {
+    const winPath = window.location.pathname;
+    setPath(winPath);
+  };
+  useEffect(() => {
+    window.addEventListener('popstate', listenToPopstate);
+    window.addEventListener('pushstate', listenToPopstate);
+    return () => {
+      window.removeEventListener('popstate', listenToPopstate);
+      window.removeEventListener('pushstate', listenToPopstate);
+    };
+  }, []);
+  return path;
+};
+
 const LanguageWrapper = ({ basename }: { basename?: string }) => {
   const { i18n } = useTranslation();
-  const [base, setBase] = useState('');
-  const versionHash = useVersionHash();
+  const [base, setBase] = useState(basename ?? '');
   const firstRender = useRef(true);
   const client = useApolloClient();
+  const windowPath = useReactPath();
 
-  useEffect(() => {
-    initializeI18n(i18n, client);
-    const storedLanguage = window.localStorage.getItem(
-      STORED_LANGUAGE_KEY,
-    ) as LocaleType;
-    const defaultLanguage = getDefaultLocale() as LocaleType;
-    if (
-      (!basename && !storedLanguage) ||
-      (!basename && storedLanguage === defaultLanguage)
-    ) {
-      i18n.changeLanguage(defaultLanguage);
-    } else if (storedLanguage && isValidLocale(storedLanguage)) {
-      i18n.changeLanguage(storedLanguage);
-    }
-  }, [basename, i18n, client]);
+  i18n.on('languageChanged', lang => {
+    client.resetStore();
+    client.setLink(createApolloLinks(lang, resCookie, versionHash));
+    window.localStorage.setItem(STORED_LANGUAGE_KEY, lang);
+    document.documentElement.lang = lang;
+  });
 
   // handle path changes when the language is changed
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (firstRender.current) {
       firstRender.current = false;
     } else {
@@ -174,35 +205,23 @@ const LanguageWrapper = ({ basename }: { basename?: string }) => {
   }, [i18n.language]);
 
   // handle initial redirect if URL has wrong or missing locale prefix.
-  useEffect(() => {
-    const storedLanguage = window.localStorage.getItem(
-      STORED_LANGUAGE_KEY,
-    ) as LocaleType;
-    if ((!storedLanguage || storedLanguage === getDefaultLocale()) && !basename)
-      return;
-    if (isValidLocale(storedLanguage) && storedLanguage === basename) {
+  useLayoutEffect(() => {
+    const storedLanguage = window.localStorage.getItem(STORED_LANGUAGE_KEY)!;
+    if (storedLanguage === getDefaultLocale() && !base) return;
+    if (isValidLocale(storedLanguage) && storedLanguage === base) {
       setBase(storedLanguage);
-      return;
     }
     if (window.location.pathname.includes('/login/success')) return;
     setBase(storedLanguage);
     window.history.replaceState('', '', constructNewPath(storedLanguage));
-  }, [basename]);
+  }, [base, windowPath]);
 
   return (
-    <RouterComponent base={base}>
-      <CompatRouter>
-        <App
-          initialProps={initialProps}
-          isClient
-          client={client}
-          base={base}
-          locale={i18n.language}
-          key={i18n.language}
-          versionHash={versionHash}
-        />
-      </CompatRouter>
-    </RouterComponent>
+    <NDLARouter key={base} base={base}>
+      {history => (
+        <App locale={i18n.language} history={history} isClient base={base} />
+      )}
+    </NDLARouter>
   );
 };
 
@@ -210,7 +229,7 @@ removeUniversalPortals();
 
 renderOrHydrate(
   <HelmetProvider>
-    <I18nextProvider i18n={i18nInstance}>
+    <I18nextProvider i18n={i18n}>
       <ApolloProvider client={client}>
         <CacheProvider value={cache}>
           <VersionHashProvider value={versionHash}>

@@ -18,9 +18,9 @@ import {
   GQLPlainLearningpathPageQuery,
   GQLPlainLearningpathPageQueryVariables,
 } from '../../graphqlTypes';
-import { RootComponentProps } from '../../routes';
 import { AuthContext } from '../../components/AuthenticationContext';
 import { TypedParams, useTypedParams } from '../../routeHelpers';
+import { SKIP_TO_CONTENT_ID } from '../../constants';
 
 interface MatchParams extends TypedParams {
   learningpathId: string;
@@ -36,8 +36,7 @@ const plainLearningpathPageQuery = gql`
   ${plainLearningpathContainerFragments.learningpath}
 `;
 
-interface Props extends RootComponentProps {}
-const PlainLearningpathPage = ({ locale, skipToContentId }: Props) => {
+const PlainLearningpathPage = () => {
   const { learningpathId, stepId } = useTypedParams<MatchParams>();
   const { user } = useContext(AuthContext);
 
@@ -62,8 +61,7 @@ const PlainLearningpathPage = ({ locale, skipToContentId }: Props) => {
   return (
     <PlainLearningpathContainer
       learningpath={data.learningpath}
-      locale={locale}
-      skipToContentId={skipToContentId}
+      skipToContentId={SKIP_TO_CONTENT_ID}
       stepId={stepId}
       user={user}
     />

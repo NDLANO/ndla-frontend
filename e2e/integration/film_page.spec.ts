@@ -11,18 +11,13 @@ describe('Film page', () => {
     cy.fixCypressSpec('/e2e/integration/film_page.spec.ts');
     cy.gqlIntercept({
       alias: 'filmPage',
-      operations: ['filmFrontPage', 'alerts'],
-    });
-    cy.gqlIntercept({
-      alias: 'mastHead',
-      operations: ['mastHead'],
+      operations: ['filmFrontPage', 'alerts', 'mastHead'],
     });
   });
 
   it('has content', () => {
     cy.visit('/subject:20?disableSSR=true');
     cy.gqlWait('@filmPage');
-    cy.gqlWait('@mastHead');
     cy.get('.c-film-slideshow').within(() => {
       cy.get('h1').contains('Systemsprengeren');
     });

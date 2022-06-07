@@ -6,30 +6,15 @@
  *
  */
 
-import { useLocation } from 'react-router';
-import { Footer, LanguageSelector, FooterText, EditorName } from '@ndla/ui';
+import { Footer, FooterText, EditorName, LanguageSelector } from '@ndla/ui';
 import { Facebook, Twitter, EmailOutline, Youtube } from '@ndla/icons/common';
 import { useTranslation } from 'react-i18next';
-import { getLocaleUrls } from '../../../util/localeHelpers';
 
 interface Props {
-  inverted?: boolean;
+  ndlaFilm?: boolean;
 }
-
-const FooterWrapper = ({ inverted }: Props) => {
-  const location = useLocation();
+const FooterWrapper = ({ ndlaFilm }: Props) => {
   const { t, i18n } = useTranslation();
-
-  const languageSelector = (
-    <LanguageSelector
-      center
-      outline
-      alwaysVisible
-      inverted={inverted}
-      options={getLocaleUrls(i18n.language, location)}
-      currentLanguage={i18n.language}
-    />
-  );
 
   const links = [
     {
@@ -59,7 +44,17 @@ const FooterWrapper = ({ inverted }: Props) => {
       lang={i18n.language}
       //@ts-ignore Wrongly typed as an array with a single element in frontend-packages.
       links={links}
-      languageSelector={languageSelector}>
+      languageSelector={
+        <LanguageSelector
+          //not used, but not removed from props.
+          options={{}}
+          center
+          outline
+          alwaysVisible
+          inverted={!!ndlaFilm}
+          currentLanguage={i18n.language}
+        />
+      }>
       <FooterText>
         <EditorName
           title={t('footer.footerEditiorInChief')}

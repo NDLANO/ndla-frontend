@@ -7,7 +7,7 @@
  */
 
 import { ReactElement, useContext } from 'react';
-import { RouteProps, useHistory } from 'react-router';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { compact } from 'lodash';
 
@@ -53,12 +53,12 @@ const FeideFooterButton = styled(StyledButton)`
 interface Props {
   footer?: boolean;
   children?: ReactElement;
-  location: RouteProps['location'];
 }
 
-const FeideLoginButton = ({ footer, children, location }: Props) => {
+const FeideLoginButton = ({ footer, children }: Props) => {
   const { t } = useTranslation();
-  const history = useHistory();
+  const navigate = useNavigate();
+  const location = useLocation();
   const { authenticated, user } = useContext(AuthContext);
   const primarySchool = user?.primarySchool;
   const affiliationRole = user?.eduPersonPrimaryAffiliation;
@@ -85,9 +85,9 @@ const FeideLoginButton = ({ footer, children, location }: Props) => {
       onAuthenticateClick={() => {
         location && localStorage.setItem('lastPath', location.pathname);
         if (authenticated) {
-          history.push('/logout');
+          navigate('/logout');
         } else {
-          history.push('/login');
+          navigate('/login');
         }
       }}
     />

@@ -8,7 +8,7 @@
 
 import { useEffect } from 'react';
 import { ArticleTitle, getMastheadHeight, OneColumn } from '@ndla/ui';
-import { Navigate, useLocation } from 'react-router-dom-v5-compat';
+import { Navigate, useLocation } from 'react-router-dom';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { useTranslation } from 'react-i18next';
 import { gql, useQuery } from '@apollo/client';

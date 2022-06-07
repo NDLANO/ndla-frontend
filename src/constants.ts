@@ -20,42 +20,20 @@ export const RELEVANCE_CORE = 'urn:relevance:core';
 export const RELEVANCE_SUPPLEMENTARY = 'urn:relevance:supplementary';
 
 export const NOT_FOUND_PAGE_PATH = '/404';
-export const RESOURCE_PAGE_PATH =
-  '/(subjects)?/subject\\::subjectId/:topicPath*/:topicId/resource\\::resourceId/:stepId?';
-export const PLAIN_ARTICLE_PAGE_PATH = '/article/:articleId';
-export const SEARCH_PATH = '/search';
-export const TOPIC_PATH =
-  '/(subjects)?/subject\\::subjectId/:topicPath(.*)?/:topicId';
-export const SUBJECT_PAGE_PATH = '/subject\\::subjectId/:topicPath*/';
-export const SUBJECTS = '/subjects';
 export const FILM_PAGE_PATH = '/subject:20';
 export const UKR_PAGE_PATH = '/subject:27e8623d-c092-4f00-9a6f-066438d6c466';
-export const PLAIN_LEARNINGPATH_PAGE_PATH = '/learningpaths/:learningpathId';
-export const PLAIN_LEARNINGPATHSTEP_PAGE_PATH =
-  '/learningpaths/:learningpathId/steps/:stepId';
+export const MULTIDISCIPLINARY_SUBJECT_ID =
+  'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7';
+export const TOOLBOX_TEACHER_SUBJECT_ID =
+  'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc';
+export const TOOLBOX_STUDENT_SUBJECT_ID =
+  'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4';
 
 export const SKIP_TO_CONTENT_ID = 'SkipToContentId';
 export const SUPPORTED_LANGUAGES = ['nb', 'nn', 'en'];
 export const STORED_LANGUAGE_KEY = 'language';
 
 export const PROGRAMME_PATH = '/utdanning';
-export const PROGRAMME_PAGE_PATH = '/utdanning/:programme';
-export const PROGRAMME_PAGE_PATH_WITH_GRADE = `${PROGRAMME_PAGE_PATH}/:grade`;
-
-export const MULTIDISCIPLINARY_SUBJECT_PAGE_PATH =
-  '/subject\\::subjectId(d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7)/:topicPath*/';
-
-export const MULTIDISCIPLINARY_SUBJECT_ARTICLE_PAGE_PATH =
-  '/subject\\::subjectId(d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7)/topic\\::topic1/topic\\::topic2/:topicId';
-
-export const TOOLBOX_TEACHER_PAGE_PATH =
-  '/subject\\::subjectId(1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc)/:topicPath*/';
-export const TOOLBOX_STUDENT_PAGE_PATH =
-  '/subject\\::subjectId(1:54b1727c-2d91-4512-901c-8434e13339b4)/:topicPath*/';
-
-export const RESOURCE_ARTICLE_IFRAME_PATH = `/article-iframe/:lang?/urn\\:resource\\::resourceId/:articleId`;
-export const TOPIC_ARTICLE_IFRAME_PATH = `/article-iframe/:lang?/urn\\::topicId/:articleId`;
-export const PLAIN_ARTICLE_IFRAME_PATH = `/article-iframe/:lang?/article/:articleId`;
 
 export const PODCAST_SERIES_PAGE_PATH = '/podkast/:id';
 export const PODCAST_SERIES_LIST_PAGE_PATH = '/podkast';
