@@ -103,9 +103,9 @@ interface RCProps {
 
 /*
   This is a custom router based on the source code of BrowserRouter and MemoryRouter from
-  react-router-dom@6.3.0. It's intended purpose is to provide App with an instance of 
+  react-router-dom@6.3.0. It's intended purpose is to provide App with an instance of
   the internal history object without using the UNSAFE navigation context provided by RR,
-  as well as setting and replacing the Router basename in a safe way. The exposed history 
+  as well as setting and replacing the Router basename in a safe way. The exposed history
   object should not be used or passed to anyting else than configureTracker.
 */
 const NDLARouter = ({ children, base }: RCProps) => {
@@ -219,7 +219,7 @@ const LanguageWrapper = ({ basename }: { basename?: string }) => {
   return (
     <NDLARouter key={base} base={base}>
       {history => (
-        <App locale={i18n.language} history={history} isClient base={base} />
+        <App locale={i18n.language} resCookie={resCookie} history={history} isClient base={base} />
       )}
     </NDLARouter>
   );
