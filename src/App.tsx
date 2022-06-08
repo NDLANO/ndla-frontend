@@ -23,12 +23,14 @@ import LoginProviders from './containers/Login/LoginProviders';
 import LoginSuccess from './containers/Login/LoginSuccess';
 import LogoutProviders from './containers/Logout/LogoutProviders';
 import LogoutSession from './containers/Logout/LogoutSession';
+import MyNdlaPage from './containers/MyNdlaPage/MyNdlaPage';
 import NotFound from './containers/NotFoundPage/NotFoundPage';
 import Layout from './containers/Page/Layout';
 import PlainArticlePage from './containers/PlainArticlePage/PlainArticlePage';
 import PlainLearningpathPage from './containers/PlainLearningpathPage/PlainLearningpathPage';
 import PodcastSeriesListPage from './containers/PodcastPage/PodcastSeriesListPage';
 import PodcastSeriesPage from './containers/PodcastPage/PodcastSeriesPage';
+import PrivateRoute from './containers/PrivateRoute/PrivateRoute';
 import ProgrammePage from './containers/ProgrammePage/ProgrammePage';
 import ResourcePage from './containers/ResourcePage/ResourcePage';
 import SearchPage from './containers/SearchPage/SearchPage';
@@ -109,6 +111,10 @@ const AppRoutes = ({ base, resCookie }: AppProps) => {
                     <Route index element={<LogoutProviders />} />
                     <Route path="session" element={<LogoutSession />} />
                   </Route>
+                  <Route
+                    path="minndla"
+                    element={<PrivateRoute element={<MyNdlaPage />} />}
+                  />
                 </>
               )}
               <Route path="subjects" element={<AllSubjectsPage />} />
