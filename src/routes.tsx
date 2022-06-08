@@ -8,7 +8,7 @@
 
 export const privateRoutes = ['minndla'];
 
-export const rr6Routes = [
+export const routes = [
   '/',
   '404',
   '403',
