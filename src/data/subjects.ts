@@ -1,5 +1,60 @@
 import { LocaleType, SubjectCategory, SubjectType } from '../interfaces';
 
+export const activeResources: SubjectType[] = [
+  {
+    longName: {
+      en: 'NDLA Film',
+      nb: 'NDLA Film',
+      nn: 'NDLA Film',
+    },
+    name: {
+      en: 'NDLA Film',
+      nb: 'NDLA Film',
+      nn: 'NDLA Film',
+    },
+    id: 'urn:subject:20',
+  },
+  {
+    longName: {
+      en: 'Verktøykassa – for elev',
+      nb: 'Verktøykassa – for elev',
+      nn: 'Verktøykassa – for elev',
+    },
+    name: {
+      en: 'Verktøykassa – for elev',
+      nb: 'Verktøykassa – for elev',
+      nn: 'Verktøykassa – for elev',
+    },
+    id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+  },
+  {
+    longName: {
+      en: 'Tverrfaglige tema',
+      nb: 'Tverrfaglige tema',
+      nn: 'Tverrfaglege tema',
+    },
+    name: {
+      en: 'Tverrfaglige tema',
+      nb: 'Tverrfaglige tema',
+      nn: 'Tverrfaglege tema',
+    },
+    id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+  },
+  {
+    longName: {
+      en: 'Verktøykassa – for lærer',
+      nb: 'Verktøykassa – for lærer',
+      nn: 'Verktøykassa – for lærar',
+    },
+    name: {
+      en: 'Verktøykassa – for lærer',
+      nb: 'Verktøykassa – for lærer',
+      nn: 'Verktøykassa – for lærar',
+    },
+    id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
+  },
+];
+
 export const activeSubjects: SubjectType[] = [
   {
     longName: {
@@ -810,33 +865,6 @@ export const activeSubjects: SubjectType[] = [
     },
     id: 'urn:subject:1:ff69c291-6374-4766-80c2-47d5840d8bbf',
   },
-
-  {
-    longName: {
-      en: 'Tverrfaglige tema',
-      nb: 'Tverrfaglige tema',
-      nn: 'Tverrfaglege tema',
-    },
-    name: {
-      en: 'Tverrfaglige tema',
-      nb: 'Tverrfaglige tema',
-      nn: 'Tverrfaglege tema',
-    },
-    id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
-  },
-  {
-    longName: {
-      en: 'Verktøykassa – for lærer',
-      nb: 'Verktøykassa – for lærer',
-      nn: 'Verktøykassa – for lærar',
-    },
-    name: {
-      en: 'Verktøykassa',
-      nb: 'Verktøykassa',
-      nn: 'Verktøykassa',
-    },
-    id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
-  },
   {
     longName: {
       en: 'Sørsamisk som andrespråk, samisk 4 (BF)',
@@ -875,33 +903,6 @@ export const activeSubjects: SubjectType[] = [
       nn: 'Naturfag',
     },
     id: 'urn:subject:1:f18b0daa-6507-4025-8998-b8a11c8ccc70',
-  },
-
-  {
-    longName: {
-      en: 'NDLA Film',
-      nb: 'NDLA Film',
-      nn: 'NDLA Film',
-    },
-    name: {
-      en: 'NDLA Film',
-      nb: 'NDLA Film',
-      nn: 'NDLA Film',
-    },
-    id: 'urn:subject:20',
-  },
-  {
-    longName: {
-      en: 'Verktøykassa – for elev',
-      nb: 'Verktøykassa – for elev',
-      nn: 'Verktøykassa – for elev',
-    },
-    name: {
-      en: 'Verktøykassa',
-      nb: 'Verktøykassa',
-      nn: 'Verktøykassa',
-    },
-    id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
   },
   {
     longName: {
@@ -2835,6 +2836,15 @@ export const subjectsCategories: SubjectCategory[] = [
     subjects: betaSubjects,
     visible: betaSubjects.length !== 0,
   },
+  {
+    name: {
+      nb: 'Ressurser',
+      nn: 'Ressursar',
+      en: 'Resources',
+    },
+    subjects: activeResources,
+    visible: activeResources.length !== 0,
+  },
 ];
 
 type SubjectIds = {
@@ -2845,7 +2855,7 @@ let subjectsIdx: SubjectIds;
 
 export const subjectObjectIds = () => {
   if (!subjectsIdx) {
-    const subjects = [...activeSubjects, ...archivedSubjects, ...betaSubjects];
+    const subjects = [...activeSubjects, ...activeResources, ...archivedSubjects, ...betaSubjects];
 
     subjectsIdx = subjects.reduce((obj: SubjectIds, item: SubjectType) => {
       obj[item.id] = item;
@@ -2861,7 +2871,7 @@ export const getSubjectById = (id: string) => {
 };
 
 export const getSubjectBySubjectId = (subjectId: string) => {
-  const subjects = [...activeSubjects, ...archivedSubjects, ...betaSubjects];
+  const subjects = [...activeSubjects, ...activeResources, ...archivedSubjects, ...betaSubjects];
 
   return subjects.find(subject => subject.id === subjectId);
 };
