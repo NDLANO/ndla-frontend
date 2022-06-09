@@ -2838,9 +2838,9 @@ export const subjectsCategories: SubjectCategory[] = [
   },
   {
     name: {
-      nb: 'Ressurser',
-      nn: 'Ressursar',
-      en: 'Resources',
+      nb: 'Andre ressurser',
+      nn: 'Andre ressursar',
+      en: 'Other resources',
     },
     subjects: activeResources,
     visible: activeResources.length !== 0,
