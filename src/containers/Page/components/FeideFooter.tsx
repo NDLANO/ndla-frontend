@@ -66,7 +66,7 @@ const FeideFooter = () => {
         <p>{t('user.generalFooter')}</p>
         {inRouterContext && (
           <FeideLoginButton footer>
-            {authenticated ? (
+            {authenticated && user ? (
               <span>
                 {' '}
                 {t('user.loggedInAsButton', {
