@@ -7,7 +7,13 @@
  */
 
 import { Footer, FooterText, EditorName, LanguageSelector } from '@ndla/ui';
-import { Facebook, Instagram, LinkedIn, EmailOutline, Youtube } from '@ndla/icons/common';
+import {
+  Facebook,
+  Instagram,
+  LinkedIn,
+  EmailOutline,
+  Youtube,
+} from '@ndla/icons/common';
 import { useTranslation } from 'react-i18next';
 
 interface Props {
