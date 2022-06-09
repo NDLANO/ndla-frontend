@@ -7,7 +7,7 @@
  */
 
 import { Footer, FooterText, EditorName, LanguageSelector } from '@ndla/ui';
-import { Facebook, Twitter, EmailOutline, Youtube } from '@ndla/icons/common';
+import { Facebook, Instagram, LinkedIn, EmailOutline, Youtube } from '@ndla/icons/common';
 import { useTranslation } from 'react-i18next';
 
 interface Props {
@@ -23,9 +23,14 @@ const FooterWrapper = ({ ndlaFilm }: Props) => {
       icon: <Facebook />,
     },
     {
-      to: 'https://twitter.com/ndla_no',
-      text: t('footer.socialMediaLinks.twitter'),
-      icon: <Twitter />,
+      to: 'https://instagram.com/ndla_no/',
+      text: t('footer.socialMediaLinks.instagram'),
+      icon: <Instagram />,
+    },
+    {
+      to: 'https://www.linkedin.com/company/ndla/',
+      text: t('footer.socialMediaLinks.linkedin'),
+      icon: <LinkedIn />,
     },
     {
       to: 'https://www.youtube.com/channel/UCBlt6T8B0mmvDh3k5q7EhsA',
