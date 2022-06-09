@@ -7,7 +7,7 @@
  */
 
 import express from 'express';
-import { match as RouterMatchType } from 'react-router';
+import { PathMatch } from 'react-router-dom';
 import { BAD_REQUEST, INTERNAL_SERVER_ERROR } from '../../statusCodes';
 import { getArticleIdFromResource } from '../../containers/Resources/resourceHelpers';
 import {
@@ -17,7 +17,7 @@ import {
 import config from '../../config';
 import handleError from '../../util/handleError';
 import { fetchArticle } from '../../containers/ArticlePage/articleApi';
-import { parseAndMatchUrl } from '../../util/urlHelper';
+import { parseOembedUrl } from '../../util/urlHelper';
 
 function getOembedObject(req: express.Request, title?: string, html?: string) {
   return {
@@ -32,13 +32,9 @@ function getOembedObject(req: express.Request, title?: string, html?: string) {
   };
 }
 
-interface MatchParams {
-  resourceId?: string;
-  topicId?: string;
-  lang?: string;
-  articleId?: string;
-}
-const getHTMLandTitle = async (match: RouterMatchType<MatchParams>) => {
+type MatchParams = 'resourceId' | 'topicId' | 'lang' | 'articleId';
+
+const getHTMLandTitle = async (match: PathMatch<MatchParams>) => {
   const {
     params: { resourceId, topicId, lang = config.defaultLocale },
   } = match;
@@ -46,7 +42,7 @@ const getHTMLandTitle = async (match: RouterMatchType<MatchParams>) => {
     return {};
   }
   if (topicId && !resourceId) {
-    const topic = await fetchTopic(`urn:${topicId}`, lang);
+    const topic = await fetchTopic(`urn:topic${topicId}`, lang);
     const articleId = getArticleIdFromResource(topic);
     return {
       title: topic.name,
@@ -54,7 +50,7 @@ const getHTMLandTitle = async (match: RouterMatchType<MatchParams>) => {
     };
   }
 
-  const resource = await fetchResource(`urn:resource:${resourceId}`, lang);
+  const resource = await fetchResource(`urn:resource${resourceId}`, lang);
   const articleId = getArticleIdFromResource(resource);
   return {
     title: resource.name,
@@ -71,7 +67,7 @@ export async function oembedArticleRoute(req: express.Request) {
     };
   }
 
-  const match = parseAndMatchUrl<MatchParams>(url);
+  const match = parseOembedUrl(url);
   if (!match) {
     return {
       status: BAD_REQUEST,

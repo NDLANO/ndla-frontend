@@ -7,25 +7,24 @@
  * @jest-environment jsdom
  */
 
-import { CompatRouter } from 'react-router-dom-v5-compat';
-import { StaticRouter, MemoryRouter } from 'react-router';
+import { StaticRouter } from 'react-router-dom/server.js';
+import { MemoryRouter } from 'react-router-dom';
 import renderer from 'react-test-renderer';
 import sinon from 'sinon';
+import RedirectContext from '../RedirectContext';
 import RedirectExternal from '../RedirectExternal';
 
 test('External redirect for static router', () => {
   const context = {};
   renderer.create(
-    <StaticRouter context={context}>
-      <CompatRouter>
+    <RedirectContext.Provider value={context}>
+      <StaticRouter>
         <RedirectExternal to="https://google.com/" />
-      </CompatRouter>
-    </StaticRouter>,
+      </StaticRouter>
+    </RedirectContext.Provider>,
   );
 
   expect(context).toEqual({
-    action: 'REPLACE',
-    location: 'https://google.com/',
     url: 'https://google.com/',
   });
 });
@@ -33,16 +32,14 @@ test('External redirect for static router', () => {
 test('External redirect for static router with basename', () => {
   const context = {};
   renderer.create(
-    <StaticRouter basename="/nb" context={context}>
-      <CompatRouter>
+    <RedirectContext.Provider value={context}>
+      <StaticRouter basename="nb" location={'/nb'}>
         <RedirectExternal to="https://google.com/" />
-      </CompatRouter>
-    </StaticRouter>,
+      </StaticRouter>
+    </RedirectContext.Provider>,
   );
 
   expect(context).toEqual({
-    action: 'REPLACE',
-    location: 'https://google.com/',
     url: 'https://google.com/',
   });
 });
@@ -59,10 +56,8 @@ test('External redirect for (memory/dom) router', () => {
   };
 
   renderer.create(
-    <MemoryRouter basename="/nb" context={context}>
-      <CompatRouter>
-        <RedirectExternal to="https://google.com/" />
-      </CompatRouter>
+    <MemoryRouter basename="nb" context={context} initialEntries={['/nb']}>
+      <RedirectExternal to="https://google.com/" />
     </MemoryRouter>,
   );
 

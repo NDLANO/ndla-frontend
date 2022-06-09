@@ -14,7 +14,7 @@ import { withTracker } from '@ndla/tracker';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import config from '../../../config';
 import ArticleContents from '../../../components/Article/ArticleContents';
-import { toTopic } from '../../../routeHelpers';
+import { toTopic, useIsNdlaFilm } from '../../../routeHelpers';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import { htmlTitle } from '../../../util/titleHelper';
 import { getCrop, getFocalPoint } from '../../../util/imageHelpers';
@@ -36,7 +36,6 @@ interface Props extends WithTranslation {
   subjectId: string;
   subTopicId?: string;
   locale: LocaleType;
-  ndlaFilm?: boolean;
   subject: GQLMultidisciplinaryTopic_SubjectFragment;
   topic: GQLMultidisciplinaryTopic_TopicFragment;
   resourceTypes?: GQLResourceTypeDefinition[];
@@ -54,12 +53,12 @@ const MultidisciplinaryTopic = ({
   subjectId,
   locale,
   subTopicId,
-  ndlaFilm,
   topic,
   resourceTypes,
   disableNav,
 }: Props) => {
   const [showContent, setShowContent] = useState(false);
+  const ndlaFilm = useIsNdlaFilm();
 
   useEffect(() => {
     setShowContent(false);

@@ -11,10 +11,9 @@ import { withTracker } from '@ndla/tracker';
 import { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { CustomWithTranslation, withTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom-v5-compat';
+import { useNavigate } from 'react-router-dom';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { GQLPlainLearningpathContainer_LearningpathFragment } from '../../graphqlTypes';
-import { LocaleType } from '../../interfaces';
 import { toLearningPath } from '../../routeHelpers';
 import { htmlTitle } from '../../util/titleHelper';
 import { getAllDimensions } from '../../util/trackingUtil';
@@ -30,7 +29,6 @@ const getDocumentTitle = ({
 
 interface Props extends CustomWithTranslation {
   learningpath: GQLPlainLearningpathContainer_LearningpathFragment;
-  locale: LocaleType;
   stepId: string | undefined;
   skipToContentId?: string;
   user?: FeideUserWithGroups;
@@ -38,7 +36,7 @@ interface Props extends CustomWithTranslation {
 const PlainLearningpathContainer = ({
   t,
   learningpath,
-  locale,
+  i18n,
   skipToContentId,
   stepId,
 }: Props) => {
@@ -73,7 +71,7 @@ const PlainLearningpathContainer = ({
     : steps[0];
 
   if (!currentStep) {
-    return <ErrorPage locale={locale} />;
+    return <ErrorPage />;
   }
 
   return (
@@ -93,8 +91,7 @@ const PlainLearningpathContainer = ({
         learningpathStep={currentStep}
         skipToContentId={skipToContentId}
         onKeyUpEvent={onKeyUpEvent}
-        locale={locale}
-        ndlaFilm={false}
+        locale={i18n.language}
         breadcrumbItems={[]}
       />
     </div>

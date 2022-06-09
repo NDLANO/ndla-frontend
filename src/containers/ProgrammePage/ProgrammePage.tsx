@@ -7,7 +7,8 @@
  */
 
 import { useContext } from 'react';
-import { useNavigate } from 'react-router-dom-v5-compat';
+import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { getProgrammeBySlug } from '../../data/programmes';
 import { getSubjectById } from '../../data/subjects';
@@ -16,7 +17,6 @@ import { LocaleType, ProgrammeGrade, ProgrammeType } from '../../interfaces';
 import { toProgramme, TypedParams, useTypedParams } from '../../routeHelpers';
 import ProgrammeContainer from './ProgrammeContainer';
 import { AuthContext } from '../../components/AuthenticationContext';
-import { RootComponentProps } from '../../routes';
 
 export interface GradesData {
   name: string;
@@ -69,8 +69,6 @@ interface MatchParams extends TypedParams {
   grade?: string;
 }
 
-interface Props extends RootComponentProps {}
-
 export const getGradeNameFromProgramme = (
   grade?: string,
   programme?: ProgrammeType,
@@ -80,10 +78,11 @@ export const getGradeNameFromProgramme = (
     : programme?.grades?.[0]?.name;
 };
 
-const ProgrammePage = ({ locale }: Props) => {
+const ProgrammePage = () => {
+  const { i18n } = useTranslation();
   const { programme: slug, grade: gradeParam } = useTypedParams<MatchParams>();
   const { user } = useContext(AuthContext);
-  const programmeData = getProgrammeBySlug(slug, locale);
+  const programmeData = getProgrammeBySlug(slug, i18n.language);
   const programmeGrades = programmeData?.grades;
   const grade = getGradeNameFromProgramme(gradeParam, programmeData);
   const navigate = useNavigate();
@@ -104,7 +103,7 @@ const ProgrammePage = ({ locale }: Props) => {
       programme={programmeData}
       onGradeChange={onGradeChange}
       grade={grade}
-      locale={locale}
+      locale={i18n.language}
       user={user}
     />
   );

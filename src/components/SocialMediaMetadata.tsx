@@ -8,8 +8,7 @@
 
 import { ReactNode } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Location } from 'history';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { useLocation, Location } from 'react-router-dom';
 import config from '../config';
 import { preferredLocales, isValidLocale } from '../i18n';
 import { useBaseName } from './BaseNameContext';
@@ -62,7 +61,7 @@ interface TrackableContent {
   supportedLanguages?: string[];
 }
 
-interface Props extends RouteComponentProps {
+interface Props {
   title: string;
   description?: string;
   imageUrl?: string;
@@ -75,9 +74,9 @@ const SocialMediaMetadata = ({
   imageUrl,
   description,
   trackableContent,
-  location,
   children,
 }: Props) => {
+  const location = useLocation();
   const basename = useBaseName();
   return (
     <Helmet>
@@ -134,4 +133,4 @@ const SocialMediaMetadata = ({
   );
 };
 
-export default withRouter(SocialMediaMetadata);
+export default SocialMediaMetadata;

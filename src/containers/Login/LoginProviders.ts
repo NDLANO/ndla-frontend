@@ -5,29 +5,22 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { useEffect } from 'react';
-import { RouteComponentProps } from 'react-router';
+import { useContext, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../components/AuthenticationContext';
 import { initializeFeideLogin } from '../../util/authHelpers';
 import { toHome, toLoginFailure } from '../../util/routeHelpers';
 
-interface Props {
-  authenticated: boolean;
-  authContextLoaded: boolean;
-  history: RouteComponentProps['history'];
-}
-
-export const LoginProviders = ({
-  authenticated,
-  history,
-  authContextLoaded,
-}: Props) => {
+export const LoginProviders = () => {
+  const { authenticated, authContextLoaded } = useContext(AuthContext);
+  const navigate = useNavigate();
   useEffect(() => {
     if (authenticated && authContextLoaded) {
-      history.push(toHome());
+      navigate(toHome());
     } else if (authContextLoaded && !authenticated) {
-      initializeFeideLogin().catch(() => history.push(toLoginFailure()));
+      initializeFeideLogin().catch(() => navigate(toLoginFailure()));
     }
-  }, [authenticated, history, authContextLoaded]);
+  }, [authenticated, navigate, authContextLoaded]);
 
   return null;
 };

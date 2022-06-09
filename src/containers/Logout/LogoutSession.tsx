@@ -7,30 +7,25 @@
  */
 
 import { useContext, useEffect } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import queryString from 'query-string';
 import { AuthContext } from '../../components/AuthenticationContext';
 import { feideLogout } from '../../util/authHelpers';
 import { toHome } from '../../util/routeHelpers';
 
-interface Props {
-  history: RouteComponentProps['history'];
-  location: {
-    search: RouteComponentProps['location']['search'];
-  };
-}
-
-const LogoutSession = ({ history, location: { search } }: Props) => {
+const LogoutSession = () => {
   const { authenticated, logout, authContextLoaded } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const { search } = useLocation();
 
   useEffect(() => {
     if (!authenticated && authContextLoaded) {
       const params = queryString.parse(search);
-      history.push(params.state || toHome());
+      navigate(params.state || toHome());
     } else if (authenticated && authContextLoaded) {
       feideLogout(logout);
     }
-  }, [authenticated, authContextLoaded, history, logout, search]);
+  }, [authenticated, authContextLoaded, navigate, logout, search]);
 
   return null;
 };

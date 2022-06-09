@@ -22,7 +22,11 @@ import { spacing } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import WelcomePageInfo from './WelcomePageInfo';
 import FrontpageSubjects from './FrontpageSubjects';
-import { FILM_PAGE_PATH, UKR_PAGE_PATH } from '../../constants';
+import {
+  FILM_PAGE_PATH,
+  SKIP_TO_CONTENT_ID,
+  UKR_PAGE_PATH,
+} from '../../constants';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import config from '../../config';
 import BlogPosts from './BlogPosts';
@@ -62,13 +66,8 @@ const BannerCardWrapper = styled.div`
   padding-bottom: ${spacing.large};
 `;
 
-interface Props {
-  locale: LocaleType;
-  skipToContentId?: string;
-}
-
-const WelcomePage = ({ locale, skipToContentId }: Props) => {
-  const { t } = useTranslation();
+const WelcomePage = () => {
+  const { t, i18n } = useTranslation();
 
   const alerts = useAlerts().map(alert => ({
     content: alert.body || alert.title,
@@ -91,14 +90,12 @@ const WelcomePage = ({ locale, skipToContentId }: Props) => {
 
   return (
     <>
-      {skipToContentId && (
-        <a
-          tabIndex={0}
-          href={`#${skipToContentId}`}
-          className="c-masthead__skip-to-main-content">
-          {t('masthead.skipToContent')}
-        </a>
-      )}
+      <a
+        tabIndex={0}
+        href={`#${SKIP_TO_CONTENT_ID}`}
+        className="c-masthead__skip-to-main-content">
+        {t('masthead.skipToContent')}
+      </a>
       <HelmetWithTracker title={t('htmlTitles.welcomePage')}>
         <script type="application/ld+json">{googleSearchJSONLd()}</script>
       </HelmetWithTracker>
@@ -116,7 +113,7 @@ const WelcomePage = ({ locale, skipToContentId }: Props) => {
           {alert.content}
         </MessageBox>
       ))}
-      <FrontpageHeader locale={locale} showHeader={true}>
+      <FrontpageHeader locale={i18n.language} showHeader={true}>
         <WelcomePageSearch />
       </FrontpageHeader>
       <main>
@@ -133,20 +130,20 @@ const WelcomePage = ({ locale, skipToContentId }: Props) => {
               }}
             />
           </BannerCardWrapper>
-          <div data-testid="category-list" id={skipToContentId}>
-            <FrontpageSubjects locale={locale} />
+          <div data-testid="category-list" id={SKIP_TO_CONTENT_ID}>
+            <FrontpageSubjects locale={i18n.language} />
           </div>
         </OneColumn>
         <OneColumn wide>
           <FrontpageMultidisciplinarySubject
             url={getUrlFromSubjectId(MULTIDISCIPLINARY_SUBJECT_ID)}
-            topics={getMultidisciplinaryTopics(locale)}
+            topics={getMultidisciplinaryTopics(i18n.language)}
           />
           <FrontpageToolbox
             urlStudents={getUrlFromSubjectId(TOOLBOX_STUDENT_SUBJECT_ID)}
             urlTeachers={getUrlFromSubjectId(TOOLBOX_TEACHER_SUBJECT_ID)}
           />
-          <BlogPosts locale={locale} />
+          <BlogPosts locale={i18n.language} />
           <FrontpageFilm
             imageUrl="/static/film_illustrasjon.svg"
             url={FILM_PAGE_PATH}

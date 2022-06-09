@@ -6,7 +6,7 @@
  *
  */
 
-import { parseAndMatchUrl } from '../urlHelper';
+import { parseOembedUrl } from '../urlHelper';
 
 const validArticleUrl1 =
   'https://www.test.ndla.no/subject:3/topic:1:55163/topic:1:168398/resource:1:1682';
@@ -28,14 +28,14 @@ const validateSimpleArticlePath2 = 'https://www.test.ndla.no/nn/article/4809';
 const unvalidateSimpleArticlePath = 'https://www.test.ndla.no/articles/4809';
 
 test('parseAndMatchUrl', () => {
-  expect(parseAndMatchUrl(validArticleUrl1)).toMatchSnapshot();
-  expect(parseAndMatchUrl(validTopicArticleUrl)).toMatchSnapshot();
-  expect(parseAndMatchUrl(validArticleUrl2)).toMatchSnapshot();
-  expect(parseAndMatchUrl(validArticleUrl3)).toMatchSnapshot();
-  expect(parseAndMatchUrl(validArticleUrl4)).toMatchSnapshot();
-  expect(parseAndMatchUrl(validArticleUrlWithLang)).toMatchSnapshot();
-  expect(parseAndMatchUrl(unvalidArticleUrl)).toBe(null);
-  expect(parseAndMatchUrl(validateSimpleArticlePath1)).toMatchSnapshot();
-  expect(parseAndMatchUrl(validateSimpleArticlePath2)).toMatchSnapshot();
-  expect(parseAndMatchUrl(unvalidateSimpleArticlePath)).toBe(null);
+  expect(parseOembedUrl(validArticleUrl1)).toMatchSnapshot();
+  expect(parseOembedUrl(validTopicArticleUrl)).toMatchSnapshot();
+  expect(parseOembedUrl(validArticleUrl2)).toMatchSnapshot();
+  expect(parseOembedUrl(validArticleUrl3)).toMatchSnapshot();
+  expect(parseOembedUrl(validArticleUrl4)).toMatchSnapshot();
+  expect(parseOembedUrl(validArticleUrlWithLang)).toMatchSnapshot();
+  expect(parseOembedUrl(unvalidArticleUrl)).toBe(null);
+  expect(parseOembedUrl(validateSimpleArticlePath1)).toMatchSnapshot();
+  expect(parseOembedUrl(validateSimpleArticlePath2)).toMatchSnapshot();
+  expect(parseOembedUrl(unvalidateSimpleArticlePath)).toBe(null);
 });
