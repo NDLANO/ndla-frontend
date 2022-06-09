@@ -8,7 +8,13 @@
 
 import { gql } from '@apollo/client';
 import { ReactNode } from 'react';
-import { Hero, OneColumn, Breadcrumb, NdlaFilmHero } from '@ndla/ui';
+import {
+  Hero,
+  OneColumn,
+  Breadcrumb,
+  NdlaFilmHero,
+  HomeBreadcrumb,
+} from '@ndla/ui';
 import { HeroContentType } from '@ndla/ui/lib/Hero';
 import {
   GQLArticleHero_MetaImageFragment,
@@ -66,11 +72,7 @@ const ArticleHero = ({
       <OneColumn>
         <div className="c-hero__content">
           <section>
-            {subject && (
-              <Breadcrumb items={breadcrumbItems} invertedStyle={false}>
-                <></>
-              </Breadcrumb>
-            )}
+            {subject && <HomeBreadcrumb items={breadcrumbItems} />}
           </section>
         </div>
       </OneColumn>
