@@ -6,12 +6,12 @@
  *
  */
 
-import { useContext } from 'react';
+import { ReactElement, useContext } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { AuthContext } from '../../components/AuthenticationContext';
 
 interface Props {
-  element: JSX.Element;
+  element: ReactElement;
 }
 
 const PrivateRoute = ({ element }: Props) => {
