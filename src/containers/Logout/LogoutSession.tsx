@@ -6,10 +6,11 @@
  *
  */
 
-import { useContext, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
 import queryString from 'query-string';
+import { useContext, useEffect } from 'react';
+import { matchPath, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../components/AuthenticationContext';
+import { privateRoutes } from '../../routes';
 import { feideLogout } from '../../util/authHelpers';
 import { toHome } from '../../util/routeHelpers';
 
@@ -21,7 +22,13 @@ const LogoutSession = () => {
   useEffect(() => {
     if (!authenticated && authContextLoaded) {
       const params = queryString.parse(search);
-      navigate(params.state || toHome());
+
+      const lastPath = params.state;
+      const wasPrivateRoute = privateRoutes.some(route =>
+        matchPath(route, lastPath),
+      );
+
+      navigate(wasPrivateRoute ? toHome() : lastPath ?? toHome());
     } else if (authenticated && authContextLoaded) {
       feideLogout(logout);
     }

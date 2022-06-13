@@ -6,20 +6,27 @@
  */
 
 import { useContext, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../components/AuthenticationContext';
 import { initializeFeideLogin } from '../../util/authHelpers';
 import { toHome, toLoginFailure } from '../../util/routeHelpers';
 
+interface LocationState {
+  from?: string;
+}
+
 export const LoginProviders = () => {
   const { authenticated, authContextLoaded } = useContext(AuthContext);
+  const location = useLocation();
+  const locationState = location.state as LocationState;
   const navigate = useNavigate();
   useEffect(() => {
     if (authenticated && authContextLoaded) {
-      navigate(toHome());
+      navigate(locationState.from ?? toHome());
     } else if (authContextLoaded && !authenticated) {
       initializeFeideLogin().catch(() => navigate(toLoginFailure()));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authenticated, navigate, authContextLoaded]);
 
   return null;

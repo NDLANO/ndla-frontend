@@ -6,36 +6,36 @@
  *
  */
 
-import { ErrorInfo, Component, ReactNode } from 'react';
-import { Outlet, Route, Routes } from 'react-router-dom';
-import { History } from 'history';
 import { configureTracker } from '@ndla/tracker';
 import { OneColumn } from '@ndla/ui';
-import handleError from './util/handleError';
-import ErrorPage from './containers/ErrorPage/ErrorPage';
-import { LocaleType } from './interfaces';
+import { History } from 'history';
+import { Component, ErrorInfo, ReactNode } from 'react';
+import { Outlet, Route, Routes } from 'react-router-dom';
+import { AlertsProvider } from './components/AlertsContext';
 import AuthenticationContext from './components/AuthenticationContext';
 import { BaseNameProvider } from './components/BaseNameContext';
-import { AlertsProvider } from './components/AlertsContext';
-import Layout from './containers/Page/Layout';
-import WelcomePage from './containers/WelcomePage/WelcomePage';
-import ProgrammePage from './containers/ProgrammePage/ProgrammePage';
-import AllSubjectsPage from './containers/AllSubjectsPage/AllSubjectsPage';
-import NotFound from './containers/NotFoundPage/NotFoundPage';
-import ResourcePage from './containers/ResourcePage/ResourcePage';
-import SubjectRouting from './containers/SubjectPage/SubjectRouting';
-import SearchPage from './containers/SearchPage/SearchPage';
-import PlainArticlePage from './containers/PlainArticlePage/PlainArticlePage';
-import PlainLearningpathPage from './containers/PlainLearningpathPage/PlainLearningpathPage';
-import AccessDenied from './containers/AccessDeniedPage/AccessDeniedPage';
-import PodcastSeriesListPage from './containers/PodcastPage/PodcastSeriesListPage';
-import PodcastSeriesPage from './containers/PodcastPage/PodcastSeriesPage';
 import config from './config';
-import LogoutSession from './containers/Logout/LogoutSession';
-import LogoutProviders from './containers/Logout/LogoutProviders';
+import AccessDenied from './containers/AccessDeniedPage/AccessDeniedPage';
+import AllSubjectsPage from './containers/AllSubjectsPage/AllSubjectsPage';
+import ErrorPage from './containers/ErrorPage/ErrorPage';
+import LoginFailure from './containers/Login/LoginFailure';
 import LoginProviders from './containers/Login/LoginProviders';
 import LoginSuccess from './containers/Login/LoginSuccess';
-import LoginFailure from './containers/Login/LoginFailure';
+import LogoutProviders from './containers/Logout/LogoutProviders';
+import LogoutSession from './containers/Logout/LogoutSession';
+import NotFound from './containers/NotFoundPage/NotFoundPage';
+import Layout from './containers/Page/Layout';
+import PlainArticlePage from './containers/PlainArticlePage/PlainArticlePage';
+import PlainLearningpathPage from './containers/PlainLearningpathPage/PlainLearningpathPage';
+import PodcastSeriesListPage from './containers/PodcastPage/PodcastSeriesListPage';
+import PodcastSeriesPage from './containers/PodcastPage/PodcastSeriesPage';
+import ProgrammePage from './containers/ProgrammePage/ProgrammePage';
+import ResourcePage from './containers/ResourcePage/ResourcePage';
+import SearchPage from './containers/SearchPage/SearchPage';
+import SubjectRouting from './containers/SubjectPage/SubjectRouting';
+import WelcomePage from './containers/WelcomePage/WelcomePage';
+import { LocaleType } from './interfaces';
+import handleError from './util/handleError';
 
 interface State {
   hasError: boolean;
@@ -84,15 +84,17 @@ class App extends Component<AppProps, State> {
       return <ErrorPage />;
     }
 
-    return <AppRoutes base={this.props.base} />;
+    return (
+      <AppRoutes resCookie={this.props.resCookie} base={this.props.base} />
+    );
   }
 }
 
-const AppRoutes = ({ base }: AppProps) => {
+const AppRoutes = ({ base, resCookie }: AppProps) => {
   return (
     <AlertsProvider>
       <BaseNameProvider value={base}>
-        <AuthenticationContext>
+        <AuthenticationContext initialValue={resCookie}>
           <Routes>
             <Route path="/" element={<Layout />}>
               <Route index element={<WelcomePage />} />
@@ -164,6 +166,7 @@ interface AppProps {
   locale?: LocaleType;
   history?: History;
   isClient?: boolean;
+  resCookie?: string;
 }
 
 export default App;
