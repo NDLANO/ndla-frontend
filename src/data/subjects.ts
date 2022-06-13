@@ -1,19 +1,61 @@
 import { LocaleType, SubjectCategory, SubjectType } from '../interfaces';
 
-export const activeSubjects: SubjectType[] = [
+export const activeResources: SubjectType[] = [
   {
     longName: {
-      en: 'Naturfag (PB)',
-      nb: 'Naturfag (PB)',
-      nn: 'Naturfag (PB)',
+      en: 'NDLA Film',
+      nb: 'NDLA Film',
+      nn: 'NDLA Film',
     },
     name: {
-      en: 'Naturfag',
-      nb: 'Naturfag',
-      nn: 'Naturfag',
+      en: 'NDLA Film',
+      nb: 'NDLA Film',
+      nn: 'NDLA Film',
     },
-    id: 'urn:subject:1:bb834c76-d1e4-46c4-8c0a-8f978bd2c956',
+    id: 'urn:subject:20',
   },
+  {
+    longName: {
+      en: 'Verktøykassa – for elev',
+      nb: 'Verktøykassa – for elev',
+      nn: 'Verktøykassa – for elev',
+    },
+    name: {
+      en: 'Verktøykassa – for elev',
+      nb: 'Verktøykassa – for elev',
+      nn: 'Verktøykassa – for elev',
+    },
+    id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+  },
+  {
+    longName: {
+      en: 'Tverrfaglige tema',
+      nb: 'Tverrfaglige tema',
+      nn: 'Tverrfaglege tema',
+    },
+    name: {
+      en: 'Tverrfaglige tema',
+      nb: 'Tverrfaglige tema',
+      nn: 'Tverrfaglege tema',
+    },
+    id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+  },
+  {
+    longName: {
+      en: 'Verktøykassa – for lærer',
+      nb: 'Verktøykassa – for lærer',
+      nn: 'Verktøykassa – for lærar',
+    },
+    name: {
+      en: 'Verktøykassa – for lærer',
+      nb: 'Verktøykassa – for lærer',
+      nn: 'Verktøykassa – for lærar',
+    },
+    id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
+  },
+];
+
+export const activeSubjects: SubjectType[] = [
   {
     longName: {
       en: 'Ukrainian resources in Norwegian Social Science',
@@ -26,6 +68,19 @@ export const activeSubjects: SubjectType[] = [
       nn: 'Ukrainske ressurser i samfunnskunnskap',
     },
     id: 'urn:subject:27e8623d-c092-4f00-9a6f-066438d6c466',
+  },
+  {
+    longName: {
+      en: 'Naturfag (PB)',
+      nb: 'Naturfag (PB)',
+      nn: 'Naturfag (PB)',
+    },
+    name: {
+      en: 'Naturfag',
+      nb: 'Naturfag',
+      nn: 'Naturfag',
+    },
+    id: 'urn:subject:1:bb834c76-d1e4-46c4-8c0a-8f978bd2c956',
   },
   {
     longName: {
@@ -2124,17 +2179,17 @@ export const archivedSubjects: SubjectType[] = [
       nn: 'Matematikk S2 (Utgått)',
     },
     name: {
-      en: 'Matematikk S2',
-      nb: 'Matematikk S2',
-      nn: 'Matematikk S2',
+      en: 'Matematikk S2 (Utgått)',
+      nb: 'Matematikk S2 (Utgått)',
+      nn: 'Matematikk S2 (Utgått)',
     },
     id: 'urn:subject:1:ebaf899b-4161-4281-80ab-2cb7eebecca4',
   },
   {
     longName: {
-      en: 'Matematikk 2P-Y (Utgått)',
-      nb: 'Matematikk 2P-Y (Utgått)',
-      nn: 'Matematikk 2P-Y (Utgått)',
+      en: 'Matematikk 2P-Y',
+      nb: 'Matematikk 2P-Y',
+      nn: 'Matematikk 2P-Y',
     },
     name: {
       en: 'Matematikk 2P-Y (Utgått)',
@@ -2778,6 +2833,15 @@ export const subjectsCategories: SubjectCategory[] = [
     subjects: betaSubjects,
     visible: betaSubjects.length !== 0,
   },
+  {
+    name: {
+      nb: 'Andre ressurser',
+      nn: 'Andre ressursar',
+      en: 'Other resources',
+    },
+    subjects: activeResources,
+    visible: activeResources.length !== 0,
+  },
 ];
 
 type SubjectIds = {
@@ -2788,7 +2852,12 @@ let subjectsIdx: SubjectIds;
 
 export const subjectObjectIds = () => {
   if (!subjectsIdx) {
-    const subjects = [...activeSubjects, ...archivedSubjects, ...betaSubjects];
+    const subjects = [
+      ...activeSubjects,
+      ...activeResources,
+      ...archivedSubjects,
+      ...betaSubjects,
+    ];
 
     subjectsIdx = subjects.reduce((obj: SubjectIds, item: SubjectType) => {
       obj[item.id] = item;
@@ -2804,7 +2873,12 @@ export const getSubjectById = (id: string) => {
 };
 
 export const getSubjectBySubjectId = (subjectId: string) => {
-  const subjects = [...activeSubjects, ...archivedSubjects, ...betaSubjects];
+  const subjects = [
+    ...activeSubjects,
+    ...activeResources,
+    ...archivedSubjects,
+    ...betaSubjects,
+  ];
 
   return subjects.find(subject => subject.id === subjectId);
 };
