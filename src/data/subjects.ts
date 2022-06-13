@@ -3,6 +3,19 @@ import { LocaleType, SubjectCategory, SubjectType } from '../interfaces';
 export const activeSubjects: SubjectType[] = [
   {
     longName: {
+      en: 'Naturfag (PB)',
+      nb: 'Naturfag (PB)',
+      nn: 'Naturfag (PB)',
+    },
+    name: {
+      en: 'Naturfag',
+      nb: 'Naturfag',
+      nn: 'Naturfag',
+    },
+    id: 'urn:subject:1:bb834c76-d1e4-46c4-8c0a-8f978bd2c956',
+  },
+  {
+    longName: {
       en: 'Ukrainian resources in Norwegian Social Science',
       nb: 'Ukrainske ressurser i samfunnskunnskap',
       nn: 'Ukrainske ressurser i samfunnskunnskap',
@@ -2705,20 +2718,6 @@ export const archivedSubjects: SubjectType[] = [
       nn: 'Internasjonal engelsk (Utgått)',
     },
     id: 'urn:subject:1:3d4efd60-aa24-4dc9-b1ad-71fb0ba2746c',
-  },
-
-  {
-    longName: {
-      en: 'Naturfag (PB)',
-      nb: 'Naturfag (PB)',
-      nn: 'Naturfag (PB)',
-    },
-    name: {
-      en: 'Naturfag',
-      nb: 'Naturfag',
-      nn: 'Naturfag',
-    },
-    id: 'urn:subject:1:bb834c76-d1e4-46c4-8c0a-8f978bd2c956',
   },
 ];
 
