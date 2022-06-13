@@ -1851,9 +1851,9 @@ export const archivedSubjects: SubjectType[] = [
       en: 'Virksomhetsstøtte (Utgått)',
     },
     longName: {
-      nb: 'Virksomhetsstøtte (Utgått) (SS-ISF vg2) (LK06)',
-      nn: 'Verksemdsstøtte (Utgått) (SS-ISF vg2) (LK06)',
-      en: 'Virksomhetsstøtte (Utgått) (SS-ISF vg2) (LK06)',
+      nb: 'Virksomhetsstøtte (Utgått) (SS-ISF vg2)',
+      nn: 'Verksemdsstøtte (Utgått) (SS-ISF vg2)',
+      en: 'Virksomhetsstøtte (Utgått) (SS-ISF vg2)',
     },
     id: 'urn:subject:1:9d6d3241-014d-4a5f-b0bc-ae0f83d1cd71',
   },
@@ -1864,9 +1864,9 @@ export const archivedSubjects: SubjectType[] = [
       en: 'Bruker- og driftsstøtte (Utgått)',
     },
     longName: {
-      nb: 'Bruker- og driftsstøtte (Utgått) (SS-ISF vg2) (LK06)',
-      nn: 'Brukar- og driftsstøtte (Utgått) (SS-ISF vg2) (LK06)',
-      en: 'Bruker- og driftsstøtte (Utgått) (SS-ISF vg2) (LK06)',
+      nb: 'Bruker- og driftsstøtte (Utgått) (SS-ISF vg2)',
+      nn: 'Brukar- og driftsstøtte (Utgått) (SS-ISF vg2)',
+      en: 'Bruker- og driftsstøtte (Utgått) (SS-ISF vg2)',
     },
     id: 'urn:subject:1:a9e14915-c279-462b-82fa-714ceee05116',
   },
@@ -1877,9 +1877,9 @@ export const archivedSubjects: SubjectType[] = [
       en: 'Drift og vedlikehold (Utgått)',
     },
     longName: {
-      nb: 'Drift og vedlikehold (Utgått) (SS-ISF vg2) (LK06)',
-      nn: 'Drift og vedlikehald (Utgått) (SS-ISF vg2) (LK06)',
-      en: 'Drift og vedlikehold (Utgått) (SS-ISF vg2) (LK06)',
+      nb: 'Drift og vedlikehold (Utgått) (SS-ISF vg2)',
+      nn: 'Drift og vedlikehald (Utgått) (SS-ISF vg2)',
+      en: 'Drift og vedlikehold (Utgått) (SS-ISF vg2)',
     },
     id: 'urn:subject:1:d97809a8-47b6-4d26-ae5c-1839f4c27940',
   },
@@ -1890,17 +1890,17 @@ export const archivedSubjects: SubjectType[] = [
       en: 'Yrkesfaglig fordypning (Utgått)',
     },
     longName: {
-      nb: 'Yrkesfaglig fordypning (Utgått) (SS-RLV vg2) (LK06)',
-      nn: 'Yrkesfagleg fordjuping (Utgått) (SS-RLV vg2) (LK06)',
-      en: 'Yrkesfaglig fordypning (Utgått) (SS-RLV vg2) (LK06)',
+      nb: 'Yrkesfaglig fordypning (Utgått) (SS-RLV vg2)',
+      nn: 'Yrkesfagleg fordjuping (Utgått) (SS-RLV vg2)',
+      en: 'Yrkesfaglig fordypning (Utgått) (SS-RLV vg2)',
     },
     id: 'urn:subject:1:021e4beb-fbdf-4f1c-b408-23d08f6446f3',
   },
   {
     longName: {
-      en: 'Økonomi og administrasjon (Utgått) (SS-SSS vg2) (LK06)',
-      nb: 'Økonomi og administrasjon (Utgått) (SS-SSS vg2) (LK06)',
-      nn: 'Økonomi og administrasjon (Utgått) (SS-SSS vg2) (LK06)',
+      en: 'Økonomi og administrasjon (Utgått) (SS-SSS vg2)',
+      nb: 'Økonomi og administrasjon (Utgått) (SS-SSS vg2)',
+      nn: 'Økonomi og administrasjon (Utgått) (SS-SSS vg2)',
     },
     name: {
       en: 'Økonomi og administrasjon (Utgått)',
@@ -1911,9 +1911,9 @@ export const archivedSubjects: SubjectType[] = [
   },
   {
     longName: {
-      en: 'Markedsføring og salg (Utgått) (SS-SSS vg2) (LK06)',
-      nb: 'Markedsføring og salg (Utgått) (SS-SSS vg2) (LK06)',
-      nn: 'Marknadsføring og sal (Utgått) (SS-SSS vg2) (LK06)',
+      en: 'Markedsføring og salg (Utgått) (SS-SSS vg2)',
+      nb: 'Markedsføring og salg (Utgått) (SS-SSS vg2)',
+      nn: 'Marknadsføring og sal (Utgått) (SS-SSS vg2)',
     },
     name: {
       en: 'Markedsføring og salg (Utgått)',
@@ -1924,9 +1924,9 @@ export const archivedSubjects: SubjectType[] = [
   },
   {
     longName: {
-      en: 'Salg og markedsføring (Utgått) (SS-RLV vg2) (LK06)',
-      nb: 'Salg og markedsføring (Utgått) (SS-RLV vg2) (LK06)',
-      nn: 'Sal og marknadsføring (Utgått) (SS-RLV vg2) (LK06)',
+      en: 'Salg og markedsføring (Utgått) (SS-RLV vg2)',
+      nb: 'Salg og markedsføring (Utgått) (SS-RLV vg2)',
+      nn: 'Sal og marknadsføring (Utgått) (SS-RLV vg2)',
     },
     name: {
       en: 'Salg og markedsføring (Utgått)',
@@ -1937,9 +1937,9 @@ export const archivedSubjects: SubjectType[] = [
   },
   {
     longName: {
-      en: 'Etablering og drift (Utgått) (SS-RLV vg2) (LK06)',
-      nb: 'Etablering og drift (Utgått) (SS-RLV vg2) (LK06)',
-      nn: 'Etablering og drift (Utgått) (SS-RLV vg2) (LK06)',
+      en: 'Etablering og drift (Utgått) (SS-RLV vg2)',
+      nb: 'Etablering og drift (Utgått) (SS-RLV vg2)',
+      nn: 'Etablering og drift (Utgått) (SS-RLV vg2)',
     },
     name: {
       en: 'Etablering og drift (Utgått)',
@@ -1950,9 +1950,9 @@ export const archivedSubjects: SubjectType[] = [
   },
   {
     longName: {
-      en: 'Vertskapsrollen (Utgått) (SS-RLV vg2) (LK06)',
-      nb: 'Vertskapsrollen (Utgått) (SS-RLV vg2) (LK06)',
-      nn: 'Vertskapsrolla  (Utgått) (SS-RLV vg2) (LK06)',
+      en: 'Vertskapsrollen (Utgått) (SS-RLV vg2)',
+      nb: 'Vertskapsrollen (Utgått) (SS-RLV vg2)',
+      nn: 'Vertskapsrolla  (Utgått) (SS-RLV vg2)',
     },
     name: {
       en: 'Vertskapsrollen (Utgått)',
@@ -1968,17 +1968,17 @@ export const archivedSubjects: SubjectType[] = [
       en: 'Sikkerhet (Utgått)',
     },
     longName: {
-      nb: 'Sikkerhet (Utgått) (SS-SSS vg2) (LK06)',
-      nn: 'Tryggleik (Utgått) (SS-SSS vg2) (LK06)',
-      en: 'Sikkerhet (Utgått) (SS-SSS vg2) (LK06)',
+      nb: 'Sikkerhet (Utgått) (SS-SSS vg2)',
+      nn: 'Tryggleik (Utgått) (SS-SSS vg2)',
+      en: 'Sikkerhet (Utgått) (SS-SSS vg2)',
     },
     id: 'urn:subject:1:b40855bb-9e21-4944-9257-c96679da549a',
   },
   {
     longName: {
-      en: 'Åarjelsaemien voestesgïeline (Utgått) (SR vg3) (LK06)',
-      nb: 'Åarjelsaemien voestesgïeline (Utgått) (SR vg3) (LK06)',
-      nn: 'Åarjelsaemien voestesgïeline (Utgått) (SR vg3) (LK06)',
+      en: 'Åarjelsaemien voestesgïeline (Utgått) (SR vg3)',
+      nb: 'Åarjelsaemien voestesgïeline (Utgått) (SR vg3)',
+      nn: 'Åarjelsaemien voestesgïeline (Utgått) (SR vg3)',
     },
     name: {
       en: 'Sørsamisk som førstespråk (Utgått)',
@@ -1989,9 +1989,9 @@ export const archivedSubjects: SubjectType[] = [
   },
   {
     longName: {
-      en: 'Åarjelsaemien voestesgïeline (Utgått) (PB) (LK06)',
-      nb: 'Åarjelsaemien voestesgïeline (Utgått) (PB) (LK06)',
-      nn: 'Åarjelsaemien voestesgïeline (Utgått) (PB) (LK06)',
+      en: 'Åarjelsaemien voestesgïeline (Utgått) (PB)',
+      nb: 'Åarjelsaemien voestesgïeline (Utgått) (PB)',
+      nn: 'Åarjelsaemien voestesgïeline (Utgått) (PB)',
     },
     name: {
       en: 'Sørsamisk som førstespråk (Utgått)',
@@ -2002,9 +2002,9 @@ export const archivedSubjects: SubjectType[] = [
   },
   {
     longName: {
-      en: 'Åarjelsaemien voestesgïeline (Utgått) (SR vg2) (LK06)',
-      nb: 'Åarjelsaemien voestesgïeline (Utgått) (SR vg2) (LK06)',
-      nn: 'Åarjelsaemien voestesgïeline (Utgått) (SR vg2) (LK06)',
+      en: 'Åarjelsaemien voestesgïeline (Utgått) (SR vg2)',
+      nb: 'Åarjelsaemien voestesgïeline (Utgått) (SR vg2)',
+      nn: 'Åarjelsaemien voestesgïeline (Utgått) (SR vg2)',
     },
     name: {
       en: 'Sørsamisk som førstespråk (Utgått)',
@@ -2015,9 +2015,9 @@ export const archivedSubjects: SubjectType[] = [
   },
   {
     longName: {
-      en: 'Religion og etikk (Utgått) (LK06)',
-      nb: 'Religion og etikk (Utgått) (LK06)',
-      nn: 'Religion og etikk (Utgått) (LK06)',
+      en: 'Religion og etikk (Utgått)',
+      nb: 'Religion og etikk (Utgått)',
+      nn: 'Religion og etikk (Utgått)',
     },
     name: {
       en: 'Religion og etikk (Utgått)',
@@ -2033,17 +2033,17 @@ export const archivedSubjects: SubjectType[] = [
       en: 'Norsk (Utgått)',
     },
     longName: {
-      nb: 'Norsk (Utgått) (SF vg3) (LK06)',
-      nn: 'Norsk (Utgått) (SF vg3) (LK06)',
-      en: 'Norsk (Utgått) (SF vg3) (LK06)',
+      nb: 'Norsk (Utgått) (SF vg3)',
+      nn: 'Norsk (Utgått) (SF vg3)',
+      en: 'Norsk (Utgått) (SF vg3)',
     },
     id: 'urn:subject:1:cddc3895-a19b-4e30-bd27-2f91b4a02894',
   },
   {
     longName: {
-      en: 'Naturfag (Utgått) (PB) (LK06)',
-      nb: 'Naturfag (Utgått) (PB) (LK06)',
-      nn: 'Naturfag (Utgått) (PB) (LK06)',
+      en: 'Naturfag (Utgått) (PB)',
+      nb: 'Naturfag (Utgått) (PB)',
+      nn: 'Naturfag (Utgått) (PB)',
     },
     name: {
       en: 'Naturfag (Utgått)',
@@ -2054,9 +2054,9 @@ export const archivedSubjects: SubjectType[] = [
   },
   {
     longName: {
-      en: 'Medieuttrykk 3 og mediesamfunnet 3 (Utgått) (LK06)',
-      nb: 'Medieuttrykk 3 og mediesamfunnet 3 (Utgått) (LK06)',
-      nn: 'Medieuttrykk 3 og mediesamfunnet 3 (Utgått) (LK06)',
+      en: 'Medieuttrykk 3 og mediesamfunnet 3 (Utgått)',
+      nb: 'Medieuttrykk 3 og mediesamfunnet 3 (Utgått)',
+      nn: 'Medieuttrykk 3 og mediesamfunnet 3 (Utgått)',
     },
     name: {
       en: 'Medieuttrykk 3 og mediesamfunnet 3 (Utgått)',
@@ -2067,9 +2067,9 @@ export const archivedSubjects: SubjectType[] = [
   },
   {
     longName: {
-      en: 'Medie- og informasjonskunnskap 2 (Utgått) (LK06)',
-      nb: 'Medie- og informasjonskunnskap 2 (Utgått) (LK06)',
-      nn: 'Medie- og informasjonskunnskap 2 (Utgått) (LK06)',
+      en: 'Medie- og informasjonskunnskap 2 (Utgått)',
+      nb: 'Medie- og informasjonskunnskap 2 (Utgått)',
+      nn: 'Medie- og informasjonskunnskap 2 (Utgått)',
     },
     name: {
       en: 'Medie- og informasjonskunnskap 2 (Utgått)',
@@ -2085,17 +2085,17 @@ export const archivedSubjects: SubjectType[] = [
       en: 'Norsk (Utgått)',
     },
     longName: {
-      nb: 'Norsk (Utgått) (PB) (LK06)',
-      nn: 'Norsk (Utgått) (PB) (LK06)',
-      en: 'Norsk (Utgått) (PB) (LK06)',
+      nb: 'Norsk (Utgått) (PB)',
+      nn: 'Norsk (Utgått) (PB)',
+      en: 'Norsk (Utgått) (PB)',
     },
     id: 'urn:subject:1:f3d2143b-66e3-428c-89ca-72c1abc659ea',
   },
   {
     longName: {
-      en: 'Matematikk R2 (Utgått) (LK06)',
-      nb: 'Matematikk R2 (Utgått) (LK06)',
-      nn: 'Matematikk R2 (Utgått) (LK06)',
+      en: 'Matematikk R2 (Utgått)',
+      nb: 'Matematikk R2 (Utgått)',
+      nn: 'Matematikk R2 (Utgått)',
     },
     name: {
       en: 'Matematikk R2 (Utgått)',
@@ -2106,9 +2106,9 @@ export const archivedSubjects: SubjectType[] = [
   },
   {
     longName: {
-      en: 'Matematikk S2 (Utgått) (LK06)',
-      nb: 'Matematikk S2 (Utgått) (LK06)',
-      nn: 'Matematikk S2 (Utgått) (LK06)',
+      en: 'Matematikk S2 (Utgått)',
+      nb: 'Matematikk S2 (Utgått)',
+      nn: 'Matematikk S2 (Utgått)',
     },
     name: {
       en: 'Matematikk S2',
@@ -2119,9 +2119,9 @@ export const archivedSubjects: SubjectType[] = [
   },
   {
     longName: {
-      en: 'Matematikk 2P-Y (LK06)',
-      nb: 'Matematikk 2P-Y (LK06)',
-      nn: 'Matematikk 2P-Y (LK06)',
+      en: 'Matematikk 2P-Y (Utgått)',
+      nb: 'Matematikk 2P-Y (Utgått)',
+      nn: 'Matematikk 2P-Y (Utgått)',
     },
     name: {
       en: 'Matematikk 2P-Y (Utgått)',
@@ -2132,9 +2132,9 @@ export const archivedSubjects: SubjectType[] = [
   },
   {
     longName: {
-      en: 'Kroppsøving (Utgått) (vg3) (LK06)',
-      nb: 'Kroppsøving (Utgått) (vg3) (LK06)',
-      nn: 'Kroppsøving (Utgått) (vg3) (LK06)',
+      en: 'Kroppsøving (Utgått) (vg3)',
+      nb: 'Kroppsøving (Utgått) (vg3)',
+      nn: 'Kroppsøving (Utgått) (vg3)',
     },
     name: {
       en: 'Kroppsøving (Utgått)',
@@ -2145,9 +2145,9 @@ export const archivedSubjects: SubjectType[] = [
   },
   {
     longName: {
-      en: 'Kommunikasjon og kultur 2 (Utgått) (LK06)',
-      nb: 'Kommunikasjon og kultur 2 (Utgått) (LK06)',
-      nn: 'Kommunikasjon og kultur 2 (Utgått) (LK06)',
+      en: 'Kommunikasjon og kultur 2 (Utgått)',
+      nb: 'Kommunikasjon og kultur 2 (Utgått)',
+      nn: 'Kommunikasjon og kultur 2 (Utgått)',
     },
     name: {
       en: 'Kommunikasjon og kultur 2 (Utgått)',
@@ -2158,9 +2158,9 @@ export const archivedSubjects: SubjectType[] = [
   },
   {
     longName: {
-      en: 'Kommunikasjon og kultur 3 (Utgått) (LK06)',
-      nb: 'Kommunikasjon og kultur 3 (Utgått) (LK06)',
-      nn: 'Kommunikasjon og kultur 3 (Utgått) (LK06)',
+      en: 'Kommunikasjon og kultur 3 (Utgått)',
+      nb: 'Kommunikasjon og kultur 3 (Utgått)',
+      nn: 'Kommunikasjon og kultur 3 (Utgått)',
     },
     name: {
       en: 'Kommunikasjon og kultur 3 (Utgått)',
@@ -2176,9 +2176,9 @@ export const archivedSubjects: SubjectType[] = [
       en: 'Historie (Utgått)',
     },
     longName: {
-      nb: 'Historie (Utgått) (SF vg3) (LK06)',
-      nn: 'Historie (Utgått) (SF vg3) (LK06)',
-      en: 'Historie (Utgått) (SF vg3) (LK06)',
+      nb: 'Historie (Utgått) (SF vg3)',
+      nn: 'Historie (Utgått) (SF vg3)',
+      en: 'Historie (Utgått) (SF vg3)',
     },
     id: 'urn:subject:1:e0a0faa8-cefd-481f-bf79-b45ad4d7c5e7',
   },
@@ -2189,17 +2189,17 @@ export const archivedSubjects: SubjectType[] = [
       en: 'Historie (Utgått)',
     },
     longName: {
-      nb: 'Historie (Utgått) (PB) (LK06)',
-      nn: 'Historie (Utgått) (PB) (LK06)',
-      en: 'Historie (Utgått) (PB) (LK06)',
+      nb: 'Historie (Utgått) (PB)',
+      nn: 'Historie (Utgått) (PB)',
+      en: 'Historie (Utgått) (PB)',
     },
     id: 'urn:subject:1:9132d125-4d8f-41a6-b61d-77741662d5a9',
   },
   {
     longName: {
-      en: 'English Literature and Culture (Utgått) (LK06)',
-      nb: 'English Literature and Culture (Utgått) (LK06)',
-      nn: 'English Literature and Culture (Utgått) (LK06)',
+      en: 'English Literature and Culture (Utgått)',
+      nb: 'English Literature and Culture (Utgått)',
+      nn: 'English Literature and Culture (Utgått)',
     },
     name: {
       en: 'Engelskspråklig litteratur og kultur (Utgått)',
@@ -2210,9 +2210,9 @@ export const archivedSubjects: SubjectType[] = [
   },
   {
     longName: {
-      en: 'Social Studies English (Utgått) (LK06)',
-      nb: 'Social Studies English (Utgått) (LK06)',
-      nn: 'Social Studies English (Utgått) (LK06)',
+      en: 'Social Studies English (Utgått)',
+      nb: 'Social Studies English (Utgått)',
+      nn: 'Social Studies English (Utgått)',
     },
     name: {
       en: 'Samfunnsfaglig engelsk (Utgått)',
@@ -2228,17 +2228,17 @@ export const archivedSubjects: SubjectType[] = [
       en: 'Norsk (Utgått)',
     },
     longName: {
-      nb: 'Norsk (Utgått) (SF vg2) (LK06)',
-      nn: 'Norsk (Utgått) (SF vg2) (LK06)',
-      en: 'Norsk (Utgått) (SF vg2) (LK06)',
+      nb: 'Norsk (Utgått) (SF vg2)',
+      nn: 'Norsk (Utgått) (SF vg2)',
+      en: 'Norsk (Utgått) (SF vg2)',
     },
     id: 'urn:subject:1:8bbcfdcb-2edc-4fc0-b8a4-f342514b9f20',
   },
   {
     longName: {
-      en: 'Transport og logistikk (Utgått) (SS-TRL vg2) (LK06)',
-      nb: 'Transport og logistikk (Utgått) (SS-TRL vg2) (LK06)',
-      nn: 'Transport og logistikk (Utgått) (SS-TRL vg2) (LK06)',
+      en: 'Transport og logistikk (Utgått) (SS-TRL vg2)',
+      nb: 'Transport og logistikk (Utgått) (SS-TRL vg2)',
+      nn: 'Transport og logistikk (Utgått) (SS-TRL vg2)',
     },
     name: {
       en: 'Transport og logistikk (Utgått)',
@@ -2249,9 +2249,9 @@ export const archivedSubjects: SubjectType[] = [
   },
   {
     longName: {
-      en: 'Bransjeteknikk (Utgått) (SS-TRL vg2) (LK06)',
-      nb: 'Bransjeteknikk (Utgått) (SS-TRL vg2) (LK06)',
-      nn: 'Bransjeteknikk (Utgått) (SS-TRL vg2) (LK06)',
+      en: 'Bransjeteknikk (Utgått) (SS-TRL vg2)',
+      nb: 'Bransjeteknikk (Utgått) (SS-TRL vg2)',
+      nn: 'Bransjeteknikk (Utgått) (SS-TRL vg2)',
     },
     name: {
       en: 'Bransjeteknikk (Utgått)',
@@ -2262,9 +2262,9 @@ export const archivedSubjects: SubjectType[] = [
   },
   {
     longName: {
-      en: 'Sosiologi og sosialantropologi (Utgått) (LK06)',
-      nb: 'Sosiologi og sosialantropologi (Utgått) (LK06)',
-      nn: 'Sosiologi og sosialantropologi (Utgått) (LK06)',
+      en: 'Sosiologi og sosialantropologi (Utgått)',
+      nb: 'Sosiologi og sosialantropologi (Utgått)',
+      nn: 'Sosiologi og sosialantropologi (Utgått)',
     },
     name: {
       en: 'Sosiologi og sosialantropologi (Utgått)',
@@ -2275,9 +2275,9 @@ export const archivedSubjects: SubjectType[] = [
   },
   {
     longName: {
-      en: 'Matematikk 2P (Utgått) (LK06)',
-      nb: 'Matematikk 2P (Utgått) (LK06)',
-      nn: 'Matematikk 2P (Utgått) (LK06)',
+      en: 'Matematikk 2P (Utgått)',
+      nb: 'Matematikk 2P (Utgått)',
+      nn: 'Matematikk 2P (Utgått)',
     },
     name: {
       en: 'Matematikk 2P (Utgått)',
@@ -2288,9 +2288,9 @@ export const archivedSubjects: SubjectType[] = [
   },
   {
     longName: {
-      en: 'Matematikk R1 (Utgått) (LK06)',
-      nb: 'Matematikk R1 (Utgått) (LK06)',
-      nn: 'Matematikk R1 (Utgått) (LK06)',
+      en: 'Matematikk R1 (Utgått)',
+      nb: 'Matematikk R1 (Utgått)',
+      nn: 'Matematikk R1 (Utgått)',
     },
     name: {
       en: 'Matematikk R1 (Utgått)',
@@ -2301,9 +2301,9 @@ export const archivedSubjects: SubjectType[] = [
   },
   {
     longName: {
-      en: 'Matematikk S1 (Utgått) (LK06)',
-      nb: 'Matematikk S1 (Utgått) (LK06)',
-      nn: 'Matematikk S1 (Utgått) (LK06)',
+      en: 'Matematikk S1 (Utgått)',
+      nb: 'Matematikk S1 (Utgått)',
+      nn: 'Matematikk S1 (Utgått)',
     },
     name: {
       en: 'Matematikk S1 (Utgått)',
@@ -2319,9 +2319,9 @@ export const archivedSubjects: SubjectType[] = [
       en: 'Norsk (Utgått)',
     },
     longName: {
-      nb: 'Norsk (Utgått) (YF vg2) (LK06)',
-      nn: 'Norsk (Utgått) (YF vg2) (LK06)',
-      en: 'Norsk (Utgått) (YF vg2) (LK06)',
+      nb: 'Norsk (Utgått) (YF vg2)',
+      nn: 'Norsk (Utgått) (YF vg2)',
+      en: 'Norsk (Utgått) (YF vg2)',
     },
     id: 'urn:subject:1:f4581340-52f1-435d-8f99-d5de4e123f70',
   },
@@ -2332,17 +2332,17 @@ export const archivedSubjects: SubjectType[] = [
       en: 'Samfunnsfag (Utgått)',
     },
     longName: {
-      nb: 'Samfunnsfag (Utgått) (LK06)',
-      nn: 'Samfunnsfag (Utgått) (LK06)',
-      en: 'Samfunnsfag (Utgått) (LK06)',
+      nb: 'Samfunnsfag (Utgått)',
+      nn: 'Samfunnsfag (Utgått)',
+      en: 'Samfunnsfag (Utgått)',
     },
     id: 'urn:subject:1:19dae192-699d-488f-8218-d81535ce3ae3',
   },
   {
     longName: {
-      en: 'Medie- og informasjonskunnskap 1 (Utgått) (LK06)',
-      nb: 'Medie- og informasjonskunnskap 1 (Utgått) (LK06)',
-      nn: 'Medie- og informasjonskunnskap 1 (Utgått) (LK06)',
+      en: 'Medie- og informasjonskunnskap 1 (Utgått)',
+      nb: 'Medie- og informasjonskunnskap 1 (Utgått)',
+      nn: 'Medie- og informasjonskunnskap 1 (Utgått)',
     },
     name: {
       en: 'Medie- og informasjonskunnskap 1 (Utgått)',
@@ -2358,17 +2358,17 @@ export const archivedSubjects: SubjectType[] = [
       en: 'Markedsføring og ledelse 1 (Utgått)',
     },
     longName: {
-      nb: 'Markedsføring og ledelse 1 (Utgått) (LK06)',
-      nn: 'Marknadsføring og leiing 1 (Utgått) (LK06)',
-      en: 'Markedsføring og ledelse 1 (Utgått) (LK06)',
+      nb: 'Markedsføring og ledelse 1 (Utgått)',
+      nn: 'Marknadsføring og leiing 1 (Utgått)',
+      en: 'Markedsføring og ledelse 1 (Utgått)',
     },
     id: 'urn:subject:1:433559e2-5bf4-4ba1-a592-24fa4057ec01',
   },
   {
     longName: {
-      en: 'Kommunikasjon og kultur 1 (Utgått) (LK06)',
-      nb: 'Kommunikasjon og kultur 1 (Utgått) (LK06)',
-      nn: 'Kommunikasjon og kultur 1 (Utgått) (LK06)',
+      en: 'Kommunikasjon og kultur 1 (Utgått)',
+      nb: 'Kommunikasjon og kultur 1 (Utgått)',
+      nn: 'Kommunikasjon og kultur 1 (Utgått)',
     },
     name: {
       en: 'Kommunikasjon og kultur 1 (Utgått)',
@@ -2379,9 +2379,9 @@ export const archivedSubjects: SubjectType[] = [
   },
   {
     longName: {
-      en: 'Servering, bransje og miljø (Utgått) (RM-KOS vg2) (LK06)',
-      nb: 'Servering, bransje og miljø (Utgått) (RM-KOS vg2) (LK06)',
-      nn: 'Servering, bransje og miljø (Utgått) (RM-KOS vg2) (LK06)',
+      en: 'Servering, bransje og miljø (Utgått) (RM-KOS vg2)',
+      nb: 'Servering, bransje og miljø (Utgått) (RM-KOS vg2)',
+      nn: 'Servering, bransje og miljø (Utgått) (RM-KOS vg2)',
     },
     name: {
       en: 'Servering, bransje og miljø (Utgått)',
@@ -2392,9 +2392,9 @@ export const archivedSubjects: SubjectType[] = [
   },
   {
     longName: {
-      en: 'Råvarer og produksjon (Utgått) (RM-KOS vg2) (LK06)',
-      nb: 'Råvarer og produksjon (Utgått) (RM-KOS vg2) (LK06)',
-      nn: 'Råvarer og produksjon (Utgått) (RM-KOS vg2) (LK06)',
+      en: 'Råvarer og produksjon (Utgått) (RM-KOS vg2)',
+      nb: 'Råvarer og produksjon (Utgått) (RM-KOS vg2)',
+      nn: 'Råvarer og produksjon (Utgått) (RM-KOS vg2)',
     },
     name: {
       en: 'Råvarer og produksjon (Utgått)',
@@ -2405,9 +2405,9 @@ export const archivedSubjects: SubjectType[] = [
   },
   {
     longName: {
-      en: 'Kosthold, ernæring og helse (Utgått) (RM-KOS vg2) (LK06)',
-      nb: 'Kosthold, ernæring og helse (Utgått) (RM-KOS vg2) (LK06)',
-      nn: 'Kosthold, ernæring og helse (Utgått) (RM-KOS vg2) (LK06)',
+      en: 'Kosthold, ernæring og helse (Utgått) (RM-KOS vg2)',
+      nb: 'Kosthold, ernæring og helse (Utgått) (RM-KOS vg2)',
+      nn: 'Kosthold, ernæring og helse (Utgått) (RM-KOS vg2)',
     },
     name: {
       en: 'Kosthold, ernæring og helse (Utgått)',
@@ -2418,9 +2418,9 @@ export const archivedSubjects: SubjectType[] = [
   },
   {
     longName: {
-      en: 'Yrkesutøvelse (Utgått) (HS-HEA vg2) (LK06)',
-      nb: 'Yrkesutøvelse (Utgått) (HS-HEA vg2) (LK06)',
-      nn: 'Yrkesutøving (Utgått) (HS-HEA vg2) (LK06)',
+      en: 'Yrkesutøvelse (Utgått) (HS-HEA vg2)',
+      nb: 'Yrkesutøvelse (Utgått) (HS-HEA vg2)',
+      nn: 'Yrkesutøving (Utgått) (HS-HEA vg2)',
     },
     name: {
       en: 'Yrkesutøvelse (Utgått)',
@@ -2431,9 +2431,9 @@ export const archivedSubjects: SubjectType[] = [
   },
   {
     longName: {
-      en: 'Kommunikasjon og samhandling (Utgått) (HS-HEA vg2) (LK06)',
-      nb: 'Kommunikasjon og samhandling (Utgått) (HS-HEA vg2) (LK06)',
-      nn: 'Kommunikasjon og samhandling (Utgått) (HS-HEA vg2) (LK06)',
+      en: 'Kommunikasjon og samhandling (Utgått) (HS-HEA vg2)',
+      nb: 'Kommunikasjon og samhandling (Utgått) (HS-HEA vg2)',
+      nn: 'Kommunikasjon og samhandling (Utgått) (HS-HEA vg2)',
     },
     name: {
       en: 'Kommunikasjon og samhandling (Utgått)',
@@ -2444,9 +2444,9 @@ export const archivedSubjects: SubjectType[] = [
   },
   {
     longName: {
-      en: 'Helsefremmende arbeid (Utgått) (HS-HEA vg2) (LK06)',
-      nb: 'Helsefremmende arbeid (Utgått) (HS-HEA vg2) (LK06)',
-      nn: 'Helsefremjande arbeid (Utgått) (HS-HEA vg2) (LK06)',
+      en: 'Helsefremmende arbeid (Utgått) (HS-HEA vg2)',
+      nb: 'Helsefremmende arbeid (Utgått) (HS-HEA vg2)',
+      nn: 'Helsefremjande arbeid (Utgått) (HS-HEA vg2)',
     },
     name: {
       en: 'Helsefremmende arbeid (Utgått)',
@@ -2457,9 +2457,9 @@ export const archivedSubjects: SubjectType[] = [
   },
   {
     longName: {
-      en: 'Yrkesutøvelse (Utgått) (HS-BUA vg2) (LK06)',
-      nb: 'Yrkesutøvelse (Utgått) (HS-BUA vg2) (LK06)',
-      nn: 'Yrkesutøving (Utgått) (HS-BUA vg2) (LK06)',
+      en: 'Yrkesutøvelse (Utgått) (HS-BUA vg2)',
+      nb: 'Yrkesutøvelse (Utgått) (HS-BUA vg2)',
+      nn: 'Yrkesutøving (Utgått) (HS-BUA vg2)',
     },
     name: {
       en: 'Yrkesutøvelse (Utgått)',
@@ -2470,9 +2470,9 @@ export const archivedSubjects: SubjectType[] = [
   },
   {
     longName: {
-      en: 'Kommunikasjon og samhandling (Utgått) (HS-BUA vg2) (LK06)',
-      nb: 'Kommunikasjon og samhandling (Utgått) (HS-BUA vg2) (LK06)',
-      nn: 'Kommunikasjon og samhandling (Utgått) (HS-BUA vg2) (LK06)',
+      en: 'Kommunikasjon og samhandling (Utgått) (HS-BUA vg2)',
+      nb: 'Kommunikasjon og samhandling (Utgått) (HS-BUA vg2)',
+      nn: 'Kommunikasjon og samhandling (Utgått) (HS-BUA vg2)',
     },
     name: {
       en: 'Kommunikasjon og samhandling (Utgått)',
@@ -2483,9 +2483,9 @@ export const archivedSubjects: SubjectType[] = [
   },
   {
     longName: {
-      en: 'Helsefremmende arbeid (Utgått) (HS-BUA vg2) (LK06)',
-      nb: 'Helsefremmende arbeid (Utgått) (HS-BUA vg2) (LK06)',
-      nn: 'Helsefremjande arbeid (Utgått) (HS-BUA vg2) (LK06)',
+      en: 'Helsefremmende arbeid (Utgått) (HS-BUA vg2)',
+      nb: 'Helsefremmende arbeid (Utgått) (HS-BUA vg2)',
+      nn: 'Helsefremjande arbeid (Utgått) (HS-BUA vg2)',
     },
     name: {
       en: 'Helsefremmende arbeid (Utgått)',
@@ -2496,48 +2496,48 @@ export const archivedSubjects: SubjectType[] = [
   },
   {
     longName: {
-      en: 'Matematikk 1P (Utgått) (LK06)',
-      nb: 'Matematikk 1P (Utgått) (LK06)',
-      nn: 'Matematikk 1P (Utgått) (LK06)',
+      en: 'Matematikk 1P (Utgått)',
+      nb: 'Matematikk 1P (Utgått)',
+      nn: 'Matematikk 1P (Utgått)',
     },
     name: {
-      en: 'Matematikk 1P (Utgått) (LK06)',
-      nb: 'Matematikk 1P (Utgått) (LK06)',
-      nn: 'Matematikk 1P (Utgått) (LK06)',
+      en: 'Matematikk 1P (Utgått)',
+      nb: 'Matematikk 1P (Utgått)',
+      nn: 'Matematikk 1P (Utgått)',
     },
     id: 'urn:subject:1:3fa5baa7-d8d8-4b50-98a0-411bbcef13fa',
   },
   {
     longName: {
-      en: 'Matematikk 1P-Y (Utgått) (LK06)',
-      nb: 'Matematikk 1P-Y (Utgått) (LK06)',
-      nn: 'Matematikk 1P-Y (Utgått) (LK06)',
+      en: 'Matematikk 1P-Y (Utgått)',
+      nb: 'Matematikk 1P-Y (Utgått)',
+      nn: 'Matematikk 1P-Y (Utgått)',
     },
     name: {
-      en: 'Matematikk 1P-Y (Utgått) (LK06)',
-      nb: 'Matematikk 1P-Y (Utgått) (LK06)',
-      nn: 'Matematikk 1P-Y (Utgått) (LK06)',
+      en: 'Matematikk 1P-Y (Utgått)',
+      nb: 'Matematikk 1P-Y (Utgått)',
+      nn: 'Matematikk 1P-Y (Utgått)',
     },
     id: 'urn:subject:1:04ad8a02-856c-417c-8a58-d2f293bf788d',
   },
   {
     longName: {
-      en: 'Matematikk 1T-Y (Utgått) (LK06)',
-      nb: 'Matematikk 1T-Y (Utgått) (LK06)',
-      nn: 'Matematikk 1T-Y (Utgått) (LK06)',
+      en: 'Matematikk 1T-Y (Utgått)',
+      nb: 'Matematikk 1T-Y (Utgått)',
+      nn: 'Matematikk 1T-Y (Utgått)',
     },
     name: {
-      en: 'Matematikk 1T-Y (Utgått) (LK06)',
-      nb: 'Matematikk 1T-Y (Utgått) (LK06)',
-      nn: 'Matematikk 1T-Y (Utgått) (LK06)',
+      en: 'Matematikk 1T-Y (Utgått)',
+      nb: 'Matematikk 1T-Y (Utgått)',
+      nn: 'Matematikk 1T-Y (Utgått)',
     },
     id: 'urn:subject:1:ffe90e5e-d2c0-4def-8af3-07d9356a44dc',
   },
   {
     longName: {
-      en: 'Åarjelsaemien voestesgïeline (Utgått) (BF vg2) (LK06)',
-      nb: 'Åarjelsaemien voestesgïeline (Utgått) (BF vg2) (LK06)',
-      nn: 'Åarjelsaemien voestesgïeline (Utgått) (BF vg2) (LK06)',
+      en: 'Åarjelsaemien voestesgïeline (Utgått) (BF vg2)',
+      nb: 'Åarjelsaemien voestesgïeline (Utgått) (BF vg2)',
+      nn: 'Åarjelsaemien voestesgïeline (Utgått) (BF vg2)',
     },
     name: {
       en: 'Sørsamisk som førstespråk (Utgått)',
@@ -2548,53 +2548,53 @@ export const archivedSubjects: SubjectType[] = [
   },
   {
     longName: {
-      en: 'Matematikk 1T (Utgått) (LK06)',
-      nb: 'Matematikk 1T (Utgått) (LK06)',
-      nn: 'Matematikk 1T (Utgått) (LK06)',
+      en: 'Matematikk 1T (Utgått)',
+      nb: 'Matematikk 1T (Utgått)',
+      nn: 'Matematikk 1T (Utgått)',
     },
     name: {
-      en: 'Matematikk 1T (Utgått) (LK06)',
-      nb: 'Matematikk 1T (Utgått) (LK06)',
-      nn: 'Matematikk 1T (Utgått) (LK06)',
+      en: 'Matematikk 1T (Utgått)',
+      nb: 'Matematikk 1T (Utgått)',
+      nn: 'Matematikk 1T (Utgått)',
     },
     id: 'urn:subject:1:fe0ba9d0-e040-4aa8-91ae-a9a85f89e6a1',
   },
   {
     longName: {
-      en: 'Naturfag (Utgått) (YF vg1) (LK06)',
-      nb: 'Naturfag (Utgått) (YF vg1) (LK06)',
-      nn: 'Naturfag (Utgått) (YF vg1) (LK06)',
+      en: 'Naturfag (Utgått) (YF vg1)',
+      nb: 'Naturfag (Utgått) (YF vg1)',
+      nn: 'Naturfag (Utgått) (YF vg1)',
     },
     name: {
-      en: 'Naturfag (Utgått) (LK06)',
-      nb: 'Naturfag (Utgått) (LK06)',
-      nn: 'Naturfag (Utgått) (LK06)',
+      en: 'Naturfag (Utgått)',
+      nb: 'Naturfag (Utgått)',
+      nn: 'Naturfag (Utgått)',
     },
     id: 'urn:subject:1:410c2790-c62c-4dc1-a30c-49ecd1063690',
   },
   {
     longName: {
-      en: 'English (Utgått) (SF vg1) (LK06)',
-      nb: 'English (Utgått) (SF vg1) (LK06)',
-      nn: 'English (Utgått) (SF vg1) (LK06)',
+      en: 'English (Utgått) (SF vg1)',
+      nb: 'English (Utgått) (SF vg1)',
+      nn: 'English (Utgått) (SF vg1)',
     },
     name: {
-      en: 'Engelsk (Utgått) (LK06)',
-      nb: 'Engelsk (Utgått) (LK06)',
-      nn: 'Engelsk (Utgått) (LK06)',
+      en: 'Engelsk (Utgått)',
+      nb: 'Engelsk (Utgått)',
+      nn: 'Engelsk (Utgått)',
     },
     id: 'urn:subject:1:a81148de-fb95-4e41-b000-57b268337e2d',
   },
   {
     name: {
-      nb: 'Biologi 1 (Utgått) (LK06)',
-      nn: 'Biologi 1 (Utgått) (LK06)',
-      en: 'Biologi 1 (Utgått) (LK06)',
+      nb: 'Biologi 1 (Utgått)',
+      nn: 'Biologi 1 (Utgått)',
+      en: 'Biologi 1 (Utgått)',
     },
     longName: {
-      nb: 'Biologi 1 (Utgått) (LK06)',
-      nn: 'Biologi 1 (Utgått) (LK06)',
-      en: 'Biologi 1 (Utgått) (LK06)',
+      nb: 'Biologi 1 (Utgått)',
+      nn: 'Biologi 1 (Utgått)',
+      en: 'Biologi 1 (Utgått)',
     },
     id: 'urn:subject:1:22dee9ab-5b1a-4c23-8c97-c68107b881bb',
   },
@@ -2605,30 +2605,30 @@ export const archivedSubjects: SubjectType[] = [
       en: 'Yrkesfaglig fordypning (Utgått)',
     },
     longName: {
-      nb: 'Yrkesfaglig fordypning (Utgått) (HS-BUA vg2) (LK06)',
-      nn: 'Yrkesfagleg fordjuping (Utgått) (HS-BUA vg2) (LK06)',
-      en: 'Yrkesfaglig fordypning (Utgått) (HS-BUA vg2) (LK06)',
+      nb: 'Yrkesfaglig fordypning (Utgått) (HS-BUA vg2)',
+      nn: 'Yrkesfagleg fordjuping (Utgått) (HS-BUA vg2)',
+      en: 'Yrkesfaglig fordypning (Utgått) (HS-BUA vg2)',
     },
     id: 'urn:subject:1:cfa0043e-c52f-4930-b9c3-c65dcefafb62',
   },
   {
     name: {
-      nb: 'Yrkesfaglig fordypning  (Utgått) (LK06)',
-      nn: 'Yrkesfagleg fordjuping  (Utgått) (LK06)',
-      en: 'Yrkesfaglig fordypning  (Utgått) (LK06)',
+      nb: 'Yrkesfaglig fordypning  (Utgått)',
+      nn: 'Yrkesfagleg fordjuping  (Utgått)',
+      en: 'Yrkesfaglig fordypning  (Utgått)',
     },
     longName: {
-      nb: 'Yrkesfaglig fordypning (Utgått) (HS-HEA vg2) (LK06)',
-      nn: 'Yrkesfagleg fordjuping (Utgått) (HS-HEA vg2) (LK06)',
-      en: 'Yrkesfaglig fordypning (Utgått) (HS-HEA vg2) (LK06)',
+      nb: 'Yrkesfaglig fordypning (Utgått) (HS-HEA vg2)',
+      nn: 'Yrkesfagleg fordjuping (Utgått) (HS-HEA vg2)',
+      en: 'Yrkesfaglig fordypning (Utgått) (HS-HEA vg2)',
     },
     id: 'urn:subject:1:537bdc1a-159b-43d8-80f4-97e0cf8b78eb',
   },
   {
     longName: {
-      en: 'Brønnteknikk (Utgått) (LK06)',
-      nb: 'Brønnteknikk (Utgått) (LK06)',
-      nn: 'Brønnteknikk (Utgått) (LK06)',
+      en: 'Brønnteknikk (Utgått)',
+      nb: 'Brønnteknikk (Utgått)',
+      nn: 'Brønnteknikk (Utgått)',
     },
     name: {
       en: 'Brønnteknikk (Utgått)',
@@ -2640,12 +2640,9 @@ export const archivedSubjects: SubjectType[] = [
   },
   {
     longName: {
-      en:
-        'Komplettering, produksjon og brønnvedlikehold (Utgått) (TP-BRT vg2) (LK06)',
-      nb:
-        'Komplettering, produksjon og brønnvedlikehold (Utgått) (TP-BRT vg2) (LK06)',
-      nn:
-        'Komplettering, produksjon og brønnvedlikehald (Utgått) (TP-BRT vg2) (LK06)',
+      en: 'Komplettering, produksjon og brønnvedlikehold (Utgått) (TP-BRT vg2)',
+      nb: 'Komplettering, produksjon og brønnvedlikehold (Utgått) (TP-BRT vg2)',
+      nn: 'Komplettering, produksjon og brønnvedlikehald (Utgått) (TP-BRT vg2)',
     },
     name: {
       en: 'Komplettering, produksjon og brønnvedlikehold (Utgått)',
@@ -2657,9 +2654,9 @@ export const archivedSubjects: SubjectType[] = [
   },
   {
     longName: {
-      en: 'Leting og boring (Utgått) (TP-BRT vg2) (LK06)',
-      nb: 'Leting og boring (Utgått) (TP-BRT vg2) (LK06)',
-      nn: 'Leiting og boring (Utgått) (TP-BRT vg2) (LK06)',
+      en: 'Leting og boring (Utgått) (TP-BRT vg2)',
+      nb: 'Leting og boring (Utgått) (TP-BRT vg2)',
+      nn: 'Leiting og boring (Utgått) (TP-BRT vg2)',
     },
     name: {
       en: 'Leting og boring (Utgått)',
@@ -2671,9 +2668,9 @@ export const archivedSubjects: SubjectType[] = [
   },
   {
     longName: {
-      en: 'HMS og kvalitet (Utgått) (TP-BRT vg2) (LK06)',
-      nb: 'HMS og kvalitet (Utgått) (TP-BRT vg2) (LK06)',
-      nn: 'HMS og kvalitet (Utgått) (TP-BRT vg2) (LK06)',
+      en: 'HMS og kvalitet (Utgått) (TP-BRT vg2)',
+      nb: 'HMS og kvalitet (Utgått) (TP-BRT vg2)',
+      nn: 'HMS og kvalitet (Utgått) (TP-BRT vg2)',
     },
     name: {
       en: 'HMS og kvalitet (Utgått)',
@@ -2690,17 +2687,17 @@ export const archivedSubjects: SubjectType[] = [
       en: 'Historie (Utgått)',
     },
     longName: {
-      nb: 'Historie (SF vg2) (Utgått) (LK06)',
-      nn: 'Historie (SF vg2) (Utgått) (LK06)',
-      en: 'Historie (SF vg2) (Utgått) (LK06)',
+      nb: 'Historie (SF vg2) (Utgått)',
+      nn: 'Historie (SF vg2) (Utgått)',
+      en: 'Historie (SF vg2) (Utgått)',
     },
     id: 'urn:subject:1:a8269ec3-1ddd-4929-bdeb-b27067c5d1c1',
   },
   {
     longName: {
-      en: 'International English (Utgått) (LK06)',
-      nb: 'International English (Utgått) (LK06)',
-      nn: 'International English (Utgått) (LK06)',
+      en: 'International English (Utgått)',
+      nb: 'International English (Utgått)',
+      nn: 'International English (Utgått)',
     },
     name: {
       en: 'Internasjonal engelsk (Utgått)',
