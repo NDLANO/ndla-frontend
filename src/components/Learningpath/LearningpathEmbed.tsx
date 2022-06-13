@@ -81,7 +81,7 @@ const LearningpathEmbed = ({
   const learningpathStepResource = learningpathStep.resource;
 
   if (!learningpathStepResource?.article) {
-    return <ErrorPage locale={locale} />;
+    return <ErrorPage />;
   }
 
   const article = transformArticle(learningpathStepResource.article, locale);

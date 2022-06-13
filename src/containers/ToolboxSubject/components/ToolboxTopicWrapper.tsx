@@ -7,7 +7,6 @@
  */
 
 import { gql } from '@apollo/client';
-import { MouseEvent } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { Topic } from '@ndla/ui';
 import { withTracker } from '@ndla/tracker';
@@ -34,11 +33,6 @@ interface Props extends WithTranslation {
   topic: GQLToolboxTopicWrapper_TopicFragment;
   resourceTypes?: GQLToolboxTopicWrapper_ResourceTypeDefinitionFragment[];
   locale: LocaleType;
-  onSelectTopic: (
-    e: MouseEvent<HTMLAnchorElement>,
-    index: number,
-    id?: string,
-  ) => void;
   topicList: Array<string>;
   index: number;
   loading?: boolean;
@@ -52,7 +46,6 @@ const getDocumentTitle = ({ t, topic }: Props) => {
 const ToolboxTopicWrapper = ({
   subject,
   locale,
-  onSelectTopic,
   topicList,
   index,
   topic,
@@ -120,9 +113,6 @@ const ToolboxTopicWrapper = ({
       frame={subTopics?.length === 0}
       isLoading={loading}
       subTopics={subTopics}
-      onSubTopicSelected={(e: MouseEvent<HTMLElement>, id?: string) =>
-        onSelectTopic(e as MouseEvent<HTMLAnchorElement>, index + 1, id)
-      }
       topic={toolboxTopic.topic}
     />
   );

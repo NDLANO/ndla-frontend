@@ -19,7 +19,6 @@ interface Props {
   subTopicId?: string;
   locale: LocaleType;
   subject: GQLMultidisciplinaryTopic_SubjectFragment;
-  ndlaFilm?: boolean;
   disableNav?: boolean;
   user?: FeideUserWithGroups;
 }
@@ -43,7 +42,6 @@ const MultidisciplinaryTopicWrapper = ({
   subjectId,
   locale,
   subTopicId,
-  ndlaFilm,
   subject,
   disableNav,
   user,
@@ -71,7 +69,6 @@ const MultidisciplinaryTopicWrapper = ({
       subjectId={subjectId}
       subTopicId={subTopicId}
       locale={locale}
-      ndlaFilm={ndlaFilm}
       subject={subject}
       disableNav={disableNav}
       user={user}

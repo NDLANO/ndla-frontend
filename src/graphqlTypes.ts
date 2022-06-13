@@ -1978,6 +1978,7 @@ export type GQLPlainArticlePageQueryVariables = Exact<{
   articleId: Scalars['String'];
   isOembed?: Maybe<Scalars['String']>;
   path?: Maybe<Scalars['String']>;
+  showVisualElement?: Maybe<Scalars['String']>;
 }>;
 
 export type GQLPlainArticlePageQuery = {
@@ -2499,6 +2500,7 @@ export type GQLIframePageQueryVariables = Exact<{
   taxonomyId: Scalars['String'];
   includeResource: Scalars['Boolean'];
   includeTopic: Scalars['Boolean'];
+  showVisualElement?: Maybe<Scalars['String']>;
 }>;
 
 export type GQLIframePageQuery = {
