@@ -111,10 +111,6 @@ const AppRoutes = ({ base, resCookie }: AppProps) => {
                     <Route index element={<LogoutProviders />} />
                     <Route path="session" element={<LogoutSession />} />
                   </Route>
-                  <Route
-                    path="minndla"
-                    element={<PrivateRoute element={<MyNdlaPage />} />}
-                  />
                 </>
               )}
               <Route path="subjects" element={<AllSubjectsPage />} />
