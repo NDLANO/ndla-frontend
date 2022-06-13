@@ -878,6 +878,7 @@ export const activeSubjects: SubjectType[] = [
     },
     id: 'urn:subject:1:ff69c291-6374-4766-80c2-47d5840d8bbf',
   },
+
   {
     longName: {
       en: 'Sørsamisk som andrespråk, samisk 4 (BF)',

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { useEffect, useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { AuthContext } from '../../components/AuthenticationContext';
 import { feideLogout } from '../../util/authHelpers';
 

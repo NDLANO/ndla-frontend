@@ -10,7 +10,11 @@ import {
   FeideUserWithGroups,
   fetchFeideUserWithGroups,
 } from '../util/feideApi';
-import { isAccessTokenValid, millisUntilExpiration } from '../util/authHelpers';
+import {
+  getFeideCookie,
+  isAccessTokenValid,
+  millisUntilExpiration,
+} from '../util/authHelpers';
 
 interface AuthContextType {
   authenticated: boolean;
@@ -30,10 +34,13 @@ export const AuthContext = createContext<AuthContextType>({
 
 interface Props {
   children: ReactNode;
+  initialValue?: string;
 }
 
-const AuthenticationContext = ({ children }: Props) => {
-  const [authenticated, setAuthenticated] = useState(false);
+const AuthenticationContext = ({ children, initialValue }: Props) => {
+  const [authenticated, setAuthenticated] = useState(
+    initialValue ? isAccessTokenValid(getFeideCookie(initialValue)) : false,
+  );
   const [authContextLoaded, setLoaded] = useState(false);
   const [user, setUser] = useState<FeideUserWithGroups | undefined>(undefined);
 

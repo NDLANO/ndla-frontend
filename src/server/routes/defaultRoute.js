@@ -68,6 +68,7 @@ async function doRender(req) {
                     client={client}
                     locale={locale}
                     versionHash={versionHash}
+                    resCookie={resCookie}
                     key={locale}
                   />
                 </StaticRouter>
