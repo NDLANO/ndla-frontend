@@ -16,6 +16,8 @@ import styled from '@emotion/styled';
 import { StyledButton } from '@ndla/button';
 
 import { AuthContext } from '../AuthenticationContext';
+import Modal, { ModalCloseButton } from '@ndla/modal';
+import { UserInfo } from '../UserInfo';
 
 const FeideButton = styled(StyledButton)`
   background: transparent;
@@ -69,6 +71,14 @@ const FeideLoginButton = ({ footer, children }: Props) => {
     user?.displayName,
     ...(user?.mail ? user.mail : []),
   ]);
+  return (
+    <Modal>
+      {(onClose: () => void) => {
+        if (!user) return null;
+        return <UserInfo user={user} />;
+      }}
+    </Modal>
+  );
 
   return (
     <AuthModal
