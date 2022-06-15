@@ -27,10 +27,11 @@ import '@fontsource/source-code-pro/700.css';
 import '@fontsource/source-serif-pro/index.css';
 import '@fontsource/source-serif-pro/400-italic.css';
 import '@fontsource/source-serif-pro/700.css';
+import { getCookie } from '@ndla/util';
 import { createApolloClient } from '../util/apiHelpers';
 import LtiProvider from './LtiProvider';
 import '../style/index.css';
-import { STORED_LANGUAGE_KEY } from '../constants';
+import { STORED_LANGUAGE_COOKIE_KEY } from '../constants';
 import { initializeI18n, isValidLocale } from '../i18n';
 
 const {
@@ -46,7 +47,7 @@ window.errorReporter = ErrorReporter.getInstance({
   ignoreUrls: [/https:\/\/.*hotjar\.com.*/],
 });
 
-const storedLanguage = window.localStorage.getItem(STORED_LANGUAGE_KEY);
+const storedLanguage = getCookie(STORED_LANGUAGE_COOKIE_KEY, document.cookie);
 const language = isValidLocale(storedLanguage)
   ? storedLanguage
   : config.defaultLocale;
