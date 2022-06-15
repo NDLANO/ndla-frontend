@@ -21,7 +21,7 @@ describe('Resource page', () => {
     );
     cy.gqlWait('@resourcePage');
     cy.get('.o-content').within(() => {
-      cy.get('[aria-label="Brødsmulesti"] > ol > li').should($list => {
+      cy.get('nav > ol > li').should($list => {
         expect($list).to.have.length(4);
       });
       cy.get('h1').contains('Muntlig eksamen MIK 1');
