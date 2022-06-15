@@ -6,33 +6,36 @@
  *
  */
 
-import { HelmetProvider } from 'react-helmet-async';
-import { Router } from 'react-router-dom';
-import { I18nextProvider, useTranslation } from 'react-i18next';
 import { ApolloProvider, useApolloClient } from '@apollo/client';
+import createCache from '@emotion/cache';
 import { CacheProvider } from '@emotion/core';
-import { createBrowserHistory, createMemoryHistory, History } from 'history';
+import '@fontsource/shadows-into-light-two/index.css';
+import '@fontsource/source-code-pro/400-italic.css';
+import '@fontsource/source-code-pro/700.css';
+import '@fontsource/source-code-pro/index.css';
+import '@fontsource/source-sans-pro/300-italic.css';
+import '@fontsource/source-sans-pro/300.css';
+import '@fontsource/source-sans-pro/400-italic.css';
+import '@fontsource/source-sans-pro/600.css';
+import '@fontsource/source-sans-pro/700.css';
+import '@fontsource/source-sans-pro/index.css';
+import '@fontsource/source-serif-pro/400-italic.css';
+import '@fontsource/source-serif-pro/700.css';
+import '@fontsource/source-serif-pro/index.css';
 // @ts-ignore
 import ErrorReporter from '@ndla/error-reporter';
 import { i18nInstance } from '@ndla/ui';
-import createCache from '@emotion/cache';
+import { createBrowserHistory, createMemoryHistory, History } from 'history';
 // @ts-ignore
 import queryString from 'query-string';
 import { ReactNode, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
-import '@fontsource/shadows-into-light-two/index.css';
-import '@fontsource/source-sans-pro/index.css';
-import '@fontsource/source-sans-pro/400-italic.css';
-import '@fontsource/source-sans-pro/300.css';
-import '@fontsource/source-sans-pro/300-italic.css';
-import '@fontsource/source-sans-pro/600.css';
-import '@fontsource/source-sans-pro/700.css';
-import '@fontsource/source-code-pro/index.css';
-import '@fontsource/source-code-pro/400-italic.css';
-import '@fontsource/source-code-pro/700.css';
-import '@fontsource/source-serif-pro/index.css';
-import '@fontsource/source-serif-pro/400-italic.css';
-import '@fontsource/source-serif-pro/700.css';
+import { HelmetProvider } from 'react-helmet-async';
+import { I18nextProvider, useTranslation } from 'react-i18next';
+import { Router } from 'react-router-dom';
+import App from './App';
+import { VersionHashProvider } from './components/VersionHashContext';
+import { getDefaultLocale } from './config';
 import { EmotionCacheKey, STORED_LANGUAGE_KEY } from './constants';
 import {
   getLocaleInfoFromPath,
@@ -43,9 +46,6 @@ import {
 import { NDLAWindow } from './interfaces';
 import './style/index.css';
 import { createApolloClient, createApolloLinks } from './util/apiHelpers';
-import { getDefaultLocale } from './config';
-import App from './App';
-import { VersionHashProvider } from './components/VersionHashContext';
 
 declare global {
   interface Window extends NDLAWindow {}
@@ -103,9 +103,9 @@ interface RCProps {
 
 /*
   This is a custom router based on the source code of BrowserRouter and MemoryRouter from
-  react-router-dom@6.3.0. It's intended purpose is to provide App with an instance of 
+  react-router-dom@6.3.0. It's intended purpose is to provide App with an instance of
   the internal history object without using the UNSAFE navigation context provided by RR,
-  as well as setting and replacing the Router basename in a safe way. The exposed history 
+  as well as setting and replacing the Router basename in a safe way. The exposed history
   object should not be used or passed to anyting else than configureTracker.
 */
 const NDLARouter = ({ children, base }: RCProps) => {
@@ -219,7 +219,13 @@ const LanguageWrapper = ({ basename }: { basename?: string }) => {
   return (
     <NDLARouter key={base} base={base}>
       {history => (
-        <App locale={i18n.language} history={history} isClient base={base} />
+        <App
+          locale={i18n.language}
+          resCookie={resCookie}
+          history={history}
+          isClient
+          base={base}
+        />
       )}
     </NDLARouter>
   );

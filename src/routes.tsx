@@ -6,7 +6,9 @@
  *
  */
 
-export const rr6Routes = [
+export const privateRoutes = ['minndla'];
+
+export const routes = [
   '/',
   '404',
   '403',
@@ -35,6 +37,7 @@ export const rr6Routes = [
   'subject:subjectId/topic:topic1/topic:topic2/topic:topicId',
   'subject:subjectId/topic:topic1/topic:topic2/topic:topicId/resource:resourceId',
   'subject:subjectId/topic:topic1/topic:topic2/topic:topicId/resource:resourceId/:stepId',
+  ...privateRoutes,
 ];
 
 export const oembedRoutes = [

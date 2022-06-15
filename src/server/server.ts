@@ -20,7 +20,7 @@ import {
 } from './routes';
 import contentSecurityPolicy from './contentSecurityPolicy';
 import handleError from '../util/handleError';
-import { rr6Routes } from '../routes';
+import { routes } from '../routes';
 import { getLocaleInfoFromPath } from '../i18n';
 import ltiConfig from './ltiConfig';
 import {
@@ -279,7 +279,7 @@ app.get(
   '/*',
   (req: Request, _res: Response, next: NextFunction) => {
     const { basepath: path } = getLocaleInfoFromPath(req.path);
-    const route = rr6Routes.find(r => matchPath(r, path)); // match with routes used in frontend
+    const route = routes.find(r => matchPath(r, path)); // match with routes used in frontend
     if (!route) {
       next('route'); // skip to next route (i.e. proxy)
     } else {
