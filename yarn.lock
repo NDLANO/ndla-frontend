@@ -3016,16 +3016,16 @@
     "@ndla/icons" "^1.7.1"
     "@reach/dialog" "^0.16.2"
 
-"@ndla/notion@^3.1.7":
-  version "3.1.7"
-  resolved "https://registry.yarnpkg.com/@ndla/notion/-/notion-3.1.7.tgz#fa94058efcd3c9cfc95eea11c19b2df84653466f"
-  integrity sha512-NeijT7GYKViVLDjvOG8f6EFQlfD0eGxoTbdFOiplFFcsC2Im5ydsHew02d1cYBG06Sdp+VW5EXHGJnmYnUOKxQ==
+"@ndla/notion@^3.1.8":
+  version "3.1.8"
+  resolved "https://registry.yarnpkg.com/@ndla/notion/-/notion-3.1.8.tgz#d183ee6d08187ce5c1d5aa21e4a96c300dfb94d2"
+  integrity sha512-81nXorG6urw9K5Ox/dEdwMsP+6FY7ZENKKNzu833Y5/qGtQAmIweT7OW6Z/mdvH4vYAnOAmYMV5dlxU/B9YFug==
   dependencies:
     "@ndla/core" "^2.1.1"
     "@ndla/icons" "^1.7.1"
     "@ndla/licenses" "^4.1.2"
     "@ndla/modal" "^1.2.8"
-    "@ndla/safelink" "^2.0.1"
+    "@ndla/safelink" "^2.0.2"
 
 "@ndla/pager@^1.1.10":
   version "1.1.10"
@@ -3048,6 +3048,14 @@
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/@ndla/safelink/-/safelink-2.0.1.tgz#24aa2b54912156d7dfb29d5d0262f870df754130"
   integrity sha512-+cmwe/GlsiVpoINMIgvpHp4wfyA63ekDb05M9ugPFfcy4XsGHdLhgngWs2FaDTSatlxgHQMNqeIAF2MRZf2Ijg==
+  dependencies:
+    "@ndla/button" "^2.2.1"
+    "@ndla/icons" "^1.7.1"
+
+"@ndla/safelink@^2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@ndla/safelink/-/safelink-2.0.2.tgz#8b31acc220199053ebb29a1e54b30fcc688c9843"
+  integrity sha512-5Tl7i3lH69NuKmtnkwYkFpqfdiJG2tl9c2hubMSj/O+7gwRbuunYj2+BxHGvI5LjffQqd6LfWCro6uVe6ja0oA==
   dependencies:
     "@ndla/button" "^2.2.1"
     "@ndla/icons" "^1.7.1"
@@ -3094,10 +3102,10 @@
   dependencies:
     warning "^4.0.3"
 
-"@ndla/ui@^12.0.2":
-  version "12.0.2"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-12.0.2.tgz#14c6109785bedc2daed0e099421eb7e2f927cc56"
-  integrity sha512-lu45yzWQXltcDwJchDl6kbs9Gwd67fazboRxO6fOLWg37/6SB+Ye0XZLII1CtDObqDhI9xt7y9QTUsBJ2tGUuA==
+"@ndla/ui@^13.0.0":
+  version "13.0.0"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-13.0.0.tgz#81eb4ec7f646c46f1b2c3e674250121d14c430b4"
+  integrity sha512-t8J2XlqTjMPEcPUC7txC8ra50y5rrtsYBbA9d5ZvwXosZ9XY+AKDIbLgPhDZLbosr2kIidW77JofrsxSGVUB5Q==
   dependencies:
     "@ndla/button" "^2.2.1"
     "@ndla/carousel" "^1.2.7"
@@ -3106,8 +3114,8 @@
     "@ndla/icons" "^1.7.1"
     "@ndla/licenses" "^4.1.2"
     "@ndla/modal" "^1.2.8"
-    "@ndla/notion" "^3.1.7"
-    "@ndla/safelink" "^2.0.1"
+    "@ndla/notion" "^3.1.8"
+    "@ndla/safelink" "^2.0.2"
     "@ndla/switch" "^0.1.5"
     "@ndla/tabs" "^1.1.6"
     "@ndla/tooltip" "^0.3.5"
