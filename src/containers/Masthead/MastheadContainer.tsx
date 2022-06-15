@@ -150,6 +150,7 @@ const MastheadContainer = () => {
             <DisplayOnPageYOffset yOffsetMin={150}>
               <BreadcrumbWrapper>
                 <HeaderBreadcrumb
+                  light={ndlaFilm}
                   items={
                     breadcrumbBlockItems.length > 1
                       ? breadcrumbBlockItems
