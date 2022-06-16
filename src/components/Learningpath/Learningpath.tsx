@@ -17,10 +17,10 @@ import {
   LearningPathStickySibling,
   LearningPathMobileStepInfo,
   LearningPathStickyPlaceholder,
-  Breadcrumb,
   LearningPathSticky,
   LearningPathMobileHeader,
   constants,
+  HomeBreadcrumb,
 } from '@ndla/ui';
 import { toLearningPath, useIsNdlaFilm } from '../../routeHelpers';
 import LastLearningpathStepInfo from './LastLearningpathStepInfo';
@@ -144,7 +144,7 @@ const Learningpath = ({
     <LearningPathWrapper invertedStyle={ndlaFilm}>
       <div className="c-hero__content">
         <section>
-          <Breadcrumb invertedStyle={ndlaFilm} items={breadcrumbItems} />
+          <HomeBreadcrumb light={ndlaFilm} items={breadcrumbItems} />
         </section>
       </div>
       <LearningPathContent>

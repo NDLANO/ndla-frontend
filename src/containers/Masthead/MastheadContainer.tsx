@@ -13,8 +13,10 @@ import {
   LanguageSelector,
   Logo,
   DisplayOnPageYOffset,
-  BreadcrumbBlock,
+  HeaderBreadcrumb,
 } from '@ndla/ui';
+import styled from '@emotion/styled';
+import { breakpoints, mq, spacing } from '@ndla/core';
 import { useLocation } from 'react-router-dom';
 import { useLazyQuery } from '@apollo/client';
 
@@ -44,6 +46,12 @@ import { setClosedAlert, useAlerts } from '../../components/AlertsContext';
 import { SKIP_TO_CONTENT_ID } from '../../constants';
 import MastheadMenuModal from './components/MastheadMenuModal';
 
+const BreadcrumbWrapper = styled.div`
+  margin-left: ${spacing.normal};
+  ${mq.range({ until: breakpoints.desktop })} {
+    display: none;
+  }
+`;
 interface State {
   subject?: GQLMastHeadQuery['subject'];
   topicPath: GQLTopicInfoFragment[];
@@ -140,15 +148,18 @@ const MastheadContainer = () => {
           </MastheadMenuModal>
           {!hideBreadcrumb && (
             <DisplayOnPageYOffset yOffsetMin={150}>
-              <BreadcrumbBlock
-                items={
-                  breadcrumbBlockItems.length > 1
-                    ? breadcrumbBlockItems
-                        .slice(1)
-                        .map(uri => ({ name: uri.name!, to: uri.to! }))
-                    : []
-                }
-              />
+              <BreadcrumbWrapper>
+                <HeaderBreadcrumb
+                  light={ndlaFilm}
+                  items={
+                    breadcrumbBlockItems.length > 1
+                      ? breadcrumbBlockItems
+                          .slice(1)
+                          .map(uri => ({ name: uri.name!, to: uri.to! }))
+                      : []
+                  }
+                />
+              </BreadcrumbWrapper>
             </DisplayOnPageYOffset>
           )}
         </MastheadItem>
