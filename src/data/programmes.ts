@@ -2151,7 +2151,11 @@ export const programmes: ProgrammeType[] = [
         name: 'Vg1',
         categories: [
           {
-            name: undefined,
+            name: {
+              nb: 'Fellesfag',
+              nn: 'Fellesfag',
+              en: 'Fellesfag',
+            },
             subjects: [
               {
                 id: 'urn:subject:1:f18b0daa-6507-4025-8998-b8a11c8ccc70',
@@ -2200,7 +2204,11 @@ export const programmes: ProgrammeType[] = [
         name: 'Vg2',
         categories: [
           {
-            name: undefined,
+            name: {
+              nb: 'Fellesfag',
+              nn: 'Fellesfag',
+              en: 'Fellesfag',
+            },
             subjects: [
               {
                 id: 'urn:subject:1:ff69c291-6374-4766-80c2-47d5840d8bbf',
@@ -2216,6 +2224,18 @@ export const programmes: ProgrammeType[] = [
               },
               {
                 id: 'urn:subject:1:50dfc86d-6566-4a45-a531-d32b82e8bfa1',
+              },
+              {
+                id: 'urn:subject:1:1a05c6c7-121e-49e2-933c-580da74afe1a',
+              },
+              {
+                id: 'urn:subject:1:1d441d40-358a-47a8-8cd5-7a80382a9062',
+              },
+              {
+                id: 'urn:subject:1:3170610c-6a5a-4da5-aeba-adb247aae48c',
+              },
+              {
+                id: 'urn:subject:1:ec288dfb-4768-4f82-8387-fe2d73fff1e1',
               },
             ],
           },
@@ -2245,14 +2265,6 @@ export const programmes: ProgrammeType[] = [
             },
             subjects: [
               {
-                id: 'urn:subject:1:3170610c-6a5a-4da5-aeba-adb247aae48c',
-              },
-
-              {
-                id: 'urn:subject:1:ec288dfb-4768-4f82-8387-fe2d73fff1e1',
-              },
-
-              {
                 id: 'urn:subject:1:47678c7b-bc09-4fc8-b2d9-a2e3d709e105',
               },
               {
@@ -2267,12 +2279,7 @@ export const programmes: ProgrammeType[] = [
               {
                 id: 'urn:subject:1:058bdbdb-aa5a-4a29-88fb-45e664999417',
               },
-              {
-                id: 'urn:subject:1:1a05c6c7-121e-49e2-933c-580da74afe1a',
-              },
-              {
-                id: 'urn:subject:1:1d441d40-358a-47a8-8cd5-7a80382a9062',
-              },
+
               {
                 id: 'urn:subject:e18b8bf0-326b-45f6-8e95-982de8f34264',
               },
@@ -2284,8 +2291,15 @@ export const programmes: ProgrammeType[] = [
         name: 'Vg3',
         categories: [
           {
-            name: undefined,
+            name: {
+              nb: 'Fellesfag',
+              nn: 'Fellesfag',
+              en: 'Fellesfag',
+            },
             subjects: [
+              {
+                id: 'urn:subject:1:ec288dfb-4768-4f82-8387-fe2d73fff1e1',
+              },
               {
                 id: 'urn:subject:187c1484-84a5-474d-bf63-0c7915809a7d',
               },
@@ -2298,6 +2312,9 @@ export const programmes: ProgrammeType[] = [
               },
               {
                 id: 'urn:subject:ea2822da-52f0-4517-bf01-c63f8e96f446',
+              },
+              {
+                id: 'urn:subject:1:3170610c-6a5a-4da5-aeba-adb247aae48c',
               },
             ],
           },
@@ -2334,9 +2351,6 @@ export const programmes: ProgrammeType[] = [
                 id: 'urn:subject:1:c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
               },
               {
-                id: 'urn:subject:1:ec288dfb-4768-4f82-8387-fe2d73fff1e1',
-              },
-              {
                 id: 'urn:subject:1:058bdbdb-aa5a-4a29-88fb-45e664999417',
               },
               {
@@ -2344,9 +2358,6 @@ export const programmes: ProgrammeType[] = [
               },
               {
                 id: 'urn:subject:ea9e2be1-461d-4929-9dae-590e8cb9657f',
-              },
-              {
-                id: 'urn:subject:1:3170610c-6a5a-4da5-aeba-adb247aae48c',
               },
               {
                 id: 'urn:subject:e18b8bf0-326b-45f6-8e95-982de8f34264',
