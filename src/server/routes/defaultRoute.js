@@ -20,10 +20,15 @@ import RedirectContext from '../../components/RedirectContext';
 import App from '../../App';
 import config from '../../config';
 import { createApolloClient } from '../../util/apiHelpers';
-import { getLocaleInfoFromPath, initializeI18n } from '../../i18n';
+import {
+  getLocaleInfoFromPath,
+  initializeI18n,
+  isValidLocale,
+} from '../../i18n';
 import { renderHtml, renderPageWithData } from '../helpers/render';
 import { EmotionCacheKey, STORED_LANGUAGE_COOKIE_KEY } from '../../constants';
 import { VersionHashProvider } from '../../components/VersionHashContext';
+import { TEMPORARY_REDIRECT } from '../../statusCodes';
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST); //eslint-disable-line
 
@@ -44,7 +49,7 @@ const disableSSR = req => {
 
 async function doRender(req) {
   global.assets = assets; // used for including mathjax js in pages with math
-  const resCookie = req.headers['cookie'];
+  const resCookie = req.headers['cookie'] ?? '';
   const versionHash = req.query.versionHash;
   const { basename } = getLocaleInfoFromPath(req.path);
   const locale = getCookie(STORED_LANGUAGE_COOKIE_KEY, resCookie);
@@ -107,6 +112,18 @@ async function doRender(req) {
 }
 
 export async function defaultRoute(req) {
-  const { html, context, docProps, helmetContext } = await doRender(req);
-  return renderHtml(req, html, context, docProps, helmetContext);
+  const resCookie = req.headers['cookie'] ?? '';
+  const { basename, basepath } = getLocaleInfoFromPath(req.path);
+  const cookieLocale = getCookie(STORED_LANGUAGE_COOKIE_KEY, resCookie) ?? '';
+  const locale =
+    cookieLocale.length && isValidLocale(cookieLocale) ? cookieLocale : 'nb';
+  if ((locale === 'nb' && basename === '') || locale === basename) {
+    const { html, context, docProps, helmetContext } = await doRender(req);
+    return renderHtml(req, html, context, docProps, helmetContext);
+  }
+
+  return {
+    status: TEMPORARY_REDIRECT,
+    data: { Location: `/${locale}${basepath}` },
+  };
 }

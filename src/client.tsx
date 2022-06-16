@@ -53,7 +53,7 @@ declare global {
 }
 
 const {
-  DATA: { config, serverPath, serverQuery, resCookie },
+  DATA: { config, serverPath, serverQuery, resCookie = '' },
 } = window;
 
 const { basepath } = getLocaleInfoFromPath(serverPath ?? '');
@@ -215,6 +215,7 @@ const LanguageWrapper = ({ basename }: { basename?: string }) => {
   }, [i18n.language]);
 
   // handle initial redirect if URL has wrong or missing locale prefix.
+  // only relevant when disableSSR=true
   useLayoutEffect(() => {
     const storedLanguage = getCookie(
       STORED_LANGUAGE_COOKIE_KEY,
