@@ -58,6 +58,32 @@ export const activeResources: SubjectType[] = [
 export const activeSubjects: SubjectType[] = [
   {
     longName: {
+      en: 'Nature-based Commercial Activities (NA-NAB vg1)',
+      nb: 'Naturbasert næringsaktivitet (NA-NAB vg1)',
+      nn: 'Naturbasert næringsaktivitet (NA-NAB vg1)',
+    },
+    name: {
+      en: 'Nature-based Commercial Activities',
+      nb: 'Naturbasert næringsaktivitet',
+      nn: 'Naturbasert næringsaktivitet',
+    },
+    id: 'urn:subject:644e5655-75e5-49c3-9f5a-e2a98271bb3d',
+  },
+  {
+    longName: {
+      en: 'Nature-based Production and Service Provision (NA-NAB vg1)',
+      nb: 'Naturbasert produksjon og tjenesteyting (NA-NAB vg1)',
+      nn: 'Naturbasert produksjon og tenesteyting (NA-NAB vg1)',
+    },
+    name: {
+      en: 'Nature-based Production and Service Provision',
+      nb: 'Naturbasert produksjon og tjenesteyting',
+      nn: 'Naturbasert produksjon og tenesteyting',
+    },
+    id: 'urn:subject:169ba831-b3cd-4207-b9b8-7d06bf03328b',
+  },
+  {
+    longName: {
       en: 'Ukrainian resources in Norwegian Social Science',
       nb: 'Ukrainske ressurser i samfunnskunnskap',
       nn: 'Ukrainske ressurser i samfunnskunnskap',
