@@ -38,7 +38,8 @@ const messages = {
     blog1: {
       imageUrl: '/static/nye-fag.jpg',
       text: 'Forslag til årsplaner fra NDLA',
-      externalLink: 'https://blogg.ndla.no/2021/08/forslag-til-arsplaner-hos-ndla/',
+      externalLink:
+        'https://blogg.ndla.no/2021/08/forslag-til-arsplaner-hos-ndla/',
       linkText: 'Fagblogg',
       license: 'CC-BY-SA-4.0',
       licenseAuthor: 'Vibeke Klungland',
