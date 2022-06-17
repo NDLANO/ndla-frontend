@@ -2850,6 +2850,7 @@ export const subjectsCategories = [
       en: 'Active',
     },
     subjects: activeSubjects,
+    visible: true,
   },
   {
     name: {
