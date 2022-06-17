@@ -22,7 +22,6 @@ const FrontpageSubjects = ({ locale }: Props) => (
   <FrontpageProgramMenu
     programItems={getProgrammes(locale)}
     subjectCategories={getCategorizedSubjects(locale)}
-    showBetaCursor
   />
 );
 
