@@ -46,7 +46,7 @@ const messages = {
     },
     blog2: {
       imageUrl: '/static/aktiviser-elevene.jpg',
-      text: 'Aktiviser elevene med digitale verktøy',
+      text: 'Huskeliste for kontaktlærere',
       externalLink:
         'https://blogg.ndla.no/2019/08/huskeliste-for-kontaktlaerere/',
       linkText: 'Fagblogg',
