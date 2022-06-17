@@ -66,6 +66,27 @@ export const programmes: ProgrammeType[] = [
               },
             ],
           },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
+              },
+            ],
+          },
         ],
       },
       {
@@ -93,6 +114,27 @@ export const programmes: ProgrammeType[] = [
               },
               {
                 id: 'urn:subject:1:11c4696f-e844-4c98-8df7-49d43f59ec33',
+              },
+            ],
+          },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
               },
             ],
           },
@@ -168,6 +210,27 @@ export const programmes: ProgrammeType[] = [
               },
             ],
           },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
+              },
+            ],
+          },
         ],
       },
       {
@@ -195,6 +258,27 @@ export const programmes: ProgrammeType[] = [
               },
               {
                 id: 'urn:subject:1:11c4696f-e844-4c98-8df7-49d43f59ec33',
+              },
+            ],
+          },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
               },
             ],
           },
@@ -267,6 +351,27 @@ export const programmes: ProgrammeType[] = [
               },
             ],
           },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
+              },
+            ],
+          },
         ],
       },
       {
@@ -294,6 +399,27 @@ export const programmes: ProgrammeType[] = [
               },
               {
                 id: 'urn:subject:1:11c4696f-e844-4c98-8df7-49d43f59ec33',
+              },
+            ],
+          },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
               },
             ],
           },
@@ -366,6 +492,27 @@ export const programmes: ProgrammeType[] = [
               },
             ],
           },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
+              },
+            ],
+          },
         ],
       },
       {
@@ -393,6 +540,27 @@ export const programmes: ProgrammeType[] = [
               },
               {
                 id: 'urn:subject:1:11c4696f-e844-4c98-8df7-49d43f59ec33',
+              },
+            ],
+          },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
               },
             ],
           },
@@ -471,6 +639,27 @@ export const programmes: ProgrammeType[] = [
               },
             ],
           },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
+              },
+            ],
+          },
         ],
       },
       {
@@ -542,6 +731,27 @@ export const programmes: ProgrammeType[] = [
               },
             ],
           },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
+              },
+            ],
+          },
         ],
       },
     ],
@@ -610,6 +820,27 @@ export const programmes: ProgrammeType[] = [
               },
               {
                 id: 'urn:subject:1:ca607ca1-4dd0-4bbd-954f-67461f4b96fc',
+              },
+            ],
+          },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
               },
             ],
           },
@@ -688,6 +919,27 @@ export const programmes: ProgrammeType[] = [
               },
               {
                 id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
+              },
+            ],
+          },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
               },
             ],
           },
@@ -772,6 +1024,27 @@ export const programmes: ProgrammeType[] = [
               },
               {
                 id: 'urn:subject:6e2e2319-cb8a-4dd2-b382-e30f001633bb',
+              },
+            ],
+          },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
               },
             ],
           },
@@ -850,6 +1123,27 @@ export const programmes: ProgrammeType[] = [
               },
             ],
           },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
+              },
+            ],
+          },
         ],
       },
       {
@@ -912,6 +1206,27 @@ export const programmes: ProgrammeType[] = [
               },
               {
                 id: 'urn:subject:1:11c4696f-e844-4c98-8df7-49d43f59ec33',
+              },
+            ],
+          },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
               },
             ],
           },
@@ -986,6 +1301,27 @@ export const programmes: ProgrammeType[] = [
               },
               {
                 id: 'urn:subject:1:ca607ca1-4dd0-4bbd-954f-67461f4b96fc',
+              },
+            ],
+          },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
               },
             ],
           },
@@ -1067,6 +1403,27 @@ export const programmes: ProgrammeType[] = [
               },
               {
                 id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
+              },
+            ],
+          },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
               },
             ],
           },
@@ -1154,6 +1511,27 @@ export const programmes: ProgrammeType[] = [
               },
               {
                 id: 'urn:subject:6e2e2319-cb8a-4dd2-b382-e30f001633bb',
+              },
+            ],
+          },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
               },
             ],
           },
@@ -1238,6 +1616,27 @@ export const programmes: ProgrammeType[] = [
               },
               {
                 id: 'urn:subject:1:ca607ca1-4dd0-4bbd-954f-67461f4b96fc',
+              },
+            ],
+          },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
               },
             ],
           },
@@ -1329,6 +1728,27 @@ export const programmes: ProgrammeType[] = [
               },
               {
                 id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
+              },
+            ],
+          },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
               },
             ],
           },
@@ -1429,6 +1849,27 @@ export const programmes: ProgrammeType[] = [
               },
             ],
           },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
+              },
+            ],
+          },
         ],
       },
     ],
@@ -1500,6 +1941,27 @@ export const programmes: ProgrammeType[] = [
               },
               {
                 id: 'urn:subject:1:ca607ca1-4dd0-4bbd-954f-67461f4b96fc',
+              },
+            ],
+          },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
               },
             ],
           },
@@ -1581,6 +2043,27 @@ export const programmes: ProgrammeType[] = [
               },
               {
                 id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
+              },
+            ],
+          },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
               },
             ],
           },
@@ -1671,6 +2154,27 @@ export const programmes: ProgrammeType[] = [
               },
             ],
           },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
+              },
+            ],
+          },
         ],
       },
     ],
@@ -1740,6 +2244,27 @@ export const programmes: ProgrammeType[] = [
               },
             ],
           },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
+              },
+            ],
+          },
         ],
       },
       {
@@ -1767,6 +2292,27 @@ export const programmes: ProgrammeType[] = [
               },
               {
                 id: 'urn:subject:1:11c4696f-e844-4c98-8df7-49d43f59ec33',
+              },
+            ],
+          },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
               },
             ],
           },
@@ -1856,6 +2402,27 @@ export const programmes: ProgrammeType[] = [
               },
             ],
           },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
+              },
+            ],
+          },
         ],
       },
     ],
@@ -1928,6 +2495,27 @@ export const programmes: ProgrammeType[] = [
               },
             ],
           },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
+              },
+            ],
+          },
         ],
       },
       {
@@ -1972,6 +2560,27 @@ export const programmes: ProgrammeType[] = [
               },
               {
                 id: 'urn:subject:1:11c4696f-e844-4c98-8df7-49d43f59ec33',
+              },
+            ],
+          },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
               },
             ],
           },
@@ -2050,6 +2659,27 @@ export const programmes: ProgrammeType[] = [
               },
             ],
           },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
+              },
+            ],
+          },
         ],
       },
       {
@@ -2119,6 +2749,27 @@ export const programmes: ProgrammeType[] = [
               },
               {
                 id: 'urn:subject:1:11c4696f-e844-4c98-8df7-49d43f59ec33',
+              },
+            ],
+          },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
               },
             ],
           },
@@ -2195,6 +2846,27 @@ export const programmes: ProgrammeType[] = [
               },
               {
                 id: 'urn:subject:1:f7c5f36a-198d-4c38-a330-2957cf1a8325',
+              },
+            ],
+          },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
               },
             ],
           },
@@ -2279,9 +2951,29 @@ export const programmes: ProgrammeType[] = [
               {
                 id: 'urn:subject:1:058bdbdb-aa5a-4a29-88fb-45e664999417',
               },
-
               {
                 id: 'urn:subject:e18b8bf0-326b-45f6-8e95-982de8f34264',
+              },
+            ],
+          },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
               },
             ],
           },
@@ -2370,6 +3062,27 @@ export const programmes: ProgrammeType[] = [
               },
             ],
           },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
+              },
+            ],
+          },
         ],
       },
     ],
@@ -2445,6 +3158,27 @@ export const programmes: ProgrammeType[] = [
               },
             ],
           },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
+              },
+            ],
+          },
         ],
       },
       {
@@ -2510,6 +3244,27 @@ export const programmes: ProgrammeType[] = [
               },
               {
                 id: 'urn:subject:1:11c4696f-e844-4c98-8df7-49d43f59ec33',
+              },
+            ],
+          },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
               },
             ],
           },
