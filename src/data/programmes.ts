@@ -2937,6 +2937,18 @@ export const programmes: ProgrammeType[] = [
             },
             subjects: [
               {
+                id: 'urn:subject:1:1a05c6c7-121e-49e2-933c-580da74afe1a',
+              },
+              {
+                id: 'urn:subject:1:ec288dfb-4768-4f82-8387-fe2d73fff1e1',
+              },
+              {
+                id: 'urn:subject:1:1d441d40-358a-47a8-8cd5-7a80382a9062',
+              },
+              {
+                id: 'urn:subject:1:3170610c-6a5a-4da5-aeba-adb247aae48c',
+              },
+              {
                 id: 'urn:subject:1:47678c7b-bc09-4fc8-b2d9-a2e3d709e105',
               },
               {
@@ -2998,7 +3010,6 @@ export const programmes: ProgrammeType[] = [
               {
                 id: 'urn:subject:cc109c51-a083-413b-b497-7f80a0569a92',
               },
-
               {
                 id: 'urn:subject:30bcefff-7577-4e0b-afc6-b07f437ea354',
               },
@@ -3036,6 +3047,18 @@ export const programmes: ProgrammeType[] = [
               en: 'Språk, samfunnsfag og økonomi',
             },
             subjects: [
+              {
+                id: 'urn:subject:1:1a05c6c7-121e-49e2-933c-580da74afe1a',
+              },
+              {
+                id: 'urn:subject:1:ec288dfb-4768-4f82-8387-fe2d73fff1e1',
+              },
+              {
+                id: 'urn:subject:1:1d441d40-358a-47a8-8cd5-7a80382a9062',
+              },
+              {
+                id: 'urn:subject:1:3170610c-6a5a-4da5-aeba-adb247aae48c',
+              },
               {
                 id: 'urn:subject:6e2e2319-cb8a-4dd2-b382-e30f001633bb',
               },
