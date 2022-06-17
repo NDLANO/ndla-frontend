@@ -10,6 +10,7 @@ import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import { useApolloClient } from '@apollo/client';
+import { setCookie } from '@ndla/util';
 
 import SearchInnerPage from '../containers/SearchPage/SearchInnerPage';
 import ErrorPage from '../containers/ErrorPage/ErrorPage';
@@ -18,7 +19,10 @@ import { searchPageQuery } from '../queries';
 import ErrorBoundary from '../containers/ErrorPage/ErrorBoundary';
 import { useGraphQuery } from '../util/runQueries';
 import { searchSubjects } from '../util/searchHelpers';
-import { RESOURCE_TYPE_LEARNING_PATH, STORED_LANGUAGE_KEY } from '../constants';
+import {
+  RESOURCE_TYPE_LEARNING_PATH,
+  STORED_LANGUAGE_COOKIE_KEY,
+} from '../constants';
 import { LocaleType, LtiData } from '../interfaces';
 import { GQLSearchPageQuery } from '../graphqlTypes';
 import { createApolloLinks } from '../util/apiHelpers';
@@ -60,7 +64,7 @@ const LtiProvider = ({ locale: propsLocale, ltiData }: Props) => {
   i18n.on('languageChanged', lang => {
     client.resetStore();
     client.setLink(createApolloLinks(lang));
-    window.localStorage.setItem(STORED_LANGUAGE_KEY, lang);
+    setCookie({ cookieName: STORED_LANGUAGE_COOKIE_KEY, cookieValue: lang });
     document.documentElement.lang = lang;
   });
 

@@ -25,6 +25,7 @@ import '@fontsource/source-serif-pro/index.css';
 // @ts-ignore
 import ErrorReporter from '@ndla/error-reporter';
 import { i18nInstance } from '@ndla/ui';
+import { getCookie, setCookie } from '@ndla/util';
 import { createBrowserHistory, createMemoryHistory, History } from 'history';
 // @ts-ignore
 import queryString from 'query-string';
@@ -36,7 +37,7 @@ import { Router } from 'react-router-dom';
 import App from './App';
 import { VersionHashProvider } from './components/VersionHashContext';
 import { getDefaultLocale } from './config';
-import { EmotionCacheKey, STORED_LANGUAGE_KEY } from './constants';
+import { EmotionCacheKey, STORED_LANGUAGE_COOKIE_KEY } from './constants';
 import {
   getLocaleInfoFromPath,
   initializeI18n,
@@ -52,7 +53,7 @@ declare global {
 }
 
 const {
-  DATA: { config, serverPath, serverQuery, resCookie },
+  DATA: { config, serverPath, serverQuery, resCookie = '' },
 } = window;
 
 const { basepath } = getLocaleInfoFromPath(serverPath ?? '');
@@ -70,12 +71,18 @@ const locationFromServer = {
   search: serverQueryString ? `?${serverQueryString}` : '',
 };
 
-const maybeStoredLanguage = window.localStorage.getItem(STORED_LANGUAGE_KEY);
+const maybeStoredLanguage = getCookie(
+  STORED_LANGUAGE_COOKIE_KEY,
+  document.cookie,
+);
 // Set storedLanguage to a sane value if non-existent
 if (maybeStoredLanguage === null || maybeStoredLanguage === undefined) {
-  window.localStorage.setItem(STORED_LANGUAGE_KEY, config.defaultLocale);
+  setCookie({
+    cookieName: STORED_LANGUAGE_COOKIE_KEY,
+    cookieValue: config.defaultLocale,
+  });
 }
-const storedLanguage = window.localStorage.getItem(STORED_LANGUAGE_KEY)!;
+const storedLanguage = getCookie(STORED_LANGUAGE_COOKIE_KEY, document.cookie)!;
 const i18n = initializeI18n(i18nInstance, storedLanguage);
 
 window.errorReporter = ErrorReporter.getInstance({
@@ -88,7 +95,7 @@ window.errorReporter = ErrorReporter.getInstance({
 window.hasHydrated = false;
 const renderOrHydrate = config.disableSSR ? ReactDOM.render : ReactDOM.hydrate;
 
-const client = createApolloClient(basename, document.cookie, versionHash);
+const client = createApolloClient(storedLanguage, document.cookie, versionHash);
 const cache = createCache({ key: EmotionCacheKey });
 
 // Use memory router if running under google translate
@@ -188,9 +195,12 @@ const LanguageWrapper = ({ basename }: { basename?: string }) => {
   const windowPath = useReactPath();
 
   i18n.on('languageChanged', lang => {
+    setCookie({
+      cookieName: STORED_LANGUAGE_COOKIE_KEY,
+      cookieValue: lang,
+    });
     client.resetStore();
     client.setLink(createApolloLinks(lang, resCookie, versionHash));
-    window.localStorage.setItem(STORED_LANGUAGE_KEY, lang);
     document.documentElement.lang = lang;
   });
 
@@ -205,8 +215,12 @@ const LanguageWrapper = ({ basename }: { basename?: string }) => {
   }, [i18n.language]);
 
   // handle initial redirect if URL has wrong or missing locale prefix.
+  // only relevant when disableSSR=true
   useLayoutEffect(() => {
-    const storedLanguage = window.localStorage.getItem(STORED_LANGUAGE_KEY)!;
+    const storedLanguage = getCookie(
+      STORED_LANGUAGE_COOKIE_KEY,
+      document.cookie,
+    )!;
     if (storedLanguage === getDefaultLocale() && !base) return;
     if (isValidLocale(storedLanguage) && storedLanguage === base) {
       setBase(storedLanguage);
