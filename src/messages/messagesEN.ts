@@ -37,17 +37,17 @@ const messages = {
   blogPosts: {
     blog1: {
       imageUrl: '/static/nye-fag.jpg',
-      text: 'Nye fag på NDLA',
-      externalLink: 'https://blogg.ndla.no/2021/12/nye-fag-pa-ndla/',
+      text: 'Forslag til årsplaner fra NDLA',
+      externalLink: 'https://blogg.ndla.no/2021/08/forslag-til-arsplaner-hos-ndla/',
       linkText: 'Fagblogg',
       license: 'CC-BY-SA-4.0',
       licenseAuthor: 'Vibeke Klungland',
     },
     blog2: {
       imageUrl: '/static/aktiviser-elevene.jpg',
-      text: 'Aktiviser elevane med digitale verktøy',
+      text: 'Huskeliste for kontaktlærere',
       externalLink:
-        'https://blogg.ndla.no/2021/09/aktiviser-elevane-med-digitale-verktoy/',
+        'https://blogg.ndla.no/2019/08/huskeliste-for-kontaktlaerere/',
       linkText: 'Fagblogg',
       license: 'CC-BY-SA-4.0',
       licenseAuthor: 'Tom Knudsen',
