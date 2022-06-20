@@ -2845,9 +2845,9 @@ export const multidisciplinaryTopics = [
 export const subjectsCategories = [
   {
     name: {
-      nb: 'Aktive',
-      nn: 'Aktive',
-      en: 'Active',
+      nb: 'Gjeldende',
+      nn: 'Gjeldande',
+      en: 'In force',
     },
     subjects: activeSubjects,
     visible: true,
