@@ -6,13 +6,13 @@
  *
  */
 
+import { FeideUserApiType } from '@ndla/ui';
 import {
   GQLArticle,
   GQLSubject,
   GQLTopic,
   GQLLearningpathStep,
 } from '../graphqlTypes';
-import { FeideUserWithGroups } from './feideApi';
 
 type DimensionKeys =
   | '3'
@@ -118,7 +118,7 @@ interface Props {
   relevance?: string;
   learningstep?: Pick<GQLLearningpathStep, 'seqNo'>;
   filter?: string;
-  user?: FeideUserWithGroups;
+  user?: FeideUserApiType;
 }
 
 export const getAllDimensions = (

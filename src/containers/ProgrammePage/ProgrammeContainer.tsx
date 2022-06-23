@@ -7,11 +7,10 @@
  */
 
 import { withTracker } from '@ndla/tracker';
-import { Programme } from '@ndla/ui';
+import { FeideUserApiType, Programme } from '@ndla/ui';
 import { Helmet } from 'react-helmet-async';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { LocaleType, ProgrammeType } from '../../interfaces';
-import { FeideUserWithGroups } from '../../util/feideApi';
 import { htmlTitle } from '../../util/titleHelper';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { mapGradesData } from './ProgrammePage';
@@ -29,7 +28,7 @@ const getDocumentTitle = ({
 
 interface Props extends WithTranslation {
   locale: LocaleType;
-  user?: FeideUserWithGroups;
+  user?: FeideUserApiType;
   programme: ProgrammeType;
   grade: string;
   onGradeChange: (newGrade: string) => void;
