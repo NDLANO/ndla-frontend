@@ -6,6 +6,7 @@
  *
  */
 
+import './style/index.css';
 import { ApolloProvider, useApolloClient } from '@apollo/client';
 import createCache from '@emotion/cache';
 import { CacheProvider } from '@emotion/core';
@@ -45,7 +46,6 @@ import {
   supportedLanguages,
 } from './i18n';
 import { NDLAWindow } from './interfaces';
-import './style/index.css';
 import { createApolloClient, createApolloLinks } from './util/apiHelpers';
 
 declare global {
