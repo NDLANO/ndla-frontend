@@ -9,7 +9,7 @@
 import { gql } from '@apollo/client';
 import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { OneColumn, LayoutItem } from '@ndla/ui';
+import { OneColumn, LayoutItem, FeideUserApiType } from '@ndla/ui';
 import { withTracker } from '@ndla/tracker';
 import { TFunction, WithTranslation, withTranslation } from 'react-i18next';
 import { GraphQLError } from 'graphql';
@@ -43,7 +43,6 @@ import {
   GQLArticlePage_TopicPathFragment,
 } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
-import { FeideUserWithGroups } from '../../util/feideApi';
 
 interface Props extends WithTranslation {
   resource?: GQLArticlePage_ResourceFragment;
@@ -54,7 +53,7 @@ interface Props extends WithTranslation {
   resourceTypes?: GQLArticlePage_ResourceTypeFragment[];
   errors?: readonly GraphQLError[];
   loading?: boolean;
-  user?: FeideUserWithGroups;
+  user?: FeideUserApiType;
   skipToContentId?: string;
 }
 
