@@ -8,8 +8,6 @@
 
 import { ReactElement, useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-import { compact } from 'lodash';
 
 import { AuthModal } from '@ndla/ui';
 import styled from '@emotion/styled';
@@ -56,19 +54,9 @@ interface Props {
 }
 
 const FeideLoginButton = ({ footer, children }: Props) => {
-  const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
   const { authenticated, user } = useContext(AuthContext);
-  const primarySchool = user?.primarySchool;
-  const affiliationRole = user?.eduPersonPrimaryAffiliation;
-
-  const collectedInfo: string[] = compact([
-    primarySchool?.displayName,
-    affiliationRole ? (t('user.role.' + affiliationRole) as string) : undefined,
-    user?.displayName,
-    ...(user?.mail ? user.mail : []),
-  ]);
 
   return (
     <AuthModal
@@ -80,8 +68,7 @@ const FeideLoginButton = ({ footer, children }: Props) => {
         )
       }
       isAuthenticated={authenticated}
-      authorizedCollectedInfo={collectedInfo}
-      authorizedRole={affiliationRole && t('user.role.' + affiliationRole)}
+      user={user}
       onAuthenticateClick={() => {
         location && localStorage.setItem('lastPath', location.pathname);
         if (authenticated) {

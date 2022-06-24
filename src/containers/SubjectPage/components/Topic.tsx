@@ -10,7 +10,7 @@ import { gql } from '@apollo/client';
 import { useEffect, useMemo, useState } from 'react';
 import { Remarkable } from 'remarkable';
 import { TFunction, withTranslation, WithTranslation } from 'react-i18next';
-import { Topic as UITopic } from '@ndla/ui';
+import { FeideUserApiType, Topic as UITopic } from '@ndla/ui';
 import { TopicProps } from '@ndla/ui/lib/Topic/Topic';
 import { withTracker } from '@ndla/tracker';
 import config from '../../../config';
@@ -35,7 +35,6 @@ import { LocaleType } from '../../../interfaces';
 import VisualElementWrapper, {
   getResourceType,
 } from '../../../components/VisualElement/VisualElementWrapper';
-import { FeideUserWithGroups } from '../../../util/feideApi';
 
 const getDocumentTitle = ({
   t,
@@ -58,7 +57,7 @@ type Props = {
   loading?: boolean;
   topic: GQLTopic_TopicFragment;
   resourceTypes?: GQLTopic_ResourceTypeDefinitionFragment[];
-  user?: FeideUserWithGroups;
+  user?: FeideUserApiType;
 } & WithTranslation;
 
 const Topic = ({

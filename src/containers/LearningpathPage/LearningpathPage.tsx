@@ -12,6 +12,7 @@ import { Helmet } from 'react-helmet-async';
 import { withTracker } from '@ndla/tracker';
 import { TFunction, WithTranslation, withTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { FeideUserApiType } from '@ndla/ui';
 import { getArticleProps } from '../../util/getArticleProps';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { htmlTitle } from '../../util/titleHelper';
@@ -31,7 +32,6 @@ import {
   GQLSubject,
 } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
-import { FeideUserWithGroups } from '../../util/feideApi';
 
 interface PropData {
   relevance: string;
@@ -48,7 +48,7 @@ interface Props extends WithTranslation {
   data: PropData;
   skipToContentId: string;
   stepId?: string;
-  user?: FeideUserWithGroups;
+  user?: FeideUserApiType;
 }
 
 const LearningpathPage = ({

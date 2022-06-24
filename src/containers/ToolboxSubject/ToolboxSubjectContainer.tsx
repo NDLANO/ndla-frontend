@@ -8,7 +8,12 @@
 
 import { gql } from '@apollo/client';
 import { withTracker } from '@ndla/tracker';
-import { OneColumn, SubjectBanner, ToolboxInfo } from '@ndla/ui';
+import {
+  FeideUserApiType,
+  OneColumn,
+  SubjectBanner,
+  ToolboxInfo,
+} from '@ndla/ui';
 import { useEffect, createRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import {
@@ -24,13 +29,12 @@ import { htmlTitle } from '../../util/titleHelper';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { ToolboxTopicContainer } from './components/ToolboxTopicContainer';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
-import { FeideUserWithGroups } from '../../util/feideApi';
 
 interface Props extends WithTranslation {
   subject: GQLToolboxSubjectContainer_SubjectFragment;
   topicList: string[];
   locale: LocaleType;
-  user?: FeideUserWithGroups;
+  user?: FeideUserApiType;
 }
 
 const getSocialMediaMetaData = (

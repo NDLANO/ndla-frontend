@@ -8,7 +8,7 @@
 import { gql } from '@apollo/client';
 import { useEffect, useMemo, useState } from 'react';
 import { Remarkable } from 'remarkable';
-import { Topic as UITopic } from '@ndla/ui';
+import { FeideUserApiType, Topic as UITopic } from '@ndla/ui';
 import { TopicProps } from '@ndla/ui/lib/Topic/Topic';
 import { withTracker } from '@ndla/tracker';
 import { WithTranslation, withTranslation } from 'react-i18next';
@@ -29,7 +29,6 @@ import {
   GQLResourceTypeDefinition,
 } from '../../../graphqlTypes';
 import { LocaleType } from '../../../interfaces';
-import { FeideUserWithGroups } from '../../../util/feideApi';
 
 interface Props extends WithTranslation {
   topicId: string;
@@ -41,7 +40,7 @@ interface Props extends WithTranslation {
   resourceTypes?: GQLResourceTypeDefinition[];
   loading?: boolean;
   disableNav?: boolean;
-  user?: FeideUserWithGroups;
+  user?: FeideUserApiType;
 }
 
 const getDocumentTitle = ({ t, topic }: Props) => {
