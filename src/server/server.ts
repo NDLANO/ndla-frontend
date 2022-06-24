@@ -26,6 +26,7 @@ import ltiConfig from './ltiConfig';
 import {
   FILM_PAGE_PATH,
   NOT_FOUND_PAGE_PATH,
+  STORED_LANGUAGE_COOKIE_KEY,
   UKR_PAGE_PATH,
 } from '../constants';
 import { generateOauthData } from './helpers/oauthHelper';
@@ -107,6 +108,7 @@ app.get(
   '/ukr',
   ndlaMiddleware,
   (_req: Request, res: Response, _next: NextFunction) => {
+    res.cookie(STORED_LANGUAGE_COOKIE_KEY, 'en');
     res.redirect(`/en${UKR_PAGE_PATH}`);
   },
 );

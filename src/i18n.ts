@@ -14,7 +14,7 @@ import { getDefaultLocale } from './config';
 import { LocaleType } from './interfaces';
 
 export const supportedLanguages = ['nb', 'nn', 'en'];
-export const preferredLanguages = ['nb', 'nn'];
+export const preferredLanguages = ['nb', 'nn', 'en'];
 
 type LocaleObject = {
   name: string;
