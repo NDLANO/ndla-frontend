@@ -32,8 +32,8 @@ import config from '../../config';
 import BlogPosts from './BlogPosts';
 import WelcomePageSearch from './WelcomePageSearch';
 import { toSubject, toTopic } from '../../routeHelpers';
-import { getSubjectById } from '../../data/subjects';
-import { LocaleType, SubjectType } from '../../interfaces';
+import { getSubjectById, multidisciplinaryTopics } from '../../data/subjects';
+import { LocaleType } from '../../interfaces';
 import { setClosedAlert, useAlerts } from '../../components/AlertsContext';
 
 const getUrlFromSubjectId = (subjectId: string) => {
@@ -49,27 +49,17 @@ const TOOLBOX_STUDENT_SUBJECT_ID =
   'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4';
 
 const getMultidisciplinaryTopics = (locale: LocaleType) => {
-  const topicIds = [
-    'urn:topic:3cdf9349-4593-498c-a899-9310133a4788',
-    'urn:topic:077a5e01-6bb8-4c0b-b1d4-94b683d91803',
-    'urn:topic:a2f5aaa0-ab52-49d5-aabf-e7ffeac47fa2',
-  ];
-
   const baseSubject = getSubjectById(MULTIDISCIPLINARY_SUBJECT_ID);
 
   if (!baseSubject) return [];
 
-  return topicIds
-    .map(topicId => getSubjectById(topicId))
-    .filter((subject): subject is SubjectType => subject !== undefined)
-    .map(subject => {
-      const topicIds = subject.topicId ? [subject.topicId] : [];
-      return {
-        id: subject.id,
-        title: subject.name?.[locale] ?? '',
-        url: toTopic(baseSubject.id, ...topicIds),
-      };
-    });
+  return multidisciplinaryTopics.map(topic => {
+    return {
+      id: topic.id,
+      title: topic.name[locale],
+      url: toTopic(baseSubject.id, topic.id),
+    };
+  });
 };
 
 const BannerCardWrapper = styled.div`
