@@ -84,11 +84,18 @@ export interface GradeCategory {
   subjects: { id: string }[];
 }
 
+export type SubjectCategory = {
+  name: Record<LocaleType, string>;
+  subjects: SubjectType[];
+  visible?: boolean;
+};
+
 export type SubjectType = {
-  longName?: Record<LocaleType, string>;
-  name?: Record<LocaleType, string>;
+  name: Record<LocaleType, string>;
+  longName: Record<LocaleType, string>;
   id: string;
   topicId?: string;
+  hideOnFrontpage?: boolean;
 };
 
 export type LtiData = {
