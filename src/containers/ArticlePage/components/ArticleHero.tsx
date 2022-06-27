@@ -67,7 +67,7 @@ const ArticleHero = ({
         <div className="c-hero__content">
           <section>
             {subject && (
-              <HomeBreadcrumb light={ndlaFilm} items={breadcrumbItems} />
+              <HomeBreadcrumb light={ndlaFilm ? ndlaFilm : undefined} items={breadcrumbItems} />
             )}
           </section>
         </div>
