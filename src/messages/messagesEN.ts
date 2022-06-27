@@ -35,7 +35,8 @@ const messages = {
     noResults: '...No episodes',
   },
   messageBoxInfo: {
-    subjectBeta: 'This course is in beta. New resources are being added continously.',
+    subjectBeta:
+      'This course is in beta. New resources are being added continously.',
   },
   blogPosts: {
     blog1: {

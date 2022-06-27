@@ -35,7 +35,8 @@ const messages = {
     noResults: '...Ingen episoder',
   },
   messageBoxInfo: {
-    subjectBeta: 'Dette faget er i betaversjon. Vi fyller på med ressurser fortløpende.',
+    subjectBeta:
+      'Dette faget er i betaversjon. Vi fyller på med ressurser fortløpende.',
   },
   blogPosts: {
     blog1: {
