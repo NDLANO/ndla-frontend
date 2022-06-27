@@ -22,7 +22,7 @@ describe('Topic page', () => {
 
     cy.get('[data-testid="category-list"]  button:contains("Alle fag"):visible')
       .click()
-      .get('a:contains("Medieuttrykk 3 og mediesamfunnet 3")')
+      .get('a:contains("Medieuttrykk 3")')
       .last()
       .click({ force: true });
     cy.gqlWait('@alerts');
