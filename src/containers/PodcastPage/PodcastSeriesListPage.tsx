@@ -10,7 +10,7 @@ import { useEffect } from 'react';
 import { OneColumn, Spinner } from '@ndla/ui';
 import Pager from '@ndla/pager';
 import { useTranslation } from 'react-i18next';
-import { useHistory, useLocation } from 'react-router';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { gql, useApolloClient, useQuery } from '@apollo/client';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
@@ -52,7 +52,7 @@ const NoResult = styled.div`
 const PodcastSeriesListPage = () => {
   const { t } = useTranslation();
   const location = useLocation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const searchObject = parse(location.search);
 
   const page = getPage(searchObject);
@@ -102,7 +102,7 @@ const PodcastSeriesListPage = () => {
     Object.keys(searchQuery).forEach(
       key => searchQuery[key] === '' && delete searchQuery[key],
     );
-    history.push(`/podkast?${stringify(searchQuery)}`);
+    navigate(`/podkast?${stringify(searchQuery)}`);
   };
 
   if (!data && !loading) {

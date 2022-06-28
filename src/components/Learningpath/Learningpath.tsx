@@ -17,12 +17,12 @@ import {
   LearningPathStickySibling,
   LearningPathMobileStepInfo,
   LearningPathStickyPlaceholder,
-  Breadcrumb,
   LearningPathSticky,
   LearningPathMobileHeader,
   constants,
+  HomeBreadcrumb,
 } from '@ndla/ui';
-import { toLearningPath } from '../../routeHelpers';
+import { toLearningPath, useIsNdlaFilm } from '../../routeHelpers';
 import LastLearningpathStepInfo from './LastLearningpathStepInfo';
 import LearningpathEmbed from './LearningpathEmbed';
 import config from '../../config';
@@ -50,7 +50,6 @@ interface Props {
   resource?: GQLLearningpath_ResourceFragment;
   skipToContentId?: string;
   locale: LocaleType;
-  ndlaFilm: boolean;
   onKeyUpEvent: (evt: KeyboardEvent) => void;
   breadcrumbItems: BreadcrumbType[];
 }
@@ -66,9 +65,9 @@ const Learningpath = ({
   skipToContentId,
   locale,
   onKeyUpEvent,
-  ndlaFilm,
   breadcrumbItems,
 }: Props) => {
+  const ndlaFilm = useIsNdlaFilm();
   const { id, learningsteps, lastUpdated, copyright, title } = learningpath;
 
   const lastUpdatedDate = new Date(lastUpdated);
@@ -145,7 +144,7 @@ const Learningpath = ({
     <LearningPathWrapper invertedStyle={ndlaFilm}>
       <div className="c-hero__content">
         <section>
-          <Breadcrumb invertedStyle={ndlaFilm} items={breadcrumbItems} />
+          <HomeBreadcrumb light={ndlaFilm} items={breadcrumbItems} />
         </section>
       </div>
       <LearningPathContent>
@@ -175,7 +174,6 @@ const Learningpath = ({
               numberOfLearningSteps={learningsteps.length - 1}
               title={title}
               subject={subject}
-              ndlaFilm={ndlaFilm}
             />
           </div>
         )}

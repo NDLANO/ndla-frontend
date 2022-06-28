@@ -1,0 +1,139 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`parseAndMatchUrl 1`] = `
+Object {
+  "params": Object {
+    "resourceId": ":1:1682",
+    "subjectId": ":3",
+    "topic1": ":1:55163",
+    "topicId": ":1:168398",
+  },
+  "pathname": "/subject:3/topic:1:55163/topic:1:168398/resource:1:1682",
+  "pathnameBase": "/subject:3/topic:1:55163/topic:1:168398/resource:1:1682",
+  "pattern": Object {
+    "caseSensitive": false,
+    "end": true,
+    "path": "subject:subjectId/topic:topic1/topic:topicId/resource:resourceId",
+  },
+}
+`;
+
+exports[`parseAndMatchUrl 2`] = `
+Object {
+  "params": Object {
+    "subjectId": ":3",
+    "topicId": ":1:55163",
+  },
+  "pathname": "/subject:3/topic:1:55163",
+  "pathnameBase": "/subject:3/topic:1:55163",
+  "pattern": Object {
+    "caseSensitive": false,
+    "end": true,
+    "path": "subject:subjectId/topic:topicId",
+  },
+}
+`;
+
+exports[`parseAndMatchUrl 3`] = `
+Object {
+  "params": Object {
+    "resourceId": ":1:168554",
+    "subjectId": ":3",
+    "topic1": ":1:168542",
+    "topicId": ":1:173292",
+  },
+  "pathname": "/subject:3/topic:1:168542/topic:1:173292/resource:1:168554",
+  "pathnameBase": "/subject:3/topic:1:168542/topic:1:173292/resource:1:168554",
+  "pattern": Object {
+    "caseSensitive": false,
+    "end": true,
+    "path": "subject:subjectId/topic:topic1/topic:topicId/resource:resourceId",
+  },
+}
+`;
+
+exports[`parseAndMatchUrl 4`] = `
+Object {
+  "params": Object {
+    "resourceId": ":1:168554",
+    "subjectId": ":3",
+    "topicId": ":1:168542",
+  },
+  "pathname": "/subject:3/topic:1:168542/resource:1:168554",
+  "pathnameBase": "/subject:3/topic:1:168542/resource:1:168554",
+  "pattern": Object {
+    "caseSensitive": false,
+    "end": true,
+    "path": "subject:subjectId/topic:topicId/resource:resourceId",
+  },
+}
+`;
+
+exports[`parseAndMatchUrl 5`] = `
+Object {
+  "params": Object {
+    "lang": "nb",
+    "resourceId": ":1:1682",
+    "subjectId": ":3",
+    "topic1": ":1:55163",
+    "topicId": ":1:168398",
+  },
+  "pathname": "/nb/subject:3/topic:1:55163/topic:1:168398/resource:1:1682",
+  "pathnameBase": "/nb/subject:3/topic:1:55163/topic:1:168398/resource:1:1682",
+  "pattern": Object {
+    "caseSensitive": false,
+    "end": true,
+    "path": "/:lang/subject:subjectId/topic:topic1/topic:topicId/resource:resourceId",
+  },
+}
+`;
+
+exports[`parseAndMatchUrl 6`] = `
+Object {
+  "params": Object {
+    "lang": "nn",
+    "resourceId": ":1:1682",
+    "subjectId": ":3",
+    "topic1": ":1:55163",
+    "topicId": ":1:168398",
+  },
+  "pathname": "/nn/subject:3/topic:1:55163/topic:1:168398/resource:1:1682",
+  "pathnameBase": "/nn/subject:3/topic:1:55163/topic:1:168398/resource:1:1682",
+  "pattern": Object {
+    "caseSensitive": false,
+    "end": true,
+    "path": "/:lang/subject:subjectId/topic:topic1/topic:topicId/resource:resourceId",
+  },
+}
+`;
+
+exports[`parseAndMatchUrl 7`] = `
+Object {
+  "params": Object {
+    "articleId": "4809",
+  },
+  "pathname": "/article/4809",
+  "pathnameBase": "/article/4809",
+  "pattern": Object {
+    "caseSensitive": false,
+    "end": true,
+    "path": "article/:articleId",
+  },
+}
+`;
+
+exports[`parseAndMatchUrl 8`] = `
+Object {
+  "params": Object {
+    "articleId": "4809",
+    "lang": "nn",
+  },
+  "pathname": "/nn/article/4809",
+  "pathnameBase": "/nn/article/4809",
+  "pattern": Object {
+    "caseSensitive": false,
+    "end": true,
+    "path": "/:lang/article/:articleId",
+  },
+}
+`;

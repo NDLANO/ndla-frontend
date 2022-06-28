@@ -9,17 +9,17 @@
 describe('Topic page', () => {
   beforeEach(() => {
     cy.fixCypressSpec('/cypress/integration/topic_page.spec.ts');
-
     cy.gqlIntercept({ alias: 'alerts', operations: ['alerts'] });
     cy.visit('/?disableSSR=true');
+    cy.gqlWait('@alerts');
     cy.gqlIntercept({
       alias: 'medieutrykk',
       operations: ['mastHead', 'subjectPageTest'],
     });
 
-    cy.gqlWait('@alerts');
-
     cy.get('[data-testid="category-list"]  button:contains("Alle fag"):visible')
+      .click()
+      .get('[data-cy="Alle fag-video-tab"]')
       .click()
       .get('a:contains("Medieuttrykk 3 og mediesamfunnet 3")')
       .last()

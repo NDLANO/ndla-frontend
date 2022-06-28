@@ -8,10 +8,11 @@
 
 import { useEffect } from 'react';
 import { gql } from '@apollo/client';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { withTracker } from '@ndla/tracker';
 import { TFunction, WithTranslation, withTranslation } from 'react-i18next';
-import { useHistory } from 'react-router';
+import { useNavigate } from 'react-router-dom';
+import { FeideUserApiType } from '@ndla/ui';
 import { getArticleProps } from '../../util/getArticleProps';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { htmlTitle } from '../../util/titleHelper';
@@ -31,7 +32,6 @@ import {
   GQLSubject,
 } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
-import { FeideUserWithGroups } from '../../util/feideApi';
 
 interface PropData {
   relevance: string;
@@ -45,22 +45,20 @@ interface PropData {
 interface Props extends WithTranslation {
   locale: LocaleType;
   loading: boolean;
-  ndlaFilm?: boolean;
   data: PropData;
   skipToContentId: string;
   stepId?: string;
-  user?: FeideUserWithGroups;
+  user?: FeideUserApiType;
 }
 
 const LearningpathPage = ({
   data,
   locale,
   skipToContentId,
-  ndlaFilm,
   stepId,
   t,
 }: Props) => {
-  const history = useHistory();
+  const navigate = useNavigate();
   useEffect(() => {
     if (window.MathJax) {
       window.MathJax.typeset();
@@ -80,7 +78,7 @@ const LearningpathPage = ({
         const res = !!resource.path
           ? { path: resource.path, id: resource.id }
           : undefined;
-        history.push(
+        navigate(
           toLearningPath(
             data.resource!.learningpath!.id.toString(),
             newLearningpathStep.id.toString(),
@@ -155,7 +153,6 @@ const LearningpathPage = ({
         resourceTypes={resourceTypes}
         topicPath={topicPath}
         locale={locale}
-        ndlaFilm={!!ndlaFilm}
         breadcrumbItems={breadcrumbItems}
       />
     </div>

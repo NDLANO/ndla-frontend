@@ -6,50 +6,66 @@
  *
  */
 
-import { matchPath } from 'react-router-dom';
-import Url from 'url-parse';
-import { match as RouterMatchType } from 'react-router';
+import { matchPath, Params, PathMatch } from 'react-router-dom';
 import { isValidLocale } from '../i18n';
-import {
-  PLAIN_ARTICLE_PAGE_PATH,
-  RESOURCE_PAGE_PATH,
-  TOPIC_PATH,
-  PLAIN_ARTICLE_IFRAME_PATH,
-  RESOURCE_ARTICLE_IFRAME_PATH,
-  TOPIC_ARTICLE_IFRAME_PATH,
-} from '../constants';
+import { oembedRoutes } from '../routes';
 
-function matchUrl<Params>(
+type OembedParams =
+  | 'subjectId'
+  | 'topicId'
+  | 'resourceId'
+  | 'articleId'
+  | 'lang'
+  | 'topicOrResourceId';
+
+type OembedReturnParams =
+  | 'subjectId'
+  | 'topicId'
+  | 'resourceId'
+  | 'articleId'
+  | 'lang';
+
+const matchUrl = (
   pathname: string,
   lang: boolean = false,
-): RouterMatchType<Params> | null {
-  const possiblePaths = [
-    lang ? `/:lang${RESOURCE_PAGE_PATH}` : RESOURCE_PAGE_PATH,
-    lang ? `/:lang${TOPIC_PATH}` : TOPIC_PATH,
-    lang ? `/:lang${PLAIN_ARTICLE_PAGE_PATH}` : PLAIN_ARTICLE_PAGE_PATH,
-    lang ? `/:lang${PLAIN_ARTICLE_IFRAME_PATH}` : PLAIN_ARTICLE_IFRAME_PATH,
-    lang
-      ? `/:lang${RESOURCE_ARTICLE_IFRAME_PATH}`
-      : RESOURCE_ARTICLE_IFRAME_PATH,
-    lang ? `/:lang${TOPIC_ARTICLE_IFRAME_PATH}` : TOPIC_ARTICLE_IFRAME_PATH,
-  ];
+): PathMatch<OembedReturnParams> | null => {
+  const possiblePaths = lang
+    ? oembedRoutes.map(r => `/:lang/${r}`)
+    : oembedRoutes;
 
+  let match: PathMatch<OembedParams> | undefined;
   for (let i = 0; i < possiblePaths.length; i++) {
     const attempt = possiblePaths[i] ?? '';
-    const m = matchPath<Params>(pathname, attempt);
+    const m = matchPath<OembedParams, string>(attempt, pathname);
     if (m) {
-      return m;
+      match = m;
+      break;
     }
   }
+  if (!match) {
+    return null;
+  }
 
-  return null;
-}
+  if (match.params.topicOrResourceId) {
+    const missingParam: {
+      resourceId?: string;
+      topicId?: string;
+    } = match.params.topicOrResourceId.startsWith(':resource')
+      ? { resourceId: match.params.topicOrResourceId.replace(':resource', '') }
+      : { topicId: match.params.topicOrResourceId.replace(':topic', '') };
+    const params: Params<OembedParams> = match.params;
+    return {
+      ...match,
+      params: {
+        ...params,
+        ...missingParam,
+      },
+    };
+  } else return match;
+};
 
-export function parseAndMatchUrl<Params>(
-  url: string,
-  ignoreLocale: boolean = false,
-): RouterMatchType<Params> | null {
-  const { pathname } = new Url(url);
+export function parseOembedUrl(url: string, ignoreLocale: boolean = false) {
+  const { pathname } = new URL(url);
   let paths = pathname.split('/');
   if (paths[1]) {
     paths[1] = paths[1] === 'unknown' ? 'nb' : paths[1];
@@ -58,7 +74,7 @@ export function parseAndMatchUrl<Params>(
   const path = paths.join('/');
 
   if (isValidLocale(paths[1])) {
-    return matchUrl<Params>(path, true);
+    return matchUrl(path, true);
   }
-  return matchUrl<Params>(path, false);
+  return matchUrl(path, false);
 }

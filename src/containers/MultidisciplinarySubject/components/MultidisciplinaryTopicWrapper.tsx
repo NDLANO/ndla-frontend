@@ -1,5 +1,6 @@
 import { gql } from '@apollo/client';
 import Spinner from '@ndla/ui/lib/Spinner';
+import { FeideUserApiType } from '@ndla/ui';
 import { useGraphQuery } from '../../../util/runQueries';
 import MultidisciplinaryTopic, {
   multidisciplinaryTopicFragments,
@@ -11,7 +12,6 @@ import {
 } from '../../../graphqlTypes';
 import DefaultErrorMessage from '../../../components/DefaultErrorMessage';
 import { LocaleType } from '../../../interfaces';
-import { FeideUserWithGroups } from '../../../util/feideApi';
 
 interface Props {
   topicId: string;
@@ -19,9 +19,8 @@ interface Props {
   subTopicId?: string;
   locale: LocaleType;
   subject: GQLMultidisciplinaryTopic_SubjectFragment;
-  ndlaFilm?: boolean;
   disableNav?: boolean;
-  user?: FeideUserWithGroups;
+  user?: FeideUserApiType;
 }
 
 const multidisciplinaryTopicWrapperQuery = gql`
@@ -43,7 +42,6 @@ const MultidisciplinaryTopicWrapper = ({
   subjectId,
   locale,
   subTopicId,
-  ndlaFilm,
   subject,
   disableNav,
   user,
@@ -71,7 +69,6 @@ const MultidisciplinaryTopicWrapper = ({
       subjectId={subjectId}
       subTopicId={subTopicId}
       locale={locale}
-      ndlaFilm={ndlaFilm}
       subject={subject}
       disableNav={disableNav}
       user={user}

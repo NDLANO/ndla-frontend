@@ -8,13 +8,13 @@
 import { gql } from '@apollo/client';
 import { useEffect, useMemo, useState } from 'react';
 import { Remarkable } from 'remarkable';
-import { Topic as UITopic } from '@ndla/ui';
+import { FeideUserApiType, Topic as UITopic } from '@ndla/ui';
 import { TopicProps } from '@ndla/ui/lib/Topic/Topic';
 import { withTracker } from '@ndla/tracker';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import config from '../../../config';
 import ArticleContents from '../../../components/Article/ArticleContents';
-import { toTopic } from '../../../routeHelpers';
+import { toTopic, useIsNdlaFilm } from '../../../routeHelpers';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import { htmlTitle } from '../../../util/titleHelper';
 import { getCrop, getFocalPoint } from '../../../util/imageHelpers';
@@ -29,20 +29,18 @@ import {
   GQLResourceTypeDefinition,
 } from '../../../graphqlTypes';
 import { LocaleType } from '../../../interfaces';
-import { FeideUserWithGroups } from '../../../util/feideApi';
 
 interface Props extends WithTranslation {
   topicId: string;
   subjectId: string;
   subTopicId?: string;
   locale: LocaleType;
-  ndlaFilm?: boolean;
   subject: GQLMultidisciplinaryTopic_SubjectFragment;
   topic: GQLMultidisciplinaryTopic_TopicFragment;
   resourceTypes?: GQLResourceTypeDefinition[];
   loading?: boolean;
   disableNav?: boolean;
-  user?: FeideUserWithGroups;
+  user?: FeideUserApiType;
 }
 
 const getDocumentTitle = ({ t, topic }: Props) => {
@@ -54,12 +52,12 @@ const MultidisciplinaryTopic = ({
   subjectId,
   locale,
   subTopicId,
-  ndlaFilm,
   topic,
   resourceTypes,
   disableNav,
 }: Props) => {
   const [showContent, setShowContent] = useState(false);
+  const ndlaFilm = useIsNdlaFilm();
 
   useEffect(() => {
     setShowContent(false);

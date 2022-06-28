@@ -89,8 +89,6 @@ exports[`ErrorPage renderers correctly 1`] = `
   font-weight: 400;
   padding: 13px 19.5px;
   border-radius: 26px;
-  -webkit-transition: background-color 200ms ease-in-out;
-  transition: background-color 200ms ease-in-out;
   color: #20588f;
   font-size: 16px;
   font-size: 0.8888888888888888rem;
@@ -166,7 +164,7 @@ exports[`ErrorPage renderers correctly 1`] = `
   font-weight: 600;
 }
 
-.emotion-73 {
+.emotion-79 {
   color: #fff;
   position: relative;
   background: #184673;
@@ -174,12 +172,12 @@ exports[`ErrorPage renderers correctly 1`] = `
   z-index: 0;
 }
 
-.emotion-73 > div:first-of-type {
+.emotion-79 > div:first-of-type {
   position: relative;
   z-index: 1;
 }
 
-.emotion-61 {
+.emotion-67 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -194,12 +192,12 @@ exports[`ErrorPage renderers correctly 1`] = `
   padding: 52px 52px 0 0;
 }
 
-.emotion-61 > div:first-of-type {
+.emotion-67 > div:first-of-type {
   padding: 26px;
 }
 
 @media (min-width:48em) {
-  .emotion-61 {
+  .emotion-67 {
     -webkit-flex-direction: row;
     -ms-flex-direction: row;
     flex-direction: row;
@@ -209,19 +207,19 @@ exports[`ErrorPage renderers correctly 1`] = `
     align-items: flex-start;
   }
 
-  .emotion-61 > div:first-of-type {
+  .emotion-67 > div:first-of-type {
     padding: 26px 45.5px 26px 52px;
   }
 }
 
 @media (min-width:61.3125em) {
-  .emotion-61 {
+  .emotion-67 {
     padding: 52px 0;
   }
 }
 
 @media (max-width:48em) {
-  .emotion-61 {
+  .emotion-67 {
     padding: 26px 26px 13px;
   }
 }
@@ -258,7 +256,7 @@ exports[`ErrorPage renderers correctly 1`] = `
   }
 }
 
-.emotion-59 {
+.emotion-65 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -269,24 +267,24 @@ exports[`ErrorPage renderers correctly 1`] = `
   align-items: flex-start;
 }
 
-.emotion-59 section:first-of-type {
+.emotion-65 section:first-of-type {
   margin-right: 52px;
 }
 
 @media (min-width:61.3125em) {
-  .emotion-59 section:first-of-type {
+  .emotion-65 section:first-of-type {
     margin-right: 104px;
   }
 }
 
 @media (max-width:48em) {
-  .emotion-59 {
+  .emotion-65 {
     -webkit-flex-direction: column;
     -ms-flex-direction: column;
     flex-direction: column;
   }
 
-  .emotion-59 > section {
+  .emotion-65 > section {
     margin-top: 52px;
   }
 }
@@ -365,23 +363,23 @@ exports[`ErrorPage renderers correctly 1`] = `
   height: 20px;
 }
 
-.emotion-63 {
+.emotion-69 {
   height: 1px;
   margin: 26px;
   background: rgba(255,255,255,0.1);
 }
 
 @media (min-width:48em) {
-  .emotion-63 {
+  .emotion-69 {
     margin: 52px;
   }
 }
 
-.emotion-63:before {
+.emotion-69:before {
   content: none;
 }
 
-.emotion-65 {
+.emotion-71 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -395,36 +393,36 @@ exports[`ErrorPage renderers correctly 1`] = `
   align-items: center;
 }
 
-.emotion-65 > span {
+.emotion-71 > span {
   padding: 6.5px 0;
   text-align: center;
 }
 
 @media (max-width:48em) {
-  .emotion-65 {
+  .emotion-71 {
     font-size: 16;
     font-size: 0.8888888888888888rem;
     line-height: 1.5;
   }
 
-  .emotion-65 > span {
+  .emotion-71 > span {
     padding: 0;
   }
 }
 
 @media (max-width:29.75em) {
-  .emotion-65 {
+  .emotion-71 {
     font-size: 14;
     font-size: 0.7777777777777778rem;
     line-height: 1.3;
   }
 
-  .emotion-65 > span {
+  .emotion-71 > span {
     padding-bottom: 6.5px;
   }
 }
 
-.emotion-67 {
+.emotion-73 {
   background: none;
   color: #fff;
   border: 0;
@@ -434,12 +432,12 @@ exports[`ErrorPage renderers correctly 1`] = `
   margin-bottom: 52px;
 }
 
-.emotion-67:hover,
-.emotion-67:focus {
+.emotion-73:hover,
+.emotion-73:focus {
   box-shadow: none;
 }
 
-.emotion-71 {
+.emotion-77 {
   display: block;
   position: absolute;
   top: 0;
@@ -449,7 +447,7 @@ exports[`ErrorPage renderers correctly 1`] = `
   background: linear-gradient(96deg,rgba(0,117,160,1) 0%,rgba(32,88,143,0) 100%);
 }
 
-.emotion-75 {
+.emotion-81 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -478,32 +476,32 @@ exports[`ErrorPage renderers correctly 1`] = `
   margin-top: 26px;
 }
 
-.emotion-75:hover,
-.emotion-75:focus {
+.emotion-81:hover,
+.emotion-81:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-75[disabled] {
+.emotion-81[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-75:focus {
+.emotion-81:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-75:hover,
-.emotion-75:focus {
+.emotion-81:hover,
+.emotion-81:focus {
   color: white;
   background-color: #20588f;
   border: 2px solid transparent;
 }
 
-.emotion-75:disabled {
+.emotion-81:disabled {
   color: #777777;
   border: 2px solid transparent;
   background-color: #e6e6e6;
@@ -511,7 +509,7 @@ exports[`ErrorPage renderers correctly 1`] = `
 }
 
 @media (min-width:61.3125em) {
-  .emotion-75 {
+  .emotion-81 {
     position: fixed;
     right: 2rem;
     bottom: 2rem;
@@ -664,13 +662,13 @@ exports[`ErrorPage renderers correctly 1`] = `
     </div>
   </div>
   <footer
-    className="emotion-73 emotion-74"
+    className="emotion-79 emotion-80"
   >
     <div
       className="o-wrapper o-wrapper--large undefined"
     >
       <div
-        className="emotion-61 emotion-62"
+        className="emotion-67 emotion-68"
       >
         <div>
           <svg
@@ -705,13 +703,13 @@ exports[`ErrorPage renderers correctly 1`] = `
             Sammen skaper vi framtidas læring
           </h2>
           <div
-            className="emotion-59 emotion-60"
+            className="emotion-65 emotion-66"
           >
             <section>
               <h1
                 className="emotion-19 emotion-20"
               >
-                Andre NDLA nettsteder
+                Andre NDLA-nettsteder
                  
                 <svg
                   className="c-icon"
@@ -874,8 +872,8 @@ exports[`ErrorPage renderers correctly 1`] = `
                   >
                     <svg
                       className="c-icon"
-                      data-license="SIL Open Font License 1.1"
-                      data-source="Material Community Icons"
+                      data-license="Apache License 2.0"
+                      data-source="Material Design Icons"
                       fill="currentColor"
                       height="1em"
                       preserveAspectRatio="xMidYMid meet"
@@ -890,16 +888,80 @@ exports[`ErrorPage renderers correctly 1`] = `
                     >
                       <g>
                         <path
-                          d="M22.46,6C21.69,6.35 20.86,6.58 20,6.69C20.88,6.16 21.56,5.32 21.88,4.31C21.05,4.81 20.13,5.16 19.16,5.36C18.37,4.5 17.26,4 16,4C13.65,4 11.73,5.92 11.73,8.29C11.73,8.63 11.77,8.96 11.84,9.27C8.28,9.09 5.11,7.38 3,4.79C2.63,5.42 2.42,6.16 2.42,6.94C2.42,8.43 3.17,9.75 4.33,10.5C3.62,10.5 2.96,10.3 2.38,10C2.38,10 2.38,10 2.38,10.03C2.38,12.11 3.86,13.85 5.82,14.24C5.46,14.34 5.08,14.39 4.69,14.39C4.42,14.39 4.15,14.36 3.89,14.31C4.43,16 6,17.26 7.89,17.29C6.43,18.45 4.58,19.13 2.56,19.13C2.22,19.13 1.88,19.11 1.54,19.07C3.44,20.29 5.7,21 8.12,21C16,21 20.33,14.46 20.33,8.79C20.33,8.6 20.33,8.42 20.32,8.23C21.16,7.63 21.88,6.87 22.46,6Z"
+                          d="M7.8,2H16.2C19.4,2 22,4.6 22,7.8V16.2A5.8,5.8 0 0,1 16.2,22H7.8C4.6,22 2,19.4 2,16.2V7.8A5.8,5.8 0 0,1 7.8,2M7.6,4A3.6,3.6 0 0,0 4,7.6V16.4C4,18.39 5.61,20 7.6,20H16.4A3.6,3.6 0 0,0 20,16.4V7.6C20,5.61 18.39,4 16.4,4H7.6M17.25,5.5A1.25,1.25 0 0,1 18.5,6.75A1.25,1.25 0 0,1 17.25,8A1.25,1.25 0 0,1 16,6.75A1.25,1.25 0 0,1 17.25,5.5M12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9Z"
+                          fill="currentColor"
                         />
                       </g>
                     </svg>
                   </span>
                   <a
                     className="emotion-21 emotion-22"
-                    href="https://twitter.com/ndla_no"
+                    href="https://instagram.com/ndla_no/"
                   >
-                    NDLA på Twitter
+                    NDLA på Instagram
+                    <svg
+                      className="c-icon"
+                      data-license="Apache License 2.0"
+                      data-source="Material Design"
+                      fill="currentColor"
+                      height="1em"
+                      preserveAspectRatio="xMidYMid meet"
+                      style={
+                        Object {
+                          "color": undefined,
+                          "verticalAlign": "middle",
+                        }
+                      }
+                      viewBox="0 0 24 24"
+                      width="1em"
+                    >
+                      <g>
+                        <path
+                          d="M0 0h24v24H0z"
+                          fill="none"
+                        />
+                        <path
+                          d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"
+                        />
+                      </g>
+                    </svg>
+                  </a>
+                </div>
+                <div
+                  className="emotion-37 emotion-38"
+                >
+                  <span
+                    className="emotion-33 emotion-34"
+                  >
+                    <svg
+                      className="c-icon"
+                      data-license="Apache License 2.0"
+                      data-source="Material Design Icons"
+                      fill="currentColor"
+                      height="1em"
+                      preserveAspectRatio="xMidYMid meet"
+                      style={
+                        Object {
+                          "color": undefined,
+                          "verticalAlign": "middle",
+                        }
+                      }
+                      viewBox="0 0 24 24"
+                      width="1em"
+                    >
+                      <g>
+                        <path
+                          d="M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19M18.5 18.5V13.2A3.26 3.26 0 0 0 15.24 9.94C14.39 9.94 13.4 10.46 12.92 11.24V10.13H10.13V18.5H12.92V13.57C12.92 12.8 13.54 12.17 14.31 12.17A1.4 1.4 0 0 1 15.71 13.57V18.5H18.5M6.88 8.56A1.68 1.68 0 0 0 8.56 6.88C8.56 5.95 7.81 5.19 6.88 5.19A1.69 1.69 0 0 0 5.19 6.88C5.19 7.81 5.95 8.56 6.88 8.56M8.27 18.5V10.13H5.5V18.5H8.27Z"
+                          fill="currentColor"
+                        />
+                      </g>
+                    </svg>
+                  </span>
+                  <a
+                    className="emotion-21 emotion-22"
+                    href="https://www.linkedin.com/company/ndla/"
+                  >
+                    NDLA på LinkedIn
                     <svg
                       className="c-icon"
                       data-license="Apache License 2.0"
@@ -1081,10 +1143,10 @@ exports[`ErrorPage renderers correctly 1`] = `
         </div>
       </div>
       <hr
-        className="emotion-63 emotion-64"
+        className="emotion-69 emotion-70"
       />
       <p
-        className="emotion-65 emotion-66"
+        className="emotion-71 emotion-72"
       >
         <span>
           <strong>
@@ -1096,23 +1158,23 @@ exports[`ErrorPage renderers correctly 1`] = `
         Nettstedet er utarbeidet av NDLA med åpen kildekode.
       </p>
       <div
-        className="emotion-65 emotion-70"
+        className="emotion-71 emotion-76"
       >
         <button
-          className="emotion-67 emotion-68"
+          className="emotion-73 emotion-74"
           onClick={[Function]}
           type="button"
         >
-          Personvernerklæring
+          Personvernerklæring og cookies
         </button>
       </div>
     </div>
     <div
-      className="emotion-71 emotion-72"
+      className="emotion-77 emotion-78"
     />
   </footer>
   <button
-    className="emotion-75 emotion-10"
+    className="emotion-81 emotion-10"
     disabled={false}
     id="zendeskButton"
     onClick={[Function]}

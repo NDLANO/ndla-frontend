@@ -15,8 +15,9 @@ import {
   createRef,
   MouseEvent,
 } from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import {
+  constants,
   ArticleHeaderWrapper,
   OneColumn,
   SubjectBanner,
@@ -24,60 +25,74 @@ import {
   NavigationHeading,
   Breadcrumblist,
   MessageBox,
+  FeideUserApiType,
 } from '@ndla/ui';
 import { withTracker } from '@ndla/tracker';
 import { useIntersectionObserver } from '@ndla/hooks';
-import { RouteComponentProps } from 'react-router';
-import { withRouter } from 'react-router';
 import { withTranslation, WithTranslation, TFunction } from 'react-i18next';
 import SubjectPageContent from './components/SubjectPageContent';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { scrollToRef } from './subjectPageHelpers';
 import CompetenceGoals from '../../components/CompetenceGoals';
 import { getSubjectBySubjectId, getSubjectLongName } from '../../data/subjects';
-import { parseAndMatchUrl } from '../../util/urlHelper';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { htmlTitle } from '../../util/titleHelper';
 import { BreadcrumbItem, LocaleType } from '../../interfaces';
 import { GQLSubjectContainer_SubjectFragment } from '../../graphqlTypes';
-import { FeideUserWithGroups } from '../../util/feideApi';
+import {
+  TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
+  TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE,
+} from '../../constants';
+import { useIsNdlaFilm } from '../../routeHelpers';
 
 type Props = {
   locale: LocaleType;
-  skipToContentId?: string;
   subjectId: string;
   topicIds: string[];
   subject: GQLSubjectContainer_SubjectFragment;
-  ndlaFilm?: boolean;
   loading?: boolean;
-  user?: FeideUserWithGroups;
-} & WithTranslation &
-  RouteComponentProps;
+  user?: FeideUserApiType;
+} & WithTranslation;
 
 const getSubjectCategoryMessage = (
   subjectCategory: string | undefined,
   t: TFunction,
 ): string | undefined => {
-  if (!subjectCategory || subjectCategory === 'active') {
+  if (
+    !subjectCategory ||
+    subjectCategory === constants.subjectCategories.ACTIVE_SUBJECTS
+  ) {
     return undefined;
-  } else if (subjectCategory === 'beta') {
+  } else if (subjectCategory === constants.subjectCategories.BETA_SUBJECTS) {
     return t('messageBoxInfo.subjectBeta');
-  } else if (subjectCategory === 'archive') {
+  } else if (subjectCategory === constants.subjectCategories.ARCHIVE_SUBJECTS) {
     return t('messageBoxInfo.subjectOutdated');
   } else {
     return undefined;
   }
 };
 
+const getSubjectTypeMessage = (
+  subjectType: string | undefined,
+  t: TFunction,
+): string | undefined => {
+  if (!subjectType || subjectType === constants.subjectTypes.SUBJECT) {
+    return undefined;
+  } else if (subjectType === constants.subjectTypes.RESOURCE_COLLECTION) {
+    return t('messageBoxInfo.resources');
+  } else {
+    return undefined;
+  }
+};
+
 const SubjectContainer = ({
-  history,
   locale,
   t,
   subjectId,
   topicIds,
   subject,
-  ndlaFilm,
 }: Props) => {
+  const ndlaFilm = useIsNdlaFilm();
   const { name: subjectName } = subject;
 
   const metaDescription = subject.subjectpage?.metaDescription;
@@ -189,12 +204,6 @@ const SubjectContainer = ({
     }
   };
 
-  const onClickTopics = (e: MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    const path = parseAndMatchUrl(e.currentTarget?.href, true);
-    history.push({ pathname: path?.url });
-  };
-
   // show/hide breadcrumb based on intersection
   const [containerRef, { entry }] = useIntersectionObserver({
     root: null,
@@ -227,7 +236,12 @@ const SubjectContainer = ({
     topicsOnPage[topicsOnPage.length - 1]?.supportedLanguages;
 
   const nonRegularSubjectMessage = getSubjectCategoryMessage(
-    subject.metadata.customFields['subjectCategory'],
+    subject.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY],
+    t,
+  );
+
+  const nonRegularSubjectTypeMessage = getSubjectTypeMessage(
+    subject.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE],
     t,
   );
 
@@ -263,11 +277,12 @@ const SubjectContainer = ({
             {nonRegularSubjectMessage && (
               <MessageBox>{nonRegularSubjectMessage}</MessageBox>
             )}
+            {nonRegularSubjectTypeMessage && (
+              <MessageBox>{nonRegularSubjectTypeMessage}</MessageBox>
+            )}
             <SubjectPageContent
               locale={locale}
               subject={subject}
-              ndlaFilm={ndlaFilm}
-              onClickTopics={onClickTopics}
               topicIds={topicIds}
               refs={topicRefs}
               setBreadCrumb={setBreadCrumb}
@@ -373,4 +388,4 @@ export const subjectContainerFragments = {
   `,
 };
 
-export default withTranslation()(withRouter(withTracker(SubjectContainer)));
+export default withTranslation()(withTracker(SubjectContainer));

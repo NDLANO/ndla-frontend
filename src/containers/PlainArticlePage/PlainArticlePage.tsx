@@ -8,7 +8,8 @@
 
 import { gql } from '@apollo/client';
 import { useContext } from 'react';
-import { RouteComponentProps, withRouter } from 'react-router';
+import { useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { ContentPlaceholder } from '@ndla/ui';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
@@ -22,10 +23,11 @@ import {
   GQLPlainArticlePageQuery,
   GQLPlainArticlePageQueryVariables,
 } from '../../graphqlTypes';
-import { RootComponentProps } from '../../routes';
 import { AuthContext } from '../../components/AuthenticationContext';
+import { TypedParams, useTypedParams } from '../../routeHelpers';
+import { SKIP_TO_CONTENT_ID } from '../../constants';
 
-interface MatchParams {
+interface MatchParams extends TypedParams {
   articleId: string;
 }
 
@@ -34,26 +36,35 @@ const plainArticlePageQuery = gql`
     $articleId: String!
     $isOembed: String
     $path: String
+    $showVisualElement: String
   ) {
-    article(id: $articleId, isOembed: $isOembed, path: $path) {
+    article(
+      id: $articleId
+      isOembed: $isOembed
+      path: $path
+      showVisualElement: $showVisualElement
+    ) {
       ...PlainArticleContainer_Article
     }
   }
   ${plainArticleContainerFragments.article}
 `;
 
-interface Props extends RootComponentProps, RouteComponentProps<MatchParams> {}
-const PlainArticlePage = ({ locale, match, skipToContentId }: Props) => {
+const PlainArticlePage = () => {
   const { user } = useContext(AuthContext);
-  const {
-    url,
-    params: { articleId },
-  } = match;
+  const { articleId } = useTypedParams<MatchParams>();
+  const { pathname } = useLocation();
+  const { i18n } = useTranslation();
   const { loading, data, error } = useGraphQuery<
     GQLPlainArticlePageQuery,
     GQLPlainArticlePageQueryVariables
   >(plainArticlePageQuery, {
-    variables: { articleId, isOembed: 'false', path: url },
+    variables: {
+      articleId,
+      isOembed: 'false',
+      path: pathname,
+      showVisualElement: 'true',
+    },
   });
 
   if (loading) {
@@ -78,11 +89,11 @@ const PlainArticlePage = ({ locale, match, skipToContentId }: Props) => {
   return (
     <PlainArticleContainer
       article={data.article}
-      locale={locale}
+      locale={i18n.language}
       user={user}
-      skipToContentId={skipToContentId}
+      skipToContentId={SKIP_TO_CONTENT_ID}
     />
   );
 };
 
-export default withRouter(PlainArticlePage);
+export default PlainArticlePage;

@@ -22,14 +22,18 @@ import { spacing } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import WelcomePageInfo from './WelcomePageInfo';
 import FrontpageSubjects from './FrontpageSubjects';
-import { FILM_PAGE_PATH, UKR_PAGE_PATH } from '../../constants';
+import {
+  FILM_PAGE_PATH,
+  SKIP_TO_CONTENT_ID,
+  UKR_PAGE_PATH,
+} from '../../constants';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import config from '../../config';
 import BlogPosts from './BlogPosts';
 import WelcomePageSearch from './WelcomePageSearch';
 import { toSubject, toTopic } from '../../routeHelpers';
-import { getSubjectById } from '../../data/subjects';
-import { LocaleType, SubjectType } from '../../interfaces';
+import { getSubjectById, multidisciplinaryTopics } from '../../data/subjects';
+import { LocaleType } from '../../interfaces';
 import { setClosedAlert, useAlerts } from '../../components/AlertsContext';
 
 const getUrlFromSubjectId = (subjectId: string) => {
@@ -45,40 +49,25 @@ const TOOLBOX_STUDENT_SUBJECT_ID =
   'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4';
 
 const getMultidisciplinaryTopics = (locale: LocaleType) => {
-  const topicIds = [
-    'urn:topic:3cdf9349-4593-498c-a899-9310133a4788',
-    'urn:topic:077a5e01-6bb8-4c0b-b1d4-94b683d91803',
-    'urn:topic:a2f5aaa0-ab52-49d5-aabf-e7ffeac47fa2',
-  ];
-
   const baseSubject = getSubjectById(MULTIDISCIPLINARY_SUBJECT_ID);
 
   if (!baseSubject) return [];
 
-  return topicIds
-    .map(topicId => getSubjectById(topicId))
-    .filter((subject): subject is SubjectType => subject !== undefined)
-    .map(subject => {
-      const topicIds = subject.topicId ? [subject.topicId] : [];
-      return {
-        id: subject.id,
-        title: subject.name?.[locale] ?? '',
-        url: toTopic(baseSubject.id, ...topicIds),
-      };
-    });
+  return multidisciplinaryTopics.map(topic => {
+    return {
+      id: topic.id,
+      title: topic.name[locale],
+      url: toTopic(baseSubject.id, topic.id),
+    };
+  });
 };
 
 const BannerCardWrapper = styled.div`
   padding-bottom: ${spacing.large};
 `;
 
-interface Props {
-  locale: LocaleType;
-  skipToContentId?: string;
-}
-
-const WelcomePage = ({ locale, skipToContentId }: Props) => {
-  const { t } = useTranslation();
+const WelcomePage = () => {
+  const { t, i18n } = useTranslation();
 
   const alerts = useAlerts().map(alert => ({
     content: alert.body || alert.title,
@@ -101,14 +90,12 @@ const WelcomePage = ({ locale, skipToContentId }: Props) => {
 
   return (
     <>
-      {skipToContentId && (
-        <a
-          tabIndex={0}
-          href={`#${skipToContentId}`}
-          className="c-masthead__skip-to-main-content">
-          {t('masthead.skipToContent')}
-        </a>
-      )}
+      <a
+        tabIndex={0}
+        href={`#${SKIP_TO_CONTENT_ID}`}
+        className="c-masthead__skip-to-main-content">
+        {t('masthead.skipToContent')}
+      </a>
       <HelmetWithTracker title={t('htmlTitles.welcomePage')}>
         <script type="application/ld+json">{googleSearchJSONLd()}</script>
       </HelmetWithTracker>
@@ -126,7 +113,7 @@ const WelcomePage = ({ locale, skipToContentId }: Props) => {
           {alert.content}
         </MessageBox>
       ))}
-      <FrontpageHeader locale={locale} showHeader={true}>
+      <FrontpageHeader locale={i18n.language} showHeader={true}>
         <WelcomePageSearch />
       </FrontpageHeader>
       <main>
@@ -143,20 +130,20 @@ const WelcomePage = ({ locale, skipToContentId }: Props) => {
               }}
             />
           </BannerCardWrapper>
-          <div data-testid="category-list" id={skipToContentId}>
-            <FrontpageSubjects locale={locale} />
+          <div data-testid="category-list" id={SKIP_TO_CONTENT_ID}>
+            <FrontpageSubjects locale={i18n.language} />
           </div>
         </OneColumn>
         <OneColumn wide>
           <FrontpageMultidisciplinarySubject
             url={getUrlFromSubjectId(MULTIDISCIPLINARY_SUBJECT_ID)}
-            topics={getMultidisciplinaryTopics(locale)}
+            topics={getMultidisciplinaryTopics(i18n.language)}
           />
           <FrontpageToolbox
             urlStudents={getUrlFromSubjectId(TOOLBOX_STUDENT_SUBJECT_ID)}
             urlTeachers={getUrlFromSubjectId(TOOLBOX_TEACHER_SUBJECT_ID)}
           />
-          <BlogPosts locale={locale} />
+          <BlogPosts locale={i18n.language} />
           <FrontpageFilm
             imageUrl="/static/film_illustrasjon.svg"
             url={FILM_PAGE_PATH}

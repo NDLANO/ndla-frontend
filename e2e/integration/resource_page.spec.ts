@@ -11,7 +11,7 @@ describe('Resource page', () => {
     cy.fixCypressSpec('/e2e/integration/resource_page.spec.ts');
     cy.gqlIntercept({
       alias: 'resourcePage',
-      operations: ['resourcePage', 'mastHead', 'alerts'],
+      operations: ['resourcePage', 'alerts', 'mastHead'],
     });
   });
 
@@ -21,7 +21,7 @@ describe('Resource page', () => {
     );
     cy.gqlWait('@resourcePage');
     cy.get('.o-content').within(() => {
-      cy.get('.c-breadcrumb__list > li').should($list => {
+      cy.get('nav > ol > li').should($list => {
         expect($list).to.have.length(4);
       });
       cy.get('h1').contains('Muntlig eksamen MIK 1');

@@ -7,7 +7,7 @@
  */
 
 import { gql } from '@apollo/client';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
 import Article from '../Article';
@@ -81,7 +81,7 @@ const LearningpathEmbed = ({
   const learningpathStepResource = learningpathStep.resource;
 
   if (!learningpathStepResource?.article) {
-    return <ErrorPage locale={locale} />;
+    return <ErrorPage />;
   }
 
   const article = transformArticle(learningpathStepResource.article, locale);

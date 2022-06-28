@@ -8,35 +8,37 @@
 
 import { gql } from '@apollo/client';
 import { withTracker } from '@ndla/tracker';
-import { OneColumn, SubjectBanner, ToolboxInfo } from '@ndla/ui';
-import { useEffect, useState, MouseEvent, createRef } from 'react';
-import { Helmet } from 'react-helmet';
+import {
+  FeideUserApiType,
+  OneColumn,
+  SubjectBanner,
+  ToolboxInfo,
+} from '@ndla/ui';
+import { useEffect, createRef } from 'react';
+import { Helmet } from 'react-helmet-async';
 import {
   useTranslation,
   withTranslation,
   WithTranslation,
 } from 'react-i18next';
-import { RouteComponentProps, useLocation, withRouter } from 'react-router';
 import { getSubjectLongName } from '../../data/subjects';
 import { GQLToolboxSubjectContainer_SubjectFragment } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
 import { toTopic } from '../../routeHelpers';
 import { htmlTitle } from '../../util/titleHelper';
 import { getAllDimensions } from '../../util/trackingUtil';
-import { parseAndMatchUrl } from '../../util/urlHelper';
 import { ToolboxTopicContainer } from './components/ToolboxTopicContainer';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
-import { FeideUserWithGroups } from '../../util/feideApi';
 
-interface Props extends WithTranslation, RouteComponentProps {
+interface Props extends WithTranslation {
   subject: GQLToolboxSubjectContainer_SubjectFragment;
   topicList: string[];
   locale: LocaleType;
-  user?: FeideUserWithGroups;
+  user?: FeideUserApiType;
 }
 
 const getSocialMediaMetaData = (
-  { subject, topicList, t }: Props,
+  { subject, topicList, t }: Pick<Props, 'subject' | 'topicList' | 't'>,
   selectedTopics?: string[],
 ) => {
   const topics = selectedTopics ?? getInitialSelectedTopics(topicList, subject);
@@ -88,14 +90,11 @@ const getInitialSelectedTopics = (
   return initialSelectedTopics;
 };
 
-const ToolboxSubjectContainer = (props: Props) => {
-  const { topicList, locale, subject, history } = props;
+const ToolboxSubjectContainer = ({ topicList, locale, subject }: Props) => {
   const { t } = useTranslation();
-  const location = useLocation();
+  const selectedTopics = topicList;
 
   const refs = topicList.map(() => createRef<HTMLDivElement>());
-  const initialSelectedTopics = getInitialSelectedTopics(topicList, subject);
-  const [selectedTopics, setSelectedTopics] = useState(initialSelectedTopics);
 
   const scrollToTopic = (index: number) => {
     const ref = refs[index];
@@ -114,14 +113,6 @@ const ToolboxSubjectContainer = (props: Props) => {
     scrollToTopic(topicList.length - 1);
   });
 
-  useEffect(() => {
-    const topics = location.pathname
-      .split('/')
-      .filter(id => id.startsWith('topic'))
-      .map(id => `urn:${id}`);
-    setSelectedTopics(topics);
-  }, [location]);
-
   const topics = subject.topics?.map(topic => {
     return {
       ...topic,
@@ -130,30 +121,6 @@ const ToolboxSubjectContainer = (props: Props) => {
       url: toTopic(subject.id, topic.id),
     };
   });
-
-  const onSelectTopic = (
-    e: MouseEvent<HTMLAnchorElement>,
-    index: number,
-    id?: string,
-  ) => {
-    e.preventDefault();
-    if (id) {
-      const topic = subject.allTopics?.find(topic => topic.id === id);
-      if (topic) {
-        if (index === 0) {
-          setSelectedTopics([topic.id]);
-        } else if (index > 0) {
-          const updatedSelectedTopics = selectedTopics.slice(0, index + 1);
-          updatedSelectedTopics[index] = id;
-          setSelectedTopics(updatedSelectedTopics);
-        }
-        const path = parseAndMatchUrl(e.currentTarget?.href, true);
-        history.replace({
-          pathname: path?.url,
-        });
-      }
-    }
-  };
 
   const TopicBoxes = () => (
     <>
@@ -164,7 +131,6 @@ const ToolboxSubjectContainer = (props: Props) => {
               subject={subject}
               topicId={topic}
               locale={locale}
-              onSelectTopic={onSelectTopic}
               topicList={topicList}
               index={index}
             />
@@ -178,7 +144,10 @@ const ToolboxSubjectContainer = (props: Props) => {
     return null;
   }
 
-  const socialMediaMetaData = getSocialMediaMetaData(props, selectedTopics);
+  const socialMediaMetaData = getSocialMediaMetaData(
+    { subject, topicList, t },
+    selectedTopics,
+  );
 
   return (
     <>
@@ -200,9 +169,6 @@ const ToolboxSubjectContainer = (props: Props) => {
       <OneColumn className={''}>
         <ToolboxInfo
           topics={topics}
-          onSelectTopic={(e: MouseEvent<HTMLElement>, id?: string) =>
-            onSelectTopic(e as MouseEvent<HTMLAnchorElement>, 0, id)
-          }
           title={getSubjectLongName(subject.id, locale) || subject.name}
           introduction={t('htmlTitles.toolbox.introduction')}
         />
@@ -282,6 +248,4 @@ ToolboxSubjectContainer.getDimensions = (props: Props) => {
   });
 };
 
-export default withTranslation()(
-  withRouter(withTracker(ToolboxSubjectContainer)),
-);
+export default withTranslation()(withTracker(ToolboxSubjectContainer));

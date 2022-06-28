@@ -8,8 +8,8 @@
 
 import { gql } from '@apollo/client';
 import { useEffect, useState } from 'react';
-import { Helmet } from 'react-helmet';
-import { OneColumn, LayoutItem } from '@ndla/ui';
+import { Helmet } from 'react-helmet-async';
+import { OneColumn, LayoutItem, FeideUserApiType } from '@ndla/ui';
 import { withTracker } from '@ndla/tracker';
 import { TFunction, WithTranslation, withTranslation } from 'react-i18next';
 import { GraphQLError } from 'graphql';
@@ -43,7 +43,6 @@ import {
   GQLArticlePage_TopicPathFragment,
 } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
-import { FeideUserWithGroups } from '../../util/feideApi';
 
 interface Props extends WithTranslation {
   resource?: GQLArticlePage_ResourceFragment;
@@ -53,9 +52,8 @@ interface Props extends WithTranslation {
   subject?: GQLArticlePage_SubjectFragment;
   resourceTypes?: GQLArticlePage_ResourceTypeFragment[];
   errors?: readonly GraphQLError[];
-  ndlaFilm: boolean;
   loading?: boolean;
-  user?: FeideUserWithGroups;
+  user?: FeideUserApiType;
   skipToContentId?: string;
 }
 
@@ -66,7 +64,6 @@ const ArticlePage = ({
   subject,
   topicPath,
   errors,
-  ndlaFilm,
   i18n,
   t,
   skipToContentId,
@@ -102,13 +99,7 @@ const ArticlePage = ({
         <ArticleErrorMessage
           //@ts-ignore
           status={error?.status}>
-          {topic && (
-            <Resources
-              topic={topic}
-              resourceTypes={resourceTypes}
-              ndlaFilm={ndlaFilm}
-            />
-          )}
+          {topic && <Resources topic={topic} resourceTypes={resourceTypes} />}
         </ArticleErrorMessage>
       </div>
     );
@@ -133,7 +124,6 @@ const ArticlePage = ({
   return (
     <div>
       <ArticleHero
-        ndlaFilm={ndlaFilm}
         subject={subject}
         resourceType={resourceType}
         metaImage={article.metaImage}
@@ -180,11 +170,7 @@ const ArticlePage = ({
         />
         {topic && (
           <LayoutItem layout="extend">
-            <Resources
-              topic={topic}
-              resourceTypes={resourceTypes}
-              ndlaFilm={ndlaFilm}
-            />
+            <Resources topic={topic} resourceTypes={resourceTypes} />
           </LayoutItem>
         )}
       </OneColumn>

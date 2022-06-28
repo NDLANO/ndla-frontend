@@ -7,9 +7,8 @@
  */
 
 import { gql } from '@apollo/client';
-import { MouseEvent } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
-import { Topic } from '@ndla/ui';
+import { FeideUserApiType, Topic } from '@ndla/ui';
 import { withTracker } from '@ndla/tracker';
 import { TopicProps } from '@ndla/ui/lib/Topic/Topic';
 import VisualElementWrapper, {
@@ -27,22 +26,16 @@ import {
 import { getSubjectLongName } from '../../../data/subjects';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import { htmlTitle } from '../../../util/titleHelper';
-import { FeideUserWithGroups } from '../../../util/feideApi';
 
 interface Props extends WithTranslation {
   subject: GQLToolboxTopicWrapper_SubjectFragment;
   topic: GQLToolboxTopicWrapper_TopicFragment;
   resourceTypes?: GQLToolboxTopicWrapper_ResourceTypeDefinitionFragment[];
   locale: LocaleType;
-  onSelectTopic: (
-    e: MouseEvent<HTMLAnchorElement>,
-    index: number,
-    id?: string,
-  ) => void;
   topicList: Array<string>;
   index: number;
   loading?: boolean;
-  user?: FeideUserWithGroups;
+  user?: FeideUserApiType;
 }
 
 const getDocumentTitle = ({ t, topic }: Props) => {
@@ -52,7 +45,6 @@ const getDocumentTitle = ({ t, topic }: Props) => {
 const ToolboxTopicWrapper = ({
   subject,
   locale,
-  onSelectTopic,
   topicList,
   index,
   topic,
@@ -120,9 +112,6 @@ const ToolboxTopicWrapper = ({
       frame={subTopics?.length === 0}
       isLoading={loading}
       subTopics={subTopics}
-      onSubTopicSelected={(e: MouseEvent<HTMLElement>, id?: string) =>
-        onSelectTopic(e as MouseEvent<HTMLAnchorElement>, index + 1, id)
-      }
       topic={toolboxTopic.topic}
     />
   );

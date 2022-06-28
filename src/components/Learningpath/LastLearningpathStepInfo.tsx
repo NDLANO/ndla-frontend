@@ -24,7 +24,6 @@ interface Props {
   seqNo: number;
   numberOfLearningSteps: number;
   title: string;
-  ndlaFilm?: boolean;
 }
 const LastLearningpathStepInfo = ({
   topic,
@@ -34,7 +33,6 @@ const LastLearningpathStepInfo = ({
   seqNo,
   numberOfLearningSteps,
   title,
-  ndlaFilm,
 }: Props) => {
   const isLastStep = seqNo === numberOfLearningSteps;
 
@@ -73,7 +71,6 @@ const LastLearningpathStepInfo = ({
           key="resources"
           resourceTypes={resourceTypes}
           topic={topic}
-          ndlaFilm={ndlaFilm}
         />
       )}
     </LearningPathLastStepNavigation>

@@ -7,7 +7,7 @@
  */
 
 import { gql } from '@apollo/client';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { withTracker } from '@ndla/tracker';
 import { OneColumn, CreatedBy, constants } from '@ndla/ui';
 import { CustomWithTranslation, withTranslation } from 'react-i18next';

@@ -21,7 +21,8 @@ const connectSrc = (() => {
     'ws://*.hotjar.com wss://*.hotjar.com',
     'https://*.hotjar.com',
     'https://*.hotjar.com:*',
-    'https://www.google-analytics.com',
+    'https://*.google-analytics.com',
+    'https://*.analytics.google.com',
     'https://*.zendesk.com',
     'https://ekr.zdassets.com',
     'https://optimize.google.com',
@@ -193,6 +194,7 @@ const frameSrc = (() => {
     'flo.uri.sh',
     'ourworldindata.org',
     '*.sketchup.com',
+    'www.gapminder.org',
   ];
   if (process.env.NODE_ENV === 'development') {
     return [
@@ -202,6 +204,20 @@ const frameSrc = (() => {
     ];
   }
   return defaultFrameSrc;
+})();
+
+const fontSrc = (() => {
+  const defaultFontSrc = [
+    "'self'",
+    'data:',
+    'cdnjs.cloudflare.com',
+    'https://*.hotjar.com',
+    'cdn.jsdelivr.net',
+  ];
+  if (process.env.NODE_ENV === 'development') {
+    return defaultFontSrc.concat('http://localhost:3001');
+  }
+  return defaultFontSrc;
 })();
 
 const contentSecurityPolicy = {
@@ -214,26 +230,17 @@ const contentSecurityPolicy = {
       "'unsafe-inline'",
       "'unsafe-eval'",
       'https://optimize.google.com',
-      'https://fonts.googleapis.com',
-      'https://fonts.gstatic.com',
       'https://tagmanager.google.com',
       '*.twitter.com',
       '*.twimg.com',
     ],
-    fontSrc: [
-      "'self'",
-      'https://fonts.googleapis.com',
-      'https://fonts.gstatic.com',
-      'data:',
-      'cdnjs.cloudflare.com',
-      'https://*.hotjar.com',
-      'cdn.jsdelivr.net',
-    ],
+    fontSrc: fontSrc,
     imgSrc: [
       "'self'",
       'http://api-gateway.ndla-local',
       'https://*.ndla.no',
-      'https://www.google-analytics.com',
+      'https://*.google-analytics.com',
+      'https://*.analytics.google.com',
       'https://optimize.google.com',
       'https://stats.g.doubleclick.net',
       'http://metrics.brightcove.com',

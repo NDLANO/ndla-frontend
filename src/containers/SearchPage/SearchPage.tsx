@@ -8,7 +8,7 @@
 import { HelmetWithTracker } from '@ndla/tracker';
 import { ContentPlaceholder, OneColumn } from '@ndla/ui';
 import queryString from 'query-string';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 import { searchPageQuery } from '../../queries';
@@ -20,7 +20,6 @@ import {
 import { searchSubjects } from '../../util/searchHelpers';
 import { useGraphQuery } from '../../util/runQueries';
 import { GQLSearchPageQuery } from '../../graphqlTypes';
-import { RootComponentProps } from '../../routes';
 
 const getStateSearchParams = (searchParams: Record<string, any>) => {
   const stateSearchParams: Record<string, any> = {};
@@ -30,14 +29,11 @@ const getStateSearchParams = (searchParams: Record<string, any>) => {
   return stateSearchParams;
 };
 
-interface MatchParams {
-  subjectId?: string;
-}
-
-interface Props extends RouteComponentProps<MatchParams>, RootComponentProps {}
-const SearchPage = ({ location, locale, history }: Props) => {
-  const { t } = useTranslation();
-  const searchParams = converSearchStringToObject(location, locale);
+const SearchPage = () => {
+  const { t, i18n } = useTranslation();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const searchParams = converSearchStringToObject(location, i18n.language);
   //const stateSearchParams = getStateSearchParams(searchParams);
   const subjects = searchSubjects(searchParams.query);
   const subjectItems = subjects.map(subject => ({
@@ -60,7 +56,7 @@ const SearchPage = ({ location, locale, history }: Props) => {
   );*/
 
   const handleSearchParamsChange = (searchParams: Record<string, any>) => {
-    history.push({
+    navigate({
       pathname: '/search',
       search: queryString.stringify({
         ...queryString.parse(location.search),
@@ -95,4 +91,4 @@ const SearchPage = ({ location, locale, history }: Props) => {
   );
 };
 
-export default withRouter(SearchPage);
+export default SearchPage;

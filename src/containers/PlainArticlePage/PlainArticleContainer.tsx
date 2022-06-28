@@ -8,9 +8,9 @@
 
 import { gql } from '@apollo/client';
 import { useEffect } from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { CustomWithTranslation, withTranslation } from 'react-i18next';
-import { OneColumn } from '@ndla/ui';
+import { FeideUserApiType, OneColumn } from '@ndla/ui';
 import { withTracker } from '@ndla/tracker';
 import { transformArticle } from '../../util/transformArticle';
 import { getArticleScripts } from '../../util/getArticleScripts';
@@ -25,12 +25,11 @@ import { GQLPlainArticleContainer_ArticleFragment } from '../../graphqlTypes';
 import { LocaleType } from '../../interfaces';
 import { getArticleProps } from '../../util/getArticleProps';
 import { getAllDimensions } from '../../util/trackingUtil';
-import { FeideUserWithGroups } from '../../util/feideApi';
 
 interface Props extends CustomWithTranslation {
   article: GQLPlainArticleContainer_ArticleFragment;
   locale: LocaleType;
-  user?: FeideUserWithGroups;
+  user?: FeideUserApiType;
   skipToContentId?: string;
 }
 

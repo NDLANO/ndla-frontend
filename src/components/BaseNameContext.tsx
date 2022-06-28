@@ -1,12 +1,10 @@
 import { createContext, ReactNode, useContext } from 'react';
-import { LocaleType } from '../interfaces';
 
-const BaseNameContext = createContext<LocaleType | ''>('');
-type BaseNameType = LocaleType | '';
+const BaseNameContext = createContext<string>('');
 
 interface Props {
   children: ReactNode;
-  value?: BaseNameType;
+  value?: string;
 }
 
 const BaseNameProvider = ({ children, value = '' }: Props) => {

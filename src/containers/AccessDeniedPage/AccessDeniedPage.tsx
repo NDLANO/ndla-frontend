@@ -10,14 +10,14 @@ import { useContext } from 'react';
 import { OneColumn, ErrorResourceAccessDenied } from '@ndla/ui';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { useTranslation } from 'react-i18next';
-import { useHistory, useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Status } from '../../components';
 import { AuthContext } from '../../components/AuthenticationContext';
 
 const AccessDenied = () => {
   const { t } = useTranslation();
   const location = useLocation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const { authenticated } = useContext(AuthContext);
   const statusCode = authenticated ? 403 : 401;
 
@@ -32,9 +32,9 @@ const AccessDenied = () => {
               location && localStorage.setItem('lastPath', location.pathname);
             }
             if (authenticated) {
-              history.push('/logout');
+              navigate('/logout');
             } else {
-              history.push('/login');
+              navigate('/login');
             }
           }}
         />

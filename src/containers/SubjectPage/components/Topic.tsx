@@ -7,17 +7,17 @@
  */
 
 import { gql } from '@apollo/client';
-import { useEffect, useMemo, useState, MouseEvent } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Remarkable } from 'remarkable';
 import { TFunction, withTranslation, WithTranslation } from 'react-i18next';
-import { Topic as UITopic } from '@ndla/ui';
+import { FeideUserApiType, Topic as UITopic } from '@ndla/ui';
 import { TopicProps } from '@ndla/ui/lib/Topic/Topic';
 import { withTracker } from '@ndla/tracker';
 import config from '../../../config';
 import { RELEVANCE_SUPPLEMENTARY } from '../../../constants';
 import ArticleContents from '../../../components/Article/ArticleContents';
 import Resources from '../../Resources/Resources';
-import { toTopic } from '../../../routeHelpers';
+import { toTopic, useIsNdlaFilm } from '../../../routeHelpers';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import { htmlTitle } from '../../../util/titleHelper';
 import {
@@ -35,7 +35,6 @@ import { LocaleType } from '../../../interfaces';
 import VisualElementWrapper, {
   getResourceType,
 } from '../../../components/VisualElement/VisualElementWrapper';
-import { FeideUserWithGroups } from '../../../util/feideApi';
 
 const getDocumentTitle = ({
   t,
@@ -52,15 +51,13 @@ type Props = {
   subjectId: string;
   subTopicId?: string;
   locale: LocaleType;
-  ndlaFilm?: boolean;
-  onClickTopics: (e: MouseEvent<HTMLAnchorElement>) => void;
   index?: number;
   showResources?: boolean;
   subject?: GQLTopic_SubjectFragment;
   loading?: boolean;
   topic: GQLTopic_TopicFragment;
   resourceTypes?: GQLTopic_ResourceTypeDefinitionFragment[];
-  user?: FeideUserWithGroups;
+  user?: FeideUserApiType;
 } & WithTranslation;
 
 const Topic = ({
@@ -68,8 +65,6 @@ const Topic = ({
   subjectId,
   locale,
   subTopicId,
-  ndlaFilm,
-  onClickTopics,
   topic,
   resourceTypes,
 }: Props) => {
@@ -80,6 +75,7 @@ const Topic = ({
     md.block.ruler.disable(['list']);
     return md;
   }, []);
+  const ndlaFilm = useIsNdlaFilm();
   const renderMarkdown = (text: string) => markdown.render(text);
 
   useEffect(() => {
@@ -123,11 +119,7 @@ const Topic = ({
           }
         : undefined,
       resources: topic.subtopics ? (
-        <Resources
-          topic={topic}
-          resourceTypes={resourceTypes}
-          ndlaFilm={ndlaFilm}
-        />
+        <Resources topic={topic} resourceTypes={resourceTypes} />
       ) : (
         undefined
       ),
@@ -162,10 +154,7 @@ const Topic = ({
       isLoading={false}
       renderMarkdown={renderMarkdown}
       invertedStyle={ndlaFilm}
-      isAdditionalTopic={topic.relevanceId === RELEVANCE_SUPPLEMENTARY}
-      onSubTopicSelected={(e: MouseEvent<HTMLElement>) =>
-        onClickTopics(e as MouseEvent<HTMLAnchorElement>)
-      }>
+      isAdditionalTopic={topic.relevanceId === RELEVANCE_SUPPLEMENTARY}>
       <ArticleContents
         topic={topic}
         copyPageUrlLink={copyPageUrlLink}
@@ -241,6 +230,7 @@ export const topicFragments = {
         visualElement {
           ...VisualElementWrapper_VisualElement
         }
+        revisionDate
       }
       ...ArticleContents_Topic
       ...Resources_Topic

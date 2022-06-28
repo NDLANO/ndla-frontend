@@ -6,6 +6,7 @@
  *
  */
 
+@import '~@ndla/tooltip/dist/all';
 @import '~@ndla/core/scss/core';
 @import '~@ndla/icons/scss/icons';
 @import '~@ndla/ui/src/main';

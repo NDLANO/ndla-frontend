@@ -6,38 +6,48 @@
  *
  */
 
-import PropTypes from 'prop-types';
-import { Content, Masthead, MastheadItem, Logo } from '@ndla/ui';
-import { RouteProps } from 'react-router';
+import { Content, Masthead, MastheadItem, Logo, PageContainer } from '@ndla/ui';
+import ZendeskButton from '@ndla/zendesk';
+import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
-import Page from '../Page/Page';
-import { LocationShape } from '../../shapes';
-import { LocaleType } from '../../interfaces';
+import config from '../../config';
+import FeideFooter from '../Page/components/FeideFooter';
+import Footer from '../Page/components/Footer';
 
-interface Props extends RouteProps {
-  locale: LocaleType;
-}
-
-const ErrorPage = ({ locale, location }: Props) => {
-  const { t } = useTranslation();
+const ErrorPage = () => {
+  const { t, i18n } = useTranslation();
+  const zendeskLanguage =
+    i18n.language === 'nb' || i18n.language === 'nn' ? 'no' : i18n.language;
   return (
-    <Page location={location}>
+    <PageContainer backgroundWide={true} ndlaFilm={false}>
+      <Helmet
+        htmlAttributes={{ lang: i18n.language }}
+        title="NDLA"
+        meta={[{ name: 'description', content: t('meta.description') }]}
+      />
+      <Helmet>
+        <meta property="fb:app_id" content="115263542481787" />
+      </Helmet>
       <Masthead fixed>
         <MastheadItem right>
-          <Logo to="/" locale={locale} label={t('logo.altText')} />
+          <Logo to="/" locale={i18n.language} label={t('logo.altText')} />
         </MastheadItem>
       </Masthead>
       <Content>
         <DefaultErrorMessage />
       </Content>
-    </Page>
+      <Footer />
+      {config.feideEnabled && <FeideFooter />}
+      {config.zendeskWidgetKey && (
+        <ZendeskButton
+          locale={zendeskLanguage}
+          widgetKey={config.zendeskWidgetKey}>
+          {t('askNDLA')}
+        </ZendeskButton>
+      )}
+    </PageContainer>
   );
-};
-
-ErrorPage.propTypes = {
-  locale: PropTypes.string.isRequired,
-  location: LocationShape,
 };
 
 export default ErrorPage;

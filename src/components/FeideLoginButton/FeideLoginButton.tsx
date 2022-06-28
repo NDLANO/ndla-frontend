@@ -7,9 +7,7 @@
  */
 
 import { ReactElement, useContext } from 'react';
-import { RouteProps, useHistory } from 'react-router';
-import { useTranslation } from 'react-i18next';
-import { compact } from 'lodash';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { AuthModal } from '@ndla/ui';
 import styled from '@emotion/styled';
@@ -53,22 +51,12 @@ const FeideFooterButton = styled(StyledButton)`
 interface Props {
   footer?: boolean;
   children?: ReactElement;
-  location: RouteProps['location'];
 }
 
-const FeideLoginButton = ({ footer, children, location }: Props) => {
-  const { t } = useTranslation();
-  const history = useHistory();
+const FeideLoginButton = ({ footer, children }: Props) => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const { authenticated, user } = useContext(AuthContext);
-  const primarySchool = user?.primarySchool;
-  const affiliationRole = user?.eduPersonPrimaryAffiliation;
-
-  const collectedInfo: string[] = compact([
-    primarySchool?.displayName,
-    affiliationRole ? (t('user.role.' + affiliationRole) as string) : undefined,
-    user?.displayName,
-    ...(user?.mail ? user.mail : []),
-  ]);
 
   return (
     <AuthModal
@@ -80,14 +68,13 @@ const FeideLoginButton = ({ footer, children, location }: Props) => {
         )
       }
       isAuthenticated={authenticated}
-      authorizedCollectedInfo={collectedInfo}
-      authorizedRole={affiliationRole && t('user.role.' + affiliationRole)}
+      user={user}
       onAuthenticateClick={() => {
         location && localStorage.setItem('lastPath', location.pathname);
         if (authenticated) {
-          history.push('/logout');
+          navigate('/logout');
         } else {
-          history.push('/login');
+          navigate('/login');
         }
       }}
     />

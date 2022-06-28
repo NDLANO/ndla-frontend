@@ -8,8 +8,7 @@
 
 import { useEffect } from 'react';
 import { ArticleTitle, getMastheadHeight, OneColumn } from '@ndla/ui';
-import { Redirect, withRouter } from 'react-router-dom';
-import { RouteComponentProps, useLocation } from 'react-router';
+import { Navigate, useLocation } from 'react-router-dom';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { useTranslation } from 'react-i18next';
 import { gql, useQuery } from '@apollo/client';
@@ -17,7 +16,6 @@ import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import Podcast from './Podcast';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
-import { LocaleType } from '.../../../interfaces';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import {
   MastheadHeightPx,
@@ -25,14 +23,10 @@ import {
 } from '../../constants';
 import config from '../../config';
 import { GQLPodcastSeriesPageQuery } from '../../graphqlTypes';
+import { TypedParams, useTypedParams } from '../../routeHelpers';
 
-interface RouteParams {
+interface RouteParams extends TypedParams {
   id: string;
-}
-
-interface Props extends RouteComponentProps<RouteParams> {
-  locale: LocaleType;
-  skipToContentId: string;
 }
 
 const TitleWrapper = styled.div`
@@ -63,11 +57,8 @@ const NoResults = styled.div`
   padding-top: ${spacing.medium};
 `;
 
-const PodcastSeriesPage = ({
-  match: {
-    params: { id },
-  },
-}: Props) => {
+const PodcastSeriesPage = () => {
+  const { id } = useTypedParams<RouteParams>();
   const { error, loading, data: { podcastSeries } = {} } = useQuery<
     GQLPodcastSeriesPageQuery
   >(podcastSeriesPageQuery, {
@@ -109,7 +100,7 @@ const PodcastSeriesPage = ({
   }
 
   if (!podcastSeries) {
-    return <Redirect to={PODCAST_SERIES_LIST_PAGE_PATH} />;
+    return <Navigate to={PODCAST_SERIES_LIST_PAGE_PATH} replace />;
   }
 
   if (error) {
@@ -194,4 +185,4 @@ const podcastSeriesPageQuery = gql`
   }
 `;
 
-export default withRouter(PodcastSeriesPage);
+export default PodcastSeriesPage;
