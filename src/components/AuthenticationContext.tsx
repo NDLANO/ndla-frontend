@@ -5,23 +5,21 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { useState, createContext, useEffect, ReactNode } from 'react';
-import {
-  FeideUserWithGroups,
-  fetchFeideUserWithGroups,
-} from '../util/feideApi';
+import { FeideUserApiType } from '@ndla/ui';
+import { createContext, ReactNode, useEffect, useState } from 'react';
 import {
   getFeideCookie,
   isAccessTokenValid,
   millisUntilExpiration,
 } from '../util/authHelpers';
+import { fetchFeideUserWithGroups } from '../util/feideApi';
 
 interface AuthContextType {
   authenticated: boolean;
   authContextLoaded: boolean;
   login: () => void;
   logout: () => void;
-  user: FeideUserWithGroups | undefined;
+  user: FeideUserApiType | undefined;
 }
 
 export const AuthContext = createContext<AuthContextType>({
@@ -42,7 +40,7 @@ const AuthenticationContext = ({ children, initialValue }: Props) => {
     initialValue ? isAccessTokenValid(getFeideCookie(initialValue)) : false,
   );
   const [authContextLoaded, setLoaded] = useState(false);
-  const [user, setUser] = useState<FeideUserWithGroups | undefined>(undefined);
+  const [user, setUser] = useState<FeideUserApiType | undefined>(undefined);
 
   useEffect(() => {
     const isValid = isAccessTokenValid();

@@ -89,8 +89,6 @@ exports[`ErrorPage renderers correctly 1`] = `
   font-weight: 400;
   padding: 13px 19.5px;
   border-radius: 26px;
-  -webkit-transition: background-color 200ms ease-in-out;
-  transition: background-color 200ms ease-in-out;
   color: #20588f;
   font-size: 16px;
   font-size: 0.8888888888888888rem;

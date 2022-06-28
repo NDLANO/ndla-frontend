@@ -6,6 +6,7 @@
  *
  */
 
+import '../style/index.css';
 import ReactDOM from 'react-dom';
 import { I18nextProvider } from 'react-i18next';
 import { HelmetProvider } from 'react-helmet-async';
