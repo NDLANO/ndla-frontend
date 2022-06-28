@@ -34,6 +34,10 @@ const messages = {
     pageInfo: 'Page {{page}} of {{lastPage}}',
     noResults: '...No episodes',
   },
+  messageBoxInfo: {
+    subjectBeta:
+      'This course is in beta. New resources are being added continously.',
+  },
   blogPosts: {
     blog1: {
       imageUrl: '/static/nye-fag.jpg',
