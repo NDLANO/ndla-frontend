@@ -14,8 +14,7 @@ import {
   OneColumn,
   FrontpageToolbox,
   FrontpageMultidisciplinarySubject,
-  MessageBox,
-  MessageBoxType,
+  MessageBanner,
   BannerCard,
 } from '@ndla/ui';
 import { spacing } from '@ndla/core';
@@ -106,12 +105,11 @@ const WelcomePage = () => {
         <meta name="keywords" content={t('meta.keywords')} />
       </SocialMediaMetadata>
       {alerts?.map(alert => (
-        <MessageBox
-          type={MessageBoxType.fullpage}
+        <MessageBanner
           onClose={() => setClosedAlert(alert.number)}
           showCloseButton={alert.closable}>
           {alert.content}
-        </MessageBox>
+        </MessageBanner>
       ))}
       <FrontpageHeader locale={i18n.language} showHeader={true}>
         <WelcomePageSearch />
