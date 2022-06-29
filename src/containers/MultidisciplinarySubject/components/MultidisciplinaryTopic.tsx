@@ -6,29 +6,28 @@
  *
  */
 import { gql } from '@apollo/client';
-import { useEffect, useMemo, useState } from 'react';
-import { Remarkable } from 'remarkable';
-import { FeideUserApiType, Topic as UITopic } from '@ndla/ui';
-import { TopicProps } from '@ndla/ui/lib/Topic/Topic';
 import { withTracker } from '@ndla/tracker';
+import { FeideUserApiType, Topic as UITopic, TopicProps } from '@ndla/ui';
+import { useEffect, useMemo, useState } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
-import config from '../../../config';
+import { Remarkable } from 'remarkable';
 import ArticleContents from '../../../components/Article/ArticleContents';
-import { toTopic, useIsNdlaFilm } from '../../../routeHelpers';
-import { getAllDimensions } from '../../../util/trackingUtil';
-import { htmlTitle } from '../../../util/titleHelper';
-import { getCrop, getFocalPoint } from '../../../util/imageHelpers';
-import { getSubjectLongName } from '../../../data/subjects';
-import Resources from '../../Resources/Resources';
 import VisualElementWrapper, {
   getResourceType,
 } from '../../../components/VisualElement/VisualElementWrapper';
+import config from '../../../config';
+import { getSubjectLongName } from '../../../data/subjects';
 import {
   GQLMultidisciplinaryTopic_SubjectFragment,
   GQLMultidisciplinaryTopic_TopicFragment,
   GQLResourceTypeDefinition,
 } from '../../../graphqlTypes';
 import { LocaleType } from '../../../interfaces';
+import { toTopic, useIsNdlaFilm } from '../../../routeHelpers';
+import { getCrop, getFocalPoint } from '../../../util/imageHelpers';
+import { htmlTitle } from '../../../util/titleHelper';
+import { getAllDimensions } from '../../../util/trackingUtil';
+import Resources from '../../Resources/Resources';
 
 interface Props extends WithTranslation {
   topicId: string;
