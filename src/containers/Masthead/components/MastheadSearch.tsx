@@ -104,6 +104,7 @@ const MastheadSearch = ({ hideOnNarrowScreen = false, subject }: Props) => {
             ...result,
             resources: result.resources.map(resource => ({
               ...resource,
+              id: resource.id.toString(),
               resourceType: result.resourceType,
             })),
             contentType,

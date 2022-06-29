@@ -157,7 +157,9 @@ const Resources = ({ topic, resourceTypes }: Props) => {
           showAdditionalResources={showAdditionalResources}
           toggleAdditionalResources={toggleAdditionalResources}
           invertedStyle={ndlaFilm}
+          showAddToFavoriteButton={false}
           // bad type, never called but required
+          onToggleAddToFavorites={() => {}}
           onClick={() => {}}
         />
       )}
@@ -171,7 +173,9 @@ const Resources = ({ topic, resourceTypes }: Props) => {
             toggleAdditionalResources={toggleAdditionalResources}
             contentType={type.contentType}
             invertedStyle={ndlaFilm}
+            showAddToFavoriteButton={false}
             // bad type, never called but required.
+            onToggleAddToFavorites={() => {}}
             onClick={() => {}}
           />
         ))}

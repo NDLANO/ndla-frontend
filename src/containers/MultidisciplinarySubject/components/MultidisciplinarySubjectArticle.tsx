@@ -11,6 +11,7 @@ import { useRef, MouseEvent } from 'react';
 import {
   ArticleSideBar,
   Breadcrumblist,
+  FeideUserApiType,
   MultidisciplinarySubjectHeader,
   OneColumn,
 } from '@ndla/ui';
@@ -27,7 +28,6 @@ import {
   GQLMultidisciplinarySubjectArticle_SubjectFragment,
   GQLMultidisciplinarySubjectArticle_TopicFragment,
 } from '../../../graphqlTypes';
-import { FeideUserWithGroups } from '../../../util/feideApi';
 import { transformArticle } from '../../../util/transformArticle';
 
 const filterCodes: Record<string, 'publicHealth' | 'democracy' | 'climate'> = {
@@ -41,7 +41,7 @@ interface Props extends CustomWithTranslation {
   topic: GQLMultidisciplinarySubjectArticle_TopicFragment;
   subject: GQLMultidisciplinarySubjectArticle_SubjectFragment;
   resourceTypes?: GQLMultidisciplinarySubjectArticle_ResourceTypeDefinitionFragment[];
-  user?: FeideUserWithGroups;
+  user?: FeideUserApiType;
   skipToContentId?: string;
 }
 

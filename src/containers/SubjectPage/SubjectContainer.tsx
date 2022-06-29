@@ -25,6 +25,7 @@ import {
   NavigationHeading,
   Breadcrumblist,
   MessageBox,
+  FeideUserApiType,
 } from '@ndla/ui';
 import { withTracker } from '@ndla/tracker';
 import { useIntersectionObserver } from '@ndla/hooks';
@@ -42,7 +43,6 @@ import { getAllDimensions } from '../../util/trackingUtil';
 import { htmlTitle } from '../../util/titleHelper';
 import { BreadcrumbItem } from '../../interfaces';
 import { GQLSubjectContainer_SubjectFragment } from '../../graphqlTypes';
-import { FeideUserWithGroups } from '../../util/feideApi';
 import {
   TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE,
@@ -54,7 +54,7 @@ type Props = {
   topicIds: string[];
   subject: GQLSubjectContainer_SubjectFragment;
   loading?: boolean;
-  user?: FeideUserWithGroups;
+  user?: FeideUserApiType;
 } & CustomWithTranslation;
 
 const getSubjectCategoryMessage = (

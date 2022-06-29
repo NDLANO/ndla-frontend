@@ -75,8 +75,8 @@ export const initializeI18n = (i18n: i18n, language: string): i18n => {
     lng: language,
     supportedLngs: preferredLanguages,
   });
-  i18n.addResourceBundle('en', 'translation', en, false, false);
-  i18n.addResourceBundle('nb', 'translation', nb, false, false);
-  i18n.addResourceBundle('nn', 'translation', nn, false, false);
+  i18n.addResourceBundle('en', 'translation', en, true, true);
+  i18n.addResourceBundle('nb', 'translation', nb, true, true);
+  i18n.addResourceBundle('nn', 'translation', nn, true, true);
   return instance;
 };

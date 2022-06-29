@@ -8,7 +8,7 @@
 
 import { gql } from '@apollo/client';
 import { WithTranslation, withTranslation } from 'react-i18next';
-import { Topic } from '@ndla/ui';
+import { FeideUserApiType, Topic } from '@ndla/ui';
 import { withTracker } from '@ndla/tracker';
 import { TopicProps } from '@ndla/ui/lib/Topic/Topic';
 import VisualElementWrapper, {
@@ -25,7 +25,6 @@ import {
 import { getSubjectLongName } from '../../../data/subjects';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import { htmlTitle } from '../../../util/titleHelper';
-import { FeideUserWithGroups } from '../../../util/feideApi';
 
 interface Props extends WithTranslation {
   subject: GQLToolboxTopicWrapper_SubjectFragment;
@@ -34,7 +33,7 @@ interface Props extends WithTranslation {
   topicList: Array<string>;
   index: number;
   loading?: boolean;
-  user?: FeideUserWithGroups;
+  user?: FeideUserApiType;
 }
 
 const getDocumentTitle = ({ t, topic }: Props) => {

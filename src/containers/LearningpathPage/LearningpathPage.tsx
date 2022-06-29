@@ -16,6 +16,7 @@ import {
   withTranslation,
 } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { FeideUserApiType } from '@ndla/ui';
 import { getArticleProps } from '../../util/getArticleProps';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { htmlTitle } from '../../util/titleHelper';
@@ -34,8 +35,6 @@ import {
   GQLLearningpathStep,
   GQLSubject,
 } from '../../graphqlTypes';
-import { FeideUserWithGroups } from '../../util/feideApi';
-
 interface PropData {
   relevance: string;
   topic?: GQLLearningpathPage_TopicFragment;
@@ -50,7 +49,7 @@ interface Props extends CustomWithTranslation {
   data: PropData;
   skipToContentId: string;
   stepId?: string;
-  user?: FeideUserWithGroups;
+  user?: FeideUserApiType;
 }
 
 const LearningpathPage = ({
