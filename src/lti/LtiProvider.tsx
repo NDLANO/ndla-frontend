@@ -47,7 +47,6 @@ const LtiProvider = ({ ltiData }: Props) => {
     activeSubFilters: [],
   });
   const { t, i18n } = useTranslation();
-  const locale = i18n.language;
   const subjects = searchSubjects(searchParams.query);
   const subjectItems = subjects.map(subject => ({
     id: subject.id,
@@ -90,7 +89,7 @@ const LtiProvider = ({ ltiData }: Props) => {
 
   return (
     <ErrorBoundary>
-      <Helmet htmlAttributes={{ lang: locale }}>
+      <Helmet htmlAttributes={{ lang: i18n.language }}>
         <title>{`${t('htmlTitles.lti')}`}</title>
       </Helmet>
       <SearchInnerPage
