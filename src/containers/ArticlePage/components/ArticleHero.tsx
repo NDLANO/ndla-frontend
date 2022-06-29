@@ -7,9 +7,14 @@
  */
 
 import { gql } from '@apollo/client';
+import {
+  Hero,
+  HeroContentType,
+  HomeBreadcrumb,
+  NdlaFilmHero,
+  OneColumn,
+} from '@ndla/ui';
 import { ReactNode } from 'react';
-import { Hero, OneColumn, NdlaFilmHero, HomeBreadcrumb } from '@ndla/ui';
-import { HeroContentType } from '@ndla/ui/lib/Hero';
 import {
   GQLArticleHero_MetaImageFragment,
   GQLArticleHero_SubjectFragment,

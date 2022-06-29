@@ -15,7 +15,7 @@ import {
   withTranslation,
 } from 'react-i18next';
 import { FeideUserApiType, Topic as UITopic } from '@ndla/ui';
-import { TopicProps } from '@ndla/ui/lib/Topic/Topic';
+import { TopicProps } from '@ndla/ui';
 import { withTracker } from '@ndla/tracker';
 import config from '../../../config';
 import { RELEVANCE_SUPPLEMENTARY } from '../../../constants';
