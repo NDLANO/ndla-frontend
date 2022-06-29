@@ -42,7 +42,7 @@ import {
   GQLTopicInfoFragment,
 } from '../../graphqlTypes';
 import config from '../../config';
-import { setClosedAlert, useAlerts } from '../../components/AlertsContext';
+import { useAlerts } from '../../components/AlertsContext';
 import { SKIP_TO_CONTENT_ID } from '../../constants';
 import MastheadMenuModal from './components/MastheadMenuModal';
 
@@ -70,6 +70,7 @@ const MastheadContainer = () => {
     subjectType,
   } = useUrnIds();
   const [topicId, setTopicId] = useState<string>(topicIdParam ?? '');
+  const { openAlerts, closeAlert } = useAlerts();
   const location = useLocation();
   const ndlaFilm = useIsNdlaFilm();
   const hideBreadcrumb = subjectType === 'standard' && !resourceId;
@@ -120,7 +121,7 @@ const MastheadContainer = () => {
       />
     );
 
-  const alerts = useAlerts().map(alert => ({
+  const alerts = openAlerts?.map(alert => ({
     content: alert.body || alert.title,
     closable: alert.closable,
     number: alert.number,
@@ -132,7 +133,7 @@ const MastheadContainer = () => {
         fixed
         ndlaFilm={ndlaFilm}
         skipToMainContentId={SKIP_TO_CONTENT_ID}
-        onCloseAlert={id => setClosedAlert(id)}
+        onCloseAlert={id => closeAlert(id)}
         messages={alerts}>
         <MastheadItem left>
           <MastheadMenuModal>

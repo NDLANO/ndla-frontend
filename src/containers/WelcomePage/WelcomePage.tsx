@@ -14,8 +14,7 @@ import {
   OneColumn,
   FrontpageToolbox,
   FrontpageMultidisciplinarySubject,
-  MessageBox,
-  MessageBoxType,
+  MessageBanner,
   BannerCard,
 } from '@ndla/ui';
 import { spacing } from '@ndla/core';
@@ -34,7 +33,7 @@ import WelcomePageSearch from './WelcomePageSearch';
 import { toSubject, toTopic } from '../../routeHelpers';
 import { getSubjectById, multidisciplinaryTopics } from '../../data/subjects';
 import { LocaleType } from '../../interfaces';
-import { setClosedAlert, useAlerts } from '../../components/AlertsContext';
+import { useAlerts } from '../../components/AlertsContext';
 
 const getUrlFromSubjectId = (subjectId: string) => {
   const subject = getSubjectById(subjectId);
@@ -69,7 +68,9 @@ const BannerCardWrapper = styled.div`
 const WelcomePage = () => {
   const { t, i18n } = useTranslation();
 
-  const alerts = useAlerts().map(alert => ({
+  const { openAlerts, closeAlert } = useAlerts();
+
+  const alerts = openAlerts?.map(alert => ({
     content: alert.body || alert.title,
     closable: alert.closable,
     number: alert.number,
@@ -106,12 +107,11 @@ const WelcomePage = () => {
         <meta name="keywords" content={t('meta.keywords')} />
       </SocialMediaMetadata>
       {alerts?.map(alert => (
-        <MessageBox
-          type={MessageBoxType.fullpage}
-          onClose={() => setClosedAlert(alert.number)}
+        <MessageBanner
+          onClose={() => closeAlert(alert.number)}
           showCloseButton={alert.closable}>
           {alert.content}
-        </MessageBox>
+        </MessageBanner>
       ))}
       <FrontpageHeader locale={i18n.language} showHeader={true}>
         <WelcomePageSearch />

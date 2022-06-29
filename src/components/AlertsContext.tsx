@@ -14,6 +14,20 @@ import {
 } from '../graphqlTypes';
 import { alertsQuery } from '../queries';
 
+interface AlertsContextProps {
+  openAlerts: GQLAlertsQuery['alerts'];
+  closeAlert: (id: number) => void;
+}
+
+const AlertsContext = createContext<AlertsContextProps>({
+  openAlerts: [],
+  closeAlert: () => {},
+});
+
+interface Props {
+  children: ReactNode;
+}
+
 const getClosedAlerts = (): number[] => {
   try {
     const stored = localStorage.getItem('closedAlerts');
@@ -49,18 +63,17 @@ const setClosedAlerts = (alerts: GQLUptimeAlert[]) => {
   }
 };
 
-const AlertsContext = createContext<GQLAlertsQuery['alerts']>([]);
-
-interface Props {
-  children: ReactNode;
-}
-
 const AlertsProvider = ({ children }: Props) => {
   const [openAlerts, setOpenAlerts] = useState<GQLUptimeAlert[]>([]);
   const { data: { alerts } = {} } = useQuery<
     GQLAlertsQuery,
     GQLAlertsQueryVariables
   >(alertsQuery, { pollInterval: 10 * 60 * 1000 });
+
+  const closeAlert = (id: number) => {
+    setClosedAlert(id);
+    setOpenAlerts(prev => prev.filter(alert => alert.number !== id));
+  };
 
   useEffect(() => {
     if (alerts) {
@@ -80,7 +93,7 @@ const AlertsProvider = ({ children }: Props) => {
   }, [alerts]);
 
   return (
-    <AlertsContext.Provider value={openAlerts}>
+    <AlertsContext.Provider value={{ openAlerts, closeAlert }}>
       {children}
     </AlertsContext.Provider>
   );
@@ -94,10 +107,4 @@ const useAlerts = () => {
   return context;
 };
 
-export {
-  useAlerts,
-  AlertsProvider,
-  getClosedAlerts,
-  setClosedAlert,
-  setClosedAlerts,
-};
+export { useAlerts, AlertsProvider };
