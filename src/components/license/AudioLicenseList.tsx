@@ -25,19 +25,20 @@ import { useTranslation } from 'react-i18next';
 import CopyTextButton from './CopyTextButton';
 import AnchorButton from './AnchorButton';
 import { GQLAudioLicenseList_AudioLicenseFragment } from '../../graphqlTypes';
-import { LocaleType } from '../../interfaces';
 import { licenseCopyrightToCopyrightType } from './licenseHelpers';
 import { licenseListCopyrightFragment } from './licenseFragments';
 
 interface AudioLicenseInfoProps {
   audio: GQLAudioLicenseList_AudioLicenseFragment;
-  locale: LocaleType;
 }
 
-const AudioLicenseInfo = ({ audio, locale }: AudioLicenseInfoProps) => {
-  const { t } = useTranslation();
+const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
+  const { t, i18n } = useTranslation();
   const safeCopyright = licenseCopyrightToCopyrightType(audio.copyright);
-  const items = getGroupedContributorDescriptionList(safeCopyright, locale);
+  const items = getGroupedContributorDescriptionList(
+    safeCopyright,
+    i18n.language,
+  );
 
   if (audio.title) {
     items.unshift({
@@ -65,7 +66,7 @@ const AudioLicenseInfo = ({ audio, locale }: AudioLicenseInfoProps) => {
         license={audio.copyright.license?.license}
         resourceType="audio"
         resourceUrl={audio.src}
-        locale={locale}>
+        locale={i18n.language}>
         <MediaListItemActions>
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />
@@ -92,10 +93,9 @@ const AudioLicenseInfo = ({ audio, locale }: AudioLicenseInfoProps) => {
 
 interface Props {
   audios: GQLAudioLicenseList_AudioLicenseFragment[];
-  locale: LocaleType;
 }
 
-const AudioLicenseList = ({ audios, locale }: Props) => {
+const AudioLicenseList = ({ audios }: Props) => {
   const { t } = useTranslation();
   return (
     <div>
@@ -103,7 +103,7 @@ const AudioLicenseList = ({ audios, locale }: Props) => {
       <p>{t('license.audio.description')}</p>
       <MediaList>
         {audios.map(audio => (
-          <AudioLicenseInfo audio={audio} key={uuid()} locale={locale} />
+          <AudioLicenseInfo audio={audio} key={uuid()} />
         ))}
       </MediaList>
     </div>

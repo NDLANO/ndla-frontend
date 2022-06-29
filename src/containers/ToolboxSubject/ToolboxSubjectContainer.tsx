@@ -17,23 +17,21 @@ import {
 import { useEffect, createRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import {
+  CustomWithTranslation,
   useTranslation,
   withTranslation,
-  WithTranslation,
 } from 'react-i18next';
 import { getSubjectLongName } from '../../data/subjects';
 import { GQLToolboxSubjectContainer_SubjectFragment } from '../../graphqlTypes';
-import { LocaleType } from '../../interfaces';
 import { toTopic } from '../../routeHelpers';
 import { htmlTitle } from '../../util/titleHelper';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { ToolboxTopicContainer } from './components/ToolboxTopicContainer';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 
-interface Props extends WithTranslation {
+interface Props extends CustomWithTranslation {
   subject: GQLToolboxSubjectContainer_SubjectFragment;
   topicList: string[];
-  locale: LocaleType;
   user?: FeideUserApiType;
 }
 
@@ -90,8 +88,8 @@ const getInitialSelectedTopics = (
   return initialSelectedTopics;
 };
 
-const ToolboxSubjectContainer = ({ topicList, locale, subject }: Props) => {
-  const { t } = useTranslation();
+const ToolboxSubjectContainer = ({ topicList, subject }: Props) => {
+  const { t, i18n } = useTranslation();
   const selectedTopics = topicList;
 
   const refs = topicList.map(() => createRef<HTMLDivElement>());
@@ -130,7 +128,6 @@ const ToolboxSubjectContainer = ({ topicList, locale, subject }: Props) => {
             <ToolboxTopicContainer
               subject={subject}
               topicId={topic}
-              locale={locale}
               topicList={topicList}
               index={index}
             />
@@ -169,7 +166,7 @@ const ToolboxSubjectContainer = ({ topicList, locale, subject }: Props) => {
       <OneColumn className={''}>
         <ToolboxInfo
           topics={topics}
-          title={getSubjectLongName(subject.id, locale) || subject.name}
+          title={getSubjectLongName(subject.id, i18n.language) || subject.name}
           introduction={t('htmlTitles.toolbox.introduction')}
         />
         <TopicBoxes />
@@ -234,11 +231,11 @@ ToolboxSubjectContainer.willTrackPageView = (
 };
 
 ToolboxSubjectContainer.getDimensions = (props: Props) => {
-  const { subject, locale, topicList, user } = props;
+  const { subject, i18n, topicList, user } = props;
   const topicPath = topicList.map(t =>
     subject.allTopics?.find(topic => topic.id === t),
   );
-  const longName = getSubjectLongName(subject.id, locale);
+  const longName = getSubjectLongName(subject.id, i18n.language);
 
   return getAllDimensions({
     subject,

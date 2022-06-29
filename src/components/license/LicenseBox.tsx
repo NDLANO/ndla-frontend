@@ -17,11 +17,9 @@ import H5pLicenseList from './H5pLicenseList';
 import ConceptLicenseList from './ConceptLicenseList';
 import OembedItem from './OembedItem';
 import { GQLLicenseBox_ArticleFragment } from '../../graphqlTypes';
-import { LocaleType } from '../../interfaces';
 
 function buildLicenseTabList(
   article: GQLLicenseBox_ArticleFragment,
-  locale: LocaleType,
   t: TFunction,
 ) {
   const images = article.metaData?.images || [];
@@ -31,11 +29,10 @@ function buildLicenseTabList(
   const oembed = article.oembed;
   const concepts = article.metaData?.concepts || [];
   const tabs = [];
-
   if (images.length > 0) {
     tabs.push({
       title: t('license.tabs.images'),
-      content: <ImageLicenseList images={images} locale={locale} />,
+      content: <ImageLicenseList images={images} />,
     });
   }
   tabs.push({
@@ -50,7 +47,6 @@ function buildLicenseTabList(
             copyText: article.metaData?.copyText,
           },
         ]}
-        locale={locale}
       />
     ),
   });
@@ -58,28 +54,28 @@ function buildLicenseTabList(
   if (audios.length > 0) {
     tabs.push({
       title: t('license.tabs.audio'),
-      content: <AudioLicenseList audios={audios} locale={locale} />,
+      content: <AudioLicenseList audios={audios} />,
     });
   }
 
   if (brightcove.length > 0) {
     tabs.push({
       title: t('license.tabs.video'),
-      content: <VideoLicenseList videos={brightcove} locale={locale} />,
+      content: <VideoLicenseList videos={brightcove} />,
     });
   }
 
   if (h5ps.length) {
     tabs.push({
       title: t('license.tabs.h5p'),
-      content: <H5pLicenseList h5ps={h5ps} locale={locale} />,
+      content: <H5pLicenseList h5ps={h5ps} />,
     });
   }
 
   if (concepts.length) {
     tabs.push({
       title: t('license.tabs.concept'),
-      content: <ConceptLicenseList concepts={concepts} locale={locale} />,
+      content: <ConceptLicenseList concepts={concepts} />,
     });
   }
 
@@ -95,12 +91,10 @@ function buildLicenseTabList(
 
 interface Props {
   article: GQLLicenseBox_ArticleFragment;
-  locale: LocaleType;
 }
-
-const LicenseBox = ({ article, locale }: Props) => {
+const LicenseBox = ({ article }: Props) => {
   const { t } = useTranslation();
-  const tabs = buildLicenseTabList(article, locale, t);
+  const tabs = buildLicenseTabList(article, t);
   return (
     <div>
       <h1 className="license__heading">{t('license.heading')}</h1>

@@ -20,6 +20,7 @@ export type InitialProps = {
   resCookie?: string;
   basename?: string;
   locale?: LocaleType;
+  ltiData?: LtiData;
 };
 
 export interface WindowData {

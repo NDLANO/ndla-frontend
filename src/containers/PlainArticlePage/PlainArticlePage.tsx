@@ -9,7 +9,6 @@
 import { gql } from '@apollo/client';
 import { useContext } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import { ContentPlaceholder } from '@ndla/ui';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
@@ -54,7 +53,6 @@ const PlainArticlePage = () => {
   const { user } = useContext(AuthContext);
   const { articleId } = useTypedParams<MatchParams>();
   const { pathname } = useLocation();
-  const { i18n } = useTranslation();
   const { loading, data, error } = useGraphQuery<
     GQLPlainArticlePageQuery,
     GQLPlainArticlePageQueryVariables
@@ -89,7 +87,6 @@ const PlainArticlePage = () => {
   return (
     <PlainArticleContainer
       article={data.article}
-      locale={i18n.language}
       user={user}
       skipToContentId={SKIP_TO_CONTENT_ID}
     />

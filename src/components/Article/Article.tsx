@@ -21,6 +21,7 @@ import {
   ContentTypeBadge,
   getMastheadHeight,
 } from '@ndla/ui';
+import { useTranslation } from 'react-i18next';
 import config from '../../config';
 import LicenseBox from '../license/LicenseBox';
 import CompetenceGoals from '../CompetenceGoals';
@@ -30,13 +31,11 @@ import {
   GQLArticle_ArticleFragment,
   GQLArticle_ConceptFragment,
 } from '../../graphqlTypes';
-import { LocaleType } from '../../interfaces';
 import { MastheadHeightPx } from '../../constants';
 import { useGraphQuery } from '../../util/runQueries';
 
 function renderCompetenceGoals(
   article: GQLArticle_ArticleFragment,
-  locale: LocaleType,
   isTopicArticle: boolean,
   subjectId?: string,
 ):
@@ -62,11 +61,7 @@ function renderCompetenceGoals(
         codes={article.grepCodes}
         nodeId={article.oldNdlaUrl?.split('/').pop()}
         subjectId={subjectId}
-        language={
-          article.supportedLanguages?.find(l => l === locale) ||
-          article.supportedLanguages?.[0] ||
-          locale
-        }
+        supportedLanguages={article.supportedLanguages}
         wrapperComponent={Dialog}
         wrapperComponentProps={dialogProps}
       />
@@ -83,7 +78,6 @@ interface Props {
   children?: ReactElement;
   contentType?: string;
   label: string;
-  locale: LocaleType;
   modifier?: string;
   isResourceArticle?: boolean;
   copyPageUrlLink?: string;
@@ -192,7 +186,6 @@ const Article = ({
   children,
   contentType,
   label,
-  locale,
   modifier,
   isResourceArticle = false,
   copyPageUrlLink,
@@ -202,6 +195,7 @@ const Article = ({
   isPlainArticle,
   ...rest
 }: Props) => {
+  const { i18n } = useTranslation();
   const markdown = useMemo(() => {
     const md = new Remarkable({ breaks: true });
     md.inline.ruler.enable(['sub', 'sup']);
@@ -283,12 +277,11 @@ const Article = ({
       id={id ?? article.id.toString()}
       article={art}
       icon={icon}
-      locale={locale}
-      licenseBox={<LicenseBox article={article} locale={locale} />}
+      locale={i18n.language}
+      licenseBox={<LicenseBox article={article} />}
       messages={messages}
       competenceGoals={renderCompetenceGoals(
         article,
-        locale,
         isTopicArticle,
         subjectId,
       )}

@@ -29,7 +29,11 @@ import {
 } from '@ndla/ui';
 import { withTracker } from '@ndla/tracker';
 import { useIntersectionObserver } from '@ndla/hooks';
-import { withTranslation, WithTranslation, TFunction } from 'react-i18next';
+import {
+  withTranslation,
+  TFunction,
+  CustomWithTranslation,
+} from 'react-i18next';
 import SubjectPageContent from './components/SubjectPageContent';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { scrollToRef } from './subjectPageHelpers';
@@ -37,7 +41,7 @@ import CompetenceGoals from '../../components/CompetenceGoals';
 import { getSubjectBySubjectId, getSubjectLongName } from '../../data/subjects';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { htmlTitle } from '../../util/titleHelper';
-import { BreadcrumbItem, LocaleType } from '../../interfaces';
+import { BreadcrumbItem } from '../../interfaces';
 import { GQLSubjectContainer_SubjectFragment } from '../../graphqlTypes';
 import {
   TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
@@ -46,13 +50,12 @@ import {
 import { useIsNdlaFilm } from '../../routeHelpers';
 
 type Props = {
-  locale: LocaleType;
   subjectId: string;
   topicIds: string[];
   subject: GQLSubjectContainer_SubjectFragment;
   loading?: boolean;
   user?: FeideUserApiType;
-} & WithTranslation;
+} & CustomWithTranslation;
 
 const getSubjectCategoryMessage = (
   subjectCategory: string | undefined,
@@ -85,13 +88,7 @@ const getSubjectTypeMessage = (
   }
 };
 
-const SubjectContainer = ({
-  locale,
-  t,
-  subjectId,
-  topicIds,
-  subject,
-}: Props) => {
+const SubjectContainer = ({ t, subjectId, topicIds, subject, i18n }: Props) => {
   const ndlaFilm = useIsNdlaFilm();
   const { name: subjectName } = subject;
 
@@ -108,8 +105,8 @@ const SubjectContainer = ({
     if (subjectData) {
       return {
         subHeading: undefined,
-        name: subjectData.name[locale],
-        longName: subjectData.longName[locale],
+        name: subjectData.name[i18n.language],
+        longName: subjectData.longName[i18n.language],
       };
     }
     // Fallback if subject is missing in static constants
@@ -158,7 +155,6 @@ const SubjectContainer = ({
 
   function renderCompetenceGoals(
     subject: GQLSubjectContainer_SubjectFragment,
-    locale: LocaleType,
   ):
     | ((inp: {
         Dialog: ComponentType;
@@ -177,7 +173,6 @@ const SubjectContainer = ({
         <CompetenceGoals
           codes={subject.grepCodes}
           subjectId={subject.id}
-          language={locale}
           wrapperComponent={Dialog}
           wrapperComponentProps={dialogProps}
         />
@@ -266,7 +261,7 @@ const SubjectContainer = ({
             />
             <div ref={headerRef}>
               <ArticleHeaderWrapper
-                competenceGoals={renderCompetenceGoals(subject, locale)}>
+                competenceGoals={renderCompetenceGoals(subject)}>
                 <NavigationHeading
                   subHeading={subjectNames.subHeading}
                   invertedStyle={ndlaFilm}>
@@ -281,7 +276,6 @@ const SubjectContainer = ({
               <MessageBox>{nonRegularSubjectTypeMessage}</MessageBox>
             )}
             <SubjectPageContent
-              locale={locale}
               subject={subject}
               topicIds={topicIds}
               refs={topicRefs}
@@ -335,11 +329,11 @@ SubjectContainer.willTrackPageView = (
 };
 
 SubjectContainer.getDimensions = (props: Props) => {
-  const { subject, locale, topicIds, user } = props;
+  const { subject, i18n, topicIds, user } = props;
   const topicPath = topicIds.map(t =>
     subject.allTopics?.find(topic => topic.id === t),
   );
-  const longName = getSubjectLongName(subject.id, locale);
+  const longName = getSubjectLongName(subject.id, i18n.language);
 
   return getAllDimensions({
     subject,

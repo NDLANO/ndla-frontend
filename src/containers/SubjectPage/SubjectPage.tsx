@@ -9,7 +9,6 @@
 import { gql } from '@apollo/client';
 import { useContext, useRef } from 'react';
 import { Navigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import { ContentPlaceholder } from '@ndla/ui';
 import SubjectContainer, {
   subjectContainerFragments,
@@ -59,7 +58,6 @@ const subjectPageQuery = gql`
 const SubjectPage = () => {
   const { user } = useContext(AuthContext);
   const { subjectId, topicId, topicList } = useUrnIds();
-  const { i18n } = useTranslation();
 
   const initialLoad = useRef(true);
   const isFirstRenderWithTopicId = () => initialLoad.current && !!topicId;
@@ -112,7 +110,6 @@ const SubjectPage = () => {
 
   return (
     <SubjectContainer
-      locale={i18n.language}
       subjectId={subjectId}
       topicIds={topicList}
       subject={data.subject}

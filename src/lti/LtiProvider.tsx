@@ -28,8 +28,8 @@ import { GQLSearchPageQuery } from '../graphqlTypes';
 import { createApolloLinks } from '../util/apiHelpers';
 
 interface Props {
-  locale?: LocaleType;
   ltiData?: LtiData;
+  locale?: LocaleType;
 }
 
 interface SearchParams {
