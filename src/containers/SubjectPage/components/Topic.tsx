@@ -9,7 +9,11 @@
 import { gql } from '@apollo/client';
 import { useEffect, useMemo, useState } from 'react';
 import { Remarkable } from 'remarkable';
-import { TFunction, withTranslation, WithTranslation } from 'react-i18next';
+import {
+  CustomWithTranslation,
+  TFunction,
+  withTranslation,
+} from 'react-i18next';
 import { FeideUserApiType, Topic as UITopic } from '@ndla/ui';
 import { TopicProps } from '@ndla/ui/lib/Topic/Topic';
 import { withTracker } from '@ndla/tracker';
@@ -56,7 +60,7 @@ type Props = {
   topic: GQLTopic_TopicFragment;
   resourceTypes?: GQLTopic_ResourceTypeDefinitionFragment[];
   user?: FeideUserApiType;
-} & WithTranslation;
+} & CustomWithTranslation;
 
 const Topic = ({
   topicId,
@@ -173,7 +177,7 @@ Topic.willTrackPageView = (
   }
 };
 
-Topic.getDimensions = ({ topic, subject, user }: Props) => {
+Topic.getDimensions = ({ topic, i18n, subject, user }: Props) => {
   const topicPath = topic?.path
     ?.split('/')
     .slice(2)
@@ -181,7 +185,7 @@ Topic.getDimensions = ({ topic, subject, user }: Props) => {
       subject?.allTopics?.find(topic => topic.id.replace('urn:', '') === t),
     );
 
-  const longName = getSubjectLongName(subject?.id);
+  const longName = getSubjectLongName(subject?.id, i18n.language);
 
   return getAllDimensions(
     {

@@ -11,7 +11,7 @@ import { Remarkable } from 'remarkable';
 import { FeideUserApiType, Topic as UITopic } from '@ndla/ui';
 import { TopicProps } from '@ndla/ui/lib/Topic/Topic';
 import { withTracker } from '@ndla/tracker';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { CustomWithTranslation, withTranslation } from 'react-i18next';
 import config from '../../../config';
 import ArticleContents from '../../../components/Article/ArticleContents';
 import { toTopic, useIsNdlaFilm } from '../../../routeHelpers';
@@ -29,7 +29,7 @@ import {
   GQLResourceTypeDefinition,
 } from '../../../graphqlTypes';
 
-interface Props extends WithTranslation {
+interface Props extends CustomWithTranslation {
   topicId: string;
   subjectId: string;
   subTopicId?: string;
@@ -198,7 +198,7 @@ MultidisciplinaryTopic.willTrackPageView = (
 };
 
 MultidisciplinaryTopic.getDimensions = (props: Props) => {
-  const { topic, subject, user } = props;
+  const { topic, i18n, subject, user } = props;
   const topicPath = topic.path
     ?.split('/')
     .slice(2)
@@ -206,7 +206,7 @@ MultidisciplinaryTopic.getDimensions = (props: Props) => {
       subject.allTopics?.find(topic => topic.id.replace('urn:', '') === t),
     );
 
-  const longName = getSubjectLongName(subject?.id);
+  const longName = getSubjectLongName(subject?.id, i18n.language);
 
   return getAllDimensions(
     {

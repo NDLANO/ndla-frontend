@@ -17,9 +17,9 @@ import {
 import { useEffect, createRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import {
+  CustomWithTranslation,
   useTranslation,
   withTranslation,
-  WithTranslation,
 } from 'react-i18next';
 import { getSubjectLongName } from '../../data/subjects';
 import { GQLToolboxSubjectContainer_SubjectFragment } from '../../graphqlTypes';
@@ -29,7 +29,7 @@ import { getAllDimensions } from '../../util/trackingUtil';
 import { ToolboxTopicContainer } from './components/ToolboxTopicContainer';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 
-interface Props extends WithTranslation {
+interface Props extends CustomWithTranslation {
   subject: GQLToolboxSubjectContainer_SubjectFragment;
   topicList: string[];
   user?: FeideUserApiType;
@@ -231,11 +231,11 @@ ToolboxSubjectContainer.willTrackPageView = (
 };
 
 ToolboxSubjectContainer.getDimensions = (props: Props) => {
-  const { subject, topicList, user } = props;
+  const { subject, i18n, topicList, user } = props;
   const topicPath = topicList.map(t =>
     subject.allTopics?.find(topic => topic.id === t),
   );
-  const longName = getSubjectLongName(subject.id);
+  const longName = getSubjectLongName(subject.id, i18n.language);
 
   return getAllDimensions({
     subject,

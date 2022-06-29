@@ -7,7 +7,7 @@
  */
 
 import { gql } from '@apollo/client';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { CustomWithTranslation, withTranslation } from 'react-i18next';
 import { FeideUserApiType, Topic } from '@ndla/ui';
 import { withTracker } from '@ndla/tracker';
 import { TopicProps } from '@ndla/ui/lib/Topic/Topic';
@@ -26,7 +26,7 @@ import { getSubjectLongName } from '../../../data/subjects';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import { htmlTitle } from '../../../util/titleHelper';
 
-interface Props extends WithTranslation {
+interface Props extends CustomWithTranslation {
   subject: GQLToolboxTopicWrapper_SubjectFragment;
   topic: GQLToolboxTopicWrapper_TopicFragment;
   resourceTypes?: GQLToolboxTopicWrapper_ResourceTypeDefinitionFragment[];
@@ -126,12 +126,12 @@ ToolboxTopicWrapper.willTrackPageView = (
 };
 
 ToolboxTopicWrapper.getDimensions = (props: Props) => {
-  const { subject, topicList, topic, user } = props;
+  const { subject, i18n, topicList, topic, user } = props;
   const topicPath = topicList.map(t =>
     subject.allTopics?.find(topic => topic.id === t),
   );
 
-  const longName = getSubjectLongName(subject?.id);
+  const longName = getSubjectLongName(subject?.id, i18n.language);
 
   return getAllDimensions(
     {
