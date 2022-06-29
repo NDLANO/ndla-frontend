@@ -9,13 +9,13 @@
 import { Helmet } from 'react-helmet-async';
 import { PageContainer } from '@ndla/ui';
 import IframePage from './IframePage';
-import { LocaleType } from '../interfaces';
 import { isValidLocale } from '../i18n';
 import { BaseNameProvider } from '../components/BaseNameContext';
+import { LocaleType } from '../interfaces';
 
 interface Props {
-  basename?: string;
   locale?: LocaleType;
+  basename?: string;
   articleId?: string;
   taxonomyId?: string;
   status?: 'success' | 'error';
@@ -25,11 +25,11 @@ interface Props {
 const IframePageContainer = ({
   basename,
   status,
-  locale,
   taxonomyId,
   articleId,
   isOembed,
   isTopicArticle,
+  locale,
 }: Props) => {
   return (
     <BaseNameProvider value={isValidLocale(basename) ? basename : ''}>
@@ -37,7 +37,6 @@ const IframePageContainer = ({
         <Helmet htmlAttributes={{ lang: locale }} />
         <IframePage
           status={status}
-          locale={locale}
           taxonomyId={taxonomyId}
           articleId={articleId}
           isOembed={isOembed}

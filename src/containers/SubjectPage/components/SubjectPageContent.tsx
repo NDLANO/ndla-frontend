@@ -13,12 +13,11 @@ import { RELEVANCE_SUPPLEMENTARY } from '../../../constants';
 import { scrollToRef } from '../subjectPageHelpers';
 import { toTopic, useIsNdlaFilm } from '../../../routeHelpers';
 import TopicWrapper from './TopicWrapper';
-import { BreadcrumbItem, LocaleType } from '../../../interfaces';
+import { BreadcrumbItem } from '../../../interfaces';
 import { GQLSubjectPageContent_SubjectFragment } from '../../../graphqlTypes';
 
 interface Props {
   subject: GQLSubjectPageContent_SubjectFragment;
-  locale: LocaleType;
   topicIds: Array<string>;
   refs: Array<RefObject<HTMLDivElement>>;
   setBreadCrumb: (topic: BreadcrumbItem) => void;
@@ -26,7 +25,6 @@ interface Props {
 
 const SubjectPageContent = ({
   subject,
-  locale,
   topicIds,
   refs,
   setBreadCrumb,
@@ -62,7 +60,6 @@ const SubjectPageContent = ({
               subjectId={subject.id}
               setBreadCrumb={setBreadCrumb}
               subTopicId={topicIds[index + 1]}
-              locale={locale}
               index={index}
               showResources={!topicIds[index + 1]}
               subject={subject}

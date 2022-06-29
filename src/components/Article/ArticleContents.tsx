@@ -19,15 +19,14 @@ import {
   ArticleFootNotes,
 } from '@ndla/ui';
 
+import { useTranslation } from 'react-i18next';
 import LicenseBox from '../license/LicenseBox';
 import { transformArticle } from '../../util/transformArticle';
 import { GQLArticleContents_TopicFragment } from '../../graphqlTypes';
-import { LocaleType } from '../../interfaces';
 
 interface Props {
   topic: GQLArticleContents_TopicFragment;
   copyPageUrlLink: string;
-  locale: LocaleType;
   modifier: 'clean' | 'in-topic';
   showIngress: boolean;
 }
@@ -35,10 +34,10 @@ interface Props {
 const ArticleContents = ({
   topic,
   copyPageUrlLink,
-  locale,
   modifier = 'clean',
   showIngress = true,
 }: Props) => {
+  const { i18n } = useTranslation();
   const markdown = useMemo(() => {
     const md = new Remarkable({ breaks: true });
     md.inline.ruler.enable(['sub', 'sup']);
@@ -52,7 +51,7 @@ const ArticleContents = ({
 
   if (!topic.article) return null;
 
-  const article = transformArticle(topic.article, locale);
+  const article = transformArticle(topic.article, i18n.language);
 
   return (
     <ArticleWrapper modifier={modifier} id={topic.article.id.toString()}>
@@ -66,7 +65,7 @@ const ArticleContents = ({
         </LayoutItem>
       )}
       <LayoutItem layout="extend">
-        <ArticleContent content={article.content} locale={locale} />
+        <ArticleContent content={article.content} locale={i18n.language} />
       </LayoutItem>
       <LayoutItem layout="extend">
         {article.metaData?.footnotes?.length && (
@@ -75,7 +74,7 @@ const ArticleContents = ({
       </LayoutItem>
       <LayoutItem layout="extend">
         <ArticleByline
-          licenseBox={<LicenseBox article={article} locale={locale} />}
+          licenseBox={<LicenseBox article={article} />}
           copyPageUrlLink={copyPageUrlLink}
           {...{
             authors: article.copyright?.creators,

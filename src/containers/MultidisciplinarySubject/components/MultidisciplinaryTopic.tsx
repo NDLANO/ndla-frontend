@@ -11,7 +11,7 @@ import { Remarkable } from 'remarkable';
 import { FeideUserApiType, Topic as UITopic } from '@ndla/ui';
 import { TopicProps } from '@ndla/ui/lib/Topic/Topic';
 import { withTracker } from '@ndla/tracker';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { CustomWithTranslation, withTranslation } from 'react-i18next';
 import config from '../../../config';
 import ArticleContents from '../../../components/Article/ArticleContents';
 import { toTopic, useIsNdlaFilm } from '../../../routeHelpers';
@@ -28,13 +28,11 @@ import {
   GQLMultidisciplinaryTopic_TopicFragment,
   GQLResourceTypeDefinition,
 } from '../../../graphqlTypes';
-import { LocaleType } from '../../../interfaces';
 
-interface Props extends WithTranslation {
+interface Props extends CustomWithTranslation {
   topicId: string;
   subjectId: string;
   subTopicId?: string;
-  locale: LocaleType;
   subject: GQLMultidisciplinaryTopic_SubjectFragment;
   topic: GQLMultidisciplinaryTopic_TopicFragment;
   resourceTypes?: GQLResourceTypeDefinition[];
@@ -50,7 +48,6 @@ const getDocumentTitle = ({ t, topic }: Props) => {
 const MultidisciplinaryTopic = ({
   topicId,
   subjectId,
-  locale,
   subTopicId,
   topic,
   resourceTypes,
@@ -86,7 +83,6 @@ const MultidisciplinaryTopic = ({
 
   const toTopicProps = (
     article: GQLMultidisciplinaryTopic_TopicFragment['article'],
-    locale: LocaleType,
   ): TopicProps | undefined => {
     if (!article) return;
     const image =
@@ -111,10 +107,7 @@ const MultidisciplinaryTopic = ({
           ? {
               type: getResourceType(article.visualElement.resource),
               element: (
-                <VisualElementWrapper
-                  visualElement={article.visualElement}
-                  locale={locale}
-                />
+                <VisualElementWrapper visualElement={article.visualElement} />
               ),
             }
           : undefined,
@@ -135,7 +128,7 @@ const MultidisciplinaryTopic = ({
         article?.content !== '' ? () => setShowContent(!showContent) : undefined
       }
       showContent={showContent}
-      topic={toTopicProps(article, locale)?.topic}
+      topic={toTopicProps(article)?.topic}
       subTopics={!disableNav ? subTopics : undefined}
       isLoading={false}
       renderMarkdown={renderMarkdown}
@@ -143,7 +136,6 @@ const MultidisciplinaryTopic = ({
       <ArticleContents
         topic={topic}
         copyPageUrlLink={copyPageUrlLink}
-        locale={locale}
         modifier="in-topic"
         showIngress={false}
       />
@@ -206,7 +198,7 @@ MultidisciplinaryTopic.willTrackPageView = (
 };
 
 MultidisciplinaryTopic.getDimensions = (props: Props) => {
-  const { topic, locale, subject, user } = props;
+  const { topic, i18n, subject, user } = props;
   const topicPath = topic.path
     ?.split('/')
     .slice(2)
@@ -214,7 +206,7 @@ MultidisciplinaryTopic.getDimensions = (props: Props) => {
       subject.allTopics?.find(topic => topic.id.replace('urn:', '') === t),
     );
 
-  const longName = getSubjectLongName(subject?.id, locale);
+  const longName = getSubjectLongName(subject?.id, i18n.language);
 
   return getAllDimensions(
     {

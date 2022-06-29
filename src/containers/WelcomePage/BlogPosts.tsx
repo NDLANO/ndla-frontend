@@ -14,7 +14,7 @@ interface Props {
   locale: LocaleType;
 }
 
-const BlogPosts = ({ t, locale }: Props & WithTranslation) => (
+const BlogPosts = ({ t, i18n }: Props & WithTranslation) => (
   <section>
     <SubjectSectionTitle>{t('welcomePage.blog')}</SubjectSectionTitle>
     <BlogPostWrapper>
@@ -27,7 +27,7 @@ const BlogPosts = ({ t, locale }: Props & WithTranslation) => (
         linkText={t('blogPosts.blog1.linkText')}
         license={t('blogPosts.blog1.license')}
         licenseAuthor={t('blogPosts.blog1.licenseAuthor')}
-        locale={locale}
+        locale={i18n.language}
       />
       <BlogPost
         image={{
@@ -38,7 +38,7 @@ const BlogPosts = ({ t, locale }: Props & WithTranslation) => (
         linkText={t('blogPosts.blog2.linkText')}
         license={t('blogPosts.blog2.license')}
         licenseAuthor={t('blogPosts.blog2.licenseAuthor')}
-        locale={locale}
+        locale={i18n.language}
       />
     </BlogPostWrapper>
   </section>

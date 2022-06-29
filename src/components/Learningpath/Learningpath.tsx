@@ -27,7 +27,7 @@ import LastLearningpathStepInfo from './LastLearningpathStepInfo';
 import LearningpathEmbed from './LearningpathEmbed';
 import config from '../../config';
 import { getContentType } from '../../util/getContentType';
-import { Breadcrumb as BreadcrumbType, LocaleType } from '../../interfaces';
+import { Breadcrumb as BreadcrumbType } from '../../interfaces';
 import {
   GQLLearningpath_LearningpathFragment,
   GQLLearningpath_LearningpathStepFragment,
@@ -49,7 +49,6 @@ interface Props {
   subject?: GQLLearningpath_SubjectFragment;
   resource?: GQLLearningpath_ResourceFragment;
   skipToContentId?: string;
-  locale: LocaleType;
   onKeyUpEvent: (evt: KeyboardEvent) => void;
   breadcrumbItems: BreadcrumbType[];
 }
@@ -63,7 +62,6 @@ const Learningpath = ({
   topicPath,
   resourceTypes,
   skipToContentId,
-  locale,
   onKeyUpEvent,
   breadcrumbItems,
 }: Props) => {
@@ -161,7 +159,6 @@ const Learningpath = ({
             )}
             <LearningpathEmbed
               skipToContentId={skipToContentId}
-              locale={locale}
               topic={topic}
               learningpathStep={learningpathStep}
               breadcrumbItems={breadcrumbItems}

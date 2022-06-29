@@ -57,7 +57,7 @@ const multidisciplinarySubjectPageQuery = gql`
 `;
 
 const MultidisciplinarySubjectPage = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { user } = useContext(AuthContext);
   const { subjectId, topicList: selectedTopics } = useUrnIds();
   const refs = selectedTopics.map(_ => createRef<HTMLDivElement>());
@@ -138,7 +138,6 @@ const MultidisciplinarySubjectPage = () => {
               topicId={topicId}
               subjectId={subject.id}
               subTopicId={selectedTopics[index + 1]}
-              locale={i18n.language}
               subject={subject}
               user={user}
             />

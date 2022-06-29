@@ -16,7 +16,6 @@ import {
   GQLToolboxTopicContainerQueryVariables,
   GQLToolboxTopicContainer_SubjectFragment,
 } from '../../../graphqlTypes';
-import { LocaleType } from '../../../interfaces';
 import { useGraphQuery } from '../../../util/runQueries';
 import ToolboxTopicWrapper, {
   toolboxTopicWrapperFragments,
@@ -25,7 +24,6 @@ import ToolboxTopicWrapper, {
 interface Props {
   subject: GQLToolboxTopicContainer_SubjectFragment;
   topicId: string;
-  locale: LocaleType;
   topicList: Array<string>;
   index: number;
 }
@@ -47,7 +45,6 @@ const toolboxTopicContainerQuery = gql`
 export const ToolboxTopicContainer = ({
   subject,
   topicId,
-  locale,
   topicList,
   index,
 }: Props) => {
@@ -76,7 +73,6 @@ export const ToolboxTopicContainer = ({
       loading={loading}
       topic={data.topic}
       resourceTypes={data.resourceTypes}
-      locale={locale}
       topicList={topicList}
       index={index}
       user={user}

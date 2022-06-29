@@ -7,7 +7,7 @@
  */
 
 import { gql } from '@apollo/client';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { CustomWithTranslation, withTranslation } from 'react-i18next';
 import { FeideUserApiType, Topic } from '@ndla/ui';
 import { withTracker } from '@ndla/tracker';
 import { TopicProps } from '@ndla/ui/lib/Topic/Topic';
@@ -17,7 +17,6 @@ import VisualElementWrapper, {
 import { toTopic } from '../../../routeHelpers';
 import { getCrop, getFocalPoint } from '../../../util/imageHelpers';
 import Resources from '../../Resources/Resources';
-import { LocaleType } from '../../../interfaces';
 import {
   GQLToolboxTopicWrapper_ResourceTypeDefinitionFragment,
   GQLToolboxTopicWrapper_SubjectFragment,
@@ -27,11 +26,10 @@ import { getSubjectLongName } from '../../../data/subjects';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import { htmlTitle } from '../../../util/titleHelper';
 
-interface Props extends WithTranslation {
+interface Props extends CustomWithTranslation {
   subject: GQLToolboxTopicWrapper_SubjectFragment;
   topic: GQLToolboxTopicWrapper_TopicFragment;
   resourceTypes?: GQLToolboxTopicWrapper_ResourceTypeDefinitionFragment[];
-  locale: LocaleType;
   topicList: Array<string>;
   index: number;
   loading?: boolean;
@@ -44,7 +42,6 @@ const getDocumentTitle = ({ t, topic }: Props) => {
 
 const ToolboxTopicWrapper = ({
   subject,
-  locale,
   topicList,
   index,
   topic,
@@ -78,10 +75,7 @@ const ToolboxTopicWrapper = ({
         visualElement: {
           type: getResourceType(article.visualElement.resource),
           element: (
-            <VisualElementWrapper
-              visualElement={article.visualElement}
-              locale={locale}
-            />
+            <VisualElementWrapper visualElement={article.visualElement} />
           ),
         },
       }),
@@ -132,12 +126,12 @@ ToolboxTopicWrapper.willTrackPageView = (
 };
 
 ToolboxTopicWrapper.getDimensions = (props: Props) => {
-  const { subject, locale, topicList, topic, user } = props;
+  const { subject, i18n, topicList, topic, user } = props;
   const topicPath = topicList.map(t =>
     subject.allTopics?.find(topic => topic.id === t),
   );
 
-  const longName = getSubjectLongName(subject?.id, locale);
+  const longName = getSubjectLongName(subject?.id, i18n.language);
 
   return getAllDimensions(
     {

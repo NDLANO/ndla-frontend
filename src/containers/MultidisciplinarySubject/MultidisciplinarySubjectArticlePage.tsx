@@ -56,7 +56,7 @@ const multidisciplinarySubjectArticlePageQuery = gql`
 `;
 
 const MultidisciplinarySubjectArticlePage = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { user } = useContext(AuthContext);
   const { topicId, subjectId } = useUrnIds();
 
@@ -114,7 +114,6 @@ const MultidisciplinarySubjectArticlePage = () => {
         subject={subject}
         resourceTypes={resourceTypes}
         copyPageUrlLink={copyPageUrlLink}
-        locale={i18n.language}
         user={user}
       />
     </>

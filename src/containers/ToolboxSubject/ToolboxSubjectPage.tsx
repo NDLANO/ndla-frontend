@@ -7,7 +7,6 @@
  */
 
 import { gql } from '@apollo/client';
-import { useTranslation } from 'react-i18next';
 import { useContext } from 'react';
 import { ContentPlaceholder } from '@ndla/ui';
 import { useUrnIds } from '../../routeHelpers';
@@ -31,7 +30,6 @@ const toolboxSubjectPageQuery = gql`
   ${toolboxSubjectContainerFragments.subject}
 `;
 const ToolboxSubjectPage = () => {
-  const { i18n } = useTranslation();
   const { user } = useContext(AuthContext);
   const { subjectId, topicList } = useUrnIds();
 
@@ -56,7 +54,6 @@ const ToolboxSubjectPage = () => {
     <ToolboxSubjectContainer
       subject={data.subject}
       topicList={topicList}
-      locale={i18n.language}
       user={user}
     />
   );
