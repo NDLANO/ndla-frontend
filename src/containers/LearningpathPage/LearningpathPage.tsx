@@ -35,6 +35,7 @@ import {
   GQLLearningpathStep,
   GQLSubject,
 } from '../../graphqlTypes';
+
 interface PropData {
   relevance: string;
   topic?: GQLLearningpathPage_TopicFragment;
