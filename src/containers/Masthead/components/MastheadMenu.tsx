@@ -64,7 +64,7 @@ const MastheadMenu = ({
   onTopicChange,
   close,
 }: Props) => {
-  const alerts = useAlerts();
+  const { openAlerts } = useAlerts();
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const { grade } = useTypedParams<{ grade?: string }>();
@@ -164,7 +164,7 @@ const MastheadMenu = ({
 
   return (
     <TopicMenu
-      messages={alerts.map(a => a.body ?? a.title)}
+      messages={openAlerts?.map(a => a.body ?? a.title)}
       close={close}
       toFrontpage={() => '/'}
       searchFieldComponent={
