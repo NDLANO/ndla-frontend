@@ -17,7 +17,6 @@ import VisualElementWrapper, {
 import { toTopic } from '../../../routeHelpers';
 import { getCrop, getFocalPoint } from '../../../util/imageHelpers';
 import Resources from '../../Resources/Resources';
-import { LocaleType } from '../../../interfaces';
 import {
   GQLToolboxTopicWrapper_ResourceTypeDefinitionFragment,
   GQLToolboxTopicWrapper_SubjectFragment,
@@ -32,7 +31,6 @@ interface Props extends WithTranslation {
   subject: GQLToolboxTopicWrapper_SubjectFragment;
   topic: GQLToolboxTopicWrapper_TopicFragment;
   resourceTypes?: GQLToolboxTopicWrapper_ResourceTypeDefinitionFragment[];
-  locale: LocaleType;
   topicList: Array<string>;
   index: number;
   loading?: boolean;
@@ -45,7 +43,6 @@ const getDocumentTitle = ({ t, topic }: Props) => {
 
 const ToolboxTopicWrapper = ({
   subject,
-  locale,
   topicList,
   index,
   topic,
@@ -79,10 +76,7 @@ const ToolboxTopicWrapper = ({
         visualElement: {
           type: getResourceType(article.visualElement.resource),
           element: (
-            <VisualElementWrapper
-              visualElement={article.visualElement}
-              locale={locale}
-            />
+            <VisualElementWrapper visualElement={article.visualElement} />
           ),
         },
       }),
@@ -133,12 +127,12 @@ ToolboxTopicWrapper.willTrackPageView = (
 };
 
 ToolboxTopicWrapper.getDimensions = (props: Props) => {
-  const { subject, locale, topicList, topic, user } = props;
+  const { subject, topicList, topic, user } = props;
   const topicPath = topicList.map(t =>
     subject.allTopics?.find(topic => topic.id === t),
   );
 
-  const longName = getSubjectLongName(subject?.id, locale);
+  const longName = getSubjectLongName(subject?.id);
 
   return getAllDimensions(
     {

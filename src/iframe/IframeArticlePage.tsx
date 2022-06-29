@@ -20,26 +20,23 @@ import PostResizeMessage from './PostResizeMessage';
 import FixDialogPosition from './FixDialogPosition';
 import SocialMediaMetadata from '../components/SocialMediaMetadata';
 import config from '../config';
-import { LocaleType } from '../interfaces';
 import {
   GQLIframeArticlePage_ArticleFragment,
   GQLIframeArticlePage_ResourceFragment,
 } from '../graphqlTypes';
 
 interface Props extends CustomWithTranslation {
-  locale?: LocaleType;
   resource?: GQLIframeArticlePage_ResourceFragment;
   article: GQLIframeArticlePage_ArticleFragment;
 }
 
 const IframeArticlePage = ({
   resource,
-  locale: propsLocale,
   t,
   article: propsArticle,
   i18n,
 }: Props) => {
-  const locale = propsLocale ?? i18n.language;
+  const locale = i18n.language;
   const article = transformArticle(propsArticle, locale);
   const scripts = getArticleScripts(article);
   const contentUrl = resource?.path
@@ -70,7 +67,6 @@ const IframeArticlePage = ({
       <FixDialogPosition />
       <Article
         article={article}
-        locale={locale}
         isPlainArticle
         modifier="clean iframe"
         {...getArticleProps(resource)}>

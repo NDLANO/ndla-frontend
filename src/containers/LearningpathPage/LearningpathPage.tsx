@@ -10,7 +10,11 @@ import { useEffect } from 'react';
 import { gql } from '@apollo/client';
 import { Helmet } from 'react-helmet-async';
 import { withTracker } from '@ndla/tracker';
-import { TFunction, WithTranslation, withTranslation } from 'react-i18next';
+import {
+  CustomWithTranslation,
+  TFunction,
+  withTranslation,
+} from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { getArticleProps } from '../../util/getArticleProps';
 import { getAllDimensions } from '../../util/trackingUtil';
@@ -30,7 +34,6 @@ import {
   GQLLearningpathStep,
   GQLSubject,
 } from '../../graphqlTypes';
-import { LocaleType } from '../../interfaces';
 import { FeideUserWithGroups } from '../../util/feideApi';
 
 interface PropData {
@@ -42,8 +45,7 @@ interface PropData {
   resource?: GQLLearningpathPage_ResourceFragment;
 }
 
-interface Props extends WithTranslation {
-  locale: LocaleType;
+interface Props extends CustomWithTranslation {
   loading: boolean;
   data: PropData;
   skipToContentId: string;
@@ -53,9 +55,9 @@ interface Props extends WithTranslation {
 
 const LearningpathPage = ({
   data,
-  locale,
   skipToContentId,
   stepId,
+  i18n,
   t,
 }: Props) => {
   const navigate = useNavigate();
@@ -121,12 +123,12 @@ const LearningpathPage = ({
             ...topicPath,
             { name: learningpath.title, id: `${learningpath.id}` },
           ],
-          locale as LocaleType,
+          i18n.language,
         )
       : toBreadcrumbItems(
           t('breadcrumb.toFrontpage'),
           [{ name: learningpath.title, id: `${learningpath.id}` }],
-          locale as LocaleType,
+          i18n.language,
         );
 
   return (
@@ -152,7 +154,6 @@ const LearningpathPage = ({
         resource={resource}
         resourceTypes={resourceTypes}
         topicPath={topicPath}
-        locale={locale}
         breadcrumbItems={breadcrumbItems}
       />
     </div>
@@ -180,7 +181,7 @@ LearningpathPage.getDimensions = (props: Props) => {
     ls => `${ls.id}` === stepId,
   );
   const learningstep = currentStep || firstStep;
-  const longName = getSubjectLongName(subject?.id, i18n.language as LocaleType);
+  const longName = getSubjectLongName(subject?.id, i18n.language);
 
   return getAllDimensions(
     {

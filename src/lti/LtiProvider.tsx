@@ -23,12 +23,11 @@ import {
   RESOURCE_TYPE_LEARNING_PATH,
   STORED_LANGUAGE_COOKIE_KEY,
 } from '../constants';
-import { LocaleType, LtiData } from '../interfaces';
+import { LtiData } from '../interfaces';
 import { GQLSearchPageQuery } from '../graphqlTypes';
 import { createApolloLinks } from '../util/apiHelpers';
 
 interface Props {
-  locale?: LocaleType;
   ltiData?: LtiData;
 }
 
@@ -39,7 +38,7 @@ interface SearchParams {
   selectedFilters: string[];
   activeSubFilters: string[];
 }
-const LtiProvider = ({ locale: propsLocale, ltiData }: Props) => {
+const LtiProvider = ({ ltiData }: Props) => {
   const [searchParams, setSearchParams] = useState<SearchParams>({
     query: '',
     subjects: [],
@@ -48,7 +47,7 @@ const LtiProvider = ({ locale: propsLocale, ltiData }: Props) => {
     activeSubFilters: [],
   });
   const { t, i18n } = useTranslation();
-  const locale = propsLocale ?? i18n.language;
+  const locale = i18n.language;
   const subjects = searchSubjects(searchParams.query);
   const subjectItems = subjects.map(subject => ({
     id: subject.id,

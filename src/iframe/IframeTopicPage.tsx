@@ -25,10 +25,8 @@ import {
   GQLIframeTopicPage_ArticleFragment,
   GQLIframeTopicPage_TopicFragment,
 } from '../graphqlTypes';
-import { LocaleType } from '../interfaces';
 
 interface Props extends CustomWithTranslation {
-  locale?: LocaleType;
   article: GQLIframeTopicPage_ArticleFragment;
   topic?: GQLIframeTopicPage_TopicFragment;
   status?: 'success' | 'error';
@@ -43,13 +41,12 @@ const getDocumentTitle = ({ article }: Pick<Props, 'article'>) => {
 };
 
 export const IframeTopicPage = ({
-  locale: localeProp,
   article: propArticle,
   topic,
   t,
   i18n,
 }: Props) => {
-  const locale = localeProp ?? i18n.language;
+  const locale = i18n.language;
   const article = transformArticle(propArticle, locale);
   const scripts = getArticleScripts(article);
   const contentUrl = topic?.path
@@ -89,7 +86,6 @@ export const IframeTopicPage = ({
         <Article
           isTopicArticle
           article={article}
-          locale={locale}
           label={t('topicPage.topic')}
           isPlainArticle
           contentType={constants.contentTypes.TOPIC}>

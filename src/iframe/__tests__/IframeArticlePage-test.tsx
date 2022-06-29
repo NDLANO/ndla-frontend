@@ -191,7 +191,6 @@ test('IframeArticlePage with article renderers correctly', () => {
                   i18n.language = locale;
                   return (
                     <IframeArticlePage
-                      locale={locale}
                       resource={{
                         id: 'urn:resource:1',
                         path: '/subject:1/resource:1',
@@ -224,7 +223,7 @@ test('IframePage with article displays error message on status === error', () =>
               search: 'asd',
               hash: '',
             }}>
-            <IframePageContainer locale={'nb'} status="error" />
+            <IframePageContainer status="error" />
           </StaticRouter>
         </HelmetProvider>
       </MockedProvider>

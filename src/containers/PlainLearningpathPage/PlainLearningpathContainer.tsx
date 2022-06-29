@@ -36,7 +36,6 @@ interface Props extends CustomWithTranslation {
 const PlainLearningpathContainer = ({
   t,
   learningpath,
-  i18n,
   skipToContentId,
   stepId,
 }: Props) => {
@@ -91,7 +90,6 @@ const PlainLearningpathContainer = ({
         learningpathStep={currentStep}
         skipToContentId={skipToContentId}
         onKeyUpEvent={onKeyUpEvent}
-        locale={i18n.language}
         breadcrumbItems={[]}
       />
     </div>

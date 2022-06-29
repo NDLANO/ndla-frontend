@@ -31,7 +31,6 @@ import {
   GQLTopic_SubjectFragment,
   GQLTopic_TopicFragment,
 } from '../../../graphqlTypes';
-import { LocaleType } from '../../../interfaces';
 import VisualElementWrapper, {
   getResourceType,
 } from '../../../components/VisualElement/VisualElementWrapper';
@@ -51,7 +50,6 @@ type Props = {
   topicId: string;
   subjectId: string;
   subTopicId?: string;
-  locale: LocaleType;
   index?: number;
   showResources?: boolean;
   subject?: GQLTopic_SubjectFragment;
@@ -64,7 +62,6 @@ type Props = {
 const Topic = ({
   topicId,
   subjectId,
-  locale,
   subTopicId,
   topic,
   resourceTypes,
@@ -114,7 +111,6 @@ const Topic = ({
                   ...article.visualElement,
                   image: getImageWithoutCrop(article.visualElement.image),
                 }}
-                locale={locale}
               />
             ),
           }
@@ -159,7 +155,6 @@ const Topic = ({
       <ArticleContents
         topic={topic}
         copyPageUrlLink={copyPageUrlLink}
-        locale={locale}
         modifier="in-topic"
         showIngress={false}
       />
@@ -179,7 +174,7 @@ Topic.willTrackPageView = (
   }
 };
 
-Topic.getDimensions = ({ topic, locale, subject, user }: Props) => {
+Topic.getDimensions = ({ topic, subject, user }: Props) => {
   const topicPath = topic?.path
     ?.split('/')
     .slice(2)
@@ -187,7 +182,7 @@ Topic.getDimensions = ({ topic, locale, subject, user }: Props) => {
       subject?.allTopics?.find(topic => topic.id.replace('urn:', '') === t),
     );
 
-  const longName = getSubjectLongName(subject?.id, locale);
+  const longName = getSubjectLongName(subject?.id);
 
   return getAllDimensions(
     {

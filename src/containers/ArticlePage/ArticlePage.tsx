@@ -11,7 +11,11 @@ import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { OneColumn, LayoutItem } from '@ndla/ui';
 import { withTracker } from '@ndla/tracker';
-import { TFunction, WithTranslation, withTranslation } from 'react-i18next';
+import {
+  CustomWithTranslation,
+  TFunction,
+  withTranslation,
+} from 'react-i18next';
 import { GraphQLError } from 'graphql';
 import Article from '../../components/Article';
 import ArticleHero from './components/ArticleHero';
@@ -42,10 +46,9 @@ import {
   GQLArticlePage_TopicFragment,
   GQLArticlePage_TopicPathFragment,
 } from '../../graphqlTypes';
-import { LocaleType } from '../../interfaces';
 import { FeideUserWithGroups } from '../../util/feideApi';
 
-interface Props extends WithTranslation {
+interface Props extends CustomWithTranslation {
   resource?: GQLArticlePage_ResourceFragment;
   topic?: GQLArticlePage_TopicFragment;
   topicPath: GQLArticlePage_TopicPathFragment[];
@@ -70,14 +73,13 @@ const ArticlePage = ({
   skipToContentId,
 }: Props) => {
   const [scripts, setScripts] = useState<Scripts[]>([]);
-  const locale = i18n.language as LocaleType;
   const subjectPageUrl = config.ndlaFrontendDomain;
   useEffect(() => {
     if (!resource?.article) return;
-    const article = transformArticle(resource.article, locale);
+    const article = transformArticle(resource.article, i18n.language);
     const scripts = getArticleScripts(article);
     setScripts(scripts);
-  }, [locale, resource]);
+  }, [i18n.language, resource]);
 
   useEffect(() => {
     if (window.MathJax && typeof window.MathJax.typeset === 'function') {
@@ -106,7 +108,7 @@ const ArticlePage = ({
     );
   }
 
-  const article = transformArticle(resource.article, locale)!;
+  const article = transformArticle(resource.article, i18n.language)!;
   const contentType = resource ? getContentType(resource) : undefined;
   const resourceType =
     contentType && isHeroContentType(contentType) ? contentType : undefined;
@@ -114,12 +116,12 @@ const ArticlePage = ({
   const copyPageUrlLink = topic
     ? `${subjectPageUrl}${topic.path}/${resource.id.replace('urn:', '')}`
     : undefined;
-  const printUrl = `${subjectPageUrl}/article-iframe/${locale}/article/${resource.article.id}`;
+  const printUrl = `${subjectPageUrl}/article-iframe/${i18n.language}/article/${resource.article.id}`;
 
   const breadcrumbItems = toBreadcrumbItems(
     t('breadcrumb.toFrontpage'),
     [subject, ...topicPath, resource],
-    locale,
+    i18n.language,
   );
 
   return (
@@ -161,7 +163,6 @@ const ArticlePage = ({
         <Article
           id={skipToContentId}
           article={article}
-          locale={locale}
           resourceType={contentType}
           isResourceArticle
           copyPageUrlLink={copyPageUrlLink}
@@ -193,10 +194,7 @@ ArticlePage.getDimensions = (props: Props) => {
   const articleProps = getArticleProps(props.resource);
   const { subject, topicPath, relevance, user } = props;
   const article = props.resource?.article;
-  const longName = getSubjectLongName(
-    subject?.id,
-    props.i18n.language as LocaleType,
-  );
+  const longName = getSubjectLongName(subject?.id, props.i18n.language);
 
   return getAllDimensions(
     { article, relevance, subject, topicPath, filter: longName, user },
