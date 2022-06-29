@@ -24,8 +24,10 @@ import {
   GQLIframeArticlePage_ArticleFragment,
   GQLIframeArticlePage_ResourceFragment,
 } from '../graphqlTypes';
+import { LocaleType } from '../interfaces';
 
 interface Props extends CustomWithTranslation {
+  locale?: LocaleType;
   resource?: GQLIframeArticlePage_ResourceFragment;
   article: GQLIframeArticlePage_ArticleFragment;
 }
@@ -35,8 +37,9 @@ const IframeArticlePage = ({
   t,
   article: propsArticle,
   i18n,
+  locale: propsLocale,
 }: Props) => {
-  const locale = i18n.language;
+  const locale = propsLocale ?? i18n.language;
   const article = transformArticle(propsArticle, locale);
   const scripts = getArticleScripts(article);
   const contentUrl = resource?.path

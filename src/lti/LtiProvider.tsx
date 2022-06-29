@@ -23,12 +23,13 @@ import {
   RESOURCE_TYPE_LEARNING_PATH,
   STORED_LANGUAGE_COOKIE_KEY,
 } from '../constants';
-import { LtiData } from '../interfaces';
+import { LocaleType, LtiData } from '../interfaces';
 import { GQLSearchPageQuery } from '../graphqlTypes';
 import { createApolloLinks } from '../util/apiHelpers';
 
 interface Props {
   ltiData?: LtiData;
+  locale?: LocaleType;
 }
 
 interface SearchParams {
@@ -38,7 +39,7 @@ interface SearchParams {
   selectedFilters: string[];
   activeSubFilters: string[];
 }
-const LtiProvider = ({ ltiData }: Props) => {
+const LtiProvider = ({ locale: propsLocale, ltiData }: Props) => {
   const [searchParams, setSearchParams] = useState<SearchParams>({
     query: '',
     subjects: [],
@@ -47,6 +48,7 @@ const LtiProvider = ({ ltiData }: Props) => {
     activeSubFilters: [],
   });
   const { t, i18n } = useTranslation();
+  const locale = propsLocale ?? i18n.language;
   const subjects = searchSubjects(searchParams.query);
   const subjectItems = subjects.map(subject => ({
     id: subject.id,
@@ -89,7 +91,7 @@ const LtiProvider = ({ ltiData }: Props) => {
 
   return (
     <ErrorBoundary>
-      <Helmet htmlAttributes={{ lang: i18n.language }}>
+      <Helmet htmlAttributes={{ lang: locale }}>
         <title>{`${t('htmlTitles.lti')}`}</title>
       </Helmet>
       <SearchInnerPage
