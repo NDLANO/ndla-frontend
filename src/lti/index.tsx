@@ -35,7 +35,7 @@ import { STORED_LANGUAGE_COOKIE_KEY } from '../constants';
 import { initializeI18n, isValidLocale } from '../i18n';
 
 const {
-  DATA: { initialProps, config },
+  DATA: { initialProps, config, ltiData },
 } = window;
 
 const { logglyApiKey, logEnvironment: environment, componentName } = config;
@@ -59,7 +59,7 @@ ReactDOM.render(
     <I18nextProvider i18n={i18n}>
       <ApolloProvider client={client}>
         <MissingRouterContext.Provider value={true}>
-          <LtiProvider {...initialProps} />
+          <LtiProvider {...initialProps} ltiData={ltiData} />
         </MissingRouterContext.Provider>
       </ApolloProvider>
     </I18nextProvider>

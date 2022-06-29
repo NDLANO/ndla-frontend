@@ -1,12 +1,12 @@
 import { gql } from '@apollo/client';
 import { useContext, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import Spinner from '@ndla/ui/lib/Spinner';
+import { Spinner } from '@ndla/ui';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import Topic, { topicFragments } from './Topic';
 import { useGraphQuery } from '../../../util/runQueries';
 import handleError, { isAccessDeniedError } from '../../../util/handleError';
-import { BreadcrumbItem, LocaleType } from '../../../interfaces';
+import { BreadcrumbItem } from '../../../interfaces';
 import {
   GQLTopicWrapperQuery,
   GQLTopicWrapperQueryVariables,
@@ -17,7 +17,6 @@ type Props = {
   topicId: string;
   subjectId: string;
   subTopicId?: string;
-  locale: LocaleType;
   setBreadCrumb: (item: BreadcrumbItem) => void;
   index: number;
   showResources: boolean;
@@ -42,7 +41,6 @@ const TopicWrapper = ({
   subTopicId,
   topicId,
   subjectId,
-  locale,
   setBreadCrumb,
   showResources,
   subject,
@@ -95,7 +93,6 @@ const TopicWrapper = ({
       topicId={topicId}
       subjectId={subjectId}
       subTopicId={subTopicId}
-      locale={locale}
       showResources={showResources}
       subject={subject}
       loading={loading}

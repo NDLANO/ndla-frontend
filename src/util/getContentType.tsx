@@ -6,17 +6,16 @@
  *
  */
 
-import { constants } from '@ndla/ui';
-import { HeroContentType } from '@ndla/ui/lib/Hero';
+import { constants, HeroContentType } from '@ndla/ui';
 import { GQLResource, GQLResourceType, GQLTopic } from '../graphqlTypes';
 
 import {
-  RESOURCE_TYPE_LEARNING_PATH,
-  RESOURCE_TYPE_SUBJECT_MATERIAL,
-  RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
   RESOURCE_TYPE_ASSESSMENT_RESOURCES,
   RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES,
+  RESOURCE_TYPE_LEARNING_PATH,
   RESOURCE_TYPE_SOURCE_MATERIAL,
+  RESOURCE_TYPE_SUBJECT_MATERIAL,
+  RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
 } from '../constants';
 
 const { contentTypes } = constants;

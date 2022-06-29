@@ -24,18 +24,19 @@ import { FileDocumentOutline } from '@ndla/icons/common';
 import { useTranslation } from 'react-i18next';
 import CopyTextButton from './CopyTextButton';
 import { GQLTextLicenseList_CopyrightFragment } from '../../graphqlTypes';
-import { LocaleType } from '../../interfaces';
 import { licenseCopyrightToCopyrightType } from './licenseHelpers';
 import { licenseListCopyrightFragment } from './licenseFragments';
 
 interface TextLicenseInfoProps {
   text: TextItem;
-  locale: LocaleType;
 }
-const TextLicenseInfo = ({ text, locale }: TextLicenseInfoProps) => {
-  const { t } = useTranslation();
+const TextLicenseInfo = ({ text }: TextLicenseInfoProps) => {
+  const { t, i18n } = useTranslation();
   const safeCopyright = licenseCopyrightToCopyrightType(text.copyright);
-  const items = getGroupedContributorDescriptionList(safeCopyright, locale);
+  const items = getGroupedContributorDescriptionList(
+    safeCopyright,
+    i18n.language,
+  );
   if (text.title) {
     items.unshift({
       label: t('title'),
@@ -58,7 +59,7 @@ const TextLicenseInfo = ({ text, locale }: TextLicenseInfoProps) => {
         license={text.copyright.license?.license}
         title={t('license.text.rules')}
         resourceType="text"
-        locale={locale}>
+        locale={i18n.language}>
         <MediaListItemActions>
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />
@@ -85,10 +86,9 @@ interface TextItem {
 
 interface Props {
   texts: TextItem[];
-  locale: LocaleType;
 }
 
-const TextLicenseList = ({ texts, locale }: Props) => {
+const TextLicenseList = ({ texts }: Props) => {
   const { t } = useTranslation();
   return (
     <div>
@@ -96,7 +96,7 @@ const TextLicenseList = ({ texts, locale }: Props) => {
       <p>{t('license.text.description')}</p>
       <MediaList>
         {texts.map(text => (
-          <TextLicenseInfo text={text} key={uuid()} locale={locale} />
+          <TextLicenseInfo text={text} key={uuid()} />
         ))}
       </MediaList>
     </div>

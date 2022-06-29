@@ -81,7 +81,7 @@ const resourcePageQuery = gql`
   ${learningpathPageFragments.topicPath}
 `;
 const ResourcePage = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { user } = useContext(AuthContext);
   const { subjectId, resourceId, topicId, stepId } = useUrnIds();
   const location = useLocation();
@@ -131,7 +131,6 @@ const ResourcePage = () => {
   if (isLearningPathResource(resource)) {
     return (
       <LearningpathPage
-        locale={i18n.language}
         skipToContentId={SKIP_TO_CONTENT_ID}
         stepId={stepId}
         user={user}
