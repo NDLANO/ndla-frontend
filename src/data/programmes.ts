@@ -1011,9 +1011,6 @@ export const programmes: ProgrammeType[] = [
                 id: 'urn:subject:f2ef1c73-d706-44e9-b1bd-7923842d6b4e',
               },
               {
-                id: 'urn:subject:187c1484-84a5-474d-bf63-0c7915809a7d',
-              },
-              {
                 id: 'urn:subject:1:576cc40f-cc74-4418-9721-9b15ffd29cff',
               },
               {
