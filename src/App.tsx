@@ -23,12 +23,16 @@ import LoginProviders from './containers/Login/LoginProviders';
 import LoginSuccess from './containers/Login/LoginSuccess';
 import LogoutProviders from './containers/Logout/LogoutProviders';
 import LogoutSession from './containers/Logout/LogoutSession';
+import FoldersPage from './containers/MyNdla/Folders/FoldersPage';
+import MyNdlaLayout from './containers/MyNdla/MyNdlaLayout';
+import MyNdlaPage from './containers/MyNdla/MyNdlaPage';
 import NotFound from './containers/NotFoundPage/NotFoundPage';
 import Layout from './containers/Page/Layout';
 import PlainArticlePage from './containers/PlainArticlePage/PlainArticlePage';
 import PlainLearningpathPage from './containers/PlainLearningpathPage/PlainLearningpathPage';
 import PodcastSeriesListPage from './containers/PodcastPage/PodcastSeriesListPage';
 import PodcastSeriesPage from './containers/PodcastPage/PodcastSeriesPage';
+import PrivateRoute from './containers/PrivateRoute/PrivateRoute';
 import ProgrammePage from './containers/ProgrammePage/ProgrammePage';
 import ResourcePage from './containers/ResourcePage/ResourcePage';
 import SearchPage from './containers/SearchPage/SearchPage';
@@ -148,6 +152,15 @@ const AppRoutes = ({ base, resCookie }: AppProps) => {
                       <Route path="topic:topicId" element={null} />
                     </Route>
                   </Route>
+                </Route>
+              </Route>
+              <Route
+                path="minndla"
+                element={<PrivateRoute element={<MyNdlaLayout />} />}>
+                <Route index element={<MyNdlaPage />} />
+                <Route path="folders">
+                  <Route index element={<FoldersPage />} />
+                  <Route path=":folderId" element={<FoldersPage />} />
                 </Route>
               </Route>
               <Route path="404" element={<NotFound />} />

@@ -6,7 +6,11 @@
  *
  */
 
-export const privateRoutes = ['minndla'];
+export const privateRoutes = [
+  'minndla',
+  'minndla/folders',
+  'minndla/folders/:folderId',
+];
 
 export const routes = [
   '/',
