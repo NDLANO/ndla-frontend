@@ -8,7 +8,7 @@
 
 import { gql } from '@apollo/client';
 import { useContext } from 'react';
-import { Spinner } from '@ndla/ui';
+import { Spinner } from '@ndla/icons';
 import DefaultErrorMessage from '../../../components/DefaultErrorMessage';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import {
