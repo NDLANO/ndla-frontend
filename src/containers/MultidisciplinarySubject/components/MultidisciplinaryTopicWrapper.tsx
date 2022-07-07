@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import { Spinner } from '@ndla/ui';
+import { Spinner } from '@ndla/icons';
 import { FeideUserApiType } from '@ndla/ui';
 import { useGraphQuery } from '../../../util/runQueries';
 import MultidisciplinaryTopic, {

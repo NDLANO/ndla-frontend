@@ -142,6 +142,20 @@ const typePolicies: TypePolicies = {
       },
     },
   },
+  Folder: {
+    fields: {
+      subfolders: {
+        merge(existing, incoming) {
+          return existing ? existing : incoming;
+        },
+      },
+      resources: {
+        merge(existing, incoming) {
+          return existing ? existing : incoming;
+        },
+      },
+    },
+  },
   SearchContext: {
     keyFields: ['path'],
   },

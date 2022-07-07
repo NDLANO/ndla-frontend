@@ -79,6 +79,7 @@ const MyNdlaPage = () => {
         <StyledResourceList>
           {data?.allFolderResources.map(res => (
             <ListResource
+              key={res.id}
               link={res.path}
               title={res.id}
               resourceImage={{ src: '', alt: '' }}

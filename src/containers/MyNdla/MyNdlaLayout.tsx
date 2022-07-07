@@ -10,7 +10,8 @@ import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
 import { Person } from '@ndla/icons/common';
 import { FolderStructureProps, TreeStructure } from '@ndla/ui';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
+import { useFolder, useFolders } from './folderMutations';
 
 const StyledLayout = styled.div`
   display: flex;
@@ -23,36 +24,45 @@ const StyledSideBar = styled.div`
   min-width: 300px;
 `;
 
-const staticStructureElements: FolderStructureProps[] = [
-  {
-    id: 'myNdla',
-    name: 'Min Side',
-    url: '/minndla',
-    icon: <Person />,
-    data: [],
-  },
-  {
-    id: 'myFolders',
-    name: 'Mine Mapper',
-    url: '/minndla/folders',
-    data: [],
-  },
-  {
-    id: 'myTags',
-    name: 'Mine Tagger',
-    url: '/minndla/tags',
-    data: [],
-  },
-];
-
 const MyNdlaLayout = () => {
+  const { folders } = useFolders();
+  const location = useLocation();
+  const [page, folderId] = location.pathname
+    .replace('/minndla/', '')
+    .split('/');
+  const selectedFolder = useFolder(folderId);
+  const defaultSelected =
+    page && folderId
+      ? [page].concat(
+          selectedFolder ? selectedFolder.breadcrumbs.map(b => b.id) : [],
+        )
+      : [];
+  const staticStructureElements: FolderStructureProps[] = [
+    {
+      id: '',
+      name: 'Min Side',
+      icon: <Person />,
+      subfolders: [],
+    },
+    {
+      id: 'folders',
+      name: 'Mine Mapper',
+      subfolders: folders,
+    },
+    {
+      id: 'tags',
+      name: 'Mine Tagger',
+      subfolders: [],
+    },
+  ];
   return (
     <StyledLayout>
       <StyledSideBar>
         <TreeStructure
           label=""
-          data={staticStructureElements}
+          folders={staticStructureElements}
           onNewFolder={async () => ''}
+          defaultOpenFolders={defaultSelected}
         />
       </StyledSideBar>
       <Outlet />

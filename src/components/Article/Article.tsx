@@ -21,6 +21,7 @@ import {
   Article as UIArticle,
   ContentTypeBadge,
   getMastheadHeight,
+  ListResource,
 } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
 import config from '../../config';
@@ -309,7 +310,23 @@ const Article = ({
       <AddResourceToFolderModal
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
-        article={article}
+        resource={{
+          id: article.id,
+          path: location.pathname,
+          resourceType: 'article',
+        }}
+        resourceComponent={
+          <ListResource
+            link={location.pathname}
+            title={article.title}
+            description={article.introduction}
+            topics={[]}
+            resourceImage={{
+              src: article.metaImage?.url ?? '',
+              alt: article.metaImage?.alt ?? '',
+            }}
+          />
+        }
       />
     </>
   );
@@ -325,6 +342,10 @@ Article.fragments = {
       oldNdlaUrl
       introduction
       conceptIds
+      metaImage {
+        url
+        alt
+      }
       metaData {
         footnotes {
           ref
@@ -345,10 +366,8 @@ Article.fragments = {
       }
       revisionDate
       ...LicenseBox_Article
-      ...AddResourceToFolderModal_Article
     }
     ${LicenseBox.fragments.article}
-    ${AddResourceToFolderModal.fragments.article}
   `,
 };
 export default Article;

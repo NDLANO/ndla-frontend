@@ -6,22 +6,24 @@
  *
  */
 
-import { gql } from '@apollo/client';
-import Modal, { ModalBody, ModalCloseButton, ModalHeader } from '@ndla/modal';
+import { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { GQLAddResourceToFolderModal_ArticleFragment } from '../../graphqlTypes';
-import AddResourceToFolder from './AddResourceToFolder';
+import Modal, { ModalBody, ModalCloseButton, ModalHeader } from '@ndla/modal';
+import AddResourceToFolder, { ResourceAttributes } from './AddResourceToFolder';
 
 interface Props {
+  resource: ResourceAttributes;
+  resourceComponent: ReactNode;
   isOpen: boolean;
   onClose: () => void;
-  article: GQLAddResourceToFolderModal_ArticleFragment;
 }
-const AddResourceToFolderModal = ({ isOpen, onClose, article }: Props) => {
+const AddResourceToFolderModal = ({
+  isOpen,
+  onClose,
+  resource,
+  resourceComponent,
+}: Props) => {
   const { t } = useTranslation();
-  if (!isOpen) {
-    return null;
-  }
 
   return (
     <Modal
@@ -39,21 +41,16 @@ const AddResourceToFolderModal = ({ isOpen, onClose, article }: Props) => {
             />
           </ModalHeader>
           <ModalBody>
-            <AddResourceToFolder article={article} />
+            <AddResourceToFolder
+              resource={resource}
+              resourceComponent={resourceComponent}
+              onClose={onClose}
+            />
           </ModalBody>
         </>
       )}
     </Modal>
   );
-};
-
-AddResourceToFolderModal.fragments = {
-  article: gql`
-    fragment AddResourceToFolderModal_Article on Article {
-      ...AddResourceToFolder_Article
-    }
-    ${AddResourceToFolder.fragments.article}
-  `,
 };
 
 export default AddResourceToFolderModal;
