@@ -1396,7 +1396,6 @@ export type GQLArticle_ArticleFragment = {
   introduction?: Maybe<string>;
   conceptIds?: Maybe<Array<number>>;
   revisionDate?: Maybe<string>;
-  metaImage?: Maybe<{ __typename?: 'MetaImage'; url: string; alt: string }>;
   metaData?: Maybe<{
     __typename?: 'ArticleMetaData';
     footnotes?: Maybe<

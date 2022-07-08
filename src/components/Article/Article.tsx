@@ -333,10 +333,6 @@ Article.fragments = {
       oldNdlaUrl
       introduction
       conceptIds
-      metaImage {
-        url
-        alt
-      }
       metaData {
         footnotes {
           ref
