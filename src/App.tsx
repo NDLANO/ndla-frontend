@@ -154,15 +154,17 @@ const AppRoutes = ({ base, resCookie }: AppProps) => {
                   </Route>
                 </Route>
               </Route>
-              <Route
-                path="minndla"
-                element={<PrivateRoute element={<MyNdlaLayout />} />}>
-                <Route index element={<MyNdlaPage />} />
-                <Route path="folders">
-                  <Route index element={<FoldersPage />} />
-                  <Route path=":folderId" element={<FoldersPage />} />
+              {config.feideEnabled && (
+                <Route
+                  path="minndla"
+                  element={<PrivateRoute element={<MyNdlaLayout />} />}>
+                  <Route index element={<MyNdlaPage />} />
+                  <Route path="folders">
+                    <Route index element={<FoldersPage />} />
+                    <Route path=":folderId" element={<FoldersPage />} />
+                  </Route>
                 </Route>
-              </Route>
+              )}
               <Route path="404" element={<NotFound />} />
               <Route path="403" element={<AccessDenied />} />
               <Route path="*" element={<NotFound />} />
