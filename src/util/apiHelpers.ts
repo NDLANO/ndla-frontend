@@ -140,6 +140,15 @@ const typePolicies: TypePolicies = {
           return mergeGroupSearch(existing, incoming, args?.page);
         },
       },
+      folderResourceMeta: {
+        read(_, { args, toReference }) {
+          return toReference(
+            `FolderResourceMeta:${args!.resource.resourceType}${
+              args!.resource.id
+            }`,
+          );
+        },
+      },
     },
   },
   Folder: {
@@ -167,6 +176,9 @@ const typePolicies: TypePolicies = {
   },
   FrontpageSearchResult: {
     keyFields: ['path'],
+  },
+  FolderResourceMeta: {
+    keyFields: obj => `${obj.__typename}:${obj.type}${obj.id}`,
   },
 };
 

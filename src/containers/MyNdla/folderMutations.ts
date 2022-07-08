@@ -19,6 +19,9 @@ import {
   GQLDeleteFolderMutation,
   GQLDeleteFolderResourceMutation,
   GQLFolder,
+  GQLFolderResourceMetaQuery,
+  GQLFolderResourceMetaSearchInput,
+  GQLFolderResourceMetaSearchQuery,
   GQLFoldersPageQuery,
   GQLMutationAddFolderArgs,
   GQLMutationAddFolderResourceArgs,
@@ -130,6 +133,73 @@ const updateFolderMutation = gql`
   }
   ${foldersPageQueryFragment}
 `;
+
+const folderResourceMetaFragment = gql`
+  fragment FolderResourceMeta on FolderResourceMeta {
+    __typename
+    id
+    title
+    description
+    type
+    metaImage {
+      url
+      alt
+    }
+    resourceTypes {
+      id
+      name
+    }
+  }
+`;
+
+const folderResourceMetaQuery = gql`
+  query folderResourceMeta($resource: FolderResourceMetaSearchInput!) {
+    folderResourceMeta(resource: $resource) {
+      ...FolderResourceMeta
+    }
+  }
+  ${folderResourceMetaFragment}
+`;
+
+export const useFolderResourceMeta = (
+  resource: GQLFolderResourceMetaSearchInput,
+) => {
+  const { data: { folderResourceMeta } = {}, ...rest } = useGraphQuery<
+    GQLFolderResourceMetaQuery
+  >(folderResourceMetaQuery, {
+    variables: { resource },
+  });
+
+  return { meta: folderResourceMeta, ...rest };
+};
+
+const folderResourceMetaSearchQuery = gql`
+  query folderResourceMetaSearch(
+    $resources: [FolderResourceMetaSearchInput!]!
+  ) {
+    folderResourceMetaSearch(resources: $resources) {
+      ...FolderResourceMeta
+    }
+  }
+
+  ${folderResourceMetaFragment}
+`;
+
+export const useFolderResourceMetaSearch = (
+  resources: GQLFolderResourceMetaSearchInput[],
+) => {
+  const {
+    data: { folderResourceMetaSearch: data } = {},
+    ...rest
+  } = useGraphQuery<GQLFolderResourceMetaSearchQuery>(
+    folderResourceMetaSearchQuery,
+    {
+      variables: { resources },
+    },
+  );
+
+  return { data, ...rest };
+};
 
 export const useFolders = () => {
   const { data: { folders: folderData } = {}, ...rest } = useGraphQuery<

@@ -9,13 +9,14 @@
 import styled from '@emotion/styled';
 import Button from '@ndla/button';
 import { spacing } from '@ndla/core';
-import { TreeStructure } from '@ndla/ui';
-import { ReactNode, useState } from 'react';
+import { ListResource, TreeStructure } from '@ndla/ui';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   useAddFolderMutation,
   useAddResourceToFolderMutation,
   useFolder,
+  useFolderResourceMeta,
   useFolders,
 } from '../../containers/MyNdla/folderMutations';
 
@@ -27,7 +28,6 @@ export interface ResourceAttributes {
 
 interface Props {
   onClose: () => void;
-  resourceComponent: ReactNode;
   resource: ResourceAttributes;
 }
 
@@ -43,12 +43,9 @@ const AddResourceContainer = styled.div`
   gap: ${spacing.normal};
 `;
 
-const AddResourceToFolder = ({
-  onClose,
-  resourceComponent,
-  resource,
-}: Props) => {
+const AddResourceToFolder = ({ onClose, resource }: Props) => {
   const { t } = useTranslation();
+  const { meta } = useFolderResourceMeta(resource);
   const { folders } = useFolders();
   const [selectedFolderId, setSelectedFolderId] = useState<string | undefined>(
     undefined,
@@ -88,7 +85,15 @@ const AddResourceToFolder = ({
   return (
     <AddResourceContainer>
       <h1>{t('myNdla.resource.addToMyNdla')}</h1>
-      {resourceComponent}
+      <ListResource
+        link={resource.path}
+        title={meta?.title ?? ''}
+        topics={meta?.resourceTypes.map(rt => rt.name) ?? []}
+        resourceImage={{
+          src: meta?.metaImage?.url ?? '',
+          alt: meta?.metaImage?.url ?? '',
+        }}
+      />
       <TreeStructure
         folders={structureFolders}
         label={t('myNdla.myFolders')}

@@ -6,23 +6,16 @@
  *
  */
 
-import { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import Modal, { ModalBody, ModalCloseButton, ModalHeader } from '@ndla/modal';
 import AddResourceToFolder, { ResourceAttributes } from './AddResourceToFolder';
 
 interface Props {
   resource: ResourceAttributes;
-  resourceComponent: ReactNode;
   isOpen: boolean;
   onClose: () => void;
 }
-const AddResourceToFolderModal = ({
-  isOpen,
-  onClose,
-  resource,
-  resourceComponent,
-}: Props) => {
+const AddResourceToFolderModal = ({ isOpen, onClose, resource }: Props) => {
   const { t } = useTranslation();
 
   return (
@@ -41,11 +34,7 @@ const AddResourceToFolderModal = ({
             />
           </ModalHeader>
           <ModalBody>
-            <AddResourceToFolder
-              resource={resource}
-              resourceComponent={resourceComponent}
-              onClose={onClose}
-            />
+            <AddResourceToFolder resource={resource} onClose={onClose} />
           </ModalBody>
         </>
       )}

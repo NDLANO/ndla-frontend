@@ -378,6 +378,28 @@ export type GQLFolderResource = {
   tags: Array<Scalars['String']>;
 };
 
+export type GQLFolderResourceMeta = {
+  __typename?: 'FolderResourceMeta';
+  description: Scalars['String'];
+  id: Scalars['Int'];
+  metaImage?: Maybe<GQLMetaImage>;
+  resourceTypes: Array<GQLFolderResourceResourceType>;
+  title: Scalars['String'];
+  type: Scalars['String'];
+};
+
+export type GQLFolderResourceMetaSearchInput = {
+  id: Scalars['Int'];
+  path: Scalars['String'];
+  resourceType: Scalars['String'];
+};
+
+export type GQLFolderResourceResourceType = {
+  __typename?: 'FolderResourceResourceType';
+  id: Scalars['String'];
+  name: Scalars['String'];
+};
+
 export type GQLFootNote = {
   __typename?: 'FootNote';
   authors: Array<Scalars['String']>;
@@ -779,6 +801,8 @@ export type GQLQuery = {
   coreElements?: Maybe<Array<GQLCoreElement>>;
   filmfrontpage?: Maybe<GQLFilmFrontpage>;
   folder: GQLFolder;
+  folderResourceMeta: GQLFolderResourceMeta;
+  folderResourceMetaSearch: Array<GQLFolderResourceMeta>;
   folders: Array<GQLFolder>;
   frontpage?: Maybe<GQLFrontpage>;
   frontpageSearch?: Maybe<GQLFrontpageSearch>;
@@ -853,6 +877,14 @@ export type GQLQueryFolderArgs = {
   id: Scalars['Int'];
   includeResources?: Maybe<Scalars['Boolean']>;
   includeSubfolders?: Maybe<Scalars['Boolean']>;
+};
+
+export type GQLQueryFolderResourceMetaArgs = {
+  resource: GQLFolderResourceMetaSearchInput;
+};
+
+export type GQLQueryFolderResourceMetaSearchArgs = {
+  resources: Array<GQLFolderResourceMetaSearchInput>;
 };
 
 export type GQLQueryFoldersArgs = {
@@ -2213,6 +2245,44 @@ export type GQLUpdateFolderMutationVariables = Exact<{
 export type GQLUpdateFolderMutation = {
   __typename?: 'Mutation';
   updateFolder: { __typename?: 'Folder' } & GQLFoldersPageQueryFragmentFragment;
+};
+
+export type GQLFolderResourceMetaFragment = {
+  __typename: 'FolderResourceMeta';
+  id: number;
+  title: string;
+  description: string;
+  type: string;
+  metaImage?: Maybe<{ __typename?: 'MetaImage'; url: string; alt: string }>;
+  resourceTypes: Array<{
+    __typename?: 'FolderResourceResourceType';
+    id: string;
+    name: string;
+  }>;
+};
+
+export type GQLFolderResourceMetaQueryVariables = Exact<{
+  resource: GQLFolderResourceMetaSearchInput;
+}>;
+
+export type GQLFolderResourceMetaQuery = {
+  __typename?: 'Query';
+  folderResourceMeta: {
+    __typename?: 'FolderResourceMeta';
+  } & GQLFolderResourceMetaFragment;
+};
+
+export type GQLFolderResourceMetaSearchQueryVariables = Exact<{
+  resources:
+    | Array<GQLFolderResourceMetaSearchInput>
+    | GQLFolderResourceMetaSearchInput;
+}>;
+
+export type GQLFolderResourceMetaSearchQuery = {
+  __typename?: 'Query';
+  folderResourceMetaSearch: Array<
+    { __typename?: 'FolderResourceMeta' } & GQLFolderResourceMetaFragment
+  >;
 };
 
 export type GQLAddResourceToFolderMutationVariables = Exact<{

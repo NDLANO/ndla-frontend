@@ -21,7 +21,6 @@ import {
   Article as UIArticle,
   ContentTypeBadge,
   getMastheadHeight,
-  ListResource,
 } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
 import config from '../../config';
@@ -315,18 +314,6 @@ const Article = ({
           path: location.pathname,
           resourceType: 'article',
         }}
-        resourceComponent={
-          <ListResource
-            link={location.pathname}
-            title={article.title}
-            description={article.introduction}
-            topics={[]}
-            resourceImage={{
-              src: article.metaImage?.url ?? '',
-              alt: article.metaImage?.alt ?? '',
-            }}
-          />
-        }
       />
     </>
   );
