@@ -161,12 +161,12 @@ const MastheadMenu = ({
 
   const shouldRenderSearch =
     !pathname.includes('search') && (pathname.includes('utdanning') || subject);
-    
-    const alerts = openAlerts?.map(alert => ({
-      content: alert.body || alert.title,
-      closable: alert.closable,
-      number: alert.number,
-    }));
+
+  const alerts = openAlerts?.map(alert => ({
+    content: alert.body || alert.title,
+    closable: alert.closable,
+    number: alert.number,
+  }));
   return (
     <TopicMenu
       messages={alerts}
