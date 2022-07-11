@@ -7,7 +7,8 @@
  */
 
 import { useEffect } from 'react';
-import { OneColumn, Spinner } from '@ndla/ui';
+import { OneColumn } from '@ndla/ui';
+import { Spinner } from '@ndla/icons';
 import Pager from '@ndla/pager';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useLocation } from 'react-router-dom';

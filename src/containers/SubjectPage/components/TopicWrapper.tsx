@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 import { useContext, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Spinner } from '@ndla/ui';
+import { Spinner } from '@ndla/icons';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import Topic, { topicFragments } from './Topic';
 import { useGraphQuery } from '../../../util/runQueries';
