@@ -164,10 +164,18 @@ const mapTraits = (traits: string[] | undefined, t: TFunction) =>
     return trait;
   }) ?? [];
 
-const getLtiUrl = (path: string, id: number, language?: LocaleType) =>
-  `article-iframe/${language ? `${language}/` : ''}urn:${path
-    .split('/')
-    .pop()}/${id}`;
+const getLtiUrl = (
+  path: string,
+  id: number,
+  isContext: boolean,
+  language?: LocaleType,
+) => {
+  const commonPath = `article-iframe/${language ? `${language}/` : ''}`;
+  if (isContext) {
+    return `${commonPath}urn:${path.split('/').pop()}/${id}`;
+  }
+  return `${commonPath}article/${id}`;
+};
 
 const getContextLabels = (
   contexts: GQLGroupSearchResourceFragment['contexts'] | undefined,
@@ -209,7 +217,12 @@ export const mapResourcesToItems = (
     title: resource.name,
     ingress: resource.ingress,
     url: isLti
-      ? getLtiUrl(resource.path, resource.id, language)
+      ? getLtiUrl(
+          resource.path,
+          resource.id,
+          !!resource.contexts?.length,
+          language,
+        )
       : resource.contexts?.length
       ? resource.path
       : plainUrl(resource.path),
