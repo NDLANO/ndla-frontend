@@ -64,7 +64,7 @@ const MastheadMenu = ({
   onTopicChange,
   close,
 }: Props) => {
-  const { openAlerts } = useAlerts();
+  const { openAlerts, closeAlert } = useAlerts();
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const { grade } = useTypedParams<{ grade?: string }>();
@@ -162,10 +162,16 @@ const MastheadMenu = ({
   const shouldRenderSearch =
     !pathname.includes('search') && (pathname.includes('utdanning') || subject);
 
+  const alerts = openAlerts?.map(alert => ({
+    content: alert.body || alert.title,
+    closable: alert.closable,
+    number: alert.number,
+  }));
   return (
     <TopicMenu
-      messages={openAlerts?.map(a => a.body ?? a.title)}
+      messages={alerts}
       close={close}
+      closeAlert={closeAlert}
       toFrontpage={() => '/'}
       searchFieldComponent={
         shouldRenderSearch && (

@@ -108,6 +108,7 @@ const WelcomePage = () => {
       </SocialMediaMetadata>
       {alerts?.map(alert => (
         <MessageBanner
+          key={alert.number}
           onClose={() => closeAlert(alert.number)}
           showCloseButton={alert.closable}>
           {alert.content}
