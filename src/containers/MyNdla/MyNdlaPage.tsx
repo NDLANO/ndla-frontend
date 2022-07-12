@@ -6,7 +6,7 @@
  *
  */
 
-import { useContext } from 'react';
+import { MouseEvent, useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { keyBy } from 'lodash';
@@ -180,7 +180,7 @@ const MyNdlaPage = () => {
         <SafeLinkButton
           outline
           to={'/logout'}
-          onClick={e => {
+          onClick={(e: MouseEvent) => {
             e.preventDefault();
             localStorage.setItem('lastPath', location.pathname);
             navigate('/logout');

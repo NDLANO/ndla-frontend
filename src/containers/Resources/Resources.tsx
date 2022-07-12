@@ -179,6 +179,7 @@ const Resources = ({ topic, resourceTypes }: Props) => {
             contentType={type.contentType}
             invertedStyle={ndlaFilm}
             showAddToFavoriteButton={config.feideEnabled}
+            //@ts-ignore Typed wrong in frontend-packages
             onToggleAddToFavorites={id => {
               const resource = type.resources?.find(res => res.id === id);
               const [, resourceType, articleIdString] =
