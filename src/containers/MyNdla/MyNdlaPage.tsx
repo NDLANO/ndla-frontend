@@ -157,7 +157,7 @@ const MyNdlaPage = () => {
       )}
       <InfoPart
         icon={<TermsIcon />}
-        title={'myNdla.myPage.terms'}
+        title={t('myNdla.myPage.terms.terms')}
         children={<TermsOfService />}
       />
       <InfoContainer>

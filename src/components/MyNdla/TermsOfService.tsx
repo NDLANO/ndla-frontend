@@ -8,16 +8,19 @@
 
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
+import { useTranslation } from 'react-i18next';
 
 const StyledList = styled.ul`
   margin-left: ${spacing.nsmall};
 `;
 
 const TermsOfService = () => {
+  const { t } = useTranslation();
   return (
     <StyledList>
-      <li>Du godtar at innholdet du lagrer kan endres når som helst</li>
-      <li>Du godtar å ikke opprette mapper med støtende navn</li>
+      <li>{t('myNdla.myPage.terms.term1')}</li>
+      <li>{t('myNdla.myPage.terms.term2')}</li>
+      <li>{t('myNdla.myPage.terms.term3')}</li>
     </StyledList>
   );
 };
