@@ -17,6 +17,7 @@ import Modal, { ModalBody, ModalCloseButton, ModalHeader } from '@ndla/modal';
 import SafeLink from '@ndla/safelink';
 import { AuthContext } from '../AuthenticationContext';
 import LoginComponent from '../MyNdla/LoginComponent';
+import IsMobileContext from '../../IsMobileContext';
 
 const FeideButton = styled(StyledButton)`
   background: transparent;
@@ -83,9 +84,11 @@ const FeideLoginButton = ({ footer = false, children }: Props) => {
   const location = useLocation();
   const { t } = useTranslation();
   const { authenticated, user } = useContext(AuthContext);
+  const isMobile = useContext(IsMobileContext);
+  const toString = isMobile ? '/minndla/meny' : '/minndla';
 
   if (authenticated && !footer) {
-    return <StyledLink to="/minndla">{children}</StyledLink>;
+    return <StyledLink to={toString}>{children}</StyledLink>;
   }
 
   if (!authenticated && !footer) {

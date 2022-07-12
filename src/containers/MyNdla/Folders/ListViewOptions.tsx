@@ -6,7 +6,7 @@
  *
  */
 
-import { memo } from 'react';
+import { memo, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import Tooltip from '@ndla/tooltip';
@@ -14,6 +14,7 @@ import Button from '@ndla/button';
 import { colors } from '@ndla/core';
 import { FourlineHamburger, GridListView, List } from '@ndla/icons/action';
 import { ViewType } from './FoldersPage';
+import IsMobileContext from '../../../IsMobileContext';
 
 const StyledDisplayOptionsContainer = styled.div`
   display: flex;
@@ -51,6 +52,7 @@ interface Props {
 }
 
 const ListViewOptions = ({ onTypeChange, type }: Props) => {
+  const isMobile = useContext(IsMobileContext);
   const { t } = useTranslation();
   return (
     <StyledDisplayOptionsContainer>
@@ -74,16 +76,18 @@ const ListViewOptions = ({ onTypeChange, type }: Props) => {
           <List />
         </StyledIconButton>
       </Tooltip>
-      <Tooltip tooltip={t('myNdla.shortView')}>
-        <StyledIconButton
-          selected={type === 'block'}
-          ghostPill
-          onClick={() => onTypeChange('block')}
-          size="small"
-          aria-label={t('myNdla.shortView')}>
-          <GridListView />
-        </StyledIconButton>
-      </Tooltip>
+      {!isMobile && (
+        <Tooltip tooltip={t('myNdla.shortView')}>
+          <StyledIconButton
+            selected={type === 'block'}
+            ghostPill
+            onClick={() => onTypeChange('block')}
+            size="small"
+            aria-label={t('myNdla.shortView')}>
+            <GridListView />
+          </StyledIconButton>
+        </Tooltip>
+      )}
     </StyledDisplayOptionsContainer>
   );
 };

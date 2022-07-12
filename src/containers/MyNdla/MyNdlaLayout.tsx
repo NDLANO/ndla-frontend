@@ -7,7 +7,8 @@
  */
 
 import styled from '@emotion/styled';
-import { colors, spacing } from '@ndla/core';
+import { useTranslation } from 'react-i18next';
+import { breakpoints, colors, mq, spacing } from '@ndla/core';
 import { Person } from '@ndla/icons/common';
 import { FolderStructureProps, TreeStructure } from '@ndla/ui';
 import { Outlet, useLocation } from 'react-router-dom';
@@ -22,10 +23,14 @@ const StyledSideBar = styled.div`
   border-right: 1px solid ${colors.brand.greyLighter};
   max-width: 300px;
   min-width: 300px;
+  ${mq.range({ until: breakpoints.tablet })} {
+    display: none;
+  }
 `;
 
 const MyNdlaLayout = () => {
   const { folders } = useFolders();
+  const { t } = useTranslation();
   const location = useLocation();
   const [page, folderId] = location.pathname
     .replace('/minndla/', '')
@@ -40,18 +45,18 @@ const MyNdlaLayout = () => {
   const staticStructureElements: FolderStructureProps[] = [
     {
       id: '',
-      name: 'Min Side',
+      name: t('myNdla.myPage.myPage'),
       icon: <Person />,
       subfolders: [],
     },
     {
       id: 'folders',
-      name: 'Mine Mapper',
+      name: t('myNdla.myFolders'),
       subfolders: folders,
     },
     {
       id: 'tags',
-      name: 'Mine Tagger',
+      name: t('myNdla.myTags'),
       subfolders: [],
     },
   ];

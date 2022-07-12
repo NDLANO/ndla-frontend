@@ -11,10 +11,10 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { keyBy } from 'lodash';
 import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
+import { breakpoints, colors, mq, spacing } from '@ndla/core';
 import { HeartOutline } from '@ndla/icons/action';
 import { FolderOutlined } from '@ndla/icons/contentType';
-import { Feide, HashTag, InformationOutline } from '@ndla/icons/common';
+import { Back, Feide, HashTag, InformationOutline } from '@ndla/icons/common';
 import { ListResource, UserInfo, Image } from '@ndla/ui';
 import Button, { DeleteButton } from '@ndla/button';
 import SafeLink, { SafeLinkButton } from '@ndla/safelink';
@@ -27,6 +27,7 @@ import {
   useFolderResourceMetaSearch,
 } from './folderMutations';
 import TermsOfService from '../../components/MyNdla/TermsOfService';
+import IsMobileContext from '../../IsMobileContext';
 
 const HeartOutlineIcon = InfoPartIcon.withComponent(HeartOutline);
 const FolderOutlinedIcon = InfoPartIcon.withComponent(FolderOutlined);
@@ -35,15 +36,20 @@ const FeideIcon = InfoPartIcon.withComponent(Feide);
 const TermsIcon = InfoPartIcon.withComponent(InformationOutline);
 
 const StyledPageContentContainer = styled.div`
-  padding-left: ${spacing.large};
-  padding-right: 200px;
   display: flex;
   flex-direction: column;
+  padding: ${spacing.small};
+  ${mq.range({ from: breakpoints.tablet })} {
+    padding-left: ${spacing.large};
+    padding-right: 200px;
+  }
 `;
 
 const StyledIntroContainer = styled.div`
   display: flex;
-  gap: ${spacing.large};
+  ${mq.range({ from: breakpoints.tablet })} {
+    gap: ${spacing.large};
+  }
 `;
 
 const RoundedImage = styled(Image)`
@@ -51,6 +57,9 @@ const RoundedImage = styled(Image)`
   height: 160px;
   min-width: 160px;
   object-fit: cover;
+  ${mq.range({ until: breakpoints.tablet })} {
+    display: none;
+  }
 `;
 
 const StyledResourceList = styled.div`
@@ -78,11 +87,30 @@ const ButtonContainer = styled.div`
   padding-bottom: ${spacing.normal};
 `;
 
+const MobileTitle = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${spacing.small};
+  h1 {
+    margin: 0;
+  }
+`;
+
+const StyledSafeLink = styled(SafeLink)`
+  color: ${colors.brand.primary};
+  box-shadow: none;
+  svg {
+    width: 22px;
+    height: 22px;
+  }
+`;
+
 const MyNdlaPage = () => {
   const { user } = useContext(AuthContext);
   const { t } = useTranslation();
   const location = useLocation();
   const navigate = useNavigate();
+  const isMobile = useContext(IsMobileContext);
   const { data: { allFolderResources = [] } = {} } = useGraphQuery<
     GQLRecentlyUsedQuery
   >(recentlyUsedQuery);
@@ -101,7 +129,16 @@ const MyNdlaPage = () => {
 
   return (
     <StyledPageContentContainer>
-      <h1>{t('myNdla.myPage.myPage')}</h1>
+      {isMobile ? (
+        <MobileTitle>
+          <StyledSafeLink to="/minndla/meny">
+            <Back />
+          </StyledSafeLink>
+          <h1>Min side</h1>
+        </MobileTitle>
+      ) : (
+        <h1>{t('myNdla.myPage.myPage')}</h1>
+      )}
       <StyledIntroContainer>
         <h2>{t('myNdla.myPage.welcome')}</h2>
         <RoundedImage src="/static/my-ndla-login.png" alt="alt" />

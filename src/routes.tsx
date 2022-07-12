@@ -8,6 +8,7 @@
 
 export const privateRoutes = [
   'minndla',
+  'minndla/meny',
   'minndla/folders',
   'minndla/folders/:folderId',
 ];

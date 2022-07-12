@@ -9,6 +9,7 @@
 import { HelmetProvider } from 'react-helmet-async';
 import { StaticRouter } from 'react-router-dom/server.js';
 import { I18nextProvider } from 'react-i18next';
+import { getSelectorsByUserAgent } from 'react-device-detect';
 import { i18nInstance } from '@ndla/ui';
 import url from 'url';
 import { ApolloProvider } from '@apollo/client';
@@ -28,6 +29,7 @@ import {
 import { renderHtml, renderPageWithData } from '../helpers/render';
 import { EmotionCacheKey, STORED_LANGUAGE_COOKIE_KEY } from '../../constants';
 import { VersionHashProvider } from '../../components/VersionHashContext';
+import IsMobileContext from '../../IsMobileContext';
 import { TEMPORARY_REDIRECT } from '../../statusCodes';
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST); //eslint-disable-line
@@ -50,6 +52,8 @@ const disableSSR = req => {
 async function doRender(req) {
   global.assets = assets; // used for including mathjax js in pages with math
   const resCookie = req.headers['cookie'] ?? '';
+  const userAgent = req.headers['user-agent'];
+  const isMobile = getSelectorsByUserAgent(userAgent).isMobile;
   const versionHash = req.query.versionHash;
   const { basename } = getLocaleInfoFromPath(req.path);
   const locale = getCookie(STORED_LANGUAGE_COOKIE_KEY, resCookie);
@@ -68,17 +72,19 @@ async function doRender(req) {
         <I18nextProvider i18n={i18n}>
           <ApolloProvider client={client}>
             <CacheProvider value={cache}>
-              <VersionHashProvider value={versionHash}>
-                <StaticRouter basename={basename} location={req.url}>
-                  <App
-                    isClient={false}
-                    client={client}
-                    locale={locale}
-                    versionHash={versionHash}
-                    resCookie={resCookie}
-                    key={locale}
-                  />
-                </StaticRouter>
+              <VersionHashProvider value={!!versionHash}>
+                <IsMobileContext.Provider value={isMobile}>
+                  <StaticRouter basename={basename} location={req.url}>
+                    <App
+                      isClient={false}
+                      client={client}
+                      locale={locale}
+                      versionHash={versionHash}
+                      resCookie={resCookie}
+                      key={locale}
+                    />
+                  </StaticRouter>
+                </IsMobileContext.Provider>
               </VersionHashProvider>
             </CacheProvider>
           </ApolloProvider>
