@@ -3134,10 +3134,10 @@
   dependencies:
     warning "^4.0.3"
 
-"@ndla/ui@^20.0.2":
-  version "20.0.2"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-20.0.2.tgz#4b9a524e945222dfd6376d072d3c880ac5958844"
-  integrity sha512-J86EXPb9XkOPWEaIoBgLTQHpL6tAy7XNuy1cRUz7c6Fn0sFoNxvByuwc4qXB3mlNqcedkiDNxEsRtkMP6IvRaQ==
+"@ndla/ui@^20.0.3":
+  version "20.0.3"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-20.0.3.tgz#e12400598e94794a777d8d95f3f20d6f08e93349"
+  integrity sha512-oGLOeojySzdsxtBkTKVQw7RLfGf8RMG/SlT36viN9DDVodDoYlH6+yZWVjV3QvAJLFenTWLq0/ZDQwlHfCOn3A==
   dependencies:
     "@ndla/button" "^3.1.5"
     "@ndla/carousel" "^1.2.14"
