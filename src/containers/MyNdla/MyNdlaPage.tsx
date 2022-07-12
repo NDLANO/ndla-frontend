@@ -49,7 +49,8 @@ const StyledIntroContainer = styled.div`
 const RoundedImage = styled(Image)`
   border-radius: 50%;
   height: 160px;
-  max-width: 160px;
+  min-width: 160px;
+  object-fit: cover;
 `;
 
 const StyledResourceList = styled.div`
@@ -103,10 +104,7 @@ const MyNdlaPage = () => {
       <h1>{t('myNdla.myPage.myPage')}</h1>
       <StyledIntroContainer>
         <h2>{t('myNdla.myPage.welcome')}</h2>
-        <RoundedImage
-          src="https://api.test.ndla.no/image-api/raw/ta88f8e2.jpg"
-          alt="alt"
-        />
+        <RoundedImage src="/static/my-ndla-login.png" alt="alt" />
       </StyledIntroContainer>
       <h2>{t('myNdla.myPage.newFavourite')}</h2>
       {allFolderResources.length > 0 && (
@@ -159,22 +157,22 @@ const MyNdlaPage = () => {
       )}
       <InfoPart
         icon={<TermsIcon />}
-        title={'Vilkår for bruk'}
+        title={'myNdla.myPage.terms'}
         children={<TermsOfService />}
       />
       <InfoContainer>
         <LinkText>
-          Les vår{' '}
+          {`${t('myNdla.myPage.read.our')} `}
           <SafeLink target="_blank" to="https://om.ndla.no/gdpr">
-            personvernerklæring her
+            {t('myNdla.myPage.privacy')}
           </SafeLink>
         </LinkText>
         <LinkText>
-          Lurer du på noe?{' '}
+          {`${t('myNdla.myPage.questions.question')} `}
           <Button
             link
             onClick={() => document.getElementById('zendesk')?.click()}>
-            Spør oss i chatten
+            {t('myNdla.myPage.questions.ask')}
           </Button>
         </LinkText>
       </InfoContainer>
@@ -187,12 +185,12 @@ const MyNdlaPage = () => {
             localStorage.setItem('lastPath', location.pathname);
             navigate('/logout');
           }}>
-          Logg ut av Min NDLA
+          {t('myNdla.myPage.logout')}
         </SafeLinkButton>
       </ButtonContainer>
       <ButtonContainer>
-        Ønsker du ikke å ha brukerprofil hos oss lengre?
-        <DeleteButton>Slett Min NDLA</DeleteButton>
+        {t('myNdla.myPage.wishToDelete')}
+        <DeleteButton>{t('myNdla.myPage.deleteAccount')}</DeleteButton>
       </ButtonContainer>
     </StyledPageContentContainer>
   );
