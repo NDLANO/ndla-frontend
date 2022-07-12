@@ -53,6 +53,19 @@ export const activeResources: SubjectType[] = [
     },
     id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
   },
+  {
+    longName: {
+      en: 'Ukrainian resources in Norwegian Social Science',
+      nb: 'Ukrainske ressurser i samfunnskunnskap',
+      nn: 'Ukrainske ressurser i samfunnskunnskap',
+    },
+    name: {
+      en: 'Ukrainian resources in Norwegian Social Science',
+      nb: 'Ukrainske ressurser i samfunnskunnskap',
+      nn: 'Ukrainske ressurser i samfunnskunnskap',
+    },
+    id: 'urn:subject:27e8623d-c092-4f00-9a6f-066438d6c466',
+  },
 ];
 
 export const activeSubjects: SubjectType[] = [
@@ -84,19 +97,6 @@ export const activeSubjects: SubjectType[] = [
   },
   {
     longName: {
-      en: 'Ukrainian resources in Norwegian Social Science',
-      nb: 'Ukrainske ressurser i samfunnskunnskap',
-      nn: 'Ukrainske ressurser i samfunnskunnskap',
-    },
-    name: {
-      en: 'Ukrainian resources in Norwegian Social Science',
-      nb: 'Ukrainske ressurser i samfunnskunnskap',
-      nn: 'Ukrainske ressurser i samfunnskunnskap',
-    },
-    id: 'urn:subject:27e8623d-c092-4f00-9a6f-066438d6c466',
-  },
-  {
-    longName: {
       en: 'Naturfag (PB)',
       nb: 'Naturfag (PB)',
       nn: 'Naturfag (PB)',
@@ -123,9 +123,9 @@ export const activeSubjects: SubjectType[] = [
   },
   {
     longName: {
-      en: 'Historie påbygg',
-      nb: 'Historie påbygg',
-      nn: 'Historie påbygg',
+      en: 'Historie (PB)',
+      nb: 'Historie (PB)',
+      nn: 'Historie (PB)',
     },
     name: {
       en: 'Historie',
@@ -136,9 +136,9 @@ export const activeSubjects: SubjectType[] = [
   },
   {
     longName: {
-      en: 'Historie vg3',
-      nb: 'Historie vg3',
-      nn: 'Historie vg3',
+      en: 'Historie (vg3)',
+      nb: 'Historie (vg3)',
+      nn: 'Historie (vg3)',
     },
     name: {
       en: 'Historie',
@@ -253,9 +253,9 @@ export const activeSubjects: SubjectType[] = [
   },
   {
     longName: {
-      en: 'Norsk påbygg',
-      nb: 'Norsk påbygg',
-      nn: 'Norsk påbygg',
+      en: 'Norsk (PB)',
+      nb: 'Norsk (PB)',
+      nn: 'Norsk (PB)',
     },
     name: {
       en: 'Norsk',
@@ -2213,9 +2213,9 @@ export const archivedSubjects: SubjectType[] = [
   },
   {
     longName: {
-      en: 'Matematikk 2P-Y',
-      nb: 'Matematikk 2P-Y',
-      nn: 'Matematikk 2P-Y',
+      en: 'Matematikk 2P-Y (Utgått)',
+      nb: 'Matematikk 2P-Y (Utgått)',
+      nn: 'Matematikk 2P-Y (Utgått)',
     },
     name: {
       en: 'Matematikk 2P-Y (Utgått)',
