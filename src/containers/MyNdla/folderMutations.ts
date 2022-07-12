@@ -9,6 +9,7 @@
 import {
   ApolloCache,
   gql,
+  QueryHookOptions,
   Reference,
   useApolloClient,
   useMutation,
@@ -163,11 +164,13 @@ const folderResourceMetaQuery = gql`
 
 export const useFolderResourceMeta = (
   resource: GQLFolderResourceMetaSearchInput,
+  options?: QueryHookOptions<GQLFolderResourceMetaQuery>,
 ) => {
   const { data: { folderResourceMeta } = {}, ...rest } = useGraphQuery<
     GQLFolderResourceMetaQuery
   >(folderResourceMetaQuery, {
     variables: { resource },
+    ...options,
   });
 
   return { meta: folderResourceMeta, ...rest };
@@ -187,6 +190,7 @@ const folderResourceMetaSearchQuery = gql`
 
 export const useFolderResourceMetaSearch = (
   resources: GQLFolderResourceMetaSearchInput[],
+  options?: QueryHookOptions<GQLFolderResourceMetaSearchQuery>,
 ) => {
   const {
     data: { folderResourceMetaSearch: data } = {},
@@ -195,6 +199,7 @@ export const useFolderResourceMetaSearch = (
     folderResourceMetaSearchQuery,
     {
       variables: { resources },
+      ...options,
     },
   );
 
@@ -226,6 +231,19 @@ export const useFolder = (folderId?: string): GQLFolder | null => {
   const { cache } = useApolloClient();
   return getFolder(cache, folderId);
 };
+
+export const recentlyUsedQuery = gql`
+  query recentlyUsed {
+    allFolderResources(size: 5) {
+      id
+      resourceId
+      path
+      tags
+      resourceType
+      created
+    }
+  }
+`;
 
 export const useAddFolderMutation = () => {
   const client = useApolloClient();
@@ -267,6 +285,7 @@ export const useDeleteFolderMutation = () => {
     GQLDeleteFolderMutation,
     GQLMutationDeleteFolderArgs
   >(deleteFolderMutation, {
+    refetchQueries: [{ query: recentlyUsedQuery }],
     onCompleted: ({ deleteFolder: id }) => {
       const normalizedId = client.cache.identify({ id, __typename: 'Folder' });
       client.cache.evict({ id: normalizedId });
@@ -312,6 +331,7 @@ export const useAddResourceToFolderMutation = (folderId: string) => {
     GQLAddResourceToFolderMutation,
     GQLMutationAddFolderResourceArgs
   >(addResourceToFolderQuery, {
+    refetchQueries: [{ query: recentlyUsedQuery }],
     onCompleted: data => {
       cache.modify({
         id: cache.identify({
@@ -343,6 +363,7 @@ export const useDeleteFolderResourceMutation = (folderId: string) => {
     GQLDeleteFolderResourceMutation,
     GQLMutationDeleteFolderResourceArgs
   >(deleteFolderResourceMutation, {
+    refetchQueries: [{ query: recentlyUsedQuery }],
     onCompleted: ({ deleteFolderResource: id }) => {
       cache.modify({
         id: cache.identify({ __typename: 'Folder', id: folderId }),

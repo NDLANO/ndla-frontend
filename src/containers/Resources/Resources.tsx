@@ -21,6 +21,9 @@ import {
   GQLResources_TopicFragment,
 } from '../../graphqlTypes';
 import { TypedParams, useIsNdlaFilm, useTypedParams } from '../../routeHelpers';
+import config from '../../config';
+import AddResourceToFolderModal from '../../components/MyNdla/AddResourceToFolderModal';
+import { ResourceAttributes } from '../../components/MyNdla/AddResourceToFolder';
 
 interface MatchProps extends TypedParams {
   topicId?: string;
@@ -36,6 +39,9 @@ interface Props {
 const Resources = ({ topic, resourceTypes }: Props) => {
   const params = useTypedParams<MatchProps>();
   const [showAdditionalResources, setShowAdditionalResources] = useState(false);
+  const [resourceToAdd, setResourceToAdd] = useState<
+    ResourceAttributes | undefined
+  >(undefined);
   const ndlaFilm = useIsNdlaFilm();
   const { t } = useTranslation();
 
@@ -157,8 +163,7 @@ const Resources = ({ topic, resourceTypes }: Props) => {
           showAdditionalResources={showAdditionalResources}
           toggleAdditionalResources={toggleAdditionalResources}
           invertedStyle={ndlaFilm}
-          showAddToFavoriteButton={false}
-          // bad type, never called but required
+          showAddToFavoriteButton={config.feideEnabled}
           onToggleAddToFavorites={() => {}}
           onClick={() => {}}
         />
@@ -173,12 +178,30 @@ const Resources = ({ topic, resourceTypes }: Props) => {
             toggleAdditionalResources={toggleAdditionalResources}
             contentType={type.contentType}
             invertedStyle={ndlaFilm}
-            showAddToFavoriteButton={false}
-            // bad type, never called but required.
-            onToggleAddToFavorites={() => {}}
+            showAddToFavoriteButton={config.feideEnabled}
+            onToggleAddToFavorites={id => {
+              const resource = type.resources?.find(res => res.id === id);
+              const [, resourceType, articleIdString] =
+                resource?.contentUri?.split(':') ?? [];
+              const articleId = articleIdString
+                ? parseInt(articleIdString)
+                : undefined;
+              if (!resourceType || !articleId || !resource?.path) return;
+
+              setResourceToAdd({
+                id: articleId,
+                path: resource.path,
+                resourceType,
+              });
+            }}
             onClick={() => {}}
           />
         ))}
+      <AddResourceToFolderModal
+        isOpen={!!resourceToAdd}
+        onClose={() => setResourceToAdd(undefined)}
+        resource={resourceToAdd!}
+      />
     </ResourcesWrapper>
   );
 };

@@ -63,6 +63,7 @@ const MyNdlaLayout = () => {
           folders={staticStructureElements}
           onNewFolder={async () => ''}
           defaultOpenFolders={defaultSelected}
+          openOnFolderClick
         />
       </StyledSideBar>
       <Outlet />

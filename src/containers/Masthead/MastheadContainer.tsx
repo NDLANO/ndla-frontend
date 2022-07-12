@@ -172,7 +172,10 @@ const MastheadContainer = () => {
           />
           {config.feideEnabled && (
             <FeideLoginButton>
-              <Feide title={t('user.buttonLogIn')} />
+              <>
+                {t('myNdla.myNDLA')}
+                <Feide title={t('myNdla.myNDLA')} />
+              </>
             </FeideLoginButton>
           )}
           {renderSearchComponent(true)}

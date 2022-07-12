@@ -6,9 +6,13 @@
  *
  */
 
+import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import Modal, { ModalBody, ModalCloseButton, ModalHeader } from '@ndla/modal';
 import AddResourceToFolder, { ResourceAttributes } from './AddResourceToFolder';
+import { AuthContext } from '../AuthenticationContext';
+import LoginComponent from './LoginComponent';
+import { useFolderResourceMeta } from '../../containers/MyNdla/folderMutations';
 
 interface Props {
   resource: ResourceAttributes;
@@ -17,6 +21,8 @@ interface Props {
 }
 const AddResourceToFolderModal = ({ isOpen, onClose, resource }: Props) => {
   const { t } = useTranslation();
+  const { authenticated } = useContext(AuthContext);
+  const { meta } = useFolderResourceMeta(resource, { skip: !resource });
 
   return (
     <Modal
@@ -34,7 +40,15 @@ const AddResourceToFolderModal = ({ isOpen, onClose, resource }: Props) => {
             />
           </ModalHeader>
           <ModalBody>
-            <AddResourceToFolder resource={resource} onClose={onClose} />
+            {authenticated ? (
+              <AddResourceToFolder resource={resource} onClose={onClose} />
+            ) : (
+              <LoginComponent
+                resource={resource}
+                meta={meta}
+                onClose={onClose}
+              />
+            )}
           </ModalBody>
         </>
       )}

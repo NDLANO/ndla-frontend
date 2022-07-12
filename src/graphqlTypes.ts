@@ -2121,19 +2121,6 @@ export type GQLEditFolderModal_FolderFragment = {
   name: string;
 };
 
-export type GQLRecentlyUsedQueryVariables = Exact<{ [key: string]: never }>;
-
-export type GQLRecentlyUsedQuery = {
-  __typename?: 'Query';
-  allFolderResources: Array<{
-    __typename?: 'FolderResource';
-    id: string;
-    path: string;
-    tags: Array<string>;
-    resourceType: string;
-  }>;
-};
-
 export type GQLFolderResourceFragmentFragment = {
   __typename: 'FolderResource';
   resourceId: number;
@@ -2282,6 +2269,21 @@ export type GQLFolderResourceMetaSearchQuery = {
   folderResourceMetaSearch: Array<
     { __typename?: 'FolderResourceMeta' } & GQLFolderResourceMetaFragment
   >;
+};
+
+export type GQLRecentlyUsedQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GQLRecentlyUsedQuery = {
+  __typename?: 'Query';
+  allFolderResources: Array<{
+    __typename?: 'FolderResource';
+    id: string;
+    resourceId: number;
+    path: string;
+    tags: Array<string>;
+    resourceType: string;
+    created: string;
+  }>;
 };
 
 export type GQLAddResourceToFolderMutationVariables = Exact<{

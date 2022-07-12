@@ -25,38 +25,36 @@ const FolderBreadcrumb = ({ breadcrumbs, onActionChanged }: Props) => {
   const { cache } = useApolloClient();
 
   return (
-    <>
-      <ActionBreadcrumb
-        actionItems={[
-          {
-            icon: <Pencil />,
-            text: t('myNdla.folder.edit'),
-            onClick: () =>
-              onActionChanged({
-                action: 'edit',
-                folder: getFolder(cache, lastBreadcrumb.id)!,
-              }),
-          },
-          {
-            icon: <DeleteForever />,
-            text: t('myNdla.folder.delete'),
-            onClick: () =>
-              onActionChanged({
-                action: 'delete',
-                folder: getFolder(cache, lastBreadcrumb.id)!,
-              }),
-            type: 'danger',
-          },
-        ]}
-        items={[
-          { name: t('myNdla.myFolders'), to: '/minndla/folders' },
-          ...breadcrumbs?.map(crumb => ({
-            name: crumb.name,
-            to: `/minndla/folders/${crumb.id}`,
-          })),
-        ]}
-      />
-    </>
+    <ActionBreadcrumb
+      actionItems={[
+        {
+          icon: <Pencil />,
+          text: t('myNdla.folder.edit'),
+          onClick: () =>
+            onActionChanged({
+              action: 'edit',
+              folder: getFolder(cache, lastBreadcrumb.id)!,
+            }),
+        },
+        {
+          icon: <DeleteForever />,
+          text: t('myNdla.folder.delete'),
+          onClick: () =>
+            onActionChanged({
+              action: 'delete',
+              folder: getFolder(cache, lastBreadcrumb.id)!,
+            }),
+          type: 'danger',
+        },
+      ]}
+      items={[
+        { name: t('myNdla.myFolders'), to: '/minndla/folders' },
+        ...breadcrumbs?.map(crumb => ({
+          name: crumb.name,
+          to: `/minndla/folders/${crumb.id}`,
+        })),
+      ]}
+    />
   );
 };
 

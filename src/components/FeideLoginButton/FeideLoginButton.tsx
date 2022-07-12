@@ -8,12 +8,15 @@
 
 import { ReactElement, useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-
-import { AuthModal } from '@ndla/ui';
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import { StyledButton } from '@ndla/button';
-
+import { AuthModal } from '@ndla/ui';
+import Button, { StyledButton } from '@ndla/button';
+import { spacing } from '@ndla/core';
+import Modal, { ModalBody, ModalCloseButton, ModalHeader } from '@ndla/modal';
+import SafeLink from '@ndla/safelink';
 import { AuthContext } from '../AuthenticationContext';
+import LoginComponent from '../MyNdla/LoginComponent';
 
 const FeideButton = styled(StyledButton)`
   background: transparent;
@@ -48,15 +51,65 @@ const FeideFooterButton = styled(StyledButton)`
   min-height: 48px;
 `;
 
+const StyledLink = styled(SafeLink)`
+  display: flex;
+  align-items: center;
+  color: rgb(32, 88, 143);
+  gap: ${spacing.small};
+  box-shadow: none;
+  margin-right: ${spacing.normal};
+  &:hover {
+    box-shadow: inset 0 -1px;
+  }
+  svg {
+    width: 22px;
+    height: 22px;
+  }
+`;
+
+const MyNdlaButton = styled(Button)`
+  display: flex;
+  align-items: center;
+  gap: ${spacing.xxsmall};
+`;
+
 interface Props {
   footer?: boolean;
   children?: ReactElement;
 }
 
-const FeideLoginButton = ({ footer, children }: Props) => {
+const FeideLoginButton = ({ footer = false, children }: Props) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { t } = useTranslation();
   const { authenticated, user } = useContext(AuthContext);
+
+  if (authenticated && !footer) {
+    return <StyledLink to="/minndla">{children}</StyledLink>;
+  }
+
+  if (!authenticated && !footer) {
+    return (
+      <>
+        <Modal
+          activateButton={<MyNdlaButton ghostPill>{children}</MyNdlaButton>}>
+          {onClose => (
+            <>
+              <ModalHeader>
+                <ModalCloseButton
+                  title={t('modal.closeModal')}
+                  onClick={onClose}
+                />
+              </ModalHeader>
+              <ModalBody>
+                <LoginComponent onClose={onClose} />
+              </ModalBody>
+            </>
+          )}
+        </Modal>
+      </>
+    );
+  }
 
   return (
     <AuthModal
@@ -79,10 +132,6 @@ const FeideLoginButton = ({ footer, children }: Props) => {
       }}
     />
   );
-};
-
-FeideLoginButton.defaultProps = {
-  footer: false,
 };
 
 export default FeideLoginButton;

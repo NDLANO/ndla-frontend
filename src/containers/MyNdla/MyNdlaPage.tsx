@@ -7,23 +7,32 @@
  */
 
 import { useContext } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { gql } from '@apollo/client';
+import { keyBy } from 'lodash';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { HeartOutline } from '@ndla/icons/action';
 import { FolderOutlined } from '@ndla/icons/contentType';
-import { Feide, HashTag } from '@ndla/icons/common';
+import { Feide, HashTag, InformationOutline } from '@ndla/icons/common';
 import { ListResource, UserInfo, Image } from '@ndla/ui';
+import Button, { DeleteButton } from '@ndla/button';
+import SafeLink, { SafeLinkButton } from '@ndla/safelink';
 import InfoPart, { InfoPartIcon, InfoPartText } from './InfoSection';
 import { AuthContext } from '../../components/AuthenticationContext';
 import { useGraphQuery } from '../../util/runQueries';
 import { GQLRecentlyUsedQuery } from '../../graphqlTypes';
+import {
+  recentlyUsedQuery,
+  useFolderResourceMetaSearch,
+} from './folderMutations';
+import TermsOfService from '../../components/MyNdla/TermsOfService';
 
 const HeartOutlineIcon = InfoPartIcon.withComponent(HeartOutline);
 const FolderOutlinedIcon = InfoPartIcon.withComponent(FolderOutlined);
 const HashTagIcon = InfoPartIcon.withComponent(HashTag);
 const FeideIcon = InfoPartIcon.withComponent(Feide);
+const TermsIcon = InfoPartIcon.withComponent(InformationOutline);
 
 const StyledPageContentContainer = styled.div`
   padding-left: ${spacing.large};
@@ -49,21 +58,46 @@ const StyledResourceList = styled.div`
   gap: ${spacing.xsmall};
 `;
 
-const recentlyUsedQuery = gql`
-  query recentlyUsed {
-    allFolderResources(size: 5) {
-      id
-      path
-      tags
-      resourceType
-    }
-  }
+const LinkText = styled.p`
+  margin: 0;
+`;
+
+const InfoContainer = styled.div`
+  display: flex;
+  padding: ${spacing.medium} 0;
+  flex-direction: column;
+  gap: ${spacing.small};
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  align-items: baseline;
+  flex-direction: column;
+  gap: ${spacing.xsmall};
+  padding-bottom: ${spacing.normal};
 `;
 
 const MyNdlaPage = () => {
   const { user } = useContext(AuthContext);
   const { t } = useTranslation();
-  const { data } = useGraphQuery<GQLRecentlyUsedQuery>(recentlyUsedQuery);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { data: { allFolderResources = [] } = {} } = useGraphQuery<
+    GQLRecentlyUsedQuery
+  >(recentlyUsedQuery);
+  const { data: metaData } = useFolderResourceMetaSearch(
+    allFolderResources.map(r => ({
+      id: r.resourceId,
+      path: r.path,
+      resourceType: r.resourceType,
+    })),
+    {
+      skip: !allFolderResources.length,
+    },
+  );
+
+  const keyedData = keyBy(metaData ?? [], r => `${r.type}${r.id}`);
+
   return (
     <StyledPageContentContainer>
       <h1>{t('myNdla.myPage.myPage')}</h1>
@@ -75,18 +109,24 @@ const MyNdlaPage = () => {
         />
       </StyledIntroContainer>
       <h2>{t('myNdla.myPage.newFavourite')}</h2>
-      {data?.allFolderResources && data.allFolderResources.length > 0 && (
+      {allFolderResources.length > 0 && (
         <StyledResourceList>
-          {data?.allFolderResources.map(res => (
-            <ListResource
-              key={res.id}
-              link={res.path}
-              title={res.id}
-              resourceImage={{ src: '', alt: '' }}
-              tags={res.tags}
-              topics={[res.resourceType]}
-            />
-          ))}
+          {allFolderResources.map(res => {
+            const meta = keyedData[`${res.resourceType}${res.resourceId}`];
+            return (
+              <ListResource
+                key={res.id}
+                link={res.path}
+                title={meta?.title ?? ''}
+                resourceImage={{
+                  src: meta?.metaImage?.url ?? '',
+                  alt: meta?.metaImage?.alt ?? '',
+                }}
+                tags={res.tags}
+                topics={meta?.resourceTypes.map(rt => rt.name) ?? []}
+              />
+            );
+          })}
         </StyledResourceList>
       )}
       <InfoPart
@@ -117,6 +157,43 @@ const MyNdlaPage = () => {
           children={<UserInfo user={user} />}
         />
       )}
+      <InfoPart
+        icon={<TermsIcon />}
+        title={'Vilkår for bruk'}
+        children={<TermsOfService />}
+      />
+      <InfoContainer>
+        <LinkText>
+          Les vår{' '}
+          <SafeLink target="_blank" to="https://om.ndla.no/gdpr">
+            personvernerklæring her
+          </SafeLink>
+        </LinkText>
+        <LinkText>
+          Lurer du på noe?{' '}
+          <Button
+            link
+            onClick={() => document.getElementById('zendesk')?.click()}>
+            Spør oss i chatten
+          </Button>
+        </LinkText>
+      </InfoContainer>
+      <ButtonContainer>
+        <SafeLinkButton
+          outline
+          to={'/logout'}
+          onClick={e => {
+            e.preventDefault();
+            localStorage.setItem('lastPath', location.pathname);
+            navigate('/logout');
+          }}>
+          Logg ut av Min NDLA
+        </SafeLinkButton>
+      </ButtonContainer>
+      <ButtonContainer>
+        Ønsker du ikke å ha brukerprofil hos oss lengre?
+        <DeleteButton>Slett Min NDLA</DeleteButton>
+      </ButtonContainer>
     </StyledPageContentContainer>
   );
 };
