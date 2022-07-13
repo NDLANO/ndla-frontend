@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { HashTag, Person } from '@ndla/icons/common';
-import { FolderStructureProps, TreeStructure } from '@ndla/ui';
+import { FolderType, TreeStructure } from '@ndla/ui';
 import IsMobileContext from '../../IsMobileContext';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
@@ -28,33 +28,42 @@ const MyNdlaMenuPage = () => {
   if (!isMobile) {
     return <NotFoundPage />;
   }
-  const staticFolderElements: FolderStructureProps[] = [
+  const staticFolderElements: FolderType[] = [
     {
       id: '',
       name: t('myNdla.myPage.myPage'),
+      status: 'private',
+      isFavorite: false,
       icon: <Person />,
+      breadcrumbs: [],
       subfolders: [],
+      resources: [],
     },
     {
       id: 'folders',
       name: t('myNdla.myFolders'),
+      status: 'private',
+      isFavorite: false,
+      breadcrumbs: [],
       subfolders: [],
+      resources: [],
     },
     {
       icon: <HashTag />,
       id: 'tags',
       name: t('myNdla.myTags'),
+      status: 'private',
+      isFavorite: false,
+      breadcrumbs: [],
       subfolders: [],
+      resources: [],
     },
   ];
 
   return (
     <MenuPageContainer>
       <h1>{t('myNdla.myNDLA')}</h1>
-      <TreeStructure
-        folders={staticFolderElements}
-        onNewFolder={async () => ''}
-      />
+      <TreeStructure folders={staticFolderElements} />
     </MenuPageContainer>
   );
 };

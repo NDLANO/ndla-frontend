@@ -9,8 +9,8 @@
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { breakpoints, colors, mq, spacing } from '@ndla/core';
-import { Person } from '@ndla/icons/common';
-import { FolderStructureProps, TreeStructure } from '@ndla/ui';
+import { HashTag, Person } from '@ndla/icons/common';
+import { FolderType, TreeStructure } from '@ndla/ui';
 import { Outlet, useLocation } from 'react-router-dom';
 import { useFolder, useFolders } from './folderMutations';
 
@@ -42,31 +42,42 @@ const MyNdlaLayout = () => {
           selectedFolder ? selectedFolder.breadcrumbs.map(b => b.id) : [],
         )
       : [];
-  const staticStructureElements: FolderStructureProps[] = [
+  const staticStructureElements: FolderType[] = [
     {
       id: '',
+      isFavorite: false,
       name: t('myNdla.myPage.myPage'),
       icon: <Person />,
+      status: 'private',
       subfolders: [],
+      breadcrumbs: [],
+      resources: [],
     },
     {
       id: 'folders',
+      isFavorite: false,
       name: t('myNdla.myFolders'),
+      status: 'private',
       subfolders: folders,
+      breadcrumbs: [],
+      resources: [],
     },
     {
       id: 'tags',
+      icon: <HashTag />,
+      isFavorite: false,
       name: t('myNdla.myTags'),
+      status: 'private',
       subfolders: [],
+      breadcrumbs: [],
+      resources: [],
     },
   ];
   return (
     <StyledLayout>
       <StyledSideBar>
         <TreeStructure
-          label=""
           folders={staticStructureElements}
-          onNewFolder={async () => ''}
           defaultOpenFolders={defaultSelected}
           openOnFolderClick
         />

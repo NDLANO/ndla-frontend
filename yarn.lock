@@ -3134,10 +3134,15 @@
   dependencies:
     warning "^4.0.3"
 
-"@ndla/ui@^20.0.3":
-  version "20.0.3"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-20.0.3.tgz#e12400598e94794a777d8d95f3f20d6f08e93349"
-  integrity sha512-oGLOeojySzdsxtBkTKVQw7RLfGf8RMG/SlT36viN9DDVodDoYlH6+yZWVjV3QvAJLFenTWLq0/ZDQwlHfCOn3A==
+"@ndla/types-learningpath-api@^0.0.12":
+  version "0.0.12"
+  resolved "https://registry.yarnpkg.com/@ndla/types-learningpath-api/-/types-learningpath-api-0.0.12.tgz#29e57fcac529a00343d0c2a1556d2ff494cbe385"
+  integrity sha512-6M7ANFKVxTqjcMaX1/slsfvxr6fm92kryMmeryCVd+xnKwNJpiAq+MoPzAFWgZvQn7QB8PTogEe6VNYK/jvC3g==
+
+"@ndla/ui@^21.0.0":
+  version "21.0.0"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-21.0.0.tgz#998cae7960d495cede4d7b45e5922b0d33cd1201"
+  integrity sha512-HLBT4QSgsMdTJtEqD/+EW8gIC+yJ26aClvu10mxhZN6fDqYMen3KZK43Bunwgw0KpMRMygaj27IlRUmEykbdaA==
   dependencies:
     "@ndla/button" "^3.1.5"
     "@ndla/carousel" "^1.2.14"
@@ -3152,6 +3157,7 @@
     "@ndla/switch" "^0.1.9"
     "@ndla/tabs" "^1.1.13"
     "@ndla/tooltip" "^2.1.4"
+    "@ndla/types-learningpath-api" "^0.0.12"
     "@ndla/util" "^3.0.0"
     "@reach/menu-button" "^0.16.2"
     "@reach/slider" "^0.16.0"
