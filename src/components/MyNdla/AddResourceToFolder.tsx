@@ -55,7 +55,11 @@ const AddResourceToFolder = ({ onClose, resource }: Props) => {
     {
       id: 'folders',
       name: t('myNdla.myFolders'),
+      status: 'private',
+      isFavorite: false,
       subfolders: folders,
+      breadcrumbs: [],
+      resources: [],
     },
   ];
   const selectedFolder = useFolder(selectedFolderId);
@@ -77,9 +81,14 @@ const AddResourceToFolder = ({ onClose, resource }: Props) => {
     onClose();
   };
 
-  const onAddNewFolder = async (name: string) => {
-    const res = await addFolder({ variables: { name } });
-    return res.data!.addFolder.id;
+  const onAddNewFolder = async (name: string, parentId: string) => {
+    const res = await addFolder({
+      variables: {
+        name,
+        parentId: parentId !== 'folders' ? parentId : undefined,
+      },
+    });
+    return res.data!.addFolder;
   };
 
   return (
