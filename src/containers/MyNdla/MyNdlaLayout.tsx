@@ -10,7 +10,7 @@ import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { breakpoints, colors, mq, spacing } from '@ndla/core';
 import { Person } from '@ndla/icons/common';
-import { FolderStructureProps, TreeStructure } from '@ndla/ui';
+import { FolderType, TreeStructure } from '@ndla/ui';
 import { Outlet, useLocation } from 'react-router-dom';
 import { useFolder, useFolders } from './folderMutations';
 
@@ -42,22 +42,34 @@ const MyNdlaLayout = () => {
           selectedFolder ? selectedFolder.breadcrumbs.map(b => b.id) : [],
         )
       : [];
-  const staticStructureElements: FolderStructureProps[] = [
+  const staticStructureElements: FolderType[] = [
     {
       id: '',
       name: t('myNdla.myPage.myPage'),
       icon: <Person />,
       subfolders: [],
+      breadcrumbs: [],
+      status: 'private',
+      isFavorite: false,
+      resources: [],
     },
     {
       id: 'folders',
       name: t('myNdla.myFolders'),
       subfolders: folders,
+      breadcrumbs: [],
+      status: 'private',
+      isFavorite: false,
+      resources: [],
     },
     {
       id: 'tags',
       name: t('myNdla.myTags'),
       subfolders: [],
+      breadcrumbs: [],
+      status: 'private',
+      isFavorite: false,
+      resources: [],
     },
   ];
   return (

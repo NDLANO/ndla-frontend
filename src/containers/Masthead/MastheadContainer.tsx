@@ -52,6 +52,13 @@ const BreadcrumbWrapper = styled.div`
     display: none;
   }
 `;
+
+const FeideLoginLabel = styled.span`
+  ${mq.range({ until: breakpoints.mobileWide })} {
+    display: none;
+  }
+`;
+
 interface State {
   subject?: GQLMastHeadQuery['subject'];
   topicPath: GQLTopicInfoFragment[];
@@ -172,10 +179,8 @@ const MastheadContainer = () => {
           />
           {config.feideEnabled && (
             <FeideLoginButton>
-              <>
-                {t('myNdla.myNDLA')}
-                <Feide title={t('myNdla.myNDLA')} />
-              </>
+              <FeideLoginLabel>{t('myNdla.myNDLA')}</FeideLoginLabel>
+              <Feide title={t('myNdla.myNDLA')} />
             </FeideLoginButton>
           )}
           {renderSearchComponent(true)}

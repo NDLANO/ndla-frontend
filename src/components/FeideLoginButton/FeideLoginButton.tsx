@@ -6,7 +6,7 @@
  *
  */
 
-import { ReactElement, useContext } from 'react';
+import { ReactNode, useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
@@ -76,7 +76,7 @@ const MyNdlaButton = styled(Button)`
 
 interface Props {
   footer?: boolean;
-  children?: ReactElement;
+  children?: ReactNode;
 }
 
 const FeideLoginButton = ({ footer = false, children }: Props) => {
