@@ -53,7 +53,7 @@ export const BlockWrapper = styled.div<BlockWrapperProps>`
     css`
       display: grid;
       grid-template-columns: repeat(3, 2fr);
-      gap: 25px 32px;
+      gap: ${spacing.normal};
       margin-top: ${spacing.normal};
       div {
         max-width: 345px;
