@@ -6,6 +6,7 @@
  *
  */
 
+import { useMemo } from 'react';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { breakpoints, colors, mq, spacing } from '@ndla/core';
@@ -36,12 +37,19 @@ const MyNdlaLayout = () => {
     .replace('/minndla/', '')
     .split('/');
   const selectedFolder = useFolder(folderId);
-  const defaultSelected =
-    page && folderId
-      ? [page].concat(
+
+  const defaultSelected = useMemo(() => {
+    if (typeof page === 'string') {
+      if (folderId) {
+        return [page].concat(
           selectedFolder ? selectedFolder.breadcrumbs.map(b => b.id) : [],
-        )
-      : [];
+        );
+      }
+      return [page];
+    }
+    return [];
+  }, [selectedFolder, folderId, page]);
+
   const staticStructureElements: FolderType[] = [
     {
       id: '',
