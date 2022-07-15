@@ -71,21 +71,28 @@ const FolderBreadcrumb = ({ breadcrumbs, onActionChanged }: Props) => {
     {
       icon: <Pencil />,
       text: t('myNdla.folder.edit'),
-      onClick: () =>
-        onActionChanged({
-          action: 'edit',
-          folder: getFolder(cache, lastBreadcrumb.id)!,
-        }),
+      onClick: () => {
+        const folder = getFolder(cache, lastBreadcrumb.id);
+        if (folder) {
+          onActionChanged({
+            action: 'edit',
+            folder,
+          });
+        }
+      },
     },
     {
       icon: <DeleteForever />,
       text: t('myNdla.folder.delete'),
-      onClick: () =>
-        onActionChanged({
-          action: 'delete',
-          folder: getFolder(cache, lastBreadcrumb.id)!,
-        }),
-      type: 'danger',
+      onClick: () => {
+        const folder = getFolder(cache, lastBreadcrumb.id);
+        if (folder) {
+          onActionChanged({
+            action: 'delete',
+            folder,
+          });
+        }
+      },
     },
   ];
 
