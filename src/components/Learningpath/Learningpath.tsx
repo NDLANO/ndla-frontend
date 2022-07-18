@@ -134,7 +134,9 @@ const Learningpath = ({
       name={title}
       cookies={viewedSteps}
       learningPathURL={config.learningPathDomain}
-      onToggleAddToFavorites={() => setIsAdding(true)}
+      onToggleAddToFavorites={
+        resource?.path ? () => setIsAdding(true) : undefined
+      }
     />
   );
 
@@ -211,15 +213,17 @@ const Learningpath = ({
           <LearningPathStickyPlaceholder />
         )}
       </LearningPathSticky>
-      <AddResourceToFolderModal
-        isOpen={isAdding}
-        onClose={() => setIsAdding(false)}
-        resource={{
-          id: learningpath.id,
-          path: resource!.path,
-          resourceType: 'learningpath',
-        }}
-      />
+      {resource?.path && (
+        <AddResourceToFolderModal
+          isOpen={isAdding}
+          onClose={() => setIsAdding(false)}
+          resource={{
+            id: learningpath.id,
+            path: resource.path,
+            resourceType: 'learningpath',
+          }}
+        />
+      )}
     </LearningPathWrapper>
   );
 };

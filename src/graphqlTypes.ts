@@ -2211,6 +2211,18 @@ export type GQLFoldersPageQuery = {
   >;
 };
 
+export type GQLUpdateFolderResourceMutationVariables = Exact<{
+  id: Scalars['String'];
+  tags: Array<Scalars['String']> | Scalars['String'];
+}>;
+
+export type GQLUpdateFolderResourceMutation = {
+  __typename?: 'Mutation';
+  updateFolderResource: {
+    __typename?: 'FolderResource';
+  } & GQLFolderResourceFragmentFragment;
+};
+
 export type GQLAddFolderMutationVariables = Exact<{
   name: Scalars['String'];
   parentId?: Maybe<Scalars['String']>;

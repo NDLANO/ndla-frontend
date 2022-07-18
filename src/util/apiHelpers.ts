@@ -177,6 +177,9 @@ const typePolicies: TypePolicies = {
   FrontpageSearchResult: {
     keyFields: ['path'],
   },
+  FolderResource: {
+    keyFields: obj => `${obj.__typename}:${obj.path}`,
+  },
   FolderResourceMeta: {
     keyFields: obj => `${obj.__typename}:${obj.type}${obj.id}`,
   },

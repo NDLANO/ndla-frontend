@@ -29,7 +29,9 @@ import {
   GQLMutationDeleteFolderArgs,
   GQLMutationDeleteFolderResourceArgs,
   GQLMutationUpdateFolderArgs,
+  GQLMutationUpdateFolderResourceArgs,
   GQLUpdateFolderMutation,
+  GQLUpdateFolderResourceMutation,
 } from '../../graphqlTypes';
 import { useGraphQuery } from '../../util/runQueries';
 
@@ -115,6 +117,15 @@ export const foldersPageQuery = gql`
     }
   }
   ${foldersPageQueryFragment}
+`;
+
+const updateFolderResourceMutation = gql`
+  mutation updateFolderResource($id: String!, $tags: [String!]!) {
+    updateFolderResource(id: $id, tags: $tags) {
+      ...FolderResourceFragment
+    }
+  }
+  ${folderResourceFragment}
 `;
 
 const addFolderMutation = gql`
@@ -293,6 +304,15 @@ export const useDeleteFolderMutation = () => {
     },
   });
   return { deleteFolder };
+};
+
+export const useUpdateFolderResourceMutation = () => {
+  const [updateFolderResource] = useMutation<
+    GQLUpdateFolderResourceMutation,
+    GQLMutationUpdateFolderResourceArgs
+  >(updateFolderResourceMutation);
+
+  return { updateFolderResource };
 };
 
 export const useUpdateFolderMutation = () => {

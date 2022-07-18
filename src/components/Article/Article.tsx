@@ -308,7 +308,7 @@ const Article = ({
         {...rest}>
         {children}
       </UIArticle>
-      {config.feideEnabled && (
+      {config.feideEnabled && canFavorite && (
         <AddResourceToFolderModal
           isOpen={isOpen}
           onClose={() => setIsOpen(false)}
