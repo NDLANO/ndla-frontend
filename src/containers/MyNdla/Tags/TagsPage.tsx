@@ -12,10 +12,10 @@ import { SafeLinkButton } from '@ndla/safelink';
 import { ListResource } from '@ndla/ui';
 import { keyBy } from 'lodash';
 import { useParams } from 'react-router-dom';
-import { getAllTags, getResourcesForTag } from '../folderHelpers';
 import { useFolderResourceMetaSearch, useFolders } from '../folderMutations';
 import TagsBreadcrumb from './TagsBreadcrumb';
 import NotFoundPage from '../../NotFoundPage/NotFoundPage';
+import { getAllTags, getResourcesForTag } from '../../../util/folderHelpers';
 
 const TagsContainer = styled.div`
   display: flex;

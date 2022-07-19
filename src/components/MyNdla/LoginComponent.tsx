@@ -1,11 +1,21 @@
+/**
+ * Copyright (c) 2022-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import styled from '@emotion/styled';
 import Button from '@ndla/button';
 import { fonts, spacing } from '@ndla/core';
-import { Feide } from '@ndla/icons/lib/common';
+import { Feide } from '@ndla/icons/common';
 import { SafeLinkButton } from '@ndla/safelink';
 import { ListResource } from '@ndla/ui';
+import { useTranslation } from 'react-i18next';
 import { GQLFolderResourceMetaFragment } from '../../graphqlTypes';
 import { ResourceAttributes } from './AddResourceToFolder';
+import TermsOfService from './TermsOfService';
 
 const LoginComponentContainer = styled.div`
   display: flex;
@@ -48,6 +58,10 @@ const StyledImage = styled.img`
   border-radius: 50%;
 `;
 
+const StyledTermsTitle = styled.h2`
+  margin: 0 !important;
+`;
+
 interface Props {
   onClose: () => void;
   resource?: ResourceAttributes;
@@ -55,6 +69,7 @@ interface Props {
 }
 
 const LoginComponent = ({ resource, meta, onClose }: Props) => {
+  const { t } = useTranslation();
   return (
     <LoginComponentContainer>
       <TitleRow>
@@ -84,14 +99,16 @@ const LoginComponent = ({ resource, meta, onClose }: Props) => {
         Feide
       </FeideRow>
       <StyledDescription>
-        Logg på med Feide for å få tilgang. Ved å logge på godkjenner du våre{' '}
-        <a href="/">vilkår for bruk</a>
+        Logg på med Feide for å få tilgang. Ved å logge på godkjenner du våre
+        vilkår for bruk
       </StyledDescription>
+      <StyledTermsTitle>{t('myNdla.myPage.terms.terms')}</StyledTermsTitle>
+      <TermsOfService />
       <ButtonRow>
         <Button onClick={onClose} outline>
-          Avbryt
+          {t('cancel')}
         </Button>
-        <SafeLinkButton to="/login">Logg på med Feide</SafeLinkButton>
+        <SafeLinkButton to="/login">{t('user.buttonLogIn')}</SafeLinkButton>
       </ButtonRow>
     </LoginComponentContainer>
   );

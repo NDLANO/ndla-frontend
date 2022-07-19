@@ -6,9 +6,9 @@
  *
  */
 
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
-import { useTranslation } from 'react-i18next';
 
 const StyledList = styled.ul`
   margin-left: ${spacing.nsmall};

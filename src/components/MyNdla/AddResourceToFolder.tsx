@@ -6,15 +6,14 @@
  *
  */
 
+import { isEqual, sortBy, uniq } from 'lodash';
+import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useApolloClient } from '@apollo/client';
 import styled from '@emotion/styled';
 import Button from '@ndla/button';
 import { spacing } from '@ndla/core';
 import { ListResource, TagSelector, TreeStructure } from '@ndla/ui';
-import { isEqual, sortBy, uniq } from 'lodash';
-import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { getAllTags } from '../../containers/MyNdla/folderHelpers';
 import {
   folderResourceFragment,
   useAddFolderMutation,
@@ -25,6 +24,7 @@ import {
   useUpdateFolderResourceMutation,
 } from '../../containers/MyNdla/folderMutations';
 import { GQLFolderResource } from '../../graphqlTypes';
+import { getAllTags } from '../../util/folderHelpers';
 
 export interface ResourceAttributes {
   path: string;

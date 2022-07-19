@@ -95,6 +95,7 @@ const FeideLoginButton = ({ footer = false, children }: Props) => {
     return (
       <>
         <Modal
+          backgroundColor="white"
           activateButton={<MyNdlaButton ghostPill>{children}</MyNdlaButton>}>
           {onClose => (
             <>

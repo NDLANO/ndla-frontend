@@ -6,40 +6,24 @@
  *
  */
 
+import { uniq, uniqBy } from 'lodash';
 import { GQLFolder, GQLFolderResource } from '../graphqlTypes';
 
-type PartitionableResource = Pick<GQLFolderResource, 'path'>;
-type PartitionableFolder = Pick<GQLFolder, 'breadcrumbs'>;
-const isResource = <
-  TResource extends PartitionableResource,
-  TFolder extends PartitionableFolder
->(
-  val: TFolder | TResource,
-): val is TResource => 'path' in val;
-
-interface PartitionedFolderData<
-  TResource extends PartitionableResource,
-  TFolder extends PartitionableFolder
-> {
-  folders: TFolder[];
-  resources: TResource[];
-}
-
-export const partitionFolderData = <
-  TResource extends PartitionableResource,
-  TFolder extends PartitionableFolder
->(
-  data: (TFolder | TResource)[],
-): PartitionedFolderData<TResource, TFolder> => {
-  return data.reduce<PartitionedFolderData<TResource, TFolder>>(
-    (acc, curr) => {
-      if (isResource(curr)) {
-        acc.resources = acc.resources.concat(curr);
-      } else {
-        acc.folders = acc.folders.concat(curr);
-      }
-      return acc;
-    },
-    { folders: [], resources: [] },
+export const getAllTags = (allFolders: GQLFolder[]): string[] => {
+  const allTags = allFolders.flatMap(f =>
+    f.resources.flatMap(r => r.tags).concat(getAllTags(f.subfolders)),
   );
+  return uniq(allTags);
+};
+
+export const getResourcesForTag = (
+  allFolders: GQLFolder[],
+  tag: string,
+): GQLFolderResource[] => {
+  const resources = allFolders.flatMap(f =>
+    f.resources
+      .filter(r => r.tags.some(t => t === tag))
+      .concat(getResourcesForTag(f.subfolders, tag)),
+  );
+  return uniqBy(resources, r => r.id);
 };

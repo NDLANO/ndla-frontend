@@ -73,7 +73,7 @@ const StyledRow = styled.div`
   align-items: center;
 `;
 
-const AddButtonText = styled.p`
+const AddButtonText = styled.span`
   margin: 0;
 `;
 

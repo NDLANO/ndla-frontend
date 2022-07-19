@@ -7,6 +7,7 @@
  */
 
 import { useContext } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useApolloClient } from '@apollo/client';
 import styled from '@emotion/styled';
 import { breakpoints, colors, fonts, mq, spacing } from '@ndla/core';
@@ -16,7 +17,6 @@ import { DeleteForever } from '@ndla/icons/editor';
 import { Back } from '@ndla/icons/common';
 import SafeLink from '@ndla/safelink';
 import { ActionBreadcrumb } from '@ndla/ui';
-import { useTranslation } from 'react-i18next';
 import { GQLBreadcrumb } from '../../../graphqlTypes';
 import { getFolder } from '../folderMutations';
 import { FolderAction } from './FoldersPage';

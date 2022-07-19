@@ -6,14 +6,14 @@
  *
  */
 
+import { keyBy } from 'lodash';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link } from '@ndla/icons/common';
 import { FolderOutlined } from '@ndla/icons/contentType';
 import { DeleteForever } from '@ndla/icons/editor';
 import { BlockResource, ListResource } from '@ndla/ui';
 import { copyTextToClipboard } from '@ndla/util';
-import { keyBy } from 'lodash';
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import AddResourceToFolderModal from '../../../components/MyNdla/AddResourceToFolderModal';
 import config from '../../../config';
 import { GQLFolder, GQLFolderResource } from '../../../graphqlTypes';
