@@ -18,6 +18,7 @@ interface Props {
   onDelete: () => void;
   title: string;
   description: string;
+  removeText: string;
 }
 
 const StyledButtonRow = styled.div`
@@ -32,6 +33,7 @@ const DeleteModal = ({
   onDelete,
   title,
   description,
+  removeText,
 }: Props) => {
   const { t } = useTranslation();
   return (
@@ -54,11 +56,9 @@ const DeleteModal = ({
             <p>{description}</p>
             <StyledButtonRow>
               <Button outline onClick={onCloseModal}>
-                {t('myNdla.folder.cancel')}
+                {t('cancel')}
               </Button>
-              <DeleteButton onClick={onDelete}>
-                {t('myNdla.folder.delete')}
-              </DeleteButton>
+              <DeleteButton onClick={onDelete}>{removeText}</DeleteButton>
             </StyledButtonRow>
           </ModalBody>
         </>

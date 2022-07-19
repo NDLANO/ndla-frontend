@@ -12,7 +12,7 @@ import { fonts, spacing } from '@ndla/core';
 import { Feide } from '@ndla/icons/common';
 import { SafeLinkButton } from '@ndla/safelink';
 import { ListResource } from '@ndla/ui';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { GQLFolderResourceMetaFragment } from '../../graphqlTypes';
 import { ResourceAttributes } from './AddResourceToFolder';
 import TermsOfService from './TermsOfService';
@@ -74,14 +74,13 @@ const LoginComponent = ({ resource, meta, onClose }: Props) => {
     <LoginComponentContainer>
       <TitleRow>
         <h1>
-          Velkommen til Min NDLA! Her kan du organisere fagstoffet på <i>din</i>{' '}
-          måte!
+          <Trans t={t} i18nKey="myNdla.myPage.loginWelcome" />
         </h1>
         <StyledImage src="/static/my-ndla-login.png" />
       </TitleRow>
       {resource && meta && (
         <>
-          Ønsker du å favorittmerke denne siden?
+          <span>{t('myNdla.myPage.loginResourcePitch')}</span>
           <ListResource
             link={resource.path}
             title={meta.title}
@@ -98,10 +97,7 @@ const LoginComponent = ({ resource, meta, onClose }: Props) => {
         <Feide />
         Feide
       </FeideRow>
-      <StyledDescription>
-        Logg på med Feide for å få tilgang. Ved å logge på godkjenner du våre
-        vilkår for bruk
-      </StyledDescription>
+      <StyledDescription>{t('myNdla.myPage.loginTerms')}</StyledDescription>
       <StyledTermsTitle>{t('myNdla.myPage.terms.terms')}</StyledTermsTitle>
       <TermsOfService />
       <ButtonRow>

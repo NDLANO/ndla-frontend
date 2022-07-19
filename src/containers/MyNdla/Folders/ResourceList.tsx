@@ -71,7 +71,7 @@ const ResourceList = ({ selectedFolder, viewType, folderId }: Props) => {
                 src: resourceMeta?.metaImage?.url ?? '',
                 alt: resourceMeta?.metaImage?.url ?? '',
               }}
-              link={`${resource.path}`}
+              link={resource.path}
               tags={resource.tags}
               topics={resourceMeta?.resourceTypes.map(rt => rt.name) ?? []}
               title={resourceMeta?.title ?? ''}
@@ -128,8 +128,9 @@ const ResourceList = ({ selectedFolder, viewType, folderId }: Props) => {
                 });
                 setResourceAction(undefined);
               }}
-              description={t('myNdla.resource.confirmDelete')}
-              title={t('myNdla.resource.delete')}
+              description={t('myNdla.resource.confirmRemove')}
+              title={t('myNdla.resource.removeTitle')}
+              removeText={t('myNdla.resource.remove')}
             />
           </>
         )}

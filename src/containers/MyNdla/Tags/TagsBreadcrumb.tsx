@@ -90,13 +90,13 @@ const TagsBreadcrumb = ({ tag, tagCount, resourceCount }: Props) => {
       )}
       {!isMobile && <ActionBreadcrumb actionItems={[]} items={items} />}
       <TagCountContainer>
-        {!resourceCount && (
+        {!!!resourceCount && (
           <>
             <HashTag />
             <span>{t('myNdla.tags', { count: tagCount })}</span>
           </>
         )}
-        {resourceCount && (
+        {!!resourceCount && (
           <>
             <FileDocumentOutline />
             <span>{t('myNdla.resources', { count: resourceCount })}</span>

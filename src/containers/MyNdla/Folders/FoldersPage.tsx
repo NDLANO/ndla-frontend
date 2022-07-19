@@ -222,6 +222,7 @@ const FoldersPage = () => {
           <DeleteModal
             title={t('myNdla.folder.delete')}
             description={t('myNdla.confirmDeleteFolder')}
+            removeText={t('myNdla.folder.delete')}
             isOpen={folderAction.action === 'delete'}
             onClose={() => setFolderAction(undefined)}
             onDelete={async () => {
