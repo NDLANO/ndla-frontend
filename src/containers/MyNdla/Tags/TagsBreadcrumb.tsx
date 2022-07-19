@@ -7,10 +7,13 @@
  */
 
 import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
-import { FileDocumentOutline, HashTag } from '@ndla/icons/common';
+import { breakpoints, colors, fonts, mq, spacing } from '@ndla/core';
+import { Back, FileDocumentOutline, HashTag } from '@ndla/icons/common';
+import SafeLink from '@ndla/safelink';
 import { ActionBreadcrumb } from '@ndla/ui';
+import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
+import IsMobileContext from '../../../IsMobileContext';
 
 interface Props {
   tag?: string;
@@ -30,8 +33,36 @@ const TagCountContainer = styled.div`
   align-items: center;
 `;
 
+const BreadcrumbContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${spacing.small};
+`;
+
+const StyledBackArrow = styled(SafeLink)`
+  display: none;
+  box-shadow: none;
+  color: ${colors.brand.primary};
+
+  svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  ${mq.range({ until: breakpoints.tablet })} {
+    display: block;
+  }
+`;
+
+const StyledSpan = styled.span`
+  color: ${colors.text.primary};
+  font-weight: ${fonts.weight.bold};
+`;
+
 const TagsBreadcrumb = ({ tag, tagCount, resourceCount }: Props) => {
   const { t } = useTranslation();
+  const isMobile = useContext(IsMobileContext);
+  const backUrl = tag ? '/minndla/tags' : '/minndla/meny';
 
   const baseCrumb = {
     name: t('myNdla.myTags'),
@@ -40,11 +71,24 @@ const TagsBreadcrumb = ({ tag, tagCount, resourceCount }: Props) => {
 
   const items = !tag
     ? [baseCrumb]
-    : [baseCrumb, { name: `#${tag}`, to: `/minndla/tags/${tag}` }];
+    : [baseCrumb, { name: `# ${tag}`, to: `/minndla/tags/${tag}` }];
+
+  const lastBreadcrumb = items[items.length - 1]!;
 
   return (
     <TagBreadcrumbWrapper>
-      <ActionBreadcrumb actionItems={[]} items={items} />
+      {isMobile && (
+        <BreadcrumbContainer>
+          <StyledBackArrow to={backUrl}>
+            <Back />
+          </StyledBackArrow>
+
+          <StyledSpan title={lastBreadcrumb.name}>
+            {lastBreadcrumb.name}
+          </StyledSpan>
+        </BreadcrumbContainer>
+      )}
+      {!isMobile && <ActionBreadcrumb actionItems={[]} items={items} />}
       <TagCountContainer>
         {!resourceCount && (
           <>

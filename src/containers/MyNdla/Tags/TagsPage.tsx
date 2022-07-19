@@ -6,20 +6,27 @@
  *
  */
 
+import { useContext } from 'react';
+import { keyBy } from 'lodash';
+import { useParams } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { SafeLinkButton } from '@ndla/safelink';
 import { ListResource } from '@ndla/ui';
-import { keyBy } from 'lodash';
-import { useParams } from 'react-router-dom';
 import { useFolderResourceMetaSearch, useFolders } from '../folderMutations';
 import TagsBreadcrumb from './TagsBreadcrumb';
 import NotFoundPage from '../../NotFoundPage/NotFoundPage';
 import { getAllTags, getResourcesForTag } from '../../../util/folderHelpers';
+import IsMobileContext from '../../../IsMobileContext';
 
-const TagsContainer = styled.div`
+interface TagsContainerProps {
+  isMobile?: boolean;
+}
+
+const TagsContainer = styled.div<TagsContainerProps>`
   display: flex;
   gap: ${spacing.small};
+  flex-direction: ${p => (p.isMobile ? 'column' : 'row')};
 `;
 
 const TagsPageContainer = styled.div`
@@ -30,11 +37,16 @@ const TagsPageContainer = styled.div`
   flex: 1;
 `;
 
+const StyledSafeLinkButton = styled(SafeLinkButton)`
+  width: fit-content;
+`;
+
 const TagsPage = () => {
   const { folders } = useFolders();
   const { tag } = useParams();
   const tags = getAllTags(folders);
   const resources = tag ? getResourcesForTag(folders, tag) : [];
+  const isMobile = useContext(IsMobileContext);
   const { data } = useFolderResourceMetaSearch(
     resources.map(res => ({
       id: res.resourceId,
@@ -58,15 +70,15 @@ const TagsPage = () => {
         resourceCount={resources?.length}
       />
       {!tag && (
-        <TagsContainer>
+        <TagsContainer isMobile={isMobile}>
           {tags.map(tag => (
-            <SafeLinkButton
-              lighter
+            <StyledSafeLinkButton
+              greyLighter
               borderShape="rounded"
               key={tag}
               to={`${tag}`}>
               #{tag}
-            </SafeLinkButton>
+            </StyledSafeLinkButton>
           ))}
         </TagsContainer>
       )}
