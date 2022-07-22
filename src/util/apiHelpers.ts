@@ -9,6 +9,7 @@
 import {
   ApolloClient,
   ApolloLink,
+  FieldFunctionOptions,
   InMemoryCache,
   TypePolicies,
 } from '@apollo/client';
@@ -24,7 +25,11 @@ import {
   isAccessTokenValid,
   renewAuth,
 } from './authHelpers';
-import { GQLBucketResult, GQLGroupSearch } from '../graphqlTypes';
+import {
+  GQLBucketResult,
+  GQLGroupSearch,
+  GQLQueryFolderResourceMetaSearchArgs,
+} from '../graphqlTypes';
 
 export const fetch = createFetch;
 
@@ -149,6 +154,26 @@ const typePolicies: TypePolicies = {
           );
         },
       },
+      folderResourceMetaSearch: {
+        //@ts-ignore
+        read(
+          _,
+          {
+            args,
+            toReference,
+            canRead,
+          }: FieldFunctionOptions<GQLQueryFolderResourceMetaSearchArgs>,
+        ) {
+          const refs = args?.resources.map(arg =>
+            toReference(`FolderResourceMeta:${arg.resourceType}${arg.id}`),
+          );
+
+          if (refs && refs.every(ref => canRead(ref))) {
+            return refs;
+          }
+          return undefined;
+        },
+      },
     },
   },
   Folder: {
@@ -176,9 +201,6 @@ const typePolicies: TypePolicies = {
   },
   FrontpageSearchResult: {
     keyFields: ['path'],
-  },
-  FolderResource: {
-    keyFields: obj => `${obj.__typename}:${obj.path}`,
   },
   FolderResourceMeta: {
     keyFields: obj => `${obj.__typename}:${obj.type}${obj.id}`,
