@@ -3132,10 +3132,10 @@
   resolved "https://registry.yarnpkg.com/@ndla/types-learningpath-api/-/types-learningpath-api-0.0.12.tgz#29e57fcac529a00343d0c2a1556d2ff494cbe385"
   integrity sha512-6M7ANFKVxTqjcMaX1/slsfvxr6fm92kryMmeryCVd+xnKwNJpiAq+MoPzAFWgZvQn7QB8PTogEe6VNYK/jvC3g==
 
-"@ndla/ui@^22.0.0":
-  version "22.0.0"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-22.0.0.tgz#3c8e0f32548a9f10dc5e3a5802bd049c8e5805bc"
-  integrity sha512-/XZqpGZgPVpaFYEThjxltjw19XB9RamZXr+Mo5Pu3QSAaEoR24wjim3BC5U5Xx1RBLMcywTkA6yaCa21LzFy7g==
+"@ndla/ui@^22.0.1":
+  version "22.0.1"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-22.0.1.tgz#0b162a89e5509fe100089d32e53d6adac451f290"
+  integrity sha512-N8UbmKeh9H/w8tF3mXz9eQobVQrjx87L358DPW0ym0zW5c6REWRa4fGICKIJZoqp3ZSVdLw7fOqzSgXrPuLtEA==
   dependencies:
     "@ndla/button" "^3.2.0"
     "@ndla/carousel" "^1.2.15"
