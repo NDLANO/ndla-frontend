@@ -13,7 +13,7 @@ import { useApolloClient } from '@apollo/client';
 import styled from '@emotion/styled';
 import Button from '@ndla/button';
 import { spacing } from '@ndla/core';
-import { ListResource, TagSelector, TreeStructure } from '@ndla/ui';
+import { ListResource, TagSelector, TreeStructure, useSnack } from '@ndla/ui';
 import {
   folderResourceFragment,
   useAddFolderMutation,
@@ -66,6 +66,7 @@ const AddResourceToFolder = ({ onClose, resource }: Props) => {
     undefined,
   );
   const selectedFolder = useFolder(selectedFolderId);
+  const { addSnack } = useSnack();
 
   useEffect(() => {
     if (!loading && folders) {
@@ -132,12 +133,22 @@ const AddResourceToFolder = ({ onClose, resource }: Props) => {
           tags: selectedTags,
         },
       });
+      addSnack({
+        id: `addedToFolder${selectedFolder.name}`,
+        content: t('myNdla.resource.addedToFolder', {
+          folderName: selectedFolder.name,
+        }),
+      });
     } else if (
       storedResource &&
       shouldUpdateFolderResource(storedResource, selectedTags)
     ) {
       await updateFolderResource({
         variables: { id: storedResource.id, tags: selectedTags },
+      });
+      addSnack({
+        content: t('myNdla.resource.tagsUpdated'),
+        id: 'tagsUpdated',
       });
     }
     onClose();

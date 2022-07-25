@@ -10,7 +10,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import { StaticRouter } from 'react-router-dom/server.js';
 import { I18nextProvider } from 'react-i18next';
 import { getSelectorsByUserAgent } from 'react-device-detect';
-import { i18nInstance } from '@ndla/ui';
+import { i18nInstance, SnackbarProvider } from '@ndla/ui';
 import url from 'url';
 import { ApolloProvider } from '@apollo/client';
 import { CacheProvider } from '@emotion/core';
@@ -74,16 +74,18 @@ async function doRender(req) {
             <CacheProvider value={cache}>
               <VersionHashProvider value={!!versionHash}>
                 <IsMobileContext.Provider value={isMobile}>
-                  <StaticRouter basename={basename} location={req.url}>
-                    <App
-                      isClient={false}
-                      client={client}
-                      locale={locale}
-                      versionHash={versionHash}
-                      resCookie={resCookie}
-                      key={locale}
-                    />
-                  </StaticRouter>
+                  <SnackbarProvider>
+                    <StaticRouter basename={basename} location={req.url}>
+                      <App
+                        isClient={false}
+                        client={client}
+                        locale={locale}
+                        versionHash={versionHash}
+                        resCookie={resCookie}
+                        key={locale}
+                      />
+                    </StaticRouter>
+                  </SnackbarProvider>
                 </IsMobileContext.Provider>
               </VersionHashProvider>
             </CacheProvider>

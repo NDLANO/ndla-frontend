@@ -12,7 +12,7 @@ import { AddButton } from '@ndla/button';
 import { spacing } from '@ndla/core';
 import { FolderOutlined } from '@ndla/icons/contentType';
 import { FileDocumentOutline } from '@ndla/icons/common';
-import { Folder, FolderInput } from '@ndla/ui';
+import { Folder, FolderInput, useSnack } from '@ndla/ui';
 import { Pencil } from '@ndla/icons/action';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -90,6 +90,7 @@ const FoldersPage = () => {
   const { folderId } = useParams();
   const [type, setType] = useState<ViewType>('list');
   const navigate = useNavigate();
+  const { addSnack } = useSnack();
   const [folderAction, setFolderAction] = useState<FolderAction | undefined>(
     undefined,
   );
@@ -212,6 +213,10 @@ const FoldersPage = () => {
                   id: folderAction.folder.id,
                   name: value,
                 },
+              });
+              addSnack({
+                id: 'titleUpdated',
+                content: t('myNdla.resource.titleUpdated'),
               });
               setFolderAction(undefined);
             }}

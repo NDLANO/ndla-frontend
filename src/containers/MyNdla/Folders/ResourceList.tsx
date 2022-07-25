@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { Link } from '@ndla/icons/common';
 import { FolderOutlined } from '@ndla/icons/contentType';
 import { DeleteForever } from '@ndla/icons/editor';
-import { BlockResource, ListResource } from '@ndla/ui';
+import { BlockResource, ListResource, useSnack } from '@ndla/ui';
 import { copyTextToClipboard } from '@ndla/util';
 import AddResourceToFolderModal from '../../../components/MyNdla/AddResourceToFolderModal';
 import config from '../../../config';
@@ -38,6 +38,7 @@ interface ResourceAction {
 
 const ResourceList = ({ selectedFolder, viewType, folderId }: Props) => {
   const { t } = useTranslation();
+  const { addSnack } = useSnack();
   const [resourceAction, setResourceAction] = useState<
     ResourceAction | undefined
   >(undefined);
@@ -89,10 +90,15 @@ const ResourceList = ({ selectedFolder, viewType, folderId }: Props) => {
                 {
                   icon: <Link />,
                   text: t('myNdla.resource.copyLink'),
-                  onClick: () =>
+                  onClick: () => {
                     copyTextToClipboard(
                       `${config.ndlaFrontendDomain}${resource.path}`,
-                    ),
+                    );
+                    addSnack({
+                      content: t('myNdla.resource.linkCopied'),
+                      id: 'linkCopied',
+                    });
+                  },
                 },
                 {
                   icon: <DeleteForever />,
@@ -125,6 +131,12 @@ const ResourceList = ({ selectedFolder, viewType, folderId }: Props) => {
                     folderId,
                     resourceId: resourceAction.resource.id,
                   },
+                });
+                addSnack({
+                  id: `removedFromFolder${selectedFolder.id}`,
+                  content: t('myNdla.resource.removedFromFolder', {
+                    folderName: selectedFolder.name,
+                  }),
                 });
                 setResourceAction(undefined);
               }}

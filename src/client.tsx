@@ -26,7 +26,7 @@ import '@fontsource/source-serif-pro/700.css';
 import '@fontsource/source-serif-pro/index.css';
 // @ts-ignore
 import ErrorReporter from '@ndla/error-reporter';
-import { i18nInstance } from '@ndla/ui';
+import { i18nInstance, SnackbarProvider } from '@ndla/ui';
 import { getCookie, setCookie } from '@ndla/util';
 import { createBrowserHistory, createMemoryHistory, History } from 'history';
 // @ts-ignore
@@ -255,9 +255,11 @@ renderOrHydrate(
       <ApolloProvider client={client}>
         <CacheProvider value={cache}>
           <VersionHashProvider value={versionHash}>
-            <IsMobileContext.Provider value={isMobile}>
-              <LanguageWrapper basename={basename} />
-            </IsMobileContext.Provider>
+            <SnackbarProvider>
+              <IsMobileContext.Provider value={isMobile}>
+                <LanguageWrapper basename={basename} />
+              </IsMobileContext.Provider>
+            </SnackbarProvider>
           </VersionHashProvider>
         </CacheProvider>
       </ApolloProvider>
