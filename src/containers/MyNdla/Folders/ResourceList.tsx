@@ -43,7 +43,7 @@ const ResourceList = ({ selectedFolder, viewType, folderId }: Props) => {
     ResourceAction | undefined
   >(undefined);
 
-  const { data } = useFolderResourceMetaSearch(
+  const { data, loading } = useFolderResourceMetaSearch(
     selectedFolder.resources.map(r => ({
       id: r.resourceId,
       path: r.path,
@@ -67,6 +67,7 @@ const ResourceList = ({ selectedFolder, viewType, folderId }: Props) => {
             keyedData[`${resource.resourceType}${resource.resourceId}`];
           return (
             <Resource
+              isLoading={loading}
               key={resource.id}
               resourceImage={{
                 src: resourceMeta?.metaImage?.url ?? '',

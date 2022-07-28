@@ -6,14 +6,14 @@
  *
  */
 
-import { useContext } from 'react';
+import { useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
-import { HashTag, Person } from '@ndla/icons/common';
 import { FolderType, TreeStructure } from '@ndla/ui';
 import IsMobileContext from '../../IsMobileContext';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
+import { createStaticStructureElements } from '../../util/folderHelpers';
 
 const MenuPageContainer = styled.div`
   display: flex;
@@ -25,40 +25,14 @@ const MyNdlaMenuPage = () => {
   const { t } = useTranslation();
   const isMobile = useContext(IsMobileContext);
 
+  const staticFolderElements: FolderType[] = useMemo(
+    () => createStaticStructureElements([], t),
+    [t],
+  );
+
   if (!isMobile) {
     return <NotFoundPage />;
   }
-  const staticFolderElements: FolderType[] = [
-    {
-      id: '',
-      name: t('myNdla.myPage.myPage'),
-      status: 'private',
-      isFavorite: false,
-      icon: <Person />,
-      breadcrumbs: [],
-      subfolders: [],
-      resources: [],
-    },
-    {
-      id: 'folders',
-      name: t('myNdla.myFolders'),
-      status: 'private',
-      isFavorite: false,
-      breadcrumbs: [],
-      subfolders: [],
-      resources: [],
-    },
-    {
-      icon: <HashTag />,
-      id: 'tags',
-      name: t('myNdla.myTags'),
-      status: 'private',
-      isFavorite: false,
-      breadcrumbs: [],
-      subfolders: [],
-      resources: [],
-    },
-  ];
 
   return (
     <MenuPageContainer>

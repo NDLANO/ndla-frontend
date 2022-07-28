@@ -7,7 +7,7 @@
  */
 
 import { configureTracker } from '@ndla/tracker';
-import { OneColumn } from '@ndla/ui';
+import { OneColumn, SnackbarProvider } from '@ndla/ui';
 import { History } from 'history';
 import { Component, ErrorInfo, ReactNode } from 'react';
 import { Outlet, Route, Routes } from 'react-router-dom';
@@ -101,82 +101,87 @@ const AppRoutes = ({ base, resCookie }: AppProps) => {
     <AlertsProvider>
       <BaseNameProvider value={base}>
         <AuthenticationContext initialValue={resCookie}>
-          <Routes>
-            <Route path="/" element={<Layout />}>
-              <Route index element={<WelcomePage />} />
-              {config?.feideEnabled && (
-                <>
-                  <Route path="login" element={<FeideUi />}>
-                    <Route index element={<LoginProviders />} />
-                    <Route path={'success'} element={<LoginSuccess />} />
-                    <Route path={'failure'} element={<LoginFailure />} />
-                  </Route>
-                  <Route path="logout" element={<FeideUi />}>
-                    <Route index element={<LogoutProviders />} />
-                    <Route path="session" element={<LogoutSession />} />
-                  </Route>
-                </>
-              )}
-              <Route path="subjects" element={<AllSubjectsPage />} />
-              <Route path="search" element={<SearchPage />} />
-              <Route path="utdanning/:programme" element={<ProgrammePage />}>
-                <Route path=":grade" element={null} />
-              </Route>
-              <Route path="podkast">
-                <Route index element={<PodcastSeriesListPage />} />
-                <Route path=":id" element={<PodcastSeriesPage />} />
-              </Route>
-              <Route path="article/:articleId" element={<PlainArticlePage />} />
-              <Route
-                path="learningpaths/:learningpathId"
-                element={<PlainLearningpathPage />}>
-                <Route path="steps/:stepId" element={null} />
-              </Route>
-              <Route path="subject:subjectId/topic:topicId/resource:resourceId">
-                {resourceRoutes}
-              </Route>
-              <Route path="subject:subjectId/topic:topic1/topic:topicId/resource:resourceId">
-                {resourceRoutes}
-              </Route>
-              <Route path="subject:subjectId/topic:topic1/topic:topic2/topic:topicId/resource:resourceId">
-                {resourceRoutes}
-              </Route>
-              <Route path="subject:subjectId/topic:topic1/topic:topic2/topic:topic3/topic:topicId/resource:resourceId">
-                {resourceRoutes}
-              </Route>
-              <Route path="subject:subjectId" element={<SubjectRouting />}>
-                <Route path="topic:topicId" element={null} />
-                <Route path="topic:topic1" element={null}>
+          <SnackbarProvider>
+            <Routes>
+              <Route path="/" element={<Layout />}>
+                <Route index element={<WelcomePage />} />
+                {config?.feideEnabled && (
+                  <>
+                    <Route path="login" element={<FeideUi />}>
+                      <Route index element={<LoginProviders />} />
+                      <Route path={'success'} element={<LoginSuccess />} />
+                      <Route path={'failure'} element={<LoginFailure />} />
+                    </Route>
+                    <Route path="logout" element={<FeideUi />}>
+                      <Route index element={<LogoutProviders />} />
+                      <Route path="session" element={<LogoutSession />} />
+                    </Route>
+                  </>
+                )}
+                <Route path="subjects" element={<AllSubjectsPage />} />
+                <Route path="search" element={<SearchPage />} />
+                <Route path="utdanning/:programme" element={<ProgrammePage />}>
+                  <Route path=":grade" element={null} />
+                </Route>
+                <Route path="podkast">
+                  <Route index element={<PodcastSeriesListPage />} />
+                  <Route path=":id" element={<PodcastSeriesPage />} />
+                </Route>
+                <Route
+                  path="article/:articleId"
+                  element={<PlainArticlePage />}
+                />
+                <Route
+                  path="learningpaths/:learningpathId"
+                  element={<PlainLearningpathPage />}>
+                  <Route path="steps/:stepId" element={null} />
+                </Route>
+                <Route path="subject:subjectId/topic:topicId/resource:resourceId">
+                  {resourceRoutes}
+                </Route>
+                <Route path="subject:subjectId/topic:topic1/topic:topicId/resource:resourceId">
+                  {resourceRoutes}
+                </Route>
+                <Route path="subject:subjectId/topic:topic1/topic:topic2/topic:topicId/resource:resourceId">
+                  {resourceRoutes}
+                </Route>
+                <Route path="subject:subjectId/topic:topic1/topic:topic2/topic:topic3/topic:topicId/resource:resourceId">
+                  {resourceRoutes}
+                </Route>
+                <Route path="subject:subjectId" element={<SubjectRouting />}>
                   <Route path="topic:topicId" element={null} />
-                  <Route path="topic:topic2" element={null}>
+                  <Route path="topic:topic1" element={null}>
                     <Route path="topic:topicId" element={null} />
-                    <Route path="topic:topic3" element={null}>
+                    <Route path="topic:topic2" element={null}>
                       <Route path="topic:topicId" element={null} />
+                      <Route path="topic:topic3" element={null}>
+                        <Route path="topic:topicId" element={null} />
+                      </Route>
                     </Route>
                   </Route>
                 </Route>
+                {config.feideEnabled && (
+                  <Route
+                    path="minndla"
+                    element={<PrivateRoute element={<MyNdlaLayout />} />}>
+                    <Route index element={<MyNdlaPage />} />
+                    <Route path="meny" element={<MyNdlaMenuPage />} />
+                    <Route path="folders">
+                      <Route index element={<FoldersPage />} />
+                      <Route path=":folderId" element={<FoldersPage />} />
+                    </Route>
+                    <Route path="tags">
+                      <Route index element={<TagsPage />} />
+                      <Route path=":tag" element={<TagsPage />} />
+                    </Route>
+                  </Route>
+                )}
+                <Route path="404" element={<NotFound />} />
+                <Route path="403" element={<AccessDenied />} />
+                <Route path="*" element={<NotFound />} />
               </Route>
-              {config.feideEnabled && (
-                <Route
-                  path="minndla"
-                  element={<PrivateRoute element={<MyNdlaLayout />} />}>
-                  <Route index element={<MyNdlaPage />} />
-                  <Route path="meny" element={<MyNdlaMenuPage />} />
-                  <Route path="folders">
-                    <Route index element={<FoldersPage />} />
-                    <Route path=":folderId" element={<FoldersPage />} />
-                  </Route>
-                  <Route path="tags">
-                    <Route index element={<TagsPage />} />
-                    <Route path=":tag" element={<TagsPage />} />
-                  </Route>
-                </Route>
-              )}
-              <Route path="404" element={<NotFound />} />
-              <Route path="403" element={<AccessDenied />} />
-              <Route path="*" element={<NotFound />} />
-            </Route>
-          </Routes>
+            </Routes>
+          </SnackbarProvider>
         </AuthenticationContext>
       </BaseNameProvider>
     </AlertsProvider>

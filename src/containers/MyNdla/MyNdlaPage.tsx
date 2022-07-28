@@ -114,7 +114,7 @@ const MyNdlaPage = () => {
   const { data: { allFolderResources = [] } = {} } = useGraphQuery<
     GQLRecentlyUsedQuery
   >(recentlyUsedQuery);
-  const { data: metaData } = useFolderResourceMetaSearch(
+  const { data: metaData, loading } = useFolderResourceMetaSearch(
     allFolderResources.map(r => ({
       id: r.resourceId,
       path: r.path,
@@ -150,6 +150,7 @@ const MyNdlaPage = () => {
             const meta = keyedData[`${res.resourceType}${res.resourceId}`];
             return (
               <ListResource
+                isLoading={loading}
                 key={res.id}
                 link={res.path}
                 title={meta?.title ?? ''}

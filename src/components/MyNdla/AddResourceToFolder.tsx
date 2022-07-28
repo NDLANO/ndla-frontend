@@ -9,13 +9,18 @@
 import { isEqual, sortBy, uniq } from 'lodash';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useApolloClient } from '@apollo/client';
 import styled from '@emotion/styled';
 import Button from '@ndla/button';
-import { spacing } from '@ndla/core';
-import { ListResource, TagSelector, TreeStructure, useSnack } from '@ndla/ui';
+import { colors, spacing } from '@ndla/core';
+import SafeLink from '@ndla/safelink';
 import {
-  folderResourceFragment,
+  ListResource,
+  MessageBox,
+  TagSelector,
+  TreeStructure,
+  useSnack,
+} from '@ndla/ui';
+import {
   useAddFolderMutation,
   useAddResourceToFolderMutation,
   useFolder,
@@ -23,8 +28,8 @@ import {
   useFolders,
   useUpdateFolderResourceMutation,
 } from '../../containers/MyNdla/folderMutations';
-import { GQLFolderResource } from '../../graphqlTypes';
-import { getAllTags } from '../../util/folderHelpers';
+import { GQLFolder, GQLFolderResource } from '../../graphqlTypes';
+import { getAllTags, getResourceForPath } from '../../util/folderHelpers';
 
 export interface ResourceAttributes {
   path: string;
@@ -49,9 +54,41 @@ const AddResourceContainer = styled.div`
   gap: ${spacing.normal};
 `;
 
+const StyledResourceAddedSnack = styled.div`
+  gap: ${spacing.small};
+  display: flex;
+  p {
+    margin: 0;
+  }
+`;
+
+interface ResourceAddedSnackProps {
+  folder: GQLFolder;
+}
+
+const StyledSafeLink = styled(SafeLink)`
+  color: ${colors.white};
+`;
+
+const ResourceAddedSnack = ({ folder }: ResourceAddedSnackProps) => {
+  const { t } = useTranslation();
+  return (
+    <StyledResourceAddedSnack>
+      <p>
+        {t('myNdla.resource.addedToFolder', {
+          folderName: folder.name,
+        })}
+      </p>
+      <StyledSafeLink to={`/minndla/folders/${folder.id}`}>
+        {t('myNdla.resource.show')}
+      </StyledSafeLink>
+    </StyledResourceAddedSnack>
+  );
+};
+
 const AddResourceToFolder = ({ onClose, resource }: Props) => {
   const { t } = useTranslation();
-  const { meta } = useFolderResourceMeta(resource);
+  const { meta, loading: metaLoading } = useFolderResourceMeta(resource);
   const { folders, loading } = useFolders();
   const [storedResource, setStoredResource] = useState<
     GQLFolderResource | undefined
@@ -61,7 +98,7 @@ const AddResourceToFolder = ({ onClose, resource }: Props) => {
   );
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [canSave, setCanSave] = useState<boolean>(false);
-  const cache = useApolloClient();
+  const [alreadyAdded, setAlreadyAdded] = useState(false);
   const [selectedFolderId, setSelectedFolderId] = useState<string | undefined>(
     undefined,
   );
@@ -70,14 +107,11 @@ const AddResourceToFolder = ({ onClose, resource }: Props) => {
 
   useEffect(() => {
     if (!loading && folders) {
-      const test = cache.readFragment<GQLFolderResource>({
-        fragment: folderResourceFragment,
-        id: `FolderResource:${resource.path}`,
-      });
-      setStoredResource(test ?? undefined);
-      setSelectedTags(test?.tags ?? []);
+      const _storedResource = getResourceForPath(folders, resource.path);
+      setStoredResource(_storedResource ?? undefined);
+      setSelectedTags(_storedResource?.tags ?? []);
     }
-  }, [loading, folders, cache, resource]);
+  }, [loading, folders, resource]);
 
   useEffect(() => {
     if (storedResource) {
@@ -86,8 +120,14 @@ const AddResourceToFolder = ({ onClose, resource }: Props) => {
   }, [storedResource]);
 
   useEffect(() => {
+    setAlreadyAdded(false);
     if (selectedFolder) {
-      setCanSave(true);
+      if (selectedFolder.resources.some(r => r.id === storedResource?.id)) {
+        setAlreadyAdded(true);
+        setCanSave(false);
+      } else {
+        setCanSave(true);
+      }
     } else if (storedResource) {
       const _canSave = shouldUpdateFolderResource(storedResource, selectedTags);
       setCanSave(_canSave);
@@ -135,9 +175,7 @@ const AddResourceToFolder = ({ onClose, resource }: Props) => {
       });
       addSnack({
         id: `addedToFolder${selectedFolder.name}`,
-        content: t('myNdla.resource.addedToFolder', {
-          folderName: selectedFolder.name,
-        }),
+        content: <ResourceAddedSnack folder={selectedFolder} />,
       });
     } else if (
       storedResource &&
@@ -168,6 +206,7 @@ const AddResourceToFolder = ({ onClose, resource }: Props) => {
     <AddResourceContainer>
       <h1>{t('myNdla.resource.addToMyNdla')}</h1>
       <ListResource
+        isLoading={metaLoading}
         link={resource.path}
         title={meta?.title ?? ''}
         topics={meta?.resourceTypes.map(rt => rt.name) ?? []}
@@ -185,6 +224,9 @@ const AddResourceToFolder = ({ onClose, resource }: Props) => {
         framed
         editable
       />
+      {alreadyAdded && (
+        <MessageBox type="danger">{t('myNdla.alreadyInFolder')}</MessageBox>
+      )}
       <TagSelector
         prefix="#"
         label={t('myNdla.myTags')}
