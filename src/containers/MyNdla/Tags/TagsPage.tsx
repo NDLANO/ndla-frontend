@@ -47,7 +47,7 @@ const TagsPage = () => {
   const tags = getAllTags(folders);
   const resources = tag ? getResourcesForTag(folders, tag) : [];
   const isMobile = useContext(IsMobileContext);
-  const { data } = useFolderResourceMetaSearch(
+  const { data, loading } = useFolderResourceMetaSearch(
     resources.map(res => ({
       id: res.resourceId,
       path: res.path,
@@ -87,6 +87,7 @@ const TagsPage = () => {
           keyedData[`${resource.resourceType}${resource.resourceId}`];
         return (
           <ListResource
+            isLoading={loading}
             key={resource.id}
             link={resource.path}
             title={meta?.title ?? ''}

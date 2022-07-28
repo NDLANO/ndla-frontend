@@ -6,7 +6,6 @@
  *
  */
 
-import { gql } from '@apollo/client';
 import Modal, { ModalBody, ModalCloseButton, ModalHeader } from '@ndla/modal';
 import { Input } from '@ndla/forms';
 import { useTranslation } from 'react-i18next';
@@ -14,10 +13,10 @@ import { useState } from 'react';
 import styled from '@emotion/styled';
 import Button from '@ndla/button';
 import { spacing } from '@ndla/core';
-import { GQLEditFolderModal_FolderFragment } from '../../../graphqlTypes';
+import { GQLFolder } from '../../../graphqlTypes';
 
 interface Props {
-  folder: GQLEditFolderModal_FolderFragment;
+  folder: GQLFolder;
   isOpen: boolean;
   onClose: () => void;
   onSave: (value: string) => void;
@@ -75,15 +74,6 @@ const EditFolderModal = ({ folder, isOpen, onClose, onSave }: Props) => {
       )}
     </Modal>
   );
-};
-
-EditFolderModal.fragments = {
-  folder: gql`
-    fragment EditFolderModal_Folder on Folder {
-      id
-      name
-    }
-  `,
 };
 
 export default EditFolderModal;

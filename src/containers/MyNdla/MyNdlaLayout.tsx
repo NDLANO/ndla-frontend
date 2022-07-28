@@ -10,10 +10,10 @@ import { useMemo } from 'react';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { breakpoints, colors, mq, spacing } from '@ndla/core';
-import { HashTag, Person } from '@ndla/icons/common';
 import { FolderType, TreeStructure } from '@ndla/ui';
 import { Outlet, useLocation } from 'react-router-dom';
 import { useFolder, useFolders } from './folderMutations';
+import { createStaticStructureElements } from '../../util/folderHelpers';
 
 const StyledLayout = styled.div`
   display: flex;
@@ -50,37 +50,11 @@ const MyNdlaLayout = () => {
     return [];
   }, [selectedFolder, folderId, page]);
 
-  const staticStructureElements: FolderType[] = [
-    {
-      id: '',
-      isFavorite: false,
-      name: t('myNdla.myPage.myPage'),
-      icon: <Person />,
-      status: 'private',
-      subfolders: [],
-      breadcrumbs: [],
-      resources: [],
-    },
-    {
-      id: 'folders',
-      isFavorite: false,
-      name: t('myNdla.myFolders'),
-      status: 'private',
-      subfolders: folders,
-      breadcrumbs: [],
-      resources: [],
-    },
-    {
-      id: 'tags',
-      icon: <HashTag />,
-      isFavorite: false,
-      name: t('myNdla.myTags'),
-      status: 'private',
-      subfolders: [],
-      breadcrumbs: [],
-      resources: [],
-    },
-  ];
+  const staticStructureElements: FolderType[] = useMemo(
+    () => createStaticStructureElements(folders, t),
+    [folders, t],
+  );
+
   return (
     <StyledLayout>
       <StyledSideBar>

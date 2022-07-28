@@ -84,6 +84,7 @@ const FolderBreadcrumb = ({ breadcrumbs, onActionChanged }: Props) => {
     {
       icon: <DeleteForever />,
       text: t('myNdla.folder.delete'),
+      type: 'danger',
       onClick: () => {
         const folder = getFolder(cache, lastBreadcrumb.id);
         if (folder) {

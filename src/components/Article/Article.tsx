@@ -86,7 +86,7 @@ interface Props {
   printUrl?: string;
   subjectId?: string;
   isPlainArticle?: boolean;
-  canFavorite?: boolean;
+  showFavoriteButton?: boolean;
 }
 
 const renderNotions = (
@@ -196,7 +196,7 @@ const Article = ({
   id,
   subjectId,
   isPlainArticle,
-  canFavorite,
+  showFavoriteButton,
   ...rest
 }: Props) => {
   const { i18n } = useTranslation();
@@ -304,11 +304,13 @@ const Article = ({
         modifier={isResourceArticle ? resourceType : modifier ?? 'clean'}
         copyPageUrlLink={copyPageUrlLink}
         printUrl={printUrl}
-        onToggleAddToFavorites={canFavorite ? () => setIsOpen(true) : undefined}
+        onToggleAddToFavorites={
+          showFavoriteButton ? () => setIsOpen(true) : undefined
+        }
         {...rest}>
         {children}
       </UIArticle>
-      {config.feideEnabled && canFavorite && (
+      {config.feideEnabled && showFavoriteButton && (
         <AddResourceToFolderModal
           isOpen={isOpen}
           onClose={() => setIsOpen(false)}
