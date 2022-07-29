@@ -21,7 +21,7 @@ const MenuPageContainer = styled.div`
   padding: ${spacing.small};
 `;
 
-const MyNdlaMenuPage = () => {
+const MyNdlaMobileMenuPage = () => {
   const { t } = useTranslation();
   const isMobile = useContext(IsMobileContext);
 
@@ -42,4 +42,4 @@ const MyNdlaMenuPage = () => {
   );
 };
 
-export default MyNdlaMenuPage;
+export default MyNdlaMobileMenuPage;

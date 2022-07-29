@@ -14,6 +14,7 @@ import Button from '@ndla/button';
 import { colors, spacing } from '@ndla/core';
 import SafeLink from '@ndla/safelink';
 import {
+  FolderType,
   ListResource,
   MessageBox,
   TagSelector,
@@ -145,7 +146,7 @@ const AddResourceToFolder = ({ onClose, resource }: Props) => {
     return !isEqual(sortedStored, sortedSelected);
   };
 
-  const structureFolders = [
+  const structureFolders: FolderType[] = [
     {
       id: 'folders',
       name: t('myNdla.myFolders'),

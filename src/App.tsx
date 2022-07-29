@@ -25,7 +25,7 @@ import LogoutProviders from './containers/Logout/LogoutProviders';
 import LogoutSession from './containers/Logout/LogoutSession';
 import FoldersPage from './containers/MyNdla/Folders/FoldersPage';
 import MyNdlaLayout from './containers/MyNdla/MyNdlaLayout';
-import MyNdlaMenuPage from './containers/MyNdla/MyNdlaMenuPage';
+import MyNdlaMobileMenuPage from './containers/MyNdla/MyNdlaMenuPage';
 import MyNdlaPage from './containers/MyNdla/MyNdlaPage';
 import TagsPage from './containers/MyNdla/Tags/TagsPage';
 import NotFound from './containers/NotFoundPage/NotFoundPage';
@@ -165,7 +165,7 @@ const AppRoutes = ({ base, resCookie }: AppProps) => {
                     path="minndla"
                     element={<PrivateRoute element={<MyNdlaLayout />} />}>
                     <Route index element={<MyNdlaPage />} />
-                    <Route path="meny" element={<MyNdlaMenuPage />} />
+                    <Route path="meny" element={<MyNdlaMobileMenuPage />} />
                     <Route path="folders">
                       <Route index element={<FoldersPage />} />
                       <Route path=":folderId" element={<FoldersPage />} />
