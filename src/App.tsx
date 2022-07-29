@@ -25,7 +25,7 @@ import LogoutProviders from './containers/Logout/LogoutProviders';
 import LogoutSession from './containers/Logout/LogoutSession';
 import FoldersPage from './containers/MyNdla/Folders/FoldersPage';
 import MyNdlaLayout from './containers/MyNdla/MyNdlaLayout';
-import MyNdlaMobileMenuPage from './containers/MyNdla/MyNdlaMenuPage';
+import MyNdlaMobileMenuPage from './containers/MyNdla/MyNdlaMobileMenuPage';
 import MyNdlaPage from './containers/MyNdla/MyNdlaPage';
 import TagsPage from './containers/MyNdla/Tags/TagsPage';
 import NotFound from './containers/NotFoundPage/NotFoundPage';
