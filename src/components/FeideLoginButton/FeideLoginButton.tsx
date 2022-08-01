@@ -12,50 +12,24 @@ import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { AuthModal } from '@ndla/ui';
 import Button, { StyledButton } from '@ndla/button';
-import { spacing } from '@ndla/core';
+import { colors, spacing } from '@ndla/core';
 import Modal, { ModalBody, ModalCloseButton, ModalHeader } from '@ndla/modal';
 import SafeLink from '@ndla/safelink';
 import { AuthContext } from '../AuthenticationContext';
 import LoginComponent from '../MyNdla/LoginComponent';
 import IsMobileContext from '../../IsMobileContext';
 
-const FeideButton = styled(StyledButton)`
-  background: transparent;
-  transition: background-color 200ms ease-in-out 0s;
-  color: rgb(32, 88, 143);
-  border: none;
-  border-radius: 26px;
-  font-weight: 400;
-  padding: 13px 19.5px;
-  font-size: 0.888889rem;
-  line-height: 18px;
-
-  &:hover {
-    box-shadow: none;
-    color: rgb(32, 88, 143);
-    background-color: rgb(206, 221, 234);
-    border: none;
-  }
-
-  svg {
-    width: 22px;
-    height: 22px;
-  }
-`;
-
 const FeideFooterButton = styled(StyledButton)`
-  padding: 4px 16px;
-  background: transparent;
-  color: rgb(255, 255, 255);
-  border: 2px solid rgb(117, 117, 117);
-  line-height: 18px;
-  min-height: 48px;
+  padding: ${spacing.xsmall} ${spacing.small};
+  background: none;
+  color: ${colors.white};
+  border: 2px solid ${colors.brand.grey};
 `;
 
 const StyledLink = styled(SafeLink)`
   display: flex;
   align-items: center;
-  color: rgb(32, 88, 143);
+  color: ${colors.brand.primary};
   gap: ${spacing.small};
   box-shadow: none;
   margin-right: ${spacing.normal};
@@ -79,16 +53,16 @@ interface Props {
   children?: ReactNode;
 }
 
-const FeideLoginButton = ({ footer = false, children }: Props) => {
+const FeideLoginButton = ({ footer, children }: Props) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { t } = useTranslation();
   const { authenticated, user } = useContext(AuthContext);
   const isMobile = useContext(IsMobileContext);
-  const toString = isMobile ? '/minndla/meny' : '/minndla';
+  const destination = isMobile ? '/minndla/meny' : '/minndla';
 
   if (authenticated && !footer) {
-    return <StyledLink to={toString}>{children}</StyledLink>;
+    return <StyledLink to={destination}>{children}</StyledLink>;
   }
 
   if (!authenticated && !footer) {
@@ -117,13 +91,7 @@ const FeideLoginButton = ({ footer = false, children }: Props) => {
 
   return (
     <AuthModal
-      activateButton={
-        footer ? (
-          <FeideFooterButton>{children}</FeideFooterButton>
-        ) : (
-          <FeideButton>{children}</FeideButton>
-        )
-      }
+      activateButton={<FeideFooterButton>{children}</FeideFooterButton>}
       isAuthenticated={authenticated}
       user={user}
       onAuthenticateClick={() => {

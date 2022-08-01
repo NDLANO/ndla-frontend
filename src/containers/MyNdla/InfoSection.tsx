@@ -18,11 +18,10 @@ interface Props {
 }
 
 const InfoPartWrapper = styled.div`
-  padding-top: ${spacing.normal};
-  padding-bottom: ${spacing.normal};
-  gap: ${spacing.small};
   display: flex;
   flex-direction: column;
+  gap: ${spacing.small};
+  padding: ${spacing.normal} 0;
   border-bottom: 1px solid ${colors.brand.greyLight};
 `;
 

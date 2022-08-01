@@ -10,8 +10,8 @@ import { memo, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import Tooltip from '@ndla/tooltip';
-import Button from '@ndla/button';
-import { colors } from '@ndla/core';
+import { IconButton } from '@ndla/button';
+import { colors, spacing } from '@ndla/core';
 import { FourlineHamburger, GridListView, List } from '@ndla/icons/action';
 import { ViewType } from './FoldersPage';
 import IsMobileContext from '../../../IsMobileContext';
@@ -24,20 +24,19 @@ interface StyledIconButtonProps {
   selected?: boolean;
 }
 
-const StyledIconButton = styled(Button)<StyledIconButtonProps>`
-  padding: 10px;
+const StyledIconButton = styled(IconButton)<StyledIconButtonProps>`
+  padding: ${spacing.xsmall};
+  margin: 0 ${spacing.xxsmall};
   svg {
     margin: 0;
     width: 24px;
     height: 24px;
     fill: ${p => (p.selected ? colors.brand.primary : colors.brand.tertiary)};
   }
-  &:focus {
+  :focus {
     background-color: transparent;
-    svg {
-      fill: ${colors.brand.primary};
-    }
   }
+  :focus,
   :hover,
   :active {
     svg {

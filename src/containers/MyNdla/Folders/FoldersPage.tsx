@@ -44,6 +44,7 @@ const FoldersPageContainer = styled.div`
   gap: ${spacing.xsmall};
   padding: ${spacing.small};
 `;
+
 export const BlockWrapper = styled.div<BlockWrapperProps>`
   display: flex;
   flex-direction: column;
@@ -52,7 +53,7 @@ export const BlockWrapper = styled.div<BlockWrapperProps>`
     props.type === 'block' &&
     css`
       display: grid;
-      grid-template-columns: repeat(3, 2fr);
+      grid-template-columns: repeat(3, 1fr);
       gap: ${spacing.normal};
       margin-top: ${spacing.normal};
     `};
@@ -68,10 +69,6 @@ const StyledRow = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-`;
-
-const AddButtonText = styled.span`
-  margin: 0;
 `;
 
 export type ViewType = 'list' | 'block' | 'listLarger';
@@ -156,7 +153,7 @@ const FoldersPage = () => {
           aria-label={t('myNdla.newFolder')}
           ghostPill
           onClick={() => setIsAdding(prev => !prev)}>
-          <AddButtonText>{t('myNdla.newFolder')}</AddButtonText>
+          <span>{t('myNdla.newFolder')}</span>
         </AddButton>
         <ListViewOptions type={type} onTypeChange={setType} />
       </StyledRow>

@@ -23,7 +23,7 @@ const StyledSideBar = styled.div`
   padding-left: ${spacing.large};
   border-right: 1px solid ${colors.brand.greyLighter};
   min-width: 300px;
-  max-width: 300px;
+  width: 300px;
   ${mq.range({ until: breakpoints.tablet })} {
     display: none;
   }

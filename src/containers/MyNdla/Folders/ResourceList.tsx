@@ -51,7 +51,10 @@ const ResourceList = ({ selectedFolder, viewType, folderId }: Props) => {
     })),
   );
 
-  const keyedData = keyBy(data ?? [], r => `${r.type}${r.id}`);
+  const keyedData = keyBy(
+    data ?? [],
+    resource => `${resource.type}-${resource.id}`,
+  );
 
   const { deleteFolderResource } = useDeleteFolderResourceMutation(
     selectedFolder.id,
@@ -64,7 +67,7 @@ const ResourceList = ({ selectedFolder, viewType, folderId }: Props) => {
       <BlockWrapper type={viewType}>
         {selectedFolder.resources.map(resource => {
           const resourceMeta =
-            keyedData[`${resource.resourceType}${resource.resourceId}`];
+            keyedData[`${resource.resourceType}-${resource.resourceId}`];
           return (
             <Resource
               isLoading={loading}

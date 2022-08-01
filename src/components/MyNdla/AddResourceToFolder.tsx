@@ -58,9 +58,10 @@ const AddResourceContainer = styled.div`
 const StyledResourceAddedSnack = styled.div`
   gap: ${spacing.small};
   display: flex;
-  p {
-    margin: 0;
-  }
+`;
+
+const StyledResource = styled.p`
+  margin: 0;
 `;
 
 interface ResourceAddedSnackProps {
@@ -75,11 +76,11 @@ const ResourceAddedSnack = ({ folder }: ResourceAddedSnackProps) => {
   const { t } = useTranslation();
   return (
     <StyledResourceAddedSnack>
-      <p>
+      <StyledResource>
         {t('myNdla.resource.addedToFolder', {
           folderName: folder.name,
         })}
-      </p>
+      </StyledResource>
       <StyledSafeLink to={`/minndla/folders/${folder.id}`}>
         {t('myNdla.resource.show')}
       </StyledSafeLink>
@@ -123,7 +124,11 @@ const AddResourceToFolder = ({ onClose, resource }: Props) => {
   useEffect(() => {
     setAlreadyAdded(false);
     if (selectedFolder) {
-      if (selectedFolder.resources.some(r => r.id === storedResource?.id)) {
+      if (
+        selectedFolder.resources.some(
+          resource => resource.id === storedResource?.id,
+        )
+      ) {
         setAlreadyAdded(true);
         setCanSave(false);
       } else {

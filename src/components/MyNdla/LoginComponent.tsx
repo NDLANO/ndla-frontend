@@ -47,19 +47,19 @@ const TitleRow = styled.div`
 
 const StyledDescription = styled.p`
   margin: 0;
-  gap: ${spacing.small};
 `;
 
 const StyledImage = styled.img`
   height: 160px;
-  min-height: 160px;
   min-width: 160px;
-  max-width: 160px;
+  width: 160px;
   border-radius: 50%;
 `;
 
 const StyledTermsTitle = styled.h2`
-  margin: 0 !important;
+  && {
+    margin: 0;
+  }
 `;
 
 interface Props {

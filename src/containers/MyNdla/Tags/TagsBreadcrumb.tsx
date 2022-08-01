@@ -73,33 +73,32 @@ const TagsBreadcrumb = ({ tag, tagCount, resourceCount }: Props) => {
     ? [baseCrumb]
     : [baseCrumb, { name: `# ${tag}`, to: `/minndla/tags/${tag}` }];
 
-  const lastBreadcrumb = items[items.length - 1]!;
+  const lastBreadcrumb = items[items.length - 1];
 
   return (
     <TagBreadcrumbWrapper>
-      {isMobile && (
+      {isMobile ? (
         <BreadcrumbContainer>
           <StyledBackArrow to={backUrl}>
             <Back />
           </StyledBackArrow>
-
-          <StyledSpan title={lastBreadcrumb.name}>
-            {lastBreadcrumb.name}
+          <StyledSpan title={lastBreadcrumb?.name}>
+            {lastBreadcrumb?.name}
           </StyledSpan>
         </BreadcrumbContainer>
+      ) : (
+        <ActionBreadcrumb actionItems={[]} items={items} />
       )}
-      {!isMobile && <ActionBreadcrumb actionItems={[]} items={items} />}
       <TagCountContainer>
-        {!!!resourceCount && (
-          <>
-            <HashTag />
-            <span>{t('myNdla.tags', { count: tagCount })}</span>
-          </>
-        )}
-        {!!resourceCount && (
+        {resourceCount ? (
           <>
             <FileDocumentOutline />
             <span>{t('myNdla.resources', { count: resourceCount })}</span>
+          </>
+        ) : (
+          <>
+            <HashTag />
+            <span>{t('myNdla.tags', { count: tagCount })}</span>
           </>
         )}
       </TagCountContainer>

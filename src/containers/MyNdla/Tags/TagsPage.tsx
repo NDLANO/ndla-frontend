@@ -60,7 +60,10 @@ const TagsPage = () => {
     return <NotFoundPage />;
   }
 
-  const keyedData = keyBy(data ?? [], r => `${r.type}${r.id}`);
+  const keyedData = keyBy(
+    data ?? [],
+    resource => `${resource.type}-${resource.id}`,
+  );
 
   return (
     <TagsPageContainer>
@@ -76,7 +79,7 @@ const TagsPage = () => {
               greyLighter
               borderShape="rounded"
               key={tag}
-              to={`${tag}`}>
+              to={tag}>
               #{tag}
             </StyledSafeLinkButton>
           ))}
@@ -84,7 +87,7 @@ const TagsPage = () => {
       )}
       {resources?.map(resource => {
         const meta =
-          keyedData[`${resource.resourceType}${resource.resourceId}`];
+          keyedData[`${resource.resourceType}-${resource.resourceId}`];
         return (
           <ListResource
             isLoading={loading}
