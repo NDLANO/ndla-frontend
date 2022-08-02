@@ -167,6 +167,7 @@ const ArticlePage = ({
           copyPageUrlLink={copyPageUrlLink}
           printUrl={printUrl}
           subjectId={subject?.id}
+          showFavoriteButton={config.feideEnabled}
           {...getArticleProps(resource, topic)}
         />
         {topic && (

@@ -176,6 +176,12 @@ export type GQLAudioWithSeries = GQLAudioBase & {
   updated: Scalars['String'];
 };
 
+export type GQLBreadcrumb = {
+  __typename?: 'Breadcrumb';
+  id: Scalars['String'];
+  name: Scalars['String'];
+};
+
 export type GQLBrightcoveElement = {
   __typename?: 'BrightcoveElement';
   account?: Maybe<Scalars['String']>;
@@ -348,6 +354,50 @@ export type GQLFilmPageAbout = {
   language: Scalars['String'];
   title: Scalars['String'];
   visualElement: GQLSubjectPageVisualElement;
+};
+
+export type GQLFolder = {
+  __typename?: 'Folder';
+  breadcrumbs: Array<GQLBreadcrumb>;
+  id: Scalars['String'];
+  isFavorite: Scalars['Boolean'];
+  name: Scalars['String'];
+  parentId?: Maybe<Scalars['String']>;
+  resources: Array<GQLFolderResource>;
+  status: Scalars['String'];
+  subfolders: Array<GQLFolder>;
+};
+
+export type GQLFolderResource = {
+  __typename?: 'FolderResource';
+  created: Scalars['String'];
+  id: Scalars['String'];
+  path: Scalars['String'];
+  resourceId: Scalars['Int'];
+  resourceType: Scalars['String'];
+  tags: Array<Scalars['String']>;
+};
+
+export type GQLFolderResourceMeta = {
+  __typename?: 'FolderResourceMeta';
+  description: Scalars['String'];
+  id: Scalars['Int'];
+  metaImage?: Maybe<GQLMetaImage>;
+  resourceTypes: Array<GQLFolderResourceResourceType>;
+  title: Scalars['String'];
+  type: Scalars['String'];
+};
+
+export type GQLFolderResourceMetaSearchInput = {
+  id: Scalars['Int'];
+  path: Scalars['String'];
+  resourceType: Scalars['String'];
+};
+
+export type GQLFolderResourceResourceType = {
+  __typename?: 'FolderResourceResourceType';
+  id: Scalars['String'];
+  name: Scalars['String'];
 };
 
 export type GQLFootNote = {
@@ -621,10 +671,68 @@ export type GQLMovieTheme = {
   name: Array<GQLName>;
 };
 
+export type GQLMutation = {
+  __typename?: 'Mutation';
+  addFolder: GQLFolder;
+  addFolderResource: GQLFolderResource;
+  deleteFolder: Scalars['String'];
+  deleteFolderResource: Scalars['String'];
+  updateFolder: GQLFolder;
+  updateFolderResource: GQLFolderResource;
+};
+
+export type GQLMutationAddFolderArgs = {
+  name: Scalars['String'];
+  parentId?: Maybe<Scalars['String']>;
+  status?: Maybe<Scalars['String']>;
+};
+
+export type GQLMutationAddFolderResourceArgs = {
+  folderId: Scalars['String'];
+  path: Scalars['String'];
+  resourceId: Scalars['Int'];
+  resourceType: Scalars['String'];
+  tags?: Maybe<Array<Scalars['String']>>;
+};
+
+export type GQLMutationDeleteFolderArgs = {
+  id: Scalars['String'];
+};
+
+export type GQLMutationDeleteFolderResourceArgs = {
+  folderId: Scalars['String'];
+  resourceId: Scalars['String'];
+};
+
+export type GQLMutationUpdateFolderArgs = {
+  id: Scalars['String'];
+  name?: Maybe<Scalars['String']>;
+  status?: Maybe<Scalars['String']>;
+};
+
+export type GQLMutationUpdateFolderResourceArgs = {
+  id: Scalars['String'];
+  tags?: Maybe<Array<Scalars['String']>>;
+};
+
 export type GQLName = {
   __typename?: 'Name';
   language: Scalars['String'];
   name: Scalars['String'];
+};
+
+export type GQLNewFolder = {
+  __typename?: 'NewFolder';
+  name: Scalars['String'];
+  parentId?: Maybe<Scalars['String']>;
+  status?: Maybe<Scalars['String']>;
+};
+
+export type GQLNewFolderResource = {
+  __typename?: 'NewFolderResource';
+  path: Scalars['String'];
+  resourceType: Scalars['String'];
+  tags?: Maybe<Array<Scalars['String']>>;
 };
 
 export type GQLPodcastMeta = {
@@ -683,6 +791,7 @@ export type GQLPodcastSeriesWithEpisodes = GQLPodcastSeriesBase & {
 export type GQLQuery = {
   __typename?: 'Query';
   alerts?: Maybe<Array<Maybe<GQLUptimeAlert>>>;
+  allFolderResources: Array<GQLFolderResource>;
   article?: Maybe<GQLArticle>;
   competenceGoal?: Maybe<GQLCompetenceGoal>;
   competenceGoals?: Maybe<Array<GQLCompetenceGoal>>;
@@ -691,6 +800,10 @@ export type GQLQuery = {
   coreElement?: Maybe<GQLCoreElement>;
   coreElements?: Maybe<Array<GQLCoreElement>>;
   filmfrontpage?: Maybe<GQLFilmFrontpage>;
+  folder: GQLFolder;
+  folderResourceMeta: GQLFolderResourceMeta;
+  folderResourceMetaSearch: Array<GQLFolderResourceMeta>;
+  folders: Array<GQLFolder>;
   frontpage?: Maybe<GQLFrontpage>;
   frontpageSearch?: Maybe<GQLFrontpageSearch>;
   groupSearch?: Maybe<Array<GQLGroupSearch>>;
@@ -709,6 +822,10 @@ export type GQLQuery = {
   subjects?: Maybe<Array<GQLSubject>>;
   topic?: Maybe<GQLTopic>;
   topics?: Maybe<Array<GQLTopic>>;
+};
+
+export type GQLQueryAllFolderResourcesArgs = {
+  size?: Maybe<Scalars['Int']>;
 };
 
 export type GQLQueryArticleArgs = {
@@ -754,6 +871,25 @@ export type GQLQueryCoreElementArgs = {
 export type GQLQueryCoreElementsArgs = {
   codes?: Maybe<Array<Maybe<Scalars['String']>>>;
   language?: Maybe<Scalars['String']>;
+};
+
+export type GQLQueryFolderArgs = {
+  id: Scalars['Int'];
+  includeResources?: Maybe<Scalars['Boolean']>;
+  includeSubfolders?: Maybe<Scalars['Boolean']>;
+};
+
+export type GQLQueryFolderResourceMetaArgs = {
+  resource: GQLFolderResourceMetaSearchInput;
+};
+
+export type GQLQueryFolderResourceMetaSearchArgs = {
+  resources: Array<GQLFolderResourceMetaSearchInput>;
+};
+
+export type GQLQueryFoldersArgs = {
+  includeResources?: Maybe<Scalars['Boolean']>;
+  includeSubfolders?: Maybe<Scalars['Boolean']>;
 };
 
 export type GQLQueryFrontpageSearchArgs = {
@@ -889,7 +1025,7 @@ export type GQLResource = GQLTaxonomyEntity &
     meta?: Maybe<GQLMeta>;
     metadata: GQLTaxonomyMetadata;
     name: Scalars['String'];
-    parentTopics?: Maybe<Array<GQLTopic>>;
+    parents?: Maybe<Array<GQLTopic>>;
     path: Scalars['String'];
     paths: Array<Scalars['String']>;
     rank?: Maybe<Scalars['Int']>;
@@ -1141,6 +1277,17 @@ export type GQLTopicCoreResourcesArgs = {
 
 export type GQLTopicSupplementaryResourcesArgs = {
   subjectId?: Maybe<Scalars['String']>;
+};
+
+export type GQLUpdatedFolder = {
+  __typename?: 'UpdatedFolder';
+  name?: Maybe<Scalars['String']>;
+  status?: Maybe<Scalars['String']>;
+};
+
+export type GQLUpdatedFolderResource = {
+  __typename?: 'UpdatedFolderResource';
+  tags?: Maybe<Array<Scalars['String']>>;
 };
 
 export type GQLUptimeAlert = {
@@ -1967,6 +2114,214 @@ export type GQLMultidisciplinaryTopicWrapperQuery = {
 export type GQLMultidisciplinaryTopicWrapper_SubjectFragment = {
   __typename?: 'Subject';
 } & GQLMultidisciplinaryTopic_SubjectFragment;
+
+export type GQLEditFolderModal_FolderFragment = {
+  __typename?: 'Folder';
+  id: string;
+  name: string;
+};
+
+export type GQLFolderResourceFragmentFragment = {
+  __typename: 'FolderResource';
+  resourceId: number;
+  id: string;
+  resourceType: string;
+  path: string;
+  created: string;
+  tags: Array<string>;
+};
+
+export type GQLFolderFragmentFragment = {
+  __typename: 'Folder';
+  id: string;
+  name: string;
+  isFavorite: boolean;
+  status: string;
+  parentId?: Maybe<string>;
+  breadcrumbs: Array<{ __typename: 'Breadcrumb'; id: string; name: string }>;
+  resources: Array<
+    { __typename?: 'FolderResource' } & GQLFolderResourceFragmentFragment
+  >;
+};
+
+export type GQLDeleteFolderMutationVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+export type GQLDeleteFolderMutation = {
+  __typename?: 'Mutation';
+  deleteFolder: string;
+};
+
+export type GQLFoldersPageQueryFragmentFragment = {
+  __typename?: 'Folder';
+  subfolders: Array<
+    {
+      __typename?: 'Folder';
+      subfolders: Array<
+        {
+          __typename?: 'Folder';
+          subfolders: Array<
+            {
+              __typename?: 'Folder';
+              subfolders: Array<
+                {
+                  __typename?: 'Folder';
+                  subfolders: Array<
+                    {
+                      __typename?: 'Folder';
+                      subfolders: Array<
+                        {
+                          __typename?: 'Folder';
+                          subfolders: Array<
+                            {
+                              __typename?: 'Folder';
+                              subfolders: Array<
+                                {
+                                  __typename?: 'Folder';
+                                  subfolders: Array<
+                                    {
+                                      __typename?: 'Folder';
+                                    } & GQLFolderFragmentFragment
+                                  >;
+                                } & GQLFolderFragmentFragment
+                              >;
+                            } & GQLFolderFragmentFragment
+                          >;
+                        } & GQLFolderFragmentFragment
+                      >;
+                    } & GQLFolderFragmentFragment
+                  >;
+                } & GQLFolderFragmentFragment
+              >;
+            } & GQLFolderFragmentFragment
+          >;
+        } & GQLFolderFragmentFragment
+      >;
+    } & GQLFolderFragmentFragment
+  >;
+} & GQLFolderFragmentFragment;
+
+export type GQLFoldersPageQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GQLFoldersPageQuery = {
+  __typename?: 'Query';
+  folders: Array<
+    { __typename?: 'Folder' } & GQLFoldersPageQueryFragmentFragment
+  >;
+};
+
+export type GQLUpdateFolderResourceMutationVariables = Exact<{
+  id: Scalars['String'];
+  tags: Array<Scalars['String']> | Scalars['String'];
+}>;
+
+export type GQLUpdateFolderResourceMutation = {
+  __typename?: 'Mutation';
+  updateFolderResource: {
+    __typename?: 'FolderResource';
+  } & GQLFolderResourceFragmentFragment;
+};
+
+export type GQLAddFolderMutationVariables = Exact<{
+  name: Scalars['String'];
+  parentId?: Maybe<Scalars['String']>;
+  status?: Maybe<Scalars['String']>;
+}>;
+
+export type GQLAddFolderMutation = {
+  __typename?: 'Mutation';
+  addFolder: { __typename?: 'Folder' } & GQLFoldersPageQueryFragmentFragment;
+};
+
+export type GQLUpdateFolderMutationVariables = Exact<{
+  id: Scalars['String'];
+  name?: Maybe<Scalars['String']>;
+  status?: Maybe<Scalars['String']>;
+}>;
+
+export type GQLUpdateFolderMutation = {
+  __typename?: 'Mutation';
+  updateFolder: { __typename?: 'Folder' } & GQLFoldersPageQueryFragmentFragment;
+};
+
+export type GQLFolderResourceMetaFragment = {
+  __typename: 'FolderResourceMeta';
+  id: number;
+  title: string;
+  description: string;
+  type: string;
+  metaImage?: Maybe<{ __typename?: 'MetaImage'; url: string; alt: string }>;
+  resourceTypes: Array<{
+    __typename?: 'FolderResourceResourceType';
+    id: string;
+    name: string;
+  }>;
+};
+
+export type GQLFolderResourceMetaQueryVariables = Exact<{
+  resource: GQLFolderResourceMetaSearchInput;
+}>;
+
+export type GQLFolderResourceMetaQuery = {
+  __typename?: 'Query';
+  folderResourceMeta: {
+    __typename?: 'FolderResourceMeta';
+  } & GQLFolderResourceMetaFragment;
+};
+
+export type GQLFolderResourceMetaSearchQueryVariables = Exact<{
+  resources:
+    | Array<GQLFolderResourceMetaSearchInput>
+    | GQLFolderResourceMetaSearchInput;
+}>;
+
+export type GQLFolderResourceMetaSearchQuery = {
+  __typename?: 'Query';
+  folderResourceMetaSearch: Array<
+    { __typename?: 'FolderResourceMeta' } & GQLFolderResourceMetaFragment
+  >;
+};
+
+export type GQLRecentlyUsedQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GQLRecentlyUsedQuery = {
+  __typename?: 'Query';
+  allFolderResources: Array<{
+    __typename?: 'FolderResource';
+    id: string;
+    resourceId: number;
+    path: string;
+    tags: Array<string>;
+    resourceType: string;
+    created: string;
+  }>;
+};
+
+export type GQLAddResourceToFolderMutationVariables = Exact<{
+  resourceId: Scalars['Int'];
+  folderId: Scalars['String'];
+  resourceType: Scalars['String'];
+  path: Scalars['String'];
+  tags?: Maybe<Array<Scalars['String']> | Scalars['String']>;
+}>;
+
+export type GQLAddResourceToFolderMutation = {
+  __typename?: 'Mutation';
+  addFolderResource: {
+    __typename?: 'FolderResource';
+  } & GQLFolderResourceFragmentFragment;
+};
+
+export type GQLDeleteFolderResourceMutationVariables = Exact<{
+  folderId: Scalars['String'];
+  resourceId: Scalars['String'];
+}>;
+
+export type GQLDeleteFolderResourceMutation = {
+  __typename?: 'Mutation';
+  deleteFolderResource: string;
+};
 
 export type GQLPlainArticleContainer_ArticleFragment = {
   __typename?: 'Article';

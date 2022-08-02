@@ -6,67 +6,93 @@
  *
  */
 
-import { ReactElement, useContext } from 'react';
+import { ReactNode, useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-
-import { AuthModal } from '@ndla/ui';
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import { StyledButton } from '@ndla/button';
-
+import { AuthModal } from '@ndla/ui';
+import Button, { StyledButton } from '@ndla/button';
+import { colors, spacing } from '@ndla/core';
+import Modal, { ModalBody, ModalCloseButton, ModalHeader } from '@ndla/modal';
+import SafeLink from '@ndla/safelink';
 import { AuthContext } from '../AuthenticationContext';
+import LoginComponent from '../MyNdla/LoginComponent';
+import IsMobileContext from '../../IsMobileContext';
 
-const FeideButton = styled(StyledButton)`
-  background: transparent;
-  transition: background-color 200ms ease-in-out 0s;
-  color: rgb(32, 88, 143);
-  border: none;
-  border-radius: 26px;
-  font-weight: 400;
-  padding: 13px 19.5px;
-  font-size: 0.888889rem;
-  line-height: 18px;
+const FeideFooterButton = styled(StyledButton)`
+  padding: ${spacing.xsmall} ${spacing.small};
+  background: none;
+  color: ${colors.white};
+  border: 2px solid ${colors.brand.grey};
+`;
 
+const StyledLink = styled(SafeLink)`
+  display: flex;
+  align-items: center;
+  color: ${colors.brand.primary};
+  gap: ${spacing.small};
+  box-shadow: none;
+  margin-right: ${spacing.normal};
   &:hover {
-    box-shadow: none;
-    color: rgb(32, 88, 143);
-    background-color: rgb(206, 221, 234);
-    border: none;
+    box-shadow: inset 0 -1px;
   }
-
   svg {
     width: 22px;
     height: 22px;
   }
 `;
 
-const FeideFooterButton = styled(StyledButton)`
-  padding: 4px 16px;
-  background: transparent;
-  color: rgb(255, 255, 255);
-  border: 2px solid rgb(117, 117, 117);
-  line-height: 18px;
-  min-height: 48px;
+const MyNdlaButton = styled(Button)`
+  display: flex;
+  align-items: center;
+  gap: ${spacing.xxsmall};
 `;
 
 interface Props {
   footer?: boolean;
-  children?: ReactElement;
+  children?: ReactNode;
 }
 
 const FeideLoginButton = ({ footer, children }: Props) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { t } = useTranslation();
   const { authenticated, user } = useContext(AuthContext);
+  const isMobile = useContext(IsMobileContext);
+  const destination = isMobile ? '/minndla/meny' : '/minndla';
+
+  if (authenticated && !footer) {
+    return <StyledLink to={destination}>{children}</StyledLink>;
+  }
+
+  if (!authenticated && !footer) {
+    return (
+      <>
+        <Modal
+          backgroundColor="white"
+          activateButton={<MyNdlaButton ghostPill>{children}</MyNdlaButton>}
+          label={t('user.modal.isNotAuth')}>
+          {onClose => (
+            <>
+              <ModalHeader>
+                <ModalCloseButton
+                  title={t('modal.closeModal')}
+                  onClick={onClose}
+                />
+              </ModalHeader>
+              <ModalBody>
+                <LoginComponent onClose={onClose} />
+              </ModalBody>
+            </>
+          )}
+        </Modal>
+      </>
+    );
+  }
 
   return (
     <AuthModal
-      activateButton={
-        footer ? (
-          <FeideFooterButton>{children}</FeideFooterButton>
-        ) : (
-          <FeideButton>{children}</FeideButton>
-        )
-      }
+      activateButton={<FeideFooterButton>{children}</FeideFooterButton>}
       isAuthenticated={authenticated}
       user={user}
       onAuthenticateClick={() => {
@@ -79,10 +105,6 @@ const FeideLoginButton = ({ footer, children }: Props) => {
       }}
     />
   );
-};
-
-FeideLoginButton.defaultProps = {
-  footer: false,
 };
 
 export default FeideLoginButton;

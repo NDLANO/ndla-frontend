@@ -37,6 +37,7 @@ import {
   GQLLearningpath_TopicFragment,
   GQLLearningpath_TopicPathFragment,
 } from '../../graphqlTypes';
+import AddResourceToFolderModal from '../MyNdla/AddResourceToFolderModal';
 
 const LEARNING_PATHS_STORAGE_KEY = 'LEARNING_PATHS_COOKIES_KEY';
 
@@ -65,6 +66,7 @@ const Learningpath = ({
   onKeyUpEvent,
   breadcrumbItems,
 }: Props) => {
+  const [isAdding, setIsAdding] = useState(false);
   const ndlaFilm = useIsNdlaFilm();
   const { id, learningsteps, lastUpdated, copyright, title } = learningpath;
 
@@ -132,6 +134,9 @@ const Learningpath = ({
       name={title}
       cookies={viewedSteps}
       learningPathURL={config.learningPathDomain}
+      onToggleAddToFavorites={
+        resource?.path ? () => setIsAdding(true) : undefined
+      }
     />
   );
 
@@ -208,6 +213,17 @@ const Learningpath = ({
           <LearningPathStickyPlaceholder />
         )}
       </LearningPathSticky>
+      {resource?.path && (
+        <AddResourceToFolderModal
+          isOpen={isAdding}
+          onClose={() => setIsAdding(false)}
+          resource={{
+            id: learningpath.id,
+            path: resource.path,
+            resourceType: 'learningpath',
+          }}
+        />
+      )}
     </LearningPathWrapper>
   );
 };

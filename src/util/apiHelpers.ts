@@ -9,6 +9,7 @@
 import {
   ApolloClient,
   ApolloLink,
+  FieldFunctionOptions,
   InMemoryCache,
   TypePolicies,
 } from '@apollo/client';
@@ -24,7 +25,11 @@ import {
   isAccessTokenValid,
   renewAuth,
 } from './authHelpers';
-import { GQLBucketResult, GQLGroupSearch } from '../graphqlTypes';
+import {
+  GQLBucketResult,
+  GQLGroupSearch,
+  GQLQueryFolderResourceMetaSearchArgs,
+} from '../graphqlTypes';
 
 export const fetch = createFetch;
 
@@ -140,6 +145,49 @@ const typePolicies: TypePolicies = {
           return mergeGroupSearch(existing, incoming, args?.page);
         },
       },
+      folderResourceMeta: {
+        read(_, { args, toReference }) {
+          return toReference(
+            `FolderResourceMeta:${args!.resource.resourceType}${
+              args!.resource.id
+            }`,
+          );
+        },
+      },
+      folderResourceMetaSearch: {
+        //@ts-ignore
+        read(
+          _,
+          {
+            args,
+            toReference,
+            canRead,
+          }: FieldFunctionOptions<GQLQueryFolderResourceMetaSearchArgs>,
+        ) {
+          const refs = args?.resources.map(arg =>
+            toReference(`FolderResourceMeta:${arg.resourceType}${arg.id}`),
+          );
+
+          if (refs && refs.every(ref => canRead(ref))) {
+            return refs;
+          }
+          return undefined;
+        },
+      },
+    },
+  },
+  Folder: {
+    fields: {
+      subfolders: {
+        merge(existing, incoming) {
+          return existing ? existing : incoming;
+        },
+      },
+      resources: {
+        merge(existing, incoming) {
+          return existing ? existing : incoming;
+        },
+      },
     },
   },
   SearchContext: {
@@ -153,6 +201,9 @@ const typePolicies: TypePolicies = {
   },
   FrontpageSearchResult: {
     keyFields: ['path'],
+  },
+  FolderResourceMeta: {
+    keyFields: obj => `${obj.__typename}:${obj.type}${obj.id}`,
   },
 };
 

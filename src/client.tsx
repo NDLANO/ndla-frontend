@@ -7,6 +7,7 @@
  */
 
 import './style/index.css';
+import { isMobile } from 'react-device-detect';
 import { ApolloProvider, useApolloClient } from '@apollo/client';
 import createCache from '@emotion/cache';
 import { CacheProvider } from '@emotion/core';
@@ -47,6 +48,7 @@ import {
 } from './i18n';
 import { NDLAWindow } from './interfaces';
 import { createApolloClient, createApolloLinks } from './util/apiHelpers';
+import IsMobileContext from './IsMobileContext';
 
 declare global {
   interface Window extends NDLAWindow {}
@@ -253,7 +255,9 @@ renderOrHydrate(
       <ApolloProvider client={client}>
         <CacheProvider value={cache}>
           <VersionHashProvider value={versionHash}>
-            <LanguageWrapper basename={basename} />
+            <IsMobileContext.Provider value={isMobile}>
+              <LanguageWrapper basename={basename} />
+            </IsMobileContext.Provider>
           </VersionHashProvider>
         </CacheProvider>
       </ApolloProvider>

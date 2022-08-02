@@ -12,6 +12,7 @@ import {
   ReactElement,
   useEffect,
   useMemo,
+  useState,
 } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Remarkable } from 'remarkable';
@@ -33,6 +34,7 @@ import {
 } from '../../graphqlTypes';
 import { MastheadHeightPx } from '../../constants';
 import { useGraphQuery } from '../../util/runQueries';
+import AddResourceToFolderModal from '../MyNdla/AddResourceToFolderModal';
 
 function renderCompetenceGoals(
   article: GQLArticle_ArticleFragment,
@@ -84,6 +86,7 @@ interface Props {
   printUrl?: string;
   subjectId?: string;
   isPlainArticle?: boolean;
+  showFavoriteButton?: boolean;
 }
 
 const renderNotions = (
@@ -193,9 +196,11 @@ const Article = ({
   id,
   subjectId,
   isPlainArticle,
+  showFavoriteButton,
   ...rest
 }: Props) => {
   const { i18n } = useTranslation();
+  const [isOpen, setIsOpen] = useState(false);
   const markdown = useMemo(() => {
     const md = new Remarkable({ breaks: true });
     md.inline.ruler.enable(['sub', 'sup']);
@@ -273,34 +278,50 @@ const Article = ({
   };
 
   return (
-    <UIArticle
-      id={id ?? article.id.toString()}
-      article={art}
-      icon={icon}
-      locale={i18n.language}
-      licenseBox={<LicenseBox article={article} />}
-      messages={messages}
-      competenceGoals={renderCompetenceGoals(
-        article,
-        isTopicArticle,
-        subjectId,
+    <>
+      <UIArticle
+        id={id ?? article.id.toString()}
+        article={art}
+        icon={icon}
+        locale={i18n.language}
+        licenseBox={<LicenseBox article={article} />}
+        messages={messages}
+        competenceGoals={renderCompetenceGoals(
+          article,
+          isTopicArticle,
+          subjectId,
+        )}
+        competenceGoalTypes={competenceGoalTypes}
+        notions={
+          isPlainArticle
+            ? undefined
+            : renderNotions(
+                concepts?.conceptSearch?.concepts ?? [],
+                article.relatedContent,
+              )
+        }
+        renderMarkdown={renderMarkdown}
+        modifier={isResourceArticle ? resourceType : modifier ?? 'clean'}
+        copyPageUrlLink={copyPageUrlLink}
+        printUrl={printUrl}
+        onToggleAddToFavorites={
+          showFavoriteButton ? () => setIsOpen(true) : undefined
+        }
+        {...rest}>
+        {children}
+      </UIArticle>
+      {config.feideEnabled && showFavoriteButton && (
+        <AddResourceToFolderModal
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          resource={{
+            id: article.id,
+            path: location.pathname,
+            resourceType: 'article',
+          }}
+        />
       )}
-      competenceGoalTypes={competenceGoalTypes}
-      notions={
-        isPlainArticle
-          ? undefined
-          : renderNotions(
-              concepts?.conceptSearch?.concepts ?? [],
-              article.relatedContent,
-            )
-      }
-      renderMarkdown={renderMarkdown}
-      modifier={isResourceArticle ? resourceType : modifier ?? 'clean'}
-      copyPageUrlLink={copyPageUrlLink}
-      printUrl={printUrl}
-      {...rest}>
-      {children}
-    </UIArticle>
+    </>
   );
 };
 

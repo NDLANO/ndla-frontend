@@ -69,6 +69,7 @@ const Layout = () => {
       {config.feideEnabled && <FeideFooter />}
       {config.zendeskWidgetKey && (
         <ZendeskButton
+          id="zendesk"
           locale={zendeskLanguage}
           widgetKey={config.zendeskWidgetKey}>
           {t('askNDLA')}
