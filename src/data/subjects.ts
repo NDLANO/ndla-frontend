@@ -1118,12 +1118,12 @@ export const activeSubjects: SubjectType[] = [
     longName: {
       en: 'Administrasjon og bærekraftig drift (SR-SSH vg2)',
       nb: 'Administrasjon og bærekraftig drift (SR-SSH vg2)',
-      nn: 'Administrasjon og bærekraftig drift (SR-SSH vg2)',
+      nn: 'Administrasjon og berekraftig drift (SR-SSH vg2)',
     },
     name: {
       en: 'Administrasjon og bærekraftig drift',
       nb: 'Administrasjon og bærekraftig drift',
-      nn: 'Administrasjon og bærekraftig drift',
+      nn: 'Administrasjon og berekraftig drift',
     },
     id: 'urn:subject:1:f9eb2b20-1c83-4292-8ad2-0fa8522da7cd',
   },

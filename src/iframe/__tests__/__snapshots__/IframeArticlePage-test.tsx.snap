@@ -516,6 +516,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
             <button
               className="emotion-20 emotion-21"
               disabled={false}
+              id="popupUseContent"
               onClick={[Function]}
               size="small"
               type="button"
