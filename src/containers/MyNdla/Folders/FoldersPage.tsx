@@ -40,7 +40,6 @@ interface BlockWrapperProps {
 const FoldersPageContainer = styled.div`
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
   gap: ${spacing.xsmall};
   padding: ${spacing.small};
 `;

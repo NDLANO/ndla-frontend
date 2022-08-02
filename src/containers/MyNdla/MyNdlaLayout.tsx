@@ -9,7 +9,7 @@
 import { useMemo } from 'react';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
-import { breakpoints, colors, mq, spacing } from '@ndla/core';
+import { breakpoints, mq, spacing } from '@ndla/core';
 import { FolderType, TreeStructure } from '@ndla/ui';
 import { Outlet, useLocation } from 'react-router-dom';
 import { useFolder, useFolders } from './folderMutations';
@@ -19,9 +19,13 @@ const StyledLayout = styled.div`
   display: flex;
 `;
 
+const StyledContent = styled.div`
+  max-width: 960px;
+  flex: 1;
+`;
+
 const StyledSideBar = styled.div`
-  padding-left: ${spacing.large};
-  border-right: 1px solid ${colors.brand.greyLighter};
+  margin: 0 ${spacing.large};
   min-width: 300px;
   width: 300px;
   ${mq.range({ until: breakpoints.tablet })} {
@@ -64,7 +68,9 @@ const MyNdlaLayout = () => {
           openOnFolderClick
         />
       </StyledSideBar>
-      <Outlet />
+      <StyledContent>
+        <Outlet />
+      </StyledContent>
     </StyledLayout>
   );
 };
