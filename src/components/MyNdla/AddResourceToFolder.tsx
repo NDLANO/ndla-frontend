@@ -229,6 +229,7 @@ const AddResourceToFolder = ({ onClose, resource }: Props) => {
         defaultOpenFolders={['folders']}
         framed
         editable
+        targetResource={storedResource}
       />
       {alreadyAdded && (
         <MessageBox type="danger">{t('myNdla.alreadyInFolder')}</MessageBox>
