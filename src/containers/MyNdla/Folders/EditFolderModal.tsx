@@ -59,6 +59,11 @@ const EditFolderModal = ({ folder, isOpen, onClose, onSave }: Props) => {
                   : undefined
               }
               value={value}
+              onKeyDown={e => {
+                if (e.key === 'Enter') {
+                  onSave(value);
+                }
+              }}
               onInput={e => setValue(e.currentTarget.value)}
               autoFocus
             />
