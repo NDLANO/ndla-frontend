@@ -15,6 +15,7 @@ const MastheadMenuModal = ({ children, onMenuExit }: Props) => {
   const { t } = useTranslation();
   return (
     <Modal
+      label={t('masthead.menu.modalLabel')}
       size="fullscreen"
       activateButton={
         <TopicMenuButton data-testid="masthead-menu-button" ndlaFilm={ndlaFilm}>
