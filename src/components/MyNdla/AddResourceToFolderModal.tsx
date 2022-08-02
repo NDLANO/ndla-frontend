@@ -30,7 +30,12 @@ const AddResourceToFolderModal = ({ isOpen, onClose, resource }: Props) => {
       isOpen={isOpen}
       size="medium"
       backgroundColor="white"
-      onClose={onClose}>
+      onClose={onClose}
+      label={
+        authenticated
+          ? t('myNdla.resource.addToMyNdla')
+          : t('user.modal.isNotAuth')
+      }>
       {onCloseModal => (
         <>
           <ModalHeader>

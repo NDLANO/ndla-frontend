@@ -70,7 +70,8 @@ const FeideLoginButton = ({ footer, children }: Props) => {
       <>
         <Modal
           backgroundColor="white"
-          activateButton={<MyNdlaButton ghostPill>{children}</MyNdlaButton>}>
+          activateButton={<MyNdlaButton ghostPill>{children}</MyNdlaButton>}
+          label={t('user.modal.isNotAuth')}>
           {onClose => (
             <>
               <ModalHeader>

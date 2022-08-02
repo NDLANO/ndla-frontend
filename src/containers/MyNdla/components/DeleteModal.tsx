@@ -42,7 +42,8 @@ const DeleteModal = ({
       isOpen={isOpen}
       size="regular"
       backgroundColor="white"
-      onClose={onClose}>
+      onClose={onClose}
+      label={removeText}>
       {onCloseModal => (
         <>
           <ModalHeader>

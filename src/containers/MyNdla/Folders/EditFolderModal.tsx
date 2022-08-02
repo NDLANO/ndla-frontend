@@ -39,7 +39,8 @@ const EditFolderModal = ({ folder, isOpen, onClose, onSave }: Props) => {
       isOpen={isOpen}
       size="regular"
       backgroundColor="white"
-      onClose={onClose}>
+      onClose={onClose}
+      label={t('myNdla.folder.edit')}>
       {onCloseModal => (
         <>
           <ModalHeader>
