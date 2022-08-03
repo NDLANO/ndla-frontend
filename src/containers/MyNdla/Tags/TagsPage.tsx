@@ -33,7 +33,6 @@ const TagsPageContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${spacing.xsmall};
-  padding: ${spacing.small};
   flex: 1;
 `;
 

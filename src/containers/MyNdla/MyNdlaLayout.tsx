@@ -17,6 +17,7 @@ import { createStaticStructureElements } from '../../util/folderHelpers';
 
 const StyledLayout = styled.div`
   display: grid;
+  min-height: 60vh;
   margin-top: ${spacing.medium};
   grid-template-columns: minmax(300px, 1fr) minmax(auto, 1024px) minmax(
       0px,

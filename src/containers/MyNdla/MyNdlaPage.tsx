@@ -38,11 +38,6 @@ const TermsIcon = InfoPartIcon.withComponent(InformationOutline);
 const StyledPageContentContainer = styled.div`
   display: flex;
   flex-direction: column;
-  padding: ${spacing.small};
-  ${mq.range({ from: breakpoints.tablet })} {
-    padding-left: ${spacing.large};
-    padding-right: 200px;
-  }
 `;
 
 const StyledIntroContainer = styled.div`
@@ -105,6 +100,10 @@ const StyledSafeLink = styled(SafeLink)`
   }
 `;
 
+const StyledH2 = styled.h2`
+  margin: 0;
+`;
+
 const MyNdlaPage = () => {
   const { user } = useContext(AuthContext);
   const { t } = useTranslation();
@@ -134,10 +133,10 @@ const MyNdlaPage = () => {
           <StyledSafeLink to="/minndla/meny">
             <Back />
           </StyledSafeLink>
-          <h1>Min side</h1>
+          <StyledH2>{t('myNdla.myPage.myPage')}</StyledH2>
         </MobileTitle>
       ) : (
-        <h1>{t('myNdla.myPage.myPage')}</h1>
+        <StyledH2>{t('myNdla.myPage.myPage')}</StyledH2>
       )}
       <StyledIntroContainer>
         <h2>{t('myNdla.myPage.welcome')}</h2>
