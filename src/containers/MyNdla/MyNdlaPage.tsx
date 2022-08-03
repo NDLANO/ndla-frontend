@@ -150,6 +150,7 @@ const MyNdlaPage = () => {
             const meta = keyedData[`${res.resourceType}${res.resourceId}`];
             return (
               <ListResource
+                tagLinkPrefix="/minndla/tags"
                 isLoading={loading}
                 key={res.id}
                 link={res.path}
