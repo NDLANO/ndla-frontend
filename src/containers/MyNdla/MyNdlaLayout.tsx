@@ -16,19 +16,28 @@ import { useFolder, useFolders } from './folderMutations';
 import { createStaticStructureElements } from '../../util/folderHelpers';
 
 const StyledLayout = styled.div`
-  display: flex;
+  display: grid;
+  margin-top: ${spacing.medium};
+  grid-template-columns: minmax(300px, 1fr) minmax(auto, 1024px) minmax(
+      0px,
+      1fr
+    );
+
+  ${mq.range({ until: breakpoints.tabletWide })} {
+    display: flex;
+  }
 `;
 
 const StyledContent = styled.div`
-  max-width: 960px;
-  flex: 1;
+  max-width: 1024px;
+  margin: 0 ${spacing.medium};
 `;
 
 const StyledSideBar = styled.div`
-  margin: 0 ${spacing.large};
+  margin-left: auto;
   min-width: 300px;
   width: 300px;
-  ${mq.range({ until: breakpoints.tablet })} {
+  ${mq.range({ until: breakpoints.tabletWide })} {
     display: none;
   }
 `;

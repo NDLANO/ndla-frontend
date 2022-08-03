@@ -41,7 +41,6 @@ const FoldersPageContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${spacing.xsmall};
-  padding: ${spacing.small};
 `;
 
 export const BlockWrapper = styled.div<BlockWrapperProps>`
