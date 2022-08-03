@@ -63,10 +63,12 @@ const ResourceCountContainer = styled.div`
   align-items: center;
 `;
 
-const StyledRow = styled.div`
+const ReversedRow = styled.div`
+  margin-top: ${spacing.nsmall};
   display: flex;
+  flex-direction: row-reverse;
   justify-content: space-between;
-  align-items: center;
+  align-items: top;
 `;
 
 export type ViewType = 'list' | 'block' | 'listLarger';
@@ -123,6 +125,8 @@ const FoldersPage = () => {
     setIsAdding(false);
   };
 
+  const showAddButton = (selectedFolder?.breadcrumbs.length || 0) < 5;
+
   return (
     <FoldersPageContainer>
       <FolderBreadcrumb
@@ -145,16 +149,17 @@ const FoldersPage = () => {
           )}
         </ResourceCountContainer>
       )}
-      <StyledRow>
-        <AddButton
-          size="xsmall"
-          aria-label={t('myNdla.newFolder')}
-          ghostPill
-          onClick={() => setIsAdding(prev => !prev)}>
-          <span>{t('myNdla.newFolder')}</span>
-        </AddButton>
+      <ReversedRow>
         <ListViewOptions type={type} onTypeChange={setType} />
-      </StyledRow>
+        {showAddButton && (
+          <AddButton
+            size="xsmall"
+            aria-label={t('myNdla.newFolder')}
+            onClick={() => setIsAdding(prev => !prev)}>
+            <span>{t('myNdla.newFolder')}</span>
+          </AddButton>
+        )}
+      </ReversedRow>
       {folders && (
         <BlockWrapper type={type}>
           {isAdding && (

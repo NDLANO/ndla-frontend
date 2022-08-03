@@ -30,7 +30,7 @@ const StyledLayout = styled.div`
 
 const StyledContent = styled.div`
   max-width: 1024px;
-  margin: 0 ${spacing.medium};
+  margin: 0 ${spacing.large};
 `;
 
 const StyledSideBar = styled.div`
