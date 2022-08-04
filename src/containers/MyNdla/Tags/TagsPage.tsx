@@ -26,7 +26,7 @@ interface TagsContainerProps {
 const TagsContainer = styled.div<TagsContainerProps>`
   display: flex;
   gap: ${spacing.small};
-  flex-direction: ${p => (p.isMobile ? 'column' : 'row')};
+  flex-wrap: wrap;
 `;
 
 const TagsPageContainer = styled.div`

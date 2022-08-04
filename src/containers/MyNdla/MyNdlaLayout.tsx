@@ -6,7 +6,7 @@
  *
  */
 
-import { useMemo } from 'react';
+import { useMemo, useContext } from 'react';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { breakpoints, mq, spacing } from '@ndla/core';
@@ -14,6 +14,7 @@ import { FolderType, TreeStructure } from '@ndla/ui';
 import { Outlet, useLocation } from 'react-router-dom';
 import { useFolder, useFolders } from './folderMutations';
 import { createStaticStructureElements } from '../../util/folderHelpers';
+import IsMobileContext from '../../IsMobileContext';
 
 const StyledLayout = styled.div`
   display: grid;
@@ -29,9 +30,14 @@ const StyledLayout = styled.div`
   }
 `;
 
-const StyledContent = styled.div`
+interface StyledContentProps {
+  isMobile: boolean;
+}
+
+const StyledContent = styled.div<StyledContentProps>`
   max-width: 1024px;
-  margin: 0 ${spacing.large};
+  flex: 1;
+  margin: 0 ${({ isMobile }) => (isMobile ? spacing.nsmall : spacing.large)};
 `;
 
 const StyledSideBar = styled.div`
@@ -51,6 +57,8 @@ const MyNdlaLayout = () => {
     .replace('/minndla/', '')
     .split('/');
   const selectedFolder = useFolder(folderId);
+
+  const isMobile = useContext(IsMobileContext);
 
   const defaultSelected = useMemo(() => {
     if (typeof page === 'string') {
@@ -78,7 +86,7 @@ const MyNdlaLayout = () => {
           openOnFolderClick
         />
       </StyledSideBar>
-      <StyledContent>
+      <StyledContent isMobile={isMobile}>
         <Outlet />
       </StyledContent>
     </StyledLayout>
