@@ -71,6 +71,7 @@ const IframeArticlePage = ({
       <Article
         article={article}
         isPlainArticle
+        isOembed
         modifier="clean iframe"
         {...getArticleProps(resource)}>
         <CreatedBy

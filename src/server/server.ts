@@ -75,10 +75,9 @@ const ndlaMiddleware = [
     frameguard:
       process.env.NODE_ENV === 'development'
         ? {
-            action: 'allow-from',
-            domain: '*://localhost',
+            action: 'sameorigin',
           }
-        : { action: 'allow-from', domain: '*://sti.ndla.no' },
+        : { action: 'deny' },
   }),
 ];
 

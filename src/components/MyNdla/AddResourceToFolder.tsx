@@ -212,6 +212,7 @@ const AddResourceToFolder = ({ onClose, resource }: Props) => {
     <AddResourceContainer>
       <h1>{t('myNdla.resource.addToMyNdla')}</h1>
       <ListResource
+        tagLinkPrefix="/minndla/tags"
         isLoading={metaLoading}
         link={resource.path}
         title={meta?.title ?? ''}
