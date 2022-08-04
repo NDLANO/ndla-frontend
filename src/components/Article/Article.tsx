@@ -40,7 +40,7 @@ function renderCompetenceGoals(
   article: GQLArticle_ArticleFragment,
   isTopicArticle: boolean,
   subjectId?: string,
-  isPlainArticle?: boolean,
+  isOembed?: boolean,
 ):
   | ((inp: {
       Dialog: ComponentType;
@@ -67,7 +67,7 @@ function renderCompetenceGoals(
         supportedLanguages={article.supportedLanguages}
         wrapperComponent={Dialog}
         wrapperComponentProps={dialogProps}
-        isOembed={isPlainArticle}
+        isOembed={isOembed}
       />
     );
   }
@@ -88,6 +88,7 @@ interface Props {
   printUrl?: string;
   subjectId?: string;
   isPlainArticle?: boolean;
+  isOembed?: boolean;
   showFavoriteButton?: boolean;
 }
 
@@ -198,6 +199,7 @@ const Article = ({
   id,
   subjectId,
   isPlainArticle,
+  isOembed = false,
   showFavoriteButton,
   ...rest
 }: Props) => {
@@ -292,7 +294,7 @@ const Article = ({
           article,
           isTopicArticle,
           subjectId,
-          isPlainArticle,
+          isOembed,
         )}
         competenceGoalTypes={competenceGoalTypes}
         notions={
