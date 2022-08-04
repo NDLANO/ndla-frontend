@@ -63,7 +63,7 @@ const ResourceCountContainer = styled.div`
   align-items: center;
 `;
 
-const ReversedRow = styled.div`
+const StyledRow = styled.div`
   margin-top: ${spacing.nsmall};
   display: flex;
   justify-content: space-between;
@@ -148,7 +148,7 @@ const FoldersPage = () => {
           )}
         </ResourceCountContainer>
       )}
-      <ReversedRow>
+      <StyledRow>
         {showAddButton && (
           <AddButton
             size="xsmall"
@@ -158,7 +158,7 @@ const FoldersPage = () => {
           </AddButton>
         )}
         <ListViewOptions type={type} onTypeChange={setType} />
-      </ReversedRow>
+      </StyledRow>
       {folders && (
         <BlockWrapper type={type}>
           {isAdding && (
