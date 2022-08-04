@@ -90,6 +90,7 @@ const TagsPage = () => {
           keyedData[`${resource.resourceType}-${resource.resourceId}`];
         return (
           <ListResource
+            tagLinkPrefix="/minndla/tags"
             isLoading={loading}
             key={resource.id}
             link={resource.path}
