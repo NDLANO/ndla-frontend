@@ -91,6 +91,7 @@ export const IframeTopicPage = ({
           article={article}
           label={t('topicPage.topic')}
           isPlainArticle
+          isOembed
           contentType={constants.contentTypes.TOPIC}>
           <CreatedBy
             name={t('createdBy.content')}

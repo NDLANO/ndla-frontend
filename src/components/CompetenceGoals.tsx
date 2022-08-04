@@ -25,6 +25,7 @@ interface Props {
   nodeId?: string;
   wrapperComponent: ComponentType;
   wrapperComponentProps: any;
+  isOembed?: boolean;
 }
 
 // We swap 'title' for 'name' when we fetch CompetenceGoals from GraphQL
@@ -196,6 +197,7 @@ const CompetenceGoals = ({
   wrapperComponent: Component,
   wrapperComponentProps,
   supportedLanguages,
+  isOembed,
 }: Props) => {
   const { t, i18n } = useTranslation();
   const language =
@@ -260,7 +262,7 @@ const CompetenceGoals = ({
 
   return (
     <Component {...wrapperComponentProps}>
-      <CompetenceGoalTab list={competenceGoalsList} />
+      <CompetenceGoalTab list={competenceGoalsList} isOembed={isOembed} />
     </Component>
   );
 };
