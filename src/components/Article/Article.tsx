@@ -40,6 +40,7 @@ function renderCompetenceGoals(
   article: GQLArticle_ArticleFragment,
   isTopicArticle: boolean,
   subjectId?: string,
+  isPlainArticle?: boolean,
 ):
   | ((inp: {
       Dialog: ComponentType;
@@ -66,6 +67,7 @@ function renderCompetenceGoals(
         supportedLanguages={article.supportedLanguages}
         wrapperComponent={Dialog}
         wrapperComponentProps={dialogProps}
+        isOembed={isPlainArticle}
       />
     );
   }
@@ -290,6 +292,7 @@ const Article = ({
           article,
           isTopicArticle,
           subjectId,
+          isPlainArticle,
         )}
         competenceGoalTypes={competenceGoalTypes}
         notions={
