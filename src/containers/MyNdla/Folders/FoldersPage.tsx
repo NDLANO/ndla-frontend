@@ -66,7 +66,6 @@ const ResourceCountContainer = styled.div`
 const ReversedRow = styled.div`
   margin-top: ${spacing.nsmall};
   display: flex;
-  flex-direction: row-reverse;
   justify-content: space-between;
   align-items: top;
 `;
@@ -150,7 +149,6 @@ const FoldersPage = () => {
         </ResourceCountContainer>
       )}
       <ReversedRow>
-        <ListViewOptions type={type} onTypeChange={setType} />
         {showAddButton && (
           <AddButton
             size="xsmall"
@@ -159,6 +157,7 @@ const FoldersPage = () => {
             <span>{t('myNdla.newFolder')}</span>
           </AddButton>
         )}
+        <ListViewOptions type={type} onTypeChange={setType} />
       </ReversedRow>
       {folders && (
         <BlockWrapper type={type}>
