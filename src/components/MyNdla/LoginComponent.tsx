@@ -66,9 +66,10 @@ interface Props {
   onClose: () => void;
   resource?: ResourceAttributes;
   meta?: GQLFolderResourceMetaFragment;
+  to?: string;
 }
 
-const LoginComponent = ({ resource, meta, onClose }: Props) => {
+const LoginComponent = ({ resource, meta, onClose, to = '/login' }: Props) => {
   const { t } = useTranslation();
   return (
     <LoginComponentContainer>
@@ -105,7 +106,7 @@ const LoginComponent = ({ resource, meta, onClose }: Props) => {
         <Button onClick={onClose} outline>
           {t('cancel')}
         </Button>
-        <SafeLinkButton to="/login">{t('user.buttonLogIn')}</SafeLinkButton>
+        <SafeLinkButton to={to}>{t('user.buttonLogIn')}</SafeLinkButton>
       </ButtonRow>
     </LoginComponentContainer>
   );

@@ -51,9 +51,10 @@ const MyNdlaButton = styled(Button)`
 interface Props {
   footer?: boolean;
   children?: ReactNode;
+  to?: string;
 }
 
-const FeideLoginButton = ({ footer, children }: Props) => {
+const FeideLoginButton = ({ footer, children, to }: Props) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { t } = useTranslation();
@@ -81,7 +82,7 @@ const FeideLoginButton = ({ footer, children }: Props) => {
                 />
               </ModalHeader>
               <ModalBody>
-                <LoginComponent onClose={onClose} />
+                <LoginComponent to={to} onClose={onClose} />
               </ModalBody>
             </>
           )}
