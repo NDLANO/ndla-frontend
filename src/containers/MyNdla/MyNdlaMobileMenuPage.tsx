@@ -20,7 +20,7 @@ const MenuPageContainer = styled.div`
   flex-direction: column;
 `;
 
-const StyledH2 = styled.h2`
+const StyledHeading = styled.h2`
   margin: 0;
 `;
 
@@ -43,7 +43,7 @@ const MyNdlaMobileMenuPage = () => {
 
   return (
     <MenuPageContainer>
-      <StyledH2>{t('myNdla.myNDLA')}</StyledH2>
+      <StyledHeading>{t('myNdla.myNDLA')}</StyledHeading>
       <TreeStructureWrapper>
         <TreeStructure folders={staticFolderElements} />
       </TreeStructureWrapper>
