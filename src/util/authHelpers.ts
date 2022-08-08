@@ -78,8 +78,6 @@ function setTokenSetInLocalStorage(tokenSet: TokenSet): FeideCookie {
     expiration,
   };
 
-  localStorage.removeItem('lastPath');
-
   setCookie(cookieParams);
 
   return cookieValue;
@@ -124,15 +122,16 @@ export const isAccessTokenValid = (
 
 const getIdTokenFeide = () => getFeideCookieClient()?.id_token;
 
-export const initializeFeideLogin = () => {
+export const initializeFeideLogin = (from?: string) => {
   if (!config.feideEnabled)
     return new Promise((resolve, _reject) => resolve(''));
-  const lastPath = localStorage.getItem('lastPath');
-  const state = `${lastPath ? `?state=${lastPath}` : ''}`;
+  const state = `${from ? `?state=${from}` : ''}`;
 
   return fetch(`${locationOrigin}/feide/login${state}`)
     .then(res => resolveJsonOrRejectWithError<Feide>(res))
-    .then(data => (window.location.href = data?.url || ''));
+    .then(data => {
+      window.location.href = data?.url || '';
+    });
 };
 
 export const finalizeFeideLogin = async (
@@ -149,9 +148,8 @@ export const finalizeFeideLogin = async (
   return set;
 };
 
-export const feideLogout = (logout: () => void) => {
-  const lastPath = localStorage.getItem('lastPath');
-  const state = `${lastPath ? `&state=${lastPath}` : ''}`;
+export const feideLogout = (logout: () => void, from?: string) => {
+  const state = `${from ? `&state=${from}` : ''}`;
   fetchAuthorized(
     `${locationOrigin}/feide/logout?id_token_hint=${getIdTokenFeide()}${state}`,
   )

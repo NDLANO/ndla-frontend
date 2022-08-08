@@ -26,14 +26,13 @@ interface TagsContainerProps {
 const TagsContainer = styled.div<TagsContainerProps>`
   display: flex;
   gap: ${spacing.small};
-  flex-direction: ${p => (p.isMobile ? 'column' : 'row')};
+  flex-wrap: wrap;
 `;
 
 const TagsPageContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${spacing.xsmall};
-  padding: ${spacing.small};
   flex: 1;
 `;
 

@@ -8,8 +8,8 @@
 
 import { useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
+import styled from '@emotion/styled';
 import { FolderType, TreeStructure } from '@ndla/ui';
 import IsMobileContext from '../../IsMobileContext';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
@@ -18,7 +18,14 @@ import { createStaticStructureElements } from '../../util/folderHelpers';
 const MenuPageContainer = styled.div`
   display: flex;
   flex-direction: column;
-  padding: ${spacing.small};
+`;
+
+const StyledHeading = styled.h2`
+  margin: 0;
+`;
+
+const TreeStructureWrapper = styled.div`
+  margin-left: -${spacing.normal};
 `;
 
 const MyNdlaMobileMenuPage = () => {
@@ -36,8 +43,10 @@ const MyNdlaMobileMenuPage = () => {
 
   return (
     <MenuPageContainer>
-      <h1>{t('myNdla.myNDLA')}</h1>
-      <TreeStructure folders={staticFolderElements} />
+      <StyledHeading>{t('myNdla.myNDLA')}</StyledHeading>
+      <TreeStructureWrapper>
+        <TreeStructure folders={staticFolderElements} />
+      </TreeStructureWrapper>
     </MenuPageContainer>
   );
 };

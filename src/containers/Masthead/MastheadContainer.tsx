@@ -178,7 +178,7 @@ const MastheadContainer = () => {
             currentLanguage={i18n.language}
           />
           {config.feideEnabled && (
-            <FeideLoginButton>
+            <FeideLoginButton to="/minndla">
               <FeideLoginLabel>{t('myNdla.myNDLA')}</FeideLoginLabel>
               <Feide title={t('myNdla.myNDLA')} />
             </FeideLoginButton>

@@ -40,9 +40,7 @@ interface BlockWrapperProps {
 const FoldersPageContainer = styled.div`
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
   gap: ${spacing.xsmall};
-  padding: ${spacing.small};
 `;
 
 export const BlockWrapper = styled.div<BlockWrapperProps>`
@@ -66,9 +64,10 @@ const ResourceCountContainer = styled.div`
 `;
 
 const StyledRow = styled.div`
+  margin-top: ${spacing.nsmall};
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: top;
 `;
 
 export type ViewType = 'list' | 'block' | 'listLarger';
@@ -125,6 +124,8 @@ const FoldersPage = () => {
     setIsAdding(false);
   };
 
+  const showAddButton = (selectedFolder?.breadcrumbs.length || 0) < 5;
+
   return (
     <FoldersPageContainer>
       <FolderBreadcrumb
@@ -148,13 +149,14 @@ const FoldersPage = () => {
         </ResourceCountContainer>
       )}
       <StyledRow>
-        <AddButton
-          size="xsmall"
-          aria-label={t('myNdla.newFolder')}
-          ghostPill
-          onClick={() => setIsAdding(prev => !prev)}>
-          <span>{t('myNdla.newFolder')}</span>
-        </AddButton>
+        {showAddButton && (
+          <AddButton
+            size="xsmall"
+            aria-label={t('myNdla.newFolder')}
+            onClick={() => setIsAdding(prev => !prev)}>
+            <span>{t('myNdla.newFolder')}</span>
+          </AddButton>
+        )}
         <ListViewOptions type={type} onTypeChange={setType} />
       </StyledRow>
       {folders && (

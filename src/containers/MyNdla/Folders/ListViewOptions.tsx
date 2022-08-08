@@ -18,6 +18,7 @@ import IsMobileContext from '../../../IsMobileContext';
 
 const StyledDisplayOptionsContainer = styled.div`
   display: flex;
+  margin-left: auto;
 `;
 
 interface StyledIconButtonProps {

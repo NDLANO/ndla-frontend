@@ -51,9 +51,10 @@ const MyNdlaButton = styled(Button)`
 interface Props {
   footer?: boolean;
   children?: ReactNode;
+  to?: string;
 }
 
-const FeideLoginButton = ({ footer, children }: Props) => {
+const FeideLoginButton = ({ footer, children, to }: Props) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { t } = useTranslation();
@@ -81,7 +82,7 @@ const FeideLoginButton = ({ footer, children }: Props) => {
                 />
               </ModalHeader>
               <ModalBody>
-                <LoginComponent onClose={onClose} />
+                <LoginComponent to={to} onClose={onClose} />
               </ModalBody>
             </>
           )}
@@ -96,11 +97,10 @@ const FeideLoginButton = ({ footer, children }: Props) => {
       isAuthenticated={authenticated}
       user={user}
       onAuthenticateClick={() => {
-        location && localStorage.setItem('lastPath', location.pathname);
         if (authenticated) {
-          navigate('/logout');
+          navigate('/logout', { state: { from: location.pathname } });
         } else {
-          navigate('/login');
+          navigate('/login', { state: { from: location.pathname } });
         }
       }}
     />
