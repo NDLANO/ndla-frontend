@@ -7,7 +7,7 @@
  */
 
 import { useContext } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { keyBy } from 'lodash';
 import styled from '@emotion/styled';
@@ -18,12 +18,14 @@ import { Back, Feide, HashTag, InformationOutline } from '@ndla/icons/common';
 import { ListResource, UserInfo, Image } from '@ndla/ui';
 import Button, { DeleteButton } from '@ndla/button';
 import SafeLink, { SafeLinkButton } from '@ndla/safelink';
+import Modal, { ModalBody, ModalCloseButton, ModalHeader } from '@ndla/modal';
 import InfoPart, { InfoPartIcon, InfoPartText } from './InfoSection';
 import { AuthContext } from '../../components/AuthenticationContext';
 import { useGraphQuery } from '../../util/runQueries';
 import { GQLRecentlyUsedQuery } from '../../graphqlTypes';
 import {
   recentlyUsedQuery,
+  useDeletePersonalData,
   useFolderResourceMetaSearch,
 } from './folderMutations';
 import TermsOfService from '../../components/MyNdla/TermsOfService';
@@ -45,6 +47,12 @@ const StyledIntroContainer = styled.div`
   ${mq.range({ from: breakpoints.tablet })} {
     gap: ${spacing.large};
   }
+`;
+
+const ButtonRow = styled.div`
+  display: flex;
+  gap: ${spacing.small};
+  justify-content: flex-end;
 `;
 
 const RoundedImage = styled(Image)`
@@ -109,6 +117,8 @@ const MyNdlaPage = () => {
   const { t } = useTranslation();
   const location = useLocation();
   const isMobile = useContext(IsMobileContext);
+  const { deletePersonalData } = useDeletePersonalData();
+  const navigate = useNavigate();
   const { data: { allFolderResources = [] } = {} } = useGraphQuery<
     GQLRecentlyUsedQuery
   >(recentlyUsedQuery);
@@ -122,6 +132,11 @@ const MyNdlaPage = () => {
       skip: !allFolderResources.length,
     },
   );
+
+  const onDeleteAccount = async () => {
+    await deletePersonalData();
+    navigate('/logout', { state: { from: location.pathname } });
+  };
 
   const keyedData = keyBy(metaData ?? [], r => `${r.type}${r.id}`);
 
@@ -223,7 +238,34 @@ const MyNdlaPage = () => {
       </ButtonContainer>
       <ButtonContainer>
         {t('myNdla.myPage.wishToDelete')}
-        <DeleteButton>{t('myNdla.myPage.deleteAccount')}</DeleteButton>
+        <Modal
+          backgroundColor="white"
+          activateButton={
+            <DeleteButton>{t('myNdla.myPage.deleteAccount')}</DeleteButton>
+          }
+          label={t('myNdla.myPage.deleteAccount')}>
+          {onClose => (
+            <>
+              <ModalHeader>
+                <ModalCloseButton
+                  title={t('modal.closeModal')}
+                  onClick={onClose}
+                />
+              </ModalHeader>
+              <ModalBody>
+                <p>{t('myNdla.myPage.confirmDeleteAccount')}</p>
+                <ButtonRow>
+                  <Button outline onClick={onClose}>
+                    {t('cancel')}
+                  </Button>
+                  <DeleteButton onClick={onDeleteAccount}>
+                    {t('myNdla.myPage.confirmDeleteAccountButton')}
+                  </DeleteButton>
+                </ButtonRow>
+              </ModalBody>
+            </>
+          )}
+        </Modal>
       </ButtonContainer>
     </StyledPageContentContainer>
   );
