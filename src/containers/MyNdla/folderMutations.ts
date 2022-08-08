@@ -268,7 +268,9 @@ export const useAddFolderMutation = () => {
         client.cache.modify({
           fields: {
             folders: (existingFolders = []) =>
-              existingFolders.concat(newFolder),
+              existingFolders.concat({
+                __ref: client.cache.identify(newFolder),
+              }),
           },
         });
       } else {
