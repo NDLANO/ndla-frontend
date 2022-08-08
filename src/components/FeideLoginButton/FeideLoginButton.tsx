@@ -100,7 +100,6 @@ const FeideLoginButton = ({ footer, children, to }: Props) => {
         if (authenticated) {
           navigate('/logout', { state: { from: location.pathname } });
         } else {
-          console.log(location.pathname);
           navigate('/login', { state: { from: location.pathname } });
         }
       }}
