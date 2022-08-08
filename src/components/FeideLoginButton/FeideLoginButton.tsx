@@ -97,11 +97,11 @@ const FeideLoginButton = ({ footer, children, to }: Props) => {
       isAuthenticated={authenticated}
       user={user}
       onAuthenticateClick={() => {
-        location && localStorage.setItem('lastPath', location.pathname);
         if (authenticated) {
-          navigate('/logout');
+          navigate('/logout', { state: { from: location.pathname } });
         } else {
-          navigate('/login');
+          console.log(location.pathname);
+          navigate('/login', { state: { from: location.pathname } });
         }
       }}
     />

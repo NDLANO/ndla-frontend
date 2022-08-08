@@ -13,6 +13,7 @@ import { Feide } from '@ndla/icons/common';
 import { SafeLinkButton } from '@ndla/safelink';
 import { ListResource } from '@ndla/ui';
 import { Trans, useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
 import { GQLFolderResourceMetaFragment } from '../../graphqlTypes';
 import { ResourceAttributes } from './AddResourceToFolder';
 import TermsOfService from './TermsOfService';
@@ -71,6 +72,8 @@ interface Props {
 
 const LoginComponent = ({ resource, meta, onClose, to = '/login' }: Props) => {
   const { t } = useTranslation();
+  const location = useLocation();
+
   return (
     <LoginComponentContainer>
       <TitleRow>
@@ -106,7 +109,9 @@ const LoginComponent = ({ resource, meta, onClose, to = '/login' }: Props) => {
         <Button onClick={onClose} outline>
           {t('cancel')}
         </Button>
-        <SafeLinkButton to={to}>{t('user.buttonLogIn')}</SafeLinkButton>
+        <SafeLinkButton state={{ from: location.pathname }} to={to}>
+          {t('user.buttonLogIn')}
+        </SafeLinkButton>
       </ButtonRow>
     </LoginComponentContainer>
   );

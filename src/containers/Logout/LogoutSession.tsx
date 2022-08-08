@@ -13,11 +13,13 @@ import { AuthContext } from '../../components/AuthenticationContext';
 import { privateRoutes } from '../../routes';
 import { feideLogout } from '../../util/authHelpers';
 import { toHome } from '../../util/routeHelpers';
+import { LocationState } from '../Login/LoginProviders';
 
 const LogoutSession = () => {
   const { authenticated, logout, authContextLoaded } = useContext(AuthContext);
   const navigate = useNavigate();
-  const { search } = useLocation();
+  const { search, state } = useLocation();
+  const from = (state as LocationState)?.from;
 
   useEffect(() => {
     if (!authenticated && authContextLoaded) {
@@ -30,9 +32,9 @@ const LogoutSession = () => {
 
       navigate(wasPrivateRoute ? toHome() : lastPath ?? toHome());
     } else if (authenticated && authContextLoaded) {
-      feideLogout(logout);
+      feideLogout(logout, from);
     }
-  }, [authenticated, authContextLoaded, navigate, logout, search]);
+  }, [authenticated, authContextLoaded, navigate, logout, search, from]);
 
   return null;
 };

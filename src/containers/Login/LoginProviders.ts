@@ -11,9 +11,11 @@ import { AuthContext } from '../../components/AuthenticationContext';
 import { initializeFeideLogin } from '../../util/authHelpers';
 import { toHome, toLoginFailure } from '../../util/routeHelpers';
 
-interface LocationState {
-  from?: string;
-}
+export type LocationState =
+  | {
+      from?: string;
+    }
+  | undefined;
 
 export const LoginProviders = () => {
   const { authenticated, authContextLoaded } = useContext(AuthContext);
@@ -22,9 +24,11 @@ export const LoginProviders = () => {
   const navigate = useNavigate();
   useEffect(() => {
     if (authenticated && authContextLoaded) {
-      navigate(locationState.from ?? toHome());
+      navigate(locationState?.from ?? toHome());
     } else if (authContextLoaded && !authenticated) {
-      initializeFeideLogin().catch(() => navigate(toLoginFailure()));
+      initializeFeideLogin(locationState?.from).catch(() =>
+        navigate(toLoginFailure()),
+      );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authenticated, navigate, authContextLoaded]);

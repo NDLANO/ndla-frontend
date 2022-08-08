@@ -6,8 +6,8 @@
  *
  */
 
-import { MouseEvent, useContext } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { keyBy } from 'lodash';
 import styled from '@emotion/styled';
@@ -108,7 +108,6 @@ const MyNdlaPage = () => {
   const { user } = useContext(AuthContext);
   const { t } = useTranslation();
   const location = useLocation();
-  const navigate = useNavigate();
   const isMobile = useContext(IsMobileContext);
   const { data: { allFolderResources = [] } = {} } = useGraphQuery<
     GQLRecentlyUsedQuery
@@ -218,11 +217,7 @@ const MyNdlaPage = () => {
         <SafeLinkButton
           outline
           to={'/logout'}
-          onClick={(e: MouseEvent) => {
-            e.preventDefault();
-            localStorage.setItem('lastPath', location.pathname);
-            navigate('/logout');
-          }}>
+          state={{ from: location.pathname }}>
           {t('myNdla.myPage.logout')}
         </SafeLinkButton>
       </ButtonContainer>

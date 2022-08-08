@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
-import { useContext, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Spinner } from '@ndla/icons';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import Topic, { topicFragments } from './Topic';
@@ -46,7 +46,6 @@ const TopicWrapper = ({
   subject,
   index,
 }: Props) => {
-  const location = useLocation();
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
   const { data, loading, error } = useGraphQuery<
@@ -74,13 +73,6 @@ const TopicWrapper = ({
       navigate('/404', { replace: true });
     }
   }
-
-  useEffect(() => {
-    // Set localStorage 'lastPath' so feide authentication redirects us back here if logged in.
-    if (isAccessDeniedError(error)) {
-      localStorage.setItem('lastPath', location.pathname);
-    }
-  }, [error, location]);
 
   if (loading || !data?.topic?.article) {
     return <Spinner />;
