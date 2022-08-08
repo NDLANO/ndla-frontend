@@ -247,6 +247,7 @@ const MyNdlaPage = () => {
           {onClose => (
             <>
               <ModalHeader>
+                <h1>{t('myNdla.myPage.deleteAccount')}</h1>
                 <ModalCloseButton
                   title={t('modal.closeModal')}
                   onClick={onClose}
