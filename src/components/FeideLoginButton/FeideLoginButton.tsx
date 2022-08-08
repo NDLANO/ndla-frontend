@@ -11,8 +11,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { AuthModal } from '@ndla/ui';
-import Button, { StyledButton } from '@ndla/button';
-import { colors, spacing } from '@ndla/core';
+import Button, { appearances, StyledButton } from '@ndla/button';
+import { colors, fonts, spacing } from '@ndla/core';
 import Modal, { ModalBody, ModalCloseButton, ModalHeader } from '@ndla/modal';
 import SafeLink from '@ndla/safelink';
 import { AuthContext } from '../AuthenticationContext';
@@ -27,18 +27,18 @@ const FeideFooterButton = styled(StyledButton)`
 `;
 
 const StyledLink = styled(SafeLink)`
+  ${appearances.ghostPill};
   display: flex;
   align-items: center;
   color: ${colors.brand.primary};
   gap: ${spacing.small};
   box-shadow: none;
+  font-size: 16px;
   margin-right: ${spacing.normal};
-  &:hover {
-    box-shadow: inset 0 -1px;
-  }
+  font-weight: ${fonts.weight.semibold};
   svg {
-    width: 22px;
-    height: 22px;
+    width: 20px;
+    height: 20px;
   }
 `;
 
