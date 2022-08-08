@@ -8,7 +8,7 @@
 
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
-import { AddButton } from '@ndla/button';
+import { AddButton, MenuItemProps } from '@ndla/button';
 import { spacing } from '@ndla/core';
 import { FolderOutlined } from '@ndla/icons/contentType';
 import { FileDocumentOutline } from '@ndla/icons/common';
@@ -129,6 +129,7 @@ const FoldersPage = () => {
   return (
     <FoldersPageContainer>
       <FolderBreadcrumb
+        folder={selectedFolder}
         breadcrumbs={selectedFolder?.breadcrumbs ?? []}
         onActionChanged={setFolderAction}
       />
@@ -182,12 +183,17 @@ const FoldersPage = () => {
                   text: t('myNdla.folder.edit'),
                   onClick: () => setFolderAction({ action: 'edit', folder }),
                 },
-                {
-                  icon: <DeleteForever />,
-                  text: t('myNdla.folder.delete'),
-                  onClick: () => setFolderAction({ action: 'delete', folder }),
-                  type: 'danger',
-                },
+                ...(!folder.isFavorite
+                  ? [
+                      {
+                        icon: <DeleteForever />,
+                        text: t('myNdla.folder.delete'),
+                        onClick: () =>
+                          setFolderAction({ action: 'delete', folder }),
+                        type: 'danger',
+                      } as MenuItemProps,
+                    ]
+                  : []),
               ]}
             />
           ))}
