@@ -402,3 +402,21 @@ export const useDeleteFolderResourceMutation = (folderId: string) => {
   });
   return { deleteFolderResource };
 };
+
+const deletePersonalDataMutation = gql`
+  mutation deletePersonalData {
+    deletePersonalData
+  }
+`;
+
+export const useDeletePersonalData = () => {
+  const client = useApolloClient();
+  const [deletePersonalData] = useMutation<boolean>(
+    deletePersonalDataMutation,
+    {
+      onCompleted: () => client.resetStore(),
+    },
+  );
+
+  return { deletePersonalData };
+};

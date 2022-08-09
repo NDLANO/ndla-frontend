@@ -6,6 +6,7 @@
  *
  */
 
+import { useApolloClient } from '@apollo/client';
 import queryString from 'query-string';
 import { useContext, useEffect } from 'react';
 import { matchPath, useLocation, useNavigate } from 'react-router-dom';
@@ -19,6 +20,7 @@ const LogoutSession = () => {
   const { authenticated, logout, authContextLoaded } = useContext(AuthContext);
   const navigate = useNavigate();
   const { search, state } = useLocation();
+  const client = useApolloClient();
   const from = (state as LocationState)?.from;
 
   useEffect(() => {
@@ -33,8 +35,17 @@ const LogoutSession = () => {
       navigate(wasPrivateRoute ? toHome() : lastPath ?? toHome());
     } else if (authenticated && authContextLoaded) {
       feideLogout(logout, from);
+      // client.resetStore();
     }
-  }, [authenticated, authContextLoaded, navigate, logout, search, from]);
+  }, [
+    authenticated,
+    authContextLoaded,
+    navigate,
+    logout,
+    search,
+    from,
+    client,
+  ]);
 
   return null;
 };

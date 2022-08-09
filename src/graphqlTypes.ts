@@ -677,6 +677,7 @@ export type GQLMutation = {
   addFolderResource: GQLFolderResource;
   deleteFolder: Scalars['String'];
   deleteFolderResource: Scalars['String'];
+  deletePersonalData: Scalars['Boolean'];
   updateFolder: GQLFolder;
   updateFolderResource: GQLFolderResource;
 };
@@ -2114,12 +2115,6 @@ export type GQLMultidisciplinaryTopicWrapperQuery = {
 export type GQLMultidisciplinaryTopicWrapper_SubjectFragment = {
   __typename?: 'Subject';
 } & GQLMultidisciplinaryTopic_SubjectFragment;
-
-export type GQLEditFolderModal_FolderFragment = {
-  __typename?: 'Folder';
-  id: string;
-  name: string;
-};
 
 export type GQLFolderResourceFragmentFragment = {
   __typename: 'FolderResource';
