@@ -90,6 +90,7 @@ interface Props {
   isPlainArticle?: boolean;
   isOembed?: boolean;
   showFavoriteButton?: boolean;
+  myNdlaResourceType?: string;
 }
 
 const renderNotions = (
@@ -201,6 +202,7 @@ const Article = ({
   isPlainArticle,
   isOembed = false,
   showFavoriteButton,
+  myNdlaResourceType = 'article',
   ...rest
 }: Props) => {
   const { i18n } = useTranslation();
@@ -322,7 +324,7 @@ const Article = ({
           resource={{
             id: article.id,
             path: location.pathname,
-            resourceType: 'article',
+            resourceType: myNdlaResourceType,
           }}
         />
       )}
