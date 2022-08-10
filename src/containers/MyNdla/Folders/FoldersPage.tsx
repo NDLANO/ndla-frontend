@@ -152,6 +152,7 @@ const FoldersPage = () => {
       <StyledRow>
         {showAddButton && (
           <AddButton
+            disabled={isAdding}
             size="xsmall"
             aria-label={t('myNdla.newFolder')}
             onClick={() => setIsAdding(prev => !prev)}>
