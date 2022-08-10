@@ -22,7 +22,7 @@ const LoginComponentContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding: ${spacing.normal};
-  gap: ${spacing.small};
+  gap: ${spacing.normal};
 `;
 
 const FeideRow = styled.div`
@@ -63,6 +63,12 @@ const StyledTermsTitle = styled.h2`
   }
 `;
 
+const ContentWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${spacing.small};
+`;
+
 interface Props {
   onClose: () => void;
   resource?: ResourceAttributes;
@@ -80,10 +86,10 @@ const LoginComponent = ({ resource, meta, onClose, to = '/login' }: Props) => {
         <h1>
           <Trans t={t} i18nKey="myNdla.myPage.loginWelcome" />
         </h1>
-        <StyledImage src="/static/my-ndla-login.png" />
+        <StyledImage src="/static/my-ndla-login.png" alt={t('myNdla.myNDLA')} />
       </TitleRow>
       {resource && meta && (
-        <>
+        <ContentWrapper>
           <span>{t('myNdla.myPage.loginResourcePitch')}</span>
           <ListResource
             tagLinkPrefix="/minndla/tags"
@@ -94,17 +100,20 @@ const LoginComponent = ({ resource, meta, onClose, to = '/login' }: Props) => {
               alt: meta.metaImage?.alt ?? '',
             }}
             topics={meta.resourceTypes.map(rt => rt.name)}
-            description={meta.description}
           />
-        </>
+        </ContentWrapper>
       )}
-      <FeideRow>
-        <Feide />
-        Feide
-      </FeideRow>
-      <StyledDescription>{t('myNdla.myPage.loginTerms')}</StyledDescription>
-      <StyledTermsTitle>{t('myNdla.myPage.terms.terms')}</StyledTermsTitle>
-      <TermsOfService />
+      <ContentWrapper>
+        <FeideRow>
+          <Feide />
+          Feide
+        </FeideRow>
+        <StyledDescription>{t('myNdla.myPage.loginTerms')}</StyledDescription>
+      </ContentWrapper>
+      <div>
+        <StyledTermsTitle>{t('myNdla.myPage.terms.terms')}</StyledTermsTitle>
+        <TermsOfService />
+      </div>
       <ButtonRow>
         <Button onClick={onClose} outline>
           {t('cancel')}
