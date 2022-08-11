@@ -235,7 +235,7 @@ export const articlePageFragments = {
       id
       name
       contentUri
-      article {
+      article(subjectId: $subjectId) {
         created
         updated
         metaDescription
