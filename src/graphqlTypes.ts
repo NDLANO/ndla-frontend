@@ -924,6 +924,7 @@ export type GQLQueryPodcastArgs = {
 };
 
 export type GQLQueryPodcastSearchArgs = {
+  fallback?: Maybe<Scalars['Boolean']>;
   page: Scalars['Int'];
   pageSize: Scalars['Int'];
 };
@@ -933,6 +934,7 @@ export type GQLQueryPodcastSeriesArgs = {
 };
 
 export type GQLQueryPodcastSeriesSearchArgs = {
+  fallback?: Maybe<Scalars['Boolean']>;
   page: Scalars['Int'];
   pageSize: Scalars['Int'];
 };
@@ -2316,6 +2318,15 @@ export type GQLDeleteFolderResourceMutationVariables = Exact<{
 export type GQLDeleteFolderResourceMutation = {
   __typename?: 'Mutation';
   deleteFolderResource: string;
+};
+
+export type GQLDeletePersonalDataMutationVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type GQLDeletePersonalDataMutation = {
+  __typename?: 'Mutation';
+  deletePersonalData: boolean;
 };
 
 export type GQLPlainArticleContainer_ArticleFragment = {
