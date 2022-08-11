@@ -27,7 +27,6 @@ const Layout = () => {
   const zendeskLanguage =
     i18n.language === 'nb' || i18n.language === 'nn' ? 'no' : i18n.language;
   const ndlaFilm = useIsNdlaFilm();
-  const showMasthead = true; //pathname !== '/';
   const backgroundWide = !!matchPath(
     '/learningpaths/:learningpathId',
     pathname,
@@ -61,7 +60,7 @@ const Layout = () => {
       <Helmet>
         <meta property="fb:app_id" content="115263542481787" />
       </Helmet>
-      {showMasthead && <Masthead />}
+      <Masthead />
       <Content>
         <Outlet />
       </Content>
