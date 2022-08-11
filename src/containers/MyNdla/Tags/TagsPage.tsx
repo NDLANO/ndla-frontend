@@ -6,18 +6,25 @@
  *
  */
 
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { keyBy } from 'lodash';
 import { useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { SafeLinkButton } from '@ndla/safelink';
 import { ListResource } from '@ndla/ui';
+import { FolderOutlined } from '@ndla/icons/contentType';
 import { useFolderResourceMetaSearch, useFolders } from '../folderMutations';
 import TagsBreadcrumb from './TagsBreadcrumb';
 import NotFoundPage from '../../NotFoundPage/NotFoundPage';
 import { getAllTags, getResourcesForTag } from '../../../util/folderHelpers';
 import IsMobileContext from '../../../IsMobileContext';
+import { BlockWrapper, ViewType } from '../Folders/FoldersPage';
+import { GQLFolderResource } from '../../../graphqlTypes';
+import ListViewOptions from '../Folders/ListViewOptions';
+import { ResourceAction } from '../Folders/ResourceList';
+import AddResourceToFolderModal from '../../../components/MyNdla/AddResourceToFolderModal';
 
 interface TagsContainerProps {
   isMobile?: boolean;
@@ -46,23 +53,10 @@ const TagsPage = () => {
   const tags = getAllTags(folders);
   const resources = tag ? getResourcesForTag(folders, tag) : [];
   const isMobile = useContext(IsMobileContext);
-  const { data, loading } = useFolderResourceMetaSearch(
-    resources.map(res => ({
-      id: res.resourceId,
-      path: res.path,
-      resourceType: res.resourceType,
-    })),
-    { skip: resources.length === 0 },
-  );
 
   if (tag && tags && !tags.includes(tag)) {
     return <NotFoundPage />;
   }
-
-  const keyedData = keyBy(
-    data ?? [],
-    resource => `${resource.type}-${resource.id}`,
-  );
 
   return (
     <TagsPageContainer>
@@ -71,39 +65,103 @@ const TagsPage = () => {
         tagCount={tags?.length}
         resourceCount={resources?.length}
       />
-      {!tag && (
-        <TagsContainer isMobile={isMobile}>
-          {tags.map(tag => (
-            <StyledSafeLinkButton
-              greyLighter
-              borderShape="rounded"
-              key={tag}
-              to={tag}>
-              #{tag}
-            </StyledSafeLinkButton>
-          ))}
-        </TagsContainer>
-      )}
-      {resources?.map(resource => {
+      {!tag && <Tags isMobile={isMobile} tags={tags} />}
+      {tag && resources && <Resources resources={resources} />}
+    </TagsPageContainer>
+  );
+};
+
+interface TagsProps {
+  isMobile?: boolean;
+  tags: string[];
+}
+
+interface ResourcesProps {
+  resources: GQLFolderResource[];
+}
+
+const Resources = ({ resources }: ResourcesProps) => {
+  const [type, setType] = useState<ViewType>('list');
+  const [resourceAction, setResourceAction] = useState<
+    ResourceAction | undefined
+  >(undefined);
+  const { t } = useTranslation();
+  const { data, loading } = useFolderResourceMetaSearch(
+    resources.map(res => ({
+      id: res.resourceId,
+      path: res.path,
+      resourceType: res.resourceType,
+    })),
+    { skip: resources.length === 0 },
+  );
+  const keyedData = keyBy(
+    data ?? [],
+    resource => `${resource.type}-${resource.id}`,
+  );
+  return (
+    <>
+      <ListViewOptions type={type} onTypeChange={setType} />
+      {resources.map(resource => {
         const meta =
           keyedData[`${resource.resourceType}-${resource.resourceId}`];
         return (
-          <ListResource
-            tagLinkPrefix="/minndla/tags"
-            isLoading={loading}
-            key={resource.id}
-            link={resource.path}
-            title={meta?.title ?? ''}
-            tags={resource.tags}
-            topics={meta?.resourceTypes.map(rt => rt.name) ?? []}
-            resourceImage={{
-              src: meta?.metaImage?.url ?? '',
-              alt: meta?.metaImage?.url ?? '',
-            }}
-          />
+          <BlockWrapper type={type}>
+            <ListResource
+              tagLinkPrefix="/minndla/tags"
+              isLoading={loading}
+              key={resource.id}
+              link={resource.path}
+              title={meta?.title ?? ''}
+              description={
+                type !== 'list' ? meta?.description ?? '' : undefined
+              }
+              tags={resource.tags}
+              topics={meta?.resourceTypes.map(rt => rt.name) ?? []}
+              resourceImage={{
+                src: meta?.metaImage?.url ?? '',
+                alt: meta?.metaImage?.url ?? '',
+              }}
+              menuItems={[
+                {
+                  icon: <FolderOutlined />,
+                  text: t('myNdla.resource.add'),
+                  onClick: () => setResourceAction({ action: 'add', resource }),
+                },
+              ]}
+            />
+          </BlockWrapper>
         );
       })}
-    </TagsPageContainer>
+      {resourceAction && (
+        <>
+          <AddResourceToFolderModal
+            isOpen={resourceAction.action === 'add'}
+            onClose={() => setResourceAction(undefined)}
+            resource={{
+              id: resourceAction.resource.resourceId,
+              resourceType: resourceAction.resource.resourceType,
+              path: resourceAction.resource.path,
+            }}
+          />
+        </>
+      )}
+    </>
+  );
+};
+
+const Tags = ({ isMobile, tags }: TagsProps) => {
+  return (
+    <TagsContainer isMobile={isMobile}>
+      {tags.map(tag => (
+        <StyledSafeLinkButton
+          greyLighter
+          borderShape="rounded"
+          key={tag}
+          to={tag}>
+          #{tag}
+        </StyledSafeLinkButton>
+      ))}
+    </TagsContainer>
   );
 };
 

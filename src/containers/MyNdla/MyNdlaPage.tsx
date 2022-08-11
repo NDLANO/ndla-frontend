@@ -108,7 +108,7 @@ const StyledSafeLink = styled(SafeLink)`
   }
 `;
 
-const StyledH2 = styled.h2`
+const StyledH1 = styled.h1`
   margin: 0;
 `;
 
@@ -147,10 +147,10 @@ const MyNdlaPage = () => {
           <StyledSafeLink to="/minndla/meny">
             <Back />
           </StyledSafeLink>
-          <StyledH2>{t('myNdla.myPage.myPage')}</StyledH2>
+          <StyledH1>{t('myNdla.myPage.myPage')}</StyledH1>
         </MobileTitle>
       ) : (
-        <StyledH2>{t('myNdla.myPage.myPage')}</StyledH2>
+        <StyledH1>{t('myNdla.myPage.myPage')}</StyledH1>
       )}
       <StyledIntroContainer>
         <h2>{t('myNdla.myPage.welcome')}</h2>
