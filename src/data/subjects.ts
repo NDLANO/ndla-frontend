@@ -55,6 +55,19 @@ export const activeResources: SubjectType[] = [
   },
   {
     longName: {
+      en: 'Entreprenørskap og bedriftsutvikling 1',
+      nb: 'Entreprenørskap og bedriftsutvikling 1',
+      nn: 'Entreprenørskap og bedriftsutvikling 1',
+    },
+    name: {
+      en: 'Entreprenørskap og bedriftsutvikling 1',
+      nb: 'Entreprenørskap og bedriftsutvikling 1',
+      nn: 'Entreprenørskap og bedriftsutvikling 1',
+    },
+    id: 'urn:subject:c0ce0b31-33f6-4f6f-bbe0-caa878f7ab9b',
+  },
+  {
+    longName: {
       en: 'Ukrainian resources in Norwegian Social Science',
       nb: 'Ukrainske ressurser i samfunnskunnskap',
       nn: 'Ukrainske ressurser i samfunnskunnskap',
