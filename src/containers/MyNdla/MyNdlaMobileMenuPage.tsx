@@ -10,6 +10,7 @@ import { useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
+import { HelmetWithTracker } from '@ndla/tracker';
 import { FolderType, TreeStructure } from '@ndla/ui';
 import IsMobileContext from '../../IsMobileContext';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
@@ -43,6 +44,7 @@ const MyNdlaMobileMenuPage = () => {
 
   return (
     <MenuPageContainer>
+      <HelmetWithTracker title={t('htmlTitles.myNdlaPage')} />
       <StyledHeading>{t('myNdla.myNDLA')}</StyledHeading>
       <TreeStructureWrapper>
         <TreeStructure folders={staticFolderElements} />

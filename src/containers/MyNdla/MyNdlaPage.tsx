@@ -18,6 +18,7 @@ import { Back, Feide, HashTag, InformationOutline } from '@ndla/icons/common';
 import { ListResource, UserInfo, Image } from '@ndla/ui';
 import Button, { DeleteButton } from '@ndla/button';
 import SafeLink, { SafeLinkButton } from '@ndla/safelink';
+import { HelmetWithTracker } from '@ndla/tracker';
 import Modal, { ModalBody, ModalCloseButton, ModalHeader } from '@ndla/modal';
 import InfoPart, { InfoPartIcon, InfoPartText } from './InfoSection';
 import { AuthContext } from '../../components/AuthenticationContext';
@@ -142,6 +143,7 @@ const MyNdlaPage = () => {
 
   return (
     <StyledPageContentContainer>
+      <HelmetWithTracker title={t('htmlTitles.myNdlaPage')} />
       {isMobile ? (
         <MobileTitle>
           <StyledSafeLink to="/minndla/meny">

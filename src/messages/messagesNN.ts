@@ -21,6 +21,11 @@ const messages = {
     podcast: `Podkast - Side {{pageNumber}} - ${titleTemplate}`,
     lti: `LTI - ${titleTemplate}`,
     movedResourcePage: `Sida har flytta - ${titleTemplate}`,
+    myNdlaPage: `Min NDLA - ${titleTemplate}`,
+    myFoldersPage: `Mine mapper - ${titleTemplate}`,
+    myFolderPage: `{{folderName}} - ${titleTemplate}`,
+    myTagPage: `#{{tag}} - ${titleTemplate}`,
+    myTagsPage: `Mine tags - ${titleTemplate}`,
     toolbox: {
       visualElement: 'Om emne video',
       introduction:
