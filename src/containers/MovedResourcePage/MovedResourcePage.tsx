@@ -8,7 +8,6 @@
 
 //@ts-ignore
 import { SearchResultList, OneColumn } from '@ndla/ui';
-
 import { gql } from '@apollo/client';
 import { useTranslation } from 'react-i18next';
 import { HelmetWithTracker } from '@ndla/tracker';
@@ -56,13 +55,13 @@ const MovedResourcePage = ({ resource }: Props) => {
           ?.name,
         subjects: data?.resource?.breadcrumbs?.map((crumb, index) => ({
           url: resource.paths?.[index],
-          title: crumb[0],
+          title: crumb[0] ?? '',
           breadcrumb: crumb,
         })),
         ...(isLearningpath
           ? {
               id: resultId,
-              ingress: resource?.learningpath?.description,
+              ingress: resource?.learningpath?.description ?? '',
               metaImage: {
                 url: resource.learningpath?.coverphoto?.url,
                 alt: '',
@@ -70,7 +69,7 @@ const MovedResourcePage = ({ resource }: Props) => {
             }
           : {
               id: resultId,
-              ingress: resource?.article?.metaDescription,
+              ingress: resource?.article?.metaDescription ?? '',
               metaImage: {
                 url: resource.article?.metaImage?.url,
                 alt: resource.article?.metaImage?.alt,

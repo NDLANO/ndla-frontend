@@ -124,9 +124,8 @@ const MastheadSearch = ({ hideOnNarrowScreen = false, subject }: Props) => {
     navigate({ pathname: '/search', search: `?${searchString}` });
   };
 
-  const filters = subjects
-    ? [{ title: subject?.name, value: subject?.id }]
-    : [];
+  const filters =
+    subjects && subject ? [{ title: subject.name, value: subject.id }] : [];
 
   return (
     <MastheadSearchModal
@@ -145,9 +144,6 @@ const MastheadSearch = ({ hideOnNarrowScreen = false, subject }: Props) => {
                 onChange={onQueryChange}
                 filters={filters}
                 onFilterRemove={onFilterRemove}
-                messages={{
-                  searchFieldTitle: t('searchPage.search'),
-                }}
                 loading={loading}
               />
               {query.length > 2 && (

@@ -18,6 +18,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { DeleteForever } from '@ndla/icons/editor';
+import { HelmetWithTracker } from '@ndla/tracker';
 import { GQLFolder, GQLFoldersPageQuery } from '../../../graphqlTypes';
 import { useGraphQuery } from '../../../util/runQueries';
 import ListViewOptions from './ListViewOptions';
@@ -128,6 +129,13 @@ const FoldersPage = () => {
 
   return (
     <FoldersPageContainer>
+      <HelmetWithTracker
+        title={
+          selectedFolder
+            ? t('htmlTitles.myFolderPage', { folderName: selectedFolder.name })
+            : t('htmlTitles.myFoldersPage')
+        }
+      />
       <FolderBreadcrumb
         folder={selectedFolder}
         breadcrumbs={selectedFolder?.breadcrumbs ?? []}
