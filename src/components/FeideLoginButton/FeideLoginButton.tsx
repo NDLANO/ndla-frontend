@@ -18,6 +18,7 @@ import SafeLink from '@ndla/safelink';
 import { AuthContext } from '../AuthenticationContext';
 import LoginComponent from '../MyNdla/LoginComponent';
 import IsMobileContext from '../../IsMobileContext';
+import { useIsNdlaFilm } from '../../routeHelpers';
 
 const FeideFooterButton = styled(StyledButton)`
   padding: ${spacing.xsmall} ${spacing.small};
@@ -26,11 +27,15 @@ const FeideFooterButton = styled(StyledButton)`
   border: 2px solid ${colors.brand.grey};
 `;
 
-const StyledLink = styled(SafeLink)`
+interface StyledLinkProps {
+  ndlaFilm?: boolean;
+}
+
+const StyledLink = styled(SafeLink)<StyledLinkProps>`
   ${appearances.ghostPill};
   display: flex;
   align-items: center;
-  color: ${colors.brand.primary};
+  color: ${p => (p.ndlaFilm ? colors.white : colors.brand.primary)};
   gap: ${spacing.small};
   box-shadow: none;
   font-size: 16px;
@@ -59,11 +64,16 @@ const FeideLoginButton = ({ footer, children, to }: Props) => {
   const location = useLocation();
   const { t } = useTranslation();
   const { authenticated, user } = useContext(AuthContext);
+  const ndlaFilm = useIsNdlaFilm();
   const isMobile = useContext(IsMobileContext);
   const destination = isMobile ? '/minndla/meny' : '/minndla';
 
   if (authenticated && !footer) {
-    return <StyledLink to={destination}>{children}</StyledLink>;
+    return (
+      <StyledLink ndlaFilm={ndlaFilm} to={destination}>
+        {children}
+      </StyledLink>
+    );
   }
 
   if (!authenticated && !footer) {
