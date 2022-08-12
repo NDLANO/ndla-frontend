@@ -13,8 +13,11 @@ import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { SafeLinkButton } from '@ndla/safelink';
-import { ListResource } from '@ndla/ui';
+import { ListResource, useSnack } from '@ndla/ui';
+import { copyTextToClipboard } from '@ndla/util';
 import { FolderOutlined } from '@ndla/icons/contentType';
+import { Link } from '@ndla/icons/common';
+import config from '../../../config';
 import { useFolderResourceMetaSearch, useFolders } from '../folderMutations';
 import TagsBreadcrumb from './TagsBreadcrumb';
 import NotFoundPage from '../../NotFoundPage/NotFoundPage';
@@ -82,6 +85,7 @@ interface ResourcesProps {
 
 const Resources = ({ resources }: ResourcesProps) => {
   const [type, setType] = useState<ViewType>('list');
+  const { addSnack } = useSnack();
   const [resourceAction, setResourceAction] = useState<
     ResourceAction | undefined
   >(undefined);
@@ -126,6 +130,19 @@ const Resources = ({ resources }: ResourcesProps) => {
                   icon: <FolderOutlined />,
                   text: t('myNdla.resource.add'),
                   onClick: () => setResourceAction({ action: 'add', resource }),
+                },
+                {
+                  icon: <Link />,
+                  text: t('myNdla.resource.copyLink'),
+                  onClick: () => {
+                    copyTextToClipboard(
+                      `${config.ndlaFrontendDomain}${resource.path}`,
+                    );
+                    addSnack({
+                      content: t('myNdla.resource.linkCopied'),
+                      id: 'linkCopied',
+                    });
+                  },
                 },
               ]}
             />
