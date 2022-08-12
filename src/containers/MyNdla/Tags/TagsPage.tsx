@@ -11,6 +11,7 @@ import { keyBy } from 'lodash';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
+import { HelmetWithTracker } from '@ndla/tracker';
 import { spacing } from '@ndla/core';
 import { SafeLinkButton } from '@ndla/safelink';
 import { ListResource, useSnack } from '@ndla/ui';
@@ -53,6 +54,7 @@ const StyledSafeLinkButton = styled(SafeLinkButton)`
 const TagsPage = () => {
   const { folders } = useFolders();
   const { tag } = useParams();
+  const { t } = useTranslation();
   const tags = getAllTags(folders);
   const resources = tag ? getResourcesForTag(folders, tag) : [];
   const isMobile = useContext(IsMobileContext);
@@ -63,6 +65,11 @@ const TagsPage = () => {
 
   return (
     <TagsPageContainer>
+      <HelmetWithTracker
+        title={
+          tag ? t('htmlTitles.myTagPage', { tag }) : t('htmlTitles.myTagsPage')
+        }
+      />
       <TagsBreadcrumb
         tag={tag}
         tagCount={tags?.length}

@@ -21,6 +21,11 @@ const messages = {
     podcast: `Podcast - Page {{page}} - ${titleTemplate}`,
     lti: `LTI - ${titleTemplate}`,
     movedResourcePage: `The page has been moved - ${titleTemplate}`,
+    myNdlaPage: `My NDLA - ${titleTemplate}`,
+    myFoldersPage: `My folders - ${titleTemplate}`,
+    myFolderPage: `{{folderName}} - ${titleTemplate}`,
+    myTagPage: `#{{tag}} - ${titleTemplate}`,
+    myTagsPage: `My tags - ${titleTemplate}`,
     toolbox: {
       visualElement: 'About subject video',
       introduction:
