@@ -31,7 +31,7 @@ interface Props {
 }
 
 export type ResourceActionType = 'add' | 'delete';
-interface ResourceAction {
+export interface ResourceAction {
   action: ResourceActionType;
   resource: GQLFolderResource;
 }
