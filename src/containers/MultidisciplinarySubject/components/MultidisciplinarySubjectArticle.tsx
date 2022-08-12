@@ -90,11 +90,13 @@ const MultidisciplinarySubjectArticle = ({
       />
       <OneColumn>
         <Article
+          myNdlaResourceType="multidisciplinary"
           id={skipToContentId}
           article={article}
           label=""
           isTopicArticle={false}
           isResourceArticle={false}
+          showFavoriteButton={true}
         />
         <div ref={resourcesRef}>
           <Resources topic={topic} resourceTypes={resourceTypes} />
