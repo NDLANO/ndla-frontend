@@ -8,7 +8,7 @@
 
 import styled from '@emotion/styled';
 import Button from '@ndla/button';
-import { fonts, spacing } from '@ndla/core';
+import { mq, breakpoints, fonts, spacing } from '@ndla/core';
 import { Feide } from '@ndla/icons/common';
 import { SafeLinkButton } from '@ndla/safelink';
 import { ListResource } from '@ndla/ui';
@@ -44,6 +44,13 @@ const ButtonRow = styled.div`
 
 const TitleRow = styled.div`
   display: flex;
+  ${mq.range({ until: breakpoints.tablet })} {
+    align-items: center;
+    flex-direction: column;
+    h1 {
+      ${fonts.sizes('18px')}
+    }
+  }
 `;
 
 const StyledDescription = styled.p`
