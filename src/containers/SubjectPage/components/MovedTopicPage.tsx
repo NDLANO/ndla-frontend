@@ -6,7 +6,7 @@
  *
  */
 
-//@ts-ignore
+// @ts-ignore
 import { SearchResultList, OneColumn } from '@ndla/ui';
 import { gql } from '@apollo/client';
 import { useTranslation } from 'react-i18next';
@@ -26,7 +26,7 @@ interface GQLSearchResultExtended
     title: string;
     breadcrumb: string[];
   }[];
-  ingress: string;
+  ingress?: string;
   id: string;
   contentType: string;
 }
@@ -39,7 +39,7 @@ const convertTopicToResult = (
     title: topic.name,
     url: topic.path || '',
     id: topic.id,
-    ingress: topic.meta?.metaDescription ?? '',
+    ingress: topic.meta?.metaDescription,
     subjects: topic.breadcrumbs?.map(crumb => ({
       url: topic.path,
       title: crumb?.[0]!,
@@ -50,14 +50,12 @@ const convertTopicToResult = (
 };
 
 const mergeTopicSubjects = (results: GQLSearchResultExtended[]) => {
-  // can only reach this page if topics.length > 1
-  const firstResult = results[0]!;
   // Assuming that first element has the same values that the rest of the elements in the results array
   return [
     {
-      ...firstResult,
+      ...results[0],
       subjects: results.flatMap(
-        (topic: GQLSearchResultExtended) => topic.subjects ?? [],
+        (topic: GQLSearchResultExtended) => topic.subjects,
       ),
     },
   ];
