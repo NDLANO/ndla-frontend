@@ -77,13 +77,11 @@ const ResourceAddedSnack = ({ folder }: ResourceAddedSnackProps) => {
   return (
     <StyledResourceAddedSnack>
       <StyledResource>
-        {t('myNdla.resource.addedToFolder', {
-          folderName: folder.name,
-        })}
+        {t('myNdla.resource.addedToFolder')}
+        <StyledSafeLink to={`/minndla/folders/${folder.id}`}>
+          "{folder.name}"
+        </StyledSafeLink>
       </StyledResource>
-      <StyledSafeLink to={`/minndla/folders/${folder.id}`}>
-        {t('myNdla.resource.show')}
-      </StyledSafeLink>
     </StyledResourceAddedSnack>
   );
 };
