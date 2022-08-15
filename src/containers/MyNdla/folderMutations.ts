@@ -52,7 +52,6 @@ export const folderFragment = gql`
     __typename
     id
     name
-    isFavorite
     status
     parentId
     breadcrumbs {
