@@ -16,7 +16,7 @@ import { Pencil } from '@ndla/icons/action';
 import { DeleteForever } from '@ndla/icons/editor';
 import { Back } from '@ndla/icons/common';
 import SafeLink from '@ndla/safelink';
-import { ActionBreadcrumb, FolderType } from '@ndla/ui';
+import { ActionBreadcrumb } from '@ndla/ui';
 import { GQLBreadcrumb } from '../../../graphqlTypes';
 import { getFolder } from '../folderMutations';
 import { FolderAction } from './FoldersPage';
@@ -25,7 +25,6 @@ import IsMobileContext from '../../../IsMobileContext';
 interface Props {
   breadcrumbs: GQLBreadcrumb[];
   onActionChanged: (action: FolderAction) => void;
-  folder: FolderType | null;
 }
 
 const BreadcrumbContainer = styled.div`
@@ -54,7 +53,7 @@ const StyledSpan = styled.span`
   font-weight: ${fonts.weight.bold};
 `;
 
-const FolderBreadcrumb = ({ breadcrumbs, onActionChanged, folder }: Props) => {
+const FolderBreadcrumb = ({ breadcrumbs, onActionChanged }: Props) => {
   const { t } = useTranslation();
   const { cache } = useApolloClient();
   const isMobile = useContext(IsMobileContext);
@@ -68,7 +67,6 @@ const FolderBreadcrumb = ({ breadcrumbs, onActionChanged, folder }: Props) => {
       ? `/minndla/folders/${breadcrumbs[breadcrumbs.length - 2]?.id ?? ''}`
       : '/minndla/meny';
 
-  const isFavorite = folder?.isFavorite;
   const actionItems: MenuItemProps[] = [
     {
       icon: <Pencil />,
@@ -83,24 +81,20 @@ const FolderBreadcrumb = ({ breadcrumbs, onActionChanged, folder }: Props) => {
         }
       },
     },
-    ...(!isFavorite
-      ? [
-          {
-            icon: <DeleteForever />,
-            text: t('myNdla.folder.delete'),
-            type: 'danger',
-            onClick: () => {
-              const folder = getFolder(cache, lastBreadcrumb.id);
-              if (folder) {
-                onActionChanged({
-                  action: 'delete',
-                  folder,
-                });
-              }
-            },
-          } as MenuItemProps,
-        ]
-      : []),
+    {
+      icon: <DeleteForever />,
+      text: t('myNdla.folder.delete'),
+      type: 'danger',
+      onClick: () => {
+        const folder = getFolder(cache, lastBreadcrumb.id);
+        if (folder) {
+          onActionChanged({
+            action: 'delete',
+            folder,
+          });
+        }
+      },
+    },
   ];
 
   if (isMobile) {

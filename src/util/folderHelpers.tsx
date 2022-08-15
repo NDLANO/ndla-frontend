@@ -53,7 +53,6 @@ export const createStaticStructureElements = (
   return [
     {
       id: '',
-      isFavorite: false,
       name: t('myNdla.myPage.myPage'),
       icon: <Person />,
       status: 'private',
@@ -63,7 +62,6 @@ export const createStaticStructureElements = (
     },
     {
       id: 'folders',
-      isFavorite: false,
       name: t('myNdla.myFolders'),
       status: 'private',
       subfolders: folders,
@@ -73,7 +71,6 @@ export const createStaticStructureElements = (
     {
       id: 'tags',
       icon: <HashTag />,
-      isFavorite: false,
       name: t('myNdla.myTags'),
       status: 'private',
       subfolders: [],

@@ -156,7 +156,6 @@ const AddResourceToFolder = ({ onClose, resource }: Props) => {
       id: 'folders',
       name: t('myNdla.myFolders'),
       status: 'private',
-      isFavorite: false,
       subfolders: folders,
       breadcrumbs: [],
       resources: [],
