@@ -405,6 +405,14 @@ type AudioLicense {
   copyText: String
 }
 
+type PodcastLicense {
+  title: String!
+  src: String!
+  copyright: Copyright!
+  copyText: String
+  description: String
+}
+
 type BrightcoveIframe {
   src: String!
   height: Int!
@@ -447,6 +455,7 @@ type ArticleMetaData {
   footnotes: [FootNote!]
   images: [ImageLicense!]
   audios: [AudioLicense!]
+  podcasts: [PodcastLicense!]
   brightcoves: [BrightcoveLicense!]
   h5ps: [H5pLicense!]
   concepts: [ConceptLicense!]
