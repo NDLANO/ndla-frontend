@@ -30,6 +30,7 @@ import {
   GQLMutationDeleteFolderResourceArgs,
   GQLMutationUpdateFolderArgs,
   GQLMutationUpdateFolderResourceArgs,
+  GQLRecentlyUsedQuery,
   GQLUpdateFolderMutation,
   GQLUpdateFolderResourceMutation,
 } from '../../graphqlTypes';
@@ -217,9 +218,14 @@ export const useFolderResourceMetaSearch = (
 };
 
 export const useFolders = () => {
+  const { cache } = useApolloClient();
   const { data: { folders: folderData } = {}, ...rest } = useGraphQuery<
     GQLFoldersPageQuery
-  >(foldersPageQuery);
+  >(foldersPageQuery, {
+    onCompleted: () => {
+      cache.gc();
+    },
+  });
 
   return { folders: folderData ?? [], ...rest };
 };
@@ -254,6 +260,19 @@ export const recentlyUsedQuery = gql`
     }
   }
 `;
+
+export const useRecentlyUsedResources = () => {
+  const { cache } = useApolloClient();
+  const { data: { allFolderResources = [] } = {}, ...rest } = useGraphQuery<
+    GQLRecentlyUsedQuery
+  >(recentlyUsedQuery, {
+    onCompleted: () => {
+      cache.gc();
+    },
+  });
+
+  return { allFolderResources, ...rest };
+};
 
 export const useAddFolderMutation = () => {
   const client = useApolloClient();
@@ -310,7 +329,7 @@ export const useDeleteFolderMutation = () => {
     },
     onCompleted: ({ deleteFolder: id }) => {
       const normalizedId = client.cache.identify({ id, __typename: 'Folder' });
-      client.cache.evict({ id: normalizedId });
+      client.cache.evict({ id: normalizedId, broadcast: false });
       client.cache.gc();
     },
   });
