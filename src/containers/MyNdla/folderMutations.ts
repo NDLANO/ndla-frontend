@@ -297,7 +297,15 @@ export const useDeleteFolderMutation = () => {
     GQLDeleteFolderMutation,
     GQLMutationDeleteFolderArgs
   >(deleteFolderMutation, {
-    refetchQueries: [{ query: recentlyUsedQuery }],
+    refetchQueries: () => {
+      const test: GQLFoldersPageQuery | null = client.cache.readQuery({
+        query: foldersPageQuery,
+      });
+      if (test?.folders?.length === 1) {
+        return [{ query: recentlyUsedQuery }, { query: foldersPageQuery }];
+      }
+      return [{ query: recentlyUsedQuery }];
+    },
     onCompleted: ({ deleteFolder: id }) => {
       const normalizedId = client.cache.identify({ id, __typename: 'Folder' });
       client.cache.evict({ id: normalizedId });
