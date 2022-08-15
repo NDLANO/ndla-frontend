@@ -360,7 +360,6 @@ export type GQLFolder = {
   __typename?: 'Folder';
   breadcrumbs: Array<GQLBreadcrumb>;
   id: Scalars['String'];
-  isFavorite: Scalars['Boolean'];
   name: Scalars['String'];
   parentId?: Maybe<Scalars['String']>;
   resources: Array<GQLFolderResource>;
@@ -2132,7 +2131,6 @@ export type GQLFolderFragmentFragment = {
   __typename: 'Folder';
   id: string;
   name: string;
-  isFavorite: boolean;
   status: string;
   parentId?: Maybe<string>;
   breadcrumbs: Array<{ __typename: 'Breadcrumb'; id: string; name: string }>;
@@ -2409,6 +2407,7 @@ export type GQLPodcastSeries_PodcastSeriesSummaryFragment = {
 export type GQLPodcastSeriesListPageQueryVariables = Exact<{
   page: Scalars['Int'];
   pageSize: Scalars['Int'];
+  fallback?: Maybe<Scalars['Boolean']>;
 }>;
 
 export type GQLPodcastSeriesListPageQuery = {

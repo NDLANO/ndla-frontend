@@ -890,7 +890,6 @@ type Folder {
   id: String!
   name: String!
   status: String!
-  isFavorite: Boolean!
   breadcrumbs: [Breadcrumb!]!
   parentId: String
   subfolders: [Folder!]!

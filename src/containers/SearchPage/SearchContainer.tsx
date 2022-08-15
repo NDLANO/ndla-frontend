@@ -10,7 +10,6 @@ import styled from '@emotion/styled';
 import {
   SearchSubjectResult,
   SearchNotionsResult,
-  //@ts-ignore
   SearchFilterContent,
   LanguageSelector,
   ConceptNotion,
