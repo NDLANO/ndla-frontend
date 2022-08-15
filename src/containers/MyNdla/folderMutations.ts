@@ -298,10 +298,12 @@ export const useDeleteFolderMutation = () => {
     GQLMutationDeleteFolderArgs
   >(deleteFolderMutation, {
     refetchQueries: () => {
-      const test: GQLFoldersPageQuery | null = client.cache.readQuery({
-        query: foldersPageQuery,
-      });
-      if (test?.folders?.length === 1) {
+      const beforeDeletion: GQLFoldersPageQuery | null = client.cache.readQuery(
+        {
+          query: foldersPageQuery,
+        },
+      );
+      if (beforeDeletion?.folders?.length === 1) {
         return [{ query: recentlyUsedQuery }, { query: foldersPageQuery }];
       }
       return [{ query: recentlyUsedQuery }];
