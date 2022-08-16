@@ -40,20 +40,19 @@ export interface FolderTotalCount {
 }
 
 export const getTotalCountForFolder = (folder: GQLFolder): FolderTotalCount => {
-  const totalCount = folder.subfolders.reduce<FolderTotalCount>(
+  return folder.subfolders.reduce<FolderTotalCount>(
     (acc, curr) => {
+      const subTotal = getTotalCountForFolder(curr);
       return {
-        folders: acc.folders + curr.subfolders.length,
-        resources: acc.resources + curr.resources.length,
+        folders: acc.folders + subTotal.folders,
+        resources: acc.resources + subTotal.resources,
       };
     },
-    { folders: 0, resources: 0 },
+    {
+      folders: folder.subfolders.length,
+      resources: folder.resources.length,
+    },
   );
-
-  return {
-    folders: folder.subfolders.length + totalCount.folders,
-    resources: folder.resources.length + totalCount.resources,
-  };
 };
 
 export const getResourcesForTag = (
