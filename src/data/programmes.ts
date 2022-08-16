@@ -2393,7 +2393,7 @@ export const programmes: ProgrammeType[] = [
               },
               {
                 id: 'urn:subject:c0ce0b31-33f6-4f6f-bbe0-caa878f7ab9b',
-              }
+              },
             ],
           },
           {
