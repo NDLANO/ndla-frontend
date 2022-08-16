@@ -259,7 +259,7 @@ const AddResourceToFolder = ({ onClose, resource }: Props) => {
           {t('cancel')}
         </Button>
         <Button disabled={!canSave} onClick={onSave}>
-          {t('save')}
+          {t('myNdla.resource.save')}
         </Button>
       </ButtonRow>
     </AddResourceContainer>
