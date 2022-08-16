@@ -130,7 +130,7 @@ const Resources = ({ resources }: ResourcesProps) => {
               topics={meta?.resourceTypes.map(rt => rt.name) ?? []}
               resourceImage={{
                 src: meta?.metaImage?.url ?? '',
-                alt: meta?.metaImage?.url ?? '',
+                alt: '',
               }}
               menuItems={[
                 {
