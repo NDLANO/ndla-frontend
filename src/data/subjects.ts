@@ -1441,19 +1441,6 @@ export const activeSubjects: SubjectType[] = [
   },
   {
     longName: {
-      en: 'Naturbruk (NA-NAB vg1)',
-      nb: 'Naturbruk (NA-NAB vg1)',
-      nn: 'Naturbruk (NA-NAB vg1)',
-    },
-    name: {
-      en: 'Programfag Naturbruk',
-      nb: 'Programfag Naturbruk',
-      nn: 'Programfag Naturbruk',
-    },
-    id: 'urn:subject:13',
-  },
-  {
-    longName: {
       en: 'Konstruksjons- og styringsteknikk (TP-TIP vg1)',
       nb: 'Konstruksjons- og styringsteknikk (TP-TIP vg1)',
       nn: 'Konstruksjons- og styringsteknikk (TP-TIP vg1)',
