@@ -75,7 +75,7 @@ const ResourceList = ({ selectedFolder, viewType, folderId }: Props) => {
               key={resource.id}
               resourceImage={{
                 src: resourceMeta?.metaImage?.url ?? '',
-                alt: resourceMeta?.metaImage?.url ?? '',
+                alt: '',
               }}
               link={resource.path}
               tags={resource.tags}
