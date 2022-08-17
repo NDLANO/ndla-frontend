@@ -105,14 +105,28 @@ const FoldersPage = () => {
     () => (selectedFolder ? selectedFolder.subfolders : folderData ?? []),
     [selectedFolder, folderData],
   );
+
+  const selectedFolderCount = useMemo(
+    () => (selectedFolder ? getTotalCountForFolder(selectedFolder) : undefined),
+    [selectedFolder],
+  );
+
   const foldersCount = useMemo(
     () =>
-      folders.reduce<Record<string, FolderTotalCount>>((acc, curr) => {
+      folders?.reduce<Record<string, FolderTotalCount>>((acc, curr) => {
         acc[curr.id] = getTotalCountForFolder(curr);
         return acc;
       }, {}),
     [folders],
   );
+
+  const allFoldersCount = useMemo(() => {
+    return (
+      folderData?.reduce((acc, curr) => {
+        return acc + getTotalCountForFolder(curr).folders;
+      }, 0) ?? 0
+    );
+  }, [folderData]);
 
   const { updateFolder } = useUpdateFolderMutation();
 
@@ -158,13 +172,19 @@ const FoldersPage = () => {
       {folders && (
         <ResourceCountContainer>
           <FolderOutlined />
-          <span>{t('myNdla.folders', { count: folders.length })}</span>
+          <span>
+            {t('myNdla.folders', {
+              count: selectedFolder
+                ? selectedFolderCount?.folders
+                : allFoldersCount,
+            })}
+          </span>
           {selectedFolder && (
             <>
               <FileDocumentOutline />
               <span>
                 {t('myNdla.resources', {
-                  count: selectedFolder.resources.length,
+                  count: selectedFolderCount?.resources ?? allFoldersCount,
                 })}
               </span>
             </>
