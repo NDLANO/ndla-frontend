@@ -48,6 +48,7 @@ const StyledLink = styled(SafeLink)<StyledLinkProps>`
 `;
 
 const MyNdlaButton = styled(Button)`
+  font-weight: ${fonts.weight.semibold};
   display: flex;
   align-items: center;
   gap: ${spacing.xxsmall};
