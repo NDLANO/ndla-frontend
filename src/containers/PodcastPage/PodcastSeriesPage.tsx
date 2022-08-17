@@ -18,10 +18,12 @@ import Podcast from './Podcast';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import {
+  AcquireLicensePage,
   MastheadHeightPx,
   PODCAST_SERIES_LIST_PAGE_PATH,
 } from '../../constants';
 import config from '../../config';
+import { publisher } from '../../util/getStructuredDataFromArticle';
 import { GQLPodcastSeriesPageQuery } from '../../graphqlTypes';
 import { TypedParams, useTypedParams } from '../../routeHelpers';
 
@@ -107,7 +109,44 @@ const PodcastSeriesPage = () => {
     return <DefaultErrorMessage />;
   }
 
-  const rssUrl = `${config?.ndlaFrontendDomain}/podkast/${podcastSeries.id}/feed.xml`;
+  const url = `${config?.ndlaFrontendDomain}/podkast/${podcastSeries.id}`;
+  const rssUrl = `${url}/feed.xml`;
+
+  const podcastSeriesJSONLd = () => {
+    const seriesData = {
+      '@context': 'https://schema.org',
+      '@type': 'PodcastSeries',
+      url: url,
+      name: podcastSeries.title.title,
+      abstract: podcastSeries.description.description,
+      webFeed: rssUrl,
+      image: podcastSeries.coverPhoto.url,
+      acquireLicensePage: AcquireLicensePage,
+      ...publisher,
+    };
+    const episodes = podcastSeries.episodes?.map(episode => {
+      return {
+        '@context': 'https://schema.org',
+        '@type': 'PodcastEpisode',
+        '@id': `${url}/#${episode?.id}`,
+        name: episode?.title.title,
+        audio: {
+          '@type': 'AudioObject',
+          contentUrl: episode?.audioFile.url,
+        },
+        abstract: episode?.podcastMeta?.introduction,
+        acquireLicensePage: AcquireLicensePage,
+        partOfSeries: {
+          '@context': 'https://schema.org',
+          '@type': 'PodcastSeries',
+          url: url,
+        },
+        ...publisher,
+      };
+    });
+    const data = [seriesData, ...(episodes || [])];
+    return JSON.stringify(data);
+  };
 
   return (
     <>
@@ -124,6 +163,7 @@ const PodcastSeriesPage = () => {
           title={podcastSeries.title.title}
           href={rssUrl}
         />
+        <script type="application/ld+json">{podcastSeriesJSONLd()}</script>
       </HelmetWithTracker>
       <SocialMediaMetadata
         title={podcastSeries.title.title ?? ''}

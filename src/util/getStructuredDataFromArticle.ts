@@ -18,6 +18,7 @@ import {
   GQLStructuredArticleData_ImageLicenseFragment,
 } from '../graphqlTypes';
 import config from '../config';
+import { AcquireLicensePage } from '../constants';
 import { Breadcrumb } from '../interfaces';
 
 type CopyrightHolder = { '@type': string; name?: string };
@@ -70,10 +71,7 @@ const VIDEO_TYPE = 'VideoObject';
 const AUDIO_TYPE = 'AudioObject';
 const PODCAST_TYPE = 'PodcastEpisode';
 
-const acquireLicensePage =
-  'https://ndla.zendesk.com/hc/no/articles/360000945552-Bruk-av-lisenser-og-lisensiering';
-
-const publisher = {
+export const publisher = {
   publisher: {
     '@type': ORGANIZATION_TYPE,
     name: 'NDLA',
@@ -271,7 +269,7 @@ const createMediaData = (media: Mediaelements[]): StructuredData[] =>
       '@id': data?.src,
       name: data?.title,
       contentUrl: data?.src,
-      acquireLicensePage,
+      acquireLicensePage: AcquireLicensePage,
       ...getCopyrightData(data?.copyright!),
     };
   });
@@ -290,7 +288,7 @@ const createPodcastData = (
         contentUrl: podcast?.src,
       },
       abstract: podcast?.description,
-      acquireLicensePage,
+      acquireLicensePage: AcquireLicensePage,
       ...getCopyrightData(podcast?.copyright!),
     };
   });
@@ -307,7 +305,7 @@ const createVideoData = (
       embedUrl: video?.src,
       thumbnailUrl: video?.cover,
       description: video?.description,
-      acquireLicensePage,
+      acquireLicensePage: AcquireLicensePage,
       uploadDate: format(video?.uploadDate!, 'YYYY-MM-DD'),
       ...getCopyrightData(video?.copyright!),
     };
