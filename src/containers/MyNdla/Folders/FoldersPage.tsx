@@ -14,7 +14,7 @@ import { FolderOutlined } from '@ndla/icons/contentType';
 import { FileDocumentOutline } from '@ndla/icons/common';
 import { Folder, FolderInput, useSnack } from '@ndla/ui';
 import { Pencil } from '@ndla/icons/action';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { DeleteForever } from '@ndla/icons/editor';
@@ -33,6 +33,10 @@ import {
   useUpdateFolderMutation,
 } from '../folderMutations';
 import ResourceList from './ResourceList';
+import {
+  FolderTotalCount,
+  getTotalCountForFolder,
+} from '../../../util/folderHelpers';
 
 interface BlockWrapperProps {
   type?: string;
@@ -97,7 +101,32 @@ const FoldersPage = () => {
     GQLFoldersPageQuery
   >(foldersPageQuery);
   const selectedFolder = useFolder(folderId);
-  const folders = selectedFolder ? selectedFolder.subfolders : folderData ?? [];
+  const folders = useMemo(
+    () => (selectedFolder ? selectedFolder.subfolders : folderData ?? []),
+    [selectedFolder, folderData],
+  );
+
+  const selectedFolderCount = useMemo(
+    () => (selectedFolder ? getTotalCountForFolder(selectedFolder) : undefined),
+    [selectedFolder],
+  );
+
+  const foldersCount = useMemo(
+    () =>
+      folders?.reduce<Record<string, FolderTotalCount>>((acc, curr) => {
+        acc[curr.id] = getTotalCountForFolder(curr);
+        return acc;
+      }, {}),
+    [folders],
+  );
+
+  const allFoldersCount = useMemo(() => {
+    return (
+      folderData?.reduce((acc, curr) => {
+        return acc + getTotalCountForFolder(curr).folders;
+      }, 0) ?? 0
+    );
+  }, [folderData]);
 
   const { updateFolder } = useUpdateFolderMutation();
 
@@ -143,13 +172,19 @@ const FoldersPage = () => {
       {folders && (
         <ResourceCountContainer>
           <FolderOutlined />
-          <span>{t('myNdla.folders', { count: folders.length })}</span>
+          <span>
+            {t('myNdla.folders', {
+              count: selectedFolder
+                ? selectedFolderCount?.folders
+                : allFoldersCount,
+            })}
+          </span>
           {selectedFolder && (
             <>
               <FileDocumentOutline />
               <span>
                 {t('myNdla.resources', {
-                  count: selectedFolder.resources.length,
+                  count: selectedFolderCount?.resources ?? allFoldersCount,
                 })}
               </span>
             </>
@@ -183,8 +218,8 @@ const FoldersPage = () => {
               link={`/minndla/folders/${folder.id}`}
               title={folder.name}
               type={type === 'block' ? 'block' : 'list'}
-              subFolders={folder.subfolders.length}
-              subResources={folder.resources.length}
+              subFolders={foldersCount[folder.id]?.folders}
+              subResources={foldersCount[folder.id]?.resources}
               menuItems={[
                 {
                   icon: <Pencil />,
