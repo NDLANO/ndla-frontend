@@ -13,6 +13,7 @@ import {
   GQLStructuredArticleData_CopyrightFragment,
   GQLStructuredArticleDataFragment,
   GQLStructuredArticleData_AudioLicenseFragment,
+  GQLStructuredArticleData_PodcastLicenseFragment,
   GQLStructuredArticleData_BrightcoveLicenseFragment,
   GQLStructuredArticleData_ImageLicenseFragment,
 } from '../graphqlTypes';
@@ -52,6 +53,7 @@ interface Mediaelements {
   data:
     | GQLStructuredArticleData_ImageLicenseFragment
     | GQLStructuredArticleData_AudioLicenseFragment
+    | GQLStructuredArticleData_PodcastLicenseFragment
     | GQLStructuredArticleData_BrightcoveLicenseFragment
     | null;
   type: string;
@@ -66,6 +68,7 @@ const ORGANIZATION_TYPE = 'Organization';
 const IMAGE_TYPE = 'ImageObject';
 const VIDEO_TYPE = 'VideoObject';
 const AUDIO_TYPE = 'AudioObject';
+const PODCAST_TYPE = 'PodcastEpisode';
 
 const acquireLicensePage =
   'https://ndla.zendesk.com/hc/no/articles/360000945552-Bruk-av-lisenser-og-lisensiering';
@@ -165,6 +168,17 @@ const audioLicenseFragment = gql`
   }
 `;
 
+const podcastLicenseFragment = gql`
+  fragment StructuredArticleData_PodcastLicense on PodcastLicense {
+    src
+    title
+    description
+    copyright {
+      ...StructuredArticleData_Copyright
+    }
+  }
+`;
+
 const brightcoveLicenseFragment = gql`
   fragment StructuredArticleData_BrightcoveLicense on BrightcoveLicense {
     src
@@ -198,6 +212,9 @@ export const structuredArticleDataFragment = gql`
       audios {
         ...StructuredArticleData_AudioLicense
       }
+      podcasts {
+        ...StructuredArticleData_PodcastLicense
+      }
       brightcoves {
         ...StructuredArticleData_BrightcoveLicense
       }
@@ -206,6 +223,7 @@ export const structuredArticleDataFragment = gql`
   ${structuredArticleCopyrightFragment}
   ${brightcoveLicenseFragment}
   ${audioLicenseFragment}
+  ${podcastLicenseFragment}
   ${imageLicenseFragment}
 `;
 
@@ -234,12 +252,14 @@ const getStructuredDataFromArticle = (
   const audios = metaData?.audios?.map(a => ({ data: a, type: AUDIO_TYPE }));
 
   const mediaElements: Mediaelements[] = [...(images ?? []), ...(audios ?? [])];
+  const podcasts = article.metaData?.podcasts || [];
   const videos = article.metaData?.brightcoves || [];
 
   const mediaData = createMediaData(mediaElements);
+  const podcastData = createPodcastData(podcasts);
   const videoData = createVideoData(videos);
 
-  return [...structuredData, ...mediaData, ...videoData];
+  return [...structuredData, ...mediaData, ...podcastData, ...videoData];
 };
 
 const createMediaData = (media: Mediaelements[]): StructuredData[] =>
@@ -253,6 +273,25 @@ const createMediaData = (media: Mediaelements[]): StructuredData[] =>
       contentUrl: data?.src,
       acquireLicensePage,
       ...getCopyrightData(data?.copyright!),
+    };
+  });
+
+const createPodcastData = (
+  podcasts: GQLStructuredArticleData_PodcastLicenseFragment[],
+): StructuredData[] =>
+  podcasts.map(podcast => {
+    return {
+      ...structuredDataBase,
+      '@type': PODCAST_TYPE,
+      '@id': podcast?.src,
+      name: podcast?.title,
+      audio: {
+        '@type': AUDIO_TYPE,
+        contentUrl: podcast?.src,
+      },
+      abstract: podcast?.description,
+      acquireLicensePage,
+      ...getCopyrightData(podcast?.copyright!),
     };
   });
 

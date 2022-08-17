@@ -3596,6 +3596,16 @@ export type GQLStructuredArticleData_AudioLicenseFragment = {
   } & GQLStructuredArticleData_CopyrightFragment;
 };
 
+export type GQLStructuredArticleData_PodcastLicenseFragment = {
+  __typename?: 'PodcastLicense';
+  src: string;
+  title: string;
+  description?: Maybe<string>;
+  copyright: {
+    __typename?: 'Copyright';
+  } & GQLStructuredArticleData_CopyrightFragment;
+};
+
 export type GQLStructuredArticleData_BrightcoveLicenseFragment = {
   __typename?: 'BrightcoveLicense';
   src?: Maybe<string>;
@@ -3633,6 +3643,13 @@ export type GQLStructuredArticleDataFragment = {
         {
           __typename?: 'AudioLicense';
         } & GQLStructuredArticleData_AudioLicenseFragment
+      >
+    >;
+    podcasts?: Maybe<
+      Array<
+        {
+          __typename?: 'PodcastLicense';
+        } & GQLStructuredArticleData_PodcastLicenseFragment
       >
     >;
     brightcoves?: Maybe<
