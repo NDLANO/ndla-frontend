@@ -2351,7 +2351,7 @@ export const programmes: ProgrammeType[] = [
               },
               {
                 id: 'urn:subject:1:a532138d-e16a-4046-a46e-bd5bc9487b8b',
-              }
+              },
             ],
           },
           {
@@ -2908,7 +2908,7 @@ export const programmes: ProgrammeType[] = [
               },
               {
                 id: 'urn:subject:1:d4511941-a1fc-4336-bc80-0a05c534a182',
-              }
+              },
             ],
           },
           {
@@ -3018,7 +3018,7 @@ export const programmes: ProgrammeType[] = [
               },
               {
                 id: 'urn:subject:1:20e0fdca-5237-4095-a9e5-cea7d63866c0',
-              }
+              },
             ],
           },
           {
