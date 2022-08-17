@@ -68,6 +68,11 @@ const FeideLoginButton = ({ footer, children, to }: Props) => {
   const ndlaFilm = useIsNdlaFilm();
   const isMobile = useContext(IsMobileContext);
   const destination = isMobile ? '/minndla/meny' : '/minndla';
+  const activateButton = footer ? (
+    <FeideFooterButton>{children}</FeideFooterButton>
+  ) : (
+    <MyNdlaButton ghostPill>{children}</MyNdlaButton>
+  );
 
   if (authenticated && !footer) {
     return (
@@ -77,12 +82,12 @@ const FeideLoginButton = ({ footer, children, to }: Props) => {
     );
   }
 
-  if (!authenticated && !footer) {
+  if (!authenticated) {
     return (
       <>
         <Modal
           backgroundColor="white"
-          activateButton={<MyNdlaButton ghostPill>{children}</MyNdlaButton>}
+          activateButton={activateButton}
           label={t('user.modal.isNotAuth')}>
           {onClose => (
             <>
@@ -104,8 +109,9 @@ const FeideLoginButton = ({ footer, children, to }: Props) => {
 
   return (
     <AuthModal
-      activateButton={<FeideFooterButton>{children}</FeideFooterButton>}
+      activateButton={activateButton}
       isAuthenticated={authenticated}
+      showGeneralMessage={false}
       user={user}
       onAuthenticateClick={() => {
         if (authenticated) {
