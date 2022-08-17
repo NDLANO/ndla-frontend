@@ -181,7 +181,7 @@ const MastheadContainer = () => {
           />
           {config.feideEnabled && (
             <FeideLoginButton to="/minndla">
-              <FeideLoginLabel>
+              <FeideLoginLabel data-hj-suppress>
                 {user?.givenName ?? t('myNdla.myNDLA')}
               </FeideLoginLabel>
               <Feide title={t('myNdla.myNDLA')} />
