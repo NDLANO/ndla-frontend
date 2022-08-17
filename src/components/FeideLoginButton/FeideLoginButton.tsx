@@ -110,6 +110,7 @@ const FeideLoginButton = ({ footer, children, to }: Props) => {
     <AuthModal
       activateButton={activateButton}
       isAuthenticated={authenticated}
+      showGeneralMessage={false}
       user={user}
       onAuthenticateClick={() => {
         if (authenticated) {
