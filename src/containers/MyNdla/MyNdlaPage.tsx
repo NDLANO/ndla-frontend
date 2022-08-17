@@ -172,7 +172,7 @@ const MyNdlaPage = () => {
                 title={meta?.title ?? ''}
                 resourceImage={{
                   src: meta?.metaImage?.url ?? '',
-                  alt: meta?.metaImage?.alt ?? '',
+                  alt: '',
                 }}
                 tags={res.tags}
                 topics={meta?.resourceTypes.map(rt => rt.name) ?? []}

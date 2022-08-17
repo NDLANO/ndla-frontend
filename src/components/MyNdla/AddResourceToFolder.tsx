@@ -6,7 +6,7 @@
  *
  */
 
-import { isEqual, sortBy, uniq } from 'lodash';
+import { compact, isEqual, sortBy, uniq } from 'lodash';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
@@ -93,9 +93,7 @@ const AddResourceToFolder = ({ onClose, resource }: Props) => {
   const [storedResource, setStoredResource] = useState<
     GQLFolderResource | undefined
   >(undefined);
-  const [tags, setTags] = useState<{ id: string; name: string }[]>(
-    getAllTags(folders).map(t => ({ id: t, name: t })),
-  );
+  const [tags, setTags] = useState<{ id: string; name: string }[]>([]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [canSave, setCanSave] = useState<boolean>(false);
   const [alreadyAdded, setAlreadyAdded] = useState(false);
@@ -110,6 +108,11 @@ const AddResourceToFolder = ({ onClose, resource }: Props) => {
       const _storedResource = getResourceForPath(folders, resource.path);
       setStoredResource(_storedResource ?? undefined);
       setSelectedTags(_storedResource?.tags ?? []);
+      setTags(tags =>
+        compact(
+          tags.concat(getAllTags(folders).map(t => ({ id: t, name: t }))),
+        ),
+      );
     }
   }, [loading, folders, resource]);
 
@@ -256,7 +259,7 @@ const AddResourceToFolder = ({ onClose, resource }: Props) => {
           {t('cancel')}
         </Button>
         <Button disabled={!canSave} onClick={onSave}>
-          {t('save')}
+          {t('myNdla.resource.save')}
         </Button>
       </ButtonRow>
     </AddResourceContainer>

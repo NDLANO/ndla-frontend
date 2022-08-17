@@ -2388,6 +2388,12 @@ export const programmes: ProgrammeType[] = [
               {
                 id: 'urn:subject:1:c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
               },
+              {
+                id: 'urn:subject:e18b8bf0-326b-45f6-8e95-982de8f34264',
+              },
+              {
+                id: 'urn:subject:c0ce0b31-33f6-4f6f-bbe0-caa878f7ab9b',
+              },
             ],
           },
           {
