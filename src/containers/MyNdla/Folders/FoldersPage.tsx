@@ -144,14 +144,14 @@ const FoldersPage = () => {
   }, [folderId]);
 
   const onFolderAdd = async (name: string) => {
+    setFolderAction(undefined);
+    setIsAdding(false);
     await addFolder({
       variables: {
         name,
         parentId: folderId,
       },
     });
-    setFolderAction(undefined);
-    setIsAdding(false);
   };
 
   const showAddButton = (selectedFolder?.breadcrumbs.length || 0) < 5;
