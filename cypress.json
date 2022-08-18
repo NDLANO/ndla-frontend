@@ -9,5 +9,8 @@
   "chromeWebSecurity": false,
   "video": false,
   "projectId": "7d39xm",
-  "defaultCommandTimeout": 10000
+  "defaultCommandTimeout": 10000,
+  "env": {
+    "FEIDE_ENABLED": "true"
+  }
 }
