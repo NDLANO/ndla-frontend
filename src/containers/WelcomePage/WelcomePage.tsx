@@ -106,14 +106,15 @@ const WelcomePage = () => {
         imageUrl={`${config.ndlaFrontendDomain}/static/logo.png`}>
         <meta name="keywords" content={t('meta.keywords')} />
       </SocialMediaMetadata>
-      {alerts?.map(alert => (
-        <MessageBanner
-          key={alert.number}
-          onClose={() => closeAlert(alert.number)}
-          showCloseButton={alert.closable}>
-          {alert.content}
-        </MessageBanner>
-      ))}
+      {!config.feideEnabled &&
+        alerts?.map(alert => (
+          <MessageBanner
+            key={alert.number}
+            onClose={() => closeAlert(alert.number)}
+            showCloseButton={alert.closable}>
+            {alert.content}
+          </MessageBanner>
+        ))}
       <FrontpageHeader locale={i18n.language} showHeader={true}>
         <WelcomePageSearch />
       </FrontpageHeader>

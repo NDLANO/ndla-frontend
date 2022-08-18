@@ -60,7 +60,7 @@ const Layout = () => {
       <Helmet>
         <meta property="fb:app_id" content="115263542481787" />
       </Helmet>
-      <Masthead />
+      {config.feideEnabled && <Masthead />}
       <Content>
         <Outlet />
       </Content>
