@@ -26,6 +26,7 @@ const messages = {
     myFolderPage: `{{folderName}} - ${titleTemplate}`,
     myTagPage: `#{{tag}} - ${titleTemplate}`,
     myTagsPage: `My tags - ${titleTemplate}`,
+    supportPage: `Support - ${titleTemplate}`,
     toolbox: {
       visualElement: 'About subject video',
       introduction:
