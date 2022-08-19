@@ -6,7 +6,7 @@
  *
  */
 
-import { HashTag, Person } from '@ndla/icons/common';
+import { HashTag, HelpCircle, Person } from '@ndla/icons/common';
 import { TFunction } from 'i18next';
 import { uniq, uniqBy } from 'lodash';
 import { GQLFolder, GQLFolderResource } from '../graphqlTypes';
@@ -93,6 +93,15 @@ export const createStaticStructureElements = (
       id: 'tags',
       icon: <HashTag />,
       name: t('myNdla.myTags'),
+      status: 'private',
+      subfolders: [],
+      breadcrumbs: [],
+      resources: [],
+    },
+    {
+      id: 'support',
+      icon: <HelpCircle />,
+      name: t('myNdla.support'),
       status: 'private',
       subfolders: [],
       breadcrumbs: [],
