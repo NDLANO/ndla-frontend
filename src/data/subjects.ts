@@ -1467,9 +1467,9 @@ export const activeSubjects: SubjectType[] = [
   },
   {
     longName: {
-      en: 'Produktivitet- og kvalitetsstyring (TP-TIP vg1)',
-      nb: 'Produktivitet- og kvalitetsstyring (TP-TIP vg1)',
-      nn: 'Produktivitet- og kvalitetsstyring (TP-TIP vg1)',
+      en: 'Produktivitet og kvalitetsstyring (TP-TIP vg1)',
+      nb: 'Produktivitet og kvalitetsstyring (TP-TIP vg1)',
+      nn: 'Produktivitet og kvalitetsstyring (TP-TIP vg1)',
     },
     name: {
       en: 'Produktivitet- og kvalitetsstyring',
