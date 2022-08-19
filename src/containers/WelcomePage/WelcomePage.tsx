@@ -82,12 +82,6 @@ const WelcomePage = () => {
 
   return (
     <>
-      <a
-        tabIndex={0}
-        href={`#${SKIP_TO_CONTENT_ID}`}
-        className="c-masthead__skip-to-main-content">
-        {t('masthead.skipToContent')}
-      </a>
       <HelmetWithTracker title={t('htmlTitles.welcomePage')}>
         <script type="application/ld+json">{googleSearchJSONLd()}</script>
       </HelmetWithTracker>
