@@ -11,6 +11,7 @@ import { Content, PageContainer } from '@ndla/ui';
 import ZendeskButton from '@ndla/zendesk';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
 import { matchPath, Outlet, useLocation } from 'react-router-dom';
 import Masthead from '../Masthead';
 import config from '../../config';
@@ -18,6 +19,10 @@ import FeideFooter from './components/FeideFooter';
 import Footer from './components/Footer';
 import { useIsNdlaFilm, useUrnIds } from '../../routeHelpers';
 import { usePrevious } from '../../util/utilityHooks';
+
+const ZendeskWrapper = styled.div`
+  z-index: 10;
+`;
 
 const Layout = () => {
   const { t, i18n } = useTranslation();
@@ -67,12 +72,14 @@ const Layout = () => {
       <Footer ndlaFilm={ndlaFilm} />
       {config.feideEnabled && <FeideFooter />}
       {config.zendeskWidgetKey && (
-        <ZendeskButton
-          id="zendesk"
-          locale={zendeskLanguage}
-          widgetKey={config.zendeskWidgetKey}>
-          {t('askNDLA')}
-        </ZendeskButton>
+        <ZendeskWrapper>
+          <ZendeskButton
+            id="zendesk"
+            locale={zendeskLanguage}
+            widgetKey={config.zendeskWidgetKey}>
+            {t('askNDLA')}
+          </ZendeskButton>
+        </ZendeskWrapper>
       )}
     </PageContainer>
   );
