@@ -135,7 +135,9 @@ const Learningpath = ({
       cookies={viewedSteps}
       learningPathURL={config.learningPathDomain}
       onToggleAddToFavorites={
-        resource?.path ? () => setIsAdding(true) : undefined
+        config.feideEnabled && resource?.path
+          ? () => setIsAdding(true)
+          : undefined
       }
     />
   );
