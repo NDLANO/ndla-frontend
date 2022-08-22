@@ -142,7 +142,7 @@ const MyNdlaPage = () => {
       <HelmetWithTracker title={t('htmlTitles.myNdlaPage')} />
       {isMobile ? (
         <MobileTitle>
-          <StyledSafeLink to="/minndla/meny">
+          <StyledSafeLink to="/profile/meny">
             <Back />
           </StyledSafeLink>
           <StyledH1>{t('myNdla.myPage.myPage')}</StyledH1>
@@ -161,7 +161,7 @@ const MyNdlaPage = () => {
             const meta = keyedData[`${res.resourceType}${res.resourceId}`];
             return (
               <ListResource
-                tagLinkPrefix="/minndla/tags"
+                tagLinkPrefix="/profile/tags"
                 isLoading={loading}
                 key={res.id}
                 link={res.path}

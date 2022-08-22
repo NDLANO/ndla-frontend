@@ -7,12 +7,12 @@
  */
 
 export const privateRoutes = [
-  'minndla',
-  'minndla/meny',
-  'minndla/folders',
-  'minndla/tags',
-  'minndla/tags/:tag',
-  'minndla/folders/:folderId',
+  'profile',
+  'profile/meny',
+  'profile/folders',
+  'profile/tags',
+  'profile/tags/:tag',
+  'profile/folders/:folderId',
 ];
 
 export const routes = [

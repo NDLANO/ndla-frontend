@@ -133,7 +133,7 @@ const FoldersPage = () => {
   const onDeleteFolder = async (folderId: string) => {
     await deleteFolder({ variables: { id: folderId } });
     if (folderId === selectedFolder?.id) {
-      navigate(`/minndla/folders/${selectedFolder.parentId ?? ''}`, {
+      navigate(`/profile/folders/${selectedFolder.parentId ?? ''}`, {
         replace: true,
       });
     }
@@ -215,7 +215,7 @@ const FoldersPage = () => {
           {folders.map(folder => (
             <Folder
               key={folder.id}
-              link={`/minndla/folders/${folder.id}`}
+              link={`/profile/folders/${folder.id}`}
               title={folder.name}
               type={type === 'block' ? 'block' : 'list'}
               subFolders={foldersCount[folder.id]?.folders}

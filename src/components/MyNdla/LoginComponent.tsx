@@ -99,7 +99,7 @@ const LoginComponent = ({ resource, meta, onClose, to = '/login' }: Props) => {
         <ContentWrapper>
           <span>{t('myNdla.myPage.loginResourcePitch')}</span>
           <ListResource
-            tagLinkPrefix="/minndla/tags"
+            tagLinkPrefix="/profile/tags"
             link={resource.path}
             title={meta.title}
             resourceImage={{

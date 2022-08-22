@@ -64,8 +64,8 @@ const FolderBreadcrumb = ({ breadcrumbs, onActionChanged }: Props) => {
   const lastBreadcrumb = breadcrumbs[breadcrumbs.length - 1] ?? baseCrumb;
   const backUrl =
     breadcrumbs.length > 0
-      ? `/minndla/folders/${breadcrumbs[breadcrumbs.length - 2]?.id ?? ''}`
-      : '/minndla/meny';
+      ? `/profile/folders/${breadcrumbs[breadcrumbs.length - 2]?.id ?? ''}`
+      : '/profile/meny';
 
   const actionItems: MenuItemProps[] = [
     {
@@ -120,10 +120,10 @@ const FolderBreadcrumb = ({ breadcrumbs, onActionChanged }: Props) => {
     <ActionBreadcrumb
       actionItems={actionItems}
       items={[
-        { name: t('myNdla.myFolders'), to: '/minndla/folders' },
+        { name: t('myNdla.myFolders'), to: '/profile/folders' },
         ...breadcrumbs?.map(crumb => ({
           name: crumb.name,
-          to: `/minndla/folders/${crumb.id}`,
+          to: `/profile/folders/${crumb.id}`,
         })),
       ]}
     />

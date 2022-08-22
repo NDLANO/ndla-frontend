@@ -54,7 +54,7 @@ const MyNdlaLayout = () => {
   const { t } = useTranslation();
   const location = useLocation();
   const [page, folderId] = location.pathname
-    .replace('/minndla/', '')
+    .replace('/profile/', '')
     .split('/');
   const selectedFolder = useFolder(folderId);
 

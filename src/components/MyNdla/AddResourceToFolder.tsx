@@ -78,7 +78,7 @@ const ResourceAddedSnack = ({ folder }: ResourceAddedSnackProps) => {
     <StyledResourceAddedSnack>
       <StyledResource>
         {t('myNdla.resource.addedToFolder')}
-        <StyledSafeLink to={`/minndla/folders/${folder.id}`}>
+        <StyledSafeLink to={`/profile/folders/${folder.id}`}>
           "{folder.name}"
         </StyledSafeLink>
       </StyledResource>
@@ -212,7 +212,7 @@ const AddResourceToFolder = ({ onClose, resource }: Props) => {
     <AddResourceContainer>
       <h1>{t('myNdla.resource.addToMyNdla')}</h1>
       <ListResource
-        tagLinkPrefix="/minndla/tags"
+        tagLinkPrefix="/profile/tags"
         isLoading={metaLoading}
         link={resource.path}
         title={meta?.title ?? ''}

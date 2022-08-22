@@ -162,7 +162,7 @@ const AppRoutes = ({ base, resCookie }: AppProps) => {
                 </Route>
                 {config.feideEnabled && (
                   <Route
-                    path="minndla"
+                    path="profile"
                     element={<PrivateRoute element={<MyNdlaLayout />} />}>
                     <Route index element={<MyNdlaPage />} />
                     <Route path="meny" element={<MyNdlaMobileMenuPage />} />

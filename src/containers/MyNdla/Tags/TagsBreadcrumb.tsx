@@ -62,16 +62,16 @@ const StyledSpan = styled.span`
 const TagsBreadcrumb = ({ tag, tagCount, resourceCount }: Props) => {
   const { t } = useTranslation();
   const isMobile = useContext(IsMobileContext);
-  const backUrl = tag ? '/minndla/tags' : '/minndla/meny';
+  const backUrl = tag ? '/profile/tags' : '/profile/meny';
 
   const baseCrumb = {
     name: t('myNdla.myTags'),
-    to: '/minndla/tags',
+    to: '/profile/tags',
   };
 
   const items = !tag
     ? [baseCrumb]
-    : [baseCrumb, { name: `# ${tag}`, to: `/minndla/tags/${tag}` }];
+    : [baseCrumb, { name: `# ${tag}`, to: `/profile/tags/${tag}` }];
 
   const lastBreadcrumb = items[items.length - 1];
 

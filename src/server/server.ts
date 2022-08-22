@@ -112,6 +112,14 @@ app.get(
   },
 );
 
+app.get(
+  '/minndla',
+  ndlaMiddleware,
+  (_req: Request, res: Response, _next: NextFunction) => {
+    res.redirect('/profile');
+  },
+);
+
 if (config.feideEnabled) {
   app.get('/feide/login', (req: Request, res: Response) => {
     getRedirectUrl(req)
