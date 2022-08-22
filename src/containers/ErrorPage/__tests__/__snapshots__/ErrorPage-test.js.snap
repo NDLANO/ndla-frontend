@@ -447,6 +447,10 @@ exports[`ErrorPage renderers correctly 1`] = `
   background: linear-gradient(96deg,rgba(0,117,160,1) 0%,rgba(32,88,143,0) 100%);
 }
 
+.emotion-83 {
+  z-index: 10;
+}
+
 .emotion-81 {
   display: inline-block;
   color: #ffffff;
@@ -1173,14 +1177,18 @@ exports[`ErrorPage renderers correctly 1`] = `
       className="emotion-77 emotion-78"
     />
   </footer>
-  <button
-    className="emotion-81 emotion-10"
-    disabled={false}
-    id="zendeskButton"
-    onClick={[Function]}
-    type="button"
+  <div
+    className="emotion-83"
   >
-    Spør NDLA
-  </button>
+    <button
+      className="emotion-81 emotion-10"
+      disabled={false}
+      id="zendeskButton"
+      onClick={[Function]}
+      type="button"
+    >
+      Spør NDLA
+    </button>
+  </div>
 </div>
 `;
