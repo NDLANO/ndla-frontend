@@ -67,7 +67,7 @@ const FeideLoginButton = ({ footer, children, to }: Props) => {
   const { authenticated, user } = useContext(AuthContext);
   const ndlaFilm = useIsNdlaFilm();
   const isMobile = useContext(IsMobileContext);
-  const destination = isMobile ? '/profile/meny' : '/profile';
+  const destination = isMobile ? '/profile/menu' : '/profile';
   const activateButton = footer ? (
     <FeideFooterButton>{children}</FeideFooterButton>
   ) : (

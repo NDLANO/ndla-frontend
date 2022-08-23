@@ -8,7 +8,7 @@
 
 export const privateRoutes = [
   'profile',
-  'profile/meny',
+  'profile/menu',
   'profile/folders',
   'profile/tags',
   'profile/tags/:tag',

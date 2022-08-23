@@ -65,7 +65,7 @@ const FolderBreadcrumb = ({ breadcrumbs, onActionChanged }: Props) => {
   const backUrl =
     breadcrumbs.length > 0
       ? `/profile/folders/${breadcrumbs[breadcrumbs.length - 2]?.id ?? ''}`
-      : '/profile/meny';
+      : '/profile/menu';
 
   const actionItems: MenuItemProps[] = [
     {

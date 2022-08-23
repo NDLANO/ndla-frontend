@@ -142,7 +142,7 @@ const MyNdlaPage = () => {
       <HelmetWithTracker title={t('htmlTitles.myNdlaPage')} />
       {isMobile ? (
         <MobileTitle>
-          <StyledSafeLink to="/profile/meny">
+          <StyledSafeLink to="/profile/menu">
             <Back />
           </StyledSafeLink>
           <StyledH1>{t('myNdla.myPage.myPage')}</StyledH1>

@@ -62,7 +62,7 @@ const StyledSpan = styled.span`
 const TagsBreadcrumb = ({ tag, tagCount, resourceCount }: Props) => {
   const { t } = useTranslation();
   const isMobile = useContext(IsMobileContext);
-  const backUrl = tag ? '/profile/tags' : '/profile/meny';
+  const backUrl = tag ? '/profile/tags' : '/profile/menu';
 
   const baseCrumb = {
     name: t('myNdla.myTags'),
