@@ -47,3 +47,6 @@ export const LocaleValues = ['nb', 'nn', 'en'] as const;
 
 export const MastheadHeightPx = 84; // See `misc` in @ndla/core for origin
 export const EmotionCacheKey = 'ndla-frontend';
+
+export const AcquireLicensePage =
+  'https://ndla.zendesk.com/hc/no/articles/360000945552-Bruk-av-lisenser-og-lisensiering';

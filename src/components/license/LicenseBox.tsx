@@ -11,6 +11,7 @@ import Tabs from '@ndla/tabs';
 import { useTranslation, TFunction } from 'react-i18next';
 import ImageLicenseList from './ImageLicenseList';
 import AudioLicenseList from './AudioLicenseList';
+import PodcastLicenseList from './PodcastLicenseList';
 import TextLicenseList from './TextLicenseList';
 import VideoLicenseList from './VideoLicenseList';
 import H5pLicenseList from './H5pLicenseList';
@@ -24,6 +25,7 @@ function buildLicenseTabList(
 ) {
   const images = article.metaData?.images || [];
   const audios = article.metaData?.audios || [];
+  const podcasts = article.metaData?.podcasts || [];
   const brightcove = article.metaData?.brightcoves || [];
   const h5ps = article.metaData?.h5ps || [];
   const oembed = article.oembed;
@@ -55,6 +57,13 @@ function buildLicenseTabList(
     tabs.push({
       title: t('license.tabs.audio'),
       content: <AudioLicenseList audios={audios} />,
+    });
+  }
+
+  if (podcasts.length > 0) {
+    tabs.push({
+      title: t('license.tabs.podcast'),
+      content: <PodcastLicenseList podcasts={podcasts} />,
     });
   }
 
@@ -126,6 +135,9 @@ LicenseBox.fragments = {
         audios {
           ...AudioLicenseList_AudioLicense
         }
+        podcasts {
+          ...PodcastLicenseList_PodcastLicense
+        }
         images {
           ...ImageLicenseList_ImageLicense
         }
@@ -135,6 +147,7 @@ LicenseBox.fragments = {
     ${H5pLicenseList.fragments.h5p}
     ${VideoLicenseList.fragments.video}
     ${AudioLicenseList.fragments.audio}
+    ${PodcastLicenseList.fragments.podcast}
     ${ImageLicenseList.fragments.image}
     ${TextLicenseList.fragments.copyright}
   `,
