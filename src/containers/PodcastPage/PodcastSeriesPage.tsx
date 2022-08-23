@@ -24,7 +24,11 @@ import {
 } from '../../constants';
 import config from '../../config';
 import { publisher } from '../../util/getStructuredDataFromArticle';
-import { GQLContributorInfoFragment, GQLCopyrightInfoFragment, GQLPodcastSeriesPageQuery } from '../../graphqlTypes';
+import {
+  GQLContributorInfoFragment,
+  GQLCopyrightInfoFragment,
+  GQLPodcastSeriesPageQuery,
+} from '../../graphqlTypes';
 import { TypedParams, useTypedParams } from '../../routeHelpers';
 
 interface RouteParams extends TypedParams {
@@ -112,18 +116,13 @@ const PodcastSeriesPage = () => {
   const url = `${config?.ndlaFrontendDomain}/podkast/${podcastSeries.id}`;
   const rssUrl = `${url}/feed.xml`;
 
-  const mapType = (
-    type: string,
-    arr?: GQLContributorInfoFragment[],
-  ) =>
+  const mapType = (type: string, arr?: GQLContributorInfoFragment[]) =>
     arr?.map(item => ({
       '@type': type,
       name: item.name,
     }));
-  
-  const getCopyrightData = (
-    copyright: GQLCopyrightInfoFragment,
-  ) => {
+
+  const getCopyrightData = (copyright: GQLCopyrightInfoFragment) => {
     const { creators, rightsholders, license, processors } = copyright;
     return {
       license: license?.url,
@@ -163,7 +162,7 @@ const PodcastSeriesPage = () => {
           url: url,
         },
         ...publisher,
-        ...getCopyrightData(episode.copyright)
+        ...getCopyrightData(episode.copyright),
       };
     });
     const data = [seriesData, ...(episodes || [])];
