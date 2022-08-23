@@ -34,6 +34,27 @@ export const getResourceForPath = (
   return getAllResources(allFolders).find(r => r.path === path);
 };
 
+export interface FolderTotalCount {
+  folders: number;
+  resources: number;
+}
+
+export const getTotalCountForFolder = (folder: GQLFolder): FolderTotalCount => {
+  return folder.subfolders.reduce<FolderTotalCount>(
+    (acc, curr) => {
+      const subTotal = getTotalCountForFolder(curr);
+      return {
+        folders: acc.folders + subTotal.folders,
+        resources: acc.resources + subTotal.resources,
+      };
+    },
+    {
+      folders: folder.subfolders.length,
+      resources: folder.resources.length,
+    },
+  );
+};
+
 export const getResourcesForTag = (
   allFolders: GQLFolder[],
   tag: string,

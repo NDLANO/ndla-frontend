@@ -22,12 +22,10 @@ import { HelmetWithTracker } from '@ndla/tracker';
 import Modal, { ModalBody, ModalCloseButton, ModalHeader } from '@ndla/modal';
 import InfoPart, { InfoPartIcon, InfoPartText } from './InfoSection';
 import { AuthContext } from '../../components/AuthenticationContext';
-import { useGraphQuery } from '../../util/runQueries';
-import { GQLRecentlyUsedQuery } from '../../graphqlTypes';
 import {
-  recentlyUsedQuery,
   useDeletePersonalData,
   useFolderResourceMetaSearch,
+  useRecentlyUsedResources,
 } from './folderMutations';
 import TermsOfService from '../../components/MyNdla/TermsOfService';
 import IsMobileContext from '../../IsMobileContext';
@@ -120,9 +118,7 @@ const MyNdlaPage = () => {
   const isMobile = useContext(IsMobileContext);
   const { deletePersonalData } = useDeletePersonalData();
   const navigate = useNavigate();
-  const { data: { allFolderResources = [] } = {} } = useGraphQuery<
-    GQLRecentlyUsedQuery
-  >(recentlyUsedQuery);
+  const { allFolderResources } = useRecentlyUsedResources();
   const { data: metaData, loading } = useFolderResourceMetaSearch(
     allFolderResources.map(r => ({
       id: r.resourceId,

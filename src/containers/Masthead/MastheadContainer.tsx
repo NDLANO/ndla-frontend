@@ -6,7 +6,7 @@
  *
  */
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import {
   Masthead,
   MastheadItem,
@@ -45,6 +45,7 @@ import config from '../../config';
 import { useAlerts } from '../../components/AlertsContext';
 import { SKIP_TO_CONTENT_ID } from '../../constants';
 import MastheadMenuModal from './components/MastheadMenuModal';
+import { AuthContext } from '../../components/AuthenticationContext';
 
 const BreadcrumbWrapper = styled.div`
   margin-left: ${spacing.normal};
@@ -77,6 +78,7 @@ const MastheadContainer = () => {
     subjectType,
   } = useUrnIds();
   const [topicId, setTopicId] = useState<string>(topicIdParam ?? '');
+  const { user } = useContext(AuthContext);
   const { openAlerts, closeAlert } = useAlerts();
   const location = useLocation();
   const ndlaFilm = useIsNdlaFilm();
@@ -179,7 +181,13 @@ const MastheadContainer = () => {
           />
           {config.feideEnabled && (
             <FeideLoginButton to="/minndla">
-              <FeideLoginLabel>{t('myNdla.myNDLA')}</FeideLoginLabel>
+              <FeideLoginLabel data-hj-suppress>
+                {user?.givenName ? (
+                  <span data-hj-suppress>{user.givenName}</span>
+                ) : (
+                  <span>{t('myNdla.myNDLA')}</span>
+                )}
+              </FeideLoginLabel>
               <Feide title={t('myNdla.myNDLA')} />
             </FeideLoginButton>
           )}

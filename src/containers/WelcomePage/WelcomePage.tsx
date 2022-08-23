@@ -14,7 +14,6 @@ import {
   OneColumn,
   FrontpageToolbox,
   FrontpageMultidisciplinarySubject,
-  MessageBanner,
   BannerCard,
 } from '@ndla/ui';
 import { spacing } from '@ndla/core';
@@ -33,7 +32,6 @@ import WelcomePageSearch from './WelcomePageSearch';
 import { toSubject, toTopic } from '../../routeHelpers';
 import { getSubjectById, multidisciplinaryTopics } from '../../data/subjects';
 import { LocaleType } from '../../interfaces';
-import { useAlerts } from '../../components/AlertsContext';
 
 const getUrlFromSubjectId = (subjectId: string) => {
   const subject = getSubjectById(subjectId);
@@ -68,13 +66,6 @@ const BannerCardWrapper = styled.div`
 const WelcomePage = () => {
   const { t, i18n } = useTranslation();
 
-  const { openAlerts, closeAlert } = useAlerts();
-
-  const alerts = openAlerts?.map(alert => ({
-    content: alert.body || alert.title,
-    closable: alert.closable,
-    number: alert.number,
-  }));
   const googleSearchJSONLd = () => {
     const data = {
       '@context': 'https://schema.org',
@@ -91,12 +82,6 @@ const WelcomePage = () => {
 
   return (
     <>
-      <a
-        tabIndex={0}
-        href={`#${SKIP_TO_CONTENT_ID}`}
-        className="c-masthead__skip-to-main-content">
-        {t('masthead.skipToContent')}
-      </a>
       <HelmetWithTracker title={t('htmlTitles.welcomePage')}>
         <script type="application/ld+json">{googleSearchJSONLd()}</script>
       </HelmetWithTracker>
@@ -106,14 +91,6 @@ const WelcomePage = () => {
         imageUrl={`${config.ndlaFrontendDomain}/static/logo.png`}>
         <meta name="keywords" content={t('meta.keywords')} />
       </SocialMediaMetadata>
-      {alerts?.map(alert => (
-        <MessageBanner
-          key={alert.number}
-          onClose={() => closeAlert(alert.number)}
-          showCloseButton={alert.closable}>
-          {alert.content}
-        </MessageBanner>
-      ))}
       <FrontpageHeader locale={i18n.language} showHeader={true}>
         <WelcomePageSearch />
       </FrontpageHeader>

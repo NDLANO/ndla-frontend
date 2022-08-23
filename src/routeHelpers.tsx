@@ -28,6 +28,8 @@ export const getInitialMastheadMenu = (pathname: string) => {
   if (pathname.startsWith('/utdanning/')) {
     return 'programme';
   } else if (
+    pathname === '/' ||
+    pathname.startsWith('/podkast') ||
     pathname.startsWith('/article/') ||
     pathname.startsWith('/learningpaths/') ||
     pathname.startsWith('/search')

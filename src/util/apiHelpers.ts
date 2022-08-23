@@ -235,13 +235,14 @@ export const createApolloLinks = (
   const feideCookie = getFeideCookie(cookieString ?? '');
   const accessTokenValid = isAccessTokenValid(feideCookie);
   const accessToken = feideCookie?.access_token;
+  const versionHeader = versionHash ? { versionHash: versionHash } : {};
 
   const headersLink = setContext(async (_, { headers }) => {
     return {
       headers: {
         ...headers,
         'Accept-Language': lang,
-        versionHash: versionHash ?? 'default',
+        ...versionHeader,
         ...(accessToken && accessTokenValid
           ? { FeideAuthorization: `Bearer ${accessToken}` }
           : {}),
