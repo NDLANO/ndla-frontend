@@ -188,7 +188,7 @@ const MastheadContainer = () => {
                   <span>{t('myNdla.myNDLA')}</span>
                 )}
               </FeideLoginLabel>
-              <Feide title={t('myNdla.myNDLA')} />
+              <Feide />
             </FeideLoginButton>
           )}
           {renderSearchComponent(true)}
