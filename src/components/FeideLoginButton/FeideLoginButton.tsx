@@ -31,7 +31,9 @@ interface StyledLinkProps {
   ndlaFilm?: boolean;
 }
 
-const StyledLink = styled(SafeLink)<StyledLinkProps>`
+const shouldForwardProp = (p: string) => p !== 'ndlaFilm';
+
+const StyledLink = styled(SafeLink, { shouldForwardProp })<StyledLinkProps>`
   ${appearances.ghostPill};
   display: flex;
   align-items: center;
