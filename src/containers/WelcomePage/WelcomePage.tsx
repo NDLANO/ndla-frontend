@@ -103,7 +103,7 @@ const WelcomePage = () => {
               content="Дізнайтеся про норвезьке суспільство – українською"
               linkText="Learn about Norwegian society - in Ukrainian"
               image={{
-                altText: 'Ukrainian flag',
+                altText: '',
                 imageSrc: '/static/flag_of_ukraine.svg',
               }}
             />
