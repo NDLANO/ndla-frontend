@@ -156,7 +156,7 @@ const MastheadContainer = () => {
               />
             )}
           </MastheadMenuModal>
-          {!hideBreadcrumb && (
+          {!hideBreadcrumb && !!breadcrumbBlockItems.length && (
             <DisplayOnPageYOffset yOffsetMin={150}>
               <BreadcrumbWrapper>
                 <HeaderBreadcrumb
