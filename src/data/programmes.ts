@@ -26,13 +26,17 @@ export const programmes: ProgrammeType[] = [
         name: 'Vg1',
         categories: [
           {
-            name: undefined,
+            name: {
+              nb: 'Felles programfag',
+              nn: 'Felles programfag',
+              en: 'Felles programfag',
+            },
             subjects: [
               {
-                id: 'urn:subject:1:0d67724e-d9fa-4365-9839-4cc91c012855',
+                id: 'urn:subject:1:9b7e7534-c072-4412-b8ef-df076308cad0',
               },
               {
-                id: 'urn:subject:1:9b7e7534-c072-4412-b8ef-df076308cad0',
+                id: 'urn:subject:1:0d67724e-d9fa-4365-9839-4cc91c012855',
               },
             ],
           },
@@ -167,7 +171,11 @@ export const programmes: ProgrammeType[] = [
         name: 'Vg1',
         categories: [
           {
-            name: undefined,
+            name: {
+              nb: 'Felles programfag',
+              nn: 'Felles programfag',
+              en: 'Felles programfag',
+            },
             subjects: [
               {
                 id: 'urn:subject:1:d92be649-8bda-4514-b04d-2d3c5251aa79',
@@ -175,6 +183,15 @@ export const programmes: ProgrammeType[] = [
               {
                 id: 'urn:subject:1:8c5a9fdd-4fa4-456b-9afe-34e7e776b4e7',
               },
+            ],
+          },
+          {
+            name: {
+              nb: 'Yrkesfaglig fordypning',
+              nn: 'Yrkesfagleg fordjuping',
+              en: 'Yrkesfaglig fordypning',
+            },
+            subjects: [
               {
                 id: 'urn:subject:1:57d2a2c6-b75a-4264-9f56-a692ef56e06c',
               },
@@ -311,7 +328,11 @@ export const programmes: ProgrammeType[] = [
         name: 'Vg1',
         categories: [
           {
-            name: undefined,
+            name: {
+              nb: 'Felles programfag',
+              nn: 'Felles programfag',
+              en: 'Felles programfag',
+            },
             subjects: [
               {
                 id: 'urn:subject:31f764fe-d885-4fc6-93f5-53e1d50670fa',
@@ -593,7 +614,11 @@ export const programmes: ProgrammeType[] = [
         name: 'Vg1',
         categories: [
           {
-            name: undefined,
+            name: {
+              nb: 'Felles programfag',
+              nn: 'Felles programfag',
+              en: 'Felles programfag',
+            },
             subjects: [
               {
                 id: 'urn:subject:1:2cbe8089-7d7b-407f-8f04-fbfdc116abc1',
@@ -604,6 +629,15 @@ export const programmes: ProgrammeType[] = [
               {
                 id: 'urn:subject:1:113986bb-9b00-42dc-b1ff-0b9a352369f4',
               },
+            ],
+          },
+          {
+            name: {
+              nb: 'Yrkesfaglig fordypning',
+              nn: 'Yrkesfagleg fordjuping',
+              en: 'Yrkesfaglig fordypning',
+            },
+            subjects: [
               {
                 id: 'urn:subject:1:ab5e9191-407a-492e-a2b9-5071275a37a7',
               },
@@ -1074,7 +1108,11 @@ export const programmes: ProgrammeType[] = [
         name: 'Vg1',
         categories: [
           {
-            name: undefined,
+            name: {
+              nb: 'Felles programfag',
+              nn: 'Felles programfag',
+              en: 'Felles programfag',
+            },
             subjects: [
               {
                 id: 'urn:subject:1:1352b19e-e706-4480-a728-c6b0a57ba8ae',
@@ -1085,6 +1123,15 @@ export const programmes: ProgrammeType[] = [
               {
                 id: 'urn:subject:1:81b3892a-78e7-4e43-bc31-fd5f8a5090e7',
               },
+            ],
+          },
+          {
+            name: {
+              nb: 'Yrkesfaglig fordypning',
+              nn: 'Yrkesfagleg fordjuping',
+              en: 'Yrkesfaglig fordypning',
+            },
+            subjects: [
               {
                 id: 'urn:subject:1:c0cd454f-c937-4fcb-ae2d-feaa8c0eeae9',
               },
@@ -1561,7 +1608,11 @@ export const programmes: ProgrammeType[] = [
         name: 'Vg1',
         categories: [
           {
-            name: undefined,
+            name: {
+              nb: 'Felles programfag',
+              nn: 'Felles programfag',
+              en: 'Felles programfag',
+            },
             subjects: [
               {
                 id: 'urn:subject:1:e7b9fcee-cb8b-4e0e-a16d-d7dddbe0b643',
@@ -1643,7 +1694,11 @@ export const programmes: ProgrammeType[] = [
         name: 'Vg2',
         categories: [
           {
-            name: undefined,
+            name: {
+              nb: 'Felles programfag',
+              nn: 'Felles programfag',
+              en: 'Felles programfag',
+            },
             subjects: [
               {
                 id: 'urn:subject:1:00a0141d-2307-4a5a-a154-0c821449f6d2',
@@ -1755,7 +1810,11 @@ export const programmes: ProgrammeType[] = [
         name: 'Vg3',
         categories: [
           {
-            name: undefined,
+            name: {
+              nb: 'Felles programfag',
+              nn: 'Felles programfag',
+              en: 'Felles programfag',
+            },
             subjects: [
               {
                 id: 'urn:subject:1:7588cdad-751d-46a8-8546-caa28075a167',
@@ -2195,7 +2254,11 @@ export const programmes: ProgrammeType[] = [
         name: 'Vg1',
         categories: [
           {
-            name: undefined,
+            name: {
+              nb: 'Felles programfag',
+              nn: 'Felles programfag',
+              en: 'Felles programfag',
+            },
             subjects: [
               {
                 id: 'urn:subject:644e5655-75e5-49c3-9f5a-e2a98271bb3d',
@@ -2449,7 +2512,11 @@ export const programmes: ProgrammeType[] = [
         name: 'Vg1',
         categories: [
           {
-            name: undefined,
+            name: {
+              nb: 'Felles programfag',
+              nn: 'Felles programfag',
+              en: 'Felles programfag',
+            },
             subjects: [
               {
                 id: 'urn:subject:1:fdefda2a-7d3a-4749-92cf-24ad466a20db',
@@ -2457,6 +2524,15 @@ export const programmes: ProgrammeType[] = [
               {
                 id: 'urn:subject:1:cd3a3bb8-eed2-4d02-8c21-b3dca5a2a11b',
               },
+            ],
+          },
+          {
+            name: {
+              nb: 'Yrkesfaglig fordypning',
+              nn: 'Yrkesfagleg fordjuping',
+              en: 'Yrkesfaglig fordypning',
+            },
+            subjects: [
               {
                 id: 'urn:subject:b0fb73bc-fc75-4be1-9b24-605d9de0f469',
               },
@@ -2610,7 +2686,11 @@ export const programmes: ProgrammeType[] = [
         name: 'Vg1',
         categories: [
           {
-            name: undefined,
+            name: {
+              nb: 'Felles programfag',
+              nn: 'Felles programfag',
+              en: 'Felles programfag',
+            },
             subjects: [
               {
                 id: 'urn:subject:1:792414c5-896f-470a-9558-6101d7266237',
@@ -2621,6 +2701,15 @@ export const programmes: ProgrammeType[] = [
               {
                 id: 'urn:subject:1:f18ad41e-d9c3-4428-8cb6-5eb852e45082',
               },
+            ],
+          },
+          {
+            name: {
+              nb: 'Yrkesfaglig forydpning',
+              nn: 'Yrkesfagleg fordjuping',
+              en: 'Yrkesfaglig forydpning',
+            },
+            subjects: [
               {
                 id: 'urn:subject:1:a1350efc-a249-4730-8bf7-0ef0556ddbcc',
               },
@@ -3135,7 +3224,11 @@ export const programmes: ProgrammeType[] = [
         name: 'Vg1',
         categories: [
           {
-            name: undefined,
+            name: {
+              nb: 'Felles programfag',
+              nn: 'Felles programfag',
+              en: 'Felles programfag',
+            },
             subjects: [
               {
                 id: 'urn:subject:1:5a5cac3f-46ff-4f4d-ba95-b256a706ec48',
@@ -3146,6 +3239,15 @@ export const programmes: ProgrammeType[] = [
               {
                 id: 'urn:subject:1:29212872-62d6-4555-89fd-b85e7f3f9411',
               },
+            ],
+          },
+          {
+            name: {
+              nb: 'Yrkesfaglig fordypning',
+              nn: 'Yrkesfagleg fordjuping',
+              en: 'Yrkesfaglig fordypning',
+            },
+            subjects: [
               {
                 id: 'urn:subject:1:59f2f355-ebf6-4a8c-a0a8-ccd229d2e901',
               },
