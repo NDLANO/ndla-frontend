@@ -72,6 +72,7 @@ exports[`ErrorPage renderers correctly 1`] = `
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  gap: 13px;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -145,107 +146,71 @@ exports[`ErrorPage renderers correctly 1`] = `
   position: relative;
 }
 
-.emotion-15 {
-  display: inline-block;
-  color: #ffffff;
-  background-color: #20588f;
-  border: 2px solid #20588f;
+.emotion-16 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  gap: 6.5px;
+  color: #20588f;
+  background: #deebf6;
+  border: 2px solid #deebf6;
   border-radius: 4px;
-  padding: 4px 13px;
   outline-width: 0;
   cursor: pointer;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 16px;
-  font-size: 0.8888888888888888rem;
-  line-height: 1.625;
   font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
-  font-weight: 700;
+  font-weight: 600;
   -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
   transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
   box-shadow: none;
   text-align: center;
-  -webkit-transition: background-color none;
-  transition: background-color none;
-  padding: 0;
-  border-radius: 0;
-  color: inherit;
-  font-size: inherit;
-  background-color: transparent;
-  box-shadow: none;
-  border: none;
-  font-weight: 400;
-  padding: 13px 19.5px;
-  border-radius: 26px;
-  color: #20588f;
+  padding: 4.333333333333333px 17.333333333333332px;
   font-size: 16px;
   font-size: 0.8888888888888888rem;
   line-height: 18px;
-  background-color: transparent;
-  border: 2px solid #20588f;
-  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
-  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  min-height: 48px;
+  border-radius: 26px;
+  outline-width: 2px;
+  color: #20588f;
+  background: transparent;
+  border-color: transparent;
+  border-color: #20588f;
 }
 
-.emotion-15:hover,
-.emotion-15:focus {
-  color: white;
-  background-color: #184673;
-  border: 2px solid #184673;
+.emotion-16:hover,
+.emotion-16:focus {
+  color: #fff;
+  background-color: #20588f;
+  border-color: #20588f;
 }
 
-.emotion-15[disabled] {
+.emotion-16[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-15:focus {
+.emotion-16:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-15:hover,
-.emotion-15:active,
-.emotion-15:disabled,
-.emotion-15:focus {
-  box-shadow: none;
+.emotion-16:hover,
+.emotion-16:active,
+.emotion-16:focus {
   color: #20588f;
-  background-color: transparent;
-  border: none;
-}
-
-.emotion-15:focus {
-  outline-width: medium;
-}
-
-.emotion-15 > svg {
-  margin-left: 6.5px;
-  height: 18px;
-  width: 18px;
-}
-
-.emotion-15 > span {
-  box-shadow: 0 1px 0 #20588f;
-}
-
-.emotion-15:hover > span {
-  box-shadow: none;
-}
-
-.emotion-15 > span {
-  box-shadow: none;
-}
-
-.emotion-15:hover,
-.emotion-15:focus {
-  background-color: #ceddea;
-  border: 2px solid transparent;
-}
-
-.emotion-15:hover > span,
-.emotion-15:focus > span {
-  box-shadow: none;
+  background: #deebf6;
+  border-color: #deebf6;
 }
 
 .emotion-13 {
@@ -713,9 +678,8 @@ exports[`ErrorPage renderers correctly 1`] = `
     >
       <button
         className="emotion-15 emotion-16"
-        disabled={false}
         onClick={[Function]}
-        type="button"
+        outline={true}
       >
         <span
           className="emotion-13 emotion-14"
@@ -725,6 +689,7 @@ exports[`ErrorPage renderers correctly 1`] = `
           Bokmål
         </span>
         <svg
+          aria-hidden={true}
           className="c-icon"
           data-license="Apache License 2.0"
           data-source="Material Design"
@@ -764,6 +729,7 @@ exports[`ErrorPage renderers correctly 1`] = `
       >
         <div>
           <svg
+            aria-hidden={true}
             className="c-icon emotion-21 emotion-22"
             data-license="CC-BY 4.0"
             data-source="Keyteq"
@@ -804,6 +770,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                 Andre NDLA-nettsteder
                  
                 <svg
+                  aria-hidden={true}
                   className="c-icon"
                   data-license="Apache License 2.0"
                   data-source="Material Design"
@@ -901,6 +868,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                     className="emotion-39 emotion-40"
                   >
                     <svg
+                      aria-hidden={true}
                       className="c-icon"
                       data-license="SIL Open Font License 1.1"
                       data-source="Material Community Icons"
@@ -929,6 +897,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                   >
                     NDLA på Facebook
                     <svg
+                      aria-hidden={true}
                       className="c-icon"
                       data-license="Apache License 2.0"
                       data-source="Material Design"
@@ -963,6 +932,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                     className="emotion-39 emotion-40"
                   >
                     <svg
+                      aria-hidden={true}
                       className="c-icon"
                       data-license="Apache License 2.0"
                       data-source="Material Design Icons"
@@ -992,6 +962,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                   >
                     NDLA på Instagram
                     <svg
+                      aria-hidden={true}
                       className="c-icon"
                       data-license="Apache License 2.0"
                       data-source="Material Design"
@@ -1026,6 +997,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                     className="emotion-39 emotion-40"
                   >
                     <svg
+                      aria-hidden={true}
                       className="c-icon"
                       data-license="Apache License 2.0"
                       data-source="Material Design Icons"
@@ -1055,6 +1027,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                   >
                     NDLA på LinkedIn
                     <svg
+                      aria-hidden={true}
                       className="c-icon"
                       data-license="Apache License 2.0"
                       data-source="Material Design"
@@ -1089,6 +1062,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                     className="emotion-39 emotion-40"
                   >
                     <svg
+                      aria-hidden={true}
                       className="c-icon"
                       data-license="Apache License 2.0"
                       data-source="Material Design"
@@ -1140,6 +1114,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                   >
                     NDLA på YouTube
                     <svg
+                      aria-hidden={true}
                       className="c-icon"
                       data-license="Apache License 2.0"
                       data-source="Material Design"
@@ -1174,6 +1149,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                     className="emotion-39 emotion-40"
                   >
                     <svg
+                      aria-hidden={true}
                       className="c-icon"
                       data-license="SIL Open Font License 1.1"
                       data-source="Material Community Icons"
@@ -1202,6 +1178,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                   >
                     Meld deg på vårt nyhetsbrev
                     <svg
+                      aria-hidden={true}
                       className="c-icon"
                       data-license="Apache License 2.0"
                       data-source="Material Design"
@@ -1269,7 +1246,7 @@ exports[`ErrorPage renderers correctly 1`] = `
     className="emotion-89"
   >
     <button
-      className="emotion-87 emotion-16"
+      className="emotion-87 emotion-88"
       disabled={false}
       id="zendeskButton"
       onClick={[Function]}
