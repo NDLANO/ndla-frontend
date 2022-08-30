@@ -69,6 +69,7 @@ export type GQLArticleMetaData = {
   footnotes?: Maybe<Array<GQLFootNote>>;
   h5ps?: Maybe<Array<GQLH5pLicense>>;
   images?: Maybe<Array<GQLImageLicense>>;
+  podcasts?: Maybe<Array<GQLPodcastLicense>>;
 };
 
 export type GQLArticleRequiredLibrary = {
@@ -174,6 +175,12 @@ export type GQLAudioWithSeries = GQLAudioBase & {
   tags: GQLTags;
   title: GQLTitle;
   updated: Scalars['String'];
+};
+
+export type GQLBreadcrumb = {
+  __typename?: 'Breadcrumb';
+  id: Scalars['String'];
+  name: Scalars['String'];
 };
 
 export type GQLBrightcoveElement = {
@@ -348,6 +355,49 @@ export type GQLFilmPageAbout = {
   language: Scalars['String'];
   title: Scalars['String'];
   visualElement: GQLSubjectPageVisualElement;
+};
+
+export type GQLFolder = {
+  __typename?: 'Folder';
+  breadcrumbs: Array<GQLBreadcrumb>;
+  id: Scalars['String'];
+  name: Scalars['String'];
+  parentId?: Maybe<Scalars['String']>;
+  resources: Array<GQLFolderResource>;
+  status: Scalars['String'];
+  subfolders: Array<GQLFolder>;
+};
+
+export type GQLFolderResource = {
+  __typename?: 'FolderResource';
+  created: Scalars['String'];
+  id: Scalars['String'];
+  path: Scalars['String'];
+  resourceId: Scalars['Int'];
+  resourceType: Scalars['String'];
+  tags: Array<Scalars['String']>;
+};
+
+export type GQLFolderResourceMeta = {
+  __typename?: 'FolderResourceMeta';
+  description: Scalars['String'];
+  id: Scalars['Int'];
+  metaImage?: Maybe<GQLMetaImage>;
+  resourceTypes: Array<GQLFolderResourceResourceType>;
+  title: Scalars['String'];
+  type: Scalars['String'];
+};
+
+export type GQLFolderResourceMetaSearchInput = {
+  id: Scalars['Int'];
+  path: Scalars['String'];
+  resourceType: Scalars['String'];
+};
+
+export type GQLFolderResourceResourceType = {
+  __typename?: 'FolderResourceResourceType';
+  id: Scalars['String'];
+  name: Scalars['String'];
 };
 
 export type GQLFootNote = {
@@ -621,10 +671,78 @@ export type GQLMovieTheme = {
   name: Array<GQLName>;
 };
 
+export type GQLMutation = {
+  __typename?: 'Mutation';
+  addFolder: GQLFolder;
+  addFolderResource: GQLFolderResource;
+  deleteFolder: Scalars['String'];
+  deleteFolderResource: Scalars['String'];
+  deletePersonalData: Scalars['Boolean'];
+  updateFolder: GQLFolder;
+  updateFolderResource: GQLFolderResource;
+};
+
+export type GQLMutationAddFolderArgs = {
+  name: Scalars['String'];
+  parentId?: Maybe<Scalars['String']>;
+  status?: Maybe<Scalars['String']>;
+};
+
+export type GQLMutationAddFolderResourceArgs = {
+  folderId: Scalars['String'];
+  path: Scalars['String'];
+  resourceId: Scalars['Int'];
+  resourceType: Scalars['String'];
+  tags?: Maybe<Array<Scalars['String']>>;
+};
+
+export type GQLMutationDeleteFolderArgs = {
+  id: Scalars['String'];
+};
+
+export type GQLMutationDeleteFolderResourceArgs = {
+  folderId: Scalars['String'];
+  resourceId: Scalars['String'];
+};
+
+export type GQLMutationUpdateFolderArgs = {
+  id: Scalars['String'];
+  name?: Maybe<Scalars['String']>;
+  status?: Maybe<Scalars['String']>;
+};
+
+export type GQLMutationUpdateFolderResourceArgs = {
+  id: Scalars['String'];
+  tags?: Maybe<Array<Scalars['String']>>;
+};
+
 export type GQLName = {
   __typename?: 'Name';
   language: Scalars['String'];
   name: Scalars['String'];
+};
+
+export type GQLNewFolder = {
+  __typename?: 'NewFolder';
+  name: Scalars['String'];
+  parentId?: Maybe<Scalars['String']>;
+  status?: Maybe<Scalars['String']>;
+};
+
+export type GQLNewFolderResource = {
+  __typename?: 'NewFolderResource';
+  path: Scalars['String'];
+  resourceType: Scalars['String'];
+  tags?: Maybe<Array<Scalars['String']>>;
+};
+
+export type GQLPodcastLicense = {
+  __typename?: 'PodcastLicense';
+  copyText?: Maybe<Scalars['String']>;
+  copyright: GQLCopyright;
+  description?: Maybe<Scalars['String']>;
+  src: Scalars['String'];
+  title: Scalars['String'];
 };
 
 export type GQLPodcastMeta = {
@@ -683,6 +801,7 @@ export type GQLPodcastSeriesWithEpisodes = GQLPodcastSeriesBase & {
 export type GQLQuery = {
   __typename?: 'Query';
   alerts?: Maybe<Array<Maybe<GQLUptimeAlert>>>;
+  allFolderResources: Array<GQLFolderResource>;
   article?: Maybe<GQLArticle>;
   competenceGoal?: Maybe<GQLCompetenceGoal>;
   competenceGoals?: Maybe<Array<GQLCompetenceGoal>>;
@@ -691,6 +810,10 @@ export type GQLQuery = {
   coreElement?: Maybe<GQLCoreElement>;
   coreElements?: Maybe<Array<GQLCoreElement>>;
   filmfrontpage?: Maybe<GQLFilmFrontpage>;
+  folder: GQLFolder;
+  folderResourceMeta: GQLFolderResourceMeta;
+  folderResourceMetaSearch: Array<GQLFolderResourceMeta>;
+  folders: Array<GQLFolder>;
   frontpage?: Maybe<GQLFrontpage>;
   frontpageSearch?: Maybe<GQLFrontpageSearch>;
   groupSearch?: Maybe<Array<GQLGroupSearch>>;
@@ -709,6 +832,10 @@ export type GQLQuery = {
   subjects?: Maybe<Array<GQLSubject>>;
   topic?: Maybe<GQLTopic>;
   topics?: Maybe<Array<GQLTopic>>;
+};
+
+export type GQLQueryAllFolderResourcesArgs = {
+  size?: Maybe<Scalars['Int']>;
 };
 
 export type GQLQueryArticleArgs = {
@@ -756,6 +883,25 @@ export type GQLQueryCoreElementsArgs = {
   language?: Maybe<Scalars['String']>;
 };
 
+export type GQLQueryFolderArgs = {
+  id: Scalars['Int'];
+  includeResources?: Maybe<Scalars['Boolean']>;
+  includeSubfolders?: Maybe<Scalars['Boolean']>;
+};
+
+export type GQLQueryFolderResourceMetaArgs = {
+  resource: GQLFolderResourceMetaSearchInput;
+};
+
+export type GQLQueryFolderResourceMetaSearchArgs = {
+  resources: Array<GQLFolderResourceMetaSearchInput>;
+};
+
+export type GQLQueryFoldersArgs = {
+  includeResources?: Maybe<Scalars['Boolean']>;
+  includeSubfolders?: Maybe<Scalars['Boolean']>;
+};
+
 export type GQLQueryFrontpageSearchArgs = {
   query?: Maybe<Scalars['String']>;
 };
@@ -787,6 +933,7 @@ export type GQLQueryPodcastArgs = {
 };
 
 export type GQLQueryPodcastSearchArgs = {
+  fallback?: Maybe<Scalars['Boolean']>;
   page: Scalars['Int'];
   pageSize: Scalars['Int'];
 };
@@ -796,6 +943,7 @@ export type GQLQueryPodcastSeriesArgs = {
 };
 
 export type GQLQueryPodcastSeriesSearchArgs = {
+  fallback?: Maybe<Scalars['Boolean']>;
   page: Scalars['Int'];
   pageSize: Scalars['Int'];
 };
@@ -889,7 +1037,7 @@ export type GQLResource = GQLTaxonomyEntity &
     meta?: Maybe<GQLMeta>;
     metadata: GQLTaxonomyMetadata;
     name: Scalars['String'];
-    parentTopics?: Maybe<Array<GQLTopic>>;
+    parents?: Maybe<Array<GQLTopic>>;
     path: Scalars['String'];
     paths: Array<Scalars['String']>;
     rank?: Maybe<Scalars['Int']>;
@@ -1141,6 +1289,17 @@ export type GQLTopicCoreResourcesArgs = {
 
 export type GQLTopicSupplementaryResourcesArgs = {
   subjectId?: Maybe<Scalars['String']>;
+};
+
+export type GQLUpdatedFolder = {
+  __typename?: 'UpdatedFolder';
+  name?: Maybe<Scalars['String']>;
+  status?: Maybe<Scalars['String']>;
+};
+
+export type GQLUpdatedFolderResource = {
+  __typename?: 'UpdatedFolderResource';
+  tags?: Maybe<Array<Scalars['String']>>;
 };
 
 export type GQLUptimeAlert = {
@@ -1604,6 +1763,13 @@ export type GQLLicenseBox_ArticleFragment = {
         } & GQLAudioLicenseList_AudioLicenseFragment
       >
     >;
+    podcasts?: Maybe<
+      Array<
+        {
+          __typename?: 'PodcastLicense';
+        } & GQLPodcastLicenseList_PodcastLicenseFragment
+      >
+    >;
     images?: Maybe<
       Array<
         {
@@ -1612,6 +1778,18 @@ export type GQLLicenseBox_ArticleFragment = {
       >
     >;
   }>;
+};
+
+export type GQLPodcastLicenseList_PodcastLicenseFragment = {
+  __typename?: 'PodcastLicense';
+  src: string;
+  copyText?: Maybe<string>;
+  title: string;
+  description?: Maybe<string>;
+  copyright: {
+    __typename?: 'Copyright';
+    origin?: Maybe<string>;
+  } & GQLLicenseListCopyrightFragment;
 };
 
 export type GQLTextLicenseList_CopyrightFragment = {
@@ -1968,6 +2146,216 @@ export type GQLMultidisciplinaryTopicWrapper_SubjectFragment = {
   __typename?: 'Subject';
 } & GQLMultidisciplinaryTopic_SubjectFragment;
 
+export type GQLFolderResourceFragmentFragment = {
+  __typename: 'FolderResource';
+  resourceId: number;
+  id: string;
+  resourceType: string;
+  path: string;
+  created: string;
+  tags: Array<string>;
+};
+
+export type GQLFolderFragmentFragment = {
+  __typename: 'Folder';
+  id: string;
+  name: string;
+  status: string;
+  parentId?: Maybe<string>;
+  breadcrumbs: Array<{ __typename: 'Breadcrumb'; id: string; name: string }>;
+  resources: Array<
+    { __typename?: 'FolderResource' } & GQLFolderResourceFragmentFragment
+  >;
+};
+
+export type GQLDeleteFolderMutationVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+export type GQLDeleteFolderMutation = {
+  __typename?: 'Mutation';
+  deleteFolder: string;
+};
+
+export type GQLFoldersPageQueryFragmentFragment = {
+  __typename?: 'Folder';
+  subfolders: Array<
+    {
+      __typename?: 'Folder';
+      subfolders: Array<
+        {
+          __typename?: 'Folder';
+          subfolders: Array<
+            {
+              __typename?: 'Folder';
+              subfolders: Array<
+                {
+                  __typename?: 'Folder';
+                  subfolders: Array<
+                    {
+                      __typename?: 'Folder';
+                      subfolders: Array<
+                        {
+                          __typename?: 'Folder';
+                          subfolders: Array<
+                            {
+                              __typename?: 'Folder';
+                              subfolders: Array<
+                                {
+                                  __typename?: 'Folder';
+                                  subfolders: Array<
+                                    {
+                                      __typename?: 'Folder';
+                                    } & GQLFolderFragmentFragment
+                                  >;
+                                } & GQLFolderFragmentFragment
+                              >;
+                            } & GQLFolderFragmentFragment
+                          >;
+                        } & GQLFolderFragmentFragment
+                      >;
+                    } & GQLFolderFragmentFragment
+                  >;
+                } & GQLFolderFragmentFragment
+              >;
+            } & GQLFolderFragmentFragment
+          >;
+        } & GQLFolderFragmentFragment
+      >;
+    } & GQLFolderFragmentFragment
+  >;
+} & GQLFolderFragmentFragment;
+
+export type GQLFoldersPageQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GQLFoldersPageQuery = {
+  __typename?: 'Query';
+  folders: Array<
+    { __typename?: 'Folder' } & GQLFoldersPageQueryFragmentFragment
+  >;
+};
+
+export type GQLUpdateFolderResourceMutationVariables = Exact<{
+  id: Scalars['String'];
+  tags: Array<Scalars['String']> | Scalars['String'];
+}>;
+
+export type GQLUpdateFolderResourceMutation = {
+  __typename?: 'Mutation';
+  updateFolderResource: {
+    __typename?: 'FolderResource';
+  } & GQLFolderResourceFragmentFragment;
+};
+
+export type GQLAddFolderMutationVariables = Exact<{
+  name: Scalars['String'];
+  parentId?: Maybe<Scalars['String']>;
+  status?: Maybe<Scalars['String']>;
+}>;
+
+export type GQLAddFolderMutation = {
+  __typename?: 'Mutation';
+  addFolder: { __typename?: 'Folder' } & GQLFoldersPageQueryFragmentFragment;
+};
+
+export type GQLUpdateFolderMutationVariables = Exact<{
+  id: Scalars['String'];
+  name?: Maybe<Scalars['String']>;
+  status?: Maybe<Scalars['String']>;
+}>;
+
+export type GQLUpdateFolderMutation = {
+  __typename?: 'Mutation';
+  updateFolder: { __typename?: 'Folder' } & GQLFoldersPageQueryFragmentFragment;
+};
+
+export type GQLFolderResourceMetaFragment = {
+  __typename: 'FolderResourceMeta';
+  id: number;
+  title: string;
+  description: string;
+  type: string;
+  metaImage?: Maybe<{ __typename?: 'MetaImage'; url: string; alt: string }>;
+  resourceTypes: Array<{
+    __typename?: 'FolderResourceResourceType';
+    id: string;
+    name: string;
+  }>;
+};
+
+export type GQLFolderResourceMetaQueryVariables = Exact<{
+  resource: GQLFolderResourceMetaSearchInput;
+}>;
+
+export type GQLFolderResourceMetaQuery = {
+  __typename?: 'Query';
+  folderResourceMeta: {
+    __typename?: 'FolderResourceMeta';
+  } & GQLFolderResourceMetaFragment;
+};
+
+export type GQLFolderResourceMetaSearchQueryVariables = Exact<{
+  resources:
+    | Array<GQLFolderResourceMetaSearchInput>
+    | GQLFolderResourceMetaSearchInput;
+}>;
+
+export type GQLFolderResourceMetaSearchQuery = {
+  __typename?: 'Query';
+  folderResourceMetaSearch: Array<
+    { __typename?: 'FolderResourceMeta' } & GQLFolderResourceMetaFragment
+  >;
+};
+
+export type GQLRecentlyUsedQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GQLRecentlyUsedQuery = {
+  __typename?: 'Query';
+  allFolderResources: Array<{
+    __typename?: 'FolderResource';
+    id: string;
+    resourceId: number;
+    path: string;
+    tags: Array<string>;
+    resourceType: string;
+    created: string;
+  }>;
+};
+
+export type GQLAddResourceToFolderMutationVariables = Exact<{
+  resourceId: Scalars['Int'];
+  folderId: Scalars['String'];
+  resourceType: Scalars['String'];
+  path: Scalars['String'];
+  tags?: Maybe<Array<Scalars['String']> | Scalars['String']>;
+}>;
+
+export type GQLAddResourceToFolderMutation = {
+  __typename?: 'Mutation';
+  addFolderResource: {
+    __typename?: 'FolderResource';
+  } & GQLFolderResourceFragmentFragment;
+};
+
+export type GQLDeleteFolderResourceMutationVariables = Exact<{
+  folderId: Scalars['String'];
+  resourceId: Scalars['String'];
+}>;
+
+export type GQLDeleteFolderResourceMutation = {
+  __typename?: 'Mutation';
+  deleteFolderResource: string;
+};
+
+export type GQLDeletePersonalDataMutationVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type GQLDeletePersonalDataMutation = {
+  __typename?: 'Mutation';
+  deletePersonalData: boolean;
+};
+
 export type GQLPlainArticleContainer_ArticleFragment = {
   __typename?: 'Article';
   created: string;
@@ -1978,6 +2366,7 @@ export type GQLPlainArticlePageQueryVariables = Exact<{
   articleId: Scalars['String'];
   isOembed?: Maybe<Scalars['String']>;
   path?: Maybe<Scalars['String']>;
+  showVisualElement?: Maybe<Scalars['String']>;
 }>;
 
 export type GQLPlainArticlePageQuery = {
@@ -2047,6 +2436,7 @@ export type GQLPodcastSeries_PodcastSeriesSummaryFragment = {
 export type GQLPodcastSeriesListPageQueryVariables = Exact<{
   page: Scalars['Int'];
   pageSize: Scalars['Int'];
+  fallback?: Maybe<Scalars['Boolean']>;
 }>;
 
 export type GQLPodcastSeriesListPageQuery = {
@@ -3206,6 +3596,16 @@ export type GQLStructuredArticleData_AudioLicenseFragment = {
   } & GQLStructuredArticleData_CopyrightFragment;
 };
 
+export type GQLStructuredArticleData_PodcastLicenseFragment = {
+  __typename?: 'PodcastLicense';
+  src: string;
+  title: string;
+  description?: Maybe<string>;
+  copyright: {
+    __typename?: 'Copyright';
+  } & GQLStructuredArticleData_CopyrightFragment;
+};
+
 export type GQLStructuredArticleData_BrightcoveLicenseFragment = {
   __typename?: 'BrightcoveLicense';
   src?: Maybe<string>;
@@ -3243,6 +3643,13 @@ export type GQLStructuredArticleDataFragment = {
         {
           __typename?: 'AudioLicense';
         } & GQLStructuredArticleData_AudioLicenseFragment
+      >
+    >;
+    podcasts?: Maybe<
+      Array<
+        {
+          __typename?: 'PodcastLicense';
+        } & GQLStructuredArticleData_PodcastLicenseFragment
       >
     >;
     brightcoves?: Maybe<

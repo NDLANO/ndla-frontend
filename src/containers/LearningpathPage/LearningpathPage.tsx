@@ -10,8 +10,13 @@ import { useEffect } from 'react';
 import { gql } from '@apollo/client';
 import { Helmet } from 'react-helmet-async';
 import { withTracker } from '@ndla/tracker';
-import { TFunction, WithTranslation, withTranslation } from 'react-i18next';
-import { useHistory } from 'react-router';
+import {
+  CustomWithTranslation,
+  TFunction,
+  withTranslation,
+} from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+import { FeideUserApiType } from '@ndla/ui';
 import { getArticleProps } from '../../util/getArticleProps';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { htmlTitle } from '../../util/titleHelper';
@@ -30,8 +35,6 @@ import {
   GQLLearningpathStep,
   GQLSubject,
 } from '../../graphqlTypes';
-import { LocaleType } from '../../interfaces';
-import { FeideUserWithGroups } from '../../util/feideApi';
 
 interface PropData {
   relevance: string;
@@ -42,25 +45,22 @@ interface PropData {
   resource?: GQLLearningpathPage_ResourceFragment;
 }
 
-interface Props extends WithTranslation {
-  locale: LocaleType;
+interface Props extends CustomWithTranslation {
   loading: boolean;
-  ndlaFilm?: boolean;
   data: PropData;
   skipToContentId: string;
   stepId?: string;
-  user?: FeideUserWithGroups;
+  user?: FeideUserApiType;
 }
 
 const LearningpathPage = ({
   data,
-  locale,
   skipToContentId,
-  ndlaFilm,
   stepId,
+  i18n,
   t,
 }: Props) => {
-  const history = useHistory();
+  const navigate = useNavigate();
   useEffect(() => {
     if (window.MathJax) {
       window.MathJax.typeset();
@@ -80,7 +80,7 @@ const LearningpathPage = ({
         const res = !!resource.path
           ? { path: resource.path, id: resource.id }
           : undefined;
-        history.push(
+        navigate(
           toLearningPath(
             data.resource!.learningpath!.id.toString(),
             newLearningpathStep.id.toString(),
@@ -123,12 +123,12 @@ const LearningpathPage = ({
             ...topicPath,
             { name: learningpath.title, id: `${learningpath.id}` },
           ],
-          locale as LocaleType,
+          i18n.language,
         )
       : toBreadcrumbItems(
           t('breadcrumb.toFrontpage'),
           [{ name: learningpath.title, id: `${learningpath.id}` }],
-          locale as LocaleType,
+          i18n.language,
         );
 
   return (
@@ -154,8 +154,6 @@ const LearningpathPage = ({
         resource={resource}
         resourceTypes={resourceTypes}
         topicPath={topicPath}
-        locale={locale}
-        ndlaFilm={!!ndlaFilm}
         breadcrumbItems={breadcrumbItems}
       />
     </div>
@@ -183,7 +181,7 @@ LearningpathPage.getDimensions = (props: Props) => {
     ls => `${ls.id}` === stepId,
   );
   const learningstep = currentStep || firstStep;
-  const longName = getSubjectLongName(subject?.id, i18n.language as LocaleType);
+  const longName = getSubjectLongName(subject?.id, i18n.language);
 
   return getAllDimensions(
     {

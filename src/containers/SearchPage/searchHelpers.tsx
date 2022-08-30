@@ -1,14 +1,13 @@
 import { ReactNode } from 'react';
 import queryString from 'query-string';
 import { TFunction } from 'i18next';
-import { Location } from 'history';
+import { Location } from 'react-router-dom';
 import { ContentTypeBadge, Image } from '@ndla/ui';
 import {
   contentTypeMapping,
   resourceTypeMapping,
 } from '../../util/getContentType';
 import LtiEmbed from '../../lti/LtiEmbed';
-import { parseAndMatchUrl } from '../../util/urlHelper';
 import { getSubjectLongName, getSubjectById } from '../../data/subjects';
 import { programmes } from '../../data/programmes';
 import { LocaleType, LtiData } from '../../interfaces';
@@ -119,29 +118,6 @@ export const convertProgramSearchParams = (
   };
 };
 
-const getResultUrl = (
-  id: string | number,
-  url: string | { href: string },
-  isLti: boolean,
-) => {
-  if (typeof url !== 'string' || !isLti) {
-    return url;
-  }
-
-  const parsedUrl = parseAndMatchUrl<{ topicId?: string; resourceId: string }>(
-    url,
-  );
-  if (!parsedUrl) {
-    return url;
-  }
-  const {
-    params: { topicId, resourceId },
-  } = parsedUrl;
-  const urnId =
-    topicId && !resourceId ? `urn:${topicId}` : `urn:resource:${resourceId}`;
-  return `/article-iframe/${urnId}/${id}`;
-};
-
 interface ResultBase {
   id: number | string;
   title?: string;
@@ -158,13 +134,12 @@ export const resultsWithContentTypeBadgeAndImage = <T extends ResultBase>(
   t: TFunction,
   includeEmbedButton?: boolean,
   ltiData?: LtiData,
-  isLti = false,
 ) =>
   results.map(result => {
-    const { id, url, contentType, metaImage } = result;
+    const { url, contentType, metaImage } = result;
     return {
       ...result,
-      url: getResultUrl(id, url, isLti),
+      url,
       contenttypeicon: (
         // defaults to empty div if contentType is undefined.
         <ContentTypeBadge type={contentType ?? ''} size="x-small" background />
@@ -189,10 +164,18 @@ const mapTraits = (traits: string[] | undefined, t: TFunction) =>
     return trait;
   }) ?? [];
 
-const getLtiUrl = (path: string, id: number, language?: LocaleType) =>
-  `article-iframe/${language ? `${language}/` : ''}urn:${path
-    .split('/')
-    .pop()}/${id}`;
+const getLtiUrl = (
+  path: string,
+  id: number,
+  isContext: boolean,
+  language?: LocaleType,
+) => {
+  const commonPath = `article-iframe/${language ? `${language}/` : ''}`;
+  if (isContext) {
+    return `${commonPath}urn:${path.split('/').pop()}/${id}`;
+  }
+  return `${commonPath}article/${id}`;
+};
 
 const getContextLabels = (
   contexts: GQLGroupSearchResourceFragment['contexts'] | undefined,
@@ -234,7 +217,12 @@ export const mapResourcesToItems = (
     title: resource.name,
     ingress: resource.ingress,
     url: isLti
-      ? getLtiUrl(resource.path, resource.id, language)
+      ? getLtiUrl(
+          resource.path,
+          resource.id,
+          !!resource.contexts?.length,
+          language,
+        )
       : resource.contexts?.length
       ? resource.path
       : plainUrl(resource.path),
@@ -326,7 +314,6 @@ export const mapSearchDataToGroups = (
       result.aggregations?.[0]?.values?.map(value => value.value),
     ),
     totalCount: result.totalCount,
-    //hello
     type: contentTypeMapping[result.resourceType] || result.resourceType,
   }));
 };

@@ -7,7 +7,7 @@
  */
 
 import { gql } from '@apollo/client';
-import { useLocation } from 'react-router';
+import { useLocation } from 'react-router-dom';
 import { OneColumn, ErrorMessage } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
 import { useGraphQuery } from '../util/runQueries';
@@ -15,7 +15,6 @@ import IframeArticlePage, {
   iframeArticlePageFragments,
 } from './IframeArticlePage';
 import IframeTopicPage, { iframeTopicPageFragments } from './IframeTopicPage';
-import { LocaleType } from '../interfaces';
 import {
   GQLIframePageQuery,
   GQLIframePageQueryVariables,
@@ -45,7 +44,6 @@ const Error = () => {
 };
 
 interface Props {
-  locale?: LocaleType;
   articleId?: string;
   taxonomyId?: string;
   status?: 'success' | 'error';
@@ -87,7 +85,6 @@ const iframePageQuery = gql`
 
 export const IframePage = ({
   status,
-  locale,
   taxonomyId,
   articleId,
   isOembed,
@@ -127,11 +124,9 @@ export const IframePage = ({
   }
 
   if (isTopicArticle) {
-    return <IframeTopicPage article={article} topic={topic} locale={locale} />;
+    return <IframeTopicPage article={article} topic={topic} />;
   }
-  return (
-    <IframeArticlePage locale={locale} resource={resource} article={article} />
-  );
+  return <IframeArticlePage resource={resource} article={article} />;
 };
 
 export default IframePage;

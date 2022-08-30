@@ -26,7 +26,6 @@ import { useTranslation } from 'react-i18next';
 import CopyTextButton from './CopyTextButton';
 import AnchorButton from './AnchorButton';
 import { GQLImageLicenseList_ImageLicenseFragment } from '../../graphqlTypes';
-import { LocaleType } from '../../interfaces';
 import { licenseCopyrightToCopyrightType } from './licenseHelpers';
 import { licenseListCopyrightFragment } from './licenseFragments';
 
@@ -40,13 +39,15 @@ export const downloadUrl = (imageSrc: string) => {
 
 interface ImageLicenseInfoProps {
   image: GQLImageLicenseList_ImageLicenseFragment;
-  locale: LocaleType;
 }
 
-const ImageLicenseInfo = ({ image, locale }: ImageLicenseInfoProps) => {
-  const { t } = useTranslation();
+const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
+  const { t, i18n } = useTranslation();
   const safeCopyright = licenseCopyrightToCopyrightType(image.copyright);
-  const items = getGroupedContributorDescriptionList(safeCopyright, locale);
+  const items = getGroupedContributorDescriptionList(
+    safeCopyright,
+    i18n.language,
+  );
 
   if (image.title) {
     items.unshift({
@@ -74,7 +75,7 @@ const ImageLicenseInfo = ({ image, locale }: ImageLicenseInfoProps) => {
         license={image.copyright.license?.license}
         resourceType="image"
         resourceUrl={image.src}
-        locale={locale}>
+        locale={i18n.language}>
         <MediaListItemActions>
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />
@@ -104,10 +105,9 @@ const ImageLicenseInfo = ({ image, locale }: ImageLicenseInfoProps) => {
 
 interface Props {
   images: GQLImageLicenseList_ImageLicenseFragment[];
-  locale: LocaleType;
 }
 
-const ImageLicenseList = ({ images, locale }: Props) => {
+const ImageLicenseList = ({ images }: Props) => {
   const { t } = useTranslation();
   return (
     <div>
@@ -115,7 +115,7 @@ const ImageLicenseList = ({ images, locale }: Props) => {
       <p>{t('license.images.description')}</p>
       <MediaList>
         {images.map(image => (
-          <ImageLicenseInfo image={image} key={uuid()} locale={locale} />
+          <ImageLicenseInfo image={image} key={uuid()} />
         ))}
       </MediaList>
     </div>

@@ -6,12 +6,10 @@
  */
 
 import { useState } from 'react';
-import { Location } from 'history';
 import styled from '@emotion/styled';
 import {
   SearchSubjectResult,
   SearchNotionsResult,
-  //@ts-ignore
   SearchFilterContent,
   LanguageSelector,
   ConceptNotion,
@@ -54,7 +52,6 @@ interface Props {
   locale: LocaleType;
   loading: boolean;
   isLti?: boolean;
-  location?: Location;
 }
 const SearchContainer = ({
   handleSearchParamsChange,
@@ -76,7 +73,6 @@ const SearchContainer = ({
   loading,
   isLti,
   competenceGoals,
-  location,
 }: Props) => {
   const { t, i18n } = useTranslation();
   const [listViewType, setListViewType] = useState<ViewType>('grid');
@@ -154,10 +150,7 @@ const SearchContainer = ({
                 center
                 outline
                 alwaysVisible
-                options={getLocaleUrls(
-                  i18n.language,
-                  location ?? window.location,
-                )}
+                options={getLocaleUrls(i18n.language, window.location)}
                 currentLanguage={i18n.language}
               />
             </StyledLanguageSelector>

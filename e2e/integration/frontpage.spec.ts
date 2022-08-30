@@ -24,7 +24,7 @@ describe('Front page', () => {
   });
 
   it('should have a functioning change language box', () => {
-    cy.get('button')
+    cy.get('[class*="StyledLanguageWrapper"] button')
       .contains('Bokmål')
       .first()
       .click();

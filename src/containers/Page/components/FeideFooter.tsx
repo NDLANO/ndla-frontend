@@ -7,8 +7,8 @@
  */
 
 import { useContext } from 'react';
-import { RouteProps } from 'react-router';
 
+import { useInRouterContext } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { FeideText, LogIn } from '@ndla/icons/common';
@@ -50,12 +50,9 @@ const StyledFeideFooter = styled.div`
   }
 `;
 
-interface Props {
-  location: RouteProps['location'];
-}
-
-const FeideFooter = ({ location }: Props) => {
+const FeideFooter = () => {
   const { t } = useTranslation();
+  const inRouterContext = useInRouterContext();
   const { authenticated, user } = useContext(AuthContext);
   const affiliationRole = user?.eduPersonPrimaryAffiliation;
 
@@ -66,21 +63,22 @@ const FeideFooter = ({ location }: Props) => {
       </h2>
 
       <div>
-        <p>{t('user.generalFooter')}</p>
-        <FeideLoginButton footer location={location}>
-          {authenticated ? (
-            <span>
-              {' '}
-              {t('user.loggedInAsButton', {
-                role: t('user.role.' + affiliationRole),
-              })}
-            </span>
-          ) : (
-            <span>
-              {t('user.buttonLogIn')} <LogIn className="c-icon--medium" />
-            </span>
-          )}
-        </FeideLoginButton>
+        {inRouterContext && (
+          <FeideLoginButton footer>
+            {authenticated && user ? (
+              <span>
+                {' '}
+                {t('user.loggedInAsButton', {
+                  role: t('user.role.' + affiliationRole),
+                })}
+              </span>
+            ) : (
+              <span>
+                {t('user.buttonLogIn')} <LogIn className="c-icon--medium" />
+              </span>
+            )}
+          </FeideLoginButton>
+        )}
       </div>
     </StyledFeideFooter>
   );

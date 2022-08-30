@@ -6,21 +6,27 @@
  *
  */
 
-import { useState, useEffect, ReactNode } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import {
   Masthead,
   MastheadItem,
   LanguageSelector,
   Logo,
   DisplayOnPageYOffset,
-  BreadcrumbBlock,
+  HeaderBreadcrumb,
 } from '@ndla/ui';
-import { RouteComponentProps } from 'react-router';
+import styled from '@emotion/styled';
+import { breakpoints, mq, spacing } from '@ndla/core';
+import { useLocation } from 'react-router-dom';
 import { useLazyQuery } from '@apollo/client';
 
 import { Feide } from '@ndla/icons/common';
 import { useTranslation } from 'react-i18next';
-import { getUrnIdsFromProps, toBreadcrumbItems } from '../../routeHelpers';
+import {
+  toBreadcrumbItems,
+  useIsNdlaFilm,
+  useUrnIds,
+} from '../../routeHelpers';
 
 import FeideLoginButton from '../../components/FeideLoginButton';
 import MastheadSearch from './components/MastheadSearch';
@@ -30,124 +36,86 @@ import { getLocaleUrls } from '../../util/localeHelpers';
 import ErrorBoundary from '../ErrorPage/ErrorBoundary';
 import { mapMastheadData } from './mastheadHelpers';
 import {
-  getCategorizedSubjects,
-  getProgrammes,
-} from '../../util/programmesSubjectsHelper';
-import { getProgrammeBySlug } from '../../data/programmes';
-import { mapGradesData } from '../ProgrammePage/ProgrammePage';
-import { LocaleType } from '../../interfaces';
-import {
   GQLMastHeadQuery,
   GQLMastHeadQueryVariables,
   GQLResourceType,
   GQLTopicInfoFragment,
 } from '../../graphqlTypes';
 import config from '../../config';
-import { setClosedAlert, useAlerts } from '../../components/AlertsContext';
+import { useAlerts } from '../../components/AlertsContext';
+import { SKIP_TO_CONTENT_ID } from '../../constants';
+import MastheadMenuModal from './components/MastheadMenuModal';
+import { AuthContext } from '../../components/AuthenticationContext';
 
-interface Props extends RouteComponentProps {
-  locale: LocaleType;
-  infoContent?: ReactNode;
-  ndlaFilm?: boolean;
-  skipToMainContentId?: string;
-  hideBreadcrumb?: boolean;
-  initialSelectMenu?: string;
-}
+const BreadcrumbWrapper = styled.div`
+  margin-left: ${spacing.normal};
+  ${mq.range({ until: breakpoints.desktop })} {
+    display: none;
+  }
+`;
+
+const FeideLoginLabel = styled.span`
+  ${mq.range({ until: breakpoints.mobileWide })} {
+    display: none;
+  }
+`;
 
 interface State {
   subject?: GQLMastHeadQuery['subject'];
-  topicPath?: GQLTopicInfoFragment[];
+  topicPath: GQLTopicInfoFragment[];
   topicResourcesByType?: GQLResourceType[];
   resource?: GQLMastHeadQuery['resource'];
 }
 
-const MastheadContainer = ({
-  infoContent,
-  locale,
-  location,
-  ndlaFilm,
-  match,
-  skipToMainContentId,
-  hideBreadcrumb,
-  initialSelectMenu,
-}: Props) => {
-  const [subjectId, setSubjectId] = useState('');
-  const [topicId, setTopicId] = useState('');
-  const [state, setState] = useState<State>({});
+const MastheadContainer = () => {
+  const [state, setState] = useState<State>({ topicPath: [] });
   const { t, i18n } = useTranslation();
+  const locale = i18n.language;
+  const {
+    subjectId,
+    resourceId,
+    topicId: topicIdParam,
+    subjectType,
+  } = useUrnIds();
+  const [topicId, setTopicId] = useState<string>(topicIdParam ?? '');
+  const { user } = useContext(AuthContext);
+  const { openAlerts, closeAlert } = useAlerts();
+  const location = useLocation();
+  const ndlaFilm = useIsNdlaFilm();
+  const hideBreadcrumb = subjectType === 'standard' && !resourceId;
+
+  const [fetchData] = useLazyQuery<GQLMastHeadQuery, GQLMastHeadQueryVariables>(
+    mastHeadQuery,
+    {
+      onCompleted: data =>
+        setState(mapMastheadData({ subjectId, topicId, data })),
+    },
+  );
 
   useEffect(() => {
-    updateData();
-  }, [location.pathname, location.search]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  const [fetchData, { data }] = useLazyQuery<
-    GQLMastHeadQuery,
-    GQLMastHeadQueryVariables
-  >(mastHeadQuery, { ssr: true });
+    setTopicId(topicIdParam ?? '');
+  }, [topicIdParam]);
 
   useEffect(() => {
-    // we set data in state to prevent it from disappearing in view when we refecth
-    if (data) {
-      const stateData = mapMastheadData({ subjectId, topicId, data });
-      setState(stateData);
-    }
-  }, [data]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  const updateData = () => {
-    const { subjectId, resourceId, topicId } = getUrnIdsFromProps({
-      ndlaFilm,
-      match,
-    });
-    if (subjectId) {
-      getData(subjectId, topicId, resourceId);
-    }
-  };
-
-  const onDataFetch = (
-    subjectId: string,
-    topicId?: string,
-    resourceId?: string,
-  ) => {
-    getData(subjectId, topicId, resourceId);
-  };
-
-  const getData = (subjectId: string, topicId = '', resourceId = '') => {
-    setSubjectId(subjectId);
-    if (topicId) {
-      setTopicId(topicId);
-    }
+    if (!topicId && !resourceId && !subjectId) return;
     fetchData({
       variables: {
-        subjectId,
-        topicId,
-        resourceId,
+        subjectId: subjectId ?? '',
+        topicId: topicId ?? '',
+        resourceId: resourceId ?? '',
         skipTopic: !topicId,
         skipResource: !resourceId,
       },
     });
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [topicId, resourceId, subjectId]);
 
-  const { programme } = getUrnIdsFromProps({ match });
-  let currentProgramme;
-  if (programme) {
-    const programmeData = getProgrammeBySlug(programme, locale);
-    if (programmeData) {
-      const grades = mapGradesData(programmeData.grades, locale);
-      currentProgramme = {
-        name: programmeData.name[locale],
-        url: programmeData.url[locale],
-        grades,
-      };
-    }
-  }
-
-  const { subject, topicPath, topicResourcesByType, resource } = state;
-  const path = topicPath ?? [];
+  const { subject, topicResourcesByType, topicPath, resource } = state;
 
   const breadcrumbBlockItems = (subject?.id
     ? toBreadcrumbItems(
         t('breadcrumb.toFrontpage'),
-        [subject, ...path, ...(resource ? [resource] : [])],
+        [subject, ...topicPath, ...(resource ? [resource] : [])],
         locale,
       )
     : []
@@ -158,12 +126,11 @@ const MastheadContainer = ({
     (location.pathname.includes('utdanning') || subject) && (
       <MastheadSearch
         subject={subject}
-        ndlaFilm={ndlaFilm}
         hideOnNarrowScreen={hideOnNarrowScreen}
       />
     );
 
-  const alerts = useAlerts().map(alert => ({
+  const alerts = openAlerts?.map(alert => ({
     content: alert.body || alert.title,
     closable: alert.closable,
     number: alert.number,
@@ -174,34 +141,35 @@ const MastheadContainer = ({
       <Masthead
         fixed
         ndlaFilm={ndlaFilm}
-        skipToMainContentId={skipToMainContentId}
-        infoContent={infoContent}
-        onCloseAlert={id => setClosedAlert(id)}
+        skipToMainContentId={SKIP_TO_CONTENT_ID}
+        onCloseAlert={id => closeAlert(id)}
         messages={alerts}>
         <MastheadItem left>
-          <MastheadMenu
-            subject={subject}
-            ndlaFilm={ndlaFilm}
-            searchFieldComponent={renderSearchComponent(false)}
-            onDataFetch={onDataFetch}
-            topicResourcesByType={topicResourcesByType || []}
-            locale={locale}
-            programmes={getProgrammes(locale)}
-            currentProgramme={currentProgramme}
-            subjectCategories={getCategorizedSubjects(locale)}
-            initialSelectMenu={initialSelectMenu}
-          />
+          <MastheadMenuModal>
+            {(onClose: () => void) => (
+              <MastheadMenu
+                locale={locale}
+                subject={subject}
+                topicResourcesByType={topicResourcesByType ?? []}
+                onTopicChange={newId => setTopicId(newId)}
+                close={onClose}
+              />
+            )}
+          </MastheadMenuModal>
           {!hideBreadcrumb && (
             <DisplayOnPageYOffset yOffsetMin={150}>
-              <BreadcrumbBlock
-                items={
-                  breadcrumbBlockItems.length > 1
-                    ? breadcrumbBlockItems
-                        .slice(1)
-                        .map(uri => ({ name: uri.name!, to: uri.to! }))
-                    : []
-                }
-              />
+              <BreadcrumbWrapper>
+                <HeaderBreadcrumb
+                  light={ndlaFilm}
+                  items={
+                    breadcrumbBlockItems.length > 1
+                      ? breadcrumbBlockItems
+                          .slice(1)
+                          .map(uri => ({ name: uri.name!, to: uri.to! }))
+                      : []
+                  }
+                />
+              </BreadcrumbWrapper>
             </DisplayOnPageYOffset>
           )}
         </MastheadItem>
@@ -212,8 +180,15 @@ const MastheadContainer = ({
             currentLanguage={i18n.language}
           />
           {config.feideEnabled && (
-            <FeideLoginButton location={location}>
-              <Feide title={t('user.buttonLogIn')} />
+            <FeideLoginButton to="/minndla">
+              <FeideLoginLabel data-hj-suppress>
+                {user?.givenName ? (
+                  <span data-hj-suppress>{user.givenName}</span>
+                ) : (
+                  <span>{t('myNdla.myNDLA')}</span>
+                )}
+              </FeideLoginLabel>
+              <Feide />
             </FeideLoginButton>
           )}
           {renderSearchComponent(true)}

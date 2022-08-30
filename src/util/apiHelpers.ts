@@ -9,6 +9,7 @@
 import {
   ApolloClient,
   ApolloLink,
+  FieldFunctionOptions,
   InMemoryCache,
   TypePolicies,
 } from '@apollo/client';
@@ -24,7 +25,11 @@ import {
   isAccessTokenValid,
   renewAuth,
 } from './authHelpers';
-import { GQLBucketResult, GQLGroupSearch } from '../graphqlTypes';
+import {
+  GQLBucketResult,
+  GQLGroupSearch,
+  GQLQueryFolderResourceMetaSearchArgs,
+} from '../graphqlTypes';
 
 export const fetch = createFetch;
 
@@ -96,12 +101,17 @@ const mergeGroupSearch = (
 ) => {
   if (!existing) return incoming;
   return existing.map(group => {
-    const searchResults = incoming.filter(
-      result =>
-        group.resourceType === result.resourceType ||
-        group.resourceType ===
-          getParentType(result.resourceType, result.aggregations?.[0]?.values),
-    );
+    const searchResults = incoming.filter(result => {
+      if (group.resourceType === result.resourceType) {
+        return true;
+      } else if (result.resourceType === 'topic-article') {
+        return false;
+      } else
+        return (
+          group.resourceType ===
+          getParentType(result.resourceType, result.aggregations?.[0]?.values)
+        );
+    });
     if (searchResults.length) {
       const result = searchResults.reduce((accumulator, currentValue) => ({
         ...currentValue,
@@ -135,6 +145,49 @@ const typePolicies: TypePolicies = {
           return mergeGroupSearch(existing, incoming, args?.page);
         },
       },
+      folderResourceMeta: {
+        read(_, { args, toReference }) {
+          return toReference(
+            `FolderResourceMeta:${args!.resource.resourceType}${
+              args!.resource.id
+            }`,
+          );
+        },
+      },
+      folderResourceMetaSearch: {
+        //@ts-ignore
+        read(
+          _,
+          {
+            args,
+            toReference,
+            canRead,
+          }: FieldFunctionOptions<GQLQueryFolderResourceMetaSearchArgs>,
+        ) {
+          const refs = args?.resources.map(arg =>
+            toReference(`FolderResourceMeta:${arg.resourceType}${arg.id}`),
+          );
+
+          if (refs && refs.every(ref => canRead(ref))) {
+            return refs;
+          }
+          return undefined;
+        },
+      },
+    },
+  },
+  Folder: {
+    fields: {
+      subfolders: {
+        merge(existing, incoming) {
+          return existing ? existing : incoming;
+        },
+      },
+      resources: {
+        merge(existing, incoming) {
+          return existing ? existing : incoming;
+        },
+      },
     },
   },
   SearchContext: {
@@ -148,6 +201,9 @@ const typePolicies: TypePolicies = {
   },
   FrontpageSearchResult: {
     keyFields: ['path'],
+  },
+  FolderResourceMeta: {
+    keyFields: obj => `${obj.__typename}:${obj.type}${obj.id}`,
   },
 };
 
@@ -179,13 +235,14 @@ export const createApolloLinks = (
   const feideCookie = getFeideCookie(cookieString ?? '');
   const accessTokenValid = isAccessTokenValid(feideCookie);
   const accessToken = feideCookie?.access_token;
+  const versionHeader = versionHash ? { versionHash: versionHash } : {};
 
   const headersLink = setContext(async (_, { headers }) => {
     return {
       headers: {
         ...headers,
         'Accept-Language': lang,
-        versionHash: versionHash ?? 'default',
+        ...versionHeader,
         ...(accessToken && accessTokenValid
           ? { FeideAuthorization: `Bearer ${accessToken}` }
           : {}),

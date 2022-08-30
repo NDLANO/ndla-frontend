@@ -11,29 +11,27 @@ describe('Film page', () => {
     cy.fixCypressSpec('/e2e/integration/film_page.spec.ts');
     cy.gqlIntercept({
       alias: 'filmPage',
-      operations: ['filmFrontPage', 'alerts'],
-    });
-    cy.gqlIntercept({
-      alias: 'mastHead',
-      operations: ['mastHead'],
+      operations: ['filmFrontPage', 'alerts', 'mastHead'],
     });
   });
 
   it('has content', () => {
     cy.visit('/subject:20?disableSSR=true');
     cy.gqlWait('@filmPage');
-    cy.gqlWait('@mastHead');
-    cy.get('.c-film-slideshow').within(() => {
-      cy.get('h1').contains('Systemsprengeren');
-    });
-    cy.get('.c-film-moviesearch__topic-navigation').within(() => {
-      cy.get('h2').contains('Emner i film');
-      cy.get('nav > ul > li').should($list => {
-        expect($list).to.have.length(7);
+    cy.contains('h1', 'Systemsprengeren').should('be.visible');
+    cy.contains('h2', 'Emner i film')
+      .parent()
+      .within(() => {
+        cy.get('nav > ul > li').should($list => {
+          expect($list).to.have.length(7);
+        });
       });
-    });
-    cy.get('.c-film-movielist').should($list => {
-      expect($list).to.have.length(5);
-    });
+    cy.contains('h1', 'Identitet')
+      .parent()
+      .parent()
+      .children()
+      .should($list => {
+        expect($list).to.have.length(5);
+      });
   });
 });

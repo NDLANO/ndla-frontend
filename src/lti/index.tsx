@@ -27,12 +27,15 @@ import '@fontsource/source-code-pro/700.css';
 import '@fontsource/source-serif-pro/index.css';
 import '@fontsource/source-serif-pro/400-italic.css';
 import '@fontsource/source-serif-pro/700.css';
+import { getCookie } from '@ndla/util';
 import { createApolloClient } from '../util/apiHelpers';
 import LtiProvider from './LtiProvider';
 import '../style/index.css';
+import { STORED_LANGUAGE_COOKIE_KEY } from '../constants';
+import { initializeI18n, isValidLocale } from '../i18n';
 
 const {
-  DATA: { initialProps, config },
+  DATA: { initialProps, config, ltiData },
 } = window;
 
 const { logglyApiKey, logEnvironment: environment, componentName } = config;
@@ -44,14 +47,19 @@ window.errorReporter = ErrorReporter.getInstance({
   ignoreUrls: [/https:\/\/.*hotjar\.com.*/],
 });
 
-const client = createApolloClient(i18nInstance.language, document.cookie);
+const storedLanguage = getCookie(STORED_LANGUAGE_COOKIE_KEY, document.cookie);
+const language = isValidLocale(storedLanguage)
+  ? storedLanguage
+  : config.defaultLocale;
+const client = createApolloClient(language, document.cookie);
+const i18n = initializeI18n(i18nInstance, language);
 
 ReactDOM.render(
   <HelmetProvider>
-    <I18nextProvider i18n={i18nInstance}>
+    <I18nextProvider i18n={i18n}>
       <ApolloProvider client={client}>
         <MissingRouterContext.Provider value={true}>
-          <LtiProvider {...initialProps} />
+          <LtiProvider {...initialProps} ltiData={ltiData} />
         </MissingRouterContext.Provider>
       </ApolloProvider>
     </I18nextProvider>

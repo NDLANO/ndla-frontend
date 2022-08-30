@@ -11,11 +11,12 @@ import { useRef, MouseEvent } from 'react';
 import {
   ArticleSideBar,
   Breadcrumblist,
+  FeideUserApiType,
   MultidisciplinarySubjectHeader,
   OneColumn,
 } from '@ndla/ui';
 import { withTracker } from '@ndla/tracker';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { CustomWithTranslation, withTranslation } from 'react-i18next';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import { htmlTitle } from '../../../util/titleHelper';
 import { getSubjectLongName } from '../../../data/subjects';
@@ -27,8 +28,6 @@ import {
   GQLMultidisciplinarySubjectArticle_SubjectFragment,
   GQLMultidisciplinarySubjectArticle_TopicFragment,
 } from '../../../graphqlTypes';
-import { LocaleType } from '../../../interfaces';
-import { FeideUserWithGroups } from '../../../util/feideApi';
 import { transformArticle } from '../../../util/transformArticle';
 
 const filterCodes: Record<string, 'publicHealth' | 'democracy' | 'climate'> = {
@@ -37,13 +36,12 @@ const filterCodes: Record<string, 'publicHealth' | 'democracy' | 'climate'> = {
   TT3: 'climate',
 };
 
-interface Props extends WithTranslation {
+interface Props extends CustomWithTranslation {
   copyPageUrlLink?: string;
   topic: GQLMultidisciplinarySubjectArticle_TopicFragment;
   subject: GQLMultidisciplinarySubjectArticle_SubjectFragment;
-  locale: LocaleType;
   resourceTypes?: GQLMultidisciplinarySubjectArticle_ResourceTypeDefinitionFragment[];
-  user?: FeideUserWithGroups;
+  user?: FeideUserApiType;
   skipToContentId?: string;
 }
 
@@ -51,7 +49,7 @@ const MultidisciplinarySubjectArticle = ({
   copyPageUrlLink,
   topic,
   subject,
-  locale,
+  i18n,
   resourceTypes,
   skipToContentId,
 }: Props) => {
@@ -75,7 +73,7 @@ const MultidisciplinarySubjectArticle = ({
     ?.filter(grepCode => grepCode.startsWith('TT'))
     .map(code => filterCodes[code]!);
 
-  const article = transformArticle(topic.article, locale);
+  const article = transformArticle(topic.article, i18n.language);
 
   return (
     <>
@@ -92,12 +90,13 @@ const MultidisciplinarySubjectArticle = ({
       />
       <OneColumn>
         <Article
+          myNdlaResourceType="multidisciplinary"
           id={skipToContentId}
           article={article}
           label=""
-          locale={locale}
           isTopicArticle={false}
           isResourceArticle={false}
+          showFavoriteButton={true}
         />
         <div ref={resourcesRef}>
           <Resources topic={topic} resourceTypes={resourceTypes} />
@@ -159,7 +158,7 @@ MultidisciplinarySubjectArticle.willTrackPageView = (
 };
 
 MultidisciplinarySubjectArticle.getDimensions = (props: Props) => {
-  const { topic, locale, subject, user } = props;
+  const { topic, i18n, subject, user } = props;
   const topicPath = topic.path
     ?.split('/')
     .slice(2)
@@ -167,7 +166,7 @@ MultidisciplinarySubjectArticle.getDimensions = (props: Props) => {
       subject.allTopics?.find(topic => topic.id.replace('urn:', '') === t),
     );
 
-  const longName = getSubjectLongName(subject?.id, locale);
+  const longName = getSubjectLongName(subject?.id, i18n.language);
 
   return getAllDimensions(
     {

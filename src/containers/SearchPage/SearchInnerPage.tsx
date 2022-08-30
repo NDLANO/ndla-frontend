@@ -7,7 +7,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Location } from 'history';
+import { Location } from 'react-router-dom';
 import SearchContainer from './SearchContainer';
 import {
   getTypeFilter,
@@ -80,13 +80,17 @@ const SearchInnerPage = ({
 }: Props) => {
   const { t, i18n } = useTranslation();
   const [showConcepts, setShowConcepts] = useState(true);
-  const [typeFilter, setTypeFilter] = useState(
-    getTypeFilter(resourceTypes, selectedFilters, activeSubFilters, t),
-  );
+  const [typeFilter, setTypeFilter] = useState<Record<string, TypeFilter>>({});
   const [competenceGoals, setCompetenceGoals] = useState<
     SearchCompetenceGoal[]
   >([]);
   const initialGQLCall = useRef(true);
+
+  useEffect(() => {
+    setTypeFilter(
+      getTypeFilter(resourceTypes, selectedFilters, activeSubFilters, t),
+    );
+  }, [resourceTypes, selectedFilters, activeSubFilters, t]);
 
   useEffect(() => {
     setShowConcepts(true);
@@ -120,12 +124,12 @@ const SearchInnerPage = ({
       grepCodesList: searchParams.grepCodes,
     },
     notifyOnNetworkStatusChange: true,
-    onCompleted: data => {
+    onCompleted: async data => {
       if (
         initialGQLCall.current &&
         activeSubFiltersWithoutLeading.length !== 0
       ) {
-        fetchMore({
+        await fetchMore({
           variables: {
             ...getTypeParams(activeSubFiltersWithoutLeading, resourceTypes),
           },
@@ -255,8 +259,12 @@ const SearchInnerPage = ({
           page: page,
           pageSize: pageSize,
           ...getTypeParams(
-            activeFilters.length ? activeFilters : [type],
-            resourceTypes,
+            activeFilters.length
+              ? activeFilters
+              : type === 'topic-article'
+              ? []
+              : [type],
+            type === 'topic-article' ? [] : resourceTypes,
           ),
         },
       });

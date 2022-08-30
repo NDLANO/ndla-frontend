@@ -11,7 +11,7 @@ import { FrontpageSearch } from '@ndla/ui';
 import { useLazyQuery } from '@apollo/client';
 import { debounce } from 'lodash';
 import { useTranslation } from 'react-i18next';
-import { RouteComponentProps, withRouter } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 
 import handleError from '../../util/handleError';
 import { frontpageSearchQuery } from '../../queries';
@@ -26,11 +26,12 @@ import { LocaleType } from '../../interfaces';
 
 const debounceCall = debounce((fn: () => void) => fn(), 300);
 
-const WelcomePageSearch = ({ history }: RouteComponentProps) => {
+const WelcomePageSearch = () => {
   const [query, setQuery] = useState('');
   const [delayedSearchQuery, setDelayedSearchQuery] = useState('');
   const [inputHasFocus, setInputHasFocus] = useState(false);
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
   const locale = i18n.language as LocaleType;
 
   const [runSearch, { loading, data: searchResult, error }] = useLazyQuery(
@@ -66,7 +67,7 @@ const WelcomePageSearch = ({ history }: RouteComponentProps) => {
 
   const onSearch = (evt: FormEvent) => {
     evt.preventDefault();
-    history.push(allResultsUrl);
+    navigate(allResultsUrl);
   };
 
   return (
@@ -97,4 +98,4 @@ const WelcomePageSearch = ({ history }: RouteComponentProps) => {
   );
 };
 
-export default withRouter(WelcomePageSearch);
+export default WelcomePageSearch;

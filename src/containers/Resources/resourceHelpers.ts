@@ -22,12 +22,14 @@ export const isLearningPathResource = (
   hasContentUri(resource) &&
   resource!.contentUri!.startsWith(URN_LEARTNING_PATH);
 
-export const isArticleResource = (resource: GQLResource) =>
+export const isArticleResource = (resource: Pick<GQLResource, 'contentUri'>) =>
   hasContentUri(resource) &&
   resource!.contentUri!.startsWith(URN_ARTICLE) &&
   resource!.contentUri!.length > 12;
 
-export const getArticleIdFromResource = (resource: GQLResource) => {
+export const getArticleIdFromResource = (
+  resource: Pick<GQLResource, 'contentUri'>,
+) => {
   if (isArticleResource(resource)) {
     return resource!.contentUri!.replace(URN_ARTICLE, '');
   }
@@ -53,7 +55,7 @@ export function getLearningPathUrlFromResource(
 }
 
 export const resourceToLinkProps = (
-  resource: GQLResource,
+  resource: Pick<GQLResource, 'id' | 'path' | 'contentUri'>,
   subjectTopicPath: string,
 ) => {
   if (isLearningPathResource(resource)) {

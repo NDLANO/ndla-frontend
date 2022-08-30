@@ -7,14 +7,20 @@
  */
 
 import { gql } from '@apollo/client';
+import {
+  Hero,
+  HeroContentType,
+  HomeBreadcrumb,
+  NdlaFilmHero,
+  OneColumn,
+} from '@ndla/ui';
 import { ReactNode } from 'react';
-import { Hero, OneColumn, Breadcrumb, NdlaFilmHero } from '@ndla/ui';
-import { HeroContentType } from '@ndla/ui/lib/Hero';
 import {
   GQLArticleHero_MetaImageFragment,
   GQLArticleHero_SubjectFragment,
 } from '../../../graphqlTypes';
 import { Breadcrumb as BreadcrumbType } from '../../../interfaces';
+import { useIsNdlaFilm } from '../../../routeHelpers';
 interface WrapperProps {
   children: ReactNode;
   resourceType?: HeroContentType;
@@ -39,7 +45,6 @@ const WrapperComponent = ({
 };
 
 interface Props {
-  ndlaFilm?: boolean;
   subject?: GQLArticleHero_SubjectFragment;
   resourceType?: HeroContentType;
   metaImage?: GQLArticleHero_MetaImageFragment;
@@ -49,32 +54,35 @@ interface Props {
 const ArticleHero = ({
   resourceType,
   metaImage,
-  ndlaFilm,
   subject,
   breadcrumbItems,
-}: Props) => (
-  <WrapperComponent
-    ndlaFilm={ndlaFilm}
-    resourceType={resourceType}
-    metaImage={metaImage}>
-    {ndlaFilm && metaImage && metaImage.url && (
-      <div className="c-hero__background">
-        <img src={metaImage.url} alt={metaImage.alt} />
-      </div>
-    )}
-    <OneColumn>
-      <div className="c-hero__content">
-        <section>
-          {subject && (
-            <Breadcrumb items={breadcrumbItems} invertedStyle={false}>
-              <></>
-            </Breadcrumb>
-          )}
-        </section>
-      </div>
-    </OneColumn>
-  </WrapperComponent>
-);
+}: Props) => {
+  const ndlaFilm = useIsNdlaFilm();
+  return (
+    <WrapperComponent
+      ndlaFilm={ndlaFilm}
+      resourceType={resourceType}
+      metaImage={metaImage}>
+      {ndlaFilm && metaImage && metaImage.url && (
+        <div className="c-hero__background">
+          <img src={metaImage.url} alt={metaImage.alt} />
+        </div>
+      )}
+      <OneColumn>
+        <div className="c-hero__content">
+          <section>
+            {subject && (
+              <HomeBreadcrumb
+                light={!!ndlaFilm ? true : undefined}
+                items={breadcrumbItems}
+              />
+            )}
+          </section>
+        </div>
+      </OneColumn>
+    </WrapperComponent>
+  );
+};
 
 ArticleHero.fragments = {
   subject: gql`

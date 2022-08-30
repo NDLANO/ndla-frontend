@@ -7,18 +7,16 @@
  */
 
 import { gql } from '@apollo/client';
-import { MouseEvent } from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
-import { Topic } from '@ndla/ui';
+import { CustomWithTranslation, withTranslation } from 'react-i18next';
+import { FeideUserApiType, Topic } from '@ndla/ui';
 import { withTracker } from '@ndla/tracker';
-import { TopicProps } from '@ndla/ui/lib/Topic/Topic';
+import { TopicProps } from '@ndla/ui';
 import VisualElementWrapper, {
   getResourceType,
 } from '../../../components/VisualElement/VisualElementWrapper';
 import { toTopic } from '../../../routeHelpers';
 import { getCrop, getFocalPoint } from '../../../util/imageHelpers';
 import Resources from '../../Resources/Resources';
-import { LocaleType } from '../../../interfaces';
 import {
   GQLToolboxTopicWrapper_ResourceTypeDefinitionFragment,
   GQLToolboxTopicWrapper_SubjectFragment,
@@ -27,22 +25,15 @@ import {
 import { getSubjectLongName } from '../../../data/subjects';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import { htmlTitle } from '../../../util/titleHelper';
-import { FeideUserWithGroups } from '../../../util/feideApi';
 
-interface Props extends WithTranslation {
+interface Props extends CustomWithTranslation {
   subject: GQLToolboxTopicWrapper_SubjectFragment;
   topic: GQLToolboxTopicWrapper_TopicFragment;
   resourceTypes?: GQLToolboxTopicWrapper_ResourceTypeDefinitionFragment[];
-  locale: LocaleType;
-  onSelectTopic: (
-    e: MouseEvent<HTMLAnchorElement>,
-    index: number,
-    id?: string,
-  ) => void;
   topicList: Array<string>;
   index: number;
   loading?: boolean;
-  user?: FeideUserWithGroups;
+  user?: FeideUserApiType;
 }
 
 const getDocumentTitle = ({ t, topic }: Props) => {
@@ -51,8 +42,6 @@ const getDocumentTitle = ({ t, topic }: Props) => {
 
 const ToolboxTopicWrapper = ({
   subject,
-  locale,
-  onSelectTopic,
   topicList,
   index,
   topic,
@@ -86,10 +75,7 @@ const ToolboxTopicWrapper = ({
         visualElement: {
           type: getResourceType(article.visualElement.resource),
           element: (
-            <VisualElementWrapper
-              visualElement={article.visualElement}
-              locale={locale}
-            />
+            <VisualElementWrapper visualElement={article.visualElement} />
           ),
         },
       }),
@@ -120,9 +106,6 @@ const ToolboxTopicWrapper = ({
       frame={subTopics?.length === 0}
       isLoading={loading}
       subTopics={subTopics}
-      onSubTopicSelected={(e: MouseEvent<HTMLElement>, id?: string) =>
-        onSelectTopic(e as MouseEvent<HTMLAnchorElement>, index + 1, id)
-      }
       topic={toolboxTopic.topic}
     />
   );
@@ -143,12 +126,12 @@ ToolboxTopicWrapper.willTrackPageView = (
 };
 
 ToolboxTopicWrapper.getDimensions = (props: Props) => {
-  const { subject, locale, topicList, topic, user } = props;
+  const { subject, i18n, topicList, topic, user } = props;
   const topicPath = topicList.map(t =>
     subject.allTopics?.find(topic => topic.id === t),
   );
 
-  const longName = getSubjectLongName(subject?.id, locale);
+  const longName = getSubjectLongName(subject?.id, i18n.language);
 
   return getAllDimensions(
     {

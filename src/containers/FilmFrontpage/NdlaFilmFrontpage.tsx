@@ -18,12 +18,9 @@ import {
   GQLFilmFrontPageQuery,
   GQLSearchWithoutPaginationQuery,
 } from '../../graphqlTypes';
+import { SKIP_TO_CONTENT_ID } from '../../constants';
 
 const ALL_MOVIES_ID = 'ALL_MOVIES_ID';
-
-interface Props {
-  skipToContentId?: string;
-}
 
 export type MoviesByType = {
   id: number;
@@ -48,7 +45,7 @@ const filmFrontPageQuery = gql`
   ${filmFrontpageFragments.filmFrontpage}
 `;
 
-const NdlaFilm = ({ skipToContentId }: Props) => {
+const NdlaFilm = () => {
   const [moviesByType, setMoviesByType] = useState<MoviesByType[]>([]);
   const [showingAll, setShowingAll] = useState(false);
   const [fetchingMoviesByType, setFetchingMoviesByType] = useState(false);
@@ -119,7 +116,7 @@ const NdlaFilm = ({ skipToContentId }: Props) => {
       resourceTypes={allResourceTypes}
       onSelectedMovieByType={onSelectedMovieByType}
       fetchingMoviesByType={fetchingMoviesByType}
-      skipToContentId={skipToContentId}
+      skipToContentId={SKIP_TO_CONTENT_ID}
     />
   );
 };

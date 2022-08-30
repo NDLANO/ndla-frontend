@@ -18,11 +18,10 @@ import { uuid } from '@ndla/util';
 import { GQLVisualElementWrapper_VisualElementFragment } from '../../graphqlTypes';
 import VisualElement from './VisualElement';
 import VisualElementLicenseButtons from './VisualElementLicenseButtons';
-import { LocaleType, ResourceType } from '../../interfaces';
+import { ResourceType } from '../../interfaces';
 
 interface Props {
   visualElement: GQLVisualElementWrapper_VisualElementFragment;
-  locale: LocaleType;
 }
 
 export const getResourceType = (VisualElementType?: string): ResourceType => {
@@ -37,8 +36,8 @@ export const getResourceType = (VisualElementType?: string): ResourceType => {
   }
 };
 
-const VisualElementWrapper = ({ visualElement, locale }: Props) => {
-  const { t } = useTranslation();
+const VisualElementWrapper = ({ visualElement }: Props) => {
+  const { t, i18n } = useTranslation();
   useEffect(() => {
     initArticleScripts();
   }, []);
@@ -52,7 +51,7 @@ const VisualElementWrapper = ({ visualElement, locale }: Props) => {
       creators: copyright?.creators || [],
       processors: copyright?.processors || [],
     },
-    locale,
+    i18n.language,
   ).map(item => ({
     name: item.description,
     type: item.label,
@@ -91,7 +90,7 @@ const VisualElementWrapper = ({ visualElement, locale }: Props) => {
         <FigureCaption
           id={id}
           figureId={figureId}
-          locale={locale}
+          locale={i18n.language}
           caption={caption}
           reuseLabel={messages.reuse}
           licenseRights={license.rights}
@@ -99,7 +98,7 @@ const VisualElementWrapper = ({ visualElement, locale }: Props) => {
           <FigureLicenseDialog
             id={id}
             authors={contributors}
-            locale={locale}
+            locale={i18n.language}
             license={license}
             messages={messages}
             title={visualElement.title}

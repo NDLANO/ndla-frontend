@@ -10,6 +10,7 @@ import { gql } from '@apollo/client';
 import { Helmet } from 'react-helmet-async';
 import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
+import { useTranslation } from 'react-i18next';
 import Article from '../Article';
 import { transformArticle } from '../../util/transformArticle';
 import { getArticleScripts } from '../../util/getArticleScripts';
@@ -18,7 +19,7 @@ import getStructuredDataFromArticle, {
 } from '../../util/getStructuredDataFromArticle';
 import { getArticleProps } from '../../util/getArticleProps';
 import LearningpathIframe from './LearningpathIframe';
-import { Breadcrumb, LocaleType } from '../../interfaces';
+import { Breadcrumb } from '../../interfaces';
 import ErrorPage from '../../containers/ErrorPage';
 import {
   GQLLearningpathEmbed_LearningpathStepFragment,
@@ -44,16 +45,15 @@ interface Props {
   learningpathStep: GQLLearningpathEmbed_LearningpathStepFragment;
   topic?: GQLLearningpathEmbed_TopicFragment;
   skipToContentId?: string;
-  locale: LocaleType;
   breadcrumbItems: Breadcrumb[];
 }
 const LearningpathEmbed = ({
   learningpathStep,
   skipToContentId,
-  locale,
   topic,
   breadcrumbItems,
 }: Props) => {
+  const { i18n } = useTranslation();
   if (
     !learningpathStep ||
     (!learningpathStep.resource &&
@@ -81,10 +81,13 @@ const LearningpathEmbed = ({
   const learningpathStepResource = learningpathStep.resource;
 
   if (!learningpathStepResource?.article) {
-    return <ErrorPage locale={locale} />;
+    return <ErrorPage />;
   }
 
-  const article = transformArticle(learningpathStepResource.article, locale);
+  const article = transformArticle(
+    learningpathStepResource.article,
+    i18n.language,
+  );
   const scripts = getArticleScripts(article);
   return (
     <>
@@ -115,7 +118,6 @@ const LearningpathEmbed = ({
         isPlainArticle
         id={skipToContentId}
         article={article}
-        locale={locale}
         {...getArticleProps(learningpathStepResource, topic)}
       />
     </>

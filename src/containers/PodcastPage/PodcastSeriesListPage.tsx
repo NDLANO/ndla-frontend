@@ -7,11 +7,12 @@
  */
 
 import { useEffect } from 'react';
-import { OneColumn, Spinner } from '@ndla/ui';
+import { OneColumn } from '@ndla/ui';
+import { Spinner } from '@ndla/icons';
 import Pager from '@ndla/pager';
 import { useTranslation } from 'react-i18next';
-import { useNavigate, useLocation } from 'react-router-dom-v5-compat';
-import { gql, useApolloClient, useQuery } from '@apollo/client';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { gql, useApolloClient } from '@apollo/client';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { parse, stringify } from 'query-string';
@@ -19,6 +20,7 @@ import { HelmetWithTracker } from '@ndla/tracker';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import { GQLPodcastSeriesListPageQuery } from '../../graphqlTypes';
 import PodcastSeries from './PodcastSeries';
+import { useGraphQuery } from '../../util/runQueries';
 
 type SearchObject = {
   page: string;
@@ -60,12 +62,13 @@ const PodcastSeriesListPage = () => {
 
   const apolloClient = useApolloClient();
 
-  const { error, loading, data, previousData } = useQuery<
+  const { error, loading, data, previousData } = useGraphQuery<
     GQLPodcastSeriesListPageQuery
   >(podcastSeriesListPageQuery, {
     variables: {
       page: page,
       pageSize: pageSize,
+      fallback: true,
     },
   });
 
@@ -85,6 +88,7 @@ const PodcastSeriesListPage = () => {
         variables: {
           page: nextPage,
           pageSize: pageSize,
+          fallback: true,
         },
       });
     }
@@ -131,7 +135,9 @@ const PodcastSeriesListPage = () => {
           <div>
             {results?.length ? (
               results.map(series => {
-                return <PodcastSeries {...series} />;
+                return (
+                  <PodcastSeries key={`podcast-${series.id}`} {...series} />
+                );
               })
             ) : (
               <NoResult>{t('podcastPage.noResults')}</NoResult>
@@ -152,8 +158,12 @@ const PodcastSeriesListPage = () => {
 
 const podcastSeriesListPageQuery = gql`
   ${PodcastSeries.fragments.series}
-  query podcastSeriesListPage($page: Int!, $pageSize: Int!) {
-    podcastSeriesSearch(page: $page, pageSize: $pageSize) {
+  query podcastSeriesListPage(
+    $page: Int!
+    $pageSize: Int!
+    $fallback: Boolean
+  ) {
+    podcastSeriesSearch(page: $page, pageSize: $pageSize, fallback: $fallback) {
       results {
         ...PodcastSeries_PodcastSeriesSummary
       }

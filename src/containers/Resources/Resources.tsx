@@ -9,7 +9,6 @@
 import { gql } from '@apollo/client';
 import { useEffect, useState } from 'react';
 import { ResourcesWrapper, ResourcesTopicTitle, ResourceGroup } from '@ndla/ui';
-import { useRouteMatch } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { contentTypeMapping } from '../../util/getContentType';
 import { getResourceGroups, sortResourceTypes } from './getResourceGroups';
@@ -21,8 +20,12 @@ import {
   GQLResources_ResourceTypeDefinitionFragment,
   GQLResources_TopicFragment,
 } from '../../graphqlTypes';
+import { TypedParams, useIsNdlaFilm, useTypedParams } from '../../routeHelpers';
+import config from '../../config';
+import AddResourceToFolderModal from '../../components/MyNdla/AddResourceToFolderModal';
+import { ResourceAttributes } from '../../components/MyNdla/AddResourceToFolder';
 
-interface MatchProps {
+interface MatchProps extends TypedParams {
   topicId?: string;
   topicPath?: string;
   subjectId?: string;
@@ -32,11 +35,14 @@ interface MatchProps {
 interface Props {
   topic: GQLResources_TopicFragment;
   resourceTypes?: GQLResources_ResourceTypeDefinitionFragment[];
-  ndlaFilm?: boolean;
 }
-const Resources = ({ topic, resourceTypes, ndlaFilm }: Props) => {
-  const { params } = useRouteMatch<MatchProps>();
+const Resources = ({ topic, resourceTypes }: Props) => {
+  const params = useTypedParams<MatchProps>();
   const [showAdditionalResources, setShowAdditionalResources] = useState(false);
+  const [resourceToAdd, setResourceToAdd] = useState<
+    ResourceAttributes | undefined
+  >(undefined);
+  const ndlaFilm = useIsNdlaFilm();
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -157,7 +163,8 @@ const Resources = ({ topic, resourceTypes, ndlaFilm }: Props) => {
           showAdditionalResources={showAdditionalResources}
           toggleAdditionalResources={toggleAdditionalResources}
           invertedStyle={ndlaFilm}
-          // bad type, never called but required
+          showAddToFavoriteButton={config.feideEnabled}
+          onToggleAddToFavorites={() => {}}
           onClick={() => {}}
         />
       )}
@@ -171,10 +178,30 @@ const Resources = ({ topic, resourceTypes, ndlaFilm }: Props) => {
             toggleAdditionalResources={toggleAdditionalResources}
             contentType={type.contentType}
             invertedStyle={ndlaFilm}
-            // bad type, never called but required.
+            showAddToFavoriteButton={config.feideEnabled}
+            onToggleAddToFavorites={id => {
+              const resource = type.resources?.find(res => res.id === id);
+              const [, resourceType, articleIdString] =
+                resource?.contentUri?.split(':') ?? [];
+              const articleId = articleIdString
+                ? parseInt(articleIdString)
+                : undefined;
+              if (!resourceType || !articleId || !resource?.path) return;
+
+              setResourceToAdd({
+                id: articleId,
+                path: resource.path,
+                resourceType,
+              });
+            }}
             onClick={() => {}}
           />
         ))}
+      <AddResourceToFolderModal
+        isOpen={!!resourceToAdd}
+        onClose={() => setResourceToAdd(undefined)}
+        resource={resourceToAdd!}
+      />
     </ResourcesWrapper>
   );
 };

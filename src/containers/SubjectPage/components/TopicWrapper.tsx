@@ -1,12 +1,12 @@
 import { gql } from '@apollo/client';
-import { useContext, useEffect, MouseEvent } from 'react';
-import { useHistory, useLocation } from 'react-router';
-import Spinner from '@ndla/ui/lib/Spinner';
+import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Spinner } from '@ndla/icons';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import Topic, { topicFragments } from './Topic';
 import { useGraphQuery } from '../../../util/runQueries';
 import handleError, { isAccessDeniedError } from '../../../util/handleError';
-import { BreadcrumbItem, LocaleType } from '../../../interfaces';
+import { BreadcrumbItem } from '../../../interfaces';
 import {
   GQLTopicWrapperQuery,
   GQLTopicWrapperQueryVariables,
@@ -17,9 +17,6 @@ type Props = {
   topicId: string;
   subjectId: string;
   subTopicId?: string;
-  locale: LocaleType;
-  ndlaFilm?: boolean;
-  onClickTopics: (e: MouseEvent<HTMLAnchorElement>) => void;
   setBreadCrumb: (item: BreadcrumbItem) => void;
   index: number;
   showResources: boolean;
@@ -44,16 +41,12 @@ const TopicWrapper = ({
   subTopicId,
   topicId,
   subjectId,
-  locale,
-  ndlaFilm,
-  onClickTopics,
   setBreadCrumb,
   showResources,
   subject,
   index,
 }: Props) => {
-  const location = useLocation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const { user } = useContext(AuthContext);
   const { data, loading, error } = useGraphQuery<
     GQLTopicWrapperQuery,
@@ -75,18 +68,11 @@ const TopicWrapper = ({
   if (error) {
     handleError(error);
     if (isAccessDeniedError(error)) {
-      history.replace('/403');
+      navigate('/403', { replace: true });
     } else {
-      history.replace('/404');
+      navigate('/404', { replace: true });
     }
   }
-
-  useEffect(() => {
-    // Set localStorage 'lastPath' so feide authentication redirects us back here if logged in.
-    if (isAccessDeniedError(error)) {
-      localStorage.setItem('lastPath', location.pathname);
-    }
-  }, [error, location]);
 
   if (loading || !data?.topic?.article) {
     return <Spinner />;
@@ -99,9 +85,6 @@ const TopicWrapper = ({
       topicId={topicId}
       subjectId={subjectId}
       subTopicId={subTopicId}
-      locale={locale}
-      ndlaFilm={ndlaFilm}
-      onClickTopics={onClickTopics}
       showResources={showResources}
       subject={subject}
       loading={loading}

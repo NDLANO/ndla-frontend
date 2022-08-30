@@ -8,12 +8,11 @@
 
 import { gql } from '@apollo/client';
 import { useContext } from 'react';
-import { RouteComponentProps, withRouter } from 'react-router';
 import { ContentPlaceholder } from '@ndla/ui';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import { useGraphQuery } from '../../util/runQueries';
-import { getUrnIdsFromProps } from '../../routeHelpers';
+import { useUrnIds } from '../../routeHelpers';
 import MultidisciplinarySubjectArticle, {
   multidisciplinarySubjectArticleFragments,
 } from './components/MultidisciplinarySubjectArticle';
@@ -25,10 +24,8 @@ import {
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import { htmlTitle } from '../../util/titleHelper';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
-import { RootComponentProps } from '../../routes';
 import { AuthContext } from '../../components/AuthenticationContext';
-
-interface Props extends RootComponentProps, RouteComponentProps {}
+import { SKIP_TO_CONTENT_ID } from '../../constants';
 
 const multidisciplinarySubjectArticlePageQuery = gql`
   query multidisciplinarySubjectArticlePage(
@@ -58,14 +55,10 @@ const multidisciplinarySubjectArticlePageQuery = gql`
   ${multidisciplinarySubjectArticleFragments.subject}
 `;
 
-const MultidisciplinarySubjectArticlePage = ({
-  match,
-  locale,
-  skipToContentId,
-}: Props) => {
+const MultidisciplinarySubjectArticlePage = () => {
   const { t } = useTranslation();
   const { user } = useContext(AuthContext);
-  const { topicId, subjectId } = getUrnIdsFromProps({ match });
+  const { topicId, subjectId } = useUrnIds();
 
   const { data, loading } = useGraphQuery<
     GQLMultidisciplinarySubjectArticlePageQuery,
@@ -116,16 +109,15 @@ const MultidisciplinarySubjectArticlePage = ({
         }}
       />
       <MultidisciplinarySubjectArticle
-        skipToContentId={skipToContentId}
+        skipToContentId={SKIP_TO_CONTENT_ID}
         topic={topic}
         subject={subject}
         resourceTypes={resourceTypes}
         copyPageUrlLink={copyPageUrlLink}
-        locale={locale}
         user={user}
       />
     </>
   );
 };
 
-export default withRouter(MultidisciplinarySubjectArticlePage);
+export default MultidisciplinarySubjectArticlePage;

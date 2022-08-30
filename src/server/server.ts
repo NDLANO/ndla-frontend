@@ -20,12 +20,13 @@ import {
 } from './routes';
 import contentSecurityPolicy from './contentSecurityPolicy';
 import handleError from '../util/handleError';
-import { routes as appRoutes } from '../routes';
+import { routes } from '../routes';
 import { getLocaleInfoFromPath } from '../i18n';
 import ltiConfig from './ltiConfig';
 import {
   FILM_PAGE_PATH,
   NOT_FOUND_PAGE_PATH,
+  STORED_LANGUAGE_COOKIE_KEY,
   UKR_PAGE_PATH,
 } from '../constants';
 import { generateOauthData } from './helpers/oauthHelper';
@@ -74,10 +75,9 @@ const ndlaMiddleware = [
     frameguard:
       process.env.NODE_ENV === 'development'
         ? {
-            action: 'allow-from',
-            domain: '*://localhost',
+            action: 'sameorigin',
           }
-        : { action: 'allow-from', domain: '*://sti.ndla.no' },
+        : { action: 'deny' },
   }),
 ];
 
@@ -107,6 +107,7 @@ app.get(
   '/ukr',
   ndlaMiddleware,
   (_req: Request, res: Response, _next: NextFunction) => {
+    res.cookie(STORED_LANGUAGE_COOKIE_KEY, 'en');
     res.redirect(`/en${UKR_PAGE_PATH}`);
   },
 );
@@ -279,7 +280,7 @@ app.get(
   '/*',
   (req: Request, _res: Response, next: NextFunction) => {
     const { basepath: path } = getLocaleInfoFromPath(req.path);
-    const route = appRoutes.find(r => matchPath(path, r)); // match with routes used in frontend
+    const route = routes.find(r => matchPath(r, path)); // match with routes used in frontend
     if (!route) {
       next('route'); // skip to next route (i.e. proxy)
     } else {

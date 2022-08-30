@@ -8,7 +8,6 @@
 
 import { gql } from '@apollo/client';
 import { createRef, useContext, useEffect } from 'react';
-import { RouteComponentProps, withRouter } from 'react-router';
 import {
   ContentPlaceholder,
   MultidisciplinarySubject,
@@ -17,7 +16,7 @@ import {
 
 import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet-async';
-import { getUrnIdsFromProps, toTopic } from '../../routeHelpers';
+import { toTopic, useUrnIds } from '../../routeHelpers';
 import { useGraphQuery } from '../../util/runQueries';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import MultidisciplinaryTopicWrapper from './components/MultidisciplinaryTopicWrapper';
@@ -28,9 +27,6 @@ import {
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { AuthContext } from '../../components/AuthenticationContext';
 import { htmlTitle } from '../../util/titleHelper';
-import { RootComponentProps } from '../../routes';
-
-interface Props extends RootComponentProps, RouteComponentProps {}
 
 const multidisciplinarySubjectPageQuery = gql`
   query multidisciplinarySubjectPage($subjectId: String!) {
@@ -60,13 +56,10 @@ const multidisciplinarySubjectPageQuery = gql`
   ${MultidisciplinaryTopicWrapper.fragments.subject}
 `;
 
-const MultidisciplinarySubjectPage = ({ match, locale }: Props) => {
+const MultidisciplinarySubjectPage = () => {
   const { t } = useTranslation();
   const { user } = useContext(AuthContext);
-  const { subjectId, topicList: selectedTopics } = getUrnIdsFromProps({
-    ndlaFilm: false,
-    match,
-  });
+  const { subjectId, topicList: selectedTopics } = useUrnIds();
   const refs = selectedTopics.map(_ => createRef<HTMLDivElement>());
 
   useEffect(() => {
@@ -145,7 +138,6 @@ const MultidisciplinarySubjectPage = ({ match, locale }: Props) => {
               topicId={topicId}
               subjectId={subject.id}
               subTopicId={selectedTopics[index + 1]}
-              locale={locale}
               subject={subject}
               user={user}
             />
@@ -203,4 +195,4 @@ const MultidisciplinarySubjectPage = ({ match, locale }: Props) => {
   );
 };
 
-export default withRouter(MultidisciplinarySubjectPage);
+export default MultidisciplinarySubjectPage;

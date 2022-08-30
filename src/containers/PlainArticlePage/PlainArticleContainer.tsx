@@ -10,7 +10,7 @@ import { gql } from '@apollo/client';
 import { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { CustomWithTranslation, withTranslation } from 'react-i18next';
-import { OneColumn } from '@ndla/ui';
+import { FeideUserApiType, OneColumn } from '@ndla/ui';
 import { withTracker } from '@ndla/tracker';
 import { transformArticle } from '../../util/transformArticle';
 import { getArticleScripts } from '../../util/getArticleScripts';
@@ -22,15 +22,12 @@ import getStructuredDataFromArticle, {
 } from '../../util/getStructuredDataFromArticle';
 import { htmlTitle } from '../../util/titleHelper';
 import { GQLPlainArticleContainer_ArticleFragment } from '../../graphqlTypes';
-import { LocaleType } from '../../interfaces';
 import { getArticleProps } from '../../util/getArticleProps';
 import { getAllDimensions } from '../../util/trackingUtil';
-import { FeideUserWithGroups } from '../../util/feideApi';
 
 interface Props extends CustomWithTranslation {
   article: GQLPlainArticleContainer_ArticleFragment;
-  locale: LocaleType;
-  user?: FeideUserWithGroups;
+  user?: FeideUserApiType;
   skipToContentId?: string;
 }
 
@@ -39,7 +36,7 @@ const getDocumentTitle = ({ t, article }: Pick<Props, 't' | 'article'>) =>
 
 const PlainArticleContainer = ({
   article: propArticle,
-  locale,
+  i18n,
   t,
   skipToContentId,
 }: Props) => {
@@ -49,7 +46,7 @@ const PlainArticleContainer = ({
     }
   });
 
-  const article = transformArticle(propArticle, locale);
+  const article = transformArticle(propArticle, i18n.language);
   if (!article) return <NotFoundPage />;
   const scripts = getArticleScripts(article);
 
@@ -86,7 +83,6 @@ const PlainArticleContainer = ({
           isPlainArticle
           id={skipToContentId}
           article={article}
-          locale={locale}
           {...getArticleProps(undefined, undefined)}
         />
       </OneColumn>

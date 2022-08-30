@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { toTopicWithBoundParams } from '../MastheadTopics';
+import { toTopicWithBoundParams } from '../MastheadMenu';
 
 const expandedTopicIds = [
   'urn:topic:main',
@@ -17,7 +17,7 @@ const expandedTopicIds = [
 test('Get path to main topicId', () => {
   const pathToMain = toTopicWithBoundParams(
     'urn:subject:1',
-    expandedTopicIds,
+    ...expandedTopicIds,
   )('urn:topic:main');
 
   expect(pathToMain).toBe('/subject:1/topic:main/');
@@ -26,7 +26,7 @@ test('Get path to main topicId', () => {
 test('Get path to sub topicId', () => {
   const pathToSub = toTopicWithBoundParams(
     'urn:subject:1',
-    expandedTopicIds,
+    ...expandedTopicIds,
   )('urn:topic:sub');
 
   expect(pathToSub).toBe('/subject:1/topic:main/topic:sub/');
@@ -35,7 +35,7 @@ test('Get path to sub topicId', () => {
 test('Get path to leaf topicId', () => {
   const pathToLeaf = toTopicWithBoundParams(
     'urn:subject:1',
-    expandedTopicIds,
+    ...expandedTopicIds,
   )('urn:topic:subsubsub');
 
   expect(pathToLeaf).toBe(

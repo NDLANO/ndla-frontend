@@ -7,8 +7,8 @@
  */
 
 import { gql } from '@apollo/client';
-import { useContext, MouseEvent } from 'react';
-import { Spinner } from '@ndla/ui';
+import { useContext } from 'react';
+import { Spinner } from '@ndla/icons';
 import DefaultErrorMessage from '../../../components/DefaultErrorMessage';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import {
@@ -16,7 +16,6 @@ import {
   GQLToolboxTopicContainerQueryVariables,
   GQLToolboxTopicContainer_SubjectFragment,
 } from '../../../graphqlTypes';
-import { LocaleType } from '../../../interfaces';
 import { useGraphQuery } from '../../../util/runQueries';
 import ToolboxTopicWrapper, {
   toolboxTopicWrapperFragments,
@@ -25,12 +24,6 @@ import ToolboxTopicWrapper, {
 interface Props {
   subject: GQLToolboxTopicContainer_SubjectFragment;
   topicId: string;
-  locale: LocaleType;
-  onSelectTopic: (
-    e: MouseEvent<HTMLAnchorElement>,
-    index: number,
-    id?: string,
-  ) => void;
   topicList: Array<string>;
   index: number;
 }
@@ -52,8 +45,6 @@ const toolboxTopicContainerQuery = gql`
 export const ToolboxTopicContainer = ({
   subject,
   topicId,
-  locale,
-  onSelectTopic,
   topicList,
   index,
 }: Props) => {
@@ -82,8 +73,6 @@ export const ToolboxTopicContainer = ({
       loading={loading}
       topic={data.topic}
       resourceTypes={data.resourceTypes}
-      locale={locale}
-      onSelectTopic={onSelectTopic}
       topicList={topicList}
       index={index}
       user={user}

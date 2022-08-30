@@ -7,26 +7,30 @@
  */
 
 import { HelmetProvider } from 'react-helmet-async';
-import { CompatRouter } from 'react-router-dom-v5-compat';
-import { StaticRouter } from 'react-router';
-import { matchPath } from 'react-router-dom';
+import { StaticRouter } from 'react-router-dom/server.js';
 import { I18nextProvider } from 'react-i18next';
+import { getSelectorsByUserAgent } from 'react-device-detect';
 import { i18nInstance } from '@ndla/ui';
 import url from 'url';
 import { ApolloProvider } from '@apollo/client';
-import queryString from 'query-string';
 import { CacheProvider } from '@emotion/core';
 import createCache from '@emotion/cache';
+import { getCookie } from '@ndla/util';
 
+import RedirectContext from '../../components/RedirectContext';
 import App from '../../App';
-import { routes as serverRoutes } from '../../routes';
 import config from '../../config';
 import { createApolloClient } from '../../util/apiHelpers';
-import handleError from '../../util/handleError';
-import { getLocaleInfoFromPath } from '../../i18n';
+import {
+  getLocaleInfoFromPath,
+  initializeI18n,
+  isValidLocale,
+} from '../../i18n';
 import { renderHtml, renderPageWithData } from '../helpers/render';
-import { EmotionCacheKey } from '../../constants';
+import { EmotionCacheKey, STORED_LANGUAGE_COOKIE_KEY } from '../../constants';
 import { VersionHashProvider } from '../../components/VersionHashContext';
+import IsMobileContext from '../../IsMobileContext';
+import { TEMPORARY_REDIRECT } from '../../statusCodes';
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST); //eslint-disable-line
 
@@ -36,18 +40,6 @@ const getAssets = () => ({
   js: [{ src: assets.client.js[0] }],
   mathJaxConfig: { js: assets.mathJaxConfig.js[0] },
 });
-
-async function loadGetInitialProps(Component, ctx) {
-  if (!Component.getInitialProps) return { loading: false };
-
-  try {
-    const initialProps = await Component.getInitialProps(ctx);
-    return { ...initialProps, loading: false };
-  } catch (e) {
-    handleError(e);
-    return { loading: false };
-  }
-}
 
 const disableSSR = req => {
   const urlParts = url.parse(req.url, true);
@@ -59,62 +51,46 @@ const disableSSR = req => {
 
 async function doRender(req) {
   global.assets = assets; // used for including mathjax js in pages with math
-  let initialProps = { loading: true, resCookie: req.headers['cookie'] };
+  const resCookie = req.headers['cookie'] ?? '';
+  const userAgent = req.headers['user-agent'];
+  const isMobile = getSelectorsByUserAgent(userAgent).isMobile;
   const versionHash = req.query.versionHash;
-  const { abbreviation: locale, basename, basepath } = getLocaleInfoFromPath(
-    req.path,
-  );
+  const { basename } = getLocaleInfoFromPath(req.path);
+  const locale = getCookie(STORED_LANGUAGE_COOKIE_KEY, resCookie);
 
-  const client = createApolloClient(
-    locale,
-    initialProps.resCookie,
-    versionHash,
-  );
-
-  if (!disableSSR(req)) {
-    const route = serverRoutes.find(r => matchPath(basepath, r));
-    const match = matchPath(basepath, route);
-    initialProps = await loadGetInitialProps(route.component, {
-      isServer: true,
-      locale,
-      match,
-      client,
-      location: {
-        search: `?${queryString.stringify(req.query)}`,
-      },
-    });
-  }
+  const client = createApolloClient(locale, resCookie, versionHash);
 
   const cache = createCache({ key: EmotionCacheKey });
-
   const context = {};
+
+  const i18n = initializeI18n(i18nInstance, locale);
+
   const helmetContext = {};
   const Page = !disableSSR(req) ? (
-    <HelmetProvider context={helmetContext}>
-      <I18nextProvider i18n={i18nInstance}>
-        <ApolloProvider client={client}>
-          <CacheProvider value={cache}>
-            <VersionHashProvider value={versionHash}>
-              <StaticRouter
-                basename={basename}
-                location={req.url}
-                context={context}>
-                <CompatRouter>
-                  <App
-                    initialProps={initialProps}
-                    isClient={false}
-                    client={client}
-                    locale={locale}
-                    versionHash={versionHash}
-                    key={locale}
-                  />
-                </CompatRouter>
-              </StaticRouter>
-            </VersionHashProvider>
-          </CacheProvider>
-        </ApolloProvider>
-      </I18nextProvider>
-    </HelmetProvider>
+    <RedirectContext.Provider value={context}>
+      <HelmetProvider context={helmetContext}>
+        <I18nextProvider i18n={i18n}>
+          <ApolloProvider client={client}>
+            <CacheProvider value={cache}>
+              <VersionHashProvider value={!!versionHash}>
+                <IsMobileContext.Provider value={isMobile}>
+                  <StaticRouter basename={basename} location={req.url}>
+                    <App
+                      isClient={false}
+                      client={client}
+                      locale={locale}
+                      versionHash={versionHash}
+                      resCookie={resCookie}
+                      key={locale}
+                    />
+                  </StaticRouter>
+                </IsMobileContext.Provider>
+              </VersionHashProvider>
+            </CacheProvider>
+          </ApolloProvider>
+        </I18nextProvider>
+      </HelmetProvider>
+    </RedirectContext.Provider>
   ) : (
     <HelmetProvider context={helmetContext}>{''}</HelmetProvider>
   );
@@ -124,7 +100,7 @@ async function doRender(req) {
     Page,
     getAssets(),
     {
-      initialProps,
+      resCookie,
       apolloState,
       serverPath: req.path,
       serverQuery: req.query,
@@ -142,6 +118,18 @@ async function doRender(req) {
 }
 
 export async function defaultRoute(req) {
-  const { html, context, docProps, helmetContext } = await doRender(req);
-  return renderHtml(req, html, context, docProps, helmetContext);
+  const resCookie = req.headers['cookie'] ?? '';
+  const { basename, basepath } = getLocaleInfoFromPath(req.path);
+  const cookieLocale = getCookie(STORED_LANGUAGE_COOKIE_KEY, resCookie) ?? '';
+  const locale =
+    cookieLocale.length && isValidLocale(cookieLocale) ? cookieLocale : 'nb';
+  if ((locale === 'nb' && basename === '') || locale === basename) {
+    const { html, context, docProps, helmetContext } = await doRender(req);
+    return renderHtml(req, html, context, docProps, helmetContext);
+  }
+
+  return {
+    status: TEMPORARY_REDIRECT,
+    data: { Location: `/${locale}${basepath}` },
+  };
 }

@@ -8,9 +8,8 @@
 
 import { gql } from '@apollo/client';
 import { useContext } from 'react';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { ContentPlaceholder } from '@ndla/ui';
-import { getUrnIdsFromProps } from '../../routeHelpers';
+import { useUrnIds } from '../../routeHelpers';
 import { useGraphQuery } from '../../util/runQueries';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import { AuthContext } from '../../components/AuthenticationContext';
@@ -21,9 +20,6 @@ import {
 import ToolboxSubjectContainer, {
   toolboxSubjectContainerFragments,
 } from './ToolboxSubjectContainer';
-import { RootComponentProps } from '../../routes';
-
-interface Props extends RootComponentProps, RouteComponentProps {}
 
 const toolboxSubjectPageQuery = gql`
   query toolboxSubjectPage($subjectId: String!) {
@@ -33,12 +29,9 @@ const toolboxSubjectPageQuery = gql`
   }
   ${toolboxSubjectContainerFragments.subject}
 `;
-const ToolboxSubjectPage = ({ match, locale }: Props) => {
+const ToolboxSubjectPage = () => {
   const { user } = useContext(AuthContext);
-  const { subjectId, topicList } = getUrnIdsFromProps({
-    ndlaFilm: false,
-    match,
-  });
+  const { subjectId, topicList } = useUrnIds();
 
   const { loading, data } = useGraphQuery<
     GQLToolboxSubjectPageQuery,
@@ -61,10 +54,9 @@ const ToolboxSubjectPage = ({ match, locale }: Props) => {
     <ToolboxSubjectContainer
       subject={data.subject}
       topicList={topicList}
-      locale={locale}
       user={user}
     />
   );
 };
 
-export default withRouter(ToolboxSubjectPage);
+export default ToolboxSubjectPage;
