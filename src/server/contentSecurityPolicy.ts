@@ -114,6 +114,7 @@ const scriptSrc = (() => {
     'https://static.zdassets.com',
     'cdn.jsdelivr.net',
     'https://*.dataporten.no',
+    'https://*.clarity.ms',
   ];
   if (process.env.NODE_ENV === 'development') {
     return [...defaultScriptSrc, `http://localhost:${hmrPort}`];
@@ -212,6 +213,7 @@ const fontSrc = (() => {
     'data:',
     'cdnjs.cloudflare.com',
     'https://*.hotjar.com',
+    'https://*.clarity.ms',
     'cdn.jsdelivr.net',
   ];
   if (process.env.NODE_ENV === 'development') {
@@ -250,6 +252,7 @@ const contentSecurityPolicy = {
       'https://ssl.gstatic.com',
       'https://www.gstatic.com',
       'https://*.hotjar.com',
+      'https://*.clarity.ms',
       'https://ndla.zendesk.com',
       '*.facebook.com',
       '*.twitter.com',
