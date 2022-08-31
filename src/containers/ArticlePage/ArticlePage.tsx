@@ -145,6 +145,14 @@ const ArticlePage = ({
             defer={script.defer}
           />
         ))}
+        {copyPageUrlLink && (
+          <link
+            rel="alternate"
+            type="application/json+oembed"
+            href={`${config.ndlaFrontendDomain}/oembed?url=${copyPageUrlLink}`}
+            title={article.title}
+          />
+        )}
 
         <script type="application/ld+json">
           {JSON.stringify(

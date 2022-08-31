@@ -22,6 +22,7 @@ import getStructuredDataFromArticle, {
 } from '../../util/getStructuredDataFromArticle';
 import { htmlTitle } from '../../util/titleHelper';
 import { GQLPlainArticleContainer_ArticleFragment } from '../../graphqlTypes';
+import config from '../../config';
 import { getArticleProps } from '../../util/getArticleProps';
 import { getAllDimensions } from '../../util/trackingUtil';
 
@@ -49,6 +50,7 @@ const PlainArticleContainer = ({
   const article = transformArticle(propArticle, i18n.language);
   if (!article) return <NotFoundPage />;
   const scripts = getArticleScripts(article);
+  const oembedUrl = `${config.ndlaFrontendDomain}/oembed?url=${config.ndlaFrontendDomain}/article/${article.id}`;
 
   return (
     <div>
@@ -67,6 +69,14 @@ const PlainArticleContainer = ({
             defer={script.defer}
           />
         ))}
+        {oembedUrl && (
+          <link
+            rel="alternate"
+            type="application/json+oembed"
+            href={oembedUrl}
+            title={article.title}
+          />
+        )}
 
         <script type="application/ld+json">
           {JSON.stringify(getStructuredDataFromArticle(propArticle))}
