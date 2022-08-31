@@ -276,6 +276,10 @@ const SearchInnerPage = ({
     return <DefaultErrorMessage />;
   }
 
+  if (loading) {
+    return null;
+  }
+
   const language =
     i18n.language !== getDefaultLocale() ? i18n.language : undefined;
   const searchGroups = mapSearchDataToGroups(
