@@ -344,6 +344,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                         type="button"
                       >
                         <svg
+                          aria-hidden={true}
                           aria-label="Denne lisensen gir deg rett til å dele og bruke dette innholdet på visse vilkår."
                           className="c-icon"
                           data-license="CC-BY 4.0"
@@ -405,6 +406,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                         type="button"
                       >
                         <svg
+                          aria-hidden={true}
                           aria-label="Du må alltid oppgi hvem som har laget innholdet."
                           className="c-icon"
                           data-license="CC-BY 4.0"
@@ -468,6 +470,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                         type="button"
                       >
                         <svg
+                          aria-hidden={true}
                           aria-label="Du kan bare dele innholdet med samme lisens som det opprinnelige innholdet."
                           className="c-icon"
                           data-license="CC-BY 4.0"

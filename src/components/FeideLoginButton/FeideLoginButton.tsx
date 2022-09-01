@@ -11,7 +11,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { AuthModal } from '@ndla/ui';
-import Button, { appearances, StyledButton } from '@ndla/button';
+import { appearances, ButtonV2 as Button } from '@ndla/button';
 import { colors, fonts, spacing } from '@ndla/core';
 import Modal, { ModalBody, ModalCloseButton, ModalHeader } from '@ndla/modal';
 import SafeLink from '@ndla/safelink';
@@ -20,7 +20,7 @@ import LoginComponent from '../MyNdla/LoginComponent';
 import IsMobileContext from '../../IsMobileContext';
 import { useIsNdlaFilm } from '../../routeHelpers';
 
-const FeideFooterButton = styled(StyledButton)`
+const FeideFooterButton = styled(Button)`
   padding: ${spacing.xsmall} ${spacing.small};
   background: none;
   color: ${colors.white};
@@ -54,6 +54,11 @@ const MyNdlaButton = styled(Button)`
   display: flex;
   align-items: center;
   gap: ${spacing.xxsmall};
+  svg {
+    height: 22px;
+    width: 22px;
+    margin-left: ${spacing.xxsmall};
+  }
 `;
 
 interface Props {
@@ -73,7 +78,14 @@ const FeideLoginButton = ({ footer, children, to }: Props) => {
   const activateButton = footer ? (
     <FeideFooterButton>{children}</FeideFooterButton>
   ) : (
-    <MyNdlaButton ghostPill>{children}</MyNdlaButton>
+    <MyNdlaButton
+      variant="ghost"
+      shape="pill"
+      colorTheme="lighter"
+      size="medium"
+      inverted={ndlaFilm}>
+      {children}
+    </MyNdlaButton>
   );
 
   if (authenticated && !footer) {
