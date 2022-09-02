@@ -11,7 +11,7 @@ window.MathJax = {
     mathmlSpacing: false,
   },
   options:{
-      enableMenu: true,
+      enableMenu: false,
       menuOptions:{
           settings:{
               assistiveMml: true,
