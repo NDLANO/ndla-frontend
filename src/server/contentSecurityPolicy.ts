@@ -30,6 +30,7 @@ const connectSrc = (() => {
     'https://platform.itslearning.com',
     'cdn.jsdelivr.net',
     'https://*.dataporten.no',
+    'https://*.clarity.ms',
   ];
   if (
     process.env.NODE_ENV === 'development' ||
