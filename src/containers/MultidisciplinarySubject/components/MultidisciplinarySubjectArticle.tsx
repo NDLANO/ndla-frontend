@@ -29,6 +29,7 @@ import {
   GQLMultidisciplinarySubjectArticle_TopicFragment,
 } from '../../../graphqlTypes';
 import { transformArticle } from '../../../util/transformArticle';
+import config from '../../../config';
 
 const filterCodes: Record<string, 'publicHealth' | 'democracy' | 'climate'> = {
   TT1: 'publicHealth',
@@ -96,7 +97,7 @@ const MultidisciplinarySubjectArticle = ({
           label=""
           isTopicArticle={false}
           isResourceArticle={false}
-          showFavoriteButton={true}
+          showFavoriteButton={config.feideEnabled}
         />
         <div ref={resourcesRef}>
           <Resources topic={topic} resourceTypes={resourceTypes} />

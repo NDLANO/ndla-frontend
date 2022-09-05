@@ -11,6 +11,7 @@ import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { breakpoints, mq, spacing } from '@ndla/core';
 import { FolderType, TreeStructure } from '@ndla/ui';
+import { SafeLinkButton } from '@ndla/safelink';
 import { Outlet, useLocation } from 'react-router-dom';
 import { useFolder, useFolders } from './folderMutations';
 import { createStaticStructureElements } from '../../util/folderHelpers';
@@ -42,11 +43,18 @@ const StyledContent = styled.div<StyledContentProps>`
 
 const StyledSideBar = styled.div`
   margin-left: auto;
+  display: flex;
+  gap: ${spacing.normal};
+  flex-direction: column;
   min-width: 300px;
   width: 300px;
   ${mq.range({ until: breakpoints.tabletWide })} {
     display: none;
   }
+`;
+
+const ButtonWrapper = styled.div`
+  padding: 0 ${spacing.normal};
 `;
 
 const MyNdlaLayout = () => {
@@ -85,6 +93,15 @@ const MyNdlaLayout = () => {
           defaultOpenFolders={defaultSelected}
           openOnFolderClick
         />
+        <ButtonWrapper>
+          <SafeLinkButton
+            width="auto"
+            outline
+            to={'/logout'}
+            state={{ from: location.pathname }}>
+            {t('user.buttonLogOut')}
+          </SafeLinkButton>
+        </ButtonWrapper>
       </StyledSideBar>
       <StyledContent isMobile={isMobile}>
         <Outlet />
