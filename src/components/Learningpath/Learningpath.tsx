@@ -158,6 +158,7 @@ const Learningpath = ({
           <div data-testid="learningpath-content">
             {learningpathStep.showTitle && (
               <LearningPathInformation
+                id={skipToContentId}
                 invertedStyle={ndlaFilm}
                 title={learningpathStep.title}
                 description={learningpathStep.description}
@@ -165,7 +166,9 @@ const Learningpath = ({
               />
             )}
             <LearningpathEmbed
-              skipToContentId={skipToContentId}
+              skipToContentId={
+                !learningpathStep.showTitle ? skipToContentId : undefined
+              }
               topic={topic}
               learningpathStep={learningpathStep}
               breadcrumbItems={breadcrumbItems}
