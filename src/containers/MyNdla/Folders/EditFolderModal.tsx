@@ -40,17 +40,17 @@ const EditFolderModal = ({ folder, isOpen, onClose, onSave }: Props) => {
       size="regular"
       backgroundColor="white"
       onClose={onClose}
-      label={t('myNdla.folder.edit')}>
+      labelledBy={'editHeading'}>
       {onCloseModal => (
         <>
           <ModalHeader>
+            <h1 id="editHeading">{t('myNdla.folder.edit')}</h1>
             <ModalCloseButton
               title={t('modal.closeModal')}
               onClick={onCloseModal}
             />
           </ModalHeader>
           <ModalBody>
-            <h1>{t('myNdla.folder.edit')}</h1>
             <Input
               label={t('title')}
               warningText={
