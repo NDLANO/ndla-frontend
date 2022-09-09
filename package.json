@@ -29,7 +29,6 @@
     "e2e-ci": "cross-env BABEL_ENV=test CYPRESS_USE_FIXTURES=true cypress run --record --parallel",
     "vercel-build": "npm run build",
     "vercel-start": "cross-env NODE_ENV=production NOW=true node build/server | bunyan",
-    "get-gql-schema-local": "rm src/schema.graphql -f && apollo client:download-schema --endpoint=http://localhost:4000/graphql-api/graphql src/schema.graphql && prettier --write ./src/schema.graphql",
     "generate-gql-types": "graphql-codegen --config codegen.yml && yarn format",
     "check-translations": "cross-env BABEL_ENV=test NODE_ENV=unittest jest src/messages/__tests__/"
   },
@@ -42,6 +41,7 @@
     "@graphql-codegen/cli": "^2.12.0",
     "@graphql-codegen/typescript": "^2.7.3",
     "@graphql-codegen/typescript-operations": "^2.5.3",
+    "@graphql-codegen/schema-ast": "^2.5.1",
     "@graphql-eslint/eslint-plugin": "^3.10.7",
     "@ndla/scripts": "^1.0.1",
     "@types/bunyan": "^1.8.7",
