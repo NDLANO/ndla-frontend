@@ -207,16 +207,21 @@ const typePolicies: TypePolicies = {
   },
 };
 
+function getCache() {
+  const cache = new InMemoryCache({ possibleTypes, typePolicies });
+  if (__CLIENT__) {
+    cache.restore(window.DATA.apolloState);
+  }
+
+  return cache;
+}
+
 export const createApolloClient = (
   language = 'nb',
   cookieString?: string,
   versionHash?: string,
 ) => {
-  const cache = __CLIENT__
-    ? new InMemoryCache({ possibleTypes, typePolicies }).restore(
-        window.DATA.apolloState,
-      )
-    : new InMemoryCache({ possibleTypes, typePolicies });
+  const cache = getCache();
 
   const cookie = __CLIENT__ ? document.cookie : cookieString;
 
