@@ -217,17 +217,19 @@ export const useFolderResourceMetaSearch = (
   return { data, ...rest };
 };
 
-export const useFolders = () => {
+export const useFolders = (): { folders: GQLFolder[]; loading: boolean } => {
   const { cache } = useApolloClient();
-  const { data: { folders: folderData } = {}, ...rest } = useGraphQuery<
-    GQLFoldersPageQuery
-  >(foldersPageQuery, {
-    onCompleted: () => {
-      cache.gc();
+  const { data, loading } = useGraphQuery<GQLFoldersPageQuery>(
+    foldersPageQuery,
+    {
+      onCompleted: () => {
+        cache.gc();
+      },
     },
-  });
+  );
 
-  return { folders: folderData ?? [], ...rest };
+  const folders = (data?.folders ?? []) as GQLFolder[];
+  return { folders, loading };
 };
 
 export const getFolder = (
