@@ -1,17 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`oembedArticleRoute invalid url 1`] = `
-Object {
+{
   "data": "Bad request. Invalid url.",
   "status": 400,
 }
 `;
 
 exports[`oembedArticleRoute success 1`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "height": 800,
-    "html": "<iframe aria-label=\\"Resource title\\" src=\\"https://test.ndla.no/article-iframe/nb/urn:resource:1/123\\" frameborder=\\"0\\" allowFullscreen=\\"\\" />",
+    "html": "<iframe aria-label="Resource title" src="https://test.ndla.no/article-iframe/nb/urn:resource:1/123" frameborder="0" allowFullscreen="" />",
     "title": "Resource title",
     "type": "rich",
     "version": "1.0",
@@ -21,10 +21,10 @@ Object {
 `;
 
 exports[`oembedArticleRoute success 2`] = `
-Object {
-  "data": Object {
+{
+  "data": {
     "height": 800,
-    "html": "<iframe aria-label=\\"Resource title\\" src=\\"https://test.ndla.no/article-iframe/nb/urn:resource:1/123\\" frameborder=\\"0\\" allowFullscreen=\\"\\" />",
+    "html": "<iframe aria-label="Resource title" src="https://test.ndla.no/article-iframe/nb/urn:resource:1/123" frameborder="0" allowFullscreen="" />",
     "title": "Resource title",
     "type": "rich",
     "version": "1.0",

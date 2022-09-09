@@ -1,20 +1,20 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`breadcrumb items from from subject and topicpath 1`] = `
-Array [
-  Object {
+[
+  {
     "name": "Home",
     "to": "/",
   },
-  Object {
+  {
     "name": "Historie vg2 og vg3",
     "to": "/subject:9/",
   },
-  Object {
+  {
     "name": "Om Utforskeren ",
     "to": "/subject:9/topic:1:179373/",
   },
-  Object {
+  {
     "name": "Samfunnsfaglige tenkemåter",
     "to": "/subject:9/topic:1:179373/topic:1:170165/",
   },
@@ -22,24 +22,24 @@ Array [
 `;
 
 exports[`breadcrumb items from from subject, topicpath and resouce 1`] = `
-Array [
-  Object {
+[
+  {
     "name": "Home",
     "to": "/",
   },
-  Object {
+  {
     "name": "Historie vg2 og vg3",
     "to": "/subject:9/",
   },
-  Object {
+  {
     "name": "Om Utforskeren ",
     "to": "/subject:9/topic:1:179373/",
   },
-  Object {
+  {
     "name": "Samfunnsfaglige tenkemåter",
     "to": "/subject:9/topic:1:179373/topic:1:170165/",
   },
-  Object {
+  {
     "name": "Utforskeren",
     "to": "/subject:9/topic:1:179373/topic:1:170165/resource:1:168389",
   },
@@ -47,12 +47,12 @@ Array [
 `;
 
 exports[`breadcrumb items from subject  1`] = `
-Array [
-  Object {
+[
+  {
     "name": "Home",
     "to": "/",
   },
-  Object {
+  {
     "name": "Historie vg2 og vg3",
     "to": "/subject:9/",
   },
