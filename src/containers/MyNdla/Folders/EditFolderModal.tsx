@@ -76,6 +76,7 @@ const EditFolderModal = ({ folder, isOpen, onClose, onSave }: Props) => {
         <>
           <ModalHeader>
             <h1 id="editHeading">{t('myNdla.folder.edit')}</h1>
+            <h1 id="editHeading">{t('myNdla.folder.edit')}</h1>
             <ModalCloseButton
               title={t('modal.closeModal')}
               onClick={onCloseModal}
