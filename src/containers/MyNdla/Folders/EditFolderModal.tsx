@@ -16,6 +16,7 @@ import { spacing } from '@ndla/core';
 import { InputV2 } from '@ndla/forms';
 import { GQLFolder } from '../../../graphqlTypes';
 import { getFolder, useFolders } from '../folderMutations';
+import useValidationTranslation from '../../../util/useValidationTranslation';
 
 interface Props {
   folder: GQLFolder;
@@ -43,6 +44,7 @@ const toFormValues = (folder: GQLFolder): FormValues => {
 
 const EditFolderModal = ({ folder, isOpen, onClose, onSave }: Props) => {
   const { t } = useTranslation();
+  const { t: validationT } = useValidationTranslation();
   const {
     register,
     handleSubmit,
@@ -76,7 +78,6 @@ const EditFolderModal = ({ folder, isOpen, onClose, onSave }: Props) => {
         <>
           <ModalHeader>
             <h1 id="editHeading">{t('myNdla.folder.edit')}</h1>
-            <h1 id="editHeading">{t('myNdla.folder.edit')}</h1>
             <ModalCloseButton
               title={t('modal.closeModal')}
               onClick={onCloseModal}
@@ -87,19 +88,19 @@ const EditFolderModal = ({ folder, isOpen, onClose, onSave }: Props) => {
               <InputV2
                 label="Navn"
                 {...register('name', {
-                  required: 'This field is required',
+                  required: validationT({ type: 'required', field: 'name' }),
                   minLength: 4,
                   validate: name => {
                     const exists = siblings.every(
                       f => f.name.toLowerCase() !== name.toLowerCase(),
                     );
                     if (!exists) {
-                      return 'Not unique';
+                      return validationT('validation.notUnique');
                     }
                     return true;
                   },
                 })}
-                error={errors.name?.type}
+                error={errors.name?.message}
                 id="name"
                 autoFocus
               />
