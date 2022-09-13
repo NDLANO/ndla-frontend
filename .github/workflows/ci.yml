@@ -69,8 +69,8 @@ jobs:
         run: yarn install --frozen-lockfile
       - name: 'Build'
         run: yarn build
-      - name: 'Run e2e-ci'
-        run: yarn e2e-ci
       - name: 'Deploy vercel build'
         run: yarn ndla-scripts vercel-github
         continue-on-error: true
+      - name: 'Run e2e-ci'
+        run: yarn e2e-ci
