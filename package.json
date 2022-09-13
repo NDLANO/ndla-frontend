@@ -33,7 +33,7 @@
     "check-translations": "cross-env BABEL_ENV=test NODE_ENV=unittest jest src/messages/__tests__/"
   },
   "engines": {
-    "node": ">=14.16.0",
+    "node": ">=16.17.0",
     "npm": ">=5.0.0"
   },
   "devDependencies": {
