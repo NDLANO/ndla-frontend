@@ -157,7 +157,7 @@ const ArticlePage = ({
         {subject?.metadata.customFields?.[
           TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY
         ] === constants.subjectCategories.ARCHIVE_SUBJECTS && (
-          <meta name="robots" content="noindex" />
+          <meta name="robots" content="noindex, nofollow" />
         )}
 
         <script type="application/ld+json">
