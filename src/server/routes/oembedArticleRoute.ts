@@ -24,8 +24,8 @@ function getOembedObject(req: express.Request, title?: string, html?: string) {
     data: {
       type: 'rich',
       version: '1.0', // oEmbed version
-      height: req.query.height ? req.query.height : 800,
-      width: req.query.width ? req.query.width : 800,
+      height: req.query.height || 480,
+      width: req.query.width || 854,
       title,
       html,
     },
@@ -34,7 +34,10 @@ function getOembedObject(req: express.Request, title?: string, html?: string) {
 
 type MatchParams = 'resourceId' | 'topicId' | 'lang' | 'articleId';
 
-const getHTMLandTitle = async (match: PathMatch<MatchParams>) => {
+const getHTMLandTitle = async (
+  match: PathMatch<MatchParams>,
+  req: express.Request,
+) => {
   const {
     params: { resourceId, topicId, lang = config.defaultLocale },
   } = match;
@@ -46,7 +49,11 @@ const getHTMLandTitle = async (match: PathMatch<MatchParams>) => {
     const articleId = getArticleIdFromResource(topic);
     return {
       title: topic.name,
-      html: `<iframe aria-label="${topic.name}" src="${config.ndlaFrontendDomain}/article-iframe/${lang}/${topic.id}/${articleId}" frameborder="0" allowFullscreen="" />`,
+      html: `<iframe aria-label="${topic.name}" src="${
+        config.ndlaFrontendDomain
+      }/article-iframe/${lang}/${topic.id}/${articleId}" height="${req.query
+        .height || 480}" width="${req.query.width ||
+        854}" frameborder="0" allowFullscreen="" />`,
     };
   }
 
@@ -54,7 +61,11 @@ const getHTMLandTitle = async (match: PathMatch<MatchParams>) => {
   const articleId = getArticleIdFromResource(resource);
   return {
     title: resource.name,
-    html: `<iframe aria-label="${resource.name}" src="${config.ndlaFrontendDomain}/article-iframe/${lang}/${resource.id}/${articleId}" frameborder="0" allowFullscreen="" />`,
+    html: `<iframe aria-label="${resource.name}" src="${
+      config.ndlaFrontendDomain
+    }/article-iframe/${lang}/${resource.id}/${articleId}" height="${req.query
+      .height || 480}" width="${req.query.width ||
+      854}" frameborder="0" allowFullscreen="" />`,
   };
 };
 
@@ -87,10 +98,14 @@ export async function oembedArticleRoute(req: express.Request) {
       return getOembedObject(
         req,
         article.title,
-        `<iframe aria-label="${article.title}" src="${config.ndlaFrontendDomain}/article-iframe/${lang}/article/${articleId}" frameborder="0" allowFullscreen="" />`,
+        `<iframe aria-label="${article.title}" src="${
+          config.ndlaFrontendDomain
+        }/article-iframe/${lang}/article/${articleId}" height="${req.query
+          .height || 480}" width="${req.query.width ||
+          854}" frameborder="0" allowFullscreen="" />`,
       );
     }
-    const { html, title } = await getHTMLandTitle(match);
+    const { html, title } = await getHTMLandTitle(match, req);
     return getOembedObject(req, title, html);
   } catch (error) {
     handleError(error);
