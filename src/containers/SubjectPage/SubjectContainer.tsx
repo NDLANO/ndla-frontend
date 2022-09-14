@@ -249,6 +249,11 @@ const SubjectContainer = ({ t, subjectId, topicIds, subject, i18n }: Props) => {
         {metaDescription && (
           <meta name="description" content={metaDescription} />
         )}
+        {subject?.metadata.customFields?.[
+          TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY
+        ] === constants.subjectCategories.ARCHIVE_SUBJECTS && (
+          <meta name="robots" content="noindex" />
+        )}
       </Helmet>
       <div ref={containerRef}>
         <OneColumn>

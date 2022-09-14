@@ -16,7 +16,7 @@ import {
   withTranslation,
 } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { FeideUserApiType } from '@ndla/ui';
+import { constants, FeideUserApiType } from '@ndla/ui';
 import { getArticleProps } from '../../util/getArticleProps';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { htmlTitle } from '../../util/titleHelper';
@@ -35,6 +35,7 @@ import {
   GQLLearningpathStep,
   GQLSubject,
 } from '../../graphqlTypes';
+import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from '../../constants';
 
 interface PropData {
   relevance: string;
@@ -135,6 +136,11 @@ const LearningpathPage = ({
     <div>
       <Helmet>
         <title>{`${getDocumentTitle(t, data)}`}</title>
+        {subject?.metadata.customFields?.[
+          TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY
+        ] === constants.subjectCategories.ARCHIVE_SUBJECTS && (
+          <meta name="robots" content="noindex" />
+        )}
       </Helmet>
       <SocialMediaMetadata
         title={htmlTitle(getTitle(subject, learningpath, learningpathStep), [
@@ -230,6 +236,9 @@ export const learningpathPageFragments = {
   subject: gql`
     fragment LearningpathPage_Subject on Subject {
       id
+      metadata {
+        customFields
+      }
       ...Learningpath_Subject
     }
     ${Learningpath.fragments.subject}
