@@ -298,9 +298,9 @@ export const useAddFolderMutation = () => {
           }),
           fields: {
             subfolders: (existingSubFolders = []) =>
-              [{ __ref: client.cache.identify(newFolder) }].concat(
-                existingSubFolders,
-              ),
+              existingSubFolders.concat({
+                __ref: client.cache.identify(newFolder),
+              }),
           },
         });
       }
