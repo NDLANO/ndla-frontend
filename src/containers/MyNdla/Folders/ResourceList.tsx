@@ -70,6 +70,7 @@ const ResourceList = ({ selectedFolder, viewType, folderId }: Props) => {
             keyedData[`${resource.resourceType}-${resource.resourceId}`];
           return (
             <Resource
+              id={resource.id}
               tagLinkPrefix="/minndla/tags"
               isLoading={loading}
               key={resource.id}

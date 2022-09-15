@@ -90,7 +90,7 @@ export type FolderActionType = 'edit' | 'delete' | undefined;
 export interface FolderAction {
   action: FolderActionType;
   folder: GQLFolder;
-  index: number;
+  index?: number;
 }
 
 const FoldersPage = () => {
@@ -161,9 +161,9 @@ const FoldersPage = () => {
 
   const { updateFolder } = useUpdateFolderMutation();
 
-  const onDeleteFolder = async (folder: GQLFolder, index: number) => {
-    const next = folders[index + 1]?.id;
-    const prev = folders[index - 1]?.id;
+  const onDeleteFolder = async (folder: GQLFolder, index?: number) => {
+    const next = index ? folders[index + 1]?.id : undefined;
+    const prev = index ? folders[index - 1]?.id : undefined;
     await deleteFolder({ variables: { id: folder.id } });
     if (folder.id === selectedFolder?.id) {
       navigate(`/minndla/folders/${selectedFolder.parentId ?? ''}`, {

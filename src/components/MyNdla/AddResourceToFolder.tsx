@@ -212,6 +212,7 @@ const AddResourceToFolder = ({ onClose, resource }: Props) => {
     <AddResourceContainer>
       <h1>{t('myNdla.resource.addToMyNdla')}</h1>
       <ListResource
+        id={resource.id.toString()}
         tagLinkPrefix="/minndla/tags"
         isLoading={metaLoading}
         link={resource.path}
@@ -229,7 +230,7 @@ const AddResourceToFolder = ({ onClose, resource }: Props) => {
         onSelectFolder={setSelectedFolderId}
         defaultOpenFolders={['folders']}
         framed
-        editable
+        type={'picker'}
         targetResource={storedResource}
       />
       {alreadyAdded && (
