@@ -7,13 +7,16 @@
  */
 
 import Modal, { ModalBody, ModalCloseButton, ModalHeader } from '@ndla/modal';
-import { Input } from '@ndla/forms';
 import { useTranslation } from 'react-i18next';
-import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useApolloClient } from '@apollo/client';
 import styled from '@emotion/styled';
 import Button from '@ndla/button';
 import { spacing } from '@ndla/core';
+import { InputV2 } from '@ndla/forms';
 import { GQLFolder } from '../../../graphqlTypes';
+import { getFolder, useFolders } from '../folderMutations';
+import useValidationTranslation from '../../../util/useValidationTranslation';
 
 interface Props {
   folder: GQLFolder;
@@ -29,10 +32,40 @@ const ButtonRow = styled.div`
   margin-top: ${spacing.large};
 `;
 
+interface FormValues {
+  name: string;
+}
+
+const toFormValues = (folder: GQLFolder): FormValues => {
+  return {
+    name: folder.name,
+  };
+};
+
 const EditFolderModal = ({ folder, isOpen, onClose, onSave }: Props) => {
   const { t } = useTranslation();
-  const [value, setValue] = useState(folder.name);
-  const disabled = value === folder.name || value.trim().length === 0;
+  const { t: validationT } = useValidationTranslation();
+  const {
+    register,
+    handleSubmit,
+    formState: { isValid, isDirty, errors },
+  } = useForm({
+    defaultValues: toFormValues(folder),
+    reValidateMode: 'onChange',
+    mode: 'onChange',
+  });
+
+  const { cache } = useApolloClient();
+
+  const { folders } = useFolders();
+
+  const levelFolders = folder.parentId
+    ? getFolder(cache, folder.parentId)?.subfolders ?? []
+    : folders;
+
+  const siblings = levelFolders.filter(f => f.id !== folder.id);
+
+  const onSubmit = (values: FormValues) => onSave(values.name);
   return (
     <Modal
       controllable
@@ -51,30 +84,34 @@ const EditFolderModal = ({ folder, isOpen, onClose, onSave }: Props) => {
             />
           </ModalHeader>
           <ModalBody>
-            <Input
-              label={t('title')}
-              warningText={
-                value.trim().length === 0
-                  ? t('myNdla.folder.missingName')
-                  : undefined
-              }
-              value={value}
-              onKeyDown={e => {
-                if (e.key === 'Enter') {
-                  onSave(value);
-                }
-              }}
-              onInput={e => setValue(e.currentTarget.value)}
-              autoFocus
-            />
-            <ButtonRow>
-              <Button outline onClick={onClose}>
-                {t('cancel')}
-              </Button>
-              <Button disabled={disabled} onClick={() => onSave(value)}>
-                {t('save')}
-              </Button>
-            </ButtonRow>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <InputV2
+                label="Navn"
+                {...register('name', {
+                  required: validationT({ type: 'required', field: 'name' }),
+                  validate: name => {
+                    const exists = siblings.every(
+                      f => f.name.toLowerCase() !== name.toLowerCase(),
+                    );
+                    if (!exists) {
+                      return validationT('validation.notUnique');
+                    }
+                    return true;
+                  },
+                })}
+                error={errors.name?.message}
+                id="name"
+                autoFocus
+              />
+              <ButtonRow>
+                <Button outline onClick={onClose}>
+                  {t('cancel')}
+                </Button>
+                <Button type="submit" disabled={!isValid || !isDirty}>
+                  {t('save')}
+                </Button>
+              </ButtonRow>
+            </form>
           </ModalBody>
         </>
       )}
