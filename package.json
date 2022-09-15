@@ -94,7 +94,7 @@
     "webpack-dev-server": "3.11.0"
   },
   "dependencies": {
-    "@apollo/client": "3.4.17",
+    "@apollo/client": "3.6.9",
     "@emotion/core": "^10.0.35",
     "@emotion/styled": "^10.0.27",
     "@fontsource/shadows-into-light-two": "^4.5.8",
