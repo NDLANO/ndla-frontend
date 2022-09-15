@@ -70,7 +70,7 @@ const messages = {
     },
     required: 'Dette feltet er påkrevd',
     requiredField: '$t(validation.fields.{{field}}) er påkrevd',
-    notUnique: 'Dette feltet må være unikt i sin kontekst',
+    notUnique: 'Finnes allerede',
   },
 };
 

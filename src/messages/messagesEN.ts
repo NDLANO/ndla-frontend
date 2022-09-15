@@ -63,6 +63,14 @@ const messages = {
       licenseAuthor: 'Tom Knudsen',
     },
   },
+  validation: {
+    fields: {
+      name: 'Name',
+    },
+    required: 'This field is required',
+    requiredField: '$t(validation.fields.{{field}}) is required',
+    notUnique: 'Already exists',
+  },
 };
 
 export default messages;
