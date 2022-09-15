@@ -89,7 +89,6 @@ const EditFolderModal = ({ folder, isOpen, onClose, onSave }: Props) => {
                 label="Navn"
                 {...register('name', {
                   required: validationT({ type: 'required', field: 'name' }),
-                  minLength: 4,
                   validate: name => {
                     const exists = siblings.every(
                       f => f.name.toLowerCase() !== name.toLowerCase(),
