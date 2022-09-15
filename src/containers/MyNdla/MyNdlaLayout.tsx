@@ -65,7 +65,6 @@ const MyNdlaLayout = () => {
     .replace('/minndla/', '')
     .split('/');
   const selectedFolder = useFolder(folderId);
-  console.log(location.pathname);
 
   const isMobile = useContext(IsMobileContext);
 
