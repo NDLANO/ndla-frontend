@@ -6,9 +6,8 @@
  *
  */
 
-import { useContext } from 'react';
+import { useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useApolloClient } from '@apollo/client';
 import styled from '@emotion/styled';
 import { breakpoints, colors, fonts, mq, spacing } from '@ndla/core';
 import { MenuButton, MenuItemProps } from '@ndla/button';
@@ -18,13 +17,12 @@ import { Back } from '@ndla/icons/common';
 import SafeLink from '@ndla/safelink';
 import { ActionBreadcrumb } from '@ndla/ui';
 import { GQLBreadcrumb } from '../../../graphqlTypes';
-import { getFolder } from '../folderMutations';
-import { FolderAction } from './FoldersPage';
+import { FolderActionType } from './FoldersPage';
 import IsMobileContext from '../../../IsMobileContext';
 
 interface Props {
   breadcrumbs: GQLBreadcrumb[];
-  onActionChanged: (action: FolderAction) => void;
+  onActionChanged: (action: FolderActionType) => void;
 }
 
 const BreadcrumbContainer = styled.div`
@@ -55,7 +53,6 @@ const StyledSpan = styled.span`
 
 const FolderBreadcrumb = ({ breadcrumbs, onActionChanged }: Props) => {
   const { t } = useTranslation();
-  const { cache } = useApolloClient();
   const isMobile = useContext(IsMobileContext);
   const baseCrumb: GQLBreadcrumb = {
     id: 'folders',
@@ -67,35 +64,38 @@ const FolderBreadcrumb = ({ breadcrumbs, onActionChanged }: Props) => {
       ? `/minndla/folders/${breadcrumbs[breadcrumbs.length - 2]?.id ?? ''}`
       : '/minndla/meny';
 
-  const actionItems: MenuItemProps[] = [
-    {
-      icon: <Pencil />,
-      text: t('myNdla.folder.edit'),
-      onClick: () => {
-        const folder = getFolder(cache, lastBreadcrumb.id);
-        if (folder) {
-          onActionChanged({
-            action: 'edit',
-            folder,
-          });
-        }
+  const actionItems: MenuItemProps[] = useMemo(
+    () => [
+      {
+        icon: <Pencil />,
+        text: t('myNdla.folder.edit'),
+        onClick: () => onActionChanged('edit'),
       },
-    },
-    {
-      icon: <DeleteForever />,
-      text: t('myNdla.folder.delete'),
-      type: 'danger',
-      onClick: () => {
-        const folder = getFolder(cache, lastBreadcrumb.id);
-        if (folder) {
-          onActionChanged({
-            action: 'delete',
-            folder,
-          });
-        }
+      {
+        icon: <DeleteForever />,
+        text: t('myNdla.folder.delete'),
+        type: 'danger',
+        onClick: () => onActionChanged('delete'),
       },
-    },
-  ];
+    ],
+    [t, onActionChanged],
+  );
+  const correctCrumbs = useMemo(
+    () =>
+      breadcrumbs.map(({ name, id }) => ({
+        name,
+        to: `/minnlda/folders/${id}`,
+      })),
+    [breadcrumbs],
+  );
+
+  const crumbs = useMemo(
+    () =>
+      [{ name: t('myNdla.myFolders'), to: '/minndla/folders' }].concat(
+        correctCrumbs,
+      ),
+    [correctCrumbs, t],
+  );
 
   if (isMobile) {
     return (
@@ -116,18 +116,7 @@ const FolderBreadcrumb = ({ breadcrumbs, onActionChanged }: Props) => {
     );
   }
 
-  return (
-    <ActionBreadcrumb
-      actionItems={actionItems}
-      items={[
-        { name: t('myNdla.myFolders'), to: '/minndla/folders' },
-        ...breadcrumbs?.map(crumb => ({
-          name: crumb.name,
-          to: `/minndla/folders/${crumb.id}`,
-        })),
-      ]}
-    />
-  );
+  return <ActionBreadcrumb actionItems={actionItems} items={crumbs} />;
 };
 
 export default FolderBreadcrumb;

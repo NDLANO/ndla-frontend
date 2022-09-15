@@ -39,6 +39,7 @@ import {
 } from '../../../util/folderHelpers';
 import DeleteModal from '../components/DeleteModal';
 import { usePrevious } from '../../../util/utilityHooks';
+import { SKIP_TO_CONTENT_ID } from '../../../constants';
 
 interface BlockWrapperProps {
   type?: string;
@@ -84,6 +85,10 @@ const StyledRow = styled.div`
   align-items: top;
 `;
 
+const StyledTitle = styled.h1`
+  margin: 0;
+`;
+
 export type ViewType = 'list' | 'block' | 'listLarger';
 export type FolderActionType = 'edit' | 'delete' | undefined;
 
@@ -123,7 +128,7 @@ const FoldersPage = () => {
     const prevFolderIds = previousFolders?.map(f => f.id).sort();
 
     if (!isEqual(folderIds, prevFolderIds) && focusId) {
-      document.getElementById(focusId)?.focus();
+      setTimeout(() => document.getElementById(focusId)?.focus(), 0);
       setFocusId(undefined);
     } else if (
       !isEqual(folderIds, prevFolderIds) &&
@@ -132,7 +137,7 @@ const FoldersPage = () => {
     ) {
       const id = folders[0]?.id;
       if (id) {
-        document.getElementById(id)?.focus();
+        setTimeout(() => document.getElementById(id)?.focus(), 0);
       }
     }
   }, [folders, focusId, previousFolders]);
@@ -155,7 +160,7 @@ const FoldersPage = () => {
     return (
       folderData?.reduce((acc, curr) => {
         return acc + getTotalCountForFolder(curr).folders;
-      }, 0) ?? 0
+      }, folderData.length ?? 0) ?? 0
     );
   }, [folderData]);
 
@@ -208,10 +213,17 @@ const FoldersPage = () => {
             : t('htmlTitles.myFoldersPage')
         }
       />
-      <FolderBreadcrumb
-        breadcrumbs={selectedFolder?.breadcrumbs ?? []}
-        onActionChanged={setFolderAction}
-      />
+      <StyledTitle tabIndex={-1} id={SKIP_TO_CONTENT_ID}>
+        {selectedFolder?.name ?? 'Mine mapper'}
+      </StyledTitle>
+      {!!selectedFolder?.breadcrumbs && (
+        <FolderBreadcrumb
+          breadcrumbs={selectedFolder?.breadcrumbs ?? []}
+          onActionChanged={action =>
+            setFolderAction({ action, folder: selectedFolder })
+          }
+        />
+      )}
       {folders && (
         <ResourceCountContainer>
           <FolderOutlined />
@@ -292,39 +304,37 @@ const FoldersPage = () => {
           folderId={selectedFolder.id}
         />
       )}
-      {folderAction && (
-        <>
-          <EditFolderModal
-            onSave={async value => {
-              await updateFolder({
-                variables: {
-                  id: folderAction.folder.id,
-                  name: value,
-                },
-              });
-              addSnack({
-                id: 'titleUpdated',
-                content: t('myNdla.resource.titleUpdated'),
-              });
-              setFolderAction(undefined);
-            }}
-            folder={folderAction.folder}
-            isOpen={folderAction.action === 'edit'}
-            onClose={() => setFolderAction(undefined)}
-          />
-          <DeleteModal
-            title={t('myNdla.folder.delete')}
-            description={t('myNdla.confirmDeleteFolder')}
-            removeText={t('myNdla.folder.delete')}
-            isOpen={folderAction.action === 'delete'}
-            onClose={() => setFolderAction(undefined)}
-            onDelete={async () => {
-              await onDeleteFolder(folderAction.folder, folderAction.index);
-              setFolderAction(undefined);
-            }}
-          />
-        </>
-      )}
+      <EditFolderModal
+        onSave={async (value, folder) => {
+          await updateFolder({
+            variables: {
+              id: folder.id,
+              name: value,
+            },
+          });
+          addSnack({
+            id: 'titleUpdated',
+            content: t('myNdla.resource.titleUpdated'),
+          });
+          setFolderAction(undefined);
+        }}
+        folder={folderAction?.folder}
+        isOpen={folderAction?.action === 'edit'}
+        onClose={() => setFolderAction(undefined)}
+      />
+      <DeleteModal
+        title={t('myNdla.folder.delete')}
+        description={t('myNdla.confirmDeleteFolder')}
+        removeText={t('myNdla.folder.delete')}
+        isOpen={folderAction?.action === 'delete'}
+        onClose={() => setFolderAction(undefined)}
+        onDelete={async () => {
+          if (folderAction?.action === 'delete') {
+            await onDeleteFolder(folderAction.folder, folderAction.index);
+            setFolderAction(undefined);
+          }
+        }}
+      />
     </FoldersPageContainer>
   );
 };
