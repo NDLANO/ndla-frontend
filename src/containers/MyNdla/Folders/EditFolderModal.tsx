@@ -102,7 +102,7 @@ const EditFolderModal = ({ folder, isOpen, onClose, onSave }: Props) => {
                 })}
                 error={errors.name?.message}
                 id="name"
-                autoFocus
+                required
               />
               <ButtonRow>
                 <Button outline onClick={onClose}>
