@@ -10,11 +10,12 @@ import { i18n } from 'i18next';
 import nb from './messages/messagesNB';
 import nn from './messages/messagesNN';
 import en from './messages/messagesEN';
+import se from './messages/messagesSE';
 import { getDefaultLocale } from './config';
 import { LocaleType } from './interfaces';
 
-export const supportedLanguages = ['nb', 'nn', 'en'];
-export const preferredLanguages = ['nb', 'nn', 'en'];
+export const supportedLanguages = ['nb', 'nn', 'en', 'se'];
+export const preferredLanguages = ['nb', 'nn', 'en', 'se'];
 
 type LocaleObject = {
   name: string;
@@ -35,8 +36,13 @@ const EN: LocaleObject = {
   abbreviation: 'en',
 };
 
-export const appLocales = [NB, NN, EN];
-export const preferredLocales = [NB, NN];
+const SE: LocaleObject = {
+  name: 'Nordsamisk',
+  abbreviation: 'se',
+};
+
+export const appLocales = [NB, NN, EN, SE];
+export const preferredLocales = [NB, NN, SE];
 
 export const getLocaleObject = (localeAbbreviation?: string): LocaleObject => {
   const locale = appLocales.find(l => l.abbreviation === localeAbbreviation);
@@ -78,5 +84,6 @@ export const initializeI18n = (i18n: i18n, language: string): i18n => {
   i18n.addResourceBundle('en', 'translation', en, true, true);
   i18n.addResourceBundle('nb', 'translation', nb, true, true);
   i18n.addResourceBundle('nn', 'translation', nn, true, true);
+  i18n.addResourceBundle('se', 'translation', se, true, true);
   return instance;
 };

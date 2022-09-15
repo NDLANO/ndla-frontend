@@ -30,7 +30,7 @@ export const TOOLBOX_STUDENT_SUBJECT_ID =
   'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4';
 
 export const SKIP_TO_CONTENT_ID = 'SkipToContentId';
-export const SUPPORTED_LANGUAGES = ['nb', 'nn', 'en'];
+export const SUPPORTED_LANGUAGES = ['nb', 'nn', 'en', 'se'];
 export const STORED_LANGUAGE_COOKIE_KEY = 'language';
 
 export const PROGRAMME_PATH = '/utdanning';
@@ -43,7 +43,7 @@ export const TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY = 'subjectCategory';
 export const TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE = 'subjectType';
 export const OLD_SUBJECT_PAGE_REDIRECT_CUSTOM_FIELD = 'old-subject-id';
 
-export const LocaleValues = ['nb', 'nn', 'en'] as const;
+export const LocaleValues = SUPPORTED_LANGUAGES;
 
 export const MastheadHeightPx = 84; // See `misc` in @ndla/core for origin
 export const EmotionCacheKey = 'ndla-frontend';

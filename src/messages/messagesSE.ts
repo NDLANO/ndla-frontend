@@ -11,21 +11,21 @@ const titleTemplate = 'NDLA';
 const messages = {
   htmlTitles: {
     titleTemplate,
-    welcomePage: `Forsiden - ${titleTemplate}`,
-    topicPage: 'Emne',
-    subjectsPage: `Velg fag - ${titleTemplate}`,
-    searchPage: `Søk - ${titleTemplate}`,
-    notFound: `Siden finnes ikke - ${titleTemplate}`,
+    welcomePage: `Ovdasiidu - ${titleTemplate}`,
+    topicPage: 'Fáddá',
+    subjectsPage: `Vállje fága - ${titleTemplate}`,
+    searchPage: `Oza - ${titleTemplate}`,
+    notFound: `Siidu ii gávdno - ${titleTemplate}`,
     accessDenied: `Ingen tilgang - ${titleTemplate}`,
-    subject: 'Fag',
+    subject: 'Fága',
     podcast: `Podkast - Side {{pageNumber}} - ${titleTemplate}`,
     lti: `LTI - ${titleTemplate}`,
     movedResourcePage: `Siden har flyttet - ${titleTemplate}`,
-    myNdlaPage: `Min NDLA - ${titleTemplate}`,
-    myFoldersPage: `Mine mapper - ${titleTemplate}`,
+    myNdlaPage: `Mu NDLA - ${titleTemplate}`,
+    myFoldersPage: `Mu máhpat - ${titleTemplate}`,
     myFolderPage: `{{folderName}} - ${titleTemplate}`,
     myTagPage: `#{{tag}} - ${titleTemplate}`,
-    myTagsPage: `Mine emneknagger - ${titleTemplate}`,
+    myTagsPage: `Mu lihput - ${titleTemplate}`,
     toolbox: {
       visualElement: 'Om emne video',
       introduction:
@@ -58,15 +58,6 @@ const messages = {
       license: 'CC-BY-SA-4.0',
       licenseAuthor: 'Tom Knudsen',
     },
-  },
-
-  validation: {
-    fields: {
-      name: 'Navn',
-    },
-    required: 'Dette feltet er påkrevd',
-    requiredField: '$t(validation.fields.{{field}}) er påkrevd',
-    notUnique: 'Finnes allerede',
   },
 };
 

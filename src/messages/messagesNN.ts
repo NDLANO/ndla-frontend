@@ -25,7 +25,7 @@ const messages = {
     myFoldersPage: `Mine mapper - ${titleTemplate}`,
     myFolderPage: `{{folderName}} - ${titleTemplate}`,
     myTagPage: `#{{tag}} - ${titleTemplate}`,
-    myTagsPage: `Mine tags - ${titleTemplate}`,
+    myTagsPage: `Mine emneknagger - ${titleTemplate}`,
     toolbox: {
       visualElement: 'Om emne video',
       introduction:
@@ -38,10 +38,6 @@ const messages = {
     podcasts: 'Podkaster',
     pageInfo: 'Side {{page}} av {{lastPage}}',
     noResults: '...Ingen episoder',
-  },
-  messageBoxInfo: {
-    subjectBeta:
-      'Dette faget er i betaversjon. Vi fyller på med ressurser fortløpande.',
   },
   blogPosts: {
     blog1: {

@@ -229,7 +229,7 @@ const AddResourceToFolder = ({ onClose, resource }: Props) => {
         onSelectFolder={setSelectedFolderId}
         defaultOpenFolders={['folders']}
         framed
-        editable
+        type="normal"
         targetResource={storedResource}
       />
       {alreadyAdded && (
