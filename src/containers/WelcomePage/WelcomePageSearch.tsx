@@ -31,7 +31,7 @@ const WelcomePageSearch = () => {
   const [inputHasFocus, setInputHasFocus] = useState(false);
   const { t } = useTranslation();
   const navigate = useNavigate();
-  
+
   const [runSearch, { loading, data: searchResult, error }] = useLazyQuery(
     frontpageSearchQuery,
   );

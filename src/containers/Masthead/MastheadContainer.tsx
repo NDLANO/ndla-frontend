@@ -113,13 +113,7 @@ const MastheadContainer = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [topicId, resourceId, subjectId]);
 
-
-  const {
-    subject,
-    topicPath = [],
-    topicResourcesByType,
-    resource,
-  } = state;
+  const { subject, topicPath = [], topicResourcesByType, resource } = state;
 
   const path = topicPath ?? [];
 

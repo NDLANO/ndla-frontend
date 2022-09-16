@@ -21,9 +21,7 @@ import {
 } from '../../../routeHelpers';
 import { LocaleType } from '../../../interfaces';
 import { resourceToLinkProps } from '../../Resources/resourceHelpers';
-import {
-  getProgrammes,
-} from '../../../util/programmesSubjectsHelper';
+import { getProgrammes } from '../../../util/programmesSubjectsHelper';
 import { getProgrammeBySlug } from '../../../data/programmes';
 import { mapGradesData } from '../../ProgrammePage/ProgrammePage';
 import { mapTopicResourcesToTopic } from '../mastheadHelpers';

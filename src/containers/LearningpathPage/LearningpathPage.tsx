@@ -52,12 +52,7 @@ interface Props extends CustomWithTranslation {
   user?: FeideUserApiType;
 }
 
-const LearningpathPage = ({
-  data,
-  skipToContentId,
-  stepId,
-  t,
-}: Props) => {
+const LearningpathPage = ({ data, skipToContentId, stepId, t }: Props) => {
   const navigate = useNavigate();
   useEffect(() => {
     if (window.MathJax) {
