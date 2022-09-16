@@ -33,7 +33,6 @@ import {
   GQLLearningpathPage_TopicFragment,
   GQLLearningpathPage_TopicPathFragment,
   GQLLearningpathStep,
-  GQLSubject,
 } from '../../graphqlTypes';
 
 interface PropData {
@@ -199,13 +198,13 @@ LearningpathPage.getDimensions = (props: Props) => {
 };
 
 const getTitle = (
-  subject?: Pick<GQLSubject, 'name'>,
+  subject?: Pick<GQLLearningpathPage_SubjectFragment, 'name' | 'subjectpage'>,
   learningpath?: Pick<GQLLearningpath, 'title'>,
   learningpathStep?: Pick<GQLLearningpathStep, 'title'>,
 ) => {
   return htmlTitle(learningpath?.title, [
     learningpathStep?.title,
-    subject?.name,
+    subject?.subjectpage?.about?.title || subject?.name,
   ]);
 };
 
@@ -230,6 +229,11 @@ export const learningpathPageFragments = {
   subject: gql`
     fragment LearningpathPage_Subject on Subject {
       id
+      subjectpage {
+        about {
+          title
+        }
+      }
       ...Learningpath_Subject
     }
     ${Learningpath.fragments.subject}

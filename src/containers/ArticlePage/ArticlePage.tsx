@@ -161,7 +161,9 @@ const ArticlePage = ({
         </script>
       </Helmet>
       <SocialMediaMetadata
-        title={htmlTitle(article.title, [subject?.name])}
+        title={htmlTitle(article.title, [
+          subject?.subjectpage?.about?.title || subject?.name,
+        ])}
         trackableContent={article}
         description={article.metaDescription}
         imageUrl={article.metaImage?.url}
@@ -217,7 +219,7 @@ const getDocumentTitle = (
   subject?: GQLArticlePage_SubjectFragment,
 ) =>
   htmlTitle(resource?.article?.title, [
-    subject?.name,
+    subject?.subjectpage?.about?.title || subject?.name,
     t('htmlTitles.titleTemplate'),
   ]);
 
@@ -234,6 +236,11 @@ export const articlePageFragments = {
   subject: gql`
     fragment ArticlePage_Subject on Subject {
       name
+      subjectpage {
+        about {
+          title
+        }
+      }
       ...ArticleHero_Subject
     }
     ${ArticleHero.fragments.subject}

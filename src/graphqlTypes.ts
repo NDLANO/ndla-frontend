@@ -1839,6 +1839,10 @@ export type GQLArticlePage_ResourceTypeFragment = {
 export type GQLArticlePage_SubjectFragment = {
   __typename?: 'Subject';
   name: string;
+  subjectpage?: Maybe<{
+    __typename?: 'SubjectPage';
+    about?: Maybe<{ __typename?: 'SubjectPageAbout'; title: string }>;
+  }>;
 } & GQLArticleHero_SubjectFragment;
 
 export type GQLArticlePage_ResourceFragment = {
@@ -1937,6 +1941,10 @@ export type GQLLearningpathPage_TopicFragment = {
 export type GQLLearningpathPage_SubjectFragment = {
   __typename?: 'Subject';
   id: string;
+  subjectpage?: Maybe<{
+    __typename?: 'SubjectPage';
+    about?: Maybe<{ __typename?: 'SubjectPageAbout'; title: string }>;
+  }>;
 } & GQLLearningpath_SubjectFragment;
 
 export type GQLLearningpathPage_ResourceTypeDefinitionFragment = {
@@ -2037,6 +2045,10 @@ export type GQLMultidisciplinarySubjectPageQuery = {
   subject?: Maybe<
     {
       __typename?: 'Subject';
+      subjectpage?: Maybe<{
+        __typename?: 'SubjectPage';
+        about?: Maybe<{ __typename?: 'SubjectPageAbout'; title: string }>;
+      }>;
       topics?: Maybe<Array<{ __typename?: 'Topic'; id: string; name: string }>>;
       allTopics?: Maybe<
         Array<{
@@ -2087,6 +2099,10 @@ export type GQLMultidisciplinarySubjectArticle_SubjectFragment = {
   id: string;
   path: string;
   allTopics?: Maybe<Array<{ __typename?: 'Topic'; id: string; name: string }>>;
+  subjectpage?: Maybe<{
+    __typename?: 'SubjectPage';
+    about?: Maybe<{ __typename?: 'SubjectPageAbout'; title: string }>;
+  }>;
 };
 
 export type GQLMultidisciplinarySubjectArticle_ResourceTypeDefinitionFragment = {
