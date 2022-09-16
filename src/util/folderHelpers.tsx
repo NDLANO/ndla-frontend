@@ -8,6 +8,7 @@
 
 import { HashTag, Person } from '@ndla/icons/common';
 import { FolderOutlined } from '@ndla/icons/lib/contentType';
+import { FolderType } from '@ndla/ui';
 import { TFunction } from 'i18next';
 import { uniq, uniqBy } from 'lodash';
 import { GQLFolder, GQLFolderResource } from '../graphqlTypes';
@@ -101,5 +102,5 @@ export const createStaticStructureElements = (
       breadcrumbs: [],
       resources: [],
     },
-  ];
+  ] as FolderType[];
 };

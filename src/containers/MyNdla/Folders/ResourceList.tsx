@@ -6,14 +6,13 @@
  *
  */
 
-import { keyBy } from 'lodash';
-import { useState } from 'react';
+import { isEqual, keyBy } from 'lodash';
+import { useMemo, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from '@ndla/icons/common';
 import { FolderOutlined } from '@ndla/icons/contentType';
 import { DeleteForever } from '@ndla/icons/editor';
 import { BlockResource, ListResource, useSnack } from '@ndla/ui';
-import { copyTextToClipboard } from '@ndla/util';
 import AddResourceToFolderModal from '../../../components/MyNdla/AddResourceToFolderModal';
 import config from '../../../config';
 import { GQLFolder, GQLFolderResource } from '../../../graphqlTypes';
@@ -22,7 +21,8 @@ import {
   useDeleteFolderResourceMutation,
   useFolderResourceMetaSearch,
 } from '../folderMutations';
-import { BlockWrapper, ViewType } from './FoldersPage';
+import { BlockWrapper, ListItem, ViewType } from './FoldersPage';
+import { usePrevious } from '../../../util/utilityHooks';
 
 interface Props {
   selectedFolder: GQLFolder;
@@ -34,22 +34,58 @@ export type ResourceActionType = 'add' | 'delete';
 export interface ResourceAction {
   action: ResourceActionType;
   resource: GQLFolderResource;
+  index?: number;
 }
 
 const ResourceList = ({ selectedFolder, viewType, folderId }: Props) => {
   const { t } = useTranslation();
   const { addSnack } = useSnack();
+  const [focusId, setFocusId] = useState<string | undefined>(undefined);
   const [resourceAction, setResourceAction] = useState<
     ResourceAction | undefined
   >(undefined);
 
+  const resources = useMemo(() => selectedFolder.resources, [selectedFolder]);
+  const prevResources = usePrevious(resources);
+
+  useEffect(() => {
+    const resourceIds = resources.map(f => f.id).sort();
+    const prevResourceIds = prevResources?.map(f => f.id).sort();
+
+    if (!isEqual(resourceIds, prevResourceIds) && focusId) {
+      setTimeout(
+        () => document.getElementById(`resource-${focusId}`)?.focus(),
+        0,
+      );
+      setFocusId(undefined);
+    }
+  }, [resources, prevResources, focusId]);
+
   const { data, loading } = useFolderResourceMetaSearch(
-    selectedFolder.resources.map(r => ({
+    resources.map(r => ({
       id: r.resourceId,
       path: r.path,
       resourceType: r.resourceType,
     })),
   );
+
+  const onDeleteFolder = async (
+    resource: GQLFolderResource,
+    index?: number,
+  ) => {
+    const next = index !== undefined ? resources[index + 1]?.id : undefined;
+    const prev = index !== undefined ? resources[index - 1]?.id : undefined;
+    await deleteFolderResource({
+      variables: { folderId, resourceId: resource.id },
+    });
+    addSnack({
+      id: `removedFromFolder${selectedFolder.id}`,
+      content: t('myNdla.resource.removedFromFolder', {
+        folderName: selectedFolder.name,
+      }),
+    });
+    setFocusId(next ?? prev);
+  };
 
   const keyedData = keyBy(
     data ?? [],
@@ -65,56 +101,62 @@ const ResourceList = ({ selectedFolder, viewType, folderId }: Props) => {
   return (
     <>
       <BlockWrapper type={viewType}>
-        {selectedFolder.resources.map(resource => {
+        {resources.map((resource, index) => {
           const resourceMeta =
             keyedData[`${resource.resourceType}-${resource.resourceId}`];
           return (
-            <Resource
-              id={resource.id}
-              tagLinkPrefix="/minndla/tags"
-              isLoading={loading}
-              key={resource.id}
-              resourceImage={{
-                src: resourceMeta?.metaImage?.url ?? '',
-                alt: '',
-              }}
-              link={resource.path}
-              tags={resource.tags}
-              topics={resourceMeta?.resourceTypes.map(rt => rt.name) ?? []}
-              title={resourceMeta?.title ?? ''}
-              description={
-                viewType !== 'list'
-                  ? resourceMeta?.description ?? ''
-                  : undefined
-              }
-              menuItems={[
-                {
-                  icon: <FolderOutlined />,
-                  text: t('myNdla.resource.add'),
-                  onClick: () => setResourceAction({ action: 'add', resource }),
-                },
-                {
-                  icon: <Link />,
-                  text: t('myNdla.resource.copyLink'),
-                  onClick: () => {
-                    copyTextToClipboard(
-                      `${config.ndlaFrontendDomain}${resource.path}`,
-                    );
-                    addSnack({
-                      content: t('myNdla.resource.linkCopied'),
-                      id: 'linkCopied',
-                    });
+            <ListItem
+              key={`resource-${resource.id}`}
+              id={`resource-${resource.id}`}
+              tabIndex={-1}>
+              <Resource
+                id={resource.id}
+                tagLinkPrefix="/minndla/tags"
+                isLoading={loading}
+                key={resource.id}
+                resourceImage={{
+                  src: resourceMeta?.metaImage?.url ?? '',
+                  alt: '',
+                }}
+                link={resource.path}
+                tags={resource.tags}
+                topics={resourceMeta?.resourceTypes.map(rt => rt.name) ?? []}
+                title={resourceMeta?.title ?? ''}
+                description={
+                  viewType !== 'list'
+                    ? resourceMeta?.description ?? ''
+                    : undefined
+                }
+                menuItems={[
+                  {
+                    icon: <FolderOutlined />,
+                    text: t('myNdla.resource.add'),
+                    onClick: () =>
+                      setResourceAction({ action: 'add', resource }),
                   },
-                },
-                {
-                  icon: <DeleteForever />,
-                  text: t('myNdla.resource.remove'),
-                  onClick: () =>
-                    setResourceAction({ action: 'delete', resource }),
-                  type: 'danger',
-                },
-              ]}
-            />
+                  {
+                    icon: <Link />,
+                    text: t('myNdla.resource.copyLink'),
+                    onClick: () => {
+                      navigator.clipboard.writeText(
+                        `${config.ndlaFrontendDomain}${resource.path}`,
+                      );
+                      addSnack({
+                        content: t('myNdla.resource.linkCopied'),
+                        id: 'linkCopied',
+                      });
+                    },
+                  },
+                  {
+                    icon: <DeleteForever />,
+                    text: t('myNdla.resource.remove'),
+                    onClick: () =>
+                      setResourceAction({ action: 'delete', resource, index }),
+                    type: 'danger',
+                  },
+                ]}
+              />
+            </ListItem>
           );
         })}
         {resourceAction && (
@@ -132,18 +174,10 @@ const ResourceList = ({ selectedFolder, viewType, folderId }: Props) => {
               isOpen={resourceAction.action === 'delete'}
               onClose={() => setResourceAction(undefined)}
               onDelete={async () => {
-                await deleteFolderResource({
-                  variables: {
-                    folderId,
-                    resourceId: resourceAction.resource.id,
-                  },
-                });
-                addSnack({
-                  id: `removedFromFolder${selectedFolder.id}`,
-                  content: t('myNdla.resource.removedFromFolder', {
-                    folderName: selectedFolder.name,
-                  }),
-                });
+                await onDeleteFolder(
+                  resourceAction.resource,
+                  resourceAction.index,
+                );
                 setResourceAction(undefined);
               }}
               description={t('myNdla.resource.confirmRemove')}

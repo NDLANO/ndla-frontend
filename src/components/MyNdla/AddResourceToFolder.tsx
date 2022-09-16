@@ -229,7 +229,6 @@ const AddResourceToFolder = ({ onClose, resource }: Props) => {
         onNewFolder={onAddNewFolder}
         onSelectFolder={setSelectedFolderId}
         defaultOpenFolders={['folders']}
-        framed
         type={'picker'}
         targetResource={storedResource}
       />

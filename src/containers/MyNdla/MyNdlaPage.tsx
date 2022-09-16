@@ -64,10 +64,16 @@ const RoundedImage = styled(Image)`
   }
 `;
 
-const StyledResourceList = styled.div`
+const StyledResourceList = styled.ul`
   display: flex;
+  margin: 0;
   flex-direction: column;
   gap: ${spacing.xsmall};
+`;
+
+const ListItem = styled.li`
+  list-style: none;
+  margin: 0;
 `;
 
 const LinkText = styled.p`
@@ -160,20 +166,22 @@ const MyNdlaPage = () => {
           {allFolderResources.map(res => {
             const meta = keyedData[`${res.resourceType}${res.resourceId}`];
             return (
-              <ListResource
-                id={res.id}
-                tagLinkPrefix="/minndla/tags"
-                isLoading={loading}
-                key={res.id}
-                link={res.path}
-                title={meta?.title ?? ''}
-                resourceImage={{
-                  src: meta?.metaImage?.url ?? '',
-                  alt: '',
-                }}
-                tags={res.tags}
-                topics={meta?.resourceTypes.map(rt => rt.name) ?? []}
-              />
+              <ListItem key={res.id}>
+                <ListResource
+                  id={res.id}
+                  tagLinkPrefix="/minndla/tags"
+                  isLoading={loading}
+                  key={res.id}
+                  link={res.path}
+                  title={meta?.title ?? ''}
+                  resourceImage={{
+                    src: meta?.metaImage?.url ?? '',
+                    alt: '',
+                  }}
+                  tags={res.tags}
+                  topics={meta?.resourceTypes.map(rt => rt.name) ?? []}
+                />
+              </ListItem>
             );
           })}
         </StyledResourceList>

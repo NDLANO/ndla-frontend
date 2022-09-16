@@ -67,7 +67,7 @@ export const BlockWrapper = styled.ul<BlockWrapperProps>`
     `};
 `;
 
-const ListItem = styled.li`
+export const ListItem = styled.li`
   list-style: none;
   margin: 0;
 `;
@@ -128,7 +128,10 @@ const FoldersPage = () => {
     const prevFolderIds = previousFolders?.map(f => f.id).sort();
 
     if (!isEqual(folderIds, prevFolderIds) && focusId) {
-      setTimeout(() => document.getElementById(focusId)?.focus(), 0);
+      setTimeout(
+        () => document.getElementById(`folder-${focusId}`)?.focus(),
+        0,
+      );
       setFocusId(undefined);
     } else if (
       !isEqual(folderIds, prevFolderIds) &&
@@ -137,7 +140,7 @@ const FoldersPage = () => {
     ) {
       const id = folders[0]?.id;
       if (id) {
-        setTimeout(() => document.getElementById(id)?.focus(), 0);
+        setTimeout(() => document.getElementById(`folder-${id}`)?.focus(), 0);
       }
     }
   }, [folders, focusId, previousFolders]);
@@ -268,7 +271,10 @@ const FoldersPage = () => {
             />
           )}
           {folders.map((folder, index) => (
-            <ListItem key={`folder-${index}`}>
+            <ListItem
+              key={`folder-${index}`}
+              id={`folder-${folder.id}`}
+              tabIndex={-1}>
               <Folder
                 key={folder.id}
                 id={folder.id}
