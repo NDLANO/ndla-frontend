@@ -84,7 +84,7 @@ const FolderBreadcrumb = ({ breadcrumbs, onActionChanged }: Props) => {
     () =>
       breadcrumbs.map(({ name, id }) => ({
         name,
-        to: `/minnlda/folders/${id}`,
+        to: `/minndla/folders/${id}`,
       })),
     [breadcrumbs],
   );
