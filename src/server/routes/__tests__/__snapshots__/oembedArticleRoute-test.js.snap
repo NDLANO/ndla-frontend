@@ -10,12 +10,12 @@ exports[`oembedArticleRoute invalid url 1`] = `
 exports[`oembedArticleRoute success 1`] = `
 {
   "data": {
-    "height": 800,
-    "html": "<iframe aria-label="Resource title" src="https://test.ndla.no/article-iframe/nb/urn:resource:1/123" frameborder="0" allowFullscreen="" />",
+    "height": 480,
+    "html": "<iframe aria-label="Resource title" src="https://test.ndla.no/article-iframe/nb/urn:resource:1/123" height="480" width="854" frameborder="0" allowFullscreen="" />",
     "title": "Resource title",
     "type": "rich",
     "version": "1.0",
-    "width": 800,
+    "width": 854,
   },
 }
 `;
@@ -23,12 +23,12 @@ exports[`oembedArticleRoute success 1`] = `
 exports[`oembedArticleRoute success 2`] = `
 {
   "data": {
-    "height": 800,
-    "html": "<iframe aria-label="Resource title" src="https://test.ndla.no/article-iframe/nb/urn:resource:1/123" frameborder="0" allowFullscreen="" />",
+    "height": 480,
+    "html": "<iframe aria-label="Resource title" src="https://test.ndla.no/article-iframe/nb/urn:resource:1/123" height="480" width="854" frameborder="0" allowFullscreen="" />",
     "title": "Resource title",
     "type": "rich",
     "version": "1.0",
-    "width": 800,
+    "width": 854,
   },
 }
 `;

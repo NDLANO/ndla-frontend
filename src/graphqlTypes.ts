@@ -1799,6 +1799,7 @@ export type GQLArticlePage_ResourceTypeFragment = {
 export type GQLArticlePage_SubjectFragment = {
   __typename?: 'Subject';
   name: string;
+  metadata: { __typename?: 'TaxonomyMetadata'; customFields: any };
 } & GQLArticleHero_SubjectFragment;
 
 export type GQLArticlePage_ResourceFragment = {
@@ -1897,6 +1898,7 @@ export type GQLLearningpathPage_TopicFragment = {
 export type GQLLearningpathPage_SubjectFragment = {
   __typename?: 'Subject';
   id: string;
+  metadata: { __typename?: 'TaxonomyMetadata'; customFields: any };
 } & GQLLearningpath_SubjectFragment;
 
 export type GQLLearningpathPage_ResourceTypeDefinitionFragment = {
