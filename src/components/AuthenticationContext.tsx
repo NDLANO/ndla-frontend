@@ -20,6 +20,8 @@ interface AuthContextType {
   login: () => void;
   logout: () => void;
   user: FeideUserApiType | undefined;
+  needsInteraction: boolean;
+  setNeedsInteraction: (needs: boolean) => void;
 }
 
 export const AuthContext = createContext<AuthContextType>({
@@ -28,6 +30,8 @@ export const AuthContext = createContext<AuthContextType>({
   login: () => {},
   logout: () => {},
   user: undefined,
+  needsInteraction: false,
+  setNeedsInteraction: () => {},
 });
 
 interface Props {
@@ -41,6 +45,7 @@ const AuthenticationContext = ({ children, initialValue }: Props) => {
   );
   const [authContextLoaded, setLoaded] = useState(false);
   const [user, setUser] = useState<FeideUserApiType | undefined>(undefined);
+  const [needsInteraction, setNeedsInteraction] = useState(false);
 
   useEffect(() => {
     const isValid = isAccessTokenValid();
@@ -59,12 +64,23 @@ const AuthenticationContext = ({ children, initialValue }: Props) => {
     }
   }, [authenticated]);
 
-  const login = () => setAuthenticated(true);
+  const login = () => {
+    setNeedsInteraction(false);
+    setAuthenticated(true);
+  };
   const logout = () => setAuthenticated(false);
 
   return (
     <AuthContext.Provider
-      value={{ authenticated, authContextLoaded, login, logout, user }}>
+      value={{
+        authenticated,
+        authContextLoaded,
+        login,
+        logout,
+        user,
+        needsInteraction,
+        setNeedsInteraction,
+      }}>
       {children}
     </AuthContext.Provider>
   );
