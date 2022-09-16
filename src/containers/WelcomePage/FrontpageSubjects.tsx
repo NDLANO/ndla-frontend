@@ -7,7 +7,6 @@
  *
  */
 
-import React from 'react';
 import { FrontpageProgramMenu } from '@ndla/ui';
 
 import { getProgrammes } from '../../util/programmesSubjectsHelper';

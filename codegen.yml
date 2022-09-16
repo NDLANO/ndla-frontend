@@ -1,11 +1,11 @@
 overwrite: true
-schema: "src/gqlSchema.json"
-documents: "src/queries.ts"
+schema: 'src/schema.graphql'
+documents: './src/**/!(*.d).{ts,tsx}'
 generates:
   src/graphqlTypes.ts:
     plugins:
-      - "typescript"
-      - "typescript-operations"
+      - 'typescript'
+      - 'typescript-operations'
 config:
   maybeValue: T
   typesPrefix: GQL

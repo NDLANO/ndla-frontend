@@ -6,40 +6,44 @@
  *
  */
 
-import React, { useContext } from 'react';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
-import { getUrnIdsFromProps } from '../../routeHelpers';
+import { gql } from '@apollo/client';
+import { useContext } from 'react';
+import { ContentPlaceholder } from '@ndla/ui';
+import { useUrnIds } from '../../routeHelpers';
 import { useGraphQuery } from '../../util/runQueries';
-import { subjectPageQuery } from '../../queries';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import { AuthContext } from '../../components/AuthenticationContext';
 import {
-  GQLSubjectPageQuery,
-  GQLSubjectPageQueryVariables,
+  GQLToolboxSubjectPageQuery,
+  GQLToolboxSubjectPageQueryVariables,
 } from '../../graphqlTypes';
-import ToolboxSubjectContainer from './ToolboxSubjectContainer';
-import { RootComponentProps } from '../../routes';
+import ToolboxSubjectContainer, {
+  toolboxSubjectContainerFragments,
+} from './ToolboxSubjectContainer';
 
-interface Props extends RootComponentProps, RouteComponentProps {}
-
-const ToolboxSubjectPage = ({ match, locale }: Props) => {
+const toolboxSubjectPageQuery = gql`
+  query toolboxSubjectPage($subjectId: String!) {
+    subject(id: $subjectId) {
+      ...ToolboxSubjectContainer_Subject
+    }
+  }
+  ${toolboxSubjectContainerFragments.subject}
+`;
+const ToolboxSubjectPage = () => {
   const { user } = useContext(AuthContext);
-  const { subjectId, topicList } = getUrnIdsFromProps({
-    ndlaFilm: false,
-    match,
-  });
+  const { subjectId, topicList } = useUrnIds();
 
   const { loading, data } = useGraphQuery<
-    GQLSubjectPageQuery,
-    GQLSubjectPageQueryVariables
-  >(subjectPageQuery, {
+    GQLToolboxSubjectPageQuery,
+    GQLToolboxSubjectPageQueryVariables
+  >(toolboxSubjectPageQuery, {
     variables: {
       subjectId: subjectId!,
     },
   });
 
   if (loading) {
-    return null;
+    return <ContentPlaceholder />;
   }
 
   if (!data?.subject) {
@@ -50,10 +54,9 @@ const ToolboxSubjectPage = ({ match, locale }: Props) => {
     <ToolboxSubjectContainer
       subject={data.subject}
       topicList={topicList}
-      locale={locale}
       user={user}
     />
   );
 };
 
-export default withRouter(ToolboxSubjectPage);
+export default ToolboxSubjectPage;

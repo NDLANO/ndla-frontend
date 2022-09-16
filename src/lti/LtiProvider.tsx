@@ -6,10 +6,11 @@
  *
  */
 
-import React, { useState, useEffect } from 'react';
-import { Helmet } from 'react-helmet';
+import { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import { useApolloClient } from '@apollo/client';
+import { setCookie } from '@ndla/util';
 
 import SearchInnerPage from '../containers/SearchPage/SearchInnerPage';
 import ErrorPage from '../containers/ErrorPage/ErrorPage';
@@ -18,14 +19,17 @@ import { searchPageQuery } from '../queries';
 import ErrorBoundary from '../containers/ErrorPage/ErrorBoundary';
 import { useGraphQuery } from '../util/runQueries';
 import { searchSubjects } from '../util/searchHelpers';
-import { RESOURCE_TYPE_LEARNING_PATH } from '../constants';
-import { initializeI18n } from '../i18n';
+import {
+  RESOURCE_TYPE_LEARNING_PATH,
+  STORED_LANGUAGE_COOKIE_KEY,
+} from '../constants';
 import { LocaleType, LtiData } from '../interfaces';
 import { GQLSearchPageQuery } from '../graphqlTypes';
+import { createApolloLinks } from '../util/apiHelpers';
 
 interface Props {
-  locale?: LocaleType;
   ltiData?: LtiData;
+  locale?: LocaleType;
 }
 
 interface SearchParams {
@@ -52,16 +56,17 @@ const LtiProvider = ({ locale: propsLocale, ltiData }: Props) => {
     url: subject.path,
   }));
 
-  const client = useApolloClient();
-
-  useEffect(() => {
-    initializeI18n(i18n, client);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const { data, error, loading } = useGraphQuery<GQLSearchPageQuery>(
     searchPageQuery,
   );
+  const client = useApolloClient();
+
+  i18n.on('languageChanged', lang => {
+    client.resetStore();
+    client.setLink(createApolloLinks(lang));
+    setCookie({ cookieName: STORED_LANGUAGE_COOKIE_KEY, cookieValue: lang });
+    document.documentElement.lang = lang;
+  });
 
   const handleSearchParamsChange = (searchParamUpdates: {
     selectedFilters?: string;
@@ -81,7 +86,7 @@ const LtiProvider = ({ locale: propsLocale, ltiData }: Props) => {
 
   if (error && !data) {
     handleError(error);
-    return <ErrorPage locale={locale} />;
+    return <ErrorPage />;
   }
 
   return (

@@ -10,7 +10,7 @@ import { GQLArticle } from '../graphqlTypes';
 import { LocaleType } from '../interfaces';
 import formatDate from './formatDate';
 
-function getContent(article: GQLArticle) {
+function getContent(content: string) {
   /**
    * We call extractCSS on the whole page server side. This removes/hoists
    * all style tags. The data (article) object is serialized with the style
@@ -22,13 +22,26 @@ function getContent(article: GQLArticle) {
    * styles will not be included.
    */
   if (process.env.BUILD_TARGET === 'client' && !window.hasHydrated) {
-    return article.content.replace(/<style.+?>.+?<\/style>/g, '');
+    return content.replace(/<style.+?>.+?<\/style>/g, '');
   }
-  return article.content;
+  return content;
 }
 
-export const transformArticle = (article: GQLArticle, locale: LocaleType) => {
-  const content = getContent(article);
+type BaseArticle = Pick<
+  GQLArticle,
+  | 'content'
+  | 'metaData'
+  | 'created'
+  | 'updated'
+  | 'published'
+  | 'requiredLibraries'
+  | 'revisionDate'
+>;
+export const transformArticle = <T extends BaseArticle>(
+  article: T,
+  locale: LocaleType,
+): T => {
+  const content = getContent(article.content);
   const footNotes = article?.metaData?.footnotes ?? [];
   return {
     ...article,

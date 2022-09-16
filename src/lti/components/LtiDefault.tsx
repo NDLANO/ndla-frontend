@@ -6,12 +6,13 @@
  *
  */
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Button from '@ndla/button';
 import { useTranslation } from 'react-i18next';
 import LtiEmbedCode from './LtiEmbedCode';
 import { fetchArticleOembed } from '../../containers/ArticlePage/articleApi';
 import { LtiItem } from '../../interfaces';
+import config from '../../config';
 
 interface Props {
   item: LtiItem;
@@ -22,7 +23,9 @@ const LtiDefault = ({ item }: Props) => {
   const { t } = useTranslation();
   const showEmbedCode = async (item: LtiItem) => {
     if (typeof item.url === 'string') {
-      const oembed = await fetchArticleOembed(item.url);
+      const oembed = await fetchArticleOembed(
+        `${config.ndlaFrontendDomain}${item.url}`,
+      );
       setEmbedCode(oembed.html);
     } else {
       setEmbedCode(

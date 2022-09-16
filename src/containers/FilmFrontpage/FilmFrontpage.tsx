@@ -6,18 +6,15 @@
  *
  */
 
-import React, { useRef, useState } from 'react';
-import { Helmet } from 'react-helmet';
+import { useRef, useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { css } from '@emotion/core';
 import { spacingUnit } from '@ndla/core';
+import { gql } from '@apollo/client';
 import {
-  //@ts-ignore
   FilmSlideshow,
-  //@ts-ignore
   AboutNdlaFilm,
-  //@ts-ignore
   FilmMovieSearch,
-  //@ts-ignore
   AllMoviesAlphabetically,
 } from '@ndla/ui';
 import { TFunction, withTranslation, WithTranslation } from 'react-i18next';
@@ -25,12 +22,12 @@ import { TFunction, withTranslation, WithTranslation } from 'react-i18next';
 import MovieCategory from './MovieCategory';
 import { htmlTitle } from '../../util/titleHelper';
 import {
-  GQLFilmFrontpage,
-  GQLFilmPageAbout,
-  GQLSubjectPageQuery,
+  GQLFilmFrontpage_FilmFrontpageFragment,
+  GQLFilmFrontpage_SubjectFragment,
 } from '../../graphqlTypes';
 import MoreAboutNdlaFilm from './MoreAboutNdlaFilm';
 import { MoviesByType } from './NdlaFilmFrontpage';
+import { movieFragment } from '../../queries';
 
 const ARIA_FILMCATEGORY_ID = 'movieCategoriesId';
 
@@ -45,22 +42,19 @@ const sortAlphabetically = (movies: MoviesByType[], locale: string) =>
     } else return a.title!.localeCompare(b.title!, locale);
   });
 
-type FilmFrontpageSubject = GQLSubjectPageQuery['subject'];
-
 interface Props extends WithTranslation {
-  filmFrontpage?: GQLFilmFrontpage;
+  filmFrontpage?: GQLFilmFrontpage_FilmFrontpageFragment;
   showingAll?: boolean;
   fetchingMoviesByType?: boolean;
   moviesByType?: MoviesByType[];
-  subject?: FilmFrontpageSubject;
+  subject?: GQLFilmFrontpage_SubjectFragment;
   resourceTypes: { id: string; name: string }[];
   onSelectedMovieByType: (resourceId: string) => void;
-  aboutNDLAVideo?: GQLFilmPageAbout;
   skipToContentId?: string;
 }
 const getDocumentTitle = (
   t: TFunction,
-  subject: FilmFrontpageSubject | undefined,
+  subject: GQLFilmFrontpage_SubjectFragment | undefined,
 ) => htmlTitle(subject?.name, [t('htmlTitles.titleTemplate')]);
 
 const FilmFrontpage = ({
@@ -68,7 +62,6 @@ const FilmFrontpage = ({
   resourceTypes = [],
   t,
   subject,
-  aboutNDLAVideo,
   moviesByType = [],
   showingAll,
   skipToContentId,
@@ -83,8 +76,11 @@ const FilmFrontpage = ({
     string
   >('');
   const movieListRef = useRef<HTMLDivElement | null>(null);
+  const about = filmFrontpage?.about?.find(
+    about => about.language === i18n.language,
+  );
 
-  const onChangeResourceType = (resourceType: string) => {
+  const onChangeResourceType = (resourceType?: string) => {
     const placeholderHeight = `${
       movieListRef.current?.getBoundingClientRect().height
     }px`;
@@ -103,11 +99,11 @@ const FilmFrontpage = ({
     <div id={skipToContentId}>
       <Helmet>
         <title>{getDocumentTitle(t, subject)}</title>
-        {aboutNDLAVideo?.description && (
-          <meta name="description" content={aboutNDLAVideo.description} />
+        {about?.description && (
+          <meta name="description" content={about.description} />
         )}
       </Helmet>
-      <FilmSlideshow slideshow={filmFrontpage?.slideShow} />
+      <FilmSlideshow slideshow={filmFrontpage?.slideShow ?? []} />
       <FilmMovieSearch
         ariaControlId={ARIA_FILMCATEGORY_ID}
         topics={subject?.topics ?? []}
@@ -137,9 +133,9 @@ const FilmFrontpage = ({
           />
         )}
       </div>
-      {aboutNDLAVideo && (
+      {about && (
         <AboutNdlaFilm
-          aboutNDLAVideo={aboutNDLAVideo}
+          aboutNDLAVideo={about}
           moreAboutNdlaFilm={<MoreAboutNdlaFilm />}
         />
       )}
@@ -149,6 +145,41 @@ const FilmFrontpage = ({
 
 FilmFrontpage.getDocumentTitle = ({ t, subject }: Props) => {
   return getDocumentTitle(t, subject);
+};
+
+export const filmFrontpageFragments = {
+  subject: gql`
+    fragment FilmFrontpage_Subject on Subject {
+      name
+      topics {
+        id
+        path
+        name
+      }
+    }
+  `,
+  filmFrontpage: gql`
+    fragment FilmFrontpage_FilmFrontpage on FilmFrontpage {
+      slideShow {
+        ...MovieInfo
+      }
+      movieThemes {
+        ...MovieCategory_MovieTheme
+      }
+      about {
+        title
+        description
+        visualElement {
+          alt
+          url
+          type
+        }
+        language
+      }
+    }
+    ${MovieCategory.fragments.movieTheme}
+    ${movieFragment}
+  `,
 };
 
 export default withTranslation()(FilmFrontpage);

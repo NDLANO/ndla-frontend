@@ -6,25 +6,20 @@
  *
  */
 
-import React, { ReactNode } from 'react';
-import { Route } from 'react-router-dom';
+import { ReactNode, useContext } from 'react';
+import RedirectContext, { RedirectInfo } from './RedirectContext';
 
 interface Props {
   code: number;
   children: ReactNode;
 }
 
-const Status = ({ code, children }: Props) => (
-  <Route
-    render={({ staticContext }) => {
-      const context = staticContext;
-      if (staticContext) {
-        //@ts-ignore
-        context.status = code;
-      }
-      return children;
-    }}
-  />
-);
+const Status = ({ code, children }: Props) => {
+  const redirectContext = useContext<RedirectInfo | undefined>(RedirectContext);
+  if (redirectContext) {
+    redirectContext.status = code;
+  }
+  return <>{children}</>;
+};
 
 export default Status;

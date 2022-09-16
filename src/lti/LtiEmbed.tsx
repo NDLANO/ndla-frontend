@@ -4,7 +4,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
 import LtiDefault from './components/LtiDefault';
 import LtiDeepLinking from './components/LtiDeepLinking';
 import LtiBasicLaunch from './components/LtiBasicLaunch';

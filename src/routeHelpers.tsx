@@ -6,54 +6,72 @@
  *
  */
 
-import { matchPath, RouteComponentProps } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import {
-  PROGRAMME_PAGE_PATH,
+  MULTIDISCIPLINARY_SUBJECT_ID,
   PROGRAMME_PATH,
-  SUBJECT_PAGE_PATH,
-  TOPIC_PATH,
+  TOOLBOX_STUDENT_SUBJECT_ID,
+  TOOLBOX_TEACHER_SUBJECT_ID,
 } from './constants';
-import { getProgrammeBySlug } from './data/programmes';
 import { GQLResource, GQLSubject, GQLTopic } from './graphqlTypes';
-import { Breadcrumb, LocaleType } from './interfaces';
+import { Breadcrumb } from './interfaces';
 
 export function toSearch(searchString?: string) {
   return `/search?${searchString || ''}`;
 }
 
-export const removeUrn = (str?: string) => (str ? str.replace('urn:', '') : '');
+export const removeUrn = (str?: string) => str?.replace('urn:', '') ?? '';
 
-export function getUrnIdsFromProps(props: {
-  ndlaFilm?: boolean;
-  match: RouteComponentProps<{
-    subjectId?: string;
-    topicPath?: string;
-    topicId?: string;
-    resourceId?: string;
-    articleId?: string;
-    topic1?: string;
-    topic2?: string;
-    programme?: string;
-  }>['match'];
-}) {
-  const {
-    ndlaFilm,
-    match: { params },
-  } = props;
-  const paramSubjectId = params.subjectId
-    ? `urn:subject:${params.subjectId}`
+export const getInitialMastheadMenu = (pathname: string) => {
+  if (pathname.startsWith('/utdanning/')) {
+    return 'programme';
+  } else if (
+    pathname === '/' ||
+    pathname.startsWith('/podkast') ||
+    pathname.startsWith('/article/') ||
+    pathname.startsWith('/learningpaths/') ||
+    pathname.startsWith('/search')
+  ) {
+    return 'programmes';
+  } else return undefined;
+};
+
+interface MatchParams extends TypedParams {
+  subjectId?: string;
+  topicPath?: string;
+  topicId?: string;
+  resourceId?: string;
+  articleId?: string;
+  topic1?: string;
+  topic2?: string;
+  topic3?: string;
+  topic4?: string;
+  programme?: string;
+}
+
+export const useUrnIds = () => {
+  const params = useTypedParams<MatchParams>();
+  const subjectId = params.subjectId
+    ? `urn:subject${params.subjectId}`
     : undefined;
-  const subjectId = ndlaFilm ? `urn:subject:20` : paramSubjectId;
   const topics = params.topicPath?.split('/') || [];
   const topicList = topics.map((t: string) => `urn:${t}`);
-  const topicId = params.topicId ? `urn:${params.topicId}` : undefined;
-  const topic1 = params.topic1 ? `urn:topic:${params.topic1}` : undefined;
-  const topic2 = params.topic2 ? `urn:topic:${params.topic2}` : undefined;
+  const topicId = params.topicId ? `urn:topic${params.topicId}` : undefined;
+  const topic1 = params.topic1 ? `urn:topic${params.topic1}` : undefined;
+  const topic2 = params.topic2 ? `urn:topic${params.topic2}` : undefined;
+  const topic3 = params.topic3 ? `urn:topic${params.topic3}` : undefined;
+  const topic4 = params.topic4 ? `urn:topic${params.topic4}` : undefined;
   if (topic1) {
     topicList.push(topic1);
   }
   if (topic2) {
     topicList.push(topic2);
+  }
+  if (topic3) {
+    topicList.push(topic3);
+  }
+  if (topic4) {
+    topicList.push(topic4);
   }
   if (topicId) {
     topicList.push(topicId);
@@ -63,13 +81,44 @@ export function getUrnIdsFromProps(props: {
     subjectId,
     topicList,
     resourceId: params.resourceId
-      ? `urn:resource:${params.resourceId}`
+      ? `urn:resource${params.resourceId}`
       : undefined,
     articleId: params.articleId,
     topicId: topicList[topicList.length - 1],
     programme: params.programme,
+    stepId: params.stepId,
+    subjectType: subjectId ? getSubjectType(subjectId) : undefined,
   };
-}
+};
+
+type SubjectType =
+  | 'multiDisciplinary'
+  | 'standard'
+  | 'toolbox'
+  | 'film'
+  | undefined;
+
+export const getSubjectType = (subjectId: string): SubjectType => {
+  if (subjectId === MULTIDISCIPLINARY_SUBJECT_ID) {
+    return 'multiDisciplinary';
+  } else if (
+    subjectId === TOOLBOX_STUDENT_SUBJECT_ID ||
+    subjectId === TOOLBOX_TEACHER_SUBJECT_ID
+  ) {
+    return 'toolbox';
+  } else if (subjectId === 'urn:subject:20') {
+    return 'film';
+  } else if (typeof subjectId === 'string') {
+    return 'standard';
+  }
+
+  return undefined;
+};
+
+export const useIsNdlaFilm = () => {
+  const { subjectType } = useUrnIds();
+  return subjectType === 'film';
+};
 
 function toLearningpaths() {
   return '/learningpaths';
@@ -83,7 +132,7 @@ type Resource = {
 export function toLearningPath(
   pathId?: string | number,
   stepId?: string | number,
-  resource?: Resource,
+  resource?: Pick<Resource, 'path'>,
 ) {
   if (resource) {
     return stepId ? `${resource.path}/${stepId}` : resource.path;
@@ -137,31 +186,24 @@ export type SubjectURI = {
 
 export function toBreadcrumbItems(
   rootName: string,
-  paths: (GQLTopic | Pick<GQLResource, 'id'> | GQLSubject | undefined)[],
+  paths: ({ id: string; name: string } | undefined)[],
 ): Breadcrumb[] {
   const safePaths = paths.filter(
     (p): p is GQLTopic | GQLResource | GQLSubject => p !== undefined,
   );
-  if (safePaths.length < 1) return [];
+  const [subject, ...rest] = safePaths;
+  if (!subject) return [];
   // henter longname fra filter og bruk i stedet for første ledd i path
   const breadcrumbSubject = safePaths[0]!;
 
-  const prelinks = [breadcrumbSubject, ...safePaths.splice(1)];
-  const filteredLinks = prelinks.filter(l => !!l);
-  const breadcrumbs = filteredLinks
+  const links = [breadcrumbSubject, ...rest];
+  const breadcrumbs = links
     .reduce<Breadcrumb[]>((acc, link) => {
-      const to =
-        (acc.length ? acc?.[acc.length - 1]?.to : '') +
-        '/' +
-        removeUrn(link.id);
+      const prefix = acc.length ? acc[acc.length - 1]?.to : '';
+      const to = `${prefix}/${removeUrn(link.id)}`;
       return acc.concat([{ to, name: link.name }]);
     }, [])
-    .map(bc => {
-      if (bc.to) {
-        bc.to = fixEndSlash(bc.to);
-      }
-      return bc;
-    });
+    .map(bc => ({ ...bc, to: fixEndSlash(bc.to) }));
   return [{ to: '/', name: rootName }, ...breadcrumbs];
 }
 
@@ -203,29 +245,8 @@ export function toProgrammeSubject(
   return `${toProgramme(programmePath)}${toTopic(subjectId, ...topicIds)}`;
 }
 
-export function isSubjectPagePath(pathname: string) {
-  const match = matchPath(pathname, SUBJECT_PAGE_PATH);
-  if (match) {
-    return match.isExact;
-  }
-  return false;
-}
+export type TypedParams = Record<string, string | undefined>;
 
-export function isTopicPath(pathname: string) {
-  const match = matchPath(pathname, TOPIC_PATH);
-  if (match) {
-    return match.isExact;
-  }
-  return false;
-}
-
-export function getProgrammeByPath(pathname: string, locale: LocaleType) {
-  const match = matchPath<{ programme?: string }>(
-    pathname,
-    PROGRAMME_PAGE_PATH,
-  );
-  if (match?.params?.programme) {
-    return getProgrammeBySlug(match.params.programme, locale);
-  }
-  return null;
-}
+export const useTypedParams = <TParams extends TypedParams>() => {
+  return useParams() as TParams;
+};

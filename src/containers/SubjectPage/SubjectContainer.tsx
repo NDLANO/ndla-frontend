@@ -6,63 +6,93 @@
  *
  */
 
-import React, { ComponentType, ReactNode, useState, useRef } from 'react';
-import { Helmet } from 'react-helmet';
+import { gql } from '@apollo/client';
 import {
+  ComponentType,
+  ReactNode,
+  useState,
+  useRef,
+  createRef,
+  MouseEvent,
+} from 'react';
+import { Helmet } from 'react-helmet-async';
+import {
+  constants,
   ArticleHeaderWrapper,
   OneColumn,
   SubjectBanner,
   LayoutItem,
   NavigationHeading,
   Breadcrumblist,
+  MessageBox,
+  FeideUserApiType,
 } from '@ndla/ui';
 import { withTracker } from '@ndla/tracker';
 import { useIntersectionObserver } from '@ndla/hooks';
-import { RouteComponentProps } from 'react-router';
-import { withRouter } from 'react-router';
-import { withTranslation, WithTranslation } from 'react-i18next';
+import {
+  withTranslation,
+  TFunction,
+  CustomWithTranslation,
+} from 'react-i18next';
 import SubjectPageContent from './components/SubjectPageContent';
-import SubjectEditorChoices from './components/SubjectEditorChoices';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { scrollToRef } from './subjectPageHelpers';
-import SubjectPageInformation from './components/SubjectPageInformation';
 import CompetenceGoals from '../../components/CompetenceGoals';
-import { parseAndMatchUrl } from '../../util/urlHelper';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { htmlTitle } from '../../util/titleHelper';
-import { BreadcrumbItem, LocaleType } from '../../interfaces';
-import { GQLSubjectPageWithTopicsQuery } from '../../graphqlTypes';
-import { FeideUserWithGroups } from '../../util/feideApi';
+import { BreadcrumbItem } from '../../interfaces';
+import { GQLSubjectContainer_SubjectFragment } from '../../graphqlTypes';
+import {
+  TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
+  TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE,
+} from '../../constants';
+import { useIsNdlaFilm } from '../../routeHelpers';
 
-export type GQLSubjectContainerType = Required<
-  GQLSubjectPageWithTopicsQuery
->['subject'];
 type Props = {
-  locale: LocaleType;
-  skipToContentId?: string;
   subjectId: string;
   topicIds: string[];
-  subject: GQLSubjectContainerType;
-  ndlaFilm?: boolean;
+  subject: GQLSubjectContainer_SubjectFragment;
   loading?: boolean;
-  user?: FeideUserWithGroups;
-} & WithTranslation &
-  RouteComponentProps;
+  user?: FeideUserApiType;
+} & CustomWithTranslation;
 
-const SubjectContainer = ({
-  history,
-  locale,
-  t,
-  subjectId,
-  topicIds,
-  subject,
-  ndlaFilm,
-}: Props) => {
+const getSubjectCategoryMessage = (
+  subjectCategory: string | undefined,
+  t: TFunction,
+): string | undefined => {
+  if (
+    !subjectCategory ||
+    subjectCategory === constants.subjectCategories.ACTIVE_SUBJECTS
+  ) {
+    return undefined;
+  } else if (subjectCategory === constants.subjectCategories.BETA_SUBJECTS) {
+    return t('messageBoxInfo.subjectBeta');
+  } else if (subjectCategory === constants.subjectCategories.ARCHIVE_SUBJECTS) {
+    return t('messageBoxInfo.subjectOutdated');
+  } else {
+    return undefined;
+  }
+};
+
+const getSubjectTypeMessage = (
+  subjectType: string | undefined,
+  t: TFunction,
+): string | undefined => {
+  if (!subjectType || subjectType === constants.subjectTypes.SUBJECT) {
+    return undefined;
+  } else if (subjectType === constants.subjectTypes.RESOURCE_COLLECTION) {
+    return t('messageBoxInfo.resources');
+  } else {
+    return undefined;
+  }
+};
+
+const SubjectContainer = ({ t, subjectId, topicIds, subject }: Props) => {
+  const ndlaFilm = useIsNdlaFilm();
   const { name: subjectName } = subject;
 
   const metaDescription = subject.subjectpage?.metaDescription;
   const about = subject.subjectpage?.about;
-  const editorsChoices = subject.subjectpage?.editorsChoices;
 
   const [currentLevel, setCurrentLevel] = useState<number | string | undefined>(
     0,
@@ -114,8 +144,7 @@ const SubjectContainer = ({
   };
 
   function renderCompetenceGoals(
-    subject: GQLSubjectContainerType,
-    locale: LocaleType,
+    subject: GQLSubjectContainer_SubjectFragment,
   ):
     | ((inp: {
         Dialog: ComponentType;
@@ -134,7 +163,6 @@ const SubjectContainer = ({
         <CompetenceGoals
           codes={subject.grepCodes}
           subjectId={subject.id}
-          language={locale}
           wrapperComponent={Dialog}
           wrapperComponentProps={dialogProps}
         />
@@ -144,12 +172,9 @@ const SubjectContainer = ({
   }
 
   const headerRef = useRef<HTMLDivElement>(null);
-  const topicRefs = topicIds.map(_ => React.createRef<HTMLDivElement>());
+  const topicRefs = topicIds.map(_ => createRef<HTMLDivElement>());
 
-  const handleNav = (
-    e: React.MouseEvent<HTMLElement>,
-    item: BreadcrumbItem,
-  ) => {
+  const handleNav = (e: MouseEvent<HTMLElement>, item: BreadcrumbItem) => {
     e.preventDefault();
     const { typename, index } = item;
     if (typename === 'Subjecttype' || typename === 'Subject') {
@@ -162,12 +187,6 @@ const SubjectContainer = ({
         if (refToScroll) scrollToRef(refToScroll);
       }
     }
-  };
-
-  const onClickTopics = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    const path = parseAndMatchUrl(e.currentTarget?.href, true);
-    history.push({ pathname: path?.url });
   };
 
   // show/hide breadcrumb based on intersection
@@ -199,11 +218,18 @@ const SubjectContainer = ({
       : subject.topics) || [];
 
   const supportedLanguages =
-    topicsOnPage[topicsOnPage.length - 1]?.article?.supportedLanguages;
+    topicsOnPage[topicsOnPage.length - 1]?.supportedLanguages;
 
-  const imageUrlObj = socialMediaMetadata.image?.url
-    ? { url: socialMediaMetadata.image.url }
-    : undefined;
+  const nonRegularSubjectMessage = getSubjectCategoryMessage(
+    subject.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY],
+    t,
+  );
+
+  const nonRegularSubjectTypeMessage = getSubjectTypeMessage(
+    subject.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE],
+    t,
+  );
+
   return (
     <>
       <Helmet>
@@ -220,13 +246,12 @@ const SubjectContainer = ({
             <SocialMediaMetadata
               title={socialMediaMetadata.title}
               description={socialMediaMetadata.description}
-              locale={locale}
-              image={imageUrlObj}
+              imageUrl={socialMediaMetadata.image?.url}
               trackableContent={{ supportedLanguages }}
             />
             <div ref={headerRef}>
               <ArticleHeaderWrapper
-                competenceGoals={renderCompetenceGoals(subject, locale)}>
+                competenceGoals={renderCompetenceGoals(subject)}>
                 <NavigationHeading
                   subHeading={subjectNames.subHeading}
                   invertedStyle={ndlaFilm}>
@@ -234,11 +259,14 @@ const SubjectContainer = ({
                 </NavigationHeading>
               </ArticleHeaderWrapper>
             </div>
+            {nonRegularSubjectMessage && (
+              <MessageBox>{nonRegularSubjectMessage}</MessageBox>
+            )}
+            {nonRegularSubjectTypeMessage && (
+              <MessageBox>{nonRegularSubjectTypeMessage}</MessageBox>
+            )}
             <SubjectPageContent
-              locale={locale}
               subject={subject}
-              ndlaFilm={ndlaFilm}
-              onClickTopics={onClickTopics}
               topicIds={topicIds}
               refs={topicRefs}
               setBreadCrumb={setBreadCrumb}
@@ -252,7 +280,7 @@ const SubjectContainer = ({
           negativeTopMargin={moveBannerUp}
         />
       )}
-      {false && subject.subjectpage?.about && (
+      {/* {false && subject.subjectpage?.about && (
         <OneColumn wide>
           <SubjectPageInformation subjectpage={subject.subjectpage} wide />
         </OneColumn>
@@ -263,7 +291,7 @@ const SubjectContainer = ({
           editorsChoices={editorsChoices}
           locale={locale}
         />
-      )}
+      )} */}
       <OneColumn wide>
         <Breadcrumblist
           items={breadCrumbs}
@@ -304,4 +332,43 @@ SubjectContainer.getDimensions = (props: Props) => {
   });
 };
 
-export default withTranslation()(withRouter(withTracker(SubjectContainer)));
+export const subjectContainerFragments = {
+  subject: gql`
+    fragment SubjectContainer_Subject on Subject {
+      metadata {
+        customFields
+      }
+      grepCodes
+      topics {
+        id
+        supportedLanguages
+      }
+      allTopics {
+        id
+        name
+        meta {
+          metaDescription
+          metaImage {
+            url
+          }
+        }
+      }
+      subjectpage {
+        metaDescription
+        about {
+          title
+          visualElement {
+            url
+          }
+        }
+        banner {
+          desktopUrl
+        }
+      }
+      ...SubjectPageContent_Subject
+    }
+    ${SubjectPageContent.fragments.subject}
+  `,
+};
+
+export default withTranslation()(withTracker(SubjectContainer));

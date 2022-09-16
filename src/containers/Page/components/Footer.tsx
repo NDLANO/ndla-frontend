@@ -6,31 +6,21 @@
  *
  */
 
-import React from 'react';
-import { useLocation } from 'react-router';
-import { Footer, LanguageSelector, FooterText, EditorName } from '@ndla/ui';
-import { Facebook, Twitter, EmailOutline, Youtube } from '@ndla/icons/common';
+import { Footer, FooterText, EditorName, LanguageSelector } from '@ndla/ui';
+import {
+  Facebook,
+  Instagram,
+  LinkedIn,
+  EmailOutline,
+  Youtube,
+} from '@ndla/icons/common';
 import { useTranslation } from 'react-i18next';
-import { getLocaleUrls } from '../../../util/localeHelpers';
 
 interface Props {
-  inverted?: boolean;
+  ndlaFilm?: boolean;
 }
-
-const FooterWrapper = ({ inverted }: Props) => {
-  const location = useLocation();
+const FooterWrapper = ({ ndlaFilm }: Props) => {
   const { t, i18n } = useTranslation();
-
-  const languageSelector = (
-    <LanguageSelector
-      center
-      outline
-      alwaysVisible
-      inverted={inverted}
-      options={getLocaleUrls(i18n.language, location)}
-      currentLanguage={i18n.language}
-    />
-  );
 
   const links = [
     {
@@ -39,9 +29,14 @@ const FooterWrapper = ({ inverted }: Props) => {
       icon: <Facebook />,
     },
     {
-      to: 'https://twitter.com/ndla_no',
-      text: t('footer.socialMediaLinks.twitter'),
-      icon: <Twitter />,
+      to: 'https://instagram.com/ndla_no/',
+      text: t('footer.socialMediaLinks.instagram'),
+      icon: <Instagram />,
+    },
+    {
+      to: 'https://www.linkedin.com/company/ndla/',
+      text: t('footer.socialMediaLinks.linkedin'),
+      icon: <LinkedIn />,
     },
     {
       to: 'https://www.youtube.com/channel/UCBlt6T8B0mmvDh3k5q7EhsA',
@@ -60,7 +55,17 @@ const FooterWrapper = ({ inverted }: Props) => {
       lang={i18n.language}
       //@ts-ignore Wrongly typed as an array with a single element in frontend-packages.
       links={links}
-      languageSelector={languageSelector}>
+      languageSelector={
+        <LanguageSelector
+          //not used, but not removed from props.
+          options={{}}
+          center
+          outline
+          alwaysVisible
+          inverted={!!ndlaFilm}
+          currentLanguage={i18n.language}
+        />
+      }>
       <FooterText>
         <EditorName
           title={t('footer.footerEditiorInChief')}

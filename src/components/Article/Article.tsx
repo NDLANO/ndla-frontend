@@ -6,25 +6,41 @@
  *
  */
 
-import React, { ComponentType, ReactNode, useEffect, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router';
+import {
+  ComponentType,
+  ReactNode,
+  ReactElement,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
+import { useLocation } from 'react-router-dom';
 import { Remarkable } from 'remarkable';
-// @ts-ignore
-import { Article as UIArticle, ContentTypeBadge } from '@ndla/ui';
+import { gql } from '@apollo/client';
+import {
+  Article as UIArticle,
+  ContentTypeBadge,
+  getMastheadHeight,
+} from '@ndla/ui';
+import { useTranslation } from 'react-i18next';
 import config from '../../config';
 import LicenseBox from '../license/LicenseBox';
 import CompetenceGoals from '../CompetenceGoals';
-import { GQLArticle, GQLArticleInfoFragment } from '../../graphqlTypes';
-import { LocaleType } from '../../interfaces';
-import VisualElementWrapper from '../VisualElement/VisualElementWrapper';
+import {
+  GQLArticleConceptsQuery,
+  GQLArticleConceptsQueryVariables,
+  GQLArticle_ArticleFragment,
+  GQLArticle_ConceptFragment,
+} from '../../graphqlTypes';
 import { MastheadHeightPx } from '../../constants';
+import { useGraphQuery } from '../../util/runQueries';
+import AddResourceToFolderModal from '../MyNdla/AddResourceToFolderModal';
 
 function renderCompetenceGoals(
-  article: GQLArticle,
-  locale: LocaleType,
+  article: GQLArticle_ArticleFragment,
   isTopicArticle: boolean,
   subjectId?: string,
+  isOembed?: boolean,
 ):
   | ((inp: {
       Dialog: ComponentType;
@@ -34,7 +50,8 @@ function renderCompetenceGoals(
   // Don't show competence goals for topics or articles without grepCodes
   if (
     !isTopicArticle &&
-    (article.competenceGoals?.length || article.coreElements?.length)
+    (article.competenceGoals?.length ||
+      article.grepCodes?.filter(gc => gc.toUpperCase().startsWith('K'))?.length)
   ) {
     return ({
       Dialog,
@@ -47,13 +64,10 @@ function renderCompetenceGoals(
         codes={article.grepCodes}
         nodeId={article.oldNdlaUrl?.split('/').pop()}
         subjectId={subjectId}
-        language={
-          article.supportedLanguages?.find(l => l === locale) ||
-          article.supportedLanguages?.[0] ||
-          locale
-        }
+        supportedLanguages={article.supportedLanguages}
         wrapperComponent={Dialog}
         wrapperComponentProps={dialogProps}
+        isOembed={isOembed}
       />
     );
   }
@@ -62,41 +76,41 @@ function renderCompetenceGoals(
 
 interface Props {
   id?: string;
-  article: GQLArticleInfoFragment;
+  article: GQLArticle_ArticleFragment;
   resourceType?: string;
   isTopicArticle?: boolean;
-  children?: React.ReactElement;
+  children?: ReactElement;
   contentType?: string;
   label: string;
-  locale: LocaleType;
   modifier?: string;
   isResourceArticle?: boolean;
   copyPageUrlLink?: string;
   printUrl?: string;
   subjectId?: string;
+  isPlainArticle?: boolean;
+  isOembed?: boolean;
+  showFavoriteButton?: boolean;
+  myNdlaResourceType?: string;
 }
 
-const renderNotions = (article: GQLArticleInfoFragment, locale: LocaleType) => {
+const renderNotions = (
+  concepts: GQLArticle_ConceptFragment[],
+  relatedContent: GQLArticle_ArticleFragment['relatedContent'],
+) => {
   const notions =
-    article.concepts?.map(concept => {
-      const { content: text, copyright, subjectNames, visualElement } = concept;
-      const { creators: authors, license } = copyright!;
+    concepts?.map(concept => {
       return {
         ...concept,
-        id: concept.id.toString(),
-        title: concept.title,
-        text,
-        locale,
-        labels: subjectNames,
-        authors,
-        license: license?.license,
-        media: visualElement && (
-          <VisualElementWrapper visualElement={visualElement} locale={locale} />
-        ),
+        labels: concept.subjectNames ?? [],
+        text: concept.content ?? '',
+        image: concept.image && {
+          src: concept.image.src,
+          alt: concept.image.altText,
+        },
       };
     }) ?? [];
   const related =
-    article.relatedContent?.map(rc => ({
+    relatedContent?.map(rc => ({
       ...rc,
       label: rc.title,
     })) ?? [];
@@ -112,6 +126,66 @@ const renderNotions = (article: GQLArticleInfoFragment, locale: LocaleType) => {
   return undefined;
 };
 
+const articleConceptFragment = gql`
+  fragment Article_Concept on Concept {
+    copyright {
+      license {
+        license
+      }
+      creators {
+        name
+        type
+      }
+    }
+    subjectNames
+    id
+    title
+    content
+    image {
+      src
+      altText
+    }
+    visualElement {
+      resource
+      title
+      url
+      copyright {
+        license {
+          license
+        }
+        creators {
+          name
+          type
+        }
+        processors {
+          name
+          type
+        }
+        rightsholders {
+          name
+          type
+        }
+        origin
+      }
+      image {
+        src
+        alt
+      }
+    }
+  }
+`;
+
+const articleConceptQuery = gql`
+  query articleConcepts($conceptIds: [Int!]!) {
+    conceptSearch(ids: $conceptIds) {
+      concepts {
+        ...Article_Concept
+      }
+    }
+  }
+  ${articleConceptFragment}
+`;
+
 const Article = ({
   article,
   resourceType,
@@ -119,16 +193,20 @@ const Article = ({
   children,
   contentType,
   label,
-  locale,
   modifier,
   isResourceArticle = false,
   copyPageUrlLink,
   printUrl,
   id,
   subjectId,
+  isPlainArticle,
+  isOembed = false,
+  showFavoriteButton,
+  myNdlaResourceType = 'article',
   ...rest
 }: Props) => {
   const { i18n } = useTranslation();
+  const [isOpen, setIsOpen] = useState(false);
   const markdown = useMemo(() => {
     const md = new Remarkable({ breaks: true });
     md.inline.ruler.enable(['sub', 'sup']);
@@ -136,6 +214,19 @@ const Article = ({
     return md;
   }, []);
 
+  const { data: concepts } = useGraphQuery<
+    GQLArticleConceptsQuery,
+    GQLArticleConceptsQueryVariables
+  >(articleConceptQuery, {
+    variables: {
+      conceptIds: article.conceptIds!,
+    },
+    skip:
+      typeof window === 'undefined' || // only fetch on client. ssr: false does not work.
+      !article.conceptIds ||
+      article.conceptIds.length === 0 ||
+      isPlainArticle,
+  });
   const location = useLocation();
 
   // Scroll to element with ID passed in as a query-parameter.
@@ -148,7 +239,8 @@ const Article = ({
         const elementTop = element?.getBoundingClientRect().top ?? 0;
         const bodyTop = document.body.getBoundingClientRect().top ?? 0;
         const absoluteTop = elementTop - bodyTop;
-        const scrollPosition = absoluteTop - MastheadHeightPx * 2;
+        const scrollPosition =
+          absoluteTop - (getMastheadHeight() || MastheadHeightPx) - 20;
 
         window.scrollTo({
           top: scrollPosition,
@@ -187,32 +279,91 @@ const Article = ({
     footNotes: article.metaData?.footnotes ?? [],
   };
 
+  const messages = {
+    label,
+  };
+
   return (
-    <UIArticle
-      id={id ?? article.id.toString()}
-      article={art}
-      icon={icon}
-      locale={locale}
-      licenseBox={<LicenseBox article={article} locale={locale} />}
-      messages={{
-        label,
-      }}
-      competenceGoals={renderCompetenceGoals(
-        article,
-        locale,
-        isTopicArticle,
-        subjectId,
+    <>
+      <UIArticle
+        id={id ?? article.id.toString()}
+        article={art}
+        icon={icon}
+        locale={i18n.language}
+        licenseBox={<LicenseBox article={article} />}
+        messages={messages}
+        competenceGoals={renderCompetenceGoals(
+          article,
+          isTopicArticle,
+          subjectId,
+          isOembed,
+        )}
+        competenceGoalTypes={competenceGoalTypes}
+        notions={
+          isPlainArticle
+            ? undefined
+            : renderNotions(
+                concepts?.conceptSearch?.concepts ?? [],
+                article.relatedContent,
+              )
+        }
+        renderMarkdown={renderMarkdown}
+        modifier={isResourceArticle ? resourceType : modifier ?? 'clean'}
+        copyPageUrlLink={copyPageUrlLink}
+        printUrl={printUrl}
+        onToggleAddToFavorites={
+          showFavoriteButton ? () => setIsOpen(true) : undefined
+        }
+        {...rest}>
+        {children}
+      </UIArticle>
+      {config.feideEnabled && showFavoriteButton && (
+        <AddResourceToFolderModal
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          resource={{
+            id: article.id,
+            path: location.pathname,
+            resourceType: myNdlaResourceType,
+          }}
+        />
       )}
-      competenceGoalTypes={competenceGoalTypes}
-      notions={renderNotions(article, i18n.language as LocaleType)}
-      renderMarkdown={renderMarkdown}
-      modifier={isResourceArticle ? resourceType : modifier ?? 'clean'}
-      copyPageUrlLink={copyPageUrlLink}
-      printUrl={printUrl}
-      {...rest}>
-      {children}
-    </UIArticle>
+    </>
   );
 };
 
+Article.fragments = {
+  article: gql`
+    fragment Article_Article on Article {
+      id
+      content
+      supportedLanguages
+      grepCodes
+      oldNdlaUrl
+      introduction
+      conceptIds
+      metaData {
+        footnotes {
+          ref
+          title
+          year
+          authors
+          edition
+          publisher
+          url
+        }
+      }
+      relatedContent {
+        title
+        url
+      }
+      competenceGoals {
+        type
+      }
+      revisionDate
+      ...LicenseBox_Article
+    }
+    ${LicenseBox.fragments.article}
+  `,
+};
 export default Article;

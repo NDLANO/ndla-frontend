@@ -18,32 +18,59 @@ const messages = {
     notFound: `Siden finnes ikke - ${titleTemplate}`,
     accessDenied: `Ingen tilgang - ${titleTemplate}`,
     subject: 'Fag',
+    podcast: `Podkast - Side {{pageNumber}} - ${titleTemplate}`,
     lti: `LTI - ${titleTemplate}`,
     movedResourcePage: `Siden har flyttet - ${titleTemplate}`,
+    myNdlaPage: `Min NDLA - ${titleTemplate}`,
+    myFoldersPage: `Mine mapper - ${titleTemplate}`,
+    myFolderPage: `{{folderName}} - ${titleTemplate}`,
+    myTagPage: `#{{tag}} - ${titleTemplate}`,
+    myTagsPage: `Mine tags - ${titleTemplate}`,
     toolbox: {
       visualElement: 'Om emne video',
       introduction:
         'Hva vil det si å arbeide utforskende? Hvordan kan du lære bedre? Hva skal til for å få gruppearbeid til å fungere? I Verktøykassa finner både elever og lærere ressurser som er aktuelle for alle fag, og som støtter opp under læringsarbeid og utvikling av kunnskap, ferdigheter og forståelse.',
     },
   },
+  podcastPage: {
+    episodes: 'Episoder',
+    podcast: 'Podkast',
+    podcasts: 'Podkaster',
+    pageInfo: 'Side {{page}} av {{lastPage}}',
+    noResults: '...Ingen episoder',
+  },
+  messageBoxInfo: {
+    subjectBeta:
+      'Dette faget er i betaversjon. Vi fyller på med ressurser fortløpende.',
+  },
   blogPosts: {
     blog1: {
       imageUrl: '/static/nye-fag.jpg',
-      text: 'Nye fag på NDLA',
-      externalLink: 'https://blogg.ndla.no/2021/12/nye-fag-pa-ndla/',
+      text: 'Forslag til årsplaner fra NDLA',
+      externalLink:
+        'https://blogg.ndla.no/2021/08/forslag-til-arsplaner-hos-ndla/',
       linkText: 'Fagblogg',
       license: 'CC-BY-SA-4.0',
       licenseAuthor: 'Vibeke Klungland',
     },
     blog2: {
       imageUrl: '/static/aktiviser-elevene.jpg',
-      text: 'Aktiviser elevene med digitale verktøy',
+      text: 'Huskeliste for kontaktlærere',
       externalLink:
-        'https://blogg.ndla.no/2021/09/aktiviser-elevane-med-digitale-verktoy/',
+        'https://blogg.ndla.no/2019/08/huskeliste-for-kontaktlaerere/',
       linkText: 'Fagblogg',
       license: 'CC-BY-SA-4.0',
       licenseAuthor: 'Tom Knudsen',
     },
+  },
+
+  validation: {
+    fields: {
+      name: 'Navn',
+    },
+    required: 'Dette feltet er påkrevd',
+    requiredField: '$t(validation.fields.{{field}}) er påkrevd',
+    notUnique: 'Finnes allerede',
   },
 };
 

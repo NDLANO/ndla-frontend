@@ -6,9 +6,8 @@
  *
  */
 
-import React from 'react';
-import { Helmet } from 'react-helmet';
-
+import { gql } from '@apollo/client';
+import { Helmet } from 'react-helmet-async';
 import { OneColumn, CreatedBy } from '@ndla/ui';
 import { withTracker } from '@ndla/tracker';
 import { CustomWithTranslation, withTranslation } from 'react-i18next';
@@ -21,21 +20,24 @@ import PostResizeMessage from './PostResizeMessage';
 import FixDialogPosition from './FixDialogPosition';
 import SocialMediaMetadata from '../components/SocialMediaMetadata';
 import config from '../config';
+import {
+  GQLIframeArticlePage_ArticleFragment,
+  GQLIframeArticlePage_ResourceFragment,
+} from '../graphqlTypes';
 import { LocaleType } from '../interfaces';
-import { GQLArticle, GQLIframeResourceFragment } from '../graphqlTypes';
 
 interface Props extends CustomWithTranslation {
   locale?: LocaleType;
-  resource?: GQLIframeResourceFragment;
-  article: GQLArticle;
+  resource?: GQLIframeArticlePage_ResourceFragment;
+  article: GQLIframeArticlePage_ArticleFragment;
 }
 
 const IframeArticlePage = ({
   resource,
-  locale: propsLocale,
   t,
   article: propsArticle,
   i18n,
+  locale: propsLocale,
 }: Props) => {
   const locale = propsLocale ?? i18n.language;
   const article = transformArticle(propsArticle, locale);
@@ -60,16 +62,16 @@ const IframeArticlePage = ({
       </Helmet>
       <SocialMediaMetadata
         title={article.title}
-        image={article.metaImage}
+        imageUrl={article.metaImage?.url}
         description={article.metaDescription}
-        locale={locale}
         trackableContent={article}
       />
       <PostResizeMessage />
       <FixDialogPosition />
       <Article
         article={article}
-        locale={locale}
+        isPlainArticle
+        isOembed
         modifier="clean iframe"
         {...getArticleProps(resource)}>
         <CreatedBy
@@ -80,6 +82,31 @@ const IframeArticlePage = ({
       </Article>
     </OneColumn>
   );
+};
+
+export const iframeArticlePageFragments = {
+  article: gql`
+    fragment IframeArticlePage_Article on Article {
+      created
+      updated
+      metaDescription
+      metaImage {
+        url
+      }
+      ...Article_Article
+    }
+    ${Article.fragments.article}
+  `,
+  resource: gql`
+    fragment IframeArticlePage_Resource on Resource {
+      id
+      path
+      resourceTypes {
+        id
+        name
+      }
+    }
+  `,
 };
 
 IframeArticlePage.getDocumentTitle = ({ article }: Pick<Props, 'article'>) => {

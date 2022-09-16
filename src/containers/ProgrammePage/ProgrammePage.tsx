@@ -6,8 +6,9 @@
  *
  */
 
-import React, { useContext } from 'react';
-import { RouteComponentProps, useHistory, withRouter } from 'react-router';
+import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import { getProgrammeBySlug } from '../../data/programmes';
@@ -15,14 +16,14 @@ import { LocaleType, ProgrammeGrade, ProgrammeType } from '../../interfaces';
 import { subjectsQuery } from '../../queries';
 import { useGraphQuery } from '../../util/runQueries';
 import { GQLSubjectsQuery, GQLSubjectInfoFragment } from '../../graphqlTypes';
-import { toProgramme } from '../../routeHelpers';
+import { toProgramme, TypedParams, useTypedParams } from '../../routeHelpers';
 import ProgrammeContainer from './ProgrammeContainer';
 import { AuthContext } from '../../components/AuthenticationContext';
-import { RootComponentProps } from '../../routes';
 
 export interface GradesData {
   name: string;
   categories: {
+    missingProgrammeSubjects?: boolean;
     name: string;
     subjects: {
       label: string;
@@ -54,16 +55,18 @@ export const mapGradesData = (
         subjects: categorySubjects,
       };
     });
-    return { name: grade.name, categories };
+    return {
+      name: grade.name,
+      categories,
+      missingProgrammeSubjects: grade.missingProgrammeSubjects,
+    };
   });
 };
 
-interface MatchParams {
+interface MatchParams extends TypedParams {
   programme: string;
   grade?: string;
 }
-
-interface Props extends RouteComponentProps<MatchParams>, RootComponentProps {}
 
 export const getGradeNameFromProgramme = (
   grade?: string,
@@ -74,15 +77,15 @@ export const getGradeNameFromProgramme = (
     : programme?.grades?.[0]?.name;
 };
 
-const ProgrammePage = ({ match, locale }: Props) => {
+const ProgrammePage = () => {
+  const { i18n } = useTranslation();
+  const { programme: slug, grade: gradeParam } = useTypedParams<MatchParams>();
   const { user } = useContext(AuthContext);
   const { loading, data } = useGraphQuery<GQLSubjectsQuery>(subjectsQuery);
-  const slug = match?.params?.programme;
-  const gradeParam = match.params.grade;
-  const programmeData = getProgrammeBySlug(slug, locale);
+  const programmeData = getProgrammeBySlug(slug, i18n.language);
   const programmeGrades = programmeData?.grades;
   const grade = getGradeNameFromProgramme(gradeParam, programmeData);
-  const history = useHistory();
+  const navigate = useNavigate();
 
   if (loading) {
     return null;
@@ -100,7 +103,7 @@ const ProgrammePage = ({ match, locale }: Props) => {
     if (!programmeGrades?.some(g => g.name.toLowerCase() === newGrade)) {
       return;
     }
-    history.push(toProgramme(slug, newGrade));
+    navigate(toProgramme(slug, newGrade));
   };
 
   return (
@@ -109,10 +112,10 @@ const ProgrammePage = ({ match, locale }: Props) => {
       subjects={data.subjects}
       onGradeChange={onGradeChange}
       grade={grade}
-      locale={locale}
+      locale={i18n.language}
       user={user}
     />
   );
 };
 
-export default withRouter(ProgrammePage);
+export default ProgrammePage;

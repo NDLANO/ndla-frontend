@@ -6,16 +6,19 @@
  *
  */
 
+import { gql } from '@apollo/client';
 import format from 'date-fns/format';
 import {
-  GQLArticle,
-  GQLAudioLicense,
-  GQLBrightcoveLicense,
   GQLContributor,
-  GQLCopyright,
-  GQLImageLicense,
+  GQLStructuredArticleData_CopyrightFragment,
+  GQLStructuredArticleDataFragment,
+  GQLStructuredArticleData_AudioLicenseFragment,
+  GQLStructuredArticleData_PodcastLicenseFragment,
+  GQLStructuredArticleData_BrightcoveLicenseFragment,
+  GQLStructuredArticleData_ImageLicenseFragment,
 } from '../graphqlTypes';
 import config from '../config';
+import { AcquireLicensePage } from '../constants';
 import { Breadcrumb } from '../interfaces';
 
 type CopyrightHolder = { '@type': string; name?: string };
@@ -40,7 +43,7 @@ interface StructuredData {
     '@type': string;
     name?: string;
     position: number;
-    item: { '@type': string; id: string };
+    item: string;
   }[];
   '@type'?: string;
   '@context'?: string;
@@ -48,22 +51,27 @@ interface StructuredData {
 }
 
 interface Mediaelements {
-  data: GQLImageLicense | GQLAudioLicense | GQLBrightcoveLicense | null;
+  data:
+    | GQLStructuredArticleData_ImageLicenseFragment
+    | GQLStructuredArticleData_AudioLicenseFragment
+    | GQLStructuredArticleData_PodcastLicenseFragment
+    | GQLStructuredArticleData_BrightcoveLicenseFragment
+    | null;
   type: string;
 }
 
 const CREATIVE_WORK_TYPE = 'Article';
 const BREADCRUMB_TYPE = 'BreadcrumbList';
 const ITEM_TYPE = 'ListItem';
-const THING_TYPE = 'Thing';
 
 const PERSON_TYPE = 'Person';
 const ORGANIZATION_TYPE = 'Organization';
 const IMAGE_TYPE = 'ImageObject';
 const VIDEO_TYPE = 'VideoObject';
 const AUDIO_TYPE = 'AudioObject';
+const PODCAST_TYPE = 'PodcastEpisode';
 
-const publisher = {
+export const publisher = {
   publisher: {
     '@type': ORGANIZATION_TYPE,
     name: 'NDLA',
@@ -85,7 +93,9 @@ const mapType = (
     name: item.name,
   }));
 
-const getCopyrightData = (copyright: GQLCopyright): StructuredData => {
+const getCopyrightData = (
+  copyright: GQLStructuredArticleData_CopyrightFragment,
+): StructuredData => {
   const { creators, rightsholders, license, processors } = copyright;
   return {
     license: license?.url,
@@ -105,10 +115,7 @@ const getBreadcrumbs = (
     '@type': ITEM_TYPE,
     name: item.name,
     position: index + 1,
-    item: {
-      '@type': THING_TYPE,
-      id: `${config.ndlaFrontendDomain}${item.to}`,
-    },
+    item: `${config.ndlaFrontendDomain}${item.to}`,
   }));
 
   return {
@@ -119,8 +126,107 @@ const getBreadcrumbs = (
   };
 };
 
+export const structuredArticleCopyrightFragment = gql`
+  fragment StructuredArticleData_Copyright on Copyright {
+    license {
+      url
+    }
+    creators {
+      name
+      type
+    }
+    processors {
+      name
+      type
+    }
+    rightsholders {
+      name
+      type
+    }
+  }
+`;
+
+const imageLicenseFragment = gql`
+  fragment StructuredArticleData_ImageLicense on ImageLicense {
+    src
+    title
+    copyright {
+      ...StructuredArticleData_Copyright
+    }
+  }
+`;
+
+const audioLicenseFragment = gql`
+  fragment StructuredArticleData_AudioLicense on AudioLicense {
+    src
+    title
+    copyright {
+      ...StructuredArticleData_Copyright
+    }
+  }
+`;
+
+const podcastLicenseFragment = gql`
+  fragment StructuredArticleData_PodcastLicense on PodcastLicense {
+    src
+    title
+    description
+    copyright {
+      ...StructuredArticleData_Copyright
+    }
+  }
+`;
+
+const brightcoveLicenseFragment = gql`
+  fragment StructuredArticleData_BrightcoveLicense on BrightcoveLicense {
+    src
+    title
+    cover
+    description
+    download
+    uploadDate
+    copyright {
+      ...StructuredArticleData_Copyright
+    }
+  }
+`;
+
+export const structuredArticleDataFragment = gql`
+  fragment StructuredArticleData on Article {
+    title
+    metaDescription
+    published
+    updated
+    copyright {
+      ...StructuredArticleData_Copyright
+    }
+    metaImage {
+      url
+    }
+    metaData {
+      images {
+        ...StructuredArticleData_ImageLicense
+      }
+      audios {
+        ...StructuredArticleData_AudioLicense
+      }
+      podcasts {
+        ...StructuredArticleData_PodcastLicense
+      }
+      brightcoves {
+        ...StructuredArticleData_BrightcoveLicense
+      }
+    }
+  }
+  ${structuredArticleCopyrightFragment}
+  ${brightcoveLicenseFragment}
+  ${audioLicenseFragment}
+  ${podcastLicenseFragment}
+  ${imageLicenseFragment}
+`;
+
 const getStructuredDataFromArticle = (
-  article: GQLArticle,
+  article: GQLStructuredArticleDataFragment,
   breadcrumbItems?: Breadcrumb[],
 ) => {
   const articleData: StructuredData = {
@@ -144,12 +250,14 @@ const getStructuredDataFromArticle = (
   const audios = metaData?.audios?.map(a => ({ data: a, type: AUDIO_TYPE }));
 
   const mediaElements: Mediaelements[] = [...(images ?? []), ...(audios ?? [])];
+  const podcasts = article.metaData?.podcasts || [];
   const videos = article.metaData?.brightcoves || [];
 
   const mediaData = createMediaData(mediaElements);
+  const podcastData = createPodcastData(podcasts);
   const videoData = createVideoData(videos);
 
-  return [...structuredData, ...mediaData, ...videoData];
+  return [...structuredData, ...mediaData, ...podcastData, ...videoData];
 };
 
 const createMediaData = (media: Mediaelements[]): StructuredData[] =>
@@ -161,11 +269,33 @@ const createMediaData = (media: Mediaelements[]): StructuredData[] =>
       '@id': data?.src,
       name: data?.title,
       contentUrl: data?.src,
+      acquireLicensePage: AcquireLicensePage,
       ...getCopyrightData(data?.copyright!),
     };
   });
 
-const createVideoData = (videos: GQLBrightcoveLicense[]): StructuredData[] =>
+const createPodcastData = (
+  podcasts: GQLStructuredArticleData_PodcastLicenseFragment[],
+): StructuredData[] =>
+  podcasts.map(podcast => {
+    return {
+      ...structuredDataBase,
+      '@type': PODCAST_TYPE,
+      '@id': podcast?.src,
+      name: podcast?.title,
+      audio: {
+        '@type': AUDIO_TYPE,
+        contentUrl: podcast?.src,
+      },
+      abstract: podcast?.description,
+      acquireLicensePage: AcquireLicensePage,
+      ...getCopyrightData(podcast?.copyright!),
+    };
+  });
+
+const createVideoData = (
+  videos: GQLStructuredArticleData_BrightcoveLicenseFragment[],
+): StructuredData[] =>
   videos.map(video => {
     return {
       ...structuredDataBase,
@@ -175,7 +305,7 @@ const createVideoData = (videos: GQLBrightcoveLicense[]): StructuredData[] =>
       embedUrl: video?.src,
       thumbnailUrl: video?.cover,
       description: video?.description,
-      contentUrl: video?.download,
+      acquireLicensePage: AcquireLicensePage,
       uploadDate: format(video?.uploadDate!, 'YYYY-MM-DD'),
       ...getCopyrightData(video?.copyright!),
     };

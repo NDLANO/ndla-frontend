@@ -5,12 +5,9 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { ComponentType } from 'react';
-import { CompetenceGoalTab } from '@ndla/ui';
+import { ComponentType } from 'react';
 import { useTranslation } from 'react-i18next';
-import { isValidElementType } from 'react-is';
-import Spinner from '@ndla/ui/lib/Spinner';
-
+import { CompetenceGoalTab } from '@ndla/ui';
 import { competenceGoalsQuery } from '../queries';
 import handleError from '../util/handleError';
 import {
@@ -22,12 +19,13 @@ import { CompetenceGoalsType } from '../interfaces';
 import { useGraphQuery } from '../util/runQueries';
 
 interface Props {
-  language: string;
+  supportedLanguages?: string[];
   subjectId?: string;
   codes?: string[];
   nodeId?: string;
   wrapperComponent: ComponentType;
   wrapperComponentProps: any;
+  isOembed?: boolean;
 }
 
 // We swap 'title' for 'name' when we fetch CompetenceGoals from GraphQL
@@ -193,15 +191,21 @@ const groupCoreElements = (
 };
 
 const CompetenceGoals = ({
-  language,
   codes,
   nodeId,
   subjectId,
   wrapperComponent: Component,
   wrapperComponentProps,
+  supportedLanguages,
+  isOembed,
 }: Props) => {
-  const { t } = useTranslation();
-  const { error, data, loading } = useGraphQuery<GQLCompetenceGoalsQuery>(
+  const { t, i18n } = useTranslation();
+  const language =
+    supportedLanguages?.find(l => l === i18n.language) ||
+    supportedLanguages?.[0] ||
+    i18n.language;
+
+  const { error, data } = useGraphQuery<GQLCompetenceGoalsQuery>(
     competenceGoalsQuery,
     {
       variables: { codes, nodeId, language },
@@ -211,10 +215,6 @@ const CompetenceGoals = ({
   if (error) {
     handleError(error);
     return null;
-  }
-
-  if (loading) {
-    return <Spinner />;
   }
 
   if (!data) return null;
@@ -262,20 +262,9 @@ const CompetenceGoals = ({
 
   return (
     <Component {...wrapperComponentProps}>
-      <CompetenceGoalTab list={competenceGoalsList} />
+      <CompetenceGoalTab list={competenceGoalsList} isOembed={isOembed} />
     </Component>
   );
-};
-
-CompetenceGoals.propTypes = {
-  wrapperComponent: (props: any, propName: string) => {
-    if (props[propName] && !isValidElementType(props[propName])) {
-      return new Error(
-        `Invalid prop 'component' supplied to 'CompetenceGoals': the prop is not a valid React component`,
-      );
-    }
-    return null;
-  },
 };
 
 export default CompetenceGoals;

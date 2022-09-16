@@ -5,22 +5,20 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { ReactNode, useMemo } from 'react';
-import { Remarkable } from 'remarkable';
-import { Location } from 'history';
+import { useState } from 'react';
 import styled from '@emotion/styled';
 import {
   SearchSubjectResult,
   SearchNotionsResult,
-  //@ts-ignore
-  FilterButtons,
+  SearchFilterContent,
   LanguageSelector,
+  ConceptNotion,
 } from '@ndla/ui';
 import { spacingUnit } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 
 import SearchHeader from './components/SearchHeader';
-import SearchResults from './components/SearchResults';
+import SearchResults, { ViewType } from './components/SearchResults';
 import { SearchGroup, sortResourceTypes, TypeFilter } from './searchHelpers';
 import {
   GQLConceptSearchConceptFragment,
@@ -58,7 +56,6 @@ interface Props {
   locale: LocaleType;
   loading: boolean;
   isLti?: boolean;
-  location?: Location;
 }
 const SearchContainer = ({
   handleSearchParamsChange,
@@ -81,15 +78,9 @@ const SearchContainer = ({
   loading,
   isLti,
   competenceGoals,
-  location,
 }: Props) => {
   const { t, i18n } = useTranslation();
-  const markdown = useMemo(() => {
-    const md = new Remarkable({ breaks: true });
-    md.inline.ruler.enable(['sub', 'sup']);
-    return md;
-  }, []);
-  const renderMarkdown = (text: ReactNode) => markdown.render(text);
+  const [listViewType, setListViewType] = useState<ViewType>('grid');
 
   const filterButtonItems = [];
   for (const [type, values] of Object.entries(typeFilter)) {
@@ -119,31 +110,37 @@ const SearchContainer = ({
       />
       {showConcepts && concepts && concepts.length > 0 && (
         <SearchNotionsResult
-          //@ts-ignore
-          items={concepts}
           totalCount={concepts.length}
           onRemove={() => {
             setShowConcepts(false);
-          }}
-          renderMarkdown={renderMarkdown}
-        />
+          }}>
+          {concepts.map(concept => (
+            <ConceptNotion
+              concept={{
+                ...concept,
+                image: concept.image
+                  ? {
+                      src: concept.image.url,
+                      alt: concept.image.alt,
+                    }
+                  : undefined,
+              }}
+            />
+          ))}
+        </SearchNotionsResult>
       )}
-      {subjectItems && subjectItems?.length > 0 && <SearchSubjectResult items={subjectItems} />}
+      {subjectItems && subjectItems?.length > 0 && (
+        <SearchSubjectResult items={subjectItems} />
+      )}
       {searchGroups && searchGroups.length > 0 && (
         <>
           {sortedFilterButtonItems.length > 1 && (
-            <FilterButtons
-              heading={t(
-                'searchPage.searchFilterMessages.resourceTypeFilter.heading',
-              )}
+            <SearchFilterContent
               items={sortedFilterButtonItems}
               onFilterToggle={handleFilterToggle}
               onRemoveAllFilters={handleFilterReset}
-              labels={{
-                openFilter: t(
-                  'searchPage.searchFilterMessages.resourceTypeFilter.button',
-                ),
-              }}
+              viewType={listViewType}
+              onChangeViewType={viewType => setListViewType(viewType)}
             />
           )}
           <SearchResults
@@ -152,6 +149,7 @@ const SearchContainer = ({
             typeFilter={typeFilter}
             handleSubFilterClick={handleSubFilterClick}
             handleShowMore={handleShowMore}
+            viewType={listViewType}
             loading={loading}
           />
           {isLti && (
@@ -160,10 +158,7 @@ const SearchContainer = ({
                 center
                 outline
                 alwaysVisible
-                options={getLocaleUrls(
-                  i18n.language,
-                  location ?? window.location,
-                )}
+                options={getLocaleUrls(i18n.language, window.location)}
                 currentLanguage={i18n.language}
               />
             </StyledLanguageSelector>

@@ -5,17 +5,23 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import React, { useEffect, useMemo, useState } from 'react';
+
+import { gql } from '@apollo/client';
+import { useEffect, useMemo, useState } from 'react';
 import { Remarkable } from 'remarkable';
-import { TFunction, withTranslation, WithTranslation } from 'react-i18next';
-import { Topic as UITopic } from '@ndla/ui';
-import { TopicProps } from '@ndla/ui/lib/Topic/Topic';
+import {
+  CustomWithTranslation,
+  TFunction,
+  withTranslation,
+} from 'react-i18next';
+import { FeideUserApiType, Topic as UITopic } from '@ndla/ui';
+import { TopicProps } from '@ndla/ui';
 import { withTracker } from '@ndla/tracker';
 import config from '../../../config';
 import { RELEVANCE_SUPPLEMENTARY } from '../../../constants';
 import ArticleContents from '../../../components/Article/ArticleContents';
 import Resources from '../../Resources/Resources';
-import { toTopic } from '../../../routeHelpers';
+import { toTopic, useIsNdlaFilm } from '../../../routeHelpers';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import { htmlTitle } from '../../../util/titleHelper';
 import {
@@ -24,15 +30,13 @@ import {
   getImageWithoutCrop,
 } from '../../../util/imageHelpers';
 import {
-  GQLResourceTypeDefinition,
-  GQLTopicQueryTopicFragment,
+  GQLTopic_ResourceTypeDefinitionFragment,
+  GQLTopic_SubjectFragment,
+  GQLTopic_TopicFragment,
 } from '../../../graphqlTypes';
-import { LocaleType } from '../../../interfaces';
 import VisualElementWrapper, {
   getResourceType,
 } from '../../../components/VisualElement/VisualElementWrapper';
-import { FeideUserWithGroups } from '../../../util/feideApi';
-import { GQLSubjectContainerType } from '../SubjectContainer';
 
 const getDocumentTitle = ({
   t,
@@ -48,25 +52,19 @@ type Props = {
   topicId: string;
   subjectId: string;
   subTopicId?: string;
-  locale: LocaleType;
-  ndlaFilm?: boolean;
-  onClickTopics: (e: React.MouseEvent<HTMLAnchorElement>) => void;
   index?: number;
   showResources?: boolean;
-  subject?: GQLSubjectContainerType;
+  subject?: GQLTopic_SubjectFragment;
   loading?: boolean;
-  topic: GQLTopicQueryTopicFragment;
-  resourceTypes?: Array<GQLResourceTypeDefinition>;
-  user?: FeideUserWithGroups;
-} & WithTranslation;
+  topic: GQLTopic_TopicFragment;
+  resourceTypes?: GQLTopic_ResourceTypeDefinitionFragment[];
+  user?: FeideUserApiType;
+} & CustomWithTranslation;
 
 const Topic = ({
   topicId,
   subjectId,
-  locale,
   subTopicId,
-  ndlaFilm,
-  onClickTopics,
   topic,
   resourceTypes,
 }: Props) => {
@@ -77,6 +75,7 @@ const Topic = ({
     md.block.ruler.disable(['list']);
     return md;
   }, []);
+  const ndlaFilm = useIsNdlaFilm();
   const renderMarkdown = (text: string) => markdown.render(text);
 
   useEffect(() => {
@@ -114,18 +113,12 @@ const Topic = ({
                   ...article.visualElement,
                   image: getImageWithoutCrop(article.visualElement.image),
                 }}
-                locale={locale}
               />
             ),
           }
         : undefined,
       resources: topic.subtopics ? (
-        <Resources
-          topic={topic}
-          resourceTypes={resourceTypes}
-          locale={locale}
-          ndlaFilm={ndlaFilm}
-        />
+        <Resources topic={topic} resourceTypes={resourceTypes} />
       ) : (
         undefined
       ),
@@ -160,14 +153,10 @@ const Topic = ({
       isLoading={false}
       renderMarkdown={renderMarkdown}
       invertedStyle={ndlaFilm}
-      isAdditionalTopic={topic.relevanceId === RELEVANCE_SUPPLEMENTARY}
-      onSubTopicSelected={(e: React.MouseEvent<HTMLElement>) =>
-        onClickTopics(e as React.MouseEvent<HTMLAnchorElement>)
-      }>
+      isAdditionalTopic={topic.relevanceId === RELEVANCE_SUPPLEMENTARY}>
       <ArticleContents
         topic={topic}
         copyPageUrlLink={copyPageUrlLink}
-        locale={locale}
         modifier="in-topic"
         showIngress={false}
       />
@@ -206,6 +195,52 @@ Topic.getDimensions = ({ topic, subject, user }: Props) => {
     undefined,
     true,
   );
+};
+
+export const topicFragments = {
+  subject: gql`
+    fragment Topic_Subject on Subject {
+      id
+      name
+      allTopics {
+        id
+        name
+      }
+    }
+  `,
+  topic: gql`
+    fragment Topic_Topic on Topic {
+      path
+      name
+      relevanceId
+      subtopics {
+        id
+        name
+        relevanceId
+      }
+      article {
+        metaImage {
+          url
+          alt
+        }
+        visualElement {
+          ...VisualElementWrapper_VisualElement
+        }
+        revisionDate
+      }
+      ...ArticleContents_Topic
+      ...Resources_Topic
+    }
+    ${VisualElementWrapper.fragments.visualElement}
+    ${ArticleContents.fragments.topic}
+    ${Resources.fragments.topic}
+  `,
+  resourceType: gql`
+    fragment Topic_ResourceTypeDefinition on ResourceTypeDefinition {
+      ...Resources_ResourceTypeDefinition
+    }
+    ${Resources.fragments.resourceType}
+  `,
 };
 
 export default withTranslation()(withTracker(Topic));

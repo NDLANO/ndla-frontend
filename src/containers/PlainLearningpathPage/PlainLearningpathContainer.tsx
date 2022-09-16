@@ -6,19 +6,20 @@
  *
  */
 
+import { gql } from '@apollo/client';
 import { withTracker } from '@ndla/tracker';
-import React, { useEffect } from 'react';
-import { Helmet } from 'react-helmet';
+import { useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { CustomWithTranslation, withTranslation } from 'react-i18next';
-import { useHistory } from 'react-router';
+import { useNavigate } from 'react-router-dom';
+import { FeideUserApiType } from '@ndla/ui';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
-import { GQLLearningpathInfoFragment } from '../../graphqlTypes';
-import { LocaleType } from '../../interfaces';
+import { GQLPlainLearningpathContainer_LearningpathFragment } from '../../graphqlTypes';
 import { toLearningPath } from '../../routeHelpers';
 import { htmlTitle } from '../../util/titleHelper';
 import { getAllDimensions } from '../../util/trackingUtil';
 import Learningpath from '../../components/Learningpath';
-import { FeideUserWithGroups } from '../../util/feideApi';
+import ErrorPage from '../ErrorPage';
 
 const getDocumentTitle = ({
   learningpath,
@@ -27,20 +28,18 @@ const getDocumentTitle = ({
   htmlTitle(learningpath.title, [t('htmlTitles.titleTemplate')]);
 
 interface Props extends CustomWithTranslation {
-  learningpath: GQLLearningpathInfoFragment;
-  locale: LocaleType;
+  learningpath: GQLPlainLearningpathContainer_LearningpathFragment;
   stepId: string | undefined;
   skipToContentId?: string;
-  user?: FeideUserWithGroups;
+  user?: FeideUserApiType;
 }
 const PlainLearningpathContainer = ({
   t,
   learningpath,
-  locale,
   skipToContentId,
   stepId,
 }: Props) => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const steps = learningpath.learningsteps;
 
   useEffect(() => {
@@ -61,18 +60,19 @@ const PlainLearningpathContainer = ({
         step => step.seqNo === newSeqNo,
       );
       if (newLearningpathStep) {
-        history.push(toLearningPath(learningpath.id, newLearningpathStep.id));
+        navigate(toLearningPath(learningpath.id, newLearningpathStep.id));
       }
     }
   };
 
   const currentStep = stepId
-    ? steps?.find(step => step.id.toString() === stepId)
-    : steps?.[0];
+    ? steps.find(step => step.id.toString() === stepId)
+    : steps[0];
 
-  const imageUrlObj = learningpath.coverphoto?.url
-    ? { url: learningpath.coverphoto.url }
-    : undefined;
+  if (!currentStep) {
+    return <ErrorPage />;
+  }
+
   return (
     <div>
       <Helmet>
@@ -83,16 +83,13 @@ const PlainLearningpathContainer = ({
         title={htmlTitle(learningpath.title, [t('htmlTitles.titleTemplate')])}
         trackableContent={learningpath}
         description={learningpath.description}
-        locale={locale}
-        image={imageUrlObj}
+        imageUrl={learningpath.coverphoto?.url}
       />
       <Learningpath
         learningpath={learningpath}
         learningpathStep={currentStep}
         skipToContentId={skipToContentId}
         onKeyUpEvent={onKeyUpEvent}
-        locale={locale}
-        ndlaFilm={false}
         breadcrumbItems={[]}
       />
     </div>
@@ -120,5 +117,24 @@ PlainLearningpathContainer.getDimensions = (props: Props) => {
 };
 
 PlainLearningpathContainer.getDocumentTitle = getDocumentTitle;
+
+export const plainLearningpathContainerFragments = {
+  learningpath: gql`
+    fragment PlainLearningpathContainer_Learningpath on Learningpath {
+      supportedLanguages
+      tags
+      description
+      coverphoto {
+        url
+      }
+      learningsteps {
+        ...Learningpath_LearningpathStep
+      }
+      ...Learningpath_Learningpath
+    }
+    ${Learningpath.fragments.learningpath}
+    ${Learningpath.fragments.learningpathStep}
+  `,
+};
 
 export default withTranslation()(withTracker(PlainLearningpathContainer));

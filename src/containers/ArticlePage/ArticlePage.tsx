@@ -6,18 +6,25 @@
  *
  */
 
-import React, { useEffect, useState } from 'react';
-import { Helmet } from 'react-helmet';
-import { OneColumn, LayoutItem } from '@ndla/ui';
+import { gql } from '@apollo/client';
+import { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet-async';
+import { OneColumn, LayoutItem, FeideUserApiType } from '@ndla/ui';
 import { withTracker } from '@ndla/tracker';
-import { TFunction, WithTranslation, withTranslation } from 'react-i18next';
+import {
+  CustomWithTranslation,
+  TFunction,
+  withTranslation,
+} from 'react-i18next';
 import { GraphQLError } from 'graphql';
 import Article from '../../components/Article';
 import ArticleHero from './components/ArticleHero';
 import ArticleErrorMessage from './components/ArticleErrorMessage';
 import { getContentType, isHeroContentType } from '../../util/getContentType';
 import { getArticleScripts, Scripts } from '../../util/getArticleScripts';
-import getStructuredDataFromArticle from '../../util/getStructuredDataFromArticle';
+import getStructuredDataFromArticle, {
+  structuredArticleDataFragment,
+} from '../../util/getStructuredDataFromArticle';
 import { htmlTitle } from '../../util/titleHelper';
 import { getArticleProps } from '../../util/getArticleProps';
 import { getAllDimensions } from '../../util/trackingUtil';
@@ -32,25 +39,23 @@ import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { toBreadcrumbItems } from '../../routeHelpers';
 import config from '../../config';
 import {
-  GQLResource,
-  GQLResourcePageQuery,
-  GQLResourceTypeDefinition,
-  GQLTopic,
+  GQLArticlePage_ResourceFragment,
+  GQLArticlePage_ResourceTypeFragment,
+  GQLArticlePage_SubjectFragment,
+  GQLArticlePage_TopicFragment,
+  GQLArticlePage_TopicPathFragment,
 } from '../../graphqlTypes';
-import { LocaleType } from '../../interfaces';
-import { FeideUserWithGroups } from '../../util/feideApi';
 
-interface Props extends WithTranslation {
-  resource?: Required<GQLResourcePageQuery>['resource'];
-  topic?: GQLResourcePageQuery['topic'];
-  topicPath: Omit<GQLTopic, 'metadata' | 'paths'>[];
+interface Props extends CustomWithTranslation {
+  resource?: GQLArticlePage_ResourceFragment;
+  topic?: GQLArticlePage_TopicFragment;
+  topicPath: GQLArticlePage_TopicPathFragment[];
   relevance: string;
-  subject?: GQLResourcePageQuery['subject'];
-  resourceTypes?: GQLResourceTypeDefinition[];
+  subject?: GQLArticlePage_SubjectFragment;
+  resourceTypes?: GQLArticlePage_ResourceTypeFragment[];
   errors?: readonly GraphQLError[];
-  ndlaFilm: boolean;
   loading?: boolean;
-  user?: FeideUserWithGroups;
+  user?: FeideUserApiType;
   skipToContentId?: string;
 }
 
@@ -61,20 +66,18 @@ const ArticlePage = ({
   subject,
   topicPath,
   errors,
-  ndlaFilm,
   i18n,
   t,
   skipToContentId,
 }: Props) => {
   const [scripts, setScripts] = useState<Scripts[]>([]);
-  const locale = i18n.language as LocaleType;
   const subjectPageUrl = config.ndlaFrontendDomain;
   useEffect(() => {
     if (!resource?.article) return;
-    const article = transformArticle(resource.article, locale);
+    const article = transformArticle(resource.article, i18n.language);
     const scripts = getArticleScripts(article);
     setScripts(scripts);
-  }, [locale, resource]);
+  }, [i18n.language, resource]);
 
   useEffect(() => {
     if (window.MathJax && typeof window.MathJax.typeset === 'function') {
@@ -97,20 +100,13 @@ const ArticlePage = ({
         <ArticleErrorMessage
           //@ts-ignore
           status={error?.status}>
-          {topic && (
-            <Resources
-              topic={topic}
-              resourceTypes={resourceTypes}
-              locale={locale}
-              ndlaFilm={ndlaFilm}
-            />
-          )}
+          {topic && <Resources topic={topic} resourceTypes={resourceTypes} />}
         </ArticleErrorMessage>
       </div>
     );
   }
 
-  const article = transformArticle(resource.article, locale)!;
+  const article = transformArticle(resource.article, i18n.language)!;
   const contentType = resource ? getContentType(resource) : undefined;
   const resourceType =
     contentType && isHeroContentType(contentType) ? contentType : undefined;
@@ -118,7 +114,7 @@ const ArticlePage = ({
   const copyPageUrlLink = topic
     ? `${subjectPageUrl}${topic.path}/${resource.id.replace('urn:', '')}`
     : undefined;
-  const printUrl = `${subjectPageUrl}/article-iframe/${locale}/article/${resource.article.id}`;
+  const printUrl = `${subjectPageUrl}/article-iframe/${i18n.language}/article/${resource.article.id}`;
 
   const breadcrumbItems = toBreadcrumbItems(t('breadcrumb.toFrontpage'), [
     subject,
@@ -129,7 +125,6 @@ const ArticlePage = ({
   return (
     <div>
       <ArticleHero
-        ndlaFilm={ndlaFilm}
         subject={subject}
         resourceType={resourceType}
         metaImage={article.metaImage}
@@ -149,6 +144,14 @@ const ArticlePage = ({
             defer={script.defer}
           />
         ))}
+        {copyPageUrlLink && (
+          <link
+            rel="alternate"
+            type="application/json+oembed"
+            href={`${config.ndlaFrontendDomain}/oembed?url=${copyPageUrlLink}`}
+            title={article.title}
+          />
+        )}
 
         <script type="application/ld+json">
           {JSON.stringify(
@@ -160,29 +163,23 @@ const ArticlePage = ({
         title={htmlTitle(article.title, [subject?.name])}
         trackableContent={article}
         description={article.metaDescription}
-        locale={locale}
-        image={article.metaImage}
+        imageUrl={article.metaImage?.url}
       />
       <OneColumn>
         <Article
           id={skipToContentId}
           article={article}
-          locale={locale}
           resourceType={contentType}
           isResourceArticle
           copyPageUrlLink={copyPageUrlLink}
           printUrl={printUrl}
           subjectId={subject?.id}
+          showFavoriteButton={config.feideEnabled}
           {...getArticleProps(resource, topic)}
         />
         {topic && (
           <LayoutItem layout="extend">
-            <Resources
-              topic={topic}
-              resourceTypes={resourceTypes}
-              locale={locale}
-              ndlaFilm={ndlaFilm}
-            />
+            <Resources topic={topic} resourceTypes={resourceTypes} />
           </LayoutItem>
         )}
       </OneColumn>
@@ -214,8 +211,8 @@ ArticlePage.getDimensions = (props: Props) => {
 
 const getDocumentTitle = (
   t: TFunction,
-  resource?: Pick<GQLResource, 'article'>,
-  subject?: GQLResourcePageQuery['subject'],
+  resource?: GQLArticlePage_ResourceFragment,
+  subject?: GQLArticlePage_SubjectFragment,
 ) =>
   htmlTitle(resource?.article?.title, [
     subject?.name,
@@ -224,5 +221,54 @@ const getDocumentTitle = (
 
 ArticlePage.getDocumentTitle = ({ t, resource, subject }: Props) =>
   getDocumentTitle(t, resource, subject);
+
+export const articlePageFragments = {
+  resourceType: gql`
+    fragment ArticlePage_ResourceType on ResourceTypeDefinition {
+      ...Resources_ResourceTypeDefinition
+    }
+    ${Resources.fragments.resourceType}
+  `,
+  subject: gql`
+    fragment ArticlePage_Subject on Subject {
+      name
+      ...ArticleHero_Subject
+    }
+    ${ArticleHero.fragments.subject}
+  `,
+  resource: gql`
+    fragment ArticlePage_Resource on Resource {
+      id
+      name
+      contentUri
+      article(subjectId: $subjectId) {
+        created
+        updated
+        metaDescription
+        metaImage {
+          ...ArticleHero_MetaImage
+        }
+        ...StructuredArticleData
+        ...Article_Article
+      }
+    }
+    ${structuredArticleDataFragment}
+    ${ArticleHero.fragments.metaImage}
+    ${Article.fragments.article}
+  `,
+  topic: gql`
+    fragment ArticlePage_Topic on Topic {
+      path
+      ...Resources_Topic
+    }
+    ${Resources.fragments.topic}
+  `,
+  topicPath: gql`
+    fragment ArticlePage_TopicPath on Topic {
+      id
+      name
+    }
+  `,
+};
 
 export default withTranslation()(withTracker(ArticlePage));

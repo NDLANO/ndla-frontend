@@ -6,50 +6,72 @@
  *
  */
 
-import React, { useContext } from 'react';
-import { RouteComponentProps, withRouter } from 'react-router';
-import Spinner from '@ndla/ui/lib/Spinner';
-import { Helmet } from 'react-helmet';
+import { gql } from '@apollo/client';
+import { useContext } from 'react';
+import { ContentPlaceholder } from '@ndla/ui';
+import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import { useGraphQuery } from '../../util/runQueries';
-import { topicQueryWithPathTopics } from '../../queries';
-import { getUrnIdsFromProps } from '../../routeHelpers';
-import MultidisciplinarySubjectArticle from './components/MultidisciplinarySubjectArticle';
+import { useUrnIds } from '../../routeHelpers';
+import MultidisciplinarySubjectArticle, {
+  multidisciplinarySubjectArticleFragments,
+} from './components/MultidisciplinarySubjectArticle';
 import config from '../../config';
 import {
-  GQLTopicWithPathTopicsQuery,
-  GQLTopicWithPathTopicsQueryVariables,
+  GQLMultidisciplinarySubjectArticlePageQuery,
+  GQLMultidisciplinarySubjectArticlePageQueryVariables,
 } from '../../graphqlTypes';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import { htmlTitle } from '../../util/titleHelper';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
-import { RootComponentProps } from '../../routes';
 import { AuthContext } from '../../components/AuthenticationContext';
+import { SKIP_TO_CONTENT_ID } from '../../constants';
 
-interface Props extends RootComponentProps, RouteComponentProps {}
+const multidisciplinarySubjectArticlePageQuery = gql`
+  query multidisciplinarySubjectArticlePage(
+    $topicId: String!
+    $subjectId: String!
+  ) {
+    subject(id: $subjectId) {
+      ...MultidisciplinarySubjectArticle_Subject
+    }
+    topic(id: $topicId, subjectId: $subjectId) {
+      id
+      article(showVisualElement: "true") {
+        metaDescription
+        tags
+        metaImage {
+          url
+        }
+      }
+      ...MultidisciplinarySubjectArticle_Topic
+    }
+    resourceTypes {
+      ...MultidisciplinarySubjectArticle_ResourceTypeDefinition
+    }
+  }
+  ${multidisciplinarySubjectArticleFragments.resourceType}
+  ${multidisciplinarySubjectArticleFragments.topic}
+  ${multidisciplinarySubjectArticleFragments.subject}
+`;
 
-const MultidisciplinarySubjectArticlePage = ({
-  match,
-  locale,
-  skipToContentId,
-}: Props) => {
+const MultidisciplinarySubjectArticlePage = () => {
   const { t } = useTranslation();
   const { user } = useContext(AuthContext);
-  const { topicId, subjectId } = getUrnIdsFromProps({ match });
+  const { topicId, subjectId } = useUrnIds();
 
   const { data, loading } = useGraphQuery<
-    GQLTopicWithPathTopicsQuery,
-    GQLTopicWithPathTopicsQueryVariables
-  >(topicQueryWithPathTopics, {
+    GQLMultidisciplinarySubjectArticlePageQuery,
+    GQLMultidisciplinarySubjectArticlePageQueryVariables
+  >(multidisciplinarySubjectArticlePageQuery, {
     variables: {
       topicId: topicId!,
       subjectId: subjectId!,
-      showVisualElement: 'true',
     },
   });
 
   if (loading) {
-    return <Spinner />;
+    return <ContentPlaceholder />;
   }
 
   if (!data?.topic || !data?.subject) {
@@ -80,28 +102,22 @@ const MultidisciplinarySubjectArticlePage = ({
       <SocialMediaMetadata
         title={socialMediaMetaData.title}
         description={socialMediaMetaData.description}
-        locale={locale}
-        image={
-          socialMediaMetaData.image && {
-            url: socialMediaMetaData.image.url,
-          }
-        }
+        imageUrl={socialMediaMetaData.image?.url}
         trackableContent={{
           supportedLanguages: topic.article?.supportedLanguages,
           tags: topic.article?.tags,
         }}
       />
       <MultidisciplinarySubjectArticle
-        skipToContentId={skipToContentId}
+        skipToContentId={SKIP_TO_CONTENT_ID}
         topic={topic}
         subject={subject}
         resourceTypes={resourceTypes}
         copyPageUrlLink={copyPageUrlLink}
-        locale={locale}
         user={user}
       />
     </>
   );
 };
 
-export default withRouter(MultidisciplinarySubjectArticlePage);
+export default MultidisciplinarySubjectArticlePage;

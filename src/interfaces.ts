@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 import { NormalizedCacheObject } from '@apollo/client';
-import { BreadcrumbItemProps } from '@ndla/ui/lib/Breadcrumblist/Breadcrumblist';
+import { BreadcrumbItemProps } from '@ndla/ui';
 import { History } from 'history';
 import { ConfigType } from './config';
 import { LocaleValues } from './constants';
@@ -20,11 +20,13 @@ export type InitialProps = {
   resCookie?: string;
   basename?: string;
   locale?: LocaleType;
+  ltiData?: LtiData;
 };
 
 export interface WindowData {
   apolloState: NormalizedCacheObject;
   config: ConfigType;
+  resCookie?: string;
   initialProps: InitialProps;
   ltiData?: LtiData;
   serverPath?: string;
@@ -38,6 +40,17 @@ export interface NDLAWindow {
   errorReporter: any;
   hasHydrated?: boolean;
   browserHistory: History;
+}
+
+export interface License {
+  license: string;
+  description: string;
+  url?: string;
+}
+
+export interface Author {
+  name: string;
+  type: string;
 }
 
 export type LocaleType = typeof LocaleValues[number];
@@ -64,6 +77,7 @@ export interface ProgrammeType {
 export interface ProgrammeGrade {
   name: string;
   categories: GradeCategory[];
+  missingProgrammeSubjects?: boolean;
 }
 
 export interface GradeCategory {
@@ -71,11 +85,18 @@ export interface GradeCategory {
   subjects: { id: string }[];
 }
 
+export type SubjectCategory = {
+  name: Record<LocaleType, string>;
+  subjects: SubjectType[];
+  visible?: boolean;
+};
+
 export type SubjectType = {
-  longName?: Record<LocaleType, string>;
-  name?: Record<LocaleType, string>;
+  name: Record<LocaleType, string>;
+  longName: Record<LocaleType, string>;
   id: string;
   topicId?: string;
+  hideOnFrontpage?: boolean;
 };
 
 export type TopicType = {

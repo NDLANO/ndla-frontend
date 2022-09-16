@@ -6,37 +6,49 @@
  *
  */
 
-import React, { useContext } from 'react';
-import { Spinner } from '@ndla/ui';
-import { RouteComponentProps, withRouter } from 'react-router';
-
-import { learningPathStepQuery } from '../../queries';
+import { gql } from '@apollo/client';
+import { useContext } from 'react';
+import { ContentPlaceholder } from '@ndla/ui';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import { useGraphQuery } from '../../util/runQueries';
-import PlainLearningpathContainer from './PlainLearningpathContainer';
-import { GQLLearningPathStepQuery } from '../../graphqlTypes';
-import { RootComponentProps } from '../../routes';
+import PlainLearningpathContainer, {
+  plainLearningpathContainerFragments,
+} from './PlainLearningpathContainer';
+import {
+  GQLPlainLearningpathPageQuery,
+  GQLPlainLearningpathPageQueryVariables,
+} from '../../graphqlTypes';
 import { AuthContext } from '../../components/AuthenticationContext';
+import { TypedParams, useTypedParams } from '../../routeHelpers';
+import { SKIP_TO_CONTENT_ID } from '../../constants';
 
-interface MatchParams {
+interface MatchParams extends TypedParams {
   learningpathId: string;
   stepId?: string;
 }
 
-interface Props extends RootComponentProps, RouteComponentProps<MatchParams> {}
-const PlainLearningpathPage = ({ locale, skipToContentId, match }: Props) => {
-  const { stepId, learningpathId } = match.params;
+const plainLearningpathPageQuery = gql`
+  query plainLearningpathPage($pathId: String!) {
+    learningpath(pathId: $pathId) {
+      ...PlainLearningpathContainer_Learningpath
+    }
+  }
+  ${plainLearningpathContainerFragments.learningpath}
+`;
+
+const PlainLearningpathPage = () => {
+  const { learningpathId, stepId } = useTypedParams<MatchParams>();
   const { user } = useContext(AuthContext);
 
-  const { data, loading } = useGraphQuery<GQLLearningPathStepQuery>(
-    learningPathStepQuery,
-    {
-      variables: { pathId: learningpathId },
-    },
-  );
+  const { data, loading } = useGraphQuery<
+    GQLPlainLearningpathPageQuery,
+    GQLPlainLearningpathPageQueryVariables
+  >(plainLearningpathPageQuery, {
+    variables: { pathId: learningpathId },
+  });
 
   if (loading) {
-    return <Spinner />;
+    return <ContentPlaceholder />;
   }
   if (
     !data ||
@@ -49,12 +61,11 @@ const PlainLearningpathPage = ({ locale, skipToContentId, match }: Props) => {
   return (
     <PlainLearningpathContainer
       learningpath={data.learningpath}
-      locale={locale}
-      skipToContentId={skipToContentId}
+      skipToContentId={SKIP_TO_CONTENT_ID}
       stepId={stepId}
       user={user}
     />
   );
 };
 
-export default withRouter(PlainLearningpathPage);
+export default PlainLearningpathPage;

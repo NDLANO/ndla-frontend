@@ -6,11 +6,10 @@
  *
  */
 
-import React from 'react';
-import PropTypes from 'prop-types';
+import { gql } from '@apollo/client';
 import { SubjectAbout, Image } from '@ndla/ui';
 import SubjectPageFlexChild from './SubjectPageFlexChild';
-import { GQLSubjectPageAbout } from '../../../graphqlTypes';
+import { GQLSubjectPageAbout_SubjectPageAboutFragment } from '../../../graphqlTypes';
 
 interface VisualElementType {
   visualElement: {
@@ -42,16 +41,8 @@ const AboutMedia = ({
   }
 };
 
-AboutMedia.propTypes = {
-  visualElement: PropTypes.shape({
-    type: PropTypes.string,
-    url: PropTypes.string,
-    alt: PropTypes.string,
-  }),
-};
-
 interface Props {
-  about: GQLSubjectPageAbout;
+  about: GQLSubjectPageAbout_SubjectPageAboutFragment;
   twoColumns: boolean;
   wide: boolean;
 }
@@ -74,6 +65,20 @@ export const SubjectPageAbout = ({
       />
     </SubjectPageFlexChild>
   );
+};
+
+SubjectPageAbout.fragments = {
+  about: gql`
+    fragment SubjectPageAbout_SubjectPageAbout on SubjectPageAbout {
+      title
+      description
+      visualElement {
+        type
+        url
+        alt
+      }
+    }
+  `,
 };
 
 export default SubjectPageAbout;

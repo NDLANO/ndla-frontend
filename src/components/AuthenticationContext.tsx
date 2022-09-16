@@ -5,19 +5,21 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, { useState, createContext, useEffect } from 'react';
+import { FeideUserApiType } from '@ndla/ui';
+import { createContext, ReactNode, useEffect, useState } from 'react';
 import {
-  FeideUserWithGroups,
-  fetchFeideUserWithGroups,
-} from '../util/feideApi';
-import { isAccessTokenValid, millisUntilExpiration } from '../util/authHelpers';
+  getFeideCookie,
+  isAccessTokenValid,
+  millisUntilExpiration,
+} from '../util/authHelpers';
+import { fetchFeideUserWithGroups } from '../util/feideApi';
 
 interface AuthContextType {
   authenticated: boolean;
   authContextLoaded: boolean;
   login: () => void;
   logout: () => void;
-  user: FeideUserWithGroups | undefined;
+  user: FeideUserApiType | undefined;
 }
 
 export const AuthContext = createContext<AuthContextType>({
@@ -29,13 +31,16 @@ export const AuthContext = createContext<AuthContextType>({
 });
 
 interface Props {
-  children: React.ReactNode;
+  children: ReactNode;
+  initialValue?: string;
 }
 
-const AuthenticationContext = ({ children }: Props) => {
-  const [authenticated, setAuthenticated] = useState(false);
+const AuthenticationContext = ({ children, initialValue }: Props) => {
+  const [authenticated, setAuthenticated] = useState(
+    initialValue ? isAccessTokenValid(getFeideCookie(initialValue)) : false,
+  );
   const [authContextLoaded, setLoaded] = useState(false);
-  const [user, setUser] = useState<FeideUserWithGroups | undefined>(undefined);
+  const [user, setUser] = useState<FeideUserApiType | undefined>(undefined);
 
   useEffect(() => {
     const isValid = isAccessTokenValid();

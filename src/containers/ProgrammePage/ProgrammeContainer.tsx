@@ -7,12 +7,11 @@
  */
 
 import { withTracker } from '@ndla/tracker';
-import { Programme } from '@ndla/ui';
-import React from 'react';
-import { Helmet } from 'react-helmet';
+import { FeideUserApiType, Programme } from '@ndla/ui';
+import { Helmet } from 'react-helmet-async';
 import { WithTranslation, withTranslation } from 'react-i18next';
+import { SKIP_TO_CONTENT_ID } from '../../constants';
 import { LocaleType, ProgrammeType } from '../../interfaces';
-import { FeideUserWithGroups } from '../../util/feideApi';
 import { htmlTitle } from '../../util/titleHelper';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { mapGradesData } from './ProgrammePage';
@@ -31,7 +30,7 @@ const getDocumentTitle = ({
 
 interface Props extends WithTranslation {
   locale: LocaleType;
-  user?: FeideUserWithGroups;
+  user?: FeideUserApiType;
   subjects?: GQLSubjectInfoFragment[];
   programme: ProgrammeType;
   grade: string;
@@ -59,6 +58,7 @@ const ProgrammeContainer = ({
         )}
       </Helmet>
       <Programme
+        headingId={SKIP_TO_CONTENT_ID}
         heading={heading}
         grades={grades}
         image={image}

@@ -5,29 +5,33 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { useEffect } from 'react';
-import { RouteComponentProps } from 'react-router';
+import { useContext, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../components/AuthenticationContext';
 import { initializeFeideLogin } from '../../util/authHelpers';
 import { toHome, toLoginFailure } from '../../util/routeHelpers';
 
-interface Props {
-  authenticated: boolean;
-  authContextLoaded: boolean;
-  history: RouteComponentProps['history'];
-}
+export type LocationState =
+  | {
+      from?: string;
+    }
+  | undefined;
 
-export const LoginProviders = ({
-  authenticated,
-  history,
-  authContextLoaded,
-}: Props) => {
+export const LoginProviders = () => {
+  const { authenticated, authContextLoaded } = useContext(AuthContext);
+  const location = useLocation();
+  const locationState = location.state as LocationState;
+  const navigate = useNavigate();
   useEffect(() => {
     if (authenticated && authContextLoaded) {
-      history.push(toHome());
+      navigate(locationState?.from ?? toHome());
     } else if (authContextLoaded && !authenticated) {
-      initializeFeideLogin().catch(() => history.push(toLoginFailure()));
+      initializeFeideLogin(locationState?.from).catch(() =>
+        navigate(toLoginFailure()),
+      );
     }
-  }, [authenticated, history, authContextLoaded]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [authenticated, navigate, authContextLoaded]);
 
   return null;
 };

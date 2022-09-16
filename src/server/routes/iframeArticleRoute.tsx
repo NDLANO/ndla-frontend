@@ -6,16 +6,17 @@
  *
  */
 
-import React from 'react';
 import url from 'url';
 import { Request } from 'express';
-import { Helmet } from 'react-helmet';
-import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
-import { StaticRouter } from 'react-router';
+import { i18nInstance } from '@ndla/ui';
+import { I18nextProvider } from 'react-i18next';
+import { HelmetProvider } from 'react-helmet-async';
+import { StaticRouter } from 'react-router-dom/server.js';
 import { ApolloProvider } from '@apollo/client';
 import { CacheProvider } from '@emotion/core';
 import createCache from '@emotion/cache';
-import { getHtmlLang, isValidLocale } from '../../i18n';
+import { INTERNAL_SERVER_ERROR, OK } from '../../statusCodes';
+import { getHtmlLang, initializeI18n, isValidLocale } from '../../i18n';
 import IframePageContainer from '../../iframe/IframePageContainer';
 import config from '../../config';
 import handleError from '../../util/handleError';
@@ -23,6 +24,7 @@ import { renderPageWithData, renderHtml } from '../helpers/render';
 import { EmotionCacheKey } from '../../constants';
 import { InitialProps } from '../../interfaces';
 import { createApolloClient } from '../../util/apiHelpers';
+import RedirectContext from '../../components/RedirectContext';
 
 const assets =
   process.env.NODE_ENV !== 'unittest' && process.env.RAZZLE_ASSETS_MANIFEST
@@ -35,7 +37,7 @@ const assets =
       };
 
 if (process.env.NODE_ENV === 'unittest') {
-  Helmet.canUseDOM = false;
+  HelmetProvider.canUseDOM = false;
 }
 
 const getAssets = () => ({
@@ -61,20 +63,31 @@ async function doRenderPage(req: Request, initialProps: InitialProps) {
     initialProps.resCookie,
   );
 
+  const helmetContext = {};
   const cache = createCache({ key: EmotionCacheKey });
-  const Page = disableSSR(req) ? (
-    ''
-  ) : (
-    <ApolloProvider client={client}>
-      <CacheProvider value={cache}>
-        <StaticRouter
-          basename={initialProps.basename}
-          location={req.url}
-          context={context}>
-          <IframePageContainer {...initialProps} />
-        </StaticRouter>
-      </CacheProvider>
-    </ApolloProvider>
+
+  const i18n = initializeI18n(
+    i18nInstance,
+    initialProps.locale ?? config.defaultLocale,
+  );
+  const Page = (
+    <HelmetProvider context={helmetContext}>
+      {disableSSR(req) ? (
+        ''
+      ) : (
+        <I18nextProvider i18n={i18n}>
+          <RedirectContext.Provider value={context}>
+            <ApolloProvider client={client}>
+              <CacheProvider value={cache}>
+                <StaticRouter location={req.url}>
+                  <IframePageContainer {...initialProps} />
+                </StaticRouter>
+              </CacheProvider>
+            </ApolloProvider>
+          </RedirectContext.Provider>
+        </I18nextProvider>
+      )}
+    </HelmetProvider>
   );
   const assets = getAssets();
   const { html, ...docProps } = await renderPageWithData(
@@ -86,7 +99,7 @@ async function doRenderPage(req: Request, initialProps: InitialProps) {
     undefined,
     client,
   );
-  return { html, docProps };
+  return { html, docProps, helmetContext };
 }
 
 export async function iframeArticleRoute(req: Request) {
@@ -95,7 +108,7 @@ export async function iframeArticleRoute(req: Request) {
   const locale = isValidLocale(htmlLang) ? htmlLang : undefined;
   const { articleId, taxonomyId } = req.params;
   try {
-    const { html, docProps } = await doRenderPage(req, {
+    const { html, docProps, helmetContext } = await doRenderPage(req, {
       articleId,
       taxonomyId,
       isOembed: 'true',
@@ -105,19 +118,19 @@ export async function iframeArticleRoute(req: Request) {
       status: 'success',
     });
 
-    return renderHtml(req, html, { status: OK }, docProps);
+    return renderHtml(req, html, { status: OK }, docProps, helmetContext);
   } catch (error) {
     if (process.env.NODE_ENV !== 'unittest') {
       // skip log in unittests
       handleError(error);
     }
-    const { html, docProps } = await doRenderPage(req, {
+    const { html, docProps, helmetContext } = await doRenderPage(req, {
       basename: lang,
       locale,
       status: 'error',
     });
 
     const status = error.status || INTERNAL_SERVER_ERROR;
-    return renderHtml(req, html, { status }, docProps);
+    return renderHtml(req, html, { status }, docProps, helmetContext);
   }
 }

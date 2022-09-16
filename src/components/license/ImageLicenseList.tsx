@@ -6,22 +6,15 @@
  *
  */
 
-import React from 'react';
+import { gql } from '@apollo/client';
 import { uuid } from '@ndla/util';
 import {
-  //@ts-ignore
   Image,
-  //@ts-ignore
   MediaList,
-  //@ts-ignore
   MediaListItem,
-  //@ts-ignore
   MediaListItemImage,
-  //@ts-ignore
   MediaListItemBody,
-  //@ts-ignore
   MediaListItemActions,
-  //@ts-ignore
   MediaListItemMeta,
 } from '@ndla/ui';
 import {
@@ -32,9 +25,9 @@ import queryString from 'query-string';
 import { useTranslation } from 'react-i18next';
 import CopyTextButton from './CopyTextButton';
 import AnchorButton from './AnchorButton';
-import { GQLImageLicense } from '../../graphqlTypes';
-import { LocaleType } from '../../interfaces';
+import { GQLImageLicenseList_ImageLicenseFragment } from '../../graphqlTypes';
 import { licenseCopyrightToCopyrightType } from './licenseHelpers';
+import { licenseListCopyrightFragment } from './licenseFragments';
 
 export const downloadUrl = (imageSrc: string) => {
   const urlObject = queryString.parseUrl(imageSrc);
@@ -45,14 +38,16 @@ export const downloadUrl = (imageSrc: string) => {
 };
 
 interface ImageLicenseInfoProps {
-  image: GQLImageLicense;
-  locale: LocaleType;
+  image: GQLImageLicenseList_ImageLicenseFragment;
 }
 
-const ImageLicenseInfo = ({ image, locale }: ImageLicenseInfoProps) => {
-  const { t } = useTranslation();
+const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
+  const { t, i18n } = useTranslation();
   const safeCopyright = licenseCopyrightToCopyrightType(image.copyright);
-  const items = getGroupedContributorDescriptionList(safeCopyright, locale);
+  const items = getGroupedContributorDescriptionList(
+    safeCopyright,
+    i18n.language,
+  );
 
   if (image.title) {
     items.unshift({
@@ -80,22 +75,26 @@ const ImageLicenseInfo = ({ image, locale }: ImageLicenseInfoProps) => {
         license={image.copyright.license?.license}
         resourceType="image"
         resourceUrl={image.src}
-        locale={locale}>
+        locale={i18n.language}>
         <MediaListItemActions>
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />
-            <CopyTextButton
-              stringToCopy={image.copyText}
-              copyTitle={t('license.copyTitle')}
-              hasCopiedTitle={t('license.hasCopiedTitle')}
-            />
             {image.copyright.license?.license !== 'COPYRIGHTED' && (
-              <AnchorButton
-                href={downloadUrl(image.src)}
-                appearance="outline"
-                download>
-                {t('license.download')}
-              </AnchorButton>
+              <>
+                {image.copyText && (
+                  <CopyTextButton
+                    stringToCopy={image.copyText}
+                    copyTitle={t('license.copyTitle')}
+                    hasCopiedTitle={t('license.hasCopiedTitle')}
+                  />
+                )}
+                <AnchorButton
+                  href={downloadUrl(image.src)}
+                  appearance="outline"
+                  download>
+                  {t('license.download')}
+                </AnchorButton>
+              </>
             )}
           </div>
         </MediaListItemActions>
@@ -105,11 +104,10 @@ const ImageLicenseInfo = ({ image, locale }: ImageLicenseInfoProps) => {
 };
 
 interface Props {
-  images: GQLImageLicense[];
-  locale: LocaleType;
+  images: GQLImageLicenseList_ImageLicenseFragment[];
 }
 
-const ImageLicenseList = ({ images, locale }: Props) => {
+const ImageLicenseList = ({ images }: Props) => {
   const { t } = useTranslation();
   return (
     <div>
@@ -117,11 +115,27 @@ const ImageLicenseList = ({ images, locale }: Props) => {
       <p>{t('license.images.description')}</p>
       <MediaList>
         {images.map(image => (
-          <ImageLicenseInfo image={image} key={uuid()} locale={locale} />
+          <ImageLicenseInfo image={image} key={uuid()} />
         ))}
       </MediaList>
     </div>
   );
+};
+
+ImageLicenseList.fragments = {
+  image: gql`
+    fragment ImageLicenseList_ImageLicense on ImageLicense {
+      title
+      altText
+      src
+      copyText
+      copyright {
+        origin
+        ...LicenseListCopyright
+      }
+    }
+    ${licenseListCopyrightFragment}
+  `,
 };
 
 export default ImageLicenseList;

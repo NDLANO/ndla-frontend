@@ -66,19 +66,33 @@ export const programmes: ProgrammeType[] = [
               },
             ],
           },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
+              },
+            ],
+          },
         ],
       },
       {
         name: 'Vg2',
+        missingProgrammeSubjects: true,
         categories: [
-          {
-            name: {
-              nb: 'Vi har dessverre ikke programfagene enda.',
-              nn: 'Vi har dessverre ikkje programfaga enno.',
-              en: 'Vi har dessverre ikke programfagene enda.',
-            },
-            subjects: [],
-          },
           {
             name: {
               nb: 'Fellesfag',
@@ -100,6 +114,27 @@ export const programmes: ProgrammeType[] = [
               },
               {
                 id: 'urn:subject:1:11c4696f-e844-4c98-8df7-49d43f59ec33',
+              },
+            ],
+          },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
               },
             ],
           },
@@ -175,19 +210,33 @@ export const programmes: ProgrammeType[] = [
               },
             ],
           },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
+              },
+            ],
+          },
         ],
       },
       {
         name: 'Vg2',
+        missingProgrammeSubjects: true,
         categories: [
-          {
-            name: {
-              nb: 'Vi har dessverre ikke programfagene enda.',
-              nn: 'Vi har dessverre ikkje programfaga enno.',
-              en: 'Vi har dessverre ikke programfagene enda.',
-            },
-            subjects: [],
-          },
           {
             name: {
               nb: 'Fellesfag',
@@ -209,6 +258,27 @@ export const programmes: ProgrammeType[] = [
               },
               {
                 id: 'urn:subject:1:11c4696f-e844-4c98-8df7-49d43f59ec33',
+              },
+            ],
+          },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
               },
             ],
           },
@@ -244,7 +314,10 @@ export const programmes: ProgrammeType[] = [
             name: undefined,
             subjects: [
               {
-                id: 'urn:subject:d41a472f-5a93-4e46-b658-f1e681284901',
+                id: 'urn:subject:31f764fe-d885-4fc6-93f5-53e1d50670fa',
+              },
+              {
+                id: 'urn:subject:52b154e8-eb71-49cb-b046-c41303eb9b99',
               },
             ],
           },
@@ -278,19 +351,33 @@ export const programmes: ProgrammeType[] = [
               },
             ],
           },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
+              },
+            ],
+          },
         ],
       },
       {
         name: 'Vg2',
+        missingProgrammeSubjects: true,
         categories: [
-          {
-            name: {
-              nb: 'Vi har dessverre ikke programfagene enda.',
-              nn: 'Vi har dessverre ikkje programfaga enno.',
-              en: 'Vi har dessverre ikke programfagene enda.',
-            },
-            subjects: [],
-          },
           {
             name: {
               nb: 'Fellesfag',
@@ -312,6 +399,27 @@ export const programmes: ProgrammeType[] = [
               },
               {
                 id: 'urn:subject:1:11c4696f-e844-4c98-8df7-49d43f59ec33',
+              },
+            ],
+          },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
               },
             ],
           },
@@ -347,7 +455,10 @@ export const programmes: ProgrammeType[] = [
             name: undefined,
             subjects: [
               {
-                id: 'urn:subject:7509b507-548d-48e1-bef3-a06758e4820c',
+                id: 'urn:subject:6055d62b-8373-47d3-8b56-e3d4c5560ff5',
+              },
+              {
+                id: 'urn:subject:2fc808ef-7cd4-4982-a429-fa0939e784aa',
               },
             ],
           },
@@ -381,19 +492,33 @@ export const programmes: ProgrammeType[] = [
               },
             ],
           },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
+              },
+            ],
+          },
         ],
       },
       {
         name: 'Vg2',
+        missingProgrammeSubjects: true,
         categories: [
-          {
-            name: {
-              nb: 'Vi har dessverre ikke programfagene enda.',
-              nn: 'Vi har dessverre ikkje programfaga enno.',
-              en: 'Vi har dessverre ikke programfagene enda.',
-            },
-            subjects: [],
-          },
           {
             name: {
               nb: 'Fellesfag',
@@ -415,6 +540,27 @@ export const programmes: ProgrammeType[] = [
               },
               {
                 id: 'urn:subject:1:11c4696f-e844-4c98-8df7-49d43f59ec33',
+              },
+            ],
+          },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
               },
             ],
           },
@@ -493,6 +639,27 @@ export const programmes: ProgrammeType[] = [
               },
             ],
           },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
+              },
+            ],
+          },
         ],
       },
       {
@@ -564,6 +731,27 @@ export const programmes: ProgrammeType[] = [
               },
             ],
           },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
+              },
+            ],
+          },
         ],
       },
     ],
@@ -587,19 +775,12 @@ export const programmes: ProgrammeType[] = [
           'Utdanningsprogrammet består av programfaga aktivitetslære, treningslære, idrett og samfunn og treningsledelse. Du oppnår studiekompetanse.',
       },
     },
-    image: { url: 'https://api.ndla.no/image-api/raw/VEXPfqtg.jpg' },
+    image: { url: 'https://api.ndla.no/image-api/raw/tEoZoZj2.jpg' },
     grades: [
       {
         name: 'Vg1',
+        missingProgrammeSubjects: true,
         categories: [
-          {
-            name: {
-              nb: 'Vi har dessverre ikke programfagene enda.',
-              nn: 'Vi har dessverre ikkje programfaga enno.',
-              en: 'Vi har dessverre ikke programfagene enda.',
-            },
-            subjects: [],
-          },
           {
             name: {
               nb: 'Fellesfag',
@@ -637,8 +818,26 @@ export const programmes: ProgrammeType[] = [
               {
                 id: 'urn:subject:1:a5d7da3a-8a19-4a83-9b3f-3c855621df70',
               },
+            ],
+          },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
               {
-                id: 'urn:subject:1:f7c5f36a-198d-4c38-a330-2957cf1a8325',
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
               },
             ],
           },
@@ -646,15 +845,8 @@ export const programmes: ProgrammeType[] = [
       },
       {
         name: 'Vg2',
+        missingProgrammeSubjects: true,
         categories: [
-          {
-            name: {
-              nb: 'Vi har dessverre ikke programfagene enda.',
-              nn: 'Vi har dessverre ikkje programfaga enno.',
-              en: 'Vi har dessverre ikke programfagene enda.',
-            },
-            subjects: [],
-          },
           {
             name: {
               nb: 'Fellesfag',
@@ -669,10 +861,16 @@ export const programmes: ProgrammeType[] = [
                 id: 'urn:subject:1:ec288dfb-4768-4f82-8387-fe2d73fff1e1',
               },
               {
+                id: 'urn:subject:1:1a05c6c7-121e-49e2-933c-580da74afe1a',
+              },
+              {
+                id: 'urn:subject:1:1d441d40-358a-47a8-8cd5-7a80382a9062',
+              },
+              {
                 id: 'urn:subject:1:3170610c-6a5a-4da5-aeba-adb247aae48c',
               },
               {
-                id: 'urn:subject:1:d4511941-a1fc-4336-bc80-0a05c534a182',
+                id: 'urn:subject:1:a5d7da3a-8a19-4a83-9b3f-3c855621df70',
               },
               {
                 id: 'urn:subject:1:ff69c291-6374-4766-80c2-47d5840d8bbf',
@@ -693,16 +891,17 @@ export const programmes: ProgrammeType[] = [
             },
             subjects: [
               {
-                id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
+                id: 'urn:subject:e18b8bf0-326b-45f6-8e95-982de8f34264',
               },
               {
-                id: 'urn:subject:1:1a05c6c7-121e-49e2-933c-580da74afe1a',
+                id: 'urn:subject:c0ce0b31-33f6-4f6f-bbe0-caa878f7ab9b',
               },
-
               {
                 id: 'urn:subject:1:b561f04f-d633-453e-b0ce-84985f97969b',
               },
-
+              {
+                id: 'urn:subject:1:734bd33b-da6d-49b0-bb34-c6df5b956f8e',
+              },
               {
                 id: 'urn:subject:1:058bdbdb-aa5a-4a29-88fb-45e664999417',
               },
@@ -713,7 +912,31 @@ export const programmes: ProgrammeType[] = [
                 id: 'urn:subject:1:fb6ad516-0108-4059-acc3-3c5f13f49368',
               },
               {
-                id: 'urn:subject:1:1d441d40-358a-47a8-8cd5-7a80382a9062',
+                id: 'urn:subject:1:c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
+              },
+              {
+                id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
+              },
+            ],
+          },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
               },
             ],
           },
@@ -721,15 +944,8 @@ export const programmes: ProgrammeType[] = [
       },
       {
         name: 'Vg3',
+        missingProgrammeSubjects: true,
         categories: [
-          {
-            name: {
-              nb: 'Vi har dessverre ikke programfagene enda.',
-              nn: 'Vi har dessverre ikkje programfaga enno.',
-              en: 'Vi har dessverre ikke programfagene enda.',
-            },
-            subjects: [],
-          },
           {
             name: {
               nb: 'Fellesfag',
@@ -738,16 +954,19 @@ export const programmes: ProgrammeType[] = [
             },
             subjects: [
               {
-                id: 'urn:subject:1:cddc3895-a19b-4e30-bd27-2f91b4a02894',
+                id: 'urn:subject:1:3170610c-6a5a-4da5-aeba-adb247aae48c',
               },
               {
-                id: 'urn:subject:1:e0a0faa8-cefd-481f-bf79-b45ad4d7c5e7',
+                id: 'urn:subject:1:ec288dfb-4768-4f82-8387-fe2d73fff1e1',
               },
               {
-                id: 'urn:subject:1:20e0fdca-5237-4095-a9e5-cea7d63866c0',
+                id: 'urn:subject:30bcefff-7577-4e0b-afc6-b07f437ea354',
               },
               {
-                id: 'urn:subject:1:78e538a3-78bf-4db2-af00-2ca7d721cb25',
+                id: 'urn:subject:cc109c51-a083-413b-b497-7f80a0569a92',
+              },
+              {
+                id: 'urn:subject:ea2822da-52f0-4517-bf01-c63f8e96f446',
               },
             ],
           },
@@ -759,10 +978,19 @@ export const programmes: ProgrammeType[] = [
             },
             subjects: [
               {
-                id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
+                id: 'urn:subject:c499dbee-cfdd-4b76-8836-ae685db03baa',
               },
               {
-                id: 'urn:subject:1:1a05c6c7-121e-49e2-933c-580da74afe1a',
+                id: 'urn:subject:e18b8bf0-326b-45f6-8e95-982de8f34264',
+              },
+              {
+                id: 'urn:subject:c0ce0b31-33f6-4f6f-bbe0-caa878f7ab9b',
+              },
+              {
+                id: 'urn:subject:1:734bd33b-da6d-49b0-bb34-c6df5b956f8e',
+              },
+              {
+                id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
               },
               {
                 id: 'urn:subject:1:b561f04f-d633-453e-b0ce-84985f97969b',
@@ -777,28 +1005,43 @@ export const programmes: ProgrammeType[] = [
                 id: 'urn:subject:1:fb6ad516-0108-4059-acc3-3c5f13f49368',
               },
               {
-                id: 'urn:subject:1:1d441d40-358a-47a8-8cd5-7a80382a9062',
-              },
-              {
-                id: 'urn:subject:1:ebaf899b-4161-4281-80ab-2cb7eebecca4',
+                id: 'urn:subject:da2379d0-3c91-4e4d-94d7-fc42f69593d2',
               },
               {
                 id: 'urn:subject:1:c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
               },
               {
-                id: 'urn:subject:1:4a73afd7-f263-48fa-b6fb-49bd21e517ab',
+                id: 'urn:subject:ea9e2be1-461d-4929-9dae-590e8cb9657f',
               },
               {
-                id: 'urn:subject:1:b9e86c43-93b8-49e9-81af-09dbc7d79401',
+                id: 'urn:subject:f2ef1c73-d706-44e9-b1bd-7923842d6b4e',
               },
               {
-                id: 'urn:subject:1:ec288dfb-4768-4f82-8387-fe2d73fff1e1',
+                id: 'urn:subject:1:576cc40f-cc74-4418-9721-9b15ffd29cff',
               },
               {
-                id: 'urn:subject:1:3170610c-6a5a-4da5-aeba-adb247aae48c',
+                id: 'urn:subject:6e2e2319-cb8a-4dd2-b382-e30f001633bb',
+              },
+            ],
+          },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
               },
               {
-                id: 'urn:subject:1:80f10045-2faa-4f6f-be0f-4c7ec9618186',
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
               },
             ],
           },
@@ -847,7 +1090,6 @@ export const programmes: ProgrammeType[] = [
               },
             ],
           },
-
           {
             name: {
               nb: 'Fellesfag',
@@ -878,6 +1120,27 @@ export const programmes: ProgrammeType[] = [
               },
             ],
           },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
+              },
+            ],
+          },
         ],
       },
       {
@@ -891,7 +1154,13 @@ export const programmes: ProgrammeType[] = [
             },
             subjects: [
               {
-                id: 'urn:subject:1:83cd145e-3412-4f06-8de6-961bae9ff452',
+                id: 'urn:subject:f41eadfa-0749-4ab4-bc17-a500adad38b8',
+              },
+              {
+                id: 'urn:subject:26f1cd12-4242-486d-be22-75c3750a52a2',
+              },
+              {
+                id: 'urn:subject:5e53694a-c8eb-4871-8558-71523941c28e',
               },
             ],
           },
@@ -937,6 +1206,27 @@ export const programmes: ProgrammeType[] = [
               },
             ],
           },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
+              },
+            ],
+          },
         ],
       },
     ],
@@ -964,15 +1254,8 @@ export const programmes: ProgrammeType[] = [
     grades: [
       {
         name: 'Vg1',
+        missingProgrammeSubjects: true,
         categories: [
-          {
-            name: {
-              nb: 'Vi har dessverre ikke programfagene enda.',
-              nn: 'Vi har dessverre ikkje programfaga enno.',
-              en: 'Vi har dessverre ikke programfagene enda.',
-            },
-            subjects: [],
-          },
           {
             name: {
               nb: 'Fellesfag',
@@ -1018,19 +1301,33 @@ export const programmes: ProgrammeType[] = [
               },
             ],
           },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
+              },
+            ],
+          },
         ],
       },
       {
         name: 'Vg2',
+        missingProgrammeSubjects: true,
         categories: [
-          {
-            name: {
-              nb: 'Vi har dessverre ikke programfagene enda.',
-              nn: 'Vi har dessverre ikkje programfaga enno.',
-              en: 'Vi har dessverre ikke programfagene enda.',
-            },
-            subjects: [],
-          },
           {
             name: {
               nb: 'Fellesfag',
@@ -1045,10 +1342,16 @@ export const programmes: ProgrammeType[] = [
                 id: 'urn:subject:1:ec288dfb-4768-4f82-8387-fe2d73fff1e1',
               },
               {
+                id: 'urn:subject:1:1a05c6c7-121e-49e2-933c-580da74afe1a',
+              },
+              {
+                id: 'urn:subject:1:1d441d40-358a-47a8-8cd5-7a80382a9062',
+              },
+              {
                 id: 'urn:subject:1:3170610c-6a5a-4da5-aeba-adb247aae48c',
               },
               {
-                id: 'urn:subject:1:d4511941-a1fc-4336-bc80-0a05c534a182',
+                id: 'urn:subject:1:a5d7da3a-8a19-4a83-9b3f-3c855621df70',
               },
               {
                 id: 'urn:subject:1:ff69c291-6374-4766-80c2-47d5840d8bbf',
@@ -1072,30 +1375,52 @@ export const programmes: ProgrammeType[] = [
             },
             subjects: [
               {
-                id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
+                id: 'urn:subject:e18b8bf0-326b-45f6-8e95-982de8f34264',
               },
-
               {
-                id: 'urn:subject:1:1a05c6c7-121e-49e2-933c-580da74afe1a',
+                id: 'urn:subject:c0ce0b31-33f6-4f6f-bbe0-caa878f7ab9b',
               },
-
               {
                 id: 'urn:subject:1:b561f04f-d633-453e-b0ce-84985f97969b',
               },
-
+              {
+                id: 'urn:subject:1:734bd33b-da6d-49b0-bb34-c6df5b956f8e',
+              },
               {
                 id: 'urn:subject:1:058bdbdb-aa5a-4a29-88fb-45e664999417',
               },
-
               {
                 id: 'urn:subject:1:1f1865fc-e4cc-48a0-918f-3530485ec424',
               },
-
               {
                 id: 'urn:subject:1:fb6ad516-0108-4059-acc3-3c5f13f49368',
               },
               {
-                id: 'urn:subject:1:1d441d40-358a-47a8-8cd5-7a80382a9062',
+                id: 'urn:subject:1:c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
+              },
+              {
+                id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
+              },
+            ],
+          },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
               },
             ],
           },
@@ -1103,15 +1428,8 @@ export const programmes: ProgrammeType[] = [
       },
       {
         name: 'Vg3',
+        missingProgrammeSubjects: true,
         categories: [
-          {
-            name: {
-              nb: 'Vi har dessverre ikke programfagene enda.',
-              nn: 'Vi har dessverre ikkje programfaga enno.',
-              en: 'Vi har dessverre ikke programfagene enda.',
-            },
-            subjects: [],
-          },
           {
             name: {
               nb: 'Fellesfag',
@@ -1120,16 +1438,22 @@ export const programmes: ProgrammeType[] = [
             },
             subjects: [
               {
-                id: 'urn:subject:1:cddc3895-a19b-4e30-bd27-2f91b4a02894',
+                id: 'urn:subject:1:3170610c-6a5a-4da5-aeba-adb247aae48c',
               },
               {
-                id: 'urn:subject:1:e0a0faa8-cefd-481f-bf79-b45ad4d7c5e7',
+                id: 'urn:subject:1:ec288dfb-4768-4f82-8387-fe2d73fff1e1',
               },
               {
-                id: 'urn:subject:1:20e0fdca-5237-4095-a9e5-cea7d63866c0',
+                id: 'urn:subject:187c1484-84a5-474d-bf63-0c7915809a7d',
               },
               {
-                id: 'urn:subject:1:78e538a3-78bf-4db2-af00-2ca7d721cb25',
+                id: 'urn:subject:30bcefff-7577-4e0b-afc6-b07f437ea354',
+              },
+              {
+                id: 'urn:subject:cc109c51-a083-413b-b497-7f80a0569a92',
+              },
+              {
+                id: 'urn:subject:ea2822da-52f0-4517-bf01-c63f8e96f446',
               },
             ],
           },
@@ -1141,10 +1465,19 @@ export const programmes: ProgrammeType[] = [
             },
             subjects: [
               {
-                id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
+                id: 'urn:subject:c499dbee-cfdd-4b76-8836-ae685db03baa',
               },
               {
-                id: 'urn:subject:1:1a05c6c7-121e-49e2-933c-580da74afe1a',
+                id: 'urn:subject:e18b8bf0-326b-45f6-8e95-982de8f34264',
+              },
+              {
+                id: 'urn:subject:c0ce0b31-33f6-4f6f-bbe0-caa878f7ab9b',
+              },
+              {
+                id: 'urn:subject:1:734bd33b-da6d-49b0-bb34-c6df5b956f8e',
+              },
+              {
+                id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
               },
               {
                 id: 'urn:subject:1:b561f04f-d633-453e-b0ce-84985f97969b',
@@ -1159,31 +1492,43 @@ export const programmes: ProgrammeType[] = [
                 id: 'urn:subject:1:fb6ad516-0108-4059-acc3-3c5f13f49368',
               },
               {
-                id: 'urn:subject:1:1d441d40-358a-47a8-8cd5-7a80382a9062',
-              },
-              {
-                id: 'urn:subject:1:ebaf899b-4161-4281-80ab-2cb7eebecca4',
+                id: 'urn:subject:da2379d0-3c91-4e4d-94d7-fc42f69593d2',
               },
               {
                 id: 'urn:subject:1:c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
               },
               {
-                id: 'urn:subject:1:4a73afd7-f263-48fa-b6fb-49bd21e517ab',
+                id: 'urn:subject:ea9e2be1-461d-4929-9dae-590e8cb9657f',
               },
               {
-                id: 'urn:subject:1:b9e86c43-93b8-49e9-81af-09dbc7d79401',
+                id: 'urn:subject:f2ef1c73-d706-44e9-b1bd-7923842d6b4e',
               },
               {
-                id: 'urn:subject:1:ec288dfb-4768-4f82-8387-fe2d73fff1e1',
+                id: 'urn:subject:1:576cc40f-cc74-4418-9721-9b15ffd29cff',
               },
               {
-                id: 'urn:subject:1:3170610c-6a5a-4da5-aeba-adb247aae48c',
+                id: 'urn:subject:6e2e2319-cb8a-4dd2-b382-e30f001633bb',
+              },
+            ],
+          },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
               },
               {
-                id: 'urn:subject:1:c2133910-2de5-4dc9-9057-f59fed74982f',
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
               },
               {
-                id: 'urn:subject:1:80f10045-2faa-4f6f-be0f-4c7ec9618186',
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
               },
             ],
           },
@@ -1234,10 +1579,7 @@ export const programmes: ProgrammeType[] = [
             },
             subjects: [
               {
-                id: 'urn:subject:1:9b93cd9e-a45c-428c-a8fb-b4955169efdf',
-              },
-              {
-                id: 'urn:subject:1:ca607ca1-4dd0-4bbd-954f-67461f4b96fc',
+                id: 'urn:subject:1:4ad7fe49-b14a-4caf-8e19-ad402d1e2ce6',
               },
               {
                 id: 'urn:subject:1:f18b0daa-6507-4025-8998-b8a11c8ccc70',
@@ -1269,6 +1611,30 @@ export const programmes: ProgrammeType[] = [
               {
                 id: 'urn:subject:1:f7c5f36a-198d-4c38-a330-2957cf1a8325',
               },
+              {
+                id: 'urn:subject:1:ca607ca1-4dd0-4bbd-954f-67461f4b96fc',
+              },
+            ],
+          },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
+              },
             ],
           },
         ],
@@ -1295,19 +1661,22 @@ export const programmes: ProgrammeType[] = [
             },
             subjects: [
               {
-                id: 'urn:subject:1:fa2a7d6a-5e8e-4976-82c0-9a1266684c1c',
-              },
-              {
                 id: 'urn:subject:1:50dfc86d-6566-4a45-a531-d32b82e8bfa1',
               },
               {
                 id: 'urn:subject:1:ec288dfb-4768-4f82-8387-fe2d73fff1e1',
               },
               {
+                id: 'urn:subject:1:1a05c6c7-121e-49e2-933c-580da74afe1a',
+              },
+              {
+                id: 'urn:subject:1:1d441d40-358a-47a8-8cd5-7a80382a9062',
+              },
+              {
                 id: 'urn:subject:1:3170610c-6a5a-4da5-aeba-adb247aae48c',
               },
               {
-                id: 'urn:subject:1:d4511941-a1fc-4336-bc80-0a05c534a182',
+                id: 'urn:subject:1:a5d7da3a-8a19-4a83-9b3f-3c855621df70',
               },
               {
                 id: 'urn:subject:1:ff69c291-6374-4766-80c2-47d5840d8bbf',
@@ -1317,6 +1686,9 @@ export const programmes: ProgrammeType[] = [
               },
               {
                 id: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+              },
+              {
+                id: 'urn:subject:1:fa2a7d6a-5e8e-4976-82c0-9a1266684c1c',
               },
             ],
           },
@@ -1328,13 +1700,16 @@ export const programmes: ProgrammeType[] = [
             },
             subjects: [
               {
-                id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
+                id: 'urn:subject:e18b8bf0-326b-45f6-8e95-982de8f34264',
               },
               {
-                id: 'urn:subject:1:1a05c6c7-121e-49e2-933c-580da74afe1a',
+                id: 'urn:subject:c0ce0b31-33f6-4f6f-bbe0-caa878f7ab9b',
               },
               {
                 id: 'urn:subject:1:b561f04f-d633-453e-b0ce-84985f97969b',
+              },
+              {
+                id: 'urn:subject:1:734bd33b-da6d-49b0-bb34-c6df5b956f8e',
               },
               {
                 id: 'urn:subject:1:058bdbdb-aa5a-4a29-88fb-45e664999417',
@@ -1346,10 +1721,31 @@ export const programmes: ProgrammeType[] = [
                 id: 'urn:subject:1:fb6ad516-0108-4059-acc3-3c5f13f49368',
               },
               {
-                id: 'urn:subject:1:1d441d40-358a-47a8-8cd5-7a80382a9062',
+                id: 'urn:subject:1:c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
               },
               {
-                id: 'urn:subject:1:47678c7b-bc09-4fc8-b2d9-a2e3d709e105',
+                id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
+              },
+            ],
+          },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
               },
             ],
           },
@@ -1362,7 +1758,10 @@ export const programmes: ProgrammeType[] = [
             name: undefined,
             subjects: [
               {
-                id: 'urn:subject:1:f7d7f164-fb40-4d21-9813-6a171603281d',
+                id: 'urn:subject:1:7588cdad-751d-46a8-8546-caa28075a167',
+              },
+              {
+                id: 'urn:subject:1:20bc82bc-62e3-4276-8629-84a65b8a6ad2',
               },
             ],
           },
@@ -1374,19 +1773,22 @@ export const programmes: ProgrammeType[] = [
             },
             subjects: [
               {
-                id: 'urn:subject:1:c2133910-2de5-4dc9-9057-f59fed74982f',
+                id: 'urn:subject:1:3170610c-6a5a-4da5-aeba-adb247aae48c',
               },
               {
-                id: 'urn:subject:1:cddc3895-a19b-4e30-bd27-2f91b4a02894',
+                id: 'urn:subject:1:ec288dfb-4768-4f82-8387-fe2d73fff1e1',
               },
               {
-                id: 'urn:subject:1:e0a0faa8-cefd-481f-bf79-b45ad4d7c5e7',
+                id: 'urn:subject:187c1484-84a5-474d-bf63-0c7915809a7d',
               },
               {
-                id: 'urn:subject:1:20e0fdca-5237-4095-a9e5-cea7d63866c0',
+                id: 'urn:subject:30bcefff-7577-4e0b-afc6-b07f437ea354',
               },
               {
-                id: 'urn:subject:1:78e538a3-78bf-4db2-af00-2ca7d721cb25',
+                id: 'urn:subject:cc109c51-a083-413b-b497-7f80a0569a92',
+              },
+              {
+                id: 'urn:subject:ea2822da-52f0-4517-bf01-c63f8e96f446',
               },
             ],
           },
@@ -1398,10 +1800,19 @@ export const programmes: ProgrammeType[] = [
             },
             subjects: [
               {
-                id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
+                id: 'urn:subject:c499dbee-cfdd-4b76-8836-ae685db03baa',
               },
               {
-                id: 'urn:subject:1:1a05c6c7-121e-49e2-933c-580da74afe1a',
+                id: 'urn:subject:e18b8bf0-326b-45f6-8e95-982de8f34264',
+              },
+              {
+                id: 'urn:subject:c0ce0b31-33f6-4f6f-bbe0-caa878f7ab9b',
+              },
+              {
+                id: 'urn:subject:1:734bd33b-da6d-49b0-bb34-c6df5b956f8e',
+              },
+              {
+                id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
               },
               {
                 id: 'urn:subject:1:b561f04f-d633-453e-b0ce-84985f97969b',
@@ -1416,31 +1827,43 @@ export const programmes: ProgrammeType[] = [
                 id: 'urn:subject:1:fb6ad516-0108-4059-acc3-3c5f13f49368',
               },
               {
-                id: 'urn:subject:1:1d441d40-358a-47a8-8cd5-7a80382a9062',
-              },
-              {
-                id: 'urn:subject:1:ebaf899b-4161-4281-80ab-2cb7eebecca4',
+                id: 'urn:subject:da2379d0-3c91-4e4d-94d7-fc42f69593d2',
               },
               {
                 id: 'urn:subject:1:c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
               },
               {
-                id: 'urn:subject:1:4a73afd7-f263-48fa-b6fb-49bd21e517ab',
+                id: 'urn:subject:ea9e2be1-461d-4929-9dae-590e8cb9657f',
               },
               {
-                id: 'urn:subject:1:b9e86c43-93b8-49e9-81af-09dbc7d79401',
+                id: 'urn:subject:f2ef1c73-d706-44e9-b1bd-7923842d6b4e',
               },
               {
-                id: 'urn:subject:1:ec288dfb-4768-4f82-8387-fe2d73fff1e1',
+                id: 'urn:subject:1:576cc40f-cc74-4418-9721-9b15ffd29cff',
               },
               {
-                id: 'urn:subject:1:3170610c-6a5a-4da5-aeba-adb247aae48c',
+                id: 'urn:subject:6e2e2319-cb8a-4dd2-b382-e30f001633bb',
+              },
+            ],
+          },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
               },
               {
-                id: 'urn:subject:1:47678c7b-bc09-4fc8-b2d9-a2e3d709e105',
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
               },
               {
-                id: 'urn:subject:1:80f10045-2faa-4f6f-be0f-4c7ec9618186',
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
               },
             ],
           },
@@ -1471,15 +1894,8 @@ export const programmes: ProgrammeType[] = [
     grades: [
       {
         name: 'Vg1',
+        missingProgrammeSubjects: true,
         categories: [
-          {
-            name: {
-              nb: 'Vi har dessverre ikke programfagene enda.',
-              nn: 'Vi har dessverre ikkje programfaga enno.',
-              en: 'Vi har dessverre ikke programfagene enda.',
-            },
-            subjects: [],
-          },
           {
             name: {
               nb: 'Fellesfag',
@@ -1522,19 +1938,33 @@ export const programmes: ProgrammeType[] = [
               },
             ],
           },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
+              },
+            ],
+          },
         ],
       },
       {
         name: 'Vg2',
+        missingProgrammeSubjects: true,
         categories: [
-          {
-            name: {
-              nb: 'Vi har dessverre ikke programfagene enda.',
-              nn: 'Vi har dessverre ikkje programfaga enno.',
-              en: 'Vi har dessverre ikke programfagene enda.',
-            },
-            subjects: [],
-          },
           {
             name: {
               nb: 'Fellesfag',
@@ -1549,10 +1979,16 @@ export const programmes: ProgrammeType[] = [
                 id: 'urn:subject:1:ec288dfb-4768-4f82-8387-fe2d73fff1e1',
               },
               {
+                id: 'urn:subject:1:1a05c6c7-121e-49e2-933c-580da74afe1a',
+              },
+              {
+                id: 'urn:subject:1:1d441d40-358a-47a8-8cd5-7a80382a9062',
+              },
+              {
                 id: 'urn:subject:1:3170610c-6a5a-4da5-aeba-adb247aae48c',
               },
               {
-                id: 'urn:subject:1:d4511941-a1fc-4336-bc80-0a05c534a182',
+                id: 'urn:subject:1:a5d7da3a-8a19-4a83-9b3f-3c855621df70',
               },
               {
                 id: 'urn:subject:1:ff69c291-6374-4766-80c2-47d5840d8bbf',
@@ -1563,9 +1999,6 @@ export const programmes: ProgrammeType[] = [
               {
                 id: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
               },
-              {
-                id: 'urn:subject:1:fa2a7d6a-5e8e-4976-82c0-9a1266684c1c',
-              },
             ],
           },
           {
@@ -1576,30 +2009,52 @@ export const programmes: ProgrammeType[] = [
             },
             subjects: [
               {
-                id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
+                id: 'urn:subject:e18b8bf0-326b-45f6-8e95-982de8f34264',
               },
-
               {
-                id: 'urn:subject:1:1a05c6c7-121e-49e2-933c-580da74afe1a',
+                id: 'urn:subject:c0ce0b31-33f6-4f6f-bbe0-caa878f7ab9b',
               },
-
               {
                 id: 'urn:subject:1:b561f04f-d633-453e-b0ce-84985f97969b',
               },
-
+              {
+                id: 'urn:subject:1:734bd33b-da6d-49b0-bb34-c6df5b956f8e',
+              },
               {
                 id: 'urn:subject:1:058bdbdb-aa5a-4a29-88fb-45e664999417',
               },
-
               {
                 id: 'urn:subject:1:1f1865fc-e4cc-48a0-918f-3530485ec424',
               },
-
               {
                 id: 'urn:subject:1:fb6ad516-0108-4059-acc3-3c5f13f49368',
               },
               {
-                id: 'urn:subject:1:1d441d40-358a-47a8-8cd5-7a80382a9062',
+                id: 'urn:subject:1:c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
+              },
+              {
+                id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
+              },
+            ],
+          },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
               },
             ],
           },
@@ -1607,15 +2062,8 @@ export const programmes: ProgrammeType[] = [
       },
       {
         name: 'Vg3',
+        missingProgrammeSubjects: true,
         categories: [
-          {
-            name: {
-              nb: 'Vi har dessverre ikke programfagene enda.',
-              nn: 'Vi har dessverre ikkje programfaga enno.',
-              en: 'Vi har dessverre ikke programfagene enda.',
-            },
-            subjects: [],
-          },
           {
             name: {
               nb: 'Fellesfag',
@@ -1624,16 +2072,19 @@ export const programmes: ProgrammeType[] = [
             },
             subjects: [
               {
-                id: 'urn:subject:1:cddc3895-a19b-4e30-bd27-2f91b4a02894',
+                id: 'urn:subject:1:3170610c-6a5a-4da5-aeba-adb247aae48c',
               },
               {
-                id: 'urn:subject:1:e0a0faa8-cefd-481f-bf79-b45ad4d7c5e7',
+                id: 'urn:subject:1:ec288dfb-4768-4f82-8387-fe2d73fff1e1',
               },
               {
-                id: 'urn:subject:1:20e0fdca-5237-4095-a9e5-cea7d63866c0',
+                id: 'urn:subject:30bcefff-7577-4e0b-afc6-b07f437ea354',
               },
               {
-                id: 'urn:subject:1:78e538a3-78bf-4db2-af00-2ca7d721cb25',
+                id: 'urn:subject:cc109c51-a083-413b-b497-7f80a0569a92',
+              },
+              {
+                id: 'urn:subject:ea2822da-52f0-4517-bf01-c63f8e96f446',
               },
             ],
           },
@@ -1645,10 +2096,19 @@ export const programmes: ProgrammeType[] = [
             },
             subjects: [
               {
-                id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
+                id: 'urn:subject:c499dbee-cfdd-4b76-8836-ae685db03baa',
               },
               {
-                id: 'urn:subject:1:1a05c6c7-121e-49e2-933c-580da74afe1a',
+                id: 'urn:subject:e18b8bf0-326b-45f6-8e95-982de8f34264',
+              },
+              {
+                id: 'urn:subject:c0ce0b31-33f6-4f6f-bbe0-caa878f7ab9b',
+              },
+              {
+                id: 'urn:subject:1:734bd33b-da6d-49b0-bb34-c6df5b956f8e',
+              },
+              {
+                id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
               },
               {
                 id: 'urn:subject:1:b561f04f-d633-453e-b0ce-84985f97969b',
@@ -1663,31 +2123,46 @@ export const programmes: ProgrammeType[] = [
                 id: 'urn:subject:1:fb6ad516-0108-4059-acc3-3c5f13f49368',
               },
               {
-                id: 'urn:subject:1:1d441d40-358a-47a8-8cd5-7a80382a9062',
-              },
-              {
-                id: 'urn:subject:1:ebaf899b-4161-4281-80ab-2cb7eebecca4',
+                id: 'urn:subject:da2379d0-3c91-4e4d-94d7-fc42f69593d2',
               },
               {
                 id: 'urn:subject:1:c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
               },
               {
-                id: 'urn:subject:1:4a73afd7-f263-48fa-b6fb-49bd21e517ab',
+                id: 'urn:subject:ea9e2be1-461d-4929-9dae-590e8cb9657f',
               },
               {
-                id: 'urn:subject:1:b9e86c43-93b8-49e9-81af-09dbc7d79401',
+                id: 'urn:subject:f2ef1c73-d706-44e9-b1bd-7923842d6b4e',
               },
               {
-                id: 'urn:subject:1:ec288dfb-4768-4f82-8387-fe2d73fff1e1',
+                id: 'urn:subject:187c1484-84a5-474d-bf63-0c7915809a7d',
               },
               {
-                id: 'urn:subject:1:3170610c-6a5a-4da5-aeba-adb247aae48c',
+                id: 'urn:subject:1:576cc40f-cc74-4418-9721-9b15ffd29cff',
               },
               {
-                id: 'urn:subject:1:c2133910-2de5-4dc9-9057-f59fed74982f',
+                id: 'urn:subject:6e2e2319-cb8a-4dd2-b382-e30f001633bb',
+              },
+            ],
+          },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
               },
               {
-                id: 'urn:subject:1:80f10045-2faa-4f6f-be0f-4c7ec9618186',
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
               },
             ],
           },
@@ -1723,7 +2198,10 @@ export const programmes: ProgrammeType[] = [
             name: undefined,
             subjects: [
               {
-                id: 'urn:subject:13',
+                id: 'urn:subject:644e5655-75e5-49c3-9f5a-e2a98271bb3d',
+              },
+              {
+                id: 'urn:subject:169ba831-b3cd-4207-b9b8-7d06bf03328b',
               },
             ],
           },
@@ -1757,19 +2235,33 @@ export const programmes: ProgrammeType[] = [
               },
             ],
           },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
+              },
+            ],
+          },
         ],
       },
       {
         name: 'Vg2',
+        missingProgrammeSubjects: true,
         categories: [
-          {
-            name: {
-              nb: 'Vi har dessverre ikke programfagene enda.',
-              nn: 'Vi har dessverre ikkje programfaga enno.',
-              en: 'Vi har dessverre ikke programfagene enda.',
-            },
-            subjects: [],
-          },
           {
             name: {
               nb: 'Fellesfag',
@@ -1794,6 +2286,27 @@ export const programmes: ProgrammeType[] = [
               },
             ],
           },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
+              },
+            ],
+          },
         ],
       },
     ],
@@ -1815,7 +2328,38 @@ export const programmes: ProgrammeType[] = [
         name: 'Vg3',
         categories: [
           {
-            name: undefined,
+            name: {
+              nb: 'Fellesfag',
+              nn: 'Fellesfag',
+              en: 'Fellesfag',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:187c1484-84a5-474d-bf63-0c7915809a7d',
+              },
+              {
+                id: 'urn:subject:af91136f-7da8-4cf1-b0ba-0ea6acdf1489',
+              },
+              {
+                id: 'urn:subject:ad7d24b5-57be-4eff-87e0-1eaf79b27825',
+              },
+              {
+                id: 'urn:subject:846a7552-ea6c-4174-89a4-85d6ba48c96e',
+              },
+              {
+                id: 'urn:subject:1:bb834c76-d1e4-46c4-8c0a-8f978bd2c956',
+              },
+              {
+                id: 'urn:subject:1:a532138d-e16a-4046-a46e-bd5bc9487b8b',
+              },
+            ],
+          },
+          {
+            name: {
+              nb: 'Valgfrie programfag',
+              nn: 'Valfrie programfag',
+              en: 'Valgfrie programfag',
+            },
             subjects: [
               {
                 id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
@@ -1845,31 +2389,34 @@ export const programmes: ProgrammeType[] = [
                 id: 'urn:subject:1:47678c7b-bc09-4fc8-b2d9-a2e3d709e105',
               },
               {
-                id: 'urn:subject:1:a532138d-e16a-4046-a46e-bd5bc9487b8b',
+                id: 'urn:subject:1:c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
+              },
+              {
+                id: 'urn:subject:e18b8bf0-326b-45f6-8e95-982de8f34264',
+              },
+              {
+                id: 'urn:subject:c0ce0b31-33f6-4f6f-bbe0-caa878f7ab9b',
               },
             ],
           },
           {
             name: {
-              nb: 'Fellesfag',
-              nn: 'Fellesfag',
-              en: 'Fellesfag',
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
             },
             subjects: [
               {
-                id: 'urn:subject:1:c2133910-2de5-4dc9-9057-f59fed74982f',
+                id: 'urn:subject:20',
               },
               {
-                id: 'urn:subject:1:f3d2143b-66e3-428c-89ca-72c1abc659ea',
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
               },
               {
-                id: 'urn:subject:1:38bc9538-63fd-48f3-9085-c2142dafd64c',
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
               },
               {
-                id: 'urn:subject:1:9132d125-4d8f-41a6-b61d-77741662d5a9',
-              },
-              {
-                id: 'urn:subject:1:671bd263-eee6-4c56-9e23-a6bbd3130f33',
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
               },
             ],
           },
@@ -1910,6 +2457,9 @@ export const programmes: ProgrammeType[] = [
               {
                 id: 'urn:subject:1:cd3a3bb8-eed2-4d02-8c21-b3dca5a2a11b',
               },
+              {
+                id: 'urn:subject:b0fb73bc-fc75-4be1-9b24-605d9de0f469',
+              },
             ],
           },
           {
@@ -1939,6 +2489,27 @@ export const programmes: ProgrammeType[] = [
               },
               {
                 id: 'urn:subject:1:11c4696f-e844-4c98-8df7-49d43f59ec33',
+              },
+            ],
+          },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
               },
             ],
           },
@@ -1986,6 +2557,27 @@ export const programmes: ProgrammeType[] = [
               },
               {
                 id: 'urn:subject:1:11c4696f-e844-4c98-8df7-49d43f59ec33',
+              },
+            ],
+          },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
               },
             ],
           },
@@ -2064,6 +2656,27 @@ export const programmes: ProgrammeType[] = [
               },
             ],
           },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
+              },
+            ],
+          },
         ],
       },
       {
@@ -2136,6 +2749,27 @@ export const programmes: ProgrammeType[] = [
               },
             ],
           },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
+              },
+            ],
+          },
         ],
       },
     ],
@@ -2165,7 +2799,11 @@ export const programmes: ProgrammeType[] = [
         name: 'Vg1',
         categories: [
           {
-            name: undefined,
+            name: {
+              nb: 'Fellesfag',
+              nn: 'Fellesfag',
+              en: 'Fellesfag',
+            },
             subjects: [
               {
                 id: 'urn:subject:1:f18b0daa-6507-4025-8998-b8a11c8ccc70',
@@ -2208,13 +2846,38 @@ export const programmes: ProgrammeType[] = [
               },
             ],
           },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
+              },
+            ],
+          },
         ],
       },
       {
         name: 'Vg2',
         categories: [
           {
-            name: undefined,
+            name: {
+              nb: 'Fellesfag',
+              nn: 'Fellesfag',
+              en: 'Fellesfag',
+            },
             subjects: [
               {
                 id: 'urn:subject:1:ff69c291-6374-4766-80c2-47d5840d8bbf',
@@ -2223,13 +2886,25 @@ export const programmes: ProgrammeType[] = [
                 id: 'urn:subject:1:fa2a7d6a-5e8e-4976-82c0-9a1266684c1c',
               },
               {
-                id: 'urn:subject:1:d4511941-a1fc-4336-bc80-0a05c534a182',
-              },
-              {
                 id: 'urn:subject:1:a45bba8f-61b7-4dc5-8609-126c4d9c7652',
               },
               {
                 id: 'urn:subject:1:50dfc86d-6566-4a45-a531-d32b82e8bfa1',
+              },
+              {
+                id: 'urn:subject:1:1a05c6c7-121e-49e2-933c-580da74afe1a',
+              },
+              {
+                id: 'urn:subject:1:1d441d40-358a-47a8-8cd5-7a80382a9062',
+              },
+              {
+                id: 'urn:subject:1:3170610c-6a5a-4da5-aeba-adb247aae48c',
+              },
+              {
+                id: 'urn:subject:1:ec288dfb-4768-4f82-8387-fe2d73fff1e1',
+              },
+              {
+                id: 'urn:subject:1:d4511941-a1fc-4336-bc80-0a05c534a182',
               },
             ],
           },
@@ -2241,13 +2916,13 @@ export const programmes: ProgrammeType[] = [
             },
             subjects: [
               {
-                id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
-              },
-              {
                 id: 'urn:subject:1:734bd33b-da6d-49b0-bb34-c6df5b956f8e',
               },
               {
                 id: 'urn:subject:1:b561f04f-d633-453e-b0ce-84985f97969b',
+              },
+              {
+                id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
               },
             ],
           },
@@ -2259,16 +2934,17 @@ export const programmes: ProgrammeType[] = [
             },
             subjects: [
               {
-                id: 'urn:subject:1:41cb93c0-abc7-4212-b69f-df81106ae3c0',
+                id: 'urn:subject:1:1a05c6c7-121e-49e2-933c-580da74afe1a',
+              },
+              {
+                id: 'urn:subject:1:ec288dfb-4768-4f82-8387-fe2d73fff1e1',
+              },
+              {
+                id: 'urn:subject:1:1d441d40-358a-47a8-8cd5-7a80382a9062',
               },
               {
                 id: 'urn:subject:1:3170610c-6a5a-4da5-aeba-adb247aae48c',
               },
-
-              {
-                id: 'urn:subject:1:ec288dfb-4768-4f82-8387-fe2d73fff1e1',
-              },
-
               {
                 id: 'urn:subject:1:47678c7b-bc09-4fc8-b2d9-a2e3d709e105',
               },
@@ -2285,13 +2961,31 @@ export const programmes: ProgrammeType[] = [
                 id: 'urn:subject:1:058bdbdb-aa5a-4a29-88fb-45e664999417',
               },
               {
-                id: 'urn:subject:1:1a05c6c7-121e-49e2-933c-580da74afe1a',
-              },
-              {
-                id: 'urn:subject:1:1d441d40-358a-47a8-8cd5-7a80382a9062',
-              },
-              {
                 id: 'urn:subject:e18b8bf0-326b-45f6-8e95-982de8f34264',
+              },
+              {
+                id: 'urn:subject:c0ce0b31-33f6-4f6f-bbe0-caa878f7ab9b',
+              },
+            ],
+          },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
               },
             ],
           },
@@ -2301,22 +2995,26 @@ export const programmes: ProgrammeType[] = [
         name: 'Vg3',
         categories: [
           {
-            name: undefined,
+            name: {
+              nb: 'Fellesfag',
+              nn: 'Fellesfag',
+              en: 'Fellesfag',
+            },
             subjects: [
               {
-                id: 'urn:subject:1:c2133910-2de5-4dc9-9057-f59fed74982f',
+                id: 'urn:subject:187c1484-84a5-474d-bf63-0c7915809a7d',
               },
               {
-                id: 'urn:subject:1:e0a0faa8-cefd-481f-bf79-b45ad4d7c5e7',
+                id: 'urn:subject:cc109c51-a083-413b-b497-7f80a0569a92',
+              },
+              {
+                id: 'urn:subject:30bcefff-7577-4e0b-afc6-b07f437ea354',
+              },
+              {
+                id: 'urn:subject:ea2822da-52f0-4517-bf01-c63f8e96f446',
               },
               {
                 id: 'urn:subject:1:20e0fdca-5237-4095-a9e5-cea7d63866c0',
-              },
-              {
-                id: 'urn:subject:1:cddc3895-a19b-4e30-bd27-2f91b4a02894',
-              },
-              {
-                id: 'urn:subject:1:78e538a3-78bf-4db2-af00-2ca7d721cb25',
               },
             ],
           },
@@ -2328,12 +3026,12 @@ export const programmes: ProgrammeType[] = [
             },
             subjects: [
               {
-                id: 'urn:subject:1:4200b774-5b7b-4900-bf1d-e0b298b9cb97',
+                id: 'urn:subject:c499dbee-cfdd-4b76-8836-ae685db03baa',
               },
               {
-                id: 'urn:subject:1:ebaf899b-4161-4281-80ab-2cb7eebecca4',
+                id: 'urn:subject:da2379d0-3c91-4e4d-94d7-fc42f69593d2',
               },
-              //todo biologi 1
+
               {
                 id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
               },
@@ -2347,34 +3045,64 @@ export const programmes: ProgrammeType[] = [
             },
             subjects: [
               {
-                id: 'urn:subject:1:c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
+                id: 'urn:subject:1:1a05c6c7-121e-49e2-933c-580da74afe1a',
               },
               {
                 id: 'urn:subject:1:ec288dfb-4768-4f82-8387-fe2d73fff1e1',
               },
               {
-                id: 'urn:subject:1:058bdbdb-aa5a-4a29-88fb-45e664999417',
-              },
-              {
-                id: 'urn:subject:1:b9e86c43-93b8-49e9-81af-09dbc7d79401',
-              },
-              {
-                id: 'urn:subject:1:4a73afd7-f263-48fa-b6fb-49bd21e517ab',
+                id: 'urn:subject:1:1d441d40-358a-47a8-8cd5-7a80382a9062',
               },
               {
                 id: 'urn:subject:1:3170610c-6a5a-4da5-aeba-adb247aae48c',
               },
               {
+                id: 'urn:subject:6e2e2319-cb8a-4dd2-b382-e30f001633bb',
+              },
+              {
+                id: 'urn:subject:1:c8d6ed8b-d376-4c7b-b73a-3a1d48c3a357',
+              },
+              {
+                id: 'urn:subject:1:058bdbdb-aa5a-4a29-88fb-45e664999417',
+              },
+              {
+                id: 'urn:subject:f2ef1c73-d706-44e9-b1bd-7923842d6b4e',
+              },
+              {
+                id: 'urn:subject:ea9e2be1-461d-4929-9dae-590e8cb9657f',
+              },
+              {
                 id: 'urn:subject:e18b8bf0-326b-45f6-8e95-982de8f34264',
+              },
+              {
+                id: 'urn:subject:c0ce0b31-33f6-4f6f-bbe0-caa878f7ab9b',
               },
               {
                 id: 'urn:subject:1:1f1865fc-e4cc-48a0-918f-3530485ec424',
               },
               {
-                id: 'urn:subject:1:80f10045-2faa-4f6f-be0f-4c7ec9618186',
+                id: 'urn:subject:1:576cc40f-cc74-4418-9721-9b15ffd29cff',
+              },
+            ],
+          },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
               },
               {
-                id: 'urn:subject:1:06270029-7aa7-4a7a-b383-128b275ff150',
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
               },
             ],
           },
@@ -2453,6 +3181,27 @@ export const programmes: ProgrammeType[] = [
               },
             ],
           },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
+              },
+            ],
+          },
         ],
       },
       {
@@ -2518,6 +3267,27 @@ export const programmes: ProgrammeType[] = [
               },
               {
                 id: 'urn:subject:1:11c4696f-e844-4c98-8df7-49d43f59ec33',
+              },
+            ],
+          },
+          {
+            name: {
+              nb: 'Andre ressurser',
+              nn: 'Andre ressursar',
+              en: 'Additional Resources',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:20',
+              },
+              {
+                id: 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4',
+              },
+              {
+                id: 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7',
+              },
+              {
+                id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
               },
             ],
           },

@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Location } from 'history';
+import { Location } from 'react-router-dom';
 import SearchContainer from './SearchContainer';
 import {
   getTypeFilter,
@@ -83,13 +83,17 @@ const SearchInnerPage = ({
 }: Props) => {
   const { t, i18n } = useTranslation();
   const [showConcepts, setShowConcepts] = useState(true);
-  const [typeFilter, setTypeFilter] = useState(
-    getTypeFilter(resourceTypes, selectedFilters, activeSubFilters, t),
-  );
+  const [typeFilter, setTypeFilter] = useState<Record<string, TypeFilter>>({});
   const [competenceGoals, setCompetenceGoals] = useState<
     SearchCompetenceGoal[]
   >([]);
   const initialGQLCall = useRef(true);
+
+  useEffect(() => {
+    setTypeFilter(
+      getTypeFilter(resourceTypes, selectedFilters, activeSubFilters, t),
+    );
+  }, [resourceTypes, selectedFilters, activeSubFilters, t]);
 
   useEffect(() => {
     setShowConcepts(true);
@@ -116,19 +120,19 @@ const SearchInnerPage = ({
     variables: {
       ...stateSearchParams,
       language: i18n.language,
-      page: '1',
-      pageSize: '8',
+      page: 1,
+      pageSize: 12,
       ...getTypeParams([], resourceTypes),
       aggregatePaths: ['contexts.resourceTypes.id'],
       grepCodesList: searchParams.grepCodes,
     },
     notifyOnNetworkStatusChange: true,
-    onCompleted: data => {
+    onCompleted: async data => {
       if (
         initialGQLCall.current &&
         activeSubFiltersWithoutLeading.length !== 0
       ) {
-        fetchMore({
+        await fetchMore({
           variables: {
             ...getTypeParams(activeSubFiltersWithoutLeading, resourceTypes),
           },
@@ -231,7 +235,7 @@ const SearchInnerPage = ({
     const selected = typeFilter[type]?.selected ?? false;
     const updatedFilters = updateTypeFilter(type, {
       page: 1,
-      pageSize: selected ? 4 : 8,
+      pageSize: selected ? 6 : 12,
       selected: !selected,
     });
     const selectedKeys = Object.entries(updatedFilters)
@@ -243,7 +247,7 @@ const SearchInnerPage = ({
   const handleShowMore = (type: string) => {
     const filter = typeFilter[type];
     if (!filter) return;
-    const pageSize = showAll ? 4 : 8;
+    const pageSize = showAll ? 6 : 12;
     const page = filter.page + 1;
     const currentGroup = data?.groupSearch?.find(
       group =>
@@ -255,11 +259,15 @@ const SearchInnerPage = ({
       const activeFilters = getActiveFilters(type);
       fetchMore({
         variables: {
-          page: page.toString(),
-          pageSize: pageSize.toString(),
+          page: page,
+          pageSize: pageSize,
           ...getTypeParams(
-            activeFilters.length ? activeFilters : [type],
-            resourceTypes,
+            activeFilters.length
+              ? activeFilters
+              : type === 'topic-article'
+              ? []
+              : [type],
+            type === 'topic-article' ? [] : resourceTypes,
           ),
         },
       });

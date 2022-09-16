@@ -6,35 +6,29 @@
  *
  */
 
-import React, { useContext } from 'react';
-import { Redirect, RouteComponentProps, withRouter } from 'react-router-dom';
-import { Location } from 'history';
+import { gql } from '@apollo/client';
+import { useContext } from 'react';
+import { Navigate, useLocation } from 'react-router-dom';
+import { Location } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { ContentPlaceholder } from '@ndla/ui';
 
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
-import { getUrnIdsFromProps } from '../../routeHelpers';
+import { useUrnIds } from '../../routeHelpers';
 import { getTopicPath } from '../../util/getTopicPath';
-import { resourcePageQuery } from '../../queries';
 import { isLearningPathResource } from '../Resources/resourceHelpers';
-import LearningpathPage from '../LearningpathPage/LearningpathPage';
-import ArticlePage from '../ArticlePage/ArticlePage';
+import LearningpathPage, {
+  learningpathPageFragments,
+} from '../LearningpathPage/LearningpathPage';
+import ArticlePage, { articlePageFragments } from '../ArticlePage/ArticlePage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import MovedResourcePage from '../MovedResourcePage/MovedResourcePage';
 import { useGraphQuery } from '../../util/runQueries';
-import { RELEVANCE_SUPPLEMENTARY } from '../../constants';
+import { RELEVANCE_SUPPLEMENTARY, SKIP_TO_CONTENT_ID } from '../../constants';
 import { isAccessDeniedError } from '../../util/handleError';
 import AccessDeniedPage from '../AccessDeniedPage/AccessDeniedPage';
 import { GQLResource, GQLResourcePageQuery } from '../../graphqlTypes';
-import { RootComponentProps } from '../../routes';
 import { AuthContext } from '../../components/AuthenticationContext';
-
-interface MatchParams {
-  subjectId: string;
-  stepId?: string;
-  topicId?: string;
-  topicPath: string;
-  resourceId: string;
-}
 
 const urlInPaths = (
   location: Location,
@@ -43,12 +37,54 @@ const urlInPaths = (
   return resource.paths?.find(p => location.pathname.includes(p));
 };
 
-type Props = RootComponentProps & RouteComponentProps<MatchParams>;
-
-const ResourcePage = (props: Props) => {
+const resourcePageQuery = gql`
+  query resourcePage(
+    $topicId: String!
+    $subjectId: String!
+    $resourceId: String!
+  ) {
+    subject(id: $subjectId) {
+      topics(all: true) {
+        parent
+        ...LearningpathPage_TopicPath
+        ...ArticlePage_TopicPath
+      }
+      ...LearningpathPage_Subject
+      ...ArticlePage_Subject
+    }
+    resourceTypes {
+      ...ArticlePage_ResourceType
+      ...LearningpathPage_ResourceTypeDefinition
+    }
+    topic(id: $topicId, subjectId: $subjectId) {
+      ...LearningpathPage_Topic
+      ...ArticlePage_Topic
+    }
+    resource(id: $resourceId, subjectId: $subjectId, topicId: $topicId) {
+      relevanceId
+      paths
+      ...MovedResourcePage_Resource
+      ...ArticlePage_Resource
+      ...LearningpathPage_Resource
+    }
+  }
+  ${articlePageFragments.topic}
+  ${MovedResourcePage.fragments.resource}
+  ${articlePageFragments.resource}
+  ${articlePageFragments.resourceType}
+  ${articlePageFragments.subject}
+  ${articlePageFragments.topicPath}
+  ${learningpathPageFragments.topic}
+  ${learningpathPageFragments.resourceType}
+  ${learningpathPageFragments.resource}
+  ${learningpathPageFragments.subject}
+  ${learningpathPageFragments.topicPath}
+`;
+const ResourcePage = () => {
   const { t } = useTranslation();
   const { user } = useContext(AuthContext);
-  const { subjectId, resourceId, topicId } = getUrnIdsFromProps(props);
+  const { subjectId, resourceId, topicId, stepId } = useUrnIds();
+  const location = useLocation();
   const { error, loading, data } = useGraphQuery<GQLResourcePageQuery>(
     resourcePageQuery,
     {
@@ -61,7 +97,7 @@ const ResourcePage = (props: Props) => {
   );
 
   if (loading) {
-    return null;
+    return <ContentPlaceholder />;
   }
 
   if (isAccessDeniedError(error)) {
@@ -76,9 +112,9 @@ const ResourcePage = (props: Props) => {
     return <NotFoundPage />;
   }
 
-  if (data.resource && !urlInPaths(props.location, data.resource)) {
+  if (data.resource && !urlInPaths(location, data.resource)) {
     if (data.resource.paths?.length === 1) {
-      return <Redirect to={data.resource.paths[0]!} />;
+      return <Navigate to={data.resource.paths[0]!} replace />;
     } else {
       return <MovedResourcePage resource={data.resource} />;
     }
@@ -95,10 +131,8 @@ const ResourcePage = (props: Props) => {
   if (isLearningPathResource(resource)) {
     return (
       <LearningpathPage
-        locale={props.locale}
-        ndlaFilm={props.ndlaFilm}
-        skipToContentId={props.skipToContentId}
-        stepId={props.match.params.stepId}
+        skipToContentId={SKIP_TO_CONTENT_ID}
+        stepId={stepId}
         user={user}
         data={{ ...data, relevance, topicPath }}
         loading={loading}
@@ -107,7 +141,7 @@ const ResourcePage = (props: Props) => {
   }
   return (
     <ArticlePage
-      skipToContentId={props.skipToContentId}
+      skipToContentId={SKIP_TO_CONTENT_ID}
       resource={data.resource}
       topic={data.topic}
       topicPath={topicPath}
@@ -115,11 +149,10 @@ const ResourcePage = (props: Props) => {
       subject={data.subject}
       resourceTypes={data.resourceTypes}
       errors={error?.graphQLErrors}
-      ndlaFilm={!!props.ndlaFilm}
       loading={loading}
       user={user}
     />
   );
 };
 
-export default withRouter(ResourcePage);
+export default ResourcePage;

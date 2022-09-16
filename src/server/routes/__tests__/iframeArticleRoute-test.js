@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { iframeArticleRoute } from '../iframeArticleRoute';
 
 jest.mock('../../helpers/Document', () => () => (
@@ -15,14 +14,11 @@ jest.mock('../../helpers/Document', () => () => (
   </html>
 ));
 
-jest.mock('../../../iframe/IframePage', () =>
-  // eslint-disable-next-line react/prop-types
-  ({ status }) => (
-    <div>
-      <p>{status}</p>
-    </div>
-  ),
-);
+jest.mock('../../../iframe/IframePage', () => ({ status }) => (
+  <div>
+    <p>{status}</p>
+  </div>
+));
 
 test('iframeArticleRoute 200 OK', async () => {
   const response = await iframeArticleRoute({

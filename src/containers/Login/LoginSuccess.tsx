@@ -6,22 +6,17 @@
  *
  */
 
-import React, { useContext, useEffect } from 'react';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { useContext, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import queryString from 'query-string';
 import { AuthContext } from '../../components/AuthenticationContext';
 import { finalizeFeideLogin } from '../../util/authHelpers';
 import { toHome, toLoginFailure } from '../../util/routeHelpers';
 
-interface Props {
-  location: {
-    search: RouteComponentProps['location']['search'];
-  };
-  history: RouteComponentProps['history'];
-}
-
-export const LoginSuccess = ({ location: { search }, history }: Props) => {
+export const LoginSuccess = () => {
   const { login, authenticated, authContextLoaded } = useContext(AuthContext);
+  const { search } = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!authenticated && authContextLoaded) {
@@ -35,11 +30,11 @@ export const LoginSuccess = ({ location: { search }, history }: Props) => {
           // The cookie isn't set when loading the page initially so we trigger a reload
           window.location = params.state || toHome();
         })
-        .catch(() => history.push(toLoginFailure()));
+        .catch(() => navigate(toLoginFailure()));
     }
-  }, [history, login, search, authenticated, authContextLoaded]);
+  }, [navigate, login, search, authenticated, authContextLoaded]);
 
   return <></>;
 };
 
-export default withRouter(LoginSuccess);
+export default LoginSuccess;

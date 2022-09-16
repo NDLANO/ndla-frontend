@@ -6,11 +6,13 @@
  *
  */
 
+@import '~@ndla/tooltip/dist/all';
 @import '~@ndla/core/scss/core';
 @import '~@ndla/icons/scss/icons';
 @import '~@ndla/ui/src/main';
 @import '~@ndla/tabs/scss/tabs';
 @import '~@ndla/core/scss/utilities';
+@import '~@ndla/button/dist/all';
 
 .c-topic-resource__item--hidden {
   display: none;

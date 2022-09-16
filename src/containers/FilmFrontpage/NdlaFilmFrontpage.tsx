@@ -6,49 +6,55 @@
  *
  */
 
-import React, { useState, useEffect } from 'react';
-import { useLazyQuery } from '@apollo/client';
+import { useState, useEffect } from 'react';
+import { gql, useLazyQuery } from '@apollo/client';
 
 import { useTranslation } from 'react-i18next';
-import FilmFrontpage from './FilmFrontpage';
-import {
-  subjectPageQuery,
-  filmFrontPageQuery,
-  searchFilmQuery,
-} from '../../queries';
+import FilmFrontpage, { filmFrontpageFragments } from './FilmFrontpage';
+import { searchFilmQuery } from '../../queries';
 import { movieResourceTypes } from './resourceTypes';
 import { useGraphQuery } from '../../util/runQueries';
 import {
   GQLFilmFrontPageQuery,
-  GQLSearchFilmArticleSearchResultFragment,
-  GQLSearchFilmLearningpathSearchResultFragment,
   GQLSearchWithoutPaginationQuery,
-  GQLSubjectPageQuery,
 } from '../../graphqlTypes';
+import { SKIP_TO_CONTENT_ID } from '../../constants';
 
 const ALL_MOVIES_ID = 'ALL_MOVIES_ID';
 
-interface Props {
-  skipToContentId?: string;
-}
+export type MoviesByType = {
+  id: number;
+  metaDescription: string;
+  resourceTypes: { id: string; name: string }[];
+  metaImage?: { alt: string; url: string };
+  path: string;
+  title: string;
+};
 
-export type MoviesByType =
-  | GQLSearchFilmArticleSearchResultFragment
-  | GQLSearchFilmLearningpathSearchResultFragment;
+const filmFrontPageQuery = gql`
+  query filmFrontPage($subjectId: String!) {
+    filmfrontpage {
+      ...FilmFrontpage_FilmFrontpage
+    }
+    subject(id: $subjectId) {
+      id
+      ...FilmFrontpage_Subject
+    }
+  }
+  ${filmFrontpageFragments.subject}
+  ${filmFrontpageFragments.filmFrontpage}
+`;
 
-const NdlaFilm = ({ skipToContentId }: Props) => {
+const NdlaFilm = () => {
   const [moviesByType, setMoviesByType] = useState<MoviesByType[]>([]);
   const [showingAll, setShowingAll] = useState(false);
   const [fetchingMoviesByType, setFetchingMoviesByType] = useState(false);
   const { t, i18n } = useTranslation();
 
-  const { data: { filmfrontpage } = {} } = useGraphQuery<GQLFilmFrontPageQuery>(
-    filmFrontPageQuery,
-  );
-  const { data: { subject } = {} } = useGraphQuery<GQLSubjectPageQuery>(
-    subjectPageQuery,
-    { variables: { subjectId: 'urn:subject:20' } },
-  );
+  const { data: { filmfrontpage, subject } = {} } = useGraphQuery<
+    GQLFilmFrontPageQuery
+  >(filmFrontPageQuery, { variables: { subjectId: 'urn:subject:20' } });
+
   const [searchAllMovies, { data: allMovies }] = useLazyQuery<
     GQLSearchWithoutPaginationQuery
   >(searchFilmQuery, {
@@ -64,7 +70,7 @@ const NdlaFilm = ({ skipToContentId }: Props) => {
         );
         return {
           ...movie,
-          path: contexts[0]?.path,
+          path: contexts[0]?.path ?? '',
           resourceTypes: contexts.flatMap(ctx => ctx.resourceTypes),
         };
       });
@@ -92,10 +98,6 @@ const NdlaFilm = ({ skipToContentId }: Props) => {
     });
   };
 
-  const about = filmfrontpage?.about?.find(
-    about => about.language === i18n.language,
-  );
-
   const allResources = {
     name: t('filmfrontpage.resourcetype.all'),
     id: ALL_MOVIES_ID,
@@ -113,9 +115,8 @@ const NdlaFilm = ({ skipToContentId }: Props) => {
       subject={subject}
       resourceTypes={allResourceTypes}
       onSelectedMovieByType={onSelectedMovieByType}
-      aboutNDLAVideo={about}
       fetchingMoviesByType={fetchingMoviesByType}
-      skipToContentId={skipToContentId}
+      skipToContentId={SKIP_TO_CONTENT_ID}
     />
   );
 };

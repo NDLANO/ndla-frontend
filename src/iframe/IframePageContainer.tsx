@@ -6,16 +6,16 @@
  *
  */
 
-import React from 'react';
-import { I18nextProvider } from 'react-i18next';
-import { i18nInstance } from '@ndla/ui';
-import IframePageWrapper from './IframePageWrapper';
+import { Helmet } from 'react-helmet-async';
+import { PageContainer } from '@ndla/ui';
 import IframePage from './IframePage';
+import { isValidLocale } from '../i18n';
+import { BaseNameProvider } from '../components/BaseNameContext';
 import { LocaleType } from '../interfaces';
 
 interface Props {
-  basename?: string;
   locale?: LocaleType;
+  basename?: string;
   articleId?: string;
   taxonomyId?: string;
   status?: 'success' | 'error';
@@ -25,25 +25,25 @@ interface Props {
 const IframePageContainer = ({
   basename,
   status,
-  locale,
   taxonomyId,
   articleId,
   isOembed,
   isTopicArticle,
+  locale,
 }: Props) => {
   return (
-    <I18nextProvider i18n={i18nInstance}>
-      <IframePageWrapper basename={basename} locale={locale}>
+    <BaseNameProvider value={isValidLocale(basename) ? basename : ''}>
+      <PageContainer>
+        <Helmet htmlAttributes={{ lang: locale }} />
         <IframePage
           status={status}
-          locale={locale}
           taxonomyId={taxonomyId}
           articleId={articleId}
           isOembed={isOembed}
           isTopicArticle={isTopicArticle}
         />
-      </IframePageWrapper>
-    </I18nextProvider>
+      </PageContainer>
+    </BaseNameProvider>
   );
 };
 

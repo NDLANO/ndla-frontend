@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import {
   //@ts-ignore
   TopicIntroductionList,
@@ -39,6 +38,7 @@ const SubjectPageTopics = ({
       <div data-testid="topic-list">
         <TopicIntroductionList
           toTopic={toTopic(subjectId)}
+          //@ts-ignore
           topics={topics}
           messages={topicIntroductionMessages(t)}
           toggleAdditionalCores={() => {}}

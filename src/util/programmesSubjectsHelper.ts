@@ -11,16 +11,6 @@ import { programmes } from '../data/programmes';
 import { removeUrn } from '../routeHelpers';
 import { LocaleType, SubjectType } from '../interfaces';
 
-export interface SubjectCategory {
-  name: Record<LocaleType, string>;
-  subjects: {
-    longName: Record<LocaleType, string>;
-    name: Record<LocaleType, string>;
-    id: string;
-    hideOnFrontPage?: boolean;
-  }[];
-  visible?: boolean;
-}
 interface ProgramSubjectBase {
   name: string;
   url: string;

@@ -21,7 +21,8 @@ const connectSrc = (() => {
     'ws://*.hotjar.com wss://*.hotjar.com',
     'https://*.hotjar.com',
     'https://*.hotjar.com:*',
-    'https://www.google-analytics.com',
+    'https://*.google-analytics.com',
+    'https://*.analytics.google.com',
     'https://*.zendesk.com',
     'https://ekr.zdassets.com',
     'https://optimize.google.com',
@@ -29,6 +30,7 @@ const connectSrc = (() => {
     'https://platform.itslearning.com',
     'cdn.jsdelivr.net',
     'https://*.dataporten.no',
+    'https://*.clarity.ms',
   ];
   if (
     process.env.NODE_ENV === 'development' ||
@@ -113,6 +115,7 @@ const scriptSrc = (() => {
     'https://static.zdassets.com',
     'cdn.jsdelivr.net',
     'https://*.dataporten.no',
+    'https://*.clarity.ms',
   ];
   if (process.env.NODE_ENV === 'development') {
     return [...defaultScriptSrc, `http://localhost:${hmrPort}`];
@@ -192,6 +195,8 @@ const frameSrc = (() => {
     'public.flourish.studio',
     'flo.uri.sh',
     'ourworldindata.org',
+    '*.sketchup.com',
+    'www.gapminder.org',
   ];
   if (process.env.NODE_ENV === 'development') {
     return [
@@ -201,6 +206,21 @@ const frameSrc = (() => {
     ];
   }
   return defaultFrameSrc;
+})();
+
+const fontSrc = (() => {
+  const defaultFontSrc = [
+    "'self'",
+    'data:',
+    'cdnjs.cloudflare.com',
+    'https://*.hotjar.com',
+    'https://*.clarity.ms',
+    'cdn.jsdelivr.net',
+  ];
+  if (process.env.NODE_ENV === 'development') {
+    return defaultFontSrc.concat('http://localhost:3001');
+  }
+  return defaultFontSrc;
 })();
 
 const contentSecurityPolicy = {
@@ -213,26 +233,17 @@ const contentSecurityPolicy = {
       "'unsafe-inline'",
       "'unsafe-eval'",
       'https://optimize.google.com',
-      'https://fonts.googleapis.com',
-      'https://fonts.gstatic.com',
       'https://tagmanager.google.com',
       '*.twitter.com',
       '*.twimg.com',
     ],
-    fontSrc: [
-      "'self'",
-      'https://fonts.googleapis.com',
-      'https://fonts.gstatic.com',
-      'data:',
-      'cdnjs.cloudflare.com',
-      'https://*.hotjar.com',
-      'cdn.jsdelivr.net',
-    ],
+    fontSrc: fontSrc,
     imgSrc: [
       "'self'",
       'http://api-gateway.ndla-local',
       'https://*.ndla.no',
-      'https://www.google-analytics.com',
+      'https://*.google-analytics.com',
+      'https://*.analytics.google.com',
       'https://optimize.google.com',
       'https://stats.g.doubleclick.net',
       'http://metrics.brightcove.com',
@@ -242,6 +253,7 @@ const contentSecurityPolicy = {
       'https://ssl.gstatic.com',
       'https://www.gstatic.com',
       'https://*.hotjar.com',
+      'https://*.clarity.ms',
       'https://ndla.zendesk.com',
       '*.facebook.com',
       '*.twitter.com',

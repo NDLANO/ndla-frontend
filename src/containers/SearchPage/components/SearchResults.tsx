@@ -5,18 +5,20 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { Fragment } from 'react';
+import { Fragment } from 'react';
 import { SearchTypeResult, constants } from '@ndla/ui';
 import { SearchGroup, TypeFilter } from '../searchHelpers';
 
 const { contentTypes } = constants;
 
+export type ViewType = 'grid' | 'list';
 interface Props {
   showAll?: boolean;
   handleSubFilterClick: (type: string, filterId: string) => void;
   handleShowMore: (type: string) => void;
   searchGroups: SearchGroup[];
   typeFilter: Record<string, TypeFilter>;
+  viewType: ViewType;
   loading: boolean;
 }
 const SearchResults = ({
@@ -25,6 +27,7 @@ const SearchResults = ({
   handleShowMore,
   searchGroups,
   typeFilter,
+  viewType,
   loading,
 }: Props) => {
   return (
@@ -60,6 +63,7 @@ const SearchResults = ({
                   }}
                   //@ts-ignore
                   type={type === 'topic-article' ? 'topic' : type}
+                  viewType={viewType}
                   totalCount={totalCount}></SearchTypeResult>
               </Fragment>
             );

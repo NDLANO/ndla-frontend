@@ -6,39 +6,67 @@
  *
  */
 
-import React, { useContext } from 'react';
-import { RouteComponentProps, withRouter } from 'react-router';
+import { gql } from '@apollo/client';
+import { useContext } from 'react';
+import { useLocation } from 'react-router-dom';
+import { ContentPlaceholder } from '@ndla/ui';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { useGraphQuery } from '../../util/runQueries';
 import { isAccessDeniedError } from '../../util/handleError';
 import AccessDeniedPage from '../AccessDeniedPage/AccessDeniedPage';
-import PlainArticleContainer from './PlainArticleContainer';
-import { plainArticleQuery } from '../../queries';
-import { GQLPlainArticleQuery } from '../../graphqlTypes';
-import { RootComponentProps } from '../../routes';
+import PlainArticleContainer, {
+  plainArticleContainerFragments,
+} from './PlainArticleContainer';
+import {
+  GQLPlainArticlePageQuery,
+  GQLPlainArticlePageQueryVariables,
+} from '../../graphqlTypes';
 import { AuthContext } from '../../components/AuthenticationContext';
+import { TypedParams, useTypedParams } from '../../routeHelpers';
+import { SKIP_TO_CONTENT_ID } from '../../constants';
 
-interface MatchParams {
+interface MatchParams extends TypedParams {
   articleId: string;
 }
 
-interface Props extends RootComponentProps, RouteComponentProps<MatchParams> {}
-const PlainArticlePage = ({ locale, match, skipToContentId }: Props) => {
+const plainArticlePageQuery = gql`
+  query plainArticlePage(
+    $articleId: String!
+    $isOembed: String
+    $path: String
+    $showVisualElement: String
+  ) {
+    article(
+      id: $articleId
+      isOembed: $isOembed
+      path: $path
+      showVisualElement: $showVisualElement
+    ) {
+      ...PlainArticleContainer_Article
+    }
+  }
+  ${plainArticleContainerFragments.article}
+`;
+
+const PlainArticlePage = () => {
   const { user } = useContext(AuthContext);
-  const {
-    url,
-    params: { articleId },
-  } = match;
-  const { loading, data, error } = useGraphQuery<GQLPlainArticleQuery>(
-    plainArticleQuery,
-    {
-      variables: { articleId, isOembed: 'false', path: url },
+  const { articleId } = useTypedParams<MatchParams>();
+  const { pathname } = useLocation();
+  const { loading, data, error } = useGraphQuery<
+    GQLPlainArticlePageQuery,
+    GQLPlainArticlePageQueryVariables
+  >(plainArticlePageQuery, {
+    variables: {
+      articleId,
+      isOembed: 'false',
+      path: pathname,
+      showVisualElement: 'true',
     },
-  );
+  });
 
   if (loading) {
-    return null;
+    return <ContentPlaceholder />;
   }
 
   if (error) {
@@ -59,11 +87,10 @@ const PlainArticlePage = ({ locale, match, skipToContentId }: Props) => {
   return (
     <PlainArticleContainer
       article={data.article}
-      locale={locale}
       user={user}
-      skipToContentId={skipToContentId}
+      skipToContentId={SKIP_TO_CONTENT_ID}
     />
   );
 };
 
-export default withRouter(PlainArticlePage);
+export default PlainArticlePage;

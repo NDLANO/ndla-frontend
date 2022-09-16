@@ -6,19 +6,13 @@
  *
  */
 
-import React from 'react';
+import { gql } from '@apollo/client';
 import {
-  //@ts-ignore
   MediaList,
-  //@ts-ignore
   MediaListItem,
-  //@ts-ignore
   MediaListItemImage,
-  //@ts-ignore
   MediaListItemBody,
-  //@ts-ignore
   MediaListItemActions,
-  //@ts-ignore
   MediaListItemMeta,
 } from '@ndla/ui';
 import {
@@ -28,26 +22,27 @@ import {
 import { Concept } from '@ndla/icons/editor';
 import { useTranslation } from 'react-i18next';
 import CopyTextButton from './CopyTextButton';
-import { GQLConceptLicense } from '../../graphqlTypes';
-import { LocaleType } from '../../interfaces';
+import { GQLConceptLicenseList_ConceptLicenseFragment } from '../../graphqlTypes';
 import { licenseCopyrightToCopyrightType } from './licenseHelpers';
 
 interface ConceptLicenseInfoProps {
-  concept: GQLConceptLicense;
-  locale: LocaleType;
+  concept: GQLConceptLicenseList_ConceptLicenseFragment;
 }
 
-const ConceptLicenseInfo = ({ concept, locale }: ConceptLicenseInfoProps) => {
-  const { t } = useTranslation();
+const ConceptLicenseInfo = ({ concept }: ConceptLicenseInfoProps) => {
+  const { t, i18n } = useTranslation();
   if (
     concept.copyright?.license?.license === undefined ||
     concept.copyright.license.license === 'unknown'
   )
     return null;
 
-  const src = `${concept.src}/${locale}`;
+  const src = `${concept.src}/${i18n.language}`;
   const safeCopyright = licenseCopyrightToCopyrightType(concept.copyright);
-  const items = getGroupedContributorDescriptionList(safeCopyright, locale);
+  const items = getGroupedContributorDescriptionList(
+    safeCopyright,
+    i18n.language,
+  );
   if (concept.title) {
     items.unshift({
       label: t('license.concept.title'),
@@ -65,17 +60,11 @@ const ConceptLicenseInfo = ({ concept, locale }: ConceptLicenseInfoProps) => {
       <MediaListItemBody
         license={concept.copyright.license.license}
         title={t('license.concept.rules')}
-        resourceType="concept"
         resourceUrl={concept.src}
-        locale={locale}>
+        locale={i18n.language}>
         <MediaListItemActions>
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />
-            <CopyTextButton
-              stringToCopy={concept.copyText}
-              copyTitle={t('license.copyTitle')}
-              hasCopiedTitle={t('license.hasCopiedTitle')}
-            />
             <CopyTextButton
               stringToCopy={`<iframe title="${concept.title}" aria-label="${concept.title}" height="400" width="500" frameborder="0" src="${src}" allowfullscreen=""></iframe>`}
               copyTitle={t('license.embed')}
@@ -89,11 +78,10 @@ const ConceptLicenseInfo = ({ concept, locale }: ConceptLicenseInfoProps) => {
 };
 
 interface Props {
-  concepts: GQLConceptLicense[];
-  locale: LocaleType;
+  concepts: GQLConceptLicenseList_ConceptLicenseFragment[];
 }
 
-const ConceptLicenseList = ({ concepts, locale }: Props) => {
+const ConceptLicenseList = ({ concepts }: Props) => {
   const { t } = useTranslation();
   return (
     <div>
@@ -101,11 +89,37 @@ const ConceptLicenseList = ({ concepts, locale }: Props) => {
       <p>{t('license.concept.description')}</p>
       <MediaList>
         {concepts.map((concept, index) => (
-          <ConceptLicenseInfo concept={concept} key={index} locale={locale} />
+          <ConceptLicenseInfo concept={concept} key={index} />
         ))}
       </MediaList>
     </div>
   );
+};
+
+ConceptLicenseList.fragments = {
+  concept: gql`
+    fragment ConceptLicenseList_ConceptLicense on ConceptLicense {
+      title
+      src
+      copyright {
+        license {
+          license
+        }
+        creators {
+          name
+          type
+        }
+        processors {
+          name
+          type
+        }
+        rightsholders {
+          name
+          type
+        }
+      }
+    }
+  `,
 };
 
 export default ConceptLicenseList;

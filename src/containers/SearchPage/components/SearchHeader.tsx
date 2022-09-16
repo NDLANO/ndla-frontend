@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { useState, useEffect, useMemo, FormEvent } from 'react';
+import { useState, useEffect, useMemo, FormEvent } from 'react';
 import { SearchHeader as SearchHeaderUI } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
 import { getSubjectsCategories } from '../../../data/subjects';
@@ -112,6 +112,13 @@ const SearchHeader = ({
     setActiveFilters(activeFilters.filter(filter => filter.value !== value));
   };
 
+  const onSearchValueChange = (value: string) => {
+    if (value === '' && (searchValue ?? '').length > 2) {
+      handleSearchParamsChange({ query: '' });
+    }
+    setSearchValue(value);
+  };
+
   const competenceGoalsMetadata = groupCompetenceGoals(
     competenceGoals,
     false,
@@ -126,7 +133,7 @@ const SearchHeader = ({
         handleSearchParamsChange({ query: suggestion })
       }
       searchValue={searchValue}
-      onSearchValueChange={value => setSearchValue(value)}
+      onSearchValueChange={value => onSearchValueChange(value)}
       onSubmit={handleSearchSubmit}
       activeFilters={{
         filters: activeFilters,

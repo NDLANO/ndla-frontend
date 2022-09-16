@@ -10,7 +10,10 @@ import { TFunction } from 'i18next';
 import { GQLFrontpageSearch, GQLSubjectInfoFragment } from '../graphqlTypes';
 import { toSubject } from '../routeHelpers';
 
-export const searchSubjects = (query?: string, subjects?: GQLSubjectInfoFragment[]) => {
+export const searchSubjects = (
+  query?: string,
+  subjects?: GQLSubjectInfoFragment[],
+) => {
   const trimmedQuery = query?.trim().toLowerCase();
   if (!trimmedQuery || trimmedQuery?.length < 2) {
     return [];
@@ -26,7 +29,7 @@ export const searchSubjects = (query?: string, subjects?: GQLSubjectInfoFragment
       id: subject.id,
       url: toSubject(subject.id),
       title: subject.name,
-      img: subject.subjectpage?.banner?.desktopUrl,
+      //img: subject.subjectpage?.banner?.desktopUrl,
     };
   });
 };

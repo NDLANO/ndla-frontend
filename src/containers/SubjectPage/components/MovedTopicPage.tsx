@@ -6,12 +6,14 @@
  *
  */
 
-import React from 'react';
-// @ts-ignore
 import { SearchResultList, OneColumn } from '@ndla/ui';
+import { gql } from '@apollo/client';
 import { useTranslation } from 'react-i18next';
 import { resultsWithContentTypeBadgeAndImage } from '../../SearchPage/searchHelpers';
-import { GQLSearchResult, GQLTopic } from '../../../graphqlTypes';
+import {
+  GQLMovedTopicPage_TopicFragment,
+  GQLSearchResult,
+} from '../../../graphqlTypes';
 
 interface GQLSearchResultExtended
   extends Omit<
@@ -23,20 +25,20 @@ interface GQLSearchResultExtended
     title: string;
     breadcrumb: string[];
   }[];
-  ingress?: string;
+  ingress: string;
   id: string;
   contentType: string;
 }
 
 const convertTopicToResult = (
-  topic: Omit<GQLTopic, 'metadata' | 'paths'>,
+  topic: GQLMovedTopicPage_TopicFragment,
 ): GQLSearchResultExtended => {
   return {
     metaImage: topic.meta?.metaImage,
     title: topic.name,
     url: topic.path || '',
     id: topic.id,
-    ingress: topic.meta?.metaDescription,
+    ingress: topic.meta?.metaDescription ?? '',
     subjects: topic.breadcrumbs?.map(crumb => ({
       url: topic.path,
       title: crumb?.[0]!,
@@ -47,19 +49,21 @@ const convertTopicToResult = (
 };
 
 const mergeTopicSubjects = (results: GQLSearchResultExtended[]) => {
+  // Must have at least one result in order to get here.
+  const firstResult = results[0]!;
   // Assuming that first element has the same values that the rest of the elements in the results array
   return [
     {
-      ...results[0],
+      ...firstResult,
       subjects: results.flatMap(
-        (topic: GQLSearchResultExtended) => topic.subjects,
+        (topic: GQLSearchResultExtended) => topic.subjects ?? [],
       ),
     },
   ];
 };
 
 interface Props {
-  topics: Omit<GQLTopic, 'metadata' | 'paths'>[];
+  topics: GQLMovedTopicPage_TopicFragment[];
 }
 
 const MovedTopicPage = ({ topics }: Props) => {
@@ -76,6 +80,24 @@ const MovedTopicPage = ({ topics }: Props) => {
       </div>
     </OneColumn>
   );
+};
+
+MovedTopicPage.fragments = {
+  topic: gql`
+    fragment MovedTopicPage_Topic on Topic {
+      id
+      path
+      name
+      meta {
+        metaDescription
+        metaImage {
+          url
+          alt
+        }
+      }
+      breadcrumbs
+    }
+  `,
 };
 
 export default MovedTopicPage;

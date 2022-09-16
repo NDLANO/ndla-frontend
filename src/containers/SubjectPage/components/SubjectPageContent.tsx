@@ -6,20 +6,18 @@
  *
  */
 
-import React, { RefObject, useEffect } from 'react';
+import { gql } from '@apollo/client';
+import { RefObject, useEffect } from 'react';
 import { NavigationBox } from '@ndla/ui';
 import { RELEVANCE_SUPPLEMENTARY } from '../../../constants';
 import { scrollToRef } from '../subjectPageHelpers';
-import { toTopic } from '../../../routeHelpers';
+import { toTopic, useIsNdlaFilm } from '../../../routeHelpers';
 import TopicWrapper from './TopicWrapper';
-import { BreadcrumbItem, LocaleType } from '../../../interfaces';
-import { GQLSubjectContainerType } from '../SubjectContainer';
+import { BreadcrumbItem } from '../../../interfaces';
+import { GQLSubjectPageContent_SubjectFragment } from '../../../graphqlTypes';
 
 interface Props {
-  subject: GQLSubjectContainerType;
-  locale: LocaleType;
-  ndlaFilm?: boolean;
-  onClickTopics: (e: React.MouseEvent<HTMLAnchorElement>) => void;
+  subject: GQLSubjectPageContent_SubjectFragment;
   topicIds: Array<string>;
   refs: Array<RefObject<HTMLDivElement>>;
   setBreadCrumb: (topic: BreadcrumbItem) => void;
@@ -27,13 +25,11 @@ interface Props {
 
 const SubjectPageContent = ({
   subject,
-  locale,
-  ndlaFilm,
-  onClickTopics,
   topicIds,
   refs,
   setBreadCrumb,
 }: Props) => {
+  const ndlaFilm = useIsNdlaFilm();
   useEffect(() => {
     if (topicIds.length) scrollToRef(refs[topicIds.length - 1]!);
   }, [topicIds]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -55,9 +51,6 @@ const SubjectPageContent = ({
         items={mainTopics || []}
         invertedStyle={ndlaFilm}
         listDirection="horizontal"
-        onClick={e => {
-          onClickTopics(e as React.MouseEvent<HTMLAnchorElement>);
-        }}
       />
       {topicIds.map((topicId, index) => {
         return (
@@ -67,9 +60,6 @@ const SubjectPageContent = ({
               subjectId={subject.id}
               setBreadCrumb={setBreadCrumb}
               subTopicId={topicIds[index + 1]}
-              locale={locale}
-              ndlaFilm={ndlaFilm}
-              onClickTopics={onClickTopics}
               index={index}
               showResources={!topicIds[index + 1]}
               subject={subject}
@@ -79,6 +69,21 @@ const SubjectPageContent = ({
       })}
     </>
   );
+};
+
+SubjectPageContent.fragments = {
+  subject: gql`
+    fragment SubjectPageContent_Subject on Subject {
+      topics {
+        name
+        id
+        availability
+        relevanceId
+      }
+      ...TopicWrapper_Subject
+    }
+    ${TopicWrapper.fragments.subject}
+  `,
 };
 
 export default SubjectPageContent;

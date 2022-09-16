@@ -6,8 +6,8 @@
  *
  */
 
-import { Helmet } from 'react-helmet';
-import { BAD_REQUEST, OK } from 'http-status';
+import { HelmetProvider } from 'react-helmet-async';
+import { BAD_REQUEST, OK } from '../../statusCodes';
 import { getHtmlLang, getLocaleObject } from '../../i18n';
 import { renderPage, renderHtml } from '../helpers/render';
 
@@ -38,7 +38,7 @@ const assets =
       };
 
 if (process.env.NODE_ENV === 'unittest') {
-  Helmet.canUseDOM = false;
+  HelmetProvider.canUseDOM = false;
 }
 
 const getAssets = () => ({
@@ -49,11 +49,12 @@ const getAssets = () => ({
 });
 
 function doRenderPage(initialProps) {
-  const Page = '';
+  const helmetContext = {};
+  const Page = <HelmetProvider context={helmetContext}>{''}</HelmetProvider>;
   const { html, ...docProps } = renderPage(Page, getAssets(), {
     initialProps,
   });
-  return { html, docProps };
+  return { html, docProps, helmetContext };
 }
 
 export function parseAndValidateParameters(body) {
@@ -105,10 +106,10 @@ export function ltiRoute(req) {
   const lang = getHtmlLang(req.params.lang ?? '');
   const locale = getLocaleObject(lang);
 
-  const { html, docProps } = doRenderPage({
+  const { html, docProps, helmetContext } = doRenderPage({
     locale,
     ltiData: validParameters.ltiData,
   });
 
-  return renderHtml(req, html, { status: OK }, docProps);
+  return renderHtml(req, html, { status: OK }, docProps, helmetContext);
 }

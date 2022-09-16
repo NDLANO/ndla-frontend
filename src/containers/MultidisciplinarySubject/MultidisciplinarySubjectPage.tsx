@@ -6,36 +6,61 @@
  *
  */
 
-import React, { useContext, useEffect } from 'react';
-import { RouteComponentProps, withRouter } from 'react-router';
-import { MultidisciplinarySubject, NavigationBox } from '@ndla/ui';
+import { gql } from '@apollo/client';
+import { createRef, useContext, useEffect } from 'react';
+import {
+  ContentPlaceholder,
+  MultidisciplinarySubject,
+  NavigationBox,
+} from '@ndla/ui';
 
 import { useTranslation } from 'react-i18next';
-import { Helmet } from 'react-helmet';
-import { getUrnIdsFromProps, toTopic } from '../../routeHelpers';
+import { Helmet } from 'react-helmet-async';
+import { toTopic, useUrnIds } from '../../routeHelpers';
 import { useGraphQuery } from '../../util/runQueries';
-import { subjectPageQuery } from '../../queries';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import MultidisciplinaryTopicWrapper from './components/MultidisciplinaryTopicWrapper';
 import {
-  GQLSubjectPageQuery,
-  GQLSubjectPageQueryVariables,
+  GQLMultidisciplinarySubjectPageQuery,
+  GQLMultidisciplinarySubjectPageQueryVariables,
 } from '../../graphqlTypes';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { AuthContext } from '../../components/AuthenticationContext';
 import { htmlTitle } from '../../util/titleHelper';
-import { RootComponentProps } from '../../routes';
 
-interface Props extends RootComponentProps, RouteComponentProps {}
+const multidisciplinarySubjectPageQuery = gql`
+  query multidisciplinarySubjectPage($subjectId: String!) {
+    subject(id: $subjectId) {
+      topics {
+        id
+        name
+      }
+      allTopics {
+        name
+        id
+        parent
+        path
+        meta {
+          title
+          introduction
+          metaDescription
+          metaImage {
+            url
+            alt
+          }
+        }
+      }
+      ...MultidisciplinaryTopicWrapper_Subject
+    }
+  }
+  ${MultidisciplinaryTopicWrapper.fragments.subject}
+`;
 
-const MultidisciplinarySubjectPage = ({ match, locale }: Props) => {
+const MultidisciplinarySubjectPage = () => {
   const { t } = useTranslation();
   const { user } = useContext(AuthContext);
-  const { subjectId, topicList: selectedTopics } = getUrnIdsFromProps({
-    ndlaFilm: false,
-    match,
-  });
-  const refs = selectedTopics.map(_ => React.createRef<HTMLDivElement>());
+  const { subjectId, topicList: selectedTopics } = useUrnIds();
+  const refs = selectedTopics.map(_ => createRef<HTMLDivElement>());
 
   useEffect(() => {
     if (selectedTopics.length) {
@@ -51,16 +76,16 @@ const MultidisciplinarySubjectPage = ({ match, locale }: Props) => {
   }, [refs, selectedTopics]);
 
   const { loading, data } = useGraphQuery<
-    GQLSubjectPageQuery,
-    GQLSubjectPageQueryVariables
-  >(subjectPageQuery, {
+    GQLMultidisciplinarySubjectPageQuery,
+    GQLMultidisciplinarySubjectPageQueryVariables
+  >(multidisciplinarySubjectPageQuery, {
     variables: {
       subjectId: subjectId!,
     },
   });
 
   if (loading) {
-    return null;
+    return <ContentPlaceholder />;
   }
 
   if (!data?.subject) {
@@ -113,7 +138,6 @@ const MultidisciplinarySubjectPage = ({ match, locale }: Props) => {
               topicId={topicId}
               subjectId={subject.id}
               subTopicId={selectedTopics[index + 1]}
-              locale={locale}
               subject={subject}
               user={user}
             />
@@ -128,7 +152,7 @@ const MultidisciplinarySubjectPage = ({ match, locale }: Props) => {
     .find(t => selectedTopics.includes(t.id));
 
   const selectedTitle = selectedMetadata?.name || selectedMetadata?.meta?.title;
-  const subjectTitle = subject.name || subject.subjectpage?.about?.title;
+  const subjectTitle = subject.name;
   const hasSelectedTitle = !!selectedTitle;
   const title = htmlTitle(hasSelectedTitle ? selectedTitle : subjectTitle, [
     hasSelectedTitle ? subjectTitle : undefined,
@@ -139,17 +163,9 @@ const MultidisciplinarySubjectPage = ({ match, locale }: Props) => {
     description:
       selectedMetadata?.meta?.metaDescription ||
       selectedMetadata?.meta?.introduction ||
-      subject.subjectpage?.about?.description ||
-      subject.subjectpage?.metaDescription ||
       t('frontpageMultidisciplinarySubject.text'),
-    image:
-      selectedMetadata?.meta?.metaImage ||
-      subject.subjectpage?.about?.visualElement,
+    image: selectedMetadata?.meta?.metaImage,
   };
-
-  const imageUrlObj = socialMediaMetaData.image?.url
-    ? { url: socialMediaMetaData.image.url }
-    : undefined;
 
   return (
     <>
@@ -166,8 +182,7 @@ const MultidisciplinarySubjectPage = ({ match, locale }: Props) => {
       <SocialMediaMetadata
         title={socialMediaMetaData.title}
         description={socialMediaMetaData.description}
-        locale={locale}
-        image={imageUrlObj}
+        imageUrl={socialMediaMetaData.image?.url}
       />
       <MultidisciplinarySubject
         hideCards={isNotLastTopic}
@@ -180,4 +195,4 @@ const MultidisciplinarySubjectPage = ({ match, locale }: Props) => {
   );
 };
 
-export default withRouter(MultidisciplinarySubjectPage);
+export default MultidisciplinarySubjectPage;

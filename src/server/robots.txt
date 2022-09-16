@@ -68,19 +68,25 @@ Disallow: /?q=print/
 Disallow: /?q=printpdf/
 Disallow: /tracker/
 Disallow: /?q=tracker/
-Disallow: /*/contentbrowser
-Disallow: /*/lightbox
+
+
 
 Disallow: /*/ndla_utils/menu2010/grep/
 Disallow: /*/*/*/grep/uuid:*
 Disallow: /ndla_ontopia_connect_show_aim/
 
-Disallow: /*/easyreader/
+# Allow to see 404/301/302 from old structure
+Allow: /*/easyreader/
+Allow: /*/biblio
+Allow: /*/lightbox
+Allow: /*/contentbrowser
+
+
 Disallow: /*/taxonomy/
 Disallow: /*/search/
+Disallow: /*/search/apachesolr_search/
 Disallow: /*/*/*/grep/
 Disallow: /*/print/
-Disallow: /*/biblio
 Disallow: /*/userguide/
 Disallow: /*/resourcemap
 Disallow: /*/kontakt

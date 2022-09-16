@@ -6,20 +6,14 @@
  *
  */
 
-import React from 'react';
+import { gql } from '@apollo/client';
 import { uuid } from '@ndla/util';
 import {
-  //@ts-ignore
   MediaList,
-  //@ts-ignore
   MediaListItem,
-  //@ts-ignore
   MediaListItemImage,
-  //@ts-ignore
   MediaListItemBody,
-  //@ts-ignore
   MediaListItemActions,
-  //@ts-ignore
   MediaListItemMeta,
 } from '@ndla/ui';
 import {
@@ -29,19 +23,21 @@ import {
 import { useTranslation } from 'react-i18next';
 import CopyTextButton from './CopyTextButton';
 import AnchorButton from './AnchorButton';
-import { GQLBrightcoveLicense } from '../../graphqlTypes';
-import { LocaleType } from '../../interfaces';
+import { GQLVideoLicenseList_BrightcoveLicenseFragment } from '../../graphqlTypes';
 import { licenseCopyrightToCopyrightType } from './licenseHelpers';
+import { licenseListCopyrightFragment } from './licenseFragments';
 
 interface VideoLicenseInfoProps {
-  video: GQLBrightcoveLicense;
-  locale: LocaleType;
+  video: GQLVideoLicenseList_BrightcoveLicenseFragment;
 }
 
-const VideoLicenseInfo = ({ video, locale }: VideoLicenseInfoProps) => {
-  const { t } = useTranslation();
+const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
+  const { t, i18n } = useTranslation();
   const safeCopyright = licenseCopyrightToCopyrightType(video.copyright);
-  const items = getGroupedContributorDescriptionList(safeCopyright, locale);
+  const items = getGroupedContributorDescriptionList(
+    safeCopyright,
+    i18n.language,
+  );
   if (video.title) {
     items.unshift({
       label: t('license.images.title'),
@@ -59,15 +55,10 @@ const VideoLicenseInfo = ({ video, locale }: VideoLicenseInfoProps) => {
         license={video.copyright.license?.license}
         resourceType="video"
         resourceUrl={video.src}
-        locale={locale}>
+        locale={i18n.language}>
         <MediaListItemActions>
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />
-            <CopyTextButton
-              stringToCopy={video.copyText}
-              copyTitle={t('license.copyTitle')}
-              hasCopiedTitle={t('license.hasCopiedTitle')}
-            />
             {video.copyright.license?.license !== 'COPYRIGHTED' && (
               <AnchorButton href={video.download} download appearance="outline">
                 {t('license.download')}
@@ -86,11 +77,10 @@ const VideoLicenseInfo = ({ video, locale }: VideoLicenseInfoProps) => {
 };
 
 interface Props {
-  videos: GQLBrightcoveLicense[];
-  locale: LocaleType;
+  videos: GQLVideoLicenseList_BrightcoveLicenseFragment[];
 }
 
-const VideoLicenseList = ({ videos, locale }: Props) => {
+const VideoLicenseList = ({ videos }: Props) => {
   const { t } = useTranslation();
   return (
     <div>
@@ -98,11 +88,31 @@ const VideoLicenseList = ({ videos, locale }: Props) => {
       <p>{t('license.video.description')}</p>
       <MediaList>
         {videos.map(video => (
-          <VideoLicenseInfo video={video} key={uuid()} locale={locale} />
+          <VideoLicenseInfo video={video} key={uuid()} />
         ))}
       </MediaList>
     </div>
   );
+};
+
+VideoLicenseList.fragments = {
+  video: gql`
+    fragment VideoLicenseList_BrightcoveLicense on BrightcoveLicense {
+      title
+      download
+      src
+      cover
+      iframe {
+        width
+        height
+        src
+      }
+      copyright {
+        ...LicenseListCopyright
+      }
+    }
+    ${licenseListCopyrightFragment}
+  `,
 };
 
 export default VideoLicenseList;

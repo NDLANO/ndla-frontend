@@ -5,14 +5,13 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React from 'react';
 import { HelmetWithTracker } from '@ndla/tracker';
-import { OneColumn } from '@ndla/ui';
+import { ContentPlaceholder, OneColumn } from '@ndla/ui';
 import queryString from 'query-string';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-import { searchPageQuery, conceptSearchQuery } from '../../queries';
+import { searchPageQuery } from '../../queries';
 import SearchInnerPage from './SearchInnerPage';
 import {
   converSearchStringToObject,
@@ -20,8 +19,7 @@ import {
 } from './searchHelpers';
 import { searchSubjects } from '../../util/searchHelpers';
 import { useGraphQuery } from '../../util/runQueries';
-import { GQLConceptSearchQuery, GQLSearchPageQuery } from '../../graphqlTypes';
-import { RootComponentProps } from '../../routes';
+import { GQLSearchPageQuery } from '../../graphqlTypes';
 
 const getStateSearchParams = (searchParams: Record<string, any>) => {
   const stateSearchParams: Record<string, any> = {};
@@ -31,18 +29,14 @@ const getStateSearchParams = (searchParams: Record<string, any>) => {
   return stateSearchParams;
 };
 
-interface MatchParams {
-  subjectId?: string;
-}
-
-interface Props extends RouteComponentProps<MatchParams>, RootComponentProps {}
-const SearchPage = ({ location, locale, history }: Props) => {
-  const { t } = useTranslation();
-  const searchParams = converSearchStringToObject(location, locale);
-  const stateSearchParams = getStateSearchParams(searchParams);
+const SearchPage = () => {
+  const { t, i18n } = useTranslation();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const searchParams = converSearchStringToObject(location, i18n.language);
 
   const { data, loading } = useGraphQuery<GQLSearchPageQuery>(searchPageQuery);
-  const { data: conceptData } = useGraphQuery<GQLConceptSearchQuery>(
+  /*const { data: conceptData } = useGraphQuery<GQLConceptSearchQuery>(
     conceptSearchQuery,
     {
       skip: !searchParams.query,
@@ -52,12 +46,12 @@ const SearchPage = ({ location, locale, history }: Props) => {
         fallback: true,
       },
     },
-  );
+  );*/
 
   const subjectItems = searchSubjects(searchParams.query, data?.subjects);
 
   const handleSearchParamsChange = (searchParams: Record<string, any>) => {
-    history.push({
+    navigate({
       pathname: '/search',
       search: queryString.stringify({
         ...queryString.parse(location.search),
@@ -67,7 +61,7 @@ const SearchPage = ({ location, locale, history }: Props) => {
   };
 
   if (loading) {
-    return null;
+    return <ContentPlaceholder />;
   }
 
   return (
@@ -83,7 +77,8 @@ const SearchPage = ({ location, locale, history }: Props) => {
           activeSubFilters={searchParams.activeSubFilters?.split(',') ?? []}
           subjectItems={subjectItems}
           subjects={data?.subjects}
-          concepts={conceptData?.conceptSearch?.concepts}
+          //concepts={conceptData?.conceptSearch?.concepts} // Save for later
+          concepts={undefined}
           resourceTypes={data?.resourceTypes}
           location={location}
         />
@@ -92,4 +87,4 @@ const SearchPage = ({ location, locale, history }: Props) => {
   );
 };
 
-export default withRouter(SearchPage);
+export default SearchPage;

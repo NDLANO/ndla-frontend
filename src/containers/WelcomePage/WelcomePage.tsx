@@ -6,7 +6,8 @@
  *
  */
 
-import React, { useEffect } from 'react';
+import styled from '@emotion/styled';
+import { useEffect } from 'react';
 import { HelmetWithTracker } from '@ndla/tracker';
 import {
   FrontpageHeader,
@@ -14,7 +15,9 @@ import {
   OneColumn,
   FrontpageToolbox,
   FrontpageMultidisciplinarySubject,
+  BannerCard,
 } from '@ndla/ui';
+import { spacing } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import { useLazyQuery } from '@apollo/client';
 
@@ -22,6 +25,8 @@ import WelcomePageInfo from './WelcomePageInfo';
 import FrontpageSubjects from './FrontpageSubjects';
 import {
   FILM_PAGE_PATH,
+  SKIP_TO_CONTENT_ID,
+  UKR_PAGE_PATH,
   MULTIDISCIPLINARY_SUBJECT_ID,
   TOOLBOX_STUDENT_SUBJECT_ID,
   TOOLBOX_TEACHER_SUBJECT_ID,
@@ -46,12 +51,12 @@ const getMultidisciplinaryTopics = (locale: LocaleType) => {
   });
 };
 
-interface Props {
-  locale: LocaleType;
-}
+const BannerCardWrapper = styled.div`
+  padding-bottom: ${spacing.large};
+`;
 
-const WelcomePage = ({ locale }: Props) => {
-  const { t } = useTranslation();
+const WelcomePage = () => {
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     getData();
@@ -85,31 +90,43 @@ const WelcomePage = ({ locale }: Props) => {
       <SocialMediaMetadata
         title={t('welcomePage.heading.heading')}
         description={t('meta.description')}
-        locale={locale}
-        image={{
-          url: `${config.ndlaFrontendDomain}/static/logo.png`,
-        }}>
+        imageUrl={`${config.ndlaFrontendDomain}/static/logo.png`}>
         <meta name="keywords" content={t('meta.keywords')} />
       </SocialMediaMetadata>
-      <FrontpageHeader locale={locale} showHeader={true}>
+      <FrontpageHeader locale={i18n.language} showHeader={true}>
         <WelcomePageSearch />
       </FrontpageHeader>
       <main>
         <OneColumn extraPadding>
-          <div data-testid="category-list">
-            <FrontpageSubjects locale={locale} subjects={data?.subjects} />
+          <BannerCardWrapper>
+            <BannerCard
+              link={UKR_PAGE_PATH}
+              title="Lær om det norske samfunnet - på ukrainsk"
+              content="Дізнайтеся про норвезьке суспільство – українською"
+              linkText="Learn about Norwegian society - in Ukrainian"
+              image={{
+                altText: '',
+                imageSrc: '/static/flag_of_ukraine.svg',
+              }}
+            />
+          </BannerCardWrapper>
+          <div data-testid="category-list" id={SKIP_TO_CONTENT_ID}>
+            <FrontpageSubjects
+              locale={i18n.language}
+              subjects={data?.subjects}
+            />
           </div>
         </OneColumn>
         <OneColumn wide>
           <FrontpageMultidisciplinarySubject
             url={toSubject(MULTIDISCIPLINARY_SUBJECT_ID)}
-            topics={getMultidisciplinaryTopics(locale)}
+            topics={getMultidisciplinaryTopics(i18n.language)}
           />
           <FrontpageToolbox
             urlStudents={toSubject(TOOLBOX_STUDENT_SUBJECT_ID)}
             urlTeachers={toSubject(TOOLBOX_TEACHER_SUBJECT_ID)}
           />
-          <BlogPosts locale={locale} />
+          <BlogPosts locale={i18n.language} />
           <FrontpageFilm
             imageUrl="/static/film_illustrasjon.svg"
             url={FILM_PAGE_PATH}

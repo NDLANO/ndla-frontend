@@ -15,25 +15,14 @@ const contributorInfoFragment = gql`
   }
 `;
 
-export const subjectInfoFragment = gql`
-  fragment SubjectInfo on Subject {
-    id
-    name
-    path
-    metadata {
-      customFields
-    }
-  }
-`;
-
 export const searchQuery = gql`
   query Search(
     $query: String
-    $page: String
-    $pageSize: String
+    $page: Int
+    $pageSize: Int
     $contextTypes: String
     $language: String
-    $ids: String
+    $ids: [Int!]
     $resourceTypes: String
     $contextFilters: String
     $sort: String
@@ -162,7 +151,7 @@ export const searchFilmQuery = gql`
     $query: String
     $contextTypes: String
     $language: String
-    $ids: String
+    $ids: [Int!]
     $resourceTypes: String
     $contextFilters: String
     $sort: String
@@ -228,8 +217,8 @@ export const groupSearchQuery = gql`
     $contextTypes: String
     $subjects: String
     $query: String
-    $page: String
-    $pageSize: String
+    $page: Int
+    $pageSize: Int
     $language: String
     $fallback: String
     $grepCodes: String
@@ -267,9 +256,6 @@ export const groupSearchQuery = gql`
       totalCount
       language
     }
-    subjects {
-      ...SubjectInfo
-    }
     competenceGoals(codes: $grepCodesList, language: $language) {
       id
       name: title
@@ -284,45 +270,115 @@ export const groupSearchQuery = gql`
       }
     }
   }
-  ${subjectInfoFragment}
   ${GroupSearchResourceFragment}
+`;
+
+export const copyrightInfoFragment = gql`
+  ${contributorInfoFragment}
+  fragment CopyrightInfo on Copyright {
+    license {
+      license
+      url
+    }
+    creators {
+      ...ContributorInfo
+    }
+    processors {
+      ...ContributorInfo
+    }
+    rightsholders {
+      ...ContributorInfo
+    }
+    origin
+  }
+`;
+
+export const visualElementFragment = gql`
+  ${copyrightInfoFragment}
+  fragment VisualElementInfo on VisualElement {
+    title
+    resource
+    url
+    copyright {
+      ...CopyrightInfo
+    }
+    language
+    embed
+    brightcove {
+      videoid
+      player
+      account
+      caption
+      description
+      cover
+      src
+      download
+      iframe {
+        src
+        height
+        width
+      }
+      uploadDate
+    }
+    h5p {
+      src
+      thumbnail
+    }
+    oembed {
+      title
+      html
+      fullscreen
+    }
+    image {
+      resourceid
+      alt
+      caption
+      lowerRightX
+      lowerRightY
+      upperLeftX
+      upperLeftY
+      focalX
+      focalY
+      src
+      altText
+      contentType
+      copyText
+    }
+  }
 `;
 
 export const conceptSearchInfoFragment = gql`
   fragment ConceptSearchConcept on Concept {
     id
     title
+    subjectNames
+    visualElement {
+      ...VisualElementInfo
+    }
+    copyright {
+      license {
+        license
+      }
+      creators {
+        ...ContributorInfo
+      }
+      processors {
+        ...ContributorInfo
+      }
+      rightsholders {
+        ...ContributorInfo
+      }
+      origin
+    }
     text: content
     image: metaImage {
       url
       alt
     }
   }
+  ${contributorInfoFragment}
+  ${visualElementFragment}
 `;
-
-export const conceptSearchQuery = gql`
-  query ConceptSearch(
-    $query: String
-    $subjects: String
-    $exactMatch: Boolean
-    $language: String
-    $fallback: Boolean
-  ) {
-    conceptSearch(
-      query: $query
-      subjects: $subjects
-      exactMatch: $exactMatch
-      language: $language
-      fallback: $fallback
-    ) {
-      concepts {
-        ...ConceptSearchConcept
-      }
-    }
-  }
-  ${conceptSearchInfoFragment}
-`;
-
 export const frontpageSearchQuery = gql`
   query FrontpageSearch($query: String) {
     frontpageSearch(query: $query) {
@@ -367,50 +423,6 @@ export const frontpageSearchQuery = gql`
         }
       }
     }
-    subjects {
-      ...SubjectInfo
-    }
-  }
-  ${subjectInfoFragment}
-`;
-
-const conceptCopyrightInfoFragment = gql`
-  ${contributorInfoFragment}
-  fragment ConceptCopyrightInfo on ConceptCopyright {
-    license {
-      license
-      url
-    }
-    creators {
-      ...ContributorInfo
-    }
-    processors {
-      ...ContributorInfo
-    }
-    rightsholders {
-      ...ContributorInfo
-    }
-    origin
-  }
-`;
-
-const copyrightInfoFragment = gql`
-  ${contributorInfoFragment}
-  fragment CopyrightInfo on Copyright {
-    license {
-      license
-      url
-    }
-    creators {
-      ...ContributorInfo
-    }
-    processors {
-      ...ContributorInfo
-    }
-    rightsholders {
-      ...ContributorInfo
-    }
-    origin
   }
 `;
 
@@ -436,6 +448,7 @@ export const topicInfoFragment = gql`
     path
     parent
     relevanceId
+    supportedLanguages
     meta {
       ...MetaInfo
     }
@@ -444,6 +457,17 @@ export const topicInfoFragment = gql`
     }
   }
   ${metaInfoFragment}
+`;
+
+export const subjectInfoFragment = gql`
+  fragment SubjectInfo on Subject {
+    id
+    name
+    path
+    metadata {
+      customFields
+    }
+  }
 `;
 
 export const resourceInfoFragment = gql`
@@ -458,201 +482,6 @@ export const resourceInfoFragment = gql`
     resourceTypes {
       id
       name
-    }
-  }
-`;
-
-export const visualElementFragment = gql`
-  ${copyrightInfoFragment}
-  fragment VisualElementInfo on VisualElement {
-    title
-    resource
-    url
-    copyright {
-      ...CopyrightInfo
-    }
-    language
-    embed
-    brightcove {
-      videoid
-      player
-      account
-      caption
-      description
-      cover
-      src
-      download
-      iframe {
-        src
-        height
-        width
-      }
-      uploadDate
-      copyText
-    }
-    h5p {
-      src
-      thumbnail
-      copyText
-    }
-    oembed {
-      title
-      html
-      fullscreen
-    }
-    image {
-      resourceid
-      alt
-      caption
-      lowerRightX
-      lowerRightY
-      upperLeftX
-      upperLeftY
-      focalX
-      focalY
-      src
-      altText
-      contentType
-      copyText
-    }
-  }
-`;
-
-export const articleInfoFragment = gql`
-  ${copyrightInfoFragment}
-  ${conceptCopyrightInfoFragment}
-  ${visualElementFragment}
-  fragment ArticleInfo on Article {
-    id
-    title
-    introduction
-    content
-    articleType
-    revision
-    metaDescription
-    metaImage {
-      url
-      alt
-    }
-    supportedLanguages
-    tags
-    created
-    updated
-    published
-    oldNdlaUrl
-    grepCodes
-    requiredLibraries {
-      name
-      url
-      mediaType
-    }
-    metaData {
-      copyText
-      footnotes {
-        ref
-        title
-        year
-        authors
-        edition
-        publisher
-        url
-      }
-      images {
-        title
-        altText
-        src
-        copyright {
-          ...CopyrightInfo
-        }
-        copyText
-      }
-      h5ps {
-        title
-        src
-        copyright {
-          ...CopyrightInfo
-        }
-        copyText
-      }
-      audios {
-        title
-        src
-        copyright {
-          ...CopyrightInfo
-        }
-        copyText
-      }
-      brightcoves {
-        title
-        description
-        cover
-        src
-        download
-        iframe {
-          height
-          src
-          width
-        }
-        copyright {
-          ...CopyrightInfo
-        }
-        uploadDate
-        copyText
-      }
-      concepts {
-        title
-        src
-        copyright {
-          ...ConceptCopyrightInfo
-        }
-        copyText
-      }
-    }
-    competenceGoals {
-      id
-      title
-      type
-      curriculum {
-        id
-        title
-      }
-      competenceGoalSet {
-        id
-        title
-      }
-    }
-    coreElements {
-      id
-      title
-      description
-      curriculum {
-        id
-        title
-      }
-    }
-    oembed
-    copyright {
-      ...CopyrightInfo
-    }
-    visualElement {
-      ...VisualElementInfo
-    }
-    conceptIds
-    concepts {
-      id
-      title
-      content
-      subjectNames
-      copyright {
-        ...ConceptCopyrightInfo
-      }
-      visualElement {
-        ...VisualElementInfo
-      }
-    }
-    relatedContent {
-      title
-      url
     }
   }
 `;
@@ -672,121 +501,6 @@ export const taxonomyEntityInfo = gql`
   }
 `;
 
-export const withArticleInfo = gql`
-  fragment WithArticleInfo on WithArticle {
-    meta {
-      ...MetaInfo
-    }
-  }
-  ${metaInfoFragment}
-`;
-
-export const subjectpageInfo = gql`
-  fragment SubjectPageInfo on SubjectPage {
-    id
-    topical(subjectId: $subjectId) {
-      ...TaxonomyEntityInfo
-    }
-    banner {
-      desktopUrl
-    }
-    about {
-      title
-      description
-      visualElement {
-        type
-        url
-        alt
-      }
-    }
-    metaDescription
-    editorsChoices(subjectId: $subjectId) {
-      ...TaxonomyEntityInfo
-    }
-  }
-  ${taxonomyEntityInfo}
-`;
-
-export const subjectPageQueryWithTopics = gql`
-  query subjectPageWithTopics(
-    $subjectId: String!
-    $topicId: String!
-    $includeTopic: Boolean!
-  ) {
-    subject(id: $subjectId) {
-      ...SubjectInfo
-      topics {
-        article {
-          supportedLanguages
-        }
-        availability
-        ...TopicInfo
-      }
-      allTopics: topics(all: true) {
-        ...TopicInfo
-      }
-      grepCodes
-      subjectpage {
-        ...SubjectPageInfo
-      }
-      metadata {
-        customFields
-      }
-    }
-    topic(id: $topicId) @include(if: $includeTopic) {
-      ...TopicInfo
-      alternateTopics {
-        id
-        name
-        path
-        breadcrumbs
-        meta {
-          ...MetaInfo
-        }
-      }
-    }
-    subjects {
-      ...SubjectInfo
-    }
-  }
-  ${metaInfoFragment}
-  ${topicInfoFragment}
-  ${taxonomyEntityInfo}
-  ${subjectpageInfo}
-  ${subjectInfoFragment}
-`;
-
-export const subjectPageQuery = gql`
-  query subjectPage($subjectId: String!) {
-    subject(id: $subjectId) {
-      id
-      name
-      path
-      topics {
-        ...TopicInfo
-      }
-      allTopics: topics(all: true) {
-        ...TopicInfo
-      }
-      subjectpage {
-        ...SubjectPageInfo
-      }
-    }
-  }
-  ${topicInfoFragment}
-  ${subjectpageInfo}
-  ${taxonomyEntityInfo}
-`;
-
-export const subjectsQuery = gql`
-  query subjects {
-    subjects {
-      ...SubjectInfo
-    }
-  }
-  ${subjectInfoFragment}
-`;
-
 export const searchPageQuery = gql`
   query searchPage {
     subjects {
@@ -804,64 +518,13 @@ export const searchPageQuery = gql`
   ${subjectInfoFragment}
 `;
 
-const learningpathInfoFragment = gql`
-  fragment LearningpathInfo on Learningpath {
-    id
-    title
-    description
-    duration
-    lastUpdated
-    supportedLanguages
-    tags
-    copyright {
-      license {
-        license
-        url
-        description
-      }
-      contributors {
-        ...ContributorInfo
-      }
-    }
-    coverphoto {
-      url
-      metaUrl
-    }
-    learningsteps {
-      id
-      title
-      description
-      seqNo
-      oembed {
-        type
-        version
-        height
-        html
-        width
-      }
-      embedUrl {
-        url
-        embedType
-      }
-      resource {
-        ...ResourceInfo
-        article(isOembed: "true") {
-          ...ArticleInfo
-          oembed
-        }
-      }
-      license {
-        license
-        url
-        description
-      }
-      type
-      showTitle
+export const subjectsQuery = gql`
+  query subjects {
+    subjects {
+      ...SubjectInfo
     }
   }
-  ${resourceInfoFragment}
-  ${contributorInfoFragment}
-  ${articleInfoFragment}
+  ${subjectInfoFragment}
 `;
 
 export const movedResourceQuery = gql`
@@ -870,168 +533,6 @@ export const movedResourceQuery = gql`
       breadcrumbs
     }
   }
-`;
-
-export const plainArticleQuery = gql`
-  query plainArticle($articleId: String!, $isOembed: String, $path: String) {
-    article(id: $articleId, isOembed: $isOembed, path: $path) {
-      ...ArticleInfo
-    }
-  }
-  ${articleInfoFragment}
-`;
-
-export const iframeResourceFragment = gql`
-  fragment IframeResource on Resource {
-    id
-    name
-    path
-    resourceTypes {
-      id
-      name
-    }
-  }
-`;
-
-export const iframeArticleQuery = gql`
-  query iframeArticle(
-    $articleId: String!
-    $isOembed: String
-    $path: String
-    $taxonomyId: String!
-    $includeResource: Boolean!
-    $includeTopic: Boolean!
-  ) {
-    article(id: $articleId, isOembed: $isOembed, path: $path) {
-      ...ArticleInfo
-    }
-    resource(id: $taxonomyId) @include(if: $includeResource) {
-      ...IframeResource
-    }
-    topic(id: $taxonomyId) @include(if: $includeTopic) {
-      id
-      name
-      path
-    }
-  }
-  ${iframeResourceFragment}
-  ${articleInfoFragment}
-`;
-
-export const topicQueryWithPathTopics = gql`
-  query topicWithPathTopics(
-    $topicId: String!
-    $subjectId: String!
-    $showVisualElement: String
-  ) {
-    subject(id: $subjectId) {
-      id
-      name
-      path
-      topics {
-        ...TopicInfo
-      }
-      allTopics: topics(all: true) {
-        ...TopicInfo
-      }
-    }
-    topic(id: $topicId, subjectId: $subjectId) {
-      id
-      name
-      path
-      pathTopics {
-        id
-        name
-        path
-      }
-      relevanceId
-      meta {
-        ...MetaInfo
-      }
-      subtopics {
-        id
-        name
-        relevanceId
-      }
-      article(showVisualElement: $showVisualElement) {
-        ...ArticleInfo
-        crossSubjectTopics(subjectId: $subjectId) {
-          code
-          title
-          path
-        }
-      }
-      coreResources(subjectId: $subjectId) {
-        ...ResourceInfo
-      }
-      supplementaryResources(subjectId: $subjectId) {
-        ...ResourceInfo
-      }
-    }
-    resourceTypes {
-      id
-      name
-    }
-  }
-  ${metaInfoFragment}
-  ${topicInfoFragment}
-  ${articleInfoFragment}
-  ${resourceInfoFragment}
-`;
-
-export const topicQueryTopicFragment = gql`
-  fragment TopicQueryTopic on Topic {
-    id
-    name
-    path
-    parent
-    relevanceId
-    meta {
-      ...MetaInfo
-    }
-    subtopics {
-      id
-      name
-      relevanceId
-    }
-    article {
-      ...ArticleInfo
-    }
-    coreResources(subjectId: $subjectId) {
-      ...ResourceInfo
-    }
-    supplementaryResources(subjectId: $subjectId) {
-      ...ResourceInfo
-    }
-    metadata {
-      customFields
-    }
-  }
-  ${resourceInfoFragment}
-  ${articleInfoFragment}
-  ${metaInfoFragment}
-`;
-
-export const topicQuery = gql`
-  query topic($topicId: String!, $subjectId: String) {
-    topic(id: $topicId, subjectId: $subjectId) {
-      ...TopicQueryTopic
-    }
-    resourceTypes {
-      id
-      name
-    }
-  }
-  ${topicQueryTopicFragment}
-`;
-
-export const learningPathStepQuery = gql`
-  query learningPathStep($pathId: String!) {
-    learningpath(pathId: $pathId) {
-      ...LearningpathInfo
-    }
-  }
-  ${learningpathInfoFragment}
 `;
 
 export const competenceGoalsQuery = gql`
@@ -1078,37 +579,6 @@ export const movieFragment = gql`
   }
 `;
 
-export const filmFrontPageQuery = gql`
-  query filmFrontPage {
-    filmfrontpage {
-      name
-      about {
-        title
-        description
-        language
-        visualElement {
-          type
-          alt
-          url
-        }
-      }
-      movieThemes {
-        name {
-          name
-          language
-        }
-        movies {
-          ...MovieInfo
-        }
-      }
-      slideShow {
-        ...MovieInfo
-      }
-    }
-  }
-  ${movieFragment}
-`;
-
 export const mastHeadQuery = gql`
   query mastHead(
     $subjectId: String!
@@ -1144,88 +614,23 @@ export const mastHeadQuery = gql`
     resource(id: $resourceId, subjectId: $subjectId, topicId: $topicId)
       @skip(if: $skipResource) {
       ...ResourceInfo
-      article(subjectId: $subjectId) {
-        ...ArticleInfo
-      }
-      learningpath {
-        ...LearningpathInfo
-      }
     }
     subjects {
       ...SubjectInfo
     }
   }
   ${topicInfoFragment}
-  ${learningpathInfoFragment}
-  ${articleInfoFragment}
   ${resourceInfoFragment}
   ${subjectInfoFragment}
 `;
 
-export const resourcePageQuery = gql`
-  query resourcePage(
-    $topicId: String!
-    $subjectId: String!
-    $resourceId: String!
-  ) {
-    subject(id: $subjectId) {
-      id
-      name
-      path
-      metadata {
-        customFields
-      }
-      topics(all: true) {
-        id
-        name
-        parent
-        path
-        relevanceId
-        meta {
-          ...MetaInfo
-        }
-      }
-    }
-    resourceTypes {
-      id
-      name
-      subtypes {
-        id
-        name
-      }
-    }
-    topic(id: $topicId, subjectId: $subjectId) {
-      id
-      name
-      path
-      relevanceId
-      coreResources(subjectId: $subjectId) {
-        ...ResourceInfo
-      }
-      supplementaryResources(subjectId: $subjectId) {
-        ...ResourceInfo
-      }
-      metadata {
-        customFields
-      }
-    }
-    resource(id: $resourceId, subjectId: $subjectId, topicId: $topicId) {
-      ...ResourceInfo
-      article(subjectId: $subjectId) {
-        ...ArticleInfo
-      }
-      learningpath {
-        ...LearningpathInfo
-      }
-    }
-    subjects {
-      ...SubjectInfo
+export const alertsQuery = gql`
+  query alerts {
+    alerts {
+      title
+      body
+      closable
+      number
     }
   }
-  ${metaInfoFragment}
-  ${learningpathInfoFragment}
-  ${resourceInfoFragment}
-  ${articleInfoFragment}
-  ${resourceInfoFragment}
-  ${subjectInfoFragment}
 `;

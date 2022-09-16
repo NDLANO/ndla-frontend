@@ -6,20 +6,14 @@
  *
  */
 
-import React from 'react';
+import { gql } from '@apollo/client';
 import { uuid } from '@ndla/util';
 import {
-  //@ts-ignore
   MediaList,
-  //@ts-ignore
   MediaListItem,
-  //@ts-ignore
   MediaListItemImage,
-  //@ts-ignore
   MediaListItemBody,
-  //@ts-ignore
   MediaListItemActions,
-  //@ts-ignore
   MediaListItemMeta,
 } from '@ndla/ui';
 import { AudioDocument } from '@ndla/icons/common';
@@ -30,19 +24,21 @@ import {
 import { useTranslation } from 'react-i18next';
 import CopyTextButton from './CopyTextButton';
 import AnchorButton from './AnchorButton';
-import { GQLAudioLicense } from '../../graphqlTypes';
-import { LocaleType } from '../../interfaces';
+import { GQLAudioLicenseList_AudioLicenseFragment } from '../../graphqlTypes';
 import { licenseCopyrightToCopyrightType } from './licenseHelpers';
+import { licenseListCopyrightFragment } from './licenseFragments';
 
 interface AudioLicenseInfoProps {
-  audio: GQLAudioLicense;
-  locale: LocaleType;
+  audio: GQLAudioLicenseList_AudioLicenseFragment;
 }
 
-const AudioLicenseInfo = ({ audio, locale }: AudioLicenseInfoProps) => {
-  const { t } = useTranslation();
+const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
+  const { t, i18n } = useTranslation();
   const safeCopyright = licenseCopyrightToCopyrightType(audio.copyright);
-  const items = getGroupedContributorDescriptionList(safeCopyright, locale);
+  const items = getGroupedContributorDescriptionList(
+    safeCopyright,
+    i18n.language,
+  );
 
   if (audio.title) {
     items.unshift({
@@ -64,24 +60,29 @@ const AudioLicenseInfo = ({ audio, locale }: AudioLicenseInfoProps) => {
       <MediaListItemImage>
         <AudioDocument className="c-medialist__icon" />
       </MediaListItemImage>
+
       <MediaListItemBody
         title={t('license.audio.rules')}
         license={audio.copyright.license?.license}
         resourceType="audio"
         resourceUrl={audio.src}
-        locale={locale}>
+        locale={i18n.language}>
         <MediaListItemActions>
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />
-            <CopyTextButton
-              stringToCopy={audio.copyText}
-              copyTitle={t('license.copyTitle')}
-              hasCopiedTitle={t('license.hasCopiedTitle')}
-            />
             {audio.copyright.license?.license !== 'COPYRIGHTED' && (
-              <AnchorButton href={audio.src} download appearance="outline">
-                {t('license.download')}
-              </AnchorButton>
+              <>
+                {audio.copyText && (
+                  <CopyTextButton
+                    stringToCopy={audio.copyText}
+                    copyTitle={t('license.copyTitle')}
+                    hasCopiedTitle={t('license.hasCopiedTitle')}
+                  />
+                )}
+                <AnchorButton href={audio.src} download appearance="outline">
+                  {t('license.download')}
+                </AnchorButton>
+              </>
             )}
           </div>
         </MediaListItemActions>
@@ -91,11 +92,10 @@ const AudioLicenseInfo = ({ audio, locale }: AudioLicenseInfoProps) => {
 };
 
 interface Props {
-  audios: GQLAudioLicense[];
-  locale: LocaleType;
+  audios: GQLAudioLicenseList_AudioLicenseFragment[];
 }
 
-const AudioLicenseList = ({ audios, locale }: Props) => {
+const AudioLicenseList = ({ audios }: Props) => {
   const { t } = useTranslation();
   return (
     <div>
@@ -103,11 +103,26 @@ const AudioLicenseList = ({ audios, locale }: Props) => {
       <p>{t('license.audio.description')}</p>
       <MediaList>
         {audios.map(audio => (
-          <AudioLicenseInfo audio={audio} key={uuid()} locale={locale} />
+          <AudioLicenseInfo audio={audio} key={uuid()} />
         ))}
       </MediaList>
     </div>
   );
+};
+
+AudioLicenseList.fragments = {
+  audio: gql`
+    fragment AudioLicenseList_AudioLicense on AudioLicense {
+      src
+      copyText
+      title
+      copyright {
+        origin
+        ...LicenseListCopyright
+      }
+    }
+    ${licenseListCopyrightFragment}
+  `,
 };
 
 export default AudioLicenseList;

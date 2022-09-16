@@ -9,14 +9,6 @@
 import fetch from 'node-fetch';
 import express, { Request, Response, NextFunction } from 'express';
 import helmet from 'helmet';
-import bodyParser from 'body-parser';
-import {
-  OK,
-  INTERNAL_SERVER_ERROR,
-  MOVED_PERMANENTLY,
-  TEMPORARY_REDIRECT,
-  BAD_REQUEST,
-} from 'http-status';
 import { matchPath } from 'react-router-dom';
 import {
   defaultRoute,
@@ -28,10 +20,15 @@ import {
 } from './routes';
 import contentSecurityPolicy from './contentSecurityPolicy';
 import handleError from '../util/handleError';
-import { routes as appRoutes } from '../routes';
+import { routes } from '../routes';
 import { getLocaleInfoFromPath } from '../i18n';
 import ltiConfig from './ltiConfig';
-import { FILM_PAGE_PATH, NOT_FOUND_PAGE_PATH } from '../constants';
+import {
+  FILM_PAGE_PATH,
+  NOT_FOUND_PAGE_PATH,
+  STORED_LANGUAGE_COOKIE_KEY,
+  UKR_PAGE_PATH,
+} from '../constants';
 import { generateOauthData } from './helpers/oauthHelper';
 import {
   getFeideToken,
@@ -39,7 +36,15 @@ import {
   feideLogout,
 } from './helpers/openidHelper';
 import { podcastFeedRoute } from './routes/podcastFeedRoute';
+import programmeSitemap from './programmeSitemap';
 import config from '../config';
+import {
+  OK,
+  INTERNAL_SERVER_ERROR,
+  MOVED_PERMANENTLY,
+  TEMPORARY_REDIRECT,
+  BAD_REQUEST,
+} from '../statusCodes';
 
 // @ts-ignore
 global.fetch = fetch;
@@ -56,8 +61,8 @@ const ndlaMiddleware = [
   express.static(process.env.RAZZLE_PUBLIC_DIR ?? '', {
     maxAge: 1000 * 60 * 60 * 24 * 365, // One year
   }),
-  bodyParser.urlencoded({ extended: true }),
-  bodyParser.json({
+  express.urlencoded({ extended: true }),
+  express.json({
     type: req =>
       allowedBodyContentTypes.includes(req.headers['content-type'] ?? ''),
   }),
@@ -70,10 +75,9 @@ const ndlaMiddleware = [
     frameguard:
       process.env.NODE_ENV === 'development'
         ? {
-            action: 'allow-from',
-            domain: '*://localhost',
+            action: 'sameorigin',
           }
-        : { action: 'allow-from', domain: '*://sti.ndla.no' },
+        : { action: 'deny' },
   }),
 ];
 
@@ -96,6 +100,15 @@ app.get(
   ndlaMiddleware,
   (_req: Request, res: Response, _next: NextFunction) => {
     res.redirect(FILM_PAGE_PATH);
+  },
+);
+
+app.get(
+  '/ukr',
+  ndlaMiddleware,
+  (_req: Request, res: Response, _next: NextFunction) => {
+    res.cookie(STORED_LANGUAGE_COOKIE_KEY, 'en');
+    res.redirect(`/en${UKR_PAGE_PATH}`);
   },
 );
 
@@ -209,6 +222,15 @@ app.get(
   },
 );
 
+app.get(
+  '/utdanningsprogram-sitemap.txt',
+  ndlaMiddleware,
+  async (_req: Request, res: Response) => {
+    res.setHeader('Content-Type', 'application/txt');
+    res.send(programmeSitemap());
+  },
+);
+
 app.get('/podkast/:seriesId/feed.xml', ndlaMiddleware, podcastFeedRoute);
 app.get(
   '/podkast/:seriesId_:seriesTitle/feed.xml',
@@ -258,7 +280,7 @@ app.get(
   '/*',
   (req: Request, _res: Response, next: NextFunction) => {
     const { basepath: path } = getLocaleInfoFromPath(req.path);
-    const route = appRoutes.find(r => matchPath(path, r)); // match with routes used in frontend
+    const route = routes.find(r => matchPath(r, path)); // match with routes used in frontend
     if (!route) {
       next('route'); // skip to next route (i.e. proxy)
     } else {

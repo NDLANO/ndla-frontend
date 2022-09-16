@@ -16,7 +16,9 @@ export interface Scripts {
   defer?: boolean;
 }
 
-export function getArticleScripts(article: GQLArticle) {
+export function getArticleScripts(
+  article: Pick<GQLArticle, 'requiredLibraries' | 'content'>,
+) {
   const scripts: Array<Scripts> =
     article.requiredLibraries?.map(lib => ({
       src: lib.url,
@@ -31,7 +33,7 @@ export function getArticleScripts(article: GQLArticle) {
     });
 
     scripts.push({
-      src: 'https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/mml-chtml.js',
+      src: 'https://cdn.jsdelivr.net/npm/mathjax@3.2.1/es5/mml-chtml.js',
       type: 'text/javascript',
       async: false,
       defer: true,
