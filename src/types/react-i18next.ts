@@ -27,13 +27,17 @@ declare module 'react-i18next' {
     options?: UseTranslationOptions,
   ): CustomUseTranslationResponse<N>;
 
-  function withTranslation<N extends Namespace = DefaultNamespace>(
+  function withTranslation<
+    N extends Namespace = DefaultNamespace,
+    TKPrefix extends KeyPrefix<N> = undefined
+  >(
     ns?: N,
     options?: {
       withRef?: boolean;
+      keyPrefix?: TKPrefix;
     },
   ): <
-    C extends ComponentType<ComponentProps<C> & WithTranslationProps>,
+    C extends ComponentType<ComponentProps<any> & WithTranslationProps>,
     ResolvedProps = JSX.LibraryManagedAttributes<
       C,
       Subtract<ComponentProps<C>, WithTranslationProps>

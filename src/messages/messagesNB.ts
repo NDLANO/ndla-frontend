@@ -63,6 +63,15 @@ const messages = {
       licenseAuthor: 'Tom Knudsen',
     },
   },
+
+  validation: {
+    fields: {
+      name: 'Navn',
+    },
+    required: 'Dette feltet er påkrevd',
+    requiredField: '$t(validation.fields.{{field}}) er påkrevd',
+    notUnique: 'Finnes allerede',
+  },
 };
 
 export default messages;

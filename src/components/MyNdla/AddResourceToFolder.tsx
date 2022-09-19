@@ -198,20 +198,24 @@ const AddResourceToFolder = ({ onClose, resource }: Props) => {
     onClose();
   };
 
-  const onAddNewFolder = async (name: string, parentId: string) => {
+  const onAddNewFolder = async (
+    name: string,
+    parentId: string,
+  ): Promise<GQLFolder> => {
     const res = await addFolder({
       variables: {
         name,
         parentId: parentId !== 'folders' ? parentId : undefined,
       },
     });
-    return res.data!.addFolder;
+    return res.data!.addFolder as GQLFolder;
   };
 
   return (
     <AddResourceContainer>
       <h1>{t('myNdla.resource.addToMyNdla')}</h1>
       <ListResource
+        id={resource.id.toString()}
         tagLinkPrefix="/minndla/tags"
         isLoading={metaLoading}
         link={resource.path}
@@ -228,8 +232,7 @@ const AddResourceToFolder = ({ onClose, resource }: Props) => {
         onNewFolder={onAddNewFolder}
         onSelectFolder={setSelectedFolderId}
         defaultOpenFolders={['folders']}
-        framed
-        editable
+        type={'picker'}
         targetResource={storedResource}
       />
       {alreadyAdded && (

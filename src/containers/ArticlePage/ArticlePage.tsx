@@ -9,7 +9,7 @@
 import { gql } from '@apollo/client';
 import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { OneColumn, LayoutItem, FeideUserApiType } from '@ndla/ui';
+import { OneColumn, LayoutItem, FeideUserApiType, constants } from '@ndla/ui';
 import { withTracker } from '@ndla/tracker';
 import {
   CustomWithTranslation,
@@ -39,6 +39,7 @@ import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { toBreadcrumbItems } from '../../routeHelpers';
 import { getSubjectLongName } from '../../data/subjects';
 import config from '../../config';
+import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from '../../constants';
 import {
   GQLArticlePage_ResourceFragment,
   GQLArticlePage_ResourceTypeFragment,
@@ -145,6 +146,19 @@ const ArticlePage = ({
             defer={script.defer}
           />
         ))}
+        {copyPageUrlLink && (
+          <link
+            rel="alternate"
+            type="application/json+oembed"
+            href={`${config.ndlaFrontendDomain}/oembed?url=${copyPageUrlLink}`}
+            title={article.title}
+          />
+        )}
+        {subject?.metadata.customFields?.[
+          TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY
+        ] === constants.subjectCategories.ARCHIVE_SUBJECTS && (
+          <meta name="robots" content="noindex, nofollow" />
+        )}
 
         <script type="application/ld+json">
           {JSON.stringify(
@@ -226,6 +240,9 @@ export const articlePageFragments = {
   subject: gql`
     fragment ArticlePage_Subject on Subject {
       name
+      metadata {
+        customFields
+      }
       ...ArticleHero_Subject
     }
     ${ArticleHero.fragments.subject}

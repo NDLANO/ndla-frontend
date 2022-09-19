@@ -90,7 +90,10 @@ const FeideLoginButton = ({ footer, children, to }: Props) => {
 
   if (authenticated && !footer) {
     return (
-      <StyledLink ndlaFilm={ndlaFilm} to={destination}>
+      <StyledLink
+        ndlaFilm={ndlaFilm}
+        to={destination}
+        aria-label={t('myNdla.myNDLA')}>
         {children}
       </StyledLink>
     );
