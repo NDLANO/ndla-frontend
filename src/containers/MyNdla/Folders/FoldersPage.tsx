@@ -6,6 +6,7 @@
  *
  */
 
+import { isEqual } from 'lodash';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 import { AddButton } from '@ndla/button';
@@ -24,7 +25,6 @@ import { useGraphQuery } from '../../../util/runQueries';
 import ListViewOptions from './ListViewOptions';
 import FolderBreadcrumb from './FolderBreadcrumb';
 import EditFolderModal from './EditFolderModal';
-import DeleteModal from '../components/DeleteModal';
 import {
   foldersPageQuery,
   useAddFolderMutation,
@@ -37,6 +37,9 @@ import {
   FolderTotalCount,
   getTotalCountForFolder,
 } from '../../../util/folderHelpers';
+import DeleteModal from '../components/DeleteModal';
+import { usePrevious } from '../../../util/utilityHooks';
+import { SKIP_TO_CONTENT_ID } from '../../../constants';
 
 interface BlockWrapperProps {
   type?: string;
@@ -48,10 +51,12 @@ const FoldersPageContainer = styled.div`
   gap: ${spacing.xsmall};
 `;
 
-export const BlockWrapper = styled.div<BlockWrapperProps>`
+export const BlockWrapper = styled.ul<BlockWrapperProps>`
   display: flex;
   flex-direction: column;
   gap: ${spacing.xsmall};
+  margin: 0;
+  padding: 0;
   ${props =>
     props.type === 'block' &&
     css`
@@ -60,6 +65,11 @@ export const BlockWrapper = styled.div<BlockWrapperProps>`
       gap: ${spacing.normal};
       margin-top: ${spacing.normal};
     `};
+`;
+
+export const ListItem = styled.li`
+  list-style: none;
+  margin: 0;
 `;
 
 const ResourceCountContainer = styled.div`
@@ -75,12 +85,17 @@ const StyledRow = styled.div`
   align-items: top;
 `;
 
+const StyledTitle = styled.h1`
+  margin: 0;
+`;
+
 export type ViewType = 'list' | 'block' | 'listLarger';
 export type FolderActionType = 'edit' | 'delete' | undefined;
 
 export interface FolderAction {
   action: FolderActionType;
   folder: GQLFolder;
+  index?: number;
 }
 
 const FoldersPage = () => {
@@ -105,6 +120,30 @@ const FoldersPage = () => {
     () => (selectedFolder ? selectedFolder.subfolders : folderData ?? []),
     [selectedFolder, folderData],
   );
+  const previousFolders = usePrevious(folders);
+  const [focusId, setFocusId] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    const folderIds = folders.map(f => f.id).sort();
+    const prevFolderIds = previousFolders?.map(f => f.id).sort();
+
+    if (!isEqual(folderIds, prevFolderIds) && focusId) {
+      setTimeout(
+        () => document.getElementById(`folder-${focusId}`)?.focus(),
+        0,
+      );
+      setFocusId(undefined);
+    } else if (
+      !isEqual(folderIds, prevFolderIds) &&
+      folderIds.length === 1 &&
+      prevFolderIds?.length === 1
+    ) {
+      const id = folders[0]?.id;
+      if (id) {
+        setTimeout(() => document.getElementById(`folder-${id}`)?.focus(), 0);
+      }
+    }
+  }, [folders, focusId, previousFolders]);
 
   const selectedFolderCount = useMemo(
     () => (selectedFolder ? getTotalCountForFolder(selectedFolder) : undefined),
@@ -124,19 +163,26 @@ const FoldersPage = () => {
     return (
       folderData?.reduce((acc, curr) => {
         return acc + getTotalCountForFolder(curr).folders;
-      }, 0) ?? 0
+      }, folderData.length ?? 0) ?? 0
     );
   }, [folderData]);
 
   const { updateFolder } = useUpdateFolderMutation();
 
-  const onDeleteFolder = async (folderId: string) => {
-    await deleteFolder({ variables: { id: folderId } });
-    if (folderId === selectedFolder?.id) {
+  const onDeleteFolder = async (folder: GQLFolder, index?: number) => {
+    const next = index !== undefined ? folders[index + 1]?.id : undefined;
+    const prev = index !== undefined ? folders[index - 1]?.id : undefined;
+    await deleteFolder({ variables: { id: folder.id } });
+    if (folder.id === selectedFolder?.id) {
       navigate(`/minndla/folders/${selectedFolder.parentId ?? ''}`, {
         replace: true,
       });
     }
+    addSnack({
+      id: 'folderDeleted',
+      content: t('myNdla.folder.folderDeleted', { folderName: folder.name }),
+    });
+    setFocusId(next ?? prev);
   };
 
   useEffect(() => {
@@ -146,12 +192,17 @@ const FoldersPage = () => {
   const onFolderAdd = async (name: string) => {
     setFolderAction(undefined);
     setIsAdding(false);
-    await addFolder({
+    const res = await addFolder({
       variables: {
         name,
         parentId: folderId,
       },
     });
+    addSnack({
+      id: 'folderAdded',
+      content: t('myNdla.folder.created', { folderName: name }),
+    });
+    setFocusId(res.data?.addFolder.id);
   };
 
   const showAddButton = (selectedFolder?.breadcrumbs.length || 0) < 5;
@@ -165,10 +216,17 @@ const FoldersPage = () => {
             : t('htmlTitles.myFoldersPage')
         }
       />
-      <FolderBreadcrumb
-        breadcrumbs={selectedFolder?.breadcrumbs ?? []}
-        onActionChanged={setFolderAction}
-      />
+      <StyledTitle tabIndex={-1} id={SKIP_TO_CONTENT_ID}>
+        {selectedFolder?.name ?? 'Mine mapper'}
+      </StyledTitle>
+      {!!selectedFolder?.breadcrumbs && (
+        <FolderBreadcrumb
+          breadcrumbs={selectedFolder?.breadcrumbs ?? []}
+          onActionChanged={action =>
+            setFolderAction({ action, folder: selectedFolder })
+          }
+        />
+      )}
       {folders && (
         <ResourceCountContainer>
           <FolderOutlined />
@@ -212,28 +270,36 @@ const FoldersPage = () => {
               autoSelect
             />
           )}
-          {folders.map(folder => (
-            <Folder
-              key={folder.id}
-              link={`/minndla/folders/${folder.id}`}
-              title={folder.name}
-              type={type === 'block' ? 'block' : 'list'}
-              subFolders={foldersCount[folder.id]?.folders}
-              subResources={foldersCount[folder.id]?.resources}
-              menuItems={[
-                {
-                  icon: <Pencil />,
-                  text: t('myNdla.folder.edit'),
-                  onClick: () => setFolderAction({ action: 'edit', folder }),
-                },
-                {
-                  icon: <DeleteForever />,
-                  text: t('myNdla.folder.delete'),
-                  onClick: () => setFolderAction({ action: 'delete', folder }),
-                  type: 'danger',
-                },
-              ]}
-            />
+          {folders.map((folder, index) => (
+            <ListItem
+              key={`folder-${index}`}
+              id={`folder-${folder.id}`}
+              tabIndex={-1}>
+              <Folder
+                key={folder.id}
+                id={folder.id}
+                link={`/minndla/folders/${folder.id}`}
+                title={folder.name}
+                type={type === 'block' ? 'block' : 'list'}
+                subFolders={foldersCount[folder.id]?.folders}
+                subResources={foldersCount[folder.id]?.resources}
+                menuItems={[
+                  {
+                    icon: <Pencil />,
+                    text: t('myNdla.folder.edit'),
+                    onClick: () =>
+                      setFolderAction({ action: 'edit', folder, index }),
+                  },
+                  {
+                    icon: <DeleteForever />,
+                    text: t('myNdla.folder.delete'),
+                    onClick: () =>
+                      setFolderAction({ action: 'delete', folder, index }),
+                    type: 'danger',
+                  },
+                ]}
+              />
+            </ListItem>
           ))}
         </BlockWrapper>
       )}
@@ -244,39 +310,37 @@ const FoldersPage = () => {
           folderId={selectedFolder.id}
         />
       )}
-      {folderAction && (
-        <>
-          <EditFolderModal
-            onSave={async value => {
-              await updateFolder({
-                variables: {
-                  id: folderAction.folder.id,
-                  name: value,
-                },
-              });
-              addSnack({
-                id: 'titleUpdated',
-                content: t('myNdla.resource.titleUpdated'),
-              });
-              setFolderAction(undefined);
-            }}
-            folder={folderAction.folder}
-            isOpen={folderAction.action === 'edit'}
-            onClose={() => setFolderAction(undefined)}
-          />
-          <DeleteModal
-            title={t('myNdla.folder.delete')}
-            description={t('myNdla.confirmDeleteFolder')}
-            removeText={t('myNdla.folder.delete')}
-            isOpen={folderAction.action === 'delete'}
-            onClose={() => setFolderAction(undefined)}
-            onDelete={async () => {
-              await onDeleteFolder(folderAction.folder.id);
-              setFolderAction(undefined);
-            }}
-          />
-        </>
-      )}
+      <EditFolderModal
+        onSave={async (value, folder) => {
+          await updateFolder({
+            variables: {
+              id: folder.id,
+              name: value,
+            },
+          });
+          addSnack({
+            id: 'titleUpdated',
+            content: t('myNdla.resource.titleUpdated'),
+          });
+          setFolderAction(undefined);
+        }}
+        folder={folderAction?.folder}
+        isOpen={folderAction?.action === 'edit'}
+        onClose={() => setFolderAction(undefined)}
+      />
+      <DeleteModal
+        title={t('myNdla.folder.delete')}
+        description={t('myNdla.confirmDeleteFolder')}
+        removeText={t('myNdla.folder.delete')}
+        isOpen={folderAction?.action === 'delete'}
+        onClose={() => setFolderAction(undefined)}
+        onDelete={async () => {
+          if (folderAction?.action === 'delete') {
+            await onDeleteFolder(folderAction.folder, folderAction.index);
+            setFolderAction(undefined);
+          }
+        }}
+      />
     </FoldersPageContainer>
   );
 };

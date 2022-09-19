@@ -8,6 +8,7 @@
 
 import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
 import Modal, { ModalBody, ModalCloseButton, ModalHeader } from '@ndla/modal';
 import AddResourceToFolder, { ResourceAttributes } from './AddResourceToFolder';
 import { AuthContext } from '../AuthenticationContext';
@@ -19,13 +20,20 @@ interface Props {
   isOpen: boolean;
   onClose: () => void;
 }
+
+const StyledModal = styled(Modal)`
+  && h2 {
+    margin: 0;
+  }
+`;
+
 const AddResourceToFolderModal = ({ isOpen, onClose, resource }: Props) => {
   const { t } = useTranslation();
   const { authenticated } = useContext(AuthContext);
   const { meta } = useFolderResourceMeta(resource, { skip: !resource });
 
   return (
-    <Modal
+    <StyledModal
       controllable
       isOpen={isOpen}
       size="medium"
@@ -57,7 +65,7 @@ const AddResourceToFolderModal = ({ isOpen, onClose, resource }: Props) => {
           </ModalBody>
         </>
       )}
-    </Modal>
+    </StyledModal>
   );
 };
 

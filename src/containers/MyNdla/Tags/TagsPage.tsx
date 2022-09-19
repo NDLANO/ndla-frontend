@@ -114,6 +114,7 @@ const Resources = ({ resources }: ResourcesProps) => {
         return (
           <BlockWrapper type={type}>
             <ListResource
+              id={resource.id}
               tagLinkPrefix="/minndla/tags"
               isLoading={loading}
               key={resource.id}
