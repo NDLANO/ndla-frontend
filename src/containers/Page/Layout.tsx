@@ -68,7 +68,6 @@ const Layout = () => {
       />
       <Helmet
         htmlAttributes={{ lang: i18n.language }}
-        title="NDLA"
         meta={[{ name: 'description', content: t('meta.description') }]}
       />
       <Helmet>
