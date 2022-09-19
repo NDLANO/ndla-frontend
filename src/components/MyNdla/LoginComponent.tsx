@@ -89,14 +89,22 @@ const LoginComponent = ({ resource, meta, onClose, to = '/login' }: Props) => {
   return (
     <LoginComponentContainer>
       <TitleRow>
-        <Title>
-          <Trans t={t} i18nKey="myNdla.myPage.loginWelcome" />
-        </Title>
-        <StyledImage src="/static/my-ndla-login.png" alt={t('myNdla.myNDLA')} />
+        {resource ? (
+          <Title>{t('myNdla.myPage.loginResourcePitch')}</Title>
+        ) : (
+          <>
+            <Title>
+              <Trans t={t} i18nKey="myNdla.myPage.loginWelcome" />
+            </Title>
+            <StyledImage
+              src="/static/my-ndla-login.png"
+              alt={t('myNdla.myNDLA')}
+            />
+          </>
+        )}
       </TitleRow>
       {resource && meta && (
         <ContentWrapper>
-          <span>{t('myNdla.myPage.loginResourcePitch')}</span>
           <ListResource
             id={resource.id.toString()}
             tagLinkPrefix="/minndla/tags"
