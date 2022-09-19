@@ -96,7 +96,6 @@ const MyNdlaLayout = () => {
           type={'navigation'}
           folders={staticStructureElements}
           defaultOpenFolders={defaultSelected}
-          openOnFolderClick
         />
         <ButtonWrapper>
           <SafeLinkButton
