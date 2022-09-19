@@ -289,7 +289,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
       >
         <div
           dangerouslySetInnerHTML={
-            Object {
+            {
               "__html": "<section><p>Dersom du leser de ulike partiprogrammene, ser du fort at partiene har ulike svar både på hva som er viktige utfordringer, og på hvordan de skal løses.</p></section>",
             }
           }
@@ -353,7 +353,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                           height="1em"
                           preserveAspectRatio="xMidYMid meet"
                           style={
-                            Object {
+                            {
                               "color": undefined,
                               "verticalAlign": "middle",
                             }
@@ -415,7 +415,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                           height="1em"
                           preserveAspectRatio="xMidYMid meet"
                           style={
-                            Object {
+                            {
                               "color": undefined,
                               "verticalAlign": "middle",
                             }
@@ -479,7 +479,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                           height="1em"
                           preserveAspectRatio="xMidYMid meet"
                           style={
-                            Object {
+                            {
                               "color": undefined,
                               "verticalAlign": "middle",
                             }

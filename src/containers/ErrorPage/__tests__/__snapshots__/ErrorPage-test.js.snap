@@ -697,7 +697,7 @@ exports[`ErrorPage renderers correctly 1`] = `
           height="1em"
           preserveAspectRatio="xMidYMid meet"
           style={
-            Object {
+            {
               "color": undefined,
               "verticalAlign": "middle",
             }
@@ -737,7 +737,7 @@ exports[`ErrorPage renderers correctly 1`] = `
             height="1em"
             preserveAspectRatio="xMidYMid meet"
             style={
-              Object {
+              {
                 "color": undefined,
                 "verticalAlign": "middle",
               }
@@ -778,7 +778,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                   height="1em"
                   preserveAspectRatio="xMidYMid meet"
                   style={
-                    Object {
+                    {
                       "color": undefined,
                       "verticalAlign": "middle",
                     }
@@ -876,7 +876,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                       height="1em"
                       preserveAspectRatio="xMidYMid meet"
                       style={
-                        Object {
+                        {
                           "color": undefined,
                           "verticalAlign": "middle",
                         }
@@ -905,7 +905,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                       height="1em"
                       preserveAspectRatio="xMidYMid meet"
                       style={
-                        Object {
+                        {
                           "color": undefined,
                           "verticalAlign": "middle",
                         }
@@ -940,7 +940,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                       height="1em"
                       preserveAspectRatio="xMidYMid meet"
                       style={
-                        Object {
+                        {
                           "color": undefined,
                           "verticalAlign": "middle",
                         }
@@ -970,7 +970,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                       height="1em"
                       preserveAspectRatio="xMidYMid meet"
                       style={
-                        Object {
+                        {
                           "color": undefined,
                           "verticalAlign": "middle",
                         }
@@ -1005,7 +1005,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                       height="1em"
                       preserveAspectRatio="xMidYMid meet"
                       style={
-                        Object {
+                        {
                           "color": undefined,
                           "verticalAlign": "middle",
                         }
@@ -1035,7 +1035,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                       height="1em"
                       preserveAspectRatio="xMidYMid meet"
                       style={
-                        Object {
+                        {
                           "color": undefined,
                           "verticalAlign": "middle",
                         }
@@ -1070,7 +1070,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                       height="1em"
                       preserveAspectRatio="xMidYMid meet"
                       style={
-                        Object {
+                        {
                           "color": undefined,
                           "verticalAlign": "middle",
                         }
@@ -1122,7 +1122,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                       height="1em"
                       preserveAspectRatio="xMidYMid meet"
                       style={
-                        Object {
+                        {
                           "color": undefined,
                           "verticalAlign": "middle",
                         }
@@ -1157,7 +1157,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                       height="1em"
                       preserveAspectRatio="xMidYMid meet"
                       style={
-                        Object {
+                        {
                           "color": undefined,
                           "verticalAlign": "middle",
                         }
@@ -1186,7 +1186,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                       height="1em"
                       preserveAspectRatio="xMidYMid meet"
                       style={
-                        Object {
+                        {
                           "color": undefined,
                           "verticalAlign": "middle",
                         }

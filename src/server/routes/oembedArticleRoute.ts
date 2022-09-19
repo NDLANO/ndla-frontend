@@ -109,7 +109,10 @@ export async function oembedArticleRoute(req: express.Request) {
     return getOembedObject(req, title, html);
   } catch (error) {
     handleError(error);
-    const status = error.status || INTERNAL_SERVER_ERROR;
+
+    const typedError = error as { status?: number };
+    const status = typedError.status || INTERNAL_SERVER_ERROR;
+
     return {
       status,
       data: 'Internal server error',
