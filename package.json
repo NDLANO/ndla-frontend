@@ -29,7 +29,8 @@
     "e2e-ci": "cross-env BABEL_ENV=test CYPRESS_USE_FIXTURES=true cypress run --record --parallel",
     "vercel-build": "npm run build",
     "vercel-start": "cross-env NODE_ENV=production NOW=true node build/server | bunyan",
-    "generate-gql-types": "graphql-codegen --config codegen.yml && yarn format",
+    "get-and-generate-gql-types": "graphql-codegen --config codegen.yml && prettier --write src/graphqlTypes.ts",
+    "generate-gql-types-local": "graphql-codegen --config local-codegen.yml && prettier --write src/graphqlTypes.ts",
     "check-translations": "cross-env BABEL_ENV=test NODE_ENV=unittest jest src/messages/__tests__/"
   },
   "engines": {
