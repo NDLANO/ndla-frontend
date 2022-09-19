@@ -67,8 +67,10 @@ interface State {
   resource?: GQLMastHeadQuery['resource'];
 }
 
+const initialState: State = { topicPath: [] };
+
 const MastheadContainer = () => {
-  const [state, setState] = useState<State>({ topicPath: [] });
+  const [state, setState] = useState<State>(initialState);
   const { t, i18n } = useTranslation();
   const locale = i18n.language;
   const {
@@ -97,7 +99,10 @@ const MastheadContainer = () => {
   }, [topicIdParam]);
 
   useEffect(() => {
-    if (!topicId && !resourceId && !subjectId) return;
+    if (!topicId && !resourceId && !subjectId) {
+      setState(initialState);
+      return;
+    }
     fetchData({
       variables: {
         subjectId: subjectId ?? '',
@@ -157,7 +162,7 @@ const MastheadContainer = () => {
               />
             )}
           </MastheadMenuModal>
-          {!hideBreadcrumb && (
+          {!hideBreadcrumb && !!breadcrumbBlockItems.length && (
             <DisplayOnPageYOffset yOffsetMin={150}>
               <BreadcrumbWrapper>
                 <HeaderBreadcrumb

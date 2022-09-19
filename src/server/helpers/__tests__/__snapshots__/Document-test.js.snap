@@ -40,7 +40,7 @@ exports[`Document renderers correctly 1`] = `
   <body>
     <script
       dangerouslySetInnerHTML={
-        Object {
+        {
           "__html": "
             window.dataLayer = window.dataLayer || [];
             window.originalLocation = { originalLocation: document.location.protocol + '//' + document.location.hostname + document.location.pathname + document.location.search };
@@ -55,7 +55,7 @@ exports[`Document renderers correctly 1`] = `
     </div>
     <script
       dangerouslySetInnerHTML={
-        Object {
+        {
           "__html": "window.DATA = {}; ",
         }
       }
@@ -63,7 +63,7 @@ exports[`Document renderers correctly 1`] = `
     />
     <script
       dangerouslySetInnerHTML={
-        Object {
+        {
           "__html": "
   var feats = [];
   ('fetch' in window) || feats.push('fetch');('includes' in Array.prototype) || feats.push('Array.prototype.includes');('fill' in Array.prototype) || feats.push('Array.prototype.fill');('open' in document.createElement('details')) || feats.push('details');('assign' in Object) || feats.push('Object.assign');('remove' in Element.prototype) || feats.push('Element.prototype.remove');('includes' in String.prototype) || feats.push('String.prototype.includes');('startsWith' in String.prototype) || feats.push('String.prototype.startsWith');('endsWith' in String.prototype) || feats.push('String.prototype.endsWith');('isInteger' in Number) || feats.push('Number.isInteger');('isNaN' in Number) || feats.push('Number.isNaN');
@@ -82,14 +82,14 @@ exports[`Document renderers correctly 1`] = `
   }
 
   function _polyfillComplete() {
-    var scripts = [{\\"src\\":\\"/client.js\\"},{\\"src\\":\\"/vendor.js\\"}];
+    var scripts = [{"src":"/client.js"},{"src":"/vendor.js"}];
     for (var i = 0; i < scripts.length; i++) {
       cs(scripts[i], false);
     }
   }
 
-  if (feats.length && {\\"src\\":\\"/polyfill.js\\"}) {
-    cs({\\"src\\":\\"/polyfill.js\\"}, true, _polyfillComplete);
+  if (feats.length && {"src":"/polyfill.js"}) {
+    cs({"src":"/polyfill.js"}, true, _polyfillComplete);
   } else {
     _polyfillComplete();
   }

@@ -22,7 +22,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
-          node-version: '14.16'
+          node-version: '16.17'
       - name: 'Login to ECR repo'
         run:
           RES=$(aws sts assume-role --role-arn $CI_RELEASE_ROLE --role-session-name github-actions-ecr-login)
@@ -55,7 +55,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
-          node-version: '14.16'
+          node-version: '16.17'
       - name: 'Login to ECR repo'
         run:
           RES=$(aws sts assume-role --role-arn $CI_RELEASE_ROLE --role-session-name github-actions-ecr-login)
@@ -69,8 +69,8 @@ jobs:
         run: yarn install --frozen-lockfile
       - name: 'Build'
         run: yarn build
-      - name: 'Run e2e-ci'
-        run: yarn e2e-ci
       - name: 'Deploy vercel build'
         run: yarn ndla-scripts vercel-github
         continue-on-error: true
+      - name: 'Run e2e-ci'
+        run: yarn e2e-ci

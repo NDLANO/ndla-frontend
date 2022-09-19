@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { Issuer, generators } from 'openid-client';
+import { generators, Issuer } from 'openid-client';
 import { Request } from 'express';
 import config, { getEnvironmentVariabel } from '../../config';
 
@@ -44,6 +44,7 @@ export const getRedirectUrl = (req: Request) => {
   const code_challenge = generators.codeChallenge(code_verifier);
   const port = req.protocol === 'http' ? `:${config.port}` : '';
   const redirect_uri_login = `${req.protocol}://${req.hostname}${port}/login/success`;
+  const prompt = req.query.prompt === 'none' ? 'none' : undefined;
 
   return getClient(redirect_uri_login)
     .then(client =>
@@ -52,6 +53,7 @@ export const getRedirectUrl = (req: Request) => {
           'email openid userinfo-photo groups-edu userinfo-language userid userinfo-name groups-org userid-feide',
         code_challenge,
         state: req.query.state?.toString(),
+        prompt,
       }),
     )
     .then(feide_url => {
