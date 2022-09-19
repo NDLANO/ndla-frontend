@@ -198,14 +198,17 @@ const AddResourceToFolder = ({ onClose, resource }: Props) => {
     onClose();
   };
 
-  const onAddNewFolder = async (name: string, parentId: string) => {
+  const onAddNewFolder = async (
+    name: string,
+    parentId: string,
+  ): Promise<GQLFolder> => {
     const res = await addFolder({
       variables: {
         name,
         parentId: parentId !== 'folders' ? parentId : undefined,
       },
     });
-    return res.data!.addFolder;
+    return res.data!.addFolder as GQLFolder;
   };
 
   return (

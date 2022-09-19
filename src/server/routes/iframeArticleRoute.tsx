@@ -130,7 +130,9 @@ export async function iframeArticleRoute(req: Request) {
       status: 'error',
     });
 
-    const status = error.status || INTERNAL_SERVER_ERROR;
+    const typedError = error as { status?: number };
+    const status = typedError.status || INTERNAL_SERVER_ERROR;
+
     return renderHtml(req, html, { status }, docProps, helmetContext);
   }
 }
