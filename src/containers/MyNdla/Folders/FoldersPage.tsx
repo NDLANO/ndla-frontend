@@ -97,11 +97,11 @@ const FoldersPage = () => {
   const { deleteFolder } = useDeleteFolderMutation();
 
   const [isAdding, setIsAdding] = useState(false);
-  const { data: { folders: folderData } = {} } = useGraphQuery<
-    GQLFoldersPageQuery
-  >(foldersPageQuery);
+  const { data } = useGraphQuery<GQLFoldersPageQuery>(foldersPageQuery);
+  const folderData = data?.folders as GQLFolder[] | undefined;
+
   const selectedFolder = useFolder(folderId);
-  const folders = useMemo(
+  const folders: GQLFolder[] = useMemo(
     () => (selectedFolder ? selectedFolder.subfolders : folderData ?? []),
     [selectedFolder, folderData],
   );

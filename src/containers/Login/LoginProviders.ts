@@ -18,7 +18,9 @@ export type LocationState =
   | undefined;
 
 export const LoginProviders = () => {
-  const { authenticated, authContextLoaded } = useContext(AuthContext);
+  const { authenticated, authContextLoaded, needsInteraction } = useContext(
+    AuthContext,
+  );
   const location = useLocation();
   const locationState = location.state as LocationState;
   const navigate = useNavigate();
@@ -26,9 +28,9 @@ export const LoginProviders = () => {
     if (authenticated && authContextLoaded) {
       navigate(locationState?.from ?? toHome());
     } else if (authContextLoaded && !authenticated) {
-      initializeFeideLogin(locationState?.from).catch(() =>
-        navigate(toLoginFailure()),
-      );
+      initializeFeideLogin(locationState?.from, needsInteraction).catch(() => {
+        navigate(toLoginFailure());
+      });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authenticated, navigate, authContextLoaded]);
