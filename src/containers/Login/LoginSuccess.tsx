@@ -14,27 +14,42 @@ import { finalizeFeideLogin } from '../../util/authHelpers';
 import { toHome, toLoginFailure } from '../../util/routeHelpers';
 
 export const LoginSuccess = () => {
-  const { login, authenticated, authContextLoaded } = useContext(AuthContext);
+  const {
+    login,
+    authenticated,
+    authContextLoaded,
+    setNeedsInteraction,
+  } = useContext(AuthContext);
   const { search } = useLocation();
   const navigate = useNavigate();
 
   useEffect(() => {
+    const searchParams = queryString.parse(search);
+    if (searchParams.error === 'interaction_required') {
+      setNeedsInteraction(true);
+      navigate('/login');
+      return;
+    }
+
     if (!authenticated && authContextLoaded) {
-      const searchParams = search.split('&');
-      const feideLoginCode =
-        searchParams.find(data => data.includes('code'))?.split('=')[1] || '';
+      const feideLoginCode = searchParams.code || '';
       finalizeFeideLogin(feideLoginCode)
         .then(() => {
           login();
-          const params = queryString.parse(search);
           // The cookie isn't set when loading the page initially so we trigger a reload
-          window.location = params.state || toHome();
+          window.location = searchParams.state || toHome();
         })
         .catch(() => navigate(toLoginFailure()));
     }
-  }, [navigate, login, search, authenticated, authContextLoaded]);
-
-  return <></>;
+  }, [
+    navigate,
+    login,
+    setNeedsInteraction,
+    search,
+    authenticated,
+    authContextLoaded,
+  ]);
+  return null;
 };
 
 export default LoginSuccess;
