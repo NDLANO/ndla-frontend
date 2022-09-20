@@ -37,7 +37,6 @@ import {
 } from './helpers/openidHelper';
 import { podcastFeedRoute } from './routes/podcastFeedRoute';
 import programmeSitemap from './programmeSitemap';
-import config from '../config';
 import {
   OK,
   INTERNAL_SERVER_ERROR,
