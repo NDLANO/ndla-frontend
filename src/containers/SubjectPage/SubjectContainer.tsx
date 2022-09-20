@@ -295,18 +295,6 @@ const SubjectContainer = ({ t, subjectId, topicIds, subject, i18n }: Props) => {
           negativeTopMargin={moveBannerUp}
         />
       )}
-      {/* {false && subject.subjectpage?.about && (
-        <OneColumn wide>
-          <SubjectPageInformation subjectpage={subject.subjectpage} wide />
-        </OneColumn>
-      )}
-      {false && (editorsChoices?.length ?? 0) > 0 && (
-        <SubjectEditorChoices
-          wideScreen
-          editorsChoices={editorsChoices}
-          locale={locale}
-        />
-      )} */}
       <OneColumn wide>
         <Breadcrumblist
           items={breadCrumbs}
