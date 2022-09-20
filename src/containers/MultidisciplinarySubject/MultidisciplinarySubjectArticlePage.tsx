@@ -95,9 +95,6 @@ const MultidisciplinarySubjectArticlePage = () => {
             t('htmlTitles.titleTemplate'),
           ])}
         </title>
-        {socialMediaMetaData.description && (
-          <meta name="description" content={socialMediaMetaData.description} />
-        )}
       </Helmet>
       <SocialMediaMetadata
         title={socialMediaMetaData.title}

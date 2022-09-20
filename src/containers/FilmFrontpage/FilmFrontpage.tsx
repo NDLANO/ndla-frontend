@@ -28,6 +28,7 @@ import {
 import MoreAboutNdlaFilm from './MoreAboutNdlaFilm';
 import { MoviesByType } from './NdlaFilmFrontpage';
 import { movieFragment } from '../../queries';
+import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 
 const ARIA_FILMCATEGORY_ID = 'movieCategoriesId';
 
@@ -95,14 +96,18 @@ const FilmFrontpage = ({
   const resourceTypeName = resourceTypeSelected
     ? resourceTypes.find(rt => rt.id === resourceTypeSelected)
     : undefined;
+
+  const pageTitle = getDocumentTitle(t, subject);
+
   return (
     <div id={skipToContentId}>
       <Helmet>
-        <title>{getDocumentTitle(t, subject)}</title>
-        {about?.description && (
-          <meta name="description" content={about.description} />
-        )}
+        <title>{pageTitle}</title>
       </Helmet>
+      <SocialMediaMetadata
+        title={subject?.name ?? ''}
+        description={about?.description}
+      />
       <FilmSlideshow slideshow={filmFrontpage?.slideShow ?? []} />
       <FilmMovieSearch
         ariaControlId={ARIA_FILMCATEGORY_ID}

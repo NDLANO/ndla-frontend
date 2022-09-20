@@ -101,6 +101,7 @@ const SocialMediaMetadata = ({
       {title && <meta property="og:title" content={`${title} - NDLA`} />}
       {title && <meta name="twitter:title" content={`${title} - NDLA`} />}
       {description && <meta property="og:description" content={description} />}
+      {description && <meta name="description" content={description} />}
       {description && <meta name="twitter:description" content={description} />}
       {imageUrl && <meta property="og:image" content={imageUrl} />}
       {imageUrl && <meta name="twitter:image:src" content={imageUrl} />}

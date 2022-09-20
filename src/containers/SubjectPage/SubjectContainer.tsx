@@ -92,7 +92,6 @@ const SubjectContainer = ({ t, subjectId, topicIds, subject, i18n }: Props) => {
   const ndlaFilm = useIsNdlaFilm();
   const { name: subjectName } = subject;
 
-  const metaDescription = subject.subjectpage?.metaDescription;
   const about = subject.subjectpage?.about;
 
   const [currentLevel, setCurrentLevel] = useState<number | string | undefined>(
@@ -213,7 +212,10 @@ const SubjectContainer = ({ t, subjectId, topicIds, subject, i18n }: Props) => {
 
   const socialMediaMetadata = {
     title:
-      topicPath?.[topicPath.length - 1]?.name || about?.title || subject.name,
+      topicPath?.[topicPath.length - 1]?.name ||
+      about?.title ||
+      subjectNames?.longName ||
+      subject.name,
     description:
       topicPath?.[topicPath.length - 1]?.meta?.metaDescription ||
       subject.subjectpage?.metaDescription,
@@ -221,6 +223,10 @@ const SubjectContainer = ({ t, subjectId, topicIds, subject, i18n }: Props) => {
       topicPath?.[topicPath.length - 1]?.meta?.metaImage ||
       about?.visualElement,
   };
+
+  const pageTitle = htmlTitle(socialMediaMetadata.title, [
+    t('htmlTitles.titleTemplate'),
+  ]);
 
   const topicsOnPage =
     (topicIds.length > 0
@@ -243,12 +249,7 @@ const SubjectContainer = ({ t, subjectId, topicIds, subject, i18n }: Props) => {
   return (
     <>
       <Helmet>
-        <title>
-          {htmlTitle(subjectNames?.name, [t('htmlTitles.titleTemplate')])}
-        </title>
-        {metaDescription && (
-          <meta name="description" content={metaDescription} />
-        )}
+        <title>{pageTitle}</title>
         {subject?.metadata.customFields?.[
           TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY
         ] === constants.subjectCategories.ARCHIVE_SUBJECTS && (
