@@ -25,11 +25,7 @@ const TitleAnnouncer = () => {
 
   return (
     <>
-      <VisuallyHiddenTitle
-        tabIndex={-1}
-        id="titleAnnouncer"
-        ref={titleRef}
-        aria-live="assertive">
+      <VisuallyHiddenTitle tabIndex={-1} id="titleAnnouncer" ref={titleRef}>
         {title}
       </VisuallyHiddenTitle>
       <Helmet
