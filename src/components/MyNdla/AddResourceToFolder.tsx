@@ -213,7 +213,6 @@ const AddResourceToFolder = ({ onClose, resource }: Props) => {
 
   return (
     <AddResourceContainer>
-      <h1>{t('myNdla.resource.addToMyNdla')}</h1>
       <ListResource
         id={resource.id.toString()}
         tagLinkPrefix="/minndla/tags"
