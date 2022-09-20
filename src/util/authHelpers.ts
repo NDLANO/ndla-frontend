@@ -6,7 +6,6 @@
  *
  */
 
-import queryString from 'query-string';
 import { TokenSet, TokenSetParameters } from 'openid-client';
 import { deleteCookie, getCookie, setCookie } from '@ndla/util';
 import config from '../config';
@@ -123,19 +122,12 @@ export const isAccessTokenValid = (
 
 const getIdTokenFeide = () => getFeideCookieClient()?.id_token;
 
-export const initializeFeideLogin = (
-  from?: string,
-  needsInteraction?: boolean,
-) => {
+export const initializeFeideLogin = (from?: string) => {
   if (!config.feideEnabled)
     return new Promise((resolve, _reject) => resolve(''));
+  const state = `${from ? `?state=${from}` : ''}`;
 
-  const qs = queryString.stringify({
-    state: from,
-    prompt: needsInteraction ? undefined : 'none',
-  });
-
-  return fetch(`${locationOrigin}/feide/login?${qs}`)
+  return fetch(`${locationOrigin}/feide/login${state}`)
     .then(res => resolveJsonOrRejectWithError<Feide>(res))
     .then(data => {
       window.location.href = data?.url || '';
@@ -152,7 +144,8 @@ export const finalizeFeideLogin = async (
     },
   );
   const tokenSet = await resolveJsonOrRejectWithError<Feide>(res);
-  return setTokenSetInLocalStorage(tokenSet!);
+  const set = setTokenSetInLocalStorage(tokenSet!);
+  return set;
 };
 
 export const feideLogout = (logout: () => void, from?: string) => {
