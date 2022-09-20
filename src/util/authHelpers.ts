@@ -127,9 +127,6 @@ export const initializeFeideLogin = (
   from?: string,
   needsInteraction?: boolean,
 ) => {
-  if (!config.feideEnabled)
-    return new Promise((resolve, _reject) => resolve(''));
-
   const qs = queryString.stringify({
     state: from,
     prompt: needsInteraction ? undefined : 'none',
