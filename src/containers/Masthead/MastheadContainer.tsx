@@ -99,13 +99,14 @@ const MastheadContainer = () => {
   }, [topicIdParam]);
 
   useEffect(() => {
-    if (!topicId && !resourceId && !subjectId) {
+    if (!subjectId) {
       setState(initialState);
       return;
     }
+
     fetchData({
       variables: {
-        subjectId: subjectId ?? '',
+        subjectId,
         topicId: topicId ?? '',
         resourceId: resourceId ?? '',
         skipTopic: !topicId,
