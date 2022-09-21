@@ -210,12 +210,11 @@ const SubjectContainer = ({ t, subjectId, topicIds, subject, i18n }: Props) => {
     subject.allTopics?.find(topic => topic.id === t),
   );
 
+  const topicTitle = topicPath?.[topicPath.length - 1]?.name;
+  const subjectTitle = about?.title || subjectNames?.longName || subject.name;
+  const title = [topicTitle, subjectTitle].filter(e => !!e).join(' - ');
   const socialMediaMetadata = {
-    title:
-      topicPath?.[topicPath.length - 1]?.name ||
-      about?.title ||
-      subjectNames?.longName ||
-      subject.name,
+    title,
     description:
       topicPath?.[topicPath.length - 1]?.meta?.metaDescription ||
       subject.subjectpage?.metaDescription,
