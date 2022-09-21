@@ -36,7 +36,7 @@ const AddResourceToFolderModal = ({ isOpen, onClose, resource }: Props) => {
     <StyledModal
       controllable
       isOpen={isOpen}
-      size="medium"
+      size="regular"
       backgroundColor="white"
       onClose={onClose}
       label={
