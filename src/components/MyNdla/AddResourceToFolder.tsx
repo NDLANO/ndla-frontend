@@ -64,6 +64,18 @@ const StyledResource = styled.p`
   margin: 0;
 `;
 
+const StyledNewFolder = styled(NewFolder)`
+  border-left: ${spacing.xsmall} solid ${colors.brand.light};
+  border-right: ${spacing.xsmall} solid ${colors.brand.light};
+  &:focus-within {
+    border-color: ${colors.brand.light};
+  }
+  // Not good practice, but necessary to give error message same padding as caused by border.
+  & + span {
+    padding: 0 ${spacing.xsmall};
+  }
+`;
+
 interface ResourceAddedSnackProps {
   folder: GQLFolder;
 }
@@ -219,7 +231,7 @@ const AddResourceToFolder = ({ onClose, resource }: Props) => {
         type={'picker'}
         targetResource={storedResource}
         newFolderInput={({ parentId, onClose, onCreate }) => (
-          <NewFolder
+          <StyledNewFolder
             parentId={parentId}
             onClose={onClose}
             onCreate={onCreate}

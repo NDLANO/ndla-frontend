@@ -24,6 +24,7 @@ interface Props {
   onClose?: () => void;
   initialValue?: string;
   onCreate?: (folder: GQLFolder, parentId: string) => void;
+  className?: string;
 }
 
 const NewFolder = ({
@@ -32,6 +33,7 @@ const NewFolder = ({
   onClose,
   initialValue = '',
   onCreate,
+  className,
 }: Props) => {
   const [name, setName] = useState(initialValue);
   const [error, setError] = useState('');
@@ -85,6 +87,7 @@ const NewFolder = ({
 
   return (
     <FolderInput
+      className={className}
       autoFocus
       labelHidden
       name="name"
@@ -113,4 +116,5 @@ const NewFolder = ({
     />
   );
 };
+
 export default memo(NewFolder);
