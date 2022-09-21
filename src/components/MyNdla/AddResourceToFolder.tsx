@@ -22,7 +22,6 @@ import {
   useSnack,
 } from '@ndla/ui';
 import {
-  useAddFolderMutation,
   useAddResourceToFolderMutation,
   useFolder,
   useFolderResourceMeta,
@@ -31,6 +30,7 @@ import {
 } from '../../containers/MyNdla/folderMutations';
 import { GQLFolder, GQLFolderResource } from '../../graphqlTypes';
 import { getAllTags, getResourceForPath } from '../../util/folderHelpers';
+import NewFolder from './NewFolder';
 
 export interface ResourceAttributes {
   path: string;
@@ -162,7 +162,6 @@ const AddResourceToFolder = ({ onClose, resource }: Props) => {
       resources: [],
     },
   ];
-  const { addFolder } = useAddFolderMutation();
   const { updateFolderResource } = useUpdateFolderResourceMutation();
   const { addResourceToFolder } = useAddResourceToFolderMutation(
     selectedFolder?.id ?? '',
@@ -198,19 +197,6 @@ const AddResourceToFolder = ({ onClose, resource }: Props) => {
     onClose();
   };
 
-  const onAddNewFolder = async (
-    name: string,
-    parentId: string,
-  ): Promise<GQLFolder> => {
-    const res = await addFolder({
-      variables: {
-        name,
-        parentId: parentId !== 'folders' ? parentId : undefined,
-      },
-    });
-    return res.data!.addFolder as GQLFolder;
-  };
-
   return (
     <AddResourceContainer>
       <ListResource
@@ -228,11 +214,17 @@ const AddResourceToFolder = ({ onClose, resource }: Props) => {
       <TreeStructure
         folders={structureFolders}
         label={t('myNdla.myFolders')}
-        onNewFolder={onAddNewFolder}
         onSelectFolder={setSelectedFolderId}
         defaultOpenFolders={['folders']}
         type={'picker'}
         targetResource={storedResource}
+        newFolderInput={({ parentId, onClose, onCreate }) => (
+          <NewFolder
+            parentId={parentId}
+            onClose={onClose}
+            onCreate={onCreate}
+          />
+        )}
       />
       {alreadyAdded && (
         <MessageBox type="danger">{t('myNdla.alreadyInFolder')}</MessageBox>

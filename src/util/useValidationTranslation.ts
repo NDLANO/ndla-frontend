@@ -8,6 +8,7 @@ type SupportedFields = keyof typeof messages['validation']['fields'];
 interface TranslationProps {
   field?: SupportedFields;
   type: FieldError['type'];
+  vars?: Record<string, any>;
 }
 
 type Props = TranslationProps | string;
@@ -20,9 +21,9 @@ const useValidationTranslation = () => {
       if (typeof translation === 'string') {
         return internalT(translation);
       } else {
-        const { type, field } = translation;
+        const { type, field, vars } = translation;
         if (type && field) {
-          return internalT(`validation.${type}Field`, { field });
+          return internalT(`validation.${type}Field`, { field, ...vars });
         } else {
           return internalT(`validation.${type}`);
         }

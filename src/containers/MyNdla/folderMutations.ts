@@ -278,7 +278,7 @@ export const useRecentlyUsedResources = () => {
 
 export const useAddFolderMutation = () => {
   const client = useApolloClient();
-  const [addFolder] = useMutation<
+  const [addFolder, { loading }] = useMutation<
     GQLAddFolderMutation,
     GQLMutationAddFolderArgs
   >(addFolderMutation, {
@@ -309,7 +309,7 @@ export const useAddFolderMutation = () => {
     },
   });
 
-  return { addFolder };
+  return { addFolder, loading };
 };
 
 export const useDeleteFolderMutation = () => {
