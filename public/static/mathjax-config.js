@@ -11,13 +11,19 @@ window.MathJax = {
     mathmlSpacing: false,
   },
   options:{
-      enableMenu: false,
+      enableMenu: true,
       menuOptions:{
           settings:{
               assistiveMml: true,
               collapsible: false,
-              explorer: false
+              explorer: true
           }
+      },
+      sre: {
+        domain: 'mathspeak',
+        style: 'sbrief',
+        speech: 'shallow',
+        structure: false,
       },
       makeCollapsible: false
   }
