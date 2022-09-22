@@ -24,7 +24,6 @@ window.MathJax = {
         style: 'sbrief',
         speech: 'shallow',
         structure: false,
-      },
-      makeCollapsible: false
+      }
   }
 };
