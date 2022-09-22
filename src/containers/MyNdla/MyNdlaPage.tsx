@@ -14,7 +14,7 @@ import styled from '@emotion/styled';
 import { breakpoints, mq, spacing } from '@ndla/core';
 import { HeartOutline } from '@ndla/icons/action';
 import { FolderOutlined } from '@ndla/icons/contentType';
-import { Feide, HashTag, InformationOutline } from '@ndla/icons/common';
+import { Feide, HashTag } from '@ndla/icons/common';
 import { ListResource, UserInfo, Image } from '@ndla/ui';
 import Button, { DeleteButton } from '@ndla/button';
 import SafeLink, { SafeLinkButton } from '@ndla/safelink';
@@ -27,7 +27,6 @@ import {
   useFolderResourceMetaSearch,
   useRecentlyUsedResources,
 } from './folderMutations';
-import TermsOfService from '../../components/MyNdla/TermsOfService';
 import MyNdlaBreadcrumb from './components/MyNdlaBreadcrumb';
 import MyNdlaTitle from './components/MyNdlaTitle';
 import TitleWrapper from './components/TitleWrapper';
@@ -36,7 +35,6 @@ const HeartOutlineIcon = InfoPartIcon.withComponent(HeartOutline);
 const FolderOutlinedIcon = InfoPartIcon.withComponent(FolderOutlined);
 const HashTagIcon = InfoPartIcon.withComponent(HashTag);
 const FeideIcon = InfoPartIcon.withComponent(Feide);
-const TermsIcon = InfoPartIcon.withComponent(InformationOutline);
 
 const StyledPageContentContainer = styled.div`
   display: flex;
@@ -187,11 +185,6 @@ const MyNdlaPage = () => {
           children={<UserInfo user={user} />}
         />
       )}
-      <InfoPart
-        icon={<TermsIcon />}
-        title={t('myNdla.myPage.terms.terms')}
-        children={<TermsOfService />}
-      />
       <InfoContainer>
         <LinkText>
           {`${t('myNdla.myPage.read.our')} `}
