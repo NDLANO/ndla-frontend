@@ -278,7 +278,7 @@ export const useRecentlyUsedResources = () => {
 
 export const useAddFolderMutation = () => {
   const client = useApolloClient();
-  const [addFolder] = useMutation<
+  const [addFolder, { loading }] = useMutation<
     GQLAddFolderMutation,
     GQLMutationAddFolderArgs
   >(addFolderMutation, {
@@ -288,9 +288,9 @@ export const useAddFolderMutation = () => {
         client.cache.modify({
           fields: {
             folders: (existingFolders = []) =>
-              existingFolders.concat({
-                __ref: client.cache.identify(newFolder),
-              }),
+              [{ __ref: client.cache.identify(newFolder) }].concat(
+                existingFolders,
+              ),
           },
         });
       } else {
@@ -309,7 +309,7 @@ export const useAddFolderMutation = () => {
     },
   });
 
-  return { addFolder };
+  return { addFolder, loading };
 };
 
 export const useDeleteFolderMutation = () => {

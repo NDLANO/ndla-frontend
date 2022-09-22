@@ -201,16 +201,19 @@ exports[`ErrorPage renderers correctly 1`] = `
   cursor: not-allowed;
 }
 
-.emotion-16:focus {
-  box-shadow: 0 0 2px #20588f;
-}
-
 .emotion-16:hover,
 .emotion-16:active,
 .emotion-16:focus {
   color: #20588f;
   background: #deebf6;
   border-color: #deebf6;
+}
+
+.emotion-16[disabled] {
+  color: #777777;
+  background-color: transparent;
+  border-color: transparent;
+  cursor: not-allowed;
 }
 
 .emotion-13 {
@@ -679,7 +682,6 @@ exports[`ErrorPage renderers correctly 1`] = `
       <button
         className="emotion-15 emotion-16"
         onClick={[Function]}
-        outline={true}
       >
         <span
           className="emotion-13 emotion-14"
