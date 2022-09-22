@@ -11,10 +11,10 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { keyBy } from 'lodash';
 import styled from '@emotion/styled';
-import { breakpoints, colors, mq, spacing } from '@ndla/core';
+import { breakpoints, mq, spacing } from '@ndla/core';
 import { HeartOutline } from '@ndla/icons/action';
 import { FolderOutlined } from '@ndla/icons/contentType';
-import { Back, Feide, HashTag } from '@ndla/icons/common';
+import { Feide, HashTag } from '@ndla/icons/common';
 import { ListResource, UserInfo, Image } from '@ndla/ui';
 import Button, { DeleteButton } from '@ndla/button';
 import SafeLink, { SafeLinkButton } from '@ndla/safelink';
@@ -27,7 +27,9 @@ import {
   useFolderResourceMetaSearch,
   useRecentlyUsedResources,
 } from './folderMutations';
-import IsMobileContext from '../../IsMobileContext';
+import MyNdlaBreadcrumb from './components/MyNdlaBreadcrumb';
+import MyNdlaTitle from './components/MyNdlaTitle';
+import TitleWrapper from './components/TitleWrapper';
 
 const HeartOutlineIcon = InfoPartIcon.withComponent(HeartOutline);
 const FolderOutlinedIcon = InfoPartIcon.withComponent(FolderOutlined);
@@ -93,33 +95,10 @@ const ButtonContainer = styled.div`
   padding-bottom: ${spacing.normal};
 `;
 
-const MobileTitle = styled.div`
-  display: flex;
-  align-items: center;
-  gap: ${spacing.small};
-  h1 {
-    margin: 0;
-  }
-`;
-
-const StyledSafeLink = styled(SafeLink)`
-  color: ${colors.brand.primary};
-  box-shadow: none;
-  svg {
-    width: 22px;
-    height: 22px;
-  }
-`;
-
-const StyledH1 = styled.h1`
-  margin: 0;
-`;
-
 const MyNdlaPage = () => {
   const { user } = useContext(AuthContext);
   const { t } = useTranslation();
   const location = useLocation();
-  const isMobile = useContext(IsMobileContext);
   const { deletePersonalData } = useDeletePersonalData();
   const navigate = useNavigate();
   const { allFolderResources } = useRecentlyUsedResources();
@@ -144,16 +123,10 @@ const MyNdlaPage = () => {
   return (
     <StyledPageContentContainer>
       <HelmetWithTracker title={t('htmlTitles.myNdlaPage')} />
-      {isMobile ? (
-        <MobileTitle>
-          <StyledSafeLink to="/minndla/meny">
-            <Back />
-          </StyledSafeLink>
-          <StyledH1>{t('myNdla.myPage.myPage')}</StyledH1>
-        </MobileTitle>
-      ) : (
-        <StyledH1>{t('myNdla.myPage.myPage')}</StyledH1>
-      )}
+      <TitleWrapper>
+        <MyNdlaBreadcrumb page="minndla" breadcrumbs={[]} backCrumb="minndla" />
+        <MyNdlaTitle title={t('myNdla.myPage.myPage')} />
+      </TitleWrapper>
       <StyledIntroContainer>
         <h2>{t('myNdla.myPage.welcome')}</h2>
         <RoundedImage src="/static/my-ndla-login.png" alt="alt" />
