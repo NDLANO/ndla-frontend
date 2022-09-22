@@ -15,6 +15,7 @@ import { LocaleType, ProgrammeType } from '../../interfaces';
 import { htmlTitle } from '../../util/titleHelper';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { mapGradesData } from './ProgrammePage';
+import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 
 const getDocumentTitle = ({
   programme,
@@ -44,16 +45,20 @@ const ProgrammeContainer = ({
 }: Props) => {
   const heading = programme.name[locale];
   const grades = mapGradesData(programme.grades, locale);
+  const socialMediaTitle = `${programme.name[locale]} - ${grade}`;
   const metaDescription = programme.meta?.description?.[locale];
   const image = programme.image?.url || '';
+  const pageTitle = getDocumentTitle({ programme, grade, locale, t });
   return (
     <>
       <Helmet>
-        <title>{getDocumentTitle({ programme, grade, locale, t })}</title>
-        {metaDescription && (
-          <meta name="description" content={metaDescription} />
-        )}
+        <title>{pageTitle}</title>
       </Helmet>
+      <SocialMediaMetadata
+        title={socialMediaTitle}
+        description={metaDescription}
+        imageUrl={image}
+      />
       <Programme
         headingId={SKIP_TO_CONTENT_ID}
         heading={heading}
