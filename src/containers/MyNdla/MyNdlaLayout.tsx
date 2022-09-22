@@ -92,20 +92,22 @@ const MyNdlaLayout = () => {
   return (
     <StyledLayout>
       <StyledSideBar>
-        <TreeStructure
-          type={'navigation'}
-          folders={staticStructureElements}
-          defaultOpenFolders={defaultSelected}
-        />
-        <ButtonWrapper>
-          <SafeLinkButton
-            width="auto"
-            outline
-            to={'/logout'}
-            state={{ from: location.pathname }}>
-            {t('user.buttonLogOut')}
-          </SafeLinkButton>
-        </ButtonWrapper>
+        <div>
+          <TreeStructure
+            type={'navigation'}
+            folders={staticStructureElements}
+            defaultOpenFolders={defaultSelected}
+          />
+          <ButtonWrapper>
+            <SafeLinkButton
+              width="auto"
+              outline
+              to={'/logout'}
+              state={{ from: location.pathname }}>
+              {t('user.buttonLogOut')}
+            </SafeLinkButton>
+          </ButtonWrapper>
+        </div>
       </StyledSideBar>
       <StyledContent isMobile={isMobile}>
         <Outlet />
