@@ -23,7 +23,7 @@ import { HelmetWithTracker } from '@ndla/tracker';
 import { GQLFolder, GQLFoldersPageQuery } from '../../../graphqlTypes';
 import { useGraphQuery } from '../../../util/runQueries';
 import ListViewOptions from './ListViewOptions';
-import FolderBreadcrumb from './FolderBreadcrumb';
+import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
 import EditFolderModal from './EditFolderModal';
 import {
   foldersPageQuery,
@@ -37,8 +37,10 @@ import {
   getTotalCountForFolder,
 } from '../../../util/folderHelpers';
 import DeleteModal from '../components/DeleteModal';
-import { SKIP_TO_CONTENT_ID } from '../../../constants';
 import NewFolder from '../../../components/MyNdla/NewFolder';
+import MyNdlaTitle from '../components/MyNdlaTitle';
+import TitleWrapper from '../components/TitleWrapper';
+import FolderActions from './FolderActions';
 
 interface BlockWrapperProps {
   type?: string;
@@ -91,11 +93,13 @@ const StyledRow = styled.div`
   margin-top: ${spacing.nsmall};
   display: flex;
   justify-content: space-between;
-  align-items: top;
+  align-items: center;
 `;
 
-const StyledTitle = styled.h1`
-  margin: 0;
+const TitleRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${spacing.small};
 `;
 
 export type ViewType = 'list' | 'block' | 'listLarger';
@@ -216,6 +220,14 @@ const FoldersPage = () => {
   };
 
   const showAddButton = (selectedFolder?.breadcrumbs.length || 0) < 5;
+  const crumbs = selectedFolder?.breadcrumbs ?? [];
+
+  const backCrumb =
+    crumbs.length > 1
+      ? crumbs[crumbs.length - 2]!
+      : crumbs.length === 1
+      ? 'folders'
+      : 'minndla';
 
   return (
     <FoldersPageContainer>
@@ -226,17 +238,23 @@ const FoldersPage = () => {
             : t('htmlTitles.myFoldersPage')
         }
       />
-      <StyledTitle tabIndex={-1} id={SKIP_TO_CONTENT_ID}>
-        {selectedFolder?.name ?? 'Mine mapper'}
-      </StyledTitle>
-      {!!selectedFolder?.breadcrumbs && (
-        <FolderBreadcrumb
+      <TitleWrapper>
+        <MyNdlaBreadcrumb
           breadcrumbs={selectedFolder?.breadcrumbs ?? []}
-          onActionChanged={action =>
-            setFolderAction({ action, folder: selectedFolder })
-          }
+          backCrumb={backCrumb}
+          page="folders"
         />
-      )}
+        <TitleRow>
+          <MyNdlaTitle title={selectedFolder?.name ?? t('myNdla.myFolders')} />
+          {selectedFolder && (
+            <FolderActions
+              onActionChanged={action =>
+                setFolderAction({ action, folder: selectedFolder })
+              }
+            />
+          )}
+        </TitleRow>
+      </TitleWrapper>
       {folders && (
         <ResourceCountContainer>
           <FolderOutlined />
