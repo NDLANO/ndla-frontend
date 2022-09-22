@@ -28,9 +28,12 @@ import {
   GQLMutationAddFolderResourceArgs,
   GQLMutationDeleteFolderArgs,
   GQLMutationDeleteFolderResourceArgs,
+  GQLMutationSortFoldersArgs,
+  GQLMutationSortResourcesArgs,
   GQLMutationUpdateFolderArgs,
   GQLMutationUpdateFolderResourceArgs,
   GQLRecentlyUsedQuery,
+  GQLSortFoldersMutation,
   GQLUpdateFolderMutation,
   GQLUpdateFolderResourceMutation,
 } from '../../graphqlTypes';
@@ -144,6 +147,24 @@ const updateFolderMutation = gql`
     }
   }
   ${foldersPageQueryFragment}
+`;
+
+const sortFoldersMutation = gql`
+  mutation sortFolders($parentId: String, $sortedIds: [String!]!) {
+    sortFolders(parentId: $parentId, sortedIds: $sortedIds) {
+      parentId
+      sortedIds
+    }
+  }
+`;
+
+const sortResourcesMutation = gql`
+  mutation sortResources($parentId: String!, $sortedIds: [String!]!) {
+    sortResources(parentId: $parentId, sortedIds: $sortedIds) {
+      parentId
+      sortedIds
+    }
+  }
 `;
 
 const folderResourceMetaFragment = gql`
@@ -355,6 +376,23 @@ export const useUpdateFolderMutation = () => {
   >(updateFolderMutation);
 
   return { updateFolder, loading };
+};
+
+export const useSortFoldersMutation = () => {
+  const [sortFolders, { error }] = useMutation<
+    GQLSortFoldersMutation,
+    GQLMutationSortFoldersArgs
+  >(sortFoldersMutation);
+
+  return { sortFolders, error };
+};
+
+export const useSortResourcesMutation = () => {
+  const [sortResources] = useMutation<boolean, GQLMutationSortResourcesArgs>(
+    sortResourcesMutation,
+  );
+
+  return { sortResources };
 };
 
 const addResourceToFolderQuery = gql`
