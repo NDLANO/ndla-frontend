@@ -63,6 +63,16 @@ const messages = {
       licenseAuthor: 'Tom Knudsen',
     },
   },
+  validation: {
+    fields: {
+      name: 'Name',
+    },
+    required: 'This field is required',
+    requiredField: '$t(validation.fields.{{field}}) is required',
+    notUnique: 'Already exists',
+    maxLength: 'This field can only contain {{count}} characters',
+    maxLengthField: `$t(validation.fields.{{field}}) can only contain {{count}} characters)}`,
+  },
 };
 
 export default messages;

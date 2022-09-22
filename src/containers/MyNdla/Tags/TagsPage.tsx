@@ -6,7 +6,7 @@
  *
  */
 
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { keyBy } from 'lodash';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -17,24 +17,20 @@ import { SafeLinkButton } from '@ndla/safelink';
 import { ListResource, useSnack } from '@ndla/ui';
 import { copyTextToClipboard } from '@ndla/util';
 import { FolderOutlined } from '@ndla/icons/contentType';
-import { Link } from '@ndla/icons/common';
+import { HashTag, Link } from '@ndla/icons/common';
 import config from '../../../config';
 import { useFolderResourceMetaSearch, useFolders } from '../folderMutations';
 import TagsBreadcrumb from './TagsBreadcrumb';
 import NotFoundPage from '../../NotFoundPage/NotFoundPage';
 import { getAllTags, getResourcesForTag } from '../../../util/folderHelpers';
-import IsMobileContext from '../../../IsMobileContext';
 import { BlockWrapper, ViewType } from '../Folders/FoldersPage';
 import { GQLFolderResource } from '../../../graphqlTypes';
 import ListViewOptions from '../Folders/ListViewOptions';
 import { ResourceAction } from '../Folders/ResourceList';
 import AddResourceToFolderModal from '../../../components/MyNdla/AddResourceToFolderModal';
 
-interface TagsContainerProps {
-  isMobile?: boolean;
-}
-
-const TagsContainer = styled.div<TagsContainerProps>`
+const StyledUl = styled.ul`
+  list-style: none;
   display: flex;
   gap: ${spacing.small};
   flex-wrap: wrap;
@@ -49,6 +45,8 @@ const TagsPageContainer = styled.div`
 
 const StyledSafeLinkButton = styled(SafeLinkButton)`
   width: fit-content;
+  display: flex;
+  align-items: center;
 `;
 
 const TagsPage = () => {
@@ -57,7 +55,6 @@ const TagsPage = () => {
   const { t } = useTranslation();
   const tags = getAllTags(folders);
   const resources = tag ? getResourcesForTag(folders, tag) : [];
-  const isMobile = useContext(IsMobileContext);
 
   if (tag && tags && !tags.includes(tag)) {
     return <NotFoundPage />;
@@ -75,14 +72,13 @@ const TagsPage = () => {
         tagCount={tags?.length}
         resourceCount={resources?.length}
       />
-      {!tag && <Tags isMobile={isMobile} tags={tags} />}
+      {!tag && <Tags tags={tags} />}
       {tag && resources && <Resources resources={resources} />}
     </TagsPageContainer>
   );
 };
 
 interface TagsProps {
-  isMobile?: boolean;
   tags: string[];
 }
 
@@ -118,6 +114,7 @@ const Resources = ({ resources }: ResourcesProps) => {
         return (
           <BlockWrapper type={type}>
             <ListResource
+              id={resource.id}
               tagLinkPrefix="/minndla/tags"
               isLoading={loading}
               key={resource.id}
@@ -173,19 +170,25 @@ const Resources = ({ resources }: ResourcesProps) => {
   );
 };
 
-const Tags = ({ isMobile, tags }: TagsProps) => {
+const Tags = ({ tags }: TagsProps) => {
+  const { t } = useTranslation();
   return (
-    <TagsContainer isMobile={isMobile}>
-      {tags.map(tag => (
-        <StyledSafeLinkButton
-          greyLighter
-          borderShape="rounded"
-          key={tag}
-          to={tag}>
-          #{tag}
-        </StyledSafeLinkButton>
-      ))}
-    </TagsContainer>
+    <nav aria-label={t('myNdla.myTags')}>
+      <StyledUl>
+        {tags.map(tag => (
+          <li>
+            <StyledSafeLinkButton
+              greyLighter
+              borderShape="rounded"
+              key={tag}
+              to={tag}>
+              <HashTag />
+              {tag}
+            </StyledSafeLinkButton>
+          </li>
+        ))}
+      </StyledUl>
+    </nav>
   );
 };
 

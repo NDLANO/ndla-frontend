@@ -67,8 +67,10 @@ interface State {
   resource?: GQLMastHeadQuery['resource'];
 }
 
+const initialState: State = { topicPath: [] };
+
 const MastheadContainer = () => {
-  const [state, setState] = useState<State>({ topicPath: [] });
+  const [state, setState] = useState<State>(initialState);
   const { t, i18n } = useTranslation();
   const locale = i18n.language;
   const {
@@ -97,10 +99,14 @@ const MastheadContainer = () => {
   }, [topicIdParam]);
 
   useEffect(() => {
-    if (!topicId && !resourceId && !subjectId) return;
+    if (!subjectId) {
+      setState(initialState);
+      return;
+    }
+
     fetchData({
       variables: {
-        subjectId: subjectId ?? '',
+        subjectId,
         topicId: topicId ?? '',
         resourceId: resourceId ?? '',
         skipTopic: !topicId,
@@ -123,6 +129,7 @@ const MastheadContainer = () => {
 
   const renderSearchComponent = (hideOnNarrowScreen: boolean) =>
     !location.pathname.includes('search') &&
+    location.pathname !== '/' &&
     (location.pathname.includes('utdanning') || subject) && (
       <MastheadSearch
         subject={subject}
@@ -156,7 +163,7 @@ const MastheadContainer = () => {
               />
             )}
           </MastheadMenuModal>
-          {!hideBreadcrumb && (
+          {!hideBreadcrumb && !!breadcrumbBlockItems.length && (
             <DisplayOnPageYOffset yOffsetMin={150}>
               <BreadcrumbWrapper>
                 <HeaderBreadcrumb

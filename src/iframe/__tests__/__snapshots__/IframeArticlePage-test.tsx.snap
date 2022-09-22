@@ -289,7 +289,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
       >
         <div
           dangerouslySetInnerHTML={
-            Object {
+            {
               "__html": "<section><p>Dersom du leser de ulike partiprogrammene, ser du fort at partiene har ulike svar både på hva som er viktige utfordringer, og på hvordan de skal løses.</p></section>",
             }
           }
@@ -344,6 +344,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                         type="button"
                       >
                         <svg
+                          aria-hidden={true}
                           aria-label="Denne lisensen gir deg rett til å dele og bruke dette innholdet på visse vilkår."
                           className="c-icon"
                           data-license="CC-BY 4.0"
@@ -352,7 +353,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                           height="1em"
                           preserveAspectRatio="xMidYMid meet"
                           style={
-                            Object {
+                            {
                               "color": undefined,
                               "verticalAlign": "middle",
                             }
@@ -405,6 +406,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                         type="button"
                       >
                         <svg
+                          aria-hidden={true}
                           aria-label="Du må alltid oppgi hvem som har laget innholdet."
                           className="c-icon"
                           data-license="CC-BY 4.0"
@@ -413,7 +415,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                           height="1em"
                           preserveAspectRatio="xMidYMid meet"
                           style={
-                            Object {
+                            {
                               "color": undefined,
                               "verticalAlign": "middle",
                             }
@@ -468,6 +470,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                         type="button"
                       >
                         <svg
+                          aria-hidden={true}
                           aria-label="Du kan bare dele innholdet med samme lisens som det opprinnelige innholdet."
                           className="c-icon"
                           data-license="CC-BY 4.0"
@@ -476,7 +479,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                           height="1em"
                           preserveAspectRatio="xMidYMid meet"
                           style={
-                            Object {
+                            {
                               "color": undefined,
                               "verticalAlign": "middle",
                             }

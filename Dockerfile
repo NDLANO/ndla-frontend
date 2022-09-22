@@ -1,5 +1,5 @@
 ### Build stage
-FROM node:14.16-alpine as builder
+FROM node:16.17-alpine as builder
 
 ENV HOME=/home/app
 ENV APP_PATH=$HOME/ndla-frontend
@@ -9,7 +9,7 @@ COPY yarn.lock package.json $APP_PATH/
 
 # Run yarn before src copy to enable better layer caching
 WORKDIR $APP_PATH
-RUN yarn
+RUN yarn install
 
 # Copy necessary source files for server and client build
 COPY .babelrc tsconfig.json .eslintrc.js razzle.config.js postcss.config.js $APP_PATH/
@@ -24,9 +24,9 @@ RUN yarn run build
 RUN mv $APP_PATH/src/server/robots.txt $APP_PATH/build/robots.txt
 
 ### Run stage
-FROM node:14.16-alpine
+FROM node:16.17-alpine
 
-RUN apk add py2-pip jq && pip install awscli
+RUN apk add py-pip jq && pip install awscli
 COPY run-ndla-frontend.sh /
 
 RUN npm install pm2 -g

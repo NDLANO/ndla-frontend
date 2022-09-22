@@ -123,8 +123,6 @@ export const isAccessTokenValid = (
 const getIdTokenFeide = () => getFeideCookieClient()?.id_token;
 
 export const initializeFeideLogin = (from?: string) => {
-  if (!config.feideEnabled)
-    return new Promise((resolve, _reject) => resolve(''));
   const state = `${from ? `?state=${from}` : ''}`;
 
   return fetch(`${locationOrigin}/feide/login${state}`)

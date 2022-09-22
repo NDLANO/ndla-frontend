@@ -142,6 +142,13 @@ const Resources = ({ topic, resourceTypes }: Props) => {
     }),
   }));
 
+  const onToggleAddToFavorites = (contentUri?: string, path?: string) => {
+    const [, resourceType, articleIdString] = contentUri?.split(':') ?? [];
+    const articleId = articleIdString ? parseInt(articleIdString) : undefined;
+    if (!resourceType || !articleId || !path) return;
+    setResourceToAdd({ id: articleId, path, resourceType });
+  };
+
   return (
     <ResourcesWrapper
       header={
@@ -164,7 +171,10 @@ const Resources = ({ topic, resourceTypes }: Props) => {
           toggleAdditionalResources={toggleAdditionalResources}
           invertedStyle={ndlaFilm}
           showAddToFavoriteButton={config.feideEnabled}
-          onToggleAddToFavorites={() => {}}
+          onToggleAddToFavorites={id => {
+            const resource = ungroupedResources.find(r => r.id === id);
+            onToggleAddToFavorites(resource?.contentUri, resource?.path);
+          }}
           onClick={() => {}}
         />
       )}
@@ -180,19 +190,8 @@ const Resources = ({ topic, resourceTypes }: Props) => {
             invertedStyle={ndlaFilm}
             showAddToFavoriteButton={config.feideEnabled}
             onToggleAddToFavorites={id => {
-              const resource = type.resources?.find(res => res.id === id);
-              const [, resourceType, articleIdString] =
-                resource?.contentUri?.split(':') ?? [];
-              const articleId = articleIdString
-                ? parseInt(articleIdString)
-                : undefined;
-              if (!resourceType || !articleId || !resource?.path) return;
-
-              setResourceToAdd({
-                id: articleId,
-                path: resource.path,
-                resourceType,
-              });
+              const resource = type.resources?.find(r => r.id === id);
+              onToggleAddToFavorites(resource?.contentUri, resource?.path);
             }}
             onClick={() => {}}
           />

@@ -22,7 +22,6 @@ import {
   useSnack,
 } from '@ndla/ui';
 import {
-  useAddFolderMutation,
   useAddResourceToFolderMutation,
   useFolder,
   useFolderResourceMeta,
@@ -31,6 +30,7 @@ import {
 } from '../../containers/MyNdla/folderMutations';
 import { GQLFolder, GQLFolderResource } from '../../graphqlTypes';
 import { getAllTags, getResourceForPath } from '../../util/folderHelpers';
+import NewFolder from './NewFolder';
 
 export interface ResourceAttributes {
   path: string;
@@ -62,6 +62,18 @@ const StyledResourceAddedSnack = styled.div`
 
 const StyledResource = styled.p`
   margin: 0;
+`;
+
+const StyledNewFolder = styled(NewFolder)`
+  border-left: ${spacing.xsmall} solid ${colors.brand.light};
+  border-right: ${spacing.xsmall} solid ${colors.brand.light};
+  &:focus-within {
+    border-color: ${colors.brand.light};
+  }
+  // Not good practice, but necessary to give error message same padding as caused by border.
+  & + span {
+    padding: 0 ${spacing.xsmall};
+  }
 `;
 
 interface ResourceAddedSnackProps {
@@ -162,7 +174,6 @@ const AddResourceToFolder = ({ onClose, resource }: Props) => {
       resources: [],
     },
   ];
-  const { addFolder } = useAddFolderMutation();
   const { updateFolderResource } = useUpdateFolderResourceMutation();
   const { addResourceToFolder } = useAddResourceToFolderMutation(
     selectedFolder?.id ?? '',
@@ -198,20 +209,10 @@ const AddResourceToFolder = ({ onClose, resource }: Props) => {
     onClose();
   };
 
-  const onAddNewFolder = async (name: string, parentId: string) => {
-    const res = await addFolder({
-      variables: {
-        name,
-        parentId: parentId !== 'folders' ? parentId : undefined,
-      },
-    });
-    return res.data!.addFolder;
-  };
-
   return (
     <AddResourceContainer>
-      <h1>{t('myNdla.resource.addToMyNdla')}</h1>
       <ListResource
+        id={resource.id.toString()}
         tagLinkPrefix="/minndla/tags"
         isLoading={metaLoading}
         link={resource.path}
@@ -225,12 +226,17 @@ const AddResourceToFolder = ({ onClose, resource }: Props) => {
       <TreeStructure
         folders={structureFolders}
         label={t('myNdla.myFolders')}
-        onNewFolder={onAddNewFolder}
         onSelectFolder={setSelectedFolderId}
         defaultOpenFolders={['folders']}
-        framed
-        editable
+        type={'picker'}
         targetResource={storedResource}
+        newFolderInput={({ parentId, onClose, onCreate }) => (
+          <StyledNewFolder
+            parentId={parentId}
+            onClose={onClose}
+            onCreate={onCreate}
+          />
+        )}
       />
       {alreadyAdded && (
         <MessageBox type="danger">{t('myNdla.alreadyInFolder')}</MessageBox>

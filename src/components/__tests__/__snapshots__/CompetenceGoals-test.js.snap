@@ -1,17 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`That addUrl and subjectId params adds extended url to element  1`] = `
-Array [
-  Object {
-    "elements": Array [
-      Object {
-        "goals": Array [
-          Object {
+[
+  {
+    "elements": [
+      {
+        "goals": [
+          {
             "text": "carry out basic first aid (KM2648)",
             "type": "LK20",
             "url": "/search?subjects=urn:subject:20&grepCodes=KM2648",
           },
-          Object {
+          {
             "text": "discuss and give examples of what each person and society can do to improve their own health and public health (KM2647)",
             "type": "LK20",
             "url": "/search?subjects=urn:subject:20&grepCodes=KM2647",
@@ -23,11 +23,11 @@ Array [
     ],
     "title": "Curriculum vg1 healthcare, child and youth development (HSF01-03)",
   },
-  Object {
-    "elements": Array [
-      Object {
-        "goals": Array [
-          Object {
+  {
+    "elements": [
+      {
+        "goals": [
+          {
             "text": "explain present-day changes in spoken Norwegian and reflect on relationships between language, culture and identity (KM1232)",
             "type": "LK20",
             "url": "/search?subjects=urn:subject:20&grepCodes=KM1232",
@@ -43,17 +43,17 @@ Array [
 `;
 
 exports[`That addUrl param adds url to element  1`] = `
-Array [
-  Object {
-    "elements": Array [
-      Object {
-        "goals": Array [
-          Object {
+[
+  {
+    "elements": [
+      {
+        "goals": [
+          {
             "text": "carry out basic first aid (KM2648)",
             "type": "LK20",
             "url": "/search?grepCodes=KM2648",
           },
-          Object {
+          {
             "text": "discuss and give examples of what each person and society can do to improve their own health and public health (KM2647)",
             "type": "LK20",
             "url": "/search?grepCodes=KM2647",
@@ -65,11 +65,11 @@ Array [
     ],
     "title": "Curriculum vg1 healthcare, child and youth development (HSF01-03)",
   },
-  Object {
-    "elements": Array [
-      Object {
-        "goals": Array [
-          Object {
+  {
+    "elements": [
+      {
+        "goals": [
+          {
             "text": "explain present-day changes in spoken Norwegian and reflect on relationships between language, culture and identity (KM1232)",
             "type": "LK20",
             "url": "/search?grepCodes=KM1232",
@@ -85,17 +85,17 @@ Array [
 `;
 
 exports[`That groupByCurriculums groups competenceGoals by curriculum  1`] = `
-Array [
-  Object {
-    "elements": Array [
-      Object {
-        "goals": Array [
-          Object {
+[
+  {
+    "elements": [
+      {
+        "goals": [
+          {
             "text": "carry out basic first aid (KM2648)",
             "type": "LK20",
             "url": "",
           },
-          Object {
+          {
             "text": "discuss and give examples of what each person and society can do to improve their own health and public health (KM2647)",
             "type": "LK20",
             "url": "",
@@ -107,11 +107,11 @@ Array [
     ],
     "title": "Curriculum vg1 healthcare, child and youth development (HSF01-03)",
   },
-  Object {
-    "elements": Array [
-      Object {
-        "goals": Array [
-          Object {
+  {
+    "elements": [
+      {
+        "goals": [
+          {
             "text": "explain present-day changes in spoken Norwegian and reflect on relationships between language, culture and identity (KM1232)",
             "type": "LK20",
             "url": "",

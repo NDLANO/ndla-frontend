@@ -10,6 +10,7 @@ import { withTracker } from '@ndla/tracker';
 import { FeideUserApiType, Programme } from '@ndla/ui';
 import { Helmet } from 'react-helmet-async';
 import { WithTranslation, withTranslation } from 'react-i18next';
+import { SKIP_TO_CONTENT_ID } from '../../constants';
 import { LocaleType, ProgrammeType } from '../../interfaces';
 import { htmlTitle } from '../../util/titleHelper';
 import { getAllDimensions } from '../../util/trackingUtil';
@@ -54,6 +55,7 @@ const ProgrammeContainer = ({
         )}
       </Helmet>
       <Programme
+        headingId={SKIP_TO_CONTENT_ID}
         heading={heading}
         grades={grades}
         image={image}
