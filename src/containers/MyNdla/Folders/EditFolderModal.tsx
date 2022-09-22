@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import { useApolloClient } from '@apollo/client';
 import styled from '@emotion/styled';
-import Button from '@ndla/button';
+import Button, { LoadingButton } from '@ndla/button';
 import { spacing } from '@ndla/core';
 import { InputV2 } from '@ndla/forms';
 import { GQLFolder } from '../../../graphqlTypes';
@@ -23,6 +23,7 @@ interface Props {
   isOpen: boolean;
   onClose: () => void;
   onSave: (value: string, folder: GQLFolder) => Promise<void>;
+  loading?: boolean;
 }
 
 const ButtonRow = styled.div`
@@ -42,7 +43,13 @@ const toFormValues = (folder: GQLFolder): FormValues => {
   };
 };
 
-const EditFolderModal = ({ folder, isOpen, onClose, onSave }: Props) => {
+const EditFolderModal = ({
+  folder,
+  isOpen,
+  onClose,
+  onSave,
+  loading,
+}: Props) => {
   const { t } = useTranslation();
 
   return (
@@ -68,6 +75,7 @@ const EditFolderModal = ({ folder, isOpen, onClose, onSave }: Props) => {
                 folder={folder}
                 onSave={onSave}
                 onClose={onClose}
+                loading={loading}
               />
             )}
           </ModalBody>
@@ -81,9 +89,15 @@ interface EditFolderFormProps {
   folder: GQLFolder;
   onSave: (name: string, folder: GQLFolder) => Promise<void>;
   onClose: () => void;
+  loading?: boolean;
 }
 
-const EditFolderForm = ({ folder, onSave, onClose }: EditFolderFormProps) => {
+const EditFolderForm = ({
+  folder,
+  onSave,
+  onClose,
+  loading,
+}: EditFolderFormProps) => {
   const { t } = useTranslation();
   const { t: validationT } = useValidationTranslation();
   const {
@@ -139,9 +153,12 @@ const EditFolderForm = ({ folder, onSave, onClose }: EditFolderFormProps) => {
         <Button outline onClick={onClose}>
           {t('cancel')}
         </Button>
-        <Button type="submit" disabled={!isValid || !isDirty}>
+        <LoadingButton
+          loading={loading}
+          type="submit"
+          disabled={!isValid || !isDirty || loading}>
           {t('save')}
-        </Button>
+        </LoadingButton>
       </ButtonRow>
     </form>
   );

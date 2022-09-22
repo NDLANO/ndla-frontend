@@ -119,7 +119,7 @@ async function doRender(req) {
 
 export async function defaultRoute(req) {
   const resCookie = req.headers['cookie'] ?? '';
-  const { basename, basepath } = getLocaleInfoFromPath(req.path);
+  const { basename, basepath } = getLocaleInfoFromPath(req.originalUrl);
   const cookieLocale = getCookie(STORED_LANGUAGE_COOKIE_KEY, resCookie) ?? '';
   const locale =
     cookieLocale.length && isValidLocale(cookieLocale) ? cookieLocale : 'nb';
