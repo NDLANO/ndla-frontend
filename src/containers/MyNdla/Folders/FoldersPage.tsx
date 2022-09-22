@@ -10,10 +10,10 @@ import { isEqual } from 'lodash';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 import { AddButton } from '@ndla/button';
-import { spacing } from '@ndla/core';
+import { colors, spacing } from '@ndla/core';
 import { FolderOutlined } from '@ndla/icons/contentType';
 import { FileDocumentOutline } from '@ndla/icons/common';
-import { Folder, FolderInput, useSnack } from '@ndla/ui';
+import { Folder, useSnack } from '@ndla/ui';
 import { Pencil } from '@ndla/icons/action';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -27,7 +27,6 @@ import FolderBreadcrumb from './FolderBreadcrumb';
 import EditFolderModal from './EditFolderModal';
 import {
   foldersPageQuery,
-  useAddFolderMutation,
   useFolder,
   useDeleteFolderMutation,
   useUpdateFolderMutation,
@@ -40,6 +39,7 @@ import {
 import DeleteModal from '../components/DeleteModal';
 import { usePrevious } from '../../../util/utilityHooks';
 import { SKIP_TO_CONTENT_ID } from '../../../constants';
+import NewFolder from '../../../components/MyNdla/NewFolder';
 
 interface BlockWrapperProps {
   type?: string;
@@ -49,6 +49,16 @@ const FoldersPageContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${spacing.xsmall};
+`;
+
+const StyledFolderIcon = styled.span`
+  display: flex;
+  padding: ${spacing.small};
+  svg {
+    color: ${colors.brand.primary};
+    height: 20px;
+    width: 20px;
+  }
 `;
 
 export const BlockWrapper = styled.ul<BlockWrapperProps>`
@@ -108,7 +118,6 @@ const FoldersPage = () => {
     undefined,
   );
 
-  const { addFolder } = useAddFolderMutation();
   const { deleteFolder } = useDeleteFolderMutation();
 
   const [isAdding, setIsAdding] = useState(false);
@@ -189,20 +198,14 @@ const FoldersPage = () => {
     setIsAdding(false);
   }, [folderId]);
 
-  const onFolderAdd = async (name: string) => {
+  const onFolderAdd = async (folder: GQLFolder) => {
     setFolderAction(undefined);
     setIsAdding(false);
-    const res = await addFolder({
-      variables: {
-        name,
-        parentId: folderId,
-      },
-    });
     addSnack({
       id: 'folderAdded',
-      content: t('myNdla.folder.created', { folderName: name }),
+      content: t('myNdla.folder.created', { folderName: folder.name }),
     });
-    setFocusId(res.data?.addFolder.id);
+    setFocusId(folder.id);
   };
 
   const showAddButton = (selectedFolder?.breadcrumbs.length || 0) < 5;
@@ -264,10 +267,15 @@ const FoldersPage = () => {
       {folders && (
         <BlockWrapper type={type}>
           {isAdding && (
-            <FolderInput
-              onAddFolder={val => onFolderAdd(val)}
+            <NewFolder
+              icon={
+                <StyledFolderIcon>
+                  <FolderOutlined />
+                </StyledFolderIcon>
+              }
+              parentId={folderId ?? 'folders'}
               onClose={() => setIsAdding(false)}
-              autoSelect
+              onCreate={onFolderAdd}
             />
           )}
           {folders.map((folder, index) => (

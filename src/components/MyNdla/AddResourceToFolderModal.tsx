@@ -36,7 +36,7 @@ const AddResourceToFolderModal = ({ isOpen, onClose, resource }: Props) => {
     <StyledModal
       controllable
       isOpen={isOpen}
-      size="medium"
+      size="regular"
       backgroundColor="white"
       onClose={onClose}
       label={
@@ -47,6 +47,7 @@ const AddResourceToFolderModal = ({ isOpen, onClose, resource }: Props) => {
       {onCloseModal => (
         <>
           <ModalHeader>
+            {authenticated && <h1>{t('myNdla.resource.addToMyNdla')}</h1>}
             <ModalCloseButton
               title={t('modal.closeModal')}
               onClick={onCloseModal}

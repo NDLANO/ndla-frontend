@@ -113,6 +113,14 @@ const EditFolderForm = ({ folder, onSave, onClose }: EditFolderFormProps) => {
         label="Navn"
         {...register('name', {
           required: validationT({ type: 'required', field: 'name' }),
+          maxLength: {
+            value: 64,
+            message: validationT({
+              type: 'maxLength',
+              field: 'name',
+              vars: { count: 64 },
+            }),
+          },
           validate: name => {
             const exists = siblings.every(
               f => f.name.toLowerCase() !== name.toLowerCase(),
