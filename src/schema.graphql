@@ -597,6 +597,8 @@ type Mutation {
   deleteFolder(id: String!): String!
   deleteFolderResource(folderId: String!, resourceId: String!): String!
   deletePersonalData: Boolean!
+  sortFolders(parentId: String, sortedIds: [String!]!): SortResult!
+  sortResources(parentId: String!, sortedIds: [String!]!): SortResult!
   updateFolder(id: String!, name: String, status: String): Folder!
   updateFolderResource(id: String!, tags: [String!]): FolderResource!
 }
@@ -885,6 +887,11 @@ type SearchSuggestion {
 
 type SearchWithoutPagination {
   results: [SearchResult!]!
+}
+
+type SortResult {
+  parentId: String
+  sortedIds: [String!]!
 }
 
 scalar StringRecord

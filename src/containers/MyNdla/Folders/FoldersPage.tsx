@@ -13,12 +13,10 @@ import { AddButton } from '@ndla/button';
 import { colors, spacing } from '@ndla/core';
 import { FolderOutlined } from '@ndla/icons/contentType';
 import { FileDocumentOutline } from '@ndla/icons/common';
-import { Folder, useSnack } from '@ndla/ui';
-import { Pencil } from '@ndla/icons/action';
+import { useSnack } from '@ndla/ui';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
-import { DeleteForever } from '@ndla/icons/editor';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { GQLFolder, GQLFoldersPageQuery } from '../../../graphqlTypes';
 import { useGraphQuery } from '../../../util/runQueries';
@@ -41,6 +39,7 @@ import NewFolder from '../../../components/MyNdla/NewFolder';
 import MyNdlaTitle from '../components/MyNdlaTitle';
 import TitleWrapper from '../components/TitleWrapper';
 import FolderActions from './FolderActions';
+import DraggableFolderList from './DraggableFolderList';
 
 interface BlockWrapperProps {
   type?: string;
@@ -62,7 +61,7 @@ const StyledFolderIcon = styled.span`
   }
 `;
 
-export const BlockWrapper = styled.ul<BlockWrapperProps>`
+export const BlockWrapper = styled.div<BlockWrapperProps>`
   display: flex;
   flex-direction: column;
   gap: ${spacing.xsmall};
@@ -303,37 +302,13 @@ const FoldersPage = () => {
               onCreate={onFolderAdd}
             />
           )}
-          {folders.map((folder, index) => (
-            <ListItem
-              key={`folder-${index}`}
-              id={`folder-${folder.id}`}
-              tabIndex={-1}>
-              <Folder
-                key={folder.id}
-                id={folder.id}
-                link={`/minndla/folders/${folder.id}`}
-                title={folder.name}
-                type={type === 'block' ? 'block' : 'list'}
-                subFolders={foldersCount[folder.id]?.folders}
-                subResources={foldersCount[folder.id]?.resources}
-                menuItems={[
-                  {
-                    icon: <Pencil />,
-                    text: t('myNdla.folder.edit'),
-                    onClick: () =>
-                      setFolderAction({ action: 'edit', folder, index }),
-                  },
-                  {
-                    icon: <DeleteForever />,
-                    text: t('myNdla.folder.delete'),
-                    onClick: () =>
-                      setFolderAction({ action: 'delete', folder, index }),
-                    type: 'danger',
-                  },
-                ]}
-              />
-            </ListItem>
-          ))}
+          <DraggableFolderList
+            currentFolderId={folderId}
+            folders={folders}
+            foldersCount={foldersCount}
+            setFolderAction={setFolderAction}
+            type={type}
+          />
         </BlockWrapper>
       )}
       {selectedFolder && (
