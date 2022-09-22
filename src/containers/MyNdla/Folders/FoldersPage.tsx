@@ -37,7 +37,6 @@ import {
   getTotalCountForFolder,
 } from '../../../util/folderHelpers';
 import DeleteModal from '../components/DeleteModal';
-import { usePrevious } from '../../../util/utilityHooks';
 import { SKIP_TO_CONTENT_ID } from '../../../constants';
 import NewFolder from '../../../components/MyNdla/NewFolder';
 
@@ -132,12 +131,12 @@ const FoldersPage = () => {
     () => (selectedFolder ? selectedFolder.subfolders : folderData ?? []),
     [selectedFolder, folderData],
   );
-  const previousFolders = usePrevious(folders);
+  const [previousFolders, setPreviousFolders] = useState<GQLFolder[]>(folders);
   const [focusId, setFocusId] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     const folderIds = folders.map(f => f.id).sort();
-    const prevFolderIds = previousFolders?.map(f => f.id).sort();
+    const prevFolderIds = previousFolders.map(f => f.id).sort();
 
     if (!isEqual(folderIds, prevFolderIds) && focusId) {
       setTimeout(
@@ -145,6 +144,7 @@ const FoldersPage = () => {
         0,
       );
       setFocusId(undefined);
+      setPreviousFolders(folders);
     } else if (
       !isEqual(folderIds, prevFolderIds) &&
       folderIds.length === 1 &&
@@ -153,6 +153,7 @@ const FoldersPage = () => {
       const id = folders[0]?.id;
       if (id) {
         setTimeout(() => document.getElementById(`folder-${id}`)?.focus(), 0);
+        setPreviousFolders(folders);
       }
     }
   }, [folders, focusId, previousFolders]);
@@ -209,7 +210,7 @@ const FoldersPage = () => {
     setIsAdding(false);
     addSnack({
       id: 'folderAdded',
-      content: t('myNdla.folder.created', { folderName: folder.name }),
+      content: t('myNdla.folder.folderCreated', { folderName: folder.name }),
     });
     setFocusId(folder.id);
   };
