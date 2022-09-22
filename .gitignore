@@ -1,4 +1,4 @@
-node_modules
+/node_modules
 npm-debug.log
 yarn-error.log
 .DS_Store
@@ -10,6 +10,6 @@ yarn-error.log
 /cache/
 /e2e/screenshots
 /htdocs/
-.vscode
+/.vscode
 .env
-.vercel
+/.vercel

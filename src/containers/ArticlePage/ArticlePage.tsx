@@ -9,7 +9,7 @@
 import { gql } from '@apollo/client';
 import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { OneColumn, LayoutItem, FeideUserApiType } from '@ndla/ui';
+import { OneColumn, LayoutItem, FeideUserApiType, constants } from '@ndla/ui';
 import { withTracker } from '@ndla/tracker';
 import {
   CustomWithTranslation,
@@ -39,6 +39,7 @@ import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { toBreadcrumbItems } from '../../routeHelpers';
 import { getSubjectLongName } from '../../data/subjects';
 import config from '../../config';
+import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from '../../constants';
 import {
   GQLArticlePage_ResourceFragment,
   GQLArticlePage_ResourceTypeFragment,
@@ -133,9 +134,6 @@ const ArticlePage = ({
       />
       <Helmet>
         <title>{`${getDocumentTitle(t, resource, subject)}`}</title>
-        {article?.metaDescription && (
-          <meta name="description" content={article.metaDescription} />
-        )}
         {scripts.map(script => (
           <script
             key={script.src}
@@ -153,6 +151,11 @@ const ArticlePage = ({
             title={article.title}
           />
         )}
+        {subject?.metadata.customFields?.[
+          TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY
+        ] === constants.subjectCategories.ARCHIVE_SUBJECTS && (
+          <meta name="robots" content="noindex, nofollow" />
+        )}
 
         <script type="application/ld+json">
           {JSON.stringify(
@@ -161,7 +164,9 @@ const ArticlePage = ({
         </script>
       </Helmet>
       <SocialMediaMetadata
-        title={htmlTitle(article.title, [subject?.name])}
+        title={htmlTitle(article.title, [
+          subject?.subjectpage?.about?.title || subject?.name,
+        ])}
         trackableContent={article}
         description={article.metaDescription}
         imageUrl={article.metaImage?.url}
@@ -217,7 +222,7 @@ const getDocumentTitle = (
   subject?: GQLArticlePage_SubjectFragment,
 ) =>
   htmlTitle(resource?.article?.title, [
-    subject?.name,
+    subject?.subjectpage?.about?.title || subject?.name,
     t('htmlTitles.titleTemplate'),
   ]);
 
@@ -234,6 +239,14 @@ export const articlePageFragments = {
   subject: gql`
     fragment ArticlePage_Subject on Subject {
       name
+      metadata {
+        customFields
+      }
+      subjectpage {
+        about {
+          title
+        }
+      }
       ...ArticleHero_Subject
     }
     ${ArticleHero.fragments.subject}

@@ -47,7 +47,7 @@ const MyNdlaMobileMenuPage = () => {
       <HelmetWithTracker title={t('htmlTitles.myNdlaPage')} />
       <StyledHeading>{t('myNdla.myNDLA')}</StyledHeading>
       <TreeStructureWrapper>
-        <TreeStructure folders={staticFolderElements} type="normal" />
+        <TreeStructure folders={staticFolderElements} type={'navigation'} />
       </TreeStructureWrapper>
     </MenuPageContainer>
   );

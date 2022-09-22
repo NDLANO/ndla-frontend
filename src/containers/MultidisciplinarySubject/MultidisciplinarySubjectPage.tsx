@@ -31,6 +31,11 @@ import { htmlTitle } from '../../util/titleHelper';
 const multidisciplinarySubjectPageQuery = gql`
   query multidisciplinarySubjectPage($subjectId: String!) {
     subject(id: $subjectId) {
+      subjectpage {
+        about {
+          title
+        }
+      }
       topics {
         id
         name
@@ -152,7 +157,7 @@ const MultidisciplinarySubjectPage = () => {
     .find(t => selectedTopics.includes(t.id));
 
   const selectedTitle = selectedMetadata?.name || selectedMetadata?.meta?.title;
-  const subjectTitle = subject.name;
+  const subjectTitle = subject.subjectpage?.about?.title || subject.name;
   const hasSelectedTitle = !!selectedTitle;
   const title = htmlTitle(hasSelectedTitle ? selectedTitle : subjectTitle, [
     hasSelectedTitle ? subjectTitle : undefined,
@@ -175,9 +180,6 @@ const MultidisciplinarySubjectPage = () => {
             t('htmlTitles.titleTemplate'),
           ])}
         </title>
-        {socialMediaMetaData.description && (
-          <meta name="description" content={socialMediaMetaData.description} />
-        )}
       </Helmet>
       <SocialMediaMetadata
         title={socialMediaMetaData.title}

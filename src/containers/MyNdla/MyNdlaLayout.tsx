@@ -81,18 +81,21 @@ const MyNdlaLayout = () => {
   }, [selectedFolder, folderId, page]);
 
   const staticStructureElements: FolderType[] = useMemo(
-    () => createStaticStructureElements(folders, t),
-    [folders, t],
+    () =>
+      createStaticStructureElements(
+        location.pathname.startsWith('/minndla/folders') ? folders : [],
+        t,
+      ),
+    [folders, t, location],
   );
 
   return (
     <StyledLayout>
       <StyledSideBar>
         <TreeStructure
+          type={'navigation'}
           folders={staticStructureElements}
           defaultOpenFolders={defaultSelected}
-          openOnFolderClick
-          type="normal"
         />
         <ButtonWrapper>
           <SafeLinkButton
