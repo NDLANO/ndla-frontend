@@ -379,7 +379,7 @@ const addResourceToFolderQuery = gql`
 
 export const useAddResourceToFolderMutation = (folderId: string) => {
   const { cache } = useApolloClient();
-  const [addResourceToFolder] = useMutation<
+  const [addResourceToFolder, {loading}] = useMutation<
     GQLAddResourceToFolderMutation,
     GQLMutationAddFolderResourceArgs
   >(addResourceToFolderQuery, {
@@ -400,7 +400,7 @@ export const useAddResourceToFolderMutation = (folderId: string) => {
     },
   });
 
-  return { addResourceToFolder };
+  return { addResourceToFolder , loading};
 };
 
 const deleteFolderResourceMutation = gql`

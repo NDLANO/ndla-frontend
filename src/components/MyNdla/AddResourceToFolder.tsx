@@ -10,7 +10,7 @@ import { compact, isEqual, sortBy, uniq } from 'lodash';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import Button from '@ndla/button';
+import { ButtonV2 as Button, LoadingButton } from '@ndla/button';
 import { colors, spacing } from '@ndla/core';
 import SafeLink from '@ndla/safelink';
 import {
@@ -175,9 +175,10 @@ const AddResourceToFolder = ({ onClose, resource }: Props) => {
     },
   ];
   const { updateFolderResource } = useUpdateFolderResourceMutation();
-  const { addResourceToFolder } = useAddResourceToFolderMutation(
-    selectedFolder?.id ?? '',
-  );
+  const {
+    addResourceToFolder,
+    loading: addResourceLoading,
+  } = useAddResourceToFolderMutation(selectedFolder?.id ?? '');
 
   const onSave = async () => {
     if (selectedFolder) {
@@ -261,12 +262,29 @@ const AddResourceToFolder = ({ onClose, resource }: Props) => {
         }}
       />
       <ButtonRow>
-        <Button outline onClick={onClose}>
+        <Button
+          variant="outline"
+          onClick={onClose}
+          onMouseDown={e => {
+            e.preventDefault();
+          }}
+          onMouseUp={e => {
+            e.preventDefault();
+          }}>
           {t('cancel')}
         </Button>
-        <Button disabled={!canSave} onClick={onSave}>
+        <LoadingButton
+          loading={addResourceLoading}
+          disabled={!canSave || addResourceLoading}
+          onClick={onSave}
+          onMouseDown={e => {
+            e.preventDefault();
+          }}
+          onMouseUp={e => {
+            e.preventDefault();
+          }}>
           {t('myNdla.resource.save')}
-        </Button>
+        </LoadingButton>
       </ButtonRow>
     </AddResourceContainer>
   );
