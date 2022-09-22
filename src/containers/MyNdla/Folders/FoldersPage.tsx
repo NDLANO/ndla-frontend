@@ -118,7 +118,10 @@ const FoldersPage = () => {
     undefined,
   );
 
-  const { deleteFolder } = useDeleteFolderMutation();
+  const {
+    deleteFolder,
+    loading: deleteFolderLoading,
+  } = useDeleteFolderMutation();
 
   const [isAdding, setIsAdding] = useState(false);
   const { data } = useGraphQuery<GQLFoldersPageQuery>(foldersPageQuery);
@@ -176,7 +179,10 @@ const FoldersPage = () => {
     );
   }, [folderData]);
 
-  const { updateFolder } = useUpdateFolderMutation();
+  const {
+    updateFolder,
+    loading: updateFolderLoading,
+  } = useUpdateFolderMutation();
 
   const onDeleteFolder = async (folder: GQLFolder, index?: number) => {
     const next = index !== undefined ? folders[index + 1]?.id : undefined;
@@ -319,6 +325,7 @@ const FoldersPage = () => {
         />
       )}
       <EditFolderModal
+        loading={updateFolderLoading}
         onSave={async (value, folder) => {
           await updateFolder({
             variables: {
@@ -337,6 +344,7 @@ const FoldersPage = () => {
         onClose={() => setFolderAction(undefined)}
       />
       <DeleteModal
+        loading={deleteFolderLoading}
         title={t('myNdla.folder.delete')}
         description={t('myNdla.confirmDeleteFolder')}
         removeText={t('myNdla.folder.delete')}
