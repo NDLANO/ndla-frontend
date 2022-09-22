@@ -26,11 +26,6 @@ const messages = {
     myFolderPage: `{{folderName}} - ${titleTemplate}`,
     myTagPage: `#{{tag}} - ${titleTemplate}`,
     myTagsPage: `Mine emneknagger - ${titleTemplate}`,
-    toolbox: {
-      visualElement: 'Om emne video',
-      introduction:
-        'Kva vil det seie å arbeide utforskande? Korleis kan du lære betre? Kva skal til for å få gruppearbeid til å fungere? I Verktøykassa finn både elevar og lærerar ressursar som er aktuelle for alle fag, og som støtter opp under læringsarbeid og utvikling av kunnskap, ferdigheter og forståing.',
-    },
   },
   podcastPage: {
     episodes: 'Episoder',

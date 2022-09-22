@@ -164,7 +164,7 @@ const ToolboxSubjectContainer = ({ topicList, subject }: Props) => {
         <ToolboxInfo
           topics={topics}
           title={getSubjectLongName(subject.id, i18n.language) || subject.name}
-          introduction={t('htmlTitles.toolbox.introduction')}
+          introduction={t('toolboxPage.introduction')}
         />
         <TopicBoxes />
         {subject.subjectpage?.banner && (

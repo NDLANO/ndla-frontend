@@ -20,17 +20,12 @@ const messages = {
     subject: 'Fága',
     podcast: `Podkast - Side {{pageNumber}} - ${titleTemplate}`,
     lti: `LTI - ${titleTemplate}`,
-    movedResourcePage: `Siden har flyttet - ${titleTemplate}`,
+    movedResourcePage: `Siidu lea sirdojuvvon - ${titleTemplate}`,
     myNdlaPage: `Mu NDLA - ${titleTemplate}`,
     myFoldersPage: `Mu máhpat - ${titleTemplate}`,
     myFolderPage: `{{folderName}} - ${titleTemplate}`,
     myTagPage: `#{{tag}} - ${titleTemplate}`,
     myTagsPage: `Mu lihput - ${titleTemplate}`,
-    toolbox: {
-      visualElement: 'Om emne video',
-      introduction:
-        'Hva vil det si å arbeide utforskende? Hvordan kan du lære bedre? Hva skal til for å få gruppearbeid til å fungere? I Verktøykassa finner både elever og lærere ressurser som er aktuelle for alle fag, og som støtter opp under læringsarbeid og utvikling av kunnskap, ferdigheter og forståelse.',
-    },
   },
   podcastPage: {
     episodes: 'Episoder',
