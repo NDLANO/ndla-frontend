@@ -7,7 +7,7 @@
  */
 
 import { compact, isEqual, sortBy, uniq } from 'lodash';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { ButtonV2 as Button, LoadingButton } from '@ndla/button';
@@ -31,7 +31,6 @@ import {
 import { GQLFolder, GQLFolderResource } from '../../graphqlTypes';
 import { getAllTags, getResourceForPath } from '../../util/folderHelpers';
 import NewFolder from './NewFolder';
-import { Spinner } from '@ndla/icons';
 
 export interface ResourceAttributes {
   path: string;
@@ -54,6 +53,12 @@ const AddResourceContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${spacing.normal};
+`;
+
+const TreestructureContainer = styled.div`
+  display: flex;
+  max-height: 320px;
+  overflow: hidden;
 `;
 
 const StyledResourceAddedSnack = styled.div`
@@ -230,21 +235,23 @@ const AddResourceToFolder = ({ onClose, resource }: Props) => {
           alt: meta?.metaImage?.alt ?? '',
         }}
       />
-      <TreeStructure
-        folders={structureFolders}
-        label={t('myNdla.myFolders')}
-        onSelectFolder={setSelectedFolderId}
-        defaultOpenFolders={defaultOpenFolders}
-        type={'picker'}
-        targetResource={storedResource}
-        newFolderInput={({ parentId, onClose, onCreate }) => (
-          <StyledNewFolder
-            parentId={parentId}
-            onClose={onClose}
-            onCreate={onCreate}
-          />
-        )}
-      />
+      <TreestructureContainer>
+        <TreeStructure
+          folders={structureFolders}
+          label={t('myNdla.myFolders')}
+          onSelectFolder={setSelectedFolderId}
+          defaultOpenFolders={defaultOpenFolders}
+          type={'picker'}
+          targetResource={storedResource}
+          newFolderInput={({ parentId, onClose, onCreate }) => (
+            <StyledNewFolder
+              parentId={parentId}
+              onClose={onClose}
+              onCreate={onCreate}
+            />
+          )}
+        />
+      </TreestructureContainer>
       {alreadyAdded && (
         <MessageBox type="danger">{t('myNdla.alreadyInFolder')}</MessageBox>
       )}
