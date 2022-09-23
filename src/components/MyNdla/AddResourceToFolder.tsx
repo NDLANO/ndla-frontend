@@ -7,7 +7,7 @@
  */
 
 import { compact, isEqual, sortBy, uniq } from 'lodash';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { ButtonV2 as Button, LoadingButton } from '@ndla/button';
@@ -31,6 +31,7 @@ import {
 import { GQLFolder, GQLFolderResource } from '../../graphqlTypes';
 import { getAllTags, getResourceForPath } from '../../util/folderHelpers';
 import NewFolder from './NewFolder';
+import { Spinner } from '@ndla/icons';
 
 export interface ResourceAttributes {
   path: string;
@@ -210,6 +211,11 @@ const AddResourceToFolder = ({ onClose, resource }: Props) => {
     onClose();
   };
 
+  const firstFolder = structureFolders?.[0]?.subfolders[0]?.id;
+  const defaultOpenFolders = firstFolder
+    ? ['folders', firstFolder]
+    : ['folders'];
+
   return (
     <AddResourceContainer>
       <ListResource
@@ -228,7 +234,7 @@ const AddResourceToFolder = ({ onClose, resource }: Props) => {
         folders={structureFolders}
         label={t('myNdla.myFolders')}
         onSelectFolder={setSelectedFolderId}
-        defaultOpenFolders={['folders']}
+        defaultOpenFolders={defaultOpenFolders}
         type={'picker'}
         targetResource={storedResource}
         newFolderInput={({ parentId, onClose, onCreate }) => (
