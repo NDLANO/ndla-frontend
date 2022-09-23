@@ -124,13 +124,13 @@ const MyNdlaPage = () => {
   const navigate = useNavigate();
   const { allFolderResources } = useRecentlyUsedResources();
   const { data: metaData, loading } = useFolderResourceMetaSearch(
-    allFolderResources.map(r => ({
+    allFolderResources?.map(r => ({
       id: r.resourceId,
       path: r.path,
       resourceType: r.resourceType,
-    })),
+    })) ?? [],
     {
-      skip: !allFolderResources.length,
+      skip: !allFolderResources || !allFolderResources.length,
     },
   );
 
@@ -159,7 +159,7 @@ const MyNdlaPage = () => {
         <RoundedImage src="/static/my-ndla-login.png" alt="alt" />
       </StyledIntroContainer>
       <h2>{t('myNdla.myPage.newFavourite')}</h2>
-      {allFolderResources.length > 0 && (
+      {allFolderResources && allFolderResources.length > 0 && (
         <StyledResourceList>
           {allFolderResources.map(res => {
             const meta = keyedData[`${res.resourceType}${res.resourceId}`];
