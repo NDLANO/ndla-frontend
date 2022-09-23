@@ -188,7 +188,7 @@ const MyNdlaPage = () => {
       <InfoContainer>
         <LinkText>
           {`${t('myNdla.myPage.read.our')} `}
-          <SafeLink target="_blank" to="https://om.ndla.no/gdpr">
+          <SafeLink target="_blank" to={t('myNdla.myPage.privacyLink')}>
             {t('myNdla.myPage.privacy')}
           </SafeLink>
         </LinkText>
