@@ -216,10 +216,16 @@ const AddResourceToFolder = ({ onClose, resource }: Props) => {
     onClose();
   };
 
-  const firstFolder = structureFolders?.[0]?.subfolders[0]?.id;
-  const defaultOpenFolders = firstFolder
-    ? ['folders', firstFolder]
+  const firstFolderId = structureFolders?.[0]?.subfolders[0]?.id;
+  const defaultOpenFolders = firstFolderId
+    ? ['folders', firstFolderId]
     : ['folders'];
+
+  useEffect(() => {
+    if (firstFolderId) {
+      setSelectedFolderId(firstFolderId);
+    }
+  }, [firstFolderId]);
 
   return (
     <AddResourceContainer>
