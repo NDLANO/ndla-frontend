@@ -96,7 +96,7 @@ const TagsPage = () => {
         />
         <MyNdlaTitle title={tag ? tag : t('myNdla.myTags')} />
       </TitleWrapper>
-      {!tag && tags.length ?  <Tags tags={tags} /> : null}
+      {!tag && tags.length ? <Tags tags={tags} /> : null}
       {tag && resources && <Resources resources={resources} />}
     </TagsPageContainer>
   );
