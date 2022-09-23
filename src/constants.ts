@@ -43,7 +43,7 @@ export const TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY = 'subjectCategory';
 export const TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE = 'subjectType';
 export const OLD_SUBJECT_PAGE_REDIRECT_CUSTOM_FIELD = 'old-subject-id';
 
-export const LocaleValues = SUPPORTED_LANGUAGES;
+export const LocaleValues = ['nb', 'nn', 'en', 'se'] as const;
 
 export const MastheadHeightPx = 84; // See `misc` in @ndla/core for origin
 export const EmotionCacheKey = 'ndla-frontend';
