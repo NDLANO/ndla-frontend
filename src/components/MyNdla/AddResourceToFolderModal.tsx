@@ -49,6 +49,12 @@ const AddResourceToFolderModal = ({ isOpen, onClose, resource }: Props) => {
           <ModalHeader>
             {authenticated && <h1>{t('myNdla.resource.addToMyNdla')}</h1>}
             <ModalCloseButton
+              onMouseDown={e => {
+                e.preventDefault();
+              }}
+              onMouseUp={e => {
+                e.preventDefault();
+              }}
               title={t('modal.closeModal')}
               onClick={onCloseModal}
             />
