@@ -8,16 +8,15 @@
 
 import queryString from 'query-string';
 import { useContext } from 'react';
-import { matchPath, useLocation } from 'react-router-dom';
+import { matchPath, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../components/AuthenticationContext';
-import RedirectContext from '../../components/RedirectContext';
 import { privateRoutes } from '../../routes';
 import { feideLogout } from '../../util/authHelpers';
 import { toHome } from '../../util/routeHelpers';
 
 const LogoutSession = () => {
   const { authenticated, logout, authContextLoaded } = useContext(AuthContext);
-  const redirect = useContext(RedirectContext);
+  const navigate = useNavigate();
   const { search } = useLocation();
   const params = queryString.parse(search) ?? '';
   const lastPath = params.state;
@@ -25,10 +24,8 @@ const LogoutSession = () => {
     const wasPrivateRoute =
       lastPath && privateRoutes.some(route => matchPath(route, lastPath));
 
-    if (redirect) {
-      redirect.status = 302;
-      redirect.url = wasPrivateRoute ? toHome() : lastPath ?? toHome();
-    }
+    const newPath = wasPrivateRoute ? toHome() : lastPath ?? toHome();
+    navigate(newPath);
   } else if (authenticated && authContextLoaded) {
     feideLogout(logout, lastPath);
   }
