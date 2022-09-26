@@ -12,7 +12,6 @@ import { matchPath, useLocation } from 'react-router-dom';
 import { AuthContext } from '../../components/AuthenticationContext';
 import RedirectContext from '../../components/RedirectContext';
 import { privateRoutes } from '../../routes';
-import { MOVED_PERMANENTLY } from '../../statusCodes';
 import { feideLogout } from '../../util/authHelpers';
 import { toHome } from '../../util/routeHelpers';
 
@@ -27,7 +26,7 @@ const LogoutSession = () => {
       lastPath && privateRoutes.some(route => matchPath(route, lastPath));
 
     if (redirect) {
-      redirect.status = MOVED_PERMANENTLY;
+      redirect.status = 303;
       redirect.url = wasPrivateRoute ? toHome() : lastPath ?? toHome();
     }
   } else if (authenticated && authContextLoaded) {
