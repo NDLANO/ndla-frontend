@@ -105,15 +105,6 @@ const AppRoutes = ({ base, resCookie }: AppProps) => {
             <Routes>
               <Route path="/" element={<Layout />}>
                 <Route index element={<WelcomePage />} />
-                <Route path="login" element={<FeideUi />}>
-                  <Route index element={<LoginProviders />} />
-                  <Route path={'success'} element={<LoginSuccess />} />
-                  <Route path={'failure'} element={<LoginFailure />} />
-                </Route>
-                <Route path="logout" element={<FeideUi />}>
-                  <Route index element={<LogoutProviders />} />
-                  <Route path="session" element={<LogoutSession />} />
-                </Route>
                 <Route path="subjects" element={<AllSubjectsPage />} />
                 <Route path="search" element={<SearchPage />} />
                 <Route path="utdanning/:programme" element={<ProgrammePage />}>
@@ -179,6 +170,15 @@ const AppRoutes = ({ base, resCookie }: AppProps) => {
                 <Route path="404" element={<NotFound />} />
                 <Route path="403" element={<AccessDenied />} />
                 <Route path="*" element={<NotFound />} />
+              </Route>
+              <Route path="/login" element={<FeideUi />}>
+                <Route index element={<LoginProviders />} />
+                <Route path={'success'} element={<LoginSuccess />} />
+                <Route path={'failure'} element={<LoginFailure />} />
+              </Route>
+              <Route path="/logout" element={<FeideUi />}>
+                <Route index element={<LogoutProviders />} />
+                <Route path="session" element={<LogoutSession />} />
               </Route>
             </Routes>
           </SnackbarProvider>

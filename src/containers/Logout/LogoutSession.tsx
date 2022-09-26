@@ -6,46 +6,33 @@
  *
  */
 
-import { useApolloClient } from '@apollo/client';
 import queryString from 'query-string';
-import { useContext, useEffect } from 'react';
-import { matchPath, useLocation, useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import { matchPath, useLocation } from 'react-router-dom';
 import { AuthContext } from '../../components/AuthenticationContext';
+import RedirectContext from '../../components/RedirectContext';
 import { privateRoutes } from '../../routes';
+import { MOVED_PERMANENTLY } from '../../statusCodes';
 import { feideLogout } from '../../util/authHelpers';
 import { toHome } from '../../util/routeHelpers';
-import { LocationState } from '../Login/LoginProviders';
 
 const LogoutSession = () => {
   const { authenticated, logout, authContextLoaded } = useContext(AuthContext);
-  const navigate = useNavigate();
-  const { search, state } = useLocation();
-  const client = useApolloClient();
-  const from = (state as LocationState)?.from;
+  const redirect = useContext(RedirectContext);
+  const { search } = useLocation();
+  const params = queryString.parse(search) ?? '';
+  const lastPath = params.state;
+  if (!authenticated) {
+    const wasPrivateRoute =
+      lastPath && privateRoutes.some(route => matchPath(route, lastPath));
 
-  useEffect(() => {
-    if (!authenticated && authContextLoaded) {
-      const params = queryString.parse(search);
-
-      const lastPath = params.state;
-      const wasPrivateRoute = privateRoutes.some(route =>
-        matchPath(route, lastPath),
-      );
-
-      navigate(wasPrivateRoute ? toHome() : lastPath ?? toHome());
-    } else if (authenticated && authContextLoaded) {
-      feideLogout(logout, from);
-      // client.resetStore();
+    if (redirect) {
+      redirect.status = MOVED_PERMANENTLY;
+      redirect.url = wasPrivateRoute ? toHome() : lastPath ?? toHome();
     }
-  }, [
-    authenticated,
-    authContextLoaded,
-    navigate,
-    logout,
-    search,
-    from,
-    client,
-  ]);
+  } else if (authenticated && authContextLoaded) {
+    feideLogout(logout, lastPath);
+  }
 
   return null;
 };
