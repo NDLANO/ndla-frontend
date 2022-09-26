@@ -182,7 +182,17 @@ const MyNdlaPage = () => {
         <InfoPart
           icon={<FeideIcon />}
           title={t('myNdla.myPage.feide')}
-          children={<UserInfo user={user} />}
+          children={
+            <>
+              <UserInfo user={user} />
+              <p>
+                {t('user.wrongUserInfoDisclaimer')}
+                <SafeLink to="https://feide.no/brukerstotte">
+                  feide.no/brukerstotte
+                </SafeLink>
+              </p>
+            </>
+          }
         />
       )}
       <InfoContainer>
