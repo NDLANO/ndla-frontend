@@ -41,6 +41,7 @@ import {
   OK,
   INTERNAL_SERVER_ERROR,
   MOVED_PERMANENTLY,
+  FOUND,
   TEMPORARY_REDIRECT,
   BAD_REQUEST,
 } from '../statusCodes';
@@ -154,7 +155,11 @@ export async function sendInternalServerError(req: Request, res: Response) {
 }
 
 function sendResponse(res: Response, data: any, status = OK) {
-  if (status === MOVED_PERMANENTLY || status === TEMPORARY_REDIRECT) {
+  if (
+    status === MOVED_PERMANENTLY ||
+    status === FOUND ||
+    status === TEMPORARY_REDIRECT
+  ) {
     res.writeHead(status, data);
     res.end();
   } else if (res.getHeader('Content-Type') === 'application/json') {
