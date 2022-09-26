@@ -26,7 +26,7 @@ const LogoutSession = () => {
       lastPath && privateRoutes.some(route => matchPath(route, lastPath));
 
     if (redirect) {
-      redirect.status = 303;
+      redirect.status = 302;
       redirect.url = wasPrivateRoute ? toHome() : lastPath ?? toHome();
     }
   } else if (authenticated && authContextLoaded) {
