@@ -55,6 +55,12 @@ const AddResourceContainer = styled.div`
   gap: ${spacing.normal};
 `;
 
+const TreestructureContainer = styled.div`
+  display: flex;
+  max-height: 320px;
+  overflow: hidden;
+`;
+
 const StyledResourceAddedSnack = styled.div`
   gap: ${spacing.small};
   display: flex;
@@ -210,6 +216,17 @@ const AddResourceToFolder = ({ onClose, resource }: Props) => {
     onClose();
   };
 
+  const firstFolderId = structureFolders?.[0]?.subfolders[0]?.id;
+  const defaultOpenFolders = firstFolderId
+    ? ['folders', firstFolderId]
+    : ['folders'];
+
+  useEffect(() => {
+    if (firstFolderId) {
+      setSelectedFolderId(firstFolderId);
+    }
+  }, [firstFolderId]);
+
   return (
     <AddResourceContainer>
       <ListResource
@@ -224,21 +241,23 @@ const AddResourceToFolder = ({ onClose, resource }: Props) => {
           alt: meta?.metaImage?.alt ?? '',
         }}
       />
-      <TreeStructure
-        folders={structureFolders}
-        label={t('myNdla.myFolders')}
-        onSelectFolder={setSelectedFolderId}
-        defaultOpenFolders={['folders']}
-        type={'picker'}
-        targetResource={storedResource}
-        newFolderInput={({ parentId, onClose, onCreate }) => (
-          <StyledNewFolder
-            parentId={parentId}
-            onClose={onClose}
-            onCreate={onCreate}
-          />
-        )}
-      />
+      <TreestructureContainer>
+        <TreeStructure
+          folders={structureFolders}
+          label={t('myNdla.myFolders')}
+          onSelectFolder={setSelectedFolderId}
+          defaultOpenFolders={defaultOpenFolders}
+          type={'picker'}
+          targetResource={storedResource}
+          newFolderInput={({ parentId, onClose, onCreate }) => (
+            <StyledNewFolder
+              parentId={parentId}
+              onClose={onClose}
+              onCreate={onCreate}
+            />
+          )}
+        />
+      </TreestructureContainer>
       {alreadyAdded && (
         <MessageBox type="danger">{t('myNdla.alreadyInFolder')}</MessageBox>
       )}

@@ -265,15 +265,16 @@ export const recentlyUsedQuery = gql`
 
 export const useRecentlyUsedResources = () => {
   const { cache } = useApolloClient();
-  const { data: { allFolderResources = [] } = {}, ...rest } = useGraphQuery<
-    GQLRecentlyUsedQuery
-  >(recentlyUsedQuery, {
-    onCompleted: () => {
-      cache.gc();
+  const { data, ...rest } = useGraphQuery<GQLRecentlyUsedQuery>(
+    recentlyUsedQuery,
+    {
+      onCompleted: () => {
+        cache.gc();
+      },
     },
-  });
+  );
 
-  return { allFolderResources, ...rest };
+  return { allFolderResources: data?.allFolderResources, ...rest };
 };
 
 export const useAddFolderMutation = () => {
