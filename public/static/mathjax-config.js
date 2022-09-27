@@ -10,9 +10,20 @@ window.MathJax = {
   chtml: {
     mathmlSpacing: false,
   },
-  options: {
-    renderActions: {
-      addMenu: [0, '', ''],
-    },
-  },
+  options:{
+      enableMenu: true,
+      menuOptions:{
+          settings:{
+              assistiveMml: true,
+              collapsible: false,
+              explorer: true
+          }
+      },
+      sre: {
+        domain: 'mathspeak',
+        style: 'sbrief',
+        speech: 'shallow',
+        structure: false,
+      }
+  }
 };
