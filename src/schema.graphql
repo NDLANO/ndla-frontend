@@ -712,7 +712,7 @@ type Query {
   ): Folder!
   folderResourceMeta(
     resource: FolderResourceMetaSearchInput!
-  ): FolderResourceMeta!
+  ): FolderResourceMeta
   folderResourceMetaSearch(
     resources: [FolderResourceMetaSearchInput!]!
   ): [FolderResourceMeta!]!
