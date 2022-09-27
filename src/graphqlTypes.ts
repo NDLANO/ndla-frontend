@@ -812,7 +812,7 @@ export type GQLQuery = {
   coreElements?: Maybe<Array<GQLCoreElement>>;
   filmfrontpage?: Maybe<GQLFilmFrontpage>;
   folder: GQLFolder;
-  folderResourceMeta: GQLFolderResourceMeta;
+  folderResourceMeta?: Maybe<GQLFolderResourceMeta>;
   folderResourceMetaSearch: Array<GQLFolderResourceMeta>;
   folders: Array<GQLFolder>;
   frontpage?: Maybe<GQLFrontpage>;
@@ -1902,11 +1902,11 @@ export type GQLLearningpathPage_TopicFragment = {
 export type GQLLearningpathPage_SubjectFragment = {
   __typename?: 'Subject';
   id: string;
+  metadata: { __typename?: 'TaxonomyMetadata'; customFields: any };
   subjectpage?: {
     __typename?: 'SubjectPage';
     about?: { __typename?: 'SubjectPageAbout'; title: string };
   };
-  metadata: { __typename?: 'TaxonomyMetadata'; customFields: any };
 } & GQLLearningpath_SubjectFragment;
 
 export type GQLLearningpathPage_ResourceTypeDefinitionFragment = {
@@ -2243,7 +2243,7 @@ export type GQLFolderResourceMetaQueryVariables = Exact<{
 
 export type GQLFolderResourceMetaQuery = {
   __typename?: 'Query';
-  folderResourceMeta: {
+  folderResourceMeta?: {
     __typename?: 'FolderResourceMeta';
   } & GQLFolderResourceMetaFragment;
 };
