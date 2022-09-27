@@ -812,7 +812,7 @@ export type GQLQuery = {
   coreElements?: Maybe<Array<GQLCoreElement>>;
   filmfrontpage?: Maybe<GQLFilmFrontpage>;
   folder: GQLFolder;
-  folderResourceMeta: GQLFolderResourceMeta;
+  folderResourceMeta?: Maybe<GQLFolderResourceMeta>;
   folderResourceMetaSearch: Array<GQLFolderResourceMeta>;
   folders: Array<GQLFolder>;
   frontpage?: Maybe<GQLFrontpage>;
@@ -2243,7 +2243,7 @@ export type GQLFolderResourceMetaQueryVariables = Exact<{
 
 export type GQLFolderResourceMetaQuery = {
   __typename?: 'Query';
-  folderResourceMeta: {
+  folderResourceMeta?: {
     __typename?: 'FolderResourceMeta';
   } & GQLFolderResourceMetaFragment;
 };
