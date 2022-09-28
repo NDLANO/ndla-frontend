@@ -318,11 +318,18 @@ app.get('/lti', ndlaMiddleware, async (req: Request, res: Response) => {
 app.get('/favicon.ico', ndlaMiddleware);
 app.get(
   '/*',
-  (req: Request, _res: Response, next: NextFunction) => {
+  (req: Request, res: Response, next: NextFunction) => {
     const { basepath: path } = getLocaleInfoFromPath(req.path);
     const route = routes.find(r => matchPath(r, path)); // match with routes used in frontend
+    const isPrivate = privateRoutes.some(r => matchPath(r, path));
+    const feideCookie = getCookie('feide_auth', req.headers.cookie ?? '') ?? '';
+    const feideToken = !!feideCookie ? JSON.parse(feideCookie) : undefined;
+    const isTokenValid = !!feideToken && isAccessTokenValid(feideToken);
+    const shouldRedirect = isPrivate && !isTokenValid;
     if (!route) {
       next('route'); // skip to next route (i.e. proxy)
+    } else if (shouldRedirect) {
+      return res.redirect(`/login?state=${route}}`);
     } else {
       next();
     }
