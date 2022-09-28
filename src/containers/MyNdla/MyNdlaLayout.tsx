@@ -16,6 +16,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 import { useFolder, useFolders } from './folderMutations';
 import { createStaticStructureElements } from '../../util/folderHelpers';
 import IsMobileContext from '../../IsMobileContext';
+import { toHref } from '../../util/urlHelper';
 
 const StyledLayout = styled.div`
   display: grid;
@@ -103,7 +104,7 @@ const MyNdlaLayout = () => {
               width="auto"
               outline
               reloadDocument
-              to={`/logout?state=${location.pathname}`}>
+              to={`/logout?state=${toHref(location)}`}>
               {t('user.buttonLogOut')}
             </SafeLinkButton>
           </ButtonWrapper>

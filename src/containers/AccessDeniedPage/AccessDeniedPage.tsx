@@ -13,6 +13,7 @@ import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { Status } from '../../components';
 import { AuthContext } from '../../components/AuthenticationContext';
+import { toHref } from '../../util/urlHelper';
 
 const AccessDenied = () => {
   const { t } = useTranslation();
@@ -27,7 +28,7 @@ const AccessDenied = () => {
         <ErrorResourceAccessDenied
           onAuthenticateClick={() => {
             const route = authenticated ? 'logout' : 'login';
-            window.location.href = `/${route}?state=${location.pathname}`;
+            window.location.href = `/${route}?state=${toHref(location)}`;
           }}
         />
       </OneColumn>

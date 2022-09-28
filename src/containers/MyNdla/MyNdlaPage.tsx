@@ -30,6 +30,7 @@ import {
 import MyNdlaBreadcrumb from './components/MyNdlaBreadcrumb';
 import MyNdlaTitle from './components/MyNdlaTitle';
 import TitleWrapper from './components/TitleWrapper';
+import { toHref } from '../../util/urlHelper';
 
 const HeartOutlineIcon = InfoPartIcon.withComponent(HeartOutline);
 const FolderOutlinedIcon = InfoPartIcon.withComponent(FolderOutlined);
@@ -114,7 +115,7 @@ const MyNdlaPage = () => {
 
   const onDeleteAccount = async () => {
     await deletePersonalData();
-    window.location.href = `/logout?state=${location.pathname}`;
+    window.location.href = `/logout?state=${toHref(location)}`;
   };
 
   const keyedData = keyBy(metaData ?? [], r => `${r.type}${r.id}`);
@@ -214,7 +215,7 @@ const MyNdlaPage = () => {
         <SafeLinkButton
           outline
           reloadDocument
-          to={`/logout?state=${location.pathname}`}>
+          to={`/logout?state=${toHref(location)}`}>
           {t('myNdla.myPage.logout')}
         </SafeLinkButton>
       </ButtonContainer>

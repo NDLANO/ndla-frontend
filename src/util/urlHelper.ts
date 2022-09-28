@@ -6,7 +6,7 @@
  *
  */
 
-import { matchPath, Params, PathMatch } from 'react-router-dom';
+import { matchPath, Params, PathMatch, Location } from 'react-router-dom';
 import { isValidLocale } from '../i18n';
 import { oembedRoutes } from '../routes';
 
@@ -78,3 +78,7 @@ export function parseOembedUrl(url: string, ignoreLocale: boolean = false) {
   }
   return matchUrl(path, false);
 }
+
+export const toHref = (location: Location) => {
+  return `/${location.pathname}${location.search}`;
+};

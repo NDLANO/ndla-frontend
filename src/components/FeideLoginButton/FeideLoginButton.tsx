@@ -19,6 +19,7 @@ import { AuthContext } from '../AuthenticationContext';
 import LoginComponent from '../MyNdla/LoginComponent';
 import IsMobileContext from '../../IsMobileContext';
 import { useIsNdlaFilm } from '../../routeHelpers';
+import { toHref } from '../../util/urlHelper';
 
 const FeideFooterButton = styled(Button)`
   padding: ${spacing.xsmall} ${spacing.small};
@@ -131,7 +132,7 @@ const FeideLoginButton = ({ footer, children, to }: Props) => {
       user={user}
       onAuthenticateClick={() => {
         const route = authenticated ? 'logout' : 'login';
-        window.location.href = `/${route}?state=${location.pathname}`;
+        window.location.href = `/${route}?state=${toHref(location)}`;
       }}
     />
   );

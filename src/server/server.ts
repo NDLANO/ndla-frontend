@@ -133,7 +133,7 @@ app.get('/feide/token', (req: Request, res: Response) => {
 app.get('/logout', async (req: Request, res: Response) => {
   const feideCookie = getCookie('feide_auth', req.headers.cookie ?? '') ?? '';
   const feideToken = !!feideCookie ? JSON.parse(feideCookie) : undefined;
-  const state = req.query['state'] ?? '';
+  const state = req.query['state'] ?? '/';
 
   if (!feideToken?.['id_token'] || typeof state !== 'string') {
     return sendInternalServerError(req, res);
