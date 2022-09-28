@@ -80,5 +80,5 @@ export function parseOembedUrl(url: string, ignoreLocale: boolean = false) {
 }
 
 export const toHref = (location: Location) => {
-  return `/${location.pathname}${location.search}`;
+  return `${location.pathname}${location.search}`;
 };
