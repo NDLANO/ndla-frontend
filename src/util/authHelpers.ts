@@ -7,9 +7,9 @@
  */
 
 import { TokenSet, TokenSetParameters } from 'openid-client';
-import { deleteCookie, getCookie, setCookie } from '@ndla/util';
+import { getCookie, setCookie } from '@ndla/util';
 import config from '../config';
-import { fetchAuthorized, resolveJsonOrRejectWithError } from './apiHelpers';
+import { resolveJsonOrRejectWithError } from './apiHelpers';
 
 interface Feide extends TokenSet {
   url?: string;
@@ -83,10 +83,6 @@ function setTokenSetInLocalStorage(tokenSet: TokenSet): FeideCookie {
   return cookieValue;
 }
 
-const clearTokenSetFromLocalStorage = () => {
-  deleteCookie('feide_auth');
-};
-
 export const getFeideCookie = (cookies: string): FeideCookie | null => {
   const cookieString = getCookie('feide_auth', cookies);
   if (cookieString) {
@@ -120,11 +116,7 @@ export const isAccessTokenValid = (
   return millisUntilExpiration(cookie) > 10000;
 };
 
-const getIdTokenFeide = () => getFeideCookieClient()?.id_token;
-
 export const initializeFeideLogin = (from?: string) => {
-  if (!config.feideEnabled)
-    return new Promise((resolve, _reject) => resolve(''));
   const state = `${from ? `?state=${from}` : ''}`;
 
   return fetch(`${locationOrigin}/feide/login${state}`)
@@ -146,19 +138,6 @@ export const finalizeFeideLogin = async (
   const tokenSet = await resolveJsonOrRejectWithError<Feide>(res);
   const set = setTokenSetInLocalStorage(tokenSet!);
   return set;
-};
-
-export const feideLogout = (logout: () => void, from?: string) => {
-  const state = `${from ? `&state=${from}` : ''}`;
-  fetchAuthorized(
-    `${locationOrigin}/feide/logout?id_token_hint=${getIdTokenFeide()}${state}`,
-  )
-    .then(res => resolveJsonOrRejectWithError<Feide>(res))
-    .then(json => {
-      clearTokenSetFromLocalStorage();
-      logout();
-      window.location.href = json?.url || '';
-    });
 };
 
 export const renewAuth = () => {

@@ -10,7 +10,7 @@ import { compact, isEqual, sortBy, uniq } from 'lodash';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import Button from '@ndla/button';
+import { ButtonV2 as Button, LoadingButton } from '@ndla/button';
 import { colors, spacing } from '@ndla/core';
 import SafeLink from '@ndla/safelink';
 import {
@@ -22,7 +22,6 @@ import {
   useSnack,
 } from '@ndla/ui';
 import {
-  useAddFolderMutation,
   useAddResourceToFolderMutation,
   useFolder,
   useFolderResourceMeta,
@@ -31,6 +30,7 @@ import {
 } from '../../containers/MyNdla/folderMutations';
 import { GQLFolder, GQLFolderResource } from '../../graphqlTypes';
 import { getAllTags, getResourceForPath } from '../../util/folderHelpers';
+import NewFolder from './NewFolder';
 
 export interface ResourceAttributes {
   path: string;
@@ -55,6 +55,12 @@ const AddResourceContainer = styled.div`
   gap: ${spacing.normal};
 `;
 
+const TreestructureContainer = styled.div`
+  display: flex;
+  max-height: 320px;
+  overflow: hidden;
+`;
+
 const StyledResourceAddedSnack = styled.div`
   gap: ${spacing.small};
   display: flex;
@@ -62,6 +68,18 @@ const StyledResourceAddedSnack = styled.div`
 
 const StyledResource = styled.p`
   margin: 0;
+`;
+
+const StyledNewFolder = styled(NewFolder)`
+  border-left: ${spacing.xsmall} solid ${colors.brand.light};
+  border-right: ${spacing.xsmall} solid ${colors.brand.light};
+  &:focus-within {
+    border-color: ${colors.brand.light};
+  }
+  // Not good practice, but necessary to give error message same padding as caused by border.
+  & + span {
+    padding: 0 ${spacing.xsmall};
+  }
 `;
 
 interface ResourceAddedSnackProps {
@@ -162,11 +180,11 @@ const AddResourceToFolder = ({ onClose, resource }: Props) => {
       resources: [],
     },
   ];
-  const { addFolder } = useAddFolderMutation();
   const { updateFolderResource } = useUpdateFolderResourceMutation();
-  const { addResourceToFolder } = useAddResourceToFolderMutation(
-    selectedFolder?.id ?? '',
-  );
+  const {
+    addResourceToFolder,
+    loading: addResourceLoading,
+  } = useAddResourceToFolderMutation(selectedFolder?.id ?? '');
 
   const onSave = async () => {
     if (selectedFolder) {
@@ -198,20 +216,21 @@ const AddResourceToFolder = ({ onClose, resource }: Props) => {
     onClose();
   };
 
-  const onAddNewFolder = async (name: string, parentId: string) => {
-    const res = await addFolder({
-      variables: {
-        name,
-        parentId: parentId !== 'folders' ? parentId : undefined,
-      },
-    });
-    return res.data!.addFolder;
-  };
+  const firstFolderId = structureFolders?.[0]?.subfolders[0]?.id;
+  const defaultOpenFolders = firstFolderId
+    ? ['folders', firstFolderId]
+    : ['folders'];
+
+  useEffect(() => {
+    if (firstFolderId) {
+      setSelectedFolderId(firstFolderId);
+    }
+  }, [firstFolderId]);
 
   return (
     <AddResourceContainer>
-      <h1>{t('myNdla.resource.addToMyNdla')}</h1>
       <ListResource
+        id={resource.id.toString()}
         tagLinkPrefix="/minndla/tags"
         isLoading={metaLoading}
         link={resource.path}
@@ -222,16 +241,23 @@ const AddResourceToFolder = ({ onClose, resource }: Props) => {
           alt: meta?.metaImage?.alt ?? '',
         }}
       />
-      <TreeStructure
-        folders={structureFolders}
-        label={t('myNdla.myFolders')}
-        onNewFolder={onAddNewFolder}
-        onSelectFolder={setSelectedFolderId}
-        defaultOpenFolders={['folders']}
-        framed
-        editable
-        targetResource={storedResource}
-      />
+      <TreestructureContainer>
+        <TreeStructure
+          folders={structureFolders}
+          label={t('myNdla.myFolders')}
+          onSelectFolder={setSelectedFolderId}
+          defaultOpenFolders={defaultOpenFolders}
+          type={'picker'}
+          targetResource={storedResource}
+          newFolderInput={({ parentId, onClose, onCreate }) => (
+            <StyledNewFolder
+              parentId={parentId}
+              onClose={onClose}
+              onCreate={onCreate}
+            />
+          )}
+        />
+      </TreestructureContainer>
       {alreadyAdded && (
         <MessageBox type="danger">{t('myNdla.alreadyInFolder')}</MessageBox>
       )}
@@ -255,12 +281,29 @@ const AddResourceToFolder = ({ onClose, resource }: Props) => {
         }}
       />
       <ButtonRow>
-        <Button outline onClick={onClose}>
+        <Button
+          variant="outline"
+          onClick={onClose}
+          onMouseDown={e => {
+            e.preventDefault();
+          }}
+          onMouseUp={e => {
+            e.preventDefault();
+          }}>
           {t('cancel')}
         </Button>
-        <Button disabled={!canSave} onClick={onSave}>
+        <LoadingButton
+          loading={addResourceLoading}
+          disabled={!canSave || addResourceLoading}
+          onClick={onSave}
+          onMouseDown={e => {
+            e.preventDefault();
+          }}
+          onMouseUp={e => {
+            e.preventDefault();
+          }}>
           {t('myNdla.resource.save')}
-        </Button>
+        </LoadingButton>
       </ButtonRow>
     </AddResourceContainer>
   );

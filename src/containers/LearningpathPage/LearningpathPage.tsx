@@ -16,7 +16,7 @@ import {
   withTranslation,
 } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { FeideUserApiType } from '@ndla/ui';
+import { constants, FeideUserApiType } from '@ndla/ui';
 import { getArticleProps } from '../../util/getArticleProps';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { htmlTitle } from '../../util/titleHelper';
@@ -32,8 +32,8 @@ import {
   GQLLearningpathPage_TopicFragment,
   GQLLearningpathPage_TopicPathFragment,
   GQLLearningpathStep,
-  GQLSubject,
 } from '../../graphqlTypes';
+import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from '../../constants';
 
 interface PropData {
   relevance: string;
@@ -122,6 +122,11 @@ const LearningpathPage = ({ data, skipToContentId, stepId, t }: Props) => {
     <div>
       <Helmet>
         <title>{`${getDocumentTitle(t, data)}`}</title>
+        {subject?.metadata.customFields?.[
+          TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY
+        ] === constants.subjectCategories.ARCHIVE_SUBJECTS && (
+          <meta name="robots" content="noindex, nofollow" />
+        )}
       </Helmet>
       <SocialMediaMetadata
         title={htmlTitle(getTitle(subject, learningpath, learningpathStep), [
@@ -185,13 +190,13 @@ LearningpathPage.getDimensions = (props: Props) => {
 };
 
 const getTitle = (
-  subject?: Pick<GQLSubject, 'name'>,
+  subject?: Pick<GQLLearningpathPage_SubjectFragment, 'name' | 'subjectpage'>,
   learningpath?: Pick<GQLLearningpath, 'title'>,
   learningpathStep?: Pick<GQLLearningpathStep, 'title'>,
 ) => {
   return htmlTitle(learningpath?.title, [
     learningpathStep?.title,
-    subject?.name,
+    subject?.subjectpage?.about?.title || subject?.name,
   ]);
 };
 
@@ -216,6 +221,14 @@ export const learningpathPageFragments = {
   subject: gql`
     fragment LearningpathPage_Subject on Subject {
       id
+      metadata {
+        customFields
+      }
+      subjectpage {
+        about {
+          title
+        }
+      }
       ...Learningpath_Subject
     }
     ${Learningpath.fragments.subject}

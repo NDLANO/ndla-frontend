@@ -45,7 +45,7 @@ const getSocialMediaMetaData = (
     .find(t => topics.includes(t.id));
 
   const selectedTitle = selectedMetadata?.name || selectedMetadata?.meta?.title;
-  const subjectTitle = subject.name || subject.subjectpage?.about?.title;
+  const subjectTitle = subject.subjectpage?.about?.title || subject.name;
   const hasSelectedTitle = !!selectedTitle;
   const title = htmlTitle(hasSelectedTitle ? selectedTitle : subjectTitle, [
     hasSelectedTitle ? subjectTitle : undefined,
@@ -153,9 +153,6 @@ const ToolboxSubjectContainer = ({ topicList, subject }: Props) => {
             t('htmlTitles.titleTemplate'),
           ])}
         </title>
-        {socialMediaMetaData.description && (
-          <meta name="description" content={socialMediaMetaData.description} />
-        )}
       </Helmet>
       <SocialMediaMetadata
         title={socialMediaMetaData.title}

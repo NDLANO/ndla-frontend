@@ -133,6 +133,11 @@ export const multidisciplinarySubjectArticleFragments = {
         id
         name
       }
+      subjectpage {
+        about {
+          title
+        }
+      }
     }
   `,
   resourceType: gql`

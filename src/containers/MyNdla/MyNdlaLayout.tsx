@@ -16,6 +16,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 import { useFolder, useFolders } from './folderMutations';
 import { createStaticStructureElements } from '../../util/folderHelpers';
 import IsMobileContext from '../../IsMobileContext';
+import { toHref } from '../../util/urlHelper';
 
 const StyledLayout = styled.div`
   display: grid;
@@ -81,27 +82,33 @@ const MyNdlaLayout = () => {
   }, [selectedFolder, folderId, page]);
 
   const staticStructureElements: FolderType[] = useMemo(
-    () => createStaticStructureElements(folders, t),
-    [folders, t],
+    () =>
+      createStaticStructureElements(
+        location.pathname.startsWith('/minndla/folders') ? folders : [],
+        t,
+      ),
+    [folders, t, location],
   );
 
   return (
     <StyledLayout>
       <StyledSideBar>
-        <TreeStructure
-          folders={staticStructureElements}
-          defaultOpenFolders={defaultSelected}
-          openOnFolderClick
-        />
-        <ButtonWrapper>
-          <SafeLinkButton
-            width="auto"
-            outline
-            to={'/logout'}
-            state={{ from: location.pathname }}>
-            {t('user.buttonLogOut')}
-          </SafeLinkButton>
-        </ButtonWrapper>
+        <div>
+          <TreeStructure
+            type={'navigation'}
+            folders={staticStructureElements}
+            defaultOpenFolders={defaultSelected}
+          />
+          <ButtonWrapper>
+            <SafeLinkButton
+              width="auto"
+              outline
+              reloadDocument
+              to={`/logout?state=${toHref(location)}`}>
+              {t('user.buttonLogOut')}
+            </SafeLinkButton>
+          </ButtonWrapper>
+        </div>
       </StyledSideBar>
       <StyledContent isMobile={isMobile}>
         <Outlet />

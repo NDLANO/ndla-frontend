@@ -16,15 +16,3 @@ export function toLogin() {
 export function toLoginFailure() {
   return '/login/failure';
 }
-
-export function toLogout() {
-  return '/logout';
-}
-
-export function toLogoutSession() {
-  return '/logout/session';
-}
-
-export function toLogoutInitiate() {
-  return '/logout/initiate';
-}

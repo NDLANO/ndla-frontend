@@ -1,549 +1,187 @@
-"""
-Direct the client to resolve this field locally, either from the cache or local resolvers.
-"""
-directive @client(
-  """
-  When true, the client will never use the cache for this value. See
-  https://www.apollographql.com/docs/react/essentials/local-state/#forcing-resolvers-with-clientalways-true
-  """
-  always: Boolean
-) on FIELD | FRAGMENT_DEFINITION | INLINE_FRAGMENT
-
-"""
-Export this locally resolved field as a variable to be used in the remainder of this query. See
-https://www.apollographql.com/docs/react/essentials/local-state/#using-client-fields-as-variables
-"""
-directive @export(
-  """
-  The variable name to export this field as.
-  """
-  as: String!
-) on FIELD
-
-"""
-Specify a custom store key for this result. See
-https://www.apollographql.com/docs/react/advanced/caching/#the-connection-directive
-"""
-directive @connection(
-  """
-  Specify the store key.
-  """
-  key: String!
-
-  """
-  An array of query argument names to include in the generated custom store key.
-  """
-  filter: [String!]
-) on FIELD
-
-scalar StringRecord
-
-type AudioFile {
-  url: String!
-  mimeType: String!
-  fileSize: Int!
-  language: String!
+type AggregationResult {
+  docCountErrorUpperBound: Int!
+  field: String!
+  sumOtherDocCount: Int!
+  values: [BucketResult!]!
 }
 
-type Title {
-  title: String!
-  language: String!
-}
-
-type Description {
-  description: String!
-  language: String!
-}
-
-type Tags {
-  tags: [String!]!
-  language: String!
-}
-
-type CoverPhoto {
-  id: String!
-  url: String!
-  altText: String!
-}
-
-type PodcastMeta {
-  introduction: String!
-  image: ImageMetaInformation
-  language: String!
-}
-
-type Manuscript {
-  manuscript: String!
-  language: String!
-}
-
-interface AudioBase {
-  id: Int!
-  revision: Int!
-  title: Title!
-  audioFile: AudioFile!
+type Article {
+  articleType: String!
+  availability: String
+  competenceGoals: [CompetenceGoal!]
+  conceptIds: [Int!]
+  concepts: [Concept!]
+  content: String!
   copyright: Copyright!
-  tags: Tags!
-  supportedLanguages: [String!]!
-  audioType: String!
-  podcastMeta: PodcastMeta
-  manuscript: Manuscript
+  coreElements: [CoreElement!]
   created: String!
-  updated: String!
-}
-
-type Audio implements AudioBase {
+  crossSubjectTopics(subjectId: String): [CrossSubjectElement!]
+  grepCodes: [String!]
   id: Int!
-  revision: Int!
-  title: Title!
-  audioFile: AudioFile!
-  copyright: Copyright!
-  tags: Tags!
-  supportedLanguages: [String!]!
-  audioType: String!
-  podcastMeta: PodcastMeta
-  manuscript: Manuscript
-  created: String!
-  updated: String!
-}
-
-type AudioWithSeries implements AudioBase {
-  id: Int!
-  revision: Int!
-  title: Title!
-  audioFile: AudioFile!
-  copyright: Copyright!
-  tags: Tags!
-  supportedLanguages: [String!]!
-  audioType: String!
-  podcastMeta: PodcastMeta
-  manuscript: Manuscript
-  created: String!
-  updated: String!
-  series: PodcastSeries
-}
-
-interface PodcastSeriesBase {
-  id: Int!
-  title: Title!
-  description: Description!
-  supportedLanguages: [String!]!
-  coverPhoto: CoverPhoto!
-}
-
-type PodcastSeries implements PodcastSeriesBase {
-  id: Int!
-  title: Title!
-  description: Description!
-  supportedLanguages: [String!]!
-  coverPhoto: CoverPhoto!
-}
-
-type PodcastSeriesWithEpisodes implements PodcastSeriesBase {
-  id: Int!
-  title: Title!
-  description: Description!
-  supportedLanguages: [String!]!
-  episodes: [Audio!]
-  coverPhoto: CoverPhoto!
-}
-
-type AudioSummary {
-  id: Int!
-  title: Title!
-  audioType: String!
-  url: String!
-  license: String!
-  supportedLanguages: [String!]!
-  manuscript: Manuscript
-  podcastMeta: PodcastMeta
-  lastUpdated: String!
-}
-
-type AudioSearch {
-  pageSize: Int!
-  page: Int
-  language: String!
-  totalCount: Int!
-  results: [AudioSummary!]!
-}
-
-type PodcastSeriesSummary {
-  id: Int!
-  title: Title!
-  description: Description!
-  supportedLanguages: [String!]
-  episodes: [AudioSummary!]
-  coverPhoto: CoverPhoto!
-}
-
-type PodcastSeriesSearch {
-  pageSize: Int!
-  page: Int
-  language: String!
-  totalCount: Int!
-  results: [PodcastSeriesSummary!]!
-}
-
-type ResourceTypeDefinition {
-  id: String!
-  name: String!
-  subtypes: [ResourceTypeDefinition!]
-}
-
-type ResourceType {
-  id: String!
-  name: String!
-  resources(topicId: String!): [Resource!]
-}
-
-type MetaImage {
-  url: String!
-  alt: String!
-}
-
-type Meta {
-  id: Int!
-  title: String!
   introduction: String
-  metaDescription: String
+  metaData: ArticleMetaData
+  metaDescription: String!
   metaImage: MetaImage
-  lastUpdated: String
-  availability: String
-}
-
-type LearningpathStepEmbedUrl {
-  url: String!
-  embedType: String!
-}
-
-type LearningpathStepOembed {
-  type: String!
-  version: String!
-  height: Int!
-  html: String!
-  width: Int!
-}
-
-type LearningpathStep {
-  id: Int!
-  title: String!
-  seqNo: Int!
-  description: String
-  embedUrl: LearningpathStepEmbedUrl
-  license: License
-  metaUrl: String!
+  oembed: String
+  oldNdlaUrl: String
+  published: String!
+  relatedContent: [RelatedContent!]
+  requiredLibraries: [ArticleRequiredLibrary!]
   revision: Int!
-  status: String!
-  supportedLanguages: [String!]!
-  type: String!
-  article: Article
-  resource: Resource
-  showTitle: Boolean!
-  oembed: LearningpathStepOembed
-}
-
-type LearningpathCoverphoto {
-  url: String!
-  metaUrl: String!
-}
-
-type LearningpathCopyright {
-  license: License!
-  contributors: [Contributor!]!
-}
-
-type Learningpath {
-  id: Int!
+  revisionDate: String
+  supportedLanguages: [String!]
+  tags: [String!]
   title: String!
-  description: String!
-  copyright: LearningpathCopyright!
-  duration: Int
-  canEdit: Boolean!
-  verificationStatus: String!
-  lastUpdated: String!
-  tags: [String!]!
-  supportedLanguages: [String!]!
-  isBasedOn: Int
-  learningsteps: [LearningpathStep!]!
-  metaUrl: String!
-  revision: Int!
-  learningstepUrl: String!
-  status: String!
-  coverphoto: LearningpathCoverphoto
+  updated: String!
+  visualElement: VisualElement
 }
 
-type TaxonomyMetadata {
-  grepCodes: [String!]!
-  visible: Boolean!
-  customFields: StringRecord!
-}
-
-interface TaxonomyEntity {
-  id: String!
-  name: String!
-  contentUri: String
-  path: String!
-  paths: [String!]!
-  metadata: TaxonomyMetadata!
-  relevanceId: String
-  rank: Int
-  supportedLanguages: [String!]!
-}
-
-interface WithArticle {
-  meta: Meta
-  availability: String
-}
-
-type Resource implements TaxonomyEntity & WithArticle {
-  id: String!
-  name: String!
-  contentUri: String
-  path: String!
-  paths: [String!]!
-  meta: Meta
-  metadata: TaxonomyMetadata!
-  learningpath: Learningpath
-  relevanceId: String
-  rank: Int
-  article(subjectId: String, isOembed: String): Article
-  availability: String
-  resourceTypes: [ResourceType!]
-  parents: [Topic!]
-  breadcrumbs: [[String!]!]
-  supportedLanguages: [String!]!
-}
-
-type Topic implements TaxonomyEntity & WithArticle {
-  id: String!
-  name: String!
-  contentUri: String
-  path: String!
-  paths: [String!]!
-  meta: Meta
-  metadata: TaxonomyMetadata!
-  relevanceId: String
-  rank: Int
-  article(subjectId: String, showVisualElement: String): Article
-  availability: String
-  isPrimary: Boolean
-  parent: String
-  subtopics: [Topic!]
-  pathTopics: [[Topic!]!]
-  coreResources(subjectId: String): [Resource!]
-  supplementaryResources(subjectId: String): [Resource!]
-  alternateTopics: [Topic!]
-  breadcrumbs: [[String!]!]
-  supportedLanguages: [String!]!
-}
-
-type License {
-  license: String!
-  url: String
-  description: String
-}
-
-type Contributor {
-  type: String!
-  name: String!
-}
-
-type Copyright {
-  license: License!
-  creators: [Contributor!]!
-  processors: [Contributor!]!
-  rightsholders: [Contributor!]!
-  origin: String
+type ArticleMetaData {
+  audios: [AudioLicense!]
+  brightcoves: [BrightcoveLicense!]
+  concepts: [ConceptLicense!]
+  copyText: String
+  footnotes: [FootNote!]
+  h5ps: [H5pLicense!]
+  images: [ImageLicense!]
+  podcasts: [PodcastLicense!]
 }
 
 type ArticleRequiredLibrary {
+  mediaType: String!
   name: String!
   url: String!
-  mediaType: String!
 }
 
-type FootNote {
-  ref: Int!
-  title: String!
-  year: String!
-  authors: [String!]!
-  edition: String
-  publisher: String
-  url: String
-}
-
-type ImageMetaInformation {
-  id: String!
-  metaUrl: String!
-  title: String!
-  altText: String!
-  imageUrl: String!
-  size: Int!
-  contentType: String!
-  copyright: Copyright!
-  tags: [String!]!
-  caption: String!
+type ArticleSearchResult implements SearchResult {
+  contexts: [SearchContext!]!
+  id: Int!
+  metaDescription: String!
+  metaImage: MetaImage
   supportedLanguages: [String!]!
-  created: String!
-  createdBy: String!
+  title: String!
+  traits: [String!]!
+  url: String!
 }
 
-type ImageLicense {
-  title: String!
-  src: String!
-  altText: String!
+type Audio implements AudioBase {
+  audioFile: AudioFile!
+  audioType: String!
   copyright: Copyright!
-  contentType: String
-  copyText: String
+  created: String!
+  id: Int!
+  manuscript: Manuscript
+  podcastMeta: PodcastMeta
+  revision: Int!
+  supportedLanguages: [String!]!
+  tags: Tags!
+  title: Title!
+  updated: String!
+}
+
+interface AudioBase {
+  audioFile: AudioFile!
+  audioType: String!
+  copyright: Copyright!
+  created: String!
+  id: Int!
+  manuscript: Manuscript
+  podcastMeta: PodcastMeta
+  revision: Int!
+  supportedLanguages: [String!]!
+  tags: Tags!
+  title: Title!
+  updated: String!
+}
+
+type AudioFile {
+  fileSize: Int!
+  language: String!
+  mimeType: String!
+  url: String!
 }
 
 type AudioLicense {
-  title: String!
-  src: String!
-  copyright: Copyright!
   copyText: String
+  copyright: Copyright!
+  src: String!
+  title: String!
 }
 
-type PodcastLicense {
-  title: String!
-  src: String!
+type AudioSearch {
+  language: String!
+  page: Int
+  pageSize: Int!
+  results: [AudioSummary!]!
+  totalCount: Int!
+}
+
+type AudioSummary {
+  audioType: String!
+  id: Int!
+  lastUpdated: String!
+  license: String!
+  manuscript: Manuscript
+  podcastMeta: PodcastMeta
+  supportedLanguages: [String!]!
+  title: Title!
+  url: String!
+}
+
+type AudioWithSeries implements AudioBase {
+  audioFile: AudioFile!
+  audioType: String!
   copyright: Copyright!
-  copyText: String
+  created: String!
+  id: Int!
+  manuscript: Manuscript
+  podcastMeta: PodcastMeta
+  revision: Int!
+  series: PodcastSeries
+  supportedLanguages: [String!]!
+  tags: Tags!
+  title: Title!
+  updated: String!
+}
+
+type Breadcrumb {
+  id: String!
+  name: String!
+}
+
+type BrightcoveElement {
+  account: String
+  caption: String
+  cover: String
   description: String
+  download: String
+  iframe: BrightcoveIframe
+  player: String
+  src: String
+  uploadDate: String
+  videoid: String
 }
 
 type BrightcoveIframe {
-  src: String!
   height: Int!
+  src: String!
   width: Int!
 }
 
 type BrightcoveLicense {
-  title: String!
-  description: String
+  copyright: Copyright!
   cover: String
-  src: String
+  description: String
   download: String
   iframe: BrightcoveIframe
-  copyright: Copyright!
+  src: String
+  title: String!
   uploadDate: String
 }
 
-type H5pLicense {
-  title: String!
-  src: String
-  thumbnail: String
-  copyright: Copyright!
-}
-
-type ConceptCopyright {
-  license: License
-  creators: [Contributor!]!
-  processors: [Contributor!]!
-  rightsholders: [Contributor!]!
-  origin: String
-}
-
-type ConceptLicense {
-  title: String!
-  src: String
-  copyright: ConceptCopyright
-}
-
-type ArticleMetaData {
-  footnotes: [FootNote!]
-  images: [ImageLicense!]
-  audios: [AudioLicense!]
-  podcasts: [PodcastLicense!]
-  brightcoves: [BrightcoveLicense!]
-  h5ps: [H5pLicense!]
-  concepts: [ConceptLicense!]
-  copyText: String
-}
-
-type RelatedContent {
-  title: String!
-  url: String!
-}
-
-type Article {
-  id: Int!
-  revision: Int!
-  title: String!
-  introduction: String
-  content: String!
-  created: String!
-  updated: String!
-  published: String!
-  visualElement: VisualElement
-  metaImage: MetaImage
-  metaDescription: String!
-  articleType: String!
-  oldNdlaUrl: String
-  requiredLibraries: [ArticleRequiredLibrary!]
-  metaData: ArticleMetaData
-  supportedLanguages: [String!]
-  copyright: Copyright!
-  tags: [String!]
-  grepCodes: [String!]
-  competenceGoals: [CompetenceGoal!]
-  coreElements: [CoreElement!]
-  crossSubjectTopics(subjectId: String): [CrossSubjectElement!]
-  oembed: String
-  conceptIds: [Int!]
-  concepts: [Concept!]
-  relatedContent: [RelatedContent!]
-  availability: String
-  revisionDate: String
-}
-
-type embedVisualelement {
-  visualElement: VisualElement
-}
-
-type CompetenceGoal {
-  id: String!
-  code: String
-  title: String!
-  type: String!
-  language: String
-  curriculumId: String
-  curriculumCode: String
-  curriculum: Reference
-  competenceGoalSetCode: String
-  competenceGoalSet: Reference
-  crossSubjectTopicsCodes: [Element!]
-  crossSubjectTopics: [Element!]
-  coreElementsCodes: [Element!]
-  coreElements: [Element!]
-  competenceAimSetId: String
-}
-
-type CoreElement {
-  id: String!
-  title: String!
-  description: String
-  language: String
-  curriculumCode: String
-  curriculum: Reference
-}
-
-type CrossSubjectElement {
-  title: String!
-  code: String
-  path: String
-}
-
-type Element {
-  reference: Reference!
-  explanation: [String]!
-}
-
-type Reference {
-  id: String!
-  title: String!
-  code: String
+type BucketResult {
+  count: Int!
+  value: String!
 }
 
 type Category {
@@ -551,84 +189,386 @@ type Category {
   subjects: [Subject!]!
 }
 
-type Frontpage {
-  topical: [Resource!]!
-  categories: [Category!]!
-}
-
-type SubjectPageVisualElement {
+type CompetenceGoal {
+  code: String
+  competenceAimSetId: String
+  competenceGoalSet: Reference
+  competenceGoalSetCode: String
+  coreElements: [Element!]
+  coreElementsCodes: [Element!]
+  crossSubjectTopics: [Element!]
+  crossSubjectTopicsCodes: [Element!]
+  curriculum: Reference
+  curriculumCode: String
+  curriculumId: String
+  id: String!
+  language: String
+  title: String!
   type: String!
-  url: String!
-  alt: String
 }
 
-type SubjectPageAbout {
-  title: String!
-  description: String!
-  visualElement: SubjectPageVisualElement!
-}
-
-type SubjectPageBanner {
-  desktopUrl: String!
-  desktopId: String!
-  mobileUrl: String
-  mobileId: String
-}
-
-type SubjectPage {
-  topical(subjectId: String): TaxonomyEntity
-  mostRead(subjectId: String): [TaxonomyEntity!]!
-  banner: SubjectPageBanner!
+type Concept {
+  articleIds: [Int!]!
+  articles: [Meta!]
+  content: String!
+  copyright: ConceptCopyright
+  created: String!
   id: Int!
-  name: String!
-  facebook: String
-  editorsChoices(subjectId: String): [TaxonomyEntity!]!
-  latestContent(subjectId: String): [TaxonomyEntity!]
-  about: SubjectPageAbout
-  goTo: [ResourceTypeDefinition!]!
-  metaDescription: String
-  layout: String!
-  twitter: String
-  supportedLanguages: [String!]!
+  image: ImageLicense
+  metaImage: MetaImage!
+  source: String
+  subjectIds: [String!]
+  subjectNames: [String!]
+  tags: [String!]!
+  title: String!
+  visualElement: VisualElement
 }
 
-type FilmPageAbout {
+type ConceptCopyright {
+  creators: [Contributor!]!
+  license: License
+  origin: String
+  processors: [Contributor!]!
+  rightsholders: [Contributor!]!
+}
+
+type ConceptLicense {
+  copyright: ConceptCopyright
+  src: String
   title: String!
-  description: String!
-  visualElement: SubjectPageVisualElement!
+}
+
+type ConceptResult {
+  concepts: [Concept!]!
   language: String!
+  page: Int
+  pageSize: Int!
+  totalCount: Int!
+}
+
+type Contributor {
+  name: String!
+  type: String!
+}
+
+type Copyright {
+  creators: [Contributor!]!
+  license: License!
+  origin: String
+  processors: [Contributor!]!
+  rightsholders: [Contributor!]!
+}
+
+type CoreElement {
+  curriculum: Reference
+  curriculumCode: String
+  description: String
+  id: String!
+  language: String
+  title: String!
+}
+
+type CoverPhoto {
+  altText: String!
+  id: String!
+  url: String!
+}
+
+type CrossSubjectElement {
+  code: String
+  path: String
+  title: String!
+}
+
+type Description {
+  description: String!
+  language: String!
+}
+
+type Element {
+  explanation: [String]!
+  reference: Reference!
 }
 
 type FilmFrontpage {
-  name: String!
   about: [FilmPageAbout!]!
   movieThemes: [MovieTheme!]!
+  name: String!
   slideShow: [Movie!]!
 }
 
-type MovieTheme {
-  name: [Name!]!
-  movies: [Movie!]!
+type FilmPageAbout {
+  description: String!
+  language: String!
+  title: String!
+  visualElement: SubjectPageVisualElement!
 }
 
-type Name {
+type Folder {
+  breadcrumbs: [Breadcrumb!]!
+  id: String!
   name: String!
+  parentId: String
+  resources: [FolderResource!]!
+  status: String!
+  subfolders: [Folder!]!
+}
+
+type FolderResource {
+  created: String!
+  id: String!
+  path: String!
+  resourceId: Int!
+  resourceType: String!
+  tags: [String!]!
+}
+
+type FolderResourceMeta {
+  description: String!
+  id: Int!
+  metaImage: MetaImage
+  resourceTypes: [FolderResourceResourceType!]!
+  title: String!
+  type: String!
+}
+
+input FolderResourceMetaSearchInput {
+  id: Int!
+  path: String!
+  resourceType: String!
+}
+
+type FolderResourceResourceType {
+  id: String!
+  name: String!
+}
+
+type FootNote {
+  authors: [String!]!
+  edition: String
+  publisher: String
+  ref: Int!
+  title: String!
+  url: String
+  year: String!
+}
+
+type FrontPageResources {
+  results: [FrontpageSearchResult!]!
+  suggestions: [SuggestionResult!]!
+  totalCount: Int!
+}
+
+type Frontpage {
+  categories: [Category!]!
+  topical: [Resource!]!
+}
+
+type FrontpageSearch {
+  learningResources: FrontPageResources!
+  topicResources: FrontPageResources!
+}
+
+type FrontpageSearchResult {
+  filters: [SearchContextFilter!]!
+  id: String!
+  name: String!
+  path: String!
+  resourceTypes: [SearchContextResourceTypes!]!
+  subject: String!
+}
+
+type GroupSearch {
+  aggregations: [AggregationResult!]!
   language: String!
+  page: Int
+  pageSize: Int!
+  resourceType: String!
+  resources: [GroupSearchResult!]!
+  suggestions: [SuggestionResult!]!
+  totalCount: Int!
+}
+
+type GroupSearchResult {
+  contexts: [SearchContext!]!
+  id: Int!
+  ingress: String!
+  metaImage: MetaImage
+  name: String!
+  path: String!
+  traits: [String!]!
+  url: String!
+}
+
+type H5pElement {
+  src: String
+  thumbnail: String
+}
+
+type H5pLicense {
+  copyright: Copyright!
+  src: String
+  thumbnail: String
+  title: String!
+}
+
+type ImageElement {
+  alt: String
+  altText: String!
+  caption: String
+  contentType: String
+  copyText: String
+  focalX: Float
+  focalY: Float
+  lowerRightX: Float
+  lowerRightY: Float
+  resourceid: String
+  src: String!
+  upperLeftX: Float
+  upperLeftY: Float
+}
+
+type ImageLicense {
+  altText: String!
+  contentType: String
+  copyText: String
+  copyright: Copyright!
+  src: String!
+  title: String!
+}
+
+type ImageMetaInformation {
+  altText: String!
+  caption: String!
+  contentType: String!
+  copyright: Copyright!
+  created: String!
+  createdBy: String!
+  id: String!
+  imageUrl: String!
+  metaUrl: String!
+  size: Int!
+  supportedLanguages: [String!]!
+  tags: [String!]!
+  title: String!
+}
+
+type Learningpath {
+  canEdit: Boolean!
+  copyright: LearningpathCopyright!
+  coverphoto: LearningpathCoverphoto
+  description: String!
+  duration: Int
+  id: Int!
+  isBasedOn: Int
+  lastUpdated: String!
+  learningstepUrl: String!
+  learningsteps: [LearningpathStep!]!
+  metaUrl: String!
+  revision: Int!
+  status: String!
+  supportedLanguages: [String!]!
+  tags: [String!]!
+  title: String!
+  verificationStatus: String!
+}
+
+type LearningpathCopyright {
+  contributors: [Contributor!]!
+  license: License!
+}
+
+type LearningpathCoverphoto {
+  metaUrl: String!
+  url: String!
+}
+
+type LearningpathSearchResult implements SearchResult {
+  contexts: [SearchContext!]!
+  id: Int!
+  metaDescription: String!
+  metaImage: MetaImage
+  supportedLanguages: [String!]!
+  title: String!
+  traits: [String!]!
+  url: String!
+}
+
+type LearningpathStep {
+  article: Article
+  description: String
+  embedUrl: LearningpathStepEmbedUrl
+  id: Int!
+  license: License
+  metaUrl: String!
+  oembed: LearningpathStepOembed
+  resource: Resource
+  revision: Int!
+  seqNo: Int!
+  showTitle: Boolean!
+  status: String!
+  supportedLanguages: [String!]!
+  title: String!
+  type: String!
+}
+
+type LearningpathStepEmbedUrl {
+  embedType: String!
+  url: String!
+}
+
+type LearningpathStepOembed {
+  height: Int!
+  html: String!
+  type: String!
+  version: String!
+  width: Int!
+}
+
+type License {
+  description: String
+  license: String!
+  url: String
+}
+
+type ListingPage {
+  subjects: [Subject!]
+  tags: [String!]
+}
+
+type Manuscript {
+  language: String!
+  manuscript: String!
+}
+
+type Meta {
+  availability: String
+  id: Int!
+  introduction: String
+  lastUpdated: String
+  metaDescription: String
+  metaImage: MetaImage
+  title: String!
+}
+
+type MetaImage {
+  alt: String!
+  url: String!
 }
 
 type Movie {
   id: String!
-  title: String!
-  metaImage: MetaImage
   metaDescription: String!
-  resourceTypes: [ResourceType!]!
+  metaImage: MetaImage
   path: String!
+  resourceTypes: [ResourceType!]!
+  title: String!
 }
 
 type MovieMeta {
-  title: String!
-  metaImage: MetaImage
   metaDescription: String
+  metaImage: MetaImage
+  title: String!
 }
 
 type MoviePath {
@@ -640,298 +580,30 @@ type MovieResourceTypes {
   resourceTypes: [ResourceType!]
 }
 
-type Subject implements TaxonomyEntity {
-  id: String!
-  contentUri: String
-  name: String!
-  path: String!
-  paths: [String!]!
-  metadata: TaxonomyMetadata!
-  relevanceId: String!
-  rank: Int
-  subjectpage: SubjectPage
-  topics(all: Boolean): [Topic!]
-  allTopics: [Topic!]
-  grepCodes: [String!]!
-  supportedLanguages: [String!]!
+type MovieTheme {
+  movies: [Movie!]!
+  name: [Name!]!
 }
 
-interface SearchResult {
-  id: Int!
-  title: String!
-  supportedLanguages: [String!]!
-  url: String!
-  metaDescription: String!
-  metaImage: MetaImage
-  traits: [String!]!
-  contexts: [SearchContext!]!
+type Mutation {
+  addFolder(name: String!, parentId: String, status: String): Folder!
+  addFolderResource(
+    folderId: String!
+    path: String!
+    resourceId: Int!
+    resourceType: String!
+    tags: [String!]
+  ): FolderResource!
+  deleteFolder(id: String!): String!
+  deleteFolderResource(folderId: String!, resourceId: String!): String!
+  deletePersonalData: Boolean!
+  updateFolder(id: String!, name: String, status: String): Folder!
+  updateFolderResource(id: String!, tags: [String!]): FolderResource!
 }
 
-type ArticleSearchResult implements SearchResult {
-  id: Int!
-  title: String!
-  supportedLanguages: [String!]!
-  url: String!
-  metaDescription: String!
-  metaImage: MetaImage
-  traits: [String!]!
-  contexts: [SearchContext!]!
-}
-
-type LearningpathSearchResult implements SearchResult {
-  id: Int!
-  title: String!
-  supportedLanguages: [String!]!
-  url: String!
-  metaDescription: String!
-  metaImage: MetaImage
-  traits: [String!]!
-  contexts: [SearchContext!]!
-}
-
-type FrontpageSearchResult {
-  id: String!
-  name: String!
-  resourceTypes: [SearchContextResourceTypes!]!
-  subject: String!
-  path: String!
-  filters: [SearchContextFilter!]!
-}
-
-type SearchContext {
-  breadcrumbs: [String!]!
-  learningResourceType: String!
-  resourceTypes: [SearchContextResourceTypes!]!
-  subject: String!
-  subjectId: String!
-  relevance: String!
-  path: String!
-  id: String!
+type Name {
   language: String!
-  filters: [SearchContextFilter!]!
-}
-
-type SearchContextResourceTypes {
-  id: String!
   name: String!
-  language: String!
-}
-
-type SearchContextFilter {
-  id: String!
-  name: String!
-  relevance: String!
-}
-
-type VisualElementOembed {
-  title: String
-  html: String
-  fullscreen: Boolean
-}
-
-type VisualElement {
-  resource: String
-  url: String
-  copyright: Copyright
-  language: String
-  embed: String
-  title: String
-  brightcove: BrightcoveElement
-  h5p: H5pElement
-  oembed: VisualElementOembed
-  image: ImageElement
-}
-
-type ImageElement {
-  resourceid: String
-  alt: String
-  caption: String
-  lowerRightX: Float
-  lowerRightY: Float
-  upperLeftX: Float
-  upperLeftY: Float
-  focalX: Float
-  focalY: Float
-  src: String!
-  altText: String!
-  contentType: String
-  copyText: String
-}
-
-type BrightcoveElement {
-  videoid: String
-  player: String
-  account: String
-  caption: String
-  description: String
-  cover: String
-  src: String
-  download: String
-  iframe: BrightcoveIframe
-  uploadDate: String
-}
-
-type H5pElement {
-  src: String
-  thumbnail: String
-}
-
-type ListingPage {
-  subjects: [Subject!]
-  tags: [String!]
-}
-
-type ConceptResult {
-  totalCount: Int!
-  page: Int
-  pageSize: Int!
-  language: String!
-  concepts: [Concept!]!
-}
-
-type Concept {
-  id: Int!
-  title: String!
-  content: String!
-  created: String!
-  tags: [String!]!
-  image: ImageLicense
-  subjectIds: [String!]
-  subjectNames: [String!]
-  articleIds: [Int!]!
-  articles: [Meta!]
-  metaImage: MetaImage!
-  visualElement: VisualElement
-  copyright: ConceptCopyright
-  source: String
-}
-
-type Search {
-  pageSize: Int!
-  page: Int
-  language: String!
-  totalCount: Int!
-  results: [SearchResult!]!
-  suggestions: [SuggestionResult!]!
-  aggregations: [AggregationResult!]!
-  concepts: ConceptResult
-}
-
-type SearchWithoutPagination {
-  results: [SearchResult!]!
-}
-
-type SuggestionResult {
-  name: String!
-  suggestions: [SearchSuggestion!]!
-}
-
-type AggregationResult {
-  field: String!
-  sumOtherDocCount: Int!
-  docCountErrorUpperBound: Int!
-  values: [BucketResult!]!
-}
-
-type BucketResult {
-  value: String!
-  count: Int!
-}
-
-type SearchSuggestion {
-  text: String!
-  offset: Int!
-  length: Int!
-  options: [SuggestOption!]!
-}
-
-type SuggestOption {
-  text: String!
-  score: Float!
-}
-
-type GroupSearchResult {
-  id: Int!
-  path: String!
-  name: String!
-  ingress: String!
-  traits: [String!]!
-  contexts: [SearchContext!]!
-  metaImage: MetaImage
-  url: String!
-}
-
-type GroupSearch {
-  language: String!
-  resourceType: String!
-  resources: [GroupSearchResult!]!
-  suggestions: [SuggestionResult!]!
-  aggregations: [AggregationResult!]!
-  totalCount: Int!
-  page: Int
-  pageSize: Int!
-}
-
-type FrontPageResources {
-  results: [FrontpageSearchResult!]!
-  totalCount: Int!
-  suggestions: [SuggestionResult!]!
-}
-
-type FrontpageSearch {
-  topicResources: FrontPageResources!
-  learningResources: FrontPageResources!
-}
-
-type UptimeAlert {
-  title: String!
-  body: String
-  number: Int!
-  closable: Boolean!
-}
-
-type Breadcrumb {
-  id: String!
-  name: String!
-}
-
-type Folder {
-  id: String!
-  name: String!
-  status: String!
-  breadcrumbs: [Breadcrumb!]!
-  parentId: String
-  subfolders: [Folder!]!
-  resources: [FolderResource!]!
-}
-
-type FolderResource {
-  id: String!
-  resourceId: Int!
-  resourceType: String!
-  path: String!
-  created: String!
-  tags: [String!]!
-}
-
-input FolderResourceMetaSearchInput {
-  id: Int!
-  resourceType: String!
-  path: String!
-}
-
-type FolderResourceResourceType {
-  id: String!
-  name: String!
-}
-
-type FolderResourceMeta {
-  id: Int!
-  type: String!
-  resourceTypes: [FolderResourceResourceType!]!
-  metaImage: MetaImage
-  title: String!
-  description: String!
 }
 
 type NewFolder {
@@ -941,9 +613,393 @@ type NewFolder {
 }
 
 type NewFolderResource {
-  resourceType: String!
   path: String!
+  resourceType: String!
   tags: [String!]
+}
+
+type PodcastLicense {
+  copyText: String
+  copyright: Copyright!
+  description: String
+  src: String!
+  title: String!
+}
+
+type PodcastMeta {
+  image: ImageMetaInformation
+  introduction: String!
+  language: String!
+}
+
+type PodcastSeries implements PodcastSeriesBase {
+  coverPhoto: CoverPhoto!
+  description: Description!
+  id: Int!
+  supportedLanguages: [String!]!
+  title: Title!
+}
+
+interface PodcastSeriesBase {
+  coverPhoto: CoverPhoto!
+  description: Description!
+  id: Int!
+  supportedLanguages: [String!]!
+  title: Title!
+}
+
+type PodcastSeriesSearch {
+  language: String!
+  page: Int
+  pageSize: Int!
+  results: [PodcastSeriesSummary!]!
+  totalCount: Int!
+}
+
+type PodcastSeriesSummary {
+  coverPhoto: CoverPhoto!
+  description: Description!
+  episodes: [AudioSummary!]
+  id: Int!
+  supportedLanguages: [String!]
+  title: Title!
+}
+
+type PodcastSeriesWithEpisodes implements PodcastSeriesBase {
+  coverPhoto: CoverPhoto!
+  description: Description!
+  episodes: [Audio!]
+  id: Int!
+  supportedLanguages: [String!]!
+  title: Title!
+}
+
+type Query {
+  alerts: [UptimeAlert]
+  allFolderResources(size: Int): [FolderResource!]!
+  article(
+    id: String!
+    isOembed: String
+    path: String
+    showVisualElement: String
+    subjectId: String
+  ): Article
+  competenceGoal(code: String!, language: String): CompetenceGoal
+  competenceGoals(
+    codes: [String]
+    language: String
+    nodeId: String
+  ): [CompetenceGoal!]
+  concept(id: Int!): Concept
+  conceptSearch(
+    exactMatch: Boolean
+    fallback: Boolean
+    ids: [Int!]
+    language: String
+    page: Int
+    pageSize: Int
+    query: String
+    subjects: String
+    tags: String
+  ): ConceptResult
+  coreElement(code: String!, language: String): CoreElement
+  coreElements(codes: [String], language: String): [CoreElement!]
+  filmfrontpage: FilmFrontpage
+  folder(
+    id: Int!
+    includeResources: Boolean
+    includeSubfolders: Boolean
+  ): Folder!
+  folderResourceMeta(
+    resource: FolderResourceMetaSearchInput!
+  ): FolderResourceMeta
+  folderResourceMetaSearch(
+    resources: [FolderResourceMetaSearchInput!]!
+  ): [FolderResourceMeta!]!
+  folders(includeResources: Boolean, includeSubfolders: Boolean): [Folder!]!
+  frontpage: Frontpage
+  frontpageSearch(query: String): FrontpageSearch
+  groupSearch(
+    aggregatePaths: [String!]
+    contextTypes: String
+    fallback: String
+    grepCodes: String
+    language: String
+    levels: String
+    page: Int
+    pageSize: Int
+    query: String
+    resourceTypes: String
+    subjects: String
+  ): [GroupSearch!]
+  learningpath(pathId: String!): Learningpath
+  listingPage(subjects: String): ListingPage
+  podcast(id: Int!): AudioWithSeries
+  podcastSearch(fallback: Boolean, page: Int!, pageSize: Int!): AudioSearch
+  podcastSeries(id: Int!): PodcastSeriesWithEpisodes
+  podcastSeriesSearch(
+    fallback: Boolean
+    page: Int!
+    pageSize: Int!
+  ): PodcastSeriesSearch
+  resource(id: String!, subjectId: String, topicId: String): Resource
+  resourceTypes: [ResourceTypeDefinition!]
+  search(
+    aggregatePaths: [String!]
+    contextFilters: String
+    contextTypes: String
+    fallback: String
+    grepCodes: String
+    ids: [Int!]
+    language: String
+    languageFilter: String
+    levels: String
+    page: Int
+    pageSize: Int
+    query: String
+    relevance: String
+    resourceTypes: String
+    sort: String
+    subjects: String
+  ): Search
+  searchWithoutPagination(
+    contextFilters: String
+    contextTypes: String
+    fallback: String
+    ids: [Int!]
+    language: String
+    languageFilter: String
+    levels: String
+    query: String
+    relevance: String
+    resourceTypes: String
+    sort: String
+    subjects: String
+  ): SearchWithoutPagination
+  subject(id: String!): Subject
+  subjectpage(id: Int!): SubjectPage
+  subjects(
+    filterVisible: Boolean
+    metadataFilterKey: String
+    metadataFilterValue: String
+  ): [Subject!]
+  topic(id: String!, subjectId: String): Topic
+  topics(contentUri: String, filterVisible: Boolean): [Topic!]
+}
+
+type Reference {
+  code: String
+  id: String!
+  title: String!
+}
+
+type RelatedContent {
+  title: String!
+  url: String!
+}
+
+type Resource implements TaxonomyEntity & WithArticle {
+  article(isOembed: String, subjectId: String): Article
+  availability: String
+  breadcrumbs: [[String!]!]
+  contentUri: String
+  id: String!
+  learningpath: Learningpath
+  meta: Meta
+  metadata: TaxonomyMetadata!
+  name: String!
+  parents: [Topic!]
+  path: String!
+  paths: [String!]!
+  rank: Int
+  relevanceId: String
+  resourceTypes: [ResourceType!]
+  supportedLanguages: [String!]!
+}
+
+type ResourceType {
+  id: String!
+  name: String!
+  resources(topicId: String!): [Resource!]
+}
+
+type ResourceTypeDefinition {
+  id: String!
+  name: String!
+  subtypes: [ResourceTypeDefinition!]
+}
+
+type Search {
+  aggregations: [AggregationResult!]!
+  concepts: ConceptResult
+  language: String!
+  page: Int
+  pageSize: Int!
+  results: [SearchResult!]!
+  suggestions: [SuggestionResult!]!
+  totalCount: Int!
+}
+
+type SearchContext {
+  breadcrumbs: [String!]!
+  filters: [SearchContextFilter!]!
+  id: String!
+  language: String!
+  learningResourceType: String!
+  path: String!
+  relevance: String!
+  resourceTypes: [SearchContextResourceTypes!]!
+  subject: String!
+  subjectId: String!
+}
+
+type SearchContextFilter {
+  id: String!
+  name: String!
+  relevance: String!
+}
+
+type SearchContextResourceTypes {
+  id: String!
+  language: String!
+  name: String!
+}
+
+interface SearchResult {
+  contexts: [SearchContext!]!
+  id: Int!
+  metaDescription: String!
+  metaImage: MetaImage
+  supportedLanguages: [String!]!
+  title: String!
+  traits: [String!]!
+  url: String!
+}
+
+type SearchSuggestion {
+  length: Int!
+  offset: Int!
+  options: [SuggestOption!]!
+  text: String!
+}
+
+type SearchWithoutPagination {
+  results: [SearchResult!]!
+}
+
+scalar StringRecord
+
+type Subject implements TaxonomyEntity {
+  allTopics: [Topic!]
+  contentUri: String
+  grepCodes: [String!]!
+  id: String!
+  metadata: TaxonomyMetadata!
+  name: String!
+  path: String!
+  paths: [String!]!
+  rank: Int
+  relevanceId: String!
+  subjectpage: SubjectPage
+  supportedLanguages: [String!]!
+  topics(all: Boolean): [Topic!]
+}
+
+type SubjectPage {
+  about: SubjectPageAbout
+  banner: SubjectPageBanner!
+  editorsChoices(subjectId: String): [TaxonomyEntity!]!
+  facebook: String
+  goTo: [ResourceTypeDefinition!]!
+  id: Int!
+  latestContent(subjectId: String): [TaxonomyEntity!]
+  layout: String!
+  metaDescription: String
+  mostRead(subjectId: String): [TaxonomyEntity!]!
+  name: String!
+  supportedLanguages: [String!]!
+  topical(subjectId: String): TaxonomyEntity
+  twitter: String
+}
+
+type SubjectPageAbout {
+  description: String!
+  title: String!
+  visualElement: SubjectPageVisualElement!
+}
+
+type SubjectPageBanner {
+  desktopId: String!
+  desktopUrl: String!
+  mobileId: String
+  mobileUrl: String
+}
+
+type SubjectPageVisualElement {
+  alt: String
+  type: String!
+  url: String!
+}
+
+type SuggestOption {
+  score: Float!
+  text: String!
+}
+
+type SuggestionResult {
+  name: String!
+  suggestions: [SearchSuggestion!]!
+}
+
+type Tags {
+  language: String!
+  tags: [String!]!
+}
+
+interface TaxonomyEntity {
+  contentUri: String
+  id: String!
+  metadata: TaxonomyMetadata!
+  name: String!
+  path: String!
+  paths: [String!]!
+  rank: Int
+  relevanceId: String
+  supportedLanguages: [String!]!
+}
+
+type TaxonomyMetadata {
+  customFields: StringRecord!
+  grepCodes: [String!]!
+  visible: Boolean!
+}
+
+type Title {
+  language: String!
+  title: String!
+}
+
+type Topic implements TaxonomyEntity & WithArticle {
+  alternateTopics: [Topic!]
+  article(showVisualElement: String, subjectId: String): Article
+  availability: String
+  breadcrumbs: [[String!]!]
+  contentUri: String
+  coreResources(subjectId: String): [Resource!]
+  id: String!
+  isPrimary: Boolean
+  meta: Meta
+  metadata: TaxonomyMetadata!
+  name: String!
+  parent: String
+  path: String!
+  pathTopics: [[Topic!]!]
+  paths: [String!]!
+  rank: Int
+  relevanceId: String
+  subtopics: [Topic!]
+  supplementaryResources(subjectId: String): [Resource!]
+  supportedLanguages: [String!]!
 }
 
 type UpdatedFolder {
@@ -955,131 +1011,37 @@ type UpdatedFolderResource {
   tags: [String!]
 }
 
-type Query {
-  resource(id: String!, subjectId: String, topicId: String): Resource
-  article(
-    id: String!
-    subjectId: String
-    isOembed: String
-    path: String
-    showVisualElement: String
-  ): Article
-  subject(id: String!): Subject
-  subjectpage(id: Int!): SubjectPage
-  filmfrontpage: FilmFrontpage
-  learningpath(pathId: String!): Learningpath
-  subjects(
-    metadataFilterKey: String
-    metadataFilterValue: String
-    filterVisible: Boolean
-  ): [Subject!]
-  topic(id: String!, subjectId: String): Topic
-  topics(contentUri: String, filterVisible: Boolean): [Topic!]
-  frontpage: Frontpage
-  competenceGoals(
-    codes: [String]
-    nodeId: String
-    language: String
-  ): [CompetenceGoal!]
-  competenceGoal(code: String!, language: String): CompetenceGoal
-  coreElements(codes: [String], language: String): [CoreElement!]
-  coreElement(code: String!, language: String): CoreElement
-  search(
-    query: String
-    page: Int
-    pageSize: Int
-    contextTypes: String
-    language: String
-    ids: [Int!]
-    resourceTypes: String
-    contextFilters: String
-    levels: String
-    sort: String
-    fallback: String
-    subjects: String
-    languageFilter: String
-    relevance: String
-    grepCodes: String
-    aggregatePaths: [String!]
-  ): Search
-  resourceTypes: [ResourceTypeDefinition!]
-  groupSearch(
-    query: String
-    subjects: String
-    levels: String
-    resourceTypes: String
-    contextTypes: String
-    page: Int
-    pageSize: Int
-    language: String
-    fallback: String
-    grepCodes: String
-    aggregatePaths: [String!]
-  ): [GroupSearch!]
-  listingPage(subjects: String): ListingPage
-  concept(id: Int!): Concept
-  conceptSearch(
-    query: String
-    subjects: String
-    tags: String
-    ids: [Int!]
-    page: Int
-    pageSize: Int
-    exactMatch: Boolean
-    language: String
-    fallback: Boolean
-  ): ConceptResult
-  frontpageSearch(query: String): FrontpageSearch
-  searchWithoutPagination(
-    query: String
-    contextTypes: String
-    language: String
-    ids: [Int!]
-    resourceTypes: String
-    contextFilters: String
-    levels: String
-    sort: String
-    fallback: String
-    subjects: String
-    languageFilter: String
-    relevance: String
-  ): SearchWithoutPagination
-  podcast(id: Int!): AudioWithSeries
-  podcastSearch(page: Int!, pageSize: Int!, fallback: Boolean): AudioSearch
-  podcastSeries(id: Int!): PodcastSeriesWithEpisodes
-  podcastSeriesSearch(
-    page: Int!
-    pageSize: Int!
-    fallback: Boolean
-  ): PodcastSeriesSearch
-  alerts: [UptimeAlert]
-  folders(includeSubfolders: Boolean, includeResources: Boolean): [Folder!]!
-  folderResourceMeta(
-    resource: FolderResourceMetaSearchInput!
-  ): FolderResourceMeta!
-  folderResourceMetaSearch(
-    resources: [FolderResourceMetaSearchInput!]!
-  ): [FolderResourceMeta!]!
-  folder(
-    id: Int!
-    includeSubfolders: Boolean
-    includeResources: Boolean
-  ): Folder!
-  allFolderResources(size: Int): [FolderResource!]!
+type UptimeAlert {
+  body: String
+  closable: Boolean!
+  number: Int!
+  title: String!
 }
 
-type Mutation {
-  addFolder(name: String!, parentId: String, status: String): Folder!
-  updateFolder(id: String!, name: String, status: String): Folder!
-  deleteFolder(id: String!): String!
-  addFolderResource(
-    resourceId: Int!
-    folderId: String!
-    resourceType: String!
-    path: String!
-    tags: [String!]
-  ): FolderResource!
-  updateFolderResource(id: String!, tags: [String!]): FolderResource!
-  deleteFolderResource(folderId: String!, resourceId: String!): String!
-  deletePersonalData: Boolean!
+type VisualElement {
+  brightcove: BrightcoveElement
+  copyright: Copyright
+  embed: String
+  h5p: H5pElement
+  image: ImageElement
+  language: String
+  oembed: VisualElementOembed
+  resource: String
+  title: String
+  url: String
+}
+
+type VisualElementOembed {
+  fullscreen: Boolean
+  html: String
+  title: String
+}
+
+interface WithArticle {
+  availability: String
+  meta: Meta
+}
+
+type embedVisualelement {
+  visualElement: VisualElement
 }

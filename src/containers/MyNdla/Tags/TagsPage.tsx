@@ -6,9 +6,9 @@
  *
  */
 
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { keyBy } from 'lodash';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { HelmetWithTracker } from '@ndla/tracker';
@@ -17,10 +17,9 @@ import { SafeLinkButton } from '@ndla/safelink';
 import { ListResource, useSnack } from '@ndla/ui';
 import { copyTextToClipboard } from '@ndla/util';
 import { FolderOutlined } from '@ndla/icons/contentType';
-import { HashTag, Link } from '@ndla/icons/common';
+import { FileDocumentOutline, HashTag, Link } from '@ndla/icons/common';
 import config from '../../../config';
 import { useFolderResourceMetaSearch, useFolders } from '../folderMutations';
-import TagsBreadcrumb from './TagsBreadcrumb';
 import NotFoundPage from '../../NotFoundPage/NotFoundPage';
 import { getAllTags, getResourcesForTag } from '../../../util/folderHelpers';
 import { BlockWrapper, ViewType } from '../Folders/FoldersPage';
@@ -28,8 +27,13 @@ import { GQLFolderResource } from '../../../graphqlTypes';
 import ListViewOptions from '../Folders/ListViewOptions';
 import { ResourceAction } from '../Folders/ResourceList';
 import AddResourceToFolderModal from '../../../components/MyNdla/AddResourceToFolderModal';
+import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
+import MyNdlaTitle from '../components/MyNdlaTitle';
+import TitleWrapper from '../components/TitleWrapper';
+import { usePrevious } from '../../../util/utilityHooks';
 
 const StyledUl = styled.ul`
+  padding: 0px;
   list-style: none;
   display: flex;
   gap: ${spacing.small};
@@ -49,12 +53,29 @@ const StyledSafeLinkButton = styled(SafeLinkButton)`
   align-items: center;
 `;
 
+const CountWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${spacing.small};
+`;
+
 const TagsPage = () => {
   const { folders } = useFolders();
   const { tag } = useParams();
   const { t } = useTranslation();
   const tags = getAllTags(folders);
-  const resources = tag ? getResourcesForTag(folders, tag) : [];
+  const resources = useMemo(
+    () => (tag ? getResourcesForTag(folders, tag) : []),
+    [tag, folders],
+  );
+  const previousResources = usePrevious(resources);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (tag && !!previousResources?.length && resources.length === 0) {
+      navigate('/minndla/tags');
+    }
+  }, [resources, previousResources, tag, navigate]);
 
   if (tag && tags && !tags.includes(tag)) {
     return <NotFoundPage />;
@@ -67,12 +88,15 @@ const TagsPage = () => {
           tag ? t('htmlTitles.myTagPage', { tag }) : t('htmlTitles.myTagsPage')
         }
       />
-      <TagsBreadcrumb
-        tag={tag}
-        tagCount={tags?.length}
-        resourceCount={resources?.length}
-      />
-      {!tag && <Tags tags={tags} />}
+      <TitleWrapper>
+        <MyNdlaBreadcrumb
+          page="tags"
+          breadcrumbs={tag ? [{ name: tag, id: tag }] : []}
+          backCrumb={tag ? 'tags' : 'minndla'}
+        />
+        <MyNdlaTitle title={tag ? tag : t('myNdla.myTags')} />
+      </TitleWrapper>
+      {!tag && tags.length ? <Tags tags={tags} /> : null}
       {tag && resources && <Resources resources={resources} />}
     </TagsPageContainer>
   );
@@ -107,13 +131,18 @@ const Resources = ({ resources }: ResourcesProps) => {
   );
   return (
     <>
+      <CountWrapper>
+        <FileDocumentOutline />
+        <span>{t('myNdla.resources', { count: resources.length })}</span>
+      </CountWrapper>
       <ListViewOptions type={type} onTypeChange={setType} />
-      {resources.map(resource => {
-        const meta =
-          keyedData[`${resource.resourceType}-${resource.resourceId}`];
-        return (
-          <BlockWrapper type={type}>
+      <BlockWrapper type={type}>
+        {resources.map(resource => {
+          const meta =
+            keyedData[`${resource.resourceType}-${resource.resourceId}`];
+          return (
             <ListResource
+              id={resource.id}
               tagLinkPrefix="/minndla/tags"
               isLoading={loading}
               key={resource.id}
@@ -149,9 +178,9 @@ const Resources = ({ resources }: ResourcesProps) => {
                 },
               ]}
             />
-          </BlockWrapper>
-        );
-      })}
+          );
+        })}
+      </BlockWrapper>
       {resourceAction && (
         <>
           <AddResourceToFolderModal
@@ -172,22 +201,28 @@ const Resources = ({ resources }: ResourcesProps) => {
 const Tags = ({ tags }: TagsProps) => {
   const { t } = useTranslation();
   return (
-    <nav aria-label={t('myNdla.myTags')}>
-      <StyledUl>
-        {tags.map(tag => (
-          <li>
-            <StyledSafeLinkButton
-              greyLighter
-              borderShape="rounded"
-              key={tag}
-              to={tag}>
-              <HashTag />
-              {tag}
-            </StyledSafeLinkButton>
-          </li>
-        ))}
-      </StyledUl>
-    </nav>
+    <>
+      <CountWrapper>
+        <HashTag />
+        <span>{t('myNdla.tags', { count: tags.length })}</span>
+      </CountWrapper>
+      <nav aria-label={t('myNdla.myTags')}>
+        <StyledUl>
+          {tags.map(tag => (
+            <li key={tag}>
+              <StyledSafeLinkButton
+                greyLighter
+                borderShape="rounded"
+                key={tag}
+                to={encodeURIComponent(tag)}>
+                <HashTag />
+                {tag}
+              </StyledSafeLinkButton>
+            </li>
+          ))}
+        </StyledUl>
+      </nav>
+    </>
   );
 };
 

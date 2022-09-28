@@ -10,6 +10,7 @@ import fetch from 'node-fetch';
 import express, { Request, Response, NextFunction } from 'express';
 import helmet from 'helmet';
 import { matchPath } from 'react-router-dom';
+import { getCookie } from '@ndla/util';
 import {
   defaultRoute,
   errorRoute,
@@ -20,7 +21,7 @@ import {
 } from './routes';
 import contentSecurityPolicy from './contentSecurityPolicy';
 import handleError from '../util/handleError';
-import { routes } from '../routes';
+import { privateRoutes, routes } from '../routes';
 import { getLocaleInfoFromPath } from '../i18n';
 import ltiConfig from './ltiConfig';
 import {
@@ -37,7 +38,6 @@ import {
 } from './helpers/openidHelper';
 import { podcastFeedRoute } from './routes/podcastFeedRoute';
 import programmeSitemap from './programmeSitemap';
-import config from '../config';
 import {
   OK,
   INTERNAL_SERVER_ERROR,
@@ -112,31 +112,47 @@ app.get(
   },
 );
 
-if (config.feideEnabled) {
-  app.get('/feide/login', (req: Request, res: Response) => {
-    getRedirectUrl(req)
-      .then(json => {
-        res
-          .cookie('PKCE_code', json.verifier, {
-            httpOnly: true,
-          })
-          .send(json);
-      })
-      .catch(() => sendInternalServerError(req, res));
-  });
+app.get('/feide/login', (req: Request, res: Response) => {
+  getRedirectUrl(req)
+    .then(json => {
+      res
+        .cookie('PKCE_code', json.verifier, {
+          httpOnly: true,
+        })
+        .send(json);
+    })
+    .catch(() => sendInternalServerError(req, res));
+});
 
-  app.get('/feide/token', (req: Request, res: Response) => {
-    getFeideToken(req)
-      .then(json => res.send(json))
-      .catch(() => sendInternalServerError(req, res));
-  });
+app.get('/feide/token', (req: Request, res: Response) => {
+  getFeideToken(req)
+    .then(json => res.send(json))
+    .catch(() => sendInternalServerError(req, res));
+});
 
-  app.get('/feide/logout', (req: Request, res: Response) => {
-    feideLogout(req)
-      .then(logouturi => res.send({ url: logouturi }))
-      .catch(() => sendInternalServerError(req, res));
-  });
-}
+app.get('/logout', async (req: Request, res: Response) => {
+  const feideCookie = getCookie('feide_auth', req.headers.cookie ?? '') ?? '';
+  const feideToken = !!feideCookie ? JSON.parse(feideCookie) : undefined;
+  const state = req.query['state'] ?? '/';
+
+  if (!feideToken?.['id_token'] || typeof state !== 'string') {
+    return sendInternalServerError(req, res);
+  }
+  try {
+    const logoutUri = await feideLogout(req, state, feideToken['id_token']);
+    return res.redirect(logoutUri);
+  } catch (_) {
+    return await sendInternalServerError(req, res);
+  }
+});
+
+app.get('/logout/session', (req: Request, res: Response) => {
+  res.clearCookie('feide_auth');
+  const prevPath = typeof req.query.state === 'string' ? req.query.state : '/';
+  const wasPrivateRoute = privateRoutes.some(r => matchPath(r, prevPath));
+  const redirect = wasPrivateRoute ? '/' : prevPath;
+  return res.redirect(redirect);
+});
 
 app.get(
   '/:lang?/subjects/:path(*)',
