@@ -74,14 +74,14 @@ export const getFeideToken = (req: Request) => {
   });
 };
 
-export const feideLogout = (req: Request) => {
+export const feideLogout = (req: Request, state: string, idToken: string) => {
   const port = req.protocol === 'http' ? `:${config.port}` : '';
   const redirect_uri_logout = `${req.protocol}://${req.hostname}${port}/logout/session`;
   return getClient(redirect_uri_logout).then(client =>
     client.endSessionUrl({
-      id_token_hint: req.query.id_token_hint?.toString(),
+      id_token_hint: idToken,
       post_logout_redirect_uri: redirect_uri_logout,
-      state: req.query.state?.toString(),
+      state: state,
     }),
   );
 };

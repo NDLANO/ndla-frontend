@@ -102,8 +102,8 @@ const MyNdlaLayout = () => {
             <SafeLinkButton
               width="auto"
               outline
-              to={'/logout'}
-              state={{ from: location.pathname }}>
+              reloadDocument
+              to={`/logout?state=${location.pathname}`}>
               {t('user.buttonLogOut')}
             </SafeLinkButton>
           </ButtonWrapper>

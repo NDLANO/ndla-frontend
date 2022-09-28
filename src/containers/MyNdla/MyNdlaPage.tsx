@@ -214,6 +214,7 @@ const MyNdlaPage = () => {
       <ButtonContainer>
         <SafeLinkButton
           outline
+          reloadDocument
           to={'/logout'}
           state={{ from: location.pathname }}>
           {t('myNdla.myPage.logout')}
