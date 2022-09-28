@@ -24,8 +24,8 @@ export const LoginSuccess = () => {
       const feideLoginCode =
         searchParams.find(data => data.includes('code'))?.split('=')[1] || '';
       finalizeFeideLogin(feideLoginCode)
+        .then(async () => await login())
         .then(() => {
-          login();
           const params = queryString.parse(search);
           // The cookie isn't set when loading the page initially so we trigger a reload
           window.location = params.state || toHome();

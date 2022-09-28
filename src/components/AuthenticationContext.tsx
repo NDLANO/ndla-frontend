@@ -17,7 +17,7 @@ import { fetchFeideUserWithGroups } from '../util/feideApi';
 interface AuthContextType {
   authenticated: boolean;
   authContextLoaded: boolean;
-  login: () => void;
+  login: () => Promise<void>;
   logout: () => void;
   user: FeideUserApiType | undefined;
 }
@@ -25,7 +25,7 @@ interface AuthContextType {
 export const AuthContext = createContext<AuthContextType>({
   authenticated: false,
   authContextLoaded: false,
-  login: () => {},
+  login: async () => {},
   logout: () => {},
   user: undefined,
 });
@@ -48,9 +48,6 @@ const AuthenticationContext = ({ children, initialValue }: Props) => {
     setLoaded(true);
 
     if (isValid) {
-      fetchFeideUserWithGroups().then(user => {
-        setUser(user);
-      });
       // Since we can't listen to cookies set a timeout to update context
       const timeoutMillis = millisUntilExpiration();
       window.setTimeout(() => {
@@ -59,8 +56,15 @@ const AuthenticationContext = ({ children, initialValue }: Props) => {
     }
   }, [authenticated]);
 
-  const login = () => setAuthenticated(true);
-  const logout = () => setAuthenticated(false);
+  const login = async () => {
+    setAuthenticated(true);
+    const user = await fetchFeideUserWithGroups();
+    setUser(user);
+  };
+  const logout = () => {
+    setAuthenticated(false);
+    setUser(undefined);
+  };
 
   return (
     <AuthContext.Provider
