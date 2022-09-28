@@ -56,7 +56,7 @@ async function doRender(req) {
   const isMobile = getSelectorsByUserAgent(userAgent).isMobile;
   const versionHash = req.query.versionHash;
   const { basename } = getLocaleInfoFromPath(req.path);
-  const locale = getCookie(STORED_LANGUAGE_COOKIE_KEY, resCookie);
+  const locale = getCookie(STORED_LANGUAGE_COOKIE_KEY, resCookie) ?? config.defaultLocale;
 
   const client = createApolloClient(locale, resCookie, versionHash);
 
