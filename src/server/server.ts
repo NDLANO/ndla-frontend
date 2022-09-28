@@ -45,6 +45,7 @@ import {
   TEMPORARY_REDIRECT,
   BAD_REQUEST,
 } from '../statusCodes';
+import { isAccessTokenValid } from '../util/authHelpers';
 
 // @ts-ignore
 global.fetch = fetch;
@@ -112,22 +113,45 @@ app.get(
   },
 );
 
-app.get('/feide/login', (req: Request, res: Response) => {
-  getRedirectUrl(req)
-    .then(json => {
-      res
-        .cookie('PKCE_code', json.verifier, {
-          httpOnly: true,
-        })
-        .send(json);
-    })
-    .catch(() => sendInternalServerError(req, res));
+app.get('/login', async (req: Request, res: Response) => {
+  const feideCookie = getCookie('feide_auth', req.headers.cookie ?? '') ?? '';
+  const feideToken = !!feideCookie ? JSON.parse(feideCookie) : undefined;
+  const state = typeof req.query.state === 'string' ? req.query.state : '/';
+
+  if (feideToken && isAccessTokenValid(feideToken)) {
+    return res.redirect(state);
+  }
+  try {
+    const { verifier, url } = await getRedirectUrl(req, state);
+    res.cookie('PKCE_code', verifier, { httpOnly: true });
+    return res.redirect(url);
+  } catch (e) {
+    return await sendInternalServerError(req, res);
+  }
 });
 
-app.get('/feide/token', (req: Request, res: Response) => {
-  getFeideToken(req)
-    .then(json => res.send(json))
-    .catch(() => sendInternalServerError(req, res));
+app.get('/login/success', async (req: Request, res: Response) => {
+  const code = typeof req.query.code === 'string' ? req.query.code : undefined;
+  const state = typeof req.query.state === 'string' ? req.query.state : '/';
+  const verifier = getCookie('PKCE_code', req.headers.cookie ?? '');
+  if (!code || !verifier) {
+    return await sendInternalServerError(req, res);
+  }
+
+  try {
+    const token = await getFeideToken(req, verifier, code);
+    const feideCookie = {
+      ...token,
+      ndla_expires_at: (token.expires_at ?? 0) * 1000,
+    };
+    res.cookie('feide_auth', JSON.stringify(feideCookie), {
+      expires: new Date(feideCookie.ndla_expires_at),
+      encode: String,
+    });
+    return res.redirect(state);
+  } catch (e) {
+    return await sendInternalServerError(req, res);
+  }
 });
 
 app.get('/logout', async (req: Request, res: Response) => {
