@@ -55,9 +55,8 @@ async function doRender(req) {
   const userAgent = req.headers['user-agent'];
   const isMobile = getSelectorsByUserAgent(userAgent).isMobile;
   const versionHash = req.query.versionHash;
-  const { basename } = getLocaleInfoFromPath(req.path);
-  const locale =
-    getCookie(STORED_LANGUAGE_COOKIE_KEY, resCookie) ?? config.defaultLocale;
+  const { basename, abbreviation } = getLocaleInfoFromPath(req.path);
+  const locale = getCookieLocaleOrFallback(resCookie, abbreviation);
 
   const client = createApolloClient(locale, resCookie, versionHash);
 
@@ -118,12 +117,20 @@ async function doRender(req) {
   };
 }
 
+function getCookieLocaleOrFallback(resCookie, abbreviation) {
+  const cookieLocale = getCookie(STORED_LANGUAGE_COOKIE_KEY, resCookie) ?? '';
+  if (cookieLocale.length && isValidLocale(cookieLocale)) {
+    return cookieLocale;
+  }
+  return abbreviation;
+}
+
 export async function defaultRoute(req) {
   const resCookie = req.headers['cookie'] ?? '';
-  const { basename, basepath } = getLocaleInfoFromPath(req.originalUrl);
-  const cookieLocale = getCookie(STORED_LANGUAGE_COOKIE_KEY, resCookie) ?? '';
-  const locale =
-    cookieLocale.length && isValidLocale(cookieLocale) ? cookieLocale : 'nb';
+  const { basename, basepath, abbreviation } = getLocaleInfoFromPath(
+    req.originalUrl,
+  );
+  const locale = getCookieLocaleOrFallback(resCookie, abbreviation);
   if ((locale === 'nb' && basename === '') || locale === basename) {
     const { html, context, docProps, helmetContext } = await doRender(req);
     return renderHtml(req, html, context, docProps, helmetContext);
