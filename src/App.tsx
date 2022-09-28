@@ -21,8 +21,6 @@ import ErrorPage from './containers/ErrorPage/ErrorPage';
 import LoginFailure from './containers/Login/LoginFailure';
 import LoginProviders from './containers/Login/LoginProviders';
 import LoginSuccess from './containers/Login/LoginSuccess';
-import LogoutProviders from './containers/Logout/LogoutProviders';
-import LogoutSession from './containers/Logout/LogoutSession';
 import FoldersPage from './containers/MyNdla/Folders/FoldersPage';
 import MyNdlaLayout from './containers/MyNdla/MyNdlaLayout';
 import MyNdlaMobileMenuPage from './containers/MyNdla/MyNdlaMobileMenuPage';
@@ -109,10 +107,6 @@ const AppRoutes = ({ base, resCookie }: AppProps) => {
                   <Route index element={<LoginProviders />} />
                   <Route path={'success'} element={<LoginSuccess />} />
                   <Route path={'failure'} element={<LoginFailure />} />
-                </Route>
-                <Route path="logout" element={<FeideUi />}>
-                  <Route index element={<LogoutProviders />} />
-                  <Route path="session" element={<LogoutSession />} />
                 </Route>
                 <Route path="subjects" element={<AllSubjectsPage />} />
                 <Route path="search" element={<SearchPage />} />

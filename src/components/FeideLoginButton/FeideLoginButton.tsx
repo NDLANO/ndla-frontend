@@ -7,7 +7,7 @@
  */
 
 import { ReactNode, useContext } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { AuthModal } from '@ndla/ui';
@@ -19,6 +19,7 @@ import { AuthContext } from '../AuthenticationContext';
 import LoginComponent from '../MyNdla/LoginComponent';
 import IsMobileContext from '../../IsMobileContext';
 import { useIsNdlaFilm } from '../../routeHelpers';
+import { toHref } from '../../util/urlHelper';
 
 const FeideFooterButton = styled(Button)`
   padding: ${spacing.xsmall} ${spacing.small};
@@ -68,7 +69,6 @@ interface Props {
 }
 
 const FeideLoginButton = ({ footer, children, to }: Props) => {
-  const navigate = useNavigate();
   const location = useLocation();
   const { t } = useTranslation();
   const { authenticated, user } = useContext(AuthContext);
@@ -131,11 +131,8 @@ const FeideLoginButton = ({ footer, children, to }: Props) => {
       showGeneralMessage={false}
       user={user}
       onAuthenticateClick={() => {
-        if (authenticated) {
-          navigate('/logout', { state: { from: location.pathname } });
-        } else {
-          navigate('/login', { state: { from: location.pathname } });
-        }
+        const route = authenticated ? 'logout' : 'login';
+        window.location.href = `/${route}?state=${toHref(location)}`;
       }}
     />
   );
