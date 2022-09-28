@@ -10,14 +10,13 @@ import { useContext } from 'react';
 import { OneColumn, ErrorResourceAccessDenied } from '@ndla/ui';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { useTranslation } from 'react-i18next';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { Status } from '../../components';
 import { AuthContext } from '../../components/AuthenticationContext';
 
 const AccessDenied = () => {
   const { t } = useTranslation();
   const location = useLocation();
-  const navigate = useNavigate();
   const { authenticated } = useContext(AuthContext);
   const statusCode = authenticated ? 403 : 401;
 
@@ -27,11 +26,8 @@ const AccessDenied = () => {
       <OneColumn cssModifier="clear">
         <ErrorResourceAccessDenied
           onAuthenticateClick={() => {
-            if (authenticated) {
-              navigate('/logout', { state: { from: location.pathname } });
-            } else {
-              navigate('/login', { state: { from: location.pathname } });
-            }
+            const route = authenticated ? 'logout' : 'login';
+            window.location.href = `/${route}?state=${location.pathname}`;
           }}
         />
       </OneColumn>

@@ -7,7 +7,7 @@
  */
 
 import { useContext } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { keyBy } from 'lodash';
 import styled from '@emotion/styled';
@@ -100,7 +100,6 @@ const MyNdlaPage = () => {
   const { t } = useTranslation();
   const location = useLocation();
   const { deletePersonalData } = useDeletePersonalData();
-  const navigate = useNavigate();
   const { allFolderResources } = useRecentlyUsedResources();
   const { data: metaData, loading } = useFolderResourceMetaSearch(
     allFolderResources?.map(r => ({
@@ -115,7 +114,7 @@ const MyNdlaPage = () => {
 
   const onDeleteAccount = async () => {
     await deletePersonalData();
-    navigate('/logout', { state: { from: location.pathname } });
+    window.location.href = `/logout?state=${location.pathname}`;
   };
 
   const keyedData = keyBy(metaData ?? [], r => `${r.type}${r.id}`);
