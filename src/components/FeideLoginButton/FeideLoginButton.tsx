@@ -65,10 +65,10 @@ const MyNdlaButton = styled(Button)`
 interface Props {
   footer?: boolean;
   children?: ReactNode;
-  to?: string;
+  masthead?: boolean;
 }
 
-const FeideLoginButton = ({ footer, children, to }: Props) => {
+const FeideLoginButton = ({ footer, children, masthead }: Props) => {
   const location = useLocation();
   const { t } = useTranslation();
   const { authenticated, user } = useContext(AuthContext);
@@ -115,7 +115,7 @@ const FeideLoginButton = ({ footer, children, to }: Props) => {
                 />
               </ModalHeader>
               <ModalBody>
-                <LoginComponent to={to} onClose={onClose} />
+                <LoginComponent onClose={onClose} masthead={masthead} />
               </ModalBody>
             </>
           )}
