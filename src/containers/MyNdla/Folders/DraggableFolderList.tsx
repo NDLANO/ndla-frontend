@@ -6,8 +6,7 @@
  *
  */
 
-import { Folder } from '@ndla/ui';
-import { MakeDNDList } from '@ndla/ui';
+import { Folder, MakeDNDList } from '@ndla/ui';
 import { Pencil } from '@ndla/icons/action';
 import { useTranslation } from 'react-i18next';
 import { DeleteForever } from '@ndla/icons/editor';
@@ -20,7 +19,6 @@ import { GQLFolder } from '../../../graphqlTypes';
 import { FolderTotalCount } from '../../../util/folderHelpers';
 import { FolderAction, ListItem, ViewType } from './FoldersPage';
 import { useSortFoldersMutation } from '../folderMutations';
-import { __SERVER__ } from '../../../util/apiHelpers';
 
 interface Props {
   currentFolderId: string | undefined;
@@ -50,7 +48,7 @@ const DraggableFolder = ({
   const { t } = useTranslation();
   return (
     <ListItem
-      key={`folder-${index}`}
+      key={`folder-${folder.id}`}
       id={`folder-${folder.id}`}
       tabIndex={-1}
       {...dragHandleProps}>
@@ -151,10 +149,10 @@ const DraggableFolderList = ({
 
   return (
     <MakeDNDList
-      isServer={__SERVER__}
       disableDND={type === 'block'}
       onDragEnd={result => sortFolderIds(result, currentFolderId)}
-      dragHandle={true}>
+      dragHandle={true}
+      dndContextId={'folder-dnd'}>
       {folders.map((folder, index) => (
         <DraggableFolder
           id={folder.id}
