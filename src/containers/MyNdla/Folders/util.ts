@@ -34,7 +34,7 @@ export const makeDndSortFunction = <PID, RES>(
   return (dropResult: DropResult) => {
     const sourceIdx = dropResult.source.index;
     const destinationIdx = dropResult.destination?.index;
-    if (destinationIdx === undefined) return;
+    if (destinationIdx === undefined || destinationIdx === sourceIdx) return;
 
     const originalIds = sortables.map(f => f.id);
     const sortedIds = moveIndexToNewIndex(
