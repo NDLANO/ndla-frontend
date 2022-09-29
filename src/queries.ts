@@ -467,6 +467,11 @@ export const subjectInfoFragment = gql`
     metadata {
       customFields
     }
+    subjectpage {
+      about {
+        title
+      }
+    }
   }
 `;
 

@@ -3276,6 +3276,10 @@ export type GQLSubjectInfoFragment = {
   name: string;
   path: string;
   metadata: { __typename?: 'TaxonomyMetadata'; customFields: any };
+  subjectpage?: {
+    __typename?: 'SubjectPage';
+    about?: { __typename?: 'SubjectPageAbout'; title: string };
+  };
 };
 
 export type GQLResourceInfoFragment = {

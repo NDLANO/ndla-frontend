@@ -1,5 +1,8 @@
 import { constants } from '@ndla/ui';
-import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from '../constants';
+import {
+  TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
+  TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE,
+} from '../constants';
 import { GQLSubjectInfoFragment } from '../graphqlTypes';
 
 export const multidisciplinaryTopics = [
@@ -29,55 +32,51 @@ export const multidisciplinaryTopics = [
   },
 ];
 
+const filterSubjects = (
+  subjects: GQLSubjectInfoFragment[],
+  customField: string,
+  category: any,
+) => {
+  const filtered = subjects.filter(
+    s => s.metadata?.customFields?.[customField] === category,
+  );
+
+  return {
+    type: category,
+    subjects: filtered.map(s => {
+      return {
+        ...s,
+        path: s.path ?? '',
+      };
+    }),
+    visible: filtered.length > 0,
+  };
+};
+
 // TODO: Fix messy mapping of subjects to make path absolute.
 export const getSubjectsCategories = (
   subjects: GQLSubjectInfoFragment[] = [],
-) => [
-  {
-    type: constants.subjectCategories.ACTIVE_SUBJECTS,
-    subjects: subjects
-      .filter(
-        s =>
-          s.metadata?.customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] ===
-          constants.subjectCategories.ACTIVE_SUBJECTS,
-      )
-      .map(s => {
-        return {
-          ...s,
-          path: s.path ?? '',
-        };
-      }),
-  },
-  {
-    type: constants.subjectCategories.ARCHIVE_SUBJECTS,
-    subjects: subjects
-      .filter(
-        s =>
-          s.metadata?.customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] ===
-          constants.subjectCategories.ARCHIVE_SUBJECTS,
-      )
-      .map(s => {
-        return {
-          ...s,
-          path: s.path ?? '',
-        };
-      }),
-    visible: true,
-  },
-  {
-    type: constants.subjectCategories.BETA_SUBJECTS,
-    subjects: subjects
-      .filter(
-        s =>
-          s.metadata?.customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] ===
-          constants.subjectCategories.BETA_SUBJECTS,
-      )
-      .map(s => {
-        return {
-          ...s,
-          path: s.path ?? '',
-        };
-      }),
-    visible: true,
-  },
-];
+) => {
+  const active = filterSubjects(
+    subjects,
+    TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
+    constants.subjectCategories.ACTIVE_SUBJECTS,
+  );
+  const archived = filterSubjects(
+    subjects,
+    TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
+    constants.subjectCategories.ARCHIVE_SUBJECTS,
+  );
+  const beta = filterSubjects(
+    subjects,
+    TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
+    constants.subjectCategories.BETA_SUBJECTS,
+  );
+  const other = filterSubjects(
+    subjects,
+    TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE,
+    constants.subjectTypes.RESOURCE_COLLECTION,
+  );
+
+  return [active, archived, beta, other];
+};

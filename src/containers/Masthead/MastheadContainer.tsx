@@ -47,6 +47,7 @@ import { useAlerts } from '../../components/AlertsContext';
 import { SKIP_TO_CONTENT_ID } from '../../constants';
 import MastheadMenuModal from './components/MastheadMenuModal';
 import { AuthContext } from '../../components/AuthenticationContext';
+import { getSubjectsCategories } from '../../data/subjects';
 
 const BreadcrumbWrapper = styled.div`
   margin-left: ${spacing.normal};
@@ -76,12 +77,13 @@ const MastheadContainer = () => {
   const { t, i18n } = useTranslation();
   const locale = i18n.language;
   const {
-    subjectId,
+    subjectId: subjectIdParam,
     resourceId,
     topicId: topicIdParam,
     subjectType,
   } = useUrnIds();
   const [topicId, setTopicId] = useState<string>(topicIdParam ?? '');
+  const [subjectId, setSubjectId] = useState<string>(subjectIdParam ?? '');
   const { user } = useContext(AuthContext);
   const { openAlerts, closeAlert } = useAlerts();
   const location = useLocation();
@@ -91,6 +93,7 @@ const MastheadContainer = () => {
   const [fetchData] = useLazyQuery<GQLMastHeadQuery, GQLMastHeadQueryVariables>(
     mastHeadQuery,
     {
+      errorPolicy: 'ignore',
       onCompleted: data =>
         setState(mapMastheadData({ subjectId, topicId, data })),
     },
@@ -101,14 +104,13 @@ const MastheadContainer = () => {
   }, [topicIdParam]);
 
   useEffect(() => {
-    if (!subjectId) {
-      setState(initialState);
-      return;
-    }
+    setSubjectId(subjectIdParam ?? '');
+  }, [subjectIdParam]);
 
+  useEffect(() => {
     fetchData({
       variables: {
-        subjectId,
+        subjectId: subjectId ?? '',
         topicId: topicId ?? '',
         resourceId: resourceId ?? '',
         skipTopic: !topicId,
@@ -118,7 +120,7 @@ const MastheadContainer = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [topicId, resourceId, subjectId]);
 
-  const { subject, topicPath = [], topicResourcesByType, resource } = state;
+  const { subject, topicPath = [], topicResourcesByType, resource, subjects } = state;
 
   const path = topicPath ?? [];
 
@@ -162,6 +164,7 @@ const MastheadContainer = () => {
                 locale={locale}
                 subject={subject}
                 topicResourcesByType={topicResourcesByType ?? []}
+                subjectCategories={getSubjectsCategories(subjects)}
                 onTopicChange={newId => setTopicId(newId)}
                 close={onClose}
               />

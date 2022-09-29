@@ -7,6 +7,7 @@ import {
   GQLMastHeadQuery,
   GQLResource,
   GQLResourceType,
+  GQLSubjectInfoFragment,
 } from '../../../graphqlTypes';
 import { useAlerts } from '../../../components/AlertsContext';
 import MastheadSearch from './MastheadSearch';
@@ -30,6 +31,10 @@ interface Props {
   locale: LocaleType;
   subject?: GQLMastHeadQuery['subject'];
   topicResourcesByType: GQLResourceType[];
+  subjectCategories: {
+    type: string;
+    subjects: GQLSubjectInfoFragment[];
+  }[];
   onTopicChange: (newId: string) => void;
   close: () => void;
 }
@@ -57,6 +62,7 @@ const MastheadMenu = ({
   locale,
   topicResourcesByType,
   subject,
+  subjectCategories,
   onTopicChange,
   close,
 }: Props) => {
@@ -189,7 +195,7 @@ const MastheadMenu = ({
       expandedSubtopicsId={expandedSubTopicIds}
       programmes={getProgrammes(locale)}
       currentProgramme={currentProgramme}
-      //subjectCategories={getCategorizedSubjects(locale)}
+      subjectCategories={subjectCategories}
       initialSelectedMenu={initialSelectedMenu}
       locale={locale}
       selectedGrade={grade}

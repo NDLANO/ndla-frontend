@@ -43,9 +43,10 @@ export const mapGradesData = (
         const taxSubject = subjects?.find(s => s.id === subject.id) ?? {
           name: '',
           path: '',
+          subjectpage: { about: { title: '' } },
         };
         return {
-          label: taxSubject.name ?? '',
+          label: taxSubject.subjectpage?.about?.title || taxSubject.name || '',
           url: taxSubject.path ?? '',
         };
       });
