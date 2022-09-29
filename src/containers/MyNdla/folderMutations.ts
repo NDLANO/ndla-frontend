@@ -379,12 +379,12 @@ export const useUpdateFolderMutation = () => {
 };
 
 export const useSortFoldersMutation = () => {
-  const [sortFolders, { error }] = useMutation<
+  const [sortFolders] = useMutation<
     GQLSortFoldersMutation,
     GQLMutationSortFoldersArgs
   >(sortFoldersMutation);
 
-  return { sortFolders, error };
+  return { sortFolders };
 };
 
 export const useSortResourcesMutation = () => {
