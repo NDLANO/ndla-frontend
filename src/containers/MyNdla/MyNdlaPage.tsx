@@ -31,6 +31,7 @@ import MyNdlaBreadcrumb from './components/MyNdlaBreadcrumb';
 import MyNdlaTitle from './components/MyNdlaTitle';
 import TitleWrapper from './components/TitleWrapper';
 import { toHref } from '../../util/urlHelper';
+import { contentTypeMapping } from '../../util/getContentType';
 
 const HeartOutlineIcon = InfoPartIcon.withComponent(HeartOutline);
 const FolderOutlinedIcon = InfoPartIcon.withComponent(FolderOutlined);
@@ -139,6 +140,9 @@ const MyNdlaPage = () => {
             return (
               <ListItem key={res.id}>
                 <ListResource
+                  contentType={
+                    contentTypeMapping[meta?.resourceTypes?.[0]?.id ?? ''] ?? ''
+                  }
                   id={res.id}
                   tagLinkPrefix="/minndla/tags"
                   isLoading={loading}

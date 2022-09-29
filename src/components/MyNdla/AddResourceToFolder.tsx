@@ -31,6 +31,7 @@ import {
 import { GQLFolder, GQLFolderResource } from '../../graphqlTypes';
 import { getAllTags, getResourceForPath } from '../../util/folderHelpers';
 import NewFolder from './NewFolder';
+import { contentTypeMapping } from '../../util/getContentType';
 
 export interface ResourceAttributes {
   path: string;
@@ -230,6 +231,9 @@ const AddResourceToFolder = ({ onClose, resource }: Props) => {
   return (
     <AddResourceContainer>
       <ListResource
+        contentType={
+          contentTypeMapping[meta?.resourceTypes?.[0]?.id ?? ''] ?? ''
+        }
         id={resource.id.toString()}
         tagLinkPrefix="/minndla/tags"
         isLoading={metaLoading}
