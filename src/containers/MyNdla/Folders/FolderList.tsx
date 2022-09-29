@@ -7,14 +7,13 @@
  */
 
 import { MakeDNDList } from '@ndla/ui';
-import { DropResult } from 'react-beautiful-dnd';
 import { useApolloClient } from '@apollo/client';
 import { GQLFolder } from '../../../graphqlTypes';
 import { FolderTotalCount } from '../../../util/folderHelpers';
 import { FolderAction, ViewType } from './FoldersPage';
 import { useSortFoldersMutation } from '../folderMutations';
 import DraggableFolder from './DraggableFolder';
-import { moveIndexToNewIndex } from './util';
+import { makeDndSortFunction } from './util';
 
 interface Props {
   currentFolderId: string | undefined;
@@ -34,60 +33,40 @@ const FolderList = ({
   const { sortFolders } = useSortFoldersMutation();
   const client = useApolloClient();
 
-  async function sortFolderIds(
-    dropResult: DropResult,
-    parentId: string | undefined,
-  ) {
-    const sourceIdx = dropResult.source.index;
-    const destinationIdx = dropResult.destination?.index;
-    if (destinationIdx === undefined) return;
-
-    const originalIds = folders.map(f => f.id);
-    const sortedIds = moveIndexToNewIndex(
-      originalIds,
-      sourceIdx,
-      destinationIdx,
-    );
-    if (sortedIds === null) return;
-
-    const updateCache = (newOrder: string[]) => {
-      const sortCacheModifierFunction = (
-        existing: (GQLFolder & { __ref: string })[],
-      ) => {
-        return newOrder.map(id =>
-          existing.find(ef => ef.__ref === `Folder:${id}`),
-        );
-      };
-
-      if (parentId) {
-        client.cache.modify({
-          id: client.cache.identify({
-            __ref: `Folder:${parentId}`,
-          }),
-          fields: { subfolders: sortCacheModifierFunction },
-        });
-      } else {
-        client.cache.modify({
-          fields: { folders: sortCacheModifierFunction },
-        });
-      }
+  const updateCache = (newOrder: string[]) => {
+    const sortCacheModifierFunction = (
+      existing: (GQLFolder & { __ref: string })[],
+    ) => {
+      return newOrder.map(id =>
+        existing.find(ef => ef.__ref === `Folder:${id}`),
+      );
     };
 
-    // Update cache before sorting happens to make gui feel snappy
-    updateCache(sortedIds);
+    if (currentFolderId) {
+      client.cache.modify({
+        id: client.cache.identify({
+          __ref: `Folder:${currentFolderId}`,
+        }),
+        fields: { subfolders: sortCacheModifierFunction },
+      });
+    } else {
+      client.cache.modify({
+        fields: { folders: sortCacheModifierFunction },
+      });
+    }
+  };
 
-    return sortFolders({
-      variables: {
-        sortedIds,
-        parentId,
-      },
-    }).catch(() => updateCache(originalIds));
-  }
+  const sortFolderIds = makeDndSortFunction(
+    currentFolderId,
+    folders,
+    sortFolders,
+    updateCache,
+  );
 
   return (
     <MakeDNDList
       disableDND={type === 'block'}
-      onDragEnd={result => sortFolderIds(result, currentFolderId)}
+      onDragEnd={result => sortFolderIds(result)}
       dragHandle={true}
       dndContextId={'folder-dnd'}>
       {folders.map((folder, index) => (

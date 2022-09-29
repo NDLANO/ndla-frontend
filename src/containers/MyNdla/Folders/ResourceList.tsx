@@ -10,7 +10,6 @@ import { isEqual, keyBy } from 'lodash';
 import { useMemo, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { MakeDNDList, useSnack } from '@ndla/ui';
-import { DropResult } from 'react-beautiful-dnd';
 import { useApolloClient } from '@apollo/client';
 import AddResourceToFolderModal from '../../../components/MyNdla/AddResourceToFolderModal';
 import { GQLFolder, GQLFolderResource } from '../../../graphqlTypes';
@@ -23,7 +22,7 @@ import {
 import { BlockWrapper, ViewType } from './FoldersPage';
 import { usePrevious } from '../../../util/utilityHooks';
 import DraggableResource from './DraggableResource';
-import { moveIndexToNewIndex } from './util';
+import { makeDndSortFunction } from './util';
 
 interface Props {
   selectedFolder: GQLFolder;
@@ -99,100 +98,81 @@ const ResourceList = ({ selectedFolder, viewType, folderId }: Props) => {
     selectedFolder.id,
   );
 
-  async function sortResourceIds(dropResult: DropResult, parentId: string) {
-    const sourceIdx = dropResult.source.index;
-    const destinationIdx = dropResult.destination?.index;
-    if (destinationIdx === undefined) return;
-
-    const originalIds = resources.map(f => f.id);
-    const sortedIds = moveIndexToNewIndex(
-      originalIds,
-      sourceIdx,
-      destinationIdx,
-    );
-    if (sortedIds === null) return;
-
-    const updateCache = (newOrder: string[]) => {
-      const sortCacheModifierFunction = (
-        existing: (GQLFolder & { __ref: string })[],
-      ) => {
-        return newOrder.map(id =>
-          existing.find(ef => ef.__ref === `FolderResource:${id}`),
-        );
-      };
-
-      if (parentId) {
-        client.cache.modify({
-          id: client.cache.identify({
-            __ref: `Folder:${parentId}`,
-          }),
-          fields: { resources: sortCacheModifierFunction },
-        });
-      }
+  const updateCache = (newOrder: string[]) => {
+    const sortCacheModifierFunction = (
+      existing: (GQLFolder & { __ref: string })[],
+    ) => {
+      return newOrder.map(id =>
+        existing.find(ef => ef.__ref === `FolderResource:${id}`),
+      );
     };
 
-    // Update cache before sorting happens to make gui feel snappy
-    updateCache(sortedIds);
+    if (selectedFolder.id) {
+      client.cache.modify({
+        id: client.cache.identify({
+          __ref: `Folder:${selectedFolder.id}`,
+        }),
+        fields: { resources: sortCacheModifierFunction },
+      });
+    }
+  };
 
-    return sortResources({
-      variables: {
-        sortedIds,
-        parentId,
-      },
-    }).catch(() => updateCache(originalIds));
-  }
+  const sortResourceIds = makeDndSortFunction(
+    selectedFolder.id,
+    resources,
+    sortResources,
+    updateCache,
+  );
 
   return (
-    <>
-      <BlockWrapper type={viewType}>
-        <MakeDNDList
-          disableDND={viewType === 'block'}
-          onDragEnd={result => sortResourceIds(result, selectedFolder.id)}
-          dragHandle={true}
-          dndContextId={'resource-dnd'}>
-          {resources.map((resource, index) => (
-            <DraggableResource
-              id={resource.id}
-              key={resource.id}
-              resource={resource}
-              index={index}
-              loading={loading}
-              viewType={viewType}
-              keyedData={keyedData}
-              setResourceAction={setResourceAction}
-            />
-          ))}
-        </MakeDNDList>
-        {resourceAction && (
-          <>
-            <AddResourceToFolderModal
-              defaultOpenFolder={selectedFolder}
-              isOpen={resourceAction.action === 'add'}
-              onClose={() => setResourceAction(undefined)}
-              resource={{
-                id: resourceAction.resource.resourceId,
-                resourceType: resourceAction.resource.resourceType,
-                path: resourceAction.resource.path,
-              }}
-            />
-            <DeleteModal
-              isOpen={resourceAction.action === 'delete'}
-              onClose={() => setResourceAction(undefined)}
-              onDelete={async () => {
-                await onDeleteFolder(
-                  resourceAction.resource,
-                  resourceAction.index,
-                );
-                setResourceAction(undefined);
-              }}
-              description={t('myNdla.resource.confirmRemove')}
-              title={t('myNdla.resource.removeTitle')}
-              removeText={t('myNdla.resource.remove')}
-            />
-          </>
-        )}
-      </BlockWrapper>
-    </>
+    <BlockWrapper type={viewType}>
+      <MakeDNDList
+        disableDND={viewType === 'block'}
+        onDragEnd={result => sortResourceIds(result)}
+        dragHandle={true}
+        dndContextId={'resource-dnd'}>
+        {resources.map((resource, index) => (
+          <DraggableResource
+            id={resource.id}
+            key={resource.id}
+            resource={resource}
+            index={index}
+            loading={loading}
+            viewType={viewType}
+            keyedData={keyedData}
+            setResourceAction={setResourceAction}
+          />
+        ))}
+      </MakeDNDList>
+      {resourceAction && (
+        <>
+          <AddResourceToFolderModal
+            defaultOpenFolder={selectedFolder}
+            isOpen={resourceAction.action === 'add'}
+            onClose={() => setResourceAction(undefined)}
+            resource={{
+              id: resourceAction.resource.resourceId,
+              resourceType: resourceAction.resource.resourceType,
+              path: resourceAction.resource.path,
+            }}
+          />
+          <DeleteModal
+            isOpen={resourceAction.action === 'delete'}
+            onClose={() => setResourceAction(undefined)}
+            onDelete={async () => {
+              await onDeleteFolder(
+                resourceAction.resource,
+                resourceAction.index,
+              );
+              setResourceAction(undefined);
+            }}
+            description={t('myNdla.resource.confirmRemove')}
+            title={t('myNdla.resource.removeTitle')}
+            removeText={t('myNdla.resource.remove')}
+          />
+        </>
+      )}
+    </BlockWrapper>
   );
 };
 
