@@ -39,7 +39,7 @@ import NewFolder from '../../../components/MyNdla/NewFolder';
 import MyNdlaTitle from '../components/MyNdlaTitle';
 import TitleWrapper from '../components/TitleWrapper';
 import FolderActions from './FolderActions';
-import DraggableFolderList from './DraggableFolderList';
+import FolderList from './FolderList';
 
 interface BlockWrapperProps {
   type?: string;
@@ -302,7 +302,7 @@ const FoldersPage = () => {
               onCreate={onFolderAdd}
             />
           )}
-          <DraggableFolderList
+          <FolderList
             currentFolderId={folderId}
             folders={folders}
             foldersCount={foldersCount}
