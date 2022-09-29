@@ -191,7 +191,7 @@ const MastheadContainer = () => {
             currentLanguage={i18n.language}
           />
           {config.feideEnabled && (
-            <FeideLoginButton to="/minndla">
+            <FeideLoginButton masthead>
               <FeideLoginLabel data-hj-suppress>
                 {user?.givenName ? (
                   <span data-hj-suppress>{user.givenName}</span>
