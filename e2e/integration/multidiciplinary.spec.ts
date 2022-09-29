@@ -11,7 +11,7 @@ describe('Multidiciplinary page', () => {
     cy.fixCypressSpec('/e2e/integration/multidisciplinary.spec.ts');
     cy.gqlIntercept({
       alias: 'alerts',
-      operations: ['alerts'],
+      operations: ['alerts', 'subjects'],
     });
     cy.visit('/?disableSSR=true');
     cy.gqlWait('@alerts');

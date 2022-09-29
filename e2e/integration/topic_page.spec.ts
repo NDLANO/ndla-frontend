@@ -9,9 +9,12 @@
 describe('Topic page', () => {
   beforeEach(() => {
     cy.fixCypressSpec('/cypress/integration/topic_page.spec.ts');
-    cy.gqlIntercept({ alias: 'alerts', operations: ['alerts'] });
+    cy.gqlIntercept({ alias: 'alerts', operations: ['alerts', 'subjects'] });
     cy.visit('/?disableSSR=true');
     cy.gqlWait('@alerts');
+  });
+
+  it('contains article header and introduction', () => {
     cy.gqlIntercept({
       alias: 'medieutrykk',
       operations: ['mastHead', 'subjectPageTest'],
@@ -25,9 +28,7 @@ describe('Topic page', () => {
       .last()
       .click({ force: true });
     cy.gqlWait('@medieutrykk');
-  });
 
-  it('contains article header and introduction', () => {
     cy.gqlIntercept({
       alias: 'topicpage',
       operations: ['topicWrapper', 'mastHead'],
@@ -45,6 +46,20 @@ describe('Topic page', () => {
   });
 
   it('contains article header, introduction and content', () => {
+    cy.gqlIntercept({
+      alias: 'medieutrykk',
+      operations: ['mastHead', 'subjectPageTest'],
+    });
+
+    cy.get('[data-testid="category-list"]  button:contains("Alle fag"):visible')
+      .click()
+      .get('[data-cy="Alle fag-video-tab"]')
+      .click()
+      .get('a:contains("Medieuttrykk 3 og mediesamfunnet 3")')
+      .last()
+      .click({ force: true });
+    cy.gqlWait('@medieutrykk');
+
     cy.gqlIntercept({
       alias: 'topicpageWithContent',
       operations: ['topicWrapper', 'mastHead'],

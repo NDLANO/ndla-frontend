@@ -108,6 +108,10 @@ const MastheadContainer = () => {
   }, [subjectIdParam]);
 
   useEffect(() => {
+    if (!subjectId) {
+      setState(initialState);
+      return;
+    }
     fetchData({
       variables: {
         subjectId: subjectId ?? '',
@@ -120,7 +124,13 @@ const MastheadContainer = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [topicId, resourceId, subjectId]);
 
-  const { subject, topicPath = [], topicResourcesByType, resource, subjects } = state;
+  const {
+    subject,
+    topicPath = [],
+    topicResourcesByType,
+    resource,
+    subjects,
+  } = state;
 
   const path = topicPath ?? [];
 
