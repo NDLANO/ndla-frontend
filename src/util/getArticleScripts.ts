@@ -26,7 +26,7 @@ export function getArticleScripts(
     })) || [];
   if (article && article.content.indexOf('<math') > -1) {
     scripts.push({
-      src: '/static/mathjax-config.js',
+      src: `/static/mathjax-config.js?ts=${new Date().getDate()}`,
       type: 'text/javascript',
       async: false,
       defer: true,
