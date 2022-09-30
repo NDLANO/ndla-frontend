@@ -30,7 +30,8 @@ import {
 import MyNdlaBreadcrumb from './components/MyNdlaBreadcrumb';
 import MyNdlaTitle from './components/MyNdlaTitle';
 import TitleWrapper from './components/TitleWrapper';
-import { toHref } from '../../util/urlHelper';
+import { constructNewPath, toHref } from '../../util/urlHelper';
+import { useBaseName } from '../../components/BaseNameContext';
 
 const HeartOutlineIcon = InfoPartIcon.withComponent(HeartOutline);
 const FolderOutlinedIcon = InfoPartIcon.withComponent(FolderOutlined);
@@ -99,6 +100,7 @@ const ButtonContainer = styled.div`
 const MyNdlaPage = () => {
   const { user } = useContext(AuthContext);
   const { t } = useTranslation();
+  const basename = useBaseName();
   const location = useLocation();
   const { deletePersonalData } = useDeletePersonalData();
   const { allFolderResources } = useRecentlyUsedResources();
@@ -115,7 +117,10 @@ const MyNdlaPage = () => {
 
   const onDeleteAccount = async () => {
     await deletePersonalData();
-    window.location.href = `/logout?state=${toHref(location)}`;
+    window.location.href = constructNewPath(
+      `/logout?state=${toHref(location)}`,
+      basename,
+    );
   };
 
   const keyedData = keyBy(metaData ?? [], r => `${r.type}${r.id}`);

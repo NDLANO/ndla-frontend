@@ -19,7 +19,8 @@ import { AuthContext } from '../AuthenticationContext';
 import LoginComponent from '../MyNdla/LoginComponent';
 import IsMobileContext from '../../IsMobileContext';
 import { useIsNdlaFilm } from '../../routeHelpers';
-import { toHref } from '../../util/urlHelper';
+import { constructNewPath, toHref } from '../../util/urlHelper';
+import { useBaseName } from '../BaseNameContext';
 
 const FeideFooterButton = styled(Button)`
   padding: ${spacing.xsmall} ${spacing.small};
@@ -72,6 +73,7 @@ const FeideLoginButton = ({ footer, children, masthead }: Props) => {
   const location = useLocation();
   const { t } = useTranslation();
   const { authenticated, user } = useContext(AuthContext);
+  const basename = useBaseName();
   const ndlaFilm = useIsNdlaFilm();
   const isMobile = useContext(IsMobileContext);
   const destination = isMobile ? '/minndla/meny' : '/minndla';
@@ -132,7 +134,10 @@ const FeideLoginButton = ({ footer, children, masthead }: Props) => {
       user={user}
       onAuthenticateClick={() => {
         const route = authenticated ? 'logout' : 'login';
-        window.location.href = `/${route}?state=${toHref(location)}`;
+        window.location.href = constructNewPath(
+          `/${route}?state=${toHref(location)}`,
+          basename,
+        );
       }}
     />
   );
