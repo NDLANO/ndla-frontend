@@ -168,12 +168,17 @@ app.get('/login/success', async (req: Request, res: Response) => {
       expires: new Date(feideCookie.ndla_expires_at),
       encode: String,
     });
+    const languageCookie = getCookie(
+      STORED_LANGUAGE_COOKIE_KEY,
+      req.headers.cookie ?? '',
+    );
     //workaround to ensure language cookie is set before redirecting to state path
-    if (
-      getCookie(STORED_LANGUAGE_COOKIE_KEY, req.headers.cookie ?? '') == null
-    ) {
+    if (!languageCookie) {
       const { basename } = getLocaleInfoFromPath(state);
-      res.cookie(STORED_LANGUAGE_COOKIE_KEY, basename ?? getDefaultLocale());
+      res.cookie(
+        STORED_LANGUAGE_COOKIE_KEY,
+        basename.length ? basename : getDefaultLocale(),
+      );
     }
     return res.redirect(state);
   } catch (e) {
