@@ -27,8 +27,6 @@ export const routes = [
   'login',
   'login/success',
   'login/failure',
-  'logout',
-  'logout/session',
   'podkast',
   'podkast/:id',
   'article/:articleId',

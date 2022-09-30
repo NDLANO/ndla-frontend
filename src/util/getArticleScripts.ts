@@ -26,14 +26,14 @@ export function getArticleScripts(
     })) || [];
   if (article && article.content.indexOf('<math') > -1) {
     scripts.push({
-      src: '/static/mathjax-config.js',
+      src: `/static/mathjax-config.js?ts=${new Date().getDate()}`,
       type: 'text/javascript',
       async: false,
       defer: true,
     });
 
     scripts.push({
-      src: 'https://cdn.jsdelivr.net/npm/mathjax@3.2.1/es5/mml-chtml.js',
+      src: 'https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/mml-chtml.js',
       type: 'text/javascript',
       async: false,
       defer: true,
