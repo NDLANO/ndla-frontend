@@ -229,12 +229,6 @@ const AddResourceToFolder = ({
     ? ['folders', firstFolderId]
     : ['folders'];
 
-  useEffect(() => {
-    if (firstFolderId) {
-      setSelectedFolderId(firstFolderId);
-    }
-  }, [firstFolderId]);
-
   return (
     <AddResourceContainer>
       <ListResource
