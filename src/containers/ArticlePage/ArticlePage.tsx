@@ -77,7 +77,7 @@ const ArticlePage = ({
   useEffect(() => {
     if (!resource?.article) return;
     const article = transformArticle(resource.article, i18n.language);
-    const scripts = getArticleScripts(article);
+    const scripts = getArticleScripts(article, i18n.language);
     setScripts(scripts);
   }, [i18n.language, resource]);
 
