@@ -144,7 +144,11 @@ const FoldersPage = () => {
 
     if (!isEqual(folderIds, prevFolderIds) && focusId) {
       setTimeout(
-        () => document.getElementById(`folder-${focusId}`)?.focus(),
+        () =>
+          document
+            .getElementById(`folder-${focusId}`)
+            ?.getElementsByTagName('a')?.[0]
+            ?.focus(),
         0,
       );
       setFocusId(undefined);
@@ -156,7 +160,14 @@ const FoldersPage = () => {
     ) {
       const id = folders[0]?.id;
       if (id) {
-        setTimeout(() => document.getElementById(`folder-${id}`)?.focus(), 0);
+        setTimeout(
+          () =>
+            document
+              .getElementById(`folder-${id}`)
+              ?.getElementsByTagName('a')?.[0]
+              ?.focus(),
+          0,
+        );
         setPreviousFolders(folders);
       }
     }
