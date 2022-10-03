@@ -159,7 +159,11 @@ const ArticlePage = ({
 
         <script type="application/ld+json">
           {JSON.stringify(
-            getStructuredDataFromArticle(resource.article, breadcrumbItems),
+            getStructuredDataFromArticle(
+              resource.article,
+              i18n.language,
+              breadcrumbItems,
+            ),
           )}
         </script>
       </Helmet>

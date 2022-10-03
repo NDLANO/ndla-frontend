@@ -109,6 +109,7 @@ const LearningpathEmbed = ({
           {JSON.stringify(
             getStructuredDataFromArticle(
               learningpathStepResource.article,
+              i18n.language,
               breadcrumbItems,
             ),
           )}

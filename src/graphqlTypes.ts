@@ -1902,11 +1902,11 @@ export type GQLLearningpathPage_TopicFragment = {
 export type GQLLearningpathPage_SubjectFragment = {
   __typename?: 'Subject';
   id: string;
+  metadata: { __typename?: 'TaxonomyMetadata'; customFields: any };
   subjectpage?: {
     __typename?: 'SubjectPage';
     about?: { __typename?: 'SubjectPageAbout'; title: string };
   };
-  metadata: { __typename?: 'TaxonomyMetadata'; customFields: any };
 } & GQLLearningpath_SubjectFragment;
 
 export type GQLLearningpathPage_ResourceTypeDefinitionFragment = {
@@ -3497,6 +3497,7 @@ export type GQLStructuredArticleData_BrightcoveLicenseFragment = {
 
 export type GQLStructuredArticleDataFragment = {
   __typename?: 'Article';
+  id: number;
   title: string;
   metaDescription: string;
   published: string;
