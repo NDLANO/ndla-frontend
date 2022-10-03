@@ -14,8 +14,10 @@ import AddResourceToFolder, { ResourceAttributes } from './AddResourceToFolder';
 import { AuthContext } from '../AuthenticationContext';
 import LoginComponent from './LoginComponent';
 import { useFolderResourceMeta } from '../../containers/MyNdla/folderMutations';
+import { GQLFolder } from '../../graphqlTypes';
 
 interface Props {
+  defaultOpenFolder?: GQLFolder;
   resource: ResourceAttributes;
   isOpen: boolean;
   onClose: () => void;
@@ -27,7 +29,12 @@ const StyledModal = styled(Modal)`
   }
 `;
 
-const AddResourceToFolderModal = ({ isOpen, onClose, resource }: Props) => {
+const AddResourceToFolderModal = ({
+  isOpen,
+  onClose,
+  resource,
+  defaultOpenFolder,
+}: Props) => {
   const { t } = useTranslation();
   const { authenticated } = useContext(AuthContext);
   const { meta } = useFolderResourceMeta(resource, { skip: !resource });
@@ -61,7 +68,11 @@ const AddResourceToFolderModal = ({ isOpen, onClose, resource }: Props) => {
           </ModalHeader>
           <ModalBody>
             {authenticated ? (
-              <AddResourceToFolder resource={resource} onClose={onClose} />
+              <AddResourceToFolder
+                resource={resource}
+                onClose={onClose}
+                defaultOpenFolder={defaultOpenFolder}
+              />
             ) : (
               <LoginComponent
                 resource={resource}
