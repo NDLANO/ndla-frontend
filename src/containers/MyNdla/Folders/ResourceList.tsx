@@ -162,6 +162,7 @@ const ResourceList = ({ selectedFolder, viewType, folderId }: Props) => {
         {resourceAction && (
           <>
             <AddResourceToFolderModal
+              defaultOpenFolder={selectedFolder}
               isOpen={resourceAction.action === 'add'}
               onClose={() => setResourceAction(undefined)}
               resource={{
