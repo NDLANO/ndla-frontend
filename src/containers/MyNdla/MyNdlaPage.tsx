@@ -155,7 +155,7 @@ const MyNdlaPage = () => {
                     alt: '',
                   }}
                   tags={res.tags}
-                  topics={meta?.resourceTypes.map(rt => rt.name) ?? []}
+                  resourceTypes={meta?.resourceTypes ?? []}
                 />
               </ListItem>
             );

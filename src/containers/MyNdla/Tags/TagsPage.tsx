@@ -152,7 +152,7 @@ const Resources = ({ resources }: ResourcesProps) => {
                 type !== 'list' ? meta?.description ?? '' : undefined
               }
               tags={resource.tags}
-              topics={meta?.resourceTypes.map(rt => rt.name) ?? []}
+              resourceTypes={meta?.resourceTypes ?? []}
               resourceImage={{
                 src: meta?.metaImage?.url ?? '',
                 alt: '',
