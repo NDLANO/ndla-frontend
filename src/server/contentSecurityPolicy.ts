@@ -140,6 +140,8 @@ const frameSrc = (() => {
     '*.vg.no',
     'vg.no',
     'https://www.tv2skole.no/',
+    '*.elevkanalen.no',
+    'elevkanalen.no',
     'https://www.scribd.com/',
     'https://optimize.google.com',
     'https://www.youtube.com',
@@ -197,6 +199,9 @@ const frameSrc = (() => {
     'ourworldindata.org',
     '*.sketchup.com',
     'www.gapminder.org',
+    'www.facebook.com',
+    'fb.watch',
+    'sketchfab.com',
   ];
   if (process.env.NODE_ENV === 'development') {
     return [
