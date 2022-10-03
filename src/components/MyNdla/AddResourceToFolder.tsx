@@ -237,7 +237,7 @@ const AddResourceToFolder = ({
         isLoading={metaLoading}
         link={resource.path}
         title={meta?.title ?? ''}
-        topics={meta?.resourceTypes.map(rt => rt.name) ?? []}
+        resourceTypes={meta?.resourceTypes ?? []}
         resourceImage={{
           src: meta?.metaImage?.url ?? '',
           alt: meta?.metaImage?.alt ?? '',
