@@ -116,7 +116,7 @@ const AddResourceToFolder = ({
   const [storedResource, setStoredResource] = useState<
     GQLFolderResource | undefined
   >(undefined);
-  const [tags, setTags] = useState<{ id: string; name: string }[]>([]);
+  const [tags, setTags] = useState<string[]>([]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [canSave, setCanSave] = useState<boolean>(false);
   const [alreadyAdded, setAlreadyAdded] = useState(false);
@@ -131,11 +131,7 @@ const AddResourceToFolder = ({
       const _storedResource = getResourceForPath(folders, resource.path);
       setStoredResource(_storedResource ?? undefined);
       setSelectedTags(_storedResource?.tags ?? []);
-      setTags(tags =>
-        compact(
-          tags.concat(getAllTags(folders).map(t => ({ id: t, name: t }))),
-        ),
-      );
+      setTags(tags => compact(tags.concat(getAllTags(folders))));
     }
   }, [loading, folders, resource]);
 
@@ -264,22 +260,26 @@ const AddResourceToFolder = ({
         <MessageBox type="danger">{t('myNdla.alreadyInFolder')}</MessageBox>
       )}
       <TagSelector
-        prefix="#"
         label={t('myNdla.myTags')}
-        tagsSelected={selectedTags}
+        selected={selectedTags}
         tags={tags}
-        onToggleTag={tag => {
-          if (selectedTags.some(t => t === tag)) {
-            setSelectedTags(prev => prev.filter(t => t !== tag));
-            return;
-          }
-          setSelectedTags(prev => uniq(prev.concat(tag)));
+        onChange={tags => {
+          setSelectedTags(tags);
         }}
+        // onToggleTag={tag => {
+        //   if (selectedTags.some(t => t === tag)) {
+        //     setSelectedTags(prev => prev.filter(t => t !== tag));
+        //     return;
+        //   }
+        //   setSelectedTags(prev => uniq(prev.concat(tag)));
+        // }}
         onCreateTag={tag => {
-          if (!tags.some(t => t.id === tag)) {
-            setTags(prev => prev.concat({ id: tag, name: tag }));
-          }
+          setTags(prev => prev.concat(tag));
           setSelectedTags(prev => uniq(prev.concat(tag)));
+          // if (!tags.some(t => t.id === tag)) {
+          //   setTags(prev => prev.concat({ id: tag, name: tag }));
+          // }
+          // setSelectedTags(prev => uniq(prev.concat(tag)));
         }}
       />
       <ButtonRow>

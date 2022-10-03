@@ -7,7 +7,7 @@
  */
 
 import { isEqual } from 'lodash';
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { AddButton } from '@ndla/button';
 import { colors, spacing } from '@ndla/core';

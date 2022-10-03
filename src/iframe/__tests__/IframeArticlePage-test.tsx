@@ -9,7 +9,7 @@
 
 import { HelmetProvider } from 'react-helmet-async';
 import renderer from 'react-test-renderer';
-import serializer from 'jest-emotion';
+import { createSerializer } from '@emotion/jest';
 import { MockedProvider } from '@apollo/client/testing';
 import { I18nextProvider, Translation } from 'react-i18next';
 import { configureTracker } from '@ndla/tracker';
@@ -25,7 +25,7 @@ const history = createMemoryHistory();
 configureTracker({ listen: history.listen });
 HelmetProvider.canUseDOM = false;
 
-expect.addSnapshotSerializer(serializer);
+expect.addSnapshotSerializer(createSerializer());
 
 test('IframeArticlePage with article renderers correctly', () => {
   const locale = 'nb';

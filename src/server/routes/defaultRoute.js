@@ -13,7 +13,7 @@ import { getSelectorsByUserAgent } from 'react-device-detect';
 import { i18nInstance } from '@ndla/ui';
 import url from 'url';
 import { ApolloProvider } from '@apollo/client';
-import { CacheProvider } from '@emotion/core';
+import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import { getCookie } from '@ndla/util';
 
