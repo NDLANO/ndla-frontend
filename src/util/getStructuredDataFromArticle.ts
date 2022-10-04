@@ -19,7 +19,7 @@ import {
 } from '../graphqlTypes';
 import config from '../config';
 import { AcquireLicensePage } from '../constants';
-import { Breadcrumb, LocaleType } from '../interfaces';
+import { Breadcrumb } from '../interfaces';
 
 type CopyrightHolder = { '@type': string; name?: string };
 interface StructuredData {
@@ -202,6 +202,7 @@ export const structuredArticleDataFragment = gql`
     metaDescription
     published
     updated
+    supportedLanguages
     copyright {
       ...StructuredArticleData_Copyright
     }
@@ -232,14 +233,15 @@ export const structuredArticleDataFragment = gql`
 
 const getStructuredDataFromArticle = (
   article: GQLStructuredArticleDataFragment,
-  language: LocaleType,
+  language: string,
   breadcrumbItems?: Breadcrumb[],
 ) => {
+  const inLanguage = article.supportedLanguages?.includes(language) ? language : article.supportedLanguages?.[0] ?? language
   const articleData: StructuredData = {
     ...structuredDataBase,
     '@type': CREATIVE_WORK_TYPE,
     identifier: `${article.id}`,
-    inLanguage: language,
+    inLanguage: inLanguage,
     name: article.title,
     headline: article.title,
     abstract: article.metaDescription,

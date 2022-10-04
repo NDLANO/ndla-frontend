@@ -3502,6 +3502,7 @@ export type GQLStructuredArticleDataFragment = {
   metaDescription: string;
   published: string;
   updated: string;
+  supportedLanguages?: Array<string>;
   copyright: {
     __typename?: 'Copyright';
   } & GQLStructuredArticleData_CopyrightFragment;
