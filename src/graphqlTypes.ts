@@ -679,6 +679,8 @@ export type GQLMutation = {
   deleteFolder: Scalars['String'];
   deleteFolderResource: Scalars['String'];
   deletePersonalData: Scalars['Boolean'];
+  sortFolders: GQLSortResult;
+  sortResources: GQLSortResult;
   updateFolder: GQLFolder;
   updateFolderResource: GQLFolderResource;
 };
@@ -704,6 +706,16 @@ export type GQLMutationDeleteFolderArgs = {
 export type GQLMutationDeleteFolderResourceArgs = {
   folderId: Scalars['String'];
   resourceId: Scalars['String'];
+};
+
+export type GQLMutationSortFoldersArgs = {
+  parentId?: InputMaybe<Scalars['String']>;
+  sortedIds: Array<Scalars['String']>;
+};
+
+export type GQLMutationSortResourcesArgs = {
+  parentId: Scalars['String'];
+  sortedIds: Array<Scalars['String']>;
 };
 
 export type GQLMutationUpdateFolderArgs = {
@@ -1132,6 +1144,12 @@ export type GQLSearchSuggestion = {
 export type GQLSearchWithoutPagination = {
   __typename?: 'SearchWithoutPagination';
   results: Array<GQLSearchResult>;
+};
+
+export type GQLSortResult = {
+  __typename?: 'SortResult';
+  parentId?: Maybe<Scalars['String']>;
+  sortedIds: Array<Scalars['String']>;
 };
 
 export type GQLSubject = GQLTaxonomyEntity & {
@@ -2222,6 +2240,34 @@ export type GQLUpdateFolderMutationVariables = Exact<{
 export type GQLUpdateFolderMutation = {
   __typename?: 'Mutation';
   updateFolder: { __typename?: 'Folder' } & GQLFoldersPageQueryFragmentFragment;
+};
+
+export type GQLSortFoldersMutationVariables = Exact<{
+  parentId?: InputMaybe<Scalars['String']>;
+  sortedIds: Array<Scalars['String']> | Scalars['String'];
+}>;
+
+export type GQLSortFoldersMutation = {
+  __typename?: 'Mutation';
+  sortFolders: {
+    __typename?: 'SortResult';
+    parentId?: string;
+    sortedIds: Array<string>;
+  };
+};
+
+export type GQLSortResourcesMutationVariables = Exact<{
+  parentId: Scalars['String'];
+  sortedIds: Array<Scalars['String']> | Scalars['String'];
+}>;
+
+export type GQLSortResourcesMutation = {
+  __typename?: 'Mutation';
+  sortResources: {
+    __typename?: 'SortResult';
+    parentId?: string;
+    sortedIds: Array<string>;
+  };
 };
 
 export type GQLFolderResourceMetaFragment = {

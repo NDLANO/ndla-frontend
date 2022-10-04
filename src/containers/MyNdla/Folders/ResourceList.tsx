@@ -9,20 +9,33 @@
 import { isEqual, keyBy } from 'lodash';
 import { useMemo, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from '@ndla/icons/common';
-import { FolderOutlined } from '@ndla/icons/contentType';
-import { DeleteForever } from '@ndla/icons/editor';
-import { BlockResource, ListResource, useSnack } from '@ndla/ui';
+import { useSnack } from '@ndla/ui';
+import { useApolloClient } from '@apollo/client';
+import {
+  closestCenter,
+  DndContext,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core';
+import {
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
 import AddResourceToFolderModal from '../../../components/MyNdla/AddResourceToFolderModal';
-import config from '../../../config';
 import { GQLFolder, GQLFolderResource } from '../../../graphqlTypes';
 import DeleteModal from '../components/DeleteModal';
 import {
   useDeleteFolderResourceMutation,
   useFolderResourceMetaSearch,
+  useSortResourcesMutation,
 } from '../folderMutations';
-import { BlockWrapper, ListItem, ViewType } from './FoldersPage';
+import { BlockWrapper, ViewType } from './FoldersPage';
 import { usePrevious } from '../../../util/utilityHooks';
+import DraggableResource from './DraggableResource';
+import { makeDndSortFunction } from './util';
 
 interface Props {
   selectedFolder: GQLFolder;
@@ -40,6 +53,8 @@ export interface ResourceAction {
 const ResourceList = ({ selectedFolder, viewType, folderId }: Props) => {
   const { t } = useTranslation();
   const { addSnack } = useSnack();
+  const client = useApolloClient();
+  const { sortResources } = useSortResourcesMutation();
   const [focusId, setFocusId] = useState<string | undefined>(undefined);
   const [resourceAction, setResourceAction] = useState<
     ResourceAction | undefined
@@ -100,99 +115,98 @@ const ResourceList = ({ selectedFolder, viewType, folderId }: Props) => {
     selectedFolder.id,
   );
 
-  const Resource = viewType === 'block' ? BlockResource : ListResource;
+  const updateCache = (newOrder: string[]) => {
+    const sortCacheModifierFunction = (
+      existing: (GQLFolder & { __ref: string })[],
+    ) => {
+      return newOrder.map(id =>
+        existing.find(ef => ef.__ref === `FolderResource:${id}`),
+      );
+    };
+
+    if (selectedFolder.id) {
+      client.cache.modify({
+        id: client.cache.identify({
+          __ref: `Folder:${selectedFolder.id}`,
+        }),
+        fields: { resources: sortCacheModifierFunction },
+      });
+    }
+  };
+
+  const [sortedResources, setSortedResources] = useState(resources);
+
+  useEffect(() => {
+    setSortedResources(resources);
+  }, [resources]);
+
+  const sortResourceIds = makeDndSortFunction(
+    selectedFolder.id,
+    resources,
+    sortResources,
+    updateCache,
+    setSortedResources,
+  );
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
+  );
 
   return (
-    <>
-      <BlockWrapper type={viewType}>
-        {resources.map((resource, index) => {
-          const resourceMeta =
-            keyedData[`${resource.resourceType}-${resource.resourceId}`];
-          return (
-            <ListItem
-              key={`resource-${resource.id}`}
-              id={`resource-${resource.id}`}
-              tabIndex={-1}>
-              <Resource
-                id={resource.id}
-                tagLinkPrefix="/minndla/tags"
-                isLoading={loading}
-                key={resource.id}
-                resourceImage={{
-                  src: resourceMeta?.metaImage?.url ?? '',
-                  alt: '',
-                }}
-                link={resource.path}
-                tags={resource.tags}
-                resourceTypes={resourceMeta?.resourceTypes ?? []}
-                title={resourceMeta?.title ?? ''}
-                description={
-                  viewType !== 'list'
-                    ? resourceMeta?.description ?? ''
-                    : undefined
-                }
-                menuItems={[
-                  {
-                    icon: <FolderOutlined />,
-                    text: t('myNdla.resource.add'),
-                    onClick: () =>
-                      setResourceAction({ action: 'add', resource }),
-                  },
-                  {
-                    icon: <Link />,
-                    text: t('myNdla.resource.copyLink'),
-                    onClick: () => {
-                      navigator.clipboard.writeText(
-                        `${config.ndlaFrontendDomain}${resource.path}`,
-                      );
-                      addSnack({
-                        content: t('myNdla.resource.linkCopied'),
-                        id: 'linkCopied',
-                      });
-                    },
-                  },
-                  {
-                    icon: <DeleteForever />,
-                    text: t('myNdla.resource.remove'),
-                    onClick: () =>
-                      setResourceAction({ action: 'delete', resource, index }),
-                    type: 'danger',
-                  },
-                ]}
-              />
-            </ListItem>
-          );
-        })}
-        {resourceAction && (
-          <>
-            <AddResourceToFolderModal
-              defaultOpenFolder={selectedFolder}
-              isOpen={resourceAction.action === 'add'}
-              onClose={() => setResourceAction(undefined)}
-              resource={{
-                id: resourceAction.resource.resourceId,
-                resourceType: resourceAction.resource.resourceType,
-                path: resourceAction.resource.path,
-              }}
+    <BlockWrapper type={viewType}>
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragEnd={sortResourceIds}>
+        <SortableContext
+          items={sortedResources}
+          strategy={verticalListSortingStrategy}>
+          {resources.map((resource, index) => (
+            <DraggableResource
+              id={resource.id}
+              key={resource.id}
+              resource={resource}
+              index={index}
+              loading={loading}
+              viewType={viewType}
+              keyedData={keyedData}
+              setResourceAction={setResourceAction}
             />
-            <DeleteModal
-              isOpen={resourceAction.action === 'delete'}
-              onClose={() => setResourceAction(undefined)}
-              onDelete={async () => {
-                await onDeleteFolder(
-                  resourceAction.resource,
-                  resourceAction.index,
-                );
-                setResourceAction(undefined);
-              }}
-              description={t('myNdla.resource.confirmRemove')}
-              title={t('myNdla.resource.removeTitle')}
-              removeText={t('myNdla.resource.remove')}
-            />
-          </>
-        )}
-      </BlockWrapper>
-    </>
+          ))}
+        </SortableContext>
+      </DndContext>
+      {resourceAction && (
+        <>
+          <AddResourceToFolderModal
+            defaultOpenFolder={selectedFolder}
+            isOpen={resourceAction.action === 'add'}
+            onClose={() => setResourceAction(undefined)}
+            resource={{
+              id: resourceAction.resource.resourceId,
+              resourceType: resourceAction.resource.resourceType,
+              path: resourceAction.resource.path,
+            }}
+          />
+          <DeleteModal
+            isOpen={resourceAction.action === 'delete'}
+            onClose={() => setResourceAction(undefined)}
+            onDelete={async () => {
+              await onDeleteFolder(
+                resourceAction.resource,
+                resourceAction.index,
+              );
+              setResourceAction(undefined);
+            }}
+            description={t('myNdla.resource.confirmRemove')}
+            title={t('myNdla.resource.removeTitle')}
+            removeText={t('myNdla.resource.remove')}
+          />
+        </>
+      )}
+    </BlockWrapper>
   );
 };
 

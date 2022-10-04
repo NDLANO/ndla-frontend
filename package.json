@@ -146,7 +146,10 @@
     "react-router-dom": "^6.3.0",
     "remarkable": "^2.0.0",
     "serialize-javascript": "^3.1.0",
-    "source-map-support": "^0.5.9"
+    "source-map-support": "^0.5.9",
+    "@dnd-kit/core": "6.0.5",
+    "@dnd-kit/sortable": "7.0.1",
+    "@dnd-kit/utilities": "^3.2.0"
   },
   "repository": {
     "type": "git",
