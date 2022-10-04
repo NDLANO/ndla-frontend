@@ -31,7 +31,6 @@ import {
 import { GQLFolder, GQLFolderResource } from '../../graphqlTypes';
 import { getAllTags, getResourceForPath } from '../../util/folderHelpers';
 import NewFolder from './NewFolder';
-import { contentTypeMapping } from '../../util/getContentType';
 
 export interface ResourceAttributes {
   path: string;
@@ -233,19 +232,16 @@ const AddResourceToFolder = ({
   return (
     <AddResourceContainer>
       <ListResource
-        contentType={
-          contentTypeMapping[meta?.resourceTypes?.[0]?.id ?? ''] ?? ''
-        }
         id={resource.id.toString()}
         tagLinkPrefix="/minndla/tags"
         isLoading={metaLoading}
         link={resource.path}
         title={meta?.title ?? ''}
-        topics={meta?.resourceTypes.map(rt => rt.name) ?? []}
         resourceImage={{
           src: meta?.metaImage?.url ?? '',
           alt: meta?.metaImage?.alt ?? '',
         }}
+        resourceTypes={meta?.resourceTypes ?? []}
       />
       <TreestructureContainer>
         <TreeStructure
@@ -271,7 +267,9 @@ const AddResourceToFolder = ({
         prefix="#"
         label={t('myNdla.myTags')}
         tagsSelected={selectedTags}
+        // @ts-ignore
         tags={tags}
+        // @ts-ignore
         onToggleTag={tag => {
           if (selectedTags.some(t => t === tag)) {
             setSelectedTags(prev => prev.filter(t => t !== tag));

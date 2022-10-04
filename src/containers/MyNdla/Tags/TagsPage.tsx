@@ -31,7 +31,6 @@ import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
 import MyNdlaTitle from '../components/MyNdlaTitle';
 import TitleWrapper from '../components/TitleWrapper';
 import { usePrevious } from '../../../util/utilityHooks';
-import { contentTypeMapping } from '../../../util/getContentType';
 
 const StyledUl = styled.ul`
   padding: 0px;
@@ -143,9 +142,6 @@ const Resources = ({ resources }: ResourcesProps) => {
             keyedData[`${resource.resourceType}-${resource.resourceId}`];
           return (
             <ListResource
-              contentType={
-                contentTypeMapping[meta?.resourceTypes?.[0]?.id ?? ''] ?? ''
-              }
               id={resource.id}
               tagLinkPrefix="/minndla/tags"
               isLoading={loading}
@@ -156,7 +152,7 @@ const Resources = ({ resources }: ResourcesProps) => {
                 type !== 'list' ? meta?.description ?? '' : undefined
               }
               tags={resource.tags}
-              topics={meta?.resourceTypes.map(rt => rt.name) ?? []}
+              resourceTypes={meta?.resourceTypes ?? []}
               resourceImage={{
                 src: meta?.metaImage?.url ?? '',
                 alt: '',

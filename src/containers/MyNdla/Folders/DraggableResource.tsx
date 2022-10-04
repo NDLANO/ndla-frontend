@@ -19,7 +19,6 @@ import {
   GQLFolderResourceMeta,
 } from '../../../graphqlTypes';
 import { ListItem, ViewType } from './FoldersPage';
-import { contentTypeMapping } from '../../../util/getContentType';
 import { ResourceAction } from './ResourceList';
 
 interface DraggableResourceProps {
@@ -47,8 +46,6 @@ const DraggableResource = ({
   const Resource = viewType === 'block' ? BlockResource : ListResource;
   const resourceMeta =
     keyedData[`${resource.resourceType}-${resource.resourceId}`];
-  const resourceTypeId = resourceMeta?.resourceTypes?.[0]?.id ?? '';
-  const contentType = contentTypeMapping[resourceTypeId] ?? '';
   return (
     <ListItem
       key={`resource-${resource.id}`}
@@ -56,18 +53,17 @@ const DraggableResource = ({
       tabIndex={-1}
       {...dragHandleProps}>
       <Resource
-        contentType={contentType}
         id={resource.id}
         tagLinkPrefix="/minndla/tags"
         isLoading={loading}
         key={resource.id}
+        resourceTypes={resourceMeta?.resourceTypes ?? []}
         resourceImage={{
           src: resourceMeta?.metaImage?.url ?? '',
           alt: '',
         }}
         link={resource.path}
         tags={resource.tags}
-        topics={resourceMeta?.resourceTypes.map(rt => rt.name) ?? []}
         title={resourceMeta?.title ?? ''}
         description={
           viewType !== 'list' ? resourceMeta?.description ?? '' : undefined

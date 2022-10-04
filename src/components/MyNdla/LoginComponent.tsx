@@ -17,7 +17,6 @@ import { useLocation } from 'react-router-dom';
 import { GQLFolderResourceMetaFragment } from '../../graphqlTypes';
 import { toHref } from '../../util/urlHelper';
 import { ResourceAttributes } from './AddResourceToFolder';
-import { contentTypeMapping } from '../../util/getContentType';
 
 const LoginComponentContainer = styled.div`
   display: flex;
@@ -108,9 +107,6 @@ const LoginComponent = ({ resource, meta, masthead, onClose }: Props) => {
       {resource && meta && (
         <ContentWrapper>
           <ListResource
-            contentType={
-              contentTypeMapping[meta.resourceTypes?.[0]?.id ?? ''] ?? ''
-            }
             id={resource.id.toString()}
             tagLinkPrefix="/minndla/tags"
             link={resource.path}
@@ -119,7 +115,7 @@ const LoginComponent = ({ resource, meta, masthead, onClose }: Props) => {
               src: meta.metaImage?.url ?? '',
               alt: meta.metaImage?.alt ?? '',
             }}
-            topics={meta.resourceTypes.map(rt => rt.name)}
+            resourceTypes={meta.resourceTypes}
           />
         </ContentWrapper>
       )}
