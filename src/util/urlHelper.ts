@@ -7,7 +7,7 @@
  */
 
 import { matchPath, Params, PathMatch, Location } from 'react-router-dom';
-import { isValidLocale } from '../i18n';
+import { isValidLocale, supportedLanguages } from '../i18n';
 import { oembedRoutes } from '../routes';
 
 type OembedParams =
@@ -81,4 +81,12 @@ export function parseOembedUrl(url: string, ignoreLocale: boolean = false) {
 
 export const toHref = (location: Location) => {
   return `${location.pathname}${location.search}`;
+};
+
+export const constructNewPath = (pathname: string, newLocale?: string) => {
+  const regex = new RegExp(`\\/(${supportedLanguages.join('|')})($|\\/)`, '');
+  const path = pathname.replace(regex, '');
+  const fullPath = path.startsWith('/') ? path : `/${path}`;
+  const localePrefix = newLocale ? `/${newLocale}` : '';
+  return `${localePrefix}${fullPath}`;
 };

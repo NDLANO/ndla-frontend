@@ -46,6 +46,8 @@ import {
   BAD_REQUEST,
 } from '../statusCodes';
 import { isAccessTokenValid } from '../util/authHelpers';
+import { constructNewPath } from '../util/urlHelper';
+import { getDefaultLocale } from '../config';
 
 // @ts-ignore
 global.fetch = fetch;
@@ -113,16 +115,34 @@ app.get(
   },
 );
 
-app.get('/login', async (req: Request, res: Response) => {
+const getLang = (
+  paramLang?: string,
+  cookieLang?: string | null,
+): string | undefined => {
+  if (paramLang) {
+    return paramLang;
+  }
+  if (!paramLang && cookieLang && cookieLang !== getDefaultLocale()) {
+    return cookieLang;
+  }
+  return undefined;
+};
+
+app.get('/:lang?/login', async (req: Request, res: Response) => {
   const feideCookie = getCookie('feide_auth', req.headers.cookie ?? '') ?? '';
   const feideToken = !!feideCookie ? JSON.parse(feideCookie) : undefined;
-  const state = typeof req.query.state === 'string' ? req.query.state : '/';
+  const state = typeof req.query.state === 'string' ? req.query.state : '';
+  const lang = getLang(
+    req.params.lang,
+    getCookie(STORED_LANGUAGE_COOKIE_KEY, req.headers.cookie ?? ''),
+  );
+  const redirect = constructNewPath(state, lang);
 
   if (feideToken && isAccessTokenValid(feideToken)) {
     return res.redirect(state);
   }
   try {
-    const { verifier, url } = await getRedirectUrl(req, state);
+    const { verifier, url } = await getRedirectUrl(req, redirect);
     res.cookie('PKCE_code', verifier, { httpOnly: true });
     return res.redirect(url);
   } catch (e) {
@@ -148,22 +168,35 @@ app.get('/login/success', async (req: Request, res: Response) => {
       expires: new Date(feideCookie.ndla_expires_at),
       encode: String,
     });
+    const languageCookie = getCookie(
+      STORED_LANGUAGE_COOKIE_KEY,
+      req.headers.cookie ?? '',
+    );
+    //workaround to ensure language cookie is set before redirecting to state path
+    if (!languageCookie) {
+      const { basename } = getLocaleInfoFromPath(state);
+      res.cookie(
+        STORED_LANGUAGE_COOKIE_KEY,
+        basename.length ? basename : getDefaultLocale(),
+      );
+    }
     return res.redirect(state);
   } catch (e) {
     return await sendInternalServerError(req, res);
   }
 });
 
-app.get('/logout', async (req: Request, res: Response) => {
+app.get('/:lang?/logout', async (req: Request, res: Response) => {
   const feideCookie = getCookie('feide_auth', req.headers.cookie ?? '') ?? '';
   const feideToken = !!feideCookie ? JSON.parse(feideCookie) : undefined;
-  const state = req.query['state'] ?? '/';
+  const state = typeof req.query.state === 'string' ? req.query.state : '/';
+  const redirect = constructNewPath(state, req.params.lang);
 
   if (!feideToken?.['id_token'] || typeof state !== 'string') {
     return sendInternalServerError(req, res);
   }
   try {
-    const logoutUri = await feideLogout(req, state, feideToken['id_token']);
+    const logoutUri = await feideLogout(req, redirect, feideToken['id_token']);
     return res.redirect(logoutUri);
   } catch (_) {
     return await sendInternalServerError(req, res);
@@ -172,9 +205,10 @@ app.get('/logout', async (req: Request, res: Response) => {
 
 app.get('/logout/session', (req: Request, res: Response) => {
   res.clearCookie('feide_auth');
-  const prevPath = typeof req.query.state === 'string' ? req.query.state : '/';
-  const wasPrivateRoute = privateRoutes.some(r => matchPath(r, prevPath));
-  const redirect = wasPrivateRoute ? '/' : prevPath;
+  const state = typeof req.query.state === 'string' ? req.query.state : '/';
+  const { basepath, basename } = getLocaleInfoFromPath(state);
+  const wasPrivateRoute = privateRoutes.some(r => matchPath(r, basepath));
+  const redirect = wasPrivateRoute ? constructNewPath('/', basename) : state;
   return res.redirect(redirect);
 });
 
@@ -329,7 +363,7 @@ app.get(
     if (!route) {
       next('route'); // skip to next route (i.e. proxy)
     } else if (shouldRedirect) {
-      return res.redirect(`/login?state=${route}}`);
+      return res.redirect(`/login?state=${req.path}`);
     } else {
       next();
     }

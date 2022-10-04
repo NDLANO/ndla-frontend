@@ -23,6 +23,7 @@ window.MathJax = {
         domain: 'mathspeak',
         style: 'sbrief',
         speech: 'shallow',
+        locale: 'nb',
         structure: false,
       }
   }

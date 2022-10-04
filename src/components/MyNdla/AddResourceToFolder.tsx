@@ -41,6 +41,7 @@ export interface ResourceAttributes {
 interface Props {
   onClose: () => void;
   resource: ResourceAttributes;
+  defaultOpenFolder?: GQLFolder;
 }
 
 const ButtonRow = styled.div`
@@ -104,7 +105,11 @@ const ResourceAddedSnack = ({ folder }: ResourceAddedSnackProps) => {
   );
 };
 
-const AddResourceToFolder = ({ onClose, resource }: Props) => {
+const AddResourceToFolder = ({
+  onClose,
+  resource,
+  defaultOpenFolder,
+}: Props) => {
   const { t } = useTranslation();
   const { meta, loading: metaLoading } = useFolderResourceMeta(resource);
   const { folders, loading } = useFolders();
@@ -217,15 +222,12 @@ const AddResourceToFolder = ({ onClose, resource }: Props) => {
   };
 
   const firstFolderId = structureFolders?.[0]?.subfolders[0]?.id;
-  const defaultOpenFolders = firstFolderId
+  const defaultOpenFolderIds = defaultOpenFolder?.breadcrumbs.map(bc => bc.id);
+  const defaultOpenFolders = defaultOpenFolderIds
+    ? ['folders'].concat(defaultOpenFolderIds)
+    : firstFolderId
     ? ['folders', firstFolderId]
     : ['folders'];
-
-  useEffect(() => {
-    if (firstFolderId) {
-      setSelectedFolderId(firstFolderId);
-    }
-  }, [firstFolderId]);
 
   return (
     <AddResourceContainer>
