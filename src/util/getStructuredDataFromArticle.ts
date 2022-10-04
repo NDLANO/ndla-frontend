@@ -236,7 +236,9 @@ const getStructuredDataFromArticle = (
   language: string,
   breadcrumbItems?: Breadcrumb[],
 ) => {
-  const inLanguage = article.supportedLanguages?.includes(language) ? language : article.supportedLanguages?.[0] ?? language
+  const inLanguage = article.supportedLanguages?.includes(language)
+    ? language
+    : article.supportedLanguages?.[0] ?? language;
   const articleData: StructuredData = {
     ...structuredDataBase,
     '@type': CREATIVE_WORK_TYPE,
