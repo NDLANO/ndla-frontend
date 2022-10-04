@@ -233,7 +233,11 @@ const AddResourceToFolder = ({
         isLoading={metaLoading}
         link={resource.path}
         title={meta?.title ?? ''}
-        resourceTypes={meta?.resourceTypes ?? []}
+        resourceTypes={
+          // TODO: Fix this once we bump @ndla/ui to >29.0.0.
+          //       That is: revert this to simply fallback to empty list.
+          meta?.resourceTypes ?? [{ id: resource.resourceType, name: '' }]
+        }
         resourceImage={{
           src: meta?.metaImage?.url ?? '',
           alt: meta?.metaImage?.alt ?? '',
