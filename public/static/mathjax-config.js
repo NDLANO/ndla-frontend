@@ -6,7 +6,7 @@
  *
  */
 
- const locale = new URLSearchParams(document.currentScript.src).get('locale') || 'nb';
+const params = new URLSearchParams(new URL(document.currentScript.src).search);
 
 window.MathJax = {
   chtml: {
@@ -25,7 +25,7 @@ window.MathJax = {
         domain: 'mathspeak',
         style: 'sbrief',
         speech: 'shallow',
-        locale: locale,
+        locale: params.get('locale') || 'nb',
         structure: false,
       }
   }
