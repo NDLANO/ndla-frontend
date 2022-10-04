@@ -11,8 +11,6 @@ import { SnackbarProvider } from '@ndla/ui';
 import { History } from 'history';
 import { Component, ErrorInfo, ReactNode } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { __SERVER__ } from 'util/apiHelpers';
-import { resetServerContext } from 'react-beautiful-dnd';
 import { AlertsProvider } from './components/AlertsContext';
 import AuthenticationContext from './components/AuthenticationContext';
 import { BaseNameProvider } from './components/BaseNameContext';
@@ -75,8 +73,6 @@ class App extends Component<AppProps, State> {
   }
 
   render(): ReactNode {
-    if (__SERVER__) resetServerContext(); // https://github.com/atlassian/react-beautiful-dnd/blob/master/docs/api/reset-server-context.md
-
     if (this.state.hasError) {
       return <ErrorPage />;
     }

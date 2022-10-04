@@ -6,8 +6,21 @@
  *
  */
 
-import { MakeDNDList } from '@ndla/ui';
 import { useApolloClient } from '@apollo/client';
+import {
+  closestCenter,
+  DndContext,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core';
+import {
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
+import { useEffect, useState } from 'react';
 import { GQLFolder } from '../../../graphqlTypes';
 import { FolderTotalCount } from '../../../util/folderHelpers';
 import { FolderAction, ViewType } from './FoldersPage';
@@ -55,32 +68,48 @@ const FolderList = ({
       });
     }
   };
+  const [sortedFolders, setSortedFolders] = useState(folders);
+
+  useEffect(() => {
+    setSortedFolders(folders);
+  }, [folders]);
 
   const sortFolderIds = makeDndSortFunction(
     currentFolderId,
     folders,
     sortFolders,
     updateCache,
+    setSortedFolders,
+  );
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
   );
 
   return (
-    <MakeDNDList
-      disableDND={type === 'block'}
-      onDragEnd={result => sortFolderIds(result)}
-      dragHandle={true}
-      dndContextId={'folder-dnd'}>
-      {folders.map((folder, index) => (
-        <DraggableFolder
-          id={folder.id}
-          key={folder.id}
-          index={index}
-          folder={folder}
-          foldersCount={foldersCount}
-          setFolderAction={setFolderAction}
-          type={type}
-        />
-      ))}
-    </MakeDNDList>
+    <DndContext
+      sensors={sensors}
+      collisionDetection={closestCenter}
+      onDragEnd={sortFolderIds}>
+      <SortableContext
+        items={sortedFolders}
+        strategy={verticalListSortingStrategy}>
+        {sortedFolders.map((folder, index) => (
+          <DraggableFolder
+            id={folder.id}
+            key={folder.id}
+            index={index}
+            folder={folder}
+            foldersCount={foldersCount}
+            setFolderAction={setFolderAction}
+            type={type}
+          />
+        ))}
+      </SortableContext>
+    </DndContext>
   );
 };
 

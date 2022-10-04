@@ -10,12 +10,14 @@ import { Folder } from '@ndla/ui';
 import { Pencil } from '@ndla/icons/action';
 import { useTranslation } from 'react-i18next';
 import { DeleteForever, DragVertical } from '@ndla/icons/editor';
-import { DraggableProvidedDragHandleProps } from 'react-beautiful-dnd';
+import styled from '@emotion/styled';
+import { IconButtonV2 } from '@ndla/button';
+import { spacing } from '@ndla/core';
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 import { GQLFolder } from '../../../graphqlTypes';
 import { FolderTotalCount } from '../../../util/folderHelpers';
 import { FolderAction, ViewType } from './FoldersPage';
-import { IconButtonV2 } from '@ndla/button';
-import styled from '@emotion/styled';
 
 interface DraggableFolderProps {
   id: string;
@@ -24,21 +26,36 @@ interface DraggableFolderProps {
   foldersCount: Record<string, FolderTotalCount>;
   setFolderAction: (action: FolderAction | undefined) => void;
   index: number;
-  dragHandleProps?: DraggableProvidedDragHandleProps;
 }
 
-const DragButton = styled(IconButtonV2)``;
-
-const ListItem = styled.li`
+export const DraggableListItem = styled.li`
   list-style: none;
   margin: 0;
   display: flex;
   flex-direction: row;
+  align-items: center;
+  gap: ${spacing.xsmall};
 `;
 
-const FolderWrapper = styled.div`
+export const DragWrapper = styled.div`
   flex-grow: 1;
 `;
+
+export const DragButton = ({ folderId }: { folderId: string }) => {
+  const { listeners, setActivatorNodeRef } = useSortable({ id: folderId });
+  return (
+    <div {...listeners} ref={setActivatorNodeRef}>
+      <IconButtonV2
+        aria-label={'TODO'}
+        type={'button'}
+        variant={'ghost'}
+        colorTheme={'light'}
+        size={'small'}>
+        <DragVertical />
+      </IconButtonV2>
+    </div>
+  );
+};
 
 const DraggableFolder = ({
   index,
@@ -46,24 +63,26 @@ const DraggableFolder = ({
   foldersCount,
   setFolderAction,
   folder,
-  dragHandleProps,
 }: DraggableFolderProps) => {
   const { t } = useTranslation();
+  const { attributes, setNodeRef, transform, transition } = useSortable({
+    id: folder.id,
+  });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
+
   return (
-    <ListItem
+    <DraggableListItem
       key={`folder-${folder.id}`}
       id={`folder-${folder.id}`}
-      tabIndex={-1}>
-      <DragButton
-        {...dragHandleProps}
-        aria-label={'TODO'}
-        type={'button'}
-        variant={'ghost'}
-        colorTheme={'light'}
-        size={'small'}>
-        <DragVertical />
-      </DragButton>
-      <FolderWrapper>
+      ref={setNodeRef}
+      style={style}
+      {...attributes}>
+      <DragButton folderId={folder.id} />
+      <DragWrapper>
         <Folder
           key={folder.id}
           id={folder.id}
@@ -87,8 +106,8 @@ const DraggableFolder = ({
             },
           ]}
         />
-      </FolderWrapper>
-    </ListItem>
+      </DragWrapper>
+    </DraggableListItem>
   );
 };
 

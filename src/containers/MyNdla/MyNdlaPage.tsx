@@ -148,6 +148,7 @@ const MyNdlaPage = () => {
                   tagLinkPrefix="/minndla/tags"
                   isLoading={loading}
                   key={res.id}
+                  topics={meta?.resourceTypes.map(rt => rt.name) ?? []}
                   link={res.path}
                   title={meta?.title ?? ''}
                   resourceImage={{
@@ -155,7 +156,6 @@ const MyNdlaPage = () => {
                     alt: '',
                   }}
                   tags={res.tags}
-                  resourceTypes={meta?.resourceTypes ?? []}
                 />
               </ListItem>
             );

@@ -6,45 +6,34 @@
  *
  */
 
-import { DropResult } from 'react-beautiful-dnd';
+import { DragEndEvent } from '@dnd-kit/core';
+import { arrayMove } from '@dnd-kit/sortable';
 
-/** Returns a shallow copy of `array` with element at `oldIdx` moved to `newIdx` */
-export const moveIndexToNewIndex = <T>(
-  array: T[],
-  oldIdx: number,
-  newIdx: number,
-): T[] | null => {
-  const copy = [...array];
-  const toMove = copy[oldIdx];
-  if (!toMove) return null;
-
-  copy.splice(oldIdx, 1); // Remove moved item from list
-  copy.splice(newIdx, 0, toMove); // Insert removed item to new location
-  return copy;
-};
-
-export const makeDndSortFunction = <PID, RES>(
+export const makeDndSortFunction = <PID, RES, T extends { id: string }>(
   parentId: PID,
-  sortables: { id: string }[],
+  sortables: T[],
   sortFunction: (options: {
     variables: { sortedIds: string[]; parentId: PID };
   }) => Promise<RES>,
   updateCache: (newOrder: string[]) => void,
+  setSortedFoldersState: (setNew: T[]) => void,
 ) => {
-  return (dropResult: DropResult) => {
-    const sourceIdx = dropResult.source.index;
-    const destinationIdx = dropResult.destination?.index;
-    if (destinationIdx === undefined || destinationIdx === sourceIdx) return;
+  return async (event: DragEndEvent) => {
+    const { active, over } = event;
+    if (over === null) return;
 
     const originalIds = sortables.map(f => f.id);
-    const sortedIds = moveIndexToNewIndex(
-      originalIds,
-      sourceIdx,
-      destinationIdx,
-    );
-    if (sortedIds === null) return;
+    const oldIndex = originalIds.indexOf(active.id as string);
+    const newIndex = originalIds.indexOf(over.id as string);
 
-    // Update cache before sorting happens to make gui feel snappy
+    if (newIndex === undefined || newIndex === oldIndex) return;
+
+    const newSorted = arrayMove(sortables, oldIndex, newIndex);
+    setSortedFoldersState(newSorted);
+
+    const sortedIds = newSorted.map(f => f.id);
+
+    // Update cache before sorting happens to make GUI feel snappy
     updateCache(sortedIds);
 
     return sortFunction({

@@ -152,7 +152,6 @@ const Resources = ({ resources }: ResourcesProps) => {
                 type !== 'list' ? meta?.description ?? '' : undefined
               }
               tags={resource.tags}
-              resourceTypes={meta?.resourceTypes ?? []}
               resourceImage={{
                 src: meta?.metaImage?.url ?? '',
                 alt: '',

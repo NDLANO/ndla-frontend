@@ -29,7 +29,7 @@ import {
   useDeleteFolderMutation,
   useUpdateFolderMutation,
 } from '../folderMutations';
-import ResourceList from './ResourceList';
+// import ResourceList from './ResourceList';
 import {
   FolderTotalCount,
   getTotalCountForFolder,
@@ -311,13 +311,13 @@ const FoldersPage = () => {
           />
         </BlockWrapper>
       )}
-      {selectedFolder && (
-        <ResourceList
-          selectedFolder={selectedFolder}
-          viewType={type}
-          folderId={selectedFolder.id}
-        />
-      )}
+      {/*{selectedFolder && (*/}
+      {/*  <ResourceList*/}
+      {/*    selectedFolder={selectedFolder}*/}
+      {/*    viewType={type}*/}
+      {/*    folderId={selectedFolder.id}*/}
+      {/*  />*/}
+      {/*)}*/}
       <EditFolderModal
         loading={updateFolderLoading}
         onSave={async (value, folder) => {

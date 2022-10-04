@@ -9,8 +9,21 @@
 import { isEqual, keyBy } from 'lodash';
 import { useMemo, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { MakeDNDList, useSnack } from '@ndla/ui';
+import { useSnack } from '@ndla/ui';
 import { useApolloClient } from '@apollo/client';
+import {
+  closestCenter,
+  DndContext,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core';
+import {
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
 import AddResourceToFolderModal from '../../../components/MyNdla/AddResourceToFolderModal';
 import { GQLFolder, GQLFolderResource } from '../../../graphqlTypes';
 import DeleteModal from '../components/DeleteModal';
@@ -117,33 +130,50 @@ const ResourceList = ({ selectedFolder, viewType, folderId }: Props) => {
     }
   };
 
+  const [sortedResources, setSortedResources] = useState(resources);
+
+  useEffect(() => {
+    setSortedResources(resources);
+  }, [resources]);
+
   const sortResourceIds = makeDndSortFunction(
     selectedFolder.id,
     resources,
     sortResources,
     updateCache,
+    setSortedResources,
+  );
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
   );
 
   return (
     <BlockWrapper type={viewType}>
-      <MakeDNDList
-        disableDND={viewType === 'block'}
-        onDragEnd={result => sortResourceIds(result)}
-        dragHandle={true}
-        dndContextId={'resource-dnd'}>
-        {resources.map((resource, index) => (
-          <DraggableResource
-            id={resource.id}
-            key={resource.id}
-            resource={resource}
-            index={index}
-            loading={loading}
-            viewType={viewType}
-            keyedData={keyedData}
-            setResourceAction={setResourceAction}
-          />
-        ))}
-      </MakeDNDList>
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragEnd={sortResourceIds}>
+        <SortableContext
+          items={sortedResources}
+          strategy={verticalListSortingStrategy}>
+          {resources.map((resource, index) => (
+            <DraggableResource
+              id={resource.id}
+              key={resource.id}
+              resource={resource}
+              index={index}
+              loading={loading}
+              viewType={viewType}
+              keyedData={keyedData}
+              setResourceAction={setResourceAction}
+            />
+          ))}
+        </SortableContext>
+      </DndContext>
       {resourceAction && (
         <>
           <AddResourceToFolderModal

@@ -10,16 +10,18 @@ import { Dictionary } from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { Link } from '@ndla/icons/common';
 import { FolderOutlined } from '@ndla/icons/contentType';
+import { CSS } from '@dnd-kit/utilities';
 import { DeleteForever } from '@ndla/icons/editor';
 import { BlockResource, ListResource, useSnack } from '@ndla/ui';
-import { DraggableProvidedDragHandleProps } from 'react-beautiful-dnd';
+import { useSortable } from '@dnd-kit/sortable';
 import config from '../../../config';
 import {
   GQLFolderResource,
   GQLFolderResourceMeta,
 } from '../../../graphqlTypes';
-import { ListItem, ViewType } from './FoldersPage';
+import { ViewType } from './FoldersPage';
 import { ResourceAction } from './ResourceList';
+import { DraggableListItem, DragWrapper } from './DraggableFolder';
 
 interface DraggableResourceProps {
   id: string;
@@ -28,7 +30,6 @@ interface DraggableResourceProps {
   loading: boolean;
   viewType: ViewType;
   setResourceAction: (action: ResourceAction | undefined) => void;
-  dragHandleProps?: DraggableProvidedDragHandleProps;
   keyedData: Dictionary<GQLFolderResourceMeta>;
 }
 
@@ -38,7 +39,6 @@ const DraggableResource = ({
   loading,
   viewType,
   setResourceAction,
-  dragHandleProps,
   keyedData,
 }: DraggableResourceProps) => {
   const { t } = useTranslation();
@@ -46,57 +46,70 @@ const DraggableResource = ({
   const Resource = viewType === 'block' ? BlockResource : ListResource;
   const resourceMeta =
     keyedData[`${resource.resourceType}-${resource.resourceId}`];
+
+  const { attributes, setNodeRef, transform, transition } = useSortable({
+    id: resource.id,
+  });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
+
   return (
-    <ListItem
+    <DraggableListItem
       key={`resource-${resource.id}`}
       id={`resource-${resource.id}`}
-      tabIndex={-1}
-      {...dragHandleProps}>
-      <Resource
-        id={resource.id}
-        tagLinkPrefix="/minndla/tags"
-        isLoading={loading}
-        key={resource.id}
-        resourceTypes={resourceMeta?.resourceTypes ?? []}
-        resourceImage={{
-          src: resourceMeta?.metaImage?.url ?? '',
-          alt: '',
-        }}
-        link={resource.path}
-        tags={resource.tags}
-        title={resourceMeta?.title ?? ''}
-        description={
-          viewType !== 'list' ? resourceMeta?.description ?? '' : undefined
-        }
-        menuItems={[
-          {
-            icon: <FolderOutlined />,
-            text: t('myNdla.resource.add'),
-            onClick: () => setResourceAction({ action: 'add', resource }),
-          },
-          {
-            icon: <Link />,
-            text: t('myNdla.resource.copyLink'),
-            onClick: () => {
-              navigator.clipboard.writeText(
-                `${config.ndlaFrontendDomain}${resource.path}`,
-              );
-              addSnack({
-                content: t('myNdla.resource.linkCopied'),
-                id: 'linkCopied',
-              });
+      ref={setNodeRef}
+      style={style}
+      {...attributes}>
+      <DragWrapper>
+        <Resource
+          id={resource.id}
+          tagLinkPrefix="/minndla/tags"
+          isLoading={loading}
+          key={resource.id}
+          resourceImage={{
+            src: resourceMeta?.metaImage?.url ?? '',
+            alt: '',
+          }}
+          link={resource.path}
+          tags={resource.tags}
+          topics={resourceMeta?.resourceTypes.map(rt => rt.name) ?? []}
+          title={resourceMeta?.title ?? ''}
+          description={
+            viewType !== 'list' ? resourceMeta?.description ?? '' : undefined
+          }
+          menuItems={[
+            {
+              icon: <FolderOutlined />,
+              text: t('myNdla.resource.add'),
+              onClick: () => setResourceAction({ action: 'add', resource }),
             },
-          },
-          {
-            icon: <DeleteForever />,
-            text: t('myNdla.resource.remove'),
-            onClick: () =>
-              setResourceAction({ action: 'delete', resource, index }),
-            type: 'danger',
-          },
-        ]}
-      />
-    </ListItem>
+            {
+              icon: <Link />,
+              text: t('myNdla.resource.copyLink'),
+              onClick: () => {
+                navigator.clipboard.writeText(
+                  `${config.ndlaFrontendDomain}${resource.path}`,
+                );
+                addSnack({
+                  content: t('myNdla.resource.linkCopied'),
+                  id: 'linkCopied',
+                });
+              },
+            },
+            {
+              icon: <DeleteForever />,
+              text: t('myNdla.resource.remove'),
+              onClick: () =>
+                setResourceAction({ action: 'delete', resource, index }),
+              type: 'danger',
+            },
+          ]}
+        />
+      </DragWrapper>
+    </DraggableListItem>
   );
 };
 
