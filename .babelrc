@@ -1,4 +1,8 @@
 {
   "presets": ["razzle/babel"],
-  "plugins": ["graphql-tag", "@babel/plugin-proposal-optional-chaining"]
+  "plugins": [
+    ["@emotion", { "autoLabel": "always" }],
+    "graphql-tag",
+    "@babel/plugin-proposal-optional-chaining"
+  ]
 }
