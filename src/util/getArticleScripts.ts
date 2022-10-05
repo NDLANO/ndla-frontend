@@ -35,7 +35,8 @@ export function getArticleScripts(
     });
 
     scripts.push({
-      src: 'https://cdn.jsdelivr.net/npm/mathjax@4.0.0-alpha.1/es5/mml-chtml.js',
+      src:
+        'https://cdn.jsdelivr.net/npm/mathjax@4.0.0-alpha.1/es5/mml-chtml.js',
       type: 'text/javascript',
       async: false,
       defer: true,
