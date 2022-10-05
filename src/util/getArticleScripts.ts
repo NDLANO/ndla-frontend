@@ -18,6 +18,7 @@ export interface Scripts {
 
 export function getArticleScripts(
   article: Pick<GQLArticle, 'requiredLibraries' | 'content'>,
+  locale = 'nb',
 ) {
   const scripts: Array<Scripts> =
     article.requiredLibraries?.map(lib => ({
@@ -25,8 +26,9 @@ export function getArticleScripts(
       type: lib.mediaType,
     })) || [];
   if (article && article.content.indexOf('<math') > -1) {
+    // Increment number for each change in config.
     scripts.push({
-      src: `/static/mathjax-config.js?ts=${new Date().getDate()}`,
+      src: `/static/mathjax-config.js?locale=${locale}&ts=${1}`,
       type: 'text/javascript',
       async: false,
       defer: true,

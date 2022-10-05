@@ -6,6 +6,8 @@
  *
  */
 
+const params = new URLSearchParams(new URL(document.currentScript.src).search);
+
 window.MathJax = {
   chtml: {
     mathmlSpacing: false,
@@ -23,7 +25,7 @@ window.MathJax = {
         domain: 'mathspeak',
         style: 'sbrief',
         speech: 'shallow',
-        locale: 'nb',
+        locale: params.get('locale') || 'nb',
         structure: false,
       }
   }

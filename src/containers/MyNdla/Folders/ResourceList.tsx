@@ -54,7 +54,11 @@ const ResourceList = ({ selectedFolder, viewType, folderId }: Props) => {
 
     if (!isEqual(resourceIds, prevResourceIds) && focusId) {
       setTimeout(
-        () => document.getElementById(`resource-${focusId}`)?.focus(),
+        () =>
+          document
+            .getElementById(`resource-${focusId}`)
+            ?.getElementsByTagName('a')?.[0]
+            ?.focus(),
         0,
       );
       setFocusId(undefined);
@@ -162,6 +166,7 @@ const ResourceList = ({ selectedFolder, viewType, folderId }: Props) => {
         {resourceAction && (
           <>
             <AddResourceToFolderModal
+              defaultOpenFolder={selectedFolder}
               isOpen={resourceAction.action === 'add'}
               onClose={() => setResourceAction(undefined)}
               resource={{
