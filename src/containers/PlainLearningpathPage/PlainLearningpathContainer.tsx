@@ -44,7 +44,7 @@ const PlainLearningpathContainer = ({
 
   useEffect(() => {
     if (window.MathJax && typeof window.MathJax.typeset === 'function') {
-      try  {
+      try {
         window.MathJax.typeset();
       } catch (err) {
         // do nothing
