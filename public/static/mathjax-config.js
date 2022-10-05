@@ -16,7 +16,7 @@ window.MathJax = {
       enableMenu: true,
       menuOptions:{
           settings:{
-              assistiveMml: true,
+              assistiveMml: false,
               collapsible: false,
               explorer: true
           }
