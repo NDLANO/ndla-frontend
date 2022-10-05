@@ -1,7 +1,12 @@
 {
-  "presets": ["razzle/babel"],
+  "presets": [
+    [
+      "razzle/babel",
+      { "runtime": "automatic", "importSource": "@emotion/react" }
+    ]
+  ],
   "plugins": [
-    ["@emotion", { "autoLabel": "always" }],
+    "@emotion",
     "graphql-tag",
     "@babel/plugin-proposal-optional-chaining"
   ]
