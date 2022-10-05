@@ -115,7 +115,7 @@ const LoginComponent = ({ resource, meta, masthead, onClose }: Props) => {
               src: meta.metaImage?.url ?? '',
               alt: meta.metaImage?.alt ?? '',
             }}
-            topics={meta.resourceTypes.map(rt => rt.name)}
+            resourceTypes={meta.resourceTypes}
           />
         </ContentWrapper>
       )}

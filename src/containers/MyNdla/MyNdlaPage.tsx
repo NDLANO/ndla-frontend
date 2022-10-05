@@ -8,7 +8,7 @@
 
 import { useContext } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { keyBy } from 'lodash';
 import styled from '@emotion/styled';
 import { breakpoints, mq, spacing } from '@ndla/core';
@@ -155,7 +155,7 @@ const MyNdlaPage = () => {
                     alt: '',
                   }}
                   tags={res.tags}
-                  topics={meta?.resourceTypes.map(rt => rt.name) ?? []}
+                  resourceTypes={meta?.resourceTypes ?? []}
                 />
               </ListItem>
             );
@@ -173,14 +173,18 @@ const MyNdlaPage = () => {
         icon={<FolderOutlinedIcon />}
         title={t('myNdla.myPage.folderInfo.title')}
         children={
-          <InfoPartText>{t('myNdla.myPage.folderInfo.text')}</InfoPartText>
+          <InfoPartText>
+            <Trans i18nKey="myNdla.myPage.folderInfo.text" />
+          </InfoPartText>
         }
       />
       <InfoPart
         icon={<HashTagIcon />}
         title={t('myNdla.myPage.tagInfo.title')}
         children={
-          <InfoPartText>{t('myNdla.myPage.tagInfo.text')}</InfoPartText>
+          <InfoPartText>
+            <Trans i18nKey={'myNdla.myPage.tagInfo.text'} />
+          </InfoPartText>
         }
       />
       {user && (
@@ -202,10 +206,11 @@ const MyNdlaPage = () => {
       )}
       <InfoContainer>
         <LinkText>
-          {`${t('myNdla.myPage.read.our')} `}
+          {`${t('myNdla.myPage.read.read')} `}
           <SafeLink target="_blank" to="https://om.ndla.no/gdpr">
             {t('myNdla.myPage.privacy')}
           </SafeLink>
+          {`${t('myNdla.myPage.read.our')}`}
         </LinkText>
         <LinkText>
           {`${t('myNdla.myPage.questions.question')} `}
