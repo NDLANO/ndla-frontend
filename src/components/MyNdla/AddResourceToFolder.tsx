@@ -266,20 +266,9 @@ const AddResourceToFolder = ({
         onChange={tags => {
           setSelectedTags(tags);
         }}
-        // onToggleTag={tag => {
-        //   if (selectedTags.some(t => t === tag)) {
-        //     setSelectedTags(prev => prev.filter(t => t !== tag));
-        //     return;
-        //   }
-        //   setSelectedTags(prev => uniq(prev.concat(tag)));
-        // }}
         onCreateTag={tag => {
           setTags(prev => prev.concat(tag));
           setSelectedTags(prev => uniq(prev.concat(tag)));
-          // if (!tags.some(t => t.id === tag)) {
-          //   setTags(prev => prev.concat({ id: tag, name: tag }));
-          // }
-          // setSelectedTags(prev => uniq(prev.concat(tag)));
         }}
       />
       <ButtonRow>
