@@ -7,7 +7,7 @@
  */
 
 import { compact, isEqual, sortBy, uniq } from 'lodash';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { ButtonV2 as Button, LoadingButton } from '@ndla/button';
@@ -171,16 +171,20 @@ const AddResourceToFolder = ({
     return !isEqual(sortedStored, sortedSelected);
   };
 
-  const structureFolders: FolderType[] = [
-    {
-      id: 'folders',
-      name: t('myNdla.myFolders'),
-      status: 'private',
-      subfolders: folders,
-      breadcrumbs: [],
-      resources: [],
-    },
-  ];
+  const structureFolders: FolderType[] = useMemo(
+    () => [
+      {
+        id: 'folders',
+        name: t('myNdla.myFolders'),
+        status: 'private',
+        subfolders: folders,
+        breadcrumbs: [],
+        resources: [],
+      },
+    ],
+    [folders, t],
+  );
+
   const { updateFolderResource } = useUpdateFolderResourceMutation();
   const {
     addResourceToFolder,
@@ -217,13 +221,24 @@ const AddResourceToFolder = ({
     onClose();
   };
 
-  const firstFolderId = structureFolders?.[0]?.subfolders[0]?.id;
-  const defaultOpenFolderIds = defaultOpenFolder?.breadcrumbs.map(bc => bc.id);
-  const defaultOpenFolders = defaultOpenFolderIds
-    ? ['folders'].concat(defaultOpenFolderIds)
-    : firstFolderId
-    ? ['folders', firstFolderId]
-    : ['folders'];
+  const defaultOpenFolders = useMemo(() => {
+    const firstFolderId = structureFolders?.[0]?.subfolders[0]?.id;
+    const defaultOpenFolderIds = defaultOpenFolder?.breadcrumbs.map(
+      bc => bc.id,
+    );
+    const defaultOpen = defaultOpenFolderIds
+      ? ['folders'].concat(defaultOpenFolderIds)
+      : firstFolderId
+      ? ['folders', firstFolderId]
+      : ['folders'];
+
+    const last = defaultOpen[defaultOpen.length - 1];
+    if (last !== 'folders') {
+      setSelectedFolderId(last);
+    }
+
+    return defaultOpen;
+  }, [structureFolders, defaultOpenFolder]);
 
   return (
     <AddResourceContainer>
