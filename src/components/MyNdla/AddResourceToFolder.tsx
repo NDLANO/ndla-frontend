@@ -56,7 +56,7 @@ const AddResourceContainer = styled.div`
   gap: ${spacing.normal};
 `;
 
-const TreestructureContainer = styled.div`
+const ComboboxContainer = styled.div`
   display: flex;
   max-height: 320px;
   overflow: hidden;
@@ -239,7 +239,7 @@ const AddResourceToFolder = ({
           alt: meta?.metaImage?.alt ?? '',
         }}
       />
-      <TreestructureContainer>
+      <ComboboxContainer>
         <TreeStructure
           folders={structureFolders}
           label={t('myNdla.myFolders')}
@@ -255,22 +255,24 @@ const AddResourceToFolder = ({
             />
           )}
         />
-      </TreestructureContainer>
+      </ComboboxContainer>
       {alreadyAdded && (
         <MessageBox type="danger">{t('myNdla.alreadyInFolder')}</MessageBox>
       )}
-      <TagSelector
-        label={t('myNdla.myTags')}
-        selected={selectedTags}
-        tags={tags}
-        onChange={tags => {
-          setSelectedTags(tags);
-        }}
-        onCreateTag={tag => {
-          setTags(prev => prev.concat(tag));
-          setSelectedTags(prev => uniq(prev.concat(tag)));
-        }}
-      />
+      <ComboboxContainer>
+        <TagSelector
+          label={t('myNdla.myTags')}
+          selected={selectedTags}
+          tags={tags}
+          onChange={tags => {
+            setSelectedTags(tags);
+          }}
+          onCreateTag={tag => {
+            setTags(prev => prev.concat(tag));
+            setSelectedTags(prev => uniq(prev.concat(tag)));
+          }}
+        />
+      </ComboboxContainer>
       <ButtonRow>
         <Button
           variant="outline"
