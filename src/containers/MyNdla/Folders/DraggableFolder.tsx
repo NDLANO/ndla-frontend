@@ -14,7 +14,7 @@ import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 import { GQLFolder } from '../../../graphqlTypes';
 import { FolderTotalCount } from '../../../util/folderHelpers';
 import { FolderAction, ViewType } from './FoldersPage';
