@@ -11,7 +11,7 @@ import { useLocation } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
 import { keyBy } from 'lodash';
 import styled from '@emotion/styled';
-import { breakpoints, mq, spacing } from '@ndla/core';
+import { breakpoints, fonts, mq, spacing } from '@ndla/core';
 import { HeartOutline } from '@ndla/icons/action';
 import { FolderOutlined } from '@ndla/icons/contentType';
 import { Feide, HashTag } from '@ndla/icons/common';
@@ -97,6 +97,12 @@ const ButtonContainer = styled.div`
   padding-bottom: ${spacing.normal};
 `;
 
+const StyledDescription = styled.p`
+  line-height: 1.5;
+  ${fonts.sizes('24px')};
+  font-weight: ${fonts.weight.semibold};
+`;
+
 const MyNdlaPage = () => {
   const { user } = useContext(AuthContext);
   const { t } = useTranslation();
@@ -133,7 +139,7 @@ const MyNdlaPage = () => {
         <MyNdlaTitle title={t('myNdla.myPage.myPage')} />
       </TitleWrapper>
       <StyledIntroContainer>
-        <h2>{t('myNdla.myPage.welcome')}</h2>
+        <StyledDescription>{t('myNdla.myPage.welcome')}</StyledDescription>
         <RoundedImage src="/static/my-ndla-login.png" alt="alt" />
       </StyledIntroContainer>
       <h2>{t('myNdla.myPage.newFavourite')}</h2>
@@ -144,6 +150,7 @@ const MyNdlaPage = () => {
             return (
               <ListItem key={res.id}>
                 <ListResource
+                  headingLevel={'h3'}
                   id={res.id}
                   tagLinkPrefix="/minndla/tags"
                   isLoading={loading}
