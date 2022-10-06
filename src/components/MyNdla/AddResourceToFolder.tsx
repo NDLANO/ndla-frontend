@@ -16,7 +16,6 @@ import SafeLink from '@ndla/safelink';
 import {
   FolderType,
   ListResource,
-  MessageBox,
   TagSelector,
   TreeStructure,
   useSnack,
@@ -119,7 +118,7 @@ const AddResourceToFolder = ({
   const [tags, setTags] = useState<string[]>([]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [canSave, setCanSave] = useState<boolean>(false);
-  const [alreadyAdded, setAlreadyAdded] = useState(false);
+  // const [alreadyAdded, setAlreadyAdded] = useState(false);
   const [selectedFolderId, setSelectedFolderId] = useState<string | undefined>(
     undefined,
   );
@@ -142,23 +141,26 @@ const AddResourceToFolder = ({
   }, [storedResource]);
 
   useEffect(() => {
-    setAlreadyAdded(false);
-    if (selectedFolder) {
-      if (
+    // setAlreadyAdded(false);
+
+    const tagsChanged = !!(
+      storedResource && shouldUpdateFolderResource(storedResource, selectedTags)
+    );
+    if (selectedFolder && selectedFolder.id !== defaultOpenFolder?.id) {
+      if (selectedFolder.id === 'folders') {
+        setCanSave(false);
+      } else if (
         selectedFolder.resources.some(
           resource => resource.id === storedResource?.id,
         )
       ) {
-        setAlreadyAdded(true);
-        setCanSave(false);
+        // setAlreadyAdded(true);
+        setCanSave(tagsChanged);
       } else {
         setCanSave(true);
       }
-    } else if (storedResource) {
-      const _canSave = shouldUpdateFolderResource(storedResource, selectedTags);
-      setCanSave(_canSave);
     } else {
-      setCanSave(false);
+      setCanSave(tagsChanged);
     }
   }, [storedResource, selectedTags, selectedFolder]);
 
@@ -271,9 +273,7 @@ const AddResourceToFolder = ({
           )}
         />
       </TreestructureContainer>
-      {alreadyAdded && (
-        <MessageBox type="danger">{t('myNdla.alreadyInFolder')}</MessageBox>
-      )}
+      {/* {alreadyAdded && <MessageBox>{t('myNdla.alreadyInFolder')}</MessageBox>} */}
       <TagSelector
         label={t('myNdla.myTags')}
         selected={selectedTags}
