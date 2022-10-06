@@ -812,7 +812,7 @@ export type GQLQuery = {
   coreElements?: Maybe<Array<GQLCoreElement>>;
   filmfrontpage?: Maybe<GQLFilmFrontpage>;
   folder: GQLFolder;
-  folderResourceMeta: GQLFolderResourceMeta;
+  folderResourceMeta?: Maybe<GQLFolderResourceMeta>;
   folderResourceMetaSearch: Array<GQLFolderResourceMeta>;
   folders: Array<GQLFolder>;
   frontpage?: Maybe<GQLFrontpage>;
@@ -1800,6 +1800,10 @@ export type GQLArticlePage_SubjectFragment = {
   __typename?: 'Subject';
   name: string;
   metadata: { __typename?: 'TaxonomyMetadata'; customFields: any };
+  subjectpage?: {
+    __typename?: 'SubjectPage';
+    about?: { __typename?: 'SubjectPageAbout'; title: string };
+  };
 } & GQLArticleHero_SubjectFragment;
 
 export type GQLArticlePage_ResourceFragment = {
@@ -1898,6 +1902,10 @@ export type GQLLearningpathPage_TopicFragment = {
 export type GQLLearningpathPage_SubjectFragment = {
   __typename?: 'Subject';
   id: string;
+  subjectpage?: {
+    __typename?: 'SubjectPage';
+    about?: { __typename?: 'SubjectPageAbout'; title: string };
+  };
   metadata: { __typename?: 'TaxonomyMetadata'; customFields: any };
 } & GQLLearningpath_SubjectFragment;
 
@@ -1992,6 +2000,10 @@ export type GQLMultidisciplinarySubjectPageQuery = {
   __typename?: 'Query';
   subject?: {
     __typename?: 'Subject';
+    subjectpage?: {
+      __typename?: 'SubjectPage';
+      about?: { __typename?: 'SubjectPageAbout'; title: string };
+    };
     topics?: Array<{ __typename?: 'Topic'; id: string; name: string }>;
     allTopics?: Array<{
       __typename?: 'Topic';
@@ -2031,6 +2043,10 @@ export type GQLMultidisciplinarySubjectArticle_SubjectFragment = {
   id: string;
   path: string;
   allTopics?: Array<{ __typename?: 'Topic'; id: string; name: string }>;
+  subjectpage?: {
+    __typename?: 'SubjectPage';
+    about?: { __typename?: 'SubjectPageAbout'; title: string };
+  };
 };
 
 export type GQLMultidisciplinarySubjectArticle_ResourceTypeDefinitionFragment = {
@@ -2227,7 +2243,7 @@ export type GQLFolderResourceMetaQueryVariables = Exact<{
 
 export type GQLFolderResourceMetaQuery = {
   __typename?: 'Query';
-  folderResourceMeta: {
+  folderResourceMeta?: {
     __typename?: 'FolderResourceMeta';
   } & GQLFolderResourceMetaFragment;
 };

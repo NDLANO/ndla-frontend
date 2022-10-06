@@ -82,7 +82,9 @@ const MultidisciplinarySubjectArticlePage = () => {
   const copyPageUrlLink = topic?.path && config.ndlaFrontendDomain + topic.path;
 
   const socialMediaMetaData = {
-    title: htmlTitle(topic.name ?? topic.article?.title, [subject.name]),
+    title: htmlTitle(topic.name ?? topic.article?.title, [
+      subject.subjectpage?.about?.title || subject.name,
+    ]),
     description: topic.article?.metaDescription ?? topic.article?.introduction,
     image: topic.article?.metaImage,
   };

@@ -7,14 +7,14 @@
  */
 
 import { useContext } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
+import { Trans, useTranslation } from 'react-i18next';
 import { keyBy } from 'lodash';
 import styled from '@emotion/styled';
-import { breakpoints, colors, mq, spacing } from '@ndla/core';
+import { breakpoints, fonts, mq, spacing } from '@ndla/core';
 import { HeartOutline } from '@ndla/icons/action';
 import { FolderOutlined } from '@ndla/icons/contentType';
-import { Back, Feide, HashTag } from '@ndla/icons/common';
+import { Feide, HashTag } from '@ndla/icons/common';
 import { ListResource, UserInfo, Image } from '@ndla/ui';
 import Button, { DeleteButton } from '@ndla/button';
 import SafeLink, { SafeLinkButton } from '@ndla/safelink';
@@ -27,7 +27,11 @@ import {
   useFolderResourceMetaSearch,
   useRecentlyUsedResources,
 } from './folderMutations';
-import IsMobileContext from '../../IsMobileContext';
+import MyNdlaBreadcrumb from './components/MyNdlaBreadcrumb';
+import MyNdlaTitle from './components/MyNdlaTitle';
+import TitleWrapper from './components/TitleWrapper';
+import { constructNewPath, toHref } from '../../util/urlHelper';
+import { useBaseName } from '../../components/BaseNameContext';
 
 const HeartOutlineIcon = InfoPartIcon.withComponent(HeartOutline);
 const FolderOutlinedIcon = InfoPartIcon.withComponent(FolderOutlined);
@@ -93,50 +97,36 @@ const ButtonContainer = styled.div`
   padding-bottom: ${spacing.normal};
 `;
 
-const MobileTitle = styled.div`
-  display: flex;
-  align-items: center;
-  gap: ${spacing.small};
-  h1 {
-    margin: 0;
-  }
-`;
-
-const StyledSafeLink = styled(SafeLink)`
-  color: ${colors.brand.primary};
-  box-shadow: none;
-  svg {
-    width: 22px;
-    height: 22px;
-  }
-`;
-
-const StyledH1 = styled.h1`
-  margin: 0;
+const StyledDescription = styled.p`
+  line-height: 1.5;
+  ${fonts.sizes('24px')};
+  font-weight: ${fonts.weight.semibold};
 `;
 
 const MyNdlaPage = () => {
   const { user } = useContext(AuthContext);
   const { t } = useTranslation();
+  const basename = useBaseName();
   const location = useLocation();
-  const isMobile = useContext(IsMobileContext);
   const { deletePersonalData } = useDeletePersonalData();
-  const navigate = useNavigate();
   const { allFolderResources } = useRecentlyUsedResources();
   const { data: metaData, loading } = useFolderResourceMetaSearch(
-    allFolderResources.map(r => ({
+    allFolderResources?.map(r => ({
       id: r.resourceId,
       path: r.path,
       resourceType: r.resourceType,
-    })),
+    })) ?? [],
     {
-      skip: !allFolderResources.length,
+      skip: !allFolderResources || !allFolderResources.length,
     },
   );
 
   const onDeleteAccount = async () => {
     await deletePersonalData();
-    navigate('/logout', { state: { from: location.pathname } });
+    window.location.href = constructNewPath(
+      `/logout?state=${toHref(location)}`,
+      basename,
+    );
   };
 
   const keyedData = keyBy(metaData ?? [], r => `${r.type}${r.id}`);
@@ -144,28 +134,23 @@ const MyNdlaPage = () => {
   return (
     <StyledPageContentContainer>
       <HelmetWithTracker title={t('htmlTitles.myNdlaPage')} />
-      {isMobile ? (
-        <MobileTitle>
-          <StyledSafeLink to="/minndla/meny">
-            <Back />
-          </StyledSafeLink>
-          <StyledH1>{t('myNdla.myPage.myPage')}</StyledH1>
-        </MobileTitle>
-      ) : (
-        <StyledH1>{t('myNdla.myPage.myPage')}</StyledH1>
-      )}
+      <TitleWrapper>
+        <MyNdlaBreadcrumb page="minndla" breadcrumbs={[]} backCrumb="minndla" />
+        <MyNdlaTitle title={t('myNdla.myPage.myPage')} />
+      </TitleWrapper>
       <StyledIntroContainer>
-        <h2>{t('myNdla.myPage.welcome')}</h2>
+        <StyledDescription>{t('myNdla.myPage.welcome')}</StyledDescription>
         <RoundedImage src="/static/my-ndla-login.png" alt="alt" />
       </StyledIntroContainer>
       <h2>{t('myNdla.myPage.newFavourite')}</h2>
-      {allFolderResources.length > 0 && (
+      {allFolderResources && allFolderResources.length > 0 && (
         <StyledResourceList>
           {allFolderResources.map(res => {
             const meta = keyedData[`${res.resourceType}${res.resourceId}`];
             return (
               <ListItem key={res.id}>
                 <ListResource
+                  headingLevel={'h3'}
                   id={res.id}
                   tagLinkPrefix="/minndla/tags"
                   isLoading={loading}
@@ -177,7 +162,7 @@ const MyNdlaPage = () => {
                     alt: '',
                   }}
                   tags={res.tags}
-                  topics={meta?.resourceTypes.map(rt => rt.name) ?? []}
+                  resourceTypes={meta?.resourceTypes ?? []}
                 />
               </ListItem>
             );
@@ -195,29 +180,44 @@ const MyNdlaPage = () => {
         icon={<FolderOutlinedIcon />}
         title={t('myNdla.myPage.folderInfo.title')}
         children={
-          <InfoPartText>{t('myNdla.myPage.folderInfo.text')}</InfoPartText>
+          <InfoPartText>
+            <Trans i18nKey="myNdla.myPage.folderInfo.text" />
+          </InfoPartText>
         }
       />
       <InfoPart
         icon={<HashTagIcon />}
         title={t('myNdla.myPage.tagInfo.title')}
         children={
-          <InfoPartText>{t('myNdla.myPage.tagInfo.text')}</InfoPartText>
+          <InfoPartText>
+            <Trans i18nKey={'myNdla.myPage.tagInfo.text'} />
+          </InfoPartText>
         }
       />
       {user && (
         <InfoPart
           icon={<FeideIcon />}
           title={t('myNdla.myPage.feide')}
-          children={<UserInfo user={user} />}
+          children={
+            <>
+              <UserInfo user={user} />
+              <p>
+                {t('user.wrongUserInfoDisclaimer')}
+                <SafeLink to="https://feide.no/brukerstotte">
+                  feide.no/brukerstotte
+                </SafeLink>
+              </p>
+            </>
+          }
         />
       )}
       <InfoContainer>
         <LinkText>
-          {`${t('myNdla.myPage.read.our')} `}
+          {`${t('myNdla.myPage.read.read')} `}
           <SafeLink target="_blank" to="https://om.ndla.no/gdpr">
             {t('myNdla.myPage.privacy')}
           </SafeLink>
+          {`${t('myNdla.myPage.read.our')}`}
         </LinkText>
         <LinkText>
           {`${t('myNdla.myPage.questions.question')} `}
@@ -231,8 +231,8 @@ const MyNdlaPage = () => {
       <ButtonContainer>
         <SafeLinkButton
           outline
-          to={'/logout'}
-          state={{ from: location.pathname }}>
+          reloadDocument
+          to={`/logout?state=${toHref(location)}`}>
           {t('myNdla.myPage.logout')}
         </SafeLinkButton>
       </ButtonContainer>

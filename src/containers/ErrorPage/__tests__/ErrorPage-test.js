@@ -10,14 +10,14 @@
 import { HelmetProvider } from 'react-helmet-async';
 import { StaticRouter } from 'react-router-dom/server.js';
 import renderer from 'react-test-renderer';
-import serializer from 'jest-emotion';
+import { createSerializer } from '@emotion/jest';
 import { I18nextProvider } from 'react-i18next';
 import { i18nInstance } from '@ndla/ui';
 import ErrorPage from '../ErrorPage';
 import { initializeI18n } from '../../../i18n';
 
 HelmetProvider.canUseDOM = false;
-expect.addSnapshotSerializer(serializer);
+expect.addSnapshotSerializer(createSerializer());
 
 jest.mock('../../../config', () => ({
   zendeskWidgetKey: '123',

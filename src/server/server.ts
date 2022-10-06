@@ -10,6 +10,7 @@ import fetch from 'node-fetch';
 import express, { Request, Response, NextFunction } from 'express';
 import helmet from 'helmet';
 import { matchPath } from 'react-router-dom';
+import { getCookie } from '@ndla/util';
 import {
   defaultRoute,
   errorRoute,
@@ -20,7 +21,7 @@ import {
 } from './routes';
 import contentSecurityPolicy from './contentSecurityPolicy';
 import handleError from '../util/handleError';
-import { routes } from '../routes';
+import { privateRoutes, routes } from '../routes';
 import { getLocaleInfoFromPath } from '../i18n';
 import ltiConfig from './ltiConfig';
 import {
@@ -44,6 +45,9 @@ import {
   TEMPORARY_REDIRECT,
   BAD_REQUEST,
 } from '../statusCodes';
+import { isAccessTokenValid } from '../util/authHelpers';
+import { constructNewPath } from '../util/urlHelper';
+import { getDefaultLocale } from '../config';
 
 // @ts-ignore
 global.fetch = fetch;
@@ -111,28 +115,101 @@ app.get(
   },
 );
 
-app.get('/feide/login', (req: Request, res: Response) => {
-  getRedirectUrl(req)
-    .then(json => {
-      res
-        .cookie('PKCE_code', json.verifier, {
-          httpOnly: true,
-        })
-        .send(json);
-    })
-    .catch(() => sendInternalServerError(req, res));
+const getLang = (
+  paramLang?: string,
+  cookieLang?: string | null,
+): string | undefined => {
+  if (paramLang) {
+    return paramLang;
+  }
+  if (!paramLang && cookieLang && cookieLang !== getDefaultLocale()) {
+    return cookieLang;
+  }
+  return undefined;
+};
+
+app.get('/:lang?/login', async (req: Request, res: Response) => {
+  const feideCookie = getCookie('feide_auth', req.headers.cookie ?? '') ?? '';
+  const feideToken = !!feideCookie ? JSON.parse(feideCookie) : undefined;
+  const state = typeof req.query.state === 'string' ? req.query.state : '';
+  const lang = getLang(
+    req.params.lang,
+    getCookie(STORED_LANGUAGE_COOKIE_KEY, req.headers.cookie ?? ''),
+  );
+  const redirect = constructNewPath(state, lang);
+
+  if (feideToken && isAccessTokenValid(feideToken)) {
+    return res.redirect(state);
+  }
+  try {
+    const { verifier, url } = await getRedirectUrl(req, redirect);
+    res.cookie('PKCE_code', verifier, { httpOnly: true });
+    return res.redirect(url);
+  } catch (e) {
+    return await sendInternalServerError(req, res);
+  }
 });
 
-app.get('/feide/token', (req: Request, res: Response) => {
-  getFeideToken(req)
-    .then(json => res.send(json))
-    .catch(() => sendInternalServerError(req, res));
+app.get('/login/success', async (req: Request, res: Response) => {
+  const code = typeof req.query.code === 'string' ? req.query.code : undefined;
+  const state = typeof req.query.state === 'string' ? req.query.state : '/';
+  const verifier = getCookie('PKCE_code', req.headers.cookie ?? '');
+  if (!code || !verifier) {
+    return await sendInternalServerError(req, res);
+  }
+
+  try {
+    const token = await getFeideToken(req, verifier, code);
+    const feideCookie = {
+      ...token,
+      ndla_expires_at: (token.expires_at ?? 0) * 1000,
+    };
+    res.cookie('feide_auth', JSON.stringify(feideCookie), {
+      expires: new Date(feideCookie.ndla_expires_at),
+      encode: String,
+    });
+    const languageCookie = getCookie(
+      STORED_LANGUAGE_COOKIE_KEY,
+      req.headers.cookie ?? '',
+    );
+    //workaround to ensure language cookie is set before redirecting to state path
+    if (!languageCookie) {
+      const { basename } = getLocaleInfoFromPath(state);
+      res.cookie(
+        STORED_LANGUAGE_COOKIE_KEY,
+        basename.length ? basename : getDefaultLocale(),
+      );
+    }
+    return res.redirect(state);
+  } catch (e) {
+    return await sendInternalServerError(req, res);
+  }
 });
 
-app.get('/feide/logout', (req: Request, res: Response) => {
-  feideLogout(req)
-    .then(logouturi => res.send({ url: logouturi }))
-    .catch(() => sendInternalServerError(req, res));
+app.get('/:lang?/logout', async (req: Request, res: Response) => {
+  const feideCookie = getCookie('feide_auth', req.headers.cookie ?? '') ?? '';
+  const feideToken = !!feideCookie ? JSON.parse(feideCookie) : undefined;
+  const state = typeof req.query.state === 'string' ? req.query.state : '/';
+  const redirect = constructNewPath(state, req.params.lang);
+
+  if (!feideToken?.['id_token'] || typeof state !== 'string') {
+    return sendInternalServerError(req, res);
+  }
+  try {
+    const logoutUri = await feideLogout(req, redirect, feideToken['id_token']);
+    return res.redirect(logoutUri);
+  } catch (_) {
+    return await sendInternalServerError(req, res);
+  }
+});
+
+app.get('/logout/session', (req: Request, res: Response) => {
+  res.clearCookie('feide_auth');
+  const state = typeof req.query.state === 'string' ? req.query.state : '/';
+  const { basepath, basename } = getLocaleInfoFromPath(state);
+  const wasPrivateRoute = privateRoutes.some(r => matchPath(r, basepath));
+  const redirect = wasPrivateRoute ? constructNewPath('/', basename) : state;
+  return res.redirect(redirect);
 });
 
 app.get(
@@ -275,11 +352,18 @@ app.get('/lti', ndlaMiddleware, async (req: Request, res: Response) => {
 app.get('/favicon.ico', ndlaMiddleware);
 app.get(
   '/*',
-  (req: Request, _res: Response, next: NextFunction) => {
+  (req: Request, res: Response, next: NextFunction) => {
     const { basepath: path } = getLocaleInfoFromPath(req.path);
     const route = routes.find(r => matchPath(r, path)); // match with routes used in frontend
+    const isPrivate = privateRoutes.some(r => matchPath(r, path));
+    const feideCookie = getCookie('feide_auth', req.headers.cookie ?? '') ?? '';
+    const feideToken = !!feideCookie ? JSON.parse(feideCookie) : undefined;
+    const isTokenValid = !!feideToken && isAccessTokenValid(feideToken);
+    const shouldRedirect = isPrivate && !isTokenValid;
     if (!route) {
       next('route'); // skip to next route (i.e. proxy)
+    } else if (shouldRedirect) {
+      return res.redirect(`/login?state=${req.path}`);
     } else {
       next();
     }

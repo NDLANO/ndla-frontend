@@ -15,6 +15,7 @@ import { ListResource } from '@ndla/ui';
 import { Trans, useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { GQLFolderResourceMetaFragment } from '../../graphqlTypes';
+import { toHref } from '../../util/urlHelper';
 import { ResourceAttributes } from './AddResourceToFolder';
 
 const LoginComponentContainer = styled.div`
@@ -77,12 +78,12 @@ const ContentWrapper = styled.div`
 
 interface Props {
   onClose: () => void;
+  masthead?: boolean;
   resource?: ResourceAttributes;
   meta?: GQLFolderResourceMetaFragment;
-  to?: string;
 }
 
-const LoginComponent = ({ resource, meta, onClose, to = '/login' }: Props) => {
+const LoginComponent = ({ resource, meta, masthead, onClose }: Props) => {
   const { t } = useTranslation();
   const location = useLocation();
 
@@ -114,7 +115,7 @@ const LoginComponent = ({ resource, meta, onClose, to = '/login' }: Props) => {
               src: meta.metaImage?.url ?? '',
               alt: meta.metaImage?.alt ?? '',
             }}
-            topics={meta.resourceTypes.map(rt => rt.name)}
+            resourceTypes={meta.resourceTypes}
           />
         </ContentWrapper>
       )}
@@ -135,7 +136,9 @@ const LoginComponent = ({ resource, meta, onClose, to = '/login' }: Props) => {
           <Button onClick={onClose} outline>
             {t('cancel')}
           </Button>
-          <SafeLinkButton state={{ from: location.pathname }} to={to}>
+          <SafeLinkButton
+            reloadDocument
+            to={`/login?state=${masthead ? '/minndla' : toHref(location)}`}>
             {t('user.buttonLogIn')}
           </SafeLinkButton>
         </ButtonRow>

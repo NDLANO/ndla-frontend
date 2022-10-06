@@ -6,7 +6,7 @@
  *
  */
 
-import { memo, ReactNode, useEffect, useMemo, useState } from 'react';
+import { memo, ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useApolloClient } from '@apollo/client';
 import { FolderInput } from '@ndla/ui';
@@ -36,6 +36,7 @@ const NewFolder = ({
   className,
 }: Props) => {
   const [name, setName] = useState(initialValue);
+  const hasWritten = useRef(false);
   const [error, setError] = useState('');
   const { folders } = useFolders();
   const { cache } = useApolloClient();
@@ -68,6 +69,10 @@ const NewFolder = ({
   };
 
   useEffect(() => {
+    if (!hasWritten.current) {
+      hasWritten.current = true;
+      return;
+    }
     if (name.length === 0) {
       setError(validateT({ field: 'name', type: 'required' }));
     } else if (siblingNames.includes(name.toLowerCase())) {

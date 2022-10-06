@@ -10,7 +10,7 @@ import { compact, isEqual, sortBy, uniq } from 'lodash';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import Button from '@ndla/button';
+import { ButtonV2 as Button, LoadingButton } from '@ndla/button';
 import { colors, spacing } from '@ndla/core';
 import SafeLink from '@ndla/safelink';
 import {
@@ -41,6 +41,7 @@ export interface ResourceAttributes {
 interface Props {
   onClose: () => void;
   resource: ResourceAttributes;
+  defaultOpenFolder?: GQLFolder;
 }
 
 const ButtonRow = styled.div`
@@ -53,6 +54,12 @@ const AddResourceContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${spacing.normal};
+`;
+
+const TreestructureContainer = styled.div`
+  display: flex;
+  max-height: 320px;
+  overflow: hidden;
 `;
 
 const StyledResourceAddedSnack = styled.div`
@@ -98,14 +105,18 @@ const ResourceAddedSnack = ({ folder }: ResourceAddedSnackProps) => {
   );
 };
 
-const AddResourceToFolder = ({ onClose, resource }: Props) => {
+const AddResourceToFolder = ({
+  onClose,
+  resource,
+  defaultOpenFolder,
+}: Props) => {
   const { t } = useTranslation();
   const { meta, loading: metaLoading } = useFolderResourceMeta(resource);
   const { folders, loading } = useFolders();
   const [storedResource, setStoredResource] = useState<
     GQLFolderResource | undefined
   >(undefined);
-  const [tags, setTags] = useState<{ id: string; name: string }[]>([]);
+  const [tags, setTags] = useState<string[]>([]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [canSave, setCanSave] = useState<boolean>(false);
   const [alreadyAdded, setAlreadyAdded] = useState(false);
@@ -120,11 +131,7 @@ const AddResourceToFolder = ({ onClose, resource }: Props) => {
       const _storedResource = getResourceForPath(folders, resource.path);
       setStoredResource(_storedResource ?? undefined);
       setSelectedTags(_storedResource?.tags ?? []);
-      setTags(tags =>
-        compact(
-          tags.concat(getAllTags(folders).map(t => ({ id: t, name: t }))),
-        ),
-      );
+      setTags(tags => compact(tags.concat(getAllTags(folders))));
     }
   }, [loading, folders, resource]);
 
@@ -175,9 +182,10 @@ const AddResourceToFolder = ({ onClose, resource }: Props) => {
     },
   ];
   const { updateFolderResource } = useUpdateFolderResourceMutation();
-  const { addResourceToFolder } = useAddResourceToFolderMutation(
-    selectedFolder?.id ?? '',
-  );
+  const {
+    addResourceToFolder,
+    loading: addResourceLoading,
+  } = useAddResourceToFolderMutation(selectedFolder?.id ?? '');
 
   const onSave = async () => {
     if (selectedFolder) {
@@ -209,6 +217,14 @@ const AddResourceToFolder = ({ onClose, resource }: Props) => {
     onClose();
   };
 
+  const firstFolderId = structureFolders?.[0]?.subfolders[0]?.id;
+  const defaultOpenFolderIds = defaultOpenFolder?.breadcrumbs.map(bc => bc.id);
+  const defaultOpenFolders = defaultOpenFolderIds
+    ? ['folders'].concat(defaultOpenFolderIds)
+    : firstFolderId
+    ? ['folders', firstFolderId]
+    : ['folders'];
+
   return (
     <AddResourceContainer>
       <ListResource
@@ -217,56 +233,68 @@ const AddResourceToFolder = ({ onClose, resource }: Props) => {
         isLoading={metaLoading}
         link={resource.path}
         title={meta?.title ?? ''}
-        topics={meta?.resourceTypes.map(rt => rt.name) ?? []}
+        resourceTypes={meta?.resourceTypes ?? []}
         resourceImage={{
           src: meta?.metaImage?.url ?? '',
           alt: meta?.metaImage?.alt ?? '',
         }}
       />
-      <TreeStructure
-        folders={structureFolders}
-        label={t('myNdla.myFolders')}
-        onSelectFolder={setSelectedFolderId}
-        defaultOpenFolders={['folders']}
-        type={'picker'}
-        targetResource={storedResource}
-        newFolderInput={({ parentId, onClose, onCreate }) => (
-          <StyledNewFolder
-            parentId={parentId}
-            onClose={onClose}
-            onCreate={onCreate}
-          />
-        )}
-      />
+      <TreestructureContainer>
+        <TreeStructure
+          folders={structureFolders}
+          label={t('myNdla.myFolders')}
+          onSelectFolder={setSelectedFolderId}
+          defaultOpenFolders={defaultOpenFolders}
+          type={'picker'}
+          targetResource={storedResource}
+          newFolderInput={({ parentId, onClose, onCreate }) => (
+            <StyledNewFolder
+              parentId={parentId}
+              onClose={onClose}
+              onCreate={onCreate}
+            />
+          )}
+        />
+      </TreestructureContainer>
       {alreadyAdded && (
         <MessageBox type="danger">{t('myNdla.alreadyInFolder')}</MessageBox>
       )}
       <TagSelector
-        prefix="#"
         label={t('myNdla.myTags')}
-        tagsSelected={selectedTags}
+        selected={selectedTags}
         tags={tags}
-        onToggleTag={tag => {
-          if (selectedTags.some(t => t === tag)) {
-            setSelectedTags(prev => prev.filter(t => t !== tag));
-            return;
-          }
-          setSelectedTags(prev => uniq(prev.concat(tag)));
+        onChange={tags => {
+          setSelectedTags(tags);
         }}
         onCreateTag={tag => {
-          if (!tags.some(t => t.id === tag)) {
-            setTags(prev => prev.concat({ id: tag, name: tag }));
-          }
+          setTags(prev => prev.concat(tag));
           setSelectedTags(prev => uniq(prev.concat(tag)));
         }}
       />
       <ButtonRow>
-        <Button outline onClick={onClose}>
+        <Button
+          variant="outline"
+          onClick={onClose}
+          onMouseDown={e => {
+            e.preventDefault();
+          }}
+          onMouseUp={e => {
+            e.preventDefault();
+          }}>
           {t('cancel')}
         </Button>
-        <Button disabled={!canSave} onClick={onSave}>
+        <LoadingButton
+          loading={addResourceLoading}
+          disabled={!canSave || addResourceLoading}
+          onClick={onSave}
+          onMouseDown={e => {
+            e.preventDefault();
+          }}
+          onMouseUp={e => {
+            e.preventDefault();
+          }}>
           {t('myNdla.resource.save')}
-        </Button>
+        </LoadingButton>
       </ButtonRow>
     </AddResourceContainer>
   );

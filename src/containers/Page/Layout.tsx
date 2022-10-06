@@ -12,7 +12,7 @@ import ZendeskButton from '@ndla/zendesk';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import { css, Global } from '@emotion/core';
+import { css, Global } from '@emotion/react';
 import { matchPath, Outlet, useLocation } from 'react-router-dom';
 import Masthead from '../Masthead';
 import config from '../../config';

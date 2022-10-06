@@ -33,7 +33,6 @@ import {
   GQLLearningpathPage_TopicFragment,
   GQLLearningpathPage_TopicPathFragment,
   GQLLearningpathStep,
-  GQLSubject,
 } from '../../graphqlTypes';
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from '../../constants';
 
@@ -205,13 +204,13 @@ LearningpathPage.getDimensions = (props: Props) => {
 };
 
 const getTitle = (
-  subject?: Pick<GQLSubject, 'name'>,
+  subject?: Pick<GQLLearningpathPage_SubjectFragment, 'name' | 'subjectpage'>,
   learningpath?: Pick<GQLLearningpath, 'title'>,
   learningpathStep?: Pick<GQLLearningpathStep, 'title'>,
 ) => {
   return htmlTitle(learningpath?.title, [
     learningpathStep?.title,
-    subject?.name,
+    subject?.subjectpage?.about?.title || subject?.name,
   ]);
 };
 
@@ -238,6 +237,11 @@ export const learningpathPageFragments = {
       id
       metadata {
         customFields
+      }
+      subjectpage {
+        about {
+          title
+        }
       }
       ...Learningpath_Subject
     }

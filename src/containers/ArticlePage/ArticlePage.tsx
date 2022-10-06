@@ -77,7 +77,7 @@ const ArticlePage = ({
   useEffect(() => {
     if (!resource?.article) return;
     const article = transformArticle(resource.article, i18n.language);
-    const scripts = getArticleScripts(article);
+    const scripts = getArticleScripts(article, i18n.language);
     setScripts(scripts);
   }, [i18n.language, resource]);
 
@@ -164,7 +164,9 @@ const ArticlePage = ({
         </script>
       </Helmet>
       <SocialMediaMetadata
-        title={htmlTitle(article.title, [subject?.name])}
+        title={htmlTitle(article.title, [
+          subject?.subjectpage?.about?.title || subject?.name,
+        ])}
         trackableContent={article}
         description={article.metaDescription}
         imageUrl={article.metaImage?.url}
@@ -220,7 +222,7 @@ const getDocumentTitle = (
   subject?: GQLArticlePage_SubjectFragment,
 ) =>
   htmlTitle(resource?.article?.title, [
-    subject?.name,
+    subject?.subjectpage?.about?.title || subject?.name,
     t('htmlTitles.titleTemplate'),
   ]);
 
@@ -239,6 +241,11 @@ export const articlePageFragments = {
       name
       metadata {
         customFields
+      }
+      subjectpage {
+        about {
+          title
+        }
       }
       ...ArticleHero_Subject
     }
