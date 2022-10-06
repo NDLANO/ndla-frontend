@@ -15,13 +15,10 @@ import {
   Youtube,
 } from '@ndla/icons/common';
 import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
 
 interface Props {
   ndlaFilm?: boolean;
 }
-
-const StyledLanguageWrapper = styled.div``;
 
 const FooterWrapper = ({ ndlaFilm }: Props) => {
   const { t, i18n } = useTranslation();
@@ -60,17 +57,15 @@ const FooterWrapper = ({ ndlaFilm }: Props) => {
       //@ts-ignore Wrongly typed as an array with a single element in frontend-packages.
       links={links}
       languageSelector={
-        <StyledLanguageWrapper>
-          <LanguageSelector
-            //not used, but not removed from props.
-            options={{}}
-            center
-            outline
-            alwaysVisible
-            inverted={!!ndlaFilm}
-            currentLanguage={i18n.language}
-          />
-        </StyledLanguageWrapper>
+        <LanguageSelector
+          //not used, but not removed from props.
+          options={{}}
+          center
+          outline
+          alwaysVisible
+          inverted={!!ndlaFilm}
+          currentLanguage={i18n.language}
+        />
       }>
       <FooterText>
         <EditorName
