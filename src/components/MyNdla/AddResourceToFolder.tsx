@@ -273,6 +273,7 @@ const AddResourceToFolder = ({
           )}
         />
       </TreestructureContainer>
+      {/* Temporarily disabled errorMessage as it is expected to be reimplemented very soon. */}
       {/* {alreadyAdded && <MessageBox>{t('myNdla.alreadyInFolder')}</MessageBox>} */}
       <TagSelector
         label={t('myNdla.myTags')}
