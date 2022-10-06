@@ -162,7 +162,7 @@ const AddResourceToFolder = ({
     } else {
       setCanSave(tagsChanged);
     }
-  }, [storedResource, selectedTags, selectedFolder]);
+  }, [storedResource, selectedTags, selectedFolder, defaultOpenFolder?.id]);
 
   const shouldUpdateFolderResource = (
     storedResource: GQLFolderResource,
