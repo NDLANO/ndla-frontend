@@ -45,7 +45,7 @@ const StyledPageContentContainer = styled.div`
 
 const StyledIntroContainer = styled.div`
   display: flex;
-  ${mq.range({ from: breakpoints.tablet })} {
+  ${mq.range({ from: breakpoints.tabletWide })} {
     gap: ${spacing.large};
   }
 `;
@@ -61,12 +61,13 @@ const RoundedImage = styled(Image)`
   height: 160px;
   min-width: 160px;
   object-fit: cover;
-  ${mq.range({ until: breakpoints.tablet })} {
+  ${mq.range({ until: breakpoints.tabletWide })} {
     display: none;
   }
 `;
 
 const StyledResourceList = styled.ul`
+  padding: 0;
   display: flex;
   margin: 0;
   flex-direction: column;
@@ -140,7 +141,10 @@ const MyNdlaPage = () => {
       </TitleWrapper>
       <StyledIntroContainer>
         <StyledDescription>{t('myNdla.myPage.welcome')}</StyledDescription>
-        <RoundedImage src="/static/my-ndla-login.png" alt="alt" />
+        <RoundedImage
+          src="/static/my-ndla-login.png"
+          alt={t('myNdla.myPage.imageAlt')}
+        />
       </StyledIntroContainer>
       <h2>{t('myNdla.myPage.newFavourite')}</h2>
       {allFolderResources && allFolderResources.length > 0 && (
