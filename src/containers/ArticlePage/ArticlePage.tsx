@@ -173,6 +173,7 @@ const ArticlePage = ({
       />
       <OneColumn>
         <Article
+          path={resource.path}
           id={skipToContentId}
           article={article}
           resourceType={contentType}
@@ -255,6 +256,7 @@ export const articlePageFragments = {
     fragment ArticlePage_Resource on Resource {
       id
       name
+      path
       contentUri
       article(subjectId: $subjectId) {
         created

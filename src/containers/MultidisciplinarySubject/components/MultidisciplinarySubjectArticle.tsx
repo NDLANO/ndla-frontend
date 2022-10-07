@@ -98,6 +98,7 @@ const MultidisciplinarySubjectArticle = ({
           isTopicArticle={false}
           isResourceArticle={false}
           showFavoriteButton={config.feideEnabled}
+          path={topic.path}
         />
         <div ref={resourcesRef}>
           <Resources topic={topic} resourceTypes={resourceTypes} />
