@@ -2486,10 +2486,10 @@
     parse-filepath "^1.0.2"
     tslib "~2.4.0"
 
-"@graphql-eslint/eslint-plugin@^3.10.7":
-  version "3.10.7"
-  resolved "https://registry.yarnpkg.com/@graphql-eslint/eslint-plugin/-/eslint-plugin-3.10.7.tgz#9a203e2084371eca933d88b73ce7a6bebbbb9872"
-  integrity sha512-Vp32LMsHTgRNc2q+OrXRNR1i2nlAbVfN0tMTlFHgnzJfnEJDV332cpjiUF9F82IKjNFSde/pF3cuYccu+UUR/g==
+"@graphql-eslint/eslint-plugin@^3.11.2":
+  version "3.11.2"
+  resolved "https://registry.yarnpkg.com/@graphql-eslint/eslint-plugin/-/eslint-plugin-3.11.2.tgz#d982a45291aadd483c79c2bcb209166115ef6123"
+  integrity sha512-gnR6L2S64mesNyF34n/c3qOTIwu6MtapRhPQLHqU1/Qdf/7Ga9KKtFJKKxRrK7YbzlteMYweC05khhZycxDtLw==
   dependencies:
     "@babel/code-frame" "^7.16.7"
     "@graphql-tools/code-file-loader" "^7.2.14"
@@ -3357,10 +3357,10 @@
   resolved "https://registry.yarnpkg.com/@ndla/types-learningpath-api/-/types-learningpath-api-0.0.13.tgz#76adbd73a130b59f922f30be8b5de60f0af7019c"
   integrity sha512-yA3qN+an26HtrBMW5nr6/A+DHSSpq/ohAW49mOsVeYDJBG08csNzVTEO46iDbCqmTO3W/RSBPicDikI68lfBMw==
 
-"@ndla/ui@^30.0.9":
-  version "30.0.9"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-30.0.9.tgz#036ba54c8dd1ddcaad38912e32418f4d9623690e"
-  integrity sha512-iOn9FfP6QF/30cwBwspHOlsmdFGluJJxMZUltJ96FT6wbgRgTx3q1eathH/EtxVt+cTONXDLGDofssnJDAdejQ==
+"@ndla/ui@^30.1.0":
+  version "30.1.0"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-30.1.0.tgz#d7d8d28855209b9b7589bcc095896f96f7dde7c2"
+  integrity sha512-Is6piMrLbcpRlkKBcCM2amCP8+82fYzCTHax/148PXkx5HwsIeYC5fCFeS4hS8mFPOaLm24vlzUeQHmSmT6u2g==
   dependencies:
     "@ndla/article-scripts" "^3.0.8"
     "@ndla/button" "^5.0.0"
