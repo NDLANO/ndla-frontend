@@ -1810,6 +1810,7 @@ export type GQLArticlePage_ResourceFragment = {
   __typename?: 'Resource';
   id: string;
   name: string;
+  path: string;
   contentUri?: string;
   article?: {
     __typename?: 'Article';
@@ -1902,11 +1903,11 @@ export type GQLLearningpathPage_TopicFragment = {
 export type GQLLearningpathPage_SubjectFragment = {
   __typename?: 'Subject';
   id: string;
+  metadata: { __typename?: 'TaxonomyMetadata'; customFields: any };
   subjectpage?: {
     __typename?: 'SubjectPage';
     about?: { __typename?: 'SubjectPageAbout'; title: string };
   };
-  metadata: { __typename?: 'TaxonomyMetadata'; customFields: any };
 } & GQLLearningpath_SubjectFragment;
 
 export type GQLLearningpathPage_ResourceTypeDefinitionFragment = {
