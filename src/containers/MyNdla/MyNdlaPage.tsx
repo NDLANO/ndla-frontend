@@ -45,7 +45,7 @@ const StyledPageContentContainer = styled.div`
 
 const StyledIntroContainer = styled.div`
   display: flex;
-  ${mq.range({ from: breakpoints.tablet })} {
+  ${mq.range({ from: breakpoints.tabletWide })} {
     gap: ${spacing.large};
   }
 `;
@@ -61,7 +61,7 @@ const RoundedImage = styled(Image)`
   height: 160px;
   min-width: 160px;
   object-fit: cover;
-  ${mq.range({ until: breakpoints.tablet })} {
+  ${mq.range({ until: breakpoints.tabletWide })} {
     display: none;
   }
 `;

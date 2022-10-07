@@ -27,7 +27,7 @@ const StyledLayout = styled.div`
       1fr
     );
 
-  ${mq.range({ until: breakpoints.tabletWide })} {
+  ${mq.range({ until: breakpoints.tablet })} {
     display: flex;
   }
 `;
@@ -49,7 +49,7 @@ const StyledSideBar = styled.div`
   flex-direction: column;
   min-width: 300px;
   width: 300px;
-  ${mq.range({ until: breakpoints.tabletWide })} {
+  ${mq.range({ until: breakpoints.tablet })} {
     display: none;
   }
 `;
