@@ -244,6 +244,7 @@ const AddResourceToFolder = ({
   const alreadyAdded = selectedFolder?.resources.some(
     resource => resource.id === storedResource?.id,
   );
+
   return (
     <AddResourceContainer>
       <ListResource
