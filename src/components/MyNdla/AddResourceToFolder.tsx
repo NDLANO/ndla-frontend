@@ -274,7 +274,7 @@ const AddResourceToFolder = ({
               onCreate={onCreate}
             />
           )}
-          ariaDescribedby='treestructure-error-label'
+          ariaDescribedby="treestructure-error-label"
         />
       </ComboboxContainer>
       <div id="treestructure-error-label" aria-live="assertive">
