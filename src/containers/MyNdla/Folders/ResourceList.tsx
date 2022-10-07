@@ -124,13 +124,7 @@ const ResourceList = ({ selectedFolder, viewType, folderId }: Props) => {
                 }}
                 link={resource.path}
                 tags={resource.tags}
-                resourceTypes={
-                  // TODO: Fix this once we bump @ndla/ui to >29.0.0.
-                  //       That is: revert this to simply fallback to empty list.
-                  resourceMeta?.resourceTypes ?? [
-                    { id: resource.resourceType, name: '' },
-                  ]
-                }
+                resourceTypes={resourceMeta?.resourceTypes ?? []}
                 title={resourceMeta?.title ?? ''}
                 description={
                   viewType !== 'list'

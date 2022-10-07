@@ -115,11 +115,7 @@ const LoginComponent = ({ resource, meta, masthead, onClose }: Props) => {
               src: meta.metaImage?.url ?? '',
               alt: meta.metaImage?.alt ?? '',
             }}
-            resourceTypes={
-              // TODO: Fix this once we bump @ndla/ui to >29.0.0.
-              //       That is: revert this to simply fallback to empty list.
-              meta?.resourceTypes ?? [{ id: resource.resourceType, name: '' }]
-            }
+            resourceTypes={meta.resourceTypes}
           />
         </ContentWrapper>
       )}

@@ -166,11 +166,7 @@ const MyNdlaPage = () => {
                     alt: '',
                   }}
                   tags={res.tags}
-                  resourceTypes={
-                    // TODO: Fix this once we bump @ndla/ui to >29.0.0.
-                    //       That is: revert this to simply fallback to empty list.
-                    meta?.resourceTypes ?? [{ id: res.resourceType, name: '' }]
-                  }
+                  resourceTypes={meta?.resourceTypes ?? []}
                 />
               </ListItem>
             );
