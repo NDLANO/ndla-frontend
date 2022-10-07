@@ -16,6 +16,7 @@ import SafeLink from '@ndla/safelink';
 import {
   FolderType,
   ListResource,
+  MessageBox,
   TagSelector,
   TreeStructure,
   useSnack,
@@ -118,7 +119,6 @@ const AddResourceToFolder = ({
   const [tags, setTags] = useState<string[]>([]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [canSave, setCanSave] = useState<boolean>(false);
-  // const [alreadyAdded, setAlreadyAdded] = useState(false);
   const [selectedFolderId, setSelectedFolderId] = useState<string | undefined>(
     undefined,
   );
@@ -141,12 +141,10 @@ const AddResourceToFolder = ({
   }, [storedResource]);
 
   useEffect(() => {
-    // setAlreadyAdded(false);
-
     const tagsChanged = !!(
       storedResource && shouldUpdateFolderResource(storedResource, selectedTags)
     );
-    if (selectedFolder && selectedFolder.id !== defaultOpenFolder?.id) {
+    if (selectedFolder) {
       if (selectedFolder.id === 'folders') {
         setCanSave(false);
       } else if (
@@ -154,7 +152,6 @@ const AddResourceToFolder = ({
           resource => resource.id === storedResource?.id,
         )
       ) {
-        // setAlreadyAdded(true);
         setCanSave(tagsChanged);
       } else {
         setCanSave(true);
@@ -242,6 +239,11 @@ const AddResourceToFolder = ({
     return defaultOpen;
   }, [structureFolders, defaultOpenFolder]);
 
+  const noFolderSelected = selectedFolderId === 'folders';
+
+  const alreadyAdded = selectedFolder?.resources.some(
+    resource => resource.id === storedResource?.id,
+  );
   return (
     <AddResourceContainer>
       <ListResource
@@ -273,8 +275,10 @@ const AddResourceToFolder = ({
           )}
         />
       </TreestructureContainer>
-      {/* Temporarily disabled errorMessage as it is expected to be reimplemented very soon. */}
-      {/* {alreadyAdded && <MessageBox>{t('myNdla.alreadyInFolder')}</MessageBox>} */}
+      {alreadyAdded && <MessageBox>{t('myNdla.alreadyInFolder')}</MessageBox>}
+      {noFolderSelected && (
+        <MessageBox type="danger">{t('myNdla.noFolderSelected')}</MessageBox>
+      )}
       <TagSelector
         label={t('myNdla.myTags')}
         selected={selectedTags}
