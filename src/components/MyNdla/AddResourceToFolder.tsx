@@ -276,10 +276,13 @@ const AddResourceToFolder = ({
           )}
         />
       </TreestructureContainer>
-      {alreadyAdded && <MessageBox>{t('myNdla.alreadyInFolder')}</MessageBox>}
-      {noFolderSelected && (
-        <MessageBox type="danger">{t('myNdla.noFolderSelected')}</MessageBox>
-      )}
+
+      <div id="treestructure-error-label" aria-live="assertive">
+        {alreadyAdded && <MessageBox>{t('myNdla.alreadyInFolder')}</MessageBox>}
+        {noFolderSelected && (
+          <MessageBox type="danger">{t('myNdla.noFolderSelected')}</MessageBox>
+        )}
+      </div>
       <TagSelector
         label={t('myNdla.myTags')}
         selected={selectedTags}
@@ -306,7 +309,7 @@ const AddResourceToFolder = ({
         </Button>
         <LoadingButton
           loading={addResourceLoading}
-          disabled={!canSave || addResourceLoading}
+          disabled={!canSave || addResourceLoading || noFolderSelected}
           onClick={onSave}
           onMouseDown={e => {
             e.preventDefault();
