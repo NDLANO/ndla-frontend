@@ -67,6 +67,7 @@ const RoundedImage = styled(Image)`
 `;
 
 const StyledResourceList = styled.ul`
+  padding: 0;
   display: flex;
   margin: 0;
   flex-direction: column;
@@ -140,7 +141,10 @@ const MyNdlaPage = () => {
       </TitleWrapper>
       <StyledIntroContainer>
         <StyledDescription>{t('myNdla.myPage.welcome')}</StyledDescription>
-        <RoundedImage src="/static/my-ndla-login.png" alt="alt" />
+        <RoundedImage
+          src="/static/my-ndla-login.png"
+          alt={t('myNdla.myPage.imageAlt')}
+        />
       </StyledIntroContainer>
       <h2>{t('myNdla.myPage.newFavourite')}</h2>
       {allFolderResources && allFolderResources.length > 0 && (

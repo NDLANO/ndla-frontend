@@ -99,7 +99,7 @@ const LoginComponent = ({ resource, meta, masthead, onClose }: Props) => {
             </Title>
             <StyledImage
               src="/static/my-ndla-login.png"
-              alt={t('myNdla.myNDLA')}
+              alt={t('myNdla.myPage.imageAlt')}
             />
           </>
         )}
