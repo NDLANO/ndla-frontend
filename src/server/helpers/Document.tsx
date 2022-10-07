@@ -64,7 +64,7 @@ const Document = ({ helmet, assets, data, css, ids }: Props) => {
         />
         {css && ids && (
           <style data-emotion-css={`${EmotionCacheKey} ${ids.join(' ')}`}>
-            ${css}
+            {css}
           </style>
         )}
         {helmet.script.toComponent()}
