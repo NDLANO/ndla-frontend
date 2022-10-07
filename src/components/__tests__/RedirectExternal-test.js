@@ -9,14 +9,14 @@
 
 import { StaticRouter } from 'react-router-dom/server.js';
 import { MemoryRouter } from 'react-router-dom';
-import renderer from 'react-test-renderer';
+import { render } from '@testing-library/react';
 import sinon from 'sinon';
 import RedirectContext from '../RedirectContext';
 import RedirectExternal from '../RedirectExternal';
 
 test('External redirect for static router', () => {
   const context = {};
-  renderer.create(
+  render(
     <RedirectContext.Provider value={context}>
       <StaticRouter>
         <RedirectExternal to="https://google.com/" />
@@ -31,7 +31,7 @@ test('External redirect for static router', () => {
 
 test('External redirect for static router with basename', () => {
   const context = {};
-  renderer.create(
+  render(
     <RedirectContext.Provider value={context}>
       <StaticRouter basename="nb" location={'/nb'}>
         <RedirectExternal to="https://google.com/" />
@@ -55,7 +55,7 @@ test('External redirect for (memory/dom) router', () => {
     replace,
   };
 
-  renderer.create(
+  render(
     <MemoryRouter basename="nb" context={context} initialEntries={['/nb']}>
       <RedirectExternal to="https://google.com/" />
     </MemoryRouter>,
