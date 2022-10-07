@@ -21,6 +21,10 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { useEffect, useState } from 'react';
+import {
+  restrictToParentElement,
+  restrictToVerticalAxis,
+} from '@dnd-kit/modifiers';
 import { GQLFolder } from '../../../graphqlTypes';
 import { FolderTotalCount } from '../../../util/folderHelpers';
 import { FolderAction, ViewType } from './FoldersPage';
@@ -93,7 +97,8 @@ const FolderList = ({
     <DndContext
       sensors={sensors}
       collisionDetection={closestCenter}
-      onDragEnd={sortFolderIds}>
+      onDragEnd={sortFolderIds}
+      modifiers={[restrictToVerticalAxis, restrictToParentElement]}>
       <SortableContext
         items={sortedFolders}
         strategy={verticalListSortingStrategy}>

@@ -24,6 +24,10 @@ import {
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
+import {
+  restrictToParentElement,
+  restrictToVerticalAxis,
+} from '@dnd-kit/modifiers';
 import AddResourceToFolderModal from '../../../components/MyNdla/AddResourceToFolderModal';
 import { GQLFolder, GQLFolderResource } from '../../../graphqlTypes';
 import DeleteModal from '../components/DeleteModal';
@@ -160,7 +164,8 @@ const ResourceList = ({ selectedFolder, viewType, folderId }: Props) => {
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
-        onDragEnd={sortResourceIds}>
+        onDragEnd={sortResourceIds}
+        modifiers={[restrictToVerticalAxis, restrictToParentElement]}>
         <SortableContext
           items={sortedResources}
           strategy={verticalListSortingStrategy}>
