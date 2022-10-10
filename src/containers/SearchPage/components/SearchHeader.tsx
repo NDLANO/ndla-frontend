@@ -45,8 +45,8 @@ const SearchHeader = ({
   const [activeFilters, setActiveFilters] = useState<ActiveFilter[]>([]);
 
   const localeSubjectCategories = useMemo(
-    () => getSubjectsCategories(subjects),
-    [subjects],
+    () => getSubjectsCategories(t, subjects),
+    [t, subjects],
   );
 
   useEffect(() => {

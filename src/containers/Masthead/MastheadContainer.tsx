@@ -174,7 +174,7 @@ const MastheadContainer = () => {
                 locale={locale}
                 subject={subject}
                 topicResourcesByType={topicResourcesByType ?? []}
-                subjectCategories={getSubjectsCategories(subjects)}
+                subjectCategories={getSubjectsCategories(t, subjects)}
                 onTopicChange={newId => setTopicId(newId)}
                 close={onClose}
               />

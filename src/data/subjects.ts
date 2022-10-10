@@ -1,4 +1,5 @@
 import { constants } from '@ndla/ui';
+import { TFunction } from 'react-i18next';
 import {
   TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE,
@@ -36,6 +37,7 @@ const filterSubjects = (
   subjects: GQLSubjectInfoFragment[],
   customField: string,
   category: any,
+  message?: string,
 ) => {
   const filtered = subjects.filter(
     s => s.metadata?.customFields?.[customField] === category,
@@ -50,11 +52,13 @@ const filterSubjects = (
       };
     }),
     visible: filtered.length > 0,
+    message,
   };
 };
 
 // TODO: Fix messy mapping of subjects to make path absolute.
 export const getSubjectsCategories = (
+  t: TFunction,
   subjects: GQLSubjectInfoFragment[] = [],
 ) => {
   const active = filterSubjects(
@@ -66,11 +70,13 @@ export const getSubjectsCategories = (
     subjects,
     TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
     constants.subjectCategories.ARCHIVE_SUBJECTS,
+    t('messageBoxInfo.frontPageExpired'),
   );
   const beta = filterSubjects(
     subjects,
     TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
     constants.subjectCategories.BETA_SUBJECTS,
+    t('messageBoxInfo.frontPageBeta'),
   );
   const other = filterSubjects(
     subjects,
