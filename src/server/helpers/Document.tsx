@@ -56,7 +56,9 @@ const Document = ({ helmet, assets, data, css, ids }: Props) => {
         {helmet.title.toComponent()}
         {helmet.meta.toComponent()}
         {helmet.link.toComponent()}
-        {assets.css && <link rel="stylesheet" href={assets.css} />}
+        {assets.css && (
+          <link rel="stylesheet" href={`http://localhost:3000${assets.css}`} />
+        )}
         <link
           rel="shortcut icon"
           href="/static/ndla-favicon.png"

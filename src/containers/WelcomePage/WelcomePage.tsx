@@ -123,7 +123,7 @@ const WelcomePage = () => {
           />
           <BlogPosts locale={i18n.language} />
           <FrontpageFilm
-            imageUrl="/static/film_illustrasjon.svg"
+            imageUrl="http://localhost:3000/static/film_illustrasjon.svg"
             url={FILM_PAGE_PATH}
           />
           <WelcomePageInfo />
