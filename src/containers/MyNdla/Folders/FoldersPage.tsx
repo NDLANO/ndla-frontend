@@ -72,12 +72,15 @@ export const BlockWrapper = styled.ul<BlockWrapperProps>`
     props.type === 'block' &&
     css`
       display: grid;
-      grid-template-columns: repeat(3, 33%);
-      ${mq.range({ until: breakpoints.wide })} {
-        grid-template-columns: repeat(2, 50%);
-      }
       gap: ${spacing.normal};
       margin-top: ${spacing.normal};
+      grid-template-columns: repeat(
+        3,
+        calc(33.33% - (${spacing.normal} / 3 * 2))
+      );
+      ${mq.range({ until: breakpoints.wide })} {
+        grid-template-columns: repeat(2, calc(50% - ${spacing.normal} / 2));
+      }
     `};
 `;
 
