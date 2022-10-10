@@ -10,7 +10,7 @@ import { isEqual } from 'lodash';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { AddButton } from '@ndla/button';
-import { colors, spacing } from '@ndla/core';
+import { breakpoints, colors, mq, spacing } from '@ndla/core';
 import { FolderOutlined } from '@ndla/icons/contentType';
 import { FileDocumentOutline } from '@ndla/icons/common';
 import { Folder, useSnack } from '@ndla/ui';
@@ -72,7 +72,10 @@ export const BlockWrapper = styled.ul<BlockWrapperProps>`
     props.type === 'block' &&
     css`
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3, 33%);
+      ${mq.range({ until: breakpoints.wide })} {
+        grid-template-columns: repeat(2, 50%);
+      }
       gap: ${spacing.normal};
       margin-top: ${spacing.normal};
     `};
@@ -324,7 +327,7 @@ const FoldersPage = () => {
                 id={folder.id}
                 link={`/minndla/folders/${folder.id}`}
                 title={folder.name}
-                type={type === 'block' ? 'block' : 'list'}
+                type={type}
                 subFolders={foldersCount[folder.id]?.folders}
                 subResources={foldersCount[folder.id]?.resources}
                 menuItems={[
