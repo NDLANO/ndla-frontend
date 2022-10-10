@@ -20,6 +20,7 @@ import FeideFooter from './components/FeideFooter';
 import Footer from './components/Footer';
 import { useIsNdlaFilm, useUrnIds } from '../../routeHelpers';
 import { usePrevious } from '../../util/utilityHooks';
+import TitleAnnouncer from './components/TitleAnnouncer';
 
 const ZendeskWrapper = styled.div`
   z-index: 10;
@@ -59,6 +60,7 @@ const Layout = () => {
 
   return (
     <PageContainer backgroundWide={backgroundWide} ndlaFilm={ndlaFilm}>
+      <TitleAnnouncer />
       <Global
         styles={css`
           html {

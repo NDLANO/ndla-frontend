@@ -24,7 +24,6 @@ import MyNdlaMobileMenuPage from './containers/MyNdla/MyNdlaMobileMenuPage';
 import MyNdlaPage from './containers/MyNdla/MyNdlaPage';
 import TagsPage from './containers/MyNdla/Tags/TagsPage';
 import NotFound from './containers/NotFoundPage/NotFoundPage';
-import TitleAnnouncer from './containers/Page/components/TitleAnnouncer';
 import Layout from './containers/Page/Layout';
 import PlainArticlePage from './containers/PlainArticlePage/PlainArticlePage';
 import PlainLearningpathPage from './containers/PlainLearningpathPage/PlainLearningpathPage';
@@ -90,7 +89,6 @@ const AppRoutes = ({ base, resCookie }: AppProps) => {
       <BaseNameProvider value={base}>
         <AuthenticationContext initialValue={resCookie}>
           <SnackbarProvider>
-            <TitleAnnouncer />
             <Routes>
               <Route path="/" element={<Layout />}>
                 <Route index element={<WelcomePage />} />
