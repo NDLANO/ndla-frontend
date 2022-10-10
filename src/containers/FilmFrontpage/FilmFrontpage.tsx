@@ -8,7 +8,7 @@
 
 import { useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 import { spacingUnit } from '@ndla/core';
 import { gql } from '@apollo/client';
 import {

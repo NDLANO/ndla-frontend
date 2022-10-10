@@ -124,7 +124,7 @@ const ResourceList = ({ selectedFolder, viewType, folderId }: Props) => {
                 }}
                 link={resource.path}
                 tags={resource.tags}
-                topics={resourceMeta?.resourceTypes.map(rt => rt.name) ?? []}
+                resourceTypes={resourceMeta?.resourceTypes ?? []}
                 title={resourceMeta?.title ?? ''}
                 description={
                   viewType !== 'list'

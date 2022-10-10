@@ -9,7 +9,7 @@
 import { renderToString, renderToStaticMarkup } from 'react-dom/server';
 import { renderToStringWithData } from '@apollo/client/react/ssr';
 import { resetIdCounter } from '@ndla/tabs';
-import createEmotionServer from 'create-emotion-server';
+import createEmotionServer from '@emotion/server/create-instance';
 import { OK, MOVED_PERMANENTLY } from '../../statusCodes';
 
 import Document from './Document';

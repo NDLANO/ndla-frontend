@@ -10,7 +10,7 @@ import './style/index.css';
 import { isMobile } from 'react-device-detect';
 import { ApolloProvider, useApolloClient } from '@apollo/client';
 import createCache from '@emotion/cache';
-import { CacheProvider } from '@emotion/core';
+import { CacheProvider } from '@emotion/react';
 import '@fontsource/shadows-into-light-two/index.css';
 import '@fontsource/source-code-pro/400-italic.css';
 import '@fontsource/source-code-pro/700.css';
@@ -58,7 +58,7 @@ const {
   DATA: { config, serverPath, serverQuery, resCookie = '' },
 } = window;
 
-const { basepath } = getLocaleInfoFromPath(serverPath ?? '');
+const { basepath, abbreviation } = getLocaleInfoFromPath(serverPath ?? '');
 
 const paths = window.location.pathname.split('/');
 const basename = isValidLocale(paths[1] ?? '') ? `${paths[1]}` : undefined;
@@ -81,7 +81,7 @@ const maybeStoredLanguage = getCookie(
 if (maybeStoredLanguage === null || maybeStoredLanguage === undefined) {
   setCookie({
     cookieName: STORED_LANGUAGE_COOKIE_KEY,
-    cookieValue: config.defaultLocale,
+    cookieValue: abbreviation,
   });
 }
 const storedLanguage = getCookie(STORED_LANGUAGE_COOKIE_KEY, document.cookie)!;

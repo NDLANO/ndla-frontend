@@ -7,7 +7,7 @@
  */
 
 import { compact, isEqual, sortBy, uniq } from 'lodash';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { ButtonV2 as Button, LoadingButton } from '@ndla/button';
@@ -56,7 +56,7 @@ const AddResourceContainer = styled.div`
   gap: ${spacing.normal};
 `;
 
-const TreestructureContainer = styled.div`
+const ComboboxContainer = styled.div`
   display: flex;
   max-height: 320px;
   overflow: hidden;
@@ -116,10 +116,9 @@ const AddResourceToFolder = ({
   const [storedResource, setStoredResource] = useState<
     GQLFolderResource | undefined
   >(undefined);
-  const [tags, setTags] = useState<{ id: string; name: string }[]>([]);
+  const [tags, setTags] = useState<string[]>([]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [canSave, setCanSave] = useState<boolean>(false);
-  const [alreadyAdded, setAlreadyAdded] = useState(false);
   const [selectedFolderId, setSelectedFolderId] = useState<string | undefined>(
     undefined,
   );
@@ -131,11 +130,7 @@ const AddResourceToFolder = ({
       const _storedResource = getResourceForPath(folders, resource.path);
       setStoredResource(_storedResource ?? undefined);
       setSelectedTags(_storedResource?.tags ?? []);
-      setTags(tags =>
-        compact(
-          tags.concat(getAllTags(folders).map(t => ({ id: t, name: t }))),
-        ),
-      );
+      setTags(tags => compact(tags.concat(getAllTags(folders))));
     }
   }, [loading, folders, resource]);
 
@@ -146,25 +141,25 @@ const AddResourceToFolder = ({
   }, [storedResource]);
 
   useEffect(() => {
-    setAlreadyAdded(false);
+    const tagsChanged = !!(
+      storedResource && shouldUpdateFolderResource(storedResource, selectedTags)
+    );
     if (selectedFolder) {
-      if (
+      if (selectedFolder.id === 'folders') {
+        setCanSave(false);
+      } else if (
         selectedFolder.resources.some(
           resource => resource.id === storedResource?.id,
         )
       ) {
-        setAlreadyAdded(true);
-        setCanSave(false);
+        setCanSave(tagsChanged);
       } else {
         setCanSave(true);
       }
-    } else if (storedResource) {
-      const _canSave = shouldUpdateFolderResource(storedResource, selectedTags);
-      setCanSave(_canSave);
     } else {
-      setCanSave(false);
+      setCanSave(tagsChanged);
     }
-  }, [storedResource, selectedTags, selectedFolder]);
+  }, [storedResource, selectedTags, selectedFolder, defaultOpenFolder?.id]);
 
   const shouldUpdateFolderResource = (
     storedResource: GQLFolderResource,
@@ -175,16 +170,20 @@ const AddResourceToFolder = ({
     return !isEqual(sortedStored, sortedSelected);
   };
 
-  const structureFolders: FolderType[] = [
-    {
-      id: 'folders',
-      name: t('myNdla.myFolders'),
-      status: 'private',
-      subfolders: folders,
-      breadcrumbs: [],
-      resources: [],
-    },
-  ];
+  const structureFolders: FolderType[] = useMemo(
+    () => [
+      {
+        id: 'folders',
+        name: t('myNdla.myFolders'),
+        status: 'private',
+        subfolders: folders,
+        breadcrumbs: [],
+        resources: [],
+      },
+    ],
+    [folders, t],
+  );
+
   const { updateFolderResource } = useUpdateFolderResourceMutation();
   const {
     addResourceToFolder,
@@ -221,13 +220,30 @@ const AddResourceToFolder = ({
     onClose();
   };
 
-  const firstFolderId = structureFolders?.[0]?.subfolders[0]?.id;
-  const defaultOpenFolderIds = defaultOpenFolder?.breadcrumbs.map(bc => bc.id);
-  const defaultOpenFolders = defaultOpenFolderIds
-    ? ['folders'].concat(defaultOpenFolderIds)
-    : firstFolderId
-    ? ['folders', firstFolderId]
-    : ['folders'];
+  const defaultOpenFolders = useMemo(() => {
+    const firstFolderId = structureFolders?.[0]?.subfolders[0]?.id;
+    const defaultOpenFolderIds = defaultOpenFolder?.breadcrumbs.map(
+      bc => bc.id,
+    );
+    const defaultOpen = defaultOpenFolderIds
+      ? ['folders'].concat(defaultOpenFolderIds)
+      : firstFolderId
+      ? ['folders', firstFolderId]
+      : ['folders'];
+
+    const last = defaultOpen[defaultOpen.length - 1];
+    if (last !== 'folders') {
+      setSelectedFolderId(last);
+    }
+
+    return defaultOpen;
+  }, [structureFolders, defaultOpenFolder]);
+
+  const noFolderSelected = selectedFolderId === 'folders';
+
+  const alreadyAdded = selectedFolder?.resources.some(
+    resource => resource.id === storedResource?.id,
+  );
 
   return (
     <AddResourceContainer>
@@ -237,13 +253,13 @@ const AddResourceToFolder = ({
         isLoading={metaLoading}
         link={resource.path}
         title={meta?.title ?? ''}
-        topics={meta?.resourceTypes.map(rt => rt.name) ?? []}
+        resourceTypes={meta?.resourceTypes ?? []}
         resourceImage={{
           src: meta?.metaImage?.url ?? '',
           alt: meta?.metaImage?.alt ?? '',
         }}
       />
-      <TreestructureContainer>
+      <ComboboxContainer>
         <TreeStructure
           folders={structureFolders}
           label={t('myNdla.myFolders')}
@@ -258,30 +274,29 @@ const AddResourceToFolder = ({
               onCreate={onCreate}
             />
           )}
+          ariaDescribedby="treestructure-error-label"
         />
-      </TreestructureContainer>
-      {alreadyAdded && (
-        <MessageBox type="danger">{t('myNdla.alreadyInFolder')}</MessageBox>
-      )}
-      <TagSelector
-        prefix="#"
-        label={t('myNdla.myTags')}
-        tagsSelected={selectedTags}
-        tags={tags}
-        onToggleTag={tag => {
-          if (selectedTags.some(t => t === tag)) {
-            setSelectedTags(prev => prev.filter(t => t !== tag));
-            return;
-          }
-          setSelectedTags(prev => uniq(prev.concat(tag)));
-        }}
-        onCreateTag={tag => {
-          if (!tags.some(t => t.id === tag)) {
-            setTags(prev => prev.concat({ id: tag, name: tag }));
-          }
-          setSelectedTags(prev => uniq(prev.concat(tag)));
-        }}
-      />
+      </ComboboxContainer>
+      <div id="treestructure-error-label" aria-live="assertive">
+        {alreadyAdded && <MessageBox>{t('myNdla.alreadyInFolder')}</MessageBox>}
+        {noFolderSelected && (
+          <MessageBox type="danger">{t('myNdla.noFolderSelected')}</MessageBox>
+        )}
+      </div>
+      <ComboboxContainer>
+        <TagSelector
+          label={t('myNdla.myTags')}
+          selected={selectedTags}
+          tags={tags}
+          onChange={tags => {
+            setSelectedTags(tags);
+          }}
+          onCreateTag={tag => {
+            setTags(prev => prev.concat(tag));
+            setSelectedTags(prev => uniq(prev.concat(tag)));
+          }}
+        />
+      </ComboboxContainer>
       <ButtonRow>
         <Button
           variant="outline"
@@ -296,7 +311,7 @@ const AddResourceToFolder = ({
         </Button>
         <LoadingButton
           loading={addResourceLoading}
-          disabled={!canSave || addResourceLoading}
+          disabled={!canSave || addResourceLoading || noFolderSelected}
           onClick={onSave}
           onMouseDown={e => {
             e.preventDefault();

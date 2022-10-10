@@ -1810,6 +1810,7 @@ export type GQLArticlePage_ResourceFragment = {
   __typename?: 'Resource';
   id: string;
   name: string;
+  path: string;
   contentUri?: string;
   article?: {
     __typename?: 'Article';
