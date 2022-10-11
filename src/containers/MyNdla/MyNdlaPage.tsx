@@ -110,10 +110,7 @@ const MyNdlaPage = () => {
   const basename = useBaseName();
   const location = useLocation();
   const { deletePersonalData } = useDeletePersonalData();
-  const {
-    allFolderResources,
-    loading: allFoldersLoading,
-  } = useRecentlyUsedResources();
+  const { allFolderResources } = useRecentlyUsedResources();
   const { data: metaData, loading } = useFolderResourceMetaSearch(
     allFolderResources?.map(r => ({
       id: r.resourceId,
