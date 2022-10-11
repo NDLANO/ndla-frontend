@@ -110,7 +110,10 @@ const MyNdlaPage = () => {
   const basename = useBaseName();
   const location = useLocation();
   const { deletePersonalData } = useDeletePersonalData();
-  const { allFolderResources } = useRecentlyUsedResources();
+  const {
+    allFolderResources,
+    loading: allFoldersLoading,
+  } = useRecentlyUsedResources();
   const { data: metaData, loading } = useFolderResourceMetaSearch(
     allFolderResources?.map(r => ({
       id: r.resourceId,
@@ -147,7 +150,7 @@ const MyNdlaPage = () => {
         />
       </StyledIntroContainer>
       <h2>{t('myNdla.myPage.newFavourite')}</h2>
-      {allFolderResources && allFolderResources.length > 0 && (
+      {allFolderResources && allFolderResources.length > 0 ? (
         <StyledResourceList>
           {allFolderResources.map(res => {
             const meta = keyedData[`${res.resourceType}${res.resourceId}`];
@@ -172,7 +175,9 @@ const MyNdlaPage = () => {
             );
           })}
         </StyledResourceList>
-      )}
+      ) : !allFoldersLoading ? (
+        <p>{t('myNdla.myPage.noRecents')}</p>
+      ) : null}
       <InfoPart
         icon={<HeartOutlineIcon />}
         title={t('myNdla.myPage.storageInfo.title')}
