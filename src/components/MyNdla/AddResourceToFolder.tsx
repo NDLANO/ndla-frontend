@@ -190,8 +190,12 @@ const AddResourceToFolder = ({
     loading: addResourceLoading,
   } = useAddResourceToFolderMutation(selectedFolder?.id ?? '');
 
+  const alreadyAdded = selectedFolder?.resources.some(
+    resource => resource.id === storedResource?.id,
+  );
+
   const onSave = async () => {
-    if (selectedFolder) {
+    if (selectedFolder && !alreadyAdded) {
       await addResourceToFolder({
         variables: {
           resourceId: resource.id,
@@ -240,10 +244,6 @@ const AddResourceToFolder = ({
   }, [structureFolders, defaultOpenFolder]);
 
   const noFolderSelected = selectedFolderId === 'folders';
-
-  const alreadyAdded = selectedFolder?.resources.some(
-    resource => resource.id === storedResource?.id,
-  );
 
   return (
     <AddResourceContainer>
