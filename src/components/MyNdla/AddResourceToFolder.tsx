@@ -129,10 +129,11 @@ const AddResourceToFolder = ({
     if (!loading && folders) {
       const _storedResource = getResourceForPath(folders, resource.path);
       setStoredResource(_storedResource ?? undefined);
-      setSelectedTags(_storedResource?.tags ?? []);
-      setTags(tags => compact(tags.concat(getAllTags(folders))));
+      setSelectedTags(uniq(selectedTags.concat(_storedResource?.tags ?? [])));
+      setTags(tags => uniq(compact(tags.concat(getAllTags(folders)))));
     }
-  }, [loading, folders, resource]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loading]);
 
   useEffect(() => {
     if (storedResource) {
@@ -261,6 +262,7 @@ const AddResourceToFolder = ({
       />
       <ComboboxContainer>
         <TreeStructure
+          maxLevel={5}
           folders={structureFolders}
           label={t('myNdla.myFolders')}
           onSelectFolder={setSelectedFolderId}
