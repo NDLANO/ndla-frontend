@@ -232,12 +232,12 @@ const AddResourceToFolder = ({
       : ['folders'];
 
     const last = defaultOpen[defaultOpen.length - 1];
-    if (last !== 'folders') {
+    if (last !== 'folders' && !selectedFolderId) {
       setSelectedFolderId(last);
     }
 
     return defaultOpen;
-  }, [structureFolders, defaultOpenFolder]);
+  }, [structureFolders, defaultOpenFolder, selectedFolderId]);
 
   const noFolderSelected = selectedFolderId === 'folders';
 
