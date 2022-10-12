@@ -110,10 +110,7 @@ const MyNdlaPage = () => {
   const basename = useBaseName();
   const location = useLocation();
   const { deletePersonalData } = useDeletePersonalData();
-  const {
-    allFolderResources,
-    loading: allFoldersLoading,
-  } = useRecentlyUsedResources();
+  const { allFolderResources } = useRecentlyUsedResources();
   const { data: metaData, loading } = useFolderResourceMetaSearch(
     allFolderResources?.map(r => ({
       id: r.resourceId,
@@ -149,35 +146,35 @@ const MyNdlaPage = () => {
           alt={t('myNdla.myPage.imageAlt')}
         />
       </StyledIntroContainer>
-      <h2>{t('myNdla.myPage.newFavourite')}</h2>
-      {allFolderResources && allFolderResources.length > 0 ? (
-        <StyledResourceList>
-          {allFolderResources.map(res => {
-            const meta = keyedData[`${res.resourceType}${res.resourceId}`];
-            return (
-              <ListItem key={res.id}>
-                <ListResource
-                  headingLevel={'h3'}
-                  id={res.id}
-                  tagLinkPrefix="/minndla/tags"
-                  isLoading={loading}
-                  key={res.id}
-                  link={res.path}
-                  title={meta?.title ?? ''}
-                  resourceImage={{
-                    src: meta?.metaImage?.url ?? '',
-                    alt: '',
-                  }}
-                  tags={res.tags}
-                  resourceTypes={meta?.resourceTypes ?? []}
-                />
-              </ListItem>
-            );
-          })}
-        </StyledResourceList>
-      ) : !allFoldersLoading ? (
-        <p>{t('myNdla.myPage.noRecents')}</p>
-      ) : null}
+      {allFolderResources && allFolderResources.length > 0 && (
+        <>
+          <h2>{t('myNdla.myPage.newFavourite')}</h2>
+          <StyledResourceList>
+            {allFolderResources.map(res => {
+              const meta = keyedData[`${res.resourceType}${res.resourceId}`];
+              return (
+                <ListItem key={res.id}>
+                  <ListResource
+                    headingLevel={'h3'}
+                    id={res.id}
+                    tagLinkPrefix="/minndla/tags"
+                    isLoading={loading}
+                    key={res.id}
+                    link={res.path}
+                    title={meta?.title ?? ''}
+                    resourceImage={{
+                      src: meta?.metaImage?.url ?? '',
+                      alt: '',
+                    }}
+                    tags={res.tags}
+                    resourceTypes={meta?.resourceTypes ?? []}
+                  />
+                </ListItem>
+              );
+            })}
+          </StyledResourceList>
+        </>
+      )}
       <InfoPart
         icon={<HeartOutlineIcon />}
         title={t('myNdla.myPage.storageInfo.title')}
