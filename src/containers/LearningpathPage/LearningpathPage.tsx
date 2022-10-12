@@ -62,8 +62,12 @@ const LearningpathPage = ({
 }: Props) => {
   const navigate = useNavigate();
   useEffect(() => {
-    if (window.MathJax) {
-      window.MathJax.typeset();
+    if (window.MathJax && typeof window.MathJax.typeset === 'function') {
+      try {
+        window.MathJax.typeset();
+      } catch (err) {
+        // do nothing
+      }
     }
   });
 
