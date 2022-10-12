@@ -262,7 +262,6 @@ const AddResourceToFolder = ({
       />
       <ComboboxContainer>
         <TreeStructure
-          maxLevel={5}
           folders={structureFolders}
           label={t('myNdla.myFolders')}
           onSelectFolder={setSelectedFolderId}
