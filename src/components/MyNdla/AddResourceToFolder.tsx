@@ -137,12 +137,6 @@ const AddResourceToFolder = ({
   }, [folders, loading, resource.path, storedResource]);
 
   useEffect(() => {
-    if (storedResource) {
-      setSelectedTags(storedResource.tags);
-    }
-  }, [storedResource]);
-
-  useEffect(() => {
     const tagsChanged = !!(
       storedResource && shouldUpdateFolderResource(storedResource, selectedTags)
     );
