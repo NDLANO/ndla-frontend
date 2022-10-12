@@ -126,19 +126,15 @@ const AddResourceToFolder = ({
   const { addSnack } = useSnack();
 
   useEffect(() => {
-    if (!loading && folders) {
+    if (!loading && folders && !storedResource) {
       const _storedResource = getResourceForPath(folders, resource.path);
       setStoredResource(_storedResource ?? undefined);
-      setSelectedTags(_storedResource?.tags ?? []);
-      setTags(tags => compact(tags.concat(getAllTags(folders))));
+      setTags(tags => uniq(compact(tags.concat(getAllTags(folders)))));
+      setSelectedTags(prevTags =>
+        uniq(prevTags.concat(_storedResource?.tags ?? [])),
+      );
     }
-  }, [loading, folders, resource]);
-
-  useEffect(() => {
-    if (storedResource) {
-      setSelectedTags(storedResource.tags);
-    }
-  }, [storedResource]);
+  }, [folders, loading, resource.path, storedResource]);
 
   useEffect(() => {
     const tagsChanged = !!(
