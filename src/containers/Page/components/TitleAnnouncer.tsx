@@ -32,14 +32,17 @@ const TitleAnnouncer = () => {
     if (!!title && title !== prevTitle.current) {
       if (!onTopicPage) {
         titleRef.current?.focus();
-      }
-      prevTitle.current = title;
+      } else prevTitle.current = title;
     }
   }, [title, titleRef, onTopicPage]);
 
   return (
     <>
-      <VisuallyHiddenTitle tabIndex={-1} id="titleAnnouncer" ref={titleRef}>
+      <VisuallyHiddenTitle
+        aria-live={onTopicPage ? `assertive` : undefined}
+        tabIndex={-1}
+        id="titleAnnouncer"
+        ref={titleRef}>
         {title}
       </VisuallyHiddenTitle>
       <Helmet
