@@ -41,6 +41,7 @@ import NewFolder from '../../../components/MyNdla/NewFolder';
 import MyNdlaTitle from '../components/MyNdlaTitle';
 import TitleWrapper from '../components/TitleWrapper';
 import FolderActions from './FolderActions';
+import { STORED_FOLDERS_VIEW_TYPE } from '../../../constants';
 
 interface BlockWrapperProps {
   type?: string;
@@ -120,7 +121,7 @@ export interface FolderAction {
 const FoldersPage = () => {
   const { t } = useTranslation();
   const { folderId } = useParams();
-  const [type, setType] = useState<ViewType>('list');
+  const [type, _setType] = useState<ViewType>('list');
   const navigate = useNavigate();
   const { addSnack } = useSnack();
   const [folderAction, setFolderAction] = useState<FolderAction | undefined>(
@@ -143,6 +144,13 @@ const FoldersPage = () => {
   );
   const [previousFolders, setPreviousFolders] = useState<GQLFolder[]>(folders);
   const [focusId, setFocusId] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    const viewType = localStorage.getItem(STORED_FOLDERS_VIEW_TYPE);
+    if (viewType) {
+      _setType(viewType as ViewType);
+    }
+  }, []);
 
   useEffect(() => {
     const folderIds = folders.map(f => f.id).sort();
@@ -234,6 +242,12 @@ const FoldersPage = () => {
       content: t('myNdla.folder.folderCreated', { folderName: folder.name }),
     });
     setFocusId(folder.id);
+  };
+
+  const setType = (type: ViewType) => {
+    _setType(type);
+    // localStorage.setItem({cookieName: STORED_FOLDERS_VIEW_TYPE, cookieValue: type})
+    localStorage.setItem(STORED_FOLDERS_VIEW_TYPE, type);
   };
 
   const showAddButton = (selectedFolder?.breadcrumbs.length || 0) < 5;
