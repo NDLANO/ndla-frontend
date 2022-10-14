@@ -82,7 +82,11 @@ const ArticlePage = ({
 
   useEffect(() => {
     if (window.MathJax && typeof window.MathJax.typeset === 'function') {
-      window.MathJax.typeset();
+      try {
+        window.MathJax.typeset();
+      } catch (err) {
+        // do nothing
+      }
     }
   });
 

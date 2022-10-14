@@ -126,19 +126,15 @@ const AddResourceToFolder = ({
   const { addSnack } = useSnack();
 
   useEffect(() => {
-    if (!loading && folders) {
+    if (!loading && folders && !storedResource) {
       const _storedResource = getResourceForPath(folders, resource.path);
       setStoredResource(_storedResource ?? undefined);
-      setSelectedTags(_storedResource?.tags ?? []);
-      setTags(tags => compact(tags.concat(getAllTags(folders))));
+      setTags(tags => uniq(compact(tags.concat(getAllTags(folders)))));
+      setSelectedTags(prevTags =>
+        uniq(prevTags.concat(_storedResource?.tags ?? [])),
+      );
     }
-  }, [loading, folders, resource]);
-
-  useEffect(() => {
-    if (storedResource) {
-      setSelectedTags(storedResource.tags);
-    }
-  }, [storedResource]);
+  }, [folders, loading, resource.path, storedResource]);
 
   useEffect(() => {
     const tagsChanged = !!(
@@ -190,8 +186,12 @@ const AddResourceToFolder = ({
     loading: addResourceLoading,
   } = useAddResourceToFolderMutation(selectedFolder?.id ?? '');
 
+  const alreadyAdded = selectedFolder?.resources.some(
+    resource => resource.id === storedResource?.id,
+  );
+
   const onSave = async () => {
-    if (selectedFolder) {
+    if (selectedFolder && !alreadyAdded) {
       await addResourceToFolder({
         variables: {
           resourceId: resource.id,
@@ -232,18 +232,14 @@ const AddResourceToFolder = ({
       : ['folders'];
 
     const last = defaultOpen[defaultOpen.length - 1];
-    if (last !== 'folders') {
+    if (last !== 'folders' && !selectedFolderId) {
       setSelectedFolderId(last);
     }
 
     return defaultOpen;
-  }, [structureFolders, defaultOpenFolder]);
+  }, [structureFolders, defaultOpenFolder, selectedFolderId]);
 
   const noFolderSelected = selectedFolderId === 'folders';
-
-  const alreadyAdded = selectedFolder?.resources.some(
-    resource => resource.id === storedResource?.id,
-  );
 
   return (
     <AddResourceContainer>

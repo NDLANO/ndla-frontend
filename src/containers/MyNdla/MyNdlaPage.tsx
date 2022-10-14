@@ -146,32 +146,34 @@ const MyNdlaPage = () => {
           alt={t('myNdla.myPage.imageAlt')}
         />
       </StyledIntroContainer>
-      <h2>{t('myNdla.myPage.newFavourite')}</h2>
       {allFolderResources && allFolderResources.length > 0 && (
-        <StyledResourceList>
-          {allFolderResources.map(res => {
-            const meta = keyedData[`${res.resourceType}${res.resourceId}`];
-            return (
-              <ListItem key={res.id}>
-                <ListResource
-                  headingLevel={'h3'}
-                  id={res.id}
-                  tagLinkPrefix="/minndla/tags"
-                  isLoading={loading}
-                  key={res.id}
-                  link={res.path}
-                  title={meta?.title ?? ''}
-                  resourceImage={{
-                    src: meta?.metaImage?.url ?? '',
-                    alt: '',
-                  }}
-                  tags={res.tags}
-                  resourceTypes={meta?.resourceTypes ?? []}
-                />
-              </ListItem>
-            );
-          })}
-        </StyledResourceList>
+        <>
+          <h2>{t('myNdla.myPage.newFavourite')}</h2>
+          <StyledResourceList>
+            {allFolderResources.map(res => {
+              const meta = keyedData[`${res.resourceType}${res.resourceId}`];
+              return (
+                <ListItem key={res.id}>
+                  <ListResource
+                    headingLevel={'h3'}
+                    id={res.id}
+                    tagLinkPrefix="/minndla/tags"
+                    isLoading={loading}
+                    key={res.id}
+                    link={res.path}
+                    title={meta?.title ?? ''}
+                    resourceImage={{
+                      src: meta?.metaImage?.url ?? '',
+                      alt: '',
+                    }}
+                    tags={res.tags}
+                    resourceTypes={meta?.resourceTypes ?? []}
+                  />
+                </ListItem>
+              );
+            })}
+          </StyledResourceList>
+        </>
       )}
       <InfoPart
         icon={<HeartOutlineIcon />}
