@@ -134,6 +134,10 @@ const mergeGroupSearch = (
 const possibleTypes = {
   TaxonomyEntity: ['Resource', 'Topic'],
   SearchResult: ['ArticleSearchResult', 'LearningpathSearchResult'],
+  FolderResourceMeta: [
+    'ArticleFolderResourceMeta',
+    'LearningpathFolderResourceMeta',
+  ],
 };
 
 const typePolicies: TypePolicies = {
