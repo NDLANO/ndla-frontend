@@ -14,6 +14,7 @@ import { Route, Routes } from 'react-router-dom';
 import { AlertsProvider } from './components/AlertsContext';
 import AuthenticationContext from './components/AuthenticationContext';
 import { BaseNameProvider } from './components/BaseNameContext';
+import UserPreferenceProvider from './components/UserPreferenceContext';
 import config from './config';
 import AccessDenied from './containers/AccessDeniedPage/AccessDeniedPage';
 import AllSubjectsPage from './containers/AllSubjectsPage/AllSubjectsPage';
@@ -88,78 +89,82 @@ const AppRoutes = ({ base, resCookie }: AppProps) => {
     <AlertsProvider>
       <BaseNameProvider value={base}>
         <AuthenticationContext initialValue={resCookie}>
-          <SnackbarProvider>
-            <Routes>
-              <Route path="/" element={<Layout />}>
-                <Route index element={<WelcomePage />} />
-                <Route path="subjects" element={<AllSubjectsPage />} />
-                <Route path="search" element={<SearchPage />} />
-                <Route path="utdanning/:programme" element={<ProgrammePage />}>
-                  <Route path=":grade" element={null} />
-                </Route>
-                <Route path="podkast">
-                  <Route index element={<PodcastSeriesListPage />} />
-                  <Route path=":id" element={<PodcastSeriesPage />} />
-                </Route>
-                <Route
-                  path="article/:articleId"
-                  element={<PlainArticlePage />}
-                />
-                <Route
-                  path="learningpaths/:learningpathId"
-                  element={<PlainLearningpathPage />}>
-                  <Route path="steps/:stepId" element={null} />
-                </Route>
-                <Route path="subject:subjectId/topic:topicId/resource:resourceId">
-                  {resourceRoutes}
-                </Route>
-                <Route path="subject:subjectId/topic:topic1/topic:topicId/resource:resourceId">
-                  {resourceRoutes}
-                </Route>
-                <Route path="subject:subjectId/topic:topic1/topic:topic2/topic:topicId/resource:resourceId">
-                  {resourceRoutes}
-                </Route>
-                <Route path="subject:subjectId/topic:topic1/topic:topic2/topic:topic3/topic:topicId/resource:resourceId">
-                  {resourceRoutes}
-                </Route>
-                <Route path="subject:subjectId/topic:topic1/topic:topic2/topic:topic3/topic:topic4/topic:topicId/resource:resourceId">
-                  {resourceRoutes}
-                </Route>
-                <Route path="subject:subjectId" element={<SubjectRouting />}>
-                  <Route path="topic:topicId" element={null} />
-                  <Route path="topic:topic1" element={null}>
+          <UserPreferenceProvider initialValue={resCookie}>
+            <SnackbarProvider>
+              <Routes>
+                <Route path="/" element={<Layout />}>
+                  <Route index element={<WelcomePage />} />
+                  <Route path="subjects" element={<AllSubjectsPage />} />
+                  <Route path="search" element={<SearchPage />} />
+                  <Route
+                    path="utdanning/:programme"
+                    element={<ProgrammePage />}>
+                    <Route path=":grade" element={null} />
+                  </Route>
+                  <Route path="podkast">
+                    <Route index element={<PodcastSeriesListPage />} />
+                    <Route path=":id" element={<PodcastSeriesPage />} />
+                  </Route>
+                  <Route
+                    path="article/:articleId"
+                    element={<PlainArticlePage />}
+                  />
+                  <Route
+                    path="learningpaths/:learningpathId"
+                    element={<PlainLearningpathPage />}>
+                    <Route path="steps/:stepId" element={null} />
+                  </Route>
+                  <Route path="subject:subjectId/topic:topicId/resource:resourceId">
+                    {resourceRoutes}
+                  </Route>
+                  <Route path="subject:subjectId/topic:topic1/topic:topicId/resource:resourceId">
+                    {resourceRoutes}
+                  </Route>
+                  <Route path="subject:subjectId/topic:topic1/topic:topic2/topic:topicId/resource:resourceId">
+                    {resourceRoutes}
+                  </Route>
+                  <Route path="subject:subjectId/topic:topic1/topic:topic2/topic:topic3/topic:topicId/resource:resourceId">
+                    {resourceRoutes}
+                  </Route>
+                  <Route path="subject:subjectId/topic:topic1/topic:topic2/topic:topic3/topic:topic4/topic:topicId/resource:resourceId">
+                    {resourceRoutes}
+                  </Route>
+                  <Route path="subject:subjectId" element={<SubjectRouting />}>
                     <Route path="topic:topicId" element={null} />
-                    <Route path="topic:topic2" element={null}>
+                    <Route path="topic:topic1" element={null}>
                       <Route path="topic:topicId" element={null} />
-                      <Route path="topic:topic3" element={null}>
+                      <Route path="topic:topic2" element={null}>
                         <Route path="topic:topicId" element={null} />
-                        <Route path="topic:topic4" element={null}>
+                        <Route path="topic:topic3" element={null}>
                           <Route path="topic:topicId" element={null} />
+                          <Route path="topic:topic4" element={null}>
+                            <Route path="topic:topicId" element={null} />
+                          </Route>
                         </Route>
                       </Route>
                     </Route>
                   </Route>
-                </Route>
-                <Route
-                  path="minndla"
-                  element={<PrivateRoute element={<MyNdlaLayout />} />}>
-                  <Route index element={<MyNdlaPage />} />
-                  <Route path="meny" element={<MyNdlaMobileMenuPage />} />
-                  <Route path="folders">
-                    <Route index element={<FoldersPage />} />
-                    <Route path=":folderId" element={<FoldersPage />} />
+                  <Route
+                    path="minndla"
+                    element={<PrivateRoute element={<MyNdlaLayout />} />}>
+                    <Route index element={<MyNdlaPage />} />
+                    <Route path="meny" element={<MyNdlaMobileMenuPage />} />
+                    <Route path="folders">
+                      <Route index element={<FoldersPage />} />
+                      <Route path=":folderId" element={<FoldersPage />} />
+                    </Route>
+                    <Route path="tags">
+                      <Route index element={<TagsPage />} />
+                      <Route path=":tag" element={<TagsPage />} />
+                    </Route>
                   </Route>
-                  <Route path="tags">
-                    <Route index element={<TagsPage />} />
-                    <Route path=":tag" element={<TagsPage />} />
-                  </Route>
+                  <Route path="404" element={<NotFound />} />
+                  <Route path="403" element={<AccessDenied />} />
+                  <Route path="*" element={<NotFound />} />
                 </Route>
-                <Route path="404" element={<NotFound />} />
-                <Route path="403" element={<AccessDenied />} />
-                <Route path="*" element={<NotFound />} />
-              </Route>
-            </Routes>
-          </SnackbarProvider>
+              </Routes>
+            </SnackbarProvider>
+          </UserPreferenceProvider>
         </AuthenticationContext>
       </BaseNameProvider>
     </AlertsProvider>
