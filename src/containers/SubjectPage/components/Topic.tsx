@@ -18,10 +18,13 @@ import { FeideUserApiType, Topic as UITopic } from '@ndla/ui';
 import { TopicProps } from '@ndla/ui';
 import { withTracker } from '@ndla/tracker';
 import config from '../../../config';
-import { RELEVANCE_SUPPLEMENTARY } from '../../../constants';
+import {
+  RELEVANCE_SUPPLEMENTARY,
+  SKIP_TO_CONTENT_ID,
+} from '../../../constants';
 import ArticleContents from '../../../components/Article/ArticleContents';
 import Resources from '../../Resources/Resources';
-import { toTopic, useIsNdlaFilm } from '../../../routeHelpers';
+import { toTopic, useIsNdlaFilm, useUrnIds } from '../../../routeHelpers';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import { htmlTitle } from '../../../util/titleHelper';
 import {
@@ -69,6 +72,7 @@ const Topic = ({
   topic,
   resourceTypes,
 }: Props) => {
+  const { topicId: urnTopicId } = useUrnIds();
   const [showContent, setShowContent] = useState(false);
   const markdown = useMemo(() => {
     const md = new Remarkable({ breaks: true });
@@ -145,6 +149,7 @@ const Topic = ({
 
   return (
     <UITopic
+      id={urnTopicId === topicId ? SKIP_TO_CONTENT_ID : undefined}
       onToggleShowContent={
         article.content !== '' ? () => setShowContent(!showContent) : undefined
       }
