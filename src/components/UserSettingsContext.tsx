@@ -23,7 +23,7 @@ interface Context {
   deleteSetting: (key: keyof Settings) => void;
 }
 
-export const UserPreferenceContext = createContext<Context>({
+export const UserSettingsContext = createContext<Context>({
   userSettings: {},
   updateSettings: () => {},
   deleteSetting: () => {},
@@ -49,7 +49,7 @@ interface Props {
   initialValue?: string;
 }
 
-const UserPreferenceProvider = ({ children, initialValue }: Props) => {
+const UserSettingsProvider = ({ children, initialValue }: Props) => {
   const [userSettings, setUserSettings] = useState(
     getDefaultSettings(initialValue),
   );
@@ -81,11 +81,11 @@ const UserPreferenceProvider = ({ children, initialValue }: Props) => {
   };
 
   return (
-    <UserPreferenceContext.Provider
+    <UserSettingsContext.Provider
       value={{ userSettings, updateSettings, deleteSetting }}>
       {children}
-    </UserPreferenceContext.Provider>
+    </UserSettingsContext.Provider>
   );
 };
 
-export default UserPreferenceProvider;
+export default UserSettingsProvider;

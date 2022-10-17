@@ -41,7 +41,7 @@ import NewFolder from '../../../components/MyNdla/NewFolder';
 import MyNdlaTitle from '../components/MyNdlaTitle';
 import TitleWrapper from '../components/TitleWrapper';
 import FolderActions from './FolderActions';
-import { UserPreferenceContext } from '../../../components/UserPreferenceContext';
+import { UserSettingsContext } from '../../../components/UserSettingsContext';
 
 interface BlockWrapperProps {
   type?: string;
@@ -120,11 +120,8 @@ export interface FolderAction {
 
 const FoldersPage = () => {
   const { t } = useTranslation();
-  const { userSettings, updateSettings } = useContext(UserPreferenceContext);
+  const { userSettings, updateSettings } = useContext(UserSettingsContext);
   const { folderId } = useParams();
-  const [type, _setType] = useState<ViewType>(
-    userSettings.folderViewType || 'list',
-  );
   const navigate = useNavigate();
   const { addSnack } = useSnack();
   const [folderAction, setFolderAction] = useState<FolderAction | undefined>(
@@ -140,6 +137,7 @@ const FoldersPage = () => {
   const { data } = useGraphQuery<GQLFoldersPageQuery>(foldersPageQuery);
   const folderData = data?.folders as GQLFolder[] | undefined;
 
+  const viewType = userSettings.folderViewType || 'list';
   const selectedFolder = useFolder(folderId);
   const folders: GQLFolder[] = useMemo(
     () => (selectedFolder ? selectedFolder.subfolders : folderData ?? []),
@@ -147,13 +145,6 @@ const FoldersPage = () => {
   );
   const [previousFolders, setPreviousFolders] = useState<GQLFolder[]>(folders);
   const [focusId, setFocusId] = useState<string | undefined>(undefined);
-
-  useEffect(() => {
-    // const viewType = localStorage.getItem(STORED_FOLDERS_VIEW_TYPE);
-    // if (viewType) {
-    //   _setType(viewType as ViewType);
-    // }
-  }, []);
 
   useEffect(() => {
     const folderIds = folders.map(f => f.id).sort();
@@ -248,7 +239,6 @@ const FoldersPage = () => {
   };
 
   const setType = (type: ViewType) => {
-    _setType(type);
     updateSettings('folderViewType', type);
   };
 
@@ -320,10 +310,10 @@ const FoldersPage = () => {
             <span>{t('myNdla.newFolder')}</span>
           </AddButton>
         )}
-        <ListViewOptions type={type} onTypeChange={setType} />
+        <ListViewOptions type={viewType} onTypeChange={setType} />
       </StyledRow>
       {folders && (
-        <BlockWrapper type={type}>
+        <BlockWrapper type={viewType}>
           {isAdding && (
             <NewFolder
               icon={
@@ -346,7 +336,7 @@ const FoldersPage = () => {
                 id={folder.id}
                 link={`/minndla/folders/${folder.id}`}
                 title={folder.name}
-                type={type}
+                type={viewType}
                 subFolders={foldersCount[folder.id]?.folders}
                 subResources={foldersCount[folder.id]?.resources}
                 menuItems={[
@@ -372,7 +362,7 @@ const FoldersPage = () => {
       {selectedFolder && (
         <ResourceList
           selectedFolder={selectedFolder}
-          viewType={type}
+          viewType={viewType}
           folderId={selectedFolder.id}
         />
       )}

@@ -14,7 +14,7 @@ import { Route, Routes } from 'react-router-dom';
 import { AlertsProvider } from './components/AlertsContext';
 import AuthenticationContext from './components/AuthenticationContext';
 import { BaseNameProvider } from './components/BaseNameContext';
-import UserPreferenceProvider from './components/UserPreferenceContext';
+import UserSettingsProvider from './components/UserSettingsContext';
 import config from './config';
 import AccessDenied from './containers/AccessDeniedPage/AccessDeniedPage';
 import AllSubjectsPage from './containers/AllSubjectsPage/AllSubjectsPage';
@@ -89,7 +89,7 @@ const AppRoutes = ({ base, resCookie }: AppProps) => {
     <AlertsProvider>
       <BaseNameProvider value={base}>
         <AuthenticationContext initialValue={resCookie}>
-          <UserPreferenceProvider initialValue={resCookie}>
+          <UserSettingsProvider initialValue={resCookie}>
             <SnackbarProvider>
               <Routes>
                 <Route path="/" element={<Layout />}>
@@ -164,7 +164,7 @@ const AppRoutes = ({ base, resCookie }: AppProps) => {
                 </Route>
               </Routes>
             </SnackbarProvider>
-          </UserPreferenceProvider>
+          </UserSettingsProvider>
         </AuthenticationContext>
       </BaseNameProvider>
     </AlertsProvider>
