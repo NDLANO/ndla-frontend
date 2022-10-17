@@ -27,6 +27,7 @@ import {
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { AuthContext } from '../../components/AuthenticationContext';
 import { htmlTitle } from '../../util/titleHelper';
+import { SKIP_TO_CONTENT_ID } from '../../constants';
 
 const multidisciplinarySubjectPageQuery = gql`
   query multidisciplinarySubjectPage($subjectId: String!) {
@@ -187,6 +188,7 @@ const MultidisciplinarySubjectPage = () => {
         imageUrl={socialMediaMetaData.image?.url}
       />
       <MultidisciplinarySubject
+        id={selectedTopics.length === 0 ? SKIP_TO_CONTENT_ID : undefined}
         hideCards={isNotLastTopic}
         cards={cards}
         totalCardCount={cards.length}>

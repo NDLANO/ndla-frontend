@@ -44,6 +44,7 @@ import { htmlTitle } from '../../util/titleHelper';
 import { BreadcrumbItem } from '../../interfaces';
 import { GQLSubjectContainer_SubjectFragment } from '../../graphqlTypes';
 import {
+  SKIP_TO_CONTENT_ID,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE,
 } from '../../constants';
@@ -268,6 +269,9 @@ const SubjectContainer = ({ t, subjectId, topicIds, subject, i18n }: Props) => {
               <ArticleHeaderWrapper
                 competenceGoals={renderCompetenceGoals(subject)}>
                 <NavigationHeading
+                  headingId={
+                    topicIds.length === 0 ? SKIP_TO_CONTENT_ID : undefined
+                  }
                   subHeading={subjectNames.subHeading}
                   invertedStyle={ndlaFilm}>
                   {subjectNames.longName}
