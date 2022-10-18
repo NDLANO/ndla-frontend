@@ -100,7 +100,7 @@ const FilmFrontpage = ({
   const pageTitle = getDocumentTitle(t, subject);
 
   return (
-    <div id={skipToContentId}>
+    <div>
       <Helmet>
         <title>{pageTitle}</title>
       </Helmet>
@@ -110,6 +110,7 @@ const FilmFrontpage = ({
       />
       <FilmSlideshow slideshow={filmFrontpage?.slideShow ?? []} />
       <FilmMovieSearch
+        skipToContentId={skipToContentId}
         ariaControlId={ARIA_FILMCATEGORY_ID}
         topics={subject?.topics ?? []}
         resourceTypes={resourceTypes}

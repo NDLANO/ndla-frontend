@@ -2801,6 +2801,7 @@ export type GQLToolboxTopicWrapper_ResourceTypeDefinitionFragment = {
 
 export type GQLToolboxTopicWrapper_TopicFragment = {
   __typename?: 'Topic';
+  id: string;
   name: string;
   path: string;
   article?: {

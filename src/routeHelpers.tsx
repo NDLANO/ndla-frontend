@@ -49,6 +49,19 @@ interface MatchParams extends TypedParams {
   programme?: string;
 }
 
+export const useOnTopicPage = () => {
+  const { subjectId, resourceId, topicList } = useUrnIds();
+  if (!subjectId || resourceId || (subjectId && topicList.length === 0)) {
+    return false;
+  }
+  const subjectType = getSubjectType(subjectId);
+  if (subjectType === 'multiDisciplinary') {
+    return topicList.length < 3;
+  }
+
+  return true;
+};
+
 export const useUrnIds = () => {
   const params = useTypedParams<MatchParams>();
   const subjectId = params.subjectId
