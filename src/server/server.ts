@@ -132,6 +132,7 @@ app.get('/:lang?/login', async (req: Request, res: Response) => {
   const feideCookie = getCookie('feide_auth', req.headers.cookie ?? '') ?? '';
   const feideToken = !!feideCookie ? JSON.parse(feideCookie) : undefined;
   const state = typeof req.query.state === 'string' ? req.query.state : '';
+  res.setHeader('Cache-Control', 'private');
   const lang = getLang(
     req.params.lang,
     getCookie(STORED_LANGUAGE_COOKIE_KEY, req.headers.cookie ?? ''),
