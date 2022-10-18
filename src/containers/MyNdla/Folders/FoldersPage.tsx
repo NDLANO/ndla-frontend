@@ -86,6 +86,7 @@ export const BlockWrapper = styled.ul<BlockWrapperProps>`
 `;
 
 export const ListItem = styled.li`
+  overflow: hidden;
   list-style: none;
   margin: 0;
 `;

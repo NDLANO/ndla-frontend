@@ -100,7 +100,6 @@ async function doRender(req) {
     Page,
     getAssets(),
     {
-      resCookie,
       apolloState,
       serverPath: req.path,
       serverQuery: req.query,
