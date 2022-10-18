@@ -122,6 +122,7 @@ export interface FolderAction {
 const FoldersPage = () => {
   const { t } = useTranslation();
   const { userSettings, updateSettings } = useContext(UserSettingsContext);
+  const viewType = userSettings.folderViewType || 'list';
   const { folderId } = useParams();
   const navigate = useNavigate();
   const { addSnack } = useSnack();
@@ -138,7 +139,6 @@ const FoldersPage = () => {
   const { data } = useGraphQuery<GQLFoldersPageQuery>(foldersPageQuery);
   const folderData = data?.folders as GQLFolder[] | undefined;
 
-  const viewType = userSettings.folderViewType || 'list';
   const selectedFolder = useFolder(folderId);
   const folders: GQLFolder[] = useMemo(
     () => (selectedFolder ? selectedFolder.subfolders : folderData ?? []),

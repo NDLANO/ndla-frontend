@@ -6,7 +6,7 @@
  *
  */
 
-import { useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { keyBy } from 'lodash';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -14,7 +14,7 @@ import styled from '@emotion/styled';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { spacing } from '@ndla/core';
 import { SafeLinkButton } from '@ndla/safelink';
-import { ListResource, useSnack } from '@ndla/ui';
+import { BlockResource, ListResource, useSnack } from '@ndla/ui';
 import { copyTextToClipboard } from '@ndla/util';
 import { FolderOutlined } from '@ndla/icons/contentType';
 import { FileDocumentOutline, HashTag, Link } from '@ndla/icons/common';
@@ -31,6 +31,7 @@ import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
 import MyNdlaTitle from '../components/MyNdlaTitle';
 import TitleWrapper from '../components/TitleWrapper';
 import { usePrevious } from '../../../util/utilityHooks';
+import { UserSettingsContext } from '../../../components/UserSettingsContext';
 
 const StyledUl = styled.ul`
   padding: 0px;
@@ -111,7 +112,8 @@ interface ResourcesProps {
 }
 
 const Resources = ({ resources }: ResourcesProps) => {
-  const [type, setType] = useState<ViewType>('list');
+  const { userSettings, updateSettings } = useContext(UserSettingsContext);
+  const viewType = userSettings.folderViewType || 'list';
   const { addSnack } = useSnack();
   const [resourceAction, setResourceAction] = useState<
     ResourceAction | undefined
@@ -129,19 +131,25 @@ const Resources = ({ resources }: ResourcesProps) => {
     data ?? [],
     resource => `${resource.type}-${resource.id}`,
   );
+
+  const setType = (type: ViewType) => {
+    updateSettings('folderViewType', type);
+  };
+
+  const Resource = viewType === 'block' ? BlockResource : ListResource;
   return (
     <>
       <CountWrapper>
         <FileDocumentOutline />
         <span>{t('myNdla.resources', { count: resources.length })}</span>
       </CountWrapper>
-      <ListViewOptions type={type} onTypeChange={setType} />
-      <BlockWrapper type={type}>
+      <ListViewOptions type={viewType} onTypeChange={setType} />
+      <BlockWrapper type={viewType}>
         {resources.map(resource => {
           const meta =
             keyedData[`${resource.resourceType}-${resource.resourceId}`];
           return (
-            <ListResource
+            <Resource
               id={resource.id}
               tagLinkPrefix="/minndla/tags"
               isLoading={loading}
@@ -149,7 +157,7 @@ const Resources = ({ resources }: ResourcesProps) => {
               link={resource.path}
               title={meta?.title ?? ''}
               description={
-                type !== 'list' ? meta?.description ?? '' : undefined
+                viewType !== 'list' ? meta?.description ?? '' : undefined
               }
               tags={resource.tags}
               resourceTypes={meta?.resourceTypes ?? []}
