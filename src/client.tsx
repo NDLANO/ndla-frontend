@@ -55,8 +55,10 @@ declare global {
 }
 
 const {
-  DATA: { config, serverPath, serverQuery, resCookie = '' },
+  DATA: { config, serverPath, serverQuery },
 } = window;
+// Only handle cookies on client. Prevents auth-cookies to be serialized and stored in cached pages!
+const resCookie = document.cookie ?? '';
 
 const { basepath, abbreviation } = getLocaleInfoFromPath(serverPath ?? '');
 
