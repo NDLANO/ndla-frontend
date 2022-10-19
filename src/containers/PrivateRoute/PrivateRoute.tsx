@@ -7,13 +7,14 @@
  */
 import { ReactElement, useContext } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
+import { NoSSR } from '@ndla/util';
 import { AuthContext } from '../../components/AuthenticationContext';
 
 interface Props {
   element: ReactElement;
 }
 
-const PrivateRoute = ({ element }: Props) => {
+const ClientPrivateRoute = ({ element }: Props) => {
   const { authenticated } = useContext(AuthContext);
   const location = useLocation();
 
@@ -22,6 +23,14 @@ const PrivateRoute = ({ element }: Props) => {
   }
 
   return element;
+};
+
+const PrivateRoute = (props: Props) => {
+  return (
+    <NoSSR fallback={null}>
+      <ClientPrivateRoute {...props} />
+    </NoSSR>
+  );
 };
 
 export default PrivateRoute;
