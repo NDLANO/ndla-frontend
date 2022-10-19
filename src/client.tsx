@@ -57,8 +57,6 @@ declare global {
 const {
   DATA: { config, serverPath, serverQuery },
 } = window;
-// Only handle cookies on client. Prevents auth-cookies to be serialized and stored in cached pages!
-const resCookie = document.cookie ?? '';
 
 const { basepath, abbreviation } = getLocaleInfoFromPath(serverPath ?? '');
 
@@ -99,7 +97,7 @@ window.errorReporter = ErrorReporter.getInstance({
 window.hasHydrated = false;
 const renderOrHydrate = config.disableSSR ? ReactDOM.render : ReactDOM.hydrate;
 
-const client = createApolloClient(storedLanguage, document.cookie, versionHash);
+const client = createApolloClient(storedLanguage, versionHash);
 const cache = createCache({ key: EmotionCacheKey });
 
 // Use memory router if running under google translate
@@ -204,7 +202,7 @@ const LanguageWrapper = ({ basename }: { basename?: string }) => {
       cookieValue: lang,
     });
     client.resetStore();
-    client.setLink(createApolloLinks(lang, resCookie, versionHash));
+    client.setLink(createApolloLinks(lang, versionHash));
     document.documentElement.lang = lang;
   });
 
@@ -237,13 +235,7 @@ const LanguageWrapper = ({ basename }: { basename?: string }) => {
   return (
     <NDLARouter key={base} base={base}>
       {history => (
-        <App
-          locale={i18n.language}
-          resCookie={resCookie}
-          history={history}
-          isClient
-          base={base}
-        />
+        <App locale={i18n.language} history={history} isClient base={base} />
       )}
     </NDLARouter>
   );
