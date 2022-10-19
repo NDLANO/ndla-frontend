@@ -6,7 +6,7 @@
  *
  */
 
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { keyBy } from 'lodash';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -31,7 +31,7 @@ import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
 import MyNdlaTitle from '../components/MyNdlaTitle';
 import TitleWrapper from '../components/TitleWrapper';
 import { usePrevious } from '../../../util/utilityHooks';
-import { UserSettingsContext } from '../../../components/UserSettingsContext';
+import { STORED_RESOURCE_VIEW_SETTINGS } from '../../../constants';
 
 const StyledUl = styled.ul`
   padding: 0px;
@@ -112,8 +112,9 @@ interface ResourcesProps {
 }
 
 const Resources = ({ resources }: ResourcesProps) => {
-  const { userSettings, updateSettings } = useContext(UserSettingsContext);
-  const viewType = userSettings.folderViewType || 'list';
+  const [viewType, _setViewType] = useState<ViewType>(
+    (localStorage.getItem(STORED_RESOURCE_VIEW_SETTINGS) as ViewType) || 'list',
+  );
   const { addSnack } = useSnack();
   const [resourceAction, setResourceAction] = useState<
     ResourceAction | undefined
@@ -132,8 +133,9 @@ const Resources = ({ resources }: ResourcesProps) => {
     resource => `${resource.type}-${resource.id}`,
   );
 
-  const setType = (type: ViewType) => {
-    updateSettings('folderViewType', type);
+  const setViewType = (type: ViewType) => {
+    _setViewType(type);
+    localStorage.setItem(STORED_RESOURCE_VIEW_SETTINGS, type);
   };
 
   const Resource = viewType === 'block' ? BlockResource : ListResource;
@@ -143,7 +145,7 @@ const Resources = ({ resources }: ResourcesProps) => {
         <FileDocumentOutline />
         <span>{t('myNdla.resources', { count: resources.length })}</span>
       </CountWrapper>
-      <ListViewOptions type={viewType} onTypeChange={setType} />
+      <ListViewOptions type={viewType} onTypeChange={setViewType} />
       <BlockWrapper type={viewType}>
         {resources.map(resource => {
           const meta =

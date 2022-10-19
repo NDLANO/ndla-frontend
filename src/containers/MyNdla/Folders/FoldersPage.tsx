@@ -15,7 +15,7 @@ import { FolderOutlined } from '@ndla/icons/contentType';
 import { FileDocumentOutline } from '@ndla/icons/common';
 import { Folder, useSnack } from '@ndla/ui';
 import { Pencil } from '@ndla/icons/action';
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { DeleteForever } from '@ndla/icons/editor';
@@ -41,7 +41,7 @@ import NewFolder from '../../../components/MyNdla/NewFolder';
 import MyNdlaTitle from '../components/MyNdlaTitle';
 import TitleWrapper from '../components/TitleWrapper';
 import FolderActions from './FolderActions';
-import { UserSettingsContext } from '../../../components/UserSettingsContext';
+import { STORED_RESOURCE_VIEW_SETTINGS } from '../../../constants';
 
 interface BlockWrapperProps {
   type?: string;
@@ -121,9 +121,10 @@ export interface FolderAction {
 
 const FoldersPage = () => {
   const { t } = useTranslation();
-  const { userSettings, updateSettings } = useContext(UserSettingsContext);
-  const viewType = userSettings.folderViewType || 'list';
   const { folderId } = useParams();
+  const [viewType, _setViewType] = useState<ViewType>(
+    (localStorage.getItem(STORED_RESOURCE_VIEW_SETTINGS) as ViewType) || 'list',
+  );
   const navigate = useNavigate();
   const { addSnack } = useSnack();
   const [folderAction, setFolderAction] = useState<FolderAction | undefined>(
@@ -239,8 +240,9 @@ const FoldersPage = () => {
     setFocusId(folder.id);
   };
 
-  const setType = (type: ViewType) => {
-    updateSettings('folderViewType', type);
+  const setViewType = (type: ViewType) => {
+    _setViewType(type);
+    localStorage.setItem(STORED_RESOURCE_VIEW_SETTINGS, type);
   };
 
   const showAddButton = (selectedFolder?.breadcrumbs.length || 0) < 5;
@@ -311,7 +313,7 @@ const FoldersPage = () => {
             <span>{t('myNdla.newFolder')}</span>
           </AddButton>
         )}
-        <ListViewOptions type={viewType} onTypeChange={setType} />
+        <ListViewOptions type={viewType} onTypeChange={setViewType} />
       </StyledRow>
       {folders && (
         <BlockWrapper type={viewType}>
