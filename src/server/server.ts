@@ -154,6 +154,7 @@ app.get('/:lang?/login', async (req: Request, res: Response) => {
 app.get('/login/success', async (req: Request, res: Response) => {
   const code = typeof req.query.code === 'string' ? req.query.code : undefined;
   const state = typeof req.query.state === 'string' ? req.query.state : '/';
+  res.setHeader('Cache-Control', 'private');
   const verifier = getCookie('PKCE_code', req.headers.cookie ?? '');
   if (!code || !verifier) {
     return await sendInternalServerError(req, res);
@@ -192,6 +193,7 @@ app.get('/:lang?/logout', async (req: Request, res: Response) => {
   const feideToken = !!feideCookie ? JSON.parse(feideCookie) : undefined;
   const state = typeof req.query.state === 'string' ? req.query.state : '/';
   const redirect = constructNewPath(state, req.params.lang);
+  res.setHeader('Cache-Control', 'private');
 
   if (!feideToken?.['id_token'] || typeof state !== 'string') {
     return sendInternalServerError(req, res);
@@ -210,6 +212,7 @@ app.get('/logout/session', (req: Request, res: Response) => {
   const { basepath, basename } = getLocaleInfoFromPath(state);
   const wasPrivateRoute = privateRoutes.some(r => matchPath(r, basepath));
   const redirect = wasPrivateRoute ? constructNewPath('/', basename) : state;
+  res.setHeader('Cache-Control', 'private');
   return res.redirect(redirect);
 });
 
@@ -318,6 +321,7 @@ app.post('/lti/oauth', ndlaMiddleware, async (req: Request, res: Response) => {
   if (!body || !query.url) {
     res.send(BAD_REQUEST);
   }
+  res.setHeader('Cache-Control', 'private');
   res.send(JSON.stringify(generateOauthData(query.url, body)));
 });
 
