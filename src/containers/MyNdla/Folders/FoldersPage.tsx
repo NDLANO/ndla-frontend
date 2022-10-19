@@ -15,11 +15,12 @@ import { FolderOutlined } from '@ndla/icons/contentType';
 import { FileDocumentOutline } from '@ndla/icons/common';
 import { Folder, useSnack } from '@ndla/ui';
 import { Pencil } from '@ndla/icons/action';
-import { useEffect, useMemo, useState } from 'react';
+import { ReactNode, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { DeleteForever } from '@ndla/icons/editor';
 import { HelmetWithTracker } from '@ndla/tracker';
+import { Spinner } from '@ndla/icons';
 import { GQLFolder, GQLFoldersPageQuery } from '../../../graphqlTypes';
 import { useGraphQuery } from '../../../util/runQueries';
 import ListViewOptions from './ListViewOptions';
@@ -134,9 +135,12 @@ const FoldersPage = () => {
   } = useDeleteFolderMutation();
 
   const [isAdding, setIsAdding] = useState(false);
-  const { data } = useGraphQuery<GQLFoldersPageQuery>(foldersPageQuery);
+  const { data, loading } = useGraphQuery<GQLFoldersPageQuery>(
+    foldersPageQuery,
+  );
   const folderData = data?.folders as GQLFolder[] | undefined;
 
+  const hasSelectedFolder = !!folderId;
   const selectedFolder = useFolder(folderId);
   const folders: GQLFolder[] = useMemo(
     () => (selectedFolder ? selectedFolder.subfolders : folderData ?? []),
@@ -237,6 +241,17 @@ const FoldersPage = () => {
     setFocusId(folder.id);
   };
 
+  const WhileLoading = ({
+    fallback,
+    children,
+  }: {
+    children: ReactNode;
+    fallback: ReactNode;
+  }) => {
+    if (loading) return <>{fallback}</>;
+    return <>{children}</>;
+  };
+
   const showAddButton = (selectedFolder?.breadcrumbs.length || 0) < 5;
   const crumbs = selectedFolder?.breadcrumbs ?? [];
 
@@ -251,22 +266,26 @@ const FoldersPage = () => {
     <FoldersPageContainer>
       <HelmetWithTracker
         title={
-          selectedFolder
-            ? t('htmlTitles.myFolderPage', { folderName: selectedFolder.name })
+          hasSelectedFolder
+            ? t('htmlTitles.myFolderPage', { folderName: selectedFolder?.name })
             : t('htmlTitles.myFoldersPage')
         }
       />
       <TitleWrapper>
         <MyNdlaBreadcrumb
-          breadcrumbs={selectedFolder?.breadcrumbs ?? []}
+          breadcrumbs={
+            selectedFolder?.breadcrumbs ??
+            (loading && hasSelectedFolder ? [{ id: '', name: '...' }] : [])
+          }
           backCrumb={backCrumb}
           page="folders"
         />
         <TitleRow>
           <MyNdlaTitle title={selectedFolder?.name ?? t('myNdla.myFolders')} />
-          {selectedFolder && (
+          {hasSelectedFolder && (
             <FolderActions
               onActionChanged={action =>
+                selectedFolder &&
                 setFolderAction({ action, folder: selectedFolder })
               }
             />
@@ -277,19 +296,23 @@ const FoldersPage = () => {
         <ResourceCountContainer>
           <FolderOutlined />
           <span>
-            {t('myNdla.folders', {
-              count: selectedFolder
-                ? selectedFolderCount?.folders
-                : allFoldersCount,
-            })}
+            <WhileLoading fallback={'...'}>
+              {t('myNdla.folders', {
+                count: hasSelectedFolder
+                  ? selectedFolderCount?.folders
+                  : allFoldersCount,
+              })}
+            </WhileLoading>
           </span>
-          {selectedFolder && (
+          {hasSelectedFolder && (
             <>
               <FileDocumentOutline />
               <span>
-                {t('myNdla.resources', {
-                  count: selectedFolderCount?.resources ?? allFoldersCount,
-                })}
+                <WhileLoading fallback={'...'}>
+                  {t('myNdla.resources', {
+                    count: selectedFolderCount?.resources ?? allFoldersCount,
+                  })}
+                </WhileLoading>
               </span>
             </>
           )}
@@ -307,53 +330,55 @@ const FoldersPage = () => {
         )}
         <ListViewOptions type={type} onTypeChange={setType} />
       </StyledRow>
-      {folders && (
-        <BlockWrapper type={type}>
-          {isAdding && (
-            <NewFolder
-              icon={
-                <StyledFolderIcon>
-                  <FolderOutlined />
-                </StyledFolderIcon>
-              }
-              parentId={folderId ?? 'folders'}
-              onClose={() => setIsAdding(false)}
-              onCreate={onFolderAdd}
-            />
-          )}
-          {folders.map((folder, index) => (
-            <ListItem
-              key={`folder-${index}`}
-              id={`folder-${folder.id}`}
-              tabIndex={-1}>
-              <Folder
-                key={folder.id}
-                id={folder.id}
-                link={`/minndla/folders/${folder.id}`}
-                title={folder.name}
-                type={type}
-                subFolders={foldersCount[folder.id]?.folders}
-                subResources={foldersCount[folder.id]?.resources}
-                menuItems={[
-                  {
-                    icon: <Pencil />,
-                    text: t('myNdla.folder.edit'),
-                    onClick: () =>
-                      setFolderAction({ action: 'edit', folder, index }),
-                  },
-                  {
-                    icon: <DeleteForever />,
-                    text: t('myNdla.folder.delete'),
-                    onClick: () =>
-                      setFolderAction({ action: 'delete', folder, index }),
-                    type: 'danger',
-                  },
-                ]}
+      <WhileLoading fallback={<Spinner />}>
+        {folders && (
+          <BlockWrapper type={type}>
+            {isAdding && (
+              <NewFolder
+                icon={
+                  <StyledFolderIcon>
+                    <FolderOutlined />
+                  </StyledFolderIcon>
+                }
+                parentId={folderId ?? 'folders'}
+                onClose={() => setIsAdding(false)}
+                onCreate={onFolderAdd}
               />
-            </ListItem>
-          ))}
-        </BlockWrapper>
-      )}
+            )}
+            {folders.map((folder, index) => (
+              <ListItem
+                key={`folder-${index}`}
+                id={`folder-${folder.id}`}
+                tabIndex={-1}>
+                <Folder
+                  key={folder.id}
+                  id={folder.id}
+                  link={`/minndla/folders/${folder.id}`}
+                  title={folder.name}
+                  type={type}
+                  subFolders={foldersCount[folder.id]?.folders}
+                  subResources={foldersCount[folder.id]?.resources}
+                  menuItems={[
+                    {
+                      icon: <Pencil />,
+                      text: t('myNdla.folder.edit'),
+                      onClick: () =>
+                        setFolderAction({ action: 'edit', folder, index }),
+                    },
+                    {
+                      icon: <DeleteForever />,
+                      text: t('myNdla.folder.delete'),
+                      onClick: () =>
+                        setFolderAction({ action: 'delete', folder, index }),
+                      type: 'danger',
+                    },
+                  ]}
+                />
+              </ListItem>
+            ))}
+          </BlockWrapper>
+        )}
+      </WhileLoading>
       {selectedFolder && (
         <ResourceList
           selectedFolder={selectedFolder}
