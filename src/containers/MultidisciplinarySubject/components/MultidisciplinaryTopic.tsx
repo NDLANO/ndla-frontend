@@ -23,11 +23,12 @@ import {
   GQLMultidisciplinaryTopic_TopicFragment,
   GQLResourceTypeDefinition,
 } from '../../../graphqlTypes';
-import { toTopic, useIsNdlaFilm } from '../../../routeHelpers';
+import { toTopic, useIsNdlaFilm, useUrnIds } from '../../../routeHelpers';
 import { getCrop, getFocalPoint } from '../../../util/imageHelpers';
 import { htmlTitle } from '../../../util/titleHelper';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import Resources from '../../Resources/Resources';
+import { SKIP_TO_CONTENT_ID } from '../../../constants';
 
 interface Props extends CustomWithTranslation {
   topicId: string;
@@ -55,6 +56,7 @@ const MultidisciplinaryTopic = ({
 }: Props) => {
   const [showContent, setShowContent] = useState(false);
   const ndlaFilm = useIsNdlaFilm();
+  const { topicList } = useUrnIds();
 
   useEffect(() => {
     setShowContent(false);
@@ -124,6 +126,11 @@ const MultidisciplinaryTopic = ({
 
   return (
     <UITopic
+      id={
+        topicId === topicList[topicList.length - 1]
+          ? SKIP_TO_CONTENT_ID
+          : undefined
+      }
       onToggleShowContent={
         article?.content !== '' ? () => setShowContent(!showContent) : undefined
       }

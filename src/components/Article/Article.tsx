@@ -35,6 +35,7 @@ import {
 import { MastheadHeightPx } from '../../constants';
 import { useGraphQuery } from '../../util/runQueries';
 import AddResourceToFolderModal from '../MyNdla/AddResourceToFolderModal';
+import FavoriteButton from './FavoritesButton';
 
 function renderCompetenceGoals(
   article: GQLArticle_ArticleFragment,
@@ -91,6 +92,7 @@ interface Props {
   isOembed?: boolean;
   showFavoriteButton?: boolean;
   myNdlaResourceType?: string;
+  path?: string;
 }
 
 const renderNotions = (
@@ -187,6 +189,7 @@ const articleConceptQuery = gql`
 `;
 
 const Article = ({
+  path,
   article,
   resourceType,
   isTopicArticle = false,
@@ -311,8 +314,8 @@ const Article = ({
         modifier={isResourceArticle ? resourceType : modifier ?? 'clean'}
         copyPageUrlLink={copyPageUrlLink}
         printUrl={printUrl}
-        onToggleAddToFavorites={
-          showFavoriteButton ? () => setIsOpen(true) : undefined
+        heartButton={
+          path && <FavoriteButton path={path} onClick={() => setIsOpen(true)} />
         }
         {...rest}>
         {children}

@@ -7,7 +7,7 @@
  */
 
 import { ReactNode, useContext } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { AuthModal } from '@ndla/ui';
@@ -19,6 +19,8 @@ import { AuthContext } from '../AuthenticationContext';
 import LoginComponent from '../MyNdla/LoginComponent';
 import IsMobileContext from '../../IsMobileContext';
 import { useIsNdlaFilm } from '../../routeHelpers';
+import { constructNewPath, toHref } from '../../util/urlHelper';
+import { useBaseName } from '../BaseNameContext';
 
 const FeideFooterButton = styled(Button)`
   padding: ${spacing.xsmall} ${spacing.small};
@@ -64,14 +66,14 @@ const MyNdlaButton = styled(Button)`
 interface Props {
   footer?: boolean;
   children?: ReactNode;
-  to?: string;
+  masthead?: boolean;
 }
 
-const FeideLoginButton = ({ footer, children, to }: Props) => {
-  const navigate = useNavigate();
+const FeideLoginButton = ({ footer, children, masthead }: Props) => {
   const location = useLocation();
   const { t } = useTranslation();
   const { authenticated, user } = useContext(AuthContext);
+  const basename = useBaseName();
   const ndlaFilm = useIsNdlaFilm();
   const isMobile = useContext(IsMobileContext);
   const destination = isMobile ? '/minndla/meny' : '/minndla';
@@ -115,7 +117,7 @@ const FeideLoginButton = ({ footer, children, to }: Props) => {
                 />
               </ModalHeader>
               <ModalBody>
-                <LoginComponent to={to} onClose={onClose} />
+                <LoginComponent onClose={onClose} masthead={masthead} />
               </ModalBody>
             </>
           )}
@@ -131,11 +133,11 @@ const FeideLoginButton = ({ footer, children, to }: Props) => {
       showGeneralMessage={false}
       user={user}
       onAuthenticateClick={() => {
-        if (authenticated) {
-          navigate('/logout', { state: { from: location.pathname } });
-        } else {
-          navigate('/login', { state: { from: location.pathname } });
-        }
+        const route = authenticated ? 'logout' : 'login';
+        window.location.href = constructNewPath(
+          `/${route}?state=${toHref(location)}`,
+          basename,
+        );
       }}
     />
   );

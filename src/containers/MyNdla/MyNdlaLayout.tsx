@@ -16,6 +16,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 import { useFolder, useFolders } from './folderMutations';
 import { createStaticStructureElements } from '../../util/folderHelpers';
 import IsMobileContext from '../../IsMobileContext';
+import { toHref } from '../../util/urlHelper';
 
 const StyledLayout = styled.div`
   display: grid;
@@ -26,7 +27,7 @@ const StyledLayout = styled.div`
       1fr
     );
 
-  ${mq.range({ until: breakpoints.tabletWide })} {
+  ${mq.range({ until: breakpoints.tablet })} {
     display: flex;
   }
 `;
@@ -48,7 +49,7 @@ const StyledSideBar = styled.div`
   flex-direction: column;
   min-width: 300px;
   width: 300px;
-  ${mq.range({ until: breakpoints.tabletWide })} {
+  ${mq.range({ until: breakpoints.tablet })} {
     display: none;
   }
 `;
@@ -102,8 +103,8 @@ const MyNdlaLayout = () => {
             <SafeLinkButton
               width="auto"
               outline
-              to={'/logout'}
-              state={{ from: location.pathname }}>
+              reloadDocument
+              to={`/logout?state=${toHref(location)}`}>
               {t('user.buttonLogOut')}
             </SafeLinkButton>
           </ButtonWrapper>

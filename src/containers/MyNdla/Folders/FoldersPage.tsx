@@ -7,10 +7,10 @@
  */
 
 import { isEqual } from 'lodash';
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { AddButton } from '@ndla/button';
-import { colors, spacing } from '@ndla/core';
+import { breakpoints, colors, mq, spacing } from '@ndla/core';
 import { FolderOutlined } from '@ndla/icons/contentType';
 import { FileDocumentOutline } from '@ndla/icons/common';
 import { Folder, useSnack } from '@ndla/ui';
@@ -72,13 +72,20 @@ export const BlockWrapper = styled.ul<BlockWrapperProps>`
     props.type === 'block' &&
     css`
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
       gap: ${spacing.normal};
       margin-top: ${spacing.normal};
+      grid-template-columns: repeat(
+        3,
+        calc(33.33% - (${spacing.normal} / 3 * 2))
+      );
+      ${mq.range({ until: breakpoints.wide })} {
+        grid-template-columns: repeat(2, calc(50% - ${spacing.normal} / 2));
+      }
     `};
 `;
 
 export const ListItem = styled.li`
+  overflow: hidden;
   list-style: none;
   margin: 0;
 `;
@@ -144,7 +151,11 @@ const FoldersPage = () => {
 
     if (!isEqual(folderIds, prevFolderIds) && focusId) {
       setTimeout(
-        () => document.getElementById(`folder-${focusId}`)?.focus(),
+        () =>
+          document
+            .getElementById(`folder-${focusId}`)
+            ?.getElementsByTagName('a')?.[0]
+            ?.focus(),
         0,
       );
       setFocusId(undefined);
@@ -156,7 +167,14 @@ const FoldersPage = () => {
     ) {
       const id = folders[0]?.id;
       if (id) {
-        setTimeout(() => document.getElementById(`folder-${id}`)?.focus(), 0);
+        setTimeout(
+          () =>
+            document
+              .getElementById(`folder-${id}`)
+              ?.getElementsByTagName('a')?.[0]
+              ?.focus(),
+          0,
+        );
         setPreviousFolders(folders);
       }
     }
@@ -313,7 +331,7 @@ const FoldersPage = () => {
                 id={folder.id}
                 link={`/minndla/folders/${folder.id}`}
                 title={folder.name}
-                type={type === 'block' ? 'block' : 'list'}
+                type={type}
                 subFolders={foldersCount[folder.id]?.folders}
                 subResources={foldersCount[folder.id]?.resources}
                 menuItems={[

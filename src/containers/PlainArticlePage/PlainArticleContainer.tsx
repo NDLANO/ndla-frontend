@@ -43,13 +43,17 @@ const PlainArticleContainer = ({
 }: Props) => {
   useEffect(() => {
     if (window.MathJax && typeof window.MathJax.typeset === 'function') {
-      window?.MathJax?.typeset();
+      try {
+        window.MathJax.typeset();
+      } catch (err) {
+        // do nothing
+      }
     }
   });
 
   const article = transformArticle(propArticle, i18n.language);
   if (!article) return <NotFoundPage />;
-  const scripts = getArticleScripts(article);
+  const scripts = getArticleScripts(article, i18n.language);
   const oembedUrl = `${config.ndlaFrontendDomain}/oembed?url=${config.ndlaFrontendDomain}/article/${article.id}`;
 
   return (

@@ -39,7 +39,7 @@ const getClient = (redirect_uri: string) =>
       }),
   );
 
-export const getRedirectUrl = (req: Request) => {
+export const getRedirectUrl = (req: Request, state: string) => {
   const code_verifier = generators.codeVerifier();
   const code_challenge = generators.codeChallenge(code_verifier);
   const port = req.protocol === 'http' ? `:${config.port}` : '';
@@ -51,7 +51,7 @@ export const getRedirectUrl = (req: Request) => {
         scope:
           'email openid userinfo-photo groups-edu userinfo-language userid userinfo-name groups-org userid-feide',
         code_challenge,
-        state: req.query.state?.toString(),
+        state: state,
       }),
     )
     .then(feide_url => {
@@ -59,29 +59,25 @@ export const getRedirectUrl = (req: Request) => {
     });
 };
 
-export const getFeideToken = (req: Request) => {
+export const getFeideToken = (req: Request, verifier: string, code: string) => {
   const port = req.protocol === 'http' ? `:${config.port}` : '';
   const redirect_uri_login = `${req.protocol}://${req.hostname}${port}/login/success`;
   return getClient(redirect_uri_login).then(client => {
-    const params = client.callbackParams(req);
-    const verifier = req.headers.cookie
-      ?.split(';')
-      .filter(cookie => cookie.includes('PKCE_code'))[0]
-      ?.split('=')[1];
+    const params = client.callbackParams(`login/success?code=${code}`);
     return client.callback(redirect_uri_login, params, {
       code_verifier: verifier,
     });
   });
 };
 
-export const feideLogout = (req: Request) => {
+export const feideLogout = (req: Request, state: string, idToken: string) => {
   const port = req.protocol === 'http' ? `:${config.port}` : '';
   const redirect_uri_logout = `${req.protocol}://${req.hostname}${port}/logout/session`;
   return getClient(redirect_uri_logout).then(client =>
     client.endSessionUrl({
-      id_token_hint: req.query.id_token_hint?.toString(),
+      id_token_hint: idToken,
       post_logout_redirect_uri: redirect_uri_logout,
-      state: req.query.state?.toString(),
+      state: state,
     }),
   );
 };

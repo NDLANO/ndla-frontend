@@ -28,6 +28,7 @@ import { htmlTitle } from '../../util/titleHelper';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { ToolboxTopicContainer } from './components/ToolboxTopicContainer';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
+import { SKIP_TO_CONTENT_ID } from '../../constants';
 
 interface Props extends CustomWithTranslation {
   subject: GQLToolboxSubjectContainer_SubjectFragment;
@@ -124,14 +125,13 @@ const ToolboxSubjectContainer = ({ topicList, subject }: Props) => {
     <>
       {selectedTopics.map((topic: string, index: number) => {
         return (
-          <div key={index} ref={refs[index]}>
-            <ToolboxTopicContainer
-              subject={subject}
-              topicId={topic}
-              topicList={topicList}
-              index={index}
-            />
-          </div>
+          <ToolboxTopicContainer
+            key={topic}
+            subject={subject}
+            topicId={topic}
+            topicList={topicList}
+            index={index}
+          />
         );
       })}
     </>
@@ -162,6 +162,7 @@ const ToolboxSubjectContainer = ({ topicList, subject }: Props) => {
       />
       <OneColumn className={''}>
         <ToolboxInfo
+          id={!topicList.length ? SKIP_TO_CONTENT_ID : undefined}
           topics={topics}
           title={getSubjectLongName(subject.id, i18n.language) || subject.name}
           introduction={t('toolboxPage.introduction')}

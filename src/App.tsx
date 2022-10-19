@@ -7,10 +7,10 @@
  */
 
 import { configureTracker } from '@ndla/tracker';
-import { OneColumn, SnackbarProvider } from '@ndla/ui';
+import { SnackbarProvider } from '@ndla/ui';
 import { History } from 'history';
 import { Component, ErrorInfo, ReactNode } from 'react';
-import { Outlet, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { AlertsProvider } from './components/AlertsContext';
 import AuthenticationContext from './components/AuthenticationContext';
 import { BaseNameProvider } from './components/BaseNameContext';
@@ -18,11 +18,6 @@ import config from './config';
 import AccessDenied from './containers/AccessDeniedPage/AccessDeniedPage';
 import AllSubjectsPage from './containers/AllSubjectsPage/AllSubjectsPage';
 import ErrorPage from './containers/ErrorPage/ErrorPage';
-import LoginFailure from './containers/Login/LoginFailure';
-import LoginProviders from './containers/Login/LoginProviders';
-import LoginSuccess from './containers/Login/LoginSuccess';
-import LogoutProviders from './containers/Logout/LogoutProviders';
-import LogoutSession from './containers/Logout/LogoutSession';
 import FoldersPage from './containers/MyNdla/Folders/FoldersPage';
 import MyNdlaLayout from './containers/MyNdla/MyNdlaLayout';
 import MyNdlaMobileMenuPage from './containers/MyNdla/MyNdlaMobileMenuPage';
@@ -54,14 +49,6 @@ const resourceRoutes = (
   </>
 );
 
-const FeideUi = () => (
-  <OneColumn cssModifier="clear">
-    <div className="u-2/3@desktop u-push-1/3@desktop">
-      <Outlet />
-    </div>
-  </OneColumn>
-);
-
 class App extends Component<AppProps, State> {
   constructor(props: AppProps) {
     super(props);
@@ -90,30 +77,19 @@ class App extends Component<AppProps, State> {
       return <ErrorPage />;
     }
 
-    return (
-      <AppRoutes resCookie={this.props.resCookie} base={this.props.base} />
-    );
+    return <AppRoutes base={this.props.base} />;
   }
 }
 
-const AppRoutes = ({ base, resCookie }: AppProps) => {
+const AppRoutes = ({ base }: AppProps) => {
   return (
     <AlertsProvider>
       <BaseNameProvider value={base}>
-        <AuthenticationContext initialValue={resCookie}>
+        <AuthenticationContext>
           <SnackbarProvider>
             <Routes>
               <Route path="/" element={<Layout />}>
                 <Route index element={<WelcomePage />} />
-                <Route path="login" element={<FeideUi />}>
-                  <Route index element={<LoginProviders />} />
-                  <Route path={'success'} element={<LoginSuccess />} />
-                  <Route path={'failure'} element={<LoginFailure />} />
-                </Route>
-                <Route path="logout" element={<FeideUi />}>
-                  <Route index element={<LogoutProviders />} />
-                  <Route path="session" element={<LogoutSession />} />
-                </Route>
                 <Route path="subjects" element={<AllSubjectsPage />} />
                 <Route path="search" element={<SearchPage />} />
                 <Route path="utdanning/:programme" element={<ProgrammePage />}>
@@ -193,7 +169,6 @@ interface AppProps {
   locale?: LocaleType;
   history?: History;
   isClient?: boolean;
-  resCookie?: string;
 }
 
 export default App;

@@ -7,11 +7,11 @@
  */
 
 import { useContext } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
+import { Trans, useTranslation } from 'react-i18next';
 import { keyBy } from 'lodash';
 import styled from '@emotion/styled';
-import { breakpoints, mq, spacing } from '@ndla/core';
+import { breakpoints, fonts, mq, spacing } from '@ndla/core';
 import { HeartOutline } from '@ndla/icons/action';
 import { FolderOutlined } from '@ndla/icons/contentType';
 import { Feide, HashTag } from '@ndla/icons/common';
@@ -30,6 +30,8 @@ import {
 import MyNdlaBreadcrumb from './components/MyNdlaBreadcrumb';
 import MyNdlaTitle from './components/MyNdlaTitle';
 import TitleWrapper from './components/TitleWrapper';
+import { constructNewPath, toHref } from '../../util/urlHelper';
+import { useBaseName } from '../../components/BaseNameContext';
 
 const HeartOutlineIcon = InfoPartIcon.withComponent(HeartOutline);
 const FolderOutlinedIcon = InfoPartIcon.withComponent(FolderOutlined);
@@ -43,7 +45,7 @@ const StyledPageContentContainer = styled.div`
 
 const StyledIntroContainer = styled.div`
   display: flex;
-  ${mq.range({ from: breakpoints.tablet })} {
+  ${mq.range({ from: breakpoints.tabletWide })} {
     gap: ${spacing.large};
   }
 `;
@@ -59,12 +61,13 @@ const RoundedImage = styled(Image)`
   height: 160px;
   min-width: 160px;
   object-fit: cover;
-  ${mq.range({ until: breakpoints.tablet })} {
+  ${mq.range({ until: breakpoints.tabletWide })} {
     display: none;
   }
 `;
 
 const StyledResourceList = styled.ul`
+  padding: 0;
   display: flex;
   margin: 0;
   flex-direction: column;
@@ -95,27 +98,36 @@ const ButtonContainer = styled.div`
   padding-bottom: ${spacing.normal};
 `;
 
+const StyledDescription = styled.p`
+  line-height: 1.5;
+  ${fonts.sizes('24px')};
+  font-weight: ${fonts.weight.semibold};
+`;
+
 const MyNdlaPage = () => {
   const { user } = useContext(AuthContext);
   const { t } = useTranslation();
+  const basename = useBaseName();
   const location = useLocation();
   const { deletePersonalData } = useDeletePersonalData();
-  const navigate = useNavigate();
   const { allFolderResources } = useRecentlyUsedResources();
   const { data: metaData, loading } = useFolderResourceMetaSearch(
-    allFolderResources.map(r => ({
+    allFolderResources?.map(r => ({
       id: r.resourceId,
       path: r.path,
       resourceType: r.resourceType,
-    })),
+    })) ?? [],
     {
-      skip: !allFolderResources.length,
+      skip: !allFolderResources || !allFolderResources.length,
     },
   );
 
   const onDeleteAccount = async () => {
     await deletePersonalData();
-    navigate('/logout', { state: { from: location.pathname } });
+    window.location.href = constructNewPath(
+      `/logout?state=${toHref(location)}`,
+      basename,
+    );
   };
 
   const keyedData = keyBy(metaData ?? [], r => `${r.type}${r.id}`);
@@ -128,34 +140,40 @@ const MyNdlaPage = () => {
         <MyNdlaTitle title={t('myNdla.myPage.myPage')} />
       </TitleWrapper>
       <StyledIntroContainer>
-        <h2>{t('myNdla.myPage.welcome')}</h2>
-        <RoundedImage src="/static/my-ndla-login.png" alt="alt" />
+        <StyledDescription>{t('myNdla.myPage.welcome')}</StyledDescription>
+        <RoundedImage
+          src="/static/my-ndla-login.png"
+          alt={t('myNdla.myPage.imageAlt')}
+        />
       </StyledIntroContainer>
-      <h2>{t('myNdla.myPage.newFavourite')}</h2>
-      {allFolderResources.length > 0 && (
-        <StyledResourceList>
-          {allFolderResources.map(res => {
-            const meta = keyedData[`${res.resourceType}${res.resourceId}`];
-            return (
-              <ListItem key={res.id}>
-                <ListResource
-                  id={res.id}
-                  tagLinkPrefix="/minndla/tags"
-                  isLoading={loading}
-                  key={res.id}
-                  link={res.path}
-                  title={meta?.title ?? ''}
-                  resourceImage={{
-                    src: meta?.metaImage?.url ?? '',
-                    alt: '',
-                  }}
-                  tags={res.tags}
-                  topics={meta?.resourceTypes.map(rt => rt.name) ?? []}
-                />
-              </ListItem>
-            );
-          })}
-        </StyledResourceList>
+      {allFolderResources && allFolderResources.length > 0 && (
+        <>
+          <h2>{t('myNdla.myPage.newFavourite')}</h2>
+          <StyledResourceList>
+            {allFolderResources.map(res => {
+              const meta = keyedData[`${res.resourceType}${res.resourceId}`];
+              return (
+                <ListItem key={res.id}>
+                  <ListResource
+                    headingLevel={'h3'}
+                    id={res.id}
+                    tagLinkPrefix="/minndla/tags"
+                    isLoading={loading}
+                    key={res.id}
+                    link={res.path}
+                    title={meta?.title ?? ''}
+                    resourceImage={{
+                      src: meta?.metaImage?.url ?? '',
+                      alt: '',
+                    }}
+                    tags={res.tags}
+                    resourceTypes={meta?.resourceTypes ?? []}
+                  />
+                </ListItem>
+              );
+            })}
+          </StyledResourceList>
+        </>
       )}
       <InfoPart
         icon={<HeartOutlineIcon />}
@@ -168,29 +186,44 @@ const MyNdlaPage = () => {
         icon={<FolderOutlinedIcon />}
         title={t('myNdla.myPage.folderInfo.title')}
         children={
-          <InfoPartText>{t('myNdla.myPage.folderInfo.text')}</InfoPartText>
+          <InfoPartText>
+            <Trans i18nKey="myNdla.myPage.folderInfo.text" />
+          </InfoPartText>
         }
       />
       <InfoPart
         icon={<HashTagIcon />}
         title={t('myNdla.myPage.tagInfo.title')}
         children={
-          <InfoPartText>{t('myNdla.myPage.tagInfo.text')}</InfoPartText>
+          <InfoPartText>
+            <Trans i18nKey={'myNdla.myPage.tagInfo.text'} />
+          </InfoPartText>
         }
       />
       {user && (
         <InfoPart
           icon={<FeideIcon />}
           title={t('myNdla.myPage.feide')}
-          children={<UserInfo user={user} />}
+          children={
+            <>
+              <UserInfo user={user} />
+              <p>
+                {t('user.wrongUserInfoDisclaimer')}
+                <SafeLink to="https://feide.no/brukerstotte">
+                  feide.no/brukerstotte
+                </SafeLink>
+              </p>
+            </>
+          }
         />
       )}
       <InfoContainer>
         <LinkText>
-          {`${t('myNdla.myPage.read.our')} `}
+          {`${t('myNdla.myPage.read.read')} `}
           <SafeLink target="_blank" to="https://om.ndla.no/gdpr">
             {t('myNdla.myPage.privacy')}
           </SafeLink>
+          {`${t('myNdla.myPage.read.our')}`}
         </LinkText>
         <LinkText>
           {`${t('myNdla.myPage.questions.question')} `}
@@ -204,8 +237,8 @@ const MyNdlaPage = () => {
       <ButtonContainer>
         <SafeLinkButton
           outline
-          to={'/logout'}
-          state={{ from: location.pathname }}>
+          reloadDocument
+          to={`/logout?state=${toHref(location)}`}>
           {t('myNdla.myPage.logout')}
         </SafeLinkButton>
       </ButtonContainer>

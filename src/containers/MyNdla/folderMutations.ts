@@ -217,11 +217,19 @@ export const useFolderResourceMetaSearch = (
   return { data, ...rest };
 };
 
-export const useFolders = (): { folders: GQLFolder[]; loading: boolean } => {
+interface UseFolders {
+  skip?: boolean;
+}
+
+export const useFolders = ({ skip }: UseFolders = {}): {
+  folders: GQLFolder[];
+  loading: boolean;
+} => {
   const { cache } = useApolloClient();
   const { data, loading } = useGraphQuery<GQLFoldersPageQuery>(
     foldersPageQuery,
     {
+      skip,
       onCompleted: () => {
         cache.gc();
       },
@@ -265,15 +273,16 @@ export const recentlyUsedQuery = gql`
 
 export const useRecentlyUsedResources = () => {
   const { cache } = useApolloClient();
-  const { data: { allFolderResources = [] } = {}, ...rest } = useGraphQuery<
-    GQLRecentlyUsedQuery
-  >(recentlyUsedQuery, {
-    onCompleted: () => {
-      cache.gc();
+  const { data, ...rest } = useGraphQuery<GQLRecentlyUsedQuery>(
+    recentlyUsedQuery,
+    {
+      onCompleted: () => {
+        cache.gc();
+      },
     },
-  });
+  );
 
-  return { allFolderResources, ...rest };
+  return { allFolderResources: data?.allFolderResources, ...rest };
 };
 
 export const useAddFolderMutation = () => {

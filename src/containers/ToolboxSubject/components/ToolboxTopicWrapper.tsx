@@ -25,6 +25,7 @@ import {
 import { getSubjectLongName } from '../../../data/subjects';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import { htmlTitle } from '../../../util/titleHelper';
+import { SKIP_TO_CONTENT_ID } from '../../../constants';
 
 interface Props extends CustomWithTranslation {
   subject: GQLToolboxTopicWrapper_SubjectFragment;
@@ -103,6 +104,11 @@ const ToolboxTopicWrapper = ({
 
   return (
     <Topic
+      id={
+        topic.id === topicList[topicList.length - 1]
+          ? SKIP_TO_CONTENT_ID
+          : undefined
+      }
       frame={subTopics?.length === 0}
       isLoading={loading}
       subTopics={subTopics}
@@ -165,6 +171,7 @@ export const toolboxTopicWrapperFragments = {
   `,
   topic: gql`
     fragment ToolboxTopicWrapper_Topic on Topic {
+      id
       name
       path
       article {
