@@ -12,7 +12,6 @@ import styled from '@emotion/styled';
 import { AddButton } from '@ndla/button';
 import { breakpoints, colors, mq, spacing } from '@ndla/core';
 import { FolderOutlined } from '@ndla/icons/contentType';
-import { FileDocumentOutline } from '@ndla/icons/common';
 import { Folder, useSnack } from '@ndla/ui';
 import { Pencil } from '@ndla/icons/action';
 import { useEffect, useMemo, useState } from 'react';
@@ -40,6 +39,7 @@ import DeleteModal from '../components/DeleteModal';
 import NewFolder from '../../../components/MyNdla/NewFolder';
 import WhileLoading from '../../../components/WhileLoading';
 import FoldersPageTitle from './FoldersPageTitle';
+import FolderAndResourceCount from './FolderAndResourceCount';
 
 interface BlockWrapperProps {
   type?: string;
@@ -87,12 +87,6 @@ export const ListItem = styled.li`
   overflow: hidden;
   list-style: none;
   margin: 0;
-`;
-
-const ResourceCountContainer = styled.div`
-  display: flex;
-  gap: ${spacing.xsmall};
-  align-items: center;
 `;
 
 const StyledRow = styled.div`
@@ -176,11 +170,6 @@ const FoldersPage = () => {
     }
   }, [folders, focusId, previousFolders]);
 
-  const selectedFolderCount = useMemo(
-    () => (selectedFolder ? getTotalCountForFolder(selectedFolder) : undefined),
-    [selectedFolder],
-  );
-
   const foldersCount = useMemo(
     () =>
       folders?.reduce<Record<string, FolderTotalCount>>((acc, curr) => {
@@ -189,14 +178,6 @@ const FoldersPage = () => {
       }, {}),
     [folders],
   );
-
-  const allFoldersCount = useMemo(() => {
-    return (
-      folderData?.reduce((acc, curr) => {
-        return acc + getTotalCountForFolder(curr).folders;
-      }, folderData.length ?? 0) ?? 0
-    );
-  }, [folderData]);
 
   const {
     updateFolder,
@@ -250,32 +231,13 @@ const FoldersPage = () => {
         selectedFolder={selectedFolder}
         setFolderAction={setFolderAction}
       />
-      {folders && (
-        <ResourceCountContainer>
-          <FolderOutlined />
-          <span>
-            <WhileLoading isLoading={loading} fallback={'...'}>
-              {t('myNdla.folders', {
-                count: hasSelectedFolder
-                  ? selectedFolderCount?.folders
-                  : allFoldersCount,
-              })}
-            </WhileLoading>
-          </span>
-          {hasSelectedFolder && (
-            <>
-              <FileDocumentOutline />
-              <span>
-                <WhileLoading isLoading={loading} fallback={'...'}>
-                  {t('myNdla.resources', {
-                    count: selectedFolderCount?.resources ?? allFoldersCount,
-                  })}
-                </WhileLoading>
-              </span>
-            </>
-          )}
-        </ResourceCountContainer>
-      )}
+      <FolderAndResourceCount
+        selectedFolder={selectedFolder}
+        hasSelectedFolder={hasSelectedFolder}
+        folders={folders}
+        folderData={folderData}
+        loading={loading}
+      />
       <StyledRow>
         {showAddButton && (
           <AddButton
