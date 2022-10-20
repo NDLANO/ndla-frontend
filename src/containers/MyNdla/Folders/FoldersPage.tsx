@@ -13,9 +13,9 @@ import { AddButton } from '@ndla/button';
 import { breakpoints, colors, mq, spacing } from '@ndla/core';
 import { FolderOutlined } from '@ndla/icons/contentType';
 import { FileDocumentOutline } from '@ndla/icons/common';
-import { Folder, useSnack } from '@ndla/ui';
+import { ContentLoader, Folder, useSnack } from '@ndla/ui';
 import { Pencil } from '@ndla/icons/action';
-import { ReactNode, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { DeleteForever } from '@ndla/icons/editor';
@@ -42,6 +42,7 @@ import NewFolder from '../../../components/MyNdla/NewFolder';
 import MyNdlaTitle from '../components/MyNdlaTitle';
 import TitleWrapper from '../components/TitleWrapper';
 import FolderActions from './FolderActions';
+import WhileLoading from '../../../components/WhileLoading';
 
 interface BlockWrapperProps {
   type?: string;
@@ -241,17 +242,6 @@ const FoldersPage = () => {
     setFocusId(folder.id);
   };
 
-  const WhileLoading = ({
-    fallback,
-    children,
-  }: {
-    children: ReactNode;
-    fallback: ReactNode;
-  }) => {
-    if (loading) return <>{fallback}</>;
-    return <>{children}</>;
-  };
-
   const showAddButton = (selectedFolder?.breadcrumbs.length || 0) < 5;
   const crumbs = selectedFolder?.breadcrumbs ?? [];
 
@@ -272,31 +262,70 @@ const FoldersPage = () => {
         }
       />
       <TitleWrapper>
-        <MyNdlaBreadcrumb
-          breadcrumbs={
-            selectedFolder?.breadcrumbs ??
-            (loading && hasSelectedFolder ? [{ id: '', name: '...' }] : [])
-          }
-          backCrumb={backCrumb}
-          page="folders"
-        />
+        <WhileLoading
+          isLoading={loading}
+          fallback={
+            hasSelectedFolder && (
+              <ContentLoader
+                width={500}
+                height={30}
+                css={{ maxWidth: '500px', minWidth: '500px' }}>
+                <rect
+                  x="0"
+                  y="2"
+                  rx="3"
+                  ry="3"
+                  width="400"
+                  height="25"
+                  key="rect-1"
+                />
+              </ContentLoader>
+            )
+          }>
+          <MyNdlaBreadcrumb
+            breadcrumbs={selectedFolder?.breadcrumbs ?? []}
+            backCrumb={backCrumb}
+            page="folders"
+          />
+        </WhileLoading>
         <TitleRow>
-          <MyNdlaTitle title={selectedFolder?.name ?? t('myNdla.myFolders')} />
-          {hasSelectedFolder && (
-            <FolderActions
-              onActionChanged={action =>
-                selectedFolder &&
-                setFolderAction({ action, folder: selectedFolder })
-              }
+          <WhileLoading
+            fallback={
+              <ContentLoader
+                width={500}
+                height={hasSelectedFolder ? 44 : 28}
+                css={{ maxWidth: '500px', minWidth: '500px' }}>
+                <rect
+                  x="0"
+                  y="2"
+                  rx="3"
+                  ry="3"
+                  width="300"
+                  height={hasSelectedFolder ? '40' : '24'}
+                  key="rect-1"
+                />
+              </ContentLoader>
+            }
+            isLoading={loading}>
+            <MyNdlaTitle
+              title={selectedFolder?.name ?? t('myNdla.myFolders')}
             />
-          )}
+            {hasSelectedFolder && (
+              <FolderActions
+                onActionChanged={action =>
+                  selectedFolder &&
+                  setFolderAction({ action, folder: selectedFolder })
+                }
+              />
+            )}
+          </WhileLoading>
         </TitleRow>
       </TitleWrapper>
       {folders && (
         <ResourceCountContainer>
           <FolderOutlined />
           <span>
-            <WhileLoading fallback={'...'}>
+            <WhileLoading isLoading={loading} fallback={'...'}>
               {t('myNdla.folders', {
                 count: hasSelectedFolder
                   ? selectedFolderCount?.folders
@@ -308,7 +337,7 @@ const FoldersPage = () => {
             <>
               <FileDocumentOutline />
               <span>
-                <WhileLoading fallback={'...'}>
+                <WhileLoading isLoading={loading} fallback={'...'}>
                   {t('myNdla.resources', {
                     count: selectedFolderCount?.resources ?? allFoldersCount,
                   })}
@@ -330,7 +359,7 @@ const FoldersPage = () => {
         )}
         <ListViewOptions type={type} onTypeChange={setType} />
       </StyledRow>
-      <WhileLoading fallback={<Spinner />}>
+      <WhileLoading isLoading={loading} fallback={<Spinner />}>
         {folders && (
           <BlockWrapper type={type}>
             {isAdding && (
