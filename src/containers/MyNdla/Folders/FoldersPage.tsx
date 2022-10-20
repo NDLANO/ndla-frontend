@@ -10,20 +10,15 @@ import { isEqual } from 'lodash';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { AddButton } from '@ndla/button';
-import { breakpoints, colors, mq, spacing } from '@ndla/core';
-import { FolderOutlined } from '@ndla/icons/contentType';
-import { FileDocumentOutline } from '@ndla/icons/common';
-import { Folder, useSnack } from '@ndla/ui';
-import { Pencil } from '@ndla/icons/action';
+import { breakpoints, mq, spacing } from '@ndla/core';
+import { useSnack } from '@ndla/ui';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
-import { DeleteForever } from '@ndla/icons/editor';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { GQLFolder, GQLFoldersPageQuery } from '../../../graphqlTypes';
 import { useGraphQuery } from '../../../util/runQueries';
 import ListViewOptions from './ListViewOptions';
-import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
 import EditFolderModal from './EditFolderModal';
 import {
   foldersPageQuery,
@@ -32,15 +27,10 @@ import {
   useUpdateFolderMutation,
 } from '../folderMutations';
 import ResourceList from './ResourceList';
-import {
-  FolderTotalCount,
-  getTotalCountForFolder,
-} from '../../../util/folderHelpers';
 import DeleteModal from '../components/DeleteModal';
-import NewFolder from '../../../components/MyNdla/NewFolder';
-import MyNdlaTitle from '../components/MyNdlaTitle';
-import TitleWrapper from '../components/TitleWrapper';
-import FolderActions from './FolderActions';
+import FoldersPageTitle from './FoldersPageTitle';
+import FolderAndResourceCount from './FolderAndResourceCount';
+import FolderList from './FolderList';
 
 interface BlockWrapperProps {
   type?: string;
@@ -50,16 +40,6 @@ const FoldersPageContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${spacing.xsmall};
-`;
-
-const StyledFolderIcon = styled.span`
-  display: flex;
-  padding: ${spacing.small};
-  svg {
-    color: ${colors.brand.primary};
-    height: 20px;
-    width: 20px;
-  }
 `;
 
 export const BlockWrapper = styled.ul<BlockWrapperProps>`
@@ -90,23 +70,11 @@ export const ListItem = styled.li`
   margin: 0;
 `;
 
-const ResourceCountContainer = styled.div`
-  display: flex;
-  gap: ${spacing.xsmall};
-  align-items: center;
-`;
-
 const StyledRow = styled.div`
   margin-top: ${spacing.nsmall};
   display: flex;
   justify-content: space-between;
   align-items: center;
-`;
-
-const TitleRow = styled.div`
-  display: flex;
-  align-items: center;
-  gap: ${spacing.small};
 `;
 
 export type ViewType = 'list' | 'block' | 'listLarger';
@@ -134,9 +102,12 @@ const FoldersPage = () => {
   } = useDeleteFolderMutation();
 
   const [isAdding, setIsAdding] = useState(false);
-  const { data } = useGraphQuery<GQLFoldersPageQuery>(foldersPageQuery);
+  const { data, loading } = useGraphQuery<GQLFoldersPageQuery>(
+    foldersPageQuery,
+  );
   const folderData = data?.folders as GQLFolder[] | undefined;
 
+  const hasSelectedFolder = !!folderId;
   const selectedFolder = useFolder(folderId);
   const folders: GQLFolder[] = useMemo(
     () => (selectedFolder ? selectedFolder.subfolders : folderData ?? []),
@@ -180,28 +151,6 @@ const FoldersPage = () => {
     }
   }, [folders, focusId, previousFolders]);
 
-  const selectedFolderCount = useMemo(
-    () => (selectedFolder ? getTotalCountForFolder(selectedFolder) : undefined),
-    [selectedFolder],
-  );
-
-  const foldersCount = useMemo(
-    () =>
-      folders?.reduce<Record<string, FolderTotalCount>>((acc, curr) => {
-        acc[curr.id] = getTotalCountForFolder(curr);
-        return acc;
-      }, {}),
-    [folders],
-  );
-
-  const allFoldersCount = useMemo(() => {
-    return (
-      folderData?.reduce((acc, curr) => {
-        return acc + getTotalCountForFolder(curr).folders;
-      }, folderData.length ?? 0) ?? 0
-    );
-  }, [folderData]);
-
   const {
     updateFolder,
     loading: updateFolderLoading,
@@ -238,63 +187,29 @@ const FoldersPage = () => {
   };
 
   const showAddButton = (selectedFolder?.breadcrumbs.length || 0) < 5;
-  const crumbs = selectedFolder?.breadcrumbs ?? [];
-
-  const backCrumb =
-    crumbs.length > 1
-      ? crumbs[crumbs.length - 2]!
-      : crumbs.length === 1
-      ? 'folders'
-      : 'minndla';
 
   return (
     <FoldersPageContainer>
       <HelmetWithTracker
         title={
-          selectedFolder
-            ? t('htmlTitles.myFolderPage', { folderName: selectedFolder.name })
+          hasSelectedFolder
+            ? t('htmlTitles.myFolderPage', { folderName: selectedFolder?.name })
             : t('htmlTitles.myFoldersPage')
         }
       />
-      <TitleWrapper>
-        <MyNdlaBreadcrumb
-          breadcrumbs={selectedFolder?.breadcrumbs ?? []}
-          backCrumb={backCrumb}
-          page="folders"
-        />
-        <TitleRow>
-          <MyNdlaTitle title={selectedFolder?.name ?? t('myNdla.myFolders')} />
-          {selectedFolder && (
-            <FolderActions
-              onActionChanged={action =>
-                setFolderAction({ action, folder: selectedFolder })
-              }
-            />
-          )}
-        </TitleRow>
-      </TitleWrapper>
-      {folders && (
-        <ResourceCountContainer>
-          <FolderOutlined />
-          <span>
-            {t('myNdla.folders', {
-              count: selectedFolder
-                ? selectedFolderCount?.folders
-                : allFoldersCount,
-            })}
-          </span>
-          {selectedFolder && (
-            <>
-              <FileDocumentOutline />
-              <span>
-                {t('myNdla.resources', {
-                  count: selectedFolderCount?.resources ?? allFoldersCount,
-                })}
-              </span>
-            </>
-          )}
-        </ResourceCountContainer>
-      )}
+      <FoldersPageTitle
+        loading={loading}
+        hasSelectedFolder={hasSelectedFolder}
+        selectedFolder={selectedFolder}
+        setFolderAction={setFolderAction}
+      />
+      <FolderAndResourceCount
+        selectedFolder={selectedFolder}
+        hasSelectedFolder={hasSelectedFolder}
+        folders={folders}
+        folderData={folderData}
+        loading={loading}
+      />
       <StyledRow>
         {showAddButton && (
           <AddButton
@@ -307,53 +222,16 @@ const FoldersPage = () => {
         )}
         <ListViewOptions type={type} onTypeChange={setType} />
       </StyledRow>
-      {folders && (
-        <BlockWrapper type={type}>
-          {isAdding && (
-            <NewFolder
-              icon={
-                <StyledFolderIcon>
-                  <FolderOutlined />
-                </StyledFolderIcon>
-              }
-              parentId={folderId ?? 'folders'}
-              onClose={() => setIsAdding(false)}
-              onCreate={onFolderAdd}
-            />
-          )}
-          {folders.map((folder, index) => (
-            <ListItem
-              key={`folder-${index}`}
-              id={`folder-${folder.id}`}
-              tabIndex={-1}>
-              <Folder
-                key={folder.id}
-                id={folder.id}
-                link={`/minndla/folders/${folder.id}`}
-                title={folder.name}
-                type={type}
-                subFolders={foldersCount[folder.id]?.folders}
-                subResources={foldersCount[folder.id]?.resources}
-                menuItems={[
-                  {
-                    icon: <Pencil />,
-                    text: t('myNdla.folder.edit'),
-                    onClick: () =>
-                      setFolderAction({ action: 'edit', folder, index }),
-                  },
-                  {
-                    icon: <DeleteForever />,
-                    text: t('myNdla.folder.delete'),
-                    onClick: () =>
-                      setFolderAction({ action: 'delete', folder, index }),
-                    type: 'danger',
-                  },
-                ]}
-              />
-            </ListItem>
-          ))}
-        </BlockWrapper>
-      )}
+      <FolderList
+        onFolderAdd={onFolderAdd}
+        isAdding={isAdding}
+        setIsAdding={setIsAdding}
+        type={type}
+        folders={folders}
+        loading={loading}
+        folderId={folderId}
+        setFolderAction={setFolderAction}
+      />
       {selectedFolder && (
         <ResourceList
           selectedFolder={selectedFolder}
