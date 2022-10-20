@@ -13,7 +13,7 @@ import { AddButton } from '@ndla/button';
 import { breakpoints, colors, mq, spacing } from '@ndla/core';
 import { FolderOutlined } from '@ndla/icons/contentType';
 import { FileDocumentOutline } from '@ndla/icons/common';
-import { ContentLoader, Folder, useSnack } from '@ndla/ui';
+import { Folder, useSnack } from '@ndla/ui';
 import { Pencil } from '@ndla/icons/action';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -24,7 +24,6 @@ import { Spinner } from '@ndla/icons';
 import { GQLFolder, GQLFoldersPageQuery } from '../../../graphqlTypes';
 import { useGraphQuery } from '../../../util/runQueries';
 import ListViewOptions from './ListViewOptions';
-import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
 import EditFolderModal from './EditFolderModal';
 import {
   foldersPageQuery,
@@ -39,10 +38,8 @@ import {
 } from '../../../util/folderHelpers';
 import DeleteModal from '../components/DeleteModal';
 import NewFolder from '../../../components/MyNdla/NewFolder';
-import MyNdlaTitle from '../components/MyNdlaTitle';
-import TitleWrapper from '../components/TitleWrapper';
-import FolderActions from './FolderActions';
 import WhileLoading from '../../../components/WhileLoading';
+import FoldersPageTitle from './FoldersPageTitle';
 
 interface BlockWrapperProps {
   type?: string;
@@ -103,12 +100,6 @@ const StyledRow = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-`;
-
-const TitleRow = styled.div`
-  display: flex;
-  align-items: center;
-  gap: ${spacing.small};
 `;
 
 export type ViewType = 'list' | 'block' | 'listLarger';
@@ -243,14 +234,6 @@ const FoldersPage = () => {
   };
 
   const showAddButton = (selectedFolder?.breadcrumbs.length || 0) < 5;
-  const crumbs = selectedFolder?.breadcrumbs ?? [];
-
-  const backCrumb =
-    crumbs.length > 1
-      ? crumbs[crumbs.length - 2]!
-      : crumbs.length === 1
-      ? 'folders'
-      : 'minndla';
 
   return (
     <FoldersPageContainer>
@@ -261,66 +244,12 @@ const FoldersPage = () => {
             : t('htmlTitles.myFoldersPage')
         }
       />
-      <TitleWrapper>
-        <WhileLoading
-          isLoading={loading}
-          fallback={
-            hasSelectedFolder && (
-              <ContentLoader
-                width={500}
-                height={30}
-                css={{ maxWidth: '500px', minWidth: '500px' }}>
-                <rect
-                  x="0"
-                  y="2"
-                  rx="3"
-                  ry="3"
-                  width="400"
-                  height="25"
-                  key="rect-1"
-                />
-              </ContentLoader>
-            )
-          }>
-          <MyNdlaBreadcrumb
-            breadcrumbs={selectedFolder?.breadcrumbs ?? []}
-            backCrumb={backCrumb}
-            page="folders"
-          />
-        </WhileLoading>
-        <TitleRow>
-          <WhileLoading
-            fallback={
-              <ContentLoader
-                width={500}
-                height={hasSelectedFolder ? 44 : 28}
-                css={{ maxWidth: '500px', minWidth: '500px' }}>
-                <rect
-                  x="0"
-                  y="2"
-                  rx="3"
-                  ry="3"
-                  width="300"
-                  height={hasSelectedFolder ? '40' : '24'}
-                  key="rect-1"
-                />
-              </ContentLoader>
-            }
-            isLoading={loading}>
-            <MyNdlaTitle
-              title={selectedFolder?.name ?? t('myNdla.myFolders')}
-            />
-            {hasSelectedFolder && (
-              <FolderActions
-                onActionChanged={action =>
-                  selectedFolder &&
-                  setFolderAction({ action, folder: selectedFolder })
-                }
-              />
-            )}
-          </WhileLoading>
-        </TitleRow>
-      </TitleWrapper>
+      <FoldersPageTitle
+        loading={loading}
+        hasSelectedFolder={hasSelectedFolder}
+        selectedFolder={selectedFolder}
+        setFolderAction={setFolderAction}
+      />
       {folders && (
         <ResourceCountContainer>
           <FolderOutlined />
