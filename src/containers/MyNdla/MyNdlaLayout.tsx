@@ -10,13 +10,24 @@ import { useMemo, useContext } from 'react';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { breakpoints, mq, spacing } from '@ndla/core';
-import { FolderType, TreeStructure } from '@ndla/ui';
+import { TreeStructure } from '@ndla/ui';
 import { SafeLinkButton } from '@ndla/safelink';
+import { FolderOutlined } from '@ndla/icons/contentType';
+import { HashTag, Person } from '@ndla/icons/common';
+import { TFunction } from 'i18next';
 import { Outlet, useLocation } from 'react-router-dom';
 import { useFolder, useFolders } from './folderMutations';
-import { createStaticStructureElements } from '../../util/folderHelpers';
 import IsMobileContext from '../../IsMobileContext';
 import { toHref } from '../../util/urlHelper';
+import NavigationLink from './components/NavigationLink';
+
+const navigationLinks = (t: TFunction) => [
+  {
+    id: 'tags',
+    icon: <HashTag />,
+    name: t('myNdla.myTags'),
+  },
+];
 
 const StyledLayout = styled.div`
   display: grid;
@@ -30,6 +41,14 @@ const StyledLayout = styled.div`
   ${mq.range({ until: breakpoints.tablet })} {
     display: flex;
   }
+`;
+
+const StyledNavList = styled.ul`
+  list-style: none;
+`;
+
+const StyledLi = styled.li`
+  margin: 0;
 `;
 
 interface StyledContentProps {
@@ -81,24 +100,52 @@ const MyNdlaLayout = () => {
     return [];
   }, [selectedFolder, folderId, page]);
 
-  const staticStructureElements: FolderType[] = useMemo(
-    () =>
-      createStaticStructureElements(
-        location.pathname.startsWith('/minndla/folders') ? folders : [],
-        t,
-      ),
-    [folders, t, location],
-  );
+  const links = useMemo(() => {
+    return navigationLinks(t);
+  }, [t]);
+
+  const showFolders =
+    location.pathname.startsWith('/minndla/folders') && folders.length > 0;
 
   return (
     <StyledLayout>
       <StyledSideBar>
         <div>
-          <TreeStructure
-            type={'navigation'}
-            folders={staticStructureElements}
-            defaultOpenFolders={defaultSelected}
-          />
+          <nav>
+            <StyledNavList role="tablist">
+              <StyledLi role="none">
+                <NavigationLink
+                  id=""
+                  name={t('myNdla.myPage.myPage')}
+                  icon={<Person />}
+                />
+              </StyledLi>
+              <StyledLi role="none">
+                <NavigationLink
+                  id="folders"
+                  name={t('myNdla.myFolders')}
+                  icon={<FolderOutlined />}
+                  expanded={showFolders}
+                />
+                {showFolders && (
+                  <TreeStructure
+                    type={'navigation'}
+                    folders={folders}
+                    defaultOpenFolders={defaultSelected}
+                  />
+                )}
+              </StyledLi>
+              {links.map(link => (
+                <StyledLi role="none">
+                  <NavigationLink
+                    id={link.id}
+                    name={link.name}
+                    icon={link.icon}
+                  />
+                </StyledLi>
+              ))}
+            </StyledNavList>
+          </nav>
           <ButtonWrapper>
             <SafeLinkButton
               width="auto"
