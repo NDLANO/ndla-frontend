@@ -14,7 +14,7 @@ import styled from '@emotion/styled';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { spacing } from '@ndla/core';
 import { SafeLinkButton } from '@ndla/safelink';
-import { ListResource, useSnack } from '@ndla/ui';
+import { BlockResource, ListResource, useSnack } from '@ndla/ui';
 import { copyTextToClipboard } from '@ndla/util';
 import { FolderOutlined } from '@ndla/icons/contentType';
 import { FileDocumentOutline, HashTag, Link } from '@ndla/icons/common';
@@ -129,6 +129,9 @@ const Resources = ({ resources }: ResourcesProps) => {
     data ?? [],
     resource => `${resource.type}-${resource.id}`,
   );
+
+  const Resource = type === 'block' ? BlockResource : ListResource;
+
   return (
     <>
       <CountWrapper>
@@ -141,7 +144,7 @@ const Resources = ({ resources }: ResourcesProps) => {
           const meta =
             keyedData[`${resource.resourceType}-${resource.resourceId}`];
           return (
-            <ListResource
+            <Resource
               id={resource.id}
               tagLinkPrefix="/minndla/tags"
               isLoading={loading}
