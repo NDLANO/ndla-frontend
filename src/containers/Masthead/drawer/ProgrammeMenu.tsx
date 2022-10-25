@@ -81,7 +81,9 @@ const StyledProgrammeMenu = styled(DrawerPortion)`
 
 const ProgrammeMenu = ({ onClose }: Props) => {
   const { i18n } = useTranslation();
-  const programmes = useMemo(() => getProgrammes(i18n.language), []);
+  const programmes = useMemo(() => getProgrammes(i18n.language), [
+    i18n.language,
+  ]);
 
   return (
     <StyledProgrammeMenu>

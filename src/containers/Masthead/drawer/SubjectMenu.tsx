@@ -6,14 +6,14 @@
  *
  */
 
+import { useState } from 'react';
+import { partition } from 'lodash';
 import styled from '@emotion/styled';
 import { gql } from '@apollo/client';
 import { GQLSubjectMenu_SubjectFragment } from '../../../graphqlTypes';
 import { MenuType } from './drawerMenuTypes';
-import { partition } from 'lodash';
 import DrawerMenuItem from './DrawerMenuItem';
 import DrawerPortion from './DrawerPortion';
-import { useState } from 'react';
 import TopicMenu from './TopicMenu';
 
 interface Props {
