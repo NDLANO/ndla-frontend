@@ -1977,6 +1977,63 @@ export type GQLLearningpathPage_TopicPathFragment = {
   __typename?: 'Topic';
 } & GQLLearningpath_TopicPathFragment;
 
+export type GQLDefaultMenu_SubjectFragment = {
+  __typename?: 'Subject';
+  id: string;
+  name: string;
+};
+
+export type GQLDrawerQueryVariables = Exact<{
+  subjectId: Scalars['String'];
+}>;
+
+export type GQLDrawerQuery = {
+  __typename?: 'Query';
+  subject?: { __typename?: 'Subject' } & GQLDefaultMenu_SubjectFragment &
+    GQLSubjectMenu_SubjectFragment;
+};
+
+export type GQLSubjectMenu_SubjectFragment = {
+  __typename?: 'Subject';
+  id: string;
+  name: string;
+  allTopics?: Array<{
+    __typename?: 'Topic';
+    id: string;
+    name: string;
+    parent?: string;
+  }>;
+} & GQLTopicMenu_SubjectFragment;
+
+export type GQLTopicMenu_SubjectFragment = {
+  __typename?: 'Subject';
+  id: string;
+};
+
+export type GQLTopicMenu_ResourceFragment = {
+  __typename?: 'Resource';
+  id: string;
+  name: string;
+};
+
+export type GQLTopicMenuResourcesQueryVariables = Exact<{
+  subjectId: Scalars['String'];
+  topicId: Scalars['String'];
+}>;
+
+export type GQLTopicMenuResourcesQuery = {
+  __typename?: 'Query';
+  topic?: {
+    __typename?: 'Topic';
+    coreResources?: Array<
+      { __typename?: 'Resource' } & GQLTopicMenu_ResourceFragment
+    >;
+    supplementaryResources?: Array<
+      { __typename?: 'Resource' } & GQLTopicMenu_ResourceFragment
+    >;
+  };
+};
+
 export type GQLMovedResourcePage_ResourceFragment = {
   __typename?: 'Resource';
   id: string;

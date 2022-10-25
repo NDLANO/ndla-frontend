@@ -30,7 +30,6 @@ import {
 
 import FeideLoginButton from '../../components/FeideLoginButton';
 import MastheadSearch from './components/MastheadSearch';
-import MastheadMenu from './components/MastheadMenu';
 import { mastHeadQuery } from '../../queries';
 import { getLocaleUrls } from '../../util/localeHelpers';
 import ErrorBoundary from '../ErrorPage/ErrorBoundary';
@@ -38,14 +37,13 @@ import { mapMastheadData } from './mastheadHelpers';
 import {
   GQLMastHeadQuery,
   GQLMastHeadQueryVariables,
-  GQLResourceType,
   GQLTopicInfoFragment,
 } from '../../graphqlTypes';
 import config from '../../config';
 import { useAlerts } from '../../components/AlertsContext';
 import { SKIP_TO_CONTENT_ID } from '../../constants';
-import MastheadMenuModal from './components/MastheadMenuModal';
 import { AuthContext } from '../../components/AuthenticationContext';
+import MastheadDrawer from './drawer/MastheadDrawer';
 
 const BreadcrumbWrapper = styled.div`
   margin-left: ${spacing.normal};
@@ -63,7 +61,6 @@ const FeideLoginLabel = styled.span`
 interface State {
   subject?: GQLMastHeadQuery['subject'];
   topicPath: GQLTopicInfoFragment[];
-  topicResourcesByType?: GQLResourceType[];
   resource?: GQLMastHeadQuery['resource'];
 }
 
@@ -116,7 +113,7 @@ const MastheadContainer = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [topicId, resourceId, subjectId]);
 
-  const { subject, topicResourcesByType, topicPath, resource } = state;
+  const { subject, topicPath, resource } = state;
 
   const breadcrumbBlockItems = (subject?.id
     ? toBreadcrumbItems(
@@ -152,17 +149,7 @@ const MastheadContainer = () => {
         onCloseAlert={id => closeAlert(id)}
         messages={alerts}>
         <MastheadItem left>
-          <MastheadMenuModal>
-            {(onClose: () => void) => (
-              <MastheadMenu
-                locale={locale}
-                subject={subject}
-                topicResourcesByType={topicResourcesByType ?? []}
-                onTopicChange={newId => setTopicId(newId)}
-                close={onClose}
-              />
-            )}
-          </MastheadMenuModal>
+          <MastheadDrawer />
           {!hideBreadcrumb && !!breadcrumbBlockItems.length && (
             <DisplayOnPageYOffset yOffsetMin={150}>
               <BreadcrumbWrapper>

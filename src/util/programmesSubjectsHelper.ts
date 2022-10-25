@@ -66,6 +66,7 @@ export const getProgrammes = (locale: LocaleType) => {
       url: path,
       path,
       grades: program.grades,
+      imageUrl: program.image.url,
     };
   });
   return sortBy(programmesData, 'label');
