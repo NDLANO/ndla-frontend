@@ -67,20 +67,20 @@ const FolderList = ({
 
   return (
     <WhileLoading isLoading={loading} fallback={<Spinner />}>
+      {isAdding && (
+        <NewFolder
+          icon={
+            <StyledFolderIcon>
+              <FolderOutlined />
+            </StyledFolderIcon>
+          }
+          parentId={folderId ?? 'folders'}
+          onClose={() => setIsAdding(false)}
+          onCreate={onFolderAdd}
+        />
+      )}
       {folders && (
         <BlockWrapper type={type}>
-          {isAdding && (
-            <NewFolder
-              icon={
-                <StyledFolderIcon>
-                  <FolderOutlined />
-                </StyledFolderIcon>
-              }
-              parentId={folderId ?? 'folders'}
-              onClose={() => setIsAdding(false)}
-              onCreate={onFolderAdd}
-            />
-          )}
           {folders.map((folder, index) => (
             <ListItem
               key={`folder-${index}`}
