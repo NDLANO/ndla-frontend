@@ -2261,6 +2261,34 @@ export type GQLUpdateFolderMutation = {
   updateFolder: { __typename?: 'Folder' } & GQLFoldersPageQueryFragmentFragment;
 };
 
+export type GQLSortFoldersMutationVariables = Exact<{
+  parentId?: InputMaybe<Scalars['String']>;
+  sortedIds: Array<Scalars['String']> | Scalars['String'];
+}>;
+
+export type GQLSortFoldersMutation = {
+  __typename?: 'Mutation';
+  sortFolders: {
+    __typename?: 'SortResult';
+    parentId?: string;
+    sortedIds: Array<string>;
+  };
+};
+
+export type GQLSortResourcesMutationVariables = Exact<{
+  parentId: Scalars['String'];
+  sortedIds: Array<Scalars['String']> | Scalars['String'];
+}>;
+
+export type GQLSortResourcesMutation = {
+  __typename?: 'Mutation';
+  sortResources: {
+    __typename?: 'SortResult';
+    parentId?: string;
+    sortedIds: Array<string>;
+  };
+};
+
 type GQLFolderResourceMeta_ArticleFolderResourceMeta_Fragment = {
   __typename: 'ArticleFolderResourceMeta';
   id: number;
