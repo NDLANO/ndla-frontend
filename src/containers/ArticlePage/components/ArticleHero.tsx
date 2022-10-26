@@ -65,7 +65,7 @@ const ArticleHero = ({
       metaImage={metaImage}>
       {ndlaFilm && metaImage && metaImage.url && (
         <div className="c-hero__background">
-          <img src={metaImage.url} alt={metaImage.alt} />
+          <img src={metaImage.url} alt="" />
         </div>
       )}
       <OneColumn>
