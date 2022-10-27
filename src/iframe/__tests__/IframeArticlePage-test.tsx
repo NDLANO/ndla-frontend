@@ -8,7 +8,7 @@
  */
 
 import { HelmetProvider } from 'react-helmet-async';
-import renderer from 'react-test-renderer';
+import { render } from '@testing-library/react';
 import { createSerializer } from '@emotion/jest';
 import { MockedProvider } from '@apollo/client/testing';
 import { I18nextProvider, Translation } from 'react-i18next';
@@ -175,7 +175,7 @@ test('IframeArticlePage with article renderers correctly', () => {
     supportedLanguages: ['nb'],
   };
   const i18n = initializeI18n(i18nInstance, 'nb');
-  const component = renderer.create(
+  const { asFragment } = render(
     <I18nextProvider i18n={i18n}>
       <MockedProvider mocks={[]}>
         <HelmetProvider>
@@ -209,12 +209,12 @@ test('IframeArticlePage with article renderers correctly', () => {
     </I18nextProvider>,
   );
 
-  expect(component.toJSON()).toMatchSnapshot();
+  expect(asFragment()).toMatchSnapshot();
 });
 
 test('IframePage with article displays error message on status === error', () => {
   const i18n = initializeI18n(i18nInstance, 'nb');
-  const component = renderer.create(
+  const { asFragment } = render(
     <I18nextProvider i18n={i18n}>
       <MockedProvider mocks={[]}>
         <HelmetProvider>
@@ -231,5 +231,5 @@ test('IframePage with article displays error message on status === error', () =>
     </I18nextProvider>,
   );
 
-  expect(component.toJSON()).toMatchSnapshot();
+  expect(asFragment()).toMatchSnapshot();
 });
