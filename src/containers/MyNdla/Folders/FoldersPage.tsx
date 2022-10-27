@@ -28,6 +28,7 @@ import {
 } from '../folderMutations';
 import ResourceList from './ResourceList';
 import DeleteModal from '../components/DeleteModal';
+import { STORED_RESOURCE_VIEW_SETTINGS } from '../../../constants';
 import FoldersPageTitle from './FoldersPageTitle';
 import FolderAndResourceCount from './FolderAndResourceCount';
 import FolderList from './FolderList';
@@ -89,7 +90,9 @@ export interface FolderAction {
 const FoldersPage = () => {
   const { t } = useTranslation();
   const { folderId } = useParams();
-  const [type, setType] = useState<ViewType>('list');
+  const [viewType, _setViewType] = useState<ViewType>(
+    (localStorage.getItem(STORED_RESOURCE_VIEW_SETTINGS) as ViewType) || 'list',
+  );
   const navigate = useNavigate();
   const { addSnack } = useSnack();
   const [folderAction, setFolderAction] = useState<FolderAction | undefined>(
@@ -186,6 +189,11 @@ const FoldersPage = () => {
     setFocusId(folder.id);
   };
 
+  const setViewType = (type: ViewType) => {
+    _setViewType(type);
+    localStorage.setItem(STORED_RESOURCE_VIEW_SETTINGS, type);
+  };
+
   const showAddButton = (selectedFolder?.breadcrumbs.length || 0) < 5;
 
   return (
@@ -220,13 +228,13 @@ const FoldersPage = () => {
             <span>{t('myNdla.newFolder')}</span>
           </AddButton>
         )}
-        <ListViewOptions type={type} onTypeChange={setType} />
+        <ListViewOptions type={viewType} onTypeChange={setViewType} />
       </StyledRow>
       <FolderList
         onFolderAdd={onFolderAdd}
         isAdding={isAdding}
         setIsAdding={setIsAdding}
-        type={type}
+        type={viewType}
         folders={folders}
         loading={loading}
         folderId={folderId}
@@ -235,7 +243,7 @@ const FoldersPage = () => {
       {selectedFolder && (
         <ResourceList
           selectedFolder={selectedFolder}
-          viewType={type}
+          viewType={viewType}
           folderId={selectedFolder.id}
         />
       )}
