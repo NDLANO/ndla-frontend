@@ -1,7 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ErrorPage renderers correctly 1`] = `
-.emotion-0 {
+<DocumentFragment>
+  .emotion-0 {
   z-index: 99;
   position: relative;
   background: white;
@@ -580,683 +581,609 @@ exports[`ErrorPage renderers correctly 1`] = `
 }
 
 <div
-  className="o-container o-container--backgroundWide"
->
-  <div
-    className="emotion-0 emotion-1"
-    id="masthead"
+    class="o-container o-container--backgroundWide"
   >
     <div
-      className="u-1/1 emotion-2 emotion-3"
+      class="emotion-0 emotion-1"
+      id="masthead"
     >
       <div
-        className="emotion-4 emotion-5"
+        class="u-1/1 emotion-2 emotion-3"
       >
         <div
-          className="c-logo"
+          class="emotion-4 emotion-5"
         >
-          <a
-            aria-label="Nasjonal digital læringsarena"
-            href="/"
-            onClick={[Function]}
-            tabIndex={0}
+          <div
+            class="c-logo"
           >
-            <svg
-              className="c-logo__graphic"
-              fill="#000000"
-              fillRule="evenodd"
-              viewBox="0 0 376 152"
-              xmlns="http://www.w3.org/2000/svg"
+            <a
+              aria-label="Nasjonal digital læringsarena"
+              href="/"
+              tabindex="0"
             >
-              <path
-                d="M355 67h-84v51h102V51h-18v16zm0 14h-66v19h66V81zm-84-48v18h84V33h-84z"
-              />
-              <rect
-                height="118"
-                transform="matrix(-1 0 0 1 490 0)"
-                width="18"
-                x="236"
-              />
-              <path
-                d="M201 100V51h-65v49h65zm18 18V0h-18v33h-83v85h101z"
-              />
-              <polygon
-                points="18 51 18 118 0 118 0 33 101 33 101 118 83 118 83 51"
-              />
-              <path
-                d="M.8 151v-16.28l9.94 9.58a24.54 24.54 0 0 1 1.7 1.9v-10.86h2.35v16.27l-10.14-9.74a13.47 13.47 0 0 1-1.51-1.76V151H.8zm20.9-6.15h4.35l-1.6-3.57a13.98 13.98 0 0 1-.59-1.78 14.35 14.35 0 0 1-.56 1.78l-1.6 3.57zm7.03 6.15l-1.78-4.03h-6.2L18.93 151h-2.67l7.58-16.28L31.41 151h-2.68zm3.26-3.13l2.03-.94c.2.7.55 1.23 1.06 1.6a3.3 3.3 0 0 0 1.97.55c.75 0 1.35-.22 1.8-.64.44-.42.67-.98.67-1.69 0-.91-.77-1.73-2.3-2.45l-.48-.24c-1.73-.84-2.88-1.6-3.45-2.28a3.74 3.74 0 0 1-.86-2.5 4 4 0 0 1 1.3-3.1c.86-.8 2-1.19 3.4-1.19 1.16 0 2.12.22 2.9.67a3.52 3.52 0 0 1 1.62 1.92l-2 1.03c-.3-.5-.65-.86-1.03-1.08-.37-.23-.8-.35-1.28-.35-.69 0-1.23.18-1.64.54-.4.36-.6.83-.6 1.43 0 .94.88 1.82 2.65 2.63l.32.15a9.43 9.43 0 0 1 3.19 2.1c.58.67.87 1.52.87 2.54a4.6 4.6 0 0 1-1.4 3.54 5.32 5.32 0 0 1-3.79 1.3c-1.33 0-2.43-.3-3.28-.91a4.3 4.3 0 0 1-1.67-2.63zm12.79.29c.26.3.52.54.76.68s.5.21.77.21c.5 0 .85-.16 1.05-.49.2-.33.3-.94.3-1.83v-11.39h2.53v12.22c0 1.32-.3 2.3-.88 2.92-.58.63-1.5.94-2.74.94a4.25 4.25 0 0 1-3.42-1.63l1.63-1.63zm22.15-4.96a5.95 5.95 0 0 0-1.67-4.16 5.52 5.52 0 0 0-4.04-1.7 5.61 5.61 0 0 0-4.05 1.7 5.66 5.66 0 0 0-1.24 1.9 6.05 6.05 0 0 0 1.24 6.4 5.62 5.62 0 0 0 8.09 0 5.87 5.87 0 0 0 1.67-4.14zm2.66 0a8.05 8.05 0 0 1-2.45 5.81 8.56 8.56 0 0 1-5.92 2.4 8.46 8.46 0 0 1-7.75-5.04 8.09 8.09 0 0 1-.62-3.17 8.14 8.14 0 0 1 5.16-7.6 8.56 8.56 0 0 1 3.21-.6 8.49 8.49 0 0 1 5.92 2.38 8.23 8.23 0 0 1 2.45 5.82zm2.92 7.8v-16.28l9.94 9.58a24.54 24.54 0 0 1 1.7 1.9v-10.86h2.35v16.27l-10.14-9.74a13.47 13.47 0 0 1-1.51-1.76V151H72.5zm20.9-6.15h4.35l-1.6-3.57a13.98 13.98 0 0 1-.59-1.78 14.35 14.35 0 0 1-.57 1.78l-1.6 3.57zm7.03 6.15l-1.78-4.03h-6.2L90.64 151h-2.67l7.58-16.28 7.57 16.28h-2.68zm4.16 0v-15.66h2.54v13.38h5.7V151h-8.24zm19.45-2.3h2.14c1.17 0 2.06-.08 2.64-.23.6-.16 1.1-.42 1.54-.8a4.7 4.7 0 0 0 1.33-1.88c.3-.76.44-1.63.44-2.63s-.14-1.87-.44-2.62a4.7 4.7 0 0 0-1.33-1.9 3.94 3.94 0 0 0-1.59-.78c-.62-.16-1.58-.24-2.9-.24h-1.83v11.08zm-2.55 2.3v-15.66h3.44c2.23 0 3.8.12 4.7.34a6.36 6.36 0 0 1 4.45 3.8 9.3 9.3 0 0 1 .7 3.7c0 1.4-.23 2.62-.7 3.7a6.65 6.65 0 0 1-2.05 2.66c-.69.52-1.47.9-2.34 1.12-.87.23-2.23.34-4.08.34h-4.12zm16.26 0v-15.66h2.54V151h-2.54zm14.87-8.02h6.2l.01.45c.03.5.04.85.04 1.03 0 2.2-.63 3.9-1.9 5.13-1.26 1.22-3.04 1.83-5.33 1.83a9.7 9.7 0 0 1-3.43-.57c-1.01-.38-1.89-.95-2.65-1.71a7.77 7.77 0 0 1-1.7-2.66 8.96 8.96 0 0 1-.6-3.28c0-1.18.2-2.27.6-3.27.41-1 1-1.88 1.8-2.64a7.72 7.72 0 0 1 2.68-1.71 9.15 9.15 0 0 1 3.3-.59c1.23 0 2.33.23 3.3.68a7.38 7.38 0 0 1 2.61 2.06l-1.86 1.4a5.15 5.15 0 0 0-1.79-1.37c-.66-.3-1.4-.45-2.22-.45-1.7 0-3.08.55-4.15 1.63a5.78 5.78 0 0 0-1.61 4.24c0 1.77.53 3.2 1.6 4.3a5.57 5.57 0 0 0 4.18 1.66 5.3 5.3 0 0 0 3.43-1.02 3.38 3.38 0 0 0 1.26-2.77v-.22h-3.77v-2.15zm8.96 8.02v-15.66h2.55V151h-2.55zm11.26-13.5V151h-2.54v-13.5h-4.16v-2.16h10.84v2.16h-4.14zm9.4 7.35h4.35l-1.6-3.57a13.98 13.98 0 0 1-.59-1.78 14.35 14.35 0 0 1-.56 1.78l-1.6 3.57zm7.03 6.15l-1.78-4.03h-6.2l-1.82 4.03h-2.67l7.58-16.28 7.57 16.28h-2.68zm4.16 0v-15.66h2.54v13.38h5.7V151h-8.24zm16.9 0v-15.66h2.55v13.38h5.69V151h-8.24zm13.6-6.15h4.52l-1.32-3.57a19.6 19.6 0 0 1-.76-2.6 10.28 10.28 0 0 1-.79 2.38l-1.64 3.8zm9.12-9.5l.9 2.15h-5.74l1.38 3.84h5.25l.84 2.24h-5.24l1.91 5.14h5.75l.86 2.28h-8.26l-1.48-4.03H223L221.2 151h-2.68l7.32-15.66h7.23zm10.08 6.67h.46c1.35 0 2.24-.16 2.68-.47.45-.32.67-.87.67-1.67 0-.86-.24-1.47-.71-1.82-.48-.36-1.36-.53-2.64-.53h-.46v4.49zm-.16 1.98v7h-2.38v-15.66h3.55c1.04 0 1.84.07 2.42.2a3.8 3.8 0 0 1 1.47.68c.48.38.86.87 1.12 1.47.26.6.4 1.25.4 1.96a4.4 4.4 0 0 1-.91 2.95 4 4 0 0 1-2.69 1.28l5.4 7.12h-2.88l-5.21-7h-.29zm9.92 7v-15.66h2.55V151h-2.55zm6.2 0v-16.28l9.95 9.58a24.54 24.54 0 0 1 1.7 1.9v-10.86h2.35v16.27l-10.15-9.74a13.47 13.47 0 0 1-1.5-1.76V151h-2.34zm26.27-8.02h6.2l.01.45.03 1.03c0 2.2-.63 3.9-1.89 5.13-1.26 1.22-3.04 1.83-5.34 1.83a9.7 9.7 0 0 1-3.43-.57c-1-.38-1.88-.95-2.64-1.71a7.77 7.77 0 0 1-1.7-2.66 8.96 8.96 0 0 1-.6-3.28c0-1.18.2-2.27.6-3.27.4-1 1-1.88 1.8-2.64a7.72 7.72 0 0 1 2.68-1.71 9.15 9.15 0 0 1 3.3-.59c1.23 0 2.33.23 3.3.68a7.38 7.38 0 0 1 2.6 2.06l-1.85 1.4a5.15 5.15 0 0 0-1.79-1.37c-.66-.3-1.4-.45-2.22-.45-1.7 0-3.08.55-4.16 1.63a5.78 5.78 0 0 0-1.6 4.24c0 1.77.53 3.2 1.6 4.3a5.57 5.57 0 0 0 4.18 1.66 5.3 5.3 0 0 0 3.43-1.02 3.38 3.38 0 0 0 1.25-2.77v-.22h-3.76v-2.15zm8.02 4.89l2.03-.94c.2.7.55 1.23 1.06 1.6a3.3 3.3 0 0 0 1.97.55c.75 0 1.35-.22 1.8-.64.44-.42.67-.98.67-1.69 0-.91-.77-1.73-2.3-2.45l-.48-.24c-1.73-.84-2.88-1.6-3.45-2.28a3.74 3.74 0 0 1-.86-2.5 4 4 0 0 1 1.3-3.1c.86-.8 2-1.19 3.4-1.19 1.16 0 2.12.22 2.9.67a3.52 3.52 0 0 1 1.61 1.92l-1.98 1.03c-.32-.5-.66-.86-1.04-1.08-.37-.23-.8-.35-1.29-.35-.68 0-1.22.18-1.63.54-.4.36-.6.83-.6 1.43 0 .94.88 1.82 2.65 2.63l.32.15a9.43 9.43 0 0 1 3.19 2.1c.58.67.87 1.52.87 2.54a4.6 4.6 0 0 1-1.4 3.54 5.32 5.32 0 0 1-3.8 1.3c-1.32 0-2.42-.3-3.27-.91a4.3 4.3 0 0 1-1.67-2.63zm16.22-3.02h4.36l-1.6-3.57a13.98 13.98 0 0 1-.59-1.78 14.35 14.35 0 0 1-.57 1.78l-1.6 3.57zm7.04 6.15l-1.78-4.03h-6.2l-1.82 4.03h-2.67l7.58-16.28 7.57 16.28h-2.68zm6.7-8.98h.46c1.35 0 2.24-.16 2.68-.47.45-.32.67-.87.67-1.67 0-.86-.24-1.47-.71-1.82-.48-.36-1.36-.53-2.64-.53h-.46v4.49zm-.16 1.98v7h-2.38v-15.66h3.55c1.04 0 1.84.07 2.42.2a3.8 3.8 0 0 1 1.47.68c.48.38.86.87 1.12 1.47.27.6.4 1.25.4 1.96a4.4 4.4 0 0 1-.91 2.95 4 4 0 0 1-2.69 1.28l5.4 7.12h-2.88l-5.21-7h-.29zm9.88 7v-15.66h8.74v2.16h-6.2v3.93h6.2v2.23h-6.2v5.06h6.2V151h-8.74zm11.66 0v-16.28l9.94 9.58a24.54 24.54 0 0 1 1.7 1.9v-10.86h2.35v16.27l-10.14-9.74a13.47 13.47 0 0 1-1.51-1.76V151h-2.34zm20.9-6.15h4.35l-1.6-3.57a13.98 13.98 0 0 1-.59-1.78 14.35 14.35 0 0 1-.56 1.78l-1.6 3.57zm7.03 6.15l-1.78-4.03h-6.2l-1.82 4.03h-2.67l7.58-16.28 7.57 16.28h-2.68z"
-              />
-            </svg>
-          </a>
+              <svg
+                class="c-logo__graphic"
+                fill="#000000"
+                fill-rule="evenodd"
+                viewBox="0 0 376 152"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M355 67h-84v51h102V51h-18v16zm0 14h-66v19h66V81zm-84-48v18h84V33h-84z"
+                />
+                <rect
+                  height="118"
+                  transform="matrix(-1 0 0 1 490 0)"
+                  width="18"
+                  x="236"
+                />
+                <path
+                  d="M201 100V51h-65v49h65zm18 18V0h-18v33h-83v85h101z"
+                />
+                <polygon
+                  points="18 51 18 118 0 118 0 33 101 33 101 118 83 118 83 51"
+                />
+                <path
+                  d="M.8 151v-16.28l9.94 9.58a24.54 24.54 0 0 1 1.7 1.9v-10.86h2.35v16.27l-10.14-9.74a13.47 13.47 0 0 1-1.51-1.76V151H.8zm20.9-6.15h4.35l-1.6-3.57a13.98 13.98 0 0 1-.59-1.78 14.35 14.35 0 0 1-.56 1.78l-1.6 3.57zm7.03 6.15l-1.78-4.03h-6.2L18.93 151h-2.67l7.58-16.28L31.41 151h-2.68zm3.26-3.13l2.03-.94c.2.7.55 1.23 1.06 1.6a3.3 3.3 0 0 0 1.97.55c.75 0 1.35-.22 1.8-.64.44-.42.67-.98.67-1.69 0-.91-.77-1.73-2.3-2.45l-.48-.24c-1.73-.84-2.88-1.6-3.45-2.28a3.74 3.74 0 0 1-.86-2.5 4 4 0 0 1 1.3-3.1c.86-.8 2-1.19 3.4-1.19 1.16 0 2.12.22 2.9.67a3.52 3.52 0 0 1 1.62 1.92l-2 1.03c-.3-.5-.65-.86-1.03-1.08-.37-.23-.8-.35-1.28-.35-.69 0-1.23.18-1.64.54-.4.36-.6.83-.6 1.43 0 .94.88 1.82 2.65 2.63l.32.15a9.43 9.43 0 0 1 3.19 2.1c.58.67.87 1.52.87 2.54a4.6 4.6 0 0 1-1.4 3.54 5.32 5.32 0 0 1-3.79 1.3c-1.33 0-2.43-.3-3.28-.91a4.3 4.3 0 0 1-1.67-2.63zm12.79.29c.26.3.52.54.76.68s.5.21.77.21c.5 0 .85-.16 1.05-.49.2-.33.3-.94.3-1.83v-11.39h2.53v12.22c0 1.32-.3 2.3-.88 2.92-.58.63-1.5.94-2.74.94a4.25 4.25 0 0 1-3.42-1.63l1.63-1.63zm22.15-4.96a5.95 5.95 0 0 0-1.67-4.16 5.52 5.52 0 0 0-4.04-1.7 5.61 5.61 0 0 0-4.05 1.7 5.66 5.66 0 0 0-1.24 1.9 6.05 6.05 0 0 0 1.24 6.4 5.62 5.62 0 0 0 8.09 0 5.87 5.87 0 0 0 1.67-4.14zm2.66 0a8.05 8.05 0 0 1-2.45 5.81 8.56 8.56 0 0 1-5.92 2.4 8.46 8.46 0 0 1-7.75-5.04 8.09 8.09 0 0 1-.62-3.17 8.14 8.14 0 0 1 5.16-7.6 8.56 8.56 0 0 1 3.21-.6 8.49 8.49 0 0 1 5.92 2.38 8.23 8.23 0 0 1 2.45 5.82zm2.92 7.8v-16.28l9.94 9.58a24.54 24.54 0 0 1 1.7 1.9v-10.86h2.35v16.27l-10.14-9.74a13.47 13.47 0 0 1-1.51-1.76V151H72.5zm20.9-6.15h4.35l-1.6-3.57a13.98 13.98 0 0 1-.59-1.78 14.35 14.35 0 0 1-.57 1.78l-1.6 3.57zm7.03 6.15l-1.78-4.03h-6.2L90.64 151h-2.67l7.58-16.28 7.57 16.28h-2.68zm4.16 0v-15.66h2.54v13.38h5.7V151h-8.24zm19.45-2.3h2.14c1.17 0 2.06-.08 2.64-.23.6-.16 1.1-.42 1.54-.8a4.7 4.7 0 0 0 1.33-1.88c.3-.76.44-1.63.44-2.63s-.14-1.87-.44-2.62a4.7 4.7 0 0 0-1.33-1.9 3.94 3.94 0 0 0-1.59-.78c-.62-.16-1.58-.24-2.9-.24h-1.83v11.08zm-2.55 2.3v-15.66h3.44c2.23 0 3.8.12 4.7.34a6.36 6.36 0 0 1 4.45 3.8 9.3 9.3 0 0 1 .7 3.7c0 1.4-.23 2.62-.7 3.7a6.65 6.65 0 0 1-2.05 2.66c-.69.52-1.47.9-2.34 1.12-.87.23-2.23.34-4.08.34h-4.12zm16.26 0v-15.66h2.54V151h-2.54zm14.87-8.02h6.2l.01.45c.03.5.04.85.04 1.03 0 2.2-.63 3.9-1.9 5.13-1.26 1.22-3.04 1.83-5.33 1.83a9.7 9.7 0 0 1-3.43-.57c-1.01-.38-1.89-.95-2.65-1.71a7.77 7.77 0 0 1-1.7-2.66 8.96 8.96 0 0 1-.6-3.28c0-1.18.2-2.27.6-3.27.41-1 1-1.88 1.8-2.64a7.72 7.72 0 0 1 2.68-1.71 9.15 9.15 0 0 1 3.3-.59c1.23 0 2.33.23 3.3.68a7.38 7.38 0 0 1 2.61 2.06l-1.86 1.4a5.15 5.15 0 0 0-1.79-1.37c-.66-.3-1.4-.45-2.22-.45-1.7 0-3.08.55-4.15 1.63a5.78 5.78 0 0 0-1.61 4.24c0 1.77.53 3.2 1.6 4.3a5.57 5.57 0 0 0 4.18 1.66 5.3 5.3 0 0 0 3.43-1.02 3.38 3.38 0 0 0 1.26-2.77v-.22h-3.77v-2.15zm8.96 8.02v-15.66h2.55V151h-2.55zm11.26-13.5V151h-2.54v-13.5h-4.16v-2.16h10.84v2.16h-4.14zm9.4 7.35h4.35l-1.6-3.57a13.98 13.98 0 0 1-.59-1.78 14.35 14.35 0 0 1-.56 1.78l-1.6 3.57zm7.03 6.15l-1.78-4.03h-6.2l-1.82 4.03h-2.67l7.58-16.28 7.57 16.28h-2.68zm4.16 0v-15.66h2.54v13.38h5.7V151h-8.24zm16.9 0v-15.66h2.55v13.38h5.69V151h-8.24zm13.6-6.15h4.52l-1.32-3.57a19.6 19.6 0 0 1-.76-2.6 10.28 10.28 0 0 1-.79 2.38l-1.64 3.8zm9.12-9.5l.9 2.15h-5.74l1.38 3.84h5.25l.84 2.24h-5.24l1.91 5.14h5.75l.86 2.28h-8.26l-1.48-4.03H223L221.2 151h-2.68l7.32-15.66h7.23zm10.08 6.67h.46c1.35 0 2.24-.16 2.68-.47.45-.32.67-.87.67-1.67 0-.86-.24-1.47-.71-1.82-.48-.36-1.36-.53-2.64-.53h-.46v4.49zm-.16 1.98v7h-2.38v-15.66h3.55c1.04 0 1.84.07 2.42.2a3.8 3.8 0 0 1 1.47.68c.48.38.86.87 1.12 1.47.26.6.4 1.25.4 1.96a4.4 4.4 0 0 1-.91 2.95 4 4 0 0 1-2.69 1.28l5.4 7.12h-2.88l-5.21-7h-.29zm9.92 7v-15.66h2.55V151h-2.55zm6.2 0v-16.28l9.95 9.58a24.54 24.54 0 0 1 1.7 1.9v-10.86h2.35v16.27l-10.15-9.74a13.47 13.47 0 0 1-1.5-1.76V151h-2.34zm26.27-8.02h6.2l.01.45.03 1.03c0 2.2-.63 3.9-1.89 5.13-1.26 1.22-3.04 1.83-5.34 1.83a9.7 9.7 0 0 1-3.43-.57c-1-.38-1.88-.95-2.64-1.71a7.77 7.77 0 0 1-1.7-2.66 8.96 8.96 0 0 1-.6-3.28c0-1.18.2-2.27.6-3.27.4-1 1-1.88 1.8-2.64a7.72 7.72 0 0 1 2.68-1.71 9.15 9.15 0 0 1 3.3-.59c1.23 0 2.33.23 3.3.68a7.38 7.38 0 0 1 2.6 2.06l-1.85 1.4a5.15 5.15 0 0 0-1.79-1.37c-.66-.3-1.4-.45-2.22-.45-1.7 0-3.08.55-4.16 1.63a5.78 5.78 0 0 0-1.6 4.24c0 1.77.53 3.2 1.6 4.3a5.57 5.57 0 0 0 4.18 1.66 5.3 5.3 0 0 0 3.43-1.02 3.38 3.38 0 0 0 1.25-2.77v-.22h-3.76v-2.15zm8.02 4.89l2.03-.94c.2.7.55 1.23 1.06 1.6a3.3 3.3 0 0 0 1.97.55c.75 0 1.35-.22 1.8-.64.44-.42.67-.98.67-1.69 0-.91-.77-1.73-2.3-2.45l-.48-.24c-1.73-.84-2.88-1.6-3.45-2.28a3.74 3.74 0 0 1-.86-2.5 4 4 0 0 1 1.3-3.1c.86-.8 2-1.19 3.4-1.19 1.16 0 2.12.22 2.9.67a3.52 3.52 0 0 1 1.61 1.92l-1.98 1.03c-.32-.5-.66-.86-1.04-1.08-.37-.23-.8-.35-1.29-.35-.68 0-1.22.18-1.63.54-.4.36-.6.83-.6 1.43 0 .94.88 1.82 2.65 2.63l.32.15a9.43 9.43 0 0 1 3.19 2.1c.58.67.87 1.52.87 2.54a4.6 4.6 0 0 1-1.4 3.54 5.32 5.32 0 0 1-3.8 1.3c-1.32 0-2.42-.3-3.27-.91a4.3 4.3 0 0 1-1.67-2.63zm16.22-3.02h4.36l-1.6-3.57a13.98 13.98 0 0 1-.59-1.78 14.35 14.35 0 0 1-.57 1.78l-1.6 3.57zm7.04 6.15l-1.78-4.03h-6.2l-1.82 4.03h-2.67l7.58-16.28 7.57 16.28h-2.68zm6.7-8.98h.46c1.35 0 2.24-.16 2.68-.47.45-.32.67-.87.67-1.67 0-.86-.24-1.47-.71-1.82-.48-.36-1.36-.53-2.64-.53h-.46v4.49zm-.16 1.98v7h-2.38v-15.66h3.55c1.04 0 1.84.07 2.42.2a3.8 3.8 0 0 1 1.47.68c.48.38.86.87 1.12 1.47.27.6.4 1.25.4 1.96a4.4 4.4 0 0 1-.91 2.95 4 4 0 0 1-2.69 1.28l5.4 7.12h-2.88l-5.21-7h-.29zm9.88 7v-15.66h8.74v2.16h-6.2v3.93h6.2v2.23h-6.2v5.06h6.2V151h-8.74zm11.66 0v-16.28l9.94 9.58a24.54 24.54 0 0 1 1.7 1.9v-10.86h2.35v16.27l-10.14-9.74a13.47 13.47 0 0 1-1.51-1.76V151h-2.34zm20.9-6.15h4.35l-1.6-3.57a13.98 13.98 0 0 1-.59-1.78 14.35 14.35 0 0 1-.56 1.78l-1.6 3.57zm7.03 6.15l-1.78-4.03h-6.2l-1.82 4.03h-2.67l7.58-16.28 7.57 16.28h-2.68z"
+                />
+              </svg>
+            </a>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div
-    className="o-content"
-  >
     <div
-      className="o-wrapper o-wrapper--clear undefined"
-    >
-      <article
-        className="emotion-6 emotion-7"
-      >
-        <div
-          className="emotion-8 emotion-9"
-        >
-          <img
-            alt="Ops, noe gikk galt"
-            src="/static/oops.gif"
-          />
-        </div>
-        <h1>
-          Ops, noe gikk galt
-        </h1>
-        <p
-          className="emotion-10 emotion-11"
-        >
-          Beklager, en feil oppstod.
-        </p>
-        <h2>
-          Kom igang:
-        </h2>
-        <div
-          className="emotion-12"
-        >
-          <a
-            href="/"
-            onClick={[Function]}
-            tabIndex={0}
-          >
-            Gå til forsiden
-          </a>
-        </div>
-      </article>
-    </div>
-  </div>
-  <div
-    className="emotion-13 emotion-14"
-  >
-    <div
-      className="emotion-15 emotion-16"
-    >
-      <button
-        className="emotion-17 emotion-18"
-        onClick={[Function]}
-      >
-        <span
-          className="emotion-19 emotion-20"
-        >
-          Velg språk
-          : 
-          Bokmål
-        </span>
-        <svg
-          aria-hidden={true}
-          className="c-icon"
-          data-license="Apache License 2.0"
-          data-source="Material Design"
-          fill="currentColor"
-          height="1em"
-          preserveAspectRatio="xMidYMid meet"
-          style={
-            {
-              "color": undefined,
-              "verticalAlign": "middle",
-            }
-          }
-          viewBox="0 0 24 24"
-          width="1em"
-        >
-          <g>
-            <path
-              d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
-            />
-            <path
-              d="M0 0h24v24H0z"
-              fill="none"
-            />
-          </g>
-        </svg>
-      </button>
-    </div>
-  </div>
-  <footer
-    className="emotion-21 emotion-22"
-  >
-    <div
-      className="o-wrapper o-wrapper--large undefined"
+      class="o-content"
     >
       <div
-        className="emotion-23 emotion-24"
+        class="o-wrapper o-wrapper--clear undefined"
       >
-        <div>
+        <article
+          class="emotion-6 emotion-7"
+        >
+          <div
+            class="emotion-8 emotion-9"
+          >
+            <img
+              alt="Ops, noe gikk galt"
+              src="/static/oops.gif"
+            />
+          </div>
+          <h1>
+            Ops, noe gikk galt
+          </h1>
+          <p
+            class="emotion-10 emotion-11"
+          >
+            Beklager, en feil oppstod.
+          </p>
+          <h2>
+            Kom igang:
+          </h2>
+          <div
+            class="emotion-12"
+          >
+            <a
+              href="/"
+              tabindex="0"
+            >
+              Gå til forsiden
+            </a>
+          </div>
+        </article>
+      </div>
+    </div>
+    <div
+      class="emotion-13 emotion-14"
+    >
+      <div
+        class="emotion-15 emotion-16"
+      >
+        <button
+          class="emotion-17 emotion-18"
+        >
+          <span
+            class="emotion-19 emotion-20"
+          >
+            Velg språk: Bokmål
+          </span>
           <svg
-            aria-hidden={true}
-            className="c-icon emotion-25 emotion-26"
-            data-license="CC-BY 4.0"
-            data-source="Keyteq"
+            aria-hidden="true"
+            class="c-icon"
+            data-license="Apache License 2.0"
+            data-source="Material Design"
             fill="currentColor"
             height="1em"
             preserveAspectRatio="xMidYMid meet"
-            style={
-              {
-                "color": undefined,
-                "verticalAlign": "middle",
-              }
-            }
-            viewBox="0 0 76 76"
+            style="vertical-align: middle;"
+            viewBox="0 0 24 24"
             width="1em"
           >
             <g>
-              <g>
-                <path
-                  d="M46.395,46.395 L15,61 L29.605,29.605 L61,15 L46.395,46.395 Z M38,0 C17.0131795,0 0,17.0131795 0,38 C0,48.0782266 4.00355993,57.7436753 11.1299423,64.8700577 C18.2563247,71.9964401 27.9217734,76 38,76 C48.0782266,76 57.7436753,71.9964401 64.8700577,64.8700577 C71.9964401,57.7436753 76,48.0782266 76,38 C76,27.9217734 71.9964401,18.2563247 64.8700577,11.1299423 C57.7436753,4.00355993 48.0782266,0 38,0 L38,0 Z M38,34 C35.790861,34 34,35.790861 34,38 C34,40.209139 35.790861,42 38,42 C40.209139,42 42,40.209139 42,38 C42,35.790861 40.209139,34 38,34 Z"
-                />
-              </g>
+              <path
+                d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
+              />
+              <path
+                d="M0 0h24v24H0z"
+                fill="none"
+              />
             </g>
           </svg>
-        </div>
-        <div>
-          <h2
-            className="emotion-27 emotion-28"
-          >
-            Sammen skaper vi framtidas læring
-          </h2>
-          <div
-            className="emotion-29 emotion-30"
-          >
-            <section>
-              <h1
-                className="emotion-31 emotion-32"
-              >
-                Andre NDLA-nettsteder
-                 
-                <svg
-                  aria-hidden={true}
-                  className="c-icon"
-                  data-license="Apache License 2.0"
-                  data-source="Material Design"
-                  fill="currentColor"
-                  height="1em"
-                  preserveAspectRatio="xMidYMid meet"
-                  style={
-                    {
-                      "color": undefined,
-                      "verticalAlign": "middle",
-                    }
-                  }
-                  viewBox="0 0 24 24"
-                  width="1em"
+        </button>
+      </div>
+    </div>
+    <footer
+      class="emotion-21 emotion-22"
+    >
+      <div
+        class="o-wrapper o-wrapper--large undefined"
+      >
+        <div
+          class="emotion-23 emotion-24"
+        >
+          <div>
+            <svg
+              aria-hidden="true"
+              class="c-icon emotion-25 emotion-26"
+              data-license="CC-BY 4.0"
+              data-source="Keyteq"
+              fill="currentColor"
+              height="1em"
+              preserveAspectRatio="xMidYMid meet"
+              style="vertical-align: middle;"
+              viewBox="0 0 76 76"
+              width="1em"
+            >
+              <g>
+                <g>
+                  <path
+                    d="M46.395,46.395 L15,61 L29.605,29.605 L61,15 L46.395,46.395 Z M38,0 C17.0131795,0 0,17.0131795 0,38 C0,48.0782266 4.00355993,57.7436753 11.1299423,64.8700577 C18.2563247,71.9964401 27.9217734,76 38,76 C48.0782266,76 57.7436753,71.9964401 64.8700577,64.8700577 C71.9964401,57.7436753 76,48.0782266 76,38 C76,27.9217734 71.9964401,18.2563247 64.8700577,11.1299423 C57.7436753,4.00355993 48.0782266,0 38,0 L38,0 Z M38,34 C35.790861,34 34,35.790861 34,38 C34,40.209139 35.790861,42 38,42 C40.209139,42 42,40.209139 42,38 C42,35.790861 40.209139,34 38,34 Z"
+                  />
+                </g>
+              </g>
+            </svg>
+          </div>
+          <div>
+            <h2
+              class="emotion-27 emotion-28"
+            >
+              Sammen skaper vi framtidas læring
+            </h2>
+            <div
+              class="emotion-29 emotion-30"
+            >
+              <section>
+                <h1
+                  class="emotion-31 emotion-32"
                 >
-                  <g>
-                    <path
-                      d="M0 0h24v24H0z"
-                      fill="none"
-                    />
-                    <path
-                      d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"
-                    />
-                  </g>
-                </svg>
-              </h1>
-              <nav
-                className="emotion-33 emotion-34"
-              >
-                <div>
-                  <a
-                    aria-label="Om NDLA"
-                    className="emotion-35 emotion-36"
-                    href="https://om.ndla.no"
-                    rel="noopener noreferrer"
-                    target="_blank"
+                  Andre NDLA-nettsteder 
+                  <svg
+                    aria-hidden="true"
+                    class="c-icon"
+                    data-license="Apache License 2.0"
+                    data-source="Material Design"
+                    fill="currentColor"
+                    height="1em"
+                    preserveAspectRatio="xMidYMid meet"
+                    style="vertical-align: middle;"
+                    viewBox="0 0 24 24"
+                    width="1em"
                   >
-                    Om NDLA
-                  </a>
-                </div>
-                <div>
-                  <a
-                    aria-label="About NDLA"
-                    className="emotion-35 emotion-36"
-                    href="https://om.ndla.no/about-ndla"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    About NDLA
-                  </a>
-                </div>
-                <div>
-                  <a
-                    aria-label="Fagblogg"
-                    className="emotion-35 emotion-36"
-                    href="https://blogg.ndla.no"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    Fagblogg
-                  </a>
-                </div>
-                <div>
-                  <a
-                    aria-label="Tips til elever"
-                    className="emotion-35 emotion-36"
-                    href="https://blogg.ndla.no/elever"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    Tips til elever
-                  </a>
-                </div>
-                <div>
-                  <a
-                    aria-label="Ledige stillinger"
-                    className="emotion-35 emotion-36"
-                    href="https://om.ndla.no/jobb-for-ndla/"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    Ledige stillinger
-                  </a>
-                </div>
-              </nav>
-            </section>
-            <section>
-              <nav
-                className="emotion-33 emotion-34"
-              >
-                <div
-                  className="emotion-47 emotion-48"
+                    <g>
+                      <path
+                        d="M0 0h24v24H0z"
+                        fill="none"
+                      />
+                      <path
+                        d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"
+                      />
+                    </g>
+                  </svg>
+                </h1>
+                <nav
+                  class="emotion-33 emotion-34"
                 >
-                  <span
-                    className="emotion-49 emotion-50"
-                  >
-                    <svg
-                      aria-hidden={true}
-                      className="c-icon"
-                      data-license="SIL Open Font License 1.1"
-                      data-source="Material Community Icons"
-                      fill="currentColor"
-                      height="1em"
-                      preserveAspectRatio="xMidYMid meet"
-                      style={
-                        {
-                          "color": undefined,
-                          "verticalAlign": "middle",
-                        }
-                      }
-                      viewBox="0 0 24 24"
-                      width="1em"
+                  <div>
+                    <a
+                      aria-label="Om NDLA"
+                      class="emotion-35 emotion-36"
+                      href="https://om.ndla.no"
+                      rel="noopener noreferrer"
+                      target="_blank"
                     >
-                      <g>
-                        <path
-                          d="M17,2V2H17V6H15C14.31,6 14,6.81 14,7.5V10H14L17,10V14H14V22H10V14H7V10H10V6A4,4 0 0,1 14,2H17Z"
-                        />
-                      </g>
-                    </svg>
-                  </span>
-                  <a
-                    className="emotion-35 emotion-36"
-                    href="https://www.facebook.com/ndla.no"
-                  >
-                    NDLA på Facebook
-                    <svg
-                      aria-hidden={true}
-                      className="c-icon"
-                      data-license="Apache License 2.0"
-                      data-source="Material Design"
-                      fill="currentColor"
-                      height="1em"
-                      preserveAspectRatio="xMidYMid meet"
-                      style={
-                        {
-                          "color": undefined,
-                          "verticalAlign": "middle",
-                        }
-                      }
-                      viewBox="0 0 24 24"
-                      width="1em"
+                      Om NDLA
+                    </a>
+                  </div>
+                  <div>
+                    <a
+                      aria-label="About NDLA"
+                      class="emotion-35 emotion-36"
+                      href="https://om.ndla.no/about-ndla"
+                      rel="noopener noreferrer"
+                      target="_blank"
                     >
-                      <g>
-                        <path
-                          d="M0 0h24v24H0z"
-                          fill="none"
-                        />
-                        <path
-                          d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"
-                        />
-                      </g>
-                    </svg>
-                  </a>
-                </div>
-                <div
-                  className="emotion-47 emotion-48"
+                      About NDLA
+                    </a>
+                  </div>
+                  <div>
+                    <a
+                      aria-label="Fagblogg"
+                      class="emotion-35 emotion-36"
+                      href="https://blogg.ndla.no"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      Fagblogg
+                    </a>
+                  </div>
+                  <div>
+                    <a
+                      aria-label="Tips til elever"
+                      class="emotion-35 emotion-36"
+                      href="https://blogg.ndla.no/elever"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      Tips til elever
+                    </a>
+                  </div>
+                  <div>
+                    <a
+                      aria-label="Ledige stillinger"
+                      class="emotion-35 emotion-36"
+                      href="https://om.ndla.no/jobb-for-ndla/"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      Ledige stillinger
+                    </a>
+                  </div>
+                </nav>
+              </section>
+              <section>
+                <nav
+                  class="emotion-33 emotion-34"
                 >
-                  <span
-                    className="emotion-49 emotion-50"
+                  <div
+                    class="emotion-47 emotion-48"
                   >
-                    <svg
-                      aria-hidden={true}
-                      className="c-icon"
-                      data-license="Apache License 2.0"
-                      data-source="Material Design Icons"
-                      fill="currentColor"
-                      height="1em"
-                      preserveAspectRatio="xMidYMid meet"
-                      style={
-                        {
-                          "color": undefined,
-                          "verticalAlign": "middle",
-                        }
-                      }
-                      viewBox="0 0 24 24"
-                      width="1em"
+                    <span
+                      class="emotion-49 emotion-50"
                     >
-                      <g>
-                        <path
-                          d="M7.8,2H16.2C19.4,2 22,4.6 22,7.8V16.2A5.8,5.8 0 0,1 16.2,22H7.8C4.6,22 2,19.4 2,16.2V7.8A5.8,5.8 0 0,1 7.8,2M7.6,4A3.6,3.6 0 0,0 4,7.6V16.4C4,18.39 5.61,20 7.6,20H16.4A3.6,3.6 0 0,0 20,16.4V7.6C20,5.61 18.39,4 16.4,4H7.6M17.25,5.5A1.25,1.25 0 0,1 18.5,6.75A1.25,1.25 0 0,1 17.25,8A1.25,1.25 0 0,1 16,6.75A1.25,1.25 0 0,1 17.25,5.5M12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9Z"
-                          fill="currentColor"
-                        />
-                      </g>
-                    </svg>
-                  </span>
-                  <a
-                    className="emotion-35 emotion-36"
-                    href="https://instagram.com/ndla_no/"
+                      <svg
+                        aria-hidden="true"
+                        class="c-icon"
+                        data-license="SIL Open Font License 1.1"
+                        data-source="Material Community Icons"
+                        fill="currentColor"
+                        height="1em"
+                        preserveAspectRatio="xMidYMid meet"
+                        style="vertical-align: middle;"
+                        viewBox="0 0 24 24"
+                        width="1em"
+                      >
+                        <g>
+                          <path
+                            d="M17,2V2H17V6H15C14.31,6 14,6.81 14,7.5V10H14L17,10V14H14V22H10V14H7V10H10V6A4,4 0 0,1 14,2H17Z"
+                          />
+                        </g>
+                      </svg>
+                    </span>
+                    <a
+                      class="emotion-35 emotion-36"
+                      href="https://www.facebook.com/ndla.no"
+                    >
+                      NDLA på Facebook
+                      <svg
+                        aria-hidden="true"
+                        class="c-icon"
+                        data-license="Apache License 2.0"
+                        data-source="Material Design"
+                        fill="currentColor"
+                        height="1em"
+                        preserveAspectRatio="xMidYMid meet"
+                        style="vertical-align: middle;"
+                        viewBox="0 0 24 24"
+                        width="1em"
+                      >
+                        <g>
+                          <path
+                            d="M0 0h24v24H0z"
+                            fill="none"
+                          />
+                          <path
+                            d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"
+                          />
+                        </g>
+                      </svg>
+                    </a>
+                  </div>
+                  <div
+                    class="emotion-47 emotion-48"
                   >
-                    NDLA på Instagram
-                    <svg
-                      aria-hidden={true}
-                      className="c-icon"
-                      data-license="Apache License 2.0"
-                      data-source="Material Design"
-                      fill="currentColor"
-                      height="1em"
-                      preserveAspectRatio="xMidYMid meet"
-                      style={
-                        {
-                          "color": undefined,
-                          "verticalAlign": "middle",
-                        }
-                      }
-                      viewBox="0 0 24 24"
-                      width="1em"
+                    <span
+                      class="emotion-49 emotion-50"
                     >
-                      <g>
-                        <path
-                          d="M0 0h24v24H0z"
-                          fill="none"
-                        />
-                        <path
-                          d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"
-                        />
-                      </g>
-                    </svg>
-                  </a>
-                </div>
-                <div
-                  className="emotion-47 emotion-48"
-                >
-                  <span
-                    className="emotion-49 emotion-50"
+                      <svg
+                        aria-hidden="true"
+                        class="c-icon"
+                        data-license="Apache License 2.0"
+                        data-source="Material Design Icons"
+                        fill="currentColor"
+                        height="1em"
+                        preserveAspectRatio="xMidYMid meet"
+                        style="vertical-align: middle;"
+                        viewBox="0 0 24 24"
+                        width="1em"
+                      >
+                        <g>
+                          <path
+                            d="M7.8,2H16.2C19.4,2 22,4.6 22,7.8V16.2A5.8,5.8 0 0,1 16.2,22H7.8C4.6,22 2,19.4 2,16.2V7.8A5.8,5.8 0 0,1 7.8,2M7.6,4A3.6,3.6 0 0,0 4,7.6V16.4C4,18.39 5.61,20 7.6,20H16.4A3.6,3.6 0 0,0 20,16.4V7.6C20,5.61 18.39,4 16.4,4H7.6M17.25,5.5A1.25,1.25 0 0,1 18.5,6.75A1.25,1.25 0 0,1 17.25,8A1.25,1.25 0 0,1 16,6.75A1.25,1.25 0 0,1 17.25,5.5M12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9Z"
+                            fill="currentColor"
+                          />
+                        </g>
+                      </svg>
+                    </span>
+                    <a
+                      class="emotion-35 emotion-36"
+                      href="https://instagram.com/ndla_no/"
+                    >
+                      NDLA på Instagram
+                      <svg
+                        aria-hidden="true"
+                        class="c-icon"
+                        data-license="Apache License 2.0"
+                        data-source="Material Design"
+                        fill="currentColor"
+                        height="1em"
+                        preserveAspectRatio="xMidYMid meet"
+                        style="vertical-align: middle;"
+                        viewBox="0 0 24 24"
+                        width="1em"
+                      >
+                        <g>
+                          <path
+                            d="M0 0h24v24H0z"
+                            fill="none"
+                          />
+                          <path
+                            d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"
+                          />
+                        </g>
+                      </svg>
+                    </a>
+                  </div>
+                  <div
+                    class="emotion-47 emotion-48"
                   >
-                    <svg
-                      aria-hidden={true}
-                      className="c-icon"
-                      data-license="Apache License 2.0"
-                      data-source="Material Design Icons"
-                      fill="currentColor"
-                      height="1em"
-                      preserveAspectRatio="xMidYMid meet"
-                      style={
-                        {
-                          "color": undefined,
-                          "verticalAlign": "middle",
-                        }
-                      }
-                      viewBox="0 0 24 24"
-                      width="1em"
+                    <span
+                      class="emotion-49 emotion-50"
                     >
-                      <g>
-                        <path
-                          d="M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19M18.5 18.5V13.2A3.26 3.26 0 0 0 15.24 9.94C14.39 9.94 13.4 10.46 12.92 11.24V10.13H10.13V18.5H12.92V13.57C12.92 12.8 13.54 12.17 14.31 12.17A1.4 1.4 0 0 1 15.71 13.57V18.5H18.5M6.88 8.56A1.68 1.68 0 0 0 8.56 6.88C8.56 5.95 7.81 5.19 6.88 5.19A1.69 1.69 0 0 0 5.19 6.88C5.19 7.81 5.95 8.56 6.88 8.56M8.27 18.5V10.13H5.5V18.5H8.27Z"
-                          fill="currentColor"
-                        />
-                      </g>
-                    </svg>
-                  </span>
-                  <a
-                    className="emotion-35 emotion-36"
-                    href="https://www.linkedin.com/company/ndla/"
+                      <svg
+                        aria-hidden="true"
+                        class="c-icon"
+                        data-license="Apache License 2.0"
+                        data-source="Material Design Icons"
+                        fill="currentColor"
+                        height="1em"
+                        preserveAspectRatio="xMidYMid meet"
+                        style="vertical-align: middle;"
+                        viewBox="0 0 24 24"
+                        width="1em"
+                      >
+                        <g>
+                          <path
+                            d="M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19M18.5 18.5V13.2A3.26 3.26 0 0 0 15.24 9.94C14.39 9.94 13.4 10.46 12.92 11.24V10.13H10.13V18.5H12.92V13.57C12.92 12.8 13.54 12.17 14.31 12.17A1.4 1.4 0 0 1 15.71 13.57V18.5H18.5M6.88 8.56A1.68 1.68 0 0 0 8.56 6.88C8.56 5.95 7.81 5.19 6.88 5.19A1.69 1.69 0 0 0 5.19 6.88C5.19 7.81 5.95 8.56 6.88 8.56M8.27 18.5V10.13H5.5V18.5H8.27Z"
+                            fill="currentColor"
+                          />
+                        </g>
+                      </svg>
+                    </span>
+                    <a
+                      class="emotion-35 emotion-36"
+                      href="https://www.linkedin.com/company/ndla/"
+                    >
+                      NDLA på LinkedIn
+                      <svg
+                        aria-hidden="true"
+                        class="c-icon"
+                        data-license="Apache License 2.0"
+                        data-source="Material Design"
+                        fill="currentColor"
+                        height="1em"
+                        preserveAspectRatio="xMidYMid meet"
+                        style="vertical-align: middle;"
+                        viewBox="0 0 24 24"
+                        width="1em"
+                      >
+                        <g>
+                          <path
+                            d="M0 0h24v24H0z"
+                            fill="none"
+                          />
+                          <path
+                            d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"
+                          />
+                        </g>
+                      </svg>
+                    </a>
+                  </div>
+                  <div
+                    class="emotion-47 emotion-48"
                   >
-                    NDLA på LinkedIn
-                    <svg
-                      aria-hidden={true}
-                      className="c-icon"
-                      data-license="Apache License 2.0"
-                      data-source="Material Design"
-                      fill="currentColor"
-                      height="1em"
-                      preserveAspectRatio="xMidYMid meet"
-                      style={
-                        {
-                          "color": undefined,
-                          "verticalAlign": "middle",
-                        }
-                      }
-                      viewBox="0 0 24 24"
-                      width="1em"
+                    <span
+                      class="emotion-49 emotion-50"
                     >
-                      <g>
-                        <path
-                          d="M0 0h24v24H0z"
-                          fill="none"
-                        />
-                        <path
-                          d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"
-                        />
-                      </g>
-                    </svg>
-                  </a>
-                </div>
-                <div
-                  className="emotion-47 emotion-48"
-                >
-                  <span
-                    className="emotion-49 emotion-50"
-                  >
-                    <svg
-                      aria-hidden={true}
-                      className="c-icon"
-                      data-license="Apache License 2.0"
-                      data-source="Material Design"
-                      fill="currentColor"
-                      height="1em"
-                      preserveAspectRatio="xMidYMid meet"
-                      style={
-                        {
-                          "color": undefined,
-                          "verticalAlign": "middle",
-                        }
-                      }
-                      viewBox="0 0 256 256"
-                      width="1em"
-                    >
-                      <g>
-                        <defs>
-                          <clipPath
-                            clipPathUnits="userSpaceOnUse"
-                          >
-                            <path
-                              d="M 0,192 H 192 V 0 H 0 Z"
-                            />
-                          </clipPath>
-                        </defs>
-                        <g
-                          transform="matrix(1.3333333,0,0,-1.3333333,0,256)"
-                        >
-                          <g>
-                            <g
-                              clipPath="url(#clipPath18)"
+                      <svg
+                        aria-hidden="true"
+                        class="c-icon"
+                        data-license="Apache License 2.0"
+                        data-source="Material Design"
+                        fill="currentColor"
+                        height="1em"
+                        preserveAspectRatio="xMidYMid meet"
+                        style="vertical-align: middle;"
+                        viewBox="0 0 256 256"
+                        width="1em"
+                      >
+                        <g>
+                          <defs>
+                            <clippath
+                              clipPathUnits="userSpaceOnUse"
                             >
+                              <path
+                                d="M 0,192 H 192 V 0 H 0 Z"
+                              />
+                            </clippath>
+                          </defs>
+                          <g
+                            transform="matrix(1.3333333,0,0,-1.3333333,0,256)"
+                          >
+                            <g>
                               <g
-                                transform="translate(78,69.8311)"
+                                clip-path="url(#clipPath18)"
                               >
-                                <path
-                                  d="M 0,0 V 52.338 L 46,26.168 Z M 102.322,68.806 C 100.298,76.428 94.334,82.43 86.762,84.467 73.037,88.169 18,88.169 18,88.169 c 0,0 -55.037,0 -68.762,-3.702 C -58.334,82.43 -64.298,76.428 -66.322,68.806 -70,54.992 -70,26.169 -70,26.169 c 0,0 0,-28.822 3.678,-42.637 2.024,-7.622 7.988,-13.624 15.56,-15.662 13.725,-3.701 68.762,-3.701 68.762,-3.701 0,0 55.037,0 68.762,3.701 7.572,2.038 13.536,8.04 15.56,15.662 C 106,-2.653 106,26.169 106,26.169 c 0,0 0,28.823 -3.678,42.637"
-                                />
+                                <g
+                                  transform="translate(78,69.8311)"
+                                >
+                                  <path
+                                    d="M 0,0 V 52.338 L 46,26.168 Z M 102.322,68.806 C 100.298,76.428 94.334,82.43 86.762,84.467 73.037,88.169 18,88.169 18,88.169 c 0,0 -55.037,0 -68.762,-3.702 C -58.334,82.43 -64.298,76.428 -66.322,68.806 -70,54.992 -70,26.169 -70,26.169 c 0,0 0,-28.822 3.678,-42.637 2.024,-7.622 7.988,-13.624 15.56,-15.662 13.725,-3.701 68.762,-3.701 68.762,-3.701 0,0 55.037,0 68.762,3.701 7.572,2.038 13.536,8.04 15.56,15.662 C 106,-2.653 106,26.169 106,26.169 c 0,0 0,28.823 -3.678,42.637"
+                                  />
+                                </g>
                               </g>
                             </g>
                           </g>
                         </g>
-                      </g>
-                    </svg>
-                  </span>
-                  <a
-                    className="emotion-35 emotion-36"
-                    href="https://www.youtube.com/channel/UCBlt6T8B0mmvDh3k5q7EhsA"
-                  >
-                    NDLA på YouTube
-                    <svg
-                      aria-hidden={true}
-                      className="c-icon"
-                      data-license="Apache License 2.0"
-                      data-source="Material Design"
-                      fill="currentColor"
-                      height="1em"
-                      preserveAspectRatio="xMidYMid meet"
-                      style={
-                        {
-                          "color": undefined,
-                          "verticalAlign": "middle",
-                        }
-                      }
-                      viewBox="0 0 24 24"
-                      width="1em"
+                      </svg>
+                    </span>
+                    <a
+                      class="emotion-35 emotion-36"
+                      href="https://www.youtube.com/channel/UCBlt6T8B0mmvDh3k5q7EhsA"
                     >
-                      <g>
-                        <path
-                          d="M0 0h24v24H0z"
-                          fill="none"
-                        />
-                        <path
-                          d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"
-                        />
-                      </g>
-                    </svg>
-                  </a>
-                </div>
-                <div
-                  className="emotion-47 emotion-48"
-                >
-                  <span
-                    className="emotion-49 emotion-50"
+                      NDLA på YouTube
+                      <svg
+                        aria-hidden="true"
+                        class="c-icon"
+                        data-license="Apache License 2.0"
+                        data-source="Material Design"
+                        fill="currentColor"
+                        height="1em"
+                        preserveAspectRatio="xMidYMid meet"
+                        style="vertical-align: middle;"
+                        viewBox="0 0 24 24"
+                        width="1em"
+                      >
+                        <g>
+                          <path
+                            d="M0 0h24v24H0z"
+                            fill="none"
+                          />
+                          <path
+                            d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"
+                          />
+                        </g>
+                      </svg>
+                    </a>
+                  </div>
+                  <div
+                    class="emotion-47 emotion-48"
                   >
-                    <svg
-                      aria-hidden={true}
-                      className="c-icon"
-                      data-license="SIL Open Font License 1.1"
-                      data-source="Material Community Icons"
-                      fill="currentColor"
-                      height="1em"
-                      preserveAspectRatio="xMidYMid meet"
-                      style={
-                        {
-                          "color": undefined,
-                          "verticalAlign": "middle",
-                        }
-                      }
-                      viewBox="0 0 24 24"
-                      width="1em"
+                    <span
+                      class="emotion-49 emotion-50"
                     >
-                      <g>
-                        <path
-                          d="M4,4H20A2,2 0 0,1 22,6V18A2,2 0 0,1 20,20H4C2.89,20 2,19.1 2,18V6C2,4.89 2.89,4 4,4M12,11L20,6H4L12,11M4,18H20V8.37L12,13.36L4,8.37V18Z"
-                        />
-                      </g>
-                    </svg>
-                  </span>
-                  <a
-                    className="emotion-35 emotion-36"
-                    href="https://om.ndla.no/nyhetsbrev/"
-                  >
-                    Meld deg på vårt nyhetsbrev
-                    <svg
-                      aria-hidden={true}
-                      className="c-icon"
-                      data-license="Apache License 2.0"
-                      data-source="Material Design"
-                      fill="currentColor"
-                      height="1em"
-                      preserveAspectRatio="xMidYMid meet"
-                      style={
-                        {
-                          "color": undefined,
-                          "verticalAlign": "middle",
-                        }
-                      }
-                      viewBox="0 0 24 24"
-                      width="1em"
+                      <svg
+                        aria-hidden="true"
+                        class="c-icon"
+                        data-license="SIL Open Font License 1.1"
+                        data-source="Material Community Icons"
+                        fill="currentColor"
+                        height="1em"
+                        preserveAspectRatio="xMidYMid meet"
+                        style="vertical-align: middle;"
+                        viewBox="0 0 24 24"
+                        width="1em"
+                      >
+                        <g>
+                          <path
+                            d="M4,4H20A2,2 0 0,1 22,6V18A2,2 0 0,1 20,20H4C2.89,20 2,19.1 2,18V6C2,4.89 2.89,4 4,4M12,11L20,6H4L12,11M4,18H20V8.37L12,13.36L4,8.37V18Z"
+                          />
+                        </g>
+                      </svg>
+                    </span>
+                    <a
+                      class="emotion-35 emotion-36"
+                      href="https://om.ndla.no/nyhetsbrev/"
                     >
-                      <g>
-                        <path
-                          d="M0 0h24v24H0z"
-                          fill="none"
-                        />
-                        <path
-                          d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"
-                        />
-                      </g>
-                    </svg>
-                  </a>
-                </div>
-              </nav>
-            </section>
+                      Meld deg på vårt nyhetsbrev
+                      <svg
+                        aria-hidden="true"
+                        class="c-icon"
+                        data-license="Apache License 2.0"
+                        data-source="Material Design"
+                        fill="currentColor"
+                        height="1em"
+                        preserveAspectRatio="xMidYMid meet"
+                        style="vertical-align: middle;"
+                        viewBox="0 0 24 24"
+                        width="1em"
+                      >
+                        <g>
+                          <path
+                            d="M0 0h24v24H0z"
+                            fill="none"
+                          />
+                          <path
+                            d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"
+                          />
+                        </g>
+                      </svg>
+                    </a>
+                  </div>
+                </nav>
+              </section>
+            </div>
           </div>
         </div>
-      </div>
-      <hr
-        className="emotion-77 emotion-78"
-      />
-      <p
-        className="emotion-79 emotion-80"
-      >
-        <span>
-          <strong>
-            Ansvarlig redaktør: 
-          </strong>
-           
-          Sigurd Trageton
-        </span>
-        Nettstedet er utarbeidet av NDLA med åpen kildekode.
-      </p>
-      <div
-        className="emotion-79 emotion-82"
-      >
-        <button
-          className="emotion-83 emotion-84"
-          onClick={[Function]}
-          type="button"
+        <hr
+          class="emotion-77 emotion-78"
+        />
+        <p
+          class="emotion-79 emotion-80"
         >
-          Personvernerklæring og cookies
-        </button>
+          <span>
+            <strong>
+              Ansvarlig redaktør: 
+            </strong>
+             Sigurd Trageton
+          </span>
+          Nettstedet er utarbeidet av NDLA med åpen kildekode.
+        </p>
+        <div
+          class="emotion-79 emotion-82"
+        >
+          <button
+            class="emotion-83 emotion-84"
+            type="button"
+          >
+            Personvernerklæring og cookies
+          </button>
+        </div>
       </div>
-    </div>
+      <div
+        class="emotion-85 emotion-86"
+      />
+    </footer>
     <div
-      className="emotion-85 emotion-86"
-    />
-  </footer>
-  <div
-    className="emotion-87"
-  >
-    <button
-      className="emotion-88 emotion-89"
-      disabled={false}
-      id="zendeskButton"
-      onClick={[Function]}
-      type="button"
+      class="emotion-87"
     >
-      Spør NDLA
-    </button>
+      <button
+        class="emotion-88 emotion-89"
+        id="zendeskButton"
+        type="button"
+      >
+        Spør NDLA
+      </button>
+    </div>
   </div>
-</div>
+</DocumentFragment>
 `;
