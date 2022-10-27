@@ -9,7 +9,7 @@
 
 import { HelmetProvider } from 'react-helmet-async';
 import { StaticRouter } from 'react-router-dom/server.js';
-import renderer from 'react-test-renderer';
+import { render } from '@testing-library/react';
 import { createSerializer } from '@emotion/jest';
 import { I18nextProvider } from 'react-i18next';
 import { i18nInstance } from '@ndla/ui';
@@ -25,7 +25,7 @@ jest.mock('../../../config', () => ({
 
 test('ErrorPage renderers correctly', () => {
   const i18n = initializeI18n(i18nInstance, 'nb');
-  const component = renderer.create(
+  const { asFragment } = render(
     <HelmetProvider>
       <I18nextProvider i18n={i18n}>
         <StaticRouter>
@@ -35,5 +35,5 @@ test('ErrorPage renderers correctly', () => {
     </HelmetProvider>,
   );
 
-  expect(component.toJSON()).toMatchSnapshot();
+  expect(asFragment()).toMatchSnapshot();
 });
