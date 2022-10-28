@@ -681,6 +681,7 @@ exports[`ErrorPage renderers correctly 1`] = `
       >
         <button
           class="emotion-17 emotion-18"
+          type="button"
         >
           <span
             class="emotion-19 emotion-20"
