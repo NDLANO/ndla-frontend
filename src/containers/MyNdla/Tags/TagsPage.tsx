@@ -31,6 +31,7 @@ import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
 import MyNdlaTitle from '../components/MyNdlaTitle';
 import TitleWrapper from '../components/TitleWrapper';
 import { usePrevious } from '../../../util/utilityHooks';
+import { STORED_RESOURCE_VIEW_SETTINGS } from '../../../constants';
 
 const StyledUl = styled.ul`
   padding: 0px;
@@ -111,7 +112,9 @@ interface ResourcesProps {
 }
 
 const Resources = ({ resources }: ResourcesProps) => {
-  const [type, setType] = useState<ViewType>('list');
+  const [viewType, _setViewType] = useState<ViewType>(
+    (localStorage.getItem(STORED_RESOURCE_VIEW_SETTINGS) as ViewType) || 'list',
+  );
   const { addSnack } = useSnack();
   const [resourceAction, setResourceAction] = useState<
     ResourceAction | undefined
@@ -130,16 +133,20 @@ const Resources = ({ resources }: ResourcesProps) => {
     resource => `${resource.type}-${resource.id}`,
   );
 
-  const Resource = type === 'block' ? BlockResource : ListResource;
+  const setViewType = (type: ViewType) => {
+    _setViewType(type);
+    localStorage.setItem(STORED_RESOURCE_VIEW_SETTINGS, type);
+  };
 
+  const Resource = viewType === 'block' ? BlockResource : ListResource;
   return (
     <>
       <CountWrapper>
         <FileDocumentOutline />
         <span>{t('myNdla.resources', { count: resources.length })}</span>
       </CountWrapper>
-      <ListViewOptions type={type} onTypeChange={setType} />
-      <BlockWrapper type={type}>
+      <ListViewOptions type={viewType} onTypeChange={setViewType} />
+      <BlockWrapper type={viewType}>
         {resources.map(resource => {
           const meta =
             keyedData[`${resource.resourceType}-${resource.resourceId}`];
@@ -152,7 +159,7 @@ const Resources = ({ resources }: ResourcesProps) => {
               link={resource.path}
               title={meta?.title ?? ''}
               description={
-                type !== 'list' ? meta?.description ?? '' : undefined
+                viewType !== 'list' ? meta?.description ?? '' : undefined
               }
               tags={resource.tags}
               resourceTypes={meta?.resourceTypes ?? []}

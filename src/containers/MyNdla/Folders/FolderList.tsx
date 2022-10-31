@@ -28,6 +28,7 @@ import {
 } from '@dnd-kit/modifiers';
 import { colors, spacing } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
+import { t } from 'i18next';
 import { FolderOutlined } from '@ndla/icons/contentType';
 import { BlockWrapper, FolderAction, ViewType } from './FoldersPage';
 import WhileLoading from '../../../components/WhileLoading';
@@ -40,7 +41,6 @@ import {
 import { useSortFoldersMutation } from '../folderMutations';
 import DraggableFolder from './DraggableFolder';
 import { makeDndSortFunction, makeDndTranslations } from './util';
-import { t } from 'i18next';
 
 const StyledFolderIcon = styled.span`
   display: flex;
@@ -115,7 +115,7 @@ const FolderList = ({
 
   const announcements = useMemo(
     () => makeDndTranslations('folder', t, folders.length),
-    [t, folders],
+    [folders],
   );
 
   const sortFolderIds = makeDndSortFunction(
@@ -135,6 +135,18 @@ const FolderList = ({
 
   return (
     <WhileLoading isLoading={loading} fallback={<Spinner />}>
+      {isAdding && (
+        <NewFolder
+          icon={
+            <StyledFolderIcon>
+              <FolderOutlined />
+            </StyledFolderIcon>
+          }
+          parentId={folderId ?? 'folders'}
+          onClose={() => setIsAdding(false)}
+          onCreate={onFolderAdd}
+        />
+      )}
       {folders && (
         <BlockWrapper type={type}>
           {isAdding && (

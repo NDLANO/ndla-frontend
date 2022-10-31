@@ -60,8 +60,10 @@ const allowedBodyContentTypes = [
 app.disable('x-powered-by');
 app.enable('trust proxy');
 
+const PublicDir = process.env.RAZZLE_PUBLIC_DIR ?? '';
+
 const ndlaMiddleware = [
-  express.static(process.env.RAZZLE_PUBLIC_DIR ?? '', {
+  express.static(PublicDir, {
     maxAge: 1000 * 60 * 60 * 24 * 365, // One year
   }),
   express.urlencoded({ extended: true }),
@@ -84,14 +86,18 @@ const ndlaMiddleware = [
   }),
 ];
 
-app.get('/robots.txt', ndlaMiddleware, (req: Request, res: Response) => {
+app.get('/robots.txt', (req: Request, res: Response) => {
   // Using ndla.no robots.txt
   if (req.hostname === 'ndla.no') {
-    res.sendFile('robots.txt', { root: './build/' });
+    res.sendFile('robots.txt', { root: PublicDir });
   } else {
     res.type('text/plain');
     res.send('User-agent: *\nDisallow: /');
   }
+});
+
+app.get('/.well-known/security.txt', (_req: Request, res: Response) => {
+  res.sendFile(`security.txt`, { root: PublicDir });
 });
 
 app.get('/health', ndlaMiddleware, (_req: Request, res: Response) => {
