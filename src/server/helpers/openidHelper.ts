@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { Issuer, generators } from 'openid-client';
+import { Issuer, generators, Client } from 'openid-client';
 import { Request } from 'express';
 import config, { getEnvironmentVariabel } from '../../config';
 
@@ -26,7 +26,18 @@ const FEIDE_CLIENT_ID = handleConfigTypes(
 const FEIDE_CLIENT_SECRET = handleConfigTypes(
   getEnvironmentVariabel('FEIDE_CLIENT_SECRET'),
 );
-const getIssuer = async () => await Issuer.discover(OPENID_DOMAIN);
+
+let storedIssuer: Issuer<Client>;
+
+const getIssuer = async () => {
+  if (storedIssuer) {
+    return storedIssuer;
+  }
+  console.info('Issuer does not exist. Trying to refetch');
+  storedIssuer = await Issuer.discover(OPENID_DOMAIN);
+  console.info('Issuer refetch:', storedIssuer ? 'Success' : 'Failed');
+  return storedIssuer;
+};
 
 const getClient = (redirect_uri: string) =>
   getIssuer().then(
