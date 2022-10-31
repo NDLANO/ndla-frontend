@@ -21,6 +21,9 @@ import {
   GQLResources_TopicFragment,
 } from '../../graphqlTypes';
 import { TypedParams, useIsNdlaFilm, useTypedParams } from '../../routeHelpers';
+import AddResourceToFolderModal from '../../components/MyNdla/AddResourceToFolderModal';
+import { ResourceAttributes } from '../../components/MyNdla/AddResourceToFolder';
+import FavoriteButton from '../../components/Article/FavoritesButton';
 
 interface MatchProps extends TypedParams {
   topicId?: string;
@@ -36,6 +39,9 @@ interface Props {
 const Resources = ({ topic, resourceTypes }: Props) => {
   const params = useTypedParams<MatchProps>();
   const [showAdditionalResources, setShowAdditionalResources] = useState(false);
+  const [resourceToAdd, setResourceToAdd] = useState<
+    ResourceAttributes | undefined
+  >(undefined);
   const ndlaFilm = useIsNdlaFilm();
   const { t } = useTranslation();
 
@@ -136,6 +142,13 @@ const Resources = ({ topic, resourceTypes }: Props) => {
     }),
   }));
 
+  const onToggleAddToFavorites = (contentUri?: string, path?: string) => {
+    const [, resourceType, articleIdString] = contentUri?.split(':') ?? [];
+    const articleId = articleIdString ? parseInt(articleIdString) : undefined;
+    if (!resourceType || !articleId || !path) return;
+    setResourceToAdd({ id: articleId, path, resourceType });
+  };
+
   return (
     <ResourcesWrapper
       header={
@@ -157,10 +170,15 @@ const Resources = ({ topic, resourceTypes }: Props) => {
           showAdditionalResources={showAdditionalResources}
           toggleAdditionalResources={toggleAdditionalResources}
           invertedStyle={ndlaFilm}
-          showAddToFavoriteButton={false}
-          // bad type, never called but required
-          onToggleAddToFavorites={() => {}}
-          onClick={() => {}}
+          heartButton={p => (
+            <FavoriteButton
+              path={p}
+              onClick={() => {
+                const resource = ungroupedResources?.find(r => r.path === p);
+                onToggleAddToFavorites(resource?.contentUri, resource?.path);
+              }}
+            />
+          )}
         />
       )}
       {!isUngrouped &&
@@ -173,12 +191,22 @@ const Resources = ({ topic, resourceTypes }: Props) => {
             toggleAdditionalResources={toggleAdditionalResources}
             contentType={type.contentType}
             invertedStyle={ndlaFilm}
-            showAddToFavoriteButton={false}
-            // bad type, never called but required.
-            onToggleAddToFavorites={() => {}}
-            onClick={() => {}}
+            heartButton={p => (
+              <FavoriteButton
+                path={p}
+                onClick={() => {
+                  const resource = ungroupedResources?.find(r => r.path === p);
+                  onToggleAddToFavorites(resource?.contentUri, resource?.path);
+                }}
+              />
+            )}
           />
         ))}
+      <AddResourceToFolderModal
+        isOpen={!!resourceToAdd}
+        onClose={() => setResourceToAdd(undefined)}
+        resource={resourceToAdd!}
+      />
     </ResourcesWrapper>
   );
 };

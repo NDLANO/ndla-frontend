@@ -36,7 +36,6 @@ interface Props extends CustomWithTranslation {
 const PlainLearningpathContainer = ({
   t,
   learningpath,
-  i18n,
   skipToContentId,
   stepId,
 }: Props) => {
@@ -44,8 +43,12 @@ const PlainLearningpathContainer = ({
   const steps = learningpath.learningsteps;
 
   useEffect(() => {
-    if (window.MathJax) {
-      window.MathJax.typeset();
+    if (window.MathJax && typeof window.MathJax.typeset === 'function') {
+      try {
+        window.MathJax.typeset();
+      } catch (err) {
+        // do nothing
+      }
     }
   });
 
@@ -91,7 +94,6 @@ const PlainLearningpathContainer = ({
         learningpathStep={currentStep}
         skipToContentId={skipToContentId}
         onKeyUpEvent={onKeyUpEvent}
-        locale={i18n.language}
         breadcrumbItems={[]}
       />
     </div>

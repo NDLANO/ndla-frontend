@@ -7,10 +7,12 @@
  */
 
 import { useEffect } from 'react';
-import { Content, PageContainer } from '@ndla/ui';
+import { Content, PageContainer, useMastheadHeight } from '@ndla/ui';
 import ZendeskButton from '@ndla/zendesk';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
+import { css, Global } from '@emotion/react';
 import { matchPath, Outlet, useLocation } from 'react-router-dom';
 import Masthead from '../Masthead';
 import config from '../../config';
@@ -18,16 +20,21 @@ import FeideFooter from './components/FeideFooter';
 import Footer from './components/Footer';
 import { useIsNdlaFilm, useUrnIds } from '../../routeHelpers';
 import { usePrevious } from '../../util/utilityHooks';
+import TitleAnnouncer from './components/TitleAnnouncer';
+
+const ZendeskWrapper = styled.div`
+  z-index: 10;
+`;
 
 const Layout = () => {
   const { t, i18n } = useTranslation();
   const { pathname } = useLocation();
+  const { height } = useMastheadHeight();
   const prevPathname = usePrevious(pathname);
   const params = useUrnIds();
   const zendeskLanguage =
     i18n.language === 'nb' || i18n.language === 'nn' ? 'no' : i18n.language;
   const ndlaFilm = useIsNdlaFilm();
-  const showMasthead = pathname !== '/';
   const backgroundWide = !!matchPath(
     '/learningpaths/:learningpathId',
     pathname,
@@ -53,26 +60,36 @@ const Layout = () => {
 
   return (
     <PageContainer backgroundWide={backgroundWide} ndlaFilm={ndlaFilm}>
+      <TitleAnnouncer />
+      <Global
+        styles={css`
+          html {
+            scroll-padding-top: ${height ? `${height}px` : undefined};
+          }
+        `}
+      />
       <Helmet
         htmlAttributes={{ lang: i18n.language }}
-        title="NDLA"
         meta={[{ name: 'description', content: t('meta.description') }]}
       />
       <Helmet>
         <meta property="fb:app_id" content="115263542481787" />
       </Helmet>
-      {showMasthead && <Masthead />}
+      <Masthead />
       <Content>
         <Outlet />
       </Content>
       <Footer ndlaFilm={ndlaFilm} />
       {config.feideEnabled && <FeideFooter />}
       {config.zendeskWidgetKey && (
-        <ZendeskButton
-          locale={zendeskLanguage}
-          widgetKey={config.zendeskWidgetKey}>
-          {t('askNDLA')}
-        </ZendeskButton>
+        <ZendeskWrapper>
+          <ZendeskButton
+            id="zendesk"
+            locale={zendeskLanguage}
+            widgetKey={config.zendeskWidgetKey}>
+            {t('askNDLA')}
+          </ZendeskButton>
+        </ZendeskWrapper>
       )}
     </PageContainer>
   );

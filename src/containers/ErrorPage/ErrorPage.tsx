@@ -6,6 +6,7 @@
  *
  */
 
+import styled from '@emotion/styled';
 import { Content, Masthead, MastheadItem, Logo, PageContainer } from '@ndla/ui';
 import ZendeskButton from '@ndla/zendesk';
 import { Helmet } from 'react-helmet-async';
@@ -14,6 +15,10 @@ import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import config from '../../config';
 import FeideFooter from '../Page/components/FeideFooter';
 import Footer from '../Page/components/Footer';
+
+const ZendeskWrapper = styled.div`
+  z-index: 10;
+`;
 
 const ErrorPage = () => {
   const { t, i18n } = useTranslation();
@@ -40,11 +45,13 @@ const ErrorPage = () => {
       <Footer />
       {config.feideEnabled && <FeideFooter />}
       {config.zendeskWidgetKey && (
-        <ZendeskButton
-          locale={zendeskLanguage}
-          widgetKey={config.zendeskWidgetKey}>
-          {t('askNDLA')}
-        </ZendeskButton>
+        <ZendeskWrapper>
+          <ZendeskButton
+            locale={zendeskLanguage}
+            widgetKey={config.zendeskWidgetKey}>
+            {t('askNDLA')}
+          </ZendeskButton>
+        </ZendeskWrapper>
       )}
     </PageContainer>
   );

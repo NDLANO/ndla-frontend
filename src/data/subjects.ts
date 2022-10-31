@@ -53,6 +53,19 @@ export const activeResources: SubjectType[] = [
     },
     id: 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc',
   },
+  {
+    longName: {
+      en: 'Ukrainian resources in Norwegian Social Science',
+      nb: 'Ukrainske ressurser i samfunnskunnskap',
+      nn: 'Ukrainske ressurser i samfunnskunnskap',
+    },
+    name: {
+      en: 'Ukrainian resources in Norwegian Social Science',
+      nb: 'Ukrainske ressurser i samfunnskunnskap',
+      nn: 'Ukrainske ressurser i samfunnskunnskap',
+    },
+    id: 'urn:subject:27e8623d-c092-4f00-9a6f-066438d6c466',
+  },
 ];
 
 export const activeSubjects: SubjectType[] = [
@@ -84,19 +97,6 @@ export const activeSubjects: SubjectType[] = [
   },
   {
     longName: {
-      en: 'Ukrainian resources in Norwegian Social Science',
-      nb: 'Ukrainske ressurser i samfunnskunnskap',
-      nn: 'Ukrainske ressurser i samfunnskunnskap',
-    },
-    name: {
-      en: 'Ukrainian resources in Norwegian Social Science',
-      nb: 'Ukrainske ressurser i samfunnskunnskap',
-      nn: 'Ukrainske ressurser i samfunnskunnskap',
-    },
-    id: 'urn:subject:27e8623d-c092-4f00-9a6f-066438d6c466',
-  },
-  {
-    longName: {
       en: 'Naturfag (PB)',
       nb: 'Naturfag (PB)',
       nn: 'Naturfag (PB)',
@@ -123,9 +123,9 @@ export const activeSubjects: SubjectType[] = [
   },
   {
     longName: {
-      en: 'Historie påbygg',
-      nb: 'Historie påbygg',
-      nn: 'Historie påbygg',
+      en: 'Historie (PB)',
+      nb: 'Historie (PB)',
+      nn: 'Historie (PB)',
     },
     name: {
       en: 'Historie',
@@ -136,9 +136,9 @@ export const activeSubjects: SubjectType[] = [
   },
   {
     longName: {
-      en: 'Historie vg3',
-      nb: 'Historie vg3',
-      nn: 'Historie vg3',
+      en: 'Historie (vg3)',
+      nb: 'Historie (vg3)',
+      nn: 'Historie (vg3)',
     },
     name: {
       en: 'Historie',
@@ -253,9 +253,9 @@ export const activeSubjects: SubjectType[] = [
   },
   {
     longName: {
-      en: 'Norsk påbygg',
-      nb: 'Norsk påbygg',
-      nn: 'Norsk påbygg',
+      en: 'Norsk (PB)',
+      nb: 'Norsk (PB)',
+      nn: 'Norsk (PB)',
     },
     name: {
       en: 'Norsk',
@@ -1118,12 +1118,12 @@ export const activeSubjects: SubjectType[] = [
     longName: {
       en: 'Administrasjon og bærekraftig drift (SR-SSH vg2)',
       nb: 'Administrasjon og bærekraftig drift (SR-SSH vg2)',
-      nn: 'Administrasjon og bærekraftig drift (SR-SSH vg2)',
+      nn: 'Administrasjon og berekraftig drift (SR-SSH vg2)',
     },
     name: {
       en: 'Administrasjon og bærekraftig drift',
       nb: 'Administrasjon og bærekraftig drift',
-      nn: 'Administrasjon og bærekraftig drift',
+      nn: 'Administrasjon og berekraftig drift',
     },
     id: 'urn:subject:1:f9eb2b20-1c83-4292-8ad2-0fa8522da7cd',
   },
@@ -1441,19 +1441,6 @@ export const activeSubjects: SubjectType[] = [
   },
   {
     longName: {
-      en: 'Naturbruk (NA-NAB vg1)',
-      nb: 'Naturbruk (NA-NAB vg1)',
-      nn: 'Naturbruk (NA-NAB vg1)',
-    },
-    name: {
-      en: 'Programfag Naturbruk',
-      nb: 'Programfag Naturbruk',
-      nn: 'Programfag Naturbruk',
-    },
-    id: 'urn:subject:13',
-  },
-  {
-    longName: {
       en: 'Konstruksjons- og styringsteknikk (TP-TIP vg1)',
       nb: 'Konstruksjons- og styringsteknikk (TP-TIP vg1)',
       nn: 'Konstruksjons- og styringsteknikk (TP-TIP vg1)',
@@ -1480,9 +1467,9 @@ export const activeSubjects: SubjectType[] = [
   },
   {
     longName: {
-      en: 'Produktivitet- og kvalitetsstyring (TP-TIP vg1)',
-      nb: 'Produktivitet- og kvalitetsstyring (TP-TIP vg1)',
-      nn: 'Produktivitet- og kvalitetsstyring (TP-TIP vg1)',
+      en: 'Produktivitet og kvalitetsstyring (TP-TIP vg1)',
+      nb: 'Produktivitet og kvalitetsstyring (TP-TIP vg1)',
+      nn: 'Produktivitet og kvalitetsstyring (TP-TIP vg1)',
     },
     name: {
       en: 'Produktivitet- og kvalitetsstyring',
@@ -1935,6 +1922,19 @@ export const activeSubjects: SubjectType[] = [
     },
     id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
   },
+  {
+    longName: {
+      en: 'Ent. & bus. dev. 1',
+      nb: 'Entreprenørskap og bedriftsutvikling 1',
+      nn: 'Entreprenørskap og bedriftsutvikling 1',
+    },
+    name: {
+      en: 'Ent. & bus. dev. 1',
+      nb: 'Entreprenørskap og bedriftsutvikling 1',
+      nn: 'Entreprenørskap og bedriftsutvikling 1',
+    },
+    id: 'urn:subject:c0ce0b31-33f6-4f6f-bbe0-caa878f7ab9b',
+  },
 ];
 
 export const archivedSubjects: SubjectType[] = [
@@ -2213,9 +2213,9 @@ export const archivedSubjects: SubjectType[] = [
   },
   {
     longName: {
-      en: 'Matematikk 2P-Y',
-      nb: 'Matematikk 2P-Y',
-      nn: 'Matematikk 2P-Y',
+      en: 'Matematikk 2P-Y (Utgått)',
+      nb: 'Matematikk 2P-Y (Utgått)',
+      nn: 'Matematikk 2P-Y (Utgått)',
     },
     name: {
       en: 'Matematikk 2P-Y (Utgått)',

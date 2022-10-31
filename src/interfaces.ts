@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 import { NormalizedCacheObject } from '@apollo/client';
-import { BreadcrumbItemProps } from '@ndla/ui/lib/Breadcrumblist/Breadcrumblist';
+import { BreadcrumbItemProps } from '@ndla/ui';
 import { History } from 'history';
 import { ConfigType } from './config';
 import { LocaleValues } from './constants';
@@ -20,6 +20,7 @@ export type InitialProps = {
   resCookie?: string;
   basename?: string;
   locale?: LocaleType;
+  ltiData?: LtiData;
 };
 
 export interface WindowData {

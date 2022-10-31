@@ -7,9 +7,10 @@
  */
 
 import './style/index.css';
+import { isMobile } from 'react-device-detect';
 import { ApolloProvider, useApolloClient } from '@apollo/client';
 import createCache from '@emotion/cache';
-import { CacheProvider } from '@emotion/core';
+import { CacheProvider } from '@emotion/react';
 import '@fontsource/shadows-into-light-two/index.css';
 import '@fontsource/source-code-pro/400-italic.css';
 import '@fontsource/source-code-pro/700.css';
@@ -47,16 +48,17 @@ import {
 } from './i18n';
 import { NDLAWindow } from './interfaces';
 import { createApolloClient, createApolloLinks } from './util/apiHelpers';
+import IsMobileContext from './IsMobileContext';
 
 declare global {
   interface Window extends NDLAWindow {}
 }
 
 const {
-  DATA: { config, serverPath, serverQuery, resCookie = '' },
+  DATA: { config, serverPath, serverQuery },
 } = window;
 
-const { basepath } = getLocaleInfoFromPath(serverPath ?? '');
+const { basepath, abbreviation } = getLocaleInfoFromPath(serverPath ?? '');
 
 const paths = window.location.pathname.split('/');
 const basename = isValidLocale(paths[1] ?? '') ? `${paths[1]}` : undefined;
@@ -79,7 +81,7 @@ const maybeStoredLanguage = getCookie(
 if (maybeStoredLanguage === null || maybeStoredLanguage === undefined) {
   setCookie({
     cookieName: STORED_LANGUAGE_COOKIE_KEY,
-    cookieValue: config.defaultLocale,
+    cookieValue: abbreviation,
   });
 }
 const storedLanguage = getCookie(STORED_LANGUAGE_COOKIE_KEY, document.cookie)!;
@@ -95,7 +97,7 @@ window.errorReporter = ErrorReporter.getInstance({
 window.hasHydrated = false;
 const renderOrHydrate = config.disableSSR ? ReactDOM.render : ReactDOM.hydrate;
 
-const client = createApolloClient(storedLanguage, document.cookie, versionHash);
+const client = createApolloClient(storedLanguage, versionHash);
 const cache = createCache({ key: EmotionCacheKey });
 
 // Use memory router if running under google translate
@@ -200,7 +202,7 @@ const LanguageWrapper = ({ basename }: { basename?: string }) => {
       cookieValue: lang,
     });
     client.resetStore();
-    client.setLink(createApolloLinks(lang, resCookie, versionHash));
+    client.setLink(createApolloLinks(lang, versionHash));
     document.documentElement.lang = lang;
   });
 
@@ -233,13 +235,7 @@ const LanguageWrapper = ({ basename }: { basename?: string }) => {
   return (
     <NDLARouter key={base} base={base}>
       {history => (
-        <App
-          locale={i18n.language}
-          resCookie={resCookie}
-          history={history}
-          isClient
-          base={base}
-        />
+        <App locale={i18n.language} history={history} isClient base={base} />
       )}
     </NDLARouter>
   );
@@ -253,7 +249,9 @@ renderOrHydrate(
       <ApolloProvider client={client}>
         <CacheProvider value={cache}>
           <VersionHashProvider value={versionHash}>
-            <LanguageWrapper basename={basename} />
+            <IsMobileContext.Provider value={isMobile}>
+              <LanguageWrapper basename={basename} />
+            </IsMobileContext.Provider>
           </VersionHashProvider>
         </CacheProvider>
       </ApolloProvider>

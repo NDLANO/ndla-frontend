@@ -1,4 +1,13 @@
 {
-  "presets": ["razzle/babel"],
-  "plugins": ["graphql-tag", "@babel/plugin-proposal-optional-chaining"]
+  "presets": [
+    [
+      "razzle/babel",
+      { "runtime": "automatic", "importSource": "@emotion/react" }
+    ]
+  ],
+  "plugins": [
+    ["@emotion", { "autoLabel": "always" }],
+    "graphql-tag",
+    "@babel/plugin-proposal-optional-chaining"
+  ]
 }

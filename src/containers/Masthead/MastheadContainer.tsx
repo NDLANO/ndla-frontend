@@ -6,7 +6,7 @@
  *
  */
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import {
   Masthead,
   MastheadItem,
@@ -42,9 +42,10 @@ import {
   GQLTopicInfoFragment,
 } from '../../graphqlTypes';
 import config from '../../config';
-import { setClosedAlert, useAlerts } from '../../components/AlertsContext';
+import { useAlerts } from '../../components/AlertsContext';
 import { SKIP_TO_CONTENT_ID } from '../../constants';
 import MastheadMenuModal from './components/MastheadMenuModal';
+import { AuthContext } from '../../components/AuthenticationContext';
 
 const BreadcrumbWrapper = styled.div`
   margin-left: ${spacing.normal};
@@ -52,6 +53,13 @@ const BreadcrumbWrapper = styled.div`
     display: none;
   }
 `;
+
+const FeideLoginLabel = styled.span`
+  ${mq.range({ until: breakpoints.mobileWide })} {
+    display: none;
+  }
+`;
+
 interface State {
   subject?: GQLMastHeadQuery['subject'];
   topicPath: GQLTopicInfoFragment[];
@@ -59,8 +67,10 @@ interface State {
   resource?: GQLMastHeadQuery['resource'];
 }
 
+const initialState: State = { topicPath: [] };
+
 const MastheadContainer = () => {
-  const [state, setState] = useState<State>({ topicPath: [] });
+  const [state, setState] = useState<State>(initialState);
   const { t, i18n } = useTranslation();
   const locale = i18n.language;
   const {
@@ -70,6 +80,8 @@ const MastheadContainer = () => {
     subjectType,
   } = useUrnIds();
   const [topicId, setTopicId] = useState<string>(topicIdParam ?? '');
+  const { user } = useContext(AuthContext);
+  const { openAlerts, closeAlert } = useAlerts();
   const location = useLocation();
   const ndlaFilm = useIsNdlaFilm();
   const hideBreadcrumb = subjectType === 'standard' && !resourceId;
@@ -87,10 +99,14 @@ const MastheadContainer = () => {
   }, [topicIdParam]);
 
   useEffect(() => {
-    if (!topicId && !resourceId && !subjectId) return;
+    if (!subjectId) {
+      setState(initialState);
+      return;
+    }
+
     fetchData({
       variables: {
-        subjectId: subjectId ?? '',
+        subjectId,
         topicId: topicId ?? '',
         resourceId: resourceId ?? '',
         skipTopic: !topicId,
@@ -113,6 +129,7 @@ const MastheadContainer = () => {
 
   const renderSearchComponent = (hideOnNarrowScreen: boolean) =>
     !location.pathname.includes('search') &&
+    location.pathname !== '/' &&
     (location.pathname.includes('utdanning') || subject) && (
       <MastheadSearch
         subject={subject}
@@ -120,7 +137,7 @@ const MastheadContainer = () => {
       />
     );
 
-  const alerts = useAlerts().map(alert => ({
+  const alerts = openAlerts?.map(alert => ({
     content: alert.body || alert.title,
     closable: alert.closable,
     number: alert.number,
@@ -132,7 +149,7 @@ const MastheadContainer = () => {
         fixed
         ndlaFilm={ndlaFilm}
         skipToMainContentId={SKIP_TO_CONTENT_ID}
-        onCloseAlert={id => setClosedAlert(id)}
+        onCloseAlert={id => closeAlert(id)}
         messages={alerts}>
         <MastheadItem left>
           <MastheadMenuModal>
@@ -146,7 +163,7 @@ const MastheadContainer = () => {
               />
             )}
           </MastheadMenuModal>
-          {!hideBreadcrumb && (
+          {!hideBreadcrumb && !!breadcrumbBlockItems.length && (
             <DisplayOnPageYOffset yOffsetMin={150}>
               <BreadcrumbWrapper>
                 <HeaderBreadcrumb
@@ -170,8 +187,15 @@ const MastheadContainer = () => {
             currentLanguage={i18n.language}
           />
           {config.feideEnabled && (
-            <FeideLoginButton>
-              <Feide title={t('user.buttonLogIn')} />
+            <FeideLoginButton masthead>
+              <FeideLoginLabel data-hj-suppress>
+                {user?.givenName ? (
+                  <span data-hj-suppress>{user.givenName}</span>
+                ) : (
+                  <span>{t('myNdla.myNDLA')}</span>
+                )}
+              </FeideLoginLabel>
+              <Feide />
             </FeideLoginButton>
           )}
           {renderSearchComponent(true)}

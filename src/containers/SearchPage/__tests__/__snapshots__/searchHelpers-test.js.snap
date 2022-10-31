@@ -1,23 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`searchHelpers converSearchStringToObject converts search string 1`] = `
-Object {
-  "contextFilters": Array [],
-  "contextTypes": Array [],
+{
+  "contextFilters": [],
+  "contextTypes": [],
   "fallback": "true",
-  "grepCodes": Array [],
+  "grepCodes": [],
   "language": "nb",
-  "languageFilter": Array [
+  "languageFilter": [
     "1",
     "2",
     "3",
   ],
   "page": "3",
-  "programs": Array [],
+  "programs": [],
   "query": "test",
-  "relevance": Array [],
-  "resourceTypes": Array [],
-  "subjects": Array [
+  "relevance": [],
+  "resourceTypes": [],
+  "subjects": [
     "urn:test:3",
     "urn:test:1",
     "urn:test:2",
@@ -26,34 +26,34 @@ Object {
 `;
 
 exports[`searchHelpers converSearchStringToObject with no location 1`] = `
-Object {
-  "contextFilters": Array [],
-  "contextTypes": Array [],
+{
+  "contextFilters": [],
+  "contextTypes": [],
   "fallback": "true",
-  "grepCodes": Array [],
+  "grepCodes": [],
   "language": "nb",
-  "languageFilter": Array [],
-  "programs": Array [],
-  "relevance": Array [],
-  "resourceTypes": Array [],
-  "subjects": Array [],
+  "languageFilter": [],
+  "programs": [],
+  "relevance": [],
+  "resourceTypes": [],
+  "subjects": [],
 }
 `;
 
 exports[`searchHelpers searchResultToLinkProps article 1`] = `
-Object {
+{
   "to": "/article/300",
 }
 `;
 
 exports[`searchHelpers searchResultToLinkProps article without paths 1`] = `
-Object {
+{
   "to": "/404",
 }
 `;
 
 exports[`searchHelpers searchResultToLinkProps learningpath 1`] = `
-Object {
+{
   "to": "/learningpath/500",
 }
 `;

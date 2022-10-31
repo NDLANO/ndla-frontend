@@ -21,6 +21,11 @@ const messages = {
     podcast: `Podkast - Side {{pageNumber}} - ${titleTemplate}`,
     lti: `LTI - ${titleTemplate}`,
     movedResourcePage: `Sida har flytta - ${titleTemplate}`,
+    myNdlaPage: `Min NDLA - ${titleTemplate}`,
+    myFoldersPage: `Mine mapper - ${titleTemplate}`,
+    myFolderPage: `{{folderName}} - ${titleTemplate}`,
+    myTagPage: `#{{tag}} - ${titleTemplate}`,
+    myTagsPage: `Mine tags - ${titleTemplate}`,
     toolbox: {
       visualElement: 'Om emne video',
       introduction:
@@ -57,6 +62,17 @@ const messages = {
       license: 'CC-BY-SA-4.0',
       licenseAuthor: 'Tom Knudsen',
     },
+  },
+  validation: {
+    fields: {
+      name: 'Namn',
+    },
+    required: 'Dette feltet er påkrevd',
+    requiredField: '$t(validation.fields.{{field}}) er påkrevd',
+    notUnique: 'Finnes allereie',
+    maxLength: 'Dette feltet kan maks innehalde {{count}} teikn',
+    maxLengthField:
+      '$t(validation.fields.{{field}}) kan maks innehalde {{count}} teikn',
   },
 };
 

@@ -7,24 +7,12 @@
  */
 
 import { TokenSet, TokenSetParameters } from 'openid-client';
-import { deleteCookie, getCookie, setCookie } from '@ndla/util';
-import config from '../config';
-import { fetchAuthorized, resolveJsonOrRejectWithError } from './apiHelpers';
+import { getCookie } from '@ndla/util';
+import { resolveJsonOrRejectWithError } from './apiHelpers';
 
 interface Feide extends TokenSet {
   url?: string;
 }
-
-const handleConfigTypes = (
-  configVariable: string | boolean | undefined,
-): string => {
-  if (typeof configVariable === 'string') {
-    return configVariable;
-  }
-  return '';
-};
-
-const FEIDE_DOMAIN = handleConfigTypes(config.feideDomain);
 
 const locationOrigin = (() => {
   if (process.env.NODE_ENV === 'unittest') {
@@ -53,41 +41,11 @@ const locationOrigin = (() => {
   return window.location.origin;
 })();
 
-export const auth0Domain =
-  process.env.NODE_ENV === 'unittest' ? 'http://auth-ndla' : FEIDE_DOMAIN;
-
 export { locationOrigin };
 
 interface FeideCookie extends TokenSetParameters {
   ndla_expires_at: number;
 }
-
-function prepareCookie(tokenSet: TokenSet): FeideCookie {
-  return {
-    ...tokenSet,
-    ndla_expires_at: (tokenSet.expires_at ?? 0) * 1000,
-  };
-}
-
-function setTokenSetInLocalStorage(tokenSet: TokenSet): FeideCookie {
-  const cookieValue = prepareCookie(tokenSet);
-  const expiration = new Date(cookieValue.ndla_expires_at);
-  const cookieParams = {
-    cookieName: 'feide_auth',
-    cookieValue: JSON.stringify(cookieValue),
-    expiration,
-  };
-
-  localStorage.removeItem('lastPath');
-
-  setCookie(cookieParams);
-
-  return cookieValue;
-}
-
-const clearTokenSetFromLocalStorage = () => {
-  deleteCookie('feide_auth');
-};
 
 export const getFeideCookie = (cookies: string): FeideCookie | null => {
   const cookieString = getCookie('feide_auth', cookies);
@@ -122,44 +80,13 @@ export const isAccessTokenValid = (
   return millisUntilExpiration(cookie) > 10000;
 };
 
-const getIdTokenFeide = () => getFeideCookieClient()?.id_token;
-
-export const initializeFeideLogin = () => {
-  if (!config.feideEnabled)
-    return new Promise((resolve, _reject) => resolve(''));
-  const lastPath = localStorage.getItem('lastPath');
-  const state = `${lastPath ? `?state=${lastPath}` : ''}`;
+export const initializeFeideLogin = (from?: string) => {
+  const state = `${from ? `?state=${from}` : ''}`;
 
   return fetch(`${locationOrigin}/feide/login${state}`)
     .then(res => resolveJsonOrRejectWithError<Feide>(res))
-    .then(data => (window.location.href = data?.url || ''));
-};
-
-export const finalizeFeideLogin = async (
-  feideLoginCode: string,
-): Promise<FeideCookie> => {
-  const res = await fetch(
-    `${locationOrigin}/feide/token?code=${feideLoginCode}`,
-    {
-      credentials: 'include',
-    },
-  );
-  const tokenSet = await resolveJsonOrRejectWithError<Feide>(res);
-  const set = setTokenSetInLocalStorage(tokenSet!);
-  return set;
-};
-
-export const feideLogout = (logout: () => void) => {
-  const lastPath = localStorage.getItem('lastPath');
-  const state = `${lastPath ? `&state=${lastPath}` : ''}`;
-  fetchAuthorized(
-    `${locationOrigin}/feide/logout?id_token_hint=${getIdTokenFeide()}${state}`,
-  )
-    .then(res => resolveJsonOrRejectWithError<Feide>(res))
-    .then(json => {
-      clearTokenSetFromLocalStorage();
-      logout();
-      window.location.href = json?.url || '';
+    .then(data => {
+      window.location.href = data?.url || '';
     });
 };
 

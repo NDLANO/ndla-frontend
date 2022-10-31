@@ -35,7 +35,7 @@ import { STORED_LANGUAGE_COOKIE_KEY } from '../constants';
 import { initializeI18n, isValidLocale } from '../i18n';
 
 const {
-  DATA: { initialProps, config },
+  DATA: { initialProps, config, ltiData },
 } = window;
 
 const { logglyApiKey, logEnvironment: environment, componentName } = config;
@@ -51,7 +51,7 @@ const storedLanguage = getCookie(STORED_LANGUAGE_COOKIE_KEY, document.cookie);
 const language = isValidLocale(storedLanguage)
   ? storedLanguage
   : config.defaultLocale;
-const client = createApolloClient(language, document.cookie);
+const client = createApolloClient(language);
 const i18n = initializeI18n(i18nInstance, language);
 
 ReactDOM.render(
@@ -59,7 +59,7 @@ ReactDOM.render(
     <I18nextProvider i18n={i18n}>
       <ApolloProvider client={client}>
         <MissingRouterContext.Provider value={true}>
-          <LtiProvider {...initialProps} />
+          <LtiProvider {...initialProps} ltiData={ltiData} />
         </MissingRouterContext.Provider>
       </ApolloProvider>
     </I18nextProvider>

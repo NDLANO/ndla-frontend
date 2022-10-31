@@ -12,6 +12,7 @@ import {
   ReactElement,
   useEffect,
   useMemo,
+  useState,
 } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Remarkable } from 'remarkable';
@@ -21,6 +22,7 @@ import {
   ContentTypeBadge,
   getMastheadHeight,
 } from '@ndla/ui';
+import { useTranslation } from 'react-i18next';
 import config from '../../config';
 import LicenseBox from '../license/LicenseBox';
 import CompetenceGoals from '../CompetenceGoals';
@@ -30,15 +32,16 @@ import {
   GQLArticle_ArticleFragment,
   GQLArticle_ConceptFragment,
 } from '../../graphqlTypes';
-import { LocaleType } from '../../interfaces';
 import { MastheadHeightPx } from '../../constants';
 import { useGraphQuery } from '../../util/runQueries';
+import AddResourceToFolderModal from '../MyNdla/AddResourceToFolderModal';
+import FavoriteButton from './FavoritesButton';
 
 function renderCompetenceGoals(
   article: GQLArticle_ArticleFragment,
-  locale: LocaleType,
   isTopicArticle: boolean,
   subjectId?: string,
+  isOembed?: boolean,
 ):
   | ((inp: {
       Dialog: ComponentType;
@@ -62,13 +65,10 @@ function renderCompetenceGoals(
         codes={article.grepCodes}
         nodeId={article.oldNdlaUrl?.split('/').pop()}
         subjectId={subjectId}
-        language={
-          article.supportedLanguages?.find(l => l === locale) ||
-          article.supportedLanguages?.[0] ||
-          locale
-        }
+        supportedLanguages={article.supportedLanguages}
         wrapperComponent={Dialog}
         wrapperComponentProps={dialogProps}
+        isOembed={isOembed}
       />
     );
   }
@@ -83,13 +83,16 @@ interface Props {
   children?: ReactElement;
   contentType?: string;
   label: string;
-  locale: LocaleType;
   modifier?: string;
   isResourceArticle?: boolean;
   copyPageUrlLink?: string;
   printUrl?: string;
   subjectId?: string;
   isPlainArticle?: boolean;
+  isOembed?: boolean;
+  showFavoriteButton?: boolean;
+  myNdlaResourceType?: string;
+  path?: string;
 }
 
 const renderNotions = (
@@ -186,13 +189,13 @@ const articleConceptQuery = gql`
 `;
 
 const Article = ({
+  path,
   article,
   resourceType,
   isTopicArticle = false,
   children,
   contentType,
   label,
-  locale,
   modifier,
   isResourceArticle = false,
   copyPageUrlLink,
@@ -200,8 +203,13 @@ const Article = ({
   id,
   subjectId,
   isPlainArticle,
+  isOembed = false,
+  showFavoriteButton,
+  myNdlaResourceType = 'article',
   ...rest
 }: Props) => {
+  const { i18n } = useTranslation();
+  const [isOpen, setIsOpen] = useState(false);
   const markdown = useMemo(() => {
     const md = new Remarkable({ breaks: true });
     md.inline.ruler.enable(['sub', 'sup']);
@@ -279,35 +287,51 @@ const Article = ({
   };
 
   return (
-    <UIArticle
-      id={id ?? article.id.toString()}
-      article={art}
-      icon={icon}
-      locale={locale}
-      licenseBox={<LicenseBox article={article} locale={locale} />}
-      messages={messages}
-      competenceGoals={renderCompetenceGoals(
-        article,
-        locale,
-        isTopicArticle,
-        subjectId,
+    <>
+      <UIArticle
+        id={id ?? article.id.toString()}
+        article={art}
+        icon={icon}
+        locale={i18n.language}
+        licenseBox={<LicenseBox article={article} />}
+        messages={messages}
+        competenceGoals={renderCompetenceGoals(
+          article,
+          isTopicArticle,
+          subjectId,
+          isOembed,
+        )}
+        competenceGoalTypes={competenceGoalTypes}
+        notions={
+          isPlainArticle
+            ? undefined
+            : renderNotions(
+                concepts?.conceptSearch?.concepts ?? [],
+                article.relatedContent,
+              )
+        }
+        renderMarkdown={renderMarkdown}
+        modifier={isResourceArticle ? resourceType : modifier ?? 'clean'}
+        copyPageUrlLink={copyPageUrlLink}
+        printUrl={printUrl}
+        heartButton={
+          path && <FavoriteButton path={path} onClick={() => setIsOpen(true)} />
+        }
+        {...rest}>
+        {children}
+      </UIArticle>
+      {config.feideEnabled && showFavoriteButton && (
+        <AddResourceToFolderModal
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          resource={{
+            id: article.id,
+            path: location.pathname,
+            resourceType: myNdlaResourceType,
+          }}
+        />
       )}
-      competenceGoalTypes={competenceGoalTypes}
-      notions={
-        isPlainArticle
-          ? undefined
-          : renderNotions(
-              concepts?.conceptSearch?.concepts ?? [],
-              article.relatedContent,
-            )
-      }
-      renderMarkdown={renderMarkdown}
-      modifier={isResourceArticle ? resourceType : modifier ?? 'clean'}
-      copyPageUrlLink={copyPageUrlLink}
-      printUrl={printUrl}
-      {...rest}>
-      {children}
-    </UIArticle>
+    </>
   );
 };
 

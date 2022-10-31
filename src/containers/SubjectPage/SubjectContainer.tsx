@@ -29,7 +29,11 @@ import {
 } from '@ndla/ui';
 import { withTracker } from '@ndla/tracker';
 import { useIntersectionObserver } from '@ndla/hooks';
-import { withTranslation, WithTranslation, TFunction } from 'react-i18next';
+import {
+  withTranslation,
+  TFunction,
+  CustomWithTranslation,
+} from 'react-i18next';
 import SubjectPageContent from './components/SubjectPageContent';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { scrollToRef } from './subjectPageHelpers';
@@ -37,22 +41,22 @@ import CompetenceGoals from '../../components/CompetenceGoals';
 import { getSubjectBySubjectId, getSubjectLongName } from '../../data/subjects';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { htmlTitle } from '../../util/titleHelper';
-import { BreadcrumbItem, LocaleType } from '../../interfaces';
+import { BreadcrumbItem } from '../../interfaces';
 import { GQLSubjectContainer_SubjectFragment } from '../../graphqlTypes';
 import {
+  SKIP_TO_CONTENT_ID,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE,
 } from '../../constants';
 import { useIsNdlaFilm } from '../../routeHelpers';
 
 type Props = {
-  locale: LocaleType;
   subjectId: string;
   topicIds: string[];
   subject: GQLSubjectContainer_SubjectFragment;
   loading?: boolean;
   user?: FeideUserApiType;
-} & WithTranslation;
+} & CustomWithTranslation;
 
 const getSubjectCategoryMessage = (
   subjectCategory: string | undefined,
@@ -85,17 +89,10 @@ const getSubjectTypeMessage = (
   }
 };
 
-const SubjectContainer = ({
-  locale,
-  t,
-  subjectId,
-  topicIds,
-  subject,
-}: Props) => {
+const SubjectContainer = ({ t, subjectId, topicIds, subject, i18n }: Props) => {
   const ndlaFilm = useIsNdlaFilm();
   const { name: subjectName } = subject;
 
-  const metaDescription = subject.subjectpage?.metaDescription;
   const about = subject.subjectpage?.about;
 
   const [currentLevel, setCurrentLevel] = useState<number | string | undefined>(
@@ -108,8 +105,8 @@ const SubjectContainer = ({
     if (subjectData) {
       return {
         subHeading: undefined,
-        name: subjectData.name[locale],
-        longName: subjectData.longName[locale],
+        name: subjectData.name[i18n.language],
+        longName: subjectData.longName[i18n.language],
       };
     }
     // Fallback if subject is missing in static constants
@@ -158,7 +155,6 @@ const SubjectContainer = ({
 
   function renderCompetenceGoals(
     subject: GQLSubjectContainer_SubjectFragment,
-    locale: LocaleType,
   ):
     | ((inp: {
         Dialog: ComponentType;
@@ -177,7 +173,6 @@ const SubjectContainer = ({
         <CompetenceGoals
           codes={subject.grepCodes}
           subjectId={subject.id}
-          language={locale}
           wrapperComponent={Dialog}
           wrapperComponentProps={dialogProps}
         />
@@ -216,9 +211,11 @@ const SubjectContainer = ({
     subject.allTopics?.find(topic => topic.id === t),
   );
 
+  const topicTitle = topicPath?.[topicPath.length - 1]?.name;
+  const subjectTitle = about?.title || subjectNames?.longName || subject.name;
+  const title = [topicTitle, subjectTitle].filter(e => !!e).join(' - ');
   const socialMediaMetadata = {
-    title:
-      topicPath?.[topicPath.length - 1]?.name || about?.title || subject.name,
+    title,
     description:
       topicPath?.[topicPath.length - 1]?.meta?.metaDescription ||
       subject.subjectpage?.metaDescription,
@@ -226,6 +223,10 @@ const SubjectContainer = ({
       topicPath?.[topicPath.length - 1]?.meta?.metaImage ||
       about?.visualElement,
   };
+
+  const pageTitle = htmlTitle(socialMediaMetadata.title, [
+    t('htmlTitles.titleTemplate'),
+  ]);
 
   const topicsOnPage =
     (topicIds.length > 0
@@ -248,11 +249,11 @@ const SubjectContainer = ({
   return (
     <>
       <Helmet>
-        <title>
-          {htmlTitle(subjectNames?.name, [t('htmlTitles.titleTemplate')])}
-        </title>
-        {metaDescription && (
-          <meta name="description" content={metaDescription} />
+        <title>{pageTitle}</title>
+        {subject?.metadata.customFields?.[
+          TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY
+        ] === constants.subjectCategories.ARCHIVE_SUBJECTS && (
+          <meta name="robots" content="noindex, nofollow" />
         )}
       </Helmet>
       <div ref={containerRef}>
@@ -266,8 +267,11 @@ const SubjectContainer = ({
             />
             <div ref={headerRef}>
               <ArticleHeaderWrapper
-                competenceGoals={renderCompetenceGoals(subject, locale)}>
+                competenceGoals={renderCompetenceGoals(subject)}>
                 <NavigationHeading
+                  headingId={
+                    topicIds.length === 0 ? SKIP_TO_CONTENT_ID : undefined
+                  }
                   subHeading={subjectNames.subHeading}
                   invertedStyle={ndlaFilm}>
                   {subjectNames.longName}
@@ -281,7 +285,6 @@ const SubjectContainer = ({
               <MessageBox>{nonRegularSubjectTypeMessage}</MessageBox>
             )}
             <SubjectPageContent
-              locale={locale}
               subject={subject}
               topicIds={topicIds}
               refs={topicRefs}
@@ -296,18 +299,6 @@ const SubjectContainer = ({
           negativeTopMargin={moveBannerUp}
         />
       )}
-      {/* {false && subject.subjectpage?.about && (
-        <OneColumn wide>
-          <SubjectPageInformation subjectpage={subject.subjectpage} wide />
-        </OneColumn>
-      )}
-      {false && (editorsChoices?.length ?? 0) > 0 && (
-        <SubjectEditorChoices
-          wideScreen
-          editorsChoices={editorsChoices}
-          locale={locale}
-        />
-      )} */}
       <OneColumn wide>
         <Breadcrumblist
           items={breadCrumbs}
@@ -335,11 +326,11 @@ SubjectContainer.willTrackPageView = (
 };
 
 SubjectContainer.getDimensions = (props: Props) => {
-  const { subject, locale, topicIds, user } = props;
+  const { subject, i18n, topicIds, user } = props;
   const topicPath = topicIds.map(t =>
     subject.allTopics?.find(topic => topic.id === t),
   );
-  const longName = getSubjectLongName(subject.id, locale);
+  const longName = getSubjectLongName(subject.id, i18n.language);
 
   return getAllDimensions({
     subject,

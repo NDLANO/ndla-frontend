@@ -22,13 +22,12 @@ import getStructuredDataFromArticle, {
 } from '../../util/getStructuredDataFromArticle';
 import { htmlTitle } from '../../util/titleHelper';
 import { GQLPlainArticleContainer_ArticleFragment } from '../../graphqlTypes';
-import { LocaleType } from '../../interfaces';
+import config from '../../config';
 import { getArticleProps } from '../../util/getArticleProps';
 import { getAllDimensions } from '../../util/trackingUtil';
 
 interface Props extends CustomWithTranslation {
   article: GQLPlainArticleContainer_ArticleFragment;
-  locale: LocaleType;
   user?: FeideUserApiType;
   skipToContentId?: string;
 }
@@ -38,28 +37,30 @@ const getDocumentTitle = ({ t, article }: Pick<Props, 't' | 'article'>) =>
 
 const PlainArticleContainer = ({
   article: propArticle,
-  locale,
+  i18n,
   t,
   skipToContentId,
 }: Props) => {
   useEffect(() => {
     if (window.MathJax && typeof window.MathJax.typeset === 'function') {
-      window?.MathJax?.typeset();
+      try {
+        window.MathJax.typeset();
+      } catch (err) {
+        // do nothing
+      }
     }
   });
 
-  const article = transformArticle(propArticle, locale);
+  const article = transformArticle(propArticle, i18n.language);
   if (!article) return <NotFoundPage />;
-  const scripts = getArticleScripts(article);
+  const scripts = getArticleScripts(article, i18n.language);
+  const oembedUrl = `${config.ndlaFrontendDomain}/oembed?url=${config.ndlaFrontendDomain}/article/${article.id}`;
 
   return (
     <div>
       <Helmet>
         <title>{`${getDocumentTitle({ t, article })}`}</title>
         <meta name="robots" content="noindex" />
-        {article && article.metaDescription && (
-          <meta name="description" content={article.metaDescription} />
-        )}
         {scripts.map(script => (
           <script
             key={script.src}
@@ -69,6 +70,14 @@ const PlainArticleContainer = ({
             defer={script.defer}
           />
         ))}
+        {oembedUrl && (
+          <link
+            rel="alternate"
+            type="application/json+oembed"
+            href={oembedUrl}
+            title={article.title}
+          />
+        )}
 
         <script type="application/ld+json">
           {JSON.stringify(getStructuredDataFromArticle(propArticle))}
@@ -85,7 +94,6 @@ const PlainArticleContainer = ({
           isPlainArticle
           id={skipToContentId}
           article={article}
-          locale={locale}
           {...getArticleProps(undefined, undefined)}
         />
       </OneColumn>

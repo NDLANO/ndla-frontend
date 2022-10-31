@@ -13,7 +13,7 @@ import { I18nextProvider } from 'react-i18next';
 import { HelmetProvider } from 'react-helmet-async';
 import { StaticRouter } from 'react-router-dom/server.js';
 import { ApolloProvider } from '@apollo/client';
-import { CacheProvider } from '@emotion/core';
+import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import { INTERNAL_SERVER_ERROR, OK } from '../../statusCodes';
 import { getHtmlLang, initializeI18n, isValidLocale } from '../../i18n';
@@ -58,10 +58,7 @@ const disableSSR = (req: Request) => {
 async function doRenderPage(req: Request, initialProps: InitialProps) {
   const context = {};
 
-  const client = createApolloClient(
-    initialProps.locale,
-    initialProps.resCookie,
-  );
+  const client = createApolloClient(initialProps.locale);
 
   const helmetContext = {};
   const cache = createCache({ key: EmotionCacheKey });
@@ -130,7 +127,9 @@ export async function iframeArticleRoute(req: Request) {
       status: 'error',
     });
 
-    const status = error.status || INTERNAL_SERVER_ERROR;
+    const typedError = error as { status?: number };
+    const status = typedError.status || INTERNAL_SERVER_ERROR;
+
     return renderHtml(req, html, { status }, docProps, helmetContext);
   }
 }

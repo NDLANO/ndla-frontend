@@ -6,7 +6,14 @@
  *
  */
 
-export const privateRoutes = ['minndla'];
+export const privateRoutes = [
+  'minndla',
+  'minndla/meny',
+  'minndla/folders',
+  'minndla/tags',
+  'minndla/tags/:tag',
+  'minndla/folders/:folderId',
+];
 
 export const routes = [
   '/',
@@ -20,8 +27,6 @@ export const routes = [
   'login',
   'login/success',
   'login/failure',
-  'logout',
-  'logout/session',
   'podkast',
   'podkast/:id',
   'article/:articleId',
@@ -37,6 +42,12 @@ export const routes = [
   'subject:subjectId/topic:topic1/topic:topic2/topic:topicId',
   'subject:subjectId/topic:topic1/topic:topic2/topic:topicId/resource:resourceId',
   'subject:subjectId/topic:topic1/topic:topic2/topic:topicId/resource:resourceId/:stepId',
+  'subject:subjectId/topic:topic1/topic:topic2/topic:topic3/topic:topicId',
+  'subject:subjectId/topic:topic1/topic:topic2/topic:topic3/topic:topicId/resource:resourceId',
+  'subject:subjectId/topic:topic1/topic:topic2/topic:topic3/topic:topicId/resource:resourceId/:stepId',
+  'subject:subjectId/topic:topic1/topic:topic2/topic:topic3/topic:topic4/topic:topicId/resource:resourceId',
+  'subject:subjectId/topic:topic1/topic:topic2/topic:topic3/topic:topic4/topic:topicId/resource:resourceId',
+  'subject:subjectId/topic:topic1/topic:topic2/topic:topic3/topic:topic4/topic:topicId/resource:resourceId/:stepId',
   ...privateRoutes,
 ];
 
@@ -50,6 +61,12 @@ export const oembedRoutes = [
   'subjects/subject:subjectId/topic:topic1/topic:topic2/topic:topicId',
   'subjects/subject:subjectId/topic:topic1/topic:topic2/topic:topicId/resource:resourceId',
   'subjects/subject:subjectId/topic:topic1/topic:topic2/topic:topicId/resource:resourceId/:stepId',
+  'subjects/subject:subjectId/topic:topic1/topic:topic2/topic:topic:3/topic:topicId',
+  'subjects/subject:subjectId/topic:topic1/topic:topic2/topic:topic:3/topic:topicId/resource:resourceId',
+  'subjects/subject:subjectId/topic:topic1/topic:topic2/topic:topic:3/topic:topicId/resource:resourceId/:stepId',
+  'subjects/subject:subjectId/topic:topic1/topic:topic2/topic:topic:3/topic:topic4/topic:topicId',
+  'subjects/subject:subjectId/topic:topic1/topic:topic2/topic:topic:3/topic:topic4/topic:topicId/resource:resourceId',
+  'subjects/subject:subjectId/topic:topic1/topic:topic2/topic:topic:3/topic:topic4/topic:topicId/resource:resourceId/:stepId',
   'subject:subjectId/topic:topicId',
   'subject:subjectId/topic:topicId/resource:resourceId',
   'subject:subjectId/topic:topicId/resource:resourceId/:stepId',
@@ -59,6 +76,12 @@ export const oembedRoutes = [
   'subject:subjectId/topic:topic1/topic:topic2/topic:topicId',
   'subject:subjectId/topic:topic1/topic:topic2/topic:topicId/resource:resourceId',
   'subject:subjectId/topic:topic1/topic:topic2/topic:topicId/resource:resourceId/:stepId',
+  'subject:subjectId/topic:topic1/topic:topic2/topic:topic3/topic:topicId',
+  'subject:subjectId/topic:topic1/topic:topic2/topic:topic3/topic:topicId/resource:resourceId',
+  'subject:subjectId/topic:topic1/topic:topic2/topic:topic3/topic:topicId/resource:resourceId/:stepId',
+  'subject:subjectId/topic:topic1/topic:topic2/topic:topic3/topic:topic4/topic:topicId',
+  'subject:subjectId/topic:topic1/topic:topic2/topic:topic3/topic:topic4/topic:topicId/resource:resourceId',
+  'subject:subjectId/topic:topic1/topic:topic2/topic:topic3/topic:topic4/topic:topicId/resource:resourceId/:stepId',
   'article/:articleId',
   'article-iframe/article/:articleId',
   'article-iframe/:lang/article/:articleId',

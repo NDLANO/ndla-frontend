@@ -27,7 +27,7 @@ import LastLearningpathStepInfo from './LastLearningpathStepInfo';
 import LearningpathEmbed from './LearningpathEmbed';
 import config from '../../config';
 import { getContentType } from '../../util/getContentType';
-import { Breadcrumb as BreadcrumbType, LocaleType } from '../../interfaces';
+import { Breadcrumb as BreadcrumbType } from '../../interfaces';
 import {
   GQLLearningpath_LearningpathFragment,
   GQLLearningpath_LearningpathStepFragment,
@@ -37,6 +37,8 @@ import {
   GQLLearningpath_TopicFragment,
   GQLLearningpath_TopicPathFragment,
 } from '../../graphqlTypes';
+import AddResourceToFolderModal from '../MyNdla/AddResourceToFolderModal';
+import FavoriteButton from '../Article/FavoritesButton';
 
 const LEARNING_PATHS_STORAGE_KEY = 'LEARNING_PATHS_COOKIES_KEY';
 
@@ -49,7 +51,6 @@ interface Props {
   subject?: GQLLearningpath_SubjectFragment;
   resource?: GQLLearningpath_ResourceFragment;
   skipToContentId?: string;
-  locale: LocaleType;
   onKeyUpEvent: (evt: KeyboardEvent) => void;
   breadcrumbItems: BreadcrumbType[];
 }
@@ -63,10 +64,10 @@ const Learningpath = ({
   topicPath,
   resourceTypes,
   skipToContentId,
-  locale,
   onKeyUpEvent,
   breadcrumbItems,
 }: Props) => {
+  const [isAdding, setIsAdding] = useState(false);
   const ndlaFilm = useIsNdlaFilm();
   const { id, learningsteps, lastUpdated, copyright, title } = learningpath;
 
@@ -134,6 +135,15 @@ const Learningpath = ({
       name={title}
       cookies={viewedSteps}
       learningPathURL={config.learningPathDomain}
+      heartButton={
+        resource?.path &&
+        config.feideEnabled && (
+          <FavoriteButton
+            path={resource.path}
+            onClick={() => setIsAdding(true)}
+          />
+        )
+      }
     />
   );
 
@@ -153,6 +163,7 @@ const Learningpath = ({
           <div data-testid="learningpath-content">
             {learningpathStep.showTitle && (
               <LearningPathInformation
+                id={skipToContentId}
                 invertedStyle={ndlaFilm}
                 title={learningpathStep.title}
                 description={learningpathStep.description}
@@ -160,8 +171,9 @@ const Learningpath = ({
               />
             )}
             <LearningpathEmbed
-              skipToContentId={skipToContentId}
-              locale={locale}
+              skipToContentId={
+                !learningpathStep.showTitle ? skipToContentId : undefined
+              }
               topic={topic}
               learningpathStep={learningpathStep}
               breadcrumbItems={breadcrumbItems}
@@ -211,6 +223,17 @@ const Learningpath = ({
           <LearningPathStickyPlaceholder />
         )}
       </LearningPathSticky>
+      {resource?.path && (
+        <AddResourceToFolderModal
+          isOpen={isAdding}
+          onClose={() => setIsAdding(false)}
+          resource={{
+            id: learningpath.id,
+            path: resource.path,
+            resourceType: 'learningpath',
+          }}
+        />
+      )}
     </LearningPathWrapper>
   );
 };

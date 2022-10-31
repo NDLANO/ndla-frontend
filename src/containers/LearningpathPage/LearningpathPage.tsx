@@ -10,9 +10,13 @@ import { useEffect } from 'react';
 import { gql } from '@apollo/client';
 import { Helmet } from 'react-helmet-async';
 import { withTracker } from '@ndla/tracker';
-import { TFunction, WithTranslation, withTranslation } from 'react-i18next';
+import {
+  CustomWithTranslation,
+  TFunction,
+  withTranslation,
+} from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { FeideUserApiType } from '@ndla/ui';
+import { constants, FeideUserApiType } from '@ndla/ui';
 import { getArticleProps } from '../../util/getArticleProps';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { htmlTitle } from '../../util/titleHelper';
@@ -29,9 +33,8 @@ import {
   GQLLearningpathPage_TopicFragment,
   GQLLearningpathPage_TopicPathFragment,
   GQLLearningpathStep,
-  GQLSubject,
 } from '../../graphqlTypes';
-import { LocaleType } from '../../interfaces';
+import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from '../../constants';
 
 interface PropData {
   relevance: string;
@@ -42,8 +45,7 @@ interface PropData {
   resource?: GQLLearningpathPage_ResourceFragment;
 }
 
-interface Props extends WithTranslation {
-  locale: LocaleType;
+interface Props extends CustomWithTranslation {
   loading: boolean;
   data: PropData;
   skipToContentId: string;
@@ -53,15 +55,19 @@ interface Props extends WithTranslation {
 
 const LearningpathPage = ({
   data,
-  locale,
   skipToContentId,
   stepId,
+  i18n,
   t,
 }: Props) => {
   const navigate = useNavigate();
   useEffect(() => {
-    if (window.MathJax) {
-      window.MathJax.typeset();
+    if (window.MathJax && typeof window.MathJax.typeset === 'function') {
+      try {
+        window.MathJax.typeset();
+      } catch (err) {
+        // do nothing
+      }
     }
   });
 
@@ -121,18 +127,23 @@ const LearningpathPage = ({
             ...topicPath,
             { name: learningpath.title, id: `${learningpath.id}` },
           ],
-          locale as LocaleType,
+          i18n.language,
         )
       : toBreadcrumbItems(
           t('breadcrumb.toFrontpage'),
           [{ name: learningpath.title, id: `${learningpath.id}` }],
-          locale as LocaleType,
+          i18n.language,
         );
 
   return (
     <div>
       <Helmet>
         <title>{`${getDocumentTitle(t, data)}`}</title>
+        {subject?.metadata.customFields?.[
+          TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY
+        ] === constants.subjectCategories.ARCHIVE_SUBJECTS && (
+          <meta name="robots" content="noindex, nofollow" />
+        )}
       </Helmet>
       <SocialMediaMetadata
         title={htmlTitle(getTitle(subject, learningpath, learningpathStep), [
@@ -152,7 +163,6 @@ const LearningpathPage = ({
         resource={resource}
         resourceTypes={resourceTypes}
         topicPath={topicPath}
-        locale={locale}
         breadcrumbItems={breadcrumbItems}
       />
     </div>
@@ -180,7 +190,7 @@ LearningpathPage.getDimensions = (props: Props) => {
     ls => `${ls.id}` === stepId,
   );
   const learningstep = currentStep || firstStep;
-  const longName = getSubjectLongName(subject?.id, i18n.language as LocaleType);
+  const longName = getSubjectLongName(subject?.id, i18n.language);
 
   return getAllDimensions(
     {
@@ -198,13 +208,13 @@ LearningpathPage.getDimensions = (props: Props) => {
 };
 
 const getTitle = (
-  subject?: Pick<GQLSubject, 'name'>,
+  subject?: Pick<GQLLearningpathPage_SubjectFragment, 'name' | 'subjectpage'>,
   learningpath?: Pick<GQLLearningpath, 'title'>,
   learningpathStep?: Pick<GQLLearningpathStep, 'title'>,
 ) => {
   return htmlTitle(learningpath?.title, [
     learningpathStep?.title,
-    subject?.name,
+    subject?.subjectpage?.about?.title || subject?.name,
   ]);
 };
 
@@ -229,6 +239,14 @@ export const learningpathPageFragments = {
   subject: gql`
     fragment LearningpathPage_Subject on Subject {
       id
+      metadata {
+        customFields
+      }
+      subjectpage {
+        about {
+          title
+        }
+      }
       ...Learningpath_Subject
     }
     ${Learningpath.fragments.subject}

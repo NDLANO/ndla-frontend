@@ -14,8 +14,6 @@ import {
   OneColumn,
   FrontpageToolbox,
   FrontpageMultidisciplinarySubject,
-  MessageBox,
-  MessageBoxType,
   BannerCard,
 } from '@ndla/ui';
 import { spacing } from '@ndla/core';
@@ -34,7 +32,6 @@ import WelcomePageSearch from './WelcomePageSearch';
 import { toSubject, toTopic } from '../../routeHelpers';
 import { getSubjectById, multidisciplinaryTopics } from '../../data/subjects';
 import { LocaleType } from '../../interfaces';
-import { setClosedAlert, useAlerts } from '../../components/AlertsContext';
 
 const getUrlFromSubjectId = (subjectId: string) => {
   const subject = getSubjectById(subjectId);
@@ -69,11 +66,6 @@ const BannerCardWrapper = styled.div`
 const WelcomePage = () => {
   const { t, i18n } = useTranslation();
 
-  const alerts = useAlerts().map(alert => ({
-    content: alert.body || alert.title,
-    closable: alert.closable,
-    number: alert.number,
-  }));
   const googleSearchJSONLd = () => {
     const data = {
       '@context': 'https://schema.org',
@@ -90,12 +82,6 @@ const WelcomePage = () => {
 
   return (
     <>
-      <a
-        tabIndex={0}
-        href={`#${SKIP_TO_CONTENT_ID}`}
-        className="c-masthead__skip-to-main-content">
-        {t('masthead.skipToContent')}
-      </a>
       <HelmetWithTracker title={t('htmlTitles.welcomePage')}>
         <script type="application/ld+json">{googleSearchJSONLd()}</script>
       </HelmetWithTracker>
@@ -105,14 +91,6 @@ const WelcomePage = () => {
         imageUrl={`${config.ndlaFrontendDomain}/static/logo.png`}>
         <meta name="keywords" content={t('meta.keywords')} />
       </SocialMediaMetadata>
-      {alerts?.map(alert => (
-        <MessageBox
-          type={MessageBoxType.fullpage}
-          onClose={() => setClosedAlert(alert.number)}
-          showCloseButton={alert.closable}>
-          {alert.content}
-        </MessageBox>
-      ))}
       <FrontpageHeader locale={i18n.language} showHeader={true}>
         <WelcomePageSearch />
       </FrontpageHeader>
@@ -125,7 +103,7 @@ const WelcomePage = () => {
               content="Дізнайтеся про норвезьке суспільство – українською"
               linkText="Learn about Norwegian society - in Ukrainian"
               image={{
-                altText: 'Ukrainian flag',
+                altText: '',
                 imageSrc: '/static/flag_of_ukraine.svg',
               }}
             />

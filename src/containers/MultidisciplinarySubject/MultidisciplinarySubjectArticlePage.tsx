@@ -56,7 +56,7 @@ const multidisciplinarySubjectArticlePageQuery = gql`
 `;
 
 const MultidisciplinarySubjectArticlePage = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { user } = useContext(AuthContext);
   const { topicId, subjectId } = useUrnIds();
 
@@ -82,7 +82,9 @@ const MultidisciplinarySubjectArticlePage = () => {
   const copyPageUrlLink = topic?.path && config.ndlaFrontendDomain + topic.path;
 
   const socialMediaMetaData = {
-    title: htmlTitle(topic.name ?? topic.article?.title, [subject.name]),
+    title: htmlTitle(topic.name ?? topic.article?.title, [
+      subject.subjectpage?.about?.title || subject.name,
+    ]),
     description: topic.article?.metaDescription ?? topic.article?.introduction,
     image: topic.article?.metaImage,
   };
@@ -95,9 +97,6 @@ const MultidisciplinarySubjectArticlePage = () => {
             t('htmlTitles.titleTemplate'),
           ])}
         </title>
-        {socialMediaMetaData.description && (
-          <meta name="description" content={socialMediaMetaData.description} />
-        )}
       </Helmet>
       <SocialMediaMetadata
         title={socialMediaMetaData.title}
@@ -114,7 +113,6 @@ const MultidisciplinarySubjectArticlePage = () => {
         subject={subject}
         resourceTypes={resourceTypes}
         copyPageUrlLink={copyPageUrlLink}
-        locale={i18n.language}
         user={user}
       />
     </>

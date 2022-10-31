@@ -21,6 +21,11 @@ const messages = {
     podcast: `Podcast - Page {{page}} - ${titleTemplate}`,
     lti: `LTI - ${titleTemplate}`,
     movedResourcePage: `The page has been moved - ${titleTemplate}`,
+    myNdlaPage: `My NDLA - ${titleTemplate}`,
+    myFoldersPage: `My folders - ${titleTemplate}`,
+    myFolderPage: `{{folderName}} - ${titleTemplate}`,
+    myTagPage: `#{{tag}} - ${titleTemplate}`,
+    myTagsPage: `My tags - ${titleTemplate}`,
     toolbox: {
       visualElement: 'About subject video',
       introduction:
@@ -57,6 +62,16 @@ const messages = {
       license: 'CC-BY-SA-4.0',
       licenseAuthor: 'Tom Knudsen',
     },
+  },
+  validation: {
+    fields: {
+      name: 'Name',
+    },
+    required: 'This field is required',
+    requiredField: '$t(validation.fields.{{field}}) is required',
+    notUnique: 'Already exists',
+    maxLength: 'This field can only contain {{count}} characters',
+    maxLengthField: `$t(validation.fields.{{field}}) can only contain {{count}} characters)}`,
   },
 };
 

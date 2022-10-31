@@ -49,9 +49,9 @@ const Document = ({ helmet, assets, data, css, ids }: Props) => {
           name="viewport"
           content="width=device-width, initial-scale=1 viewport-fit=cover"
         />
-        {config.gaTrackingId && (
+        {config.gaTrackingId ? (
           <script async src="https://www.google-analytics.com/analytics.js" />
-        )}
+        ) : null}
         <GoogleTagMangerScript />
         {helmet.title.toComponent()}
         {helmet.meta.toComponent()}
@@ -64,7 +64,7 @@ const Document = ({ helmet, assets, data, css, ids }: Props) => {
         />
         {css && ids && (
           <style data-emotion-css={`${EmotionCacheKey} ${ids.join(' ')}`}>
-            ${css}
+            {css}
           </style>
         )}
         {helmet.script.toComponent()}

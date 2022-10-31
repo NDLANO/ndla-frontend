@@ -10,14 +10,16 @@ import { useContext } from 'react';
 import { OneColumn, ErrorResourceAccessDenied } from '@ndla/ui';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { useTranslation } from 'react-i18next';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { Status } from '../../components';
 import { AuthContext } from '../../components/AuthenticationContext';
+import { constructNewPath, toHref } from '../../util/urlHelper';
+import { useBaseName } from '../../components/BaseNameContext';
 
 const AccessDenied = () => {
   const { t } = useTranslation();
   const location = useLocation();
-  const navigate = useNavigate();
+  const basename = useBaseName();
   const { authenticated } = useContext(AuthContext);
   const statusCode = authenticated ? 403 : 401;
 
@@ -27,15 +29,11 @@ const AccessDenied = () => {
       <OneColumn cssModifier="clear">
         <ErrorResourceAccessDenied
           onAuthenticateClick={() => {
-            const lastPath = localStorage.getItem('lastPath');
-            if (!lastPath) {
-              location && localStorage.setItem('lastPath', location.pathname);
-            }
-            if (authenticated) {
-              navigate('/logout');
-            } else {
-              navigate('/login');
-            }
+            const route = authenticated ? 'logout' : 'login';
+            window.location.href = constructNewPath(
+              `/${route}?state=${toHref(location)}`,
+              basename,
+            );
           }}
         />
       </OneColumn>

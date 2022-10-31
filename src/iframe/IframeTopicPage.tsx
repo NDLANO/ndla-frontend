@@ -43,15 +43,15 @@ const getDocumentTitle = ({ article }: Pick<Props, 'article'>) => {
 };
 
 export const IframeTopicPage = ({
-  locale: localeProp,
   article: propArticle,
   topic,
   t,
   i18n,
+  locale: localeProp,
 }: Props) => {
   const locale = localeProp ?? i18n.language;
   const article = transformArticle(propArticle, locale);
-  const scripts = getArticleScripts(article);
+  const scripts = getArticleScripts(article, locale);
   const contentUrl = topic?.path
     ? `${config.ndlaFrontendDomain}${topic.path}`
     : undefined;
@@ -60,9 +60,6 @@ export const IframeTopicPage = ({
       <Helmet>
         <title>{`${getDocumentTitle({ article })}`}</title>
         <meta name="robots" content="noindex" />
-        {article && article.metaDescription && (
-          <meta name="description" content={article.metaDescription} />
-        )}
         {scripts.map(script => (
           <script
             key={script.src}
@@ -89,9 +86,9 @@ export const IframeTopicPage = ({
         <Article
           isTopicArticle
           article={article}
-          locale={locale}
           label={t('topicPage.topic')}
           isPlainArticle
+          isOembed
           contentType={constants.contentTypes.TOPIC}>
           <CreatedBy
             name={t('createdBy.content')}

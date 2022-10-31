@@ -11,31 +11,30 @@ import Tabs from '@ndla/tabs';
 import { useTranslation, TFunction } from 'react-i18next';
 import ImageLicenseList from './ImageLicenseList';
 import AudioLicenseList from './AudioLicenseList';
+import PodcastLicenseList from './PodcastLicenseList';
 import TextLicenseList from './TextLicenseList';
 import VideoLicenseList from './VideoLicenseList';
 import H5pLicenseList from './H5pLicenseList';
 import ConceptLicenseList from './ConceptLicenseList';
 import OembedItem from './OembedItem';
 import { GQLLicenseBox_ArticleFragment } from '../../graphqlTypes';
-import { LocaleType } from '../../interfaces';
 
 function buildLicenseTabList(
   article: GQLLicenseBox_ArticleFragment,
-  locale: LocaleType,
   t: TFunction,
 ) {
   const images = article.metaData?.images || [];
   const audios = article.metaData?.audios || [];
+  const podcasts = article.metaData?.podcasts || [];
   const brightcove = article.metaData?.brightcoves || [];
   const h5ps = article.metaData?.h5ps || [];
   const oembed = article.oembed;
   const concepts = article.metaData?.concepts || [];
   const tabs = [];
-
   if (images.length > 0) {
     tabs.push({
       title: t('license.tabs.images'),
-      content: <ImageLicenseList images={images} locale={locale} />,
+      content: <ImageLicenseList images={images} />,
     });
   }
   tabs.push({
@@ -50,7 +49,6 @@ function buildLicenseTabList(
             copyText: article.metaData?.copyText,
           },
         ]}
-        locale={locale}
       />
     ),
   });
@@ -58,28 +56,35 @@ function buildLicenseTabList(
   if (audios.length > 0) {
     tabs.push({
       title: t('license.tabs.audio'),
-      content: <AudioLicenseList audios={audios} locale={locale} />,
+      content: <AudioLicenseList audios={audios} />,
+    });
+  }
+
+  if (podcasts.length > 0) {
+    tabs.push({
+      title: t('license.tabs.podcast'),
+      content: <PodcastLicenseList podcasts={podcasts} />,
     });
   }
 
   if (brightcove.length > 0) {
     tabs.push({
       title: t('license.tabs.video'),
-      content: <VideoLicenseList videos={brightcove} locale={locale} />,
+      content: <VideoLicenseList videos={brightcove} />,
     });
   }
 
   if (h5ps.length) {
     tabs.push({
       title: t('license.tabs.h5p'),
-      content: <H5pLicenseList h5ps={h5ps} locale={locale} />,
+      content: <H5pLicenseList h5ps={h5ps} />,
     });
   }
 
   if (concepts.length) {
     tabs.push({
       title: t('license.tabs.concept'),
-      content: <ConceptLicenseList concepts={concepts} locale={locale} />,
+      content: <ConceptLicenseList concepts={concepts} />,
     });
   }
 
@@ -95,12 +100,10 @@ function buildLicenseTabList(
 
 interface Props {
   article: GQLLicenseBox_ArticleFragment;
-  locale: LocaleType;
 }
-
-const LicenseBox = ({ article, locale }: Props) => {
+const LicenseBox = ({ article }: Props) => {
   const { t } = useTranslation();
-  const tabs = buildLicenseTabList(article, locale, t);
+  const tabs = buildLicenseTabList(article, t);
   return (
     <div>
       <h1 className="license__heading">{t('license.heading')}</h1>
@@ -132,6 +135,9 @@ LicenseBox.fragments = {
         audios {
           ...AudioLicenseList_AudioLicense
         }
+        podcasts {
+          ...PodcastLicenseList_PodcastLicense
+        }
         images {
           ...ImageLicenseList_ImageLicense
         }
@@ -141,6 +147,7 @@ LicenseBox.fragments = {
     ${H5pLicenseList.fragments.h5p}
     ${VideoLicenseList.fragments.video}
     ${AudioLicenseList.fragments.audio}
+    ${PodcastLicenseList.fragments.podcast}
     ${ImageLicenseList.fragments.image}
     ${TextLicenseList.fragments.copyright}
   `,

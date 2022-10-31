@@ -24,19 +24,20 @@ import { useTranslation } from 'react-i18next';
 import CopyTextButton from './CopyTextButton';
 import AnchorButton from './AnchorButton';
 import { GQLVideoLicenseList_BrightcoveLicenseFragment } from '../../graphqlTypes';
-import { LocaleType } from '../../interfaces';
 import { licenseCopyrightToCopyrightType } from './licenseHelpers';
 import { licenseListCopyrightFragment } from './licenseFragments';
 
 interface VideoLicenseInfoProps {
   video: GQLVideoLicenseList_BrightcoveLicenseFragment;
-  locale: LocaleType;
 }
 
-const VideoLicenseInfo = ({ video, locale }: VideoLicenseInfoProps) => {
-  const { t } = useTranslation();
+const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
+  const { t, i18n } = useTranslation();
   const safeCopyright = licenseCopyrightToCopyrightType(video.copyright);
-  const items = getGroupedContributorDescriptionList(safeCopyright, locale);
+  const items = getGroupedContributorDescriptionList(
+    safeCopyright,
+    i18n.language,
+  );
   if (video.title) {
     items.unshift({
       label: t('license.images.title'),
@@ -54,7 +55,7 @@ const VideoLicenseInfo = ({ video, locale }: VideoLicenseInfoProps) => {
         license={video.copyright.license?.license}
         resourceType="video"
         resourceUrl={video.src}
-        locale={locale}>
+        locale={i18n.language}>
         <MediaListItemActions>
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />
@@ -77,10 +78,9 @@ const VideoLicenseInfo = ({ video, locale }: VideoLicenseInfoProps) => {
 
 interface Props {
   videos: GQLVideoLicenseList_BrightcoveLicenseFragment[];
-  locale: LocaleType;
 }
 
-const VideoLicenseList = ({ videos, locale }: Props) => {
+const VideoLicenseList = ({ videos }: Props) => {
   const { t } = useTranslation();
   return (
     <div>
@@ -88,7 +88,7 @@ const VideoLicenseList = ({ videos, locale }: Props) => {
       <p>{t('license.video.description')}</p>
       <MediaList>
         {videos.map(video => (
-          <VideoLicenseInfo video={video} key={uuid()} locale={locale} />
+          <VideoLicenseInfo video={video} key={uuid()} />
         ))}
       </MediaList>
     </div>

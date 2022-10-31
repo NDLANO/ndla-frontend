@@ -27,10 +27,16 @@ import {
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { AuthContext } from '../../components/AuthenticationContext';
 import { htmlTitle } from '../../util/titleHelper';
+import { SKIP_TO_CONTENT_ID } from '../../constants';
 
 const multidisciplinarySubjectPageQuery = gql`
   query multidisciplinarySubjectPage($subjectId: String!) {
     subject(id: $subjectId) {
+      subjectpage {
+        about {
+          title
+        }
+      }
       topics {
         id
         name
@@ -57,7 +63,7 @@ const multidisciplinarySubjectPageQuery = gql`
 `;
 
 const MultidisciplinarySubjectPage = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { user } = useContext(AuthContext);
   const { subjectId, topicList: selectedTopics } = useUrnIds();
   const refs = selectedTopics.map(_ => createRef<HTMLDivElement>());
@@ -138,7 +144,6 @@ const MultidisciplinarySubjectPage = () => {
               topicId={topicId}
               subjectId={subject.id}
               subTopicId={selectedTopics[index + 1]}
-              locale={i18n.language}
               subject={subject}
               user={user}
             />
@@ -153,7 +158,7 @@ const MultidisciplinarySubjectPage = () => {
     .find(t => selectedTopics.includes(t.id));
 
   const selectedTitle = selectedMetadata?.name || selectedMetadata?.meta?.title;
-  const subjectTitle = subject.name;
+  const subjectTitle = subject.subjectpage?.about?.title || subject.name;
   const hasSelectedTitle = !!selectedTitle;
   const title = htmlTitle(hasSelectedTitle ? selectedTitle : subjectTitle, [
     hasSelectedTitle ? subjectTitle : undefined,
@@ -176,9 +181,6 @@ const MultidisciplinarySubjectPage = () => {
             t('htmlTitles.titleTemplate'),
           ])}
         </title>
-        {socialMediaMetaData.description && (
-          <meta name="description" content={socialMediaMetaData.description} />
-        )}
       </Helmet>
       <SocialMediaMetadata
         title={socialMediaMetaData.title}
@@ -186,6 +188,7 @@ const MultidisciplinarySubjectPage = () => {
         imageUrl={socialMediaMetaData.image?.url}
       />
       <MultidisciplinarySubject
+        id={selectedTopics.length === 0 ? SKIP_TO_CONTENT_ID : undefined}
         hideCards={isNotLastTopic}
         cards={cards}
         totalCardCount={cards.length}>
