@@ -6,6 +6,7 @@
  *
  */
 
+import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { useSortable } from '@dnd-kit/sortable';
@@ -18,7 +19,6 @@ import { GQLFolder } from '../../../graphqlTypes';
 import { FolderTotalCount } from '../../../util/folderHelpers';
 import { FolderAction, ViewType } from './FoldersPage';
 import DragHandle from './DragHandle';
-import { memo } from 'react';
 
 interface Props {
   folder: GQLFolder;
