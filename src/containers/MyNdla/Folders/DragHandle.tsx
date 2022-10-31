@@ -28,6 +28,7 @@ const DragHandle = ({ sortableId, type, name, ...rest }: Props) => {
   return (
     <StyledDragHandle
       {...rest}
+      shape={'normal'}
       aria-label={t(`myNdla.${type}.dragHandle`, { name })}
       type={'button'}
       variant={'ghost'}
