@@ -6,7 +6,7 @@
  *
  */
 
-import renderer from 'react-test-renderer';
+import { render } from '@testing-library/react';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { PageContainer } from '@ndla/ui';
 import Document from '../Document';
@@ -16,11 +16,10 @@ HelmetProvider.canUseDOM = false;
 test('Document renderers correctly', () => {
   const helmetContext = {};
   // Render page with Helmet component
-  renderer.create(
+  render(
     <HelmetProvider context={helmetContext}>
       <PageContainer locale="nb" t={() => 'dummy text'}>
         <h1>Hello World</h1>
-
         <Helmet
           htmlAttributes={{ lang: 'nb' }}
           title="NDLA test title"
@@ -31,7 +30,7 @@ test('Document renderers correctly', () => {
   );
 
   // Create and render Document. Match snapshot of rendered document.
-  const component = renderer.create(
+  const { container } = render(
     <Document
       locale="nb"
       data={{}}
@@ -43,8 +42,9 @@ test('Document renderers correctly', () => {
       }}
     />,
   );
+  const header = container.querySelector('html');
 
   // Match snapshot for rendered Document. Should contain title, html lang,
   // and meta description from PageContainer > Helmet.
-  expect(component.toJSON()).toMatchSnapshot();
+  expect(header).toMatchSnapshot();
 });

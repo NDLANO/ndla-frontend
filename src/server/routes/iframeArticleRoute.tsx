@@ -58,10 +58,7 @@ const disableSSR = (req: Request) => {
 async function doRenderPage(req: Request, initialProps: InitialProps) {
   const context = {};
 
-  const client = createApolloClient(
-    initialProps.locale,
-    initialProps.resCookie,
-  );
+  const client = createApolloClient(initialProps.locale);
 
   const helmetContext = {};
   const cache = createCache({ key: EmotionCacheKey });

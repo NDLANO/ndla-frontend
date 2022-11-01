@@ -63,7 +63,7 @@ const language = initialProps.locale ?? config.defaultLocale;
 
 const cache = createCache({ key: EmotionCacheKey });
 
-const client = createApolloClient(language, initialProps.resCookie);
+const client = createApolloClient(language);
 const i18n = initializeI18n(i18nInstance, language);
 
 const renderOrHydrate = disableSSR ? ReactDOM.render : ReactDOM.hydrate;

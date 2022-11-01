@@ -7,11 +7,7 @@
 
 import { FeideUserApiType } from '@ndla/ui';
 import { createContext, ReactNode, useEffect, useState } from 'react';
-import {
-  getFeideCookie,
-  isAccessTokenValid,
-  millisUntilExpiration,
-} from '../util/authHelpers';
+import { isAccessTokenValid, millisUntilExpiration } from '../util/authHelpers';
 import { fetchFeideUserWithGroups } from '../util/feideApi';
 
 interface AuthContextType {
@@ -35,10 +31,8 @@ interface Props {
   initialValue?: string;
 }
 
-const AuthenticationContext = ({ children, initialValue }: Props) => {
-  const [authenticated, setAuthenticated] = useState(
-    initialValue ? isAccessTokenValid(getFeideCookie(initialValue)) : false,
-  );
+const AuthenticationContext = ({ children }: Props) => {
+  const [authenticated, setAuthenticated] = useState(false);
   const [authContextLoaded, setLoaded] = useState(false);
   const [user, setUser] = useState<FeideUserApiType | undefined>(undefined);
 

@@ -58,7 +58,7 @@ async function doRender(req) {
   const { basename, abbreviation } = getLocaleInfoFromPath(req.path);
   const locale = getCookieLocaleOrFallback(resCookie, abbreviation);
 
-  const client = createApolloClient(locale, resCookie, versionHash);
+  const client = createApolloClient(locale, versionHash);
 
   const cache = createCache({ key: EmotionCacheKey });
   const context = {};
@@ -80,7 +80,6 @@ async function doRender(req) {
                       client={client}
                       locale={locale}
                       versionHash={versionHash}
-                      resCookie={resCookie}
                       key={locale}
                     />
                   </StaticRouter>
@@ -100,7 +99,6 @@ async function doRender(req) {
     Page,
     getAssets(),
     {
-      resCookie,
       apolloState,
       serverPath: req.path,
       serverQuery: req.query,

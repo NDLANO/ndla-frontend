@@ -267,6 +267,7 @@ export const articlePageFragments = {
         metaImage {
           ...ArticleHero_MetaImage
         }
+        tags
         ...StructuredArticleData
         ...Article_Article
       }
