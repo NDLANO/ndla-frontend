@@ -32,6 +32,7 @@ export const TOOLBOX_STUDENT_SUBJECT_ID =
 export const SKIP_TO_CONTENT_ID = 'SkipToContentId';
 export const SUPPORTED_LANGUAGES = ['nb', 'nn', 'en', 'se'];
 export const STORED_LANGUAGE_COOKIE_KEY = 'language';
+export const STORED_RESOURCE_VIEW_SETTINGS = 'STORED_RESOURCE_VIEW_SETTINGS';
 
 export const PROGRAMME_PATH = '/utdanning';
 

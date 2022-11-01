@@ -7,24 +7,23 @@ exports[`Document renderers correctly 1`] = `
   <head>
     <meta
       content="IE=edge"
-      httpEquiv="X-UA-Compatible"
+      http-equiv="X-UA-Compatible"
     />
     <meta
-      charSet="utf-8"
+      charset="utf-8"
     />
     <meta
       content="width=device-width, initial-scale=1 viewport-fit=cover"
       name="viewport"
     />
-    
     <title
-      data-rh={true}
+      data-rh="true"
     >
       NDLA test title
     </title>
     <meta
       content="NDLA meta description"
-      data-rh={true}
+      data-rh="true"
       name="description"
     />
     <link
@@ -38,33 +37,26 @@ exports[`Document renderers correctly 1`] = `
     />
   </head>
   <body>
-    <script
-      dangerouslySetInnerHTML={
-        {
-          "__html": "
+    <script>
+      
             window.dataLayer = window.dataLayer || [];
             window.originalLocation = { originalLocation: document.location.protocol + '//' + document.location.hostname + document.location.pathname + document.location.search };
-            window.dataLayer.push(window.originalLocation);",
-        }
-      }
-    />
+            window.dataLayer.push(window.originalLocation);
+    </script>
     <div
       id="root"
     >
       REPLACE_ME
     </div>
     <script
-      dangerouslySetInnerHTML={
-        {
-          "__html": "window.DATA = {}; ",
-        }
-      }
       type="text/javascript"
-    />
+    >
+      window.DATA = {}; 
+    </script>
     <script
-      dangerouslySetInnerHTML={
-        {
-          "__html": "
+      type="text/javascript"
+    >
+      
   var feats = [];
   ('fetch' in window) || feats.push('fetch');('includes' in Array.prototype) || feats.push('Array.prototype.includes');('fill' in Array.prototype) || feats.push('Array.prototype.fill');('open' in document.createElement('details')) || feats.push('details');('assign' in Object) || feats.push('Object.assign');('remove' in Element.prototype) || feats.push('Element.prototype.remove');('includes' in String.prototype) || feats.push('String.prototype.includes');('startsWith' in String.prototype) || feats.push('String.prototype.startsWith');('endsWith' in String.prototype) || feats.push('String.prototype.endsWith');('isInteger' in Number) || feats.push('Number.isInteger');('isNaN' in Number) || feats.push('Number.isNaN');
 
@@ -83,7 +75,7 @@ exports[`Document renderers correctly 1`] = `
 
   function _polyfillComplete() {
     var scripts = [{"src":"/client.js"},{"src":"/vendor.js"}];
-    for (var i = 0; i < scripts.length; i++) {
+    for (var i = 0; i &lt; scripts.length; i++) {
       cs(scripts[i], false);
     }
   }
@@ -93,11 +85,8 @@ exports[`Document renderers correctly 1`] = `
   } else {
     _polyfillComplete();
   }
-  ",
-        }
-      }
-      type="text/javascript"
-    />
+  
+    </script>
   </body>
 </html>
 `;
