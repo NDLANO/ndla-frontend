@@ -1854,6 +1854,7 @@ export type GQLArticlePage_ResourceFragment = {
     created: string;
     updated: string;
     metaDescription: string;
+    tags?: Array<string>;
     metaImage?: { __typename?: 'MetaImage' } & GQLArticleHero_MetaImageFragment;
   } & GQLStructuredArticleDataFragment &
     GQLArticle_ArticleFragment;
@@ -2378,6 +2379,7 @@ export type GQLDeletePersonalDataMutation = {
 export type GQLPlainArticleContainer_ArticleFragment = {
   __typename?: 'Article';
   created: string;
+  tags?: Array<string>;
 } & GQLArticle_ArticleFragment &
   GQLStructuredArticleDataFragment;
 
@@ -2857,6 +2859,7 @@ export type GQLIframeArticlePage_ArticleFragment = {
   created: string;
   updated: string;
   metaDescription: string;
+  tags?: Array<string>;
   metaImage?: { __typename?: 'MetaImage'; url: string };
 } & GQLArticle_ArticleFragment;
 
@@ -2894,6 +2897,7 @@ export type GQLIframePageQuery = {
 export type GQLIframeTopicPage_ArticleFragment = {
   __typename?: 'Article';
   created: string;
+  tags?: Array<string>;
 } & GQLArticle_ArticleFragment &
   GQLStructuredArticleDataFragment;
 

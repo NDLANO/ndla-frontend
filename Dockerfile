@@ -20,9 +20,6 @@ COPY public $APP_PATH/public
 # Build client code
 RUN yarn run build
 
-# Move robots.txt to build folder
-RUN mv $APP_PATH/src/server/robots.txt $APP_PATH/build/robots.txt
-
 ### Run stage
 FROM node:16.17-alpine
 
