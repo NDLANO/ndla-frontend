@@ -317,7 +317,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                 >
                   <div
                     data-tooltip="true"
-                    data-tooltip-id="1"
+                    data-tooltip-id="2"
                     data-tooltip-label="Denne lisensen gir deg rett til å dele og bruke dette innholdet på visse vilkår."
                   >
                     <span
@@ -363,7 +363,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                   </div>
                   <div
                     data-tooltip="true"
-                    data-tooltip-id="2"
+                    data-tooltip-id="4"
                     data-tooltip-label="Du må alltid oppgi hvem som har laget innholdet."
                   >
                     <span
@@ -411,7 +411,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                   </div>
                   <div
                     data-tooltip="true"
-                    data-tooltip-id="3"
+                    data-tooltip-id="6"
                     data-tooltip-label="Du kan bare dele innholdet med samme lisens som det opprinnelige innholdet."
                   >
                     <span

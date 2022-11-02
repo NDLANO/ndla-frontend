@@ -33,5 +33,11 @@ export const fetchFeideUserWithGroups = async (): Promise<
     groups?.length === 1
       ? groups[0]
       : groups?.find(g => g.membership.primarySchool);
-  return user && groups ? { ...user, groups, primarySchool } : undefined;
+  const baseOrg =
+    groups?.length === 1
+      ? groups[0]
+      : groups?.find(g => g.type === 'fc:org' && g.parent === undefined);
+  return user && groups
+    ? { ...user, groups, primarySchool, baseOrg }
+    : undefined;
 };
