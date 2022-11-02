@@ -10,7 +10,7 @@ describe('Subjects page', () => {
   beforeEach(() => {
     cy.gqlIntercept({
       alias: 'alerts',
-      operations: ['alerts', 'subjects'],
+      operations: ['alerts', 'subjects', 'mastHead'],
     });
     cy.fixCypressSpec('/e2e/integration/subjects_page.spec.ts');
     cy.visit('/?disableSSR=true');

@@ -9,7 +9,7 @@
 describe('Topic page', () => {
   beforeEach(() => {
     cy.fixCypressSpec('/cypress/integration/topic_page.spec.ts');
-    cy.gqlIntercept({ alias: 'alerts', operations: ['alerts', 'subjects'] });
+    cy.gqlIntercept({ alias: 'alerts', operations: ['alerts', 'subjects', 'mastHead'] });
     cy.visit('/?disableSSR=true');
     cy.gqlWait('@alerts');
   });

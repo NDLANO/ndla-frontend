@@ -11,7 +11,7 @@ describe('Toolbox page', () => {
     cy.fixCypressSpec('/e2e/integration/toolbox.spec.ts');
     cy.gqlIntercept({
       alias: 'alerts',
-      operations: ['alerts', 'subjects'],
+      operations: ['alerts', 'subjects', 'mastHead'],
     });
     cy.visit('/?disableSSR=true');
     cy.gqlWait('@alerts');
