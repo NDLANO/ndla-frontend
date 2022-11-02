@@ -57,7 +57,6 @@ module.exports = {
       // This change bundles node_modules into server.js. The result is smaller Docker images.
       // It triggers a couple of «Critical dependency: the request of a dependency is an
       // expression warning» which we can safely ignore.
-      appConfig.externalsPreset = { node: true };
       appConfig.externals = [nodeExternals()];
 
       // This tells webpack to resolve esm modules before commonjs on the server-side.
