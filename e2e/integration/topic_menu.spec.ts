@@ -9,7 +9,10 @@
 describe('Topic menu', () => {
   beforeEach(() => {
     cy.fixCypressSpec('/e2e/integration/topic_menu.spec.ts');
-    cy.gqlIntercept({ alias: 'alerts', operations: ['alerts', 'subjects', 'mastHead'] });
+    cy.gqlIntercept({
+      alias: 'alerts',
+      operations: ['alerts', 'subjects', 'mastHead'],
+    });
     cy.visit('/?disableSSR=true');
     cy.gqlWait('@alerts');
     cy.gqlIntercept({
