@@ -1,9 +1,14 @@
 const { modifyRule } = require('razzle-config-utils');
 const webpack = require('webpack');
-const nodeExternals = require('webpack-node-externals');
 const path = require('path');
 
 module.exports = {
+  options: {
+    // This change bundles node_modules into server.js. The result is smaller Docker images.
+    // It triggers a couple of «Critical dependency: the request of a dependency is an
+    // expression warning» which we can safely ignore.
+    buildType: 'iso-serverless',
+  },
   plugins: [],
   modifyWebpackConfig({ env: { target, dev }, webpackConfig: appConfig }) {
     appConfig.stats = 'errors-warnings';
@@ -26,6 +31,12 @@ module.exports = {
     modifyRule(appConfig, { test: /\.css$/ }, rule => {
       rule.use.push({ loader: 'postcss-loader' });
       rule.use.push({ loader: 'sass-loader' });
+    });
+
+    // .cjs ending is not a part of the file-loader exclude array.
+    // As such, these files will not be processed correctly. This fixes that.
+    modifyRule(appConfig, { loader: 'file-loader' }, rule => {
+      rule.exclude = rule.exclude.concat(/\.cjs$/);
     });
 
     addEntry({ entry: '@ndla/polyfill', name: 'polyfill' });
@@ -54,15 +65,6 @@ module.exports = {
     }
 
     if (target === 'node' && !dev) {
-      // This change bundles node_modules into server.js. The result is smaller Docker images.
-      // It triggers a couple of «Critical dependency: the request of a dependency is an
-      // expression warning» which we can safely ignore.
-      appConfig.externals = [nodeExternals()];
-
-      // This tells webpack to resolve esm modules before commonjs on the server-side.
-      // @apollo/client stopped being bundled without this when moving from 3.4.x to 3.5.x
-      appConfig.resolve.mainFields = ['module', 'main'];
-
       // Razzle/CRA breaks the build on webpack warnings. Disable CI env to circumvent the check.
       process.env.CI = 'false';
     }
