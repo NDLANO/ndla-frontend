@@ -12,7 +12,7 @@ import styled from '@emotion/styled';
 import { AddButton } from '@ndla/button';
 import { breakpoints, mq, spacing } from '@ndla/core';
 import { useSnack } from '@ndla/ui';
-import { useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { HelmetWithTracker } from '@ndla/tracker';
@@ -32,6 +32,7 @@ import { STORED_RESOURCE_VIEW_SETTINGS } from '../../../constants';
 import FoldersPageTitle from './FoldersPageTitle';
 import FolderAndResourceCount from './FolderAndResourceCount';
 import FolderList from './FolderList';
+import { StatusContext } from '../../../components/StatusContext';
 
 interface BlockWrapperProps {
   type?: string;
@@ -95,6 +96,7 @@ const FoldersPage = () => {
   );
   const navigate = useNavigate();
   const { addSnack } = useSnack();
+  const { examLock } = useContext(StatusContext);
   const [folderAction, setFolderAction] = useState<FolderAction | undefined>(
     undefined,
   );
@@ -194,7 +196,8 @@ const FoldersPage = () => {
     localStorage.setItem(STORED_RESOURCE_VIEW_SETTINGS, type);
   };
 
-  const showAddButton = (selectedFolder?.breadcrumbs.length || 0) < 5;
+  const showAddButton =
+    (selectedFolder?.breadcrumbs.length || 0) < 5 && !examLock;
 
   return (
     <FoldersPageContainer>

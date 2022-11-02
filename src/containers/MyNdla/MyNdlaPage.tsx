@@ -32,6 +32,7 @@ import MyNdlaTitle from './components/MyNdlaTitle';
 import TitleWrapper from './components/TitleWrapper';
 import { constructNewPath, toHref } from '../../util/urlHelper';
 import { useBaseName } from '../../components/BaseNameContext';
+import { StatusContext } from '../../components/StatusContext';
 
 const HeartOutlineIcon = InfoPartIcon.withComponent(HeartOutline);
 const FolderOutlinedIcon = InfoPartIcon.withComponent(FolderOutlined);

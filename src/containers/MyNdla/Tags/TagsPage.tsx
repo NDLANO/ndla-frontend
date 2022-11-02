@@ -6,7 +6,7 @@
  *
  */
 
-import { useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { keyBy } from 'lodash';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -32,6 +32,7 @@ import MyNdlaTitle from '../components/MyNdlaTitle';
 import TitleWrapper from '../components/TitleWrapper';
 import { usePrevious } from '../../../util/utilityHooks';
 import { STORED_RESOURCE_VIEW_SETTINGS } from '../../../constants';
+import { StatusContext } from '../../../components/StatusContext';
 
 const StyledUl = styled.ul`
   padding: 0px;
@@ -116,6 +117,7 @@ const Resources = ({ resources }: ResourcesProps) => {
     (localStorage.getItem(STORED_RESOURCE_VIEW_SETTINGS) as ViewType) || 'list',
   );
   const { addSnack } = useSnack();
+  const { examLock } = useContext(StatusContext);
   const [resourceAction, setResourceAction] = useState<
     ResourceAction | undefined
   >(undefined);
@@ -167,26 +169,31 @@ const Resources = ({ resources }: ResourcesProps) => {
                 src: meta?.metaImage?.url ?? '',
                 alt: '',
               }}
-              menuItems={[
-                {
-                  icon: <FolderOutlined />,
-                  text: t('myNdla.resource.add'),
-                  onClick: () => setResourceAction({ action: 'add', resource }),
-                },
-                {
-                  icon: <Link />,
-                  text: t('myNdla.resource.copyLink'),
-                  onClick: () => {
-                    copyTextToClipboard(
-                      `${config.ndlaFrontendDomain}${resource.path}`,
-                    );
-                    addSnack({
-                      content: t('myNdla.resource.linkCopied'),
-                      id: 'linkCopied',
-                    });
-                  },
-                },
-              ]}
+              menuItems={
+                !examLock
+                  ? [
+                      {
+                        icon: <FolderOutlined />,
+                        text: t('myNdla.resource.add'),
+                        onClick: () =>
+                          setResourceAction({ action: 'add', resource }),
+                      },
+                      {
+                        icon: <Link />,
+                        text: t('myNdla.resource.copyLink'),
+                        onClick: () => {
+                          copyTextToClipboard(
+                            `${config.ndlaFrontendDomain}${resource.path}`,
+                          );
+                          addSnack({
+                            content: t('myNdla.resource.linkCopied'),
+                            id: 'linkCopied',
+                          });
+                        },
+                      },
+                    ]
+                  : []
+              }
             />
           );
         })}

@@ -13,7 +13,7 @@ import { FolderOutlined } from '@ndla/icons/contentType';
 import { Folder } from '@ndla/ui';
 import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
-import { Dispatch, useMemo } from 'react';
+import { Dispatch, useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BlockWrapper, FolderAction, ListItem, ViewType } from './FoldersPage';
 import WhileLoading from '../../../components/WhileLoading';
@@ -23,6 +23,7 @@ import {
   FolderTotalCount,
   getTotalCountForFolder,
 } from '../../../util/folderHelpers';
+import { StatusContext } from '../../../components/StatusContext';
 
 const StyledFolderIcon = styled.span`
   display: flex;
@@ -56,6 +57,7 @@ const FolderList = ({
   setFolderAction,
 }: Props) => {
   const { t } = useTranslation();
+  const { examLock } = useContext(StatusContext);
   const foldersCount = useMemo(
     () =>
       folders?.reduce<Record<string, FolderTotalCount>>((acc, curr) => {
@@ -94,21 +96,29 @@ const FolderList = ({
                 type={type}
                 subFolders={foldersCount[folder.id]?.folders}
                 subResources={foldersCount[folder.id]?.resources}
-                menuItems={[
-                  {
-                    icon: <Pencil />,
-                    text: t('myNdla.folder.edit'),
-                    onClick: () =>
-                      setFolderAction({ action: 'edit', folder, index }),
-                  },
-                  {
-                    icon: <DeleteForever />,
-                    text: t('myNdla.folder.delete'),
-                    onClick: () =>
-                      setFolderAction({ action: 'delete', folder, index }),
-                    type: 'danger',
-                  },
-                ]}
+                menuItems={
+                  !examLock
+                    ? [
+                        {
+                          icon: <Pencil />,
+                          text: t('myNdla.folder.edit'),
+                          onClick: () =>
+                            setFolderAction({ action: 'edit', folder, index }),
+                        },
+                        {
+                          icon: <DeleteForever />,
+                          text: t('myNdla.folder.delete'),
+                          onClick: () =>
+                            setFolderAction({
+                              action: 'delete',
+                              folder,
+                              index,
+                            }),
+                          type: 'danger',
+                        },
+                      ]
+                    : []
+                }
               />
             </ListItem>
           ))}
