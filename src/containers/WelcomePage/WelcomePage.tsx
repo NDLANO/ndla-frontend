@@ -57,16 +57,14 @@ const BannerCardWrapper = styled.div`
 
 const WelcomePage = () => {
   const { t, i18n } = useTranslation();
-
-  useEffect(() => {
-    getData();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
   const [fetchData, { data }] = useLazyQuery<GQLSubjectsQuery>(subjectsQuery);
 
-  const getData = () => {
-    fetchData();
-  };
+  useEffect(() => {
+    const getData = () => {
+      fetchData();
+    };
+    getData();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const googleSearchJSONLd = () => {
     const data = {

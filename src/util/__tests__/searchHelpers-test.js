@@ -15,6 +15,11 @@ const subjects = [
   {
     id: 'urn:subject:1',
     name: 'Fag (Vg2)',
+    metadata: {
+      customFields: {
+        subjectCategory: 'active',
+      },
+    },
   },
 ];
 

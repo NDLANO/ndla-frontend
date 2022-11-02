@@ -44,6 +44,7 @@ export interface SubjectItem {
   id: string;
   title: string;
   url: string;
+  img?: { url: string };
 }
 
 export type SearchCompetenceGoal = Required<

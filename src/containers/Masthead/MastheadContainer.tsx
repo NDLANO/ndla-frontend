@@ -114,6 +114,7 @@ const MastheadContainer = () => {
         subjectId: subjectId ?? '',
         topicId: topicId ?? '',
         resourceId: resourceId ?? '',
+        skipSubject: !subjectId,
         skipTopic: !topicId,
         skipResource: !resourceId,
       },

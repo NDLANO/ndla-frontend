@@ -9,6 +9,7 @@
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { Spinner } from '@ndla/icons';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import { getProgrammeBySlug } from '../../data/programmes';
@@ -89,7 +90,7 @@ const ProgrammePage = () => {
   const navigate = useNavigate();
 
   if (loading) {
-    return null;
+    return <Spinner />;
   }
 
   if (!data) {

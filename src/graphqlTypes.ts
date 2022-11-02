@@ -3349,6 +3349,7 @@ export type GQLSubjectInfoFragment = {
   subjectpage?: {
     __typename?: 'SubjectPage';
     about?: { __typename?: 'SubjectPageAbout'; title: string };
+    banner: { __typename?: 'SubjectPageBanner'; desktopUrl: string };
   };
 };
 
@@ -3478,6 +3479,7 @@ export type GQLMastHeadQueryVariables = Exact<{
   subjectId: Scalars['String'];
   topicId: Scalars['String'];
   resourceId: Scalars['String'];
+  skipSubject: Scalars['Boolean'];
   skipTopic: Scalars['Boolean'];
   skipResource: Scalars['Boolean'];
 }>;

@@ -471,6 +471,9 @@ export const subjectInfoFragment = gql`
       about {
         title
       }
+      banner {
+        desktopUrl
+      }
     }
   }
 `;
@@ -589,10 +592,11 @@ export const mastHeadQuery = gql`
     $subjectId: String!
     $topicId: String!
     $resourceId: String!
+    $skipSubject: Boolean!
     $skipTopic: Boolean!
     $skipResource: Boolean!
   ) {
-    subject(id: $subjectId) {
+    subject(id: $subjectId) @skip(if: $skipSubject) {
       id
       name
       path

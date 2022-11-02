@@ -9,6 +9,10 @@
 import { TFunction } from 'i18next';
 import { GQLFrontpageSearch, GQLSubjectInfoFragment } from '../graphqlTypes';
 import { toSubject } from '../routeHelpers';
+import {
+  TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE,
+  TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
+} from '../constants';
 
 export const searchSubjects = (
   query?: string,
@@ -19,7 +23,15 @@ export const searchSubjects = (
     return [];
   }
 
-  const foundInSubjects = subjects?.filter(subject =>
+  const filtered = subjects?.filter(
+    subject =>
+      subject.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] !==
+        undefined ||
+      subject.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE] !==
+        undefined,
+  );
+
+  const foundInSubjects = filtered?.filter(subject =>
     subject.name.toLowerCase().includes(trimmedQuery),
   );
 
@@ -29,7 +41,7 @@ export const searchSubjects = (
       id: subject.id,
       url: toSubject(subject.id),
       title: subject.name,
-      //img: subject.subjectpage?.banner?.desktopUrl,
+      img: { url: subject.subjectpage?.banner?.desktopUrl ?? '' },
     };
   });
 };
