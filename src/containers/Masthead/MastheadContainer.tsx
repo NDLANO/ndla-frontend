@@ -81,6 +81,7 @@ const MastheadContainer = () => {
     resourceId,
     topicId: topicIdParam,
     subjectType,
+    programme,
   } = useUrnIds();
   const [topicId, setTopicId] = useState<string>(topicIdParam ?? '');
   const [subjectId, setSubjectId] = useState<string>(subjectIdParam ?? '');
@@ -108,10 +109,6 @@ const MastheadContainer = () => {
   }, [subjectIdParam]);
 
   useEffect(() => {
-    if (!subjectId) {
-      setState(initialState);
-      return;
-    }
     fetchData({
       variables: {
         subjectId: subjectId ?? '',
@@ -122,7 +119,7 @@ const MastheadContainer = () => {
       },
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [topicId, resourceId, subjectId]);
+  }, [topicId, resourceId, subjectId, programme]);
 
   const {
     subject,
@@ -174,6 +171,7 @@ const MastheadContainer = () => {
                 locale={locale}
                 subject={subject}
                 topicResourcesByType={topicResourcesByType ?? []}
+                subjects={subjects}
                 subjectCategories={getSubjectsCategories(t, subjects)}
                 onTopicChange={newId => setTopicId(newId)}
                 close={onClose}

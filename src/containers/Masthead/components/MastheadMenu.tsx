@@ -30,6 +30,7 @@ import { mapTopicResourcesToTopic } from '../mastheadHelpers';
 interface Props {
   locale: LocaleType;
   subject?: GQLMastHeadQuery['subject'];
+  subjects: GQLSubjectInfoFragment[];
   topicResourcesByType: GQLResourceType[];
   subjectCategories: {
     type: string;
@@ -50,11 +51,15 @@ export const toTopicWithBoundParams = (
   };
 };
 
-const getProgramme = (programme: string | undefined, locale: LocaleType) => {
+const getProgramme = (
+  programme: string | undefined,
+  subjects: GQLSubjectInfoFragment[],
+  locale: LocaleType,
+) => {
   if (!programme) return undefined;
   const data = getProgrammeBySlug(programme, locale);
   if (!data) return undefined;
-  const grades = mapGradesData(data.grades, [], locale);
+  const grades = mapGradesData(data.grades, subjects, locale);
   return { name: data.name[locale], url: data.url[locale], grades };
 };
 
@@ -62,6 +67,7 @@ const MastheadMenu = ({
   locale,
   topicResourcesByType,
   subject,
+  subjects,
   subjectCategories,
   onTopicChange,
   close,
@@ -106,7 +112,7 @@ const MastheadMenu = ({
   }, [params]);
 
   const subjectTitle = subject?.name;
-  const currentProgramme = getProgramme(programme, locale);
+  const currentProgramme = getProgramme(programme, subjects, locale);
 
   const handleSubjectClick = (subjectId?: string) => {
     return subjectId ? toSubject(subjectId) : '';
