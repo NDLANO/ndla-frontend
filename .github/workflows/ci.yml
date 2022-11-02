@@ -14,6 +14,7 @@ env:
   GH_PR_NUMBER: ${{ github.event.number }}
   GH_PR_REPO: ${{ github.event.pull_request.head.repo.full_name }}
   GH_PR_SHA: ${{ github.event.pull_request.head.sha }}
+  NODE_OPTIONS: '--max-old-space-size=4096'
 jobs:
   unit_tests:
     name: 'Unit tests'
