@@ -79,6 +79,16 @@ module.exports = {
       appConfig.resolve.alias.react = path.resolve('./node_modules/react');
     }
 
+    if (dev) {
+      appConfig.cache = {
+        name: target,
+        type: 'filesystem',
+        buildDependencies: {
+          config: [__filename],
+        },
+      };
+    }
+
     return appConfig;
   },
 };
