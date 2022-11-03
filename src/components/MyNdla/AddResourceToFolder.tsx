@@ -258,9 +258,7 @@ const AddResourceToFolder = ({
         }}
       />
       {examLock ? (
-        <MessageBox>
-          Redigering av Min NDLA er skrudd av for elever i eksamensperioden.
-        </MessageBox>
+        <MessageBox>{t('myNdla.examLockInfo')}</MessageBox>
       ) : (
         <>
           <ComboboxContainer>
