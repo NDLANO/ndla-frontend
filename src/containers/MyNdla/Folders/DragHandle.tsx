@@ -5,12 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
+import { HTMLProps } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useSortable } from '@dnd-kit/sortable';
 import styled from '@emotion/styled';
 import { IconButtonV2 } from '@ndla/button';
 import { DragVertical } from '@ndla/icons/editor';
-import { HTMLProps } from 'react';
-import { useTranslation } from 'react-i18next';
 
 interface Props extends HTMLProps<HTMLButtonElement> {
   sortableId: string;

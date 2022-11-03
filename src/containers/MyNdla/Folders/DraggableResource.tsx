@@ -1,9 +1,17 @@
+/**
+ * Copyright (c) 2022-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { useTranslation } from 'react-i18next';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { FolderOutlined } from '@ndla/icons/lib/contentType';
-import { DeleteForever, Link } from '@ndla/icons/lib/editor';
+import { FolderOutlined } from '@ndla/icons/contentType';
+import { DeleteForever, Link } from '@ndla/icons/editor';
 import { BlockResource, ListResource, useSnack } from '@ndla/ui';
-import { useTranslation } from 'react-i18next';
 import config from '../../../config';
 import {
   GQLFolderResource,

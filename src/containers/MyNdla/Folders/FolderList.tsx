@@ -9,6 +9,7 @@
 import { Dispatch, useMemo, useState, useEffect } from 'react';
 import { useApolloClient } from '@apollo/client';
 import styled from '@emotion/styled';
+import { useTranslation } from 'react-i18next';
 import {
   closestCenter,
   DndContext,
@@ -28,7 +29,6 @@ import {
 } from '@dnd-kit/modifiers';
 import { colors, spacing } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
-import { t } from 'i18next';
 import { FolderOutlined } from '@ndla/icons/contentType';
 import { BlockWrapper, FolderAction, ViewType } from './FoldersPage';
 import WhileLoading from '../../../components/WhileLoading';
@@ -73,6 +73,7 @@ const FolderList = ({
   folderId,
   setFolderAction,
 }: Props) => {
+  const { t } = useTranslation();
   const { sortFolders } = useSortFoldersMutation();
   const client = useApolloClient();
   const [sortedFolders, setSortedFolders] = useState(folders);
@@ -115,7 +116,7 @@ const FolderList = ({
 
   const announcements = useMemo(
     () => makeDndTranslations('folder', t, folders.length),
-    [folders],
+    [folders, t],
   );
 
   const sortFolderIds = makeDndSortFunction(
