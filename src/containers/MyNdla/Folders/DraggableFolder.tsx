@@ -66,9 +66,6 @@ const DraggableFolder = ({
       name: folder.name,
       index,
     },
-    attributes: {
-      tabIndex: -1,
-    },
   });
 
   const style = {

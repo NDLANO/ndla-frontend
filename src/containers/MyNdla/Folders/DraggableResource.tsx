@@ -41,9 +41,6 @@ const DraggableResource = ({
     isDragging,
   } = useSortable({
     id: resource.id,
-    attributes: {
-      tabIndex: -1,
-    },
   });
 
   const Resource = viewType === 'block' ? BlockResource : ListResource;
@@ -58,13 +55,13 @@ const DraggableResource = ({
       id={`resource-${resource.id}`}
       ref={setNodeRef}
       style={style}
-      isDragging={isDragging}
-      {...attributes}>
+      isDragging={isDragging}>
       {viewType !== 'block' && (
         <DragHandle
           type="resource"
           name={resourceMeta?.title ?? ''}
           sortableId={resource.id}
+          {...attributes}
         />
       )}
       <DragWrapper>
