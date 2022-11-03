@@ -77,17 +77,15 @@ class App extends Component<AppProps, State> {
       return <ErrorPage />;
     }
 
-    return (
-      <AppRoutes resCookie={this.props.resCookie} base={this.props.base} />
-    );
+    return <AppRoutes base={this.props.base} />;
   }
 }
 
-const AppRoutes = ({ base, resCookie }: AppProps) => {
+const AppRoutes = ({ base }: AppProps) => {
   return (
     <AlertsProvider>
       <BaseNameProvider value={base}>
-        <AuthenticationContext initialValue={resCookie}>
+        <AuthenticationContext>
           <SnackbarProvider>
             <Routes>
               <Route path="/" element={<Layout />}>
@@ -171,7 +169,6 @@ interface AppProps {
   locale?: LocaleType;
   history?: History;
   isClient?: boolean;
-  resCookie?: string;
 }
 
 export default App;

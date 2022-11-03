@@ -43,7 +43,11 @@ const PlainArticleContainer = ({
 }: Props) => {
   useEffect(() => {
     if (window.MathJax && typeof window.MathJax.typeset === 'function') {
-      window?.MathJax?.typeset();
+      try {
+        window.MathJax.typeset();
+      } catch (err) {
+        // do nothing
+      }
     }
   });
 
@@ -117,6 +121,7 @@ export const plainArticleContainerFragments = {
   article: gql`
     fragment PlainArticleContainer_Article on Article {
       created
+      tags
       ...Article_Article
       ...StructuredArticleData
     }

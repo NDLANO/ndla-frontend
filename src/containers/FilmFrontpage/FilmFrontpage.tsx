@@ -8,7 +8,7 @@
 
 import { useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 import { spacingUnit } from '@ndla/core';
 import { gql } from '@apollo/client';
 import {
@@ -100,7 +100,7 @@ const FilmFrontpage = ({
   const pageTitle = getDocumentTitle(t, subject);
 
   return (
-    <div id={skipToContentId}>
+    <div>
       <Helmet>
         <title>{pageTitle}</title>
       </Helmet>
@@ -110,6 +110,7 @@ const FilmFrontpage = ({
       />
       <FilmSlideshow slideshow={filmFrontpage?.slideShow ?? []} />
       <FilmMovieSearch
+        skipToContentId={skipToContentId}
         ariaControlId={ARIA_FILMCATEGORY_ID}
         topics={subject?.topics ?? []}
         resourceTypes={resourceTypes}

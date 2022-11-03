@@ -15,7 +15,7 @@ import { configureTracker } from '@ndla/tracker';
 import { i18nInstance } from '@ndla/ui';
 import { MissingRouterContext } from '@ndla/safelink';
 import ErrorReporter from '@ndla/error-reporter';
-import { CacheProvider } from '@emotion/core';
+import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import { BrowserRouter } from 'react-router-dom';
 import '@fontsource/shadows-into-light-two/index.css';
@@ -63,7 +63,7 @@ const language = initialProps.locale ?? config.defaultLocale;
 
 const cache = createCache({ key: EmotionCacheKey });
 
-const client = createApolloClient(language, initialProps.resCookie);
+const client = createApolloClient(language);
 const i18n = initializeI18n(i18nInstance, language);
 
 const renderOrHydrate = disableSSR ? ReactDOM.render : ReactDOM.hydrate;

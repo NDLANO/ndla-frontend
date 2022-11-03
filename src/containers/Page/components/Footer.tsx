@@ -19,6 +19,7 @@ import { useTranslation } from 'react-i18next';
 interface Props {
   ndlaFilm?: boolean;
 }
+
 const FooterWrapper = ({ ndlaFilm }: Props) => {
   const { t, i18n } = useTranslation();
 
