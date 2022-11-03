@@ -23,7 +23,7 @@ import {
   FolderTotalCount,
   getTotalCountForFolder,
 } from '../../../util/folderHelpers';
-import { StatusContext } from '../../../components/StatusContext';
+import { AuthContext } from '../../../components/AuthenticationContext';
 
 const StyledFolderIcon = styled.span`
   display: flex;
@@ -57,7 +57,7 @@ const FolderList = ({
   setFolderAction,
 }: Props) => {
   const { t } = useTranslation();
-  const { examLock } = useContext(StatusContext);
+  const { examLock } = useContext(AuthContext);
   const foldersCount = useMemo(
     () =>
       folders?.reduce<Record<string, FolderTotalCount>>((acc, curr) => {
@@ -117,7 +117,7 @@ const FolderList = ({
                           type: 'danger',
                         },
                       ]
-                    : []
+                    : undefined
                 }
               />
             </ListItem>

@@ -23,7 +23,7 @@ import {
 } from '../folderMutations';
 import { BlockWrapper, ListItem, ViewType } from './FoldersPage';
 import { usePrevious } from '../../../util/utilityHooks';
-import { StatusContext } from '../../../components/StatusContext';
+import { AuthContext } from '../../../components/AuthenticationContext';
 
 interface Props {
   selectedFolder: GQLFolder;
@@ -41,7 +41,7 @@ export interface ResourceAction {
 const ResourceList = ({ selectedFolder, viewType, folderId }: Props) => {
   const { t } = useTranslation();
   const { addSnack } = useSnack();
-  const { examLock } = useContext(StatusContext);
+  const { examLock } = useContext(AuthContext);
   const [focusId, setFocusId] = useState<string | undefined>(undefined);
   const [resourceAction, setResourceAction] = useState<
     ResourceAction | undefined

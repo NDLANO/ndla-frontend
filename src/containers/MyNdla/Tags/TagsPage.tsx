@@ -32,7 +32,7 @@ import MyNdlaTitle from '../components/MyNdlaTitle';
 import TitleWrapper from '../components/TitleWrapper';
 import { usePrevious } from '../../../util/utilityHooks';
 import { STORED_RESOURCE_VIEW_SETTINGS } from '../../../constants';
-import { StatusContext } from '../../../components/StatusContext';
+import { AuthContext } from '../../../components/AuthenticationContext';
 
 const StyledUl = styled.ul`
   padding: 0px;
@@ -117,7 +117,7 @@ const Resources = ({ resources }: ResourcesProps) => {
     (localStorage.getItem(STORED_RESOURCE_VIEW_SETTINGS) as ViewType) || 'list',
   );
   const { addSnack } = useSnack();
-  const { examLock } = useContext(StatusContext);
+  const { examLock } = useContext(AuthContext);
   const [resourceAction, setResourceAction] = useState<
     ResourceAction | undefined
   >(undefined);
@@ -192,7 +192,7 @@ const Resources = ({ resources }: ResourcesProps) => {
                         },
                       },
                     ]
-                  : []
+                  : undefined
               }
             />
           );

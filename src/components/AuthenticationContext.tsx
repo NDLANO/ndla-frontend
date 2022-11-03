@@ -16,6 +16,7 @@ interface AuthContextType {
   login: () => void;
   logout: () => void;
   user: FeideUserApiType | undefined;
+  examLock: boolean;
 }
 
 export const AuthContext = createContext<AuthContextType>({
@@ -24,6 +25,7 @@ export const AuthContext = createContext<AuthContextType>({
   login: () => {},
   logout: () => {},
   user: undefined,
+  examLock: false,
 });
 
 interface Props {
@@ -35,6 +37,7 @@ const AuthenticationContext = ({ children }: Props) => {
   const [authenticated, setAuthenticated] = useState(false);
   const [authContextLoaded, setLoaded] = useState(false);
   const [user, setUser] = useState<FeideUserApiType | undefined>(undefined);
+  const [examLock, setExamLock] = useState(false);
 
   useEffect(() => {
     const isValid = isAccessTokenValid();
@@ -43,6 +46,9 @@ const AuthenticationContext = ({ children }: Props) => {
 
     if (isValid) {
       fetchFeideUserWithGroups().then(user => {
+        if (user?.eduPersonPrimaryAffiliation === 'student') {
+          setExamLock(true);
+        }
         setUser(user);
       });
       // Since we can't listen to cookies set a timeout to update context
@@ -58,7 +64,14 @@ const AuthenticationContext = ({ children }: Props) => {
 
   return (
     <AuthContext.Provider
-      value={{ authenticated, authContextLoaded, login, logout, user }}>
+      value={{
+        authenticated,
+        authContextLoaded,
+        login,
+        logout,
+        user,
+        examLock,
+      }}>
       {children}
     </AuthContext.Provider>
   );

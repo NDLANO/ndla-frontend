@@ -31,7 +31,7 @@ import {
 import { GQLFolder, GQLFolderResource } from '../../graphqlTypes';
 import { getAllTags, getResourceForPath } from '../../util/folderHelpers';
 import NewFolder from './NewFolder';
-import { StatusContext } from '../StatusContext';
+import { AuthContext } from '../AuthenticationContext';
 
 export interface ResourceAttributes {
   path: string;
@@ -112,7 +112,7 @@ const AddResourceToFolder = ({
   defaultOpenFolder,
 }: Props) => {
   const { t } = useTranslation();
-  const { examLock } = useContext(StatusContext);
+  const { examLock } = useContext(AuthContext);
   const { meta, loading: metaLoading } = useFolderResourceMeta(resource);
   const { folders, loading } = useFolders();
   const [storedResource, setStoredResource] = useState<

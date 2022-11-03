@@ -17,7 +17,7 @@ import FolderActions from './FolderActions';
 import WhileLoading from '../../../components/WhileLoading';
 import { GQLFolder } from '../../../graphqlTypes';
 import { FolderAction } from './FoldersPage';
-import { StatusContext } from '../../../components/StatusContext';
+import { AuthContext } from '../../../components/AuthenticationContext';
 
 const TitleRow = styled.div`
   display: flex;
@@ -39,7 +39,7 @@ const FoldersPageTitle = ({
   setFolderAction,
 }: Props) => {
   const { t } = useTranslation();
-  const { examLock } = useContext(StatusContext);
+  const { examLock } = useContext(AuthContext);
   const crumbs = selectedFolder?.breadcrumbs ?? [];
 
   const backCrumb =

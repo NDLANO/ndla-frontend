@@ -32,7 +32,7 @@ import { STORED_RESOURCE_VIEW_SETTINGS } from '../../../constants';
 import FoldersPageTitle from './FoldersPageTitle';
 import FolderAndResourceCount from './FolderAndResourceCount';
 import FolderList from './FolderList';
-import { StatusContext } from '../../../components/StatusContext';
+import { AuthContext } from '../../../components/AuthenticationContext';
 
 interface BlockWrapperProps {
   type?: string;
@@ -96,7 +96,7 @@ const FoldersPage = () => {
   );
   const navigate = useNavigate();
   const { addSnack } = useSnack();
-  const { examLock } = useContext(StatusContext);
+  const { examLock } = useContext(AuthContext);
   const [folderAction, setFolderAction] = useState<FolderAction | undefined>(
     undefined,
   );
