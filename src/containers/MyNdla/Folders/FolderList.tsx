@@ -149,18 +149,6 @@ const FolderList = ({
       )}
       {folders && (
         <BlockWrapper type={type}>
-          {isAdding && (
-            <NewFolder
-              icon={
-                <StyledFolderIcon>
-                  <FolderOutlined />
-                </StyledFolderIcon>
-              }
-              parentId={folderId ?? 'folders'}
-              onClose={() => setIsAdding(false)}
-              onCreate={onFolderAdd}
-            />
-          )}
           <DndContext
             sensors={sensors}
             collisionDetection={closestCenter}
