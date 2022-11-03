@@ -62,8 +62,8 @@
     "babel-plugin-graphql-tag": "^3.3.0",
     "babel-preset-razzle": "^4.2.17",
     "chalk": "^2.4.2",
-    "concurrently": "^5.3.0",
-    "cypress": "^7.3.0",
+    "concurrently": "^7.5.0",
+    "cypress": "^7.7.0",
     "eslint": "^8.26.0",
     "eslint-config-ndla": "^2.0.6",
     "eslint-plugin-react": "^7.31.10",
@@ -93,7 +93,8 @@
     "ts-jest": "^29.0.0",
     "typescript": "4.8.4",
     "webpack": "4.46.0",
-    "webpack-dev-server": "3.11.0"
+    "webpack-dev-server": "^4.11.1",
+    "yarn-deduplicate": "^6.0.0"
   },
   "dependencies": {
     "@apollo/client": "3.6.9",
