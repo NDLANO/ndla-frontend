@@ -169,7 +169,11 @@ const typePolicies: TypePolicies = {
           }: FieldFunctionOptions<GQLQueryFolderResourceMetaSearchArgs>,
         ) {
           const refs = args?.resources.map(arg =>
-            toReference(`FolderResourceMeta:${arg.resourceType}${arg.id}`),
+            toReference(
+              `${
+                arg.resourceType === 'learningpath' ? 'Learningpath' : 'Article'
+              }FolderResourceMeta:${arg.resourceType}${arg.id}`,
+            ),
           );
 
           if (refs && refs.every(ref => canRead(ref))) {
