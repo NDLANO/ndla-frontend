@@ -41,6 +41,10 @@ const DraggableResource = ({
     isDragging,
   } = useSortable({
     id: resource.id,
+    data: {
+      name: resourceMeta?.title,
+      index: index + 1,
+    },
   });
 
   const Resource = viewType === 'block' ? BlockResource : ListResource;

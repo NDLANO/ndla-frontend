@@ -64,7 +64,7 @@ const DraggableFolder = ({
     id: folder.id,
     data: {
       name: folder.name,
-      index,
+      index: index + 1,
     },
   });
 
