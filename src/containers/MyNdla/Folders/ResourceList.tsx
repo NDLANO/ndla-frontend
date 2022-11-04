@@ -7,7 +7,7 @@
  */
 
 import { isEqual, keyBy } from 'lodash';
-import { useMemo, useState, useEffect } from 'react';
+import { useMemo, useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from '@ndla/icons/common';
 import { FolderOutlined } from '@ndla/icons/contentType';
@@ -23,6 +23,7 @@ import {
 } from '../folderMutations';
 import { BlockWrapper, ListItem, ViewType } from './FoldersPage';
 import { usePrevious } from '../../../util/utilityHooks';
+import { AuthContext } from '../../../components/AuthenticationContext';
 
 interface Props {
   selectedFolder: GQLFolder;
@@ -40,6 +41,7 @@ export interface ResourceAction {
 const ResourceList = ({ selectedFolder, viewType, folderId }: Props) => {
   const { t } = useTranslation();
   const { addSnack } = useSnack();
+  const { examLock } = useContext(AuthContext);
   const [focusId, setFocusId] = useState<string | undefined>(undefined);
   const [resourceAction, setResourceAction] = useState<
     ResourceAction | undefined
@@ -131,34 +133,42 @@ const ResourceList = ({ selectedFolder, viewType, folderId }: Props) => {
                     ? resourceMeta?.description ?? ''
                     : undefined
                 }
-                menuItems={[
-                  {
-                    icon: <FolderOutlined />,
-                    text: t('myNdla.resource.add'),
-                    onClick: () =>
-                      setResourceAction({ action: 'add', resource }),
-                  },
-                  {
-                    icon: <Link />,
-                    text: t('myNdla.resource.copyLink'),
-                    onClick: () => {
-                      navigator.clipboard.writeText(
-                        `${config.ndlaFrontendDomain}${resource.path}`,
-                      );
-                      addSnack({
-                        content: t('myNdla.resource.linkCopied'),
-                        id: 'linkCopied',
-                      });
-                    },
-                  },
-                  {
-                    icon: <DeleteForever />,
-                    text: t('myNdla.resource.remove'),
-                    onClick: () =>
-                      setResourceAction({ action: 'delete', resource, index }),
-                    type: 'danger',
-                  },
-                ]}
+                menuItems={
+                  !examLock
+                    ? [
+                        {
+                          icon: <FolderOutlined />,
+                          text: t('myNdla.resource.add'),
+                          onClick: () =>
+                            setResourceAction({ action: 'add', resource }),
+                        },
+                        {
+                          icon: <Link />,
+                          text: t('myNdla.resource.copyLink'),
+                          onClick: () => {
+                            navigator.clipboard.writeText(
+                              `${config.ndlaFrontendDomain}${resource.path}`,
+                            );
+                            addSnack({
+                              content: t('myNdla.resource.linkCopied'),
+                              id: 'linkCopied',
+                            });
+                          },
+                        },
+                        {
+                          icon: <DeleteForever />,
+                          text: t('myNdla.resource.remove'),
+                          onClick: () =>
+                            setResourceAction({
+                              action: 'delete',
+                              resource,
+                              index,
+                            }),
+                          type: 'danger',
+                        },
+                      ]
+                    : undefined
+                }
               />
             </ListItem>
           );
