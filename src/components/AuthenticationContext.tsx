@@ -9,6 +9,7 @@ import { FeideUserApiType } from '@ndla/ui';
 import { createContext, ReactNode, useEffect, useState } from 'react';
 import { isAccessTokenValid, millisUntilExpiration } from '../util/authHelpers';
 import { fetchFeideUserWithGroups } from '../util/feideApi';
+import { fetchExamLockStatus } from '../util/learningPathApi';
 
 interface AuthContextType {
   authenticated: boolean;
@@ -47,7 +48,15 @@ const AuthenticationContext = ({ children }: Props) => {
     if (isValid) {
       fetchFeideUserWithGroups().then(user => {
         if (user?.eduPersonPrimaryAffiliation === 'student') {
-          setExamLock(true);
+          fetchExamLockStatus()
+            .then(res => {
+              if (res.value === 'true') {
+                setExamLock(true);
+              }
+            })
+            .catch(e => {
+              console.error('Could not fetch exam lock status:', e);
+            });
         }
         setUser(user);
       });

@@ -106,6 +106,7 @@
     "@fontsource/source-code-pro": "^4.5.10",
     "@fontsource/source-sans-pro": "^4.5.9",
     "@fontsource/source-serif-pro": "^4.5.7",
+    "@ndla/types-learningpath-api": "^0.0.15",
     "@ndla/article-scripts": "^3.0.9",
     "@ndla/button": "^6.0.0",
     "@ndla/carousel": "^2.0.6",
