@@ -26,18 +26,18 @@ jobs:
     name: "Release and push to registry"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           path: ndla/${{ github.event.repository.name }}
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           repository: NDLANO/deploy
           token: ${{ secrets.CI_GITHUB_TOKEN }}
           path: ndla/deploy
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-python@v4
         with:
-          python-version: '3.x'
-      - uses: olafurpg/setup-scala@v10
+          python-version: '3.10'
+      - uses: olafurpg/setup-scala@v13
         with:
           java-version: adopt@1.11
       - name: "Setup ~/bin directory"
@@ -53,7 +53,7 @@ jobs:
       - name: "Login to dockerhub"
         run: echo $DOCKER_HUB_PASSWORD | docker login --username $DOCKER_HUB_USERNAME --password-stdin
       - name: "Cache pip"
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-${{ hashFiles('ndla/deploy/scripts/pyshare/requirements.txt') }}
@@ -65,7 +65,7 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -r ndla/deploy/scripts/pyshare/requirements.txt
       - name: "Download blackbox"
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: StackExchange/blackbox
           path: blackbox
