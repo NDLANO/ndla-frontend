@@ -7,7 +7,8 @@
  */
 
 import { HashTag, Person } from '@ndla/icons/common';
-import { FolderOutlined } from '@ndla/icons/lib/contentType';
+import { MenuBook } from '@ndla/icons/action';
+import { FolderOutlined } from '@ndla/icons/contentType';
 import { FolderType } from '@ndla/ui';
 import { TFunction } from 'i18next';
 import { uniq, uniqBy } from 'lodash';
@@ -79,6 +80,15 @@ export const createStaticStructureElements = (
       isNavigation: true,
       name: t('myNdla.myPage.myPage'),
       icon: <Person />,
+      status: 'private',
+      breadcrumbs: [],
+      resources: [],
+    },
+    {
+      id: 'subjects',
+      isNavigation: true,
+      name: t('myNdla.mySubjects'),
+      icon: <MenuBook />,
       status: 'private',
       breadcrumbs: [],
       resources: [],
