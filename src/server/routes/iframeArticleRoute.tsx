@@ -30,10 +30,10 @@ const assets =
   process.env.NODE_ENV !== 'unittest' && process.env.RAZZLE_ASSETS_MANIFEST
     ? require(process.env.RAZZLE_ASSETS_MANIFEST) //eslint-disable-line
     : {
-        client: { css: 'mock.css' },
-        embed: { js: 'mock.js' },
-        polyfill: { js: 'mock.js' },
-        mathJaxConfig: { js: 'mock.js' },
+        'client.css': 'mock.css',
+        'embed.js': 'mock.js',
+        'polyfill.js': 'mock.js',
+        'mathJaxConfig.js': 'mock.js',
       };
 
 if (process.env.NODE_ENV === 'unittest') {
