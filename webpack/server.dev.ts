@@ -21,7 +21,6 @@ const serverDevConfig: webpack.Configuration = {
   output: {
     path: path.resolve('./build'),
     publicPath: 'http://localhost:3001/',
-    filename: '[name].js',
     chunkFilename: '[name].chunk.js',
     libraryTarget: 'commonjs2',
     library: { type: 'commonjs2' },

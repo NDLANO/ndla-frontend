@@ -17,7 +17,6 @@ const serverProdConfig: webpack.Configuration = {
   output: {
     path: path.resolve('./build'),
     publicPath: '/',
-    filename: '[name].js',
     chunkFilename: '[name].chunk.js',
     libraryTarget: 'commonjs2',
     library: { type: 'commonjs2' },
