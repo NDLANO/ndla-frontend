@@ -55,15 +55,6 @@ const clientDevConfig: Configuration = {
     },
   },
   plugins: sharedPlugins.concat(clientPlugins),
-  optimization: {
-    splitChunks: {
-      cacheGroups: {
-        default: false,
-        vendors: false,
-        defaultVendors: false,
-      },
-    },
-  },
   cache: {
     name: 'dev-client',
     type: 'filesystem',
