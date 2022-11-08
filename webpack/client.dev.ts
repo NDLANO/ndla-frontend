@@ -48,7 +48,7 @@ const clientDevConfig: Configuration = {
     devtoolModuleFilenameTemplate: (info: { resourcePath: string }) =>
       path.resolve(info.resourcePath).replace(/\\/g, '/'),
     chunkFilename: 'static/js/[name].chunk.js',
-    assetModuleFilename: 'static/media/[name].[contenthash:8].[ext]',
+    assetModuleFilename: 'static/media/[name][ext]',
     library: {
       type: 'var',
       name: 'client',

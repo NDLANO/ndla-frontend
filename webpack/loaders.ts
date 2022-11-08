@@ -55,7 +55,10 @@ export const loaders = (
         importLoaders: 1,
         modules: {
           auto: true,
-          localIdentName: '[name]__[local]__[hash:base64:5]',
+          localIdentName:
+            env !== 'production'
+              ? '[path][name]__[local]'
+              : '[name]__[local]__[hash:base64:5]',
           exportOnlyLocals: type === 'server',
         },
       },
