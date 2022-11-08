@@ -8,7 +8,7 @@
 import { ContentLoader } from '@ndla/ui';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
-import { Dispatch } from 'react';
+import { Dispatch, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
 import MyNdlaTitle from '../components/MyNdlaTitle';
@@ -17,6 +17,7 @@ import FolderActions from './FolderActions';
 import WhileLoading from '../../../components/WhileLoading';
 import { GQLFolder } from '../../../graphqlTypes';
 import { FolderAction } from './FoldersPage';
+import { AuthContext } from '../../../components/AuthenticationContext';
 
 const TitleRow = styled.div`
   display: flex;
@@ -38,6 +39,7 @@ const FoldersPageTitle = ({
   setFolderAction,
 }: Props) => {
   const { t } = useTranslation();
+  const { examLock } = useContext(AuthContext);
   const crumbs = selectedFolder?.breadcrumbs ?? [];
 
   const backCrumb =
@@ -95,7 +97,7 @@ const FoldersPageTitle = ({
           }
           isLoading={loading}>
           <MyNdlaTitle title={selectedFolder?.name ?? t('myNdla.myFolders')} />
-          {hasSelectedFolder && (
+          {hasSelectedFolder && !examLock && (
             <FolderActions
               onActionChanged={action =>
                 selectedFolder &&

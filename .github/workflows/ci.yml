@@ -20,8 +20,8 @@ jobs:
     name: 'Unit tests'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: '16.17'
       - name: 'Login to ECR repo'
@@ -33,7 +33,7 @@ jobs:
           aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin $NDLA_AWS_ECR_REPO
       - name: 'Login to dockerhub'
         run: echo $DOCKER_HUB_PASSWORD | docker login --username $DOCKER_HUB_USERNAME --password-stdin
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         with:
           path: |
             **/node_modules
@@ -53,8 +53,8 @@ jobs:
       NDLA_PERSONAL_CLIENT_ID: ${{ secrets.NDLA_PERSONAL_CLIENT_ID }}
       CYPRESS_RECORD_KEY: ${{ secrets.NDLA_FRONTEND_CYPRESS_RECORD_KEY }}
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: '16.17'
       - name: 'Login to ECR repo'
