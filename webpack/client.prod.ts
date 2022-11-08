@@ -25,13 +25,6 @@ const clientProdConfig: webpack.Configuration = {
     library: { type: 'var', name: 'client' },
   },
   optimization: {
-    splitChunks: {
-      cacheGroups: {
-        default: false,
-        vendors: false,
-        defaultVendors: false,
-      },
-    },
     moduleIds: 'deterministic',
     minimize: true,
     minimizer: [new TerserPlugin(), new CssMinimizerPlugin()],
