@@ -41,10 +41,10 @@ if (process.env.NODE_ENV === 'unittest') {
 }
 
 const getAssets = () => ({
-  css: assets.client.css,
-  js: [{ src: assets.embed.js }],
-  polyfill: { src: assets.polyfill.js },
-  mathJaxConfig: { js: assets.mathJaxConfig.js },
+  css: assets['client.css'],
+  js: [{ src: assets['embed.js'] }],
+  polyfill: { src: assets['polyfill.js'] },
+  mathJaxConfig: { js: assets['mathJaxConfig.js'] },
 });
 
 const disableSSR = (req: Request) => {
