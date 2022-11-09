@@ -25,6 +25,7 @@ type DimensionKeys =
   | '10'
   | '13'
   | '14'
+  | '16'
   | '17'
   | '18'
   | '19'
@@ -71,6 +72,10 @@ export const getDimensionsCodes = {
   '14': {
     ga: 'dimension14',
     gtm: 'CustDimStiSteg',
+  },
+  '16': {
+    ga: 'dimension16',
+    gtm: 'CustDimFylke',
   },
   '17': {
     ga: 'dimension17',
@@ -153,6 +158,7 @@ export const getAllDimensions = (
     '10': getGrepCodeOfType('KE', article?.grepCodes),
     '13': learningpath?.learningsteps?.length,
     '14': learningstep ? learningstep.seqNo + 1 : undefined,
+    '16': user ? user.baseOrg?.displayName : undefined,
     '17': user ? user.primarySchool?.displayName : undefined,
     '18': user ? user.eduPersonPrimaryAffiliation : undefined,
     '19': filter,

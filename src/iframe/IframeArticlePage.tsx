@@ -93,6 +93,7 @@ export const iframeArticlePageFragments = {
       metaImage {
         url
       }
+      tags
       ...Article_Article
     }
     ${Article.fragments.article}

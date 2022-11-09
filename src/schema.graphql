@@ -299,6 +299,10 @@ type Element {
   reference: Reference!
 }
 
+type EmbedVisualelement {
+  visualElement: VisualElement
+}
+
 type FilmFrontpage {
   about: [FilmPageAbout!]!
   movieThemes: [MovieTheme!]!
@@ -1065,8 +1069,4 @@ type VisualElementOembed {
 interface WithArticle {
   availability: String
   meta: Meta
-}
-
-type embedVisualelement {
-  visualElement: VisualElement
 }

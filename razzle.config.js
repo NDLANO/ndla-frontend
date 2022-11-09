@@ -5,6 +5,10 @@ const path = require('path');
 module.exports = {
   plugins: [],
   modifyWebpackConfig({ env: { target, dev }, webpackConfig: appConfig }) {
+    appConfig.stats = 'errors-warnings';
+    appConfig.infrastructureLogging = {
+      level: 'warn',
+    };
     const addEntry = options => {
       if (target === 'web') {
         if (dev) {
