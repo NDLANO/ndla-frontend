@@ -12,7 +12,9 @@ WORKDIR $APP_PATH
 RUN yarn install
 
 # Copy necessary source files for server and client build
-COPY .babelrc tsconfig.json .eslintrc.js razzle.config.js postcss.config.js $APP_PATH/
+COPY .babelrc tsconfig.json .eslintrc.js postcss.config.js $APP_PATH/
+COPY webpack $APP_PATH/webpack
+COPY scripts $APP_PATH/scripts
 
 COPY src $APP_PATH/src
 COPY public $APP_PATH/public
