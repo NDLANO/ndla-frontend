@@ -22,11 +22,23 @@ import { AcquireLicensePage } from '../constants';
 import { Breadcrumb } from '../interfaces';
 
 type CopyrightHolder = { '@type': string; name?: string };
+type Alignment = {
+  '@type': string;
+  alignmentType: string;
+  educationalFramework: string;
+  targetDescription?: string;
+  targetName?: string;
+  targetUrl?: string;
+};
 interface StructuredData {
   '@type'?: string;
   '@context'?: string;
   '@id'?: string;
   abstract?: string;
+  audience?: {
+    '@type': string;
+    educationalRole: string[];
+  };
   author?: CopyrightHolder[];
   contentUrl?: string;
   contributor?: CopyrightHolder[];
@@ -35,6 +47,8 @@ interface StructuredData {
   dateModified?: string;
   datePublished?: string;
   description?: string;
+  educationalAlignment?: Alignment[];
+  educationalRole?: string;
   embedUrl?: string;
   headline?: string;
   identifier?: string;
@@ -46,6 +60,7 @@ interface StructuredData {
     item: string;
     position: number;
   }[];
+  learningResourceType?: string[];
   license?: string;
   name?: string;
   numberOfItems?: number;
@@ -73,6 +88,7 @@ const IMAGE_TYPE = 'ImageObject';
 const VIDEO_TYPE = 'VideoObject';
 const AUDIO_TYPE = 'AudioObject';
 const PODCAST_TYPE = 'PodcastEpisode';
+const AUDIENCE_TYPE = 'EducationalAudience';
 
 export const publisher = {
   publisher: {
@@ -128,6 +144,36 @@ const getBreadcrumbs = (
     numberOfItems: breadcrumbItems.length,
     itemListELement: items,
   };
+};
+
+const getAllignments = (
+  article: GQLStructuredArticleDataFragment,
+): Alignment[] | undefined => {
+  const core = article.coreElements
+    ? article.coreElements?.map(ce => {
+        return {
+          '@type': 'AlignmentObject',
+          alignmentType: 'assesses',
+          educationalFramework: 'LK20',
+          targetDescription: '',
+          targetName: ce.curriculumCode,
+          targetUrl: `http://psi.udir.no/kl06/${ce.curriculumCode}`,
+        };
+      })
+    : [];
+  const goals = article.competenceGoals
+    ? article.competenceGoals?.map(kg => {
+        return {
+          '@type': 'AlignmentObject',
+          alignmentType: 'teaches',
+          educationalFramework: kg.type,
+          targetDescription: kg.title,
+          targetName: kg.code || kg.id,
+          targetUrl: `http://psi.udir.no/kl06/${kg.code || kg.id}`,
+        };
+      })
+    : [];
+  return [...core, ...goals];
 };
 
 export const structuredArticleCopyrightFragment = gql`
@@ -209,6 +255,19 @@ export const structuredArticleDataFragment = gql`
     metaImage {
       url
     }
+    availability
+    competenceGoals {
+      id
+      code
+      title
+      type
+    }
+    coreElements {
+      curriculum {
+        code
+      }
+      curriculumCode
+    }
     metaData {
       images {
         ...StructuredArticleData_ImageLicense
@@ -239,18 +298,28 @@ const getStructuredDataFromArticle = (
   const inLanguage = article.supportedLanguages?.includes(language)
     ? language
     : article.supportedLanguages?.[0] ?? language;
+  const educationalAlignment = getAllignments(article);
   const articleData: StructuredData = {
     ...structuredDataBase,
     '@type': CREATIVE_WORK_TYPE,
-    identifier: `${article.id}`,
+    '@id': `${config.ndlaFrontendDomain}/article/${article.id}`,
+    identifier: `${config.ndlaFrontendDomain}/article/${article.id}`,
     inLanguage: inLanguage,
+    learningResourceType: ['text'],
     name: article.title,
     headline: article.title,
     abstract: article.metaDescription,
+    audience: {
+      '@type': AUDIENCE_TYPE,
+      educationalRole: [
+        article.availability === 'teacher' ? 'teacher' : 'student',
+      ],
+    },
     description: article.metaDescription,
     dateCreated: format(article.published, 'YYYY-MM-DD'),
     datePublished: format(article.published, 'YYYY-MM-DD'),
     dateModified: format(article.updated, 'YYYY-MM-DD'),
+    educationalAlignment,
     image: article.metaImage?.url,
     thumbnailUrl: article.metaImage?.url,
     ...publisher,

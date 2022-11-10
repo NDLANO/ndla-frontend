@@ -3573,10 +3573,23 @@ export type GQLStructuredArticleDataFragment = {
   published: string;
   updated: string;
   supportedLanguages?: Array<string>;
+  availability?: string;
   copyright: {
     __typename?: 'Copyright';
   } & GQLStructuredArticleData_CopyrightFragment;
   metaImage?: { __typename?: 'MetaImage'; url: string };
+  competenceGoals?: Array<{
+    __typename?: 'CompetenceGoal';
+    id: string;
+    code?: string;
+    title: string;
+    type: string;
+  }>;
+  coreElements?: Array<{
+    __typename?: 'CoreElement';
+    curriculumCode?: string;
+    curriculum?: { __typename?: 'Reference'; code?: string };
+  }>;
   metaData?: {
     __typename?: 'ArticleMetaData';
     images?: Array<
