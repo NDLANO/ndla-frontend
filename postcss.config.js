@@ -6,7 +6,7 @@
  *
  */
 
-const cssnext = require('postcss-cssnext');
+const postcssPresetEnv = require('postcss-preset-env');
 const postcssImport = require('postcss-import');
 const postcssReporter = require('postcss-reporter');
 
@@ -15,10 +15,7 @@ module.exports = {
     postcssImport({
       glob: true,
     }),
-    cssnext({
-      // Allow future CSS features to be used, also auto-prefixes the CSS...
-      browsers: ['last 2 versions', 'IE >= 10'], // ...based on this browser list
-    }),
+    postcssPresetEnv(),
     postcssReporter({
       // Posts messages from plugins to the terminal
       clearMessages: true,

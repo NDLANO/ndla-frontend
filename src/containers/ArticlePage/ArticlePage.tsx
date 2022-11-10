@@ -77,13 +77,17 @@ const ArticlePage = ({
   useEffect(() => {
     if (!resource?.article) return;
     const article = transformArticle(resource.article, i18n.language);
-    const scripts = getArticleScripts(article);
+    const scripts = getArticleScripts(article, i18n.language);
     setScripts(scripts);
   }, [i18n.language, resource]);
 
   useEffect(() => {
     if (window.MathJax && typeof window.MathJax.typeset === 'function') {
-      window.MathJax.typeset();
+      try {
+        window.MathJax.typeset();
+      } catch (err) {
+        // do nothing
+      }
     }
   });
 
@@ -177,6 +181,7 @@ const ArticlePage = ({
       />
       <OneColumn>
         <Article
+          path={resource.path}
           id={skipToContentId}
           article={article}
           resourceType={contentType}
@@ -259,6 +264,7 @@ export const articlePageFragments = {
     fragment ArticlePage_Resource on Resource {
       id
       name
+      path
       contentUri
       article(subjectId: $subjectId) {
         created
@@ -267,6 +273,7 @@ export const articlePageFragments = {
         metaImage {
           ...ArticleHero_MetaImage
         }
+        tags
         ...StructuredArticleData
         ...Article_Article
       }

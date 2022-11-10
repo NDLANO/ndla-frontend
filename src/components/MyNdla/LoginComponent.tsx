@@ -99,7 +99,7 @@ const LoginComponent = ({ resource, meta, masthead, onClose }: Props) => {
             </Title>
             <StyledImage
               src="/static/my-ndla-login.png"
-              alt={t('myNdla.myNDLA')}
+              alt={t('myNdla.myPage.imageAlt')}
             />
           </>
         )}
@@ -115,7 +115,7 @@ const LoginComponent = ({ resource, meta, masthead, onClose }: Props) => {
               src: meta.metaImage?.url ?? '',
               alt: meta.metaImage?.alt ?? '',
             }}
-            topics={meta.resourceTypes.map(rt => rt.name)}
+            resourceTypes={meta.resourceTypes}
           />
         </ContentWrapper>
       )}

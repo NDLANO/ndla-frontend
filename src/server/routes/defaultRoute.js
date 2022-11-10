@@ -13,7 +13,7 @@ import { getSelectorsByUserAgent } from 'react-device-detect';
 import { i18nInstance } from '@ndla/ui';
 import url from 'url';
 import { ApolloProvider } from '@apollo/client';
-import { CacheProvider } from '@emotion/core';
+import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import { getCookie } from '@ndla/util';
 
@@ -55,11 +55,10 @@ async function doRender(req) {
   const userAgent = req.headers['user-agent'];
   const isMobile = getSelectorsByUserAgent(userAgent).isMobile;
   const versionHash = req.query.versionHash;
-  const { basename } = getLocaleInfoFromPath(req.path);
-  const locale =
-    getCookie(STORED_LANGUAGE_COOKIE_KEY, resCookie) ?? config.defaultLocale;
+  const { basename, abbreviation } = getLocaleInfoFromPath(req.path);
+  const locale = getCookieLocaleOrFallback(resCookie, abbreviation);
 
-  const client = createApolloClient(locale, resCookie, versionHash);
+  const client = createApolloClient(locale, versionHash);
 
   const cache = createCache({ key: EmotionCacheKey });
   const context = {};
@@ -81,7 +80,6 @@ async function doRender(req) {
                       client={client}
                       locale={locale}
                       versionHash={versionHash}
-                      resCookie={resCookie}
                       key={locale}
                     />
                   </StaticRouter>
@@ -101,7 +99,6 @@ async function doRender(req) {
     Page,
     getAssets(),
     {
-      resCookie,
       apolloState,
       serverPath: req.path,
       serverQuery: req.query,
@@ -118,12 +115,20 @@ async function doRender(req) {
   };
 }
 
+function getCookieLocaleOrFallback(resCookie, abbreviation) {
+  const cookieLocale = getCookie(STORED_LANGUAGE_COOKIE_KEY, resCookie) ?? '';
+  if (cookieLocale.length && isValidLocale(cookieLocale)) {
+    return cookieLocale;
+  }
+  return abbreviation;
+}
+
 export async function defaultRoute(req) {
   const resCookie = req.headers['cookie'] ?? '';
-  const { basename, basepath } = getLocaleInfoFromPath(req.originalUrl);
-  const cookieLocale = getCookie(STORED_LANGUAGE_COOKIE_KEY, resCookie) ?? '';
-  const locale =
-    cookieLocale.length && isValidLocale(cookieLocale) ? cookieLocale : 'nb';
+  const { basename, basepath, abbreviation } = getLocaleInfoFromPath(
+    req.originalUrl,
+  );
+  const locale = getCookieLocaleOrFallback(resCookie, abbreviation);
   if ((locale === 'nb' && basename === '') || locale === basename) {
     const { html, context, docProps, helmetContext } = await doRender(req);
     return renderHtml(req, html, context, docProps, helmetContext);

@@ -36,6 +36,15 @@ type Article {
   visualElement: VisualElement
 }
 
+type ArticleFolderResourceMeta implements FolderResourceMeta {
+  description: String!
+  id: Int!
+  metaImage: MetaImage
+  resourceTypes: [FolderResourceResourceType!]!
+  title: String!
+  type: String!
+}
+
 type ArticleMetaData {
   audios: [AudioLicense!]
   brightcoves: [BrightcoveLicense!]
@@ -290,6 +299,10 @@ type Element {
   reference: Reference!
 }
 
+type EmbedVisualelement {
+  visualElement: VisualElement
+}
+
 type FilmFrontpage {
   about: [FilmPageAbout!]!
   movieThemes: [MovieTheme!]!
@@ -323,7 +336,7 @@ type FolderResource {
   tags: [String!]!
 }
 
-type FolderResourceMeta {
+interface FolderResourceMeta {
   description: String!
   id: Int!
   metaImage: MetaImage
@@ -483,6 +496,15 @@ type LearningpathCoverphoto {
   url: String!
 }
 
+type LearningpathFolderResourceMeta implements FolderResourceMeta {
+  description: String!
+  id: Int!
+  metaImage: MetaImage
+  resourceTypes: [FolderResourceResourceType!]!
+  title: String!
+  type: String!
+}
+
 type LearningpathSearchResult implements SearchResult {
   contexts: [SearchContext!]!
   id: Int!
@@ -597,6 +619,8 @@ type Mutation {
   deleteFolder(id: String!): String!
   deleteFolderResource(folderId: String!, resourceId: String!): String!
   deletePersonalData: Boolean!
+  sortFolders(parentId: String, sortedIds: [String!]!): SortResult!
+  sortResources(parentId: String!, sortedIds: [String!]!): SortResult!
   updateFolder(id: String!, name: String, status: String): Folder!
   updateFolderResource(id: String!, tags: [String!]): FolderResource!
 }
@@ -887,6 +911,11 @@ type SearchWithoutPagination {
   results: [SearchResult!]!
 }
 
+type SortResult {
+  parentId: String
+  sortedIds: [String!]!
+}
+
 scalar StringRecord
 
 type Subject implements TaxonomyEntity {
@@ -1040,8 +1069,4 @@ type VisualElementOembed {
 interface WithArticle {
   availability: String
   meta: Meta
-}
-
-type embedVisualelement {
-  visualElement: VisualElement
 }

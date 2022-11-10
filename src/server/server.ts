@@ -60,8 +60,10 @@ const allowedBodyContentTypes = [
 app.disable('x-powered-by');
 app.enable('trust proxy');
 
+const PublicDir = process.env.RAZZLE_PUBLIC_DIR ?? '';
+
 const ndlaMiddleware = [
-  express.static(process.env.RAZZLE_PUBLIC_DIR ?? '', {
+  express.static(PublicDir, {
     maxAge: 1000 * 60 * 60 * 24 * 365, // One year
   }),
   express.urlencoded({ extended: true }),
@@ -84,14 +86,18 @@ const ndlaMiddleware = [
   }),
 ];
 
-app.get('/robots.txt', ndlaMiddleware, (req: Request, res: Response) => {
+app.get('/robots.txt', (req: Request, res: Response) => {
   // Using ndla.no robots.txt
   if (req.hostname === 'ndla.no') {
-    res.sendFile('robots.txt', { root: './build/' });
+    res.sendFile('robots.txt', { root: PublicDir });
   } else {
     res.type('text/plain');
     res.send('User-agent: *\nDisallow: /');
   }
+});
+
+app.get('/.well-known/security.txt', (_req: Request, res: Response) => {
+  res.sendFile(`security.txt`, { root: PublicDir });
 });
 
 app.get('/health', ndlaMiddleware, (_req: Request, res: Response) => {
@@ -132,6 +138,7 @@ app.get('/:lang?/login', async (req: Request, res: Response) => {
   const feideCookie = getCookie('feide_auth', req.headers.cookie ?? '') ?? '';
   const feideToken = !!feideCookie ? JSON.parse(feideCookie) : undefined;
   const state = typeof req.query.state === 'string' ? req.query.state : '';
+  res.setHeader('Cache-Control', 'private');
   const lang = getLang(
     req.params.lang,
     getCookie(STORED_LANGUAGE_COOKIE_KEY, req.headers.cookie ?? ''),
@@ -153,6 +160,7 @@ app.get('/:lang?/login', async (req: Request, res: Response) => {
 app.get('/login/success', async (req: Request, res: Response) => {
   const code = typeof req.query.code === 'string' ? req.query.code : undefined;
   const state = typeof req.query.state === 'string' ? req.query.state : '/';
+  res.setHeader('Cache-Control', 'private');
   const verifier = getCookie('PKCE_code', req.headers.cookie ?? '');
   if (!code || !verifier) {
     return await sendInternalServerError(req, res);
@@ -191,6 +199,7 @@ app.get('/:lang?/logout', async (req: Request, res: Response) => {
   const feideToken = !!feideCookie ? JSON.parse(feideCookie) : undefined;
   const state = typeof req.query.state === 'string' ? req.query.state : '/';
   const redirect = constructNewPath(state, req.params.lang);
+  res.setHeader('Cache-Control', 'private');
 
   if (!feideToken?.['id_token'] || typeof state !== 'string') {
     return sendInternalServerError(req, res);
@@ -209,6 +218,7 @@ app.get('/logout/session', (req: Request, res: Response) => {
   const { basepath, basename } = getLocaleInfoFromPath(state);
   const wasPrivateRoute = privateRoutes.some(r => matchPath(r, basepath));
   const redirect = wasPrivateRoute ? constructNewPath('/', basename) : state;
+  res.setHeader('Cache-Control', 'private');
   return res.redirect(redirect);
 });
 
@@ -317,6 +327,7 @@ app.post('/lti/oauth', ndlaMiddleware, async (req: Request, res: Response) => {
   if (!body || !query.url) {
     res.send(BAD_REQUEST);
   }
+  res.setHeader('Cache-Control', 'private');
   res.send(JSON.stringify(generateOauthData(query.url, body)));
 });
 

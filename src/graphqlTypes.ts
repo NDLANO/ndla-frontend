@@ -61,6 +61,16 @@ export type GQLArticleCrossSubjectTopicsArgs = {
   subjectId?: InputMaybe<Scalars['String']>;
 };
 
+export type GQLArticleFolderResourceMeta = GQLFolderResourceMeta & {
+  __typename?: 'ArticleFolderResourceMeta';
+  description: Scalars['String'];
+  id: Scalars['Int'];
+  metaImage?: Maybe<GQLMetaImage>;
+  resourceTypes: Array<GQLFolderResourceResourceType>;
+  title: Scalars['String'];
+  type: Scalars['String'];
+};
+
 export type GQLArticleMetaData = {
   __typename?: 'ArticleMetaData';
   audios?: Maybe<Array<GQLAudioLicense>>;
@@ -342,6 +352,11 @@ export type GQLElement = {
   reference: GQLReference;
 };
 
+export type GQLEmbedVisualelement = {
+  __typename?: 'EmbedVisualelement';
+  visualElement?: Maybe<GQLVisualElement>;
+};
+
 export type GQLFilmFrontpage = {
   __typename?: 'FilmFrontpage';
   about: Array<GQLFilmPageAbout>;
@@ -380,7 +395,6 @@ export type GQLFolderResource = {
 };
 
 export type GQLFolderResourceMeta = {
-  __typename?: 'FolderResourceMeta';
   description: Scalars['String'];
   id: Scalars['Int'];
   metaImage?: Maybe<GQLMetaImage>;
@@ -556,6 +570,16 @@ export type GQLLearningpathCoverphoto = {
   url: Scalars['String'];
 };
 
+export type GQLLearningpathFolderResourceMeta = GQLFolderResourceMeta & {
+  __typename?: 'LearningpathFolderResourceMeta';
+  description: Scalars['String'];
+  id: Scalars['Int'];
+  metaImage?: Maybe<GQLMetaImage>;
+  resourceTypes: Array<GQLFolderResourceResourceType>;
+  title: Scalars['String'];
+  type: Scalars['String'];
+};
+
 export type GQLLearningpathSearchResult = GQLSearchResult & {
   __typename?: 'LearningpathSearchResult';
   contexts: Array<GQLSearchContext>;
@@ -679,6 +703,8 @@ export type GQLMutation = {
   deleteFolder: Scalars['String'];
   deleteFolderResource: Scalars['String'];
   deletePersonalData: Scalars['Boolean'];
+  sortFolders: GQLSortResult;
+  sortResources: GQLSortResult;
   updateFolder: GQLFolder;
   updateFolderResource: GQLFolderResource;
 };
@@ -704,6 +730,16 @@ export type GQLMutationDeleteFolderArgs = {
 export type GQLMutationDeleteFolderResourceArgs = {
   folderId: Scalars['String'];
   resourceId: Scalars['String'];
+};
+
+export type GQLMutationSortFoldersArgs = {
+  parentId?: InputMaybe<Scalars['String']>;
+  sortedIds: Array<Scalars['String']>;
+};
+
+export type GQLMutationSortResourcesArgs = {
+  parentId: Scalars['String'];
+  sortedIds: Array<Scalars['String']>;
 };
 
 export type GQLMutationUpdateFolderArgs = {
@@ -1134,6 +1170,12 @@ export type GQLSearchWithoutPagination = {
   results: Array<GQLSearchResult>;
 };
 
+export type GQLSortResult = {
+  __typename?: 'SortResult';
+  parentId?: Maybe<Scalars['String']>;
+  sortedIds: Array<Scalars['String']>;
+};
+
 export type GQLSubject = GQLTaxonomyEntity & {
   __typename?: 'Subject';
   allTopics?: Maybe<Array<GQLTopic>>;
@@ -1335,11 +1377,6 @@ export type GQLVisualElementOembed = {
 export type GQLWithArticle = {
   availability?: Maybe<Scalars['String']>;
   meta?: Maybe<GQLMeta>;
-};
-
-export type GQLEmbedVisualelement = {
-  __typename?: 'embedVisualelement';
-  visualElement?: Maybe<GQLVisualElement>;
 };
 
 export type GQLArticle_ConceptFragment = {
@@ -1810,12 +1847,14 @@ export type GQLArticlePage_ResourceFragment = {
   __typename?: 'Resource';
   id: string;
   name: string;
+  path: string;
   contentUri?: string;
   article?: {
     __typename?: 'Article';
     created: string;
     updated: string;
     metaDescription: string;
+    tags?: Array<string>;
     metaImage?: { __typename?: 'MetaImage' } & GQLArticleHero_MetaImageFragment;
   } & GQLStructuredArticleDataFragment &
     GQLArticle_ArticleFragment;
@@ -2223,8 +2262,8 @@ export type GQLUpdateFolderMutation = {
   updateFolder: { __typename?: 'Folder' } & GQLFoldersPageQueryFragmentFragment;
 };
 
-export type GQLFolderResourceMetaFragment = {
-  __typename: 'FolderResourceMeta';
+type GQLFolderResourceMeta_ArticleFolderResourceMeta_Fragment = {
+  __typename: 'ArticleFolderResourceMeta';
   id: number;
   title: string;
   description: string;
@@ -2237,15 +2276,37 @@ export type GQLFolderResourceMetaFragment = {
   }>;
 };
 
+type GQLFolderResourceMeta_LearningpathFolderResourceMeta_Fragment = {
+  __typename: 'LearningpathFolderResourceMeta';
+  id: number;
+  title: string;
+  description: string;
+  type: string;
+  metaImage?: { __typename?: 'MetaImage'; url: string; alt: string };
+  resourceTypes: Array<{
+    __typename?: 'FolderResourceResourceType';
+    id: string;
+    name: string;
+  }>;
+};
+
+export type GQLFolderResourceMetaFragment =
+  | GQLFolderResourceMeta_ArticleFolderResourceMeta_Fragment
+  | GQLFolderResourceMeta_LearningpathFolderResourceMeta_Fragment;
+
 export type GQLFolderResourceMetaQueryVariables = Exact<{
   resource: GQLFolderResourceMetaSearchInput;
 }>;
 
 export type GQLFolderResourceMetaQuery = {
   __typename?: 'Query';
-  folderResourceMeta?: {
-    __typename?: 'FolderResourceMeta';
-  } & GQLFolderResourceMetaFragment;
+  folderResourceMeta?:
+    | ({
+        __typename?: 'ArticleFolderResourceMeta';
+      } & GQLFolderResourceMeta_ArticleFolderResourceMeta_Fragment)
+    | ({
+        __typename?: 'LearningpathFolderResourceMeta';
+      } & GQLFolderResourceMeta_LearningpathFolderResourceMeta_Fragment);
 };
 
 export type GQLFolderResourceMetaSearchQueryVariables = Exact<{
@@ -2257,7 +2318,12 @@ export type GQLFolderResourceMetaSearchQueryVariables = Exact<{
 export type GQLFolderResourceMetaSearchQuery = {
   __typename?: 'Query';
   folderResourceMetaSearch: Array<
-    { __typename?: 'FolderResourceMeta' } & GQLFolderResourceMetaFragment
+    | ({
+        __typename?: 'ArticleFolderResourceMeta';
+      } & GQLFolderResourceMeta_ArticleFolderResourceMeta_Fragment)
+    | ({
+        __typename?: 'LearningpathFolderResourceMeta';
+      } & GQLFolderResourceMeta_LearningpathFolderResourceMeta_Fragment)
   >;
 };
 
@@ -2313,6 +2379,7 @@ export type GQLDeletePersonalDataMutation = {
 export type GQLPlainArticleContainer_ArticleFragment = {
   __typename?: 'Article';
   created: string;
+  tags?: Array<string>;
 } & GQLArticle_ArticleFragment &
   GQLStructuredArticleDataFragment;
 
@@ -2736,6 +2803,7 @@ export type GQLToolboxTopicWrapper_ResourceTypeDefinitionFragment = {
 
 export type GQLToolboxTopicWrapper_TopicFragment = {
   __typename?: 'Topic';
+  id: string;
   name: string;
   path: string;
   article?: {
@@ -2791,6 +2859,7 @@ export type GQLIframeArticlePage_ArticleFragment = {
   created: string;
   updated: string;
   metaDescription: string;
+  tags?: Array<string>;
   metaImage?: { __typename?: 'MetaImage'; url: string };
 } & GQLArticle_ArticleFragment;
 
@@ -2828,6 +2897,7 @@ export type GQLIframePageQuery = {
 export type GQLIframeTopicPage_ArticleFragment = {
   __typename?: 'Article';
   created: string;
+  tags?: Array<string>;
 } & GQLArticle_ArticleFragment &
   GQLStructuredArticleDataFragment;
 

@@ -10,13 +10,14 @@ import { useMemo, useContext } from 'react';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { breakpoints, mq, spacing } from '@ndla/core';
-import { FolderType, TreeStructure } from '@ndla/ui';
+import { FolderType, MessageBox, TreeStructure } from '@ndla/ui';
 import { SafeLinkButton } from '@ndla/safelink';
 import { Outlet, useLocation } from 'react-router-dom';
 import { useFolder, useFolders } from './folderMutations';
 import { createStaticStructureElements } from '../../util/folderHelpers';
 import IsMobileContext from '../../IsMobileContext';
 import { toHref } from '../../util/urlHelper';
+import { AuthContext } from '../../components/AuthenticationContext';
 
 const StyledLayout = styled.div`
   display: grid;
@@ -27,7 +28,7 @@ const StyledLayout = styled.div`
       1fr
     );
 
-  ${mq.range({ until: breakpoints.tabletWide })} {
+  ${mq.range({ until: breakpoints.tablet })} {
     display: flex;
   }
 `;
@@ -49,7 +50,7 @@ const StyledSideBar = styled.div`
   flex-direction: column;
   min-width: 300px;
   width: 300px;
-  ${mq.range({ until: breakpoints.tabletWide })} {
+  ${mq.range({ until: breakpoints.tablet })} {
     display: none;
   }
 `;
@@ -58,9 +59,14 @@ const ButtonWrapper = styled.div`
   padding: 0 ${spacing.normal};
 `;
 
+const MessageboxWrapper = styled.div`
+  margin-bottom: ${spacing.nsmall};
+`;
+
 const MyNdlaLayout = () => {
   const { folders } = useFolders();
   const { t } = useTranslation();
+  const { examLock } = useContext(AuthContext);
   const location = useLocation();
   const [page, folderId] = location.pathname
     .replace('/minndla/', '')
@@ -111,6 +117,11 @@ const MyNdlaLayout = () => {
         </div>
       </StyledSideBar>
       <StyledContent isMobile={isMobile}>
+        {examLock && (
+          <MessageboxWrapper>
+            <MessageBox>{t('myNdla.examLockInfo')}</MessageBox>
+          </MessageboxWrapper>
+        )}
         <Outlet />
       </StyledContent>
     </StyledLayout>

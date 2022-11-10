@@ -51,7 +51,7 @@ export const IframeTopicPage = ({
 }: Props) => {
   const locale = localeProp ?? i18n.language;
   const article = transformArticle(propArticle, locale);
-  const scripts = getArticleScripts(article);
+  const scripts = getArticleScripts(article, locale);
   const contentUrl = topic?.path
     ? `${config.ndlaFrontendDomain}${topic.path}`
     : undefined;
@@ -107,6 +107,7 @@ export const iframeTopicPageFragments = {
   article: gql`
     fragment IframeTopicPage_Article on Article {
       created
+      tags
       ...Article_Article
       ...StructuredArticleData
     }
