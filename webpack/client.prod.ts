@@ -21,21 +21,20 @@ const clientProdConfig: Configuration = {
     rules: loaders('production', 'client'),
   },
   plugins: sharedPlugins.concat(clientPlugins),
+  // Inline all dependencies into the compiled file.
   externals: [],
   output: {
     path: path.resolve('./build/public'),
     publicPath: '/',
     filename: 'static/js/[name].[contenthash:8].js',
     chunkFilename: 'static/js/[name].[contenthash:8].chunk.js',
-    libraryTarget: 'var',
-    library: { type: 'var', name: 'client' },
   },
   optimization: {
     moduleIds: 'deterministic',
+    // Set this to false when debugging prod builds to speed up compilation significantly.
     minimize: true,
+    // By default, webpack only uses Terser, but we also want to minimize CSS.
     minimizer: [new TerserPlugin(), new CssMinimizerPlugin()],
-    emitOnErrors: false,
-    concatenateModules: true,
   },
 };
 

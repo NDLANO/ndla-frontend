@@ -8,7 +8,6 @@
 import { merge } from 'lodash';
 import path from 'path';
 import { Configuration } from 'webpack';
-import TerserPlugin from 'terser-webpack-plugin';
 import { loaders } from './loaders';
 import { serverPlugins, sharedPlugins } from './plugins';
 import serverBaseConfig from './server.base';
@@ -20,19 +19,19 @@ const serverProdConfig: Configuration = {
   module: {
     rules: loaders('production', 'server'),
   },
+  // Bundle all dependencies into a single file to avoid having to install node_modules.
+  // Reduces image size.
   externals: [],
   plugins: sharedPlugins.concat(serverPlugins),
   output: {
     path: path.resolve('./build'),
     publicPath: '/',
     chunkFilename: '[name].chunk.js',
-    libraryTarget: 'commonjs2',
     library: { type: 'commonjs2' },
   },
   optimization: {
+    // Set this to false when debugging prod builds to speed up compilation significantly.
     minimize: true,
-    minimizer: [new TerserPlugin()],
-    emitOnErrors: false,
   },
   // Webpack spews out a couple of warnings regarding our usage of "externals: []", causing
   // the server build to fail in the CI. This hides those errors.

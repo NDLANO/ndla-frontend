@@ -24,61 +24,47 @@ interface BuildOutput {
 const build = async (
   config: Configuration,
   type: 'client' | 'server',
-): Promise<BuildOutput> => {
-  return new Promise(async (resolve, reject) => {
-    console.log(`Compiling ${type} build...\n`);
-    compile(
-      config,
-      (err, stats) => {
-        if (err) {
-          return reject(err);
-        }
-        const messages: StatsCompilation | undefined = stats?.toJson();
-        if (messages?.errors?.length) {
-          return reject(messages.errors);
-        }
-
-        return resolve({
-          stats,
-          warnings: messages?.warnings ?? [],
-        });
-      },
-      err => reject(err),
-    );
-  });
-};
-
-const main = async () => {
-  rmSync(resolve('./build'), { recursive: true });
+): Promise<void> => {
   try {
-    const clientBuild = await build(clientConfig, 'client');
-    if (clientBuild.warnings.length) {
-      print(
-        'Client build compiled with warnings\n',
-        clientBuild.warnings,
-        'warning',
+    const build = await new Promise<BuildOutput>(async (resolve, reject) => {
+      // eslint-disable-next-line no-console
+      console.log(`Compiling ${type} build...`);
+      compile(
+        config,
+        (err, stats) => {
+          if (err) {
+            return reject(err);
+          }
+          const messages: StatsCompilation | undefined = stats?.toJson();
+          if (messages?.errors?.length) {
+            return reject(messages.errors);
+          }
+
+          return resolve({
+            stats,
+            warnings: messages?.warnings ?? [],
+          });
+        },
+        err => reject(err),
       );
+    });
+
+    if (build.warnings.length) {
+      print(`${type} build compiled with warnings`, build.warnings, 'warning');
     } else {
-      console.log(chalk.green('Compiled client build successfully.\n'));
+      // eslint-disable-next-line no-console
+      console.log(chalk.green(`Compiled ${type} build successfully.`));
     }
   } catch (e) {
     print('Failed to compile client build', [e as Error].flat(), 'error');
     process.exitCode = 1;
   }
-  try {
-    const serverBuild = await build(serverConfig, 'server');
-    if (serverBuild.warnings.length) {
-      print(
-        'Server build compiled with warnings\n',
-        serverBuild.warnings,
-        'warning',
-      );
-    } else {
-      console.log(chalk.green('Compiled client build successfully.\n'));
-    }
-  } catch (e) {
-    print('Failed to compile client build', [e as Error].flat(), 'error');
-  }
+};
+
+const main = async () => {
+  rmSync(resolve('./build'), { recursive: true });
+  await build(clientConfig, 'client');
+  await build(serverConfig, 'server');
 };
 
 const compile = (
@@ -102,7 +88,7 @@ const print = (
 ) => {
   const chalkFunc = type === 'warning' ? chalk.yellow : chalk.red;
   const logFunc = type === 'warning' ? console.warn : console.error;
-  logFunc(`${chalkFunc(summary)}\n`);
+  logFunc(`${chalkFunc(summary)}`);
   errors.forEach(logFunc);
 };
 

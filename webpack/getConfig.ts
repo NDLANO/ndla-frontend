@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
+// Dynamically fetches dev or prod configs depending on the passed in environment.
+// Do not rewrite this to regular imports, as it messes with the configurations.
 const getConfig = (env = 'production') => {
   if (env === 'development' || env === 'dev') {
     process.env.NODE_ENV = 'development';

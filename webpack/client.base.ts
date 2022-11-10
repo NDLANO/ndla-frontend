@@ -14,6 +14,8 @@ const baseClientConfig: Configuration = {
   infrastructureLogging: {
     level: 'warn',
   },
+  // These entry points will be extracted as separate files when building for production.
+  // The names that are used here will carry over into the actually compiled files.
   entry: {
     client: ['./src/client.tsx'],
     polyfill: ['@ndla/polyfill'],
@@ -22,18 +24,10 @@ const baseClientConfig: Configuration = {
     mathJaxConfig: ['./public/static/mathjax-config.js'],
   },
   resolve: {
-    fallback: {
-      path: false,
-      fs: false,
-      util: false,
-      assert: false,
-      os: false,
-      stream: false,
-      process: 'process/browser',
-    },
-    mainFields: ['browser', 'module', 'main'],
+    // defaults only includes .js, .json and .wasm
     extensions: ['.mjs', '.js', '.jsx', '.json', '.ts', '.tsx'],
   },
+  // Disable hints regarding files that are too large
   performance: {
     hints: false,
   },

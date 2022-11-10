@@ -14,7 +14,10 @@ import { loaders } from './loaders';
 
 const clientDevConfig: Configuration = {
   mode: 'development',
-  devtool: 'cheap-module-source-map',
+  // creates original code source maps, but does not allow for mid-line debugging.
+  // we used to use cheap-module-source-map, but this is quicker, and the trade-off is worth it during dev.
+  devtool: 'eval-cheap-module-source-map',
+  //Make a script that injects CSS into development builds.
   entry: {
     injectCss: ['./src/style/index.css'],
   },
@@ -23,21 +26,15 @@ const clientDevConfig: Configuration = {
   },
   resolve: {
     alias: {
+      // Useful when linking to avoid mismatching react versions.
       react: path.resolve('./node_modules/react'),
     },
   },
   output: {
     path: path.resolve('./build/public'),
     publicPath: '/',
-    libraryTarget: 'var',
     filename: 'static/js/build/[name].js',
-    devtoolModuleFilenameTemplate: (info: { resourcePath: string }) =>
-      path.resolve(info.resourcePath).replace(/\\/g, '/'),
     chunkFilename: 'static/js/[name].chunk.js',
-    library: {
-      type: 'var',
-      name: 'client',
-    },
   },
   plugins: sharedPlugins.concat(clientPlugins),
   cache: {

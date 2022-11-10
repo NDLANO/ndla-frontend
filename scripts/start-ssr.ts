@@ -5,13 +5,15 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import webpack, { Configuration } from 'webpack';
+import webpack, { Compiler, Configuration } from 'webpack';
 import nodemon from 'nodemon';
 import express from 'express';
+import chalk from 'chalk';
+import { rmSync } from 'fs';
+import { resolve } from 'path';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import getConfig from '../webpack/getConfig';
-import { compilerPromise, logMessage } from './utils';
 
 const [clientConfig, serverConfig] = getConfig('development') as [
   Configuration,
@@ -20,7 +22,7 @@ const [clientConfig, serverConfig] = getConfig('development') as [
 
 const app = express();
 
-const WEBPACK_PORT = 3001;
+const WEBPACK_PORT = process.env.PORT ? parseInt(process.env.PORT) + 1 : 3001;
 
 const DEVSERVER_HOST = 'http://localhost';
 
@@ -52,6 +54,7 @@ const start = async () => {
     .join('/')
     .replace(/([^:+])\/+/g, '$1/');
 
+  rmSync(resolve('./build'), { recursive: true });
   const multiCompiler = webpack([serverConfig, clientConfig]);
 
   const clientCompiler = multiCompiler.compilers.find(
@@ -124,13 +127,45 @@ const start = async () => {
 
   script?.on('quit', () => {
     // eslint-disable-next-line no-console
-    console.log('Process ended');
+    console.info('Process ended');
     process.exit();
   });
 
   script?.on('error', () => {
     logMessage('An error occurred. Exiting', 'error');
     process.exit(1);
+  });
+};
+
+type TextType = 'error' | 'warning' | 'info' | 'default';
+type Color = 'red' | 'yellow' | 'blue' | 'white';
+
+const colorMap: Record<TextType, Color> = {
+  error: 'red',
+  warning: 'yellow',
+  info: 'blue',
+  default: 'white',
+};
+
+export const logMessage = (
+  message: string | Error,
+  level: TextType = 'info',
+) => {
+  // eslint-disable-next-line no-console
+  console.log(chalk[colorMap[level]](message));
+};
+
+export const compilerPromise = (name: string, compiler: Compiler) => {
+  return new Promise<void>((resolve, reject) => {
+    compiler?.hooks.compile.tap(name, () => {
+      logMessage(`[${name}] Compiling`);
+    });
+    compiler?.hooks.done.tap(name, stats => {
+      if (!stats.hasErrors()) {
+        return resolve();
+      }
+      return reject(`Failed to compile ${name}`);
+    });
   });
 };
 

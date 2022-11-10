@@ -43,7 +43,9 @@ export const loaders = (
     ],
     type: 'asset/resource',
     generator: {
+      // Workaround to ensure that assets remain named after being outputted in the build folder.
       filename: 'static/media/[name].[hash][ext]',
+      // Only output files when compiling client build.
       emit: type === 'client',
     },
   };
@@ -52,6 +54,7 @@ export const loaders = (
     test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
     type: 'asset/inline',
     generator: {
+      // Only output files when compiling client build.
       emit: type === 'client',
     },
   };
@@ -61,6 +64,9 @@ export const loaders = (
       loader: 'css-loader',
       options: {
         url: {
+          // CSS-loader appears to parse some url(data:image/svg)-strings as exctractable files.
+          // Although this might benefit us caching-wise, we're better off sticking to our previous
+          // way of doing things for now.
           filter: (url: string) => {
             return !url.includes('data:image/svg');
           },

@@ -14,14 +14,16 @@ import { serverPlugins, sharedPlugins } from './plugins';
 import serverBaseConfig from './server.base';
 
 const serverDevConfig: Configuration = {
-  devtool: 'cheap-module-source-map',
+  // creates original code source maps, but does not allow for mid-line debugging.
+  // we used to use cheap-module-source-map, but this is quicker, and the trade-off is worth it during dev.
+  devtool: 'eval-cheap-module-source-map',
   mode: 'development',
-  //   watch: true,
   module: {
     rules: loaders('development', 'server'),
   },
   resolve: {
     alias: {
+      // Useful when linking to avoid mismatching react versions.
       react: path.resolve('./node_modules/react'),
     },
   },
@@ -30,16 +32,15 @@ const serverDevConfig: Configuration = {
     path: path.resolve('./build'),
     publicPath: '/',
     chunkFilename: '[name].chunk.js',
-    libraryTarget: 'commonjs2',
     library: { type: 'commonjs2' },
   },
   externals: [
+    // The server instance appears to struggle with loading assets.json when compiling for dev.
+    // As such, load it during run-time.
     resolve('./build/assets.json'),
-    nodeExternals({
-      allowlist: [/\.(?!(?:jsx?|json)$).{1,5}$/i],
-    }),
+    // Externalize all node modules to make server dev bundle smaller.
+    nodeExternals(),
   ],
-  externalsPresets: { node: true },
   performance: {
     hints: false,
   },
