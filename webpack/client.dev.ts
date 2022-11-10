@@ -15,26 +15,6 @@ const clientDevConfig: Configuration = {
   module: {
     rules: loaders('development', 'client'),
   },
-  devServer: {
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-    },
-    historyApiFallback: {
-      disableDotRule: true,
-    },
-    hot: true,
-    host: 'localhost',
-    port: 3001,
-    allowedHosts: 'all',
-    devMiddleware: {
-      publicPath: 'http://localhost:3001',
-    },
-    static: {
-      watch: {
-        ignored: /node_modules/,
-      },
-    },
-  },
   resolve: {
     alias: {
       react: path.resolve('./node_modules/react'),
@@ -42,7 +22,7 @@ const clientDevConfig: Configuration = {
   },
   output: {
     path: path.resolve('./build/public'),
-    publicPath: 'http://localhost:3001/',
+    publicPath: 'http://localhost:3001',
     libraryTarget: 'var',
     filename: 'static/js/build/[name].js',
     devtoolModuleFilenameTemplate: (info: { resourcePath: string }) =>

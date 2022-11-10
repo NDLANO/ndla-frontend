@@ -1,18 +1,19 @@
 import { merge } from 'lodash';
 import path from 'path';
-import webpack from 'webpack';
+import { Configuration } from 'webpack';
 import TerserPlugin from 'terser-webpack-plugin';
 import { loaders } from './loaders';
 import { serverPlugins, sharedPlugins } from './plugins';
 import serverBaseConfig from './server.base';
 
-const serverProdConfig: webpack.Configuration = {
+const serverProdConfig: Configuration = {
   mode: 'production',
   target: 'node',
   devtool: 'source-map',
   module: {
     rules: loaders('production', 'server'),
   },
+  externals: [],
   plugins: sharedPlugins.concat(serverPlugins),
   output: {
     path: path.resolve('./build'),

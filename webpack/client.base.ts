@@ -1,6 +1,6 @@
-import webpack from 'webpack';
+import { Configuration } from 'webpack';
 
-const baseClientConfig: webpack.Configuration = {
+const baseClientConfig: Configuration = {
   name: 'client',
   target: 'web',
   stats: 'errors-warnings',

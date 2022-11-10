@@ -1,4 +1,4 @@
-import webpack from 'webpack';
+import { Compiler } from 'webpack';
 import chalk from 'chalk';
 
 type TextType = 'error' | 'warning' | 'info' | 'default';
@@ -19,7 +19,7 @@ export const logMessage = (
   console.log(`[${new Date().toISOString()}]`, chalk[colorMap[level]](message));
 };
 
-export const compilerPromise = (name: string, compiler: webpack.Compiler) => {
+export const compilerPromise = (name: string, compiler: Compiler) => {
   return new Promise<void>((resolve, reject) => {
     compiler?.hooks.compile.tap(name, () => {
       logMessage(`[${name}] Compiling`);

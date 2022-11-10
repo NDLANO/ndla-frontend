@@ -1,13 +1,12 @@
-import webpack from 'webpack';
+import { Configuration } from 'webpack';
 
-const serverBaseConfig: webpack.Configuration = {
+const serverBaseConfig: Configuration = {
   name: 'server',
   target: 'node',
   stats: 'errors-warnings',
   infrastructureLogging: {
     level: 'warn',
   },
-  externals: [],
   entry: {
     server: ['./src'],
   },

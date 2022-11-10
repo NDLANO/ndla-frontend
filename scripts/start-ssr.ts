@@ -1,42 +1,33 @@
-import webpack from 'webpack';
+import webpack, { Configuration } from 'webpack';
 import nodemon from 'nodemon';
 import express from 'express';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
-// import devServer from 'webpack-dev-server';
 import getConfig from '../webpack/getConfig';
 import { compilerPromise, logMessage } from './utils';
 
-const config = getConfig(process.env.NODE_ENV || 'development');
+const [clientConfig, serverConfig] = getConfig('development') as [
+  Configuration,
+  Configuration,
+];
 
 const app = express();
 
 const WEBPACK_PORT = 3001;
 
-const DEVSERVER_HOST = process.env.DEVSERVER_HOST || 'http://localhost';
+const DEVSERVER_HOST = 'http://localhost';
 
 const start = async () => {
-  const clientConfig: webpack.Configuration = config![0]!;
-  const serverConfig: webpack.Configuration = config![1]!;
   clientConfig.entry = Object.entries(clientConfig.entry!).reduce<
     Record<string, string[]>
   >((acc, entry) => {
     acc[entry[0]] = [
-      `webpack-hot-middleware/client?path=${DEVSERVER_HOST}:${WEBPACK_PORT}/__webpack_hmr`,
+      `webpack-hot-middleware/client?path=http://localhost:${WEBPACK_PORT}/__webpack_hmr&timeout=2000&reload=true`,
       ...entry[1],
     ];
 
     return acc;
   }, {});
-
-  // Place dev Server one port above client
-  // const devServerPort = process.env.PORT
-  //   ? parseInt(process.env.PORT) + 1
-  //   : 3001;
-
-  clientConfig.output!.hotUpdateMainFilename = 'updates/[hash].hot-update.json';
-  clientConfig.output!.hotUpdateChunkFilename =
-    'updates/[id].[fullhash].hot-update.js';
 
   const publicPath = clientConfig.output!.publicPath;
 
@@ -54,10 +45,18 @@ const start = async () => {
     .join('/')
     .replace(/([^:+])\/+/g, '$1/');
 
-  const clientCompiler = webpack(clientConfig);
-  const serverCompiler = webpack(serverConfig);
+  const multiCompiler = webpack([serverConfig, clientConfig]);
+
+  const clientCompiler = multiCompiler.compilers.find(
+    comp => comp.name === 'client',
+  )!;
+
+  const serverCompiler = multiCompiler.compilers.find(
+    comp => comp.name === 'server',
+  )!;
 
   const watchOptions = {
+    ignored: /node_modules/,
     stats: clientConfig.stats,
   };
 
@@ -77,24 +76,9 @@ const start = async () => {
     }),
   );
 
-  app.use(
-    webpackHotMiddleware(clientCompiler, {
-      path: '/__webpack_hmr',
-      log: false,
-      heartbeat: 2000,
-    }),
-  );
-
-  app.use('/static', express.static('build/client'));
+  app.use(webpackHotMiddleware(clientCompiler));
 
   app.listen(WEBPACK_PORT);
-
-  // const clientDevServer = new devServer(
-  //   clientCompiler,
-  //   Object.assign(clientConfig.devServer ?? {}, { port: 8501 + 1 }),
-  // );
-
-  // clientDevServer.startCallback(err => logMessage(err ?? '', 'error'));
 
   //@ts-ignore
   serverCompiler.watch(watchOptions, (error, stats) => {
@@ -129,10 +113,6 @@ const start = async () => {
     script: `build/server.js`,
     ignore: ['src', 'scripts', 'webpack', './*.*', 'build/client'],
     delay: 200,
-  });
-
-  script?.on('restart', () => {
-    logMessage('Server side app has been restarted', 'warning');
   });
 
   script?.on('quit', () => {

@@ -1,14 +1,14 @@
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import path from 'path';
-import webpack from 'webpack';
+import { RuleSetRule, RuleSetUseItem } from 'webpack';
 
 export const loaders = (
   env: 'development' | 'production',
   type: 'client' | 'server',
-): webpack.RuleSetRule[] => {
-  const babelLoader: webpack.RuleSetRule = {
+): RuleSetRule[] => {
+  const babelLoader: RuleSetRule = {
     test: /\.(js|jsx|mjs|ts|tsx)$/,
-    include: [path.resolve('./src'), path.resolve('./node_modules')],
+    include: [path.resolve('./src')],
     use: {
       loader: 'babel-loader',
       options: {
@@ -18,7 +18,7 @@ export const loaders = (
     },
   };
 
-  const fileRule: webpack.RuleSetRule = {
+  const fileRule: RuleSetRule = {
     exclude: [
       /\.html$/,
       /\.(js|jsx|mjs)$/,
@@ -40,7 +40,7 @@ export const loaders = (
     },
   };
 
-  const urlRule: webpack.RuleSetRule = {
+  const urlRule: RuleSetRule = {
     test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
     type: 'asset/inline',
     generator: {
@@ -48,7 +48,7 @@ export const loaders = (
     },
   };
 
-  const agnosticCssLoaders: webpack.RuleSetUseItem[] = [
+  const agnosticCssLoaders: RuleSetUseItem[] = [
     {
       loader: 'css-loader',
       options: {
@@ -67,7 +67,7 @@ export const loaders = (
     { loader: 'sass-loader' },
   ];
 
-  const clientCssLoaders: webpack.RuleSetUseItem[] = [
+  const clientCssLoaders: RuleSetUseItem[] = [
     env === 'development'
       ? { loader: 'style-loader' }
       : { loader: MiniCssExtractPlugin.loader },

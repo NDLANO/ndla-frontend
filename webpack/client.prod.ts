@@ -1,13 +1,13 @@
 import { merge } from 'lodash';
 import path from 'path';
-import webpack from 'webpack';
+import { Configuration } from 'webpack';
 import TerserPlugin from 'terser-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import baseClientConfig from './client.base';
 import { loaders } from './loaders';
 import { clientPlugins, sharedPlugins } from './plugins';
 
-const clientProdConfig: webpack.Configuration = {
+const clientProdConfig: Configuration = {
   mode: 'production',
   devtool: 'source-map',
   module: {

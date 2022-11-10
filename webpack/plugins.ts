@@ -7,7 +7,6 @@ import {
   WebpackPluginInstance,
 } from 'webpack';
 //@ts-ignore
-import StartServerPlugin from 'razzle-start-server-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { WebpackManifestPlugin } from 'webpack-manifest-plugin';
 import CopyPlugin from 'copy-webpack-plugin';
@@ -53,7 +52,7 @@ export const clientPlugins: WebpackPluginInstance[] = [
           ],
         }),
       ]
-    : []),
+    : [new HotModuleReplacementPlugin()]),
 ];
 
 export const serverPlugins: WebpackPluginInstance[] = [
@@ -73,14 +72,7 @@ export const serverPlugins: WebpackPluginInstance[] = [
     ),
   }),
   ...(process.env.NODE_ENV === 'development'
-    ? [
-        new HotModuleReplacementPlugin(),
-        new StartServerPlugin({
-          verbose: false,
-          name: 'server.js',
-          entryName: 'server',
-        }),
-      ]
+    ? [new HotModuleReplacementPlugin()]
     : [new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 })]),
 ];
 
