@@ -1,4 +1,3 @@
-/// <reference path="../node_modules/webpack-dev-server/types/lib/Server.d.ts"/>
 import { Configuration } from 'webpack';
 import { merge } from 'lodash';
 import path from 'path';
