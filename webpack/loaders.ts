@@ -36,6 +36,7 @@ export const loaders = (
     ],
     type: 'asset/resource',
     generator: {
+      filename: 'static/media/[name].[hash][ext]',
       emit: type === 'client',
     },
   };
@@ -52,6 +53,11 @@ export const loaders = (
     {
       loader: 'css-loader',
       options: {
+        url: {
+          filter: (url: string) => {
+            return !url.includes('data:image/svg');
+          },
+        },
         importLoaders: 1,
         modules: {
           auto: true,

@@ -22,13 +22,12 @@ const clientDevConfig: Configuration = {
   },
   output: {
     path: path.resolve('./build/public'),
-    publicPath: 'http://localhost:3001',
+    publicPath: '/',
     libraryTarget: 'var',
     filename: 'static/js/build/[name].js',
     devtoolModuleFilenameTemplate: (info: { resourcePath: string }) =>
       path.resolve(info.resourcePath).replace(/\\/g, '/'),
     chunkFilename: 'static/js/[name].chunk.js',
-    assetModuleFilename: 'static/media/[name][ext]',
     library: {
       type: 'var',
       name: 'client',

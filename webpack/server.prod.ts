@@ -33,6 +33,9 @@ const serverProdConfig: Configuration = {
     {
       message: /the request of a dependency is an expression/,
     },
+    {
+      message: /Module not found: Error: Can't resolve 'encoding' in/,
+    },
   ],
 };
 

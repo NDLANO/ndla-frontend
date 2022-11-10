@@ -20,7 +20,6 @@ const clientProdConfig: Configuration = {
     publicPath: '/',
     filename: 'static/js/[name].[contenthash:8].js',
     chunkFilename: 'static/js/[name].[contenthash:8].chunk.js',
-    assetModuleFilename: 'static/media/[name].[contenthash:8].[ext]',
     libraryTarget: 'var',
     library: { type: 'var', name: 'client' },
   },

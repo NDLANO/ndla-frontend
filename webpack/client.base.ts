@@ -22,6 +22,7 @@ const baseClientConfig: Configuration = {
       assert: false,
       os: false,
       stream: false,
+      process: 'process/browser',
     },
     mainFields: ['browser', 'module', 'main'],
     extensions: ['.mjs', '.js', '.jsx', '.json', '.ts', '.tsx'],
