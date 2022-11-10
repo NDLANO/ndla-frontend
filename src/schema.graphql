@@ -224,7 +224,7 @@ type Concept {
   created: String!
   id: Int!
   image: ImageLicense
-  metaImage: MetaImage!
+  metaImage: MetaImage
   source: String
   subjectIds: [String!]
   subjectNames: [String!]
@@ -623,6 +623,13 @@ type Mutation {
   sortResources(parentId: String!, sortedIds: [String!]!): SortResult!
   updateFolder(id: String!, name: String, status: String): Folder!
   updateFolderResource(id: String!, tags: [String!]): FolderResource!
+  updatePersonalData(favoriteSubjects: [String!]!): MyNdlaPersonalData!
+}
+
+type MyNdlaPersonalData {
+  favoriteSubjects: [String!]!
+  id: Int!
+  role: String!
 }
 
 type Name {
@@ -758,6 +765,7 @@ type Query {
   ): [GroupSearch!]
   learningpath(pathId: String!): Learningpath
   listingPage(subjects: String): ListingPage
+  personalData: MyNdlaPersonalData!
   podcast(id: Int!): AudioWithSeries
   podcastSearch(fallback: Boolean, page: Int!, pageSize: Int!): AudioSearch
   podcastSeries(id: Int!): PodcastSeriesWithEpisodes

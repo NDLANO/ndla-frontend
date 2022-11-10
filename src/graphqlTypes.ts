@@ -267,7 +267,7 @@ export type GQLConcept = {
   created: Scalars['String'];
   id: Scalars['Int'];
   image?: Maybe<GQLImageLicense>;
-  metaImage: GQLMetaImage;
+  metaImage?: Maybe<GQLMetaImage>;
   source?: Maybe<Scalars['String']>;
   subjectIds?: Maybe<Array<Scalars['String']>>;
   subjectNames?: Maybe<Array<Scalars['String']>>;
@@ -707,6 +707,7 @@ export type GQLMutation = {
   sortResources: GQLSortResult;
   updateFolder: GQLFolder;
   updateFolderResource: GQLFolderResource;
+  updatePersonalData: GQLMyNdlaPersonalData;
 };
 
 export type GQLMutationAddFolderArgs = {
@@ -751,6 +752,17 @@ export type GQLMutationUpdateFolderArgs = {
 export type GQLMutationUpdateFolderResourceArgs = {
   id: Scalars['String'];
   tags?: InputMaybe<Array<Scalars['String']>>;
+};
+
+export type GQLMutationUpdatePersonalDataArgs = {
+  favoriteSubjects: Array<Scalars['String']>;
+};
+
+export type GQLMyNdlaPersonalData = {
+  __typename?: 'MyNdlaPersonalData';
+  favoriteSubjects: Array<Scalars['String']>;
+  id: Scalars['Int'];
+  role: Scalars['String'];
 };
 
 export type GQLName = {
@@ -856,6 +868,7 @@ export type GQLQuery = {
   groupSearch?: Maybe<Array<GQLGroupSearch>>;
   learningpath?: Maybe<GQLLearningpath>;
   listingPage?: Maybe<GQLListingPage>;
+  personalData: GQLMyNdlaPersonalData;
   podcast?: Maybe<GQLAudioWithSeries>;
   podcastSearch?: Maybe<GQLAudioSearch>;
   podcastSeries?: Maybe<GQLPodcastSeriesWithEpisodes>;
@@ -3251,7 +3264,7 @@ export type GQLConceptSearchConceptFragment = {
       { __typename?: 'Contributor' } & GQLContributorInfoFragment
     >;
   };
-  image: { __typename?: 'MetaImage'; url: string; alt: string };
+  image?: { __typename?: 'MetaImage'; url: string; alt: string };
 };
 
 export type GQLFrontpageSearchQueryVariables = Exact<{
