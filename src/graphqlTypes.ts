@@ -352,6 +352,11 @@ export type GQLElement = {
   reference: GQLReference;
 };
 
+export type GQLEmbedVisualelement = {
+  __typename?: 'EmbedVisualelement';
+  visualElement?: Maybe<GQLVisualElement>;
+};
+
 export type GQLFilmFrontpage = {
   __typename?: 'FilmFrontpage';
   about: Array<GQLFilmPageAbout>;
@@ -1372,11 +1377,6 @@ export type GQLVisualElementOembed = {
 export type GQLWithArticle = {
   availability?: Maybe<Scalars['String']>;
   meta?: Maybe<GQLMeta>;
-};
-
-export type GQLEmbedVisualelement = {
-  __typename?: 'embedVisualelement';
-  visualElement?: Maybe<GQLVisualElement>;
 };
 
 export type GQLArticle_ConceptFragment = {
