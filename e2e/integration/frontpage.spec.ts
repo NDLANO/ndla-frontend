@@ -11,7 +11,7 @@ describe('Front page', () => {
     cy.fixCypressSpec('/e2e/integration/frontpage.spec.ts');
     cy.gqlIntercept({
       alias: 'alerts',
-      operations: ['alerts'],
+      operations: ['alerts', 'mastHead', 'subjects'],
     });
     cy.visit('/?disableSSR=true');
     cy.gqlWait('@alerts');
@@ -33,6 +33,5 @@ describe('Front page', () => {
       .first()
       .click();
     cy.url().should('include', '/nn/');
-    cy.wait(500); // wait for page to reload
   });
 });
