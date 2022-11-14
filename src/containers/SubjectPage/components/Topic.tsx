@@ -32,7 +32,6 @@ import {
   getFocalPoint,
   getImageWithoutCrop,
 } from '../../../util/imageHelpers';
-import { getSubjectLongName } from '../../../data/subjects';
 import {
   GQLTopic_ResourceTypeDefinitionFragment,
   GQLTopic_SubjectFragment,
@@ -182,7 +181,7 @@ Topic.willTrackPageView = (
   }
 };
 
-Topic.getDimensions = ({ topic, i18n, subject, user }: Props) => {
+Topic.getDimensions = ({ topic, subject, user }: Props) => {
   const topicPath = topic?.path
     ?.split('/')
     .slice(2)
@@ -190,14 +189,12 @@ Topic.getDimensions = ({ topic, i18n, subject, user }: Props) => {
       subject?.allTopics?.find(topic => topic.id.replace('urn:', '') === t),
     );
 
-  const longName = getSubjectLongName(subject?.id, i18n.language);
-
   return getAllDimensions(
     {
       subject: subject,
       topicPath,
       article: topic.article,
-      filter: longName,
+      filter: subject?.name,
       user,
     },
     undefined,
