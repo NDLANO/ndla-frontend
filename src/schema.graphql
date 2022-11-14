@@ -627,7 +627,7 @@ type Mutation {
 }
 
 type MyNdlaPersonalData {
-  favoriteSubjects: [String!]!
+  favoriteSubjects: [String!]
   id: Int!
   role: String!
 }

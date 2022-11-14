@@ -7,11 +7,22 @@
  */
 
 import styled from '@emotion/styled';
+import { usePersonalData, useUpdatePersonalData } from '../folderMutations';
 
 const MySubjectsPageContainer = styled.div``;
 
 const MySubjectsPage = () => {
-  return <MySubjectsPageContainer></MySubjectsPageContainer>;
+  const { personalData, loading } = usePersonalData();
+  const { updatePersonalData } = useUpdatePersonalData();
+  const subjects = personalData.favoriteSubjects || [];
+
+  return (
+    <MySubjectsPageContainer>
+      {subjects.map(subject => (
+        <div>{subject}</div>
+      ))}
+    </MySubjectsPageContainer>
+  );
 };
 
 export default MySubjectsPage;

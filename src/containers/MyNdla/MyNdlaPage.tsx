@@ -23,7 +23,7 @@ import Modal, { ModalBody, ModalCloseButton, ModalHeader } from '@ndla/modal';
 import InfoPart, { InfoPartIcon, InfoPartText } from './InfoSection';
 import { AuthContext } from '../../components/AuthenticationContext';
 import {
-  useDeletePersonalData,
+  usePersonalData,
   useFolderResourceMetaSearch,
   useRecentlyUsedResources,
 } from './folderMutations';
@@ -109,7 +109,7 @@ const MyNdlaPage = () => {
   const { t } = useTranslation();
   const basename = useBaseName();
   const location = useLocation();
-  const { deletePersonalData } = useDeletePersonalData();
+  const { deletePersonalData } = usePersonalData();
   const { allFolderResources } = useRecentlyUsedResources();
   const { data: metaData, loading } = useFolderResourceMetaSearch(
     allFolderResources?.map(r => ({

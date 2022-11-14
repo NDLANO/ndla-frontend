@@ -760,7 +760,7 @@ export type GQLMutationUpdatePersonalDataArgs = {
 
 export type GQLMyNdlaPersonalData = {
   __typename?: 'MyNdlaPersonalData';
-  favoriteSubjects: Array<Scalars['String']>;
+  favoriteSubjects?: Maybe<Array<Scalars['String']>>;
   id: Scalars['Int'];
   role: Scalars['String'];
 };
@@ -2387,6 +2387,38 @@ export type GQLDeletePersonalDataMutationVariables = Exact<{
 export type GQLDeletePersonalDataMutation = {
   __typename?: 'Mutation';
   deletePersonalData: boolean;
+};
+
+export type GQLMySubjectMyNdlaPersonalDataFragmentFragment = {
+  __typename: 'MyNdlaPersonalData';
+  id: number;
+  favoriteSubjects?: Array<string>;
+  role: string;
+};
+
+export type GQLPersonalDataQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GQLPersonalDataQuery = {
+  __typename?: 'Query';
+  personalData: {
+    __typename?: 'MyNdlaPersonalData';
+  } & GQLMySubjectMyNdlaPersonalDataFragmentFragment;
+};
+
+export type GQLUpdateMyNdlaPersonalDataQueryFragmentFragment = {
+  __typename?: 'MyNdlaPersonalData';
+  favoriteSubjects?: Array<string>;
+};
+
+export type GQLUpdatePersonalDataMutationVariables = Exact<{
+  favoriteSubjects: Array<Scalars['String']> | Scalars['String'];
+}>;
+
+export type GQLUpdatePersonalDataMutation = {
+  __typename?: 'Mutation';
+  updatePersonalData: {
+    __typename?: 'MyNdlaPersonalData';
+  } & GQLUpdateMyNdlaPersonalDataQueryFragmentFragment;
 };
 
 export type GQLPlainArticleContainer_ArticleFragment = {
