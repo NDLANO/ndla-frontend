@@ -14,8 +14,7 @@ import {
   TFunction,
   withTranslation,
 } from 'react-i18next';
-import { FeideUserApiType, Topic as UITopic } from '@ndla/ui';
-import { TopicProps } from '@ndla/ui';
+import { TopicProps, FeideUserApiType, Topic as UITopic } from '@ndla/ui';
 import { withTracker } from '@ndla/tracker';
 import config from '../../../config';
 import {

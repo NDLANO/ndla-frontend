@@ -73,7 +73,7 @@ const ArticleHero = ({
           <section>
             {subject && (
               <HomeBreadcrumb
-                light={!!ndlaFilm ? true : undefined}
+                light={ndlaFilm ? true : undefined}
                 items={breadcrumbItems}
               />
             )}

@@ -136,7 +136,7 @@ const getLang = (
 
 app.get('/:lang?/login', async (req: Request, res: Response) => {
   const feideCookie = getCookie('feide_auth', req.headers.cookie ?? '') ?? '';
-  const feideToken = !!feideCookie ? JSON.parse(feideCookie) : undefined;
+  const feideToken = feideCookie ? JSON.parse(feideCookie) : undefined;
   const state = typeof req.query.state === 'string' ? req.query.state : '';
   res.setHeader('Cache-Control', 'private');
   const lang = getLang(
@@ -196,7 +196,7 @@ app.get('/login/success', async (req: Request, res: Response) => {
 
 app.get('/:lang?/logout', async (req: Request, res: Response) => {
   const feideCookie = getCookie('feide_auth', req.headers.cookie ?? '') ?? '';
-  const feideToken = !!feideCookie ? JSON.parse(feideCookie) : undefined;
+  const feideToken = feideCookie ? JSON.parse(feideCookie) : undefined;
   const state = typeof req.query.state === 'string' ? req.query.state : '/';
   const redirect = constructNewPath(state, req.params.lang);
   res.setHeader('Cache-Control', 'private');
@@ -368,7 +368,7 @@ app.get(
     const route = routes.find(r => matchPath(r, path)); // match with routes used in frontend
     const isPrivate = privateRoutes.some(r => matchPath(r, path));
     const feideCookie = getCookie('feide_auth', req.headers.cookie ?? '') ?? '';
-    const feideToken = !!feideCookie ? JSON.parse(feideCookie) : undefined;
+    const feideToken = feideCookie ? JSON.parse(feideCookie) : undefined;
     const isTokenValid = !!feideToken && isAccessTokenValid(feideToken);
     const shouldRedirect = isPrivate && !isTokenValid;
     if (!route) {

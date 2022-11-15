@@ -118,7 +118,7 @@ interface RCProps {
   object should not be used or passed to anyting else than configureTracker.
 */
 const NDLARouter = ({ children, base }: RCProps) => {
-  let historyRef = useRef<History>();
+  const historyRef = useRef<History>();
   if (isGoogleUrl && historyRef.current == null) {
     historyRef.current = createMemoryHistory({
       initialEntries: [locationFromServer],
@@ -127,8 +127,8 @@ const NDLARouter = ({ children, base }: RCProps) => {
     historyRef.current = createBrowserHistory();
   }
 
-  let history = historyRef.current!;
-  let [state, setState] = useState({
+  const history = historyRef.current!;
+  const [state, setState] = useState({
     action: history.action,
     location: history.location,
   });
@@ -138,11 +138,11 @@ const NDLARouter = ({ children, base }: RCProps) => {
   return (
     <Router
       basename={base}
-      children={children(history)}
       location={state.location}
       navigationType={state.action}
-      navigator={history}
-    />
+      navigator={history}>
+      {children(history)}
+    </Router>
   );
 };
 

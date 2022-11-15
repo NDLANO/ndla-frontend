@@ -116,6 +116,7 @@ const SearchContainer = ({
           }}>
           {concepts.map(concept => (
             <ConceptNotion
+              key={concept.id}
               concept={{
                 ...concept,
                 image: concept.image
