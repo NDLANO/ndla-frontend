@@ -70,7 +70,7 @@
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.1",
     "css-minimizer-webpack-plugin": "^4.2.2",
-    "cypress": "10.0.0",
+    "cypress": "^11.0.1",
     "eslint": "^8.26.0",
     "eslint-config-ndla": "^2.0.6",
     "eslint-plugin-react": "^7.31.10",
