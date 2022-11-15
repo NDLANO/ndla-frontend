@@ -21,7 +21,6 @@ import {
   useTranslation,
   withTranslation,
 } from 'react-i18next';
-import { getSubjectLongName } from '../../data/subjects';
 import { GQLToolboxSubjectContainer_SubjectFragment } from '../../graphqlTypes';
 import { toTopic } from '../../routeHelpers';
 import { htmlTitle } from '../../util/titleHelper';
@@ -90,7 +89,7 @@ const getInitialSelectedTopics = (
 };
 
 const ToolboxSubjectContainer = ({ topicList, subject }: Props) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const selectedTopics = topicList;
 
   const refs = topicList.map(() => createRef<HTMLDivElement>());
@@ -164,7 +163,7 @@ const ToolboxSubjectContainer = ({ topicList, subject }: Props) => {
         <ToolboxInfo
           id={!topicList.length ? SKIP_TO_CONTENT_ID : undefined}
           topics={topics}
-          title={getSubjectLongName(subject.id, i18n.language) || subject.name}
+          title={subject.name}
           introduction={t('htmlTitles.toolbox.introduction')}
         />
         <TopicBoxes />
@@ -229,16 +228,15 @@ ToolboxSubjectContainer.willTrackPageView = (
 };
 
 ToolboxSubjectContainer.getDimensions = (props: Props) => {
-  const { subject, i18n, topicList, user } = props;
+  const { subject, topicList, user } = props;
   const topicPath = topicList.map(t =>
     subject.allTopics?.find(topic => topic.id === t),
   );
-  const longName = getSubjectLongName(subject.id, i18n.language);
 
   return getAllDimensions({
     subject,
     topicPath,
-    filter: longName,
+    filter: subject.name,
     user,
   });
 };

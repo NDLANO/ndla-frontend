@@ -24,7 +24,6 @@ import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import Learningpath from '../../components/Learningpath';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import { toBreadcrumbItems, toLearningPath } from '../../routeHelpers';
-import { getSubjectLongName } from '../../data/subjects';
 import {
   GQLLearningpath,
   GQLLearningpathPage_ResourceFragment,
@@ -53,13 +52,7 @@ interface Props extends CustomWithTranslation {
   user?: FeideUserApiType;
 }
 
-const LearningpathPage = ({
-  data,
-  skipToContentId,
-  stepId,
-  i18n,
-  t,
-}: Props) => {
+const LearningpathPage = ({ data, skipToContentId, stepId, t }: Props) => {
   const navigate = useNavigate();
   useEffect(() => {
     if (window.MathJax && typeof window.MathJax.typeset === 'function') {
@@ -81,7 +74,7 @@ const LearningpathPage = ({
       const newSeqNo = (learningpathStep?.seqNo ?? 0) + directionValue;
       const newLearningpathStep = steps?.find(step => step.seqNo === newSeqNo);
       if (newLearningpathStep) {
-        const res = !!resource.path
+        const res = resource.path
           ? { path: resource.path, id: resource.id }
           : undefined;
         navigate(
@@ -120,20 +113,14 @@ const LearningpathPage = ({
 
   const breadcrumbItems =
     subject && topicPath
-      ? toBreadcrumbItems(
-          t('breadcrumb.toFrontpage'),
-          [
-            subject,
-            ...topicPath,
-            { name: learningpath.title, id: `${learningpath.id}` },
-          ],
-          i18n.language,
-        )
-      : toBreadcrumbItems(
-          t('breadcrumb.toFrontpage'),
-          [{ name: learningpath.title, id: `${learningpath.id}` }],
-          i18n.language,
-        );
+      ? toBreadcrumbItems(t('breadcrumb.toFrontpage'), [
+          subject,
+          ...topicPath,
+          { name: learningpath.title, id: `${learningpath.id}` },
+        ])
+      : toBreadcrumbItems(t('breadcrumb.toFrontpage'), [
+          { name: learningpath.title, id: `${learningpath.id}` },
+        ]);
 
   return (
     <div>
@@ -182,7 +169,7 @@ LearningpathPage.willTrackPageView = (
 
 LearningpathPage.getDimensions = (props: Props) => {
   const articleProps = getArticleProps(props.data.resource);
-  const { data, i18n, stepId, user } = props;
+  const { data, stepId, user } = props;
   const { resource, subject, topicPath, relevance } = data;
   const learningpath = resource?.learningpath;
   const firstStep = learningpath?.learningsteps?.[0];
@@ -190,7 +177,6 @@ LearningpathPage.getDimensions = (props: Props) => {
     ls => `${ls.id}` === stepId,
   );
   const learningstep = currentStep || firstStep;
-  const longName = getSubjectLongName(subject?.id, i18n.language);
 
   return getAllDimensions(
     {
@@ -199,7 +185,7 @@ LearningpathPage.getDimensions = (props: Props) => {
       topicPath,
       learningpath,
       learningstep,
-      filter: longName,
+      filter: subject?.name,
       user,
     },
     articleProps.label,

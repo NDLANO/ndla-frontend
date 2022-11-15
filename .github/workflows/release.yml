@@ -37,9 +37,6 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: '3.10'
-      - uses: olafurpg/setup-scala@v13
-        with:
-          java-version: adopt@1.11
       - name: "Setup ~/bin directory"
         run: |
          mkdir -p /home/runner/bin
@@ -94,10 +91,8 @@ jobs:
           helm plugin install https://github.com/chartmuseum/helm-push.git --version 0.9.0
       - name: "Build kubernetes config"
         run: |
-          for config in `find ndla/deploy -name "kubeconfig*eks-cluster"`; do
-            echo $config >> kubeconfigs;
-          done
-          KUBECONFIG=$(cat kubeconfigs | paste -sd ":" -) kubectl config view --raw > ~/.kube/config
+          eval "$($NDLA_DEPLOY/scripts/bin/ndla init -)"
+          _ndla_wrapper env kubeconfig test
       - name: "Do release"
         shell: bash
         run: |
