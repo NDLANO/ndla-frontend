@@ -1,5 +1,5 @@
 module.exports = {
-  extends: '../.eslintrc',
+  extends: '../../.eslintrc',
   rules: {
     'no-unused-expressions': 0,
     'object-shorthand': 0,
