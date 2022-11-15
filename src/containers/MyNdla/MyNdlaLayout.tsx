@@ -142,7 +142,7 @@ const MyNdlaLayout = () => {
                 )}
               </StyledLi>
               {links.map(link => (
-                <StyledLi role="none">
+                <StyledLi key={link.id} role="none">
                   <NavigationLink
                     id={link.id}
                     name={link.name}
