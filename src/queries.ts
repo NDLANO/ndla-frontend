@@ -467,6 +467,14 @@ export const subjectInfoFragment = gql`
     metadata {
       customFields
     }
+    subjectpage {
+      about {
+        title
+      }
+      banner {
+        desktopUrl
+      }
+    }
   }
 `;
 
@@ -513,6 +521,15 @@ export const searchPageQuery = gql`
         id
         name
       }
+    }
+  }
+  ${subjectInfoFragment}
+`;
+
+export const subjectsQuery = gql`
+  query subjects {
+    subjects {
+      ...SubjectInfo
     }
   }
   ${subjectInfoFragment}
@@ -575,10 +592,11 @@ export const mastHeadQuery = gql`
     $subjectId: String!
     $topicId: String!
     $resourceId: String!
+    $skipSubject: Boolean!
     $skipTopic: Boolean!
     $skipResource: Boolean!
   ) {
-    subject(id: $subjectId) {
+    subject(id: $subjectId) @skip(if: $skipSubject) {
       id
       name
       path
@@ -606,9 +624,13 @@ export const mastHeadQuery = gql`
       @skip(if: $skipResource) {
       ...ResourceInfo
     }
+    subjects {
+      ...SubjectInfo
+    }
   }
   ${topicInfoFragment}
   ${resourceInfoFragment}
+  ${subjectInfoFragment}
 `;
 
 export const alertsQuery = gql`

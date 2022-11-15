@@ -13,7 +13,7 @@ const podcastRssFeed = async (seriesId: number): Promise<string> => {
   try {
     const series = await fetchSeries(seriesId, 'nb');
     const podcastUrl = `${config?.ndlaFrontendDomain}/podkast/${series.id}`;
-    const ownerEmail = 'support+podcast@ndla.no';
+    const ownerEmail = 'hjelp+podcast@ndla.no';
 
     const description = `
     <description>

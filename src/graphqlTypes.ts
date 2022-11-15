@@ -3346,6 +3346,11 @@ export type GQLSubjectInfoFragment = {
   name: string;
   path: string;
   metadata: { __typename?: 'TaxonomyMetadata'; customFields: any };
+  subjectpage?: {
+    __typename?: 'SubjectPage';
+    about?: { __typename?: 'SubjectPageAbout'; title: string };
+    banner: { __typename?: 'SubjectPageBanner'; desktopUrl: string };
+  };
 };
 
 export type GQLResourceInfoFragment = {
@@ -3415,6 +3420,13 @@ export type GQLSearchPageQuery = {
   }>;
 };
 
+export type GQLSubjectsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GQLSubjectsQuery = {
+  __typename?: 'Query';
+  subjects?: Array<{ __typename?: 'Subject' } & GQLSubjectInfoFragment>;
+};
+
 export type GQLMovedResourceQueryVariables = Exact<{
   resourceId: Scalars['String'];
 }>;
@@ -3467,6 +3479,7 @@ export type GQLMastHeadQueryVariables = Exact<{
   subjectId: Scalars['String'];
   topicId: Scalars['String'];
   resourceId: Scalars['String'];
+  skipSubject: Scalars['Boolean'];
   skipTopic: Scalars['Boolean'];
   skipResource: Scalars['Boolean'];
 }>;
@@ -3497,6 +3510,7 @@ export type GQLMastHeadQuery = {
     >;
   };
   resource?: { __typename?: 'Resource' } & GQLResourceInfoFragment;
+  subjects?: Array<{ __typename?: 'Subject' } & GQLSubjectInfoFragment>;
 };
 
 export type GQLAlertsQueryVariables = Exact<{ [key: string]: never }>;

@@ -34,13 +34,6 @@ const SearchPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const searchParams = converSearchStringToObject(location, i18n.language);
-  //const stateSearchParams = getStateSearchParams(searchParams);
-  const subjects = searchSubjects(searchParams.query);
-  const subjectItems = subjects.map(subject => ({
-    id: subject.id,
-    title: subject.name,
-    url: subject.path,
-  }));
 
   const { data, loading } = useGraphQuery<GQLSearchPageQuery>(searchPageQuery);
   /*const { data: conceptData } = useGraphQuery<GQLConceptSearchQuery>(
@@ -54,6 +47,8 @@ const SearchPage = () => {
       },
     },
   );*/
+
+  const subjectItems = searchSubjects(searchParams.query, data?.subjects);
 
   const handleSearchParamsChange = (searchParams: Record<string, any>) => {
     navigate({
@@ -76,11 +71,12 @@ const SearchPage = () => {
         <SearchInnerPage
           handleSearchParamsChange={handleSearchParamsChange}
           query={searchParams.query}
-          subjects={searchParams.subjects ?? []}
-          programmes={searchParams.programs ?? []}
+          subjectIds={searchParams.subjects}
+          programmeNames={searchParams.programs}
           selectedFilters={searchParams.selectedFilters?.split(',') ?? []}
           activeSubFilters={searchParams.activeSubFilters?.split(',') ?? []}
           subjectItems={subjectItems}
+          subjects={data?.subjects}
           //concepts={conceptData?.conceptSearch?.concepts} // Save for later
           concepts={undefined}
           resourceTypes={data?.resourceTypes}

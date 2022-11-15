@@ -99,6 +99,12 @@ export type SubjectType = {
   hideOnFrontpage?: boolean;
 };
 
+export type TopicType = {
+  name?: Record<LocaleType, string>;
+  id: string;
+  topicId?: string;
+};
+
 export type LtiData = {
   content_item_return_url?: string;
   launch_presentation_return_url?: string;

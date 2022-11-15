@@ -9,21 +9,24 @@
 
 import { FrontpageProgramMenu } from '@ndla/ui';
 
-import {
-  getCategorizedSubjects,
-  getProgrammes,
-} from '../../util/programmesSubjectsHelper';
+import { useTranslation } from 'react-i18next';
+import { getProgrammes } from '../../util/programmesSubjectsHelper';
+import { getSubjectsCategories } from '../../data/subjects';
 import { LocaleType } from '../../interfaces';
+import { GQLSubjectInfoFragment } from '../../graphqlTypes';
 
 interface Props {
   locale: LocaleType;
+  subjects?: GQLSubjectInfoFragment[];
 }
-const FrontpageSubjects = ({ locale }: Props) => (
-  <FrontpageProgramMenu
-    programItems={getProgrammes(locale)}
-    subjectCategories={getCategorizedSubjects(locale)}
-    showBetaCursor={true}
-  />
-);
+const FrontpageSubjects = ({ locale, subjects }: Props) => {
+  const { t } = useTranslation();
+  return (
+    <FrontpageProgramMenu
+      programItems={getProgrammes(locale)}
+      subjectCategories={getSubjectsCategories(t, subjects)}
+    />
+  );
+};
 
 export default FrontpageSubjects;
