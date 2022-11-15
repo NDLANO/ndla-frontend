@@ -11,7 +11,8 @@ import { useTranslation } from 'react-i18next';
 import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
 import { HelmetWithTracker } from '@ndla/tracker';
-import { FolderType, TreeStructure } from '@ndla/ui';
+import { IFolder } from '@ndla/types-learningpath-api';
+import { TreeStructure } from '@ndla/ui';
 import IsMobileContext from '../../IsMobileContext';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { createStaticStructureElements } from '../../util/folderHelpers';
@@ -33,7 +34,7 @@ const MyNdlaMobileMenuPage = () => {
   const { t } = useTranslation();
   const isMobile = useContext(IsMobileContext);
 
-  const staticFolderElements: FolderType[] = useMemo(
+  const staticFolderElements: IFolder[] = useMemo(
     () => createStaticStructureElements([], t),
     [t],
   );

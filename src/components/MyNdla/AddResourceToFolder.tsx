@@ -13,8 +13,8 @@ import styled from '@emotion/styled';
 import { ButtonV2 as Button, LoadingButton } from '@ndla/button';
 import { colors, spacing } from '@ndla/core';
 import SafeLink from '@ndla/safelink';
+import { IFolder } from '@ndla/types-learningpath-api';
 import {
-  FolderType,
   ListResource,
   MessageBox,
   TagSelector,
@@ -168,7 +168,7 @@ const AddResourceToFolder = ({
     return !isEqual(sortedStored, sortedSelected);
   };
 
-  const structureFolders: FolderType[] = useMemo(
+  const structureFolders: IFolder[] = useMemo(
     () => [
       {
         id: 'folders',

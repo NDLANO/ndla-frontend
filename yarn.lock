@@ -2294,10 +2294,10 @@
   resolved "https://registry.yarnpkg.com/@ndla/types-learningpath-api/-/types-learningpath-api-0.0.17.tgz#7ceca4372028e6f59b4e84e867ff01f7561fd851"
   integrity sha512-bvI04Es2E5gJVDkDu6bRmPFgmvLn6JjXZNHQ47UHp7mek9p7sK9+MAeLyY04BswvidegIsdxJldxeStNq8uu/Q==
 
-"@ndla/ui@^30.9.0":
-  version "30.9.0"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-30.9.0.tgz#0056fe39bfece4316db4e3b3018979a96544b812"
-  integrity sha512-pdnFzF2I68ddv1NciMH8lyhPx9Rlj9FwHUMUR3XWuEZGH8fsuMc9BiqnccqLs7/OGERawR/iAqChu6qHHZDB9w==
+"@ndla/ui@^31.0.0":
+  version "31.0.0"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-31.0.0.tgz#01bd28e79f22e7a54f37d341ef29ffa034cc24e5"
+  integrity sha512-R0949DgAz9Fw+xPmJ2aXdwv1mV+7n6PlyWKsnv5fRA20jyJHN1e+YlyPf6PS50pQhj9vQpA0PFJmGc8B8fcpBQ==
   dependencies:
     "@ndla/article-scripts" "^3.0.11"
     "@ndla/button" "^6.0.4"
@@ -10671,7 +10671,7 @@ semver@7.x, semver@^7.3.4, semver@^7.3.5, semver@^7.3.7:
   dependencies:
     lru-cache "^6.0.0"
 
-semver@^5.5.0, semver@^5.6.0, semver@^5.7.1:
+semver@^5.6.0, semver@^5.7.1:
   version "5.7.1"
   resolved "https://registry.yarnpkg.com/semver/-/semver-5.7.1.tgz#a954f931aeba508d307bbf069eff0c01c96116f7"
   integrity sha512-sauaDf/PZdVgrLTNYHRtpXa1iRiKcaebiKQ1BJdpQlWH2lCvexQdX55snPFyK7QzpudqbCI0qXFfOasHdyNDGQ==
