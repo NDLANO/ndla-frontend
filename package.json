@@ -10,7 +10,7 @@
     "test-ci": "cross-env BABEL_ENV=test NODE_ENV=unittest jest --maxWorkers=4 --ci",
     "tdd": "cross-env BABEL_ENV=test NODE_ENV=unittest jest --watch",
     "lint": "yarn format-check && yarn lint-es",
-    "lint-es": "eslint --cache --cache-location '.eslintcache/' --ext .js,.jsx,.ts,.tsx --max-warnings=0 src e2e",
+    "lint-es": "eslint --cache --cache-location '.eslintcache/' --ext .js,.jsx,.ts,.tsx --max-warnings=0 src cypress/e2e",
     "format": "node prettier.js write",
     "format-check": "node prettier.js lint",
     "start": "concurrently --kill-others 'yarn start:tsc' 'ts-node scripts/start-ssr'",
