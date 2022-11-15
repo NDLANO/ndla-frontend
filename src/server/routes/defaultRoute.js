@@ -53,7 +53,9 @@ async function doRender(req) {
   global.assets = assets; // used for including mathjax js in pages with math
   const resCookie = req.headers['cookie'] ?? '';
   const userAgent = req.headers['user-agent'];
-  const isMobile = getSelectorsByUserAgent(userAgent).isMobile;
+  const isMobile = userAgent
+    ? getSelectorsByUserAgent(userAgent)?.isMobile
+    : false;
   const versionHash = req.query.versionHash;
   const { basename, abbreviation } = getLocaleInfoFromPath(req.path);
   const locale = getCookieLocaleOrFallback(resCookie, abbreviation);
