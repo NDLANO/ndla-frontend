@@ -224,7 +224,7 @@ type Concept {
   created: String!
   id: Int!
   image: ImageLicense
-  metaImage: MetaImage!
+  metaImage: MetaImage
   source: String
   subjectIds: [String!]
   subjectNames: [String!]
