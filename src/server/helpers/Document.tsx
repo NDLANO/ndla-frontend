@@ -41,6 +41,7 @@ const Document = ({ helmet, assets, data, css, ids }: Props) => {
   const bodyAttrs = helmet.bodyAttributes.toComponent();
 
   return (
+    // eslint-disable-next-line jsx-a11y/html-has-lang
     <html {...htmlAttrs}>
       <head>
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />

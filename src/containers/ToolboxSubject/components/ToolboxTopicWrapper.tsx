@@ -8,9 +8,8 @@
 
 import { gql } from '@apollo/client';
 import { CustomWithTranslation, withTranslation } from 'react-i18next';
-import { FeideUserApiType, Topic } from '@ndla/ui';
+import { FeideUserApiType, Topic, TopicProps } from '@ndla/ui';
 import { withTracker } from '@ndla/tracker';
-import { TopicProps } from '@ndla/ui';
 import VisualElementWrapper, {
   getResourceType,
 } from '../../../components/VisualElement/VisualElementWrapper';
