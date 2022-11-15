@@ -267,7 +267,7 @@ export type GQLConcept = {
   created: Scalars['String'];
   id: Scalars['Int'];
   image?: Maybe<GQLImageLicense>;
-  metaImage: GQLMetaImage;
+  metaImage?: Maybe<GQLMetaImage>;
   source?: Maybe<Scalars['String']>;
   subjectIds?: Maybe<Array<Scalars['String']>>;
   subjectNames?: Maybe<Array<Scalars['String']>>;
@@ -3251,7 +3251,7 @@ export type GQLConceptSearchConceptFragment = {
       { __typename?: 'Contributor' } & GQLContributorInfoFragment
     >;
   };
-  image: { __typename?: 'MetaImage'; url: string; alt: string };
+  image?: { __typename?: 'MetaImage'; url: string; alt: string };
 };
 
 export type GQLFrontpageSearchQueryVariables = Exact<{
@@ -3581,14 +3581,29 @@ export type GQLStructuredArticleData_BrightcoveLicenseFragment = {
 
 export type GQLStructuredArticleDataFragment = {
   __typename?: 'Article';
+  id: number;
   title: string;
   metaDescription: string;
   published: string;
   updated: string;
+  supportedLanguages?: Array<string>;
+  availability?: string;
   copyright: {
     __typename?: 'Copyright';
   } & GQLStructuredArticleData_CopyrightFragment;
   metaImage?: { __typename?: 'MetaImage'; url: string };
+  competenceGoals?: Array<{
+    __typename?: 'CompetenceGoal';
+    id: string;
+    code?: string;
+    title: string;
+    type: string;
+  }>;
+  coreElements?: Array<{
+    __typename?: 'CoreElement';
+    curriculumCode?: string;
+    curriculum?: { __typename?: 'Reference'; code?: string };
+  }>;
   metaData?: {
     __typename?: 'ArticleMetaData';
     images?: Array<
