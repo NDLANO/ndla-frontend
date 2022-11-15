@@ -210,7 +210,7 @@ const PodcastSeriesPage = () => {
             <>
               <h2>{t('podcastPage.episodes')}</h2>
               {podcastSeries.episodes.map(episode => (
-                <Podcast podcast={episode} seriesId={id} />
+                <Podcast key={episode.id} podcast={episode} seriesId={id} />
               ))}
             </>
           ) : (

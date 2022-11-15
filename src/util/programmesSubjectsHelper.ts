@@ -6,9 +6,8 @@
  *
  */
 
-import { toProgramme, toSubject } from '../routeHelpers';
+import { removeUrn, toProgramme, toSubject } from '../routeHelpers';
 import { programmes } from '../data/programmes';
-import { removeUrn } from '../routeHelpers';
 import { LocaleType, SubjectType } from '../interfaces';
 
 interface ProgramSubjectBase {

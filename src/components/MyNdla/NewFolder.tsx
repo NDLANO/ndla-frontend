@@ -93,6 +93,8 @@ const NewFolder = ({
   return (
     <FolderInput
       className={className}
+      // Necessary to move focus from new folder-button to input on click
+      // eslint-disable-next-line jsx-a11y/no-autofocus
       autoFocus
       labelHidden
       name="name"

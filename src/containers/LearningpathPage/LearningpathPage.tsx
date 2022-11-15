@@ -74,7 +74,7 @@ const LearningpathPage = ({ data, skipToContentId, stepId, t }: Props) => {
       const newSeqNo = (learningpathStep?.seqNo ?? 0) + directionValue;
       const newLearningpathStep = steps?.find(step => step.seqNo === newSeqNo);
       if (newLearningpathStep) {
-        const res = !!resource.path
+        const res = resource.path
           ? { path: resource.path, id: resource.id }
           : undefined;
         navigate(

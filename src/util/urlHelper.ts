@@ -66,11 +66,13 @@ const matchUrl = (
 
 export function parseOembedUrl(url: string, ignoreLocale: boolean = false) {
   const { pathname } = new URL(url);
-  let paths = pathname.split('/');
+  const paths = pathname.split('/');
   if (paths[1]) {
     paths[1] = paths[1] === 'unknown' ? 'nb' : paths[1];
   }
-  if (ignoreLocale && isValidLocale(paths[1])) paths.splice(1, 1);
+  if (ignoreLocale && isValidLocale(paths[1])) {
+    paths.splice(1, 1);
+  }
   const path = paths.join('/');
 
   if (isValidLocale(paths[1])) {
