@@ -27,7 +27,7 @@
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
 import { Interception } from 'cypress/types/net-stubbing';
-import { isEqual } from 'lodash';
+import isEqual from 'lodash/isEqual';
 
 // alias can be a a string for single requests or an array of strings for multiple requests
 // Multiple requests also needs an array of GraphQL operation names to distinguish different requests

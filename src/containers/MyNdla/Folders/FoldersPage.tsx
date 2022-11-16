@@ -6,7 +6,7 @@
  *
  */
 
-import { isEqual } from 'lodash';
+import isEqual from 'lodash/isEqual';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { AddButton } from '@ndla/button';

@@ -6,7 +6,10 @@
  *
  */
 
-import { compact, isEqual, sortBy, uniq } from 'lodash';
+import compact from 'lodash/compact';
+import isEqual from 'lodash/isEqual';
+import sortBy from 'lodash/sortBy';
+import uniq from 'lodash/uniq';
 import { useEffect, useState, useMemo, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';

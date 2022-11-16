@@ -1,5 +1,6 @@
 import { useQuery } from '@apollo/client';
-import { partition, uniq } from 'lodash';
+import partition from 'lodash/partition';
+import uniq from 'lodash/uniq';
 import {
   createContext,
   ReactNode,

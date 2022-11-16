@@ -6,7 +6,8 @@
  *
  */
 
-import { isEqual, keyBy } from 'lodash';
+import isEqual from 'lodash/isEqual';
+import keyBy from 'lodash/keyBy';
 import { useMemo, useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from '@ndla/icons/common';

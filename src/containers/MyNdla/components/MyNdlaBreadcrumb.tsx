@@ -8,7 +8,7 @@
 
 import styled from '@emotion/styled';
 import { breakpoints, colors, mq, spacing } from '@ndla/core';
-import { Back } from '@ndla/icons/lib/common';
+import { Back } from '@ndla/icons/common';
 import SafeLink from '@ndla/safelink';
 import { Breadcrumb } from '@ndla/ui';
 import { useContext } from 'react';
