@@ -30,7 +30,6 @@ import {
 
 import FeideLoginButton from '../../components/FeideLoginButton';
 import MastheadSearch from './components/MastheadSearch';
-import MastheadMenu from './components/MastheadMenu';
 import { mastHeadQuery } from '../../queries';
 import { getLocaleUrls } from '../../util/localeHelpers';
 import ErrorBoundary from '../ErrorPage/ErrorBoundary';
@@ -45,9 +44,8 @@ import {
 import config from '../../config';
 import { useAlerts } from '../../components/AlertsContext';
 import { SKIP_TO_CONTENT_ID } from '../../constants';
-import MastheadMenuModal from './components/MastheadMenuModal';
 import { AuthContext } from '../../components/AuthenticationContext';
-import { getSubjectsCategories } from '../../data/subjects';
+import MastheadDrawer from './drawer/MastheadDrawer';
 
 const BreadcrumbWrapper = styled.div`
   margin-left: ${spacing.normal};
@@ -122,13 +120,7 @@ const MastheadContainer = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [topicId, resourceId, subjectId, programme]);
 
-  const {
-    subject,
-    topicPath = [],
-    topicResourcesByType,
-    resource,
-    subjects,
-  } = state;
+  const { subject, topicPath = [], resource } = state;
 
   const path = topicPath ?? [];
 
@@ -166,19 +158,7 @@ const MastheadContainer = () => {
         onCloseAlert={id => closeAlert(id)}
         messages={alerts}>
         <MastheadItem left>
-          <MastheadMenuModal>
-            {(onClose: () => void) => (
-              <MastheadMenu
-                locale={locale}
-                subject={subject}
-                topicResourcesByType={topicResourcesByType ?? []}
-                subjects={subjects}
-                subjectCategories={getSubjectsCategories(t, subjects)}
-                onTopicChange={newId => setTopicId(newId)}
-                close={onClose}
-              />
-            )}
-          </MastheadMenuModal>
+          <MastheadDrawer />
           {!hideBreadcrumb && !!breadcrumbBlockItems.length && (
             <DisplayOnPageYOffset yOffsetMin={150}>
               <BreadcrumbWrapper>
