@@ -114,6 +114,7 @@ TopicMenu.fragments = {
   subject: gql`
     fragment TopicMenu_Subject on Subject {
       id
+      name
     }
   `,
   resource: gql`

@@ -1984,14 +1984,23 @@ export type GQLDefaultMenu_SubjectFragment = {
   name: string;
 };
 
+export type GQLDrawerContentQueryVariables = Exact<{
+  subjectId: Scalars['String'];
+}>;
+
+export type GQLDrawerContentQuery = {
+  __typename?: 'Query';
+  subject?: { __typename?: 'Subject' } & GQLDefaultMenu_SubjectFragment &
+    GQLSubjectMenu_SubjectFragment;
+};
+
 export type GQLDrawerQueryVariables = Exact<{
   subjectId: Scalars['String'];
 }>;
 
 export type GQLDrawerQuery = {
   __typename?: 'Query';
-  subject?: { __typename?: 'Subject' } & GQLDefaultMenu_SubjectFragment &
-    GQLSubjectMenu_SubjectFragment;
+  subject?: { __typename?: 'Subject' } & GQLDefaultMenu_SubjectFragment;
 };
 
 export type GQLSubjectMenu_SubjectFragment = {
@@ -2009,6 +2018,7 @@ export type GQLSubjectMenu_SubjectFragment = {
 export type GQLTopicMenu_SubjectFragment = {
   __typename?: 'Subject';
   id: string;
+  name: string;
 };
 
 export type GQLTopicMenu_ResourceFragment = {
