@@ -44,6 +44,7 @@ const subjectPageQuery = gql`
     subjects(
       metadataFilterKey: $metadataFilterKey
       metadataFilterValue: $metadataFilterValue
+      filterVisible: true
     ) {
       path
       metadata {
