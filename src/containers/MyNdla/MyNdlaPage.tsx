@@ -23,7 +23,6 @@ import Modal, { ModalBody, ModalCloseButton, ModalHeader } from '@ndla/modal';
 import InfoPart, { InfoPartIcon, InfoPartText } from './InfoSection';
 import { AuthContext } from '../../components/AuthenticationContext';
 import {
-  usePersonalData,
   useFolderResourceMetaSearch,
   useRecentlyUsedResources,
 } from './folderMutations';
@@ -32,6 +31,7 @@ import MyNdlaTitle from './components/MyNdlaTitle';
 import TitleWrapper from './components/TitleWrapper';
 import { constructNewPath, toHref } from '../../util/urlHelper';
 import { useBaseName } from '../../components/BaseNameContext';
+import { useDeletePersonalData } from './userMutations';
 
 const HeartOutlineIcon = InfoPartIcon.withComponent(HeartOutline);
 const FolderOutlinedIcon = InfoPartIcon.withComponent(FolderOutlined);
@@ -109,7 +109,7 @@ const MyNdlaPage = () => {
   const { t } = useTranslation();
   const basename = useBaseName();
   const location = useLocation();
-  const { deletePersonalData } = usePersonalData();
+  const { deletePersonalData } = useDeletePersonalData();
   const { allFolderResources } = useRecentlyUsedResources();
   const { data: metaData, loading } = useFolderResourceMetaSearch(
     allFolderResources?.map(r => ({

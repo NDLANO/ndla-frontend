@@ -760,7 +760,7 @@ export type GQLMutationUpdatePersonalDataArgs = {
 
 export type GQLMyNdlaPersonalData = {
   __typename?: 'MyNdlaPersonalData';
-  favoriteSubjects?: Maybe<Array<Scalars['String']>>;
+  favoriteSubjects: Array<Scalars['String']>;
   id: Scalars['Int'];
   role: Scalars['String'];
 };
@@ -1048,6 +1048,7 @@ export type GQLQuerySubjectpageArgs = {
 
 export type GQLQuerySubjectsArgs = {
   filterVisible?: InputMaybe<Scalars['Boolean']>;
+  ids?: InputMaybe<Array<Scalars['String']>>;
   metadataFilterKey?: InputMaybe<Scalars['String']>;
   metadataFilterValue?: InputMaybe<Scalars['String']>;
 };
@@ -2380,6 +2381,23 @@ export type GQLDeleteFolderResourceMutation = {
   deleteFolderResource: string;
 };
 
+export type GQLMySubjectsSubjectFramgentFragment = {
+  __typename?: 'Subject';
+  id: string;
+  name: string;
+};
+
+export type GQLMySubjectsQueryVariables = Exact<{
+  ids?: InputMaybe<Array<Scalars['String']> | Scalars['String']>;
+}>;
+
+export type GQLMySubjectsQuery = {
+  __typename?: 'Query';
+  subjects?: Array<
+    { __typename?: 'Subject' } & GQLMySubjectsSubjectFramgentFragment
+  >;
+};
+
 export type GQLDeletePersonalDataMutationVariables = Exact<{
   [key: string]: never;
 }>;
@@ -2390,9 +2408,9 @@ export type GQLDeletePersonalDataMutation = {
 };
 
 export type GQLMySubjectMyNdlaPersonalDataFragmentFragment = {
-  __typename: 'MyNdlaPersonalData';
+  __typename?: 'MyNdlaPersonalData';
   id: number;
-  favoriteSubjects?: Array<string>;
+  favoriteSubjects: Array<string>;
   role: string;
 };
 
@@ -2407,7 +2425,7 @@ export type GQLPersonalDataQuery = {
 
 export type GQLUpdateMyNdlaPersonalDataQueryFragmentFragment = {
   __typename?: 'MyNdlaPersonalData';
-  favoriteSubjects?: Array<string>;
+  favoriteSubjects: Array<string>;
 };
 
 export type GQLUpdatePersonalDataMutationVariables = Exact<{

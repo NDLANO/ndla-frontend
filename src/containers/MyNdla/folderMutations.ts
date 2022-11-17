@@ -30,13 +30,9 @@ import {
   GQLMutationDeleteFolderResourceArgs,
   GQLMutationUpdateFolderArgs,
   GQLMutationUpdateFolderResourceArgs,
-  GQLMyNdlaPersonalData,
-  GQLMySubjectMyNdlaPersonalDataFragmentFragment,
-  GQLPersonalDataQuery,
   GQLRecentlyUsedQuery,
   GQLUpdateFolderMutation,
   GQLUpdateFolderResourceMutation,
-  GQLUpdatePersonalDataMutation,
 } from '../../graphqlTypes';
 import { useGraphQuery } from '../../util/runQueries';
 
@@ -444,89 +440,4 @@ export const useDeleteFolderResourceMutation = (folderId: string) => {
     },
   });
   return { deleteFolderResource };
-};
-
-const deletePersonalDataMutation = gql`
-  mutation deletePersonalData {
-    deletePersonalData
-  }
-`;
-
-export const useDeletePersonalData = () => {
-  const client = useApolloClient();
-  const [deletePersonalData] = useMutation<boolean>(
-    deletePersonalDataMutation,
-    {
-      onCompleted: () => client.resetStore(),
-    },
-  );
-
-  return { deletePersonalData };
-};
-
-const personalDataQueryFragment = gql`
-  fragment MySubjectMyNdlaPersonalDataFragment on MyNdlaPersonalData {
-    __typename
-    id
-    favoriteSubjects
-    role
-  }
-`;
-
-const personalDataQuery = gql`
-  query personalData {
-    personalData {
-      ...MySubjectMyNdlaPersonalDataFragment
-    }
-  }
-  ${personalDataQueryFragment}
-`;
-
-export const usePersonalData = () => {
-  const { data, loading } = useGraphQuery<GQLPersonalDataQuery>(
-    personalDataQuery,
-    {},
-  );
-  const personalData = data?.personalData || ({} as GQLMyNdlaPersonalData);
-  return { personalData, loading };
-};
-
-const updatePersonalDataQueryFragment = gql`
-  fragment UpdateMyNdlaPersonalDataQueryFragment on MyNdlaPersonalData {
-    favoriteSubjects
-  }
-`;
-
-const updatePersonalDataQuery = gql`
-  mutation updatePersonalData($favoriteSubjects: [String!]!) {
-    updatePersonalData(favoriteSubjects: $favoriteSubjects) {
-      ...UpdateMyNdlaPersonalDataQueryFragment
-    }
-  }
-  ${updatePersonalDataQueryFragment}
-`;
-
-export const useUpdatePersonalData = () => {
-  const { cache } = useApolloClient();
-  const [updatePersonalData, { loading }] = useMutation<
-    GQLUpdatePersonalDataMutation,
-    GQLMutationUpdateFolderArgs
-  >(updatePersonalDataQuery, {
-    onCompleted: data => {
-      // cache.modify({
-      //   id: cache.identify({
-      //     __ref: `PersonalData`,
-      //   }),
-      //   fields: {
-      //     personData(favoriteSubjects = []) {
-      //       return favoriteSubjects.concat({
-      //         __ref: cache.identify(data.updatePersonalData),
-      //       });
-      //     },
-      //   },
-      // });
-    },
-  });
-
-  return { updatePersonalData, loading };
 };

@@ -627,7 +627,7 @@ type Mutation {
 }
 
 type MyNdlaPersonalData {
-  favoriteSubjects: [String!]
+  favoriteSubjects: [String!]!
   id: Int!
   role: String!
 }
@@ -812,6 +812,7 @@ type Query {
   subjectpage(id: Int!): SubjectPage
   subjects(
     filterVisible: Boolean
+    ids: [String!]
     metadataFilterKey: String
     metadataFilterValue: String
   ): [Subject!]
