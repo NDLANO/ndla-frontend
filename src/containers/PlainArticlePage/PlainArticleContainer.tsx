@@ -80,7 +80,9 @@ const PlainArticleContainer = ({
         )}
 
         <script type="application/ld+json">
-          {JSON.stringify(getStructuredDataFromArticle(propArticle))}
+          {JSON.stringify(
+            getStructuredDataFromArticle(propArticle, i18n.language),
+          )}
         </script>
       </Helmet>
       <SocialMediaMetadata

@@ -17,9 +17,9 @@ import { renderHtml, renderPage } from '../helpers/render';
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST); //eslint-disable-line
 
 const getAssets = () => ({
-  css: assets.client.css ? assets.client.css : undefined,
+  css: assets['client.css'],
   // Error page is a static page, only use js to inject css under development
-  js: assets.injectCss ? [{ src: assets.injectCss.js }] : [],
+  js: assets['injectCss.js'] ? [{ src: assets['injectCss.js'] }] : [],
 });
 
 async function doRenderError(req, status = INTERNAL_SERVER_ERROR) {

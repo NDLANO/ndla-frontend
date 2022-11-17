@@ -22,7 +22,6 @@ import {
 import { toSearch } from '../../routeHelpers';
 import { searchResultToLinkProps } from '../SearchPage/searchHelpers';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
-import { LocaleType } from '../../interfaces';
 
 const debounceCall = debounce((fn: () => void) => fn(), 300);
 
@@ -30,9 +29,8 @@ const WelcomePageSearch = () => {
   const [query, setQuery] = useState('');
   const [delayedSearchQuery, setDelayedSearchQuery] = useState('');
   const [inputHasFocus, setInputHasFocus] = useState(false);
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const navigate = useNavigate();
-  const locale = i18n.language as LocaleType;
 
   const [runSearch, { loading, data: searchResult, error }] = useLazyQuery(
     frontpageSearchQuery,
@@ -81,12 +79,7 @@ const WelcomePageSearch = () => {
       searchResult={
         searchResult &&
         delayedSearchQuery.length >= 2 &&
-        mapSearchToFrontPageStructure(
-          searchResult,
-          t,
-          delayedSearchQuery,
-          locale,
-        )
+        mapSearchToFrontPageStructure(searchResult, t, delayedSearchQuery)
       }
       onSearchInputFocus={() => setInputHasFocus(true)}
       allResultUrl={allResultsUrl}

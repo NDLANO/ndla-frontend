@@ -35,10 +35,10 @@ import { TEMPORARY_REDIRECT } from '../../statusCodes';
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST); //eslint-disable-line
 
 const getAssets = () => ({
-  css: assets.client.css ? assets.client.css[0] : undefined,
-  polyfill: { src: assets.polyfill.js[0] },
-  js: [{ src: assets.client.js[0] }],
-  mathJaxConfig: { js: assets.mathJaxConfig.js[0] },
+  css: assets['client.css'],
+  polyfill: { src: assets['polyfill.js'] },
+  js: [{ src: assets['client.js'] }],
+  mathJaxConfig: { js: assets['mathJaxConfig.js'] },
 });
 
 const disableSSR = req => {
@@ -53,7 +53,9 @@ async function doRender(req) {
   global.assets = assets; // used for including mathjax js in pages with math
   const resCookie = req.headers['cookie'] ?? '';
   const userAgent = req.headers['user-agent'];
-  const isMobile = getSelectorsByUserAgent(userAgent).isMobile;
+  const isMobile = userAgent
+    ? getSelectorsByUserAgent(userAgent)?.isMobile
+    : false;
   const versionHash = req.query.versionHash;
   const { basename, abbreviation } = getLocaleInfoFromPath(req.path);
   const locale = getCookieLocaleOrFallback(resCookie, abbreviation);

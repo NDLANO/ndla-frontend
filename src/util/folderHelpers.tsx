@@ -9,7 +9,7 @@
 import { HashTag, Person } from '@ndla/icons/common';
 import { MenuBook } from '@ndla/icons/action';
 import { FolderOutlined } from '@ndla/icons/contentType';
-import { FolderType } from '@ndla/ui';
+import { IFolder } from '@ndla/types-learningpath-api';
 import { TFunction } from 'i18next';
 import { uniq, uniqBy } from 'lodash';
 import { GQLFolder, GQLFolderResource } from '../graphqlTypes';
@@ -112,5 +112,5 @@ export const createStaticStructureElements = (
       breadcrumbs: [],
       resources: [],
     },
-  ] as FolderType[];
+  ] as IFolder[];
 };

@@ -62,7 +62,7 @@ const SubjectPage = () => {
   const initialLoad = useRef(true);
   const isFirstRenderWithTopicId = () => initialLoad.current && !!topicId;
 
-  const { loading, data } = useGraphQuery<
+  const { loading, data: newData, previousData } = useGraphQuery<
     GQLSubjectPageTestQuery,
     GQLSubjectPageTestQueryVariables
   >(subjectPageQuery, {
@@ -75,12 +75,14 @@ const SubjectPage = () => {
     },
   });
 
-  if (loading) {
-    return <ContentPlaceholder />;
+  const data = newData ?? previousData;
+
+  if (!data && !loading) {
+    return <DefaultErrorMessage />;
   }
 
   if (!data) {
-    return <DefaultErrorMessage />;
+    return <ContentPlaceholder />;
   }
 
   const alternateTopics = data.topic?.alternateTopics;

@@ -8,8 +8,7 @@
 
 import { gql } from '@apollo/client';
 import { useContext } from 'react';
-import { Navigate, useLocation } from 'react-router-dom';
-import { Location } from 'react-router-dom';
+import { Navigate, useLocation, Location } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ContentPlaceholder } from '@ndla/ui';
 
@@ -29,6 +28,9 @@ import { isAccessDeniedError } from '../../util/handleError';
 import AccessDeniedPage from '../AccessDeniedPage/AccessDeniedPage';
 import { GQLResource, GQLResourcePageQuery } from '../../graphqlTypes';
 import { AuthContext } from '../../components/AuthenticationContext';
+import RedirectContext, {
+  RedirectInfo,
+} from '../../components/RedirectContext';
 
 const urlInPaths = (
   location: Location,
@@ -95,6 +97,7 @@ const ResourcePage = () => {
       },
     },
   );
+  const redirectContext = useContext<RedirectInfo | undefined>(RedirectContext);
 
   if (loading) {
     return <ContentPlaceholder />;
@@ -114,7 +117,15 @@ const ResourcePage = () => {
 
   if (data.resource && !urlInPaths(location, data.resource)) {
     if (data.resource.paths?.length === 1) {
-      return <Navigate to={data.resource.paths[0]!} replace />;
+      if (typeof window === 'undefined') {
+        if (redirectContext) {
+          redirectContext.status = 301;
+          redirectContext.url = data.resource.paths[0]!;
+          return null;
+        }
+      } else {
+        return <Navigate to={data.resource.paths[0]!} replace />;
+      }
     } else {
       return <MovedResourcePage resource={data.resource} />;
     }

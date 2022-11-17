@@ -7,61 +7,48 @@
  */
 
 import { TFunction } from 'i18next';
-import { GQLFrontpageSearch } from '../graphqlTypes';
-import { LocaleType, SubjectType } from '../interfaces';
+import { GQLFrontpageSearch, GQLSubjectInfoFragment } from '../graphqlTypes';
+import { toSubject } from '../routeHelpers';
 import {
-  activeSubjects,
-  archivedSubjects,
-  betaSubjects,
-} from '../data/subjects';
-import { removeUrn } from '../routeHelpers';
-import config from '../config';
-
-const createSubjectPath = (subject: SubjectType) => {
-  return `/${removeUrn(subject.id)}/`;
-};
-
-type CategoryTypes = 'common' | 'programme' | 'study';
-
-type Categories = {
-  [key in CategoryTypes]: string;
-};
-
-const categories: Categories = {
-  common: 'Fellesfag',
-  programme: 'Yrkesfag',
-  study: 'Studiespesialiserende',
-};
+  TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE,
+  TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
+} from '../constants';
 
 export const searchSubjects = (
   query?: string,
-  locale: LocaleType = config.defaultLocale,
+  subjects?: GQLSubjectInfoFragment[],
 ) => {
   const trimmedQuery = query?.trim().toLowerCase();
   if (!trimmedQuery || trimmedQuery?.length < 2) {
     return [];
   }
 
-  const foundInSubjects = [
-    ...activeSubjects,
-    ...archivedSubjects,
-    ...betaSubjects,
-  ].filter(subject =>
-    subject.longName[locale].toLowerCase().includes(trimmedQuery),
+  const filtered = subjects?.filter(
+    subject =>
+      subject.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] !==
+        undefined ||
+      subject.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE] !==
+        undefined,
   );
 
-  return foundInSubjects.map(subject => {
+  const foundInSubjects = filtered?.filter(subject =>
+    subject.name.toLowerCase().includes(trimmedQuery),
+  );
+
+  return foundInSubjects?.map(subject => {
     return {
+      ...subject,
       id: subject.id,
-      path: createSubjectPath(subject),
-      subject: categories[subject.id.split('_')[0] as CategoryTypes],
-      name: subject.longName[locale],
+      url: toSubject(subject.id),
+      title: subject.name,
+      img: { url: subject.subjectpage?.banner?.desktopUrl ?? '' },
     };
   });
 };
 
 interface SearchResult {
   frontpageSearch?: GQLFrontpageSearch;
+  subjects?: GQLSubjectInfoFragment[];
 }
 
 export const frontPageSearchSuggestion = (searchResult: SearchResult) => {
@@ -87,16 +74,15 @@ export const mapSearchToFrontPageStructure = (
   data: SearchResult,
   t: TFunction,
   query: string,
-  locale: LocaleType,
 ) => {
-  const subjectHits = searchSubjects(query, locale);
+  const subjectHits = searchSubjects(query, data.subjects);
   const subjects = {
     title: t('searchPage.label.subjects'),
     contentType: 'results-frontpage',
     resources: subjectHits,
   };
 
-  if (!data.frontpageSearch && subjectHits.length === 0) {
+  if (!data.frontpageSearch && subjectHits?.length === 0) {
     return [];
   }
   if (!data.frontpageSearch) {
@@ -120,7 +106,7 @@ export const mapSearchToFrontPageStructure = (
     totalCount: learningResources?.totalCount,
   };
 
-  const subjectsToAdd = subjectHits.length ? [subjects] : [];
+  const subjectsToAdd = subjectHits?.length ? [subjects] : [];
   const topicsToAdd = topics.totalCount ? [topics] : [];
   const resourceToAdd = resource.totalCount ? [resource] : [];
   return [...subjectsToAdd, ...topicsToAdd, ...resourceToAdd];

@@ -177,45 +177,31 @@ const MyNdlaPage = () => {
       )}
       <InfoPart
         icon={<HeartOutlineIcon />}
-        title={t('myNdla.myPage.storageInfo.title')}
-        children={
-          <InfoPartText>{t('myNdla.myPage.storageInfo.text')}</InfoPartText>
-        }
-      />
+        title={t('myNdla.myPage.storageInfo.title')}>
+        <InfoPartText>{t('myNdla.myPage.storageInfo.text')}</InfoPartText>
+      </InfoPart>
       <InfoPart
         icon={<FolderOutlinedIcon />}
-        title={t('myNdla.myPage.folderInfo.title')}
-        children={
-          <InfoPartText>
-            <Trans i18nKey="myNdla.myPage.folderInfo.text" />
-          </InfoPartText>
-        }
-      />
-      <InfoPart
-        icon={<HashTagIcon />}
-        title={t('myNdla.myPage.tagInfo.title')}
-        children={
-          <InfoPartText>
-            <Trans i18nKey={'myNdla.myPage.tagInfo.text'} />
-          </InfoPartText>
-        }
-      />
+        title={t('myNdla.myPage.folderInfo.title')}>
+        <InfoPartText>
+          <Trans i18nKey="myNdla.myPage.folderInfo.text" />
+        </InfoPartText>
+      </InfoPart>
+      <InfoPart icon={<HashTagIcon />} title={t('myNdla.myPage.tagInfo.title')}>
+        <InfoPartText>
+          <Trans i18nKey={'myNdla.myPage.tagInfo.text'} />
+        </InfoPartText>
+      </InfoPart>
       {user && (
-        <InfoPart
-          icon={<FeideIcon />}
-          title={t('myNdla.myPage.feide')}
-          children={
-            <>
-              <UserInfo user={user} />
-              <p>
-                {t('user.wrongUserInfoDisclaimer')}
-                <SafeLink to="https://feide.no/brukerstotte">
-                  feide.no/brukerstotte
-                </SafeLink>
-              </p>
-            </>
-          }
-        />
+        <InfoPart icon={<FeideIcon />} title={t('myNdla.myPage.feide')}>
+          <UserInfo user={user} />
+          <p>
+            {t('user.wrongUserInfoDisclaimer')}
+            <SafeLink to="https://feide.no/brukerstotte">
+              feide.no/brukerstotte
+            </SafeLink>
+          </p>
+        </InfoPart>
       )}
       <InfoContainer>
         <LinkText>
