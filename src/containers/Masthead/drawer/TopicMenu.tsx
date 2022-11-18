@@ -56,7 +56,7 @@ const TopicMenu = ({
   return (
     <DrawerPortion>
       <BackButton
-        title={parentIsTopic ? topic.name : subject.name}
+        title={topicPath[level - 2]?.name ?? subject.name}
         onGoBack={onCloseMenuPortion}
       />
       <DrawerRowHeader
