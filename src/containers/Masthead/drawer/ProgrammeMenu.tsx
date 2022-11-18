@@ -10,12 +10,14 @@ import styled from '@emotion/styled';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getProgrammes } from '../../../util/programmesSubjectsHelper';
+import BackButton from './BackButton';
 import DrawerMenuItem from './DrawerMenuItem';
 import DrawerPortion from './DrawerPortion';
 import DrawerRowHeader from './DrawerRowHeader';
 
 interface Props {
   onClose: () => void;
+  onCloseMenuPortion: () => void;
 }
 
 const StyledNav = styled.nav`
@@ -23,7 +25,7 @@ const StyledNav = styled.nav`
   flex-direction: column;
 `;
 
-const ProgrammeMenu = ({ onClose }: Props) => {
+const ProgrammeMenu = ({ onClose, onCloseMenuPortion }: Props) => {
   const { i18n } = useTranslation();
   const programmes = useMemo(() => getProgrammes(i18n.language), [
     i18n.language,
@@ -31,6 +33,7 @@ const ProgrammeMenu = ({ onClose }: Props) => {
 
   return (
     <DrawerPortion>
+      <BackButton title="Go home" homeButton onGoBack={onCloseMenuPortion} />
       <DrawerRowHeader
         title="Utdanningsprogram"
         type="link"

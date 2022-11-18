@@ -7,6 +7,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
+import BackButton from './BackButton';
 import DrawerMenuItem from './DrawerMenuItem';
 import DrawerPortion from './DrawerPortion';
 import DrawerRowHeader from './DrawerRowHeader';
@@ -22,13 +23,15 @@ const contactUrl = 'https://om.ndla.no/kontakt-oss/';
 
 interface Props {
   onClose: () => void;
+  onCloseMenuPortion: () => void;
 }
 
-const AboutMenu = ({ onClose }: Props) => {
+const AboutMenu = ({ onClose, onCloseMenuPortion }: Props) => {
   const { t } = useTranslation();
 
   return (
     <DrawerPortion>
+      <BackButton title="Go home" homeButton onGoBack={onCloseMenuPortion} />
       <DrawerRowHeader
         title="Om NDLA"
         type="link"

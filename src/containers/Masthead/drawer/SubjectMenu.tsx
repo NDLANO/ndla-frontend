@@ -21,7 +21,7 @@ import BackButton from './BackButton';
 interface Props {
   subject: GQLSubjectMenu_SubjectFragment;
   onClose: () => void;
-  closeSubMenu: () => void;
+  onCloseMenuPortion: () => void;
   topicPath: TopicWithSubTopics[];
   addTopic: (topic: TopicWithSubTopics, index: number) => void;
 }
@@ -53,11 +53,10 @@ const groupTopics = (
 const SubjectMenu = ({
   subject,
   onClose,
-  closeSubMenu,
+  onCloseMenuPortion,
   addTopic,
-  topicPath: topicPathProp,
+  topicPath,
 }: Props) => {
-  const [topic, ...topicPath] = topicPathProp;
   const [roots, rest] = partition(
     subject.allTopics?.filter(t => !!t.parent),
     t => t.parent === subject.id,
@@ -68,7 +67,7 @@ const SubjectMenu = ({
   return (
     <MenuWrapper>
       <DrawerPortion>
-        <BackButton onGoBack={closeSubMenu} title="Go home" homeButton />
+        <BackButton onGoBack={onCloseMenuPortion} title="Go home" homeButton />
         <DrawerRowHeader
           icon={<MenuBook />}
           title={subject.name}
@@ -81,23 +80,24 @@ const SubjectMenu = ({
             key={t.id}
             type="button"
             onClick={() => addTopic(t, 0)}
-            active={topic?.id === t.id}>
+            active={topicPath[0]?.id === t.id}>
             {t.name}
           </DrawerMenuItem>
         ))}
       </DrawerPortion>
-      {topic && (
+      {topicPath.map((topic, index) => (
         <TopicMenu
-          level={1}
           key={topic.id}
+          onCloseMenuPortion={onCloseMenuPortion}
+          level={index + 1}
           topic={topic}
           subject={subject}
           onClose={onClose}
           currentPath={path}
-          topicPath={topicPath ?? []}
+          topicPath={topicPath}
           addTopic={addTopic}
         />
-      )}
+      ))}
     </MenuWrapper>
   );
 };

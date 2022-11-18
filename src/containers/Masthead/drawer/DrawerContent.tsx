@@ -19,7 +19,7 @@ import SubjectMenu, { TopicWithSubTopics } from './SubjectMenu';
 
 interface Props {
   onClose: () => void;
-  closeSubMenu: () => void;
+  onCloseMenuPortion: () => void;
   topicPath: TopicWithSubTopics[];
   addTopic: (topic: TopicWithSubTopics, index: number) => void;
   type: MenuType;
@@ -39,7 +39,7 @@ const drawerQuery = gql`
 const DrawerContent = ({
   onClose,
   type,
-  closeSubMenu,
+  onCloseMenuPortion,
   topicPath,
   addTopic,
 }: Props) => {
@@ -49,20 +49,31 @@ const DrawerContent = ({
     { variables: { subjectId: subjectId! }, skip: !subjectId },
   );
 
+  // useEffect(() => {
+  //   return () => onCloseMenuPortion();
+  // }, [onCloseMenuPortion]);
+
   if (type === 'programme') {
-    return <ProgrammeMenu onClose={onClose} />;
+    return (
+      <ProgrammeMenu
+        onClose={onClose}
+        onCloseMenuPortion={onCloseMenuPortion}
+      />
+    );
   } else if (type === 'subject' && !!data?.subject) {
     return (
       <SubjectMenu
         subject={data.subject}
         onClose={onClose}
-        closeSubMenu={closeSubMenu}
+        onCloseMenuPortion={onCloseMenuPortion}
         addTopic={addTopic}
         topicPath={topicPath}
       />
     );
   } else {
-    return <AboutMenu onClose={onClose} />;
+    return (
+      <AboutMenu onClose={onClose} onCloseMenuPortion={onCloseMenuPortion} />
+    );
   }
 };
 

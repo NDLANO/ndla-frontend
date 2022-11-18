@@ -63,6 +63,7 @@ const MastheadDrawer = () => {
   const { subjectId } = useUrnIds();
 
   const closeSubMenu = useCallback(() => {
+    setTopicPath([]);
     setType(undefined);
   }, []);
 
@@ -90,6 +91,8 @@ const MastheadDrawer = () => {
     <Drawer
       expands
       size="xxsmall"
+      animationDuration={100}
+      animation="fade"
       label={t('masthead.menu.modalLabel')}
       activateButton={
         <ButtonV2
@@ -128,7 +131,7 @@ const MastheadDrawer = () => {
                 onClose={close}
                 type={type}
                 topicPath={topicPath}
-                closeSubMenu={closeSubMenu}
+                onCloseMenuPortion={onCloseMenuPortion}
               />
             )}
           </DrawerContainer>

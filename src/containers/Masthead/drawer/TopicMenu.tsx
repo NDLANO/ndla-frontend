@@ -25,6 +25,7 @@ interface Props {
   topic: TopicWithSubTopics;
   subject: GQLTopicMenu_SubjectFragment;
   onClose: () => void;
+  onCloseMenuPortion: () => void;
   topicPath: TopicWithSubTopics[];
   addTopic: (topic: TopicWithSubTopics, index: number) => void;
   level: number;
@@ -36,12 +37,11 @@ const TopicMenu = ({
   subject,
   onClose,
   currentPath,
-  topicPath: topicPathProp,
+  topicPath,
+  onCloseMenuPortion,
   addTopic,
   level,
 }: Props) => {
-  const [subtopic, ...topicPath] = topicPathProp;
-
   const path = `${currentPath}/${removeUrn(topic.id)}`;
   const parentIsTopic = currentPath.split('/').length > 1;
   const Icon = parentIsTopic ? Class : Bookmark;
@@ -54,51 +54,37 @@ const TopicMenu = ({
   });
 
   return (
-    <>
-      <DrawerPortion>
-        <BackButton
-          onGoBack={() => {}}
-          title={parentIsTopic ? topic.name : subject.name}
-        />
-        <DrawerRowHeader
-          icon={<Icon />}
+    <DrawerPortion>
+      <BackButton
+        title={parentIsTopic ? topic.name : subject.name}
+        onGoBack={onCloseMenuPortion}
+      />
+      <DrawerRowHeader
+        icon={<Icon />}
+        type="link"
+        to={path}
+        title={topic.name}
+        onClose={onClose}
+      />
+      {topic.subtopics.map(t => (
+        <DrawerMenuItem
+          key={t.id}
+          type="button"
+          active={topicPath[level]?.id === t.id}
+          onClick={() => addTopic(t, level)}>
+          {t.name}
+        </DrawerMenuItem>
+      ))}
+      {data?.topic?.coreResources?.map(res => (
+        <DrawerMenuItem
           type="link"
-          to={path}
-          title={topic.name}
+          to={`${path}/${removeUrn(res.id)}`}
           onClose={onClose}
-        />
-        {topic.subtopics.map(t => (
-          <DrawerMenuItem
-            key={t.id}
-            type="button"
-            active={t.id === subtopic?.id}
-            onClick={() => addTopic(t, level)}>
-            {t.name}
-          </DrawerMenuItem>
-        ))}
-        {data?.topic?.coreResources?.map(res => (
-          <DrawerMenuItem
-            type="link"
-            to={`${path}/${removeUrn(res.id)}`}
-            onClose={onClose}
-            key={res.id}>
-            {res.name}
-          </DrawerMenuItem>
-        ))}
-      </DrawerPortion>
-      {subtopic && (
-        <TopicMenu
-          level={level + 1}
-          key={subtopic.id}
-          topic={subtopic}
-          subject={subject}
-          onClose={onClose}
-          currentPath={path}
-          topicPath={topicPath}
-          addTopic={addTopic}
-        />
-      )}
-    </>
+          key={res.id}>
+          {res.name}
+        </DrawerMenuItem>
+      ))}
+    </DrawerPortion>
   );
 };
 

@@ -56,7 +56,7 @@ const teacherToolboxUrl = `/${removeUrn(TOOLBOX_TEACHER_SUBJECT_ID)}`;
 
 interface Props {
   onClose: () => void;
-  setActiveMenu: (type: MenuType) => void;
+  setActiveMenu: (type: MenuType | undefined) => void;
   subject?: GQLDefaultMenu_SubjectFragment;
   type?: MenuType;
   closeSubMenu: () => void;
