@@ -8,7 +8,6 @@
 
 import { gql } from '@apollo/client';
 import { Bookmark, Class } from '@ndla/icons/lib/action';
-import { useCallback, useEffect, useState } from 'react';
 import {
   GQLTopicMenuResourcesQuery,
   GQLTopicMenuResourcesQueryVariables,
@@ -20,14 +19,15 @@ import BackButton from './BackButton';
 import DrawerMenuItem from './DrawerMenuItem';
 import DrawerPortion from './DrawerPortion';
 import DrawerRowHeader from './DrawerRowHeader';
-import { useMenuContext } from './MenuContext';
 import { TopicWithSubTopics } from './SubjectMenu';
 
 interface Props {
   topic: TopicWithSubTopics;
   subject: GQLTopicMenu_SubjectFragment;
   onClose: () => void;
-  closeTopic: () => void;
+  topicPath: TopicWithSubTopics[];
+  addTopic: (topic: TopicWithSubTopics, index: number) => void;
+  level: number;
   currentPath: string;
 }
 
@@ -35,22 +35,12 @@ const TopicMenu = ({
   topic,
   subject,
   onClose,
-  closeTopic,
   currentPath,
+  topicPath: topicPathProp,
+  addTopic,
+  level,
 }: Props) => {
-  const [subtopic, setSubtopic] = useState<TopicWithSubTopics | undefined>(
-    undefined,
-  );
-
-  const { registerClose } = useMenuContext();
-
-  useEffect(() => {
-    registerClose(closeTopic);
-  }, []);
-
-  const closeThisTopic = useCallback(() => {
-    setSubtopic(undefined);
-  }, []);
+  const [subtopic, ...topicPath] = topicPathProp;
 
   const path = `${currentPath}/${removeUrn(topic.id)}`;
   const parentIsTopic = currentPath.split('/').length > 1;
@@ -67,7 +57,7 @@ const TopicMenu = ({
     <>
       <DrawerPortion>
         <BackButton
-          onGoBack={closeTopic}
+          onGoBack={() => {}}
           title={parentIsTopic ? topic.name : subject.name}
         />
         <DrawerRowHeader
@@ -82,7 +72,7 @@ const TopicMenu = ({
             key={t.id}
             type="button"
             active={t.id === subtopic?.id}
-            onClick={() => setSubtopic(t)}>
+            onClick={() => addTopic(t, level)}>
             {t.name}
           </DrawerMenuItem>
         ))}
@@ -98,12 +88,14 @@ const TopicMenu = ({
       </DrawerPortion>
       {subtopic && (
         <TopicMenu
+          level={level + 1}
           key={subtopic.id}
           topic={subtopic}
           subject={subject}
           onClose={onClose}
           currentPath={path}
-          closeTopic={closeThisTopic}
+          topicPath={topicPath}
+          addTopic={addTopic}
         />
       )}
     </>

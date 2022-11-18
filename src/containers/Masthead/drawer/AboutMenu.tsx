@@ -6,12 +6,10 @@
  *
  */
 
-import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import DrawerMenuItem from './DrawerMenuItem';
 import DrawerPortion from './DrawerPortion';
 import DrawerRowHeader from './DrawerRowHeader';
-import { useMenuContext } from './MenuContext';
 
 const aboutUrl = 'http://om.ndla.no/';
 const whatIsUrl = 'https://om.ndla.no/hva-er-ndla/';
@@ -24,16 +22,11 @@ const contactUrl = 'https://om.ndla.no/kontakt-oss/';
 
 interface Props {
   onClose: () => void;
-  closeSubMenu: () => void;
 }
 
-const AboutMenu = ({ onClose, closeSubMenu }: Props) => {
+const AboutMenu = ({ onClose }: Props) => {
   const { t } = useTranslation();
-  const { registerClose } = useMenuContext();
 
-  useEffect(() => {
-    registerClose(closeSubMenu);
-  }, []);
   return (
     <DrawerPortion>
       <DrawerRowHeader

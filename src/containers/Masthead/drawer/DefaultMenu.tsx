@@ -24,7 +24,6 @@ import DrawerMenuItem from './DrawerMenuItem';
 import { MenuType } from './drawerMenuTypes';
 import DrawerPortion from './DrawerPortion';
 import DrawerRowHeader from './DrawerRowHeader';
-import { useMenuContext } from './MenuContext';
 
 const StyledCollapsedMenu = styled.div`
   display: flex;
@@ -61,6 +60,7 @@ interface Props {
   subject?: GQLDefaultMenu_SubjectFragment;
   type?: MenuType;
   closeSubMenu: () => void;
+  onCloseMenuPortion: () => void;
 }
 
 const DefaultMenu = ({
@@ -69,13 +69,16 @@ const DefaultMenu = ({
   subject,
   type,
   closeSubMenu,
+  onCloseMenuPortion,
 }: Props) => {
   const { t } = useTranslation();
-  const { close } = useMenuContext();
   if (type) {
     return (
       <StyledCollapsedMenu>
-        <IconButtonV2 onClick={close} aria-label="Go back" colorTheme="light">
+        <IconButtonV2
+          onClick={onCloseMenuPortion}
+          aria-label="Go back"
+          colorTheme="light">
           <Back />
         </IconButtonV2>
         <IconButtonV2

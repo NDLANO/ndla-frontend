@@ -15,11 +15,13 @@ import AboutMenu from './AboutMenu';
 import DefaultMenu from './DefaultMenu';
 import { MenuType } from './drawerMenuTypes';
 import ProgrammeMenu from './ProgrammeMenu';
-import SubjectMenu from './SubjectMenu';
+import SubjectMenu, { TopicWithSubTopics } from './SubjectMenu';
 
 interface Props {
   onClose: () => void;
   closeSubMenu: () => void;
+  topicPath: TopicWithSubTopics[];
+  addTopic: (topic: TopicWithSubTopics, index: number) => void;
   type: MenuType;
 }
 
@@ -34,7 +36,13 @@ const drawerQuery = gql`
   ${DefaultMenu.fragments.subject}
 `;
 
-const DrawerContent = ({ onClose, type, closeSubMenu }: Props) => {
+const DrawerContent = ({
+  onClose,
+  type,
+  closeSubMenu,
+  topicPath,
+  addTopic,
+}: Props) => {
   const { subjectId } = useUrnIds();
   const { data } = useGraphQuery<GQLDrawerQuery, GQLDrawerQueryVariables>(
     drawerQuery,
@@ -42,17 +50,19 @@ const DrawerContent = ({ onClose, type, closeSubMenu }: Props) => {
   );
 
   if (type === 'programme') {
-    return <ProgrammeMenu onClose={onClose} closeSubMenu={closeSubMenu} />;
+    return <ProgrammeMenu onClose={onClose} />;
   } else if (type === 'subject' && !!data?.subject) {
     return (
       <SubjectMenu
         subject={data.subject}
         onClose={onClose}
         closeSubMenu={closeSubMenu}
+        addTopic={addTopic}
+        topicPath={topicPath}
       />
     );
   } else {
-    return <AboutMenu onClose={onClose} closeSubMenu={closeSubMenu} />;
+    return <AboutMenu onClose={onClose} />;
   }
 };
 

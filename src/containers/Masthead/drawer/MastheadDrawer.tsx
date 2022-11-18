@@ -21,7 +21,7 @@ import { useGraphQuery } from '../../../util/runQueries';
 import DefaultMenu from './DefaultMenu';
 import DrawerContent from './DrawerContent';
 import { MenuType } from './drawerMenuTypes';
-import { MenuProvider } from './MenuContext';
+import { TopicWithSubTopics } from './SubjectMenu';
 
 const MainMenu = styled.div`
   display: flex;
@@ -57,6 +57,7 @@ const drawerQuery = gql`
 
 const MastheadDrawer = () => {
   const [type, setType] = useState<MenuType | undefined>(undefined);
+  const [topicPath, setTopicPath] = useState<TopicWithSubTopics[]>([]);
   const ndlaFilm = useIsNdlaFilm();
   const { t } = useTranslation();
   const { subjectId } = useUrnIds();
@@ -64,6 +65,21 @@ const MastheadDrawer = () => {
   const closeSubMenu = useCallback(() => {
     setType(undefined);
   }, []);
+
+  const onCloseMenuPortion = useCallback(() => {
+    if (type !== 'subject' || !topicPath.length) {
+      setType(undefined);
+    } else {
+      setTopicPath(prev => prev.slice(0, prev.length - 1));
+    }
+  }, [topicPath.length, type]);
+
+  const addTopicToPath = useCallback(
+    (topic: TopicWithSubTopics, index: number) => {
+      setTopicPath(prev => prev.slice(0, index).concat(topic));
+    },
+    [],
+  );
 
   const { data } = useGraphQuery<GQLDrawerQuery, GQLDrawerQueryVariables>(
     drawerQuery,
@@ -98,22 +114,23 @@ const MastheadDrawer = () => {
             </ButtonV2>
           </HeadWrapper>
           <DrawerContainer>
-            <MenuProvider>
-              <DefaultMenu
+            <DefaultMenu
+              onClose={close}
+              onCloseMenuPortion={onCloseMenuPortion}
+              setActiveMenu={setType}
+              subject={data?.subject}
+              type={type}
+              closeSubMenu={closeSubMenu}
+            />
+            {type && (
+              <DrawerContent
+                addTopic={addTopicToPath}
                 onClose={close}
-                setActiveMenu={setType}
-                subject={data?.subject}
                 type={type}
+                topicPath={topicPath}
                 closeSubMenu={closeSubMenu}
               />
-              {type && (
-                <DrawerContent
-                  onClose={close}
-                  type={type}
-                  closeSubMenu={closeSubMenu}
-                />
-              )}
-            </MenuProvider>
+            )}
           </DrawerContainer>
         </MainMenu>
       )}

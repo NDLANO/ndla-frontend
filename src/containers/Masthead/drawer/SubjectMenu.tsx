@@ -6,7 +6,6 @@
  *
  */
 
-import { useCallback, useEffect, useState } from 'react';
 import { partition } from 'lodash';
 import styled from '@emotion/styled';
 import { gql } from '@apollo/client';
@@ -17,13 +16,14 @@ import DrawerPortion from './DrawerPortion';
 import TopicMenu from './TopicMenu';
 import DrawerRowHeader from './DrawerRowHeader';
 import { removeUrn } from '../../../routeHelpers';
-import { useMenuContext } from './MenuContext';
 import BackButton from './BackButton';
 
 interface Props {
   subject: GQLSubjectMenu_SubjectFragment;
   onClose: () => void;
   closeSubMenu: () => void;
+  topicPath: TopicWithSubTopics[];
+  addTopic: (topic: TopicWithSubTopics, index: number) => void;
 }
 
 const MenuWrapper = styled.div`
@@ -50,23 +50,20 @@ const groupTopics = (
   };
 };
 
-const SubjectMenu = ({ subject, onClose, closeSubMenu }: Props) => {
-  const [topic, setTopic] = useState<TopicWithSubTopics | undefined>(undefined);
-  const { registerClose } = useMenuContext();
+const SubjectMenu = ({
+  subject,
+  onClose,
+  closeSubMenu,
+  addTopic,
+  topicPath: topicPathProp,
+}: Props) => {
+  const [topic, ...topicPath] = topicPathProp;
   const [roots, rest] = partition(
     subject.allTopics?.filter(t => !!t.parent),
     t => t.parent === subject.id,
   );
   const path = removeUrn(subject.id);
   const groupedTopics = roots.map(r => groupTopics(r, rest));
-
-  useEffect(() => {
-    registerClose(closeSubMenu);
-  }, []);
-
-  const closeTopic = useCallback(() => {
-    setTopic(undefined);
-  }, []);
 
   return (
     <MenuWrapper>
@@ -83,7 +80,7 @@ const SubjectMenu = ({ subject, onClose, closeSubMenu }: Props) => {
           <DrawerMenuItem
             key={t.id}
             type="button"
-            onClick={() => setTopic(t)}
+            onClick={() => addTopic(t, 0)}
             active={topic?.id === t.id}>
             {t.name}
           </DrawerMenuItem>
@@ -91,12 +88,14 @@ const SubjectMenu = ({ subject, onClose, closeSubMenu }: Props) => {
       </DrawerPortion>
       {topic && (
         <TopicMenu
+          level={1}
           key={topic.id}
           topic={topic}
           subject={subject}
           onClose={onClose}
           currentPath={path}
-          closeTopic={closeTopic}
+          topicPath={topicPath ?? []}
+          addTopic={addTopic}
         />
       )}
     </MenuWrapper>

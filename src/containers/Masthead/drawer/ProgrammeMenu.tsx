@@ -7,17 +7,15 @@
  */
 
 import styled from '@emotion/styled';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getProgrammes } from '../../../util/programmesSubjectsHelper';
 import DrawerMenuItem from './DrawerMenuItem';
 import DrawerPortion from './DrawerPortion';
 import DrawerRowHeader from './DrawerRowHeader';
-import { useMenuContext } from './MenuContext';
 
 interface Props {
   onClose: () => void;
-  closeSubMenu: () => void;
 }
 
 const StyledNav = styled.nav`
@@ -25,17 +23,11 @@ const StyledNav = styled.nav`
   flex-direction: column;
 `;
 
-const ProgrammeMenu = ({ onClose, closeSubMenu }: Props) => {
+const ProgrammeMenu = ({ onClose }: Props) => {
   const { i18n } = useTranslation();
   const programmes = useMemo(() => getProgrammes(i18n.language), [
     i18n.language,
   ]);
-
-  const { registerClose } = useMenuContext();
-
-  useEffect(() => {
-    registerClose(closeSubMenu);
-  }, []);
 
   return (
     <DrawerPortion>
