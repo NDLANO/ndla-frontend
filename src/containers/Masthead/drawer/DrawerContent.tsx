@@ -7,7 +7,7 @@
  */
 
 import { gql } from '@apollo/client';
-import { memo } from 'react';
+import { Dispatch, memo, SetStateAction } from 'react';
 import { GQLDrawerQuery, GQLDrawerQueryVariables } from '../../../graphqlTypes';
 import { useUrnIds } from '../../../routeHelpers';
 import { useGraphQuery } from '../../../util/runQueries';
@@ -15,14 +15,14 @@ import AboutMenu from './AboutMenu';
 import DefaultMenu from './DefaultMenu';
 import { MenuType } from './drawerMenuTypes';
 import ProgrammeMenu from './ProgrammeMenu';
-import SubjectMenu, { TopicWithSubTopics } from './SubjectMenu';
+import SubjectMenu from './SubjectMenu';
 
 interface Props {
   onClose: () => void;
   onCloseMenuPortion: () => void;
-  topicPath: TopicWithSubTopics[];
-  addTopic: (topic: TopicWithSubTopics, index: number) => void;
+  topicPath: string[];
   type: MenuType;
+  setTopicPathIds: Dispatch<SetStateAction<string[]>>;
 }
 
 const drawerQuery = gql`
@@ -41,17 +41,13 @@ const DrawerContent = ({
   type,
   onCloseMenuPortion,
   topicPath,
-  addTopic,
+  setTopicPathIds,
 }: Props) => {
   const { subjectId } = useUrnIds();
   const { data } = useGraphQuery<GQLDrawerQuery, GQLDrawerQueryVariables>(
     drawerQuery,
     { variables: { subjectId: subjectId! }, skip: !subjectId },
   );
-
-  // useEffect(() => {
-  //   return () => onCloseMenuPortion();
-  // }, [onCloseMenuPortion]);
 
   if (type === 'programme') {
     return (
@@ -66,8 +62,8 @@ const DrawerContent = ({
         subject={data.subject}
         onClose={onClose}
         onCloseMenuPortion={onCloseMenuPortion}
-        addTopic={addTopic}
-        topicPath={topicPath}
+        topicPathIds={topicPath}
+        setTopicPathIds={setTopicPathIds}
       />
     );
   } else {

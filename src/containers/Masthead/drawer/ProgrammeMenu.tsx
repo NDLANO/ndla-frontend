@@ -7,8 +7,9 @@
  */
 
 import styled from '@emotion/styled';
-import { useMemo } from 'react';
+import { memo, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useUrnIds } from '../../../routeHelpers';
 import { getProgrammes } from '../../../util/programmesSubjectsHelper';
 import BackButton from './BackButton';
 import DrawerMenuItem from './DrawerMenuItem';
@@ -27,6 +28,7 @@ const StyledNav = styled.nav`
 
 const ProgrammeMenu = ({ onClose, onCloseMenuPortion }: Props) => {
   const { i18n } = useTranslation();
+  const { programme: activeProgramme } = useUrnIds();
   const programmes = useMemo(() => getProgrammes(i18n.language), [
     i18n.language,
   ]);
@@ -46,6 +48,9 @@ const ProgrammeMenu = ({ onClose, onCloseMenuPortion }: Props) => {
             type="link"
             to={programme.path}
             onClose={onClose}
+            active={
+              programme.path.replace('/utdanning/', '') === activeProgramme
+            }
             key={programme.url}>
             {programme.name}
           </DrawerMenuItem>
@@ -55,4 +60,4 @@ const ProgrammeMenu = ({ onClose, onCloseMenuPortion }: Props) => {
   );
 };
 
-export default ProgrammeMenu;
+export default memo(ProgrammeMenu);

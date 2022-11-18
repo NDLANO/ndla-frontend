@@ -17,13 +17,13 @@ interface BaseProps {
   bold?: boolean;
   type: 'button' | 'link';
   className?: string;
+  active?: boolean;
 }
 
 interface DrawerMenuButtonProps extends BaseProps {
   type: 'button';
   onClick: () => void;
   children?: ReactNode;
-  active?: boolean;
 }
 
 interface DrawerMenuLinkProps extends BaseProps, SafeLinkProps {
@@ -62,7 +62,14 @@ interface StyledButtonProps {
   active?: boolean;
 }
 
-const StyledButton = styled(ButtonV2)<StyledButtonProps>`
+const activeStyle = css`
+  background-color: ${colors.brand.primary};
+  color: ${colors.white};
+`;
+
+const shouldForwardProp = (prop: string) => prop !== 'active';
+
+const StyledButton = styled(ButtonV2, { shouldForwardProp })<StyledButtonProps>`
   ${p =>
     p.active &&
     css`
@@ -77,15 +84,15 @@ const DrawerMenuItem = ({
   bold,
   children,
   className,
+  active,
   ...specificProps
 }: Props) => {
   const style = bold ? boldItemStyle : normalItemStyle;
   if (specificProps.type === 'button') {
     return (
       <StyledButton
-        active={specificProps.active}
         onClick={specificProps.onClick}
-        css={style}
+        css={[style, active ? activeStyle : []]}
         className={className}>
         {children}
       </StyledButton>
@@ -97,7 +104,7 @@ const DrawerMenuItem = ({
         onClick={specificProps.onClose}
         className={className}
         showNewWindowIcon={specificProps.external}
-        css={style}>
+        css={[style, active ? activeStyle : []]}>
         {children}
       </SafeLink>
     );

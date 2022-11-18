@@ -8,6 +8,7 @@
 
 import { partition } from 'lodash';
 import styled from '@emotion/styled';
+import { Dispatch, SetStateAction, useCallback, useMemo } from 'react';
 import { gql } from '@apollo/client';
 import { MenuBook } from '@ndla/icons/lib/action';
 import { GQLSubjectMenu_SubjectFragment } from '../../../graphqlTypes';
@@ -22,8 +23,8 @@ interface Props {
   subject: GQLSubjectMenu_SubjectFragment;
   onClose: () => void;
   onCloseMenuPortion: () => void;
-  topicPath: TopicWithSubTopics[];
-  addTopic: (topic: TopicWithSubTopics, index: number) => void;
+  topicPathIds: string[];
+  setTopicPathIds: Dispatch<SetStateAction<string[]>>;
 }
 
 const MenuWrapper = styled.div`
@@ -50,19 +51,45 @@ const groupTopics = (
   };
 };
 
+const constructTopicPath = (
+  topics: TopicWithSubTopics[],
+  topicList: string[],
+): TopicWithSubTopics[] => {
+  if (!topicList.length) return [];
+  const topic = topics.find(t => t.id === topicList[0])!;
+  return [topic].concat(
+    constructTopicPath(topic.subtopics, topicList.slice(1)),
+  );
+};
+
 const SubjectMenu = ({
   subject,
   onClose,
   onCloseMenuPortion,
-  addTopic,
-  topicPath,
+  setTopicPathIds,
+  topicPathIds,
 }: Props) => {
-  const [roots, rest] = partition(
-    subject.allTopics?.filter(t => !!t.parent),
-    t => t.parent === subject.id,
+  const groupedTopics = useMemo(() => {
+    const [roots, rest] = partition(
+      subject.allTopics?.filter(t => !!t.parent),
+      t => t.parent === subject.id,
+    );
+    return roots.map(r => groupTopics(r, rest));
+  }, [subject.allTopics, subject.id]);
+
+  const topicPath = useMemo(
+    () => constructTopicPath(groupedTopics ?? [], topicPathIds),
+    [topicPathIds, groupedTopics],
   );
+
   const path = removeUrn(subject.id);
-  const groupedTopics = roots.map(r => groupTopics(r, rest));
+
+  const addTopic = useCallback(
+    (topic: TopicWithSubTopics, index: number) => {
+      setTopicPathIds(prev => prev.slice(0, index).concat(topic.id));
+    },
+    [setTopicPathIds],
+  );
 
   return (
     <MenuWrapper>

@@ -13,15 +13,15 @@ import { breakpoints, mq, spacing } from '@ndla/core';
 import { ChevronDown, Menu } from '@ndla/icons/common';
 import { Cross } from '@ndla/icons/lib/action';
 import { Drawer } from '@ndla/modal';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { GQLDrawerQuery, GQLDrawerQueryVariables } from '../../../graphqlTypes';
 import { useIsNdlaFilm, useUrnIds } from '../../../routeHelpers';
 import { useGraphQuery } from '../../../util/runQueries';
+import { usePrevious } from '../../../util/utilityHooks';
 import DefaultMenu from './DefaultMenu';
 import DrawerContent from './DrawerContent';
 import { MenuType } from './drawerMenuTypes';
-import { TopicWithSubTopics } from './SubjectMenu';
 
 const MainMenu = styled.div`
   display: flex;
@@ -56,11 +56,31 @@ const drawerQuery = gql`
 `;
 
 const MastheadDrawer = () => {
+  const { subjectId, topicList, programme } = useUrnIds();
+  const prevProgramme = usePrevious(programme);
   const [type, setType] = useState<MenuType | undefined>(undefined);
-  const [topicPath, setTopicPath] = useState<TopicWithSubTopics[]>([]);
+  const [topicPath, setTopicPath] = useState<string[]>(topicList);
   const ndlaFilm = useIsNdlaFilm();
   const { t } = useTranslation();
-  const { subjectId } = useUrnIds();
+
+  const { data } = useGraphQuery<GQLDrawerQuery, GQLDrawerQueryVariables>(
+    drawerQuery,
+    { variables: { subjectId: subjectId! }, skip: !subjectId },
+  );
+
+  useEffect(() => {
+    setTopicPath(topicList);
+    if (type !== 'subject') {
+      setType('subject');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [topicList]);
+
+  useEffect(() => {
+    if (programme && programme !== prevProgramme) {
+      setType('programme');
+    }
+  }, [programme, prevProgramme]);
 
   const closeSubMenu = useCallback(() => {
     setTopicPath([]);
@@ -74,18 +94,6 @@ const MastheadDrawer = () => {
       setTopicPath(prev => prev.slice(0, prev.length - 1));
     }
   }, [topicPath.length, type]);
-
-  const addTopicToPath = useCallback(
-    (topic: TopicWithSubTopics, index: number) => {
-      setTopicPath(prev => prev.slice(0, index).concat(topic));
-    },
-    [],
-  );
-
-  const { data } = useGraphQuery<GQLDrawerQuery, GQLDrawerQueryVariables>(
-    drawerQuery,
-    { variables: { subjectId: subjectId! }, skip: !subjectId },
-  );
 
   return (
     <Drawer
@@ -127,10 +135,10 @@ const MastheadDrawer = () => {
             />
             {type && (
               <DrawerContent
-                addTopic={addTopicToPath}
                 onClose={close}
                 type={type}
                 topicPath={topicPath}
+                setTopicPathIds={setTopicPath}
                 onCloseMenuPortion={onCloseMenuPortion}
               />
             )}
