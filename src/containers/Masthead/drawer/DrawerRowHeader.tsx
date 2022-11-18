@@ -42,8 +42,8 @@ const rowHeaderWrapperStyles = css`
   border-bottom: 1px solid ${colors.brand.neutral7};
   border-radius: 0px;
   &:hover {
-    border-bottom: 1px solid ${colors.brand.neutral7};
     border: 0px;
+    border-bottom: 1px solid ${colors.brand.neutral7};
   }
 `;
 
