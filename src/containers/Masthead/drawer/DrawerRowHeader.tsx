@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import styled from '@emotion/styled';
-import { colors, spacing, spacingUnit } from '@ndla/core';
+import { colors, fonts, spacing, spacingUnit } from '@ndla/core';
 import { ForwardArrow, RightArrow } from '@ndla/icons/lib/action';
 import { ButtonV2 } from '@ndla/button';
 import { SafeLinkButton } from '@ndla/safelink';
@@ -37,6 +37,8 @@ const rowHeaderWrapperStyles = css`
   text-decoration: none;
   padding: ${headerSpacing};
   color: ${colors.brand.primary};
+  ${fonts.sizes('20px', '24px')};
+  font-weight: ${fonts.weight.semibold};
   background-color: #f7fafd;
   border: 0px;
   border-bottom: 1px solid ${colors.brand.neutral7};

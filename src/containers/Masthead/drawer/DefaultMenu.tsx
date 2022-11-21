@@ -9,7 +9,7 @@
 import { gql } from '@apollo/client';
 import styled from '@emotion/styled';
 import { IconButtonV2 } from '@ndla/button';
-import { breakpoints, colors, mq, spacing } from '@ndla/core';
+import { breakpoints, colors, fonts, mq, spacing } from '@ndla/core';
 import { Back, Home } from '@ndla/icons/lib/common';
 import { useTranslation } from 'react-i18next';
 import {
@@ -48,6 +48,12 @@ const MinWidthWrapper = styled.div`
     min-width: 300px;
     max-width: 300px;
   }
+`;
+
+const UsefulTools = styled.p`
+  ${fonts.sizes('20px', '24px')};
+  padding: ${spacing.nsmall} ${spacing.xsmall} ${spacing.nsmall} 40px;
+  margin: 0px;
 `;
 
 const multiDiscUrl = `/${removeUrn(MULTIDISCIPLINARY_SUBJECT_ID)}`;
@@ -111,7 +117,7 @@ const DefaultMenu = ({
             onClick={() => setActiveMenu('subject')}
           />
         )}
-        <p>Nyttige verktøy</p>
+        <UsefulTools>Nyttige verktøy</UsefulTools>
         <DrawerMenuItem type="link" to={multiDiscUrl} onClose={onClose}>
           {t('masthead.menuOptions.multidisciplinarySubjects')}
         </DrawerMenuItem>

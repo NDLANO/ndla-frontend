@@ -7,6 +7,7 @@
  */
 
 import styled from '@emotion/styled';
+import { fonts, spacing } from '@ndla/core';
 import { memo, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useUrnIds } from '../../../routeHelpers';
@@ -14,7 +15,6 @@ import { getProgrammes } from '../../../util/programmesSubjectsHelper';
 import BackButton from './BackButton';
 import DrawerMenuItem from './DrawerMenuItem';
 import DrawerPortion from './DrawerPortion';
-import DrawerRowHeader from './DrawerRowHeader';
 
 interface Props {
   onClose: () => void;
@@ -24,6 +24,12 @@ interface Props {
 const StyledNav = styled.nav`
   display: flex;
   flex-direction: column;
+`;
+
+const StyledTitle = styled.h1`
+  margin: 0px;
+  ${fonts.sizes('20px', '24px')};
+  padding: ${spacing.normal} 0 ${spacing.normal} 40px;
 `;
 
 const ProgrammeMenu = ({ onClose, onCloseMenuPortion }: Props) => {
@@ -36,12 +42,7 @@ const ProgrammeMenu = ({ onClose, onCloseMenuPortion }: Props) => {
   return (
     <DrawerPortion>
       <BackButton title="Go home" homeButton onGoBack={onCloseMenuPortion} />
-      <DrawerRowHeader
-        title="Utdanningsprogram"
-        type="link"
-        to=""
-        onClose={onClose}
-      />
+      <StyledTitle>Utdanningsprogram</StyledTitle>
       <StyledNav>
         {programmes.map(programme => (
           <DrawerMenuItem

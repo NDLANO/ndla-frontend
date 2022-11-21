@@ -33,9 +33,7 @@ interface DrawerMenuLinkProps extends BaseProps, SafeLinkProps {
 }
 
 const commonStyle = css`
-padding-left: 40px;
-padding-right: ${spacing.xsmall};
-  /* padding: ${spacing.xsmall}; */
+  padding: ${spacing.xsmall} ${spacing.xsmall} ${spacing.xsmall} 40px;
   background-color: transparent;
   border: 0;
   color: ${colors.brand.primary};
@@ -43,7 +41,7 @@ padding-right: ${spacing.xsmall};
   box-shadow: none;
   cursor: pointer;
   &:hover {
-    box-shadow: inset 0 -1px;
+    text-decoration: underline;
   }
 `;
 

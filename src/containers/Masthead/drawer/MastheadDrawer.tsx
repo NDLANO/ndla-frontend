@@ -29,7 +29,7 @@ const MainMenu = styled.div`
   flex: 1;
 `;
 
-const DrawerContainer = styled.div`
+const DrawerContainer = styled.nav`
   display: flex;
   flex: 1;
 `;
