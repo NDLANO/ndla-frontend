@@ -6,7 +6,7 @@
  *
  */
 
-import { partition } from 'lodash';
+import partition from 'lodash/partition';
 import styled from '@emotion/styled';
 import { Dispatch, SetStateAction, useCallback, useMemo } from 'react';
 import { gql } from '@apollo/client';
