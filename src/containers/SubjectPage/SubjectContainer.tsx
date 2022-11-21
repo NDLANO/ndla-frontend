@@ -101,7 +101,6 @@ const SubjectContainer = ({ t, subjectId, topicIds, subject }: Props) => {
 
   const [subjectNames] = useState(() => {
     return {
-      subHeading: subjectName,
       name: subjectName,
       longName: subjectName,
     };
@@ -262,7 +261,6 @@ const SubjectContainer = ({ t, subjectId, topicIds, subject }: Props) => {
                   headingId={
                     topicIds.length === 0 ? SKIP_TO_CONTENT_ID : undefined
                   }
-                  subHeading={subjectNames.subHeading}
                   invertedStyle={ndlaFilm}>
                   {subjectNames.longName}
                 </NavigationHeading>
