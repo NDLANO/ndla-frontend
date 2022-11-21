@@ -56,10 +56,10 @@ const DrawerContent = ({
         onCloseMenuPortion={onCloseMenuPortion}
       />
     );
-  } else if (type === 'subject' && !!data?.subject) {
+  } else if (type === 'subject') {
     return (
       <SubjectMenu
-        subject={data.subject}
+        subject={data?.subject}
         onClose={onClose}
         onCloseMenuPortion={onCloseMenuPortion}
         topicPathIds={topicPath}

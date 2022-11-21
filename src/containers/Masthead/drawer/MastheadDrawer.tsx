@@ -70,11 +70,12 @@ const MastheadDrawer = () => {
 
   useEffect(() => {
     setTopicPath(topicList);
-    if (type !== 'subject') {
+    if (subjectId) {
       setType('subject');
+    } else {
+      setType(undefined);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [topicList]);
+  }, [subjectId, topicList]);
 
   useEffect(() => {
     if (programme && programme !== prevProgramme) {
