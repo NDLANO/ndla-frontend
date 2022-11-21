@@ -1,4 +1,5 @@
-import { isEqual, takeWhile } from 'lodash';
+import isEqual from 'lodash/isEqual';
+import takeWhile from 'lodash/takeWhile';
 import { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 //@ts-ignore

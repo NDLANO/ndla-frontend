@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import { merge } from 'lodash';
+import merge from 'lodash/merge';
 import path, { resolve } from 'path';
 import { Configuration } from 'webpack';
 import nodeExternals from 'webpack-node-externals';

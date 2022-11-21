@@ -6,7 +6,7 @@
  */
 
 import { Configuration } from 'webpack';
-import { merge } from 'lodash';
+import merge from 'lodash/merge';
 import path from 'path';
 import baseClientConfig from './client.base';
 import { clientPlugins, sharedPlugins } from './plugins';

@@ -9,7 +9,7 @@
 import { useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
-import { keyBy } from 'lodash';
+import keyBy from 'lodash/keyBy';
 import styled from '@emotion/styled';
 import { breakpoints, fonts, mq, spacing } from '@ndla/core';
 import { HeartOutline } from '@ndla/icons/action';
