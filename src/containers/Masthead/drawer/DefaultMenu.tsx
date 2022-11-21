@@ -10,7 +10,7 @@ import { gql } from '@apollo/client';
 import styled from '@emotion/styled';
 import { IconButtonV2 } from '@ndla/button';
 import { breakpoints, colors, fonts, mq, spacing } from '@ndla/core';
-import { Back, Home } from '@ndla/icons/lib/common';
+import { Back, Home } from '@ndla/icons/common';
 import { useTranslation } from 'react-i18next';
 import {
   FILM_PAGE_PATH,

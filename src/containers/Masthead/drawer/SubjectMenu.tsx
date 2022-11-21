@@ -11,7 +11,7 @@ import styled from '@emotion/styled';
 import { Dispatch, SetStateAction, useCallback, useMemo } from 'react';
 import { gql } from '@apollo/client';
 import { ContentLoader } from '@ndla/ui';
-import { MenuBook } from '@ndla/icons/lib/action';
+import { MenuBook } from '@ndla/icons/action';
 import { GQLSubjectMenu_SubjectFragment } from '../../../graphqlTypes';
 import DrawerMenuItem from './DrawerMenuItem';
 import DrawerPortion from './DrawerPortion';

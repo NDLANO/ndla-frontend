@@ -11,7 +11,7 @@ import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { breakpoints, mq, spacing } from '@ndla/core';
 import { ChevronDown, Menu } from '@ndla/icons/common';
-import { Cross } from '@ndla/icons/lib/action';
+import { Cross } from '@ndla/icons/action';
 import { Drawer } from '@ndla/modal';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';

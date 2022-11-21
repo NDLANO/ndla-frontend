@@ -7,7 +7,7 @@
  */
 
 import { HashTag, Person } from '@ndla/icons/common';
-import { FolderOutlined } from '@ndla/icons/lib/contentType';
+import { FolderOutlined } from '@ndla/icons/contentType';
 import { IFolder } from '@ndla/types-learningpath-api';
 import { TFunction } from 'i18next';
 import uniq from 'lodash/uniq';

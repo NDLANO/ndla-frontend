@@ -7,7 +7,7 @@
  */
 
 import { gql } from '@apollo/client';
-import { Bookmark, Class } from '@ndla/icons/lib/action';
+import { Bookmark, Class } from '@ndla/icons/action';
 import {
   GQLTopicMenuResourcesQuery,
   GQLTopicMenuResourcesQueryVariables,
