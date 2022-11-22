@@ -624,15 +624,6 @@ export const programmes: ProgrammeType[] = [
               {
                 id: 'urn:subject:1:113986bb-9b00-42dc-b1ff-0b9a352369f4',
               },
-            ],
-          },
-          {
-            name: {
-              nb: 'Yrkesfaglig fordypning',
-              nn: 'Yrkesfagleg fordjuping',
-              en: 'Vocational specialization',
-            },
-            subjects: [
               {
                 id: 'urn:subject:1:ab5e9191-407a-492e-a2b9-5071275a37a7',
               },
@@ -1118,15 +1109,6 @@ export const programmes: ProgrammeType[] = [
               {
                 id: 'urn:subject:1:81b3892a-78e7-4e43-bc31-fd5f8a5090e7',
               },
-            ],
-          },
-          {
-            name: {
-              nb: 'Yrkesfaglig fordypning',
-              nn: 'Yrkesfagleg fordjuping',
-              en: 'Vocational specialization',
-            },
-            subjects: [
               {
                 id: 'urn:subject:1:c0cd454f-c937-4fcb-ae2d-feaa8c0eeae9',
               },
@@ -2519,15 +2501,6 @@ export const programmes: ProgrammeType[] = [
               {
                 id: 'urn:subject:1:cd3a3bb8-eed2-4d02-8c21-b3dca5a2a11b',
               },
-            ],
-          },
-          {
-            name: {
-              nb: 'Yrkesfaglig fordypning',
-              nn: 'Yrkesfagleg fordjuping',
-              en: 'Vocational specialization',
-            },
-            subjects: [
               {
                 id: 'urn:subject:b0fb73bc-fc75-4be1-9b24-605d9de0f469',
               },
@@ -2696,15 +2669,6 @@ export const programmes: ProgrammeType[] = [
               {
                 id: 'urn:subject:1:f18ad41e-d9c3-4428-8cb6-5eb852e45082',
               },
-            ],
-          },
-          {
-            name: {
-              nb: 'Yrkesfaglig fordypning',
-              nn: 'Yrkesfagleg fordjuping',
-              en: 'Vocational specialization',
-            },
-            subjects: [
               {
                 id: 'urn:subject:1:a1350efc-a249-4730-8bf7-0ef0556ddbcc',
               },
@@ -3234,15 +3198,6 @@ export const programmes: ProgrammeType[] = [
               {
                 id: 'urn:subject:1:29212872-62d6-4555-89fd-b85e7f3f9411',
               },
-            ],
-          },
-          {
-            name: {
-              nb: 'Yrkesfaglig fordypning',
-              nn: 'Yrkesfagleg fordjuping',
-              en: 'Vocational specialization',
-            },
-            subjects: [
               {
                 id: 'urn:subject:1:59f2f355-ebf6-4a8c-a0a8-ccd229d2e901',
               },
