@@ -51,7 +51,7 @@ export const isAccessDeniedError = (
 };
 
 const handleError = (
-  error: ApolloError | Error | string,
+  error: ApolloError | Error | string | unknown,
   info?: ErrorInfo | { clientTime: Date },
 ) => {
   if (

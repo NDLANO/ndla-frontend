@@ -9,7 +9,7 @@
 import { gql } from '@apollo/client';
 import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { OneColumn, LayoutItem, FeideUserApiType } from '@ndla/ui';
+import { OneColumn, LayoutItem, FeideUserApiType, constants } from '@ndla/ui';
 import { withTracker } from '@ndla/tracker';
 import {
   CustomWithTranslation,
@@ -37,8 +37,8 @@ import {
 import { RedirectExternal, Status } from '../../components';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { toBreadcrumbItems } from '../../routeHelpers';
-import { getSubjectLongName } from '../../data/subjects';
 import config from '../../config';
+import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from '../../constants';
 import {
   GQLArticlePage_ResourceFragment,
   GQLArticlePage_ResourceTypeFragment,
@@ -76,13 +76,17 @@ const ArticlePage = ({
   useEffect(() => {
     if (!resource?.article) return;
     const article = transformArticle(resource.article, i18n.language);
-    const scripts = getArticleScripts(article);
+    const scripts = getArticleScripts(article, i18n.language);
     setScripts(scripts);
   }, [i18n.language, resource]);
 
   useEffect(() => {
     if (window.MathJax && typeof window.MathJax.typeset === 'function') {
-      window.MathJax.typeset();
+      try {
+        window.MathJax.typeset();
+      } catch (err) {
+        // do nothing
+      }
     }
   });
 
@@ -117,11 +121,11 @@ const ArticlePage = ({
     : undefined;
   const printUrl = `${subjectPageUrl}/article-iframe/${i18n.language}/article/${resource.article.id}`;
 
-  const breadcrumbItems = toBreadcrumbItems(
-    t('breadcrumb.toFrontpage'),
-    [subject, ...topicPath, resource],
-    i18n.language,
-  );
+  const breadcrumbItems = toBreadcrumbItems(t('breadcrumb.toFrontpage'), [
+    subject,
+    ...topicPath,
+    resource,
+  ]);
 
   return (
     <div>
@@ -133,9 +137,6 @@ const ArticlePage = ({
       />
       <Helmet>
         <title>{`${getDocumentTitle(t, resource, subject)}`}</title>
-        {article?.metaDescription && (
-          <meta name="description" content={article.metaDescription} />
-        )}
         {scripts.map(script => (
           <script
             key={script.src}
@@ -145,21 +146,41 @@ const ArticlePage = ({
             defer={script.defer}
           />
         ))}
+        {copyPageUrlLink && (
+          <link
+            rel="alternate"
+            type="application/json+oembed"
+            href={`${config.ndlaFrontendDomain}/oembed?url=${copyPageUrlLink}`}
+            title={article.title}
+          />
+        )}
+        {subject?.metadata.customFields?.[
+          TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY
+        ] === constants.subjectCategories.ARCHIVE_SUBJECTS && (
+          <meta name="robots" content="noindex, nofollow" />
+        )}
 
         <script type="application/ld+json">
           {JSON.stringify(
-            getStructuredDataFromArticle(resource.article, breadcrumbItems),
+            getStructuredDataFromArticle(
+              resource.article,
+              i18n.language,
+              breadcrumbItems,
+            ),
           )}
         </script>
       </Helmet>
       <SocialMediaMetadata
-        title={htmlTitle(article.title, [subject?.name])}
+        title={htmlTitle(article.title, [
+          subject?.subjectpage?.about?.title || subject?.name,
+        ])}
         trackableContent={article}
         description={article.metaDescription}
         imageUrl={article.metaImage?.url}
       />
       <OneColumn>
         <Article
+          path={resource.path}
           id={skipToContentId}
           article={article}
           resourceType={contentType}
@@ -194,10 +215,9 @@ ArticlePage.getDimensions = (props: Props) => {
   const articleProps = getArticleProps(props.resource);
   const { subject, topicPath, relevance, user } = props;
   const article = props.resource?.article;
-  const longName = getSubjectLongName(subject?.id, props.i18n.language);
 
   return getAllDimensions(
-    { article, relevance, subject, topicPath, filter: longName, user },
+    { article, relevance, subject, topicPath, filter: subject?.name, user },
     articleProps.label,
     true,
   );
@@ -209,7 +229,7 @@ const getDocumentTitle = (
   subject?: GQLArticlePage_SubjectFragment,
 ) =>
   htmlTitle(resource?.article?.title, [
-    subject?.name,
+    subject?.subjectpage?.about?.title || subject?.name,
     t('htmlTitles.titleTemplate'),
   ]);
 
@@ -226,6 +246,14 @@ export const articlePageFragments = {
   subject: gql`
     fragment ArticlePage_Subject on Subject {
       name
+      metadata {
+        customFields
+      }
+      subjectpage {
+        about {
+          title
+        }
+      }
       ...ArticleHero_Subject
     }
     ${ArticleHero.fragments.subject}
@@ -234,6 +262,7 @@ export const articlePageFragments = {
     fragment ArticlePage_Resource on Resource {
       id
       name
+      path
       contentUri
       article(subjectId: $subjectId) {
         created
@@ -242,6 +271,7 @@ export const articlePageFragments = {
         metaImage {
           ...ArticleHero_MetaImage
         }
+        tags
         ...StructuredArticleData
         ...Article_Article
       }

@@ -134,6 +134,10 @@ const mergeGroupSearch = (
 const possibleTypes = {
   TaxonomyEntity: ['Resource', 'Topic'],
   SearchResult: ['ArticleSearchResult', 'LearningpathSearchResult'],
+  FolderResourceMeta: [
+    'ArticleFolderResourceMeta',
+    'LearningpathFolderResourceMeta',
+  ],
 };
 
 const typePolicies: TypePolicies = {
@@ -207,32 +211,28 @@ const typePolicies: TypePolicies = {
   },
 };
 
-export const createApolloClient = (
-  language = 'nb',
-  cookieString?: string,
-  versionHash?: string,
-) => {
-  const cache = __CLIENT__
-    ? new InMemoryCache({ possibleTypes, typePolicies }).restore(
-        window.DATA.apolloState,
-      )
-    : new InMemoryCache({ possibleTypes, typePolicies });
+function getCache() {
+  const cache = new InMemoryCache({ possibleTypes, typePolicies });
+  if (__CLIENT__) {
+    cache.restore(window.DATA.apolloState);
+  }
 
-  const cookie = __CLIENT__ ? document.cookie : cookieString;
+  return cache;
+}
+
+export const createApolloClient = (language = 'nb', versionHash?: string) => {
+  const cache = getCache();
 
   return new ApolloClient({
     ssrMode: true,
-    link: createApolloLinks(language, cookie, versionHash),
+    link: createApolloLinks(language, versionHash),
     cache,
   });
 };
 
-export const createApolloLinks = (
-  lang: string,
-  cookieString?: string,
-  versionHash?: string,
-) => {
-  const feideCookie = getFeideCookie(cookieString ?? '');
+export const createApolloLinks = (lang: string, versionHash?: string) => {
+  const cookieString = __CLIENT__ ? document.cookie : '';
+  const feideCookie = getFeideCookie(cookieString);
   const accessTokenValid = isAccessTokenValid(feideCookie);
   const accessToken = feideCookie?.access_token;
   const versionHeader = versionHash ? { versionHash: versionHash } : {};

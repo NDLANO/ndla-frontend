@@ -21,13 +21,13 @@ import {
   useTranslation,
   withTranslation,
 } from 'react-i18next';
-import { getSubjectLongName } from '../../data/subjects';
 import { GQLToolboxSubjectContainer_SubjectFragment } from '../../graphqlTypes';
 import { toTopic } from '../../routeHelpers';
 import { htmlTitle } from '../../util/titleHelper';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { ToolboxTopicContainer } from './components/ToolboxTopicContainer';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
+import { SKIP_TO_CONTENT_ID } from '../../constants';
 
 interface Props extends CustomWithTranslation {
   subject: GQLToolboxSubjectContainer_SubjectFragment;
@@ -46,7 +46,7 @@ const getSocialMediaMetaData = (
     .find(t => topics.includes(t.id));
 
   const selectedTitle = selectedMetadata?.name || selectedMetadata?.meta?.title;
-  const subjectTitle = subject.name || subject.subjectpage?.about?.title;
+  const subjectTitle = subject.subjectpage?.about?.title || subject.name;
   const hasSelectedTitle = !!selectedTitle;
   const title = htmlTitle(hasSelectedTitle ? selectedTitle : subjectTitle, [
     hasSelectedTitle ? subjectTitle : undefined,
@@ -89,7 +89,7 @@ const getInitialSelectedTopics = (
 };
 
 const ToolboxSubjectContainer = ({ topicList, subject }: Props) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const selectedTopics = topicList;
 
   const refs = topicList.map(() => createRef<HTMLDivElement>());
@@ -124,14 +124,13 @@ const ToolboxSubjectContainer = ({ topicList, subject }: Props) => {
     <>
       {selectedTopics.map((topic: string, index: number) => {
         return (
-          <div key={index} ref={refs[index]}>
-            <ToolboxTopicContainer
-              subject={subject}
-              topicId={topic}
-              topicList={topicList}
-              index={index}
-            />
-          </div>
+          <ToolboxTopicContainer
+            key={topic}
+            subject={subject}
+            topicId={topic}
+            topicList={topicList}
+            index={index}
+          />
         );
       })}
     </>
@@ -154,9 +153,6 @@ const ToolboxSubjectContainer = ({ topicList, subject }: Props) => {
             t('htmlTitles.titleTemplate'),
           ])}
         </title>
-        {socialMediaMetaData.description && (
-          <meta name="description" content={socialMediaMetaData.description} />
-        )}
       </Helmet>
       <SocialMediaMetadata
         title={socialMediaMetaData.title}
@@ -165,8 +161,9 @@ const ToolboxSubjectContainer = ({ topicList, subject }: Props) => {
       />
       <OneColumn className={''}>
         <ToolboxInfo
+          id={!topicList.length ? SKIP_TO_CONTENT_ID : undefined}
           topics={topics}
-          title={getSubjectLongName(subject.id, i18n.language) || subject.name}
+          title={subject.name}
           introduction={t('htmlTitles.toolbox.introduction')}
         />
         <TopicBoxes />
@@ -231,16 +228,15 @@ ToolboxSubjectContainer.willTrackPageView = (
 };
 
 ToolboxSubjectContainer.getDimensions = (props: Props) => {
-  const { subject, i18n, topicList, user } = props;
+  const { subject, topicList, user } = props;
   const topicPath = topicList.map(t =>
     subject.allTopics?.find(topic => topic.id === t),
   );
-  const longName = getSubjectLongName(subject.id, i18n.language);
 
   return getAllDimensions({
     subject,
     topicPath,
-    filter: longName,
+    filter: subject.name,
     user,
   });
 };

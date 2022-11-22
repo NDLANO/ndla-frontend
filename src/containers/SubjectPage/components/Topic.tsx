@@ -14,14 +14,16 @@ import {
   TFunction,
   withTranslation,
 } from 'react-i18next';
-import { FeideUserApiType, Topic as UITopic } from '@ndla/ui';
-import { TopicProps } from '@ndla/ui';
+import { TopicProps, FeideUserApiType, Topic as UITopic } from '@ndla/ui';
 import { withTracker } from '@ndla/tracker';
 import config from '../../../config';
-import { RELEVANCE_SUPPLEMENTARY } from '../../../constants';
+import {
+  RELEVANCE_SUPPLEMENTARY,
+  SKIP_TO_CONTENT_ID,
+} from '../../../constants';
 import ArticleContents from '../../../components/Article/ArticleContents';
 import Resources from '../../Resources/Resources';
-import { toTopic, useIsNdlaFilm } from '../../../routeHelpers';
+import { toTopic, useIsNdlaFilm, useUrnIds } from '../../../routeHelpers';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import { htmlTitle } from '../../../util/titleHelper';
 import {
@@ -29,7 +31,6 @@ import {
   getFocalPoint,
   getImageWithoutCrop,
 } from '../../../util/imageHelpers';
-import { getSubjectLongName } from '../../../data/subjects';
 import {
   GQLTopic_ResourceTypeDefinitionFragment,
   GQLTopic_SubjectFragment,
@@ -69,6 +70,7 @@ const Topic = ({
   topic,
   resourceTypes,
 }: Props) => {
+  const { topicId: urnTopicId } = useUrnIds();
   const [showContent, setShowContent] = useState(false);
   const markdown = useMemo(() => {
     const md = new Remarkable({ breaks: true });
@@ -145,6 +147,7 @@ const Topic = ({
 
   return (
     <UITopic
+      id={urnTopicId === topicId ? SKIP_TO_CONTENT_ID : undefined}
       onToggleShowContent={
         article.content !== '' ? () => setShowContent(!showContent) : undefined
       }
@@ -177,7 +180,7 @@ Topic.willTrackPageView = (
   }
 };
 
-Topic.getDimensions = ({ topic, i18n, subject, user }: Props) => {
+Topic.getDimensions = ({ topic, subject, user }: Props) => {
   const topicPath = topic?.path
     ?.split('/')
     .slice(2)
@@ -185,14 +188,12 @@ Topic.getDimensions = ({ topic, i18n, subject, user }: Props) => {
       subject?.allTopics?.find(topic => topic.id.replace('urn:', '') === t),
     );
 
-  const longName = getSubjectLongName(subject?.id, i18n.language);
-
   return getAllDimensions(
     {
       subject: subject,
       topicPath,
       article: topic.article,
-      filter: longName,
+      filter: subject?.name,
       user,
     },
     undefined,

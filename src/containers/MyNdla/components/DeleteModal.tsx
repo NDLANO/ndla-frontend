@@ -19,6 +19,7 @@ interface Props {
   title: string;
   description: string;
   removeText: string;
+  loading?: boolean;
 }
 
 const StyledButtonRow = styled.div`
@@ -43,17 +44,17 @@ const DeleteModal = ({
       size="regular"
       backgroundColor="white"
       onClose={onClose}
-      label={removeText}>
+      labelledBy={'deleteTitle'}>
       {onCloseModal => (
         <>
           <ModalHeader>
+            <h1 id="deleteTitle">{title}</h1>
             <ModalCloseButton
               title={t('modal.closeModal')}
               onClick={onCloseModal}
             />
           </ModalHeader>
           <ModalBody>
-            <h1>{title}</h1>
             <p>{description}</p>
             <StyledButtonRow>
               <Button outline onClick={onCloseModal}>

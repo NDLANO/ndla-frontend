@@ -21,9 +21,9 @@ import {
   GQLResources_TopicFragment,
 } from '../../graphqlTypes';
 import { TypedParams, useIsNdlaFilm, useTypedParams } from '../../routeHelpers';
-import config from '../../config';
 import AddResourceToFolderModal from '../../components/MyNdla/AddResourceToFolderModal';
 import { ResourceAttributes } from '../../components/MyNdla/AddResourceToFolder';
+import FavoriteButton from '../../components/Article/FavoritesButton';
 
 interface MatchProps extends TypedParams {
   topicId?: string;
@@ -142,6 +142,13 @@ const Resources = ({ topic, resourceTypes }: Props) => {
     }),
   }));
 
+  const onToggleAddToFavorites = (contentUri?: string, path?: string) => {
+    const [, resourceType, articleIdString] = contentUri?.split(':') ?? [];
+    const articleId = articleIdString ? parseInt(articleIdString) : undefined;
+    if (!resourceType || !articleId || !path) return;
+    setResourceToAdd({ id: articleId, path, resourceType });
+  };
+
   return (
     <ResourcesWrapper
       header={
@@ -163,9 +170,15 @@ const Resources = ({ topic, resourceTypes }: Props) => {
           showAdditionalResources={showAdditionalResources}
           toggleAdditionalResources={toggleAdditionalResources}
           invertedStyle={ndlaFilm}
-          showAddToFavoriteButton={config.feideEnabled}
-          onToggleAddToFavorites={() => {}}
-          onClick={() => {}}
+          heartButton={p => (
+            <FavoriteButton
+              path={p}
+              onClick={() => {
+                const resource = ungroupedResources?.find(r => r.path === p);
+                onToggleAddToFavorites(resource?.contentUri, resource?.path);
+              }}
+            />
+          )}
         />
       )}
       {!isUngrouped &&
@@ -178,23 +191,15 @@ const Resources = ({ topic, resourceTypes }: Props) => {
             toggleAdditionalResources={toggleAdditionalResources}
             contentType={type.contentType}
             invertedStyle={ndlaFilm}
-            showAddToFavoriteButton={config.feideEnabled}
-            onToggleAddToFavorites={id => {
-              const resource = type.resources?.find(res => res.id === id);
-              const [, resourceType, articleIdString] =
-                resource?.contentUri?.split(':') ?? [];
-              const articleId = articleIdString
-                ? parseInt(articleIdString)
-                : undefined;
-              if (!resourceType || !articleId || !resource?.path) return;
-
-              setResourceToAdd({
-                id: articleId,
-                path: resource.path,
-                resourceType,
-              });
-            }}
-            onClick={() => {}}
+            heartButton={p => (
+              <FavoriteButton
+                path={p}
+                onClick={() => {
+                  const resource = ungroupedResources?.find(r => r.path === p);
+                  onToggleAddToFavorites(resource?.contentUri, resource?.path);
+                }}
+              />
+            )}
           />
         ))}
       <AddResourceToFolderModal

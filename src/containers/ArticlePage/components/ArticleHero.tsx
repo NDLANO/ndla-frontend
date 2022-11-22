@@ -65,7 +65,7 @@ const ArticleHero = ({
       metaImage={metaImage}>
       {ndlaFilm && metaImage && metaImage.url && (
         <div className="c-hero__background">
-          <img src={metaImage.url} alt={metaImage.alt} />
+          <img src={metaImage.url} alt="" />
         </div>
       )}
       <OneColumn>
@@ -73,7 +73,7 @@ const ArticleHero = ({
           <section>
             {subject && (
               <HomeBreadcrumb
-                light={!!ndlaFilm ? true : undefined}
+                light={ndlaFilm ? true : undefined}
                 items={breadcrumbItems}
               />
             )}

@@ -13,7 +13,7 @@ import { getSelectorsByUserAgent } from 'react-device-detect';
 import { i18nInstance } from '@ndla/ui';
 import url from 'url';
 import { ApolloProvider } from '@apollo/client';
-import { CacheProvider } from '@emotion/core';
+import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import { getCookie } from '@ndla/util';
 
@@ -35,10 +35,10 @@ import { TEMPORARY_REDIRECT } from '../../statusCodes';
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST); //eslint-disable-line
 
 const getAssets = () => ({
-  css: assets.client.css ? assets.client.css[0] : undefined,
-  polyfill: { src: assets.polyfill.js[0] },
-  js: [{ src: assets.client.js[0] }],
-  mathJaxConfig: { js: assets.mathJaxConfig.js[0] },
+  css: assets['client.css'],
+  polyfill: { src: assets['polyfill.js'] },
+  js: [{ src: assets['client.js'] }],
+  mathJaxConfig: { js: assets['mathJaxConfig.js'] },
 });
 
 const disableSSR = req => {
@@ -53,12 +53,14 @@ async function doRender(req) {
   global.assets = assets; // used for including mathjax js in pages with math
   const resCookie = req.headers['cookie'] ?? '';
   const userAgent = req.headers['user-agent'];
-  const isMobile = getSelectorsByUserAgent(userAgent).isMobile;
+  const isMobile = userAgent
+    ? getSelectorsByUserAgent(userAgent)?.isMobile
+    : false;
   const versionHash = req.query.versionHash;
-  const { basename } = getLocaleInfoFromPath(req.path);
-  const locale = getCookie(STORED_LANGUAGE_COOKIE_KEY, resCookie);
+  const { basename, abbreviation } = getLocaleInfoFromPath(req.path);
+  const locale = getCookieLocaleOrFallback(resCookie, abbreviation);
 
-  const client = createApolloClient(locale, resCookie, versionHash);
+  const client = createApolloClient(locale, versionHash);
 
   const cache = createCache({ key: EmotionCacheKey });
   const context = {};
@@ -80,7 +82,6 @@ async function doRender(req) {
                       client={client}
                       locale={locale}
                       versionHash={versionHash}
-                      resCookie={resCookie}
                       key={locale}
                     />
                   </StaticRouter>
@@ -100,7 +101,6 @@ async function doRender(req) {
     Page,
     getAssets(),
     {
-      resCookie,
       apolloState,
       serverPath: req.path,
       serverQuery: req.query,
@@ -117,12 +117,20 @@ async function doRender(req) {
   };
 }
 
+function getCookieLocaleOrFallback(resCookie, abbreviation) {
+  const cookieLocale = getCookie(STORED_LANGUAGE_COOKIE_KEY, resCookie) ?? '';
+  if (cookieLocale.length && isValidLocale(cookieLocale)) {
+    return cookieLocale;
+  }
+  return abbreviation;
+}
+
 export async function defaultRoute(req) {
   const resCookie = req.headers['cookie'] ?? '';
-  const { basename, basepath } = getLocaleInfoFromPath(req.path);
-  const cookieLocale = getCookie(STORED_LANGUAGE_COOKIE_KEY, resCookie) ?? '';
-  const locale =
-    cookieLocale.length && isValidLocale(cookieLocale) ? cookieLocale : 'nb';
+  const { basename, basepath, abbreviation } = getLocaleInfoFromPath(
+    req.originalUrl,
+  );
+  const locale = getCookieLocaleOrFallback(resCookie, abbreviation);
   if ((locale === 'nb' && basename === '') || locale === basename) {
     const { html, context, docProps, helmetContext } = await doRender(req);
     return renderHtml(req, html, context, docProps, helmetContext);

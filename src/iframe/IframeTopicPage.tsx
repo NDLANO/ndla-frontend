@@ -51,7 +51,7 @@ export const IframeTopicPage = ({
 }: Props) => {
   const locale = localeProp ?? i18n.language;
   const article = transformArticle(propArticle, locale);
-  const scripts = getArticleScripts(article);
+  const scripts = getArticleScripts(article, locale);
   const contentUrl = topic?.path
     ? `${config.ndlaFrontendDomain}${topic.path}`
     : undefined;
@@ -60,9 +60,6 @@ export const IframeTopicPage = ({
       <Helmet>
         <title>{`${getDocumentTitle({ article })}`}</title>
         <meta name="robots" content="noindex" />
-        {article && article.metaDescription && (
-          <meta name="description" content={article.metaDescription} />
-        )}
         {scripts.map(script => (
           <script
             key={script.src}
@@ -72,7 +69,9 @@ export const IframeTopicPage = ({
           />
         ))}
         <script type="application/ld+json">
-          {JSON.stringify(getStructuredDataFromArticle(propArticle))}
+          {JSON.stringify(
+            getStructuredDataFromArticle(propArticle, i18n.language),
+          )}
         </script>
       </Helmet>
       {article && (
@@ -108,6 +107,7 @@ export const iframeTopicPageFragments = {
   article: gql`
     fragment IframeTopicPage_Article on Article {
       created
+      tags
       ...Article_Article
       ...StructuredArticleData
     }

@@ -22,6 +22,7 @@ import getStructuredDataFromArticle, {
 } from '../../util/getStructuredDataFromArticle';
 import { htmlTitle } from '../../util/titleHelper';
 import { GQLPlainArticleContainer_ArticleFragment } from '../../graphqlTypes';
+import config from '../../config';
 import { getArticleProps } from '../../util/getArticleProps';
 import { getAllDimensions } from '../../util/trackingUtil';
 
@@ -42,22 +43,24 @@ const PlainArticleContainer = ({
 }: Props) => {
   useEffect(() => {
     if (window.MathJax && typeof window.MathJax.typeset === 'function') {
-      window?.MathJax?.typeset();
+      try {
+        window.MathJax.typeset();
+      } catch (err) {
+        // do nothing
+      }
     }
   });
 
   const article = transformArticle(propArticle, i18n.language);
   if (!article) return <NotFoundPage />;
-  const scripts = getArticleScripts(article);
+  const scripts = getArticleScripts(article, i18n.language);
+  const oembedUrl = `${config.ndlaFrontendDomain}/oembed?url=${config.ndlaFrontendDomain}/article/${article.id}`;
 
   return (
     <div>
       <Helmet>
         <title>{`${getDocumentTitle({ t, article })}`}</title>
         <meta name="robots" content="noindex" />
-        {article && article.metaDescription && (
-          <meta name="description" content={article.metaDescription} />
-        )}
         {scripts.map(script => (
           <script
             key={script.src}
@@ -67,9 +70,19 @@ const PlainArticleContainer = ({
             defer={script.defer}
           />
         ))}
+        {oembedUrl && (
+          <link
+            rel="alternate"
+            type="application/json+oembed"
+            href={oembedUrl}
+            title={article.title}
+          />
+        )}
 
         <script type="application/ld+json">
-          {JSON.stringify(getStructuredDataFromArticle(propArticle))}
+          {JSON.stringify(
+            getStructuredDataFromArticle(propArticle, i18n.language),
+          )}
         </script>
       </Helmet>
       <SocialMediaMetadata
@@ -110,6 +123,7 @@ export const plainArticleContainerFragments = {
   article: gql`
     fragment PlainArticleContainer_Article on Article {
       created
+      tags
       ...Article_Article
       ...StructuredArticleData
     }

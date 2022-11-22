@@ -8,7 +8,7 @@
 
 import { useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 import { spacingUnit } from '@ndla/core';
 import { gql } from '@apollo/client';
 import {
@@ -28,6 +28,7 @@ import {
 import MoreAboutNdlaFilm from './MoreAboutNdlaFilm';
 import { MoviesByType } from './NdlaFilmFrontpage';
 import { movieFragment } from '../../queries';
+import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 
 const ARIA_FILMCATEGORY_ID = 'movieCategoriesId';
 
@@ -95,16 +96,21 @@ const FilmFrontpage = ({
   const resourceTypeName = resourceTypeSelected
     ? resourceTypes.find(rt => rt.id === resourceTypeSelected)
     : undefined;
+
+  const pageTitle = getDocumentTitle(t, subject);
+
   return (
-    <div id={skipToContentId}>
+    <div>
       <Helmet>
-        <title>{getDocumentTitle(t, subject)}</title>
-        {about?.description && (
-          <meta name="description" content={about.description} />
-        )}
+        <title>{pageTitle}</title>
       </Helmet>
+      <SocialMediaMetadata
+        title={subject?.name ?? ''}
+        description={about?.description}
+      />
       <FilmSlideshow slideshow={filmFrontpage?.slideShow ?? []} />
       <FilmMovieSearch
+        skipToContentId={skipToContentId}
         ariaControlId={ARIA_FILMCATEGORY_ID}
         topics={subject?.topics ?? []}
         resourceTypes={resourceTypes}

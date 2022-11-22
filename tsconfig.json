@@ -5,6 +5,7 @@
     "module": "commonjs",
     "lib": ["es2019", "esnext.asynciterable", "dom"],
     "jsx": "react-jsx",
+    "jsxImportSource": "@emotion/react",
     "sourceMap": true,
     "outDir": "build",
     "noEmit": false,
@@ -31,7 +32,7 @@
       "*": ["node_modules/*", "src/types/*"]
     },
     "types": [
-      "@emotion/core",
+      "@emotion/react",
       "@emotion/styled",
       "jest",
       "node",

@@ -88,7 +88,7 @@ const LearningpathEmbed = ({
     learningpathStepResource.article,
     i18n.language,
   );
-  const scripts = getArticleScripts(article);
+  const scripts = getArticleScripts(article, i18n.language);
   return (
     <>
       <Helmet>
@@ -109,6 +109,7 @@ const LearningpathEmbed = ({
           {JSON.stringify(
             getStructuredDataFromArticle(
               learningpathStepResource.article,
+              i18n.language,
               breadcrumbItems,
             ),
           )}

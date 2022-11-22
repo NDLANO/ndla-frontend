@@ -6,22 +6,38 @@
  *
  */
 import { ReactElement, useContext } from 'react';
-import { Navigate, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import { NoSSR } from '@ndla/util';
 import { AuthContext } from '../../components/AuthenticationContext';
+import { constructNewPath, toHref } from '../../util/urlHelper';
+import { useBaseName } from '../../components/BaseNameContext';
 
 interface Props {
   element: ReactElement;
 }
 
-const PrivateRoute = ({ element }: Props) => {
+const ClientPrivateRoute = ({ element }: Props) => {
   const { authenticated } = useContext(AuthContext);
   const location = useLocation();
+  const basename = useBaseName();
 
   if (!authenticated) {
-    return <Navigate to={'/login'} state={{ from: location.pathname }} />;
+    window.location.href = constructNewPath(
+      `/login?state=${toHref(location)}`,
+      basename,
+    );
+    return null;
   }
 
   return element;
+};
+
+const PrivateRoute = (props: Props) => {
+  return (
+    <NoSSR fallback={null}>
+      <ClientPrivateRoute {...props} />
+    </NoSSR>
+  );
 };
 
 export default PrivateRoute;

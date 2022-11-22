@@ -7,16 +7,14 @@
  */
 
 import { useParams } from 'react-router-dom';
-import config from './config';
 import {
   MULTIDISCIPLINARY_SUBJECT_ID,
   PROGRAMME_PATH,
   TOOLBOX_STUDENT_SUBJECT_ID,
   TOOLBOX_TEACHER_SUBJECT_ID,
 } from './constants';
-import { getSubjectLongName } from './data/subjects';
 import { GQLResource, GQLSubject, GQLTopic } from './graphqlTypes';
-import { Breadcrumb, LocaleType } from './interfaces';
+import { Breadcrumb } from './interfaces';
 
 export function toSearch(searchString?: string) {
   return `/search?${searchString || ''}`;
@@ -50,6 +48,19 @@ interface MatchParams extends TypedParams {
   topic4?: string;
   programme?: string;
 }
+
+export const useOnTopicPage = () => {
+  const { subjectId, resourceId, topicList } = useUrnIds();
+  if (!subjectId || resourceId || (subjectId && topicList.length === 0)) {
+    return false;
+  }
+  const subjectType = getSubjectType(subjectId);
+  if (subjectType === 'multiDisciplinary') {
+    return topicList.length < 3;
+  }
+
+  return true;
+};
 
 export const useUrnIds = () => {
   const params = useTypedParams<MatchParams>();
@@ -189,7 +200,6 @@ export type SubjectURI = {
 export function toBreadcrumbItems(
   rootName: string,
   paths: ({ id: string; name: string } | undefined)[],
-  locale: LocaleType = config.defaultLocale,
 ): Breadcrumb[] {
   const safePaths = paths.filter(
     (p): p is GQLTopic | GQLResource | GQLSubject => p !== undefined,
@@ -197,11 +207,7 @@ export function toBreadcrumbItems(
   const [subject, ...rest] = safePaths;
   if (!subject) return [];
   // henter longname fra filter og bruk i stedet for første ledd i path
-  const longName = getSubjectLongName(subject.id, locale);
-  const breadcrumbSubject = {
-    ...subject,
-    name: longName || subject.name,
-  };
+  const breadcrumbSubject = safePaths[0]!;
 
   const links = [breadcrumbSubject, ...rest];
   const breadcrumbs = links

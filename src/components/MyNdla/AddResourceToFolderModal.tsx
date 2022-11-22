@@ -8,27 +8,42 @@
 
 import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
 import Modal, { ModalBody, ModalCloseButton, ModalHeader } from '@ndla/modal';
 import AddResourceToFolder, { ResourceAttributes } from './AddResourceToFolder';
 import { AuthContext } from '../AuthenticationContext';
 import LoginComponent from './LoginComponent';
 import { useFolderResourceMeta } from '../../containers/MyNdla/folderMutations';
+import { GQLFolder } from '../../graphqlTypes';
 
 interface Props {
+  defaultOpenFolder?: GQLFolder;
   resource: ResourceAttributes;
   isOpen: boolean;
   onClose: () => void;
 }
-const AddResourceToFolderModal = ({ isOpen, onClose, resource }: Props) => {
+
+const StyledModal = styled(Modal)`
+  && h2 {
+    margin: 0;
+  }
+`;
+
+const AddResourceToFolderModal = ({
+  isOpen,
+  onClose,
+  resource,
+  defaultOpenFolder,
+}: Props) => {
   const { t } = useTranslation();
   const { authenticated } = useContext(AuthContext);
   const { meta } = useFolderResourceMeta(resource, { skip: !resource });
 
   return (
-    <Modal
+    <StyledModal
       controllable
       isOpen={isOpen}
-      size="medium"
+      size="regular"
       backgroundColor="white"
       onClose={onClose}
       label={
@@ -39,14 +54,25 @@ const AddResourceToFolderModal = ({ isOpen, onClose, resource }: Props) => {
       {onCloseModal => (
         <>
           <ModalHeader>
+            {authenticated && <h1>{t('myNdla.resource.addToMyNdla')}</h1>}
             <ModalCloseButton
+              onMouseDown={e => {
+                e.preventDefault();
+              }}
+              onMouseUp={e => {
+                e.preventDefault();
+              }}
               title={t('modal.closeModal')}
               onClick={onCloseModal}
             />
           </ModalHeader>
           <ModalBody>
             {authenticated ? (
-              <AddResourceToFolder resource={resource} onClose={onClose} />
+              <AddResourceToFolder
+                resource={resource}
+                onClose={onClose}
+                defaultOpenFolder={defaultOpenFolder}
+              />
             ) : (
               <LoginComponent
                 resource={resource}
@@ -57,7 +83,7 @@ const AddResourceToFolderModal = ({ isOpen, onClose, resource }: Props) => {
           </ModalBody>
         </>
       )}
-    </Modal>
+    </StyledModal>
   );
 };
 

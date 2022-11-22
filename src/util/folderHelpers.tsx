@@ -7,8 +7,11 @@
  */
 
 import { HashTag, Person } from '@ndla/icons/common';
+import { FolderOutlined } from '@ndla/icons/lib/contentType';
+import { IFolder } from '@ndla/types-learningpath-api';
 import { TFunction } from 'i18next';
-import { uniq, uniqBy } from 'lodash';
+import uniq from 'lodash/uniq';
+import uniqBy from 'lodash/uniqBy';
 import { GQLFolder, GQLFolderResource } from '../graphqlTypes';
 
 export const getAllTags = (allFolders: GQLFolder[]): string[] => {
@@ -74,29 +77,31 @@ export const createStaticStructureElements = (
   return [
     {
       id: '',
+      isNavigation: true,
       name: t('myNdla.myPage.myPage'),
       icon: <Person />,
       status: 'private',
-      subfolders: [],
       breadcrumbs: [],
       resources: [],
     },
     {
       id: 'folders',
+      isNavigation: true,
+      icon: <FolderOutlined />,
       name: t('myNdla.myFolders'),
       status: 'private',
-      subfolders: folders,
       breadcrumbs: [],
       resources: [],
     },
+    ...folders,
     {
       id: 'tags',
+      isNavigation: true,
       icon: <HashTag />,
       name: t('myNdla.myTags'),
       status: 'private',
-      subfolders: [],
       breadcrumbs: [],
       resources: [],
     },
-  ];
+  ] as IFolder[];
 };

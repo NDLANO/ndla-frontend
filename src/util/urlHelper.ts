@@ -6,8 +6,8 @@
  *
  */
 
-import { matchPath, Params, PathMatch } from 'react-router-dom';
-import { isValidLocale } from '../i18n';
+import { matchPath, Params, PathMatch, Location } from 'react-router-dom';
+import { isValidLocale, supportedLanguages } from '../i18n';
 import { oembedRoutes } from '../routes';
 
 type OembedParams =
@@ -66,11 +66,13 @@ const matchUrl = (
 
 export function parseOembedUrl(url: string, ignoreLocale: boolean = false) {
   const { pathname } = new URL(url);
-  let paths = pathname.split('/');
+  const paths = pathname.split('/');
   if (paths[1]) {
     paths[1] = paths[1] === 'unknown' ? 'nb' : paths[1];
   }
-  if (ignoreLocale && isValidLocale(paths[1])) paths.splice(1, 1);
+  if (ignoreLocale && isValidLocale(paths[1])) {
+    paths.splice(1, 1);
+  }
   const path = paths.join('/');
 
   if (isValidLocale(paths[1])) {
@@ -78,3 +80,15 @@ export function parseOembedUrl(url: string, ignoreLocale: boolean = false) {
   }
   return matchUrl(path, false);
 }
+
+export const toHref = (location: Location) => {
+  return `${location.pathname}${location.search}`;
+};
+
+export const constructNewPath = (pathname: string, newLocale?: string) => {
+  const regex = new RegExp(`\\/(${supportedLanguages.join('|')})($|\\/)`, '');
+  const path = pathname.replace(regex, '');
+  const fullPath = path.startsWith('/') ? path : `/${path}`;
+  const localePrefix = newLocale ? `/${newLocale}` : '';
+  return `${localePrefix}${fullPath}`;
+};

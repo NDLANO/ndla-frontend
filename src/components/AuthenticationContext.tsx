@@ -7,12 +7,9 @@
 
 import { FeideUserApiType } from '@ndla/ui';
 import { createContext, ReactNode, useEffect, useState } from 'react';
-import {
-  getFeideCookie,
-  isAccessTokenValid,
-  millisUntilExpiration,
-} from '../util/authHelpers';
+import { isAccessTokenValid, millisUntilExpiration } from '../util/authHelpers';
 import { fetchFeideUserWithGroups } from '../util/feideApi';
+import { fetchExamLockStatus } from '../util/learningPathApi';
 
 interface AuthContextType {
   authenticated: boolean;
@@ -20,6 +17,7 @@ interface AuthContextType {
   login: () => void;
   logout: () => void;
   user: FeideUserApiType | undefined;
+  examLock: boolean;
 }
 
 export const AuthContext = createContext<AuthContextType>({
@@ -28,6 +26,7 @@ export const AuthContext = createContext<AuthContextType>({
   login: () => {},
   logout: () => {},
   user: undefined,
+  examLock: false,
 });
 
 interface Props {
@@ -35,12 +34,11 @@ interface Props {
   initialValue?: string;
 }
 
-const AuthenticationContext = ({ children, initialValue }: Props) => {
-  const [authenticated, setAuthenticated] = useState(
-    initialValue ? isAccessTokenValid(getFeideCookie(initialValue)) : false,
-  );
+const AuthenticationContext = ({ children }: Props) => {
+  const [authenticated, setAuthenticated] = useState(false);
   const [authContextLoaded, setLoaded] = useState(false);
   const [user, setUser] = useState<FeideUserApiType | undefined>(undefined);
+  const [examLock, setExamLock] = useState(false);
 
   useEffect(() => {
     const isValid = isAccessTokenValid();
@@ -49,6 +47,17 @@ const AuthenticationContext = ({ children, initialValue }: Props) => {
 
     if (isValid) {
       fetchFeideUserWithGroups().then(user => {
+        if (user?.eduPersonPrimaryAffiliation === 'student') {
+          fetchExamLockStatus()
+            .then(res => {
+              if (res.value === 'true') {
+                setExamLock(true);
+              }
+            })
+            .catch(e => {
+              console.error('Could not fetch exam lock status:', e);
+            });
+        }
         setUser(user);
       });
       // Since we can't listen to cookies set a timeout to update context
@@ -64,7 +73,14 @@ const AuthenticationContext = ({ children, initialValue }: Props) => {
 
   return (
     <AuthContext.Provider
-      value={{ authenticated, authContextLoaded, login, logout, user }}>
+      value={{
+        authenticated,
+        authContextLoaded,
+        login,
+        logout,
+        user,
+        examLock,
+      }}>
       {children}
     </AuthContext.Provider>
   );

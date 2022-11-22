@@ -75,7 +75,7 @@ export function mapTopicResourcesToTopic(
 export const mapMastheadData = ({
   subjectId = '',
   topicId = '',
-  data: { resourceTypes, subject, topic, resource },
+  data: { resourceTypes, subject, topic, resource, subjects },
 }: {
   subjectId?: string;
   topicId?: string;
@@ -103,8 +103,9 @@ export const mapMastheadData = ({
 
   return {
     subject: subjectWithTopics,
+    topicPath,
     topicResourcesByType,
     resource,
-    topicPath,
+    subjects,
   };
 };

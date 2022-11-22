@@ -1,4 +1,4 @@
-node_modules
+/node_modules
 npm-debug.log
 yarn-error.log
 .DS_Store
@@ -9,7 +9,8 @@ yarn-error.log
 /coverage/
 /cache/
 /e2e/screenshots
+/cypress/e2e/screenshots
 /htdocs/
-.vscode
+/.vscode
 .env
-.vercel
+/.vercel

@@ -8,7 +8,6 @@ import {
   resourceTypeMapping,
 } from '../../util/getContentType';
 import LtiEmbed from '../../lti/LtiEmbed';
-import { getSubjectLongName, getSubjectById } from '../../data/subjects';
 import { programmes } from '../../data/programmes';
 import { LocaleType, LtiData } from '../../interfaces';
 import {
@@ -38,14 +37,9 @@ export const plainUrl = (url: string) => {
 
 const updateBreadcrumbSubject = (
   breadcrumbs: string[] | undefined,
-  subjectId: string | undefined,
   subject: string | undefined,
-  language: LocaleType | undefined,
 ) => {
-  const longName = getSubjectLongName(subjectId, language);
-  const breadcrumbSubject = longName || subject;
-  const firstVal = breadcrumbSubject ? [breadcrumbSubject] : [];
-  return [...firstVal, ...(breadcrumbs?.slice(1) ?? [])];
+  return [subject ?? '', ...(breadcrumbs?.slice(1) ?? [])];
 };
 
 const arrayFields = [
@@ -106,8 +100,8 @@ export const convertProgramSearchParams = (
       programme.grades.forEach(grade =>
         grade.categories.forEach(category => {
           category.subjects.forEach(subject => {
-            const { id } = getSubjectById(subject.id) ?? {};
-            if (!!id && !subjectParams.includes(id)) subjectParams.push(id);
+            if (!subjectParams.includes(subject.id))
+              subjectParams.push(subject.id);
           });
         }),
       );
@@ -232,17 +226,12 @@ export const mapResourcesToItems = (
     ],
     contexts: resource.contexts?.map(context => ({
       url: context.path,
-      breadcrumb: updateBreadcrumbSubject(
-        context.breadcrumbs,
-        context.subjectId,
-        context.subject,
-        context.language as LocaleType,
-      ),
+      breadcrumb: updateBreadcrumbSubject(context.breadcrumbs, context.subject),
       isAdditional: isSupplementary(context),
     })),
     ...(resource.metaImage?.url && {
       img: {
-        url: `${resource.metaImage.url}?width=${isLti ? '350' : '250'}`,
+        url: `${resource.metaImage.url}?width=${isLti ? '350' : '420'}`,
         alt: resource.name ?? resource.metaImage?.alt ?? '',
       },
     }),

@@ -7,6 +7,7 @@
  */
 
 import styled from '@emotion/styled';
+import { useEffect } from 'react';
 import { HelmetWithTracker } from '@ndla/tracker';
 import {
   FrontpageHeader,
@@ -18,43 +19,34 @@ import {
 } from '@ndla/ui';
 import { spacing } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
+import { useLazyQuery } from '@apollo/client';
+
 import WelcomePageInfo from './WelcomePageInfo';
 import FrontpageSubjects from './FrontpageSubjects';
 import {
   FILM_PAGE_PATH,
   SKIP_TO_CONTENT_ID,
   UKR_PAGE_PATH,
+  MULTIDISCIPLINARY_SUBJECT_ID,
+  TOOLBOX_STUDENT_SUBJECT_ID,
+  TOOLBOX_TEACHER_SUBJECT_ID,
 } from '../../constants';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import config from '../../config';
 import BlogPosts from './BlogPosts';
 import WelcomePageSearch from './WelcomePageSearch';
 import { toSubject, toTopic } from '../../routeHelpers';
-import { getSubjectById, multidisciplinaryTopics } from '../../data/subjects';
-import { LocaleType } from '../../interfaces';
-
-const getUrlFromSubjectId = (subjectId: string) => {
-  const subject = getSubjectById(subjectId);
-  return subject ? toSubject(subject.id) : '';
-};
-
-const MULTIDISCIPLINARY_SUBJECT_ID =
-  'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7';
-const TOOLBOX_TEACHER_SUBJECT_ID =
-  'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc';
-const TOOLBOX_STUDENT_SUBJECT_ID =
-  'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4';
+import { LocaleType, TopicType } from '../../interfaces';
+import { subjectsQuery } from '../../queries';
+import { GQLSubjectsQuery } from '../../graphqlTypes';
+import { multidisciplinaryTopics } from '../../data/subjects.ts';
 
 const getMultidisciplinaryTopics = (locale: LocaleType) => {
-  const baseSubject = getSubjectById(MULTIDISCIPLINARY_SUBJECT_ID);
-
-  if (!baseSubject) return [];
-
-  return multidisciplinaryTopics.map(topic => {
+  return multidisciplinaryTopics.map((topic: TopicType) => {
     return {
       id: topic.id,
-      title: topic.name[locale],
-      url: toTopic(baseSubject.id, topic.id),
+      title: topic.name?.[locale],
+      url: toTopic(MULTIDISCIPLINARY_SUBJECT_ID, topic.topicId ?? ''),
     };
   });
 };
@@ -65,6 +57,14 @@ const BannerCardWrapper = styled.div`
 
 const WelcomePage = () => {
   const { t, i18n } = useTranslation();
+  const [fetchData, { data }] = useLazyQuery<GQLSubjectsQuery>(subjectsQuery);
+
+  useEffect(() => {
+    const getData = () => {
+      fetchData();
+    };
+    getData();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const googleSearchJSONLd = () => {
     const data = {
@@ -109,17 +109,20 @@ const WelcomePage = () => {
             />
           </BannerCardWrapper>
           <div data-testid="category-list" id={SKIP_TO_CONTENT_ID}>
-            <FrontpageSubjects locale={i18n.language} />
+            <FrontpageSubjects
+              locale={i18n.language}
+              subjects={data?.subjects}
+            />
           </div>
         </OneColumn>
         <OneColumn wide>
           <FrontpageMultidisciplinarySubject
-            url={getUrlFromSubjectId(MULTIDISCIPLINARY_SUBJECT_ID)}
+            url={toSubject(MULTIDISCIPLINARY_SUBJECT_ID)}
             topics={getMultidisciplinaryTopics(i18n.language)}
           />
           <FrontpageToolbox
-            urlStudents={getUrlFromSubjectId(TOOLBOX_STUDENT_SUBJECT_ID)}
-            urlTeachers={getUrlFromSubjectId(TOOLBOX_TEACHER_SUBJECT_ID)}
+            urlStudents={toSubject(TOOLBOX_STUDENT_SUBJECT_ID)}
+            urlTeachers={toSubject(TOOLBOX_TEACHER_SUBJECT_ID)}
           />
           <BlogPosts locale={i18n.language} />
           <FrontpageFilm

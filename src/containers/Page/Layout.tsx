@@ -7,11 +7,12 @@
  */
 
 import { useEffect } from 'react';
-import { Content, PageContainer } from '@ndla/ui';
+import { Content, PageContainer, useMastheadHeight } from '@ndla/ui';
 import ZendeskButton from '@ndla/zendesk';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
+import { css, Global } from '@emotion/react';
 import { matchPath, Outlet, useLocation } from 'react-router-dom';
 import Masthead from '../Masthead';
 import config from '../../config';
@@ -19,6 +20,7 @@ import FeideFooter from './components/FeideFooter';
 import Footer from './components/Footer';
 import { useIsNdlaFilm, useUrnIds } from '../../routeHelpers';
 import { usePrevious } from '../../util/utilityHooks';
+import TitleAnnouncer from './components/TitleAnnouncer';
 
 const ZendeskWrapper = styled.div`
   z-index: 10;
@@ -27,6 +29,7 @@ const ZendeskWrapper = styled.div`
 const Layout = () => {
   const { t, i18n } = useTranslation();
   const { pathname } = useLocation();
+  const { height } = useMastheadHeight();
   const prevPathname = usePrevious(pathname);
   const params = useUrnIds();
   const zendeskLanguage =
@@ -57,9 +60,16 @@ const Layout = () => {
 
   return (
     <PageContainer backgroundWide={backgroundWide} ndlaFilm={ndlaFilm}>
+      <TitleAnnouncer />
+      <Global
+        styles={css`
+          html {
+            scroll-padding-top: ${height ? `${height}px` : undefined};
+          }
+        `}
+      />
       <Helmet
         htmlAttributes={{ lang: i18n.language }}
-        title="NDLA"
         meta={[{ name: 'description', content: t('meta.description') }]}
       />
       <Helmet>

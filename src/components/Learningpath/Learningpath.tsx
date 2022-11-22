@@ -38,6 +38,7 @@ import {
   GQLLearningpath_TopicPathFragment,
 } from '../../graphqlTypes';
 import AddResourceToFolderModal from '../MyNdla/AddResourceToFolderModal';
+import FavoriteButton from '../Article/FavoritesButton';
 
 const LEARNING_PATHS_STORAGE_KEY = 'LEARNING_PATHS_COOKIES_KEY';
 
@@ -134,10 +135,14 @@ const Learningpath = ({
       name={title}
       cookies={viewedSteps}
       learningPathURL={config.learningPathDomain}
-      onToggleAddToFavorites={
-        config.feideEnabled && resource?.path
-          ? () => setIsAdding(true)
-          : undefined
+      heartButton={
+        resource?.path &&
+        config.feideEnabled && (
+          <FavoriteButton
+            path={resource.path}
+            onClick={() => setIsAdding(true)}
+          />
+        )
       }
     />
   );
@@ -158,6 +163,7 @@ const Learningpath = ({
           <div data-testid="learningpath-content">
             {learningpathStep.showTitle && (
               <LearningPathInformation
+                id={skipToContentId}
                 invertedStyle={ndlaFilm}
                 title={learningpathStep.title}
                 description={learningpathStep.description}
@@ -165,7 +171,9 @@ const Learningpath = ({
               />
             )}
             <LearningpathEmbed
-              skipToContentId={skipToContentId}
+              skipToContentId={
+                !learningpathStep.showTitle ? skipToContentId : undefined
+              }
               topic={topic}
               learningpathStep={learningpathStep}
               breadcrumbItems={breadcrumbItems}

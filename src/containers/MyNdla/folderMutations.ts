@@ -217,17 +217,27 @@ export const useFolderResourceMetaSearch = (
   return { data, ...rest };
 };
 
-export const useFolders = () => {
-  const { cache } = useApolloClient();
-  const { data: { folders: folderData } = {}, ...rest } = useGraphQuery<
-    GQLFoldersPageQuery
-  >(foldersPageQuery, {
-    onCompleted: () => {
-      cache.gc();
-    },
-  });
+interface UseFolders {
+  skip?: boolean;
+}
 
-  return { folders: folderData ?? [], ...rest };
+export const useFolders = ({ skip }: UseFolders = {}): {
+  folders: GQLFolder[];
+  loading: boolean;
+} => {
+  const { cache } = useApolloClient();
+  const { data, loading } = useGraphQuery<GQLFoldersPageQuery>(
+    foldersPageQuery,
+    {
+      skip,
+      onCompleted: () => {
+        cache.gc();
+      },
+    },
+  );
+
+  const folders = (data?.folders ?? []) as GQLFolder[];
+  return { folders, loading };
 };
 
 export const getFolder = (
@@ -263,20 +273,21 @@ export const recentlyUsedQuery = gql`
 
 export const useRecentlyUsedResources = () => {
   const { cache } = useApolloClient();
-  const { data: { allFolderResources = [] } = {}, ...rest } = useGraphQuery<
-    GQLRecentlyUsedQuery
-  >(recentlyUsedQuery, {
-    onCompleted: () => {
-      cache.gc();
+  const { data, ...rest } = useGraphQuery<GQLRecentlyUsedQuery>(
+    recentlyUsedQuery,
+    {
+      onCompleted: () => {
+        cache.gc();
+      },
     },
-  });
+  );
 
-  return { allFolderResources, ...rest };
+  return { allFolderResources: data?.allFolderResources, ...rest };
 };
 
 export const useAddFolderMutation = () => {
   const client = useApolloClient();
-  const [addFolder] = useMutation<
+  const [addFolder, { loading }] = useMutation<
     GQLAddFolderMutation,
     GQLMutationAddFolderArgs
   >(addFolderMutation, {
@@ -307,12 +318,12 @@ export const useAddFolderMutation = () => {
     },
   });
 
-  return { addFolder };
+  return { addFolder, loading };
 };
 
 export const useDeleteFolderMutation = () => {
   const client = useApolloClient();
-  const [deleteFolder] = useMutation<
+  const [deleteFolder, { loading }] = useMutation<
     GQLDeleteFolderMutation,
     GQLMutationDeleteFolderArgs
   >(deleteFolderMutation, {
@@ -333,25 +344,25 @@ export const useDeleteFolderMutation = () => {
       client.cache.gc();
     },
   });
-  return { deleteFolder };
+  return { deleteFolder, loading };
 };
 
 export const useUpdateFolderResourceMutation = () => {
-  const [updateFolderResource] = useMutation<
+  const [updateFolderResource, { loading }] = useMutation<
     GQLUpdateFolderResourceMutation,
     GQLMutationUpdateFolderResourceArgs
   >(updateFolderResourceMutation);
 
-  return { updateFolderResource };
+  return { updateFolderResource, loading };
 };
 
 export const useUpdateFolderMutation = () => {
-  const [updateFolder] = useMutation<
+  const [updateFolder, { loading }] = useMutation<
     GQLUpdateFolderMutation,
     GQLMutationUpdateFolderArgs
   >(updateFolderMutation);
 
-  return { updateFolder };
+  return { updateFolder, loading };
 };
 
 const addResourceToFolderQuery = gql`
@@ -377,7 +388,7 @@ const addResourceToFolderQuery = gql`
 
 export const useAddResourceToFolderMutation = (folderId: string) => {
   const { cache } = useApolloClient();
-  const [addResourceToFolder] = useMutation<
+  const [addResourceToFolder, { loading }] = useMutation<
     GQLAddResourceToFolderMutation,
     GQLMutationAddFolderResourceArgs
   >(addResourceToFolderQuery, {
@@ -398,7 +409,7 @@ export const useAddResourceToFolderMutation = (folderId: string) => {
     },
   });
 
-  return { addResourceToFolder };
+  return { addResourceToFolder, loading };
 };
 
 const deleteFolderResourceMutation = gql`

@@ -30,6 +30,7 @@ const connectSrc = (() => {
     'https://platform.itslearning.com',
     'cdn.jsdelivr.net',
     'https://*.dataporten.no',
+    'https://*.clarity.ms',
   ];
   if (
     process.env.NODE_ENV === 'development' ||
@@ -114,6 +115,7 @@ const scriptSrc = (() => {
     'https://static.zdassets.com',
     'cdn.jsdelivr.net',
     'https://*.dataporten.no',
+    'https://*.clarity.ms',
   ];
   if (process.env.NODE_ENV === 'development') {
     return [...defaultScriptSrc, `http://localhost:${hmrPort}`];
@@ -138,6 +140,8 @@ const frameSrc = (() => {
     '*.vg.no',
     'vg.no',
     'https://www.tv2skole.no/',
+    '*.elevkanalen.no',
+    'elevkanalen.no',
     'https://www.scribd.com/',
     'https://optimize.google.com',
     'https://www.youtube.com',
@@ -195,6 +199,9 @@ const frameSrc = (() => {
     'ourworldindata.org',
     '*.sketchup.com',
     'www.gapminder.org',
+    'www.facebook.com',
+    'fb.watch',
+    'sketchfab.com',
   ];
   if (process.env.NODE_ENV === 'development') {
     return [
@@ -212,6 +219,7 @@ const fontSrc = (() => {
     'data:',
     'cdnjs.cloudflare.com',
     'https://*.hotjar.com',
+    'https://*.clarity.ms',
     'cdn.jsdelivr.net',
   ];
   if (process.env.NODE_ENV === 'development') {
@@ -250,6 +258,7 @@ const contentSecurityPolicy = {
       'https://ssl.gstatic.com',
       'https://www.gstatic.com',
       'https://*.hotjar.com',
+      'https://*.clarity.ms',
       'https://ndla.zendesk.com',
       '*.facebook.com',
       '*.twitter.com',

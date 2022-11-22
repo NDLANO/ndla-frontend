@@ -1,4 +1,5 @@
-import { isEqual, takeWhile } from 'lodash';
+import isEqual from 'lodash/isEqual';
+import takeWhile from 'lodash/takeWhile';
 import { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 //@ts-ignore
@@ -7,6 +8,7 @@ import {
   GQLMastHeadQuery,
   GQLResource,
   GQLResourceType,
+  GQLSubjectInfoFragment,
 } from '../../../graphqlTypes';
 import { useAlerts } from '../../../components/AlertsContext';
 import MastheadSearch from './MastheadSearch';
@@ -19,13 +21,9 @@ import {
   useTypedParams,
   useUrnIds,
 } from '../../../routeHelpers';
-import { getSubjectLongName } from '../../../data/subjects';
 import { LocaleType } from '../../../interfaces';
 import { resourceToLinkProps } from '../../Resources/resourceHelpers';
-import {
-  getCategorizedSubjects,
-  getProgrammes,
-} from '../../../util/programmesSubjectsHelper';
+import { getProgrammes } from '../../../util/programmesSubjectsHelper';
 import { getProgrammeBySlug } from '../../../data/programmes';
 import { mapGradesData } from '../../ProgrammePage/ProgrammePage';
 import { mapTopicResourcesToTopic } from '../mastheadHelpers';
@@ -33,7 +31,12 @@ import { mapTopicResourcesToTopic } from '../mastheadHelpers';
 interface Props {
   locale: LocaleType;
   subject?: GQLMastHeadQuery['subject'];
+  subjects?: GQLSubjectInfoFragment[];
   topicResourcesByType: GQLResourceType[];
+  subjectCategories: {
+    type: string;
+    subjects: GQLSubjectInfoFragment[];
+  }[];
   onTopicChange: (newId: string) => void;
   close: () => void;
 }
@@ -49,11 +52,15 @@ export const toTopicWithBoundParams = (
   };
 };
 
-const getProgramme = (programme: string | undefined, locale: LocaleType) => {
+const getProgramme = (
+  programme: string | undefined,
+  subjects: GQLSubjectInfoFragment[] | undefined,
+  locale: LocaleType,
+) => {
   if (!programme) return undefined;
   const data = getProgrammeBySlug(programme, locale);
   if (!data) return undefined;
-  const grades = mapGradesData(data.grades, locale);
+  const grades = mapGradesData(data.grades, subjects || [], locale);
   return { name: data.name[locale], url: data.url[locale], grades };
 };
 
@@ -61,6 +68,8 @@ const MastheadMenu = ({
   locale,
   topicResourcesByType,
   subject,
+  subjects,
+  subjectCategories,
   onTopicChange,
   close,
 }: Props) => {
@@ -103,8 +112,8 @@ const MastheadMenu = ({
     }
   }, [params]);
 
-  const subjectTitle = getSubjectLongName(subject?.id, locale) ?? subject?.name;
-  const currentProgramme = getProgramme(programme, locale);
+  const subjectTitle = subject?.name;
+  const currentProgramme = getProgramme(programme, subjects, locale);
 
   const handleSubjectClick = (subjectId?: string) => {
     return subjectId ? toSubject(subjectId) : '';
@@ -193,7 +202,7 @@ const MastheadMenu = ({
       expandedSubtopicsId={expandedSubTopicIds}
       programmes={getProgrammes(locale)}
       currentProgramme={currentProgramme}
-      subjectCategories={getCategorizedSubjects(locale)}
+      subjectCategories={subjectCategories}
       initialSelectedMenu={initialSelectedMenu}
       locale={locale}
       selectedGrade={grade}

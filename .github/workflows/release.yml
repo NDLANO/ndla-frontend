@@ -26,20 +26,17 @@ jobs:
     name: "Release and push to registry"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           path: ndla/${{ github.event.repository.name }}
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           repository: NDLANO/deploy
           token: ${{ secrets.CI_GITHUB_TOKEN }}
           path: ndla/deploy
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-python@v4
         with:
-          python-version: '3.x'
-      - uses: olafurpg/setup-scala@v10
-        with:
-          java-version: adopt@1.11
+          python-version: '3.10'
       - name: "Setup ~/bin directory"
         run: |
          mkdir -p /home/runner/bin
@@ -53,7 +50,7 @@ jobs:
       - name: "Login to dockerhub"
         run: echo $DOCKER_HUB_PASSWORD | docker login --username $DOCKER_HUB_USERNAME --password-stdin
       - name: "Cache pip"
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-${{ hashFiles('ndla/deploy/scripts/pyshare/requirements.txt') }}
@@ -65,7 +62,7 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -r ndla/deploy/scripts/pyshare/requirements.txt
       - name: "Download blackbox"
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: StackExchange/blackbox
           path: blackbox
@@ -94,10 +91,8 @@ jobs:
           helm plugin install https://github.com/chartmuseum/helm-push.git --version 0.9.0
       - name: "Build kubernetes config"
         run: |
-          for config in `find ndla/deploy -name "kubeconfig*eks-cluster"`; do
-            echo $config >> kubeconfigs;
-          done
-          KUBECONFIG=$(cat kubeconfigs | paste -sd ":" -) kubectl config view --raw > ~/.kube/config
+          eval "$($NDLA_DEPLOY/scripts/bin/ndla init -)"
+          _ndla_wrapper env kubeconfig test
       - name: "Do release"
         shell: bash
         run: |
