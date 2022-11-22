@@ -9,11 +9,7 @@
 import { Dispatch, useMemo, useState, useEffect } from 'react';
 import { useApolloClient } from '@apollo/client';
 import styled from '@emotion/styled';
-<<<<<<< HEAD
-=======
 import { colors, spacing } from '@ndla/core';
-import { Dispatch, useContext, useMemo } from 'react';
->>>>>>> da7131f72059de2cc35e0586c0ed3de869ee9baa
 import { useTranslation } from 'react-i18next';
 import {
   closestCenter,
@@ -32,7 +28,6 @@ import {
   restrictToVerticalAxis,
   restrictToParentElement,
 } from '@dnd-kit/modifiers';
-import { colors, spacing } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import { FolderOutlined } from '@ndla/icons/contentType';
 import { BlockWrapper, FolderAction, ViewType } from './FoldersPage';
@@ -46,7 +41,6 @@ import {
 import { useSortFoldersMutation } from '../folderMutations';
 import DraggableFolder from './DraggableFolder';
 import { makeDndSortFunction, makeDndTranslations } from './util';
-import { AuthContext } from '../../../components/AuthenticationContext';
 
 const StyledFolderIcon = styled.span`
   display: flex;
@@ -88,7 +82,6 @@ const FolderList = ({
     setSortedFolders(folders);
   }, [folders]);
 
-  const { examLock } = useContext(AuthContext);
   const foldersCount = useMemo(
     () =>
       folders?.reduce<Record<string, FolderTotalCount>>((acc, curr) => {
