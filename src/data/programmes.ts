@@ -183,15 +183,6 @@ export const programmes: ProgrammeType[] = [
               {
                 id: 'urn:subject:1:8c5a9fdd-4fa4-456b-9afe-34e7e776b4e7',
               },
-            ],
-          },
-          {
-            name: {
-              nb: 'Yrkesfaglig fordypning',
-              nn: 'Yrkesfagleg fordjuping',
-              en: 'Yrkesfaglig fordypning',
-            },
-            subjects: [
               {
                 id: 'urn:subject:1:57d2a2c6-b75a-4264-9f56-a692ef56e06c',
               },
