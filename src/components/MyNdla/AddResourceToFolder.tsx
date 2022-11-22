@@ -6,15 +6,18 @@
  *
  */
 
-import { compact, isEqual, sortBy, uniq } from 'lodash';
-import { useEffect, useState, useMemo } from 'react';
+import compact from 'lodash/compact';
+import isEqual from 'lodash/isEqual';
+import sortBy from 'lodash/sortBy';
+import uniq from 'lodash/uniq';
+import { useEffect, useState, useMemo, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { ButtonV2 as Button, LoadingButton } from '@ndla/button';
 import { colors, spacing } from '@ndla/core';
 import SafeLink from '@ndla/safelink';
+import { IFolder } from '@ndla/types-learningpath-api';
 import {
-  FolderType,
   ListResource,
   MessageBox,
   TagSelector,
@@ -31,6 +34,7 @@ import {
 import { GQLFolder, GQLFolderResource } from '../../graphqlTypes';
 import { getAllTags, getResourceForPath } from '../../util/folderHelpers';
 import NewFolder from './NewFolder';
+import { AuthContext } from '../AuthenticationContext';
 
 export interface ResourceAttributes {
   path: string;
@@ -111,6 +115,7 @@ const AddResourceToFolder = ({
   defaultOpenFolder,
 }: Props) => {
   const { t } = useTranslation();
+  const { examLock } = useContext(AuthContext);
   const { meta, loading: metaLoading } = useFolderResourceMeta(resource);
   const { folders, loading } = useFolders();
   const [storedResource, setStoredResource] = useState<
@@ -166,7 +171,7 @@ const AddResourceToFolder = ({
     return !isEqual(sortedStored, sortedSelected);
   };
 
-  const structureFolders: FolderType[] = useMemo(
+  const structureFolders: IFolder[] = useMemo(
     () => [
       {
         id: 'folders',
@@ -255,44 +260,55 @@ const AddResourceToFolder = ({
           alt: meta?.metaImage?.alt ?? '',
         }}
       />
-      <ComboboxContainer>
-        <TreeStructure
-          folders={structureFolders}
-          label={t('myNdla.myFolders')}
-          onSelectFolder={setSelectedFolderId}
-          defaultOpenFolders={defaultOpenFolders}
-          type={'picker'}
-          targetResource={storedResource}
-          newFolderInput={({ parentId, onClose, onCreate }) => (
-            <StyledNewFolder
-              parentId={parentId}
-              onClose={onClose}
-              onCreate={onCreate}
+      {examLock ? (
+        <MessageBox>{t('myNdla.examLockInfo')}</MessageBox>
+      ) : (
+        <>
+          <ComboboxContainer>
+            <TreeStructure
+              loading={loading}
+              folders={structureFolders}
+              label={t('myNdla.myFolders')}
+              onSelectFolder={setSelectedFolderId}
+              defaultOpenFolders={defaultOpenFolders}
+              type={'picker'}
+              targetResource={storedResource}
+              newFolderInput={({ parentId, onClose, onCreate }) => (
+                <StyledNewFolder
+                  parentId={parentId}
+                  onClose={onClose}
+                  onCreate={onCreate}
+                />
+              )}
+              ariaDescribedby="treestructure-error-label"
             />
-          )}
-          ariaDescribedby="treestructure-error-label"
-        />
-      </ComboboxContainer>
-      <div id="treestructure-error-label" aria-live="assertive">
-        {alreadyAdded && <MessageBox>{t('myNdla.alreadyInFolder')}</MessageBox>}
-        {noFolderSelected && (
-          <MessageBox type="danger">{t('myNdla.noFolderSelected')}</MessageBox>
-        )}
-      </div>
-      <ComboboxContainer>
-        <TagSelector
-          label={t('myNdla.myTags')}
-          selected={selectedTags}
-          tags={tags}
-          onChange={tags => {
-            setSelectedTags(tags);
-          }}
-          onCreateTag={tag => {
-            setTags(prev => prev.concat(tag));
-            setSelectedTags(prev => uniq(prev.concat(tag)));
-          }}
-        />
-      </ComboboxContainer>
+          </ComboboxContainer>
+          <div id="treestructure-error-label" aria-live="assertive">
+            {alreadyAdded && (
+              <MessageBox>{t('myNdla.alreadyInFolder')}</MessageBox>
+            )}
+            {noFolderSelected && (
+              <MessageBox type="danger">
+                {t('myNdla.noFolderSelected')}
+              </MessageBox>
+            )}
+          </div>
+          <ComboboxContainer>
+            <TagSelector
+              label={t('myNdla.myTags')}
+              selected={selectedTags}
+              tags={tags}
+              onChange={tags => {
+                setSelectedTags(tags);
+              }}
+              onCreateTag={tag => {
+                setTags(prev => prev.concat(tag));
+                setSelectedTags(prev => uniq(prev.concat(tag)));
+              }}
+            />
+          </ComboboxContainer>
+        </>
+      )}
       <ButtonRow>
         <Button
           variant="outline"
@@ -307,7 +323,9 @@ const AddResourceToFolder = ({
         </Button>
         <LoadingButton
           loading={addResourceLoading}
-          disabled={!canSave || addResourceLoading || noFolderSelected}
+          disabled={
+            !canSave || addResourceLoading || noFolderSelected || examLock
+          }
           onClick={onSave}
           onMouseDown={e => {
             e.preventDefault();

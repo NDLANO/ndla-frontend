@@ -267,7 +267,7 @@ export type GQLConcept = {
   created: Scalars['String'];
   id: Scalars['Int'];
   image?: Maybe<GQLImageLicense>;
-  metaImage: GQLMetaImage;
+  metaImage?: Maybe<GQLMetaImage>;
   source?: Maybe<Scalars['String']>;
   subjectIds?: Maybe<Array<Scalars['String']>>;
   subjectNames?: Maybe<Array<Scalars['String']>>;
@@ -350,6 +350,11 @@ export type GQLElement = {
   __typename?: 'Element';
   explanation: Array<Maybe<Scalars['String']>>;
   reference: GQLReference;
+};
+
+export type GQLEmbedVisualelement = {
+  __typename?: 'EmbedVisualelement';
+  visualElement?: Maybe<GQLVisualElement>;
 };
 
 export type GQLFilmFrontpage = {
@@ -1372,11 +1377,6 @@ export type GQLVisualElementOembed = {
 export type GQLWithArticle = {
   availability?: Maybe<Scalars['String']>;
   meta?: Maybe<GQLMeta>;
-};
-
-export type GQLEmbedVisualelement = {
-  __typename?: 'embedVisualelement';
-  visualElement?: Maybe<GQLVisualElement>;
 };
 
 export type GQLArticle_ConceptFragment = {
@@ -3279,7 +3279,7 @@ export type GQLConceptSearchConceptFragment = {
       { __typename?: 'Contributor' } & GQLContributorInfoFragment
     >;
   };
-  image: { __typename?: 'MetaImage'; url: string; alt: string };
+  image?: { __typename?: 'MetaImage'; url: string; alt: string };
 };
 
 export type GQLFrontpageSearchQueryVariables = Exact<{
@@ -3374,6 +3374,11 @@ export type GQLSubjectInfoFragment = {
   name: string;
   path: string;
   metadata: { __typename?: 'TaxonomyMetadata'; customFields: any };
+  subjectpage?: {
+    __typename?: 'SubjectPage';
+    about?: { __typename?: 'SubjectPageAbout'; title: string };
+    banner: { __typename?: 'SubjectPageBanner'; desktopUrl: string };
+  };
 };
 
 export type GQLResourceInfoFragment = {
@@ -3443,6 +3448,13 @@ export type GQLSearchPageQuery = {
   }>;
 };
 
+export type GQLSubjectsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GQLSubjectsQuery = {
+  __typename?: 'Query';
+  subjects?: Array<{ __typename?: 'Subject' } & GQLSubjectInfoFragment>;
+};
+
 export type GQLMovedResourceQueryVariables = Exact<{
   resourceId: Scalars['String'];
 }>;
@@ -3495,6 +3507,7 @@ export type GQLMastHeadQueryVariables = Exact<{
   subjectId: Scalars['String'];
   topicId: Scalars['String'];
   resourceId: Scalars['String'];
+  skipSubject: Scalars['Boolean'];
   skipTopic: Scalars['Boolean'];
   skipResource: Scalars['Boolean'];
 }>;
@@ -3525,6 +3538,7 @@ export type GQLMastHeadQuery = {
     >;
   };
   resource?: { __typename?: 'Resource' } & GQLResourceInfoFragment;
+  subjects?: Array<{ __typename?: 'Subject' } & GQLSubjectInfoFragment>;
 };
 
 export type GQLAlertsQueryVariables = Exact<{ [key: string]: never }>;
@@ -3595,14 +3609,29 @@ export type GQLStructuredArticleData_BrightcoveLicenseFragment = {
 
 export type GQLStructuredArticleDataFragment = {
   __typename?: 'Article';
+  id: number;
   title: string;
   metaDescription: string;
   published: string;
   updated: string;
+  supportedLanguages?: Array<string>;
+  availability?: string;
   copyright: {
     __typename?: 'Copyright';
   } & GQLStructuredArticleData_CopyrightFragment;
   metaImage?: { __typename?: 'MetaImage'; url: string };
+  competenceGoals?: Array<{
+    __typename?: 'CompetenceGoal';
+    id: string;
+    code?: string;
+    title: string;
+    type: string;
+  }>;
+  coreElements?: Array<{
+    __typename?: 'CoreElement';
+    curriculumCode?: string;
+    curriculum?: { __typename?: 'Reference'; code?: string };
+  }>;
   metaData?: {
     __typename?: 'ArticleMetaData';
     images?: Array<

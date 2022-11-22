@@ -9,7 +9,7 @@
 import { useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
-import { keyBy } from 'lodash';
+import keyBy from 'lodash/keyBy';
 import styled from '@emotion/styled';
 import { breakpoints, fonts, mq, spacing } from '@ndla/core';
 import { HeartOutline } from '@ndla/icons/action';
@@ -177,50 +177,36 @@ const MyNdlaPage = () => {
       )}
       <InfoPart
         icon={<HeartOutlineIcon />}
-        title={t('myNdla.myPage.storageInfo.title')}
-        children={
-          <InfoPartText>{t('myNdla.myPage.storageInfo.text')}</InfoPartText>
-        }
-      />
+        title={t('myNdla.myPage.storageInfo.title')}>
+        <InfoPartText>{t('myNdla.myPage.storageInfo.text')}</InfoPartText>
+      </InfoPart>
       <InfoPart
         icon={<FolderOutlinedIcon />}
-        title={t('myNdla.myPage.folderInfo.title')}
-        children={
-          <InfoPartText>
-            <Trans i18nKey="myNdla.myPage.folderInfo.text" />
-          </InfoPartText>
-        }
-      />
-      <InfoPart
-        icon={<HashTagIcon />}
-        title={t('myNdla.myPage.tagInfo.title')}
-        children={
-          <InfoPartText>
-            <Trans i18nKey={'myNdla.myPage.tagInfo.text'} />
-          </InfoPartText>
-        }
-      />
+        title={t('myNdla.myPage.folderInfo.title')}>
+        <InfoPartText>
+          <Trans i18nKey="myNdla.myPage.folderInfo.text" />
+        </InfoPartText>
+      </InfoPart>
+      <InfoPart icon={<HashTagIcon />} title={t('myNdla.myPage.tagInfo.title')}>
+        <InfoPartText>
+          <Trans i18nKey={'myNdla.myPage.tagInfo.text'} />
+        </InfoPartText>
+      </InfoPart>
       {user && (
-        <InfoPart
-          icon={<FeideIcon />}
-          title={t('myNdla.myPage.feide')}
-          children={
-            <>
-              <UserInfo user={user} />
-              <p>
-                {t('user.wrongUserInfoDisclaimer')}
-                <SafeLink to="https://feide.no/brukerstotte">
-                  feide.no/brukerstotte
-                </SafeLink>
-              </p>
-            </>
-          }
-        />
+        <InfoPart icon={<FeideIcon />} title={t('myNdla.myPage.feide')}>
+          <UserInfo user={user} />
+          <p>
+            {t('user.wrongUserInfoDisclaimer')}
+            <SafeLink to="https://feide.no/brukerstotte">
+              feide.no/brukerstotte
+            </SafeLink>
+          </p>
+        </InfoPart>
       )}
       <InfoContainer>
         <LinkText>
           {`${t('myNdla.myPage.read.read')} `}
-          <SafeLink target="_blank" to="https://om.ndla.no/gdpr">
+          <SafeLink target="_blank" to={t('myNdla.myPage.privacyLink')}>
             {t('myNdla.myPage.privacy')}
           </SafeLink>
           {`${t('myNdla.myPage.read.our')}`}

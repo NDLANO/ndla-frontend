@@ -6,6 +6,7 @@
  *
  */
 
+import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
@@ -21,6 +22,7 @@ import { DraggableListItem, DragWrapper } from './DraggableFolder';
 import DragHandle from './DragHandle';
 import { ViewType } from './FoldersPage';
 import { ResourceAction } from './ResourceList';
+import { AuthContext } from '../../../components/AuthenticationContext';
 
 interface Props {
   resource: GQLFolderResource;
@@ -40,6 +42,7 @@ const DraggableResource = ({
   resourceMeta,
 }: Props) => {
   const { t } = useTranslation();
+  const { examLock } = useContext(AuthContext);
   const { addSnack } = useSnack();
   const {
     attributes,
@@ -93,33 +96,42 @@ const DraggableResource = ({
           description={
             viewType !== 'list' ? resourceMeta?.description ?? '' : undefined
           }
-          menuItems={[
-            {
-              icon: <FolderOutlined />,
-              text: t('myNdla.resource.add'),
-              onClick: () => setResourceAction({ action: 'add', resource }),
-            },
-            {
-              icon: <Link />,
-              text: t('myNdla.resource.copyLink'),
-              onClick: () => {
-                navigator.clipboard.writeText(
-                  `${config.ndlaFrontendDomain}${resource.path}`,
-                );
-                addSnack({
-                  content: t('myNdla.resource.linkCopied'),
-                  id: 'linkCopied',
-                });
-              },
-            },
-            {
-              icon: <DeleteForever />,
-              text: t('myNdla.resource.remove'),
-              onClick: () =>
-                setResourceAction({ action: 'delete', resource, index }),
-              type: 'danger',
-            },
-          ]}
+          menuItems={
+            !examLock
+              ? [
+                  {
+                    icon: <FolderOutlined />,
+                    text: t('myNdla.resource.add'),
+                    onClick: () =>
+                      setResourceAction({ action: 'add', resource }),
+                  },
+                  {
+                    icon: <Link />,
+                    text: t('myNdla.resource.copyLink'),
+                    onClick: () => {
+                      navigator.clipboard.writeText(
+                        `${config.ndlaFrontendDomain}${resource.path}`,
+                      );
+                      addSnack({
+                        content: t('myNdla.resource.linkCopied'),
+                        id: 'linkCopied',
+                      });
+                    },
+                  },
+                  {
+                    icon: <DeleteForever />,
+                    text: t('myNdla.resource.remove'),
+                    onClick: () =>
+                      setResourceAction({
+                        action: 'delete',
+                        resource,
+                        index,
+                      }),
+                    type: 'danger',
+                  },
+                ]
+              : undefined
+          }
         />
       </DragWrapper>
     </DraggableListItem>

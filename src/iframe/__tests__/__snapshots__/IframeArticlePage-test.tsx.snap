@@ -270,7 +270,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
               class="c-article__title"
             >
               <h1
-                tabindex="0"
+                tabindex="-1"
               >
                 Politiske skillelinjer
               </h1>

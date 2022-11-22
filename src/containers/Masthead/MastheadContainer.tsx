@@ -39,6 +39,7 @@ import {
   GQLMastHeadQuery,
   GQLMastHeadQueryVariables,
   GQLResourceType,
+  GQLSubjectInfoFragment,
   GQLTopicInfoFragment,
 } from '../../graphqlTypes';
 import config from '../../config';
@@ -46,6 +47,7 @@ import { useAlerts } from '../../components/AlertsContext';
 import { SKIP_TO_CONTENT_ID } from '../../constants';
 import MastheadMenuModal from './components/MastheadMenuModal';
 import { AuthContext } from '../../components/AuthenticationContext';
+import { getSubjectsCategories } from '../../data/subjects';
 
 const BreadcrumbWrapper = styled.div`
   margin-left: ${spacing.normal};
@@ -62,7 +64,8 @@ const FeideLoginLabel = styled.span`
 
 interface State {
   subject?: GQLMastHeadQuery['subject'];
-  topicPath: GQLTopicInfoFragment[];
+  subjects?: GQLSubjectInfoFragment[];
+  topicPath?: GQLTopicInfoFragment[];
   topicResourcesByType?: GQLResourceType[];
   resource?: GQLMastHeadQuery['resource'];
 }
@@ -74,12 +77,14 @@ const MastheadContainer = () => {
   const { t, i18n } = useTranslation();
   const locale = i18n.language;
   const {
-    subjectId,
+    subjectId: subjectIdParam,
     resourceId,
     topicId: topicIdParam,
     subjectType,
+    programme,
   } = useUrnIds();
   const [topicId, setTopicId] = useState<string>(topicIdParam ?? '');
+  const [subjectId, setSubjectId] = useState<string>(subjectIdParam ?? '');
   const { user } = useContext(AuthContext);
   const { openAlerts, closeAlert } = useAlerts();
   const location = useLocation();
@@ -89,6 +94,7 @@ const MastheadContainer = () => {
   const [fetchData] = useLazyQuery<GQLMastHeadQuery, GQLMastHeadQueryVariables>(
     mastHeadQuery,
     {
+      errorPolicy: 'ignore',
       onCompleted: data =>
         setState(mapMastheadData({ subjectId, topicId, data })),
     },
@@ -99,31 +105,39 @@ const MastheadContainer = () => {
   }, [topicIdParam]);
 
   useEffect(() => {
-    if (!subjectId) {
-      setState(initialState);
-      return;
-    }
+    setSubjectId(subjectIdParam ?? '');
+  }, [subjectIdParam]);
 
+  useEffect(() => {
     fetchData({
       variables: {
-        subjectId,
+        subjectId: subjectId ?? '',
         topicId: topicId ?? '',
         resourceId: resourceId ?? '',
+        skipSubject: !subjectId,
         skipTopic: !topicId,
         skipResource: !resourceId,
       },
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [topicId, resourceId, subjectId]);
+  }, [topicId, resourceId, subjectId, programme]);
 
-  const { subject, topicResourcesByType, topicPath, resource } = state;
+  const {
+    subject,
+    topicPath = [],
+    topicResourcesByType,
+    resource,
+    subjects,
+  } = state;
+
+  const path = topicPath ?? [];
 
   const breadcrumbBlockItems = (subject?.id
-    ? toBreadcrumbItems(
-        t('breadcrumb.toFrontpage'),
-        [subject, ...topicPath, ...(resource ? [resource] : [])],
-        locale,
-      )
+    ? toBreadcrumbItems(t('breadcrumb.toFrontpage'), [
+        subject,
+        ...path,
+        ...(resource ? [resource] : []),
+      ])
     : []
   ).filter(uri => !!uri.name && !!uri.to);
 
@@ -158,6 +172,8 @@ const MastheadContainer = () => {
                 locale={locale}
                 subject={subject}
                 topicResourcesByType={topicResourcesByType ?? []}
+                subjects={subjects}
+                subjectCategories={getSubjectsCategories(t, subjects)}
                 onTopicChange={newId => setTopicId(newId)}
                 close={onClose}
               />

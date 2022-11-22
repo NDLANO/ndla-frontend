@@ -8,9 +8,10 @@
 
 import { HashTag, Person } from '@ndla/icons/common';
 import { FolderOutlined } from '@ndla/icons/lib/contentType';
-import { FolderType } from '@ndla/ui';
+import { IFolder } from '@ndla/types-learningpath-api';
 import { TFunction } from 'i18next';
-import { uniq, uniqBy } from 'lodash';
+import uniq from 'lodash/uniq';
+import uniqBy from 'lodash/uniqBy';
 import { GQLFolder, GQLFolderResource } from '../graphqlTypes';
 
 export const getAllTags = (allFolders: GQLFolder[]): string[] => {
@@ -102,5 +103,5 @@ export const createStaticStructureElements = (
       breadcrumbs: [],
       resources: [],
     },
-  ] as FolderType[];
+  ] as IFolder[];
 };

@@ -6,7 +6,7 @@
  *
  */
 
-import { memo } from 'react';
+import { memo, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { useSortable } from '@dnd-kit/sortable';
@@ -19,6 +19,7 @@ import { GQLFolder } from '../../../graphqlTypes';
 import { FolderTotalCount } from '../../../util/folderHelpers';
 import { FolderAction, ViewType } from './FoldersPage';
 import DragHandle from './DragHandle';
+import { AuthContext } from '../../../components/AuthenticationContext';
 
 interface Props {
   folder: GQLFolder;
@@ -53,6 +54,7 @@ const DraggableFolder = ({
   foldersCount,
   setFolderAction,
 }: Props) => {
+  const { examLock } = useContext(AuthContext);
   const { t } = useTranslation();
   const {
     attributes,
@@ -94,20 +96,29 @@ const DraggableFolder = ({
           type={type}
           subFolders={foldersCount[folder.id]?.folders}
           subResources={foldersCount[folder.id]?.resources}
-          menuItems={[
-            {
-              icon: <Pencil />,
-              text: t('myNdla.folder.edit'),
-              onClick: () => setFolderAction({ action: 'edit', folder, index }),
-            },
-            {
-              icon: <DeleteForever />,
-              text: t('myNdla.folder.delete'),
-              onClick: () =>
-                setFolderAction({ action: 'delete', folder, index }),
-              type: 'danger',
-            },
-          ]}
+          menuItems={
+            !examLock
+              ? [
+                  {
+                    icon: <Pencil />,
+                    text: t('myNdla.folder.edit'),
+                    onClick: () =>
+                      setFolderAction({ action: 'edit', folder, index }),
+                  },
+                  {
+                    icon: <DeleteForever />,
+                    text: t('myNdla.folder.delete'),
+                    onClick: () =>
+                      setFolderAction({
+                        action: 'delete',
+                        folder,
+                        index,
+                      }),
+                    type: 'danger',
+                  },
+                ]
+              : undefined
+          }
         />
       </DragWrapper>
     </DraggableListItem>

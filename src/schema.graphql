@@ -224,7 +224,7 @@ type Concept {
   created: String!
   id: Int!
   image: ImageLicense
-  metaImage: MetaImage!
+  metaImage: MetaImage
   source: String
   subjectIds: [String!]
   subjectNames: [String!]
@@ -297,6 +297,10 @@ type Description {
 type Element {
   explanation: [String]!
   reference: Reference!
+}
+
+type EmbedVisualelement {
+  visualElement: VisualElement
 }
 
 type FilmFrontpage {
@@ -1065,8 +1069,4 @@ type VisualElementOembed {
 interface WithArticle {
   availability: String
   meta: Meta
-}
-
-type embedVisualelement {
-  visualElement: VisualElement
 }

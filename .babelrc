@@ -1,9 +1,6 @@
 {
   "presets": [
-    [
-      "razzle/babel",
-      { "runtime": "automatic", "importSource": "@emotion/react" }
-    ]
+    ["razzle", { "runtime": "automatic", "importSource": "@emotion/react" }]
   ],
   "plugins": [
     ["@emotion", { "autoLabel": "always" }],

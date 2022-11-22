@@ -17,7 +17,6 @@ import config from '../../../config';
 import VisualElementWrapper, {
   getResourceType,
 } from '../../../components/VisualElement/VisualElementWrapper';
-import { getSubjectLongName } from '../../../data/subjects';
 import {
   GQLMultidisciplinaryTopic_SubjectFragment,
   GQLMultidisciplinaryTopic_TopicFragment,
@@ -205,7 +204,7 @@ MultidisciplinaryTopic.willTrackPageView = (
 };
 
 MultidisciplinaryTopic.getDimensions = (props: Props) => {
-  const { topic, i18n, subject, user } = props;
+  const { topic, subject, user } = props;
   const topicPath = topic.path
     ?.split('/')
     .slice(2)
@@ -213,14 +212,12 @@ MultidisciplinaryTopic.getDimensions = (props: Props) => {
       subject.allTopics?.find(topic => topic.id.replace('urn:', '') === t),
     );
 
-  const longName = getSubjectLongName(subject?.id, i18n.language);
-
   return getAllDimensions(
     {
-      subject: subject,
+      subject,
       topicPath,
       article: topic.article,
-      filter: longName,
+      filter: subject.name,
       user,
     },
     undefined,

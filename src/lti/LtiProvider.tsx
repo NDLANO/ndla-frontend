@@ -50,7 +50,7 @@ const LtiProvider = ({ locale: propsLocale, ltiData }: Props) => {
   const { t, i18n } = useTranslation();
   const locale = propsLocale ?? i18n.language;
   const subjects = searchSubjects(searchParams.query);
-  const subjectItems = subjects.map(subject => ({
+  const subjectItems = subjects?.map(subject => ({
     id: subject.id,
     title: subject.name,
     url: subject.path,
@@ -97,10 +97,11 @@ const LtiProvider = ({ locale: propsLocale, ltiData }: Props) => {
       <SearchInnerPage
         handleSearchParamsChange={handleSearchParamsChange}
         query={searchParams.query}
-        subjects={searchParams.subjects}
-        programmes={searchParams.programs}
+        subjectIds={searchParams.subjects}
+        programmeNames={searchParams.programs}
         selectedFilters={searchParams.selectedFilters}
         activeSubFilters={searchParams.activeSubFilters}
+        subjects={data?.subjects}
         subjectItems={subjectItems}
         resourceTypes={data?.resourceTypes?.filter(
           type => type.id !== RESOURCE_TYPE_LEARNING_PATH,

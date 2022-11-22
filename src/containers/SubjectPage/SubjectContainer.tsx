@@ -38,7 +38,6 @@ import SubjectPageContent from './components/SubjectPageContent';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { scrollToRef } from './subjectPageHelpers';
 import CompetenceGoals from '../../components/CompetenceGoals';
-import { getSubjectBySubjectId, getSubjectLongName } from '../../data/subjects';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { htmlTitle } from '../../util/titleHelper';
 import { BreadcrumbItem } from '../../interfaces';
@@ -68,7 +67,7 @@ const getSubjectCategoryMessage = (
   ) {
     return undefined;
   } else if (subjectCategory === constants.subjectCategories.BETA_SUBJECTS) {
-    return t('messageBoxInfo.subjectBeta');
+    return t('messageBoxInfo.subjectFuture');
   } else if (subjectCategory === constants.subjectCategories.ARCHIVE_SUBJECTS) {
     return t('messageBoxInfo.subjectOutdated');
   } else {
@@ -84,12 +83,14 @@ const getSubjectTypeMessage = (
     return undefined;
   } else if (subjectType === constants.subjectTypes.RESOURCE_COLLECTION) {
     return t('messageBoxInfo.resources');
+  } else if (subjectType === constants.subjectTypes.BETA_SUBJECT) {
+    return t('messageBoxInfo.subjectBeta');
   } else {
     return undefined;
   }
 };
 
-const SubjectContainer = ({ t, subjectId, topicIds, subject, i18n }: Props) => {
+const SubjectContainer = ({ t, subjectId, topicIds, subject }: Props) => {
   const ndlaFilm = useIsNdlaFilm();
   const { name: subjectName } = subject;
 
@@ -101,17 +102,7 @@ const SubjectContainer = ({ t, subjectId, topicIds, subject, i18n }: Props) => {
   const [breadCrumbList, setBreadCrumbList] = useState<BreadcrumbItem[]>([]);
 
   const [subjectNames] = useState(() => {
-    const subjectData = getSubjectBySubjectId(subject.id);
-    if (subjectData) {
-      return {
-        subHeading: undefined,
-        name: subjectData.name[i18n.language],
-        longName: subjectData.longName[i18n.language],
-      };
-    }
-    // Fallback if subject is missing in static constants
     return {
-      subHeading: subjectName,
       name: subjectName,
       longName: subjectName,
     };
@@ -272,7 +263,6 @@ const SubjectContainer = ({ t, subjectId, topicIds, subject, i18n }: Props) => {
                   headingId={
                     topicIds.length === 0 ? SKIP_TO_CONTENT_ID : undefined
                   }
-                  subHeading={subjectNames.subHeading}
                   invertedStyle={ndlaFilm}>
                   {subjectNames.longName}
                 </NavigationHeading>
@@ -312,7 +302,7 @@ const SubjectContainer = ({ t, subjectId, topicIds, subject, i18n }: Props) => {
 };
 
 SubjectContainer.getDocumentTitle = ({ t, subject }: Props): string => {
-  return htmlTitle(subject.name, [t('htmlTitles.titleTemplate')]);
+  return htmlTitle(subject?.name, [t('htmlTitles.titleTemplate')]);
 };
 
 SubjectContainer.willTrackPageView = (
@@ -326,16 +316,15 @@ SubjectContainer.willTrackPageView = (
 };
 
 SubjectContainer.getDimensions = (props: Props) => {
-  const { subject, i18n, topicIds, user } = props;
+  const { subject, topicIds, user } = props;
   const topicPath = topicIds.map(t =>
     subject.allTopics?.find(topic => topic.id === t),
   );
-  const longName = getSubjectLongName(subject.id, i18n.language);
 
   return getAllDimensions({
     subject,
     topicPath,
-    filter: longName,
+    filter: subject.name,
     user,
   });
 };
