@@ -11,7 +11,7 @@ describe('Topic page', () => {
     cy.fixCypressSpec('/cypress/integration/topic_page.spec.ts');
     cy.gqlIntercept({
       alias: 'alerts',
-      operations: ['alerts', 'subjects', 'mastHead'],
+      operations: ['alerts', 'subjects'],
     });
     cy.visit('/?disableSSR=true');
     cy.gqlWait('@alerts');
@@ -34,7 +34,7 @@ describe('Topic page', () => {
 
     cy.gqlIntercept({
       alias: 'topicpage',
-      operations: ['topicWrapper', 'mastHead'],
+      operations: ['topicWrapper'],
     });
     cy.get(
       '[data-testid="nav-box-list"] li a:contains("Idéskaping og mediedesign")',
@@ -65,7 +65,7 @@ describe('Topic page', () => {
 
     cy.gqlIntercept({
       alias: 'topicpageWithContent',
-      operations: ['topicWrapper', 'mastHead'],
+      operations: ['topicWrapper'],
     });
     cy.get(
       '[data-testid="nav-box-list"] li a:contains("Tverrfaglige medieoppdrag")',

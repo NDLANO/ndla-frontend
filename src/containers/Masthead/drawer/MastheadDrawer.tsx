@@ -15,9 +15,8 @@ import { Cross } from '@ndla/icons/action';
 import { Drawer } from '@ndla/modal';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { GQLDrawerQuery, GQLDrawerQueryVariables } from '../../../graphqlTypes';
+import { GQLMastheadDrawer_SubjectFragment } from '../../../graphqlTypes';
 import { useIsNdlaFilm, useUrnIds } from '../../../routeHelpers';
-import { useGraphQuery } from '../../../util/runQueries';
 import { usePrevious } from '../../../util/utilityHooks';
 import DefaultMenu from './DefaultMenu';
 import DrawerContent from './DrawerContent';
@@ -46,27 +45,17 @@ const HeadWrapper = styled.div`
   }
 `;
 
-const drawerQuery = gql`
-  query drawer($subjectId: String!) {
-    subject(id: $subjectId) {
-      ...DefaultMenu_Subject
-    }
-  }
-  ${DefaultMenu.fragments.subject}
-`;
+interface Props {
+  subject?: GQLMastheadDrawer_SubjectFragment;
+}
 
-const MastheadDrawer = () => {
+const MastheadDrawer = ({ subject }: Props) => {
   const { subjectId, topicList, programme } = useUrnIds();
   const prevProgramme = usePrevious(programme);
   const [type, setType] = useState<MenuType | undefined>(undefined);
   const [topicPath, setTopicPath] = useState<string[]>(topicList);
   const ndlaFilm = useIsNdlaFilm();
   const { t } = useTranslation();
-
-  const { data } = useGraphQuery<GQLDrawerQuery, GQLDrawerQueryVariables>(
-    drawerQuery,
-    { variables: { subjectId: subjectId! }, skip: !subjectId },
-  );
 
   useEffect(() => {
     setTopicPath(topicList);
@@ -113,6 +102,7 @@ const MastheadDrawer = () => {
           inverted={ndlaFilm}
           shape="pill"
           variant="outline"
+          data-testid="masthead-menu-button"
           aria-label={t('masthead.menu.title')}>
           <Menu />
           Meny
@@ -135,7 +125,7 @@ const MastheadDrawer = () => {
               onClose={close}
               onCloseMenuPortion={onCloseMenuPortion}
               setActiveMenu={setType}
-              subject={data?.subject}
+              subject={subject}
               type={type}
               closeSubMenu={closeSubMenu}
             />
@@ -144,6 +134,7 @@ const MastheadDrawer = () => {
                 onClose={close}
                 type={type}
                 topicPath={topicPath}
+                subject={subject}
                 setTopicPathIds={setTopicPath}
                 onCloseMenuPortion={onCloseMenuPortion}
               />
@@ -153,6 +144,17 @@ const MastheadDrawer = () => {
       )}
     </Drawer>
   );
+};
+
+MastheadDrawer.fragments = {
+  subject: gql`
+    fragment MastheadDrawer_Subject on Subject {
+      ...DefaultMenu_Subject
+      ...DrawerContent_Subject
+    }
+    ${DefaultMenu.fragments.subject}
+    ${DrawerContent.fragments.subject}
+  `,
 };
 
 export default MastheadDrawer;

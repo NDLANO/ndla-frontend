@@ -7,12 +7,9 @@
  */
 
 import { gql } from '@apollo/client';
-import { Dispatch, memo, SetStateAction } from 'react';
-import { GQLDrawerQuery, GQLDrawerQueryVariables } from '../../../graphqlTypes';
-import { useUrnIds } from '../../../routeHelpers';
-import { useGraphQuery } from '../../../util/runQueries';
+import { Dispatch, SetStateAction } from 'react';
+import { GQLDrawerContent_SubjectFragment } from '../../../graphqlTypes';
 import AboutMenu from './AboutMenu';
-import DefaultMenu from './DefaultMenu';
 import { MenuType } from './drawerMenuTypes';
 import ProgrammeMenu from './ProgrammeMenu';
 import SubjectMenu from './SubjectMenu';
@@ -21,34 +18,19 @@ interface Props {
   onClose: () => void;
   onCloseMenuPortion: () => void;
   topicPath: string[];
+  subject?: GQLDrawerContent_SubjectFragment;
   type: MenuType;
   setTopicPathIds: Dispatch<SetStateAction<string[]>>;
 }
-
-const drawerQuery = gql`
-  query drawerContent($subjectId: String!) {
-    subject(id: $subjectId) {
-      ...DefaultMenu_Subject
-      ...SubjectMenu_Subject
-    }
-  }
-  ${SubjectMenu.fragments.subject}
-  ${DefaultMenu.fragments.subject}
-`;
 
 const DrawerContent = ({
   onClose,
   type,
   onCloseMenuPortion,
   topicPath,
+  subject,
   setTopicPathIds,
 }: Props) => {
-  const { subjectId } = useUrnIds();
-  const { data } = useGraphQuery<GQLDrawerQuery, GQLDrawerQueryVariables>(
-    drawerQuery,
-    { variables: { subjectId: subjectId! }, skip: !subjectId },
-  );
-
   if (type === 'programme') {
     return (
       <ProgrammeMenu
@@ -59,7 +41,7 @@ const DrawerContent = ({
   } else if (type === 'subject') {
     return (
       <SubjectMenu
-        subject={data?.subject}
+        subject={subject}
         onClose={onClose}
         onCloseMenuPortion={onCloseMenuPortion}
         topicPathIds={topicPath}
@@ -73,4 +55,13 @@ const DrawerContent = ({
   }
 };
 
-export default memo(DrawerContent);
+DrawerContent.fragments = {
+  subject: gql`
+    fragment DrawerContent_Subject on Subject {
+      ...SubjectMenu_Subject
+    }
+    ${SubjectMenu.fragments.subject}
+  `,
+};
+
+export default DrawerContent;

@@ -6,7 +6,7 @@
  *
  */
 
-import { useState, useEffect, useContext } from 'react';
+import { useContext, useMemo } from 'react';
 import {
   Masthead,
   MastheadItem,
@@ -18,7 +18,8 @@ import {
 import styled from '@emotion/styled';
 import { breakpoints, mq, spacing } from '@ndla/core';
 import { useLocation } from 'react-router-dom';
-import { useLazyQuery } from '@apollo/client';
+import keyBy from 'lodash/keyBy';
+import { gql } from '@apollo/client';
 
 import { Feide } from '@ndla/icons/common';
 import { useTranslation } from 'react-i18next';
@@ -30,22 +31,18 @@ import {
 
 import FeideLoginButton from '../../components/FeideLoginButton';
 import MastheadSearch from './components/MastheadSearch';
-import { mastHeadQuery } from '../../queries';
 import { getLocaleUrls } from '../../util/localeHelpers';
 import ErrorBoundary from '../ErrorPage/ErrorBoundary';
-import { mapMastheadData } from './mastheadHelpers';
-import {
-  GQLMastHeadQuery,
-  GQLMastHeadQueryVariables,
-  GQLResourceType,
-  GQLSubjectInfoFragment,
-  GQLTopicInfoFragment,
-} from '../../graphqlTypes';
 import config from '../../config';
 import { useAlerts } from '../../components/AlertsContext';
 import { SKIP_TO_CONTENT_ID } from '../../constants';
 import { AuthContext } from '../../components/AuthenticationContext';
 import MastheadDrawer from './drawer/MastheadDrawer';
+import { useGraphQuery } from '../../util/runQueries';
+import {
+  GQLMastHeadQuery,
+  GQLMastHeadQueryVariables,
+} from '../../graphqlTypes';
 
 const BreadcrumbWrapper = styled.div`
   margin-left: ${spacing.normal};
@@ -60,75 +57,59 @@ const FeideLoginLabel = styled.span`
   }
 `;
 
-interface State {
-  subject?: GQLMastHeadQuery['subject'];
-  subjects?: GQLSubjectInfoFragment[];
-  topicPath?: GQLTopicInfoFragment[];
-  topicResourcesByType?: GQLResourceType[];
-  resource?: GQLMastHeadQuery['resource'];
-}
-
-const initialState: State = { topicPath: [] };
+const mastheadQuery = gql`
+  query mastHead(
+    $subjectId: String!
+    $resourceId: String!
+    $skipResource: Boolean!
+  ) {
+    subject(id: $subjectId) {
+      ...MastheadDrawer_Subject
+    }
+    resource(id: $resourceId) @skip(if: $skipResource) {
+      id
+      name
+    }
+  }
+  ${MastheadDrawer.fragments.subject}
+`;
 
 const MastheadContainer = () => {
-  const [state, setState] = useState<State>(initialState);
   const { t, i18n } = useTranslation();
   const locale = i18n.language;
-  const {
-    subjectId: subjectIdParam,
-    resourceId,
-    topicId: topicIdParam,
-    subjectType,
-    programme,
-  } = useUrnIds();
-  const [topicId, setTopicId] = useState<string>(topicIdParam ?? '');
-  const [subjectId, setSubjectId] = useState<string>(subjectIdParam ?? '');
+  const { subjectId, resourceId, subjectType, topicList } = useUrnIds();
   const { user } = useContext(AuthContext);
   const { openAlerts, closeAlert } = useAlerts();
   const location = useLocation();
   const ndlaFilm = useIsNdlaFilm();
   const hideBreadcrumb = subjectType === 'standard' && !resourceId;
 
-  const [fetchData] = useLazyQuery<GQLMastHeadQuery, GQLMastHeadQueryVariables>(
-    mastHeadQuery,
+  const { data } = useGraphQuery<GQLMastHeadQuery, GQLMastHeadQueryVariables>(
+    mastheadQuery,
     {
-      errorPolicy: 'ignore',
-      onCompleted: data =>
-        setState(mapMastheadData({ subjectId, topicId, data })),
+      variables: {
+        subjectId: subjectId!,
+        resourceId: resourceId ?? '',
+        skipResource: !resourceId,
+      },
+      skip: !subjectId,
     },
   );
 
-  useEffect(() => {
-    setTopicId(topicIdParam ?? '');
-  }, [topicIdParam]);
+  const path = useMemo(() => {
+    if (!data?.subject?.allTopics?.length) {
+      return [];
+    }
+    const keyed = keyBy(data.subject.allTopics, t => t.id);
+    const transformed = topicList.map(t => keyed[t]);
+    return transformed;
+  }, [data?.subject?.allTopics, topicList]);
 
-  useEffect(() => {
-    setSubjectId(subjectIdParam ?? '');
-  }, [subjectIdParam]);
-
-  useEffect(() => {
-    fetchData({
-      variables: {
-        subjectId: subjectId ?? '',
-        topicId: topicId ?? '',
-        resourceId: resourceId ?? '',
-        skipSubject: !subjectId,
-        skipTopic: !topicId,
-        skipResource: !resourceId,
-      },
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [topicId, resourceId, subjectId, programme]);
-
-  const { subject, topicPath = [], resource } = state;
-
-  const path = topicPath ?? [];
-
-  const breadcrumbBlockItems = (subject?.id
+  const breadcrumbBlockItems = (data?.subject?.id
     ? toBreadcrumbItems(t('breadcrumb.toFrontpage'), [
-        subject,
+        data.subject,
         ...path,
-        ...(resource ? [resource] : []),
+        ...(data?.resource ? [data.resource] : []),
       ])
     : []
   ).filter(uri => !!uri.name && !!uri.to);
@@ -136,9 +117,9 @@ const MastheadContainer = () => {
   const renderSearchComponent = (hideOnNarrowScreen: boolean) =>
     !location.pathname.includes('search') &&
     location.pathname !== '/' &&
-    (location.pathname.includes('utdanning') || subject) && (
+    (location.pathname.includes('utdanning') || data?.subject) && (
       <MastheadSearch
-        subject={subject}
+        subject={data?.subject}
         hideOnNarrowScreen={hideOnNarrowScreen}
       />
     );
@@ -158,7 +139,7 @@ const MastheadContainer = () => {
         onCloseAlert={id => closeAlert(id)}
         messages={alerts}>
         <MastheadItem left>
-          <MastheadDrawer />
+          <MastheadDrawer subject={data?.subject} />
           {!hideBreadcrumb && !!breadcrumbBlockItems.length && (
             <DisplayOnPageYOffset yOffsetMin={150}>
               <BreadcrumbWrapper>

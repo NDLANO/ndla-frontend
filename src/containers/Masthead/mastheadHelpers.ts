@@ -7,15 +7,7 @@
  */
 
 import { contentTypeMapping } from '../../util/getContentType';
-import { getResourceGroups } from '../Resources/getResourceGroups';
-import { toTopicMenu } from '../../util/topicsHelper';
-import {
-  GQLMastHeadQuery,
-  GQLResource,
-  GQLResourceType,
-  GQLTopic,
-} from '../../graphqlTypes';
-import { getTopicPath } from '../../util/getTopicPath';
+import { GQLResource, GQLResourceType, GQLTopic } from '../../graphqlTypes';
 
 function getContentTypeResults(
   topicId: string,
@@ -71,41 +63,3 @@ export function mapTopicResourcesToTopic(
     };
   });
 }
-
-export const mapMastheadData = ({
-  subjectId = '',
-  topicId = '',
-  data: { resourceTypes, subject, topic, resource, subjects },
-}: {
-  subjectId?: string;
-  topicId?: string;
-  data: GQLMastHeadQuery;
-}) => {
-  const topicResourcesByType = topic
-    ? getResourceGroups(
-        resourceTypes?.map(type => ({ id: type.id, name: type.name })) || [],
-        topic.supplementaryResources || [],
-        topic.coreResources || [],
-      )
-    : [];
-
-  const topicsWithSubTopics =
-    subject?.topics
-      ?.filter(t => !t.parent || t.parent === subjectId)
-      .map(t => toTopicMenu(t, subject.topics || [])) ?? [];
-
-  const topicPath = getTopicPath(subjectId, topicId, subject?.topics);
-
-  const subjectWithTopics = subject && {
-    ...subject,
-    topics: topicsWithSubTopics,
-  };
-
-  return {
-    subject: subjectWithTopics,
-    topicPath,
-    topicResourcesByType,
-    resource,
-    subjects,
-  };
-};

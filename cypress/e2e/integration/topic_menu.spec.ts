@@ -11,7 +11,7 @@ describe('Topic menu', () => {
     cy.fixCypressSpec('/e2e/integration/topic_menu.spec.ts');
     cy.gqlIntercept({
       alias: 'alerts',
-      operations: ['alerts', 'subjects', 'mastHead'],
+      operations: ['alerts', 'subjects'],
     });
     cy.visit('/?disableSSR=true');
     cy.gqlWait('@alerts');
@@ -31,6 +31,6 @@ describe('Topic menu', () => {
 
     cy.get('[data-testid=masthead-menu-button]').click();
 
-    cy.get('a').contains('Til forsiden');
+    cy.get('a').contains('Markedsføring og ledelse 1');
   });
 });
