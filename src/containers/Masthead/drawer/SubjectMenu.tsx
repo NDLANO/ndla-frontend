@@ -108,7 +108,11 @@ const SubjectMenu = ({
 
   useArrowNavigation(
     !topicPath.length,
-    subject ? `header-${subject.id}` : undefined,
+    topicPath.length
+      ? topicPath[0]?.id
+      : subject
+      ? `header-${subject.id}`
+      : undefined,
     keyboardAddTopic,
     onCloseMenuPortion,
   );

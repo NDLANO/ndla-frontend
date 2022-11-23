@@ -65,9 +65,14 @@ const TopicMenu = ({
     [addTopic, level, topic.subtopics],
   );
 
+  const active = useMemo(
+    () => topicPath[topicPath.length - 1]?.id === topic.id,
+    [topic, topicPath],
+  );
+
   useArrowNavigation(
-    topicPath[topicPath.length - 1]?.id === topic.id,
-    `header-${topic.id}`,
+    active,
+    active ? `header-${topic.id}` : topicPath[level]?.id,
     arrowAddTopic,
     onCloseMenuPortion,
   );
@@ -109,6 +114,7 @@ const TopicMenu = ({
             type="link"
             to={res.path}
             current={res.path === location.pathname}
+            active={res.path === location.pathname}
             onClose={onClose}
             key={res.id}>
             {res.name}
@@ -120,6 +126,7 @@ const TopicMenu = ({
             type="link"
             to={res.path}
             current={res.path === location.pathname}
+            active={res.path === location.pathname}
             onClose={onClose}
             key={res.id}>
             {res.name}
