@@ -92,9 +92,14 @@ const MastheadDrawer = () => {
     if (type !== 'subject' || !topicPath.length) {
       setType(undefined);
     } else {
-      setTopicPath(prev => prev.slice(0, prev.length - 1));
+      const newPath = topicPath.slice(0, topicPath.length - 1);
+      const id = topicPath[topicPath.length - 1];
+      if (id) {
+        document.getElementById(id)?.focus();
+      }
+      setTopicPath(newPath);
     }
-  }, [topicPath.length, type]);
+  }, [topicPath, type]);
 
   return (
     <Drawer

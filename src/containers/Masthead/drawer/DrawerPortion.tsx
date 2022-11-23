@@ -42,4 +42,20 @@ const DrawerPortion = ({
   return <StyledDiv {...rest}>{children}</StyledDiv>;
 };
 
+const StyledDrawerList = styled.ul`
+  margin: 0;
+  padding: 0;
+`;
+
+export const DrawerList = ({
+  children,
+  ...rest
+}: DetailedHTMLProps<HTMLAttributes<HTMLUListElement>, HTMLUListElement>) => {
+  return (
+    <StyledDrawerList role="menubar" aria-orientation="vertical" {...rest}>
+      {children}
+    </StyledDrawerList>
+  );
+};
+
 export default DrawerPortion;

@@ -14,17 +14,13 @@ import { useUrnIds } from '../../../routeHelpers';
 import { getProgrammes } from '../../../util/programmesSubjectsHelper';
 import BackButton from './BackButton';
 import DrawerMenuItem from './DrawerMenuItem';
-import DrawerPortion from './DrawerPortion';
+import DrawerPortion, { DrawerList } from './DrawerPortion';
+import useArrowNavigation from './useArrowNavigation';
 
 interface Props {
   onClose: () => void;
   onCloseMenuPortion: () => void;
 }
-
-const StyledNav = styled.nav`
-  display: flex;
-  flex-direction: column;
-`;
 
 const StyledTitle = styled.h1`
   margin: 0px;
@@ -39,13 +35,16 @@ const ProgrammeMenu = ({ onClose, onCloseMenuPortion }: Props) => {
     i18n.language,
   ]);
 
+  useArrowNavigation(true, programmes[0]?.path, undefined, onCloseMenuPortion);
+
   return (
     <DrawerPortion>
       <BackButton title="Go home" homeButton onGoBack={onCloseMenuPortion} />
-      <StyledTitle>Utdanningsprogram</StyledTitle>
-      <StyledNav>
+      <StyledTitle aria-hidden={true}>Utdanningsprogram</StyledTitle>
+      <DrawerList id="programme-menu">
         {programmes.map(programme => (
           <DrawerMenuItem
+            id={programme.path}
             type="link"
             to={programme.path}
             onClose={onClose}
@@ -56,7 +55,7 @@ const ProgrammeMenu = ({ onClose, onCloseMenuPortion }: Props) => {
             {programme.name}
           </DrawerMenuItem>
         ))}
-      </StyledNav>
+      </DrawerList>
     </DrawerPortion>
   );
 };

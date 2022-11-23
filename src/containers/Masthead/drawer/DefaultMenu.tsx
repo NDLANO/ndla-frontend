@@ -9,8 +9,9 @@
 import { gql } from '@apollo/client';
 import styled from '@emotion/styled';
 import { IconButtonV2 } from '@ndla/button';
-import { breakpoints, colors, fonts, mq, spacing } from '@ndla/core';
+import { breakpoints, colors, mq, spacing } from '@ndla/core';
 import { Back, Home } from '@ndla/icons/common';
+import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   FILM_PAGE_PATH,
@@ -22,8 +23,9 @@ import { GQLDefaultMenu_SubjectFragment } from '../../../graphqlTypes';
 import { removeUrn } from '../../../routeHelpers';
 import DrawerMenuItem from './DrawerMenuItem';
 import { MenuType } from './drawerMenuTypes';
-import DrawerPortion from './DrawerPortion';
+import DrawerPortion, { DrawerList } from './DrawerPortion';
 import DrawerRowHeader from './DrawerRowHeader';
+import useArrowNavigation from './useArrowNavigation';
 
 const StyledCollapsedMenu = styled.div`
   display: flex;
@@ -41,19 +43,11 @@ const StyledCollapsedMenu = styled.div`
   }
 `;
 
-const MinWidthWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
+const StyledDrawerPortion = styled(DrawerPortion)`
   ${mq.range({ from: breakpoints.tablet })} {
     min-width: 300px;
     max-width: 300px;
   }
-`;
-
-const UsefulTools = styled.p`
-  ${fonts.sizes('20px', '24px')};
-  padding: ${spacing.nsmall} ${spacing.xsmall} ${spacing.nsmall} 40px;
-  margin: 0px;
 `;
 
 const multiDiscUrl = `/${removeUrn(MULTIDISCIPLINARY_SUBJECT_ID)}`;
@@ -69,6 +63,8 @@ interface Props {
   onCloseMenuPortion: () => void;
 }
 
+const validMenus: MenuType[] = ['subject', 'programme', 'about'];
+
 const DefaultMenu = ({
   onClose,
   setActiveMenu,
@@ -78,6 +74,19 @@ const DefaultMenu = ({
   onCloseMenuPortion,
 }: Props) => {
   const { t } = useTranslation();
+
+  const onRightClick = useCallback(
+    (id: string | undefined) => {
+      const strippedId = id?.replace('header-', '');
+      if (validMenus.includes(strippedId as MenuType)) {
+        setActiveMenu(strippedId as MenuType);
+      }
+    },
+    [setActiveMenu],
+  );
+
+  useArrowNavigation(!type, type ? `header-${type}` : undefined, onRightClick);
+
   if (type) {
     return (
       <StyledCollapsedMenu>
@@ -97,44 +106,68 @@ const DefaultMenu = ({
     );
   }
   return (
-    <DrawerPortion>
-      <MinWidthWrapper>
+    <StyledDrawerPortion>
+      <DrawerList>
         <DrawerRowHeader
+          ownsId="programme-menu"
+          id="programme"
           type="button"
           title={t('masthead.menuOptions.programme')}
           onClick={() => setActiveMenu('programme')}
         />
         <DrawerRowHeader
           type="link"
+          id="subjects"
           to="/subjects"
           title={t('masthead.menuOptions.subjects')}
           onClose={onClose}
         />
         {subject && (
           <DrawerRowHeader
+            ownsId="subject-menu"
+            id="subject"
             type="button"
             title={subject.name}
             onClick={() => setActiveMenu('subject')}
           />
         )}
-        <UsefulTools>Nyttige verktøy</UsefulTools>
-        <DrawerMenuItem type="link" to={multiDiscUrl} onClose={onClose}>
+        <DrawerRowHeader
+          ownsId="about-menu"
+          id="about"
+          type="button"
+          title={t('masthead.menuOptions.about.title')}
+          onClick={() => setActiveMenu('about')}
+        />
+        <DrawerMenuItem
+          id="multidisciplinary"
+          type="link"
+          to={multiDiscUrl}
+          onClose={onClose}>
           {t('masthead.menuOptions.multidisciplinarySubjects')}
         </DrawerMenuItem>
-        <DrawerMenuItem type="link" to={studentToolboxUrl} onClose={onClose}>
+        <DrawerMenuItem
+          id="toolboxStudents"
+          type="link"
+          to={studentToolboxUrl}
+          onClose={onClose}>
           {t('masthead.menuOptions.toolboxStudents')}
         </DrawerMenuItem>
-        <DrawerMenuItem type="link" to={teacherToolboxUrl} onClose={onClose}>
+        <DrawerMenuItem
+          id="toolboxTeachers"
+          type="link"
+          to={teacherToolboxUrl}
+          onClose={onClose}>
           {t('masthead.menuOptions.toolboxTeachers')}
         </DrawerMenuItem>
-        <DrawerMenuItem type="link" to={FILM_PAGE_PATH} onClose={onClose}>
+        <DrawerMenuItem
+          id="film"
+          type="link"
+          to={FILM_PAGE_PATH}
+          onClose={onClose}>
           {t('masthead.menuOptions.film')}
         </DrawerMenuItem>
-        <DrawerMenuItem type="button" onClick={() => setActiveMenu('about')}>
-          {t('masthead.menuOptions.about.title')}
-        </DrawerMenuItem>
-      </MinWidthWrapper>
-    </DrawerPortion>
+      </DrawerList>
+    </StyledDrawerPortion>
   );
 };
 

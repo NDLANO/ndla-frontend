@@ -8,6 +8,7 @@
 
 import { gql } from '@apollo/client';
 import { Bookmark, Class } from '@ndla/icons/action';
+import { useCallback } from 'react';
 import {
   GQLTopicMenuResourcesQuery,
   GQLTopicMenuResourcesQueryVariables,
@@ -17,9 +18,10 @@ import { removeUrn } from '../../../routeHelpers';
 import { useGraphQuery } from '../../../util/runQueries';
 import BackButton from './BackButton';
 import DrawerMenuItem from './DrawerMenuItem';
-import DrawerPortion from './DrawerPortion';
+import DrawerPortion, { DrawerList } from './DrawerPortion';
 import DrawerRowHeader from './DrawerRowHeader';
 import { TopicWithSubTopics } from './SubjectMenu';
+import useArrowNavigation from './useArrowNavigation';
 
 interface Props {
   topic: TopicWithSubTopics;
@@ -30,6 +32,7 @@ interface Props {
   addTopic: (topic: TopicWithSubTopics, index: number) => void;
   level: number;
   currentPath: string;
+  removeTopic: (index: number) => void;
 }
 
 const TopicMenu = ({
@@ -41,6 +44,7 @@ const TopicMenu = ({
   onCloseMenuPortion,
   addTopic,
   level,
+  removeTopic,
 }: Props) => {
   const path = `${currentPath}/${removeUrn(topic.id)}`;
   const parentIsTopic = currentPath.split('/').length > 1;
@@ -53,37 +57,61 @@ const TopicMenu = ({
     variables: { topicId: topic.id, subjectId: subject.id },
   });
 
+  const arrowAddTopic = useCallback(
+    (id: string | undefined) => {
+      const newTopic = topic.subtopics.find(t => t.id === id);
+      if (newTopic) {
+        addTopic(newTopic, level);
+      }
+    },
+    [addTopic, level, topic.subtopics],
+  );
+
+  useArrowNavigation(
+    topicPath[topicPath.length - 1]?.id === topic.id,
+    `header-${topic.id}`,
+    arrowAddTopic,
+    onCloseMenuPortion,
+  );
+
   return (
     <DrawerPortion>
       <BackButton
         title={topicPath[level - 2]?.name ?? subject.name}
         onGoBack={onCloseMenuPortion}
       />
-      <DrawerRowHeader
-        icon={<Icon />}
-        type="link"
-        to={path}
-        title={topic.name}
-        onClose={onClose}
-      />
-      {topic.subtopics.map(t => (
-        <DrawerMenuItem
-          key={t.id}
-          type="button"
-          active={topicPath[level]?.id === t.id}
-          onClick={() => addTopic(t, level)}>
-          {t.name}
-        </DrawerMenuItem>
-      ))}
-      {data?.topic?.coreResources?.map(res => (
-        <DrawerMenuItem
+      <DrawerList id={`list-${topic.id}`}>
+        <DrawerRowHeader
+          id={topic.id}
+          icon={<Icon />}
           type="link"
-          to={`${path}/${removeUrn(res.id)}`}
+          to={path}
+          title={topic.name}
           onClose={onClose}
-          key={res.id}>
-          {res.name}
-        </DrawerMenuItem>
-      ))}
+        />
+        {topic.subtopics.map(t => (
+          <DrawerMenuItem
+            id={t.id}
+            key={t.id}
+            type="button"
+            active={topicPath[level]?.id === t.id}
+            onClick={expanded =>
+              expanded ? removeTopic(level) : addTopic(t, level)
+            }>
+            {t.name}
+          </DrawerMenuItem>
+        ))}
+        {data?.topic?.coreResources?.map(res => (
+          <DrawerMenuItem
+            id={res.id}
+            type="link"
+            to={`${path}/${removeUrn(res.id)}`}
+            onClose={onClose}
+            key={res.id}>
+            {res.name}
+          </DrawerMenuItem>
+        ))}
+      </DrawerList>
     </DrawerPortion>
   );
 };

@@ -7,18 +7,18 @@
  */
 
 import partition from 'lodash/partition';
-import styled from '@emotion/styled';
 import { Dispatch, SetStateAction, useCallback, useMemo } from 'react';
 import { gql } from '@apollo/client';
 import { ContentLoader } from '@ndla/ui';
 import { MenuBook } from '@ndla/icons/action';
 import { GQLSubjectMenu_SubjectFragment } from '../../../graphqlTypes';
 import DrawerMenuItem from './DrawerMenuItem';
-import DrawerPortion from './DrawerPortion';
+import DrawerPortion, { DrawerList } from './DrawerPortion';
 import TopicMenu from './TopicMenu';
 import DrawerRowHeader from './DrawerRowHeader';
 import { removeUrn } from '../../../routeHelpers';
 import BackButton from './BackButton';
+import useArrowNavigation from './useArrowNavigation';
 
 interface Props {
   subject?: GQLSubjectMenu_SubjectFragment;
@@ -27,11 +27,6 @@ interface Props {
   topicPathIds: string[];
   setTopicPathIds: Dispatch<SetStateAction<string[]>>;
 }
-
-const MenuWrapper = styled.div`
-  display: flex;
-  flex: 1;
-`;
 
 type AllTopicsType = NonNullable<
   GQLSubjectMenu_SubjectFragment['allTopics']
@@ -92,15 +87,40 @@ const SubjectMenu = ({
     [setTopicPathIds],
   );
 
+  const removeTopic = useCallback(
+    (index: number) => {
+      setTopicPathIds(prev => prev.slice(0, index));
+    },
+    [setTopicPathIds],
+  );
+
+  const keyboardAddTopic = useCallback(
+    (id: string | undefined) => {
+      const topic = groupedTopics.find(t => t.id === id);
+      if (topic) {
+        addTopic(topic, 0);
+      }
+    },
+    [addTopic, groupedTopics],
+  );
+
+  useArrowNavigation(
+    !topicPath.length,
+    subject ? `header-${subject.id}` : undefined,
+    keyboardAddTopic,
+    onCloseMenuPortion,
+  );
+
   const path = subject ? removeUrn(subject.id) : '';
 
   return (
-    <MenuWrapper>
+    <>
       <DrawerPortion>
         <BackButton onGoBack={onCloseMenuPortion} title="Go home" homeButton />
         {subject ? (
-          <>
+          <DrawerList id={`list-${subject?.id}`}>
             <DrawerRowHeader
+              id={subject.id}
               icon={<MenuBook />}
               title={subject.name}
               type="link"
@@ -109,17 +129,24 @@ const SubjectMenu = ({
             />
             {groupedTopics.map(t => (
               <DrawerMenuItem
+                id={t.id}
                 key={t.id}
                 type="button"
-                onClick={() => addTopic(t, 0)}
+                onClick={expanded => {
+                  if (expanded) {
+                    setTopicPathIds([]);
+                  } else {
+                    addTopic(t, 0);
+                  }
+                }}
                 active={topicPath[0]?.id === t.id}>
                 {t.name}
               </DrawerMenuItem>
             ))}
-          </>
+          </DrawerList>
         ) : (
           <ContentLoader
-            height={'100vh'}
+            height={'100%'}
             width={'100%'}
             viewBox={null}
             preserveAspectRatio="none">
@@ -150,9 +177,10 @@ const SubjectMenu = ({
             currentPath={path}
             topicPath={topicPath}
             addTopic={addTopic}
+            removeTopic={removeTopic}
           />
         ))}
-    </MenuWrapper>
+    </>
   );
 };
 

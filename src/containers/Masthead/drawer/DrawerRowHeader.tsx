@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import styled from '@emotion/styled';
 import { colors, fonts, spacing, spacingUnit } from '@ndla/core';
 import { ForwardArrow, RightArrow } from '@ndla/icons/action';
@@ -7,15 +7,18 @@ import { SafeLinkButton } from '@ndla/safelink';
 import { css } from '@emotion/react';
 
 interface BaseProps {
+  id?: string;
   title: string;
   icon?: ReactNode;
   active?: boolean;
+  tabIndex?: number;
   type: 'link' | 'button';
 }
 
 interface ButtonProps extends BaseProps {
   type: 'button';
   onClick: () => void;
+  ownsId: string;
 }
 
 interface LinkProps extends BaseProps {
@@ -32,6 +35,7 @@ const headerSpacing = `${spacing.small} ${spacingUnit * 1.5}px ${
 
 const rowHeaderWrapperStyles = css`
   display: flex;
+  flex: 1;
   align-items: center;
   justify-content: space-between;
   text-decoration: none;
@@ -43,7 +47,8 @@ const rowHeaderWrapperStyles = css`
   border: 0px;
   border-bottom: 1px solid ${colors.brand.neutral7};
   border-radius: 0px;
-  &:hover {
+  &:hover,
+  &:focus {
     border: 0px;
     border-bottom: 1px solid ${colors.brand.neutral7};
   }
@@ -64,7 +69,16 @@ const IconTitleWrapper = styled.div`
   justify-content: center;
 `;
 
-const DrawerRowHeader = ({ title, icon, active, ...rest }: Props) => {
+const ListItem = styled.li`
+  margin: 0px;
+  padding: 0px;
+  list-style: none;
+  display: flex;
+`;
+
+const DrawerRowHeader = ({ title, icon, active, id, ...rest }: Props) => {
+  const [expanded, setExpanded] = useState(false);
+
   const contents = (
     <IconTitleWrapper>
       {icon}
@@ -74,17 +88,36 @@ const DrawerRowHeader = ({ title, icon, active, ...rest }: Props) => {
 
   if (rest.type === 'button') {
     return (
-      <StyledButton colorTheme="light" onClick={rest.onClick}>
-        {contents}
-        <RightArrow />
-      </StyledButton>
+      <ListItem role="none">
+        <StyledButton
+          tabIndex={-1}
+          aria-owns={rest.ownsId}
+          role="menuitem"
+          aria-expanded={expanded}
+          colorTheme="light"
+          onClick={() => {
+            setExpanded(true);
+            rest.onClick();
+          }}
+          id={`header-${id}`}>
+          {contents}
+          <RightArrow />
+        </StyledButton>
+      </ListItem>
     );
   } else {
     return (
-      <StyledLink to={rest.to} onClick={rest.onClose}>
-        {contents}
-        <ForwardArrow />
-      </StyledLink>
+      <ListItem role="none">
+        <StyledLink
+          tabIndex={-1}
+          role="menuitem"
+          to={rest.to}
+          onClick={rest.onClose}
+          id={`header-${id}`}>
+          {contents}
+          <ForwardArrow />
+        </StyledLink>
+      </ListItem>
     );
   }
 };

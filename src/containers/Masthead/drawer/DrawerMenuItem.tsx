@@ -18,21 +18,23 @@ interface BaseProps {
   type: 'button' | 'link';
   className?: string;
   active?: boolean;
+  id: string;
 }
 
 interface DrawerMenuButtonProps extends BaseProps {
   type: 'button';
-  onClick: () => void;
+  onClick: (expanded: boolean) => void;
   children?: ReactNode;
 }
 
-interface DrawerMenuLinkProps extends BaseProps, SafeLinkProps {
+interface DrawerMenuLinkProps extends BaseProps, Omit<SafeLinkProps, 'id'> {
   type: 'link';
   onClose?: () => void;
   external?: boolean;
 }
 
 const commonStyle = css`
+  width: 100%;
   padding: ${spacing.xsmall} ${spacing.xsmall} ${spacing.xsmall} 40px;
   background-color: transparent;
   border: 0;
@@ -54,6 +56,12 @@ const boldItemStyle = css`
 const normalItemStyle = css`
   ${fonts.sizes('18px', '32px')};
   ${commonStyle};
+`;
+
+const ListItem = styled.li`
+  margin: 0;
+  padding: 0;
+  list-style: none;
 `;
 
 interface StyledButtonProps {
@@ -83,28 +91,41 @@ const DrawerMenuItem = ({
   children,
   className,
   active,
+  id,
   ...specificProps
 }: Props) => {
   const style = bold ? boldItemStyle : normalItemStyle;
   if (specificProps.type === 'button') {
     return (
-      <StyledButton
-        onClick={specificProps.onClick}
-        css={[style, active ? activeStyle : []]}
-        className={className}>
-        {children}
-      </StyledButton>
+      <ListItem role="none">
+        <StyledButton
+          tabIndex={-1}
+          role="menuitem"
+          aria-owns={`list-${id}`}
+          aria-expanded={!!active}
+          id={id}
+          onClick={() => specificProps.onClick(!!active)}
+          css={[style, active ? activeStyle : []]}
+          className={className}>
+          {children}
+        </StyledButton>
+      </ListItem>
     );
   } else {
     return (
-      <SafeLink
-        to={specificProps.to}
-        onClick={specificProps.onClose}
-        className={className}
-        showNewWindowIcon={specificProps.external}
-        css={[style, active ? activeStyle : []]}>
-        {children}
-      </SafeLink>
+      <ListItem role="none">
+        <SafeLink
+          tabIndex={-1}
+          role="menuitem"
+          id={id}
+          to={specificProps.to}
+          onClick={specificProps.onClose}
+          className={className}
+          showNewWindowIcon={specificProps.external}
+          css={[style, active ? activeStyle : []]}>
+          {children}
+        </SafeLink>
+      </ListItem>
     );
   }
 };
