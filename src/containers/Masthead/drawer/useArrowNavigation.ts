@@ -34,6 +34,13 @@ const useArrowNavigation = (
           activeElement?.parentElement?.nextElementSibling?.firstElementChild;
         if (nextSibling) {
           setFocused(nextSibling.id!);
+        } else {
+          const firstElement =
+            activeElement.parentElement?.parentElement?.firstElementChild
+              ?.firstElementChild;
+          if (firstElement) {
+            setFocused(firstElement.id!);
+          }
         }
       } else if (e.key === 'ArrowUp') {
         e.preventDefault();
@@ -43,6 +50,13 @@ const useArrowNavigation = (
             ?.firstElementChild;
         if (previousSibling) {
           setFocused(previousSibling.id!);
+        } else {
+          const lastElement =
+            activeElement.parentElement?.parentElement?.lastElementChild
+              ?.firstElementChild;
+          if (lastElement) {
+            setFocused(lastElement.id!);
+          }
         }
       } else if (e.key === 'ArrowLeft') {
         e.preventDefault();
