@@ -31,7 +31,6 @@ interface Props {
   topicPath: TopicWithSubTopics[];
   addTopic: (topic: TopicWithSubTopics, index: number) => void;
   level: number;
-  currentPath: string;
   removeTopic: (index: number) => void;
 }
 
@@ -39,15 +38,13 @@ const TopicMenu = ({
   topic,
   subject,
   onClose,
-  currentPath,
   topicPath,
   onCloseMenuPortion,
   addTopic,
   level,
   removeTopic,
 }: Props) => {
-  const path = `${currentPath}/${removeUrn(topic.id)}`;
-  const parentIsTopic = currentPath.split('/').length > 1;
+  const parentIsTopic = topic.parent?.startsWith('urn:subject');
   const Icon = parentIsTopic ? Class : Bookmark;
 
   const { data } = useGraphQuery<
@@ -85,7 +82,7 @@ const TopicMenu = ({
           id={topic.id}
           icon={<Icon />}
           type="link"
-          to={path}
+          to={topic.path}
           title={topic.name}
           onClose={onClose}
         />
@@ -105,7 +102,7 @@ const TopicMenu = ({
           <DrawerMenuItem
             id={res.id}
             type="link"
-            to={`${path}/${removeUrn(res.id)}`}
+            to={`${topic.path}/${removeUrn(res.id)}`}
             onClose={onClose}
             key={res.id}>
             {res.name}

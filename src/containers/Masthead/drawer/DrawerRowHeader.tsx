@@ -13,6 +13,7 @@ interface BaseProps {
   active?: boolean;
   tabIndex?: number;
   type: 'link' | 'button';
+  current?: boolean;
 }
 
 interface ButtonProps extends BaseProps {
@@ -76,7 +77,14 @@ const ListItem = styled.li`
   display: flex;
 `;
 
-const DrawerRowHeader = ({ title, icon, active, id, ...rest }: Props) => {
+const DrawerRowHeader = ({
+  title,
+  icon,
+  active,
+  id,
+  current,
+  ...rest
+}: Props) => {
   const [expanded, setExpanded] = useState(false);
 
   const contents = (
@@ -94,6 +102,7 @@ const DrawerRowHeader = ({ title, icon, active, id, ...rest }: Props) => {
           aria-owns={rest.ownsId}
           role="menuitem"
           aria-expanded={expanded}
+          aria-current={current ? 'page' : undefined}
           colorTheme="light"
           onClick={() => {
             setExpanded(true);
@@ -109,6 +118,7 @@ const DrawerRowHeader = ({ title, icon, active, id, ...rest }: Props) => {
     return (
       <ListItem role="none">
         <StyledLink
+          aria-current={current ? 'page' : undefined}
           tabIndex={-1}
           role="menuitem"
           to={rest.to}

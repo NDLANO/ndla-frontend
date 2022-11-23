@@ -2020,6 +2020,7 @@ export type GQLSubjectMenu_SubjectFragment = {
     id: string;
     name: string;
     parent?: string;
+    path: string;
   }>;
 } & GQLTopicMenu_SubjectFragment;
 

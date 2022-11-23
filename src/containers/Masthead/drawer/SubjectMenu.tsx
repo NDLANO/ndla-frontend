@@ -8,6 +8,7 @@
 
 import partition from 'lodash/partition';
 import { Dispatch, SetStateAction, useCallback, useMemo } from 'react';
+import { useLocation } from 'react-router-dom';
 import { gql } from '@apollo/client';
 import { ContentLoader } from '@ndla/ui';
 import { MenuBook } from '@ndla/icons/action';
@@ -67,6 +68,7 @@ const SubjectMenu = ({
   setTopicPathIds,
   topicPathIds,
 }: Props) => {
+  const location = useLocation();
   const groupedTopics = useMemo(() => {
     const [roots, rest] = partition(
       subject?.allTopics?.filter(t => !!t.parent),
@@ -111,7 +113,7 @@ const SubjectMenu = ({
     onCloseMenuPortion,
   );
 
-  const path = subject ? removeUrn(subject.id) : '';
+  const path = subject ? `/${removeUrn(subject.id)}` : '';
 
   return (
     <>
@@ -120,6 +122,7 @@ const SubjectMenu = ({
         {subject ? (
           <DrawerList id={`list-${subject?.id}`}>
             <DrawerRowHeader
+              current={path === location.pathname}
               id={subject.id}
               icon={<MenuBook />}
               title={subject.name}
@@ -174,7 +177,6 @@ const SubjectMenu = ({
             topic={topic}
             subject={subject}
             onClose={onClose}
-            currentPath={path}
             topicPath={topicPath}
             addTopic={addTopic}
             removeTopic={removeTopic}
@@ -193,6 +195,7 @@ SubjectMenu.fragments = {
         id
         name
         parent
+        path
       }
       ...TopicMenu_Subject
     }

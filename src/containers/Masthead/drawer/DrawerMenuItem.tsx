@@ -35,6 +35,7 @@ interface DrawerMenuLinkProps extends BaseProps, Omit<SafeLinkProps, 'id'> {
 
 const commonStyle = css`
   width: 100%;
+  display: flex;
   padding: ${spacing.xsmall} ${spacing.xsmall} ${spacing.xsmall} 40px;
   background-color: transparent;
   border: 0;

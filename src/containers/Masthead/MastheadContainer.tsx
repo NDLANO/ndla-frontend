@@ -84,17 +84,19 @@ const MastheadContainer = () => {
   const ndlaFilm = useIsNdlaFilm();
   const hideBreadcrumb = subjectType === 'standard' && !resourceId;
 
-  const { data } = useGraphQuery<GQLMastHeadQuery, GQLMastHeadQueryVariables>(
-    mastheadQuery,
-    {
-      variables: {
-        subjectId: subjectId!,
-        resourceId: resourceId ?? '',
-        skipResource: !resourceId,
-      },
-      skip: !subjectId,
+  const { data: freshData, previousData } = useGraphQuery<
+    GQLMastHeadQuery,
+    GQLMastHeadQueryVariables
+  >(mastheadQuery, {
+    variables: {
+      subjectId: subjectId!,
+      resourceId: resourceId ?? '',
+      skipResource: !resourceId,
     },
-  );
+    skip: !subjectId,
+  });
+
+  const data = freshData ?? previousData;
 
   const path = useMemo(() => {
     if (!data?.subject?.allTopics?.length) {
