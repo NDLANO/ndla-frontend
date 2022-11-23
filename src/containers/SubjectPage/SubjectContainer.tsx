@@ -67,7 +67,7 @@ const getSubjectCategoryMessage = (
   ) {
     return undefined;
   } else if (subjectCategory === constants.subjectCategories.BETA_SUBJECTS) {
-    return t('messageBoxInfo.subjectBeta');
+    return t('messageBoxInfo.subjectFuture');
   } else if (subjectCategory === constants.subjectCategories.ARCHIVE_SUBJECTS) {
     return t('messageBoxInfo.subjectOutdated');
   } else {
@@ -83,6 +83,8 @@ const getSubjectTypeMessage = (
     return undefined;
   } else if (subjectType === constants.subjectTypes.RESOURCE_COLLECTION) {
     return t('messageBoxInfo.resources');
+  } else if (subjectType === constants.subjectTypes.BETA_SUBJECT) {
+    return t('messageBoxInfo.subjectBeta');
   } else {
     return undefined;
   }
