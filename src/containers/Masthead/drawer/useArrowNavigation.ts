@@ -13,7 +13,21 @@ const useArrowNavigation = (
       if (!active || !activeElement) {
         return;
       }
-      if (e.key === 'ArrowDown') {
+      if (e.key === 'Home') {
+        const element =
+          activeElement.parentElement?.parentElement?.firstElementChild
+            ?.firstElementChild;
+        if (element) {
+          setFocused(element.id!);
+        }
+      } else if (e.key === 'End') {
+        const element =
+          activeElement.parentElement?.parentElement?.lastElementChild
+            ?.firstElementChild;
+        if (element) {
+          setFocused(element.id!);
+        }
+      } else if (e.key === 'ArrowDown') {
         e.preventDefault();
         activeElement.setAttribute('tabindex', '-1');
         const nextSibling =
