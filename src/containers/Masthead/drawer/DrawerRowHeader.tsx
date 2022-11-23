@@ -13,6 +13,7 @@ import { ForwardArrow, RightArrow } from '@ndla/icons/action';
 import { ButtonV2 } from '@ndla/button';
 import { SafeLinkButton } from '@ndla/safelink';
 import { css } from '@emotion/react';
+import { DrawerListItem } from './DrawerPortion';
 
 interface BaseProps {
   id?: string;
@@ -78,13 +79,6 @@ const IconTitleWrapper = styled.div`
   justify-content: center;
 `;
 
-const ListItem = styled.li`
-  margin: 0px;
-  padding: 0px;
-  list-style: none;
-  display: flex;
-`;
-
 const DrawerRowHeader = ({
   title,
   icon,
@@ -104,7 +98,7 @@ const DrawerRowHeader = ({
 
   if (rest.type === 'button') {
     return (
-      <ListItem role="none">
+      <DrawerListItem role="none">
         <StyledButton
           tabIndex={-1}
           aria-owns={rest.ownsId}
@@ -120,11 +114,11 @@ const DrawerRowHeader = ({
           {contents}
           <RightArrow />
         </StyledButton>
-      </ListItem>
+      </DrawerListItem>
     );
   } else {
     return (
-      <ListItem role="none">
+      <DrawerListItem role="none">
         <StyledLink
           aria-current={current ? 'page' : undefined}
           tabIndex={-1}
@@ -135,7 +129,7 @@ const DrawerRowHeader = ({
           {contents}
           <ForwardArrow />
         </StyledLink>
-      </ListItem>
+      </DrawerListItem>
     );
   }
 };

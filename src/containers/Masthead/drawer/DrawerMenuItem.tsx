@@ -12,6 +12,7 @@ import { ReactNode } from 'react';
 import { css } from '@emotion/react';
 import { colors, fonts, spacing } from '@ndla/core';
 import styled from '@emotion/styled';
+import { DrawerListItem } from './DrawerPortion';
 
 interface BaseProps {
   bold?: boolean;
@@ -36,7 +37,6 @@ interface DrawerMenuLinkProps extends BaseProps, Omit<SafeLinkProps, 'id'> {
 
 const commonStyle = css`
   width: 100%;
-  display: flex;
   padding: ${spacing.xsmall} ${spacing.xsmall} ${spacing.xsmall} 40px;
   background-color: transparent;
   border: 0;
@@ -58,12 +58,6 @@ const boldItemStyle = css`
 const normalItemStyle = css`
   ${fonts.sizes('18px', '32px')};
   ${commonStyle};
-`;
-
-const ListItem = styled.li`
-  margin: 0;
-  padding: 0;
-  list-style: none;
 `;
 
 interface StyledButtonProps {
@@ -100,7 +94,7 @@ const DrawerMenuItem = ({
   const style = bold ? boldItemStyle : normalItemStyle;
   if (specificProps.type === 'button') {
     return (
-      <ListItem role="none">
+      <DrawerListItem role="none">
         <StyledButton
           tabIndex={-1}
           role="menuitem"
@@ -113,11 +107,11 @@ const DrawerMenuItem = ({
           className={className}>
           {children}
         </StyledButton>
-      </ListItem>
+      </DrawerListItem>
     );
   } else {
     return (
-      <ListItem role="none">
+      <DrawerListItem role="none">
         <SafeLink
           tabIndex={-1}
           role="menuitem"
@@ -130,7 +124,7 @@ const DrawerMenuItem = ({
           css={[style, active ? activeStyle : []]}>
           {children}
         </SafeLink>
-      </ListItem>
+      </DrawerListItem>
     );
   }
 };
