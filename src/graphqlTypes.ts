@@ -2034,6 +2034,7 @@ export type GQLTopicMenu_ResourceFragment = {
   __typename?: 'Resource';
   id: string;
   name: string;
+  path: string;
 };
 
 export type GQLTopicMenuResourcesQueryVariables = Exact<{

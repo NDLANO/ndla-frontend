@@ -19,6 +19,7 @@ interface BaseProps {
   className?: string;
   active?: boolean;
   id: string;
+  current?: boolean;
 }
 
 interface DrawerMenuButtonProps extends BaseProps {
@@ -92,6 +93,7 @@ const DrawerMenuItem = ({
   children,
   className,
   active,
+  current,
   id,
   ...specificProps
 }: Props) => {
@@ -102,6 +104,7 @@ const DrawerMenuItem = ({
         <StyledButton
           tabIndex={-1}
           role="menuitem"
+          aria-current={current}
           aria-owns={`list-${id}`}
           aria-expanded={!!active}
           id={id}
@@ -119,6 +122,7 @@ const DrawerMenuItem = ({
           tabIndex={-1}
           role="menuitem"
           id={id}
+          aria-current={current ? 'page' : undefined}
           to={specificProps.to}
           onClick={specificProps.onClose}
           className={className}

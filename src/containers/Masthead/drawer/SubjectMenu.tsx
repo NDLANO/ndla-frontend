@@ -135,6 +135,7 @@ const SubjectMenu = ({
                 id={t.id}
                 key={t.id}
                 type="button"
+                current={t.path === location.pathname}
                 onClick={expanded => {
                   if (expanded) {
                     setTopicPathIds([]);

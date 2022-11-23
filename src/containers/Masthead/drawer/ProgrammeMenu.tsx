@@ -10,7 +10,7 @@ import styled from '@emotion/styled';
 import { fonts, spacing } from '@ndla/core';
 import { memo, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useUrnIds } from '../../../routeHelpers';
+import { useLocation } from 'react-router-dom';
 import { getProgrammes } from '../../../util/programmesSubjectsHelper';
 import BackButton from './BackButton';
 import DrawerMenuItem from './DrawerMenuItem';
@@ -30,7 +30,7 @@ const StyledTitle = styled.h1`
 
 const ProgrammeMenu = ({ onClose, onCloseMenuPortion }: Props) => {
   const { i18n } = useTranslation();
-  const { programme: activeProgramme } = useUrnIds();
+  const location = useLocation();
   const programmes = useMemo(() => getProgrammes(i18n.language), [
     i18n.language,
   ]);
@@ -47,10 +47,9 @@ const ProgrammeMenu = ({ onClose, onCloseMenuPortion }: Props) => {
             id={programme.path}
             type="link"
             to={programme.path}
+            current={programme.path === location.pathname}
             onClose={onClose}
-            active={
-              programme.path.replace('/utdanning/', '') === activeProgramme
-            }
+            active={programme.path === location.pathname}
             key={programme.url}>
             {programme.name}
           </DrawerMenuItem>

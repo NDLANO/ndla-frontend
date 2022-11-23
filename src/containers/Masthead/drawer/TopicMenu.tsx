@@ -8,13 +8,13 @@
 
 import { gql } from '@apollo/client';
 import { Bookmark, Class } from '@ndla/icons/action';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
+import { useLocation } from 'react-router-dom';
 import {
   GQLTopicMenuResourcesQuery,
   GQLTopicMenuResourcesQueryVariables,
   GQLTopicMenu_SubjectFragment,
 } from '../../../graphqlTypes';
-import { removeUrn } from '../../../routeHelpers';
 import { useGraphQuery } from '../../../util/runQueries';
 import BackButton from './BackButton';
 import DrawerMenuItem from './DrawerMenuItem';
@@ -45,6 +45,7 @@ const TopicMenu = ({
   removeTopic,
 }: Props) => {
   const parentIsTopic = topic.parent?.startsWith('urn:subject');
+  const location = useLocation();
   const Icon = parentIsTopic ? Class : Bookmark;
 
   const { data } = useGraphQuery<
@@ -71,6 +72,8 @@ const TopicMenu = ({
     onCloseMenuPortion,
   );
 
+  const levelId = useMemo(() => topicPath[level]?.id, [topicPath, level]);
+
   return (
     <DrawerPortion>
       <BackButton
@@ -82,6 +85,7 @@ const TopicMenu = ({
           id={topic.id}
           icon={<Icon />}
           type="link"
+          current={location.pathname === topic.path}
           to={topic.path}
           title={topic.name}
           onClose={onClose}
@@ -90,8 +94,9 @@ const TopicMenu = ({
           <DrawerMenuItem
             id={t.id}
             key={t.id}
+            current={t.path === location.pathname}
             type="button"
-            active={topicPath[level]?.id === t.id}
+            active={levelId === t.id}
             onClick={expanded =>
               expanded ? removeTopic(level) : addTopic(t, level)
             }>
@@ -102,7 +107,19 @@ const TopicMenu = ({
           <DrawerMenuItem
             id={res.id}
             type="link"
-            to={`${topic.path}/${removeUrn(res.id)}`}
+            to={res.path}
+            current={res.path === location.pathname}
+            onClose={onClose}
+            key={res.id}>
+            {res.name}
+          </DrawerMenuItem>
+        ))}
+        {data?.topic?.supplementaryResources?.map(res => (
+          <DrawerMenuItem
+            id={res.id}
+            type="link"
+            to={res.path}
+            current={res.path === location.pathname}
             onClose={onClose}
             key={res.id}>
             {res.name}
@@ -124,6 +141,7 @@ TopicMenu.fragments = {
     fragment TopicMenu_Resource on Resource {
       id
       name
+      path
     }
   `,
 };
