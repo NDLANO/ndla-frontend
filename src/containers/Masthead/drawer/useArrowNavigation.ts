@@ -10,20 +10,17 @@ const useArrowNavigation = (
   const arrowHandler = useCallback(
     (e: KeyboardEvent) => {
       const activeElement = document.activeElement;
-      if (!active || !activeElement) {
+      const listElement = activeElement?.parentElement?.parentElement;
+      if (!active || !activeElement || !listElement) {
         return;
       }
       if (e.key === 'Home') {
-        const element =
-          activeElement.parentElement?.parentElement?.firstElementChild
-            ?.firstElementChild;
+        const element = listElement?.firstElementChild?.firstElementChild;
         if (element) {
           setFocused(element.id!);
         }
       } else if (e.key === 'End') {
-        const element =
-          activeElement.parentElement?.parentElement?.lastElementChild
-            ?.firstElementChild;
+        const element = listElement?.lastElementChild?.firstElementChild;
         if (element) {
           setFocused(element.id!);
         }
@@ -35,9 +32,7 @@ const useArrowNavigation = (
         if (nextSibling) {
           setFocused(nextSibling.id!);
         } else {
-          const firstElement =
-            activeElement.parentElement?.parentElement?.firstElementChild
-              ?.firstElementChild;
+          const firstElement = listElement.firstElementChild?.firstElementChild;
           if (firstElement) {
             setFocused(firstElement.id!);
           }
@@ -51,9 +46,7 @@ const useArrowNavigation = (
         if (previousSibling) {
           setFocused(previousSibling.id!);
         } else {
-          const lastElement =
-            activeElement.parentElement?.parentElement?.lastElementChild
-              ?.firstElementChild;
+          const lastElement = listElement.lastElementChild?.firstElementChild;
           if (lastElement) {
             setFocused(lastElement.id!);
           }
@@ -70,8 +63,10 @@ const useArrowNavigation = (
   );
 
   useEffect(() => {
-    setFocused(initialFocused);
-  }, [initialFocused]);
+    if (!focused && initialFocused) {
+      setFocused(initialFocused);
+    }
+  }, [initialFocused, focused]);
 
   useEffect(() => {
     if (active && focused) {

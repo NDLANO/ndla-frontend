@@ -21,6 +21,7 @@ import {
 } from '../../../constants';
 import { GQLDefaultMenu_SubjectFragment } from '../../../graphqlTypes';
 import { removeUrn } from '../../../routeHelpers';
+import { usePrevious } from '../../../util/utilityHooks';
 import DrawerMenuItem from './DrawerMenuItem';
 import { MenuType } from './drawerMenuTypes';
 import DrawerPortion, { DrawerList } from './DrawerPortion';
@@ -73,6 +74,7 @@ const DefaultMenu = ({
   closeSubMenu,
   onCloseMenuPortion,
 }: Props) => {
+  const previousType = usePrevious(type);
   const { t } = useTranslation();
 
   const onRightClick = useCallback(
@@ -85,7 +87,11 @@ const DefaultMenu = ({
     [setActiveMenu],
   );
 
-  useArrowNavigation(!type, type ? `header-${type}` : undefined, onRightClick);
+  useArrowNavigation(
+    !type,
+    `header-${type ?? previousType ?? 'programme'}`,
+    onRightClick,
+  );
 
   if (type) {
     return (
