@@ -23,20 +23,6 @@ export function toSearch(searchString?: string) {
 
 export const removeUrn = (str?: string) => str?.replace('urn:', '') ?? '';
 
-export const getInitialMastheadMenu = (pathname: string) => {
-  if (pathname.startsWith('/utdanning/')) {
-    return 'programme';
-  } else if (
-    pathname === '/' ||
-    pathname.startsWith('/podkast') ||
-    pathname.startsWith('/article/') ||
-    pathname.startsWith('/learningpaths/') ||
-    pathname.startsWith('/search')
-  ) {
-    return 'programmes';
-  } else return undefined;
-};
-
 interface MatchParams extends TypedParams {
   subjectId?: string;
   topicPath?: string;
@@ -68,8 +54,6 @@ export const useUrnIds = () => {
   const subjectId = params.subjectId
     ? `urn:subject${params.subjectId}`
     : undefined;
-  // const topics = params.topicPath?.split('/') || [];
-  // const topicList = topics.map((t: string) => `urn:${t}`);
   const topicList = useMemo(() => {
     return [
       params.topic1 ? `urn:topic${params.topic1}` : '',
