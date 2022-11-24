@@ -54,7 +54,7 @@ const start = async () => {
     .join('/')
     .replace(/([^:+])\/+/g, '$1/');
 
-  rmSync(resolve('./build'), { recursive: true });
+  rmSync(resolve('./build'), { recursive: true, force: true });
   const multiCompiler = webpack([serverConfig, clientConfig]);
 
   const clientCompiler = multiCompiler.compilers.find(

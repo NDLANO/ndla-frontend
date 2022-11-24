@@ -62,7 +62,7 @@ const build = async (
 };
 
 const main = async () => {
-  rmSync(resolve('./build'), { recursive: true });
+  rmSync(resolve('./build'), { recursive: true, force: true });
   await build(clientConfig, 'client');
   await build(serverConfig, 'server');
 };
