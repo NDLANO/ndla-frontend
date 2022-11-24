@@ -66,7 +66,6 @@ const start = async () => {
   )!;
 
   const watchOptions = {
-    ignored: /node_modules/,
     stats: clientConfig.stats,
   };
 
