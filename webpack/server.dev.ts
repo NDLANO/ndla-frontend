@@ -18,6 +18,9 @@ const serverDevConfig: Configuration = {
   // we used to use cheap-module-source-map, but this is quicker, and the trade-off is worth it during dev.
   devtool: 'eval-cheap-module-source-map',
   mode: 'development',
+  entry: {
+    server: [resolve('./node_modules/webpack/hot/poll.js?300'), './src'],
+  },
   module: {
     rules: loaders('development', 'server'),
   },
