@@ -44,31 +44,33 @@ const Document = ({ helmet, assets, data, css, ids }: Props) => {
     // eslint-disable-next-line jsx-a11y/html-has-lang
     <html {...htmlAttrs}>
       <head>
-        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-        <meta charSet="utf-8" />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1 viewport-fit=cover"
-        />
-        {config.gaTrackingId ? (
-          <script async src="https://www.google-analytics.com/analytics.js" />
-        ) : null}
-        <GoogleTagMangerScript />
-        {helmet.title.toComponent()}
-        {helmet.meta.toComponent()}
-        {helmet.link.toComponent()}
-        {assets.css && <link rel="stylesheet" href={assets.css} />}
-        <link
-          rel="shortcut icon"
-          href="/static/ndla-favicon.png"
-          type="image/x-icon"
-        />
-        {css && ids && (
-          <style data-emotion-css={`${EmotionCacheKey} ${ids.join(' ')}`}>
-            {css}
-          </style>
-        )}
-        {helmet.script.toComponent()}
+        <>
+          <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+          <meta charSet="utf-8" />
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1 viewport-fit=cover"
+          />
+          {config.gaTrackingId ? (
+            <script async src="https://www.google-analytics.com/analytics.js" />
+          ) : null}
+          <GoogleTagMangerScript />
+          {helmet.title.toComponent()}
+          {helmet.meta.toComponent()}
+          {helmet.link.toComponent()}
+          {assets.css && <link rel="stylesheet" href={assets.css} />}
+          <link
+            rel="shortcut icon"
+            href="/static/ndla-favicon.png"
+            type="image/x-icon"
+          />
+          {css && ids && (
+            <style data-emotion-css={`${EmotionCacheKey} ${ids.join(' ')}`}>
+              {css}
+            </style>
+          )}
+          {helmet.script.toComponent()}
+        </>
       </head>
       <body {...bodyAttrs}>
         <GoogleTagMangerNoScript />

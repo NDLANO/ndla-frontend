@@ -24,12 +24,12 @@ const clientDevConfig: Configuration = {
   module: {
     rules: loaders('development', 'client'),
   },
-  resolve: {
-    alias: {
-      // Useful when linking to avoid mismatching react versions.
-      react: path.resolve('./node_modules/react'),
-    },
-  },
+  // resolve: {
+  //   alias: {
+  //     // Useful when linking to avoid mismatching react versions.
+  //     react: path.resolve('./node_modules/react'),
+  //   },
+  // },
   output: {
     path: path.resolve('./build/public'),
     publicPath: '/',

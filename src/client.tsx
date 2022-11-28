@@ -32,7 +32,7 @@ import { createBrowserHistory, createMemoryHistory, History } from 'history';
 // @ts-ignore
 import queryString from 'query-string';
 import { ReactNode, useEffect, useLayoutEffect, useRef, useState } from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot, hydrateRoot } from 'react-dom/client';
 import { HelmetProvider } from 'react-helmet-async';
 import { I18nextProvider, useTranslation } from 'react-i18next';
 import { Router } from 'react-router-dom';
@@ -63,7 +63,7 @@ const { basepath, abbreviation } = getLocaleInfoFromPath(serverPath ?? '');
 const paths = window.location.pathname.split('/');
 const basename = isValidLocale(paths[1] ?? '') ? `${paths[1]}` : undefined;
 
-const { versionHash } = queryString.parse(window.location.search);
+const { versionHash, disableSSR } = queryString.parse(window.location.search);
 
 const serverQueryString = decodeURIComponent(
   queryString.stringify(serverQuery),
@@ -95,7 +95,16 @@ window.errorReporter = ErrorReporter.getInstance({
 });
 
 window.hasHydrated = false;
-const renderOrHydrate = config.disableSSR ? ReactDOM.render : ReactDOM.hydrate;
+
+const renderOrHydrate = (content: ReactNode) => {
+  const container = document.getElementById('root')!;
+  if (config.disableSSR || disableSSR === 'true') {
+    const root = createRoot(container);
+    root.render(content);
+  } else {
+    hydrateRoot(container, content);
+  }
+};
 
 const client = createApolloClient(storedLanguage, versionHash);
 const cache = createCache({ key: EmotionCacheKey });
@@ -216,6 +225,11 @@ const LanguageWrapper = ({ basename }: { basename?: string }) => {
     }
   }, [i18n.language]);
 
+  useEffect(() => {
+    // See: /src/util/transformArticle.js for info on why this is needed.
+    window.hasHydrated = true;
+  }, []);
+
   // handle initial redirect if URL has wrong or missing locale prefix.
   // only relevant when disableSSR=true
   useLayoutEffect(() => {
@@ -257,11 +271,6 @@ renderOrHydrate(
       </ApolloProvider>
     </I18nextProvider>
   </HelmetProvider>,
-  document.getElementById('root'),
-  () => {
-    // See: /src/util/transformArticle.js for info on why this is needed.
-    window.hasHydrated = true;
-  },
 );
 
 if (module.hot) {

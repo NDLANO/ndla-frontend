@@ -134,7 +134,7 @@ const MastheadSearch = ({ hideOnNarrowScreen = false, subject }: Props) => {
       {(onCloseModal: Function) => {
         closeModal = onCloseModal as () => void;
         return (
-          error || (
+          error?.message || (
             <SearchFieldForm onSubmit={onSearch}>
               <SearchField
                 placeholder={t('searchPage.searchFieldPlaceholder')}
