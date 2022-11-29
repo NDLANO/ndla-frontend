@@ -6,7 +6,7 @@
  */
 
 import path from 'path';
-import {
+import webpack, {
   DefinePlugin,
   HotModuleReplacementPlugin,
   ProvidePlugin,
@@ -17,7 +17,6 @@ import {
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { WebpackManifestPlugin } from 'webpack-manifest-plugin';
 import CopyPlugin from 'copy-webpack-plugin';
-import webpack from 'webpack';
 
 export const clientPlugins: WebpackPluginInstance[] = [
   new ProvidePlugin({
@@ -59,7 +58,7 @@ export const clientPlugins: WebpackPluginInstance[] = [
           ],
         }),
       ]
-    : [new HotModuleReplacementPlugin()]),
+    : []),
 ];
 
 export const serverPlugins: WebpackPluginInstance[] = [
