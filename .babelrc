@@ -3,19 +3,19 @@
     ["razzle", { "runtime": "automatic", "importSource": "@emotion/react" }]
   ],
   "env": {
-    "test": {
-      "plugins": [
-        ["@emotion", { "autoLabel": "always" }],
-        "graphql-tag",
-        "@babel/plugin-proposal-optional-chaining",
-        "react-refresh/babel"
-      ]
-    },
     "production": {
       "plugins": [
         ["@emotion", { "autoLabel": "always" }],
         "graphql-tag",
         "@babel/plugin-proposal-optional-chaining"
+      ]
+    },
+    "dev": {
+      "plugins": [
+        ["@emotion", { "autoLabel": "always" }],
+        "graphql-tag",
+        "@babel/plugin-proposal-optional-chaining",
+        "react-refresh/babel"
       ]
     }
   }
