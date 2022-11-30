@@ -268,10 +268,10 @@ const SubjectContainer = ({ t, subjectId, topicIds, subject }: Props) => {
                 </NavigationHeading>
               </ArticleHeaderWrapper>
             </div>
-            {nonRegularSubjectMessage && (
+            {!ndlaFilm && nonRegularSubjectMessage && (
               <MessageBox>{nonRegularSubjectMessage}</MessageBox>
             )}
-            {nonRegularSubjectTypeMessage && (
+            {!ndlaFilm && nonRegularSubjectTypeMessage && (
               <MessageBox>{nonRegularSubjectTypeMessage}</MessageBox>
             )}
             <SubjectPageContent

@@ -7,7 +7,6 @@
  */
 
 import nock from 'nock';
-import sinon from 'sinon';
 import { forwardingRoute } from '../forwardingRoute';
 
 jest.mock('../../../config', () => ({
@@ -45,26 +44,24 @@ function prepareNock(
 test('forwardingRoute redirect with 301 if mapping OK', async () => {
   prepareNock(200);
 
-  const next = sinon.spy();
-  const redirect = sinon.spy();
+  const next = jest.fn();
+  const redirect = jest.fn();
 
   await forwardingRoute({ params: { nodeId: '1337' } }, { redirect }, next);
 
-  expect(
-    redirect.calledWith(
-      301,
-      `/subject:3/topic:1:55212/topic:1:175218/resource:1:72007`,
-    ),
-  ).toBe(true);
-  expect(next.notCalled).toBe(true);
+  expect(redirect).toHaveBeenCalledWith(
+    301,
+    `/subject:3/topic:1:55212/topic:1:175218/resource:1:72007`,
+  );
+  expect(next).not.toHaveBeenCalled();
   expect(nock.pendingMocks()).toStrictEqual([]);
 });
 
 test('forwardingRoute redirect with 301 if mapping OK (nb)', async () => {
   prepareNock(200);
 
-  const next = sinon.spy();
-  const redirect = sinon.spy();
+  const next = jest.fn();
+  const redirect = jest.fn();
 
   await forwardingRoute(
     { params: { lang: 'nb', nodeId: '1337' } },
@@ -72,21 +69,19 @@ test('forwardingRoute redirect with 301 if mapping OK (nb)', async () => {
     next,
   );
 
-  expect(
-    redirect.calledWith(
-      301,
-      `/subject:3/topic:1:55212/topic:1:175218/resource:1:72007`,
-    ),
-  ).toBe(true);
-  expect(next.notCalled).toBe(true);
+  expect(redirect).toHaveBeenCalledWith(
+    301,
+    `/subject:3/topic:1:55212/topic:1:175218/resource:1:72007`,
+  );
+  expect(next).not.toHaveBeenCalled();
   expect(nock.pendingMocks()).toStrictEqual([]);
 });
 
 test('forwardingRoute redirect with 301 if mapping OK (en)', async () => {
   prepareNock(200);
 
-  const next = sinon.spy();
-  const redirect = sinon.spy();
+  const next = jest.fn();
+  const redirect = jest.fn();
 
   await forwardingRoute(
     { params: { lang: 'en', nodeId: '1337' } },
@@ -94,13 +89,11 @@ test('forwardingRoute redirect with 301 if mapping OK (en)', async () => {
     next,
   );
 
-  expect(
-    redirect.calledWith(
-      301,
-      `/en/subject:3/topic:1:55212/topic:1:175218/resource:1:72007`,
-    ),
-  ).toBe(true);
-  expect(next.notCalled).toBe(true);
+  expect(redirect).toHaveBeenCalledWith(
+    301,
+    `/en/subject:3/topic:1:55212/topic:1:175218/resource:1:72007`,
+  );
+  expect(next).not.toHaveBeenCalled();
   expect(nock.pendingMocks()).toStrictEqual([]);
 });
 
@@ -113,8 +106,8 @@ test('forwardingRoute redirect with 301 if mapping OK (nn)', async () => {
     });
   prepareNock(200, '1339');
 
-  const next = sinon.spy();
-  const redirect = sinon.spy();
+  const next = jest.fn();
+  const redirect = jest.fn();
 
   await forwardingRoute(
     { params: { lang: 'nn', nodeId: '1337' } },
@@ -122,21 +115,19 @@ test('forwardingRoute redirect with 301 if mapping OK (nn)', async () => {
     next,
   );
 
-  expect(
-    redirect.calledWith(
-      301,
-      `/nn/subject:3/topic:1:55212/topic:1:175218/resource:1:72007`,
-    ),
-  ).toBe(true);
-  expect(next.notCalled).toBe(true);
+  expect(redirect).toHaveBeenCalledWith(
+    301,
+    `/nn/subject:3/topic:1:55212/topic:1:175218/resource:1:72007`,
+  );
+  expect(next).not.toHaveBeenCalled();
   expect(nock.pendingMocks()).toStrictEqual([]);
 });
 
 test('forwardingRoute redirect learningpath with 301 if mapping OK (nb)', async () => {
   prepareNock(200, '1337', 'urn:learningpath:122');
 
-  const next = sinon.spy();
-  const redirect = sinon.spy();
+  const next = jest.fn();
+  const redirect = jest.fn();
 
   await forwardingRoute(
     { params: { lang: 'nb', nodeId: '1337' } },
@@ -144,13 +135,11 @@ test('forwardingRoute redirect learningpath with 301 if mapping OK (nb)', async 
     next,
   );
 
-  expect(
-    redirect.calledWith(
-      301,
-      `https://stier.test.ndla.no/learningpaths/122/first-step`,
-    ),
-  ).toBe(true);
-  expect(next.notCalled).toBe(true);
+  expect(redirect).toHaveBeenCalledWith(
+    301,
+    `https://stier.test.ndla.no/learningpaths/122/first-step`,
+  );
+  expect(next).not.toHaveBeenCalled();
   expect(nock.pendingMocks()).toStrictEqual([]);
 });
 
@@ -161,8 +150,8 @@ test('forwardingRoute redirect learningpath with 301 if mapping OK (nn)', async 
 
   prepareNock(200, '1337', 'urn:learningpath:122');
 
-  const next = sinon.spy();
-  const redirect = sinon.spy();
+  const next = jest.fn();
+  const redirect = jest.fn();
 
   await forwardingRoute(
     { params: { lang: 'nn', nodeId: '1337' } },
@@ -170,21 +159,19 @@ test('forwardingRoute redirect learningpath with 301 if mapping OK (nn)', async 
     next,
   );
 
-  expect(
-    redirect.calledWith(
-      301,
-      `https://stier.test.ndla.no/nn/learningpaths/122/first-step`,
-    ),
-  ).toBe(true);
-  expect(next.notCalled).toBe(true);
+  expect(redirect).toHaveBeenCalledWith(
+    301,
+    `https://stier.test.ndla.no/nn/learningpaths/122/first-step`,
+  );
+  expect(next).not.toHaveBeenCalled();
   expect(nock.pendingMocks()).toStrictEqual([]);
 });
 
 test('forwardingRoute call next if mapping fails', async () => {
   prepareNock(404);
 
-  const next = sinon.spy();
-  const redirect = sinon.spy();
+  const next = jest.fn();
+  const redirect = jest.fn();
 
   await forwardingRoute(
     { params: { lang: 'nb', nodeId: '1337' } },
@@ -192,7 +179,7 @@ test('forwardingRoute call next if mapping fails', async () => {
     next,
   );
 
-  expect(redirect.notCalled).toBe(true);
-  expect(next.calledOnce).toBe(true);
+  expect(redirect).not.toHaveBeenCalled();
+  expect(next).toHaveBeenCalledTimes(1);
   expect(nock.pendingMocks()).toStrictEqual([]);
 });
