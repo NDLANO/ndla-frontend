@@ -98,7 +98,7 @@ const DrawerRowHeader = ({
 
   if (rest.type === 'button') {
     return (
-      <DrawerListItem role="none">
+      <DrawerListItem role="none" data-list-item>
         <StyledButton
           tabIndex={-1}
           aria-owns={rest.ownsId}
@@ -118,7 +118,7 @@ const DrawerRowHeader = ({
     );
   } else {
     return (
-      <DrawerListItem role="none">
+      <DrawerListItem role="none" data-list-item>
         <StyledLink
           aria-current={current ? 'page' : undefined}
           tabIndex={-1}

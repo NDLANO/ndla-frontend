@@ -2047,12 +2047,31 @@ export type GQLTopicMenuResourcesQuery = {
   topic?: {
     __typename?: 'Topic';
     coreResources?: Array<
-      { __typename?: 'Resource' } & GQLTopicMenu_ResourceFragment
+      {
+        __typename?: 'Resource';
+        resourceTypes?: Array<{
+          __typename?: 'ResourceType';
+          id: string;
+          name: string;
+        }>;
+      } & GQLTopicMenu_ResourceFragment
     >;
     supplementaryResources?: Array<
-      { __typename?: 'Resource' } & GQLTopicMenu_ResourceFragment
+      {
+        __typename?: 'Resource';
+        resourceTypes?: Array<{
+          __typename?: 'ResourceType';
+          id: string;
+          name: string;
+        }>;
+      } & GQLTopicMenu_ResourceFragment
     >;
   };
+  resourceTypes?: Array<{
+    __typename?: 'ResourceTypeDefinition';
+    id: string;
+    name: string;
+  }>;
 };
 
 export type GQLMovedResourcePage_ResourceFragment = {

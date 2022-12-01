@@ -22,6 +22,8 @@ import DrawerPortion, { DrawerList } from './DrawerPortion';
 import DrawerRowHeader from './DrawerRowHeader';
 import { TopicWithSubTopics } from './SubjectMenu';
 import useArrowNavigation from './useArrowNavigation';
+import { getResourceGroups } from '../../Resources/getResourceGroups';
+import ResourceTypeList from './ResourceTypeList';
 
 interface Props {
   topic: TopicWithSubTopics;
@@ -78,6 +80,11 @@ const TopicMenu = ({
   );
 
   const levelId = useMemo(() => topicPath[level]?.id, [topicPath, level]);
+  const groupedResources = getResourceGroups(
+    data?.resourceTypes ?? [],
+    data?.topic?.supplementaryResources ?? [],
+    data?.topic?.coreResources ?? [],
+  );
 
   return (
     <DrawerPortion>
@@ -108,29 +115,21 @@ const TopicMenu = ({
             {t.name}
           </DrawerMenuItem>
         ))}
-        {data?.topic?.coreResources?.map(res => (
-          <DrawerMenuItem
-            id={res.id}
-            type="link"
-            to={res.path}
-            current={res.path === location.pathname}
-            active={res.path === location.pathname}
-            onClose={onClose}
-            key={res.id}>
-            {res.name}
-          </DrawerMenuItem>
-        ))}
-        {data?.topic?.supplementaryResources?.map(res => (
-          <DrawerMenuItem
-            id={res.id}
-            type="link"
-            to={res.path}
-            current={res.path === location.pathname}
-            active={res.path === location.pathname}
-            onClose={onClose}
-            key={res.id}>
-            {res.name}
-          </DrawerMenuItem>
+        {groupedResources.map(group => (
+          <ResourceTypeList id={group.id} key={group.id} name={group.name}>
+            {group.resources?.map(res => (
+              <DrawerMenuItem
+                id={res.id}
+                type="link"
+                to={res.path}
+                current={res.path === location.pathname}
+                active={res.path === location.pathname}
+                onClose={onClose}
+                key={res.id}>
+                {res.name}
+              </DrawerMenuItem>
+            ))}
+          </ResourceTypeList>
         ))}
       </DrawerList>
     </DrawerPortion>
@@ -158,10 +157,22 @@ const resourceQuery = gql`
     topic(id: $topicId, subjectId: $subjectId) {
       coreResources(subjectId: $subjectId) {
         ...TopicMenu_Resource
+        resourceTypes {
+          id
+          name
+        }
       }
       supplementaryResources(subjectId: $subjectId) {
         ...TopicMenu_Resource
+        resourceTypes {
+          id
+          name
+        }
       }
+    }
+    resourceTypes {
+      id
+      name
     }
   }
   ${TopicMenu.fragments.resource}

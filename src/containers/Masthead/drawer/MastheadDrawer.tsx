@@ -93,7 +93,7 @@ const MastheadDrawer = ({ subject }: Props) => {
   return (
     <Drawer
       expands
-      size="xxsmall"
+      size="xsmall"
       animationDuration={100}
       animation="fade"
       label={t('masthead.menu.modalLabel')}

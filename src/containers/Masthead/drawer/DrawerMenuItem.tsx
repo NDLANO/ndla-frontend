@@ -37,7 +37,8 @@ interface DrawerMenuLinkProps extends BaseProps, Omit<SafeLinkProps, 'id'> {
 
 const commonStyle = css`
   width: 100%;
-  padding: ${spacing.xsmall} ${spacing.xsmall} ${spacing.xsmall} 40px;
+  padding: ${spacing.xsmall};
+  padding-left: ${spacing.normal};
   background-color: transparent;
   border: 0;
   color: ${colors.brand.primary};
@@ -94,7 +95,7 @@ const DrawerMenuItem = ({
   const style = bold ? boldItemStyle : normalItemStyle;
   if (specificProps.type === 'button') {
     return (
-      <DrawerListItem role="none">
+      <DrawerListItem role="none" data-list-item>
         <StyledButton
           tabIndex={-1}
           role="menuitem"
@@ -111,7 +112,7 @@ const DrawerMenuItem = ({
     );
   } else {
     return (
-      <DrawerListItem role="none">
+      <DrawerListItem role="none" data-list-item>
         <SafeLink
           tabIndex={-1}
           role="menuitem"

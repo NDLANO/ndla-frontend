@@ -18,45 +18,57 @@ const useArrowNavigation = (
   const arrowHandler = useCallback(
     (e: KeyboardEvent) => {
       const activeElement = document.activeElement;
-      const listElement = activeElement?.parentElement?.parentElement;
+      const listElement = activeElement?.closest('[role="menubar"]');
       if (!active || !activeElement || !listElement) {
         return;
       }
       if (e.key === 'Home') {
-        const element = listElement?.firstElementChild?.firstElementChild;
-        if (element) {
-          setFocused(element.id!);
+        const element = listElement.querySelector('[role="menuitem"]');
+        if (element?.id) {
+          setFocused(element.id);
         }
       } else if (e.key === 'End') {
-        const element = listElement?.lastElementChild?.firstElementChild;
-        if (element) {
-          setFocused(element.id!);
+        const elements = listElement.querySelectorAll('[role="menuitem"]');
+        const element = elements[elements.length - 1];
+        if (element?.id) {
+          setFocused(element.id);
         }
       } else if (e.key === 'ArrowDown') {
         e.preventDefault();
         activeElement.setAttribute('tabindex', '-1');
-        const nextSibling =
-          activeElement?.parentElement?.nextElementSibling?.firstElementChild;
-        if (nextSibling) {
-          setFocused(nextSibling.id!);
+        const listItem = activeElement.closest('[data-list-item="true"]');
+        const resourceGroup = activeElement?.closest(
+          '[data-resource-group="true"]',
+        );
+        const focusChild = (
+          listItem?.nextElementSibling ?? resourceGroup?.nextElementSibling
+        )?.querySelector('[role="menuitem"]');
+        if (focusChild?.id) {
+          setFocused(focusChild.id);
         } else {
-          const firstElement = listElement.firstElementChild?.firstElementChild;
-          if (firstElement) {
-            setFocused(firstElement.id!);
+          const element = listElement.querySelector('[role="menuitem"]');
+          if (element?.id) {
+            setFocused(element.id);
           }
         }
       } else if (e.key === 'ArrowUp') {
         e.preventDefault();
         activeElement.setAttribute('tabindex', '-1');
-        const previousSibling =
-          document.activeElement?.parentElement?.previousElementSibling
-            ?.firstElementChild;
-        if (previousSibling) {
-          setFocused(previousSibling.id!);
+        const listItem = activeElement
+          .closest('[data-list-item="true"]')
+          ?.previousElementSibling?.querySelector('[role="menuitem"]');
+        if (listItem?.id) {
+          setFocused(listItem.id);
         } else {
-          const lastElement = listElement.lastElementChild?.firstElementChild;
-          if (lastElement) {
-            setFocused(lastElement.id!);
+          const resourceGroup = activeElement?.closest(
+            '[data-resource-group="true"]',
+          )?.previousElementSibling;
+          const elements = (resourceGroup ?? listElement).querySelectorAll(
+            '[role="menuitem"]',
+          );
+          const element = elements[elements.length - 1];
+          if (element?.id) {
+            setFocused(element.id);
           }
         }
       } else if (e.key === 'ArrowLeft') {
