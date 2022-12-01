@@ -6,10 +6,6 @@
  *
  */
 
-import { HashTag, Person } from '@ndla/icons/common';
-import { FolderOutlined } from '@ndla/icons/contentType';
-import { IFolder } from '@ndla/types-learningpath-api';
-import { TFunction } from 'i18next';
 import uniq from 'lodash/uniq';
 import uniqBy from 'lodash/uniqBy';
 import { GQLFolder, GQLFolderResource } from '../graphqlTypes';
@@ -68,40 +64,4 @@ export const getResourcesForTag = (
       .concat(getResourcesForTag(f.subfolders, tag)),
   );
   return uniqBy(resources, r => r.id);
-};
-
-export const createStaticStructureElements = (
-  folders: GQLFolder[],
-  t: TFunction,
-) => {
-  return [
-    {
-      id: '',
-      isNavigation: true,
-      name: t('myNdla.myPage.myPage'),
-      icon: <Person />,
-      status: 'private',
-      breadcrumbs: [],
-      resources: [],
-    },
-    {
-      id: 'folders',
-      isNavigation: true,
-      icon: <FolderOutlined />,
-      name: t('myNdla.myFolders'),
-      status: 'private',
-      breadcrumbs: [],
-      resources: [],
-    },
-    ...folders,
-    {
-      id: 'tags',
-      isNavigation: true,
-      icon: <HashTag />,
-      name: t('myNdla.myTags'),
-      status: 'private',
-      breadcrumbs: [],
-      resources: [],
-    },
-  ] as IFolder[];
 };
