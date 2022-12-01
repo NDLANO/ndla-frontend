@@ -21,7 +21,17 @@ const MenuPageContainer = styled.div`
   flex-direction: column;
 `;
 
-const StyledHeading = styled.h2`
+const StyledHeading = styled.h1`
+  margin: 0;
+`;
+
+const StyledNavList = styled.ul`
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+`;
+
+const StyledLi = styled.li`
   margin: 0;
 `;
 
@@ -37,17 +47,31 @@ const MyNdlaMobileMenuPage = () => {
     <MenuPageContainer>
       <HelmetWithTracker title={t('htmlTitles.myNdlaPage')} />
       <StyledHeading>{t('myNdla.myNDLA')}</StyledHeading>
-      <NavigationLink
-        id=""
-        icon={<Person />}
-        name={t('myNdla.myPage.myPage')}
-      />
-      <NavigationLink
-        id="folders"
-        icon={<FolderOutlined />}
-        name={t('myNdla.myFolders')}
-      />
-      <NavigationLink id="tags" icon={<HashTag />} name={t('myNdla.myTags')} />
+      <nav>
+        <StyledNavList>
+          <StyledLi role="none">
+            <NavigationLink
+              id=""
+              icon={<Person />}
+              name={t('myNdla.myPage.myPage')}
+            />
+          </StyledLi>
+          <StyledLi role="none">
+            <NavigationLink
+              id="folders"
+              icon={<FolderOutlined />}
+              name={t('myNdla.myFolders')}
+            />
+          </StyledLi>
+          <StyledLi role="none">
+            <NavigationLink
+              id="tags"
+              icon={<HashTag />}
+              name={t('myNdla.myTags')}
+            />
+          </StyledLi>
+        </StyledNavList>
+      </nav>
     </MenuPageContainer>
   );
 };
