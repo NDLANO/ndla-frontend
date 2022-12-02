@@ -11,9 +11,11 @@ import styled from '@emotion/styled';
 import { fonts, spacing } from '@ndla/core';
 import { ContentTypeBadge, resourceTypeColor } from '@ndla/ui';
 import { contentTypeMapping } from '../../../util/getContentType';
+import { DrawerListItem } from './DrawerPortion';
 
 const StyledResourceTypeList = styled.ul`
   margin: 0;
+  flex: 1;
   padding: 0;
   list-style: none;
 `;
@@ -47,19 +49,20 @@ interface Props {
 const ResourceTypeList = ({ name, id, children }: Props) => {
   const contentType = contentTypeMapping[id];
   return (
-    <StyledResourceTypeList
-      id={id}
-      role="group"
-      data-resource-group
-      aria-labelledby={`header-${id}`}>
-      <ResourceTypeHeader
-        id={`header-${id}`}
-        backgroundColor={resourceTypeColor(contentType!)}>
-        <ContentTypeBadge type={contentType!} border={false} />
-        {name}
-      </ResourceTypeHeader>
-      {children}
-    </StyledResourceTypeList>
+    <DrawerListItem role="none" id={`li-${id}`} data-resource-group>
+      <StyledResourceTypeList
+        id={id}
+        role="group"
+        aria-labelledby={`header-${id}`}>
+        <ResourceTypeHeader
+          id={`header-${id}`}
+          backgroundColor={resourceTypeColor(contentType!)}>
+          <ContentTypeBadge type={contentType!} border={false} />
+          {name}
+        </ResourceTypeHeader>
+        {children}
+      </StyledResourceTypeList>
+    </DrawerListItem>
   );
 };
 

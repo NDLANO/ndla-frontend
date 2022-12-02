@@ -40,11 +40,11 @@ const useArrowNavigation = (
         const resourceGroup = activeElement?.closest(
           '[data-resource-group="true"]',
         );
-        const focusChild = (
+        const element = (
           listItem?.nextElementSibling ?? resourceGroup?.nextElementSibling
         )?.querySelector('[role="menuitem"]');
-        if (focusChild?.id) {
-          setFocused(focusChild.id);
+        if (element?.id) {
+          setFocused(element.id);
         } else {
           const element = listElement.querySelector('[role="menuitem"]');
           if (element?.id) {

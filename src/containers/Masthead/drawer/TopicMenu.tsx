@@ -170,7 +170,7 @@ const TopicMenu = ({
               <ResourceTypeList id={group.id} key={group.id} name={group.name}>
                 {group.resources?.map(res => (
                   <DrawerMenuItem
-                    id={res.id}
+                    id={`${topic.id}-${res.id}`}
                     type="link"
                     to={res.path}
                     current={res.path === location.pathname}
@@ -184,7 +184,7 @@ const TopicMenu = ({
             ))
           : sortedResources.map(res => (
               <DrawerMenuItem
-                id={res.id}
+                id={`${topic.id}-${res.id}`}
                 type="link"
                 to={res.path}
                 current={res.path === location.pathname}
