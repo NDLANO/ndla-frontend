@@ -13,6 +13,7 @@ import webpack, {
   WatchIgnorePlugin,
   WebpackPluginInstance,
 } from 'webpack';
+import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 //@ts-ignore
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { WebpackManifestPlugin } from 'webpack-manifest-plugin';
@@ -58,7 +59,7 @@ export const clientPlugins: WebpackPluginInstance[] = [
           ],
         }),
       ]
-    : []),
+    : [new ReactRefreshWebpackPlugin()]),
 ];
 
 export const serverPlugins: WebpackPluginInstance[] = [
