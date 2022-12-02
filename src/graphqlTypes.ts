@@ -2046,9 +2046,11 @@ export type GQLTopicMenuResourcesQuery = {
   __typename?: 'Query';
   topic?: {
     __typename?: 'Topic';
+    metadata: { __typename?: 'TaxonomyMetadata'; customFields: any };
     coreResources?: Array<
       {
         __typename?: 'Resource';
+        rank?: number;
         resourceTypes?: Array<{
           __typename?: 'ResourceType';
           id: string;
@@ -2059,6 +2061,7 @@ export type GQLTopicMenuResourcesQuery = {
     supplementaryResources?: Array<
       {
         __typename?: 'Resource';
+        rank?: number;
         resourceTypes?: Array<{
           __typename?: 'ResourceType';
           id: string;

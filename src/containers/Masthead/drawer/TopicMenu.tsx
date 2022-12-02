@@ -9,6 +9,10 @@
 import { gql } from '@apollo/client';
 import { Bookmark, Class } from '@ndla/icons/action';
 import { useCallback, useMemo } from 'react';
+import sortBy from 'lodash/sortBy';
+import { ContentTypeBadge } from '@ndla/ui';
+import styled from '@emotion/styled';
+import { spacing } from '@ndla/core';
 import { useLocation } from 'react-router-dom';
 import {
   GQLTopicMenuResourcesQuery,
@@ -22,8 +26,16 @@ import DrawerPortion, { DrawerList } from './DrawerPortion';
 import DrawerRowHeader from './DrawerRowHeader';
 import { TopicWithSubTopics } from './SubjectMenu';
 import useArrowNavigation from './useArrowNavigation';
-import { getResourceGroups } from '../../Resources/getResourceGroups';
+import {
+  getResourceGroups,
+  sortResourceTypes,
+} from '../../Resources/getResourceGroups';
 import ResourceTypeList from './ResourceTypeList';
+import {
+  TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES,
+  TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE,
+} from '../../../constants';
+import { contentTypeMapping } from '../../../util/getContentType';
 
 interface Props {
   topic: TopicWithSubTopics;
@@ -35,6 +47,12 @@ interface Props {
   level: number;
   removeTopic: (index: number) => void;
 }
+
+const StyledResourceSpan = styled.span`
+  display: flex;
+  align-items: center;
+  gap: ${spacing.small};
+`;
 
 const TopicMenu = ({
   topic,
@@ -56,6 +74,11 @@ const TopicMenu = ({
   >(resourceQuery, {
     variables: { topicId: topic.id, subjectId: subject.id },
   });
+
+  const isUngrouped =
+    data?.topic?.metadata?.customFields[
+      TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES
+    ] === TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE || false;
 
   const arrowAddTopic = useCallback(
     (id: string | undefined) => {
@@ -79,11 +102,38 @@ const TopicMenu = ({
     onCloseMenuPortion,
   );
 
+  const coreResources = useMemo(() => data?.topic?.coreResources ?? [], [
+    data?.topic?.coreResources,
+  ]);
+  const supplementaryResources = useMemo(
+    () => data?.topic?.supplementaryResources ?? [],
+    [data?.topic?.supplementaryResources],
+  );
+
+  const sortedResources = useMemo(
+    () =>
+      sortBy(coreResources.concat(supplementaryResources), r => r.rank).map(
+        r => ({
+          ...r,
+          resourceTypes: sortResourceTypes(r.resourceTypes ?? []),
+        }),
+      ),
+    [coreResources, supplementaryResources],
+  );
+
   const levelId = useMemo(() => topicPath[level]?.id, [topicPath, level]);
-  const groupedResources = getResourceGroups(
-    data?.resourceTypes ?? [],
-    data?.topic?.supplementaryResources ?? [],
-    data?.topic?.coreResources ?? [],
+  const groupedResources = useMemo(
+    () =>
+      getResourceGroups(
+        data?.resourceTypes ?? [],
+        data?.topic?.supplementaryResources ?? [],
+        data?.topic?.coreResources ?? [],
+      ),
+    [
+      data?.resourceTypes,
+      data?.topic?.supplementaryResources,
+      data?.topic?.coreResources,
+    ],
   );
 
   return (
@@ -115,9 +165,24 @@ const TopicMenu = ({
             {t.name}
           </DrawerMenuItem>
         ))}
-        {groupedResources.map(group => (
-          <ResourceTypeList id={group.id} key={group.id} name={group.name}>
-            {group.resources?.map(res => (
+        {!isUngrouped
+          ? groupedResources.map(group => (
+              <ResourceTypeList id={group.id} key={group.id} name={group.name}>
+                {group.resources?.map(res => (
+                  <DrawerMenuItem
+                    id={res.id}
+                    type="link"
+                    to={res.path}
+                    current={res.path === location.pathname}
+                    active={res.path === location.pathname}
+                    onClose={onClose}
+                    key={res.id}>
+                    {res.name}
+                  </DrawerMenuItem>
+                ))}
+              </ResourceTypeList>
+            ))
+          : sortedResources.map(res => (
               <DrawerMenuItem
                 id={res.id}
                 type="link"
@@ -126,11 +191,19 @@ const TopicMenu = ({
                 active={res.path === location.pathname}
                 onClose={onClose}
                 key={res.id}>
-                {res.name}
+                <StyledResourceSpan>
+                  <ContentTypeBadge
+                    type={
+                      res.resourceTypes[0]
+                        ? contentTypeMapping[res.resourceTypes[0]?.id]!
+                        : 'subject-material'
+                    }
+                    border={false}
+                  />
+                  {res.name}
+                </StyledResourceSpan>
               </DrawerMenuItem>
             ))}
-          </ResourceTypeList>
-        ))}
       </DrawerList>
     </DrawerPortion>
   );
@@ -155,8 +228,12 @@ TopicMenu.fragments = {
 const resourceQuery = gql`
   query topicMenuResources($subjectId: String!, $topicId: String!) {
     topic(id: $topicId, subjectId: $subjectId) {
+      metadata {
+        customFields
+      }
       coreResources(subjectId: $subjectId) {
         ...TopicMenu_Resource
+        rank
         resourceTypes {
           id
           name
@@ -164,6 +241,7 @@ const resourceQuery = gql`
       }
       supplementaryResources(subjectId: $subjectId) {
         ...TopicMenu_Resource
+        rank
         resourceTypes {
           id
           name

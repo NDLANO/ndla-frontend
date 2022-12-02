@@ -68,6 +68,9 @@ interface StyledButtonProps {
 const activeStyle = css`
   background-color: ${colors.brand.primary};
   color: ${colors.white};
+  svg {
+    color: currentColor !important;
+  }
 `;
 
 const shouldForwardProp = (prop: string) => prop !== 'active';
