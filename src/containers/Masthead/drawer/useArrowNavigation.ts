@@ -22,18 +22,7 @@ const useArrowNavigation = (
       if (!active || !activeElement || !listElement) {
         return;
       }
-      if (e.key === 'Home') {
-        const element = listElement.querySelector('[role="menuitem"]');
-        if (element?.id) {
-          setFocused(element.id);
-        }
-      } else if (e.key === 'End') {
-        const elements = listElement.querySelectorAll('[role="menuitem"]');
-        const element = elements[elements.length - 1];
-        if (element?.id) {
-          setFocused(element.id);
-        }
-      } else if (e.key === 'ArrowDown') {
+      if (e.key === 'ArrowDown') {
         e.preventDefault();
         activeElement.setAttribute('tabindex', '-1');
         const listItem = activeElement.closest('[data-list-item="true"]');
@@ -77,6 +66,17 @@ const useArrowNavigation = (
       } else if (e.key === 'ArrowRight') {
         e.preventDefault();
         onRightKeyPressed?.(document.activeElement?.id, e);
+      } else if (e.key === 'Home') {
+        const element = listElement.querySelector('[role="menuitem"]');
+        if (element?.id) {
+          setFocused(element.id);
+        }
+      } else if (e.key === 'End') {
+        const elements = listElement.querySelectorAll('[role="menuitem"]');
+        const element = elements[elements.length - 1];
+        if (element?.id) {
+          setFocused(element.id);
+        }
       }
     },
     [onLeftKeyPressed, onRightKeyPressed, active],
