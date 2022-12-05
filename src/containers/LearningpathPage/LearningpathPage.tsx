@@ -200,7 +200,7 @@ const getTitle = (
 ) => {
   return htmlTitle(learningpath?.title, [
     learningpathStep?.title,
-    subject?.subjectpage?.about?.title || subject?.name,
+    subject?.name,
   ]);
 };
 
