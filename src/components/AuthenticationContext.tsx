@@ -6,7 +6,13 @@
  */
 
 import { FeideUserApiType } from '@ndla/ui';
-import { createContext, ReactNode, useEffect, useState } from 'react';
+import {
+  createContext,
+  ReactNode,
+  useEffect,
+  useState,
+  useCallback,
+} from 'react';
 import { isAccessTokenValid, millisUntilExpiration } from '../util/authHelpers';
 import { fetchFeideUserWithGroups } from '../util/feideApi';
 import { fetchExamLockStatus } from '../util/learningPathApi';
@@ -68,8 +74,8 @@ const AuthenticationContext = ({ children }: Props) => {
     }
   }, [authenticated]);
 
-  const login = () => setAuthenticated(true);
-  const logout = () => setAuthenticated(false);
+  const login = useCallback(() => setAuthenticated(true), []);
+  const logout = useCallback(() => setAuthenticated(false), []);
 
   return (
     <AuthContext.Provider

@@ -16,6 +16,6 @@ import {
 const baseUrl = apiResourceUrl('/learningpath-api/v1');
 
 export const fetchExamLockStatus = (): Promise<IConfigMetaRestricted> =>
-  fetch(`${baseUrl}/config/IS_WRITE_RESTRICTED`).then(
+  fetch(`${baseUrl}/config/MY_NDLA_WRITE_RESTRICTED`).then(
     resolveJsonOrRejectWithError,
   );

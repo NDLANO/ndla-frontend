@@ -5,12 +5,12 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import webpack, { Compiler, Configuration } from 'webpack';
-import nodemon from 'nodemon';
+import { Configuration, webpack } from 'webpack';
 import express from 'express';
 import chalk from 'chalk';
 import { rmSync } from 'fs';
 import { resolve } from 'path';
+import devServer from 'webpack-dev-server';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import getConfig from '../webpack/getConfig';
@@ -20,131 +20,62 @@ const [clientConfig, serverConfig] = getConfig('development') as [
   Configuration,
 ];
 
-const app = express();
-
-const WEBPACK_PORT = process.env.PORT ? parseInt(process.env.PORT) + 1 : 3001;
-
-const DEVSERVER_HOST = 'http://localhost';
-
 const start = async () => {
-  clientConfig.entry = Object.entries(clientConfig.entry!).reduce<
-    Record<string, string[]>
-  >((acc, entry) => {
-    acc[entry[0]] = [
-      `webpack-hot-middleware/client?path=http://localhost:${WEBPACK_PORT}/__webpack_hmr&timeout=2000&reload=true`,
-      ...entry[1],
-    ];
-
-    return acc;
-  }, {});
-
-  const publicPath = clientConfig.output!.publicPath;
-
-  clientConfig.output!.publicPath = [
-    `${DEVSERVER_HOST}:${WEBPACK_PORT}`,
-    publicPath,
-  ]
-    .join('/')
-    .replace(/([^:+])\/+/g, '$1/');
-
-  serverConfig.output!.publicPath = [
-    `${DEVSERVER_HOST}:${WEBPACK_PORT}`,
-    publicPath,
-  ]
-    .join('/')
-    .replace(/([^:+])\/+/g, '$1/');
-
-  rmSync(resolve('./build'), { recursive: true });
-  const multiCompiler = webpack([serverConfig, clientConfig]);
-
-  const clientCompiler = multiCompiler.compilers.find(
-    comp => comp.name === 'client',
-  )!;
-
-  const serverCompiler = multiCompiler.compilers.find(
-    comp => comp.name === 'server',
-  )!;
-
-  const watchOptions = {
-    ignored: /node_modules/,
-    stats: clientConfig.stats,
-  };
-
-  app.use((_req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    return next();
-  });
-
-  const clientPromise = compilerPromise('client', clientCompiler);
-  const serverPromise = compilerPromise('server', serverCompiler);
-
-  app.use(
-    webpackDevMiddleware(clientCompiler, {
-      publicPath: clientConfig.output!.publicPath,
-      stats: clientConfig.stats,
+  rmSync(resolve('./build'), { recursive: true, force: true });
+  const clientCompiler = compile(clientConfig);
+  const serverCompiler = compile(serverConfig);
+  const server = express();
+  server.use(
+    webpackDevMiddleware(serverCompiler, {
+      // This publicPath has to match the client publicPath
+      publicPath: clientConfig.output?.publicPath,
       writeToDisk: true,
+      stats: serverConfig.stats,
     }),
   );
+  server.use(webpackHotMiddleware(serverCompiler, { heartbeat: 100 }));
 
-  app.use(webpackHotMiddleware(clientCompiler));
+  const clientDevServer = new devServer(
+    Object.assign(clientConfig.devServer!, { port: 3001 }),
+    clientCompiler,
+  );
 
-  app.listen(WEBPACK_PORT);
-
-  //@ts-ignore
-  serverCompiler.watch(watchOptions, (error, stats) => {
-    if (!error && !stats?.hasErrors()) {
-      // eslint-disable-next-line no-console
-      console.log(stats?.toString(serverConfig.stats));
-      return;
-    }
-
-    if (error) {
-      logMessage(error, 'error');
-    }
-
-    if (stats?.hasErrors()) {
-      const info = stats.toJson();
-      console.error(info.errors);
-      // const errors = info?.errors?.[0]?.split('\n') ?? [];
-      // logMessage(errors[0] ?? '', 'error');
-      // logMessage(errors[1] ?? '', 'error');
-      // logMessage(errors[2] ?? '', 'error');
+  clientDevServer.startCallback(err => {
+    if (err) {
+      logMessage(err, 'error');
     }
   });
 
-  try {
-    await clientPromise;
-    await serverPromise;
-  } catch (error) {
-    logMessage(error as Error, 'error');
-  }
-
-  const script = nodemon({
-    script: `build/server.js`,
-    ignore: ['src', 'scripts', 'webpack', './*.*', 'build/client'],
-    delay: 200,
+  const serverBuildPromise = new Promise<void>(resolve => {
+    serverCompiler.hooks.done.tap('server', () => resolve());
   });
 
-  script?.on('quit', () => {
-    // eslint-disable-next-line no-console
-    console.info('Process ended');
-    process.exit();
+  const clientBuildPromise = new Promise<void>(resolve => {
+    clientCompiler.hooks.done.tap('client', () => resolve());
   });
-
-  script?.on('error', () => {
-    logMessage('An error occurred. Exiting', 'error');
-    process.exit(1);
-  });
+  await clientBuildPromise;
+  await serverBuildPromise;
+  const app = require('../build/server').default;
+  server.use((req, res) => app.handle(req, res));
 };
 
-type TextType = 'error' | 'warning' | 'info' | 'default';
+const compile = (config: Configuration) => {
+  try {
+    return webpack(config);
+  } catch (e) {
+    logMessage(e as Error, 'error');
+    process.exit(1);
+  }
+};
+
+type TextType = keyof Pick<Console, 'error' | 'warn' | 'info' | 'log'>;
 type Color = 'red' | 'yellow' | 'blue' | 'white';
 
 const colorMap: Record<TextType, Color> = {
   error: 'red',
-  warning: 'yellow',
+  warn: 'yellow',
   info: 'blue',
-  default: 'white',
+  log: 'white',
 };
 
 export const logMessage = (
@@ -152,21 +83,7 @@ export const logMessage = (
   level: TextType = 'info',
 ) => {
   // eslint-disable-next-line no-console
-  console.log(chalk[colorMap[level]](message));
-};
-
-export const compilerPromise = (name: string, compiler: Compiler) => {
-  return new Promise<void>((resolve, reject) => {
-    compiler?.hooks.compile.tap(name, () => {
-      logMessage(`[${name}] Compiling`);
-    });
-    compiler?.hooks.done.tap(name, stats => {
-      if (!stats.hasErrors()) {
-        return resolve();
-      }
-      return reject(`Failed to compile ${name}`);
-    });
-  });
+  console[level](chalk[colorMap[level] ?? colorMap.log!](message));
 };
 
 start();

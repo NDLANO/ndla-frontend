@@ -155,9 +155,9 @@ const getAllignments = (
           '@type': 'AlignmentObject',
           alignmentType: 'assesses',
           educationalFramework: 'LK20',
-          targetDescription: '',
-          targetName: ce.curriculumCode,
-          targetUrl: `http://psi.udir.no/kl06/${ce.curriculumCode}`,
+          targetDescription: ce.title,
+          targetName: ce.id,
+          targetUrl: `http://psi.udir.no/kl06/${ce.id}`,
         };
       })
     : [];
@@ -263,10 +263,8 @@ export const structuredArticleDataFragment = gql`
       type
     }
     coreElements {
-      curriculum {
-        code
-      }
-      curriculumCode
+      id
+      title
     }
     metaData {
       images {

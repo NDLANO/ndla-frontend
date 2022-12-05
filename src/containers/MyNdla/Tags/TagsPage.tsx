@@ -7,7 +7,7 @@
  */
 
 import { useContext, useEffect, useMemo, useState } from 'react';
-import { keyBy } from 'lodash';
+import keyBy from 'lodash/keyBy';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';

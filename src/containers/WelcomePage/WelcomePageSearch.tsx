@@ -9,7 +9,7 @@
 import { useState, useEffect, FormEvent } from 'react';
 import { FrontpageSearch } from '@ndla/ui';
 import { useLazyQuery } from '@apollo/client';
-import { debounce } from 'lodash';
+import debounce from 'lodash/debounce';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 

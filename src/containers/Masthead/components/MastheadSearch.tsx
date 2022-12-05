@@ -8,7 +8,7 @@ import {
 import queryString from 'query-string';
 import { useLazyQuery } from '@apollo/client';
 import { useNavigate } from 'react-router-dom';
-import { debounce } from 'lodash';
+import debounce from 'lodash/debounce';
 
 import { useTranslation } from 'react-i18next';
 import { groupSearchQuery } from '../../../queries';

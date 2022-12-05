@@ -6,7 +6,7 @@
  */
 
 import { Configuration } from 'webpack';
-import { merge } from 'lodash';
+import merge from 'lodash/merge';
 import path from 'path';
 import baseClientConfig from './client.base';
 import { clientPlugins, sharedPlugins } from './plugins';
@@ -30,9 +30,29 @@ const clientDevConfig: Configuration = {
       react: path.resolve('./node_modules/react'),
     },
   },
+  devServer: {
+    compress: true,
+    headers: { 'Access-Control-Allow-Origin': '*' },
+    historyApiFallback: {
+      disableDotRule: true,
+    },
+    hot: true,
+    port: 3001,
+    allowedHosts: 'all',
+    client: {
+      logging: 'none',
+      overlay: false,
+    },
+    devMiddleware: {
+      publicPath: 'http://localhost:3001/',
+    },
+    static: {
+      watch: { ignored: /node_modules/ },
+    },
+  },
   output: {
     path: path.resolve('./build/public'),
-    publicPath: '/',
+    publicPath: 'http://localhost:3001/',
     filename: 'static/js/build/[name].js',
     chunkFilename: 'static/js/[name].chunk.js',
   },

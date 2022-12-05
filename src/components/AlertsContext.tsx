@@ -1,11 +1,13 @@
 import { useQuery } from '@apollo/client';
-import { partition, uniq } from 'lodash';
+import partition from 'lodash/partition';
+import uniq from 'lodash/uniq';
 import {
   createContext,
   ReactNode,
   useContext,
   useEffect,
   useState,
+  useCallback,
 } from 'react';
 import {
   GQLAlertsQuery,
@@ -70,10 +72,10 @@ const AlertsProvider = ({ children }: Props) => {
     GQLAlertsQueryVariables
   >(alertsQuery, { pollInterval: 10 * 60 * 1000 });
 
-  const closeAlert = (id: number) => {
+  const closeAlert = useCallback((id: number) => {
     setClosedAlert(id);
     setOpenAlerts(prev => prev.filter(alert => alert.number !== id));
-  };
+  }, []);
 
   useEffect(() => {
     if (alerts) {

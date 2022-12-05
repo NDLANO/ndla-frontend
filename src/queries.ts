@@ -511,7 +511,7 @@ export const taxonomyEntityInfo = gql`
 
 export const searchPageQuery = gql`
   query searchPage {
-    subjects {
+    subjects(filterVisible: true) {
       ...SubjectInfo
     }
     resourceTypes {
@@ -528,7 +528,7 @@ export const searchPageQuery = gql`
 
 export const subjectsQuery = gql`
   query subjects {
-    subjects {
+    subjects(filterVisible: true) {
       ...SubjectInfo
     }
   }
@@ -624,7 +624,7 @@ export const mastHeadQuery = gql`
       @skip(if: $skipResource) {
       ...ResourceInfo
     }
-    subjects {
+    subjects(filterVisible: true) {
       ...SubjectInfo
     }
   }

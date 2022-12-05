@@ -3664,8 +3664,8 @@ export type GQLStructuredArticleDataFragment = {
   }>;
   coreElements?: Array<{
     __typename?: 'CoreElement';
-    curriculumCode?: string;
-    curriculum?: { __typename?: 'Reference'; code?: string };
+    id: string;
+    title: string;
   }>;
   metaData?: {
     __typename?: 'ArticleMetaData';

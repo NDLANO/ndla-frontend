@@ -10,7 +10,6 @@
 import { StaticRouter } from 'react-router-dom/server.js';
 import { MemoryRouter } from 'react-router-dom';
 import { render } from '@testing-library/react';
-import sinon from 'sinon';
 import RedirectContext from '../RedirectContext';
 import RedirectExternal from '../RedirectExternal';
 
@@ -46,14 +45,9 @@ test('External redirect for static router with basename', () => {
 
 test('External redirect for (memory/dom) router', () => {
   const context = {};
-  const replace = sinon.spy();
-
-  const oldWindow = window.location;
+  const replace = jest.fn();
   delete window.location;
-  window.location = {
-    ...oldWindow,
-    replace,
-  };
+  window.location = { replace };
 
   render(
     <MemoryRouter basename="nb" context={context} initialEntries={['/nb']}>
@@ -62,5 +56,5 @@ test('External redirect for (memory/dom) router', () => {
   );
 
   expect(context).toEqual({});
-  expect(replace.calledWith('https://google.com/')).toBe(true);
+  expect(replace).toHaveBeenCalledWith('https://google.com/');
 });
