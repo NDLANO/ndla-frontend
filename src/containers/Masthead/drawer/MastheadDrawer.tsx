@@ -34,7 +34,7 @@ const DrawerContainer = styled.nav`
 `;
 
 const HeadWrapper = styled.div`
-  padding: ${spacing.small} ${spacing.small};
+  padding: ${spacing.small};
   display: flex;
   gap: ${spacing.small};
   align-items: center;
