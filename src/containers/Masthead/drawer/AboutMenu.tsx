@@ -7,20 +7,12 @@
  */
 
 import { useTranslation } from 'react-i18next';
+import { aboutNdlaLinks, aboutNdlaUrl } from '../../../constants';
 import BackButton from './BackButton';
 import DrawerMenuItem from './DrawerMenuItem';
 import DrawerPortion, { DrawerList } from './DrawerPortion';
 import DrawerRowHeader from './DrawerRowHeader';
 import useArrowNavigation from './useArrowNavigation';
-
-const aboutUrl = 'http://om.ndla.no/';
-const whatIsUrl = 'https://om.ndla.no/hva-er-ndla/';
-const numbersUrl = 'https://om.ndla.no/tall-og-rapporter/';
-const organizationUrl = 'https://om.ndla.no/organisasjon/';
-const keyPersonnelUrl = 'https://om.ndla.no/organisasjon/nokkelpersoner-ndla/';
-const vacanciesUrl = 'https://om.ndla.no/utlysninger/';
-const newsletterUrl = 'https://om.ndla.no/nyhetsbrev/';
-const contactUrl = 'https://om.ndla.no/kontakt-oss/';
 
 interface Props {
   onClose: () => void;
@@ -39,30 +31,14 @@ const AboutMenu = ({ onClose, onCloseMenuPortion }: Props) => {
           id={'about-ndla'}
           title="Om NDLA"
           type="link"
-          to={aboutUrl}
+          to={aboutNdlaUrl}
           onClose={onClose}
         />
-        <DrawerMenuItem id="whatIs" type="link" to={whatIsUrl}>
-          {t('masthead.menuOptions.about.whatIs')}
-        </DrawerMenuItem>
-        <DrawerMenuItem id="organization" type="link" to={organizationUrl}>
-          {t('masthead.menuOptions.about.organization')}
-        </DrawerMenuItem>
-        <DrawerMenuItem id="numbers" type="link" to={numbersUrl}>
-          {t('masthead.menuOptions.about.numbers')}
-        </DrawerMenuItem>
-        <DrawerMenuItem id="keyPersonnel" type="link" to={keyPersonnelUrl}>
-          {t('masthead.menuOptions.about.keyPersonnel')}
-        </DrawerMenuItem>
-        <DrawerMenuItem id="vacancies" type="link" to={vacanciesUrl}>
-          {t('masthead.menuOptions.about.vacancies')}
-        </DrawerMenuItem>
-        <DrawerMenuItem id="link" type="link" to={newsletterUrl}>
-          {t('masthead.menuOptions.about.newsletter')}
-        </DrawerMenuItem>
-        <DrawerMenuItem id="contact" type="link" to={contactUrl}>
-          {t('masthead.menuOptions.about.contact')}
-        </DrawerMenuItem>
+        {Object.entries(aboutNdlaLinks).map(([key, url]) => (
+          <DrawerMenuItem key={key} id={key} type="link" to={url}>
+            {t(`masthead.menuOptions.about.${key}`)}
+          </DrawerMenuItem>
+        ))}
       </DrawerList>
     </DrawerPortion>
   );
