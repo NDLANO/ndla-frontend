@@ -7,6 +7,7 @@ import {
   useContext,
   useEffect,
   useState,
+  useCallback,
 } from 'react';
 import {
   GQLAlertsQuery,
@@ -71,10 +72,10 @@ const AlertsProvider = ({ children }: Props) => {
     GQLAlertsQueryVariables
   >(alertsQuery, { pollInterval: 10 * 60 * 1000 });
 
-  const closeAlert = (id: number) => {
+  const closeAlert = useCallback((id: number) => {
     setClosedAlert(id);
     setOpenAlerts(prev => prev.filter(alert => alert.number !== id));
-  };
+  }, []);
 
   useEffect(() => {
     if (alerts) {
