@@ -25,7 +25,11 @@ const AboutMenu = ({ onClose, onCloseMenuPortion }: Props) => {
 
   return (
     <DrawerPortion>
-      <BackButton title="Go home" homeButton onGoBack={onCloseMenuPortion} />
+      <BackButton
+        title={t('masthead.menu.goToMainMenu')}
+        homeButton
+        onGoBack={onCloseMenuPortion}
+      />
       <DrawerList>
         <DrawerRowHeader
           id={'about-ndla'}

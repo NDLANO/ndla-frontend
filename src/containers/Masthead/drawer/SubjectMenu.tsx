@@ -8,6 +8,7 @@
 
 import partition from 'lodash/partition';
 import { Dispatch, SetStateAction, useCallback, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { gql } from '@apollo/client';
 import { ContentLoader } from '@ndla/ui';
@@ -68,6 +69,7 @@ const SubjectMenu = ({
   setTopicPathIds,
   topicPathIds,
 }: Props) => {
+  const { t } = useTranslation();
   const location = useLocation();
   const groupedTopics = useMemo(() => {
     const [roots, rest] = partition(
@@ -122,7 +124,11 @@ const SubjectMenu = ({
   return (
     <>
       <DrawerPortion>
-        <BackButton onGoBack={onCloseMenuPortion} title="Go home" homeButton />
+        <BackButton
+          onGoBack={onCloseMenuPortion}
+          title={t('masthead.menu.goToMainMenu')}
+          homeButton
+        />
         {subject ? (
           <DrawerList id={`list-${subject?.id}`}>
             <DrawerRowHeader

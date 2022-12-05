@@ -29,7 +29,7 @@ const StyledTitle = styled.h1`
 `;
 
 const ProgrammeMenu = ({ onClose, onCloseMenuPortion }: Props) => {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
   const location = useLocation();
   const programmes = useMemo(() => getProgrammes(i18n.language), [
     i18n.language,
@@ -39,7 +39,11 @@ const ProgrammeMenu = ({ onClose, onCloseMenuPortion }: Props) => {
 
   return (
     <DrawerPortion>
-      <BackButton title="Go home" homeButton onGoBack={onCloseMenuPortion} />
+      <BackButton
+        title={t('masthead.menu.goToMainMenu')}
+        homeButton
+        onGoBack={onCloseMenuPortion}
+      />
       <StyledTitle aria-hidden={true}>Utdanningsprogram</StyledTitle>
       <DrawerList id="programme-menu">
         {programmes.map(programme => (
