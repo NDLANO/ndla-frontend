@@ -51,6 +51,11 @@ const FooterWrapper = ({ ndlaFilm }: Props) => {
     },
   ];
 
+  const privacyLinks = [
+    { label: t('footer.privacyLink'), url: 'https://om.ndla.no/gpdr' },
+    { label: t('footer.cookiesLink'), url: 'https://om.ndla.no/cookies' },
+  ];
+
   return (
     <Footer
       lang={i18n.language}
@@ -66,13 +71,11 @@ const FooterWrapper = ({ ndlaFilm }: Props) => {
           inverted={!!ndlaFilm}
           currentLanguage={i18n.language}
         />
-      }>
+      }
+      privacyLinks={privacyLinks}>
       <FooterText>
-        <EditorName
-          title={t('footer.footerEditiorInChief')}
-          name="Sigurd Trageton"
-        />
-        {t('footer.footerInfo')}
+        <EditorName title={t('footer.editorInChief')} name="Sigurd Trageton" />
+        {t('footer.info')}
       </FooterText>
     </Footer>
   );
