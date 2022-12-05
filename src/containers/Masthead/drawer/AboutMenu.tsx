@@ -42,33 +42,25 @@ const AboutMenu = ({ onClose, onCloseMenuPortion }: Props) => {
           to={aboutUrl}
           onClose={onClose}
         />
-        <DrawerMenuItem id="whatIs" type="link" to={whatIsUrl} external>
+        <DrawerMenuItem id="whatIs" type="link" to={whatIsUrl}>
           {t('masthead.menuOptions.about.whatIs')}
         </DrawerMenuItem>
-        <DrawerMenuItem
-          id="organization"
-          type="link"
-          to={organizationUrl}
-          external>
+        <DrawerMenuItem id="organization" type="link" to={organizationUrl}>
           {t('masthead.menuOptions.about.organization')}
         </DrawerMenuItem>
-        <DrawerMenuItem id="numbers" type="link" to={numbersUrl} external>
+        <DrawerMenuItem id="numbers" type="link" to={numbersUrl}>
           {t('masthead.menuOptions.about.numbers')}
         </DrawerMenuItem>
-        <DrawerMenuItem
-          id="keyPersonnel"
-          type="link"
-          to={keyPersonnelUrl}
-          external>
+        <DrawerMenuItem id="keyPersonnel" type="link" to={keyPersonnelUrl}>
           {t('masthead.menuOptions.about.keyPersonnel')}
         </DrawerMenuItem>
-        <DrawerMenuItem id="vacancies" type="link" to={vacanciesUrl} external>
+        <DrawerMenuItem id="vacancies" type="link" to={vacanciesUrl}>
           {t('masthead.menuOptions.about.vacancies')}
         </DrawerMenuItem>
-        <DrawerMenuItem id="link" type="link" to={newsletterUrl} external>
+        <DrawerMenuItem id="link" type="link" to={newsletterUrl}>
           {t('masthead.menuOptions.about.newsletter')}
         </DrawerMenuItem>
-        <DrawerMenuItem id="contact" type="link" to={contactUrl} external>
+        <DrawerMenuItem id="contact" type="link" to={contactUrl}>
           {t('masthead.menuOptions.about.contact')}
         </DrawerMenuItem>
       </DrawerList>

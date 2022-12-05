@@ -32,7 +32,6 @@ interface DrawerMenuButtonProps extends BaseProps {
 interface DrawerMenuLinkProps extends BaseProps, Omit<SafeLinkProps, 'id'> {
   type: 'link';
   onClose?: () => void;
-  external?: boolean;
 }
 
 const commonStyle = css`
@@ -124,7 +123,6 @@ const DrawerMenuItem = ({
           to={specificProps.to}
           onClick={specificProps.onClose}
           className={className}
-          showNewWindowIcon={specificProps.external}
           css={[style, active ? activeStyle : []]}>
           {children}
         </SafeLink>
