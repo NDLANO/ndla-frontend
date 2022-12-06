@@ -36,14 +36,18 @@ interface DrawerMenuLinkProps extends BaseProps, Omit<SafeLinkProps, 'id'> {
 
 const commonStyle = css`
   width: 100%;
-  padding: ${spacing.xsmall};
-  padding-left: ${spacing.normal};
+  padding: ${spacing.xsmall} ${spacing.small};
+  margin: 0 ${spacing.small};
   background-color: transparent;
   border: 0;
+  border-radius: 5px;
   color: ${colors.brand.primary};
   text-align: start;
   box-shadow: none;
   cursor: pointer;
+  :last-of-type {
+    margin: ${spacing.xsmall} ${spacing.small};
+  }
   &:hover {
     text-decoration: underline;
   }
@@ -83,6 +87,18 @@ const StyledButton = styled(ButtonV2, { shouldForwardProp })<StyledButtonProps>`
     `}
 `;
 
+const TextWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: ${spacing.xsmall};
+  span {
+    font-size: 24px;
+    color: ${colors.brand.primary};
+  }
+  text-decoration: none;
+`;
+
 type Props = DrawerMenuButtonProps | DrawerMenuLinkProps;
 
 const DrawerMenuItem = ({
@@ -108,7 +124,10 @@ const DrawerMenuItem = ({
           onClick={() => specificProps.onClick(!!active)}
           css={[style, active ? activeStyle : []]}
           className={className}>
-          {children}
+          <TextWrapper>
+            {children}
+            {current && <span aria-hidden={true}>•</span>}
+          </TextWrapper>
         </StyledButton>
       </DrawerListItem>
     );
@@ -124,7 +143,10 @@ const DrawerMenuItem = ({
           onClick={specificProps.onClose}
           className={className}
           css={[style, active ? activeStyle : []]}>
-          {children}
+          <TextWrapper>
+            {children}
+            {current && <span aria-hidden={true}>•</span>}
+          </TextWrapper>
         </SafeLink>
       </DrawerListItem>
     );

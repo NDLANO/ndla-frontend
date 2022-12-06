@@ -174,7 +174,6 @@ const TopicMenu = ({
                     type="link"
                     to={res.path}
                     current={res.path === location.pathname}
-                    active={res.path === location.pathname}
                     onClose={onClose}
                     key={res.id}>
                     {res.name}
@@ -188,7 +187,6 @@ const TopicMenu = ({
                 type="link"
                 to={res.path}
                 current={res.path === location.pathname}
-                active={res.path === location.pathname}
                 onClose={onClose}
                 key={res.id}>
                 <StyledResourceSpan>
