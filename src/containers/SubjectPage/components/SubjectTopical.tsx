@@ -30,6 +30,8 @@ const SubjectTopical = ({ topical, twoColumns = false }: Props) => {
   return (
     <SubjectPageFlexChild twoColumns={twoColumns}>
       <SubjectArchive
+        // This heading level is possibly wrong. Hard to say, as the component is unused.
+        headingLevel="h2"
         featuringArticle={{
           media:
             metaImage && metaImage.url ? (

@@ -76,6 +76,8 @@ const SubjectEditorChoices = ({
 
   return (
     <SubjectCarousel
+      // This heading level is possibly wrong. Hard to say, as the component is unused.
+      headingLevel="h2"
       title={t('subjectPage.editorsChoices.heading')}
       subjects={editorsChoicesResources}
       wideScreen={wideScreen}

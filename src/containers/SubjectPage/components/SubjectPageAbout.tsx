@@ -58,6 +58,8 @@ export const SubjectPageAbout = ({
   return (
     <SubjectPageFlexChild twoColumns={twoColumns}>
       <SubjectAbout
+        // This heading level is possibly wrong. Hard to say, as the component is unused.
+        headingLevel="h2"
         media={<AboutMedia visualElement={about.visualElement!} />}
         heading={about.title || ''}
         description={about.description || ''}

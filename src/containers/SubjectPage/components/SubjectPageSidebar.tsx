@@ -33,6 +33,8 @@ export const SubjectPageSidebar = ({
     goTo && goTo.length > 0 && (
       <SubjectPageFlexChild key="subjectpage_shortcuts" twoColumns={twoColumns}>
         <SubjectShortcuts
+          // This heading level is possibly wrong. Hard to say, as the component is unused.
+          headingLevel="h2"
           messages={{
             heading: t('subjectPage.subjectShortcuts.heading'),
             showMore: t('subjectPage.subjectShortcuts.showMore'),
@@ -48,6 +50,8 @@ export const SubjectPageSidebar = ({
     mostRead && mostRead.length > 0 && (
       <SubjectPageFlexChild key="subjectpage_mostread" twoColumns={twoColumns}>
         <SubjectLinks
+          // This heading level is possibly wrong. Hard to say, as the component is unused.
+          headingLevel="h2"
           heading={t('subjectPage.mostRead.heading')}
           links={mostRead.map(resource => ({
             text: resource?.name,
