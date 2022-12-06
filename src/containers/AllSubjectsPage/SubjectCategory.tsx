@@ -6,6 +6,13 @@
  *
  */
 
+import styled from '@emotion/styled';
+import { IconButtonV2 } from '@ndla/button';
+import { colors, fonts, misc, spacing } from '@ndla/core';
+import { HeartOutline } from '@ndla/icons/lib/action';
+import SafeLink from '@ndla/safelink';
+import { toSubject } from '../../routeHelpers';
+
 interface Subject {
   id: string;
   name: string;
@@ -16,15 +23,38 @@ interface Props {
   subjects: Subject[];
 }
 
+const Grid = styled.div`
+  display: grid;
+  grid-template-columns: 50% 50%;
+`;
+
+const Heading = styled.h2`
+  border: 1px solid ${colors.brand.neutral7};
+  border-radius: ${misc.borderRadius};
+  padding: ${spacing.xxsmall} ${spacing.small};
+  ${fonts.sizes('18px', '24px')}
+`;
+
 const SubjectCategory = ({ label, subjects }: Props) => {
   return (
     <div>
-      <h2>{label}</h2>
-      <ul>
+      <Heading id={`subject-${label}`}>{label.toUpperCase()}</Heading>
+      <Grid>
         {subjects.map(subject => {
-          return <li key={subject.id}>{subject.name}</li>;
+          return (
+            <div key={subject.id}>
+              <IconButtonV2
+                aria-label="TEMP"
+                variant="ghost"
+                size="xsmall"
+                colorTheme="lighter">
+                <HeartOutline />
+              </IconButtonV2>
+              <SafeLink to={toSubject(subject.id)}>{subject.name}</SafeLink>
+            </div>
+          );
         })}
-      </ul>
+      </Grid>
     </div>
   );
 };

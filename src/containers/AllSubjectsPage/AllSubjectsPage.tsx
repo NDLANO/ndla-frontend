@@ -12,19 +12,22 @@ import { groupBy } from 'lodash';
 import { useTranslation } from 'react-i18next';
 
 import { useSubjects } from '../MyNdla/subjectMutations';
+import LetterNavigation from './LetterNavigation';
 import SubjectCategory from './SubjectCategory';
 
 const AllSubjectsPage = () => {
   const { t } = useTranslation();
   const { error, loading, subjects } = useSubjects();
 
-  const subjectCategories = Object.entries(
+  const groupedSubjects = Object.entries(
     groupBy(subjects, subject => {
-      const firstChar = subject.name[0]?.toLowerCase();
-      const isLetter = firstChar?.match(/[a-z\Wæøå]+/);
+      const firstChar = subject.name[0]?.toUpperCase();
+      const isLetter = firstChar?.match(/[A-Z\WÆØÅ]+/);
       return isLetter ? firstChar : '#';
     }),
-  );
+  ).sort((a, b) => (a[0] > b[0] ? 1 : -1));
+
+  const letters = groupedSubjects.map(group => group[0]);
 
   if (loading) return <ContentPlaceholder />;
   if (error)
@@ -49,7 +52,8 @@ const AllSubjectsPage = () => {
       <OneColumn>
         <section>
           <h1>{t('subjectsPage.chooseSubject')}</h1>
-          {subjectCategories.map(([key, value]) => (
+          <LetterNavigation activeLetters={letters} />
+          {groupedSubjects.map(([key, value]) => (
             <SubjectCategory key={key} label={key} subjects={value} />
           ))}
         </section>
