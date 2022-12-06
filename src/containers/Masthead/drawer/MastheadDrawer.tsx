@@ -97,6 +97,7 @@ const MastheadDrawer = ({ subject }: Props) => {
       label={t('masthead.menu.modalLabel')}
       activateButton={
         <ButtonV2
+          aria-haspopup="menu"
           inverted={ndlaFilm}
           shape="pill"
           variant="outline"
