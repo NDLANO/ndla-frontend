@@ -9,8 +9,8 @@
 import { gql } from '@apollo/client';
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
-import { breakpoints, mq, spacing } from '@ndla/core';
-import { ChevronDown, Menu } from '@ndla/icons/common';
+import { spacing } from '@ndla/core';
+import { Menu } from '@ndla/icons/common';
 import { Cross } from '@ndla/icons/action';
 import { Drawer } from '@ndla/modal';
 import { useCallback, useEffect, useState } from 'react';
@@ -35,14 +35,6 @@ const DrawerContainer = styled.nav`
 
 const HeadWrapper = styled.div`
   padding: ${spacing.small};
-  display: flex;
-  gap: ${spacing.small};
-  align-items: center;
-  justify-content: space-between;
-  ${mq.range({ from: breakpoints.tablet })} {
-    max-width: 300px;
-    justify-content: center;
-  }
 `;
 
 interface Props {
@@ -113,11 +105,7 @@ const MastheadDrawer = ({ subject }: Props) => {
           <HeadWrapper>
             <ButtonV2 variant="outline" shape="pill" onClick={close}>
               <Cross />
-              Lukk
-            </ButtonV2>
-            <ButtonV2 variant="outline" shape="pill" onClick={() => {}}>
-              Bokmål
-              <ChevronDown />
+              {t('close')}
             </ButtonV2>
           </HeadWrapper>
           <DrawerContainer>

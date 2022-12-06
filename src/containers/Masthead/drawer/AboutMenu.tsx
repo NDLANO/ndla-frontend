@@ -30,7 +30,7 @@ const AboutMenu = ({ onClose, onCloseMenuPortion }: Props) => {
         homeButton
         onGoBack={onCloseMenuPortion}
       />
-      <DrawerList>
+      <DrawerList id="about-menu">
         <DrawerRowHeader
           id={'about-ndla'}
           title="Om NDLA"

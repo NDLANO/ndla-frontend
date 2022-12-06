@@ -58,8 +58,8 @@ export const aboutNdlaLinks = {
   whatIs: `${aboutNdlaUrl}hva-er-ndla/`,
   numbers: `${aboutNdlaUrl}tall-og-rapporter/`,
   organization: `${aboutNdlaUrl}organisasjon/`,
-  keyPersonnel: `${aboutNdlaUrl}/organisasjon/nokkelpersoner-ndla/`,
-  vacancies: `${aboutNdlaUrl}/utlysninger/`,
-  newsletter: `${aboutNdlaUrl}/nyhetsbrev/`,
-  contact: `${aboutNdlaUrl}/kontakt-oss/`,
+  keyPersonnel: `${aboutNdlaUrl}organisasjon/nokkelpersoner-ndla/`,
+  vacancies: `${aboutNdlaUrl}utlysninger/`,
+  newsletter: `${aboutNdlaUrl}nyhetsbrev/`,
+  contact: `${aboutNdlaUrl}kontakt-oss/`,
 };
