@@ -55,6 +55,12 @@ const rowHeaderWrapperStyles = css`
   font-weight: ${fonts.weight.semibold};
   background-color: #f7fafd;
   border: 0px;
+  svg {
+    min-width: 24px;
+    min-height: 24px;
+    width: 24px;
+    height: 24px;
+  }
   border-bottom: 1px solid ${colors.brand.neutral7};
   border-radius: 0px;
   &:hover,
