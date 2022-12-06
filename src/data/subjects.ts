@@ -80,7 +80,7 @@ export const getSubjectsCategories = (
   );
   const other = filterSubjects(
     subjects,
-    TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE,
+    TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
     constants.subjectCategories.OTHER,
   );
 
