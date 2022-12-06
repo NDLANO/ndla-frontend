@@ -45,6 +45,7 @@ const DrawerPortion = ({
 const StyledDrawerList = styled.ul`
   margin: 0;
   padding: 0;
+  overflow-y: auto;
 `;
 
 export const DrawerList = ({

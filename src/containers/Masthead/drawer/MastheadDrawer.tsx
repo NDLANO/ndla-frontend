@@ -26,11 +26,17 @@ const MainMenu = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
+  height: 100%;
+  max-height: 100%;
+  overflow-y: hidden;
 `;
 
 const DrawerContainer = styled.nav`
   display: flex;
   flex: 1;
+  height: 100%;
+  max-height: 100%;
+  overflow-y: hidden;
 `;
 
 const HeadWrapper = styled.div`
