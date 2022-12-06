@@ -1,9 +1,6 @@
 import { constants } from '@ndla/ui';
 import { TFunction } from 'react-i18next';
-import {
-  TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
-  TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE,
-} from '../constants';
+import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from '../constants';
 import { GQLSubjectInfoFragment } from '../graphqlTypes';
 
 export const multidisciplinaryTopics = [
