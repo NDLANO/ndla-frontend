@@ -13,7 +13,7 @@ const subjectsQueryFragment = gql`
 `;
 
 const subjectsQuery = gql`
-  query mySubjects($ids: [String!]) {
+  query allSubjects($ids: [String!]) {
     subjects(ids: $ids) {
       ...MySubjectsSubjectFramgent
     }
@@ -22,12 +22,15 @@ const subjectsQuery = gql`
 `;
 
 export const useSubjects = (ids?: string[]) => {
-  const { data, loading } = useGraphQuery<GQLMySubjectsQuery>(subjectsQuery, {
-    variables: {
-      ids,
+  const { data, loading, error } = useGraphQuery<GQLMySubjectsQuery>(
+    subjectsQuery,
+    {
+      variables: {
+        ids,
+      },
     },
-  });
+  );
   const subjects =
     data?.subjects || ([] as GQLMySubjectsSubjectFramgentFragment[]);
-  return { subjects, loading };
+  return { subjects, loading, error };
 };
