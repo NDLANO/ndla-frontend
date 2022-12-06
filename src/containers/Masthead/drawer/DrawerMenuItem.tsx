@@ -93,7 +93,6 @@ const TextWrapper = styled.div`
   align-items: center;
   gap: ${spacing.xsmall};
   span {
-    font-size: 24px;
     color: ${colors.brand.primary};
   }
   text-decoration: none;
