@@ -33,7 +33,7 @@ const AboutMenu = ({ onClose, onCloseMenuPortion }: Props) => {
       <DrawerList id="about-menu">
         <DrawerRowHeader
           id={'about-ndla'}
-          title="Om NDLA"
+          title={t('masthead.menuOptions.about.title')}
           type="link"
           to={aboutNdlaUrl}
           onClose={onClose}
