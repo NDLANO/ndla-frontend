@@ -81,7 +81,7 @@ export const getSubjectsCategories = (
   const other = filterSubjects(
     subjects,
     TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE,
-    constants.subjectTypes.RESOURCE_COLLECTION,
+    constants.subjectCategories.OTHER,
   );
 
   return [active, archived, beta, other];
