@@ -1834,15 +1834,6 @@ export type GQLLicenseListCopyrightFragment = {
   }>;
 };
 
-export type GQLAllSubjectsQueryVariables = Exact<{ [key: string]: never }>;
-
-export type GQLAllSubjectsQuery = {
-  __typename?: 'Query';
-  subjects?: Array<
-    { __typename?: 'Subject' } & GQLSubjectLinkListSubjectFragment
-  >;
-};
-
 export type GQLArticlePage_ResourceTypeFragment = {
   __typename?: 'ResourceTypeDefinition';
 } & GQLResources_ResourceTypeDefinitionFragment;
@@ -2381,20 +2372,21 @@ export type GQLDeleteFolderResourceMutation = {
   deleteFolderResource: string;
 };
 
-export type GQLMySubjectsSubjectFramgentFragment = {
+export type GQLMySubjectsSubjectFragmentFragment = {
   __typename?: 'Subject';
   id: string;
   name: string;
+  metadata: { __typename?: 'TaxonomyMetadata'; customFields: any };
 };
 
-export type GQLMySubjectsQueryVariables = Exact<{
+export type GQLAllSubjectsQueryVariables = Exact<{
   ids?: InputMaybe<Array<Scalars['String']> | Scalars['String']>;
 }>;
 
-export type GQLMySubjectsQuery = {
+export type GQLAllSubjectsQuery = {
   __typename?: 'Query';
   subjects?: Array<
-    { __typename?: 'Subject' } & GQLMySubjectsSubjectFramgentFragment
+    { __typename?: 'Subject' } & GQLMySubjectsSubjectFragmentFragment
   >;
 };
 

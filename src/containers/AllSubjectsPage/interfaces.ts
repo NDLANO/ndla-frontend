@@ -3,4 +3,4 @@ export interface Subject {
   name: string;
 }
 
-export type Status = 'all' | 'active' | 'archived' | 'beta';
+export type Status = 'all' | 'active' | 'archive' | 'beta';

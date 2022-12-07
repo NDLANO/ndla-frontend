@@ -3,7 +3,7 @@ import { ButtonV2 } from '@ndla/button';
 import { colors, spacing } from '@ndla/core';
 import { Status } from './interfaces';
 
-const types: Status[] = ['all', 'active', 'archived', 'beta'];
+const types: Status[] = ['all', 'active', 'archive', 'beta'];
 
 interface Props {
   value: Status;

@@ -1,28 +1,31 @@
 import gql from 'graphql-tag';
 import {
-  GQLMySubjectsQuery,
-  GQLMySubjectsSubjectFramgentFragment,
+  GQLMySubjectsSubjectFragmentFragment,
+  GQLSubjectsQuery,
 } from '../../graphqlTypes';
 import { useGraphQuery } from '../../util/runQueries';
 
 const subjectsQueryFragment = gql`
-  fragment MySubjectsSubjectFramgent on Subject {
+  fragment MySubjectsSubjectFragment on Subject {
     id
     name
+    metadata {
+      customFields
+    }
   }
 `;
 
 const subjectsQuery = gql`
   query allSubjects($ids: [String!]) {
     subjects(ids: $ids) {
-      ...MySubjectsSubjectFramgent
+      ...MySubjectsSubjectFragment
     }
   }
   ${subjectsQueryFragment}
 `;
 
 export const useSubjects = (ids?: string[]) => {
-  const { data, loading, error } = useGraphQuery<GQLMySubjectsQuery>(
+  const { data, loading, error } = useGraphQuery<GQLSubjectsQuery>(
     subjectsQuery,
     {
       variables: {
@@ -31,6 +34,6 @@ export const useSubjects = (ids?: string[]) => {
     },
   );
   const subjects =
-    data?.subjects || ([] as GQLMySubjectsSubjectFramgentFragment[]);
+    data?.subjects || ([] as GQLMySubjectsSubjectFragmentFragment[]);
   return { subjects, loading, error };
 };

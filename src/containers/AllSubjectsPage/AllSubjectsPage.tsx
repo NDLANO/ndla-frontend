@@ -9,8 +9,7 @@
 import styled from '@emotion/styled';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { OneColumn, ErrorMessage, ContentPlaceholder } from '@ndla/ui';
-import { groupBy } from 'lodash';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { useSubjects } from '../MyNdla/subjectMutations';
@@ -18,6 +17,7 @@ import { Status } from './interfaces';
 import LetterNavigation from './LetterNavigation';
 import StatusFilter from './StatusFilter';
 import SubjectCategory from './SubjectCategory';
+import { filterSubjects, groupSubjects } from './utils';
 
 const StyledColumn = styled(OneColumn)`
   display: flex;
@@ -29,15 +29,16 @@ const AllSubjectsPage = () => {
   const { error, loading, subjects } = useSubjects();
   const [filter, setFilter] = useState<Status>('all');
 
-  const groupedSubjects = Object.entries(
-    groupBy(subjects, subject => {
-      const firstChar = subject.name[0]?.toUpperCase();
-      const isLetter = firstChar?.match(/[A-Z\WÆØÅ]+/);
-      return isLetter ? firstChar : '#';
-    }),
-  ).sort((a, b) => (a[0] > b[0] ? 1 : -1));
+  const filteredSubjects = useMemo(() => filterSubjects(subjects, filter), [
+    subjects,
+    filter,
+  ]);
 
-  const letters = groupedSubjects.map(group => group[0]);
+  const groupedSubjects = useMemo(() => groupSubjects(filteredSubjects), [
+    filteredSubjects,
+  ]);
+
+  const letters = groupedSubjects.map(group => group.label);
 
   if (loading) return <ContentPlaceholder />;
   if (error)
@@ -63,8 +64,8 @@ const AllSubjectsPage = () => {
         <h1>{t('subjectsPage.chooseSubject')}</h1>
         <StatusFilter value={filter} onChange={setFilter} />
         <LetterNavigation activeLetters={letters} />
-        {groupedSubjects.map(([key, value]) => (
-          <SubjectCategory key={key} label={key} subjects={value} />
+        {groupedSubjects.map(({ label, subjects }) => (
+          <SubjectCategory key={label} label={label} subjects={subjects} />
         ))}
       </StyledColumn>
     </div>
