@@ -1,4 +1,3 @@
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { colors, fonts, spacing } from '@ndla/core';
@@ -9,13 +8,15 @@ const LetterNavigationWrapper = styled.div`
   flex-wrap: wrap;
   flex: 1;
   gap: ${spacing.small};
+  margin: ${spacing.medium} 0;
 `;
 
 const StyledLetter = styled(ButtonV2)`
   font-weight: ${fonts.weight.bold};
-  min-width: 16px;
+  min-width: 18px;
   &[disabled] {
     color: ${colors.brand.light};
+    cursor: unset;
   }
 `;
 
@@ -25,10 +26,9 @@ interface Props {
 
 const LetterNavigation = ({ activeLetters }: Props) => {
   const onClick = (id: string) => {
-    const target = document.getElementById(`subject-${id}`);
-    console.log(target);
+    const container = document.getElementById(`subject-${id}`);
+    const target = container?.querySelector('a');
     target?.focus();
-    target?.scrollIntoView({ focu });
   };
 
   return (
