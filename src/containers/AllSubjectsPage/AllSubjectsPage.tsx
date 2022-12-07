@@ -6,18 +6,28 @@
  *
  */
 
+import styled from '@emotion/styled';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { OneColumn, ErrorMessage, ContentPlaceholder } from '@ndla/ui';
 import { groupBy } from 'lodash';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { useSubjects } from '../MyNdla/subjectMutations';
+import { Status } from './interfaces';
 import LetterNavigation from './LetterNavigation';
+import StatusFilter from './StatusFilter';
 import SubjectCategory from './SubjectCategory';
+
+const StyledColumn = styled(OneColumn)`
+  display: flex;
+  flex-direction: column;
+`;
 
 const AllSubjectsPage = () => {
   const { t } = useTranslation();
   const { error, loading, subjects } = useSubjects();
+  const [filter, setFilter] = useState<Status>('all');
 
   const groupedSubjects = Object.entries(
     groupBy(subjects, subject => {
@@ -49,15 +59,14 @@ const AllSubjectsPage = () => {
   return (
     <div className="c-resources u-padding-top-large">
       <HelmetWithTracker title={t('htmlTitles.subjectsPage')} />
-      <OneColumn>
-        <section>
-          <h1>{t('subjectsPage.chooseSubject')}</h1>
-          <LetterNavigation activeLetters={letters} />
-          {groupedSubjects.map(([key, value]) => (
-            <SubjectCategory key={key} label={key} subjects={value} />
-          ))}
-        </section>
-      </OneColumn>
+      <StyledColumn>
+        <h1>{t('subjectsPage.chooseSubject')}</h1>
+        <StatusFilter value={filter} onChange={setFilter} />
+        <LetterNavigation activeLetters={letters} />
+        {groupedSubjects.map(([key, value]) => (
+          <SubjectCategory key={key} label={key} subjects={value} />
+        ))}
+      </StyledColumn>
     </div>
   );
 };

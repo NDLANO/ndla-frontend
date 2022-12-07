@@ -31,7 +31,7 @@ const SubjectLink = ({ subject }: Props) => {
   return (
     <SubjectLinkWrapper>
       <StyledButton
-        aria-label="TEMP"
+        aria-label="TEMP: Fjern eller ligg til i favoritter"
         variant="ghost"
         size="xsmall"
         colorTheme="lighter">
