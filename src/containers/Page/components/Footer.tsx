@@ -52,8 +52,8 @@ const FooterWrapper = ({ ndlaFilm }: Props) => {
   ];
 
   const privacyLinks = [
-    { label: t('footer.privacyLink'), url: 'https://om.ndla.no/gpdr' },
-    { label: t('footer.cookiesLink'), url: 'https://om.ndla.no/cookies' },
+    { url: 'https://om.ndla.no/gdpr', label: t('footer.privacyLink') },
+    { url: 'https://om.ndla.no/cookies', label: t('footer.cookiesLink') },
   ];
 
   return (
