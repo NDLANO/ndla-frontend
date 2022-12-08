@@ -46,7 +46,7 @@ const getSocialMediaMetaData = (
     .find(t => topics.includes(t.id));
 
   const selectedTitle = selectedMetadata?.name || selectedMetadata?.meta?.title;
-  const subjectTitle = subject.subjectpage?.about?.title || subject.name;
+  const subjectTitle = subject.name;
   const hasSelectedTitle = !!selectedTitle;
   const title = htmlTitle(hasSelectedTitle ? selectedTitle : subjectTitle, [
     hasSelectedTitle ? subjectTitle : undefined,

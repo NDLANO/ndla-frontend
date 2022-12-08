@@ -46,7 +46,7 @@ const getMultidisciplinaryTopics = (locale: LocaleType) => {
     return {
       id: topic.id,
       title: topic.name?.[locale],
-      url: toTopic(MULTIDISCIPLINARY_SUBJECT_ID, topic.topicId ?? ''),
+      url: toTopic(MULTIDISCIPLINARY_SUBJECT_ID, topic.id ?? ''),
     };
   });
 };
