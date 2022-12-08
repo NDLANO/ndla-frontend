@@ -31,7 +31,7 @@ const StyledSafeLink = styled(SafeLink)`
 
 const SubjectLink = ({ subject, favorites }: Props) => {
   const isFavorite = !!favorites?.includes(subject.id);
-  const { updatePersonalData, loading } = useUpdatePersonalData();
+  const { updatePersonalData } = useUpdatePersonalData();
 
   const toggleFavorite = (value: boolean) => {
     if (!favorites) {

@@ -9,12 +9,14 @@
 import styled from '@emotion/styled';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { OneColumn, ErrorMessage, ContentPlaceholder } from '@ndla/ui';
+import { sortBy } from 'lodash';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AuthContext } from '../../components/AuthenticationContext';
 
 import { useSubjects } from '../MyNdla/subjectMutations';
 import { usePersonalData } from '../MyNdla/userMutations';
+import FavoriteSubjects from './FavoriteSubjects';
 import { Status } from './interfaces';
 import LetterNavigation from './LetterNavigation';
 import StatusFilter from './StatusFilter';
@@ -35,14 +37,14 @@ const AllSubjectsPage = () => {
 
   const favoriteSubjects = personalData?.favoriteSubjects;
 
-  const filteredSubjects = useMemo(() => filterSubjects(subjects, filter), [
+  const sortedSubjects = useMemo(() => sortBy(subjects, s => s.name), [
     subjects,
-    filter,
   ]);
 
-  const groupedSubjects = useMemo(() => groupSubjects(filteredSubjects), [
-    filteredSubjects,
-  ]);
+  const groupedSubjects = useMemo(() => {
+    const filteredSubjects = filterSubjects(sortedSubjects, filter);
+    return groupSubjects(filteredSubjects);
+  }, [sortedSubjects, filter]);
 
   const letters = useMemo(() => groupedSubjects.map(group => group.label), [
     groupedSubjects,
@@ -76,6 +78,12 @@ const AllSubjectsPage = () => {
       <HelmetWithTracker title={t('htmlTitles.subjectsPage')} />
       <StyledColumn>
         <h1>{t('subjectsPage.chooseSubject')}</h1>
+        {favoriteSubjects && (
+          <FavoriteSubjects
+            favorites={favoriteSubjects}
+            subjects={sortedSubjects}
+          />
+        )}
         <StatusFilter value={filter} onChange={setFilter} />
         <LetterNavigation activeLetters={letters} />
         {groupedSubjects.map(({ label, subjects }) => (

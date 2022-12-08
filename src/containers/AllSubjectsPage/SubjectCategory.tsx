@@ -18,7 +18,7 @@ interface Props {
   favorites: string[] | undefined;
 }
 
-const Grid = styled.div`
+export const Grid = styled.div`
   display: grid;
   grid-template-columns: 50% 50%;
   gap: ${spacing.xxsmall};
