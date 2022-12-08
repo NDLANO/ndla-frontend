@@ -9,10 +9,12 @@
 import styled from '@emotion/styled';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { OneColumn, ErrorMessage, ContentPlaceholder } from '@ndla/ui';
-import { useMemo, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { AuthContext } from '../../components/AuthenticationContext';
 
 import { useSubjects } from '../MyNdla/subjectMutations';
+import { usePersonalData } from '../MyNdla/userMutations';
 import { Status } from './interfaces';
 import LetterNavigation from './LetterNavigation';
 import StatusFilter from './StatusFilter';
@@ -28,6 +30,10 @@ const AllSubjectsPage = () => {
   const { t } = useTranslation();
   const { error, loading, subjects } = useSubjects();
   const [filter, setFilter] = useState<Status>('all');
+  const { authenticated } = useContext(AuthContext);
+  const { personalData, fetch: fetchPersonalData } = usePersonalData();
+
+  const favoriteSubjects = personalData?.favoriteSubjects;
 
   const filteredSubjects = useMemo(() => filterSubjects(subjects, filter), [
     subjects,
@@ -38,7 +44,15 @@ const AllSubjectsPage = () => {
     filteredSubjects,
   ]);
 
-  const letters = groupedSubjects.map(group => group.label);
+  const letters = useMemo(() => groupedSubjects.map(group => group.label), [
+    groupedSubjects,
+  ]);
+
+  useEffect(() => {
+    if (authenticated) {
+      fetchPersonalData();
+    }
+  }, [authenticated, fetchPersonalData]);
 
   if (loading) return <ContentPlaceholder />;
   if (error)
@@ -65,7 +79,12 @@ const AllSubjectsPage = () => {
         <StatusFilter value={filter} onChange={setFilter} />
         <LetterNavigation activeLetters={letters} />
         {groupedSubjects.map(({ label, subjects }) => (
-          <SubjectCategory key={label} label={label} subjects={subjects} />
+          <SubjectCategory
+            favorites={favoriteSubjects}
+            key={label}
+            label={label}
+            subjects={subjects}
+          />
         ))}
       </StyledColumn>
     </div>

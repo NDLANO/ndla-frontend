@@ -6,15 +6,13 @@
  *
  */
 
-import { useApolloClient, useMutation } from '@apollo/client';
+import { useApolloClient, useLazyQuery, useMutation } from '@apollo/client';
 import gql from 'graphql-tag';
 import {
   GQLPersonalDataQuery,
-  GQLMyNdlaPersonalData,
   GQLUpdatePersonalDataMutation,
   GQLMutationUpdateFolderArgs,
 } from '../../graphqlTypes';
-import { useGraphQuery } from '../../util/runQueries';
 
 const deletePersonalDataMutation = gql`
   mutation deletePersonalData {
@@ -52,12 +50,11 @@ const personalDataQuery = gql`
 `;
 
 export const usePersonalData = () => {
-  const { data, loading } = useGraphQuery<GQLPersonalDataQuery>(
+  const [fetch, { data, loading }] = useLazyQuery<GQLPersonalDataQuery>(
     personalDataQuery,
-    {},
   );
-  const personalData = data?.personalData || ({} as GQLMyNdlaPersonalData);
-  return { personalData, loading };
+  const personalData = data?.personalData;
+  return { personalData, loading, fetch };
 };
 
 const updatePersonalDataQueryFragment = gql`

@@ -1,13 +1,14 @@
 import styled from '@emotion/styled';
 import { IconButtonV2 } from '@ndla/button';
 import { colors, fonts } from '@ndla/core';
-import { HeartOutline } from '@ndla/icons/action';
+import { Heart, HeartOutline } from '@ndla/icons/action';
 import SafeLink from '@ndla/safelink';
 import { toSubject } from '../../routeHelpers';
 import { Subject } from './interfaces';
 
 interface Props {
   subject: Subject;
+  favorites: string[] | undefined;
 }
 
 const SubjectLinkWrapper = styled.div`
@@ -27,7 +28,9 @@ const StyledSafeLink = styled(SafeLink)`
   color: ${colors.brand.primary};
 `;
 
-const SubjectLink = ({ subject }: Props) => {
+const SubjectLink = ({ subject, favorites }: Props) => {
+  const isFavorite = favorites?.includes(subject.id);
+
   return (
     <SubjectLinkWrapper>
       <StyledButton
@@ -35,7 +38,7 @@ const SubjectLink = ({ subject }: Props) => {
         variant="ghost"
         size="xsmall"
         colorTheme="lighter">
-        <HeartOutline />
+        {isFavorite ? <Heart /> : <HeartOutline />}
       </StyledButton>
       <StyledSafeLink to={toSubject(subject.id)}>{subject.name}</StyledSafeLink>
     </SubjectLinkWrapper>

@@ -58,7 +58,6 @@ export const filterSubjects = (
   subjects: GQLMySubjectsSubjectFragmentFragment[],
   status: Status,
 ) => {
-  console.log(status);
   if (status === 'all') {
     return subjects;
   }

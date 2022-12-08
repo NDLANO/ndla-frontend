@@ -15,6 +15,7 @@ import SubjectLink from './SubjectLink';
 interface Props {
   label: string;
   subjects: Subject[];
+  favorites: string[] | undefined;
 }
 
 const Grid = styled.div`
@@ -40,14 +41,18 @@ const Heading = styled.h2<StyledProps>`
   ${fonts.sizes('18px', '24px')};
 `;
 
-const SubjectCategory = ({ label, subjects }: Props) => {
+const SubjectCategory = ({ label, subjects, favorites }: Props) => {
   const headingOffset = useMastheadHeight().height || 84;
   return (
     <div>
       <Heading offset={headingOffset}>{label.toUpperCase()}</Heading>
       <Grid id={`subject-${label}`}>
         {subjects.map(subject => (
-          <SubjectLink key={subject.id} subject={subject} />
+          <SubjectLink
+            favorites={favorites}
+            key={subject.id}
+            subject={subject}
+          />
         ))}
       </Grid>
     </div>
