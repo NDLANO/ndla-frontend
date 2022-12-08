@@ -11,7 +11,7 @@ import gql from 'graphql-tag';
 import {
   GQLPersonalDataQuery,
   GQLUpdatePersonalDataMutation,
-  GQLMutationUpdateFolderArgs,
+  GQLUpdatePersonalDataMutationVariables,
 } from '../../graphqlTypes';
 
 const deletePersonalDataMutation = gql`
@@ -57,42 +57,33 @@ export const usePersonalData = () => {
   return { personalData, loading, fetch };
 };
 
-const updatePersonalDataQueryFragment = gql`
-  fragment UpdateMyNdlaPersonalDataQueryFragment on MyNdlaPersonalData {
-    favoriteSubjects
-  }
-`;
-
 const updatePersonalDataQuery = gql`
   mutation updatePersonalData($favoriteSubjects: [String!]!) {
     updatePersonalData(favoriteSubjects: $favoriteSubjects) {
-      ...UpdateMyNdlaPersonalDataQueryFragment
+      ...MySubjectMyNdlaPersonalDataFragment
     }
   }
-  ${updatePersonalDataQueryFragment}
+  ${personalDataQueryFragment}
 `;
 
 export const useUpdatePersonalData = () => {
   const { cache } = useApolloClient();
   const [updatePersonalData, { loading }] = useMutation<
     GQLUpdatePersonalDataMutation,
-    GQLMutationUpdateFolderArgs
+    GQLUpdatePersonalDataMutationVariables
   >(updatePersonalDataQuery, {
     onCompleted: data => {
-      // cache.modify({
-      //   id: cache.identify({
-      //     __ref: `PersonalData`,
-      //   }),
-      //   fields: {
-      //     personData(favoriteSubjects = []) {
-      //       return favoriteSubjects.concat({
-      //         __ref: cache.identify(data.updatePersonalData),
-      //       });
-      //     },
-      //   },
-      // });
+      cache.modify({
+        id: cache.identify({
+          __ref: data.__typename,
+        }),
+        fields: {
+          personalData() {
+            return data.updatePersonalData;
+          },
+        },
+      });
     },
   });
-
   return { updatePersonalData, loading };
 };

@@ -2415,11 +2415,6 @@ export type GQLPersonalDataQuery = {
   } & GQLMySubjectMyNdlaPersonalDataFragmentFragment;
 };
 
-export type GQLUpdateMyNdlaPersonalDataQueryFragmentFragment = {
-  __typename?: 'MyNdlaPersonalData';
-  favoriteSubjects: Array<string>;
-};
-
 export type GQLUpdatePersonalDataMutationVariables = Exact<{
   favoriteSubjects: Array<Scalars['String']> | Scalars['String'];
 }>;
@@ -2428,7 +2423,7 @@ export type GQLUpdatePersonalDataMutation = {
   __typename?: 'Mutation';
   updatePersonalData: {
     __typename?: 'MyNdlaPersonalData';
-  } & GQLUpdateMyNdlaPersonalDataQueryFragmentFragment;
+  } & GQLMySubjectMyNdlaPersonalDataFragmentFragment;
 };
 
 export type GQLPlainArticleContainer_ArticleFragment = {

@@ -4,6 +4,7 @@ import { colors, fonts } from '@ndla/core';
 import { Heart, HeartOutline } from '@ndla/icons/action';
 import SafeLink from '@ndla/safelink';
 import { toSubject } from '../../routeHelpers';
+import { useUpdatePersonalData } from '../MyNdla/userMutations';
 import { Subject } from './interfaces';
 
 interface Props {
@@ -29,11 +30,28 @@ const StyledSafeLink = styled(SafeLink)`
 `;
 
 const SubjectLink = ({ subject, favorites }: Props) => {
-  const isFavorite = favorites?.includes(subject.id);
+  const isFavorite = !!favorites?.includes(subject.id);
+  const { updatePersonalData, loading } = useUpdatePersonalData();
+
+  const toggleFavorite = (value: boolean) => {
+    if (!favorites) {
+      return;
+    }
+    if (value) {
+      const newFavorites = favorites?.filter(
+        favorite => favorite !== subject.id,
+      );
+      updatePersonalData({ variables: { favoriteSubjects: newFavorites } });
+    } else {
+      const newFavorites = favorites.concat(subject.id);
+      updatePersonalData({ variables: { favoriteSubjects: newFavorites } });
+    }
+  };
 
   return (
     <SubjectLinkWrapper>
       <StyledButton
+        onClick={() => toggleFavorite(isFavorite)}
         aria-label="TEMP: Fjern eller ligg til i favoritter"
         variant="ghost"
         size="xsmall"
