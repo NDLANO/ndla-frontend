@@ -2630,18 +2630,6 @@ export type GQLMovedTopicPage_TopicFragment = {
   };
 };
 
-export type GQLSubjectPageAbout_SubjectPageAboutFragment = {
-  __typename?: 'SubjectPageAbout';
-  title: string;
-  description: string;
-  visualElement: {
-    __typename?: 'SubjectPageVisualElement';
-    type: string;
-    url: string;
-    alt?: string;
-  };
-};
-
 export type GQLSubjectPageContent_SubjectFragment = {
   __typename?: 'Subject';
   topics?: Array<{
@@ -2652,28 +2640,6 @@ export type GQLSubjectPageContent_SubjectFragment = {
     relevanceId?: string;
   }>;
 } & GQLTopicWrapper_SubjectFragment;
-
-export type GQLSubjectPageInformation_SubjectPageFragment = {
-  __typename?: 'SubjectPage';
-  topical?:
-    | ({ __typename?: 'Resource' } & GQLSubjectTopical_TaxonomyEntityFragment)
-    | { __typename?: 'Subject' }
-    | { __typename?: 'Topic' };
-  about?: {
-    __typename?: 'SubjectPageAbout';
-  } & GQLSubjectPageAbout_SubjectPageAboutFragment;
-};
-
-export type GQLSubjectTopical_TaxonomyEntityFragment = {
-  __typename?: 'Resource';
-  path: string;
-  meta?: {
-    __typename?: 'Meta';
-    title: string;
-    metaDescription?: string;
-    metaImage?: { __typename?: 'MetaImage'; url: string; alt: string };
-  };
-};
 
 export type GQLTopic_SubjectFragment = {
   __typename?: 'Subject';
