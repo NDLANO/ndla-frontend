@@ -224,23 +224,6 @@ export function fixEndSlash(link: string) {
   return link;
 }
 
-type LinkObject = {
-  contentUri?: string;
-  meta?: object;
-  path?: string;
-};
-
-export function toLinkProps(linkObject: LinkObject) {
-  const isLearningpath =
-    linkObject.contentUri &&
-    linkObject.contentUri.startsWith('urn:learningpath') &&
-    linkObject.meta;
-  const path = linkObject.path || '';
-  return {
-    to: isLearningpath ? toLearningPath() + path : path,
-  };
-}
-
 export function toProgramme(programmePath: string, grade?: string) {
   const gradeString = grade ? `/${grade}` : '';
   return `${PROGRAMME_PATH}/${programmePath}${gradeString}`;
