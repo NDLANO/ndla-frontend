@@ -187,10 +187,6 @@ export function toTopic(subjectId: string, ...topicIds: string[]) {
   return t;
 }
 
-export const toTopicPartial = (subjectId: string, ...topicIds: string[]) => (
-  topicId: string,
-) => toTopic(subjectId, ...topicIds, topicId);
-
 export type SubjectURI = {
   id?: string;
   name?: string;

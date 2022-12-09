@@ -6,28 +6,6 @@
  *
  */
 import { RefObject } from 'react';
-import queryString from 'query-string';
-import { toTopicPartial } from '../../routeHelpers';
-import { GQLResourceTypeDefinition } from '../../graphqlTypes';
-
-export const toTopic = (subjectId: string) => toTopicPartial(subjectId);
-
-export const getSearchUrl = (
-  subjectId: string,
-  resourceType: GQLResourceTypeDefinition,
-) => {
-  const baseUrl = '/search';
-  const searchParams = {
-    'resource-types': 'urn:resourcetype:subjectMaterial',
-    contextFilters:
-      resourceType.id !== 'urn:resourcetype:subjectMaterial'
-        ? resourceType.id
-        : undefined,
-    page: 1,
-    subjects: `urn:${subjectId}`,
-  };
-  return `${baseUrl}?${queryString.stringify(searchParams)}`;
-};
 
 export const scrollToRef = (
   ref: RefObject<HTMLElement | null>,
