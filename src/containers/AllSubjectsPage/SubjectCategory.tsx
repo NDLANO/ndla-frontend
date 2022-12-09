@@ -16,6 +16,7 @@ interface Props {
   label: string;
   subjects: Subject[];
   favorites: string[] | undefined;
+  openLoginModal: () => void;
 }
 
 export const Grid = styled.div`
@@ -41,7 +42,12 @@ const Heading = styled.h2<StyledProps>`
   ${fonts.sizes('18px', '24px')};
 `;
 
-const SubjectCategory = ({ label, subjects, favorites }: Props) => {
+const SubjectCategory = ({
+  label,
+  subjects,
+  favorites,
+  openLoginModal,
+}: Props) => {
   const headingOffset = useMastheadHeight().height || 84;
   return (
     <div>
@@ -49,6 +55,7 @@ const SubjectCategory = ({ label, subjects, favorites }: Props) => {
       <Grid id={`subject-${label}`}>
         {subjects.map(subject => (
           <SubjectLink
+            openLoginModal={openLoginModal}
             favorites={favorites}
             key={subject.id}
             subject={subject}

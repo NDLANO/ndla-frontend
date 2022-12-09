@@ -13,6 +13,7 @@ import { sortBy } from 'lodash';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AuthContext } from '../../components/AuthenticationContext';
+import LoginModal from '../../components/MyNdla/LoginModal';
 
 import { useSubjects } from '../MyNdla/subjectMutations';
 import { usePersonalData } from '../MyNdla/userMutations';
@@ -34,6 +35,7 @@ const AllSubjectsPage = () => {
   const [filter, setFilter] = useState<Status>('all');
   const { authenticated } = useContext(AuthContext);
   const { personalData, fetch: fetchPersonalData } = usePersonalData();
+  const [showLoginModal, setShowLoginModal] = useState(false);
 
   const favoriteSubjects = personalData?.favoriteSubjects;
 
@@ -92,8 +94,13 @@ const AllSubjectsPage = () => {
             key={label}
             label={label}
             subjects={subjects}
+            openLoginModal={() => setShowLoginModal(true)}
           />
         ))}
+        <LoginModal
+          isOpen={showLoginModal}
+          onClose={() => setShowLoginModal(false)}
+        />
       </StyledColumn>
     </div>
   );

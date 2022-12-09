@@ -3,14 +3,11 @@ import { IconButtonV2 } from '@ndla/button';
 import { colors, fonts } from '@ndla/core';
 import { Heart, HeartOutline } from '@ndla/icons/action';
 import SafeLink from '@ndla/safelink';
+import { useContext } from 'react';
+import { AuthContext } from '../../components/AuthenticationContext';
 import { toSubject } from '../../routeHelpers';
 import { useUpdatePersonalData } from '../MyNdla/userMutations';
 import { Subject } from './interfaces';
-
-interface Props {
-  subject: Subject;
-  favorites: string[] | undefined;
-}
 
 const SubjectLinkWrapper = styled.div`
   display: flex;
@@ -29,11 +26,22 @@ const StyledSafeLink = styled(SafeLink)`
   color: ${colors.brand.primary};
 `;
 
-const SubjectLink = ({ subject, favorites }: Props) => {
+interface Props {
+  subject: Subject;
+  favorites: string[] | undefined;
+  openLoginModal?: () => void;
+}
+
+const SubjectLink = ({ subject, favorites, openLoginModal }: Props) => {
   const isFavorite = !!favorites?.includes(subject.id);
+  const { authenticated } = useContext(AuthContext);
   const { updatePersonalData } = useUpdatePersonalData();
 
   const toggleFavorite = (value: boolean) => {
+    if (!authenticated) {
+      openLoginModal?.();
+      return;
+    }
     if (!favorites) {
       return;
     }
