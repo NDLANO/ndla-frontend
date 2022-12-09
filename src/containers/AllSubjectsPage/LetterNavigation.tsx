@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
-import { colors, fonts, spacing } from '@ndla/core';
+import { colors, fonts, misc, spacing } from '@ndla/core';
 import { letters } from './utils';
 
 const LetterNavigationWrapper = styled.div`
@@ -12,11 +12,24 @@ const LetterNavigationWrapper = styled.div`
 `;
 
 const StyledLetter = styled(ButtonV2)`
+  ${fonts.sizes('18px', '24px')};
   font-weight: ${fonts.weight.bold};
-  min-width: 18px;
+  min-width: 20px;
+  min-height: unset;
+  padding: 0;
+  box-shadow: inset 0 -1px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
   &[disabled] {
+    box-shadow: none;
     color: ${colors.brand.light};
     cursor: unset;
+  }
+  :hover,
+  :focus {
+    box-shadow: none;
+    border-bottom-left-radius: ${misc.borderRadius};
+    border-bottom-right-radius: ${misc.borderRadius};
   }
 `;
 
@@ -39,7 +52,8 @@ const LetterNavigation = ({ activeLetters }: Props) => {
           <StyledLetter
             onClick={() => onClick(letter)}
             disabled={!active}
-            variant="link"
+            variant="ghost"
+            colorTheme="lighter"
             key={letter}>
             {letter}
           </StyledLetter>
