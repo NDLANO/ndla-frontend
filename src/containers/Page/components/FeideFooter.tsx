@@ -50,6 +50,11 @@ const StyledFeideFooter = styled.div`
   }
 `;
 
+const StyledFeideIcon = styled(FeideText)`
+  width: 82px;
+  height: 28px;
+`;
+
 const FeideFooter = () => {
   const { t } = useTranslation();
   const inRouterContext = useInRouterContext();
@@ -58,10 +63,7 @@ const FeideFooter = () => {
 
   return (
     <StyledFeideFooter>
-      <h2>
-        <FeideText />
-      </h2>
-
+      <StyledFeideIcon />
       <div>
         {inRouterContext && (
           <FeideLoginButton footer>
