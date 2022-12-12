@@ -2419,10 +2419,10 @@
   resolved "https://registry.yarnpkg.com/@ndla/types-learningpath-api/-/types-learningpath-api-0.0.17.tgz#7ceca4372028e6f59b4e84e867ff01f7561fd851"
   integrity sha512-bvI04Es2E5gJVDkDu6bRmPFgmvLn6JjXZNHQ47UHp7mek9p7sK9+MAeLyY04BswvidegIsdxJldxeStNq8uu/Q==
 
-"@ndla/ui@^33.0.5":
-  version "33.0.5"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-33.0.5.tgz#983de5a2a1333a4b66db8b432011c94bbdb87489"
-  integrity sha512-le6SOfu7FUZH/gmDyEEae/2KOLTVzIZWMDyK+E55auce4fdPhzz2orMBw/VjvsiGAbg43e3LD50f2UtogBUWxg==
+"@ndla/ui@^33.0.6":
+  version "33.0.6"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-33.0.6.tgz#99a19c5dd0667de8a072653c08a752357ba58e8d"
+  integrity sha512-yQzbfzIWVLsWDs7eu9pYTS+TncGyKuerk7LiZ0Zln2UsJlG+FSRDZ+4Yl/SvQ9k0gD7vv7DZ4+0Wx/UcTnsN/g==
   dependencies:
     "@ndla/article-scripts" "^3.0.12"
     "@ndla/button" "^6.1.1"
