@@ -131,7 +131,7 @@
     "@ndla/tabs": "^2.1.0",
     "@ndla/tracker": "^2.0.4",
     "@ndla/types-learningpath-api": "^0.0.17",
-    "@ndla/ui": "^33.0.1",
+    "@ndla/ui": "^33.0.6",
     "@ndla/util": "^3.1.9",
     "@ndla/zendesk": "^1.1.0",
     "babel-polyfill": "^6.26.0",
