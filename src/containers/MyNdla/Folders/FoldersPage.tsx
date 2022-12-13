@@ -71,6 +71,11 @@ export const BlockWrapper = styled.ul<BlockWrapperProps>`
     `};
 `;
 
+const StyledPlus = styled(Plus)`
+  width: 22px;
+  height: 22px;
+`;
+
 export const ListItem = styled.li`
   overflow: hidden;
   list-style: none;
@@ -234,7 +239,7 @@ const FoldersPage = () => {
             colorTheme="lighter"
             aria-label={t('myNdla.newFolder')}
             onClick={() => setIsAdding(prev => !prev)}>
-            <Plus />
+            <StyledPlus />
             <span>{t('myNdla.newFolder')}</span>
           </ButtonV2>
         )}
