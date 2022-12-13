@@ -176,7 +176,7 @@ const ResourceList = ({ selectedFolder, viewType, folderId }: Props) => {
 
   return (
     <ResourceListWrapper>
-      {selectedFolder?.resources.length && (
+      {!!selectedFolder?.resources.length && (
         <ResourceCountContainer>
           <FileDocumentOutline />
           <span>

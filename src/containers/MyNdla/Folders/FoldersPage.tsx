@@ -9,13 +9,14 @@
 import isEqual from 'lodash/isEqual';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { AddButton } from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { breakpoints, mq, spacing } from '@ndla/core';
 import { useSnack } from '@ndla/ui';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { HelmetWithTracker } from '@ndla/tracker';
+import { Plus } from '@ndla/icons/action';
 import { GQLFolder, GQLFoldersPageQuery } from '../../../graphqlTypes';
 import { useGraphQuery } from '../../../util/runQueries';
 import ListViewOptions from './ListViewOptions';
@@ -73,7 +74,7 @@ export const ListItem = styled.li`
 `;
 
 const StyledRow = styled.div`
-  margin-top: ${spacing.nsmall};
+  margin: ${spacing.small} 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -223,13 +224,15 @@ const FoldersPage = () => {
       />
       <StyledRow>
         {showAddButton && (
-          <AddButton
+          <ButtonV2
             disabled={isAdding}
-            size="xsmall"
+            shape="pill"
+            colorTheme="lighter"
             aria-label={t('myNdla.newFolder')}
             onClick={() => setIsAdding(prev => !prev)}>
+            <Plus />
             <span>{t('myNdla.newFolder')}</span>
-          </AddButton>
+          </ButtonV2>
         )}
         <ListViewOptions type={viewType} onTypeChange={setViewType} />
       </StyledRow>

@@ -35,6 +35,7 @@ interface DraggableListItemProps {
 
 export const DraggableListItem = styled.li<DraggableListItemProps>`
   display: flex;
+  position: relative;
   list-style: none;
   margin: 0;
   align-items: center;
