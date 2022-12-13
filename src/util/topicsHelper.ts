@@ -6,7 +6,6 @@
  *
  */
 
-import { TFunction } from 'i18next';
 import { fixEndSlash } from '../routeHelpers';
 import { GQLTopicInfoFragment } from '../graphqlTypes';
 
@@ -44,11 +43,3 @@ export const toTopicMenu = (
     subtopics: subtopicsWithSubtopics,
   };
 };
-
-export const topicIntroductionMessages = (t: TFunction) => ({
-  noContentBoxLabel: t('resource.noCoreResourcesAvailableUnspecific'),
-  noContentBoxButtonText: t('resource.activateAdditionalResources'),
-  shortcutButtonText: t('resource.shortcutButtonText'),
-  coreTooltip: t('resource.tooltipCoreTopic'),
-  additionalTooltip: t('resource.tooltipAdditionalTopic'),
-});

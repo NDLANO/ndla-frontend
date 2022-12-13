@@ -92,8 +92,6 @@ const getSubjectTypeMessage = (
 
 const SubjectContainer = ({ t, subjectId, topicIds, subject }: Props) => {
   const ndlaFilm = useIsNdlaFilm();
-  const { name: subjectName } = subject;
-
   const about = subject.subjectpage?.about;
 
   const [currentLevel, setCurrentLevel] = useState<number | string | undefined>(
@@ -101,17 +99,10 @@ const SubjectContainer = ({ t, subjectId, topicIds, subject }: Props) => {
   );
   const [breadCrumbList, setBreadCrumbList] = useState<BreadcrumbItem[]>([]);
 
-  const [subjectNames] = useState(() => {
-    return {
-      name: subjectName,
-      longName: subjectName,
-    };
-  });
-
   const breadCrumbs: BreadcrumbItem[] = [
     {
       id: subjectId,
-      label: subjectNames.name,
+      label: subject.name,
       typename: 'Subject',
       url: '#',
       isCurrent: currentLevel === 'Subject',
@@ -203,7 +194,7 @@ const SubjectContainer = ({ t, subjectId, topicIds, subject }: Props) => {
   );
 
   const topicTitle = topicPath?.[topicPath.length - 1]?.name;
-  const subjectTitle = about?.title || subjectNames?.longName || subject.name;
+  const subjectTitle = subject.name;
   const title = [topicTitle, subjectTitle].filter(e => !!e).join(' - ');
   const socialMediaMetadata = {
     title,
@@ -264,14 +255,14 @@ const SubjectContainer = ({ t, subjectId, topicIds, subject }: Props) => {
                     topicIds.length === 0 ? SKIP_TO_CONTENT_ID : undefined
                   }
                   invertedStyle={ndlaFilm}>
-                  {subjectNames.longName}
+                  {subject.name}
                 </NavigationHeading>
               </ArticleHeaderWrapper>
             </div>
-            {nonRegularSubjectMessage && (
+            {!ndlaFilm && nonRegularSubjectMessage && (
               <MessageBox>{nonRegularSubjectMessage}</MessageBox>
             )}
-            {nonRegularSubjectTypeMessage && (
+            {!ndlaFilm && nonRegularSubjectTypeMessage && (
               <MessageBox>{nonRegularSubjectTypeMessage}</MessageBox>
             )}
             <SubjectPageContent

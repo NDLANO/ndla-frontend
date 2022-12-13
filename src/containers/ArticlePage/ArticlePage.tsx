@@ -171,9 +171,7 @@ const ArticlePage = ({
         </script>
       </Helmet>
       <SocialMediaMetadata
-        title={htmlTitle(article.title, [
-          subject?.subjectpage?.about?.title || subject?.name,
-        ])}
+        title={htmlTitle(article.title, [subject?.name])}
         trackableContent={article}
         description={article.metaDescription}
         imageUrl={article.metaImage?.url}

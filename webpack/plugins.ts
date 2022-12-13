@@ -6,18 +6,18 @@
  */
 
 import path from 'path';
-import {
+import webpack, {
   DefinePlugin,
   HotModuleReplacementPlugin,
   ProvidePlugin,
   WatchIgnorePlugin,
   WebpackPluginInstance,
 } from 'webpack';
+import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 //@ts-ignore
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { WebpackManifestPlugin } from 'webpack-manifest-plugin';
 import CopyPlugin from 'copy-webpack-plugin';
-import webpack from 'webpack';
 
 export const clientPlugins: WebpackPluginInstance[] = [
   new ProvidePlugin({
@@ -59,7 +59,7 @@ export const clientPlugins: WebpackPluginInstance[] = [
           ],
         }),
       ]
-    : [new HotModuleReplacementPlugin()]),
+    : [new ReactRefreshWebpackPlugin()]),
 ];
 
 export const serverPlugins: WebpackPluginInstance[] = [
