@@ -29,6 +29,9 @@ import {
   restrictToVerticalAxis,
 } from '@dnd-kit/modifiers';
 import { useSnack } from '@ndla/ui';
+import styled from '@emotion/styled';
+import { spacing } from '@ndla/core';
+import { FileDocumentOutline } from '@ndla/icons/common';
 import AddResourceToFolderModal from '../../../components/MyNdla/AddResourceToFolderModal';
 import { GQLFolder, GQLFolderResource } from '../../../graphqlTypes';
 import DeleteModal from '../components/DeleteModal';
@@ -41,12 +44,20 @@ import { BlockWrapper, ViewType } from './FoldersPage';
 import { usePrevious } from '../../../util/utilityHooks';
 import { makeDndSortFunction, makeDndTranslations } from './util';
 import DraggableResource from './DraggableResource';
+import { ResourceCountContainer } from './FolderAndResourceCount';
 
 interface Props {
   selectedFolder: GQLFolder;
   viewType: ViewType;
   folderId: string;
 }
+
+const ResourceListWrapper = styled.div`
+  margin-top: ${spacing.normal};
+  display: flex;
+  flex-direction: column;
+  gap: ${spacing.xsmall};
+`;
 
 export type ResourceActionType = 'add' | 'delete';
 export interface ResourceAction {
@@ -164,7 +175,17 @@ const ResourceList = ({ selectedFolder, viewType, folderId }: Props) => {
   );
 
   return (
-    <>
+    <ResourceListWrapper>
+      {selectedFolder?.resources.length && (
+        <ResourceCountContainer>
+          <FileDocumentOutline />
+          <span>
+            {t('myNdla.resources', {
+              count: selectedFolder?.resources.length,
+            })}
+          </span>
+        </ResourceCountContainer>
+      )}
       <BlockWrapper type={viewType}>
         <DndContext
           sensors={sensors}
@@ -221,7 +242,7 @@ const ResourceList = ({ selectedFolder, viewType, folderId }: Props) => {
           </>
         )}
       </BlockWrapper>
-    </>
+    </ResourceListWrapper>
   );
 };
 
