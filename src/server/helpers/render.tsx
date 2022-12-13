@@ -6,33 +6,26 @@
  *
  */
 
+import { ReactElement } from 'react';
+import { FilledContext } from 'react-helmet-async';
 import { renderToString, renderToStaticMarkup } from 'react-dom/server';
 import { renderToStringWithData } from '@apollo/client/react/ssr';
+import { EmotionCache } from '@emotion/cache';
+import { ApolloClient } from '@apollo/client';
 import { resetIdCounter } from '@ndla/tabs';
 import createEmotionServer from '@emotion/server/create-instance';
 import { OK, MOVED_PERMANENTLY } from '../../statusCodes';
 
-import Document from './Document';
+import Document, { Assets, DocumentData } from './Document';
 import config from '../../config';
+import { RedirectInfo } from '../../components/RedirectContext';
 
-export function renderPage(Page, assets, data = {}, cache) {
+export function renderPage<T extends object>(
+  Page: ReactElement,
+  assets: Assets,
+  data?: T,
+) {
   resetIdCounter();
-  if (cache) {
-    const { extractCritical } = createEmotionServer(cache);
-    const { html, css, ids } = extractCritical(renderToString(Page));
-    return {
-      html,
-      assets,
-      css,
-      ids,
-      // Following is serialized to window.DATA
-      data: {
-        ...data,
-        config,
-        assets,
-      },
-    };
-  }
   const html = renderToString(Page);
   return {
     html,
@@ -46,26 +39,35 @@ export function renderPage(Page, assets, data = {}, cache) {
   };
 }
 
-export async function renderPageWithData(
+interface Props<T extends object> {
+  Page: ReactElement;
+  assets: Assets;
+  data?: T;
+  cache?: EmotionCache;
+  client: ApolloClient<any>;
+}
+
+export async function renderPageWithData<T extends object>({
   Page,
   assets,
-  data = {},
+  data,
   cache,
   client,
-) {
+}: Props<T>) {
   resetIdCounter();
   if (cache) {
-    const { extractCritical } = createEmotionServer(cache);
-    const { html, css, ids } = extractCritical(
-      await renderToStringWithData(Page),
-    );
-
+    const {
+      extractCriticalToChunks,
+      constructStyleTagsFromChunks,
+    } = createEmotionServer(cache);
+    const html = await renderToStringWithData(Page);
+    const chunks = extractCriticalToChunks(html);
+    const styles = constructStyleTagsFromChunks(chunks);
     const apolloState = client?.extract();
     return {
       html,
       assets,
-      css,
-      ids,
+      styles,
       // Following is serialized to window.DATA
       data: {
         ...data,
@@ -90,7 +92,12 @@ export async function renderPageWithData(
   };
 }
 
-export async function renderHtml(req, html, context, props, helmetContext) {
+export async function renderHtml(
+  html: string,
+  context: RedirectInfo,
+  props: DocumentData,
+  helmetContext: FilledContext,
+) {
   const doc = renderToStaticMarkup(
     <Document {...props} helmet={helmetContext.helmet} />,
   );

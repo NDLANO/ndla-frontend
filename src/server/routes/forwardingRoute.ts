@@ -6,6 +6,7 @@
  *
  */
 
+import { NextFunction, Request, Response } from 'express';
 import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,
@@ -16,7 +17,11 @@ import {
   getLearningPathUrlFromResource,
 } from '../../containers/Resources/resourceHelpers';
 
-async function findNBNodeId(nodeId, lang) {
+interface ExternalIds {
+  externalIds: string[];
+}
+
+async function findNBNodeId(nodeId: string, lang: string) {
   // We only need to lookup nodeId if lang is nn. Taxonomy should handle other langs
   if (lang !== 'nn') {
     return nodeId;
@@ -30,45 +35,53 @@ async function findNBNodeId(nodeId, lang) {
     return nodeId;
   }
 
-  const data = await resolveJsonOrRejectWithError(response);
+  const data = await resolveJsonOrRejectWithError<ExternalIds>(response);
 
   // The nodeId for language nb is the first item in externalIds array.
-  return data.externalIds[0];
+  return data!.externalIds[0];
 }
 
-async function lookup(url) {
+async function lookup(url: string) {
   const baseUrl = apiResourceUrl('/taxonomy/v1/url/mapping');
   const response = await fetch(`${baseUrl}?url=${url}`);
-  return resolveJsonOrRejectWithError(response);
+  return resolveJsonOrRejectWithError<{ path: string }>(response);
 }
 
-async function resolve(path) {
+interface Resolve {
+  contentUri?: string;
+}
+
+async function resolve(path: string) {
   const baseUrl = apiResourceUrl('/taxonomy/v1/url/resolve');
   const response = await fetch(`${baseUrl}?path=${path}`);
-  return resolveJsonOrRejectWithError(response);
+  return resolveJsonOrRejectWithError<Resolve>(response);
 }
 
-export async function forwardingRoute(req, res, next) {
+export async function forwardingRoute(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
   const { lang } = req.params;
 
   try {
-    const nodeId = await findNBNodeId(req.params.nodeId, lang); // taxonomy lookup doesn't handle nn
+    const nodeId = await findNBNodeId(req.params.nodeId!, lang!); // taxonomy lookup doesn't handle nn
 
     const lookupUrl = `ndla.no/node/${nodeId}`;
     const data = await lookup(lookupUrl);
 
-    const resource = await resolve(data.path);
+    const resource = await resolve(data!.path);
 
     const languagePrefix = lang && lang !== 'nb' ? lang : ''; // send urls with nb to root/default lang
-    if (isLearningPathResource(resource)) {
+    if (isLearningPathResource(resource!)) {
       res.redirect(
         301,
-        getLearningPathUrlFromResource(resource, languagePrefix),
+        getLearningPathUrlFromResource(resource!, languagePrefix),
       );
     } else {
       res.redirect(
         301,
-        `${languagePrefix ? `/${languagePrefix}` : ''}${data.path}`,
+        `${languagePrefix ? `/${languagePrefix}` : ''}${data!.path}`,
       );
     }
   } catch (e) {
