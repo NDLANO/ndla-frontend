@@ -253,7 +253,10 @@ export const createApolloLinks = (lang: string, versionHash?: string) => {
     onError(({ graphQLErrors, networkError }) => {
       if (graphQLErrors) {
         graphQLErrors.forEach(({ message, locations, path, extensions }) => {
-          if (extensions?.status !== 404) {
+          if (
+            process.env.BUILD_TARGET === 'server' ||
+            extensions?.status !== 404
+          ) {
             handleError(
               `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
             );
