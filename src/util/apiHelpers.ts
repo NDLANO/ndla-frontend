@@ -252,11 +252,16 @@ export const createApolloLinks = (lang: string, versionHash?: string) => {
   return ApolloLink.from([
     onError(({ graphQLErrors, networkError }) => {
       if (graphQLErrors) {
-        graphQLErrors.map(({ message, locations, path }) =>
-          handleError(
-            `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
-          ),
-        );
+        graphQLErrors.forEach(({ message, locations, path, extensions }) => {
+          if (
+            process.env.BUILD_TARGET === 'server' ||
+            extensions?.status !== 404
+          ) {
+            handleError(
+              `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
+            );
+          }
+        });
       }
       if (networkError) {
         handleError(`[Network error]: ${networkError}`, {
