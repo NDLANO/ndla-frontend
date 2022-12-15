@@ -38,7 +38,8 @@ async function findNBNodeId(nodeId: string, lang: string) {
   const data = await resolveJsonOrRejectWithError<ExternalIds>(response);
 
   // The nodeId for language nb is the first item in externalIds array.
-  return data!.externalIds[0];
+  //@ts-ignore
+  return data.externalIds[0];
 }
 
 async function lookup(url: string) {
