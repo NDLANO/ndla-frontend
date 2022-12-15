@@ -48,10 +48,11 @@ function renderCompetenceGoals(
       dialogProps: { isOpen: boolean; onClose: () => void };
     }) => ReactNode)
   | null {
+  const lk20Goals = article.competenceGoals?.filter(c => c.type === 'LK20');
   // Don't show competence goals for topics or articles without grepCodes
   if (
     !isTopicArticle &&
-    (article.competenceGoals?.length ||
+    (lk20Goals?.length ||
       article.grepCodes?.filter(gc => gc.toUpperCase().startsWith('K'))?.length)
   ) {
     return ({
@@ -63,7 +64,6 @@ function renderCompetenceGoals(
     }) => (
       <CompetenceGoals
         codes={article.grepCodes}
-        nodeId={article.oldNdlaUrl?.split('/').pop()}
         subjectId={subjectId}
         supportedLanguages={article.supportedLanguages}
         wrapperComponent={Dialog}
@@ -266,7 +266,11 @@ const Article = ({
   ) : null;
 
   const competenceGoalTypes = Array.from(
-    new Set(article.competenceGoals?.map(goal => goal.type) ?? []),
+    new Set(
+      article.competenceGoals
+        ?.filter(c => c.type !== 'LK06')
+        ?.map(goal => goal.type) ?? [],
+    ),
   );
 
   const art = {

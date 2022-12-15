@@ -22,7 +22,6 @@ interface Props {
   supportedLanguages?: string[];
   subjectId?: string;
   codes?: string[];
-  nodeId?: string;
   wrapperComponent: ComponentType;
   wrapperComponentProps: any;
   isOembed?: boolean;
@@ -192,7 +191,6 @@ const groupCoreElements = (
 
 const CompetenceGoals = ({
   codes,
-  nodeId,
   subjectId,
   wrapperComponent: Component,
   wrapperComponentProps,
@@ -208,7 +206,7 @@ const CompetenceGoals = ({
   const { error, data } = useGraphQuery<GQLCompetenceGoalsQuery>(
     competenceGoalsQuery,
     {
-      variables: { codes, nodeId, language },
+      variables: { codes, language },
     },
   );
 
@@ -220,11 +218,6 @@ const CompetenceGoals = ({
   if (!data) return null;
 
   const { competenceGoals, coreElements } = data;
-  const LK06Goals = groupCompetenceGoals(
-    competenceGoals?.filter(goal => goal.type === 'LK06') ?? [],
-    false,
-    'LK06',
-  );
   const LK20Goals = groupCompetenceGoals(
     competenceGoals?.filter(goal => goal.type === 'LK20') ?? [],
     true,
@@ -247,17 +240,9 @@ const CompetenceGoals = ({
     groupedCoreElementItems: LK20Elements,
   };
 
-  const CompetenceGoalsLK06Template: ElementType = {
-    id: '3',
-    title: t('competenceGoals.competenceTabLK06label'),
-    type: 'competenceGoals',
-    groupedCompetenceGoals: LK06Goals,
-  };
-
   const competenceGoalsList: ElementType[] = [
     ...(LK20Goals?.length ? [CompetenceGoalsLK20Template] : []),
     ...(LK20Elements?.length ? [CoreElementsTemplate] : []),
-    ...(LK06Goals?.length ? [CompetenceGoalsLK06Template] : []),
   ];
 
   return (
