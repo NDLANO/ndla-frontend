@@ -496,6 +496,7 @@ exports[`ErrorPage renderers correctly 1`] = `
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
+  margin-bottom: 52px;
 }
 
 .emotion-81>span {
@@ -534,8 +535,6 @@ exports[`ErrorPage renderers correctly 1`] = `
   padding: 0;
   box-shadow: inset 0 -1px;
   cursor: pointer;
-  margin-bottom: 52px;
-  margin-left: 13px;
 }
 
 .emotion-83:hover,
@@ -543,7 +542,13 @@ exports[`ErrorPage renderers correctly 1`] = `
   box-shadow: none;
 }
 
-.emotion-87 {
+.emotion-85 {
+  margin-left: 4.333333333333333px;
+  margin-right: 4.333333333333333px;
+  margin-bottom: 52px;
+}
+
+.emotion-89 {
   display: block;
   position: absolute;
   top: 0;
@@ -553,11 +558,11 @@ exports[`ErrorPage renderers correctly 1`] = `
   background: linear-gradient(96deg, rgba(0, 117, 160, 1) 0%, rgba(32, 88, 143, 0) 100%);
 }
 
-.emotion-89 {
+.emotion-91 {
   z-index: 10;
 }
 
-.emotion-90 {
+.emotion-92 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -586,32 +591,32 @@ exports[`ErrorPage renderers correctly 1`] = `
   margin-top: 26px;
 }
 
-.emotion-90:hover,
-.emotion-90:focus {
+.emotion-92:hover,
+.emotion-92:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-90[disabled] {
+.emotion-92[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-90:focus {
+.emotion-92:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-90:hover,
-.emotion-90:focus {
+.emotion-92:hover,
+.emotion-92:focus {
   color: white;
   background-color: #20588f;
   border: 2px solid transparent;
 }
 
-.emotion-90:disabled {
+.emotion-92:disabled {
   color: #777777;
   border: 2px solid transparent;
   background-color: #e6e6e6;
@@ -619,7 +624,7 @@ exports[`ErrorPage renderers correctly 1`] = `
 }
 
 @media (min-width: 61.3125em) {
-  .emotion-90 {
+  .emotion-92 {
     position: fixed;
     right: 2rem;
     bottom: 2rem;
@@ -1210,29 +1215,39 @@ exports[`ErrorPage renderers correctly 1`] = `
         <div
           class="emotion-81 emotion-82"
         >
-          <a
-            class="emotion-83 emotion-84"
-            href="https://om.ndla.no/gdpr"
-          >
-            Personvernerklæring
-          </a>
-          <a
-            class="emotion-83 emotion-84"
-            href="https://om.ndla.no/cookies"
-          >
-            Erklæring om informasjonskapsler
-          </a>
+          <div>
+            <a
+              class="emotion-83 emotion-84"
+              href="https://om.ndla.no/gdpr"
+            >
+              Personvernerklæring
+            </a>
+          </div>
+          <div>
+            <span
+              aria-hidden="true"
+              class="emotion-85 emotion-86"
+            >
+              |
+            </span>
+            <a
+              class="emotion-83 emotion-84"
+              href="https://om.ndla.no/cookies"
+            >
+              Erklæring om informasjonskapsler
+            </a>
+          </div>
         </div>
       </div>
       <div
-        class="emotion-87 emotion-88"
+        class="emotion-89 emotion-90"
       />
     </footer>
     <div
-      class="emotion-89"
+      class="emotion-91"
     >
       <button
-        class="emotion-90 emotion-91"
+        class="emotion-92 emotion-93"
         id="zendeskButton"
         type="button"
       >
