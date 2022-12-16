@@ -1,6 +1,14 @@
 {
   "presets": [
-    ["razzle", { "runtime": "automatic", "importSource": "@emotion/react" }]
+    [
+      "razzle",
+      {
+        "preset-react": {
+          "runtime": "automatic",
+          "importSource": "@emotion/react"
+        }
+      }
+    ]
   ],
   "env": {
     "production": {
