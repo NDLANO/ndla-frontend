@@ -3438,7 +3438,6 @@ export type GQLMovedResourceQuery = {
 
 export type GQLCompetenceGoalsQueryVariables = Exact<{
   codes?: InputMaybe<Array<Scalars['String']> | Scalars['String']>;
-  nodeId?: InputMaybe<Scalars['String']>;
   language?: InputMaybe<Scalars['String']>;
 }>;
 
