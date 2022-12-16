@@ -100,7 +100,11 @@ const MultidisciplinarySubjectArticle = ({
           path={topic.path}
         />
         <div ref={resourcesRef}>
-          <Resources topic={topic} resourceTypes={resourceTypes} />
+          <Resources
+            topic={topic}
+            resourceTypes={resourceTypes}
+            headingType="h2"
+          />
         </div>
       </OneColumn>
     </>

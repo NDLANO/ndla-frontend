@@ -20,7 +20,6 @@ import VisualElementWrapper, {
 import {
   GQLMultidisciplinaryTopic_SubjectFragment,
   GQLMultidisciplinaryTopic_TopicFragment,
-  GQLResourceTypeDefinition,
 } from '../../../graphqlTypes';
 import { toTopic, useIsNdlaFilm, useUrnIds } from '../../../routeHelpers';
 import { getCrop, getFocalPoint } from '../../../util/imageHelpers';
@@ -35,7 +34,6 @@ interface Props extends CustomWithTranslation {
   subTopicId?: string;
   subject: GQLMultidisciplinaryTopic_SubjectFragment;
   topic: GQLMultidisciplinaryTopic_TopicFragment;
-  resourceTypes?: GQLResourceTypeDefinition[];
   loading?: boolean;
   disableNav?: boolean;
   user?: FeideUserApiType;
@@ -50,7 +48,6 @@ const MultidisciplinaryTopic = ({
   subjectId,
   subTopicId,
   topic,
-  resourceTypes,
   disableNav,
 }: Props) => {
   const [showContent, setShowContent] = useState(false);
@@ -112,11 +109,6 @@ const MultidisciplinaryTopic = ({
               ),
             }
           : undefined,
-        resources: topic.subtopics ? (
-          <Resources topic={topic} resourceTypes={resourceTypes} />
-        ) : (
-          undefined
-        ),
       },
     };
   };
@@ -172,12 +164,6 @@ export const multidisciplinaryTopicFragments = {
     ${VisualElementWrapper.fragments.visualElement}
     ${Resources.fragments.topic}
     ${ArticleContents.fragments.topic}
-  `,
-  resourceType: gql`
-    fragment MultidisciplinaryTopic_ResourceTypeDefinition on ResourceTypeDefinition {
-      ...Resources_ResourceTypeDefinition
-    }
-    ${Resources.fragments.resourceType}
   `,
   subject: gql`
     fragment MultidisciplinaryTopic_Subject on Subject {

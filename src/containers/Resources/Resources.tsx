@@ -8,7 +8,7 @@
 
 import { gql } from '@apollo/client';
 import { useEffect, useState } from 'react';
-import { ResourcesWrapper, ResourcesTopicTitle, ResourceGroup } from '@ndla/ui';
+import { ResourcesWrapper, ResourceGroup } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
 import { contentTypeMapping } from '../../util/getContentType';
 import { getResourceGroups, sortResourceTypes } from './getResourceGroups';
@@ -24,6 +24,8 @@ import { TypedParams, useIsNdlaFilm, useTypedParams } from '../../routeHelpers';
 import AddResourceToFolderModal from '../../components/MyNdla/AddResourceToFolderModal';
 import { ResourceAttributes } from '../../components/MyNdla/AddResourceToFolder';
 import FavoriteButton from '../../components/Article/FavoritesButton';
+import ResourcesTopicTitle from './ResourcesTopicTitle';
+import { HeadingType } from '../../interfaces';
 
 interface MatchProps extends TypedParams {
   topicId?: string;
@@ -35,8 +37,9 @@ interface MatchProps extends TypedParams {
 interface Props {
   topic: GQLResources_TopicFragment;
   resourceTypes?: GQLResources_ResourceTypeDefinitionFragment[];
+  headingType: HeadingType;
 }
-const Resources = ({ topic, resourceTypes }: Props) => {
+const Resources = ({ topic, resourceTypes, headingType }: Props) => {
   const params = useTypedParams<MatchProps>();
   const [showAdditionalResources, setShowAdditionalResources] = useState(false);
   const [resourceToAdd, setResourceToAdd] = useState<
@@ -153,11 +156,9 @@ const Resources = ({ topic, resourceTypes }: Props) => {
     <ResourcesWrapper
       header={
         <ResourcesTopicTitle
-          messages={{
-            label: t('resource.label'),
-            additionalFilterLabel: t('resource.activateAdditionalResources'),
-          }}
-          title={topic.name}
+          heading={headingType}
+          title={t('resource.label')}
+          subTitle={topic.name}
           toggleAdditionalResources={toggleAdditionalResources}
           showAdditionalResources={showAdditionalResources}
           hasAdditionalResources={hasAdditionalResources}
