@@ -48,7 +48,6 @@ function renderCompetenceGoals(
       dialogProps: { isOpen: boolean; onClose: () => void };
     }) => ReactNode)
   | null {
-  const lk20Goals = article.competenceGoals?.filter(c => c.type === 'LK20');
   // Don't show competence goals for topics or articles without grepCodes
   if (!isTopicArticle && article.competenceGoals?.length) {
     return ({
