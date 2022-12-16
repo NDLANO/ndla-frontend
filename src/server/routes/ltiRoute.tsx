@@ -6,12 +6,14 @@
  *
  */
 
-import { HelmetProvider } from 'react-helmet-async';
+import { Request } from 'express';
+import { FilledContext, HelmetProvider } from 'react-helmet-async';
 import { BAD_REQUEST, OK } from '../../statusCodes';
 import { getHtmlLang, getLocaleObject } from '../../i18n';
 import { renderPage, renderHtml } from '../helpers/render';
+import { Assets } from '../helpers/Document';
 
-const bodyFields = {
+const bodyFields: Record<string, { required: boolean; value?: any }> = {
   lti_message_type: {
     required: true,
     value: [
@@ -27,29 +29,24 @@ const bodyFields = {
   launch_presentation_width: { required: false },
 };
 
-const assets =
-  process.env.NODE_ENV !== 'unittest'
-    ? require(process.env.RAZZLE_ASSETS_MANIFEST) //eslint-disable-line
-    : {
-        client: { css: 'mock.css' },
-        lti: { js: 'mock.js' },
-        polyfill: { js: 'polyfill.js' },
-        mathJaxConfig: { js: 'mock.js' },
-      };
+//@ts-ignore
+const assets: Record<string, string> = require(process.env
+  .RAZZLE_ASSETS_MANIFEST); //eslint-disable-line
 
 if (process.env.NODE_ENV === 'unittest') {
   HelmetProvider.canUseDOM = false;
 }
 
-const getAssets = () => ({
+const getAssets = (): Assets => ({
   css: assets['client.css'],
-  js: [{ src: assets['lti.js'] }],
-  polyfill: { src: assets['polyfill.js'] },
-  mathJaxConfig: { js: assets['mathJaxConfig.js'] },
+  js: [{ src: assets['lti.js']! }],
+  polyfill: { src: assets['polyfill.js']! },
+  mathJaxConfig: { js: assets['mathJaxConfig.js']! },
 });
 
-function doRenderPage(initialProps) {
-  const helmetContext = {};
+function doRenderPage<T extends object>(initialProps: T) {
+  //@ts-ignore
+  const helmetContext: FilledContext = {};
   const Page = <HelmetProvider context={helmetContext}>{''}</HelmetProvider>;
   const { html, ...docProps } = renderPage(Page, getAssets(), {
     initialProps,
@@ -57,20 +54,20 @@ function doRenderPage(initialProps) {
   return { html, docProps, helmetContext };
 }
 
-export function parseAndValidateParameters(body) {
+export function parseAndValidateParameters(body: any) {
   let validBody = true;
-  const errorMessages = [];
+  const errorMessages: { field: string; message: string }[] = [];
   Object.keys(bodyFields).forEach(key => {
     const bodyValue = body[key];
-    if (bodyFields[key].required && !bodyValue) {
+    if (bodyFields[key]?.required && !bodyValue) {
       validBody = false;
       errorMessages.push({ field: key, message: 'Missing required field' });
       return;
     }
-    if (bodyFields[key].value && !bodyFields[key].value.includes(bodyValue)) {
+    if (bodyFields[key]?.value && !bodyFields[key]?.value.includes(bodyValue)) {
       errorMessages.push({
         field: key,
-        message: `Value should be one of ${bodyFields[key].value}`,
+        message: `Value should be one of ${bodyFields[key]?.value}`,
       });
       validBody = false;
     }
@@ -85,20 +82,19 @@ export function parseAndValidateParameters(body) {
     : { valid: false, messages: errorMessages };
 }
 
-export function ltiRoute(req) {
+export function ltiRoute(req: Request) {
   const isPostRequest = req.method === 'POST';
   const validParameters = isPostRequest
     ? parseAndValidateParameters(req.body)
-    : {};
+    : undefined;
   if (isPostRequest) {
-    if (!validParameters.valid) {
+    if (!validParameters?.valid) {
+      const messages = validParameters?.messages
+        ?.map(msg => `Field ${msg.field} with error: ${msg.message}.`)
+        .join(',');
       return {
         status: BAD_REQUEST,
-        data: `Bad request. ${validParameters.messages
-          .map(
-            message => `Field ${message.field} with error: ${message.message}.`,
-          )
-          .join(', ')}`,
+        data: `Bad request. ${messages}`,
       };
     }
   }
@@ -108,8 +104,8 @@ export function ltiRoute(req) {
 
   const { html, docProps, helmetContext } = doRenderPage({
     locale,
-    ltiData: validParameters.ltiData,
+    ltiData: validParameters?.ltiData,
   });
 
-  return renderHtml(req, html, { status: OK }, docProps, helmetContext);
+  return renderHtml(html, { status: OK }, docProps, helmetContext);
 }

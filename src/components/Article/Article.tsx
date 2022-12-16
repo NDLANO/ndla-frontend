@@ -50,11 +50,7 @@ function renderCompetenceGoals(
   | null {
   const lk20Goals = article.competenceGoals?.filter(c => c.type === 'LK20');
   // Don't show competence goals for topics or articles without grepCodes
-  if (
-    !isTopicArticle &&
-    (lk20Goals?.length ||
-      article.grepCodes?.filter(gc => gc.toUpperCase().startsWith('K'))?.length)
-  ) {
+  if (!isTopicArticle && article.competenceGoals?.length) {
     return ({
       Dialog,
       dialogProps,
