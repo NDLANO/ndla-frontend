@@ -192,7 +192,6 @@ const groupCoreElements = (
 
 const CompetenceGoals = ({
   codes,
-  nodeId,
   subjectId,
   wrapperComponent: Component,
   wrapperComponentProps,
@@ -208,7 +207,7 @@ const CompetenceGoals = ({
   const { error, data } = useGraphQuery<GQLCompetenceGoalsQuery>(
     competenceGoalsQuery,
     {
-      variables: { codes, nodeId, language },
+      variables: { codes, language },
     },
   );
 

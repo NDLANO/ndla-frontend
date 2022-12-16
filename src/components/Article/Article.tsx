@@ -49,11 +49,7 @@ function renderCompetenceGoals(
     }) => ReactNode)
   | null {
   // Don't show competence goals for topics or articles without grepCodes
-  if (
-    !isTopicArticle &&
-    (article.competenceGoals?.length ||
-      article.grepCodes?.filter(gc => gc.toUpperCase().startsWith('K'))?.length)
-  ) {
+  if (!isTopicArticle && article.competenceGoals?.length) {
     return ({
       Dialog,
       dialogProps,
@@ -63,7 +59,6 @@ function renderCompetenceGoals(
     }) => (
       <CompetenceGoals
         codes={article.grepCodes}
-        nodeId={article.oldNdlaUrl?.split('/').pop()}
         subjectId={subjectId}
         supportedLanguages={article.supportedLanguages}
         wrapperComponent={Dialog}

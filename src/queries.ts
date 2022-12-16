@@ -544,8 +544,8 @@ export const movedResourceQuery = gql`
 `;
 
 export const competenceGoalsQuery = gql`
-  query competenceGoals($codes: [String!], $nodeId: String, $language: String) {
-    competenceGoals(codes: $codes, nodeId: $nodeId, language: $language) {
+  query competenceGoals($codes: [String!], $language: String) {
+    competenceGoals(codes: $codes, language: $language) {
       id
       name: title
       type
