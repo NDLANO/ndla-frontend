@@ -7,24 +7,29 @@
  */
 
 import { I18nextProvider } from 'react-i18next';
-import { HelmetProvider } from 'react-helmet-async';
+import { FilledContext, HelmetProvider } from 'react-helmet-async';
 import { MissingRouterContext } from '@ndla/safelink';
 import { i18nInstance } from '@ndla/ui';
 import { INTERNAL_SERVER_ERROR } from '../../statusCodes';
 import ErrorPage from '../../containers/ErrorPage';
 import { renderHtml, renderPage } from '../helpers/render';
+import { Assets } from '../helpers/Document';
+import { RedirectInfo } from '../../components/RedirectContext';
 
-const assets = require(process.env.RAZZLE_ASSETS_MANIFEST); //eslint-disable-line
+//@ts-ignore
+const assets: Record<string, string> = require(process.env
+  .RAZZLE_ASSETS_MANIFEST); //eslint-disable-line
 
-const getAssets = () => ({
+const getAssets = (): Assets => ({
   css: assets['client.css'],
   // Error page is a static page, only use js to inject css under development
   js: assets['injectCss.js'] ? [{ src: assets['injectCss.js'] }] : [],
 });
 
-async function doRenderError(req, status = INTERNAL_SERVER_ERROR) {
-  const context = { status };
-  const helmetContext = {};
+async function doRenderError(status = INTERNAL_SERVER_ERROR) {
+  const context: RedirectInfo = { status };
+  //@ts-ignore
+  const helmetContext: FilledContext = {};
   const Page = (
     <I18nextProvider i18n={i18nInstance}>
       <MissingRouterContext.Provider value={true}>
@@ -45,7 +50,7 @@ async function doRenderError(req, status = INTERNAL_SERVER_ERROR) {
   };
 }
 
-export async function errorRoute(req) {
-  const { html, context, docProps, helmetContext } = await doRenderError(req);
-  return renderHtml(req, html, context, docProps, helmetContext);
+export async function errorRoute() {
+  const { html, context, docProps, helmetContext } = await doRenderError();
+  return renderHtml(html, context, docProps, helmetContext);
 }
