@@ -79,7 +79,7 @@ const AllSubjectsPage = () => {
     <div className="c-resources u-padding-top-large">
       <HelmetWithTracker title={t('htmlTitles.subjectsPage')} />
       <StyledColumn>
-        <h1>{t('subjectsPage.allSubjects')}</h1>
+        <h1 id="SkipToContentId">{t('subjectsPage.allSubjects')}</h1>
         {!!favoriteSubjects?.length && (
           <FavoriteSubjects
             favorites={favoriteSubjects}

@@ -8,6 +8,7 @@
 
 import styled from '@emotion/styled';
 import { colors, fonts, misc, spacing } from '@ndla/core';
+import { Forward } from '@ndla/icons/lib/common';
 import { useMastheadHeight } from '@ndla/ui';
 import { Subject } from './interfaces';
 import SubjectLink from './SubjectLink';
@@ -31,8 +32,10 @@ interface StyledProps {
   offset?: number;
 }
 
-const Heading = styled.h2<StyledProps>`
-  margin: 0;
+const StickyHeading = styled.div<StyledProps>`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: ${spacing.small};
   position: sticky;
   background: white;
@@ -40,7 +43,25 @@ const Heading = styled.h2<StyledProps>`
   border: 1px solid ${colors.brand.neutral7};
   border-radius: ${misc.borderRadius};
   padding: ${spacing.xxsmall} ${spacing.small};
+`;
+
+const StyledH2 = styled.h2`
+  margin: 0;
   ${fonts.sizes('18px', '24px')};
+`;
+
+const StyledArrow = styled(Forward)`
+  transform: rotate(-90deg);
+`;
+
+const GoToTop = styled.a`
+  ${fonts.sizes('16px', '24px')};
+  font-weight: ${fonts.weight.semibold};
+  display: flex;
+  align-items: center;
+  gap: ${spacing.small};
+  box-shadow: none;
+  color: ${colors.brand.primary};
 `;
 
 const SubjectCategory = ({
@@ -52,7 +73,12 @@ const SubjectCategory = ({
   const headingOffset = useMastheadHeight().height || 84;
   return (
     <div>
-      <Heading offset={headingOffset}>{label.toUpperCase()}</Heading>
+      <StickyHeading offset={headingOffset}>
+        <StyledH2>{label.toUpperCase()}</StyledH2>
+        <GoToTop href="#SkipToContentId">
+          Gå til toppen <StyledArrow />
+        </GoToTop>
+      </StickyHeading>
       <Grid id={`subject-${label}`}>
         {subjects.map(subject => (
           <SubjectLink
