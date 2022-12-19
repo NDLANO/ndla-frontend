@@ -158,6 +158,7 @@ const FolderList = ({
             modifiers={[restrictToVerticalAxis, restrictToParentElement]}>
             <SortableContext
               items={sortedFolders}
+              disabled={folders.length < 1}
               strategy={verticalListSortingStrategy}>
               {folders.map((folder, index) => (
                 <DraggableFolder

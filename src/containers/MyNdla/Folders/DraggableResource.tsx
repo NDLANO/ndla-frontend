@@ -48,6 +48,7 @@ const DraggableResource = ({
     attributes,
     setNodeRef,
     transform,
+    items,
     transition,
     isDragging,
   } = useSortable({
@@ -71,7 +72,7 @@ const DraggableResource = ({
       ref={setNodeRef}
       style={style}
       isDragging={isDragging}>
-      {viewType !== 'block' && (
+      {viewType !== 'block' && items.length > 1 && (
         <DragHandle
           type="resource"
           name={resourceMeta?.title ?? ''}

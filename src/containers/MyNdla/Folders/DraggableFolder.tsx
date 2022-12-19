@@ -62,6 +62,7 @@ const DraggableFolder = ({
     setNodeRef,
     transform,
     transition,
+    items,
     isDragging,
   } = useSortable({
     id: folder.id,
@@ -81,7 +82,7 @@ const DraggableFolder = ({
       ref={setNodeRef}
       style={style}
       isDragging={isDragging}>
-      {type !== 'block' && (
+      {type !== 'block' && items.length > 1 && (
         <DragHandle
           sortableId={folder.id}
           name={folder.name}
