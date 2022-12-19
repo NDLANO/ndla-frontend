@@ -9,7 +9,7 @@
 import crypto from 'crypto';
 import { getEnvironmentVariabel } from '../../config';
 
-export const generateOauthData = (url, body) => {
+export const generateOauthData = (url: string, body: any) => {
   const consumerSecret = getEnvironmentVariabel(
     'NDLA_LTI_OAUTH_SECRET_KEY',
     '',
@@ -17,7 +17,7 @@ export const generateOauthData = (url, body) => {
   const nonce = crypto.randomBytes(16).toString('base64');
 
   const data = { ...body, oauth_nonce: nonce };
-  const sortedBody = {};
+  const sortedBody: Record<string, any> = {};
   Object.keys(data)
     .sort()
     .forEach(function(key) {

@@ -6,16 +6,31 @@
  *
  */
 
-import { Spinner } from '@ndla/icons';
-import { DeleteForever } from '@ndla/icons/editor';
-import { Pencil } from '@ndla/icons/action';
-import { FolderOutlined } from '@ndla/icons/contentType';
-import { Folder } from '@ndla/ui';
+import { Dispatch, useMemo, useState, useEffect } from 'react';
+import { useApolloClient } from '@apollo/client';
 import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
-import { Dispatch, useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { BlockWrapper, FolderAction, ListItem, ViewType } from './FoldersPage';
+import {
+  closestCenter,
+  DndContext,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core';
+import {
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
+import {
+  restrictToVerticalAxis,
+  restrictToParentElement,
+} from '@dnd-kit/modifiers';
+import { Spinner } from '@ndla/icons';
+import { FolderOutlined } from '@ndla/icons/contentType';
+import { BlockWrapper, FolderAction, ViewType } from './FoldersPage';
 import WhileLoading from '../../../components/WhileLoading';
 import NewFolder from '../../../components/MyNdla/NewFolder';
 import { GQLFolder } from '../../../graphqlTypes';
@@ -23,7 +38,9 @@ import {
   FolderTotalCount,
   getTotalCountForFolder,
 } from '../../../util/folderHelpers';
-import { AuthContext } from '../../../components/AuthenticationContext';
+import { useSortFoldersMutation } from '../folderMutations';
+import DraggableFolder from './DraggableFolder';
+import { makeDndSortFunction, makeDndTranslations } from './util';
 
 const StyledFolderIcon = styled.span`
   display: flex;
@@ -57,7 +74,14 @@ const FolderList = ({
   setFolderAction,
 }: Props) => {
   const { t } = useTranslation();
-  const { examLock } = useContext(AuthContext);
+  const { sortFolders } = useSortFoldersMutation();
+  const client = useApolloClient();
+  const [sortedFolders, setSortedFolders] = useState(folders);
+
+  useEffect(() => {
+    setSortedFolders(folders);
+  }, [folders]);
+
   const foldersCount = useMemo(
     () =>
       folders?.reduce<Record<string, FolderTotalCount>>((acc, curr) => {
@@ -65,6 +89,49 @@ const FolderList = ({
         return acc;
       }, {}),
     [folders],
+  );
+
+  const updateCache = (newOrder: string[]) => {
+    const sortCacheModifierFunction = (
+      existing: (GQLFolder & { __ref: string })[],
+    ) => {
+      return newOrder.map(id =>
+        existing.find(ef => ef.__ref === `Folder:${id}`),
+      );
+    };
+
+    if (folderId) {
+      client.cache.modify({
+        id: client.cache.identify({
+          __ref: `Folder:${folderId}`,
+        }),
+        fields: { subfolders: sortCacheModifierFunction },
+      });
+    } else {
+      client.cache.modify({
+        fields: { folders: sortCacheModifierFunction },
+      });
+    }
+  };
+
+  const announcements = useMemo(
+    () => makeDndTranslations('folder', t, folders.length),
+    [folders, t],
+  );
+
+  const sortFolderIds = makeDndSortFunction(
+    folderId,
+    folders,
+    sortFolders,
+    updateCache,
+    setSortedFolders,
+  );
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
   );
 
   return (
@@ -83,45 +150,27 @@ const FolderList = ({
       )}
       {folders && (
         <BlockWrapper type={type}>
-          {folders.map((folder, index) => (
-            <ListItem
-              key={`folder-${index}`}
-              id={`folder-${folder.id}`}
-              tabIndex={-1}>
-              <Folder
-                key={folder.id}
-                id={folder.id}
-                link={`/minndla/folders/${folder.id}`}
-                title={folder.name}
-                type={type}
-                subFolders={foldersCount[folder.id]?.folders}
-                subResources={foldersCount[folder.id]?.resources}
-                menuItems={
-                  !examLock
-                    ? [
-                        {
-                          icon: <Pencil />,
-                          text: t('myNdla.folder.edit'),
-                          onClick: () =>
-                            setFolderAction({ action: 'edit', folder, index }),
-                        },
-                        {
-                          icon: <DeleteForever />,
-                          text: t('myNdla.folder.delete'),
-                          onClick: () =>
-                            setFolderAction({
-                              action: 'delete',
-                              folder,
-                              index,
-                            }),
-                          type: 'danger',
-                        },
-                      ]
-                    : undefined
-                }
-              />
-            </ListItem>
-          ))}
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragEnd={sortFolderIds}
+            accessibility={{ announcements }}
+            modifiers={[restrictToVerticalAxis, restrictToParentElement]}>
+            <SortableContext
+              items={sortedFolders}
+              strategy={verticalListSortingStrategy}>
+              {folders.map((folder, index) => (
+                <DraggableFolder
+                  key={`folder-${folder.id}`}
+                  folder={folder}
+                  index={index}
+                  foldersCount={foldersCount}
+                  type={type}
+                  setFolderAction={setFolderAction}
+                />
+              ))}
+            </SortableContext>
+          </DndContext>
         </BlockWrapper>
       )}
     </WhileLoading>

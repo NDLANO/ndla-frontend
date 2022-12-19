@@ -16,7 +16,9 @@ interface Props {
 
 const BlogPosts = ({ t, i18n }: Props & WithTranslation) => (
   <section>
-    <SubjectSectionTitle>{t('welcomePage.blog')}</SubjectSectionTitle>
+    <SubjectSectionTitle headingLevel="h2">
+      {t('welcomePage.blog')}
+    </SubjectSectionTitle>
     <BlogPostWrapper>
       <BlogPost
         image={{

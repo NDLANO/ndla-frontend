@@ -6,8 +6,9 @@
  *
  */
 
-import { HelmetProvider } from 'react-helmet-async';
+import { FilledContext, HelmetProvider } from 'react-helmet-async';
 import { StaticRouter } from 'react-router-dom/server.js';
+import { Request } from 'express';
 import { I18nextProvider } from 'react-i18next';
 import { getSelectorsByUserAgent } from 'react-device-detect';
 import { i18nInstance } from '@ndla/ui';
@@ -17,7 +18,9 @@ import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import { getCookie } from '@ndla/util';
 
-import RedirectContext from '../../components/RedirectContext';
+import RedirectContext, {
+  RedirectInfo,
+} from '../../components/RedirectContext';
 import App from '../../App';
 import config from '../../config';
 import { createApolloClient } from '../../util/apiHelpers';
@@ -31,17 +34,20 @@ import { EmotionCacheKey, STORED_LANGUAGE_COOKIE_KEY } from '../../constants';
 import { VersionHashProvider } from '../../components/VersionHashContext';
 import IsMobileContext from '../../IsMobileContext';
 import { TEMPORARY_REDIRECT } from '../../statusCodes';
+import { Assets } from '../helpers/Document';
+import { LocaleType } from '../../interfaces';
 
+//@ts-ignore
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST); //eslint-disable-line
 
-const getAssets = () => ({
+const getAssets = (): Assets => ({
   css: assets['client.css'],
   polyfill: { src: assets['polyfill.js'] },
   js: [{ src: assets['client.js'] }],
   mathJaxConfig: { js: assets['mathJaxConfig.js'] },
 });
 
-const disableSSR = req => {
+const disableSSR = (req: Request) => {
   const urlParts = url.parse(req.url, true);
   if (config.disableSSR) {
     return true;
@@ -49,41 +55,40 @@ const disableSSR = req => {
   return urlParts.query && urlParts.query.disableSSR === 'true';
 };
 
-async function doRender(req) {
+async function doRender(req: Request) {
+  //@ts-ignore
   global.assets = assets; // used for including mathjax js in pages with math
   const resCookie = req.headers['cookie'] ?? '';
   const userAgent = req.headers['user-agent'];
   const isMobile = userAgent
     ? getSelectorsByUserAgent(userAgent)?.isMobile
     : false;
-  const versionHash = req.query.versionHash;
+  const versionHash =
+    typeof req.query.versionHash === 'string'
+      ? req.query.versionHash
+      : undefined;
   const { basename, abbreviation } = getLocaleInfoFromPath(req.path);
   const locale = getCookieLocaleOrFallback(resCookie, abbreviation);
 
   const client = createApolloClient(locale, versionHash);
 
   const cache = createCache({ key: EmotionCacheKey });
-  const context = {};
+  const context: RedirectInfo = {};
 
   const i18n = initializeI18n(i18nInstance, locale);
 
-  const helmetContext = {};
+  // @ts-ignore
+  const helmetContext: FilledContext = {};
   const Page = !disableSSR(req) ? (
     <RedirectContext.Provider value={context}>
       <HelmetProvider context={helmetContext}>
         <I18nextProvider i18n={i18n}>
           <ApolloProvider client={client}>
             <CacheProvider value={cache}>
-              <VersionHashProvider value={!!versionHash}>
+              <VersionHashProvider value={versionHash}>
                 <IsMobileContext.Provider value={isMobile}>
                   <StaticRouter basename={basename} location={req.url}>
-                    <App
-                      isClient={false}
-                      client={client}
-                      locale={locale}
-                      versionHash={versionHash}
-                      key={locale}
-                    />
+                    <App isClient={false} locale={locale} key={locale} />
                   </StaticRouter>
                 </IsMobileContext.Provider>
               </VersionHashProvider>
@@ -97,17 +102,17 @@ async function doRender(req) {
   );
 
   const apolloState = client.extract();
-  const docProps = await renderPageWithData(
+  const docProps = await renderPageWithData({
     Page,
-    getAssets(),
-    {
+    assets: getAssets(),
+    data: {
       apolloState,
       serverPath: req.path,
       serverQuery: req.query,
     },
     cache,
     client,
-  );
+  });
 
   return {
     docProps,
@@ -117,7 +122,10 @@ async function doRender(req) {
   };
 }
 
-function getCookieLocaleOrFallback(resCookie, abbreviation) {
+function getCookieLocaleOrFallback(
+  resCookie: string,
+  abbreviation: LocaleType,
+) {
   const cookieLocale = getCookie(STORED_LANGUAGE_COOKIE_KEY, resCookie) ?? '';
   if (cookieLocale.length && isValidLocale(cookieLocale)) {
     return cookieLocale;
@@ -125,7 +133,7 @@ function getCookieLocaleOrFallback(resCookie, abbreviation) {
   return abbreviation;
 }
 
-export async function defaultRoute(req) {
+export async function defaultRoute(req: Request) {
   const resCookie = req.headers['cookie'] ?? '';
   const { basename, basepath, abbreviation } = getLocaleInfoFromPath(
     req.originalUrl,
@@ -133,7 +141,7 @@ export async function defaultRoute(req) {
   const locale = getCookieLocaleOrFallback(resCookie, abbreviation);
   if ((locale === 'nb' && basename === '') || locale === basename) {
     const { html, context, docProps, helmetContext } = await doRender(req);
-    return renderHtml(req, html, context, docProps, helmetContext);
+    return renderHtml(html, context, docProps, helmetContext);
   }
 
   return {

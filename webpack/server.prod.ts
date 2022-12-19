@@ -21,7 +21,7 @@ const serverProdConfig: Configuration = {
   },
   // Bundle all dependencies into a single file to avoid having to install node_modules.
   // Reduces image size.
-  externals: [],
+  externals: ['dtrace-provider'],
   plugins: sharedPlugins.concat(serverPlugins),
   output: {
     path: path.resolve('./build'),
