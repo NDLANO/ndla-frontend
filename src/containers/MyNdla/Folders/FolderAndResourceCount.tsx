@@ -16,7 +16,7 @@ import { GQLFolder } from '../../../graphqlTypes';
 import { getTotalCountForFolder } from '../../../util/folderHelpers';
 import WhileLoading from '../../../components/WhileLoading';
 
-const ResourceCountContainer = styled.div`
+export const ResourceCountContainer = styled.div`
   display: flex;
   gap: ${spacing.xsmall};
   align-items: center;
@@ -25,7 +25,7 @@ const ResourceCountContainer = styled.div`
 interface Props {
   selectedFolder: GQLFolder | null;
   hasSelectedFolder: boolean;
-  folders: GQLFolder[];
+  folders?: GQLFolder[];
   folderData: GQLFolder[] | undefined;
   loading: boolean;
 }
@@ -67,21 +67,25 @@ const FolderAndResourceCount = ({
     [selectedFolder],
   );
 
-  if (!folders) return null;
-
   return (
     <>
       <ResourceCountContainer>
-        <FolderOutlined />
-        <span>
-          <WhileLoading isLoading={loading} fallback={<CountLoadingShimmer />}>
-            {t('myNdla.folders', {
-              count: hasSelectedFolder
-                ? selectedFolderCount?.folders
-                : allFoldersCount,
-            })}
-          </WhileLoading>
-        </span>
+        {folders && (
+          <>
+            <FolderOutlined />
+            <span>
+              <WhileLoading
+                isLoading={loading}
+                fallback={<CountLoadingShimmer />}>
+                {t('myNdla.folders', {
+                  count: hasSelectedFolder
+                    ? selectedFolderCount?.folders
+                    : allFoldersCount,
+                })}
+              </WhileLoading>
+            </span>
+          </>
+        )}
         {hasSelectedFolder && (
           <>
             <FileDocumentOutline />

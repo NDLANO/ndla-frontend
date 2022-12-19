@@ -17,7 +17,7 @@ import {
   FrontpageMultidisciplinarySubject,
   BannerCard,
 } from '@ndla/ui';
-import { spacing } from '@ndla/core';
+import { spacing, utils } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import { useLazyQuery } from '@apollo/client';
 
@@ -46,10 +46,14 @@ const getMultidisciplinaryTopics = (locale: LocaleType) => {
     return {
       id: topic.id,
       title: topic.name?.[locale],
-      url: toTopic(MULTIDISCIPLINARY_SUBJECT_ID, topic.topicId ?? ''),
+      url: toTopic(MULTIDISCIPLINARY_SUBJECT_ID, topic.id ?? ''),
     };
   });
 };
+
+const HiddenHeading = styled.h1`
+  ${utils.visuallyHidden};
+`;
 
 const BannerCardWrapper = styled.div`
   padding-bottom: ${spacing.large};
@@ -82,6 +86,7 @@ const WelcomePage = () => {
 
   return (
     <>
+      <HiddenHeading>{t('welcomePage.heading.heading')}</HiddenHeading>
       <HelmetWithTracker title={t('htmlTitles.welcomePage')}>
         <script type="application/ld+json">{googleSearchJSONLd()}</script>
       </HelmetWithTracker>
@@ -117,10 +122,12 @@ const WelcomePage = () => {
         </OneColumn>
         <OneColumn wide>
           <FrontpageMultidisciplinarySubject
+            headingLevel="h2"
             url={toSubject(MULTIDISCIPLINARY_SUBJECT_ID)}
             topics={getMultidisciplinaryTopics(i18n.language)}
           />
           <FrontpageToolbox
+            headingLevel="h2"
             urlStudents={toSubject(TOOLBOX_STUDENT_SUBJECT_ID)}
             urlTeachers={toSubject(TOOLBOX_TEACHER_SUBJECT_ID)}
           />

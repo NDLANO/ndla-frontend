@@ -167,10 +167,6 @@ export function toTopic(subjectId: string, ...topicIds: string[]) {
   return t;
 }
 
-export const toTopicPartial = (subjectId: string, ...topicIds: string[]) => (
-  topicId: string,
-) => toTopic(subjectId, ...topicIds, topicId);
-
 export type SubjectURI = {
   id?: string;
   name?: string;
@@ -206,23 +202,6 @@ export function fixEndSlash(link: string) {
     link = `${link}/`;
   }
   return link;
-}
-
-type LinkObject = {
-  contentUri?: string;
-  meta?: object;
-  path?: string;
-};
-
-export function toLinkProps(linkObject: LinkObject) {
-  const isLearningpath =
-    linkObject.contentUri &&
-    linkObject.contentUri.startsWith('urn:learningpath') &&
-    linkObject.meta;
-  const path = linkObject.path || '';
-  return {
-    to: isLearningpath ? toLearningPath() + path : path,
-  };
 }
 
 export function toProgramme(programmePath: string, grade?: string) {

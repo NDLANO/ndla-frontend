@@ -153,7 +153,7 @@ app.get('/:lang?/login', async (req: Request, res: Response) => {
     res.cookie('PKCE_code', verifier, { httpOnly: true });
     return res.redirect(url);
   } catch (e) {
-    return await sendInternalServerError(req, res);
+    return await sendInternalServerError(res);
   }
 });
 
@@ -163,7 +163,7 @@ app.get('/login/success', async (req: Request, res: Response) => {
   res.setHeader('Cache-Control', 'private');
   const verifier = getCookie('PKCE_code', req.headers.cookie ?? '');
   if (!code || !verifier) {
-    return await sendInternalServerError(req, res);
+    return await sendInternalServerError(res);
   }
 
   try {
@@ -190,7 +190,7 @@ app.get('/login/success', async (req: Request, res: Response) => {
     }
     return res.redirect(state);
   } catch (e) {
-    return await sendInternalServerError(req, res);
+    return await sendInternalServerError(res);
   }
 });
 
@@ -202,13 +202,13 @@ app.get('/:lang?/logout', async (req: Request, res: Response) => {
   res.setHeader('Cache-Control', 'private');
 
   if (!feideToken?.['id_token'] || typeof state !== 'string') {
-    return sendInternalServerError(req, res);
+    return sendInternalServerError(res);
   }
   try {
     const logoutUri = await feideLogout(req, redirect, feideToken['id_token']);
     return res.redirect(logoutUri);
   } catch (_) {
-    return await sendInternalServerError(req, res);
+    return await sendInternalServerError(res);
   }
 });
 
@@ -231,11 +231,11 @@ app.get(
   },
 );
 
-export async function sendInternalServerError(req: Request, res: Response) {
+export async function sendInternalServerError(res: Response) {
   if (res.getHeader('Content-Type') === 'application/json') {
     res.status(INTERNAL_SERVER_ERROR).json('Internal server error');
   } else {
-    const { data } = await errorRoute(req);
+    const { data } = await errorRoute();
     res.status(INTERNAL_SERVER_ERROR).send(data);
   }
 }
@@ -259,7 +259,7 @@ async function handleRequest(req: Request, res: Response, route: RouteFunc) {
     sendResponse(res, data, status);
   } catch (err) {
     handleError(err);
-    await sendInternalServerError(req, res);
+    await sendInternalServerError(res);
   }
 }
 
@@ -324,8 +324,9 @@ app.get(
 
 app.post('/lti/oauth', ndlaMiddleware, async (req: Request, res: Response) => {
   const { body, query } = req;
-  if (!body || !query.url) {
+  if (!body || !query.url || typeof query.url !== 'string') {
     res.send(BAD_REQUEST);
+    return;
   }
   res.setHeader('Cache-Control', 'private');
   res.send(JSON.stringify(generateOauthData(query.url, body)));
