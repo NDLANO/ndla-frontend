@@ -8,7 +8,7 @@
 
 import styled from '@emotion/styled';
 import { HelmetWithTracker } from '@ndla/tracker';
-import { OneColumn, ErrorMessage, ContentPlaceholder } from '@ndla/ui';
+import { ErrorMessage, ContentPlaceholder, OneColumn } from '@ndla/ui';
 import sortBy from 'lodash/sortBy';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';

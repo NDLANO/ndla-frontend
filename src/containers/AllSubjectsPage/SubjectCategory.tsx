@@ -7,11 +7,11 @@
  */
 
 import styled from '@emotion/styled';
+import { buttonStyleV2 } from '@ndla/button';
 import { breakpoints, colors, fonts, misc, mq, spacing } from '@ndla/core';
 import { Forward } from '@ndla/icons/lib/common';
 import { useMastheadHeight } from '@ndla/ui';
-import { useContext, useRef } from 'react';
-import IsMobileContext from '../../IsMobileContext';
+import { useRef } from 'react';
 import useStickyObserver from '../../util/useStickyObserver';
 import { Subject } from './interfaces';
 import SubjectLink from './SubjectLink';
@@ -51,7 +51,7 @@ const StickyHeading = styled.div<StyledProps>`
   border-radius: ${misc.borderRadius};
   padding: ${spacing.xxsmall} ${spacing.small};
 
-  ${mq.range({ until: breakpoints.tablet })} {
+  ${mq.range({ until: breakpoints.tabletWide })} {
     border: none;
     border-bottom: 1px solid ${colors.brand.lighter};
     top: ${({ offset }) => offset}px;
@@ -87,6 +87,11 @@ const GoToTop = styled.a<GoToTopProps>`
   :focus {
     opacity: 1;
   }
+
+  ${mq.range({ until: breakpoints.tabletWide })} {
+    ${buttonStyleV2({ shape: 'pill', variant: 'outline' })}
+    border-width: 1px;
+  }
 `;
 
 const SubjectCategory = ({
@@ -97,18 +102,15 @@ const SubjectCategory = ({
 }: Props) => {
   const rootRef = useRef<HTMLDivElement>(null);
   const stickyRef = useRef<HTMLDivElement>(null);
-  const isMobile = useContext(IsMobileContext);
   const { isSticky } = useStickyObserver(rootRef, stickyRef);
-  const headingOffset = useMastheadHeight().height || 85;
+  const { height = 85 } = useMastheadHeight();
   return (
     <div ref={rootRef}>
-      <StickyHeading ref={stickyRef} offset={headingOffset}>
+      <StickyHeading ref={stickyRef} offset={height}>
         <StyledH2>{label.toUpperCase()}</StyledH2>
-        {!isMobile && (
-          <GoToTop isSticky={isSticky} href="#SkipToContentId">
-            Gå til toppen <StyledArrow />
-          </GoToTop>
-        )}
+        <GoToTop isSticky={isSticky} href="#SkipToContentId">
+          Gå til toppen <StyledArrow />
+        </GoToTop>
       </StickyHeading>
       <Grid id={`subject-${label}`}>
         {subjects.map(subject => (
