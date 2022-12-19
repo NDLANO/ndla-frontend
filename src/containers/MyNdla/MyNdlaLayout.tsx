@@ -28,11 +28,6 @@ const navigationLinks = (t: TFunction) => [
     icon: <HashTag />,
     name: t('myNdla.myTags'),
   },
-  {
-    id: 'subjects',
-    icon: <HashTag />,
-    name: t('myNdla.mySubjects'),
-  },
 ];
 
 const StyledLayout = styled.div`

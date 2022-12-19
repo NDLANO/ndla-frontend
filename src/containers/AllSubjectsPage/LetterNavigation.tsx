@@ -31,6 +31,12 @@ const StyledLetter = styled(ButtonV2)`
     border-bottom-left-radius: ${misc.borderRadius};
     border-bottom-right-radius: ${misc.borderRadius};
   }
+  :focus {
+    background: ${colors.brand.primary};
+    color: ${colors.white};
+    outline: none;
+    border-color: ${colors.brand.primary};
+  }
 `;
 
 interface Props {

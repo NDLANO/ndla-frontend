@@ -2407,9 +2407,7 @@ export type GQLMySubjectsSubjectFragmentFragment = {
   metadata: { __typename?: 'TaxonomyMetadata'; customFields: any };
 };
 
-export type GQLAllSubjectsQueryVariables = Exact<{
-  ids?: InputMaybe<Array<Scalars['String']> | Scalars['String']>;
-}>;
+export type GQLAllSubjectsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GQLAllSubjectsQuery = {
   __typename?: 'Query';

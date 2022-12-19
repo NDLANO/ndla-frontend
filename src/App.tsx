@@ -22,7 +22,6 @@ import FoldersPage from './containers/MyNdla/Folders/FoldersPage';
 import MyNdlaLayout from './containers/MyNdla/MyNdlaLayout';
 import MyNdlaMobileMenuPage from './containers/MyNdla/MyNdlaMobileMenuPage';
 import MyNdlaPage from './containers/MyNdla/MyNdlaPage';
-import MySubjectsPage from './containers/MyNdla/Subjects/MySubjectsPage';
 import TagsPage from './containers/MyNdla/Tags/TagsPage';
 import NotFound from './containers/NotFoundPage/NotFoundPage';
 import Layout from './containers/Page/Layout';
@@ -152,7 +151,6 @@ const AppRoutes = ({ base }: AppProps) => {
                     <Route index element={<TagsPage />} />
                     <Route path=":tag" element={<TagsPage />} />
                   </Route>
-                  <Route path="subjects" element={<MySubjectsPage />} />
                 </Route>
                 <Route path="404" element={<NotFound />} />
                 <Route path="403" element={<AccessDenied />} />
