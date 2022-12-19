@@ -7,10 +7,11 @@
  */
 
 import styled from '@emotion/styled';
-import { colors, fonts, misc, spacing } from '@ndla/core';
+import { breakpoints, colors, fonts, misc, mq, spacing } from '@ndla/core';
 import { Forward } from '@ndla/icons/lib/common';
 import { useMastheadHeight } from '@ndla/ui';
-import { useRef } from 'react';
+import { useContext, useRef } from 'react';
+import IsMobileContext from '../../IsMobileContext';
 import useStickyObserver from '../../util/useStickyObserver';
 import { Subject } from './interfaces';
 import SubjectLink from './SubjectLink';
@@ -25,6 +26,10 @@ interface Props {
 export const Grid = styled.div`
   display: grid;
   grid-template-columns: 50% 50%;
+  ${mq.range({ until: breakpoints.tablet })} {
+    display: flex;
+    flex-direction: column;
+  }
   gap: ${spacing.xxsmall};
   padding: 0 ${spacing.small};
   margin: ${spacing.small} 0;
@@ -45,6 +50,15 @@ const StickyHeading = styled.div<StyledProps>`
   border: 1px solid ${colors.brand.neutral7};
   border-radius: ${misc.borderRadius};
   padding: ${spacing.xxsmall} ${spacing.small};
+
+  ${mq.range({ until: breakpoints.tablet })} {
+    border: none;
+    border-bottom: 1px solid ${colors.brand.lighter};
+    top: ${({ offset }) => offset}px;
+    margin: 0;
+    padding: ${spacing.small} 0;
+    border-radius: 0;
+  }
 `;
 
 const StyledH2 = styled.h2`
@@ -83,15 +97,18 @@ const SubjectCategory = ({
 }: Props) => {
   const rootRef = useRef<HTMLDivElement>(null);
   const stickyRef = useRef<HTMLDivElement>(null);
+  const isMobile = useContext(IsMobileContext);
   const { isSticky } = useStickyObserver(rootRef, stickyRef);
   const headingOffset = useMastheadHeight().height || 85;
   return (
     <div ref={rootRef}>
       <StickyHeading ref={stickyRef} offset={headingOffset}>
         <StyledH2>{label.toUpperCase()}</StyledH2>
-        <GoToTop isSticky={isSticky} href="#SkipToContentId">
-          Gå til toppen <StyledArrow />
-        </GoToTop>
+        {!isMobile && (
+          <GoToTop isSticky={isSticky} href="#SkipToContentId">
+            Gå til toppen <StyledArrow />
+          </GoToTop>
+        )}
       </StickyHeading>
       <Grid id={`subject-${label}`}>
         {subjects.map(subject => (
