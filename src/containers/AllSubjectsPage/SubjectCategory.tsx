@@ -33,6 +33,7 @@ interface StyledProps {
 
 const Heading = styled.h2<StyledProps>`
   margin: 0;
+  margin-bottom: ${spacing.small};
   position: sticky;
   background: white;
   top: calc(${({ offset }) => offset}px + ${spacing.small});
