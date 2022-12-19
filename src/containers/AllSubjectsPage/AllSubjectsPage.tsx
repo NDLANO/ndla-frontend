@@ -16,8 +16,10 @@ import {
 } from '@ndla/ui';
 import { TFunction } from 'i18next';
 import sortBy from 'lodash/sortBy';
+import { parse, stringify } from 'query-string';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../components/AuthenticationContext';
 import LoginModal from '../../components/MyNdla/LoginModal';
 import TabFilter from '../../components/TabFilter';
@@ -64,20 +66,32 @@ const StyledColumn = styled(OneColumn)`
 
 const AllSubjectsPage = () => {
   const { t } = useTranslation();
-  const { error, loading, subjects } = useSubjects();
-  const [filter, setFilter] = useState('all');
+  const navigate = useNavigate();
+  const location = useLocation();
   const { authenticated } = useContext(AuthContext);
-  const { personalData, fetch: fetchPersonalData } = usePersonalData();
   const [showLoginModal, setShowLoginModal] = useState(false);
 
-  const favoriteSubjects = personalData?.favoriteSubjects;
+  const { error, loading, subjects } = useSubjects();
+  const { personalData, fetch: fetchPersonalData } = usePersonalData();
 
+  const filterOptions = useMemo(() => createFilters(t), [t]);
+  const [filter, _setFilter] = useState<string>(
+    parse(location.search).filter || 'all',
+  );
+  const setFilter = (value: string) => {
+    const searchObject = parse(location.search);
+    _setFilter(value);
+    const search = stringify({
+      ...searchObject,
+      filter: value !== 'all' ? value : undefined,
+    });
+    navigate(`${location.pathname}?${search}`);
+  };
+
+  const favoriteSubjects = personalData?.favoriteSubjects;
   const sortedSubjects = useMemo(() => sortBy(subjects, s => s.name), [
     subjects,
   ]);
-
-  const filterOptions = useMemo(() => createFilters(t), [t]);
-
   const groupedSubjects = useMemo(() => {
     const filteredSubjects = filterSubjects(sortedSubjects, filter);
     return groupSubjects(filteredSubjects);
