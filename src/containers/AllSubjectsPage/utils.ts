@@ -1,6 +1,5 @@
-import { groupBy } from 'lodash';
+import groupBy from 'lodash/groupBy';
 import { GQLMySubjectsSubjectFragmentFragment } from '../../graphqlTypes';
-import { Status } from './interfaces';
 
 export const letters = [
   '#',
@@ -56,7 +55,7 @@ export const groupSubjects = (
 
 export const filterSubjects = (
   subjects: GQLMySubjectsSubjectFragmentFragment[],
-  status: Status,
+  status: string,
 ) => {
   if (status === 'all') {
     return subjects;

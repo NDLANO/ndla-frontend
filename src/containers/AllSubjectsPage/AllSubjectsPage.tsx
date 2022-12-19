@@ -8,21 +8,54 @@
 
 import styled from '@emotion/styled';
 import { HelmetWithTracker } from '@ndla/tracker';
-import { ErrorMessage, ContentPlaceholder, OneColumn } from '@ndla/ui';
+import {
+  ErrorMessage,
+  ContentPlaceholder,
+  OneColumn,
+  constants,
+} from '@ndla/ui';
+import { TFunction } from 'i18next';
 import sortBy from 'lodash/sortBy';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AuthContext } from '../../components/AuthenticationContext';
 import LoginModal from '../../components/MyNdla/LoginModal';
+import TabFilter from '../../components/TabFilter';
 
 import { useSubjects } from '../MyNdla/subjectMutations';
 import { usePersonalData } from '../MyNdla/userMutations';
 import FavoriteSubjects from './FavoriteSubjects';
-import { Status } from './interfaces';
 import LetterNavigation from './LetterNavigation';
-import StatusFilter from './StatusFilter';
 import SubjectCategory from './SubjectCategory';
 import { filterSubjects, groupSubjects } from './utils';
+
+const {
+  ACTIVE_SUBJECTS,
+  ARCHIVE_SUBJECTS,
+  BETA_SUBJECTS,
+} = constants.subjectCategories;
+
+const createFilterTranslation = (t: TFunction, key: string) =>
+  `${t(`subjectCategories.${key}`)} ${t('contentTypes.subject').toLowerCase()}`;
+
+const createFilters = (t: TFunction) => [
+  {
+    name: `${t('contentTypes.all')} ${t('contentTypes.subject').toLowerCase()}`,
+    value: 'all',
+  },
+  {
+    name: createFilterTranslation(t, ACTIVE_SUBJECTS),
+    value: ACTIVE_SUBJECTS,
+  },
+  {
+    name: createFilterTranslation(t, ARCHIVE_SUBJECTS),
+    value: ARCHIVE_SUBJECTS,
+  },
+  {
+    name: createFilterTranslation(t, BETA_SUBJECTS),
+    value: BETA_SUBJECTS,
+  },
+];
 
 const StyledColumn = styled(OneColumn)`
   display: flex;
@@ -32,7 +65,7 @@ const StyledColumn = styled(OneColumn)`
 const AllSubjectsPage = () => {
   const { t } = useTranslation();
   const { error, loading, subjects } = useSubjects();
-  const [filter, setFilter] = useState<Status>('all');
+  const [filter, setFilter] = useState('all');
   const { authenticated } = useContext(AuthContext);
   const { personalData, fetch: fetchPersonalData } = usePersonalData();
   const [showLoginModal, setShowLoginModal] = useState(false);
@@ -42,6 +75,8 @@ const AllSubjectsPage = () => {
   const sortedSubjects = useMemo(() => sortBy(subjects, s => s.name), [
     subjects,
   ]);
+
+  const filterOptions = useMemo(() => createFilters(t), [t]);
 
   const groupedSubjects = useMemo(() => {
     const filteredSubjects = filterSubjects(sortedSubjects, filter);
@@ -86,7 +121,11 @@ const AllSubjectsPage = () => {
             subjects={sortedSubjects}
           />
         )}
-        <StatusFilter value={filter} onChange={setFilter} />
+        <TabFilter
+          value={filter}
+          onChange={setFilter}
+          options={filterOptions}
+        />
         <LetterNavigation activeLetters={letters} />
         {groupedSubjects.map(({ label, subjects }) => (
           <SubjectCategory
