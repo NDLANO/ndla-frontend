@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { IconButtonV2 } from '@ndla/button';
-import { colors, fonts } from '@ndla/core';
+import { colors, fonts, spacing } from '@ndla/core';
 import { Heart, HeartOutline } from '@ndla/icons/action';
 import SafeLink from '@ndla/safelink';
 import { useContext } from 'react';
@@ -12,6 +12,7 @@ import { Subject } from './interfaces';
 const SubjectLinkWrapper = styled.div`
   display: flex;
   align-items: center;
+  gap: ${spacing.xsmall};
 `;
 
 const StyledButton = styled(IconButtonV2)`
