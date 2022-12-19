@@ -89,6 +89,7 @@ const StyledButton = styled(ButtonV2, { shouldForwardProp })<StyledButtonProps>`
 
 const TextWrapper = styled.div`
   display: flex;
+  flex: 1;
   justify-content: space-between;
   align-items: center;
   gap: ${spacing.xsmall};
