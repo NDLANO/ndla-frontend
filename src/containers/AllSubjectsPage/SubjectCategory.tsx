@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-present, NDLA.
+ * Copyright (c) 2022-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
@@ -10,6 +10,8 @@ import styled from '@emotion/styled';
 import { colors, fonts, misc, spacing } from '@ndla/core';
 import { Forward } from '@ndla/icons/lib/common';
 import { useMastheadHeight } from '@ndla/ui';
+import { useRef } from 'react';
+import useStickyObserver from '../../util/useStickyObserver';
 import { Subject } from './interfaces';
 import SubjectLink from './SubjectLink';
 
@@ -54,7 +56,11 @@ const StyledArrow = styled(Forward)`
   transform: rotate(-90deg);
 `;
 
-const GoToTop = styled.a`
+interface GoToTopProps {
+  isSticky: boolean;
+}
+
+const GoToTop = styled.a<GoToTopProps>`
   ${fonts.sizes('16px', '24px')};
   font-weight: ${fonts.weight.semibold};
   display: flex;
@@ -62,6 +68,11 @@ const GoToTop = styled.a`
   gap: ${spacing.small};
   box-shadow: none;
   color: ${colors.brand.primary};
+  opacity: ${({ isSticky }) => (isSticky ? 1 : 0)};
+  transition: ${misc.transition.default};
+  :focus {
+    opacity: 1;
+  }
 `;
 
 const SubjectCategory = ({
@@ -70,12 +81,15 @@ const SubjectCategory = ({
   favorites,
   openLoginModal,
 }: Props) => {
-  const headingOffset = useMastheadHeight().height || 84;
+  const rootRef = useRef<HTMLDivElement>(null);
+  const stickyRef = useRef<HTMLDivElement>(null);
+  const { isSticky } = useStickyObserver(rootRef, stickyRef);
+  const headingOffset = useMastheadHeight().height || 85;
   return (
-    <div>
-      <StickyHeading offset={headingOffset}>
+    <div ref={rootRef}>
+      <StickyHeading ref={stickyRef} offset={headingOffset}>
         <StyledH2>{label.toUpperCase()}</StyledH2>
-        <GoToTop href="#SkipToContentId">
+        <GoToTop isSticky={isSticky} href="#SkipToContentId">
           Gå til toppen <StyledArrow />
         </GoToTop>
       </StickyHeading>
