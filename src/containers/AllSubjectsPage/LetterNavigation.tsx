@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
-import { colors, fonts, misc, spacing } from '@ndla/core';
+import { breakpoints, colors, fonts, misc, mq, spacing } from '@ndla/core';
 import { letters } from './utils';
 
 const LetterNavigationWrapper = styled.div`
@@ -9,6 +9,9 @@ const LetterNavigationWrapper = styled.div`
   flex: 1;
   gap: ${spacing.small};
   margin: ${spacing.medium} 0;
+  ${mq.range({ until: breakpoints.tabletWide })} {
+    gap: ${spacing.medium};
+  }
 `;
 
 const StyledLetter = styled(ButtonV2)`
@@ -36,6 +39,12 @@ const StyledLetter = styled(ButtonV2)`
     color: ${colors.white};
     outline: none;
     border-color: ${colors.brand.primary};
+  }
+  ${mq.range({ until: breakpoints.tabletWide })} {
+    ${fonts.sizes('24px', '24px')};
+    box-shadow: inset 0 -2px;
+    min-height: 48px;
+    min-width: 48px;
   }
 `;
 
