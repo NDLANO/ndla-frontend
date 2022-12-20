@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { IconButtonV2 } from '@ndla/button';
-import { colors, fonts, spacing } from '@ndla/core';
+import { colors, fonts, misc, spacing } from '@ndla/core';
 import { Heart, HeartOutline } from '@ndla/icons/action';
 import SafeLink from '@ndla/safelink';
 import Tooltip from '@ndla/tooltip';
@@ -28,6 +28,9 @@ const StyledSafeLink = styled(SafeLink)`
   ${fonts.sizes('18px', '24px')};
   font-weight: ${fonts.weight.semibold};
   box-shadow: none;
+  :hover {
+    box-shadow: ${misc.textLinkBoxShadow};
+  }
   color: ${colors.brand.primary};
 `;
 

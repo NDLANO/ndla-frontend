@@ -46,6 +46,7 @@ const StickyHeading = styled.div<StyledProps>`
   margin-bottom: ${spacing.small};
   position: sticky;
   background: white;
+  color: ${colors.brand.greyDark};
   top: calc(${({ offset }) => offset}px + ${spacing.small});
   border: 1px solid ${colors.brand.neutral7};
   border-radius: ${misc.borderRadius};
