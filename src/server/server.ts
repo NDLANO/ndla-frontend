@@ -386,6 +386,9 @@ app.get(
   },
 );
 
+app.get('/*/search/*', (_req: Request, res: Response, _next: NextFunction) => {
+  sendResponse(res, undefined, 410);
+});
 app.get('/*', (_req: Request, res: Response, _next: NextFunction) => {
   res.redirect(NOT_FOUND_PAGE_PATH);
 });

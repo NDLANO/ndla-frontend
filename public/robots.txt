@@ -83,8 +83,6 @@ Allow: /*/contentbrowser
 
 
 Disallow: /*/taxonomy/
-Disallow: /*/search/
-Disallow: /*/search/apachesolr_search/
 Disallow: /*/*/*/grep/
 Disallow: /*/print/
 Disallow: /*/userguide/
@@ -107,3 +105,5 @@ Allow: /sites/default/files/images/*
 Allow: /sites/default/files/videos/converted/*
 Allow: /sites/default/files/imagecache/*
 Allow: /sites/default/files/headers/*
+Allow: /*/search/
+Allow: /*/search/apachesolr_search/
