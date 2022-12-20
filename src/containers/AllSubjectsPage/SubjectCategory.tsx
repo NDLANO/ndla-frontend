@@ -9,7 +9,7 @@
 import styled from '@emotion/styled';
 import { buttonStyleV2 } from '@ndla/button';
 import { breakpoints, colors, fonts, misc, mq, spacing } from '@ndla/core';
-import { Forward } from '@ndla/icons/lib/common';
+import { Forward } from '@ndla/icons/common';
 import { useMastheadHeight } from '@ndla/ui';
 import { useRef } from 'react';
 import useStickyObserver from '../../util/useStickyObserver';
