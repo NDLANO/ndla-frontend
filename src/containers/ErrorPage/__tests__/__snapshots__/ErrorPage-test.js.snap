@@ -480,6 +480,54 @@ exports[`ErrorPage renderers correctly 1`] = `
   }
 }
 
+.emotion-81 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  margin-bottom: 52px;
+}
+
+.emotion-81>span {
+  padding: 6.5px 0;
+  text-align: center;
+}
+
+@media (max-width: 48em) {
+  .emotion-81 {
+    font-size: 16;
+    font-size: 0.8888888888888888rem;
+    line-height: 1.5;
+  }
+
+  .emotion-81>span {
+    padding: 0;
+  }
+}
+
+@media (max-width: 29.75em) {
+  .emotion-81 {
+    font-size: 14;
+    font-size: 0.7777777777777778rem;
+    line-height: 1.3;
+  }
+
+  .emotion-81>span {
+    padding-bottom: 6.5px;
+  }
+}
+
 .emotion-83 {
   background: none;
   color: #fff;
@@ -487,7 +535,6 @@ exports[`ErrorPage renderers correctly 1`] = `
   padding: 0;
   box-shadow: inset 0 -1px;
   cursor: pointer;
-  margin-bottom: 52px;
 }
 
 .emotion-83:hover,
@@ -496,6 +543,12 @@ exports[`ErrorPage renderers correctly 1`] = `
 }
 
 .emotion-85 {
+  margin-left: 4.333333333333333px;
+  margin-right: 4.333333333333333px;
+  margin-bottom: 52px;
+}
+
+.emotion-89 {
   display: block;
   position: absolute;
   top: 0;
@@ -505,11 +558,11 @@ exports[`ErrorPage renderers correctly 1`] = `
   background: linear-gradient(96deg, rgba(0, 117, 160, 1) 0%, rgba(32, 88, 143, 0) 100%);
 }
 
-.emotion-87 {
+.emotion-91 {
   z-index: 10;
 }
 
-.emotion-88 {
+.emotion-92 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -538,32 +591,32 @@ exports[`ErrorPage renderers correctly 1`] = `
   margin-top: 26px;
 }
 
-.emotion-88:hover,
-.emotion-88:focus {
+.emotion-92:hover,
+.emotion-92:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-88[disabled] {
+.emotion-92[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-88:focus {
+.emotion-92:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-88:hover,
-.emotion-88:focus {
+.emotion-92:hover,
+.emotion-92:focus {
   color: white;
   background-color: #20588f;
   border: 2px solid transparent;
 }
 
-.emotion-88:disabled {
+.emotion-92:disabled {
   color: #777777;
   border: 2px solid transparent;
   background-color: #e6e6e6;
@@ -571,7 +624,7 @@ exports[`ErrorPage renderers correctly 1`] = `
 }
 
 @media (min-width: 61.3125em) {
-  .emotion-88 {
+  .emotion-92 {
     position: fixed;
     right: 2rem;
     bottom: 2rem;
@@ -1160,25 +1213,41 @@ exports[`ErrorPage renderers correctly 1`] = `
           Nettstedet er utarbeidet av NDLA med åpen kildekode.
         </p>
         <div
-          class="emotion-79 emotion-82"
+          class="emotion-81 emotion-82"
         >
-          <button
-            class="emotion-83 emotion-84"
-            type="button"
-          >
-            Personvernerklæring og cookies
-          </button>
+          <div>
+            <a
+              class="emotion-83 emotion-84"
+              href="https://om.ndla.no/gdpr"
+            >
+              Personvernerklæring
+            </a>
+          </div>
+          <div>
+            <span
+              aria-hidden="true"
+              class="emotion-85 emotion-86"
+            >
+              |
+            </span>
+            <a
+              class="emotion-83 emotion-84"
+              href="https://om.ndla.no/cookies"
+            >
+              Erklæring om informasjonskapsler
+            </a>
+          </div>
         </div>
       </div>
       <div
-        class="emotion-85 emotion-86"
+        class="emotion-89 emotion-90"
       />
     </footer>
     <div
-      class="emotion-87"
+      class="emotion-91"
     >
       <button
-        class="emotion-88 emotion-89"
+        class="emotion-92 emotion-93"
         id="zendeskButton"
         type="button"
       >

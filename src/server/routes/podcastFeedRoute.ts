@@ -30,6 +30,6 @@ export const podcastFeedRoute = async (req: Request, res: Response) => {
         return;
       }
 
-      sendInternalServerError(req, res);
+      sendInternalServerError(res);
     });
 };
