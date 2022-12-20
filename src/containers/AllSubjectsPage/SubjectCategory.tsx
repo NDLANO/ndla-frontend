@@ -84,7 +84,8 @@ const GoToTop = styled.a<GoToTopProps>`
   color: ${colors.brand.primary};
   opacity: ${({ isSticky }) => (isSticky ? 1 : 0)};
   transition: ${misc.transition.default};
-  :focus {
+  :focus,
+  :hover {
     opacity: 1;
   }
 
