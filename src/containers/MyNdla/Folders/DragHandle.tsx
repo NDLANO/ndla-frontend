@@ -25,6 +25,9 @@ const StyledDragHandle = styled(IconButtonV2)`
   position: absolute;
   left: -${spacing.xxsmall};
   transform: translateX(-100%);
+  :disabled {
+    display: none;
+  }
 `;
 
 const DragHandle = ({ sortableId, type, name, ...rest }: Props) => {
