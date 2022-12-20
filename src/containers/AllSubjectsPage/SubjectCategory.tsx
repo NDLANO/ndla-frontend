@@ -31,7 +31,7 @@ export const Grid = styled.div`
     flex-direction: column;
   }
   gap: ${spacing.xxsmall};
-  padding: 0 ${spacing.small};
+  padding: 0;
   margin: ${spacing.small} 0;
 `;
 

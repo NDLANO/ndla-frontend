@@ -1,11 +1,12 @@
 import styled from '@emotion/styled';
-import { fonts } from '@ndla/core';
+import { fonts, spacing } from '@ndla/core';
 import { Subject } from './interfaces';
 import { Grid } from './SubjectCategory';
 import SubjectLink from './SubjectLink';
 
 const StyledHeader = styled.h2`
   text-transform: uppercase;
+  margin: ${spacing.normal} ${spacing.nsmall};
   ${fonts.sizes('18px', '24px')}
 `;
 

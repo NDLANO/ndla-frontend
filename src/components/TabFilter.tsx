@@ -36,6 +36,7 @@ const ButtonContainer = styled.div`
   background: ${colors.brand.lightest};
   border: 1px solid ${colors.brand.lighter};
   align-self: flex-start;
+  margin: ${spacing.normal} 0 ${spacing.small};
 `;
 
 interface Option {

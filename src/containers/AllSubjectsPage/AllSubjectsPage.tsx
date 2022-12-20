@@ -7,6 +7,7 @@
  */
 
 import styled from '@emotion/styled';
+import { fonts } from '@ndla/core';
 import { HelmetWithTracker } from '@ndla/tracker';
 import {
   ErrorMessage,
@@ -62,6 +63,11 @@ const createFilters = (t: TFunction) => [
 const StyledColumn = styled(OneColumn)`
   display: flex;
   flex-direction: column;
+`;
+
+const StyledHeading = styled.h1`
+  font-weight: ${fonts.weight.semibold};
+  ${fonts.sizes('48px', '60px')};
 `;
 
 const AllSubjectsPage = () => {
@@ -127,8 +133,10 @@ const AllSubjectsPage = () => {
   return (
     <div className="c-resources u-padding-top-large">
       <HelmetWithTracker title={t('htmlTitles.subjectsPage')} />
-      <StyledColumn>
-        <h1 id="SkipToContentId">{t('subjectsPage.allSubjects')}</h1>
+      <StyledColumn wide>
+        <StyledHeading id="SkipToContentId">
+          {t('subjectsPage.allSubjects')}
+        </StyledHeading>
         {!!favoriteSubjects?.length && (
           <FavoriteSubjects
             favorites={favoriteSubjects}
