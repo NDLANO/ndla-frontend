@@ -52,9 +52,10 @@ interface Props {
 
 const TabFilter = ({ value: selectedValue, onChange, options }: Props) => {
   return (
-    <ButtonContainer>
+    <ButtonContainer role="group">
       {options.map(({ value, name }) => (
         <StyledButton
+          aria-current={selectedValue === value}
           selected={selectedValue === value}
           variant={selectedValue === value ? undefined : 'outline'}
           onClick={() => onChange(value)}
