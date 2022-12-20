@@ -62,7 +62,7 @@ const SubjectLink = ({ subject, favorites, openLoginModal }: Props) => {
       });
       addSnack({
         id: `addedFavorite-${subject.id}`,
-        content: t('subjectsPage.confirmAdded', { subject: subject.name }),
+        content: t('subjectsPage.addConfirmed', { subject: subject.name }),
       });
     }
   };
@@ -73,9 +73,10 @@ const SubjectLink = ({ subject, favorites, openLoginModal }: Props) => {
     }
     const newFavorites = favorites?.filter(favorite => favorite !== subject.id);
     await updatePersonalData({ variables: { favoriteSubjects: newFavorites } });
+    setShowDeleteModal(false);
     addSnack({
       id: `removedFavorite-${subject.id}`,
-      content: t('subjectsPage.confirmRemoved', { subject: subject.name }),
+      content: t('subjectsPage.removeConfirmed', { subject: subject.name }),
     });
   };
 
