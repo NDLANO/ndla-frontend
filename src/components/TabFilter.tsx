@@ -41,7 +41,7 @@ const ButtonContainer = styled.div`
 
 interface Option {
   value: string;
-  name: string;
+  label: string;
 }
 
 interface Props {
@@ -53,14 +53,14 @@ interface Props {
 const TabFilter = ({ value: selectedValue, onChange, options }: Props) => {
   return (
     <ButtonContainer role="group">
-      {options.map(({ value, name }) => (
+      {options.map(({ value, label }) => (
         <StyledButton
           aria-current={selectedValue === value}
           selected={selectedValue === value}
           variant={selectedValue === value ? undefined : 'outline'}
           onClick={() => onChange(value)}
           key={value}>
-          {name}
+          {label}
         </StyledButton>
       ))}
     </ButtonContainer>

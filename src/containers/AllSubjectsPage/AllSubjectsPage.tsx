@@ -7,6 +7,7 @@
  */
 
 import styled from '@emotion/styled';
+import { Option } from '@ndla/select';
 import { fonts } from '@ndla/core';
 import { HelmetWithTracker } from '@ndla/tracker';
 import {
@@ -24,9 +25,11 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../components/AuthenticationContext';
 import LoginModal from '../../components/MyNdla/LoginModal';
 import TabFilter from '../../components/TabFilter';
+import IsMobileContext from '../../IsMobileContext';
 
 import { useSubjects } from '../MyNdla/subjectMutations';
 import { usePersonalData } from '../MyNdla/userMutations';
+import DropdownFilter from './DropdownFilter';
 import FavoriteSubjects from './FavoriteSubjects';
 import LetterNavigation from './LetterNavigation';
 import SubjectCategory from './SubjectCategory';
@@ -41,21 +44,23 @@ const {
 const createFilterTranslation = (t: TFunction, key: string) =>
   `${t(`subjectCategories.${key}`)} ${t('contentTypes.subject').toLowerCase()}`;
 
-const createFilters = (t: TFunction) => [
+const createFilters = (t: TFunction): Option[] => [
   {
-    name: `${t('contentTypes.all')} ${t('contentTypes.subject').toLowerCase()}`,
+    label: `${t('contentTypes.all')} ${t(
+      'contentTypes.subject',
+    ).toLowerCase()}`,
     value: 'all',
   },
   {
-    name: createFilterTranslation(t, ACTIVE_SUBJECTS),
+    label: createFilterTranslation(t, ACTIVE_SUBJECTS),
     value: ACTIVE_SUBJECTS,
   },
   {
-    name: createFilterTranslation(t, ARCHIVE_SUBJECTS),
+    label: createFilterTranslation(t, ARCHIVE_SUBJECTS),
     value: ARCHIVE_SUBJECTS,
   },
   {
-    name: createFilterTranslation(t, BETA_SUBJECTS),
+    label: createFilterTranslation(t, BETA_SUBJECTS),
     value: BETA_SUBJECTS,
   },
 ];
@@ -75,6 +80,7 @@ const AllSubjectsPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { authenticated } = useContext(AuthContext);
+  const isMobile = useContext(IsMobileContext);
   const [showLoginModal, setShowLoginModal] = useState(false);
 
   const { error, loading, subjects } = useSubjects();
@@ -143,11 +149,22 @@ const AllSubjectsPage = () => {
             subjects={sortedSubjects}
           />
         )}
-        <TabFilter
-          value={filter}
-          onChange={setFilter}
-          options={filterOptions}
-        />
+        {isMobile ? (
+          <DropdownFilter
+            value={
+              filterOptions.find(option => option.value === filter) ||
+              filterOptions[0]!
+            }
+            onChange={setFilter}
+            options={filterOptions}
+          />
+        ) : (
+          <TabFilter
+            value={filter}
+            onChange={setFilter}
+            options={filterOptions}
+          />
+        )}
         <LetterNavigation activeLetters={letters} />
         {groupedSubjects.map(({ label, subjects }) => (
           <SubjectCategory
