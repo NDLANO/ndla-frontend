@@ -4,6 +4,7 @@ import { colors, fonts, spacing } from '@ndla/core';
 import { Heart, HeartOutline } from '@ndla/icons/action';
 import SafeLink from '@ndla/safelink';
 import Tooltip from '@ndla/tooltip';
+import { useSnack } from '@ndla/ui';
 import { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AuthContext } from '../../components/AuthenticationContext';
@@ -38,12 +39,13 @@ interface Props {
 
 const SubjectLink = ({ subject, favorites, openLoginModal }: Props) => {
   const isFavorite = !!favorites?.includes(subject.id);
+  const { addSnack } = useSnack();
   const { t } = useTranslation();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const { authenticated } = useContext(AuthContext);
   const { updatePersonalData } = useUpdatePersonalData();
 
-  const setFavorite = (value: boolean) => {
+  const setFavorite = async (value: boolean) => {
     if (!authenticated) {
       openLoginModal?.();
       return;
@@ -55,16 +57,26 @@ const SubjectLink = ({ subject, favorites, openLoginModal }: Props) => {
       setShowDeleteModal(true);
     } else {
       const newFavorites = favorites.concat(subject.id);
-      updatePersonalData({ variables: { favoriteSubjects: newFavorites } });
+      await updatePersonalData({
+        variables: { favoriteSubjects: newFavorites },
+      });
+      addSnack({
+        id: `addedFavorite-${subject.id}`,
+        content: t('subjectsPage.confirmAdded', { subject: subject.name }),
+      });
     }
   };
 
-  const removeFavorite = () => {
+  const removeFavorite = async () => {
     if (!favorites) {
       return;
     }
     const newFavorites = favorites?.filter(favorite => favorite !== subject.id);
-    updatePersonalData({ variables: { favoriteSubjects: newFavorites } });
+    await updatePersonalData({ variables: { favoriteSubjects: newFavorites } });
+    addSnack({
+      id: `removedFavorite-${subject.id}`,
+      content: t('subjectsPage.confirmRemoved', { subject: subject.name }),
+    });
   };
 
   return (
