@@ -53,11 +53,21 @@ const StickyHeading = styled.div<StyledProps>`
 
   ${mq.range({ until: breakpoints.tabletWide })} {
     border: none;
-    border-bottom: 1px solid ${colors.brand.lighter};
+    border-bottom: 0;
     top: ${({ offset }) => offset}px;
     margin: 0;
     padding: ${spacing.small} 0;
     border-radius: 0;
+    :before {
+      content: '';
+      position: absolute;
+      width: 100vw;
+      bottom: 0;
+      right: 50%;
+      transform: translateX(50%);
+      height: 1px;
+      background: ${colors.brand.lighter};
+    }
   }
 `;
 
