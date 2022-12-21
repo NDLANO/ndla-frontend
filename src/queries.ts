@@ -643,3 +643,67 @@ export const alertsQuery = gql`
     }
   }
 `;
+
+export const imageQuery = gql`
+  query image($id: String!) {
+    image(id: $id) {
+      id
+      metaUrl
+      title {
+        language
+        title
+      }
+      alttext {
+        alttext
+        language
+      }
+      imageUrl
+      size
+      contentType
+      copyright {
+        license {
+          license
+          description
+          url
+        }
+        rightsholders {
+          type
+          name
+        }
+        processors {
+          type
+          name
+        }
+        creators {
+          type
+          name
+        }
+        agreementId
+        validFrom
+        validTo
+        origin
+      }
+      tags {
+        tags
+        language
+      }
+      caption {
+        caption
+        language
+      }
+      supportedLanguages
+      created
+      createdBy
+      modelRelease
+      editorNotes {
+        timestamp
+        updatedBy
+        note
+      }
+      imageDimensions {
+        width
+        height
+      }
+    }
+  }
+`;

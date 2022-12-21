@@ -233,6 +233,12 @@ export type GQLBucketResult = {
   value: Scalars['String'];
 };
 
+export type GQLCaption = {
+  __typename?: 'Caption';
+  caption: Scalars['String'];
+  language: Scalars['String'];
+};
+
 export type GQLCategory = {
   __typename?: 'Category';
   name: Scalars['String'];
@@ -242,7 +248,6 @@ export type GQLCategory = {
 export type GQLCompetenceGoal = {
   __typename?: 'CompetenceGoal';
   code?: Maybe<Scalars['String']>;
-  competenceAimSetId?: Maybe<Scalars['String']>;
   competenceGoalSet?: Maybe<GQLReference>;
   competenceGoalSetCode?: Maybe<Scalars['String']>;
   coreElements?: Maybe<Array<GQLElement>>;
@@ -344,6 +349,13 @@ export type GQLDescription = {
   __typename?: 'Description';
   description: Scalars['String'];
   language: Scalars['String'];
+};
+
+export type GQLEditorNote = {
+  __typename?: 'EditorNote';
+  note: Scalars['String'];
+  timestamp: Scalars['String'];
+  updatedBy: Scalars['String'];
 };
 
 export type GQLElement = {
@@ -493,6 +505,30 @@ export type GQLH5pLicense = {
   title: Scalars['String'];
 };
 
+export type GQLImageAltText = {
+  __typename?: 'ImageAltText';
+  alttext: Scalars['String'];
+  language: Scalars['String'];
+};
+
+export type GQLImageCopyRight = {
+  __typename?: 'ImageCopyRight';
+  agreementId?: Maybe<Scalars['Int']>;
+  creators: Array<GQLContributor>;
+  license: GQLLicense;
+  origin: Scalars['String'];
+  processors: Array<GQLContributor>;
+  rightsholders: Array<GQLContributor>;
+  validFrom?: Maybe<Scalars['String']>;
+  validTo?: Maybe<Scalars['String']>;
+};
+
+export type GQLImageDimensions = {
+  __typename?: 'ImageDimensions';
+  height: Scalars['Int'];
+  width: Scalars['Int'];
+};
+
 export type GQLImageElement = {
   __typename?: 'ImageElement';
   alt?: Maybe<Scalars['String']>;
@@ -535,6 +571,26 @@ export type GQLImageMetaInformation = {
   supportedLanguages: Array<Scalars['String']>;
   tags: Array<Scalars['String']>;
   title: Scalars['String'];
+};
+
+export type GQLImageMetaInformationV3 = {
+  __typename?: 'ImageMetaInformationV3';
+  alttext: GQLImageAltText;
+  caption: GQLCaption;
+  contentType: Scalars['String'];
+  copyright: GQLImageCopyRight;
+  created: Scalars['String'];
+  createdBy: Scalars['String'];
+  editorNotes?: Maybe<Array<GQLEditorNote>>;
+  id: Scalars['String'];
+  imageDimensions: GQLImageDimensions;
+  imageUrl: Scalars['String'];
+  metaUrl: Scalars['String'];
+  modelRelease: Scalars['String'];
+  size: Scalars['Int'];
+  supportedLanguages?: Maybe<Array<Scalars['String']>>;
+  tags: GQLTags;
+  title: GQLTitle;
 };
 
 export type GQLLearningpath = {
@@ -707,6 +763,7 @@ export type GQLMutation = {
   sortResources: GQLSortResult;
   updateFolder: GQLFolder;
   updateFolderResource: GQLFolderResource;
+  updatePersonalData: GQLMyNdlaPersonalData;
 };
 
 export type GQLMutationAddFolderArgs = {
@@ -751,6 +808,17 @@ export type GQLMutationUpdateFolderArgs = {
 export type GQLMutationUpdateFolderResourceArgs = {
   id: Scalars['String'];
   tags?: InputMaybe<Array<Scalars['String']>>;
+};
+
+export type GQLMutationUpdatePersonalDataArgs = {
+  favoriteSubjects: Array<Scalars['String']>;
+};
+
+export type GQLMyNdlaPersonalData = {
+  __typename?: 'MyNdlaPersonalData';
+  favoriteSubjects: Array<Scalars['String']>;
+  id: Scalars['Int'];
+  role: Scalars['String'];
 };
 
 export type GQLName = {
@@ -854,8 +922,10 @@ export type GQLQuery = {
   frontpage?: Maybe<GQLFrontpage>;
   frontpageSearch?: Maybe<GQLFrontpageSearch>;
   groupSearch?: Maybe<Array<GQLGroupSearch>>;
+  image: GQLImageMetaInformationV3;
   learningpath?: Maybe<GQLLearningpath>;
   listingPage?: Maybe<GQLListingPage>;
+  personalData: GQLMyNdlaPersonalData;
   podcast?: Maybe<GQLAudioWithSeries>;
   podcastSearch?: Maybe<GQLAudioSearch>;
   podcastSeries?: Maybe<GQLPodcastSeriesWithEpisodes>;
@@ -891,7 +961,6 @@ export type GQLQueryCompetenceGoalArgs = {
 export type GQLQueryCompetenceGoalsArgs = {
   codes?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   language?: InputMaybe<Scalars['String']>;
-  nodeId?: InputMaybe<Scalars['String']>;
 };
 
 export type GQLQueryConceptArgs = {
@@ -955,6 +1024,10 @@ export type GQLQueryGroupSearchArgs = {
   query?: InputMaybe<Scalars['String']>;
   resourceTypes?: InputMaybe<Scalars['String']>;
   subjects?: InputMaybe<Scalars['String']>;
+};
+
+export type GQLQueryImageArgs = {
+  id: Scalars['String'];
 };
 
 export type GQLQueryLearningpathArgs = {
@@ -3517,6 +3590,69 @@ export type GQLAlertsQuery = {
     closable: boolean;
     number: number;
   }>;
+};
+
+export type GQLImageQueryVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+export type GQLImageQuery = {
+  __typename?: 'Query';
+  image: {
+    __typename?: 'ImageMetaInformationV3';
+    id: string;
+    metaUrl: string;
+    imageUrl: string;
+    size: number;
+    contentType: string;
+    supportedLanguages?: Array<string>;
+    created: string;
+    createdBy: string;
+    modelRelease: string;
+    title: { __typename?: 'Title'; language: string; title: string };
+    alttext: { __typename?: 'ImageAltText'; alttext: string; language: string };
+    copyright: {
+      __typename?: 'ImageCopyRight';
+      agreementId?: number;
+      validFrom?: string;
+      validTo?: string;
+      origin: string;
+      license: {
+        __typename?: 'License';
+        license: string;
+        description?: string;
+        url?: string;
+      };
+      rightsholders: Array<{
+        __typename?: 'Contributor';
+        type: string;
+        name: string;
+      }>;
+      processors: Array<{
+        __typename?: 'Contributor';
+        type: string;
+        name: string;
+      }>;
+      creators: Array<{
+        __typename?: 'Contributor';
+        type: string;
+        name: string;
+      }>;
+    };
+    tags: { __typename?: 'Tags'; tags: Array<string>; language: string };
+    caption: { __typename?: 'Caption'; caption: string; language: string };
+    editorNotes?: Array<{
+      __typename?: 'EditorNote';
+      timestamp: string;
+      updatedBy: string;
+      note: string;
+    }>;
+    imageDimensions: {
+      __typename?: 'ImageDimensions';
+      width: number;
+      height: number;
+    };
+  };
 };
 
 export type GQLStructuredArticleData_CopyrightFragment = {

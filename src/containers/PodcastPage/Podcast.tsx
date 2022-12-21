@@ -19,7 +19,6 @@ import {
   getLicenseCredits,
   podcastEpisodeApa7CopyString,
   figureApa7CopyString,
-  getGroupedContributorDescriptionList,
 } from '@ndla/licenses';
 import { initArticleScripts } from '@ndla/article-scripts';
 import { gql } from '@apollo/client';
@@ -29,34 +28,10 @@ import CopyTextButton from '../../components/license/CopyTextButton';
 import config from '../../config';
 import { GQLPodcast_AudioFragment } from '../../graphqlTypes';
 import { copyrightInfoFragment } from '../../queries';
-import { Author } from '../../interfaces';
-
-const getPrioritizedAuthors = (authors: {
-  creators: Author[];
-  rightsholders: Author[];
-  processors: Author[];
-}): Author[] => {
-  const { creators, rightsholders, processors } = authors;
-
-  if (creators.length || rightsholders.length) {
-    return [...creators, ...rightsholders];
-  }
-  return processors;
-};
-
-const getGroupedAuthors = (
-  authors: {
-    creators: Author[];
-    rightsholders: Author[];
-    processors: Author[];
-  },
-  language: string,
-) => {
-  return getGroupedContributorDescriptionList(authors, language).map(item => ({
-    name: item.description,
-    type: item.label,
-  }));
-};
+import {
+  getPrioritizedAuthors,
+  getGroupedAuthors,
+} from '../../util/copyrightHelpers';
 
 interface Props {
   podcast: GQLPodcast_AudioFragment;

@@ -193,6 +193,11 @@ type BucketResult {
   value: String!
 }
 
+type Caption {
+  caption: String!
+  language: String!
+}
+
 type Category {
   name: String!
   subjects: [Subject!]!
@@ -200,7 +205,6 @@ type Category {
 
 type CompetenceGoal {
   code: String
-  competenceAimSetId: String
   competenceGoalSet: Reference
   competenceGoalSetCode: String
   coreElements: [Element!]
@@ -292,6 +296,12 @@ type CrossSubjectElement {
 type Description {
   description: String!
   language: String!
+}
+
+type EditorNote {
+  note: String!
+  timestamp: String!
+  updatedBy: String!
 }
 
 type Element {
@@ -425,6 +435,27 @@ type H5pLicense {
   title: String!
 }
 
+type ImageAltText {
+  alttext: String!
+  language: String!
+}
+
+type ImageCopyRight {
+  agreementId: Int
+  creators: [Contributor!]!
+  license: License!
+  origin: String!
+  processors: [Contributor!]!
+  rightsholders: [Contributor!]!
+  validFrom: String
+  validTo: String
+}
+
+type ImageDimensions {
+  height: Int!
+  width: Int!
+}
+
 type ImageElement {
   alt: String
   altText: String!
@@ -464,6 +495,25 @@ type ImageMetaInformation {
   supportedLanguages: [String!]!
   tags: [String!]!
   title: String!
+}
+
+type ImageMetaInformationV3 {
+  alttext: ImageAltText!
+  caption: Caption!
+  contentType: String!
+  copyright: ImageCopyRight!
+  created: String!
+  createdBy: String!
+  editorNotes: [EditorNote!]
+  id: String!
+  imageDimensions: ImageDimensions!
+  imageUrl: String!
+  metaUrl: String!
+  modelRelease: String!
+  size: Int!
+  supportedLanguages: [String!]
+  tags: Tags!
+  title: Title!
 }
 
 type Learningpath {
@@ -623,6 +673,13 @@ type Mutation {
   sortResources(parentId: String!, sortedIds: [String!]!): SortResult!
   updateFolder(id: String!, name: String, status: String): Folder!
   updateFolderResource(id: String!, tags: [String!]): FolderResource!
+  updatePersonalData(favoriteSubjects: [String!]!): MyNdlaPersonalData!
+}
+
+type MyNdlaPersonalData {
+  favoriteSubjects: [String!]!
+  id: Int!
+  role: String!
 }
 
 type Name {
@@ -709,11 +766,7 @@ type Query {
     subjectId: String
   ): Article
   competenceGoal(code: String!, language: String): CompetenceGoal
-  competenceGoals(
-    codes: [String]
-    language: String
-    nodeId: String
-  ): [CompetenceGoal!]
+  competenceGoals(codes: [String], language: String): [CompetenceGoal!]
   concept(id: Int!): Concept
   conceptSearch(
     exactMatch: Boolean
@@ -756,8 +809,10 @@ type Query {
     resourceTypes: String
     subjects: String
   ): [GroupSearch!]
+  image(id: String!): ImageMetaInformationV3!
   learningpath(pathId: String!): Learningpath
   listingPage(subjects: String): ListingPage
+  personalData: MyNdlaPersonalData!
   podcast(id: Int!): AudioWithSeries
   podcastSearch(fallback: Boolean, page: Int!, pageSize: Int!): AudioSearch
   podcastSeries(id: Int!): PodcastSeriesWithEpisodes
