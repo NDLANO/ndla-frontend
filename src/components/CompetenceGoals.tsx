@@ -208,6 +208,7 @@ const CompetenceGoals = ({
     competenceGoalsQuery,
     {
       variables: { codes, language },
+      skip: typeof window === 'undefined',
     },
   );
 
