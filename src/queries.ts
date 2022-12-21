@@ -643,3 +643,38 @@ export const alertsQuery = gql`
     }
   }
 `;
+
+export const podcastQuery = gql`
+  ${copyrightInfoFragment}
+  query podcast($id: Int!) {
+    podcast(id: $id) {
+      id
+      title {
+        title
+      }
+      audioFile {
+        url
+      }
+      copyright {
+        ...CopyrightInfo
+      }
+      manuscript {
+        manuscript
+      }
+      created
+      audioType
+      podcastMeta {
+        introduction
+        image {
+          copyright {
+            ...CopyrightInfo
+          }
+          id
+          imageUrl
+          title
+          altText
+        }
+      }
+    }
+  }
+`;

@@ -242,7 +242,6 @@ export type GQLCategory = {
 export type GQLCompetenceGoal = {
   __typename?: 'CompetenceGoal';
   code?: Maybe<Scalars['String']>;
-  competenceAimSetId?: Maybe<Scalars['String']>;
   competenceGoalSet?: Maybe<GQLReference>;
   competenceGoalSetCode?: Maybe<Scalars['String']>;
   coreElements?: Maybe<Array<GQLElement>>;
@@ -707,6 +706,7 @@ export type GQLMutation = {
   sortResources: GQLSortResult;
   updateFolder: GQLFolder;
   updateFolderResource: GQLFolderResource;
+  updatePersonalData: GQLMyNdlaPersonalData;
 };
 
 export type GQLMutationAddFolderArgs = {
@@ -751,6 +751,17 @@ export type GQLMutationUpdateFolderArgs = {
 export type GQLMutationUpdateFolderResourceArgs = {
   id: Scalars['String'];
   tags?: InputMaybe<Array<Scalars['String']>>;
+};
+
+export type GQLMutationUpdatePersonalDataArgs = {
+  favoriteSubjects: Array<Scalars['String']>;
+};
+
+export type GQLMyNdlaPersonalData = {
+  __typename?: 'MyNdlaPersonalData';
+  favoriteSubjects: Array<Scalars['String']>;
+  id: Scalars['Int'];
+  role: Scalars['String'];
 };
 
 export type GQLName = {
@@ -856,6 +867,7 @@ export type GQLQuery = {
   groupSearch?: Maybe<Array<GQLGroupSearch>>;
   learningpath?: Maybe<GQLLearningpath>;
   listingPage?: Maybe<GQLListingPage>;
+  personalData: GQLMyNdlaPersonalData;
   podcast?: Maybe<GQLAudioWithSeries>;
   podcastSearch?: Maybe<GQLAudioSearch>;
   podcastSeries?: Maybe<GQLPodcastSeriesWithEpisodes>;
@@ -891,7 +903,6 @@ export type GQLQueryCompetenceGoalArgs = {
 export type GQLQueryCompetenceGoalsArgs = {
   codes?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   language?: InputMaybe<Scalars['String']>;
-  nodeId?: InputMaybe<Scalars['String']>;
 };
 
 export type GQLQueryConceptArgs = {
@@ -3517,6 +3528,36 @@ export type GQLAlertsQuery = {
     closable: boolean;
     number: number;
   }>;
+};
+
+export type GQLPodcastQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+export type GQLPodcastQuery = {
+  __typename?: 'Query';
+  podcast?: {
+    __typename?: 'AudioWithSeries';
+    id: number;
+    created: string;
+    audioType: string;
+    title: { __typename?: 'Title'; title: string };
+    audioFile: { __typename?: 'AudioFile'; url: string };
+    copyright: { __typename?: 'Copyright' } & GQLCopyrightInfoFragment;
+    manuscript?: { __typename?: 'Manuscript'; manuscript: string };
+    podcastMeta?: {
+      __typename?: 'PodcastMeta';
+      introduction: string;
+      image?: {
+        __typename?: 'ImageMetaInformation';
+        id: string;
+        imageUrl: string;
+        title: string;
+        altText: string;
+        copyright: { __typename?: 'Copyright' } & GQLCopyrightInfoFragment;
+      };
+    };
+  };
 };
 
 export type GQLStructuredArticleData_CopyrightFragment = {

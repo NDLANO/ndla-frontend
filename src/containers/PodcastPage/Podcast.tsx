@@ -60,10 +60,10 @@ const getGroupedAuthors = (
 
 interface Props {
   podcast: GQLPodcast_AudioFragment;
-  seriesId: string;
+  seriesId?: string;
 }
 
-const Podcast = ({ podcast, seriesId }: Props) => {
+const Podcast = ({ podcast, seriesId = '' }: Props) => {
   const {
     i18n: { language },
     t,

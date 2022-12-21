@@ -200,7 +200,6 @@ type Category {
 
 type CompetenceGoal {
   code: String
-  competenceAimSetId: String
   competenceGoalSet: Reference
   competenceGoalSetCode: String
   coreElements: [Element!]
@@ -623,6 +622,13 @@ type Mutation {
   sortResources(parentId: String!, sortedIds: [String!]!): SortResult!
   updateFolder(id: String!, name: String, status: String): Folder!
   updateFolderResource(id: String!, tags: [String!]): FolderResource!
+  updatePersonalData(favoriteSubjects: [String!]!): MyNdlaPersonalData!
+}
+
+type MyNdlaPersonalData {
+  favoriteSubjects: [String!]!
+  id: Int!
+  role: String!
 }
 
 type Name {
@@ -709,11 +715,7 @@ type Query {
     subjectId: String
   ): Article
   competenceGoal(code: String!, language: String): CompetenceGoal
-  competenceGoals(
-    codes: [String]
-    language: String
-    nodeId: String
-  ): [CompetenceGoal!]
+  competenceGoals(codes: [String], language: String): [CompetenceGoal!]
   concept(id: Int!): Concept
   conceptSearch(
     exactMatch: Boolean
@@ -758,6 +760,7 @@ type Query {
   ): [GroupSearch!]
   learningpath(pathId: String!): Learningpath
   listingPage(subjects: String): ListingPage
+  personalData: MyNdlaPersonalData!
   podcast(id: Int!): AudioWithSeries
   podcastSearch(fallback: Boolean, page: Int!, pageSize: Int!): AudioSearch
   podcastSeries(id: Int!): PodcastSeriesWithEpisodes
