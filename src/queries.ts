@@ -643,3 +643,44 @@ export const alertsQuery = gql`
     }
   }
 `;
+
+export const conceptQuery = gql`
+  query concept($id: Int!) {
+    concept(id: $id) {
+      id
+      title
+      subjectNames
+      content
+      source
+      articles {
+        title
+        id
+      }
+      visualElement {
+        ...VisualElementInfo
+      }
+      copyright {
+        license {
+          license
+        }
+        creators {
+          ...ContributorInfo
+        }
+        processors {
+          ...ContributorInfo
+        }
+        rightsholders {
+          ...ContributorInfo
+        }
+        origin
+      }
+
+      image: metaImage {
+        url
+        alt
+      }
+    }
+  }
+  ${contributorInfoFragment}
+  ${visualElementFragment}
+`;
