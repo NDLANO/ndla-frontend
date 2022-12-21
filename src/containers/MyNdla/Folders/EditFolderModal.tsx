@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import { useApolloClient } from '@apollo/client';
 import styled from '@emotion/styled';
-import Button, { LoadingButton } from '@ndla/button';
+import { LoadingButton, ButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
 import { InputV2 } from '@ndla/forms';
 import { GQLFolder } from '../../../graphqlTypes';
@@ -150,9 +150,9 @@ const EditFolderForm = ({
         required
       />
       <ButtonRow>
-        <Button outline onClick={onClose}>
+        <ButtonV2 variant="outline" onClick={onClose}>
           {t('cancel')}
-        </Button>
+        </ButtonV2>
         <LoadingButton
           loading={loading}
           type="submit"
