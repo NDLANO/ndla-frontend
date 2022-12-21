@@ -7,7 +7,6 @@
  */
 
 import styled from '@emotion/styled';
-import { Option } from '@ndla/select';
 import { fonts } from '@ndla/core';
 import { HelmetWithTracker } from '@ndla/tracker';
 import {
@@ -42,7 +41,7 @@ const {
 const createFilterTranslation = (t: TFunction, key: string) =>
   `${t(`subjectCategories.${key}`)} ${t('contentTypes.subject').toLowerCase()}`;
 
-const createFilters = (t: TFunction): Option[] => [
+const createFilters = (t: TFunction) => [
   {
     label: `${t('contentTypes.all')} ${t(
       'contentTypes.subject',
