@@ -68,18 +68,20 @@ const IframeArticlePage = ({
       />
       <PostResizeMessage />
       <FixDialogPosition />
-      <Article
-        article={article}
-        isPlainArticle
-        isOembed
-        modifier="clean iframe"
-        {...getArticleProps(resource)}>
-        <CreatedBy
-          name={t('createdBy.content')}
-          description={t('createdBy.text')}
-          url={contentUrl}
-        />
-      </Article>
+      <main>
+        <Article
+          article={article}
+          isPlainArticle
+          isOembed
+          modifier="clean iframe"
+          {...getArticleProps(resource)}>
+          <CreatedBy
+            name={t('createdBy.content')}
+            description={t('createdBy.text')}
+            url={contentUrl}
+          />
+        </Article>
+      </main>
     </OneColumn>
   );
 };

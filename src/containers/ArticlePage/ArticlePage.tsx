@@ -128,7 +128,7 @@ const ArticlePage = ({
   ]);
 
   return (
-    <div>
+    <main>
       <ArticleHero
         subject={subject}
         resourceType={resourceType}
@@ -195,7 +195,7 @@ const ArticlePage = ({
           </LayoutItem>
         )}
       </OneColumn>
-    </div>
+    </main>
   );
 };
 

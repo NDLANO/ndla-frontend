@@ -229,7 +229,7 @@ const SubjectContainer = ({ t, subjectId, topicIds, subject }: Props) => {
   );
 
   return (
-    <>
+    <main>
       <Helmet>
         <title>{pageTitle}</title>
         {subject?.metadata.customFields?.[
@@ -288,7 +288,7 @@ const SubjectContainer = ({ t, subjectId, topicIds, subject }: Props) => {
           isVisible={showBreadCrumb}
         />
       </OneColumn>
-    </>
+    </main>
   );
 };
 
