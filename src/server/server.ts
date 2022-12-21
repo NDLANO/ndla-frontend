@@ -47,7 +47,7 @@ import {
 } from '../statusCodes';
 import { isAccessTokenValid } from '../util/authHelpers';
 import { constructNewPath } from '../util/urlHelper';
-import { getDefaultLocale } from '../config';
+import { getDefaultLocale, getEnvironmentVariabel } from '../config';
 
 // @ts-ignore
 global.fetch = fetch;
@@ -385,6 +385,30 @@ app.get(
     handleRequest(req, res, defaultRoute);
   },
 );
+
+const b64EncodeUnicode = (str: string) =>
+  btoa(
+    encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (_, p1) =>
+      String.fromCharCode(Number(`0x${p1}`)),
+    ),
+  );
+
+app.get('/get_brightcove_token', async (_, res) => {
+  const bightCoveUrl = 'https://oauth.brightcove.com/v3/access_token';
+  const clientIdSecret = `${getEnvironmentVariabel(
+    'BRIGHTCOVE_API_CLIENT_ID', //TODO lagre frontend
+  )}:${getEnvironmentVariabel('BRIGHTCOVE_API_CLIENT_SECRET')}`; //TODO Lagre frontend
+  return await fetch(bightCoveUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+      Authorization: `Basic ${b64EncodeUnicode(clientIdSecret)}`,
+    },
+    body: 'grant_type=client_credentials',
+  })
+    .then(token => res.send(token.json()))
+    .catch(err => res.status(INTERNAL_SERVER_ERROR).send(err.message));
+});
 
 app.get('/*', (_req: Request, res: Response, _next: NextFunction) => {
   res.redirect(NOT_FOUND_PAGE_PATH);

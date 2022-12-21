@@ -128,3 +128,33 @@ export type LtiItem = {
   title?: string;
   url: string | { href: string };
 };
+
+export interface BrightcoveAccessToken {
+  access_token: string;
+  token_type: string;
+  expires_in: number;
+}
+
+export interface BrightcoveVideoSource {
+  container?: string;
+  size?: number;
+  width?: number;
+  height?: number;
+  src: string;
+}
+
+export type AccessToken = {
+  access_token: string;
+  expires_in: number;
+};
+
+export interface BrightcoveCopyright {
+  license: {
+    license: string;
+    description?: string;
+    url?: string;
+  };
+  creators: Author[];
+  processors: Author[];
+  rightsholders: Author[];
+}

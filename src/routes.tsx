@@ -29,6 +29,7 @@ export const routes = [
   'login/failure',
   'podkast',
   'podkast/:id',
+  'resources/videos/:videoId',
   'article/:articleId',
   'learningpaths/:learningpathId',
   'learningpaths/:learningpathId/:stepId',
