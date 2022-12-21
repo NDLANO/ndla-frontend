@@ -16,7 +16,7 @@ import { HeartOutline } from '@ndla/icons/action';
 import { FolderOutlined } from '@ndla/icons/contentType';
 import { Feide, HashTag } from '@ndla/icons/common';
 import { ListResource, UserInfo, Image } from '@ndla/ui';
-import Button, { DeleteButton } from '@ndla/button';
+import { DeleteButton, ButtonV2 } from '@ndla/button';
 import SafeLink, { SafeLinkButton } from '@ndla/safelink';
 import { HelmetWithTracker } from '@ndla/tracker';
 import Modal, { ModalBody, ModalCloseButton, ModalHeader } from '@ndla/modal';
@@ -213,11 +213,11 @@ const MyNdlaPage = () => {
         </LinkText>
         <LinkText>
           {`${t('myNdla.myPage.questions.question')} `}
-          <Button
-            link
+          <ButtonV2
+            variant="link"
             onClick={() => document.getElementById('zendesk')?.click()}>
             {t('myNdla.myPage.questions.ask')}
-          </Button>
+          </ButtonV2>
         </LinkText>
       </InfoContainer>
       <ButtonContainer>
@@ -248,9 +248,9 @@ const MyNdlaPage = () => {
               <ModalBody>
                 <p>{t('myNdla.myPage.confirmDeleteAccount')}</p>
                 <ButtonRow>
-                  <Button outline onClick={onClose}>
+                  <ButtonV2 variant="outline" onClick={onClose}>
                     {t('cancel')}
-                  </Button>
+                  </ButtonV2>
                   <DeleteButton onClick={onDeleteAccount}>
                     {t('myNdla.myPage.confirmDeleteAccountButton')}
                   </DeleteButton>
