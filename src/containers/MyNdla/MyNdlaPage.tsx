@@ -233,7 +233,7 @@ const MyNdlaPage = () => {
         <Modal
           backgroundColor="white"
           activateButton={
-            <ButtonV2 colorTheme="danger">
+            <ButtonV2 colorTheme="danger" variant="outline">
               {t('myNdla.myPage.deleteAccount')}
             </ButtonV2>
           }
@@ -253,7 +253,10 @@ const MyNdlaPage = () => {
                   <ButtonV2 variant="outline" onClick={onClose}>
                     {t('cancel')}
                   </ButtonV2>
-                  <ButtonV2 colorTheme="danger" onClick={onDeleteAccount}>
+                  <ButtonV2
+                    colorTheme="danger"
+                    variant="outline"
+                    onClick={onDeleteAccount}>
                     {t('myNdla.myPage.confirmDeleteAccountButton')}
                   </ButtonV2>
                 </ButtonRow>

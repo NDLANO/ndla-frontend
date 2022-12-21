@@ -60,7 +60,10 @@ const DeleteModal = ({
               <ButtonV2 variant="outline" onClick={onCloseModal}>
                 {t('cancel')}
               </ButtonV2>
-              <ButtonV2 colorTheme="danger" onClick={onDelete}>
+              <ButtonV2
+                colorTheme="danger"
+                variant="outline"
+                onClick={onDelete}>
                 {removeText}
               </ButtonV2>
             </StyledButtonRow>
