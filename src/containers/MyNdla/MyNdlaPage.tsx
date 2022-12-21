@@ -16,7 +16,7 @@ import { HeartOutline } from '@ndla/icons/action';
 import { FolderOutlined } from '@ndla/icons/contentType';
 import { Feide, HashTag } from '@ndla/icons/common';
 import { ListResource, UserInfo, Image } from '@ndla/ui';
-import { DeleteButton, ButtonV2 } from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import SafeLink, { SafeLinkButton } from '@ndla/safelink';
 import { HelmetWithTracker } from '@ndla/tracker';
 import Modal, { ModalBody, ModalCloseButton, ModalHeader } from '@ndla/modal';
@@ -233,7 +233,9 @@ const MyNdlaPage = () => {
         <Modal
           backgroundColor="white"
           activateButton={
-            <DeleteButton>{t('myNdla.myPage.deleteAccount')}</DeleteButton>
+            <ButtonV2 colorTheme="danger" variant="outline">
+              {t('myNdla.myPage.deleteAccount')}
+            </ButtonV2>
           }
           label={t('myNdla.myPage.deleteAccount')}>
           {onClose => (
@@ -251,9 +253,12 @@ const MyNdlaPage = () => {
                   <ButtonV2 variant="outline" onClick={onClose}>
                     {t('cancel')}
                   </ButtonV2>
-                  <DeleteButton onClick={onDeleteAccount}>
+                  <ButtonV2
+                    colorTheme="danger"
+                    variant="outline"
+                    onClick={onDeleteAccount}>
                     {t('myNdla.myPage.confirmDeleteAccountButton')}
-                  </DeleteButton>
+                  </ButtonV2>
                 </ButtonRow>
               </ModalBody>
             </>
