@@ -63,6 +63,8 @@ export type ResourceType = 'image' | 'other' | 'video';
 
 export type CompetenceGoalsType = 'LK06' | 'LK20';
 
+export type HeadingType = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+
 interface ProgrammeMeta {
   description: Partial<Record<LocaleType, string>>;
 }

@@ -27,11 +27,7 @@ const multidisciplinaryTopicWrapperQuery = gql`
       id
       ...MultidisciplinaryTopic_Topic
     }
-    resourceTypes {
-      ...MultidisciplinaryTopic_ResourceTypeDefinition
-    }
   }
-  ${multidisciplinaryTopicFragments.resourceType}
   ${multidisciplinaryTopicFragments.topic}
 `;
 
@@ -61,7 +57,6 @@ const MultidisciplinaryTopicWrapper = ({
   return (
     <MultidisciplinaryTopic
       topic={data.topic}
-      resourceTypes={data.resourceTypes}
       topicId={topicId}
       subjectId={subjectId}
       subTopicId={subTopicId}

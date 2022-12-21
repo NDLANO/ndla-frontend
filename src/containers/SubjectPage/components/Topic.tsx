@@ -121,7 +121,11 @@ const Topic = ({
           }
         : undefined,
       resources: topic.subtopics ? (
-        <Resources topic={topic} resourceTypes={resourceTypes} />
+        <Resources
+          topic={topic}
+          resourceTypes={resourceTypes}
+          headingType="h3"
+        />
       ) : (
         undefined
       ),
