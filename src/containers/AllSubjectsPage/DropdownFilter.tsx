@@ -15,6 +15,7 @@ import {
   ControlPropsType,
   OptionPropsType,
   IndicatorsContainerPropsType,
+  MenuPropsType,
 } from '@ndla/select';
 import { useTranslation } from 'react-i18next';
 
@@ -78,6 +79,17 @@ const StyledIndicatorsContainer = styled.div`
   }
 `;
 
+const StyledMenu = styled.div`
+  background: ${colors.white};
+  border: 1px solid ${colors.brand.light};
+  border-radius: ${spacing.xsmall};
+  overflow: hidden;
+  margin-top: ${spacing.xxsmall};
+  & > div {
+    padding: 0;
+  }
+`;
+
 const CustomControl = ({
   children,
   innerRef,
@@ -89,6 +101,18 @@ const CustomControl = ({
     <StyledControl menuIsOpen={menuIsOpen} ref={innerRef} {...innerProps}>
       {`${t('subjectsPage.shows')}: `} {children}
     </StyledControl>
+  );
+};
+
+const CustomMenu = ({
+  children,
+  innerRef,
+  innerProps,
+}: MenuPropsType<false>) => {
+  return (
+    <StyledMenu ref={innerRef} {...innerProps}>
+      {children}
+    </StyledMenu>
   );
 };
 
@@ -136,6 +160,7 @@ const DropdownFilter = ({ options, value, onChange }: Props) => {
         onChange={option => onChange(option?.value!)}
         ControlComponent={CustomControl}
         OptionComponent={CustomOption}
+        MenuComponent={CustomMenu}
         IndicatorsContainerComponent={CustomIndicatorsContainer}
       />
     </DropdownWrapper>
