@@ -25,11 +25,9 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../components/AuthenticationContext';
 import LoginModal from '../../components/MyNdla/LoginModal';
 import TabFilter from '../../components/TabFilter';
-import IsMobileContext from '../../IsMobileContext';
 
 import { useSubjects } from '../MyNdla/subjectMutations';
 import { usePersonalData } from '../MyNdla/userMutations';
-import DropdownFilter from './DropdownFilter';
 import FavoriteSubjects from './FavoriteSubjects';
 import LetterNavigation from './LetterNavigation';
 import SubjectCategory from './SubjectCategory';
@@ -80,7 +78,6 @@ const AllSubjectsPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { authenticated } = useContext(AuthContext);
-  const isMobile = useContext(IsMobileContext);
   const [showLoginModal, setShowLoginModal] = useState(false);
 
   const { error, loading, subjects } = useSubjects();
@@ -149,22 +146,11 @@ const AllSubjectsPage = () => {
             subjects={sortedSubjects}
           />
         )}
-        {isMobile ? (
-          <DropdownFilter
-            value={
-              filterOptions.find(option => option.value === filter) ||
-              filterOptions[0]!
-            }
-            onChange={setFilter}
-            options={filterOptions}
-          />
-        ) : (
-          <TabFilter
-            value={filter}
-            onChange={setFilter}
-            options={filterOptions}
-          />
-        )}
+        <TabFilter
+          value={filter}
+          onChange={setFilter}
+          options={filterOptions}
+        />
         <LetterNavigation activeLetters={letters} />
         {groupedSubjects.map(({ label, subjects }) => (
           <SubjectCategory
