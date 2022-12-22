@@ -71,14 +71,13 @@ const DraggableResource = ({
       ref={setNodeRef}
       style={style}
       isDragging={isDragging}>
-      {/* {viewType !== 'block' && (
-        <DragHandle
-          type="resource"
-          name={resourceMeta?.title ?? ''}
-          sortableId={resource.id}
-          {...attributes}
-        />
-      )} */}
+      <DragHandle
+        type="resource"
+        disabled
+        name={resourceMeta?.title ?? ''}
+        sortableId={resource.id}
+        {...attributes}
+      />
       <DragWrapper>
         <Resource
           id={resource.id}

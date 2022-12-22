@@ -81,14 +81,13 @@ const DraggableFolder = ({
       ref={setNodeRef}
       style={style}
       isDragging={isDragging}>
-      {/* {type !== 'block' && (
-        <DragHandle
-          sortableId={folder.id}
-          name={folder.name}
-          type="folder"
-          {...attributes}
-        />
-      )} */}
+      <DragHandle
+        sortableId={folder.id}
+        disabled
+        name={folder.name}
+        type="folder"
+        {...attributes}
+      />
       <DragWrapper>
         <Folder
           id={folder.id}

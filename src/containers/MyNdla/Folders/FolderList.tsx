@@ -157,6 +157,7 @@ const FolderList = ({
             accessibility={{ announcements }}
             modifiers={[restrictToVerticalAxis, restrictToParentElement]}>
             <SortableContext
+              disabled
               items={sortedFolders}
               strategy={verticalListSortingStrategy}>
               {folders.map((folder, index) => (

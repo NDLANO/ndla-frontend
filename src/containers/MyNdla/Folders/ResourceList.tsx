@@ -181,6 +181,7 @@ const ResourceList = ({ selectedFolder, viewType, folderId }: Props) => {
           accessibility={{ announcements }}
           modifiers={[restrictToVerticalAxis, restrictToParentElement]}>
           <SortableContext
+            disabled
             items={sortedResources}
             strategy={verticalListSortingStrategy}>
             {resources.map((resource, index) => {
