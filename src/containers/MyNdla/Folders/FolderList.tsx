@@ -148,7 +148,7 @@ const FolderList = ({
           onCreate={onFolderAdd}
         />
       )}
-      {folders && (
+      {!!folders.length && (
         <BlockWrapper type={type}>
           <DndContext
             sensors={sensors}
