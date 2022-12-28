@@ -2117,10 +2117,6 @@ export type GQLMultidisciplinaryTopic_TopicFragment = {
 } & GQLArticleContents_TopicFragment &
   GQLResources_TopicFragment;
 
-export type GQLMultidisciplinaryTopic_ResourceTypeDefinitionFragment = {
-  __typename?: 'ResourceTypeDefinition';
-} & GQLResources_ResourceTypeDefinitionFragment;
-
 export type GQLMultidisciplinaryTopic_SubjectFragment = {
   __typename?: 'Subject';
   id: string;
@@ -2139,11 +2135,6 @@ export type GQLMultidisciplinaryTopicWrapperQuery = {
     __typename?: 'Topic';
     id: string;
   } & GQLMultidisciplinaryTopic_TopicFragment;
-  resourceTypes?: Array<
-    {
-      __typename?: 'ResourceTypeDefinition';
-    } & GQLMultidisciplinaryTopic_ResourceTypeDefinitionFragment
-  >;
 };
 
 export type GQLMultidisciplinaryTopicWrapper_SubjectFragment = {
