@@ -105,5 +105,4 @@ Allow: /sites/default/files/images/*
 Allow: /sites/default/files/videos/converted/*
 Allow: /sites/default/files/imagecache/*
 Allow: /sites/default/files/headers/*
-Allow: /*/search/
-Allow: /*/search/apachesolr_search/
+Allow: /*/search/apachesolr_search/*
