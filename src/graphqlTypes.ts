@@ -1472,7 +1472,6 @@ export type GQLArticle_ArticleFragment = {
     title: string;
     url: string;
   }>;
-  competenceGoals?: Array<{ __typename?: 'CompetenceGoal'; type: string }>;
 } & GQLLicenseBox_ArticleFragment;
 
 export type GQLArticleContents_TopicFragment = {

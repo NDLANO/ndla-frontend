@@ -49,7 +49,7 @@ function renderCompetenceGoals(
     }) => ReactNode)
   | null {
   // Don't show competence goals for topics or articles without grepCodes
-  if (!isTopicArticle && article.competenceGoals?.length) {
+  if (!isTopicArticle && article.grepCodes?.length) {
     return ({
       Dialog,
       dialogProps,
@@ -260,14 +260,6 @@ const Article = ({
     <ContentTypeBadge type={contentType} background size="large" />
   ) : null;
 
-  const competenceGoalTypes = Array.from(
-    new Set(
-      article.competenceGoals
-        ?.filter(c => c.type !== 'LK06')
-        ?.map(goal => goal.type) ?? [],
-    ),
-  );
-
   const art = {
     ...article,
     introduction: article.introduction!,
@@ -300,7 +292,6 @@ const Article = ({
           subjectId,
           isOembed,
         )}
-        competenceGoalTypes={competenceGoalTypes}
         notions={
           isPlainArticle
             ? undefined
@@ -358,9 +349,6 @@ Article.fragments = {
       relatedContent {
         title
         url
-      }
-      competenceGoals {
-        type
       }
       revisionDate
       ...LicenseBox_Article
