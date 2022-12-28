@@ -49,7 +49,10 @@ function renderCompetenceGoals(
     }) => ReactNode)
   | null {
   // Don't show competence goals for topics or articles without grepCodes
-  if (!isTopicArticle && article.grepCodes?.length) {
+  if (
+    !isTopicArticle &&
+    article.grepCodes?.filter(gc => gc.toUpperCase().startsWith('K')).length
+  ) {
     return ({
       Dialog,
       dialogProps,
