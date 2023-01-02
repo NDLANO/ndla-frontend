@@ -56,7 +56,7 @@ interface StyledContentProps {
   isMobile: boolean;
 }
 
-const StyledContent = styled.div<StyledContentProps>`
+const StyledContent = styled.main<StyledContentProps>`
   max-width: 1024px;
   flex: 1;
   margin: 0 ${({ isMobile }) => (isMobile ? spacing.nsmall : spacing.large)};
