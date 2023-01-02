@@ -173,7 +173,10 @@ const Podcast = ({ podcast, seriesId }: Props) => {
             hasCopiedTitle={t('license.hasCopiedTitle')}
           />
           {podcast.copyright.license?.license !== 'COPYRIGHTED' && (
-            <SafeLinkButton to={podcast.audioFile.url} download outline>
+            <SafeLinkButton
+              to={podcast.audioFile.url}
+              download
+              variant="outline">
               {t('license.download')}
             </SafeLinkButton>
           )}
@@ -216,7 +219,10 @@ const Podcast = ({ podcast, seriesId }: Props) => {
                     copyTitle={t('license.copyTitle')}
                     hasCopiedTitle={t('license.hasCopiedTitle')}
                   />
-                  <SafeLinkButton to={image.imageUrl} download outline>
+                  <SafeLinkButton
+                    to={image.imageUrl}
+                    download
+                    variant="outline">
                     {t('license.download')}
                   </SafeLinkButton>
                 </>

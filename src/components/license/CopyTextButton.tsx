@@ -8,7 +8,7 @@
 
 import { Component } from 'react';
 import { copyTextToClipboard } from '@ndla/util';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 
 interface Props {
   stringToCopy?: string;
@@ -58,13 +58,13 @@ class CopyTextButton extends Component<Props, State> {
         ref={r => {
           this.buttonContainer = r;
         }}>
-        <Button
-          outline
+        <ButtonV2
+          variant="outline"
           className="c-licenseToggle__button"
           disabled={hasCopied}
           onClick={this.handleClick}>
           {hasCopied ? hasCopiedTitle : copyTitle}
-        </Button>
+        </ButtonV2>
       </span>
     );
   }

@@ -61,7 +61,7 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
             <MediaListItemMeta items={items} />
             {video.copyright.license?.license !== 'COPYRIGHTED' &&
               video.download && (
-                <SafeLinkButton to={video.download} download outline>
+                <SafeLinkButton to={video.download} download variant="outline">
                   {t('license.download')}
                 </SafeLinkButton>
               )}
