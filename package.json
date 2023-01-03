@@ -132,7 +132,7 @@
     "@ndla/pager": "^2.1.8",
     "@ndla/polyfill": "^1.0.4",
     "@ndla/safelink": "^3.1.8",
-    "@ndla/select": "^2.0.2",
+    "@ndla/select": "^2.0.4",
     "@ndla/tabs": "^2.1.1",
     "@ndla/tracker": "^2.0.5",
     "@ndla/types-learningpath-api": "^0.0.18",

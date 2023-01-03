@@ -41,13 +41,13 @@ const {
 } = constants.subjectCategories;
 
 const createFilterTranslation = (t: TFunction, key: string) =>
-  `${t(`subjectCategories.${key}`)} ${t('contentTypes.subject').toLowerCase()}`;
+  `${t(`subjectCategories.${key}`)} ${t('contentTypes.subject')}`.toUpperCase();
 
 const createFilters = (t: TFunction) => [
   {
     label: `${t('contentTypes.all')} ${t(
       'contentTypes.subject',
-    ).toLowerCase()}`,
+    )}`.toUpperCase(),
     value: 'all',
   },
   {
@@ -164,6 +164,7 @@ const AllSubjectsPage = () => {
               options={filterOptions}
               colorTheme="white"
               outline
+              prefix={`${t('subjectsPage.shows').toUpperCase()}: `}
             />
           </SelectWrapper>
         ) : (
