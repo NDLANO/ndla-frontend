@@ -83,6 +83,7 @@ const ToolboxTopicWrapper = ({
           topic={topic}
           resourceTypes={resourceTypes}
           headingType="h2"
+          subHeadingType="h3"
         />
       ) : (
         undefined

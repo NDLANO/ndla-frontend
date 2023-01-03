@@ -125,6 +125,7 @@ const Topic = ({
           topic={topic}
           resourceTypes={resourceTypes}
           headingType="h3"
+          subHeadingType="h4"
         />
       ) : (
         undefined
