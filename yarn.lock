@@ -2401,10 +2401,10 @@
     url-regex "^4.1.1"
     vercel "^27.2.0"
 
-"@ndla/select@^2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@ndla/select/-/select-2.0.1.tgz#882c5a7efed32b824d4b5384cfdfb994a00ea889"
-  integrity sha512-XQL1XsB6uPCw3o80q+XO7Llfu2+9/NKM5nB4IsPrl6HrOprxePg1KCNdLUTHvW0TNA7vW7nqoZZ+O/Rof5ot9g==
+"@ndla/select@^2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@ndla/select/-/select-2.0.2.tgz#b994065bdab0060dcb08d8f16670796006c1af6d"
+  integrity sha512-4X4XS3uNgvrYbl5NTtNJ7eo4FZwO2aSeQZE50yN1UNOYdwQDGzg5znbYYNTgQ5c0D6HQWyND4E4ldttkWpjqgA==
   dependencies:
     "@ndla/core" "^3.0.3"
     "@ndla/icons" "^2.1.1"

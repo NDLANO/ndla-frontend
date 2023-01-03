@@ -7,7 +7,8 @@
  */
 
 import styled from '@emotion/styled';
-import { fonts } from '@ndla/core';
+import { colors, fonts, spacing } from '@ndla/core';
+import { Select } from '@ndla/select';
 import { HelmetWithTracker } from '@ndla/tracker';
 import {
   ErrorMessage,
@@ -24,6 +25,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../components/AuthenticationContext';
 import LoginModal from '../../components/MyNdla/LoginModal';
 import TabFilter from '../../components/TabFilter';
+import IsMobileContext from '../../IsMobileContext';
 
 import { useSubjects } from '../MyNdla/subjectMutations';
 import { usePersonalData } from '../MyNdla/userMutations';
@@ -72,9 +74,18 @@ const StyledHeading = styled.h1`
   ${fonts.sizes('48px', '60px')};
 `;
 
+const SelectWrapper = styled.div`
+  padding: ${spacing.xsmall};
+  border-radius: 12px;
+  background: ${colors.brand.lightest};
+  border: 1px solid ${colors.brand.lighter};
+  margin: ${spacing.normal} 0 ${spacing.small};
+`;
+
 const AllSubjectsPage = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const isMobile = useContext(IsMobileContext);
   const location = useLocation();
   const { authenticated } = useContext(AuthContext);
   const [showLoginModal, setShowLoginModal] = useState(false);
@@ -145,11 +156,23 @@ const AllSubjectsPage = () => {
             subjects={sortedSubjects}
           />
         )}
-        <TabFilter
-          value={filter}
-          onChange={setFilter}
-          options={filterOptions}
-        />
+        {isMobile ? (
+          <SelectWrapper>
+            <Select<false>
+              value={filterOptions.find(opt => opt.value === filter)}
+              onChange={value => value && setFilter(value?.value)}
+              options={filterOptions}
+              colorTheme="white"
+              outline
+            />
+          </SelectWrapper>
+        ) : (
+          <TabFilter
+            value={filter}
+            onChange={setFilter}
+            options={filterOptions}
+          />
+        )}
         <LetterNavigation activeLetters={letters} />
         {groupedSubjects.map(({ label, subjects }) => (
           <SubjectCategory
