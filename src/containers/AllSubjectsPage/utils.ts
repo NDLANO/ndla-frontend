@@ -58,7 +58,9 @@ export const filterSubjects = (
   status: string,
 ) => {
   if (status === 'all') {
-    return subjects;
+    return subjects.filter(
+      subject => subject.metadata.customFields.subjectCategory,
+    );
   }
   return subjects.filter(
     subject => subject.metadata.customFields.subjectCategory === status,
