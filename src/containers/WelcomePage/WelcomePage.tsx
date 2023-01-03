@@ -19,7 +19,7 @@ import {
 } from '@ndla/ui';
 import { spacing, utils } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
-import { useLazyQuery } from '@apollo/client';
+import { gql, useLazyQuery } from '@apollo/client';
 
 import WelcomePageInfo from './WelcomePageInfo';
 import FrontpageSubjects from './FrontpageSubjects';
@@ -37,8 +37,7 @@ import BlogPosts from './BlogPosts';
 import WelcomePageSearch from './WelcomePageSearch';
 import { toSubject, toTopic } from '../../routeHelpers';
 import { LocaleType, TopicType } from '../../interfaces';
-import { subjectsQuery } from '../../queries';
-import { GQLSubjectsQuery } from '../../graphqlTypes';
+import { GQLWelcomePageQuery } from '../../graphqlTypes';
 import { multidisciplinaryTopics } from '../../data/subjects.ts';
 
 const getMultidisciplinaryTopics = (locale: LocaleType) => {
@@ -59,9 +58,24 @@ const BannerCardWrapper = styled.div`
   padding-bottom: ${spacing.large};
 `;
 
+const welcomePageSubjectsQuery = gql`
+  query welcomePage {
+    subjects(filterVisible: true) {
+      id
+      name
+      path
+      metadata {
+        customFields
+      }
+    }
+  }
+`;
+
 const WelcomePage = () => {
   const { t, i18n } = useTranslation();
-  const [fetchData, { data }] = useLazyQuery<GQLSubjectsQuery>(subjectsQuery);
+  const [fetchData, { data }] = useLazyQuery<GQLWelcomePageQuery>(
+    welcomePageSubjectsQuery,
+  );
 
   useEffect(() => {
     const getData = () => {

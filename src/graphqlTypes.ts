@@ -2850,6 +2850,19 @@ export type GQLToolboxTopicWrapper_TopicFragment = {
   }>;
 } & GQLResources_TopicFragment;
 
+export type GQLWelcomePageQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GQLWelcomePageQuery = {
+  __typename?: 'Query';
+  subjects?: Array<{
+    __typename?: 'Subject';
+    id: string;
+    name: string;
+    path: string;
+    metadata: { __typename?: 'TaxonomyMetadata'; customFields: any };
+  }>;
+};
+
 export type GQLIframeArticlePage_ArticleFragment = {
   __typename?: 'Article';
   created: string;
