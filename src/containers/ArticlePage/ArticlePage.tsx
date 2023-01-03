@@ -105,7 +105,13 @@ const ArticlePage = ({
         <ArticleErrorMessage
           //@ts-ignore
           status={error?.status}>
-          {topic && <Resources topic={topic} resourceTypes={resourceTypes} />}
+          {topic && (
+            <Resources
+              topic={topic}
+              resourceTypes={resourceTypes}
+              headingType="h2"
+            />
+          )}
         </ArticleErrorMessage>
       </div>
     );
@@ -128,7 +134,7 @@ const ArticlePage = ({
   ]);
 
   return (
-    <div>
+    <main>
       <ArticleHero
         subject={subject}
         resourceType={resourceType}
@@ -191,11 +197,15 @@ const ArticlePage = ({
         />
         {topic && (
           <LayoutItem layout="extend">
-            <Resources topic={topic} resourceTypes={resourceTypes} />
+            <Resources
+              topic={topic}
+              resourceTypes={resourceTypes}
+              headingType="h2"
+            />
           </LayoutItem>
         )}
       </OneColumn>
-    </div>
+    </main>
   );
 };
 

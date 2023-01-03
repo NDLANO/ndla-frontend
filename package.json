@@ -48,6 +48,7 @@
     "@graphql-codegen/typescript-operations": "^2.5.3",
     "@graphql-eslint/eslint-plugin": "^3.11.2",
     "@ndla/scripts": "^1.0.2",
+    "@ndla/types-learningpath-api": "^0.0.18",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.10",
     "@testing-library/react": "12.1.4",
     "@types/bunyan": "^1.8.8",

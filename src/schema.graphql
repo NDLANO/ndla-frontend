@@ -200,7 +200,6 @@ type Category {
 
 type CompetenceGoal {
   code: String
-  competenceAimSetId: String
   competenceGoalSet: Reference
   competenceGoalSetCode: String
   coreElements: [Element!]
@@ -716,11 +715,7 @@ type Query {
     subjectId: String
   ): Article
   competenceGoal(code: String!, language: String): CompetenceGoal
-  competenceGoals(
-    codes: [String]
-    language: String
-    nodeId: String
-  ): [CompetenceGoal!]
+  competenceGoals(codes: [String], language: String): [CompetenceGoal!]
   concept(id: Int!): Concept
   conceptSearch(
     exactMatch: Boolean

@@ -51,11 +51,13 @@ const ToolboxSubjectPage = () => {
   }
 
   return (
-    <ToolboxSubjectContainer
-      subject={data.subject}
-      topicList={topicList}
-      user={user}
-    />
+    <main>
+      <ToolboxSubjectContainer
+        subject={data.subject}
+        topicList={topicList}
+        user={user}
+      />
+    </main>
   );
 };
 
