@@ -222,7 +222,7 @@ const MyNdlaPage = () => {
       </InfoContainer>
       <ButtonContainer>
         <SafeLinkButton
-          outline
+          variant="outline"
           reloadDocument
           to={`/logout?state=${toHref(location)}`}>
           {t('myNdla.myPage.logout')}

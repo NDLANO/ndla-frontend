@@ -88,7 +88,10 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
                     hasCopiedTitle={t('license.hasCopiedTitle')}
                   />
                 )}
-                <SafeLinkButton to={downloadUrl(image.src)} outline download>
+                <SafeLinkButton
+                  to={downloadUrl(image.src)}
+                  variant="outline"
+                  download>
                   {t('license.download')}
                 </SafeLinkButton>
               </>

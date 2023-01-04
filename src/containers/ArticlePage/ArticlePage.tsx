@@ -110,6 +110,7 @@ const ArticlePage = ({
               topic={topic}
               resourceTypes={resourceTypes}
               headingType="h2"
+              subHeadingType="h3"
             />
           )}
         </ArticleErrorMessage>
@@ -201,6 +202,7 @@ const ArticlePage = ({
               topic={topic}
               resourceTypes={resourceTypes}
               headingType="h2"
+              subHeadingType="h3"
             />
           </LayoutItem>
         )}
