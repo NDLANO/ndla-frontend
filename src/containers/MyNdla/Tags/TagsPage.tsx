@@ -228,8 +228,8 @@ const Tags = ({ tags }: TagsProps) => {
           {tags.map(tag => (
             <li key={tag}>
               <StyledSafeLinkButton
-                greyLighter
-                borderShape="rounded"
+                colorTheme="greyLighter"
+                shape="pill"
                 key={tag}
                 to={encodeURIComponent(tag)}>
                 <HashTag />

@@ -72,6 +72,7 @@ const LastLearningpathStepInfo = ({
           key="resources"
           resourceTypes={resourceTypes}
           topic={topic}
+          subHeadingType="h3"
         />
       )}
     </LearningPathLastStepNavigation>

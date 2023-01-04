@@ -7,7 +7,6 @@
  */
 
 import { useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Spinner } from '@ndla/icons';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
@@ -17,7 +16,7 @@ import { LocaleType, ProgrammeGrade, ProgrammeType } from '../../interfaces';
 import { subjectsQuery } from '../../queries';
 import { useGraphQuery } from '../../util/runQueries';
 import { GQLSubjectsQuery, GQLSubjectInfoFragment } from '../../graphqlTypes';
-import { toProgramme, TypedParams, useTypedParams } from '../../routeHelpers';
+import { TypedParams, useTypedParams } from '../../routeHelpers';
 import ProgrammeContainer from './ProgrammeContainer';
 import { AuthContext } from '../../components/AuthenticationContext';
 
@@ -85,9 +84,7 @@ const ProgrammePage = () => {
   const { user } = useContext(AuthContext);
   const { loading, data } = useGraphQuery<GQLSubjectsQuery>(subjectsQuery);
   const programmeData = getProgrammeBySlug(slug, i18n.language);
-  const programmeGrades = programmeData?.grades;
   const grade = getGradeNameFromProgramme(gradeParam, programmeData);
-  const navigate = useNavigate();
 
   if (loading) {
     return <Spinner />;
@@ -101,18 +98,10 @@ const ProgrammePage = () => {
     return <NotFoundPage />;
   }
 
-  const onGradeChange = (newGrade: string) => {
-    if (!programmeGrades?.some(g => g.name.toLowerCase() === newGrade)) {
-      return;
-    }
-    navigate(toProgramme(slug, newGrade));
-  };
-
   return (
     <ProgrammeContainer
       programme={programmeData}
       subjects={data.subjects}
-      onGradeChange={onGradeChange}
       grade={grade}
       locale={i18n.language}
       user={user}

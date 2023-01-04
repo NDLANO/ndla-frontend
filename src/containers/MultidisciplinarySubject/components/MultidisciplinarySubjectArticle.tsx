@@ -104,6 +104,7 @@ const MultidisciplinarySubjectArticle = ({
             topic={topic}
             resourceTypes={resourceTypes}
             headingType="h2"
+            subHeadingType="h3"
           />
         </div>
       </OneColumn>
