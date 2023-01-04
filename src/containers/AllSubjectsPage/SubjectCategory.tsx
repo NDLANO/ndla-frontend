@@ -28,12 +28,19 @@ export const GridList = styled.ul`
   display: grid;
   grid-template-columns: 50% 50%;
   ${mq.range({ until: breakpoints.tablet })} {
-    display: flex;
-    flex-direction: column;
+    display: block;
   }
   gap: ${spacing.xxsmall};
   padding: 0;
   margin: ${spacing.small} 0;
+
+  :before {
+    content: '';
+    display: block;
+    height: ${spacing.large};
+    margin-top: -${spacing.large};
+    visibility: hidden;
+  }
 `;
 
 interface StyledProps {
