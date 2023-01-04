@@ -13,7 +13,7 @@ import DeleteModal from '../MyNdla/components/DeleteModal';
 import { useUpdatePersonalData } from '../MyNdla/userMutations';
 import { Subject } from './interfaces';
 
-const SubjectLinkWrapper = styled.div`
+const SubjectLinkWrapper = styled.li`
   display: flex;
   align-items: center;
   gap: ${spacing.xsmall};
@@ -91,9 +91,9 @@ const SubjectLink = ({ subject, favorites, openLoginModal }: Props) => {
         )}>
         <StyledButton
           onClick={() => setFavorite(isFavorite)}
-          aria-label={t(
+          aria-label={`${t(
             `subjectsPage.${isFavorite ? 'removeFavorite' : 'addFavorite'}`,
-          )}
+          )}, ${subject.name}`}
           variant="ghost"
           size="xsmall"
           colorTheme="lighter">

@@ -12,6 +12,7 @@ import { breakpoints, colors, fonts, misc, mq, spacing } from '@ndla/core';
 import { Forward } from '@ndla/icons/common';
 import { useMastheadHeight } from '@ndla/ui';
 import { useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import useStickyObserver from '../../util/useStickyObserver';
 import { Subject } from './interfaces';
 import SubjectLink from './SubjectLink';
@@ -23,7 +24,7 @@ interface Props {
   openLoginModal: () => void;
 }
 
-export const Grid = styled.div`
+export const GridList = styled.ul`
   display: grid;
   grid-template-columns: 50% 50%;
   ${mq.range({ until: breakpoints.tablet })} {
@@ -112,19 +113,31 @@ const SubjectCategory = ({
   favorites,
   openLoginModal,
 }: Props) => {
-  const rootRef = useRef<HTMLDivElement>(null);
+  const rootRef = useRef<HTMLLIElement>(null);
+  const { t } = useTranslation();
   const stickyRef = useRef<HTMLDivElement>(null);
   const { isSticky } = useStickyObserver(rootRef, stickyRef);
   const { height = 85 } = useMastheadHeight();
   return (
-    <div ref={rootRef}>
+    <li
+      ref={rootRef}
+      aria-owns={`subject-${label}`}
+      aria-labelledby={`subject-header-${label}`}>
       <StickyHeading ref={stickyRef} offset={height}>
-        <StyledH2>{label.toUpperCase()}</StyledH2>
+        <StyledH2
+          id={`subject-header-${label}`}
+          aria-label={label === '#' ? t('labels.other') : label}>
+          {label.toUpperCase()}
+        </StyledH2>
         <GoToTop isSticky={isSticky} href="#SkipToContentId">
-          Gå til toppen <StyledArrow />
+          {t('subjectsPage.goToTop')} <StyledArrow />
         </GoToTop>
       </StickyHeading>
-      <Grid id={`subject-${label}`}>
+      <GridList
+        id={`subject-${label}`}
+        aria-label={t('subjectsPage.subjectGroup', {
+          category: label === '#' ? t('labels.other') : label,
+        })}>
         {subjects.map(subject => (
           <SubjectLink
             openLoginModal={openLoginModal}
@@ -133,8 +146,8 @@ const SubjectCategory = ({
             subject={subject}
           />
         ))}
-      </Grid>
-    </div>
+      </GridList>
+    </li>
   );
 };
 

@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { fonts, spacing } from '@ndla/core';
 import { Subject } from './interfaces';
-import { Grid } from './SubjectCategory';
+import { GridList } from './SubjectCategory';
 import SubjectLink from './SubjectLink';
 
 const StyledHeader = styled.h2`
@@ -21,7 +21,7 @@ const FavoriteSubjects = ({ favorites, subjects }: Props) => {
   return (
     <div>
       <StyledHeader>Mine favorittfag</StyledHeader>
-      <Grid>
+      <GridList>
         {mappedFavorites.map(subject => (
           <SubjectLink
             favorites={favorites}
@@ -29,7 +29,7 @@ const FavoriteSubjects = ({ favorites, subjects }: Props) => {
             subject={subject}
           />
         ))}
-      </Grid>
+      </GridList>
     </div>
   );
 };

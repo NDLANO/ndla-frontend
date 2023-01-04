@@ -45,12 +45,6 @@ const createFilterTranslation = (t: TFunction, key: string) =>
 
 const createFilters = (t: TFunction) => [
   {
-    label: `${t('contentTypes.all')} ${t(
-      'contentTypes.subject',
-    )}`.toUpperCase(),
-    value: 'all',
-  },
-  {
     label: createFilterTranslation(t, ACTIVE_SUBJECTS),
     value: ACTIVE_SUBJECTS,
   },
@@ -62,11 +56,21 @@ const createFilters = (t: TFunction) => [
     label: createFilterTranslation(t, BETA_SUBJECTS),
     value: BETA_SUBJECTS,
   },
+  {
+    label: `${t('contentTypes.all')} ${t(
+      'contentTypes.subject',
+    )}`.toUpperCase(),
+    value: 'all',
+  },
 ];
 
 const StyledColumn = styled(OneColumn)`
   display: flex;
   flex-direction: column;
+`;
+
+const StyledList = styled.ul`
+  list-style: none;
 `;
 
 const StyledHeading = styled.h1`
@@ -95,14 +99,14 @@ const AllSubjectsPage = () => {
 
   const filterOptions = useMemo(() => createFilters(t), [t]);
   const [filter, _setFilter] = useState<string>(
-    parse(location.search).filter || 'all',
+    parse(location.search).filter || ACTIVE_SUBJECTS,
   );
   const setFilter = (value: string) => {
     const searchObject = parse(location.search);
     _setFilter(value);
     const search = stringify({
       ...searchObject,
-      filter: value !== 'all' ? value : undefined,
+      filter: value !== ACTIVE_SUBJECTS ? value : undefined,
     });
     navigate(`${location.pathname}?${search}`);
   };
@@ -176,15 +180,17 @@ const AllSubjectsPage = () => {
           />
         )}
         <LetterNavigation activeLetters={letters} />
-        {groupedSubjects.map(({ label, subjects }) => (
-          <SubjectCategory
-            favorites={favoriteSubjects}
-            key={label}
-            label={label}
-            subjects={subjects}
-            openLoginModal={() => setShowLoginModal(true)}
-          />
-        ))}
+        <StyledList aria-label={t('subjectsPage.alphabeticSort')}>
+          {groupedSubjects.map(({ label, subjects }) => (
+            <SubjectCategory
+              favorites={favoriteSubjects}
+              key={label}
+              label={label}
+              subjects={subjects}
+              openLoginModal={() => setShowLoginModal(true)}
+            />
+          ))}
+        </StyledList>
         <LoginModal
           isOpen={showLoginModal}
           onClose={() => setShowLoginModal(false)}

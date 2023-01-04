@@ -1,10 +1,12 @@
 import styled from '@emotion/styled';
 import { buttonStyleV2 } from '@ndla/button';
 import { breakpoints, colors, fonts, misc, mq, spacing } from '@ndla/core';
+import { useTranslation } from 'react-i18next';
 import { letters } from './utils';
 
-const LetterNavigationWrapper = styled.div`
+const LetterNavigationWrapper = styled.ul`
   display: flex;
+  list-style: none;
   flex-wrap: wrap;
   flex: 1;
   gap: ${spacing.small};
@@ -12,6 +14,10 @@ const LetterNavigationWrapper = styled.div`
   ${mq.range({ until: breakpoints.tabletWide })} {
     gap: ${spacing.medium};
   }
+`;
+
+const StyledLi = styled.li`
+  margin: 0;
 `;
 
 interface StyledProps {
@@ -63,18 +69,23 @@ interface Props {
 }
 
 const LetterNavigation = ({ activeLetters }: Props) => {
+  const { t } = useTranslation();
   return (
-    <LetterNavigationWrapper>
+    <LetterNavigationWrapper aria-label={t('subjectsPage.scrollToCategory')}>
       {letters.map(letter => {
         const enabled = activeLetters.includes(letter);
         return (
-          <StyledLetter
-            href={enabled ? `#subject-${letter}` : undefined}
-            disabled={!enabled}
-            tabIndex={enabled ? 0 : -1}
-            key={letter}>
-            {letter}
-          </StyledLetter>
+          <StyledLi key={letter}>
+            <StyledLetter
+              href={enabled ? `#subject-${letter}` : undefined}
+              disabled={!enabled}
+              tabIndex={enabled ? 0 : -1}
+              aria-label={`${t('subjectsPage.scrollToCategory')} "${
+                letter === '#' ? t('labels.other') : letter
+              }"`}>
+              {letter}
+            </StyledLetter>
+          </StyledLi>
         );
       })}
     </LetterNavigationWrapper>
