@@ -182,6 +182,7 @@ const ResourceList = ({ selectedFolder, viewType, folderId }: Props) => {
           modifiers={[restrictToVerticalAxis, restrictToParentElement]}>
           <SortableContext
             items={sortedResources}
+            disabled={sortedResources.length < 2}
             strategy={verticalListSortingStrategy}>
             {resources.map((resource, index) => {
               const resourceMeta =

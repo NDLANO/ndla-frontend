@@ -148,7 +148,7 @@ const FolderList = ({
           onCreate={onFolderAdd}
         />
       )}
-      {folders && (
+      {folders.length > 0 && (
         <BlockWrapper type={type}>
           <DndContext
             sensors={sensors}
@@ -158,6 +158,7 @@ const FolderList = ({
             modifiers={[restrictToVerticalAxis, restrictToParentElement]}>
             <SortableContext
               items={sortedFolders}
+              disabled={folders.length < 2}
               strategy={verticalListSortingStrategy}>
               {folders.map((folder, index) => (
                 <DraggableFolder
