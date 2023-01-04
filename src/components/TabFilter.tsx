@@ -55,6 +55,7 @@ const TabFilter = ({ value: selectedValue, onChange, options }: Props) => {
     <ButtonContainer role="group">
       {options.map(({ value, label }) => (
         <StyledButton
+          fontWeight="bold"
           aria-current={selectedValue === value}
           selected={selectedValue === value}
           variant={selectedValue === value ? undefined : 'outline'}

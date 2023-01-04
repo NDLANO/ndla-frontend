@@ -164,6 +164,7 @@ const AllSubjectsPage = () => {
               options={filterOptions}
               colorTheme="white"
               outline
+              bold
               prefix={`${t('subjectsPage.shows').toUpperCase()}: `}
             />
           </SelectWrapper>
