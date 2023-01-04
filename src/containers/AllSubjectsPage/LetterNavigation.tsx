@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
+import { buttonStyleV2 } from '@ndla/button';
 import { breakpoints, colors, fonts, misc, mq, spacing } from '@ndla/core';
 import { letters } from './utils';
 
@@ -14,7 +14,12 @@ const LetterNavigationWrapper = styled.div`
   }
 `;
 
-const StyledLetter = styled(ButtonV2)`
+interface StyledProps {
+  disabled?: boolean;
+}
+
+const StyledLetter = styled.a<StyledProps>`
+  ${buttonStyleV2({ colorTheme: 'lighter', variant: 'ghost' })}
   ${fonts.sizes('18px', '24px')};
   font-weight: ${fonts.weight.bold};
   min-width: 20px;
@@ -23,8 +28,13 @@ const StyledLetter = styled(ButtonV2)`
   box-shadow: inset 0 -1px;
   border-bottom-left-radius: 0px;
   border-bottom-right-radius: 0px;
-  &[disabled] {
+
+  &[disabled],
+  &[disabled]:focus {
+    background: none;
     box-shadow: none;
+    outline: none;
+    border: none;
     color: ${colors.brand.light};
     cursor: unset;
   }
@@ -53,22 +63,15 @@ interface Props {
 }
 
 const LetterNavigation = ({ activeLetters }: Props) => {
-  const onClick = (id: string) => {
-    const container = document.getElementById(`subject-${id}`);
-    const target = container?.querySelector('a');
-    target?.focus();
-  };
-
   return (
     <LetterNavigationWrapper>
       {letters.map(letter => {
-        const active = activeLetters.includes(letter);
+        const enabled = activeLetters.includes(letter);
         return (
           <StyledLetter
-            onClick={() => onClick(letter)}
-            disabled={!active}
-            variant="ghost"
-            colorTheme="lighter"
+            href={enabled ? `#subject-${letter}` : undefined}
+            disabled={!enabled}
+            tabIndex={enabled ? 0 : -1}
             key={letter}>
             {letter}
           </StyledLetter>
