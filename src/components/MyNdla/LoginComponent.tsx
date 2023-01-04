@@ -7,7 +7,7 @@
  */
 
 import styled from '@emotion/styled';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { mq, breakpoints, fonts, spacing } from '@ndla/core';
 import { Feide } from '@ndla/icons/common';
 import SafeLink, { SafeLinkButton } from '@ndla/safelink';
@@ -133,9 +133,9 @@ const LoginComponent = ({ resource, meta, masthead, onClose }: Props) => {
           Feide
         </FeideRow>
         <ButtonRow>
-          <Button onClick={onClose} outline>
+          <ButtonV2 onClick={onClose} variant="outline">
             {t('cancel')}
-          </Button>
+          </ButtonV2>
           <SafeLinkButton
             reloadDocument
             to={`/login?state=${masthead ? '/minndla' : toHref(location)}`}>

@@ -16,13 +16,13 @@ import {
   MediaListItemActions,
   MediaListItemMeta,
 } from '@ndla/ui';
+import { SafeLinkButton } from '@ndla/safelink';
 import {
   metaTypes,
   getGroupedContributorDescriptionList,
 } from '@ndla/licenses';
 import { useTranslation } from 'react-i18next';
 import CopyTextButton from './CopyTextButton';
-import AnchorButton from './AnchorButton';
 import { GQLVideoLicenseList_BrightcoveLicenseFragment } from '../../graphqlTypes';
 import { licenseCopyrightToCopyrightType } from './licenseHelpers';
 import { licenseListCopyrightFragment } from './licenseFragments';
@@ -59,11 +59,12 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
         <MediaListItemActions>
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />
-            {video.copyright.license?.license !== 'COPYRIGHTED' && (
-              <AnchorButton href={video.download} download appearance="outline">
-                {t('license.download')}
-              </AnchorButton>
-            )}
+            {video.copyright.license?.license !== 'COPYRIGHTED' &&
+              video.download && (
+                <SafeLinkButton to={video.download} download variant="outline">
+                  {t('license.download')}
+                </SafeLinkButton>
+              )}
             <CopyTextButton
               stringToCopy={`<iframe title="${video.title}" height="${video.iframe?.height}" aria-label="${video.title}" width="${video.iframe?.width}" frameborder="0" src="${video.iframe?.src}" allowfullscreen=""></iframe>`}
               copyTitle={t('license.embed')}

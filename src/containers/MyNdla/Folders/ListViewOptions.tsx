@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import Tooltip from '@ndla/tooltip';
-import { IconButton } from '@ndla/button';
+import { IconButtonV2 } from '@ndla/button';
 import { breakpoints, colors, mq, spacing } from '@ndla/core';
 import { FourlineHamburger, GridListView, List } from '@ndla/icons/action';
 import { ViewType } from './FoldersPage';
@@ -31,7 +31,7 @@ interface StyledIconButtonProps {
   selected?: boolean;
 }
 
-const StyledIconButton = styled(IconButton)<StyledIconButtonProps>`
+const StyledIconButton = styled(IconButtonV2)<StyledIconButtonProps>`
   padding: ${spacing.xsmall};
   margin: 0 ${spacing.xxsmall};
   svg {
@@ -64,7 +64,8 @@ const ListViewOptions = ({ onTypeChange, type }: Props) => {
       <Tooltip tooltip={t('myNdla.listView')}>
         <StyledIconButton
           selected={type === 'list'}
-          ghostPill
+          variant="ghost"
+          colorTheme="light"
           onClick={() => onTypeChange('list')}
           size="small"
           aria-label={t('myNdla.listView')}>
@@ -74,7 +75,8 @@ const ListViewOptions = ({ onTypeChange, type }: Props) => {
       <Tooltip tooltip={t('myNdla.detailView')}>
         <StyledIconButton
           selected={type === 'listLarger'}
-          ghostPill
+          variant="ghost"
+          colorTheme="light"
           onClick={() => onTypeChange('listLarger')}
           size="small"
           aria-label={t('myNdla.detailView')}>
@@ -84,7 +86,8 @@ const ListViewOptions = ({ onTypeChange, type }: Props) => {
       <Tooltip tooltip={t('myNdla.shortView')} css={hiddenOnMobileStyle}>
         <StyledIconButton
           selected={type === 'block'}
-          ghostPill
+          variant="ghost"
+          colorTheme="light"
           onClick={() => onTypeChange('block')}
           size="small"
           aria-label={t('myNdla.shortView')}>

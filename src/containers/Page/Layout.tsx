@@ -72,9 +72,6 @@ const Layout = () => {
         htmlAttributes={{ lang: i18n.language }}
         meta={[{ name: 'description', content: t('meta.description') }]}
       />
-      <Helmet>
-        <meta property="fb:app_id" content="115263542481787" />
-      </Helmet>
       <Masthead />
       <Content>
         <Outlet />

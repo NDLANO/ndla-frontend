@@ -22,8 +22,8 @@ import {
   metaTypes,
 } from '@ndla/licenses';
 import { useTranslation } from 'react-i18next';
+import { SafeLinkButton } from '@ndla/safelink';
 import CopyTextButton from './CopyTextButton';
-import AnchorButton from './AnchorButton';
 import { GQLAudioLicenseList_AudioLicenseFragment } from '../../graphqlTypes';
 import { licenseCopyrightToCopyrightType } from './licenseHelpers';
 import { licenseListCopyrightFragment } from './licenseFragments';
@@ -79,9 +79,9 @@ const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
                     hasCopiedTitle={t('license.hasCopiedTitle')}
                   />
                 )}
-                <AnchorButton href={audio.src} download appearance="outline">
+                <SafeLinkButton to={audio.src} download variant="outline">
                   {t('license.download')}
-                </AnchorButton>
+                </SafeLinkButton>
               </>
             )}
           </div>
