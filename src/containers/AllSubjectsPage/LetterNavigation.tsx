@@ -71,7 +71,7 @@ interface Props {
 const LetterNavigation = ({ activeLetters }: Props) => {
   const { t } = useTranslation();
   return (
-    <LetterNavigationWrapper aria-label={t('subjectsPage.scrollToCategory')}>
+    <LetterNavigationWrapper aria-label={t('subjectsPage.scrollToGroup')}>
       {letters.map(letter => {
         const enabled = activeLetters.includes(letter);
         return (
@@ -80,7 +80,7 @@ const LetterNavigation = ({ activeLetters }: Props) => {
               href={enabled ? `#subject-${letter}` : undefined}
               disabled={!enabled}
               tabIndex={enabled ? 0 : -1}
-              aria-label={`${t('subjectsPage.scrollToCategory')} "${
+              aria-label={`${t('subjectsPage.scrollToGroup')} "${
                 letter === '#' ? t('labels.other') : letter
               }"`}>
               {letter}
