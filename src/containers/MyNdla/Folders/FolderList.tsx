@@ -148,30 +148,32 @@ const FolderList = ({
           onCreate={onFolderAdd}
         />
       )}
-      <BlockWrapper type={type}>
-        <DndContext
-          sensors={sensors}
-          collisionDetection={closestCenter}
-          onDragEnd={sortFolderIds}
-          accessibility={{ announcements }}
-          modifiers={[restrictToVerticalAxis, restrictToParentElement]}>
-          <SortableContext
-            items={sortedFolders}
-            disabled={folders.length < 2}
-            strategy={verticalListSortingStrategy}>
-            {folders.map((folder, index) => (
-              <DraggableFolder
-                key={`folder-${folder.id}`}
-                folder={folder}
-                index={index}
-                foldersCount={foldersCount}
-                type={type}
-                setFolderAction={setFolderAction}
-              />
-            ))}
-          </SortableContext>
-        </DndContext>
-      </BlockWrapper>
+      {folders.length > 0 && (
+        <BlockWrapper type={type}>
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragEnd={sortFolderIds}
+            accessibility={{ announcements }}
+            modifiers={[restrictToVerticalAxis, restrictToParentElement]}>
+            <SortableContext
+              items={sortedFolders}
+              disabled={folders.length < 2}
+              strategy={verticalListSortingStrategy}>
+              {folders.map((folder, index) => (
+                <DraggableFolder
+                  key={`folder-${folder.id}`}
+                  folder={folder}
+                  index={index}
+                  foldersCount={foldersCount}
+                  type={type}
+                  setFolderAction={setFolderAction}
+                />
+              ))}
+            </SortableContext>
+          </DndContext>
+        </BlockWrapper>
+      )}
     </WhileLoading>
   );
 };
