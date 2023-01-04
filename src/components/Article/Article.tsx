@@ -83,7 +83,6 @@ interface Props {
   label: string;
   modifier?: string;
   isResourceArticle?: boolean;
-  copyPageUrlLink?: string;
   printUrl?: string;
   subjectId?: string;
   isPlainArticle?: boolean;
@@ -196,7 +195,6 @@ const Article = ({
   label,
   modifier,
   isResourceArticle = false,
-  copyPageUrlLink,
   printUrl,
   id,
   subjectId,
@@ -289,6 +287,7 @@ const Article = ({
         locale={i18n.language}
         licenseBox={<LicenseBox article={article} />}
         messages={messages}
+        copyText={article.metaData?.copyText}
         competenceGoals={renderCompetenceGoals(
           article,
           isTopicArticle,
@@ -305,7 +304,6 @@ const Article = ({
         }
         renderMarkdown={renderMarkdown}
         modifier={isResourceArticle ? resourceType : modifier ?? 'clean'}
-        copyPageUrlLink={copyPageUrlLink}
         printUrl={printUrl}
         heartButton={
           path && <FavoriteButton path={path} onClick={() => setIsOpen(true)} />

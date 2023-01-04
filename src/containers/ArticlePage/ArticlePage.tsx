@@ -123,9 +123,6 @@ const ArticlePage = ({
   const resourceType =
     contentType && isHeroContentType(contentType) ? contentType : undefined;
 
-  const copyPageUrlLink = topic
-    ? `${subjectPageUrl}${topic.path}/${resource.id.replace('urn:', '')}`
-    : undefined;
   const printUrl = `${subjectPageUrl}/article-iframe/${i18n.language}/article/${resource.article.id}`;
 
   const breadcrumbItems = toBreadcrumbItems(t('breadcrumb.toFrontpage'), [
@@ -153,14 +150,6 @@ const ArticlePage = ({
             defer={script.defer}
           />
         ))}
-        {copyPageUrlLink && (
-          <link
-            rel="alternate"
-            type="application/json+oembed"
-            href={`${config.ndlaFrontendDomain}/oembed?url=${copyPageUrlLink}`}
-            title={article.title}
-          />
-        )}
         {subject?.metadata.customFields?.[
           TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY
         ] === constants.subjectCategories.ARCHIVE_SUBJECTS && (
@@ -190,7 +179,6 @@ const ArticlePage = ({
           article={article}
           resourceType={contentType}
           isResourceArticle
-          copyPageUrlLink={copyPageUrlLink}
           printUrl={printUrl}
           subjectId={subject?.id}
           showFavoriteButton={config.feideEnabled}
