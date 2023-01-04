@@ -322,14 +322,15 @@ exports[`ErrorPage renderers correctly 1`] = `
   -webkit-box-align: flex-start;
   -ms-flex-align: flex-start;
   align-items: flex-start;
+  gap: 26px;
 }
 
-.emotion-29 section:first-of-type {
+.emotion-29 div:first-of-type {
   margin-right: 52px;
 }
 
 @media (min-width: 61.3125em) {
-  .emotion-29 section:first-of-type {
+  .emotion-29 div:first-of-type {
     margin-right: 104px;
   }
 }
@@ -341,7 +342,7 @@ exports[`ErrorPage renderers correctly 1`] = `
     flex-direction: column;
   }
 
-  .emotion-29>section {
+  .emotion-29>div {
     margin-top: 52px;
   }
 }
@@ -766,136 +767,139 @@ exports[`ErrorPage renderers correctly 1`] = `
         </button>
       </div>
     </div>
-    <footer
-      class="emotion-21 emotion-22"
-    >
+    <footer>
       <div
-        class="o-wrapper o-wrapper--large undefined"
+        class="emotion-21 emotion-22"
       >
         <div
-          class="emotion-23 emotion-24"
+          class="o-wrapper o-wrapper--large undefined"
         >
-          <div>
-            <svg
-              aria-hidden="true"
-              class="c-icon emotion-25 emotion-26"
-              data-license="CC-BY 4.0"
-              data-source="Keyteq"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
-              style="vertical-align: middle;"
-              viewBox="0 0 76 76"
-              width="1em"
-            >
-              <g>
+          <div
+            class="emotion-23 emotion-24"
+          >
+            <div>
+              <svg
+                aria-hidden="true"
+                class="c-icon emotion-25 emotion-26"
+                data-license="CC-BY 4.0"
+                data-source="Keyteq"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
+                style="vertical-align: middle;"
+                viewBox="0 0 76 76"
+                width="1em"
+              >
                 <g>
-                  <path
-                    d="M46.395,46.395 L15,61 L29.605,29.605 L61,15 L46.395,46.395 Z M38,0 C17.0131795,0 0,17.0131795 0,38 C0,48.0782266 4.00355993,57.7436753 11.1299423,64.8700577 C18.2563247,71.9964401 27.9217734,76 38,76 C48.0782266,76 57.7436753,71.9964401 64.8700577,64.8700577 C71.9964401,57.7436753 76,48.0782266 76,38 C76,27.9217734 71.9964401,18.2563247 64.8700577,11.1299423 C57.7436753,4.00355993 48.0782266,0 38,0 L38,0 Z M38,34 C35.790861,34 34,35.790861 34,38 C34,40.209139 35.790861,42 38,42 C40.209139,42 42,40.209139 42,38 C42,35.790861 40.209139,34 38,34 Z"
-                  />
+                  <g>
+                    <path
+                      d="M46.395,46.395 L15,61 L29.605,29.605 L61,15 L46.395,46.395 Z M38,0 C17.0131795,0 0,17.0131795 0,38 C0,48.0782266 4.00355993,57.7436753 11.1299423,64.8700577 C18.2563247,71.9964401 27.9217734,76 38,76 C48.0782266,76 57.7436753,71.9964401 64.8700577,64.8700577 C71.9964401,57.7436753 76,48.0782266 76,38 C76,27.9217734 71.9964401,18.2563247 64.8700577,11.1299423 C57.7436753,4.00355993 48.0782266,0 38,0 L38,0 Z M38,34 C35.790861,34 34,35.790861 34,38 C34,40.209139 35.790861,42 38,42 C40.209139,42 42,40.209139 42,38 C42,35.790861 40.209139,34 38,34 Z"
+                    />
+                  </g>
                 </g>
-              </g>
-            </svg>
-          </div>
-          <div>
-            <h2
-              class="emotion-27 emotion-28"
-            >
-              Sammen skaper vi framtidas læring
-            </h2>
-            <div
-              class="emotion-29 emotion-30"
-            >
-              <section>
-                <h1
-                  class="emotion-31 emotion-32"
-                >
-                  Andre NDLA-nettsteder 
-                  <svg
-                    aria-hidden="true"
-                    class="c-icon"
-                    data-license="Apache License 2.0"
-                    data-source="Material Design"
-                    fill="currentColor"
-                    height="1em"
-                    preserveAspectRatio="xMidYMid meet"
-                    style="vertical-align: middle;"
-                    viewBox="0 0 24 24"
-                    width="1em"
+              </svg>
+            </div>
+            <div>
+              <h2
+                class="emotion-27 emotion-28"
+              >
+                Sammen skaper vi framtidas læring
+              </h2>
+              <div
+                class="emotion-29 emotion-30"
+              >
+                <div>
+                  <h3
+                    class="emotion-31 emotion-32"
+                    id="otherLinks"
                   >
-                    <g>
-                      <path
-                        d="M0 0h24v24H0z"
-                        fill="none"
-                      />
-                      <path
-                        d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"
-                      />
-                    </g>
-                  </svg>
-                </h1>
+                    Andre NDLA-nettsteder 
+                    <svg
+                      aria-hidden="true"
+                      class="c-icon"
+                      data-license="Apache License 2.0"
+                      data-source="Material Design"
+                      fill="currentColor"
+                      height="1em"
+                      preserveAspectRatio="xMidYMid meet"
+                      style="vertical-align: middle;"
+                      viewBox="0 0 24 24"
+                      width="1em"
+                    >
+                      <g>
+                        <path
+                          d="M0 0h24v24H0z"
+                          fill="none"
+                        />
+                        <path
+                          d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"
+                        />
+                      </g>
+                    </svg>
+                  </h3>
+                  <nav
+                    aria-labelledby="otherLinks"
+                    class="emotion-33 emotion-34"
+                  >
+                    <div>
+                      <a
+                        aria-label="Om NDLA"
+                        class="emotion-35 emotion-36"
+                        href="https://om.ndla.no"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        Om NDLA
+                      </a>
+                    </div>
+                    <div>
+                      <a
+                        aria-label="About NDLA"
+                        class="emotion-35 emotion-36"
+                        href="https://om.ndla.no/about-ndla"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        About NDLA
+                      </a>
+                    </div>
+                    <div>
+                      <a
+                        aria-label="Fagblogg"
+                        class="emotion-35 emotion-36"
+                        href="https://blogg.ndla.no"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        Fagblogg
+                      </a>
+                    </div>
+                    <div>
+                      <a
+                        aria-label="Tips til elever"
+                        class="emotion-35 emotion-36"
+                        href="https://blogg.ndla.no/elever"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        Tips til elever
+                      </a>
+                    </div>
+                    <div>
+                      <a
+                        aria-label="Ledige stillinger"
+                        class="emotion-35 emotion-36"
+                        href="https://om.ndla.no/jobb-for-ndla/"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        Ledige stillinger
+                      </a>
+                    </div>
+                  </nav>
+                </div>
                 <nav
-                  class="emotion-33 emotion-34"
-                >
-                  <div>
-                    <a
-                      aria-label="Om NDLA"
-                      class="emotion-35 emotion-36"
-                      href="https://om.ndla.no"
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                      Om NDLA
-                    </a>
-                  </div>
-                  <div>
-                    <a
-                      aria-label="About NDLA"
-                      class="emotion-35 emotion-36"
-                      href="https://om.ndla.no/about-ndla"
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                      About NDLA
-                    </a>
-                  </div>
-                  <div>
-                    <a
-                      aria-label="Fagblogg"
-                      class="emotion-35 emotion-36"
-                      href="https://blogg.ndla.no"
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                      Fagblogg
-                    </a>
-                  </div>
-                  <div>
-                    <a
-                      aria-label="Tips til elever"
-                      class="emotion-35 emotion-36"
-                      href="https://blogg.ndla.no/elever"
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                      Tips til elever
-                    </a>
-                  </div>
-                  <div>
-                    <a
-                      aria-label="Ledige stillinger"
-                      class="emotion-35 emotion-36"
-                      href="https://om.ndla.no/jobb-for-ndla/"
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                      Ledige stillinger
-                    </a>
-                  </div>
-                </nav>
-              </section>
-              <section>
-                <nav
+                  aria-label="Sosiale medier"
                   class="emotion-33 emotion-34"
                 >
                   <div
@@ -1194,54 +1198,54 @@ exports[`ErrorPage renderers correctly 1`] = `
                     </a>
                   </div>
                 </nav>
-              </section>
+              </div>
+            </div>
+          </div>
+          <hr
+            class="emotion-77 emotion-78"
+          />
+          <p
+            class="emotion-79 emotion-80"
+          >
+            <span>
+              <strong>
+                Ansvarlig redaktør: 
+              </strong>
+               Sigurd Trageton
+            </span>
+            Nettstedet er utarbeidet av NDLA med åpen kildekode.
+          </p>
+          <div
+            class="emotion-81 emotion-82"
+          >
+            <div>
+              <a
+                class="emotion-83 emotion-84"
+                href="https://om.ndla.no/gdpr"
+              >
+                Personvernerklæring
+              </a>
+            </div>
+            <div>
+              <span
+                aria-hidden="true"
+                class="emotion-85 emotion-86"
+              >
+                |
+              </span>
+              <a
+                class="emotion-83 emotion-84"
+                href="https://om.ndla.no/cookies"
+              >
+                Erklæring om informasjonskapsler
+              </a>
             </div>
           </div>
         </div>
-        <hr
-          class="emotion-77 emotion-78"
-        />
-        <p
-          class="emotion-79 emotion-80"
-        >
-          <span>
-            <strong>
-              Ansvarlig redaktør: 
-            </strong>
-             Sigurd Trageton
-          </span>
-          Nettstedet er utarbeidet av NDLA med åpen kildekode.
-        </p>
         <div
-          class="emotion-81 emotion-82"
-        >
-          <div>
-            <a
-              class="emotion-83 emotion-84"
-              href="https://om.ndla.no/gdpr"
-            >
-              Personvernerklæring
-            </a>
-          </div>
-          <div>
-            <span
-              aria-hidden="true"
-              class="emotion-85 emotion-86"
-            >
-              |
-            </span>
-            <a
-              class="emotion-83 emotion-84"
-              href="https://om.ndla.no/cookies"
-            >
-              Erklæring om informasjonskapsler
-            </a>
-          </div>
-        </div>
+          class="emotion-89 emotion-90"
+        />
       </div>
-      <div
-        class="emotion-89 emotion-90"
-      />
     </footer>
     <div
       class="emotion-91"
