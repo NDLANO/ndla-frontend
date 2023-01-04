@@ -136,7 +136,6 @@
     "@ndla/select": "^2.0.5",
     "@ndla/tabs": "^2.1.1",
     "@ndla/tracker": "^2.0.5",
-    "@ndla/types-learningpath-api": "^0.0.18",
     "@ndla/ui": "^33.4.0",
     "@ndla/util": "^3.1.9",
     "@ndla/zendesk": "^1.1.8",
