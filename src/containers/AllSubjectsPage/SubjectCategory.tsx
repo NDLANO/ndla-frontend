@@ -37,8 +37,8 @@ export const GridList = styled.ul`
   :before {
     content: '';
     display: block;
-    height: ${spacing.large};
-    margin-top: -${spacing.large};
+    height: 66px;
+    margin-top: -66px;
     visibility: hidden;
   }
 `;
