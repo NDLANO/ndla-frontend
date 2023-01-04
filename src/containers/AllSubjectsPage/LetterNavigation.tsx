@@ -58,7 +58,7 @@ const StyledLetter = styled.a<StyledProps>`
   }
   ${mq.range({ until: breakpoints.tabletWide })} {
     ${fonts.sizes('24px', '24px')};
-    box-shadow: inset 0 -2px;
+    box-shadow: inset 0 -3px 0px -1px;
     min-height: 48px;
     min-width: 48px;
   }
