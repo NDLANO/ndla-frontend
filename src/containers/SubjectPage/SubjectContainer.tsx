@@ -92,6 +92,7 @@ const getSubjectTypeMessage = (
 
 const SubjectContainer = ({ t, subjectId, topicIds, subject }: Props) => {
   const ndlaFilm = useIsNdlaFilm();
+  const [competenceGoalsLoading, setCompetenceGoalsLoading] = useState(true);
   const about = subject.subjectpage?.about;
 
   const [currentLevel, setCurrentLevel] = useState<number | string | undefined>(
@@ -153,6 +154,7 @@ const SubjectContainer = ({ t, subjectId, topicIds, subject }: Props) => {
         dialogProps: { isOpen: boolean; onClose: () => void };
       }) => (
         <CompetenceGoals
+          setCompetenceGoalsLoading={setCompetenceGoalsLoading}
           codes={subject.grepCodes}
           subjectId={subject.id}
           wrapperComponent={Dialog}
@@ -249,6 +251,7 @@ const SubjectContainer = ({ t, subjectId, topicIds, subject }: Props) => {
             />
             <div ref={headerRef}>
               <ArticleHeaderWrapper
+                competenceGoalsLoading={competenceGoalsLoading}
                 competenceGoals={renderCompetenceGoals(subject)}>
                 <NavigationHeading
                   headingId={
