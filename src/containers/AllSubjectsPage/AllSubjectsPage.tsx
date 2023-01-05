@@ -25,6 +25,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../components/AuthenticationContext';
 import LoginModal from '../../components/MyNdla/LoginModal';
 import TabFilter from '../../components/TabFilter';
+import { SKIP_TO_CONTENT_ID } from '../../constants';
 import IsMobileContext from '../../IsMobileContext';
 
 import { useSubjects } from '../MyNdla/subjectQueries';
@@ -151,7 +152,7 @@ const AllSubjectsPage = () => {
     <div className="c-resources u-padding-top-large">
       <HelmetWithTracker title={t('htmlTitles.subjectsPage')} />
       <StyledColumn wide>
-        <StyledHeading id="SkipToContentId">
+        <StyledHeading id={SKIP_TO_CONTENT_ID}>
           {t('subjectsPage.allSubjects')}
         </StyledHeading>
         {!!favoriteSubjects?.length && (
