@@ -110,29 +110,6 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
 }
 
 .emotion-24 {
-  display: inline-block;
-  color: #ffffff;
-  background-color: #20588f;
-  border: 2px solid #20588f;
-  border-radius: 4px;
-  padding: 4px 13px;
-  outline-width: 0;
-  cursor: pointer;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  font-size: 16px;
-  font-size: 0.8888888888888888rem;
-  line-height: 1.625;
-  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
-  font-weight: 700;
-  -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
-  transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
-  box-shadow: none;
-  text-align: center;
-  color: #20588f;
-  background-color: transparent;
-  border: 2px solid #20588f;
-  box-shadow: none;
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -145,31 +122,38 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  padding-left: 6.5px;
-  padding-right: 6.5px;
+  gap: 6.5px;
+  color: #fff;
+  background: #20588f;
+  border: 2px solid #20588f;
+  border-radius: 4px;
+  outline-width: 0;
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 600;
+  -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  box-shadow: none;
+  text-align: center;
+  padding: 4.333333333333333px 6.5px;
   font-size: 14px;
   font-size: 0.7777777777777778rem;
   line-height: 18px;
   min-height: 32px;
-  font-weight: 600;
-  color: #20588f;
-  background-color: transparent;
-  border: 2px solid #20588f;
-  box-shadow: none;
   border-width: 1px;
-  border-radius: 32px;
-  font-weight: 600;
-  padding-left: 20px;
-  padding-right: 20px;
-  padding-left: 13px;
-  padding-right: 13px;
+  border-radius: 26px;
+  color: #20588f;
+  background: transparent;
+  border-color: #20588f;
 }
 
 .emotion-24:hover,
 .emotion-24:focus {
-  color: white;
+  color: #fff;
   background-color: #184673;
-  border: 2px solid #184673;
+  border-color: #184673;
 }
 
 .emotion-24[disabled] {
@@ -179,45 +163,20 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   cursor: not-allowed;
 }
 
-.emotion-24:focus {
-  box-shadow: 0 0 2px #20588f;
+.emotion-24:hover {
+  color: #fff;
+  background: #20588f;
+  border-color: #20588f;
 }
 
-.emotion-24:hover,
-.emotion-24:focus {
-  color: white;
-  background-color: #20588f;
-  border: 2px solid transparent;
-}
-
-.emotion-24:disabled {
+.emotion-24[disabled] {
   color: #777777;
-  border: 2px solid transparent;
-  background-color: #e6e6e6;
+  background-color: transparent;
+  border-color: #777777;
   cursor: not-allowed;
 }
 
-.emotion-24:hover,
-.emotion-24:focus {
-  color: white;
-  background-color: #20588f;
-  border: 2px solid transparent;
-}
-
-.emotion-24:disabled {
-  color: #777777;
-  border: 2px solid transparent;
-  background-color: #e6e6e6;
-  cursor: not-allowed;
-}
-
-.emotion-24:hover,
-.emotion-24:focus,
-.emotion-24:disabled {
-  border-width: 1px;
-}
-
-.emotion-26 {
+.emotion-25 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -228,7 +187,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   justify-content: flex-end;
 }
 
-.emotion-28 {
+.emotion-27 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -239,7 +198,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   align-items: center;
 }
 
-.emotion-30 {
+.emotion-29 {
   color: #757575;
   margin-right: 38px;
   font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
@@ -248,7 +207,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   line-height: 20px;
 }
 
-.emotion-32 {
+.emotion-31 {
   color: #757575;
 }
 
@@ -464,7 +423,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                 class="emotion-22 emotion-23"
               >
                 <button
-                  class="emotion-24 emotion-25"
+                  class="emotion-24"
                   id="popupUseContent"
                   type="button"
                 >
@@ -477,16 +436,16 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
             class="u-10/12@desktop u-push-1/12@desktop u-10/12@tablet u-push-1/12@tablet"
           >
             <div
-              class="emotion-26 emotion-27"
+              class="emotion-25 emotion-26"
             >
               <div
-                class="emotion-28 emotion-29"
+                class="emotion-27 emotion-28"
               >
                 <div
-                  class="emotion-30 emotion-31"
+                  class="emotion-29 emotion-30"
                 >
                   <a
-                    class="emotion-32 emotion-33"
+                    class="emotion-31 emotion-32"
                     href="https://test.ndla.no/subject:1/resource:1"
                     target="_blank"
                   >
@@ -494,7 +453,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                   </a>
                    er hentet fra 
                   <a
-                    class="emotion-32 emotion-33"
+                    class="emotion-31 emotion-32"
                     href="https://ndla.no"
                     target="_blank"
                   >
