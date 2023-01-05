@@ -27,7 +27,7 @@ import LoginModal from '../../components/MyNdla/LoginModal';
 import TabFilter from '../../components/TabFilter';
 import IsMobileContext from '../../IsMobileContext';
 
-import { useSubjects } from '../MyNdla/subjectMutations';
+import { useSubjects } from '../MyNdla/subjectQueries';
 import { usePersonalData } from '../MyNdla/userMutations';
 import FavoriteSubjects from './FavoriteSubjects';
 import LetterNavigation from './LetterNavigation';
