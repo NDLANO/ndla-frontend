@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2022-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import styled from '@emotion/styled';
 import { IconButtonV2 } from '@ndla/button';
 import { colors, fonts, misc, spacing } from '@ndla/core';
@@ -19,7 +27,7 @@ const SubjectLinkWrapper = styled.li`
   gap: ${spacing.xsmall};
 `;
 
-const StyledButton = styled(IconButtonV2)`
+const StyledIconButton = styled(IconButtonV2)`
   min-height: 40px;
   min-width: 40px;
 `;
@@ -89,7 +97,7 @@ const SubjectLink = ({ subject, favorites, openLoginModal }: Props) => {
         tooltip={t(
           `subjectsPage.${isFavorite ? 'removeFavorite' : 'addFavorite'}`,
         )}>
-        <StyledButton
+        <StyledIconButton
           onClick={() => setFavorite(isFavorite)}
           aria-label={`${t(
             `subjectsPage.${isFavorite ? 'removeFavorite' : 'addFavorite'}`,
@@ -98,7 +106,7 @@ const SubjectLink = ({ subject, favorites, openLoginModal }: Props) => {
           size="xsmall"
           colorTheme="lighter">
           {isFavorite ? <Heart /> : <HeartOutline />}
-        </StyledButton>
+        </StyledIconButton>
       </Tooltip>
       <StyledSafeLink to={toSubject(subject.id)}>{subject.name}</StyledSafeLink>
       <DeleteModal
