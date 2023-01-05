@@ -35,7 +35,6 @@ import { GQLFolder, GQLFolderResource } from '../../graphqlTypes';
 import { getAllTags, getResourceForPath } from '../../util/folderHelpers';
 import NewFolder from './NewFolder';
 import { AuthContext } from '../AuthenticationContext';
-import DefaultSnack from '../Snackbar/DefaultSnack';
 
 export interface ResourceAttributes {
   path: string;
@@ -67,6 +66,15 @@ const ComboboxContainer = styled.div`
   overflow: hidden;
 `;
 
+const StyledResourceAddedSnack = styled.div`
+  gap: ${spacing.small};
+  display: flex;
+`;
+
+const StyledResource = styled.p`
+  margin: 0;
+`;
+
 const StyledNewFolder = styled(NewFolder)`
   border-left: ${spacing.xsmall} solid ${colors.brand.light};
   border-right: ${spacing.xsmall} solid ${colors.brand.light};
@@ -90,12 +98,14 @@ const StyledSafeLink = styled(SafeLink)`
 const ResourceAddedSnack = ({ folder }: ResourceAddedSnackProps) => {
   const { t } = useTranslation();
   return (
-    <DefaultSnack>
-      {t('myNdla.resource.addedToFolder')}
-      <StyledSafeLink to={`/minndla/folders/${folder.id}`}>
-        "{folder.name}"
-      </StyledSafeLink>
-    </DefaultSnack>
+    <StyledResourceAddedSnack>
+      <StyledResource>
+        {t('myNdla.resource.addedToFolder')}
+        <StyledSafeLink to={`/minndla/folders/${folder.id}`}>
+          "{folder.name}"
+        </StyledSafeLink>
+      </StyledResource>
+    </StyledResourceAddedSnack>
   );
 };
 
