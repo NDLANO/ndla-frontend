@@ -29,7 +29,7 @@ describe('Topic page', () => {
       .click()
       .get('a:contains("Medieuttrykk 3 og mediesamfunnet 3")')
       .last()
-      .click({ force: true });
+      .click();
     cy.gqlWait('@medieutrykk');
 
     cy.gqlIntercept({
@@ -38,9 +38,7 @@ describe('Topic page', () => {
     });
     cy.get(
       '[data-testid="nav-box-list"] li a:contains("Idéskaping og mediedesign")',
-    ).click({
-      force: true,
-    });
+    ).click();
     cy.gqlWait('@topicpage');
     cy.get('[data-testid="nav-topic-about"]').within(() => {
       cy.get('h1').contains(/\w+/);
@@ -60,7 +58,7 @@ describe('Topic page', () => {
       .click()
       .get('a:contains("Medieuttrykk 3 og mediesamfunnet 3")')
       .last()
-      .click({ force: true });
+      .click();
     cy.gqlWait('@medieutrykk');
 
     cy.gqlIntercept({
@@ -69,9 +67,7 @@ describe('Topic page', () => {
     });
     cy.get(
       '[data-testid="nav-box-list"] li a:contains("Tverrfaglige medieoppdrag")',
-    ).click({
-      force: true,
-    });
+    ).click();
     cy.gqlWait('@topicpageWithContent');
     cy.get('[data-testid="nav-topic-about"]').within(() => {
       cy.get('h1').contains(/\w+/);

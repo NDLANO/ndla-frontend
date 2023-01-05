@@ -28,7 +28,7 @@ describe('Subjects page', () => {
       .click()
       .get('a:contains("Medie- og informasjonskunnskap")')
       .last()
-      .click({ force: true });
+      .click();
     cy.gqlWait('@subjectpage');
 
     cy.get('[data-testid="nav-box-item"] span').contains(/\w+/);
@@ -49,7 +49,7 @@ describe('Subjects page', () => {
       .click()
       .get('a:contains("Medie- og informasjonskunnskap")')
       .last()
-      .click({ force: true });
+      .click();
     cy.gqlWait('@subjectpage');
 
     cy.get('[data-testid="breadcrumb-list"] a')

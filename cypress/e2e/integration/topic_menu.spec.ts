@@ -26,7 +26,7 @@ describe('Topic menu', () => {
       .click()
       .get('a:contains("Markedsføring og ledelse 1")')
       .last()
-      .click({ force: true });
+      .click();
     cy.gqlWait('@subjectpageTopicMenu');
 
     cy.get('[data-testid=masthead-menu-button]').click();

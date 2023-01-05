@@ -22,9 +22,7 @@ describe('Toolbox page', () => {
       alias: 'toolboxStudents',
       operations: ['toolboxSubjectPage', 'mastHead'],
     });
-    cy.get('a:contains("Se alle tipsene for elever")').click({
-      force: true,
-    });
+    cy.get('a:contains("Se alle tipsene for elever")').click();
     cy.gqlWait('@toolboxStudents');
 
     cy.get('[class="o-wrapper "] h1:contains("Verktøykassa – for elev")');
@@ -42,9 +40,7 @@ describe('Toolbox page', () => {
       alias: 'toolboxTeachers',
       operations: ['toolboxSubjectPage', 'mastHead'],
     });
-    cy.get('a:contains("Se alle tipsene for lærere")').click({
-      force: true,
-    });
+    cy.get('a:contains("Se alle tipsene for lærere")').click();
     cy.gqlWait('@toolboxTeachers');
 
     cy.get('[class="o-wrapper "] h1:contains("Verktøykassa – for lærer")');
