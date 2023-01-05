@@ -44,6 +44,7 @@ export const DraggableListItem = styled.li<DraggableListItemProps>`
 `;
 
 export const DragWrapper = styled.div`
+  max-width: 100%;
   background-color: ${colors.white};
   flex-grow: 1;
 `;
