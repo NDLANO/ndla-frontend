@@ -7,8 +7,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import Modal, { ModalBody, ModalCloseButton, ModalHeader } from '@ndla/modal';
+import { ModalBody, ModalCloseButton, ModalHeader, ModalV2 } from '@ndla/modal';
 import LoginComponent from './LoginComponent';
 
 interface Props {
@@ -16,33 +15,20 @@ interface Props {
   onClose: () => void;
 }
 
-const StyledModal = styled(Modal)`
-  && h2 {
-    margin: 0;
-  }
-`;
-
 const LoginModal = ({ isOpen, onClose }: Props) => {
   const { t } = useTranslation();
 
   return (
-    <StyledModal
-      controllable
+    <ModalV2
+      controlled
       isOpen={isOpen}
-      size="regular"
-      backgroundColor="white"
+      size="normal"
       onClose={onClose}
       label={t('user.modal.isNotAuth')}>
       {onCloseModal => (
         <>
           <ModalHeader>
             <ModalCloseButton
-              onMouseDown={e => {
-                e.preventDefault();
-              }}
-              onMouseUp={e => {
-                e.preventDefault();
-              }}
               title={t('modal.closeModal')}
               onClick={onCloseModal}
             />
@@ -52,7 +38,7 @@ const LoginModal = ({ isOpen, onClose }: Props) => {
           </ModalBody>
         </>
       )}
-    </StyledModal>
+    </ModalV2>
   );
 };
 
