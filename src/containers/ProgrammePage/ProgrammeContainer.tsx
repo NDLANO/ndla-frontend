@@ -35,14 +35,12 @@ interface Props extends WithTranslation {
   subjects?: GQLSubjectInfoFragment[];
   programme: ProgrammeType;
   grade: string;
-  onGradeChange: (newGrade: string) => void;
 }
 
 const ProgrammeContainer = ({
   programme,
   subjects,
   locale,
-  onGradeChange,
   grade,
   t,
 }: Props) => {
@@ -68,7 +66,6 @@ const ProgrammeContainer = ({
         grades={grades}
         image={image}
         selectedGrade={grade.toLowerCase()}
-        onChangeGrade={grade => onGradeChange(grade)}
       />
     </>
   );

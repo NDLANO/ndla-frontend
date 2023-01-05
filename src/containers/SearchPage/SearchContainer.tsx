@@ -97,7 +97,7 @@ const SearchContainer = ({
   const sortedSearchGroups = sortResourceTypes(searchGroups, 'type');
 
   return (
-    <>
+    <main>
       <SearchHeader
         query={query}
         suggestion={suggestion}
@@ -166,7 +166,7 @@ const SearchContainer = ({
           )}
         </>
       )}
-    </>
+    </main>
   );
 };
 

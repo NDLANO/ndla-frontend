@@ -242,7 +242,6 @@ export type GQLCategory = {
 export type GQLCompetenceGoal = {
   __typename?: 'CompetenceGoal';
   code?: Maybe<Scalars['String']>;
-  competenceAimSetId?: Maybe<Scalars['String']>;
   competenceGoalSet?: Maybe<GQLReference>;
   competenceGoalSetCode?: Maybe<Scalars['String']>;
   coreElements?: Maybe<Array<GQLElement>>;
@@ -707,6 +706,7 @@ export type GQLMutation = {
   sortResources: GQLSortResult;
   updateFolder: GQLFolder;
   updateFolderResource: GQLFolderResource;
+  updatePersonalData: GQLMyNdlaPersonalData;
 };
 
 export type GQLMutationAddFolderArgs = {
@@ -751,6 +751,17 @@ export type GQLMutationUpdateFolderArgs = {
 export type GQLMutationUpdateFolderResourceArgs = {
   id: Scalars['String'];
   tags?: InputMaybe<Array<Scalars['String']>>;
+};
+
+export type GQLMutationUpdatePersonalDataArgs = {
+  favoriteSubjects: Array<Scalars['String']>;
+};
+
+export type GQLMyNdlaPersonalData = {
+  __typename?: 'MyNdlaPersonalData';
+  favoriteSubjects: Array<Scalars['String']>;
+  id: Scalars['Int'];
+  role: Scalars['String'];
 };
 
 export type GQLName = {
@@ -856,6 +867,7 @@ export type GQLQuery = {
   groupSearch?: Maybe<Array<GQLGroupSearch>>;
   learningpath?: Maybe<GQLLearningpath>;
   listingPage?: Maybe<GQLListingPage>;
+  personalData: GQLMyNdlaPersonalData;
   podcast?: Maybe<GQLAudioWithSeries>;
   podcastSearch?: Maybe<GQLAudioSearch>;
   podcastSeries?: Maybe<GQLPodcastSeriesWithEpisodes>;
@@ -891,7 +903,6 @@ export type GQLQueryCompetenceGoalArgs = {
 export type GQLQueryCompetenceGoalsArgs = {
   codes?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   language?: InputMaybe<Scalars['String']>;
-  nodeId?: InputMaybe<Scalars['String']>;
 };
 
 export type GQLQueryConceptArgs = {
@@ -1035,6 +1046,7 @@ export type GQLQuerySubjectpageArgs = {
 
 export type GQLQuerySubjectsArgs = {
   filterVisible?: InputMaybe<Scalars['Boolean']>;
+  ids?: InputMaybe<Array<Scalars['String']>>;
   metadataFilterKey?: InputMaybe<Scalars['String']>;
   metadataFilterValue?: InputMaybe<Scalars['String']>;
 };
@@ -1460,7 +1472,6 @@ export type GQLArticle_ArticleFragment = {
     title: string;
     url: string;
   }>;
-  competenceGoals?: Array<{ __typename?: 'CompetenceGoal'; type: string }>;
 } & GQLLicenseBox_ArticleFragment;
 
 export type GQLArticleContents_TopicFragment = {
@@ -1818,15 +1829,6 @@ export type GQLLicenseListCopyrightFragment = {
     name: string;
     type: string;
   }>;
-};
-
-export type GQLAllSubjectsQueryVariables = Exact<{ [key: string]: never }>;
-
-export type GQLAllSubjectsQuery = {
-  __typename?: 'Query';
-  subjects?: Array<
-    { __typename?: 'Subject' } & GQLSubjectLinkListSubjectFragment
-  >;
 };
 
 export type GQLArticlePage_ResourceTypeFragment = {
@@ -2205,10 +2207,6 @@ export type GQLMultidisciplinaryTopic_TopicFragment = {
 } & GQLArticleContents_TopicFragment &
   GQLResources_TopicFragment;
 
-export type GQLMultidisciplinaryTopic_ResourceTypeDefinitionFragment = {
-  __typename?: 'ResourceTypeDefinition';
-} & GQLResources_ResourceTypeDefinitionFragment;
-
 export type GQLMultidisciplinaryTopic_SubjectFragment = {
   __typename?: 'Subject';
   id: string;
@@ -2227,11 +2225,6 @@ export type GQLMultidisciplinaryTopicWrapperQuery = {
     __typename?: 'Topic';
     id: string;
   } & GQLMultidisciplinaryTopic_TopicFragment;
-  resourceTypes?: Array<
-    {
-      __typename?: 'ResourceTypeDefinition';
-    } & GQLMultidisciplinaryTopic_ResourceTypeDefinitionFragment
-  >;
 };
 
 export type GQLMultidisciplinaryTopicWrapper_SubjectFragment = {
@@ -2494,6 +2487,22 @@ export type GQLDeleteFolderResourceMutation = {
   deleteFolderResource: string;
 };
 
+export type GQLMySubjectsSubjectFragmentFragment = {
+  __typename?: 'Subject';
+  id: string;
+  name: string;
+  metadata: { __typename?: 'TaxonomyMetadata'; customFields: any };
+};
+
+export type GQLAllSubjectsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GQLAllSubjectsQuery = {
+  __typename?: 'Query';
+  subjects?: Array<
+    { __typename?: 'Subject' } & GQLMySubjectsSubjectFragmentFragment
+  >;
+};
+
 export type GQLDeletePersonalDataMutationVariables = Exact<{
   [key: string]: never;
 }>;
@@ -2501,6 +2510,33 @@ export type GQLDeletePersonalDataMutationVariables = Exact<{
 export type GQLDeletePersonalDataMutation = {
   __typename?: 'Mutation';
   deletePersonalData: boolean;
+};
+
+export type GQLMySubjectMyNdlaPersonalDataFragmentFragment = {
+  __typename?: 'MyNdlaPersonalData';
+  id: number;
+  favoriteSubjects: Array<string>;
+  role: string;
+};
+
+export type GQLPersonalDataQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GQLPersonalDataQuery = {
+  __typename?: 'Query';
+  personalData: {
+    __typename?: 'MyNdlaPersonalData';
+  } & GQLMySubjectMyNdlaPersonalDataFragmentFragment;
+};
+
+export type GQLUpdatePersonalDataMutationVariables = Exact<{
+  favoriteSubjects: Array<Scalars['String']> | Scalars['String'];
+}>;
+
+export type GQLUpdatePersonalDataMutation = {
+  __typename?: 'Mutation';
+  updatePersonalData: {
+    __typename?: 'MyNdlaPersonalData';
+  } & GQLMySubjectMyNdlaPersonalDataFragmentFragment;
 };
 
 export type GQLPlainArticleContainer_ArticleFragment = {

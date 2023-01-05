@@ -187,14 +187,16 @@ const MultidisciplinarySubjectPage = () => {
         description={socialMediaMetaData.description}
         imageUrl={socialMediaMetaData.image?.url}
       />
-      <MultidisciplinarySubject
-        id={selectedTopics.length === 0 ? SKIP_TO_CONTENT_ID : undefined}
-        hideCards={isNotLastTopic}
-        cards={cards}
-        totalCardCount={cards.length}>
-        <NavigationBox items={mainTopics} listDirection="horizontal" />
-        <TopicBoxes />
-      </MultidisciplinarySubject>
+      <main>
+        <MultidisciplinarySubject
+          id={selectedTopics.length === 0 ? SKIP_TO_CONTENT_ID : undefined}
+          hideCards={isNotLastTopic}
+          cards={cards}
+          totalCardCount={cards.length}>
+          <NavigationBox items={mainTopics} listDirection="horizontal" />
+          <TopicBoxes />
+        </MultidisciplinarySubject>
+      </main>
     </>
   );
 };

@@ -6,26 +6,32 @@
  *
  */
 
-import { memo, useContext } from 'react';
+import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
+import { css } from '@emotion/react';
 import Tooltip from '@ndla/tooltip';
-import { IconButton } from '@ndla/button';
-import { colors, spacing } from '@ndla/core';
+import { IconButtonV2 } from '@ndla/button';
+import { breakpoints, colors, mq, spacing } from '@ndla/core';
 import { FourlineHamburger, GridListView, List } from '@ndla/icons/action';
 import { ViewType } from './FoldersPage';
-import IsMobileContext from '../../../IsMobileContext';
 
 const StyledDisplayOptionsContainer = styled.div`
   display: flex;
   margin-left: auto;
 `;
 
+const hiddenOnMobileStyle = css`
+  ${mq.range({ until: breakpoints.mobileWide })} {
+    display: none;
+  }
+`;
+
 interface StyledIconButtonProps {
   selected?: boolean;
 }
 
-const StyledIconButton = styled(IconButton)<StyledIconButtonProps>`
+const StyledIconButton = styled(IconButtonV2)<StyledIconButtonProps>`
   padding: ${spacing.xsmall};
   margin: 0 ${spacing.xxsmall};
   svg {
@@ -52,14 +58,14 @@ interface Props {
 }
 
 const ListViewOptions = ({ onTypeChange, type }: Props) => {
-  const isMobile = useContext(IsMobileContext);
   const { t } = useTranslation();
   return (
     <StyledDisplayOptionsContainer>
       <Tooltip tooltip={t('myNdla.listView')}>
         <StyledIconButton
           selected={type === 'list'}
-          ghostPill
+          variant="ghost"
+          colorTheme="light"
           onClick={() => onTypeChange('list')}
           size="small"
           aria-label={t('myNdla.listView')}>
@@ -69,25 +75,25 @@ const ListViewOptions = ({ onTypeChange, type }: Props) => {
       <Tooltip tooltip={t('myNdla.detailView')}>
         <StyledIconButton
           selected={type === 'listLarger'}
-          ghostPill
+          variant="ghost"
+          colorTheme="light"
           onClick={() => onTypeChange('listLarger')}
           size="small"
           aria-label={t('myNdla.detailView')}>
           <List />
         </StyledIconButton>
       </Tooltip>
-      {!isMobile && (
-        <Tooltip tooltip={t('myNdla.shortView')}>
-          <StyledIconButton
-            selected={type === 'block'}
-            ghostPill
-            onClick={() => onTypeChange('block')}
-            size="small"
-            aria-label={t('myNdla.shortView')}>
-            <GridListView />
-          </StyledIconButton>
-        </Tooltip>
-      )}
+      <Tooltip tooltip={t('myNdla.shortView')} css={hiddenOnMobileStyle}>
+        <StyledIconButton
+          selected={type === 'block'}
+          variant="ghost"
+          colorTheme="light"
+          onClick={() => onTypeChange('block')}
+          size="small"
+          aria-label={t('myNdla.shortView')}>
+          <GridListView />
+        </StyledIconButton>
+      </Tooltip>
     </StyledDisplayOptionsContainer>
   );
 };

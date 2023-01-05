@@ -76,7 +76,7 @@ const MultidisciplinarySubjectArticle = ({
   const article = transformArticle(topic.article, i18n.language);
 
   return (
-    <>
+    <main>
       <Breadcrumblist hideOnNarrow items={[]} startOffset={268}>
         <ArticleSideBar
           copyPageUrlLink={copyPageUrlLink}
@@ -100,10 +100,15 @@ const MultidisciplinarySubjectArticle = ({
           path={topic.path}
         />
         <div ref={resourcesRef}>
-          <Resources topic={topic} resourceTypes={resourceTypes} />
+          <Resources
+            topic={topic}
+            resourceTypes={resourceTypes}
+            headingType="h2"
+            subHeadingType="h3"
+          />
         </div>
       </OneColumn>
-    </>
+    </main>
   );
 };
 
