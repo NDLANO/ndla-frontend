@@ -9,7 +9,7 @@
 import groupBy from 'lodash/groupBy';
 import { GQLMySubjectsSubjectFragmentFragment } from '../../graphqlTypes';
 
-export const letters = [
+export const subjectLetters = [
   '#',
   'A',
   'B',

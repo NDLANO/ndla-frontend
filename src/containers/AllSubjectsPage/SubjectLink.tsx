@@ -56,7 +56,7 @@ const SubjectLink = ({ subject, favorites, openLoginModal }: Props) => {
   const { authenticated } = useContext(AuthContext);
   const { updatePersonalData } = useUpdatePersonalData();
 
-  const setFavorite = async (value: boolean) => {
+  const setFavorite = async (isFavorite: boolean) => {
     if (!authenticated) {
       openLoginModal?.();
       return;
@@ -64,7 +64,7 @@ const SubjectLink = ({ subject, favorites, openLoginModal }: Props) => {
     if (!favorites) {
       return;
     }
-    if (value) {
+    if (isFavorite) {
       setShowDeleteModal(true);
     } else {
       const newFavorites = favorites.concat(subject.id);

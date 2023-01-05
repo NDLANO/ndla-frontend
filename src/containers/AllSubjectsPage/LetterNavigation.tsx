@@ -10,7 +10,7 @@ import styled from '@emotion/styled';
 import { buttonStyleV2 } from '@ndla/button';
 import { breakpoints, colors, fonts, misc, mq, spacing } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
-import { letters } from './utils';
+import { subjectLetters } from './utils';
 
 const LetterNavigationWrapper = styled.ul`
   display: flex;
@@ -80,7 +80,7 @@ const LetterNavigation = ({ activeLetters }: Props) => {
   const { t } = useTranslation();
   return (
     <LetterNavigationWrapper aria-label={t('subjectsPage.scrollToGroup')}>
-      {letters.map(letter => {
+      {subjectLetters.map(letter => {
         const enabled = activeLetters.includes(letter);
         return (
           <StyledLi key={letter}>

@@ -7,10 +7,7 @@
  */
 
 import gql from 'graphql-tag';
-import {
-  GQLMySubjectsSubjectFragmentFragment,
-  GQLSubjectsQuery,
-} from '../../graphqlTypes';
+import { GQLSubjectsQuery } from '../../graphqlTypes';
 import { useGraphQuery } from '../../util/runQueries';
 
 const subjectsQueryFragment = gql`
@@ -36,7 +33,5 @@ export const useSubjects = () => {
   const { data, loading, error } = useGraphQuery<GQLSubjectsQuery>(
     subjectsQuery,
   );
-  const subjects =
-    data?.subjects || ([] as GQLMySubjectsSubjectFragmentFragment[]);
-  return { subjects, loading, error };
+  return { subjects: data?.subjects, loading, error };
 };
