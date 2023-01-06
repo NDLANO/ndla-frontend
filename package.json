@@ -136,7 +136,7 @@
     "@ndla/select": "^2.1.0",
     "@ndla/tabs": "^2.1.1",
     "@ndla/tracker": "^2.0.5",
-    "@ndla/ui": "^33.4.1",
+    "@ndla/ui": "^33.4.2",
     "@ndla/util": "^3.1.9",
     "@ndla/zendesk": "^1.1.9",
     "babel-polyfill": "^6.26.0",

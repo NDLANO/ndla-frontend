@@ -71,9 +71,6 @@ interface StyledButtonProps {
 const activeStyle = css`
   background-color: ${colors.brand.primary};
   color: ${colors.white};
-  svg {
-    color: currentColor !important;
-  }
 `;
 
 const shouldForwardProp = (prop: string) => prop !== 'active';
@@ -93,10 +90,10 @@ const TextWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   gap: ${spacing.xsmall};
-  span {
-    color: ${colors.brand.primary};
-  }
-  text-decoration: none;
+`;
+
+const CurrentIndicator = styled.span`
+  color: ${colors.white};
 `;
 
 type Props = DrawerMenuButtonProps | DrawerMenuLinkProps;
@@ -126,7 +123,9 @@ const DrawerMenuItem = ({
           className={className}>
           <TextWrapper>
             {children}
-            {current && <span aria-hidden={true}>•</span>}
+            {current && (
+              <CurrentIndicator aria-hidden={true}>•</CurrentIndicator>
+            )}
           </TextWrapper>
         </StyledButton>
       </DrawerListItem>
@@ -145,7 +144,9 @@ const DrawerMenuItem = ({
           css={[style, active ? activeStyle : []]}>
           <TextWrapper>
             {children}
-            {current && <span aria-hidden={true}>•</span>}
+            {current && (
+              <CurrentIndicator aria-hidden={true}>•</CurrentIndicator>
+            )}
           </TextWrapper>
         </SafeLink>
       </DrawerListItem>
