@@ -10,7 +10,7 @@ import SafeLink, { SafeLinkProps } from '@ndla/safelink';
 import { ButtonV2 } from '@ndla/button';
 import { ReactNode } from 'react';
 import { css } from '@emotion/react';
-import { colors, fonts, spacing } from '@ndla/core';
+import { colors, fonts, misc, spacing } from '@ndla/core';
 import styled from '@emotion/styled';
 import { DrawerListItem } from './DrawerPortion';
 
@@ -40,7 +40,7 @@ const commonStyle = css`
   margin: 0 ${spacing.small};
   background-color: transparent;
   border: 0;
-  border-radius: 5px;
+  border-radius: ${misc.borderRadius};
   color: ${colors.brand.primary};
   text-align: start;
   box-shadow: none;

@@ -104,7 +104,7 @@ const MastheadDrawer = ({ subject }: Props) => {
           data-testid="masthead-menu-button"
           aria-label={t('masthead.menu.title')}>
           <Menu />
-          Meny
+          {t('masthead.menu.button')}
         </ButtonV2>
       }>
       {close => (
