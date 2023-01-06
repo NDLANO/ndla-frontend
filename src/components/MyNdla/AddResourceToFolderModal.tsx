@@ -9,6 +9,7 @@
 import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
+import { ListResource } from '@ndla/ui';
 import Modal, { ModalBody, ModalCloseButton, ModalHeader } from '@ndla/modal';
 import AddResourceToFolder, { ResourceAttributes } from './AddResourceToFolder';
 import { AuthContext } from '../AuthenticationContext';
@@ -75,9 +76,24 @@ const AddResourceToFolderModal = ({
               />
             ) : (
               <LoginComponent
-                resource={resource}
-                meta={meta}
+                title={t('myNdla.myPage.loginResourcePitch')}
                 onClose={onClose}
+                content={
+                  resource &&
+                  meta && (
+                    <ListResource
+                      id={resource.id.toString()}
+                      tagLinkPrefix="/minndla/tags"
+                      link={resource.path}
+                      title={meta.title}
+                      resourceImage={{
+                        src: meta.metaImage?.url ?? '',
+                        alt: meta.metaImage?.alt ?? '',
+                      }}
+                      resourceTypes={meta.resourceTypes}
+                    />
+                  )
+                }
               />
             )}
           </ModalBody>
