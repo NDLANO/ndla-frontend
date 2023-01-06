@@ -93,7 +93,7 @@ const TextWrapper = styled.div`
 `;
 
 const CurrentIndicator = styled.span`
-  color: ${colors.white};
+  color: currentColor;
 `;
 
 type Props = DrawerMenuButtonProps | DrawerMenuLinkProps;
