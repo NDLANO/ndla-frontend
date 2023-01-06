@@ -17,13 +17,6 @@ import useStickyObserver from '../../util/useStickyObserver';
 import { Subject } from './interfaces';
 import SubjectLink from './SubjectLink';
 
-interface Props {
-  label: string;
-  subjects: Subject[];
-  favorites: string[] | undefined;
-  openLoginModal: () => void;
-}
-
 export const GridList = styled.ul`
   display: grid;
   grid-template-columns: 50% 50%;
@@ -106,13 +99,13 @@ const GoToTop = styled.a<GoToTopProps>`
     border-width: 1px;
   }
 `;
+interface Props {
+  label: string;
+  subjects: Subject[];
+  favorites: string[] | undefined;
+}
 
-const SubjectCategory = ({
-  label,
-  subjects,
-  favorites,
-  openLoginModal,
-}: Props) => {
+const SubjectCategory = ({ label, subjects, favorites }: Props) => {
   const rootRef = useRef<HTMLLIElement>(null);
   const { t } = useTranslation();
   const stickyRef = useRef<HTMLDivElement>(null);
@@ -140,7 +133,6 @@ const SubjectCategory = ({
         })}>
         {subjects.map(subject => (
           <SubjectLink
-            openLoginModal={openLoginModal}
             favorites={favorites}
             key={subject.id}
             subject={subject}

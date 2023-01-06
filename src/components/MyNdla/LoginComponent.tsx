@@ -46,6 +46,7 @@ const ButtonRow = styled.div`
 `;
 
 const Title = styled.h1`
+  margin-bottom: 0;
   ${fonts.sizes('30px')};
   ${mq.range({ until: breakpoints.tablet })} {
     ${fonts.sizes('20px')};

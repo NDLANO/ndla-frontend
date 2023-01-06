@@ -16,6 +16,7 @@ import { useSnack } from '@ndla/ui';
 import { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AuthContext } from '../../components/AuthenticationContext';
+import LoginModal from '../../components/MyNdla/LoginModal';
 import { toSubject } from '../../routeHelpers';
 import DeleteModal from '../MyNdla/components/DeleteModal';
 import { useUpdatePersonalData } from '../MyNdla/userMutations';
@@ -32,7 +33,7 @@ const StyledIconButton = styled(IconButtonV2)`
   min-width: 40px;
 `;
 
-const StyledSafeLink = styled(SafeLink)`
+const SubjectSafeLink = styled(SafeLink)`
   ${fonts.sizes('18px', '24px')};
   font-weight: ${fonts.weight.semibold};
   box-shadow: none;
@@ -42,23 +43,30 @@ const StyledSafeLink = styled(SafeLink)`
   color: ${colors.brand.primary};
 `;
 
+const ModalSubjectContainer = styled.div`
+  margin-top: ${spacing.normal};
+  padding: ${spacing.small};
+  border: 1px solid ${colors.brand.neutral7};
+  border-radius: ${misc.borderRadius};
+`;
+
 interface Props {
   subject: Subject;
   favorites: string[] | undefined;
-  openLoginModal?: () => void;
 }
 
-const SubjectLink = ({ subject, favorites, openLoginModal }: Props) => {
+const SubjectLink = ({ subject, favorites }: Props) => {
   const isFavorite = !!favorites?.includes(subject.id);
   const { addSnack } = useSnack();
   const { t } = useTranslation();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
   const { authenticated } = useContext(AuthContext);
   const { updatePersonalData } = useUpdatePersonalData();
 
   const setFavorite = async (isFavorite: boolean) => {
     if (!authenticated) {
-      openLoginModal?.();
+      setShowLoginModal(true);
       return;
     }
     if (!favorites) {
@@ -108,7 +116,9 @@ const SubjectLink = ({ subject, favorites, openLoginModal }: Props) => {
           {isFavorite ? <Heart /> : <HeartOutline />}
         </StyledIconButton>
       </Tooltip>
-      <StyledSafeLink to={toSubject(subject.id)}>{subject.name}</StyledSafeLink>
+      <SubjectSafeLink to={toSubject(subject.id)}>
+        {subject.name}
+      </SubjectSafeLink>
       <DeleteModal
         isOpen={showDeleteModal}
         onClose={() => setShowDeleteModal(false)}
@@ -116,6 +126,21 @@ const SubjectLink = ({ subject, favorites, openLoginModal }: Props) => {
         title={t('subjectsPage.removeFavorite')}
         removeText={t('myNdla.resource.remove')}
         description={t('subjectsPage.confirmRemove', { subject: subject.name })}
+      />
+      <LoginModal
+        isOpen={showLoginModal}
+        onClose={() => setShowLoginModal(false)}
+        title={t('subjectsPage.subjectFavoritePitch')}
+        content={
+          <>
+            <span>{t('subjectsPage.subjectFavoriteGuide')}</span>
+            <ModalSubjectContainer>
+              <SubjectSafeLink to={toSubject(subject.id)}>
+                {subject.name}
+              </SubjectSafeLink>
+            </ModalSubjectContainer>
+          </>
+        }
       />
     </SubjectLinkWrapper>
   );
