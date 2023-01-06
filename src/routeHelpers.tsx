@@ -6,6 +6,7 @@
  *
  */
 
+import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import {
   MULTIDISCIPLINARY_SUBJECT_ID,
@@ -21,20 +22,6 @@ export function toSearch(searchString?: string) {
 }
 
 export const removeUrn = (str?: string) => str?.replace('urn:', '') ?? '';
-
-export const getInitialMastheadMenu = (pathname: string) => {
-  if (pathname.startsWith('/utdanning/')) {
-    return 'programme';
-  } else if (
-    pathname === '/' ||
-    pathname.startsWith('/podkast') ||
-    pathname.startsWith('/article/') ||
-    pathname.startsWith('/learningpaths/') ||
-    pathname.startsWith('/search')
-  ) {
-    return 'programmes';
-  } else return undefined;
-};
 
 interface MatchParams extends TypedParams {
   subjectId?: string;
@@ -67,28 +54,21 @@ export const useUrnIds = () => {
   const subjectId = params.subjectId
     ? `urn:subject${params.subjectId}`
     : undefined;
-  const topics = params.topicPath?.split('/') || [];
-  const topicList = topics.map((t: string) => `urn:${t}`);
-  const topicId = params.topicId ? `urn:topic${params.topicId}` : undefined;
-  const topic1 = params.topic1 ? `urn:topic${params.topic1}` : undefined;
-  const topic2 = params.topic2 ? `urn:topic${params.topic2}` : undefined;
-  const topic3 = params.topic3 ? `urn:topic${params.topic3}` : undefined;
-  const topic4 = params.topic4 ? `urn:topic${params.topic4}` : undefined;
-  if (topic1) {
-    topicList.push(topic1);
-  }
-  if (topic2) {
-    topicList.push(topic2);
-  }
-  if (topic3) {
-    topicList.push(topic3);
-  }
-  if (topic4) {
-    topicList.push(topic4);
-  }
-  if (topicId) {
-    topicList.push(topicId);
-  }
+  const topicList = useMemo(() => {
+    return [
+      params.topic1 ? `urn:topic${params.topic1}` : '',
+      params.topic2 ? `urn:topic${params.topic2}` : '',
+      params.topic3 ? `urn:topic${params.topic3}` : '',
+      params.topic4 ? `urn:topic${params.topic4}` : '',
+      params.topicId ? `urn:topic${params.topicId}` : '',
+    ].filter(s => !!s.length);
+  }, [
+    params.topicId,
+    params.topic1,
+    params.topic2,
+    params.topic3,
+    params.topic4,
+  ]);
 
   return {
     subjectId,

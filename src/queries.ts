@@ -587,52 +587,6 @@ export const movieFragment = gql`
   }
 `;
 
-export const mastHeadQuery = gql`
-  query mastHead(
-    $subjectId: String!
-    $topicId: String!
-    $resourceId: String!
-    $skipSubject: Boolean!
-    $skipTopic: Boolean!
-    $skipResource: Boolean!
-  ) {
-    subject(id: $subjectId) @skip(if: $skipSubject) {
-      id
-      name
-      path
-      topics(all: true) {
-        ...TopicInfo
-      }
-    }
-    resourceTypes {
-      id
-      name
-    }
-    topic(id: $topicId, subjectId: $subjectId) @skip(if: $skipTopic) {
-      id
-      metadata {
-        customFields
-      }
-      coreResources(subjectId: $subjectId) {
-        ...ResourceInfo
-      }
-      supplementaryResources(subjectId: $subjectId) {
-        ...ResourceInfo
-      }
-    }
-    resource(id: $resourceId, subjectId: $subjectId, topicId: $topicId)
-      @skip(if: $skipResource) {
-      ...ResourceInfo
-    }
-    subjects(filterVisible: true) {
-      ...SubjectInfo
-    }
-  }
-  ${topicInfoFragment}
-  ${resourceInfoFragment}
-  ${subjectInfoFragment}
-`;
-
 export const alertsQuery = gql`
   query alerts {
     alerts {
