@@ -511,18 +511,6 @@ export type GQLImageAltText = {
   language: Scalars['String'];
 };
 
-export type GQLImageCopyRight = {
-  __typename?: 'ImageCopyRight';
-  agreementId?: Maybe<Scalars['Int']>;
-  creators: Array<GQLContributor>;
-  license: GQLLicense;
-  origin: Scalars['String'];
-  processors: Array<GQLContributor>;
-  rightsholders: Array<GQLContributor>;
-  validFrom?: Maybe<Scalars['String']>;
-  validTo?: Maybe<Scalars['String']>;
-};
-
 export type GQLImageDimensions = {
   __typename?: 'ImageDimensions';
   height: Scalars['Int'];
@@ -573,17 +561,17 @@ export type GQLImageMetaInformation = {
   title: Scalars['String'];
 };
 
-export type GQLImageMetaInformationV3 = {
-  __typename?: 'ImageMetaInformationV3';
+export type GQLImageMetaInformationV2 = {
+  __typename?: 'ImageMetaInformationV2';
   alttext: GQLImageAltText;
   caption: GQLCaption;
   contentType: Scalars['String'];
-  copyright: GQLImageCopyRight;
+  copyright: GQLCopyright;
   created: Scalars['String'];
   createdBy: Scalars['String'];
   editorNotes?: Maybe<Array<GQLEditorNote>>;
   id: Scalars['String'];
-  imageDimensions: GQLImageDimensions;
+  imageDimensions?: Maybe<GQLImageDimensions>;
   imageUrl: Scalars['String'];
   metaUrl: Scalars['String'];
   modelRelease: Scalars['String'];
@@ -922,7 +910,7 @@ export type GQLQuery = {
   frontpage?: Maybe<GQLFrontpage>;
   frontpageSearch?: Maybe<GQLFrontpageSearch>;
   groupSearch?: Maybe<Array<GQLGroupSearch>>;
-  image: GQLImageMetaInformationV3;
+  image?: Maybe<GQLImageMetaInformationV2>;
   learningpath?: Maybe<GQLLearningpath>;
   listingPage?: Maybe<GQLListingPage>;
   personalData: GQLMyNdlaPersonalData;
@@ -2007,6 +1995,44 @@ export type GQLFilmFrontPageQuery = {
   } & GQLFilmFrontpage_SubjectFragment;
 };
 
+export type GQLImageQueryVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+export type GQLImageQuery = {
+  __typename?: 'Query';
+  image?: { __typename?: 'ImageMetaInformationV2' } & GQLImageElementFragment;
+};
+
+export type GQLImageElementFragment = {
+  __typename?: 'ImageMetaInformationV2';
+  id: string;
+  metaUrl: string;
+  imageUrl: string;
+  size: number;
+  contentType: string;
+  supportedLanguages?: Array<string>;
+  created: string;
+  createdBy: string;
+  modelRelease: string;
+  title: { __typename?: 'Title'; language: string; title: string };
+  alttext: { __typename?: 'ImageAltText'; language: string; alttext: string };
+  copyright: { __typename?: 'Copyright' } & GQLCopyrightInfoFragment;
+  tags: { __typename?: 'Tags'; language: string; tags: Array<string> };
+  caption: { __typename?: 'Caption'; language: string; caption: string };
+  editorNotes?: Array<{
+    __typename?: 'EditorNote';
+    timestamp: string;
+    updatedBy: string;
+    note: string;
+  }>;
+  imageDimensions?: {
+    __typename?: 'ImageDimensions';
+    width: number;
+    height: number;
+  };
+};
+
 export type GQLLearningpathPage_TopicFragment = {
   __typename?: 'Topic';
 } & GQLLearningpath_TopicFragment;
@@ -2179,10 +2205,6 @@ export type GQLMultidisciplinaryTopic_TopicFragment = {
 } & GQLArticleContents_TopicFragment &
   GQLResources_TopicFragment;
 
-export type GQLMultidisciplinaryTopic_ResourceTypeDefinitionFragment = {
-  __typename?: 'ResourceTypeDefinition';
-} & GQLResources_ResourceTypeDefinitionFragment;
-
 export type GQLMultidisciplinaryTopic_SubjectFragment = {
   __typename?: 'Subject';
   id: string;
@@ -2201,11 +2223,6 @@ export type GQLMultidisciplinaryTopicWrapperQuery = {
     __typename?: 'Topic';
     id: string;
   } & GQLMultidisciplinaryTopic_TopicFragment;
-  resourceTypes?: Array<
-    {
-      __typename?: 'ResourceTypeDefinition';
-    } & GQLMultidisciplinaryTopic_ResourceTypeDefinitionFragment
-  >;
 };
 
 export type GQLMultidisciplinaryTopicWrapper_SubjectFragment = {
@@ -3234,7 +3251,12 @@ export type GQLGroupSearchQuery = {
 export type GQLCopyrightInfoFragment = {
   __typename?: 'Copyright';
   origin?: string;
-  license: { __typename?: 'License'; license: string; url?: string };
+  license: {
+    __typename?: 'License';
+    license: string;
+    url?: string;
+    description?: string;
+  };
   creators: Array<{ __typename?: 'Contributor' } & GQLContributorInfoFragment>;
   processors: Array<
     { __typename?: 'Contributor' } & GQLContributorInfoFragment
@@ -3590,69 +3612,6 @@ export type GQLAlertsQuery = {
     closable: boolean;
     number: number;
   }>;
-};
-
-export type GQLImageQueryVariables = Exact<{
-  id: Scalars['String'];
-}>;
-
-export type GQLImageQuery = {
-  __typename?: 'Query';
-  image: {
-    __typename?: 'ImageMetaInformationV3';
-    id: string;
-    metaUrl: string;
-    imageUrl: string;
-    size: number;
-    contentType: string;
-    supportedLanguages?: Array<string>;
-    created: string;
-    createdBy: string;
-    modelRelease: string;
-    title: { __typename?: 'Title'; language: string; title: string };
-    alttext: { __typename?: 'ImageAltText'; alttext: string; language: string };
-    copyright: {
-      __typename?: 'ImageCopyRight';
-      agreementId?: number;
-      validFrom?: string;
-      validTo?: string;
-      origin: string;
-      license: {
-        __typename?: 'License';
-        license: string;
-        description?: string;
-        url?: string;
-      };
-      rightsholders: Array<{
-        __typename?: 'Contributor';
-        type: string;
-        name: string;
-      }>;
-      processors: Array<{
-        __typename?: 'Contributor';
-        type: string;
-        name: string;
-      }>;
-      creators: Array<{
-        __typename?: 'Contributor';
-        type: string;
-        name: string;
-      }>;
-    };
-    tags: { __typename?: 'Tags'; tags: Array<string>; language: string };
-    caption: { __typename?: 'Caption'; caption: string; language: string };
-    editorNotes?: Array<{
-      __typename?: 'EditorNote';
-      timestamp: string;
-      updatedBy: string;
-      note: string;
-    }>;
-    imageDimensions: {
-      __typename?: 'ImageDimensions';
-      width: number;
-      height: number;
-    };
-  };
 };
 
 export type GQLStructuredArticleData_CopyrightFragment = {
