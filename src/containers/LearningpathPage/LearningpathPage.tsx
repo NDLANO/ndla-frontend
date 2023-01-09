@@ -125,7 +125,7 @@ const LearningpathPage = ({ data, skipToContentId, stepId, t }: Props) => {
   return (
     <div>
       <Helmet>
-        <title>{`${getDocumentTitle(t, data)}`}</title>
+        <title>{`${getDocumentTitle(t, data, stepId)}`}</title>
         {subject?.metadata.customFields?.[
           TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY
         ] === constants.subjectCategories.ARCHIVE_SUBJECTS && (
@@ -204,10 +204,13 @@ const getTitle = (
   ]);
 };
 
-const getDocumentTitle = (t: TFunction, data: PropData) => {
+const getDocumentTitle = (t: TFunction, data: PropData, stepId?: string) => {
   const subject = data.subject;
   const learningpath = data.resource?.learningpath;
-  return htmlTitle(getTitle(subject, learningpath), [
+  const step = stepId
+    ? learningpath?.learningsteps?.[parseInt(stepId) - 1]
+    : undefined;
+  return htmlTitle(getTitle(subject, learningpath, step), [
     t('htmlTitles.titleTemplate'),
   ]);
 };
