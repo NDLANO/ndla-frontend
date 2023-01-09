@@ -129,6 +129,7 @@ const getUniqueCompetenceGoals = (
       text: competenceGoal.name,
       url: addUrl ? searchUrl + competenceGoal.id : '',
       type: goalType,
+      id: competenceGoal.id,
     }));
 };
 
