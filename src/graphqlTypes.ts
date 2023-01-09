@@ -102,7 +102,7 @@ export type GQLArticleSearchResult = GQLSearchResult & {
   url: Scalars['String'];
 };
 
-export type GQLAudio = GQLAudioBase & {
+export type GQLAudio = {
   __typename?: 'Audio';
   audioFile: GQLAudioFile;
   audioType: Scalars['String'];
@@ -112,21 +112,7 @@ export type GQLAudio = GQLAudioBase & {
   manuscript?: Maybe<GQLManuscript>;
   podcastMeta?: Maybe<GQLPodcastMeta>;
   revision: Scalars['Int'];
-  supportedLanguages: Array<Scalars['String']>;
-  tags: GQLTags;
-  title: GQLTitle;
-  updated: Scalars['String'];
-};
-
-export type GQLAudioBase = {
-  audioFile: GQLAudioFile;
-  audioType: Scalars['String'];
-  copyright: GQLCopyright;
-  created: Scalars['String'];
-  id: Scalars['Int'];
-  manuscript?: Maybe<GQLManuscript>;
-  podcastMeta?: Maybe<GQLPodcastMeta>;
-  revision: Scalars['Int'];
+  series?: Maybe<GQLPodcastSeries>;
   supportedLanguages: Array<Scalars['String']>;
   tags: GQLTags;
   title: GQLTitle;
@@ -169,23 +155,6 @@ export type GQLAudioSummary = {
   supportedLanguages: Array<Scalars['String']>;
   title: GQLTitle;
   url: Scalars['String'];
-};
-
-export type GQLAudioWithSeries = GQLAudioBase & {
-  __typename?: 'AudioWithSeries';
-  audioFile: GQLAudioFile;
-  audioType: Scalars['String'];
-  copyright: GQLCopyright;
-  created: Scalars['String'];
-  id: Scalars['Int'];
-  manuscript?: Maybe<GQLManuscript>;
-  podcastMeta?: Maybe<GQLPodcastMeta>;
-  revision: Scalars['Int'];
-  series?: Maybe<GQLPodcastSeries>;
-  supportedLanguages: Array<Scalars['String']>;
-  tags: GQLTags;
-  title: GQLTitle;
-  updated: Scalars['String'];
 };
 
 export type GQLBreadcrumb = {
@@ -851,6 +820,7 @@ export type GQLQuery = {
   alerts?: Maybe<Array<Maybe<GQLUptimeAlert>>>;
   allFolderResources: Array<GQLFolderResource>;
   article?: Maybe<GQLArticle>;
+  audio?: Maybe<GQLAudio>;
   competenceGoal?: Maybe<GQLCompetenceGoal>;
   competenceGoals?: Maybe<Array<GQLCompetenceGoal>>;
   concept?: Maybe<GQLConcept>;
@@ -868,7 +838,6 @@ export type GQLQuery = {
   learningpath?: Maybe<GQLLearningpath>;
   listingPage?: Maybe<GQLListingPage>;
   personalData: GQLMyNdlaPersonalData;
-  podcast?: Maybe<GQLAudioWithSeries>;
   podcastSearch?: Maybe<GQLAudioSearch>;
   podcastSeries?: Maybe<GQLPodcastSeriesWithEpisodes>;
   podcastSeriesSearch?: Maybe<GQLPodcastSeriesSearch>;
@@ -893,6 +862,10 @@ export type GQLQueryArticleArgs = {
   path?: InputMaybe<Scalars['String']>;
   showVisualElement?: InputMaybe<Scalars['String']>;
   subjectId?: InputMaybe<Scalars['String']>;
+};
+
+export type GQLQueryAudioArgs = {
+  id: Scalars['Int'];
 };
 
 export type GQLQueryCompetenceGoalArgs = {
@@ -974,10 +947,6 @@ export type GQLQueryLearningpathArgs = {
 
 export type GQLQueryListingPageArgs = {
   subjects?: InputMaybe<Scalars['String']>;
-};
-
-export type GQLQueryPodcastArgs = {
-  id: Scalars['Int'];
 };
 
 export type GQLQueryPodcastSearchArgs = {
@@ -1893,6 +1862,15 @@ export type GQLArticleHero_MetaImageFragment = {
   alt: string;
 };
 
+export type GQLAudioQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+export type GQLAudioQuery = {
+  __typename?: 'Query';
+  audio?: { __typename?: 'Audio' } & GQLPodcast_AudioFragment;
+};
+
 export type GQLFilmFrontpage_SubjectFragment = {
   __typename?: 'Subject';
   name: string;
@@ -2117,10 +2095,6 @@ export type GQLMultidisciplinaryTopic_TopicFragment = {
 } & GQLArticleContents_TopicFragment &
   GQLResources_TopicFragment;
 
-export type GQLMultidisciplinaryTopic_ResourceTypeDefinitionFragment = {
-  __typename?: 'ResourceTypeDefinition';
-} & GQLResources_ResourceTypeDefinitionFragment;
-
 export type GQLMultidisciplinaryTopic_SubjectFragment = {
   __typename?: 'Subject';
   id: string;
@@ -2139,11 +2113,6 @@ export type GQLMultidisciplinaryTopicWrapperQuery = {
     __typename?: 'Topic';
     id: string;
   } & GQLMultidisciplinaryTopic_TopicFragment;
-  resourceTypes?: Array<
-    {
-      __typename?: 'ResourceTypeDefinition';
-    } & GQLMultidisciplinaryTopic_ResourceTypeDefinitionFragment
-  >;
 };
 
 export type GQLMultidisciplinaryTopicWrapper_SubjectFragment = {
@@ -3528,36 +3497,6 @@ export type GQLAlertsQuery = {
     closable: boolean;
     number: number;
   }>;
-};
-
-export type GQLPodcastQueryVariables = Exact<{
-  id: Scalars['Int'];
-}>;
-
-export type GQLPodcastQuery = {
-  __typename?: 'Query';
-  podcast?: {
-    __typename?: 'AudioWithSeries';
-    id: number;
-    created: string;
-    audioType: string;
-    title: { __typename?: 'Title'; title: string };
-    audioFile: { __typename?: 'AudioFile'; url: string };
-    copyright: { __typename?: 'Copyright' } & GQLCopyrightInfoFragment;
-    manuscript?: { __typename?: 'Manuscript'; manuscript: string };
-    podcastMeta?: {
-      __typename?: 'PodcastMeta';
-      introduction: string;
-      image?: {
-        __typename?: 'ImageMetaInformation';
-        id: string;
-        imageUrl: string;
-        title: string;
-        altText: string;
-        copyright: { __typename?: 'Copyright' } & GQLCopyrightInfoFragment;
-      };
-    };
-  };
 };
 
 export type GQLStructuredArticleData_CopyrightFragment = {

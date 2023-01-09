@@ -1,30 +1,30 @@
+/**
+ * Copyright (c) 2023-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
 import { useParams } from 'react-router-dom';
-import { useEffect } from 'react';
 import { ContentPlaceholder, OneColumn } from '@ndla/ui';
-import { initArticleScripts } from '@ndla/article-scripts';
+import { gql } from '@apollo/client';
 import { useGraphQuery } from '../../util/runQueries';
-import { GQLPodcast_AudioFragment } from '../../graphqlTypes';
+import { GQLAudioQuery, GQLAudioQueryVariables } from '../../graphqlTypes';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import NotFoundPage from '../../containers/NotFoundPage/NotFoundPage';
-import { podcastQuery } from '../../queries';
-import Podcast from '../../containers/PodcastPage/Podcast';
-
-type QueryData = {
-  podcast: GQLPodcast_AudioFragment;
-};
+import Audio from '../../containers/PodcastPage/Audio';
 
 const AudioPage = () => {
   const { audioId } = useParams();
-  const { data, loading, error } = useGraphQuery<QueryData>(podcastQuery, {
+  const { data, loading, error } = useGraphQuery<
+    GQLAudioQuery,
+    GQLAudioQueryVariables
+  >(audioPageQuery, {
     variables: {
       id: Number.parseInt(audioId ?? ''),
     },
-    skip: !audioId,
+    skip: Number.isNaN(audioId),
   });
-
-  useEffect(() => {
-    initArticleScripts();
-  }, [loading]);
 
   if (loading) {
     return <ContentPlaceholder />;
@@ -34,15 +34,24 @@ const AudioPage = () => {
     return <DefaultErrorMessage />;
   }
 
-  if (!data?.podcast) {
+  if (!data?.audio) {
     return <NotFoundPage />;
   }
 
   return (
     <OneColumn>
-      <Podcast podcast={data.podcast} />
+      <Audio audio={data.audio} />
     </OneColumn>
   );
 };
+
+const audioPageQuery = gql`
+  ${Audio.fragments.audio}
+  query audio($id: Int!) {
+    audio(id: $id) {
+      ...Podcast_Audio
+    }
+  }
+`;
 
 export default AudioPage;
