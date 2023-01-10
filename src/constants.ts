@@ -51,3 +51,15 @@ export const EmotionCacheKey = 'css';
 
 export const AcquireLicensePage =
   'https://ndla.zendesk.com/hc/no/articles/360000945552-Bruk-av-lisenser-og-lisensiering';
+
+export const aboutNdlaUrl = 'https://om.ndla.no/';
+
+export const aboutNdlaLinks = {
+  whatIs: `${aboutNdlaUrl}hva-er-ndla/`,
+  numbers: `${aboutNdlaUrl}tall-og-rapporter/`,
+  organization: `${aboutNdlaUrl}organisasjon/`,
+  keyPersonnel: `${aboutNdlaUrl}organisasjon/nokkelpersoner-ndla/`,
+  vacancies: `${aboutNdlaUrl}utlysninger/`,
+  newsletter: `${aboutNdlaUrl}nyhetsbrev/`,
+  contact: `${aboutNdlaUrl}kontakt-oss/`,
+};

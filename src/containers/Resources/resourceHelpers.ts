@@ -8,7 +8,6 @@
 
 import config from '../../config';
 import { GQLResource } from '../../graphqlTypes';
-import { toArticle, toLearningPath } from '../../routeHelpers';
 
 export const URN_ARTICLE = 'urn:article:';
 export const URN_LEARTNING_PATH = 'urn:learningpath:';
@@ -53,29 +52,3 @@ export function getLearningPathUrlFromResource(
     languagePrefix ? `/${languagePrefix}` : ''
   }/learningpaths/${getLearningPathIdFromResource(resource)}/first-step`;
 }
-
-export const resourceToLinkProps = (
-  resource: Pick<GQLResource, 'id' | 'path' | 'contentUri'>,
-  subjectTopicPath: string,
-) => {
-  if (isLearningPathResource(resource)) {
-    return {
-      to: toLearningPath(undefined, undefined, {
-        path: resource.path!,
-      }),
-    };
-  }
-  if (isArticleResource(resource)) {
-    return {
-      to: toArticle(
-        parseInt(getArticleIdFromResource(resource)!),
-        {
-          path: resource.path!,
-          id: resource.id,
-        },
-        subjectTopicPath,
-      ),
-    };
-  }
-  return { to: '/404' };
-};
