@@ -54,6 +54,7 @@ interface CompetenceGoalType {
     id: string;
     title: string;
     goals: {
+      id: string;
       text: string;
       url: string;
       type: CompetenceGoalsType;

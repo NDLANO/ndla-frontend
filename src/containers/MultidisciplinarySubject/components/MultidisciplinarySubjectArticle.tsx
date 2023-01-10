@@ -37,7 +37,6 @@ const filterCodes: Record<string, 'publicHealth' | 'democracy' | 'climate'> = {
 };
 
 interface Props extends CustomWithTranslation {
-  copyPageUrlLink?: string;
   topic: GQLMultidisciplinarySubjectArticle_TopicFragment;
   subject: GQLMultidisciplinarySubjectArticle_SubjectFragment;
   resourceTypes?: GQLMultidisciplinarySubjectArticle_ResourceTypeDefinitionFragment[];
@@ -46,7 +45,6 @@ interface Props extends CustomWithTranslation {
 }
 
 const MultidisciplinarySubjectArticle = ({
-  copyPageUrlLink,
   topic,
   subject,
   i18n,
@@ -79,7 +77,6 @@ const MultidisciplinarySubjectArticle = ({
     <main>
       <Breadcrumblist hideOnNarrow items={[]} startOffset={268}>
         <ArticleSideBar
-          copyPageUrlLink={copyPageUrlLink}
           onLinkToResourcesClick={onLinkToResourcesClick}
           linkToResources="#"
         />

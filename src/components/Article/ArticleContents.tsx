@@ -26,14 +26,12 @@ import { GQLArticleContents_TopicFragment } from '../../graphqlTypes';
 
 interface Props {
   topic: GQLArticleContents_TopicFragment;
-  copyPageUrlLink: string;
   modifier: 'clean' | 'in-topic';
   showIngress: boolean;
 }
 
 const ArticleContents = ({
   topic,
-  copyPageUrlLink,
   modifier = 'clean',
   showIngress = true,
 }: Props) => {
@@ -75,7 +73,6 @@ const ArticleContents = ({
       <LayoutItem layout="extend">
         <ArticleByline
           licenseBox={<LicenseBox article={article} />}
-          copyPageUrlLink={copyPageUrlLink}
           {...{
             authors: article.copyright?.creators,
             published: article.published,
