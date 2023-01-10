@@ -207,9 +207,10 @@ const getTitle = (
 const getDocumentTitle = (t: TFunction, data: PropData, stepId?: string) => {
   const subject = data.subject;
   const learningpath = data.resource?.learningpath;
-  const step = stepId
-    ? learningpath?.learningsteps?.[parseInt(stepId) - 1]
-    : undefined;
+  const maybeStepId = parseInt(stepId ?? '');
+  const step = learningpath?.learningsteps.find(
+    step => step.id === maybeStepId,
+  );
   return htmlTitle(getTitle(subject, learningpath, step), [
     t('htmlTitles.titleTemplate'),
   ]);
