@@ -1456,6 +1456,7 @@ export type GQLArticle_ArticleFragment = {
   revisionDate?: string;
   metaData?: {
     __typename?: 'ArticleMetaData';
+    copyText?: string;
     footnotes?: Array<{
       __typename?: 'FootNote';
       ref: number;

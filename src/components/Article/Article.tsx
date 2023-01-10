@@ -83,7 +83,6 @@ interface Props {
   label: string;
   modifier?: string;
   isResourceArticle?: boolean;
-  copyPageUrlLink?: string;
   printUrl?: string;
   subjectId?: string;
   isPlainArticle?: boolean;
@@ -196,7 +195,6 @@ const Article = ({
   label,
   modifier,
   isResourceArticle = false,
-  copyPageUrlLink,
   printUrl,
   id,
   subjectId,
@@ -305,7 +303,7 @@ const Article = ({
         }
         renderMarkdown={renderMarkdown}
         modifier={isResourceArticle ? resourceType : modifier ?? 'clean'}
-        copyPageUrlLink={copyPageUrlLink}
+        copyText={article.metaData?.copyText}
         printUrl={printUrl}
         heartButton={
           path && <FavoriteButton path={path} onClick={() => setIsOpen(true)} />
@@ -339,6 +337,7 @@ Article.fragments = {
       introduction
       conceptIds
       metaData {
+        copyText
         footnotes {
           ref
           title

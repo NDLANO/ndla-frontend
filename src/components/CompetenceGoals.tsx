@@ -53,6 +53,7 @@ interface CompetenceGoalType {
     id: string;
     title: string;
     goals: {
+      id: string;
       text: string;
       url: string;
       type: CompetenceGoalsType;
@@ -125,6 +126,7 @@ const getUniqueCompetenceGoals = (
         competenceGoal.competenceGoalSet?.id === competenceGoalSetId,
     )
     .map(competenceGoal => ({
+      id: competenceGoal.id,
       text: competenceGoal.name,
       url: addUrl ? searchUrl + competenceGoal.id : '',
       type: goalType,
