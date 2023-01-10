@@ -28,7 +28,7 @@ export function getArticleScripts(
   if (article && article.content.indexOf('<math') > -1) {
     // Increment number for each change in config.
     scripts.push({
-      src: `/static/mathjax-config.js?locale=${locale}&ts=${2}`,
+      src: `/static/mathjax-config.js?locale=${locale}&ts=${3}`,
       type: 'text/javascript',
       async: false,
       defer: true,

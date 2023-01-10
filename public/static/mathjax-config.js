@@ -22,9 +22,8 @@ window.MathJax = {
           }
       },
       sre: {
-        domain: 'mathspeak',
-        style: 'sbrief',
-        speech: 'shallow',
+        domain: 'clearspeak',
+        style: 'Exponent_Ordinal:Fraction_General:MultiLineLabel_Equation:MultiLineOverview_None:ImpliedTimes_MoreImpliedTimes',
         locale: params.get('locale') || 'nb',
         structure: false,
       }
