@@ -44,6 +44,7 @@ import {
   MOVED_PERMANENTLY,
   TEMPORARY_REDIRECT,
   BAD_REQUEST,
+  GONE,
 } from '../statusCodes';
 import { isAccessTokenValid } from '../util/authHelpers';
 import { constructNewPath } from '../util/urlHelper';
@@ -60,8 +61,10 @@ const allowedBodyContentTypes = [
 app.disable('x-powered-by');
 app.enable('trust proxy');
 
+const PublicDir = process.env.RAZZLE_PUBLIC_DIR ?? '';
+
 const ndlaMiddleware = [
-  express.static(process.env.RAZZLE_PUBLIC_DIR ?? '', {
+  express.static(PublicDir, {
     maxAge: 1000 * 60 * 60 * 24 * 365, // One year
   }),
   express.urlencoded({ extended: true }),
@@ -84,14 +87,18 @@ const ndlaMiddleware = [
   }),
 ];
 
-app.get('/robots.txt', ndlaMiddleware, (req: Request, res: Response) => {
+app.get('/robots.txt', (req: Request, res: Response) => {
   // Using ndla.no robots.txt
   if (req.hostname === 'ndla.no') {
-    res.sendFile('robots.txt', { root: './build/' });
+    res.sendFile('robots.txt', { root: PublicDir });
   } else {
     res.type('text/plain');
     res.send('User-agent: *\nDisallow: /');
   }
+});
+
+app.get('/.well-known/security.txt', (_req: Request, res: Response) => {
+  res.sendFile(`security.txt`, { root: PublicDir });
 });
 
 app.get('/health', ndlaMiddleware, (_req: Request, res: Response) => {
@@ -130,8 +137,9 @@ const getLang = (
 
 app.get('/:lang?/login', async (req: Request, res: Response) => {
   const feideCookie = getCookie('feide_auth', req.headers.cookie ?? '') ?? '';
-  const feideToken = !!feideCookie ? JSON.parse(feideCookie) : undefined;
+  const feideToken = feideCookie ? JSON.parse(feideCookie) : undefined;
   const state = typeof req.query.state === 'string' ? req.query.state : '';
+  res.setHeader('Cache-Control', 'private');
   const lang = getLang(
     req.params.lang,
     getCookie(STORED_LANGUAGE_COOKIE_KEY, req.headers.cookie ?? ''),
@@ -146,16 +154,17 @@ app.get('/:lang?/login', async (req: Request, res: Response) => {
     res.cookie('PKCE_code', verifier, { httpOnly: true });
     return res.redirect(url);
   } catch (e) {
-    return await sendInternalServerError(req, res);
+    return await sendInternalServerError(res);
   }
 });
 
 app.get('/login/success', async (req: Request, res: Response) => {
   const code = typeof req.query.code === 'string' ? req.query.code : undefined;
   const state = typeof req.query.state === 'string' ? req.query.state : '/';
+  res.setHeader('Cache-Control', 'private');
   const verifier = getCookie('PKCE_code', req.headers.cookie ?? '');
   if (!code || !verifier) {
-    return await sendInternalServerError(req, res);
+    return await sendInternalServerError(res);
   }
 
   try {
@@ -182,24 +191,25 @@ app.get('/login/success', async (req: Request, res: Response) => {
     }
     return res.redirect(state);
   } catch (e) {
-    return await sendInternalServerError(req, res);
+    return await sendInternalServerError(res);
   }
 });
 
 app.get('/:lang?/logout', async (req: Request, res: Response) => {
   const feideCookie = getCookie('feide_auth', req.headers.cookie ?? '') ?? '';
-  const feideToken = !!feideCookie ? JSON.parse(feideCookie) : undefined;
+  const feideToken = feideCookie ? JSON.parse(feideCookie) : undefined;
   const state = typeof req.query.state === 'string' ? req.query.state : '/';
   const redirect = constructNewPath(state, req.params.lang);
+  res.setHeader('Cache-Control', 'private');
 
   if (!feideToken?.['id_token'] || typeof state !== 'string') {
-    return sendInternalServerError(req, res);
+    return sendInternalServerError(res);
   }
   try {
     const logoutUri = await feideLogout(req, redirect, feideToken['id_token']);
     return res.redirect(logoutUri);
   } catch (_) {
-    return await sendInternalServerError(req, res);
+    return await sendInternalServerError(res);
   }
 });
 
@@ -209,6 +219,7 @@ app.get('/logout/session', (req: Request, res: Response) => {
   const { basepath, basename } = getLocaleInfoFromPath(state);
   const wasPrivateRoute = privateRoutes.some(r => matchPath(r, basepath));
   const redirect = wasPrivateRoute ? constructNewPath('/', basename) : state;
+  res.setHeader('Cache-Control', 'private');
   return res.redirect(redirect);
 });
 
@@ -221,17 +232,21 @@ app.get(
   },
 );
 
-export async function sendInternalServerError(req: Request, res: Response) {
+export async function sendInternalServerError(res: Response) {
   if (res.getHeader('Content-Type') === 'application/json') {
     res.status(INTERNAL_SERVER_ERROR).json('Internal server error');
   } else {
-    const { data } = await errorRoute(req);
+    const { data } = await errorRoute();
     res.status(INTERNAL_SERVER_ERROR).send(data);
   }
 }
 
 function sendResponse(res: Response, data: any, status = OK) {
-  if (status === MOVED_PERMANENTLY || status === TEMPORARY_REDIRECT) {
+  if (
+    status === MOVED_PERMANENTLY ||
+    status === TEMPORARY_REDIRECT ||
+    status === GONE
+  ) {
     res.writeHead(status, data);
     res.end();
   } else if (res.getHeader('Content-Type') === 'application/json') {
@@ -249,7 +264,7 @@ async function handleRequest(req: Request, res: Response, route: RouteFunc) {
     sendResponse(res, data, status);
   } catch (err) {
     handleError(err);
-    await sendInternalServerError(req, res);
+    await sendInternalServerError(res);
   }
 }
 
@@ -314,9 +329,11 @@ app.get(
 
 app.post('/lti/oauth', ndlaMiddleware, async (req: Request, res: Response) => {
   const { body, query } = req;
-  if (!body || !query.url) {
+  if (!body || !query.url || typeof query.url !== 'string') {
     res.send(BAD_REQUEST);
+    return;
   }
+  res.setHeader('Cache-Control', 'private');
   res.send(JSON.stringify(generateOauthData(query.url, body)));
 });
 
@@ -357,7 +374,7 @@ app.get(
     const route = routes.find(r => matchPath(r, path)); // match with routes used in frontend
     const isPrivate = privateRoutes.some(r => matchPath(r, path));
     const feideCookie = getCookie('feide_auth', req.headers.cookie ?? '') ?? '';
-    const feideToken = !!feideCookie ? JSON.parse(feideCookie) : undefined;
+    const feideToken = feideCookie ? JSON.parse(feideCookie) : undefined;
     const isTokenValid = !!feideToken && isAccessTokenValid(feideToken);
     const shouldRedirect = isPrivate && !isTokenValid;
     if (!route) {
@@ -374,6 +391,12 @@ app.get(
   },
 );
 
+app.get(
+  '/*/search/apachesolr_search*',
+  (_req: Request, res: Response, _next: NextFunction) => {
+    sendResponse(res, undefined, 410);
+  },
+);
 app.get('/*', (_req: Request, res: Response, _next: NextFunction) => {
   res.redirect(NOT_FOUND_PAGE_PATH);
 });

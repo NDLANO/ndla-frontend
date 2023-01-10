@@ -4,7 +4,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 import { useEffect, useState } from 'react';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
 import config from '../../config';
 import { resolveJsonOrRejectWithError } from '../../util/apiHelpers';
@@ -139,7 +139,7 @@ const LtiDeepLinking = ({ ltiData = {}, item }: Props) => {
           }
         />
       ))}
-      <Button type="submit">{t('lti.embed')}</Button>
+      <ButtonV2 type="submit">{t('lti.embed')}</ButtonV2>
     </form>
   );
 };

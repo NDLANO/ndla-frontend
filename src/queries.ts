@@ -467,6 +467,14 @@ export const subjectInfoFragment = gql`
     metadata {
       customFields
     }
+    subjectpage {
+      about {
+        title
+      }
+      banner {
+        desktopUrl
+      }
+    }
   }
 `;
 
@@ -503,7 +511,7 @@ export const taxonomyEntityInfo = gql`
 
 export const searchPageQuery = gql`
   query searchPage {
-    subjects {
+    subjects(filterVisible: true) {
       ...SubjectInfo
     }
     resourceTypes {
@@ -518,6 +526,15 @@ export const searchPageQuery = gql`
   ${subjectInfoFragment}
 `;
 
+export const subjectsQuery = gql`
+  query subjects {
+    subjects(filterVisible: true) {
+      ...SubjectInfo
+    }
+  }
+  ${subjectInfoFragment}
+`;
+
 export const movedResourceQuery = gql`
   query movedResource($resourceId: String!) {
     resource(id: $resourceId) {
@@ -527,8 +544,8 @@ export const movedResourceQuery = gql`
 `;
 
 export const competenceGoalsQuery = gql`
-  query competenceGoals($codes: [String!], $nodeId: String, $language: String) {
-    competenceGoals(codes: $codes, nodeId: $nodeId, language: $language) {
+  query competenceGoals($codes: [String!], $language: String) {
+    competenceGoals(codes: $codes, language: $language) {
       id
       name: title
       type
@@ -568,47 +585,6 @@ export const movieFragment = gql`
     }
     path
   }
-`;
-
-export const mastHeadQuery = gql`
-  query mastHead(
-    $subjectId: String!
-    $topicId: String!
-    $resourceId: String!
-    $skipTopic: Boolean!
-    $skipResource: Boolean!
-  ) {
-    subject(id: $subjectId) {
-      id
-      name
-      path
-      topics(all: true) {
-        ...TopicInfo
-      }
-    }
-    resourceTypes {
-      id
-      name
-    }
-    topic(id: $topicId, subjectId: $subjectId) @skip(if: $skipTopic) {
-      id
-      metadata {
-        customFields
-      }
-      coreResources(subjectId: $subjectId) {
-        ...ResourceInfo
-      }
-      supplementaryResources(subjectId: $subjectId) {
-        ...ResourceInfo
-      }
-    }
-    resource(id: $resourceId, subjectId: $subjectId, topicId: $topicId)
-      @skip(if: $skipResource) {
-      ...ResourceInfo
-    }
-  }
-  ${topicInfoFragment}
-  ${resourceInfoFragment}
 `;
 
 export const alertsQuery = gql`

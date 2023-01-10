@@ -69,7 +69,9 @@ export const IframeTopicPage = ({
           />
         ))}
         <script type="application/ld+json">
-          {JSON.stringify(getStructuredDataFromArticle(propArticle))}
+          {JSON.stringify(
+            getStructuredDataFromArticle(propArticle, i18n.language),
+          )}
         </script>
       </Helmet>
       {article && (
@@ -83,19 +85,21 @@ export const IframeTopicPage = ({
       <PostResizeMessage />
       <FixDialogPosition />
       <OneColumn>
-        <Article
-          isTopicArticle
-          article={article}
-          label={t('topicPage.topic')}
-          isPlainArticle
-          isOembed
-          contentType={constants.contentTypes.TOPIC}>
-          <CreatedBy
-            name={t('createdBy.content')}
-            description={t('createdBy.text')}
-            url={contentUrl}
-          />
-        </Article>
+        <main>
+          <Article
+            isTopicArticle
+            article={article}
+            label={t('topicPage.topic')}
+            isPlainArticle
+            isOembed
+            contentType={constants.contentTypes.TOPIC}>
+            <CreatedBy
+              name={t('createdBy.content')}
+              description={t('createdBy.text')}
+              url={contentUrl}
+            />
+          </Article>
+        </main>
       </OneColumn>
     </>
   );
@@ -105,6 +109,7 @@ export const iframeTopicPageFragments = {
   article: gql`
     fragment IframeTopicPage_Article on Article {
       created
+      tags
       ...Article_Article
       ...StructuredArticleData
     }

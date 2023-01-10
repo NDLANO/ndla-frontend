@@ -134,6 +134,10 @@ const mergeGroupSearch = (
 const possibleTypes = {
   TaxonomyEntity: ['Resource', 'Topic'],
   SearchResult: ['ArticleSearchResult', 'LearningpathSearchResult'],
+  FolderResourceMeta: [
+    'ArticleFolderResourceMeta',
+    'LearningpathFolderResourceMeta',
+  ],
 };
 
 const typePolicies: TypePolicies = {
@@ -165,7 +169,11 @@ const typePolicies: TypePolicies = {
           }: FieldFunctionOptions<GQLQueryFolderResourceMetaSearchArgs>,
         ) {
           const refs = args?.resources.map(arg =>
-            toReference(`FolderResourceMeta:${arg.resourceType}${arg.id}`),
+            toReference(
+              `${
+                arg.resourceType === 'learningpath' ? 'Learningpath' : 'Article'
+              }FolderResourceMeta:${arg.resourceType}${arg.id}`,
+            ),
           );
 
           if (refs && refs.every(ref => canRead(ref))) {
@@ -205,6 +213,9 @@ const typePolicies: TypePolicies = {
   FolderResourceMeta: {
     keyFields: obj => `${obj.__typename}:${obj.type}${obj.id}`,
   },
+  MyNdlaPersonalData: {
+    keyFields: obj => obj.__typename,
+  },
 };
 
 function getCache() {
@@ -216,28 +227,19 @@ function getCache() {
   return cache;
 }
 
-export const createApolloClient = (
-  language = 'nb',
-  cookieString?: string,
-  versionHash?: string,
-) => {
+export const createApolloClient = (language = 'nb', versionHash?: string) => {
   const cache = getCache();
-
-  const cookie = __CLIENT__ ? document.cookie : cookieString;
 
   return new ApolloClient({
     ssrMode: true,
-    link: createApolloLinks(language, cookie, versionHash),
+    link: createApolloLinks(language, versionHash),
     cache,
   });
 };
 
-export const createApolloLinks = (
-  lang: string,
-  cookieString?: string,
-  versionHash?: string,
-) => {
-  const feideCookie = getFeideCookie(cookieString ?? '');
+export const createApolloLinks = (lang: string, versionHash?: string) => {
+  const cookieString = __CLIENT__ ? document.cookie : '';
+  const feideCookie = getFeideCookie(cookieString);
   const accessTokenValid = isAccessTokenValid(feideCookie);
   const accessToken = feideCookie?.access_token;
   const versionHeader = versionHash ? { versionHash: versionHash } : {};
@@ -257,11 +259,16 @@ export const createApolloLinks = (
   return ApolloLink.from([
     onError(({ graphQLErrors, networkError }) => {
       if (graphQLErrors) {
-        graphQLErrors.map(({ message, locations, path }) =>
-          handleError(
-            `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
-          ),
-        );
+        graphQLErrors.forEach(({ message, locations, path, extensions }) => {
+          if (
+            process.env.BUILD_TARGET === 'server' ||
+            extensions?.status !== 404
+          ) {
+            handleError(
+              `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
+            );
+          }
+        });
       }
       if (networkError) {
         handleError(`[Network error]: ${networkError}`, {

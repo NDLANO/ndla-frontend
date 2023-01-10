@@ -9,14 +9,13 @@
 
 import { StaticRouter } from 'react-router-dom/server.js';
 import { MemoryRouter } from 'react-router-dom';
-import renderer from 'react-test-renderer';
-import sinon from 'sinon';
+import { render } from '@testing-library/react';
 import RedirectContext from '../RedirectContext';
 import RedirectExternal from '../RedirectExternal';
 
 test('External redirect for static router', () => {
   const context = {};
-  renderer.create(
+  render(
     <RedirectContext.Provider value={context}>
       <StaticRouter>
         <RedirectExternal to="https://google.com/" />
@@ -31,7 +30,7 @@ test('External redirect for static router', () => {
 
 test('External redirect for static router with basename', () => {
   const context = {};
-  renderer.create(
+  render(
     <RedirectContext.Provider value={context}>
       <StaticRouter basename="nb" location={'/nb'}>
         <RedirectExternal to="https://google.com/" />
@@ -46,21 +45,16 @@ test('External redirect for static router with basename', () => {
 
 test('External redirect for (memory/dom) router', () => {
   const context = {};
-  const replace = sinon.spy();
-
-  const oldWindow = window.location;
+  const replace = jest.fn();
   delete window.location;
-  window.location = {
-    ...oldWindow,
-    replace,
-  };
+  window.location = { replace };
 
-  renderer.create(
+  render(
     <MemoryRouter basename="nb" context={context} initialEntries={['/nb']}>
       <RedirectExternal to="https://google.com/" />
     </MemoryRouter>,
   );
 
   expect(context).toEqual({});
-  expect(replace.calledWith('https://google.com/')).toBe(true);
+  expect(replace).toHaveBeenCalledWith('https://google.com/');
 });

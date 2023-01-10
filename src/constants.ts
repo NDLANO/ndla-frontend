@@ -32,6 +32,7 @@ export const TOOLBOX_STUDENT_SUBJECT_ID =
 export const SKIP_TO_CONTENT_ID = 'SkipToContentId';
 export const SUPPORTED_LANGUAGES = ['nb', 'nn', 'en'];
 export const STORED_LANGUAGE_COOKIE_KEY = 'language';
+export const STORED_RESOURCE_VIEW_SETTINGS = 'STORED_RESOURCE_VIEW_SETTINGS';
 
 export const PROGRAMME_PATH = '/utdanning';
 
@@ -46,7 +47,19 @@ export const OLD_SUBJECT_PAGE_REDIRECT_CUSTOM_FIELD = 'old-subject-id';
 export const LocaleValues = ['nb', 'nn', 'en'] as const;
 
 export const MastheadHeightPx = 84; // See `misc` in @ndla/core for origin
-export const EmotionCacheKey = 'ndla-frontend';
+export const EmotionCacheKey = 'css';
 
 export const AcquireLicensePage =
   'https://ndla.zendesk.com/hc/no/articles/360000945552-Bruk-av-lisenser-og-lisensiering';
+
+export const aboutNdlaUrl = 'https://om.ndla.no/';
+
+export const aboutNdlaLinks = {
+  whatIs: `${aboutNdlaUrl}hva-er-ndla/`,
+  numbers: `${aboutNdlaUrl}tall-og-rapporter/`,
+  organization: `${aboutNdlaUrl}organisasjon/`,
+  keyPersonnel: `${aboutNdlaUrl}organisasjon/nokkelpersoner-ndla/`,
+  vacancies: `${aboutNdlaUrl}utlysninger/`,
+  newsletter: `${aboutNdlaUrl}nyhetsbrev/`,
+  contact: `${aboutNdlaUrl}kontakt-oss/`,
+};

@@ -23,9 +23,9 @@ import {
 } from '@ndla/licenses';
 import { initArticleScripts } from '@ndla/article-scripts';
 import { gql } from '@apollo/client';
+import { SafeLinkButton } from '@ndla/safelink';
 
 import CopyTextButton from '../../components/license/CopyTextButton';
-import AnchorButton from '../../components/license/AnchorButton';
 import config from '../../config';
 import { GQLPodcast_AudioFragment } from '../../graphqlTypes';
 import { copyrightInfoFragment } from '../../queries';
@@ -173,12 +173,12 @@ const Podcast = ({ podcast, seriesId }: Props) => {
             hasCopiedTitle={t('license.hasCopiedTitle')}
           />
           {podcast.copyright.license?.license !== 'COPYRIGHTED' && (
-            <AnchorButton
-              href={podcast.audioFile.url}
+            <SafeLinkButton
+              to={podcast.audioFile.url}
               download
-              appearance="outline">
+              variant="outline">
               {t('license.download')}
-            </AnchorButton>
+            </SafeLinkButton>
           )}
         </FigureLicenseDialog>
       </FigureCaption>
@@ -219,12 +219,12 @@ const Podcast = ({ podcast, seriesId }: Props) => {
                     copyTitle={t('license.copyTitle')}
                     hasCopiedTitle={t('license.hasCopiedTitle')}
                   />
-                  <AnchorButton
-                    href={image.imageUrl}
+                  <SafeLinkButton
+                    to={image.imageUrl}
                     download
-                    appearance="outline">
+                    variant="outline">
                     {t('license.download')}
-                  </AnchorButton>
+                  </SafeLinkButton>
                 </>
               )}
             </FigureLicenseDialog>

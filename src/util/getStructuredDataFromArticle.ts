@@ -22,32 +22,50 @@ import { AcquireLicensePage } from '../constants';
 import { Breadcrumb } from '../interfaces';
 
 type CopyrightHolder = { '@type': string; name?: string };
+type Alignment = {
+  '@type': string;
+  alignmentType: string;
+  educationalFramework: string;
+  targetDescription?: string;
+  targetName?: string;
+  targetUrl?: string;
+};
 interface StructuredData {
-  embedUrl?: string;
-  thumbnailUrl?: string;
-  description?: string;
-  contentUrl?: string;
-  uploadDate?: string;
-  copyrightHolder?: CopyrightHolder[];
-  contributor?: CopyrightHolder[];
-  license?: string;
-  author?: CopyrightHolder[];
-  name?: string;
-  headline?: string;
-  abstract?: string;
-  datePublished?: string;
-  dateModified?: string;
-  image?: string;
-  numberOfItems?: number;
-  itemListELement?: {
-    '@type': string;
-    name?: string;
-    position: number;
-    item: string;
-  }[];
   '@type'?: string;
   '@context'?: string;
   '@id'?: string;
+  abstract?: string;
+  audience?: {
+    '@type': string;
+    educationalRole: string[];
+  };
+  author?: CopyrightHolder[];
+  contentUrl?: string;
+  contributor?: CopyrightHolder[];
+  copyrightHolder?: CopyrightHolder[];
+  dateCreated?: string;
+  dateModified?: string;
+  datePublished?: string;
+  description?: string;
+  educationalAlignment?: Alignment[];
+  educationalRole?: string;
+  embedUrl?: string;
+  headline?: string;
+  identifier?: string;
+  image?: string;
+  inLanguage?: string;
+  itemListELement?: {
+    '@type': string;
+    name?: string;
+    item: string;
+    position: number;
+  }[];
+  learningResourceType?: string[];
+  license?: string;
+  name?: string;
+  numberOfItems?: number;
+  thumbnailUrl?: string;
+  uploadDate?: string;
 }
 
 interface Mediaelements {
@@ -70,11 +88,13 @@ const IMAGE_TYPE = 'ImageObject';
 const VIDEO_TYPE = 'VideoObject';
 const AUDIO_TYPE = 'AudioObject';
 const PODCAST_TYPE = 'PodcastEpisode';
+const AUDIENCE_TYPE = 'EducationalAudience';
 
 export const publisher = {
   publisher: {
     '@type': ORGANIZATION_TYPE,
     name: 'NDLA',
+    legalName: 'NDLA',
     url: 'https://ndla.no',
     logo: 'https://ndla.no/static/logo.png',
   },
@@ -124,6 +144,36 @@ const getBreadcrumbs = (
     numberOfItems: breadcrumbItems.length,
     itemListELement: items,
   };
+};
+
+const getAllignments = (
+  article: GQLStructuredArticleDataFragment,
+): Alignment[] | undefined => {
+  const core = article.coreElements
+    ? article.coreElements?.map(ce => {
+        return {
+          '@type': 'AlignmentObject',
+          alignmentType: 'assesses',
+          educationalFramework: 'LK20',
+          targetDescription: ce.title,
+          targetName: ce.id,
+          targetUrl: `http://psi.udir.no/kl06/${ce.id}`,
+        };
+      })
+    : [];
+  const goals = article.competenceGoals
+    ? article.competenceGoals?.map(kg => {
+        return {
+          '@type': 'AlignmentObject',
+          alignmentType: 'teaches',
+          educationalFramework: kg.type,
+          targetDescription: kg.title,
+          targetName: kg.code || kg.id,
+          targetUrl: `http://psi.udir.no/kl06/${kg.code || kg.id}`,
+        };
+      })
+    : [];
+  return [...core, ...goals];
 };
 
 export const structuredArticleCopyrightFragment = gql`
@@ -193,15 +243,28 @@ const brightcoveLicenseFragment = gql`
 
 export const structuredArticleDataFragment = gql`
   fragment StructuredArticleData on Article {
+    id
     title
     metaDescription
     published
     updated
+    supportedLanguages
     copyright {
       ...StructuredArticleData_Copyright
     }
     metaImage {
       url
+    }
+    availability
+    competenceGoals {
+      id
+      code
+      title
+      type
+    }
+    coreElements {
+      id
+      title
     }
     metaData {
       images {
@@ -227,17 +290,36 @@ export const structuredArticleDataFragment = gql`
 
 const getStructuredDataFromArticle = (
   article: GQLStructuredArticleDataFragment,
+  language: string,
   breadcrumbItems?: Breadcrumb[],
 ) => {
+  const inLanguage = article.supportedLanguages?.includes(language)
+    ? language
+    : article.supportedLanguages?.[0] ?? language;
+  const educationalAlignment = getAllignments(article);
   const articleData: StructuredData = {
     ...structuredDataBase,
     '@type': CREATIVE_WORK_TYPE,
+    '@id': `${config.ndlaFrontendDomain}/article/${article.id}`,
+    identifier: `${config.ndlaFrontendDomain}/article/${article.id}`,
+    inLanguage: inLanguage,
+    learningResourceType: ['text'],
     name: article.title,
     headline: article.title,
     abstract: article.metaDescription,
+    audience: {
+      '@type': AUDIENCE_TYPE,
+      educationalRole: [
+        article.availability === 'teacher' ? 'teacher' : 'student',
+      ],
+    },
+    description: article.metaDescription,
+    dateCreated: format(article.published, 'YYYY-MM-DD'),
     datePublished: format(article.published, 'YYYY-MM-DD'),
     dateModified: format(article.updated, 'YYYY-MM-DD'),
+    educationalAlignment,
     image: article.metaImage?.url,
+    thumbnailUrl: article.metaImage?.url,
     ...publisher,
     ...getCopyrightData(article.copyright),
   };

@@ -7,14 +7,16 @@
  */
 
 import { useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { Spinner } from '@ndla/icons';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
+import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import { getProgrammeBySlug } from '../../data/programmes';
-import { getSubjectById } from '../../data/subjects';
-import { createSubjectUrl } from '../../util/programmesSubjectsHelper';
 import { LocaleType, ProgrammeGrade, ProgrammeType } from '../../interfaces';
-import { toProgramme, TypedParams, useTypedParams } from '../../routeHelpers';
+import { subjectsQuery } from '../../queries';
+import { useGraphQuery } from '../../util/runQueries';
+import { GQLSubjectsQuery, GQLSubjectInfoFragment } from '../../graphqlTypes';
+import { TypedParams, useTypedParams } from '../../routeHelpers';
 import ProgrammeContainer from './ProgrammeContainer';
 import { AuthContext } from '../../components/AuthenticationContext';
 
@@ -29,32 +31,30 @@ export interface GradesData {
     }[];
   }[];
 }
+
 export const mapGradesData = (
   grades: ProgrammeGrade[],
+  subjects: GQLSubjectInfoFragment[],
   locale: LocaleType,
 ): GradesData[] => {
   return grades.map(grade => {
     const categories = grade.categories.map(category => {
-      const subjects = category.subjects
-        .map(subject => {
-          const subjectInfo = getSubjectById(subject.id);
-          if (subjectInfo) {
-            /*const url = toProgrammeSubject(
-            programmeSlug,
-            subjectInfo.id,
-            subjectInfo.filters,
-          );*/
-            const url = createSubjectUrl(subjectInfo);
-            return {
-              label: subjectInfo.name?.[locale] ?? '',
-              url: url,
-            };
-          }
-          return undefined;
-        })
-        .filter((c): c is { label: string; url: string } => c !== undefined);
-      subjects.sort((a, b) => a.label.localeCompare(b.label, locale));
-      return { name: category.name?.[locale] ?? '', subjects };
+      const categorySubjects = category.subjects.map(subject => {
+        const taxSubject = subjects?.find(s => s.id === subject.id) ?? {
+          name: '',
+          path: '',
+          subjectpage: { about: { title: '' } },
+        };
+        return {
+          label: taxSubject.subjectpage?.about?.title || taxSubject.name || '',
+          url: taxSubject.path ?? '',
+        };
+      });
+      categorySubjects.sort((a, b) => a.label?.localeCompare(b.label, locale));
+      return {
+        name: category.name?.[locale] ?? '',
+        subjects: categorySubjects,
+      };
     });
     return {
       name: grade.name,
@@ -82,26 +82,26 @@ const ProgrammePage = () => {
   const { i18n } = useTranslation();
   const { programme: slug, grade: gradeParam } = useTypedParams<MatchParams>();
   const { user } = useContext(AuthContext);
+  const { loading, data } = useGraphQuery<GQLSubjectsQuery>(subjectsQuery);
   const programmeData = getProgrammeBySlug(slug, i18n.language);
-  const programmeGrades = programmeData?.grades;
   const grade = getGradeNameFromProgramme(gradeParam, programmeData);
-  const navigate = useNavigate();
+
+  if (loading) {
+    return <Spinner />;
+  }
+
+  if (!data) {
+    return <DefaultErrorMessage />;
+  }
 
   if (!programmeData || !grade) {
     return <NotFoundPage />;
   }
 
-  const onGradeChange = (newGrade: string) => {
-    if (!programmeGrades?.some(g => g.name.toLowerCase() === newGrade)) {
-      return;
-    }
-    navigate(toProgramme(slug, newGrade));
-  };
-
   return (
     <ProgrammeContainer
       programme={programmeData}
-      onGradeChange={onGradeChange}
+      subjects={data.subjects}
       grade={grade}
       locale={i18n.language}
       user={user}

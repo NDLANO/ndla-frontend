@@ -68,9 +68,11 @@ const LastLearningpathStepInfo = ({
       }>
       {showResources && topic && (
         <Resources
+          headingType="h2"
           key="resources"
           resourceTypes={resourceTypes}
           topic={topic}
+          subHeadingType="h3"
         />
       )}
     </LearningPathLastStepNavigation>

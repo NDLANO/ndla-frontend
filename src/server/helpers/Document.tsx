@@ -12,35 +12,34 @@ import ScriptLoader from '@ndla/polyfill/lib/ScriptLoader';
 import { GoogleTagMangerScript, GoogleTagMangerNoScript } from './Gtm';
 import { Matomo } from './Matomo';
 import config, { ConfigType } from '../../config';
-import { EmotionCacheKey } from '../../constants';
 
-interface Assets {
+export interface Assets {
   css?: string;
   js: { src: string }[];
-  mathJaxConfig: { js: string };
-  polyfill: { src: string };
+  mathJaxConfig?: { js: string };
+  polyfill?: { src: string };
 }
 
-interface DocumentData {
+export interface DocumentData {
   initialProps?: any;
   apolloState?: any;
   assets: Assets;
-  config: ConfigType;
+  config?: ConfigType;
 }
 
 interface Props {
   helmet: HelmetServerState;
   assets: Assets;
   data?: DocumentData;
-  css?: string;
-  ids?: string[];
+  styles?: string;
 }
 
-const Document = ({ helmet, assets, data, css, ids }: Props) => {
+const Document = ({ helmet, assets, data, styles }: Props) => {
   const htmlAttrs = helmet.htmlAttributes.toComponent();
   const bodyAttrs = helmet.bodyAttributes.toComponent();
 
   return (
+    // eslint-disable-next-line jsx-a11y/html-has-lang
     <html {...htmlAttrs}>
       <head>
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
@@ -49,9 +48,9 @@ const Document = ({ helmet, assets, data, css, ids }: Props) => {
           name="viewport"
           content="width=device-width, initial-scale=1 viewport-fit=cover"
         />
-        {config.gaTrackingId && (
+        {config.gaTrackingId ? (
           <script async src="https://www.google-analytics.com/analytics.js" />
-        )}
+        ) : null}
         <GoogleTagMangerScript />
         {helmet.title.toComponent()}
         {helmet.meta.toComponent()}
@@ -62,12 +61,8 @@ const Document = ({ helmet, assets, data, css, ids }: Props) => {
           href="/static/ndla-favicon.png"
           type="image/x-icon"
         />
-        {css && ids && (
-          <style data-emotion-css={`${EmotionCacheKey} ${ids.join(' ')}`}>
-            ${css}
-          </style>
-        )}
         {helmet.script.toComponent()}
+        {styles && <div dangerouslySetInnerHTML={{ __html: styles }} />}
       </head>
       <body {...bodyAttrs}>
         <GoogleTagMangerNoScript />

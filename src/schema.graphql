@@ -36,6 +36,15 @@ type Article {
   visualElement: VisualElement
 }
 
+type ArticleFolderResourceMeta implements FolderResourceMeta {
+  description: String!
+  id: Int!
+  metaImage: MetaImage
+  resourceTypes: [FolderResourceResourceType!]!
+  title: String!
+  type: String!
+}
+
 type ArticleMetaData {
   audios: [AudioLicense!]
   brightcoves: [BrightcoveLicense!]
@@ -191,7 +200,6 @@ type Category {
 
 type CompetenceGoal {
   code: String
-  competenceAimSetId: String
   competenceGoalSet: Reference
   competenceGoalSetCode: String
   coreElements: [Element!]
@@ -215,7 +223,7 @@ type Concept {
   created: String!
   id: Int!
   image: ImageLicense
-  metaImage: MetaImage!
+  metaImage: MetaImage
   source: String
   subjectIds: [String!]
   subjectNames: [String!]
@@ -290,6 +298,10 @@ type Element {
   reference: Reference!
 }
 
+type EmbedVisualelement {
+  visualElement: VisualElement
+}
+
 type FilmFrontpage {
   about: [FilmPageAbout!]!
   movieThemes: [MovieTheme!]!
@@ -323,7 +335,7 @@ type FolderResource {
   tags: [String!]!
 }
 
-type FolderResourceMeta {
+interface FolderResourceMeta {
   description: String!
   id: Int!
   metaImage: MetaImage
@@ -483,6 +495,15 @@ type LearningpathCoverphoto {
   url: String!
 }
 
+type LearningpathFolderResourceMeta implements FolderResourceMeta {
+  description: String!
+  id: Int!
+  metaImage: MetaImage
+  resourceTypes: [FolderResourceResourceType!]!
+  title: String!
+  type: String!
+}
+
 type LearningpathSearchResult implements SearchResult {
   contexts: [SearchContext!]!
   id: Int!
@@ -597,8 +618,17 @@ type Mutation {
   deleteFolder(id: String!): String!
   deleteFolderResource(folderId: String!, resourceId: String!): String!
   deletePersonalData: Boolean!
+  sortFolders(parentId: String, sortedIds: [String!]!): SortResult!
+  sortResources(parentId: String!, sortedIds: [String!]!): SortResult!
   updateFolder(id: String!, name: String, status: String): Folder!
   updateFolderResource(id: String!, tags: [String!]): FolderResource!
+  updatePersonalData(favoriteSubjects: [String!]!): MyNdlaPersonalData!
+}
+
+type MyNdlaPersonalData {
+  favoriteSubjects: [String!]!
+  id: Int!
+  role: String!
 }
 
 type Name {
@@ -685,11 +715,7 @@ type Query {
     subjectId: String
   ): Article
   competenceGoal(code: String!, language: String): CompetenceGoal
-  competenceGoals(
-    codes: [String]
-    language: String
-    nodeId: String
-  ): [CompetenceGoal!]
+  competenceGoals(codes: [String], language: String): [CompetenceGoal!]
   concept(id: Int!): Concept
   conceptSearch(
     exactMatch: Boolean
@@ -734,6 +760,7 @@ type Query {
   ): [GroupSearch!]
   learningpath(pathId: String!): Learningpath
   listingPage(subjects: String): ListingPage
+  personalData: MyNdlaPersonalData!
   podcast(id: Int!): AudioWithSeries
   podcastSearch(fallback: Boolean, page: Int!, pageSize: Int!): AudioSearch
   podcastSeries(id: Int!): PodcastSeriesWithEpisodes
@@ -780,6 +807,7 @@ type Query {
   subjectpage(id: Int!): SubjectPage
   subjects(
     filterVisible: Boolean
+    ids: [String!]
     metadataFilterKey: String
     metadataFilterValue: String
   ): [Subject!]
@@ -885,6 +913,11 @@ type SearchSuggestion {
 
 type SearchWithoutPagination {
   results: [SearchResult!]!
+}
+
+type SortResult {
+  parentId: String
+  sortedIds: [String!]!
 }
 
 scalar StringRecord
@@ -1040,8 +1073,4 @@ type VisualElementOembed {
 interface WithArticle {
   availability: String
   meta: Meta
-}
-
-type embedVisualelement {
-  visualElement: VisualElement
 }

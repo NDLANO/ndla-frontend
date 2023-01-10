@@ -6,37 +6,22 @@
  *
  */
 
+import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
-import config from './config';
 import {
   MULTIDISCIPLINARY_SUBJECT_ID,
   PROGRAMME_PATH,
   TOOLBOX_STUDENT_SUBJECT_ID,
   TOOLBOX_TEACHER_SUBJECT_ID,
 } from './constants';
-import { getSubjectLongName } from './data/subjects';
 import { GQLResource, GQLSubject, GQLTopic } from './graphqlTypes';
-import { Breadcrumb, LocaleType } from './interfaces';
+import { Breadcrumb } from './interfaces';
 
 export function toSearch(searchString?: string) {
   return `/search?${searchString || ''}`;
 }
 
 export const removeUrn = (str?: string) => str?.replace('urn:', '') ?? '';
-
-export const getInitialMastheadMenu = (pathname: string) => {
-  if (pathname.startsWith('/utdanning/')) {
-    return 'programme';
-  } else if (
-    pathname === '/' ||
-    pathname.startsWith('/podkast') ||
-    pathname.startsWith('/article/') ||
-    pathname.startsWith('/learningpaths/') ||
-    pathname.startsWith('/search')
-  ) {
-    return 'programmes';
-  } else return undefined;
-};
 
 interface MatchParams extends TypedParams {
   subjectId?: string;
@@ -51,33 +36,39 @@ interface MatchParams extends TypedParams {
   programme?: string;
 }
 
+export const useOnTopicPage = () => {
+  const { subjectId, resourceId, topicList } = useUrnIds();
+  if (!subjectId || resourceId || (subjectId && topicList.length === 0)) {
+    return false;
+  }
+  const subjectType = getSubjectType(subjectId);
+  if (subjectType === 'multiDisciplinary') {
+    return topicList.length < 3;
+  }
+
+  return true;
+};
+
 export const useUrnIds = () => {
   const params = useTypedParams<MatchParams>();
   const subjectId = params.subjectId
     ? `urn:subject${params.subjectId}`
     : undefined;
-  const topics = params.topicPath?.split('/') || [];
-  const topicList = topics.map((t: string) => `urn:${t}`);
-  const topicId = params.topicId ? `urn:topic${params.topicId}` : undefined;
-  const topic1 = params.topic1 ? `urn:topic${params.topic1}` : undefined;
-  const topic2 = params.topic2 ? `urn:topic${params.topic2}` : undefined;
-  const topic3 = params.topic3 ? `urn:topic${params.topic3}` : undefined;
-  const topic4 = params.topic4 ? `urn:topic${params.topic4}` : undefined;
-  if (topic1) {
-    topicList.push(topic1);
-  }
-  if (topic2) {
-    topicList.push(topic2);
-  }
-  if (topic3) {
-    topicList.push(topic3);
-  }
-  if (topic4) {
-    topicList.push(topic4);
-  }
-  if (topicId) {
-    topicList.push(topicId);
-  }
+  const topicList = useMemo(() => {
+    return [
+      params.topic1 ? `urn:topic${params.topic1}` : '',
+      params.topic2 ? `urn:topic${params.topic2}` : '',
+      params.topic3 ? `urn:topic${params.topic3}` : '',
+      params.topic4 ? `urn:topic${params.topic4}` : '',
+      params.topicId ? `urn:topic${params.topicId}` : '',
+    ].filter(s => !!s.length);
+  }, [
+    params.topicId,
+    params.topic1,
+    params.topic2,
+    params.topic3,
+    params.topic4,
+  ]);
 
   return {
     subjectId,
@@ -176,10 +167,6 @@ export function toTopic(subjectId: string, ...topicIds: string[]) {
   return t;
 }
 
-export const toTopicPartial = (subjectId: string, ...topicIds: string[]) => (
-  topicId: string,
-) => toTopic(subjectId, ...topicIds, topicId);
-
 export type SubjectURI = {
   id?: string;
   name?: string;
@@ -189,7 +176,6 @@ export type SubjectURI = {
 export function toBreadcrumbItems(
   rootName: string,
   paths: ({ id: string; name: string } | undefined)[],
-  locale: LocaleType = config.defaultLocale,
 ): Breadcrumb[] {
   const safePaths = paths.filter(
     (p): p is GQLTopic | GQLResource | GQLSubject => p !== undefined,
@@ -197,11 +183,7 @@ export function toBreadcrumbItems(
   const [subject, ...rest] = safePaths;
   if (!subject) return [];
   // henter longname fra filter og bruk i stedet for første ledd i path
-  const longName = getSubjectLongName(subject.id, locale);
-  const breadcrumbSubject = {
-    ...subject,
-    name: longName || subject.name,
-  };
+  const breadcrumbSubject = safePaths[0]!;
 
   const links = [breadcrumbSubject, ...rest];
   const breadcrumbs = links
@@ -220,23 +202,6 @@ export function fixEndSlash(link: string) {
     link = `${link}/`;
   }
   return link;
-}
-
-type LinkObject = {
-  contentUri?: string;
-  meta?: object;
-  path?: string;
-};
-
-export function toLinkProps(linkObject: LinkObject) {
-  const isLearningpath =
-    linkObject.contentUri &&
-    linkObject.contentUri.startsWith('urn:learningpath') &&
-    linkObject.meta;
-  const path = linkObject.path || '';
-  return {
-    to: isLearningpath ? toLearningPath() + path : path,
-  };
 }
 
 export function toProgramme(programmePath: string, grade?: string) {

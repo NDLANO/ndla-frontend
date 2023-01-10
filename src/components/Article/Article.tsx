@@ -35,6 +35,7 @@ import {
 import { MastheadHeightPx } from '../../constants';
 import { useGraphQuery } from '../../util/runQueries';
 import AddResourceToFolderModal from '../MyNdla/AddResourceToFolderModal';
+import FavoriteButton from './FavoritesButton';
 
 function renderCompetenceGoals(
   article: GQLArticle_ArticleFragment,
@@ -50,8 +51,7 @@ function renderCompetenceGoals(
   // Don't show competence goals for topics or articles without grepCodes
   if (
     !isTopicArticle &&
-    (article.competenceGoals?.length ||
-      article.grepCodes?.filter(gc => gc.toUpperCase().startsWith('K'))?.length)
+    article.grepCodes?.filter(gc => gc.toUpperCase().startsWith('K')).length
   ) {
     return ({
       Dialog,
@@ -62,7 +62,6 @@ function renderCompetenceGoals(
     }) => (
       <CompetenceGoals
         codes={article.grepCodes}
-        nodeId={article.oldNdlaUrl?.split('/').pop()}
         subjectId={subjectId}
         supportedLanguages={article.supportedLanguages}
         wrapperComponent={Dialog}
@@ -91,6 +90,7 @@ interface Props {
   isOembed?: boolean;
   showFavoriteButton?: boolean;
   myNdlaResourceType?: string;
+  path?: string;
 }
 
 const renderNotions = (
@@ -187,6 +187,7 @@ const articleConceptQuery = gql`
 `;
 
 const Article = ({
+  path,
   article,
   resourceType,
   isTopicArticle = false,
@@ -262,10 +263,6 @@ const Article = ({
     <ContentTypeBadge type={contentType} background size="large" />
   ) : null;
 
-  const competenceGoalTypes = Array.from(
-    new Set(article.competenceGoals?.map(goal => goal.type) ?? []),
-  );
-
   const art = {
     ...article,
     introduction: article.introduction!,
@@ -298,7 +295,6 @@ const Article = ({
           subjectId,
           isOembed,
         )}
-        competenceGoalTypes={competenceGoalTypes}
         notions={
           isPlainArticle
             ? undefined
@@ -311,8 +307,8 @@ const Article = ({
         modifier={isResourceArticle ? resourceType : modifier ?? 'clean'}
         copyPageUrlLink={copyPageUrlLink}
         printUrl={printUrl}
-        onToggleAddToFavorites={
-          showFavoriteButton ? () => setIsOpen(true) : undefined
+        heartButton={
+          path && <FavoriteButton path={path} onClick={() => setIsOpen(true)} />
         }
         {...rest}>
         {children}
@@ -356,9 +352,6 @@ Article.fragments = {
       relatedContent {
         title
         url
-      }
-      competenceGoals {
-        type
       }
       revisionDate
       ...LicenseBox_Article

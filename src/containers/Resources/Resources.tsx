@@ -8,7 +8,7 @@
 
 import { gql } from '@apollo/client';
 import { useEffect, useState } from 'react';
-import { ResourcesWrapper, ResourcesTopicTitle, ResourceGroup } from '@ndla/ui';
+import { ResourcesWrapper, ResourceGroup } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
 import { contentTypeMapping } from '../../util/getContentType';
 import { getResourceGroups, sortResourceTypes } from './getResourceGroups';
@@ -21,9 +21,11 @@ import {
   GQLResources_TopicFragment,
 } from '../../graphqlTypes';
 import { TypedParams, useIsNdlaFilm, useTypedParams } from '../../routeHelpers';
-import config from '../../config';
 import AddResourceToFolderModal from '../../components/MyNdla/AddResourceToFolderModal';
 import { ResourceAttributes } from '../../components/MyNdla/AddResourceToFolder';
+import FavoriteButton from '../../components/Article/FavoritesButton';
+import ResourcesTopicTitle from './ResourcesTopicTitle';
+import { HeadingType } from '../../interfaces';
 
 interface MatchProps extends TypedParams {
   topicId?: string;
@@ -35,8 +37,15 @@ interface MatchProps extends TypedParams {
 interface Props {
   topic: GQLResources_TopicFragment;
   resourceTypes?: GQLResources_ResourceTypeDefinitionFragment[];
+  headingType: HeadingType;
+  subHeadingType: HeadingType;
 }
-const Resources = ({ topic, resourceTypes }: Props) => {
+const Resources = ({
+  topic,
+  resourceTypes,
+  headingType,
+  subHeadingType,
+}: Props) => {
   const params = useTypedParams<MatchProps>();
   const [showAdditionalResources, setShowAdditionalResources] = useState(false);
   const [resourceToAdd, setResourceToAdd] = useState<
@@ -153,11 +162,9 @@ const Resources = ({ topic, resourceTypes }: Props) => {
     <ResourcesWrapper
       header={
         <ResourcesTopicTitle
-          messages={{
-            label: t('resource.label'),
-            additionalFilterLabel: t('resource.activateAdditionalResources'),
-          }}
-          title={topic.name}
+          heading={headingType}
+          title={t('resource.label')}
+          subTitle={topic.name}
           toggleAdditionalResources={toggleAdditionalResources}
           showAdditionalResources={showAdditionalResources}
           hasAdditionalResources={hasAdditionalResources}
@@ -170,30 +177,37 @@ const Resources = ({ topic, resourceTypes }: Props) => {
           showAdditionalResources={showAdditionalResources}
           toggleAdditionalResources={toggleAdditionalResources}
           invertedStyle={ndlaFilm}
-          showAddToFavoriteButton={config.feideEnabled}
-          onToggleAddToFavorites={id => {
-            const resource = ungroupedResources.find(r => r.id === id);
-            onToggleAddToFavorites(resource?.contentUri, resource?.path);
-          }}
-          onClick={() => {}}
+          heartButton={p => (
+            <FavoriteButton
+              path={p}
+              onClick={() => {
+                const resource = ungroupedResources?.find(r => r.path === p);
+                onToggleAddToFavorites(resource?.contentUri, resource?.path);
+              }}
+            />
+          )}
         />
       )}
       {!isUngrouped &&
         resourceGroupsWithMetaData.map(type => (
           <ResourceGroup
             key={type.id}
+            headingLevel={subHeadingType}
             title={type.name}
             resources={type.resources ?? []}
             showAdditionalResources={showAdditionalResources}
             toggleAdditionalResources={toggleAdditionalResources}
             contentType={type.contentType}
             invertedStyle={ndlaFilm}
-            showAddToFavoriteButton={config.feideEnabled}
-            onToggleAddToFavorites={id => {
-              const resource = type.resources?.find(r => r.id === id);
-              onToggleAddToFavorites(resource?.contentUri, resource?.path);
-            }}
-            onClick={() => {}}
+            heartButton={p => (
+              <FavoriteButton
+                path={p}
+                onClick={() => {
+                  const resource = ungroupedResources?.find(r => r.path === p);
+                  onToggleAddToFavorites(resource?.contentUri, resource?.path);
+                }}
+              />
+            )}
           />
         ))}
       <AddResourceToFolderModal

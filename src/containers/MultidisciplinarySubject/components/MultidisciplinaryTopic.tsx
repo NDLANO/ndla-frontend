@@ -17,17 +17,16 @@ import config from '../../../config';
 import VisualElementWrapper, {
   getResourceType,
 } from '../../../components/VisualElement/VisualElementWrapper';
-import { getSubjectLongName } from '../../../data/subjects';
 import {
   GQLMultidisciplinaryTopic_SubjectFragment,
   GQLMultidisciplinaryTopic_TopicFragment,
-  GQLResourceTypeDefinition,
 } from '../../../graphqlTypes';
-import { toTopic, useIsNdlaFilm } from '../../../routeHelpers';
+import { toTopic, useIsNdlaFilm, useUrnIds } from '../../../routeHelpers';
 import { getCrop, getFocalPoint } from '../../../util/imageHelpers';
 import { htmlTitle } from '../../../util/titleHelper';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import Resources from '../../Resources/Resources';
+import { SKIP_TO_CONTENT_ID } from '../../../constants';
 
 interface Props extends CustomWithTranslation {
   topicId: string;
@@ -35,7 +34,6 @@ interface Props extends CustomWithTranslation {
   subTopicId?: string;
   subject: GQLMultidisciplinaryTopic_SubjectFragment;
   topic: GQLMultidisciplinaryTopic_TopicFragment;
-  resourceTypes?: GQLResourceTypeDefinition[];
   loading?: boolean;
   disableNav?: boolean;
   user?: FeideUserApiType;
@@ -50,11 +48,11 @@ const MultidisciplinaryTopic = ({
   subjectId,
   subTopicId,
   topic,
-  resourceTypes,
   disableNav,
 }: Props) => {
   const [showContent, setShowContent] = useState(false);
   const ndlaFilm = useIsNdlaFilm();
+  const { topicList } = useUrnIds();
 
   useEffect(() => {
     setShowContent(false);
@@ -111,11 +109,6 @@ const MultidisciplinaryTopic = ({
               ),
             }
           : undefined,
-        resources: topic.subtopics ? (
-          <Resources topic={topic} resourceTypes={resourceTypes} />
-        ) : (
-          undefined
-        ),
       },
     };
   };
@@ -124,6 +117,11 @@ const MultidisciplinaryTopic = ({
 
   return (
     <UITopic
+      id={
+        topicId === topicList[topicList.length - 1]
+          ? SKIP_TO_CONTENT_ID
+          : undefined
+      }
       onToggleShowContent={
         article?.content !== '' ? () => setShowContent(!showContent) : undefined
       }
@@ -167,12 +165,6 @@ export const multidisciplinaryTopicFragments = {
     ${Resources.fragments.topic}
     ${ArticleContents.fragments.topic}
   `,
-  resourceType: gql`
-    fragment MultidisciplinaryTopic_ResourceTypeDefinition on ResourceTypeDefinition {
-      ...Resources_ResourceTypeDefinition
-    }
-    ${Resources.fragments.resourceType}
-  `,
   subject: gql`
     fragment MultidisciplinaryTopic_Subject on Subject {
       id
@@ -198,7 +190,7 @@ MultidisciplinaryTopic.willTrackPageView = (
 };
 
 MultidisciplinaryTopic.getDimensions = (props: Props) => {
-  const { topic, i18n, subject, user } = props;
+  const { topic, subject, user } = props;
   const topicPath = topic.path
     ?.split('/')
     .slice(2)
@@ -206,14 +198,12 @@ MultidisciplinaryTopic.getDimensions = (props: Props) => {
       subject.allTopics?.find(topic => topic.id.replace('urn:', '') === t),
     );
 
-  const longName = getSubjectLongName(subject?.id, i18n.language);
-
   return getAllDimensions(
     {
-      subject: subject,
+      subject,
       topicPath,
       article: topic.article,
-      filter: longName,
+      filter: subject.name,
       user,
     },
     undefined,

@@ -8,22 +8,21 @@
 
 import { useContext } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-import { keyBy } from 'lodash';
+import { Trans, useTranslation } from 'react-i18next';
+import keyBy from 'lodash/keyBy';
 import styled from '@emotion/styled';
-import { breakpoints, mq, spacing } from '@ndla/core';
+import { breakpoints, fonts, mq, spacing } from '@ndla/core';
 import { HeartOutline } from '@ndla/icons/action';
 import { FolderOutlined } from '@ndla/icons/contentType';
 import { Feide, HashTag } from '@ndla/icons/common';
 import { ListResource, UserInfo, Image } from '@ndla/ui';
-import Button, { DeleteButton } from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import SafeLink, { SafeLinkButton } from '@ndla/safelink';
 import { HelmetWithTracker } from '@ndla/tracker';
 import Modal, { ModalBody, ModalCloseButton, ModalHeader } from '@ndla/modal';
 import InfoPart, { InfoPartIcon, InfoPartText } from './InfoSection';
 import { AuthContext } from '../../components/AuthenticationContext';
 import {
-  useDeletePersonalData,
   useFolderResourceMetaSearch,
   useRecentlyUsedResources,
 } from './folderMutations';
@@ -32,6 +31,7 @@ import MyNdlaTitle from './components/MyNdlaTitle';
 import TitleWrapper from './components/TitleWrapper';
 import { constructNewPath, toHref } from '../../util/urlHelper';
 import { useBaseName } from '../../components/BaseNameContext';
+import { useDeletePersonalData } from './userMutations';
 
 const HeartOutlineIcon = InfoPartIcon.withComponent(HeartOutline);
 const FolderOutlinedIcon = InfoPartIcon.withComponent(FolderOutlined);
@@ -45,7 +45,7 @@ const StyledPageContentContainer = styled.div`
 
 const StyledIntroContainer = styled.div`
   display: flex;
-  ${mq.range({ from: breakpoints.tablet })} {
+  ${mq.range({ from: breakpoints.tabletWide })} {
     gap: ${spacing.large};
   }
 `;
@@ -61,12 +61,13 @@ const RoundedImage = styled(Image)`
   height: 160px;
   min-width: 160px;
   object-fit: cover;
-  ${mq.range({ until: breakpoints.tablet })} {
+  ${mq.range({ until: breakpoints.tabletWide })} {
     display: none;
   }
 `;
 
 const StyledResourceList = styled.ul`
+  padding: 0;
   display: flex;
   margin: 0;
   flex-direction: column;
@@ -95,6 +96,12 @@ const ButtonContainer = styled.div`
   flex-direction: column;
   gap: ${spacing.xsmall};
   padding-bottom: ${spacing.normal};
+`;
+
+const StyledDescription = styled.p`
+  line-height: 1.5;
+  ${fonts.sizes('24px')};
+  font-weight: ${fonts.weight.semibold};
 `;
 
 const MyNdlaPage = () => {
@@ -133,92 +140,89 @@ const MyNdlaPage = () => {
         <MyNdlaTitle title={t('myNdla.myPage.myPage')} />
       </TitleWrapper>
       <StyledIntroContainer>
-        <h2>{t('myNdla.myPage.welcome')}</h2>
-        <RoundedImage src="/static/my-ndla-login.png" alt="alt" />
+        <StyledDescription>{t('myNdla.myPage.welcome')}</StyledDescription>
+        <RoundedImage
+          src="/static/my-ndla-login.png"
+          alt={t('myNdla.myPage.imageAlt')}
+        />
       </StyledIntroContainer>
-      <h2>{t('myNdla.myPage.newFavourite')}</h2>
       {allFolderResources && allFolderResources.length > 0 && (
-        <StyledResourceList>
-          {allFolderResources.map(res => {
-            const meta = keyedData[`${res.resourceType}${res.resourceId}`];
-            return (
-              <ListItem key={res.id}>
-                <ListResource
-                  id={res.id}
-                  tagLinkPrefix="/minndla/tags"
-                  isLoading={loading}
-                  key={res.id}
-                  link={res.path}
-                  title={meta?.title ?? ''}
-                  resourceImage={{
-                    src: meta?.metaImage?.url ?? '',
-                    alt: '',
-                  }}
-                  tags={res.tags}
-                  topics={meta?.resourceTypes.map(rt => rt.name) ?? []}
-                />
-              </ListItem>
-            );
-          })}
-        </StyledResourceList>
+        <>
+          <h2>{t('myNdla.myPage.newFavourite')}</h2>
+          <StyledResourceList>
+            {allFolderResources.map(res => {
+              const meta = keyedData[`${res.resourceType}${res.resourceId}`];
+              return (
+                <ListItem key={res.id}>
+                  <ListResource
+                    headingLevel={'h3'}
+                    id={res.id}
+                    tagLinkPrefix="/minndla/tags"
+                    isLoading={loading}
+                    key={res.id}
+                    link={res.path}
+                    title={meta?.title ?? ''}
+                    resourceImage={{
+                      src: meta?.metaImage?.url ?? '',
+                      alt: '',
+                    }}
+                    tags={res.tags}
+                    resourceTypes={meta?.resourceTypes ?? []}
+                  />
+                </ListItem>
+              );
+            })}
+          </StyledResourceList>
+        </>
       )}
       <InfoPart
         icon={<HeartOutlineIcon />}
-        title={t('myNdla.myPage.storageInfo.title')}
-        children={
-          <InfoPartText>{t('myNdla.myPage.storageInfo.text')}</InfoPartText>
-        }
-      />
+        title={t('myNdla.myPage.storageInfo.title')}>
+        <InfoPartText>{t('myNdla.myPage.storageInfo.text')}</InfoPartText>
+      </InfoPart>
       <InfoPart
         icon={<FolderOutlinedIcon />}
-        title={t('myNdla.myPage.folderInfo.title')}
-        children={
-          <InfoPartText>{t('myNdla.myPage.folderInfo.text')}</InfoPartText>
-        }
-      />
-      <InfoPart
-        icon={<HashTagIcon />}
-        title={t('myNdla.myPage.tagInfo.title')}
-        children={
-          <InfoPartText>{t('myNdla.myPage.tagInfo.text')}</InfoPartText>
-        }
-      />
+        title={t('myNdla.myPage.folderInfo.title')}>
+        <InfoPartText>
+          <Trans i18nKey="myNdla.myPage.folderInfo.text" />
+        </InfoPartText>
+      </InfoPart>
+      <InfoPart icon={<HashTagIcon />} title={t('myNdla.myPage.tagInfo.title')}>
+        <InfoPartText>
+          <Trans i18nKey={'myNdla.myPage.tagInfo.text'} />
+        </InfoPartText>
+      </InfoPart>
       {user && (
-        <InfoPart
-          icon={<FeideIcon />}
-          title={t('myNdla.myPage.feide')}
-          children={
-            <>
-              <UserInfo user={user} />
-              <p>
-                {t('user.wrongUserInfoDisclaimer')}
-                <SafeLink to="https://feide.no/brukerstotte">
-                  feide.no/brukerstotte
-                </SafeLink>
-              </p>
-            </>
-          }
-        />
+        <InfoPart icon={<FeideIcon />} title={t('myNdla.myPage.feide')}>
+          <UserInfo user={user} />
+          <p>
+            {t('user.wrongUserInfoDisclaimer')}
+            <SafeLink to="https://feide.no/brukerstotte">
+              feide.no/brukerstotte
+            </SafeLink>
+          </p>
+        </InfoPart>
       )}
       <InfoContainer>
         <LinkText>
-          {`${t('myNdla.myPage.read.our')} `}
-          <SafeLink target="_blank" to="https://om.ndla.no/gdpr">
+          {`${t('myNdla.myPage.read.read')} `}
+          <SafeLink target="_blank" to={t('myNdla.myPage.privacyLink')}>
             {t('myNdla.myPage.privacy')}
           </SafeLink>
+          {`${t('myNdla.myPage.read.our')}`}
         </LinkText>
         <LinkText>
           {`${t('myNdla.myPage.questions.question')} `}
-          <Button
-            link
+          <ButtonV2
+            variant="link"
             onClick={() => document.getElementById('zendesk')?.click()}>
             {t('myNdla.myPage.questions.ask')}
-          </Button>
+          </ButtonV2>
         </LinkText>
       </InfoContainer>
       <ButtonContainer>
         <SafeLinkButton
-          outline
+          variant="outline"
           reloadDocument
           to={`/logout?state=${toHref(location)}`}>
           {t('myNdla.myPage.logout')}
@@ -229,7 +233,9 @@ const MyNdlaPage = () => {
         <Modal
           backgroundColor="white"
           activateButton={
-            <DeleteButton>{t('myNdla.myPage.deleteAccount')}</DeleteButton>
+            <ButtonV2 colorTheme="danger" variant="outline">
+              {t('myNdla.myPage.deleteAccount')}
+            </ButtonV2>
           }
           label={t('myNdla.myPage.deleteAccount')}>
           {onClose => (
@@ -244,12 +250,15 @@ const MyNdlaPage = () => {
               <ModalBody>
                 <p>{t('myNdla.myPage.confirmDeleteAccount')}</p>
                 <ButtonRow>
-                  <Button outline onClick={onClose}>
+                  <ButtonV2 variant="outline" onClick={onClose}>
                     {t('cancel')}
-                  </Button>
-                  <DeleteButton onClick={onDeleteAccount}>
+                  </ButtonV2>
+                  <ButtonV2
+                    colorTheme="danger"
+                    variant="outline"
+                    onClick={onDeleteAccount}>
                     {t('myNdla.myPage.confirmDeleteAccountButton')}
-                  </DeleteButton>
+                  </ButtonV2>
                 </ButtonRow>
               </ModalBody>
             </>

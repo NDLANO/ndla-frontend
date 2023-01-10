@@ -43,7 +43,11 @@ const PlainArticleContainer = ({
 }: Props) => {
   useEffect(() => {
     if (window.MathJax && typeof window.MathJax.typeset === 'function') {
-      window?.MathJax?.typeset();
+      try {
+        window.MathJax.typeset();
+      } catch (err) {
+        // do nothing
+      }
     }
   });
 
@@ -76,7 +80,9 @@ const PlainArticleContainer = ({
         )}
 
         <script type="application/ld+json">
-          {JSON.stringify(getStructuredDataFromArticle(propArticle))}
+          {JSON.stringify(
+            getStructuredDataFromArticle(propArticle, i18n.language),
+          )}
         </script>
       </Helmet>
       <SocialMediaMetadata
@@ -117,6 +123,7 @@ export const plainArticleContainerFragments = {
   article: gql`
     fragment PlainArticleContainer_Article on Article {
       created
+      tags
       ...Article_Article
       ...StructuredArticleData
     }

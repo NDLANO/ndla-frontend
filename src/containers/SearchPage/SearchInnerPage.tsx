@@ -28,6 +28,7 @@ import {
   GQLConceptSearchConceptFragment,
   GQLGroupSearchQuery,
   GQLResourceTypeDefinition,
+  GQLSubjectInfoFragment,
 } from '../../graphqlTypes';
 import { LtiData } from '../../interfaces';
 
@@ -43,6 +44,7 @@ export interface SubjectItem {
   id: string;
   title: string;
   url: string;
+  img?: { url: string };
 }
 
 export type SearchCompetenceGoal = Required<
@@ -54,9 +56,10 @@ interface Props {
   activeSubFilters: string[];
   handleSearchParamsChange: (updates: Record<string, any>) => void;
   query?: string;
-  subjects: string[];
-  programmes: string[];
-  subjectItems: SubjectItem[];
+  subjectIds: string[];
+  subjects?: GQLSubjectInfoFragment[];
+  programmeNames: string[];
+  subjectItems?: SubjectItem[];
   concepts?: GQLConceptSearchConceptFragment[];
   resourceTypes?: GQLResourceTypeDefinition[];
   ltiData?: LtiData;
@@ -67,9 +70,10 @@ interface Props {
 const SearchInnerPage = ({
   handleSearchParamsChange,
   query,
-  subjects,
-  programmes,
+  subjectIds,
+  programmeNames,
   subjectItems,
+  subjects,
   concepts,
   resourceTypes,
   ltiData,
@@ -101,8 +105,8 @@ const SearchInnerPage = ({
     ? {
         query,
         subjects: convertSearchParam([
-          ...subjects,
-          ...convertProgramSearchParams(programmes, i18n.language).subjects,
+          ...subjectIds,
+          ...convertProgramSearchParams(programmeNames, i18n.language).subjects,
         ]),
       }
     : getStateSearchParams(searchParams);
@@ -300,8 +304,9 @@ const SearchInnerPage = ({
       handleFilterToggle={handleFilterToggle}
       handleFilterReset={handleFilterReset}
       handleShowMore={handleShowMore}
-      subjects={subjects}
+      subjectIds={subjectIds}
       suggestion={suggestion}
+      subjects={subjects}
       concepts={concepts}
       query={query}
       subjectItems={subjectItems}

@@ -12,7 +12,7 @@ import ZendeskButton from '@ndla/zendesk';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import { css, Global } from '@emotion/core';
+import { css, Global } from '@emotion/react';
 import { matchPath, Outlet, useLocation } from 'react-router-dom';
 import Masthead from '../Masthead';
 import config from '../../config';
@@ -20,6 +20,7 @@ import FeideFooter from './components/FeideFooter';
 import Footer from './components/Footer';
 import { useIsNdlaFilm, useUrnIds } from '../../routeHelpers';
 import { usePrevious } from '../../util/utilityHooks';
+import TitleAnnouncer from './components/TitleAnnouncer';
 
 const ZendeskWrapper = styled.div`
   z-index: 10;
@@ -59,6 +60,7 @@ const Layout = () => {
 
   return (
     <PageContainer backgroundWide={backgroundWide} ndlaFilm={ndlaFilm}>
+      <TitleAnnouncer />
       <Global
         styles={css`
           html {
@@ -68,12 +70,8 @@ const Layout = () => {
       />
       <Helmet
         htmlAttributes={{ lang: i18n.language }}
-        title="NDLA"
         meta={[{ name: 'description', content: t('meta.description') }]}
       />
-      <Helmet>
-        <meta property="fb:app_id" content="115263542481787" />
-      </Helmet>
       <Masthead />
       <Content>
         <Outlet />

@@ -12,7 +12,9 @@ WORKDIR $APP_PATH
 RUN yarn install
 
 # Copy necessary source files for server and client build
-COPY .babelrc tsconfig.json .eslintrc.js razzle.config.js postcss.config.js $APP_PATH/
+COPY .babelrc tsconfig.json .eslintrc.js postcss.config.js $APP_PATH/
+COPY webpack $APP_PATH/webpack
+COPY scripts $APP_PATH/scripts
 
 COPY src $APP_PATH/src
 COPY public $APP_PATH/public
@@ -20,19 +22,15 @@ COPY public $APP_PATH/public
 # Build client code
 RUN yarn run build
 
-# Move robots.txt to build folder
-RUN mv $APP_PATH/src/server/robots.txt $APP_PATH/build/robots.txt
-
 ### Run stage
 FROM node:16.17-alpine
 
 RUN apk add py-pip jq && pip install awscli
 COPY run-ndla-frontend.sh /
 
-RUN npm install pm2 -g
 WORKDIR /home/app/ndla-frontend
 COPY --from=builder /home/app/ndla-frontend/build build
 
 ENV NODE_ENV=production
 
-CMD ["/run-ndla-frontend.sh", "pm2-runtime -i max build/server.js '|' bunyan"]
+CMD ["/run-ndla-frontend.sh", "node build/server.js '|' bunyan"]

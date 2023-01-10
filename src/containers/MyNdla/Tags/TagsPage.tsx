@@ -6,15 +6,15 @@
  *
  */
 
-import { useEffect, useMemo, useState } from 'react';
-import { keyBy } from 'lodash';
+import { useContext, useEffect, useMemo, useState } from 'react';
+import keyBy from 'lodash/keyBy';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { spacing } from '@ndla/core';
 import { SafeLinkButton } from '@ndla/safelink';
-import { ListResource, useSnack } from '@ndla/ui';
+import { BlockResource, ListResource, useSnack } from '@ndla/ui';
 import { copyTextToClipboard } from '@ndla/util';
 import { FolderOutlined } from '@ndla/icons/contentType';
 import { FileDocumentOutline, HashTag, Link } from '@ndla/icons/common';
@@ -31,6 +31,8 @@ import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
 import MyNdlaTitle from '../components/MyNdlaTitle';
 import TitleWrapper from '../components/TitleWrapper';
 import { usePrevious } from '../../../util/utilityHooks';
+import { STORED_RESOURCE_VIEW_SETTINGS } from '../../../constants';
+import { AuthContext } from '../../../components/AuthenticationContext';
 
 const StyledUl = styled.ul`
   padding: 0px;
@@ -111,8 +113,11 @@ interface ResourcesProps {
 }
 
 const Resources = ({ resources }: ResourcesProps) => {
-  const [type, setType] = useState<ViewType>('list');
+  const [viewType, _setViewType] = useState<ViewType>(
+    (localStorage.getItem(STORED_RESOURCE_VIEW_SETTINGS) as ViewType) || 'list',
+  );
   const { addSnack } = useSnack();
+  const { examLock } = useContext(AuthContext);
   const [resourceAction, setResourceAction] = useState<
     ResourceAction | undefined
   >(undefined);
@@ -129,19 +134,26 @@ const Resources = ({ resources }: ResourcesProps) => {
     data ?? [],
     resource => `${resource.type}-${resource.id}`,
   );
+
+  const setViewType = (type: ViewType) => {
+    _setViewType(type);
+    localStorage.setItem(STORED_RESOURCE_VIEW_SETTINGS, type);
+  };
+
+  const Resource = viewType === 'block' ? BlockResource : ListResource;
   return (
     <>
       <CountWrapper>
         <FileDocumentOutline />
         <span>{t('myNdla.resources', { count: resources.length })}</span>
       </CountWrapper>
-      <ListViewOptions type={type} onTypeChange={setType} />
-      <BlockWrapper type={type}>
+      <ListViewOptions type={viewType} onTypeChange={setViewType} />
+      <BlockWrapper type={viewType}>
         {resources.map(resource => {
           const meta =
             keyedData[`${resource.resourceType}-${resource.resourceId}`];
           return (
-            <ListResource
+            <Resource
               id={resource.id}
               tagLinkPrefix="/minndla/tags"
               isLoading={loading}
@@ -149,34 +161,39 @@ const Resources = ({ resources }: ResourcesProps) => {
               link={resource.path}
               title={meta?.title ?? ''}
               description={
-                type !== 'list' ? meta?.description ?? '' : undefined
+                viewType !== 'list' ? meta?.description ?? '' : undefined
               }
               tags={resource.tags}
-              topics={meta?.resourceTypes.map(rt => rt.name) ?? []}
+              resourceTypes={meta?.resourceTypes ?? []}
               resourceImage={{
                 src: meta?.metaImage?.url ?? '',
                 alt: '',
               }}
-              menuItems={[
-                {
-                  icon: <FolderOutlined />,
-                  text: t('myNdla.resource.add'),
-                  onClick: () => setResourceAction({ action: 'add', resource }),
-                },
-                {
-                  icon: <Link />,
-                  text: t('myNdla.resource.copyLink'),
-                  onClick: () => {
-                    copyTextToClipboard(
-                      `${config.ndlaFrontendDomain}${resource.path}`,
-                    );
-                    addSnack({
-                      content: t('myNdla.resource.linkCopied'),
-                      id: 'linkCopied',
-                    });
-                  },
-                },
-              ]}
+              menuItems={
+                !examLock
+                  ? [
+                      {
+                        icon: <FolderOutlined />,
+                        text: t('myNdla.resource.add'),
+                        onClick: () =>
+                          setResourceAction({ action: 'add', resource }),
+                      },
+                      {
+                        icon: <Link />,
+                        text: t('myNdla.resource.copyLink'),
+                        onClick: () => {
+                          copyTextToClipboard(
+                            `${config.ndlaFrontendDomain}${resource.path}`,
+                          );
+                          addSnack({
+                            content: t('myNdla.resource.linkCopied'),
+                            id: 'linkCopied',
+                          });
+                        },
+                      },
+                    ]
+                  : undefined
+              }
             />
           );
         })}
@@ -211,8 +228,8 @@ const Tags = ({ tags }: TagsProps) => {
           {tags.map(tag => (
             <li key={tag}>
               <StyledSafeLinkButton
-                greyLighter
-                borderShape="rounded"
+                colorTheme="greyLighter"
+                shape="pill"
                 key={tag}
                 to={encodeURIComponent(tag)}>
                 <HashTag />

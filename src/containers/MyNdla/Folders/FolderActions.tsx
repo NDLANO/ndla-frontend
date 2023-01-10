@@ -7,8 +7,8 @@
  */
 
 import { MenuButton, MenuItemProps } from '@ndla/button';
-import { Pencil } from '@ndla/icons/lib/action';
-import { DeleteForever } from '@ndla/icons/lib/editor';
+import { Pencil } from '@ndla/icons/action';
+import { DeleteForever } from '@ndla/icons/editor';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FolderActionType } from './FoldersPage';

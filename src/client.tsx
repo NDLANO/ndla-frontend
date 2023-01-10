@@ -10,7 +10,7 @@ import './style/index.css';
 import { isMobile } from 'react-device-detect';
 import { ApolloProvider, useApolloClient } from '@apollo/client';
 import createCache from '@emotion/cache';
-import { CacheProvider } from '@emotion/core';
+import { CacheProvider } from '@emotion/react';
 import '@fontsource/shadows-into-light-two/index.css';
 import '@fontsource/source-code-pro/400-italic.css';
 import '@fontsource/source-code-pro/700.css';
@@ -55,7 +55,7 @@ declare global {
 }
 
 const {
-  DATA: { config, serverPath, serverQuery, resCookie = '' },
+  DATA: { config, serverPath, serverQuery },
 } = window;
 
 const { basepath, abbreviation } = getLocaleInfoFromPath(serverPath ?? '');
@@ -97,7 +97,7 @@ window.errorReporter = ErrorReporter.getInstance({
 window.hasHydrated = false;
 const renderOrHydrate = config.disableSSR ? ReactDOM.render : ReactDOM.hydrate;
 
-const client = createApolloClient(storedLanguage, document.cookie, versionHash);
+const client = createApolloClient(storedLanguage, versionHash);
 const cache = createCache({ key: EmotionCacheKey });
 
 // Use memory router if running under google translate
@@ -118,7 +118,7 @@ interface RCProps {
   object should not be used or passed to anyting else than configureTracker.
 */
 const NDLARouter = ({ children, base }: RCProps) => {
-  let historyRef = useRef<History>();
+  const historyRef = useRef<History>();
   if (isGoogleUrl && historyRef.current == null) {
     historyRef.current = createMemoryHistory({
       initialEntries: [locationFromServer],
@@ -127,8 +127,8 @@ const NDLARouter = ({ children, base }: RCProps) => {
     historyRef.current = createBrowserHistory();
   }
 
-  let history = historyRef.current!;
-  let [state, setState] = useState({
+  const history = historyRef.current!;
+  const [state, setState] = useState({
     action: history.action,
     location: history.location,
   });
@@ -138,11 +138,11 @@ const NDLARouter = ({ children, base }: RCProps) => {
   return (
     <Router
       basename={base}
-      children={children(history)}
       location={state.location}
       navigationType={state.action}
-      navigator={history}
-    />
+      navigator={history}>
+      {children(history)}
+    </Router>
   );
 };
 
@@ -202,7 +202,7 @@ const LanguageWrapper = ({ basename }: { basename?: string }) => {
       cookieValue: lang,
     });
     client.resetStore();
-    client.setLink(createApolloLinks(lang, resCookie, versionHash));
+    client.setLink(createApolloLinks(lang, versionHash));
     document.documentElement.lang = lang;
   });
 
@@ -235,13 +235,7 @@ const LanguageWrapper = ({ basename }: { basename?: string }) => {
   return (
     <NDLARouter key={base} base={base}>
       {history => (
-        <App
-          locale={i18n.language}
-          resCookie={resCookie}
-          history={history}
-          isClient
-          base={base}
-        />
+        <App locale={i18n.language} history={history} isClient base={base} />
       )}
     </NDLARouter>
   );

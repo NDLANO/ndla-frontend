@@ -15,6 +15,7 @@ import { LocaleType, ProgrammeType } from '../../interfaces';
 import { htmlTitle } from '../../util/titleHelper';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { mapGradesData } from './ProgrammePage';
+import { GQLSubjectInfoFragment } from '../../graphqlTypes';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 
 const getDocumentTitle = ({
@@ -31,20 +32,20 @@ const getDocumentTitle = ({
 interface Props extends WithTranslation {
   locale: LocaleType;
   user?: FeideUserApiType;
+  subjects?: GQLSubjectInfoFragment[];
   programme: ProgrammeType;
   grade: string;
-  onGradeChange: (newGrade: string) => void;
 }
 
 const ProgrammeContainer = ({
   programme,
+  subjects,
   locale,
-  onGradeChange,
   grade,
   t,
 }: Props) => {
   const heading = programme.name[locale];
-  const grades = mapGradesData(programme.grades, locale);
+  const grades = mapGradesData(programme.grades, subjects || [], locale);
   const socialMediaTitle = `${programme.name[locale]} - ${grade}`;
   const metaDescription = programme.meta?.description?.[locale];
   const image = programme.image?.url || '';
@@ -65,7 +66,6 @@ const ProgrammeContainer = ({
         grades={grades}
         image={image}
         selectedGrade={grade.toLowerCase()}
-        onChangeGrade={grade => onGradeChange(grade)}
       />
     </>
   );

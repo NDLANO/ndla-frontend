@@ -21,10 +21,10 @@ import {
   metaTypes,
   getGroupedContributorDescriptionList,
 } from '@ndla/licenses';
+import { SafeLinkButton } from '@ndla/safelink';
 import queryString from 'query-string';
 import { useTranslation } from 'react-i18next';
 import CopyTextButton from './CopyTextButton';
-import AnchorButton from './AnchorButton';
 import { GQLImageLicenseList_ImageLicenseFragment } from '../../graphqlTypes';
 import { licenseCopyrightToCopyrightType } from './licenseHelpers';
 import { licenseListCopyrightFragment } from './licenseFragments';
@@ -88,12 +88,12 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
                     hasCopiedTitle={t('license.hasCopiedTitle')}
                   />
                 )}
-                <AnchorButton
-                  href={downloadUrl(image.src)}
-                  appearance="outline"
+                <SafeLinkButton
+                  to={downloadUrl(image.src)}
+                  variant="outline"
                   download>
                   {t('license.download')}
-                </AnchorButton>
+                </SafeLinkButton>
               </>
             )}
           </div>
