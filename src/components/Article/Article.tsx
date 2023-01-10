@@ -336,6 +336,7 @@ Article.fragments = {
       introduction
       conceptIds
       metaData {
+        copyText
         footnotes {
           ref
           title
