@@ -37,30 +37,26 @@ import { useGraphQuery } from '../../util/runQueries';
 import AddResourceToFolderModal from '../MyNdla/AddResourceToFolderModal';
 import FavoriteButton from './FavoritesButton';
 
+interface CompetenceGoalModalProps {
+  Dialog: ComponentType;
+  dialogProps: { isOpen: boolean; onClose: () => void };
+}
+
 function renderCompetenceGoals(
   article: GQLArticle_ArticleFragment,
   isTopicArticle: boolean,
+  setCompetenceGoalsLoading: (loading: boolean) => void,
   subjectId?: string,
   isOembed?: boolean,
-):
-  | ((inp: {
-      Dialog: ComponentType;
-      dialogProps: { isOpen: boolean; onClose: () => void };
-    }) => ReactNode)
-  | null {
+): ((inp: CompetenceGoalModalProps) => ReactNode) | null {
   // Don't show competence goals for topics or articles without grepCodes
   if (
     !isTopicArticle &&
     article.grepCodes?.filter(gc => gc.toUpperCase().startsWith('K')).length
   ) {
-    return ({
-      Dialog,
-      dialogProps,
-    }: {
-      Dialog: ComponentType;
-      dialogProps: { isOpen: boolean; onClose: () => void };
-    }) => (
+    return ({ Dialog, dialogProps }: CompetenceGoalModalProps) => (
       <CompetenceGoals
+        setCompetenceGoalsLoading={setCompetenceGoalsLoading}
         codes={article.grepCodes}
         subjectId={subjectId}
         supportedLanguages={article.supportedLanguages}
@@ -83,7 +79,6 @@ interface Props {
   label: string;
   modifier?: string;
   isResourceArticle?: boolean;
-  copyPageUrlLink?: string;
   printUrl?: string;
   subjectId?: string;
   isPlainArticle?: boolean;
@@ -196,7 +191,6 @@ const Article = ({
   label,
   modifier,
   isResourceArticle = false,
-  copyPageUrlLink,
   printUrl,
   id,
   subjectId,
@@ -208,6 +202,7 @@ const Article = ({
 }: Props) => {
   const { i18n } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
+  const [competenceGoalsLoading, setCompetenceGoalsLoading] = useState(true);
   const markdown = useMemo(() => {
     const md = new Remarkable({ breaks: true });
     md.inline.ruler.enable(['sub', 'sup']);
@@ -289,9 +284,12 @@ const Article = ({
         locale={i18n.language}
         licenseBox={<LicenseBox article={article} />}
         messages={messages}
+        copyText={article.metaData?.copyText}
+        competenceGoalsLoading={competenceGoalsLoading}
         competenceGoals={renderCompetenceGoals(
           article,
           isTopicArticle,
+          setCompetenceGoalsLoading,
           subjectId,
           isOembed,
         )}
@@ -305,7 +303,6 @@ const Article = ({
         }
         renderMarkdown={renderMarkdown}
         modifier={isResourceArticle ? resourceType : modifier ?? 'clean'}
-        copyPageUrlLink={copyPageUrlLink}
         printUrl={printUrl}
         heartButton={
           path && <FavoriteButton path={path} onClick={() => setIsOpen(true)} />
@@ -339,6 +336,7 @@ Article.fragments = {
       introduction
       conceptIds
       metaData {
+        copyText
         footnotes {
           ref
           title
