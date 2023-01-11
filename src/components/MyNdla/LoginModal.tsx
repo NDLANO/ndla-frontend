@@ -8,14 +8,17 @@
 
 import { useTranslation } from 'react-i18next';
 import { ModalBody, ModalCloseButton, ModalHeader, ModalV2 } from '@ndla/modal';
+import { ReactNode } from 'react';
 import LoginComponent from './LoginComponent';
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
+  title?: string;
+  content?: ReactNode;
 }
 
-const LoginModal = ({ isOpen, onClose }: Props) => {
+const LoginModal = ({ isOpen, onClose, title, content }: Props) => {
   const { t } = useTranslation();
 
   return (
@@ -34,7 +37,7 @@ const LoginModal = ({ isOpen, onClose }: Props) => {
             />
           </ModalHeader>
           <ModalBody>
-            <LoginComponent onClose={onClose} />
+            <LoginComponent onClose={onClose} title={title} content={content} />
           </ModalBody>
         </>
       )}

@@ -11,12 +11,10 @@ import { ButtonV2 } from '@ndla/button';
 import { mq, breakpoints, fonts, spacing } from '@ndla/core';
 import { Feide } from '@ndla/icons/common';
 import SafeLink, { SafeLinkButton } from '@ndla/safelink';
-import { ListResource } from '@ndla/ui';
+import { ReactNode } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
-import { GQLFolderResourceMetaFragment } from '../../graphqlTypes';
 import { toHref } from '../../util/urlHelper';
-import { ResourceAttributes } from './AddResourceToFolder';
 
 const LoginComponentContainer = styled.div`
   display: flex;
@@ -48,6 +46,7 @@ const ButtonRow = styled.div`
 `;
 
 const Title = styled.h1`
+  margin-bottom: 0;
   ${fonts.sizes('30px')};
   ${mq.range({ until: breakpoints.tablet })} {
     ${fonts.sizes('20px')};
@@ -79,19 +78,19 @@ const ContentWrapper = styled.div`
 interface Props {
   onClose: () => void;
   masthead?: boolean;
-  resource?: ResourceAttributes;
-  meta?: GQLFolderResourceMetaFragment;
+  title?: string;
+  content?: ReactNode;
 }
 
-const LoginComponent = ({ resource, meta, masthead, onClose }: Props) => {
+const LoginComponent = ({ masthead, onClose, title, content }: Props) => {
   const { t } = useTranslation();
   const location = useLocation();
 
   return (
     <LoginComponentContainer>
       <TitleRow>
-        {resource ? (
-          <Title>{t('myNdla.myPage.loginResourcePitch')}</Title>
+        {title ? (
+          <Title>{title}</Title>
         ) : (
           <>
             <Title>
@@ -104,21 +103,7 @@ const LoginComponent = ({ resource, meta, masthead, onClose }: Props) => {
           </>
         )}
       </TitleRow>
-      {resource && meta && (
-        <ContentWrapper>
-          <ListResource
-            id={resource.id.toString()}
-            tagLinkPrefix="/minndla/tags"
-            link={resource.path}
-            title={meta.title}
-            resourceImage={{
-              src: meta.metaImage?.url ?? '',
-              alt: meta.metaImage?.alt ?? '',
-            }}
-            resourceTypes={meta.resourceTypes}
-          />
-        </ContentWrapper>
-      )}
+      <ContentWrapper>{content}</ContentWrapper>
       <ContentWrapper>
         <p>
           {t('myNdla.myPage.loginText')}
