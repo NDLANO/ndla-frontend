@@ -127,7 +127,6 @@ const getUniqueCompetenceGoals = (
         competenceGoal.competenceGoalSet?.id === competenceGoalSetId,
     )
     .map(competenceGoal => ({
-      id: competenceGoal.id,
       text: competenceGoal.name,
       url: addUrl ? searchUrl + competenceGoal.id : '',
       type: goalType,
