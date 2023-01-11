@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import { ComponentType } from 'react';
+import { ComponentType, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CompetenceGoalTab } from '@ndla/ui';
 import { competenceGoalsQuery } from '../queries';
@@ -25,6 +25,7 @@ interface Props {
   wrapperComponent: ComponentType;
   wrapperComponentProps: any;
   isOembed?: boolean;
+  setCompetenceGoalsLoading: (loading: boolean) => void;
 }
 
 // We swap 'title' for 'name' when we fetch CompetenceGoals from GraphQL
@@ -130,6 +131,7 @@ const getUniqueCompetenceGoals = (
       text: competenceGoal.name,
       url: addUrl ? searchUrl + competenceGoal.id : '',
       type: goalType,
+      id: competenceGoal.id,
     }));
 };
 
@@ -198,6 +200,7 @@ const CompetenceGoals = ({
   wrapperComponentProps,
   supportedLanguages,
   isOembed,
+  setCompetenceGoalsLoading,
 }: Props) => {
   const { t, i18n } = useTranslation();
   const language =
@@ -205,12 +208,18 @@ const CompetenceGoals = ({
     supportedLanguages?.[0] ||
     i18n.language;
 
-  const { error, data } = useGraphQuery<GQLCompetenceGoalsQuery>(
+  const { error, data, loading } = useGraphQuery<GQLCompetenceGoalsQuery>(
     competenceGoalsQuery,
     {
       variables: { codes, language },
+      skip: typeof window === 'undefined',
     },
   );
+
+  useEffect(() => setCompetenceGoalsLoading(loading), [
+    loading,
+    setCompetenceGoalsLoading,
+  ]);
 
   if (error) {
     handleError(error);
