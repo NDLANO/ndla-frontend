@@ -88,7 +88,7 @@ const LearningpathEmbed = ({
     learningpathStepResource.article,
     i18n.language,
   );
-  const scripts = getArticleScripts(article, i18n.language);
+  const scripts = getArticleScripts(article);
   return (
     <>
       <Helmet>

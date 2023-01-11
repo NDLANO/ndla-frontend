@@ -8,7 +8,6 @@
 
 import { gql } from '@apollo/client';
 import { withTracker } from '@ndla/tracker';
-import { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { CustomWithTranslation, withTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -41,16 +40,6 @@ const PlainLearningpathContainer = ({
 }: Props) => {
   const navigate = useNavigate();
   const steps = learningpath.learningsteps;
-
-  useEffect(() => {
-    if (window.MathJax && typeof window.MathJax.typeset === 'function') {
-      try {
-        window.MathJax.typeset();
-      } catch (err) {
-        // do nothing
-      }
-    }
-  });
 
   const onKeyUpEvent = (evt: KeyboardEvent) => {
     const currentStep = stepId

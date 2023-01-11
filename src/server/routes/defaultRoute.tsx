@@ -44,7 +44,6 @@ const getAssets = (): Assets => ({
   css: assets['client.css'],
   polyfill: { src: assets['polyfill.js'] },
   js: [{ src: assets['client.js'] }],
-  mathJaxConfig: { js: assets['mathJaxConfig.js'] },
 });
 
 const disableSSR = (req: Request) => {
@@ -57,7 +56,7 @@ const disableSSR = (req: Request) => {
 
 async function doRender(req: Request) {
   //@ts-ignore
-  global.assets = assets; // used for including mathjax js in pages with math
+  global.assets = assets;
   const resCookie = req.headers['cookie'] ?? '';
   const userAgent = req.headers['user-agent'];
   const isMobile = userAgent

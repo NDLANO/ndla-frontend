@@ -16,7 +16,6 @@ import config, { ConfigType } from '../../config';
 export interface Assets {
   css?: string;
   js: { src: string }[];
-  mathJaxConfig?: { js: string };
   polyfill?: { src: string };
 }
 

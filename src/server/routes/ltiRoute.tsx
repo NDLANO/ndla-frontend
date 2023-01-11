@@ -41,7 +41,6 @@ const getAssets = (): Assets => ({
   css: assets['client.css'],
   js: [{ src: assets['lti.js']! }],
   polyfill: { src: assets['polyfill.js']! },
-  mathJaxConfig: { js: assets['mathJaxConfig.js']! },
 });
 
 function doRenderPage<T extends object>(initialProps: T) {

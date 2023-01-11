@@ -76,19 +76,9 @@ const ArticlePage = ({
   useEffect(() => {
     if (!resource?.article) return;
     const article = transformArticle(resource.article, i18n.language);
-    const scripts = getArticleScripts(article, i18n.language);
+    const scripts = getArticleScripts(article);
     setScripts(scripts);
   }, [i18n.language, resource]);
-
-  useEffect(() => {
-    if (window.MathJax && typeof window.MathJax.typeset === 'function') {
-      try {
-        window.MathJax.typeset();
-      } catch (err) {
-        // do nothing
-      }
-    }
-  });
 
   if (resource && isLearningPathResource(resource)) {
     const url = getLearningPathUrlFromResource(resource);

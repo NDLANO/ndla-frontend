@@ -6,7 +6,6 @@
  *
  */
 
-import { useEffect } from 'react';
 import { gql } from '@apollo/client';
 import { Helmet } from 'react-helmet-async';
 import { withTracker } from '@ndla/tracker';
@@ -54,15 +53,6 @@ interface Props extends CustomWithTranslation {
 
 const LearningpathPage = ({ data, skipToContentId, stepId, t }: Props) => {
   const navigate = useNavigate();
-  useEffect(() => {
-    if (window.MathJax && typeof window.MathJax.typeset === 'function') {
-      try {
-        window.MathJax.typeset();
-      } catch (err) {
-        // do nothing
-      }
-    }
-  });
 
   const onKeyUpEvent = (evt: KeyboardEvent) => {
     const steps = data?.resource?.learningpath?.learningsteps;

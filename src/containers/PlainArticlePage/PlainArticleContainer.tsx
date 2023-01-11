@@ -7,7 +7,6 @@
  */
 
 import { gql } from '@apollo/client';
-import { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { CustomWithTranslation, withTranslation } from 'react-i18next';
 import { FeideUserApiType, OneColumn } from '@ndla/ui';
@@ -41,19 +40,9 @@ const PlainArticleContainer = ({
   t,
   skipToContentId,
 }: Props) => {
-  useEffect(() => {
-    if (window.MathJax && typeof window.MathJax.typeset === 'function') {
-      try {
-        window.MathJax.typeset();
-      } catch (err) {
-        // do nothing
-      }
-    }
-  });
-
   const article = transformArticle(propArticle, i18n.language);
   if (!article) return <NotFoundPage />;
-  const scripts = getArticleScripts(article, i18n.language);
+  const scripts = getArticleScripts(article);
   const oembedUrl = `${config.ndlaFrontendDomain}/oembed?url=${config.ndlaFrontendDomain}/article/${article.id}`;
 
   return (

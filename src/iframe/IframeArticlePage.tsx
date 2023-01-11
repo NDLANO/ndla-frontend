@@ -41,7 +41,7 @@ const IframeArticlePage = ({
 }: Props) => {
   const locale = propsLocale ?? i18n.language;
   const article = transformArticle(propsArticle, locale);
-  const scripts = getArticleScripts(article, locale);
+  const scripts = getArticleScripts(article);
   const contentUrl = resource?.path
     ? `${config.ndlaFrontendDomain}${resource.path}`
     : undefined;

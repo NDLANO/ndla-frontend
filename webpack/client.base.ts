@@ -21,7 +21,6 @@ const baseClientConfig: Configuration = {
     polyfill: ['@ndla/polyfill'],
     embed: ['./src/iframe/index.tsx'],
     lti: ['./src/lti/index.tsx'],
-    mathJaxConfig: ['./public/static/mathjax-config.js'],
   },
   resolve: {
     // defaults only includes .js, .json and .wasm
