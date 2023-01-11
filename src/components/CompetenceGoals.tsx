@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import { ComponentType } from 'react';
+import { ComponentType, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CompetenceGoalTab } from '@ndla/ui';
 import { competenceGoalsQuery } from '../queries';
@@ -22,10 +22,10 @@ interface Props {
   supportedLanguages?: string[];
   subjectId?: string;
   codes?: string[];
-  nodeId?: string;
   wrapperComponent: ComponentType;
   wrapperComponentProps: any;
   isOembed?: boolean;
+  setCompetenceGoalsLoading: (loading: boolean) => void;
 }
 
 // We swap 'title' for 'name' when we fetch CompetenceGoals from GraphQL
@@ -54,6 +54,7 @@ interface CompetenceGoalType {
     id: string;
     title: string;
     goals: {
+      id: string;
       text: string;
       url: string;
       type: CompetenceGoalsType;
@@ -129,6 +130,7 @@ const getUniqueCompetenceGoals = (
       text: competenceGoal.name,
       url: addUrl ? searchUrl + competenceGoal.id : '',
       type: goalType,
+      id: competenceGoal.id,
     }));
 };
 
@@ -197,6 +199,7 @@ const CompetenceGoals = ({
   wrapperComponentProps,
   supportedLanguages,
   isOembed,
+  setCompetenceGoalsLoading,
 }: Props) => {
   const { t, i18n } = useTranslation();
   const language =
@@ -204,12 +207,18 @@ const CompetenceGoals = ({
     supportedLanguages?.[0] ||
     i18n.language;
 
-  const { error, data } = useGraphQuery<GQLCompetenceGoalsQuery>(
+  const { error, data, loading } = useGraphQuery<GQLCompetenceGoalsQuery>(
     competenceGoalsQuery,
     {
       variables: { codes, language },
+      skip: typeof window === 'undefined',
     },
   );
+
+  useEffect(() => setCompetenceGoalsLoading(loading), [
+    loading,
+    setCompetenceGoalsLoading,
+  ]);
 
   if (error) {
     handleError(error);
@@ -219,11 +228,6 @@ const CompetenceGoals = ({
   if (!data) return null;
 
   const { competenceGoals, coreElements } = data;
-  const LK06Goals = groupCompetenceGoals(
-    competenceGoals?.filter(goal => goal.type === 'LK06') ?? [],
-    false,
-    'LK06',
-  );
   const LK20Goals = groupCompetenceGoals(
     competenceGoals?.filter(goal => goal.type === 'LK20') ?? [],
     true,
@@ -246,17 +250,9 @@ const CompetenceGoals = ({
     groupedCoreElementItems: LK20Elements,
   };
 
-  const CompetenceGoalsLK06Template: ElementType = {
-    id: '3',
-    title: t('competenceGoals.competenceTabLK06label'),
-    type: 'competenceGoals',
-    groupedCompetenceGoals: LK06Goals,
-  };
-
   const competenceGoalsList: ElementType[] = [
     ...(LK20Goals?.length ? [CompetenceGoalsLK20Template] : []),
     ...(LK20Elements?.length ? [CoreElementsTemplate] : []),
-    ...(LK06Goals?.length ? [CompetenceGoalsLK06Template] : []),
   ];
 
   return (

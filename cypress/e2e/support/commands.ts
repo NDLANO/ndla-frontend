@@ -65,31 +65,6 @@ Cypress.Commands.add('fixCypressSpec', filename => {
   };
 });
 
-type MethodType = 'POST';
-Cypress.Commands.add(
-  'apiIntercept',
-  (
-    method: MethodType,
-    url: string,
-    alias: string,
-    operationNames: string[] = [],
-  ) => {
-    cy.intercept(method, url, req => {
-      const reqOperationName = req.body[0].operationName;
-      if (!operationNames.length) {
-        req.alias = alias;
-      } else if (operationNames.includes(reqOperationName)) {
-        req.alias = alias[operationNames.indexOf(reqOperationName)];
-      }
-      if (Cypress.env('USE_FIXTURES')) {
-        req.reply({
-          fixture: req.alias,
-        });
-      }
-    });
-  },
-);
-
 Cypress.Commands.add(
   'gqlIntercept',
   ({
@@ -120,7 +95,7 @@ Cypress.Commands.add(
   },
 );
 
-const readResponseBody = (body: any): Promise<string | ArrayBuffer> => {
+const readResponseBody = (body: any): Promise<string | ArrayBuffer | null> => {
   const fr = new FileReader();
 
   return new Promise((resolve, reject) => {
@@ -137,70 +112,36 @@ const readResponseBody = (body: any): Promise<string | ArrayBuffer> => {
   });
 };
 
-Cypress.Commands.add('gqlWait', (aliases: string[]) => {
-  if (Cypress.env('RECORD_FIXTURES')) {
-    let originalXhr = null;
-    return cy
-      .wait(aliases)
-      .then(xhr => {
-        originalXhr = xhr;
-        if (Array.isArray(xhr)) {
-          return xhr;
-        }
-        return [xhr];
-      })
-      .then(xhrs =>
-        Promise.all(xhrs.map(xhr => readResponseBody(xhr.response.body))),
-      )
-      .then(jsons =>
-        cy.task(
-          'writeFixtures',
-          jsons.map((json, i) => {
-            const prefix = Cypress.spec.name.split('.')[0];
-            const alias = Array.isArray(aliases) ? aliases[i] : aliases;
-            return {
-              xhr: originalXhr,
-              name: `${prefix}_${alias.replace('@', '')}`,
-              json: json,
-            };
-          }),
-        ),
-      )
-      .then(() => originalXhr);
-  }
+Cypress.Commands.add(
+  'gqlWait',
+  (alias: string): Cypress.Chainable<Interception> => {
+    if (Cypress.env('RECORD_FIXTURES')) {
+      let originalXhr: Interception;
+      return cy
+        .wait(alias)
+        .then(xhr => {
+          originalXhr = xhr;
+          return [xhr].flat();
+        })
+        .then(xhrs =>
+          Promise.all(xhrs.map(xhr => readResponseBody(xhr.response?.body))),
+        )
+        .then(jsons =>
+          cy.task(
+            'writeFixtures',
+            jsons.map((json, i) => {
+              const prefix = Cypress.spec.name.split('.')[0];
+              return {
+                xhr: originalXhr,
+                name: `${prefix}_${alias.replace('@', '')}`,
+                json: json,
+              };
+            }),
+          ),
+        )
+        .then(() => originalXhr);
+    }
 
-  return cy.wait(aliases);
-});
-
-Cypress.Commands.add('apiwait', aliases => {
-  if (Cypress.env('RECORD_FIXTURES')) {
-    let originalXhr = null;
-    return cy
-      .wait(aliases)
-      .then(xhr => {
-        originalXhr = xhr;
-        if (Array.isArray(xhr)) {
-          return xhr;
-        }
-        return [xhr];
-      })
-      .then(xhrs =>
-        Promise.all(xhrs.map(xhr => readResponseBody(xhr.response.body))),
-      )
-      .then(jsons =>
-        cy.task(
-          'writeFixtures',
-          jsons.map((json, i) => ({
-            xhr: originalXhr,
-            name: Array.isArray(aliases)
-              ? aliases[i].replace('@', '')
-              : aliases.replace('@', ''),
-            json: json,
-          })),
-        ),
-      )
-      .then(() => originalXhr);
-  }
-
-  return cy.wait(aliases);
-});
+    return cy.wait(alias);
+  },
+);

@@ -7,7 +7,7 @@
  */
 
 import styled from '@emotion/styled';
-import Button, { DeleteButton } from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
 import Modal, { ModalBody, ModalCloseButton, ModalHeader } from '@ndla/modal';
 import { useTranslation } from 'react-i18next';
@@ -57,10 +57,15 @@ const DeleteModal = ({
           <ModalBody>
             <p>{description}</p>
             <StyledButtonRow>
-              <Button outline onClick={onCloseModal}>
+              <ButtonV2 variant="outline" onClick={onCloseModal}>
                 {t('cancel')}
-              </Button>
-              <DeleteButton onClick={onDelete}>{removeText}</DeleteButton>
+              </ButtonV2>
+              <ButtonV2
+                colorTheme="danger"
+                variant="outline"
+                onClick={onDelete}>
+                {removeText}
+              </ButtonV2>
             </StyledButtonRow>
           </ModalBody>
         </>

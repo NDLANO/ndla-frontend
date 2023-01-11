@@ -105,7 +105,14 @@ const ArticlePage = ({
         <ArticleErrorMessage
           //@ts-ignore
           status={error?.status}>
-          {topic && <Resources topic={topic} resourceTypes={resourceTypes} />}
+          {topic && (
+            <Resources
+              topic={topic}
+              resourceTypes={resourceTypes}
+              headingType="h2"
+              subHeadingType="h3"
+            />
+          )}
         </ArticleErrorMessage>
       </div>
     );
@@ -128,7 +135,7 @@ const ArticlePage = ({
   ]);
 
   return (
-    <div>
+    <main>
       <ArticleHero
         subject={subject}
         resourceType={resourceType}
@@ -183,7 +190,6 @@ const ArticlePage = ({
           article={article}
           resourceType={contentType}
           isResourceArticle
-          copyPageUrlLink={copyPageUrlLink}
           printUrl={printUrl}
           subjectId={subject?.id}
           showFavoriteButton={config.feideEnabled}
@@ -191,11 +197,16 @@ const ArticlePage = ({
         />
         {topic && (
           <LayoutItem layout="extend">
-            <Resources topic={topic} resourceTypes={resourceTypes} />
+            <Resources
+              topic={topic}
+              resourceTypes={resourceTypes}
+              headingType="h2"
+              subHeadingType="h3"
+            />
           </LayoutItem>
         )}
       </OneColumn>
-    </div>
+    </main>
   );
 };
 

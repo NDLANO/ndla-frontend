@@ -10,7 +10,7 @@ describe('Subjects page', () => {
   beforeEach(() => {
     cy.gqlIntercept({
       alias: 'alerts',
-      operations: ['alerts', 'subjects', 'mastHead'],
+      operations: ['alerts', 'subjects'],
     });
     cy.fixCypressSpec('/e2e/integration/subjects_page.spec.ts');
     cy.visit('/?disableSSR=true');
@@ -28,7 +28,7 @@ describe('Subjects page', () => {
       .click()
       .get('a:contains("Medie- og informasjonskunnskap")')
       .last()
-      .click({ force: true });
+      .click();
     cy.gqlWait('@subjectpage');
 
     cy.get('[data-testid="nav-box-item"] span').contains(/\w+/);
@@ -49,7 +49,7 @@ describe('Subjects page', () => {
       .click()
       .get('a:contains("Medie- og informasjonskunnskap")')
       .last()
-      .click({ force: true });
+      .click();
     cy.gqlWait('@subjectpage');
 
     cy.get('[data-testid="breadcrumb-list"] a')

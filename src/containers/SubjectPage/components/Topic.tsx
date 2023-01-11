@@ -16,7 +16,6 @@ import {
 } from 'react-i18next';
 import { TopicProps, FeideUserApiType, Topic as UITopic } from '@ndla/ui';
 import { withTracker } from '@ndla/tracker';
-import config from '../../../config';
 import {
   RELEVANCE_SUPPLEMENTARY,
   SKIP_TO_CONTENT_ID,
@@ -121,7 +120,12 @@ const Topic = ({
           }
         : undefined,
       resources: topic.subtopics ? (
-        <Resources topic={topic} resourceTypes={resourceTypes} />
+        <Resources
+          topic={topic}
+          resourceTypes={resourceTypes}
+          headingType="h3"
+          subHeadingType="h4"
+        />
       ) : (
         undefined
       ),
@@ -143,7 +147,6 @@ const Topic = ({
       isAdditionalResource: subtopic.relevanceId === RELEVANCE_SUPPLEMENTARY,
     };
   });
-  const copyPageUrlLink = config.ndlaFrontendDomain + topic.path;
 
   return (
     <UITopic
@@ -158,12 +161,7 @@ const Topic = ({
       renderMarkdown={renderMarkdown}
       invertedStyle={ndlaFilm}
       isAdditionalTopic={topic.relevanceId === RELEVANCE_SUPPLEMENTARY}>
-      <ArticleContents
-        topic={topic}
-        copyPageUrlLink={copyPageUrlLink}
-        modifier="in-topic"
-        showIngress={false}
-      />
+      <ArticleContents topic={topic} modifier="in-topic" showIngress={false} />
     </UITopic>
   );
 };
