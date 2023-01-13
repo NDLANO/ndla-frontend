@@ -92,6 +92,7 @@ const getSubjectTypeMessage = (
 
 const SubjectContainer = ({ t, subjectId, topicIds, subject }: Props) => {
   const ndlaFilm = useIsNdlaFilm();
+  const containerRef = useRef<HTMLDivElement>(null);
   const [competenceGoalsLoading, setCompetenceGoalsLoading] = useState(true);
   const about = subject.subjectpage?.about;
 
@@ -184,8 +185,8 @@ const SubjectContainer = ({ t, subjectId, topicIds, subject }: Props) => {
   };
 
   // show/hide breadcrumb based on intersection
-  const [containerRef, { entry }] = useIntersectionObserver({
-    root: null,
+  const { entry } = useIntersectionObserver({
+    target: containerRef.current,
     rootMargin: '-275px',
   });
   const showBreadCrumb = entry && entry.isIntersecting;
