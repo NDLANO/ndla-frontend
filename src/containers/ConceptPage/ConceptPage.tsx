@@ -1,78 +1,118 @@
+/**
+ * Copyright (c) 2023-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import { OneColumn, ContentPlaceholder, ConceptNotion } from '@ndla/ui';
-import { useEffect, useMemo } from 'react';
-import { initArticleScripts } from '@ndla/article-scripts';
-import { useLocation } from 'react-router-dom';
-import { GQLConcept, GQLConceptQuery } from '../../graphqlTypes';
-import { conceptQuery } from '../../queries';
+import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { figureApa7CopyString } from '@ndla/licenses';
+import styled from '@emotion/styled';
+import { colors } from '@ndla/core';
+import { gql } from '@apollo/client';
+import { GQLConceptQuery } from '../../graphqlTypes';
+import { conceptSearchInfoFragment } from '../../queries';
 import { useGraphQuery } from '../../util/runQueries';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
-
-const getResourceId = (path: string) => path.split('/').pop(); // TODO validation?
+import config from '../../config';
+import ImageActionButtons from './components/ImageActionsButtons';
+import { useTypedParams } from '../../routeHelpers';
 
 const ConceptPage = () => {
-  const location = useLocation();
-  const { data, loading: isLoadingConcept, error } = useGraphQuery<
-    GQLConceptQuery
-  >(conceptQuery, {
-    variables: {
-      id: Number.parseInt(getResourceId(location.pathname)?.toString()!),
+  const {
+    t,
+    i18n: { language },
+  } = useTranslation();
+  const { conceptId } = useTypedParams();
+  const { data, loading, error } = useGraphQuery<GQLConceptQuery>(
+    conceptQuery,
+    {
+      variables: {
+        id: Number(conceptId),
+      },
+      skip: isNaN(Number(conceptId)),
     },
-    skip: !getResourceId(location.pathname)?.match('^[0-9]*$'),
-  });
+  );
 
-  useEffect(() => {
-    initArticleScripts();
-  }, [isLoadingConcept]);
-
-  const concept = data?.concept as GQLConcept;
+  const copyString = figureApa7CopyString(
+    data?.concept?.visualElement?.title,
+    undefined,
+    data?.concept?.visualElement?.url,
+    undefined,
+    data?.concept?.copyright,
+    data?.concept?.copyright?.license?.license,
+    config.ndlaFrontendDomain,
+    t,
+    language,
+  );
+  const concept = data?.concept;
 
   const visualElement = useMemo(() => {
-    const embed = concept?.visualElement;
-    if (!embed) return;
-    switch (embed?.resource) {
+    const visualElement = {
+      copyright: data?.concept?.visualElement?.copyright,
+      title: data?.concept?.visualElement?.title ?? data?.concept?.title,
+    };
+
+    switch (data?.concept?.visualElement?.resource) {
       case 'image': {
         return {
-          resource: embed.resource,
-          url: embed.image?.src ?? '',
+          ...visualElement,
+          url:
+            data?.concept?.image?.url ??
+            data?.concept?.visualElement?.image?.src,
           image: {
-            src: embed.image?.src ?? '',
-            alt: embed.image?.alt ?? '',
+            src:
+              data?.concept?.image?.url ??
+              data?.concept?.visualElement?.image?.src ??
+              '',
+            alt:
+              data?.concept?.visualElement?.image?.alt ??
+              data?.concept?.image?.alt ??
+              '',
           },
+          licenseButtons: (
+            <ImageActionButtons
+              copyString={copyString}
+              src={data?.concept?.visualElement?.image?.src ?? ''}
+              license={
+                data?.concept?.visualElement?.copyright?.license.license ?? ''
+              }
+            />
+          ),
+          resource: data?.concept?.visualElement?.resource,
         };
       }
       case 'external':
       case 'iframe':
         return {
-          resource: embed.resource,
-          url: embed.url ?? '',
-          title: embed.title,
+          ...visualElement,
+          url: data?.concept?.visualElement?.url ?? '',
+          resource: data?.concept?.visualElement?.resource,
         };
       case 'brightcove': {
         return {
-          resource: embed.resource,
-          url: embed.brightcove?.src,
-          title: embed.title,
+          ...visualElement,
+          url: data?.concept?.visualElement?.brightcove?.src,
+          resource: data?.concept?.visualElement?.resource,
         };
       }
       case 'video':
       case 'h5p':
         return {
-          resource: embed.resource,
-          url: embed.h5p?.src,
-          title: embed.title,
+          ...visualElement,
+          url: data?.concept?.visualElement?.h5p?.src,
+          resource: data?.concept?.visualElement?.resource,
         };
       default:
         return;
     }
-  }, [concept?.visualElement]);
+  }, [data?.concept, copyString]);
 
-  const image = concept?.image && {
-    src: concept.image?.src,
-    alt: concept.image?.altText,
-  };
-
-  if (isLoadingConcept) {
+  if (loading) {
     return <ContentPlaceholder />;
   }
 
@@ -80,30 +120,60 @@ const ConceptPage = () => {
     return <DefaultErrorMessage />;
   }
 
-  if (!data?.concept || !data || !visualElement) {
+  if (!data || !concept || !visualElement) {
     return <NotFoundPage />;
   }
 
+  const image = concept.image && {
+    src: concept.image.url,
+    alt: concept.image.alt,
+  };
+
+  const StyledHeader = styled.h1`
+    color: ${colors.text.primary};
+    border-bottom: 2px solid ${colors.brand.tertiary};
+  `;
+
   return (
     <OneColumn>
+      <StyledHeader>{`${t('resourcepageTitles.concept')} `}</StyledHeader>
       <ConceptNotion
         concept={{
           ...concept,
-          text: concept.content || '',
-          title: concept.title,
+          text: concept?.content || '',
+          title: concept?.title || '',
           visualElement,
           image,
         }}
-        hideIconsAndAuthors
         type={
           visualElement?.resource === 'brightcove'
             ? 'video'
             : visualElement?.resource
         }
-        disableScripts={true}
       />
     </OneColumn>
   );
 };
+
+export const conceptQuery = gql`
+  query concept($id: Int!) {
+    concept(id: $id) {
+      ...ConceptSearchConcept
+      content
+      source
+      articles {
+        title
+        id
+      }
+      copyright {
+        license {
+          url
+          description
+        }
+      }
+    }
+  }
+  ${conceptSearchInfoFragment}
+`;
 
 export default ConceptPage;

@@ -75,6 +75,9 @@ const messages = {
     maxLengthField:
       '$t(validation.fields.{{field}}) kan maks innholde {{count}} tegn',
   },
+  resourcepageTitles: {
+    concept: 'Forklaring',
+  },
 };
 
 export default messages;

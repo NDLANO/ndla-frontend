@@ -193,6 +193,11 @@ type BucketResult {
   value: String!
 }
 
+type Caption {
+  caption: String!
+  language: String!
+}
+
 type Category {
   name: String!
   subjects: [Subject!]!
@@ -291,6 +296,12 @@ type CrossSubjectElement {
 type Description {
   description: String!
   language: String!
+}
+
+type EditorNote {
+  note: String!
+  timestamp: String!
+  updatedBy: String!
 }
 
 type Element {
@@ -424,6 +435,27 @@ type H5pLicense {
   title: String!
 }
 
+type ImageAltText {
+  alttext: String!
+  language: String!
+}
+
+type ImageCopyRight {
+  agreementId: Int
+  creators: [Contributor!]!
+  license: License!
+  origin: String!
+  processors: [Contributor!]!
+  rightsholders: [Contributor!]!
+  validFrom: String
+  validTo: String
+}
+
+type ImageDimensions {
+  height: Int!
+  width: Int!
+}
+
 type ImageElement {
   alt: String
   altText: String!
@@ -463,6 +495,25 @@ type ImageMetaInformation {
   supportedLanguages: [String!]!
   tags: [String!]!
   title: String!
+}
+
+type ImageMetaInformationV3 {
+  alttext: ImageAltText!
+  caption: Caption!
+  contentType: String!
+  copyright: ImageCopyRight!
+  created: String!
+  createdBy: String!
+  editorNotes: [EditorNote!]
+  id: String!
+  imageDimensions: ImageDimensions!
+  imageUrl: String!
+  metaUrl: String!
+  modelRelease: String!
+  size: Int!
+  supportedLanguages: [String!]
+  tags: Tags!
+  title: Title!
 }
 
 type Learningpath {
@@ -758,6 +809,7 @@ type Query {
     resourceTypes: String
     subjects: String
   ): [GroupSearch!]
+  image(id: String!): ImageMetaInformationV3!
   learningpath(pathId: String!): Learningpath
   listingPage(subjects: String): ListingPage
   personalData: MyNdlaPersonalData!
@@ -807,7 +859,6 @@ type Query {
   subjectpage(id: Int!): SubjectPage
   subjects(
     filterVisible: Boolean
-    ids: [String!]
     metadataFilterKey: String
     metadataFilterValue: String
   ): [Subject!]
