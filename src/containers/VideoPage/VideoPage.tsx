@@ -1,90 +1,74 @@
-import { ContentPlaceholder, Figure, OneColumn } from '@ndla/ui';
-import { useEffect, useState } from 'react';
-import { initArticleScripts } from '@ndla/article-scripts';
+/**
+ * Copyright (C) 2023 -present, NDLA
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+import { ContentPlaceholder, OneColumn } from '@ndla/ui';
 import { getLicenseByAbbreviation } from '@ndla/licenses';
 import { useParams } from 'react-router-dom';
 import i18next from 'i18next';
+import { gql } from '@apollo/client';
 import NotFoundPage from '../../containers/NotFoundPage/NotFoundPage';
-import {
-  BrightcoveApiType,
-  fetchBrightcoveVideo,
-  fetchVideoSources,
-  getBrightcoveToken,
-} from '../../util/brightcoveApi';
 import ErrorPage from '../../containers/ErrorPage';
-import { BrightcoveCopyright, BrightcoveVideoSource } from '../../interfaces';
-import config from '../../config';
 import VisualElementWrapper from '../../components/VisualElement/VisualElementWrapper';
-import { GQLVisualElementWrapper_VisualElementFragment } from '../../graphqlTypes';
+import {
+  GQLBrightcoveVideoQuery,
+  GQLBrightcoveVideoQueryVariables,
+  GQLCopyright,
+  GQLVisualElementWrapper_VisualElementFragment,
+} from '../../graphqlTypes';
 import {
   getContributorGroups,
-  brightcovePlayerUrl,
   getLicenseByNBTitle,
 } from '../../util/brightcoveHelpers';
+import { useGraphQuery } from '../../util/runQueries';
 
 const VideoPage = () => {
   const { videoId } = useParams();
-  const [brightcoveData, setBrightcoveData] = useState<
-    BrightcoveApiType | undefined
-  >(undefined);
-  const [brightcoveSource, setBrightcoveSource] = useState<
-    BrightcoveVideoSource[] | undefined
-  >(undefined);
-  const [isLoading, setLoading] = useState<boolean>(true);
+  const { data, loading, error } = useGraphQuery<
+    GQLBrightcoveVideoQuery,
+    GQLBrightcoveVideoQueryVariables
+  >(VideoPageQuery, {
+    variables: {
+      id: videoId ?? '',
+    },
+    skip: Number.isNaN(videoId),
+  });
 
-  useEffect(() => {
-    if (videoId) {
-      fetchBrightcoveVideo(videoId).then(bright => {
-        setBrightcoveData(bright);
-        setLoading(false);
-      });
-      fetchVideoSources(
-        videoId,
-        config.brightCoveAccountId,
-        getBrightcoveToken()!,
-      ).then(source => {
-        setBrightcoveSource(source);
-      });
-    }
-  }, [videoId]);
-
-  useEffect(() => {
-    initArticleScripts();
-  }, []);
-
-  if (isLoading) {
+  if (loading) {
     return <ContentPlaceholder />;
   }
 
-  if (!brightcoveData && !brightcoveSource && !isLoading) {
+  if (!data?.brightcoveVideo) {
     return <NotFoundPage />;
   }
 
-  if (!brightcoveData || !videoId) {
+  if (error) {
     return <ErrorPage />;
   }
 
-  const licenseCode = getLicenseByNBTitle(brightcoveData.custom_fields.license);
+  const licenseCode = getLicenseByNBTitle(
+    data?.brightcoveVideo?.customFields?.license ?? '',
+  );
   const license = getLicenseByAbbreviation(licenseCode, i18next.language);
-
-  const copyright: BrightcoveCopyright = {
+  const copyright: GQLCopyright = {
     license: {
       license: licenseCode,
       description: license?.description,
       url: license?.url,
     },
-    ...getContributorGroups(brightcoveData.custom_fields),
+    ...getContributorGroups(
+      data?.brightcoveVideo?.customFields?.licenseInfo ?? [],
+    ),
   };
 
+  const src = `https://players.brightcove.net/${data.brightcoveVideo.customFields?.accountId}/default_default/index.html?videoId=${videoId}`;
+
   const visualElement: GQLVisualElementWrapper_VisualElementFragment = {
-    url: brightcovePlayerUrl(videoId, brightcoveData.account_id),
-    brightcove: {
-      iframe: {
-        height: 650,
-        width: -1,
-        src: brightcovePlayerUrl(videoId, brightcoveData.account_id),
-      },
-    },
+    resource: 'brightcove',
+    url: src,
+    brightcove: data.brightcoveVideo,
     copyright: {
       ...copyright,
     },
@@ -92,11 +76,28 @@ const VideoPage = () => {
 
   return (
     <OneColumn>
-      <Figure>
-        <VisualElementWrapper visualElement={visualElement} />
-      </Figure>
+      <VisualElementWrapper visualElement={visualElement} videoId={videoId} />
     </OneColumn>
   );
 };
 
 export default VideoPage;
+
+const VideoPageQuery = gql`
+  query brightcoveVideo($id: String!) {
+    brightcoveVideo(id: $id) {
+      videoid
+      customFields {
+        licenseInfo
+        license
+        accountId
+      }
+      iframe {
+        height
+        width
+        src
+      }
+      download
+    }
+  }
+`;

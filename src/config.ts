@@ -142,12 +142,6 @@ export type ConfigType = {
   feideEnabled: boolean;
   matomoUrl: string;
   matomoSiteId: string;
-  brightcovePlayerId: string | undefined;
-  brightcove360PlayerId: string | undefined;
-  brightcoveCopyrightPlayerId: string | undefined;
-  brightcoveApiUrl: string;
-  brightcoveUrl: string;
-  brightCoveAccountId: string | undefined;
 };
 
 const config: ConfigType = {
@@ -182,21 +176,6 @@ const config: ConfigType = {
   feideEnabled: getEnvironmentVariabel('FEIDE_ENABLED', false),
   matomoUrl: getEnvironmentVariabel('MATOMO_URL', matomoDomain()),
   matomoSiteId: getEnvironmentVariabel('MATOMO_SITE_ID', ''),
-  brightCoveAccountId: getEnvironmentVariabel(
-    'BRIGHTCOVE_ACCOUNT_ID',
-    '123456789',
-  ),
-  brightcovePlayerId: getEnvironmentVariabel('BRIGHTCOVE_PLAYER_ID', 'Ab1234'),
-  brightcove360PlayerId: getEnvironmentVariabel(
-    'BRIGHTCOVE_PLAYER_360_ID',
-    'Ab1234',
-  ),
-  brightcoveCopyrightPlayerId: getEnvironmentVariabel(
-    'BRIGHTCOVE_PLAYER_COPYRIGHT_ID',
-    'Ab1234',
-  ),
-  brightcoveApiUrl: 'https://cms.api.brightcove.com',
-  brightcoveUrl: 'https://studio.brightcove.com/products/videocloud/home',
 };
 
 export function getUniversalConfig() {

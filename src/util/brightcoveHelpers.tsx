@@ -1,56 +1,43 @@
+/**
+ * Copyright (C) 2023 -present, NDLA
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 import { contributorTypes, contributorGroups } from '@ndla/licenses';
 import { Author } from '../interfaces';
 
-export const brightcovePlayerUrl = (
-  videoId: string,
-  account?: string | null,
-  player: string = 'default',
-) =>
-  `https://players.brightcove.net/${account}/${player}_default/index.html?videoId=${videoId}`;
+const LicenseMapping: Record<string, string> = {
+  'navngivelse-ikkekommersiell-ingenbearbeidelse': 'CC-BY-NC-ND-4.0',
+  'navngivelse-ikkekommersiell-delpåsammevilkår': 'CC-BY-NC-SA-4.0',
+  'navngivelse-ikkekommersiell': 'CC-BY-NC-4.0',
+  'navngivelse-ingenbearbeidelse': 'CC-BY-ND-4.0',
+  'navngivelse-delpåsammevilkår': 'CC-BY-SA-4.0',
+  navngivelse: 'CC-BY-4.0',
+  offentligdomene: 'PD',
+  publicdomaindedication: 'CC0-1.0',
+  publicdomainmark: 'PD',
+  'fristatus-erklæring': 'CC0-1.0',
+  opphavsrett: 'COPYRIGHTED',
+};
+
+const contributorMapping: Record<string, string> = {
+  Manus: 'Manusforfatter',
+  Musikk: 'Komponist',
+  Opphavsmann: 'Opphaver',
+};
 
 export const getLicenseByNBTitle = (title: string) => {
-  switch (title.replace(/\s/g, '').toLowerCase()) {
-    case 'navngivelse-ikkekommersiell-ingenbearbeidelse':
-      return 'CC-BY-NC-ND-4.0';
-    case 'navngivelse-ikkekommersiell-delpåsammevilkår':
-      return 'CC-BY-NC-SA-4.0';
-    case 'navngivelse-ikkekommersiell':
-      return 'CC-BY-NC-4.0';
-    case 'navngivelse-ingenbearbeidelse':
-      return 'CC-BY-ND-4.0';
-    case 'navngivelse-delpåsammevilkår':
-      return 'CC-BY-SA-4.0';
-    case 'navngivelse':
-      return 'CC-BY-4.0';
-    case 'offentligdomene':
-      return 'PD';
-    case 'publicdomaindedication':
-      return 'CC0-1.0';
-    case 'publicdomainmark':
-      return 'PD';
-    case 'fristatus-erklæring':
-      return 'CC0-1.0';
-    case 'opphavsrett':
-      return 'COPYRIGHTED';
-    default:
-      return title;
-  }
+  const key = title.replace(/\s/g, '').toLowerCase();
+  return LicenseMapping[key] ?? title;
 };
 
 export const mapContributorType = (type: string) => {
-  switch (type) {
-    case 'Manus':
-      return 'Manusforfatter';
-    case 'Musikk':
-      return 'Komponist';
-    case 'Opphavsmann':
-      return 'Opphaver';
-    default:
-      return type;
-  }
+  return contributorMapping[type] ?? type;
 };
 
-export const getContributorGroups = (fields: Record<string, string>) => {
+export const getContributorGroups = (licenseInfos: string[]) => {
   const parseContributorsString = (contributorString: string) => {
     const contributorFields = contributorString.split(/: */);
     if (contributorFields.length !== 2)
@@ -62,13 +49,7 @@ export const getContributorGroups = (fields: Record<string, string>) => {
     return { type: contributorType || '', name: name || '' };
   };
 
-  const licenseInfoKeys = Object.keys(fields).filter(key =>
-    key.startsWith('licenseinfo'),
-  );
-
-  const contributors = licenseInfoKeys.map(key =>
-    parseContributorsString(fields[key]!),
-  );
+  const contributors = licenseInfos.map(val => parseContributorsString(val));
 
   return contributors.reduce(
     (
@@ -86,9 +67,12 @@ export const getContributorGroups = (fields: Record<string, string>) => {
         return contributorGroups[key].find(type => type === contributor.type);
       });
       if (group) {
-        return { ...groups, [group]: [...groups[group], contributor] };
+        groups[group] = groups[group].concat(contributor);
+      } else {
+        groups.creators = groups.creators.concat(contributor);
       }
-      return { ...groups, creators: [...groups.creators, contributor] };
+
+      return groups;
     },
     {
       creators: [],

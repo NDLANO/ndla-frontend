@@ -194,11 +194,19 @@ export type GQLBreadcrumb = {
   name: Scalars['String'];
 };
 
+export type GQLBrightcoveCustomFields = {
+  __typename?: 'BrightcoveCustomFields';
+  accountId?: Maybe<Scalars['String']>;
+  license: Scalars['String'];
+  licenseInfo: Array<Scalars['String']>;
+};
+
 export type GQLBrightcoveElement = {
   __typename?: 'BrightcoveElement';
   account?: Maybe<Scalars['String']>;
   caption?: Maybe<Scalars['String']>;
   cover?: Maybe<Scalars['String']>;
+  customFields?: Maybe<GQLBrightcoveCustomFields>;
   description?: Maybe<Scalars['String']>;
   download?: Maybe<Scalars['String']>;
   iframe?: Maybe<GQLBrightcoveIframe>;
@@ -242,7 +250,6 @@ export type GQLCategory = {
 export type GQLCompetenceGoal = {
   __typename?: 'CompetenceGoal';
   code?: Maybe<Scalars['String']>;
-  competenceAimSetId?: Maybe<Scalars['String']>;
   competenceGoalSet?: Maybe<GQLReference>;
   competenceGoalSetCode?: Maybe<Scalars['String']>;
   coreElements?: Maybe<Array<GQLElement>>;
@@ -707,6 +714,7 @@ export type GQLMutation = {
   sortResources: GQLSortResult;
   updateFolder: GQLFolder;
   updateFolderResource: GQLFolderResource;
+  updatePersonalData: GQLMyNdlaPersonalData;
 };
 
 export type GQLMutationAddFolderArgs = {
@@ -751,6 +759,17 @@ export type GQLMutationUpdateFolderArgs = {
 export type GQLMutationUpdateFolderResourceArgs = {
   id: Scalars['String'];
   tags?: InputMaybe<Array<Scalars['String']>>;
+};
+
+export type GQLMutationUpdatePersonalDataArgs = {
+  favoriteSubjects: Array<Scalars['String']>;
+};
+
+export type GQLMyNdlaPersonalData = {
+  __typename?: 'MyNdlaPersonalData';
+  favoriteSubjects: Array<Scalars['String']>;
+  id: Scalars['Int'];
+  role: Scalars['String'];
 };
 
 export type GQLName = {
@@ -840,6 +859,7 @@ export type GQLQuery = {
   alerts?: Maybe<Array<Maybe<GQLUptimeAlert>>>;
   allFolderResources: Array<GQLFolderResource>;
   article?: Maybe<GQLArticle>;
+  brightcoveVideo?: Maybe<GQLBrightcoveElement>;
   competenceGoal?: Maybe<GQLCompetenceGoal>;
   competenceGoals?: Maybe<Array<GQLCompetenceGoal>>;
   concept?: Maybe<GQLConcept>;
@@ -856,6 +876,7 @@ export type GQLQuery = {
   groupSearch?: Maybe<Array<GQLGroupSearch>>;
   learningpath?: Maybe<GQLLearningpath>;
   listingPage?: Maybe<GQLListingPage>;
+  personalData: GQLMyNdlaPersonalData;
   podcast?: Maybe<GQLAudioWithSeries>;
   podcastSearch?: Maybe<GQLAudioSearch>;
   podcastSeries?: Maybe<GQLPodcastSeriesWithEpisodes>;
@@ -883,6 +904,10 @@ export type GQLQueryArticleArgs = {
   subjectId?: InputMaybe<Scalars['String']>;
 };
 
+export type GQLQueryBrightcoveVideoArgs = {
+  id: Scalars['String'];
+};
+
 export type GQLQueryCompetenceGoalArgs = {
   code: Scalars['String'];
   language?: InputMaybe<Scalars['String']>;
@@ -891,7 +916,6 @@ export type GQLQueryCompetenceGoalArgs = {
 export type GQLQueryCompetenceGoalsArgs = {
   codes?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   language?: InputMaybe<Scalars['String']>;
-  nodeId?: InputMaybe<Scalars['String']>;
 };
 
 export type GQLQueryConceptArgs = {
@@ -2847,6 +2871,31 @@ export type GQLToolboxTopicWrapper_TopicFragment = {
     path: string;
   }>;
 } & GQLResources_TopicFragment;
+
+export type GQLBrightcoveVideoQueryVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+export type GQLBrightcoveVideoQuery = {
+  __typename?: 'Query';
+  brightcoveVideo?: {
+    __typename?: 'BrightcoveElement';
+    videoid?: string;
+    download?: string;
+    customFields?: {
+      __typename?: 'BrightcoveCustomFields';
+      licenseInfo: Array<string>;
+      license: string;
+      accountId?: string;
+    };
+    iframe?: {
+      __typename?: 'BrightcoveIframe';
+      height: number;
+      width: number;
+      src: string;
+    };
+  };
+};
 
 export type GQLIframeArticlePage_ArticleFragment = {
   __typename?: 'Article';
