@@ -22,6 +22,7 @@ const LetterNavigationWrapper = styled.ul`
   ${mq.range({ until: breakpoints.tabletWide })} {
     gap: ${spacing.medium};
   }
+  padding: 0;
 `;
 
 const StyledLi = styled.li`

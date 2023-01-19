@@ -25,7 +25,7 @@ const StyledButton = styled(ButtonV2)`
   color: ${colors.brand.primary};
   justify-content: flex-start;
   padding: ${spacing.small} ${spacing.normal};
-  ${mq.range({ from: breakpoints.mobileWide })} {
+  ${mq.range({ from: breakpoints.tablet })} {
     display: none;
   }
 `;
