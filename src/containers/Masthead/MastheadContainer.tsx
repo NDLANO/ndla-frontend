@@ -57,6 +57,12 @@ const FeideLoginLabel = styled.span`
   }
 `;
 
+const LanguageSelectWrapper = styled.div`
+  ${mq.range({ until: breakpoints.tablet })} {
+    display: none;
+  }
+`;
+
 const mastheadQuery = gql`
   query mastHead(
     $subjectId: String!
@@ -160,11 +166,13 @@ const MastheadContainer = () => {
           )}
         </MastheadItem>
         <MastheadItem right>
-          <LanguageSelector
-            inverted={ndlaFilm}
-            locales={supportedLanguages}
-            onSelect={i18n.changeLanguage}
-          />
+          <LanguageSelectWrapper>
+            <LanguageSelector
+              inverted={ndlaFilm}
+              locales={supportedLanguages}
+              onSelect={i18n.changeLanguage}
+            />
+          </LanguageSelectWrapper>
           {config.feideEnabled && (
             <FeideLoginButton masthead>
               <FeideLoginLabel data-hj-suppress>
