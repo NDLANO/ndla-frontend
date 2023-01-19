@@ -31,7 +31,6 @@ import {
 
 import FeideLoginButton from '../../components/FeideLoginButton';
 import MastheadSearch from './components/MastheadSearch';
-import { getLocaleUrls } from '../../util/localeHelpers';
 import ErrorBoundary from '../ErrorPage/ErrorBoundary';
 import config from '../../config';
 import { useAlerts } from '../../components/AlertsContext';
@@ -43,6 +42,7 @@ import {
   GQLMastHeadQuery,
   GQLMastHeadQueryVariables,
 } from '../../graphqlTypes';
+import { supportedLanguages } from '../../i18n';
 
 const BreadcrumbWrapper = styled.div`
   margin-left: ${spacing.normal};
@@ -53,6 +53,12 @@ const BreadcrumbWrapper = styled.div`
 
 const FeideLoginLabel = styled.span`
   ${mq.range({ until: breakpoints.mobileWide })} {
+    display: none;
+  }
+`;
+
+const LanguageSelectWrapper = styled.div`
+  ${mq.range({ until: breakpoints.tablet })} {
     display: none;
   }
 `;
@@ -160,11 +166,13 @@ const MastheadContainer = () => {
           )}
         </MastheadItem>
         <MastheadItem right>
-          <LanguageSelector
-            inverted={ndlaFilm}
-            options={getLocaleUrls(locale, location)}
-            currentLanguage={i18n.language}
-          />
+          <LanguageSelectWrapper>
+            <LanguageSelector
+              inverted={ndlaFilm}
+              locales={supportedLanguages}
+              onSelect={i18n.changeLanguage}
+            />
+          </LanguageSelectWrapper>
           {config.feideEnabled && (
             <FeideLoginButton masthead>
               <FeideLoginLabel data-hj-suppress>
