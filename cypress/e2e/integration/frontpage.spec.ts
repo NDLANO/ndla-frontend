@@ -27,7 +27,7 @@ describe('Front page', () => {
     cy.get('[class*="StyledLanguageWrapper"] button')
       .first()
       .click();
-    cy.get('button')
+    cy.get('[data-radix-popper-content-wrapper]')
       .contains('Bokmål')
       .invoke('attr', 'aria-current')
       .should('eq', 'true');
