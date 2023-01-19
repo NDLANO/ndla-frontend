@@ -124,13 +124,15 @@ const ToolboxSubjectContainer = ({ topicList, subject }: Props) => {
     <>
       {selectedTopics.map((topic: string, index: number) => {
         return (
-          <ToolboxTopicContainer
-            key={topic}
-            subject={subject}
-            topicId={topic}
-            topicList={topicList}
-            index={index}
-          />
+          <div key={index} ref={refs[index]}>
+            <ToolboxTopicContainer
+              key={topic}
+              subject={subject}
+              topicId={topic}
+              topicList={topicList}
+              index={index}
+            />
+          </div>
         );
       })}
     </>
