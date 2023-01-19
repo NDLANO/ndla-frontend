@@ -190,7 +190,6 @@ const ArticlePage = ({
           article={article}
           resourceType={contentType}
           isResourceArticle
-          copyPageUrlLink={copyPageUrlLink}
           printUrl={printUrl}
           subjectId={subject?.id}
           showFavoriteButton={config.feideEnabled}

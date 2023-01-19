@@ -10,7 +10,7 @@ import styled from '@emotion/styled';
 import { fonts, spacing } from '@ndla/core';
 import { memo, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router-dom';
+import { useUrnIds } from '../../../routeHelpers';
 import { getProgrammes } from '../../../util/programmesSubjectsHelper';
 import BackButton from './BackButton';
 import DrawerMenuItem from './DrawerMenuItem';
@@ -30,10 +30,12 @@ const StyledTitle = styled.h1`
 
 const ProgrammeMenu = ({ onClose, onCloseMenuPortion }: Props) => {
   const { i18n, t } = useTranslation();
-  const location = useLocation();
+  const { programme: urlProgramme } = useUrnIds();
   const programmes = useMemo(() => getProgrammes(i18n.language), [
     i18n.language,
   ]);
+
+  const programmePath = `/utdanning/${urlProgramme}`;
 
   useArrowNavigation(true, programmes[0]?.path, undefined, onCloseMenuPortion);
 
@@ -51,9 +53,9 @@ const ProgrammeMenu = ({ onClose, onCloseMenuPortion }: Props) => {
             id={programme.path}
             type="link"
             to={programme.path}
-            current={programme.path === location.pathname}
+            current={programme.path === programmePath}
             onClose={onClose}
-            active={programme.path === location.pathname}
+            active={programme.path === programmePath}
             key={programme.url}>
             {programme.name}
           </DrawerMenuItem>

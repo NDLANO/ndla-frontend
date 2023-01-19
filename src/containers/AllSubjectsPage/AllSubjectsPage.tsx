@@ -23,7 +23,6 @@ import { useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../components/AuthenticationContext';
-import LoginModal from '../../components/MyNdla/LoginModal';
 import TabFilter from '../../components/TabFilter';
 import { SKIP_TO_CONTENT_ID } from '../../constants';
 import IsMobileContext from '../../IsMobileContext';
@@ -39,10 +38,15 @@ const {
   ACTIVE_SUBJECTS,
   ARCHIVE_SUBJECTS,
   BETA_SUBJECTS,
+  OTHER,
 } = constants.subjectCategories;
 
-const createFilterTranslation = (t: TFunction, key: string) =>
-  `${t(`subjectCategories.${key}`)} ${t('contentTypes.subject')}`.toUpperCase();
+const createFilterTranslation = (t: TFunction, key: string, addTail = true) => {
+  const label = addTail
+    ? `${t(`subjectCategories.${key}`)} ${t('contentTypes.subject')}`
+    : t(`subjectCategories.${key}`);
+  return label.toLocaleUpperCase();
+};
 
 const createFilters = (t: TFunction) => [
   {
@@ -56,6 +60,10 @@ const createFilters = (t: TFunction) => [
   {
     label: createFilterTranslation(t, BETA_SUBJECTS),
     value: BETA_SUBJECTS,
+  },
+  {
+    label: createFilterTranslation(t, OTHER, false),
+    value: OTHER,
   },
   {
     label: `${t('contentTypes.all')} ${t(
@@ -93,7 +101,6 @@ const AllSubjectsPage = () => {
   const isMobile = useContext(IsMobileContext);
   const location = useLocation();
   const { authenticated } = useContext(AuthContext);
-  const [showLoginModal, setShowLoginModal] = useState(false);
 
   const { error, loading, subjects } = useSubjects();
   const { personalData, fetch: fetchPersonalData } = usePersonalData();
@@ -188,14 +195,9 @@ const AllSubjectsPage = () => {
               key={label}
               label={label}
               subjects={subjects}
-              openLoginModal={() => setShowLoginModal(true)}
             />
           ))}
         </StyledList>
-        <LoginModal
-          isOpen={showLoginModal}
-          onClose={() => setShowLoginModal(false)}
-        />
       </StyledColumn>
     </div>
   );
