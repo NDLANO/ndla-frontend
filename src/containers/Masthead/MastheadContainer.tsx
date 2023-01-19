@@ -31,7 +31,6 @@ import {
 
 import FeideLoginButton from '../../components/FeideLoginButton';
 import MastheadSearch from './components/MastheadSearch';
-import { getLocaleUrls } from '../../util/localeHelpers';
 import ErrorBoundary from '../ErrorPage/ErrorBoundary';
 import config from '../../config';
 import { useAlerts } from '../../components/AlertsContext';
@@ -43,6 +42,7 @@ import {
   GQLMastHeadQuery,
   GQLMastHeadQueryVariables,
 } from '../../graphqlTypes';
+import { supportedLanguages } from '../../i18n';
 
 const BreadcrumbWrapper = styled.div`
   margin-left: ${spacing.normal};
@@ -162,8 +162,8 @@ const MastheadContainer = () => {
         <MastheadItem right>
           <LanguageSelector
             inverted={ndlaFilm}
-            options={getLocaleUrls(locale, location)}
-            currentLanguage={i18n.language}
+            locales={supportedLanguages}
+            onSelect={i18n.changeLanguage}
           />
           {config.feideEnabled && (
             <FeideLoginButton masthead>

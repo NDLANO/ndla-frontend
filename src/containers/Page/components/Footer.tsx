@@ -15,6 +15,7 @@ import {
   Youtube,
 } from '@ndla/icons/common';
 import { useTranslation } from 'react-i18next';
+import { supportedLanguages } from '../../../i18n';
 
 interface Props {
   ndlaFilm?: boolean;
@@ -63,13 +64,9 @@ const FooterWrapper = ({ ndlaFilm }: Props) => {
       links={links}
       languageSelector={
         <LanguageSelector
-          //not used, but not removed from props.
-          options={{}}
-          center
-          outline
-          alwaysVisible
-          inverted={!!ndlaFilm}
-          currentLanguage={i18n.language}
+          inverted={ndlaFilm}
+          locales={supportedLanguages}
+          onSelect={i18n.changeLanguage}
         />
       }
       privacyLinks={privacyLinks}>
