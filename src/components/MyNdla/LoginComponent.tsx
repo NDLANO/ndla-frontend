@@ -78,32 +78,27 @@ const ContentWrapper = styled.div`
 interface Props {
   onClose: () => void;
   masthead?: boolean;
-  title?: string;
   content?: ReactNode;
 }
 
-const LoginComponent = ({ masthead, onClose, title, content }: Props) => {
+const LoginComponent = ({ masthead, onClose, content }: Props) => {
   const { t } = useTranslation();
   const location = useLocation();
 
   return (
     <LoginComponentContainer>
-      <TitleRow>
-        {title ? (
-          <Title>{title}</Title>
-        ) : (
-          <>
-            <Title>
-              <Trans t={t} i18nKey="myNdla.myPage.loginWelcome" />
-            </Title>
-            <StyledImage
-              src="/static/my-ndla-login.png"
-              alt={t('myNdla.myPage.imageAlt')}
-            />
-          </>
-        )}
-      </TitleRow>
-      <ContentWrapper>{content}</ContentWrapper>
+      {!content && (
+        <TitleRow>
+          <Title>
+            <Trans t={t} i18nKey="myNdla.myPage.loginWelcome" />
+          </Title>
+          <StyledImage
+            src="/static/my-ndla-login.png"
+            alt={t('myNdla.myPage.imageAlt')}
+          />
+        </TitleRow>
+      )}
+      {content}
       <ContentWrapper>
         <p>
           {t('myNdla.myPage.loginText')}
