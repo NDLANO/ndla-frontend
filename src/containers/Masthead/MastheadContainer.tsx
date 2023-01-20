@@ -174,7 +174,7 @@ const MastheadContainer = () => {
             />
           </LanguageSelectWrapper>
           {config.feideEnabled && (
-            <FeideLoginButton masthead>
+            <FeideLoginButton>
               <FeideLoginLabel data-hj-suppress>
                 {user?.givenName ? (
                   <span data-hj-suppress>{user.givenName}</span>
