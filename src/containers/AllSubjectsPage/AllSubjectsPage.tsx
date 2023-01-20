@@ -38,10 +38,15 @@ const {
   ACTIVE_SUBJECTS,
   ARCHIVE_SUBJECTS,
   BETA_SUBJECTS,
+  OTHER,
 } = constants.subjectCategories;
 
-const createFilterTranslation = (t: TFunction, key: string) =>
-  `${t(`subjectCategories.${key}`)} ${t('contentTypes.subject')}`.toUpperCase();
+const createFilterTranslation = (t: TFunction, key: string, addTail = true) => {
+  const label = addTail
+    ? `${t(`subjectCategories.${key}`)} ${t('contentTypes.subject')}`
+    : t(`subjectCategories.${key}`);
+  return label.toLocaleUpperCase();
+};
 
 const createFilters = (t: TFunction) => [
   {
@@ -55,6 +60,10 @@ const createFilters = (t: TFunction) => [
   {
     label: createFilterTranslation(t, BETA_SUBJECTS),
     value: BETA_SUBJECTS,
+  },
+  {
+    label: createFilterTranslation(t, OTHER, false),
+    value: OTHER,
   },
   {
     label: `${t('contentTypes.all')} ${t(
@@ -71,6 +80,8 @@ const StyledColumn = styled(OneColumn)`
 
 const StyledList = styled.ul`
   list-style: none;
+  margin: 0;
+  padding: 0;
 `;
 
 const StyledHeading = styled.h1`
