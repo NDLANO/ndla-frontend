@@ -79,7 +79,7 @@ const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
                     hasCopiedTitle={t('license.hasCopiedTitle')}
                   />
                 )}
-                <SafeLinkButton to={audio.src} download outline>
+                <SafeLinkButton to={audio.src} download variant="outline">
                   {t('license.download')}
                 </SafeLinkButton>
               </>

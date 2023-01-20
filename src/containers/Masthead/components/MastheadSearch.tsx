@@ -6,7 +6,7 @@ import {
   MastheadSearchModal,
 } from '@ndla/ui';
 import queryString from 'query-string';
-import { useLazyQuery } from '@apollo/client';
+import { gql, useLazyQuery } from '@apollo/client';
 import { useNavigate } from 'react-router-dom';
 import debounce from 'lodash/debounce';
 
@@ -23,14 +23,14 @@ import { toSearch, useIsNdlaFilm } from '../../../routeHelpers';
 import {
   GQLGroupSearchQuery,
   GQLGroupSearchQueryVariables,
-  GQLMastHeadQuery,
+  GQLMastheadSearch_SubjectFragment,
 } from '../../../graphqlTypes';
 
 const debounceCall = debounce((fun: (func?: Function) => void) => fun(), 250);
 
 interface Props {
   hideOnNarrowScreen?: boolean;
-  subject?: GQLMastHeadQuery['subject'];
+  subject?: GQLMastheadSearch_SubjectFragment;
 }
 
 const MastheadSearch = ({ hideOnNarrowScreen = false, subject }: Props) => {
@@ -161,6 +161,15 @@ const MastheadSearch = ({ hideOnNarrowScreen = false, subject }: Props) => {
       }}
     </MastheadSearchModal>
   );
+};
+
+MastheadSearch.fragments = {
+  subject: gql`
+    fragment MastheadSearch_Subject on Subject {
+      id
+      name
+    }
+  `,
 };
 
 export default MastheadSearch;

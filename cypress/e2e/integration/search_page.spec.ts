@@ -11,7 +11,7 @@ describe('Search page', () => {
     cy.fixCypressSpec('/e2e/integration/search_page.spec.ts');
     cy.gqlIntercept({
       alias: 'searchPage',
-      operations: ['searchPage', 'alerts', 'mastHead'],
+      operations: ['searchPage', 'alerts'],
     });
     cy.gqlIntercept({ alias: 'groupSearch', operations: ['GroupSearch'] });
   });

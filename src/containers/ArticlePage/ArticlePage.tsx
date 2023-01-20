@@ -110,6 +110,7 @@ const ArticlePage = ({
               topic={topic}
               resourceTypes={resourceTypes}
               headingType="h2"
+              subHeadingType="h3"
             />
           )}
         </ArticleErrorMessage>
@@ -134,7 +135,7 @@ const ArticlePage = ({
   ]);
 
   return (
-    <div>
+    <main>
       <ArticleHero
         subject={subject}
         resourceType={resourceType}
@@ -189,7 +190,6 @@ const ArticlePage = ({
           article={article}
           resourceType={contentType}
           isResourceArticle
-          copyPageUrlLink={copyPageUrlLink}
           printUrl={printUrl}
           subjectId={subject?.id}
           showFavoriteButton={config.feideEnabled}
@@ -201,11 +201,12 @@ const ArticlePage = ({
               topic={topic}
               resourceTypes={resourceTypes}
               headingType="h2"
+              subHeadingType="h3"
             />
           </LayoutItem>
         )}
       </OneColumn>
-    </div>
+    </main>
   );
 };
 

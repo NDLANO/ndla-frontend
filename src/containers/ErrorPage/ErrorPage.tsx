@@ -31,9 +31,6 @@ const ErrorPage = () => {
         title="NDLA"
         meta={[{ name: 'description', content: t('meta.description') }]}
       />
-      <Helmet>
-        <meta property="fb:app_id" content="115263542481787" />
-      </Helmet>
       <Masthead fixed>
         <MastheadItem right>
           <Logo to="/" locale={i18n.language} label={t('logo.altText')} />

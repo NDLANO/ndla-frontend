@@ -245,18 +245,16 @@ const FoldersPage = () => {
         )}
         <ListViewOptions type={viewType} onTypeChange={setViewType} />
       </StyledRow>
-      {!!folders.length && (
-        <FolderList
-          onFolderAdd={onFolderAdd}
-          isAdding={isAdding}
-          setIsAdding={setIsAdding}
-          type={viewType}
-          folders={folders}
-          loading={loading}
-          folderId={folderId}
-          setFolderAction={setFolderAction}
-        />
-      )}
+      <FolderList
+        onFolderAdd={onFolderAdd}
+        isAdding={isAdding}
+        setIsAdding={setIsAdding}
+        type={viewType}
+        folders={folders}
+        loading={loading}
+        folderId={folderId}
+        setFolderAction={setFolderAction}
+      />
       {!!selectedFolder?.resources.length && (
         <ResourceCountContainer>
           <FileDocumentOutline />

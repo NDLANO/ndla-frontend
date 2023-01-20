@@ -777,6 +777,7 @@ type Query {
   subjectpage(id: Int!): SubjectPage
   subjects(
     filterVisible: Boolean
+    ids: [String!]
     metadataFilterKey: String
     metadataFilterValue: String
   ): [Subject!]

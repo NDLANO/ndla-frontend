@@ -8,6 +8,7 @@
 import { gql } from '@apollo/client';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
 import { FigureCaption, FigureLicenseDialog, Figure } from '@ndla/ui';
 import {
   getGroupedContributorDescriptionList,
@@ -23,6 +24,14 @@ import { ResourceType } from '../../interfaces';
 interface Props {
   visualElement: GQLVisualElementWrapper_VisualElementFragment;
 }
+
+const StyledFigure = styled(Figure)`
+  margin: 0;
+  width: 100% !important;
+  height: 100%;
+  right: auto !important;
+  left: auto !important;
+`;
 
 export const getResourceType = (VisualElementType?: string): ResourceType => {
   switch (VisualElementType) {
@@ -84,7 +93,7 @@ const VisualElementWrapper = ({ visualElement }: Props) => {
   const figureId = `figure-${id}`;
 
   return (
-    <Figure id={figureId} type={'full-column'} resizeIframe={true}>
+    <StyledFigure id={figureId} resizeIframe={true}>
       <VisualElement visualElement={visualElement} />
       {visualElement.resource !== 'external' && copyright && (
         <FigureCaption
@@ -110,7 +119,7 @@ const VisualElementWrapper = ({ visualElement }: Props) => {
           </FigureLicenseDialog>
         </FigureCaption>
       )}
-    </Figure>
+    </StyledFigure>
   );
 };
 

@@ -79,7 +79,7 @@ const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
                     hasCopiedTitle={t('license.hasCopiedTitle')}
                   />
                 )}
-                <SafeLinkButton to={podcast.src} download outline>
+                <SafeLinkButton to={podcast.src} download variant="outline">
                   {t('license.download')}
                 </SafeLinkButton>
               </>

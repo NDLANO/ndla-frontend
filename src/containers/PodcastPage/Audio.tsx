@@ -185,7 +185,7 @@ const Audio = ({ audio, seriesId = '' }: Props) => {
             hasCopiedTitle={t('license.hasCopiedTitle')}
           />
           {audio.copyright.license?.license !== 'COPYRIGHTED' && (
-            <SafeLinkButton to={audio.audioFile.url} download outline>
+            <SafeLinkButton to={audio.audioFile.url} download variant="outline">
               {t('license.download')}
             </SafeLinkButton>
           )}
@@ -228,7 +228,10 @@ const Audio = ({ audio, seriesId = '' }: Props) => {
                     copyTitle={t('license.copyTitle')}
                     hasCopiedTitle={t('license.hasCopiedTitle')}
                   />
-                  <SafeLinkButton to={image.imageUrl} download outline>
+                  <SafeLinkButton
+                    to={image.imageUrl}
+                    download
+                    variant="outline">
                     {t('license.download')}
                   </SafeLinkButton>
                 </>
