@@ -67,7 +67,7 @@ const getSubjectCategoryMessage = (
   ) {
     return undefined;
   } else if (subjectCategory === constants.subjectCategories.BETA_SUBJECTS) {
-    return t('messageBoxInfo.subjectFuture');
+    return t('messageBoxInfo.subjectBeta');
   } else if (subjectCategory === constants.subjectCategories.ARCHIVE_SUBJECTS) {
     return t('messageBoxInfo.subjectOutdated');
   } else {
