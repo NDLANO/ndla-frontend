@@ -69,6 +69,9 @@ const StickyHeading = styled.div<StyledProps>`
 const StyledH2 = styled.h2`
   margin: 0;
   ${fonts.sizes('18px', '24px')};
+  ${mq.range({ until: breakpoints.tabletWide })} {
+    ${fonts.sizes('30px', '36px')};
+  }
 `;
 
 const StyledArrow = styled(Forward)`
