@@ -26,7 +26,7 @@ import {
 } from '../../graphqlTypes';
 import { SearchCompetenceGoal, SubjectItem } from './SearchInnerPage';
 import { LocaleType } from '../../interfaces';
-import { getLocaleUrls } from '../../util/localeHelpers';
+import { supportedLanguages } from '../../i18n';
 
 const StyledLanguageSelector = styled.div`
   width: 100%;
@@ -156,11 +156,8 @@ const SearchContainer = ({
           {isLti && (
             <StyledLanguageSelector>
               <LanguageSelector
-                center
-                outline
-                alwaysVisible
-                options={getLocaleUrls(i18n.language, window.location)}
-                currentLanguage={i18n.language}
+                locales={supportedLanguages}
+                onSelect={i18n.changeLanguage}
               />
             </StyledLanguageSelector>
           )}

@@ -10,9 +10,8 @@ import { OneColumn, ContentPlaceholder, ConceptNotion } from '@ndla/ui';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { figureApa7CopyString } from '@ndla/licenses';
-import styled from '@emotion/styled';
-import { colors } from '@ndla/core';
 import { gql } from '@apollo/client';
+import { HelmetWithTracker } from '@ndla/tracker';
 import { GQLConceptQuery } from '../../graphqlTypes';
 import { conceptSearchInfoFragment } from '../../queries';
 import { useGraphQuery } from '../../util/runQueries';
@@ -96,7 +95,9 @@ const ConceptPage = () => {
       case 'brightcove': {
         return {
           ...visualElement,
-          url: data?.concept?.visualElement?.brightcove?.src,
+          url:
+            data?.concept?.visualElement?.brightcove?.src ??
+            data.concept.visualElement.url,
           resource: data?.concept?.visualElement?.resource,
         };
       }
@@ -129,14 +130,10 @@ const ConceptPage = () => {
     alt: concept.image.alt,
   };
 
-  const StyledHeader = styled.h1`
-    color: ${colors.text.primary};
-    border-bottom: 2px solid ${colors.brand.tertiary};
-  `;
-
   return (
     <OneColumn>
-      <StyledHeader>{`${t('resourcepageTitles.concept')} `}</StyledHeader>
+      <HelmetWithTracker title={t('resourcepageTitles.concept')} />
+      <h1>{`${t('resourcepageTitles.concept')} `}</h1>
       <ConceptNotion
         concept={{
           ...concept,

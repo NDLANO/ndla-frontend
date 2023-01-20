@@ -13,8 +13,8 @@ import en from './messages/messagesEN';
 import { getDefaultLocale } from './config';
 import { LocaleType } from './interfaces';
 
-export const supportedLanguages = ['nb', 'nn', 'en'];
-export const preferredLanguages = ['nb', 'nn', 'en'];
+export const supportedLanguages: LocaleType[] = ['nb', 'nn', 'en'];
+export const preferredLanguages: LocaleType[] = ['nb', 'nn', 'en'];
 
 type LocaleObject = {
   name: string;
