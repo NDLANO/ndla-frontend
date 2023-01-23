@@ -65,7 +65,9 @@ export const filterSubjects = (
   allSubjects: GQLMySubjectsSubjectFragmentFragment[],
   status: string,
 ) => {
-  const subjects = allSubjects.filter(subject => subject.metadata.customFields.forklaringsfag !== 'true');
+  const subjects = allSubjects.filter(
+    subject => subject.metadata.customFields.forklaringsfag !== 'true',
+  );
   if (status === 'all') {
     return subjects.filter(
       subject => subject.metadata.customFields.subjectCategory,
