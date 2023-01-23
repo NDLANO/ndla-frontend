@@ -6,21 +6,20 @@
  *
  */
 
-import { ReactNode, useContext } from 'react';
+import { ReactNode, useCallback, useContext, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { AuthModal } from '@ndla/ui';
-import { appearances, ButtonV2 as Button } from '@ndla/button';
-import { colors, fonts, spacing } from '@ndla/core';
-import Modal, { ModalBody, ModalCloseButton, ModalHeader } from '@ndla/modal';
-import SafeLink from '@ndla/safelink';
+import { ButtonV2 as Button } from '@ndla/button';
+import { colors, spacing } from '@ndla/core';
+import { SafeLinkButton } from '@ndla/safelink';
 import { AuthContext } from '../AuthenticationContext';
-import LoginComponent from '../MyNdla/LoginComponent';
 import IsMobileContext from '../../IsMobileContext';
 import { useIsNdlaFilm } from '../../routeHelpers';
 import { constructNewPath, toHref } from '../../util/urlHelper';
 import { useBaseName } from '../BaseNameContext';
+import LoginModal from '../MyNdla/LoginModal';
 
 const FeideFooterButton = styled(Button)`
   padding: ${spacing.xsmall} ${spacing.small};
@@ -29,71 +28,40 @@ const FeideFooterButton = styled(Button)`
   border: 2px solid ${colors.brand.grey};
 `;
 
-interface StyledLinkProps {
-  ndlaFilm?: boolean;
-}
-
-const shouldForwardProp = (p: string) => p !== 'ndlaFilm';
-
-const StyledLink = styled(SafeLink, { shouldForwardProp })<StyledLinkProps>`
-  ${appearances.ghostPill};
+const StyledLink = styled(SafeLinkButton)`
   display: flex;
-  align-items: center;
-  color: ${p => (p.ndlaFilm ? colors.white : colors.brand.primary)};
   gap: ${spacing.small};
-  box-shadow: none;
-  font-size: 16px;
   margin-right: ${spacing.normal};
-  font-weight: ${fonts.weight.semibold};
   svg {
     width: 20px;
     height: 20px;
   }
 `;
 
-const MyNdlaButton = styled(Button)`
-  font-weight: ${fonts.weight.semibold};
-  display: flex;
-  align-items: center;
-  gap: ${spacing.xxsmall};
-  svg {
-    height: 22px;
-    width: 22px;
-    margin-left: ${spacing.xxsmall};
-  }
-`;
-
 interface Props {
   footer?: boolean;
   children?: ReactNode;
-  masthead?: boolean;
 }
 
-const FeideLoginButton = ({ footer, children, masthead }: Props) => {
+const FeideLoginButton = ({ footer, children }: Props) => {
   const location = useLocation();
   const { t } = useTranslation();
   const { authenticated, user } = useContext(AuthContext);
   const basename = useBaseName();
   const ndlaFilm = useIsNdlaFilm();
   const isMobile = useContext(IsMobileContext);
+  const [isOpen, setIsOpen] = useState(false);
   const destination = isMobile ? '/minndla/meny' : '/minndla';
-  const activateButton = footer ? (
-    <FeideFooterButton>{children}</FeideFooterButton>
-  ) : (
-    <MyNdlaButton
-      variant="ghost"
-      shape="pill"
-      colorTheme="lighter"
-      size="medium"
-      inverted={ndlaFilm}>
-      {children}
-    </MyNdlaButton>
-  );
+
+  const onClose = useCallback(() => setIsOpen(false), []);
 
   if (authenticated && !footer) {
     return (
       <StyledLink
-        ndlaFilm={ndlaFilm}
+        variant="ghost"
+        colorTheme="light"
+        shape="pill"
+        inverted={ndlaFilm}
         to={destination}
         aria-label={t('myNdla.myNDLA')}>
         {children}
@@ -104,31 +72,22 @@ const FeideLoginButton = ({ footer, children, masthead }: Props) => {
   if (!authenticated) {
     return (
       <>
-        <Modal
-          backgroundColor="white"
-          activateButton={activateButton}
-          label={t('user.modal.isNotAuth')}>
-          {onClose => (
-            <>
-              <ModalHeader>
-                <ModalCloseButton
-                  title={t('modal.closeModal')}
-                  onClick={onClose}
-                />
-              </ModalHeader>
-              <ModalBody>
-                <LoginComponent onClose={onClose} masthead={masthead} />
-              </ModalBody>
-            </>
-          )}
-        </Modal>
+        <Button
+          variant={footer ? 'outline' : 'ghost'}
+          colorTheme={footer ? 'greyLighter' : 'lighter'}
+          onClick={() => setIsOpen(true)}
+          inverted={!footer && ndlaFilm}
+          shape={footer ? 'normal' : 'pill'}>
+          {children}
+        </Button>
+        <LoginModal isOpen={isOpen} onClose={onClose} />
       </>
     );
   }
 
   return (
     <AuthModal
-      activateButton={activateButton}
+      activateButton={<FeideFooterButton>{children}</FeideFooterButton>}
       isAuthenticated={authenticated}
       showGeneralMessage={false}
       user={user}

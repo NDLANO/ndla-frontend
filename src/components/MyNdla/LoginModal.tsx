@@ -9,7 +9,17 @@
 import { useTranslation } from 'react-i18next';
 import { ModalBody, ModalCloseButton, ModalHeader, ModalV2 } from '@ndla/modal';
 import { ReactNode } from 'react';
+import styled from '@emotion/styled';
+import { breakpoints, fonts, mq } from '@ndla/core';
 import LoginComponent from './LoginComponent';
+
+const Title = styled.h1`
+  margin-bottom: 0;
+  ${fonts.sizes('30px')};
+  ${mq.range({ until: breakpoints.tablet })} {
+    ${fonts.sizes('20px')};
+  }
+`;
 
 interface Props {
   isOpen: boolean;
@@ -17,6 +27,12 @@ interface Props {
   title?: string;
   content?: ReactNode;
 }
+
+const StyledModalBody = styled(ModalBody)`
+  h2 {
+    margin: 0;
+  }
+`;
 
 const LoginModal = ({ isOpen, onClose, title, content }: Props) => {
   const { t } = useTranslation();
@@ -31,14 +47,15 @@ const LoginModal = ({ isOpen, onClose, title, content }: Props) => {
       {onCloseModal => (
         <>
           <ModalHeader>
+            <Title>{title}</Title>
             <ModalCloseButton
               title={t('modal.closeModal')}
               onClick={onCloseModal}
             />
           </ModalHeader>
-          <ModalBody>
-            <LoginComponent onClose={onClose} title={title} content={content} />
-          </ModalBody>
+          <StyledModalBody>
+            <LoginComponent onClose={onClose} content={content} />
+          </StyledModalBody>
         </>
       )}
     </ModalV2>
