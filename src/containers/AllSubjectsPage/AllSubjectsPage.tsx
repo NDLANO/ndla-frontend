@@ -43,7 +43,9 @@ const {
 
 const createFilterTranslation = (t: TFunction, key: string, addTail = true) => {
   const label = addTail
-    ? `${t(`subjectCategories.${key}`)} ${t('contentTypes.subjects')}`
+    ? `${t(`subjectCategories.${key}`)} ${t('common.subject', {
+        count: 2,
+      })}`
     : t(`subjectCategories.${key}`);
   return label.toLocaleUpperCase();
 };
@@ -66,9 +68,9 @@ const createFilters = (t: TFunction) => [
     value: OTHER,
   },
   {
-    label: `${t('contentTypes.all')} ${t(
-      'contentTypes.subjects',
-    )}`.toUpperCase(),
+    label: `${t('contentTypes.all')} ${t('common.subject', {
+      count: 2,
+    })}`.toUpperCase(),
     value: 'all',
   },
 ];
