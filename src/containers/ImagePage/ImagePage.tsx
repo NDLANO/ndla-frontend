@@ -9,6 +9,8 @@
 import { OneColumn, ContentPlaceholder } from '@ndla/ui';
 import { useParams } from 'react-router-dom';
 import { gql } from '@apollo/client';
+import { HelmetWithTracker } from '@ndla/tracker';
+import { useTranslation } from 'react-i18next';
 import { GQLImageQuery, GQLImageQueryVariables } from '../../graphqlTypes';
 import { useGraphQuery } from '../../util/runQueries';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
@@ -18,6 +20,7 @@ import ImageElement from './components/ImageElement';
 
 const ImagePage = () => {
   const { imageId } = useParams();
+  const { t } = useTranslation();
 
   const { data, loading, error } = useGraphQuery<
     GQLImageQuery,
@@ -41,6 +44,11 @@ const ImagePage = () => {
 
   return (
     <OneColumn>
+      <HelmetWithTracker
+        title={`${data?.image?.title.title} - ${t(
+          'resourcepageTitles.image',
+        )} - NDLA`}
+      />
       <ImageElement image={data.image} />
     </OneColumn>
   );
