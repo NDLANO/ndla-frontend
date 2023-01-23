@@ -210,6 +210,7 @@ export type GQLBrightcoveElement = {
   description?: Maybe<Scalars['String']>;
   download?: Maybe<Scalars['String']>;
   iframe?: Maybe<GQLBrightcoveIframe>;
+  name?: Maybe<Scalars['String']>;
   player?: Maybe<Scalars['String']>;
   src?: Maybe<Scalars['String']>;
   uploadDate?: Maybe<Scalars['String']>;
@@ -239,6 +240,12 @@ export type GQLBucketResult = {
   __typename?: 'BucketResult';
   count: Scalars['Int'];
   value: Scalars['String'];
+};
+
+export type GQLCaption = {
+  __typename?: 'Caption';
+  caption: Scalars['String'];
+  language: Scalars['String'];
 };
 
 export type GQLCategory = {
@@ -351,6 +358,13 @@ export type GQLDescription = {
   __typename?: 'Description';
   description: Scalars['String'];
   language: Scalars['String'];
+};
+
+export type GQLEditorNote = {
+  __typename?: 'EditorNote';
+  note: Scalars['String'];
+  timestamp: Scalars['String'];
+  updatedBy: Scalars['String'];
 };
 
 export type GQLElement = {
@@ -500,6 +514,18 @@ export type GQLH5pLicense = {
   title: Scalars['String'];
 };
 
+export type GQLImageAltText = {
+  __typename?: 'ImageAltText';
+  alttext: Scalars['String'];
+  language: Scalars['String'];
+};
+
+export type GQLImageDimensions = {
+  __typename?: 'ImageDimensions';
+  height: Scalars['Int'];
+  width: Scalars['Int'];
+};
+
 export type GQLImageElement = {
   __typename?: 'ImageElement';
   alt?: Maybe<Scalars['String']>;
@@ -542,6 +568,26 @@ export type GQLImageMetaInformation = {
   supportedLanguages: Array<Scalars['String']>;
   tags: Array<Scalars['String']>;
   title: Scalars['String'];
+};
+
+export type GQLImageMetaInformationV2 = {
+  __typename?: 'ImageMetaInformationV2';
+  alttext: GQLImageAltText;
+  caption: GQLCaption;
+  contentType: Scalars['String'];
+  copyright: GQLCopyright;
+  created: Scalars['String'];
+  createdBy: Scalars['String'];
+  editorNotes?: Maybe<Array<GQLEditorNote>>;
+  id: Scalars['String'];
+  imageDimensions?: Maybe<GQLImageDimensions>;
+  imageUrl: Scalars['String'];
+  metaUrl: Scalars['String'];
+  modelRelease: Scalars['String'];
+  size: Scalars['Int'];
+  supportedLanguages?: Maybe<Array<Scalars['String']>>;
+  tags: GQLTags;
+  title: GQLTitle;
 };
 
 export type GQLLearningpath = {
@@ -874,6 +920,7 @@ export type GQLQuery = {
   frontpage?: Maybe<GQLFrontpage>;
   frontpageSearch?: Maybe<GQLFrontpageSearch>;
   groupSearch?: Maybe<Array<GQLGroupSearch>>;
+  image?: Maybe<GQLImageMetaInformationV2>;
   learningpath?: Maybe<GQLLearningpath>;
   listingPage?: Maybe<GQLListingPage>;
   personalData: GQLMyNdlaPersonalData;
@@ -979,6 +1026,10 @@ export type GQLQueryGroupSearchArgs = {
   query?: InputMaybe<Scalars['String']>;
   resourceTypes?: InputMaybe<Scalars['String']>;
   subjects?: InputMaybe<Scalars['String']>;
+};
+
+export type GQLQueryImageArgs = {
+  id: Scalars['String'];
 };
 
 export type GQLQueryLearningpathArgs = {
@@ -2882,6 +2933,7 @@ export type GQLBrightcoveVideoQuery = {
     __typename?: 'BrightcoveElement';
     videoid?: string;
     download?: string;
+    name?: string;
     customFields?: {
       __typename?: 'BrightcoveCustomFields';
       licenseInfo: Array<string>;

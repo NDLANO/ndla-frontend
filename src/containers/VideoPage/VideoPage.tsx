@@ -7,8 +7,9 @@
 import { ContentPlaceholder, OneColumn } from '@ndla/ui';
 import { getLicenseByAbbreviation } from '@ndla/licenses';
 import { useParams } from 'react-router-dom';
-import i18next from 'i18next';
+import i18next, { t } from 'i18next';
 import { gql } from '@apollo/client';
+import { HelmetWithTracker } from '@ndla/tracker';
 import NotFoundPage from '../../containers/NotFoundPage/NotFoundPage';
 import ErrorPage from '../../containers/ErrorPage';
 import VisualElementWrapper from '../../components/VisualElement/VisualElementWrapper';
@@ -76,6 +77,11 @@ const VideoPage = () => {
 
   return (
     <OneColumn>
+      <HelmetWithTracker
+        title={`${data.brightcoveVideo.name} - ${t(
+          'resourcepageTitles.video',
+        )} - NDLA`}
+      />
       <VisualElementWrapper visualElement={visualElement} videoId={videoId} />
     </OneColumn>
   );
@@ -98,6 +104,7 @@ const VideoPageQuery = gql`
         src
       }
       download
+      name
     }
   }
 `;

@@ -74,6 +74,9 @@ const messages = {
     maxLengthField:
       '$t(validation.fields.{{field}}) kan maks innehalde {{count}} teikn',
   },
+  resourcepageTitles: {
+    video: 'Video',
+  },
 };
 
 export default messages;

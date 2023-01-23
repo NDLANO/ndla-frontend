@@ -172,6 +172,7 @@ type BrightcoveElement {
   description: String
   download: String
   iframe: BrightcoveIframe
+  name: String
   player: String
   src: String
   uploadDate: String
@@ -198,6 +199,11 @@ type BrightcoveLicense {
 type BucketResult {
   count: Int!
   value: String!
+}
+
+type Caption {
+  caption: String!
+  language: String!
 }
 
 type Category {
@@ -298,6 +304,12 @@ type CrossSubjectElement {
 type Description {
   description: String!
   language: String!
+}
+
+type EditorNote {
+  note: String!
+  timestamp: String!
+  updatedBy: String!
 }
 
 type Element {
@@ -431,6 +443,16 @@ type H5pLicense {
   title: String!
 }
 
+type ImageAltText {
+  alttext: String!
+  language: String!
+}
+
+type ImageDimensions {
+  height: Int!
+  width: Int!
+}
+
 type ImageElement {
   alt: String
   altText: String!
@@ -470,6 +492,25 @@ type ImageMetaInformation {
   supportedLanguages: [String!]!
   tags: [String!]!
   title: String!
+}
+
+type ImageMetaInformationV2 {
+  alttext: ImageAltText!
+  caption: Caption!
+  contentType: String!
+  copyright: Copyright!
+  created: String!
+  createdBy: String!
+  editorNotes: [EditorNote!]
+  id: String!
+  imageDimensions: ImageDimensions
+  imageUrl: String!
+  metaUrl: String!
+  modelRelease: String!
+  size: Int!
+  supportedLanguages: [String!]
+  tags: Tags!
+  title: Title!
 }
 
 type Learningpath {
@@ -766,6 +807,7 @@ type Query {
     resourceTypes: String
     subjects: String
   ): [GroupSearch!]
+  image(id: String!): ImageMetaInformationV2
   learningpath(pathId: String!): Learningpath
   listingPage(subjects: String): ListingPage
   personalData: MyNdlaPersonalData!
