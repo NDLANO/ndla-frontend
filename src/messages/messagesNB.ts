@@ -76,6 +76,7 @@ const messages = {
       '$t(validation.fields.{{field}}) kan maks innholde {{count}} tegn',
   },
   resourcepageTitles: {
+    audio: 'Audio',
     concept: 'Forklaring',
   },
 };

@@ -76,6 +76,7 @@ const messages = {
   },
   resourcepageTitles: {
     concept: 'Forklaring',
+    audio: 'Audio',
   },
 };
 

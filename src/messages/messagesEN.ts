@@ -75,6 +75,7 @@ const messages = {
   },
   resourcepageTitles: {
     concept: 'Concept',
+    audio: 'Audio',
   },
 };
 
