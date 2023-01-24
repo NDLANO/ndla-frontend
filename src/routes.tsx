@@ -33,6 +33,7 @@ export const routes = [
   'resources/images/:imageId',
   'resources/audios/:audioId',
   'article/:articleId',
+  'p/:articleId',
   'learningpaths/:learningpathId',
   'learningpaths/:learningpathId/:stepId',
   'resources/concepts/:conceptId',

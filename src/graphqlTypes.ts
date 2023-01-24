@@ -874,8 +874,8 @@ export type GQLQuery = {
   alerts?: Maybe<Array<Maybe<GQLUptimeAlert>>>;
   allFolderResources: Array<GQLFolderResource>;
   article?: Maybe<GQLArticle>;
-  brightcoveVideo?: Maybe<GQLBrightcoveElement>;
   audio?: Maybe<GQLAudio>;
+  brightcoveVideo?: Maybe<GQLBrightcoveElement>;
   competenceGoal?: Maybe<GQLCompetenceGoal>;
   competenceGoals?: Maybe<Array<GQLCompetenceGoal>>;
   concept?: Maybe<GQLConcept>;
@@ -890,7 +890,7 @@ export type GQLQuery = {
   frontpage?: Maybe<GQLFrontpage>;
   frontpageSearch?: Maybe<GQLFrontpageSearch>;
   groupSearch?: Maybe<Array<GQLGroupSearch>>;
-  image: Maybe<GQLImageMetaInformationV2>;
+  image?: Maybe<GQLImageMetaInformationV2>;
   learningpath?: Maybe<GQLLearningpath>;
   listingPage?: Maybe<GQLListingPage>;
   personalData: GQLMyNdlaPersonalData;
@@ -920,12 +920,12 @@ export type GQLQueryArticleArgs = {
   subjectId?: InputMaybe<Scalars['String']>;
 };
 
-export type GQLQueryBrightcoveVideoArgs = {
-  id: Scalars['String'];
-};
-
 export type GQLQueryAudioArgs = {
   id: Scalars['Int'];
+};
+
+export type GQLQueryBrightcoveVideoArgs = {
+  id: Scalars['String'];
 };
 
 export type GQLQueryCompetenceGoalArgs = {

@@ -175,6 +175,7 @@ const AppRoutes = ({ base }: AppProps) => {
                 <Route path="404" element={<NotFound />} />
                 <Route path="403" element={<AccessDenied />} />
                 <Route path="*" element={<NotFound />} />
+                <Route path="p/:articleId" element={<PlainArticlePage />} />
               </Route>
             </Routes>
           </SnackbarProvider>
