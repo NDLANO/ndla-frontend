@@ -11,6 +11,7 @@ import { SnackbarProvider } from '@ndla/ui';
 import { History } from 'history';
 import { Component, ErrorInfo, ReactNode } from 'react';
 import { Route, Routes } from 'react-router-dom';
+import ImagePage from './containers/ImagePage/ImagePage';
 import ConceptPage from './containers/ConceptPage/ConceptPage';
 import AudioPage from './containers/AudioPage/AudioPage';
 import { AlertsProvider } from './components/AlertsContext';
@@ -140,6 +141,10 @@ const AppRoutes = ({ base }: AppProps) => {
                     </Route>
                   </Route>
                 </Route>
+                <Route
+                  path="resources/images/:imageId"
+                  element={<ImagePage />}
+                />
                 <Route
                   path="resources/concepts/:conceptId"
                   element={<ConceptPage />}

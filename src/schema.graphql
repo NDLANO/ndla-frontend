@@ -410,17 +410,6 @@ type ImageAltText {
   language: String!
 }
 
-type ImageCopyRight {
-  agreementId: Int
-  creators: [Contributor!]!
-  license: License!
-  origin: String!
-  processors: [Contributor!]!
-  rightsholders: [Contributor!]!
-  validFrom: String
-  validTo: String
-}
-
 type ImageDimensions {
   height: Int!
   width: Int!
@@ -467,11 +456,11 @@ type ImageMetaInformation {
   title: String!
 }
 
-type ImageMetaInformationV3 {
+type ImageMetaInformationV2 {
   alttext: ImageAltText!
   caption: Caption!
   contentType: String!
-  copyright: ImageCopyRight!
+  copyright: Copyright!
   created: String!
   createdBy: String!
   editorNotes: [EditorNote!]
@@ -780,10 +769,11 @@ type Query {
     resourceTypes: String
     subjects: String
   ): [GroupSearch!]
-  image(id: String!): ImageMetaInformationV3!
+  image(id: String!): ImageMetaInformationV2
   learningpath(pathId: String!): Learningpath
   listingPage(subjects: String): ListingPage
   personalData: MyNdlaPersonalData!
+  podcast(id: Int!): AudioWithSeries
   podcastSearch(fallback: Boolean, page: Int!, pageSize: Int!): AudioSearch
   podcastSeries(id: Int!): PodcastSeriesWithEpisodes
   podcastSeriesSearch(

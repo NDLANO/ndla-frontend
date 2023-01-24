@@ -75,6 +75,7 @@ const messages = {
       '$t(validation.fields.{{field}}) kan maks innehalde {{count}} teikn',
   },
   resourcepageTitles: {
+    image: 'Bilde',
     concept: 'Forklaring',
     audio: 'Audio',
   },

@@ -280,6 +280,7 @@ export const copyrightInfoFragment = gql`
     license {
       license
       url
+      description
     }
     creators {
       ...ContributorInfo
