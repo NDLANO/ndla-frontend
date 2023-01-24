@@ -74,8 +74,8 @@ const Learningpath = ({
   const lastUpdatedDate = new Date(lastUpdated);
 
   const lastUpdatedString = `${lastUpdatedDate.getDate()}.${
-    lastUpdatedDate.getMonth() < 10 ? '0' : ''
-  }${lastUpdatedDate.getMonth()}.${lastUpdatedDate.getFullYear()}`;
+    lastUpdatedDate.getMonth() + 1 < 10 ? '0' : ''
+  }${lastUpdatedDate.getMonth() + 1}.${lastUpdatedDate.getFullYear()}`;
 
   const { contentTypes } = constants;
 

@@ -45,7 +45,7 @@ const TextLicenseInfo = ({ text }: TextLicenseInfoProps) => {
     });
   }
   items.push({
-    label: t('license.text.published'),
+    label: t('article.lastUpdated'),
     description: text.updated,
     metaType: metaTypes.other,
   });

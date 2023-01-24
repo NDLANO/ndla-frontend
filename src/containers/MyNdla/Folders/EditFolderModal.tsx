@@ -6,7 +6,7 @@
  *
  */
 
-import Modal, { ModalBody, ModalCloseButton, ModalHeader } from '@ndla/modal';
+import { ModalBody, ModalCloseButton, ModalHeader, ModalV2 } from '@ndla/modal';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import { useApolloClient } from '@apollo/client';
@@ -53,11 +53,9 @@ const EditFolderModal = ({
   const { t } = useTranslation();
 
   return (
-    <Modal
-      controllable
+    <ModalV2
+      controlled
       isOpen={isOpen}
-      size="regular"
-      backgroundColor="white"
       onClose={onClose}
       labelledBy={'editHeading'}>
       {onCloseModal => (
@@ -81,7 +79,7 @@ const EditFolderModal = ({
           </ModalBody>
         </>
       )}
-    </Modal>
+    </ModalV2>
   );
 };
 

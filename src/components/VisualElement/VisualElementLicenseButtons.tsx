@@ -65,7 +65,7 @@ const VisualElementLicenseButtons = ({
             downloadUrl(visualElement.image?.src) ||
             ''
           }
-          outline
+          variant="outline"
           download>
           {t(`${resourceType}.download`)}
         </SafeLinkButton>

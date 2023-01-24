@@ -13,7 +13,6 @@ import { Remarkable } from 'remarkable';
 import { CustomWithTranslation, withTranslation } from 'react-i18next';
 
 import ArticleContents from '../../../components/Article/ArticleContents';
-import config from '../../../config';
 import VisualElementWrapper, {
   getResourceType,
 } from '../../../components/VisualElement/VisualElementWrapper';
@@ -77,7 +76,6 @@ const MultidisciplinaryTopic = ({
       selected: item.id === subTopicId,
       url: toTopic(subjectId, ...(topicPath ?? []), item.id),
     })) ?? [];
-  const copyPageUrlLink = config.ndlaFrontendDomain + topic.path;
 
   const toTopicProps = (
     article: GQLMultidisciplinaryTopic_TopicFragment['article'],
@@ -131,12 +129,7 @@ const MultidisciplinaryTopic = ({
       isLoading={false}
       renderMarkdown={renderMarkdown}
       invertedStyle={ndlaFilm}>
-      <ArticleContents
-        topic={topic}
-        copyPageUrlLink={copyPageUrlLink}
-        modifier="in-topic"
-        showIngress={false}
-      />
+      <ArticleContents topic={topic} modifier="in-topic" showIngress={false} />
     </UITopic>
   );
 };

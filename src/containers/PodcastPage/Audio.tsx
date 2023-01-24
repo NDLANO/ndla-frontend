@@ -19,6 +19,7 @@ import {
   getLicenseCredits,
   podcastEpisodeApa7CopyString,
   figureApa7CopyString,
+  getCopyString,
 } from '@ndla/licenses';
 import { initArticleScripts } from '@ndla/article-scripts';
 import { gql } from '@apollo/client';
@@ -34,21 +35,21 @@ import {
 } from '../../util/copyrightHelpers';
 
 interface Props {
-  podcast: GQLPodcast_AudioFragment;
-  seriesId: string;
+  audio: GQLPodcast_AudioFragment;
+  seriesId?: string;
 }
 
-const Podcast = ({ podcast, seriesId }: Props) => {
+const Audio = ({ audio, seriesId = '' }: Props) => {
   const {
     i18n: { language },
     t,
   } = useTranslation();
 
   const license =
-    podcast.copyright?.license &&
-    getLicenseByAbbreviation(podcast.copyright?.license?.license, language);
+    audio.copyright?.license &&
+    getLicenseByAbbreviation(audio.copyright?.license?.license, language);
 
-  const image = podcast.podcastMeta?.image;
+  const image = audio.podcastMeta?.image;
 
   const simpleImage = image && {
     url: image.imageUrl,
@@ -81,7 +82,7 @@ const Podcast = ({ podcast, seriesId }: Props) => {
     download: t('image.download'),
   };
 
-  const licenseCredits = getLicenseCredits(podcast.copyright);
+  const licenseCredits = getLicenseCredits(audio.copyright);
 
   const podcastContributors = getPrioritizedAuthors(licenseCredits);
 
@@ -100,7 +101,7 @@ const Podcast = ({ podcast, seriesId }: Props) => {
     image &&
     getLicenseByAbbreviation(image.copyright.license.license, language).rights;
 
-  const id = podcast.id.toString();
+  const id = audio.id.toString();
   const figureId = `episode-${id}`;
 
   const imageId = `episode-${id}-image-${image?.id}`;
@@ -108,17 +109,17 @@ const Podcast = ({ podcast, seriesId }: Props) => {
   return (
     <Figure id={figureId} type="full-column">
       <AudioPlayer
-        src={podcast.audioFile.url}
-        title={podcast.title.title}
-        description={podcast.podcastMeta?.introduction}
+        src={audio.audioFile.url}
+        title={audio.title.title}
+        description={audio.podcastMeta?.introduction}
         img={simpleImage}
-        textVersion={podcast.manuscript?.manuscript}
+        textVersion={audio.manuscript?.manuscript}
       />
       <FigureCaption
         figureId={figureId}
         id={id}
         locale={language}
-        caption={podcast.title.title}
+        caption={audio.title.title}
         licenseRights={license?.rights || []}
         reuseLabel={t('other.reuse')}
         authors={podcastContributors}>
@@ -127,28 +128,39 @@ const Podcast = ({ podcast, seriesId }: Props) => {
           authors={podcastGroupedContributors}
           locale={language}
           license={getLicenseByAbbreviation(
-            podcast.copyright.license?.license!,
+            audio.copyright.license?.license!,
             'nb',
           )}
           messages={podcastMessages}
-          title={podcast.title.title}
-          origin={podcast.copyright.origin}>
+          title={audio.title.title}
+          origin={audio.copyright.origin}>
           <CopyTextButton
-            stringToCopy={podcastEpisodeApa7CopyString(
-              podcast.title.title,
-              podcast.created,
-              seriesId,
-              podcast.id,
-              podcast.copyright,
-              language,
-              config.ndlaFrontendDomain,
-              key => t(key),
-            )}
+            stringToCopy={
+              seriesId
+                ? podcastEpisodeApa7CopyString(
+                    audio.title.title,
+                    audio.created,
+                    seriesId,
+                    audio.id,
+                    audio.copyright,
+                    language,
+                    config.ndlaFrontendDomain,
+                    key => t(key),
+                  )
+                : getCopyString(
+                    audio.title.title,
+                    audio.created,
+                    `/resources/audios/${audio.id}`,
+                    audio.copyright,
+                    config.ndlaFrontendDomain,
+                    key => t(key),
+                  )
+            }
             copyTitle={t('license.copyTitle')}
             hasCopiedTitle={t('license.hasCopiedTitle')}
           />
-          {podcast.copyright.license?.license !== 'COPYRIGHTED' && (
-            <SafeLinkButton to={podcast.audioFile.url} download outline>
+          {audio.copyright.license?.license !== 'COPYRIGHTED' && (
+            <SafeLinkButton to={audio.audioFile.url} download variant="outline">
               {t('license.download')}
             </SafeLinkButton>
           )}
@@ -181,7 +193,7 @@ const Podcast = ({ podcast, seriesId }: Props) => {
                       image.title,
                       undefined,
                       undefined,
-                      `/podkast/${seriesId}#episode-${podcast.id}`,
+                      `/podkast/${seriesId}#episode-${audio.id}`,
                       image.copyright,
                       image.copyright.license.license,
                       config.ndlaFrontendDomain,
@@ -191,7 +203,10 @@ const Podcast = ({ podcast, seriesId }: Props) => {
                     copyTitle={t('license.copyTitle')}
                     hasCopiedTitle={t('license.hasCopiedTitle')}
                   />
-                  <SafeLinkButton to={image.imageUrl} download outline>
+                  <SafeLinkButton
+                    to={image.imageUrl}
+                    download
+                    variant="outline">
                     {t('license.download')}
                   </SafeLinkButton>
                 </>
@@ -204,8 +219,8 @@ const Podcast = ({ podcast, seriesId }: Props) => {
   );
 };
 
-Podcast.fragments = {
-  podcast: gql`
+Audio.fragments = {
+  audio: gql`
     fragment Podcast_Audio on Audio {
       id
       title {
@@ -239,4 +254,4 @@ Podcast.fragments = {
   `,
 };
 
-export default Podcast;
+export default Audio;

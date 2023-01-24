@@ -18,7 +18,7 @@ describe('Film page', () => {
   it('has content', () => {
     cy.visit('/subject:20?disableSSR=true');
     cy.gqlWait('@filmPage');
-    cy.contains('h1', 'Alle utlendinger').should('be.visible');
+    cy.contains('a', 'Alle utlendinger').should('be.visible');
     cy.contains('h2', 'Emner i film')
       .parent()
       .within(() => {
@@ -26,7 +26,7 @@ describe('Film page', () => {
           expect($list).to.have.length(7);
         });
       });
-    cy.contains('h1', 'Identitet')
+    cy.contains('h2', 'Identitet')
       .parent()
       .parent()
       .children()

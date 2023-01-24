@@ -38,8 +38,14 @@ interface Props {
   topic: GQLResources_TopicFragment;
   resourceTypes?: GQLResources_ResourceTypeDefinitionFragment[];
   headingType: HeadingType;
+  subHeadingType: HeadingType;
 }
-const Resources = ({ topic, resourceTypes, headingType }: Props) => {
+const Resources = ({
+  topic,
+  resourceTypes,
+  headingType,
+  subHeadingType,
+}: Props) => {
   const params = useTypedParams<MatchProps>();
   const [showAdditionalResources, setShowAdditionalResources] = useState(false);
   const [resourceToAdd, setResourceToAdd] = useState<
@@ -186,6 +192,7 @@ const Resources = ({ topic, resourceTypes, headingType }: Props) => {
         resourceGroupsWithMetaData.map(type => (
           <ResourceGroup
             key={type.id}
+            headingLevel={subHeadingType}
             title={type.name}
             resources={type.resources ?? []}
             showAdditionalResources={showAdditionalResources}

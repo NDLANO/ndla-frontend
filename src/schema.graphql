@@ -73,7 +73,7 @@ type ArticleSearchResult implements SearchResult {
   url: String!
 }
 
-type Audio implements AudioBase {
+type Audio {
   audioFile: AudioFile!
   audioType: String!
   copyright: Copyright!
@@ -82,21 +82,7 @@ type Audio implements AudioBase {
   manuscript: Manuscript
   podcastMeta: PodcastMeta
   revision: Int!
-  supportedLanguages: [String!]!
-  tags: Tags!
-  title: Title!
-  updated: String!
-}
-
-interface AudioBase {
-  audioFile: AudioFile!
-  audioType: String!
-  copyright: Copyright!
-  created: String!
-  id: Int!
-  manuscript: Manuscript
-  podcastMeta: PodcastMeta
-  revision: Int!
+  series: PodcastSeries
   supportedLanguages: [String!]!
   tags: Tags!
   title: Title!
@@ -135,22 +121,6 @@ type AudioSummary {
   supportedLanguages: [String!]!
   title: Title!
   url: String!
-}
-
-type AudioWithSeries implements AudioBase {
-  audioFile: AudioFile!
-  audioType: String!
-  copyright: Copyright!
-  created: String!
-  id: Int!
-  manuscript: Manuscript
-  podcastMeta: PodcastMeta
-  revision: Int!
-  series: PodcastSeries
-  supportedLanguages: [String!]!
-  tags: Tags!
-  title: Title!
-  updated: String!
 }
 
 type Breadcrumb {
@@ -495,7 +465,7 @@ type ImageMetaInformationV2 {
   createdBy: String!
   editorNotes: [EditorNote!]
   id: String!
-  imageDimensions: ImageDimensions
+  imageDimensions: ImageDimensions!
   imageUrl: String!
   metaUrl: String!
   modelRelease: String!
@@ -754,6 +724,7 @@ type Query {
     showVisualElement: String
     subjectId: String
   ): Article
+  audio(id: Int!): Audio
   competenceGoal(code: String!, language: String): CompetenceGoal
   competenceGoals(codes: [String], language: String): [CompetenceGoal!]
   concept(id: Int!): Concept

@@ -104,9 +104,18 @@ const WelcomePage = () => {
           <BannerCardWrapper>
             <BannerCard
               link={UKR_PAGE_PATH}
-              title="Lær om det norske samfunnet - på ukrainsk"
-              content="Дізнайтеся про норвезьке суспільство – українською"
-              linkText="Learn about Norwegian society - in Ukrainian"
+              title={{
+                title: 'Lær om det norske samfunnet - på ukrainsk',
+                lang: 'nb',
+              }}
+              content={{
+                content: 'Дізнайтеся про норвезьке суспільство – українською',
+                lang: 'uk',
+              }}
+              linkText={{
+                text: 'Learn about Norwegian society - in Ukrainian',
+                lang: 'en',
+              }}
               image={{
                 altText: '',
                 imageSrc: '/static/flag_of_ukraine.svg',
