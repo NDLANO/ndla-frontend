@@ -2345,7 +2345,7 @@
     "@ndla/icons" "^2.2.1"
     "@reach/dialog" "^0.16.2"
 
-"@ndla/notion@^4.1.17":
+"@ndla/notion@^4.1.13", "@ndla/notion@^4.1.17":
   version "4.1.17"
   resolved "https://registry.yarnpkg.com/@ndla/notion/-/notion-4.1.17.tgz#e784e060fd9ee7a1888649b59be9536a5b315fc3"
   integrity sha512-iXC3UigWKOS3nDf2wTWmKAPptv+GPtCw4WD3EtqU4fYSgh3GdcQ40U5jkSmSg+k7fRjiZiVecw+sRTouXEAXiQ==

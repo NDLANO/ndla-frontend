@@ -140,6 +140,7 @@
     "@ndla/ui": "^34.3.0",
     "@ndla/util": "^3.1.9",
     "@ndla/zendesk": "^1.1.13",
+    "@ndla/notion": "^4.1.13",
     "babel-polyfill": "^6.26.0",
     "bunyan": "^1.8.15",
     "cross-env": "^7.0.3",

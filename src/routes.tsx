@@ -33,6 +33,7 @@ export const routes = [
   'article/:articleId',
   'learningpaths/:learningpathId',
   'learningpaths/:learningpathId/:stepId',
+  'resources/concepts/:conceptId',
   'subject:subjectId',
   'subject:subjectId/topic:topicId',
   'subject:subjectId/topic:topicId/resource:resourceId',
