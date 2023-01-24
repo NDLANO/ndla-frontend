@@ -74,6 +74,7 @@ const messages = {
     maxLengthField: `$t(validation.fields.{{field}}) can only contain {{count}} characters)}`,
   },
   resourcepageTitles: {
+    video: 'Video',
     image: 'Image',
     concept: 'Concept',
     audio: 'Audio',

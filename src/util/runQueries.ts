@@ -22,6 +22,5 @@ export function useGraphQuery<TData = any, TVariables = OperationVariables>(
     errorPolicy: 'all',
     ...options,
   });
-
   return result;
 }

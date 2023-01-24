@@ -163,14 +163,23 @@ export type GQLBreadcrumb = {
   name: Scalars['String'];
 };
 
+export type GQLBrightcoveCustomFields = {
+  __typename?: 'BrightcoveCustomFields';
+  accountId?: Maybe<Scalars['String']>;
+  license: Scalars['String'];
+  licenseInfo: Array<Scalars['String']>;
+};
+
 export type GQLBrightcoveElement = {
   __typename?: 'BrightcoveElement';
   account?: Maybe<Scalars['String']>;
   caption?: Maybe<Scalars['String']>;
   cover?: Maybe<Scalars['String']>;
+  customFields?: Maybe<GQLBrightcoveCustomFields>;
   description?: Maybe<Scalars['String']>;
   download?: Maybe<Scalars['String']>;
   iframe?: Maybe<GQLBrightcoveIframe>;
+  name?: Maybe<Scalars['String']>;
   player?: Maybe<Scalars['String']>;
   src?: Maybe<Scalars['String']>;
   uploadDate?: Maybe<Scalars['String']>;
@@ -865,6 +874,7 @@ export type GQLQuery = {
   alerts?: Maybe<Array<Maybe<GQLUptimeAlert>>>;
   allFolderResources: Array<GQLFolderResource>;
   article?: Maybe<GQLArticle>;
+  brightcoveVideo?: Maybe<GQLBrightcoveElement>;
   audio?: Maybe<GQLAudio>;
   competenceGoal?: Maybe<GQLCompetenceGoal>;
   competenceGoals?: Maybe<Array<GQLCompetenceGoal>>;
@@ -908,6 +918,10 @@ export type GQLQueryArticleArgs = {
   path?: InputMaybe<Scalars['String']>;
   showVisualElement?: InputMaybe<Scalars['String']>;
   subjectId?: InputMaybe<Scalars['String']>;
+};
+
+export type GQLQueryBrightcoveVideoArgs = {
+  id: Scalars['String'];
 };
 
 export type GQLQueryAudioArgs = {
@@ -3066,6 +3080,32 @@ export type GQLToolboxTopicWrapper_TopicFragment = {
     path: string;
   }>;
 } & GQLResources_TopicFragment;
+
+export type GQLBrightcoveVideoQueryVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+export type GQLBrightcoveVideoQuery = {
+  __typename?: 'Query';
+  brightcoveVideo?: {
+    __typename?: 'BrightcoveElement';
+    videoid?: string;
+    download?: string;
+    name?: string;
+    customFields?: {
+      __typename?: 'BrightcoveCustomFields';
+      licenseInfo: Array<string>;
+      license: string;
+      accountId?: string;
+    };
+    iframe?: {
+      __typename?: 'BrightcoveIframe';
+      height: number;
+      width: number;
+      src: string;
+    };
+  };
+};
 
 export type GQLIframeArticlePage_ArticleFragment = {
   __typename?: 'Article';

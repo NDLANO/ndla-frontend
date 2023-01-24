@@ -128,13 +128,21 @@ type Breadcrumb {
   name: String!
 }
 
+type BrightcoveCustomFields {
+  accountId: String
+  license: String!
+  licenseInfo: [String!]!
+}
+
 type BrightcoveElement {
   account: String
   caption: String
   cover: String
+  customFields: BrightcoveCustomFields
   description: String
   download: String
   iframe: BrightcoveIframe
+  name: String
   player: String
   src: String
   uploadDate: String
@@ -724,6 +732,7 @@ type Query {
     showVisualElement: String
     subjectId: String
   ): Article
+  brightcoveVideo(id: String!): BrightcoveElement
   audio(id: Int!): Audio
   competenceGoal(code: String!, language: String): CompetenceGoal
   competenceGoals(codes: [String], language: String): [CompetenceGoal!]
