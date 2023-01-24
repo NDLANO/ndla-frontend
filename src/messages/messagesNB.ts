@@ -13,7 +13,7 @@ const messages = {
     titleTemplate,
     welcomePage: `Forsiden - ${titleTemplate}`,
     topicPage: 'Emne',
-    subjectsPage: `Velg fag - ${titleTemplate}`,
+    subjectsPage: `Alle fag - ${titleTemplate}`,
     searchPage: `Søk - ${titleTemplate}`,
     notFound: `Siden finnes ikke - ${titleTemplate}`,
     accessDenied: `Ingen tilgang - ${titleTemplate}`,
@@ -77,6 +77,9 @@ const messages = {
   },
   resourcepageTitles: {
     video: 'Video',
+    image: 'Bilde',
+    audio: 'Audio',
+    concept: 'Forklaring',
   },
 };
 

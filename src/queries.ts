@@ -7,8 +7,9 @@
  */
 
 import { gql } from '@apollo/client';
+import { licenseListCopyrightFragment } from './components/license/licenseFragments';
 
-const contributorInfoFragment = gql`
+export const contributorInfoFragment = gql`
   fragment ContributorInfo on Contributor {
     name
     type
@@ -279,6 +280,7 @@ export const copyrightInfoFragment = gql`
     license {
       license
       url
+      description
     }
     creators {
       ...ContributorInfo
@@ -294,13 +296,14 @@ export const copyrightInfoFragment = gql`
 `;
 
 export const visualElementFragment = gql`
-  ${copyrightInfoFragment}
+  ${licenseListCopyrightFragment}
   fragment VisualElementInfo on VisualElement {
     title
     resource
     url
     copyright {
-      ...CopyrightInfo
+      ...LicenseListCopyright
+      origin
     }
     language
     embed
@@ -585,52 +588,6 @@ export const movieFragment = gql`
     }
     path
   }
-`;
-
-export const mastHeadQuery = gql`
-  query mastHead(
-    $subjectId: String!
-    $topicId: String!
-    $resourceId: String!
-    $skipSubject: Boolean!
-    $skipTopic: Boolean!
-    $skipResource: Boolean!
-  ) {
-    subject(id: $subjectId) @skip(if: $skipSubject) {
-      id
-      name
-      path
-      topics(all: true) {
-        ...TopicInfo
-      }
-    }
-    resourceTypes {
-      id
-      name
-    }
-    topic(id: $topicId, subjectId: $subjectId) @skip(if: $skipTopic) {
-      id
-      metadata {
-        customFields
-      }
-      coreResources(subjectId: $subjectId) {
-        ...ResourceInfo
-      }
-      supplementaryResources(subjectId: $subjectId) {
-        ...ResourceInfo
-      }
-    }
-    resource(id: $resourceId, subjectId: $subjectId, topicId: $topicId)
-      @skip(if: $skipResource) {
-      ...ResourceInfo
-    }
-    subjects(filterVisible: true) {
-      ...SubjectInfo
-    }
-  }
-  ${topicInfoFragment}
-  ${resourceInfoFragment}
-  ${subjectInfoFragment}
 `;
 
 export const alertsQuery = gql`

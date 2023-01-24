@@ -44,6 +44,7 @@ import {
   MOVED_PERMANENTLY,
   TEMPORARY_REDIRECT,
   BAD_REQUEST,
+  GONE,
 } from '../statusCodes';
 import { isAccessTokenValid } from '../util/authHelpers';
 import { constructNewPath } from '../util/urlHelper';
@@ -241,7 +242,11 @@ export async function sendInternalServerError(res: Response) {
 }
 
 function sendResponse(res: Response, data: any, status = OK) {
-  if (status === MOVED_PERMANENTLY || status === TEMPORARY_REDIRECT) {
+  if (
+    status === MOVED_PERMANENTLY ||
+    status === TEMPORARY_REDIRECT ||
+    status === GONE
+  ) {
     res.writeHead(status, data);
     res.end();
   } else if (res.getHeader('Content-Type') === 'application/json') {
@@ -386,6 +391,12 @@ app.get(
   },
 );
 
+app.get(
+  '/*/search/apachesolr_search*',
+  (_req: Request, res: Response, _next: NextFunction) => {
+    sendResponse(res, undefined, 410);
+  },
+);
 app.get('/*', (_req: Request, res: Response, _next: NextFunction) => {
   res.redirect(NOT_FOUND_PAGE_PATH);
 });

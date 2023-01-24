@@ -7,7 +7,7 @@
 
 import { gql } from '@apollo/client';
 import { useTranslation } from 'react-i18next';
-import { StyledButton } from '@ndla/button';
+import { SafeLinkButton } from '@ndla/safelink';
 import queryString from 'query-string';
 import CopyTextButton from '../license/CopyTextButton';
 import { GQLVisualElementLicenseButtons_VisualElementFragment } from '../../graphqlTypes';
@@ -47,7 +47,6 @@ const VisualElementLicenseButtons = ({
   resourceType,
 }: Props) => {
   const { t } = useTranslation();
-  const Button = StyledButton.withComponent('a');
 
   const copyText = visualElement.image?.copyText;
 
@@ -61,16 +60,17 @@ const VisualElementLicenseButtons = ({
         />
       )}
       {visualElement.copyright?.license?.license !== 'COPYRIGHTED' && (
-        <Button
+        <SafeLinkButton
           key="download"
-          href={
+          to={
             visualElement.brightcove?.download ||
-            downloadUrl(visualElement.image?.src)
+            downloadUrl(visualElement.image?.src) ||
+            ''
           }
-          appearance="outline"
+          variant="outline"
           download>
           {t(`${resourceType}.download`)}
-        </Button>
+        </SafeLinkButton>
       )}
       {visualElement.brightcove && (
         <CopyTextButton

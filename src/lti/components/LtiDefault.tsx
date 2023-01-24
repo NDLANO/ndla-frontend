@@ -7,7 +7,7 @@
  */
 
 import { useState } from 'react';
-import Button from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
 import LtiEmbedCode from './LtiEmbedCode';
 import { fetchArticleOembed } from '../../containers/ArticlePage/articleApi';
@@ -42,7 +42,7 @@ const LtiDefault = ({ item }: Props) => {
 
   return (
     <>
-      <Button onClick={() => showEmbedCode(item)}>{t('lti.embed')}</Button>
+      <ButtonV2 onClick={() => showEmbedCode(item)}>{t('lti.embed')}</ButtonV2>
       <LtiEmbedCode isOpen={isOpen} code={embedCode} onClose={hideEmbedCode} />
     </>
   );

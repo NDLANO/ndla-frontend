@@ -13,7 +13,7 @@ const messages = {
     titleTemplate,
     welcomePage: `Frontpage - ${titleTemplate}`,
     topicPage: 'Topic',
-    subjectsPage: `Choose subjects - ${titleTemplate}`,
+    subjectsPage: `All subjects - ${titleTemplate}`,
     searchPage: `Search - ${titleTemplate}`,
     notFound: `Page not found - ${titleTemplate}`,
     accessDenied: `Access denied - ${titleTemplate}`,
@@ -75,6 +75,9 @@ const messages = {
   },
   resourcepageTitles: {
     video: 'Video',
+    image: 'Image',
+    concept: 'Concept',
+    audio: 'Audio',
   },
 };
 

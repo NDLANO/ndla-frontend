@@ -1,9 +1,6 @@
 import { constants } from '@ndla/ui';
 import { TFunction } from 'react-i18next';
-import {
-  TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
-  TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE,
-} from '../constants';
+import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from '../constants';
 import { GQLSubjectInfoFragment } from '../graphqlTypes';
 
 export const multidisciplinaryTopics = [
@@ -80,8 +77,8 @@ export const getSubjectsCategories = (
   );
   const other = filterSubjects(
     subjects,
-    TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE,
-    constants.subjectTypes.RESOURCE_COLLECTION,
+    TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
+    constants.subjectCategories.OTHER,
   );
 
   return [active, archived, beta, other];

@@ -15,6 +15,7 @@ import {
   Youtube,
 } from '@ndla/icons/common';
 import { useTranslation } from 'react-i18next';
+import { supportedLanguages } from '../../../i18n';
 
 interface Props {
   ndlaFilm?: boolean;
@@ -54,6 +55,11 @@ const FooterWrapper = ({ ndlaFilm }: Props) => {
   const privacyLinks = [
     { url: 'https://om.ndla.no/gdpr', label: t('footer.privacyLink') },
     { url: 'https://om.ndla.no/cookies', label: t('footer.cookiesLink') },
+    {
+      url:
+        'https://uustatus.no/nn/erklaringer/publisert/8cefdf3d-3272-402a-907b-689ddfc9bba7',
+      label: t('footer.availabilityLink'),
+    },
   ];
 
   return (
@@ -63,13 +69,9 @@ const FooterWrapper = ({ ndlaFilm }: Props) => {
       links={links}
       languageSelector={
         <LanguageSelector
-          //not used, but not removed from props.
-          options={{}}
-          center
-          outline
-          alwaysVisible
-          inverted={!!ndlaFilm}
-          currentLanguage={i18n.language}
+          inverted={ndlaFilm}
+          locales={supportedLanguages}
+          onSelect={i18n.changeLanguage}
         />
       }
       privacyLinks={privacyLinks}>

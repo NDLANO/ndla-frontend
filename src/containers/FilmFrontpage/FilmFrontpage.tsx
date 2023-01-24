@@ -9,7 +9,7 @@
 import { useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { css } from '@emotion/react';
-import { spacingUnit } from '@ndla/core';
+import { spacingUnit, utils } from '@ndla/core';
 import { gql } from '@apollo/client';
 import {
   FilmSlideshow,
@@ -18,6 +18,7 @@ import {
   AllMoviesAlphabetically,
 } from '@ndla/ui';
 import { TFunction, withTranslation, WithTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
 
 import MovieCategory from './MovieCategory';
 import { htmlTitle } from '../../util/titleHelper';
@@ -42,6 +43,10 @@ const sortAlphabetically = (movies: MoviesByType[], locale: string) =>
       return -1;
     } else return a.title!.localeCompare(b.title!, locale);
   });
+
+const StyledH1 = styled.h1`
+  ${utils.visuallyHidden}
+`;
 
 interface Props extends WithTranslation {
   filmFrontpage?: GQLFilmFrontpage_FilmFrontpageFragment;
@@ -100,7 +105,7 @@ const FilmFrontpage = ({
   const pageTitle = getDocumentTitle(t, subject);
 
   return (
-    <div>
+    <>
       <Helmet>
         <title>{pageTitle}</title>
       </Helmet>
@@ -108,44 +113,46 @@ const FilmFrontpage = ({
         title={subject?.name ?? ''}
         description={about?.description}
       />
-      <FilmSlideshow slideshow={filmFrontpage?.slideShow ?? []} />
-      <FilmMovieSearch
-        skipToContentId={skipToContentId}
-        ariaControlId={ARIA_FILMCATEGORY_ID}
-        topics={subject?.topics ?? []}
-        resourceTypes={resourceTypes}
-        resourceTypeSelected={resourceTypeName}
-        onChangeResourceType={onChangeResourceType}
-      />
-      <div
-        ref={movieListRef}
-        css={css`
-          margin: ${spacingUnit * 3}px 0 ${spacingUnit * 4}px;
-        `}>
-        {showingAll ? (
-          <AllMoviesAlphabetically
-            movies={sortAlphabetically(moviesByType, i18n.language)}
-            locale={i18n.language}
-          />
-        ) : (
-          <MovieCategory
-            resourceTypeName={resourceTypeName}
-            moviesByType={moviesByType}
-            resourceTypes={resourceTypes}
-            themes={filmFrontpage?.movieThemes ?? []}
-            fetchingMoviesByType={fetchingMoviesByType}
-            resourceTypeSelected={resourceTypeSelected}
-            loadingPlaceholderHeight={loadingPlaceholderHeight}
+      <StyledH1>{t('ndlaFilm.heading')}</StyledH1>
+      <main>
+        <FilmSlideshow slideshow={filmFrontpage?.slideShow ?? []} />
+        <FilmMovieSearch
+          skipToContentId={skipToContentId}
+          ariaControlId={ARIA_FILMCATEGORY_ID}
+          topics={subject?.topics ?? []}
+          resourceTypes={resourceTypes}
+          resourceTypeSelected={resourceTypeName}
+          onChangeResourceType={onChangeResourceType}
+        />
+        <div
+          ref={movieListRef}
+          css={css`
+            margin: ${spacingUnit * 3}px 0 ${spacingUnit * 4}px;
+          `}>
+          {showingAll ? (
+            <AllMoviesAlphabetically
+              movies={sortAlphabetically(moviesByType, i18n.language)}
+            />
+          ) : (
+            <MovieCategory
+              resourceTypeName={resourceTypeName}
+              moviesByType={moviesByType}
+              resourceTypes={resourceTypes}
+              themes={filmFrontpage?.movieThemes ?? []}
+              fetchingMoviesByType={fetchingMoviesByType}
+              resourceTypeSelected={resourceTypeSelected}
+              loadingPlaceholderHeight={loadingPlaceholderHeight}
+            />
+          )}
+        </div>
+        {about && (
+          <AboutNdlaFilm
+            aboutNDLAVideo={about}
+            moreAboutNdlaFilm={<MoreAboutNdlaFilm />}
           />
         )}
-      </div>
-      {about && (
-        <AboutNdlaFilm
-          aboutNDLAVideo={about}
-          moreAboutNdlaFilm={<MoreAboutNdlaFilm />}
-        />
-      )}
-    </div>
+      </main>
+    </>
   );
 };
 

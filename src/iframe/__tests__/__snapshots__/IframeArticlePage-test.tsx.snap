@@ -110,29 +110,6 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
 }
 
 .emotion-24 {
-  display: inline-block;
-  color: #ffffff;
-  background-color: #20588f;
-  border: 2px solid #20588f;
-  border-radius: 4px;
-  padding: 4px 13px;
-  outline-width: 0;
-  cursor: pointer;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  font-size: 16px;
-  font-size: 0.8888888888888888rem;
-  line-height: 1.625;
-  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
-  font-weight: 700;
-  -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
-  transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
-  box-shadow: none;
-  text-align: center;
-  color: #20588f;
-  background-color: transparent;
-  border: 2px solid #20588f;
-  box-shadow: none;
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -145,31 +122,38 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  padding-left: 6.5px;
-  padding-right: 6.5px;
+  gap: 6.5px;
+  color: #fff;
+  background: #20588f;
+  border: 2px solid #20588f;
+  border-radius: 4px;
+  outline-width: 0;
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 600;
+  -webkit-transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  box-shadow: none;
+  text-align: center;
+  padding: 4.333333333333333px 6.5px;
   font-size: 14px;
   font-size: 0.7777777777777778rem;
   line-height: 18px;
   min-height: 32px;
-  font-weight: 600;
-  color: #20588f;
-  background-color: transparent;
-  border: 2px solid #20588f;
-  box-shadow: none;
   border-width: 1px;
-  border-radius: 32px;
-  font-weight: 600;
-  padding-left: 20px;
-  padding-right: 20px;
-  padding-left: 13px;
-  padding-right: 13px;
+  border-radius: 26px;
+  color: #20588f;
+  background: transparent;
+  border-color: #20588f;
 }
 
 .emotion-24:hover,
 .emotion-24:focus {
-  color: white;
+  color: #fff;
   background-color: #184673;
-  border: 2px solid #184673;
+  border-color: #184673;
 }
 
 .emotion-24[disabled] {
@@ -179,45 +163,20 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   cursor: not-allowed;
 }
 
-.emotion-24:focus {
-  box-shadow: 0 0 2px #20588f;
+.emotion-24:hover {
+  color: #fff;
+  background: #20588f;
+  border-color: #20588f;
 }
 
-.emotion-24:hover,
-.emotion-24:focus {
-  color: white;
-  background-color: #20588f;
-  border: 2px solid transparent;
-}
-
-.emotion-24:disabled {
+.emotion-24[disabled] {
   color: #777777;
-  border: 2px solid transparent;
-  background-color: #e6e6e6;
+  background-color: transparent;
+  border-color: #777777;
   cursor: not-allowed;
 }
 
-.emotion-24:hover,
-.emotion-24:focus {
-  color: white;
-  background-color: #20588f;
-  border: 2px solid transparent;
-}
-
-.emotion-24:disabled {
-  color: #777777;
-  border: 2px solid transparent;
-  background-color: #e6e6e6;
-  cursor: not-allowed;
-}
-
-.emotion-24:hover,
-.emotion-24:focus,
-.emotion-24:disabled {
-  border-width: 1px;
-}
-
-.emotion-26 {
+.emotion-25 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -228,7 +187,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   justify-content: flex-end;
 }
 
-.emotion-28 {
+.emotion-27 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -239,7 +198,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   align-items: center;
 }
 
-.emotion-30 {
+.emotion-29 {
   color: #757575;
   margin-right: 38px;
   font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
@@ -248,298 +207,300 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   line-height: 20px;
 }
 
-.emotion-32 {
+.emotion-31 {
   color: #757575;
 }
 
 <div
     class="o-wrapper undefined"
   >
-    <div>
-      <article
-        class="c-article c-article--clean c-article--iframe"
-        id="54"
-      >
-        <section
-          class="u-4/6@desktop u-push-1/6@desktop u-10/12@tablet u-push-1/12@tablet"
+    <main>
+      <div>
+        <article
+          class="c-article c-article--clean c-article--iframe"
+          id="54"
         >
-          <div
-            class="c-article__header"
+          <section
+            class="u-4/6@desktop u-push-1/6@desktop u-10/12@tablet u-push-1/12@tablet"
           >
             <div
-              class="c-article__title"
+              class="c-article__header"
             >
-              <h1
-                tabindex="-1"
+              <div
+                class="c-article__title"
               >
-                Politiske skillelinjer
-              </h1>
-            </div>
-            <div
-              class="article_introduction"
-            >
-              <p>
-                Politiske skillelinjer, eller konfliktlinjer, er varige og grunnleggende motsetninger i samfunnet og blant velgerne. Du synes kanskje det er vanskelig å se forskjell på de politiske partiene – det er du i så fall ikke alene om!
-              </p>
-              
+                <h1
+                  tabindex="-1"
+                >
+                  Politiske skillelinjer
+                </h1>
+              </div>
+              <div
+                class="article_introduction"
+              >
+                <p>
+                  Politiske skillelinjer, eller konfliktlinjer, er varige og grunnleggende motsetninger i samfunnet og blant velgerne. Du synes kanskje det er vanskelig å se forskjell på de politiske partiene – det er du i så fall ikke alene om!
+                </p>
+                
 
+              </div>
             </div>
-          </div>
-        </section>
-        <section
-          class="u-4/6@desktop u-push-1/6@desktop u-10/12@tablet u-push-1/12@tablet"
-        >
-          <div>
-            <section>
-              <p>
-                Dersom du leser de ulike partiprogrammene, ser du fort at partiene har ulike svar både på hva som er viktige utfordringer, og på hvordan de skal løses.
-              </p>
-            </section>
-          </div>
-        </section>
-        <section
-          class="u-4/6@desktop u-push-1/6@desktop u-10/12@tablet u-push-1/12@tablet"
-        >
-          <div
-            class="emotion-0 emotion-1"
+          </section>
+          <section
+            class="u-4/6@desktop u-push-1/6@desktop u-10/12@tablet u-push-1/12@tablet"
           >
             <div>
-              Sist oppdatert 09.01.2018
+              <section>
+                <p>
+                  Dersom du leser de ulike partiprogrammene, ser du fort at partiene har ulike svar både på hva som er viktige utfordringer, og på hvordan de skal løses.
+                </p>
+              </section>
             </div>
-            <div
-              class="emotion-2 emotion-3"
-            >
-              <div
-                class="emotion-4 emotion-5"
-              >
-                <ul
-                  class="emotion-6 emotion-7"
-                >
-                  <li
-                    class="emotion-8 emotion-9"
-                  >
-                    <div
-                      data-popover="Denne lisensen gir deg rett til å dele og bruke dette innholdet på visse vilkår."
-                      data-popover-container="true"
-                    >
-                      <button
-                        aria-controls="radix-0"
-                        aria-expanded="false"
-                        aria-haspopup="dialog"
-                        class="emotion-10 emotion-11"
-                        data-state="closed"
-                        data-trigger="true"
-                        type="button"
-                      >
-                        <svg
-                          aria-hidden="false"
-                          aria-label="Creative Commons"
-                          class="c-icon"
-                          data-license="CC-BY 4.0"
-                          data-source="Creative Commons"
-                          fill="currentColor"
-                          height="1em"
-                          preserveAspectRatio="xMidYMid meet"
-                          style="vertical-align: middle;"
-                          viewBox="5.5 -3.5 64 64"
-                          width="1em"
-                        >
-                          <g>
-                            <circle
-                              cx="37.785"
-                              cy="28.501"
-                              fill="none"
-                              r="28.836"
-                            />
-                            <path
-                              d="M37.441-3.5c8.951,0,16.572,3.125,22.857,9.372c3.008,3.009,5.295,6.448,6.857,10.314		c1.561,3.867,2.344,7.971,2.344,12.314c0,4.381-0.773,8.486-2.314,12.313c-1.543,3.828-3.82,7.21-6.828,10.143		c-3.123,3.085-6.666,5.448-10.629,7.086c-3.961,1.638-8.057,2.457-12.285,2.457s-8.276-0.808-12.143-2.429		c-3.866-1.618-7.333-3.961-10.4-7.027c-3.067-3.066-5.4-6.524-7-10.372S5.5,32.767,5.5,28.5c0-4.229,0.809-8.295,2.428-12.2		c1.619-3.905,3.972-7.4,7.057-10.486C21.08-0.394,28.565-3.5,37.441-3.5z M37.557,2.272c-7.314,0-13.467,2.553-18.458,7.657		c-2.515,2.553-4.448,5.419-5.8,8.6c-1.354,3.181-2.029,6.505-2.029,9.972c0,3.429,0.675,6.734,2.029,9.913		c1.353,3.183,3.285,6.021,5.8,8.516c2.514,2.496,5.351,4.399,8.515,5.715c3.161,1.314,6.476,1.971,9.943,1.971		c3.428,0,6.75-0.665,9.973-1.999c3.219-1.335,6.121-3.257,8.713-5.771c4.99-4.876,7.484-10.99,7.484-18.344		c0-3.543-0.648-6.895-1.943-10.057c-1.293-3.162-3.18-5.98-5.654-8.458C50.984,4.844,44.795,2.272,37.557,2.272z M37.156,23.187		l-4.287,2.229c-0.458-0.951-1.019-1.619-1.685-2c-0.667-0.38-1.286-0.571-1.858-0.571c-2.856,0-4.286,1.885-4.286,5.657		c0,1.714,0.362,3.084,1.085,4.113c0.724,1.029,1.791,1.544,3.201,1.544c1.867,0,3.181-0.915,3.944-2.743l3.942,2		c-0.838,1.563-2,2.791-3.486,3.686c-1.484,0.896-3.123,1.343-4.914,1.343c-2.857,0-5.163-0.875-6.915-2.629		c-1.752-1.752-2.628-4.19-2.628-7.313c0-3.048,0.886-5.466,2.657-7.257c1.771-1.79,4.009-2.686,6.715-2.686		C32.604,18.558,35.441,20.101,37.156,23.187z M55.613,23.187l-4.229,2.229c-0.457-0.951-1.02-1.619-1.686-2		c-0.668-0.38-1.307-0.571-1.914-0.571c-2.857,0-4.287,1.885-4.287,5.657c0,1.714,0.363,3.084,1.086,4.113		c0.723,1.029,1.789,1.544,3.201,1.544c1.865,0,3.18-0.915,3.941-2.743l4,2c-0.875,1.563-2.057,2.791-3.541,3.686		c-1.486,0.896-3.105,1.343-4.857,1.343c-2.896,0-5.209-0.875-6.941-2.629c-1.736-1.752-2.602-4.19-2.602-7.313		c0-3.048,0.885-5.466,2.658-7.257c1.77-1.79,4.008-2.686,6.713-2.686C51.117,18.558,53.938,20.101,55.613,23.187z"
-                            />
-                          </g>
-                        </svg>
-                      </button>
-                    </div>
-                  </li>
-                  <li
-                    class="emotion-8 emotion-9"
-                  >
-                    <div
-                      data-popover="Du må alltid oppgi hvem som har laget innholdet."
-                      data-popover-container="true"
-                    >
-                      <button
-                        aria-controls="radix-1"
-                        aria-expanded="false"
-                        aria-haspopup="dialog"
-                        class="emotion-10 emotion-11"
-                        data-state="closed"
-                        data-trigger="true"
-                        type="button"
-                      >
-                        <svg
-                          aria-hidden="false"
-                          aria-label="Navngivelse"
-                          class="c-icon"
-                          data-license="CC-BY 4.0"
-                          data-source="Creative Commons"
-                          fill="currentColor"
-                          height="1em"
-                          preserveAspectRatio="xMidYMid meet"
-                          style="vertical-align: middle;"
-                          viewBox="5.5 -3.5 64 64"
-                          width="1em"
-                        >
-                          <g>
-                            <circle
-                              cx="37.637"
-                              cy="28.806"
-                              fill="none"
-                              r="28.276"
-                            />
-                            <g>
-                              <path
-                                d="M37.443-3.5c8.988,0,16.57,3.085,22.742,9.257C66.393,11.967,69.5,19.548,69.5,28.5c0,8.991-3.049,16.476-9.145,22.456	C53.879,57.319,46.242,60.5,37.443,60.5c-8.649,0-16.153-3.144-22.514-9.43C8.644,44.784,5.5,37.262,5.5,28.5	c0-8.761,3.144-16.342,9.429-22.742C21.101-0.415,28.604-3.5,37.443-3.5z M37.557,2.272c-7.276,0-13.428,2.553-18.457,7.657	c-5.22,5.334-7.829,11.525-7.829,18.572c0,7.086,2.59,13.22,7.77,18.398c5.181,5.182,11.352,7.771,18.514,7.771			c7.123,0,13.334-2.607,18.629-7.828c5.029-4.838,7.543-10.952,7.543-18.343c0-7.276-2.553-13.465-7.656-18.571			C50.967,4.824,44.795,2.272,37.557,2.272z M46.129,20.557v13.085h-3.656v15.542h-9.944V33.643h-3.656V20.557			c0-0.572,0.2-1.057,0.599-1.457c0.401-0.399,0.887-0.6,1.457-0.6h13.144c0.533,0,1.01,0.2,1.428,0.6			C45.918,19.5,46.129,19.986,46.129,20.557z M33.042,12.329c0-3.008,1.485-4.514,4.458-4.514s4.457,1.504,4.457,4.514			c0,2.971-1.486,4.457-4.457,4.457S33.042,15.3,33.042,12.329z"
-                              />
-                            </g>
-                          </g>
-                        </svg>
-                      </button>
-                    </div>
-                  </li>
-                  <li
-                    class="emotion-8 emotion-9"
-                  >
-                    <div
-                      data-popover="Du kan bare dele innholdet med samme lisens som det opprinnelige innholdet."
-                      data-popover-container="true"
-                    >
-                      <button
-                        aria-controls="radix-2"
-                        aria-expanded="false"
-                        aria-haspopup="dialog"
-                        class="emotion-10 emotion-11"
-                        data-state="closed"
-                        data-trigger="true"
-                        type="button"
-                      >
-                        <svg
-                          aria-hidden="false"
-                          aria-label="Del på samme vilkår"
-                          class="c-icon"
-                          data-license="CC-BY 4.0"
-                          data-source="Creative Commons"
-                          fill="currentColor"
-                          height="1em"
-                          preserveAspectRatio="xMidYMid meet"
-                          style="vertical-align: middle;"
-                          viewBox="5.5 -3.5 64 64"
-                          width="1em"
-                        >
-                          <g>
-                            <circle
-                              cx="36.944"
-                              cy="28.631"
-                              fill="none"
-                              r="29.105"
-                            />
-                            <g>
-                              <path
-                                d="M37.443-3.5c8.951,0,16.531,3.105,22.742,9.315C66.393,11.987,69.5,19.548,69.5,28.5c0,8.954-3.049,16.457-9.145,22.514			C53.918,57.338,46.279,60.5,37.443,60.5c-8.649,0-16.153-3.143-22.514-9.429C8.644,44.786,5.5,37.264,5.5,28.501			c0-8.723,3.144-16.285,9.429-22.685C21.138-0.395,28.643-3.5,37.443-3.5z M37.557,2.272c-7.276,0-13.428,2.572-18.457,7.715			c-5.22,5.296-7.829,11.467-7.829,18.513c0,7.125,2.59,13.257,7.77,18.4c5.181,5.182,11.352,7.771,18.514,7.771			c7.123,0,13.334-2.609,18.629-7.828c5.029-4.876,7.543-10.99,7.543-18.343c0-7.313-2.553-13.485-7.656-18.513			C51.004,4.842,44.832,2.272,37.557,2.272z M23.271,23.985c0.609-3.924,2.189-6.962,4.742-9.114			c2.552-2.152,5.656-3.228,9.314-3.228c5.027,0,9.029,1.62,12,4.856c2.971,3.238,4.457,7.391,4.457,12.457			c0,4.915-1.543,9-4.627,12.256c-3.088,3.256-7.086,4.886-12.002,4.886c-3.619,0-6.743-1.085-9.371-3.257			c-2.629-2.172-4.209-5.257-4.743-9.257H31.1c0.19,3.886,2.533,5.829,7.029,5.829c2.246,0,4.057-0.972,5.428-2.914			c1.373-1.942,2.059-4.534,2.059-7.771c0-3.391-0.629-5.971-1.885-7.743c-1.258-1.771-3.066-2.657-5.43-2.657			c-4.268,0-6.667,1.885-7.2,5.656h2.343l-6.342,6.343l-6.343-6.343L23.271,23.985L23.271,23.985z"
-                              />
-                            </g>
-                          </g>
-                        </svg>
-                      </button>
-                    </div>
-                  </li>
-                </ul>
-                <span
-                  class="emotion-20 emotion-21"
-                >
-                  Skrevet av Someone
-                </span>
-              </div>
-            </div>
-            <div
-              class="emotion-22 emotion-23"
-            >
-              <button
-                class="emotion-24 emotion-25"
-                id="popupUseContent"
-                type="button"
-              >
-                Regler for bruk
-              </button>
-            </div>
-          </div>
-        </section>
-        <section
-          class="u-10/12@desktop u-push-1/12@desktop u-10/12@tablet u-push-1/12@tablet"
-        >
-          <div
-            class="emotion-26 emotion-27"
+          </section>
+          <section
+            class="u-4/6@desktop u-push-1/6@desktop u-10/12@tablet u-push-1/12@tablet"
           >
             <div
-              class="emotion-28 emotion-29"
+              class="emotion-0 emotion-1"
             >
-              <div
-                class="emotion-30 emotion-31"
-              >
-                <a
-                  class="emotion-32 emotion-33"
-                  href="https://test.ndla.no/subject:1/resource:1"
-                  target="_blank"
-                >
-                  Ressursen
-                </a>
-                 er hentet fra 
-                <a
-                  class="emotion-32 emotion-33"
-                  href="https://ndla.no"
-                  target="_blank"
-                >
-                  NDLA
-                </a>
+              <div>
+                Sist faglig oppdatert 09.01.2018
               </div>
               <div
-                class="c-logo"
+                class="emotion-2 emotion-3"
               >
-                <a
-                  aria-label="NDLA"
-                  href="https://ndla.no"
+                <div
+                  class="emotion-4 emotion-5"
                 >
-                  <svg
-                    class="c-logo__graphic"
-                    fill="#000000"
-                    fill-rule="evenodd"
-                    viewBox="0 0 376 152"
-                    xmlns="http://www.w3.org/2000/svg"
+                  <ul
+                    class="emotion-6 emotion-7"
                   >
-                    <path
-                      d="M355 67h-84v51h102V51h-18v16zm0 14h-66v19h66V81zm-84-48v18h84V33h-84z"
-                    />
-                    <rect
-                      height="118"
-                      transform="matrix(-1 0 0 1 490 0)"
-                      width="18"
-                      x="236"
-                    />
-                    <path
-                      d="M201 100V51h-65v49h65zm18 18V0h-18v33h-83v85h101z"
-                    />
-                    <polygon
-                      points="18 51 18 118 0 118 0 33 101 33 101 118 83 118 83 51"
-                    />
-                    <path
-                      d="M.8 151v-16.28l9.94 9.58a24.54 24.54 0 0 1 1.7 1.9v-10.86h2.35v16.27l-10.14-9.74a13.47 13.47 0 0 1-1.51-1.76V151H.8zm20.9-6.15h4.35l-1.6-3.57a13.98 13.98 0 0 1-.59-1.78 14.35 14.35 0 0 1-.56 1.78l-1.6 3.57zm7.03 6.15l-1.78-4.03h-6.2L18.93 151h-2.67l7.58-16.28L31.41 151h-2.68zm3.26-3.13l2.03-.94c.2.7.55 1.23 1.06 1.6a3.3 3.3 0 0 0 1.97.55c.75 0 1.35-.22 1.8-.64.44-.42.67-.98.67-1.69 0-.91-.77-1.73-2.3-2.45l-.48-.24c-1.73-.84-2.88-1.6-3.45-2.28a3.74 3.74 0 0 1-.86-2.5 4 4 0 0 1 1.3-3.1c.86-.8 2-1.19 3.4-1.19 1.16 0 2.12.22 2.9.67a3.52 3.52 0 0 1 1.62 1.92l-2 1.03c-.3-.5-.65-.86-1.03-1.08-.37-.23-.8-.35-1.28-.35-.69 0-1.23.18-1.64.54-.4.36-.6.83-.6 1.43 0 .94.88 1.82 2.65 2.63l.32.15a9.43 9.43 0 0 1 3.19 2.1c.58.67.87 1.52.87 2.54a4.6 4.6 0 0 1-1.4 3.54 5.32 5.32 0 0 1-3.79 1.3c-1.33 0-2.43-.3-3.28-.91a4.3 4.3 0 0 1-1.67-2.63zm12.79.29c.26.3.52.54.76.68s.5.21.77.21c.5 0 .85-.16 1.05-.49.2-.33.3-.94.3-1.83v-11.39h2.53v12.22c0 1.32-.3 2.3-.88 2.92-.58.63-1.5.94-2.74.94a4.25 4.25 0 0 1-3.42-1.63l1.63-1.63zm22.15-4.96a5.95 5.95 0 0 0-1.67-4.16 5.52 5.52 0 0 0-4.04-1.7 5.61 5.61 0 0 0-4.05 1.7 5.66 5.66 0 0 0-1.24 1.9 6.05 6.05 0 0 0 1.24 6.4 5.62 5.62 0 0 0 8.09 0 5.87 5.87 0 0 0 1.67-4.14zm2.66 0a8.05 8.05 0 0 1-2.45 5.81 8.56 8.56 0 0 1-5.92 2.4 8.46 8.46 0 0 1-7.75-5.04 8.09 8.09 0 0 1-.62-3.17 8.14 8.14 0 0 1 5.16-7.6 8.56 8.56 0 0 1 3.21-.6 8.49 8.49 0 0 1 5.92 2.38 8.23 8.23 0 0 1 2.45 5.82zm2.92 7.8v-16.28l9.94 9.58a24.54 24.54 0 0 1 1.7 1.9v-10.86h2.35v16.27l-10.14-9.74a13.47 13.47 0 0 1-1.51-1.76V151H72.5zm20.9-6.15h4.35l-1.6-3.57a13.98 13.98 0 0 1-.59-1.78 14.35 14.35 0 0 1-.57 1.78l-1.6 3.57zm7.03 6.15l-1.78-4.03h-6.2L90.64 151h-2.67l7.58-16.28 7.57 16.28h-2.68zm4.16 0v-15.66h2.54v13.38h5.7V151h-8.24zm19.45-2.3h2.14c1.17 0 2.06-.08 2.64-.23.6-.16 1.1-.42 1.54-.8a4.7 4.7 0 0 0 1.33-1.88c.3-.76.44-1.63.44-2.63s-.14-1.87-.44-2.62a4.7 4.7 0 0 0-1.33-1.9 3.94 3.94 0 0 0-1.59-.78c-.62-.16-1.58-.24-2.9-.24h-1.83v11.08zm-2.55 2.3v-15.66h3.44c2.23 0 3.8.12 4.7.34a6.36 6.36 0 0 1 4.45 3.8 9.3 9.3 0 0 1 .7 3.7c0 1.4-.23 2.62-.7 3.7a6.65 6.65 0 0 1-2.05 2.66c-.69.52-1.47.9-2.34 1.12-.87.23-2.23.34-4.08.34h-4.12zm16.26 0v-15.66h2.54V151h-2.54zm14.87-8.02h6.2l.01.45c.03.5.04.85.04 1.03 0 2.2-.63 3.9-1.9 5.13-1.26 1.22-3.04 1.83-5.33 1.83a9.7 9.7 0 0 1-3.43-.57c-1.01-.38-1.89-.95-2.65-1.71a7.77 7.77 0 0 1-1.7-2.66 8.96 8.96 0 0 1-.6-3.28c0-1.18.2-2.27.6-3.27.41-1 1-1.88 1.8-2.64a7.72 7.72 0 0 1 2.68-1.71 9.15 9.15 0 0 1 3.3-.59c1.23 0 2.33.23 3.3.68a7.38 7.38 0 0 1 2.61 2.06l-1.86 1.4a5.15 5.15 0 0 0-1.79-1.37c-.66-.3-1.4-.45-2.22-.45-1.7 0-3.08.55-4.15 1.63a5.78 5.78 0 0 0-1.61 4.24c0 1.77.53 3.2 1.6 4.3a5.57 5.57 0 0 0 4.18 1.66 5.3 5.3 0 0 0 3.43-1.02 3.38 3.38 0 0 0 1.26-2.77v-.22h-3.77v-2.15zm8.96 8.02v-15.66h2.55V151h-2.55zm11.26-13.5V151h-2.54v-13.5h-4.16v-2.16h10.84v2.16h-4.14zm9.4 7.35h4.35l-1.6-3.57a13.98 13.98 0 0 1-.59-1.78 14.35 14.35 0 0 1-.56 1.78l-1.6 3.57zm7.03 6.15l-1.78-4.03h-6.2l-1.82 4.03h-2.67l7.58-16.28 7.57 16.28h-2.68zm4.16 0v-15.66h2.54v13.38h5.7V151h-8.24zm16.9 0v-15.66h2.55v13.38h5.69V151h-8.24zm13.6-6.15h4.52l-1.32-3.57a19.6 19.6 0 0 1-.76-2.6 10.28 10.28 0 0 1-.79 2.38l-1.64 3.8zm9.12-9.5l.9 2.15h-5.74l1.38 3.84h5.25l.84 2.24h-5.24l1.91 5.14h5.75l.86 2.28h-8.26l-1.48-4.03H223L221.2 151h-2.68l7.32-15.66h7.23zm10.08 6.67h.46c1.35 0 2.24-.16 2.68-.47.45-.32.67-.87.67-1.67 0-.86-.24-1.47-.71-1.82-.48-.36-1.36-.53-2.64-.53h-.46v4.49zm-.16 1.98v7h-2.38v-15.66h3.55c1.04 0 1.84.07 2.42.2a3.8 3.8 0 0 1 1.47.68c.48.38.86.87 1.12 1.47.26.6.4 1.25.4 1.96a4.4 4.4 0 0 1-.91 2.95 4 4 0 0 1-2.69 1.28l5.4 7.12h-2.88l-5.21-7h-.29zm9.92 7v-15.66h2.55V151h-2.55zm6.2 0v-16.28l9.95 9.58a24.54 24.54 0 0 1 1.7 1.9v-10.86h2.35v16.27l-10.15-9.74a13.47 13.47 0 0 1-1.5-1.76V151h-2.34zm26.27-8.02h6.2l.01.45.03 1.03c0 2.2-.63 3.9-1.89 5.13-1.26 1.22-3.04 1.83-5.34 1.83a9.7 9.7 0 0 1-3.43-.57c-1-.38-1.88-.95-2.64-1.71a7.77 7.77 0 0 1-1.7-2.66 8.96 8.96 0 0 1-.6-3.28c0-1.18.2-2.27.6-3.27.4-1 1-1.88 1.8-2.64a7.72 7.72 0 0 1 2.68-1.71 9.15 9.15 0 0 1 3.3-.59c1.23 0 2.33.23 3.3.68a7.38 7.38 0 0 1 2.6 2.06l-1.85 1.4a5.15 5.15 0 0 0-1.79-1.37c-.66-.3-1.4-.45-2.22-.45-1.7 0-3.08.55-4.16 1.63a5.78 5.78 0 0 0-1.6 4.24c0 1.77.53 3.2 1.6 4.3a5.57 5.57 0 0 0 4.18 1.66 5.3 5.3 0 0 0 3.43-1.02 3.38 3.38 0 0 0 1.25-2.77v-.22h-3.76v-2.15zm8.02 4.89l2.03-.94c.2.7.55 1.23 1.06 1.6a3.3 3.3 0 0 0 1.97.55c.75 0 1.35-.22 1.8-.64.44-.42.67-.98.67-1.69 0-.91-.77-1.73-2.3-2.45l-.48-.24c-1.73-.84-2.88-1.6-3.45-2.28a3.74 3.74 0 0 1-.86-2.5 4 4 0 0 1 1.3-3.1c.86-.8 2-1.19 3.4-1.19 1.16 0 2.12.22 2.9.67a3.52 3.52 0 0 1 1.61 1.92l-1.98 1.03c-.32-.5-.66-.86-1.04-1.08-.37-.23-.8-.35-1.29-.35-.68 0-1.22.18-1.63.54-.4.36-.6.83-.6 1.43 0 .94.88 1.82 2.65 2.63l.32.15a9.43 9.43 0 0 1 3.19 2.1c.58.67.87 1.52.87 2.54a4.6 4.6 0 0 1-1.4 3.54 5.32 5.32 0 0 1-3.8 1.3c-1.32 0-2.42-.3-3.27-.91a4.3 4.3 0 0 1-1.67-2.63zm16.22-3.02h4.36l-1.6-3.57a13.98 13.98 0 0 1-.59-1.78 14.35 14.35 0 0 1-.57 1.78l-1.6 3.57zm7.04 6.15l-1.78-4.03h-6.2l-1.82 4.03h-2.67l7.58-16.28 7.57 16.28h-2.68zm6.7-8.98h.46c1.35 0 2.24-.16 2.68-.47.45-.32.67-.87.67-1.67 0-.86-.24-1.47-.71-1.82-.48-.36-1.36-.53-2.64-.53h-.46v4.49zm-.16 1.98v7h-2.38v-15.66h3.55c1.04 0 1.84.07 2.42.2a3.8 3.8 0 0 1 1.47.68c.48.38.86.87 1.12 1.47.27.6.4 1.25.4 1.96a4.4 4.4 0 0 1-.91 2.95 4 4 0 0 1-2.69 1.28l5.4 7.12h-2.88l-5.21-7h-.29zm9.88 7v-15.66h8.74v2.16h-6.2v3.93h6.2v2.23h-6.2v5.06h6.2V151h-8.74zm11.66 0v-16.28l9.94 9.58a24.54 24.54 0 0 1 1.7 1.9v-10.86h2.35v16.27l-10.14-9.74a13.47 13.47 0 0 1-1.51-1.76V151h-2.34zm20.9-6.15h4.35l-1.6-3.57a13.98 13.98 0 0 1-.59-1.78 14.35 14.35 0 0 1-.56 1.78l-1.6 3.57zm7.03 6.15l-1.78-4.03h-6.2l-1.82 4.03h-2.67l7.58-16.28 7.57 16.28h-2.68z"
-                    />
-                  </svg>
-                </a>
+                    <li
+                      class="emotion-8 emotion-9"
+                    >
+                      <div
+                        data-popover="Denne lisensen gir deg rett til å dele og bruke dette innholdet på visse vilkår."
+                        data-popover-container="true"
+                      >
+                        <button
+                          aria-controls="radix-0"
+                          aria-expanded="false"
+                          aria-haspopup="dialog"
+                          class="emotion-10 emotion-11"
+                          data-state="closed"
+                          data-trigger="true"
+                          type="button"
+                        >
+                          <svg
+                            aria-hidden="false"
+                            aria-label="Creative Commons"
+                            class="c-icon"
+                            data-license="CC-BY 4.0"
+                            data-source="Creative Commons"
+                            fill="currentColor"
+                            height="1em"
+                            preserveAspectRatio="xMidYMid meet"
+                            style="vertical-align: middle;"
+                            viewBox="5.5 -3.5 64 64"
+                            width="1em"
+                          >
+                            <g>
+                              <circle
+                                cx="37.785"
+                                cy="28.501"
+                                fill="none"
+                                r="28.836"
+                              />
+                              <path
+                                d="M37.441-3.5c8.951,0,16.572,3.125,22.857,9.372c3.008,3.009,5.295,6.448,6.857,10.314		c1.561,3.867,2.344,7.971,2.344,12.314c0,4.381-0.773,8.486-2.314,12.313c-1.543,3.828-3.82,7.21-6.828,10.143		c-3.123,3.085-6.666,5.448-10.629,7.086c-3.961,1.638-8.057,2.457-12.285,2.457s-8.276-0.808-12.143-2.429		c-3.866-1.618-7.333-3.961-10.4-7.027c-3.067-3.066-5.4-6.524-7-10.372S5.5,32.767,5.5,28.5c0-4.229,0.809-8.295,2.428-12.2		c1.619-3.905,3.972-7.4,7.057-10.486C21.08-0.394,28.565-3.5,37.441-3.5z M37.557,2.272c-7.314,0-13.467,2.553-18.458,7.657		c-2.515,2.553-4.448,5.419-5.8,8.6c-1.354,3.181-2.029,6.505-2.029,9.972c0,3.429,0.675,6.734,2.029,9.913		c1.353,3.183,3.285,6.021,5.8,8.516c2.514,2.496,5.351,4.399,8.515,5.715c3.161,1.314,6.476,1.971,9.943,1.971		c3.428,0,6.75-0.665,9.973-1.999c3.219-1.335,6.121-3.257,8.713-5.771c4.99-4.876,7.484-10.99,7.484-18.344		c0-3.543-0.648-6.895-1.943-10.057c-1.293-3.162-3.18-5.98-5.654-8.458C50.984,4.844,44.795,2.272,37.557,2.272z M37.156,23.187		l-4.287,2.229c-0.458-0.951-1.019-1.619-1.685-2c-0.667-0.38-1.286-0.571-1.858-0.571c-2.856,0-4.286,1.885-4.286,5.657		c0,1.714,0.362,3.084,1.085,4.113c0.724,1.029,1.791,1.544,3.201,1.544c1.867,0,3.181-0.915,3.944-2.743l3.942,2		c-0.838,1.563-2,2.791-3.486,3.686c-1.484,0.896-3.123,1.343-4.914,1.343c-2.857,0-5.163-0.875-6.915-2.629		c-1.752-1.752-2.628-4.19-2.628-7.313c0-3.048,0.886-5.466,2.657-7.257c1.771-1.79,4.009-2.686,6.715-2.686		C32.604,18.558,35.441,20.101,37.156,23.187z M55.613,23.187l-4.229,2.229c-0.457-0.951-1.02-1.619-1.686-2		c-0.668-0.38-1.307-0.571-1.914-0.571c-2.857,0-4.287,1.885-4.287,5.657c0,1.714,0.363,3.084,1.086,4.113		c0.723,1.029,1.789,1.544,3.201,1.544c1.865,0,3.18-0.915,3.941-2.743l4,2c-0.875,1.563-2.057,2.791-3.541,3.686		c-1.486,0.896-3.105,1.343-4.857,1.343c-2.896,0-5.209-0.875-6.941-2.629c-1.736-1.752-2.602-4.19-2.602-7.313		c0-3.048,0.885-5.466,2.658-7.257c1.77-1.79,4.008-2.686,6.713-2.686C51.117,18.558,53.938,20.101,55.613,23.187z"
+                              />
+                            </g>
+                          </svg>
+                        </button>
+                      </div>
+                    </li>
+                    <li
+                      class="emotion-8 emotion-9"
+                    >
+                      <div
+                        data-popover="Du må alltid oppgi hvem som har laget innholdet."
+                        data-popover-container="true"
+                      >
+                        <button
+                          aria-controls="radix-1"
+                          aria-expanded="false"
+                          aria-haspopup="dialog"
+                          class="emotion-10 emotion-11"
+                          data-state="closed"
+                          data-trigger="true"
+                          type="button"
+                        >
+                          <svg
+                            aria-hidden="false"
+                            aria-label="Navngivelse"
+                            class="c-icon"
+                            data-license="CC-BY 4.0"
+                            data-source="Creative Commons"
+                            fill="currentColor"
+                            height="1em"
+                            preserveAspectRatio="xMidYMid meet"
+                            style="vertical-align: middle;"
+                            viewBox="5.5 -3.5 64 64"
+                            width="1em"
+                          >
+                            <g>
+                              <circle
+                                cx="37.637"
+                                cy="28.806"
+                                fill="none"
+                                r="28.276"
+                              />
+                              <g>
+                                <path
+                                  d="M37.443-3.5c8.988,0,16.57,3.085,22.742,9.257C66.393,11.967,69.5,19.548,69.5,28.5c0,8.991-3.049,16.476-9.145,22.456	C53.879,57.319,46.242,60.5,37.443,60.5c-8.649,0-16.153-3.144-22.514-9.43C8.644,44.784,5.5,37.262,5.5,28.5	c0-8.761,3.144-16.342,9.429-22.742C21.101-0.415,28.604-3.5,37.443-3.5z M37.557,2.272c-7.276,0-13.428,2.553-18.457,7.657	c-5.22,5.334-7.829,11.525-7.829,18.572c0,7.086,2.59,13.22,7.77,18.398c5.181,5.182,11.352,7.771,18.514,7.771			c7.123,0,13.334-2.607,18.629-7.828c5.029-4.838,7.543-10.952,7.543-18.343c0-7.276-2.553-13.465-7.656-18.571			C50.967,4.824,44.795,2.272,37.557,2.272z M46.129,20.557v13.085h-3.656v15.542h-9.944V33.643h-3.656V20.557			c0-0.572,0.2-1.057,0.599-1.457c0.401-0.399,0.887-0.6,1.457-0.6h13.144c0.533,0,1.01,0.2,1.428,0.6			C45.918,19.5,46.129,19.986,46.129,20.557z M33.042,12.329c0-3.008,1.485-4.514,4.458-4.514s4.457,1.504,4.457,4.514			c0,2.971-1.486,4.457-4.457,4.457S33.042,15.3,33.042,12.329z"
+                                />
+                              </g>
+                            </g>
+                          </svg>
+                        </button>
+                      </div>
+                    </li>
+                    <li
+                      class="emotion-8 emotion-9"
+                    >
+                      <div
+                        data-popover="Du kan bare dele innholdet med samme lisens som det opprinnelige innholdet."
+                        data-popover-container="true"
+                      >
+                        <button
+                          aria-controls="radix-2"
+                          aria-expanded="false"
+                          aria-haspopup="dialog"
+                          class="emotion-10 emotion-11"
+                          data-state="closed"
+                          data-trigger="true"
+                          type="button"
+                        >
+                          <svg
+                            aria-hidden="false"
+                            aria-label="Del på samme vilkår"
+                            class="c-icon"
+                            data-license="CC-BY 4.0"
+                            data-source="Creative Commons"
+                            fill="currentColor"
+                            height="1em"
+                            preserveAspectRatio="xMidYMid meet"
+                            style="vertical-align: middle;"
+                            viewBox="5.5 -3.5 64 64"
+                            width="1em"
+                          >
+                            <g>
+                              <circle
+                                cx="36.944"
+                                cy="28.631"
+                                fill="none"
+                                r="29.105"
+                              />
+                              <g>
+                                <path
+                                  d="M37.443-3.5c8.951,0,16.531,3.105,22.742,9.315C66.393,11.987,69.5,19.548,69.5,28.5c0,8.954-3.049,16.457-9.145,22.514			C53.918,57.338,46.279,60.5,37.443,60.5c-8.649,0-16.153-3.143-22.514-9.429C8.644,44.786,5.5,37.264,5.5,28.501			c0-8.723,3.144-16.285,9.429-22.685C21.138-0.395,28.643-3.5,37.443-3.5z M37.557,2.272c-7.276,0-13.428,2.572-18.457,7.715			c-5.22,5.296-7.829,11.467-7.829,18.513c0,7.125,2.59,13.257,7.77,18.4c5.181,5.182,11.352,7.771,18.514,7.771			c7.123,0,13.334-2.609,18.629-7.828c5.029-4.876,7.543-10.99,7.543-18.343c0-7.313-2.553-13.485-7.656-18.513			C51.004,4.842,44.832,2.272,37.557,2.272z M23.271,23.985c0.609-3.924,2.189-6.962,4.742-9.114			c2.552-2.152,5.656-3.228,9.314-3.228c5.027,0,9.029,1.62,12,4.856c2.971,3.238,4.457,7.391,4.457,12.457			c0,4.915-1.543,9-4.627,12.256c-3.088,3.256-7.086,4.886-12.002,4.886c-3.619,0-6.743-1.085-9.371-3.257			c-2.629-2.172-4.209-5.257-4.743-9.257H31.1c0.19,3.886,2.533,5.829,7.029,5.829c2.246,0,4.057-0.972,5.428-2.914			c1.373-1.942,2.059-4.534,2.059-7.771c0-3.391-0.629-5.971-1.885-7.743c-1.258-1.771-3.066-2.657-5.43-2.657			c-4.268,0-6.667,1.885-7.2,5.656h2.343l-6.342,6.343l-6.343-6.343L23.271,23.985L23.271,23.985z"
+                                />
+                              </g>
+                            </g>
+                          </svg>
+                        </button>
+                      </div>
+                    </li>
+                  </ul>
+                  <span
+                    class="emotion-20 emotion-21"
+                  >
+                    Skrevet av Someone
+                  </span>
+                </div>
+              </div>
+              <div
+                class="emotion-22 emotion-23"
+              >
+                <button
+                  class="emotion-24"
+                  id="popupUseContent"
+                  type="button"
+                >
+                  Regler for bruk
+                </button>
               </div>
             </div>
-          </div>
-        </section>
-      </article>
-    </div>
+          </section>
+          <section
+            class="u-10/12@desktop u-push-1/12@desktop u-10/12@tablet u-push-1/12@tablet"
+          >
+            <div
+              class="emotion-25 emotion-26"
+            >
+              <div
+                class="emotion-27 emotion-28"
+              >
+                <div
+                  class="emotion-29 emotion-30"
+                >
+                  <a
+                    class="emotion-31 emotion-32"
+                    href="https://test.ndla.no/subject:1/resource:1"
+                    target="_blank"
+                  >
+                    Ressursen
+                  </a>
+                   er hentet fra 
+                  <a
+                    class="emotion-31 emotion-32"
+                    href="https://ndla.no"
+                    target="_blank"
+                  >
+                    NDLA
+                  </a>
+                </div>
+                <div
+                  class="c-logo"
+                >
+                  <a
+                    aria-label="NDLA"
+                    href="https://ndla.no"
+                  >
+                    <svg
+                      class="c-logo__graphic"
+                      fill="#000000"
+                      fill-rule="evenodd"
+                      viewBox="0 0 376 152"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M355 67h-84v51h102V51h-18v16zm0 14h-66v19h66V81zm-84-48v18h84V33h-84z"
+                      />
+                      <rect
+                        height="118"
+                        transform="matrix(-1 0 0 1 490 0)"
+                        width="18"
+                        x="236"
+                      />
+                      <path
+                        d="M201 100V51h-65v49h65zm18 18V0h-18v33h-83v85h101z"
+                      />
+                      <polygon
+                        points="18 51 18 118 0 118 0 33 101 33 101 118 83 118 83 51"
+                      />
+                      <path
+                        d="M.8 151v-16.28l9.94 9.58a24.54 24.54 0 0 1 1.7 1.9v-10.86h2.35v16.27l-10.14-9.74a13.47 13.47 0 0 1-1.51-1.76V151H.8zm20.9-6.15h4.35l-1.6-3.57a13.98 13.98 0 0 1-.59-1.78 14.35 14.35 0 0 1-.56 1.78l-1.6 3.57zm7.03 6.15l-1.78-4.03h-6.2L18.93 151h-2.67l7.58-16.28L31.41 151h-2.68zm3.26-3.13l2.03-.94c.2.7.55 1.23 1.06 1.6a3.3 3.3 0 0 0 1.97.55c.75 0 1.35-.22 1.8-.64.44-.42.67-.98.67-1.69 0-.91-.77-1.73-2.3-2.45l-.48-.24c-1.73-.84-2.88-1.6-3.45-2.28a3.74 3.74 0 0 1-.86-2.5 4 4 0 0 1 1.3-3.1c.86-.8 2-1.19 3.4-1.19 1.16 0 2.12.22 2.9.67a3.52 3.52 0 0 1 1.62 1.92l-2 1.03c-.3-.5-.65-.86-1.03-1.08-.37-.23-.8-.35-1.28-.35-.69 0-1.23.18-1.64.54-.4.36-.6.83-.6 1.43 0 .94.88 1.82 2.65 2.63l.32.15a9.43 9.43 0 0 1 3.19 2.1c.58.67.87 1.52.87 2.54a4.6 4.6 0 0 1-1.4 3.54 5.32 5.32 0 0 1-3.79 1.3c-1.33 0-2.43-.3-3.28-.91a4.3 4.3 0 0 1-1.67-2.63zm12.79.29c.26.3.52.54.76.68s.5.21.77.21c.5 0 .85-.16 1.05-.49.2-.33.3-.94.3-1.83v-11.39h2.53v12.22c0 1.32-.3 2.3-.88 2.92-.58.63-1.5.94-2.74.94a4.25 4.25 0 0 1-3.42-1.63l1.63-1.63zm22.15-4.96a5.95 5.95 0 0 0-1.67-4.16 5.52 5.52 0 0 0-4.04-1.7 5.61 5.61 0 0 0-4.05 1.7 5.66 5.66 0 0 0-1.24 1.9 6.05 6.05 0 0 0 1.24 6.4 5.62 5.62 0 0 0 8.09 0 5.87 5.87 0 0 0 1.67-4.14zm2.66 0a8.05 8.05 0 0 1-2.45 5.81 8.56 8.56 0 0 1-5.92 2.4 8.46 8.46 0 0 1-7.75-5.04 8.09 8.09 0 0 1-.62-3.17 8.14 8.14 0 0 1 5.16-7.6 8.56 8.56 0 0 1 3.21-.6 8.49 8.49 0 0 1 5.92 2.38 8.23 8.23 0 0 1 2.45 5.82zm2.92 7.8v-16.28l9.94 9.58a24.54 24.54 0 0 1 1.7 1.9v-10.86h2.35v16.27l-10.14-9.74a13.47 13.47 0 0 1-1.51-1.76V151H72.5zm20.9-6.15h4.35l-1.6-3.57a13.98 13.98 0 0 1-.59-1.78 14.35 14.35 0 0 1-.57 1.78l-1.6 3.57zm7.03 6.15l-1.78-4.03h-6.2L90.64 151h-2.67l7.58-16.28 7.57 16.28h-2.68zm4.16 0v-15.66h2.54v13.38h5.7V151h-8.24zm19.45-2.3h2.14c1.17 0 2.06-.08 2.64-.23.6-.16 1.1-.42 1.54-.8a4.7 4.7 0 0 0 1.33-1.88c.3-.76.44-1.63.44-2.63s-.14-1.87-.44-2.62a4.7 4.7 0 0 0-1.33-1.9 3.94 3.94 0 0 0-1.59-.78c-.62-.16-1.58-.24-2.9-.24h-1.83v11.08zm-2.55 2.3v-15.66h3.44c2.23 0 3.8.12 4.7.34a6.36 6.36 0 0 1 4.45 3.8 9.3 9.3 0 0 1 .7 3.7c0 1.4-.23 2.62-.7 3.7a6.65 6.65 0 0 1-2.05 2.66c-.69.52-1.47.9-2.34 1.12-.87.23-2.23.34-4.08.34h-4.12zm16.26 0v-15.66h2.54V151h-2.54zm14.87-8.02h6.2l.01.45c.03.5.04.85.04 1.03 0 2.2-.63 3.9-1.9 5.13-1.26 1.22-3.04 1.83-5.33 1.83a9.7 9.7 0 0 1-3.43-.57c-1.01-.38-1.89-.95-2.65-1.71a7.77 7.77 0 0 1-1.7-2.66 8.96 8.96 0 0 1-.6-3.28c0-1.18.2-2.27.6-3.27.41-1 1-1.88 1.8-2.64a7.72 7.72 0 0 1 2.68-1.71 9.15 9.15 0 0 1 3.3-.59c1.23 0 2.33.23 3.3.68a7.38 7.38 0 0 1 2.61 2.06l-1.86 1.4a5.15 5.15 0 0 0-1.79-1.37c-.66-.3-1.4-.45-2.22-.45-1.7 0-3.08.55-4.15 1.63a5.78 5.78 0 0 0-1.61 4.24c0 1.77.53 3.2 1.6 4.3a5.57 5.57 0 0 0 4.18 1.66 5.3 5.3 0 0 0 3.43-1.02 3.38 3.38 0 0 0 1.26-2.77v-.22h-3.77v-2.15zm8.96 8.02v-15.66h2.55V151h-2.55zm11.26-13.5V151h-2.54v-13.5h-4.16v-2.16h10.84v2.16h-4.14zm9.4 7.35h4.35l-1.6-3.57a13.98 13.98 0 0 1-.59-1.78 14.35 14.35 0 0 1-.56 1.78l-1.6 3.57zm7.03 6.15l-1.78-4.03h-6.2l-1.82 4.03h-2.67l7.58-16.28 7.57 16.28h-2.68zm4.16 0v-15.66h2.54v13.38h5.7V151h-8.24zm16.9 0v-15.66h2.55v13.38h5.69V151h-8.24zm13.6-6.15h4.52l-1.32-3.57a19.6 19.6 0 0 1-.76-2.6 10.28 10.28 0 0 1-.79 2.38l-1.64 3.8zm9.12-9.5l.9 2.15h-5.74l1.38 3.84h5.25l.84 2.24h-5.24l1.91 5.14h5.75l.86 2.28h-8.26l-1.48-4.03H223L221.2 151h-2.68l7.32-15.66h7.23zm10.08 6.67h.46c1.35 0 2.24-.16 2.68-.47.45-.32.67-.87.67-1.67 0-.86-.24-1.47-.71-1.82-.48-.36-1.36-.53-2.64-.53h-.46v4.49zm-.16 1.98v7h-2.38v-15.66h3.55c1.04 0 1.84.07 2.42.2a3.8 3.8 0 0 1 1.47.68c.48.38.86.87 1.12 1.47.26.6.4 1.25.4 1.96a4.4 4.4 0 0 1-.91 2.95 4 4 0 0 1-2.69 1.28l5.4 7.12h-2.88l-5.21-7h-.29zm9.92 7v-15.66h2.55V151h-2.55zm6.2 0v-16.28l9.95 9.58a24.54 24.54 0 0 1 1.7 1.9v-10.86h2.35v16.27l-10.15-9.74a13.47 13.47 0 0 1-1.5-1.76V151h-2.34zm26.27-8.02h6.2l.01.45.03 1.03c0 2.2-.63 3.9-1.89 5.13-1.26 1.22-3.04 1.83-5.34 1.83a9.7 9.7 0 0 1-3.43-.57c-1-.38-1.88-.95-2.64-1.71a7.77 7.77 0 0 1-1.7-2.66 8.96 8.96 0 0 1-.6-3.28c0-1.18.2-2.27.6-3.27.4-1 1-1.88 1.8-2.64a7.72 7.72 0 0 1 2.68-1.71 9.15 9.15 0 0 1 3.3-.59c1.23 0 2.33.23 3.3.68a7.38 7.38 0 0 1 2.6 2.06l-1.85 1.4a5.15 5.15 0 0 0-1.79-1.37c-.66-.3-1.4-.45-2.22-.45-1.7 0-3.08.55-4.16 1.63a5.78 5.78 0 0 0-1.6 4.24c0 1.77.53 3.2 1.6 4.3a5.57 5.57 0 0 0 4.18 1.66 5.3 5.3 0 0 0 3.43-1.02 3.38 3.38 0 0 0 1.25-2.77v-.22h-3.76v-2.15zm8.02 4.89l2.03-.94c.2.7.55 1.23 1.06 1.6a3.3 3.3 0 0 0 1.97.55c.75 0 1.35-.22 1.8-.64.44-.42.67-.98.67-1.69 0-.91-.77-1.73-2.3-2.45l-.48-.24c-1.73-.84-2.88-1.6-3.45-2.28a3.74 3.74 0 0 1-.86-2.5 4 4 0 0 1 1.3-3.1c.86-.8 2-1.19 3.4-1.19 1.16 0 2.12.22 2.9.67a3.52 3.52 0 0 1 1.61 1.92l-1.98 1.03c-.32-.5-.66-.86-1.04-1.08-.37-.23-.8-.35-1.29-.35-.68 0-1.22.18-1.63.54-.4.36-.6.83-.6 1.43 0 .94.88 1.82 2.65 2.63l.32.15a9.43 9.43 0 0 1 3.19 2.1c.58.67.87 1.52.87 2.54a4.6 4.6 0 0 1-1.4 3.54 5.32 5.32 0 0 1-3.8 1.3c-1.32 0-2.42-.3-3.27-.91a4.3 4.3 0 0 1-1.67-2.63zm16.22-3.02h4.36l-1.6-3.57a13.98 13.98 0 0 1-.59-1.78 14.35 14.35 0 0 1-.57 1.78l-1.6 3.57zm7.04 6.15l-1.78-4.03h-6.2l-1.82 4.03h-2.67l7.58-16.28 7.57 16.28h-2.68zm6.7-8.98h.46c1.35 0 2.24-.16 2.68-.47.45-.32.67-.87.67-1.67 0-.86-.24-1.47-.71-1.82-.48-.36-1.36-.53-2.64-.53h-.46v4.49zm-.16 1.98v7h-2.38v-15.66h3.55c1.04 0 1.84.07 2.42.2a3.8 3.8 0 0 1 1.47.68c.48.38.86.87 1.12 1.47.27.6.4 1.25.4 1.96a4.4 4.4 0 0 1-.91 2.95 4 4 0 0 1-2.69 1.28l5.4 7.12h-2.88l-5.21-7h-.29zm9.88 7v-15.66h8.74v2.16h-6.2v3.93h6.2v2.23h-6.2v5.06h6.2V151h-8.74zm11.66 0v-16.28l9.94 9.58a24.54 24.54 0 0 1 1.7 1.9v-10.86h2.35v16.27l-10.14-9.74a13.47 13.47 0 0 1-1.51-1.76V151h-2.34zm20.9-6.15h4.35l-1.6-3.57a13.98 13.98 0 0 1-.59-1.78 14.35 14.35 0 0 1-.56 1.78l-1.6 3.57zm7.03 6.15l-1.78-4.03h-6.2l-1.82 4.03h-2.67l7.58-16.28 7.57 16.28h-2.68z"
+                      />
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </section>
+        </article>
+      </div>
+    </main>
   </div>
 </DocumentFragment>
 `;

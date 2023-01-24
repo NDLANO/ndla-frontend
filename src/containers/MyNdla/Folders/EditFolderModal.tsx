@@ -6,12 +6,12 @@
  *
  */
 
-import Modal, { ModalBody, ModalCloseButton, ModalHeader } from '@ndla/modal';
+import { ModalBody, ModalCloseButton, ModalHeader, ModalV2 } from '@ndla/modal';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import { useApolloClient } from '@apollo/client';
 import styled from '@emotion/styled';
-import Button, { LoadingButton } from '@ndla/button';
+import { LoadingButton, ButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
 import { InputV2 } from '@ndla/forms';
 import { GQLFolder } from '../../../graphqlTypes';
@@ -53,11 +53,9 @@ const EditFolderModal = ({
   const { t } = useTranslation();
 
   return (
-    <Modal
-      controllable
+    <ModalV2
+      controlled
       isOpen={isOpen}
-      size="regular"
-      backgroundColor="white"
       onClose={onClose}
       labelledBy={'editHeading'}>
       {onCloseModal => (
@@ -81,7 +79,7 @@ const EditFolderModal = ({
           </ModalBody>
         </>
       )}
-    </Modal>
+    </ModalV2>
   );
 };
 
@@ -150,9 +148,9 @@ const EditFolderForm = ({
         required
       />
       <ButtonRow>
-        <Button outline onClick={onClose}>
+        <ButtonV2 variant="outline" onClick={onClose}>
           {t('cancel')}
-        </Button>
+        </ButtonV2>
         <LoadingButton
           loading={loading}
           type="submit"

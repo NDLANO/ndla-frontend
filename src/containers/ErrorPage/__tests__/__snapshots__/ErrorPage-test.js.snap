@@ -144,10 +144,6 @@ exports[`ErrorPage renderers correctly 1`] = `
 }
 
 .emotion-15 {
-  position: relative;
-}
-
-.emotion-18 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -161,9 +157,9 @@ exports[`ErrorPage renderers correctly 1`] = `
   -webkit-justify-content: center;
   justify-content: center;
   gap: 6.5px;
-  color: #20588f;
-  background: #deebf6;
-  border: 2px solid #deebf6;
+  color: #fff;
+  background: #20588f;
+  border: 2px solid #20588f;
   border-radius: 4px;
   outline-width: 0;
   cursor: pointer;
@@ -175,53 +171,45 @@ exports[`ErrorPage renderers correctly 1`] = `
   transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
   box-shadow: none;
   text-align: center;
-  padding: 4.333333333333333px 17.333333333333332px;
+  padding: 4.333333333333333px 13px;
   font-size: 16px;
   font-size: 0.8888888888888888rem;
-  line-height: 18px;
-  min-height: 48px;
+  line-height: 1.625;
+  min-height: 40px;
   border-radius: 26px;
-  outline-width: 2px;
   color: #20588f;
   background: transparent;
-  border-color: transparent;
   border-color: #20588f;
 }
 
-.emotion-18:hover,
-.emotion-18:focus {
+.emotion-15:hover,
+.emotion-15:focus {
   color: #fff;
-  background-color: #20588f;
-  border-color: #20588f;
+  background-color: #184673;
+  border-color: #184673;
 }
 
-.emotion-18[disabled] {
+.emotion-15[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-18:hover,
-.emotion-18:active,
-.emotion-18:focus {
-  color: #20588f;
-  background: #deebf6;
-  border-color: #deebf6;
+.emotion-15:hover {
+  color: #fff;
+  background: #20588f;
+  border-color: #20588f;
 }
 
-.emotion-18[disabled] {
+.emotion-15[disabled] {
   color: #777777;
   background-color: transparent;
-  border-color: transparent;
+  border-color: #777777;
   cursor: not-allowed;
 }
 
-.emotion-19 {
-  font-weight: 600;
-}
-
-.emotion-21 {
+.emotion-16 {
   color: #fff;
   position: relative;
   background: #184673;
@@ -229,12 +217,12 @@ exports[`ErrorPage renderers correctly 1`] = `
   z-index: 0;
 }
 
-.emotion-21>div:first-of-type {
+.emotion-16>div:first-of-type {
   position: relative;
   z-index: 1;
 }
 
-.emotion-23 {
+.emotion-18 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -249,12 +237,12 @@ exports[`ErrorPage renderers correctly 1`] = `
   padding: 52px 52px 0 0;
 }
 
-.emotion-23>div:first-of-type {
+.emotion-18>div:first-of-type {
   padding: 26px;
 }
 
 @media (min-width: 48em) {
-  .emotion-23 {
+  .emotion-18 {
     -webkit-flex-direction: row;
     -ms-flex-direction: row;
     flex-direction: row;
@@ -264,37 +252,37 @@ exports[`ErrorPage renderers correctly 1`] = `
     align-items: flex-start;
   }
 
-  .emotion-23>div:first-of-type {
+  .emotion-18>div:first-of-type {
     padding: 26px 45.5px 26px 52px;
   }
 }
 
 @media (min-width: 61.3125em) {
-  .emotion-23 {
+  .emotion-18 {
     padding: 52px 0;
   }
 }
 
 @media (max-width: 48em) {
-  .emotion-23 {
+  .emotion-18 {
     padding: 26px 26px 13px;
   }
 }
 
-.emotion-25 {
+.emotion-20 {
   color: #fff;
   width: 52px;
   height: 52px;
 }
 
 @media (min-width: 48em) {
-  .emotion-25 {
+  .emotion-20 {
     width: 78px;
     height: 78px;
   }
 }
 
-.emotion-27 {
+.emotion-22 {
   font-size: 20;
   font-size: 1.1111111111111112rem;
   line-height: 1.5;
@@ -304,7 +292,7 @@ exports[`ErrorPage renderers correctly 1`] = `
 }
 
 @media (min-width: 48em) {
-  .emotion-27 {
+  .emotion-22 {
     font-size: 24;
     font-size: 1.3333333333333333rem;
     line-height: 1.5;
@@ -313,7 +301,7 @@ exports[`ErrorPage renderers correctly 1`] = `
   }
 }
 
-.emotion-29 {
+.emotion-24 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -322,31 +310,32 @@ exports[`ErrorPage renderers correctly 1`] = `
   -webkit-box-align: flex-start;
   -ms-flex-align: flex-start;
   align-items: flex-start;
+  gap: 26px;
 }
 
-.emotion-29 section:first-of-type {
+.emotion-24 div:first-of-type {
   margin-right: 52px;
 }
 
 @media (min-width: 61.3125em) {
-  .emotion-29 section:first-of-type {
+  .emotion-24 div:first-of-type {
     margin-right: 104px;
   }
 }
 
 @media (max-width: 48em) {
-  .emotion-29 {
+  .emotion-24 {
     -webkit-flex-direction: column;
     -ms-flex-direction: column;
     flex-direction: column;
   }
 
-  .emotion-29>section {
+  .emotion-24>div {
     margin-top: 52px;
   }
 }
 
-.emotion-31 {
+.emotion-26 {
   font-size: 16;
   font-size: 0.8888888888888888rem;
   line-height: 1.5;
@@ -354,7 +343,7 @@ exports[`ErrorPage renderers correctly 1`] = `
   margin: 6.5px 0;
 }
 
-.emotion-33 {
+.emotion-28 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -365,18 +354,18 @@ exports[`ErrorPage renderers correctly 1`] = `
   color: #fff;
 }
 
-.emotion-33 div {
+.emotion-28 div {
   margin: 6.5px 0;
 }
 
-.emotion-35 {
+.emotion-30 {
   color: #fff;
   font-size: 16;
   font-size: 0.8888888888888888rem;
   line-height: 1.5;
 }
 
-.emotion-35 svg {
+.emotion-30 svg {
   -webkit-transform: translateY(-2px);
   -moz-transform: translateY(-2px);
   -ms-transform: translateY(-2px);
@@ -384,7 +373,7 @@ exports[`ErrorPage renderers correctly 1`] = `
   margin-left: 6.5px;
 }
 
-.emotion-47 {
+.emotion-42 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -395,7 +384,7 @@ exports[`ErrorPage renderers correctly 1`] = `
   align-items: center;
 }
 
-.emotion-49 {
+.emotion-44 {
   background: #fff;
   color: #20588f;
   border-radius: 100%;
@@ -416,28 +405,28 @@ exports[`ErrorPage renderers correctly 1`] = `
   margin-right: 13px;
 }
 
-.emotion-49 svg {
+.emotion-44 svg {
   width: 20px;
   height: 20px;
 }
 
-.emotion-77 {
+.emotion-72 {
   height: 1px;
   margin: 26px;
   background: rgba(255, 255, 255, 0.1);
 }
 
 @media (min-width: 48em) {
-  .emotion-77 {
+  .emotion-72 {
     margin: 52px;
   }
 }
 
-.emotion-77:before {
+.emotion-72:before {
   content: none;
 }
 
-.emotion-79 {
+.emotion-74 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -451,36 +440,36 @@ exports[`ErrorPage renderers correctly 1`] = `
   align-items: center;
 }
 
-.emotion-79>span {
+.emotion-74>span {
   padding: 6.5px 0;
   text-align: center;
 }
 
 @media (max-width: 48em) {
-  .emotion-79 {
+  .emotion-74 {
     font-size: 16;
     font-size: 0.8888888888888888rem;
     line-height: 1.5;
   }
 
-  .emotion-79>span {
+  .emotion-74>span {
     padding: 0;
   }
 }
 
 @media (max-width: 29.75em) {
-  .emotion-79 {
+  .emotion-74 {
     font-size: 14;
     font-size: 0.7777777777777778rem;
     line-height: 1.3;
   }
 
-  .emotion-79>span {
+  .emotion-74>span {
     padding-bottom: 6.5px;
   }
 }
 
-.emotion-81 {
+.emotion-76 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -499,36 +488,36 @@ exports[`ErrorPage renderers correctly 1`] = `
   margin-bottom: 52px;
 }
 
-.emotion-81>span {
+.emotion-76>span {
   padding: 6.5px 0;
   text-align: center;
 }
 
 @media (max-width: 48em) {
-  .emotion-81 {
+  .emotion-76 {
     font-size: 16;
     font-size: 0.8888888888888888rem;
     line-height: 1.5;
   }
 
-  .emotion-81>span {
+  .emotion-76>span {
     padding: 0;
   }
 }
 
 @media (max-width: 29.75em) {
-  .emotion-81 {
+  .emotion-76 {
     font-size: 14;
     font-size: 0.7777777777777778rem;
     line-height: 1.3;
   }
 
-  .emotion-81>span {
+  .emotion-76>span {
     padding-bottom: 6.5px;
   }
 }
 
-.emotion-83 {
+.emotion-78 {
   background: none;
   color: #fff;
   border: 0;
@@ -537,18 +526,18 @@ exports[`ErrorPage renderers correctly 1`] = `
   cursor: pointer;
 }
 
-.emotion-83:hover,
-.emotion-83:focus {
+.emotion-78:hover,
+.emotion-78:focus {
   box-shadow: none;
 }
 
-.emotion-85 {
+.emotion-80 {
   margin-left: 4.333333333333333px;
   margin-right: 4.333333333333333px;
   margin-bottom: 52px;
 }
 
-.emotion-89 {
+.emotion-88 {
   display: block;
   position: absolute;
   top: 0;
@@ -558,11 +547,11 @@ exports[`ErrorPage renderers correctly 1`] = `
   background: linear-gradient(96deg, rgba(0, 117, 160, 1) 0%, rgba(32, 88, 143, 0) 100%);
 }
 
-.emotion-91 {
+.emotion-90 {
   z-index: 10;
 }
 
-.emotion-92 {
+.emotion-91 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -591,32 +580,32 @@ exports[`ErrorPage renderers correctly 1`] = `
   margin-top: 26px;
 }
 
-.emotion-92:hover,
-.emotion-92:focus {
+.emotion-91:hover,
+.emotion-91:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-92[disabled] {
+.emotion-91[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-92:focus {
+.emotion-91:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-92:hover,
-.emotion-92:focus {
+.emotion-91:hover,
+.emotion-91:focus {
   color: white;
   background-color: #20588f;
   border: 2px solid transparent;
 }
 
-.emotion-92:disabled {
+.emotion-91:disabled {
   color: #777777;
   border: 2px solid transparent;
   background-color: #e6e6e6;
@@ -624,7 +613,7 @@ exports[`ErrorPage renderers correctly 1`] = `
 }
 
 @media (min-width: 61.3125em) {
-  .emotion-92 {
+  .emotion-91 {
     position: fixed;
     right: 2rem;
     bottom: 2rem;
@@ -729,180 +718,180 @@ exports[`ErrorPage renderers correctly 1`] = `
     <div
       class="emotion-13 emotion-14"
     >
-      <div
-        class="emotion-15 emotion-16"
+      <button
+        aria-expanded="false"
+        aria-haspopup="menu"
+        aria-label="Velg språk (language): "
+        class="emotion-15"
+        data-state="closed"
+        id="radix-0"
+        type="button"
       >
-        <button
-          class="emotion-17 emotion-18"
-          type="button"
+        Velg språk 
+        <svg
+          aria-hidden="true"
+          class="c-icon"
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          fill="currentColor"
+          height="1em"
+          preserveAspectRatio="xMidYMid meet"
+          style="vertical-align: middle;"
+          viewBox="0 0 24 24"
+          width="1em"
         >
-          <span
-            class="emotion-19 emotion-20"
-          >
-            Velg språk: Bokmål
-          </span>
-          <svg
-            aria-hidden="true"
-            class="c-icon"
-            data-license="Apache License 2.0"
-            data-source="Material Design"
-            fill="currentColor"
-            height="1em"
-            preserveAspectRatio="xMidYMid meet"
-            style="vertical-align: middle;"
-            viewBox="0 0 24 24"
-            width="1em"
-          >
-            <g>
-              <path
-                d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
-              />
-              <path
-                d="M0 0h24v24H0z"
-                fill="none"
-              />
-            </g>
-          </svg>
-        </button>
-      </div>
+          <g>
+            <path
+              d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
+            />
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+          </g>
+        </svg>
+      </button>
     </div>
-    <footer
-      class="emotion-21 emotion-22"
-    >
+    <footer>
       <div
-        class="o-wrapper o-wrapper--large undefined"
+        class="emotion-16 emotion-17"
       >
         <div
-          class="emotion-23 emotion-24"
+          class="o-wrapper o-wrapper--large undefined"
         >
-          <div>
-            <svg
-              aria-hidden="true"
-              class="c-icon emotion-25 emotion-26"
-              data-license="CC-BY 4.0"
-              data-source="Keyteq"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
-              style="vertical-align: middle;"
-              viewBox="0 0 76 76"
-              width="1em"
-            >
-              <g>
+          <div
+            class="emotion-18 emotion-19"
+          >
+            <div>
+              <svg
+                aria-hidden="true"
+                class="c-icon emotion-20 emotion-21"
+                data-license="CC-BY 4.0"
+                data-source="Keyteq"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
+                style="vertical-align: middle;"
+                viewBox="0 0 76 76"
+                width="1em"
+              >
                 <g>
-                  <path
-                    d="M46.395,46.395 L15,61 L29.605,29.605 L61,15 L46.395,46.395 Z M38,0 C17.0131795,0 0,17.0131795 0,38 C0,48.0782266 4.00355993,57.7436753 11.1299423,64.8700577 C18.2563247,71.9964401 27.9217734,76 38,76 C48.0782266,76 57.7436753,71.9964401 64.8700577,64.8700577 C71.9964401,57.7436753 76,48.0782266 76,38 C76,27.9217734 71.9964401,18.2563247 64.8700577,11.1299423 C57.7436753,4.00355993 48.0782266,0 38,0 L38,0 Z M38,34 C35.790861,34 34,35.790861 34,38 C34,40.209139 35.790861,42 38,42 C40.209139,42 42,40.209139 42,38 C42,35.790861 40.209139,34 38,34 Z"
-                  />
+                  <g>
+                    <path
+                      d="M46.395,46.395 L15,61 L29.605,29.605 L61,15 L46.395,46.395 Z M38,0 C17.0131795,0 0,17.0131795 0,38 C0,48.0782266 4.00355993,57.7436753 11.1299423,64.8700577 C18.2563247,71.9964401 27.9217734,76 38,76 C48.0782266,76 57.7436753,71.9964401 64.8700577,64.8700577 C71.9964401,57.7436753 76,48.0782266 76,38 C76,27.9217734 71.9964401,18.2563247 64.8700577,11.1299423 C57.7436753,4.00355993 48.0782266,0 38,0 L38,0 Z M38,34 C35.790861,34 34,35.790861 34,38 C34,40.209139 35.790861,42 38,42 C40.209139,42 42,40.209139 42,38 C42,35.790861 40.209139,34 38,34 Z"
+                    />
+                  </g>
                 </g>
-              </g>
-            </svg>
-          </div>
-          <div>
-            <h2
-              class="emotion-27 emotion-28"
-            >
-              Sammen skaper vi framtidas læring
-            </h2>
-            <div
-              class="emotion-29 emotion-30"
-            >
-              <section>
-                <h1
-                  class="emotion-31 emotion-32"
-                >
-                  Andre NDLA-nettsteder 
-                  <svg
-                    aria-hidden="true"
-                    class="c-icon"
-                    data-license="Apache License 2.0"
-                    data-source="Material Design"
-                    fill="currentColor"
-                    height="1em"
-                    preserveAspectRatio="xMidYMid meet"
-                    style="vertical-align: middle;"
-                    viewBox="0 0 24 24"
-                    width="1em"
+              </svg>
+            </div>
+            <div>
+              <h2
+                class="emotion-22 emotion-23"
+              >
+                Sammen skaper vi framtidas læring
+              </h2>
+              <div
+                class="emotion-24 emotion-25"
+              >
+                <div>
+                  <h3
+                    class="emotion-26 emotion-27"
+                    id="otherLinks"
                   >
-                    <g>
-                      <path
-                        d="M0 0h24v24H0z"
-                        fill="none"
-                      />
-                      <path
-                        d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"
-                      />
-                    </g>
-                  </svg>
-                </h1>
+                    Andre NDLA-nettsteder 
+                    <svg
+                      aria-hidden="true"
+                      class="c-icon"
+                      data-license="Apache License 2.0"
+                      data-source="Material Design"
+                      fill="currentColor"
+                      height="1em"
+                      preserveAspectRatio="xMidYMid meet"
+                      style="vertical-align: middle;"
+                      viewBox="0 0 24 24"
+                      width="1em"
+                    >
+                      <g>
+                        <path
+                          d="M0 0h24v24H0z"
+                          fill="none"
+                        />
+                        <path
+                          d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"
+                        />
+                      </g>
+                    </svg>
+                  </h3>
+                  <nav
+                    aria-labelledby="otherLinks"
+                    class="emotion-28 emotion-29"
+                  >
+                    <div>
+                      <a
+                        aria-label="Om NDLA"
+                        class="emotion-30 emotion-31"
+                        href="https://om.ndla.no"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        Om NDLA
+                      </a>
+                    </div>
+                    <div>
+                      <a
+                        aria-label="About NDLA"
+                        class="emotion-30 emotion-31"
+                        href="https://om.ndla.no/about-ndla"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        About NDLA
+                      </a>
+                    </div>
+                    <div>
+                      <a
+                        aria-label="Fagblogg"
+                        class="emotion-30 emotion-31"
+                        href="https://blogg.ndla.no"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        Fagblogg
+                      </a>
+                    </div>
+                    <div>
+                      <a
+                        aria-label="Tips til elever"
+                        class="emotion-30 emotion-31"
+                        href="https://blogg.ndla.no/elever"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        Tips til elever
+                      </a>
+                    </div>
+                    <div>
+                      <a
+                        aria-label="Ledige stillinger"
+                        class="emotion-30 emotion-31"
+                        href="https://om.ndla.no/jobb-for-ndla/"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        Ledige stillinger
+                      </a>
+                    </div>
+                  </nav>
+                </div>
                 <nav
-                  class="emotion-33 emotion-34"
-                >
-                  <div>
-                    <a
-                      aria-label="Om NDLA"
-                      class="emotion-35 emotion-36"
-                      href="https://om.ndla.no"
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                      Om NDLA
-                    </a>
-                  </div>
-                  <div>
-                    <a
-                      aria-label="About NDLA"
-                      class="emotion-35 emotion-36"
-                      href="https://om.ndla.no/about-ndla"
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                      About NDLA
-                    </a>
-                  </div>
-                  <div>
-                    <a
-                      aria-label="Fagblogg"
-                      class="emotion-35 emotion-36"
-                      href="https://blogg.ndla.no"
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                      Fagblogg
-                    </a>
-                  </div>
-                  <div>
-                    <a
-                      aria-label="Tips til elever"
-                      class="emotion-35 emotion-36"
-                      href="https://blogg.ndla.no/elever"
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                      Tips til elever
-                    </a>
-                  </div>
-                  <div>
-                    <a
-                      aria-label="Ledige stillinger"
-                      class="emotion-35 emotion-36"
-                      href="https://om.ndla.no/jobb-for-ndla/"
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                      Ledige stillinger
-                    </a>
-                  </div>
-                </nav>
-              </section>
-              <section>
-                <nav
-                  class="emotion-33 emotion-34"
+                  aria-label="Sosiale medier"
+                  class="emotion-28 emotion-29"
                 >
                   <div
-                    class="emotion-47 emotion-48"
+                    class="emotion-42 emotion-43"
                   >
                     <span
-                      class="emotion-49 emotion-50"
+                      class="emotion-44 emotion-45"
                     >
                       <svg
                         aria-hidden="true"
@@ -924,7 +913,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                       </svg>
                     </span>
                     <a
-                      class="emotion-35 emotion-36"
+                      class="emotion-30 emotion-31"
                       href="https://www.facebook.com/ndla.no"
                     >
                       NDLA på Facebook
@@ -953,10 +942,10 @@ exports[`ErrorPage renderers correctly 1`] = `
                     </a>
                   </div>
                   <div
-                    class="emotion-47 emotion-48"
+                    class="emotion-42 emotion-43"
                   >
                     <span
-                      class="emotion-49 emotion-50"
+                      class="emotion-44 emotion-45"
                     >
                       <svg
                         aria-hidden="true"
@@ -979,7 +968,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                       </svg>
                     </span>
                     <a
-                      class="emotion-35 emotion-36"
+                      class="emotion-30 emotion-31"
                       href="https://instagram.com/ndla_no/"
                     >
                       NDLA på Instagram
@@ -1008,10 +997,10 @@ exports[`ErrorPage renderers correctly 1`] = `
                     </a>
                   </div>
                   <div
-                    class="emotion-47 emotion-48"
+                    class="emotion-42 emotion-43"
                   >
                     <span
-                      class="emotion-49 emotion-50"
+                      class="emotion-44 emotion-45"
                     >
                       <svg
                         aria-hidden="true"
@@ -1034,7 +1023,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                       </svg>
                     </span>
                     <a
-                      class="emotion-35 emotion-36"
+                      class="emotion-30 emotion-31"
                       href="https://www.linkedin.com/company/ndla/"
                     >
                       NDLA på LinkedIn
@@ -1063,10 +1052,10 @@ exports[`ErrorPage renderers correctly 1`] = `
                     </a>
                   </div>
                   <div
-                    class="emotion-47 emotion-48"
+                    class="emotion-42 emotion-43"
                   >
                     <span
-                      class="emotion-49 emotion-50"
+                      class="emotion-44 emotion-45"
                     >
                       <svg
                         aria-hidden="true"
@@ -1111,7 +1100,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                       </svg>
                     </span>
                     <a
-                      class="emotion-35 emotion-36"
+                      class="emotion-30 emotion-31"
                       href="https://www.youtube.com/channel/UCBlt6T8B0mmvDh3k5q7EhsA"
                     >
                       NDLA på YouTube
@@ -1140,10 +1129,10 @@ exports[`ErrorPage renderers correctly 1`] = `
                     </a>
                   </div>
                   <div
-                    class="emotion-47 emotion-48"
+                    class="emotion-42 emotion-43"
                   >
                     <span
-                      class="emotion-49 emotion-50"
+                      class="emotion-44 emotion-45"
                     >
                       <svg
                         aria-hidden="true"
@@ -1165,7 +1154,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                       </svg>
                     </span>
                     <a
-                      class="emotion-35 emotion-36"
+                      class="emotion-30 emotion-31"
                       href="https://om.ndla.no/nyhetsbrev/"
                     >
                       Meld deg på vårt nyhetsbrev
@@ -1194,60 +1183,74 @@ exports[`ErrorPage renderers correctly 1`] = `
                     </a>
                   </div>
                 </nav>
-              </section>
+              </div>
+            </div>
+          </div>
+          <hr
+            class="emotion-72 emotion-73"
+          />
+          <p
+            class="emotion-74 emotion-75"
+          >
+            <span>
+              <strong>
+                Ansvarlig redaktør:
+              </strong>
+               Sigurd Trageton
+            </span>
+            Nettstedet er utarbeidet av NDLA med åpen kildekode.
+          </p>
+          <div
+            class="emotion-76 emotion-77"
+          >
+            <div>
+              <a
+                class="emotion-78 emotion-79"
+                href="https://om.ndla.no/gdpr"
+              >
+                Personvernerklæring
+              </a>
+            </div>
+            <div>
+              <span
+                aria-hidden="true"
+                class="emotion-80 emotion-81"
+              >
+                |
+              </span>
+              <a
+                class="emotion-78 emotion-79"
+                href="https://om.ndla.no/cookies"
+              >
+                Erklæring om informasjonskapsler
+              </a>
+            </div>
+            <div>
+              <span
+                aria-hidden="true"
+                class="emotion-80 emotion-81"
+              >
+                |
+              </span>
+              <a
+                class="emotion-78 emotion-79"
+                href="https://uustatus.no/nn/erklaringer/publisert/8cefdf3d-3272-402a-907b-689ddfc9bba7"
+              >
+                Tilgjengelighetserklæring
+              </a>
             </div>
           </div>
         </div>
-        <hr
-          class="emotion-77 emotion-78"
-        />
-        <p
-          class="emotion-79 emotion-80"
-        >
-          <span>
-            <strong>
-              Ansvarlig redaktør: 
-            </strong>
-             Sigurd Trageton
-          </span>
-          Nettstedet er utarbeidet av NDLA med åpen kildekode.
-        </p>
         <div
-          class="emotion-81 emotion-82"
-        >
-          <div>
-            <a
-              class="emotion-83 emotion-84"
-              href="https://om.ndla.no/gdpr"
-            >
-              Personvernerklæring
-            </a>
-          </div>
-          <div>
-            <span
-              aria-hidden="true"
-              class="emotion-85 emotion-86"
-            >
-              |
-            </span>
-            <a
-              class="emotion-83 emotion-84"
-              href="https://om.ndla.no/cookies"
-            >
-              Erklæring om informasjonskapsler
-            </a>
-          </div>
-        </div>
+          class="emotion-88 emotion-89"
+        />
       </div>
-      <div
-        class="emotion-89 emotion-90"
-      />
     </footer>
     <div
-      class="emotion-91"
+      class="emotion-90"
     >
       <button
-        class="emotion-92 emotion-93"
+        class="emotion-91 emotion-92"
         id="zendeskButton"
         type="button"
       >
