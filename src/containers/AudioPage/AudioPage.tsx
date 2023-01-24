@@ -8,6 +8,8 @@
 import { useParams } from 'react-router-dom';
 import { ContentPlaceholder, OneColumn } from '@ndla/ui';
 import { gql } from '@apollo/client';
+import { HelmetWithTracker } from '@ndla/tracker';
+import { useTranslation } from 'react-i18next';
 import { useGraphQuery } from '../../util/runQueries';
 import { GQLAudioQuery, GQLAudioQueryVariables } from '../../graphqlTypes';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
@@ -16,6 +18,7 @@ import Audio from '../../containers/PodcastPage/Audio';
 
 const AudioPage = () => {
   const { audioId } = useParams();
+  const { t } = useTranslation();
   const { data, loading, error } = useGraphQuery<
     GQLAudioQuery,
     GQLAudioQueryVariables
@@ -40,6 +43,11 @@ const AudioPage = () => {
 
   return (
     <OneColumn>
+      <HelmetWithTracker
+        title={`${data.audio.title.title} - ${t(
+          'resourcepageTitles.audio',
+        )} - NDLA`}
+      />
       <Audio audio={data.audio} />
     </OneColumn>
   );
