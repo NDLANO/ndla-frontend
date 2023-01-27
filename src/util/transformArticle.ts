@@ -6,7 +6,8 @@
  *
  */
 
-import { GQLArticle } from '../graphqlTypes';
+import { transform } from '@ndla/article-converter';
+import { GQLArticle, GQLArticleMetaData } from '../graphqlTypes';
 import { LocaleType } from '../interfaces';
 import formatDate from './formatDate';
 
@@ -21,10 +22,11 @@ function getContent(content: string) {
    * phase). The styles needs to be applied on subsequent renders else new
    * styles will not be included.
    */
-  if (process.env.BUILD_TARGET === 'client' && !window.hasHydrated) {
-    return content.replace(/<style.+?>.+?<\/style>/g, '');
-  }
-  return content;
+  // if (process.env.BUILD_TARGET === 'client' && !window.hasHydrated) {
+  //   return transform(content.replace(/<style.+?>.+?<\/style>/g, ''));
+  // }
+  console.log('transforming');
+  return transform(content, {});
 }
 
 type BaseArticle = Pick<
@@ -40,8 +42,9 @@ type BaseArticle = Pick<
 export const transformArticle = <T extends BaseArticle>(
   article: T,
   locale: LocaleType,
+  metaData?: GQLArticleMetaData,
 ): T => {
-  const content = getContent(article.content);
+  const content = getContent(article.content, metaData);
   const footNotes = article?.metaData?.footnotes ?? [];
   return {
     ...article,

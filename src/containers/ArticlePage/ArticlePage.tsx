@@ -7,7 +7,7 @@
  */
 
 import { gql } from '@apollo/client';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { OneColumn, LayoutItem, FeideUserApiType, constants } from '@ndla/ui';
 import { withTracker } from '@ndla/tracker';
@@ -75,10 +75,23 @@ const ArticlePage = ({
   const subjectPageUrl = config.ndlaFrontendDomain;
   useEffect(() => {
     if (!resource?.article) return;
-    const article = transformArticle(resource.article, i18n.language);
+    const article = transformArticle(
+      resource.article,
+      i18n.language,
+      resource.article.metaData,
+    );
     const scripts = getArticleScripts(article, i18n.language);
     setScripts(scripts);
-  }, [i18n.language, resource]);
+  }, [i18n.language, resource?.article]);
+
+  const article = useMemo(() => {
+    if (!resource?.article) return undefined;
+    return transformArticle(
+      resource?.article,
+      i18n.language,
+      resource.article.metaData,
+    );
+  }, [resource?.article, i18n.language])!;
 
   useEffect(() => {
     if (window.MathJax && typeof window.MathJax.typeset === 'function') {
@@ -118,7 +131,6 @@ const ArticlePage = ({
     );
   }
 
-  const article = transformArticle(resource.article, i18n.language)!;
   const contentType = resource ? getContentType(resource) : undefined;
   const resourceType =
     contentType && isHeroContentType(contentType) ? contentType : undefined;
@@ -185,6 +197,7 @@ const ArticlePage = ({
       />
       <OneColumn>
         <Article
+          contentTransformed
           path={resource.path}
           id={skipToContentId}
           article={article}
