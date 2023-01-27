@@ -86,6 +86,7 @@ interface Props {
   showFavoriteButton?: boolean;
   myNdlaResourceType?: string;
   path?: string;
+  contentTransformed?: boolean;
 }
 
 const renderNotions = (

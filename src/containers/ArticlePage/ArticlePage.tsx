@@ -7,7 +7,7 @@
  */
 
 import { gql } from '@apollo/client';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { OneColumn, LayoutItem, FeideUserApiType, constants } from '@ndla/ui';
 import { withTracker } from '@ndla/tracker';
@@ -21,7 +21,7 @@ import Article from '../../components/Article';
 import ArticleHero from './components/ArticleHero';
 import ArticleErrorMessage from './components/ArticleErrorMessage';
 import { getContentType, isHeroContentType } from '../../util/getContentType';
-import { getArticleScripts, Scripts } from '../../util/getArticleScripts';
+import { getArticleScripts } from '../../util/getArticleScripts';
 import getStructuredDataFromArticle, {
   structuredArticleDataFragment,
 } from '../../util/getStructuredDataFromArticle';
@@ -71,27 +71,17 @@ const ArticlePage = ({
   t,
   skipToContentId,
 }: Props) => {
-  const [scripts, setScripts] = useState<Scripts[]>([]);
   const subjectPageUrl = config.ndlaFrontendDomain;
-  useEffect(() => {
-    if (!resource?.article) return;
-    const article = transformArticle(
-      resource.article,
-      i18n.language,
-      resource.article.metaData,
-    );
-    const scripts = getArticleScripts(article, i18n.language);
-    setScripts(scripts);
-  }, [i18n.language, resource?.article]);
 
   const article = useMemo(() => {
     if (!resource?.article) return undefined;
-    return transformArticle(
-      resource?.article,
-      i18n.language,
-      resource.article.metaData,
-    );
+    return transformArticle(resource?.article, i18n.language);
   }, [resource?.article, i18n.language])!;
+
+  const scripts = useMemo(() => {
+    if (!article) return [];
+    return getArticleScripts(article, i18n.language);
+  }, [article, i18n.language]);
 
   useEffect(() => {
     if (window.MathJax && typeof window.MathJax.typeset === 'function') {

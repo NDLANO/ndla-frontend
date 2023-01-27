@@ -7,7 +7,7 @@
  */
 
 import { transform } from '@ndla/article-converter';
-import { GQLArticle, GQLArticleMetaData } from '../graphqlTypes';
+import { GQLArticle } from '../graphqlTypes';
 import { LocaleType } from '../interfaces';
 import formatDate from './formatDate';
 
@@ -25,8 +25,7 @@ function getContent(content: string) {
   // if (process.env.BUILD_TARGET === 'client' && !window.hasHydrated) {
   //   return transform(content.replace(/<style.+?>.+?<\/style>/g, ''));
   // }
-  console.log('transforming');
-  return transform(content, {});
+  return transform(content, { frontendDomain: '' });
 }
 
 type BaseArticle = Pick<
@@ -42,9 +41,8 @@ type BaseArticle = Pick<
 export const transformArticle = <T extends BaseArticle>(
   article: T,
   locale: LocaleType,
-  metaData?: GQLArticleMetaData,
 ): T => {
-  const content = getContent(article.content, metaData);
+  const content = getContent(article.content);
   const footNotes = article?.metaData?.footnotes ?? [];
   return {
     ...article,
