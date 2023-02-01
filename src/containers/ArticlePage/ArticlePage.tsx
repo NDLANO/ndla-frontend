@@ -75,13 +75,16 @@ const ArticlePage = ({
 
   const article = useMemo(() => {
     if (!resource?.article) return undefined;
-    return transformArticle(resource?.article, i18n.language);
+    return transformArticle(resource?.article, i18n.language, {
+      path: `${config.ndlaFrontendDomain}/article/${resource.article?.id}`,
+      enabled: !config.articleConverterEnabled,
+    });
   }, [resource?.article, i18n.language])!;
 
   const scripts = useMemo(() => {
-    if (!article) return [];
-    return getArticleScripts(article, i18n.language);
-  }, [article, i18n.language]);
+    if (!resource?.article) return [];
+    return getArticleScripts(resource.article, i18n.language);
+  }, [resource?.article, i18n.language]);
 
   useEffect(() => {
     if (window.MathJax && typeof window.MathJax.typeset === 'function') {
@@ -187,7 +190,7 @@ const ArticlePage = ({
       />
       <OneColumn>
         <Article
-          contentTransformed
+          contentTransformed={!config.articleConverterEnabled}
           path={resource.path}
           id={skipToContentId}
           article={article}
@@ -276,7 +279,7 @@ export const articlePageFragments = {
       name
       path
       contentUri
-      article(subjectId: $subjectId) {
+      article(subjectId: $subjectId, convertEmbeds: $convertEmbeds) {
         created
         updated
         metaDescription

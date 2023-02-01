@@ -11,7 +11,15 @@ import { GQLArticle } from '../graphqlTypes';
 import { LocaleType } from '../interfaces';
 import formatDate from './formatDate';
 
-function getContent(content: string) {
+interface TransformArticleProps {
+  path?: string;
+  enabled?: boolean;
+}
+
+function getContent(content: string, { path, enabled }: TransformArticleProps) {
+  if (enabled) {
+    return transform(content, { frontendDomain: '', path });
+  }
   /**
    * We call extractCSS on the whole page server side. This removes/hoists
    * all style tags. The data (article) object is serialized with the style
@@ -22,10 +30,10 @@ function getContent(content: string) {
    * phase). The styles needs to be applied on subsequent renders else new
    * styles will not be included.
    */
-  // if (process.env.BUILD_TARGET === 'client' && !window.hasHydrated) {
-  //   return transform(content.replace(/<style.+?>.+?<\/style>/g, ''));
-  // }
-  return transform(content, { frontendDomain: '' });
+  if (process.env.BUILD_TARGET === 'client' && !window.hasHydrated) {
+    return content.replace(/<style.+?>.+?<\/style>/g, '');
+  }
+  return content;
 }
 
 type BaseArticle = Pick<
@@ -41,8 +49,9 @@ type BaseArticle = Pick<
 export const transformArticle = <T extends BaseArticle>(
   article: T,
   locale: LocaleType,
+  options?: TransformArticleProps,
 ): T => {
-  const content = getContent(article.content);
+  const content = getContent(article.content, options ?? {});
   const footNotes = article?.metaData?.footnotes ?? [];
   return {
     ...article,

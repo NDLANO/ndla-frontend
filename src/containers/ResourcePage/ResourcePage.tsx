@@ -31,6 +31,7 @@ import { AuthContext } from '../../components/AuthenticationContext';
 import RedirectContext, {
   RedirectInfo,
 } from '../../components/RedirectContext';
+import config from '../../config';
 
 const urlInPaths = (
   location: Location,
@@ -44,6 +45,7 @@ const resourcePageQuery = gql`
     $topicId: String!
     $subjectId: String!
     $resourceId: String!
+    $convertEmbeds: Boolean
   ) {
     subject(id: $subjectId) {
       topics(all: true) {
@@ -94,6 +96,7 @@ const ResourcePage = () => {
         subjectId,
         topicId,
         resourceId,
+        convertEmbeds: !config.articleConverterEnabled,
       },
     },
   );
