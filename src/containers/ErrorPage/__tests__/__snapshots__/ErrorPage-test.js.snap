@@ -537,7 +537,7 @@ exports[`ErrorPage renderers correctly 1`] = `
   margin-bottom: 52px;
 }
 
-.emotion-84 {
+.emotion-88 {
   display: block;
   position: absolute;
   top: 0;
@@ -547,11 +547,11 @@ exports[`ErrorPage renderers correctly 1`] = `
   background: linear-gradient(96deg, rgba(0, 117, 160, 1) 0%, rgba(32, 88, 143, 0) 100%);
 }
 
-.emotion-86 {
+.emotion-90 {
   z-index: 10;
 }
 
-.emotion-87 {
+.emotion-91 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -580,32 +580,32 @@ exports[`ErrorPage renderers correctly 1`] = `
   margin-top: 26px;
 }
 
-.emotion-87:hover,
-.emotion-87:focus {
+.emotion-91:hover,
+.emotion-91:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-87[disabled] {
+.emotion-91[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-87:focus {
+.emotion-91:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-87:hover,
-.emotion-87:focus {
+.emotion-91:hover,
+.emotion-91:focus {
   color: white;
   background-color: #20588f;
   border: 2px solid transparent;
 }
 
-.emotion-87:disabled {
+.emotion-91:disabled {
   color: #777777;
   border: 2px solid transparent;
   background-color: #e6e6e6;
@@ -613,7 +613,7 @@ exports[`ErrorPage renderers correctly 1`] = `
 }
 
 @media (min-width: 61.3125em) {
-  .emotion-87 {
+  .emotion-91 {
     position: fixed;
     right: 2rem;
     bottom: 2rem;
@@ -1194,7 +1194,7 @@ exports[`ErrorPage renderers correctly 1`] = `
           >
             <span>
               <strong>
-                Ansvarlig redaktør: 
+                Ansvarlig redaktør:
               </strong>
                Sigurd Trageton
             </span>
@@ -1225,18 +1225,32 @@ exports[`ErrorPage renderers correctly 1`] = `
                 Erklæring om informasjonskapsler
               </a>
             </div>
+            <div>
+              <span
+                aria-hidden="true"
+                class="emotion-80 emotion-81"
+              >
+                |
+              </span>
+              <a
+                class="emotion-78 emotion-79"
+                href="https://uustatus.no/nn/erklaringer/publisert/8cefdf3d-3272-402a-907b-689ddfc9bba7"
+              >
+                Tilgjengelighetserklæring
+              </a>
+            </div>
           </div>
         </div>
         <div
-          class="emotion-84 emotion-85"
+          class="emotion-88 emotion-89"
         />
       </div>
     </footer>
     <div
-      class="emotion-86"
+      class="emotion-90"
     >
       <button
-        class="emotion-87 emotion-88"
+        class="emotion-91 emotion-92"
         id="zendeskButton"
         type="button"
       >

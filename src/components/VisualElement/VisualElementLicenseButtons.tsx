@@ -52,11 +52,13 @@ const VisualElementLicenseButtons = ({
 
   return (
     <>
-      <CopyTextButton
-        stringToCopy={copyText || ''}
-        copyTitle={t('license.copyTitle')}
-        hasCopiedTitle={t('license.hasCopiedTitle')}
-      />
+      {copyText && (
+        <CopyTextButton
+          stringToCopy={copyText || ''}
+          copyTitle={t('license.copyTitle')}
+          hasCopiedTitle={t('license.hasCopiedTitle')}
+        />
+      )}
       {visualElement.copyright?.license?.license !== 'COPYRIGHTED' && (
         <SafeLinkButton
           key="download"

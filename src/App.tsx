@@ -11,6 +11,10 @@ import { SnackbarProvider } from '@ndla/ui';
 import { History } from 'history';
 import { Component, ErrorInfo, ReactNode } from 'react';
 import { Route, Routes } from 'react-router-dom';
+import VideoPage from './containers/VideoPage/VideoPage';
+import ImagePage from './containers/ImagePage/ImagePage';
+import ConceptPage from './containers/ConceptPage/ConceptPage';
+import AudioPage from './containers/AudioPage/AudioPage';
 import { AlertsProvider } from './components/AlertsContext';
 import AuthenticationContext from './components/AuthenticationContext';
 import { BaseNameProvider } from './components/BaseNameContext';
@@ -138,6 +142,22 @@ const AppRoutes = ({ base }: AppProps) => {
                     </Route>
                   </Route>
                 </Route>
+                <Route
+                  path="resources/videos/:videoId"
+                  element={<VideoPage />}
+                />
+                <Route
+                  path="resources/images/:imageId"
+                  element={<ImagePage />}
+                />
+                <Route
+                  path="resources/concepts/:conceptId"
+                  element={<ConceptPage />}
+                />
+                <Route
+                  path="resources/audios/:audioId"
+                  element={<AudioPage />}
+                />
                 <Route
                   path="minndla"
                   element={<PrivateRoute element={<MyNdlaLayout />} />}>
