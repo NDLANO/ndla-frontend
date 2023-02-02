@@ -473,7 +473,7 @@ type ImageMetaInformationV2 {
   createdBy: String!
   editorNotes: [EditorNote!]
   id: String!
-  imageDimensions: ImageDimensions!
+  imageDimensions: ImageDimensions
   imageUrl: String!
   metaUrl: String!
   modelRelease: String!
@@ -726,14 +726,15 @@ type Query {
   alerts: [UptimeAlert]
   allFolderResources(size: Int): [FolderResource!]!
   article(
+    convertEmbeds: Boolean
     id: String!
     isOembed: String
     path: String
     showVisualElement: String
     subjectId: String
   ): Article
-  brightcoveVideo(id: String!): BrightcoveElement
   audio(id: Int!): Audio
+  brightcoveVideo(id: String!): BrightcoveElement
   competenceGoal(code: String!, language: String): CompetenceGoal
   competenceGoals(codes: [String], language: String): [CompetenceGoal!]
   concept(id: Int!): Concept
@@ -782,7 +783,6 @@ type Query {
   learningpath(pathId: String!): Learningpath
   listingPage(subjects: String): ListingPage
   personalData: MyNdlaPersonalData!
-  podcast(id: Int!): AudioWithSeries
   podcastSearch(fallback: Boolean, page: Int!, pageSize: Int!): AudioSearch
   podcastSeries(id: Int!): PodcastSeriesWithEpisodes
   podcastSeriesSearch(
@@ -847,7 +847,7 @@ type RelatedContent {
 }
 
 type Resource implements TaxonomyEntity & WithArticle {
-  article(isOembed: String, subjectId: String): Article
+  article(convertEmbeds: Boolean, isOembed: String, subjectId: String): Article
   availability: String
   breadcrumbs: [[String!]!]
   contentUri: String
@@ -1034,7 +1034,11 @@ type Title {
 
 type Topic implements TaxonomyEntity & WithArticle {
   alternateTopics: [Topic!]
-  article(showVisualElement: String, subjectId: String): Article
+  article(
+    convertEmbeds: Boolean
+    showVisualElement: String
+    subjectId: String
+  ): Article
   availability: String
   breadcrumbs: [[String!]!]
   contentUri: String
