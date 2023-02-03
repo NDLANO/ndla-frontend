@@ -143,9 +143,9 @@ const AppRoutes = ({ base }: AppProps) => {
                   </Route>
                 </Route>
                 <Route path="video/:videoId" element={<VideoPage />} />
-                <Route path="bilde/:imageId" element={<ImagePage />} />
-                <Route path="forklaring/:conceptId" element={<ConceptPage />} />
-                <Route path="lyd/:audioId" element={<AudioPage />} />
+                <Route path="image/:imageId" element={<ImagePage />} />
+                <Route path="concept/:conceptId" element={<ConceptPage />} />
+                <Route path="audio/:audioId" element={<AudioPage />} />
                 <Route
                   path="minndla"
                   element={<PrivateRoute element={<MyNdlaLayout />} />}>
