@@ -22,7 +22,11 @@ interface Props {
 }
 
 const multidisciplinaryTopicWrapperQuery = gql`
-  query multidisciplinaryTopicWrapper($topicId: String!, $subjectId: String) {
+  query multidisciplinaryTopicWrapper(
+    $topicId: String!
+    $subjectId: String
+    $convertEmbeds: Boolean
+  ) {
     topic(id: $topicId, subjectId: $subjectId) {
       id
       ...MultidisciplinaryTopic_Topic

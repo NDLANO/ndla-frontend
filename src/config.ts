@@ -168,7 +168,7 @@ const config: ConfigType = {
   matomoSiteId: getEnvironmentVariabel('MATOMO_SITE_ID', ''),
   articleConverterEnabled: getEnvironmentVariabel(
     'USE_ARTICLE_CONVERTER',
-    true,
+    false,
   ),
 };
 

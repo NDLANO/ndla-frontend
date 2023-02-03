@@ -29,7 +29,11 @@ interface Props {
 }
 
 const toolboxTopicContainerQuery = gql`
-  query toolboxTopicContainer($topicId: String!, $subjectId: String!) {
+  query toolboxTopicContainer(
+    $topicId: String!
+    $subjectId: String!
+    $convertEmbeds: Boolean
+  ) {
     topic(id: $topicId, subjectId: $subjectId) {
       id # This query recursively calls itself if ID is not included here. Not sure why.
       ...ToolboxTopicWrapper_Topic

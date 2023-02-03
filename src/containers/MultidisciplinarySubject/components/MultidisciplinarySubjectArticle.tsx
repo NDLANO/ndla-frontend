@@ -113,7 +113,7 @@ export const multidisciplinarySubjectArticleFragments = {
   topic: gql`
     fragment MultidisciplinarySubjectArticle_Topic on Topic {
       path
-      article(showVisualElement: "true") {
+      article(showVisualElement: "true", convertEmbeds: $convertEmbeds) {
         created
         updated
         crossSubjectTopics(subjectId: $subjectId) {

@@ -142,7 +142,7 @@ export const multidisciplinaryTopicFragments = {
         id
         name
       }
-      article {
+      article(convertEmbeds: $convertEmbeds) {
         metaImage {
           url
           alt

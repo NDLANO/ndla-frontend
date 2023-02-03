@@ -36,12 +36,14 @@ const plainArticlePageQuery = gql`
     $isOembed: String
     $path: String
     $showVisualElement: String
+    $convertEmbeds: Boolean
   ) {
     article(
       id: $articleId
       isOembed: $isOembed
       path: $path
       showVisualElement: $showVisualElement
+      convertEmbeds: $convertEmbeds
     ) {
       ...PlainArticleContainer_Article
     }

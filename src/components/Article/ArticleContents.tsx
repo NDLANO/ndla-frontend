@@ -87,7 +87,7 @@ const ArticleContents = ({
 ArticleContents.fragments = {
   topic: gql`
     fragment ArticleContents_Topic on Topic {
-      article {
+      article(convertEmbeds: $convertEmbeds) {
         id
         content
         created

@@ -220,7 +220,7 @@ export const topicFragments = {
         name
         relevanceId
       }
-      article {
+      article(convertEmbeds: $convertEmbeds) {
         metaImage {
           url
           alt

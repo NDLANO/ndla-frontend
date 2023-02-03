@@ -60,12 +60,14 @@ const iframePageQuery = gql`
     $includeResource: Boolean!
     $includeTopic: Boolean!
     $showVisualElement: String
+    $convertEmbeds: Boolean
   ) {
     article(
       id: $articleId
       isOembed: $isOembed
       path: $path
       showVisualElement: $showVisualElement
+      convertEmbeds: $convertEmbeds
     ) {
       ...IframeTopicPage_Article
       ...IframeArticlePage_Article

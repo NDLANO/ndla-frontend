@@ -137,7 +137,7 @@ LearningpathEmbed.fragments = {
     fragment LearningpathEmbed_LearningpathStep on LearningpathStep {
       resource {
         id
-        article {
+        article(convertEmbeds: $convertEmbeds) {
           id
           metaDescription
           created

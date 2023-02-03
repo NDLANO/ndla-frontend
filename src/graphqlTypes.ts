@@ -2209,6 +2209,7 @@ export type GQLMovedResourcePage_ResourceFragment = {
 export type GQLMultidisciplinarySubjectArticlePageQueryVariables = Exact<{
   topicId: Scalars['String'];
   subjectId: Scalars['String'];
+  convertEmbeds?: InputMaybe<Scalars['Boolean']>;
 }>;
 
 export type GQLMultidisciplinarySubjectArticlePageQuery = {
@@ -2235,6 +2236,7 @@ export type GQLMultidisciplinarySubjectArticlePageQuery = {
 
 export type GQLMultidisciplinarySubjectPageQueryVariables = Exact<{
   subjectId: Scalars['String'];
+  convertEmbeds?: InputMaybe<Scalars['Boolean']>;
 }>;
 
 export type GQLMultidisciplinarySubjectPageQuery = {
@@ -2318,6 +2320,7 @@ export type GQLMultidisciplinaryTopic_SubjectFragment = {
 export type GQLMultidisciplinaryTopicWrapperQueryVariables = Exact<{
   topicId: Scalars['String'];
   subjectId?: InputMaybe<Scalars['String']>;
+  convertEmbeds?: InputMaybe<Scalars['Boolean']>;
 }>;
 
 export type GQLMultidisciplinaryTopicWrapperQuery = {
@@ -2652,6 +2655,7 @@ export type GQLPlainArticlePageQueryVariables = Exact<{
   isOembed?: InputMaybe<Scalars['String']>;
   path?: InputMaybe<Scalars['String']>;
   showVisualElement?: InputMaybe<Scalars['String']>;
+  convertEmbeds?: InputMaybe<Scalars['Boolean']>;
 }>;
 
 export type GQLPlainArticlePageQuery = {
@@ -2676,6 +2680,7 @@ export type GQLPlainLearningpathContainer_LearningpathFragment = {
 
 export type GQLPlainLearningpathPageQueryVariables = Exact<{
   pathId: Scalars['String'];
+  convertEmbeds?: InputMaybe<Scalars['Boolean']>;
 }>;
 
 export type GQLPlainLearningpathPageQuery = {
@@ -2942,6 +2947,7 @@ export type GQLTopic_ResourceTypeDefinitionFragment = {
 export type GQLTopicWrapperQueryVariables = Exact<{
   topicId: Scalars['String'];
   subjectId?: InputMaybe<Scalars['String']>;
+  convertEmbeds?: InputMaybe<Scalars['Boolean']>;
 }>;
 
 export type GQLTopicWrapperQuery = {
@@ -3000,6 +3006,7 @@ export type GQLToolboxSubjectPageQuery = {
 export type GQLToolboxTopicContainerQueryVariables = Exact<{
   topicId: Scalars['String'];
   subjectId: Scalars['String'];
+  convertEmbeds?: InputMaybe<Scalars['Boolean']>;
 }>;
 
 export type GQLToolboxTopicContainerQuery = {
@@ -3139,6 +3146,7 @@ export type GQLIframePageQueryVariables = Exact<{
   includeResource: Scalars['Boolean'];
   includeTopic: Scalars['Boolean'];
   showVisualElement?: InputMaybe<Scalars['String']>;
+  convertEmbeds?: InputMaybe<Scalars['Boolean']>;
 }>;
 
 export type GQLIframePageQuery = {

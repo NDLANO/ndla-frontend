@@ -12,6 +12,7 @@ import {
   GQLTopicWrapperQueryVariables,
   GQLTopicWrapper_SubjectFragment,
 } from '../../../graphqlTypes';
+import config from '../../../config';
 
 type Props = {
   topicId: string;
@@ -24,7 +25,11 @@ type Props = {
 };
 
 const topicWrapperQuery = gql`
-  query topicWrapper($topicId: String!, $subjectId: String) {
+  query topicWrapper(
+    $topicId: String!
+    $subjectId: String
+    $convertEmbeds: Boolean
+  ) {
     topic(id: $topicId, subjectId: $subjectId) {
       id
       ...Topic_Topic
@@ -52,7 +57,11 @@ const TopicWrapper = ({
     GQLTopicWrapperQuery,
     GQLTopicWrapperQueryVariables
   >(topicWrapperQuery, {
-    variables: { topicId, subjectId },
+    variables: {
+      topicId,
+      subjectId,
+      convertEmbeds: !config.articleConverterEnabled,
+    },
     onCompleted: data => {
       if (data.topic) {
         setBreadCrumb({
