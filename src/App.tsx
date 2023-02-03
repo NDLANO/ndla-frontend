@@ -142,22 +142,10 @@ const AppRoutes = ({ base }: AppProps) => {
                     </Route>
                   </Route>
                 </Route>
-                <Route
-                  path="resources/videos/:videoId"
-                  element={<VideoPage />}
-                />
-                <Route
-                  path="resources/images/:imageId"
-                  element={<ImagePage />}
-                />
-                <Route
-                  path="resources/concepts/:conceptId"
-                  element={<ConceptPage />}
-                />
-                <Route
-                  path="resources/audios/:audioId"
-                  element={<AudioPage />}
-                />
+                <Route path="video/:videoId" element={<VideoPage />} />
+                <Route path="bilde/:imageId" element={<ImagePage />} />
+                <Route path="forklaring/:conceptId" element={<ConceptPage />} />
+                <Route path="lyd/:audioId" element={<AudioPage />} />
                 <Route
                   path="minndla"
                   element={<PrivateRoute element={<MyNdlaLayout />} />}>
