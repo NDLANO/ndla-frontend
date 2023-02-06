@@ -73,18 +73,16 @@ const ArticlePage = ({
 }: Props) => {
   const subjectPageUrl = config.ndlaFrontendDomain;
 
-  const article = useMemo(() => {
+  const [article, scripts] = useMemo(() => {
     if (!resource?.article) return undefined;
-    return transformArticle(resource?.article, i18n.language, {
-      path: `${config.ndlaFrontendDomain}/article/${resource.article?.id}`,
-      enabled: !config.articleConverterEnabled,
-    });
+    return [
+      transformArticle(resource?.article, i18n.language, {
+        path: `${config.ndlaFrontendDomain}/article/${resource.article?.id}`,
+        enabled: !config.articleConverterEnabled,
+      }),
+      getArticleScripts(resource.article, i18n.language),
+    ];
   }, [resource?.article, i18n.language])!;
-
-  const scripts = useMemo(() => {
-    if (!resource?.article) return [];
-    return getArticleScripts(resource.article, i18n.language);
-  }, [resource?.article, i18n.language]);
 
   useEffect(() => {
     if (window.MathJax && typeof window.MathJax.typeset === 'function') {
