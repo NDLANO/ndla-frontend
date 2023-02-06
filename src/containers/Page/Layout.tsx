@@ -21,6 +21,10 @@ import Footer from './components/Footer';
 import { useIsNdlaFilm, useUrnIds } from '../../routeHelpers';
 import { usePrevious } from '../../util/utilityHooks';
 import TitleAnnouncer from './components/TitleAnnouncer';
+import {
+  defaultValue,
+  useVersionHash,
+} from '../../components/VersionHashContext';
 
 const ZendeskWrapper = styled.div`
   z-index: 10;
@@ -58,6 +62,12 @@ const Layout = () => {
     }
   }, [params, pathname, prevPathname]);
 
+  const hash = useVersionHash();
+  const isDefaultVersion = hash === defaultValue;
+  const metaChildren = isDefaultVersion ? null : (
+    <meta name="robots" content="noindex" />
+  );
+
   return (
     <PageContainer backgroundWide={backgroundWide} ndlaFilm={ndlaFilm}>
       <TitleAnnouncer />
@@ -70,8 +80,9 @@ const Layout = () => {
       />
       <Helmet
         htmlAttributes={{ lang: i18n.language }}
-        meta={[{ name: 'description', content: t('meta.description') }]}
-      />
+        meta={[{ name: 'description', content: t('meta.description') }]}>
+        {metaChildren}
+      </Helmet>
       <Masthead />
       <Content>
         <Outlet />
