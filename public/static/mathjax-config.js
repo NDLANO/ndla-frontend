@@ -6,27 +6,28 @@
  *
  */
 
-const params = new URLSearchParams(new URL(document.currentScript.src).search);
-
 window.MathJax = {
   chtml: {
     mathmlSpacing: false,
   },
-  options:{
-      enableMenu: true,
-      menuOptions:{
-          settings:{
-              assistiveMml: false,
-              collapsible: false,
-              explorer: true
-          }
+  options: {
+    enableMenu: true,
+    menuOptions: {
+      settings: {
+        assistiveMml: false,
+        collapsible: false,
+        explorer: true,
       },
-      sre: {
-        domain: 'mathspeak',
-        style: 'sbrief',
-        speech: 'shallow',
-        locale: params.get('locale') || 'nb',
-        structure: false,
-      }
-  }
+    },
+    sre: {
+      domain: 'mathspeak',
+      style: 'sbrief',
+      speech: 'shallow',
+      locale:
+        new URLSearchParams(new URL(document.currentScript.src).search).get(
+          'locale',
+        ) || 'nb',
+      structure: false,
+    },
+  },
 };
