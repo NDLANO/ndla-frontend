@@ -16,7 +16,7 @@ import { useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { HelmetWithTracker } from '@ndla/tracker';
-import { FileDocumentOutline } from '@ndla/icons/common';
+import { FileDocumentOutline, Share } from '@ndla/icons/common';
 import { Plus } from '@ndla/icons/action';
 import { GQLFolder, GQLFoldersPageQuery } from '../../../graphqlTypes';
 import { useGraphQuery } from '../../../util/runQueries';
@@ -37,6 +37,7 @@ import FolderAndResourceCount, {
 } from './FolderAndResourceCount';
 import FolderList from './FolderList';
 import { AuthContext } from '../../../components/AuthenticationContext';
+import FolderShareModal from './FolderShareModal';
 
 interface BlockWrapperProps {
   type?: string;
@@ -84,13 +85,14 @@ export const ListItem = styled.li`
 
 const StyledRow = styled.div`
   margin: ${spacing.small} 0;
+  gap: ${spacing.nsmall};
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
 `;
 
 export type ViewType = 'list' | 'block' | 'listLarger';
-export type FolderActionType = 'edit' | 'delete' | undefined;
+export type FolderActionType = 'edit' | 'delete' | 'share' | undefined;
 
 export interface FolderAction {
   action: FolderActionType;
@@ -243,6 +245,10 @@ const FoldersPage = () => {
             <span>{t('myNdla.newFolder')}</span>
           </ButtonV2>
         )}
+        <ButtonV2 variant="ghost" colorTheme="lighter">
+          <Share />
+          {t('myNdla.shareFolder')}
+        </ButtonV2>
         <ListViewOptions type={viewType} onTypeChange={setViewType} />
       </StyledRow>
       <FolderList
@@ -297,7 +303,9 @@ const FoldersPage = () => {
         description={t('myNdla.confirmDeleteFolder')}
         removeText={t('myNdla.folder.delete')}
         isOpen={folderAction?.action === 'delete'}
-        onClose={() => setFolderAction(undefined)}
+        onClose={() =>
+          setFolderAction({ action: 'edit', folder: folderAction?.folder })
+        }
         onDelete={async () => {
           if (folderAction?.action === 'delete') {
             await onDeleteFolder(folderAction.folder, folderAction.index);
@@ -305,6 +313,12 @@ const FoldersPage = () => {
           }
         }}
       />
+      {/* <FolderShareModal
+        type={}
+        folder={folderAction?.folder}
+        isOpen={folderAction?.action === 'share'}
+        onClose={() => setFolderAction(undefined)}
+      /> */}
     </FoldersPageContainer>
   );
 };
