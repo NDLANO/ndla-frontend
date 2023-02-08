@@ -47,8 +47,9 @@ const ImagePage = () => {
       <HelmetWithTracker
         title={`${data?.image?.title.title} - ${t(
           'resourcepageTitles.image',
-        )} - NDLA`}
-      />
+        )} - NDLA`}>
+        <meta name="robots" content="noindex" />
+      </HelmetWithTracker>
       <ImageElement image={data.image} />
     </OneColumn>
   );
