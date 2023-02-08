@@ -6,13 +6,10 @@
  *
  */
 
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  aboutNdlaLinkGroups,
-  aboutNdlaLinks,
-  aboutNdlaUrl,
-} from '../../../constants';
+import { aboutNdlaLinks, aboutNdlaUrl } from '../../../constants';
+import AboutSubMenu from './AboutSubMenu';
 import BackButton from './BackButton';
 import DrawerMenuItem from './DrawerMenuItem';
 import DrawerPortion, { DrawerList } from './DrawerPortion';
@@ -23,12 +20,38 @@ export type AboutSubType = 'whatWeDo' | 'whoAreWe' | 'careers' | 'contactUs';
 interface Props {
   onClose: () => void;
   onCloseMenuPortion: () => void;
+  subType?: AboutSubType;
+  setSubType: Dispatch<SetStateAction<AboutSubType | undefined>>;
 }
 
-const AboutMenu = ({ onClose, onCloseMenuPortion }: Props) => {
+const AboutMenu = ({
+  onClose,
+  onCloseMenuPortion,
+  subType,
+  setSubType,
+}: Props) => {
   const { t } = useTranslation();
-  useArrowNavigation(true, 'header-about-ndla', undefined, onCloseMenuPortion);
-  const [subType, setSubType] = useState<AboutSubType | undefined>(undefined);
+  const [selected, setSelected] = useState<string | undefined>(undefined);
+
+  const onNavigateRight = useCallback(
+    (id: string | undefined) => {
+      setSelected(id);
+      setSubType(id as AboutSubType);
+    },
+    [setSubType],
+  );
+
+  const onNavigateLeft = useCallback(() => {
+    setSelected(undefined);
+    onCloseMenuPortion();
+  }, [onCloseMenuPortion]);
+
+  useArrowNavigation(
+    true,
+    'header-about-ndla',
+    onNavigateRight,
+    onNavigateLeft,
+  );
 
   return (
     <>
@@ -36,7 +59,7 @@ const AboutMenu = ({ onClose, onCloseMenuPortion }: Props) => {
         <BackButton
           title={t('masthead.menu.goToMainMenu')}
           homeButton
-          onGoBack={onCloseMenuPortion}
+          onGoBack={onClose}
         />
         <DrawerList id="about-menu">
           <DrawerRowHeader
@@ -45,35 +68,25 @@ const AboutMenu = ({ onClose, onCloseMenuPortion }: Props) => {
             type="link"
             to={aboutNdlaUrl}
             onClose={onClose}
+            active={!selected}
           />
           {Object.entries(aboutNdlaLinks).map(([key]) => (
             <DrawerMenuItem
               key={key}
               id={key}
               type="button"
-              onClick={() => setSubType(key as AboutSubType)}>
+              onClick={() => setSubType(key as AboutSubType)}
+              active={selected === key}>
               {t(`masthead.menuOptions.about.${key}`)}
             </DrawerMenuItem>
           ))}
         </DrawerList>
       </DrawerPortion>
       {subType && (
-        <DrawerPortion>
-          <DrawerList id={'about-sub-menu'}>
-            <DrawerRowHeader
-              id={'about-sub-ndla'}
-              title={t(`masthead.menuOptions.about.${subType}`)}
-              type="link"
-              to={aboutNdlaLinks[subType]}
-              onClose={() => {}}
-            />
-          </DrawerList>
-          {Object.entries(aboutNdlaLinkGroups[subType]).map(([key, url]) => (
-            <DrawerMenuItem key={key} id={key} type="link" to={url}>
-              {t(`masthead.menuOptions.about.${key}`)}
-            </DrawerMenuItem>
-          ))}
-        </DrawerPortion>
+        <AboutSubMenu
+          subType={subType}
+          onCloseSubMenuPortion={onCloseMenuPortion} // TODO: HALP
+        />
       )}
     </>
   );
