@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useContext } from 'react';
 
-const defaultValue = 'default';
+export const defaultValue = 'default';
 const VersionHashContext = createContext<string>(defaultValue);
 
 interface Props {
