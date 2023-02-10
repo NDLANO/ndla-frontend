@@ -34,6 +34,8 @@ export const routes = [
   'audio/:audioId',
   'concept/:conceptId',
   'article/:articleId',
+  'folder/:folderId',
+  'folder/:folderId/:subFolderId/:resourceId',
   'p/:articleId',
   'learningpaths/:learningpathId',
   'learningpaths/:learningpathId/:stepId',

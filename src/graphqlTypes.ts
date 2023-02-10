@@ -901,6 +901,7 @@ export type GQLQuery = {
   resourceTypes?: Maybe<Array<GQLResourceTypeDefinition>>;
   search?: Maybe<GQLSearch>;
   searchWithoutPagination?: Maybe<GQLSearchWithoutPagination>;
+  sharedFolder: GQLFolder;
   subject?: Maybe<GQLSubject>;
   subjectpage?: Maybe<GQLSubjectPage>;
   subjects?: Maybe<Array<GQLSubject>>;
@@ -966,7 +967,7 @@ export type GQLQueryCoreElementsArgs = {
 };
 
 export type GQLQueryFolderArgs = {
-  id: Scalars['Int'];
+  id: Scalars['String'];
   includeResources?: InputMaybe<Scalars['Boolean']>;
   includeSubfolders?: InputMaybe<Scalars['Boolean']>;
 };
@@ -1068,6 +1069,12 @@ export type GQLQuerySearchWithoutPaginationArgs = {
   resourceTypes?: InputMaybe<Scalars['String']>;
   sort?: InputMaybe<Scalars['String']>;
   subjects?: InputMaybe<Scalars['String']>;
+};
+
+export type GQLQuerySharedFolderArgs = {
+  id: Scalars['String'];
+  includeResources?: InputMaybe<Scalars['Boolean']>;
+  includeSubfolders?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type GQLQuerySubjectArgs = {
@@ -2411,6 +2418,17 @@ export type GQLFoldersPageQueryFragmentFragment = {
     } & GQLFolderFragmentFragment
   >;
 } & GQLFolderFragmentFragment;
+
+export type GQLSharedFolderQueryVariables = Exact<{
+  id: Scalars['String'];
+  includeSubfolders?: InputMaybe<Scalars['Boolean']>;
+  includeResources?: InputMaybe<Scalars['Boolean']>;
+}>;
+
+export type GQLSharedFolderQuery = {
+  __typename?: 'Query';
+  sharedFolder: { __typename?: 'Folder' } & GQLFoldersPageQueryFragmentFragment;
+};
 
 export type GQLFoldersPageQueryVariables = Exact<{ [key: string]: never }>;
 

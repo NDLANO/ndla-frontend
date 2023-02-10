@@ -753,7 +753,7 @@ type Query {
   coreElements(codes: [String], language: String): [CoreElement!]
   filmfrontpage: FilmFrontpage
   folder(
-    id: Int!
+    id: String!
     includeResources: Boolean
     includeSubfolders: Boolean
   ): Folder!
@@ -824,6 +824,11 @@ type Query {
     sort: String
     subjects: String
   ): SearchWithoutPagination
+  sharedFolder(
+    id: String!
+    includeResources: Boolean
+    includeSubfolders: Boolean
+  ): Folder!
   subject(id: String!): Subject
   subjectpage(id: Int!): SubjectPage
   subjects(
