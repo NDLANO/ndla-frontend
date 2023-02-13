@@ -88,8 +88,8 @@ const MastheadContainer = () => {
   const { openAlerts, closeAlert } = useAlerts();
   const location = useLocation();
   const ndlaFilm = useIsNdlaFilm();
-  const hideBreadcrumb = subjectType === 'standard' && !resourceId;
-
+  const hideBreadcrumb =
+    !subjectId || (subjectType === 'standard' && !resourceId);
   const { data: freshData, previousData } = useGraphQuery<
     GQLMastHeadQuery,
     GQLMastHeadQueryVariables

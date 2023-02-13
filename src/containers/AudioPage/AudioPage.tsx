@@ -46,8 +46,9 @@ const AudioPage = () => {
       <HelmetWithTracker
         title={`${data.audio.title.title} - ${t(
           'resourcepageTitles.audio',
-        )} - NDLA`}
-      />
+        )} - NDLA`}>
+        <meta name="robots" content="noindex" />
+      </HelmetWithTracker>
       <Audio audio={data.audio} />
     </OneColumn>
   );

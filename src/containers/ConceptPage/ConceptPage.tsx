@@ -133,8 +133,9 @@ const ConceptPage = () => {
   return (
     <OneColumn>
       <HelmetWithTracker
-        title={`${concept.title} - ${t('resourcepageTitles.concept')} - NDLA`}
-      />
+        title={`${concept.title} - ${t('resourcepageTitles.concept')} - NDLA`}>
+        <meta name="robots" content="noindex" />
+      </HelmetWithTracker>
       <h1>{`${t('resourcepageTitles.concept')}`}</h1>
       <ConceptNotion
         concept={{
