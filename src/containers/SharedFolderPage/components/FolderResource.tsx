@@ -6,7 +6,7 @@
  *
  */
 
-import SafeLink from '@ndla/safelink';
+import { SafeLinkButton } from '@ndla/safelink';
 import { useParams } from 'react-router-dom';
 import {
   GQLFolderResource,
@@ -18,13 +18,19 @@ interface Props {
   meta?: GQLFolderResourceMetaSearchQuery['folderResourceMetaSearch'][0];
   resource: GQLFolderResource;
 }
+
 const FolderResource = ({ parentId, resource, meta }: Props) => {
   const { folderId: rootFolderId } = useParams();
   return (
-    <li>
-      <SafeLink to={`/folder/${rootFolderId}/${parentId}/${resource.id}`}>
+    <li role="none" data-list-item>
+      <SafeLinkButton
+        tabIndex={-1}
+        id={`resource-${parentId}-${resource.resourceId}`}
+        role="treeitem"
+        variant="ghost"
+        to={`/folder/${rootFolderId}/${parentId}/${resource.id}`}>
         {meta?.title}
-      </SafeLink>
+      </SafeLinkButton>
     </li>
   );
 };

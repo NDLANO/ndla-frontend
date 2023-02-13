@@ -33,7 +33,7 @@ const flattenResources = (folder?: GQLFolder): GQLFolderResource[] => {
 };
 
 const SharedFolderPage = () => {
-  const { folderId = '', subfolderId, resourceId } = useParams();
+  const { folderId = '', resourceId } = useParams();
 
   const { folder, loading } = useSharedFolder({
     id: folderId,

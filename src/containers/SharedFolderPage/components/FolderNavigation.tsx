@@ -7,10 +7,12 @@
  */
 
 import { Spinner } from '@ndla/icons';
+import { useParams } from 'react-router-dom';
 import {
   GQLFolder,
   GQLFolderResourceMetaSearchQuery,
 } from '../../../graphqlTypes';
+import useArrowNavigation from '../../Masthead/drawer/useArrowNavigation';
 import Folder, { StyledUl } from './Folder';
 
 interface Props {
@@ -23,6 +25,15 @@ interface Props {
 }
 
 const FolderNavigation = ({ folder, meta, loading }: Props) => {
+  const { subfolderId, resourceId } = useParams();
+  useArrowNavigation(
+    !!(!loading && folder),
+    `resource-${resourceId}`,
+    undefined,
+    undefined,
+    true,
+  );
+
   if (loading) {
     return <Spinner />;
   }
@@ -32,8 +43,8 @@ const FolderNavigation = ({ folder, meta, loading }: Props) => {
 
   return (
     <nav>
-      <StyledUl>
-        <Folder folder={folder} meta={meta} />
+      <StyledUl role="tree" data-list>
+        <Folder folder={folder} meta={meta} defaultOpenFolder={subfolderId!} />
       </StyledUl>
     </nav>
   );
