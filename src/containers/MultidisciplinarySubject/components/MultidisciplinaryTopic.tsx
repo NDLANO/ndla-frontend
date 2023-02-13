@@ -129,7 +129,12 @@ const MultidisciplinaryTopic = ({
       isLoading={false}
       renderMarkdown={renderMarkdown}
       invertedStyle={ndlaFilm}>
-      <ArticleContents topic={topic} modifier="in-topic" showIngress={false} />
+      <ArticleContents
+        topic={topic}
+        modifier="in-topic"
+        showIngress={false}
+        subjectId={subjectId}
+      />
     </UITopic>
   );
 };

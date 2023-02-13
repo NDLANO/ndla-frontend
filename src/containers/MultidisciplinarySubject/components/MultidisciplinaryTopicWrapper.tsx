@@ -11,6 +11,7 @@ import {
   GQLMultidisciplinaryTopic_SubjectFragment,
 } from '../../../graphqlTypes';
 import DefaultErrorMessage from '../../../components/DefaultErrorMessage';
+import config from '../../../config';
 
 interface Props {
   topicId: string;
@@ -47,7 +48,11 @@ const MultidisciplinaryTopicWrapper = ({
     GQLMultidisciplinaryTopicWrapperQuery,
     GQLMultidisciplinaryTopicWrapperQueryVariables
   >(multidisciplinaryTopicWrapperQuery, {
-    variables: { topicId, subjectId },
+    variables: {
+      topicId,
+      subjectId,
+      convertEmbeds: !config.articleConverterEnabled,
+    },
   });
 
   if (loading) {

@@ -21,6 +21,7 @@ import {
 import { AuthContext } from '../../components/AuthenticationContext';
 import { TypedParams, useTypedParams } from '../../routeHelpers';
 import { SKIP_TO_CONTENT_ID } from '../../constants';
+import config from '../../config';
 
 interface MatchParams extends TypedParams {
   learningpathId: string;
@@ -44,7 +45,10 @@ const PlainLearningpathPage = () => {
     GQLPlainLearningpathPageQuery,
     GQLPlainLearningpathPageQueryVariables
   >(plainLearningpathPageQuery, {
-    variables: { pathId: learningpathId },
+    variables: {
+      pathId: learningpathId,
+      convertEmbeds: !config.articleConverterEnabled,
+    },
   });
 
   if (loading) {

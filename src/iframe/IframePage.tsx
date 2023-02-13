@@ -19,6 +19,7 @@ import {
   GQLIframePageQuery,
   GQLIframePageQueryVariables,
 } from '../graphqlTypes';
+import config from '../config';
 
 if (process.env.NODE_ENV !== 'production') {
   // Can't require in production because of multiple asses emit to the same filename..
@@ -107,6 +108,7 @@ export const IframePage = ({
       includeResource,
       includeTopic,
       showVisualElement: isTopicArticle ? 'true' : 'false',
+      convertEmbeds: !config.articleConverterEnabled,
     },
     skip: !articleId,
   });

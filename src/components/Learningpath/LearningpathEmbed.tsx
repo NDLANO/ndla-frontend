@@ -6,6 +6,7 @@
  *
  */
 
+import { useMemo } from 'react';
 import { gql } from '@apollo/client';
 import { Helmet } from 'react-helmet-async';
 import { spacing } from '@ndla/core';
@@ -25,6 +26,7 @@ import {
   GQLLearningpathEmbed_LearningpathStepFragment,
   GQLLearningpathEmbed_TopicFragment,
 } from '../../graphqlTypes';
+import config from '../../config';
 
 interface StyledIframeContainerProps {
   oembedWidth: number;
@@ -46,14 +48,29 @@ interface Props {
   topic?: GQLLearningpathEmbed_TopicFragment;
   skipToContentId?: string;
   breadcrumbItems: Breadcrumb[];
+  subjectId?: string;
 }
 const LearningpathEmbed = ({
   learningpathStep,
   skipToContentId,
   topic,
+  subjectId,
   breadcrumbItems,
 }: Props) => {
   const { i18n } = useTranslation();
+
+  const [article, scripts] = useMemo(() => {
+    if (!learningpathStep.resource?.article) return [undefined, undefined];
+    return [
+      transformArticle(learningpathStep.resource.article, i18n.language, {
+        enabled: !config.articleConverterEnabled,
+        path: `${config.ndlaFrontendDomain}/article/${learningpathStep.resource.article.id}`,
+        subject: subjectId,
+      }),
+      getArticleScripts(learningpathStep.resource.article, i18n.language),
+    ];
+  }, [learningpathStep.resource?.article, i18n.language, subjectId]);
+
   if (
     !learningpathStep ||
     (!learningpathStep.resource &&
@@ -78,17 +95,16 @@ const LearningpathEmbed = ({
     );
   }
 
+  if (!article || !scripts) {
+    return null;
+  }
+
   const learningpathStepResource = learningpathStep.resource;
 
   if (!learningpathStepResource?.article) {
     return <ErrorPage />;
   }
 
-  const article = transformArticle(
-    learningpathStepResource.article,
-    i18n.language,
-  );
-  const scripts = getArticleScripts(article, i18n.language);
   return (
     <>
       <Helmet>
@@ -116,6 +132,7 @@ const LearningpathEmbed = ({
         </script>
       </Helmet>
       <Article
+        contentTransformed={!config.articleConverterEnabled}
         isPlainArticle
         id={skipToContentId}
         article={article}

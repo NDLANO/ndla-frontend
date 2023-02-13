@@ -7,7 +7,7 @@
  */
 
 import { gql } from '@apollo/client';
-import { useRef, MouseEvent } from 'react';
+import { useRef, MouseEvent, useMemo } from 'react';
 import {
   ArticleSideBar,
   Breadcrumblist,
@@ -57,7 +57,16 @@ const MultidisciplinarySubjectArticle = ({
     scrollToRef(resourcesRef, 0);
   };
 
-  if (!topic.article) {
+  const article = useMemo(() => {
+    if (!topic.article) return undefined;
+    return transformArticle(topic.article, i18n.language, {
+      enabled: !config.articleConverterEnabled,
+      path: `${config.ndlaFrontendDomain}/article/${topic.article.id}`,
+      subject: subject.id,
+    });
+  }, [subject.id, topic.article, i18n.language]);
+
+  if (!topic.article || !article) {
     return null;
   }
 
@@ -70,8 +79,6 @@ const MultidisciplinarySubjectArticle = ({
   const subjects = topic.article?.grepCodes
     ?.filter(grepCode => grepCode.startsWith('TT'))
     .map(code => filterCodes[code]!);
-
-  const article = transformArticle(topic.article, i18n.language);
 
   return (
     <main>
@@ -87,6 +94,7 @@ const MultidisciplinarySubjectArticle = ({
       />
       <OneColumn>
         <Article
+          contentTransformed={!config.articleConverterEnabled}
           myNdlaResourceType="multidisciplinary"
           id={skipToContentId}
           article={article}

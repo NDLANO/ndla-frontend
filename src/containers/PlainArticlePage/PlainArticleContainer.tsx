@@ -7,7 +7,7 @@
  */
 
 import { gql } from '@apollo/client';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { CustomWithTranslation, withTranslation } from 'react-i18next';
 import { FeideUserApiType, OneColumn } from '@ndla/ui';
@@ -51,7 +51,13 @@ const PlainArticleContainer = ({
     }
   });
 
-  const article = transformArticle(propArticle, i18n.language);
+  const article = useMemo(() => {
+    return transformArticle(propArticle, i18n.language, {
+      enabled: !config.articleConverterEnabled,
+      path: `${config.ndlaFrontendDomain}/article/${propArticle.id}`,
+    });
+  }, [propArticle, i18n.language]);
+
   if (!article) return <NotFoundPage />;
   const scripts = getArticleScripts(article, i18n.language);
   const oembedUrl = `${config.ndlaFrontendDomain}/oembed?url=${config.ndlaFrontendDomain}/article/${article.id}`;
@@ -93,6 +99,7 @@ const PlainArticleContainer = ({
       />
       <OneColumn>
         <Article
+          contentTransformed={!config.articleConverterEnabled}
           isPlainArticle
           id={skipToContentId}
           article={article}

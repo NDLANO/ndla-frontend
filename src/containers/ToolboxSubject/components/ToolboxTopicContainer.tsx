@@ -20,6 +20,7 @@ import { useGraphQuery } from '../../../util/runQueries';
 import ToolboxTopicWrapper, {
   toolboxTopicWrapperFragments,
 } from './ToolboxTopicWrapper';
+import config from '../../../config';
 
 interface Props {
   subject: GQLToolboxTopicContainer_SubjectFragment;
@@ -60,6 +61,7 @@ export const ToolboxTopicContainer = ({
     variables: {
       subjectId: subject.id,
       topicId,
+      convertEmbeds: !config.articleConverterEnabled,
     },
   });
 

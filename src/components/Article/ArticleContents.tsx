@@ -23,17 +23,20 @@ import { useTranslation } from 'react-i18next';
 import LicenseBox from '../license/LicenseBox';
 import { transformArticle } from '../../util/transformArticle';
 import { GQLArticleContents_TopicFragment } from '../../graphqlTypes';
+import config from '../../config';
 
 interface Props {
   topic: GQLArticleContents_TopicFragment;
   modifier: 'clean' | 'in-topic';
   showIngress: boolean;
+  subjectId?: string;
 }
 
 const ArticleContents = ({
   topic,
   modifier = 'clean',
   showIngress = true,
+  subjectId,
 }: Props) => {
   const { i18n } = useTranslation();
   const markdown = useMemo(() => {
@@ -49,7 +52,11 @@ const ArticleContents = ({
 
   if (!topic.article) return null;
 
-  const article = transformArticle(topic.article, i18n.language);
+  const article = transformArticle(topic.article, i18n.language, {
+    enabled: !config.articleConverterEnabled,
+    path: `${config.ndlaFrontendDomain}/article/${topic.article.id}`,
+    subject: subjectId,
+  });
 
   return (
     <ArticleWrapper modifier={modifier} id={topic.article.id.toString()}>
@@ -63,11 +70,17 @@ const ArticleContents = ({
         </LayoutItem>
       )}
       <LayoutItem layout="extend">
-        <ArticleContent content={article.content} locale={i18n.language} />
+        {config.articleConverterEnabled ? (
+          <ArticleContent content={article.content} locale={i18n.language} />
+        ) : (
+          article.content
+        )}
       </LayoutItem>
       <LayoutItem layout="extend">
-        {article.metaData?.footnotes?.length && (
+        {article.metaData?.footnotes?.length ? (
           <ArticleFootNotes footNotes={article.metaData?.footnotes} />
+        ) : (
+          undefined
         )}
       </LayoutItem>
       <LayoutItem layout="extend">

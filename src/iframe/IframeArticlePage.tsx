@@ -6,6 +6,7 @@
  *
  */
 
+import { useMemo } from 'react';
 import { gql } from '@apollo/client';
 import { Helmet } from 'react-helmet-async';
 import { OneColumn, CreatedBy } from '@ndla/ui';
@@ -35,13 +36,21 @@ interface Props extends CustomWithTranslation {
 const IframeArticlePage = ({
   resource,
   t,
-  article: propsArticle,
+  article: propArticle,
   i18n,
   locale: propsLocale,
 }: Props) => {
   const locale = propsLocale ?? i18n.language;
-  const article = transformArticle(propsArticle, locale);
-  const scripts = getArticleScripts(article, locale);
+  const [article, scripts] = useMemo(() => {
+    return [
+      transformArticle(propArticle, locale, {
+        enabled: !config.articleConverterEnabled,
+        path: `${config.ndlaFrontendDomain}/article/${propArticle.id}`,
+        isOembed: true,
+      }),
+      getArticleScripts(propArticle, locale),
+    ];
+  }, [propArticle, locale])!;
   const contentUrl = resource?.path
     ? `${config.ndlaFrontendDomain}${resource.path}`
     : undefined;
@@ -70,6 +79,7 @@ const IframeArticlePage = ({
       <FixDialogPosition />
       <main>
         <Article
+          contentTransformed={!config.articleConverterEnabled}
           article={article}
           isPlainArticle
           isOembed

@@ -25,6 +25,7 @@ import {
 import { AuthContext } from '../../components/AuthenticationContext';
 import { TypedParams, useTypedParams } from '../../routeHelpers';
 import { SKIP_TO_CONTENT_ID } from '../../constants';
+import config from '../../config';
 
 interface MatchParams extends TypedParams {
   articleId: string;
@@ -64,6 +65,7 @@ const PlainArticlePage = () => {
       isOembed: 'false',
       path: pathname,
       showVisualElement: 'true',
+      convertEmbeds: !config.articleConverterEnabled,
     },
   });
 

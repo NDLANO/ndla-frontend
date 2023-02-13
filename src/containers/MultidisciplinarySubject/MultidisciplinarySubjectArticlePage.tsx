@@ -68,7 +68,7 @@ const MultidisciplinarySubjectArticlePage = () => {
     variables: {
       topicId: topicId!,
       subjectId: subjectId!,
-      convertEmbeds: config.articleConverterEnabled,
+      convertEmbeds: !config.articleConverterEnabled,
     },
   });
 

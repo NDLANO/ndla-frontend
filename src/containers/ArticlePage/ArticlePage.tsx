@@ -79,10 +79,11 @@ const ArticlePage = ({
       transformArticle(resource?.article, i18n.language, {
         path: `${config.ndlaFrontendDomain}/article/${resource.article?.id}`,
         enabled: !config.articleConverterEnabled,
+        subject: subject?.id,
       }),
       getArticleScripts(resource.article, i18n.language),
     ];
-  }, [resource?.article, i18n.language])!;
+  }, [subject?.id, resource?.article, i18n.language])!;
 
   useEffect(() => {
     if (window.MathJax && typeof window.MathJax.typeset === 'function') {

@@ -161,7 +161,12 @@ const Topic = ({
       renderMarkdown={renderMarkdown}
       invertedStyle={ndlaFilm}
       isAdditionalTopic={topic.relevanceId === RELEVANCE_SUPPLEMENTARY}>
-      <ArticleContents topic={topic} modifier="in-topic" showIngress={false} />
+      <ArticleContents
+        topic={topic}
+        modifier="in-topic"
+        showIngress={false}
+        subjectId={subjectId}
+      />
     </UITopic>
   );
 };

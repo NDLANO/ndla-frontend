@@ -14,11 +14,16 @@ import formatDate from './formatDate';
 interface TransformArticleProps {
   path?: string;
   enabled?: boolean;
+  isOembed?: boolean;
+  subject?: string;
 }
 
-function getContent(content: string, { path, enabled }: TransformArticleProps) {
+function getContent(
+  content: string,
+  { path, enabled, isOembed, subject }: TransformArticleProps,
+) {
   if (enabled) {
-    return transform(content, { frontendDomain: '', path });
+    return transform(content, { frontendDomain: '', path, isOembed, subject });
   }
   /**
    * We call extractCSS on the whole page server side. This removes/hoists

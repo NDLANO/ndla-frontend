@@ -6,6 +6,7 @@
  *
  */
 
+import { useMemo } from 'react';
 import { gql } from '@apollo/client';
 import { Helmet } from 'react-helmet-async';
 import { withTracker } from '@ndla/tracker';
@@ -50,8 +51,18 @@ export const IframeTopicPage = ({
   locale: localeProp,
 }: Props) => {
   const locale = localeProp ?? i18n.language;
-  const article = transformArticle(propArticle, locale);
-  const scripts = getArticleScripts(article, locale);
+
+  const [article, scripts] = useMemo(() => {
+    return [
+      transformArticle(propArticle, locale, {
+        enabled: !config.articleConverterEnabled,
+        path: `${config.ndlaFrontendDomain}/article/${propArticle.id}`,
+        isOembed: true,
+      }),
+      getArticleScripts(propArticle, locale),
+    ];
+  }, [propArticle, locale]);
+
   const contentUrl = topic?.path
     ? `${config.ndlaFrontendDomain}${topic.path}`
     : undefined;
@@ -87,6 +98,7 @@ export const IframeTopicPage = ({
       <OneColumn>
         <main>
           <Article
+            contentTransformed={!config.articleConverterEnabled}
             isTopicArticle
             article={article}
             label={t('topicPage.topic')}

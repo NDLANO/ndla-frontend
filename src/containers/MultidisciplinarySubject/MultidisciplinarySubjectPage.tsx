@@ -30,10 +30,7 @@ import { htmlTitle } from '../../util/titleHelper';
 import { SKIP_TO_CONTENT_ID } from '../../constants';
 
 const multidisciplinarySubjectPageQuery = gql`
-  query multidisciplinarySubjectPage(
-    $subjectId: String!
-    $convertEmbeds: Boolean
-  ) {
+  query multidisciplinarySubjectPage($subjectId: String!) {
     subject(id: $subjectId) {
       subjectpage {
         about {
