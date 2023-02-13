@@ -6,16 +6,13 @@
  *
  */
 
-import { transform } from '@ndla/article-converter';
+import { transform, TransformOptions } from '@ndla/article-converter';
 import { GQLArticle } from '../graphqlTypes';
 import { LocaleType } from '../interfaces';
 import formatDate from './formatDate';
 
-interface TransformArticleProps {
-  path?: string;
+interface TransformArticleProps extends TransformOptions {
   enabled?: boolean;
-  isOembed?: boolean;
-  subject?: string;
 }
 
 function getContent(
