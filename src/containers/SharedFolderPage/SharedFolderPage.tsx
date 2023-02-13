@@ -22,7 +22,6 @@ const Layout = styled.div`
   grid-template-columns: 400px 1fr;
 `;
 
-// Util
 const flattenResources = (folder?: GQLFolder): GQLFolderResource[] => {
   if (!folder) {
     return [];

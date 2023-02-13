@@ -28,7 +28,7 @@ const useArrowNavigation = (
   initialFocused?: string,
   onRightKeyPressed?: (id: string | undefined, e: KeyboardEvent) => void,
   onLeftKeyPressed?: (id: string | undefined, e: KeyboardEvent) => void,
-  cronological?: boolean,
+  multilevel?: boolean,
 ) => {
   const [focused, setFocused] = useState<string | undefined>(undefined);
   const arrowHandler = useCallback(
@@ -38,6 +38,7 @@ const useArrowNavigation = (
       if (!active || !activeElement || !listElement) {
         return;
       }
+
       if (e.key === 'ArrowDown') {
         e.preventDefault();
         activeElement.setAttribute('tabindex', '-1');
@@ -46,7 +47,8 @@ const useArrowNavigation = (
         const resourceGroup = activeElement?.closest(
           '[data-resource-group="true"]',
         );
-        const element = cronological
+
+        const element = multilevel
           ? getItem(activeElement, +1)
           : (
               listItem?.nextElementSibling ?? resourceGroup?.nextElementSibling
@@ -68,7 +70,7 @@ const useArrowNavigation = (
           .closest('[data-list-item="true"')
           ?.previousElementSibling?.querySelector(ITEM_SELECTOR);
 
-        const element = cronological ? getItem(activeElement, -1) : listItem;
+        const element = multilevel ? getItem(activeElement, -1) : listItem;
 
         if (element?.id) {
           setFocused(element.id);
@@ -103,7 +105,7 @@ const useArrowNavigation = (
         }
       }
     },
-    [onLeftKeyPressed, onRightKeyPressed, active, cronological],
+    [onLeftKeyPressed, onRightKeyPressed, active, multilevel],
   );
 
   useEffect(() => {

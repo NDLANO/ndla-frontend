@@ -20,12 +20,16 @@ interface Props {
 }
 
 const FolderResource = ({ parentId, resource, meta }: Props) => {
-  const { folderId: rootFolderId } = useParams();
+  const { folderId: rootFolderId, subfolderId, resourceId } = useParams();
+
+  const isCurrent = resource.id === resourceId && parentId === subfolderId;
+
   return (
     <li role="none" data-list-item>
       <SafeLinkButton
+        aria-current={isCurrent ? 'page' : undefined}
         tabIndex={-1}
-        id={`resource-${parentId}-${resource.resourceId}`}
+        id={`resource-${parentId}-${resource.id}`}
         role="treeitem"
         variant="ghost"
         to={`/folder/${rootFolderId}/${parentId}/${resource.id}`}>

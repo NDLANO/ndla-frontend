@@ -26,9 +26,10 @@ interface Props {
 
 const FolderNavigation = ({ folder, meta, loading }: Props) => {
   const { subfolderId, resourceId } = useParams();
+
   useArrowNavigation(
     !!(!loading && folder),
-    `resource-${resourceId}`,
+    `resource-${subfolderId}-${resourceId}`,
     undefined,
     undefined,
     true,

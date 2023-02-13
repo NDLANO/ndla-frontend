@@ -10,7 +10,7 @@ import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
 import { ArrowDropDown } from '@ndla/icons/common';
-import { useMemo, useState } from 'react';
+import { KeyboardEvent, useMemo, useState } from 'react';
 import {
   GQLFolder,
   GQLFolderResourceMetaSearchQuery,
@@ -59,17 +59,32 @@ const Folder = ({ folder, meta, defaultOpenFolder }: Props) => {
     return null;
   }
 
+  const handleKeydown = (e: KeyboardEvent<HTMLButtonElement>) => {
+    if (e.key === 'ArrowLeft') {
+      setIsOpen(false);
+    } else if (e.key === 'ArrowRight') {
+      setIsOpen(true);
+    }
+  };
+
   return (
     <li role="none" data-list-item>
       <ButtonV2
+        aria-owns={`folder-sublist-${folder.id}`}
+        aria-expanded={isOpen}
         id={`folder-${folder.id}`}
+        tabIndex={-1}
         variant="ghost"
         role="treeitem"
+        onKeyDown={handleKeydown}
         onClick={() => setIsOpen(!isOpen)}>
         <ArrowDropDown /> {name}
       </ButtonV2>
       {isOpen && (
-        <StyledUl role="group" data-list>
+        <StyledUl
+          role="group"
+          data-list
+          aria-owns={`folder-sublist-${folder.id}`}>
           {subfolders.map(subfolder => (
             <Folder
               defaultOpenFolder={defaultOpenFolder}
