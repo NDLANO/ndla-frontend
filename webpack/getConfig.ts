@@ -10,9 +10,11 @@
 const getConfig = (env = 'production') => {
   if (env === 'development' || env === 'dev') {
     process.env.NODE_ENV = 'development';
+    process.env.BABEL_ENV = 'development';
     return [require('./client.dev').default, require('./server.dev').default];
   }
   process.env.NODE_ENV = 'production';
+  process.env.BABEL_ENV = 'prduction';
   return [require('./client.prod').default, require('./server.prod').default];
 };
 
