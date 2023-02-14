@@ -7,7 +7,7 @@
  */
 
 import styled from '@emotion/styled';
-import { colors } from '@ndla/core';
+import { colors, spacing } from '@ndla/core';
 import { SafeLinkButton } from '@ndla/safelink';
 import { ContentTypeBadge } from '@ndla/ui';
 import { useParams } from 'react-router-dom';
@@ -22,7 +22,8 @@ interface StyledProps {
 }
 
 const StyledSafelinkButton = styled(SafeLinkButton)<StyledProps>`
-  align-items: center;
+  text-align: left;
+  align-items: flex-start;
   color: ${({ current }) => (current ? colors.white : colors.black)};
 `;
 

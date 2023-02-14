@@ -7,7 +7,11 @@
  */
 
 import styled from '@emotion/styled';
+import { colors, misc, spacing } from '@ndla/core';
+import { Spinner } from '@ndla/icons';
+import { HumanMaleBoard } from '@ndla/icons/common';
 import keyBy from 'lodash/keyBy';
+import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { GQLFolder, GQLFolderResource } from '../../graphqlTypes';
 import {
@@ -22,6 +26,27 @@ const Layout = styled.div`
   grid-template-columns: 400px 1fr;
 `;
 
+const Sidebar = styled.section`
+  padding: ${spacing.normal};
+`;
+
+const InfoBox = styled.article`
+  display: grid;
+  grid-template-columns: auto 1fr;
+  svg {
+    width: 20px;
+    height: 20px;
+    margin-top: ${spacing.xsmall};
+  }
+  gap: ${spacing.normal};
+  margin-left: ${spacing.normal};
+  padding: ${spacing.small} ${spacing.normal};
+  background: ${colors.brand.greyLightest};
+  border: 1px solid ${colors.brand.neutral7};
+  gap: ${spacing.small};
+  border-radius: ${misc.borderRadius};
+`;
+
 const flattenResources = (folder?: GQLFolder): GQLFolderResource[] => {
   if (!folder) {
     return [];
@@ -33,6 +58,7 @@ const flattenResources = (folder?: GQLFolder): GQLFolderResource[] => {
 
 const SharedFolderPage = () => {
   const { folderId = '', resourceId } = useParams();
+  const { t } = useTranslation();
 
   const { folder, loading } = useSharedFolder({
     id: folderId,
@@ -60,11 +86,14 @@ const SharedFolderPage = () => {
 
   return (
     <Layout>
-      <div>
-        INFO
+      <Sidebar>
+        <InfoBox>
+          <HumanMaleBoard />
+          <span>{t('myNdla.sharedFolder.info')}</span>
+        </InfoBox>
         <FolderNavigation folder={folder} meta={keyedData} loading={loading} />
-      </div>
-      <div>
+      </Sidebar>
+      <section>
         {selectedResource ? (
           <Resource
             resource={selectedResource}
@@ -75,9 +104,9 @@ const SharedFolderPage = () => {
             }
           />
         ) : (
-          <div>qwe</div>
+          <Spinner />
         )}
-      </div>
+      </section>
     </Layout>
   );
 };
