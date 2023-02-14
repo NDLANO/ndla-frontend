@@ -14,7 +14,7 @@ const getConfig = (env = 'production') => {
     return [require('./client.dev').default, require('./server.dev').default];
   }
   process.env.NODE_ENV = 'production';
-  process.env.BABEL_ENV = 'prduction';
+  process.env.BABEL_ENV = 'production';
   return [require('./client.prod').default, require('./server.prod').default];
 };
 
