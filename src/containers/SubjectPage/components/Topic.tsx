@@ -14,10 +14,8 @@ import {
   TFunction,
   withTranslation,
 } from 'react-i18next';
-import { FeideUserApiType, Topic as UITopic } from '@ndla/ui';
-import { TopicProps } from '@ndla/ui';
+import { TopicProps, FeideUserApiType, Topic as UITopic } from '@ndla/ui';
 import { withTracker } from '@ndla/tracker';
-import config from '../../../config';
 import {
   RELEVANCE_SUPPLEMENTARY,
   SKIP_TO_CONTENT_ID,
@@ -32,7 +30,6 @@ import {
   getFocalPoint,
   getImageWithoutCrop,
 } from '../../../util/imageHelpers';
-import { getSubjectLongName } from '../../../data/subjects';
 import {
   GQLTopic_ResourceTypeDefinitionFragment,
   GQLTopic_SubjectFragment,
@@ -123,7 +120,12 @@ const Topic = ({
           }
         : undefined,
       resources: topic.subtopics ? (
-        <Resources topic={topic} resourceTypes={resourceTypes} />
+        <Resources
+          topic={topic}
+          resourceTypes={resourceTypes}
+          headingType="h3"
+          subHeadingType="h4"
+        />
       ) : (
         undefined
       ),
@@ -145,7 +147,6 @@ const Topic = ({
       isAdditionalResource: subtopic.relevanceId === RELEVANCE_SUPPLEMENTARY,
     };
   });
-  const copyPageUrlLink = config.ndlaFrontendDomain + topic.path;
 
   return (
     <UITopic
@@ -160,12 +161,7 @@ const Topic = ({
       renderMarkdown={renderMarkdown}
       invertedStyle={ndlaFilm}
       isAdditionalTopic={topic.relevanceId === RELEVANCE_SUPPLEMENTARY}>
-      <ArticleContents
-        topic={topic}
-        copyPageUrlLink={copyPageUrlLink}
-        modifier="in-topic"
-        showIngress={false}
-      />
+      <ArticleContents topic={topic} modifier="in-topic" showIngress={false} />
     </UITopic>
   );
 };
@@ -182,7 +178,7 @@ Topic.willTrackPageView = (
   }
 };
 
-Topic.getDimensions = ({ topic, i18n, subject, user }: Props) => {
+Topic.getDimensions = ({ topic, subject, user }: Props) => {
   const topicPath = topic?.path
     ?.split('/')
     .slice(2)
@@ -190,14 +186,12 @@ Topic.getDimensions = ({ topic, i18n, subject, user }: Props) => {
       subject?.allTopics?.find(topic => topic.id.replace('urn:', '') === t),
     );
 
-  const longName = getSubjectLongName(subject?.id, i18n.language);
-
   return getAllDimensions(
     {
       subject: subject,
       topicPath,
       article: topic.article,
-      filter: longName,
+      filter: subject?.name,
       user,
     },
     undefined,

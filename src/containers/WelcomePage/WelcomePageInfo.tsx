@@ -13,6 +13,7 @@ import { WithTranslation, withTranslation } from 'react-i18next';
 const WelcomePageInfo = ({ t }: WithTranslation) => (
   <FrontpageInfo>
     <InfoWidget
+      headingLevel="h2"
       heading={t('newsLetter.heading')}
       description={t('newsLetter.description')}
       mainLink={{
@@ -28,6 +29,7 @@ const WelcomePageInfo = ({ t }: WithTranslation) => (
       ]}
     />
     <InfoWidget
+      headingLevel="h2"
       heading={t('welcomePage.socialMedia.heading')}
       description={t('welcomePage.socialMedia.description')}
       mainLink={{

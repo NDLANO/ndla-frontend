@@ -6,16 +6,18 @@
  *
  */
 
-import { isEqual } from 'lodash';
+import isEqual from 'lodash/isEqual';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { AddButton } from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { breakpoints, mq, spacing } from '@ndla/core';
 import { useSnack } from '@ndla/ui';
-import { useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { HelmetWithTracker } from '@ndla/tracker';
+import { FileDocumentOutline } from '@ndla/icons/common';
+import { Plus } from '@ndla/icons/action';
 import { GQLFolder, GQLFoldersPageQuery } from '../../../graphqlTypes';
 import { useGraphQuery } from '../../../util/runQueries';
 import ListViewOptions from './ListViewOptions';
@@ -30,8 +32,11 @@ import ResourceList from './ResourceList';
 import DeleteModal from '../components/DeleteModal';
 import { STORED_RESOURCE_VIEW_SETTINGS } from '../../../constants';
 import FoldersPageTitle from './FoldersPageTitle';
-import FolderAndResourceCount from './FolderAndResourceCount';
+import FolderAndResourceCount, {
+  ResourceCountContainer,
+} from './FolderAndResourceCount';
 import FolderList from './FolderList';
+import { AuthContext } from '../../../components/AuthenticationContext';
 
 interface BlockWrapperProps {
   type?: string;
@@ -48,6 +53,7 @@ export const BlockWrapper = styled.ul<BlockWrapperProps>`
   flex-direction: column;
   gap: ${spacing.xsmall};
   margin: 0;
+  margin-bottom: ${spacing.medium};
   padding: 0;
   ${props =>
     props.type === 'block' &&
@@ -65,6 +71,11 @@ export const BlockWrapper = styled.ul<BlockWrapperProps>`
     `};
 `;
 
+const StyledPlus = styled(Plus)`
+  width: 22px;
+  height: 22px;
+`;
+
 export const ListItem = styled.li`
   overflow: hidden;
   list-style: none;
@@ -72,10 +83,10 @@ export const ListItem = styled.li`
 `;
 
 const StyledRow = styled.div`
-  margin-top: ${spacing.nsmall};
+  margin: ${spacing.small} 0;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
 `;
 
 export type ViewType = 'list' | 'block' | 'listLarger';
@@ -95,6 +106,7 @@ const FoldersPage = () => {
   );
   const navigate = useNavigate();
   const { addSnack } = useSnack();
+  const { examLock } = useContext(AuthContext);
   const [folderAction, setFolderAction] = useState<FolderAction | undefined>(
     undefined,
   );
@@ -194,7 +206,8 @@ const FoldersPage = () => {
     localStorage.setItem(STORED_RESOURCE_VIEW_SETTINGS, type);
   };
 
-  const showAddButton = (selectedFolder?.breadcrumbs.length || 0) < 5;
+  const showAddButton =
+    (selectedFolder?.breadcrumbs.length || 0) < 5 && !examLock;
 
   return (
     <FoldersPageContainer>
@@ -220,13 +233,15 @@ const FoldersPage = () => {
       />
       <StyledRow>
         {showAddButton && (
-          <AddButton
+          <ButtonV2
             disabled={isAdding}
-            size="xsmall"
+            shape="pill"
+            colorTheme="lighter"
             aria-label={t('myNdla.newFolder')}
             onClick={() => setIsAdding(prev => !prev)}>
+            <StyledPlus />
             <span>{t('myNdla.newFolder')}</span>
-          </AddButton>
+          </ButtonV2>
         )}
         <ListViewOptions type={viewType} onTypeChange={setViewType} />
       </StyledRow>
@@ -240,6 +255,16 @@ const FoldersPage = () => {
         folderId={folderId}
         setFolderAction={setFolderAction}
       />
+      {!!selectedFolder?.resources.length && (
+        <ResourceCountContainer>
+          <FileDocumentOutline />
+          <span>
+            {t('myNdla.resources', {
+              count: selectedFolder?.resources.length,
+            })}
+          </span>
+        </ResourceCountContainer>
+      )}
       {selectedFolder && (
         <ResourceList
           selectedFolder={selectedFolder}

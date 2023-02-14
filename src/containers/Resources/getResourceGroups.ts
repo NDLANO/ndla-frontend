@@ -22,8 +22,8 @@ export const sortOrder: Record<string, number> = {
 };
 
 export const groupResourcesByResourceTypes = (
-  supplementaryResources: GQLResourceInfoFragment[],
-  coreResources: GQLResourceInfoFragment[],
+  supplementaryResources: Omit<GQLResourceInfoFragment, 'paths'>[],
+  coreResources: Omit<GQLResourceInfoFragment, 'paths'>[],
 ) => {
   const resources = [
     ...coreResources,
@@ -61,8 +61,8 @@ export const sortResourceTypes = (resourceTypes: SharedResourceType[]) =>
 
 export const getResourceGroups = (
   resourceTypes: SharedResourceType[],
-  supplementaryResources: GQLResourceInfoFragment[],
-  coreResouces: GQLResourceInfoFragment[],
+  supplementaryResources: Omit<GQLResourceInfoFragment, 'paths'>[],
+  coreResouces: Omit<GQLResourceInfoFragment, 'paths'>[],
 ): GQLResourceType[] => {
   const groupedResources = groupResourcesByResourceTypes(
     supplementaryResources,

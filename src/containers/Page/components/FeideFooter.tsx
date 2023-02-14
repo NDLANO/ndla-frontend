@@ -50,6 +50,16 @@ const StyledFeideFooter = styled.div`
   }
 `;
 
+const StyledFeideIcon = styled(FeideText)`
+  width: 82px;
+  height: 28px;
+`;
+
+const StyledLogIn = styled(LogIn)`
+  width: 24px;
+  height: 24px;
+`;
+
 const FeideFooter = () => {
   const { t } = useTranslation();
   const inRouterContext = useInRouterContext();
@@ -58,10 +68,7 @@ const FeideFooter = () => {
 
   return (
     <StyledFeideFooter>
-      <h2>
-        <FeideText />
-      </h2>
-
+      <StyledFeideIcon />
       <div>
         {inRouterContext && (
           <FeideLoginButton footer>
@@ -74,7 +81,7 @@ const FeideFooter = () => {
               </span>
             ) : (
               <span>
-                {t('user.buttonLogIn')} <LogIn className="c-icon--medium" />
+                {t('user.buttonLogIn')} <StyledLogIn />
               </span>
             )}
           </FeideLoginButton>

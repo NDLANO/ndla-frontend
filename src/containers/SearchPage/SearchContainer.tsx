@@ -20,10 +20,13 @@ import { useTranslation } from 'react-i18next';
 import SearchHeader from './components/SearchHeader';
 import SearchResults, { ViewType } from './components/SearchResults';
 import { SearchGroup, sortResourceTypes, TypeFilter } from './searchHelpers';
-import { GQLConceptSearchConceptFragment } from '../../graphqlTypes';
+import {
+  GQLConceptSearchConceptFragment,
+  GQLSubjectInfoFragment,
+} from '../../graphqlTypes';
 import { SearchCompetenceGoal, SubjectItem } from './SearchInnerPage';
 import { LocaleType } from '../../interfaces';
-import { getLocaleUrls } from '../../util/localeHelpers';
+import { supportedLanguages } from '../../i18n';
 
 const StyledLanguageSelector = styled.div`
   width: 100%;
@@ -39,9 +42,10 @@ interface Props {
   handleFilterReset: () => void;
   handleShowMore: (type: string) => void;
   query?: string;
-  subjects: string[];
+  subjectIds: string[];
+  subjects?: GQLSubjectInfoFragment[];
   competenceGoals: SearchCompetenceGoal[];
-  subjectItems: SubjectItem[];
+  subjectItems?: SubjectItem[];
   concepts?: GQLConceptSearchConceptFragment[];
   suggestion?: string;
   typeFilter: Record<string, TypeFilter>;
@@ -60,8 +64,9 @@ const SearchContainer = ({
   handleFilterReset,
   handleShowMore,
   query,
-  subjects,
+  subjectIds,
   subjectItems,
+  subjects,
   concepts,
   suggestion,
   typeFilter,
@@ -92,12 +97,13 @@ const SearchContainer = ({
   const sortedSearchGroups = sortResourceTypes(searchGroups, 'type');
 
   return (
-    <>
+    <main>
       <SearchHeader
         query={query}
         suggestion={suggestion}
-        subjects={subjects}
+        subjectIds={subjectIds}
         handleSearchParamsChange={handleSearchParamsChange}
+        subjects={subjects}
         noResults={sortedFilterButtonItems.length === 0}
         locale={locale}
         competenceGoals={competenceGoals}
@@ -110,6 +116,7 @@ const SearchContainer = ({
           }}>
           {concepts.map(concept => (
             <ConceptNotion
+              key={concept.id}
               concept={{
                 ...concept,
                 image: concept.image
@@ -123,7 +130,9 @@ const SearchContainer = ({
           ))}
         </SearchNotionsResult>
       )}
-      {subjectItems.length > 0 && <SearchSubjectResult items={subjectItems} />}
+      {subjectItems && subjectItems?.length > 0 && (
+        <SearchSubjectResult items={subjectItems} />
+      )}
       {searchGroups && searchGroups.length > 0 && (
         <>
           {sortedFilterButtonItems.length > 1 && (
@@ -147,17 +156,14 @@ const SearchContainer = ({
           {isLti && (
             <StyledLanguageSelector>
               <LanguageSelector
-                center
-                outline
-                alwaysVisible
-                options={getLocaleUrls(i18n.language, window.location)}
-                currentLanguage={i18n.language}
+                locales={supportedLanguages}
+                onSelect={i18n.changeLanguage}
               />
             </StyledLanguageSelector>
           )}
         </>
       )}
-    </>
+    </main>
   );
 };
 

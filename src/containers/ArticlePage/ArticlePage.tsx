@@ -37,7 +37,6 @@ import {
 import { RedirectExternal, Status } from '../../components';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { toBreadcrumbItems } from '../../routeHelpers';
-import { getSubjectLongName } from '../../data/subjects';
 import config from '../../config';
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from '../../constants';
 import {
@@ -106,7 +105,14 @@ const ArticlePage = ({
         <ArticleErrorMessage
           //@ts-ignore
           status={error?.status}>
-          {topic && <Resources topic={topic} resourceTypes={resourceTypes} />}
+          {topic && (
+            <Resources
+              topic={topic}
+              resourceTypes={resourceTypes}
+              headingType="h2"
+              subHeadingType="h3"
+            />
+          )}
         </ArticleErrorMessage>
       </div>
     );
@@ -122,14 +128,14 @@ const ArticlePage = ({
     : undefined;
   const printUrl = `${subjectPageUrl}/article-iframe/${i18n.language}/article/${resource.article.id}`;
 
-  const breadcrumbItems = toBreadcrumbItems(
-    t('breadcrumb.toFrontpage'),
-    [subject, ...topicPath, resource],
-    i18n.language,
-  );
+  const breadcrumbItems = toBreadcrumbItems(t('breadcrumb.toFrontpage'), [
+    subject,
+    ...topicPath,
+    resource,
+  ]);
 
   return (
-    <div>
+    <main>
       <ArticleHero
         subject={subject}
         resourceType={resourceType}
@@ -163,14 +169,16 @@ const ArticlePage = ({
 
         <script type="application/ld+json">
           {JSON.stringify(
-            getStructuredDataFromArticle(resource.article, breadcrumbItems),
+            getStructuredDataFromArticle(
+              resource.article,
+              i18n.language,
+              breadcrumbItems,
+            ),
           )}
         </script>
       </Helmet>
       <SocialMediaMetadata
-        title={htmlTitle(article.title, [
-          subject?.subjectpage?.about?.title || subject?.name,
-        ])}
+        title={htmlTitle(article.title, [subject?.name])}
         trackableContent={article}
         description={article.metaDescription}
         imageUrl={article.metaImage?.url}
@@ -182,7 +190,6 @@ const ArticlePage = ({
           article={article}
           resourceType={contentType}
           isResourceArticle
-          copyPageUrlLink={copyPageUrlLink}
           printUrl={printUrl}
           subjectId={subject?.id}
           showFavoriteButton={config.feideEnabled}
@@ -190,11 +197,16 @@ const ArticlePage = ({
         />
         {topic && (
           <LayoutItem layout="extend">
-            <Resources topic={topic} resourceTypes={resourceTypes} />
+            <Resources
+              topic={topic}
+              resourceTypes={resourceTypes}
+              headingType="h2"
+              subHeadingType="h3"
+            />
           </LayoutItem>
         )}
       </OneColumn>
-    </div>
+    </main>
   );
 };
 
@@ -212,10 +224,9 @@ ArticlePage.getDimensions = (props: Props) => {
   const articleProps = getArticleProps(props.resource);
   const { subject, topicPath, relevance, user } = props;
   const article = props.resource?.article;
-  const longName = getSubjectLongName(subject?.id, props.i18n.language);
 
   return getAllDimensions(
-    { article, relevance, subject, topicPath, filter: longName, user },
+    { article, relevance, subject, topicPath, filter: subject?.name, user },
     articleProps.label,
     true,
   );

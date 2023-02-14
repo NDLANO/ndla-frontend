@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
+import { ModalHeader, ModalBody, ModalCloseButton, ModalV2 } from '@ndla/modal';
 import { useTranslation } from 'react-i18next';
 
 const MarginLeftParagraph = styled('p')`
@@ -21,12 +21,7 @@ const LtiEmbedCode = ({ onClose, code, isOpen }: Props) => {
     return null;
   }
   return (
-    <Modal
-      controllable
-      isOpen={isOpen}
-      size="medium"
-      backgroundColor="white"
-      onClose={onClose}>
+    <ModalV2 controlled isOpen={isOpen} size="normal" onClose={onClose}>
       {onCloseModal => (
         <>
           <ModalHeader>
@@ -43,7 +38,7 @@ const LtiEmbedCode = ({ onClose, code, isOpen }: Props) => {
           </ModalBody>
         </>
       )}
-    </Modal>
+    </ModalV2>
   );
 };
 

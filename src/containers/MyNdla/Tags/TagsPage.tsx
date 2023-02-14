@@ -6,8 +6,8 @@
  *
  */
 
-import { useEffect, useMemo, useState } from 'react';
-import { keyBy } from 'lodash';
+import { useContext, useEffect, useMemo, useState } from 'react';
+import keyBy from 'lodash/keyBy';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
@@ -32,6 +32,7 @@ import MyNdlaTitle from '../components/MyNdlaTitle';
 import TitleWrapper from '../components/TitleWrapper';
 import { usePrevious } from '../../../util/utilityHooks';
 import { STORED_RESOURCE_VIEW_SETTINGS } from '../../../constants';
+import { AuthContext } from '../../../components/AuthenticationContext';
 
 const StyledUl = styled.ul`
   padding: 0px;
@@ -116,6 +117,7 @@ const Resources = ({ resources }: ResourcesProps) => {
     (localStorage.getItem(STORED_RESOURCE_VIEW_SETTINGS) as ViewType) || 'list',
   );
   const { addSnack } = useSnack();
+  const { examLock } = useContext(AuthContext);
   const [resourceAction, setResourceAction] = useState<
     ResourceAction | undefined
   >(undefined);
@@ -167,26 +169,31 @@ const Resources = ({ resources }: ResourcesProps) => {
                 src: meta?.metaImage?.url ?? '',
                 alt: '',
               }}
-              menuItems={[
-                {
-                  icon: <FolderOutlined />,
-                  text: t('myNdla.resource.add'),
-                  onClick: () => setResourceAction({ action: 'add', resource }),
-                },
-                {
-                  icon: <Link />,
-                  text: t('myNdla.resource.copyLink'),
-                  onClick: () => {
-                    copyTextToClipboard(
-                      `${config.ndlaFrontendDomain}${resource.path}`,
-                    );
-                    addSnack({
-                      content: t('myNdla.resource.linkCopied'),
-                      id: 'linkCopied',
-                    });
-                  },
-                },
-              ]}
+              menuItems={
+                !examLock
+                  ? [
+                      {
+                        icon: <FolderOutlined />,
+                        text: t('myNdla.resource.add'),
+                        onClick: () =>
+                          setResourceAction({ action: 'add', resource }),
+                      },
+                      {
+                        icon: <Link />,
+                        text: t('myNdla.resource.copyLink'),
+                        onClick: () => {
+                          copyTextToClipboard(
+                            `${config.ndlaFrontendDomain}${resource.path}`,
+                          );
+                          addSnack({
+                            content: t('myNdla.resource.linkCopied'),
+                            id: 'linkCopied',
+                          });
+                        },
+                      },
+                    ]
+                  : undefined
+              }
             />
           );
         })}
@@ -221,8 +228,8 @@ const Tags = ({ tags }: TagsProps) => {
           {tags.map(tag => (
             <li key={tag}>
               <StyledSafeLinkButton
-                greyLighter
-                borderShape="rounded"
+                colorTheme="greyLighter"
+                shape="pill"
                 key={tag}
                 to={encodeURIComponent(tag)}>
                 <HashTag />

@@ -158,7 +158,7 @@ const MultidisciplinarySubjectPage = () => {
     .find(t => selectedTopics.includes(t.id));
 
   const selectedTitle = selectedMetadata?.name || selectedMetadata?.meta?.title;
-  const subjectTitle = subject.subjectpage?.about?.title || subject.name;
+  const subjectTitle = subject.name;
   const hasSelectedTitle = !!selectedTitle;
   const title = htmlTitle(hasSelectedTitle ? selectedTitle : subjectTitle, [
     hasSelectedTitle ? subjectTitle : undefined,
@@ -187,14 +187,16 @@ const MultidisciplinarySubjectPage = () => {
         description={socialMediaMetaData.description}
         imageUrl={socialMediaMetaData.image?.url}
       />
-      <MultidisciplinarySubject
-        id={selectedTopics.length === 0 ? SKIP_TO_CONTENT_ID : undefined}
-        hideCards={isNotLastTopic}
-        cards={cards}
-        totalCardCount={cards.length}>
-        <NavigationBox items={mainTopics} listDirection="horizontal" />
-        <TopicBoxes />
-      </MultidisciplinarySubject>
+      <main>
+        <MultidisciplinarySubject
+          id={selectedTopics.length === 0 ? SKIP_TO_CONTENT_ID : undefined}
+          hideCards={isNotLastTopic}
+          cards={cards}
+          totalCardCount={cards.length}>
+          <NavigationBox items={mainTopics} listDirection="horizontal" />
+          <TopicBoxes />
+        </MultidisciplinarySubject>
+      </main>
     </>
   );
 };

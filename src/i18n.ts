@@ -14,8 +14,8 @@ import se from './messages/messagesSE';
 import { getDefaultLocale } from './config';
 import { LocaleType } from './interfaces';
 
-export const supportedLanguages = ['nb', 'nn', 'en', 'se'];
-export const preferredLanguages = ['nb', 'nn', 'en', 'se'];
+export const supportedLanguages: LocaleType[] = ['nb', 'nn', 'en', 'se'];
+export const preferredLanguages: LocaleType[] = ['nb', 'nn', 'en', 'se'];
 
 type LocaleObject = {
   name: string;

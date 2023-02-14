@@ -11,15 +11,27 @@ import {
   mapSearchToFrontPageStructure,
 } from '../searchHelpers';
 
+const subjects = [
+  {
+    id: 'urn:subject:1',
+    name: 'Fag (Vg2)',
+    metadata: {
+      customFields: {
+        subjectCategory: 'active',
+      },
+    },
+  },
+];
+
 test('search subjects', () => {
   // can fail if subjects.js is updated
-  const searchResult = searchSubjects('(Vg2)');
-  expect(searchResult.length).toBe(1);
+  const searchResult = searchSubjects('(Vg2)', subjects);
+  expect(searchResult?.length).toBe(1);
 });
 
 test('search subjects with one character', () => {
-  const searchResult = searchSubjects('1');
-  expect(searchResult.length).toBe(0);
+  const searchResult = searchSubjects('1', subjects);
+  expect(searchResult?.length).toBe(0);
 });
 
 test('map function', () => {

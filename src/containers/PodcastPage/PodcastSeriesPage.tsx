@@ -14,7 +14,7 @@ import { useTranslation } from 'react-i18next';
 import { gql, useQuery } from '@apollo/client';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
-import Podcast from './Podcast';
+import Audio from './Audio';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import {
@@ -210,7 +210,7 @@ const PodcastSeriesPage = () => {
             <>
               <h2>{t('podcastPage.episodes')}</h2>
               {podcastSeries.episodes.map(episode => (
-                <Podcast podcast={episode} seriesId={id} />
+                <Audio key={episode.id} audio={episode} seriesId={id} />
               ))}
             </>
           ) : (
@@ -222,7 +222,7 @@ const PodcastSeriesPage = () => {
   );
 };
 const podcastSeriesPageQuery = gql`
-  ${Podcast.fragments.podcast}
+  ${Audio.fragments.audio}
   query podcastSeriesPage($id: Int!) {
     podcastSeries(id: $id) {
       id

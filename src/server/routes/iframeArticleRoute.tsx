@@ -10,7 +10,7 @@ import url from 'url';
 import { Request } from 'express';
 import { i18nInstance } from '@ndla/ui';
 import { I18nextProvider } from 'react-i18next';
-import { HelmetProvider } from 'react-helmet-async';
+import { FilledContext, HelmetProvider } from 'react-helmet-async';
 import { StaticRouter } from 'react-router-dom/server.js';
 import { ApolloProvider } from '@apollo/client';
 import { CacheProvider } from '@emotion/react';
@@ -30,10 +30,10 @@ const assets =
   process.env.NODE_ENV !== 'unittest' && process.env.RAZZLE_ASSETS_MANIFEST
     ? require(process.env.RAZZLE_ASSETS_MANIFEST) //eslint-disable-line
     : {
-        client: { css: 'mock.css' },
-        embed: { js: 'mock.js' },
-        polyfill: { js: 'mock.js' },
-        mathJaxConfig: { js: 'mock.js' },
+        'client.css': 'mock.css',
+        'embed.js': 'mock.js',
+        'polyfill.js': 'mock.js',
+        'mathJaxConfig.js': 'mock.js',
       };
 
 if (process.env.NODE_ENV === 'unittest') {
@@ -41,10 +41,10 @@ if (process.env.NODE_ENV === 'unittest') {
 }
 
 const getAssets = () => ({
-  css: assets.client.css,
-  js: [{ src: assets.embed.js }],
-  polyfill: { src: assets.polyfill.js },
-  mathJaxConfig: { js: assets.mathJaxConfig.js },
+  css: assets['client.css'],
+  js: [{ src: assets['embed.js'] }],
+  polyfill: { src: assets['polyfill.js'] },
+  mathJaxConfig: { js: assets['mathJaxConfig.js'] },
 });
 
 const disableSSR = (req: Request) => {
@@ -60,7 +60,8 @@ async function doRenderPage(req: Request, initialProps: InitialProps) {
 
   const client = createApolloClient(initialProps.locale);
 
-  const helmetContext = {};
+  //@ts-ignore
+  const helmetContext: FilledContext = {};
   const cache = createCache({ key: EmotionCacheKey });
 
   const i18n = initializeI18n(
@@ -87,15 +88,12 @@ async function doRenderPage(req: Request, initialProps: InitialProps) {
     </HelmetProvider>
   );
   const assets = getAssets();
-  const { html, ...docProps } = await renderPageWithData(
+  const { html, ...docProps } = await renderPageWithData({
     Page,
     assets,
-    {
-      initialProps,
-    },
-    undefined,
+    data: { initialProps },
     client,
-  );
+  });
   return { html, docProps, helmetContext };
 }
 
@@ -115,7 +113,7 @@ export async function iframeArticleRoute(req: Request) {
       status: 'success',
     });
 
-    return renderHtml(req, html, { status: OK }, docProps, helmetContext);
+    return renderHtml(html, { status: OK }, docProps, helmetContext);
   } catch (error) {
     if (process.env.NODE_ENV !== 'unittest') {
       // skip log in unittests
@@ -130,6 +128,6 @@ export async function iframeArticleRoute(req: Request) {
     const typedError = error as { status?: number };
     const status = typedError.status || INTERNAL_SERVER_ERROR;
 
-    return renderHtml(req, html, { status }, docProps, helmetContext);
+    return renderHtml(html, { status }, docProps, helmetContext);
   }
 }
