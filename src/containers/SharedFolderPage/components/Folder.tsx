@@ -8,7 +8,7 @@
 
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
-import { spacing } from '@ndla/core';
+import { colors, spacing } from '@ndla/core';
 import { ArrowDropDown } from '@ndla/icons/common';
 import { KeyboardEvent, useMemo, useState } from 'react';
 import {
@@ -18,8 +18,36 @@ import {
 import FolderResource from './FolderResource';
 
 export const StyledUl = styled.ul`
-  margin-left: ${spacing.normal};
+  margin-left: ${spacing.nsmall};
+  width: 100%;
   list-style: none;
+`;
+
+interface StyledButtonProps {
+  root?: boolean;
+}
+
+export const StyledFolderButton = styled(ButtonV2)<StyledButtonProps>`
+  &,
+  &:hover,
+  &:active,
+  &:focus {
+    color: ${({ root }) => (root ? colors.brand.primary : colors.black)};
+    background: none;
+    border: none;
+  }
+`;
+
+interface StyledArrowProps {
+  isOpen: boolean;
+}
+
+const StyledArrow = styled(ArrowDropDown)<StyledArrowProps>`
+  color: ${colors.black};
+  height: 20px;
+  width: 21px;
+
+  transform: ${({ isOpen }) => !isOpen && 'rotate(-90deg)'};
 `;
 
 const containsFolder = (folder: GQLFolder, targetId: string): boolean => {
@@ -43,9 +71,10 @@ interface Props {
     string,
     GQLFolderResourceMetaSearchQuery['folderResourceMetaSearch'][0]
   >;
+  root?: boolean;
 }
 
-const Folder = ({ folder, meta, defaultOpenFolder }: Props) => {
+const Folder = ({ folder, meta, defaultOpenFolder, root }: Props) => {
   const { name, subfolders, resources } = folder;
 
   const [isOpen, setIsOpen] = useState(
@@ -69,17 +98,19 @@ const Folder = ({ folder, meta, defaultOpenFolder }: Props) => {
 
   return (
     <li role="none" data-list-item>
-      <ButtonV2
+      <StyledFolderButton
         aria-owns={`folder-sublist-${folder.id}`}
         aria-expanded={isOpen}
         id={`folder-${folder.id}`}
         tabIndex={-1}
         variant="ghost"
+        color="light"
         role="treeitem"
         onKeyDown={handleKeydown}
-        onClick={() => setIsOpen(!isOpen)}>
-        <ArrowDropDown /> {name}
-      </ButtonV2>
+        onClick={() => setIsOpen(!isOpen)}
+        root={root}>
+        <StyledArrow isOpen={isOpen} /> {name}
+      </StyledFolderButton>
       {isOpen && (
         <StyledUl
           role="group"

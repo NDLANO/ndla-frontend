@@ -6,12 +6,42 @@
  *
  */
 
+import styled from '@emotion/styled';
+import { colors } from '@ndla/core';
 import { SafeLinkButton } from '@ndla/safelink';
+import { ContentTypeBadge } from '@ndla/ui';
 import { useParams } from 'react-router-dom';
 import {
   GQLFolderResource,
   GQLFolderResourceMetaSearchQuery,
 } from '../../../graphqlTypes';
+import { contentTypeMapping } from '../../../util/getContentType';
+
+interface StyledProps {
+  current: boolean;
+}
+
+const StyledSafelinkButton = styled(SafeLinkButton)<StyledProps>`
+  align-items: center;
+  color: ${({ current }) => (current ? colors.white : colors.black)};
+`;
+
+const StyledContentBadge = styled(ContentTypeBadge)<StyledProps>`
+  svg {
+    color: ${({ current }) =>
+      current ? colors.white : colors.black} !important;
+  }
+
+  width: 26px;
+  height: 26px;
+
+  a:hover &,
+  a:focus & {
+    svg {
+      color: ${colors.white} !important;
+    }
+  }
+`;
 
 interface Props {
   parentId: string;
@@ -24,17 +54,26 @@ const FolderResource = ({ parentId, resource, meta }: Props) => {
 
   const isCurrent = resource.id === resourceId && parentId === subfolderId;
 
+  const contentType =
+    contentTypeMapping[meta?.resourceTypes?.[0]?.id || 'default'];
+
   return (
     <li role="none" data-list-item>
-      <SafeLinkButton
+      <StyledSafelinkButton
+        current={isCurrent}
         aria-current={isCurrent ? 'page' : undefined}
         tabIndex={-1}
         id={`resource-${parentId}-${resource.id}`}
         role="treeitem"
-        variant="ghost"
+        variant={isCurrent ? 'solid' : 'ghost'}
         to={`/folder/${rootFolderId}/${parentId}/${resource.id}`}>
+        <StyledContentBadge
+          current={isCurrent}
+          type={contentType!}
+          border={false}
+        />
         {meta?.title}
-      </SafeLinkButton>
+      </StyledSafelinkButton>
     </li>
   );
 };

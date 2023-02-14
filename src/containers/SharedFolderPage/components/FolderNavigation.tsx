@@ -45,7 +45,12 @@ const FolderNavigation = ({ folder, meta, loading }: Props) => {
   return (
     <nav>
       <StyledUl role="tree" data-list>
-        <Folder folder={folder} meta={meta} defaultOpenFolder={subfolderId!} />
+        <Folder
+          folder={folder}
+          meta={meta}
+          defaultOpenFolder={subfolderId!}
+          root
+        />
       </StyledUl>
     </nav>
   );
