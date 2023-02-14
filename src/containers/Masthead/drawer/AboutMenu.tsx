@@ -16,7 +16,9 @@ import DrawerPortion, { DrawerList } from './DrawerPortion';
 import DrawerRowHeader from './DrawerRowHeader';
 import useArrowNavigation from './useArrowNavigation';
 
-export type AboutSubType = 'whatWeDo' | 'whoAreWe' | 'careers' | 'contactUs';
+const AboutSub = ['whatWeDo', 'whoAreWe', 'careers', 'contactUs'] as const;
+
+export type AboutSubType = typeof AboutSub[number];
 interface Props {
   onClose: () => void;
   onCloseMenuPortion: () => void;
@@ -35,8 +37,10 @@ const AboutMenu = ({
 
   const onNavigateRight = useCallback(
     (id: string | undefined) => {
-      setSelected(id);
-      setSubType(id as AboutSubType);
+      if (AboutSub.find(type => type === id)) {
+        setSelected(id);
+        setSubType(id as AboutSubType);
+      }
     },
     [setSubType],
   );
