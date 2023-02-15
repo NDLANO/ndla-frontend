@@ -156,7 +156,7 @@ type BrightcoveIframe {
 }
 
 type BrightcoveLicense {
-  copyright: Copyright
+  copyright: Copyright!
   cover: String
   description: String
   download: String
@@ -407,7 +407,7 @@ type H5pElement {
 }
 
 type H5pLicense {
-  copyright: Copyright
+  copyright: Copyright!
   src: String
   thumbnail: String
   title: String!
@@ -638,14 +638,6 @@ type Mutation {
   deletePersonalData: Boolean!
   sortFolders(parentId: String, sortedIds: [String!]!): SortResult!
   sortResources(parentId: String!, sortedIds: [String!]!): SortResult!
-  transformArticleContent(
-    absoluteUrl: Boolean
-    content: String!
-    draftConcept: Boolean
-    previewH5p: Boolean
-    subject: String
-    visualElement: String
-  ): String!
   updateFolder(id: String!, name: String, status: String): Folder!
   updateFolderResource(id: String!, tags: [String!]): FolderResource!
   updatePersonalData(favoriteSubjects: [String!]!): MyNdlaPersonalData!
@@ -734,9 +726,7 @@ type Query {
   alerts: [UptimeAlert]
   allFolderResources(size: Int): [FolderResource!]!
   article(
-    absoluteUrl: Boolean
     convertEmbeds: Boolean
-    draftConcept: Boolean
     id: String!
     isOembed: String
     path: String
@@ -763,7 +753,7 @@ type Query {
   coreElements(codes: [String], language: String): [CoreElement!]
   filmfrontpage: FilmFrontpage
   folder(
-    id: Int!
+    id: String!
     includeResources: Boolean
     includeSubfolders: Boolean
   ): Folder!
@@ -834,6 +824,11 @@ type Query {
     sort: String
     subjects: String
   ): SearchWithoutPagination
+  sharedFolder(
+    id: String!
+    includeResources: Boolean
+    includeSubfolders: Boolean
+  ): Folder!
   subject(id: String!): Subject
   subjectpage(id: Int!): SubjectPage
   subjects(

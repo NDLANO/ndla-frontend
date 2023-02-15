@@ -21,6 +21,7 @@ import { usePrevious } from '../../../util/utilityHooks';
 import DefaultMenu from './DefaultMenu';
 import DrawerContent from './DrawerContent';
 import { MenuType } from './drawerMenuTypes';
+import { AboutSubType } from './AboutSubMenu';
 
 const MainMenu = styled.div`
   display: flex;
@@ -51,6 +52,7 @@ const MastheadDrawer = ({ subject }: Props) => {
   const { subjectId, topicList, programme } = useUrnIds();
   const prevProgramme = usePrevious(programme);
   const [type, setType] = useState<MenuType | undefined>(undefined);
+  const [subType, setSubType] = useState<AboutSubType | undefined>(undefined);
   const [topicPath, setTopicPath] = useState<string[]>(topicList);
   const ndlaFilm = useIsNdlaFilm();
   const { t } = useTranslation();
@@ -77,16 +79,21 @@ const MastheadDrawer = ({ subject }: Props) => {
 
   const onCloseMenuPortion = useCallback(() => {
     if (type !== 'subject' || !topicPath.length) {
-      setType(undefined);
+      if (subType) {
+        document.getElementById(subType)?.focus();
+        setSubType(undefined);
+      } else {
+        setType(undefined);
+      }
     } else {
       const newPath = topicPath.slice(0, topicPath.length - 1);
-      const id = topicPath[topicPath.length - 1];
-      if (id) {
-        document.getElementById(id)?.focus();
+      const pathId = topicPath[topicPath.length - 1];
+      if (pathId) {
+        document.getElementById(pathId)?.focus();
       }
       setTopicPath(newPath);
     }
-  }, [topicPath, type]);
+  }, [topicPath, type, subType]);
 
   return (
     <Drawer
@@ -128,10 +135,12 @@ const MastheadDrawer = ({ subject }: Props) => {
               <DrawerContent
                 onClose={close}
                 type={type}
+                subType={subType}
                 topicPath={topicPath}
                 subject={subject}
                 setTopicPathIds={setTopicPath}
                 onCloseMenuPortion={onCloseMenuPortion}
+                setSubType={setSubType}
               />
             )}
           </DrawerContainer>

@@ -80,8 +80,9 @@ const VideoPage = () => {
       <HelmetWithTracker
         title={`${data.brightcoveVideo.name} - ${t(
           'resourcepageTitles.video',
-        )} - NDLA`}
-      />
+        )} - NDLA`}>
+        <meta name="robots" content="noindex" />
+      </HelmetWithTracker>
       <VisualElementWrapper visualElement={visualElement} videoId={videoId} />
     </OneColumn>
   );

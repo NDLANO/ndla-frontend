@@ -195,7 +195,7 @@ export type GQLBrightcoveIframe = {
 
 export type GQLBrightcoveLicense = {
   __typename?: 'BrightcoveLicense';
-  copyright?: Maybe<GQLCopyright>;
+  copyright: GQLCopyright;
   cover?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   download?: Maybe<Scalars['String']>;
@@ -477,7 +477,7 @@ export type GQLH5pElement = {
 
 export type GQLH5pLicense = {
   __typename?: 'H5pLicense';
-  copyright?: Maybe<GQLCopyright>;
+  copyright: GQLCopyright;
   src?: Maybe<Scalars['String']>;
   thumbnail?: Maybe<Scalars['String']>;
   title: Scalars['String'];
@@ -727,7 +727,6 @@ export type GQLMutation = {
   deletePersonalData: Scalars['Boolean'];
   sortFolders: GQLSortResult;
   sortResources: GQLSortResult;
-  transformArticleContent: Scalars['String'];
   updateFolder: GQLFolder;
   updateFolderResource: GQLFolderResource;
   updatePersonalData: GQLMyNdlaPersonalData;
@@ -764,15 +763,6 @@ export type GQLMutationSortFoldersArgs = {
 export type GQLMutationSortResourcesArgs = {
   parentId: Scalars['String'];
   sortedIds: Array<Scalars['String']>;
-};
-
-export type GQLMutationTransformArticleContentArgs = {
-  absoluteUrl?: InputMaybe<Scalars['Boolean']>;
-  content: Scalars['String'];
-  draftConcept?: InputMaybe<Scalars['Boolean']>;
-  previewH5p?: InputMaybe<Scalars['Boolean']>;
-  subject?: InputMaybe<Scalars['String']>;
-  visualElement?: InputMaybe<Scalars['String']>;
 };
 
 export type GQLMutationUpdateFolderArgs = {
@@ -911,6 +901,7 @@ export type GQLQuery = {
   resourceTypes?: Maybe<Array<GQLResourceTypeDefinition>>;
   search?: Maybe<GQLSearch>;
   searchWithoutPagination?: Maybe<GQLSearchWithoutPagination>;
+  sharedFolder: GQLFolder;
   subject?: Maybe<GQLSubject>;
   subjectpage?: Maybe<GQLSubjectPage>;
   subjects?: Maybe<Array<GQLSubject>>;
@@ -923,9 +914,7 @@ export type GQLQueryAllFolderResourcesArgs = {
 };
 
 export type GQLQueryArticleArgs = {
-  absoluteUrl?: InputMaybe<Scalars['Boolean']>;
   convertEmbeds?: InputMaybe<Scalars['Boolean']>;
-  draftConcept?: InputMaybe<Scalars['Boolean']>;
   id: Scalars['String'];
   isOembed?: InputMaybe<Scalars['String']>;
   path?: InputMaybe<Scalars['String']>;
@@ -978,7 +967,7 @@ export type GQLQueryCoreElementsArgs = {
 };
 
 export type GQLQueryFolderArgs = {
-  id: Scalars['Int'];
+  id: Scalars['String'];
   includeResources?: InputMaybe<Scalars['Boolean']>;
   includeSubfolders?: InputMaybe<Scalars['Boolean']>;
 };
@@ -1080,6 +1069,12 @@ export type GQLQuerySearchWithoutPaginationArgs = {
   resourceTypes?: InputMaybe<Scalars['String']>;
   sort?: InputMaybe<Scalars['String']>;
   subjects?: InputMaybe<Scalars['String']>;
+};
+
+export type GQLQuerySharedFolderArgs = {
+  id: Scalars['String'];
+  includeResources?: InputMaybe<Scalars['Boolean']>;
+  includeSubfolders?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type GQLQuerySubjectArgs = {
@@ -1783,7 +1778,7 @@ export type GQLH5pLicenseList_H5pLicenseFragment = {
   __typename?: 'H5pLicense';
   title: string;
   src?: string;
-  copyright?: { __typename?: 'Copyright' } & GQLLicenseListCopyrightFragment;
+  copyright: { __typename?: 'Copyright' } & GQLLicenseListCopyrightFragment;
 };
 
 export type GQLImageLicenseList_ImageLicenseFragment = {
@@ -1865,7 +1860,7 @@ export type GQLVideoLicenseList_BrightcoveLicenseFragment = {
     height: number;
     src: string;
   };
-  copyright?: { __typename?: 'Copyright' } & GQLLicenseListCopyrightFragment;
+  copyright: { __typename?: 'Copyright' } & GQLLicenseListCopyrightFragment;
 };
 
 export type GQLLicenseListCopyrightFragment = {
@@ -3820,7 +3815,7 @@ export type GQLStructuredArticleData_BrightcoveLicenseFragment = {
   description?: string;
   download?: string;
   uploadDate?: string;
-  copyright?: {
+  copyright: {
     __typename?: 'Copyright';
   } & GQLStructuredArticleData_CopyrightFragment;
 };
