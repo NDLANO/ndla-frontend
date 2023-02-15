@@ -10,6 +10,7 @@ import { gql } from '@apollo/client';
 import { Dispatch, SetStateAction } from 'react';
 import { GQLDrawerContent_SubjectFragment } from '../../../graphqlTypes';
 import AboutMenu from './AboutMenu';
+import { AboutSubType } from './AboutSubMenu';
 import { MenuType } from './drawerMenuTypes';
 import ProgrammeMenu from './ProgrammeMenu';
 import SubjectMenu from './SubjectMenu';
@@ -20,7 +21,9 @@ interface Props {
   topicPath: string[];
   subject?: GQLDrawerContent_SubjectFragment;
   type: MenuType;
+  subType?: AboutSubType;
   setTopicPathIds: Dispatch<SetStateAction<string[]>>;
+  setSubType: Dispatch<SetStateAction<AboutSubType | undefined>>;
 }
 
 const DrawerContent = ({
@@ -30,6 +33,8 @@ const DrawerContent = ({
   topicPath,
   subject,
   setTopicPathIds,
+  subType,
+  setSubType,
 }: Props) => {
   if (type === 'programme') {
     return (
@@ -50,7 +55,12 @@ const DrawerContent = ({
     );
   } else {
     return (
-      <AboutMenu onClose={onClose} onCloseMenuPortion={onCloseMenuPortion} />
+      <AboutMenu
+        onClose={onClose}
+        onCloseMenuPortion={onCloseMenuPortion}
+        subType={subType}
+        setSubType={setSubType}
+      />
     );
   }
 };

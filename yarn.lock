@@ -2293,6 +2293,14 @@
     inuitcss "6.0.0"
     sass-mq "^5.0.1"
 
+"@ndla/core@^3.1.1":
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/@ndla/core/-/core-3.1.1.tgz#2d5a400dca65abfd32cdd6de14ab2d7b5e96d207"
+  integrity sha512-cMozoRRitemDakFZS4cErZwb99kr1379ASkL6k8j0bM35+4ehcSs53ovBa3ipQh+0fnJrdi2bxmki3SiYrWeSw==
+  dependencies:
+    inuitcss "6.0.0"
+    sass-mq "^5.0.1"
+
 "@ndla/error-reporter@^1.0.24":
   version "1.0.24"
   resolved "https://registry.yarnpkg.com/@ndla/error-reporter/-/error-reporter-1.0.24.tgz#6fa2d4b53bf4ec2eefa87d3308b747ff7ea61e58"
