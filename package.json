@@ -128,6 +128,7 @@
     "@ndla/core": "^3.1.2",
     "@ndla/error-reporter": "^1.0.24",
     "@ndla/forms": "^4.2.5",
+    "@ndla/hooks": "^2.0.0",
     "@ndla/icons": "^2.2.3",
     "@ndla/licenses": "^7.0.0",
     "@ndla/modal": "^2.2.7",
