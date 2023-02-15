@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { breakpoints, fonts, mq, spacing } from '@ndla/core';
-import Modal, { ModalBody, ModalHeader, ModalCloseButton } from '@ndla/modal';
+import { ModalBody, ModalHeader, ModalCloseButton, ModalV2 } from '@ndla/modal';
 import Tooltip from '@ndla/tooltip';
 import { Switch } from '@ndla/switch';
 import { LearningPathQuiz } from '@ndla/icons/contentType';
@@ -98,9 +98,8 @@ const ResourcesTopicTitle = ({
             onChange={toggleAdditionalResources}
             css={invertedStyle ? invertedSwitchCSS : switchCSS}
           />
-          <Modal
+          <ModalV2
             labelledBy={tooltipId}
-            narrow
             wrapperFunctionForButton={(activateButton: ReactNode) => (
               <Tooltip tooltip={t('resource.dialogTooltip')}>
                 {activateButton}
@@ -118,20 +117,20 @@ const ResourcesTopicTitle = ({
             {(onClose: () => void) => (
               <>
                 <ModalHeader>
+                  <h1>{t('resource.dialogHeading')}</h1>
                   <ModalCloseButton
                     title={t('modal.closeModal')}
                     onClick={onClose}
                   />
                 </ModalHeader>
                 <ModalBody>
-                  <h1>{t('resource.dialogHeading')}</h1>
                   <hr />
                   <p>{t('resource.dialogText1')}</p>
                   <p>{t('resource.dialogText2')}</p>
                 </ModalBody>
               </>
             )}
-          </Modal>
+          </ModalV2>
         </StyledRow>
       )}
     </TopicTitleWrapper>

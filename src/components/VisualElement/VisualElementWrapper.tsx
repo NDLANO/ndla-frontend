@@ -23,6 +23,7 @@ import { ResourceType } from '../../interfaces';
 
 interface Props {
   visualElement: GQLVisualElementWrapper_VisualElementFragment;
+  videoId?: string;
 }
 
 const StyledFigure = styled(Figure)`
@@ -45,7 +46,7 @@ export const getResourceType = (VisualElementType?: string): ResourceType => {
   }
 };
 
-const VisualElementWrapper = ({ visualElement }: Props) => {
+const VisualElementWrapper = ({ visualElement, videoId }: Props) => {
   const { t, i18n } = useTranslation();
   useEffect(() => {
     initArticleScripts();
@@ -89,9 +90,8 @@ const VisualElementWrapper = ({ visualElement }: Props) => {
     reuse: t(`${resourceType}.reuse`),
     download: t(`${resourceType}.download`),
   };
-  const id = uuid();
+  const id = videoId ?? uuid();
   const figureId = `figure-${id}`;
-
   return (
     <StyledFigure id={figureId} resizeIframe={true}>
       <VisualElement visualElement={visualElement} />

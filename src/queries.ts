@@ -7,8 +7,9 @@
  */
 
 import { gql } from '@apollo/client';
+import { licenseListCopyrightFragment } from './components/license/licenseFragments';
 
-const contributorInfoFragment = gql`
+export const contributorInfoFragment = gql`
   fragment ContributorInfo on Contributor {
     name
     type
@@ -279,6 +280,7 @@ export const copyrightInfoFragment = gql`
     license {
       license
       url
+      description
     }
     creators {
       ...ContributorInfo
@@ -294,13 +296,14 @@ export const copyrightInfoFragment = gql`
 `;
 
 export const visualElementFragment = gql`
-  ${copyrightInfoFragment}
+  ${licenseListCopyrightFragment}
   fragment VisualElementInfo on VisualElement {
     title
     resource
     url
     copyright {
-      ...CopyrightInfo
+      ...LicenseListCopyright
+      origin
     }
     language
     embed

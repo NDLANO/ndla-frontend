@@ -18,7 +18,7 @@ const messages = {
     notFound: `Sida finst ikkje - ${titleTemplate}`,
     accessDenied: `Ingen tilgang - ${titleTemplate}`,
     subject: 'Fag',
-    podcast: `Podkast - Side {{pageNumber}} - ${titleTemplate}`,
+    podcast: `Podkast - Side {{page}} - ${titleTemplate}`,
     lti: `LTI - ${titleTemplate}`,
     movedResourcePage: `Sida har flytta - ${titleTemplate}`,
     myNdlaPage: `Min NDLA - ${titleTemplate}`,
@@ -73,6 +73,12 @@ const messages = {
     maxLength: 'Dette feltet kan maks innehalde {{count}} teikn',
     maxLengthField:
       '$t(validation.fields.{{field}}) kan maks innehalde {{count}} teikn',
+  },
+  resourcepageTitles: {
+    video: 'Video',
+    image: 'Bilde',
+    concept: 'Forklaring',
+    audio: 'Audio',
   },
 };
 

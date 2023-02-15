@@ -73,6 +73,12 @@ const messages = {
     maxLength: 'This field can only contain {{count}} characters',
     maxLengthField: `$t(validation.fields.{{field}}) can only contain {{count}} characters)}`,
   },
+  resourcepageTitles: {
+    video: 'Video',
+    image: 'Image',
+    concept: 'Concept',
+    audio: 'Audio',
+  },
 };
 
 export default messages;

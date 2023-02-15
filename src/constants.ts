@@ -55,11 +55,30 @@ export const AcquireLicensePage =
 export const aboutNdlaUrl = 'https://om.ndla.no/';
 
 export const aboutNdlaLinks = {
-  whatIs: `${aboutNdlaUrl}hva-er-ndla/`,
-  numbers: `${aboutNdlaUrl}tall-og-rapporter/`,
-  organization: `${aboutNdlaUrl}organisasjon/`,
-  keyPersonnel: `${aboutNdlaUrl}organisasjon/nokkelpersoner-ndla/`,
-  vacancies: `${aboutNdlaUrl}utlysninger/`,
-  newsletter: `${aboutNdlaUrl}nyhetsbrev/`,
-  contact: `${aboutNdlaUrl}kontakt-oss/`,
+  whoAreWe: `${aboutNdlaUrl}hvem-er-vi/`,
+  whatWeDo: `${aboutNdlaUrl}hva-gjor-vi/`,
+  careers: `${aboutNdlaUrl}bli-med-pa-laget/`,
+  contactUs: `${aboutNdlaUrl}kontakt-oss-2/`,
+};
+
+export const aboutNdlaLinkGroups = {
+  whoAreWe: {
+    keyPersonnel: `${aboutNdlaUrl}nokkelpersoner/`,
+    organizing: `${aboutNdlaUrl}organisering/`,
+    articlesOfAssociation: `${aboutNdlaUrl}vedtekter/`,
+    history: `${aboutNdlaUrl}ndlas-historie/`,
+  },
+  whatWeDo: {
+    vision: `${aboutNdlaUrl}visjon-og-verdier-2/`,
+    communityPurpose: `${aboutNdlaUrl}vart-samfunnsoppdrag`,
+    cooperation: `${aboutNdlaUrl}vare-samarbeid`,
+    numbers: `${aboutNdlaUrl}tall-og-rapporter-2`,
+  },
+  careers: {
+    vacancies: `${aboutNdlaUrl}utlysninger`,
+  },
+  contactUs: {
+    faq: `${aboutNdlaUrl}ofte-stilte-sporsmal-2`,
+    follow: `${aboutNdlaUrl}folg-ndla`,
+  },
 };

@@ -79,7 +79,7 @@ export const serverPlugins: WebpackPluginInstance[] = [
     ),
   }),
   ...(process.env.NODE_ENV === 'development'
-    ? [new HotModuleReplacementPlugin()]
+    ? [new HotModuleReplacementPlugin(), new ReactRefreshWebpackPlugin()]
     : [new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 })]),
 ];
 

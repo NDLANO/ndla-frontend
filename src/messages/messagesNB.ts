@@ -18,7 +18,7 @@ const messages = {
     notFound: `Siden finnes ikke - ${titleTemplate}`,
     accessDenied: `Ingen tilgang - ${titleTemplate}`,
     subject: 'Fag',
-    podcast: `Podkast - Side {{pageNumber}} - ${titleTemplate}`,
+    podcast: `Podkast - Side {{page}} - ${titleTemplate}`,
     lti: `LTI - ${titleTemplate}`,
     movedResourcePage: `Siden har flyttet - ${titleTemplate}`,
     myNdlaPage: `Min NDLA - ${titleTemplate}`,
@@ -74,6 +74,12 @@ const messages = {
     maxLength: 'Dette feltet kan maks inneholde {{count}} tegn',
     maxLengthField:
       '$t(validation.fields.{{field}}) kan maks innholde {{count}} tegn',
+  },
+  resourcepageTitles: {
+    video: 'Video',
+    image: 'Bilde',
+    audio: 'Audio',
+    concept: 'Forklaring',
   },
 };
 

@@ -62,9 +62,12 @@ export const groupSubjects = (
 };
 
 export const filterSubjects = (
-  subjects: GQLMySubjectsSubjectFragmentFragment[],
+  allSubjects: GQLMySubjectsSubjectFragmentFragment[],
   status: string,
 ) => {
+  const subjects = allSubjects.filter(
+    subject => subject.metadata.customFields.forklaringsfag !== 'true',
+  );
   if (status === 'all') {
     return subjects.filter(
       subject => subject.metadata.customFields.subjectCategory,
