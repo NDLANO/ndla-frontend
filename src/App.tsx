@@ -142,22 +142,10 @@ const AppRoutes = ({ base }: AppProps) => {
                     </Route>
                   </Route>
                 </Route>
-                <Route
-                  path="resources/videos/:videoId"
-                  element={<VideoPage />}
-                />
-                <Route
-                  path="resources/images/:imageId"
-                  element={<ImagePage />}
-                />
-                <Route
-                  path="resources/concepts/:conceptId"
-                  element={<ConceptPage />}
-                />
-                <Route
-                  path="resources/audios/:audioId"
-                  element={<AudioPage />}
-                />
+                <Route path="video/:videoId" element={<VideoPage />} />
+                <Route path="image/:imageId" element={<ImagePage />} />
+                <Route path="concept/:conceptId" element={<ConceptPage />} />
+                <Route path="audio/:audioId" element={<AudioPage />} />
                 <Route
                   path="minndla"
                   element={<PrivateRoute element={<MyNdlaLayout />} />}>
@@ -175,6 +163,7 @@ const AppRoutes = ({ base }: AppProps) => {
                 <Route path="404" element={<NotFound />} />
                 <Route path="403" element={<AccessDenied />} />
                 <Route path="*" element={<NotFound />} />
+                <Route path="p/:articleId" element={<PlainArticlePage />} />
               </Route>
             </Routes>
           </SnackbarProvider>

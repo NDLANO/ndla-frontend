@@ -82,6 +82,7 @@ if (maybeStoredLanguage === null || maybeStoredLanguage === undefined) {
   setCookie({
     cookieName: STORED_LANGUAGE_COOKIE_KEY,
     cookieValue: abbreviation,
+    lax: true,
   });
 }
 const storedLanguage = getCookie(STORED_LANGUAGE_COOKIE_KEY, document.cookie)!;
@@ -200,6 +201,7 @@ const LanguageWrapper = ({ basename }: { basename?: string }) => {
     setCookie({
       cookieName: STORED_LANGUAGE_COOKIE_KEY,
       cookieValue: lang,
+      lax: true,
     });
     client.resetStore();
     client.setLink(createApolloLinks(lang, versionHash));

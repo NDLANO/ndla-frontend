@@ -64,7 +64,11 @@ const LtiProvider = ({ locale: propsLocale, ltiData }: Props) => {
   i18n.on('languageChanged', lang => {
     client.resetStore();
     client.setLink(createApolloLinks(lang));
-    setCookie({ cookieName: STORED_LANGUAGE_COOKIE_KEY, cookieValue: lang });
+    setCookie({
+      cookieName: STORED_LANGUAGE_COOKIE_KEY,
+      cookieValue: lang,
+      lax: true,
+    });
     document.documentElement.lang = lang;
   });
 
