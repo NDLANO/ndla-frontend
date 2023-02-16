@@ -16,6 +16,7 @@ import {
 import { BatchHttpLink } from '@apollo/client/link/batch-http';
 import { onError } from '@apollo/client/link/error';
 import { setContext } from '@apollo/client/link/context';
+import { AffiliationType, FeideUserApiType } from '@ndla/ui';
 import config from '../config';
 import handleError from './handleError';
 import { default as createFetch } from './fetch';
@@ -85,6 +86,29 @@ const uri = (() => {
   }
   return apiResourceUrl('/graphql-api/graphql');
 })();
+
+const student: AffiliationType = 'student';
+const findDefaultAffiliation = (
+  userAffiliations: AffiliationType[],
+): AffiliationType => {
+  if (userAffiliations.includes(student)) return student;
+
+  const priorityAffiliations: AffiliationType[] = ['employee', 'staff'];
+  const maybeDefaultAffiliation = priorityAffiliations.find(affiliation =>
+    userAffiliations.includes(affiliation),
+  );
+  return maybeDefaultAffiliation || student;
+};
+
+export const getAffiliationRoleOrDefault = (
+  user: FeideUserApiType | undefined,
+): AffiliationType => {
+  if (user === undefined) return student;
+  return (
+    user.eduPersonPrimaryAffiliation ||
+    findDefaultAffiliation(user.eduPersonAffiliation)
+  );
+};
 
 const getParentType = (type: string, aggregations?: GQLBucketResult[]) => {
   if (!aggregations) return undefined;
