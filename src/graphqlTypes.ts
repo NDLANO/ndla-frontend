@@ -729,6 +729,7 @@ export type GQLMutation = {
   sortResources: GQLSortResult;
   updateFolder: GQLFolder;
   updateFolderResource: GQLFolderResource;
+  updateFolderStatus: Array<Scalars['String']>;
   updatePersonalData: GQLMyNdlaPersonalData;
 };
 
@@ -774,6 +775,11 @@ export type GQLMutationUpdateFolderArgs = {
 export type GQLMutationUpdateFolderResourceArgs = {
   id: Scalars['String'];
   tags?: InputMaybe<Array<Scalars['String']>>;
+};
+
+export type GQLMutationUpdateFolderStatusArgs = {
+  folderId: Scalars['String'];
+  status: Scalars['String'];
 };
 
 export type GQLMutationUpdatePersonalDataArgs = {
@@ -2481,6 +2487,16 @@ export type GQLSortResourcesMutation = {
     parentId?: string;
     sortedIds: Array<string>;
   };
+};
+
+export type GQLUpdateFolderStatusMutationVariables = Exact<{
+  folderId: Scalars['String'];
+  status: Scalars['String'];
+}>;
+
+export type GQLUpdateFolderStatusMutation = {
+  __typename?: 'Mutation';
+  updateFolderStatus: Array<string>;
 };
 
 type GQLFolderResourceMeta_ArticleFolderResourceMeta_Fragment = {

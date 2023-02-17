@@ -32,10 +32,12 @@ import {
   GQLMutationSortResourcesArgs,
   GQLMutationUpdateFolderArgs,
   GQLMutationUpdateFolderResourceArgs,
+  GQLMutationUpdateFolderStatusArgs,
   GQLRecentlyUsedQuery,
   GQLSortFoldersMutation,
   GQLUpdateFolderMutation,
   GQLUpdateFolderResourceMutation,
+  GQLUpdateFolderStatusMutation,
 } from '../../graphqlTypes';
 import { useGraphQuery } from '../../util/runQueries';
 
@@ -164,6 +166,12 @@ const sortResourcesMutation = gql`
       parentId
       sortedIds
     }
+  }
+`;
+
+const updateFolderStatusMutation = gql`
+  mutation updateFolderStatus($folderId: String!, $status: String!) {
+    updateFolderStatus(folderId: $folderId, status: $status)
   }
 `;
 
@@ -375,6 +383,28 @@ export const useUpdateFolderResourceMutation = () => {
   >(updateFolderResourceMutation);
 
   return { updateFolderResource, loading };
+};
+
+export const useUpdateFolderStatusMutation = () => {
+  const { cache } = useApolloClient();
+  const [updateFolderStatus, { loading }] = useMutation<
+    GQLUpdateFolderStatusMutation,
+    GQLMutationUpdateFolderStatusArgs
+  >(updateFolderStatusMutation, {
+    onCompleted: data => {
+      data?.updateFolderStatus.forEach(folderId => {
+        cache.modify({
+          id: cache.identify({ id: folderId, __typename: 'Folder' }),
+          fields: {
+            status: (cachedStatus: 'private' | 'shared') => {
+              return cachedStatus === 'private' ? 'shared' : 'private';
+            },
+          },
+        });
+      });
+    },
+  });
+  return { updateFolderStatus, loading };
 };
 
 export const useUpdateFolderMutation = () => {

@@ -27,6 +27,7 @@ import {
   useFolder,
   useDeleteFolderMutation,
   useUpdateFolderMutation,
+  useUpdateFolderStatusMutation,
 } from '../folderMutations';
 import ResourceList from './ResourceList';
 import DeleteModal from '../components/DeleteModal';
@@ -93,7 +94,7 @@ const StyledRow = styled.div`
 
 export type ViewType = 'list' | 'block' | 'listLarger';
 export type FolderActionType = 'edit' | 'delete' | 'share' | undefined;
-
+export type FolderSharingType = 'shared' | 'deleteSharing' | 'private';
 export interface FolderAction {
   action: FolderActionType;
   folder: GQLFolder;
@@ -130,9 +131,9 @@ const FoldersPage = () => {
     () => (selectedFolder ? selectedFolder.subfolders : folderData ?? []),
     [selectedFolder, folderData],
   );
+  const [deleteSharing, setDeleteSharing] = useState<boolean>(false);
   const [previousFolders, setPreviousFolders] = useState<GQLFolder[]>(folders);
   const [focusId, setFocusId] = useState<string | undefined>(undefined);
-
   useEffect(() => {
     const folderIds = folders.map(f => f.id).sort();
     const prevFolderIds = previousFolders.map(f => f.id).sort();
@@ -173,6 +174,11 @@ const FoldersPage = () => {
     loading: updateFolderLoading,
   } = useUpdateFolderMutation();
 
+  const {
+    updateFolderStatus,
+    loading: updateFolderStatusLoading,
+  } = useUpdateFolderStatusMutation();
+
   const onDeleteFolder = async (folder: GQLFolder, index?: number) => {
     const next = index !== undefined ? folders[index + 1]?.id : undefined;
     const prev = index !== undefined ? folders[index - 1]?.id : undefined;
@@ -210,7 +216,7 @@ const FoldersPage = () => {
 
   const showAddButton =
     (selectedFolder?.breadcrumbs.length || 0) < 5 && !examLock;
-
+  const showShareFolder = folderId !== null;
   return (
     <FoldersPageContainer>
       <HelmetWithTracker
@@ -245,10 +251,21 @@ const FoldersPage = () => {
             <span>{t('myNdla.newFolder')}</span>
           </ButtonV2>
         )}
-        <ButtonV2 variant="ghost" colorTheme="lighter">
-          <Share />
-          {t('myNdla.shareFolder')}
-        </ButtonV2>
+        {showShareFolder && (
+          <ButtonV2
+            variant="ghost"
+            colorTheme="lighter"
+            onClick={() =>
+              setFolderAction({
+                folder: selectedFolder!,
+                action: 'share',
+                index: 0,
+              })
+            }>
+            <Share />
+            {t('myNdla.folder.share.shareFolder')}
+          </ButtonV2>
+        )}
         <ListViewOptions type={viewType} onTypeChange={setViewType} />
       </StyledRow>
       <FolderList
@@ -304,7 +321,7 @@ const FoldersPage = () => {
         removeText={t('myNdla.folder.delete')}
         isOpen={folderAction?.action === 'delete'}
         onClose={() =>
-          setFolderAction({ action: 'edit', folder: folderAction?.folder })
+          setFolderAction({ action: 'edit', folder: folderAction?.folder! })
         }
         onDelete={async () => {
           if (folderAction?.action === 'delete') {
@@ -313,12 +330,62 @@ const FoldersPage = () => {
           }
         }}
       />
-      {/* <FolderShareModal
-        type={}
-        folder={folderAction?.folder}
-        isOpen={folderAction?.action === 'share'}
-        onClose={() => setFolderAction(undefined)}
-      /> */}
+      {folderAction &&
+        !updateFolderStatusLoading &&
+        selectedFolder?.status === 'shared' && 
+        !deleteSharing && (
+          <FolderShareModal
+            type={'shared'}
+            folder={folderAction.folder}
+            isOpen={folderAction.action === 'share'}
+            onClose={() => setFolderAction(undefined)}
+            onPreview={() => {}}
+            onDeleteShare={setDeleteSharing}
+          />
+        )}
+      {folderAction &&
+        !updateFolderStatusLoading &&
+        selectedFolder?.status === 'private' && (
+          <FolderShareModal
+            type={'private'}
+            folder={folderAction.folder}
+            isOpen={folderAction.action === 'share'}
+            onClose={() => setFolderAction(undefined)}
+            onUpdateStatus={() => {
+              updateFolderStatus({
+                variables: {
+                  folderId: selectedFolder?.id,
+                  status: 'shared',
+                },
+              });
+              setFolderAction(undefined);
+            }}
+          />
+        )}
+      {folderAction &&
+        selectedFolder?.status === 'shared' &&
+        !updateFolderStatusLoading && 
+        deleteSharing && (
+          <FolderShareModal
+            type={'deleteSharing'}
+            folder={folderAction.folder}
+            isOpen={folderAction.action === 'share'}
+            onClose={() => {
+              setFolderAction(undefined);
+              setDeleteSharing(false);
+            }}
+            onUpdateStatus={() => {
+              updateFolderStatus({
+                variables: {
+                  folderId: selectedFolder?.id,
+                  status: 'private',
+                },
+              });
+              setDeleteSharing(false);
+              setFolderAction(undefined);
+            }}
+          />
+        )}
     </FoldersPageContainer>
   );
 };

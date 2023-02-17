@@ -640,6 +640,7 @@ type Mutation {
   sortResources(parentId: String!, sortedIds: [String!]!): SortResult!
   updateFolder(id: String!, name: String, status: String): Folder!
   updateFolderResource(id: String!, tags: [String!]): FolderResource!
+  updateFolderStatus(folderId: String!, status: String!): [String!]!
   updatePersonalData(favoriteSubjects: [String!]!): MyNdlaPersonalData!
 }
 
