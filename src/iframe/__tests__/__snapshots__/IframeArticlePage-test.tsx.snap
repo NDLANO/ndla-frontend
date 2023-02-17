@@ -176,7 +176,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   cursor: not-allowed;
 }
 
-.emotion-25 {
+.emotion-26 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -187,7 +187,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   justify-content: flex-end;
 }
 
-.emotion-27 {
+.emotion-28 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -198,7 +198,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   align-items: center;
 }
 
-.emotion-29 {
+.emotion-30 {
   color: #757575;
   margin-right: 38px;
   font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
@@ -207,7 +207,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   line-height: 20px;
 }
 
-.emotion-31 {
+.emotion-32 {
   color: #757575;
 }
 
@@ -249,13 +249,11 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
           <section
             class="u-4/6@desktop u-push-1/6@desktop u-10/12@tablet u-push-1/12@tablet"
           >
-            <div>
-              <section>
-                <p>
-                  Dersom du leser de ulike partiprogrammene, ser du fort at partiene har ulike svar både på hva som er viktige utfordringer, og på hvordan de skal løses.
-                </p>
-              </section>
-            </div>
+            <section>
+              <p>
+                Dersom du leser de ulike partiprogrammene, ser du fort at partiene har ulike svar både på hva som er viktige utfordringer, og på hvordan de skal løses.
+              </p>
+            </section>
           </section>
           <section
             class="u-4/6@desktop u-push-1/6@desktop u-10/12@tablet u-push-1/12@tablet"
@@ -429,6 +427,14 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                 >
                   Regler for bruk
                 </button>
+                <button
+                  aria-live="assertive"
+                  class="emotion-24"
+                  data-copy-string="Someone. (2018, 9. januar). Politiske skillelinjer. NDLA. https://test.ndla.no/article/54"
+                  type="button"
+                >
+                  Kopier kildehenvisning
+                </button>
               </div>
             </div>
           </section>
@@ -436,16 +442,16 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
             class="u-10/12@desktop u-push-1/12@desktop u-10/12@tablet u-push-1/12@tablet"
           >
             <div
-              class="emotion-25 emotion-26"
+              class="emotion-26 emotion-27"
             >
               <div
-                class="emotion-27 emotion-28"
+                class="emotion-28 emotion-29"
               >
                 <div
-                  class="emotion-29 emotion-30"
+                  class="emotion-30 emotion-31"
                 >
                   <a
-                    class="emotion-31 emotion-32"
+                    class="emotion-32 emotion-33"
                     href="https://test.ndla.no/subject:1/resource:1"
                     target="_blank"
                   >
@@ -453,7 +459,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                   </a>
                    er hentet fra 
                   <a
-                    class="emotion-31 emotion-32"
+                    class="emotion-32 emotion-33"
                     href="https://ndla.no"
                     target="_blank"
                   >
