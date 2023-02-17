@@ -11,10 +11,12 @@ import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { Pencil } from '@ndla/icons/action';
+import { Cross, Pencil } from '@ndla/icons/action';
 import { DeleteForever } from '@ndla/icons/editor';
 import { Folder } from '@ndla/ui';
 import { colors, spacing } from '@ndla/core';
+import { Link, Share } from '@ndla/icons/common';
+import { MenuItemProps } from '@ndla/button';
 import { GQLFolder } from '../../../graphqlTypes';
 import { FolderTotalCount } from '../../../util/folderHelpers';
 import { FolderAction, ViewType } from './FoldersPage';
@@ -77,6 +79,48 @@ const DraggableFolder = ({
     transform: CSS.Transform.toString(transform),
     transition,
   };
+
+  const menuItems: MenuItemProps[] = [
+    {
+      icon: <Pencil />,
+      text: t('myNdla.folder.edit'),
+      onClick: () => setFolderAction({ action: 'edit', folder, index }),
+    },
+    {
+      icon: <Link />,
+      text: t('myNdla.folder.share.button.shareLink'),
+      onClick: () => {},
+    },
+    {
+      icon: folder.status === 'shared' ? <Cross /> : <Share />,
+      text:
+        folder.status === 'shared'
+          ? t('myNdla.folder.share.button.deleteSharing')
+          : t('myNdla.folder.share.shareFolder'),
+      onClick: () =>
+        setFolderAction({
+          action: 'share',
+          folder,
+          index,
+        }),
+    },
+    {
+      icon: <DeleteForever />,
+      text: t('myNdla.folder.delete'),
+      onClick: () =>
+        setFolderAction({
+          action: 'delete',
+          folder,
+          index,
+        }),
+      type: 'danger',
+    },
+  ];
+
+  if (folder.status === 'private') {
+    menuItems.splice(1, 1);
+  }
+
   return (
     <DraggableListItem
       id={`folder-${folder.id}`}
@@ -98,29 +142,7 @@ const DraggableFolder = ({
           type={type}
           subFolders={foldersCount[folder.id]?.folders}
           subResources={foldersCount[folder.id]?.resources}
-          menuItems={
-            !examLock
-              ? [
-                  {
-                    icon: <Pencil />,
-                    text: t('myNdla.folder.edit'),
-                    onClick: () =>
-                      setFolderAction({ action: 'edit', folder, index }),
-                  },
-                  {
-                    icon: <DeleteForever />,
-                    text: t('myNdla.folder.delete'),
-                    onClick: () =>
-                      setFolderAction({
-                        action: 'delete',
-                        folder,
-                        index,
-                      }),
-                    type: 'danger',
-                  },
-                ]
-              : undefined
-          }
+          menuItems={!examLock ? menuItems : undefined}
         />
       </DragWrapper>
     </DraggableListItem>

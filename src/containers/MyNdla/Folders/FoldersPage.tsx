@@ -332,14 +332,13 @@ const FoldersPage = () => {
       />
       {folderAction &&
         !updateFolderStatusLoading &&
-        selectedFolder?.status === 'shared' && 
+        selectedFolder?.status === 'shared' &&
         !deleteSharing && (
           <FolderShareModal
             type={'shared'}
             folder={folderAction.folder}
             isOpen={folderAction.action === 'share'}
             onClose={() => setFolderAction(undefined)}
-            onPreview={() => {}}
             onDeleteShare={setDeleteSharing}
           />
         )}
@@ -364,7 +363,7 @@ const FoldersPage = () => {
         )}
       {folderAction &&
         selectedFolder?.status === 'shared' &&
-        !updateFolderStatusLoading && 
+        !updateFolderStatusLoading &&
         deleteSharing && (
           <FolderShareModal
             type={'deleteSharing'}
