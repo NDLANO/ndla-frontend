@@ -61,7 +61,6 @@ interface Props {
   folderId: string | undefined;
   setIsAdding: Dispatch<boolean>;
   setFolderAction: Dispatch<FolderAction | undefined>;
-  onCopyShareLink: () => void;
 }
 
 const FolderList = ({
@@ -73,7 +72,6 @@ const FolderList = ({
   onFolderAdd,
   folderId,
   setFolderAction,
-  onCopyShareLink,
 }: Props) => {
   const { t } = useTranslation();
   const { sortFolders } = useSortFoldersMutation();
@@ -170,7 +168,6 @@ const FolderList = ({
                   foldersCount={foldersCount}
                   type={type}
                   setFolderAction={setFolderAction}
-                  onCopyShareLink={onCopyShareLink}
                 />
               ))}
             </SortableContext>

@@ -112,7 +112,6 @@ interface Props {
   folder: GQLFolder;
   type: FolderSharingType;
   onUpdateStatus?: () => void;
-  onDeleteShare?: (isTrue: boolean) => void;
   onCopyText?: () => void;
 }
 
@@ -122,7 +121,6 @@ const FolderShareModal = ({
   type,
   folder,
   onUpdateStatus,
-  onDeleteShare,
   onCopyText,
 }: Props) => {
   const { t } = useTranslation();
@@ -138,7 +136,6 @@ const FolderShareModal = ({
       <StyledButton
         onClick={() => {
           onUpdateStatus?.();
-          onDeleteShare?.(false);
         }}>
         {t('myNdla.folder.sharing.button.delete')}
       </StyledButton>
@@ -207,7 +204,7 @@ const FolderShareModal = ({
                 <StyledButton
                   variant={isMobile ? 'outline' : 'ghost'}
                   colorTheme="danger"
-                  onClick={() => onDeleteShare?.(true)}>
+                  onClick={() => onUpdateStatus?.()}>
                   {t('myNdla.folder.sharing.button.delete')}
                   {!isMobile && <TrashCanOutline />}
                 </StyledButton>

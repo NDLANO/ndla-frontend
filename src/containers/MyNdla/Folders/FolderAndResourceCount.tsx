@@ -6,7 +6,7 @@
  *
  */
 import { useMemo } from 'react';
-import { FileDocumentOutline } from '@ndla/icons/common';
+import { FileDocumentOutline, Share } from '@ndla/icons/common';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { FolderOutlined } from '@ndla/icons/contentType';
@@ -70,6 +70,12 @@ const FolderAndResourceCount = ({
   return (
     <>
       <ResourceCountContainer>
+        {selectedFolder?.status === 'shared' && (
+          <>
+            <Share />
+            <span>{t('myNdla.folder.sharing.shared')}</span>
+          </>
+        )}
         {folders && (
           <>
             <FolderOutlined />
