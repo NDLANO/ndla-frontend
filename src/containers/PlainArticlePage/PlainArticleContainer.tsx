@@ -53,15 +53,17 @@ const PlainArticleContainer = ({
     }
   });
 
-  const article = useMemo(() => {
-    return transformArticle(propArticle, i18n.language, {
-      enabled: disableConverter,
-      path: `${config.ndlaFrontendDomain}/article/${propArticle.id}`,
-    });
+  const [article, scripts] = useMemo(() => {
+    return [
+      transformArticle(propArticle, i18n.language, {
+        enabled: disableConverter,
+        path: `${config.ndlaFrontendDomain}/article/${propArticle.id}`,
+      }),
+      getArticleScripts(propArticle, i18n.language),
+    ];
   }, [propArticle, i18n.language, disableConverter]);
 
   if (!article) return <NotFoundPage />;
-  const scripts = getArticleScripts(article, i18n.language);
   const oembedUrl = `${config.ndlaFrontendDomain}/oembed?url=${config.ndlaFrontendDomain}/article/${article.id}`;
 
   return (
