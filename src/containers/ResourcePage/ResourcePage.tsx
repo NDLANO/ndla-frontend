@@ -31,7 +31,7 @@ import { AuthContext } from '../../components/AuthenticationContext';
 import RedirectContext, {
   RedirectInfo,
 } from '../../components/RedirectContext';
-import { useArticleConverterEnabled } from '../../components/ArticleConverterContext';
+import { useDisableConverter } from '../../components/ArticleConverterContext';
 
 const urlInPaths = (
   location: Location,
@@ -87,7 +87,7 @@ const resourcePageQuery = gql`
 const ResourcePage = () => {
   const { t } = useTranslation();
   const { user } = useContext(AuthContext);
-  const articleConverterEnabled = useArticleConverterEnabled();
+  const disableConverter = useDisableConverter();
   const { subjectId, resourceId, topicId, stepId } = useUrnIds();
   const location = useLocation();
   const { error, loading, data } = useGraphQuery<GQLResourcePageQuery>(
@@ -97,7 +97,7 @@ const ResourcePage = () => {
         subjectId,
         topicId,
         resourceId,
-        convertEmbeds: !articleConverterEnabled,
+        convertEmbeds: disableConverter,
       },
     },
   );

@@ -37,7 +37,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import { I18nextProvider, useTranslation } from 'react-i18next';
 import { Router } from 'react-router-dom';
 import App from './App';
-import { ArticleConverterEnabledProvider } from './components/ArticleConverterContext';
+import { ArticleConverterProvider } from './components/ArticleConverterContext';
 import { VersionHashProvider } from './components/VersionHashContext';
 import { getDefaultLocale } from './config';
 import { EmotionCacheKey, STORED_LANGUAGE_COOKIE_KEY } from './constants';
@@ -68,9 +68,9 @@ const { versionHash, disableConverter } = queryString.parse(
   window.location.search,
 );
 
-const articleConverterEnabled = disableConverter?.length
-  ? !(disableConverter === 'true')
-  : config.articleConverterEnabled;
+const disableConverterValue = disableConverter?.length
+  ? disableConverter === 'true'
+  : config.disableConverter;
 
 const serverQueryString = decodeURIComponent(
   queryString.stringify(serverQuery),
@@ -253,7 +253,7 @@ const LanguageWrapper = ({ basename }: { basename?: string }) => {
 removeUniversalPortals();
 
 renderOrHydrate(
-  <ArticleConverterEnabledProvider value={articleConverterEnabled}>
+  <ArticleConverterProvider value={disableConverterValue}>
     <HelmetProvider>
       <I18nextProvider i18n={i18n}>
         <ApolloProvider client={client}>
@@ -267,7 +267,7 @@ renderOrHydrate(
         </ApolloProvider>
       </I18nextProvider>
     </HelmetProvider>
-  </ArticleConverterEnabledProvider>,
+  </ArticleConverterProvider>,
   document.getElementById('root'),
   () => {
     // See: /src/util/transformArticle.js for info on why this is needed.

@@ -29,7 +29,7 @@ import { GQLPodcastLicenseList_PodcastLicenseFragment } from '../../graphqlTypes
 import { licenseCopyrightToCopyrightType } from './licenseHelpers';
 import { licenseListCopyrightFragment } from './licenseFragments';
 import config from '../../config';
-import { useArticleConverterEnabled } from '../ArticleConverterContext';
+import { useDisableConverter } from '../ArticleConverterContext';
 
 interface PodcastLicenseInfoProps {
   podcast: GQLPodcastLicenseList_PodcastLicenseFragment;
@@ -42,13 +42,13 @@ const PodcastLicenseInfo = ({
 }: PodcastLicenseInfoProps) => {
   const { t, i18n } = useTranslation();
   const safeCopyright = licenseCopyrightToCopyrightType(podcast.copyright);
-  const articleConverterEnabled = useArticleConverterEnabled();
+  const disableConverter = useDisableConverter();
   const items = getGroupedContributorDescriptionList(
     safeCopyright,
     i18n.language,
   );
 
-  const copyText = articleConverterEnabled
+  const copyText = !disableConverter
     ? podcast.copyText
     : figureApa7CopyString(
         podcast.title,

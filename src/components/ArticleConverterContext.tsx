@@ -8,26 +8,26 @@
 
 import { createContext, ReactNode, useContext } from 'react';
 
-const ArticleConvertEnabledContext = createContext<boolean>(false);
+const ArticleConverterContext = createContext<boolean>(false);
 
 interface Props {
   children: ReactNode;
   value?: boolean;
 }
 
-export const ArticleConverterEnabledProvider = ({
+export const ArticleConverterProvider = ({
   children,
   value = false,
 }: Props) => {
   return (
-    <ArticleConvertEnabledContext.Provider value={value}>
+    <ArticleConverterContext.Provider value={value}>
       {children}
-    </ArticleConvertEnabledContext.Provider>
+    </ArticleConverterContext.Provider>
   );
 };
 
-export const useArticleConverterEnabled = () => {
-  const context = useContext(ArticleConvertEnabledContext);
+export const useDisableConverter = () => {
+  const context = useContext(ArticleConverterContext);
   if (context === undefined) {
     return false;
   }
