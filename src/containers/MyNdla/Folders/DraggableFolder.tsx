@@ -13,7 +13,7 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { Cross, Pencil } from '@ndla/icons/action';
 import { DeleteForever } from '@ndla/icons/editor';
-import { Folder } from '@ndla/ui';
+import { Folder, useSnack } from '@ndla/ui';
 import { colors, spacing } from '@ndla/core';
 import { Link, Share } from '@ndla/icons/common';
 import { MenuItemProps } from '@ndla/button';
@@ -22,6 +22,7 @@ import { FolderTotalCount } from '../../../util/folderHelpers';
 import { FolderAction, ViewType } from './FoldersPage';
 import DragHandle from './DragHandle';
 import { AuthContext } from '../../../components/AuthenticationContext';
+import config from '../../../config';
 
 interface Props {
   folder: GQLFolder;
@@ -29,6 +30,7 @@ interface Props {
   type: ViewType;
   foldersCount: Record<string, FolderTotalCount>;
   setFolderAction: (action: FolderAction | undefined) => void;
+  onCopyShareLink: () => void;
 }
 
 interface DraggableListItemProps {
@@ -57,9 +59,11 @@ const DraggableFolder = ({
   type,
   foldersCount,
   setFolderAction,
+  onCopyShareLink,
 }: Props) => {
   const { examLock } = useContext(AuthContext);
   const { t } = useTranslation();
+  const { addSnack } = useSnack();
   const {
     attributes,
     setNodeRef,
@@ -88,15 +92,20 @@ const DraggableFolder = ({
     },
     {
       icon: <Link />,
-      text: t('myNdla.folder.share.button.shareLink'),
-      onClick: () => {},
+      text: t('myNdla.folder.sharing.button.shareLink'),
+      onClick: () => {
+        window.navigator.clipboard.writeText(
+          `${config.ndlaFrontendDomain}/folder/${folder.id}`,
+        );
+        addSnack({ id: 'shareLink', content: t('myNdla.folder.sharing.link') });
+      },
     },
     {
       icon: folder.status === 'shared' ? <Cross /> : <Share />,
       text:
         folder.status === 'shared'
-          ? t('myNdla.folder.share.button.deleteSharing')
-          : t('myNdla.folder.share.shareFolder'),
+          ? t('myNdla.folder.sharing.button.delete')
+          : t('myNdla.folder.sharing.share'),
       onClick: () =>
         setFolderAction({
           action: 'share',

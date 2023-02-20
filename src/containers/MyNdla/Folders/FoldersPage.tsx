@@ -16,7 +16,7 @@ import { useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { HelmetWithTracker } from '@ndla/tracker';
-import { FileDocumentOutline, Share } from '@ndla/icons/common';
+import { FileDocumentOutline, Share, Link } from '@ndla/icons/common';
 import { Plus } from '@ndla/icons/action';
 import { GQLFolder, GQLFoldersPageQuery } from '../../../graphqlTypes';
 import { useGraphQuery } from '../../../util/runQueries';
@@ -39,6 +39,7 @@ import FolderAndResourceCount, {
 import FolderList from './FolderList';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import FolderShareModal from './FolderShareModal';
+import config from '../../../config';
 
 interface BlockWrapperProps {
   type?: string;
@@ -77,6 +78,10 @@ const StyledPlus = styled(Plus)`
   width: 22px;
   height: 22px;
 `;
+const StyledLink = styled(Link)`
+  width: 22px;
+  height: 22px;
+`;
 
 export const ListItem = styled.li`
   overflow: hidden;
@@ -94,7 +99,7 @@ const StyledRow = styled.div`
 
 export type ViewType = 'list' | 'block' | 'listLarger';
 export type FolderActionType = 'edit' | 'delete' | 'share' | undefined;
-export type FolderSharingType = 'shared' | 'deleteSharing' | 'private';
+export type FolderSharingType = 'shared' | 'delete' | 'private';
 export interface FolderAction {
   action: FolderActionType;
   folder: GQLFolder;
@@ -217,6 +222,12 @@ const FoldersPage = () => {
   const showAddButton =
     (selectedFolder?.breadcrumbs.length || 0) < 5 && !examLock;
   const showShareFolder = folderId !== null;
+
+  const copyLinkToShare = () =>
+    window.navigator.clipboard.writeText(
+      `${config.ndlaFrontendDomain}/folder/${selectedFolder?.id}`,
+    );
+
   return (
     <FoldersPageContainer>
       <HelmetWithTracker
@@ -251,21 +262,36 @@ const FoldersPage = () => {
             <span>{t('myNdla.newFolder')}</span>
           </ButtonV2>
         )}
-        {showShareFolder && (
-          <ButtonV2
-            variant="ghost"
-            colorTheme="lighter"
-            onClick={() =>
-              setFolderAction({
-                folder: selectedFolder!,
-                action: 'share',
-                index: 0,
-              })
-            }>
-            <Share />
-            {t('myNdla.folder.share.shareFolder')}
-          </ButtonV2>
-        )}
+        {showShareFolder &&
+          (selectedFolder?.status !== 'shared' ? (
+            <ButtonV2
+              variant="ghost"
+              colorTheme="lighter"
+              onClick={() =>
+                setFolderAction({
+                  folder: selectedFolder!,
+                  action: 'share',
+                  index: 0,
+                })
+              }>
+              <Share />
+              {t('myNdla.folder.sharing.share')}
+            </ButtonV2>
+          ) : (
+            <ButtonV2
+              variant="ghost"
+              colorTheme="lighter"
+              onClick={() => {
+                copyLinkToShare();
+                addSnack({
+                  id: 'shareLink',
+                  content: t('myNdla.folder.sharing.link'),
+                });
+              }}>
+              <StyledLink />
+              {t('myNdla.folder.sharing.button.shareLink')}
+            </ButtonV2>
+          ))}
         <ListViewOptions type={viewType} onTypeChange={setViewType} />
       </StyledRow>
       <FolderList
@@ -277,6 +303,7 @@ const FoldersPage = () => {
         loading={loading}
         folderId={folderId}
         setFolderAction={setFolderAction}
+        onCopyShareLink={copyLinkToShare}
       />
       {!!selectedFolder?.resources.length && (
         <ResourceCountContainer>
@@ -366,7 +393,7 @@ const FoldersPage = () => {
         !updateFolderStatusLoading &&
         deleteSharing && (
           <FolderShareModal
-            type={'deleteSharing'}
+            type={'delete'}
             folder={folderAction.folder}
             isOpen={folderAction.action === 'share'}
             onClose={() => {
@@ -382,6 +409,10 @@ const FoldersPage = () => {
               });
               setDeleteSharing(false);
               setFolderAction(undefined);
+              addSnack({
+                id: 'sharingDeleted',
+                content: t('myNdla.folder.sharing.delete'),
+              });
             }}
           />
         )}

@@ -12,14 +12,14 @@ import styled from '@emotion/styled';
 import { breakpoints, colors, fonts, mq, spacing } from '@ndla/core';
 import { ButtonV2 } from '@ndla/button';
 import { TrashCanOutline } from '@ndla/icons/action';
+import { isMobile } from 'react-device-detect';
+import { SafeLinkButton } from '@ndla/safelink';
+import { css } from '@emotion/react';
+import { useSnack } from '@ndla/ui';
 import { GQLFolder } from '../../../graphqlTypes';
 import FolderAndResourceCount from './FolderAndResourceCount';
 import config from '../../../config';
 import { FolderSharingType } from './FoldersPage';
-import { isMobile } from 'react-device-detect';
-import { SafeLinkButton } from '@ndla/safelink';
-import { css } from '@emotion/react';
-import { copyTextToClipboard } from '@ndla/util';
 
 const Title = styled.h1`
   margin-bottom: 0;
@@ -33,7 +33,6 @@ const FolderTitle = styled.h2`
   color: ${colors.brand.primary};
   ${fonts.sizes('16px', '20px')};
   font-weight: ${fonts.weight.semibold};
-  margin: 0;
   border-style: solid;
   padding: ${spacing.small};
   align-items: center;
@@ -43,7 +42,7 @@ const FolderTitle = styled.h2`
 
 const StyledModalBody = styled(ModalBody)`
   h2 {
-    margin: 0;
+    margin: 0 0 ${spacing.small} 0;
   }
   display: flex;
   flex-flow: column;
@@ -56,23 +55,15 @@ const CopyLinkButton = styled(ButtonV2)`
   background: ${colors.brand.greyLightest};
   border: 1px solid ${colors.brand.neutral7};
   border-radius: 4px;
-  width: 100%;
-
-  overflow: hidden;
-  white-space: nowrap;
-
   display: flex;
-  justify-content: center;
+  justify-content: left;
   align-items: center;
   vertical-align: middle;
-
+  width: 100%;
   font-style: italic;
   overflow: hidden;
+  white-space: nowrap;
   text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  line-clamp: 1;
-  -webkit-box-orient: vertical;
 
   &:hover,
   &:active,
@@ -99,14 +90,12 @@ const StyledButtonRow = styled.div`
   gap: ${spacing.xsmall};
   ${mq.range({ until: breakpoints.mobileWide })} {
     flex-direction: column;
-    width: 100%;
   }
 `;
 
 const buttonCSS = css`
   margin-top: ${spacing.small};
   ${mq.range({ until: breakpoints.mobileWide })} {
-    width: 100%;
     margin-top: ${spacing.xsmall};
   }
 `;
@@ -124,6 +113,7 @@ interface Props {
   type: FolderSharingType;
   onUpdateStatus?: () => void;
   onDeleteShare?: (isTrue: boolean) => void;
+  onCopyText?: () => void;
 }
 
 const FolderShareModal = ({
@@ -133,28 +123,29 @@ const FolderShareModal = ({
   folder,
   onUpdateStatus,
   onDeleteShare,
+  onCopyText,
 }: Props) => {
   const { t } = useTranslation();
-
+  const { addSnack } = useSnack();
   const copylink = `${config.ndlaFrontendDomain}/folder/${folder.id}`;
   const buttons = {
     shared: (
       <StyledLinkButton to={copylink}>
-        {t('myNdla.folder.share.button.preview')}
+        {t('myNdla.folder.sharing.button.preview')}
       </StyledLinkButton>
     ),
-    deleteSharing: (
+    delete: (
       <StyledButton
         onClick={() => {
           onUpdateStatus?.();
           onDeleteShare?.(false);
         }}>
-        {t('myNdla.folder.share.button.deleteSharing')}
+        {t('myNdla.folder.sharing.button.delete')}
       </StyledButton>
     ),
     private: (
       <StyledButton onClick={onUpdateStatus}>
-        {t('myNdla.folder.share.button.share')}
+        {t('myNdla.folder.sharing.button.share')}
       </StyledButton>
     ),
   };
@@ -169,7 +160,7 @@ const FolderShareModal = ({
       {(onCloseModal: any) => (
         <>
           <ModalHeader>
-            <Title>{t(`myNdla.folder.share.header.${type}`)}</Title>
+            <Title>{t(`myNdla.folder.sharing.header.${type}`)}</Title>
             <ModalCloseButton
               title={t('myNdla.folder.closeModal')}
               onClick={onCloseModal}
@@ -189,16 +180,22 @@ const FolderShareModal = ({
             {type === 'shared' && (
               <div>
                 <CopyLinkHeader>
-                  {t('myNdla.folder.share.description.copy')}
+                  {t('myNdla.folder.sharing.description.copy')}
                 </CopyLinkHeader>
                 <CopyLinkButton
                   variant="stripped"
-                  onClick={() => copyTextToClipboard(copylink)}>
+                  onClick={() => {
+                    onCopyText?.();
+                    addSnack({
+                      id: 'shareLink',
+                      content: t('myNdla.folder.sharing.link'),
+                    });
+                  }}>
                   {copylink}
                 </CopyLinkButton>
               </div>
             )}
-            {t(`myNdla.folder.share.description.${type}`)}
+            {t(`myNdla.folder.sharing.description.${type}`)}
             <StyledButtonRow>
               <StyledButtonRow>
                 {buttons[type]}
@@ -211,7 +208,7 @@ const FolderShareModal = ({
                   variant={isMobile ? 'outline' : 'ghost'}
                   colorTheme="danger"
                   onClick={() => onDeleteShare?.(true)}>
-                  {t('myNdla.folder.share.button.deleteSharing')}
+                  {t('myNdla.folder.sharing.button.delete')}
                   {!isMobile && <TrashCanOutline />}
                 </StyledButton>
               )}
