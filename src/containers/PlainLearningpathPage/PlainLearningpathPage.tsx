@@ -21,7 +21,7 @@ import {
 import { AuthContext } from '../../components/AuthenticationContext';
 import { TypedParams, useTypedParams } from '../../routeHelpers';
 import { SKIP_TO_CONTENT_ID } from '../../constants';
-import config from '../../config';
+import { useArticleConverterEnabled } from '../../components/ArticleConverterContext';
 
 interface MatchParams extends TypedParams {
   learningpathId: string;
@@ -40,6 +40,7 @@ const plainLearningpathPageQuery = gql`
 const PlainLearningpathPage = () => {
   const { learningpathId, stepId } = useTypedParams<MatchParams>();
   const { user } = useContext(AuthContext);
+  const articleConverterEnabled = useArticleConverterEnabled();
 
   const { data, loading } = useGraphQuery<
     GQLPlainLearningpathPageQuery,
@@ -47,7 +48,7 @@ const PlainLearningpathPage = () => {
   >(plainLearningpathPageQuery, {
     variables: {
       pathId: learningpathId,
-      convertEmbeds: !config.articleConverterEnabled,
+      convertEmbeds: !articleConverterEnabled,
     },
   });
 

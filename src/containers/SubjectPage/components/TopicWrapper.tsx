@@ -12,7 +12,7 @@ import {
   GQLTopicWrapperQueryVariables,
   GQLTopicWrapper_SubjectFragment,
 } from '../../../graphqlTypes';
-import config from '../../../config';
+import { useArticleConverterEnabled } from '../../../components/ArticleConverterContext';
 
 type Props = {
   topicId: string;
@@ -53,6 +53,7 @@ const TopicWrapper = ({
 }: Props) => {
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
+  const articleConverterEnabled = useArticleConverterEnabled();
   const { data, loading, error } = useGraphQuery<
     GQLTopicWrapperQuery,
     GQLTopicWrapperQueryVariables
@@ -60,7 +61,7 @@ const TopicWrapper = ({
     variables: {
       topicId,
       subjectId,
-      convertEmbeds: !config.articleConverterEnabled,
+      convertEmbeds: !articleConverterEnabled,
     },
     onCompleted: data => {
       if (data.topic) {

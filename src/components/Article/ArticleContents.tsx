@@ -24,6 +24,7 @@ import LicenseBox from '../license/LicenseBox';
 import { transformArticle } from '../../util/transformArticle';
 import { GQLArticleContents_TopicFragment } from '../../graphqlTypes';
 import config from '../../config';
+import { useArticleConverterEnabled } from '../ArticleConverterContext';
 
 interface Props {
   topic: GQLArticleContents_TopicFragment;
@@ -39,6 +40,7 @@ const ArticleContents = ({
   subjectId,
 }: Props) => {
   const { i18n } = useTranslation();
+  const articleConverterEnabled = useArticleConverterEnabled();
   const markdown = useMemo(() => {
     const md = new Remarkable({ breaks: true });
     md.inline.ruler.enable(['sub', 'sup']);
@@ -53,7 +55,7 @@ const ArticleContents = ({
   if (!topic.article) return null;
 
   const article = transformArticle(topic.article, i18n.language, {
-    enabled: !config.articleConverterEnabled,
+    enabled: !articleConverterEnabled,
     path: `${config.ndlaFrontendDomain}/article/${topic.article.id}`,
     subject: subjectId,
   });
@@ -70,7 +72,7 @@ const ArticleContents = ({
         </LayoutItem>
       )}
       <LayoutItem layout="extend">
-        {config.articleConverterEnabled ? (
+        {articleConverterEnabled ? (
           <ArticleContent content={article.content} locale={i18n.language} />
         ) : (
           article.content

@@ -25,7 +25,7 @@ import {
 import { AuthContext } from '../../components/AuthenticationContext';
 import { TypedParams, useTypedParams } from '../../routeHelpers';
 import { SKIP_TO_CONTENT_ID } from '../../constants';
-import config from '../../config';
+import { useArticleConverterEnabled } from '../../components/ArticleConverterContext';
 
 interface MatchParams extends TypedParams {
   articleId: string;
@@ -55,6 +55,7 @@ const plainArticlePageQuery = gql`
 const PlainArticlePage = () => {
   const { user } = useContext(AuthContext);
   const { articleId } = useTypedParams<MatchParams>();
+  const articleConverterEnabled = useArticleConverterEnabled();
   const { pathname } = useLocation();
   const { loading, data, error } = useGraphQuery<
     GQLPlainArticlePageQuery,
@@ -65,7 +66,7 @@ const PlainArticlePage = () => {
       isOembed: 'false',
       path: pathname,
       showVisualElement: 'true',
-      convertEmbeds: !config.articleConverterEnabled,
+      convertEmbeds: !articleConverterEnabled,
     },
   });
 

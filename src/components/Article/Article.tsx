@@ -37,6 +37,7 @@ import { MastheadHeightPx } from '../../constants';
 import { useGraphQuery } from '../../util/runQueries';
 import AddResourceToFolderModal from '../MyNdla/AddResourceToFolderModal';
 import FavoriteButton from './FavoritesButton';
+import { useArticleConverterEnabled } from '../ArticleConverterContext';
 
 interface CompetenceGoalModalProps {
   Dialog: ComponentType;
@@ -203,6 +204,7 @@ const Article = ({
   ...rest
 }: Props) => {
   const { t, i18n } = useTranslation();
+  const articleConverterEnabled = useArticleConverterEnabled();
   const [isOpen, setIsOpen] = useState(false);
   const [competenceGoalsLoading, setCompetenceGoalsLoading] = useState(true);
   const markdown = useMemo(() => {
@@ -300,7 +302,7 @@ const Article = ({
         licenseBox={<LicenseBox article={article} copyText={copyText} />}
         messages={messages}
         copyText={
-          config.articleConverterEnabled ? article.metaData?.copyText : copyText
+          articleConverterEnabled ? article.metaData?.copyText : copyText
         }
         competenceGoalsLoading={competenceGoalsLoading}
         competenceGoals={renderCompetenceGoals(

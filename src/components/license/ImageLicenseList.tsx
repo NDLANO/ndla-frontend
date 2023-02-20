@@ -30,6 +30,7 @@ import { GQLImageLicenseList_ImageLicenseFragment } from '../../graphqlTypes';
 import { licenseCopyrightToCopyrightType } from './licenseHelpers';
 import { licenseListCopyrightFragment } from './licenseFragments';
 import config from '../../config';
+import { useArticleConverterEnabled } from '../ArticleConverterContext';
 
 export const downloadUrl = (imageSrc: string) => {
   const urlObject = queryString.parseUrl(imageSrc);
@@ -46,13 +47,14 @@ interface ImageLicenseInfoProps {
 
 const ImageLicenseInfo = ({ image, articleId }: ImageLicenseInfoProps) => {
   const { t, i18n } = useTranslation();
+  const articleConverterEnabled = useArticleConverterEnabled();
   const safeCopyright = licenseCopyrightToCopyrightType(image.copyright);
   const items = getGroupedContributorDescriptionList(
     safeCopyright,
     i18n.language,
   );
 
-  const copyText = config.articleConverterEnabled
+  const copyText = articleConverterEnabled
     ? image.copyText
     : figureApa7CopyString(
         image.title,

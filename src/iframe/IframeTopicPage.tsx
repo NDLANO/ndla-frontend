@@ -27,6 +27,7 @@ import {
   GQLIframeTopicPage_TopicFragment,
 } from '../graphqlTypes';
 import { LocaleType } from '../interfaces';
+import { useArticleConverterEnabled } from '../components/ArticleConverterContext';
 
 interface Props extends CustomWithTranslation {
   locale?: LocaleType;
@@ -51,17 +52,18 @@ export const IframeTopicPage = ({
   locale: localeProp,
 }: Props) => {
   const locale = localeProp ?? i18n.language;
+  const articleConverterEnabled = useArticleConverterEnabled();
 
   const [article, scripts] = useMemo(() => {
     return [
       transformArticle(propArticle, locale, {
-        enabled: !config.articleConverterEnabled,
+        enabled: !articleConverterEnabled,
         path: `${config.ndlaFrontendDomain}/article/${propArticle.id}`,
         isOembed: true,
       }),
       getArticleScripts(propArticle, locale),
     ];
-  }, [propArticle, locale]);
+  }, [propArticle, locale, articleConverterEnabled]);
 
   const contentUrl = topic?.path
     ? `${config.ndlaFrontendDomain}${topic.path}`
@@ -98,7 +100,7 @@ export const IframeTopicPage = ({
       <OneColumn>
         <main>
           <Article
-            contentTransformed={!config.articleConverterEnabled}
+            contentTransformed={!articleConverterEnabled}
             isTopicArticle
             article={article}
             label={t('topicPage.topic')}

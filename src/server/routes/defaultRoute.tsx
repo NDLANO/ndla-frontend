@@ -32,6 +32,7 @@ import {
 import { renderHtml, renderPageWithData } from '../helpers/render';
 import { EmotionCacheKey, STORED_LANGUAGE_COOKIE_KEY } from '../../constants';
 import { VersionHashProvider } from '../../components/VersionHashContext';
+import { ArticleConverterEnabledProvider } from '../../components/ArticleConverterContext';
 import IsMobileContext from '../../IsMobileContext';
 import { TEMPORARY_REDIRECT } from '../../statusCodes';
 import { Assets } from '../helpers/Document';
@@ -60,6 +61,9 @@ async function doRender(req: Request) {
   global.assets = assets; // used for including mathjax js in pages with math
   const resCookie = req.headers['cookie'] ?? '';
   const userAgent = req.headers['user-agent'];
+  const articleConverterEnabled = req.query.disableConverter?.length
+    ? !(req.query.disableConverter === 'true')
+    : config.articleConverterEnabled;
   const isMobile = userAgent
     ? getSelectorsByUserAgent(userAgent)?.isMobile
     : false;
@@ -80,23 +84,25 @@ async function doRender(req: Request) {
   // @ts-ignore
   const helmetContext: FilledContext = {};
   const Page = !disableSSR(req) ? (
-    <RedirectContext.Provider value={context}>
-      <HelmetProvider context={helmetContext}>
-        <I18nextProvider i18n={i18n}>
-          <ApolloProvider client={client}>
-            <CacheProvider value={cache}>
-              <VersionHashProvider value={versionHash}>
-                <IsMobileContext.Provider value={isMobile}>
-                  <StaticRouter basename={basename} location={req.url}>
-                    <App isClient={false} locale={locale} key={locale} />
-                  </StaticRouter>
-                </IsMobileContext.Provider>
-              </VersionHashProvider>
-            </CacheProvider>
-          </ApolloProvider>
-        </I18nextProvider>
-      </HelmetProvider>
-    </RedirectContext.Provider>
+    <ArticleConverterEnabledProvider value={articleConverterEnabled}>
+      <RedirectContext.Provider value={context}>
+        <HelmetProvider context={helmetContext}>
+          <I18nextProvider i18n={i18n}>
+            <ApolloProvider client={client}>
+              <CacheProvider value={cache}>
+                <VersionHashProvider value={versionHash}>
+                  <IsMobileContext.Provider value={isMobile}>
+                    <StaticRouter basename={basename} location={req.url}>
+                      <App isClient={false} locale={locale} key={locale} />
+                    </StaticRouter>
+                  </IsMobileContext.Provider>
+                </VersionHashProvider>
+              </CacheProvider>
+            </ApolloProvider>
+          </I18nextProvider>
+        </HelmetProvider>
+      </RedirectContext.Provider>
+    </ArticleConverterEnabledProvider>
   ) : (
     <HelmetProvider context={helmetContext}>{''}</HelmetProvider>
   );

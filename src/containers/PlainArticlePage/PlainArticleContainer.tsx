@@ -25,6 +25,7 @@ import { GQLPlainArticleContainer_ArticleFragment } from '../../graphqlTypes';
 import config from '../../config';
 import { getArticleProps } from '../../util/getArticleProps';
 import { getAllDimensions } from '../../util/trackingUtil';
+import { useArticleConverterEnabled } from '../../components/ArticleConverterContext';
 
 interface Props extends CustomWithTranslation {
   article: GQLPlainArticleContainer_ArticleFragment;
@@ -41,6 +42,7 @@ const PlainArticleContainer = ({
   t,
   skipToContentId,
 }: Props) => {
+  const articleConverterEnabled = useArticleConverterEnabled();
   useEffect(() => {
     if (window.MathJax && typeof window.MathJax.typeset === 'function') {
       try {
@@ -53,10 +55,10 @@ const PlainArticleContainer = ({
 
   const article = useMemo(() => {
     return transformArticle(propArticle, i18n.language, {
-      enabled: !config.articleConverterEnabled,
+      enabled: !articleConverterEnabled,
       path: `${config.ndlaFrontendDomain}/article/${propArticle.id}`,
     });
-  }, [propArticle, i18n.language]);
+  }, [propArticle, i18n.language, articleConverterEnabled]);
 
   if (!article) return <NotFoundPage />;
   const scripts = getArticleScripts(article, i18n.language);
@@ -99,7 +101,7 @@ const PlainArticleContainer = ({
       />
       <OneColumn>
         <Article
-          contentTransformed={!config.articleConverterEnabled}
+          contentTransformed={!articleConverterEnabled}
           isPlainArticle
           id={skipToContentId}
           article={article}

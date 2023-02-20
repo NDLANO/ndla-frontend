@@ -27,6 +27,7 @@ import {
   GQLLearningpathEmbed_TopicFragment,
 } from '../../graphqlTypes';
 import config from '../../config';
+import { useArticleConverterEnabled } from '../ArticleConverterContext';
 
 interface StyledIframeContainerProps {
   oembedWidth: number;
@@ -58,18 +59,24 @@ const LearningpathEmbed = ({
   breadcrumbItems,
 }: Props) => {
   const { i18n } = useTranslation();
+  const articleConverterEnabled = useArticleConverterEnabled();
 
   const [article, scripts] = useMemo(() => {
     if (!learningpathStep.resource?.article) return [undefined, undefined];
     return [
       transformArticle(learningpathStep.resource.article, i18n.language, {
-        enabled: !config.articleConverterEnabled,
+        enabled: !articleConverterEnabled,
         path: `${config.ndlaFrontendDomain}/article/${learningpathStep.resource.article.id}`,
         subject: subjectId,
       }),
       getArticleScripts(learningpathStep.resource.article, i18n.language),
     ];
-  }, [learningpathStep.resource?.article, i18n.language, subjectId]);
+  }, [
+    learningpathStep.resource?.article,
+    i18n.language,
+    subjectId,
+    articleConverterEnabled,
+  ]);
 
   if (
     !learningpathStep ||
@@ -132,7 +139,7 @@ const LearningpathEmbed = ({
         </script>
       </Helmet>
       <Article
-        contentTransformed={!config.articleConverterEnabled}
+        contentTransformed={!articleConverterEnabled}
         isPlainArticle
         id={skipToContentId}
         article={article}
