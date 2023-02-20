@@ -7,10 +7,11 @@
  */
 
 import styled from '@emotion/styled';
-import { colors, misc, spacing } from '@ndla/core';
+import { breakpoints, colors, misc, mq, spacing } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import { HumanMaleBoard } from '@ndla/icons/common';
 import keyBy from 'lodash/keyBy';
+import { isMobile } from 'react-device-detect';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { GQLFolder, GQLFolderResource } from '../../graphqlTypes';
@@ -24,10 +25,18 @@ import Resource from './components/Resource';
 const Layout = styled.div`
   display: grid;
   grid-template-columns: 400px 1fr;
+
+  ${mq.range({ until: breakpoints.tablet })} {
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 const Sidebar = styled.section`
   padding: ${spacing.normal};
+  ${mq.range({ until: breakpoints.tablet })} {
+    padding: 0;
+  }
 `;
 
 const InfoBox = styled.article`
@@ -87,10 +96,12 @@ const SharedFolderPage = () => {
   return (
     <Layout>
       <Sidebar>
-        <InfoBox>
-          <HumanMaleBoard />
-          <span>{t('myNdla.sharedFolder.info')}</span>
-        </InfoBox>
+        {!isMobile && (
+          <InfoBox>
+            <HumanMaleBoard />
+            <span>{t('myNdla.sharedFolder.info')}</span>
+          </InfoBox>
+        )}
         <FolderNavigation folder={folder} meta={keyedData} loading={loading} />
       </Sidebar>
       <section>

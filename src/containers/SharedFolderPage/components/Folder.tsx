@@ -6,10 +6,12 @@
  *
  */
 
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { colors, spacing } from '@ndla/core';
 import { ArrowDropDown } from '@ndla/icons/common';
+import { useMastheadHeight } from '@ndla/ui';
 import { KeyboardEvent, useMemo, useState } from 'react';
 import {
   GQLFolder,
@@ -18,24 +20,33 @@ import {
 import FolderResource from './FolderResource';
 
 export const StyledUl = styled.ul`
-  margin-left: ${spacing.nsmall};
-  width: 100%;
   list-style: none;
+  padding: 0;
+  margin: 0;
+  padding-left: ${spacing.nsmall};
 `;
 
-interface StyledButtonProps {
+export const StyledLi = styled.li<StyledResourceProps>`
+  margin: 0;
+  padding: ${({ root }) => (root ? 0 : spacing.xxsmall)} 0;
+`;
+
+interface StyledResourceProps {
   root?: boolean;
 }
 
-export const StyledFolderButton = styled(ButtonV2)<StyledButtonProps>`
+export const StyledFolderButton = styled(ButtonV2)<StyledResourceProps>`
+  justify-content: flex-start;
   &,
   &:hover,
   &:active,
   &:focus {
     color: ${({ root }) => (root ? colors.brand.primary : colors.black)};
-    background: none;
+    background: ${({ root }) => (root ? colors.white : 'none')};
     border: none;
   }
+
+  width: ${({ root }) => root && '100%'};
 `;
 
 interface StyledArrowProps {
@@ -76,6 +87,7 @@ interface Props {
 
 const Folder = ({ folder, meta, defaultOpenFolder, root }: Props) => {
   const { name, subfolders, resources } = folder;
+  const { height } = useMastheadHeight();
 
   const [isOpen, setIsOpen] = useState(
     containsFolder(folder, defaultOpenFolder),
@@ -97,12 +109,19 @@ const Folder = ({ folder, meta, defaultOpenFolder, root }: Props) => {
   };
 
   return (
-    <li role="none" data-list-item>
+    <StyledLi role="none" data-list-item root>
       <StyledFolderButton
         aria-owns={`folder-sublist-${folder.id}`}
         aria-expanded={isOpen}
         id={`folder-${folder.id}`}
         tabIndex={-1}
+        css={
+          root &&
+          css`
+            position: sticky;
+            top: ${height}px;
+          `
+        }
         variant="ghost"
         color="light"
         role="treeitem"
@@ -135,7 +154,7 @@ const Folder = ({ folder, meta, defaultOpenFolder, root }: Props) => {
           ))}
         </StyledUl>
       )}
-    </li>
+    </StyledLi>
   );
 };
 

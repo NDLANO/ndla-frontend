@@ -7,7 +7,7 @@
  */
 
 import styled from '@emotion/styled';
-import { colors, spacing } from '@ndla/core';
+import { colors } from '@ndla/core';
 import { SafeLinkButton } from '@ndla/safelink';
 import { ContentTypeBadge } from '@ndla/ui';
 import { useParams } from 'react-router-dom';
@@ -16,6 +16,7 @@ import {
   GQLFolderResourceMetaSearchQuery,
 } from '../../../graphqlTypes';
 import { contentTypeMapping } from '../../../util/getContentType';
+import { StyledLi } from './Folder';
 
 interface StyledProps {
   current: boolean;
@@ -59,7 +60,7 @@ const FolderResource = ({ parentId, resource, meta }: Props) => {
     contentTypeMapping[meta?.resourceTypes?.[0]?.id || 'default'];
 
   return (
-    <li role="none" data-list-item>
+    <StyledLi role="none" data-list-item>
       <StyledSafelinkButton
         current={isCurrent}
         aria-current={isCurrent ? 'page' : undefined}
@@ -75,7 +76,7 @@ const FolderResource = ({ parentId, resource, meta }: Props) => {
         />
         {meta?.title}
       </StyledSafelinkButton>
-    </li>
+    </StyledLi>
   );
 };
 
