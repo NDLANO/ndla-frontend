@@ -59,7 +59,7 @@ const disableSSR = (req: Request) => {
 async function doRenderPage(req: Request, initialProps: InitialProps) {
   const context = {};
 
-  const disableConverter = req.query.disableConverter?.length
+  const disableConverter = req.query?.disableConverter?.length
     ? req.query.disableConverter === 'true'
     : config.disableConverter;
 
