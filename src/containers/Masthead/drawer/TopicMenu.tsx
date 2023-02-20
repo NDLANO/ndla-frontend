@@ -14,6 +14,7 @@ import { ContentTypeBadge } from '@ndla/ui';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {
   GQLTopicMenuResourcesQuery,
   GQLTopicMenuResourcesQueryVariables,
@@ -64,6 +65,7 @@ const TopicMenu = ({
   level,
   removeTopic,
 }: Props) => {
+  const { t } = useTranslation();
   const parentIsTopic = topic.parent?.startsWith('urn:subject');
   const location = useLocation();
   const Icon = parentIsTopic ? Class : Bookmark;
@@ -181,27 +183,26 @@ const TopicMenu = ({
                 ))}
               </ResourceTypeList>
             ))
-          : sortedResources.map(res => (
-              <DrawerMenuItem
-                id={`${topic.id}-${res.id}`}
-                type="link"
-                to={res.path}
-                current={res.path === location.pathname}
-                onClose={onClose}
-                key={res.id}>
-                <StyledResourceSpan>
-                  <ContentTypeBadge
-                    type={
-                      res.resourceTypes[0]
-                        ? contentTypeMapping[res.resourceTypes[0]?.id]!
-                        : 'subject-material'
-                    }
-                    border={false}
-                  />
-                  {res.name}
-                </StyledResourceSpan>
-              </DrawerMenuItem>
-            ))}
+          : sortedResources.map(res => {
+              const type = res.resourceTypes[0]
+                ? contentTypeMapping[res.resourceTypes[0]?.id]!
+                : 'subject-material';
+              return (
+                <DrawerMenuItem
+                  id={`${topic.id}-${res.id}`}
+                  type="link"
+                  to={res.path}
+                  current={res.path === location.pathname}
+                  onClose={onClose}
+                  key={res.id}>
+                  <StyledResourceSpan
+                    aria-label={`${res.name}, ${t(`contentTypes.${type}`)}`}>
+                    <ContentTypeBadge type={type} border={false} />
+                    {res.name}
+                  </StyledResourceSpan>
+                </DrawerMenuItem>
+              );
+            })}
       </DrawerList>
     </DrawerPortion>
   );
