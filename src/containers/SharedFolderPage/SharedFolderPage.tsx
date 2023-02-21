@@ -39,7 +39,7 @@ const Sidebar = styled.section`
   }
   display: flex;
   flex-direction: column;
-  gap: ${spacing.xsmall};
+  gap: ${spacing.small};
 `;
 
 const InfoBox = styled.article`
