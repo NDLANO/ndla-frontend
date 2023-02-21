@@ -87,11 +87,10 @@ const DefaultMenu = ({
     [setActiveMenu],
   );
 
-  useArrowNavigation(
-    !type,
-    `header-${type ?? previousType ?? 'programme'}`,
-    onRightClick,
-  );
+  useArrowNavigation(!type, {
+    initialFocused: `header-${type ?? previousType ?? 'programme'}`,
+    onRightKeyPressed: onRightClick,
+  });
 
   if (type) {
     return (

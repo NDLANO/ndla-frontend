@@ -97,12 +97,11 @@ const TopicMenu = ({
     [topic, topicPath],
   );
 
-  useArrowNavigation(
-    active,
-    active ? `header-${topic.id}` : topicPath[level]?.id,
-    arrowAddTopic,
-    onCloseMenuPortion,
-  );
+  useArrowNavigation(active, {
+    initialFocused: active ? `header-${topic.id}` : topicPath[level]?.id,
+    onRightKeyPressed: arrowAddTopic,
+    onLeftKeyPressed: onCloseMenuPortion,
+  });
 
   const coreResources = useMemo(() => data?.topic?.coreResources ?? [], [
     data?.topic?.coreResources,

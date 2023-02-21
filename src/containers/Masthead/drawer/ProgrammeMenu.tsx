@@ -37,7 +37,10 @@ const ProgrammeMenu = ({ onClose, onCloseMenuPortion }: Props) => {
 
   const programmePath = `/utdanning/${urlProgramme}`;
 
-  useArrowNavigation(true, programmes[0]?.path, undefined, onCloseMenuPortion);
+  useArrowNavigation(true, {
+    initialFocused: programmes[0]?.path,
+    onLeftKeyPressed: onCloseMenuPortion,
+  });
 
   return (
     <DrawerPortion>

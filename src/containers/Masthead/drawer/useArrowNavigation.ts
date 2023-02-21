@@ -23,12 +23,21 @@ const getItem = (activeElement: Element, direction: number) => {
   return nth(elements, index + direction);
 };
 
+interface ArrowNavigationConfig {
+  initialFocused?: string;
+  onRightKeyPressed?: (id: string | undefined, e: KeyboardEvent) => void;
+  onLeftKeyPressed?: (id: string | undefined, e: KeyboardEvent) => void;
+  multilevel?: boolean;
+}
+
 const useArrowNavigation = (
   active: boolean,
-  initialFocused?: string,
-  onRightKeyPressed?: (id: string | undefined, e: KeyboardEvent) => void,
-  onLeftKeyPressed?: (id: string | undefined, e: KeyboardEvent) => void,
-  multilevel?: boolean,
+  {
+    initialFocused,
+    onLeftKeyPressed,
+    onRightKeyPressed,
+    multilevel,
+  }: ArrowNavigationConfig,
 ) => {
   const [focused, setFocused] = useState<string | undefined>(undefined);
   const arrowHandler = useCallback(

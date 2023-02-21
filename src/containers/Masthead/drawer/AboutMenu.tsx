@@ -50,12 +50,11 @@ const AboutMenu = ({
     onCloseMenuPortion();
   }, [onCloseMenuPortion]);
 
-  useArrowNavigation(
-    true,
-    'header-about-ndla',
-    onNavigateRight,
-    onNavigateLeft,
-  );
+  useArrowNavigation(true, {
+    initialFocused: 'header-about-ndla',
+    onRightKeyPressed: onNavigateRight,
+    onLeftKeyPressed: onNavigateLeft,
+  });
 
   return (
     <>

@@ -22,12 +22,10 @@ interface Props {
 
 const AboutSubMenu = ({ subType, onCloseSubMenuPortion }: Props) => {
   const { t } = useTranslation();
-  useArrowNavigation(
-    true,
-    'header-about-sub-ndla',
-    undefined,
-    onCloseSubMenuPortion,
-  );
+  useArrowNavigation(true, {
+    initialFocused: 'header-about-sub-ndla',
+    onLeftKeyPressed: onCloseSubMenuPortion,
+  });
   return (
     <DrawerPortion>
       <DrawerList id={'about-sub-menu'}>

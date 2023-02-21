@@ -32,17 +32,16 @@ const FolderNavigation = ({ folder, meta, loading }: Props) => {
       ? `shared-${subfolderId}-${resourceId}`
       : `shared-${folderId}`;
 
-  useArrowNavigation(
-    !!(!loading && folder),
-    defaultSelected,
-    undefined,
-    undefined,
-    true,
-  );
+  useArrowNavigation(!!(!loading && folder), {
+    initialFocused: defaultSelected,
+    multilevel: true,
+    autoFocus: false,
+  });
 
   if (loading) {
     return <Spinner />;
   }
+
   if (!folder) {
     return <div>error</div>;
   }
