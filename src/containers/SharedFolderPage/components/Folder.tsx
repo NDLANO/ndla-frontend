@@ -95,7 +95,7 @@ const Folder = ({ folder, meta, defaultOpenFolder, root }: Props) => {
   const { height } = useMastheadHeight();
 
   const [isOpen, setIsOpen] = useState(
-    containsFolder(folder, defaultOpenFolder),
+    containsFolder(folder, defaultOpenFolder) || !!root,
   );
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -134,7 +134,7 @@ const Folder = ({ folder, meta, defaultOpenFolder, root }: Props) => {
           to={`/folder/${folder.id}`}
           aria-owns={`folder-sublist-${folder.id}`}
           aria-expanded={isOpen}
-          id={`folder-${folder.id}`}
+          id={`shared-${folder.id}`}
           tabIndex={-1}
           css={css`
             position: sticky;
@@ -153,7 +153,7 @@ const Folder = ({ folder, meta, defaultOpenFolder, root }: Props) => {
         <StyledFolderButton
           aria-owns={`folder-sublist-${folder.id}`}
           aria-expanded={isOpen}
-          id={`folder-${folder.id}`}
+          id={`shared-${folder.id}`}
           tabIndex={-1}
           variant="ghost"
           color="light"

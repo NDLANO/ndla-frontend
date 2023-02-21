@@ -25,11 +25,16 @@ interface Props {
 }
 
 const FolderNavigation = ({ folder, meta, loading }: Props) => {
-  const { subfolderId, resourceId } = useParams();
+  const { subfolderId, resourceId, folderId } = useParams();
+
+  const defaultSelected =
+    subfolderId && resourceId
+      ? `shared-${subfolderId}-${resourceId}`
+      : `shared-${folderId}`;
 
   useArrowNavigation(
     !!(!loading && folder),
-    `resource-${subfolderId}-${resourceId}`,
+    defaultSelected,
     undefined,
     undefined,
     true,

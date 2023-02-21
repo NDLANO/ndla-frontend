@@ -65,7 +65,7 @@ const FolderResource = ({ parentId, resource, meta }: Props) => {
         current={isCurrent}
         aria-current={isCurrent ? 'page' : undefined}
         tabIndex={-1}
-        id={`resource-${parentId}-${resource.id}`}
+        id={`shared-${parentId}-${resource.id}`}
         role="treeitem"
         variant={isCurrent ? 'solid' : 'ghost'}
         to={`/folder/${rootFolderId}/${parentId}/${resource.id}`}>
