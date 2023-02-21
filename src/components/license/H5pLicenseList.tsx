@@ -53,7 +53,7 @@ const H5pLicenseInfo = ({ h5p }: H5pLicenseInfoProps) => {
         </a>
       </MediaListItemImage>
       <MediaListItemBody
-        license={h5p.copyright.license?.license}
+        license={h5p.copyright?.license?.license ?? ''}
         title={t('license.h5p.rules')}
         resourceType="h5p"
         resourceUrl={h5p.src}

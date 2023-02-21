@@ -7,7 +7,7 @@
  */
 
 import { gql } from '@apollo/client';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { CustomWithTranslation, withTranslation } from 'react-i18next';
 import { FeideUserApiType, OneColumn } from '@ndla/ui';
@@ -25,6 +25,7 @@ import { GQLPlainArticleContainer_ArticleFragment } from '../../graphqlTypes';
 import config from '../../config';
 import { getArticleProps } from '../../util/getArticleProps';
 import { getAllDimensions } from '../../util/trackingUtil';
+import { useDisableConverter } from '../../components/ArticleConverterContext';
 
 interface Props extends CustomWithTranslation {
   article: GQLPlainArticleContainer_ArticleFragment;
@@ -41,6 +42,7 @@ const PlainArticleContainer = ({
   t,
   skipToContentId,
 }: Props) => {
+  const disableConverter = useDisableConverter();
   useEffect(() => {
     if (window.MathJax && typeof window.MathJax.typeset === 'function') {
       try {
@@ -51,9 +53,17 @@ const PlainArticleContainer = ({
     }
   });
 
-  const article = transformArticle(propArticle, i18n.language);
+  const [article, scripts] = useMemo(() => {
+    return [
+      transformArticle(propArticle, i18n.language, {
+        enabled: disableConverter,
+        path: `${config.ndlaFrontendDomain}/article/${propArticle.id}`,
+      }),
+      getArticleScripts(propArticle, i18n.language),
+    ];
+  }, [propArticle, i18n.language, disableConverter]);
+
   if (!article) return <NotFoundPage />;
-  const scripts = getArticleScripts(article, i18n.language);
   const oembedUrl = `${config.ndlaFrontendDomain}/oembed?url=${config.ndlaFrontendDomain}/article/${article.id}`;
 
   return (
@@ -93,6 +103,7 @@ const PlainArticleContainer = ({
       />
       <OneColumn>
         <Article
+          contentTransformed={disableConverter}
           isPlainArticle
           id={skipToContentId}
           article={article}
