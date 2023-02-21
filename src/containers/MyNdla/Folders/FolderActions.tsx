@@ -15,7 +15,7 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import concat from 'lodash/concat';
 import { GQLFolder } from '../../../graphqlTypes';
-import { copyLinkToShare, FolderActionType } from './FoldersPage';
+import { copyFolderSharingLink, FolderActionType } from './FoldersPage';
 
 interface Props {
   onActionChanged: (action: FolderActionType) => void;
@@ -42,7 +42,7 @@ const FolderActions = ({ onActionChanged, selectedFolder }: Props) => {
                 icon: <Link />,
                 text: t('myNdla.folder.sharing.button.shareLink'),
                 onClick: () => {
-                  copyLinkToShare(selectedFolder?.id ?? '');
+                  copyFolderSharingLink(selectedFolder?.id ?? '');
                   addSnack({
                     id: 'shareLink',
                     content: t('myNdla.folder.sharing.link'),
@@ -51,8 +51,8 @@ const FolderActions = ({ onActionChanged, selectedFolder }: Props) => {
               },
               {
                 icon: <Cross />,
-                text: t('myNdla.folder.sharing.button.delete'),
-                onClick: () => onActionChanged('share'),
+                text: t('myNdla.folder.sharing.button.unShare'),
+                onClick: () => onActionChanged('shared'),
               },
             ]
           : [

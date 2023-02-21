@@ -20,7 +20,7 @@ import { MenuItemProps } from '@ndla/button';
 import concat from 'lodash/concat';
 import { GQLFolder } from '../../../graphqlTypes';
 import { FolderTotalCount } from '../../../util/folderHelpers';
-import { copyLinkToShare, FolderAction, ViewType } from './FoldersPage';
+import { FolderAction, copyFolderSharingLink, ViewType } from './FoldersPage';
 import DragHandle from './DragHandle';
 import { AuthContext } from '../../../components/AuthenticationContext';
 
@@ -97,7 +97,7 @@ const DraggableFolder = ({
             icon: <Link />,
             text: t('myNdla.folder.sharing.button.shareLink'),
             onClick: () => {
-              copyLinkToShare(folder.id);
+              copyFolderSharingLink(folder.id);
               addSnack({
                 id: 'shareLink',
                 content: t('myNdla.folder.sharing.link'),
@@ -121,7 +121,7 @@ const DraggableFolder = ({
             text: t('myNdla.folder.sharing.button.share'),
             onClick: () =>
               setFolderAction({
-                action: 'share',
+                action: 'private',
                 folder,
                 index,
               }),

@@ -101,8 +101,8 @@ export type ViewType = 'list' | 'block' | 'listLarger';
 export type FolderActionType =
   | 'edit'
   | 'delete'
-  | 'share'
   | 'shared'
+  | 'unShare'
   | 'private'
   | undefined;
 export interface FolderAction {
@@ -111,7 +111,7 @@ export interface FolderAction {
   index?: number;
 }
 
-export const copyLinkToShare = (id: string) =>
+export const copyFolderSharingLink = (id: string) =>
   window.navigator.clipboard.writeText(
     `${config.ndlaFrontendDomain}/folder/${id}`,
   );
@@ -271,7 +271,7 @@ const FoldersPage = () => {
               onClick={() =>
                 setFolderAction({
                   folder: selectedFolder,
-                  action: 'share',
+                  action: 'shared',
                   index: 0,
                 })
               }>
@@ -283,7 +283,7 @@ const FoldersPage = () => {
               variant="ghost"
               colorTheme="lighter"
               onClick={() => {
-                copyLinkToShare(selectedFolder?.id ?? '');
+                copyFolderSharingLink(selectedFolder?.id ?? '');
                 addSnack({
                   id: 'shareLink',
                   content: t('myNdla.folder.sharing.link'),
@@ -357,14 +357,14 @@ const FoldersPage = () => {
           }
         }}
       />
-      {folderAction?.action === 'share' && (
+      {folderAction?.action === 'shared' && (
         <FolderShareModal
           type={'shared'}
           folder={folderAction.folder}
-          isOpen={folderAction.action === 'share'}
+          isOpen={folderAction.action === 'shared'}
           onClose={() => setFolderAction(undefined)}
           onUpdateStatus={() =>
-            setFolderAction({ action: 'shared', folder: folderAction.folder })
+            setFolderAction({ action: 'unShare', folder: folderAction.folder })
           }
         />
       )}
@@ -385,11 +385,11 @@ const FoldersPage = () => {
           }}
         />
       )}
-      {folderAction?.action === 'shared' && (
+      {folderAction?.action === 'unShare' && (
         <FolderShareModal
-          type={'delete'}
+          type={'unShare'}
           folder={folderAction.folder}
-          isOpen={folderAction.action === 'shared'}
+          isOpen={folderAction.action === 'unShare'}
           onClose={() => {
             setFolderAction(undefined);
           }}
@@ -403,7 +403,7 @@ const FoldersPage = () => {
             setFolderAction(undefined);
             addSnack({
               id: 'sharingDeleted',
-              content: t('myNdla.folder.sharing.delete'),
+              content: t('myNdla.folder.sharing.unShare'),
             });
           }}
         />

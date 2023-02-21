@@ -18,8 +18,8 @@ import { css } from '@emotion/react';
 import { useSnack } from '@ndla/ui';
 import { GQLFolder } from '../../../graphqlTypes';
 import FolderAndResourceCount from './FolderAndResourceCount';
-import config from '../../../config';
-import { FolderSharingType } from './FoldersPage';
+import { toFolderPreview } from '../../../routeHelpers';
+import { copyFolderSharingLink } from './FoldersPage';
 
 const Title = styled.h1`
   margin-bottom: 0;
@@ -110,7 +110,7 @@ interface Props {
   isOpen: boolean;
   onClose: () => void;
   folder: GQLFolder;
-  type: FolderSharingType;
+  type: 'shared' | 'private' | 'unShare';
   onUpdateStatus?: () => void;
   onCopyText?: () => void;
 }
@@ -125,19 +125,15 @@ const FolderShareModal = ({
 }: Props) => {
   const { t } = useTranslation();
   const { addSnack } = useSnack();
-  const copylink = `${config.ndlaFrontendDomain}/folder/${folder.id}`;
   const buttons = {
     shared: (
-      <StyledLinkButton to={copylink}>
+      <StyledLinkButton to={toFolderPreview(folder.id)}>
         {t('myNdla.folder.sharing.button.preview')}
       </StyledLinkButton>
     ),
-    delete: (
-      <StyledButton
-        onClick={() => {
-          onUpdateStatus?.();
-        }}>
-        {t('myNdla.folder.sharing.button.delete')}
+    unShare: (
+      <StyledButton onClick={onUpdateStatus}>
+        {t('myNdla.folder.sharing.button.unShare')}
       </StyledButton>
     ),
     private: (
@@ -188,7 +184,7 @@ const FolderShareModal = ({
                       content: t('myNdla.folder.sharing.link'),
                     });
                   }}>
-                  {copylink}
+                  {copyFolderSharingLink(folder.id)}
                 </CopyLinkButton>
               </div>
             )}
@@ -205,7 +201,7 @@ const FolderShareModal = ({
                   variant={isMobile ? 'outline' : 'ghost'}
                   colorTheme="danger"
                   onClick={() => onUpdateStatus?.()}>
-                  {t('myNdla.folder.sharing.button.delete')}
+                  {t('myNdla.folder.sharing.button.unShare')}
                   {!isMobile && <TrashCanOutline />}
                 </StyledButton>
               )}

@@ -167,6 +167,10 @@ export function toTopic(subjectId: string, ...topicIds: string[]) {
   return t;
 }
 
+export function toFolderPreview(folderId: string) {
+  return `/folder/${folderId}`;
+}
+
 export type SubjectURI = {
   id?: string;
   name?: string;
