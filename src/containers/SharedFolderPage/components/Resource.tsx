@@ -6,6 +6,7 @@
  *
  */
 
+import { Spinner } from '@ndla/icons';
 import {
   GQLFolderResource,
   GQLFolderResourceMetaSearchQuery,
@@ -14,9 +15,13 @@ import {
 interface Props {
   resource: GQLFolderResource;
   meta?: GQLFolderResourceMetaSearchQuery['folderResourceMetaSearch'][0];
+  loading?: boolean;
 }
 
-const Resource = ({ resource, meta }: Props) => {
+const Resource = ({ resource, meta, loading }: Props) => {
+  if (loading) {
+    return <Spinner />;
+  }
   return <div>{meta?.title}</div>;
 };
 

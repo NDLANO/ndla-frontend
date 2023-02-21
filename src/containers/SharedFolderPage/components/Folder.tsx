@@ -11,8 +11,10 @@ import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { colors, spacing } from '@ndla/core';
 import { ArrowDropDown } from '@ndla/icons/common';
+import { SafeLinkButton } from '@ndla/safelink';
 import { useMastheadHeight } from '@ndla/ui';
 import { KeyboardEvent, useMemo, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import {
   GQLFolder,
   GQLFolderResourceMetaSearchQuery,
@@ -35,7 +37,7 @@ interface StyledResourceProps {
   root?: boolean;
 }
 
-export const StyledFolderButton = styled(ButtonV2)<StyledResourceProps>`
+const StyledFolderButton = styled(ButtonV2)<StyledResourceProps>`
   justify-content: flex-start;
   &,
   &:hover,
@@ -48,6 +50,8 @@ export const StyledFolderButton = styled(ButtonV2)<StyledResourceProps>`
 
   width: ${({ root }) => root && '100%'};
 `;
+
+const StyledFolderLink = StyledFolderButton.withComponent(SafeLinkButton);
 
 interface StyledArrowProps {
   isOpen: boolean;
@@ -87,6 +91,7 @@ interface Props {
 
 const Folder = ({ folder, meta, defaultOpenFolder, root }: Props) => {
   const { name, subfolders, resources } = folder;
+  const { resourceId, subfolderId } = useParams();
   const { height } = useMastheadHeight();
 
   const [isOpen, setIsOpen] = useState(
@@ -100,7 +105,9 @@ const Folder = ({ folder, meta, defaultOpenFolder, root }: Props) => {
     return null;
   }
 
-  const handleKeydown = (e: KeyboardEvent<HTMLButtonElement>) => {
+  const handleKeydown = (
+    e: KeyboardEvent<HTMLButtonElement | HTMLAnchorElement>,
+  ) => {
     if (e.key === 'ArrowLeft') {
       setIsOpen(false);
     } else if (e.key === 'ArrowRight') {
@@ -108,28 +115,56 @@ const Folder = ({ folder, meta, defaultOpenFolder, root }: Props) => {
     }
   };
 
+  const handleLinkClick = (
+    e: KeyboardEvent<HTMLButtonElement | HTMLAnchorElement>,
+  ) => {
+    handleKeydown(e);
+    if (e.key === ' ') {
+      (e.target as HTMLElement | undefined)?.click();
+      e.preventDefault();
+    }
+  };
+
+  const selected = !resourceId && !subfolderId;
+
   return (
     <StyledLi role="none" data-list-item root>
-      <StyledFolderButton
-        aria-owns={`folder-sublist-${folder.id}`}
-        aria-expanded={isOpen}
-        id={`folder-${folder.id}`}
-        tabIndex={-1}
-        css={
-          root &&
-          css`
+      {root ? (
+        <StyledFolderLink
+          to={`/folder/${folder.id}`}
+          aria-owns={`folder-sublist-${folder.id}`}
+          aria-expanded={isOpen}
+          id={`folder-${folder.id}`}
+          tabIndex={-1}
+          css={css`
             position: sticky;
             top: ${height}px;
-          `
-        }
-        variant="ghost"
-        color="light"
-        role="treeitem"
-        onKeyDown={handleKeydown}
-        onClick={() => setIsOpen(!isOpen)}
-        root={root}>
-        <StyledArrow isOpen={isOpen} /> {name}
-      </StyledFolderButton>
+          `}
+          variant="ghost"
+          color="light"
+          role="treeitem"
+          onKeyDown={handleLinkClick}
+          onClick={() => selected && setIsOpen(!isOpen)}
+          root={root}>
+          <StyledArrow isOpen={isOpen} onClick={() => setIsOpen(!isOpen)} />
+          {name}
+        </StyledFolderLink>
+      ) : (
+        <StyledFolderButton
+          aria-owns={`folder-sublist-${folder.id}`}
+          aria-expanded={isOpen}
+          id={`folder-${folder.id}`}
+          tabIndex={-1}
+          variant="ghost"
+          color="light"
+          role="treeitem"
+          onKeyDown={handleKeydown}
+          onClick={() => setIsOpen(!isOpen)}
+          root={root}>
+          <StyledArrow isOpen={isOpen} /> {name}
+        </StyledFolderButton>
+      )}
+
       {isOpen && (
         <StyledUl
           role="group"

@@ -8,7 +8,6 @@
 
 import styled from '@emotion/styled';
 import { breakpoints, colors, misc, mq, spacing } from '@ndla/core';
-import { Spinner } from '@ndla/icons';
 import { HumanMaleBoard } from '@ndla/icons/common';
 import keyBy from 'lodash/keyBy';
 import { isMobile } from 'react-device-detect';
@@ -19,6 +18,7 @@ import {
   useFolderResourceMetaSearch,
   useSharedFolder,
 } from '../MyNdla/folderMutations';
+import FolderMeta from './components/FolderMeta';
 import FolderNavigation from './components/FolderNavigation';
 import Resource from './components/Resource';
 
@@ -107,6 +107,7 @@ const SharedFolderPage = () => {
       <section>
         {selectedResource ? (
           <Resource
+            loading={metaLoading}
             resource={selectedResource}
             meta={
               keyedData[
@@ -115,7 +116,7 @@ const SharedFolderPage = () => {
             }
           />
         ) : (
-          <Spinner />
+          <FolderMeta folder={folder} />
         )}
       </section>
     </Layout>
