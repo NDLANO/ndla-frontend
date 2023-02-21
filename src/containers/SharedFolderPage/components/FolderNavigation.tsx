@@ -33,9 +33,8 @@ const FolderNavigation = ({ folder, meta, loading }: Props) => {
       : `shared-${folderId}`;
 
   useArrowNavigation(!!(!loading && folder), {
-    initialFocused: defaultSelected,
     multilevel: true,
-    autoFocus: false,
+    initialSelected: defaultSelected,
   });
 
   if (loading) {

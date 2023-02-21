@@ -25,6 +25,7 @@ const getItem = (activeElement: Element, direction: number) => {
 
 interface ArrowNavigationConfig {
   initialFocused?: string;
+  initialSelected?: string;
   onRightKeyPressed?: (id: string | undefined, e: KeyboardEvent) => void;
   onLeftKeyPressed?: (id: string | undefined, e: KeyboardEvent) => void;
   multilevel?: boolean;
@@ -34,6 +35,7 @@ const useArrowNavigation = (
   active: boolean,
   {
     initialFocused,
+    initialSelected,
     onLeftKeyPressed,
     onRightKeyPressed,
     multilevel,
@@ -122,6 +124,14 @@ const useArrowNavigation = (
       setFocused(initialFocused);
     }
   }, [initialFocused, focused]);
+
+  useEffect(() => {
+    if (initialSelected) {
+      document
+        .getElementById(initialSelected)
+        ?.setAttribute('tabindex', active ? '0' : '-1');
+    }
+  }, [initialSelected, active]);
 
   useEffect(() => {
     if (active && focused) {

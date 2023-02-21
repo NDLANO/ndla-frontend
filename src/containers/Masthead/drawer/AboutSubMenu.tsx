@@ -26,6 +26,7 @@ const AboutSubMenu = ({ subType, onCloseSubMenuPortion }: Props) => {
     initialFocused: 'header-about-sub-ndla',
     onLeftKeyPressed: onCloseSubMenuPortion,
   });
+
   return (
     <DrawerPortion>
       <DrawerList id={'about-sub-menu'}>

@@ -6,13 +6,11 @@
  *
  */
 
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { colors, spacing } from '@ndla/core';
 import { ArrowDropDown } from '@ndla/icons/common';
 import { SafeLinkButton } from '@ndla/safelink';
-import { useMastheadHeight } from '@ndla/ui';
 import { KeyboardEvent, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import {
@@ -28,30 +26,41 @@ export const StyledUl = styled.ul`
   padding-left: ${spacing.nsmall};
 `;
 
-export const StyledLi = styled.li<StyledResourceProps>`
+interface StyledLiProps {
+  root?: boolean;
+}
+
+export const StyledLi = styled.li<StyledLiProps>`
   margin: 0;
   padding: ${({ root }) => (root ? 0 : spacing.xxsmall)} 0;
 `;
 
-interface StyledResourceProps {
-  root?: boolean;
-}
-
-const StyledFolderButton = styled(ButtonV2)<StyledResourceProps>`
+const StyledFolderButton = styled(ButtonV2)`
   justify-content: flex-start;
   &,
   &:hover,
   &:active,
   &:focus {
-    color: ${({ root }) => (root ? colors.brand.primary : colors.black)};
-    background: ${({ root }) => (root ? colors.white : 'none')};
+    color: ${colors.brand.primary};
+    background: none;
     border: none;
   }
-
-  width: ${({ root }) => root && '100%'};
 `;
 
-const StyledFolderLink = StyledFolderButton.withComponent(SafeLinkButton);
+interface StyledButtonProps {
+  selected?: boolean;
+}
+
+const StyledFolderLink = styled(SafeLinkButton)<StyledButtonProps>`
+  &:hover svg,
+  &:active svg,
+  &:focus svg {
+    color: ${colors.white};
+  }
+  & svg {
+    color: ${({ selected }) => selected && colors.white};
+  }
+`;
 
 interface StyledArrowProps {
   isOpen: boolean;
@@ -60,7 +69,7 @@ interface StyledArrowProps {
 const StyledArrow = styled(ArrowDropDown)<StyledArrowProps>`
   color: ${colors.black};
   height: 20px;
-  width: 21px;
+  width: 20px;
 
   transform: ${({ isOpen }) => !isOpen && 'rotate(-90deg)'};
 `;
@@ -92,7 +101,6 @@ interface Props {
 const Folder = ({ folder, meta, defaultOpenFolder, root }: Props) => {
   const { name, subfolders, resources } = folder;
   const { resourceId, subfolderId } = useParams();
-  const { height } = useMastheadHeight();
 
   const [isOpen, setIsOpen] = useState(
     containsFolder(folder, defaultOpenFolder) || !!root,
@@ -136,17 +144,21 @@ const Folder = ({ folder, meta, defaultOpenFolder, root }: Props) => {
           aria-expanded={isOpen}
           id={`shared-${folder.id}`}
           tabIndex={-1}
-          css={css`
-            position: sticky;
-            top: ${height}px;
-          `}
-          variant="ghost"
+          variant={selected ? 'solid' : 'ghost'}
+          selected={selected}
           color="light"
           role="treeitem"
           onKeyDown={handleLinkClick}
-          onClick={() => selected && setIsOpen(!isOpen)}
-          root={root}>
-          <StyledArrow isOpen={isOpen} onClick={() => setIsOpen(!isOpen)} />
+          onClick={() => selected && setIsOpen(!isOpen)}>
+          <StyledArrow
+            isOpen={isOpen}
+            // @ts-ignore
+            onClick={e => {
+              e.preventDefault();
+              e.stopPropagation();
+              setIsOpen(!isOpen);
+            }}
+          />
           {name}
         </StyledFolderLink>
       ) : (
@@ -159,8 +171,7 @@ const Folder = ({ folder, meta, defaultOpenFolder, root }: Props) => {
           color="light"
           role="treeitem"
           onKeyDown={handleKeydown}
-          onClick={() => setIsOpen(!isOpen)}
-          root={root}>
+          onClick={() => setIsOpen(!isOpen)}>
           <StyledArrow isOpen={isOpen} /> {name}
         </StyledFolderButton>
       )}

@@ -37,6 +37,9 @@ const Sidebar = styled.section`
   ${mq.range({ until: breakpoints.tablet })} {
     padding: 0;
   }
+  display: flex;
+  flex-direction: column;
+  gap: ${spacing.xsmall};
 `;
 
 const InfoBox = styled.article`
@@ -48,7 +51,7 @@ const InfoBox = styled.article`
     margin-top: ${spacing.xsmall};
   }
   gap: ${spacing.normal};
-  margin-left: ${spacing.normal};
+  margin-left: ${spacing.nsmall};
   padding: ${spacing.small} ${spacing.normal};
   background: ${colors.brand.greyLightest};
   border: 1px solid ${colors.brand.neutral7};
