@@ -22,6 +22,7 @@ import {
   ContentTypeBadge,
   getMastheadHeight,
 } from '@ndla/ui';
+import { webpageReferenceApa7CopyString } from '@ndla/licenses';
 import { useTranslation } from 'react-i18next';
 import config from '../../config';
 import LicenseBox from '../license/LicenseBox';
@@ -36,6 +37,7 @@ import { MastheadHeightPx } from '../../constants';
 import { useGraphQuery } from '../../util/runQueries';
 import AddResourceToFolderModal from '../MyNdla/AddResourceToFolderModal';
 import FavoriteButton from './FavoritesButton';
+import { useDisableConverter } from '../ArticleConverterContext';
 
 interface CompetenceGoalModalProps {
   Dialog: ComponentType;
@@ -86,6 +88,7 @@ interface Props {
   showFavoriteButton?: boolean;
   myNdlaResourceType?: string;
   path?: string;
+  contentTransformed?: boolean;
 }
 
 const renderNotions = (
@@ -200,7 +203,8 @@ const Article = ({
   myNdlaResourceType = 'article',
   ...rest
 }: Props) => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const disableConverter = useDisableConverter();
   const [isOpen, setIsOpen] = useState(false);
   const [competenceGoalsLoading, setCompetenceGoalsLoading] = useState(true);
   const markdown = useMemo(() => {
@@ -209,6 +213,19 @@ const Article = ({
     md.block.ruler.disable(['list']);
     return md;
   }, []);
+
+  const [day, month, year] = article.published.split('.').map(s => parseInt(s));
+  const published = new Date(year!, month! - 1, day!).toUTCString();
+  const copyText = webpageReferenceApa7CopyString(
+    article.title,
+    undefined,
+    published,
+    `${config.ndlaFrontendDomain}/article/${article.id}`,
+    article.copyright,
+    i18n.language,
+    '',
+    (id: string) => t(id),
+  );
 
   const { data: concepts } = useGraphQuery<
     GQLArticleConceptsQuery,
@@ -282,9 +299,9 @@ const Article = ({
         article={art}
         icon={icon}
         locale={i18n.language}
-        licenseBox={<LicenseBox article={article} />}
+        licenseBox={<LicenseBox article={article} copyText={copyText} />}
         messages={messages}
-        copyText={article.metaData?.copyText}
+        copyText={!disableConverter ? article.metaData?.copyText : copyText}
         competenceGoalsLoading={competenceGoalsLoading}
         competenceGoals={renderCompetenceGoals(
           article,

@@ -195,7 +195,7 @@ export type GQLBrightcoveIframe = {
 
 export type GQLBrightcoveLicense = {
   __typename?: 'BrightcoveLicense';
-  copyright: GQLCopyright;
+  copyright?: Maybe<GQLCopyright>;
   cover?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   download?: Maybe<Scalars['String']>;
@@ -477,7 +477,7 @@ export type GQLH5pElement = {
 
 export type GQLH5pLicense = {
   __typename?: 'H5pLicense';
-  copyright: GQLCopyright;
+  copyright?: Maybe<GQLCopyright>;
   src?: Maybe<Scalars['String']>;
   thumbnail?: Maybe<Scalars['String']>;
   title: Scalars['String'];
@@ -727,6 +727,7 @@ export type GQLMutation = {
   deletePersonalData: Scalars['Boolean'];
   sortFolders: GQLSortResult;
   sortResources: GQLSortResult;
+  transformArticleContent: Scalars['String'];
   updateFolder: GQLFolder;
   updateFolderResource: GQLFolderResource;
   updateFolderStatus: Array<Scalars['String']>;
@@ -764,6 +765,15 @@ export type GQLMutationSortFoldersArgs = {
 export type GQLMutationSortResourcesArgs = {
   parentId: Scalars['String'];
   sortedIds: Array<Scalars['String']>;
+};
+
+export type GQLMutationTransformArticleContentArgs = {
+  absoluteUrl?: InputMaybe<Scalars['Boolean']>;
+  content: Scalars['String'];
+  draftConcept?: InputMaybe<Scalars['Boolean']>;
+  previewH5p?: InputMaybe<Scalars['Boolean']>;
+  subject?: InputMaybe<Scalars['String']>;
+  visualElement?: InputMaybe<Scalars['String']>;
 };
 
 export type GQLMutationUpdateFolderArgs = {
@@ -919,7 +929,9 @@ export type GQLQueryAllFolderResourcesArgs = {
 };
 
 export type GQLQueryArticleArgs = {
+  absoluteUrl?: InputMaybe<Scalars['Boolean']>;
   convertEmbeds?: InputMaybe<Scalars['Boolean']>;
+  draftConcept?: InputMaybe<Scalars['Boolean']>;
   id: Scalars['String'];
   isOembed?: InputMaybe<Scalars['String']>;
   path?: InputMaybe<Scalars['String']>;
@@ -1574,6 +1586,7 @@ export type GQLLearningpath_ResourceTypeDefinitionFragment = {
 
 export type GQLLearningpath_SubjectFragment = {
   __typename?: 'Subject';
+  id: string;
 } & GQLLastLearningpathStepInfo_SubjectFragment;
 
 export type GQLLearningpath_LearningpathStepFragment = {
@@ -1744,7 +1757,6 @@ export type GQLVisualElementWrapper_VisualElementFragment = {
 export type GQLAudioLicenseList_AudioLicenseFragment = {
   __typename?: 'AudioLicense';
   src: string;
-  copyText?: string;
   title: string;
   copyright: {
     __typename?: 'Copyright';
@@ -1777,7 +1789,7 @@ export type GQLH5pLicenseList_H5pLicenseFragment = {
   __typename?: 'H5pLicense';
   title: string;
   src?: string;
-  copyright: { __typename?: 'Copyright' } & GQLLicenseListCopyrightFragment;
+  copyright?: { __typename?: 'Copyright' } & GQLLicenseListCopyrightFragment;
 };
 
 export type GQLImageLicenseList_ImageLicenseFragment = {
@@ -1794,6 +1806,7 @@ export type GQLImageLicenseList_ImageLicenseFragment = {
 
 export type GQLLicenseBox_ArticleFragment = {
   __typename?: 'Article';
+  id: number;
   title: string;
   oembed?: string;
   published: string;
@@ -1858,7 +1871,7 @@ export type GQLVideoLicenseList_BrightcoveLicenseFragment = {
     height: number;
     src: string;
   };
-  copyright: { __typename?: 'Copyright' } & GQLLicenseListCopyrightFragment;
+  copyright?: { __typename?: 'Copyright' } & GQLLicenseListCopyrightFragment;
 };
 
 export type GQLLicenseListCopyrightFragment = {
@@ -2215,6 +2228,7 @@ export type GQLMovedResourcePage_ResourceFragment = {
 export type GQLMultidisciplinarySubjectArticlePageQueryVariables = Exact<{
   topicId: Scalars['String'];
   subjectId: Scalars['String'];
+  convertEmbeds?: InputMaybe<Scalars['Boolean']>;
 }>;
 
 export type GQLMultidisciplinarySubjectArticlePageQuery = {
@@ -2324,6 +2338,7 @@ export type GQLMultidisciplinaryTopic_SubjectFragment = {
 export type GQLMultidisciplinaryTopicWrapperQueryVariables = Exact<{
   topicId: Scalars['String'];
   subjectId?: InputMaybe<Scalars['String']>;
+  convertEmbeds?: InputMaybe<Scalars['Boolean']>;
 }>;
 
 export type GQLMultidisciplinaryTopicWrapperQuery = {
@@ -2668,6 +2683,7 @@ export type GQLPlainArticlePageQueryVariables = Exact<{
   isOembed?: InputMaybe<Scalars['String']>;
   path?: InputMaybe<Scalars['String']>;
   showVisualElement?: InputMaybe<Scalars['String']>;
+  convertEmbeds?: InputMaybe<Scalars['Boolean']>;
 }>;
 
 export type GQLPlainArticlePageQuery = {
@@ -2692,6 +2708,7 @@ export type GQLPlainLearningpathContainer_LearningpathFragment = {
 
 export type GQLPlainLearningpathPageQueryVariables = Exact<{
   pathId: Scalars['String'];
+  convertEmbeds?: InputMaybe<Scalars['Boolean']>;
 }>;
 
 export type GQLPlainLearningpathPageQuery = {
@@ -2777,6 +2794,7 @@ export type GQLResourcePageQueryVariables = Exact<{
   topicId: Scalars['String'];
   subjectId: Scalars['String'];
   resourceId: Scalars['String'];
+  convertEmbeds?: InputMaybe<Scalars['Boolean']>;
 }>;
 
 export type GQLResourcePageQuery = {
@@ -2957,6 +2975,7 @@ export type GQLTopic_ResourceTypeDefinitionFragment = {
 export type GQLTopicWrapperQueryVariables = Exact<{
   topicId: Scalars['String'];
   subjectId?: InputMaybe<Scalars['String']>;
+  convertEmbeds?: InputMaybe<Scalars['Boolean']>;
 }>;
 
 export type GQLTopicWrapperQuery = {
@@ -3015,6 +3034,7 @@ export type GQLToolboxSubjectPageQuery = {
 export type GQLToolboxTopicContainerQueryVariables = Exact<{
   topicId: Scalars['String'];
   subjectId: Scalars['String'];
+  convertEmbeds?: InputMaybe<Scalars['Boolean']>;
 }>;
 
 export type GQLToolboxTopicContainerQuery = {
@@ -3154,6 +3174,7 @@ export type GQLIframePageQueryVariables = Exact<{
   includeResource: Scalars['Boolean'];
   includeTopic: Scalars['Boolean'];
   showVisualElement?: InputMaybe<Scalars['String']>;
+  convertEmbeds?: InputMaybe<Scalars['Boolean']>;
 }>;
 
 export type GQLIframePageQuery = {
@@ -3815,7 +3836,7 @@ export type GQLStructuredArticleData_BrightcoveLicenseFragment = {
   description?: string;
   download?: string;
   uploadDate?: string;
-  copyright: {
+  copyright?: {
     __typename?: 'Copyright';
   } & GQLStructuredArticleData_CopyrightFragment;
 };

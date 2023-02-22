@@ -31,7 +31,9 @@ const AddResourceToFolderModal = ({
 }: Props) => {
   const { t } = useTranslation();
   const { authenticated } = useContext(AuthContext);
-  const { meta } = useFolderResourceMeta(resource, { skip: !resource });
+  const { meta, loading } = useFolderResourceMeta(resource, {
+    skip: !resource,
+  });
 
   if (authenticated) {
     return (
@@ -70,18 +72,18 @@ const AddResourceToFolderModal = ({
         onClose={onClose}
         title={t('myNdla.myPage.loginResourcePitch')}
         content={
-          resource &&
-          meta && (
+          resource && (
             <ListResource
+              isLoading={loading}
               id={resource.id.toString()}
               tagLinkPrefix="/minndla/tags"
               link={resource.path}
-              title={meta.title}
+              title={meta?.title ?? ''}
               resourceImage={{
-                src: meta.metaImage?.url ?? '',
-                alt: meta.metaImage?.alt ?? '',
+                src: meta?.metaImage?.url ?? '',
+                alt: meta?.metaImage?.alt ?? '',
               }}
-              resourceTypes={meta.resourceTypes}
+              resourceTypes={meta?.resourceTypes ?? []}
             />
           )
         }

@@ -9,11 +9,11 @@
 import styled from '@emotion/styled';
 import { buttonStyleV2 } from '@ndla/button';
 import { breakpoints, colors, fonts, misc, mq, spacing } from '@ndla/core';
+import { useIntersectionObserver } from '@ndla/hooks';
 import { Forward } from '@ndla/icons/common';
 import { useMastheadHeight } from '@ndla/ui';
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import useStickyObserver from '../../util/useStickyObserver';
 import { Subject } from './interfaces';
 import SubjectLink from './SubjectLink';
 
@@ -112,8 +112,14 @@ const SubjectCategory = ({ label, subjects, favorites }: Props) => {
   const rootRef = useRef<HTMLLIElement>(null);
   const { t } = useTranslation();
   const stickyRef = useRef<HTMLDivElement>(null);
-  const { isSticky } = useStickyObserver(rootRef, stickyRef);
+  const { entry } = useIntersectionObserver({
+    root: rootRef.current,
+    target: stickyRef.current,
+    rootMargin: '-1px 0px 0px 0px',
+    threshold: 1,
+  });
   const { height = 85 } = useMastheadHeight();
+
   return (
     <li
       ref={rootRef}
@@ -125,7 +131,7 @@ const SubjectCategory = ({ label, subjects, favorites }: Props) => {
           aria-label={label === '#' ? t('labels.other') : label}>
           {label.toUpperCase()}
         </StyledH2>
-        <GoToTop isSticky={isSticky} href="#SkipToContentId">
+        <GoToTop isSticky={!!entry?.isIntersecting} href="#SkipToContentId">
           {t('subjectsPage.goToTop')} <StyledArrow />
         </GoToTop>
       </StickyHeading>

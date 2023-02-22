@@ -19,6 +19,7 @@ import {
   GQLIframePageQuery,
   GQLIframePageQueryVariables,
 } from '../graphqlTypes';
+import { useDisableConverter } from '../components/ArticleConverterContext';
 
 if (process.env.NODE_ENV !== 'production') {
   // Can't require in production because of multiple asses emit to the same filename..
@@ -60,12 +61,14 @@ const iframePageQuery = gql`
     $includeResource: Boolean!
     $includeTopic: Boolean!
     $showVisualElement: String
+    $convertEmbeds: Boolean
   ) {
     article(
       id: $articleId
       isOembed: $isOembed
       path: $path
       showVisualElement: $showVisualElement
+      convertEmbeds: $convertEmbeds
     ) {
       ...IframeTopicPage_Article
       ...IframeArticlePage_Article
@@ -91,6 +94,7 @@ export const IframePage = ({
   isTopicArticle = false,
 }: Props) => {
   const location = useLocation();
+  const disableConverter = useDisableConverter();
   const includeResource = !isTopicArticle && taxonomyId !== undefined;
   const includeTopic = isTopicArticle;
   const { loading, data } = useGraphQuery<
@@ -105,6 +109,7 @@ export const IframePage = ({
       includeResource,
       includeTopic,
       showVisualElement: isTopicArticle ? 'true' : 'false',
+      convertEmbeds: disableConverter,
     },
     skip: !articleId,
   });

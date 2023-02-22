@@ -23,7 +23,6 @@ import {
 } from '@ndla/licenses';
 import { useTranslation } from 'react-i18next';
 import { SafeLinkButton } from '@ndla/safelink';
-import CopyTextButton from './CopyTextButton';
 import { GQLAudioLicenseList_AudioLicenseFragment } from '../../graphqlTypes';
 import { licenseCopyrightToCopyrightType } from './licenseHelpers';
 import { licenseListCopyrightFragment } from './licenseFragments';
@@ -72,13 +71,6 @@ const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
             <MediaListItemMeta items={items} />
             {audio.copyright.license?.license !== 'COPYRIGHTED' && (
               <>
-                {audio.copyText && (
-                  <CopyTextButton
-                    stringToCopy={audio.copyText}
-                    copyTitle={t('license.copyTitle')}
-                    hasCopiedTitle={t('license.hasCopiedTitle')}
-                  />
-                )}
                 <SafeLinkButton to={audio.src} download variant="outline">
                   {t('license.download')}
                 </SafeLinkButton>
@@ -114,7 +106,6 @@ AudioLicenseList.fragments = {
   audio: gql`
     fragment AudioLicenseList_AudioLicense on AudioLicense {
       src
-      copyText
       title
       copyright {
         origin

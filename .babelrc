@@ -10,15 +10,14 @@
       }
     ]
   ],
+
+  "plugins": [
+    ["@emotion", { "autoLabel": "always" }],
+    "graphql-tag",
+    "@babel/plugin-proposal-optional-chaining"
+  ],
   "env": {
-    "production": {
-      "plugins": [
-        ["@emotion", { "autoLabel": "always" }],
-        "graphql-tag",
-        "@babel/plugin-proposal-optional-chaining"
-      ]
-    },
-    "dev": {
+    "development": {
       "plugins": [
         ["@emotion", { "autoLabel": "always" }],
         "graphql-tag",
