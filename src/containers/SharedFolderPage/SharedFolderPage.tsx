@@ -34,13 +34,16 @@ const Layout = styled.div`
 `;
 
 const Sidebar = styled.section`
-  padding: ${spacing.normal};
-  ${mq.range({ until: breakpoints.tablet })} {
-    padding: 0;
-  }
   display: flex;
   flex-direction: column;
   gap: ${spacing.small};
+  padding: ${spacing.normal};
+  box-shadow: 0px 1px 4px 0px ${colors.brand.neutral7};
+
+  ${mq.range({ until: breakpoints.tablet })} {
+    padding: 0;
+    box-shadow: none;
+  }
 `;
 
 const StyledSection = styled.section`
@@ -62,6 +65,10 @@ const InfoBox = styled.article`
   border: 1px solid ${colors.brand.neutral7};
   gap: ${spacing.small};
   border-radius: ${misc.borderRadius};
+
+  ${mq.range({ until: breakpoints.tablet })} {
+    margin: 0 ${spacing.nsmall};
+  }
 `;
 
 const flattenResources = (folder?: GQLFolder): GQLFolderResource[] => {
@@ -124,6 +131,12 @@ const SharedFolderPage = () => {
           <SharedArticle resource={selectedResource} meta={articleMeta} />
         ) : (
           <FolderMeta folder={folder} />
+        )}
+        {isMobile && (
+          <InfoBox>
+            <HumanMaleBoard />
+            <span>{t('myNdla.sharedFolder.info')}</span>
+          </InfoBox>
         )}
       </StyledSection>
     </Layout>
