@@ -113,7 +113,7 @@ MovedResourcePage.fragments = {
       path
       paths
       breadcrumbs
-      article(subjectId: $subjectId) {
+      article(subjectId: $subjectId, convertEmbeds: $convertEmbeds) {
         id
         metaDescription
         metaImage {

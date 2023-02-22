@@ -7,7 +7,7 @@
  */
 
 import { gql } from '@apollo/client';
-import { useRef, MouseEvent } from 'react';
+import { useRef, MouseEvent, useMemo } from 'react';
 import {
   ArticleSideBar,
   Breadcrumblist,
@@ -29,6 +29,7 @@ import {
 } from '../../../graphqlTypes';
 import { transformArticle } from '../../../util/transformArticle';
 import config from '../../../config';
+import { useDisableConverter } from '../../../components/ArticleConverterContext';
 
 const filterCodes: Record<string, 'publicHealth' | 'democracy' | 'climate'> = {
   TT1: 'publicHealth',
@@ -51,13 +52,23 @@ const MultidisciplinarySubjectArticle = ({
   resourceTypes,
   skipToContentId,
 }: Props) => {
+  const disableConverter = useDisableConverter();
   const resourcesRef = useRef(null);
   const onLinkToResourcesClick = (e: MouseEvent) => {
     e.preventDefault();
     scrollToRef(resourcesRef, 0);
   };
 
-  if (!topic.article) {
+  const article = useMemo(() => {
+    if (!topic.article) return undefined;
+    return transformArticle(topic.article, i18n.language, {
+      enabled: disableConverter,
+      path: `${config.ndlaFrontendDomain}/article/${topic.article.id}`,
+      subject: subject.id,
+    });
+  }, [subject.id, topic.article, i18n.language, disableConverter]);
+
+  if (!topic.article || !article) {
     return null;
   }
 
@@ -70,8 +81,6 @@ const MultidisciplinarySubjectArticle = ({
   const subjects = topic.article?.grepCodes
     ?.filter(grepCode => grepCode.startsWith('TT'))
     .map(code => filterCodes[code]!);
-
-  const article = transformArticle(topic.article, i18n.language);
 
   return (
     <main>
@@ -87,6 +96,7 @@ const MultidisciplinarySubjectArticle = ({
       />
       <OneColumn>
         <Article
+          contentTransformed={disableConverter}
           myNdlaResourceType="multidisciplinary"
           id={skipToContentId}
           article={article}
@@ -113,7 +123,7 @@ export const multidisciplinarySubjectArticleFragments = {
   topic: gql`
     fragment MultidisciplinarySubjectArticle_Topic on Topic {
       path
-      article(showVisualElement: "true") {
+      article(showVisualElement: "true", convertEmbeds: $convertEmbeds) {
         created
         updated
         crossSubjectTopics(subjectId: $subjectId) {

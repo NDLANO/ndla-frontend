@@ -52,14 +52,14 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
       </MediaListItemImage>
       <MediaListItemBody
         title={t('license.video.rules')}
-        license={video.copyright.license?.license}
+        license={video.copyright?.license?.license ?? ''}
         resourceType="video"
         resourceUrl={video.src}
         locale={i18n.language}>
         <MediaListItemActions>
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />
-            {video.copyright.license?.license !== 'COPYRIGHTED' &&
+            {video.copyright?.license?.license !== 'COPYRIGHTED' &&
               video.download && (
                 <SafeLinkButton to={video.download} download variant="outline">
                   {t('license.download')}

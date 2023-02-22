@@ -97,8 +97,8 @@ export async function oembedArticleRoute(req: express.Request) {
       const article = await fetchArticle(articleId, lang);
       return getOembedObject(
         req,
-        article.title,
-        `<iframe aria-label="${article.title}" src="${
+        article.title.title,
+        `<iframe aria-label="${article.title.title}" src="${
           config.ndlaFrontendDomain
         }/article-iframe/${lang}/article/${articleId}" height="${req.query
           .height || 480}" width="${req.query.width ||
