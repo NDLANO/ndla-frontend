@@ -16,7 +16,6 @@ import styled from '@emotion/styled';
 import { ButtonV2 as Button, LoadingButton } from '@ndla/button';
 import { colors, spacing } from '@ndla/core';
 import SafeLink from '@ndla/safelink';
-import { IFolder } from '@ndla/types-learningpath-api';
 import {
   ListResource,
   MessageBox,
@@ -171,7 +170,7 @@ const AddResourceToFolder = ({
     return !isEqual(sortedStored, sortedSelected);
   };
 
-  const structureFolders: IFolder[] = useMemo(
+  const structureFolders: GQLFolder[] = useMemo(
     () => [
       {
         id: 'folders',
