@@ -63,7 +63,7 @@ const SharedArticleContainer = ({ article: propArticle, meta }: Props) => {
       </Helmet>
       <Article
         contentTransformed={disableConverter}
-        id={''}
+        id={'abc'}
         article={article}
         {...getArticleProps(undefined, undefined)}
         contentType={contentType?.contentType}

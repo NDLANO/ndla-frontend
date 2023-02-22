@@ -11,6 +11,7 @@ import { breakpoints, colors, misc, mq, spacing } from '@ndla/core';
 import { HumanMaleBoard } from '@ndla/icons/common';
 import keyBy from 'lodash/keyBy';
 import { isMobile } from 'react-device-detect';
+import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { GQLFolder, GQLFolderResource } from '../../graphqlTypes';
@@ -20,7 +21,7 @@ import {
 } from '../MyNdla/folderMutations';
 import FolderMeta from './components/FolderMeta';
 import FolderNavigation from './components/FolderNavigation';
-import SharedResourcePage from './components/SharedResourcePage';
+import SharedArticle from './components/SharedArticle';
 
 const Layout = styled.div`
   display: grid;
@@ -84,7 +85,7 @@ const SharedFolderPage = () => {
 
   const resources = flattenResources(folder);
 
-  const { data, loading: metaLoading } = useFolderResourceMetaSearch(
+  const { data } = useFolderResourceMetaSearch(
     resources.map(res => ({
       id: res.resourceId,
       path: res.path,
@@ -99,9 +100,16 @@ const SharedFolderPage = () => {
   );
 
   const selectedResource = resources.find(res => res.id === resourceId);
+  const articleMeta =
+    keyedData[
+      `${selectedResource?.resourceType}-${selectedResource?.resourceId}`
+    ];
 
   return (
     <Layout>
+      <Helmet>
+        <title>{`${folder?.name} - ${articleMeta?.title} - NDLA`}</title>
+      </Helmet>
       <Sidebar>
         {!isMobile && (
           <InfoBox>
@@ -113,15 +121,7 @@ const SharedFolderPage = () => {
       </Sidebar>
       <StyledSection>
         {selectedResource ? (
-          <SharedResourcePage
-            loading={metaLoading}
-            resource={selectedResource}
-            meta={
-              keyedData[
-                `${selectedResource?.resourceType}-${selectedResource?.resourceId}`
-              ]
-            }
-          />
+          <SharedArticle resource={selectedResource} meta={articleMeta} />
         ) : (
           <FolderMeta folder={folder} />
         )}

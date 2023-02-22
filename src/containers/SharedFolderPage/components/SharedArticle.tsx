@@ -19,9 +19,9 @@ import { getArticleProps } from '../../../util/getArticleProps';
 import { useGraphQuery } from '../../../util/runQueries';
 import ErrorPage from '../../ErrorPage';
 import NotFoundPage from '../../NotFoundPage/NotFoundPage';
-import SharedResourceContainer, {
+import SharedArticleContainer, {
   sharedArticleContainerFragments,
-} from './SharedResourceContainer';
+} from './SharedArticleContainer';
 
 const sharedResourceArticlePageQuery = gql`
   query sharedResourceArticlePage(
@@ -47,7 +47,6 @@ const sharedResourceArticlePageQuery = gql`
 interface Props {
   resource: GQLFolderResource;
   meta?: GQLFolderResourceMetaSearchQuery['folderResourceMetaSearch'][0];
-  loading?: boolean;
 }
 
 const SharedArticle = ({ resource, meta }: Props) => {
@@ -71,13 +70,15 @@ const SharedArticle = ({ resource, meta }: Props) => {
   if (loading) {
     return <Spinner />;
   }
-  if (!article) return <NotFoundPage />;
+  if (!article) {
+    return <NotFoundPage />;
+  }
   if (error) {
     return <ErrorPage />;
   }
   return (
     <div>
-      <SharedResourceContainer
+      <SharedArticleContainer
         article={article}
         meta={meta}
         {...getArticleProps(undefined, undefined)}
