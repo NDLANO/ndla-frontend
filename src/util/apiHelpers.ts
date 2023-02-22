@@ -88,12 +88,16 @@ const uri = (() => {
 })();
 
 const student: AffiliationType = 'student';
+const priorityAffiliations: AffiliationType[] = [
+  'employee',
+  'staff',
+  'faculty',
+];
 const findDefaultAffiliation = (
   userAffiliations: AffiliationType[],
 ): AffiliationType => {
   if (userAffiliations.includes(student)) return student;
 
-  const priorityAffiliations: AffiliationType[] = ['employee', 'staff'];
   const maybeDefaultAffiliation = priorityAffiliations.find(affiliation =>
     userAffiliations.includes(affiliation),
   );
