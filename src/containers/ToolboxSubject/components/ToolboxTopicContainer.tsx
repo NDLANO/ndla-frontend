@@ -20,6 +20,7 @@ import { useGraphQuery } from '../../../util/runQueries';
 import ToolboxTopicWrapper, {
   toolboxTopicWrapperFragments,
 } from './ToolboxTopicWrapper';
+import { useDisableConverter } from '../../../components/ArticleConverterContext';
 
 interface Props {
   subject: GQLToolboxTopicContainer_SubjectFragment;
@@ -29,7 +30,11 @@ interface Props {
 }
 
 const toolboxTopicContainerQuery = gql`
-  query toolboxTopicContainer($topicId: String!, $subjectId: String!) {
+  query toolboxTopicContainer(
+    $topicId: String!
+    $subjectId: String!
+    $convertEmbeds: Boolean
+  ) {
     topic(id: $topicId, subjectId: $subjectId) {
       id # This query recursively calls itself if ID is not included here. Not sure why.
       ...ToolboxTopicWrapper_Topic
@@ -49,6 +54,7 @@ export const ToolboxTopicContainer = ({
   index,
 }: Props) => {
   const { user } = useContext(AuthContext);
+  const disableConverter = useDisableConverter();
   const { loading, data } = useGraphQuery<
     GQLToolboxTopicContainerQuery,
     GQLToolboxTopicContainerQueryVariables
@@ -56,6 +62,7 @@ export const ToolboxTopicContainer = ({
     variables: {
       subjectId: subject.id,
       topicId,
+      convertEmbeds: disableConverter,
     },
   });
 

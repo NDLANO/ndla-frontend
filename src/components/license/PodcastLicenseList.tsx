@@ -18,6 +18,7 @@ import {
 } from '@ndla/ui';
 import { Podcast } from '@ndla/icons/common';
 import {
+  figureApa7CopyString,
   getGroupedContributorDescriptionList,
   metaTypes,
 } from '@ndla/licenses';
@@ -27,18 +28,39 @@ import CopyTextButton from './CopyTextButton';
 import { GQLPodcastLicenseList_PodcastLicenseFragment } from '../../graphqlTypes';
 import { licenseCopyrightToCopyrightType } from './licenseHelpers';
 import { licenseListCopyrightFragment } from './licenseFragments';
+import config from '../../config';
+import { useDisableConverter } from '../ArticleConverterContext';
 
 interface PodcastLicenseInfoProps {
   podcast: GQLPodcastLicenseList_PodcastLicenseFragment;
+  articleId?: number;
 }
 
-const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
+const PodcastLicenseInfo = ({
+  podcast,
+  articleId,
+}: PodcastLicenseInfoProps) => {
   const { t, i18n } = useTranslation();
   const safeCopyright = licenseCopyrightToCopyrightType(podcast.copyright);
+  const disableConverter = useDisableConverter();
   const items = getGroupedContributorDescriptionList(
     safeCopyright,
     i18n.language,
   );
+
+  const copyText = !disableConverter
+    ? podcast.copyText
+    : figureApa7CopyString(
+        podcast.title,
+        undefined,
+        podcast.src,
+        `${config.ndlaFrontendDomain}/article/${articleId}`,
+        podcast.copyright,
+        podcast.copyright.license.license,
+        '',
+        (id: string) => t(id),
+        i18n.language,
+      );
 
   if (podcast.title) {
     items.unshift({
@@ -72,9 +94,9 @@ const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
             <MediaListItemMeta items={items} />
             {podcast.copyright.license?.license !== 'COPYRIGHTED' && (
               <>
-                {podcast.copyText && (
+                {copyText && (
                   <CopyTextButton
-                    stringToCopy={podcast.copyText}
+                    stringToCopy={copyText}
                     copyTitle={t('license.copyTitle')}
                     hasCopiedTitle={t('license.hasCopiedTitle')}
                   />
@@ -93,9 +115,10 @@ const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
 
 interface Props {
   podcasts: GQLPodcastLicenseList_PodcastLicenseFragment[];
+  articleId?: number;
 }
 
-const PodcastLicenseList = ({ podcasts }: Props) => {
+const PodcastLicenseList = ({ podcasts, articleId }: Props) => {
   const { t } = useTranslation();
   return (
     <div>
@@ -103,7 +126,11 @@ const PodcastLicenseList = ({ podcasts }: Props) => {
       <p>{t('license.podcast.description')}</p>
       <MediaList>
         {podcasts.map(podcast => (
-          <PodcastLicenseInfo podcast={podcast} key={uuid()} />
+          <PodcastLicenseInfo
+            podcast={podcast}
+            articleId={articleId}
+            key={uuid()}
+          />
         ))}
       </MediaList>
     </div>

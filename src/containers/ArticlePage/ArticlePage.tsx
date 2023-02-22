@@ -7,7 +7,7 @@
  */
 
 import { gql } from '@apollo/client';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { OneColumn, LayoutItem, FeideUserApiType, constants } from '@ndla/ui';
 import { withTracker } from '@ndla/tracker';
@@ -21,7 +21,7 @@ import Article from '../../components/Article';
 import ArticleHero from './components/ArticleHero';
 import ArticleErrorMessage from './components/ArticleErrorMessage';
 import { getContentType, isHeroContentType } from '../../util/getContentType';
-import { getArticleScripts, Scripts } from '../../util/getArticleScripts';
+import { getArticleScripts } from '../../util/getArticleScripts';
 import getStructuredDataFromArticle, {
   structuredArticleDataFragment,
 } from '../../util/getStructuredDataFromArticle';
@@ -46,6 +46,7 @@ import {
   GQLArticlePage_TopicFragment,
   GQLArticlePage_TopicPathFragment,
 } from '../../graphqlTypes';
+import { useDisableConverter } from '../../components/ArticleConverterContext';
 
 interface Props extends CustomWithTranslation {
   resource?: GQLArticlePage_ResourceFragment;
@@ -71,14 +72,20 @@ const ArticlePage = ({
   t,
   skipToContentId,
 }: Props) => {
-  const [scripts, setScripts] = useState<Scripts[]>([]);
   const subjectPageUrl = config.ndlaFrontendDomain;
-  useEffect(() => {
-    if (!resource?.article) return;
-    const article = transformArticle(resource.article, i18n.language);
-    const scripts = getArticleScripts(article, i18n.language);
-    setScripts(scripts);
-  }, [i18n.language, resource]);
+  const disableConverter = useDisableConverter();
+
+  const [article, scripts] = useMemo(() => {
+    if (!resource?.article) return undefined;
+    return [
+      transformArticle(resource?.article, i18n.language, {
+        path: `${config.ndlaFrontendDomain}/article/${resource.article?.id}`,
+        enabled: disableConverter,
+        subject: subject?.id,
+      }),
+      getArticleScripts(resource.article, i18n.language),
+    ];
+  }, [subject?.id, resource?.article, i18n.language, disableConverter])!;
 
   useEffect(() => {
     if (window.MathJax && typeof window.MathJax.typeset === 'function') {
@@ -118,7 +125,6 @@ const ArticlePage = ({
     );
   }
 
-  const article = transformArticle(resource.article, i18n.language)!;
   const contentType = resource ? getContentType(resource) : undefined;
   const resourceType =
     contentType && isHeroContentType(contentType) ? contentType : undefined;
@@ -185,6 +191,7 @@ const ArticlePage = ({
       />
       <OneColumn>
         <Article
+          contentTransformed={disableConverter}
           path={resource.path}
           id={skipToContentId}
           article={article}
@@ -273,7 +280,7 @@ export const articlePageFragments = {
       name
       path
       contentUri
-      article(subjectId: $subjectId) {
+      article(subjectId: $subjectId, convertEmbeds: $convertEmbeds) {
         created
         updated
         metaDescription

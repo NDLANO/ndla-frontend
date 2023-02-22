@@ -18,10 +18,13 @@ import H5pLicenseList from './H5pLicenseList';
 import ConceptLicenseList from './ConceptLicenseList';
 import OembedItem from './OembedItem';
 import { GQLLicenseBox_ArticleFragment } from '../../graphqlTypes';
+import { useDisableConverter } from '../ArticleConverterContext';
 
 function buildLicenseTabList(
   article: GQLLicenseBox_ArticleFragment,
   t: TFunction,
+  copyText?: string,
+  disableConverter?: boolean,
 ) {
   const images = article.metaData?.images || [];
   const audios = article.metaData?.audios || [];
@@ -46,7 +49,7 @@ function buildLicenseTabList(
             title: article.title,
             copyright: article.copyright,
             updated: article.published,
-            copyText: article.metaData?.copyText,
+            copyText: !disableConverter ? article.metaData?.copyText : copyText,
           },
         ]}
       />
@@ -63,7 +66,9 @@ function buildLicenseTabList(
   if (podcasts.length > 0) {
     tabs.push({
       title: t('license.tabs.podcast'),
-      content: <PodcastLicenseList podcasts={podcasts} />,
+      content: (
+        <PodcastLicenseList podcasts={podcasts} articleId={article.id} />
+      ),
     });
   }
 
@@ -100,10 +105,12 @@ function buildLicenseTabList(
 
 interface Props {
   article: GQLLicenseBox_ArticleFragment;
+  copyText?: string;
 }
-const LicenseBox = ({ article }: Props) => {
+const LicenseBox = ({ article, copyText }: Props) => {
   const { t } = useTranslation();
-  const tabs = buildLicenseTabList(article, t);
+  const disableConverter = useDisableConverter();
+  const tabs = buildLicenseTabList(article, t, copyText, disableConverter);
   return (
     <div>
       <h1 className="license__heading">{t('license.heading')}</h1>
@@ -115,6 +122,7 @@ const LicenseBox = ({ article }: Props) => {
 LicenseBox.fragments = {
   article: gql`
     fragment LicenseBox_Article on Article {
+      id
       title
       oembed
       published

@@ -175,6 +175,7 @@ const Learningpath = ({
                 !learningpathStep.showTitle ? skipToContentId : undefined
               }
               topic={topic}
+              subjectId={subject?.id}
               learningpathStep={learningpathStep}
               breadcrumbItems={breadcrumbItems}
             />
@@ -255,6 +256,7 @@ Learningpath.fragments = {
   `,
   subject: gql`
     fragment Learningpath_Subject on Subject {
+      id
       ...LastLearningpathStepInfo_Subject
     }
     ${LastLearningpathStepInfo.fragments.subject}

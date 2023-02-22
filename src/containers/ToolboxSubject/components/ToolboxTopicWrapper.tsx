@@ -175,7 +175,7 @@ export const toolboxTopicWrapperFragments = {
       id
       name
       path
-      article {
+      article(convertEmbeds: $convertEmbeds) {
         title
         introduction
         copyright {
