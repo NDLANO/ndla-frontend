@@ -20,7 +20,7 @@ import {
 } from '../MyNdla/folderMutations';
 import FolderMeta from './components/FolderMeta';
 import FolderNavigation from './components/FolderNavigation';
-import Resource from './components/Resource';
+import SharedResourcePage from './components/SharedResourcePage';
 
 const Layout = styled.div`
   display: grid;
@@ -40,6 +40,10 @@ const Sidebar = styled.section`
   display: flex;
   flex-direction: column;
   gap: ${spacing.small};
+`;
+
+const StyledSection = styled.section`
+  margin-top: ${spacing.large};
 `;
 
 const InfoBox = styled.article`
@@ -107,9 +111,9 @@ const SharedFolderPage = () => {
         )}
         <FolderNavigation folder={folder} meta={keyedData} loading={loading} />
       </Sidebar>
-      <section>
+      <StyledSection>
         {selectedResource ? (
-          <Resource
+          <SharedResourcePage
             loading={metaLoading}
             resource={selectedResource}
             meta={
@@ -121,7 +125,7 @@ const SharedFolderPage = () => {
         ) : (
           <FolderMeta folder={folder} />
         )}
-      </section>
+      </StyledSection>
     </Layout>
   );
 };

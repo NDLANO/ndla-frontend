@@ -6,8 +6,6 @@
  *
  */
 
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import { OneColumn } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
@@ -20,10 +18,6 @@ interface Props {
   loading?: boolean;
 }
 
-const Container = styled(OneColumn)`
-  margin-top: ${spacing.large};
-`;
-
 const FolderMeta = ({ folder, loading }: Props) => {
   const { t } = useTranslation();
   if (loading) {
@@ -34,7 +28,7 @@ const FolderMeta = ({ folder, loading }: Props) => {
   }
 
   return (
-    <Container>
+    <OneColumn>
       <h1>{folder.name}</h1>
       <FolderAndResourceCount
         selectedFolder={folder}
@@ -45,7 +39,7 @@ const FolderMeta = ({ folder, loading }: Props) => {
       />
       {/* TODO: Add translation in packages */}
       {t('myNdla.sharedFolder.infoDetailed')}
-    </Container>
+    </OneColumn>
   );
 };
 

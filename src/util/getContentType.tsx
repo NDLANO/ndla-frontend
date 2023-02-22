@@ -7,7 +7,7 @@
  */
 
 import { constants, HeroContentType } from '@ndla/ui';
-import { GQLResource, GQLResourceType, GQLTopic } from '../graphqlTypes';
+import { GQLResource, GQLTopic } from '../graphqlTypes';
 
 import {
   RESOURCE_TYPE_ASSESSMENT_RESOURCES,
@@ -53,12 +53,20 @@ export const resourceTypeMapping: Record<string, string> = {
   default: RESOURCE_TYPE_SUBJECT_MATERIAL,
 };
 
-function getContentTypeFromResourceTypes(
-  resourceTypes: GQLResourceType[] = [],
+interface ResourceType {
+  id: string;
+  name: string;
+}
+
+export function getContentTypeFromResourceTypes(
+  resourceTypes: ResourceType[] = [],
 ) {
   const resourceType = resourceTypes.find(type => contentTypeMapping[type.id]);
   if (resourceType) {
-    return { contentType: contentTypeMapping[resourceType.id] };
+    return {
+      contentType: contentTypeMapping[resourceType.id],
+      label: resourceType.name,
+    };
   }
   return { contentType: contentTypeMapping.default };
 }

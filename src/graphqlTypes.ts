@@ -2434,17 +2434,6 @@ export type GQLFoldersPageQueryFragmentFragment = {
   >;
 } & GQLFolderFragmentFragment;
 
-export type GQLSharedFolderQueryVariables = Exact<{
-  id: Scalars['String'];
-  includeSubfolders?: InputMaybe<Scalars['Boolean']>;
-  includeResources?: InputMaybe<Scalars['Boolean']>;
-}>;
-
-export type GQLSharedFolderQuery = {
-  __typename?: 'Query';
-  sharedFolder: { __typename?: 'Folder' } & GQLFoldersPageQueryFragmentFragment;
-};
-
 export type GQLFoldersPageQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GQLFoldersPageQuery = {
@@ -2547,6 +2536,17 @@ type GQLFolderResourceMeta_LearningpathFolderResourceMeta_Fragment = {
 export type GQLFolderResourceMetaFragment =
   | GQLFolderResourceMeta_ArticleFolderResourceMeta_Fragment
   | GQLFolderResourceMeta_LearningpathFolderResourceMeta_Fragment;
+
+export type GQLSharedFolderQueryVariables = Exact<{
+  id: Scalars['String'];
+  includeSubfolders?: InputMaybe<Scalars['Boolean']>;
+  includeResources?: InputMaybe<Scalars['Boolean']>;
+}>;
+
+export type GQLSharedFolderQuery = {
+  __typename?: 'Query';
+  sharedFolder: { __typename?: 'Folder' } & GQLFoldersPageQueryFragmentFragment;
+};
 
 export type GQLFolderResourceMetaQueryVariables = Exact<{
   resource: GQLFolderResourceMetaSearchInput;
@@ -2860,6 +2860,28 @@ export type GQLResources_TopicFragment = {
     { __typename?: 'Resource' } & GQLResources_ResourceFragment
   >;
   metadata: { __typename?: 'TaxonomyMetadata'; customFields: any };
+};
+
+export type GQLSharedResourceArticleContainer_ArticleFragment = {
+  __typename?: 'Article';
+  created: string;
+  tags?: Array<string>;
+} & GQLArticle_ArticleFragment &
+  GQLStructuredArticleDataFragment;
+
+export type GQLSharedResourceArticlePageQueryVariables = Exact<{
+  articleId: Scalars['String'];
+  isOembed?: InputMaybe<Scalars['String']>;
+  path?: InputMaybe<Scalars['String']>;
+  showVisualElement?: InputMaybe<Scalars['String']>;
+  convertEmbeds?: InputMaybe<Scalars['Boolean']>;
+}>;
+
+export type GQLSharedResourceArticlePageQuery = {
+  __typename?: 'Query';
+  article?: {
+    __typename?: 'Article';
+  } & GQLSharedResourceArticleContainer_ArticleFragment;
 };
 
 export type GQLSubjectContainer_SubjectFragment = {

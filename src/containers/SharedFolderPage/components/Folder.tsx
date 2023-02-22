@@ -66,7 +66,10 @@ interface StyledArrowProps {
   isOpen: boolean;
 }
 
-const StyledArrow = styled(ArrowDropDown)<StyledArrowProps>`
+const shouldForwardProp = (prop: string) => !['isOpen'].includes(prop);
+const styledOptions = { shouldForwardProp };
+
+const StyledArrow = styled(ArrowDropDown, styledOptions)<StyledArrowProps>`
   color: ${colors.black};
   height: 20px;
   width: 20px;

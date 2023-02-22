@@ -22,7 +22,10 @@ interface StyledProps {
   current: boolean;
 }
 
-const StyledSafelinkButton = styled(SafeLinkButton)<StyledProps>`
+const shouldForwardProp = (prop: string) => !['current'].includes(prop);
+const styledOptions = { shouldForwardProp };
+
+const StyledSafelinkButton = styled(SafeLinkButton, styledOptions)<StyledProps>`
   text-align: left;
   align-items: flex-start;
   color: ${({ current }) => (current ? colors.white : colors.black)};
