@@ -50,7 +50,7 @@ interface Props {
   loading?: boolean;
 }
 
-const SharedResourcePage = ({ resource, meta }: Props) => {
+const SharedArticle = ({ resource, meta }: Props) => {
   const disableConverter = useDisableConverter();
 
   const { loading, data, error } = useGraphQuery<
@@ -86,4 +86,4 @@ const SharedResourcePage = ({ resource, meta }: Props) => {
   );
 };
 
-export default SharedResourcePage;
+export default SharedArticle;

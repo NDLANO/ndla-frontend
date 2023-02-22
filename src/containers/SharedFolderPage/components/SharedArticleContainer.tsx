@@ -21,7 +21,7 @@ interface Props {
   meta?: GQLFolderResourceMetaSearchQuery['folderResourceMetaSearch'][0];
 }
 
-const SharedResourceContainer = ({ article: propArticle, meta }: Props) => {
+const SharedArticleContainer = ({ article: propArticle, meta }: Props) => {
   const { i18n } = useTranslation();
   const disableConverter = useDisableConverter();
 
@@ -73,7 +73,7 @@ const SharedResourceContainer = ({ article: propArticle, meta }: Props) => {
   );
 };
 
-export default SharedResourceContainer;
+export default SharedArticleContainer;
 
 export const sharedArticleContainerFragments = {
   article: gql`
