@@ -14,12 +14,11 @@ import { ButtonV2 } from '@ndla/button';
 import { TrashCanOutline } from '@ndla/icons/action';
 import { isMobile } from 'react-device-detect';
 import { SafeLinkButton } from '@ndla/safelink';
-import { css } from '@emotion/react';
 import { useSnack } from '@ndla/ui';
 import { GQLFolder } from '../../../graphqlTypes';
 import FolderAndResourceCount from './FolderAndResourceCount';
 import { toFolderPreview } from '../../../routeHelpers';
-import { copyFolderSharingLink } from './FoldersPage';
+import { previewLink } from './FoldersPage';
 
 const Title = styled.h1`
   margin-bottom: 0;
@@ -88,22 +87,11 @@ const StyledButtonRow = styled.div`
   flex-direction: row-reverse;
   justify-content: space-between;
   gap: ${spacing.xsmall};
-  ${mq.range({ until: breakpoints.mobileWide })} {
-    flex-direction: column;
-  }
-`;
-
-const buttonCSS = css`
   margin-top: ${spacing.small};
   ${mq.range({ until: breakpoints.mobileWide })} {
+    flex-direction: column;
     margin-top: ${spacing.xsmall};
   }
-`;
-const StyledButton = styled(ButtonV2)`
-  ${buttonCSS}
-`;
-const StyledLinkButton = styled(SafeLinkButton)`
-  ${buttonCSS}
 `;
 
 interface Props {
@@ -125,23 +113,6 @@ const FolderShareModal = ({
 }: Props) => {
   const { t } = useTranslation();
   const { addSnack } = useSnack();
-  const buttons = {
-    shared: (
-      <StyledLinkButton to={toFolderPreview(folder.id)}>
-        {t('myNdla.folder.sharing.button.preview')}
-      </StyledLinkButton>
-    ),
-    unShare: (
-      <StyledButton onClick={onUpdateStatus}>
-        {t('myNdla.folder.sharing.button.unShare')}
-      </StyledButton>
-    ),
-    private: (
-      <StyledButton onClick={onUpdateStatus}>
-        {t('myNdla.folder.sharing.button.share')}
-      </StyledButton>
-    ),
-  };
 
   return (
     <ModalV2
@@ -184,27 +155,43 @@ const FolderShareModal = ({
                       content: t('myNdla.folder.sharing.link'),
                     });
                   }}>
-                  {copyFolderSharingLink(folder.id)}
+                  {previewLink(folder.id)}
                 </CopyLinkButton>
               </div>
             )}
             {t(`myNdla.folder.sharing.description.${type}`)}
             <StyledButtonRow>
               <StyledButtonRow>
-                {buttons[type]}
-                <StyledButton onClick={onClose} variant="outline">
+                {type === 'shared' && (
+                  <SafeLinkButton to={toFolderPreview(folder.id)}>
+                    {t('myNdla.folder.sharing.button.preview')}
+                  </SafeLinkButton>
+                )}
+                {type === 'private' && (
+                  <ButtonV2 onClick={onUpdateStatus}>
+                    {t('myNdla.folder.sharing.button.share')}
+                  </ButtonV2>
+                )}
+                {type === 'unShare' && (
+                  <ButtonV2 onClick={onUpdateStatus}>
+                    {t('myNdla.folder.sharing.button.unShare')}
+                  </ButtonV2>
+                )}
+                <ButtonV2 onClick={onClose} variant="outline">
                   {t('cancel')}
-                </StyledButton>
+                </ButtonV2>
               </StyledButtonRow>
-              {type === 'shared' && (
-                <StyledButton
-                  variant={isMobile ? 'outline' : 'ghost'}
-                  colorTheme="danger"
-                  onClick={() => onUpdateStatus?.()}>
-                  {t('myNdla.folder.sharing.button.unShare')}
-                  {!isMobile && <TrashCanOutline />}
-                </StyledButton>
-              )}
+              <StyledButtonRow>
+                {type === 'shared' && (
+                  <ButtonV2
+                    variant={isMobile ? 'outline' : 'ghost'}
+                    colorTheme="danger"
+                    onClick={() => onUpdateStatus?.()}>
+                    {t('myNdla.folder.sharing.button.unShare')}
+                    {!isMobile && <TrashCanOutline />}
+                  </ButtonV2>
+                )}
+              </StyledButtonRow>
             </StyledButtonRow>
           </StyledModalBody>
         </>

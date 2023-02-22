@@ -6,7 +6,7 @@
  *
  */
 
-import { memo, useContext } from 'react';
+import { memo, useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { useSortable } from '@dnd-kit/sortable';
@@ -83,63 +83,67 @@ const DraggableFolder = ({
   };
 
   const isShared = folder.status === 'shared';
-  const menuItems: MenuItemProps[] = concat(
-    [
-      {
-        icon: <Pencil />,
-        text: t('myNdla.folder.edit'),
-        onClick: () => setFolderAction({ action: 'edit', folder, index }),
-      },
-    ],
-    isShared
-      ? [
+  const menuItems: MenuItemProps[] = useMemo(
+    () =>
+      concat(
+        [
           {
-            icon: <Link />,
-            text: t('myNdla.folder.sharing.button.shareLink'),
-            onClick: () => {
-              copyFolderSharingLink(folder.id);
-              addSnack({
-                id: 'shareLink',
-                content: t('myNdla.folder.sharing.link'),
-              });
-            },
-          },
-          {
-            icon: <Cross />,
-            text: t('myNdla.folder.sharing.button.delete'),
-            onClick: () =>
-              setFolderAction({
-                action: 'shared',
-                folder,
-                index,
-              }),
-          },
-        ]
-      : [
-          {
-            icon: <Share />,
-            text: t('myNdla.folder.sharing.button.share'),
-            onClick: () =>
-              setFolderAction({
-                action: 'private',
-                folder,
-                index,
-              }),
+            icon: <Pencil />,
+            text: t('myNdla.folder.edit'),
+            onClick: () => setFolderAction({ action: 'edit', folder, index }),
           },
         ],
-    [
-      {
-        icon: <DeleteForever />,
-        text: t('myNdla.folder.delete'),
-        onClick: () =>
-          setFolderAction({
-            action: 'delete',
-            folder,
-            index,
-          }),
-        type: 'danger',
-      },
-    ],
+        isShared
+          ? [
+              {
+                icon: <Link />,
+                text: t('myNdla.folder.sharing.button.shareLink'),
+                onClick: () => {
+                  copyFolderSharingLink(folder.id);
+                  addSnack({
+                    id: 'shareLink',
+                    content: t('myNdla.folder.sharing.link'),
+                  });
+                },
+              },
+              {
+                icon: <Cross />,
+                text: t('myNdla.folder.sharing.button.delete'),
+                onClick: () =>
+                  setFolderAction({
+                    action: 'shared',
+                    folder,
+                    index,
+                  }),
+              },
+            ]
+          : [
+              {
+                icon: <Share />,
+                text: t('myNdla.folder.sharing.button.share'),
+                onClick: () =>
+                  setFolderAction({
+                    action: 'private',
+                    folder,
+                    index,
+                  }),
+              },
+            ],
+        [
+          {
+            icon: <DeleteForever />,
+            text: t('myNdla.folder.delete'),
+            onClick: () =>
+              setFolderAction({
+                action: 'delete',
+                folder,
+                index,
+              }),
+            type: 'danger',
+          },
+        ],
+      ),
+    [addSnack, folder, index, isShared, setFolderAction, t],
   );
 
   return (
