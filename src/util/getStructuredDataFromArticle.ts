@@ -314,9 +314,15 @@ const getStructuredDataFromArticle = (
       ],
     },
     description: article.metaDescription,
-    dateCreated: format(article.published, 'YYYY-MM-DD'),
-    datePublished: format(article.published, 'YYYY-MM-DD'),
-    dateModified: format(article.updated, 'YYYY-MM-DD'),
+    dateCreated: article.published
+      ? format(new Date(article.published), 'yyyy-MM-dd')
+      : undefined,
+    datePublished: article.published
+      ? format(new Date(article.published), 'yyyy-MM-dd')
+      : undefined,
+    dateModified: article.updated
+      ? format(new Date(article.updated), 'yyyy-MM-dd')
+      : undefined,
     educationalAlignment,
     image: article.metaImage?.url,
     thumbnailUrl: article.metaImage?.url,
@@ -388,7 +394,9 @@ const createVideoData = (
       thumbnailUrl: video?.cover,
       description: video?.description,
       acquireLicensePage: AcquireLicensePage,
-      uploadDate: format(video?.uploadDate!, 'YYYY-MM-DD'),
+      uploadDate: video?.uploadDate
+        ? format(new Date(video?.uploadDate!), 'yyyy-mm-dd')
+        : undefined,
       ...getCopyrightData(video?.copyright!),
     };
   });

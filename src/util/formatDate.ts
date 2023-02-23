@@ -11,7 +11,7 @@ import { LocaleType } from '../interfaces';
 
 export default function formatDate(date: string, locale: LocaleType) {
   if (locale === 'nb' || locale === 'nn') {
-    return format(date, 'DD.MM.YYYY');
+    return format(new Date(date), 'dd.MM.yyyy');
   }
-  return format(date, 'MM/DD/YYYY');
+  return format(new Date(date), 'MM/dd/yyyy');
 }
