@@ -101,7 +101,11 @@ const AboutMenuPortion = ({
           {type.subTypes?.map(link => {
             if (link.subTypes) {
               return (
-                <DrawerMenuItem id={link.key} type="link" to={link.link}>
+                <DrawerMenuItem
+                  key={link.key}
+                  id={link.key}
+                  type="link"
+                  to={link.link}>
                   {t(`masthead.menuOptions.about.${link.key}`)}
                 </DrawerMenuItem>
               );
@@ -109,6 +113,7 @@ const AboutMenuPortion = ({
             return (
               <DrawerMenuItem
                 id={link.key}
+                key={link.key}
                 active={selected?.key === link.key}
                 type="button"
                 onClick={() => onGoRight(link.key)}>
