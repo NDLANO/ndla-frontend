@@ -25,6 +25,7 @@ import { transformArticle } from '../../util/transformArticle';
 import { GQLArticleContents_TopicFragment } from '../../graphqlTypes';
 import config from '../../config';
 import { useDisableConverter } from '../ArticleConverterContext';
+import { getArticleScripts } from '../../util/getArticleScripts';
 
 interface Props {
   topic: GQLArticleContents_TopicFragment;
@@ -52,16 +53,31 @@ const ArticleContents = ({
     return markdown.render(text);
   };
 
-  if (!topic.article) return null;
+  const [article, scripts] = useMemo(() => {
+    if (!topic.article) return [undefined, undefined];
+    return [
+      transformArticle(topic.article, i18n.language, {
+        enabled: disableConverter,
+        path: `${config.ndlaFrontendDomain}/article/${topic.article?.id}`,
+        subject: subjectId,
+      }),
+      getArticleScripts(topic.article, i18n.language),
+    ];
+  }, [disableConverter, i18n.language, subjectId, topic.article]);
 
-  const article = transformArticle(topic.article, i18n.language, {
-    enabled: disableConverter,
-    path: `${config.ndlaFrontendDomain}/article/${topic.article.id}`,
-    subject: subjectId,
-  });
+  if (!topic.article || !article) return null;
 
   return (
     <ArticleWrapper modifier={modifier} id={topic.article.id.toString()}>
+      {scripts?.map(script => (
+        <script
+          key={script.src}
+          src={script.src}
+          type={script.type}
+          async={script.async}
+          defer={script.defer}
+        />
+      ))}
       {showIngress && (
         <LayoutItem layout="extend">
           <ArticleHeaderWrapper>
