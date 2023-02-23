@@ -46,5 +46,14 @@ export function getArticleScripts(
     });
   }
 
+  if (article && article.content.indexOf('data-resource="h5p"') > -1) {
+    scripts.push({
+      src: 'https://ca.h5p.ndla.no/h5p-php-library/js/h5p-resizer.js',
+      type: 'text/javascript',
+      async: false,
+      defer: true,
+    });
+  }
+
   return scripts;
 }

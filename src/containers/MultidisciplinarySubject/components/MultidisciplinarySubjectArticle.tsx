@@ -8,6 +8,7 @@
 
 import { gql } from '@apollo/client';
 import { useRef, MouseEvent, useMemo } from 'react';
+import { Helmet } from 'react-helmet-async';
 import {
   ArticleSideBar,
   Breadcrumblist,
@@ -30,6 +31,7 @@ import {
 import { transformArticle } from '../../../util/transformArticle';
 import config from '../../../config';
 import { useDisableConverter } from '../../../components/ArticleConverterContext';
+import { getArticleScripts } from '../../../util/getArticleScripts';
 
 const filterCodes: Record<string, 'publicHealth' | 'democracy' | 'climate'> = {
   TT1: 'publicHealth',
@@ -59,14 +61,17 @@ const MultidisciplinarySubjectArticle = ({
     scrollToRef(resourcesRef, 0);
   };
 
-  const article = useMemo(() => {
-    if (!topic.article) return undefined;
-    return transformArticle(topic.article, i18n.language, {
-      enabled: disableConverter,
-      path: `${config.ndlaFrontendDomain}/article/${topic.article.id}`,
-      subject: subject.id,
-    });
-  }, [subject.id, topic.article, i18n.language, disableConverter]);
+  const [article, scripts] = useMemo(() => {
+    if (!topic.article) return [undefined, undefined];
+    return [
+      transformArticle(topic.article, i18n.language, {
+        enabled: disableConverter,
+        path: `${config.ndlaFrontendDomain}/article/${topic.article.id}`,
+        subject: subject.id,
+      }),
+      getArticleScripts(topic.article, i18n.language),
+    ];
+  }, [topic.article, i18n.language, subject.id, disableConverter]);
 
   if (!topic.article || !article) {
     return null;
@@ -84,6 +89,17 @@ const MultidisciplinarySubjectArticle = ({
 
   return (
     <main>
+      <Helmet>
+        {scripts?.map(script => (
+          <script
+            key={script.src}
+            src={script.src}
+            type={script.type}
+            async={script.async}
+            defer={script.defer}
+          />
+        ))}
+      </Helmet>
       <Breadcrumblist hideOnNarrow items={[]} startOffset={268}>
         <ArticleSideBar
           onLinkToResourcesClick={onLinkToResourcesClick}
