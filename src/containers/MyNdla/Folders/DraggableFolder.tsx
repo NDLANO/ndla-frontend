@@ -108,7 +108,7 @@ const DraggableFolder = ({
               },
               {
                 icon: <Cross />,
-                text: t('myNdla.folder.sharing.button.delete'),
+                text: t('myNdla.folder.sharing.button.unShare'),
                 onClick: () =>
                   setFolderAction({
                     action: 'shared',

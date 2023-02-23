@@ -84,7 +84,7 @@ const CopyLinkHeader = styled.h2`
 
 const StyledButtonRow = styled.div`
   display: flex;
-  flex-direction: row-reverse;
+  flex-direction: row;
   justify-content: space-between;
   gap: ${spacing.xsmall};
   margin-top: ${spacing.small};
@@ -163,6 +163,20 @@ const FolderShareModal = ({
             <StyledButtonRow>
               <StyledButtonRow>
                 {type === 'shared' && (
+                  <ButtonV2
+                    variant={isMobile ? 'outline' : 'ghost'}
+                    colorTheme="danger"
+                    onClick={() => onUpdateStatus?.()}>
+                    {t('myNdla.folder.sharing.button.unShare')}
+                    {!isMobile && <TrashCanOutline />}
+                  </ButtonV2>
+                )}
+              </StyledButtonRow>
+              <StyledButtonRow>
+                <ButtonV2 onClick={onClose} variant="outline">
+                  {t('cancel')}
+                </ButtonV2>
+                {type === 'shared' && (
                   <SafeLinkButton to={toFolderPreview(folder.id)}>
                     {t('myNdla.folder.sharing.button.preview')}
                   </SafeLinkButton>
@@ -175,20 +189,6 @@ const FolderShareModal = ({
                 {type === 'unShare' && (
                   <ButtonV2 onClick={onUpdateStatus}>
                     {t('myNdla.folder.sharing.button.unShare')}
-                  </ButtonV2>
-                )}
-                <ButtonV2 onClick={onClose} variant="outline">
-                  {t('cancel')}
-                </ButtonV2>
-              </StyledButtonRow>
-              <StyledButtonRow>
-                {type === 'shared' && (
-                  <ButtonV2
-                    variant={isMobile ? 'outline' : 'ghost'}
-                    colorTheme="danger"
-                    onClick={() => onUpdateStatus?.()}>
-                    {t('myNdla.folder.sharing.button.unShare')}
-                    {!isMobile && <TrashCanOutline />}
                   </ButtonV2>
                 )}
               </StyledButtonRow>
