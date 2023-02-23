@@ -107,7 +107,7 @@ const useArrowNavigation = (
     return () => window.removeEventListener('keydown', arrowHandler);
   }, [arrowHandler]);
 
-  return focused;
+  return { focused, setFocused };
 };
 
 export default useArrowNavigation;

@@ -54,31 +54,47 @@ export const AcquireLicensePage =
 
 export const aboutNdlaUrl = 'https://om.ndla.no/';
 
-export const aboutNdlaLinks = {
-  whoAreWe: `${aboutNdlaUrl}hvem-er-vi/`,
-  whatWeDo: `${aboutNdlaUrl}hva-gjor-vi/`,
-  careers: `${aboutNdlaUrl}bli-med-pa-laget/`,
-  contactUs: `${aboutNdlaUrl}kontakt-oss-2/`,
+export interface LinkType {
+  link: string;
+  key: string;
+  subTypes?: LinkType[];
+}
+
+const whoAreWe: LinkType = {
+  key: 'whoAreWe',
+  link: `${aboutNdlaUrl}hvem-er-vi/`,
+  subTypes: [
+    { key: 'organizing', link: `${aboutNdlaUrl}organisering/` },
+    { key: 'keyPersonnel', link: `${aboutNdlaUrl}nokkelpersoner/` },
+    { key: 'articlesOfAssociation', link: `${aboutNdlaUrl}vedtekter/` },
+    { key: 'history', link: `${aboutNdlaUrl}ndlas-historie/` },
+  ],
 };
 
-export const aboutNdlaLinkGroups = {
-  whoAreWe: {
-    keyPersonnel: `${aboutNdlaUrl}nokkelpersoner/`,
-    organizing: `${aboutNdlaUrl}organisering/`,
-    articlesOfAssociation: `${aboutNdlaUrl}vedtekter/`,
-    history: `${aboutNdlaUrl}ndlas-historie/`,
-  },
-  whatWeDo: {
-    vision: `${aboutNdlaUrl}visjon-og-verdier-2/`,
-    communityPurpose: `${aboutNdlaUrl}vart-samfunnsoppdrag`,
-    cooperation: `${aboutNdlaUrl}vare-samarbeid`,
-    numbers: `${aboutNdlaUrl}tall-og-rapporter-2`,
-  },
-  careers: {
-    vacancies: `${aboutNdlaUrl}utlysninger`,
-  },
-  contactUs: {
-    faq: `${aboutNdlaUrl}ofte-stilte-sporsmal-2`,
-    follow: `${aboutNdlaUrl}folg-ndla`,
-  },
+const whatWeDo: LinkType = {
+  key: 'whatWeDo',
+  link: `${aboutNdlaUrl}hva-gjor-vi/`,
+  subTypes: [
+    { key: 'communityPurpose', link: `${aboutNdlaUrl}vart-samfunnsoppgrad/` },
+    { key: 'vision', link: `${aboutNdlaUrl}visjon-og-verdier-2/` },
+    { key: 'numbers', link: `${aboutNdlaUrl}tall-og-rapporter-2/` },
+    { key: 'cooperation', link: `${aboutNdlaUrl}vare-samarbeid/` },
+  ],
+};
+
+const careers: LinkType = {
+  key: 'careers',
+  link: `${aboutNdlaUrl}jobb-for-ndla/`,
+  subTypes: [{ key: 'vacancies', link: `${aboutNdlaUrl}utlysninger/` }],
+};
+
+const contactUs: LinkType = {
+  key: 'contactUs',
+  link: `${aboutNdlaUrl}kontakt-oss-2/`,
+};
+
+export const ndlaLinks: LinkType = {
+  key: 'title',
+  link: aboutNdlaUrl,
+  subTypes: [whoAreWe, whatWeDo, careers, contactUs],
 };
