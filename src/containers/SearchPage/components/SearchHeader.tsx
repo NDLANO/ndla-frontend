@@ -23,6 +23,7 @@ interface Props {
   competenceGoals: SearchCompetenceGoal[];
   noResults: boolean;
   locale: LocaleType;
+  loading: boolean;
 }
 
 interface ActiveFilter {
@@ -39,6 +40,7 @@ const SearchHeader = ({
   noResults,
   locale,
   competenceGoals,
+  loading,
 }: Props) => {
   const { t } = useTranslation();
   const [searchValue, setSearchValue] = useState(query);
@@ -142,6 +144,7 @@ const SearchHeader = ({
       filters={subjectFilterProps}
       noResults={noResults}
       competenceGoals={competenceGoalsMetadata}
+      loading={loading}
     />
   );
 };

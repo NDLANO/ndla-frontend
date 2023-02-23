@@ -27,6 +27,7 @@ import {
 import { SearchCompetenceGoal, SubjectItem } from './SearchInnerPage';
 import { LocaleType } from '../../interfaces';
 import { supportedLanguages } from '../../i18n';
+import { Spinner } from '@ndla/icons';
 
 const StyledLanguageSelector = styled.div`
   width: 100%;
@@ -107,6 +108,7 @@ const SearchContainer = ({
         noResults={sortedFilterButtonItems.length === 0}
         locale={locale}
         competenceGoals={competenceGoals}
+        loading={loading}
       />
       {showConcepts && concepts && concepts.length > 0 && (
         <SearchNotionsResult
