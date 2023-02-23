@@ -132,6 +132,7 @@ export type ConfigType = {
   matomoUrl: string;
   matomoSiteId: string;
   disableConverter: boolean;
+  sharingEnabled: boolean;
 };
 
 const config: ConfigType = {
@@ -167,6 +168,7 @@ const config: ConfigType = {
   matomoUrl: getEnvironmentVariabel('MATOMO_URL', 'https://tall.ndla.no/'),
   matomoSiteId: getEnvironmentVariabel('MATOMO_SITE_ID', ''),
   disableConverter: getEnvironmentVariabel('USE_ARTICLE_CONVERTER', false),
+  sharingEnabled: getEnvironmentVariabel('SHARING_ENABLED', false),
 };
 
 export function getUniversalConfig() {

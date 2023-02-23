@@ -262,7 +262,9 @@ const FoldersPage = () => {
             <span>{t('myNdla.newFolder')}</span>
           </ButtonV2>
         )}
-        {showShareFolder &&
+
+        {config.sharingEnabled &&
+          showShareFolder &&
           (selectedFolder?.status !== 'private' ? (
             <ButtonV2
               variant="ghost"

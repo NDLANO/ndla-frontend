@@ -23,6 +23,7 @@ import { FolderTotalCount } from '../../../util/folderHelpers';
 import { FolderAction, copyFolderSharingLink, ViewType } from './FoldersPage';
 import DragHandle from './DragHandle';
 import { AuthContext } from '../../../components/AuthenticationContext';
+import config from '../../../config';
 
 interface Props {
   folder: GQLFolder;
@@ -93,42 +94,44 @@ const DraggableFolder = ({
             onClick: () => setFolderAction({ action: 'edit', folder, index }),
           },
         ],
-        isShared
-          ? [
-              {
-                icon: <Link />,
-                text: t('myNdla.folder.sharing.button.shareLink'),
-                onClick: () => {
-                  copyFolderSharingLink(folder.id);
-                  addSnack({
-                    id: 'shareLink',
-                    content: t('myNdla.folder.sharing.link'),
-                  });
+        config.sharingEnabled
+          ? isShared
+            ? [
+                {
+                  icon: <Link />,
+                  text: t('myNdla.folder.sharing.button.shareLink'),
+                  onClick: () => {
+                    copyFolderSharingLink(folder.id);
+                    addSnack({
+                      id: 'shareLink',
+                      content: t('myNdla.folder.sharing.link'),
+                    });
+                  },
                 },
-              },
-              {
-                icon: <Cross />,
-                text: t('myNdla.folder.sharing.button.unShare'),
-                onClick: () =>
-                  setFolderAction({
-                    action: 'shared',
-                    folder,
-                    index,
-                  }),
-              },
-            ]
-          : [
-              {
-                icon: <Share />,
-                text: t('myNdla.folder.sharing.button.share'),
-                onClick: () =>
-                  setFolderAction({
-                    action: 'private',
-                    folder,
-                    index,
-                  }),
-              },
-            ],
+                {
+                  icon: <Cross />,
+                  text: t('myNdla.folder.sharing.button.unShare'),
+                  onClick: () =>
+                    setFolderAction({
+                      action: 'shared',
+                      folder,
+                      index,
+                    }),
+                },
+              ]
+            : [
+                {
+                  icon: <Share />,
+                  text: t('myNdla.folder.sharing.button.share'),
+                  onClick: () =>
+                    setFolderAction({
+                      action: 'private',
+                      folder,
+                      index,
+                    }),
+                },
+              ]
+          : [],
         [
           {
             icon: <DeleteForever />,

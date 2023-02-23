@@ -16,6 +16,7 @@ import { useTranslation } from 'react-i18next';
 import concat from 'lodash/concat';
 import { GQLFolder } from '../../../graphqlTypes';
 import { copyFolderSharingLink, FolderActionType } from './FoldersPage';
+import config from '../../../config';
 
 interface Props {
   onActionChanged: (action: FolderActionType) => void;
@@ -36,32 +37,34 @@ const FolderActions = ({ onActionChanged, selectedFolder }: Props) => {
             onClick: () => onActionChanged('edit'),
           },
         ],
-        isShared
-          ? [
-              {
-                icon: <Link />,
-                text: t('myNdla.folder.sharing.button.shareLink'),
-                onClick: () => {
-                  copyFolderSharingLink(selectedFolder?.id ?? '');
-                  addSnack({
-                    id: 'shareLink',
-                    content: t('myNdla.folder.sharing.link'),
-                  });
+        config.sharingEnabled
+          ? isShared
+            ? [
+                {
+                  icon: <Link />,
+                  text: t('myNdla.folder.sharing.button.shareLink'),
+                  onClick: () => {
+                    copyFolderSharingLink(selectedFolder?.id ?? '');
+                    addSnack({
+                      id: 'shareLink',
+                      content: t('myNdla.folder.sharing.link'),
+                    });
+                  },
                 },
-              },
-              {
-                icon: <Cross />,
-                text: t('myNdla.folder.sharing.button.unShare'),
-                onClick: () => onActionChanged('shared'),
-              },
-            ]
-          : [
-              {
-                icon: <Share />,
-                text: t('myNdla.folder.sharing.share'),
-                onClick: () => onActionChanged('private'),
-              },
-            ],
+                {
+                  icon: <Cross />,
+                  text: t('myNdla.folder.sharing.button.unShare'),
+                  onClick: () => onActionChanged('shared'),
+                },
+              ]
+            : [
+                {
+                  icon: <Share />,
+                  text: t('myNdla.folder.sharing.share'),
+                  onClick: () => onActionChanged('private'),
+                },
+              ]
+          : [],
         [
           {
             icon: <DeleteForever />,
