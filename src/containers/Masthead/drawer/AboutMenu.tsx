@@ -57,7 +57,7 @@ const AboutMenuPortion = ({
       onGoBack();
       setLevelClosed();
     }
-  }, [selected, shouldCloseLevel, onGoBack]);
+  }, [selected, shouldCloseLevel, onGoBack, setLevelClosed]);
 
   const onGoRight = useCallback(
     (id?: string) => {
@@ -69,17 +69,17 @@ const AboutMenuPortion = ({
     [type.subTypes],
   );
 
-  const onCloseSelected = useCallback(() => {
-    setSelected(undefined);
-    setFocused(initialKey);
-  }, [initialKey]);
-
   const { setFocused } = useArrowNavigation(
     !selected,
     initialKey,
     onGoRight,
     onGoBack,
   );
+
+  const onCloseSelected = useCallback(() => {
+    setSelected(undefined);
+    setFocused(initialKey);
+  }, [initialKey, setFocused]);
 
   return (
     <PortionWrapper>
