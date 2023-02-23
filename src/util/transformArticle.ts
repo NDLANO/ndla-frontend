@@ -6,11 +6,22 @@
  *
  */
 
+import { transform, TransformOptions } from '@ndla/article-converter';
 import { GQLArticle } from '../graphqlTypes';
 import { LocaleType } from '../interfaces';
 import formatDate from './formatDate';
 
-function getContent(content: string) {
+interface TransformArticleProps extends TransformOptions {
+  enabled?: boolean;
+}
+
+function getContent(
+  content: string,
+  { path, enabled, isOembed, subject }: TransformArticleProps,
+) {
+  if (enabled) {
+    return transform(content, { frontendDomain: '', path, isOembed, subject });
+  }
   /**
    * We call extractCSS on the whole page server side. This removes/hoists
    * all style tags. The data (article) object is serialized with the style
@@ -40,8 +51,9 @@ type BaseArticle = Pick<
 export const transformArticle = <T extends BaseArticle>(
   article: T,
   locale: LocaleType,
+  options?: TransformArticleProps,
 ): T => {
-  const content = getContent(article.content);
+  const content = getContent(article.content, options ?? {});
   const footNotes = article?.metaData?.footnotes ?? [];
   return {
     ...article,

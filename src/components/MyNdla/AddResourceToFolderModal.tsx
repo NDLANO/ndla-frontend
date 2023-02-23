@@ -8,13 +8,13 @@
 
 import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import Modal, { ModalBody, ModalCloseButton, ModalHeader } from '@ndla/modal';
+import { ListResource } from '@ndla/ui';
+import { ModalBody, ModalCloseButton, ModalHeader, ModalV2 } from '@ndla/modal';
 import AddResourceToFolder, { ResourceAttributes } from './AddResourceToFolder';
 import { AuthContext } from '../AuthenticationContext';
-import LoginComponent from './LoginComponent';
 import { useFolderResourceMeta } from '../../containers/MyNdla/folderMutations';
 import { GQLFolder } from '../../graphqlTypes';
+import LoginModal from './LoginModal';
 
 interface Props {
   defaultOpenFolder?: GQLFolder;
@@ -22,12 +22,6 @@ interface Props {
   isOpen: boolean;
   onClose: () => void;
 }
-
-const StyledModal = styled(Modal)`
-  && h2 {
-    margin: 0;
-  }
-`;
 
 const AddResourceToFolderModal = ({
   isOpen,
@@ -37,54 +31,65 @@ const AddResourceToFolderModal = ({
 }: Props) => {
   const { t } = useTranslation();
   const { authenticated } = useContext(AuthContext);
-  const { meta } = useFolderResourceMeta(resource, { skip: !resource });
+  const { meta, loading } = useFolderResourceMeta(resource, {
+    skip: !resource,
+  });
 
-  return (
-    <StyledModal
-      controllable
-      isOpen={isOpen}
-      size="regular"
-      backgroundColor="white"
-      onClose={onClose}
-      label={
-        authenticated
-          ? t('myNdla.resource.addToMyNdla')
-          : t('user.modal.isNotAuth')
-      }>
-      {onCloseModal => (
-        <>
-          <ModalHeader>
-            {authenticated && <h1>{t('myNdla.resource.addToMyNdla')}</h1>}
-            <ModalCloseButton
-              onMouseDown={e => {
-                e.preventDefault();
-              }}
-              onMouseUp={e => {
-                e.preventDefault();
-              }}
-              title={t('modal.closeModal')}
-              onClick={onCloseModal}
-            />
-          </ModalHeader>
-          <ModalBody>
-            {authenticated ? (
+  if (authenticated) {
+    return (
+      <ModalV2
+        controlled
+        isOpen={isOpen}
+        size="normal"
+        onClose={onClose}
+        label={t('myNdla.resource.addToMyNdla')}>
+        {onCloseModal => (
+          <>
+            <ModalHeader>
+              <h1>{t('myNdla.resource.addToMyNdla')}</h1>
+              <ModalCloseButton
+                onMouseDown={e => e.preventDefault()}
+                onMouseUp={e => e.preventDefault()}
+                title={t('modal.closeModal')}
+                onClick={onCloseModal}
+              />
+            </ModalHeader>
+            <ModalBody>
               <AddResourceToFolder
                 resource={resource}
                 onClose={onClose}
                 defaultOpenFolder={defaultOpenFolder}
               />
-            ) : (
-              <LoginComponent
-                resource={resource}
-                meta={meta}
-                onClose={onClose}
-              />
-            )}
-          </ModalBody>
-        </>
-      )}
-    </StyledModal>
-  );
+            </ModalBody>
+          </>
+        )}
+      </ModalV2>
+    );
+  } else {
+    return (
+      <LoginModal
+        isOpen={isOpen}
+        onClose={onClose}
+        title={t('myNdla.myPage.loginResourcePitch')}
+        content={
+          resource && (
+            <ListResource
+              isLoading={loading}
+              id={resource.id.toString()}
+              tagLinkPrefix="/minndla/tags"
+              link={resource.path}
+              title={meta?.title ?? ''}
+              resourceImage={{
+                src: meta?.metaImage?.url ?? '',
+                alt: meta?.metaImage?.alt ?? '',
+              }}
+              resourceTypes={meta?.resourceTypes ?? []}
+            />
+          )
+        }
+      />
+    );
+  }
 };
 
 export default AddResourceToFolderModal;

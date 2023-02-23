@@ -22,6 +22,7 @@ import {
   ContentTypeBadge,
   getMastheadHeight,
 } from '@ndla/ui';
+import { webpageReferenceApa7CopyString } from '@ndla/licenses';
 import { useTranslation } from 'react-i18next';
 import config from '../../config';
 import LicenseBox from '../license/LicenseBox';
@@ -36,34 +37,29 @@ import { MastheadHeightPx } from '../../constants';
 import { useGraphQuery } from '../../util/runQueries';
 import AddResourceToFolderModal from '../MyNdla/AddResourceToFolderModal';
 import FavoriteButton from './FavoritesButton';
+import { useDisableConverter } from '../ArticleConverterContext';
+
+interface CompetenceGoalModalProps {
+  Dialog: ComponentType;
+  dialogProps: { isOpen: boolean; onClose: () => void };
+}
 
 function renderCompetenceGoals(
   article: GQLArticle_ArticleFragment,
   isTopicArticle: boolean,
+  setCompetenceGoalsLoading: (loading: boolean) => void,
   subjectId?: string,
   isOembed?: boolean,
-):
-  | ((inp: {
-      Dialog: ComponentType;
-      dialogProps: { isOpen: boolean; onClose: () => void };
-    }) => ReactNode)
-  | null {
+): ((inp: CompetenceGoalModalProps) => ReactNode) | null {
   // Don't show competence goals for topics or articles without grepCodes
   if (
     !isTopicArticle &&
-    (article.competenceGoals?.length ||
-      article.grepCodes?.filter(gc => gc.toUpperCase().startsWith('K'))?.length)
+    article.grepCodes?.filter(gc => gc.toUpperCase().startsWith('K')).length
   ) {
-    return ({
-      Dialog,
-      dialogProps,
-    }: {
-      Dialog: ComponentType;
-      dialogProps: { isOpen: boolean; onClose: () => void };
-    }) => (
+    return ({ Dialog, dialogProps }: CompetenceGoalModalProps) => (
       <CompetenceGoals
+        setCompetenceGoalsLoading={setCompetenceGoalsLoading}
         codes={article.grepCodes}
-        nodeId={article.oldNdlaUrl?.split('/').pop()}
         subjectId={subjectId}
         supportedLanguages={article.supportedLanguages}
         wrapperComponent={Dialog}
@@ -85,7 +81,6 @@ interface Props {
   label: string;
   modifier?: string;
   isResourceArticle?: boolean;
-  copyPageUrlLink?: string;
   printUrl?: string;
   subjectId?: string;
   isPlainArticle?: boolean;
@@ -93,6 +88,7 @@ interface Props {
   showFavoriteButton?: boolean;
   myNdlaResourceType?: string;
   path?: string;
+  contentTransformed?: boolean;
 }
 
 const renderNotions = (
@@ -198,7 +194,6 @@ const Article = ({
   label,
   modifier,
   isResourceArticle = false,
-  copyPageUrlLink,
   printUrl,
   id,
   subjectId,
@@ -208,14 +203,29 @@ const Article = ({
   myNdlaResourceType = 'article',
   ...rest
 }: Props) => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const disableConverter = useDisableConverter();
   const [isOpen, setIsOpen] = useState(false);
+  const [competenceGoalsLoading, setCompetenceGoalsLoading] = useState(true);
   const markdown = useMemo(() => {
     const md = new Remarkable({ breaks: true });
     md.inline.ruler.enable(['sub', 'sup']);
     md.block.ruler.disable(['list']);
     return md;
   }, []);
+
+  const [day, month, year] = article.published.split('.').map(s => parseInt(s));
+  const published = new Date(year!, month! - 1, day!).toUTCString();
+  const copyText = webpageReferenceApa7CopyString(
+    article.title,
+    undefined,
+    published,
+    `${config.ndlaFrontendDomain}/article/${article.id}`,
+    article.copyright,
+    i18n.language,
+    '',
+    (id: string) => t(id),
+  );
 
   const { data: concepts } = useGraphQuery<
     GQLArticleConceptsQuery,
@@ -265,10 +275,6 @@ const Article = ({
     <ContentTypeBadge type={contentType} background size="large" />
   ) : null;
 
-  const competenceGoalTypes = Array.from(
-    new Set(article.competenceGoals?.map(goal => goal.type) ?? []),
-  );
-
   const art = {
     ...article,
     introduction: article.introduction!,
@@ -293,15 +299,17 @@ const Article = ({
         article={art}
         icon={icon}
         locale={i18n.language}
-        licenseBox={<LicenseBox article={article} />}
+        licenseBox={<LicenseBox article={article} copyText={copyText} />}
         messages={messages}
+        copyText={!disableConverter ? article.metaData?.copyText : copyText}
+        competenceGoalsLoading={competenceGoalsLoading}
         competenceGoals={renderCompetenceGoals(
           article,
           isTopicArticle,
+          setCompetenceGoalsLoading,
           subjectId,
           isOembed,
         )}
-        competenceGoalTypes={competenceGoalTypes}
         notions={
           isPlainArticle
             ? undefined
@@ -312,7 +320,6 @@ const Article = ({
         }
         renderMarkdown={renderMarkdown}
         modifier={isResourceArticle ? resourceType : modifier ?? 'clean'}
-        copyPageUrlLink={copyPageUrlLink}
         printUrl={printUrl}
         heartButton={
           path && <FavoriteButton path={path} onClick={() => setIsOpen(true)} />
@@ -346,6 +353,7 @@ Article.fragments = {
       introduction
       conceptIds
       metaData {
+        copyText
         footnotes {
           ref
           title
@@ -359,9 +367,6 @@ Article.fragments = {
       relatedContent {
         title
         url
-      }
-      competenceGoals {
-        type
       }
       revisionDate
       ...LicenseBox_Article

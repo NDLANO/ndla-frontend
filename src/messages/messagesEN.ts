@@ -13,7 +13,7 @@ const messages = {
     titleTemplate,
     welcomePage: `Frontpage - ${titleTemplate}`,
     topicPage: 'Topic',
-    subjectsPage: `Choose subjects - ${titleTemplate}`,
+    subjectsPage: `All subjects - ${titleTemplate}`,
     searchPage: `Search - ${titleTemplate}`,
     notFound: `Page not found - ${titleTemplate}`,
     accessDenied: `Access denied - ${titleTemplate}`,
@@ -72,6 +72,12 @@ const messages = {
     notUnique: 'Already exists',
     maxLength: 'This field can only contain {{count}} characters',
     maxLengthField: `$t(validation.fields.{{field}}) can only contain {{count}} characters)}`,
+  },
+  resourcepageTitles: {
+    video: 'Video',
+    image: 'Image',
+    concept: 'Concept',
+    audio: 'Audio',
   },
 };
 

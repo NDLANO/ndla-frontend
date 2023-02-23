@@ -16,7 +16,6 @@ import { useUrnIds } from '../../routeHelpers';
 import MultidisciplinarySubjectArticle, {
   multidisciplinarySubjectArticleFragments,
 } from './components/MultidisciplinarySubjectArticle';
-import config from '../../config';
 import {
   GQLMultidisciplinarySubjectArticlePageQuery,
   GQLMultidisciplinarySubjectArticlePageQueryVariables,
@@ -26,18 +25,20 @@ import { htmlTitle } from '../../util/titleHelper';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { AuthContext } from '../../components/AuthenticationContext';
 import { SKIP_TO_CONTENT_ID } from '../../constants';
+import { useDisableConverter } from '../../components/ArticleConverterContext';
 
 const multidisciplinarySubjectArticlePageQuery = gql`
   query multidisciplinarySubjectArticlePage(
     $topicId: String!
     $subjectId: String!
+    $convertEmbeds: Boolean
   ) {
     subject(id: $subjectId) {
       ...MultidisciplinarySubjectArticle_Subject
     }
     topic(id: $topicId, subjectId: $subjectId) {
       id
-      article(showVisualElement: "true") {
+      article(showVisualElement: "true", convertEmbeds: $convertEmbeds) {
         metaDescription
         tags
         metaImage {
@@ -59,6 +60,7 @@ const MultidisciplinarySubjectArticlePage = () => {
   const { t } = useTranslation();
   const { user } = useContext(AuthContext);
   const { topicId, subjectId } = useUrnIds();
+  const disableConverter = useDisableConverter();
 
   const { data, loading } = useGraphQuery<
     GQLMultidisciplinarySubjectArticlePageQuery,
@@ -67,6 +69,7 @@ const MultidisciplinarySubjectArticlePage = () => {
     variables: {
       topicId: topicId!,
       subjectId: subjectId!,
+      convertEmbeds: disableConverter,
     },
   });
 
@@ -79,7 +82,6 @@ const MultidisciplinarySubjectArticlePage = () => {
   }
 
   const { topic, subject, resourceTypes } = data;
-  const copyPageUrlLink = topic?.path && config.ndlaFrontendDomain + topic.path;
 
   const socialMediaMetaData = {
     title: htmlTitle(topic.name ?? topic.article?.title, [subject.name]),
@@ -110,7 +112,6 @@ const MultidisciplinarySubjectArticlePage = () => {
         topic={topic}
         subject={subject}
         resourceTypes={resourceTypes}
-        copyPageUrlLink={copyPageUrlLink}
         user={user}
       />
     </>

@@ -27,6 +27,13 @@ HelmetProvider.canUseDOM = false;
 
 expect.addSnapshotSerializer(createSerializer());
 
+const MockIntersectionObserver = jest.fn();
+
+window.IntersectionObserver = MockIntersectionObserver.mockReturnValue({
+  observe: jest.fn(),
+  unobserve: jest.fn(),
+});
+
 test('IframeArticlePage with article renderers correctly', () => {
   const locale = 'nb';
   const article = {

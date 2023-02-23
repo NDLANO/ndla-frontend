@@ -6,6 +6,7 @@
  *
  */
 
+import { useMemo } from 'react';
 import { gql } from '@apollo/client';
 import { Helmet } from 'react-helmet-async';
 import { withTracker } from '@ndla/tracker';
@@ -26,6 +27,7 @@ import {
   GQLIframeTopicPage_TopicFragment,
 } from '../graphqlTypes';
 import { LocaleType } from '../interfaces';
+import { useDisableConverter } from '../components/ArticleConverterContext';
 
 interface Props extends CustomWithTranslation {
   locale?: LocaleType;
@@ -50,8 +52,19 @@ export const IframeTopicPage = ({
   locale: localeProp,
 }: Props) => {
   const locale = localeProp ?? i18n.language;
-  const article = transformArticle(propArticle, locale);
-  const scripts = getArticleScripts(article, locale);
+  const disableConverter = useDisableConverter();
+
+  const [article, scripts] = useMemo(() => {
+    return [
+      transformArticle(propArticle, locale, {
+        enabled: disableConverter,
+        path: `${config.ndlaFrontendDomain}/article/${propArticle.id}`,
+        isOembed: true,
+      }),
+      getArticleScripts(propArticle, locale),
+    ];
+  }, [propArticle, locale, disableConverter]);
+
   const contentUrl = topic?.path
     ? `${config.ndlaFrontendDomain}${topic.path}`
     : undefined;
@@ -85,19 +98,22 @@ export const IframeTopicPage = ({
       <PostResizeMessage />
       <FixDialogPosition />
       <OneColumn>
-        <Article
-          isTopicArticle
-          article={article}
-          label={t('topicPage.topic')}
-          isPlainArticle
-          isOembed
-          contentType={constants.contentTypes.TOPIC}>
-          <CreatedBy
-            name={t('createdBy.content')}
-            description={t('createdBy.text')}
-            url={contentUrl}
-          />
-        </Article>
+        <main>
+          <Article
+            contentTransformed={disableConverter}
+            isTopicArticle
+            article={article}
+            label={t('topicPage.topic')}
+            isPlainArticle
+            isOembed
+            contentType={constants.contentTypes.TOPIC}>
+            <CreatedBy
+              name={t('createdBy.content')}
+              description={t('createdBy.text')}
+              url={contentUrl}
+            />
+          </Article>
+        </main>
       </OneColumn>
     </>
   );

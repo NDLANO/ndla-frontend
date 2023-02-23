@@ -73,7 +73,7 @@ type ArticleSearchResult implements SearchResult {
   url: String!
 }
 
-type Audio implements AudioBase {
+type Audio {
   audioFile: AudioFile!
   audioType: String!
   copyright: Copyright!
@@ -82,21 +82,7 @@ type Audio implements AudioBase {
   manuscript: Manuscript
   podcastMeta: PodcastMeta
   revision: Int!
-  supportedLanguages: [String!]!
-  tags: Tags!
-  title: Title!
-  updated: String!
-}
-
-interface AudioBase {
-  audioFile: AudioFile!
-  audioType: String!
-  copyright: Copyright!
-  created: String!
-  id: Int!
-  manuscript: Manuscript
-  podcastMeta: PodcastMeta
-  revision: Int!
+  series: PodcastSeries
   supportedLanguages: [String!]!
   tags: Tags!
   title: Title!
@@ -137,34 +123,26 @@ type AudioSummary {
   url: String!
 }
 
-type AudioWithSeries implements AudioBase {
-  audioFile: AudioFile!
-  audioType: String!
-  copyright: Copyright!
-  created: String!
-  id: Int!
-  manuscript: Manuscript
-  podcastMeta: PodcastMeta
-  revision: Int!
-  series: PodcastSeries
-  supportedLanguages: [String!]!
-  tags: Tags!
-  title: Title!
-  updated: String!
-}
-
 type Breadcrumb {
   id: String!
   name: String!
+}
+
+type BrightcoveCustomFields {
+  accountId: String
+  license: String!
+  licenseInfo: [String!]!
 }
 
 type BrightcoveElement {
   account: String
   caption: String
   cover: String
+  customFields: BrightcoveCustomFields
   description: String
   download: String
   iframe: BrightcoveIframe
+  name: String
   player: String
   src: String
   uploadDate: String
@@ -178,7 +156,7 @@ type BrightcoveIframe {
 }
 
 type BrightcoveLicense {
-  copyright: Copyright!
+  copyright: Copyright
   cover: String
   description: String
   download: String
@@ -193,6 +171,11 @@ type BucketResult {
   value: String!
 }
 
+type Caption {
+  caption: String!
+  language: String!
+}
+
 type Category {
   name: String!
   subjects: [Subject!]!
@@ -200,7 +183,6 @@ type Category {
 
 type CompetenceGoal {
   code: String
-  competenceAimSetId: String
   competenceGoalSet: Reference
   competenceGoalSetCode: String
   coreElements: [Element!]
@@ -292,6 +274,12 @@ type CrossSubjectElement {
 type Description {
   description: String!
   language: String!
+}
+
+type EditorNote {
+  note: String!
+  timestamp: String!
+  updatedBy: String!
 }
 
 type Element {
@@ -419,10 +407,20 @@ type H5pElement {
 }
 
 type H5pLicense {
-  copyright: Copyright!
+  copyright: Copyright
   src: String
   thumbnail: String
   title: String!
+}
+
+type ImageAltText {
+  alttext: String!
+  language: String!
+}
+
+type ImageDimensions {
+  height: Int!
+  width: Int!
 }
 
 type ImageElement {
@@ -464,6 +462,25 @@ type ImageMetaInformation {
   supportedLanguages: [String!]!
   tags: [String!]!
   title: String!
+}
+
+type ImageMetaInformationV2 {
+  alttext: ImageAltText!
+  caption: Caption!
+  contentType: String!
+  copyright: Copyright!
+  created: String!
+  createdBy: String!
+  editorNotes: [EditorNote!]
+  id: String!
+  imageDimensions: ImageDimensions
+  imageUrl: String!
+  metaUrl: String!
+  modelRelease: String!
+  size: Int!
+  supportedLanguages: [String!]
+  tags: Tags!
+  title: Title!
 }
 
 type Learningpath {
@@ -621,8 +638,23 @@ type Mutation {
   deletePersonalData: Boolean!
   sortFolders(parentId: String, sortedIds: [String!]!): SortResult!
   sortResources(parentId: String!, sortedIds: [String!]!): SortResult!
+  transformArticleContent(
+    absoluteUrl: Boolean
+    content: String!
+    draftConcept: Boolean
+    previewH5p: Boolean
+    subject: String
+    visualElement: String
+  ): String!
   updateFolder(id: String!, name: String, status: String): Folder!
   updateFolderResource(id: String!, tags: [String!]): FolderResource!
+  updatePersonalData(favoriteSubjects: [String!]!): MyNdlaPersonalData!
+}
+
+type MyNdlaPersonalData {
+  favoriteSubjects: [String!]!
+  id: Int!
+  role: String!
 }
 
 type Name {
@@ -702,18 +734,19 @@ type Query {
   alerts: [UptimeAlert]
   allFolderResources(size: Int): [FolderResource!]!
   article(
+    absoluteUrl: Boolean
+    convertEmbeds: Boolean
+    draftConcept: Boolean
     id: String!
     isOembed: String
     path: String
     showVisualElement: String
     subjectId: String
   ): Article
+  audio(id: Int!): Audio
+  brightcoveVideo(id: String!): BrightcoveElement
   competenceGoal(code: String!, language: String): CompetenceGoal
-  competenceGoals(
-    codes: [String]
-    language: String
-    nodeId: String
-  ): [CompetenceGoal!]
+  competenceGoals(codes: [String], language: String): [CompetenceGoal!]
   concept(id: Int!): Concept
   conceptSearch(
     exactMatch: Boolean
@@ -756,9 +789,10 @@ type Query {
     resourceTypes: String
     subjects: String
   ): [GroupSearch!]
+  image(id: String!): ImageMetaInformationV2
   learningpath(pathId: String!): Learningpath
   listingPage(subjects: String): ListingPage
-  podcast(id: Int!): AudioWithSeries
+  personalData: MyNdlaPersonalData!
   podcastSearch(fallback: Boolean, page: Int!, pageSize: Int!): AudioSearch
   podcastSeries(id: Int!): PodcastSeriesWithEpisodes
   podcastSeriesSearch(
@@ -823,7 +857,7 @@ type RelatedContent {
 }
 
 type Resource implements TaxonomyEntity & WithArticle {
-  article(isOembed: String, subjectId: String): Article
+  article(convertEmbeds: Boolean, isOembed: String, subjectId: String): Article
   availability: String
   breadcrumbs: [[String!]!]
   contentUri: String
@@ -1010,7 +1044,11 @@ type Title {
 
 type Topic implements TaxonomyEntity & WithArticle {
   alternateTopics: [Topic!]
-  article(showVisualElement: String, subjectId: String): Article
+  article(
+    convertEmbeds: Boolean
+    showVisualElement: String
+    subjectId: String
+  ): Article
   availability: String
   breadcrumbs: [[String!]!]
   contentUri: String

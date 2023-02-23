@@ -13,14 +13,12 @@ import { Remarkable } from 'remarkable';
 import { CustomWithTranslation, withTranslation } from 'react-i18next';
 
 import ArticleContents from '../../../components/Article/ArticleContents';
-import config from '../../../config';
 import VisualElementWrapper, {
   getResourceType,
 } from '../../../components/VisualElement/VisualElementWrapper';
 import {
   GQLMultidisciplinaryTopic_SubjectFragment,
   GQLMultidisciplinaryTopic_TopicFragment,
-  GQLResourceTypeDefinition,
 } from '../../../graphqlTypes';
 import { toTopic, useIsNdlaFilm, useUrnIds } from '../../../routeHelpers';
 import { getCrop, getFocalPoint } from '../../../util/imageHelpers';
@@ -35,7 +33,6 @@ interface Props extends CustomWithTranslation {
   subTopicId?: string;
   subject: GQLMultidisciplinaryTopic_SubjectFragment;
   topic: GQLMultidisciplinaryTopic_TopicFragment;
-  resourceTypes?: GQLResourceTypeDefinition[];
   loading?: boolean;
   disableNav?: boolean;
   user?: FeideUserApiType;
@@ -50,7 +47,6 @@ const MultidisciplinaryTopic = ({
   subjectId,
   subTopicId,
   topic,
-  resourceTypes,
   disableNav,
 }: Props) => {
   const [showContent, setShowContent] = useState(false);
@@ -80,7 +76,6 @@ const MultidisciplinaryTopic = ({
       selected: item.id === subTopicId,
       url: toTopic(subjectId, ...(topicPath ?? []), item.id),
     })) ?? [];
-  const copyPageUrlLink = config.ndlaFrontendDomain + topic.path;
 
   const toTopicProps = (
     article: GQLMultidisciplinaryTopic_TopicFragment['article'],
@@ -112,11 +107,6 @@ const MultidisciplinaryTopic = ({
               ),
             }
           : undefined,
-        resources: topic.subtopics ? (
-          <Resources topic={topic} resourceTypes={resourceTypes} />
-        ) : (
-          undefined
-        ),
       },
     };
   };
@@ -141,9 +131,9 @@ const MultidisciplinaryTopic = ({
       invertedStyle={ndlaFilm}>
       <ArticleContents
         topic={topic}
-        copyPageUrlLink={copyPageUrlLink}
         modifier="in-topic"
         showIngress={false}
+        subjectId={subjectId}
       />
     </UITopic>
   );
@@ -157,7 +147,7 @@ export const multidisciplinaryTopicFragments = {
         id
         name
       }
-      article {
+      article(convertEmbeds: $convertEmbeds) {
         metaImage {
           url
           alt
@@ -172,12 +162,6 @@ export const multidisciplinaryTopicFragments = {
     ${VisualElementWrapper.fragments.visualElement}
     ${Resources.fragments.topic}
     ${ArticleContents.fragments.topic}
-  `,
-  resourceType: gql`
-    fragment MultidisciplinaryTopic_ResourceTypeDefinition on ResourceTypeDefinition {
-      ...Resources_ResourceTypeDefinition
-    }
-    ${Resources.fragments.resourceType}
   `,
   subject: gql`
     fragment MultidisciplinaryTopic_Subject on Subject {

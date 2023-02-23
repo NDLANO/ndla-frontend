@@ -10,7 +10,7 @@ import url from 'url';
 import { Request } from 'express';
 import { i18nInstance } from '@ndla/ui';
 import { I18nextProvider } from 'react-i18next';
-import { HelmetProvider } from 'react-helmet-async';
+import { FilledContext, HelmetProvider } from 'react-helmet-async';
 import { StaticRouter } from 'react-router-dom/server.js';
 import { ApolloProvider } from '@apollo/client';
 import { CacheProvider } from '@emotion/react';
@@ -25,6 +25,7 @@ import { EmotionCacheKey } from '../../constants';
 import { InitialProps } from '../../interfaces';
 import { createApolloClient } from '../../util/apiHelpers';
 import RedirectContext from '../../components/RedirectContext';
+import { ArticleConverterProvider } from '../../components/ArticleConverterContext';
 
 const assets =
   process.env.NODE_ENV !== 'unittest' && process.env.RAZZLE_ASSETS_MANIFEST
@@ -58,9 +59,14 @@ const disableSSR = (req: Request) => {
 async function doRenderPage(req: Request, initialProps: InitialProps) {
   const context = {};
 
+  const disableConverter = req.query?.disableConverter?.length
+    ? req.query.disableConverter === 'true'
+    : config.disableConverter;
+
   const client = createApolloClient(initialProps.locale);
 
-  const helmetContext = {};
+  //@ts-ignore
+  const helmetContext: FilledContext = {};
   const cache = createCache({ key: EmotionCacheKey });
 
   const i18n = initializeI18n(
@@ -72,30 +78,29 @@ async function doRenderPage(req: Request, initialProps: InitialProps) {
       {disableSSR(req) ? (
         ''
       ) : (
-        <I18nextProvider i18n={i18n}>
-          <RedirectContext.Provider value={context}>
-            <ApolloProvider client={client}>
-              <CacheProvider value={cache}>
-                <StaticRouter location={req.url}>
-                  <IframePageContainer {...initialProps} />
-                </StaticRouter>
-              </CacheProvider>
-            </ApolloProvider>
-          </RedirectContext.Provider>
-        </I18nextProvider>
+        <ArticleConverterProvider value={disableConverter}>
+          <I18nextProvider i18n={i18n}>
+            <RedirectContext.Provider value={context}>
+              <ApolloProvider client={client}>
+                <CacheProvider value={cache}>
+                  <StaticRouter location={req.url}>
+                    <IframePageContainer {...initialProps} />
+                  </StaticRouter>
+                </CacheProvider>
+              </ApolloProvider>
+            </RedirectContext.Provider>
+          </I18nextProvider>
+        </ArticleConverterProvider>
       )}
     </HelmetProvider>
   );
   const assets = getAssets();
-  const { html, ...docProps } = await renderPageWithData(
+  const { html, ...docProps } = await renderPageWithData({
     Page,
     assets,
-    {
-      initialProps,
-    },
-    undefined,
+    data: { initialProps },
     client,
-  );
+  });
   return { html, docProps, helmetContext };
 }
 
@@ -115,7 +120,7 @@ export async function iframeArticleRoute(req: Request) {
       status: 'success',
     });
 
-    return renderHtml(req, html, { status: OK }, docProps, helmetContext);
+    return renderHtml(html, { status: OK }, docProps, helmetContext);
   } catch (error) {
     if (process.env.NODE_ENV !== 'unittest') {
       // skip log in unittests
@@ -130,6 +135,6 @@ export async function iframeArticleRoute(req: Request) {
     const typedError = error as { status?: number };
     const status = typedError.status || INTERNAL_SERVER_ERROR;
 
-    return renderHtml(req, html, { status }, docProps, helmetContext);
+    return renderHtml(html, { status }, docProps, helmetContext);
   }
 }

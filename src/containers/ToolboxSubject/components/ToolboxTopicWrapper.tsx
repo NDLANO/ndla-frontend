@@ -79,7 +79,12 @@ const ToolboxTopicWrapper = ({
         },
       }),
       resources: topic?.subtopics ? (
-        <Resources topic={topic} resourceTypes={resourceTypes} />
+        <Resources
+          topic={topic}
+          resourceTypes={resourceTypes}
+          headingType="h2"
+          subHeadingType="h3"
+        />
       ) : (
         undefined
       ),
@@ -170,7 +175,7 @@ export const toolboxTopicWrapperFragments = {
       id
       name
       path
-      article {
+      article(convertEmbeds: $convertEmbeds) {
         title
         introduction
         copyright {

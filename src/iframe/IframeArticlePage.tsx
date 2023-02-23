@@ -6,6 +6,7 @@
  *
  */
 
+import { useMemo } from 'react';
 import { gql } from '@apollo/client';
 import { Helmet } from 'react-helmet-async';
 import { OneColumn, CreatedBy } from '@ndla/ui';
@@ -25,6 +26,7 @@ import {
   GQLIframeArticlePage_ResourceFragment,
 } from '../graphqlTypes';
 import { LocaleType } from '../interfaces';
+import { useDisableConverter } from '../components/ArticleConverterContext';
 
 interface Props extends CustomWithTranslation {
   locale?: LocaleType;
@@ -35,13 +37,22 @@ interface Props extends CustomWithTranslation {
 const IframeArticlePage = ({
   resource,
   t,
-  article: propsArticle,
+  article: propArticle,
   i18n,
   locale: propsLocale,
 }: Props) => {
   const locale = propsLocale ?? i18n.language;
-  const article = transformArticle(propsArticle, locale);
-  const scripts = getArticleScripts(article, locale);
+  const disableConverter = useDisableConverter();
+  const [article, scripts] = useMemo(() => {
+    return [
+      transformArticle(propArticle, locale, {
+        enabled: disableConverter,
+        path: `${config.ndlaFrontendDomain}/article/${propArticle.id}`,
+        isOembed: true,
+      }),
+      getArticleScripts(propArticle, locale),
+    ];
+  }, [propArticle, locale, disableConverter])!;
   const contentUrl = resource?.path
     ? `${config.ndlaFrontendDomain}${resource.path}`
     : undefined;
@@ -68,18 +79,21 @@ const IframeArticlePage = ({
       />
       <PostResizeMessage />
       <FixDialogPosition />
-      <Article
-        article={article}
-        isPlainArticle
-        isOembed
-        modifier="clean iframe"
-        {...getArticleProps(resource)}>
-        <CreatedBy
-          name={t('createdBy.content')}
-          description={t('createdBy.text')}
-          url={contentUrl}
-        />
-      </Article>
+      <main>
+        <Article
+          contentTransformed={disableConverter}
+          article={article}
+          isPlainArticle
+          isOembed
+          modifier="clean iframe"
+          {...getArticleProps(resource)}>
+          <CreatedBy
+            name={t('createdBy.content')}
+            description={t('createdBy.text')}
+            url={contentUrl}
+          />
+        </Article>
+      </main>
     </OneColumn>
   );
 };

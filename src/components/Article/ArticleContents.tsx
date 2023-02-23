@@ -23,21 +23,25 @@ import { useTranslation } from 'react-i18next';
 import LicenseBox from '../license/LicenseBox';
 import { transformArticle } from '../../util/transformArticle';
 import { GQLArticleContents_TopicFragment } from '../../graphqlTypes';
+import config from '../../config';
+import { useDisableConverter } from '../ArticleConverterContext';
+import { getArticleScripts } from '../../util/getArticleScripts';
 
 interface Props {
   topic: GQLArticleContents_TopicFragment;
-  copyPageUrlLink: string;
   modifier: 'clean' | 'in-topic';
   showIngress: boolean;
+  subjectId?: string;
 }
 
 const ArticleContents = ({
   topic,
-  copyPageUrlLink,
   modifier = 'clean',
   showIngress = true,
+  subjectId,
 }: Props) => {
   const { i18n } = useTranslation();
+  const disableConverter = useDisableConverter();
   const markdown = useMemo(() => {
     const md = new Remarkable({ breaks: true });
     md.inline.ruler.enable(['sub', 'sup']);
@@ -49,12 +53,31 @@ const ArticleContents = ({
     return markdown.render(text);
   };
 
-  if (!topic.article) return null;
+  const [article, scripts] = useMemo(() => {
+    if (!topic.article) return [undefined, undefined];
+    return [
+      transformArticle(topic.article, i18n.language, {
+        enabled: disableConverter,
+        path: `${config.ndlaFrontendDomain}/article/${topic.article?.id}`,
+        subject: subjectId,
+      }),
+      getArticleScripts(topic.article, i18n.language),
+    ];
+  }, [disableConverter, i18n.language, subjectId, topic.article]);
 
-  const article = transformArticle(topic.article, i18n.language);
+  if (!topic.article || !article) return null;
 
   return (
     <ArticleWrapper modifier={modifier} id={topic.article.id.toString()}>
+      {scripts?.map(script => (
+        <script
+          key={script.src}
+          src={script.src}
+          type={script.type}
+          async={script.async}
+          defer={script.defer}
+        />
+      ))}
       {showIngress && (
         <LayoutItem layout="extend">
           <ArticleHeaderWrapper>
@@ -65,17 +88,22 @@ const ArticleContents = ({
         </LayoutItem>
       )}
       <LayoutItem layout="extend">
-        <ArticleContent content={article.content} locale={i18n.language} />
+        {!disableConverter ? (
+          <ArticleContent content={article.content} locale={i18n.language} />
+        ) : (
+          article.content
+        )}
       </LayoutItem>
       <LayoutItem layout="extend">
-        {article.metaData?.footnotes?.length && (
+        {article.metaData?.footnotes?.length ? (
           <ArticleFootNotes footNotes={article.metaData?.footnotes} />
+        ) : (
+          undefined
         )}
       </LayoutItem>
       <LayoutItem layout="extend">
         <ArticleByline
           licenseBox={<LicenseBox article={article} />}
-          copyPageUrlLink={copyPageUrlLink}
           {...{
             authors: article.copyright?.creators,
             published: article.published,
@@ -90,7 +118,7 @@ const ArticleContents = ({
 ArticleContents.fragments = {
   topic: gql`
     fragment ArticleContents_Topic on Topic {
-      article {
+      article(convertEmbeds: $convertEmbeds) {
         id
         content
         created

@@ -7,7 +7,8 @@
  */
 
 import { gql } from '@apollo/client';
-import { useRef, MouseEvent } from 'react';
+import { useRef, MouseEvent, useMemo } from 'react';
+import { Helmet } from 'react-helmet-async';
 import {
   ArticleSideBar,
   Breadcrumblist,
@@ -29,6 +30,8 @@ import {
 } from '../../../graphqlTypes';
 import { transformArticle } from '../../../util/transformArticle';
 import config from '../../../config';
+import { useDisableConverter } from '../../../components/ArticleConverterContext';
+import { getArticleScripts } from '../../../util/getArticleScripts';
 
 const filterCodes: Record<string, 'publicHealth' | 'democracy' | 'climate'> = {
   TT1: 'publicHealth',
@@ -37,7 +40,6 @@ const filterCodes: Record<string, 'publicHealth' | 'democracy' | 'climate'> = {
 };
 
 interface Props extends CustomWithTranslation {
-  copyPageUrlLink?: string;
   topic: GQLMultidisciplinarySubjectArticle_TopicFragment;
   subject: GQLMultidisciplinarySubjectArticle_SubjectFragment;
   resourceTypes?: GQLMultidisciplinarySubjectArticle_ResourceTypeDefinitionFragment[];
@@ -46,20 +48,32 @@ interface Props extends CustomWithTranslation {
 }
 
 const MultidisciplinarySubjectArticle = ({
-  copyPageUrlLink,
   topic,
   subject,
   i18n,
   resourceTypes,
   skipToContentId,
 }: Props) => {
+  const disableConverter = useDisableConverter();
   const resourcesRef = useRef(null);
   const onLinkToResourcesClick = (e: MouseEvent) => {
     e.preventDefault();
     scrollToRef(resourcesRef, 0);
   };
 
-  if (!topic.article) {
+  const [article, scripts] = useMemo(() => {
+    if (!topic.article) return [undefined, undefined];
+    return [
+      transformArticle(topic.article, i18n.language, {
+        enabled: disableConverter,
+        path: `${config.ndlaFrontendDomain}/article/${topic.article.id}`,
+        subject: subject.id,
+      }),
+      getArticleScripts(topic.article, i18n.language),
+    ];
+  }, [topic.article, i18n.language, subject.id, disableConverter]);
+
+  if (!topic.article || !article) {
     return null;
   }
 
@@ -73,13 +87,21 @@ const MultidisciplinarySubjectArticle = ({
     ?.filter(grepCode => grepCode.startsWith('TT'))
     .map(code => filterCodes[code]!);
 
-  const article = transformArticle(topic.article, i18n.language);
-
   return (
-    <>
+    <main>
+      <Helmet>
+        {scripts?.map(script => (
+          <script
+            key={script.src}
+            src={script.src}
+            type={script.type}
+            async={script.async}
+            defer={script.defer}
+          />
+        ))}
+      </Helmet>
       <Breadcrumblist hideOnNarrow items={[]} startOffset={268}>
         <ArticleSideBar
-          copyPageUrlLink={copyPageUrlLink}
           onLinkToResourcesClick={onLinkToResourcesClick}
           linkToResources="#"
         />
@@ -90,6 +112,7 @@ const MultidisciplinarySubjectArticle = ({
       />
       <OneColumn>
         <Article
+          contentTransformed={disableConverter}
           myNdlaResourceType="multidisciplinary"
           id={skipToContentId}
           article={article}
@@ -100,10 +123,15 @@ const MultidisciplinarySubjectArticle = ({
           path={topic.path}
         />
         <div ref={resourcesRef}>
-          <Resources topic={topic} resourceTypes={resourceTypes} />
+          <Resources
+            topic={topic}
+            resourceTypes={resourceTypes}
+            headingType="h2"
+            subHeadingType="h3"
+          />
         </div>
       </OneColumn>
-    </>
+    </main>
   );
 };
 
@@ -111,7 +139,7 @@ export const multidisciplinarySubjectArticleFragments = {
   topic: gql`
     fragment MultidisciplinarySubjectArticle_Topic on Topic {
       path
-      article(showVisualElement: "true") {
+      article(showVisualElement: "true", convertEmbeds: $convertEmbeds) {
         created
         updated
         crossSubjectTopics(subjectId: $subjectId) {

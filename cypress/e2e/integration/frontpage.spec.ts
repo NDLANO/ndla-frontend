@@ -11,7 +11,7 @@ describe('Front page', () => {
     cy.fixCypressSpec('/e2e/integration/frontpage.spec.ts');
     cy.gqlIntercept({
       alias: 'alerts',
-      operations: ['alerts', 'mastHead', 'subjects'],
+      operations: ['alerts', 'subjects'],
     });
     cy.visit('/?disableSSR=true');
     cy.gqlWait('@alerts');
@@ -25,9 +25,12 @@ describe('Front page', () => {
 
   it('should have a functioning change language box', () => {
     cy.get('[class*="StyledLanguageWrapper"] button')
-      .contains('Bokmål')
       .first()
       .click();
+    cy.get('[data-radix-popper-content-wrapper]')
+      .contains('Bokmål')
+      .invoke('attr', 'aria-current')
+      .should('eq', 'true');
     cy.get('button')
       .contains('Nynorsk')
       .first()

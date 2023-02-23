@@ -20,14 +20,17 @@ import {
 import {
   metaTypes,
   getGroupedContributorDescriptionList,
+  figureApa7CopyString,
 } from '@ndla/licenses';
+import { SafeLinkButton } from '@ndla/safelink';
 import queryString from 'query-string';
 import { useTranslation } from 'react-i18next';
 import CopyTextButton from './CopyTextButton';
-import AnchorButton from './AnchorButton';
 import { GQLImageLicenseList_ImageLicenseFragment } from '../../graphqlTypes';
 import { licenseCopyrightToCopyrightType } from './licenseHelpers';
 import { licenseListCopyrightFragment } from './licenseFragments';
+import config from '../../config';
+import { useDisableConverter } from '../ArticleConverterContext';
 
 export const downloadUrl = (imageSrc: string) => {
   const urlObject = queryString.parseUrl(imageSrc);
@@ -39,15 +42,31 @@ export const downloadUrl = (imageSrc: string) => {
 
 interface ImageLicenseInfoProps {
   image: GQLImageLicenseList_ImageLicenseFragment;
+  articleId?: string;
 }
 
-const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
+const ImageLicenseInfo = ({ image, articleId }: ImageLicenseInfoProps) => {
   const { t, i18n } = useTranslation();
+  const disableConverter = useDisableConverter();
   const safeCopyright = licenseCopyrightToCopyrightType(image.copyright);
   const items = getGroupedContributorDescriptionList(
     safeCopyright,
     i18n.language,
   );
+
+  const copyText = !disableConverter
+    ? image.copyText
+    : figureApa7CopyString(
+        image.title,
+        undefined,
+        image.src,
+        `${config.ndlaFrontendDomain}/article/${articleId}`,
+        image.copyright,
+        image.copyright.license.license,
+        '',
+        (id: string) => t(id),
+        i18n.language,
+      );
 
   if (image.title) {
     items.unshift({
@@ -81,19 +100,19 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
             <MediaListItemMeta items={items} />
             {image.copyright.license?.license !== 'COPYRIGHTED' && (
               <>
-                {image.copyText && (
+                {copyText && (
                   <CopyTextButton
-                    stringToCopy={image.copyText}
+                    stringToCopy={copyText}
                     copyTitle={t('license.copyTitle')}
                     hasCopiedTitle={t('license.hasCopiedTitle')}
                   />
                 )}
-                <AnchorButton
-                  href={downloadUrl(image.src)}
-                  appearance="outline"
+                <SafeLinkButton
+                  to={downloadUrl(image.src)}
+                  variant="outline"
                   download>
                   {t('license.download')}
-                </AnchorButton>
+                </SafeLinkButton>
               </>
             )}
           </div>

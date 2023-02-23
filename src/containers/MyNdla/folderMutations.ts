@@ -28,9 +28,12 @@ import {
   GQLMutationAddFolderResourceArgs,
   GQLMutationDeleteFolderArgs,
   GQLMutationDeleteFolderResourceArgs,
+  GQLMutationSortFoldersArgs,
+  GQLMutationSortResourcesArgs,
   GQLMutationUpdateFolderArgs,
   GQLMutationUpdateFolderResourceArgs,
   GQLRecentlyUsedQuery,
+  GQLSortFoldersMutation,
   GQLUpdateFolderMutation,
   GQLUpdateFolderResourceMutation,
 } from '../../graphqlTypes';
@@ -144,6 +147,24 @@ const updateFolderMutation = gql`
     }
   }
   ${foldersPageQueryFragment}
+`;
+
+const sortFoldersMutation = gql`
+  mutation sortFolders($parentId: String, $sortedIds: [String!]!) {
+    sortFolders(parentId: $parentId, sortedIds: $sortedIds) {
+      parentId
+      sortedIds
+    }
+  }
+`;
+
+const sortResourcesMutation = gql`
+  mutation sortResources($parentId: String!, $sortedIds: [String!]!) {
+    sortResources(parentId: $parentId, sortedIds: $sortedIds) {
+      parentId
+      sortedIds
+    }
+  }
 `;
 
 const folderResourceMetaFragment = gql`
@@ -365,6 +386,23 @@ export const useUpdateFolderMutation = () => {
   return { updateFolder, loading };
 };
 
+export const useSortFoldersMutation = () => {
+  const [sortFolders] = useMutation<
+    GQLSortFoldersMutation,
+    GQLMutationSortFoldersArgs
+  >(sortFoldersMutation);
+
+  return { sortFolders };
+};
+
+export const useSortResourcesMutation = () => {
+  const [sortResources] = useMutation<boolean, GQLMutationSortResourcesArgs>(
+    sortResourcesMutation,
+  );
+
+  return { sortResources };
+};
+
 const addResourceToFolderQuery = gql`
   mutation addResourceToFolder(
     $resourceId: Int!
@@ -440,22 +478,4 @@ export const useDeleteFolderResourceMutation = (folderId: string) => {
     },
   });
   return { deleteFolderResource };
-};
-
-const deletePersonalDataMutation = gql`
-  mutation deletePersonalData {
-    deletePersonalData
-  }
-`;
-
-export const useDeletePersonalData = () => {
-  const client = useApolloClient();
-  const [deletePersonalData] = useMutation<boolean>(
-    deletePersonalDataMutation,
-    {
-      onCompleted: () => client.resetStore(),
-    },
-  );
-
-  return { deletePersonalData };
 };

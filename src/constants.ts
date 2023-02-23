@@ -47,7 +47,38 @@ export const OLD_SUBJECT_PAGE_REDIRECT_CUSTOM_FIELD = 'old-subject-id';
 export const LocaleValues = ['nb', 'nn', 'en'] as const;
 
 export const MastheadHeightPx = 84; // See `misc` in @ndla/core for origin
-export const EmotionCacheKey = 'ndla-frontend';
+export const EmotionCacheKey = 'css';
 
 export const AcquireLicensePage =
   'https://ndla.zendesk.com/hc/no/articles/360000945552-Bruk-av-lisenser-og-lisensiering';
+
+export const aboutNdlaUrl = 'https://om.ndla.no/';
+
+export const aboutNdlaLinks = {
+  whoAreWe: `${aboutNdlaUrl}hvem-er-vi/`,
+  whatWeDo: `${aboutNdlaUrl}hva-gjor-vi/`,
+  careers: `${aboutNdlaUrl}bli-med-pa-laget/`,
+  contactUs: `${aboutNdlaUrl}kontakt-oss-2/`,
+};
+
+export const aboutNdlaLinkGroups = {
+  whoAreWe: {
+    keyPersonnel: `${aboutNdlaUrl}nokkelpersoner/`,
+    organizing: `${aboutNdlaUrl}organisering/`,
+    articlesOfAssociation: `${aboutNdlaUrl}vedtekter/`,
+    history: `${aboutNdlaUrl}ndlas-historie/`,
+  },
+  whatWeDo: {
+    vision: `${aboutNdlaUrl}visjon-og-verdier-2/`,
+    communityPurpose: `${aboutNdlaUrl}vart-samfunnsoppdrag`,
+    cooperation: `${aboutNdlaUrl}vare-samarbeid`,
+    numbers: `${aboutNdlaUrl}tall-og-rapporter-2`,
+  },
+  careers: {
+    vacancies: `${aboutNdlaUrl}utlysninger`,
+  },
+  contactUs: {
+    faq: `${aboutNdlaUrl}ofte-stilte-sporsmal-2`,
+    follow: `${aboutNdlaUrl}folg-ndla`,
+  },
+};

@@ -92,6 +92,8 @@ const getSubjectTypeMessage = (
 
 const SubjectContainer = ({ t, subjectId, topicIds, subject }: Props) => {
   const ndlaFilm = useIsNdlaFilm();
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [competenceGoalsLoading, setCompetenceGoalsLoading] = useState(true);
   const about = subject.subjectpage?.about;
 
   const [currentLevel, setCurrentLevel] = useState<number | string | undefined>(
@@ -153,6 +155,7 @@ const SubjectContainer = ({ t, subjectId, topicIds, subject }: Props) => {
         dialogProps: { isOpen: boolean; onClose: () => void };
       }) => (
         <CompetenceGoals
+          setCompetenceGoalsLoading={setCompetenceGoalsLoading}
           codes={subject.grepCodes}
           subjectId={subject.id}
           wrapperComponent={Dialog}
@@ -182,8 +185,8 @@ const SubjectContainer = ({ t, subjectId, topicIds, subject }: Props) => {
   };
 
   // show/hide breadcrumb based on intersection
-  const [containerRef, { entry }] = useIntersectionObserver({
-    root: null,
+  const { entry } = useIntersectionObserver({
+    target: containerRef.current,
     rootMargin: '-275px',
   });
   const showBreadCrumb = entry && entry.isIntersecting;
@@ -229,7 +232,7 @@ const SubjectContainer = ({ t, subjectId, topicIds, subject }: Props) => {
   );
 
   return (
-    <>
+    <main>
       <Helmet>
         <title>{pageTitle}</title>
         {subject?.metadata.customFields?.[
@@ -249,6 +252,7 @@ const SubjectContainer = ({ t, subjectId, topicIds, subject }: Props) => {
             />
             <div ref={headerRef}>
               <ArticleHeaderWrapper
+                competenceGoalsLoading={competenceGoalsLoading}
                 competenceGoals={renderCompetenceGoals(subject)}>
                 <NavigationHeading
                   headingId={
@@ -288,7 +292,7 @@ const SubjectContainer = ({ t, subjectId, topicIds, subject }: Props) => {
           isVisible={showBreadCrumb}
         />
       </OneColumn>
-    </>
+    </main>
   );
 };
 

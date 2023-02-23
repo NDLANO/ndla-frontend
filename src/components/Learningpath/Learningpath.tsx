@@ -74,8 +74,8 @@ const Learningpath = ({
   const lastUpdatedDate = new Date(lastUpdated);
 
   const lastUpdatedString = `${lastUpdatedDate.getDate()}.${
-    lastUpdatedDate.getMonth() < 10 ? '0' : ''
-  }${lastUpdatedDate.getMonth()}.${lastUpdatedDate.getFullYear()}`;
+    lastUpdatedDate.getMonth() + 1 < 10 ? '0' : ''
+  }${lastUpdatedDate.getMonth() + 1}.${lastUpdatedDate.getFullYear()}`;
 
   const { contentTypes } = constants;
 
@@ -175,6 +175,7 @@ const Learningpath = ({
                 !learningpathStep.showTitle ? skipToContentId : undefined
               }
               topic={topic}
+              subjectId={subject?.id}
               learningpathStep={learningpathStep}
               breadcrumbItems={breadcrumbItems}
             />
@@ -255,6 +256,7 @@ Learningpath.fragments = {
   `,
   subject: gql`
     fragment Learningpath_Subject on Subject {
+      id
       ...LastLearningpathStepInfo_Subject
     }
     ${LastLearningpathStepInfo.fragments.subject}
