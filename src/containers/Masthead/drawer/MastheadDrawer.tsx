@@ -21,7 +21,7 @@ import { usePrevious } from '../../../util/utilityHooks';
 import DefaultMenu from './DefaultMenu';
 import DrawerContent from './DrawerContent';
 import { MenuType } from './drawerMenuTypes';
-import { AboutSubType } from './AboutSubMenu';
+import { DrawerProvider } from './DrawerContext';
 
 const MainMenu = styled.div`
   display: flex;
@@ -52,7 +52,6 @@ const MastheadDrawer = ({ subject }: Props) => {
   const { subjectId, topicList, programme } = useUrnIds();
   const prevProgramme = usePrevious(programme);
   const [type, setType] = useState<MenuType | undefined>(undefined);
-  const [subType, setSubType] = useState<AboutSubType | undefined>(undefined);
   const [topicPath, setTopicPath] = useState<string[]>(topicList);
   const ndlaFilm = useIsNdlaFilm();
   const { t } = useTranslation();
@@ -79,12 +78,7 @@ const MastheadDrawer = ({ subject }: Props) => {
 
   const onCloseMenuPortion = useCallback(() => {
     if (type !== 'subject' || !topicPath.length) {
-      if (subType) {
-        document.getElementById(subType)?.focus();
-        setSubType(undefined);
-      } else {
-        setType(undefined);
-      }
+      setType(undefined);
     } else {
       const newPath = topicPath.slice(0, topicPath.length - 1);
       const pathId = topicPath[topicPath.length - 1];
@@ -93,7 +87,7 @@ const MastheadDrawer = ({ subject }: Props) => {
       }
       setTopicPath(newPath);
     }
-  }, [topicPath, type, subType]);
+  }, [topicPath, type]);
 
   return (
     <Drawer
@@ -123,26 +117,26 @@ const MastheadDrawer = ({ subject }: Props) => {
             </ButtonV2>
           </HeadWrapper>
           <DrawerContainer>
-            <DefaultMenu
-              onClose={close}
-              onCloseMenuPortion={onCloseMenuPortion}
-              setActiveMenu={setType}
-              subject={subject}
-              type={type}
-              closeSubMenu={closeSubMenu}
-            />
-            {type && (
-              <DrawerContent
+            <DrawerProvider>
+              <DefaultMenu
                 onClose={close}
-                type={type}
-                subType={subType}
-                topicPath={topicPath}
-                subject={subject}
-                setTopicPathIds={setTopicPath}
                 onCloseMenuPortion={onCloseMenuPortion}
-                setSubType={setSubType}
+                setActiveMenu={setType}
+                subject={subject}
+                type={type}
+                closeSubMenu={closeSubMenu}
               />
-            )}
+              {type && (
+                <DrawerContent
+                  onClose={close}
+                  type={type}
+                  topicPath={topicPath}
+                  subject={subject}
+                  setTopicPathIds={setTopicPath}
+                  onCloseMenuPortion={onCloseMenuPortion}
+                />
+              )}
+            </DrawerProvider>
           </DrawerContainer>
         </MainMenu>
       )}

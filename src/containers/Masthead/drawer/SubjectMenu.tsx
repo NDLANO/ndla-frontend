@@ -7,7 +7,13 @@
  */
 
 import partition from 'lodash/partition';
-import { Dispatch, SetStateAction, useCallback, useMemo } from 'react';
+import {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useMemo,
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { gql } from '@apollo/client';
@@ -21,6 +27,7 @@ import DrawerRowHeader from './DrawerRowHeader';
 import { removeUrn } from '../../../routeHelpers';
 import BackButton from './BackButton';
 import useArrowNavigation from './useArrowNavigation';
+import { useDrawerContext } from './DrawerContext';
 
 interface Props {
   subject?: GQLSubjectMenu_SubjectFragment;
@@ -71,6 +78,7 @@ const SubjectMenu = ({
 }: Props) => {
   const { t } = useTranslation();
   const location = useLocation();
+  const { shouldCloseLevel, setLevelClosed } = useDrawerContext();
   const groupedTopics = useMemo(() => {
     const [roots, rest] = partition(
       subject?.allTopics?.filter(t => !!t.parent),
@@ -83,6 +91,13 @@ const SubjectMenu = ({
     () => constructTopicPath(groupedTopics ?? [], topicPathIds),
     [topicPathIds, groupedTopics],
   );
+
+  useEffect(() => {
+    if (!topicPath.length && shouldCloseLevel) {
+      onCloseMenuPortion();
+      setLevelClosed();
+    }
+  }, [topicPath.length, shouldCloseLevel, onCloseMenuPortion, setLevelClosed]);
 
   const addTopic = useCallback(
     (topic: TopicWithSubTopics, index: number) => {
