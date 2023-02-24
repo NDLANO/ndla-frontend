@@ -16,6 +16,7 @@ import {
 } from '@ndla/ui';
 import { spacingUnit } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
+import { Spinner } from '@ndla/icons';
 
 import SearchHeader from './components/SearchHeader';
 import SearchResults, { ViewType } from './components/SearchResults';
@@ -27,7 +28,6 @@ import {
 import { SearchCompetenceGoal, SubjectItem } from './SearchInnerPage';
 import { LocaleType } from '../../interfaces';
 import { supportedLanguages } from '../../i18n';
-import { Spinner } from '@ndla/icons';
 
 const StyledLanguageSelector = styled.div`
   width: 100%;
@@ -135,6 +135,7 @@ const SearchContainer = ({
       {subjectItems && subjectItems?.length > 0 && (
         <SearchSubjectResult items={subjectItems} />
       )}
+      {loading && searchGroups.length === 0 && <Spinner />}
       {searchGroups && searchGroups.length > 0 && (
         <>
           {sortedFilterButtonItems.length > 1 && (
