@@ -99,7 +99,7 @@ const AboutMenuPortion = ({
             active={!selected}
           />
           {type.subTypes?.map(link => {
-            if (link.subTypes) {
+            if (!link.subTypes) {
               return (
                 <DrawerMenuItem
                   key={link.key}
