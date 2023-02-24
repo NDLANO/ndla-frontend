@@ -51,7 +51,6 @@ const AudioPage = () => {
       <HelmetWithTracker title={`${title} - NDLA`} />
       <SocialMediaMetadata
         type="website"
-        trackableContent={data?.audio}
         title={title}
         audioUrl={data?.audio?.audioFile.url}>
         <meta name="robots" content="noindex" />

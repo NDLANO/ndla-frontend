@@ -3127,6 +3127,7 @@ export type GQLBrightcoveVideoQuery = {
   brightcoveVideo?: {
     __typename?: 'BrightcoveElement';
     videoid?: string;
+    cover?: string;
     caption?: string;
     description?: string;
     download?: string;

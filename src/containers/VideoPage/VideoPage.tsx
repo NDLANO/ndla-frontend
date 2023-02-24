@@ -111,6 +111,7 @@ const VideoPageQuery = gql`
         width
         src
       }
+      cover
       caption
       description
       download
