@@ -75,7 +75,7 @@ const whatWeDo: LinkType = {
   key: 'whatWeDo',
   link: `${aboutNdlaUrl}hva-gjor-vi/`,
   subTypes: [
-    { key: 'communityPurpose', link: `${aboutNdlaUrl}vart-samfunnsoppgrad/` },
+    { key: 'communityPurpose', link: `${aboutNdlaUrl}vart-samfunnsoppdrag/` },
     { key: 'vision', link: `${aboutNdlaUrl}visjon-og-verdier-2/` },
     { key: 'numbers', link: `${aboutNdlaUrl}tall-og-rapporter-2/` },
     { key: 'cooperation', link: `${aboutNdlaUrl}vare-samarbeid/` },
