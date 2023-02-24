@@ -135,7 +135,9 @@ const SearchContainer = ({
       {subjectItems && subjectItems?.length > 0 && (
         <SearchSubjectResult items={subjectItems} />
       )}
-      {loading && searchGroups.length === 0 && <Spinner />}
+      <div aria-live="assertive">
+        {loading && searchGroups.length === 0 && <Spinner />}
+      </div>
       {searchGroups && searchGroups.length > 0 && (
         <>
           {sortedFilterButtonItems.length > 1 && (
