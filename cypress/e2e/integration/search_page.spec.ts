@@ -30,4 +30,15 @@ describe('Search page', () => {
     cy.gqlWait('@groupSearch');
     cy.get('input').focus();
   });
+
+  it('LTI has insert button', () => {
+    cy.visit('/lti/?disableSSR=true');
+    cy.gqlIntercept({ alias: 'ltiSearch', operations: ['searchPage'] });
+    cy.gqlWait('@ltiSearch');
+    cy.gqlWait('@groupSearch');
+    cy.get('section').first().within(() => {
+      cy.get('button').contains('Sett inn');
+    });
+  });
+
 });
