@@ -12,6 +12,7 @@ import { HelmetWithTracker } from '@ndla/tracker';
 import { useTranslation } from 'react-i18next';
 import { useGraphQuery } from '../../util/runQueries';
 import { GQLAudioQuery, GQLAudioQueryVariables } from '../../graphqlTypes';
+import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import NotFoundPage from '../../containers/NotFoundPage/NotFoundPage';
 import Audio from '../../containers/PodcastPage/Audio';
@@ -41,14 +42,20 @@ const AudioPage = () => {
     return <NotFoundPage />;
   }
 
+  const title = `${data?.audio?.title.title} - ${t(
+    'resourcepageTitles.audio',
+  )}`;
+
   return (
     <OneColumn>
-      <HelmetWithTracker
-        title={`${data.audio.title.title} - ${t(
-          'resourcepageTitles.audio',
-        )} - NDLA`}>
+      <HelmetWithTracker title={`${title} - NDLA`} />
+      <SocialMediaMetadata
+        type="website"
+        trackableContent={data?.audio}
+        title={title}
+        audioUrl={data?.audio?.audioFile.url}>
         <meta name="robots" content="noindex" />
-      </HelmetWithTracker>
+      </SocialMediaMetadata>
       <Audio audio={data.audio} />
     </OneColumn>
   );

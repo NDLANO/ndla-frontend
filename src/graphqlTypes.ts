@@ -254,6 +254,7 @@ export type GQLConcept = {
   source?: Maybe<Scalars['String']>;
   subjectIds?: Maybe<Array<Scalars['String']>>;
   subjectNames?: Maybe<Array<Scalars['String']>>;
+  supportedLanguages: Array<Scalars['String']>;
   tags: Array<Scalars['String']>;
   title: Scalars['String'];
   visualElement?: Maybe<GQLVisualElement>;
@@ -730,6 +731,7 @@ export type GQLMutation = {
   transformArticleContent: Scalars['String'];
   updateFolder: GQLFolder;
   updateFolderResource: GQLFolderResource;
+  updateFolderStatus: Array<Scalars['String']>;
   updatePersonalData: GQLMyNdlaPersonalData;
 };
 
@@ -784,6 +786,11 @@ export type GQLMutationUpdateFolderArgs = {
 export type GQLMutationUpdateFolderResourceArgs = {
   id: Scalars['String'];
   tags?: InputMaybe<Array<Scalars['String']>>;
+};
+
+export type GQLMutationUpdateFolderStatusArgs = {
+  folderId: Scalars['String'];
+  status: Scalars['String'];
 };
 
 export type GQLMutationUpdatePersonalDataArgs = {
@@ -911,6 +918,7 @@ export type GQLQuery = {
   resourceTypes?: Maybe<Array<GQLResourceTypeDefinition>>;
   search?: Maybe<GQLSearch>;
   searchWithoutPagination?: Maybe<GQLSearchWithoutPagination>;
+  sharedFolder: GQLFolder;
   subject?: Maybe<GQLSubject>;
   subjectpage?: Maybe<GQLSubjectPage>;
   subjects?: Maybe<Array<GQLSubject>>;
@@ -978,7 +986,7 @@ export type GQLQueryCoreElementsArgs = {
 };
 
 export type GQLQueryFolderArgs = {
-  id: Scalars['Int'];
+  id: Scalars['String'];
   includeResources?: InputMaybe<Scalars['Boolean']>;
   includeSubfolders?: InputMaybe<Scalars['Boolean']>;
 };
@@ -1080,6 +1088,12 @@ export type GQLQuerySearchWithoutPaginationArgs = {
   resourceTypes?: InputMaybe<Scalars['String']>;
   sort?: InputMaybe<Scalars['String']>;
   subjects?: InputMaybe<Scalars['String']>;
+};
+
+export type GQLQuerySharedFolderArgs = {
+  id: Scalars['String'];
+  includeResources?: InputMaybe<Scalars['Boolean']>;
+  includeSubfolders?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type GQLQuerySubjectArgs = {
@@ -3113,6 +3127,8 @@ export type GQLBrightcoveVideoQuery = {
   brightcoveVideo?: {
     __typename?: 'BrightcoveElement';
     videoid?: string;
+    caption?: string;
+    description?: string;
     download?: string;
     name?: string;
     customFields?: {
@@ -3518,6 +3534,8 @@ export type GQLConceptSearchConceptFragment = {
   id: number;
   title: string;
   subjectNames?: Array<string>;
+  tags: Array<string>;
+  supportedLanguages: Array<string>;
   text: string;
   visualElement?: {
     __typename?: 'VisualElement';
