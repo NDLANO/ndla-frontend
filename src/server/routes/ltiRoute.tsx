@@ -100,7 +100,7 @@ export function ltiRoute(req: Request) {
   }
 
   const lang = getHtmlLang(req.params.lang ?? '');
-  const locale = getLocaleObject(lang);
+  const locale = getLocaleObject(lang).abbreviation;
 
   const { html, docProps, helmetContext } = doRenderPage({
     locale,
