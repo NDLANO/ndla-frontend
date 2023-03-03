@@ -2862,13 +2862,6 @@ export type GQLResources_TopicFragment = {
   metadata: { __typename?: 'TaxonomyMetadata'; customFields: any };
 };
 
-export type GQLSharedResourceArticleContainer_ArticleFragment = {
-  __typename?: 'Article';
-  created: string;
-  tags?: Array<string>;
-} & GQLArticle_ArticleFragment &
-  GQLStructuredArticleDataFragment;
-
 export type GQLSharedResourceArticlePageQueryVariables = Exact<{
   articleId: Scalars['String'];
   isOembed?: InputMaybe<Scalars['String']>;
@@ -2883,6 +2876,13 @@ export type GQLSharedResourceArticlePageQuery = {
     __typename?: 'Article';
   } & GQLSharedResourceArticleContainer_ArticleFragment;
 };
+
+export type GQLSharedResourceArticleContainer_ArticleFragment = {
+  __typename?: 'Article';
+  created: string;
+  tags?: Array<string>;
+} & GQLArticle_ArticleFragment &
+  GQLStructuredArticleDataFragment;
 
 export type GQLSubjectContainer_SubjectFragment = {
   __typename?: 'Subject';

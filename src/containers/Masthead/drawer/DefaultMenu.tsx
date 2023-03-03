@@ -22,6 +22,7 @@ import {
 import { GQLDefaultMenu_SubjectFragment } from '../../../graphqlTypes';
 import { removeUrn } from '../../../routeHelpers';
 import { usePrevious } from '../../../util/utilityHooks';
+import { useDrawerContext } from './DrawerContext';
 import DrawerMenuItem from './DrawerMenuItem';
 import { MenuType } from './drawerMenuTypes';
 import DrawerPortion, { DrawerList } from './DrawerPortion';
@@ -72,10 +73,10 @@ const DefaultMenu = ({
   subject,
   type,
   closeSubMenu,
-  onCloseMenuPortion,
 }: Props) => {
   const previousType = usePrevious(type);
   const { t } = useTranslation();
+  const { setShouldCloseLevel } = useDrawerContext();
 
   const onRightClick = useCallback(
     (id: string | undefined) => {
@@ -96,7 +97,7 @@ const DefaultMenu = ({
     return (
       <StyledCollapsedMenu>
         <IconButtonV2
-          onClick={onCloseMenuPortion}
+          onClick={setShouldCloseLevel}
           aria-label="Go back"
           colorTheme="light">
           <Back />
