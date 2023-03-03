@@ -229,7 +229,7 @@ const Learningpath = ({
           isOpen={isAdding}
           onClose={() => setIsAdding(false)}
           resource={{
-            id: learningpath.id,
+            id: learningpath.id.toString(),
             path: resource.path,
             resourceType: 'learningpath',
           }}
