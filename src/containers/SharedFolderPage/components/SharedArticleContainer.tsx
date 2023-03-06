@@ -4,8 +4,8 @@ import { useEffect, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import Article from '../../../components/Article';
-import { useDisableConverter } from '../../../components/ArticleConverterContext';
 import config from '../../../config';
+import { SKIP_TO_CONTENT_ID } from '../../../constants';
 import {
   GQLFolderResourceMetaSearchQuery,
   GQLSharedResourceArticleContainer_ArticleFragment,
@@ -23,7 +23,6 @@ interface Props {
 
 const SharedArticleContainer = ({ article: propArticle, meta }: Props) => {
   const { i18n } = useTranslation();
-  const disableConverter = useDisableConverter();
 
   useEffect(() => {
     if (window.MathJax && typeof window.MathJax.typeset === 'function') {
@@ -38,12 +37,12 @@ const SharedArticleContainer = ({ article: propArticle, meta }: Props) => {
   const [article, scripts] = useMemo(() => {
     return [
       transformArticle(propArticle, i18n.language, {
-        enabled: disableConverter,
+        enabled: true,
         path: `${config.ndlaFrontendDomain}/article/${propArticle.id}`,
       }),
       getArticleScripts(propArticle, i18n.language),
     ];
-  }, [propArticle, i18n.language, disableConverter]);
+  }, [propArticle, i18n.language]);
 
   const contentType =
     meta?.resourceTypes && getContentTypeFromResourceTypes(meta.resourceTypes);
@@ -62,8 +61,8 @@ const SharedArticleContainer = ({ article: propArticle, meta }: Props) => {
         ))}
       </Helmet>
       <Article
-        contentTransformed={disableConverter}
-        id={'abc'}
+        contentTransformed
+        id={SKIP_TO_CONTENT_ID}
         article={article}
         {...getArticleProps(undefined, undefined)}
         contentType={contentType?.contentType}

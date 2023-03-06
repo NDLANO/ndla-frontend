@@ -6,6 +6,8 @@
  *
  */
 
+import styled from '@emotion/styled';
+import { breakpoints, mq, spacing } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import { useParams } from 'react-router-dom';
 import {
@@ -18,13 +20,32 @@ import Folder, { StyledUl } from './Folder';
 interface Props {
   folder?: GQLFolder;
   loading: boolean;
+  onClose?: () => void;
   meta: Record<
     string,
     GQLFolderResourceMetaSearchQuery['folderResourceMetaSearch'][0]
   >;
 }
 
-const FolderNavigation = ({ folder, meta, loading }: Props) => {
+const StyledNav = styled.nav`
+  ${mq.range({ until: breakpoints.tablet })} {
+    display: flex;
+    overflow-y: scroll;
+  }
+`;
+
+const RootUl = styled(StyledUl)`
+  padding: ${spacing.small};
+  padding-bottom: 0;
+  ${mq.range({ until: breakpoints.tablet })} {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow-y: scroll;
+  }
+`;
+
+const FolderNavigation = ({ folder, meta, loading, onClose }: Props) => {
   const { subfolderId, resourceId, folderId } = useParams();
 
   const defaultSelected =
@@ -46,16 +67,18 @@ const FolderNavigation = ({ folder, meta, loading }: Props) => {
   }
 
   return (
-    <nav>
-      <StyledUl role="tree" data-list>
+    <StyledNav>
+      <RootUl role="tree" data-list>
         <Folder
+          level={1}
+          onClose={onClose}
           folder={folder}
           meta={meta}
           defaultOpenFolder={subfolderId!}
           root
         />
-      </StyledUl>
-    </nav>
+      </RootUl>
+    </StyledNav>
   );
 };
 

@@ -319,7 +319,8 @@ export const useSharedFolder = ({
     variables: { id, includeResources, includeSubfolders },
   });
 
-  const folder = data?.sharedFolder;
+  const folder = data?.sharedFolder as GQLFolder | undefined;
+
   return { folder, loading };
 };
 

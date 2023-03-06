@@ -7,31 +7,41 @@
  */
 
 import styled from '@emotion/styled';
-import { colors } from '@ndla/core';
+import { colors, spacing } from '@ndla/core';
 import { SafeLinkButton } from '@ndla/safelink';
 import { ContentTypeBadge } from '@ndla/ui';
-import { useParams } from 'react-router-dom';
+import { MouseEvent, useCallback, useMemo } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
   GQLFolderResource,
   GQLFolderResourceMetaSearchQuery,
 } from '../../../graphqlTypes';
 import { contentTypeMapping } from '../../../util/getContentType';
-import { StyledLi } from './Folder';
 
 interface StyledProps {
   current: boolean;
+  level: number;
 }
 
-const shouldForwardProp = (prop: string) => !['current'].includes(prop);
+const shouldForwardProp = (prop: string) =>
+  !['current', 'level'].includes(prop);
 const styledOptions = { shouldForwardProp };
 
 const StyledSafelinkButton = styled(SafeLinkButton, styledOptions)<StyledProps>`
   text-align: left;
   align-items: flex-start;
+  margin-left: calc(${p => p.level} * ${spacing.small});
   color: ${({ current }) => (current ? colors.white : colors.black)};
 `;
 
-const StyledContentBadge = styled(ContentTypeBadge)<StyledProps>`
+interface ContentBadgeProps {
+  current: boolean;
+}
+
+const forwardContentBadge = (p: string) => p !== 'current';
+const badgeOptions = { shouldForwardProp: forwardContentBadge };
+
+const ContentBadge = styled(ContentTypeBadge, badgeOptions)<ContentBadgeProps>`
   svg {
     color: ${({ current }) =>
       current ? colors.white : colors.black} !important;
@@ -48,14 +58,41 @@ const StyledContentBadge = styled(ContentTypeBadge)<StyledProps>`
   }
 `;
 
+const ListElement = styled.li`
+  margin: 0;
+  padding: ${spacing.xxsmall} 0;
+`;
+
 interface Props {
   parentId: string;
   meta?: GQLFolderResourceMetaSearchQuery['folderResourceMetaSearch'][0];
   resource: GQLFolderResource;
+  onClose?: () => void;
+  level: number;
 }
 
-const FolderResource = ({ parentId, resource, meta }: Props) => {
+const FolderResource = ({
+  parentId,
+  resource,
+  meta,
+  level,
+  onClose,
+}: Props) => {
   const { folderId: rootFolderId, subfolderId, resourceId } = useParams();
+  const navigate = useNavigate();
+  const link = useMemo(
+    () => `/folder/${rootFolderId}/${parentId}/${resource.id}`,
+    [parentId, resource.id, rootFolderId],
+  );
+
+  const onClick = useCallback(
+    (e: MouseEvent<HTMLAnchorElement>) => {
+      e.preventDefault();
+      navigate(link);
+      onClose?.();
+    },
+    [navigate, onClose, link],
+  );
 
   const isCurrent = resource.id === resourceId && parentId === subfolderId;
 
@@ -63,23 +100,21 @@ const FolderResource = ({ parentId, resource, meta }: Props) => {
     contentTypeMapping[meta?.resourceTypes?.[0]?.id || 'default'];
 
   return (
-    <StyledLi role="none" data-list-item>
+    <ListElement role="none" data-list-item>
       <StyledSafelinkButton
         current={isCurrent}
         aria-current={isCurrent ? 'page' : undefined}
         tabIndex={-1}
+        level={level}
         id={`shared-${parentId}-${resource.id}`}
         role="treeitem"
+        onClick={onClick}
         variant={isCurrent ? 'solid' : 'ghost'}
         to={`/folder/${rootFolderId}/${parentId}/${resource.id}`}>
-        <StyledContentBadge
-          current={isCurrent}
-          type={contentType!}
-          border={false}
-        />
+        <ContentBadge current={isCurrent} type={contentType!} border={false} />
         {meta?.title}
       </StyledSafelinkButton>
-    </StyledLi>
+    </ListElement>
   );
 };
 

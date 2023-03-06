@@ -8,7 +8,6 @@
 
 import { gql } from '@apollo/client';
 import { Spinner } from '@ndla/icons';
-import { useDisableConverter } from '../../../components/ArticleConverterContext';
 import {
   GQLFolderResource,
   GQLFolderResourceMetaSearchQuery,
@@ -50,8 +49,6 @@ interface Props {
 }
 
 const SharedArticle = ({ resource, meta }: Props) => {
-  const disableConverter = useDisableConverter();
-
   const { loading, data, error } = useGraphQuery<
     GQLSharedResourceArticlePageQuery,
     GQLSharedResourceArticlePageQueryVariables
@@ -61,7 +58,7 @@ const SharedArticle = ({ resource, meta }: Props) => {
       isOembed: 'false',
       path: resource.path,
       showVisualElement: 'true',
-      convertEmbeds: disableConverter,
+      convertEmbeds: true,
     },
   });
 

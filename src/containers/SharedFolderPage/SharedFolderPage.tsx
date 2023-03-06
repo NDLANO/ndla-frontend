@@ -7,14 +7,17 @@
  */
 
 import styled from '@emotion/styled';
+import { ButtonV2 } from '@ndla/button';
 import { breakpoints, colors, misc, mq, spacing } from '@ndla/core';
-import { HumanMaleBoard } from '@ndla/icons/common';
+import { ChevronRight, ChevronUp, HumanMaleBoard } from '@ndla/icons/common';
+import { Drawer, ModalCloseButton, ModalHeaderV2 } from '@ndla/modal';
 import keyBy from 'lodash/keyBy';
-import { isMobile } from 'react-device-detect';
+import { useContext } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { GQLFolder, GQLFolderResource } from '../../graphqlTypes';
+import IsMobileContext from '../../IsMobileContext';
 import {
   useFolderResourceMetaSearch,
   useSharedFolder,
@@ -80,9 +83,46 @@ const flattenResources = (folder?: GQLFolder): GQLFolderResource[] => {
   return folder.resources.concat(subResources);
 };
 
+const DrawerButton = styled(ButtonV2)`
+  position: fixed;
+  bottom: 0;
+  padding-left: ${spacing.large};
+  justify-content: flex-start;
+  color: ${colors.text};
+  background-color: ${colors.white};
+  border-top: 1px solid ${colors.brand.light};
+  width: 100%;
+  z-index: 10;
+  &:focus,
+  &:focus-within,
+  &:hover {
+    border-top: 1px solid ${colors.brand.light};
+    background-color: ${colors.brand.greyLight};
+  }
+  &:focus-within,
+  &:active {
+    color: ${colors.text.primary} !important;
+  }
+`;
+
+const InsideDrawerButton = styled(ButtonV2)`
+  padding-left: ${spacing.large};
+  justify-content: flex-start;
+`;
+
+const StyledDrawer = styled(Drawer)`
+  max-height: 100%;
+  border-top-left-radius: ${misc.borderRadius};
+  border-top-right-radius: ${misc.borderRadius};
+  ${mq.range({ until: breakpoints.tablet })} {
+    min-height: 20%;
+  }
+`;
+
 const SharedFolderPage = () => {
   const { folderId = '', resourceId } = useParams();
   const { t } = useTranslation();
+  const isMobile = useContext(IsMobileContext);
 
   const { folder, loading } = useSharedFolder({
     id: folderId,
@@ -118,13 +158,52 @@ const SharedFolderPage = () => {
         <title>{`${folder?.name} - ${articleMeta?.title} - NDLA`}</title>
       </Helmet>
       <Sidebar>
-        {!isMobile && (
-          <InfoBox>
-            <HumanMaleBoard />
-            <span>{t('myNdla.sharedFolder.info')}</span>
-          </InfoBox>
+        {!isMobile ? (
+          <>
+            <InfoBox>
+              <HumanMaleBoard />
+              <span>{t('myNdla.sharedFolder.info')}</span>
+            </InfoBox>
+            <FolderNavigation
+              folder={folder}
+              meta={keyedData}
+              loading={loading}
+            />
+          </>
+        ) : (
+          <StyledDrawer
+            position="bottom"
+            size="small"
+            activateButton={
+              <DrawerButton shape="sharp" variant="stripped" size="large">
+                <ChevronRight />
+                Vis mapper og ressurser
+              </DrawerButton>
+            }>
+            {close => (
+              <>
+                <ModalHeaderV2>
+                  <h1>Mapper og ressurser</h1>
+                  <ModalCloseButton onClick={close} />
+                </ModalHeaderV2>
+                <FolderNavigation
+                  onClose={close}
+                  folder={folder}
+                  meta={keyedData}
+                  loading={loading}
+                />
+                <InsideDrawerButton
+                  shape="sharp"
+                  variant="stripped"
+                  size="large"
+                  onClick={close}>
+                  <ChevronUp />
+                  Vis mapper og ressurser
+                </InsideDrawerButton>
+              </>
+            )}
+          </StyledDrawer>
         )}
-        <FolderNavigation folder={folder} meta={keyedData} loading={loading} />
       </Sidebar>
       <StyledSection>
         {selectedResource ? (
