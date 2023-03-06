@@ -18,7 +18,7 @@ import { useSnack } from '@ndla/ui';
 import { GQLFolder } from '../../../graphqlTypes';
 import FolderAndResourceCount from './FolderAndResourceCount';
 import { toFolderPreview } from '../../../routeHelpers';
-import { previewLink } from './FoldersPage';
+import { previewLink } from './util';
 
 const Title = styled.h1`
   margin-bottom: 0;
@@ -77,9 +77,8 @@ const CopyLinkButton = styled(ButtonV2)`
 `;
 
 const CopyLinkHeader = styled.h2`
-  ${fonts.sizes('18px')};
-  line-height: 24px;
-  font-weight: 600;
+  ${fonts.sizes('18px', '24px')};
+  font-weight: ${fonts.weight.semibold};
 `;
 
 const StyledButtonRow = styled.div`
@@ -167,7 +166,7 @@ const FolderShareModal = ({
       size="normal"
       onClose={onClose}
       label={t('user.modal.isNotAuth')}>
-      {(onCloseModal: any) => (
+      {onCloseModal => (
         <>
           <ModalHeader>
             <Title>{t(`myNdla.folder.sharing.header.${type}`)}</Title>

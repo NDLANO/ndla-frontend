@@ -11,12 +11,14 @@ import { Cross, Pencil } from '@ndla/icons/action';
 import { DeleteForever, Link } from '@ndla/icons/editor';
 import { Share } from '@ndla/icons/lib/common';
 import { useSnack } from '@ndla/ui';
-import { useMemo } from 'react';
+import { useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import concat from 'lodash/concat';
 import { GQLFolder } from '../../../graphqlTypes';
-import { copyFolderSharingLink, FolderActionType } from './FoldersPage';
+import { FolderActionType } from './FoldersPage';
 import config from '../../../config';
+import { AuthContext } from '../../../components/AuthenticationContext';
+import { copyFolderSharingLink, isStudent } from './util';
 
 interface Props {
   onActionChanged: (action: FolderActionType) => void;
@@ -25,6 +27,7 @@ interface Props {
 
 const FolderActions = ({ onActionChanged, selectedFolder }: Props) => {
   const { t } = useTranslation();
+  const { user } = useContext(AuthContext);
   const { addSnack } = useSnack();
   const isShared = selectedFolder?.status === 'shared';
   const actionItems: MenuItemProps[] = useMemo(
@@ -37,7 +40,7 @@ const FolderActions = ({ onActionChanged, selectedFolder }: Props) => {
             onClick: () => onActionChanged('edit'),
           },
         ],
-        config.sharingEnabled
+        !isStudent(user) && config.sharingEnabled
           ? isShared
             ? [
                 {
@@ -74,7 +77,7 @@ const FolderActions = ({ onActionChanged, selectedFolder }: Props) => {
           },
         ],
       ),
-    [t, isShared, onActionChanged, selectedFolder?.id, addSnack],
+    [t, user, isShared, onActionChanged, selectedFolder?.id, addSnack],
   );
 
   return <MenuButton menuItems={actionItems} size="small" />;

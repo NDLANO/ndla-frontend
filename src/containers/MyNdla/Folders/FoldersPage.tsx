@@ -40,6 +40,7 @@ import FolderList from './FolderList';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import FolderShareModal from './FolderShareModal';
 import config from '../../../config';
+import { copyFolderSharingLink, isStudent } from './util';
 
 interface BlockWrapperProps {
   type?: string;
@@ -110,14 +111,11 @@ export interface FolderAction {
   folder: GQLFolder;
   index?: number;
 }
-export const previewLink = (id: string) =>
-  `${config.ndlaFrontendDomain}/folder/${id}`;
-export const copyFolderSharingLink = (id: string) =>
-  window.navigator.clipboard.writeText(previewLink(id));
 
 const FoldersPage = () => {
   const { t } = useTranslation();
   const { folderId } = useParams();
+  const { user } = useContext(AuthContext);
   const [viewType, _setViewType] = useState<ViewType>(
     (localStorage.getItem(STORED_RESOURCE_VIEW_SETTINGS) as ViewType) || 'list',
   );
@@ -263,7 +261,8 @@ const FoldersPage = () => {
           </ButtonV2>
         )}
 
-        {config.sharingEnabled &&
+        {!isStudent(user) &&
+          config.sharingEnabled &&
           showShareFolder &&
           selectedFolder &&
           (selectedFolder?.status !== 'private' ? (

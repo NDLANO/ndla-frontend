@@ -20,10 +20,11 @@ import { MenuItemProps } from '@ndla/button';
 import concat from 'lodash/concat';
 import { GQLFolder } from '../../../graphqlTypes';
 import { FolderTotalCount } from '../../../util/folderHelpers';
-import { FolderAction, copyFolderSharingLink, ViewType } from './FoldersPage';
+import { FolderAction, ViewType } from './FoldersPage';
 import DragHandle from './DragHandle';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import config from '../../../config';
+import { copyFolderSharingLink, isStudent } from './util';
 
 interface Props {
   folder: GQLFolder;
@@ -60,7 +61,7 @@ const DraggableFolder = ({
   foldersCount,
   setFolderAction,
 }: Props) => {
-  const { examLock } = useContext(AuthContext);
+  const { examLock, user } = useContext(AuthContext);
   const { t } = useTranslation();
   const { addSnack } = useSnack();
   const {
@@ -94,7 +95,7 @@ const DraggableFolder = ({
             onClick: () => setFolderAction({ action: 'edit', folder, index }),
           },
         ],
-        config.sharingEnabled
+        !isStudent(user) && config.sharingEnabled
           ? isShared
             ? [
                 {
@@ -146,7 +147,7 @@ const DraggableFolder = ({
           },
         ],
       ),
-    [addSnack, folder, index, isShared, setFolderAction, t],
+    [addSnack, folder, index, isShared, setFolderAction, t, user],
   );
 
   return (
