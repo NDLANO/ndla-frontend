@@ -39,7 +39,7 @@ import { AuthContext } from '../AuthenticationContext';
 export interface ResourceAttributes {
   path: string;
   resourceType: string;
-  id: number;
+  id: string;
 }
 
 interface Props {
@@ -180,6 +180,8 @@ const AddResourceToFolder = ({
         subfolders: folders,
         breadcrumbs: [],
         resources: [],
+        created: '',
+        updated: '',
       },
     ],
     [folders, t],
