@@ -16,6 +16,7 @@ import {
 } from '@ndla/ui';
 import { spacingUnit } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
+import { Spinner } from '@ndla/icons';
 
 import SearchHeader from './components/SearchHeader';
 import SearchResults, { ViewType } from './components/SearchResults';
@@ -107,6 +108,7 @@ const SearchContainer = ({
         noResults={sortedFilterButtonItems.length === 0}
         locale={locale}
         competenceGoals={competenceGoals}
+        loading={loading}
       />
       {showConcepts && concepts && concepts.length > 0 && (
         <SearchNotionsResult
@@ -133,6 +135,9 @@ const SearchContainer = ({
       {subjectItems && subjectItems?.length > 0 && (
         <SearchSubjectResult items={subjectItems} />
       )}
+      <div aria-live="assertive">
+        {loading && searchGroups.length === 0 && <Spinner />}
+      </div>
       {searchGroups && searchGroups.length > 0 && (
         <>
           {sortedFilterButtonItems.length > 1 && (

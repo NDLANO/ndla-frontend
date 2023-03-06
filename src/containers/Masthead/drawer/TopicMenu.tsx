@@ -8,7 +8,7 @@
 
 import { gql } from '@apollo/client';
 import { Bookmark, Class } from '@ndla/icons/action';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import sortBy from 'lodash/sortBy';
 import { ContentTypeBadge } from '@ndla/ui';
 import styled from '@emotion/styled';
@@ -37,6 +37,7 @@ import {
   TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE,
 } from '../../../constants';
 import { contentTypeMapping } from '../../../util/getContentType';
+import { useDrawerContext } from './DrawerContext';
 
 interface Props {
   topic: TopicWithSubTopics;
@@ -68,6 +69,7 @@ const TopicMenu = ({
   const { t } = useTranslation();
   const parentIsTopic = topic.parent?.startsWith('urn:subject');
   const location = useLocation();
+  const { shouldCloseLevel, setLevelClosed } = useDrawerContext();
   const Icon = parentIsTopic ? Class : Bookmark;
 
   const { data } = useGraphQuery<
@@ -96,6 +98,13 @@ const TopicMenu = ({
     () => topicPath[topicPath.length - 1]?.id === topic.id,
     [topic, topicPath],
   );
+
+  useEffect(() => {
+    if (active && shouldCloseLevel) {
+      onCloseMenuPortion();
+      setLevelClosed();
+    }
+  }, [active, shouldCloseLevel, setLevelClosed, onCloseMenuPortion]);
 
   useArrowNavigation(
     active,

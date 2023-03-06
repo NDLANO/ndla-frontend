@@ -332,7 +332,7 @@ const Article = ({
           isOpen={isOpen}
           onClose={() => setIsOpen(false)}
           resource={{
-            id: article.id,
+            id: article.id.toString(),
             path: location.pathname,
             resourceType: myNdlaResourceType,
           }}
