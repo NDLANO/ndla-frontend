@@ -265,17 +265,18 @@ const FoldersPage = () => {
 
         {config.sharingEnabled &&
           showShareFolder &&
+          selectedFolder &&
           (selectedFolder?.status !== 'private' ? (
             <ButtonV2
               variant="ghost"
               colorTheme="lighter"
-              onClick={() => {
-                copyFolderSharingLink(selectedFolder?.id ?? '');
-                addSnack({
-                  id: 'shareLink',
-                  content: t('myNdla.folder.sharing.link'),
-                });
-              }}>
+              onClick={() =>
+                setFolderAction({
+                  folder: selectedFolder,
+                  action: 'shared',
+                  index: 0,
+                })
+              }>
               <StyledLink />
               {t('myNdla.folder.sharing.button.shareLink')}
             </ButtonV2>

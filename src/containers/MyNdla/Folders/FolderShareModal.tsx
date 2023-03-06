@@ -94,6 +94,10 @@ const StyledButtonRow = styled.div`
   }
 `;
 
+const StyledSpacing = styled.div`
+  flex-grow: 1;
+`;
+
 interface Props {
   isOpen: boolean;
   onClose: () => void;
@@ -113,6 +117,48 @@ const FolderShareModal = ({
 }: Props) => {
   const { t } = useTranslation();
   const { addSnack } = useSnack();
+
+  const cancelButton = (
+    <>
+      {!(type === 'shared' && isMobile) && (
+        <ButtonV2 onClick={onClose} variant="outline">
+          {t('cancel')}
+        </ButtonV2>
+      )}
+    </>
+  );
+  const modalButton = (
+    <>
+      {type === 'shared' && (
+        <SafeLinkButton to={toFolderPreview(folder.id)}>
+          {t('myNdla.folder.sharing.button.preview')}
+        </SafeLinkButton>
+      )}
+      {type === 'private' && (
+        <ButtonV2 onClick={onUpdateStatus}>
+          {t('myNdla.folder.sharing.button.share')}
+        </ButtonV2>
+      )}
+      {type === 'unShare' && (
+        <ButtonV2 onClick={onUpdateStatus}>
+          {t('myNdla.folder.sharing.button.unShare')}
+        </ButtonV2>
+      )}
+    </>
+  );
+  const unShareButton = (
+    <>
+      {type === 'shared' && (
+        <ButtonV2
+          variant={isMobile ? 'outline' : 'ghost'}
+          colorTheme="danger"
+          onClick={() => onUpdateStatus?.()}>
+          {t('myNdla.folder.sharing.button.unShare')}
+          {!isMobile && <TrashCanOutline />}
+        </ButtonV2>
+      )}
+    </>
+  );
 
   return (
     <ModalV2
@@ -161,37 +207,20 @@ const FolderShareModal = ({
             )}
             {t(`myNdla.folder.sharing.description.${type}`)}
             <StyledButtonRow>
-              <StyledButtonRow>
-                {type === 'shared' && (
-                  <ButtonV2
-                    variant={isMobile ? 'outline' : 'ghost'}
-                    colorTheme="danger"
-                    onClick={() => onUpdateStatus?.()}>
-                    {t('myNdla.folder.sharing.button.unShare')}
-                    {!isMobile && <TrashCanOutline />}
-                  </ButtonV2>
-                )}
-              </StyledButtonRow>
-              <StyledButtonRow>
-                <ButtonV2 onClick={onClose} variant="outline">
-                  {t('cancel')}
-                </ButtonV2>
-                {type === 'shared' && (
-                  <SafeLinkButton to={toFolderPreview(folder.id)}>
-                    {t('myNdla.folder.sharing.button.preview')}
-                  </SafeLinkButton>
-                )}
-                {type === 'private' && (
-                  <ButtonV2 onClick={onUpdateStatus}>
-                    {t('myNdla.folder.sharing.button.share')}
-                  </ButtonV2>
-                )}
-                {type === 'unShare' && (
-                  <ButtonV2 onClick={onUpdateStatus}>
-                    {t('myNdla.folder.sharing.button.unShare')}
-                  </ButtonV2>
-                )}
-              </StyledButtonRow>
+              {isMobile ? (
+                <>
+                  {modalButton}
+                  {unShareButton}
+                  {cancelButton}
+                </>
+              ) : (
+                <>
+                  {unShareButton}
+                  <StyledSpacing />
+                  {cancelButton}
+                  {modalButton}
+                </>
+              )}
             </StyledButtonRow>
           </StyledModalBody>
         </>
