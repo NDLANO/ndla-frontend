@@ -139,7 +139,7 @@
     "@ndla/safelink": "^4.0.11",
     "@ndla/select": "^2.2.2",
     "@ndla/tabs": "^2.1.9",
-    "@ndla/tracker": "^2.0.5",
+    "@ndla/tracker": "^2.1.0",
     "@ndla/ui": "^35.0.2",
     "@ndla/util": "^3.1.10",
     "@ndla/zendesk": "^1.1.20",

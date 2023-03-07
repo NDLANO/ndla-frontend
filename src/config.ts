@@ -165,7 +165,7 @@ const config: ConfigType = {
   showAllFrontpageSubjects: true,
   feideDomain: feideDomain(),
   feideEnabled: getEnvironmentVariabel('FEIDE_ENABLED', false),
-  matomoUrl: getEnvironmentVariabel('MATOMO_URL', 'https://tall.ndla.no/'),
+  matomoUrl: getEnvironmentVariabel('MATOMO_URL', 'https://tall.ndla.no'),
   matomoSiteId: getEnvironmentVariabel('MATOMO_SITE_ID', ''),
   matomoTagmanagerId: getEnvironmentVariabel('MATOMO_TAGMANAGER_ID', ''),
   disableConverter: getEnvironmentVariabel('USE_ARTICLE_CONVERTER', false),

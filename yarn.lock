@@ -2454,10 +2454,10 @@
     "@radix-ui/react-tooltip" "^1.0.2"
     html-react-parser "^3.0.8"
 
-"@ndla/tracker@^2.0.5":
-  version "2.0.5"
-  resolved "https://registry.yarnpkg.com/@ndla/tracker/-/tracker-2.0.5.tgz#f171fd30e54e2f3a985e53fe20e87ab0a4401507"
-  integrity sha512-wYj7v7I4SALYJam5+tcOGsl9cMLJmjhPlcu4N86ALzrG089L+FFPZtNHT/hrhWLfGHlRr3x4qJsD+R2Fsds1xg==
+"@ndla/tracker@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@ndla/tracker/-/tracker-2.1.0.tgz#40f96bb1300c25c642e1169df1e4e22f4eadc00b"
+  integrity sha512-+ZUwtCuzce2bF1CS08dKFNIUL0/ZmgHabCQxQ7kE4ZK5JPyW++5BoOmYPszj4CMvPGGWSpYEt+re63M41rBcKg==
   dependencies:
     hoist-non-react-statics "^3.3.2"
     tiny-warning "^1.0.3"
