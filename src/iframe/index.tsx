@@ -19,7 +19,6 @@ import ErrorReporter from '@ndla/error-reporter';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import { BrowserRouter } from 'react-router-dom';
-import '@fontsource/shadows-into-light-two/index.css';
 import '@fontsource/source-sans-pro/index.css';
 import '@fontsource/source-sans-pro/400-italic.css';
 import '@fontsource/source-sans-pro/300.css';

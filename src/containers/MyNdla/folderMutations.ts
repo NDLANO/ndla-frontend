@@ -60,6 +60,8 @@ export const folderFragment = gql`
     name
     status
     parentId
+    created
+    updated
     breadcrumbs {
       __typename
       id
@@ -450,7 +452,7 @@ export const useSortResourcesMutation = () => {
 
 const addResourceToFolderQuery = gql`
   mutation addResourceToFolder(
-    $resourceId: Int!
+    $resourceId: String!
     $folderId: String!
     $resourceType: String!
     $path: String!

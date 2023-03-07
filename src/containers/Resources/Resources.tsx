@@ -155,7 +155,7 @@ const Resources = ({
     const [, resourceType, articleIdString] = contentUri?.split(':') ?? [];
     const articleId = articleIdString ? parseInt(articleIdString) : undefined;
     if (!resourceType || !articleId || !path) return;
-    setResourceToAdd({ id: articleId, path, resourceType });
+    setResourceToAdd({ id: articleId.toString(), path, resourceType });
   };
 
   return (

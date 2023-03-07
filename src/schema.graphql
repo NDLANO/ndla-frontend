@@ -38,7 +38,7 @@ type Article {
 
 type ArticleFolderResourceMeta implements FolderResourceMeta {
   description: String!
-  id: Int!
+  id: String!
   metaImage: MetaImage
   resourceTypes: [FolderResourceResourceType!]!
   title: String!
@@ -94,6 +94,15 @@ type AudioFile {
   language: String!
   mimeType: String!
   url: String!
+}
+
+type AudioFolderResourceMeta implements FolderResourceMeta {
+  description: String!
+  id: String!
+  metaImage: MetaImage
+  resourceTypes: [FolderResourceResourceType!]!
+  title: String!
+  type: String!
 }
 
 type AudioLicense {
@@ -223,6 +232,15 @@ type ConceptCopyright {
   rightsholders: [Contributor!]!
 }
 
+type ConceptFolderResourceMeta implements FolderResourceMeta {
+  description: String!
+  id: String!
+  metaImage: MetaImage
+  resourceTypes: [FolderResourceResourceType!]!
+  title: String!
+  type: String!
+}
+
 type ConceptLicense {
   copyright: ConceptCopyright
   src: String
@@ -307,26 +325,28 @@ type FilmPageAbout {
 
 type Folder {
   breadcrumbs: [Breadcrumb!]!
+  created: String!
   id: String!
   name: String!
   parentId: String
   resources: [FolderResource!]!
   status: String!
   subfolders: [Folder!]!
+  updated: String!
 }
 
 type FolderResource {
   created: String!
   id: String!
   path: String!
-  resourceId: Int!
+  resourceId: String!
   resourceType: String!
   tags: [String!]!
 }
 
 interface FolderResourceMeta {
   description: String!
-  id: Int!
+  id: String!
   metaImage: MetaImage
   resourceTypes: [FolderResourceResourceType!]!
   title: String!
@@ -334,7 +354,7 @@ interface FolderResourceMeta {
 }
 
 input FolderResourceMetaSearchInput {
-  id: Int!
+  id: String!
   path: String!
   resourceType: String!
 }
@@ -439,6 +459,15 @@ type ImageElement {
   upperLeftY: Float
 }
 
+type ImageFolderResourceMeta implements FolderResourceMeta {
+  description: String!
+  id: String!
+  metaImage: MetaImage
+  resourceTypes: [FolderResourceResourceType!]!
+  title: String!
+  type: String!
+}
+
 type ImageLicense {
   altText: String!
   contentType: String
@@ -515,7 +544,7 @@ type LearningpathCoverphoto {
 
 type LearningpathFolderResourceMeta implements FolderResourceMeta {
   description: String!
-  id: Int!
+  id: String!
   metaImage: MetaImage
   resourceTypes: [FolderResourceResourceType!]!
   title: String!
@@ -629,7 +658,7 @@ type Mutation {
   addFolderResource(
     folderId: String!
     path: String!
-    resourceId: Int!
+    resourceId: String!
     resourceType: String!
     tags: [String!]
   ): FolderResource!
@@ -648,6 +677,7 @@ type Mutation {
   ): String!
   updateFolder(id: String!, name: String, status: String): Folder!
   updateFolderResource(id: String!, tags: [String!]): FolderResource!
+  updateFolderStatus(folderId: String!, status: String!): [String!]!
   updatePersonalData(favoriteSubjects: [String!]!): MyNdlaPersonalData!
 }
 
@@ -1088,6 +1118,15 @@ type UptimeAlert {
   closable: Boolean!
   number: Int!
   title: String!
+}
+
+type VideoFolderResourceMeta implements FolderResourceMeta {
+  description: String!
+  id: String!
+  metaImage: MetaImage
+  resourceTypes: [FolderResourceResourceType!]!
+  title: String!
+  type: String!
 }
 
 type VisualElement {
