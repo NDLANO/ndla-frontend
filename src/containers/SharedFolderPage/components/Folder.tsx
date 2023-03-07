@@ -8,7 +8,7 @@
 
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
-import { breakpoints, colors, mq, spacing } from '@ndla/core';
+import { breakpoints, colors, mq, spacing, misc } from '@ndla/core';
 import { ArrowDropDownRounded } from '@ndla/icons/common';
 import { SafeLinkButton } from '@ndla/safelink';
 import { KeyboardEvent, useMemo, useState } from 'react';
@@ -57,6 +57,11 @@ const FolderButton = styled(ButtonV2, folderButtonOptions)<ButtonProps>`
   padding-bottom: ${spacing.small};
   padding-left: calc(${p => p.level} * ${spacing.small});
 
+  &:focus-visible {
+    outline: 2px solid ${colors.brand.primary};
+    border-radius: ${misc.borderRadius};
+  }
+
   &:hover,
   &:active,
   &:focus {
@@ -78,14 +83,18 @@ const FolderLink = styled(SafeLinkButton, folderLinkOptions)<LinkProps>`
   padding-left: 0;
   align-items: center;
   justify-content: center;
-  color: ${p => (p.selected ? colors.white : colors.text.primary)};
-  &:hover svg,
-  &:active svg,
-  &:focus svg {
-    color: ${colors.white};
+  color: ${colors.text.primary};
+  background-color: ${p => (p.selected ? colors.brand.light : undefined)};
+  border-color: transparent;
+  &:hover,
+  &:focus,
+  &:active,
+  &:focus-within {
+    background-color: transparent;
+    border-color: transparent;
   }
-  & svg {
-    color: ${({ selected }) => selected && colors.white};
+  &:focus-within {
+    outline: 2px solid ${colors.brand.primary};
   }
 `;
 

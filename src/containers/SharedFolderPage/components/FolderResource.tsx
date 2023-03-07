@@ -32,10 +32,22 @@ const StyledSafelinkButton = styled(SafeLinkButton, styledOptions)<StyledProps>`
   text-align: left;
   align-items: center;
   margin-left: calc(${p => p.level} * ${spacing.small});
-  color: ${({ current }) => (current ? colors.white : colors.black)};
+  color: ${colors.text.primary};
+  background-color: ${p => (p.current ? colors.brand.light : undefined)};
+  border-color: transparent;
   svg {
     width: 24px;
     height: 24px;
+  }
+  &:focus-visible {
+    outline: 2px solid ${colors.brand.primary};
+  }
+  &:hover,
+  &:focus,
+  &:focus-within {
+    background-color: transparent;
+    color: ${colors.text.primary};
+    border-color: transparent;
   }
 `;
 
@@ -48,19 +60,12 @@ const badgeOptions = { shouldForwardProp: forwardContentBadge };
 
 const ContentBadge = styled(ContentTypeBadge, badgeOptions)<ContentBadgeProps>`
   svg {
-    color: ${({ current }) =>
-      current ? colors.white : colors.black} !important;
+    color: ${p =>
+      p.current ? `${colors.text.primary} !important` : undefined};
   }
 
   width: 26px;
   height: 26px;
-
-  a:hover &,
-  a:focus & {
-    svg {
-      color: ${colors.white} !important;
-    }
-  }
 `;
 
 const ListElement = styled.li`
