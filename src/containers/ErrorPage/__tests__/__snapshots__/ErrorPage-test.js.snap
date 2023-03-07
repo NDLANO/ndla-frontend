@@ -184,9 +184,9 @@ exports[`ErrorPage renderers correctly 1`] = `
 
 .emotion-15:hover,
 .emotion-15:focus {
-  color: #fff;
-  background-color: #184673;
-  border-color: #184673;
+  color: #20588f;
+  background-color: #ceddea;
+  border-color: #ceddea;
 }
 
 .emotion-15[disabled] {
@@ -603,9 +603,9 @@ exports[`ErrorPage renderers correctly 1`] = `
 
 .emotion-91:hover,
 .emotion-91:focus {
-  color: #fff;
-  background-color: #184673;
-  border-color: #184673;
+  color: #20588f;
+  background-color: #ceddea;
+  border-color: #ceddea;
 }
 
 .emotion-91[disabled] {
