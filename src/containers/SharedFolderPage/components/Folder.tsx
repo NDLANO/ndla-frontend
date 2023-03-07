@@ -176,8 +176,9 @@ const Folder = ({
     e: KeyboardEvent<HTMLButtonElement | HTMLAnchorElement>,
   ) => {
     handleKeydown(e);
-    if (e.key === ' ') {
+    if (e.key === ' ' || e.key === 'Enter') {
       (e.target as HTMLElement | undefined)?.click();
+      onClose?.();
       e.preventDefault();
     }
   };
