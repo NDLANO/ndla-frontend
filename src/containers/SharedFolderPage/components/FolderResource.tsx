@@ -8,6 +8,7 @@
 
 import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
+import { Launch } from '@ndla/icons/common';
 import { SafeLinkButton } from '@ndla/safelink';
 import { ContentTypeBadge } from '@ndla/ui';
 import { MouseEvent, useCallback, useMemo } from 'react';
@@ -29,9 +30,13 @@ const styledOptions = { shouldForwardProp };
 
 const StyledSafelinkButton = styled(SafeLinkButton, styledOptions)<StyledProps>`
   text-align: left;
-  align-items: flex-start;
+  align-items: center;
   margin-left: calc(${p => p.level} * ${spacing.small});
   color: ${({ current }) => (current ? colors.white : colors.black)};
+  svg {
+    width: 24px;
+    height: 24px;
+  }
 `;
 
 interface ContentBadgeProps {
@@ -80,18 +85,29 @@ const FolderResource = ({
 }: Props) => {
   const { folderId: rootFolderId, subfolderId, resourceId } = useParams();
   const navigate = useNavigate();
+  const isLearningPath = useMemo(
+    () => resource.resourceType === 'learningpath',
+    [resource.resourceType],
+  );
   const link = useMemo(
-    () => `/folder/${rootFolderId}/${parentId}/${resource.id}`,
-    [parentId, resource.id, rootFolderId],
+    () =>
+      isLearningPath
+        ? resource.path
+        : `/folder/${rootFolderId}/${parentId}/${resource.id}`,
+    [isLearningPath, resource.path, resource.id, rootFolderId, parentId],
   );
 
   const onClick = useCallback(
     (e: MouseEvent<HTMLAnchorElement>) => {
       e.preventDefault();
-      navigate(link);
+      if (isLearningPath) {
+        window.open(link);
+      } else {
+        navigate(link);
+      }
       onClose?.();
     },
-    [navigate, onClose, link],
+    [navigate, onClose, link, isLearningPath],
   );
 
   const isCurrent = resource.id === resourceId && parentId === subfolderId;
@@ -108,11 +124,13 @@ const FolderResource = ({
         level={level}
         id={`shared-${parentId}-${resource.id}`}
         role="treeitem"
+        target={resource.resourceType === 'learningpath' ? '_blank' : undefined}
         onClick={onClick}
         variant={isCurrent ? 'solid' : 'ghost'}
-        to={`/folder/${rootFolderId}/${parentId}/${resource.id}`}>
+        to={link}>
         <ContentBadge current={isCurrent} type={contentType!} border={false} />
         {meta?.title}
+        {resource.resourceType === 'learningpath' && <Launch />}
       </StyledSafelinkButton>
     </ListElement>
   );

@@ -11,6 +11,7 @@ import { ButtonV2 } from '@ndla/button';
 import { breakpoints, colors, misc, mq, spacing } from '@ndla/core';
 import { ChevronRight, ChevronUp, HumanMaleBoard } from '@ndla/icons/common';
 import { Drawer, ModalCloseButton, ModalHeaderV2 } from '@ndla/modal';
+import { ErrorMessage } from '@ndla/ui';
 import keyBy from 'lodash/keyBy';
 import { useContext } from 'react';
 import { Helmet } from 'react-helmet-async';
@@ -207,7 +208,11 @@ const SharedFolderPage = () => {
       </Sidebar>
       <StyledSection>
         {selectedResource ? (
-          <SharedArticle resource={selectedResource} meta={articleMeta} />
+          selectedResource.resourceType === 'learningpath' ? (
+            <SharedLearningpathWarning />
+          ) : (
+            <SharedArticle resource={selectedResource} meta={articleMeta} />
+          )
         ) : (
           <FolderMeta folder={folder} />
         )}
@@ -219,6 +224,23 @@ const SharedFolderPage = () => {
         )}
       </StyledSection>
     </Layout>
+  );
+};
+
+const SharedLearningpathWarning = () => {
+  const { t } = useTranslation();
+
+  return (
+    <ErrorMessage
+      messages={{
+        title: '',
+        description: t('sharedFolder.learningpathUnsupported'),
+      }}
+      illustration={{
+        url: '/static/oops.gif',
+        altText: t('errorMessage.title'),
+      }}
+    />
   );
 };
 
