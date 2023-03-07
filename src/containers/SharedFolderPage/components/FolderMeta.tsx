@@ -37,8 +37,9 @@ const FolderMeta = ({ folder, loading }: Props) => {
         folderData={folder.subfolders}
         loading={false}
       />
-      {/* TODO: Add translation in packages */}
-      {t('myNdla.sharedFolder.infoDetailed')}
+      <p>{t('myNdla.sharedFolder.description.info1')}</p>
+      <p>{t('myNdla.sharedFolder.description.info2')}</p>
+      <p>{t('myNdla.sharedFolder.description.info3')}</p>
     </OneColumn>
   );
 };
