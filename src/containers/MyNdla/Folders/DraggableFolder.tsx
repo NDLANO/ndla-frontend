@@ -17,7 +17,6 @@ import { Folder, useSnack } from '@ndla/ui';
 import { colors, spacing } from '@ndla/core';
 import { Link, Share } from '@ndla/icons/common';
 import { MenuItemProps } from '@ndla/button';
-import concat from 'lodash/concat';
 import { GQLFolder } from '../../../graphqlTypes';
 import { FolderTotalCount } from '../../../util/folderHelpers';
 import { FolderAction, ViewType } from './FoldersPage';
@@ -84,71 +83,65 @@ const DraggableFolder = ({
     transition,
   };
 
-  const isShared = folder.status === 'shared';
-  const menuItems: MenuItemProps[] = useMemo(
-    () =>
-      concat(
-        [
-          {
-            icon: <Pencil />,
-            text: t('myNdla.folder.edit'),
-            onClick: () => setFolderAction({ action: 'edit', folder, index }),
-          },
-        ],
-        !isStudent(user) && config.sharingEnabled
-          ? isShared
-            ? [
-                {
-                  icon: <Link />,
-                  text: t('myNdla.folder.sharing.button.shareLink'),
-                  onClick: () => {
-                    copyFolderSharingLink(folder.id);
-                    addSnack({
-                      id: 'shareLink',
-                      content: t('myNdla.folder.sharing.link'),
-                    });
-                  },
-                },
-                {
-                  icon: <Cross />,
-                  text: t('myNdla.folder.sharing.button.unShare'),
-                  onClick: () =>
-                    setFolderAction({
-                      action: 'shared',
-                      folder,
-                      index,
-                    }),
-                },
-              ]
-            : [
-                {
-                  icon: <Share />,
-                  text: t('myNdla.folder.sharing.button.share'),
-                  onClick: () =>
-                    setFolderAction({
-                      action: 'private',
-                      folder,
-                      index,
-                    }),
-                },
-              ]
-          : [],
-        [
-          {
-            icon: <DeleteForever />,
-            text: t('myNdla.folder.delete'),
-            onClick: () =>
-              setFolderAction({
-                action: 'delete',
-                folder,
-                index,
-              }),
-            type: 'danger',
-          },
-        ],
-      ),
-    [addSnack, folder, index, isShared, setFolderAction, t, user],
-  );
+  const menuItems: MenuItemProps[] = useMemo(() => {
+    const editFolder: MenuItemProps = {
+      icon: <Pencil />,
+      text: t('myNdla.folder.edit'),
+      onClick: () => setFolderAction({ action: 'edit', folder, index }),
+    };
+
+    const shareLink: MenuItemProps = {
+      icon: <Link />,
+      text: t('myNdla.folder.sharing.button.shareLink'),
+      onClick: () => {
+        copyFolderSharingLink(folder.id);
+        addSnack({
+          id: 'shareLink',
+          content: t('myNdla.folder.sharing.link'),
+        });
+      },
+    };
+
+    const unShare: MenuItemProps = {
+      icon: <Cross />,
+      text: t('myNdla.folder.sharing.button.unShare'),
+      onClick: () =>
+        setFolderAction({
+          action: 'unShare',
+          folder,
+          index,
+        }),
+    };
+
+    const share: MenuItemProps = {
+      icon: <Share />,
+      text: t('myNdla.folder.sharing.button.share'),
+      onClick: () =>
+        setFolderAction({
+          action: 'private',
+          folder,
+          index,
+        }),
+    };
+    const deleteOpt: MenuItemProps = {
+      icon: <DeleteForever />,
+      text: t('myNdla.folder.delete'),
+      onClick: () =>
+        setFolderAction({
+          action: 'delete',
+          folder,
+          index,
+        }),
+      type: 'danger',
+    };
+    if (!config.sharingEnabled || isStudent(user)) {
+      return [editFolder, deleteOpt];
+    }
+    const sharedOptions =
+      folder.status === 'shared' ? [shareLink, unShare] : [share];
+
+    return [editFolder, sharedOptions, deleteOpt].flat();
+  }, [addSnack, folder, index, setFolderAction, t, user]);
 
   return (
     <DraggableListItem

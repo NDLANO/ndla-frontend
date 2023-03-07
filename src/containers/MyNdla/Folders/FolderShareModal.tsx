@@ -9,16 +9,17 @@
 import { useTranslation } from 'react-i18next';
 import { ModalBody, ModalCloseButton, ModalHeader, ModalV2 } from '@ndla/modal';
 import styled from '@emotion/styled';
-import { breakpoints, colors, fonts, mq, spacing } from '@ndla/core';
+import { breakpoints, colors, fonts, misc, mq, spacing } from '@ndla/core';
 import { ButtonV2 } from '@ndla/button';
 import { TrashCanOutline } from '@ndla/icons/action';
-import { isMobile } from 'react-device-detect';
 import { SafeLinkButton } from '@ndla/safelink';
 import { useSnack } from '@ndla/ui';
+import { useContext, useMemo } from 'react';
 import { GQLFolder } from '../../../graphqlTypes';
 import FolderAndResourceCount from './FolderAndResourceCount';
 import { toFolderPreview } from '../../../routeHelpers';
 import { previewLink } from './util';
+import IsMobileContext from '../../../IsMobileContext';
 
 const Title = styled.h1`
   margin-bottom: 0;
@@ -28,11 +29,10 @@ const Title = styled.h1`
   }
 `;
 
-const FolderTitle = styled.h2`
+const FolderTitle = styled.span`
+  ${fonts.sizes('18px', '24px')};
   color: ${colors.brand.primary};
-  ${fonts.sizes('16px', '20px')};
   font-weight: ${fonts.weight.semibold};
-  border-style: solid;
   padding: ${spacing.small};
   align-items: center;
   border: 1px solid ${colors.brand.neutral7};
@@ -53,7 +53,7 @@ const CopyLinkButton = styled(ButtonV2)`
   color: ${colors.text.primary};
   background: ${colors.brand.greyLightest};
   border: 1px solid ${colors.brand.neutral7};
-  border-radius: 4px;
+  border-radius: ${misc.borderRadius};
   display: flex;
   justify-content: left;
   align-items: center;
@@ -116,47 +116,51 @@ const FolderShareModal = ({
 }: Props) => {
   const { t } = useTranslation();
   const { addSnack } = useSnack();
-
-  const cancelButton = (
-    <>
-      {!(type === 'shared' && isMobile) && (
-        <ButtonV2 onClick={onClose} variant="outline">
+  const isMobile = useContext(IsMobileContext);
+  const cancelButton = useMemo(
+    () =>
+      !(type === 'shared' && isMobile) ? (
+        <ButtonV2 shape="pill" onClick={onClose} variant="outline">
           {t('cancel')}
         </ButtonV2>
-      )}
-    </>
+      ) : null,
+    [isMobile, onClose, t, type],
   );
-  const modalButton = (
-    <>
-      {type === 'shared' && (
-        <SafeLinkButton to={toFolderPreview(folder.id)}>
-          {t('myNdla.folder.sharing.button.preview')}
-        </SafeLinkButton>
-      )}
-      {type === 'private' && (
-        <ButtonV2 onClick={onUpdateStatus}>
-          {t('myNdla.folder.sharing.button.share')}
-        </ButtonV2>
-      )}
-      {type === 'unShare' && (
-        <ButtonV2 onClick={onUpdateStatus}>
-          {t('myNdla.folder.sharing.button.unShare')}
-        </ButtonV2>
-      )}
-    </>
+  const modalButton = useMemo(
+    () => (
+      <>
+        {type === 'shared' && (
+          <SafeLinkButton shape="pill" to={toFolderPreview(folder.id)}>
+            {t('myNdla.folder.sharing.button.preview')}
+          </SafeLinkButton>
+        )}
+        {type === 'private' && (
+          <ButtonV2 shape="pill" onClick={onUpdateStatus}>
+            {t('myNdla.folder.sharing.button.share')}
+          </ButtonV2>
+        )}
+        {type === 'unShare' && (
+          <ButtonV2 shape="pill" onClick={onUpdateStatus}>
+            {t('myNdla.folder.sharing.button.unShare')}
+          </ButtonV2>
+        )}
+      </>
+    ),
+    [folder.id, onUpdateStatus, t, type],
   );
-  const unShareButton = (
-    <>
-      {type === 'shared' && (
+  const unShareButton = useMemo(
+    () =>
+      type === 'shared' ? (
         <ButtonV2
+          shape="pill"
           variant={isMobile ? 'outline' : 'ghost'}
           colorTheme="danger"
           onClick={() => onUpdateStatus?.()}>
           {t('myNdla.folder.sharing.button.unShare')}
           {!isMobile && <TrashCanOutline />}
         </ButtonV2>
-      )}
-    </>
+      ) : null,
+    [isMobile, onUpdateStatus, t, type],
   );
 
   return (
@@ -176,22 +180,21 @@ const FolderShareModal = ({
             />
           </ModalHeader>
           <StyledModalBody>
-            <div>
-              <FolderTitle>{folder.name}</FolderTitle>
-              <FolderAndResourceCount
-                selectedFolder={folder}
-                hasSelectedFolder={!!folder}
-                folders={folder.subfolders}
-                folderData={folder.subfolders}
-                loading={false}
-              />
-            </div>
+            <FolderTitle aria-label={folder.name}>{folder.name}</FolderTitle>
+            <FolderAndResourceCount
+              selectedFolder={folder}
+              hasSelectedFolder={!!folder}
+              folders={folder.subfolders}
+              folderData={folder.subfolders}
+              loading={false}
+            />
             {type === 'shared' && (
               <div>
                 <CopyLinkHeader>
                   {t('myNdla.folder.sharing.description.copy')}
                 </CopyLinkHeader>
                 <CopyLinkButton
+                  aria-label={`${previewLink(folder.id)}`}
                   variant="stripped"
                   onClick={() => {
                     onCopyText?.();

@@ -224,7 +224,8 @@ const FoldersPage = () => {
 
   const showAddButton =
     (selectedFolder?.breadcrumbs.length || 0) < 5 && !examLock;
-  const showShareFolder = folderId !== null;
+  const showShareFolder =
+    folderId !== null && config.sharingEnabled && !isStudent(user);
 
   return (
     <FoldersPageContainer>
@@ -261,14 +262,13 @@ const FoldersPage = () => {
           </ButtonV2>
         )}
 
-        {!isStudent(user) &&
-          config.sharingEnabled &&
-          showShareFolder &&
+        {showShareFolder &&
           selectedFolder &&
           (selectedFolder?.status !== 'private' ? (
             <ButtonV2
               variant="ghost"
               colorTheme="lighter"
+              shape="pill"
               onClick={() =>
                 setFolderAction({
                   folder: selectedFolder,
@@ -283,6 +283,7 @@ const FoldersPage = () => {
             <ButtonV2
               variant="ghost"
               colorTheme="lighter"
+              shape="pill"
               onClick={() =>
                 setFolderAction({
                   folder: selectedFolder,
@@ -349,9 +350,7 @@ const FoldersPage = () => {
         description={t('myNdla.confirmDeleteFolder')}
         removeText={t('myNdla.folder.delete')}
         isOpen={folderAction?.action === 'delete'}
-        onClose={() =>
-          setFolderAction({ action: 'edit', folder: folderAction?.folder! })
-        }
+        onClose={() => setFolderAction(undefined)}
         onDelete={async () => {
           if (folderAction?.action === 'delete') {
             await onDeleteFolder(folderAction.folder, folderAction.index);

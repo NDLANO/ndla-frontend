@@ -13,7 +13,6 @@ import { Share } from '@ndla/icons/lib/common';
 import { useSnack } from '@ndla/ui';
 import { useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import concat from 'lodash/concat';
 import { GQLFolder } from '../../../graphqlTypes';
 import { FolderActionType } from './FoldersPage';
 import config from '../../../config';
@@ -29,56 +28,52 @@ const FolderActions = ({ onActionChanged, selectedFolder }: Props) => {
   const { t } = useTranslation();
   const { user } = useContext(AuthContext);
   const { addSnack } = useSnack();
-  const isShared = selectedFolder?.status === 'shared';
-  const actionItems: MenuItemProps[] = useMemo(
-    () =>
-      concat(
-        [
-          {
-            icon: <Pencil />,
-            text: t('myNdla.folder.edit'),
-            onClick: () => onActionChanged('edit'),
-          },
-        ],
-        !isStudent(user) && config.sharingEnabled
-          ? isShared
-            ? [
-                {
-                  icon: <Link />,
-                  text: t('myNdla.folder.sharing.button.shareLink'),
-                  onClick: () => {
-                    copyFolderSharingLink(selectedFolder?.id ?? '');
-                    addSnack({
-                      id: 'shareLink',
-                      content: t('myNdla.folder.sharing.link'),
-                    });
-                  },
-                },
-                {
-                  icon: <Cross />,
-                  text: t('myNdla.folder.sharing.button.unShare'),
-                  onClick: () => onActionChanged('shared'),
-                },
-              ]
-            : [
-                {
-                  icon: <Share />,
-                  text: t('myNdla.folder.sharing.share'),
-                  onClick: () => onActionChanged('private'),
-                },
-              ]
-          : [],
-        [
-          {
-            icon: <DeleteForever />,
-            text: t('myNdla.folder.delete'),
-            type: 'danger',
-            onClick: () => onActionChanged('delete'),
-          },
-        ],
-      ),
-    [t, user, isShared, onActionChanged, selectedFolder?.id, addSnack],
-  );
+  const actionItems: MenuItemProps[] = useMemo(() => {
+    const editFolder: MenuItemProps = {
+      icon: <Pencil />,
+      text: t('myNdla.folder.edit'),
+      onClick: () => onActionChanged('edit'),
+    };
+
+    const shareLink: MenuItemProps = {
+      icon: <Link />,
+      text: t('myNdla.folder.sharing.button.shareLink'),
+      onClick: () => {
+        copyFolderSharingLink(selectedFolder?.id ?? '');
+        addSnack({
+          id: 'shareLink',
+          content: t('myNdla.folder.sharing.link'),
+        });
+      },
+    };
+
+    const unShare: MenuItemProps = {
+      icon: <Cross />,
+      text: t('myNdla.folder.sharing.button.unShare'),
+      onClick: () => onActionChanged('unShare'),
+    };
+
+    const share: MenuItemProps = {
+      icon: <Share />,
+      text: t('myNdla.folder.sharing.share'),
+      onClick: () => onActionChanged('private'),
+    };
+    const deleteOpt: MenuItemProps = {
+      icon: <DeleteForever />,
+      text: t('myNdla.folder.delete'),
+      type: 'danger',
+      onClick: () => onActionChanged('delete'),
+    };
+
+    if (!config.sharingEnabled || isStudent(user)) {
+      return [editFolder, deleteOpt];
+    }
+
+    const sharedOptions =
+      selectedFolder?.status === 'shared' ? [shareLink, unShare] : [share];
+
+    return [editFolder, sharedOptions, deleteOpt].flat();
+  }, [addSnack, onActionChanged, selectedFolder, t, user]);
 
   return <MenuButton menuItems={actionItems} size="small" />;
 };
