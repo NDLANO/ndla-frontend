@@ -7,7 +7,7 @@
  */
 
 import { gql } from '@apollo/client';
-import { useRef, MouseEvent, useMemo } from 'react';
+import { useRef, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import {
   ArticleSideBar,
@@ -21,7 +21,6 @@ import { CustomWithTranslation, withTranslation } from 'react-i18next';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import { htmlTitle } from '../../../util/titleHelper';
 import Article from '../../../components/Article';
-import { scrollToRef } from '../../SubjectPage/subjectPageHelpers';
 import Resources from '../../Resources/Resources';
 import {
   GQLMultidisciplinarySubjectArticle_ResourceTypeDefinitionFragment,
@@ -56,10 +55,6 @@ const MultidisciplinarySubjectArticle = ({
 }: Props) => {
   const disableConverter = useDisableConverter();
   const resourcesRef = useRef(null);
-  const onLinkToResourcesClick = (e: MouseEvent) => {
-    e.preventDefault();
-    scrollToRef(resourcesRef, 0);
-  };
 
   const [article, scripts] = useMemo(() => {
     if (!topic.article) return [undefined, undefined];
@@ -101,10 +96,7 @@ const MultidisciplinarySubjectArticle = ({
         ))}
       </Helmet>
       <Breadcrumblist hideOnNarrow items={[]} startOffset={268}>
-        <ArticleSideBar
-          onLinkToResourcesClick={onLinkToResourcesClick}
-          linkToResources="#"
-        />
+        <ArticleSideBar />
       </Breadcrumblist>
       <MultidisciplinarySubjectHeader
         subjects={subjects}
