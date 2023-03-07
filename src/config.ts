@@ -131,6 +131,7 @@ export type ConfigType = {
   feideEnabled: boolean;
   matomoUrl: string;
   matomoSiteId: string;
+  matomoTagmanagerId: string;
   disableConverter: boolean;
 };
 
@@ -166,6 +167,7 @@ const config: ConfigType = {
   feideEnabled: getEnvironmentVariabel('FEIDE_ENABLED', false),
   matomoUrl: getEnvironmentVariabel('MATOMO_URL', 'https://tall.ndla.no/'),
   matomoSiteId: getEnvironmentVariabel('MATOMO_SITE_ID', ''),
+  matomoTagmanagerId: getEnvironmentVariabel('MATOMO_TAGMANAGER_ID', ''),
   disableConverter: getEnvironmentVariabel('USE_ARTICLE_CONVERTER', false),
 };
 
