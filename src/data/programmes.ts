@@ -6,16 +6,20 @@ export const programmes: ProgrammeType[] = [
       nb: 'Bygg- og anleggsteknikk',
       nn: 'Bygg- og anleggsteknikk',
       en: 'Building and construction',
+      se: 'Bygg- og anleggsteknikk',
     },
     url: {
       nb: 'bygg-og-anleggsteknikk',
       nn: 'bygg-og-anleggsteknikk',
+      se: 'bygg-og-anleggsteknikk',
       en: 'bygg-og-anleggsteknikk',
     },
     meta: {
       description: {
         nb:
           'Utdanningsprogram med programfagene Praktisk yrkesutøvelse og Arbeidsmiljø og dokumentasjon i Bygg- og anleggsteknikk.',
+        se:
+          'Utdanningsprogram med programfaga Praktisk yrkesutøving og Arbeidsmiljø og dokumentasjon i Bygg- og anleggsteknikk.',
         nn:
           'Utdanningsprogram med programfaga Praktisk yrkesutøving og Arbeidsmiljø og dokumentasjon i Bygg- og anleggsteknikk.',
       },
@@ -30,6 +34,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Felles programfag',
               nn: 'Felles programfag',
               en: 'Common programme subjects',
+              se: 'Felles programfag',
             },
             subjects: [
               {
@@ -45,6 +50,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
+              se: 'Fellesfag',
             },
             subjects: [
               {
@@ -75,6 +81,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Andre ressurser',
               nn: 'Andre ressursar',
               en: 'Additional resources',
+              se: 'Andre ressursar',
             },
             subjects: [
               {
@@ -102,6 +109,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
+              se: 'Fellesfag',
             },
             subjects: [
               {
@@ -126,6 +134,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Andre ressurser',
               nn: 'Andre ressursar',
               en: 'Additional resources',
+              se: 'Andre ressursar',
             },
             subjects: [
               {
@@ -151,10 +160,12 @@ export const programmes: ProgrammeType[] = [
       nb: 'Elektro og datateknologi',
       nn: 'Elektro og datateknologi',
       en: 'Electrical engineering and computer technology',
+      se: 'Elektro og datateknologi',
     },
     url: {
       nb: 'elektro-og-datateknologi',
       nn: 'elektro-og-datateknologi',
+      se: 'elektro-og-datateknologi',
       en: 'elektro-og-datateknologi',
     },
     meta: {
@@ -175,6 +186,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Felles programfag',
               nn: 'Felles programfag',
               en: 'Common programme subjects',
+              se: 'Felles programfag',
             },
             subjects: [
               {
@@ -193,6 +205,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
+              se: 'Fellesfag',
             },
             subjects: [
               {
@@ -223,6 +236,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Andre ressurser',
               nn: 'Andre ressursar',
               en: 'Additional resources',
+              se: 'Andre ressursar',
             },
             subjects: [
               {
@@ -250,6 +264,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
+              se: 'Fellesfag',
             },
             subjects: [
               {
@@ -274,6 +289,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Andre ressurser',
               nn: 'Andre ressursar',
               en: 'Additional resources',
+              se: 'Andre ressursar',
             },
             subjects: [
               {
@@ -299,10 +315,12 @@ export const programmes: ProgrammeType[] = [
       nb: 'Frisør, blomster, interiør og eksponeringsdesign',
       nn: 'Frisør, blomar, interiør og eksponeringsdesign',
       en: 'Hairdressing, floral, interior and retail design',
+      se: 'Frisør, blomar, interiør og eksponeringsdesign',
     },
     url: {
       nb: 'frisor-blomster-interior-og-eksponeringsdesign',
       nn: 'frisor-blomster-interior-og-eksponeringsdesign',
+      se: 'frisor-blomster-interior-og-eksponeringsdesign',
       en: 'frisor-blomster-interior-og-eksponeringsdesign',
     },
     meta: {
@@ -323,6 +341,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Felles programfag',
               nn: 'Felles programfag',
               en: 'Common programme subjects',
+              se: 'Felles programfag',
             },
             subjects: [
               {
@@ -338,6 +357,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
+              se: 'Fellesfag',
             },
             subjects: [
               {
@@ -368,6 +388,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Andre ressurser',
               nn: 'Andre ressursar',
               en: 'Additional resources',
+              se: 'Andre ressursar',
             },
             subjects: [
               {
@@ -395,6 +416,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
+              se: 'Fellesfag',
             },
             subjects: [
               {
@@ -419,6 +441,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Andre ressurser',
               nn: 'Andre ressursar',
               en: 'Additional resources',
+              se: 'Andre ressursar',
             },
             subjects: [
               {
@@ -444,10 +467,12 @@ export const programmes: ProgrammeType[] = [
       nb: 'Håndverk, design og produktutvikling',
       nn: 'Handverk, design og produktutvikling',
       en: 'Crafts, design and product development',
+      se: 'Handverk, design og produktutvikling',
     },
     url: {
       nb: 'handverk-design-og-produktutvikling',
       nn: 'handverk-design-og-produktutvikling',
+      se: 'handverk-design-og-produktutvikling',
       en: 'handverk-design-og-produktutvikling',
     },
     meta: {
@@ -468,6 +493,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Felles programfag',
               nn: 'Felles programfag',
               en: 'Common programme subjects',
+              se: 'Felles programfag',
             },
             subjects: [
               {
@@ -483,6 +509,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
+              se: 'Fellesfag',
             },
             subjects: [
               {
@@ -513,6 +540,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Andre ressurser',
               nn: 'Andre ressursar',
               en: 'Additional resources',
+              se: 'Andre ressursar',
             },
             subjects: [
               {
@@ -540,6 +568,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
+              se: 'Fellesfag',
             },
             subjects: [
               {
@@ -564,6 +593,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Andre ressurser',
               nn: 'Andre ressursar',
               en: 'Additional resources',
+              se: 'Andre ressursar',
             },
             subjects: [
               {
@@ -589,10 +619,12 @@ export const programmes: ProgrammeType[] = [
       nb: 'Helse- og oppvekstfag',
       nn: 'Helse- og oppvekstfag',
       en: 'Healthcare, childhood and youth development',
+      se: 'Helse- og oppvekstfag',
     },
     url: {
       nb: 'helse-og-oppvekstfag',
       nn: 'helse-og-oppvekstfag',
+      se: 'helse-og-oppvekstfag',
       en: 'helse-og-oppvekstfag',
     },
     meta: {
@@ -613,6 +645,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Felles programfag',
               nn: 'Felles programfag',
               en: 'Common programme subjects',
+              se: 'Felles programfag',
             },
             subjects: [
               {
@@ -634,6 +667,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
+              se: 'Fellesfag',
             },
             subjects: [
               {
@@ -664,6 +698,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Andre ressurser',
               nn: 'Andre ressursar',
               en: 'Additional resources',
+              se: 'Andre ressursar',
             },
             subjects: [
               {
@@ -690,6 +725,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Helsearbeiderfag',
               nn: 'Helsearbeidarfag',
               en: 'Health work',
+              se: 'Helsearbeidarfag',
             },
             subjects: [
               {
@@ -711,6 +747,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Barne- og ungdomsarbeiderfag',
               nn: 'Barne- og ungdomsarbeidarfag',
               en: 'Child care and youth work',
+              se: 'Barne- og ungdomsarbeidarfag',
             },
             subjects: [
               {
@@ -732,6 +769,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
+              se: 'Fellesfag',
             },
             subjects: [
               {
@@ -756,6 +794,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Andre ressurser',
               nn: 'Andre ressursar',
               en: 'Additional resources',
+              se: 'Andre ressursar',
             },
             subjects: [
               {
@@ -781,10 +820,12 @@ export const programmes: ProgrammeType[] = [
       nb: 'Idrettsfag',
       nn: 'Idrettsfag',
       en: 'Sports and physical education',
+      se: 'Idrettsfag',
     },
     url: {
       nb: 'idrettsfag',
       nn: 'idrettsfag',
+      se: 'idrettsfag',
       en: 'idrettsfag',
     },
     meta: {
@@ -806,6 +847,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
+              se: 'Fellesfag',
             },
             subjects: [
               {
@@ -845,6 +887,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Andre ressurser',
               nn: 'Andre ressursar',
               en: 'Additional resources',
+              se: 'Andre ressursar',
             },
             subjects: [
               {
@@ -872,6 +915,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
+              se: 'Fellesfag',
             },
             subjects: [
               {
@@ -908,6 +952,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Valgfrie programfag',
               nn: 'Valfrie programfag',
               en: 'Optional programme subjects',
+              se: 'Valfrie programfag',
             },
             subjects: [
               {
@@ -944,6 +989,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Andre ressurser',
               nn: 'Andre ressursar',
               en: 'Additional resources',
+              se: 'Andre ressursar',
             },
             subjects: [
               {
@@ -971,6 +1017,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
+              se: 'Fellesfag',
             },
             subjects: [
               {
@@ -995,6 +1042,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Valgfrie programfag',
               nn: 'Valfrie programfag',
               en: 'Optional programme subjects',
+              se: 'Valfrie programfag',
             },
             subjects: [
               {
@@ -1049,6 +1097,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Andre ressurser',
               nn: 'Andre ressursar',
               en: 'Additional resources',
+              se: 'Andre ressursar',
             },
             subjects: [
               {
@@ -1074,10 +1123,12 @@ export const programmes: ProgrammeType[] = [
       nb: 'Informasjonsteknologi og medieproduksjon',
       nn: 'Informasjonsteknologi og medieproduksjon',
       en: 'Information technology and media production',
+      se: 'Informasjonsteknologi og medieproduksjon',
     },
     url: {
       nb: 'informasjonsteknologi-og-medieproduksjon',
       nn: 'informasjonsteknologi-og-medieproduksjon',
+      se: 'informasjonsteknologi-og-medieproduksjon',
       en: 'informasjonsteknologi-og-medieproduksjon',
     },
     meta: {
@@ -1117,6 +1168,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Fellesfag',
+              se: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
             },
@@ -1147,6 +1199,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Andre ressurser',
+              se: 'Andre ressursar',
               nn: 'Andre ressursar',
               en: 'Additional resources',
             },
@@ -1173,6 +1226,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Informasjonsteknologi',
+              se: 'Informasjonsteknologi',
               nn: 'Informasjonsteknologi',
               en: 'Information technology',
             },
@@ -1191,6 +1245,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Medieproduksjon',
+              se: 'Medieproduksjon',
               nn: 'Medieproduksjon',
               en: 'Media production',
             },
@@ -1209,6 +1264,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Fellesfag',
+              se: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
             },
@@ -1233,6 +1289,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Andre ressurser',
+              se: 'Andre ressursar',
               nn: 'Andre ressursar',
               en: 'Additional resources',
             },
@@ -1258,11 +1315,13 @@ export const programmes: ProgrammeType[] = [
   {
     name: {
       nb: 'Kunst, design og arkitektur',
+      se: 'Kunst, design og arkitektur',
       nn: 'Kunst, design og arkitektur',
       en: 'Art, design and architecture',
     },
     url: {
       nb: 'kunst-design-og-arkitektur',
+      se: 'kunst-design-og-arkitektur',
       nn: 'kunst-design-og-arkitektur',
       en: 'kunst-design-og-arkitektur',
     },
@@ -1283,6 +1342,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Fellesfag',
+              se: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
             },
@@ -1328,6 +1388,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Andre ressurser',
+              se: 'Andre ressursar',
               nn: 'Andre ressursar',
               en: 'Additional resources',
             },
@@ -1355,6 +1416,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Fellesfag',
+              se: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
             },
@@ -1394,6 +1456,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Valgfrie programfag',
+              se: 'Valfrie programfag',
               nn: 'Valfrie programfag',
               en: 'Optional programme subjects',
             },
@@ -1430,6 +1493,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Andre ressurser',
+              se: 'Andre ressursar',
               nn: 'Andre ressursar',
               en: 'Additional resources',
             },
@@ -1457,6 +1521,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Fellesfag',
+              se: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
             },
@@ -1484,6 +1549,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Valgfrie programfag',
+              se: 'Valfrie programfag',
               nn: 'Valfrie programfag',
               en: 'Optional programme subjects',
             },
@@ -1538,6 +1604,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Andre ressurser',
+              se: 'Andre ressursar',
               nn: 'Andre ressursar',
               en: 'Additional resources',
             },
@@ -1563,11 +1630,13 @@ export const programmes: ProgrammeType[] = [
   {
     name: {
       nb: 'Medier og kommunikasjon',
+      se: 'Medium og kommunikasjon',
       nn: 'Medium og kommunikasjon',
       en: 'Media and communication',
     },
     url: {
       nb: 'medier-og-kommunikasjon',
+      se: 'medier-og-kommunikasjon',
       nn: 'medier-og-kommunikasjon',
       en: 'medier-og-kommunikasjon',
     },
@@ -1602,6 +1671,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Fellesfag',
+              se: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
             },
@@ -1647,6 +1717,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Andre ressurser',
+              se: 'Andre ressursar',
               nn: 'Andre ressursar',
               en: 'Additional resources',
             },
@@ -1688,6 +1759,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Fellesfag',
+              se: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
             },
@@ -1727,6 +1799,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Valgfrie programfag',
+              se: 'Valfrie programfag',
               nn: 'Valfrie programfag',
               en: 'Optional programme subjects',
             },
@@ -1763,6 +1836,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Andre ressurser',
+              se: 'Andre ressursar',
               nn: 'Andre ressursar',
               en: 'Additional resources',
             },
@@ -1804,6 +1878,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Fellesfag',
+              se: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
             },
@@ -1831,6 +1906,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Valgfrie programfag',
+              se: 'Valfrie programfag',
               nn: 'Valfrie programfag',
               en: 'Optional programme subjects',
             },
@@ -1885,6 +1961,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Andre ressurser',
+              se: 'Andre ressursar',
               nn: 'Andre ressursar',
               en: 'Additional resources',
             },
@@ -1910,11 +1987,13 @@ export const programmes: ProgrammeType[] = [
   {
     name: {
       nb: 'Musikk, dans og drama',
+      se: 'Musikk, dans og drama',
       nn: 'Musikk, dans og drama',
       en: 'Music, dance and drama',
     },
     url: {
       nb: 'musikk-dans-og-drama',
+      se: 'musikk-dans-og-drama',
       nn: 'musikk-dans-og-drama',
       en: 'musikk-dans-og-drama',
     },
@@ -1935,6 +2014,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Fellesfag',
+              se: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
             },
@@ -1977,6 +2057,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Andre ressurser',
+              se: 'Andre ressursar',
               nn: 'Andre ressursar',
               en: 'Additional resources',
             },
@@ -2004,6 +2085,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Fellesfag',
+              se: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
             },
@@ -2040,6 +2122,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Valgfrie programfag',
+              se: 'Valfrie programfag',
               nn: 'Valfrie programfag',
               en: 'Optional programme subjects',
             },
@@ -2076,6 +2159,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Andre ressurser',
+              se: 'Andre ressursar',
               nn: 'Andre ressursar',
               en: 'Additional resources',
             },
@@ -2103,6 +2187,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Fellesfag',
+              se: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
             },
@@ -2127,6 +2212,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Valgfrie programfag',
+              se: 'Valfrie programfag',
               nn: 'Valfrie programfag',
               en: 'Optional programme subjects',
             },
@@ -2184,6 +2270,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Andre ressurser',
+              se: 'Andre ressursar',
               nn: 'Andre ressursar',
               en: 'Additional resources',
             },
@@ -2209,11 +2296,13 @@ export const programmes: ProgrammeType[] = [
   {
     name: {
       nb: 'Naturbruk',
+      se: 'Naturbruk',
       nn: 'Naturbruk',
       en: 'Agriculture, fishing and forestry',
     },
     url: {
       nb: 'naturbruk',
+      se: 'naturbruk',
       nn: 'naturbruk',
       en: 'naturbruk',
     },
@@ -2248,6 +2337,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Fellesfag',
+              se: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
             },
@@ -2278,6 +2368,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Andre ressurser',
+              se: 'Andre ressursar',
               nn: 'Andre ressursar',
               en: 'Additional resources',
             },
@@ -2305,6 +2396,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Fellesfag',
+              se: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
             },
@@ -2329,6 +2421,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Andre ressurser',
+              se: 'Andre ressursar',
               nn: 'Andre ressursar',
               en: 'Additional resources',
             },
@@ -2354,11 +2447,13 @@ export const programmes: ProgrammeType[] = [
   {
     name: {
       nb: 'Påbygg',
+      se: 'Påbygg',
       nn: 'Påbygg',
       en: 'Supplementary programme',
     },
     url: {
       nb: 'pabygg',
+      se: 'pabygg',
       nn: 'pabygg',
       en: 'pabygg',
     },
@@ -2370,6 +2465,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Fellesfag',
+              se: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
             },
@@ -2397,6 +2493,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Valgfrie programfag',
+              se: 'Valfrie programfag',
               nn: 'Valfrie programfag',
               en: 'Optional programme subjects',
             },
@@ -2442,6 +2539,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Andre ressurser',
+              se: 'Andre ressursar',
               nn: 'Andre ressursar',
               en: 'Additional resources',
             },
@@ -2467,11 +2565,13 @@ export const programmes: ProgrammeType[] = [
   {
     name: {
       nb: 'Restaurant- og matfag',
+      se: 'Restaurant- og matfag',
       nn: 'Restaurant- og matfag',
       en: 'Restaurant and food processing',
     },
     url: {
       nb: 'restaurant-og-matfag',
+      se: 'restaurant-og-matfag',
       nn: 'restaurant-og-matfag',
       en: 'restaurant-og-matfag',
     },
@@ -2509,6 +2609,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Fellesfag',
+              se: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
             },
@@ -2539,6 +2640,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Andre ressurser',
+              se: 'Andre ressursar',
               nn: 'Andre ressursar',
               en: 'Additional resources',
             },
@@ -2565,6 +2667,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Kokk- og servitørfag',
+              se: 'Kokk- og servitørfag',
               nn: 'Kokk- og servitørfag',
               en: 'Cookery and waiting',
             },
@@ -2583,6 +2686,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Fellesfag',
+              se: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
             },
@@ -2607,6 +2711,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Andre ressurser',
+              se: 'Andre ressursar',
               nn: 'Andre ressursar',
               en: 'Additional resources',
             },
@@ -2632,11 +2737,13 @@ export const programmes: ProgrammeType[] = [
   {
     name: {
       nb: 'Salg, service og reiseliv',
+      se: 'Sal, service og reiseliv',
       nn: 'Sal, service og reiseliv',
       en: 'Sales, service and tourism',
     },
     url: {
       nb: 'salg-service-og-reiseliv',
+      se: 'salg-service-og-reiseliv',
       nn: 'salg-service-og-reiseliv',
       en: 'salg-service-og-reiseliv',
     },
@@ -2677,6 +2784,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Fellesfag',
+              se: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
             },
@@ -2707,6 +2815,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Andre ressurser',
+              se: 'Andre ressursar',
               nn: 'Andre ressursar',
               en: 'Additional resources',
             },
@@ -2733,6 +2842,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Salg og reiseliv',
+              se: 'Sal og reiseliv',
               nn: 'Sal og reiseliv',
               en: 'Sales and tourism',
             },
@@ -2754,6 +2864,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Service, sikkerhet og administrasjon',
+              se: 'Service, sikkerheit og administrasjon',
               nn: 'Service, sikkerheit og administrasjon',
               en: 'Service, safety and administration',
             },
@@ -2776,6 +2887,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Fellesfag',
+              se: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
             },
@@ -2800,6 +2912,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Andre ressurser',
+              se: 'Andre ressursar',
               nn: 'Andre ressursar',
               en: 'Additional resources',
             },
@@ -2825,11 +2938,13 @@ export const programmes: ProgrammeType[] = [
   {
     name: {
       nb: 'Studiespesialisering',
+      se: 'Studiespesialisering',
       nn: 'Studiespesialisering',
       en: 'Specialization in general studies',
     },
     url: {
       nb: 'studiespesialisering',
+      se: 'studiespesialisering',
       nn: 'studiespesialisering',
       en: 'studiespesialisering',
     },
@@ -2849,6 +2964,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Fellesfag',
+              se: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
             },
@@ -2897,6 +3013,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Andre ressurser',
+              se: 'Andre ressursar',
               nn: 'Andre ressursar',
               en: 'Additional resources',
             },
@@ -2923,6 +3040,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Fellesfag',
+              se: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
             },
@@ -2959,6 +3077,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Realfag',
+              se: 'Realfag',
               nn: 'Realfag',
               en: 'Natural science and mathematics',
             },
@@ -2977,6 +3096,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Språk, samfunnsfag og økonomi',
+              se: 'Språk, samfunnsfag og økonomi',
               nn: 'Språk, samfunnsfag og økonomi',
               en: 'Languages, social sciences and economics',
             },
@@ -3019,6 +3139,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Andre ressurser',
+              se: 'Andre ressursar',
               nn: 'Andre ressursar',
               en: 'Additional resources',
             },
@@ -3045,6 +3166,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Fellesfag',
+              se: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
             },
@@ -3069,6 +3191,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Realfag',
+              se: 'Realfag',
               nn: 'Realfag',
               en: 'Natural science and mathematics',
             },
@@ -3088,6 +3211,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Språk, samfunnsfag og økonomi',
+              se: 'Språk, samfunnsfag og økonomi',
               nn: 'Språk, samfunnsfag og økonomi',
               en: 'Languages, social sciences and economics',
             },
@@ -3136,6 +3260,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Andre ressurser',
+              se: 'Andre ressursar',
               nn: 'Andre ressursar',
               en: 'Additional resources',
             },
@@ -3161,11 +3286,13 @@ export const programmes: ProgrammeType[] = [
   {
     name: {
       nb: 'Teknologi- og industrifag',
+      se: 'Teknologi- og industrifag',
       nn: 'Teknologi- og industrifag',
       en: 'Technological and industrial production',
     },
     url: {
       nb: 'teknologi-og-industrifag',
+      se: 'teknologi-og-industrifag',
       nn: 'teknologi-og-industrifag',
       en: 'teknologi-og-industrifag',
     },
@@ -3206,6 +3333,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Fellesfag',
+              se: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
             },
@@ -3236,6 +3364,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Andre ressurser',
+              se: 'Andre ressursar',
               nn: 'Andre ressursar',
               en: 'Additional resources',
             },
@@ -3262,6 +3391,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Brønnteknikk',
+              se: 'Brønnteknikk',
               nn: 'Brønnteknikk',
               en: 'Well technology',
             },
@@ -3283,6 +3413,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Transport og logistikk',
+              se: 'Transport og logistikk',
               nn: 'Transport og logistikk',
               en: 'Transport and logistics',
             },
@@ -3304,6 +3435,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Fellesfag',
+              se: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
             },
@@ -3328,6 +3460,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Andre ressurser',
+              se: 'Andre ressursar',
               nn: 'Andre ressursar',
               en: 'Additional resources',
             },

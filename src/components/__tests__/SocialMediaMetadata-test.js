@@ -13,7 +13,7 @@ import {
 
 test('getAlternateLanguages with article', () => {
   const alternateLanguages = getAlternateLanguages({
-    supportedLanguages: ['nb', 'nn', 'en'],
+    supportedLanguages: ['nb', 'nn', 'en', 'se'],
   });
   expect(alternateLanguages).toMatchSnapshot();
 });

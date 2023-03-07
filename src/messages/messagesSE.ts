@@ -11,21 +11,21 @@ const titleTemplate = 'NDLA';
 const messages = {
   htmlTitles: {
     titleTemplate,
-    welcomePage: `Forsiden - ${titleTemplate}`,
-    topicPage: 'Emne',
-    subjectsPage: `Alle fag - ${titleTemplate}`,
-    searchPage: `Søk - ${titleTemplate}`,
-    notFound: `Siden finnes ikke - ${titleTemplate}`,
+    welcomePage: `Ovdasiidu - ${titleTemplate}`,
+    topicPage: 'Fáddá',
+    subjectsPage: `Vállje fága - ${titleTemplate}`,
+    searchPage: `Oza - ${titleTemplate}`,
+    notFound: `Siidu ii gávdno - ${titleTemplate}`,
     accessDenied: `Ingen tilgang - ${titleTemplate}`,
-    subject: 'Fag',
-    podcast: `Podkast - Side {{page}} - ${titleTemplate}`,
+    subject: 'Fága',
+    podcast: `Podkast - Side {{pageNumber}} - ${titleTemplate}`,
     lti: `LTI - ${titleTemplate}`,
-    movedResourcePage: `Siden har flyttet - ${titleTemplate}`,
-    myNdlaPage: `Min NDLA - ${titleTemplate}`,
-    myFoldersPage: `Mine mapper - ${titleTemplate}`,
+    movedResourcePage: `Siidu lea sirdojuvvon - ${titleTemplate}`,
+    myNdlaPage: `Mu NDLA - ${titleTemplate}`,
+    myFoldersPage: `Mu máhpat - ${titleTemplate}`,
     myFolderPage: `{{folderName}} - ${titleTemplate}`,
     myTagPage: `#{{tag}} - ${titleTemplate}`,
-    myTagsPage: `Mine emneknagger - ${titleTemplate}`,
+    myTagsPage: `Mu lihput - ${titleTemplate}`,
   },
   podcastPage: {
     episodes: 'Episoder',
@@ -53,24 +53,6 @@ const messages = {
       license: 'CC-BY-SA-4.0',
       licenseAuthor: 'Tom Knudsen',
     },
-  },
-
-  validation: {
-    fields: {
-      name: 'Navn',
-    },
-    required: 'Dette feltet er påkrevd',
-    requiredField: '$t(validation.fields.{{field}}) er påkrevd',
-    notUnique: 'Finnes allerede',
-    maxLength: 'Dette feltet kan maks inneholde {{count}} tegn',
-    maxLengthField:
-      '$t(validation.fields.{{field}}) kan maks innholde {{count}} tegn',
-  },
-  resourcepageTitles: {
-    video: 'Video',
-    image: 'Bilde',
-    audio: 'Audio',
-    concept: 'Forklaring',
   },
 };
 
