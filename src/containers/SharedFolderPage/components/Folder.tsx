@@ -90,6 +90,7 @@ const FolderLink = styled(SafeLinkButton, folderLinkOptions)<LinkProps>`
   &:focus,
   &:active,
   &:focus-within {
+    color: ${colors.text.primary};
     background-color: transparent;
     border-color: transparent;
   }
