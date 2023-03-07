@@ -11,10 +11,12 @@ import nb from './messages/messagesNB';
 import nn from './messages/messagesNN';
 import en from './messages/messagesEN';
 import se from './messages/messagesSE';
-import { getDefaultLocale } from './config';
+import config, { getDefaultLocale } from './config';
 import { LocaleType } from './interfaces';
 
-export const supportedLanguages: LocaleType[] = ['nb', 'nn', 'en', 'se'];
+export const supportedLanguages: LocaleType[] = config.saamiEnabled
+  ? ['nb', 'nn', 'en', 'se']
+  : ['nb', 'nn', 'en'];
 export const preferredLanguages: LocaleType[] = ['nb', 'nn', 'en', 'se'];
 
 type LocaleObject = {
