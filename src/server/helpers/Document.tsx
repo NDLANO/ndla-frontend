@@ -11,6 +11,7 @@ import serialize from 'serialize-javascript';
 import ScriptLoader from '@ndla/polyfill/lib/ScriptLoader';
 import { GoogleTagMangerScript, GoogleTagMangerNoScript } from './Gtm';
 import { Matomo } from './Matomo';
+import Tagmanager from './Tagmanager';
 import config, { ConfigType } from '../../config';
 
 export interface Assets {
@@ -42,6 +43,7 @@ const Document = ({ helmet, assets, data, styles }: Props) => {
     // eslint-disable-next-line jsx-a11y/html-has-lang
     <html {...htmlAttrs}>
       <head>
+        <Tagmanager />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <meta charSet="utf-8" />
         <meta

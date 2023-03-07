@@ -11,7 +11,6 @@ import { isMobile } from 'react-device-detect';
 import { ApolloProvider, useApolloClient } from '@apollo/client';
 import createCache from '@emotion/cache';
 import { CacheProvider } from '@emotion/react';
-import '@fontsource/shadows-into-light-two/index.css';
 import '@fontsource/source-code-pro/400-italic.css';
 import '@fontsource/source-code-pro/700.css';
 import '@fontsource/source-code-pro/index.css';
