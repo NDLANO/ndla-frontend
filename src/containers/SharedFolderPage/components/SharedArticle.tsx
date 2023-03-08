@@ -66,12 +66,12 @@ const SharedArticle = ({ resource, meta }: Props) => {
   if (loading) {
     return <Spinner />;
   }
-  if (!article) {
+  if (!article || error?.graphQLErrors[0]?.extensions?.status === 404) {
     return <NotFoundPage />;
-  }
-  if (error) {
+  } else if (!article || error) {
     return <ErrorPage />;
   }
+
   return <SharedArticleContainer article={article} meta={meta} />;
 };
 
