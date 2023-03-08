@@ -238,6 +238,7 @@ const contentSecurityPolicy = {
       "'self'",
       "'unsafe-inline'",
       "'unsafe-eval'",
+      'https://*.ndla.no',
       'https://optimize.google.com',
       'https://tagmanager.google.com',
       '*.twitter.com',

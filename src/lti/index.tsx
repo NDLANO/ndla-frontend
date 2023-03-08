@@ -15,7 +15,6 @@ import ErrorReporter from '@ndla/error-reporter';
 import { MissingRouterContext } from '@ndla/safelink';
 import { i18nInstance } from '@ndla/ui';
 import { ApolloProvider } from '@apollo/client';
-import '@fontsource/shadows-into-light-two/index.css';
 import '@fontsource/source-sans-pro/index.css';
 import '@fontsource/source-sans-pro/400-italic.css';
 import '@fontsource/source-sans-pro/300.css';
