@@ -66,10 +66,6 @@ const messages = {
     maxLengthField:
       '$t(validation.fields.{{field}}) kan maks innholde {{count}} tegn',
   },
-  sharedFolder: {
-    learningpathUnsupported:
-      'Læringsstier kan ikke vises direkte i delte mapper. Dersom du trykker på elementet i navigasjonsmenyen til venstre vil læringsstien åpnes i en ny fane.',
-  },
   resourcepageTitles: {
     video: 'Video',
     image: 'Bilde',
