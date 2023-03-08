@@ -14,7 +14,6 @@ import {
   GQLSharedResourceArticlePageQuery,
   GQLSharedResourceArticlePageQueryVariables,
 } from '../../../graphqlTypes';
-import { getArticleProps } from '../../../util/getArticleProps';
 import { useGraphQuery } from '../../../util/runQueries';
 import ErrorPage from '../../ErrorPage';
 import NotFoundPage from '../../NotFoundPage/NotFoundPage';
@@ -73,15 +72,7 @@ const SharedArticle = ({ resource, meta }: Props) => {
   if (error) {
     return <ErrorPage />;
   }
-  return (
-    <div>
-      <SharedArticleContainer
-        article={article}
-        meta={meta}
-        {...getArticleProps(undefined, undefined)}
-      />
-    </div>
-  );
+  return <SharedArticleContainer article={article} meta={meta} />;
 };
 
 export default SharedArticle;
