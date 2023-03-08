@@ -32,8 +32,10 @@ describe('Search page', () => {
 
   it('LTI has insert button', () => {
     cy.visit('/lti/?disableSSR=true');
+    cy.gqlIntercept({ alias: 'groupSearch', operations: ['GroupSearch'] });
     cy.gqlIntercept({ alias: 'ltiSearch', operations: ['searchPage'] });
     cy.gqlWait('@ltiSearch');
+    cy.gqlWait('@groupSearch');
     cy.get('section').first().within(() => {
       cy.get('button').contains('Sett inn');
     });
