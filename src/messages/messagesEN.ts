@@ -70,10 +70,6 @@ const messages = {
     concept: 'Concept',
     audio: 'Audio',
   },
-  sharedFolder: {
-    learningpathUnsupported:
-      'Learning paths cannot be shown directly in a shared folder. If you click the element in the navigation menu to the left, the learningpath will be opened in a new tab.',
-  },
 };
 
 export default messages;

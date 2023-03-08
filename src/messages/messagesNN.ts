@@ -71,10 +71,6 @@ const messages = {
     concept: 'Forklaring',
     audio: 'Audio',
   },
-  sharedFolder: {
-    learningpathUnsupported:
-      'Læringsstier kan ikkje vises direkte i delte mapper. Dersom du trykker på elementet i navigasjonsmenyen til venstre vil læringsstien åpnes i ei ny fane.',
-  },
 };
 
 export default messages;
