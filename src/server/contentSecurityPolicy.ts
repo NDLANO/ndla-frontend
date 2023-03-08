@@ -218,6 +218,7 @@ const fontSrc = (() => {
   const defaultFontSrc = [
     "'self'",
     'data:',
+    'https://*.ndla.no',
     'cdnjs.cloudflare.com',
     'https://*.hotjar.com',
     'https://*.clarity.ms',
