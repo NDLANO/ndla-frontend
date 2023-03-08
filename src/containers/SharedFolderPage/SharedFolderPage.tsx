@@ -9,9 +9,10 @@
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { breakpoints, colors, misc, mq, spacing } from '@ndla/core';
+import { Spinner } from '@ndla/icons';
 import { ChevronRight, ChevronUp, HumanMaleBoard } from '@ndla/icons/common';
 import { Drawer, ModalCloseButton, ModalHeaderV2 } from '@ndla/modal';
-import { ErrorMessage } from '@ndla/ui';
+import { ErrorMessage, OneColumn } from '@ndla/ui';
 import keyBy from 'lodash/keyBy';
 import { useContext } from 'react';
 import { Helmet } from 'react-helmet-async';
@@ -23,6 +24,7 @@ import {
   useFolderResourceMetaSearch,
   useSharedFolder,
 } from '../MyNdla/folderMutations';
+import NotFound from '../NotFoundPage/NotFoundPage';
 import FolderMeta from './components/FolderMeta';
 import FolderNavigation from './components/FolderNavigation';
 import SharedArticle from './components/SharedArticle';
@@ -142,6 +144,14 @@ const SharedFolderPage = () => {
     { skip: resources.length === 0 },
   );
 
+  if (loading) {
+    return <Spinner />;
+  }
+
+  if (!folder && !loading) {
+    return <NotFound />;
+  }
+
   const keyedData = keyBy(
     data ?? [],
     resource => `${resource.type}-${resource.id}`,
@@ -178,13 +188,13 @@ const SharedFolderPage = () => {
             activateButton={
               <DrawerButton shape="sharp" variant="stripped" size="large">
                 <ChevronRight />
-                Vis mapper og ressurser
+                {t('myNdla.sharedFolder.drawerButton')}
               </DrawerButton>
             }>
             {close => (
               <>
                 <ModalHeaderV2>
-                  <h1>Mapper og ressurser</h1>
+                  <h1>{t('myNdla.sharedFolder.drawerTitle')}</h1>
                   <ModalCloseButton onClick={close} />
                 </ModalHeaderV2>
                 <FolderNavigation
@@ -199,7 +209,7 @@ const SharedFolderPage = () => {
                   size="large"
                   onClick={close}>
                   <ChevronUp />
-                  Vis mapper og ressurser
+                  {t('myNdla.sharedFolder.drawerButton')}
                 </InsideDrawerButton>
               </>
             )}
@@ -231,16 +241,18 @@ const SharedLearningpathWarning = () => {
   const { t } = useTranslation();
 
   return (
-    <ErrorMessage
-      messages={{
-        title: '',
-        description: t('sharedFolder.learningpathUnsupported'),
-      }}
-      illustration={{
-        url: '/static/oops.gif',
-        altText: t('errorMessage.title'),
-      }}
-    />
+    <OneColumn>
+      <ErrorMessage
+        messages={{
+          title: '',
+          description: t('myNdla.sharedFolder.learningpathUnsupported'),
+        }}
+        illustration={{
+          url: '/static/oops.gif',
+          altText: t('errorMessage.title'),
+        }}
+      />
+    </OneColumn>
   );
 };
 
