@@ -20,12 +20,10 @@ import {
 import { contentTypeMapping } from '../../../util/getContentType';
 
 interface StyledProps {
-  current: boolean;
   level: number;
 }
 
-const shouldForwardProp = (prop: string) =>
-  !['current', 'level'].includes(prop);
+const shouldForwardProp = (p: string) => p !== 'level';
 const styledOptions = { shouldForwardProp };
 
 const StyledSafelinkButton = styled(SafeLinkButton, styledOptions)<StyledProps>`
@@ -33,39 +31,21 @@ const StyledSafelinkButton = styled(SafeLinkButton, styledOptions)<StyledProps>`
   align-items: center;
   margin-left: calc(${p => p.level} * ${spacing.small});
   color: ${colors.text.primary};
-  background-color: ${p => (p.current ? colors.brand.light : undefined)};
-  border-color: transparent;
   svg {
     width: 24px;
     height: 24px;
-  }
-  &:focus-visible {
-    outline: 2px solid ${colors.brand.primary};
+    color: ${colors.text.primary} !important;
   }
   &:hover,
-  &:focus,
-  &:focus-within {
+  &:focus-visible {
+    color: ${colors.brand.primary};
     background-color: transparent;
-    color: ${colors.text.primary};
     border-color: transparent;
+    outline: 2px solid ${colors.brand.primary};
+    svg {
+      color: ${colors.brand.primary} !important;
+    }
   }
-`;
-
-interface ContentBadgeProps {
-  current: boolean;
-}
-
-const forwardContentBadge = (p: string) => p !== 'current';
-const badgeOptions = { shouldForwardProp: forwardContentBadge };
-
-const ContentBadge = styled(ContentTypeBadge, badgeOptions)<ContentBadgeProps>`
-  svg {
-    color: ${p =>
-      p.current ? `${colors.text.primary} !important` : undefined};
-  }
-
-  width: 26px;
-  height: 26px;
 `;
 
 const ListElement = styled.li`
@@ -123,7 +103,6 @@ const FolderResource = ({
   return (
     <ListElement role="none" data-list-item>
       <StyledSafelinkButton
-        current={isCurrent}
         aria-current={isCurrent ? 'page' : undefined}
         tabIndex={-1}
         level={level}
@@ -132,8 +111,9 @@ const FolderResource = ({
         target={resource.resourceType === 'learningpath' ? '_blank' : undefined}
         onClick={onClick}
         variant={isCurrent ? 'solid' : 'ghost'}
+        colorTheme="light"
         to={link}>
-        <ContentBadge current={isCurrent} type={contentType!} border={false} />
+        <ContentTypeBadge type={contentType!} border={false} />
         {meta?.title}
         {resource.resourceType === 'learningpath' && <Launch />}
       </StyledSafelinkButton>

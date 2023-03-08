@@ -6,9 +6,10 @@
  *
  */
 
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
-import { breakpoints, colors, mq, spacing, misc } from '@ndla/core';
+import { breakpoints, colors, mq, spacing } from '@ndla/core';
 import { ArrowDropDownRounded } from '@ndla/icons/common';
 import { SafeLinkButton } from '@ndla/safelink';
 import { KeyboardEvent, useMemo, useState } from 'react';
@@ -52,66 +53,40 @@ const FolderButton = styled(ButtonV2, folderButtonOptions)<ButtonProps>`
   color: ${colors.text.primary};
   justify-content: flex-start;
   border: none;
-  border-radius: 0;
   padding-top: ${spacing.small};
   padding-bottom: ${spacing.small};
   padding-left: calc(${p => p.level} * ${spacing.small});
 
-  &:focus-visible {
-    outline: 2px solid ${colors.brand.primary};
-    border-radius: ${misc.borderRadius};
-  }
-
   &:hover,
-  &:active,
-  &:focus {
+  &:focus-visible {
     color: ${colors.brand.primary};
     background: none;
-    border: none;
+    outline: 2px solid ${colors.brand.primary};
   }
 `;
 
-interface LinkProps {
-  selected?: boolean;
-}
-
-const forwardLink = (p: string) => p !== 'selected';
-
-const folderLinkOptions = { shouldForwardProp: forwardLink };
-
-const FolderLink = styled(SafeLinkButton, folderLinkOptions)<LinkProps>`
+const FolderLink = styled(SafeLinkButton)`
   padding-left: 0;
   align-items: center;
   justify-content: center;
   color: ${colors.text.primary};
-  background-color: ${p => (p.selected ? colors.brand.light : undefined)};
-  border-color: transparent;
+  border: none;
   &:hover,
-  &:focus,
-  &:active,
-  &:focus-within {
-    color: ${colors.text.primary};
+  &:focus-visible {
+    color: ${colors.brand.primary};
+    border: none;
     background-color: transparent;
-    border-color: transparent;
-  }
-  &:focus-within {
     outline: 2px solid ${colors.brand.primary};
   }
 `;
 
-interface ArrowProps {
-  isOpen: boolean;
-}
-
-const shouldForwardProp = (prop: string) => !['isOpen'].includes(prop);
-const styledOptions = { shouldForwardProp };
-
-const StyledArrow = styled(ArrowDropDownRounded, styledOptions)<ArrowProps>`
-  color: ${colors.black};
+const StyledArrow = styled(ArrowDropDownRounded)`
   height: 20px;
   width: 20px;
+`;
 
-  transform: ${({ isOpen }) => !isOpen && 'rotate(-90deg)'};
+const arrowOpenCss = css`
+  transform: rotate(-90deg);
 `;
 
 const containsFolder = (folder: GQLFolder, targetId: string): boolean => {
@@ -196,14 +171,14 @@ const Folder = ({
               aria-expanded={isOpen}
               id={`shared-${folder.id}`}
               tabIndex={-1}
+              colorTheme={'light'}
               variant={selected ? 'solid' : 'ghost'}
-              selected={selected}
               color="light"
               role="treeitem"
               onKeyDown={handleLinkClick}
               onClick={() => selected && setIsOpen(!isOpen)}>
               <StyledArrow
-                isOpen={isOpen}
+                css={isOpen ? arrowOpenCss : undefined}
                 // @ts-ignore
                 onClick={e => {
                   e.preventDefault();
@@ -224,11 +199,11 @@ const Folder = ({
             id={`shared-${folder.id}`}
             tabIndex={-1}
             variant="ghost"
-            color="light"
+            colorTheme="light"
             role="treeitem"
             onKeyDown={handleKeydown}
             onClick={() => setIsOpen(!isOpen)}>
-            <StyledArrow isOpen={isOpen} /> {name}
+            <StyledArrow css={isOpen ? arrowOpenCss : undefined} /> {name}
           </FolderButton>
         </FolderButtonContainer>
       )}
@@ -248,7 +223,6 @@ const Folder = ({
               meta={meta}
             />
           ))}
-
           {resources.map(resource => (
             <FolderResource
               level={level}
