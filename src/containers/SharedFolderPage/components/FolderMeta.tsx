@@ -6,7 +6,6 @@
  *
  */
 
-import { Spinner } from '@ndla/icons';
 import { OneColumn } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
 import { GQLFolder } from '../../../graphqlTypes';
@@ -15,14 +14,10 @@ import FolderAndResourceCount from '../../MyNdla/Folders/FolderAndResourceCount'
 
 interface Props {
   folder?: GQLFolder;
-  loading?: boolean;
 }
 
-const FolderMeta = ({ folder, loading }: Props) => {
+const FolderMeta = ({ folder }: Props) => {
   const { t } = useTranslation();
-  if (loading) {
-    return <Spinner />;
-  }
   if (!folder) {
     return <ErrorPage />;
   }
