@@ -127,6 +127,7 @@ export type ConfigType = {
   zendeskWidgetKey: string | undefined;
   localGraphQLApi: boolean;
   showAllFrontpageSubjects: boolean;
+  saamiEnabled: boolean;
   feideDomain: string;
   feideEnabled: boolean;
   matomoUrl: string;
@@ -163,6 +164,7 @@ const config: ConfigType = {
   zendeskWidgetKey: getEnvironmentVariabel('NDLA_ZENDESK_WIDGET_KEY'),
   localGraphQLApi: getEnvironmentVariabel('LOCAL_GRAPHQL_API', false),
   showAllFrontpageSubjects: true,
+  saamiEnabled: getEnvironmentVariabel('SAAMI_ENABLED', false),
   feideDomain: feideDomain(),
   feideEnabled: getEnvironmentVariabel('FEIDE_ENABLED', false),
   matomoUrl: getEnvironmentVariabel('MATOMO_URL', 'https://tall.ndla.no'),

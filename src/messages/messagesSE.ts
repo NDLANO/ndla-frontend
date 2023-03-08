@@ -11,21 +11,21 @@ const titleTemplate = 'NDLA';
 const messages = {
   htmlTitles: {
     titleTemplate,
-    welcomePage: `Framsida - ${titleTemplate}`,
-    topicPage: 'Emne',
-    subjectsPage: `Alle fag - ${titleTemplate}`,
-    searchPage: `Søk - ${titleTemplate}`,
-    notFound: `Sida finst ikkje - ${titleTemplate}`,
+    welcomePage: `Ovdasiidu - ${titleTemplate}`,
+    topicPage: 'Fáddá',
+    subjectsPage: `Vállje fága - ${titleTemplate}`,
+    searchPage: `Oza - ${titleTemplate}`,
+    notFound: `Siidu ii gávdno - ${titleTemplate}`,
     accessDenied: `Ingen tilgang - ${titleTemplate}`,
-    subject: 'Fag',
-    podcast: `Podkast - Side {{page}} - ${titleTemplate}`,
+    subject: 'Fága',
+    podcast: `Podkast - Side {{pageNumber}} - ${titleTemplate}`,
     lti: `LTI - ${titleTemplate}`,
-    movedResourcePage: `Sida har flytta - ${titleTemplate}`,
-    myNdlaPage: `Min NDLA - ${titleTemplate}`,
-    myFoldersPage: `Mine mapper - ${titleTemplate}`,
+    movedResourcePage: `Siidu lea sirdojuvvon - ${titleTemplate}`,
+    myNdlaPage: `Mu NDLA - ${titleTemplate}`,
+    myFoldersPage: `Mu máhpat - ${titleTemplate}`,
     myFolderPage: `{{folderName}} - ${titleTemplate}`,
     myTagPage: `#{{tag}} - ${titleTemplate}`,
-    myTagsPage: `Mine emneknagger - ${titleTemplate}`,
+    myTagsPage: `Mu lihput - ${titleTemplate}`,
   },
   podcastPage: {
     episodes: 'Episoder',
@@ -53,27 +53,6 @@ const messages = {
       license: 'CC-BY-SA-4.0',
       licenseAuthor: 'Tom Knudsen',
     },
-  },
-  validation: {
-    fields: {
-      name: 'Namn',
-    },
-    required: 'Dette feltet er påkrevd',
-    requiredField: '$t(validation.fields.{{field}}) er påkrevd',
-    notUnique: 'Finnes allereie',
-    maxLength: 'Dette feltet kan maks innehalde {{count}} teikn',
-    maxLengthField:
-      '$t(validation.fields.{{field}}) kan maks innehalde {{count}} teikn',
-  },
-  resourcepageTitles: {
-    video: 'Video',
-    image: 'Bilde',
-    concept: 'Forklaring',
-    audio: 'Audio',
-  },
-  sharedFolder: {
-    learningpathUnsupported:
-      'Læringsstier kan ikkje vises direkte i delte mapper. Dersom du trykker på elementet i navigasjonsmenyen til venstre vil læringsstien åpnes i ei ny fane.',
   },
 };
 
