@@ -185,10 +185,13 @@ const SharedFolderPage = () => {
           <StyledDrawer
             position="bottom"
             size="small"
+            labelledBy="folder-drawer-button"
             activateButton={
               <DrawerButton shape="sharp" variant="stripped" size="large">
                 <ChevronRight />
-                {t('myNdla.sharedFolder.drawerButton')}
+                <span id="folder-drawer-button">
+                  {t('myNdla.sharedFolder.drawerButton')}
+                </span>
               </DrawerButton>
             }>
             {close => (
