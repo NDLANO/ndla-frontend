@@ -20,6 +20,7 @@ import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { GQLFolder, GQLFolderResource } from '../../graphqlTypes';
 import IsMobileContext from '../../IsMobileContext';
+import ErrorPage from '../ErrorPage';
 import {
   useFolderResourceMetaSearch,
   useSharedFolder,
@@ -127,7 +128,7 @@ const SharedFolderPage = () => {
   const { t } = useTranslation();
   const isMobile = useContext(IsMobileContext);
 
-  const { folder, loading } = useSharedFolder({
+  const { folder, loading, error } = useSharedFolder({
     id: folderId,
     includeResources: true,
     includeSubfolders: true,
@@ -148,8 +149,10 @@ const SharedFolderPage = () => {
     return <Spinner />;
   }
 
-  if (!folder && !loading) {
+  if (error?.graphQLErrors[0]?.extensions?.status === 404) {
     return <NotFound />;
+  } else if (error) {
+    return <ErrorPage />;
   }
 
   const keyedData = keyBy(

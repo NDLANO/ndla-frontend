@@ -8,6 +8,7 @@
 
 import {
   ApolloCache,
+  ApolloError,
   gql,
   QueryHookOptions,
   Reference,
@@ -313,8 +314,9 @@ export const useSharedFolder = ({
 }: UseSharedFolder): {
   folder?: GQLFolder;
   loading: boolean;
+  error?: ApolloError;
 } => {
-  const { data, loading } = useGraphQuery<
+  const { data, loading, error } = useGraphQuery<
     GQLSharedFolderQuery,
     GQLSharedFolderQueryVariables
   >(sharedFolderQuery, {
@@ -323,7 +325,7 @@ export const useSharedFolder = ({
 
   const folder = data?.sharedFolder as GQLFolder | undefined;
 
-  return { folder, loading };
+  return { folder, loading, error };
 };
 
 export const recentlyUsedQuery = gql`
