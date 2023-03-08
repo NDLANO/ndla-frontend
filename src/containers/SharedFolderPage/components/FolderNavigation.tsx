@@ -8,7 +8,6 @@
 
 import styled from '@emotion/styled';
 import { breakpoints, mq, spacing } from '@ndla/core';
-import { Spinner } from '@ndla/icons';
 import { useParams } from 'react-router-dom';
 import {
   GQLFolder,
@@ -18,8 +17,7 @@ import useArrowNavigation from '../../Masthead/drawer/useArrowNavigation';
 import Folder, { StyledUl } from './Folder';
 
 interface Props {
-  folder?: GQLFolder;
-  loading: boolean;
+  folder: GQLFolder;
   onClose?: () => void;
   meta: Record<
     string,
@@ -45,7 +43,7 @@ const RootUl = styled(StyledUl)`
   }
 `;
 
-const FolderNavigation = ({ folder, meta, loading, onClose }: Props) => {
+const FolderNavigation = ({ folder, meta, onClose }: Props) => {
   const { subfolderId, resourceId, folderId } = useParams();
 
   const defaultSelected =
@@ -53,18 +51,10 @@ const FolderNavigation = ({ folder, meta, loading, onClose }: Props) => {
       ? `shared-${subfolderId}-${resourceId}`
       : `shared-${folderId}`;
 
-  useArrowNavigation(!!(!loading && folder), {
+  useArrowNavigation(true, {
     multilevel: true,
     initialSelected: defaultSelected,
   });
-
-  if (loading) {
-    return <Spinner />;
-  }
-
-  if (!folder) {
-    return <div>error</div>;
-  }
 
   return (
     <StyledNav>

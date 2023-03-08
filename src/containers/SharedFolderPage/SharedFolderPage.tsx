@@ -151,7 +151,7 @@ const SharedFolderPage = () => {
 
   if (error?.graphQLErrors[0]?.extensions?.status === 404) {
     return <NotFound />;
-  } else if (error) {
+  } else if (error || !folder) {
     return <ErrorPage />;
   }
 
@@ -178,11 +178,7 @@ const SharedFolderPage = () => {
               <HumanMaleBoard />
               <span>{t('myNdla.sharedFolder.info')}</span>
             </InfoBox>
-            <FolderNavigation
-              folder={folder}
-              meta={keyedData}
-              loading={loading}
-            />
+            <FolderNavigation folder={folder} meta={keyedData} />
           </>
         ) : (
           <StyledDrawer
@@ -207,7 +203,6 @@ const SharedFolderPage = () => {
                   onClose={close}
                   folder={folder}
                   meta={keyedData}
-                  loading={loading}
                 />
                 <InsideDrawerButton
                   shape="sharp"
