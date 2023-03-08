@@ -176,9 +176,12 @@ const Folder = ({
               color="light"
               role="treeitem"
               onKeyDown={handleLinkClick}
-              onClick={() => selected && setIsOpen(!isOpen)}>
+              onClick={() => {
+                setIsOpen(!isOpen);
+                onClose?.();
+              }}>
               <StyledArrow
-                css={isOpen ? arrowOpenCss : undefined}
+                css={!isOpen ? arrowOpenCss : undefined}
                 // @ts-ignore
                 onClick={e => {
                   e.preventDefault();
@@ -203,7 +206,7 @@ const Folder = ({
             role="treeitem"
             onKeyDown={handleKeydown}
             onClick={() => setIsOpen(!isOpen)}>
-            <StyledArrow css={isOpen ? arrowOpenCss : undefined} /> {name}
+            <StyledArrow css={!isOpen ? arrowOpenCss : undefined} /> {name}
           </FolderButton>
         </FolderButtonContainer>
       )}
