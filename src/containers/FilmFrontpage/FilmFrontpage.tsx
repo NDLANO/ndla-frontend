@@ -110,6 +110,7 @@ const FilmFrontpage = ({
         <title>{pageTitle}</title>
       </Helmet>
       <SocialMediaMetadata
+        type="website"
         title={subject?.name ?? ''}
         description={about?.description}
       />

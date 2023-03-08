@@ -65,16 +65,20 @@ interface Props {
   title: string;
   description?: string;
   imageUrl?: string;
+  audioUrl?: string;
   trackableContent?: TrackableContent;
   children?: ReactNode;
+  type?: string;
 }
 
 const SocialMediaMetadata = ({
   title,
   imageUrl,
+  audioUrl,
   description,
   trackableContent,
   children,
+  type = 'article',
 }: Props) => {
   const location = useLocation();
   const basename = useBaseName();
@@ -93,7 +97,7 @@ const SocialMediaMetadata = ({
       {trackableContent?.tags && (
         <meta property="keywords" content={`${trackableContent?.tags}`} />
       )}
-      <meta property="og:type" content="article" />
+      <meta property="og:type" content={type} />
       <meta name="twitter:card" content="summary" />
       <meta name="twitter:site" content="@ndla_no" />
       <meta name="twitter:creator" content="@ndla_no" />
@@ -103,6 +107,7 @@ const SocialMediaMetadata = ({
       {description && <meta property="og:description" content={description} />}
       {description && <meta name="description" content={description} />}
       {description && <meta name="twitter:description" content={description} />}
+      {audioUrl && <meta property="og:audio" content={audioUrl} />}
       {imageUrl && <meta property="og:image" content={imageUrl} />}
       {imageUrl && <meta name="twitter:image:src" content={imageUrl} />}
       {!imageUrl ? (
@@ -122,14 +127,6 @@ const SocialMediaMetadata = ({
         ''
       )}
       <meta property="og:site_name" content="ndla.no" />
-      <meta
-        property="article:publisher"
-        content="https://www.facebook.com/ndla.no"
-      />
-      <meta
-        property="article:author"
-        content="https://www.facebook.com/ndla.no"
-      />
     </Helmet>
   );
 };
