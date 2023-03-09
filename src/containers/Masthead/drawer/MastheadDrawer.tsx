@@ -9,7 +9,7 @@
 import { gql } from '@apollo/client';
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
-import { spacing } from '@ndla/core';
+import { breakpoints, mq, spacing } from '@ndla/core';
 import { Menu } from '@ndla/icons/common';
 import { Cross } from '@ndla/icons/action';
 import { Drawer } from '@ndla/modal';
@@ -41,7 +41,15 @@ const DrawerContainer = styled.nav`
 `;
 
 const HeadWrapper = styled.div`
-  padding: ${spacing.small};
+  padding-top: 22px;
+  padding-left: ${spacing.large};
+  padding-bottom: 22px;
+  ${mq.range({ until: breakpoints.tablet })} {
+    padding-left: ${spacing.small};
+  }
+  ${mq.range({ until: breakpoints.desktop })} {
+    padding-left: ${spacing.normal};
+  }
 `;
 
 interface Props {
