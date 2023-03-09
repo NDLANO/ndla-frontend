@@ -47,7 +47,7 @@ const HeadWrapper = styled.div`
   ${mq.range({ until: breakpoints.tablet })} {
     padding-left: ${spacing.small};
   }
-  ${mq.range({ until: breakpoints.desktop })} {
+  ${mq.range({ from: breakpoints.tablet, until: breakpoints.desktop })} {
     padding-left: ${spacing.normal};
   }
 `;
