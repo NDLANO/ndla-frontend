@@ -12,11 +12,11 @@ describe('Search page', () => {
   });
 
   it('contains search bar', () => {
-    cy.visit('/search/?disableSSR=true');
     cy.gqlIntercept({
       alias: 'searchPage',
       operations: ['GroupSearch', 'searchPage', 'alerts'],
     });
+    cy.visit('/search/?disableSSR=true');
     cy.gqlWait('@searchPage');
     cy.get('input').focus();
   });
@@ -36,9 +36,10 @@ describe('Search page', () => {
     cy.gqlIntercept({ alias: 'ltiSearch', operations: ['searchPage'] });
     cy.gqlWait('@ltiSearch');
     cy.gqlWait('@groupSearch');
-    cy.get('section').first().within(() => {
-      cy.get('button').contains('Sett inn');
-    });
+    cy.get('section')
+      .first()
+      .within(() => {
+        cy.get('button').contains('Sett inn');
+      });
   });
-
 });
