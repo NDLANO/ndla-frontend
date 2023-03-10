@@ -41,7 +41,17 @@ const useArrowNavigation = (
     multilevel,
   }: ArrowNavigationConfig,
 ) => {
-  const [focused, setFocused] = useState<string | undefined>(undefined);
+  const [focused, _setFocused] = useState<string | undefined>(undefined);
+
+  const setFocused = useCallback(
+    (focus: string) => {
+      if (focused && focus !== focused) {
+        document.getElementById(focused)?.setAttribute('tabIndex', '-1');
+      }
+      _setFocused(focus);
+    },
+    [focused],
+  );
   const arrowHandler = useCallback(
     (e: KeyboardEvent) => {
       const activeElement = document.activeElement;
@@ -116,14 +126,14 @@ const useArrowNavigation = (
         }
       }
     },
-    [onLeftKeyPressed, onRightKeyPressed, active, multilevel],
+    [active, multilevel, setFocused, onLeftKeyPressed, onRightKeyPressed],
   );
 
   useEffect(() => {
     if (!focused && initialFocused) {
       setFocused(initialFocused);
     }
-  }, [initialFocused, focused]);
+  }, [initialFocused, focused, setFocused]);
 
   useEffect(() => {
     if (initialSelected) {

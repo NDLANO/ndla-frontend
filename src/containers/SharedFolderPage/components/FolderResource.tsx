@@ -58,6 +58,7 @@ interface Props {
   meta?: GQLFolderResourceMetaSearchQuery['folderResourceMetaSearch'][0];
   resource: GQLFolderResource;
   onClose?: () => void;
+  setFocus: (id: string) => void;
   level: number;
 }
 
@@ -65,6 +66,7 @@ const FolderResource = ({
   parentId,
   resource,
   meta,
+  setFocus,
   level,
   onClose,
 }: Props) => {
@@ -85,6 +87,7 @@ const FolderResource = ({
   const onClick = useCallback(
     (e: MouseEvent<HTMLAnchorElement>) => {
       e.preventDefault();
+      setFocus(`shared-${parentId}-${resource.id}`);
       if (isLearningPath) {
         window.open(link);
       } else {

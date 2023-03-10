@@ -51,7 +51,7 @@ const FolderNavigation = ({ folder, meta, onClose }: Props) => {
       ? `shared-${subfolderId}-${resourceId}`
       : `shared-${folderId}`;
 
-  useArrowNavigation(true, {
+  const { setFocused } = useArrowNavigation(true, {
     multilevel: true,
     initialSelected: defaultSelected,
   });
@@ -60,6 +60,7 @@ const FolderNavigation = ({ folder, meta, onClose }: Props) => {
     <StyledNav>
       <RootUl role="tree" data-list>
         <Folder
+          setFocus={setFocused}
           level={1}
           onClose={onClose}
           folder={folder}

@@ -108,6 +108,7 @@ interface Props {
   level: number;
   onClose?: () => void;
   defaultOpenFolder: string;
+  setFocus: (id: string) => void;
   meta: Record<
     string,
     GQLFolderResourceMetaSearchQuery['folderResourceMetaSearch'][0]
@@ -118,6 +119,7 @@ interface Props {
 const Folder = ({
   folder,
   meta,
+  setFocus,
   defaultOpenFolder,
   root,
   level,
@@ -178,6 +180,7 @@ const Folder = ({
               onKeyDown={handleLinkClick}
               onClick={() => {
                 setIsOpen(!isOpen);
+                setFocus(`shared-${folder.id}`);
                 onClose?.();
               }}>
               <StyledArrow
@@ -205,7 +208,10 @@ const Folder = ({
             colorTheme="light"
             role="treeitem"
             onKeyDown={handleKeydown}
-            onClick={() => setIsOpen(!isOpen)}>
+            onClick={() => {
+              setFocus(`shared-${folder.id}`);
+              setIsOpen(!isOpen);
+            }}>
             <StyledArrow css={!isOpen ? arrowOpenCss : undefined} /> {name}
           </FolderButton>
         </FolderButtonContainer>
@@ -219,6 +225,7 @@ const Folder = ({
           {subfolders.map(subfolder => (
             <Folder
               onClose={onClose}
+              setFocus={setFocus}
               level={level + 1}
               defaultOpenFolder={defaultOpenFolder}
               key={subfolder.id}
@@ -228,6 +235,7 @@ const Folder = ({
           ))}
           {resources.map(resource => (
             <FolderResource
+              setFocus={setFocus}
               level={level}
               onClose={onClose}
               key={resource.id}
