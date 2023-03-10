@@ -169,7 +169,11 @@ const SharedFolderPage = () => {
   return (
     <Layout>
       <Helmet>
-        <title>{`${folder?.name} - ${articleMeta?.title} - NDLA`}</title>
+        <title>
+          {t('htmlTitles.sharedFolderPage', {
+            name: `${folder.name} - ${articleMeta?.title ?? t('sharedFolder')}`,
+          })}
+        </title>
       </Helmet>
       <Sidebar>
         {!isMobile ? (

@@ -26,6 +26,7 @@ const messages = {
     myFolderPage: `{{folderName}} - ${titleTemplate}`,
     myTagPage: `#{{tag}} - ${titleTemplate}`,
     myTagsPage: `Mine emneknagger - ${titleTemplate}`,
+    sharedFolderPage: `{{name}} - ${titleTemplate}`,
   },
   podcastPage: {
     episodes: 'Episoder',
@@ -34,6 +35,7 @@ const messages = {
     pageInfo: 'Side {{page}} av {{lastPage}}',
     noResults: '...Ingen episoder',
   },
+  sharedFolder: 'Delt mappe',
   blogPosts: {
     blog1: {
       imageUrl: '/static/nye-fag.jpg',
