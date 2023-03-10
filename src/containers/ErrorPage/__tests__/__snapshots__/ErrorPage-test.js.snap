@@ -183,7 +183,7 @@ exports[`ErrorPage renderers correctly 1`] = `
 }
 
 .emotion-15:hover,
-.emotion-15:focus {
+.emotion-15:focus-visible {
   color: #20588f;
   background-color: #ceddea;
   border-color: #ceddea;
@@ -602,7 +602,7 @@ exports[`ErrorPage renderers correctly 1`] = `
 }
 
 .emotion-91:hover,
-.emotion-91:focus {
+.emotion-91:focus-visible {
   color: #20588f;
   background-color: #ceddea;
   border-color: #ceddea;
