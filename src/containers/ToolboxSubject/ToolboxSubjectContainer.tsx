@@ -166,7 +166,7 @@ const ToolboxSubjectContainer = ({ topicList, subject }: Props) => {
           id={!topicList.length ? SKIP_TO_CONTENT_ID : undefined}
           topics={topics}
           title={subject.name}
-          introduction={t('htmlTitles.toolbox.introduction')}
+          introduction={t('toolboxPage.introduction')}
         />
         <TopicBoxes />
         {subject.subjectpage?.banner && (

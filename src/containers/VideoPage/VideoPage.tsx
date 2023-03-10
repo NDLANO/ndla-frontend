@@ -12,6 +12,7 @@ import { gql } from '@apollo/client';
 import { HelmetWithTracker } from '@ndla/tracker';
 import NotFoundPage from '../../containers/NotFoundPage/NotFoundPage';
 import ErrorPage from '../../containers/ErrorPage';
+import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import VisualElementWrapper from '../../components/VisualElement/VisualElementWrapper';
 import {
   GQLBrightcoveVideoQuery,
@@ -75,14 +76,20 @@ const VideoPage = () => {
     },
   };
 
+  const title = `${data.brightcoveVideo.name} - ${t(
+    'resourcepageTitles.video',
+  )}`;
+
   return (
     <OneColumn>
-      <HelmetWithTracker
-        title={`${data.brightcoveVideo.name} - ${t(
-          'resourcepageTitles.video',
-        )} - NDLA`}>
+      <HelmetWithTracker title={`${title} - NDLA`} />
+      <SocialMediaMetadata
+        type="website"
+        title={title}
+        description={data?.brightcoveVideo?.description}
+        imageUrl={data?.brightcoveVideo?.cover}>
         <meta name="robots" content="noindex" />
-      </HelmetWithTracker>
+      </SocialMediaMetadata>
       <VisualElementWrapper visualElement={visualElement} videoId={videoId} />
     </OneColumn>
   );
@@ -104,6 +111,9 @@ const VideoPageQuery = gql`
         width
         src
       }
+      cover
+      caption
+      description
       download
       name
     }

@@ -91,6 +91,7 @@ const WelcomePage = () => {
         <script type="application/ld+json">{googleSearchJSONLd()}</script>
       </HelmetWithTracker>
       <SocialMediaMetadata
+        type="website"
         title={t('welcomePage.heading.heading')}
         description={t('meta.description')}
         imageUrl={`${config.ndlaFrontendDomain}/static/logo.png`}>

@@ -264,6 +264,7 @@ export type GQLConcept = {
   source?: Maybe<Scalars['String']>;
   subjectIds?: Maybe<Array<Scalars['String']>>;
   subjectNames?: Maybe<Array<Scalars['String']>>;
+  supportedLanguages: Array<Scalars['String']>;
   tags: Array<Scalars['String']>;
   title: Scalars['String'];
   visualElement?: Maybe<GQLVisualElement>;
@@ -3287,6 +3288,9 @@ export type GQLBrightcoveVideoQuery = {
   brightcoveVideo?: {
     __typename?: 'BrightcoveElement';
     videoid?: string;
+    cover?: string;
+    caption?: string;
+    description?: string;
     download?: string;
     name?: string;
     customFields?: {
@@ -3692,6 +3696,8 @@ export type GQLConceptSearchConceptFragment = {
   id: number;
   title: string;
   subjectNames?: Array<string>;
+  tags: Array<string>;
+  supportedLanguages: Array<string>;
   text: string;
   visualElement?: {
     __typename?: 'VisualElement';
