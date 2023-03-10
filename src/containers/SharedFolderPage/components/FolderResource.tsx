@@ -95,7 +95,7 @@ const FolderResource = ({
       }
       onClose?.();
     },
-    [navigate, onClose, link, isLearningPath],
+    [setFocus, parentId, resource.id, isLearningPath, onClose, link, navigate],
   );
 
   const isCurrent = resource.id === resourceId && parentId === subfolderId;
