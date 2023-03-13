@@ -134,11 +134,7 @@ const FolderShareModal = ({
     } else {
       return (
         <ButtonV2 shape="pill" onClick={onUpdateStatus}>
-          {t(
-            `myNdla.folder.sharing.button.${
-              type === 'share' ? 'private' : 'unShare'
-            }`,
-          )}
+          {t(`myNdla.folder.sharing.button.${type}`)}
         </ButtonV2>
       );
     }
