@@ -41,6 +41,7 @@ import SubjectRouting from './containers/SubjectPage/SubjectRouting';
 import WelcomePage from './containers/WelcomePage/WelcomePage';
 import { LocaleType } from './interfaces';
 import handleError from './util/handleError';
+import SharedFolderPage from './containers/SharedFolderPage/SharedFolderPage';
 
 interface State {
   hasError: boolean;
@@ -159,6 +160,13 @@ const AppRoutes = ({ base }: AppProps) => {
                     <Route index element={<TagsPage />} />
                     <Route path=":tag" element={<TagsPage />} />
                   </Route>
+                </Route>
+                <Route path="folder/:folderId">
+                  <Route index element={<SharedFolderPage />} />
+                  <Route
+                    path=":subfolderId/:resourceId"
+                    element={<SharedFolderPage />}
+                  />
                 </Route>
                 <Route path="404" element={<NotFound />} />
                 <Route path="403" element={<AccessDenied />} />

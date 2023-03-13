@@ -358,6 +358,8 @@ export const conceptSearchInfoFragment = gql`
     visualElement {
       ...VisualElementInfo
     }
+    tags
+    supportedLanguages
     copyright {
       license {
         license

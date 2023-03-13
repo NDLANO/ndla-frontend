@@ -264,6 +264,7 @@ export type GQLConcept = {
   source?: Maybe<Scalars['String']>;
   subjectIds?: Maybe<Array<Scalars['String']>>;
   subjectNames?: Maybe<Array<Scalars['String']>>;
+  supportedLanguages: Array<Scalars['String']>;
   tags: Array<Scalars['String']>;
   title: Scalars['String'];
   visualElement?: Maybe<GQLVisualElement>;
@@ -2657,6 +2658,17 @@ export type GQLFolderResourceMetaFragment =
   | GQLFolderResourceMeta_LearningpathFolderResourceMeta_Fragment
   | GQLFolderResourceMeta_VideoFolderResourceMeta_Fragment;
 
+export type GQLSharedFolderQueryVariables = Exact<{
+  id: Scalars['String'];
+  includeSubfolders?: InputMaybe<Scalars['Boolean']>;
+  includeResources?: InputMaybe<Scalars['Boolean']>;
+}>;
+
+export type GQLSharedFolderQuery = {
+  __typename?: 'Query';
+  sharedFolder: { __typename?: 'Folder' } & GQLFoldersPageQueryFragmentFragment;
+};
+
 export type GQLFolderResourceMetaQueryVariables = Exact<{
   resource: GQLFolderResourceMetaSearchInput;
 }>;
@@ -2995,6 +3007,28 @@ export type GQLResources_TopicFragment = {
   metadata: { __typename?: 'TaxonomyMetadata'; customFields: any };
 };
 
+export type GQLSharedResourceArticlePageQueryVariables = Exact<{
+  articleId: Scalars['String'];
+  isOembed?: InputMaybe<Scalars['String']>;
+  path?: InputMaybe<Scalars['String']>;
+  showVisualElement?: InputMaybe<Scalars['String']>;
+  convertEmbeds?: InputMaybe<Scalars['Boolean']>;
+}>;
+
+export type GQLSharedResourceArticlePageQuery = {
+  __typename?: 'Query';
+  article?: {
+    __typename?: 'Article';
+  } & GQLSharedResourceArticleContainer_ArticleFragment;
+};
+
+export type GQLSharedResourceArticleContainer_ArticleFragment = {
+  __typename?: 'Article';
+  created: string;
+  tags?: Array<string>;
+} & GQLArticle_ArticleFragment &
+  GQLStructuredArticleDataFragment;
+
 export type GQLSubjectContainer_SubjectFragment = {
   __typename?: 'Subject';
   grepCodes: Array<string>;
@@ -3264,6 +3298,9 @@ export type GQLBrightcoveVideoQuery = {
   brightcoveVideo?: {
     __typename?: 'BrightcoveElement';
     videoid?: string;
+    cover?: string;
+    caption?: string;
+    description?: string;
     download?: string;
     name?: string;
     customFields?: {
@@ -3669,6 +3706,8 @@ export type GQLConceptSearchConceptFragment = {
   id: number;
   title: string;
   subjectNames?: Array<string>;
+  tags: Array<string>;
+  supportedLanguages: Array<string>;
   text: string;
   visualElement?: {
     __typename?: 'VisualElement';

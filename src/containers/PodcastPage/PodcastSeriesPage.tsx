@@ -187,6 +187,7 @@ const PodcastSeriesPage = () => {
         <script type="application/ld+json">{podcastSeriesJSONLd()}</script>
       </HelmetWithTracker>
       <SocialMediaMetadata
+        type="website"
         title={podcastSeries.title.title ?? ''}
         trackableContent={{
           tags: podcastSeries?.episodes?.flatMap(ep => ep.tags?.tags || []),

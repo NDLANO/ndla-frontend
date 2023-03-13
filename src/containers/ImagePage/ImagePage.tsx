@@ -13,6 +13,7 @@ import { HelmetWithTracker } from '@ndla/tracker';
 import { useTranslation } from 'react-i18next';
 import { GQLImageQuery, GQLImageQueryVariables } from '../../graphqlTypes';
 import { useGraphQuery } from '../../util/runQueries';
+import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import NotFoundPage from '../../containers/NotFoundPage/NotFoundPage';
 import { copyrightInfoFragment } from '../../queries';
@@ -42,14 +43,20 @@ const ImagePage = () => {
     return <NotFoundPage />;
   }
 
+  const title = `${data?.image?.title.title} - ${t(
+    'resourcepageTitles.image',
+  )}`;
+
   return (
     <OneColumn>
-      <HelmetWithTracker
-        title={`${data?.image?.title.title} - ${t(
-          'resourcepageTitles.image',
-        )} - NDLA`}>
+      <HelmetWithTracker title={`${title} - NDLA`} />
+      <SocialMediaMetadata
+        type="website"
+        title={title}
+        description={data?.image?.alttext?.alttext}
+        imageUrl={data?.image?.imageUrl}>
         <meta name="robots" content="noindex" />
-      </HelmetWithTracker>
+      </SocialMediaMetadata>
       <ImageElement image={data.image} />
     </OneColumn>
   );

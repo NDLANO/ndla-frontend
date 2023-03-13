@@ -17,11 +17,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { supportedLanguages } from '../../../i18n';
 
-interface Props {
-  ndlaFilm?: boolean;
-}
-
-const FooterWrapper = ({ ndlaFilm }: Props) => {
+const FooterWrapper = () => {
   const { t, i18n } = useTranslation();
 
   const links = [
@@ -69,7 +65,7 @@ const FooterWrapper = ({ ndlaFilm }: Props) => {
       links={links}
       languageSelector={
         <LanguageSelector
-          inverted={ndlaFilm}
+          inverted
           locales={supportedLanguages}
           onSelect={i18n.changeLanguage}
         />

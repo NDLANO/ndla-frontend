@@ -34,6 +34,7 @@ const messages = {
     pageInfo: 'Side {{page}} av {{lastPage}}',
     noResults: '...Ingen episoder',
   },
+  sharedFolder: 'Delt mappe',
   blogPosts: {
     blog1: {
       imageUrl: '/static/nye-fag.jpg',

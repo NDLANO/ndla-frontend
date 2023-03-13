@@ -123,16 +123,15 @@ const SubjectMenu = ({
     [addTopic, groupedTopics],
   );
 
-  useArrowNavigation(
-    !topicPath.length,
-    topicPath.length
+  useArrowNavigation(!topicPath.length, {
+    initialFocused: topicPath.length
       ? topicPath[0]?.id
       : subject
       ? `header-${subject.id}`
       : undefined,
-    keyboardAddTopic,
-    onCloseMenuPortion,
-  );
+    onLeftKeyPressed: onCloseMenuPortion,
+    onRightKeyPressed: keyboardAddTopic,
+  });
 
   const path = subject ? `/${removeUrn(subject.id)}` : '';
 

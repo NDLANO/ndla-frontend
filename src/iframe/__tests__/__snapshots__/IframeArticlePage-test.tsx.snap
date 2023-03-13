@@ -150,7 +150,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
 }
 
 .emotion-24:hover,
-.emotion-24:focus {
+.emotion-24:focus-visible {
   color: #20588f;
   background-color: #ceddea;
   border-color: #ceddea;

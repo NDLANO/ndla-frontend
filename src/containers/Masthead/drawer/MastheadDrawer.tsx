@@ -41,7 +41,9 @@ const DrawerContainer = styled.nav`
 `;
 
 const HeadWrapper = styled.div`
-  padding: ${spacing.small};
+  padding-top: 22px;
+  padding-left: ${spacing.small};
+  padding-bottom: 22px;
 `;
 
 interface Props {

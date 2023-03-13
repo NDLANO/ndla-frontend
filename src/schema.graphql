@@ -219,6 +219,7 @@ type Concept {
   source: String
   subjectIds: [String!]
   subjectNames: [String!]
+  supportedLanguages: [String!]!
   tags: [String!]!
   title: String!
   visualElement: VisualElement

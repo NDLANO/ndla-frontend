@@ -15,6 +15,7 @@ import { HelmetWithTracker } from '@ndla/tracker';
 import { GQLConceptQuery } from '../../graphqlTypes';
 import { conceptSearchInfoFragment } from '../../queries';
 import { useGraphQuery } from '../../util/runQueries';
+import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import config from '../../config';
@@ -130,12 +131,19 @@ const ConceptPage = () => {
     alt: concept.image.alt,
   };
 
+  const title = `${concept?.title} - ${t('resourcepageTitles.concept')}`;
+
   return (
     <OneColumn>
-      <HelmetWithTracker
-        title={`${concept.title} - ${t('resourcepageTitles.concept')} - NDLA`}>
+      <HelmetWithTracker title={`${title} - NDLA`} />
+      <SocialMediaMetadata
+        type="website"
+        trackableContent={concept}
+        title={title}
+        description={concept.content}
+        imageUrl={image?.src}>
         <meta name="robots" content="noindex" />
-      </HelmetWithTracker>
+      </SocialMediaMetadata>
       <h1>{`${t('resourcepageTitles.concept')}`}</h1>
       <ConceptNotion
         concept={{

@@ -84,7 +84,7 @@ const whatWeDo: LinkType = {
 
 const careers: LinkType = {
   key: 'careers',
-  link: `${aboutNdlaUrl}jobb-for-ndla/`,
+  link: `${aboutNdlaUrl}bli-med-pa-laget/`,
   subTypes: [{ key: 'vacancies', link: `${aboutNdlaUrl}utlysninger/` }],
 };
 
