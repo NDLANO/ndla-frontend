@@ -99,7 +99,7 @@ interface Props {
   isOpen: boolean;
   onClose: () => void;
   folder: GQLFolder;
-  type: 'shared' | 'share' | 'unShare';
+  type: 'shared' | 'private' | 'unShare';
   onUpdateStatus?: () => void;
   onCopyText?: () => void;
 }
@@ -134,7 +134,11 @@ const FolderShareModal = ({
     } else {
       return (
         <ButtonV2 shape="pill" onClick={onUpdateStatus}>
-          {t(`myNdla.folder.sharing.button.${type}`)}
+          {t(
+            `myNdla.folder.sharing.button.${
+              type === 'private' ? 'share' : 'unShare'
+            }`,
+          )}
         </ButtonV2>
       );
     }

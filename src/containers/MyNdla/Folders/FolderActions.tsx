@@ -56,7 +56,7 @@ const FolderActions = ({ onActionChanged, selectedFolder }: Props) => {
     const share: MenuItemProps = {
       icon: <Share />,
       text: t('myNdla.folder.sharing.share'),
-      onClick: () => onActionChanged('share'),
+      onClick: () => onActionChanged('private'),
     };
     const deleteOpt: MenuItemProps = {
       icon: <DeleteForever />,
