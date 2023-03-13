@@ -8,6 +8,7 @@
 
 import {
   ApolloCache,
+  ApolloError,
   gql,
   QueryHookOptions,
   Reference,
@@ -33,6 +34,8 @@ import {
   GQLMutationUpdateFolderArgs,
   GQLMutationUpdateFolderResourceArgs,
   GQLRecentlyUsedQuery,
+  GQLSharedFolderQuery,
+  GQLSharedFolderQueryVariables,
   GQLSortFoldersMutation,
   GQLUpdateFolderMutation,
   GQLUpdateFolderResourceMutation,
@@ -187,6 +190,23 @@ const folderResourceMetaFragment = gql`
   }
 `;
 
+export const sharedFolderQuery = gql`
+  query sharedFolder(
+    $id: String!
+    $includeSubfolders: Boolean
+    $includeResources: Boolean
+  ) {
+    sharedFolder(
+      id: $id
+      includeSubfolders: $includeSubfolders
+      includeResources: $includeResources
+    ) {
+      ...FoldersPageQueryFragment
+    }
+  }
+  ${foldersPageQueryFragment}
+`;
+
 const folderResourceMetaQuery = gql`
   query folderResourceMeta($resource: FolderResourceMetaSearchInput!) {
     folderResourceMeta(resource: $resource) {
@@ -279,6 +299,33 @@ export const getFolder = (
 export const useFolder = (folderId?: string): GQLFolder | null => {
   const { cache } = useApolloClient();
   return getFolder(cache, folderId);
+};
+
+interface UseSharedFolder {
+  id: string;
+  includeResources?: boolean;
+  includeSubfolders?: boolean;
+}
+
+export const useSharedFolder = ({
+  id,
+  includeResources,
+  includeSubfolders,
+}: UseSharedFolder): {
+  folder?: GQLFolder;
+  loading: boolean;
+  error?: ApolloError;
+} => {
+  const { data, loading, error } = useGraphQuery<
+    GQLSharedFolderQuery,
+    GQLSharedFolderQueryVariables
+  >(sharedFolderQuery, {
+    variables: { id, includeResources, includeSubfolders },
+  });
+
+  const folder = data?.sharedFolder as GQLFolder | undefined;
+
+  return { folder, loading, error };
 };
 
 export const recentlyUsedQuery = gql`

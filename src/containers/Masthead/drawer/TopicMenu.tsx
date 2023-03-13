@@ -99,19 +99,18 @@ const TopicMenu = ({
     [topic, topicPath],
   );
 
+  useArrowNavigation(active, {
+    initialFocused: active ? `header-${topic.id}` : topicPath[level]?.id,
+    onRightKeyPressed: arrowAddTopic,
+    onLeftKeyPressed: onCloseMenuPortion,
+  });
+
   useEffect(() => {
     if (active && shouldCloseLevel) {
       onCloseMenuPortion();
       setLevelClosed();
     }
   }, [active, shouldCloseLevel, setLevelClosed, onCloseMenuPortion]);
-
-  useArrowNavigation(
-    active,
-    active ? `header-${topic.id}` : topicPath[level]?.id,
-    arrowAddTopic,
-    onCloseMenuPortion,
-  );
 
   const coreResources = useMemo(() => data?.topic?.coreResources ?? [], [
     data?.topic?.coreResources,

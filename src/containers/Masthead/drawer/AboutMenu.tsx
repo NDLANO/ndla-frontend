@@ -69,12 +69,11 @@ const AboutMenuPortion = ({
     [type.subTypes],
   );
 
-  const { setFocused } = useArrowNavigation(
-    !selected,
-    initialKey,
-    onGoRight,
-    onGoBack,
-  );
+  const { setFocused } = useArrowNavigation(!selected, {
+    initialFocused: initialKey,
+    onRightKeyPressed: onGoRight,
+    onLeftKeyPressed: onGoBack,
+  });
 
   const onCloseSelected = useCallback(() => {
     setSelected(undefined);
