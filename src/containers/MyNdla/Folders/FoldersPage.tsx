@@ -104,7 +104,7 @@ export type FolderActionType =
   | 'delete'
   | 'shared'
   | 'unShare'
-  | 'private'
+  | 'share'
   | undefined;
 export interface FolderAction {
   action: FolderActionType;
@@ -287,7 +287,7 @@ const FoldersPage = () => {
               onClick={() =>
                 setFolderAction({
                   folder: selectedFolder,
-                  action: 'private',
+                  action: 'share',
                   index: 0,
                 })
               }>
@@ -376,7 +376,7 @@ const FoldersPage = () => {
           <FolderShareModal
             type={'private'}
             folder={folderAction.folder}
-            isOpen={folderAction.action === 'private'}
+            isOpen={folderAction.action === 'share'}
             onClose={() => setFolderAction(undefined)}
             onUpdateStatus={() => {
               updateFolderStatus({

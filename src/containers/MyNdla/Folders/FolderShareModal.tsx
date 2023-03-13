@@ -23,10 +23,6 @@ import IsMobileContext from '../../../IsMobileContext';
 
 const Title = styled.h1`
   margin-bottom: 0;
-  ${fonts.sizes('30px')};
-  ${mq.range({ until: breakpoints.tablet })} {
-    ${fonts.sizes('20px')};
-  }
 `;
 
 const FolderTitle = styled.span`
@@ -36,7 +32,7 @@ const FolderTitle = styled.span`
   padding: ${spacing.small};
   align-items: center;
   border: 1px solid ${colors.brand.neutral7};
-  border-radius: 4px;
+  border-radius: ${misc.borderRadius};
 `;
 
 const StyledModalBody = styled(ModalBody)`
@@ -76,7 +72,7 @@ const CopyLinkButton = styled(ButtonV2)`
   }
 `;
 
-const CopyLinkHeader = styled.h2`
+const CopyLinkHeader = styled.span`
   ${fonts.sizes('18px', '24px')};
   font-weight: ${fonts.weight.semibold};
 `;
@@ -126,28 +122,27 @@ const FolderShareModal = ({
       ) : null,
     [isMobile, onClose, t, type],
   );
-  const modalButton = useMemo(
-    () => (
-      <>
-        {type === 'shared' && (
-          <SafeLinkButton shape="pill" to={toFolderPreview(folder.id)}>
-            {t('myNdla.folder.sharing.button.preview')}
-          </SafeLinkButton>
-        )}
-        {type === 'private' && (
-          <ButtonV2 shape="pill" onClick={onUpdateStatus}>
-            {t('myNdla.folder.sharing.button.share')}
-          </ButtonV2>
-        )}
-        {type === 'unShare' && (
-          <ButtonV2 shape="pill" onClick={onUpdateStatus}>
-            {t('myNdla.folder.sharing.button.unShare')}
-          </ButtonV2>
-        )}
-      </>
-    ),
-    [folder.id, onUpdateStatus, t, type],
-  );
+  const modalButton = useMemo(() => {
+    if (type === 'shared') {
+      return (
+        <SafeLinkButton shape="pill" to={toFolderPreview(folder.id)}>
+          {t('myNdla.folder.sharing.button.preview')}
+        </SafeLinkButton>
+      );
+    } else if (type === 'private') {
+      return (
+        <ButtonV2 shape="pill" onClick={onUpdateStatus}>
+          {t('myNdla.folder.sharing.button.share')}
+        </ButtonV2>
+      );
+    } else {
+      return (
+        <ButtonV2 shape="pill" onClick={onUpdateStatus}>
+          {t('myNdla.folder.sharing.button.unShare')}
+        </ButtonV2>
+      );
+    }
+  }, [folder.id, onUpdateStatus, t, type]);
   const unShareButton = useMemo(
     () =>
       type === 'shared' ? (

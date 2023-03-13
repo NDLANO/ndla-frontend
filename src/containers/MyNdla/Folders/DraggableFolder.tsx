@@ -118,7 +118,7 @@ const DraggableFolder = ({
       text: t('myNdla.folder.sharing.button.share'),
       onClick: () =>
         setFolderAction({
-          action: 'private',
+          action: 'share',
           folder,
           index,
         }),
