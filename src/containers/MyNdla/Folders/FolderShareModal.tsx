@@ -7,7 +7,12 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { ModalBody, ModalCloseButton, ModalHeader, ModalV2 } from '@ndla/modal';
+import {
+  ModalBody,
+  ModalCloseButton,
+  ModalHeaderV2,
+  ModalV2,
+} from '@ndla/modal';
 import styled from '@emotion/styled';
 import { breakpoints, colors, fonts, misc, mq, spacing } from '@ndla/core';
 import { ButtonV2 } from '@ndla/button';
@@ -25,7 +30,7 @@ const Title = styled.h1`
   margin-bottom: 0;
 `;
 
-const FolderTitle = styled.span`
+const FolderName = styled.span`
   ${fonts.sizes('18px', '24px')};
   color: ${colors.brand.primary};
   font-weight: ${fonts.weight.semibold};
@@ -36,9 +41,6 @@ const FolderTitle = styled.span`
 `;
 
 const StyledModalBody = styled(ModalBody)`
-  h2 {
-    margin: 0 0 ${spacing.small} 0;
-  }
   display: flex;
   flex-flow: column;
   gap: ${spacing.nsmall};
@@ -63,7 +65,7 @@ const CopyLinkButton = styled(ButtonV2)`
   &:hover,
   &:active,
   &:disabled,
-  &:focus {
+  &:focus-visible {
     background-color: ${colors.brand.greyLightest};
     color: ${colors.text.primary};
     border: 1px solid ${colors.brand.neutral7};
@@ -97,7 +99,7 @@ interface Props {
   isOpen: boolean;
   onClose: () => void;
   folder: GQLFolder;
-  type: 'shared' | 'private' | 'unShare';
+  type: 'shared' | 'share' | 'unShare';
   onUpdateStatus?: () => void;
   onCopyText?: () => void;
 }
@@ -129,16 +131,14 @@ const FolderShareModal = ({
           {t('myNdla.folder.sharing.button.preview')}
         </SafeLinkButton>
       );
-    } else if (type === 'private') {
-      return (
-        <ButtonV2 shape="pill" onClick={onUpdateStatus}>
-          {t('myNdla.folder.sharing.button.share')}
-        </ButtonV2>
-      );
     } else {
       return (
         <ButtonV2 shape="pill" onClick={onUpdateStatus}>
-          {t('myNdla.folder.sharing.button.unShare')}
+          {t(
+            `myNdla.folder.sharing.button.${
+              type === 'share' ? 'private' : 'unShare'
+            }`,
+          )}
         </ButtonV2>
       );
     }
@@ -167,15 +167,15 @@ const FolderShareModal = ({
       label={t('user.modal.isNotAuth')}>
       {onCloseModal => (
         <>
-          <ModalHeader>
+          <ModalHeaderV2>
             <Title>{t(`myNdla.folder.sharing.header.${type}`)}</Title>
             <ModalCloseButton
               title={t('myNdla.folder.closeModal')}
               onClick={onCloseModal}
             />
-          </ModalHeader>
+          </ModalHeaderV2>
           <StyledModalBody>
-            <FolderTitle aria-label={folder.name}>{folder.name}</FolderTitle>
+            <FolderName aria-label={folder.name}>{folder.name}</FolderName>
             <FolderAndResourceCount
               selectedFolder={folder}
               hasSelectedFolder={!!folder}

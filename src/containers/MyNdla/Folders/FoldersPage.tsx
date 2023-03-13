@@ -374,7 +374,7 @@ const FoldersPage = () => {
             onCopyText={() => copyFolderSharingLink(folderAction.folder.id)}
           />
           <FolderShareModal
-            type={'private'}
+            type={'share'}
             folder={folderAction.folder}
             isOpen={folderAction.action === 'share'}
             onClose={() => setFolderAction(undefined)}
