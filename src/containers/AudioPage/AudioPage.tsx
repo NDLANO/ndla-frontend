@@ -16,6 +16,7 @@ import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import NotFoundPage from '../../containers/NotFoundPage/NotFoundPage';
 import Audio from '../../containers/PodcastPage/Audio';
+import { StyledResourceHeader } from '../ImagePage/ImagePage';
 
 const AudioPage = () => {
   const { audioId } = useParams();
@@ -55,6 +56,9 @@ const AudioPage = () => {
         audioUrl={data?.audio?.audioFile.url}>
         <meta name="robots" content="noindex" />
       </SocialMediaMetadata>
+      <StyledResourceHeader id="SkipToContentId" tabIndex={-1}>
+        {title}
+      </StyledResourceHeader>
       <Audio audio={data.audio} />
     </OneColumn>
   );

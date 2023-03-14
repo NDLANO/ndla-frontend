@@ -7,6 +7,8 @@
  */
 
 import { OneColumn, ContentPlaceholder } from '@ndla/ui';
+import styled from '@emotion/styled';
+import { breakpoints, fonts, mq, spacing } from '@ndla/core';
 import { useParams } from 'react-router-dom';
 import { gql } from '@apollo/client';
 import { HelmetWithTracker } from '@ndla/tracker';
@@ -18,6 +20,19 @@ import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import NotFoundPage from '../../containers/NotFoundPage/NotFoundPage';
 import { copyrightInfoFragment } from '../../queries';
 import ImageElement from './components/ImageElement';
+
+export const StyledResourceHeader = styled.h1`
+  margin: ${spacing.medium} ${spacing.normal} ${spacing.normal} 0;
+  ${fonts.sizes('24px', '28px')}
+  ${mq.range({ from: breakpoints.tablet })} {
+    margin: 40px ${spacing.normal} 18px 0;
+    ${fonts.sizes('32px', '28px')};
+  }
+  ${mq.range({ from: breakpoints.desktop })} {
+    margin: 60px ${spacing.normal} 24px 0;
+    ${fonts.sizes('52px', '65px')};
+  }
+`;
 
 const ImagePage = () => {
   const { imageId } = useParams();
@@ -57,6 +72,9 @@ const ImagePage = () => {
         imageUrl={data?.image?.imageUrl}>
         <meta name="robots" content="noindex" />
       </SocialMediaMetadata>
+      <StyledResourceHeader id="SkipToContentId" tabIndex={-1}>
+        {title}
+      </StyledResourceHeader>
       <ImageElement image={data.image} />
     </OneColumn>
   );

@@ -25,6 +25,7 @@ import {
   getLicenseByNBTitle,
 } from '../../util/brightcoveHelpers';
 import { useGraphQuery } from '../../util/runQueries';
+import { StyledResourceHeader } from '../ImagePage/ImagePage';
 
 const VideoPage = () => {
   const { videoId } = useParams();
@@ -90,6 +91,9 @@ const VideoPage = () => {
         imageUrl={data?.brightcoveVideo?.cover}>
         <meta name="robots" content="noindex" />
       </SocialMediaMetadata>
+      <StyledResourceHeader id="SkipToContentId" tabIndex={-1}>
+        {title}
+      </StyledResourceHeader>
       <VisualElementWrapper visualElement={visualElement} videoId={videoId} />
     </OneColumn>
   );
