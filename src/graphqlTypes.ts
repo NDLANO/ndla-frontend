@@ -1415,6 +1415,7 @@ export type GQLTopic = GQLTaxonomyEntity &
     metadata: GQLTaxonomyMetadata;
     name: Scalars['String'];
     parent?: Maybe<Scalars['String']>;
+    parentId?: Maybe<Scalars['String']>;
     path: Scalars['String'];
     pathTopics?: Maybe<Array<Array<GQLTopic>>>;
     paths: Array<Scalars['String']>;
@@ -2191,7 +2192,7 @@ export type GQLSubjectMenu_SubjectFragment = {
     __typename?: 'Topic';
     id: string;
     name: string;
-    parent?: string;
+    parentId?: string;
     path: string;
   }>;
 } & GQLTopicMenu_SubjectFragment;
