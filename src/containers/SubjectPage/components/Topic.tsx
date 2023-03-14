@@ -97,10 +97,12 @@ const Topic = ({
           crop: getCrop(article.visualElement.image!),
           focalPoint: getFocalPoint(article.visualElement.image!),
         }
-      : {
-          url: article.metaImage?.url!,
-          alt: article?.metaImage?.alt!,
-        };
+      : article.metaImage
+      ? {
+          url: article.metaImage.url,
+          alt: article?.metaImage.alt,
+        }
+      : undefined;
   const transposedTopic: TopicProps = {
     topic: {
       title: article.title,
