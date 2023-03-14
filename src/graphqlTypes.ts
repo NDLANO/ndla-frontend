@@ -2556,6 +2556,16 @@ export type GQLSortResourcesMutation = {
   };
 };
 
+export type GQLUpdateFolderStatusMutationVariables = Exact<{
+  folderId: Scalars['String'];
+  status: Scalars['String'];
+}>;
+
+export type GQLUpdateFolderStatusMutation = {
+  __typename?: 'Mutation';
+  updateFolderStatus: Array<string>;
+};
+
 type GQLFolderResourceMeta_ArticleFolderResourceMeta_Fragment = {
   __typename: 'ArticleFolderResourceMeta';
   id: string;

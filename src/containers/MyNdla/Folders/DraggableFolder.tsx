@@ -6,20 +6,24 @@
  *
  */
 
-import { memo, useContext } from 'react';
+import { memo, useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { Pencil } from '@ndla/icons/action';
+import { Cross, Pencil } from '@ndla/icons/action';
 import { DeleteForever } from '@ndla/icons/editor';
-import { Folder } from '@ndla/ui';
+import { Folder, useSnack } from '@ndla/ui';
 import { colors, spacing } from '@ndla/core';
+import { Link, Share } from '@ndla/icons/common';
+import { MenuItemProps } from '@ndla/button';
 import { GQLFolder } from '../../../graphqlTypes';
 import { FolderTotalCount } from '../../../util/folderHelpers';
 import { FolderAction, ViewType } from './FoldersPage';
 import DragHandle from './DragHandle';
 import { AuthContext } from '../../../components/AuthenticationContext';
+import config from '../../../config';
+import { copyFolderSharingLink, isStudent } from './util';
 
 interface Props {
   folder: GQLFolder;
@@ -56,8 +60,9 @@ const DraggableFolder = ({
   foldersCount,
   setFolderAction,
 }: Props) => {
-  const { examLock } = useContext(AuthContext);
+  const { examLock, user } = useContext(AuthContext);
   const { t } = useTranslation();
+  const { addSnack } = useSnack();
   const {
     attributes,
     setNodeRef,
@@ -77,6 +82,67 @@ const DraggableFolder = ({
     transform: CSS.Transform.toString(transform),
     transition,
   };
+
+  const menuItems: MenuItemProps[] = useMemo(() => {
+    const editFolder: MenuItemProps = {
+      icon: <Pencil />,
+      text: t('myNdla.folder.edit'),
+      onClick: () => setFolderAction({ action: 'edit', folder, index }),
+    };
+
+    const shareLink: MenuItemProps = {
+      icon: <Link />,
+      text: t('myNdla.folder.sharing.button.shareLink'),
+      onClick: () => {
+        copyFolderSharingLink(folder.id);
+        addSnack({
+          id: 'shareLink',
+          content: t('myNdla.folder.sharing.link'),
+        });
+      },
+    };
+
+    const unShare: MenuItemProps = {
+      icon: <Cross />,
+      text: t('myNdla.folder.sharing.button.unShare'),
+      onClick: () =>
+        setFolderAction({
+          action: 'unShare',
+          folder,
+          index,
+        }),
+    };
+
+    const share: MenuItemProps = {
+      icon: <Share />,
+      text: t('myNdla.folder.sharing.button.share'),
+      onClick: () =>
+        setFolderAction({
+          action: 'private',
+          folder,
+          index,
+        }),
+    };
+    const deleteOpt: MenuItemProps = {
+      icon: <DeleteForever />,
+      text: t('myNdla.folder.delete'),
+      onClick: () =>
+        setFolderAction({
+          action: 'delete',
+          folder,
+          index,
+        }),
+      type: 'danger',
+    };
+    if (!config.sharingEnabled || isStudent(user)) {
+      return [editFolder, deleteOpt];
+    }
+    const sharedOptions =
+      folder.status === 'shared' ? [shareLink, unShare] : [share];
+
+    return [editFolder, sharedOptions, deleteOpt].flat();
+  }, [addSnack, folder, index, setFolderAction, t, user]);
+
   return (
     <DraggableListItem
       id={`folder-${folder.id}`}
@@ -98,29 +164,7 @@ const DraggableFolder = ({
           type={type}
           subFolders={foldersCount[folder.id]?.folders}
           subResources={foldersCount[folder.id]?.resources}
-          menuItems={
-            !examLock
-              ? [
-                  {
-                    icon: <Pencil />,
-                    text: t('myNdla.folder.edit'),
-                    onClick: () =>
-                      setFolderAction({ action: 'edit', folder, index }),
-                  },
-                  {
-                    icon: <DeleteForever />,
-                    text: t('myNdla.folder.delete'),
-                    onClick: () =>
-                      setFolderAction({
-                        action: 'delete',
-                        folder,
-                        index,
-                      }),
-                    type: 'danger',
-                  },
-                ]
-              : undefined
-          }
+          menuItems={!examLock ? menuItems : undefined}
         />
       </DragWrapper>
     </DraggableListItem>

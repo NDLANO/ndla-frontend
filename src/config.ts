@@ -134,6 +134,7 @@ export type ConfigType = {
   matomoSiteId: string;
   matomoTagmanagerId: string;
   disableConverter: boolean;
+  sharingEnabled: boolean;
 };
 
 const config: ConfigType = {
@@ -171,6 +172,7 @@ const config: ConfigType = {
   matomoSiteId: getEnvironmentVariabel('MATOMO_SITE_ID', ''),
   matomoTagmanagerId: getEnvironmentVariabel('MATOMO_TAGMANAGER_ID', ''),
   disableConverter: getEnvironmentVariabel('USE_ARTICLE_CONVERTER', false),
+  sharingEnabled: getEnvironmentVariabel('SHARING_ENABLED', false),
 };
 
 export function getUniversalConfig() {

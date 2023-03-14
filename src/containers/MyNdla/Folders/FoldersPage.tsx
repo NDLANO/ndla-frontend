@@ -16,7 +16,7 @@ import { useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { HelmetWithTracker } from '@ndla/tracker';
-import { FileDocumentOutline } from '@ndla/icons/common';
+import { FileDocumentOutline, Share, Link } from '@ndla/icons/common';
 import { Plus } from '@ndla/icons/action';
 import { GQLFolder, GQLFoldersPageQuery } from '../../../graphqlTypes';
 import { useGraphQuery } from '../../../util/runQueries';
@@ -27,6 +27,7 @@ import {
   useFolder,
   useDeleteFolderMutation,
   useUpdateFolderMutation,
+  useUpdateFolderStatusMutation,
 } from '../folderMutations';
 import ResourceList from './ResourceList';
 import DeleteModal from '../components/DeleteModal';
@@ -37,6 +38,9 @@ import FolderAndResourceCount, {
 } from './FolderAndResourceCount';
 import FolderList from './FolderList';
 import { AuthContext } from '../../../components/AuthenticationContext';
+import FolderShareModal from './FolderShareModal';
+import config from '../../../config';
+import { copyFolderSharingLink, isStudent } from './util';
 
 interface BlockWrapperProps {
   type?: string;
@@ -75,6 +79,10 @@ const StyledPlus = styled(Plus)`
   width: 22px;
   height: 22px;
 `;
+const StyledLink = styled(Link)`
+  width: 22px;
+  height: 22px;
+`;
 
 export const ListItem = styled.li`
   overflow: hidden;
@@ -84,14 +92,20 @@ export const ListItem = styled.li`
 
 const StyledRow = styled.div`
   margin: ${spacing.small} 0;
+  gap: ${spacing.nsmall};
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
 `;
 
 export type ViewType = 'list' | 'block' | 'listLarger';
-export type FolderActionType = 'edit' | 'delete' | undefined;
-
+export type FolderActionType =
+  | 'edit'
+  | 'delete'
+  | 'shared'
+  | 'unShare'
+  | 'private'
+  | undefined;
 export interface FolderAction {
   action: FolderActionType;
   folder: GQLFolder;
@@ -101,6 +115,7 @@ export interface FolderAction {
 const FoldersPage = () => {
   const { t } = useTranslation();
   const { folderId } = useParams();
+  const { user } = useContext(AuthContext);
   const [viewType, _setViewType] = useState<ViewType>(
     (localStorage.getItem(STORED_RESOURCE_VIEW_SETTINGS) as ViewType) || 'list',
   );
@@ -130,7 +145,6 @@ const FoldersPage = () => {
   );
   const [previousFolders, setPreviousFolders] = useState<GQLFolder[]>(folders);
   const [focusId, setFocusId] = useState<string | undefined>(undefined);
-
   useEffect(() => {
     const folderIds = folders.map(f => f.id).sort();
     const prevFolderIds = previousFolders.map(f => f.id).sort();
@@ -171,6 +185,8 @@ const FoldersPage = () => {
     loading: updateFolderLoading,
   } = useUpdateFolderMutation();
 
+  const { updateFolderStatus } = useUpdateFolderStatusMutation();
+
   const onDeleteFolder = async (folder: GQLFolder, index?: number) => {
     const next = index !== undefined ? folders[index + 1]?.id : undefined;
     const prev = index !== undefined ? folders[index - 1]?.id : undefined;
@@ -208,6 +224,8 @@ const FoldersPage = () => {
 
   const showAddButton =
     (selectedFolder?.breadcrumbs.length || 0) < 5 && !examLock;
+  const showShareFolder =
+    folderId !== null && config.sharingEnabled && !isStudent(user);
 
   return (
     <FoldersPageContainer>
@@ -243,6 +261,41 @@ const FoldersPage = () => {
             <span>{t('myNdla.newFolder')}</span>
           </ButtonV2>
         )}
+
+        {showShareFolder &&
+          selectedFolder &&
+          (selectedFolder?.status !== 'private' ? (
+            <ButtonV2
+              variant="ghost"
+              colorTheme="lighter"
+              shape="pill"
+              onClick={() =>
+                setFolderAction({
+                  folder: selectedFolder,
+                  action: 'shared',
+                  index: 0,
+                })
+              }>
+              <StyledLink />
+              {t('myNdla.folder.sharing.button.shareLink')}
+            </ButtonV2>
+          ) : (
+            <ButtonV2
+              variant="ghost"
+              colorTheme="lighter"
+              shape="pill"
+              onClick={() =>
+                setFolderAction({
+                  folder: selectedFolder,
+                  action: 'private',
+                  index: 0,
+                })
+              }>
+              <Share />
+              {t('myNdla.folder.sharing.share')}
+            </ButtonV2>
+          ))}
+
         <ListViewOptions type={viewType} onTypeChange={setViewType} />
       </StyledRow>
       <FolderList
@@ -305,6 +358,59 @@ const FoldersPage = () => {
           }
         }}
       />
+      {folderAction && (
+        <>
+          <FolderShareModal
+            type={'shared'}
+            folder={folderAction.folder}
+            isOpen={folderAction.action === 'shared'}
+            onClose={() => setFolderAction(undefined)}
+            onUpdateStatus={() =>
+              setFolderAction({
+                action: 'unShare',
+                folder: folderAction.folder,
+              })
+            }
+            onCopyText={() => copyFolderSharingLink(folderAction.folder.id)}
+          />
+          <FolderShareModal
+            type={'private'}
+            folder={folderAction.folder}
+            isOpen={folderAction.action === 'private'}
+            onClose={() => setFolderAction(undefined)}
+            onUpdateStatus={() => {
+              updateFolderStatus({
+                variables: {
+                  folderId: folderAction.folder.id,
+                  status: 'shared',
+                },
+              });
+              setFolderAction(undefined);
+            }}
+          />
+          <FolderShareModal
+            type={'unShare'}
+            folder={folderAction.folder}
+            isOpen={folderAction.action === 'unShare'}
+            onClose={() => {
+              setFolderAction(undefined);
+            }}
+            onUpdateStatus={() => {
+              updateFolderStatus({
+                variables: {
+                  folderId: folderAction.folder.id,
+                  status: 'private',
+                },
+              });
+              setFolderAction(undefined);
+              addSnack({
+                id: 'sharingDeleted',
+                content: t('myNdla.folder.sharing.unShare'),
+              });
+            }}
+          />
+        </>
+      )}
     </FoldersPageContainer>
   );
 };

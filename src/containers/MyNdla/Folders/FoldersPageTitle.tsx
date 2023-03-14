@@ -99,6 +99,7 @@ const FoldersPageTitle = ({
           <MyNdlaTitle title={selectedFolder?.name ?? t('myNdla.myFolders')} />
           {hasSelectedFolder && !examLock && (
             <FolderActions
+              selectedFolder={selectedFolder}
               onActionChanged={action =>
                 selectedFolder &&
                 setFolderAction({ action, folder: selectedFolder })

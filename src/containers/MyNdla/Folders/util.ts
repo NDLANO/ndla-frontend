@@ -8,7 +8,10 @@
 
 import { DragEndEvent, Announcements } from '@dnd-kit/core';
 import { arrayMove } from '@dnd-kit/sortable';
+import { FeideUserApiType } from '@ndla/ui';
 import { TFunction } from 'i18next';
+import config from '../../../config';
+import { getAffiliationRoleOrDefault } from '../../../util/apiHelpers';
 
 export const makeDndSortFunction = <PID, RES, T extends { id: string }>(
   parentId: PID,
@@ -93,3 +96,12 @@ export const makeDndTranslations = (
     },
   };
 };
+
+export const previewLink = (id: string) =>
+  `${config.ndlaFrontendDomain}/folder/${id}`;
+
+export const copyFolderSharingLink = (id: string) =>
+  window.navigator.clipboard.writeText(previewLink(id));
+
+export const isStudent = (user: FeideUserApiType | undefined) =>
+  getAffiliationRoleOrDefault(user) === 'student';
