@@ -53,9 +53,10 @@ const ModalSubjectContainer = styled.div`
 interface Props {
   subject: Subject;
   favorites: string[] | undefined;
+  className?: string;
 }
 
-const SubjectLink = ({ subject, favorites }: Props) => {
+const SubjectLink = ({ subject, favorites, className }: Props) => {
   const isFavorite = !!favorites?.includes(subject.id);
   const { addSnack } = useSnack();
   const { t } = useTranslation();
@@ -100,7 +101,7 @@ const SubjectLink = ({ subject, favorites }: Props) => {
   };
 
   return (
-    <SubjectLinkWrapper>
+    <SubjectLinkWrapper className={className}>
       <Tooltip
         tooltip={t(
           `subjectsPage.${isFavorite ? 'removeFavorite' : 'addFavorite'}`,
