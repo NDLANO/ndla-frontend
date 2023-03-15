@@ -109,6 +109,10 @@ const DrawerButton = styled(ButtonV2)`
   }
 `;
 
+const DesktopPadding = styled.div`
+  padding-bottom: 80px;
+`;
+
 const InsideDrawerButton = styled(ButtonV2)`
   padding-left: ${spacing.large};
   justify-content: flex-start;
@@ -177,13 +181,13 @@ const SharedFolderPage = () => {
       </Helmet>
       <Sidebar>
         {!isMobile ? (
-          <>
+          <DesktopPadding>
             <InfoBox>
               <HumanMaleBoard />
               <span>{t('myNdla.sharedFolder.info')}</span>
             </InfoBox>
             <FolderNavigation folder={folder} meta={keyedData} />
-          </>
+          </DesktopPadding>
         ) : (
           <StyledDrawer
             position="bottom"
