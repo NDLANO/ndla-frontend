@@ -9,6 +9,7 @@
 import { useEffect } from 'react';
 import { Content, PageContainer, useMastheadHeight } from '@ndla/ui';
 import ZendeskButton from '@ndla/zendesk';
+import { spacing } from '@ndla/core';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
@@ -30,6 +31,10 @@ const ZendeskWrapper = styled.div`
   z-index: 10;
 `;
 
+const bottomPaddingStyle = css`
+  padding-bottom: ${spacing.large};
+`;
+
 const Layout = () => {
   const { t, i18n } = useTranslation();
   const { pathname } = useLocation();
@@ -43,6 +48,10 @@ const Layout = () => {
     '/learningpaths/:learningpathId',
     pathname,
   );
+
+  const bottomPadding = pathname.startsWith('/folder/')
+    ? undefined
+    : bottomPaddingStyle;
 
   useEffect(() => {
     if (!prevPathname || pathname === prevPathname) {
@@ -85,7 +94,9 @@ const Layout = () => {
       </Helmet>
       <Masthead />
       <Content>
-        <Outlet />
+        <div css={bottomPadding}>
+          <Outlet />
+        </div>
       </Content>
       <Footer />
       {config.feideEnabled && <FeideFooter />}
