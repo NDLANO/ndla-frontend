@@ -6,10 +6,8 @@
  *
  */
 
-import styled from '@emotion/styled';
-import { breakpoints, colors, mq, spacing } from '@ndla/core';
 import { Back } from '@ndla/icons/common';
-import SafeLink from '@ndla/safelink';
+import { SafeLinkButton } from '@ndla/safelink';
 import { Breadcrumb } from '@ndla/ui';
 import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -39,31 +37,6 @@ const types = {
   },
 };
 
-const BreadcrumbContainer = styled.div`
-  display: flex;
-  align-items: center;
-  gap: ${spacing.small};
-`;
-
-const StyledBackArrow = styled(SafeLink)`
-  display: none;
-  box-shadow: none;
-  color: ${colors.brand.primary};
-
-  svg {
-    width: 22px;
-    height: 22px;
-  }
-
-  ${mq.range({ until: breakpoints.tablet })} {
-    display: block;
-  }
-`;
-
-const StyledSpan = styled.span`
-  color: ${colors.brand.primary};
-`;
-
 const MyNdlaBreadcrumb = ({ breadcrumbs, backCrumb, page }: Props) => {
   const isMobile = useContext(IsMobileContext);
   const { t } = useTranslation();
@@ -79,12 +52,10 @@ const MyNdlaBreadcrumb = ({ breadcrumbs, backCrumb, page }: Props) => {
 
   if (isMobile) {
     return (
-      <BreadcrumbContainer>
-        <StyledBackArrow to={back.to}>
-          <Back />
-        </StyledBackArrow>
-        <StyledSpan title={back.name}>{back.name}</StyledSpan>
-      </BreadcrumbContainer>
+      <SafeLinkButton variant="ghost" to={back.to}>
+        <Back />
+        {back.name}
+      </SafeLinkButton>
     );
   }
   if (breadcrumbs.length > 0) {

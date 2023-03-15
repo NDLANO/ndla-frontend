@@ -11,6 +11,7 @@ import { spacing } from '@ndla/core';
 
 const TitleWrapper = styled.div`
   display: flex;
+  align-items: flex-start;
   flex-direction: column;
   gap: ${spacing.nsmall};
 `;
