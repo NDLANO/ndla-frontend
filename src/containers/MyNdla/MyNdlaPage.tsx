@@ -32,6 +32,7 @@ import TitleWrapper from './components/TitleWrapper';
 import { constructNewPath, toHref } from '../../util/urlHelper';
 import { useBaseName } from '../../components/BaseNameContext';
 import { useDeletePersonalData } from './userMutations';
+import config from '../../config';
 
 const ShareIcon = InfoPartIcon.withComponent(Share);
 const HeartOutlineIcon = InfoPartIcon.withComponent(HeartOutline);
@@ -176,9 +177,11 @@ const MyNdlaPage = () => {
           </StyledResourceList>
         </>
       )}
-      <InfoPart icon={<ShareIcon />} title={t('myNdla.myPage.sharing.title')}>
-        <InfoPartText>{t('myNdla.myPage.sharing.text')}</InfoPartText>
-      </InfoPart>
+      {config.sharingEnabled && (
+        <InfoPart icon={<ShareIcon />} title={t('myNdla.myPage.sharing.title')}>
+          <InfoPartText>{t('myNdla.myPage.sharing.text')}</InfoPartText>
+        </InfoPart>
+      )}
       <InfoPart
         icon={<HeartOutlineIcon />}
         title={t('myNdla.myPage.storageInfo.title')}>
