@@ -148,7 +148,7 @@
     "express": "^4.17.1",
     "graphql": "^16.6.0",
     "graphql-tag": "^2.12.6",
-    "helmet": "^3.21.3",
+    "helmet": "^6.0.1",
     "history": "^5.2.0",
     "html-react-parser": "^3.0.9",
     "i18next": "^21.9.2",
