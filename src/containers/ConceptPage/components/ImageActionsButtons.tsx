@@ -32,14 +32,16 @@ const ImageActionButtons = ({
         key="copy"
         variant="outline"
         data-copied-title={t('license.hasCopiedTitle')}
-        data-copy-string={copyString}>
+        data-copy-string={copyString}
+      >
         {t('license.copyTitle')}
       </ButtonV2>
       <SafeLinkButton
         key="download"
         to={downloadUrl(src)}
         variant="outline"
-        download>
+        download
+      >
         {t('license.download')}
       </SafeLinkButton>
     </>

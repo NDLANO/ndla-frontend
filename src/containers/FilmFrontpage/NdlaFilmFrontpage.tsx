@@ -51,15 +51,15 @@ const NdlaFilm = () => {
   const [fetchingMoviesByType, setFetchingMoviesByType] = useState(false);
   const { t, i18n } = useTranslation();
 
-  const { data: { filmfrontpage, subject } = {} } = useGraphQuery<
-    GQLFilmFrontPageQuery
-  >(filmFrontPageQuery, { variables: { subjectId: 'urn:subject:20' } });
+  const { data: { filmfrontpage, subject } = {} } =
+    useGraphQuery<GQLFilmFrontPageQuery>(filmFrontPageQuery, {
+      variables: { subjectId: 'urn:subject:20' },
+    });
 
-  const [searchAllMovies, { data: allMovies }] = useLazyQuery<
-    GQLSearchWithoutPaginationQuery
-  >(searchFilmQuery, {
-    variables: { language: i18n.language, fallback: 'true' },
-  });
+  const [searchAllMovies, { data: allMovies }] =
+    useLazyQuery<GQLSearchWithoutPaginationQuery>(searchFilmQuery, {
+      variables: { language: i18n.language, fallback: 'true' },
+    });
 
   useEffect(() => {
     // if we receive new movies we map them into state

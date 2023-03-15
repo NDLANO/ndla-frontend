@@ -111,7 +111,8 @@ const ArticlePage = ({
       <div>
         <ArticleErrorMessage
           //@ts-ignore
-          status={error?.status}>
+          status={error?.status}
+        >
           {topic && (
             <Resources
               topic={topic}

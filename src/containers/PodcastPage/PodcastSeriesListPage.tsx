@@ -62,15 +62,14 @@ const PodcastSeriesListPage = () => {
 
   const apolloClient = useApolloClient();
 
-  const { error, loading, data, previousData } = useGraphQuery<
-    GQLPodcastSeriesListPageQuery
-  >(podcastSeriesListPageQuery, {
-    variables: {
-      page: page,
-      pageSize: pageSize,
-      fallback: true,
-    },
-  });
+  const { error, loading, data, previousData } =
+    useGraphQuery<GQLPodcastSeriesListPageQuery>(podcastSeriesListPageQuery, {
+      variables: {
+        page: page,
+        pageSize: pageSize,
+        fallback: true,
+      },
+    });
 
   const results = data?.podcastSeriesSearch?.results;
 

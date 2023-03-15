@@ -96,7 +96,8 @@ const LearningpathEmbed = ({
     return (
       <StyledIframeContainer
         oembedWidth={oembed.width}
-        oembedHeight={oembed.height}>
+        oembedHeight={oembed.height}
+      >
         <LearningpathIframe html={oembed.html} url={embedUrl.url} />
       </StyledIframeContainer>
     );

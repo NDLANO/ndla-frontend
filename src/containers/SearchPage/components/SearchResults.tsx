@@ -64,7 +64,8 @@ const SearchResults = ({
                   //@ts-ignore
                   type={type === 'topic-article' ? 'topic' : type}
                   viewType={viewType}
-                  totalCount={totalCount}></SearchTypeResult>
+                  totalCount={totalCount}
+                ></SearchTypeResult>
               </Fragment>
             );
           }

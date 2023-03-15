@@ -147,7 +147,8 @@ const NDLARouter = ({ children, base }: RCProps) => {
       basename={base}
       location={state.location}
       navigationType={state.action}
-      navigator={history}>
+      navigator={history}
+    >
       {children(history)}
     </Router>
   );

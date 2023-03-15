@@ -86,7 +86,8 @@ const AuthenticationContext = ({ children }: Props) => {
         logout,
         user,
         examLock,
-      }}>
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

@@ -50,7 +50,8 @@ const LoginModal = ({
       isOpen={isOpen}
       size="normal"
       onClose={onClose}
-      label={t('user.modal.isNotAuth')}>
+      label={t('user.modal.isNotAuth')}
+    >
       {onCloseModal => (
         <>
           <ModalHeader>

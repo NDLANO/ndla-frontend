@@ -115,7 +115,8 @@ const FolderResource = ({
         onClick={onClick}
         variant={isCurrent ? 'solid' : 'ghost'}
         colorTheme="light"
-        to={link}>
+        to={link}
+      >
         <ContentTypeBadge type={contentType!} border={false} />
         {meta?.title}
         {resource.resourceType === 'learningpath' && <Launch />}

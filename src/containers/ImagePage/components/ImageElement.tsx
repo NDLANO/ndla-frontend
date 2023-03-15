@@ -75,7 +75,8 @@ const ImageElement = ({ image }: Props) => {
         licenseRights={imageRights}
         locale={i18n.language}
         reuseLabel={t('image.reuse')}
-        authors={imageContributors}>
+        authors={imageContributors}
+      >
         <FigureLicenseDialog
           id={image.id}
           authors={imageGroupedContributors}
@@ -86,7 +87,8 @@ const ImageElement = ({ image }: Props) => {
           )}
           messages={imageMessages}
           title={image.title.title}
-          origin={image.copyright?.origin}>
+          origin={image.copyright?.origin}
+        >
           <CopyTextButton
             stringToCopy={figureApa7CopyString(
               image.title.title,

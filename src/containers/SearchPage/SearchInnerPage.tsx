@@ -47,9 +47,8 @@ export interface SubjectItem {
   img?: { url: string };
 }
 
-export type SearchCompetenceGoal = Required<
-  GQLGroupSearchQuery
->['competenceGoals'][0];
+export type SearchCompetenceGoal =
+  Required<GQLGroupSearchQuery>['competenceGoals'][0];
 
 interface Props {
   selectedFilters: string[];
@@ -115,34 +114,33 @@ const SearchInnerPage = ({
     asf.substring(asf.indexOf(':urn:') + 1),
   );
 
-  const { data, previousData, error, loading, fetchMore } = useGraphQuery<
-    GQLGroupSearchQuery
-  >(groupSearchQuery, {
-    variables: {
-      ...stateSearchParams,
-      language: i18n.language,
-      page: 1,
-      pageSize: 12,
-      ...getTypeParams([], resourceTypes),
-      aggregatePaths: ['contexts.resourceTypes.id'],
-      grepCodesList: searchParams.grepCodes,
-    },
-    notifyOnNetworkStatusChange: true,
-    onCompleted: async data => {
-      if (
-        initialGQLCall.current &&
-        activeSubFiltersWithoutLeading.length !== 0
-      ) {
-        await fetchMore({
-          variables: {
-            ...getTypeParams(activeSubFiltersWithoutLeading, resourceTypes),
-          },
-        });
-        initialGQLCall.current = false;
-      }
-      setCompetenceGoals(data.competenceGoals ?? []);
-    },
-  });
+  const { data, previousData, error, loading, fetchMore } =
+    useGraphQuery<GQLGroupSearchQuery>(groupSearchQuery, {
+      variables: {
+        ...stateSearchParams,
+        language: i18n.language,
+        page: 1,
+        pageSize: 12,
+        ...getTypeParams([], resourceTypes),
+        aggregatePaths: ['contexts.resourceTypes.id'],
+        grepCodesList: searchParams.grepCodes,
+      },
+      notifyOnNetworkStatusChange: true,
+      onCompleted: async data => {
+        if (
+          initialGQLCall.current &&
+          activeSubFiltersWithoutLeading.length !== 0
+        ) {
+          await fetchMore({
+            variables: {
+              ...getTypeParams(activeSubFiltersWithoutLeading, resourceTypes),
+            },
+          });
+          initialGQLCall.current = false;
+        }
+        setCompetenceGoals(data.competenceGoals ?? []);
+      },
+    });
 
   const resetSelected = () => {
     const filterUpdate = { ...typeFilter };

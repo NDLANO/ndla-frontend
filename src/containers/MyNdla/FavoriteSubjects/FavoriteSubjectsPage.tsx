@@ -80,7 +80,8 @@ const FavoriteSubjectsPage = () => {
           size="normal"
           to="/subjects"
           colorTheme="light"
-          shape="pill">
+          shape="pill"
+        >
           {t('myNdla.favoriteSubjects.goToAllSubjects')}
         </StyledSafeLinkButton>
       </Container>

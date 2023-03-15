@@ -59,7 +59,8 @@ const TextLicenseInfo = ({ text }: TextLicenseInfoProps) => {
         license={text.copyright.license?.license}
         title={t('license.text.rules')}
         resourceType="text"
-        locale={i18n.language}>
+        locale={i18n.language}
+      >
         <MediaListItemActions>
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />

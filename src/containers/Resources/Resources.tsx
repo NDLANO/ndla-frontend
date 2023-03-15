@@ -170,7 +170,8 @@ const Resources = ({
           hasAdditionalResources={hasAdditionalResources}
           invertedStyle={ndlaFilm}
         />
-      }>
+      }
+    >
       {isUngrouped && (
         <ResourceGroup
           resources={ungroupedResources}

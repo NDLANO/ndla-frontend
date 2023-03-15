@@ -44,20 +44,14 @@ const DraggableResource = ({
   const { t } = useTranslation();
   const { examLock } = useContext(AuthContext);
   const { addSnack } = useSnack();
-  const {
-    attributes,
-    setNodeRef,
-    transform,
-    items,
-    transition,
-    isDragging,
-  } = useSortable({
-    id: resource.id,
-    data: {
-      name: resourceMeta?.title,
-      index: index + 1,
-    },
-  });
+  const { attributes, setNodeRef, transform, items, transition, isDragging } =
+    useSortable({
+      id: resource.id,
+      data: {
+        name: resourceMeta?.title,
+        index: index + 1,
+      },
+    });
 
   const Resource = viewType === 'block' ? BlockResource : ListResource;
 
@@ -71,7 +65,8 @@ const DraggableResource = ({
       id={`resource-${resource.id}`}
       ref={setNodeRef}
       style={style}
-      isDragging={isDragging}>
+      isDragging={isDragging}
+    >
       <DragHandle
         type="resource"
         disabled={viewType === 'block' || items.length < 2}

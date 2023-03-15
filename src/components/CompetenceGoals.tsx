@@ -215,10 +215,10 @@ const CompetenceGoals = ({
     },
   );
 
-  useEffect(() => setCompetenceGoalsLoading(loading), [
-    loading,
-    setCompetenceGoalsLoading,
-  ]);
+  useEffect(
+    () => setCompetenceGoalsLoading(loading),
+    [loading, setCompetenceGoalsLoading],
+  );
 
   if (error) {
     handleError(error);

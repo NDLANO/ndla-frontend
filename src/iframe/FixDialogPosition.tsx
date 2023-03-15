@@ -44,9 +44,8 @@ class FixDialogPosition extends Component {
       const id = target.getAttribute('data-dialog-trigger-id');
       const dialog = document.querySelector(`[data-dialog-id='${id}']`);
 
-      const dialogContent = dialog?.querySelector<HTMLElement>(
-        `.c-dialog__content`,
-      );
+      const dialogContent =
+        dialog?.querySelector<HTMLElement>(`.c-dialog__content`);
       if (dialogContent) {
         dialogContent.style.top = `${top}px`;
         dialogContent.style.bottom = 'auto';

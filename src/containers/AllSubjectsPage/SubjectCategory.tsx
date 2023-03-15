@@ -124,11 +124,13 @@ const SubjectCategory = ({ label, subjects, favorites }: Props) => {
     <li
       ref={rootRef}
       aria-owns={`subject-${label}`}
-      aria-labelledby={`subject-header-${label}`}>
+      aria-labelledby={`subject-header-${label}`}
+    >
       <StickyHeading ref={stickyRef} offset={height}>
         <StyledH2
           id={`subject-header-${label}`}
-          aria-label={label === '#' ? t('labels.other') : label}>
+          aria-label={label === '#' ? t('labels.other') : label}
+        >
           {label.toUpperCase()}
         </StyledH2>
         <GoToTop isSticky={!!entry?.isIntersecting} href="#SkipToContentId">
@@ -139,7 +141,8 @@ const SubjectCategory = ({ label, subjects, favorites }: Props) => {
         id={`subject-${label}`}
         aria-label={t('subjectsPage.subjectGroup', {
           category: label === '#' ? t('labels.other') : label,
-        })}>
+        })}
+      >
         {subjects.map(subject => (
           <SubjectLink
             favorites={favorites}

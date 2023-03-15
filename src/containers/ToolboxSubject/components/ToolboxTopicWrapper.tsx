@@ -85,9 +85,7 @@ const ToolboxTopicWrapper = ({
           headingType="h2"
           subHeadingType="h3"
         />
-      ) : (
-        undefined
-      ),
+      ) : undefined,
     },
   };
 

@@ -20,7 +20,7 @@ export const generateOauthData = (url: string, body: any) => {
   const sortedBody: Record<string, any> = {};
   Object.keys(data)
     .sort()
-    .forEach(function(key) {
+    .forEach(function (key) {
       sortedBody[key] = data[key] || '';
     });
 

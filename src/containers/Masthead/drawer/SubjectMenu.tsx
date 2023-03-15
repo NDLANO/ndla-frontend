@@ -167,7 +167,8 @@ const SubjectMenu = ({
                     addTopic(t, 0);
                   }
                 }}
-                active={topicPath[0]?.id === t.id}>
+                active={topicPath[0]?.id === t.id}
+              >
                 {t.name}
               </DrawerMenuItem>
             ))}
@@ -177,7 +178,8 @@ const SubjectMenu = ({
             height={'100%'}
             width={'100%'}
             viewBox={null}
-            preserveAspectRatio="none">
+            preserveAspectRatio="none"
+          >
             <rect x="5" y="2" rx="3" ry="3" height="50" width="90%" />
             {placeholders.map(p => (
               <rect

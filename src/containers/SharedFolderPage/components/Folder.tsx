@@ -182,7 +182,8 @@ const Folder = ({
                 setIsOpen(!isOpen);
                 setFocus(`shared-${folder.id}`);
                 onClose?.();
-              }}>
+              }}
+            >
               <StyledArrow
                 css={!isOpen ? arrowOpenCss : undefined}
                 // @ts-ignore
@@ -211,7 +212,8 @@ const Folder = ({
             onClick={() => {
               setFocus(`shared-${folder.id}`);
               setIsOpen(!isOpen);
-            }}>
+            }}
+          >
             <StyledArrow css={!isOpen ? arrowOpenCss : undefined} /> {name}
           </FolderButton>
         </FolderButtonContainer>
@@ -221,7 +223,8 @@ const Folder = ({
         <StyledUl
           role="group"
           data-list
-          aria-owns={`folder-sublist-${folder.id}`}>
+          aria-owns={`folder-sublist-${folder.id}`}
+        >
           {subfolders.map(subfolder => (
             <Folder
               onClose={onClose}

@@ -40,7 +40,8 @@ const CountLoadingShimmer = () => {
         maxWidth: '75px',
         minWidth: '75px',
         maxHeight: '15px',
-      }}>
+      }}
+    >
       <rect x="0" y="3" rx="3" ry="3" width="75" height="15" key="rect-1" />
     </ContentLoader>
   );
@@ -82,7 +83,8 @@ const FolderAndResourceCount = ({
             <span>
               <WhileLoading
                 isLoading={loading}
-                fallback={<CountLoadingShimmer />}>
+                fallback={<CountLoadingShimmer />}
+              >
                 {t('myNdla.folders', {
                   count: hasSelectedFolder
                     ? selectedFolderCount?.folders
@@ -98,7 +100,8 @@ const FolderAndResourceCount = ({
             <span>
               <WhileLoading
                 isLoading={loading}
-                fallback={<CountLoadingShimmer />}>
+                fallback={<CountLoadingShimmer />}
+              >
                 {t('myNdla.resources', {
                   count: selectedFolderCount?.resources ?? allFoldersCount,
                 })}

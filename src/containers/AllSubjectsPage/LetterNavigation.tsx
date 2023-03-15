@@ -92,7 +92,8 @@ const LetterNavigation = ({ activeLetters }: Props) => {
               tabIndex={enabled ? 0 : -1}
               aria-label={`${t('subjectsPage.scrollToGroup')} "${
                 letter === '#' ? t('labels.other') : letter
-              }"`}>
+              }"`}
+            >
               {letter}
             </StyledLetter>
           </StyledLi>

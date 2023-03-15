@@ -105,7 +105,8 @@ const SubjectLink = ({ subject, favorites, className }: Props) => {
       <Tooltip
         tooltip={t(
           `subjectsPage.${isFavorite ? 'removeFavorite' : 'addFavorite'}`,
-        )}>
+        )}
+      >
         <StyledIconButton
           onClick={() => setFavorite(isFavorite)}
           aria-label={`${t(
@@ -113,7 +114,8 @@ const SubjectLink = ({ subject, favorites, className }: Props) => {
           )}, ${subject.name}`}
           variant="ghost"
           size="xsmall"
-          colorTheme="lighter">
+          colorTheme="lighter"
+        >
           {isFavorite ? <Heart /> : <HeartOutline />}
         </StyledIconButton>
       </Tooltip>

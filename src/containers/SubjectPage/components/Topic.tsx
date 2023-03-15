@@ -128,9 +128,7 @@ const Topic = ({
           headingType="h3"
           subHeadingType="h4"
         />
-      ) : (
-        undefined
-      ),
+      ) : undefined,
     },
   };
 
@@ -162,7 +160,8 @@ const Topic = ({
       isLoading={false}
       renderMarkdown={renderMarkdown}
       invertedStyle={ndlaFilm}
-      isAdditionalTopic={topic.relevanceId === RELEVANCE_SUPPLEMENTARY}>
+      isAdditionalTopic={topic.relevanceId === RELEVANCE_SUPPLEMENTARY}
+    >
       <ArticleContents
         topic={topic}
         modifier="in-topic"

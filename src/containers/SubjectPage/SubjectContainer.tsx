@@ -253,12 +253,14 @@ const SubjectContainer = ({ t, subjectId, topicIds, subject }: Props) => {
             <div ref={headerRef}>
               <ArticleHeaderWrapper
                 competenceGoalsLoading={competenceGoalsLoading}
-                competenceGoals={renderCompetenceGoals(subject)}>
+                competenceGoals={renderCompetenceGoals(subject)}
+              >
                 <NavigationHeading
                   headingId={
                     topicIds.length === 0 ? SKIP_TO_CONTENT_ID : undefined
                   }
-                  invertedStyle={ndlaFilm}>
+                  invertedStyle={ndlaFilm}
+                >
                   {subject.name}
                 </NavigationHeading>
               </ArticleHeaderWrapper>

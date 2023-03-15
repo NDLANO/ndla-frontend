@@ -29,7 +29,8 @@ export const DrawerProvider = ({ children }: Props) => {
 
   return (
     <DrawerContext.Provider
-      value={{ shouldCloseLevel, setShouldCloseLevel, setLevelClosed }}>
+      value={{ shouldCloseLevel, setShouldCloseLevel, setLevelClosed }}
+    >
       {children}
     </DrawerContext.Provider>
   );

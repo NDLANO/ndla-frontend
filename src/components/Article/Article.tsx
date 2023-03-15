@@ -324,7 +324,8 @@ const Article = ({
         heartButton={
           path && <FavoriteButton path={path} onClick={() => setIsOpen(true)} />
         }
-        {...rest}>
+        {...rest}
+      >
         {children}
       </UIArticle>
       {config.feideEnabled && showFavoriteButton && (

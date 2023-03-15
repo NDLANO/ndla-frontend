@@ -78,9 +78,8 @@ const FilmFrontpage = ({
   const [resourceTypeSelected, setResourceTypeSelected] = useState<
     string | undefined
   >(undefined);
-  const [loadingPlaceholderHeight, setLoadingPlaceholderHeight] = useState<
-    string
-  >('');
+  const [loadingPlaceholderHeight, setLoadingPlaceholderHeight] =
+    useState<string>('');
   const movieListRef = useRef<HTMLDivElement | null>(null);
   const about = filmFrontpage?.about?.find(
     about => about.language === i18n.language,
@@ -129,7 +128,8 @@ const FilmFrontpage = ({
           ref={movieListRef}
           css={css`
             margin: ${spacingUnit * 3}px 0 ${spacingUnit * 4}px;
-          `}>
+          `}
+        >
           {showingAll ? (
             <AllMoviesAlphabetically
               movies={sortAlphabetically(moviesByType, i18n.language)}

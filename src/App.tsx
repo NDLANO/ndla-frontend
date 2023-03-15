@@ -111,7 +111,8 @@ const AppRoutes = ({ base }: AppProps) => {
                 />
                 <Route
                   path="learningpaths/:learningpathId"
-                  element={<PlainLearningpathPage />}>
+                  element={<PlainLearningpathPage />}
+                >
                   <Route path="steps/:stepId" element={null} />
                 </Route>
                 <Route path="subject:subjectId/topic:topicId/resource:resourceId">
@@ -150,7 +151,8 @@ const AppRoutes = ({ base }: AppProps) => {
                 <Route path="audio/:audioId" element={<AudioPage />} />
                 <Route
                   path="minndla"
-                  element={<PrivateRoute element={<MyNdlaLayout />} />}>
+                  element={<PrivateRoute element={<MyNdlaLayout />} />}
+                >
                   <Route index element={<MyNdlaPage />} />
                   <Route path="meny" element={<MyNdlaMobileMenuPage />} />
                   <Route path="folders">

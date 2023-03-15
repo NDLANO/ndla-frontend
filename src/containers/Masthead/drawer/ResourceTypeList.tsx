@@ -53,10 +53,12 @@ const ResourceTypeList = ({ name, id, children }: Props) => {
       <StyledResourceTypeList
         id={id}
         role="group"
-        aria-labelledby={`header-${id}`}>
+        aria-labelledby={`header-${id}`}
+      >
         <ResourceTypeHeader
           id={`header-${id}`}
-          backgroundColor={resourceTypeColor(contentType!)}>
+          backgroundColor={resourceTypeColor(contentType!)}
+        >
           <ContentTypeBadge type={contentType!} border={false} />
           {name}
         </ResourceTypeHeader>

@@ -231,7 +231,8 @@ const Tags = ({ tags }: TagsProps) => {
                 colorTheme="greyLighter"
                 shape="pill"
                 key={tag}
-                to={encodeURIComponent(tag)}>
+                to={encodeURIComponent(tag)}
+              >
                 <HashTag />
                 {tag}
               </StyledSafeLinkButton>

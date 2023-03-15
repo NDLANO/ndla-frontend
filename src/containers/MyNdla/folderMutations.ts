@@ -228,12 +228,11 @@ export const useFolderResourceMeta = (
   resource: GQLFolderResourceMetaSearchInput,
   options?: QueryHookOptions<GQLFolderResourceMetaQuery>,
 ) => {
-  const { data: { folderResourceMeta } = {}, ...rest } = useGraphQuery<
-    GQLFolderResourceMetaQuery
-  >(folderResourceMetaQuery, {
-    variables: { resource },
-    ...options,
-  });
+  const { data: { folderResourceMeta } = {}, ...rest } =
+    useGraphQuery<GQLFolderResourceMetaQuery>(folderResourceMetaQuery, {
+      variables: { resource },
+      ...options,
+    });
 
   return { meta: folderResourceMeta, ...rest };
 };
@@ -254,16 +253,14 @@ export const useFolderResourceMetaSearch = (
   resources: GQLFolderResourceMetaSearchInput[],
   options?: QueryHookOptions<GQLFolderResourceMetaSearchQuery>,
 ) => {
-  const {
-    data: { folderResourceMetaSearch: data } = {},
-    ...rest
-  } = useGraphQuery<GQLFolderResourceMetaSearchQuery>(
-    folderResourceMetaSearchQuery,
-    {
-      variables: { resources },
-      ...options,
-    },
-  );
+  const { data: { folderResourceMetaSearch: data } = {}, ...rest } =
+    useGraphQuery<GQLFolderResourceMetaSearchQuery>(
+      folderResourceMetaSearchQuery,
+      {
+        variables: { resources },
+        ...options,
+      },
+    );
 
   return { data, ...rest };
 };

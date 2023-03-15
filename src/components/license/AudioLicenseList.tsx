@@ -65,7 +65,8 @@ const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
         license={audio.copyright.license?.license}
         resourceType="audio"
         resourceUrl={audio.src}
-        locale={i18n.language}>
+        locale={i18n.language}
+      >
         <MediaListItemActions>
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />

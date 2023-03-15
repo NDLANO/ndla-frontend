@@ -52,7 +52,8 @@ const AudioPage = () => {
       <SocialMediaMetadata
         type="website"
         title={title}
-        audioUrl={data?.audio?.audioFile.url}>
+        audioUrl={data?.audio?.audioFile.url}
+      >
         <meta name="robots" content="noindex" />
       </SocialMediaMetadata>
       <Audio audio={data.audio} />

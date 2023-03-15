@@ -128,7 +128,8 @@ const MultidisciplinaryTopic = ({
       subTopics={!disableNav ? subTopics : undefined}
       isLoading={false}
       renderMarkdown={renderMarkdown}
-      invertedStyle={ndlaFilm}>
+      invertedStyle={ndlaFilm}
+    >
       <ArticleContents
         topic={topic}
         modifier="in-topic"

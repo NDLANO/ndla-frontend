@@ -94,7 +94,8 @@ const ImageLicenseInfo = ({ image, articleId }: ImageLicenseInfoProps) => {
         license={image.copyright.license?.license}
         resourceType="image"
         resourceUrl={image.src}
-        locale={i18n.language}>
+        locale={i18n.language}
+      >
         <MediaListItemActions>
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />
@@ -110,7 +111,8 @@ const ImageLicenseInfo = ({ image, articleId }: ImageLicenseInfoProps) => {
                 <SafeLinkButton
                   to={downloadUrl(image.src)}
                   variant="outline"
-                  download>
+                  download
+                >
                   {t('license.download')}
                 </SafeLinkButton>
               </>

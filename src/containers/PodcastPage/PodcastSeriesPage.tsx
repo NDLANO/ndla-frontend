@@ -65,9 +65,11 @@ const NoResults = styled.div`
 
 const PodcastSeriesPage = () => {
   const { id } = useTypedParams<RouteParams>();
-  const { error, loading, data: { podcastSeries } = {} } = useQuery<
-    GQLPodcastSeriesPageQuery
-  >(podcastSeriesPageQuery, {
+  const {
+    error,
+    loading,
+    data: { podcastSeries } = {},
+  } = useQuery<GQLPodcastSeriesPageQuery>(podcastSeriesPageQuery, {
     variables: { id: Number(id) },
   });
 

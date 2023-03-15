@@ -50,9 +50,8 @@ const personalDataQuery = gql`
 `;
 
 export const usePersonalData = () => {
-  const [fetch, { data, loading }] = useLazyQuery<GQLPersonalDataQuery>(
-    personalDataQuery,
-  );
+  const [fetch, { data, loading }] =
+    useLazyQuery<GQLPersonalDataQuery>(personalDataQuery);
   const personalData = data?.personalData;
   return { personalData, loading, fetch };
 };

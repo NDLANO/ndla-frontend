@@ -130,7 +130,8 @@ const MastheadSearch = ({ hideOnNarrowScreen = false, subject }: Props) => {
     <MastheadSearchModal
       onClose={onClearQuery}
       hideOnNarrowScreen={hideOnNarrowScreen}
-      ndlaFilm={ndlaFilm}>
+      ndlaFilm={ndlaFilm}
+    >
       {(onCloseModal: Function) => {
         closeModal = onCloseModal as () => void;
         return (

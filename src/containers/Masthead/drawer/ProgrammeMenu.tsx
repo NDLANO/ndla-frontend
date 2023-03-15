@@ -33,9 +33,10 @@ const ProgrammeMenu = ({ onClose, onCloseMenuPortion }: Props) => {
   const { i18n, t } = useTranslation();
   const { programme: urlProgramme } = useUrnIds();
   const { shouldCloseLevel, setLevelClosed } = useDrawerContext();
-  const programmes = useMemo(() => getProgrammes(i18n.language), [
-    i18n.language,
-  ]);
+  const programmes = useMemo(
+    () => getProgrammes(i18n.language),
+    [i18n.language],
+  );
 
   useEffect(() => {
     if (shouldCloseLevel) {
@@ -68,7 +69,8 @@ const ProgrammeMenu = ({ onClose, onCloseMenuPortion }: Props) => {
             current={programme.path === programmePath}
             onClose={onClose}
             active={programme.path === programmePath}
-            key={programme.url}>
+            key={programme.url}
+          >
             {programme.name}
           </DrawerMenuItem>
         ))}

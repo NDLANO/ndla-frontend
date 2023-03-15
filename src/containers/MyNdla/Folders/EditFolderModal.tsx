@@ -57,7 +57,8 @@ const EditFolderModal = ({
       controlled
       isOpen={isOpen}
       onClose={onClose}
-      labelledBy={'editHeading'}>
+      labelledBy={'editHeading'}
+    >
       {onCloseModal => (
         <>
           <ModalHeader>
@@ -154,7 +155,8 @@ const EditFolderForm = ({
         <LoadingButton
           loading={loading}
           type="submit"
-          disabled={!isValid || !isDirty || loading}>
+          disabled={!isValid || !isDirty || loading}
+        >
           {t('save')}
         </LoadingButton>
       </ButtonRow>

@@ -65,7 +65,8 @@ const LastLearningpathStepInfo = ({
           url: topicWithPath.path,
           name: topicWithPath.name,
         }
-      }>
+      }
+    >
       {showResources && topic && (
         <Resources
           headingType="h2"

@@ -57,7 +57,8 @@ const H5pLicenseInfo = ({ h5p }: H5pLicenseInfoProps) => {
         title={t('license.h5p.rules')}
         resourceType="h5p"
         resourceUrl={h5p.src}
-        locale={i18n.language}>
+        locale={i18n.language}
+      >
         <MediaListItemActions>
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />

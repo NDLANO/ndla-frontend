@@ -155,11 +155,13 @@ const FolderList = ({
             collisionDetection={closestCenter}
             onDragEnd={sortFolderIds}
             accessibility={{ announcements }}
-            modifiers={[restrictToVerticalAxis, restrictToParentElement]}>
+            modifiers={[restrictToVerticalAxis, restrictToParentElement]}
+          >
             <SortableContext
               items={sortedFolders}
               disabled={folders.length < 2}
-              strategy={verticalListSortingStrategy}>
+              strategy={verticalListSortingStrategy}
+            >
               {folders.map((folder, index) => (
                 <DraggableFolder
                   key={`folder-${folder.id}`}

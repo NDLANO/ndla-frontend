@@ -86,7 +86,8 @@ const IframeArticlePage = ({
           isPlainArticle
           isOembed
           modifier="clean iframe"
-          {...getArticleProps(resource)}>
+          {...getArticleProps(resource)}
+        >
           <CreatedBy
             name={t('createdBy.content')}
             description={t('createdBy.text')}

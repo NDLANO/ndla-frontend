@@ -43,7 +43,8 @@ const DragHandle = ({ sortableId, type, name, ...rest }: Props) => {
       size={'small'}
       tabIndex={0}
       {...listeners}
-      ref={setActivatorNodeRef}>
+      ref={setActivatorNodeRef}
+    >
       <DragVertical />
     </StyledDragHandle>
   );

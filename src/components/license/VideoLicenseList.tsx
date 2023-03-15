@@ -55,7 +55,8 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
         license={video.copyright?.license?.license ?? ''}
         resourceType="video"
         resourceUrl={video.src}
-        locale={i18n.language}>
+        locale={i18n.language}
+      >
         <MediaListItemActions>
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />

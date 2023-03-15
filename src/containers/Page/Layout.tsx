@@ -89,7 +89,8 @@ const Layout = () => {
       />
       <Helmet
         htmlAttributes={{ lang: i18n.language }}
-        meta={[{ name: 'description', content: t('meta.description') }]}>
+        meta={[{ name: 'description', content: t('meta.description') }]}
+      >
         {metaChildren}
       </Helmet>
       <Masthead />
@@ -105,7 +106,8 @@ const Layout = () => {
           <ZendeskButton
             id="zendesk"
             locale={zendeskLanguage}
-            widgetKey={config.zendeskWidgetKey}>
+            widgetKey={config.zendeskWidgetKey}
+          >
             {t('askNDLA')}
           </ZendeskButton>
         </ZendeskWrapper>

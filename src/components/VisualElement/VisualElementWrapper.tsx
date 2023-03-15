@@ -103,7 +103,8 @@ const VisualElementWrapper = ({ visualElement, videoId }: Props) => {
           caption={caption}
           reuseLabel={messages.reuse}
           licenseRights={license.rights}
-          authors={authors}>
+          authors={authors}
+        >
           <FigureLicenseDialog
             id={id}
             authors={contributors}
@@ -111,7 +112,8 @@ const VisualElementWrapper = ({ visualElement, videoId }: Props) => {
             license={license}
             messages={messages}
             title={visualElement.title}
-            origin={copyright?.origin}>
+            origin={copyright?.origin}
+          >
             <VisualElementLicenseButtons
               visualElement={visualElement}
               resourceType={resourceType}

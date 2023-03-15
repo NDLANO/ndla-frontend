@@ -244,9 +244,7 @@ export const mapResourcesToItems = (
           url: resource.path,
         }}
       />
-    ) : (
-      undefined
-    ),
+    ) : undefined,
   }));
 
 export const sortResourceTypes = <T extends Record<string, any>>(

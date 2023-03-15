@@ -184,17 +184,20 @@ const MyNdlaPage = () => {
       )}
       <InfoPart
         icon={<HeartOutlineIcon />}
-        title={t('myNdla.myPage.storageInfo.title')}>
+        title={t('myNdla.myPage.storageInfo.title')}
+      >
         <InfoPartText>{t('myNdla.myPage.storageInfo.text')}</InfoPartText>
       </InfoPart>
       <InfoPart
         icon={<FavoriteSubjectIcon />}
-        title={t('myNdla.myPage.favoriteSubjects.title')}>
+        title={t('myNdla.myPage.favoriteSubjects.title')}
+      >
         <InfoPartText>{t('myNdla.myPage.favoriteSubjects.text')}</InfoPartText>
       </InfoPart>
       <InfoPart
         icon={<FolderOutlinedIcon />}
-        title={t('myNdla.myPage.folderInfo.title')}>
+        title={t('myNdla.myPage.folderInfo.title')}
+      >
         <InfoPartText>
           <Trans i18nKey="myNdla.myPage.folderInfo.text" />
         </InfoPartText>
@@ -222,7 +225,8 @@ const MyNdlaPage = () => {
           {`${t('myNdla.myPage.questions.question')} `}
           <ButtonV2
             variant="link"
-            onClick={() => document.getElementById('zendesk')?.click()}>
+            onClick={() => document.getElementById('zendesk')?.click()}
+          >
             {t('myNdla.myPage.questions.ask')}
           </ButtonV2>
         </LinkText>
@@ -231,7 +235,8 @@ const MyNdlaPage = () => {
         <SafeLinkButton
           variant="outline"
           reloadDocument
-          to={`/logout?state=${toHref(location)}`}>
+          to={`/logout?state=${toHref(location)}`}
+        >
           {t('myNdla.myPage.logout')}
         </SafeLinkButton>
       </ButtonContainer>
@@ -243,7 +248,8 @@ const MyNdlaPage = () => {
               {t('myNdla.myPage.deleteAccount')}
             </ButtonV2>
           }
-          label={t('myNdla.myPage.deleteAccount')}>
+          label={t('myNdla.myPage.deleteAccount')}
+        >
           {onClose => (
             <>
               <ModalHeader>
@@ -262,7 +268,8 @@ const MyNdlaPage = () => {
                   <ButtonV2
                     colorTheme="danger"
                     variant="outline"
-                    onClick={onDeleteAccount}>
+                    onClick={onDeleteAccount}
+                  >
                     {t('myNdla.myPage.confirmDeleteAccountButton')}
                   </ButtonV2>
                 </ButtonRow>

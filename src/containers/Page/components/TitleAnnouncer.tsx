@@ -42,7 +42,8 @@ const TitleAnnouncer = () => {
         aria-live={onTopicPage ? `assertive` : undefined}
         tabIndex={-1}
         id="titleAnnouncer"
-        ref={titleRef}>
+        ref={titleRef}
+      >
         {title}
       </VisuallyHiddenTitle>
       <Helmet

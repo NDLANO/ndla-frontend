@@ -16,12 +16,9 @@ export const programmes: ProgrammeType[] = [
     },
     meta: {
       description: {
-        nb:
-          'Utdanningsprogram med programfagene Praktisk yrkesutøvelse og Arbeidsmiljø og dokumentasjon i Bygg- og anleggsteknikk.',
-        se:
-          'Utdanningsprogram med programfaga Praktisk yrkesutøving og Arbeidsmiljø og dokumentasjon i Bygg- og anleggsteknikk.',
-        nn:
-          'Utdanningsprogram med programfaga Praktisk yrkesutøving og Arbeidsmiljø og dokumentasjon i Bygg- og anleggsteknikk.',
+        nb: 'Utdanningsprogram med programfagene Praktisk yrkesutøvelse og Arbeidsmiljø og dokumentasjon i Bygg- og anleggsteknikk.',
+        se: 'Utdanningsprogram med programfaga Praktisk yrkesutøving og Arbeidsmiljø og dokumentasjon i Bygg- og anleggsteknikk.',
+        nn: 'Utdanningsprogram med programfaga Praktisk yrkesutøving og Arbeidsmiljø og dokumentasjon i Bygg- og anleggsteknikk.',
       },
     },
     image: { url: 'https://api.ndla.no/image-api/raw/4WzuGfBZ.jpg' },
@@ -170,10 +167,8 @@ export const programmes: ProgrammeType[] = [
     },
     meta: {
       description: {
-        nb:
-          'Utdanningsprogrammet består av programfagene elektroniske kretser og nettverk og energi og styresystemer i tillegg til yrkesfaglig fordypning.',
-        nn:
-          'Utdanningsprogrammet består av programfaga elektroniske kretser og nettverk og energi og styresystemer i tillegg til yrkesfagleg fordjuping.',
+        nb: 'Utdanningsprogrammet består av programfagene elektroniske kretser og nettverk og energi og styresystemer i tillegg til yrkesfaglig fordypning.',
+        nn: 'Utdanningsprogrammet består av programfaga elektroniske kretser og nettverk og energi og styresystemer i tillegg til yrkesfagleg fordjuping.',
       },
     },
     image: { url: 'https://api.ndla.no/image-api/raw/8vHJcYft.jpg' },
@@ -325,10 +320,8 @@ export const programmes: ProgrammeType[] = [
     },
     meta: {
       description: {
-        nb:
-          'Utdanningsprogrammet består av programfagene produktutvikling og produksjon og kommunikasjon, kunde og arbeidsliv i tillegg til yrkesfaglig fordypning.',
-        nn:
-          'Utdanningsprogrammet består av programfaga produktutvikling og produksjon og kommunikasjon, kunde og arbeidsliv i tillegg til yrkesfagleg fordjuping.',
+        nb: 'Utdanningsprogrammet består av programfagene produktutvikling og produksjon og kommunikasjon, kunde og arbeidsliv i tillegg til yrkesfaglig fordypning.',
+        nn: 'Utdanningsprogrammet består av programfaga produktutvikling og produksjon og kommunikasjon, kunde og arbeidsliv i tillegg til yrkesfagleg fordjuping.',
       },
     },
     image: { url: 'https://api.ndla.no/image-api/raw/co1nyxz1.jpg' },
@@ -477,10 +470,8 @@ export const programmes: ProgrammeType[] = [
     },
     meta: {
       description: {
-        nb:
-          'Utdanningsprogrammet består av programfagene produktutvikling og skapende prosesser og materialer og teknikker i tillegg til yrkesfaglig fordypning.',
-        nn:
-          'Utdanningsprogrammet består av programfaga produktutvikling og skapende prosesser og materialer og teknikker i tillegg til yrkesfagleg fordjuping.',
+        nb: 'Utdanningsprogrammet består av programfagene produktutvikling og skapende prosesser og materialer og teknikker i tillegg til yrkesfaglig fordypning.',
+        nn: 'Utdanningsprogrammet består av programfaga produktutvikling og skapende prosesser og materialer og teknikker i tillegg til yrkesfagleg fordjuping.',
       },
     },
     image: { url: 'https://api.ndla.no/image-api/raw/omQ1nTbk.jpg' },
@@ -629,10 +620,8 @@ export const programmes: ProgrammeType[] = [
     },
     meta: {
       description: {
-        nb:
-          'Utdanningsprogram med programfagene helsefremmende arbeid, kommunikasjon og samhandling og yrkesliv i helse- og oppvekstfag og yrkesfaglig fordypning.',
-        nn:
-          'Utdanningsprogram med programfaga helsefremmende arbeid, kommunikasjon og samhandling og yrkesliv i helse- og oppvekstfag og yrkesfagleg fordjuping.',
+        nb: 'Utdanningsprogram med programfagene helsefremmende arbeid, kommunikasjon og samhandling og yrkesliv i helse- og oppvekstfag og yrkesfaglig fordypning.',
+        nn: 'Utdanningsprogram med programfaga helsefremmende arbeid, kommunikasjon og samhandling og yrkesliv i helse- og oppvekstfag og yrkesfagleg fordjuping.',
       },
     },
     image: { url: 'https://api.ndla.no/image-api/raw/QhG3IA4s.jpg' },
@@ -830,10 +819,8 @@ export const programmes: ProgrammeType[] = [
     },
     meta: {
       description: {
-        nb:
-          'Utdanningsprogrammet består av programfagene aktivitetslære, treningslære, idrett og samfunn og treningsledelse. Du oppnår studiekompetanse.',
-        nn:
-          'Utdanningsprogrammet består av programfaga aktivitetslære, treningslære, idrett og samfunn og treningsledelse. Du oppnår studiekompetanse.',
+        nb: 'Utdanningsprogrammet består av programfagene aktivitetslære, treningslære, idrett og samfunn og treningsledelse. Du oppnår studiekompetanse.',
+        nn: 'Utdanningsprogrammet består av programfaga aktivitetslære, treningslære, idrett og samfunn og treningsledelse. Du oppnår studiekompetanse.',
       },
     },
     image: { url: 'https://api.ndla.no/image-api/raw/tEoZoZj2.jpg' },
@@ -1133,10 +1120,8 @@ export const programmes: ProgrammeType[] = [
     },
     meta: {
       description: {
-        nb:
-          'IT og media er fagområder i utvikling og med økende overlapping. Her finner du fagstoff, oppgaver og læringsressurser til utdanningsprogrammet IM Vg1.',
-        nn:
-          'IT og media er fagområde i utvikling og med aukande overlapping. Her finn du fagstoff, oppgåver og læringsressursar til utdanningsprogrammet IM Vg1.',
+        nb: 'IT og media er fagområder i utvikling og med økende overlapping. Her finner du fagstoff, oppgaver og læringsressurser til utdanningsprogrammet IM Vg1.',
+        nn: 'IT og media er fagområde i utvikling og med aukande overlapping. Her finn du fagstoff, oppgåver og læringsressursar til utdanningsprogrammet IM Vg1.',
       },
     },
     image: { url: 'https://api.ndla.no/image-api/raw/1nOY6rEf.jpg' },
@@ -1327,10 +1312,8 @@ export const programmes: ProgrammeType[] = [
     },
     meta: {
       description: {
-        nb:
-          'Utdanningsprogrammet består av programfagene design og arkitektur og kunst og visuelle hjelpemidler. Du oppnår studiekompetanse.',
-        nn:
-          'Utdanningsprogrammet består av programfagene design og arkitektur og kunst og visuelle hjelpemidler. Du oppnår studiekompetanse.',
+        nb: 'Utdanningsprogrammet består av programfagene design og arkitektur og kunst og visuelle hjelpemidler. Du oppnår studiekompetanse.',
+        nn: 'Utdanningsprogrammet består av programfagene design og arkitektur og kunst og visuelle hjelpemidler. Du oppnår studiekompetanse.',
       },
     },
     image: { url: 'https://api.ndla.no/image-api/raw/q13BFrCg.jpg' },
@@ -1642,10 +1625,8 @@ export const programmes: ProgrammeType[] = [
     },
     meta: {
       description: {
-        nb:
-          'Utdanningsprogrammet består av programfagene mediesamfunnet og medieuttrykk. Du oppnår studiekompetanse.',
-        nn:
-          'Utdanningsprogrammet består av programfaga mediesamfunnet og medieuttrykk. Du oppnår studiekompetanse.',
+        nb: 'Utdanningsprogrammet består av programfagene mediesamfunnet og medieuttrykk. Du oppnår studiekompetanse.',
+        nn: 'Utdanningsprogrammet består av programfaga mediesamfunnet og medieuttrykk. Du oppnår studiekompetanse.',
       },
     },
     image: { url: 'https://api.ndla.no/image-api/raw/mtbzOofz.jpg' },
@@ -1999,10 +1980,8 @@ export const programmes: ProgrammeType[] = [
     },
     meta: {
       description: {
-        nb:
-          'Utdanningsprogrammet består av ulike programfag innen musikk, dans og drama. Du oppnår studiekompetanse og kan ta høyere utdanning. ',
-        nn:
-          'Utdanningsprogrammet består av ulike programfag innan musikk, dans og drama. Du oppnår studiekompetanse og kan ta høgare utdanning. ',
+        nb: 'Utdanningsprogrammet består av ulike programfag innen musikk, dans og drama. Du oppnår studiekompetanse og kan ta høyere utdanning. ',
+        nn: 'Utdanningsprogrammet består av ulike programfag innan musikk, dans og drama. Du oppnår studiekompetanse og kan ta høgare utdanning. ',
       },
     },
     image: { url: 'https://api.ndla.no/image-api/raw/B6lpbgh5.jpg' },
@@ -2308,10 +2287,8 @@ export const programmes: ProgrammeType[] = [
     },
     meta: {
       description: {
-        nb:
-          'Naturbruk handler om å drive næring basert på naturressurser. Fagene dreier seg om tradisjonelle og nye driftsformer innenfor norske og samiske næringer.',
-        nn:
-          'Naturbruk handlar om å drive næring basert på naturressursar. Faga dreier seg om tradisjonelle og nye driftsformar innanfor norske og samiske næringar.',
+        nb: 'Naturbruk handler om å drive næring basert på naturressurser. Fagene dreier seg om tradisjonelle og nye driftsformer innenfor norske og samiske næringer.',
+        nn: 'Naturbruk handlar om å drive næring basert på naturressursar. Faga dreier seg om tradisjonelle og nye driftsformar innanfor norske og samiske næringar.',
       },
     },
     image: { url: 'https://api.ndla.no/image-api/raw/vcus7cFa.jpg' },
@@ -2577,10 +2554,8 @@ export const programmes: ProgrammeType[] = [
     },
     meta: {
       description: {
-        nb:
-          'Utdanningsprogram med programfagene råvare, produksjon og kvalitet og bransje og arbeidsliv',
-        nn:
-          'Utdanningsprogram med programfaga råvare, produksjon og kvalitet og bransje og arbeidsliv',
+        nb: 'Utdanningsprogram med programfagene råvare, produksjon og kvalitet og bransje og arbeidsliv',
+        nn: 'Utdanningsprogram med programfaga råvare, produksjon og kvalitet og bransje og arbeidsliv',
       },
     },
     image: { url: 'https://api.ndla.no/image-api/raw/1pBrsVLW.jpg' },
@@ -2749,10 +2724,8 @@ export const programmes: ProgrammeType[] = [
     },
     meta: {
       description: {
-        nb:
-          'Utdanningsprogrammet består av programfagene forretningsdrift, markedsføring og innovasjon og kultur og samhandling i tillegg til yrkesfaglig fordypning.',
-        nn:
-          'Utdanningsprogrammet består av programfaga forretningsdrift, markedsføring og innovasjon og kultur og samhandling i tillegg til yrkesfagleg fordjuping.',
+        nb: 'Utdanningsprogrammet består av programfagene forretningsdrift, markedsføring og innovasjon og kultur og samhandling i tillegg til yrkesfaglig fordypning.',
+        nn: 'Utdanningsprogrammet består av programfaga forretningsdrift, markedsføring og innovasjon og kultur og samhandling i tillegg til yrkesfagleg fordjuping.',
       },
     },
     image: { url: 'https://api.ndla.no/image-api/raw/5E4fooai.jpg' },
@@ -2950,10 +2923,8 @@ export const programmes: ProgrammeType[] = [
     },
     meta: {
       description: {
-        nb:
-          'På studiespesialisering velger du fordypning i enten realfag eller språk, samfunnsfag og økonomi. Du oppnår studiekompetanse og kan ta høyere utdanning. ',
-        nn:
-          'På studiespesialisering vel du fordjuping i anten realfag eller språk, samfunnsfag og økonomi. Du oppnår studiekompetanse og kan ta høgare utdanning. ',
+        nb: 'På studiespesialisering velger du fordypning i enten realfag eller språk, samfunnsfag og økonomi. Du oppnår studiekompetanse og kan ta høyere utdanning. ',
+        nn: 'På studiespesialisering vel du fordjuping i anten realfag eller språk, samfunnsfag og økonomi. Du oppnår studiekompetanse og kan ta høgare utdanning. ',
       },
     },
     image: { url: 'https://api.ndla.no/image-api/raw/RPzTRrF3.jpg' },
@@ -3298,10 +3269,8 @@ export const programmes: ProgrammeType[] = [
     },
     meta: {
       description: {
-        nb:
-          'Utdanningsprogram med programfagene produksjon og tjenester, konstruksjons- og styringsteknikk og produktivitet og kvalitetsstyring og YFF.',
-        nn:
-          'Utdanningsprogram med programfaga produksjon og tjenester, konstruksjons- og styringsteknikk og produktivitet og kvalitetsstyring og YFF.',
+        nb: 'Utdanningsprogram med programfagene produksjon og tjenester, konstruksjons- og styringsteknikk og produktivitet og kvalitetsstyring og YFF.',
+        nn: 'Utdanningsprogram med programfaga produksjon og tjenester, konstruksjons- og styringsteknikk og produktivitet og kvalitetsstyring og YFF.',
       },
     },
     image: { url: 'https://api.ndla.no/image-api/raw/sq1cLlG0.jpg' },

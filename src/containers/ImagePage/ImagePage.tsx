@@ -54,7 +54,8 @@ const ImagePage = () => {
         type="website"
         title={title}
         description={data?.image?.alttext?.alttext}
-        imageUrl={data?.image?.imageUrl}>
+        imageUrl={data?.image?.imageUrl}
+      >
         <meta name="robots" content="noindex" />
       </SocialMediaMetadata>
       <ImageElement image={data.image} />

@@ -113,13 +113,14 @@ const MastheadContainer = () => {
     return transformed;
   }, [data?.subject?.allTopics, topicList]);
 
-  const breadcrumbBlockItems = (data?.subject?.id
-    ? toBreadcrumbItems(t('breadcrumb.toFrontpage'), [
-        data.subject,
-        ...path,
-        ...(data?.resource ? [data.resource] : []),
-      ])
-    : []
+  const breadcrumbBlockItems = (
+    data?.subject?.id
+      ? toBreadcrumbItems(t('breadcrumb.toFrontpage'), [
+          data.subject,
+          ...path,
+          ...(data?.resource ? [data.resource] : []),
+        ])
+      : []
   ).filter(uri => !!uri.name && !!uri.to);
 
   const renderSearchComponent = (hideOnNarrowScreen: boolean) =>
@@ -145,7 +146,8 @@ const MastheadContainer = () => {
         ndlaFilm={ndlaFilm}
         skipToMainContentId={SKIP_TO_CONTENT_ID}
         onCloseAlert={id => closeAlert(id)}
-        messages={alerts}>
+        messages={alerts}
+      >
         <MastheadItem left>
           <MastheadDrawer subject={data?.subject} />
           {!hideBreadcrumb && !!breadcrumbBlockItems.length && (

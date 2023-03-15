@@ -104,7 +104,8 @@ const AboutMenuPortion = ({
                   key={link.key}
                   id={link.key}
                   type="link"
-                  to={link.link}>
+                  to={link.link}
+                >
                   {t(`masthead.menuOptions.about.${link.key}`)}
                 </DrawerMenuItem>
               );
@@ -115,7 +116,8 @@ const AboutMenuPortion = ({
                 key={link.key}
                 active={selected?.key === link.key}
                 type="button"
-                onClick={() => onGoRight(link.key)}>
+                onClick={() => onGoRight(link.key)}
+              >
                 {t(`masthead.menuOptions.about.${link.key}`)}
               </DrawerMenuItem>
             );

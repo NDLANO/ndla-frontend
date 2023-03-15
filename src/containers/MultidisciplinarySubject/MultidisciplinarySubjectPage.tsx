@@ -192,7 +192,8 @@ const MultidisciplinarySubjectPage = () => {
           id={selectedTopics.length === 0 ? SKIP_TO_CONTENT_ID : undefined}
           hideCards={isNotLastTopic}
           cards={cards}
-          totalCardCount={cards.length}>
+          totalCardCount={cards.length}
+        >
           <NavigationBox items={mainTopics} listDirection="horizontal" />
           <TopicBoxes />
         </MultidisciplinarySubject>

@@ -115,7 +115,8 @@ const SearchContainer = ({
           totalCount={concepts.length}
           onRemove={() => {
             setShowConcepts(false);
-          }}>
+          }}
+        >
           {concepts.map(concept => (
             <ConceptNotion
               key={concept.id}

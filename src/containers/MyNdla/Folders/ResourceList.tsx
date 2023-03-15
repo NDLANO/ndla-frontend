@@ -179,11 +179,13 @@ const ResourceList = ({ selectedFolder, viewType, folderId }: Props) => {
           collisionDetection={closestCenter}
           onDragEnd={sortResourceIds}
           accessibility={{ announcements }}
-          modifiers={[restrictToVerticalAxis, restrictToParentElement]}>
+          modifiers={[restrictToVerticalAxis, restrictToParentElement]}
+        >
           <SortableContext
             items={sortedResources}
             disabled={sortedResources.length < 2}
-            strategy={verticalListSortingStrategy}>
+            strategy={verticalListSortingStrategy}
+          >
             {resources.map((resource, index) => {
               const resourceMeta =
                 keyedData[`${resource.resourceType}-${resource.resourceId}`];

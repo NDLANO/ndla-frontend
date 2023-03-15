@@ -87,7 +87,8 @@ const VideoPage = () => {
         type="website"
         title={title}
         description={data?.brightcoveVideo?.description}
-        imageUrl={data?.brightcoveVideo?.cover}>
+        imageUrl={data?.brightcoveVideo?.cover}
+      >
         <meta name="robots" content="noindex" />
       </SocialMediaMetadata>
       <VisualElementWrapper visualElement={visualElement} videoId={videoId} />

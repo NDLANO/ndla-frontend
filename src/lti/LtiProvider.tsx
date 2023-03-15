@@ -56,9 +56,8 @@ const LtiProvider = ({ locale: propsLocale, ltiData }: Props) => {
     url: subject.path,
   }));
 
-  const { data, error, loading } = useGraphQuery<GQLSearchPageQuery>(
-    searchPageQuery,
-  );
+  const { data, error, loading } =
+    useGraphQuery<GQLSearchPageQuery>(searchPageQuery);
   const client = useApolloClient();
 
   i18n.on('languageChanged', lang => {

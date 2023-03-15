@@ -42,7 +42,8 @@ const AddResourceToFolderModal = ({
         isOpen={isOpen}
         size="normal"
         onClose={onClose}
-        label={t('myNdla.resource.addToMyNdla')}>
+        label={t('myNdla.resource.addToMyNdla')}
+      >
         {onCloseModal => (
           <>
             <ModalHeader>

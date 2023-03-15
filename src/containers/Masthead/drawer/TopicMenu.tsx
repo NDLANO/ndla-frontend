@@ -112,9 +112,10 @@ const TopicMenu = ({
     }
   }, [active, shouldCloseLevel, setLevelClosed, onCloseMenuPortion]);
 
-  const coreResources = useMemo(() => data?.topic?.coreResources ?? [], [
-    data?.topic?.coreResources,
-  ]);
+  const coreResources = useMemo(
+    () => data?.topic?.coreResources ?? [],
+    [data?.topic?.coreResources],
+  );
   const supplementaryResources = useMemo(
     () => data?.topic?.supplementaryResources ?? [],
     [data?.topic?.supplementaryResources],
@@ -171,7 +172,8 @@ const TopicMenu = ({
             active={levelId === t.id}
             onClick={expanded =>
               expanded ? removeTopic(level) : addTopic(t, level)
-            }>
+            }
+          >
             {t.name}
           </DrawerMenuItem>
         ))}
@@ -185,7 +187,8 @@ const TopicMenu = ({
                     to={res.path}
                     current={res.path === location.pathname}
                     onClose={onClose}
-                    key={res.id}>
+                    key={res.id}
+                  >
                     {res.name}
                   </DrawerMenuItem>
                 ))}
@@ -202,9 +205,11 @@ const TopicMenu = ({
                   to={res.path}
                   current={res.path === location.pathname}
                   onClose={onClose}
-                  key={res.id}>
+                  key={res.id}
+                >
                   <StyledResourceSpan
-                    aria-label={`${res.name}, ${t(`contentTypes.${type}`)}`}>
+                    aria-label={`${res.name}, ${t(`contentTypes.${type}`)}`}
+                  >
                     <ContentTypeBadge type={type} border={false} />
                     {res.name}
                   </StyledResourceSpan>

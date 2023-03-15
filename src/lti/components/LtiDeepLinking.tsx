@@ -126,7 +126,8 @@ const LtiDeepLinking = ({ ltiData = {}, item }: Props) => {
     <form
       method="POST"
       action={ltiData?.content_item_return_url}
-      encType="application/x-www-form-urlencoded">
+      encType="application/x-www-form-urlencoded"
+    >
       {Object.keys(postData).map(key => (
         <input
           type="hidden"

@@ -200,7 +200,8 @@ const SharedFolderPage = () => {
                   {t('myNdla.sharedFolder.drawerButton')}
                 </span>
               </DrawerButton>
-            }>
+            }
+          >
             {close => (
               <>
                 <ModalHeaderV2>
@@ -216,7 +217,8 @@ const SharedFolderPage = () => {
                   shape="sharp"
                   variant="stripped"
                   size="large"
-                  onClick={close}>
+                  onClick={close}
+                >
                   <ChevronUp />
                   {t('myNdla.sharedFolder.drawerButton')}
                 </InsideDrawerButton>
