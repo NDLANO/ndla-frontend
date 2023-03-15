@@ -161,10 +161,7 @@ const AppRoutes = ({ base }: AppProps) => {
                     <Route index element={<TagsPage />} />
                     <Route path=":tag" element={<TagsPage />} />
                   </Route>
-                  <Route
-                    path="favoriteSubjects"
-                    element={<FavoriteSubjectsPage />}
-                  />
+                  <Route path="subjects" element={<FavoriteSubjectsPage />} />
                 </Route>
                 <Route path="folder/:folderId">
                   <Route index element={<SharedFolderPage />} />
