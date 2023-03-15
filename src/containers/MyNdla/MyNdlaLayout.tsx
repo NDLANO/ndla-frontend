@@ -29,7 +29,7 @@ const navigationLinks = (t: TFunction) => [
     name: t('myNdla.myTags'),
   },
   {
-    id: 'subejcts',
+    id: 'subjects',
     icon: <BookOpen />,
     name: t('myNdla.favoriteSubjects.title'),
   },
