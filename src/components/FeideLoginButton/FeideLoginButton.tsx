@@ -80,7 +80,7 @@ const FeideLoginButton = ({ footer, children }: Props) => {
           shape={footer ? 'normal' : 'pill'}>
           {children}
         </Button>
-        <LoginModal isOpen={isOpen} onClose={onClose} />
+        <LoginModal isOpen={isOpen} onClose={onClose} masthead />
       </>
     );
   }
