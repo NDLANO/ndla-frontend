@@ -14,7 +14,7 @@ describe('Search page', () => {
   it('contains search bar', () => {
     cy.gqlIntercept({
       alias: 'searchPage',
-      operations: ['GroupSearch', 'searchPage', 'alerts'],
+      operations: ['searchPage', 'alerts'],
     });
     cy.visit('/search/?disableSSR=true');
     cy.gqlWait('@searchPage');
