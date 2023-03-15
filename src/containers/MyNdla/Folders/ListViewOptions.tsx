@@ -38,7 +38,7 @@ const StyledIconButton = styled(IconButtonV2)<StyledIconButtonProps>`
     margin: 0;
     width: 24px;
     height: 24px;
-    fill: ${p => (p.selected ? colors.brand.primary : colors.brand.tertiary)};
+    fill: ${(p) => (p.selected ? colors.brand.primary : colors.brand.tertiary)};
   }
   :focus {
     background-color: transparent;

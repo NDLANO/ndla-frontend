@@ -437,8 +437,8 @@ export const useUpdateFolderStatusMutation = () => {
     GQLUpdateFolderStatusMutation,
     GQLMutationUpdateFolderStatusArgs
   >(updateFolderStatusMutation, {
-    onCompleted: data => {
-      data?.updateFolderStatus.forEach(folderId => {
+    onCompleted: (data) => {
+      data?.updateFolderStatus.forEach((folderId) => {
         cache.modify({
           id: cache.identify({ id: folderId, __typename: 'Folder' }),
           fields: {
@@ -507,7 +507,7 @@ export const useAddResourceToFolderMutation = (folderId: string) => {
     GQLMutationAddFolderResourceArgs
   >(addResourceToFolderQuery, {
     refetchQueries: [{ query: recentlyUsedQuery }],
-    onCompleted: data => {
+    onCompleted: (data) => {
       cache.modify({
         id: cache.identify({
           __ref: `Folder:${folderId}`,

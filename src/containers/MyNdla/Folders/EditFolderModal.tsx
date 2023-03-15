@@ -59,7 +59,7 @@ const EditFolderModal = ({
       onClose={onClose}
       labelledBy={'editHeading'}
     >
-      {onCloseModal => (
+      {(onCloseModal) => (
         <>
           <ModalHeader>
             <h1 id="editHeading">{t('myNdla.folder.edit')}</h1>
@@ -117,7 +117,7 @@ const EditFolderForm = ({
     ? getFolder(cache, folder.parentId)?.subfolders ?? []
     : folders;
 
-  const siblings = levelFolders.filter(f => f.id !== folder.id);
+  const siblings = levelFolders.filter((f) => f.id !== folder.id);
 
   const onSubmit = (values: FormValues) => onSave(values.name, folder);
   return (
@@ -134,9 +134,9 @@ const EditFolderForm = ({
               vars: { count: 64 },
             }),
           },
-          validate: name => {
+          validate: (name) => {
             const exists = siblings.every(
-              f => f.name.toLowerCase() !== name.toLowerCase(),
+              (f) => f.name.toLowerCase() !== name.toLowerCase(),
             );
             if (!exists) {
               return validationT('validation.notUnique');

@@ -59,7 +59,7 @@ export const BlockWrapper = styled.ul<BlockWrapperProps>`
   margin: 0;
   margin-bottom: ${spacing.medium};
   padding: 0;
-  ${props =>
+  ${(props) =>
     props.type === 'block' &&
     css`
       display: grid;
@@ -143,8 +143,8 @@ const FoldersPage = () => {
   const [previousFolders, setPreviousFolders] = useState<GQLFolder[]>(folders);
   const [focusId, setFocusId] = useState<string | undefined>(undefined);
   useEffect(() => {
-    const folderIds = folders.map(f => f.id).sort();
-    const prevFolderIds = previousFolders.map(f => f.id).sort();
+    const folderIds = folders.map((f) => f.id).sort();
+    const prevFolderIds = previousFolders.map((f) => f.id).sort();
 
     if (!isEqual(folderIds, prevFolderIds) && focusId) {
       setTimeout(
@@ -251,7 +251,7 @@ const FoldersPage = () => {
             shape="pill"
             colorTheme="lighter"
             aria-label={t('myNdla.newFolder')}
-            onClick={() => setIsAdding(prev => !prev)}
+            onClick={() => setIsAdding((prev) => !prev)}
           >
             <StyledPlus />
             <span>{t('myNdla.newFolder')}</span>

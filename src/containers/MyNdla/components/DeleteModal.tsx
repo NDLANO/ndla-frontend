@@ -44,7 +44,7 @@ const DeleteModal = ({
       onClose={onClose}
       labelledBy={'deleteTitle'}
     >
-      {onCloseModal => (
+      {(onCloseModal) => (
         <>
           <ModalHeader>
             <h1 id="deleteTitle">{title}</h1>

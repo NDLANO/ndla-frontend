@@ -63,7 +63,7 @@ const AboutMenuPortion = ({
     (id?: string) => {
       if (id) {
         setInitialKey(id);
-        setSelected(type.subTypes?.find(t => t.key === id && t.subTypes));
+        setSelected(type.subTypes?.find((t) => t.key === id && t.subTypes));
       }
     },
     [type.subTypes],
@@ -97,7 +97,7 @@ const AboutMenuPortion = ({
             onClose={onGoBack}
             active={!selected}
           />
-          {type.subTypes?.map(link => {
+          {type.subTypes?.map((link) => {
             if (!link.subTypes) {
               return (
                 <DrawerMenuItem

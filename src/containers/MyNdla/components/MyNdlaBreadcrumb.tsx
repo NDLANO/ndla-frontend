@@ -47,7 +47,10 @@ const MyNdlaBreadcrumb = ({ breadcrumbs, backCrumb, page }: Props) => {
 
   const baseCrumb = types[page];
   const crumbs = [{ to: baseCrumb.to, name: t(baseCrumb.name) }].concat(
-    breadcrumbs.map(bc => ({ name: bc.name, to: `/minndla/${page}/${bc.id}` })),
+    breadcrumbs.map((bc) => ({
+      name: bc.name,
+      to: `/minndla/${page}/${bc.id}`,
+    })),
   );
 
   if (isMobile) {

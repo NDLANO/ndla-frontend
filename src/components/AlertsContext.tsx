@@ -58,7 +58,7 @@ const setClosedAlert = (id: number) => {
 
 const setClosedAlerts = (alerts: GQLUptimeAlert[]) => {
   try {
-    const ids = alerts.map(alert => alert.number);
+    const ids = alerts.map((alert) => alert.number);
     localStorage.setItem('closedAlerts', JSON.stringify(ids));
   } catch {
     console.error('Could not save closedAlerts to localStorage.');
@@ -74,7 +74,7 @@ const AlertsProvider = ({ children }: Props) => {
 
   const closeAlert = useCallback((id: number) => {
     setClosedAlert(id);
-    setOpenAlerts(prev => prev.filter(alert => alert.number !== id));
+    setOpenAlerts((prev) => prev.filter((alert) => alert.number !== id));
   }, []);
 
   useEffect(() => {
@@ -83,7 +83,7 @@ const AlertsProvider = ({ children }: Props) => {
       if (closedIds.length > 0) {
         const [closedAlerts, openAlerts] = partition(
           alerts,
-          alert => closedIds.includes(alert.number) && alert.closable,
+          (alert) => closedIds.includes(alert.number) && alert.closable,
         );
         setOpenAlerts(openAlerts);
         setClosedAlerts(closedAlerts);

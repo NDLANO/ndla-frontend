@@ -121,7 +121,7 @@ const AllSubjectsPage = () => {
 
   const favoriteSubjects = personalData?.favoriteSubjects;
   const sortedSubjects = useMemo(
-    () => sortBy(subjects, s => s.name),
+    () => sortBy(subjects, (s) => s.name),
     [subjects],
   );
   const groupedSubjects = useMemo(() => {
@@ -130,7 +130,7 @@ const AllSubjectsPage = () => {
   }, [sortedSubjects, filter]);
 
   const letters = useMemo(
-    () => groupedSubjects.map(group => group.label),
+    () => groupedSubjects.map((group) => group.label),
     [groupedSubjects],
   );
 
@@ -173,8 +173,8 @@ const AllSubjectsPage = () => {
         {isMobile ? (
           <SelectWrapper>
             <Select<false>
-              value={filterOptions.find(opt => opt.value === filter)}
-              onChange={value => value && setFilter(value?.value)}
+              value={filterOptions.find((opt) => opt.value === filter)}
+              onChange={(value) => value && setFilter(value?.value)}
               options={filterOptions}
               colorTheme="white"
               outline

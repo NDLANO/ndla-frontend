@@ -76,7 +76,7 @@ const activeStyle = css`
 const shouldForwardProp = (prop: string) => prop !== 'active';
 
 const StyledButton = styled(ButtonV2, { shouldForwardProp })<StyledButtonProps>`
-  ${p =>
+  ${(p) =>
     p.active &&
     css`
       background-color: ${colors.brand.primary};

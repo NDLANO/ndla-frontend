@@ -21,7 +21,7 @@ export function getArticleScripts(
   locale = 'nb',
 ) {
   const scripts: Array<Scripts> =
-    article.requiredLibraries?.map(lib => ({
+    article.requiredLibraries?.map((lib) => ({
       src: lib.url,
       type: lib.mediaType,
     })) || [];

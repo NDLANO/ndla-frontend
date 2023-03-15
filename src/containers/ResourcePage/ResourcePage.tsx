@@ -37,7 +37,7 @@ const urlInPaths = (
   location: Location,
   resource: Pick<GQLResource, 'paths'>,
 ) => {
-  return resource.paths?.find(p => location.pathname.includes(p));
+  return resource.paths?.find((p) => location.pathname.includes(p));
 };
 
 const resourcePageQuery = gql`

@@ -81,8 +81,8 @@ const ResourceList = ({ selectedFolder, viewType, folderId }: Props) => {
   }, [resources]);
 
   useEffect(() => {
-    const resourceIds = resources.map(f => f.id).sort();
-    const prevResourceIds = prevResources?.map(f => f.id).sort();
+    const resourceIds = resources.map((f) => f.id).sort();
+    const prevResourceIds = prevResources?.map((f) => f.id).sort();
 
     if (!isEqual(resourceIds, prevResourceIds) && focusId) {
       setTimeout(
@@ -98,7 +98,7 @@ const ResourceList = ({ selectedFolder, viewType, folderId }: Props) => {
   }, [resources, prevResources, focusId]);
 
   const { data, loading } = useFolderResourceMetaSearch(
-    resources.map(r => ({
+    resources.map((r) => ({
       id: r.resourceId,
       path: r.path,
       resourceType: r.resourceType,
@@ -109,8 +109,8 @@ const ResourceList = ({ selectedFolder, viewType, folderId }: Props) => {
     const sortCacheModifierFunction = (
       existing: (GQLFolder & { __ref: string })[],
     ) => {
-      return newOrder.map(id =>
-        existing.find(ef => ef.__ref === `FolderResource:${id}`),
+      return newOrder.map((id) =>
+        existing.find((ef) => ef.__ref === `FolderResource:${id}`),
       );
     };
 
@@ -164,7 +164,7 @@ const ResourceList = ({ selectedFolder, viewType, folderId }: Props) => {
 
   const keyedData = keyBy(
     data ?? [],
-    resource => `${resource.type}-${resource.id}`,
+    (resource) => `${resource.type}-${resource.id}`,
   );
 
   const { deleteFolderResource } = useDeleteFolderResourceMutation(

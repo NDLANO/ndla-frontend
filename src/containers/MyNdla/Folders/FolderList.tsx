@@ -95,8 +95,8 @@ const FolderList = ({
     const sortCacheModifierFunction = (
       existing: (GQLFolder & { __ref: string })[],
     ) => {
-      return newOrder.map(id =>
-        existing.find(ef => ef.__ref === `Folder:${id}`),
+      return newOrder.map((id) =>
+        existing.find((ef) => ef.__ref === `Folder:${id}`),
       );
     };
 

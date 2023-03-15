@@ -17,7 +17,7 @@ interface Props {
 
 const SubjectLinkList = ({ subjects = [] }: Props) => (
   <ul className="o-list--arrows">
-    {subjects.map(subject => (
+    {subjects.map((subject) => (
       <li key={subject.id}>
         <SafeLink to={toSubject(subject.id)}>{subject.name}</SafeLink>
       </li>

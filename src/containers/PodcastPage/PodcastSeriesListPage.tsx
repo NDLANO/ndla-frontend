@@ -103,7 +103,7 @@ const PodcastSeriesListPage = () => {
 
     // Remove unused/empty query params
     Object.keys(searchQuery).forEach(
-      key => searchQuery[key] === '' && delete searchQuery[key],
+      (key) => searchQuery[key] === '' && delete searchQuery[key],
     );
     navigate(`/podkast?${stringify(searchQuery)}`);
   };
@@ -133,7 +133,7 @@ const PodcastSeriesListPage = () => {
         ) : (
           <div>
             {results?.length ? (
-              results.map(series => {
+              results.map((series) => {
                 return (
                   <PodcastSeries key={`podcast-${series.id}`} {...series} />
                 );

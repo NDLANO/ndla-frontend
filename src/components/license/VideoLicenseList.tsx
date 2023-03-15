@@ -89,7 +89,7 @@ const VideoLicenseList = ({ videos }: Props) => {
       <h2>{t('license.video.heading')}</h2>
       <p>{t('license.video.description')}</p>
       <MediaList>
-        {videos.map(video => (
+        {videos.map((video) => (
           <VideoLicenseInfo video={video} key={uuid()} />
         ))}
       </MediaList>

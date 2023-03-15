@@ -37,7 +37,7 @@ const MovieCategory = ({
   const { t, i18n } = useTranslation();
   return (
     <CarouselAutosize breakpoints={breakpoints} itemsLength={themes.length}>
-      {autoSizedProps =>
+      {(autoSizedProps) =>
         resourceTypeSelected ? (
           <MovieGrid
             autoSizedProps={autoSizedProps}
@@ -48,7 +48,7 @@ const MovieCategory = ({
             loadingPlaceholderHeight={loadingPlaceholderHeight}
           />
         ) : (
-          themes.map(theme => (
+          themes.map((theme) => (
             <FilmMovieList
               key={theme.name[0]?.name}
               name={findName(theme.name ?? [], i18n.language)}

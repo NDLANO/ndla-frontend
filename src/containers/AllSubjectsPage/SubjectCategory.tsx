@@ -143,7 +143,7 @@ const SubjectCategory = ({ label, subjects, favorites }: Props) => {
           category: label === '#' ? t('labels.other') : label,
         })}
       >
-        {subjects.map(subject => (
+        {subjects.map((subject) => (
           <SubjectLink
             favorites={favorites}
             key={subject.id}

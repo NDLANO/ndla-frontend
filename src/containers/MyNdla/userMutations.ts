@@ -71,7 +71,7 @@ export const useUpdatePersonalData = () => {
     GQLUpdatePersonalDataMutation,
     GQLUpdatePersonalDataMutationVariables
   >(updatePersonalDataQuery, {
-    onCompleted: data => {
+    onCompleted: (data) => {
       cache.modify({
         id: cache.identify({
           __ref: data.__typename,

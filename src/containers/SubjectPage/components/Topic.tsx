@@ -136,9 +136,9 @@ const Topic = ({
   const topicPath = path
     ?.split('/')
     .slice(2)
-    .map(id => `urn:${id}`);
+    .map((id) => `urn:${id}`);
 
-  const subTopics = topic?.subtopics?.map(subtopic => {
+  const subTopics = topic?.subtopics?.map((subtopic) => {
     return {
       ...subtopic,
       label: subtopic.name,
@@ -188,8 +188,8 @@ Topic.getDimensions = ({ topic, subject, user }: Props) => {
   const topicPath = topic?.path
     ?.split('/')
     .slice(2)
-    .map(t =>
-      subject?.allTopics?.find(topic => topic.id.replace('urn:', '') === t),
+    .map((t) =>
+      subject?.allTopics?.find((topic) => topic.id.replace('urn:', '') === t),
     );
 
   return getAllDimensions(

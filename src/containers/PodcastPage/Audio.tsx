@@ -147,7 +147,7 @@ const Audio = ({ audio, seriesId = '' }: Props) => {
                     audio.copyright,
                     language,
                     config.ndlaFrontendDomain,
-                    key => t(key),
+                    (key) => t(key),
                   )
                 : getCopyString(
                     audio.title.title,
@@ -155,7 +155,7 @@ const Audio = ({ audio, seriesId = '' }: Props) => {
                     `/resources/audios/${audio.id}`,
                     audio.copyright,
                     config.ndlaFrontendDomain,
-                    key => t(key),
+                    (key) => t(key),
                   )
             }
             copyTitle={t('license.copyTitle')}
@@ -201,7 +201,7 @@ const Audio = ({ audio, seriesId = '' }: Props) => {
                       image.copyright,
                       image.copyright.license.license,
                       config.ndlaFrontendDomain,
-                      key => t(key),
+                      (key) => t(key),
                       language,
                     )}
                     copyTitle={t('license.copyTitle')}

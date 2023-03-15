@@ -44,7 +44,7 @@ export const DraggableListItem = styled.li<DraggableListItemProps>`
   margin: 0;
   align-items: center;
   gap: ${spacing.xsmall};
-  z-index: ${p => (p.isDragging ? '10' : '0')};
+  z-index: ${(p) => (p.isDragging ? '10' : '0')};
 `;
 
 export const DragWrapper = styled.div`

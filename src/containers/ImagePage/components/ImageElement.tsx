@@ -98,7 +98,7 @@ const ImageElement = ({ image }: Props) => {
               image.copyright,
               image.copyright.license.license,
               config.ndlaFrontendDomain,
-              key => t(key),
+              (key) => t(key),
               i18n.language,
             )}
             copyTitle={t('license.copyTitle')}

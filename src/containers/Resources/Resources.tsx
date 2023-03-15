@@ -92,11 +92,13 @@ const Resources = ({
 
   // add additional flag and filter from core
   const supplementary = supplementaryResources
-    ?.map(resource => ({
+    ?.map((resource) => ({
       ...resource,
       additional: true,
     }))
-    ?.filter(resource => !coreResources?.find(core => core.id === resource.id));
+    ?.filter(
+      (resource) => !coreResources?.find((core) => core.id === resource.id),
+    );
 
   const isUngrouped =
     metadata?.customFields[TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES] ===
@@ -112,7 +114,7 @@ const Resources = ({
     } else return a.rank - b.rank;
   });
 
-  const ungroupedResources = sortedResources.map(resource => {
+  const ungroupedResources = sortedResources.map((resource) => {
     const resourceTypes = sortResourceTypes(resource.resourceTypes ?? []);
     const firstResourceType = resourceTypes?.[0];
     return {
@@ -136,9 +138,9 @@ const Resources = ({
 
   const hasAdditionalResources = supplementary?.length > 0;
 
-  const resourceGroupsWithMetaData = groupedResources.map(type => ({
+  const resourceGroupsWithMetaData = groupedResources.map((type) => ({
     ...type,
-    resources: type?.resources?.map(resource => ({
+    resources: type?.resources?.map((resource) => ({
       ...resource,
       active:
         params.resourceId && resource.id.endsWith(params.resourceId)
@@ -178,11 +180,11 @@ const Resources = ({
           showAdditionalResources={showAdditionalResources}
           toggleAdditionalResources={toggleAdditionalResources}
           invertedStyle={ndlaFilm}
-          heartButton={p => (
+          heartButton={(p) => (
             <FavoriteButton
               path={p}
               onClick={() => {
-                const resource = ungroupedResources?.find(r => r.path === p);
+                const resource = ungroupedResources?.find((r) => r.path === p);
                 onToggleAddToFavorites(resource?.contentUri, resource?.path);
               }}
             />
@@ -190,7 +192,7 @@ const Resources = ({
         />
       )}
       {!isUngrouped &&
-        resourceGroupsWithMetaData.map(type => (
+        resourceGroupsWithMetaData.map((type) => (
           <ResourceGroup
             key={type.id}
             headingLevel={subHeadingType}
@@ -200,11 +202,13 @@ const Resources = ({
             toggleAdditionalResources={toggleAdditionalResources}
             contentType={type.contentType}
             invertedStyle={ndlaFilm}
-            heartButton={p => (
+            heartButton={(p) => (
               <FavoriteButton
                 path={p}
                 onClick={() => {
-                  const resource = ungroupedResources?.find(r => r.path === p);
+                  const resource = ungroupedResources?.find(
+                    (r) => r.path === p,
+                  );
                   onToggleAddToFavorites(resource?.contentUri, resource?.path);
                 }}
               />

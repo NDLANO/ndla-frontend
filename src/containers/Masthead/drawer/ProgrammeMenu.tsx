@@ -61,7 +61,7 @@ const ProgrammeMenu = ({ onClose, onCloseMenuPortion }: Props) => {
       />
       <StyledTitle aria-hidden={true}>Utdanningsprogram</StyledTitle>
       <DrawerList id="programme-menu">
-        {programmes.map(programme => (
+        {programmes.map((programme) => (
           <DrawerMenuItem
             id={programme.path}
             type="link"

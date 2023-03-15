@@ -61,7 +61,7 @@ export const useUrnIds = () => {
       params.topic3 ? `urn:topic${params.topic3}` : '',
       params.topic4 ? `urn:topic${params.topic4}` : '',
       params.topicId ? `urn:topic${params.topicId}` : '',
-    ].filter(s => !!s.length);
+    ].filter((s) => !!s.length);
   }, [
     params.topicId,
     params.topic1,
@@ -162,7 +162,7 @@ export function toTopic(subjectId: string, ...topicIds: string[]) {
   if (topicIds.length === 0) {
     return toSubject(urnFreeSubjectId);
   }
-  const urnFreeTopicIds = topicIds.filter(id => !!id).map(removeUrn);
+  const urnFreeTopicIds = topicIds.filter((id) => !!id).map(removeUrn);
   const t = fixEndSlash(`/${urnFreeSubjectId}/${urnFreeTopicIds.join('/')}`);
   return t;
 }
@@ -196,7 +196,7 @@ export function toBreadcrumbItems(
       const to = `${prefix}/${removeUrn(link.id)}`;
       return acc.concat([{ to, name: link.name }]);
     }, [])
-    .map(bc => ({ ...bc, to: fixEndSlash(bc.to) }));
+    .map((bc) => ({ ...bc, to: fixEndSlash(bc.to) }));
   return [{ to: '/', name: rootName }, ...breadcrumbs];
 }
 

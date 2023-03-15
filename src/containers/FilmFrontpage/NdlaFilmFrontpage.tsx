@@ -64,16 +64,18 @@ const NdlaFilm = () => {
   useEffect(() => {
     // if we receive new movies we map them into state
     if (allMovies) {
-      const byType = allMovies.searchWithoutPagination?.results?.map(movie => {
-        const contexts = movie.contexts.filter(
-          ctx => ctx.learningResourceType === 'standard',
-        );
-        return {
-          ...movie,
-          path: contexts[0]?.path ?? '',
-          resourceTypes: contexts.flatMap(ctx => ctx.resourceTypes),
-        };
-      });
+      const byType = allMovies.searchWithoutPagination?.results?.map(
+        (movie) => {
+          const contexts = movie.contexts.filter(
+            (ctx) => ctx.learningResourceType === 'standard',
+          );
+          return {
+            ...movie,
+            path: contexts[0]?.path ?? '',
+            resourceTypes: contexts.flatMap((ctx) => ctx.resourceTypes),
+          };
+        },
+      );
 
       setMoviesByType(byType ?? []);
       setFetchingMoviesByType(false);
@@ -86,7 +88,7 @@ const NdlaFilm = () => {
     setFetchingMoviesByType(true);
 
     const resourceTypes = showingAll
-      ? movieResourceTypes.map(resourceType => resourceType.id).toString()
+      ? movieResourceTypes.map((resourceType) => resourceType.id).toString()
       : resourceId;
 
     searchAllMovies({
@@ -104,7 +106,7 @@ const NdlaFilm = () => {
   };
 
   const allResourceTypes = movieResourceTypes
-    .map(rt => ({ ...rt, name: t(rt.name) }))
+    .map((rt) => ({ ...rt, name: t(rt.name) }))
     .concat([allResources]);
 
   return (

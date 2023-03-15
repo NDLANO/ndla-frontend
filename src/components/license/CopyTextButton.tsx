@@ -55,7 +55,7 @@ class CopyTextButton extends Component<Props, State> {
     const { copyTitle, hasCopiedTitle } = this.props;
     return (
       <span
-        ref={r => {
+        ref={(r) => {
           this.buttonContainer = r;
         }}
       >

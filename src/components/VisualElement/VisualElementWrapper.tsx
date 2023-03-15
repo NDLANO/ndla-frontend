@@ -62,7 +62,7 @@ const VisualElementWrapper = ({ visualElement, videoId }: Props) => {
       processors: copyright?.processors || [],
     },
     i18n.language,
-  ).map(item => ({
+  ).map((item) => ({
     name: item.description,
     type: item.label,
   }));
@@ -72,7 +72,7 @@ const VisualElementWrapper = ({ visualElement, videoId }: Props) => {
     copyright?.processors,
   ];
   const authors =
-    possibleAuthors.find(grouping => grouping && grouping.length > 0) ?? [];
+    possibleAuthors.find((grouping) => grouping && grouping.length > 0) ?? [];
 
   const caption =
     visualElement.image?.caption || visualElement.brightcove?.caption || '';

@@ -85,7 +85,7 @@ const SearchContainer = ({
 
   const filterButtonItems = [];
   for (const [type, values] of Object.entries(typeFilter)) {
-    if (searchGroups.find(group => group.type === type)?.items?.length) {
+    if (searchGroups.find((group) => group.type === type)?.items?.length) {
       filterButtonItems.push({
         value: type,
         label: t(`contentTypes.${type}`),
@@ -117,7 +117,7 @@ const SearchContainer = ({
             setShowConcepts(false);
           }}
         >
-          {concepts.map(concept => (
+          {concepts.map((concept) => (
             <ConceptNotion
               key={concept.id}
               concept={{
@@ -147,7 +147,7 @@ const SearchContainer = ({
               onFilterToggle={handleFilterToggle}
               onRemoveAllFilters={handleFilterReset}
               viewType={listViewType}
-              onChangeViewType={viewType => setListViewType(viewType)}
+              onChangeViewType={(viewType) => setListViewType(viewType)}
             />
           )}
           <SearchResults

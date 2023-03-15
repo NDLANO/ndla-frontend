@@ -34,7 +34,7 @@ import { LtiData } from '../../interfaces';
 
 const getStateSearchParams = (searchParams: Record<string, any>) => {
   const stateSearchParams: Record<string, any> = {};
-  Object.keys(searchParams).forEach(key => {
+  Object.keys(searchParams).forEach((key) => {
     stateSearchParams[key] = convertSearchParam(searchParams[key]);
   });
   return stateSearchParams;
@@ -110,7 +110,7 @@ const SearchInnerPage = ({
       }
     : getStateSearchParams(searchParams);
 
-  const activeSubFiltersWithoutLeading = activeSubFilters.map(asf =>
+  const activeSubFiltersWithoutLeading = activeSubFilters.map((asf) =>
     asf.substring(asf.indexOf(':urn:') + 1),
   );
 
@@ -126,7 +126,7 @@ const SearchInnerPage = ({
         grepCodesList: searchParams.grepCodes,
       },
       notifyOnNetworkStatusChange: true,
-      onCompleted: async data => {
+      onCompleted: async (data) => {
         if (
           initialGQLCall.current &&
           activeSubFiltersWithoutLeading.length !== 0
@@ -145,7 +145,7 @@ const SearchInnerPage = ({
   const resetSelected = () => {
     const filterUpdate = { ...typeFilter };
     for (const [key, value] of Object.entries(filterUpdate)) {
-      const filters = value.filters?.map(filter => {
+      const filters = value.filters?.map((filter) => {
         filter.active = filter.id === 'all';
         return filter;
       });
@@ -179,38 +179,38 @@ const SearchInnerPage = ({
 
   const getActiveFilters = (type: string) =>
     typeFilter[type]?.filters
-      .filter(f => f.id !== 'all' && f.active)
-      .map(f => f.id) ?? [];
+      .filter((f) => f.id !== 'all' && f.active)
+      .map((f) => f.id) ?? [];
 
   const getActiveSubFilters = (typeFilters: Record<string, TypeFilter>) => {
     return Object.entries(typeFilters)
       ?.filter(([, value]) => !!value.filters)
       ?.flatMap(([key, value]) => {
         return value.filters
-          ?.filter(filter => !!filter.active && filter.id !== 'all')
-          .map(filter => `${key}:${filter.id}`);
+          ?.filter((filter) => !!filter.active && filter.id !== 'all')
+          .map((filter) => `${key}:${filter.id}`);
       });
   };
 
   const handleSubFilterClick = (type: string, filterId: string) => {
     const updatedFilters = updateTypeFilter(type, { page: 1 });
     const filters = typeFilter[type]?.filters;
-    const selectedFilter = filters?.find(item => filterId === item.id);
+    const selectedFilter = filters?.find((item) => filterId === item.id);
     if (!filters || !selectedFilter) return;
     if (filterId === 'all') {
-      filters.forEach(filter => {
+      filters.forEach((filter) => {
         filter.active = filter.id === 'all';
       });
-      const toKeep = activeSubFilters.filter(asf => !asf.startsWith(type));
+      const toKeep = activeSubFilters.filter((asf) => !asf.startsWith(type));
       handleSearchParamsChange({ activeSubFilters: toKeep });
       fetchMore({
         variables: getTypeParams([type], resourceTypes),
       });
     } else {
-      const allFilter = filters.find(item => 'all' === item.id)!;
+      const allFilter = filters.find((item) => 'all' === item.id)!;
       allFilter.active = false;
       selectedFilter.active = !selectedFilter.active;
-      if (!filters.some(item => item.active)) {
+      if (!filters.some((item) => item.active)) {
         allFilter.active = true;
       }
       const subFilters = getActiveSubFilters(updatedFilters ?? []);
@@ -218,8 +218,8 @@ const SearchInnerPage = ({
       fetchMore({
         variables: getTypeParams(
           filters
-            .filter(filter => filter.active && filter.id !== 'all')
-            .map(f => f.id),
+            .filter((filter) => filter.active && filter.id !== 'all')
+            .map((f) => f.id),
           resourceTypes,
         ),
       });
@@ -249,7 +249,7 @@ const SearchInnerPage = ({
     const pageSize = showAll ? 6 : 12;
     const page = filter.page + 1;
     const currentGroup = data?.groupSearch?.find(
-      group =>
+      (group) =>
         type === (contentTypeMapping[group.resourceType] || group.resourceType),
     );
     const toCount = filter.page * filter.pageSize;
@@ -293,7 +293,7 @@ const SearchInnerPage = ({
     data?.groupSearch?.[0]?.suggestions?.[0]?.suggestions?.[0]?.options?.[0]
       ?.text;
 
-  const showAll = !Object.values(typeFilter).some(value => value.selected);
+  const showAll = !Object.values(typeFilter).some((value) => value.selected);
 
   return (
     <SearchContainer

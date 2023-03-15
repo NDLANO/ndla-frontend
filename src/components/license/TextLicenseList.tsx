@@ -96,7 +96,7 @@ const TextLicenseList = ({ texts }: Props) => {
       <h2>{t('license.text.heading')}</h2>
       <p>{t('license.text.description')}</p>
       <MediaList>
-        {texts.map(text => (
+        {texts.map((text) => (
           <TextLicenseInfo text={text} key={uuid()} />
         ))}
       </MediaList>

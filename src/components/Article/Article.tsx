@@ -54,7 +54,7 @@ function renderCompetenceGoals(
   // Don't show competence goals for topics or articles without grepCodes
   if (
     !isTopicArticle &&
-    article.grepCodes?.filter(gc => gc.toUpperCase().startsWith('K')).length
+    article.grepCodes?.filter((gc) => gc.toUpperCase().startsWith('K')).length
   ) {
     return ({ Dialog, dialogProps }: CompetenceGoalModalProps) => (
       <CompetenceGoals
@@ -96,7 +96,7 @@ const renderNotions = (
   relatedContent: GQLArticle_ArticleFragment['relatedContent'],
 ) => {
   const notions =
-    concepts?.map(concept => {
+    concepts?.map((concept) => {
       return {
         ...concept,
         labels: concept.subjectNames ?? [],
@@ -108,7 +108,7 @@ const renderNotions = (
       };
     }) ?? [];
   const related =
-    relatedContent?.map(rc => ({
+    relatedContent?.map((rc) => ({
       ...rc,
       label: rc.title,
     })) ?? [];
@@ -214,7 +214,9 @@ const Article = ({
     return md;
   }, []);
 
-  const [day, month, year] = article.published.split('.').map(s => parseInt(s));
+  const [day, month, year] = article.published
+    .split('.')
+    .map((s) => parseInt(s));
   const published = new Date(year!, month! - 1, day!).toUTCString();
   const copyText = webpageReferenceApa7CopyString(
     article.title,

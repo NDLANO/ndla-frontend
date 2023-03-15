@@ -167,7 +167,7 @@ const FolderShareModal = ({
       onClose={onClose}
       label={t('user.modal.isNotAuth')}
     >
-      {onCloseModal => (
+      {(onCloseModal) => (
         <>
           <ModalHeaderV2>
             <Title>{t(`myNdla.folder.sharing.header.${type}`)}</Title>

@@ -40,12 +40,12 @@ const filterSubjects = (
   message?: string,
 ) => {
   const filtered = subjects.filter(
-    s => s.metadata?.customFields?.[customField] === category,
+    (s) => s.metadata?.customFields?.[customField] === category,
   );
 
   return {
     type: category,
-    subjects: filtered.map(s => {
+    subjects: filtered.map((s) => {
       return {
         ...s,
         path: s.path ?? '',

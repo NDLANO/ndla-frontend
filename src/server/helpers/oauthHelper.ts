@@ -25,7 +25,7 @@ export const generateOauthData = (url: string, body: any) => {
     });
 
   const params = Object.keys(sortedBody)
-    .map(key => `${key}=${encodeURIComponent(sortedBody[key])}`)
+    .map((key) => `${key}=${encodeURIComponent(sortedBody[key])}`)
     .join('&');
 
   const signatureBaseString = `POST&${encodeURIComponent(

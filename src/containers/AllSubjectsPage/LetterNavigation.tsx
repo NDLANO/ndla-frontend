@@ -81,7 +81,7 @@ const LetterNavigation = ({ activeLetters }: Props) => {
   const { t } = useTranslation();
   return (
     <LetterNavigationWrapper aria-label={t('subjectsPage.scrollToGroup')}>
-      {subjectLetters.map(letter => {
+      {subjectLetters.map((letter) => {
         const enabled = activeLetters.includes(letter);
         return (
           <StyledLi key={letter}>

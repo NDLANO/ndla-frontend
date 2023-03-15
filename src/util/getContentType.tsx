@@ -62,7 +62,9 @@ interface ResourceType {
 export function getContentTypeFromResourceTypes(
   resourceTypes: ResourceType[] = [],
 ) {
-  const resourceType = resourceTypes.find(type => contentTypeMapping[type.id]);
+  const resourceType = resourceTypes.find(
+    (type) => contentTypeMapping[type.id],
+  );
   if (resourceType) {
     return {
       contentType: contentTypeMapping[resourceType.id],

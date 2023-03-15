@@ -79,7 +79,7 @@ const Learningpath = ({
 
   const { contentTypes } = constants;
 
-  const mappedLearningsteps = learningsteps.map(step => {
+  const mappedLearningsteps = learningsteps.map((step) => {
     const type = step.resource ? getContentType(step.resource) : undefined;
     return {
       ...step,

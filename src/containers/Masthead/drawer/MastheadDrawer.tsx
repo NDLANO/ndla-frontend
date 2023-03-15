@@ -112,7 +112,7 @@ const MastheadDrawer = ({ subject }: Props) => {
         </ButtonV2>
       }
     >
-      {close => (
+      {(close) => (
         <MainMenu>
           <HeadWrapper>
             <ButtonV2 variant="outline" shape="pill" onClick={close}>

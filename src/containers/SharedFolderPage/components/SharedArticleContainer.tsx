@@ -58,7 +58,7 @@ const SharedArticleContainer = ({ article: propArticle, meta }: Props) => {
   return (
     <OneColumn>
       <Helmet>
-        {scripts.map(script => (
+        {scripts.map((script) => (
           <script
             key={script.src}
             src={script.src}

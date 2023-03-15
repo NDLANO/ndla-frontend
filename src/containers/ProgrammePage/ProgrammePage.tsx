@@ -37,10 +37,10 @@ export const mapGradesData = (
   subjects: GQLSubjectInfoFragment[],
   locale: LocaleType,
 ): GradesData[] => {
-  return grades.map(grade => {
-    const categories = grade.categories.map(category => {
-      const categorySubjects = category.subjects.map(subject => {
-        const taxSubject = subjects?.find(s => s.id === subject.id) ?? {
+  return grades.map((grade) => {
+    const categories = grade.categories.map((category) => {
+      const categorySubjects = category.subjects.map((subject) => {
+        const taxSubject = subjects?.find((s) => s.id === subject.id) ?? {
           name: '',
           path: '',
           subjectpage: { about: { title: '' } },
@@ -74,7 +74,7 @@ export const getGradeNameFromProgramme = (
   programme?: ProgrammeType,
 ) => {
   return grade
-    ? programme?.grades.find(g => g.name.toLowerCase() === grade)?.name
+    ? programme?.grades.find((g) => g.name.toLowerCase() === grade)?.name
     : programme?.grades?.[0]?.name;
 };
 

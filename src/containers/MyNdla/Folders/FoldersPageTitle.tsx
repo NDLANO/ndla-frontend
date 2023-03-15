@@ -104,7 +104,7 @@ const FoldersPageTitle = ({
           {hasSelectedFolder && !examLock && (
             <FolderActions
               selectedFolder={selectedFolder}
-              onActionChanged={action =>
+              onActionChanged={(action) =>
                 selectedFolder &&
                 setFolderAction({ action, folder: selectedFolder })
               }

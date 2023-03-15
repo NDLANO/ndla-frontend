@@ -41,7 +41,7 @@ const getIssuer = async () => {
 
 const getClient = (redirect_uri: string) =>
   getIssuer().then(
-    issuer =>
+    (issuer) =>
       new issuer.Client({
         client_id: FEIDE_CLIENT_ID,
         client_secret: FEIDE_CLIENT_SECRET,
@@ -57,7 +57,7 @@ export const getRedirectUrl = (req: Request, state: string) => {
   const redirect_uri_login = `${req.protocol}://${req.hostname}${port}/login/success`;
 
   return getClient(redirect_uri_login)
-    .then(client =>
+    .then((client) =>
       client.authorizationUrl({
         scope:
           'email openid userinfo-photo groups-edu userinfo-language userid userinfo-name groups-org userid-feide',
@@ -65,7 +65,7 @@ export const getRedirectUrl = (req: Request, state: string) => {
         state: state,
       }),
     )
-    .then(feide_url => {
+    .then((feide_url) => {
       return { url: feide_url, verifier: code_verifier };
     });
 };
@@ -73,7 +73,7 @@ export const getRedirectUrl = (req: Request, state: string) => {
 export const getFeideToken = (req: Request, verifier: string, code: string) => {
   const port = req.protocol === 'http' ? `:${config.port}` : '';
   const redirect_uri_login = `${req.protocol}://${req.hostname}${port}/login/success`;
-  return getClient(redirect_uri_login).then(client => {
+  return getClient(redirect_uri_login).then((client) => {
     const params = client.callbackParams(`login/success?code=${code}`);
     return client.callback(redirect_uri_login, params, {
       code_verifier: verifier,
@@ -84,7 +84,7 @@ export const getFeideToken = (req: Request, verifier: string, code: string) => {
 export const feideLogout = (req: Request, state: string, idToken: string) => {
   const port = req.protocol === 'http' ? `:${config.port}` : '';
   const redirect_uri_logout = `${req.protocol}://${req.hostname}${port}/logout/session`;
-  return getClient(redirect_uri_logout).then(client =>
+  return getClient(redirect_uri_logout).then((client) =>
     client.endSessionUrl({
       id_token_hint: idToken,
       post_logout_redirect_uri: redirect_uri_logout,

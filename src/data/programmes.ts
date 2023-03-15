@@ -3455,13 +3455,13 @@ export const programmes: ProgrammeType[] = [
 ];
 
 export const getProgrammeBySlug = (slug: string, locale: LocaleType) => {
-  return programmes.find(item => {
+  return programmes.find((item) => {
     if (item.url) {
       if (locale) {
         return item.url[locale] === slug;
       } else {
         return Object.keys(item.url).find(
-          lang => item.url[lang as LocaleType] === slug,
+          (lang) => item.url[lang as LocaleType] === slug,
         );
       }
     }

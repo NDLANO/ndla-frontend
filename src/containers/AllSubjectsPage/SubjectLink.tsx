@@ -91,7 +91,9 @@ const SubjectLink = ({ subject, favorites, className }: Props) => {
     if (!favorites) {
       return;
     }
-    const newFavorites = favorites?.filter(favorite => favorite !== subject.id);
+    const newFavorites = favorites?.filter(
+      (favorite) => favorite !== subject.id,
+    );
     await updatePersonalData({ variables: { favoriteSubjects: newFavorites } });
     setShowDeleteModal(false);
     addSnack({

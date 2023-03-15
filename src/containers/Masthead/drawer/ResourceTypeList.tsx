@@ -27,7 +27,7 @@ interface HeaderProps {
 const shouldForwardProp = (p: string) => p !== 'backgroundColor';
 
 const ResourceTypeHeader = styled('li', { shouldForwardProp })<HeaderProps>`
-  background-color: ${p => p.backgroundColor};
+  background-color: ${(p) => p.backgroundColor};
   display: flex;
   align-items: center;
   padding: ${spacing.xxsmall} 0 ${spacing.xxsmall} ${spacing.normal};

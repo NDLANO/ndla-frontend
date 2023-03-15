@@ -51,13 +51,13 @@ export const groupSubjects = (
   subjects: GQLMySubjectsSubjectFragmentFragment[],
 ): GroupedSubject[] => {
   return Object.entries(
-    groupBy(subjects, subject => {
+    groupBy(subjects, (subject) => {
       const firstChar = subject.name[0]?.toUpperCase();
       const isLetter = firstChar?.match(/[A-Z\WÆØÅ]+/);
       return isLetter ? firstChar : '#';
     }),
   )
-    .map(group => ({ label: group[0], subjects: group[1] }))
+    .map((group) => ({ label: group[0], subjects: group[1] }))
     .sort((a, b) => (a.label > b.label ? 1 : -1));
 };
 
@@ -66,14 +66,14 @@ export const filterSubjects = (
   status: string,
 ) => {
   const subjects = allSubjects.filter(
-    subject => subject.metadata.customFields.forklaringsfag !== 'true',
+    (subject) => subject.metadata.customFields.forklaringsfag !== 'true',
   );
   if (status === 'all') {
     return subjects.filter(
-      subject => subject.metadata.customFields.subjectCategory,
+      (subject) => subject.metadata.customFields.subjectCategory,
     );
   }
   return subjects.filter(
-    subject => subject.metadata.customFields.subjectCategory === status,
+    (subject) => subject.metadata.customFields.subjectCategory === status,
   );
 };

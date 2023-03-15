@@ -126,7 +126,7 @@ const PodcastLicenseList = ({ podcasts, articleId }: Props) => {
       <h2>{t('license.podcast.heading')}</h2>
       <p>{t('license.podcast.description')}</p>
       <MediaList>
-        {podcasts.map(podcast => (
+        {podcasts.map((podcast) => (
           <PodcastLicenseInfo
             podcast={podcast}
             articleId={articleId}

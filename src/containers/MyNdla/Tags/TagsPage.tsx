@@ -123,7 +123,7 @@ const Resources = ({ resources }: ResourcesProps) => {
   >(undefined);
   const { t } = useTranslation();
   const { data, loading } = useFolderResourceMetaSearch(
-    resources.map(res => ({
+    resources.map((res) => ({
       id: res.resourceId,
       path: res.path,
       resourceType: res.resourceType,
@@ -132,7 +132,7 @@ const Resources = ({ resources }: ResourcesProps) => {
   );
   const keyedData = keyBy(
     data ?? [],
-    resource => `${resource.type}-${resource.id}`,
+    (resource) => `${resource.type}-${resource.id}`,
   );
 
   const setViewType = (type: ViewType) => {
@@ -149,7 +149,7 @@ const Resources = ({ resources }: ResourcesProps) => {
       </CountWrapper>
       <ListViewOptions type={viewType} onTypeChange={setViewType} />
       <BlockWrapper type={viewType}>
-        {resources.map(resource => {
+        {resources.map((resource) => {
           const meta =
             keyedData[`${resource.resourceType}-${resource.resourceId}`];
           return (
@@ -225,7 +225,7 @@ const Tags = ({ tags }: TagsProps) => {
       </CountWrapper>
       <nav aria-label={t('myNdla.myTags')}>
         <StyledUl>
-          {tags.map(tag => (
+          {tags.map((tag) => (
             <li key={tag}>
               <StyledSafeLinkButton
                 colorTheme="greyLighter"

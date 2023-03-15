@@ -61,7 +61,7 @@ const IframeArticlePage = ({
       <Helmet>
         <title>{`NDLA | ${article.title}`}</title>
         <meta name="robots" content="noindex" />
-        {scripts.map(script => (
+        {scripts.map((script) => (
           <script
             key={script.src}
             src={script.src}

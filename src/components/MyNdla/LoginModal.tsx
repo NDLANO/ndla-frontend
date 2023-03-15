@@ -52,7 +52,7 @@ const LoginModal = ({
       onClose={onClose}
       label={t('user.modal.isNotAuth')}
     >
-      {onCloseModal => (
+      {(onCloseModal) => (
         <>
           <ModalHeader>
             <Title>{title}</Title>

@@ -28,14 +28,16 @@ export const groupResourcesByResourceTypes = (
   const resources = [
     ...coreResources,
     ...supplementaryResources
-      .map(resource => ({
+      .map((resource) => ({
         ...resource,
         additional: true,
       }))
-      .filter(resource => !coreResources.find(core => core.id === resource.id)), // don't show supp resources that exists in core
+      .filter(
+        (resource) => !coreResources.find((core) => core.id === resource.id),
+      ), // don't show supp resources that exists in core
   ];
   return resources.reduce<Record<string, GQLResource[]>>((obj, resource) => {
-    const resourceTypesWithResources = resource.resourceTypes?.map(type => {
+    const resourceTypesWithResources = resource.resourceTypes?.map((type) => {
       const existing = obj[type.id] ?? [];
       return { ...type, resources: [...existing, resource] };
     });
@@ -71,9 +73,9 @@ export const getResourceGroups = (
   const sortedResourceTypes = sortResourceTypes(resourceTypes);
 
   return sortedResourceTypes
-    .map(type => {
+    .map((type) => {
       const resources = groupedResources[type.id] ?? [];
       return { ...type, resources };
     })
-    .filter(type => type.resources.length > 0);
+    .filter((type) => type.resources.length > 0);
 };

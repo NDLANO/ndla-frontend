@@ -86,7 +86,7 @@ const TopicMenu = ({
 
   const arrowAddTopic = useCallback(
     (id: string | undefined) => {
-      const newTopic = topic.subtopics.find(t => t.id === id);
+      const newTopic = topic.subtopics.find((t) => t.id === id);
       if (newTopic) {
         addTopic(newTopic, level);
       }
@@ -123,8 +123,8 @@ const TopicMenu = ({
 
   const sortedResources = useMemo(
     () =>
-      sortBy(coreResources.concat(supplementaryResources), r => r.rank).map(
-        r => ({
+      sortBy(coreResources.concat(supplementaryResources), (r) => r.rank).map(
+        (r) => ({
           ...r,
           resourceTypes: sortResourceTypes(r.resourceTypes ?? []),
         }),
@@ -163,14 +163,14 @@ const TopicMenu = ({
           title={topic.name}
           onClose={onClose}
         />
-        {topic.subtopics.map(t => (
+        {topic.subtopics.map((t) => (
           <DrawerMenuItem
             id={t.id}
             key={t.id}
             current={t.path === location.pathname}
             type="button"
             active={levelId === t.id}
-            onClick={expanded =>
+            onClick={(expanded) =>
               expanded ? removeTopic(level) : addTopic(t, level)
             }
           >
@@ -178,9 +178,9 @@ const TopicMenu = ({
           </DrawerMenuItem>
         ))}
         {!isUngrouped
-          ? groupedResources.map(group => (
+          ? groupedResources.map((group) => (
               <ResourceTypeList id={group.id} key={group.id} name={group.name}>
-                {group.resources?.map(res => (
+                {group.resources?.map((res) => (
                   <DrawerMenuItem
                     id={`${topic.id}-${res.id}`}
                     type="link"
@@ -194,7 +194,7 @@ const TopicMenu = ({
                 ))}
               </ResourceTypeList>
             ))
-          : sortedResources.map(res => {
+          : sortedResources.map((res) => {
               const type = res.resourceTypes[0]
                 ? contentTypeMapping[res.resourceTypes[0]?.id]!
                 : 'subject-material';

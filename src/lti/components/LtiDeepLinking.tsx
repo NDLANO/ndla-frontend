@@ -24,7 +24,7 @@ const getSignature = async (
       ...postData,
       content_items: JSON.stringify(postData.content_items),
     }),
-  }).then(r => resolveJsonOrRejectWithError<LtiData>(r));
+  }).then((r) => resolveJsonOrRejectWithError<LtiData>(r));
   return oauthData;
 };
 
@@ -128,7 +128,7 @@ const LtiDeepLinking = ({ ltiData = {}, item }: Props) => {
       action={ltiData?.content_item_return_url}
       encType="application/x-www-form-urlencoded"
     >
-      {Object.keys(postData).map(key => (
+      {Object.keys(postData).map((key) => (
         <input
           type="hidden"
           key={key}

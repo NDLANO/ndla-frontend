@@ -135,7 +135,7 @@ const ImageLicenseList = ({ images }: Props) => {
       <h2>{t('license.images.heading')}</h2>
       <p>{t('license.images.description')}</p>
       <MediaList>
-        {images.map(image => (
+        {images.map((image) => (
           <ImageLicenseInfo image={image} key={uuid()} />
         ))}
       </MediaList>

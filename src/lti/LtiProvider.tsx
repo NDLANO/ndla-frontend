@@ -50,7 +50,7 @@ const LtiProvider = ({ locale: propsLocale, ltiData }: Props) => {
   const { t, i18n } = useTranslation();
   const locale = propsLocale ?? i18n.language;
   const subjects = searchSubjects(searchParams.query);
-  const subjectItems = subjects?.map(subject => ({
+  const subjectItems = subjects?.map((subject) => ({
     id: subject.id,
     title: subject.name,
     url: subject.path,
@@ -60,7 +60,7 @@ const LtiProvider = ({ locale: propsLocale, ltiData }: Props) => {
     useGraphQuery<GQLSearchPageQuery>(searchPageQuery);
   const client = useApolloClient();
 
-  i18n.on('languageChanged', lang => {
+  i18n.on('languageChanged', (lang) => {
     client.resetStore();
     client.setLink(createApolloLinks(lang));
     setCookie({
@@ -76,7 +76,7 @@ const LtiProvider = ({ locale: propsLocale, ltiData }: Props) => {
   }) => {
     const selectedFilters =
       searchParamUpdates.selectedFilters?.split(',') ?? [];
-    setSearchParams(prevState => ({
+    setSearchParams((prevState) => ({
       ...prevState,
       ...searchParamUpdates,
       selectedFilters,
@@ -107,7 +107,7 @@ const LtiProvider = ({ locale: propsLocale, ltiData }: Props) => {
         subjects={data?.subjects}
         subjectItems={subjectItems}
         resourceTypes={data?.resourceTypes?.filter(
-          type => type.id !== RESOURCE_TYPE_LEARNING_PATH,
+          (type) => type.id !== RESOURCE_TYPE_LEARNING_PATH,
         )}
         ltiData={ltiData}
         isLti

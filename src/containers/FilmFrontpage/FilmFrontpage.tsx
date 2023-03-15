@@ -82,7 +82,7 @@ const FilmFrontpage = ({
     useState<string>('');
   const movieListRef = useRef<HTMLDivElement | null>(null);
   const about = filmFrontpage?.about?.find(
-    about => about.language === i18n.language,
+    (about) => about.language === i18n.language,
   );
 
   const onChangeResourceType = (resourceType?: string) => {
@@ -98,7 +98,7 @@ const FilmFrontpage = ({
   };
 
   const resourceTypeName = resourceTypeSelected
-    ? resourceTypes.find(rt => rt.id === resourceTypeSelected)
+    ? resourceTypes.find((rt) => rt.id === resourceTypeSelected)
     : undefined;
 
   const pageTitle = getDocumentTitle(t, subject);

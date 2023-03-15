@@ -29,7 +29,7 @@ const styledOptions = { shouldForwardProp };
 const StyledSafelinkButton = styled(SafeLinkButton, styledOptions)<StyledProps>`
   text-align: left;
   align-items: center;
-  margin-left: calc(${p => p.level} * ${spacing.small});
+  margin-left: calc(${(p) => p.level} * ${spacing.small});
   color: ${colors.text.primary};
   svg {
     width: 24px;
