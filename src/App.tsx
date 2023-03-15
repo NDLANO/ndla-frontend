@@ -42,6 +42,7 @@ import WelcomePage from './containers/WelcomePage/WelcomePage';
 import { LocaleType } from './interfaces';
 import handleError from './util/handleError';
 import SharedFolderPage from './containers/SharedFolderPage/SharedFolderPage';
+import FavoriteSubjectsPage from './containers/MyNdla/FavoriteSubjects/FavoriteSubjectsPage';
 
 interface State {
   hasError: boolean;
@@ -160,6 +161,10 @@ const AppRoutes = ({ base }: AppProps) => {
                     <Route index element={<TagsPage />} />
                     <Route path=":tag" element={<TagsPage />} />
                   </Route>
+                  <Route
+                    path="favoriteSubjects"
+                    element={<FavoriteSubjectsPage />}
+                  />
                 </Route>
                 <Route path="folder/:folderId">
                   <Route index element={<SharedFolderPage />} />
