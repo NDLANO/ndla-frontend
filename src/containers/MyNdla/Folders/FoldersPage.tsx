@@ -378,14 +378,14 @@ const FoldersPage = () => {
             folder={folderAction.folder}
             isOpen={folderAction.action === 'private'}
             onClose={() => setFolderAction(undefined)}
-            onUpdateStatus={() => {
-              updateFolderStatus({
+            onUpdateStatus={async () => {
+              await updateFolderStatus({
                 variables: {
                   folderId: folderAction.folder.id,
                   status: 'shared',
                 },
               });
-              setFolderAction(undefined);
+              setFolderAction({ ...folderAction, action: 'shared' });
             }}
           />
           <FolderShareModal
