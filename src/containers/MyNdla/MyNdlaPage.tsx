@@ -14,7 +14,7 @@ import styled from '@emotion/styled';
 import { breakpoints, fonts, mq, spacing } from '@ndla/core';
 import { HeartOutline } from '@ndla/icons/action';
 import { FolderOutlined } from '@ndla/icons/contentType';
-import { Feide, Share } from '@ndla/icons/common';
+import { Feide, Share, BookOpen } from '@ndla/icons/common';
 import { ListResource, UserInfo, Image } from '@ndla/ui';
 import { ButtonV2 } from '@ndla/button';
 import SafeLink, { SafeLinkButton } from '@ndla/safelink';
@@ -37,6 +37,7 @@ const ShareIcon = InfoPartIcon.withComponent(Share);
 const HeartOutlineIcon = InfoPartIcon.withComponent(HeartOutline);
 const FolderOutlinedIcon = InfoPartIcon.withComponent(FolderOutlined);
 const FeideIcon = InfoPartIcon.withComponent(Feide);
+const FavoriteSubjectIcon = InfoPartIcon.withComponent(BookOpen);
 
 const StyledPageContentContainer = styled.div`
   display: flex;
@@ -182,6 +183,11 @@ const MyNdlaPage = () => {
         icon={<HeartOutlineIcon />}
         title={t('myNdla.myPage.storageInfo.title')}>
         <InfoPartText>{t('myNdla.myPage.storageInfo.text')}</InfoPartText>
+      </InfoPart>
+      <InfoPart
+        icon={<FavoriteSubjectIcon />}
+        title={t('myNdla.myPage.favoriteSubjects.title')}>
+        <InfoPartText>{t('myNdla.myPage.favoriteSubjects.text')}</InfoPartText>
       </InfoPart>
       <InfoPart
         icon={<FolderOutlinedIcon />}

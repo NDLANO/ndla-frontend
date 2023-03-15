@@ -6,6 +6,7 @@
  *
  */
 
+import styled from '@emotion/styled';
 import { OneColumn } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
 import { GQLFolder } from '../../../graphqlTypes';
@@ -16,6 +17,10 @@ interface Props {
   folder?: GQLFolder;
 }
 
+const StyledOneColumn = styled(OneColumn)`
+  padding-bottom: 200px;
+`;
+
 const FolderMeta = ({ folder }: Props) => {
   const { t } = useTranslation();
   if (!folder) {
@@ -23,7 +28,7 @@ const FolderMeta = ({ folder }: Props) => {
   }
 
   return (
-    <OneColumn>
+    <StyledOneColumn>
       <h1>{folder.name}</h1>
       <FolderAndResourceCount
         selectedFolder={folder}
@@ -35,7 +40,7 @@ const FolderMeta = ({ folder }: Props) => {
       <p>{t('myNdla.sharedFolder.description.info1')}</p>
       <p>{t('myNdla.sharedFolder.description.info2')}</p>
       <p>{t('myNdla.sharedFolder.description.info3')}</p>
-    </OneColumn>
+    </StyledOneColumn>
   );
 };
 
