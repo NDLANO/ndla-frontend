@@ -14,7 +14,7 @@ import styled from '@emotion/styled';
 import { breakpoints, fonts, mq, spacing } from '@ndla/core';
 import { HeartOutline } from '@ndla/icons/action';
 import { FolderOutlined } from '@ndla/icons/contentType';
-import { Feide, HashTag, BookOpen } from '@ndla/icons/common';
+import { Feide, Share, BookOpen } from '@ndla/icons/common';
 import { ListResource, UserInfo, Image } from '@ndla/ui';
 import { ButtonV2 } from '@ndla/button';
 import SafeLink, { SafeLinkButton } from '@ndla/safelink';
@@ -32,10 +32,11 @@ import TitleWrapper from './components/TitleWrapper';
 import { constructNewPath, toHref } from '../../util/urlHelper';
 import { useBaseName } from '../../components/BaseNameContext';
 import { useDeletePersonalData } from './userMutations';
+import config from '../../config';
 
+const ShareIcon = InfoPartIcon.withComponent(Share);
 const HeartOutlineIcon = InfoPartIcon.withComponent(HeartOutline);
 const FolderOutlinedIcon = InfoPartIcon.withComponent(FolderOutlined);
-const HashTagIcon = InfoPartIcon.withComponent(HashTag);
 const FeideIcon = InfoPartIcon.withComponent(Feide);
 const FavoriteSubjectIcon = InfoPartIcon.withComponent(BookOpen);
 
@@ -176,6 +177,11 @@ const MyNdlaPage = () => {
           </StyledResourceList>
         </>
       )}
+      {config.sharingEnabled && (
+        <InfoPart icon={<ShareIcon />} title={t('myNdla.myPage.sharing.title')}>
+          <InfoPartText>{t('myNdla.myPage.sharing.text')}</InfoPartText>
+        </InfoPart>
+      )}
       <InfoPart
         icon={<HeartOutlineIcon />}
         title={t('myNdla.myPage.storageInfo.title')}>
@@ -191,11 +197,6 @@ const MyNdlaPage = () => {
         title={t('myNdla.myPage.folderInfo.title')}>
         <InfoPartText>
           <Trans i18nKey="myNdla.myPage.folderInfo.text" />
-        </InfoPartText>
-      </InfoPart>
-      <InfoPart icon={<HashTagIcon />} title={t('myNdla.myPage.tagInfo.title')}>
-        <InfoPartText>
-          <Trans i18nKey={'myNdla.myPage.tagInfo.text'} />
         </InfoPartText>
       </InfoPart>
       {user && (
