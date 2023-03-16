@@ -96,7 +96,7 @@ const MyNdlaPage = () => {
   const { deletePersonalData } = useDeletePersonalData();
   const { allFolderResources } = useRecentlyUsedResources();
   const { data: metaData, loading } = useFolderResourceMetaSearch(
-    allFolderResources?.map(r => ({
+    allFolderResources?.map((r) => ({
       id: r.resourceId,
       path: r.path,
       resourceType: r.resourceType,
@@ -114,7 +114,7 @@ const MyNdlaPage = () => {
     );
   };
 
-  const keyedData = keyBy(metaData ?? [], r => `${r.type}${r.id}`);
+  const keyedData = keyBy(metaData ?? [], (r) => `${r.type}${r.id}`);
 
   return (
     <StyledPageContentContainer>
@@ -153,7 +153,7 @@ const MyNdlaPage = () => {
         <>
           <h2>{t('myNdla.myPage.newFavourite')}</h2>
           <StyledResourceList>
-            {allFolderResources.map(res => {
+            {allFolderResources.map((res) => {
               const meta = keyedData[`${res.resourceType}${res.resourceId}`];
               return (
                 <ListItem key={res.id}>
@@ -251,7 +251,7 @@ const MyNdlaPage = () => {
           }
           label={t('myNdla.myPage.deleteAccount')}
         >
-          {onClose => (
+          {(onClose) => (
             <>
               <ModalHeader>
                 <h1>{t('myNdla.myPage.deleteAccount')}</h1>
