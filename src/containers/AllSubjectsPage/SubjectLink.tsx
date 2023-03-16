@@ -91,7 +91,9 @@ const SubjectLink = ({ subject, favorites, className }: Props) => {
     if (!favorites) {
       return;
     }
-    const newFavorites = favorites?.filter(favorite => favorite !== subject.id);
+    const newFavorites = favorites?.filter(
+      (favorite) => favorite !== subject.id,
+    );
     await updatePersonalData({ variables: { favoriteSubjects: newFavorites } });
     setShowDeleteModal(false);
     addSnack({
@@ -105,7 +107,8 @@ const SubjectLink = ({ subject, favorites, className }: Props) => {
       <Tooltip
         tooltip={t(
           `subjectsPage.${isFavorite ? 'removeFavorite' : 'addFavorite'}`,
-        )}>
+        )}
+      >
         <StyledIconButton
           onClick={() => setFavorite(isFavorite)}
           aria-label={`${t(
@@ -113,7 +116,8 @@ const SubjectLink = ({ subject, favorites, className }: Props) => {
           )}, ${subject.name}`}
           variant="ghost"
           size="xsmall"
-          colorTheme="lighter">
+          colorTheme="lighter"
+        >
           {isFavorite ? <Heart /> : <HeartOutline />}
         </StyledIconButton>
       </Tooltip>

@@ -62,7 +62,8 @@ const ArticleHero = ({
     <WrapperComponent
       ndlaFilm={ndlaFilm}
       resourceType={resourceType}
-      metaImage={metaImage}>
+      metaImage={metaImage}
+    >
       {ndlaFilm && metaImage && metaImage.url && (
         <div className="c-hero__background">
           <img src={metaImage.url} alt="" />

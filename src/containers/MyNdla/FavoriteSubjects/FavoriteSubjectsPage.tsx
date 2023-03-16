@@ -51,7 +51,7 @@ const FavoriteSubjectsPage = () => {
 
   const favoriteSubjects = useMemo(() => {
     if (loading || !subjects || !personalData?.favoriteSubjects) return [];
-    return subjects.filter(s => personalData.favoriteSubjects.includes(s.id));
+    return subjects.filter((s) => personalData.favoriteSubjects.includes(s.id));
   }, [loading, personalData?.favoriteSubjects, subjects]);
 
   useEffect(() => {
@@ -80,7 +80,8 @@ const FavoriteSubjectsPage = () => {
           size="normal"
           to="/subjects"
           colorTheme="light"
-          shape="pill">
+          shape="pill"
+        >
           {t('myNdla.favoriteSubjects.goToAllSubjects')}
         </StyledSafeLinkButton>
       </Container>
@@ -90,7 +91,7 @@ const FavoriteSubjectsPage = () => {
         <p>{t('myNdla.favoriteSubjects.noFavorites')}</p>
       ) : (
         <ul>
-          {favoriteSubjects.map(subject => (
+          {favoriteSubjects.map((subject) => (
             <StyledSubjectLink
               key={subject.id}
               favorites={personalData?.favoriteSubjects}

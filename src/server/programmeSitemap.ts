@@ -12,7 +12,7 @@ import { programmes } from '../data/programmes';
 
 const programmeSitemap = (): string => {
   const baseUrl = `${config?.ndlaFrontendDomain}${PROGRAMME_PATH}/`;
-  const slugs = programmes.map(p => `${baseUrl}${p.url['nb']}\n`);
+  const slugs = programmes.map((p) => `${baseUrl}${p.url['nb']}\n`);
   return slugs.join('');
 };
 

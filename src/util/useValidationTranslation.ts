@@ -3,7 +3,7 @@ import { FieldError } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import messages from '../messages/messagesNB';
 
-type SupportedFields = keyof typeof messages['validation']['fields'];
+type SupportedFields = keyof (typeof messages)['validation']['fields'];
 
 interface TranslationProps {
   field?: SupportedFields;

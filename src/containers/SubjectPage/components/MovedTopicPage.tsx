@@ -39,7 +39,7 @@ const convertTopicToResult = (
     url: topic.path || '',
     id: topic.id,
     ingress: topic.meta?.metaDescription ?? '',
-    subjects: topic.breadcrumbs?.map(crumb => ({
+    subjects: topic.breadcrumbs?.map((crumb) => ({
       url: topic.path,
       title: crumb?.[0]!,
       breadcrumb: crumb,

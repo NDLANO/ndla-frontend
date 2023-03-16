@@ -44,12 +44,12 @@ export const getContributorGroups = (licenseInfos: string[]) => {
       return { type: '', name: contributorFields[0]! };
     const [type, name] = contributorFields;
     const contributorType = Object.keys(contributorTypes.nb!).find(
-      key => contributorTypes.nb![key] === mapContributorType(type?.trim()!),
+      (key) => contributorTypes.nb![key] === mapContributorType(type?.trim()!),
     );
     return { type: contributorType || '', name: name || '' };
   };
 
-  const contributors = licenseInfos.map(val => parseContributorsString(val));
+  const contributors = licenseInfos.map((val) => parseContributorsString(val));
 
   return contributors.reduce(
     (
@@ -63,8 +63,8 @@ export const getContributorGroups = (licenseInfos: string[]) => {
       const objectKeys = Object.keys(contributorGroups) as Array<
         keyof typeof contributorGroups
       >;
-      const group = objectKeys.find(key => {
-        return contributorGroups[key].find(type => type === contributor.type);
+      const group = objectKeys.find((key) => {
+        return contributorGroups[key].find((type) => type === contributor.type);
       });
       if (group) {
         groups[group] = groups[group].concat(contributor);

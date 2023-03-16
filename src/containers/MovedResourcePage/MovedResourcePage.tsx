@@ -48,10 +48,11 @@ const MovedResourcePage = ({ resource }: Props) => {
         title: resource.name,
         url: resource.path ?? '',
         contentType: resource.resourceTypes
-          ?.map(type => contentTypeMapping[type.id])
-          .find(t => t),
-        type: resource.resourceTypes?.find(type => !contentTypeMapping[type.id])
-          ?.name,
+          ?.map((type) => contentTypeMapping[type.id])
+          .find((t) => t),
+        type: resource.resourceTypes?.find(
+          (type) => !contentTypeMapping[type.id],
+        )?.name,
         subjects: data?.resource?.breadcrumbs?.map((crumb, index) => ({
           url: resource.paths?.[index],
           title: crumb[0] ?? '',

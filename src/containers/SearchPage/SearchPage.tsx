@@ -23,7 +23,7 @@ import { GQLSearchPageQuery } from '../../graphqlTypes';
 
 const getStateSearchParams = (searchParams: Record<string, any>) => {
   const stateSearchParams: Record<string, any> = {};
-  Object.keys(searchParams).forEach(key => {
+  Object.keys(searchParams).forEach((key) => {
     stateSearchParams[key] = convertSearchParam(searchParams[key]);
   });
   return stateSearchParams;

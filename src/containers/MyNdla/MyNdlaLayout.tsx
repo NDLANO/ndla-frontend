@@ -103,7 +103,7 @@ const MyNdlaLayout = () => {
     if (typeof page === 'string') {
       if (folderId) {
         return [page].concat(
-          selectedFolder ? selectedFolder.breadcrumbs.map(b => b.id) : [],
+          selectedFolder ? selectedFolder.breadcrumbs.map((b) => b.id) : [],
         );
       }
       return [page];
@@ -146,7 +146,7 @@ const MyNdlaLayout = () => {
                   />
                 )}
               </StyledLi>
-              {links.map(link => (
+              {links.map((link) => (
                 <StyledLi key={link.id} role="none">
                   <NavigationLink
                     id={link.id}
@@ -161,7 +161,8 @@ const MyNdlaLayout = () => {
             <SafeLinkButton
               variant="outline"
               reloadDocument
-              to={`/logout?state=${toHref(location)}`}>
+              to={`/logout?state=${toHref(location)}`}
+            >
               {t('user.buttonLogOut')}
             </SafeLinkButton>
           </ButtonWrapper>

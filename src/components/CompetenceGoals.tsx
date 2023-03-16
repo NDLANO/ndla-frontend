@@ -82,8 +82,8 @@ const getUniqueCurriculums = (
   | LocalGQLCoreElement['curriculum']
 )[] => {
   const curriculums = competenceGoals
-    .filter(e => e.curriculum?.id)
-    .map(competenceGoal => competenceGoal.curriculum);
+    .filter((e) => e.curriculum?.id)
+    .map((competenceGoal) => competenceGoal.curriculum);
   return Object.values(
     curriculums.reduce(
       (acc, current) => ({
@@ -100,9 +100,9 @@ const getUniqueCompetenceGoalSet = (
   curriculumId: string,
 ): LocalGQLCompetenceGoal['competenceGoalSet'][] => {
   const competenceGoalSet = competenceGoals
-    .filter(e => e.competenceGoalSet?.id)
-    .filter(e => e.curriculum?.id === curriculumId)
-    .map(competenceGoal => competenceGoal.competenceGoalSet);
+    .filter((e) => e.competenceGoalSet?.id)
+    .filter((e) => e.curriculum?.id === curriculumId)
+    .map((competenceGoal) => competenceGoal.competenceGoalSet);
   return Object.values(
     competenceGoalSet.reduce(
       (acc, current) => ({
@@ -123,10 +123,10 @@ const getUniqueCompetenceGoals = (
 ) => {
   return competenceGoals
     .filter(
-      competenceGoal =>
+      (competenceGoal) =>
         competenceGoal.competenceGoalSet?.id === competenceGoalSetId,
     )
-    .map(competenceGoal => ({
+    .map((competenceGoal) => ({
       text: competenceGoal.name,
       url: addUrl ? searchUrl + competenceGoal.id : '',
       type: goalType,
@@ -137,7 +137,7 @@ const getUniqueCompetenceGoals = (
 const sortElementsById = (
   elements: ElementType['groupedCompetenceGoals'],
 ): ElementType['groupedCompetenceGoals'] =>
-  elements!.map(e => ({
+  elements!.map((e) => ({
     ...e,
     elements: e.elements.sort((a: any, b: any) => {
       if (a.id! < b.id!) return -1;
@@ -156,10 +156,10 @@ export const groupCompetenceGoals = (
     ? `/search?subjects=${subjectId}&grepCodes=`
     : '/search?grepCodes=';
   const curriculumElements = getUniqueCurriculums(competenceGoals).map(
-    curriculum => ({
+    (curriculum) => ({
       title: `${curriculum?.title} (${curriculum?.id})`,
       elements: getUniqueCompetenceGoalSet(competenceGoals, curriculum!.id).map(
-        competenceGoalSet => ({
+        (competenceGoalSet) => ({
           id: competenceGoalSet!.id,
           title: `${competenceGoalSet?.title} (${competenceGoalSet!.id})`,
           goals: getUniqueCompetenceGoals(
@@ -179,11 +179,11 @@ export const groupCompetenceGoals = (
 const groupCoreElements = (
   coreElements: LocalGQLCoreElement[],
 ): ElementType['groupedCoreElementItems'] => {
-  return getUniqueCurriculums(coreElements).map(curriculum => ({
+  return getUniqueCurriculums(coreElements).map((curriculum) => ({
     title: `${curriculum?.title} (${curriculum!.id})`,
     elements: coreElements
-      .filter(e => e.curriculum?.id === curriculum!.id)
-      .map(coreElement => ({
+      .filter((e) => e.curriculum?.id === curriculum!.id)
+      .map((coreElement) => ({
         id: coreElement!.id,
         name: coreElement!.name,
         text: coreElement.text!,
@@ -203,7 +203,7 @@ const CompetenceGoals = ({
 }: Props) => {
   const { t, i18n } = useTranslation();
   const language =
-    supportedLanguages?.find(l => l === i18n.language) ||
+    supportedLanguages?.find((l) => l === i18n.language) ||
     supportedLanguages?.[0] ||
     i18n.language;
 
@@ -215,10 +215,10 @@ const CompetenceGoals = ({
     },
   );
 
-  useEffect(() => setCompetenceGoalsLoading(loading), [
-    loading,
-    setCompetenceGoalsLoading,
-  ]);
+  useEffect(
+    () => setCompetenceGoalsLoading(loading),
+    [loading, setCompetenceGoalsLoading],
+  );
 
   if (error) {
     handleError(error);
@@ -229,7 +229,7 @@ const CompetenceGoals = ({
 
   const { competenceGoals, coreElements } = data;
   const LK20Goals = groupCompetenceGoals(
-    competenceGoals?.filter(goal => goal.type === 'LK20') ?? [],
+    competenceGoals?.filter((goal) => goal.type === 'LK20') ?? [],
     true,
     'LK20',
     subjectId,

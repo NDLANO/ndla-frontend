@@ -63,7 +63,7 @@ const AboutMenuPortion = ({
     (id?: string) => {
       if (id) {
         setInitialKey(id);
-        setSelected(type.subTypes?.find(t => t.key === id && t.subTypes));
+        setSelected(type.subTypes?.find((t) => t.key === id && t.subTypes));
       }
     },
     [type.subTypes],
@@ -97,14 +97,15 @@ const AboutMenuPortion = ({
             onClose={onGoBack}
             active={!selected}
           />
-          {type.subTypes?.map(link => {
+          {type.subTypes?.map((link) => {
             if (!link.subTypes) {
               return (
                 <DrawerMenuItem
                   key={link.key}
                   id={link.key}
                   type="link"
-                  to={link.link}>
+                  to={link.link}
+                >
                   {t(`masthead.menuOptions.about.${link.key}`)}
                 </DrawerMenuItem>
               );
@@ -115,7 +116,8 @@ const AboutMenuPortion = ({
                 key={link.key}
                 active={selected?.key === link.key}
                 type="button"
-                onClick={() => onGoRight(link.key)}>
+                onClick={() => onGoRight(link.key)}
+              >
                 {t(`masthead.menuOptions.about.${link.key}`)}
               </DrawerMenuItem>
             );

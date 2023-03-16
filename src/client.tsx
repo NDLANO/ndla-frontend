@@ -147,7 +147,8 @@ const NDLARouter = ({ children, base }: RCProps) => {
       basename={base}
       location={state.location}
       navigationType={state.action}
-      navigator={history}>
+      navigator={history}
+    >
       {children(history)}
     </Router>
   );
@@ -163,12 +164,14 @@ function canUseDOM() {
 
 function removeUniversalPortals() {
   if (canUseDOM()) {
-    document.querySelectorAll('[data-react-universal-portal]').forEach(node => {
-      if (node.hasAttribute('data-from-article-converter')) {
-        return;
-      }
-      node.remove();
-    });
+    document
+      .querySelectorAll('[data-react-universal-portal]')
+      .forEach((node) => {
+        if (node.hasAttribute('data-from-article-converter')) {
+          return;
+        }
+        node.remove();
+      });
   }
 }
 const constructNewPath = (newLocale?: string) => {
@@ -203,7 +206,7 @@ const LanguageWrapper = ({ basename }: { basename?: string }) => {
   const client = useApolloClient();
   const windowPath = useReactPath();
 
-  i18n.on('languageChanged', lang => {
+  i18n.on('languageChanged', (lang) => {
     setCookie({
       cookieName: STORED_LANGUAGE_COOKIE_KEY,
       cookieValue: lang,
@@ -242,7 +245,7 @@ const LanguageWrapper = ({ basename }: { basename?: string }) => {
 
   return (
     <NDLARouter key={base} base={base}>
-      {history => (
+      {(history) => (
         <App locale={i18n.language} history={history} isClient base={base} />
       )}
     </NDLARouter>

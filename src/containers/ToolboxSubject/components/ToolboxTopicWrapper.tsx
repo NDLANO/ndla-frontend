@@ -85,18 +85,16 @@ const ToolboxTopicWrapper = ({
           headingType="h2"
           subHeadingType="h3"
         />
-      ) : (
-        undefined
-      ),
+      ) : undefined,
     },
   };
 
-  const subTopics = topic?.subtopics?.map(subtopic => {
+  const subTopics = topic?.subtopics?.map((subtopic) => {
     const path = topic.path || '';
     const topicPath = path
       .split('/')
       .slice(2)
-      .map(id => `urn:${id}`);
+      .map((id) => `urn:${id}`);
     return {
       ...subtopic,
       label: subtopic.name,
@@ -136,8 +134,8 @@ ToolboxTopicWrapper.willTrackPageView = (
 
 ToolboxTopicWrapper.getDimensions = (props: Props) => {
   const { subject, topicList, topic, user } = props;
-  const topicPath = topicList.map(t =>
-    subject.allTopics?.find(topic => topic.id === t),
+  const topicPath = topicList.map((t) =>
+    subject.allTopics?.find((topic) => topic.id === t),
   );
 
   return getAllDimensions(

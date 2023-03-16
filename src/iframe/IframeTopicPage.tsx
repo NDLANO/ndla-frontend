@@ -73,7 +73,7 @@ export const IframeTopicPage = ({
       <Helmet>
         <title>{`${getDocumentTitle({ article })}`}</title>
         <meta name="robots" content="noindex" />
-        {scripts.map(script => (
+        {scripts.map((script) => (
           <script
             key={script.src}
             src={script.src}
@@ -106,7 +106,8 @@ export const IframeTopicPage = ({
             label={t('topicPage.topic')}
             isPlainArticle
             isOembed
-            contentType={constants.contentTypes.TOPIC}>
+            contentType={constants.contentTypes.TOPIC}
+          >
             <CreatedBy
               name={t('createdBy.content')}
               description={t('createdBy.text')}

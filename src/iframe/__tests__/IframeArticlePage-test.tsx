@@ -60,8 +60,7 @@ test('IframeArticlePage with article renderers correctly', () => {
         image: {
           title:
             'Oppgavebilde – T-hjelpercelle stilulerer og T-drepercelle dreper',
-          src:
-            'https://api.test.ndla.no/image-api/raw/t-hjelper-t-dreper-drep-cella-fagocytt.jpg',
+          src: 'https://api.test.ndla.no/image-api/raw/t-hjelper-t-dreper-drep-cella-fagocytt.jpg',
           altText: 'Oppgavebilde av T-celler',
           copyright: {
             license: {
@@ -90,8 +89,7 @@ test('IframeArticlePage with article renderers correctly', () => {
         articleIds: [],
         visualElement: {
           resource: 'brightcove',
-          url:
-            'https://players.brightcove.net/4806596774001/BkLm8fT_default/index.html?videoId=5796541737001',
+          url: 'https://players.brightcove.net/4806596774001/BkLm8fT_default/index.html?videoId=5796541737001',
           copyright: {
             rightsholders: [
               {
@@ -125,15 +123,13 @@ test('IframeArticlePage with article renderers correctly', () => {
             description: 'asd',
             cover:
               'https://cf-images.eu-west-1.prod.boltdns.net/v1/static/4806596774001/9b375240-8f81-48a4-a9c1-46df717a6fb9/0be10458-ee7a-4545-a9da-dbbc1398431b/1280x720/match/image.jpg',
-            src:
-              'https://players.brightcove.net/4806596774001/BkLm8fT_default/index.html?videoId=5796541737001',
+            src: 'https://players.brightcove.net/4806596774001/BkLm8fT_default/index.html?videoId=5796541737001',
             download:
               'http://house-fastly-signed-eu-west-1-prod.brightcovecdn.com/media/v1/pmp4/static/clear/4806596774001/9b375240-8f81-48a4-a9c1-46df717a6fb9/1ac27a06-62b5-4742-9084-42590e9a7842/main.mp4?fastly_token=NjE2NzQ4NGNfOTM3ZjAyODNkYjc3NDFiNDc1OTdiMGNjMTNlZjkwNjJkZmMwZjNmNTU0MjU2OWQ3M2FlZGE0NzJiMmFlZTNmZV8vL2hvdXNlLWZhc3RseS1zaWduZWQtZXUtd2VzdC0xLXByb2QuYnJpZ2h0Y292ZWNkbi5jb20vbWVkaWEvdjEvcG1wNC9zdGF0aWMvY2xlYXIvNDgwNjU5Njc3NDAwMS85YjM3NTI0MC04ZjgxLTQ4YTQtYTljMS00NmRmNzE3YTZmYjkvMWFjMjdhMDYtNjJiNS00NzQyLTkwODQtNDI1OTBlOWE3ODQyL21haW4ubXA0',
             iframe: {
               width: 1280,
               height: 720,
-              src:
-                'https://players.brightcove.net/4806596774001/BkLm8fT_default/index.html?videoId=5796541737001',
+              src: 'https://players.brightcove.net/4806596774001/BkLm8fT_default/index.html?videoId=5796541737001',
             },
             uploadDate: '2018-06-12T10:22:06.898Z',
             copyText:
@@ -191,7 +187,8 @@ test('IframeArticlePage with article renderers correctly', () => {
               pathname: '/article-iframe/urn:resource:1/128',
               search: 'asd',
               hash: '',
-            }}>
+            }}
+          >
             <I18nextProvider i18n={i18nInstance}>
               <Translation>
                 {(_, { i18n }) => {
@@ -230,7 +227,8 @@ test('IframePage with article displays error message on status === error', () =>
               pathname: '/article-iframe/urn:resource:1/128',
               search: 'asd',
               hash: '',
-            }}>
+            }}
+          >
             <IframePageContainer locale={'nb'} status="error" />
           </StaticRouter>
         </HelmetProvider>

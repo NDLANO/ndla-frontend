@@ -150,7 +150,8 @@ const FolderShareModal = ({
           shape="pill"
           variant={isMobile ? 'outline' : 'ghost'}
           colorTheme="danger"
-          onClick={() => onUpdateStatus?.()}>
+          onClick={() => onUpdateStatus?.()}
+        >
           {t('myNdla.folder.sharing.button.unShare')}
           {!isMobile && <TrashCanOutline />}
         </ButtonV2>
@@ -164,8 +165,9 @@ const FolderShareModal = ({
       isOpen={isOpen}
       size="normal"
       onClose={onClose}
-      label={t('user.modal.isNotAuth')}>
-      {onCloseModal => (
+      label={t('user.modal.isNotAuth')}
+    >
+      {(onCloseModal) => (
         <>
           <ModalHeaderV2>
             <Title>{t(`myNdla.folder.sharing.header.${type}`)}</Title>
@@ -197,7 +199,8 @@ const FolderShareModal = ({
                       id: 'shareLink',
                       content: t('myNdla.folder.sharing.link'),
                     });
-                  }}>
+                  }}
+                >
                   {previewLink(folder.id)}
                 </CopyLinkButton>
               </div>

@@ -109,7 +109,8 @@ export const convertToGaOrGtmDimension = (
 };
 
 const getGrepCodeOfType = (pattern: string, grepCodes?: string[]) =>
-  grepCodes?.filter(code => code?.startsWith(pattern))?.join('|') || undefined;
+  grepCodes?.filter((code) => code?.startsWith(pattern))?.join('|') ||
+  undefined;
 
 type RequiredLearningpath = {
   learningsteps?: any[];
@@ -154,7 +155,7 @@ export const getAllDimensions = (
         ? topicPath[topicPath.length - 1]?.name
         : undefined,
     '8': isArticle && article ? article.title : undefined,
-    '9': authors?.map(author => author?.name).join(', '),
+    '9': authors?.map((author) => author?.name).join(', '),
     '10': getGrepCodeOfType('KE', article?.grepCodes),
     '13': learningpath?.learningsteps?.length,
     '14': learningstep ? learningstep.seqNo + 1 : undefined,

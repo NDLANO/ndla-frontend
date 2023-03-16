@@ -52,8 +52,7 @@ const FooterWrapper = () => {
     { url: 'https://om.ndla.no/gdpr', label: t('footer.privacyLink') },
     { url: 'https://om.ndla.no/cookies', label: t('footer.cookiesLink') },
     {
-      url:
-        'https://uustatus.no/nn/erklaringer/publisert/8cefdf3d-3272-402a-907b-689ddfc9bba7',
+      url: 'https://uustatus.no/nn/erklaringer/publisert/8cefdf3d-3272-402a-907b-689ddfc9bba7',
       label: t('footer.availabilityLink'),
     },
   ];
@@ -70,7 +69,8 @@ const FooterWrapper = () => {
           onSelect={i18n.changeLanguage}
         />
       }
-      privacyLinks={privacyLinks}>
+      privacyLinks={privacyLinks}
+    >
       <FooterText>
         <EditorName title={t('footer.editorInChief')} name="Sigurd Trageton" />
         {t('footer.info')}

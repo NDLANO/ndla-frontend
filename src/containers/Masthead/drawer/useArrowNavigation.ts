@@ -18,7 +18,7 @@ const getItem = (activeElement: Element, direction: number) => {
     .closest(ROOT_SELECTOR)
     ?.querySelectorAll(ITEM_SELECTOR);
 
-  const index = findIndex(elements, el => el === activeElement);
+  const index = findIndex(elements, (el) => el === activeElement);
 
   return nth(elements, index + direction);
 };

@@ -128,9 +128,7 @@ const Topic = ({
           headingType="h3"
           subHeadingType="h4"
         />
-      ) : (
-        undefined
-      ),
+      ) : undefined,
     },
   };
 
@@ -138,9 +136,9 @@ const Topic = ({
   const topicPath = path
     ?.split('/')
     .slice(2)
-    .map(id => `urn:${id}`);
+    .map((id) => `urn:${id}`);
 
-  const subTopics = topic?.subtopics?.map(subtopic => {
+  const subTopics = topic?.subtopics?.map((subtopic) => {
     return {
       ...subtopic,
       label: subtopic.name,
@@ -162,7 +160,8 @@ const Topic = ({
       isLoading={false}
       renderMarkdown={renderMarkdown}
       invertedStyle={ndlaFilm}
-      isAdditionalTopic={topic.relevanceId === RELEVANCE_SUPPLEMENTARY}>
+      isAdditionalTopic={topic.relevanceId === RELEVANCE_SUPPLEMENTARY}
+    >
       <ArticleContents
         topic={topic}
         modifier="in-topic"
@@ -189,8 +188,8 @@ Topic.getDimensions = ({ topic, subject, user }: Props) => {
   const topicPath = topic?.path
     ?.split('/')
     .slice(2)
-    .map(t =>
-      subject?.allTopics?.find(topic => topic.id.replace('urn:', '') === t),
+    .map((t) =>
+      subject?.allTopics?.find((topic) => topic.id.replace('urn:', '') === t),
     );
 
   return getAllDimensions(

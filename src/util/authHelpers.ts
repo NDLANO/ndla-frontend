@@ -84,8 +84,8 @@ export const initializeFeideLogin = (from?: string) => {
   const state = `${from ? `?state=${from}` : ''}`;
 
   return fetch(`${locationOrigin}/feide/login${state}`)
-    .then(res => resolveJsonOrRejectWithError<Feide>(res))
-    .then(data => {
+    .then((res) => resolveJsonOrRejectWithError<Feide>(res))
+    .then((data) => {
       window.location.href = data?.url || '';
     });
 };

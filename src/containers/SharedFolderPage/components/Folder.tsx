@@ -55,7 +55,7 @@ const FolderButton = styled(ButtonV2, folderButtonOptions)<ButtonProps>`
   border: none;
   padding-top: ${spacing.small};
   padding-bottom: ${spacing.small};
-  padding-left: calc(${p => p.level} * ${spacing.small});
+  padding-left: calc(${(p) => p.level} * ${spacing.small});
 
   &:hover,
   &:focus-visible {
@@ -92,14 +92,14 @@ const arrowOpenCss = css`
 const containsFolder = (folder: GQLFolder, targetId: string): boolean => {
   return (
     folder.id === targetId ||
-    !!folder.subfolders.find(subfolder => containsFolder(subfolder, targetId))
+    !!folder.subfolders.find((subfolder) => containsFolder(subfolder, targetId))
   );
 };
 
 const containsResource = (folder: GQLFolder): boolean => {
   return (
     folder.resources.length > 0 ||
-    !!folder.subfolders.find(subfolder => containsResource(subfolder))
+    !!folder.subfolders.find((subfolder) => containsResource(subfolder))
   );
 };
 
@@ -182,11 +182,12 @@ const Folder = ({
                 setIsOpen(!isOpen);
                 setFocus(`shared-${folder.id}`);
                 onClose?.();
-              }}>
+              }}
+            >
               <StyledArrow
                 css={!isOpen ? arrowOpenCss : undefined}
                 // @ts-ignore
-                onClick={e => {
+                onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
                   setIsOpen(!isOpen);
@@ -211,7 +212,8 @@ const Folder = ({
             onClick={() => {
               setFocus(`shared-${folder.id}`);
               setIsOpen(!isOpen);
-            }}>
+            }}
+          >
             <StyledArrow css={!isOpen ? arrowOpenCss : undefined} /> {name}
           </FolderButton>
         </FolderButtonContainer>
@@ -221,8 +223,9 @@ const Folder = ({
         <StyledUl
           role="group"
           data-list
-          aria-owns={`folder-sublist-${folder.id}`}>
-          {subfolders.map(subfolder => (
+          aria-owns={`folder-sublist-${folder.id}`}
+        >
+          {subfolders.map((subfolder) => (
             <Folder
               onClose={onClose}
               setFocus={setFocus}
@@ -233,7 +236,7 @@ const Folder = ({
               meta={meta}
             />
           ))}
-          {resources.map(resource => (
+          {resources.map((resource) => (
             <FolderResource
               setFocus={setFocus}
               level={level}

@@ -99,13 +99,15 @@ const DefaultMenu = ({
         <IconButtonV2
           onClick={setShouldCloseLevel}
           aria-label="Go back"
-          colorTheme="light">
+          colorTheme="light"
+        >
           <Back />
         </IconButtonV2>
         <IconButtonV2
           onClick={closeSubMenu}
           aria-label="Home"
-          colorTheme="light">
+          colorTheme="light"
+        >
           <Home />
         </IconButtonV2>
       </StyledCollapsedMenu>
@@ -148,28 +150,32 @@ const DefaultMenu = ({
           id="multidisciplinary"
           type="link"
           to={multiDiscUrl}
-          onClose={onClose}>
+          onClose={onClose}
+        >
           {t('masthead.menuOptions.multidisciplinarySubjects')}
         </DrawerMenuItem>
         <DrawerMenuItem
           id="toolboxStudents"
           type="link"
           to={studentToolboxUrl}
-          onClose={onClose}>
+          onClose={onClose}
+        >
           {t('masthead.menuOptions.toolboxStudents')}
         </DrawerMenuItem>
         <DrawerMenuItem
           id="toolboxTeachers"
           type="link"
           to={teacherToolboxUrl}
-          onClose={onClose}>
+          onClose={onClose}
+        >
           {t('masthead.menuOptions.toolboxTeachers')}
         </DrawerMenuItem>
         <DrawerMenuItem
           id="film"
           type="link"
           to={FILM_PAGE_PATH}
-          onClose={onClose}>
+          onClose={onClose}
+        >
           {t('masthead.menuOptions.film')}
         </DrawerMenuItem>
       </DrawerList>

@@ -65,9 +65,11 @@ const NoResults = styled.div`
 
 const PodcastSeriesPage = () => {
   const { id } = useTypedParams<RouteParams>();
-  const { error, loading, data: { podcastSeries } = {} } = useQuery<
-    GQLPodcastSeriesPageQuery
-  >(podcastSeriesPageQuery, {
+  const {
+    error,
+    loading,
+    data: { podcastSeries } = {},
+  } = useQuery<GQLPodcastSeriesPageQuery>(podcastSeriesPageQuery, {
     variables: { id: Number(id) },
   });
 
@@ -117,7 +119,7 @@ const PodcastSeriesPage = () => {
   const rssUrl = `${url}/feed.xml`;
 
   const mapType = (type: string, arr?: GQLContributorInfoFragment[]) =>
-    arr?.map(item => ({
+    arr?.map((item) => ({
       '@type': type,
       name: item.name,
     }));
@@ -144,7 +146,7 @@ const PodcastSeriesPage = () => {
       acquireLicensePage: AcquireLicensePage,
       ...publisher,
     };
-    const episodes = podcastSeries.episodes?.map(episode => {
+    const episodes = podcastSeries.episodes?.map((episode) => {
       return {
         '@context': 'https://schema.org',
         '@type': 'PodcastEpisode',
@@ -190,7 +192,7 @@ const PodcastSeriesPage = () => {
         type="website"
         title={podcastSeries.title.title ?? ''}
         trackableContent={{
-          tags: podcastSeries?.episodes?.flatMap(ep => ep.tags?.tags || []),
+          tags: podcastSeries?.episodes?.flatMap((ep) => ep.tags?.tags || []),
           supportedLanguages: podcastSeries.supportedLanguages,
         }}
         description={podcastSeries.description.description}
@@ -210,7 +212,7 @@ const PodcastSeriesPage = () => {
           {podcastSeries.episodes?.length ? (
             <>
               <h2>{t('podcastPage.episodes')}</h2>
-              {podcastSeries.episodes.map(episode => (
+              {podcastSeries.episodes.map((episode) => (
                 <Audio key={episode.id} audio={episode} seriesId={id} />
               ))}
             </>

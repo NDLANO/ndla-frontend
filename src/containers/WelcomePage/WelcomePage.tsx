@@ -94,7 +94,8 @@ const WelcomePage = () => {
         type="website"
         title={t('welcomePage.heading.heading')}
         description={t('meta.description')}
-        imageUrl={`${config.ndlaFrontendDomain}/static/logo.png`}>
+        imageUrl={`${config.ndlaFrontendDomain}/static/logo.png`}
+      >
         <meta name="keywords" content={t('meta.keywords')} />
       </SocialMediaMetadata>
       <FrontpageHeader locale={i18n.language} showHeader={true}>

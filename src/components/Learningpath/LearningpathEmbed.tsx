@@ -39,8 +39,8 @@ const StyledIframeContainer = styled.div<StyledIframeContainerProps>`
     padding-top: 1em;
     border: 0 none;
     max-width: 100%;
-    width: ${p => p.oembedWidth}px;
-    height: ${p => p.oembedHeight}px;
+    width: ${(p) => p.oembedWidth}px;
+    height: ${(p) => p.oembedHeight}px;
   }
 `;
 
@@ -96,7 +96,8 @@ const LearningpathEmbed = ({
     return (
       <StyledIframeContainer
         oembedWidth={oembed.width}
-        oembedHeight={oembed.height}>
+        oembedHeight={oembed.height}
+      >
         <LearningpathIframe html={oembed.html} url={embedUrl.url} />
       </StyledIframeContainer>
     );
@@ -118,7 +119,7 @@ const LearningpathEmbed = ({
         {article && article.metaDescription && (
           <meta name="description" content={article.metaDescription} />
         )}
-        {scripts.map(script => (
+        {scripts.map((script) => (
           <script
             key={script.src}
             src={script.src}

@@ -23,7 +23,7 @@ const ClientFavorite = ({ path, onClick }: Props) => {
   const { authenticated } = useContext(AuthContext);
   const { folders } = useFolders({ skip: !authenticated });
   const resources = useMemo(() => getAllResources(folders), [folders]);
-  const exists = resources.some(r => r.path === path);
+  const exists = resources.some((r) => r.path === path);
   return <UIFavoriteButton isFavorite={exists} onClick={onClick} />;
 };
 

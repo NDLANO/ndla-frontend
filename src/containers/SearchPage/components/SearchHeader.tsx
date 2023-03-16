@@ -56,15 +56,15 @@ const SearchHeader = ({
   }, [query]);
 
   useEffect(() => {
-    const activeSubjects = subjectIds.map(id => {
-      const name = subjects?.find(subject => subject.id === id)?.name || '';
+    const activeSubjects = subjectIds.map((id) => {
+      const name = subjects?.find((subject) => subject.id === id)?.name || '';
       return {
         value: id,
         name: name,
         title: name,
       };
     });
-    const activeGrepCodes = competenceGoals.map(e => ({
+    const activeGrepCodes = competenceGoals.map((e) => ({
       value: e.id,
       name: e.id,
       title: e.id,
@@ -108,10 +108,10 @@ const SearchHeader = ({
 
   const handleFilterRemove = (value: string) => {
     onFilterValueChange(
-      competenceGoals.filter(e => e.id !== value).map(e => e.id),
-      subjectIds.filter(id => id !== value),
+      competenceGoals.filter((e) => e.id !== value).map((e) => e.id),
+      subjectIds.filter((id) => id !== value),
     );
-    setActiveFilters(activeFilters.filter(filter => filter.value !== value));
+    setActiveFilters(activeFilters.filter((filter) => filter.value !== value));
   };
 
   const onSearchValueChange = (value: string) => {
@@ -125,7 +125,7 @@ const SearchHeader = ({
     competenceGoals,
     false,
     'LK06',
-  )?.flatMap(e => e.elements);
+  )?.flatMap((e) => e.elements);
 
   return (
     <SearchHeaderUI
@@ -135,7 +135,7 @@ const SearchHeader = ({
         handleSearchParamsChange({ query: suggestion })
       }
       searchValue={searchValue}
-      onSearchValueChange={value => onSearchValueChange(value)}
+      onSearchValueChange={(value) => onSearchValueChange(value)}
       onSubmit={handleSearchSubmit}
       activeFilters={{
         filters: activeFilters,

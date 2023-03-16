@@ -84,7 +84,8 @@ const ResourcesTopicTitle = ({
 
   return (
     <TopicTitleWrapper
-      css={invertedStyle ? invertedTopicTitleWrapperStyle : undefined}>
+      css={invertedStyle ? invertedTopicTitleWrapperStyle : undefined}
+    >
       <StyledHGroup>
         <Heading css={headingStyle}>{title}</Heading>
         <StyledParagraph>{subTitle}</StyledParagraph>
@@ -110,10 +111,12 @@ const ResourcesTopicTitle = ({
                 colorTheme="light"
                 inverted={invertedStyle}
                 id={tooltipId}
-                aria-label={t('resource.dialogTooltip')}>
+                aria-label={t('resource.dialogTooltip')}
+              >
                 <LearningPathQuiz />
               </IconButtonV2>
-            }>
+            }
+          >
             {(onClose: () => void) => (
               <>
                 <ModalHeader>

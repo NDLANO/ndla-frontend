@@ -106,12 +106,13 @@ const ArticlePage = ({
     );
   }
   if (!resource?.article) {
-    const error = errors?.find(e => e.path?.includes('resource'));
+    const error = errors?.find((e) => e.path?.includes('resource'));
     return (
       <div>
         <ArticleErrorMessage
           //@ts-ignore
-          status={error?.status}>
+          status={error?.status}
+        >
           {topic && (
             <Resources
               topic={topic}
@@ -150,7 +151,7 @@ const ArticlePage = ({
       />
       <Helmet>
         <title>{`${getDocumentTitle(t, resource, subject)}`}</title>
-        {scripts.map(script => (
+        {scripts.map((script) => (
           <script
             key={script.src}
             src={script.src}

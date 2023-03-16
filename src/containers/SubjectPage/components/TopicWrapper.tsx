@@ -63,7 +63,7 @@ const TopicWrapper = ({
       subjectId,
       convertEmbeds: disableConverter,
     },
-    onCompleted: data => {
+    onCompleted: (data) => {
       if (data.topic) {
         setBreadCrumb({
           id: data.topic.id,

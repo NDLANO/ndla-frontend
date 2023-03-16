@@ -47,7 +47,7 @@ const NewFolder = ({
         : folders,
     [parentId, cache, folders],
   );
-  const siblingNames = siblings.map(sib => sib.name.toLowerCase());
+  const siblingNames = siblings.map((sib) => sib.name.toLowerCase());
   const { addFolder, loading } = useAddFolderMutation();
   const { t } = useTranslation();
   const { t: validateT } = useValidationTranslation();
@@ -106,12 +106,12 @@ const NewFolder = ({
       error={error}
       value={name}
       before={icon}
-      onChange={e => {
+      onChange={(e) => {
         if (!loading) {
           setName(e.currentTarget.value);
         }
       }}
-      onKeyDown={e => {
+      onKeyDown={(e) => {
         if (e.key === 'Escape') {
           e.preventDefault();
           onClose?.();

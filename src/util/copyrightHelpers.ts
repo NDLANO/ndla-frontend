@@ -30,8 +30,10 @@ export const getGroupedAuthors = (
   },
   language: string,
 ) => {
-  return getGroupedContributorDescriptionList(authors, language).map(item => ({
-    name: item.description,
-    type: item.label,
-  }));
+  return getGroupedContributorDescriptionList(authors, language).map(
+    (item) => ({
+      name: item.description,
+      type: item.label,
+    }),
+  );
 };

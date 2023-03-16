@@ -86,7 +86,7 @@ const TopicMenu = ({
 
   const arrowAddTopic = useCallback(
     (id: string | undefined) => {
-      const newTopic = topic.subtopics.find(t => t.id === id);
+      const newTopic = topic.subtopics.find((t) => t.id === id);
       if (newTopic) {
         addTopic(newTopic, level);
       }
@@ -112,9 +112,10 @@ const TopicMenu = ({
     }
   }, [active, shouldCloseLevel, setLevelClosed, onCloseMenuPortion]);
 
-  const coreResources = useMemo(() => data?.topic?.coreResources ?? [], [
-    data?.topic?.coreResources,
-  ]);
+  const coreResources = useMemo(
+    () => data?.topic?.coreResources ?? [],
+    [data?.topic?.coreResources],
+  );
   const supplementaryResources = useMemo(
     () => data?.topic?.supplementaryResources ?? [],
     [data?.topic?.supplementaryResources],
@@ -122,8 +123,8 @@ const TopicMenu = ({
 
   const sortedResources = useMemo(
     () =>
-      sortBy(coreResources.concat(supplementaryResources), r => r.rank).map(
-        r => ({
+      sortBy(coreResources.concat(supplementaryResources), (r) => r.rank).map(
+        (r) => ({
           ...r,
           resourceTypes: sortResourceTypes(r.resourceTypes ?? []),
         }),
@@ -162,36 +163,38 @@ const TopicMenu = ({
           title={topic.name}
           onClose={onClose}
         />
-        {topic.subtopics.map(t => (
+        {topic.subtopics.map((t) => (
           <DrawerMenuItem
             id={t.id}
             key={t.id}
             current={t.path === location.pathname}
             type="button"
             active={levelId === t.id}
-            onClick={expanded =>
+            onClick={(expanded) =>
               expanded ? removeTopic(level) : addTopic(t, level)
-            }>
+            }
+          >
             {t.name}
           </DrawerMenuItem>
         ))}
         {!isUngrouped
-          ? groupedResources.map(group => (
+          ? groupedResources.map((group) => (
               <ResourceTypeList id={group.id} key={group.id} name={group.name}>
-                {group.resources?.map(res => (
+                {group.resources?.map((res) => (
                   <DrawerMenuItem
                     id={`${topic.id}-${res.id}`}
                     type="link"
                     to={res.path}
                     current={res.path === location.pathname}
                     onClose={onClose}
-                    key={res.id}>
+                    key={res.id}
+                  >
                     {res.name}
                   </DrawerMenuItem>
                 ))}
               </ResourceTypeList>
             ))
-          : sortedResources.map(res => {
+          : sortedResources.map((res) => {
               const type = res.resourceTypes[0]
                 ? contentTypeMapping[res.resourceTypes[0]?.id]!
                 : 'subject-material';
@@ -202,9 +205,11 @@ const TopicMenu = ({
                   to={res.path}
                   current={res.path === location.pathname}
                   onClose={onClose}
-                  key={res.id}>
+                  key={res.id}
+                >
                   <StyledResourceSpan
-                    aria-label={`${res.name}, ${t(`contentTypes.${type}`)}`}>
+                    aria-label={`${res.name}, ${t(`contentTypes.${type}`)}`}
+                  >
                     <ContentTypeBadge type={type} border={false} />
                     {res.name}
                   </StyledResourceSpan>

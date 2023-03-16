@@ -66,7 +66,7 @@ const MultidisciplinarySubjectPage = () => {
   const { t } = useTranslation();
   const { user } = useContext(AuthContext);
   const { subjectId, topicList: selectedTopics } = useUrnIds();
-  const refs = selectedTopics.map(_ => createRef<HTMLDivElement>());
+  const refs = selectedTopics.map((_) => createRef<HTMLDivElement>());
 
   useEffect(() => {
     if (selectedTopics.length) {
@@ -101,7 +101,7 @@ const MultidisciplinarySubjectPage = () => {
   const { subject } = data;
 
   const mainTopics =
-    subject.topics?.map(topic => {
+    subject.topics?.map((topic) => {
       return {
         ...topic,
         label: topic.name,
@@ -113,17 +113,17 @@ const MultidisciplinarySubjectPage = () => {
   const selectionLimit = 2;
   const isNotLastTopic = selectedTopics.length < selectionLimit;
   const selectedSubject = subject.topics?.find(
-    t => t.id === selectedTopics[0],
+    (t) => t.id === selectedTopics[0],
   )!;
 
   const cards = isNotLastTopic
     ? []
     : subject.allTopics
-        ?.filter(topic => {
+        ?.filter((topic) => {
           const selectedId = selectedTopics[selectedTopics.length - 1];
           return topic.parent === selectedId;
         })
-        .map(topic => ({
+        .map((topic) => ({
           title: topic.name,
           topicId: topic.id,
           introduction: topic.meta?.metaDescription ?? '',
@@ -155,7 +155,7 @@ const MultidisciplinarySubjectPage = () => {
 
   const selectedMetadata = [...(subject.allTopics ?? [])]
     .reverse()
-    .find(t => selectedTopics.includes(t.id));
+    .find((t) => selectedTopics.includes(t.id));
 
   const selectedTitle = selectedMetadata?.name || selectedMetadata?.meta?.title;
   const subjectTitle = subject.name;
@@ -192,7 +192,8 @@ const MultidisciplinarySubjectPage = () => {
           id={selectedTopics.length === 0 ? SKIP_TO_CONTENT_ID : undefined}
           hideCards={isNotLastTopic}
           cards={cards}
-          totalCardCount={cards.length}>
+          totalCardCount={cards.length}
+        >
           <NavigationBox items={mainTopics} listDirection="horizontal" />
           <TopicBoxes />
         </MultidisciplinarySubject>

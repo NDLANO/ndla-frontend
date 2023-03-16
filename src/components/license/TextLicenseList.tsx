@@ -59,7 +59,8 @@ const TextLicenseInfo = ({ text }: TextLicenseInfoProps) => {
         license={text.copyright.license?.license}
         title={t('license.text.rules')}
         resourceType="text"
-        locale={i18n.language}>
+        locale={i18n.language}
+      >
         <MediaListItemActions>
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />
@@ -95,7 +96,7 @@ const TextLicenseList = ({ texts }: Props) => {
       <h2>{t('license.text.heading')}</h2>
       <p>{t('license.text.description')}</p>
       <MediaList>
-        {texts.map(text => (
+        {texts.map((text) => (
           <TextLicenseInfo text={text} key={uuid()} />
         ))}
       </MediaList>

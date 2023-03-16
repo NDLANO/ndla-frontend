@@ -47,7 +47,7 @@ export const appLocales = [NB, NN, EN, SE];
 export const preferredLocales = [NB, NN, SE];
 
 export const getLocaleObject = (localeAbbreviation?: string): LocaleObject => {
-  const locale = appLocales.find(l => l.abbreviation === localeAbbreviation);
+  const locale = appLocales.find((l) => l.abbreviation === localeAbbreviation);
 
   return locale || NB; // defaults to NB
 };
@@ -55,10 +55,10 @@ export const getLocaleObject = (localeAbbreviation?: string): LocaleObject => {
 export const isValidLocale = (
   localeAbbreviation: string | undefined | null,
 ): localeAbbreviation is LocaleType =>
-  appLocales.find(l => l.abbreviation === localeAbbreviation) !== undefined;
+  appLocales.find((l) => l.abbreviation === localeAbbreviation) !== undefined;
 
 export const getHtmlLang = (localeAbbreviation?: string): string => {
-  const locale = appLocales.find(l => l.abbreviation === localeAbbreviation);
+  const locale = appLocales.find((l) => l.abbreviation === localeAbbreviation);
   return locale?.abbreviation ?? getDefaultLocale();
 };
 

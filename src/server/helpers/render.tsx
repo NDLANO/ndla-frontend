@@ -56,10 +56,8 @@ export async function renderPageWithData<T extends object>({
 }: Props<T>) {
   resetIdCounter();
   if (cache) {
-    const {
-      extractCriticalToChunks,
-      constructStyleTagsFromChunks,
-    } = createEmotionServer(cache);
+    const { extractCriticalToChunks, constructStyleTagsFromChunks } =
+      createEmotionServer(cache);
     const html = await renderToStringWithData(Page);
     const chunks = extractCriticalToChunks(html);
     const styles = constructStyleTagsFromChunks(chunks);

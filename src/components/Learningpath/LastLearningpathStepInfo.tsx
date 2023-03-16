@@ -41,7 +41,7 @@ const LastLearningpathStepInfo = ({
   }
   const topicWithPath =
     topicPath && topic
-      ? topicPath.find(path => path.id === topic.id)
+      ? topicPath.find((path) => path.id === topic.id)
       : undefined;
 
   const showResources =
@@ -65,7 +65,8 @@ const LastLearningpathStepInfo = ({
           url: topicWithPath.path,
           name: topicWithPath.name,
         }
-      }>
+      }
+    >
       {showResources && topic && (
         <Resources
           headingType="h2"

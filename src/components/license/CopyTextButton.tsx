@@ -55,14 +55,16 @@ class CopyTextButton extends Component<Props, State> {
     const { copyTitle, hasCopiedTitle } = this.props;
     return (
       <span
-        ref={r => {
+        ref={(r) => {
           this.buttonContainer = r;
-        }}>
+        }}
+      >
         <ButtonV2
           variant="outline"
           className="c-licenseToggle__button"
           disabled={hasCopied}
-          onClick={this.handleClick}>
+          onClick={this.handleClick}
+        >
           {hasCopied ? hasCopiedTitle : copyTitle}
         </ButtonV2>
       </span>

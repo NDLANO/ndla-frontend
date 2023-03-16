@@ -141,7 +141,8 @@ const ConceptPage = () => {
         trackableContent={concept}
         title={title}
         description={concept.content}
-        imageUrl={image?.src}>
+        imageUrl={image?.src}
+      >
         <meta name="robots" content="noindex" />
       </SocialMediaMetadata>
       <h1>{`${t('resourcepageTitles.concept')}`}</h1>

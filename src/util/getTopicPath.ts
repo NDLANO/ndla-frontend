@@ -14,7 +14,7 @@ export const getTopicPath = <T extends Topic>(
   topics?: T[],
 ): T[] => {
   if (!topics) return [];
-  const leaf = topics.find(topic => topicId === topic.id);
+  const leaf = topics.find((topic) => topicId === topic.id);
   if (!leaf) {
     return [];
   }
@@ -23,7 +23,7 @@ export const getTopicPath = <T extends Topic>(
     if (!topic.parent || topic.parent === subjectId) {
       return [topic];
     }
-    const parent = topics.find(t => topic.parent === t.id);
+    const parent = topics.find((t) => topic.parent === t.id);
     const parentPath: T[] = parent ? toBreadcrumb(parent) : [];
     return [...parentPath, topic];
   };

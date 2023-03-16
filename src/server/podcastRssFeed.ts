@@ -23,7 +23,7 @@ const podcastRssFeed = async (seriesId: number): Promise<string> => {
     </description>
     `;
 
-    const episodes = series.episodes.map(episode => {
+    const episodes = series.episodes.map((episode) => {
       const episodeLink = `${podcastUrl}#episode-${episode.id}`;
       const GUIDEnvPart =
         config.ndlaEnvironment === 'prod' ? '' : `${config.ndlaEnvironment}-`;
