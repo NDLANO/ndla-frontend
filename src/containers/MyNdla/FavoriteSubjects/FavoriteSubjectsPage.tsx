@@ -13,7 +13,7 @@ import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { SafeLinkButton } from '@ndla/safelink';
-import { BookOpen } from '@ndla/icons/common';
+import { MenuBook } from '@ndla/icons/action';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import SubjectLink from '../../AllSubjectsPage/SubjectLink';
 import { useSubjects } from '../subjectQueries';
@@ -70,7 +70,7 @@ const FavoriteSubjectsPage = () => {
       <h1 id={SKIP_TO_CONTENT_ID}>{t('myNdla.favoriteSubjects.title')}</h1>
       <Container>
         <CountContainer>
-          <BookOpen />
+          <MenuBook />
           {t('myNdla.favoriteSubjects.subjects', {
             count: favoriteSubjects.length,
           })}

@@ -13,7 +13,8 @@ import { breakpoints, mq, spacing } from '@ndla/core';
 import { MessageBox, TreeStructure } from '@ndla/ui';
 import { SafeLinkButton } from '@ndla/safelink';
 import { FolderOutlined } from '@ndla/icons/contentType';
-import { BookOpen, HashTag, Person } from '@ndla/icons/common';
+import { HashTag, Person } from '@ndla/icons/common';
+import { MenuBook } from '@ndla/icons/action';
 import { TFunction } from 'i18next';
 import { Outlet, useLocation } from 'react-router-dom';
 import { AuthContext } from '../../components/AuthenticationContext';
@@ -30,7 +31,7 @@ const navigationLinks = (t: TFunction) => [
   },
   {
     id: 'subjects',
-    icon: <BookOpen />,
+    icon: <MenuBook />,
     name: t('myNdla.favoriteSubjects.title'),
   },
 ];

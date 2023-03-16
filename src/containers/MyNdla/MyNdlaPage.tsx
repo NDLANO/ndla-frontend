@@ -12,9 +12,9 @@ import { Trans, useTranslation } from 'react-i18next';
 import keyBy from 'lodash/keyBy';
 import styled from '@emotion/styled';
 import { fonts, spacing } from '@ndla/core';
-import { HeartOutline } from '@ndla/icons/action';
+import { HeartOutline, MenuBook } from '@ndla/icons/action';
 import { FolderOutlined } from '@ndla/icons/contentType';
-import { Feide, Share, BookOpen } from '@ndla/icons/common';
+import { Feide, Share } from '@ndla/icons/common';
 import { ListResource, UserInfo } from '@ndla/ui';
 import { ButtonV2 } from '@ndla/button';
 import SafeLink, { SafeLinkButton } from '@ndla/safelink';
@@ -38,7 +38,7 @@ const ShareIcon = InfoPartIcon.withComponent(Share);
 const HeartOutlineIcon = InfoPartIcon.withComponent(HeartOutline);
 const FolderOutlinedIcon = InfoPartIcon.withComponent(FolderOutlined);
 const FeideIcon = InfoPartIcon.withComponent(Feide);
-const FavoriteSubjectIcon = InfoPartIcon.withComponent(BookOpen);
+const FavoriteSubjectIcon = InfoPartIcon.withComponent(MenuBook);
 
 const StyledPageContentContainer = styled.div`
   display: flex;
