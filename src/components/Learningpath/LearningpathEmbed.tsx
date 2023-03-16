@@ -9,9 +9,11 @@
 import { useMemo } from 'react';
 import { gql } from '@apollo/client';
 import { Helmet } from 'react-helmet-async';
+import { useLocation } from 'react-router-dom';
 import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
+import { Spinner } from '@ndla/icons';
 import Article from '../Article';
 import { transformArticle } from '../../util/transformArticle';
 import { getArticleScripts } from '../../util/getArticleScripts';
@@ -19,15 +21,18 @@ import getStructuredDataFromArticle, {
   structuredArticleDataFragment,
 } from '../../util/getStructuredDataFromArticle';
 import { getArticleProps } from '../../util/getArticleProps';
-import LearningpathIframe from './LearningpathIframe';
+import LearningpathIframe, { urlIsNDLAUrl } from './LearningpathIframe';
 import { Breadcrumb } from '../../interfaces';
 import ErrorPage from '../../containers/ErrorPage';
 import {
   GQLLearningpathEmbed_LearningpathStepFragment,
   GQLLearningpathEmbed_TopicFragment,
+  GQLLearningpathStepQuery,
+  GQLLearningpathStepQueryVariables,
 } from '../../graphqlTypes';
 import config from '../../config';
 import { useDisableConverter } from '../ArticleConverterContext';
+import { useGraphQuery } from '../../util/runQueries';
 
 interface StyledIframeContainerProps {
   oembedWidth: number;
@@ -44,6 +49,26 @@ const StyledIframeContainer = styled.div<StyledIframeContainerProps>`
   }
 `;
 
+const getIdFromIframeUrl = (
+  _url: string,
+): [string | undefined, string | undefined] => {
+  const url = _url
+    .split('/article-iframe/')?.[1]
+    ?.replace('nb/', '')
+    ?.replace('article/', '')
+    ?.split('?')?.[0];
+
+  if (url?.includes('/')) {
+    const [taxId, articleId] = url.split('/');
+    if (parseInt(articleId!)) {
+      return [taxId, articleId];
+    }
+  } else if (url && parseInt(url)) {
+    return [undefined, url];
+  }
+  return [undefined, undefined];
+};
+
 interface Props {
   learningpathStep: GQLLearningpathEmbed_LearningpathStepFragment;
   topic?: GQLLearningpathEmbed_TopicFragment;
@@ -59,20 +84,49 @@ const LearningpathEmbed = ({
   breadcrumbItems,
 }: Props) => {
   const { i18n } = useTranslation();
+  const location = useLocation();
   const disableConverter = useDisableConverter();
+  const [taxId, articleId] =
+    !learningpathStep.resource && learningpathStep.embedUrl?.url
+      ? getIdFromIframeUrl(learningpathStep.embedUrl.url)
+      : [undefined, undefined];
+
+  const shouldUseConverter =
+    !!articleId &&
+    !learningpathStep.resource?.article &&
+    learningpathStep.embedUrl &&
+    urlIsNDLAUrl(learningpathStep.embedUrl?.url);
+
+  const { data, loading } = useGraphQuery<
+    GQLLearningpathStepQuery,
+    GQLLearningpathStepQueryVariables
+  >(learningpathStepQuery, {
+    variables: {
+      articleId: articleId!,
+      path: location.pathname,
+      resourceId: taxId ?? '',
+      includeResource: !!taxId,
+    },
+    skip: !shouldUseConverter,
+  });
 
   const [article, scripts] = useMemo(() => {
-    if (!learningpathStep.resource?.article) return [undefined, undefined];
+    const article =
+      disableConverter && !learningpathStep.resource
+        ? data?.article
+        : learningpathStep.resource?.article;
+    if (!article) return [undefined, undefined];
     return [
-      transformArticle(learningpathStep.resource.article, i18n.language, {
+      transformArticle(article, i18n.language, {
         enabled: disableConverter,
-        path: `${config.ndlaFrontendDomain}/article/${learningpathStep.resource.article.id}`,
+        path: `${config.ndlaFrontendDomain}/article/${article.id}`,
         subject: subjectId,
       }),
-      getArticleScripts(learningpathStep.resource.article, i18n.language),
+      getArticleScripts(article, i18n.language),
     ];
   }, [
-    learningpathStep.resource?.article,
+    data?.article,
+    learningpathStep.resource,
     i18n.language,
     subjectId,
     disableConverter,
@@ -88,6 +142,7 @@ const LearningpathEmbed = ({
   const { embedUrl, oembed } = learningpathStep;
   if (
     !learningpathStep.resource &&
+    !shouldUseConverter &&
     embedUrl &&
     (embedUrl.embedType === 'oembed' || embedUrl.embedType === 'iframe') &&
     oembed &&
@@ -107,9 +162,21 @@ const LearningpathEmbed = ({
     return null;
   }
 
-  const learningpathStepResource = learningpathStep.resource;
+  if (loading) {
+    return <Spinner />;
+  }
 
-  if (!learningpathStepResource?.article) {
+  const learningpathStepResource =
+    disableConverter && !learningpathStep.resource
+      ? data
+      : learningpathStep.resource;
+  const resource =
+    disableConverter && !learningpathStep.resource
+      ? data?.resource
+      : learningpathStep.resource;
+  const stepArticle = learningpathStepResource?.article;
+
+  if (!stepArticle) {
     return <ErrorPage />;
   }
 
@@ -132,7 +199,7 @@ const LearningpathEmbed = ({
         <script type="application/ld+json">
           {JSON.stringify(
             getStructuredDataFromArticle(
-              learningpathStepResource.article,
+              stepArticle,
               i18n.language,
               breadcrumbItems,
             ),
@@ -144,11 +211,30 @@ const LearningpathEmbed = ({
         isPlainArticle
         id={skipToContentId}
         article={article}
-        {...getArticleProps(learningpathStepResource, topic)}
+        {...getArticleProps(resource, topic)}
       />
     </>
   );
 };
+
+const articleFragment = gql`
+  fragment LearningpathEmbed_Article on Article {
+    id
+    metaDescription
+    created
+    updated
+    metaDescription
+    requiredLibraries {
+      name
+      url
+      mediaType
+    }
+    ...StructuredArticleData
+    ...Article_Article
+  }
+  ${structuredArticleDataFragment}
+  ${Article.fragments.article}
+`;
 
 LearningpathEmbed.fragments = {
   topic: gql`
@@ -158,23 +244,13 @@ LearningpathEmbed.fragments = {
       }
     }
   `,
+  article: articleFragment,
   learningpathStep: gql`
     fragment LearningpathEmbed_LearningpathStep on LearningpathStep {
       resource {
         id
         article(convertEmbeds: $convertEmbeds) {
-          id
-          metaDescription
-          created
-          updated
-          metaDescription
-          requiredLibraries {
-            name
-            url
-            mediaType
-          }
-          ...StructuredArticleData
-          ...Article_Article
+          ...LearningpathEmbed_Article
         }
       }
       embedUrl {
@@ -187,9 +263,31 @@ LearningpathEmbed.fragments = {
         height
       }
     }
+    ${articleFragment}
     ${structuredArticleDataFragment}
     ${Article.fragments.article}
   `,
 };
+
+const learningpathStepQuery = gql`
+  query learningpathStep(
+    $articleId: String!
+    $path: String
+    $resourceId: String!
+    $includeResource: Boolean!
+  ) {
+    article(id: $articleId, path: $path, convertEmbeds: true) {
+      ...LearningpathEmbed_Article
+    }
+    resource(id: $resourceId) @include(if: $includeResource) {
+      id
+      resourceTypes {
+        id
+        name
+      }
+    }
+  }
+  ${articleFragment}
+`;
 
 export default LearningpathEmbed;
