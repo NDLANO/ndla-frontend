@@ -111,6 +111,14 @@ const ResourcePage = () => {
     return <AccessDeniedPage />;
   }
 
+  if (
+    error?.graphQLErrors.some((err) => err.extensions.status === 410) &&
+    redirectContext
+  ) {
+    redirectContext.status = 410;
+    return null;
+  }
+
   if (!data) {
     return <DefaultErrorMessage />;
   }

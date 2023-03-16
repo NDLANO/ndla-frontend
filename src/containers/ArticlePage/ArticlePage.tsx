@@ -76,7 +76,7 @@ const ArticlePage = ({
   const disableConverter = useDisableConverter();
 
   const [article, scripts] = useMemo(() => {
-    if (!resource?.article) return undefined;
+    if (!resource?.article) return [];
     return [
       transformArticle(resource?.article, i18n.language, {
         path: `${config.ndlaFrontendDomain}/article/${resource.article?.id}`,
@@ -105,7 +105,7 @@ const ArticlePage = ({
       </Status>
     );
   }
-  if (!resource?.article) {
+  if (!resource?.article || !article) {
     const error = errors?.find((e) => e.path?.includes('resource'));
     return (
       <div>
