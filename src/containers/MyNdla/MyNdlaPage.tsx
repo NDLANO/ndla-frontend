@@ -11,11 +11,11 @@ import { useLocation } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
 import keyBy from 'lodash/keyBy';
 import styled from '@emotion/styled';
-import { breakpoints, fonts, mq, spacing } from '@ndla/core';
+import { fonts, spacing } from '@ndla/core';
 import { HeartOutline } from '@ndla/icons/action';
 import { FolderOutlined } from '@ndla/icons/contentType';
 import { Feide, Share, BookOpen } from '@ndla/icons/common';
-import { ListResource, UserInfo, Image } from '@ndla/ui';
+import { ListResource, UserInfo } from '@ndla/ui';
 import { ButtonV2 } from '@ndla/button';
 import SafeLink, { SafeLinkButton } from '@ndla/safelink';
 import { HelmetWithTracker } from '@ndla/tracker';
@@ -45,27 +45,10 @@ const StyledPageContentContainer = styled.div`
   flex-direction: column;
 `;
 
-const StyledIntroContainer = styled.div`
-  display: flex;
-  ${mq.range({ from: breakpoints.tabletWide })} {
-    gap: ${spacing.large};
-  }
-`;
-
 const ButtonRow = styled.div`
   display: flex;
   gap: ${spacing.small};
   justify-content: flex-end;
-`;
-
-const RoundedImage = styled(Image)`
-  border-radius: 50%;
-  height: 160px;
-  min-width: 160px;
-  object-fit: cover;
-  ${mq.range({ until: breakpoints.tabletWide })} {
-    display: none;
-  }
 `;
 
 const StyledResourceList = styled.ul`
@@ -103,7 +86,6 @@ const ButtonContainer = styled.div`
 const StyledDescription = styled.p`
   line-height: 1.5;
   ${fonts.sizes('24px')};
-  font-weight: ${fonts.weight.semibold};
 `;
 
 const MyNdlaPage = () => {
@@ -114,7 +96,7 @@ const MyNdlaPage = () => {
   const { deletePersonalData } = useDeletePersonalData();
   const { allFolderResources } = useRecentlyUsedResources();
   const { data: metaData, loading } = useFolderResourceMetaSearch(
-    allFolderResources?.map((r) => ({
+    allFolderResources?.map(r => ({
       id: r.resourceId,
       path: r.path,
       resourceType: r.resourceType,
@@ -132,7 +114,7 @@ const MyNdlaPage = () => {
     );
   };
 
-  const keyedData = keyBy(metaData ?? [], (r) => `${r.type}${r.id}`);
+  const keyedData = keyBy(metaData ?? [], r => `${r.type}${r.id}`);
 
   return (
     <StyledPageContentContainer>
@@ -141,18 +123,37 @@ const MyNdlaPage = () => {
         <MyNdlaBreadcrumb page="minndla" breadcrumbs={[]} backCrumb="minndla" />
         <MyNdlaTitle title={t('myNdla.myPage.myPage')} />
       </TitleWrapper>
-      <StyledIntroContainer>
-        <StyledDescription>{t('myNdla.myPage.welcome')}</StyledDescription>
-        <RoundedImage
-          src="/static/my-ndla-login.png"
-          alt={t('myNdla.myPage.imageAlt')}
-        />
-      </StyledIntroContainer>
+      <StyledDescription>{t('myNdla.myPage.welcome')}</StyledDescription>
+      {config.sharingEnabled && (
+        <InfoPart icon={<ShareIcon />} title={t('myNdla.myPage.sharing.title')}>
+          <InfoPartText>{t('myNdla.myPage.sharing.text')}</InfoPartText>
+        </InfoPart>
+      )}
+      <InfoPart
+        icon={<HeartOutlineIcon />}
+        title={t('myNdla.myPage.storageInfo.title')}
+      >
+        <InfoPartText>{t('myNdla.myPage.storageInfo.text')}</InfoPartText>
+      </InfoPart>
+      <InfoPart
+        icon={<FavoriteSubjectIcon />}
+        title={t('myNdla.myPage.favoriteSubjects.title')}
+      >
+        <InfoPartText>{t('myNdla.myPage.favoriteSubjects.text')}</InfoPartText>
+      </InfoPart>
+      <InfoPart
+        icon={<FolderOutlinedIcon />}
+        title={t('myNdla.myPage.folderInfo.title')}
+      >
+        <InfoPartText>
+          <Trans i18nKey="myNdla.myPage.folderInfo.text" />
+        </InfoPartText>
+      </InfoPart>
       {allFolderResources && allFolderResources.length > 0 && (
         <>
           <h2>{t('myNdla.myPage.newFavourite')}</h2>
           <StyledResourceList>
-            {allFolderResources.map((res) => {
+            {allFolderResources.map(res => {
               const meta = keyedData[`${res.resourceType}${res.resourceId}`];
               return (
                 <ListItem key={res.id}>
@@ -250,7 +251,7 @@ const MyNdlaPage = () => {
           }
           label={t('myNdla.myPage.deleteAccount')}
         >
-          {(onClose) => (
+          {onClose => (
             <>
               <ModalHeader>
                 <h1>{t('myNdla.myPage.deleteAccount')}</h1>
