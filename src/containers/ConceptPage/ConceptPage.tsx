@@ -21,7 +21,7 @@ import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import config from '../../config';
 import ImageActionButtons from './components/ImageActionsButtons';
 import { useTypedParams } from '../../routeHelpers';
-import { StyledResourceHeader } from '../ImagePage/ImagePage';
+import ResourceHeader from '../ImagePage/components/ResourceHeader';
 
 const ConceptPage = () => {
   const {
@@ -145,9 +145,7 @@ const ConceptPage = () => {
         imageUrl={image?.src}>
         <meta name="robots" content="noindex" />
       </SocialMediaMetadata>
-      <StyledResourceHeader id="SkipToContentId" tabIndex={-1}>
-        {title}
-      </StyledResourceHeader>
+      <ResourceHeader title={title} />
       <ConceptNotion
         concept={{
           ...concept,
