@@ -1690,6 +1690,21 @@ export type GQLLearningpath_LearningpathFragment = {
   }>;
 };
 
+export type GQLLearningpathEmbed_ArticleFragment = {
+  __typename?: 'Article';
+  id: number;
+  metaDescription: string;
+  created: string;
+  updated: string;
+  requiredLibraries?: Array<{
+    __typename?: 'ArticleRequiredLibrary';
+    name: string;
+    url: string;
+    mediaType: string;
+  }>;
+} & GQLStructuredArticleDataFragment &
+  GQLArticle_ArticleFragment;
+
 export type GQLLearningpathEmbed_TopicFragment = {
   __typename?: 'Topic';
   supplementaryResources?: Array<{ __typename?: 'Resource'; id: string }>;
@@ -1700,20 +1715,7 @@ export type GQLLearningpathEmbed_LearningpathStepFragment = {
   resource?: {
     __typename?: 'Resource';
     id: string;
-    article?: {
-      __typename?: 'Article';
-      id: number;
-      metaDescription: string;
-      created: string;
-      updated: string;
-      requiredLibraries?: Array<{
-        __typename?: 'ArticleRequiredLibrary';
-        name: string;
-        url: string;
-        mediaType: string;
-      }>;
-    } & GQLStructuredArticleDataFragment &
-      GQLArticle_ArticleFragment;
+    article?: { __typename?: 'Article' } & GQLLearningpathEmbed_ArticleFragment;
   };
   embedUrl?: {
     __typename?: 'LearningpathStepEmbedUrl';
@@ -1725,6 +1727,27 @@ export type GQLLearningpathEmbed_LearningpathStepFragment = {
     html: string;
     width: number;
     height: number;
+  };
+};
+
+export type GQLLearningpathStepQueryVariables = Exact<{
+  articleId: Scalars['String'];
+  path?: InputMaybe<Scalars['String']>;
+  resourceId: Scalars['String'];
+  includeResource: Scalars['Boolean'];
+}>;
+
+export type GQLLearningpathStepQuery = {
+  __typename?: 'Query';
+  article?: { __typename?: 'Article' } & GQLLearningpathEmbed_ArticleFragment;
+  resource?: {
+    __typename?: 'Resource';
+    id: string;
+    resourceTypes?: Array<{
+      __typename?: 'ResourceType';
+      id: string;
+      name: string;
+    }>;
   };
 };
 
