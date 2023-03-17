@@ -154,6 +154,7 @@ const DraggableFolder = ({
       <DragWrapper>
         <Folder
           id={folder.id}
+          isShared={folder.status === 'shared'}
           link={`/minndla/folders/${folder.id}`}
           title={folder.name}
           type={type}
