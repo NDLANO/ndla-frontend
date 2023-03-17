@@ -39,13 +39,13 @@ import { toSubject, toTopic } from '../../routeHelpers';
 import { LocaleType, TopicType } from '../../interfaces';
 import { subjectsQuery } from '../../queries';
 import { GQLSubjectsQuery } from '../../graphqlTypes';
-import { multidisciplinaryTopics } from '../../data/subjects.ts';
+import { multidisciplinaryTopics } from '../../data/subjects';
 
 const getMultidisciplinaryTopics = (locale: LocaleType) => {
   return multidisciplinaryTopics.map((topic: TopicType) => {
     return {
       id: topic.id,
-      title: topic.name?.[locale],
+      title: topic.name?.[locale] ?? '',
       url: toTopic(MULTIDISCIPLINARY_SUBJECT_ID, topic.id ?? ''),
     };
   });
