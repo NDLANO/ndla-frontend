@@ -33,6 +33,7 @@ import {
 import config from '../../config';
 import { useDisableConverter } from '../ArticleConverterContext';
 import { useGraphQuery } from '../../util/runQueries';
+import { supportedLanguages } from '../../i18n';
 
 interface StyledIframeContainerProps {
   oembedWidth: number;
@@ -49,12 +50,14 @@ const StyledIframeContainer = styled.div<StyledIframeContainerProps>`
   }
 `;
 
+const regex = new RegExp(`\\/(${supportedLanguages.join('|')})($|\\/)`, '');
+
 const getIdFromIframeUrl = (
   _url: string,
 ): [string | undefined, string | undefined] => {
   const url = _url
-    .split('/article-iframe/')?.[1]
-    ?.replace('nb/', '')
+    .split('/article-iframe')?.[1]
+    ?.replace(regex, '')
     ?.replace('article/', '')
     ?.split('?')?.[0];
 
