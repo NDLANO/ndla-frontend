@@ -31,7 +31,7 @@ const ZendeskWrapper = styled.div`
   z-index: 10;
 `;
 
-const bottomPaddingStyle = css`
+const bottomPadding = css`
   padding-bottom: ${spacing.large};
 `;
 
@@ -48,10 +48,6 @@ const Layout = () => {
     '/learningpaths/:learningpathId',
     pathname,
   );
-
-  const bottomPadding = pathname.startsWith('/folder/')
-    ? undefined
-    : bottomPaddingStyle;
 
   useEffect(() => {
     if (!prevPathname || pathname === prevPathname) {

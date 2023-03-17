@@ -178,31 +178,6 @@ const MyNdlaPage = () => {
           </StyledResourceList>
         </>
       )}
-      {config.sharingEnabled && (
-        <InfoPart icon={<ShareIcon />} title={t('myNdla.myPage.sharing.title')}>
-          <InfoPartText>{t('myNdla.myPage.sharing.text')}</InfoPartText>
-        </InfoPart>
-      )}
-      <InfoPart
-        icon={<HeartOutlineIcon />}
-        title={t('myNdla.myPage.storageInfo.title')}
-      >
-        <InfoPartText>{t('myNdla.myPage.storageInfo.text')}</InfoPartText>
-      </InfoPart>
-      <InfoPart
-        icon={<FavoriteSubjectIcon />}
-        title={t('myNdla.myPage.favoriteSubjects.title')}
-      >
-        <InfoPartText>{t('myNdla.myPage.favoriteSubjects.text')}</InfoPartText>
-      </InfoPart>
-      <InfoPart
-        icon={<FolderOutlinedIcon />}
-        title={t('myNdla.myPage.folderInfo.title')}
-      >
-        <InfoPartText>
-          <Trans i18nKey="myNdla.myPage.folderInfo.text" />
-        </InfoPartText>
-      </InfoPart>
       {user && (
         <InfoPart icon={<FeideIcon />} title={t('myNdla.myPage.feide')}>
           <UserInfo user={user} />
