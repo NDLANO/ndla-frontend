@@ -24,6 +24,7 @@ import DragHandle from './DragHandle';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import config from '../../../config';
 import { copyFolderSharingLink, isStudent } from './util';
+import { useFolder } from '../folderMutations';
 
 interface Props {
   folder: GQLFolder;
@@ -61,6 +62,8 @@ const DraggableFolder = ({
   setFolderAction,
 }: Props) => {
   const { examLock, user } = useContext(AuthContext);
+  const rootFolder = useFolder(folder.breadcrumbs[0]?.id ?? '');
+  console.log(rootFolder);
   const { t } = useTranslation();
   const { addSnack } = useSnack();
   const { attributes, setNodeRef, transform, transition, items, isDragging } =
@@ -153,6 +156,7 @@ const DraggableFolder = ({
       />
       <DragWrapper>
         <Folder
+          isShared={folder.status === 'shared'}
           id={folder.id}
           link={`/minndla/folders/${folder.id}`}
           title={folder.name}
