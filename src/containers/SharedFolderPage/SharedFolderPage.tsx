@@ -225,7 +225,7 @@ const SharedFolderPage = () => {
         ) : (
           <FolderMeta folder={folder} />
         )}
-        {isMobile && (
+        {!selectedResource && isMobile && (
           <InfoBox>
             <HumanMaleBoard />
             <span>{t('myNdla.sharedFolder.info')}</span>
