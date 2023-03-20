@@ -90,7 +90,7 @@ const flattenResources = (folder?: GQLFolder): GQLFolderResource[] => {
 const DrawerButton = styled(ButtonV2)`
   position: fixed;
   bottom: 0;
-  padding: ${spacing.mediumlarge};
+  padding: ${spacing.small};
   justify-content: flex-start;
   color: ${colors.text};
   background-color: ${colors.brand.greyLighter};
