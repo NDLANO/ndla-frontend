@@ -97,7 +97,6 @@ const DrawerButton = styled(ButtonV2)`
   border-top: 2px solid ${colors.brand.tertiary};
   width: 100%;
   z-index: 10;
-  &:focus,
   &:focus-within,
   &:hover {
     border-top: 1px solid ${colors.brand.light};

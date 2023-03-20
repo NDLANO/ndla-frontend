@@ -10,14 +10,14 @@ import { MenuItemProps } from '@ndla/button';
 import { Cross, Pencil } from '@ndla/icons/action';
 import { DeleteForever, Link } from '@ndla/icons/editor';
 import { Share } from '@ndla/icons/lib/common';
-import { useSnack, FolderMenu } from '@ndla/ui';
+import { FolderMenu } from '@ndla/ui';
 import { useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { GQLFolder } from '../../../graphqlTypes';
 import { FolderActionType, ViewType } from './FoldersPage';
 import config from '../../../config';
 import { AuthContext } from '../../../components/AuthenticationContext';
-import { copyFolderSharingLink, isStudent } from './util';
+import { isStudent } from './util';
 
 interface Props {
   onActionChanged: (action: FolderActionType) => void;
@@ -34,7 +34,6 @@ const FolderActions = ({
 }: Props) => {
   const { t } = useTranslation();
   const { user } = useContext(AuthContext);
-  const { addSnack } = useSnack();
   const actionItems: MenuItemProps[] = useMemo(() => {
     const editFolder: MenuItemProps = {
       icon: <Pencil />,
@@ -44,14 +43,8 @@ const FolderActions = ({
 
     const shareLink: MenuItemProps = {
       icon: <Link />,
-      text: t('myNdla.folder.sharing.button.shareLink'),
-      onClick: () => {
-        copyFolderSharingLink(selectedFolder?.id ?? '');
-        addSnack({
-          id: 'shareLink',
-          content: t('myNdla.folder.sharing.link'),
-        });
-      },
+      text: t('myNdla.folder.sharing.button.preview'),
+      onClick: () => onActionChanged('shared'),
     };
 
     const unShare: MenuItemProps = {
@@ -80,7 +73,7 @@ const FolderActions = ({
       selectedFolder?.status === 'shared' ? [shareLink, unShare] : [share];
 
     return [editFolder, sharedOptions, deleteOpt].flat();
-  }, [addSnack, onActionChanged, selectedFolder, t, user]);
+  }, [onActionChanged, selectedFolder, t, user]);
 
   return (
     <FolderMenu
