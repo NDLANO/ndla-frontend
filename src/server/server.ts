@@ -73,6 +73,7 @@ const ndlaMiddleware = [
       allowedBodyContentTypes.includes(req.headers['content-type'] ?? ''),
   }),
   helmet({
+    crossOriginEmbedderPolicy: false,
     hsts: {
       maxAge: 31536000,
       includeSubDomains: true,
