@@ -7,12 +7,12 @@
  */
 
 import styled from '@emotion/styled';
+import { breakpoints, mq } from '@ndla/core';
 import { OneColumn } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
 import { GQLFolder } from '../../../graphqlTypes';
 import ErrorPage from '../../ErrorPage';
 import FolderAndResourceCount from '../../MyNdla/Folders/FolderAndResourceCount';
-import { breakpoints, mq } from '@ndla/core';
 
 interface Props {
   folder?: GQLFolder;
