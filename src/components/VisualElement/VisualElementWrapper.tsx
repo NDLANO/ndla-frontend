@@ -57,23 +57,18 @@ const VisualElementWrapper = ({ visualElement, videoId }: Props) => {
   const license = getLicenseByAbbreviation(copyright?.license?.license!, 'nb');
   const contributors = getGroupedContributorDescriptionList(
     {
-      rightsholders: copyright?.rightsholders || [],
-      creators: copyright?.creators || [],
-      processors: copyright?.processors || [],
+      rightsholders: copyright?.rightsholders ?? [],
+      creators: copyright?.creators ?? [],
+      processors: copyright?.processors ?? [],
     },
     i18n.language,
-  ).map((item) => ({
-    name: item.description,
-    type: item.label,
-  }));
-
+  ).map((item) => ({ name: item.description, type: item.label }));
   const possibleAuthors = [
     [...(copyright?.creators || []), ...(copyright?.rightsholders || [])],
     copyright?.processors,
   ];
   const authors =
     possibleAuthors.find((grouping) => grouping && grouping.length > 0) ?? [];
-
   const caption =
     visualElement.image?.caption || visualElement.brightcove?.caption || '';
 
@@ -86,7 +81,7 @@ const VisualElementWrapper = ({ visualElement, videoId }: Props) => {
     title: t('title'),
     close: t('close'),
     source: t('source'),
-    rulesForUse: t(`license.${resourceType}.rules`),
+    rulesForUse: t(`license.${resourceType}.heading`),
     reuse: t(`${resourceType}.reuse`),
     download: t(`${resourceType}.download`),
   };
