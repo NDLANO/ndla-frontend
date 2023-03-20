@@ -12,13 +12,16 @@ import { useTranslation } from 'react-i18next';
 import { GQLFolder } from '../../../graphqlTypes';
 import ErrorPage from '../../ErrorPage';
 import FolderAndResourceCount from '../../MyNdla/Folders/FolderAndResourceCount';
+import { breakpoints, mq } from '@ndla/core';
 
 interface Props {
   folder?: GQLFolder;
 }
 
 const StyledOneColumn = styled(OneColumn)`
-  padding-bottom: 200px;
+  ${mq.range({ from: breakpoints.tablet })} {
+    padding-bottom: 200px;
+  }
 `;
 
 const FolderMeta = ({ folder }: Props) => {
