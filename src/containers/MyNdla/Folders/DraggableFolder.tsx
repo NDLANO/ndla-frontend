@@ -31,6 +31,7 @@ interface Props {
   type: ViewType;
   foldersCount: Record<string, FolderTotalCount>;
   setFolderAction: (action: FolderAction | undefined) => void;
+  onViewTypeChange: (type: ViewType) => void;
 }
 
 interface DraggableListItemProps {
@@ -59,6 +60,7 @@ const DraggableFolder = ({
   type,
   foldersCount,
   setFolderAction,
+  onViewTypeChange,
 }: Props) => {
   const { examLock, user } = useContext(AuthContext);
   const { t } = useTranslation();
@@ -158,6 +160,7 @@ const DraggableFolder = ({
           link={`/minndla/folders/${folder.id}`}
           title={folder.name}
           type={type}
+          onViewTypeChange={onViewTypeChange}
           subFolders={foldersCount[folder.id]?.folders}
           subResources={foldersCount[folder.id]?.resources}
           menuItems={!examLock ? menuItems : undefined}

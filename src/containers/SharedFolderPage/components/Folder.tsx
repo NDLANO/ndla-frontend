@@ -23,6 +23,10 @@ import FolderResource from './FolderResource';
 export const StyledUl = styled.ul`
   list-style: none;
   padding: 0;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: ${spacing.xsmall};
+  gap: ${spacing.xsmall};
   margin: 0;
   ${mq.range({ until: breakpoints.tablet })} {
     box-shadow: inset 0 -1px ${colors.brand.light};
@@ -32,6 +36,7 @@ export const StyledUl = styled.ul`
 export const StyledLi = styled.li`
   display: flex;
   flex-direction: column;
+  gap: ${spacing.xsmall};
   margin: 0;
 `;
 
@@ -45,6 +50,7 @@ const folderButtonOptions = { shouldForwardProp: forwardButton };
 
 const FolderButtonContainer = styled.div`
   ${mq.range({ until: breakpoints.tablet })} {
+    padding-bottom: ${spacing.xsmall};
     box-shadow: inset 0 -1px ${colors.brand.light};
   }
 `;
@@ -53,8 +59,6 @@ const FolderButton = styled(ButtonV2, folderButtonOptions)<ButtonProps>`
   color: ${colors.text.primary};
   justify-content: flex-start;
   border: none;
-  padding-top: ${spacing.small};
-  padding-bottom: ${spacing.small};
   padding-left: calc(${(p) => p.level} * ${spacing.small});
 
   &:hover,

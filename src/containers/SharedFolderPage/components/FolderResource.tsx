@@ -50,7 +50,6 @@ const StyledSafelinkButton = styled(SafeLinkButton, styledOptions)<StyledProps>`
 
 const ListElement = styled.li`
   margin: 0;
-  padding: ${spacing.xxsmall} 0;
 `;
 
 interface Props {

@@ -25,13 +25,6 @@ interface Props {
   >;
 }
 
-const StyledNav = styled.nav`
-  ${mq.range({ until: breakpoints.tablet })} {
-    display: flex;
-    overflow-y: scroll;
-  }
-`;
-
 const RootUl = styled(StyledUl)`
   padding: ${spacing.small};
   padding-bottom: 0;
@@ -39,7 +32,6 @@ const RootUl = styled(StyledUl)`
     display: flex;
     flex-direction: column;
     flex: 1;
-    overflow-y: scroll;
   }
 `;
 
@@ -57,7 +49,7 @@ const FolderNavigation = ({ folder, meta, onClose }: Props) => {
   });
 
   return (
-    <StyledNav>
+    <nav>
       <RootUl role="tree" data-list>
         <Folder
           setFocus={setFocused}
@@ -69,7 +61,7 @@ const FolderNavigation = ({ folder, meta, onClose }: Props) => {
           root
         />
       </RootUl>
-    </StyledNav>
+    </nav>
   );
 };
 

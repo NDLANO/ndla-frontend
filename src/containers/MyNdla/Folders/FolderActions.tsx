@@ -6,15 +6,15 @@
  *
  */
 
-import { MenuButton, MenuItemProps } from '@ndla/button';
+import { MenuItemProps } from '@ndla/button';
 import { Cross, Pencil } from '@ndla/icons/action';
 import { DeleteForever, Link } from '@ndla/icons/editor';
 import { Share } from '@ndla/icons/lib/common';
-import { useSnack } from '@ndla/ui';
+import { useSnack, FolderMenu } from '@ndla/ui';
 import { useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { GQLFolder } from '../../../graphqlTypes';
-import { FolderActionType } from './FoldersPage';
+import { FolderActionType, ViewType } from './FoldersPage';
 import config from '../../../config';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import { copyFolderSharingLink, isStudent } from './util';
@@ -22,9 +22,16 @@ import { copyFolderSharingLink, isStudent } from './util';
 interface Props {
   onActionChanged: (action: FolderActionType) => void;
   selectedFolder: GQLFolder | null;
+  viewType: ViewType;
+  onViewTypeChange: (type: ViewType) => void;
 }
 
-const FolderActions = ({ onActionChanged, selectedFolder }: Props) => {
+const FolderActions = ({
+  onActionChanged,
+  selectedFolder,
+  viewType,
+  onViewTypeChange,
+}: Props) => {
   const { t } = useTranslation();
   const { user } = useContext(AuthContext);
   const { addSnack } = useSnack();
@@ -75,7 +82,13 @@ const FolderActions = ({ onActionChanged, selectedFolder }: Props) => {
     return [editFolder, sharedOptions, deleteOpt].flat();
   }, [addSnack, onActionChanged, selectedFolder, t, user]);
 
-  return <MenuButton menuItems={actionItems} size="small" />;
+  return (
+    <FolderMenu
+      menuItems={actionItems}
+      viewType={viewType}
+      onViewTypeChange={onViewTypeChange}
+    />
+  );
 };
 
 export default FolderActions;
