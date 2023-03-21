@@ -116,7 +116,6 @@ const ResourcePage = () => {
     redirectContext
   ) {
     redirectContext.status = 410;
-    return null;
   }
 
   if (!data) {
