@@ -248,8 +248,7 @@ function sendResponse(res: Response, data: any, status = OK) {
     status === TEMPORARY_REDIRECT ||
     status === GONE
   ) {
-    res.writeHead(status, data);
-    res.end();
+    res.status(status).send(data);
   } else if (res.getHeader('Content-Type') === 'application/json') {
     res.status(status).json(data);
   } else {
