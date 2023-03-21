@@ -158,7 +158,6 @@ const MyNdlaPage = () => {
               return (
                 <ListItem key={res.id}>
                   <ListResource
-                    headingLevel={'h3'}
                     id={res.id}
                     tagLinkPrefix="/minndla/tags"
                     isLoading={loading}
