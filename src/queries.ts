@@ -451,7 +451,7 @@ export const topicInfoFragment = gql`
     name
     contentUri
     path
-    parent
+    parentId
     relevanceId
     supportedLanguages
     meta {

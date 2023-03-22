@@ -2978,7 +2978,7 @@ export type GQLResourcePageQuery = {
     topics?: Array<
       {
         __typename?: 'Topic';
-        parent?: string;
+        parentId?: string;
       } & GQLLearningpathPage_TopicPathFragment &
         GQLArticlePage_TopicPathFragment
     >;
@@ -3835,7 +3835,7 @@ export type GQLTopicInfoFragment = {
   name: string;
   contentUri?: string;
   path: string;
-  parent?: string;
+  parentId?: string;
   relevanceId?: string;
   supportedLanguages: Array<string>;
   meta?: { __typename?: 'Meta' } & GQLMetaInfoFragment;
