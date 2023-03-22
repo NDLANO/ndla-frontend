@@ -71,7 +71,7 @@ const PlainArticleContainer = ({
       <Helmet>
         <title>{`${getDocumentTitle({ t, article })}`}</title>
         <meta name="robots" content="noindex" />
-        {scripts.map(script => (
+        {scripts.map((script) => (
           <script
             key={script.src}
             src={script.src}

@@ -22,7 +22,7 @@ const LtiEmbedCode = ({ onClose, code, isOpen }: Props) => {
   }
   return (
     <ModalV2 controlled isOpen={isOpen} size="normal" onClose={onClose}>
-      {onCloseModal => (
+      {(onCloseModal) => (
         <>
           <ModalHeader>
             <ModalCloseButton

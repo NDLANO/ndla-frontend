@@ -42,6 +42,7 @@ import WelcomePage from './containers/WelcomePage/WelcomePage';
 import { LocaleType } from './interfaces';
 import handleError from './util/handleError';
 import SharedFolderPage from './containers/SharedFolderPage/SharedFolderPage';
+import FavoriteSubjectsPage from './containers/MyNdla/FavoriteSubjects/FavoriteSubjectsPage';
 
 interface State {
   hasError: boolean;
@@ -110,7 +111,8 @@ const AppRoutes = ({ base }: AppProps) => {
                 />
                 <Route
                   path="learningpaths/:learningpathId"
-                  element={<PlainLearningpathPage />}>
+                  element={<PlainLearningpathPage />}
+                >
                   <Route path="steps/:stepId" element={null} />
                 </Route>
                 <Route path="subject:subjectId/topic:topicId/resource:resourceId">
@@ -149,7 +151,8 @@ const AppRoutes = ({ base }: AppProps) => {
                 <Route path="audio/:audioId" element={<AudioPage />} />
                 <Route
                   path="minndla"
-                  element={<PrivateRoute element={<MyNdlaLayout />} />}>
+                  element={<PrivateRoute element={<MyNdlaLayout />} />}
+                >
                   <Route index element={<MyNdlaPage />} />
                   <Route path="meny" element={<MyNdlaMobileMenuPage />} />
                   <Route path="folders">
@@ -160,6 +163,7 @@ const AppRoutes = ({ base }: AppProps) => {
                     <Route index element={<TagsPage />} />
                     <Route path=":tag" element={<TagsPage />} />
                   </Route>
+                  <Route path="subjects" element={<FavoriteSubjectsPage />} />
                 </Route>
                 <Route path="folder/:folderId">
                   <Route index element={<SharedFolderPage />} />

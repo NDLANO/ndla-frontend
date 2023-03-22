@@ -55,7 +55,8 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
         license={video.copyright?.license?.license ?? ''}
         resourceType="video"
         resourceUrl={video.src}
-        locale={i18n.language}>
+        locale={i18n.language}
+      >
         <MediaListItemActions>
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />
@@ -88,7 +89,7 @@ const VideoLicenseList = ({ videos }: Props) => {
       <h2>{t('license.video.heading')}</h2>
       <p>{t('license.video.description')}</p>
       <MediaList>
-        {videos.map(video => (
+        {videos.map((video) => (
           <VideoLicenseInfo video={video} key={uuid()} />
         ))}
       </MediaList>

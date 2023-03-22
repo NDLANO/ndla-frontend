@@ -68,7 +68,8 @@ const TabFilter = ({ value: selectedValue, onChange, options }: Props) => {
             aria-current={selectedValue === value}
             selected={selectedValue === value}
             variant={selectedValue === value ? undefined : 'outline'}
-            onClick={() => onChange(value)}>
+            onClick={() => onChange(value)}
+          >
             {label}
           </StyledButton>
         </StyledLi>

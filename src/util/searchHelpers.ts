@@ -24,18 +24,18 @@ export const searchSubjects = (
   }
 
   const filtered = subjects?.filter(
-    subject =>
+    (subject) =>
       subject.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] !==
         undefined ||
       subject.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE] !==
         undefined,
   );
 
-  const foundInSubjects = filtered?.filter(subject =>
+  const foundInSubjects = filtered?.filter((subject) =>
     subject.name.toLowerCase().includes(trimmedQuery),
   );
 
-  return foundInSubjects?.map(subject => {
+  return foundInSubjects?.map((subject) => {
     return {
       ...subject,
       id: subject.id,
@@ -64,8 +64,8 @@ export const frontPageSearchSuggestion = (searchResult: SearchResult) => {
 
   const suggestions = learningResources.suggestions
     ?.concat(topicResources.suggestions)
-    .map(s => s.suggestions?.[0]?.options?.[0])
-    .filter(s => !!s)
+    .map((s) => s.suggestions?.[0]?.options?.[0])
+    .filter((s) => !!s)
     .sort((a, b) => b?.score! - a?.score!);
   return suggestions[0]?.text;
 };

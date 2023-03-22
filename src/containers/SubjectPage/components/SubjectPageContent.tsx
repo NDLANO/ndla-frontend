@@ -34,7 +34,7 @@ const SubjectPageContent = ({
     if (topicIds.length) scrollToRef(refs[topicIds.length - 1]!);
   }, [topicIds]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const mainTopics = subject?.topics?.map(topic => {
+  const mainTopics = subject?.topics?.map((topic) => {
     return {
       ...topic,
       label: topic?.name,

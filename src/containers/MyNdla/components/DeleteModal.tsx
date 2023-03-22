@@ -42,8 +42,9 @@ const DeleteModal = ({
       controlled
       isOpen={isOpen}
       onClose={onClose}
-      labelledBy={'deleteTitle'}>
-      {onCloseModal => (
+      labelledBy={'deleteTitle'}
+    >
+      {(onCloseModal) => (
         <>
           <ModalHeader>
             <h1 id="deleteTitle">{title}</h1>
@@ -61,7 +62,8 @@ const DeleteModal = ({
               <ButtonV2
                 colorTheme="danger"
                 variant="outline"
-                onClick={onDelete}>
+                onClick={onDelete}
+              >
                 {removeText}
               </ButtonV2>
             </StyledButtonRow>

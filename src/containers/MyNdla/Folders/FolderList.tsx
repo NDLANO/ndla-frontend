@@ -95,8 +95,8 @@ const FolderList = ({
     const sortCacheModifierFunction = (
       existing: (GQLFolder & { __ref: string })[],
     ) => {
-      return newOrder.map(id =>
-        existing.find(ef => ef.__ref === `Folder:${id}`),
+      return newOrder.map((id) =>
+        existing.find((ef) => ef.__ref === `Folder:${id}`),
       );
     };
 
@@ -155,11 +155,13 @@ const FolderList = ({
             collisionDetection={closestCenter}
             onDragEnd={sortFolderIds}
             accessibility={{ announcements }}
-            modifiers={[restrictToVerticalAxis, restrictToParentElement]}>
+            modifiers={[restrictToVerticalAxis, restrictToParentElement]}
+          >
             <SortableContext
               items={sortedFolders}
               disabled={folders.length < 2}
-              strategy={verticalListSortingStrategy}>
+              strategy={verticalListSortingStrategy}
+            >
               {folders.map((folder, index) => (
                 <DraggableFolder
                   key={`folder-${folder.id}`}

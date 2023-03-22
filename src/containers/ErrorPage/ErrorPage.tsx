@@ -45,7 +45,8 @@ const ErrorPage = () => {
         <ZendeskWrapper>
           <ZendeskButton
             locale={zendeskLanguage}
-            widgetKey={config.zendeskWidgetKey}>
+            widgetKey={config.zendeskWidgetKey}
+          >
             {t('askNDLA')}
           </ZendeskButton>
         </ZendeskWrapper>

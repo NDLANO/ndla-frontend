@@ -46,7 +46,8 @@ export const resourceTypeMapping: Record<string, string> = {
 
   [contentTypes.ASSESSMENT_RESOURCES]: RESOURCE_TYPE_ASSESSMENT_RESOURCES,
 
-  [contentTypes.EXTERNAL_LEARNING_RESOURCES]: RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES,
+  [contentTypes.EXTERNAL_LEARNING_RESOURCES]:
+    RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES,
 
   [contentTypes.SOURCE_MATERIAL]: RESOURCE_TYPE_SOURCE_MATERIAL,
 
@@ -61,7 +62,9 @@ interface ResourceType {
 export function getContentTypeFromResourceTypes(
   resourceTypes: ResourceType[] = [],
 ) {
-  const resourceType = resourceTypes.find(type => contentTypeMapping[type.id]);
+  const resourceType = resourceTypes.find(
+    (type) => contentTypeMapping[type.id],
+  );
   if (resourceType) {
     return {
       contentType: contentTypeMapping[resourceType.id],

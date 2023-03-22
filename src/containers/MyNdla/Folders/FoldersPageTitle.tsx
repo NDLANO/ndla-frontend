@@ -58,7 +58,8 @@ const FoldersPageTitle = ({
             <ContentLoader
               width={500}
               height={30}
-              css={{ maxWidth: '500px', minWidth: '500px' }}>
+              css={{ maxWidth: '500px', minWidth: '500px' }}
+            >
               <rect
                 x="0"
                 y="2"
@@ -70,7 +71,8 @@ const FoldersPageTitle = ({
               />
             </ContentLoader>
           )
-        }>
+        }
+      >
         <MyNdlaBreadcrumb
           breadcrumbs={selectedFolder?.breadcrumbs ?? []}
           backCrumb={backCrumb}
@@ -83,7 +85,8 @@ const FoldersPageTitle = ({
             <ContentLoader
               width={500}
               height={hasSelectedFolder ? 44 : 28}
-              css={{ maxWidth: '500px', minWidth: '500px' }}>
+              css={{ maxWidth: '500px', minWidth: '500px' }}
+            >
               <rect
                 x="0"
                 y="2"
@@ -95,12 +98,13 @@ const FoldersPageTitle = ({
               />
             </ContentLoader>
           }
-          isLoading={loading}>
+          isLoading={loading}
+        >
           <MyNdlaTitle title={selectedFolder?.name ?? t('myNdla.myFolders')} />
           {hasSelectedFolder && !examLock && (
             <FolderActions
               selectedFolder={selectedFolder}
-              onActionChanged={action =>
+              onActionChanged={(action) =>
                 selectedFolder &&
                 setFolderAction({ action, folder: selectedFolder })
               }

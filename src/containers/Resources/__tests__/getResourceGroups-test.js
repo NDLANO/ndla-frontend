@@ -44,7 +44,7 @@ test('filter out duplicates', () => {
     dupe,
   ]);
   const type = groups.find(
-    group => group.id === 'urn:resourcetype:subjectMaterial',
+    (group) => group.id === 'urn:resourcetype:subjectMaterial',
   );
   expect(
     type.resources.reduce(

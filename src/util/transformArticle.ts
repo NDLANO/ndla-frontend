@@ -63,7 +63,7 @@ export const transformArticle = <T extends BaseArticle>(
     published: formatDate(article.published, locale),
     footNotes,
     requiredLibraries: article.requiredLibraries
-      ? article.requiredLibraries.map(lib => {
+      ? article.requiredLibraries.map((lib) => {
           if (lib?.url.startsWith('http://')) {
             return {
               ...lib,

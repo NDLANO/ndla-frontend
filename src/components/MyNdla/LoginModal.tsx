@@ -26,6 +26,7 @@ interface Props {
   onClose: () => void;
   title?: string;
   content?: ReactNode;
+  masthead?: boolean;
 }
 
 const StyledModalBody = styled(ModalBody)`
@@ -34,7 +35,13 @@ const StyledModalBody = styled(ModalBody)`
   }
 `;
 
-const LoginModal = ({ isOpen, onClose, title, content }: Props) => {
+const LoginModal = ({
+  isOpen,
+  onClose,
+  title,
+  content,
+  masthead = false,
+}: Props) => {
   const { t } = useTranslation();
 
   return (
@@ -43,8 +50,9 @@ const LoginModal = ({ isOpen, onClose, title, content }: Props) => {
       isOpen={isOpen}
       size="normal"
       onClose={onClose}
-      label={t('user.modal.isNotAuth')}>
-      {onCloseModal => (
+      label={t('user.modal.isNotAuth')}
+    >
+      {(onCloseModal) => (
         <>
           <ModalHeader>
             <Title>{title}</Title>
@@ -54,7 +62,11 @@ const LoginModal = ({ isOpen, onClose, title, content }: Props) => {
             />
           </ModalHeader>
           <StyledModalBody>
-            <LoginComponent onClose={onClose} content={content} />
+            <LoginComponent
+              onClose={onClose}
+              content={content}
+              masthead={masthead}
+            />
           </StyledModalBody>
         </>
       )}

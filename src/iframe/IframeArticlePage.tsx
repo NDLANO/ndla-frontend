@@ -61,7 +61,7 @@ const IframeArticlePage = ({
       <Helmet>
         <title>{`NDLA | ${article.title}`}</title>
         <meta name="robots" content="noindex" />
-        {scripts.map(script => (
+        {scripts.map((script) => (
           <script
             key={script.src}
             src={script.src}
@@ -86,7 +86,8 @@ const IframeArticlePage = ({
           isPlainArticle
           isOembed
           modifier="clean iframe"
-          {...getArticleProps(resource)}>
+          {...getArticleProps(resource)}
+        >
           <CreatedBy
             name={t('createdBy.content')}
             description={t('createdBy.text')}

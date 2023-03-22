@@ -133,8 +133,8 @@ const AddResourceToFolder = ({
     if (!loading && folders && !storedResource) {
       const _storedResource = getResourceForPath(folders, resource.path);
       setStoredResource(_storedResource ?? undefined);
-      setTags(tags => uniq(compact(tags.concat(getAllTags(folders)))));
-      setSelectedTags(prevTags =>
+      setTags((tags) => uniq(compact(tags.concat(getAllTags(folders)))));
+      setSelectedTags((prevTags) =>
         uniq(prevTags.concat(_storedResource?.tags ?? [])),
       );
     }
@@ -149,7 +149,7 @@ const AddResourceToFolder = ({
         setCanSave(false);
       } else if (
         selectedFolder.resources.some(
-          resource => resource.id === storedResource?.id,
+          (resource) => resource.id === storedResource?.id,
         )
       ) {
         setCanSave(tagsChanged);
@@ -187,13 +187,11 @@ const AddResourceToFolder = ({
   );
 
   const { updateFolderResource } = useUpdateFolderResourceMutation();
-  const {
-    addResourceToFolder,
-    loading: addResourceLoading,
-  } = useAddResourceToFolderMutation(selectedFolder?.id ?? '');
+  const { addResourceToFolder, loading: addResourceLoading } =
+    useAddResourceToFolderMutation(selectedFolder?.id ?? '');
 
   const alreadyAdded = selectedFolder?.resources.some(
-    resource => resource.id === storedResource?.id,
+    (resource) => resource.id === storedResource?.id,
   );
 
   const onSave = async () => {
@@ -229,7 +227,7 @@ const AddResourceToFolder = ({
   const defaultOpenFolders = useMemo(() => {
     const firstFolderId = structureFolders?.[0]?.subfolders[0]?.id;
     const defaultOpenFolderIds = defaultOpenFolder?.breadcrumbs.map(
-      bc => bc.id,
+      (bc) => bc.id,
     );
     const defaultOpen = defaultOpenFolderIds
       ? ['folders'].concat(defaultOpenFolderIds)
@@ -299,12 +297,12 @@ const AddResourceToFolder = ({
               label={t('myNdla.myTags')}
               selected={selectedTags}
               tags={tags}
-              onChange={tags => {
+              onChange={(tags) => {
                 setSelectedTags(tags);
               }}
-              onCreateTag={tag => {
-                setTags(prev => prev.concat(tag));
-                setSelectedTags(prev => uniq(prev.concat(tag)));
+              onCreateTag={(tag) => {
+                setTags((prev) => prev.concat(tag));
+                setSelectedTags((prev) => uniq(prev.concat(tag)));
               }}
             />
           </ComboboxContainer>
@@ -314,12 +312,13 @@ const AddResourceToFolder = ({
         <Button
           variant="outline"
           onClick={onClose}
-          onMouseDown={e => {
+          onMouseDown={(e) => {
             e.preventDefault();
           }}
-          onMouseUp={e => {
+          onMouseUp={(e) => {
             e.preventDefault();
-          }}>
+          }}
+        >
           {t('cancel')}
         </Button>
         <LoadingButton
@@ -328,12 +327,13 @@ const AddResourceToFolder = ({
             !canSave || addResourceLoading || noFolderSelected || examLock
           }
           onClick={onSave}
-          onMouseDown={e => {
+          onMouseDown={(e) => {
             e.preventDefault();
           }}
-          onMouseUp={e => {
+          onMouseUp={(e) => {
             e.preventDefault();
-          }}>
+          }}
+        >
           {t('myNdla.resource.save')}
         </LoadingButton>
       </ButtonRow>

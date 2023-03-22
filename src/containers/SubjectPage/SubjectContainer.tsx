@@ -110,7 +110,7 @@ const SubjectContainer = ({ t, subjectId, topicIds, subject }: Props) => {
       isCurrent: currentLevel === 'Subject',
     },
     ...(breadCrumbList.length > 0
-      ? breadCrumbList.map(crumb => ({
+      ? breadCrumbList.map((crumb) => ({
           ...crumb,
           isCurrent: currentLevel === crumb.index,
           typename:
@@ -124,8 +124,8 @@ const SubjectContainer = ({ t, subjectId, topicIds, subject }: Props) => {
 
   const setBreadCrumb = (topic: BreadcrumbItem) => {
     setCurrentLevel(topic.index);
-    setBreadCrumbList(prevCrumbs => [
-      ...prevCrumbs.filter(crumb => {
+    setBreadCrumbList((prevCrumbs) => [
+      ...prevCrumbs.filter((crumb) => {
         return (
           crumb.id.toString().localeCompare(topic.id.toString()) !== 0 &&
           (crumb.typename === 'Subjecttype' ||
@@ -167,7 +167,7 @@ const SubjectContainer = ({ t, subjectId, topicIds, subject }: Props) => {
   }
 
   const headerRef = useRef<HTMLDivElement>(null);
-  const topicRefs = topicIds.map(_ => createRef<HTMLDivElement>());
+  const topicRefs = topicIds.map((_) => createRef<HTMLDivElement>());
 
   const handleNav = (e: MouseEvent<HTMLElement>, item: BreadcrumbItem) => {
     e.preventDefault();
@@ -192,13 +192,13 @@ const SubjectContainer = ({ t, subjectId, topicIds, subject }: Props) => {
   const showBreadCrumb = entry && entry.isIntersecting;
   const moveBannerUp = !topicIds?.length;
 
-  const topicPath = topicIds?.map(t =>
-    subject.allTopics?.find(topic => topic.id === t),
+  const topicPath = topicIds?.map((t) =>
+    subject.allTopics?.find((topic) => topic.id === t),
   );
 
   const topicTitle = topicPath?.[topicPath.length - 1]?.name;
   const subjectTitle = subject.name;
-  const title = [topicTitle, subjectTitle].filter(e => !!e).join(' - ');
+  const title = [topicTitle, subjectTitle].filter((e) => !!e).join(' - ');
   const socialMediaMetadata = {
     title,
     description:
@@ -215,7 +215,7 @@ const SubjectContainer = ({ t, subjectId, topicIds, subject }: Props) => {
 
   const topicsOnPage =
     (topicIds.length > 0
-      ? subject.topics?.filter(topic => topicIds.includes(topic.id))
+      ? subject.topics?.filter((topic) => topicIds.includes(topic.id))
       : subject.topics) || [];
 
   const supportedLanguages =
@@ -253,12 +253,14 @@ const SubjectContainer = ({ t, subjectId, topicIds, subject }: Props) => {
             <div ref={headerRef}>
               <ArticleHeaderWrapper
                 competenceGoalsLoading={competenceGoalsLoading}
-                competenceGoals={renderCompetenceGoals(subject)}>
+                competenceGoals={renderCompetenceGoals(subject)}
+              >
                 <NavigationHeading
                   headingId={
                     topicIds.length === 0 ? SKIP_TO_CONTENT_ID : undefined
                   }
-                  invertedStyle={ndlaFilm}>
+                  invertedStyle={ndlaFilm}
+                >
                   {subject.name}
                 </NavigationHeading>
               </ArticleHeaderWrapper>
@@ -312,8 +314,8 @@ SubjectContainer.willTrackPageView = (
 
 SubjectContainer.getDimensions = (props: Props) => {
   const { subject, topicIds, user } = props;
-  const topicPath = topicIds.map(t =>
-    subject.allTopics?.find(topic => topic.id === t),
+  const topicPath = topicIds.map((t) =>
+    subject.allTopics?.find((topic) => topic.id === t),
   );
 
   return getAllDimensions({

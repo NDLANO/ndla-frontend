@@ -73,19 +73,19 @@ const MultidisciplinarySubjectArticle = ({
   }
 
   const subjectLinks = topic.article.crossSubjectTopics?.map(
-    crossSubjectTopic => ({
+    (crossSubjectTopic) => ({
       label: crossSubjectTopic.title,
       url: crossSubjectTopic.path || subject.path || '',
     }),
   );
   const subjects = topic.article?.grepCodes
-    ?.filter(grepCode => grepCode.startsWith('TT'))
-    .map(code => filterCodes[code]!);
+    ?.filter((grepCode) => grepCode.startsWith('TT'))
+    .map((code) => filterCodes[code]!);
 
   return (
     <main>
       <Helmet>
-        {scripts?.map(script => (
+        {scripts?.map((script) => (
           <script
             key={script.src}
             src={script.src}
@@ -188,8 +188,8 @@ MultidisciplinarySubjectArticle.getDimensions = (props: Props) => {
   const topicPath = topic.path
     ?.split('/')
     .slice(2)
-    .map(t =>
-      subject.allTopics?.find(topic => topic.id.replace('urn:', '') === t),
+    .map((t) =>
+      subject.allTopics?.find((topic) => topic.id.replace('urn:', '') === t),
     );
 
   return getAllDimensions(

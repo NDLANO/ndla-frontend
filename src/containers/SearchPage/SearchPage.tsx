@@ -6,7 +6,7 @@
  */
 
 import { HelmetWithTracker } from '@ndla/tracker';
-import { OneColumn } from '@ndla/ui';
+import { ContentPlaceholder, OneColumn } from '@ndla/ui';
 import queryString from 'query-string';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -23,7 +23,7 @@ import { GQLSearchPageQuery } from '../../graphqlTypes';
 
 const getStateSearchParams = (searchParams: Record<string, any>) => {
   const stateSearchParams: Record<string, any> = {};
-  Object.keys(searchParams).forEach(key => {
+  Object.keys(searchParams).forEach((key) => {
     stateSearchParams[key] = convertSearchParam(searchParams[key]);
   });
   return stateSearchParams;
@@ -35,7 +35,7 @@ const SearchPage = () => {
   const navigate = useNavigate();
   const searchParams = converSearchStringToObject(location, i18n.language);
 
-  const { data } = useGraphQuery<GQLSearchPageQuery>(searchPageQuery);
+  const { data, loading } = useGraphQuery<GQLSearchPageQuery>(searchPageQuery);
   /*const { data: conceptData } = useGraphQuery<GQLConceptSearchQuery>(
     conceptSearchQuery,
     {
@@ -47,6 +47,10 @@ const SearchPage = () => {
       },
     },
   );*/
+
+  if (loading) {
+    return <ContentPlaceholder />;
+  }
 
   const subjectItems = searchSubjects(searchParams.query, data?.subjects);
 

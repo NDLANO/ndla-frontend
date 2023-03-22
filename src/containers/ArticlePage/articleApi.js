@@ -19,5 +19,5 @@ export const fetchArticle = (id, locale) =>
     resolveJsonOrRejectWithError,
   );
 
-export const fetchArticleOembed = url =>
+export const fetchArticleOembed = (url) =>
   fetch(`oembed?url=${url}`).then(resolveJsonOrRejectWithError);

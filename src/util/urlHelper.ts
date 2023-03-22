@@ -30,7 +30,7 @@ const matchUrl = (
   lang: boolean = false,
 ): PathMatch<OembedReturnParams> | null => {
   const possiblePaths = lang
-    ? oembedRoutes.map(r => `/:lang/${r}`)
+    ? oembedRoutes.map((r) => `/:lang/${r}`)
     : oembedRoutes;
 
   let match: PathMatch<OembedParams> | undefined;

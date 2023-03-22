@@ -50,9 +50,8 @@ const personalDataQuery = gql`
 `;
 
 export const usePersonalData = () => {
-  const [fetch, { data, loading }] = useLazyQuery<GQLPersonalDataQuery>(
-    personalDataQuery,
-  );
+  const [fetch, { data, loading }] =
+    useLazyQuery<GQLPersonalDataQuery>(personalDataQuery);
   const personalData = data?.personalData;
   return { personalData, loading, fetch };
 };
@@ -72,7 +71,7 @@ export const useUpdatePersonalData = () => {
     GQLUpdatePersonalDataMutation,
     GQLUpdatePersonalDataMutationVariables
   >(updatePersonalDataQuery, {
-    onCompleted: data => {
+    onCompleted: (data) => {
       cache.modify({
         id: cache.identify({
           __ref: data.__typename,

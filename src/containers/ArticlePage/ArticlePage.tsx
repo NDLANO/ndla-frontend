@@ -76,7 +76,7 @@ const ArticlePage = ({
   const disableConverter = useDisableConverter();
 
   const [article, scripts] = useMemo(() => {
-    if (!resource?.article) return undefined;
+    if (!resource?.article) return [];
     return [
       transformArticle(resource?.article, i18n.language, {
         path: `${config.ndlaFrontendDomain}/article/${resource.article?.id}`,
@@ -105,13 +105,14 @@ const ArticlePage = ({
       </Status>
     );
   }
-  if (!resource?.article) {
-    const error = errors?.find(e => e.path?.includes('resource'));
+  if (!resource?.article || !article) {
+    const error = errors?.find((e) => e.path?.includes('resource'));
     return (
       <div>
         <ArticleErrorMessage
           //@ts-ignore
-          status={error?.status}>
+          status={error?.status}
+        >
           {topic && (
             <Resources
               topic={topic}
@@ -150,7 +151,7 @@ const ArticlePage = ({
       />
       <Helmet>
         <title>{`${getDocumentTitle(t, resource, subject)}`}</title>
-        {scripts.map(script => (
+        {scripts?.map((script) => (
           <script
             key={script.src}
             src={script.src}

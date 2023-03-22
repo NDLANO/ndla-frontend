@@ -65,7 +65,8 @@ const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
         license={audio.copyright.license?.license}
         resourceType="audio"
         resourceUrl={audio.src}
-        locale={i18n.language}>
+        locale={i18n.language}
+      >
         <MediaListItemActions>
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />
@@ -94,7 +95,7 @@ const AudioLicenseList = ({ audios }: Props) => {
       <h2>{t('license.audio.heading')}</h2>
       <p>{t('license.audio.description')}</p>
       <MediaList>
-        {audios.map(audio => (
+        {audios.map((audio) => (
           <AudioLicenseInfo audio={audio} key={uuid()} />
         ))}
       </MediaList>

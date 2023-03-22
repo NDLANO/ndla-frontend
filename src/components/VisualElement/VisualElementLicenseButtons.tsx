@@ -68,7 +68,8 @@ const VisualElementLicenseButtons = ({
             ''
           }
           variant="outline"
-          download>
+          download
+        >
           {t(`${resourceType}.download`)}
         </SafeLinkButton>
       )}
@@ -81,7 +82,8 @@ const VisualElementLicenseButtons = ({
             `${visualElement.brightcove.iframe?.width}`,
             `${visualElement.brightcove.iframe?.height}`,
             t('brightcove.name'),
-          )}></CopyTextButton>
+          )}
+        ></CopyTextButton>
       )}
     </>
   );

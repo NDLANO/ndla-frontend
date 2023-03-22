@@ -108,19 +108,20 @@ const MastheadContainer = () => {
     if (!data?.subject?.allTopics?.length) {
       return [];
     }
-    const keyed = keyBy(data.subject.allTopics, t => t.id);
-    const transformed = topicList.map(t => keyed[t]);
+    const keyed = keyBy(data.subject.allTopics, (t) => t.id);
+    const transformed = topicList.map((t) => keyed[t]);
     return transformed;
   }, [data?.subject?.allTopics, topicList]);
 
-  const breadcrumbBlockItems = (data?.subject?.id
-    ? toBreadcrumbItems(t('breadcrumb.toFrontpage'), [
-        data.subject,
-        ...path,
-        ...(data?.resource ? [data.resource] : []),
-      ])
-    : []
-  ).filter(uri => !!uri.name && !!uri.to);
+  const breadcrumbBlockItems = (
+    data?.subject?.id
+      ? toBreadcrumbItems(t('breadcrumb.toFrontpage'), [
+          data.subject,
+          ...path,
+          ...(data?.resource ? [data.resource] : []),
+        ])
+      : []
+  ).filter((uri) => !!uri.name && !!uri.to);
 
   const renderSearchComponent = (hideOnNarrowScreen: boolean) =>
     !location.pathname.includes('search') &&
@@ -132,7 +133,7 @@ const MastheadContainer = () => {
       />
     );
 
-  const alerts = openAlerts?.map(alert => ({
+  const alerts = openAlerts?.map((alert) => ({
     content: alert.body || alert.title,
     closable: alert.closable,
     number: alert.number,
@@ -144,8 +145,9 @@ const MastheadContainer = () => {
         fixed
         ndlaFilm={ndlaFilm}
         skipToMainContentId={SKIP_TO_CONTENT_ID}
-        onCloseAlert={id => closeAlert(id)}
-        messages={alerts}>
+        onCloseAlert={(id) => closeAlert(id)}
+        messages={alerts}
+      >
         <MastheadItem left>
           <MastheadDrawer subject={data?.subject} />
           {!hideBreadcrumb && !!breadcrumbBlockItems.length && (
@@ -157,7 +159,7 @@ const MastheadContainer = () => {
                     breadcrumbBlockItems.length > 1
                       ? breadcrumbBlockItems
                           .slice(1)
-                          .map(uri => ({ name: uri.name!, to: uri.to! }))
+                          .map((uri) => ({ name: uri.name!, to: uri.to! }))
                       : []
                   }
                 />

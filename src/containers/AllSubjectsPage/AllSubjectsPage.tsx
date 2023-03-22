@@ -34,12 +34,8 @@ import LetterNavigation from './LetterNavigation';
 import SubjectCategory from './SubjectCategory';
 import { filterSubjects, groupSubjects } from './utils';
 
-const {
-  ACTIVE_SUBJECTS,
-  ARCHIVE_SUBJECTS,
-  BETA_SUBJECTS,
-  OTHER,
-} = constants.subjectCategories;
+const { ACTIVE_SUBJECTS, ARCHIVE_SUBJECTS, BETA_SUBJECTS, OTHER } =
+  constants.subjectCategories;
 
 const createFilterTranslation = (t: TFunction, key: string, addTail = true) => {
   const label = addTail
@@ -124,17 +120,19 @@ const AllSubjectsPage = () => {
   };
 
   const favoriteSubjects = personalData?.favoriteSubjects;
-  const sortedSubjects = useMemo(() => sortBy(subjects, s => s.name), [
-    subjects,
-  ]);
+  const sortedSubjects = useMemo(
+    () => sortBy(subjects, (s) => s.name),
+    [subjects],
+  );
   const groupedSubjects = useMemo(() => {
     const filteredSubjects = filterSubjects(sortedSubjects, filter);
     return groupSubjects(filteredSubjects);
   }, [sortedSubjects, filter]);
 
-  const letters = useMemo(() => groupedSubjects.map(group => group.label), [
-    groupedSubjects,
-  ]);
+  const letters = useMemo(
+    () => groupedSubjects.map((group) => group.label),
+    [groupedSubjects],
+  );
 
   useEffect(() => {
     if (authenticated) {
@@ -175,8 +173,8 @@ const AllSubjectsPage = () => {
         {isMobile ? (
           <SelectWrapper>
             <Select<false>
-              value={filterOptions.find(opt => opt.value === filter)}
-              onChange={value => value && setFilter(value?.value)}
+              value={filterOptions.find((opt) => opt.value === filter)}
+              onChange={(value) => value && setFilter(value?.value)}
               options={filterOptions}
               colorTheme="white"
               outline

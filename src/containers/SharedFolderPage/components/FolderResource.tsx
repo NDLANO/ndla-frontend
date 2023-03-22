@@ -29,7 +29,7 @@ const styledOptions = { shouldForwardProp };
 const StyledSafelinkButton = styled(SafeLinkButton, styledOptions)<StyledProps>`
   text-align: left;
   align-items: center;
-  margin-left: calc(${p => p.level} * ${spacing.small});
+  margin-left: calc(${(p) => p.level} * ${spacing.small});
   color: ${colors.text.primary};
   svg {
     width: 24px;
@@ -115,7 +115,8 @@ const FolderResource = ({
         onClick={onClick}
         variant={isCurrent ? 'solid' : 'ghost'}
         colorTheme="light"
-        to={link}>
+        to={link}
+      >
         <ContentTypeBadge type={contentType!} border={false} />
         {meta?.title}
         {resource.resourceType === 'learningpath' && <Launch />}

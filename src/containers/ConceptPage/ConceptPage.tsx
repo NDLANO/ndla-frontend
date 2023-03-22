@@ -21,6 +21,7 @@ import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import config from '../../config';
 import ImageActionButtons from './components/ImageActionsButtons';
 import { useTypedParams } from '../../routeHelpers';
+import ResourceHeader from '../ImagePage/components/ResourceHeader';
 
 const ConceptPage = () => {
   const {
@@ -141,10 +142,11 @@ const ConceptPage = () => {
         trackableContent={concept}
         title={title}
         description={concept.content}
-        imageUrl={image?.src}>
+        imageUrl={image?.src}
+      >
         <meta name="robots" content="noindex" />
       </SocialMediaMetadata>
-      <h1>{`${t('resourcepageTitles.concept')}`}</h1>
+      <ResourceHeader title={title} />
       <ConceptNotion
         concept={{
           ...concept,

@@ -118,7 +118,8 @@ const LoginComponent = ({ masthead, onClose, content }: Props) => {
           </ButtonV2>
           <SafeLinkButton
             reloadDocument
-            to={`/login?state=${masthead ? '/minndla' : toHref(location)}`}>
+            to={`/login?state=${masthead ? '/minndla' : toHref(location)}`}
+          >
             {t('user.buttonLogIn')}
           </SafeLinkButton>
         </ButtonRow>

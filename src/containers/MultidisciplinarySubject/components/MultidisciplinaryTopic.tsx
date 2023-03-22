@@ -68,9 +68,9 @@ const MultidisciplinaryTopic = ({
   const topicPath = topic.path
     ?.split('/')
     .slice(2)
-    .map(id => `urn:${id}`);
+    .map((id) => `urn:${id}`);
   const subTopics =
-    topic.subtopics?.map(item => ({
+    topic.subtopics?.map((item) => ({
       id: item.id,
       label: item.name,
       selected: item.id === subTopicId,
@@ -128,7 +128,8 @@ const MultidisciplinaryTopic = ({
       subTopics={!disableNav ? subTopics : undefined}
       isLoading={false}
       renderMarkdown={renderMarkdown}
-      invertedStyle={ndlaFilm}>
+      invertedStyle={ndlaFilm}
+    >
       <ArticleContents
         topic={topic}
         modifier="in-topic"
@@ -192,8 +193,8 @@ MultidisciplinaryTopic.getDimensions = (props: Props) => {
   const topicPath = topic.path
     ?.split('/')
     .slice(2)
-    .map(t =>
-      subject.allTopics?.find(topic => topic.id.replace('urn:', '') === t),
+    .map((t) =>
+      subject.allTopics?.find((topic) => topic.id.replace('urn:', '') === t),
     );
 
   return getAllDimensions(

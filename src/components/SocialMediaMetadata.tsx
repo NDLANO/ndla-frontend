@@ -41,12 +41,12 @@ export const getAlternateUrl = (
 
 export const getAlternateLanguages = (trackableContent?: TrackableContent) => {
   if (!trackableContent || !trackableContent.supportedLanguages) {
-    return preferredLocales.map(appLocale => appLocale.abbreviation);
+    return preferredLocales.map((appLocale) => appLocale.abbreviation);
   }
   if (trackableContent?.supportedLanguages?.length === 0) {
     return [];
   }
-  return trackableContent.supportedLanguages.filter(language =>
+  return trackableContent.supportedLanguages.filter((language) =>
     isValidLocale(language),
   );
 };
@@ -85,7 +85,7 @@ const SocialMediaMetadata = ({
   return (
     <Helmet>
       <link rel="canonical" href={getCanonicalUrl(location)} />
-      {getAlternateLanguages(trackableContent).map(alternateLanguage => (
+      {getAlternateLanguages(trackableContent).map((alternateLanguage) => (
         <link
           key={alternateLanguage}
           rel="alternate"

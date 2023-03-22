@@ -9,6 +9,7 @@
 import { useEffect } from 'react';
 import { Content, PageContainer, useMastheadHeight } from '@ndla/ui';
 import ZendeskButton from '@ndla/zendesk';
+import { spacing } from '@ndla/core';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
@@ -28,6 +29,10 @@ import {
 
 const ZendeskWrapper = styled.div`
   z-index: 10;
+`;
+
+const bottomPadding = css`
+  padding-bottom: ${spacing.large};
 `;
 
 const Layout = () => {
@@ -80,12 +85,15 @@ const Layout = () => {
       />
       <Helmet
         htmlAttributes={{ lang: i18n.language }}
-        meta={[{ name: 'description', content: t('meta.description') }]}>
+        meta={[{ name: 'description', content: t('meta.description') }]}
+      >
         {metaChildren}
       </Helmet>
       <Masthead />
       <Content>
-        <Outlet />
+        <div css={bottomPadding}>
+          <Outlet />
+        </div>
       </Content>
       <Footer />
       {config.feideEnabled && <FeideFooter />}
@@ -94,7 +102,8 @@ const Layout = () => {
           <ZendeskButton
             id="zendesk"
             locale={zendeskLanguage}
-            widgetKey={config.zendeskWidgetKey}>
+            widgetKey={config.zendeskWidgetKey}
+          >
             {t('askNDLA')}
           </ZendeskButton>
         </ZendeskWrapper>

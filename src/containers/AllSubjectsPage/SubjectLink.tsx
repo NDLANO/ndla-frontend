@@ -53,9 +53,10 @@ const ModalSubjectContainer = styled.div`
 interface Props {
   subject: Subject;
   favorites: string[] | undefined;
+  className?: string;
 }
 
-const SubjectLink = ({ subject, favorites }: Props) => {
+const SubjectLink = ({ subject, favorites, className }: Props) => {
   const isFavorite = !!favorites?.includes(subject.id);
   const { addSnack } = useSnack();
   const { t } = useTranslation();
@@ -90,7 +91,9 @@ const SubjectLink = ({ subject, favorites }: Props) => {
     if (!favorites) {
       return;
     }
-    const newFavorites = favorites?.filter(favorite => favorite !== subject.id);
+    const newFavorites = favorites?.filter(
+      (favorite) => favorite !== subject.id,
+    );
     await updatePersonalData({ variables: { favoriteSubjects: newFavorites } });
     setShowDeleteModal(false);
     addSnack({
@@ -100,11 +103,12 @@ const SubjectLink = ({ subject, favorites }: Props) => {
   };
 
   return (
-    <SubjectLinkWrapper>
+    <SubjectLinkWrapper className={className}>
       <Tooltip
         tooltip={t(
           `subjectsPage.${isFavorite ? 'removeFavorite' : 'addFavorite'}`,
-        )}>
+        )}
+      >
         <StyledIconButton
           onClick={() => setFavorite(isFavorite)}
           aria-label={`${t(
@@ -112,7 +116,8 @@ const SubjectLink = ({ subject, favorites }: Props) => {
           )}, ${subject.name}`}
           variant="ghost"
           size="xsmall"
-          colorTheme="lighter">
+          colorTheme="lighter"
+        >
           {isFavorite ? <Heart /> : <HeartOutline />}
         </StyledIconButton>
       </Tooltip>

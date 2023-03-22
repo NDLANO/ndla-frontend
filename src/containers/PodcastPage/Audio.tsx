@@ -122,7 +122,8 @@ const Audio = ({ audio, seriesId = '' }: Props) => {
         caption={audio.title.title}
         licenseRights={license?.rights || []}
         reuseLabel={t('other.reuse')}
-        authors={podcastContributors}>
+        authors={podcastContributors}
+      >
         <FigureLicenseDialog
           id={id}
           authors={podcastGroupedContributors}
@@ -133,7 +134,8 @@ const Audio = ({ audio, seriesId = '' }: Props) => {
           )}
           messages={podcastMessages}
           title={audio.title.title}
-          origin={audio.copyright.origin}>
+          origin={audio.copyright.origin}
+        >
           <CopyTextButton
             stringToCopy={
               seriesId
@@ -145,7 +147,7 @@ const Audio = ({ audio, seriesId = '' }: Props) => {
                     audio.copyright,
                     language,
                     config.ndlaFrontendDomain,
-                    key => t(key),
+                    (key) => t(key),
                   )
                 : getCopyString(
                     audio.title.title,
@@ -153,7 +155,7 @@ const Audio = ({ audio, seriesId = '' }: Props) => {
                     `/resources/audios/${audio.id}`,
                     audio.copyright,
                     config.ndlaFrontendDomain,
-                    key => t(key),
+                    (key) => t(key),
                   )
             }
             copyTitle={t('license.copyTitle')}
@@ -174,7 +176,8 @@ const Audio = ({ audio, seriesId = '' }: Props) => {
             licenseRights={imageRights || []}
             locale={language}
             reuseLabel={t('image.reuse')}
-            authors={imageContributors}>
+            authors={imageContributors}
+          >
             <FigureLicenseDialog
               id={imageId}
               authors={imageGroupedContributors}
@@ -185,7 +188,8 @@ const Audio = ({ audio, seriesId = '' }: Props) => {
               )}
               messages={imageMessages}
               title={image.title}
-              origin={image.copyright.origin}>
+              origin={image.copyright.origin}
+            >
               {image.copyright.license?.license !== 'COPYRIGHTED' && (
                 <>
                   <CopyTextButton
@@ -197,7 +201,7 @@ const Audio = ({ audio, seriesId = '' }: Props) => {
                       image.copyright,
                       image.copyright.license.license,
                       config.ndlaFrontendDomain,
-                      key => t(key),
+                      (key) => t(key),
                       language,
                     )}
                     copyTitle={t('license.copyTitle')}
@@ -206,7 +210,8 @@ const Audio = ({ audio, seriesId = '' }: Props) => {
                   <SafeLinkButton
                     to={image.imageUrl}
                     download
-                    variant="outline">
+                    variant="outline"
+                  >
                     {t('license.download')}
                   </SafeLinkButton>
                 </>

@@ -11,9 +11,8 @@ declare module 'react-i18next' {
     ) => Promise<TFunction>;
   }
 
-  interface CustomUseTranslationResponse<
-    N extends Namespace = DefaultNamespace
-  > extends Omit<UseTranslationResponse<N>, 'i18n'> {
+  interface CustomUseTranslationResponse<N extends Namespace = DefaultNamespace>
+    extends Omit<UseTranslationResponse<N>, 'i18n'> {
     i18n: CustomI18n;
   }
   interface CustomWithTranslation<N extends Namespace = DefaultNamespace> {
@@ -29,7 +28,7 @@ declare module 'react-i18next' {
 
   function withTranslation<
     N extends Namespace = DefaultNamespace,
-    TKPrefix extends KeyPrefix<N> = undefined
+    TKPrefix extends KeyPrefix<N> = undefined,
   >(
     ns?: N,
     options?: {
@@ -41,7 +40,7 @@ declare module 'react-i18next' {
     ResolvedProps = JSX.LibraryManagedAttributes<
       C,
       Subtract<ComponentProps<C>, WithTranslationProps>
-    >
+    >,
   >(
     component: C,
   ) => ComponentType<

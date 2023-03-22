@@ -53,7 +53,7 @@ export interface Author {
   type: string;
 }
 
-export type LocaleType = typeof LocaleValues[number];
+export type LocaleType = (typeof LocaleValues)[number];
 
 export type BreadcrumbItem = BreadcrumbItemProps & { index?: number };
 

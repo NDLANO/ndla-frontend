@@ -51,9 +51,11 @@ const getHTMLandTitle = async (
       title: topic.name,
       html: `<iframe aria-label="${topic.name}" src="${
         config.ndlaFrontendDomain
-      }/article-iframe/${lang}/${topic.id}/${articleId}" height="${req.query
-        .height || 480}" width="${req.query.width ||
-        854}" frameborder="0" allowFullscreen="" />`,
+      }/article-iframe/${lang}/${topic.id}/${articleId}" height="${
+        req.query.height || 480
+      }" width="${
+        req.query.width || 854
+      }" frameborder="0" allowFullscreen="" />`,
     };
   }
 
@@ -63,9 +65,9 @@ const getHTMLandTitle = async (
     title: resource.name,
     html: `<iframe aria-label="${resource.name}" src="${
       config.ndlaFrontendDomain
-    }/article-iframe/${lang}/${resource.id}/${articleId}" height="${req.query
-      .height || 480}" width="${req.query.width ||
-      854}" frameborder="0" allowFullscreen="" />`,
+    }/article-iframe/${lang}/${resource.id}/${articleId}" height="${
+      req.query.height || 480
+    }" width="${req.query.width || 854}" frameborder="0" allowFullscreen="" />`,
   };
 };
 
@@ -100,9 +102,11 @@ export async function oembedArticleRoute(req: express.Request) {
         article.title.title,
         `<iframe aria-label="${article.title.title}" src="${
           config.ndlaFrontendDomain
-        }/article-iframe/${lang}/article/${articleId}" height="${req.query
-          .height || 480}" width="${req.query.width ||
-          854}" frameborder="0" allowFullscreen="" />`,
+        }/article-iframe/${lang}/article/${articleId}" height="${
+          req.query.height || 480
+        }" width="${
+          req.query.width || 854
+        }" frameborder="0" allowFullscreen="" />`,
       );
     }
     const { html, title } = await getHTMLandTitle(match, req);

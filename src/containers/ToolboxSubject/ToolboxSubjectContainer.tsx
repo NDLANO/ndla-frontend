@@ -43,7 +43,7 @@ const getSocialMediaMetaData = (
 
   const selectedMetadata = [...(subject.allTopics ?? [])]
     .reverse()
-    .find(t => topics.includes(t.id));
+    .find((t) => topics.includes(t.id));
 
   const selectedTitle = selectedMetadata?.name || selectedMetadata?.meta?.title;
   const subjectTitle = subject.name;
@@ -75,12 +75,12 @@ const getInitialSelectedTopics = (
   subject: GQLToolboxSubjectContainer_SubjectFragment,
 ): string[] => {
   let initialSelectedTopics: string[] = [];
-  topicList.forEach(topicId => {
+  topicList.forEach((topicId) => {
     const alreadySelected = initialSelectedTopics.find(
-      topic => topic === topicId,
+      (topic) => topic === topicId,
     );
     if (!alreadySelected) {
-      const exist = subject?.allTopics?.find(topic => topic.id === topicId);
+      const exist = subject?.allTopics?.find((topic) => topic.id === topicId);
       if (exist) initialSelectedTopics = [exist.id, ...initialSelectedTopics];
     }
   });
@@ -111,7 +111,7 @@ const ToolboxSubjectContainer = ({ topicList, subject }: Props) => {
     scrollToTopic(topicList.length - 1);
   });
 
-  const topics = subject.topics?.map(topic => {
+  const topics = subject.topics?.map((topic) => {
     return {
       ...topic,
       label: topic.name,
@@ -231,8 +231,8 @@ ToolboxSubjectContainer.willTrackPageView = (
 
 ToolboxSubjectContainer.getDimensions = (props: Props) => {
   const { subject, topicList, user } = props;
-  const topicPath = topicList.map(t =>
-    subject.allTopics?.find(topic => topic.id === t),
+  const topicPath = topicList.map((t) =>
+    subject.allTopics?.find((topic) => topic.id === t),
   );
 
   return getAllDimensions({

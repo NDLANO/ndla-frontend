@@ -59,7 +59,7 @@ export const BlockWrapper = styled.ul<BlockWrapperProps>`
   margin: 0;
   margin-bottom: ${spacing.medium};
   padding: 0;
-  ${props =>
+  ${(props) =>
     props.type === 'block' &&
     css`
       display: grid;
@@ -126,15 +126,12 @@ const FoldersPage = () => {
     undefined,
   );
 
-  const {
-    deleteFolder,
-    loading: deleteFolderLoading,
-  } = useDeleteFolderMutation();
+  const { deleteFolder, loading: deleteFolderLoading } =
+    useDeleteFolderMutation();
 
   const [isAdding, setIsAdding] = useState(false);
-  const { data, loading } = useGraphQuery<GQLFoldersPageQuery>(
-    foldersPageQuery,
-  );
+  const { data, loading } =
+    useGraphQuery<GQLFoldersPageQuery>(foldersPageQuery);
   const folderData = data?.folders as GQLFolder[] | undefined;
 
   const hasSelectedFolder = !!folderId;
@@ -146,8 +143,8 @@ const FoldersPage = () => {
   const [previousFolders, setPreviousFolders] = useState<GQLFolder[]>(folders);
   const [focusId, setFocusId] = useState<string | undefined>(undefined);
   useEffect(() => {
-    const folderIds = folders.map(f => f.id).sort();
-    const prevFolderIds = previousFolders.map(f => f.id).sort();
+    const folderIds = folders.map((f) => f.id).sort();
+    const prevFolderIds = previousFolders.map((f) => f.id).sort();
 
     if (!isEqual(folderIds, prevFolderIds) && focusId) {
       setTimeout(
@@ -180,10 +177,8 @@ const FoldersPage = () => {
     }
   }, [folders, focusId, previousFolders]);
 
-  const {
-    updateFolder,
-    loading: updateFolderLoading,
-  } = useUpdateFolderMutation();
+  const { updateFolder, loading: updateFolderLoading } =
+    useUpdateFolderMutation();
 
   const { updateFolderStatus } = useUpdateFolderStatusMutation();
 
@@ -256,7 +251,8 @@ const FoldersPage = () => {
             shape="pill"
             colorTheme="lighter"
             aria-label={t('myNdla.newFolder')}
-            onClick={() => setIsAdding(prev => !prev)}>
+            onClick={() => setIsAdding((prev) => !prev)}
+          >
             <StyledPlus />
             <span>{t('myNdla.newFolder')}</span>
           </ButtonV2>
@@ -275,7 +271,8 @@ const FoldersPage = () => {
                   action: 'shared',
                   index: 0,
                 })
-              }>
+              }
+            >
               <StyledLink />
               {t('myNdla.folder.sharing.button.shareLink')}
             </ButtonV2>
@@ -290,7 +287,8 @@ const FoldersPage = () => {
                   action: 'private',
                   index: 0,
                 })
-              }>
+              }
+            >
               <Share />
               {t('myNdla.folder.sharing.share')}
             </ButtonV2>
@@ -378,14 +376,14 @@ const FoldersPage = () => {
             folder={folderAction.folder}
             isOpen={folderAction.action === 'private'}
             onClose={() => setFolderAction(undefined)}
-            onUpdateStatus={() => {
-              updateFolderStatus({
+            onUpdateStatus={async () => {
+              await updateFolderStatus({
                 variables: {
                   folderId: folderAction.folder.id,
                   status: 'shared',
                 },
               });
-              setFolderAction(undefined);
+              setFolderAction({ ...folderAction, action: 'shared' });
             }}
           />
           <FolderShareModal

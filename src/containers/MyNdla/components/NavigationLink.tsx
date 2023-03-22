@@ -66,7 +66,8 @@ const NavigationLink = ({ loading, id, icon, name, expanded }: Props) => {
       aria-current={selected ? 'page' : undefined}
       tabIndex={0}
       selected={selected}
-      to={loading ? '' : `/minndla/${id}`}>
+      to={loading ? '' : `/minndla/${id}`}
+    >
       <IconWrapper>{icon}</IconWrapper>
       {name}
     </StyledSafeLink>

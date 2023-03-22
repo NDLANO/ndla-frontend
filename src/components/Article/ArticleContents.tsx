@@ -69,7 +69,7 @@ const ArticleContents = ({
 
   return (
     <ArticleWrapper modifier={modifier} id={topic.article.id.toString()}>
-      {scripts?.map(script => (
+      {scripts?.map((script) => (
         <script
           key={script.src}
           src={script.src}
@@ -97,9 +97,7 @@ const ArticleContents = ({
       <LayoutItem layout="extend">
         {article.metaData?.footnotes?.length ? (
           <ArticleFootNotes footNotes={article.metaData?.footnotes} />
-        ) : (
-          undefined
-        )}
+        ) : undefined}
       </LayoutItem>
       <LayoutItem layout="extend">
         <ArticleByline

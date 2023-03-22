@@ -61,7 +61,8 @@ const ConceptLicenseInfo = ({ concept }: ConceptLicenseInfoProps) => {
         license={concept.copyright.license.license}
         title={t('license.concept.rules')}
         resourceUrl={concept.src}
-        locale={i18n.language}>
+        locale={i18n.language}
+      >
         <MediaListItemActions>
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />

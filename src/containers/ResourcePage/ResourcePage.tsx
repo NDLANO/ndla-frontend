@@ -37,7 +37,7 @@ const urlInPaths = (
   location: Location,
   resource: Pick<GQLResource, 'paths'>,
 ) => {
-  return resource.paths?.find(p => location.pathname.includes(p));
+  return resource.paths?.find((p) => location.pathname.includes(p));
 };
 
 const resourcePageQuery = gql`
@@ -109,6 +109,13 @@ const ResourcePage = () => {
 
   if (isAccessDeniedError(error)) {
     return <AccessDeniedPage />;
+  }
+
+  if (
+    error?.graphQLErrors.some((err) => err.extensions.status === 410) &&
+    redirectContext
+  ) {
+    redirectContext.status = 410;
   }
 
   if (!data) {

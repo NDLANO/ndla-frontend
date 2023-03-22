@@ -63,18 +63,22 @@ const SubjectPage = () => {
   const initialLoad = useRef(true);
   const isFirstRenderWithTopicId = () => initialLoad.current && !!topicId;
 
-  const { loading, data: newData, previousData } = useGraphQuery<
-    GQLSubjectPageTestQuery,
-    GQLSubjectPageTestQueryVariables
-  >(subjectPageQuery, {
-    variables: {
-      subjectId: subjectId!,
-      topicId: topicId || '',
-      includeTopic: isFirstRenderWithTopicId(),
-      metadataFilterKey: OLD_SUBJECT_PAGE_REDIRECT_CUSTOM_FIELD,
-      metadataFilterValue: subjectId,
+  const {
+    loading,
+    data: newData,
+    previousData,
+  } = useGraphQuery<GQLSubjectPageTestQuery, GQLSubjectPageTestQueryVariables>(
+    subjectPageQuery,
+    {
+      variables: {
+        subjectId: subjectId!,
+        topicId: topicId || '',
+        includeTopic: isFirstRenderWithTopicId(),
+        metadataFilterKey: OLD_SUBJECT_PAGE_REDIRECT_CUSTOM_FIELD,
+        metadataFilterValue: subjectId,
+      },
     },
-  });
+  );
 
   const data = newData ?? previousData;
 

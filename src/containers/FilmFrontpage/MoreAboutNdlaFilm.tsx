@@ -16,7 +16,8 @@ const MoreAboutNdlaFilm = ({ t }: WithTranslation) => (
         href="https://www.facebook.com/NDLAfilm/"
         target="_blank"
         rel="noopener noreferrer"
-        aria-label={t('filmfrontpage.moreAboutNdlaFilm.ariaLabel')}>
+        aria-label={t('filmfrontpage.moreAboutNdlaFilm.ariaLabel')}
+      >
         {t('filmfrontpage.moreAboutNdlaFilm.tipSectionPt2')}
       </a>{' '}
       {t('filmfrontpage.moreAboutNdlaFilm.tipSectionPt3')}

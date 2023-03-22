@@ -42,11 +42,12 @@ const TitleAnnouncer = () => {
         aria-live={onTopicPage ? `assertive` : undefined}
         tabIndex={-1}
         id="titleAnnouncer"
-        ref={titleRef}>
+        ref={titleRef}
+      >
         {title}
       </VisuallyHiddenTitle>
       <Helmet
-        onChangeClientState={state => state.title && setTitle(state.title)}
+        onChangeClientState={(state) => state.title && setTitle(state.title)}
       />
     </>
   );

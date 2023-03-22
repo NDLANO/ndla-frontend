@@ -105,12 +105,14 @@ const MastheadDrawer = ({ subject }: Props) => {
           shape="pill"
           variant="outline"
           data-testid="masthead-menu-button"
-          aria-label={t('masthead.menu.title')}>
+          aria-label={t('masthead.menu.title')}
+        >
           <Menu />
           {t('masthead.menu.button')}
         </ButtonV2>
-      }>
-      {close => (
+      }
+    >
+      {(close) => (
         <MainMenu>
           <HeadWrapper>
             <ButtonV2 variant="outline" shape="pill" onClick={close}>

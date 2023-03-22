@@ -63,7 +63,8 @@ const FeideLoginButton = ({ footer, children }: Props) => {
         shape="pill"
         inverted={ndlaFilm}
         to={destination}
-        aria-label={t('myNdla.myNDLA')}>
+        aria-label={t('myNdla.myNDLA')}
+      >
         {children}
       </StyledLink>
     );
@@ -77,10 +78,11 @@ const FeideLoginButton = ({ footer, children }: Props) => {
           colorTheme={footer ? 'greyLighter' : 'lighter'}
           onClick={() => setIsOpen(true)}
           inverted={!footer && ndlaFilm}
-          shape={footer ? 'normal' : 'pill'}>
+          shape={footer ? 'normal' : 'pill'}
+        >
           {children}
         </Button>
-        <LoginModal isOpen={isOpen} onClose={onClose} />
+        <LoginModal isOpen={isOpen} onClose={onClose} masthead />
       </>
     );
   }

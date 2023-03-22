@@ -88,7 +88,8 @@ const PodcastLicenseInfo = ({
         license={podcast.copyright.license?.license}
         resourceType="podcast"
         resourceUrl={podcast.src}
-        locale={i18n.language}>
+        locale={i18n.language}
+      >
         <MediaListItemActions>
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />
@@ -125,7 +126,7 @@ const PodcastLicenseList = ({ podcasts, articleId }: Props) => {
       <h2>{t('license.podcast.heading')}</h2>
       <p>{t('license.podcast.description')}</p>
       <MediaList>
-        {podcasts.map(podcast => (
+        {podcasts.map((podcast) => (
           <PodcastLicenseInfo
             podcast={podcast}
             articleId={articleId}

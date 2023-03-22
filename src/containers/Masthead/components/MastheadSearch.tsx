@@ -97,11 +97,11 @@ const MastheadSearch = ({ hideOnNarrowScreen = false, subject }: Props) => {
 
   const mapResults = (results: MapResultsType[] = []) =>
     query.length > 1
-      ? results.map(result => {
+      ? results.map((result) => {
           const contentType = contentTypeMapping[result.resourceType];
           return {
             ...result,
-            resources: result.resources.map(resource => ({
+            resources: result.resources.map((resource) => ({
               ...resource,
               id: resource.id.toString(),
               resourceType: result.resourceType,
@@ -130,7 +130,8 @@ const MastheadSearch = ({ hideOnNarrowScreen = false, subject }: Props) => {
     <MastheadSearchModal
       onClose={onClearQuery}
       hideOnNarrowScreen={hideOnNarrowScreen}
-      ndlaFilm={ndlaFilm}>
+      ndlaFilm={ndlaFilm}
+    >
       {(onCloseModal: Function) => {
         closeModal = onCloseModal as () => void;
         return (

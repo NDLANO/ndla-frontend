@@ -44,7 +44,7 @@ export const DraggableListItem = styled.li<DraggableListItemProps>`
   margin: 0;
   align-items: center;
   gap: ${spacing.xsmall};
-  z-index: ${p => (p.isDragging ? '10' : '0')};
+  z-index: ${(p) => (p.isDragging ? '10' : '0')};
 `;
 
 export const DragWrapper = styled.div`
@@ -63,20 +63,14 @@ const DraggableFolder = ({
   const { examLock, user } = useContext(AuthContext);
   const { t } = useTranslation();
   const { addSnack } = useSnack();
-  const {
-    attributes,
-    setNodeRef,
-    transform,
-    transition,
-    items,
-    isDragging,
-  } = useSortable({
-    id: folder.id,
-    data: {
-      name: folder.name,
-      index: index + 1,
-    },
-  });
+  const { attributes, setNodeRef, transform, transition, items, isDragging } =
+    useSortable({
+      id: folder.id,
+      data: {
+        name: folder.name,
+        index: index + 1,
+      },
+    });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -148,7 +142,8 @@ const DraggableFolder = ({
       id={`folder-${folder.id}`}
       ref={setNodeRef}
       style={style}
-      isDragging={isDragging}>
+      isDragging={isDragging}
+    >
       <DragHandle
         sortableId={folder.id}
         disabled={type === 'block' || items.length < 2}
@@ -159,6 +154,7 @@ const DraggableFolder = ({
       <DragWrapper>
         <Folder
           id={folder.id}
+          isShared={folder.status === 'shared'}
           link={`/minndla/folders/${folder.id}`}
           title={folder.name}
           type={type}

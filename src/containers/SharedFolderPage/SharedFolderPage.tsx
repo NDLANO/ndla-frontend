@@ -109,6 +109,10 @@ const DrawerButton = styled(ButtonV2)`
   }
 `;
 
+const DesktopPadding = styled.div`
+  padding-bottom: 80px;
+`;
+
 const InsideDrawerButton = styled(ButtonV2)`
   padding-left: ${spacing.large};
   justify-content: flex-start;
@@ -137,7 +141,7 @@ const SharedFolderPage = () => {
   const resources = flattenResources(folder);
 
   const { data } = useFolderResourceMetaSearch(
-    resources.map(res => ({
+    resources.map((res) => ({
       id: res.resourceId,
       path: res.path,
       resourceType: res.resourceType,
@@ -157,10 +161,10 @@ const SharedFolderPage = () => {
 
   const keyedData = keyBy(
     data ?? [],
-    resource => `${resource.type}-${resource.id}`,
+    (resource) => `${resource.type}-${resource.id}`,
   );
 
-  const selectedResource = resources.find(res => res.id === resourceId);
+  const selectedResource = resources.find((res) => res.id === resourceId);
   const articleMeta =
     keyedData[
       `${selectedResource?.resourceType}-${selectedResource?.resourceId}`
@@ -177,13 +181,13 @@ const SharedFolderPage = () => {
       </Helmet>
       <Sidebar>
         {!isMobile ? (
-          <>
+          <DesktopPadding>
             <InfoBox>
               <HumanMaleBoard />
               <span>{t('myNdla.sharedFolder.info')}</span>
             </InfoBox>
             <FolderNavigation folder={folder} meta={keyedData} />
-          </>
+          </DesktopPadding>
         ) : (
           <StyledDrawer
             position="bottom"
@@ -196,8 +200,9 @@ const SharedFolderPage = () => {
                   {t('myNdla.sharedFolder.drawerButton')}
                 </span>
               </DrawerButton>
-            }>
-            {close => (
+            }
+          >
+            {(close) => (
               <>
                 <ModalHeaderV2>
                   <h1>{t('myNdla.sharedFolder.drawerTitle')}</h1>
@@ -212,7 +217,8 @@ const SharedFolderPage = () => {
                   shape="sharp"
                   variant="stripped"
                   size="large"
-                  onClick={close}>
+                  onClick={close}
+                >
                   <ChevronUp />
                   {t('myNdla.sharedFolder.drawerButton')}
                 </InsideDrawerButton>
