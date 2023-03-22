@@ -44,7 +44,7 @@ const multidisciplinarySubjectPageQuery = gql`
       allTopics {
         name
         id
-        parent
+        parentId
         path
         meta {
           title

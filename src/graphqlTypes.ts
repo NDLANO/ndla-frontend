@@ -2346,7 +2346,7 @@ export type GQLMultidisciplinarySubjectPageQuery = {
       __typename?: 'Topic';
       name: string;
       id: string;
-      parent?: string;
+      parentId?: string;
       path: string;
       meta?: {
         __typename?: 'Meta';

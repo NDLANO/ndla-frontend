@@ -67,7 +67,7 @@ const TopicMenu = ({
   removeTopic,
 }: Props) => {
   const { t } = useTranslation();
-  const parentIsTopic = topic.parent?.startsWith('urn:subject');
+  const parentIsTopic = topic.parentId?.startsWith('urn:subject');
   const location = useLocation();
   const { shouldCloseLevel, setLevelClosed } = useDrawerContext();
   const Icon = parentIsTopic ? Class : Bookmark;
