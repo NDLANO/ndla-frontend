@@ -13,7 +13,7 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { Cross, Pencil } from '@ndla/icons/action';
 import { DeleteForever } from '@ndla/icons/editor';
-import { Folder, useSnack } from '@ndla/ui';
+import { Folder } from '@ndla/ui';
 import { colors, spacing } from '@ndla/core';
 import { Link, Share } from '@ndla/icons/common';
 import { MenuItemProps } from '@ndla/button';
@@ -23,7 +23,7 @@ import { FolderAction, ViewType } from './FoldersPage';
 import DragHandle from './DragHandle';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import config from '../../../config';
-import { copyFolderSharingLink, isStudent } from './util';
+import { isStudent } from './util';
 
 interface Props {
   folder: GQLFolder;
@@ -31,6 +31,7 @@ interface Props {
   type: ViewType;
   foldersCount: Record<string, FolderTotalCount>;
   setFolderAction: (action: FolderAction | undefined) => void;
+  onViewTypeChange: (type: ViewType) => void;
 }
 
 interface DraggableListItemProps {
@@ -59,10 +60,10 @@ const DraggableFolder = ({
   type,
   foldersCount,
   setFolderAction,
+  onViewTypeChange,
 }: Props) => {
   const { examLock, user } = useContext(AuthContext);
   const { t } = useTranslation();
-  const { addSnack } = useSnack();
   const { attributes, setNodeRef, transform, transition, items, isDragging } =
     useSortable({
       id: folder.id,
@@ -86,12 +87,12 @@ const DraggableFolder = ({
 
     const shareLink: MenuItemProps = {
       icon: <Link />,
-      text: t('myNdla.folder.sharing.button.shareLink'),
+      text: t('myNdla.folder.sharing.button.preview'),
       onClick: () => {
-        copyFolderSharingLink(folder.id);
-        addSnack({
-          id: 'shareLink',
-          content: t('myNdla.folder.sharing.link'),
+        setFolderAction({
+          action: 'shared',
+          folder,
+          index,
         });
       },
     };
@@ -128,6 +129,7 @@ const DraggableFolder = ({
         }),
       type: 'danger',
     };
+
     if (!config.sharingEnabled || isStudent(user)) {
       return [editFolder, deleteOpt];
     }
@@ -135,7 +137,7 @@ const DraggableFolder = ({
       folder.status === 'shared' ? [shareLink, unShare] : [share];
 
     return [editFolder, sharedOptions, deleteOpt].flat();
-  }, [addSnack, folder, index, setFolderAction, t, user]);
+  }, [folder, index, setFolderAction, t, user]);
 
   return (
     <DraggableListItem
@@ -158,6 +160,7 @@ const DraggableFolder = ({
           link={`/minndla/folders/${folder.id}`}
           title={folder.name}
           type={type}
+          onViewTypeChange={onViewTypeChange}
           subFolders={foldersCount[folder.id]?.folders}
           subResources={foldersCount[folder.id]?.resources}
           menuItems={!examLock ? menuItems : undefined}

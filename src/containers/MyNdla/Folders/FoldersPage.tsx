@@ -16,8 +16,8 @@ import { useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { HelmetWithTracker } from '@ndla/tracker';
-import { FileDocumentOutline, Share, Link } from '@ndla/icons/common';
-import { Plus } from '@ndla/icons/action';
+import { FileDocumentOutline, Share } from '@ndla/icons/common';
+import { Plus, TrashCanOutline } from '@ndla/icons/action';
 import { GQLFolder, GQLFoldersPageQuery } from '../../../graphqlTypes';
 import { useGraphQuery } from '../../../util/runQueries';
 import ListViewOptions from './ListViewOptions';
@@ -52,6 +52,20 @@ const FoldersPageContainer = styled.div`
   gap: ${spacing.xsmall};
 `;
 
+const OptionsWrapper = styled.div`
+  display: none;
+  flex: 1;
+  ${mq.range({ from: breakpoints.desktop })} {
+    display: flex;
+  }
+`;
+
+const AddButton = styled(ButtonV2)`
+  ${mq.range({ until: breakpoints.tablet })} {
+    flex: 1;
+  }
+`;
+
 export const BlockWrapper = styled.ul<BlockWrapperProps>`
   display: flex;
   flex-direction: column;
@@ -75,11 +89,7 @@ export const BlockWrapper = styled.ul<BlockWrapperProps>`
     `};
 `;
 
-const StyledPlus = styled(Plus)`
-  width: 22px;
-  height: 22px;
-`;
-const StyledLink = styled(Link)`
+const iconCss = css`
   width: 22px;
   height: 22px;
 `;
@@ -236,6 +246,8 @@ const FoldersPage = () => {
         hasSelectedFolder={hasSelectedFolder}
         selectedFolder={selectedFolder}
         setFolderAction={setFolderAction}
+        viewType={viewType}
+        onViewTypeChange={setViewType}
       />
       <FolderAndResourceCount
         selectedFolder={selectedFolder}
@@ -246,60 +258,78 @@ const FoldersPage = () => {
       />
       <StyledRow>
         {showAddButton && (
-          <ButtonV2
+          <AddButton
             disabled={isAdding}
             shape="pill"
             colorTheme="lighter"
             aria-label={t('myNdla.newFolder')}
             onClick={() => setIsAdding((prev) => !prev)}
           >
-            <StyledPlus />
+            <Plus css={iconCss} />
             <span>{t('myNdla.newFolder')}</span>
-          </ButtonV2>
+          </AddButton>
         )}
 
-        {showShareFolder &&
-          selectedFolder &&
-          (selectedFolder?.status !== 'private' ? (
-            <ButtonV2
-              variant="ghost"
-              colorTheme="lighter"
-              shape="pill"
-              onClick={() =>
-                setFolderAction({
-                  folder: selectedFolder,
-                  action: 'shared',
-                  index: 0,
-                })
-              }
-            >
-              <StyledLink />
-              {t('myNdla.folder.sharing.button.shareLink')}
-            </ButtonV2>
-          ) : (
-            <ButtonV2
-              variant="ghost"
-              colorTheme="lighter"
-              shape="pill"
-              onClick={() =>
-                setFolderAction({
-                  folder: selectedFolder,
-                  action: 'private',
-                  index: 0,
-                })
-              }
-            >
-              <Share />
-              {t('myNdla.folder.sharing.share')}
-            </ButtonV2>
-          ))}
+        <OptionsWrapper>
+          {showShareFolder &&
+            selectedFolder &&
+            (selectedFolder?.status !== 'private' ? (
+              <>
+                <ButtonV2
+                  colorTheme="lighter"
+                  shape="pill"
+                  onClick={() =>
+                    setFolderAction({
+                      folder: selectedFolder,
+                      action: 'shared',
+                      index: 0,
+                    })
+                  }
+                >
+                  {t('myNdla.folder.sharing.button.preview')}
+                </ButtonV2>
+                <ButtonV2
+                  variant="ghost"
+                  colorTheme="danger"
+                  shape="pill"
+                  onClick={() =>
+                    setFolderAction({
+                      folder: selectedFolder,
+                      action: 'unShare',
+                      index: 0,
+                    })
+                  }
+                >
+                  {t('myNdla.folder.sharing.button.unShare')}
+                  <TrashCanOutline css={iconCss} />
+                </ButtonV2>
+              </>
+            ) : (
+              <ButtonV2
+                variant="ghost"
+                colorTheme="lighter"
+                shape="pill"
+                onClick={() =>
+                  setFolderAction({
+                    folder: selectedFolder,
+                    action: 'private',
+                    index: 0,
+                  })
+                }
+              >
+                <Share />
+                {t('myNdla.folder.sharing.share')}
+              </ButtonV2>
+            ))}
 
-        <ListViewOptions type={viewType} onTypeChange={setViewType} />
+          <ListViewOptions type={viewType} onTypeChange={setViewType} />
+        </OptionsWrapper>
       </StyledRow>
       <FolderList
         onFolderAdd={onFolderAdd}
         isAdding={isAdding}
         setIsAdding={setIsAdding}
+        onViewTypeChange={setViewType}
         type={viewType}
         folders={folders}
         loading={loading}

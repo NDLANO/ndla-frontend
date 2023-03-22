@@ -16,7 +16,7 @@ import TitleWrapper from '../components/TitleWrapper';
 import FolderActions from './FolderActions';
 import WhileLoading from '../../../components/WhileLoading';
 import { GQLFolder } from '../../../graphqlTypes';
-import { FolderAction } from './FoldersPage';
+import { FolderAction, ViewType } from './FoldersPage';
 import { AuthContext } from '../../../components/AuthenticationContext';
 
 const TitleRow = styled.div`
@@ -30,6 +30,8 @@ interface Props {
   hasSelectedFolder: boolean;
   selectedFolder: GQLFolder | null;
   setFolderAction: Dispatch<FolderAction | undefined>;
+  viewType: ViewType;
+  onViewTypeChange: (type: ViewType) => void;
 }
 
 const FoldersPageTitle = ({
@@ -37,6 +39,8 @@ const FoldersPageTitle = ({
   hasSelectedFolder,
   selectedFolder,
   setFolderAction,
+  viewType,
+  onViewTypeChange,
 }: Props) => {
   const { t } = useTranslation();
   const { examLock } = useContext(AuthContext);
@@ -104,6 +108,8 @@ const FoldersPageTitle = ({
           {hasSelectedFolder && !examLock && (
             <FolderActions
               selectedFolder={selectedFolder}
+              viewType={viewType}
+              onViewTypeChange={onViewTypeChange}
               onActionChanged={(action) =>
                 selectedFolder &&
                 setFolderAction({ action, folder: selectedFolder })

@@ -61,6 +61,7 @@ interface Props {
   folderId: string | undefined;
   setIsAdding: Dispatch<boolean>;
   setFolderAction: Dispatch<FolderAction | undefined>;
+  onViewTypeChange: (type: ViewType) => void;
 }
 
 const FolderList = ({
@@ -72,6 +73,7 @@ const FolderList = ({
   onFolderAdd,
   folderId,
   setFolderAction,
+  onViewTypeChange,
 }: Props) => {
   const { t } = useTranslation();
   const { sortFolders } = useSortFoldersMutation();
@@ -164,6 +166,7 @@ const FolderList = ({
             >
               {folders.map((folder, index) => (
                 <DraggableFolder
+                  onViewTypeChange={onViewTypeChange}
                   key={`folder-${folder.id}`}
                   folder={folder}
                   index={index}

@@ -7,6 +7,7 @@
  */
 
 import styled from '@emotion/styled';
+import { breakpoints, mq } from '@ndla/core';
 import { OneColumn } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
 import { GQLFolder } from '../../../graphqlTypes';
@@ -18,7 +19,9 @@ interface Props {
 }
 
 const StyledOneColumn = styled(OneColumn)`
-  padding-bottom: 200px;
+  ${mq.range({ from: breakpoints.tablet })} {
+    padding-bottom: 200px;
+  }
 `;
 
 const FolderMeta = ({ folder }: Props) => {

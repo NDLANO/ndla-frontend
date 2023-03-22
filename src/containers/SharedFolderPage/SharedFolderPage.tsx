@@ -10,7 +10,7 @@ import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { breakpoints, colors, misc, mq, spacing } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
-import { ChevronRight, ChevronUp, HumanMaleBoard } from '@ndla/icons/common';
+import { HumanMaleBoard } from '@ndla/icons/common';
 import { Drawer, ModalCloseButton, ModalHeaderV2 } from '@ndla/modal';
 import { ErrorMessage, OneColumn } from '@ndla/ui';
 import keyBy from 'lodash/keyBy';
@@ -90,14 +90,14 @@ const flattenResources = (folder?: GQLFolder): GQLFolderResource[] => {
 const DrawerButton = styled(ButtonV2)`
   position: fixed;
   bottom: 0;
-  padding-left: ${spacing.large};
-  justify-content: flex-start;
+  padding-top: ${spacing.small};
+  padding-bottom: ${spacing.nsmall};
+  justify-content: center;
   color: ${colors.text};
-  background-color: ${colors.white};
-  border-top: 1px solid ${colors.brand.light};
+  background-color: ${colors.brand.greyLighter};
+  border-top: 2px solid ${colors.brand.tertiary};
   width: 100%;
   z-index: 10;
-  &:focus,
   &:focus-within,
   &:hover {
     border-top: 1px solid ${colors.brand.light};
@@ -113,11 +113,6 @@ const DesktopPadding = styled.div`
   padding-bottom: 80px;
 `;
 
-const InsideDrawerButton = styled(ButtonV2)`
-  padding-left: ${spacing.large};
-  justify-content: flex-start;
-`;
-
 const StyledDrawer = styled(Drawer)`
   max-height: 100%;
   border-top-left-radius: ${misc.borderRadius};
@@ -125,6 +120,10 @@ const StyledDrawer = styled(Drawer)`
   ${mq.range({ until: breakpoints.tablet })} {
     min-height: 20%;
   }
+`;
+
+const StyledDrawerContent = styled.div`
+  padding-bottom: ${spacing.large};
 `;
 
 const SharedFolderPage = () => {
@@ -194,8 +193,7 @@ const SharedFolderPage = () => {
             size="small"
             labelledBy="folder-drawer-button"
             activateButton={
-              <DrawerButton shape="sharp" variant="stripped" size="large">
-                <ChevronRight />
+              <DrawerButton shape="sharp" colorTheme="light">
                 <span id="folder-drawer-button">
                   {t('myNdla.sharedFolder.drawerButton')}
                 </span>
@@ -203,7 +201,7 @@ const SharedFolderPage = () => {
             }
           >
             {(close) => (
-              <>
+              <StyledDrawerContent>
                 <ModalHeaderV2>
                   <h1>{t('myNdla.sharedFolder.drawerTitle')}</h1>
                   <ModalCloseButton onClick={close} />
@@ -213,16 +211,7 @@ const SharedFolderPage = () => {
                   folder={folder}
                   meta={keyedData}
                 />
-                <InsideDrawerButton
-                  shape="sharp"
-                  variant="stripped"
-                  size="large"
-                  onClick={close}
-                >
-                  <ChevronUp />
-                  {t('myNdla.sharedFolder.drawerButton')}
-                </InsideDrawerButton>
-              </>
+              </StyledDrawerContent>
             )}
           </StyledDrawer>
         )}
@@ -237,7 +226,7 @@ const SharedFolderPage = () => {
         ) : (
           <FolderMeta folder={folder} />
         )}
-        {isMobile && (
+        {!selectedResource && isMobile && (
           <InfoBox>
             <HumanMaleBoard />
             <span>{t('myNdla.sharedFolder.info')}</span>
