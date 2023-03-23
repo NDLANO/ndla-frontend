@@ -326,6 +326,7 @@ export const useSharedFolder = ({
     GQLSharedFolderQueryVariables
   >(sharedFolderQuery, {
     variables: { id, includeResources, includeSubfolders },
+    fetchPolicy: 'no-cache',
   });
 
   const folder = data?.sharedFolder as GQLFolder | undefined;
