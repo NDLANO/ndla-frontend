@@ -2245,13 +2245,13 @@
   resolved "https://registry.yarnpkg.com/@n1ru4l/graphql-live-query/-/graphql-live-query-0.10.0.tgz#2306151630b0e74b017cc1067ebbea351acf56f8"
   integrity sha512-qZ7OHH/NB0NcG/Xa7irzgjE63UH0CkofZT0Bw4Ko6iRFagPRHBM8RgFXwTt/6JbFGIEUS4STRtaFoc/Eq/ZtzQ==
 
-"@ndla/article-converter@^1.0.23":
-  version "1.0.23"
-  resolved "https://registry.yarnpkg.com/@ndla/article-converter/-/article-converter-1.0.23.tgz#21b79fabff3d4384bcf022b8d50f7f0046a42a3b"
-  integrity sha512-pnfIAhb/uGjUOtmxb9sGZz0OrMLawH2b8mSzhcb3ugL5dP3N2deK4tcjWGCjJQS3CpQdaEiUY2ReJMxX51dFkQ==
+"@ndla/article-converter@^1.0.25":
+  version "1.0.25"
+  resolved "https://registry.yarnpkg.com/@ndla/article-converter/-/article-converter-1.0.25.tgz#5bb527876f2d11c27d625fef47845c33031a8bb6"
+  integrity sha512-XnhHdYZLE6mQMrNG0nDZNoWiBeEkMbiayE9c170tTJARfNSTTO0dVVCtg9YLsFkwLaPd98DIzIERyVypQO4+2w==
   dependencies:
     "@ndla/code" "^2.1.32"
-    "@ndla/ui" "^35.0.17"
+    "@ndla/ui" "^35.0.19"
     html-react-parser "^3.0.8"
     lodash "^4.17.20"
 
@@ -2467,7 +2467,7 @@
   resolved "https://registry.yarnpkg.com/@ndla/types-learningpath-api/-/types-learningpath-api-0.0.21.tgz#2cba73d6150021f80548debb29d3ee0f6904dea8"
   integrity sha512-fF+pdD8DGXfl+m9whndZw3Bs7GnWALwSNbJ3vbHZMpEHfkNHEe81mXyVcV+t/cXRXVm44ag3ndFcKGap0zyMmw==
 
-"@ndla/ui@^35.0.17", "@ndla/ui@^35.0.19":
+"@ndla/ui@^35.0.19":
   version "35.0.19"
   resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-35.0.19.tgz#f8904a1af74cf654dc8e7ba61aaffc4c638a19e8"
   integrity sha512-rIcS5iyeNIIcD8EpY0hEUUU4AAQEb6OVPrk78nG93+EdhbwIchmqCD2Ac5qytxkePdTSuLiYJuV+r8rprRWU6g==
