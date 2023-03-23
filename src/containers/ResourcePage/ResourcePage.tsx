@@ -49,7 +49,7 @@ const resourcePageQuery = gql`
   ) {
     subject(id: $subjectId) {
       topics(all: true) {
-        parent
+        parentId
         ...LearningpathPage_TopicPath
         ...ArticlePage_TopicPath
       }

@@ -1417,6 +1417,7 @@ export type GQLTopic = GQLTaxonomyEntity &
     metadata: GQLTaxonomyMetadata;
     name: Scalars['String'];
     parent?: Maybe<Scalars['String']>;
+    parentId?: Maybe<Scalars['String']>;
     path: Scalars['String'];
     pathTopics?: Maybe<Array<Array<GQLTopic>>>;
     paths: Array<Scalars['String']>;
@@ -2216,7 +2217,7 @@ export type GQLSubjectMenu_SubjectFragment = {
     __typename?: 'Topic';
     id: string;
     name: string;
-    parent?: string;
+    parentId?: string;
     path: string;
   }>;
 } & GQLTopicMenu_SubjectFragment;
@@ -2345,7 +2346,7 @@ export type GQLMultidisciplinarySubjectPageQuery = {
       __typename?: 'Topic';
       name: string;
       id: string;
-      parent?: string;
+      parentId?: string;
       path: string;
       meta?: {
         __typename?: 'Meta';
@@ -2977,7 +2978,7 @@ export type GQLResourcePageQuery = {
     topics?: Array<
       {
         __typename?: 'Topic';
-        parent?: string;
+        parentId?: string;
       } & GQLLearningpathPage_TopicPathFragment &
         GQLArticlePage_TopicPathFragment
     >;
@@ -3834,7 +3835,7 @@ export type GQLTopicInfoFragment = {
   name: string;
   contentUri?: string;
   path: string;
-  parent?: string;
+  parentId?: string;
   relevanceId?: string;
   supportedLanguages: Array<string>;
   meta?: { __typename?: 'Meta' } & GQLMetaInfoFragment;

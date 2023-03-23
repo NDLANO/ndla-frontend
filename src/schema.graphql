@@ -1095,6 +1095,7 @@ type Topic implements TaxonomyEntity & WithArticle {
   metadata: TaxonomyMetadata!
   name: String!
   parent: String
+  parentId: String
   path: String!
   pathTopics: [[Topic!]!]
   paths: [String!]!

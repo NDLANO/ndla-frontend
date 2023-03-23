@@ -44,7 +44,7 @@ const multidisciplinarySubjectPageQuery = gql`
       allTopics {
         name
         id
-        parent
+        parentId
         path
         meta {
           title
@@ -121,7 +121,7 @@ const MultidisciplinarySubjectPage = () => {
     : subject.allTopics
         ?.filter((topic) => {
           const selectedId = selectedTopics[selectedTopics.length - 1];
-          return topic.parent === selectedId;
+          return topic.parentId === selectedId;
         })
         .map((topic) => ({
           title: topic.name,

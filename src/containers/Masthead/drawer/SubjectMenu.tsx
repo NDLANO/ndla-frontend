@@ -53,7 +53,7 @@ const groupTopics = (
 ): TopicWithSubTopics => {
   const [children, descendants] = partition(
     topics,
-    (t) => t.parent === root.id,
+    (t) => t.parentId === root.id,
   );
   return {
     ...root,
@@ -84,8 +84,8 @@ const SubjectMenu = ({
   const { shouldCloseLevel, setLevelClosed } = useDrawerContext();
   const groupedTopics = useMemo(() => {
     const [roots, rest] = partition(
-      subject?.allTopics?.filter((t) => !!t.parent),
-      (t) => t.parent === subject?.id,
+      subject?.allTopics?.filter((t) => !!t.parentId),
+      (t) => t.parentId === subject?.id,
     );
     return roots.map((r) => groupTopics(r, rest));
   }, [subject?.allTopics, subject?.id]);
@@ -224,7 +224,7 @@ SubjectMenu.fragments = {
       allTopics {
         id
         name
-        parent
+        parentId
         path
       }
       ...TopicMenu_Subject
