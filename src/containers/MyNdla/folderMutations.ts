@@ -77,6 +77,27 @@ export const folderFragment = gql`
   ${folderResourceFragment}
 `;
 
+export const sharedFolderFragment = gql`
+  fragment SharedFolderFragment on SharedFolder {
+    __typename
+    id
+    name
+    status
+    parentId
+    created
+    updated
+    breadcrumbs {
+      __typename
+      id
+      name
+    }
+    resources {
+      ...FolderResourceFragment
+    }
+  }
+  ${folderResourceFragment}
+`;
+
 const deleteFolderMutation = gql`
   mutation deleteFolder($id: String!) {
     deleteFolder(id: $id)
@@ -118,6 +139,40 @@ export const foldersPageQueryFragment = gql`
     }
   }
   ${folderFragment}
+`;
+
+export const sharedFoldersPageQueryFragment = gql`
+  fragment SharedFoldersPageQueryFragment on SharedFolder {
+    ...SharedFolderFragment
+    subfolders {
+      ...SharedFolderFragment
+      subfolders {
+        ...SharedFolderFragment
+        subfolders {
+          ...SharedFolderFragment
+          subfolders {
+            ...SharedFolderFragment
+            subfolders {
+              ...SharedFolderFragment
+              subfolders {
+                ...SharedFolderFragment
+                subfolders {
+                  ...SharedFolderFragment
+                  subfolders {
+                    ...SharedFolderFragment
+                    subfolders {
+                      ...SharedFolderFragment
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  ${sharedFolderFragment}
 `;
 
 export const foldersPageQuery = gql`
@@ -209,10 +264,10 @@ export const sharedFolderQuery = gql`
       includeSubfolders: $includeSubfolders
       includeResources: $includeResources
     ) {
-      ...FoldersPageQueryFragment
+      ...SharedFoldersPageQueryFragment
     }
   }
-  ${foldersPageQueryFragment}
+  ${sharedFoldersPageQueryFragment}
 `;
 
 const folderResourceMetaQuery = gql`
@@ -326,7 +381,6 @@ export const useSharedFolder = ({
     GQLSharedFolderQueryVariables
   >(sharedFolderQuery, {
     variables: { id, includeResources, includeSubfolders },
-    fetchPolicy: 'no-cache',
   });
 
   const folder = data?.sharedFolder as GQLFolder | undefined;
