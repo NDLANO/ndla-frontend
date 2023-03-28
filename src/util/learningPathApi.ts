@@ -6,7 +6,7 @@
  *
  */
 
-import { IConfigMetaRestricted } from '@ndla/types-learningpath-api';
+import { IConfigMetaRestricted } from '@ndla/types-backend/learningpath-api';
 import {
   apiResourceUrl,
   fetch,
