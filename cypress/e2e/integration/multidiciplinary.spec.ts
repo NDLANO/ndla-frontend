@@ -11,7 +11,7 @@ describe('Multidiciplinary page', () => {
     cy.fixCypressSpec('/e2e/integration/multidisciplinary.spec.ts');
     cy.gqlIntercept({
       alias: 'alerts',
-      operations: ['alerts', 'subjects'],
+      operations: ['alerts', 'frontpageSubjects'],
     });
     cy.visit('/?disableSSR=true');
     cy.gqlWait('@alerts');
@@ -27,7 +27,7 @@ describe('Multidiciplinary page', () => {
 
     cy.get('[data-testid="nav-box-item"] span').contains(/\w+/);
 
-    cy.get('[data-testid="nav-box-list"] li a').each(el => {
+    cy.get('[data-testid="nav-box-list"] li a').each((el) => {
       cy.wrap(el).should('have.attr', 'href');
       cy.wrap(el).contains(/\w+/);
     });
