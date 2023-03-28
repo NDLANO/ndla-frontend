@@ -37,6 +37,12 @@ const StyledSafelinkButton = styled(SafeLinkButton, styledOptions)<StyledProps>`
     color: ${colors.text.primary} !important;
   }
   &:hover,
+  &:active {
+    background-color: transparent;
+    border-color: transparent;
+    text-decoration: underline;
+    color: ${colors.brand.primary};
+  }
   &:focus-visible {
     color: ${colors.brand.primary};
     background-color: transparent;

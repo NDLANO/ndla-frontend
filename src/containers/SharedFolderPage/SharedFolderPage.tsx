@@ -45,11 +45,9 @@ const Sidebar = styled.section`
   flex-direction: column;
   gap: ${spacing.small};
   padding: ${spacing.normal};
-  box-shadow: 0px 1px 4px 0px ${colors.brand.neutral7};
 
   ${mq.range({ until: breakpoints.tablet })} {
     padding: 0;
-    box-shadow: none;
   }
 `;
 

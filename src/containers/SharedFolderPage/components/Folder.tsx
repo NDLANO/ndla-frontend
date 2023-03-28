@@ -9,7 +9,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
-import { breakpoints, colors, mq, spacing } from '@ndla/core';
+import { colors, spacing } from '@ndla/core';
 import { ArrowDropDownRounded } from '@ndla/icons/common';
 import { SafeLinkButton } from '@ndla/safelink';
 import { KeyboardEvent, useMemo, useState } from 'react';
@@ -28,9 +28,6 @@ export const StyledUl = styled.ul`
   padding-bottom: ${spacing.xsmall};
   gap: ${spacing.xsmall};
   margin: 0;
-  ${mq.range({ until: breakpoints.tablet })} {
-    box-shadow: inset 0 -1px ${colors.brand.light};
-  }
 `;
 
 export const StyledLi = styled.li`
@@ -49,9 +46,11 @@ const forwardButton = (p: string) => p !== 'level';
 const folderButtonOptions = { shouldForwardProp: forwardButton };
 
 const FolderButtonContainer = styled.div`
-  ${mq.range({ until: breakpoints.tablet })} {
-    padding-bottom: ${spacing.xsmall};
-    box-shadow: inset 0 -1px ${colors.brand.light};
+  padding-bottom: ${spacing.xsmall};
+  border-bottom: 1px solid ${colors.brand.light};
+  &[data-level] {
+    padding-top: ${spacing.xsmall};
+    border-top: 1px solid ${colors.brand.light};
   }
 `;
 
@@ -60,8 +59,12 @@ const FolderButton = styled(ButtonV2, folderButtonOptions)<ButtonProps>`
   justify-content: flex-start;
   border: none;
   padding-left: calc(${(p) => p.level} * ${spacing.small});
-
   &:hover,
+  &:active {
+    background-color: transparent;
+    border-color: transparent;
+    text-decoration: underline;
+  }
   &:focus-visible {
     color: ${colors.brand.primary};
     background: none;
@@ -76,6 +79,12 @@ const FolderLink = styled(SafeLinkButton)`
   color: ${colors.text.primary};
   border: none;
   &:hover,
+  &:active {
+    color: ${colors.brand.primary};
+    background-color: transparent;
+    border-color: transparent;
+    text-decoration: underline;
+  }
   &:focus-visible {
     color: ${colors.brand.primary};
     border: none;
@@ -202,7 +211,7 @@ const Folder = ({
           </FolderButtonContainer>
         </>
       ) : (
-        <FolderButtonContainer>
+        <FolderButtonContainer data-level={level}>
           <FolderButton
             level={level}
             aria-owns={`folder-sublist-${folder.id}`}
@@ -229,17 +238,6 @@ const Folder = ({
           data-list
           aria-owns={`folder-sublist-${folder.id}`}
         >
-          {subfolders.map((subfolder) => (
-            <Folder
-              onClose={onClose}
-              setFocus={setFocus}
-              level={level + 1}
-              defaultOpenFolder={defaultOpenFolder}
-              key={subfolder.id}
-              folder={subfolder}
-              meta={meta}
-            />
-          ))}
           {resources.map((resource) => (
             <FolderResource
               setFocus={setFocus}
@@ -249,6 +247,17 @@ const Folder = ({
               parentId={folder.id}
               meta={meta[`${resource.resourceType}-${resource.resourceId}`]}
               resource={resource}
+            />
+          ))}
+          {subfolders.map((subfolder) => (
+            <Folder
+              onClose={onClose}
+              setFocus={setFocus}
+              level={level + 1}
+              defaultOpenFolder={defaultOpenFolder}
+              key={subfolder.id}
+              folder={subfolder}
+              meta={meta}
             />
           ))}
         </StyledUl>
