@@ -235,6 +235,7 @@ const contentSecurityPolicy = {
     defaultSrc: ["'self'", 'blob:'],
     scriptSrc,
     frameSrc,
+    frameAncestors: null,
     styleSrc: [
       "'self'",
       "'unsafe-inline'",
