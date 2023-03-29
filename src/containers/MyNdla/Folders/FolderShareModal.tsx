@@ -16,8 +16,9 @@ import {
 import styled from '@emotion/styled';
 import { breakpoints, colors, fonts, misc, mq, spacing } from '@ndla/core';
 import { ButtonV2 } from '@ndla/button';
-import { TrashCanOutline } from '@ndla/icons/action';
+import { Copy, TrashCanOutline } from '@ndla/icons/action';
 import { SafeLinkButton } from '@ndla/safelink';
+import Tooltip from '@ndla/tooltip';
 import { useSnack } from '@ndla/ui';
 import { useContext, useMemo } from 'react';
 import { GQLFolder } from '../../../graphqlTypes';
@@ -61,6 +62,7 @@ const CopyLinkButton = styled(ButtonV2)`
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  justify-content: space-between;
 
   &:hover,
   &:active,
@@ -190,19 +192,22 @@ const FolderShareModal = ({
                 <CopyLinkHeader>
                   {t('myNdla.folder.sharing.description.copy')}
                 </CopyLinkHeader>
-                <CopyLinkButton
-                  aria-label={`${previewLink(folder.id)}`}
-                  variant="stripped"
-                  onClick={() => {
-                    onCopyText?.();
-                    addSnack({
-                      id: 'shareLink',
-                      content: t('myNdla.folder.sharing.link'),
-                    });
-                  }}
-                >
-                  {previewLink(folder.id)}
-                </CopyLinkButton>
+                <Tooltip tooltip={t('myNdla.folder.sharing.button.shareLink')}>
+                  <CopyLinkButton
+                    aria-label={`${previewLink(folder.id)}`}
+                    variant="stripped"
+                    onClick={() => {
+                      onCopyText?.();
+                      addSnack({
+                        id: 'shareLink',
+                        content: t('myNdla.folder.sharing.link'),
+                      });
+                    }}
+                  >
+                    {previewLink(folder.id)}
+                    <Copy />
+                  </CopyLinkButton>
+                </Tooltip>
               </div>
             )}
             {t(`myNdla.folder.sharing.description.${type}`)}
