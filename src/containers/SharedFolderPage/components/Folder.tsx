@@ -25,15 +25,12 @@ export const StyledUl = styled.ul`
   padding: 0;
   display: flex;
   flex-direction: column;
-  padding-bottom: ${spacing.xsmall};
-  gap: ${spacing.xsmall};
   margin: 0;
 `;
 
 export const StyledLi = styled.li`
   display: flex;
   flex-direction: column;
-  gap: ${spacing.xsmall};
   margin: 0;
 `;
 
@@ -46,12 +43,9 @@ const forwardButton = (p: string) => p !== 'level';
 const folderButtonOptions = { shouldForwardProp: forwardButton };
 
 const FolderButtonContainer = styled.div`
-  padding-bottom: ${spacing.xsmall};
+  padding-bottom: ${spacing.xxsmall};
+  padding-top: ${spacing.xxsmall};
   border-bottom: 1px solid ${colors.brand.light};
-  &[data-level] {
-    padding-top: ${spacing.xsmall};
-    border-top: 1px solid ${colors.brand.light};
-  }
 `;
 
 const FolderButton = styled(ButtonV2, folderButtonOptions)<ButtonProps>`
@@ -238,13 +232,14 @@ const Folder = ({
           data-list
           aria-owns={`folder-sublist-${folder.id}`}
         >
-          {resources.map((resource) => (
+          {resources.map((resource, i) => (
             <FolderResource
               setFocus={setFocus}
               level={level}
               onClose={onClose}
               key={resource.id}
               parentId={folder.id}
+              isLast={i === resources.length - 1}
               meta={meta[`${resource.resourceType}-${resource.resourceId}`]}
               resource={resource}
             />
