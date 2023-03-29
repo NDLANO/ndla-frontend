@@ -7,6 +7,7 @@
  */
 
 import styled from '@emotion/styled';
+import { css } from '@emotion/react';
 import { colors, spacing } from '@ndla/core';
 import { Launch } from '@ndla/icons/common';
 import { SafeLinkButton } from '@ndla/safelink';
@@ -37,6 +38,12 @@ const StyledSafelinkButton = styled(SafeLinkButton, styledOptions)<StyledProps>`
     color: ${colors.text.primary} !important;
   }
   &:hover,
+  &:active {
+    background-color: transparent;
+    border-color: transparent;
+    text-decoration: underline;
+    color: ${colors.brand.primary};
+  }
   &:focus-visible {
     color: ${colors.brand.primary};
     background-color: transparent;
@@ -52,6 +59,10 @@ const ListElement = styled.li`
   margin: 0;
 `;
 
+const isLastStyle = css`
+  border-bottom: 1px solid ${colors.brand.light};
+`;
+
 interface Props {
   parentId: string;
   meta?: GQLFolderResourceMetaSearchQuery['folderResourceMetaSearch'][0];
@@ -59,6 +70,7 @@ interface Props {
   onClose?: () => void;
   setFocus: (id: string) => void;
   level: number;
+  isLast?: boolean;
 }
 
 const FolderResource = ({
@@ -67,6 +79,7 @@ const FolderResource = ({
   meta,
   setFocus,
   level,
+  isLast,
   onClose,
 }: Props) => {
   const { folderId: rootFolderId, subfolderId, resourceId } = useParams();
@@ -103,7 +116,7 @@ const FolderResource = ({
     contentTypeMapping[meta?.resourceTypes?.[0]?.id || 'default'];
 
   return (
-    <ListElement role="none" data-list-item>
+    <ListElement css={isLast ? isLastStyle : undefined} role="none">
       <StyledSafelinkButton
         aria-current={isCurrent ? 'page' : undefined}
         tabIndex={-1}
