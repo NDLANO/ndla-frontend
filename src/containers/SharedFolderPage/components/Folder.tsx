@@ -205,7 +205,7 @@ const Folder = ({
           </FolderButtonContainer>
         </>
       ) : (
-        <FolderButtonContainer data-level={level}>
+        <FolderButtonContainer>
           <FolderButton
             level={level}
             aria-owns={`folder-sublist-${folder.id}`}
