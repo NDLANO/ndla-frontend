@@ -232,6 +232,7 @@ const fontSrc = (() => {
 
 const contentSecurityPolicy = {
   directives: {
+    baseUri: ["'self'", 'https://tall.ndla.no'],
     defaultSrc: ["'self'", 'blob:'],
     scriptSrc,
     frameSrc,
