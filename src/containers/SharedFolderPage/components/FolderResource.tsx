@@ -137,7 +137,7 @@ const FolderResource = ({
         level={level}
         id={`shared-${parentId}-${resource.id}`}
         aria-label={[
-          meta?.title,
+          `${meta?.title}.`,
           `${t(`contentTypes.${contentType}`)}.`,
           openInfo,
         ]
