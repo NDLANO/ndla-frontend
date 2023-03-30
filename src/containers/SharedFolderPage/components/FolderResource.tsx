@@ -28,6 +28,7 @@ const shouldForwardProp = (p: string) => p !== 'level';
 const styledOptions = { shouldForwardProp };
 
 const StyledSafelinkButton = styled(SafeLinkButton, styledOptions)<StyledProps>`
+  width: 100%;
   text-align: left;
   align-items: center;
   margin-left: calc(${(p) => p.level} * ${spacing.small});
@@ -43,6 +44,9 @@ const StyledSafelinkButton = styled(SafeLinkButton, styledOptions)<StyledProps>`
     border-color: transparent;
     text-decoration: underline;
     color: ${colors.brand.primary};
+    svg {
+      color: ${colors.brand.primary} !important;
+    }
   }
   &:focus-visible {
     color: ${colors.brand.primary};
@@ -57,6 +61,10 @@ const StyledSafelinkButton = styled(SafeLinkButton, styledOptions)<StyledProps>`
 
 const ListElement = styled.li`
   margin: 0;
+`;
+
+const StyledSpan = styled.span`
+  flex: 1;
 `;
 
 const isLastStyle = css`
@@ -130,8 +138,10 @@ const FolderResource = ({
         to={link}
       >
         <ContentTypeBadge type={contentType!} border={false} />
-        {meta?.title}
-        {resource.resourceType === 'learningpath' && <Launch />}
+        <StyledSpan>{meta?.title}</StyledSpan>
+        {resource.resourceType === 'learningpath' && (
+          <Launch height={'24px'} width={'24px'} />
+        )}
       </StyledSafelinkButton>
     </ListElement>
   );
