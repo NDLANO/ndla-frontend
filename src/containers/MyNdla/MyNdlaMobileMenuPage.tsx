@@ -10,6 +10,7 @@ import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { HashTag, Person } from '@ndla/icons/common';
 import { FolderOutlined } from '@ndla/icons/contentType';
+import { MenuBook } from '@ndla/icons/action';
 import styled from '@emotion/styled';
 import { HelmetWithTracker } from '@ndla/tracker';
 import IsMobileContext from '../../IsMobileContext';
@@ -68,6 +69,13 @@ const MyNdlaMobileMenuPage = () => {
               id="tags"
               icon={<HashTag />}
               name={t('myNdla.myTags')}
+            />
+          </StyledLi>
+          <StyledLi role="none">
+            <NavigationLink
+              id="subjects"
+              icon={<MenuBook />}
+              name={t('myNdla.favoriteSubjects.title')}
             />
           </StyledLi>
         </StyledNavList>
