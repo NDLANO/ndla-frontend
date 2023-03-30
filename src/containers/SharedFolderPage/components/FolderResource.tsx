@@ -6,6 +6,7 @@
  *
  */
 
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import { colors, spacing } from '@ndla/core';
@@ -91,6 +92,7 @@ const FolderResource = ({
   onClose,
 }: Props) => {
   const { folderId: rootFolderId, subfolderId, resourceId } = useParams();
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const isLearningPath = useMemo(
     () => resource.resourceType === 'learningpath',
@@ -119,6 +121,10 @@ const FolderResource = ({
   );
 
   const isCurrent = resource.id === resourceId && parentId === subfolderId;
+  const openInfo =
+    resource.resourceType === 'learningpath'
+      ? t('myNdla.sharedFolder.willOpenInNewTab')
+      : '';
 
   const contentType =
     contentTypeMapping[meta?.resourceTypes?.[0]?.id || 'default'];
@@ -130,6 +136,13 @@ const FolderResource = ({
         tabIndex={-1}
         level={level}
         id={`shared-${parentId}-${resource.id}`}
+        aria-label={[
+          meta?.title,
+          `${t(`contentTypes.${contentType}`)}.`,
+          openInfo,
+        ]
+          .filter((i) => !!i)
+          .join(' ')}
         role="treeitem"
         target={resource.resourceType === 'learningpath' ? '_blank' : undefined}
         onClick={onClick}
