@@ -25,11 +25,10 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${spacing.small};
-  ${mq.range({ until: breakpoints.desktop })} {
-    width: 100%;
-  }
+  width: 100%;
   ${mq.range({ from: breakpoints.desktop })} {
     align-items: flex-start;
+    width: auto;
   }
 `;
 
@@ -86,7 +85,11 @@ const FavoriteSubjectsPage = () => {
   return (
     <Wrapper>
       <HelmetWithTracker title={t('myNdla.favoriteSubjects.title')} />
-      <MyNdlaBreadcrumb page="subject" breadcrumbs={[]} backCrumb={'minndla'} />
+      <MyNdlaBreadcrumb
+        page="subjects"
+        breadcrumbs={[]}
+        backCrumb={'minndla'}
+      />
       <MyNdlaTitle title={t('myNdla.favoriteSubjects.title')} />
       <Container>
         <CountContainer>
