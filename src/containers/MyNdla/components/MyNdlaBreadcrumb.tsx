@@ -20,7 +20,7 @@ interface Props {
   backCrumb: PageType | GQLBreadcrumb;
 }
 
-type PageType = 'folders' | 'tags' | 'minndla';
+type PageType = 'folders' | 'tags' | 'minndla' | 'subjects';
 
 const types = {
   folders: {
@@ -34,6 +34,10 @@ const types = {
   minndla: {
     to: '/minndla/meny',
     name: 'myNdla.myNDLA',
+  },
+  subjects: {
+    to: '/minndla/subjects',
+    name: 'myNdla.favoriteSubjects',
   },
 };
 
