@@ -869,7 +869,7 @@ type Query {
     id: String!
     includeResources: Boolean
     includeSubfolders: Boolean
-  ): Folder!
+  ): SharedFolder!
   subject(id: String!): Subject
   subjectpage(id: Int!): SubjectPage
   subjects(
@@ -979,6 +979,18 @@ type SearchSuggestion {
 
 type SearchWithoutPagination {
   results: [SearchResult!]!
+}
+
+type SharedFolder {
+  breadcrumbs: [Breadcrumb!]!
+  created: String!
+  id: String!
+  name: String!
+  parentId: String
+  resources: [FolderResource!]!
+  status: String!
+  subfolders: [SharedFolder!]!
+  updated: String!
 }
 
 type SortResult {

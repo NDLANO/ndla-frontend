@@ -22,7 +22,7 @@ const subjectsQueryFragment = gql`
 
 const subjectsQuery = gql`
   query allSubjects {
-    subjects {
+    subjects(filterVisible: true) {
       ...MySubjectsSubjectFragment
     }
   }

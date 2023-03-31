@@ -6,7 +6,9 @@
  *
  */
 
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
+import { css } from '@emotion/react';
 import { colors, spacing } from '@ndla/core';
 import { Launch } from '@ndla/icons/common';
 import { SafeLinkButton } from '@ndla/safelink';
@@ -27,6 +29,7 @@ const shouldForwardProp = (p: string) => p !== 'level';
 const styledOptions = { shouldForwardProp };
 
 const StyledSafelinkButton = styled(SafeLinkButton, styledOptions)<StyledProps>`
+  width: 100%;
   text-align: left;
   align-items: center;
   margin-left: calc(${(p) => p.level} * ${spacing.small});
@@ -37,6 +40,15 @@ const StyledSafelinkButton = styled(SafeLinkButton, styledOptions)<StyledProps>`
     color: ${colors.text.primary} !important;
   }
   &:hover,
+  &:active {
+    background-color: transparent;
+    border-color: transparent;
+    text-decoration: underline;
+    color: ${colors.brand.primary};
+    svg {
+      color: ${colors.brand.primary} !important;
+    }
+  }
   &:focus-visible {
     color: ${colors.brand.primary};
     background-color: transparent;
@@ -52,6 +64,14 @@ const ListElement = styled.li`
   margin: 0;
 `;
 
+const StyledSpan = styled.span`
+  flex: 1;
+`;
+
+const isLastStyle = css`
+  border-bottom: 1px solid ${colors.brand.light};
+`;
+
 interface Props {
   parentId: string;
   meta?: GQLFolderResourceMetaSearchQuery['folderResourceMetaSearch'][0];
@@ -59,6 +79,7 @@ interface Props {
   onClose?: () => void;
   setFocus: (id: string) => void;
   level: number;
+  isLast?: boolean;
 }
 
 const FolderResource = ({
@@ -67,9 +88,11 @@ const FolderResource = ({
   meta,
   setFocus,
   level,
+  isLast,
   onClose,
 }: Props) => {
   const { folderId: rootFolderId, subfolderId, resourceId } = useParams();
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const isLearningPath = useMemo(
     () => resource.resourceType === 'learningpath',
@@ -98,17 +121,28 @@ const FolderResource = ({
   );
 
   const isCurrent = resource.id === resourceId && parentId === subfolderId;
+  const openInfo =
+    resource.resourceType === 'learningpath'
+      ? t('myNdla.sharedFolder.willOpenInNewTab')
+      : '';
 
   const contentType =
     contentTypeMapping[meta?.resourceTypes?.[0]?.id || 'default'];
 
   return (
-    <ListElement role="none" data-list-item>
+    <ListElement css={isLast ? isLastStyle : undefined} role="none">
       <StyledSafelinkButton
         aria-current={isCurrent ? 'page' : undefined}
         tabIndex={-1}
         level={level}
         id={`shared-${parentId}-${resource.id}`}
+        aria-label={[
+          `${meta?.title}.`,
+          `${t(`contentTypes.${contentType}`)}.`,
+          openInfo,
+        ]
+          .filter((i) => !!i)
+          .join(' ')}
         role="treeitem"
         target={resource.resourceType === 'learningpath' ? '_blank' : undefined}
         onClick={onClick}
@@ -117,8 +151,10 @@ const FolderResource = ({
         to={link}
       >
         <ContentTypeBadge type={contentType!} border={false} />
-        {meta?.title}
-        {resource.resourceType === 'learningpath' && <Launch />}
+        <StyledSpan>{meta?.title}</StyledSpan>
+        {resource.resourceType === 'learningpath' && (
+          <Launch height={'24px'} width={'24px'} />
+        )}
       </StyledSafelinkButton>
     </ListElement>
   );

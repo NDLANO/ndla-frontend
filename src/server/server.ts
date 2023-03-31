@@ -243,11 +243,10 @@ export async function sendInternalServerError(res: Response) {
 }
 
 function sendResponse(res: Response, data: any, status = OK) {
-  if (
-    status === MOVED_PERMANENTLY ||
-    status === TEMPORARY_REDIRECT ||
-    status === GONE
-  ) {
+  if (status === MOVED_PERMANENTLY || status === TEMPORARY_REDIRECT) {
+    res.writeHead(status, data);
+    res.end();
+  } else if (status === GONE) {
     res.status(status).send(data);
   } else if (res.getHeader('Content-Type') === 'application/json') {
     res.status(status).json(data);

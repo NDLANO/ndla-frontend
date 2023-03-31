@@ -10,7 +10,7 @@ import { Spinner } from '@ndla/icons';
 import { useEffect, useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import { colors, spacing } from '@ndla/core';
+import { breakpoints, colors, mq, spacing } from '@ndla/core';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { SafeLinkButton } from '@ndla/safelink';
 import { MenuBook } from '@ndla/icons/action';
@@ -18,13 +18,18 @@ import { AuthContext } from '../../../components/AuthenticationContext';
 import SubjectLink from '../../AllSubjectsPage/SubjectLink';
 import { useSubjects } from '../subjectQueries';
 import { usePersonalData } from '../userMutations';
-import { SKIP_TO_CONTENT_ID } from '../../../constants';
+import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
+import MyNdlaTitle from '../components/MyNdlaTitle';
 
 const Container = styled.div`
   display: flex;
-  align-items: flex-start;
   flex-direction: column;
   gap: ${spacing.small};
+  width: 100%;
+  ${mq.range({ from: breakpoints.desktop })} {
+    align-items: flex-start;
+    width: auto;
+  }
 `;
 
 const CountContainer = styled.div`
@@ -41,6 +46,19 @@ const StyledSubjectLink = styled(SubjectLink)`
 
 const StyledSafeLinkButton = styled(SafeLinkButton)`
   flex-grow: 1;
+`;
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: ${spacing.small};
+`;
+
+const StyledUl = styled.ul`
+  padding: 0;
+  margin: 0;
+  width: 100%;
 `;
 
 const FavoriteSubjectsPage = () => {
@@ -65,9 +83,14 @@ const FavoriteSubjectsPage = () => {
   }
 
   return (
-    <>
+    <Wrapper>
       <HelmetWithTracker title={t('myNdla.favoriteSubjects.title')} />
-      <h1 id={SKIP_TO_CONTENT_ID}>{t('myNdla.favoriteSubjects.title')}</h1>
+      <MyNdlaBreadcrumb
+        page="subjects"
+        breadcrumbs={[]}
+        backCrumb={'minndla'}
+      />
+      <MyNdlaTitle title={t('myNdla.favoriteSubjects.title')} />
       <Container>
         <CountContainer>
           <MenuBook />
@@ -90,7 +113,7 @@ const FavoriteSubjectsPage = () => {
       ) : !favoriteSubjects?.length ? (
         <p>{t('myNdla.favoriteSubjects.noFavorites')}</p>
       ) : (
-        <ul>
+        <StyledUl>
           {favoriteSubjects.map((subject) => (
             <StyledSubjectLink
               key={subject.id}
@@ -98,9 +121,9 @@ const FavoriteSubjectsPage = () => {
               subject={subject}
             />
           ))}
-        </ul>
+        </StyledUl>
       )}
-    </>
+    </Wrapper>
   );
 };
 

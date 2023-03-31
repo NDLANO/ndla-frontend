@@ -952,7 +952,7 @@ export type GQLQuery = {
   resourceTypes?: Maybe<Array<GQLResourceTypeDefinition>>;
   search?: Maybe<GQLSearch>;
   searchWithoutPagination?: Maybe<GQLSearchWithoutPagination>;
-  sharedFolder: GQLFolder;
+  sharedFolder: GQLSharedFolder;
   subject?: Maybe<GQLSubject>;
   subjectpage?: Maybe<GQLSubjectPage>;
   subjects?: Maybe<Array<GQLSubject>>;
@@ -1274,6 +1274,19 @@ export type GQLSearchSuggestion = {
 export type GQLSearchWithoutPagination = {
   __typename?: 'SearchWithoutPagination';
   results: Array<GQLSearchResult>;
+};
+
+export type GQLSharedFolder = {
+  __typename?: 'SharedFolder';
+  breadcrumbs: Array<GQLBreadcrumb>;
+  created: Scalars['String'];
+  id: Scalars['String'];
+  name: Scalars['String'];
+  parentId?: Maybe<Scalars['String']>;
+  resources: Array<GQLFolderResource>;
+  status: Scalars['String'];
+  subfolders: Array<GQLSharedFolder>;
+  updated: Scalars['String'];
 };
 
 export type GQLSortResult = {
@@ -2454,6 +2467,20 @@ export type GQLFolderFragmentFragment = {
   >;
 };
 
+export type GQLSharedFolderFragmentFragment = {
+  __typename: 'SharedFolder';
+  id: string;
+  name: string;
+  status: string;
+  parentId?: string;
+  created: string;
+  updated: string;
+  breadcrumbs: Array<{ __typename: 'Breadcrumb'; id: string; name: string }>;
+  resources: Array<
+    { __typename?: 'FolderResource' } & GQLFolderResourceFragmentFragment
+  >;
+};
+
 export type GQLDeleteFolderMutationVariables = Exact<{
   id: Scalars['String'];
 }>;
@@ -2511,6 +2538,55 @@ export type GQLFoldersPageQueryFragmentFragment = {
     } & GQLFolderFragmentFragment
   >;
 } & GQLFolderFragmentFragment;
+
+export type GQLSharedFoldersPageQueryFragmentFragment = {
+  __typename?: 'SharedFolder';
+  subfolders: Array<
+    {
+      __typename?: 'SharedFolder';
+      subfolders: Array<
+        {
+          __typename?: 'SharedFolder';
+          subfolders: Array<
+            {
+              __typename?: 'SharedFolder';
+              subfolders: Array<
+                {
+                  __typename?: 'SharedFolder';
+                  subfolders: Array<
+                    {
+                      __typename?: 'SharedFolder';
+                      subfolders: Array<
+                        {
+                          __typename?: 'SharedFolder';
+                          subfolders: Array<
+                            {
+                              __typename?: 'SharedFolder';
+                              subfolders: Array<
+                                {
+                                  __typename?: 'SharedFolder';
+                                  subfolders: Array<
+                                    {
+                                      __typename?: 'SharedFolder';
+                                    } & GQLSharedFolderFragmentFragment
+                                  >;
+                                } & GQLSharedFolderFragmentFragment
+                              >;
+                            } & GQLSharedFolderFragmentFragment
+                          >;
+                        } & GQLSharedFolderFragmentFragment
+                      >;
+                    } & GQLSharedFolderFragmentFragment
+                  >;
+                } & GQLSharedFolderFragmentFragment
+              >;
+            } & GQLSharedFolderFragmentFragment
+          >;
+        } & GQLSharedFolderFragmentFragment
+      >;
+    } & GQLSharedFolderFragmentFragment
+  >;
+} & GQLSharedFolderFragmentFragment;
 
 export type GQLFoldersPageQueryVariables = Exact<{ [key: string]: never }>;
 
@@ -2693,7 +2769,9 @@ export type GQLSharedFolderQueryVariables = Exact<{
 
 export type GQLSharedFolderQuery = {
   __typename?: 'Query';
-  sharedFolder: { __typename?: 'Folder' } & GQLFoldersPageQueryFragmentFragment;
+  sharedFolder: {
+    __typename?: 'SharedFolder';
+  } & GQLSharedFoldersPageQueryFragmentFragment;
 };
 
 export type GQLFolderResourceMetaQueryVariables = Exact<{
@@ -3343,6 +3421,21 @@ export type GQLBrightcoveVideoQuery = {
       src: string;
     };
   };
+};
+
+export type GQLFrontpageSubjectsQueryVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type GQLFrontpageSubjectsQuery = {
+  __typename?: 'Query';
+  subjects?: Array<{
+    __typename?: 'Subject';
+    id: string;
+    name: string;
+    path: string;
+    metadata: { __typename?: 'TaxonomyMetadata'; customFields: any };
+  }>;
 };
 
 export type GQLIframeArticlePage_ArticleFragment = {
