@@ -307,6 +307,12 @@ export type GQLConceptResult = {
   totalCount: Scalars['Int'];
 };
 
+export type GQLConfigMetaRestricted = {
+  __typename?: 'ConfigMetaRestricted';
+  key: Scalars['String'];
+  value: Scalars['String'];
+};
+
 export type GQLContributor = {
   __typename?: 'Contributor';
   name: Scalars['String'];
@@ -933,6 +939,7 @@ export type GQLQuery = {
   conceptSearch?: Maybe<GQLConceptResult>;
   coreElement?: Maybe<GQLCoreElement>;
   coreElements?: Maybe<Array<GQLCoreElement>>;
+  examLockStatus: GQLConfigMetaRestricted;
   filmfrontpage?: Maybe<GQLFilmFrontpage>;
   folder: GQLFolder;
   folderResourceMeta?: Maybe<GQLFolderResourceMeta>;
@@ -1617,6 +1624,17 @@ export type GQLArticleContents_TopicFragment = {
       }>;
     };
   } & GQLLicenseBox_ArticleFragment;
+};
+
+export type GQLExamLockStatusQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GQLExamLockStatusQuery = {
+  __typename?: 'Query';
+  examLockStatus: {
+    __typename?: 'ConfigMetaRestricted';
+    key: string;
+    value: string;
+  };
 };
 
 export type GQLLastLearningpathStepInfo_TopicFragment = {

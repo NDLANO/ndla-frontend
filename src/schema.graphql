@@ -256,6 +256,11 @@ type ConceptResult {
   totalCount: Int!
 }
 
+type ConfigMetaRestricted {
+  key: String!
+  value: String!
+}
+
 type Contributor {
   name: String!
   type: String!
@@ -792,6 +797,7 @@ type Query {
   ): ConceptResult
   coreElement(code: String!, language: String): CoreElement
   coreElements(codes: [String], language: String): [CoreElement!]
+  examLockStatus: ConfigMetaRestricted!
   filmfrontpage: FilmFrontpage
   folder(
     id: String!
