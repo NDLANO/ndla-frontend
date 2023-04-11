@@ -12,7 +12,6 @@ import { OneColumn } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
 import { GQLFolder } from '../../../graphqlTypes';
 import ErrorPage from '../../ErrorPage';
-import FolderAndResourceCount from '../../MyNdla/Folders/FolderAndResourceCount';
 
 interface Props {
   folder?: GQLFolder;
@@ -33,13 +32,6 @@ const FolderMeta = ({ folder }: Props) => {
   return (
     <StyledOneColumn>
       <h1>{folder.name}</h1>
-      <FolderAndResourceCount
-        selectedFolder={folder}
-        hasSelectedFolder={true}
-        folders={folder.subfolders}
-        folderData={folder.subfolders}
-        loading={false}
-      />
       <p>{t('myNdla.sharedFolder.description.info1')}</p>
       <p>{t('myNdla.sharedFolder.description.info2')}</p>
       <p>{t('myNdla.sharedFolder.description.info3')}</p>
