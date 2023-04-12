@@ -76,7 +76,6 @@ export const getSubjectsCategories = (
     subjects,
     TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
     constants.subjectCategories.BETA_SUBJECTS,
-    t('messageBoxInfo.frontPageBeta'),
   );
   const other = filterSubjects(
     subjects,
