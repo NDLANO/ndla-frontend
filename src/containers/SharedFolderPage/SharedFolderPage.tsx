@@ -17,6 +17,7 @@ import keyBy from 'lodash/keyBy';
 import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
+import { HelmetWithTracker } from '@ndla/tracker';
 import { GQLFolder, GQLFolderResource } from '../../graphqlTypes';
 import IsMobileContext from '../../IsMobileContext';
 import ErrorPage from '../ErrorPage';
@@ -29,7 +30,6 @@ import FolderMeta from './components/FolderMeta';
 import FolderNavigation from './components/FolderNavigation';
 import SharedArticle from './components/SharedArticle';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
-import { HelmetWithTracker } from '@ndla/tracker';
 
 const Layout = styled.div`
   display: grid;
