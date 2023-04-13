@@ -97,7 +97,7 @@ SharedArticleContainer.willTrackPageView = (
   }
 };
 
-SharedArticleContainer.getDimensons = ({ article, meta }: Props) => {
+SharedArticleContainer.getDimensions = ({ article, meta }: Props) => {
   return getAllDimensions(
     { article },
     meta?.resourceTypes &&
