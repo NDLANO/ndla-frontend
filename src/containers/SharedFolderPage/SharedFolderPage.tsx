@@ -17,7 +17,6 @@ import keyBy from 'lodash/keyBy';
 import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import { HelmetWithTracker } from '@ndla/tracker';
 import { GQLFolder, GQLFolderResource } from '../../graphqlTypes';
 import IsMobileContext from '../../IsMobileContext';
 import ErrorPage from '../ErrorPage';
@@ -172,9 +171,6 @@ const SharedFolderPage = () => {
 
   return (
     <Layout>
-      <HelmetWithTracker
-        title={t('htmlTitles.sharedFolderPage', { name: title })}
-      />
       <SocialMediaMetadata
         type="website"
         title={title}
@@ -223,10 +219,14 @@ const SharedFolderPage = () => {
           selectedResource.resourceType === 'learningpath' ? (
             <SharedLearningpathWarning />
           ) : (
-            <SharedArticle resource={selectedResource} meta={articleMeta} />
+            <SharedArticle
+              resource={selectedResource}
+              meta={articleMeta}
+              title={title}
+            />
           )
         ) : (
-          <FolderMeta folder={folder} />
+          <FolderMeta folder={folder} title={title} />
         )}
         {!selectedResource && isMobile && (
           <InfoBox>

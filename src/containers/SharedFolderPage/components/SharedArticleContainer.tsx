@@ -11,6 +11,7 @@ import { OneColumn } from '@ndla/ui';
 import { useEffect, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
+import { withTracker } from '@ndla/tracker';
 import Article from '../../../components/Article';
 import config from '../../../config';
 import { SKIP_TO_CONTENT_ID } from '../../../constants';
@@ -23,10 +24,12 @@ import { getArticleScripts } from '../../../util/getArticleScripts';
 import { getContentTypeFromResourceTypes } from '../../../util/getContentType';
 import { structuredArticleDataFragment } from '../../../util/getStructuredDataFromArticle';
 import { transformArticle } from '../../../util/transformArticle';
+import { getAllDimensions } from '../../../util/trackingUtil';
 
 interface Props {
   article: GQLSharedResourceArticleContainer_ArticleFragment;
   meta?: GQLFolderResourceMetaSearchQuery['folderResourceMetaSearch'][0];
+  title: string;
 }
 
 const SharedArticleContainer = ({ article: propArticle, meta }: Props) => {
@@ -80,7 +83,27 @@ const SharedArticleContainer = ({ article: propArticle, meta }: Props) => {
   );
 };
 
-export default SharedArticleContainer;
+SharedArticleContainer.getDocumentTitle = ({ title }: Props) => title;
+
+SharedArticleContainer.willTrackPageView = (
+  trackpageView: (item: Props) => void,
+  currentProps: Props,
+) => {
+  if (currentProps.article) {
+    trackpageView(currentProps);
+  }
+};
+
+SharedArticleContainer.getDimensons = ({ article, meta }: Props) => {
+  return getAllDimensions(
+    { article },
+    meta?.resourceTypes &&
+      getContentTypeFromResourceTypes(meta.resourceTypes)?.label,
+    true,
+  );
+};
+
+export default withTracker(SharedArticleContainer);
 
 export const sharedArticleContainerFragments = {
   article: gql`
