@@ -10,7 +10,7 @@ import { gql } from '@apollo/client';
 import { OneColumn } from '@ndla/ui';
 import { useEffect, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useTranslation } from 'react-i18next';
+import { CustomWithTranslation, withTranslation } from 'react-i18next';
 import { withTracker } from '@ndla/tracker';
 import Article from '../../../components/Article';
 import config from '../../../config';
@@ -26,15 +26,17 @@ import { structuredArticleDataFragment } from '../../../util/getStructuredDataFr
 import { transformArticle } from '../../../util/transformArticle';
 import { getAllDimensions } from '../../../util/trackingUtil';
 
-interface Props {
+interface Props extends CustomWithTranslation {
   article: GQLSharedResourceArticleContainer_ArticleFragment;
   meta?: GQLFolderResourceMetaSearchQuery['folderResourceMetaSearch'][0];
   title: string;
 }
 
-const SharedArticleContainer = ({ article: propArticle, meta }: Props) => {
-  const { i18n } = useTranslation();
-
+const SharedArticleContainer = ({
+  article: propArticle,
+  meta,
+  i18n,
+}: Props) => {
   useEffect(() => {
     if (window.MathJax && typeof window.MathJax.typeset === 'function') {
       try {
@@ -83,7 +85,8 @@ const SharedArticleContainer = ({ article: propArticle, meta }: Props) => {
   );
 };
 
-SharedArticleContainer.getDocumentTitle = ({ title }: Props) => title;
+SharedArticleContainer.getDocumentTitle = ({ title, t }: Props) =>
+  t('htmlTitles.sharedFolderPage', { name: title });
 
 SharedArticleContainer.willTrackPageView = (
   trackpageView: (item: Props) => void,
@@ -103,7 +106,7 @@ SharedArticleContainer.getDimensons = ({ article, meta }: Props) => {
   );
 };
 
-export default withTracker(SharedArticleContainer);
+export default withTranslation()(withTracker(SharedArticleContainer));
 
 export const sharedArticleContainerFragments = {
   article: gql`
