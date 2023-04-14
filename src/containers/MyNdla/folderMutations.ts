@@ -492,13 +492,13 @@ export const useUpdateFolderStatusMutation = () => {
     GQLUpdateFolderStatusMutation,
     GQLMutationUpdateFolderStatusArgs
   >(updateFolderStatusMutation, {
-    onCompleted: (data) => {
+    onCompleted: (data, values) => {
       data?.updateFolderStatus.forEach((folderId) => {
         cache.modify({
           id: cache.identify({ id: folderId, __typename: 'Folder' }),
           fields: {
-            status: (cachedStatus: 'private' | 'shared') => {
-              return cachedStatus === 'private' ? 'shared' : 'private';
+            status: () => {
+              return values!.variables!.status;
             },
           },
         });
