@@ -45,9 +45,10 @@ const sharedResourceArticlePageQuery = gql`
 interface Props {
   resource: GQLFolderResource;
   meta?: GQLFolderResourceMetaSearchQuery['folderResourceMetaSearch'][0];
+  title: string;
 }
 
-const SharedArticle = ({ resource, meta }: Props) => {
+const SharedArticle = ({ resource, meta, title }: Props) => {
   const { loading, data, error } = useGraphQuery<
     GQLSharedResourceArticlePageQuery,
     GQLSharedResourceArticlePageQueryVariables
@@ -72,7 +73,7 @@ const SharedArticle = ({ resource, meta }: Props) => {
     return <ErrorPage />;
   }
 
-  return <SharedArticleContainer article={article} meta={meta} />;
+  return <SharedArticleContainer article={article} meta={meta} title={title} />;
 };
 
 export default SharedArticle;

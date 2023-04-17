@@ -16,7 +16,7 @@ import { LocaleType } from './interfaces';
 
 export const supportedLanguages: LocaleType[] = config.saamiEnabled
   ? ['nb', 'nn', 'en', 'se']
-  : ['nb', 'nn', 'en'];
+  : ['nb', 'nn', 'en', 'se'];
 export const preferredLanguages: LocaleType[] = ['nb', 'nn', 'en', 'se'];
 
 type LocaleObject = {

@@ -15,7 +15,6 @@ import { Drawer, ModalCloseButton, ModalHeaderV2 } from '@ndla/modal';
 import { ErrorMessage, OneColumn } from '@ndla/ui';
 import keyBy from 'lodash/keyBy';
 import { useContext } from 'react';
-import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { GQLFolder, GQLFolderResource } from '../../graphqlTypes';
@@ -29,6 +28,7 @@ import NotFound from '../NotFoundPage/NotFoundPage';
 import FolderMeta from './components/FolderMeta';
 import FolderNavigation from './components/FolderNavigation';
 import SharedArticle from './components/SharedArticle';
+import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 
 const Layout = styled.div`
   display: grid;
@@ -167,15 +167,15 @@ const SharedFolderPage = () => {
       `${selectedResource?.resourceType}-${selectedResource?.resourceId}`
     ];
 
+  const title = `${folder.name} - ${articleMeta?.title ?? t('sharedFolder')}`;
+
   return (
     <Layout>
-      <Helmet>
-        <title>
-          {t('htmlTitles.sharedFolderPage', {
-            name: `${folder.name} - ${articleMeta?.title ?? t('sharedFolder')}`,
-          })}
-        </title>
-      </Helmet>
+      <SocialMediaMetadata
+        type="website"
+        title={title}
+        description={t('myNdla.sharedFolder.description.info1')}
+      />
       <Sidebar>
         {!isMobile ? (
           <DesktopPadding>
@@ -219,10 +219,14 @@ const SharedFolderPage = () => {
           selectedResource.resourceType === 'learningpath' ? (
             <SharedLearningpathWarning />
           ) : (
-            <SharedArticle resource={selectedResource} meta={articleMeta} />
+            <SharedArticle
+              resource={selectedResource}
+              meta={articleMeta}
+              title={title}
+            />
           )
         ) : (
-          <FolderMeta folder={folder} />
+          <FolderMeta folder={folder} title={title} />
         )}
         {!selectedResource && isMobile && (
           <InfoBox>
