@@ -31,7 +31,6 @@ import {
   GQLLearningpathStepQueryVariables,
 } from '../../graphqlTypes';
 import config from '../../config';
-import { useDisableConverter } from '../ArticleConverterContext';
 import { useGraphQuery } from '../../util/runQueries';
 import { supportedLanguages } from '../../i18n';
 
@@ -79,6 +78,7 @@ interface Props {
   breadcrumbItems: Breadcrumb[];
   subjectId?: string;
 }
+const disableConverter = true;
 const LearningpathEmbed = ({
   learningpathStep,
   skipToContentId,
@@ -88,7 +88,6 @@ const LearningpathEmbed = ({
 }: Props) => {
   const { i18n } = useTranslation();
   const location = useLocation();
-  const disableConverter = useDisableConverter();
   const [taxId, articleId] =
     !learningpathStep.resource && learningpathStep.embedUrl?.url
       ? getIdFromIframeUrl(learningpathStep.embedUrl.url)
@@ -127,13 +126,7 @@ const LearningpathEmbed = ({
       }),
       getArticleScripts(article, i18n.language),
     ];
-  }, [
-    data?.article,
-    learningpathStep.resource,
-    i18n.language,
-    subjectId,
-    disableConverter,
-  ]);
+  }, [data?.article, learningpathStep.resource, i18n.language, subjectId]);
 
   if (
     !learningpathStep ||
