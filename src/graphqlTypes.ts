@@ -1729,6 +1729,7 @@ export type GQLLearningpathEmbed_LearningpathStepFragment = {
   resource?: {
     __typename?: 'Resource';
     id: string;
+    path: string;
     article?: { __typename?: 'Article' } & GQLLearningpathEmbed_ArticleFragment;
   };
   embedUrl?: {
@@ -1757,6 +1758,7 @@ export type GQLLearningpathStepQuery = {
   resource?: {
     __typename?: 'Resource';
     id: string;
+    path: string;
     resourceTypes?: Array<{
       __typename?: 'ResourceType';
       id: string;
