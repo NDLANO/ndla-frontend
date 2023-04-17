@@ -14,6 +14,7 @@ import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { Spinner } from '@ndla/icons';
+import { CreatedBy } from '@ndla/ui';
 import Article from '../Article';
 import { transformArticle } from '../../util/transformArticle';
 import { getArticleScripts } from '../../util/getArticleScripts';
@@ -33,6 +34,7 @@ import {
 import config from '../../config';
 import { useGraphQuery } from '../../util/runQueries';
 import { supportedLanguages } from '../../i18n';
+import { useDisableConverter } from '../ArticleConverterContext';
 
 interface StyledIframeContainerProps {
   oembedWidth: number;
@@ -78,7 +80,6 @@ interface Props {
   breadcrumbItems: Breadcrumb[];
   subjectId?: string;
 }
-const disableConverter = true;
 const LearningpathEmbed = ({
   learningpathStep,
   skipToContentId,
@@ -86,7 +87,8 @@ const LearningpathEmbed = ({
   subjectId,
   breadcrumbItems,
 }: Props) => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const disableConverter = useDisableConverter();
   const location = useLocation();
   const [taxId, articleId] =
     !learningpathStep.resource && learningpathStep.embedUrl?.url
@@ -104,29 +106,43 @@ const LearningpathEmbed = ({
     GQLLearningpathStepQueryVariables
   >(learningpathStepQuery, {
     variables: {
-      articleId: articleId!,
+      articleId:
+        articleId ?? learningpathStep.resource?.article?.id.toString()!,
       path: location.pathname,
       resourceId: taxId ?? '',
       includeResource: !!taxId,
     },
-    skip: !shouldUseConverter,
+    skip:
+      (disableConverter && !!learningpathStep.resource?.article) ||
+      (!learningpathStep.embedUrl && !learningpathStep.resource),
   });
+
+  const path = !learningpathStep.resource?.path
+    ? data?.resource?.path
+    : undefined;
+  const contentUrl = path ? `${config.ndlaFrontendDomain}${path}` : undefined;
 
   const [article, scripts] = useMemo(() => {
     const article =
-      disableConverter && !learningpathStep.resource
-        ? data?.article
-        : learningpathStep.resource?.article;
+      disableConverter && !!learningpathStep.resource?.article
+        ? learningpathStep.resource.article
+        : data?.article;
     if (!article) return [undefined, undefined];
     return [
       transformArticle(article, i18n.language, {
-        enabled: disableConverter,
+        enabled: true,
         path: `${config.ndlaFrontendDomain}/article/${article.id}`,
         subject: subjectId,
       }),
       getArticleScripts(article, i18n.language),
     ];
-  }, [data?.article, learningpathStep.resource, i18n.language, subjectId]);
+  }, [
+    data?.article,
+    disableConverter,
+    i18n.language,
+    learningpathStep.resource?.article,
+    subjectId,
+  ]);
 
   if (
     !learningpathStep ||
@@ -163,13 +179,13 @@ const LearningpathEmbed = ({
   }
 
   const learningpathStepResource =
-    disableConverter && !learningpathStep.resource
-      ? data
-      : learningpathStep.resource;
+    disableConverter && learningpathStep.resource
+      ? learningpathStep.resource
+      : data;
   const resource =
-    disableConverter && !learningpathStep.resource
-      ? data?.resource
-      : learningpathStep.resource;
+    disableConverter && learningpathStep.resource
+      ? learningpathStep.resource
+      : data?.resource;
   const stepArticle = learningpathStepResource?.article;
 
   if (!stepArticle) {
@@ -203,12 +219,22 @@ const LearningpathEmbed = ({
         </script>
       </Helmet>
       <Article
-        contentTransformed={disableConverter}
+        contentTransformed
         isPlainArticle
         id={skipToContentId}
         article={article}
         {...getArticleProps(resource, topic)}
-      />
+      >
+        {path ? (
+          <CreatedBy
+            name={t('createdBy.content')}
+            description={t('createdBy.text')}
+            url={contentUrl}
+          />
+        ) : (
+          <></>
+        )}
+      </Article>
     </>
   );
 };
@@ -245,6 +271,7 @@ LearningpathEmbed.fragments = {
     fragment LearningpathEmbed_LearningpathStep on LearningpathStep {
       resource {
         id
+        path
         article(convertEmbeds: $convertEmbeds) {
           ...LearningpathEmbed_Article
         }
@@ -277,6 +304,7 @@ const learningpathStepQuery = gql`
     }
     resource(id: $resourceId) @include(if: $includeResource) {
       id
+      path
       resourceTypes {
         id
         name
