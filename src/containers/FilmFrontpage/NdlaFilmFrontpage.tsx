@@ -51,7 +51,7 @@ const NdlaFilm = () => {
   const [fetchingMoviesByType, setFetchingMoviesByType] = useState(false);
   const { t, i18n } = useTranslation();
 
-  const { data: { filmfrontpage, subject } = {} } =
+  const { data: { filmfrontpage, subject } = {}, loading } =
     useGraphQuery<GQLFilmFrontPageQuery>(filmFrontPageQuery, {
       variables: { subjectId: 'urn:subject:20' },
     });
@@ -111,6 +111,7 @@ const NdlaFilm = () => {
 
   return (
     <FilmFrontpage
+      loading={loading}
       filmFrontpage={filmfrontpage}
       showingAll={showingAll}
       moviesByType={moviesByType}

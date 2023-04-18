@@ -19,6 +19,7 @@ import {
 } from '@ndla/ui';
 import { TFunction, withTranslation, WithTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
+import { Spinner } from '@ndla/icons';
 
 import MovieCategory from './MovieCategory';
 import { htmlTitle } from '../../util/titleHelper';
@@ -57,6 +58,7 @@ interface Props extends WithTranslation {
   resourceTypes: { id: string; name: string }[];
   onSelectedMovieByType: (resourceId: string) => void;
   skipToContentId?: string;
+  loading?: boolean;
 }
 const getDocumentTitle = (
   t: TFunction,
@@ -74,6 +76,7 @@ const FilmFrontpage = ({
   fetchingMoviesByType,
   onSelectedMovieByType,
   i18n,
+  loading,
 }: Props) => {
   const [resourceTypeSelected, setResourceTypeSelected] = useState<
     string | undefined
@@ -115,7 +118,11 @@ const FilmFrontpage = ({
       />
       <StyledH1>{t('ndlaFilm.heading')}</StyledH1>
       <main>
-        <FilmSlideshow slideshow={filmFrontpage?.slideShow ?? []} />
+        {loading ? (
+          <Spinner />
+        ) : filmFrontpage?.slideShow ? (
+          <FilmSlideshow slideshow={filmFrontpage.slideShow} />
+        ) : null}
         <FilmMovieSearch
           skipToContentId={skipToContentId}
           ariaControlId={ARIA_FILMCATEGORY_ID}
