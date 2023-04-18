@@ -9,7 +9,7 @@
 import { MenuItemProps } from '@ndla/button';
 import { Cross, Pencil } from '@ndla/icons/action';
 import { DeleteForever, Link } from '@ndla/icons/editor';
-import { Share } from '@ndla/icons/lib/common';
+import { Share } from '@ndla/icons/common';
 import { FolderMenu } from '@ndla/ui';
 import { useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
