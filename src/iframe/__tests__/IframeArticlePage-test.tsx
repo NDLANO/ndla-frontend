@@ -21,6 +21,7 @@ import IframeArticlePage from '../IframeArticlePage';
 import { initializeI18n } from '../../i18n';
 
 window.dataLayer = [];
+window._mtm = [];
 const history = createMemoryHistory();
 configureTracker({ listen: history.listen });
 HelmetProvider.canUseDOM = false;
