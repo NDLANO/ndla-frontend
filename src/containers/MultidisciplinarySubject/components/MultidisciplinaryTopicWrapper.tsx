@@ -11,7 +11,6 @@ import {
   GQLMultidisciplinaryTopic_SubjectFragment,
 } from '../../../graphqlTypes';
 import DefaultErrorMessage from '../../../components/DefaultErrorMessage';
-import { useDisableConverter } from '../../../components/ArticleConverterContext';
 
 interface Props {
   topicId: string;
@@ -44,7 +43,6 @@ const MultidisciplinaryTopicWrapper = ({
   disableNav,
   user,
 }: Props) => {
-  const disableConverter = useDisableConverter();
   const { data, loading } = useGraphQuery<
     GQLMultidisciplinaryTopicWrapperQuery,
     GQLMultidisciplinaryTopicWrapperQueryVariables
@@ -52,7 +50,7 @@ const MultidisciplinaryTopicWrapper = ({
     variables: {
       topicId,
       subjectId,
-      convertEmbeds: disableConverter,
+      convertEmbeds: true,
     },
   });
 

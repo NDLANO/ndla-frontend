@@ -29,7 +29,6 @@ import {
 } from '../../../graphqlTypes';
 import { transformArticle } from '../../../util/transformArticle';
 import config from '../../../config';
-import { useDisableConverter } from '../../../components/ArticleConverterContext';
 import { getArticleScripts } from '../../../util/getArticleScripts';
 
 const filterCodes: Record<string, 'publicHealth' | 'democracy' | 'climate'> = {
@@ -53,20 +52,19 @@ const MultidisciplinarySubjectArticle = ({
   resourceTypes,
   skipToContentId,
 }: Props) => {
-  const disableConverter = useDisableConverter();
   const resourcesRef = useRef(null);
 
   const [article, scripts] = useMemo(() => {
     if (!topic.article) return [undefined, undefined];
     return [
       transformArticle(topic.article, i18n.language, {
-        enabled: disableConverter,
+        enabled: true,
         path: `${config.ndlaFrontendDomain}/article/${topic.article.id}`,
         subject: subject.id,
       }),
       getArticleScripts(topic.article, i18n.language),
     ];
-  }, [topic.article, i18n.language, subject.id, disableConverter]);
+  }, [topic.article, i18n.language, subject.id]);
 
   if (!topic.article || !article) {
     return null;
@@ -104,7 +102,7 @@ const MultidisciplinarySubjectArticle = ({
       />
       <OneColumn>
         <Article
-          contentTransformed={disableConverter}
+          contentTransformed
           myNdlaResourceType="multidisciplinary"
           id={skipToContentId}
           article={article}
