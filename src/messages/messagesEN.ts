@@ -38,13 +38,13 @@ const messages = {
   sharedFolder: 'Shared folder',
   blogPosts: {
     blog1: {
-      imageUrl: '/static/nye-fag.jpg',
-      text: 'Forslag til årsplaner fra NDLA',
+      imageUrl: '/static/samiske-laeremidler.jpg',
+      text: 'Utvikler samiske ressurser på NDLA',
       externalLink:
-        'https://blogg.ndla.no/2021/08/forslag-til-arsplaner-hos-ndla/',
+        'https://blogg.ndla.no/2023/02/utvikler-samiske-ressurser-pa-ndla/',
       linkText: 'Fagblogg',
       license: 'CC-BY-SA-4.0',
-      licenseAuthor: 'Vibeke Klungland',
+      licenseAuthor: 'Jan Frode Lindsø',
     },
     blog2: {
       imageUrl: '/static/aktiviser-elevene.jpg',
