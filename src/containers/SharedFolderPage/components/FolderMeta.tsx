@@ -38,7 +38,6 @@ const FolderMeta = ({ folder, title }: Props) => {
       />
       <h1>{folder.name}</h1>
       {folder.description && <p>{folder.description}</p>}
-      <p>{folder.description}</p>
     </StyledOneColumn>
   );
 };
