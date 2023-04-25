@@ -15,7 +15,7 @@ import { Cross, Pencil } from '@ndla/icons/action';
 import { DeleteForever } from '@ndla/icons/editor';
 import { Folder } from '@ndla/ui';
 import { colors, spacing } from '@ndla/core';
-import { Link, Share } from '@ndla/icons/common';
+import { Share } from '@ndla/icons/common';
 import { MenuItemProps } from '@ndla/button';
 import { GQLFolder } from '../../../graphqlTypes';
 import { FolderTotalCount } from '../../../util/folderHelpers';
@@ -86,8 +86,8 @@ const DraggableFolder = ({
     };
 
     const shareLink: MenuItemProps = {
-      icon: <Link />,
-      text: t('myNdla.folder.sharing.button.preview'),
+      icon: <Share />,
+      text: t('myNdla.folder.sharing.button.share'),
       onClick: () => {
         setFolderAction({
           action: 'shared',
@@ -118,6 +118,7 @@ const DraggableFolder = ({
           index,
         }),
     };
+
     const deleteOpt: MenuItemProps = {
       icon: <DeleteForever />,
       text: t('myNdla.folder.delete'),
