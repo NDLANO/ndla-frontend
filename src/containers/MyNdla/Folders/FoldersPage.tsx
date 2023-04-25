@@ -277,6 +277,7 @@ const FoldersPage = () => {
               <>
                 <ButtonV2
                   colorTheme="lighter"
+                  variant="ghost"
                   shape="pill"
                   onClick={() =>
                     setFolderAction({
@@ -286,7 +287,8 @@ const FoldersPage = () => {
                     })
                   }
                 >
-                  {t('myNdla.folder.sharing.button.preview')}
+                  <Share />
+                  {t('myNdla.folder.sharing.button.share')}
                 </ButtonV2>
                 <ButtonV2
                   variant="ghost"

@@ -8,7 +8,7 @@
 
 import { MenuItemProps } from '@ndla/button';
 import { Cross, Pencil } from '@ndla/icons/action';
-import { DeleteForever, Link } from '@ndla/icons/editor';
+import { DeleteForever } from '@ndla/icons/editor';
 import { Share } from '@ndla/icons/common';
 import { FolderMenu } from '@ndla/ui';
 import { useContext, useMemo } from 'react';
@@ -42,8 +42,8 @@ const FolderActions = ({
     };
 
     const shareLink: MenuItemProps = {
-      icon: <Link />,
-      text: t('myNdla.folder.sharing.button.preview'),
+      icon: <Share />,
+      text: t('myNdla.folder.sharing.button.share'),
       onClick: () => onActionChanged('shared'),
     };
 

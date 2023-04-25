@@ -86,8 +86,8 @@ const DraggableFolder = ({
     };
 
     const shareLink: MenuItemProps = {
-      icon: <Link />,
-      text: t('myNdla.folder.sharing.button.preview'),
+      icon: <Share />,
+      text: t('myNdla.folder.sharing.button.share'),
       onClick: () => {
         setFolderAction({
           action: 'shared',
