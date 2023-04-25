@@ -64,7 +64,7 @@ const FolderForm = ({
   loading,
 }: EditFolderFormProps) => {
   const { t } = useTranslation();
-  const { t: validationT } = useValidationTranslation();
+  const { validationT } = useValidationTranslation();
   const {
     control,
     trigger,
@@ -125,9 +125,8 @@ const FolderForm = ({
         render={({ field }) => (
           <div>
             <InputV2
-              label="Navn"
+              label={t('validation.fields.name')}
               error={errors.name?.message}
-              maxLength={nameMaxLength}
               id="name"
               required
               {...field}
@@ -156,10 +155,9 @@ const FolderForm = ({
         render={({ field }) => (
           <div>
             <TextAreaV2
-              label="Beskrivelse"
+              label={t('validation.fields.description')}
               error={errors.description?.message}
               id="description"
-              maxLength={descriptionMaxLength}
               {...field}
             />
             <FieldLength
