@@ -257,8 +257,10 @@ const FoldersPage = () => {
       />
       {selectedFolder && (
         <p>
-          {selectedFolder.description ??
-            t('myNdla.folder.defaultPageDescription')}
+          <em>
+            {selectedFolder.description ??
+              t('myNdla.folder.defaultPageDescription')}
+          </em>
         </p>
       )}
       <StyledRow>
