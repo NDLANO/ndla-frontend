@@ -82,9 +82,9 @@ const FolderForm = ({
     if (!getValues().description) {
       setValue(
         'description',
-        `${t('myNdla.sharedFolder.description.info1')} ${t(
+        `${t('myNdla.sharedFolder.description.info1')}\n\n${t(
           'myNdla.sharedFolder.description.info2',
-        )} ${t('myNdla.sharedFolder.description.info3')}`,
+        )}\n\n${t('myNdla.sharedFolder.description.info3')}`,
         {
           shouldDirty: true,
           shouldTouch: true,
