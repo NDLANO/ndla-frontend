@@ -12,12 +12,12 @@ import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { breakpoints, mq, spacing } from '@ndla/core';
 import { useSnack } from '@ndla/ui';
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { FileDocumentOutline, Share } from '@ndla/icons/common';
-import { Plus, TrashCanOutline } from '@ndla/icons/action';
+import { TrashCanOutline } from '@ndla/icons/action';
 import { GQLFolder, GQLFoldersPageQuery } from '../../../graphqlTypes';
 import { useGraphQuery } from '../../../util/runQueries';
 import ListViewOptions from './ListViewOptions';
@@ -26,7 +26,6 @@ import {
   foldersPageQuery,
   useFolder,
   useDeleteFolderMutation,
-  useUpdateFolderMutation,
   useUpdateFolderStatusMutation,
 } from '../folderMutations';
 import ResourceList from './ResourceList';
@@ -41,6 +40,7 @@ import { AuthContext } from '../../../components/AuthenticationContext';
 import FolderShareModal from './FolderShareModal';
 import config from '../../../config';
 import { copyFolderSharingLink, isStudent } from './util';
+import CreateFolderModal from './CreateFolderModal';
 
 interface BlockWrapperProps {
   type?: string;
@@ -57,12 +57,6 @@ const OptionsWrapper = styled.div`
   flex: 1;
   ${mq.range({ from: breakpoints.desktop })} {
     display: flex;
-  }
-`;
-
-const AddButton = styled(ButtonV2)`
-  ${mq.range({ until: breakpoints.tablet })} {
-    flex: 1;
   }
 `;
 
@@ -139,7 +133,6 @@ const FoldersPage = () => {
   const { deleteFolder, loading: deleteFolderLoading } =
     useDeleteFolderMutation();
 
-  const [isAdding, setIsAdding] = useState(false);
   const { data, loading } =
     useGraphQuery<GQLFoldersPageQuery>(foldersPageQuery);
   const folderData = data?.folders as GQLFolder[] | undefined;
@@ -187,9 +180,6 @@ const FoldersPage = () => {
     }
   }, [folders, focusId, previousFolders]);
 
-  const { updateFolder, loading: updateFolderLoading } =
-    useUpdateFolderMutation();
-
   const { updateFolderStatus } = useUpdateFolderStatusMutation();
 
   const onDeleteFolder = async (folder: GQLFolder, index?: number) => {
@@ -208,19 +198,28 @@ const FoldersPage = () => {
     setFocusId(next ?? prev);
   };
 
-  useEffect(() => {
-    setIsAdding(false);
-  }, [folderId]);
-
-  const onFolderAdd = async (folder: GQLFolder) => {
-    setFolderAction(undefined);
-    setIsAdding(false);
+  const onFolderUpdated = useCallback(() => {
     addSnack({
-      id: 'folderAdded',
-      content: t('myNdla.folder.folderCreated', { folderName: folder.name }),
+      id: 'folderUpdated',
+      content: t('myNdla.folder.updated'),
     });
-    setFocusId(folder.id);
-  };
+    setFolderAction(undefined);
+  }, [addSnack, t]);
+
+  const onFolderAdded = useCallback(
+    (folder?: GQLFolder) => {
+      if (folder) {
+        addSnack({
+          id: 'folderAdded',
+          content: t('myNdla.folder.folderCreated', {
+            folderName: folder.name,
+          }),
+        });
+        setFocusId(folder.id);
+      }
+    },
+    [addSnack, t],
+  );
 
   const setViewType = (type: ViewType) => {
     _setViewType(type);
@@ -258,16 +257,10 @@ const FoldersPage = () => {
       />
       <StyledRow>
         {showAddButton && (
-          <AddButton
-            disabled={isAdding}
-            shape="pill"
-            colorTheme="lighter"
-            aria-label={t('myNdla.newFolder')}
-            onClick={() => setIsAdding((prev) => !prev)}
-          >
-            <Plus css={iconCss} />
-            <span>{t('myNdla.newFolder')}</span>
-          </AddButton>
+          <CreateFolderModal
+            onSaved={onFolderAdded}
+            parentId={selectedFolder?.id}
+          />
         )}
 
         <OptionsWrapper>
@@ -326,9 +319,6 @@ const FoldersPage = () => {
         </OptionsWrapper>
       </StyledRow>
       <FolderList
-        onFolderAdd={onFolderAdd}
-        isAdding={isAdding}
-        setIsAdding={setIsAdding}
         onViewTypeChange={setViewType}
         type={viewType}
         folders={folders}
@@ -354,20 +344,7 @@ const FoldersPage = () => {
         />
       )}
       <EditFolderModal
-        loading={updateFolderLoading}
-        onSave={async (value, folder) => {
-          await updateFolder({
-            variables: {
-              id: folder.id,
-              name: value,
-            },
-          });
-          addSnack({
-            id: 'titleUpdated',
-            content: t('myNdla.resource.titleUpdated'),
-          });
-          setFolderAction(undefined);
-        }}
+        onSaved={onFolderUpdated}
         folder={folderAction?.folder}
         isOpen={folderAction?.action === 'edit'}
         onClose={() => setFolderAction(undefined)}

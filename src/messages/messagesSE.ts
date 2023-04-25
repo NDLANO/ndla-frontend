@@ -55,6 +55,24 @@ const messages = {
       licenseAuthor: 'Tom Knudsen',
     },
   },
+  validation: {
+    fields: {
+      name: 'Namn',
+      description: 'Beskrivelse',
+    },
+    required: 'Dette feltet er påkrevd',
+    requiredField: '$t(validation.fields.{{field}}) er påkrevd',
+    notUnique: 'Finnes allereie',
+    maxLength: 'Dette feltet kan maks innehalde {{count}} teikn',
+    maxLengthField:
+      '$t(validation.fields.{{field}}) kan maks innehalde {{count}} teikn',
+  },
+  resourcepageTitles: {
+    video: 'Video',
+    image: 'Bilde',
+    concept: 'Forklaring',
+    audio: 'Audio',
+  },
 };
 
 export default messages;
