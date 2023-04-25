@@ -198,13 +198,12 @@ const FoldersPage = () => {
     setFocusId(next ?? prev);
   };
 
-  const onFolderUpdated = useCallback(() => {
+  const onFolderUpdated = () => {
     addSnack({
       id: 'folderUpdated',
       content: t('myNdla.folder.updated'),
     });
-    setFolderAction(undefined);
-  }, [addSnack, t]);
+  };
 
   const onFolderAdded = useCallback(
     (folder?: GQLFolder) => {
