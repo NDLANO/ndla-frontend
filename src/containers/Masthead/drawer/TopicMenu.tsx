@@ -86,7 +86,7 @@ const TopicMenu = ({
 
   const arrowAddTopic = useCallback(
     (id: string | undefined) => {
-      const newTopic = topic.subtopics?.find((t) => t.id === id);
+      const newTopic = topic.subtopics.find((t) => t.id === id);
       if (newTopic) {
         addTopic(newTopic, level);
       }

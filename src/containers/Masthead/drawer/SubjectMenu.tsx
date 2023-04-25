@@ -71,7 +71,7 @@ const constructTopicPath = (
     return [];
   }
   return [topic].concat(
-    constructTopicPath(topic?.subtopics || [], topicList.slice(1)),
+    constructTopicPath(topic.subtopics, topicList.slice(1)),
   );
 };
 
