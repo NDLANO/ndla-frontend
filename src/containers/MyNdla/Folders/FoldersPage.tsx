@@ -255,6 +255,12 @@ const FoldersPage = () => {
         folderData={folderData}
         loading={loading}
       />
+      {selectedFolder && (
+        <p>
+          {selectedFolder.description ??
+            t('myNdla.folder.defaultPageDescription')}
+        </p>
+      )}
       <StyledRow>
         {showAddButton && (
           <CreateFolderModal

@@ -11,7 +11,7 @@ import { ButtonV2, LoadingButton } from '@ndla/button';
 import { InputV2, TextAreaV2 } from '@ndla/forms';
 import { useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
-import { TFunction, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { spacing } from '@ndla/core';
 import { GQLFolder } from '../../../graphqlTypes';
 import useValidationTranslation from '../../../util/useValidationTranslation';
@@ -46,14 +46,10 @@ export interface FolderFormValues {
   description?: string;
 }
 
-const toFormValues = (
-  folder: GQLFolder | undefined,
-  t: TFunction,
-): FolderFormValues => {
+const toFormValues = (folder: GQLFolder | undefined): FolderFormValues => {
   return {
     name: folder?.name ?? '',
-    description:
-      folder?.description ?? t('myNdla.sharedFolder.description.info1'),
+    description: folder?.description,
   };
 };
 
@@ -73,12 +69,24 @@ const FolderForm = ({
     control,
     trigger,
     handleSubmit,
+    getValues,
+    setValue,
     formState: { isValid, isDirty, errors },
   } = useForm({
-    defaultValues: toFormValues(folder, t),
+    defaultValues: toFormValues(folder),
     reValidateMode: 'onChange',
-    mode: 'onChange',
+    mode: 'all',
   });
+
+  useEffect(() => {
+    if (!getValues().description) {
+      setValue('description', t('myNdla.sharedFolder.description.info1'), {
+        shouldDirty: true,
+        shouldTouch: true,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [t]);
 
   // Validate on mount.
   useEffect(() => {
