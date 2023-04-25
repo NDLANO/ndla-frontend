@@ -72,7 +72,8 @@ const CreateFolderModal = ({ onSaved, parentFolder }: Props) => {
                   },
                 });
                 close();
-                onSaved(res.data?.addFolder);
+                const folder = res.data?.addFolder as GQLFolder | undefined;
+                onSaved(folder);
               }}
               onClose={close}
               loading={loading}
