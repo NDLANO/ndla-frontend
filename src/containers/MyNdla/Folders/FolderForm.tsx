@@ -6,21 +6,20 @@
  *
  */
 
-import { useApolloClient } from '@apollo/client';
 import styled from '@emotion/styled';
 import { ButtonV2, LoadingButton } from '@ndla/button';
 import { InputV2, TextAreaV2 } from '@ndla/forms';
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { spacing } from '@ndla/core';
 import { GQLFolder } from '../../../graphqlTypes';
 import useValidationTranslation from '../../../util/useValidationTranslation';
-import { useFolders, getFolder } from '../folderMutations';
 
 interface EditFolderFormProps {
   folder?: GQLFolder;
   onSave: (values: FolderFormValues) => Promise<void>;
+  siblings: GQLFolder[];
   onClose: () => void;
   loading?: boolean;
 }
@@ -61,6 +60,7 @@ const FolderForm = ({
   folder,
   onSave,
   onClose,
+  siblings,
   loading,
 }: EditFolderFormProps) => {
   const { t } = useTranslation();
@@ -81,20 +81,6 @@ const FolderForm = ({
     trigger();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const { cache } = useApolloClient();
-
-  const { folders } = useFolders();
-
-  const levelFolders = useMemo(
-    () =>
-      folder?.parentId
-        ? getFolder(cache, folder.parentId)?.subfolders ?? []
-        : folders,
-    [cache, folder?.parentId, folders],
-  );
-
-  const siblings = levelFolders.filter((f) => f.id !== folder?.id);
 
   const onSubmit = (values: FolderFormValues) => onSave(values);
   return (

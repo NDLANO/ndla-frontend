@@ -19,7 +19,7 @@ import {
 } from '@ndla/modal';
 import { useTranslation } from 'react-i18next';
 import FolderForm from './FolderForm';
-import { useAddFolderMutation } from '../folderMutations';
+import { useAddFolderMutation, useFolders } from '../folderMutations';
 import { GQLFolder } from '../../../graphqlTypes';
 
 const iconCss = css`
@@ -35,12 +35,14 @@ const AddButton = styled(ButtonV2)`
 
 interface Props {
   onSaved: (folder?: GQLFolder) => void;
-  parentId?: string;
+  parentFolder?: GQLFolder | null;
 }
 
-const CreateFolderModal = ({ onSaved, parentId }: Props) => {
+const CreateFolderModal = ({ onSaved, parentFolder }: Props) => {
   const { t } = useTranslation();
   const { addFolder, loading } = useAddFolderMutation();
+
+  const { folders } = useFolders();
 
   return (
     <ModalV2
@@ -55,17 +57,18 @@ const CreateFolderModal = ({ onSaved, parentId }: Props) => {
       {(close) => (
         <>
           <ModalHeaderV2>
-            <h1 id="createHeading">{t('myNdla.folder.create')}</h1>
+            <h1 id="createHeading">{t('myNdla.newFolder')}</h1>
             <ModalCloseButton onClick={close} />
           </ModalHeaderV2>
           <ModalBody>
             <FolderForm
+              siblings={parentFolder?.subfolders ?? folders ?? []}
               onSave={async (values) => {
                 const res = await addFolder({
                   variables: {
                     name: values.name,
                     description: values.description,
-                    parentId: parentId ?? undefined,
+                    parentId: parentFolder?.id ?? undefined,
                   },
                 });
                 close();

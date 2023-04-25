@@ -259,7 +259,7 @@ const FoldersPage = () => {
         {showAddButton && (
           <CreateFolderModal
             onSaved={onFolderAdded}
-            parentId={selectedFolder?.id}
+            parentFolder={selectedFolder}
           />
         )}
 
