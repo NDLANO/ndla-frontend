@@ -118,6 +118,7 @@ const DraggableFolder = ({
           index,
         }),
     };
+
     const deleteOpt: MenuItemProps = {
       icon: <DeleteForever />,
       text: t('myNdla.folder.delete'),
