@@ -53,7 +53,7 @@ const toFormValues = (folder: GQLFolder | undefined): FolderFormValues => {
   };
 };
 
-const descriptionMaxLength = 200;
+const descriptionMaxLength = 300;
 const nameMaxLength = 64;
 
 const FolderForm = ({
@@ -80,10 +80,16 @@ const FolderForm = ({
 
   useEffect(() => {
     if (!getValues().description) {
-      setValue('description', t('myNdla.sharedFolder.description.info1'), {
-        shouldDirty: true,
-        shouldTouch: true,
-      });
+      setValue(
+        'description',
+        `${t('myNdla.sharedFolder.description.info1')} ${t(
+          'myNdla.sharedFolder.description.info2',
+        )} ${t('myNdla.sharedFolder.description.info3')}`,
+        {
+          shouldDirty: true,
+          shouldTouch: true,
+        },
+      );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [t]);
