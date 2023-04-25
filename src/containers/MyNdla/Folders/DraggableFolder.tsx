@@ -15,7 +15,7 @@ import { Cross, Pencil } from '@ndla/icons/action';
 import { DeleteForever } from '@ndla/icons/editor';
 import { Folder } from '@ndla/ui';
 import { colors, spacing } from '@ndla/core';
-import { Link, Share } from '@ndla/icons/common';
+import { Share } from '@ndla/icons/common';
 import { MenuItemProps } from '@ndla/button';
 import { GQLFolder } from '../../../graphqlTypes';
 import { FolderTotalCount } from '../../../util/folderHelpers';
