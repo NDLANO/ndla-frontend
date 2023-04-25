@@ -11,7 +11,7 @@ import { ButtonV2, LoadingButton } from '@ndla/button';
 import { InputV2, TextAreaV2 } from '@ndla/forms';
 import { useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
+import { TFunction, useTranslation } from 'react-i18next';
 import { spacing } from '@ndla/core';
 import { GQLFolder } from '../../../graphqlTypes';
 import useValidationTranslation from '../../../util/useValidationTranslation';
@@ -46,10 +46,14 @@ export interface FolderFormValues {
   description?: string;
 }
 
-const toFormValues = (folder: GQLFolder | undefined): FolderFormValues => {
+const toFormValues = (
+  folder: GQLFolder | undefined,
+  t: TFunction,
+): FolderFormValues => {
   return {
     name: folder?.name ?? '',
-    description: folder?.description,
+    description:
+      folder?.description ?? t('myNdla.sharedFolder.description.info1'),
   };
 };
 
@@ -71,7 +75,7 @@ const FolderForm = ({
     handleSubmit,
     formState: { isValid, isDirty, errors },
   } = useForm({
-    defaultValues: toFormValues(folder),
+    defaultValues: toFormValues(folder, t),
     reValidateMode: 'onChange',
     mode: 'onChange',
   });
