@@ -41,9 +41,12 @@ const FolderMeta = ({ folder, title }: Props) => {
         title={t('htmlTitles.sharedFolderPage', { name: title })}
       />
       <h1>{folder.name}</h1>
-      {folder.description && (
-        <StyledDescription>{folder.description}</StyledDescription>
-      )}
+      <StyledDescription>
+        {folder.description ||
+          `${t('myNdla.sharedFolder.description.info1')}\n\n${t(
+            'myNdla.sharedFolder.description.info2',
+          )}\n\n${t('myNdla.sharedFolder.description.info3')}`}
+      </StyledDescription>
     </StyledOneColumn>
   );
 };
