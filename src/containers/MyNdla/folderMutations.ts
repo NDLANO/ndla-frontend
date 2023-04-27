@@ -531,11 +531,28 @@ export const useUpdateFolderStatusMutation = () => {
 };
 
 export const useUpdateFolderMutation = () => {
+  const { cache } = useApolloClient();
   const [updateFolder, { loading }] = useMutation<
     GQLUpdateFolderMutation,
     GQLMutationUpdateFolderArgs
-  >(updateFolderMutation);
-
+  >(updateFolderMutation, {
+    onCompleted(data, values) {
+      cache.modify({
+        id: cache.identify({
+          id: data.updateFolder.id,
+          __typename: 'SharedFolder',
+        }),
+        fields: {
+          name: () => {
+            return values!.variables!.name;
+          },
+          description: () => {
+            return values!.variables!.description;
+          },
+        },
+      });
+    },
+  });
   return { updateFolder, loading };
 };
 
