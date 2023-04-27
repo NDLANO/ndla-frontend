@@ -25,6 +25,10 @@ const StyledOneColumn = styled(OneColumn)`
   }
 `;
 
+const StyledDescription = styled.p`
+  white-space: pre-wrap;
+`;
+
 const FolderMeta = ({ folder, title }: Props) => {
   const { t } = useTranslation();
   if (!folder) {
@@ -37,7 +41,9 @@ const FolderMeta = ({ folder, title }: Props) => {
         title={t('htmlTitles.sharedFolderPage', { name: title })}
       />
       <h1>{folder.name}</h1>
-      {folder.description && <p>{folder.description}</p>}
+      {folder.description && (
+        <StyledDescription>{folder.description}</StyledDescription>
+      )}
     </StyledOneColumn>
   );
 };

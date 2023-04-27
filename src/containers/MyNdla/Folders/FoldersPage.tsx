@@ -102,6 +102,10 @@ const StyledRow = styled.div`
   align-items: flex-start;
 `;
 
+const StyledEm = styled.em`
+  white-space: pre-wrap;
+`;
+
 export type ViewType = 'list' | 'block' | 'listLarger';
 export type FolderActionType =
   | 'edit'
@@ -256,10 +260,10 @@ const FoldersPage = () => {
       />
       {selectedFolder && (
         <p>
-          <em>
+          <StyledEm>
             {selectedFolder.description ??
               t('myNdla.folder.defaultPageDescription')}
-          </em>
+          </StyledEm>
         </p>
       )}
       <StyledRow>
