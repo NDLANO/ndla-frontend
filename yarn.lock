@@ -2245,13 +2245,13 @@
   resolved "https://registry.yarnpkg.com/@n1ru4l/graphql-live-query/-/graphql-live-query-0.10.0.tgz#2306151630b0e74b017cc1067ebbea351acf56f8"
   integrity sha512-qZ7OHH/NB0NcG/Xa7irzgjE63UH0CkofZT0Bw4Ko6iRFagPRHBM8RgFXwTt/6JbFGIEUS4STRtaFoc/Eq/ZtzQ==
 
-"@ndla/article-converter@^1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@ndla/article-converter/-/article-converter-1.1.1.tgz#1efac6c76b4dfd42ffab4483b12785ed664c7f5a"
-  integrity sha512-78/g/uqGoIpM8MqZyzu94GRLaxEn1eQMS7uBpzZgQUexCm7zGwY0tl5hO8sVC3ElwPwvxEq5Nj4HwPajalHrzw==
+"@ndla/article-converter@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@ndla/article-converter/-/article-converter-1.1.2.tgz#5181c9841ca05a04aea0a749e7395253300e799a"
+  integrity sha512-qJAGORkuamNybkSirdn0Kdw5cO+5twNTcm007N0ibUhZBiMq3QGzBSLvdBaNiveMgmZ04erkaXWIbT3ls8qbtA==
   dependencies:
     "@ndla/code" "^2.1.41"
-    "@ndla/ui" "^35.1.1"
+    "@ndla/ui" "^35.1.2"
     html-react-parser "^3.0.8"
     lodash "^4.17.20"
 
@@ -2462,10 +2462,10 @@
   resolved "https://registry.yarnpkg.com/@ndla/types-learningpath-api/-/types-learningpath-api-0.0.21.tgz#2cba73d6150021f80548debb29d3ee0f6904dea8"
   integrity sha512-fF+pdD8DGXfl+m9whndZw3Bs7GnWALwSNbJ3vbHZMpEHfkNHEe81mXyVcV+t/cXRXVm44ag3ndFcKGap0zyMmw==
 
-"@ndla/ui@^35.1.1":
-  version "35.1.1"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-35.1.1.tgz#52adce1c9d633cb90b9f1df54b393fcf5147d86f"
-  integrity sha512-BUo/2tJkcHcv53L3dcrBPS02wTjTV0Tj6ToDPKuQLMiej4amjDZYLurE4dvRhvvLVRSJpxh4RuWwWVMqCrQYXA==
+"@ndla/ui@^35.1.2":
+  version "35.1.2"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-35.1.2.tgz#6122ece096e692a1864c034b278a9309ec2304d0"
+  integrity sha512-VVCzm3sLWdsH8DS73P73SUb3RtSU2iPsXzp67exFSAnRNN170iQKpcLu6M7zy4JjoWjjP0aUSdERKwLBNVvNUw==
   dependencies:
     "@ndla/article-scripts" "^3.0.17"
     "@ndla/button" "^10.0.13"
