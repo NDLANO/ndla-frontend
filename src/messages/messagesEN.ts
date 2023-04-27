@@ -59,12 +59,13 @@ const messages = {
   validation: {
     fields: {
       name: 'Name',
+      description: 'Description',
     },
     required: 'This field is required',
     requiredField: '$t(validation.fields.{{field}}) is required',
     notUnique: 'Already exists',
     maxLength: 'This field can only contain {{count}} characters',
-    maxLengthField: `$t(validation.fields.{{field}}) can only contain {{count}} characters)}`,
+    maxLengthField: `$t(validation.fields.{{field}}) can only contain {{count}} characters`,
   },
   resourcepageTitles: {
     video: 'Video',

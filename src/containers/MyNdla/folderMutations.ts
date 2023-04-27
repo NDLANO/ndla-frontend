@@ -65,6 +65,7 @@ export const folderFragment = gql`
     parentId
     created
     updated
+    description
     breadcrumbs {
       __typename
       id
@@ -86,6 +87,7 @@ export const sharedFolderFragment = gql`
     parentId
     created
     updated
+    description
     breadcrumbs {
       __typename
       id
@@ -194,8 +196,18 @@ const updateFolderResourceMutation = gql`
 `;
 
 const addFolderMutation = gql`
-  mutation addFolder($name: String!, $parentId: String, $status: String) {
-    addFolder(name: $name, parentId: $parentId, status: $status) {
+  mutation addFolder(
+    $name: String!
+    $parentId: String
+    $status: String
+    $description: String
+  ) {
+    addFolder(
+      name: $name
+      parentId: $parentId
+      status: $status
+      description: $description
+    ) {
       ...FoldersPageQueryFragment
     }
   }
@@ -203,8 +215,18 @@ const addFolderMutation = gql`
 `;
 
 const updateFolderMutation = gql`
-  mutation updateFolder($id: String!, $name: String, $status: String) {
-    updateFolder(id: $id, name: $name, status: $status) {
+  mutation updateFolder(
+    $id: String!
+    $name: String
+    $status: String
+    $description: String
+  ) {
+    updateFolder(
+      id: $id
+      name: $name
+      status: $status
+      description: $description
+    ) {
       ...FoldersPageQueryFragment
     }
   }
@@ -509,11 +531,28 @@ export const useUpdateFolderStatusMutation = () => {
 };
 
 export const useUpdateFolderMutation = () => {
+  const { cache } = useApolloClient();
   const [updateFolder, { loading }] = useMutation<
     GQLUpdateFolderMutation,
     GQLMutationUpdateFolderArgs
-  >(updateFolderMutation);
-
+  >(updateFolderMutation, {
+    onCompleted(data, values) {
+      cache.modify({
+        id: cache.identify({
+          id: data.updateFolder.id,
+          __typename: 'SharedFolder',
+        }),
+        fields: {
+          name: () => {
+            return values!.variables!.name;
+          },
+          description: () => {
+            return values!.variables!.description;
+          },
+        },
+      });
+    },
+  });
   return { updateFolder, loading };
 };
 

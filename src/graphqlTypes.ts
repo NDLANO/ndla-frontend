@@ -307,6 +307,12 @@ export type GQLConceptResult = {
   totalCount: Scalars['Int'];
 };
 
+export type GQLConfigMetaRestricted = {
+  __typename?: 'ConfigMetaRestricted';
+  key: Scalars['String'];
+  value: Scalars['String'];
+};
+
 export type GQLContributor = {
   __typename?: 'Contributor';
   name: Scalars['String'];
@@ -390,6 +396,7 @@ export type GQLFolder = {
   __typename?: 'Folder';
   breadcrumbs: Array<GQLBreadcrumb>;
   created: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
   id: Scalars['String'];
   name: Scalars['String'];
   parentId?: Maybe<Scalars['String']>;
@@ -770,6 +777,7 @@ export type GQLMutation = {
 };
 
 export type GQLMutationAddFolderArgs = {
+  description?: InputMaybe<Scalars['String']>;
   name: Scalars['String'];
   parentId?: InputMaybe<Scalars['String']>;
   status?: InputMaybe<Scalars['String']>;
@@ -812,6 +820,7 @@ export type GQLMutationTransformArticleContentArgs = {
 };
 
 export type GQLMutationUpdateFolderArgs = {
+  description?: InputMaybe<Scalars['String']>;
   id: Scalars['String'];
   name?: InputMaybe<Scalars['String']>;
   status?: InputMaybe<Scalars['String']>;
@@ -933,6 +942,7 @@ export type GQLQuery = {
   conceptSearch?: Maybe<GQLConceptResult>;
   coreElement?: Maybe<GQLCoreElement>;
   coreElements?: Maybe<Array<GQLCoreElement>>;
+  examLockStatus: GQLConfigMetaRestricted;
   filmfrontpage?: Maybe<GQLFilmFrontpage>;
   folder: GQLFolder;
   folderResourceMeta?: Maybe<GQLFolderResourceMeta>;
@@ -1280,6 +1290,7 @@ export type GQLSharedFolder = {
   __typename?: 'SharedFolder';
   breadcrumbs: Array<GQLBreadcrumb>;
   created: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
   id: Scalars['String'];
   name: Scalars['String'];
   parentId?: Maybe<Scalars['String']>;
@@ -2463,6 +2474,7 @@ export type GQLFolderFragmentFragment = {
   parentId?: string;
   created: string;
   updated: string;
+  description?: string;
   breadcrumbs: Array<{ __typename: 'Breadcrumb'; id: string; name: string }>;
   resources: Array<
     { __typename?: 'FolderResource' } & GQLFolderResourceFragmentFragment
@@ -2477,6 +2489,7 @@ export type GQLSharedFolderFragmentFragment = {
   parentId?: string;
   created: string;
   updated: string;
+  description?: string;
   breadcrumbs: Array<{ __typename: 'Breadcrumb'; id: string; name: string }>;
   resources: Array<
     { __typename?: 'FolderResource' } & GQLFolderResourceFragmentFragment
@@ -2615,6 +2628,7 @@ export type GQLAddFolderMutationVariables = Exact<{
   name: Scalars['String'];
   parentId?: InputMaybe<Scalars['String']>;
   status?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
 }>;
 
 export type GQLAddFolderMutation = {
@@ -2626,6 +2640,7 @@ export type GQLUpdateFolderMutationVariables = Exact<{
   id: Scalars['String'];
   name?: InputMaybe<Scalars['String']>;
   status?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
 }>;
 
 export type GQLUpdateFolderMutation = {
