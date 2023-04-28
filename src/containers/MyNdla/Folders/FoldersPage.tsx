@@ -231,8 +231,7 @@ const FoldersPage = () => {
 
   const showAddButton =
     (selectedFolder?.breadcrumbs.length || 0) < 5 && !examLock;
-  const showShareFolder =
-    folderId !== null && config.sharingEnabled && !isStudent(user);
+  const showShareFolder = folderId !== null && !isStudent(user);
 
   return (
     <FoldersPageContainer>
@@ -258,7 +257,7 @@ const FoldersPage = () => {
         folderData={folderData}
         loading={loading}
       />
-      {selectedFolder && (
+      {selectedFolder && config.folderDescriptionEnabled && (
         <p>
           <StyledEm>
             {selectedFolder.description ??
