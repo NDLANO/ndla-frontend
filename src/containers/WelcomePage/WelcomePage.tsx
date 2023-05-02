@@ -121,12 +121,12 @@ const WelcomePage = () => {
               link="https://blogg.ndla.no/eksamenstips/?utm_source=NDLA&utm_medium=Annonse&utm_campaign=Eksamen"
               title={{
                 title:
-                  'Skal du ha eksamen? Vi hjelper deg med eksamensforberedelsene!',
+                  'Skal du ha eksamen?',
                 lang: 'nb',
               }}
               content={{
                 content:
-                  'Sjekk våre tips og ressurser som kan ta deg litt nærmere hvilepuls på eksamensdagen. Visste du at NDLA er et av få åpne nettsteder du har lov til å bruke som hjelpemiddel under eksamen?',
+                  'Vi hjelper deg med eksamensforberedelsene! Sjekk våre tips og ressurser som kan ta deg litt nærmere hvilepuls på eksamensdagen. Visste du at NDLA er et av få åpne nettsteder du har lov til å bruke som hjelpemiddel under eksamen?',
                 lang: 'nb',
               }}
               linkText={{
