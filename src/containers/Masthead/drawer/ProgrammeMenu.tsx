@@ -59,7 +59,9 @@ const ProgrammeMenu = ({ onClose, onCloseMenuPortion }: Props) => {
         homeButton
         onGoBack={onCloseMenuPortion}
       />
-      <StyledTitle aria-hidden={true}>Utdanningsprogram</StyledTitle>
+      <StyledTitle aria-hidden={true}>
+        {t('masthead.menuOptions.programme')}
+      </StyledTitle>
       <DrawerList id="programme-menu">
         {programmes.map((programme) => (
           <DrawerMenuItem

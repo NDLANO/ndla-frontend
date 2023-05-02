@@ -12,6 +12,7 @@ import { OneColumn } from '@ndla/ui';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { useTranslation } from 'react-i18next';
 import { GQLFolder } from '../../../graphqlTypes';
+import config from '../../../config';
 import ErrorPage from '../../ErrorPage';
 
 interface Props {
@@ -42,7 +43,10 @@ const FolderMeta = ({ folder, title }: Props) => {
       />
       <h1>{folder.name}</h1>
       <StyledDescription>
-        {folder.description || t('myNdla.sharedFolder.description.all')}
+        {(config.folderDescriptionEnabled && folder.description) ||
+          `${t('myNdla.sharedFolder.description.info1')}\n\n${t(
+            'myNdla.sharedFolder.description.info2',
+          )}\n\n${t('myNdla.sharedFolder.description.info3')}`}
       </StyledDescription>
     </StyledOneColumn>
   );
