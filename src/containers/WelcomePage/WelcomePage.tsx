@@ -120,8 +120,7 @@ const WelcomePage = () => {
             <BannerCard
               link="https://blogg.ndla.no/eksamenstips/?utm_source=NDLA&utm_medium=Annonse&utm_campaign=Eksamen"
               title={{
-                title:
-                  'Skal du ha eksamen?',
+                title: 'Skal du ha eksamen?',
                 lang: 'nb',
               }}
               content={{
