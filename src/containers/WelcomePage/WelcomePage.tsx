@@ -26,7 +26,6 @@ import FrontpageSubjects from './FrontpageSubjects';
 import {
   FILM_PAGE_PATH,
   SKIP_TO_CONTENT_ID,
-  UKR_PAGE_PATH,
   MULTIDISCIPLINARY_SUBJECT_ID,
   TOOLBOX_STUDENT_SUBJECT_ID,
   TOOLBOX_TEACHER_SUBJECT_ID,
@@ -119,22 +118,23 @@ const WelcomePage = () => {
         <OneColumn extraPadding>
           <BannerCardWrapper>
             <BannerCard
-              link={UKR_PAGE_PATH}
+              link="https://blogg.ndla.no/eksamenstips/?utm_source=NDLA&utm_medium=Annonse&utm_campaign=Eksamen"
               title={{
-                title: 'Lær om det norske samfunnet - på ukrainsk',
+                title: 'Skal du ha eksamen på vgs?',
                 lang: 'nb',
               }}
               content={{
-                content: 'Дізнайтеся про норвезьке суспільство – українською',
-                lang: 'uk',
+                content:
+                  'Her har vi samlet tips og ressurser som kan ta deg litt nærmere hvilepuls på eksamensdagen.',
+                lang: 'nb',
               }}
               linkText={{
-                text: 'Learn about Norwegian society - in Ukrainian',
-                lang: 'en',
+                text: 'Les alle våre eksamenstips',
+                lang: 'nb',
               }}
               image={{
                 altText: '',
-                imageSrc: '/static/flag_of_ukraine.svg',
+                imageSrc: 'https://api.test.ndla.no/image-api/raw/B69vEkQV.jpg',
               }}
             />
           </BannerCardWrapper>
