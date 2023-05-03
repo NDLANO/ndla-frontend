@@ -37,7 +37,6 @@ import { MastheadHeightPx } from '../../constants';
 import { useGraphQuery } from '../../util/runQueries';
 import AddResourceToFolderModal from '../MyNdla/AddResourceToFolderModal';
 import FavoriteButton from './FavoritesButton';
-import { useDisableConverter } from '../ArticleConverterContext';
 
 interface CompetenceGoalModalProps {
   Dialog: ComponentType;
@@ -204,7 +203,6 @@ const Article = ({
   ...rest
 }: Props) => {
   const { t, i18n } = useTranslation();
-  const disableConverter = useDisableConverter();
   const [isOpen, setIsOpen] = useState(false);
   const [competenceGoalsLoading, setCompetenceGoalsLoading] = useState(true);
   const markdown = useMemo(() => {
@@ -301,9 +299,14 @@ const Article = ({
         article={art}
         icon={icon}
         locale={i18n.language}
-        licenseBox={<LicenseBox article={article} copyText={copyText} />}
+        licenseBox={
+          <LicenseBox
+            article={article}
+            copyText={copyText}
+            printUrl={printUrl}
+          />
+        }
         messages={messages}
-        copyText={!disableConverter ? article.metaData?.copyText : copyText}
         competenceGoalsLoading={competenceGoalsLoading}
         competenceGoals={renderCompetenceGoals(
           article,
@@ -322,7 +325,6 @@ const Article = ({
         }
         renderMarkdown={renderMarkdown}
         modifier={isResourceArticle ? resourceType : modifier ?? 'clean'}
-        printUrl={printUrl}
         heartButton={
           path && <FavoriteButton path={path} onClick={() => setIsOpen(true)} />
         }
