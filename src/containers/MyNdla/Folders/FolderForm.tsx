@@ -81,16 +81,10 @@ const FolderForm = ({
 
   useEffect(() => {
     if (!getValues().description) {
-      setValue(
-        'description',
-        `${t('myNdla.sharedFolder.description.info1')}\n\n${t(
-          'myNdla.sharedFolder.description.info2',
-        )}\n\n${t('myNdla.sharedFolder.description.info3')}`,
-        {
-          shouldDirty: true,
-          shouldTouch: true,
-        },
-      );
+      setValue('description', t('myNdla.sharedFolder.description.all'), {
+        shouldDirty: true,
+        shouldTouch: true,
+      });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [t]);
