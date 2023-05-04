@@ -15,6 +15,7 @@ import {
   ContentPlaceholder,
   OneColumn,
   constants,
+  getMastheadHeight,
 } from '@ndla/ui';
 import { TFunction } from 'i18next';
 import sortBy from 'lodash/sortBy';
@@ -24,7 +25,7 @@ import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../components/AuthenticationContext';
 import TabFilter from '../../components/TabFilter';
-import { SKIP_TO_CONTENT_ID } from '../../constants';
+import { MastheadHeightPx, SKIP_TO_CONTENT_ID } from '../../constants';
 import IsMobileContext from '../../IsMobileContext';
 
 import { useSubjects } from '../MyNdla/subjectQueries';
@@ -101,6 +102,24 @@ const AllSubjectsPage = () => {
   const isMobile = useContext(IsMobileContext);
   const location = useLocation();
   const { authenticated } = useContext(AuthContext);
+
+  useEffect(() => {
+    if (window.location && window.location.hash) {
+      setTimeout(() => {
+        const element = document.getElementById(window.location.hash.slice(1));
+        const elementTop = element?.getBoundingClientRect().top ?? 0;
+        const bodyTop = document.body.getBoundingClientRect().top ?? 0;
+        const absoluteTop = elementTop - bodyTop;
+        const scrollPosition =
+          absoluteTop - (getMastheadHeight() || MastheadHeightPx) - 20;
+
+        window.scrollTo({
+          top: scrollPosition,
+          behavior: 'smooth',
+        });
+      }, 400);
+    }
+  }, []);
 
   const { error, loading, subjects } = useSubjects();
   const { personalData, fetch: fetchPersonalData } = usePersonalData();
