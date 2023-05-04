@@ -73,6 +73,7 @@ const Document = ({ helmet, assets, data, styles }: Props) => {
           dangerouslySetInnerHTML={{
             __html: `
             window.dataLayer = window.dataLayer || [];
+            window._mtm = window._mtm || [];
             window.originalLocation = { originalLocation: document.location.protocol + '//' + document.location.hostname + document.location.pathname + document.location.search };
             window.dataLayer.push(window.originalLocation);`,
           }}

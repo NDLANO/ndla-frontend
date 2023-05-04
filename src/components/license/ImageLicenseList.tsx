@@ -42,7 +42,7 @@ export const downloadUrl = (imageSrc: string) => {
 
 interface ImageLicenseInfoProps {
   image: GQLImageLicenseList_ImageLicenseFragment;
-  articleId?: string;
+  articleId?: number;
 }
 
 const ImageLicenseInfo = ({ image, articleId }: ImageLicenseInfoProps) => {
@@ -126,9 +126,10 @@ const ImageLicenseInfo = ({ image, articleId }: ImageLicenseInfoProps) => {
 
 interface Props {
   images: GQLImageLicenseList_ImageLicenseFragment[];
+  articleId?: number;
 }
 
-const ImageLicenseList = ({ images }: Props) => {
+const ImageLicenseList = ({ images, articleId }: Props) => {
   const { t } = useTranslation();
   return (
     <div>
@@ -136,7 +137,7 @@ const ImageLicenseList = ({ images }: Props) => {
       <p>{t('license.images.description')}</p>
       <MediaList>
         {images.map((image) => (
-          <ImageLicenseInfo image={image} key={uuid()} />
+          <ImageLicenseInfo image={image} articleId={articleId} key={uuid()} />
         ))}
       </MediaList>
     </div>

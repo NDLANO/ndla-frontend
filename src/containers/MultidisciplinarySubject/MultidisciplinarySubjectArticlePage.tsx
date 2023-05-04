@@ -25,7 +25,6 @@ import { htmlTitle } from '../../util/titleHelper';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { AuthContext } from '../../components/AuthenticationContext';
 import { SKIP_TO_CONTENT_ID } from '../../constants';
-import { useDisableConverter } from '../../components/ArticleConverterContext';
 
 const multidisciplinarySubjectArticlePageQuery = gql`
   query multidisciplinarySubjectArticlePage(
@@ -60,7 +59,6 @@ const MultidisciplinarySubjectArticlePage = () => {
   const { t } = useTranslation();
   const { user } = useContext(AuthContext);
   const { topicId, subjectId } = useUrnIds();
-  const disableConverter = useDisableConverter();
 
   const { data, loading } = useGraphQuery<
     GQLMultidisciplinarySubjectArticlePageQuery,
@@ -69,7 +67,7 @@ const MultidisciplinarySubjectArticlePage = () => {
     variables: {
       topicId: topicId!,
       subjectId: subjectId!,
-      convertEmbeds: disableConverter,
+      convertEmbeds: true,
     },
   });
 

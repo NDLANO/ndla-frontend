@@ -37,13 +37,13 @@ const messages = {
   sharedFolder: 'Delt mappe',
   blogPosts: {
     blog1: {
-      imageUrl: '/static/nye-fag.jpg',
-      text: 'Forslag til årsplaner fra NDLA',
+      imageUrl: '/static/samiske-laeremidler.jpg',
+      text: 'Utvikler samiske ressurser på NDLA',
       externalLink:
-        'https://blogg.ndla.no/2021/08/forslag-til-arsplaner-hos-ndla/',
+        'https://blogg.ndla.no/2023/02/utvikler-samiske-ressurser-pa-ndla/',
       linkText: 'Fagblogg',
       license: 'CC-BY-SA-4.0',
-      licenseAuthor: 'Vibeke Klungland',
+      licenseAuthor: 'Jan Frode Lindsø',
     },
     blog2: {
       imageUrl: '/static/aktiviser-elevene.jpg',
@@ -54,6 +54,24 @@ const messages = {
       license: 'CC-BY-SA-4.0',
       licenseAuthor: 'Tom Knudsen',
     },
+  },
+  validation: {
+    fields: {
+      name: 'Namn',
+      description: 'Beskrivelse',
+    },
+    required: 'Dette feltet er påkrevd',
+    requiredField: '$t(validation.fields.{{field}}) er påkrevd',
+    notUnique: 'Finnes allereie',
+    maxLength: 'Dette feltet kan maks innehalde {{count}} teikn',
+    maxLengthField:
+      '$t(validation.fields.{{field}}) kan maks innehalde {{count}} teikn',
+  },
+  resourcepageTitles: {
+    video: 'Video',
+    image: 'Bilde',
+    concept: 'Forklaring',
+    audio: 'Audio',
   },
 };
 

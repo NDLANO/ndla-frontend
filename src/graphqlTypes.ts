@@ -396,6 +396,7 @@ export type GQLFolder = {
   __typename?: 'Folder';
   breadcrumbs: Array<GQLBreadcrumb>;
   created: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
   id: Scalars['String'];
   name: Scalars['String'];
   parentId?: Maybe<Scalars['String']>;
@@ -776,6 +777,7 @@ export type GQLMutation = {
 };
 
 export type GQLMutationAddFolderArgs = {
+  description?: InputMaybe<Scalars['String']>;
   name: Scalars['String'];
   parentId?: InputMaybe<Scalars['String']>;
   status?: InputMaybe<Scalars['String']>;
@@ -818,6 +820,7 @@ export type GQLMutationTransformArticleContentArgs = {
 };
 
 export type GQLMutationUpdateFolderArgs = {
+  description?: InputMaybe<Scalars['String']>;
   id: Scalars['String'];
   name?: InputMaybe<Scalars['String']>;
   status?: InputMaybe<Scalars['String']>;
@@ -1287,6 +1290,7 @@ export type GQLSharedFolder = {
   __typename?: 'SharedFolder';
   breadcrumbs: Array<GQLBreadcrumb>;
   created: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
   id: Scalars['String'];
   name: Scalars['String'];
   parentId?: Maybe<Scalars['String']>;
@@ -1747,6 +1751,7 @@ export type GQLLearningpathEmbed_LearningpathStepFragment = {
   resource?: {
     __typename?: 'Resource';
     id: string;
+    path: string;
     article?: { __typename?: 'Article' } & GQLLearningpathEmbed_ArticleFragment;
   };
   embedUrl?: {
@@ -1775,6 +1780,7 @@ export type GQLLearningpathStepQuery = {
   resource?: {
     __typename?: 'Resource';
     id: string;
+    path: string;
     resourceTypes?: Array<{
       __typename?: 'ResourceType';
       id: string;
@@ -2479,6 +2485,7 @@ export type GQLFolderFragmentFragment = {
   parentId?: string;
   created: string;
   updated: string;
+  description?: string;
   breadcrumbs: Array<{ __typename: 'Breadcrumb'; id: string; name: string }>;
   resources: Array<
     { __typename?: 'FolderResource' } & GQLFolderResourceFragmentFragment
@@ -2493,6 +2500,7 @@ export type GQLSharedFolderFragmentFragment = {
   parentId?: string;
   created: string;
   updated: string;
+  description?: string;
   breadcrumbs: Array<{ __typename: 'Breadcrumb'; id: string; name: string }>;
   resources: Array<
     { __typename?: 'FolderResource' } & GQLFolderResourceFragmentFragment
@@ -2631,6 +2639,7 @@ export type GQLAddFolderMutationVariables = Exact<{
   name: Scalars['String'];
   parentId?: InputMaybe<Scalars['String']>;
   status?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
 }>;
 
 export type GQLAddFolderMutation = {
@@ -2642,6 +2651,7 @@ export type GQLUpdateFolderMutationVariables = Exact<{
   id: Scalars['String'];
   name?: InputMaybe<Scalars['String']>;
   status?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
 }>;
 
 export type GQLUpdateFolderMutation = {

@@ -15,14 +15,13 @@ import { Cross, Pencil } from '@ndla/icons/action';
 import { DeleteForever } from '@ndla/icons/editor';
 import { Folder } from '@ndla/ui';
 import { colors, spacing } from '@ndla/core';
-import { Link, Share } from '@ndla/icons/common';
+import { Share } from '@ndla/icons/common';
 import { MenuItemProps } from '@ndla/button';
 import { GQLFolder } from '../../../graphqlTypes';
 import { FolderTotalCount } from '../../../util/folderHelpers';
 import { FolderAction, ViewType } from './FoldersPage';
 import DragHandle from './DragHandle';
 import { AuthContext } from '../../../components/AuthenticationContext';
-import config from '../../../config';
 import { isStudent } from './util';
 
 interface Props {
@@ -86,8 +85,8 @@ const DraggableFolder = ({
     };
 
     const shareLink: MenuItemProps = {
-      icon: <Link />,
-      text: t('myNdla.folder.sharing.button.preview'),
+      icon: <Share />,
+      text: t('myNdla.folder.sharing.button.share'),
       onClick: () => {
         setFolderAction({
           action: 'shared',
@@ -118,6 +117,7 @@ const DraggableFolder = ({
           index,
         }),
     };
+
     const deleteOpt: MenuItemProps = {
       icon: <DeleteForever />,
       text: t('myNdla.folder.delete'),
@@ -130,7 +130,7 @@ const DraggableFolder = ({
       type: 'danger',
     };
 
-    if (!config.sharingEnabled || isStudent(user)) {
+    if (isStudent(user)) {
       return [editFolder, deleteOpt];
     }
     const sharedOptions =

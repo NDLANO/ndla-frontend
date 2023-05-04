@@ -12,6 +12,7 @@ import { OneColumn } from '@ndla/ui';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { useTranslation } from 'react-i18next';
 import { GQLFolder } from '../../../graphqlTypes';
+import config from '../../../config';
 import ErrorPage from '../../ErrorPage';
 
 interface Props {
@@ -23,6 +24,10 @@ const StyledOneColumn = styled(OneColumn)`
   ${mq.range({ from: breakpoints.tablet })} {
     padding-bottom: 200px;
   }
+`;
+
+const StyledDescription = styled.p`
+  white-space: pre-wrap;
 `;
 
 const FolderMeta = ({ folder, title }: Props) => {
@@ -37,9 +42,10 @@ const FolderMeta = ({ folder, title }: Props) => {
         title={t('htmlTitles.sharedFolderPage', { name: title })}
       />
       <h1>{folder.name}</h1>
-      <p>{t('myNdla.sharedFolder.description.info1')}</p>
-      <p>{t('myNdla.sharedFolder.description.info2')}</p>
-      <p>{t('myNdla.sharedFolder.description.info3')}</p>
+      <StyledDescription>
+        {(config.folderDescriptionEnabled && folder.description) ||
+          t('myNdla.sharedFolder.description.all')}
+      </StyledDescription>
     </StyledOneColumn>
   );
 };

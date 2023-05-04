@@ -8,49 +8,41 @@
 
 import { ModalBody, ModalCloseButton, ModalHeader, ModalV2 } from '@ndla/modal';
 import { useTranslation } from 'react-i18next';
-import { useForm } from 'react-hook-form';
+import { useMemo } from 'react';
 import { useApolloClient } from '@apollo/client';
-import styled from '@emotion/styled';
-import { LoadingButton, ButtonV2 } from '@ndla/button';
-import { spacing } from '@ndla/core';
-import { InputV2 } from '@ndla/forms';
 import { GQLFolder } from '../../../graphqlTypes';
-import { getFolder, useFolders } from '../folderMutations';
-import useValidationTranslation from '../../../util/useValidationTranslation';
+import FolderForm from './FolderForm';
+import {
+  getFolder,
+  useFolders,
+  useUpdateFolderMutation,
+} from '../folderMutations';
 
 interface Props {
   folder?: GQLFolder;
   isOpen: boolean;
   onClose: () => void;
-  onSave: (value: string, folder: GQLFolder) => Promise<void>;
-  loading?: boolean;
+  onSaved: () => void;
 }
 
-const ButtonRow = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  gap: ${spacing.small};
-  margin-top: ${spacing.large};
-`;
-
-interface FormValues {
-  name: string;
-}
-
-const toFormValues = (folder: GQLFolder): FormValues => {
-  return {
-    name: folder.name,
-  };
-};
-
-const EditFolderModal = ({
-  folder,
-  isOpen,
-  onClose,
-  onSave,
-  loading,
-}: Props) => {
+const EditFolderModal = ({ folder, isOpen, onClose, onSaved }: Props) => {
   const { t } = useTranslation();
+
+  const { updateFolder, loading } = useUpdateFolderMutation();
+
+  const { cache } = useApolloClient();
+
+  const { folders } = useFolders();
+
+  const levelFolders = useMemo(
+    () =>
+      folder?.parentId
+        ? getFolder(cache, folder.parentId)?.subfolders ?? []
+        : folders,
+    [cache, folder?.parentId, folders],
+  );
+
+  const siblings = levelFolders.filter((f) => f.id !== folder?.id);
 
   return (
     <ModalV2
@@ -70,9 +62,20 @@ const EditFolderModal = ({
           </ModalHeader>
           <ModalBody>
             {folder && (
-              <EditFolderForm
+              <FolderForm
                 folder={folder}
-                onSave={onSave}
+                siblings={siblings}
+                onSave={async (values) => {
+                  await updateFolder({
+                    variables: {
+                      id: folder.id,
+                      name: values.name,
+                      description: values.description,
+                    },
+                  });
+                  onSaved();
+                  onCloseModal();
+                }}
                 onClose={onClose}
                 loading={loading}
               />
@@ -81,86 +84,6 @@ const EditFolderModal = ({
         </>
       )}
     </ModalV2>
-  );
-};
-
-interface EditFolderFormProps {
-  folder: GQLFolder;
-  onSave: (name: string, folder: GQLFolder) => Promise<void>;
-  onClose: () => void;
-  loading?: boolean;
-}
-
-const EditFolderForm = ({
-  folder,
-  onSave,
-  onClose,
-  loading,
-}: EditFolderFormProps) => {
-  const { t } = useTranslation();
-  const { t: validationT } = useValidationTranslation();
-  const {
-    register,
-    handleSubmit,
-    formState: { isValid, isDirty, errors },
-  } = useForm({
-    defaultValues: toFormValues(folder),
-    reValidateMode: 'onChange',
-    mode: 'onChange',
-  });
-
-  const { cache } = useApolloClient();
-
-  const { folders } = useFolders();
-
-  const levelFolders = folder.parentId
-    ? getFolder(cache, folder.parentId)?.subfolders ?? []
-    : folders;
-
-  const siblings = levelFolders.filter((f) => f.id !== folder.id);
-
-  const onSubmit = (values: FormValues) => onSave(values.name, folder);
-  return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <InputV2
-        label="Navn"
-        {...register('name', {
-          required: validationT({ type: 'required', field: 'name' }),
-          maxLength: {
-            value: 64,
-            message: validationT({
-              type: 'maxLength',
-              field: 'name',
-              vars: { count: 64 },
-            }),
-          },
-          validate: (name) => {
-            const exists = siblings.every(
-              (f) => f.name.toLowerCase() !== name.toLowerCase(),
-            );
-            if (!exists) {
-              return validationT('validation.notUnique');
-            }
-            return true;
-          },
-        })}
-        error={errors.name?.message}
-        id="name"
-        required
-      />
-      <ButtonRow>
-        <ButtonV2 variant="outline" onClick={onClose}>
-          {t('cancel')}
-        </ButtonV2>
-        <LoadingButton
-          loading={loading}
-          type="submit"
-          disabled={!isValid || !isDirty || loading}
-        >
-          {t('save')}
-        </LoadingButton>
-      </ButtonRow>
-    </form>
   );
 };
 

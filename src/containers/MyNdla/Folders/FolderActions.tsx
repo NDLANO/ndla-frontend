@@ -8,14 +8,13 @@
 
 import { MenuItemProps } from '@ndla/button';
 import { Cross, Pencil } from '@ndla/icons/action';
-import { DeleteForever, Link } from '@ndla/icons/editor';
-import { Share } from '@ndla/icons/lib/common';
+import { DeleteForever } from '@ndla/icons/editor';
+import { Share } from '@ndla/icons/common';
 import { FolderMenu } from '@ndla/ui';
 import { useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { GQLFolder } from '../../../graphqlTypes';
 import { FolderActionType, ViewType } from './FoldersPage';
-import config from '../../../config';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import { isStudent } from './util';
 
@@ -42,8 +41,8 @@ const FolderActions = ({
     };
 
     const shareLink: MenuItemProps = {
-      icon: <Link />,
-      text: t('myNdla.folder.sharing.button.preview'),
+      icon: <Share />,
+      text: t('myNdla.folder.sharing.button.share'),
       onClick: () => onActionChanged('shared'),
     };
 
@@ -65,7 +64,7 @@ const FolderActions = ({
       onClick: () => onActionChanged('delete'),
     };
 
-    if (!config.sharingEnabled || isStudent(user)) {
+    if (isStudent(user)) {
       return [editFolder, deleteOpt];
     }
 

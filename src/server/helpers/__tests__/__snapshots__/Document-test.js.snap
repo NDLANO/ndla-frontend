@@ -40,6 +40,7 @@ exports[`Document renderers correctly 1`] = `
     <script>
       
             window.dataLayer = window.dataLayer || [];
+            window._mtm = window._mtm || [];
             window.originalLocation = { originalLocation: document.location.protocol + '//' + document.location.hostname + document.location.pathname + document.location.search };
             window.dataLayer.push(window.originalLocation);
     </script>

@@ -38,13 +38,13 @@ const messages = {
   sharedFolder: 'Shared folder',
   blogPosts: {
     blog1: {
-      imageUrl: '/static/nye-fag.jpg',
-      text: 'Forslag til årsplaner fra NDLA',
+      imageUrl: '/static/samiske-laeremidler.jpg',
+      text: 'Utvikler samiske ressurser på NDLA',
       externalLink:
-        'https://blogg.ndla.no/2021/08/forslag-til-arsplaner-hos-ndla/',
+        'https://blogg.ndla.no/2023/02/utvikler-samiske-ressurser-pa-ndla/',
       linkText: 'Fagblogg',
       license: 'CC-BY-SA-4.0',
-      licenseAuthor: 'Vibeke Klungland',
+      licenseAuthor: 'Jan Frode Lindsø',
     },
     blog2: {
       imageUrl: '/static/aktiviser-elevene.jpg',
@@ -59,12 +59,13 @@ const messages = {
   validation: {
     fields: {
       name: 'Name',
+      description: 'Description',
     },
     required: 'This field is required',
     requiredField: '$t(validation.fields.{{field}}) is required',
     notUnique: 'Already exists',
     maxLength: 'This field can only contain {{count}} characters',
-    maxLengthField: `$t(validation.fields.{{field}}) can only contain {{count}} characters)}`,
+    maxLengthField: `$t(validation.fields.{{field}}) can only contain {{count}} characters`,
   },
   resourcepageTitles: {
     video: 'Video',

@@ -332,6 +332,7 @@ type FilmPageAbout {
 type Folder {
   breadcrumbs: [Breadcrumb!]!
   created: String!
+  description: String
   id: String!
   name: String!
   parentId: String
@@ -660,7 +661,12 @@ type MovieTheme {
 }
 
 type Mutation {
-  addFolder(name: String!, parentId: String, status: String): Folder!
+  addFolder(
+    description: String
+    name: String!
+    parentId: String
+    status: String
+  ): Folder!
   addFolderResource(
     folderId: String!
     path: String!
@@ -681,7 +687,12 @@ type Mutation {
     subject: String
     visualElement: String
   ): String!
-  updateFolder(id: String!, name: String, status: String): Folder!
+  updateFolder(
+    description: String
+    id: String!
+    name: String
+    status: String
+  ): Folder!
   updateFolderResource(id: String!, tags: [String!]): FolderResource!
   updateFolderStatus(folderId: String!, status: String!): [String!]!
   updatePersonalData(favoriteSubjects: [String!]!): MyNdlaPersonalData!
@@ -990,6 +1001,7 @@ type SearchWithoutPagination {
 type SharedFolder {
   breadcrumbs: [Breadcrumb!]!
   created: String!
+  description: String
   id: String!
   name: String!
   parentId: String

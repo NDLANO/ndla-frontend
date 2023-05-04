@@ -67,6 +67,9 @@ const constructTopicPath = (
 ): TopicWithSubTopics[] => {
   if (!topicList.length || !topics.length) return [];
   const topic = topics.find((t) => t.id === topicList[0])!;
+  if (!topic) {
+    return [];
+  }
   return [topic].concat(
     constructTopicPath(topic.subtopics, topicList.slice(1)),
   );
