@@ -68,11 +68,7 @@ const AuthenticationContext = ({ children }: Props) => {
     if (isValid) {
       fetchFeideUserWithGroups().then((user) => {
         if (user?.eduPersonPrimaryAffiliation === 'student') {
-          if (error) console.error('Could not fetch exam lock status:', error);
-
-          if (examLockStatus?.value) {
-            setExamLock(true);
-          }
+          setExamLock(examLockStatus?.value === "true");
         }
         setUser(user);
       });
