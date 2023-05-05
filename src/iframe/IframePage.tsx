@@ -22,6 +22,7 @@ import {
 } from '../graphqlTypes';
 import { useDisableConverter } from '../components/ArticleConverterContext';
 import RedirectContext from '../components/RedirectContext';
+import NotFound from '../containers/NotFoundPage/NotFoundPage';
 
 if (process.env.NODE_ENV !== 'production') {
   // Can't require in production because of multiple asses emit to the same filename..
@@ -134,7 +135,7 @@ export const IframePage = ({
   const { article, resource, topic } = data ?? {};
   // Only care if article can be rendered
   if (!article) {
-    return <Error />;
+    return <NotFound />;
   }
 
   if (isTopicArticle) {
