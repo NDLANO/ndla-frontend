@@ -26,6 +26,7 @@ import { AuthContext } from '../../components/AuthenticationContext';
 import { TypedParams, useTypedParams } from '../../routeHelpers';
 import { SKIP_TO_CONTENT_ID } from '../../constants';
 import { useDisableConverter } from '../../components/ArticleConverterContext';
+import RedirectContext from '../../components/RedirectContext';
 
 interface MatchParams extends TypedParams {
   articleId: string;
@@ -57,6 +58,7 @@ const PlainArticlePage = () => {
   const { articleId } = useTypedParams<MatchParams>();
   const disableConverter = useDisableConverter();
   const { pathname } = useLocation();
+  const redirectContext = useContext(RedirectContext);
   const { loading, data, error } = useGraphQuery<
     GQLPlainArticlePageQuery,
     GQLPlainArticlePageQueryVariables
@@ -72,6 +74,12 @@ const PlainArticlePage = () => {
 
   if (loading) {
     return <ContentPlaceholder />;
+  }
+  if (
+    error?.graphQLErrors.some((err) => err.extensions.status === 410) &&
+    redirectContext
+  ) {
+    redirectContext.status = 410;
   }
 
   if (error) {
