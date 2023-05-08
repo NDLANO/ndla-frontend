@@ -8,6 +8,7 @@
 
 import { gql } from '@apollo/client';
 import { useLocation } from 'react-router-dom';
+import { useContext } from 'react';
 import { OneColumn, ErrorMessage } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
 import { useGraphQuery } from '../util/runQueries';
@@ -20,6 +21,8 @@ import {
   GQLIframePageQueryVariables,
 } from '../graphqlTypes';
 import { useDisableConverter } from '../components/ArticleConverterContext';
+import RedirectContext from '../components/RedirectContext';
+import NotFound from '../containers/NotFoundPage/NotFoundPage';
 
 if (process.env.NODE_ENV !== 'production') {
   // Can't require in production because of multiple asses emit to the same filename..
@@ -95,9 +98,10 @@ export const IframePage = ({
 }: Props) => {
   const location = useLocation();
   const disableConverter = useDisableConverter();
+  const redirectContext = useContext(RedirectContext);
   const includeResource = !isTopicArticle && taxonomyId !== undefined;
   const includeTopic = isTopicArticle;
-  const { loading, data } = useGraphQuery<
+  const { loading, data, error } = useGraphQuery<
     GQLIframePageQuery,
     GQLIframePageQueryVariables
   >(iframePageQuery, {
@@ -121,11 +125,17 @@ export const IframePage = ({
   if (loading) {
     return null;
   }
+  if (
+    error?.graphQLErrors.some((err) => err.extensions.status === 410) &&
+    redirectContext
+  ) {
+    redirectContext.status = 410;
+  }
 
   const { article, resource, topic } = data ?? {};
   // Only care if article can be rendered
   if (!article) {
-    return <Error />;
+    return <NotFound />;
   }
 
   if (isTopicArticle) {

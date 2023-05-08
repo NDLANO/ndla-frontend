@@ -24,7 +24,9 @@ import { renderPageWithData, renderHtml } from '../helpers/render';
 import { EmotionCacheKey } from '../../constants';
 import { InitialProps } from '../../interfaces';
 import { createApolloClient } from '../../util/apiHelpers';
-import RedirectContext from '../../components/RedirectContext';
+import RedirectContext, {
+  RedirectInfo,
+} from '../../components/RedirectContext';
 import { ArticleConverterProvider } from '../../components/ArticleConverterContext';
 
 const assets =
@@ -57,7 +59,7 @@ const disableSSR = (req: Request) => {
 };
 
 async function doRenderPage(req: Request, initialProps: InitialProps) {
-  const context = {};
+  const context: RedirectInfo = {};
 
   const disableConverter = req.query?.disableConverter?.length
     ? req.query.disableConverter === 'true'
@@ -101,7 +103,7 @@ async function doRenderPage(req: Request, initialProps: InitialProps) {
     data: { initialProps },
     client,
   });
-  return { html, docProps, helmetContext };
+  return { html, docProps, helmetContext, redirectContext: context };
 }
 
 export async function iframeArticleRoute(req: Request) {
@@ -110,17 +112,23 @@ export async function iframeArticleRoute(req: Request) {
   const locale = isValidLocale(htmlLang) ? htmlLang : undefined;
   const { articleId, taxonomyId } = req.params;
   try {
-    const { html, docProps, helmetContext } = await doRenderPage(req, {
-      articleId,
-      taxonomyId,
-      isOembed: 'true',
-      isTopicArticle: taxonomyId?.startsWith('urn:topic') || false,
-      basename: lang,
-      locale,
-      status: 'success',
-    });
+    const { html, docProps, helmetContext, redirectContext } =
+      await doRenderPage(req, {
+        articleId,
+        taxonomyId,
+        isOembed: 'true',
+        isTopicArticle: taxonomyId?.startsWith('urn:topic') || false,
+        basename: lang,
+        locale,
+        status: 'success',
+      });
 
-    return renderHtml(html, { status: OK }, docProps, helmetContext);
+    return renderHtml(
+      html,
+      { status: redirectContext.status ?? OK },
+      docProps,
+      helmetContext,
+    );
   } catch (error) {
     if (process.env.NODE_ENV !== 'unittest') {
       // skip log in unittests
