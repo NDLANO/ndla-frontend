@@ -1104,6 +1104,9 @@ export const programmes: ProgrammeType[] = [
               {
                 id: 'urn:subject:1:3170610c-6a5a-4da5-aeba-adb247aae48c',
               },
+              {
+                id: 'urn:subject:ca64e4ed-8b7f-4b63-b4c2-85cf262dc134',
+              },
             ],
           },
           {
@@ -1636,6 +1639,9 @@ export const programmes: ProgrammeType[] = [
               {
                 id: 'urn:subject:1:3170610c-6a5a-4da5-aeba-adb247aae48c',
               },
+              {
+                id: 'urn:subject:ca64e4ed-8b7f-4b63-b4c2-85cf262dc134',
+              },
             ],
           },
           {
@@ -2018,6 +2024,9 @@ export const programmes: ProgrammeType[] = [
               {
                 id: 'urn:subject:1:3170610c-6a5a-4da5-aeba-adb247aae48c',
               },
+              {
+                id: 'urn:subject:ca64e4ed-8b7f-4b63-b4c2-85cf262dc134',
+              },
             ],
           },
           {
@@ -2351,6 +2360,9 @@ export const programmes: ProgrammeType[] = [
               },
               {
                 id: 'urn:subject:1:3170610c-6a5a-4da5-aeba-adb247aae48c',
+              },
+              {
+                id: 'urn:subject:ca64e4ed-8b7f-4b63-b4c2-85cf262dc134',
               },
             ],
           },
