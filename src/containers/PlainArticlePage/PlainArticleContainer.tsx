@@ -26,6 +26,7 @@ import config from '../../config';
 import { getArticleProps } from '../../util/getArticleProps';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { useDisableConverter } from '../../components/ArticleConverterContext';
+import AddEmbedToFolder from '../../components/MyNdla/AddEmbedToFolder';
 
 interface Props extends CustomWithTranslation {
   article: GQLPlainArticleContainer_ArticleFragment;
@@ -58,6 +59,7 @@ const PlainArticleContainer = ({
       transformArticle(propArticle, i18n.language, {
         enabled: disableConverter,
         path: `${config.ndlaFrontendDomain}/article/${propArticle.id}`,
+        components: { heartButton: AddEmbedToFolder },
       }),
       getArticleScripts(propArticle, i18n.language),
     ];

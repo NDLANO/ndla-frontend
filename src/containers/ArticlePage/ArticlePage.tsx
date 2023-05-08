@@ -47,6 +47,7 @@ import {
   GQLArticlePage_TopicPathFragment,
 } from '../../graphqlTypes';
 import { useDisableConverter } from '../../components/ArticleConverterContext';
+import AddEmbedToFolder from '../../components/MyNdla/AddEmbedToFolder';
 
 interface Props extends CustomWithTranslation {
   resource?: GQLArticlePage_ResourceFragment;
@@ -82,6 +83,9 @@ const ArticlePage = ({
         path: `${config.ndlaFrontendDomain}/article/${resource.article?.id}`,
         enabled: disableConverter,
         subject: subject?.id,
+        components: {
+          heartButton: AddEmbedToFolder,
+        },
       }),
       getArticleScripts(resource.article, i18n.language),
     ];

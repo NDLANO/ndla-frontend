@@ -30,6 +30,7 @@ import {
 import { transformArticle } from '../../../util/transformArticle';
 import config from '../../../config';
 import { getArticleScripts } from '../../../util/getArticleScripts';
+import AddEmbedToFolder from '../../../components/MyNdla/AddEmbedToFolder';
 
 const filterCodes: Record<string, 'publicHealth' | 'democracy' | 'climate'> = {
   TT1: 'publicHealth',
@@ -61,6 +62,7 @@ const MultidisciplinarySubjectArticle = ({
         enabled: true,
         path: `${config.ndlaFrontendDomain}/article/${topic.article.id}`,
         subject: subject.id,
+        components: { heartButton: AddEmbedToFolder },
       }),
       getArticleScripts(topic.article, i18n.language),
     ];

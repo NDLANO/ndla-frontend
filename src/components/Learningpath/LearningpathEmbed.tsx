@@ -35,6 +35,7 @@ import config from '../../config';
 import { useGraphQuery } from '../../util/runQueries';
 import { supportedLanguages } from '../../i18n';
 import { useDisableConverter } from '../ArticleConverterContext';
+import AddEmbedToFolder from '../MyNdla/AddEmbedToFolder';
 
 interface StyledIframeContainerProps {
   oembedWidth: number;
@@ -133,6 +134,7 @@ const LearningpathEmbed = ({
         enabled: true,
         path: `${config.ndlaFrontendDomain}/article/${article.id}`,
         subject: subjectId,
+        components: { heartButton: AddEmbedToFolder },
       }),
       getArticleScripts(article, i18n.language),
     ];

@@ -25,6 +25,7 @@ import { getContentTypeFromResourceTypes } from '../../../util/getContentType';
 import { structuredArticleDataFragment } from '../../../util/getStructuredDataFromArticle';
 import { transformArticle } from '../../../util/transformArticle';
 import { getAllDimensions } from '../../../util/trackingUtil';
+import AddEmbedToFolder from '../../../components/MyNdla/AddEmbedToFolder';
 
 interface Props extends CustomWithTranslation {
   article: GQLSharedResourceArticleContainer_ArticleFragment;
@@ -52,6 +53,7 @@ const SharedArticleContainer = ({
       transformArticle(propArticle, i18n.language, {
         enabled: true,
         path: `${config.ndlaFrontendDomain}/article/${propArticle.id}`,
+        components: { heartButton: AddEmbedToFolder },
       }),
       getArticleScripts(propArticle, i18n.language),
     ];
