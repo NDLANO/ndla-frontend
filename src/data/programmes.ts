@@ -2491,6 +2491,19 @@ export const programmes: ProgrammeType[] = [
         categories: [
           {
             name: {
+              nb: 'Landbruk og gartnernæring',
+              nn: 'Landbruk og gartnernæring',
+              se: 'Landbruk og gartnernæring',
+              en: 'Agriculture and horticulture',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:57f73fac-aef5-4ab9-9ce0-55f031c24768',
+              },
+            ],
+          },
+          {
+            name: {
               nb: 'Fellesfag',
               se: 'Fellesfag',
               nn: 'Fellesfag',
@@ -2511,19 +2524,6 @@ export const programmes: ProgrammeType[] = [
               },
               {
                 id: 'urn:subject:1:11c4696f-e844-4c98-8df7-49d43f59ec33',
-              },
-            ],
-          },
-          {
-            name: {
-              nb: 'Landbruk og gartnernæring',
-              nn: 'Landbruk og gartnernæring',
-              se: 'Landbruk og gartnernæring',
-              en: 'Agriculture and horticulture',
-            },
-            subjects: [
-              {
-                id: 'urn:subject:57f73fac-aef5-4ab9-9ce0-55f031c24768',
               },
             ],
           },
