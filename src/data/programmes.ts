@@ -2488,7 +2488,6 @@ export const programmes: ProgrammeType[] = [
       },
       {
         name: 'Vg2',
-        missingProgrammeSubjects: true,
         categories: [
           {
             name: {
