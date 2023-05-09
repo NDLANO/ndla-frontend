@@ -2457,11 +2457,6 @@
   resolved "https://registry.yarnpkg.com/@ndla/types-embed/-/types-embed-1.1.1.tgz#76e6d09a6eeab3b3b912edad8ea96b49f98146ac"
   integrity sha512-9418Ur9Ii/d+VqW1r2CLIoXzuqg3oRtpggAsGJETzT6w/8/6BQ2NBf/3tU8+0ISunYdemfgxyP+WwM/IGiWjzA==
 
-"@ndla/types-learningpath-api@^0.0.21":
-  version "0.0.21"
-  resolved "https://registry.yarnpkg.com/@ndla/types-learningpath-api/-/types-learningpath-api-0.0.21.tgz#2cba73d6150021f80548debb29d3ee0f6904dea8"
-  integrity sha512-fF+pdD8DGXfl+m9whndZw3Bs7GnWALwSNbJ3vbHZMpEHfkNHEe81mXyVcV+t/cXRXVm44ag3ndFcKGap0zyMmw==
-
 "@ndla/ui@^36.0.2":
   version "36.0.2"
   resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-36.0.2.tgz#e2c0f9b4614bc5c79457689b2ffb6131a972b71e"

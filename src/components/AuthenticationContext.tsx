@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import { gql } from '@apollo/client';
 import { FeideUserApiType } from '@ndla/ui';
 import {
   createContext,
@@ -13,9 +14,10 @@ import {
   useState,
   useCallback,
 } from 'react';
+import { GQLExamLockStatusQuery } from '../graphqlTypes';
 import { isAccessTokenValid, millisUntilExpiration } from '../util/authHelpers';
 import { fetchFeideUserWithGroups } from '../util/feideApi';
-import { fetchExamLockStatus } from '../util/learningPathApi';
+import { useGraphQuery } from '../util/runQueries';
 
 interface AuthContextType {
   authenticated: boolean;
@@ -40,11 +42,23 @@ interface Props {
   initialValue?: string;
 }
 
+const examLockStatusQuery = gql`
+  query examLockStatus {
+    examLockStatus {
+      key
+      value
+    }
+  }
+`;
+
 const AuthenticationContext = ({ children }: Props) => {
   const [authenticated, setAuthenticated] = useState(false);
   const [authContextLoaded, setLoaded] = useState(false);
   const [user, setUser] = useState<FeideUserApiType | undefined>(undefined);
   const [examLock, setExamLock] = useState(false);
+
+  const { data: { examLockStatus } = {}, error } =
+    useGraphQuery<GQLExamLockStatusQuery>(examLockStatusQuery);
 
   useEffect(() => {
     const isValid = isAccessTokenValid();
@@ -54,15 +68,7 @@ const AuthenticationContext = ({ children }: Props) => {
     if (isValid) {
       fetchFeideUserWithGroups().then((user) => {
         if (user?.eduPersonPrimaryAffiliation === 'student') {
-          fetchExamLockStatus()
-            .then((res) => {
-              if (res.value === 'true') {
-                setExamLock(true);
-              }
-            })
-            .catch((e) => {
-              console.error('Could not fetch exam lock status:', e);
-            });
+          setExamLock(examLockStatus?.value === 'true');
         }
         setUser(user);
       });
@@ -72,7 +78,7 @@ const AuthenticationContext = ({ children }: Props) => {
         setAuthenticated(false);
       }, timeoutMillis);
     }
-  }, [authenticated]);
+  }, [authenticated, error, examLockStatus?.value]);
 
   const login = useCallback(() => setAuthenticated(true), []);
   const logout = useCallback(() => setAuthenticated(false), []);

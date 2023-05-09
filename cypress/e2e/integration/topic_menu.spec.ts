@@ -11,7 +11,7 @@ describe('Topic menu', () => {
     cy.fixCypressSpec('/e2e/integration/topic_menu.spec.ts');
     cy.gqlIntercept({
       alias: 'alerts',
-      operations: ['alerts', 'frontpageSubjects'],
+      operations: ['examLockStatus', 'alerts', 'frontpageSubjects'],
     });
     cy.visit('/?disableSSR=true');
     cy.gqlWait('@alerts');
