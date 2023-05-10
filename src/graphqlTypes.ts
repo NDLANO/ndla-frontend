@@ -1056,6 +1056,7 @@ export type GQLQueryGroupSearchArgs = {
   aggregatePaths?: InputMaybe<Array<Scalars['String']>>;
   contextTypes?: InputMaybe<Scalars['String']>;
   fallback?: InputMaybe<Scalars['String']>;
+  filterInactive?: InputMaybe<Scalars['String']>;
   grepCodes?: InputMaybe<Scalars['String']>;
   language?: InputMaybe<Scalars['String']>;
   levels?: InputMaybe<Scalars['String']>;
@@ -1105,6 +1106,7 @@ export type GQLQuerySearchArgs = {
   contextFilters?: InputMaybe<Scalars['String']>;
   contextTypes?: InputMaybe<Scalars['String']>;
   fallback?: InputMaybe<Scalars['String']>;
+  filterInactive?: InputMaybe<Scalars['String']>;
   grepCodes?: InputMaybe<Scalars['String']>;
   ids?: InputMaybe<Array<Scalars['Int']>>;
   language?: InputMaybe<Scalars['String']>;
@@ -3540,6 +3542,7 @@ export type GQLSearchQueryVariables = Exact<{
   languageFilter?: InputMaybe<Scalars['String']>;
   relevance?: InputMaybe<Scalars['String']>;
   grepCodes?: InputMaybe<Scalars['String']>;
+  filterInactive?: InputMaybe<Scalars['String']>;
 }>;
 
 export type GQLSearchQuery = {
@@ -3743,6 +3746,7 @@ export type GQLGroupSearchQueryVariables = Exact<{
   grepCodesList?: InputMaybe<
     Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>
   >;
+  filterInactive?: InputMaybe<Scalars['String']>;
 }>;
 
 export type GQLGroupSearchQuery = {

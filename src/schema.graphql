@@ -828,6 +828,7 @@ type Query {
     aggregatePaths: [String!]
     contextTypes: String
     fallback: String
+    filterInactive: String
     grepCodes: String
     language: String
     levels: String
@@ -855,6 +856,7 @@ type Query {
     contextFilters: String
     contextTypes: String
     fallback: String
+    filterInactive: String
     grepCodes: String
     ids: [Int!]
     language: String

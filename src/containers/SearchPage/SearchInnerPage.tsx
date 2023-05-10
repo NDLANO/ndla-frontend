@@ -124,6 +124,7 @@ const SearchInnerPage = ({
         ...getTypeParams([], resourceTypes),
         aggregatePaths: ['contexts.resourceTypes.id'],
         grepCodesList: searchParams.grepCodes,
+        filterInactive: subjectIds.length === 0
       },
       notifyOnNetworkStatusChange: true,
       onCompleted: async (data) => {

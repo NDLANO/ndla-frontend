@@ -32,6 +32,7 @@ export const searchQuery = gql`
     $languageFilter: String
     $relevance: String
     $grepCodes: String
+    $filterInactive: String
   ) {
     search(
       query: $query
@@ -48,6 +49,7 @@ export const searchQuery = gql`
       languageFilter: $languageFilter
       relevance: $relevance
       grepCodes: $grepCodes
+      filterInactive: $filterInactive
     ) {
       language
       page
@@ -225,6 +227,7 @@ export const groupSearchQuery = gql`
     $grepCodes: String
     $aggregatePaths: [String!]
     $grepCodesList: [String]
+    $filterInactive: String
   ) {
     groupSearch(
       resourceTypes: $resourceTypes
@@ -237,6 +240,7 @@ export const groupSearchQuery = gql`
       fallback: $fallback
       grepCodes: $grepCodes
       aggregatePaths: $aggregatePaths
+      filterInactive: $filterInactive
     ) {
       resources {
         ...GroupSearchResource
