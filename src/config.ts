@@ -171,7 +171,7 @@ const config: ConfigType = {
   matomoUrl: getEnvironmentVariabel('MATOMO_URL', 'https://tall.ndla.no'),
   matomoSiteId: getEnvironmentVariabel('MATOMO_SITE_ID', ''),
   matomoTagmanagerId: getEnvironmentVariabel('MATOMO_TAGMANAGER_ID', ''),
-  disableConverter: getEnvironmentVariabel('USE_ARTICLE_CONVERTER', false),
+  disableConverter: getEnvironmentVariabel('USE_ARTICLE_CONVERTER', true),
   sharingEnabled: getEnvironmentVariabel('SHARING_ENABLED', true),
 };
 
