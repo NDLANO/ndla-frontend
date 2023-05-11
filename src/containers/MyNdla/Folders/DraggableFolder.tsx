@@ -22,7 +22,6 @@ import { FolderTotalCount } from '../../../util/folderHelpers';
 import { FolderAction, ViewType } from './FoldersPage';
 import DragHandle from './DragHandle';
 import { AuthContext } from '../../../components/AuthenticationContext';
-import config from '../../../config';
 import { isStudent } from './util';
 
 interface Props {
@@ -131,7 +130,7 @@ const DraggableFolder = ({
       type: 'danger',
     };
 
-    if (!config.sharingEnabled || isStudent(user)) {
+    if (isStudent(user)) {
       return [editFolder, deleteOpt];
     }
     const sharedOptions =

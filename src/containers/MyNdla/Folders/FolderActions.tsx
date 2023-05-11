@@ -15,7 +15,6 @@ import { useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { GQLFolder } from '../../../graphqlTypes';
 import { FolderActionType, ViewType } from './FoldersPage';
-import config from '../../../config';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import { isStudent } from './util';
 
@@ -65,7 +64,7 @@ const FolderActions = ({
       onClick: () => onActionChanged('delete'),
     };
 
-    if (!config.sharingEnabled || isStudent(user)) {
+    if (isStudent(user)) {
       return [editFolder, deleteOpt];
     }
 

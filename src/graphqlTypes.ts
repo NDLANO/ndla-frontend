@@ -1630,6 +1630,17 @@ export type GQLArticleContents_TopicFragment = {
   } & GQLLicenseBox_ArticleFragment;
 };
 
+export type GQLExamLockStatusQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GQLExamLockStatusQuery = {
+  __typename?: 'Query';
+  examLockStatus: {
+    __typename?: 'ConfigMetaRestricted';
+    key: string;
+    value: string;
+  };
+};
+
 export type GQLLastLearningpathStepInfo_TopicFragment = {
   __typename?: 'Topic';
   id: string;

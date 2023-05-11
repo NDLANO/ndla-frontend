@@ -13,6 +13,7 @@ import { useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { spacing } from '@ndla/core';
+import config from '../../../config';
 import { GQLFolder } from '../../../graphqlTypes';
 import useValidationTranslation from '../../../util/useValidationTranslation';
 
@@ -80,16 +81,10 @@ const FolderForm = ({
 
   useEffect(() => {
     if (!getValues().description) {
-      setValue(
-        'description',
-        `${t('myNdla.sharedFolder.description.info1')}\n\n${t(
-          'myNdla.sharedFolder.description.info2',
-        )}\n\n${t('myNdla.sharedFolder.description.info3')}`,
-        {
-          shouldDirty: true,
-          shouldTouch: true,
-        },
-      );
+      setValue('description', t('myNdla.sharedFolder.description.all'), {
+        shouldDirty: true,
+        shouldTouch: true,
+      });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [t]);
@@ -142,36 +137,39 @@ const FolderForm = ({
           </div>
         )}
       />
-
-      <Controller
-        control={control}
-        name="description"
-        rules={{
-          maxLength: {
-            value: descriptionMaxLength,
-            message: validationT({
-              type: 'maxLength',
-              field: 'description',
-              vars: { count: descriptionMaxLength },
-            }),
-          },
-        }}
-        render={({ field }) => (
-          <div>
-            <TextAreaV2
-              label={t('validation.fields.description')}
-              error={errors.description?.message}
-              id="description"
-              {...field}
-            />
-            <FieldLength
-              value={field.value?.length ?? 0}
-              maxLength={descriptionMaxLength}
-            />
-          </div>
-        )}
-      />
-      <StyledParagraph>{t('myNdla.folder.sharedWarning')}</StyledParagraph>
+      {config.folderDescriptionEnabled && (
+        <>
+          <Controller
+            control={control}
+            name="description"
+            rules={{
+              maxLength: {
+                value: descriptionMaxLength,
+                message: validationT({
+                  type: 'maxLength',
+                  field: 'description',
+                  vars: { count: descriptionMaxLength },
+                }),
+              },
+            }}
+            render={({ field }) => (
+              <div>
+                <TextAreaV2
+                  label={t('validation.fields.description')}
+                  error={errors.description?.message}
+                  id="description"
+                  {...field}
+                />
+                <FieldLength
+                  value={field.value?.length ?? 0}
+                  maxLength={descriptionMaxLength}
+                />
+              </div>
+            )}
+          />
+          <StyledParagraph>{t('myNdla.folder.sharedWarning')}</StyledParagraph>
+        </>
+      )}
 
       <ButtonRow>
         <ButtonV2 variant="outline" onClick={onClose}>
