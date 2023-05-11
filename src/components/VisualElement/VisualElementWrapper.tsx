@@ -81,7 +81,7 @@ const VisualElementWrapper = ({ visualElement, videoId }: Props) => {
     title: t('title'),
     close: t('close'),
     source: t('source'),
-    rulesForUse: t(`license.${resourceType}.heading`),
+    rulesForUse: t(`license.${resourceType}.rules`),
     reuse: t(`${resourceType}.reuse`),
     download: t(`${resourceType}.download`),
   };
