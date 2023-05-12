@@ -120,8 +120,11 @@ const PodcastLicenseList = ({ podcasts }: Props) => {
       <h2>{t('license.podcast.heading')}</h2>
       <p>{t('license.podcast.description')}</p>
       <MediaList>
-        {podcasts.map((podcast) => (
-          <PodcastLicenseInfo podcast={podcast} key={podcast.id} />
+        {podcasts.map((podcast, index) => (
+          <PodcastLicenseInfo
+            podcast={podcast}
+            key={`${podcast.id}-${index}`}
+          />
         ))}
       </MediaList>
     </div>

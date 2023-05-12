@@ -135,6 +135,7 @@ export type ConfigType = {
   matomoTagmanagerId: string;
   disableConverter: boolean;
   folderDescriptionEnabled: boolean;
+  favoriteEmbedEnabled: boolean;
 };
 
 const config: ConfigType = {
@@ -176,6 +177,7 @@ const config: ConfigType = {
     'FOLDER_DESCRIPTION_ENABLED',
     false,
   ),
+  favoriteEmbedEnabled: getEnvironmentVariabel('FAVORITE_EMBED_ENABLED', true),
 };
 
 export function getUniversalConfig() {

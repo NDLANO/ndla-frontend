@@ -24,6 +24,7 @@ interface Props {
   children: ReactNode;
   title: string;
   type: EmbedType;
+  noBackground?: boolean;
 }
 
 const TitleWrapper = styled.div`
@@ -53,16 +54,28 @@ const ResourceHero = styled.div`
 
 const StyledArticle = styled.article`
   border: 2px solid ${colors.subjectMaterial.light};
-  margin-top: -144px;
   background-color: ${colors.white};
   padding: 65px 100px;
+
   ${mq.range({ until: breakpoints.tablet })} {
-    margin-top: -44px;
     padding: ${spacing.normal};
     border: none;
   }
+
   ${mq.range({ from: breakpoints.tablet, until: breakpoints.desktop })} {
     padding: 65px 70px;
+  }
+
+  &[data-no-background='false'] {
+    margin-top: -144px;
+    ${mq.range({ until: breakpoints.tablet })} {
+      margin-top: -44px;
+    }
+  }
+
+  &[data-no-background='true'] {
+    border: none;
+    padding: 20px 80px;
   }
 
   figure {
@@ -78,13 +91,18 @@ const StyledOneColumn = styled(OneColumn)`
   }
 `;
 
-const ResourceEmbedWrapper = ({ children, type, title }: Props) => {
+const ResourceEmbedWrapper = ({
+  children,
+  type,
+  title,
+  noBackground = false,
+}: Props) => {
   const { t } = useTranslation();
   return (
     <>
-      <ResourceHero />
+      {!noBackground && <ResourceHero />}
       <StyledOneColumn>
-        <StyledArticle>
+        <StyledArticle data-no-background={noBackground}>
           <TitleWrapper>
             <ResourceBadge type={type} />
             <hgroup>

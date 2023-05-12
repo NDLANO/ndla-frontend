@@ -12,6 +12,7 @@ import { Helmet } from 'react-helmet-async';
 import { CustomWithTranslation, withTranslation } from 'react-i18next';
 import { FeideUserApiType, OneColumn } from '@ndla/ui';
 import { withTracker } from '@ndla/tracker';
+import { DynamicComponents } from '@ndla/article-converter';
 import { transformArticle } from '../../util/transformArticle';
 import { getArticleScripts } from '../../util/getArticleScripts';
 import Article from '../../components/Article';
@@ -26,12 +27,16 @@ import config from '../../config';
 import { getArticleProps } from '../../util/getArticleProps';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { useDisableConverter } from '../../components/ArticleConverterContext';
+import AddEmbedToFolder from '../../components/MyNdla/AddEmbedToFolder';
 
 interface Props extends CustomWithTranslation {
   article: GQLPlainArticleContainer_ArticleFragment;
   user?: FeideUserApiType;
   skipToContentId?: string;
 }
+
+const converterComponents: DynamicComponents | undefined =
+  config.favoriteEmbedEnabled ? { heartButton: AddEmbedToFolder } : undefined;
 
 const getDocumentTitle = ({ t, article }: Pick<Props, 't' | 'article'>) =>
   htmlTitle(article.title, [t('htmlTitles.titleTemplate')]);
@@ -58,6 +63,7 @@ const PlainArticleContainer = ({
       transformArticle(propArticle, i18n.language, {
         enabled: disableConverter,
         path: `${config.ndlaFrontendDomain}/article/${propArticle.id}`,
+        components: converterComponents,
       }),
       getArticleScripts(propArticle, i18n.language),
     ];

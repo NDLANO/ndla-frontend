@@ -17,10 +17,16 @@ interface TransformArticleProps extends TransformOptions {
 
 function getContent(
   content: string,
-  { path, enabled, isOembed, subject }: TransformArticleProps,
+  { path, enabled, isOembed, subject, components }: TransformArticleProps,
 ) {
   if (enabled) {
-    return transform(content, { frontendDomain: '', path, isOembed, subject });
+    return transform(content, {
+      frontendDomain: '',
+      path,
+      isOembed,
+      subject,
+      components,
+    });
   }
   /**
    * We call extractCSS on the whole page server side. This removes/hoists

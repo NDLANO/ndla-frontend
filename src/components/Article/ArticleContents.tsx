@@ -18,6 +18,7 @@ import {
   ArticleContent,
   ArticleFootNotes,
 } from '@ndla/ui';
+import { DynamicComponents } from '@ndla/article-converter';
 
 import { useTranslation } from 'react-i18next';
 import LicenseBox from '../license/LicenseBox';
@@ -26,6 +27,7 @@ import { GQLArticleContents_TopicFragment } from '../../graphqlTypes';
 import config from '../../config';
 import { useDisableConverter } from '../ArticleConverterContext';
 import { getArticleScripts } from '../../util/getArticleScripts';
+import AddEmbedToFolder from '../MyNdla/AddEmbedToFolder';
 
 interface Props {
   topic: GQLArticleContents_TopicFragment;
@@ -33,6 +35,8 @@ interface Props {
   showIngress: boolean;
   subjectId?: string;
 }
+const converterComponents: DynamicComponents | undefined =
+  config.favoriteEmbedEnabled ? { heartButton: AddEmbedToFolder } : undefined;
 
 const ArticleContents = ({
   topic,
@@ -60,6 +64,7 @@ const ArticleContents = ({
         enabled: disableConverter,
         path: `${config.ndlaFrontendDomain}/article/${topic.article?.id}`,
         subject: subjectId,
+        components: converterComponents,
       }),
       getArticleScripts(topic.article, i18n.language),
     ];
