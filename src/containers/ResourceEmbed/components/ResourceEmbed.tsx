@@ -8,7 +8,7 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { gql } from '@apollo/client';
-import { transform } from '@ndla/article-converter';
+import { DynamicComponents, transform } from '@ndla/article-converter';
 import { Spinner } from '@ndla/icons';
 import { HelmetWithTracker } from '@ndla/tracker';
 import {
@@ -28,6 +28,8 @@ import SocialMediaMetadata from '../../../components/SocialMediaMetadata';
 import ResourceEmbedWrapper from './ResourceEmbedWrapper';
 import NotFound from '../../NotFoundPage/NotFoundPage';
 import { useGraphQuery } from '../../../util/runQueries';
+import AddEmbedToFolder from '../../../components/MyNdla/AddEmbedToFolder';
+import config from '../../../config';
 
 export type StandaloneEmbed = 'image' | 'audio' | 'video' | 'h5p' | 'concept';
 
@@ -44,6 +46,9 @@ interface MetaProperies {
   imageUrl?: string;
   type: StandaloneEmbed | 'podcast';
 }
+
+const converterComponents: DynamicComponents | undefined =
+  config.favoriteEmbedEnabled ? { heartButton: AddEmbedToFolder } : undefined;
 
 const metaToProperties = (
   meta: GQLResourceEmbedLicenseBox_MetaFragment | undefined,
@@ -117,7 +122,10 @@ const ResourceEmbed = ({ id, type, noBackground }: Props) => {
     if (!data?.resourceEmbed.content) {
       return undefined;
     }
-    return transform(data.resourceEmbed.content, { frontendDomain: '' });
+    return transform(data.resourceEmbed.content, {
+      frontendDomain: '',
+      components: converterComponents,
+    });
   }, [data?.resourceEmbed.content]);
 
   if (loading) {
