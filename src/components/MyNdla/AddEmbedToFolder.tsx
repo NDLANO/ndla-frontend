@@ -10,7 +10,6 @@ import styled from '@emotion/styled';
 import { FavoriteButton } from '@ndla/button';
 import { EmbedMetaData } from '@ndla/types-embed';
 import { useCallback, useMemo, useState } from 'react';
-import config from '../../config';
 import { ResourceAttributes } from './AddResourceToFolder';
 import AddResourceToFolderModal from './AddResourceToFolderModal';
 
@@ -32,25 +31,25 @@ const embedToResource = (
       return {
         id: embed.data.id.toString(),
         resourceType: 'audio',
-        path: `${config.ndlaFrontendDomain}/audio/${embed.data.id}`,
+        path: `/audio/${embed.data.id}`,
       };
     case 'brightcove':
       return {
         id: embed.data.id.toString(),
         resourceType: 'video',
-        path: `${config.ndlaFrontendDomain}/video/${embed.data.id}`,
+        path: `/video/${embed.data.id}`,
       };
     case 'image':
       return {
         id: embed.data.id.toString(),
         resourceType: 'image',
-        path: `${config.ndlaFrontendDomain}/image/${embed.data.id}`,
+        path: `/image/${embed.data.id}`,
       };
     case 'concept':
       return {
         id: embed.data.concept.id.toString(),
         resourceType: 'concept',
-        path: `${config.ndlaFrontendDomain}/concept/${embed.data.concept.id}`,
+        path: `/concept/${embed.data.concept.id}`,
       };
     default:
       return undefined;
