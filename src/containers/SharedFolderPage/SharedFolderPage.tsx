@@ -29,6 +29,7 @@ import FolderMeta from './components/FolderMeta';
 import FolderNavigation from './components/FolderNavigation';
 import SharedArticle from './components/SharedArticle';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
+import ResourceEmbed from '../ResourceEmbed/components/ResourceEmbed';
 
 const Layout = styled.div`
   display: grid;
@@ -124,6 +125,8 @@ const StyledDrawerContent = styled.div`
   padding-bottom: ${spacing.large};
 `;
 
+const embedResourceTypes = ['video', 'audio', 'concept', 'image'];
+
 const SharedFolderPage = () => {
   const { folderId = '', resourceId } = useParams();
   const { t } = useTranslation();
@@ -218,6 +221,11 @@ const SharedFolderPage = () => {
         {selectedResource ? (
           selectedResource.resourceType === 'learningpath' ? (
             <SharedLearningpathWarning />
+          ) : embedResourceTypes.includes(selectedResource.resourceType) ? (
+            <ResourceEmbed
+              id={selectedResource.resourceId}
+              type={selectedResource.resourceType}
+            />
           ) : (
             <SharedArticle
               resource={selectedResource}
