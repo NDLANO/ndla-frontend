@@ -227,6 +227,7 @@ const SharedFolderPage = () => {
             <ResourceEmbed
               id={selectedResource.resourceId}
               type={selectedResource.resourceType as StandaloneEmbed}
+              noBackground
             />
           ) : (
             <SharedArticle

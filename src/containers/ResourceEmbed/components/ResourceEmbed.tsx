@@ -34,6 +34,7 @@ export type StandaloneEmbed = 'image' | 'audio' | 'video' | 'h5p' | 'concept';
 interface Props {
   id: string;
   type: StandaloneEmbed;
+  noBackground?: boolean;
 }
 
 interface MetaProperies {
@@ -96,7 +97,7 @@ const metaToProperties = (
   }
 };
 
-const ResourceEmbed = ({ id, type }: Props) => {
+const ResourceEmbed = ({ id, type, noBackground }: Props) => {
   const { t } = useTranslation();
 
   const { data, loading, error } = useGraphQuery<
@@ -146,7 +147,11 @@ const ResourceEmbed = ({ id, type }: Props) => {
         <meta name="robots" content="noindex" />
       </SocialMediaMetadata>
       <main>
-        <ResourceEmbedWrapper type={type} title={properties?.title}>
+        <ResourceEmbedWrapper
+          type={type}
+          title={properties?.title}
+          noBackground={noBackground}
+        >
           {transformedContent}
           <AccordionRoot type="single" collapsible>
             {data?.resourceEmbed.meta && (
