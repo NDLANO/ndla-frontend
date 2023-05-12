@@ -17,6 +17,7 @@ import {
   withTranslation,
 } from 'react-i18next';
 import { GraphQLError } from 'graphql';
+import { DynamicComponents } from '@ndla/article-converter';
 import Article from '../../components/Article';
 import ArticleHero from './components/ArticleHero';
 import ArticleErrorMessage from './components/ArticleErrorMessage';
@@ -62,6 +63,9 @@ interface Props extends CustomWithTranslation {
   skipToContentId?: string;
 }
 
+const converterComponents: DynamicComponents | undefined =
+  config.favoriteEmbedEnabled ? { heartButton: AddEmbedToFolder } : undefined;
+
 const ArticlePage = ({
   resource,
   topic,
@@ -83,9 +87,7 @@ const ArticlePage = ({
         path: `${config.ndlaFrontendDomain}/article/${resource.article?.id}`,
         enabled: disableConverter,
         subject: subject?.id,
-        components: {
-          heartButton: AddEmbedToFolder,
-        },
+        components: converterComponents,
       }),
       getArticleScripts(resource.article, i18n.language),
     ];

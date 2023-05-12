@@ -12,6 +12,7 @@ import { useEffect, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { CustomWithTranslation, withTranslation } from 'react-i18next';
 import { withTracker } from '@ndla/tracker';
+import { DynamicComponents } from '@ndla/article-converter';
 import Article from '../../../components/Article';
 import config from '../../../config';
 import { SKIP_TO_CONTENT_ID } from '../../../constants';
@@ -33,6 +34,9 @@ interface Props extends CustomWithTranslation {
   title: string;
 }
 
+const converterComponents: DynamicComponents | undefined =
+  config.favoriteEmbedEnabled ? { heartButton: AddEmbedToFolder } : undefined;
+
 const SharedArticleContainer = ({
   article: propArticle,
   meta,
@@ -53,7 +57,7 @@ const SharedArticleContainer = ({
       transformArticle(propArticle, i18n.language, {
         enabled: true,
         path: `${config.ndlaFrontendDomain}/article/${propArticle.id}`,
-        components: { heartButton: AddEmbedToFolder },
+        components: converterComponents,
       }),
       getArticleScripts(propArticle, i18n.language),
     ];

@@ -17,6 +17,7 @@ import {
   OneColumn,
 } from '@ndla/ui';
 import { withTracker } from '@ndla/tracker';
+import { DynamicComponents } from '@ndla/article-converter';
 import { CustomWithTranslation, withTranslation } from 'react-i18next';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import { htmlTitle } from '../../../util/titleHelper';
@@ -46,6 +47,9 @@ interface Props extends CustomWithTranslation {
   skipToContentId?: string;
 }
 
+const converterComponents: DynamicComponents | undefined =
+  config.favoriteEmbedEnabled ? { heartButton: AddEmbedToFolder } : undefined;
+
 const MultidisciplinarySubjectArticle = ({
   topic,
   subject,
@@ -62,7 +66,7 @@ const MultidisciplinarySubjectArticle = ({
         enabled: true,
         path: `${config.ndlaFrontendDomain}/article/${topic.article.id}`,
         subject: subject.id,
-        components: { heartButton: AddEmbedToFolder },
+        components: converterComponents,
       }),
       getArticleScripts(topic.article, i18n.language),
     ];

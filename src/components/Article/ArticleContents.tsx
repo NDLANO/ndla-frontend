@@ -18,6 +18,7 @@ import {
   ArticleContent,
   ArticleFootNotes,
 } from '@ndla/ui';
+import { DynamicComponents } from '@ndla/article-converter';
 
 import { useTranslation } from 'react-i18next';
 import LicenseBox from '../license/LicenseBox';
@@ -34,6 +35,8 @@ interface Props {
   showIngress: boolean;
   subjectId?: string;
 }
+const converterComponents: DynamicComponents | undefined =
+  config.favoriteEmbedEnabled ? { heartButton: AddEmbedToFolder } : undefined;
 
 const ArticleContents = ({
   topic,
@@ -61,7 +64,7 @@ const ArticleContents = ({
         enabled: disableConverter,
         path: `${config.ndlaFrontendDomain}/article/${topic.article?.id}`,
         subject: subjectId,
-        components: { heartButton: AddEmbedToFolder },
+        components: converterComponents,
       }),
       getArticleScripts(topic.article, i18n.language),
     ];
