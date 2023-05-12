@@ -25,6 +25,7 @@ function buildLicenseTabList(
   t: TFunction,
   copyText?: string,
   disableConverter?: boolean,
+  printUrl?: string,
 ) {
   const images = article.metaData?.images || [];
   const audios = article.metaData?.audios || [];
@@ -44,6 +45,7 @@ function buildLicenseTabList(
     title: t('license.tabs.text'),
     content: (
       <TextLicenseList
+        printUrl={printUrl}
         texts={[
           {
             title: article.title,
@@ -106,11 +108,18 @@ function buildLicenseTabList(
 interface Props {
   article: GQLLicenseBox_ArticleFragment;
   copyText?: string;
+  printUrl?: string;
 }
-const LicenseBox = ({ article, copyText }: Props) => {
+const LicenseBox = ({ article, copyText, printUrl }: Props) => {
   const { t } = useTranslation();
   const disableConverter = useDisableConverter();
-  const tabs = buildLicenseTabList(article, t, copyText, disableConverter);
+  const tabs = buildLicenseTabList(
+    article,
+    t,
+    copyText,
+    disableConverter,
+    printUrl,
+  );
   return (
     <div>
       <h1 className="license__heading">{t('license.heading')}</h1>
