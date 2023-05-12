@@ -2255,13 +2255,13 @@
     "@ndla/icons" "^2.3.0"
     "@radix-ui/react-accordion" "^1.0.1"
 
-"@ndla/article-converter@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@ndla/article-converter/-/article-converter-2.0.0.tgz#4fbfb134052b97680afeb980c6b7a83f8962109f"
-  integrity sha512-TAljLAqk0V2VnZYHT2HnHjadvA9fPBkyPf1NAH2AaKjzIp+SQZ796wXq6EsgG8pISRkBnAjVB9BFBI5btnZ45A==
+"@ndla/article-converter@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@ndla/article-converter/-/article-converter-2.0.1.tgz#7e34816c997ea808f473819d9a826ca630ba4817"
+  integrity sha512-OOcV56h84Gh1rtyeM+Iih6KMHilkW149sz6kQrcbsgJNFTXmeY+O7o/DdhdYX0sElC/97diQZ089S6kEY6oDWA==
   dependencies:
-    "@ndla/code" "^2.2.0"
-    "@ndla/ui" "^37.0.0"
+    "@ndla/code" "^2.2.1"
+    "@ndla/ui" "^37.0.1"
     html-react-parser "^3.0.8"
     lodash "^4.17.20"
 
@@ -2295,10 +2295,10 @@
     "@ndla/icons" "^2.3.0"
     react-swipeable "^7.0.0"
 
-"@ndla/code@^2.2.0":
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/@ndla/code/-/code-2.2.0.tgz#9c93ca092072b2881ebde47198e6abfd7bfb7bc6"
-  integrity sha512-csTb2BCs+4+1EjVit7EdM7+EBUvyEBFXSAxNZAQJ+UdPDKERWwDTnfAKvHsFJeoiS+v8Xi3Mphzd5I/FYLWaYA==
+"@ndla/code@^2.2.1":
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/@ndla/code/-/code-2.2.1.tgz#cdb04904133b7d087ca12898d4434fa8b72835af"
+  integrity sha512-VMBdKh/tmgPZXK5U6gpGqMnDDGkNDG/o44yIsVxc3Vuxw+QOgWejgFAT/fkcbxaVZtFtSQIIo3LKe4GAOUZCJQ==
   dependencies:
     "@ndla/button" "^10.1.0"
     "@ndla/core" "^4.0.0"
@@ -2467,15 +2467,15 @@
   resolved "https://registry.yarnpkg.com/@ndla/types-backend/-/types-backend-0.2.8.tgz#b186b14e9850cfa70fdc55a88a23d0eca0e6912c"
   integrity sha512-v+89JOxEFxQWCom6RRSgYPn5V2QIGxjto/CD5uBnqN0pk56xj89iwRjtAiaSSHwpwD79ti7eLU1GhwFiaO0w5Q==
 
-"@ndla/types-embed@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@ndla/types-embed/-/types-embed-2.0.0.tgz#1a8372fe8d08e7ce6a3e2720cf13b95c92248b39"
-  integrity sha512-0XzIj8DW8rdMxJnU0bKy7q4YuR01w6wTkVCtuv4eOL6aky9P5YJFaGfwu8b2LdzjtvABqZtclcRRy+CGQGsafQ==
+"@ndla/types-embed@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@ndla/types-embed/-/types-embed-2.0.1.tgz#776b1655b4d5b4280fb2a02e06bf0bff0097910c"
+  integrity sha512-c8y8JgaBVwXytNQeT6UnocdiQIkVfRPTadzhA6sq38c6rJEUxwa5VsfiEu8xRi7rSwcpPc7QJqyFHRHrMrLL5Q==
 
-"@ndla/ui@^37.0.0":
-  version "37.0.0"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-37.0.0.tgz#57cc67ab70a6d534dc44e3c766c3ac19c332afc1"
-  integrity sha512-SPMSzt2igZLcWPlzzNlKcJsDI1n0vOx/33ZyDd+8jz1A9mVDhvEI0TN2vubQtde8NJ+u9jx/jZapEFc/EtbhBw==
+"@ndla/ui@^37.0.1":
+  version "37.0.1"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-37.0.1.tgz#10dca0834e62b9d5fd0ff0bde66aafc11cc5aeec"
+  integrity sha512-ALwDSrZ33ET5crwP8+eC9dttMwktj5J9THPJWempzunTT99XU3OzPPis+eWixDlaaMCi9f/5S+ZRGSpwtgGBCg==
   dependencies:
     "@ndla/accordion" "^2.2.0"
     "@ndla/article-scripts" "^3.0.17"
