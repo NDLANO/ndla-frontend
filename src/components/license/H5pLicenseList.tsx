@@ -96,6 +96,7 @@ const H5pLicenseList = ({ h5ps }: Props) => {
 H5pLicenseList.fragments = {
   h5p: gql`
     fragment H5pLicenseList_H5pLicense on H5pLicense {
+      id
       title
       src
       copyright {

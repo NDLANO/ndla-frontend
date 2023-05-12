@@ -106,6 +106,7 @@ const AudioLicenseList = ({ audios }: Props) => {
 AudioLicenseList.fragments = {
   audio: gql`
     fragment AudioLicenseList_AudioLicense on AudioLicense {
+      id
       src
       title
       copyright {

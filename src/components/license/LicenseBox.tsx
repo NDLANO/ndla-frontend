@@ -38,7 +38,7 @@ function buildLicenseTabList(
   if (images.length > 0) {
     tabs.push({
       title: t('license.tabs.images'),
-      content: <ImageLicenseList images={images} articleId={article.id} />,
+      content: <ImageLicenseList images={images} />,
     });
   }
   tabs.push({
@@ -68,9 +68,7 @@ function buildLicenseTabList(
   if (podcasts.length > 0) {
     tabs.push({
       title: t('license.tabs.podcast'),
-      content: (
-        <PodcastLicenseList podcasts={podcasts} articleId={article.id} />
-      ),
+      content: <PodcastLicenseList podcasts={podcasts} />,
     });
   }
 
