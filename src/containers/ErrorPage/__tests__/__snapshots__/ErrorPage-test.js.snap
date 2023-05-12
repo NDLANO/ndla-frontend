@@ -194,6 +194,13 @@ exports[`ErrorPage renderers correctly 1`] = `
   cursor: not-allowed;
 }
 
+.emotion-17[lang='zh'],
+.emotion-17[lang='zh-Hans'],
+.emotion-17[lang='zh-Hant'] {
+  font-size: calc(16px * 1.11);
+  font-size: calc(0.8888888888888888rem * 1.11);
+}
+
 .emotion-17:hover {
   color: #fff;
   background: #20588f;
@@ -287,6 +294,13 @@ exports[`ErrorPage renderers correctly 1`] = `
   text-align: center;
 }
 
+.emotion-24[lang='zh'],
+.emotion-24[lang='zh-Hans'],
+.emotion-24[lang='zh-Hant'] {
+  font-size: calc(20 * 1.11);
+  font-size: calc(1.1111111111111112rem * 1.11);
+}
+
 @media (min-width: 48em) {
   .emotion-24 {
     font-size: 24;
@@ -294,6 +308,13 @@ exports[`ErrorPage renderers correctly 1`] = `
     line-height: 1.5;
     margin: 26px 26px 52px 0;
     text-align: left;
+  }
+
+  .emotion-24[lang='zh'],
+  .emotion-24[lang='zh-Hans'],
+  .emotion-24[lang='zh-Hant'] {
+    font-size: calc(24 * 1.11);
+    font-size: calc(1.3333333333333333rem * 1.11);
   }
 }
 
@@ -339,6 +360,13 @@ exports[`ErrorPage renderers correctly 1`] = `
   margin: 6.5px 0;
 }
 
+.emotion-28[lang='zh'],
+.emotion-28[lang='zh-Hans'],
+.emotion-28[lang='zh-Hant'] {
+  font-size: calc(16 * 1.11);
+  font-size: calc(0.8888888888888888rem * 1.11);
+}
+
 .emotion-30 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -359,6 +387,13 @@ exports[`ErrorPage renderers correctly 1`] = `
   font-size: 16;
   font-size: 0.8888888888888888rem;
   line-height: 1.5;
+}
+
+.emotion-32[lang='zh'],
+.emotion-32[lang='zh-Hans'],
+.emotion-32[lang='zh-Hant'] {
+  font-size: calc(16 * 1.11);
+  font-size: calc(0.8888888888888888rem * 1.11);
 }
 
 .emotion-32 svg {
@@ -448,6 +483,13 @@ exports[`ErrorPage renderers correctly 1`] = `
     line-height: 1.5;
   }
 
+  .emotion-76[lang='zh'],
+  .emotion-76[lang='zh-Hans'],
+  .emotion-76[lang='zh-Hant'] {
+    font-size: calc(16 * 1.11);
+    font-size: calc(0.8888888888888888rem * 1.11);
+  }
+
   .emotion-76>span {
     padding: 0;
   }
@@ -458,6 +500,13 @@ exports[`ErrorPage renderers correctly 1`] = `
     font-size: 14;
     font-size: 0.7777777777777778rem;
     line-height: 1.3;
+  }
+
+  .emotion-76[lang='zh'],
+  .emotion-76[lang='zh-Hans'],
+  .emotion-76[lang='zh-Hant'] {
+    font-size: calc(14 * 1.11);
+    font-size: calc(0.7777777777777778rem * 1.11);
   }
 
   .emotion-76>span {
@@ -496,6 +545,13 @@ exports[`ErrorPage renderers correctly 1`] = `
     line-height: 1.5;
   }
 
+  .emotion-78[lang='zh'],
+  .emotion-78[lang='zh-Hans'],
+  .emotion-78[lang='zh-Hant'] {
+    font-size: calc(16 * 1.11);
+    font-size: calc(0.8888888888888888rem * 1.11);
+  }
+
   .emotion-78>span {
     padding: 0;
   }
@@ -509,6 +565,13 @@ exports[`ErrorPage renderers correctly 1`] = `
     -webkit-flex-direction: column;
     -ms-flex-direction: column;
     flex-direction: column;
+  }
+
+  .emotion-78[lang='zh'],
+  .emotion-78[lang='zh-Hans'],
+  .emotion-78[lang='zh-Hant'] {
+    font-size: calc(14 * 1.11);
+    font-size: calc(0.7777777777777778rem * 1.11);
   }
 
   .emotion-78>span {
@@ -609,6 +672,13 @@ exports[`ErrorPage renderers correctly 1`] = `
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
+}
+
+.emotion-93[lang='zh'],
+.emotion-93[lang='zh-Hans'],
+.emotion-93[lang='zh-Hant'] {
+  font-size: calc(16px * 1.11);
+  font-size: calc(0.8888888888888888rem * 1.11);
 }
 
 .emotion-93:hover {
