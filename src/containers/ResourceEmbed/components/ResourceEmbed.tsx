@@ -29,7 +29,7 @@ import ResourceEmbedWrapper from './ResourceEmbedWrapper';
 import NotFound from '../../NotFoundPage/NotFoundPage';
 import { useGraphQuery } from '../../../util/runQueries';
 
-type StandaloneEmbed = 'image' | 'audio' | 'video' | 'h5p' | 'concept';
+export type StandaloneEmbed = 'image' | 'audio' | 'video' | 'h5p' | 'concept';
 
 interface Props {
   id: string;

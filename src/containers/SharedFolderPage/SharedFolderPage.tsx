@@ -29,7 +29,9 @@ import FolderMeta from './components/FolderMeta';
 import FolderNavigation from './components/FolderNavigation';
 import SharedArticle from './components/SharedArticle';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
-import ResourceEmbed from '../ResourceEmbed/components/ResourceEmbed';
+import ResourceEmbed, {
+  StandaloneEmbed,
+} from '../ResourceEmbed/components/ResourceEmbed';
 
 const Layout = styled.div`
   display: grid;
@@ -224,7 +226,7 @@ const SharedFolderPage = () => {
           ) : embedResourceTypes.includes(selectedResource.resourceType) ? (
             <ResourceEmbed
               id={selectedResource.resourceId}
-              type={selectedResource.resourceType}
+              type={selectedResource.resourceType as StandaloneEmbed}
             />
           ) : (
             <SharedArticle
