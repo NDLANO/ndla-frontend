@@ -6,7 +6,6 @@
  *
  */
 
-import styled from '@emotion/styled';
 import { FavoriteButton } from '@ndla/button';
 import { EmbedMetaData } from '@ndla/types-embed';
 import { useCallback, useMemo, useState } from 'react';
@@ -16,12 +15,6 @@ import AddResourceToFolderModal from './AddResourceToFolderModal';
 interface Props {
   embed: Extract<EmbedMetaData, { status: 'success' }>;
 }
-
-const ButtonWrapper = styled.div`
-  display: flex;
-  flex: 1;
-  justify-content: flex-end;
-`;
 
 const embedToResource = (
   embed: Extract<EmbedMetaData, { status: 'success' }>,
@@ -66,7 +59,7 @@ const AddEmbedToFolder = ({ embed }: Props) => {
     return null;
   }
   return (
-    <ButtonWrapper>
+    <>
       <FavoriteButton onClick={onOpen} />
       {isOpen && (
         <AddResourceToFolderModal
@@ -75,7 +68,7 @@ const AddEmbedToFolder = ({ embed }: Props) => {
           resource={resource}
         />
       )}
-    </ButtonWrapper>
+    </>
   );
 };
 
