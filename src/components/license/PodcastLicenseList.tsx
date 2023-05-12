@@ -7,7 +7,6 @@
  */
 
 import { gql } from '@apollo/client';
-import { uuid } from '@ndla/util';
 import {
   MediaList,
   MediaListItem,
@@ -33,13 +32,9 @@ import { useDisableConverter } from '../ArticleConverterContext';
 
 interface PodcastLicenseInfoProps {
   podcast: GQLPodcastLicenseList_PodcastLicenseFragment;
-  articleId?: number;
 }
 
-const PodcastLicenseInfo = ({
-  podcast,
-  articleId,
-}: PodcastLicenseInfoProps) => {
+const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
   const { t, i18n } = useTranslation();
   const safeCopyright = licenseCopyrightToCopyrightType(podcast.copyright);
   const disableConverter = useDisableConverter();
@@ -54,7 +49,7 @@ const PodcastLicenseInfo = ({
         podcast.title,
         undefined,
         podcast.src,
-        `${config.ndlaFrontendDomain}/article/${articleId}`,
+        `${config.ndlaFrontendDomain}/audio/${podcast.id}`,
         podcast.copyright,
         podcast.copyright.license.license,
         '',
@@ -116,10 +111,9 @@ const PodcastLicenseInfo = ({
 
 interface Props {
   podcasts: GQLPodcastLicenseList_PodcastLicenseFragment[];
-  articleId?: number;
 }
 
-const PodcastLicenseList = ({ podcasts, articleId }: Props) => {
+const PodcastLicenseList = ({ podcasts }: Props) => {
   const { t } = useTranslation();
   return (
     <div>
@@ -127,11 +121,7 @@ const PodcastLicenseList = ({ podcasts, articleId }: Props) => {
       <p>{t('license.podcast.description')}</p>
       <MediaList>
         {podcasts.map((podcast) => (
-          <PodcastLicenseInfo
-            podcast={podcast}
-            articleId={articleId}
-            key={uuid()}
-          />
+          <PodcastLicenseInfo podcast={podcast} key={podcast.id} />
         ))}
       </MediaList>
     </div>
@@ -141,6 +131,7 @@ const PodcastLicenseList = ({ podcasts, articleId }: Props) => {
 PodcastLicenseList.fragments = {
   podcast: gql`
     fragment PodcastLicenseList_PodcastLicense on PodcastLicense {
+      id
       src
       copyText
       title

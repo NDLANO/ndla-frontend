@@ -108,6 +108,7 @@ type AudioFolderResourceMeta implements FolderResourceMeta {
 type AudioLicense {
   copyText: String
   copyright: Copyright!
+  id: String!
   src: String!
   title: String!
 }
@@ -169,6 +170,7 @@ type BrightcoveLicense {
   cover: String
   description: String
   download: String
+  id: String!
   iframe: BrightcoveIframe
   src: String
   title: String!
@@ -245,6 +247,7 @@ type ConceptFolderResourceMeta implements FolderResourceMeta {
 type ConceptLicense {
   content: String
   copyright: ConceptCopyright
+  id: String!
   metaImageUrl: String
   src: String
   title: String!
@@ -437,6 +440,7 @@ type H5pElement {
 
 type H5pLicense {
   copyright: Copyright
+  id: String!
   src: String
   thumbnail: String
   title: String!
@@ -482,6 +486,7 @@ type ImageLicense {
   contentType: String
   copyText: String
   copyright: Copyright!
+  id: String!
   src: String!
   title: String!
 }
@@ -728,6 +733,7 @@ type PodcastLicense {
   copyright: Copyright!
   coverPhotoUrl: String
   description: String
+  id: String!
   src: String!
   title: String!
 }

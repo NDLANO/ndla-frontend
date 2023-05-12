@@ -143,6 +143,7 @@ export type GQLAudioLicense = {
   __typename?: 'AudioLicense';
   copyText?: Maybe<Scalars['String']>;
   copyright: GQLCopyright;
+  id: Scalars['String'];
   src: Scalars['String'];
   title: Scalars['String'];
 };
@@ -211,6 +212,7 @@ export type GQLBrightcoveLicense = {
   cover?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   download?: Maybe<Scalars['String']>;
+  id: Scalars['String'];
   iframe?: Maybe<GQLBrightcoveIframe>;
   src?: Maybe<Scalars['String']>;
   title: Scalars['String'];
@@ -295,6 +297,7 @@ export type GQLConceptLicense = {
   __typename?: 'ConceptLicense';
   content?: Maybe<Scalars['String']>;
   copyright?: Maybe<GQLConceptCopyright>;
+  id: Scalars['String'];
   metaImageUrl?: Maybe<Scalars['String']>;
   src?: Maybe<Scalars['String']>;
   title: Scalars['String'];
@@ -512,6 +515,7 @@ export type GQLH5pElement = {
 export type GQLH5pLicense = {
   __typename?: 'H5pLicense';
   copyright?: Maybe<GQLCopyright>;
+  id: Scalars['String'];
   src?: Maybe<Scalars['String']>;
   thumbnail?: Maybe<Scalars['String']>;
   title: Scalars['String'];
@@ -562,6 +566,7 @@ export type GQLImageLicense = {
   contentType?: Maybe<Scalars['String']>;
   copyText?: Maybe<Scalars['String']>;
   copyright: GQLCopyright;
+  id: Scalars['String'];
   src: Scalars['String'];
   title: Scalars['String'];
 };
@@ -875,6 +880,7 @@ export type GQLPodcastLicense = {
   copyright: GQLCopyright;
   coverPhotoUrl?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
+  id: Scalars['String'];
   src: Scalars['String'];
   title: Scalars['String'];
 };
@@ -1894,6 +1900,7 @@ export type GQLVisualElementWrapper_VisualElementFragment = {
 
 export type GQLAudioLicenseList_AudioLicenseFragment = {
   __typename?: 'AudioLicense';
+  id: string;
   src: string;
   title: string;
   copyright: {
@@ -1904,6 +1911,7 @@ export type GQLAudioLicenseList_AudioLicenseFragment = {
 
 export type GQLConceptLicenseList_ConceptLicenseFragment = {
   __typename?: 'ConceptLicense';
+  id: string;
   title: string;
   src?: string;
   copyright?: {
@@ -1925,6 +1933,7 @@ export type GQLConceptLicenseList_ConceptLicenseFragment = {
 
 export type GQLH5pLicenseList_H5pLicenseFragment = {
   __typename?: 'H5pLicense';
+  id: string;
   title: string;
   src?: string;
   copyright?: { __typename?: 'Copyright' } & GQLLicenseListCopyrightFragment;
@@ -1932,6 +1941,7 @@ export type GQLH5pLicenseList_H5pLicenseFragment = {
 
 export type GQLImageLicenseList_ImageLicenseFragment = {
   __typename?: 'ImageLicense';
+  id: string;
   title: string;
   altText: string;
   src: string;
@@ -1983,6 +1993,7 @@ export type GQLLicenseBox_ArticleFragment = {
 
 export type GQLPodcastLicenseList_PodcastLicenseFragment = {
   __typename?: 'PodcastLicense';
+  id: string;
   src: string;
   copyText?: string;
   title: string;
@@ -1999,6 +2010,7 @@ export type GQLTextLicenseList_CopyrightFragment = {
 
 export type GQLVideoLicenseList_BrightcoveLicenseFragment = {
   __typename?: 'BrightcoveLicense';
+  id: string;
   title: string;
   download?: string;
   src?: string;
