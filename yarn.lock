@@ -2462,6 +2462,11 @@
     tiny-warning "^1.0.3"
     warning "^4.0.3"
 
+"@ndla/types-backend@^0.2.8":
+  version "0.2.8"
+  resolved "https://registry.yarnpkg.com/@ndla/types-backend/-/types-backend-0.2.8.tgz#b186b14e9850cfa70fdc55a88a23d0eca0e6912c"
+  integrity sha512-v+89JOxEFxQWCom6RRSgYPn5V2QIGxjto/CD5uBnqN0pk56xj89iwRjtAiaSSHwpwD79ti7eLU1GhwFiaO0w5Q==
+
 "@ndla/types-embed@^2.0.0":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@ndla/types-embed/-/types-embed-2.0.0.tgz#1a8372fe8d08e7ce6a3e2720cf13b95c92248b39"
