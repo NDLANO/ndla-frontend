@@ -95,7 +95,7 @@ const ResourceEmbedWrapper = ({
   children,
   type,
   title,
-  noBackground,
+  noBackground = false,
 }: Props) => {
   const { t } = useTranslation();
   return (
