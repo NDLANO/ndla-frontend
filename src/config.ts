@@ -177,7 +177,7 @@ const config: ConfigType = {
     'FOLDER_DESCRIPTION_ENABLED',
     false,
   ),
-  favoriteEmbedEnabled: getEnvironmentVariabel('FAVORITE_EMBED_ENABLED', false),
+  favoriteEmbedEnabled: getEnvironmentVariabel('FAVORITE_EMBED_ENABLED', true),
 };
 
 export function getUniversalConfig() {
