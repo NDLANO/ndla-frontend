@@ -6,6 +6,7 @@
  *
  */
 
+import styled from '@emotion/styled';
 import { gql } from '@apollo/client';
 import {
   Hero,
@@ -51,6 +52,10 @@ interface Props {
   breadcrumbItems: BreadcrumbType[];
 }
 
+const StyledSection = styled.section`
+  z-index: 1;
+`;
+
 const ArticleHero = ({
   resourceType,
   metaImage,
@@ -71,14 +76,14 @@ const ArticleHero = ({
       )}
       <OneColumn>
         <div className="c-hero__content">
-          <section>
+          <StyledSection>
             {subject && (
               <HomeBreadcrumb
                 light={ndlaFilm ? true : undefined}
                 items={breadcrumbItems}
               />
             )}
-          </section>
+          </StyledSection>
         </div>
       </OneColumn>
     </WrapperComponent>
