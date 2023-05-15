@@ -19,7 +19,10 @@ import {
   GQLFolderResource,
   GQLFolderResourceMetaSearchQuery,
 } from '../../../graphqlTypes';
-import { contentTypeMapping } from '../../../util/getContentType';
+import {
+  contentTypeMapping,
+  resourceEmbedTypeMapping,
+} from '../../../util/getContentType';
 
 interface StyledProps {
   level: number;
@@ -71,6 +74,11 @@ const StyledSpan = styled.span`
 const isLastStyle = css`
   border-bottom: 1px solid ${colors.brand.light};
 `;
+
+const allContentTypes = {
+  ...contentTypeMapping,
+  ...resourceEmbedTypeMapping,
+};
 
 interface Props {
   parentId: string;
@@ -126,8 +134,11 @@ const FolderResource = ({
       ? t('myNdla.sharedFolder.willOpenInNewTab')
       : '';
 
-  const contentType =
-    contentTypeMapping[meta?.resourceTypes?.[0]?.id || 'default'];
+  const maybeContentType = meta?.resourceTypes?.find(
+    (rt) => allContentTypes[rt.id],
+  );
+
+  const contentType = allContentTypes[maybeContentType?.id ?? 'default'];
 
   return (
     <ListElement css={isLast ? isLastStyle : undefined} role="none">
@@ -138,7 +149,7 @@ const FolderResource = ({
         id={`shared-${parentId}-${resource.id}`}
         aria-label={[
           `${meta?.title}.`,
-          `${t(`contentTypes.${contentType}`)}.`,
+          `${t(`contentTypes.${contentType}`)}`,
           openInfo,
         ]
           .filter((i) => !!i)
