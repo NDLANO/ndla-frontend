@@ -37,16 +37,18 @@ const FolderMeta = ({ folder, title }: Props) => {
   }
 
   return (
-    <StyledOneColumn>
-      <HelmetWithTracker
-        title={t('htmlTitles.sharedFolderPage', { name: title })}
-      />
-      <h1>{folder.name}</h1>
-      <StyledDescription>
-        {(config.folderDescriptionEnabled && folder.description) ||
-          t('myNdla.sharedFolder.description.all')}
-      </StyledDescription>
-    </StyledOneColumn>
+    <main>
+      <StyledOneColumn>
+        <HelmetWithTracker
+          title={t('htmlTitles.sharedFolderPage', { name: title })}
+        />
+        <h1>{folder.name}</h1>
+        <StyledDescription>
+          {(config.folderDescriptionEnabled && folder.description) ||
+            t('myNdla.sharedFolder.description.all')}
+        </StyledDescription>
+      </StyledOneColumn>
+    </main>
   );
 };
 
