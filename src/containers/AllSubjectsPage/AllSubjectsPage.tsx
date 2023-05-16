@@ -177,7 +177,7 @@ const AllSubjectsPage = () => {
     );
 
   return (
-    <div className="c-resources u-padding-top-large">
+    <main className="c-resources u-padding-top-large">
       <HelmetWithTracker title={t('htmlTitles.subjectsPage')} />
       <StyledColumn wide>
         <StyledHeading id={SKIP_TO_CONTENT_ID}>
@@ -220,7 +220,7 @@ const AllSubjectsPage = () => {
           ))}
         </StyledList>
       </StyledColumn>
-    </div>
+    </main>
   );
 };
 
