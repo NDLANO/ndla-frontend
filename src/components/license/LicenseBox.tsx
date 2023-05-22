@@ -118,12 +118,7 @@ const LicenseBox = ({ article, copyText, printUrl }: Props) => {
     disableConverter,
     printUrl,
   );
-  return (
-    <div>
-      <h1 className="license__heading">{t('license.heading')}</h1>
-      <Tabs tabs={tabs} />
-    </div>
-  );
+  return <Tabs tabs={tabs} />;
 };
 
 LicenseBox.fragments = {
