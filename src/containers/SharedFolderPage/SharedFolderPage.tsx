@@ -234,7 +234,8 @@ const SharedFolderPage = () => {
       </Sidebar>
       <StyledSection>
         {selectedResource ? (
-          selectedResource.resourceType === 'learningpath' ? (
+          selectedResource.resourceType === 'learningpath' ||
+          selectedResource.resourceType === 'multidisciplinary' ? (
             <SharedLearningpathWarning />
           ) : embedResourceTypes.includes(selectedResource.resourceType) ? (
             <ResourceEmbed
