@@ -173,10 +173,10 @@ const FolderResource = ({
       >
         <ContentTypeBadge type={contentType!} border={false} />
         <StyledSpan>{meta?.title}</StyledSpan>
-        {resource.resourceType === 'learningpath' ||
-          (resource.resourceType === 'multidisciplinary' && (
-            <Launch height={'24px'} width={'24px'} />
-          ))}
+        {(resource.resourceType === 'learningpath' ||
+          resource.resourceType === 'multidisciplinary') && (
+          <Launch height={'24px'} width={'24px'} />
+        )}
       </StyledSafelinkButton>
     </ListElement>
   );
