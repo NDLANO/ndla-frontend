@@ -321,7 +321,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                   data-orientation="vertical"
                   data-state="closed"
                 >
-                  <h3
+                  <h2
                     class="emotion-14 emotion-15"
                     data-orientation="vertical"
                     data-state="closed"
@@ -360,7 +360,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                         </g>
                       </svg>
                     </button>
-                  </h3>
+                  </h2>
                   <div
                     aria-labelledby="radix-1"
                     class="emotion-20 emotion-21"

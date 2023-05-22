@@ -102,30 +102,40 @@ const FolderResource = ({
   const { folderId: rootFolderId, subfolderId, resourceId } = useParams();
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const isLearningPath = useMemo(
-    () => resource.resourceType === 'learningpath',
+  const isLearningPathOrCase = useMemo(
+    () =>
+      resource.resourceType === 'learningpath' ||
+      resource.resourceType === 'multidisciplinary',
     [resource.resourceType],
   );
   const link = useMemo(
     () =>
-      isLearningPath
+      isLearningPathOrCase
         ? resource.path
         : `/folder/${rootFolderId}/${parentId}/${resource.id}`,
-    [isLearningPath, resource.path, resource.id, rootFolderId, parentId],
+    [isLearningPathOrCase, resource.path, resource.id, rootFolderId, parentId],
   );
 
   const onClick = useCallback(
     (e: MouseEvent<HTMLAnchorElement>) => {
       e.preventDefault();
       setFocus(`shared-${parentId}-${resource.id}`);
-      if (isLearningPath) {
+      if (isLearningPathOrCase) {
         window.open(link);
       } else {
         navigate(link);
       }
       onClose?.();
     },
-    [setFocus, parentId, resource.id, isLearningPath, onClose, link, navigate],
+    [
+      setFocus,
+      parentId,
+      resource.id,
+      isLearningPathOrCase,
+      onClose,
+      link,
+      navigate,
+    ],
   );
 
   const isCurrent = resource.id === resourceId && parentId === subfolderId;
@@ -163,7 +173,8 @@ const FolderResource = ({
       >
         <ContentTypeBadge type={contentType!} border={false} />
         <StyledSpan>{meta?.title}</StyledSpan>
-        {resource.resourceType === 'learningpath' && (
+        {(resource.resourceType === 'learningpath' ||
+          resource.resourceType === 'multidisciplinary') && (
           <Launch height={'24px'} width={'24px'} />
         )}
       </StyledSafelinkButton>

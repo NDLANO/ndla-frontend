@@ -76,6 +76,9 @@ const StyledArticle = styled.article`
   &[data-no-background='true'] {
     border: none;
     padding: 20px 80px;
+    ${mq.range({ until: breakpoints.desktop })} {
+      padding: 0px 30px;
+    }
   }
 
   figure {
