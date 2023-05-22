@@ -2369,23 +2369,23 @@
   resolved "https://registry.yarnpkg.com/@n1ru4l/graphql-live-query/-/graphql-live-query-0.10.0.tgz#2306151630b0e74b017cc1067ebbea351acf56f8"
   integrity sha512-qZ7OHH/NB0NcG/Xa7irzgjE63UH0CkofZT0Bw4Ko6iRFagPRHBM8RgFXwTt/6JbFGIEUS4STRtaFoc/Eq/ZtzQ==
 
-"@ndla/accordion@^2.2.0":
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/@ndla/accordion/-/accordion-2.2.0.tgz#f78bdf87dedee637768589c04f359e95ec12e82f"
-  integrity sha512-P0uRcXn+Wkon54DW0LdSntexP5p9WuiVj2aGeCNfO/ckF+DF2CuC/Oj0q68l+l2SCEGleukaZvgkm+sUqYAkeQ==
+"@ndla/accordion@^2.2.1":
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/@ndla/accordion/-/accordion-2.2.1.tgz#db74fcb41d4ed577493aaf4363e1ab19fb3cc7b4"
+  integrity sha512-VIUEYI8fwv6fWRXl2rMSqw1BcMIB2Ih5Y4q9OWm4+xOWu85wwNu0ecddS3BvGaNtugin+D25SopCcxT3gOJBLA==
   dependencies:
     "@ndla/button" "^10.1.0"
     "@ndla/core" "^4.0.0"
     "@ndla/icons" "^2.3.0"
     "@radix-ui/react-accordion" "^1.0.1"
 
-"@ndla/article-converter@^2.0.2":
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/@ndla/article-converter/-/article-converter-2.0.2.tgz#a4de3b683e3b7f5d141600df5e1aad509cf79adc"
-  integrity sha512-SO4T44xef3CzYST+NW3YitGNvcxDQPdGLfb89twAH/qtIXYnwTVTxaczs+sQ9mSiCi6mpfgAy5mmejAn08HkdA==
+"@ndla/article-converter@^2.0.6":
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/@ndla/article-converter/-/article-converter-2.0.6.tgz#48fa3bf2ec732dbdb59b423895ed9f11fc904e2b"
+  integrity sha512-tFRi6P5WixxVvEaGtxZMx2Nj5ehGKlHBFoc3oIYJ41j4z69j97edDXdxXx9NPwsFOhKHh1XUNcOL1ZRT4Nxtrw==
   dependencies:
     "@ndla/code" "^2.2.1"
-    "@ndla/ui" "^37.0.2"
+    "@ndla/ui" "^37.0.6"
     html-react-parser "^3.0.8"
     lodash "^4.17.20"
 
@@ -2596,12 +2596,12 @@
   resolved "https://registry.yarnpkg.com/@ndla/types-embed/-/types-embed-2.0.1.tgz#776b1655b4d5b4280fb2a02e06bf0bff0097910c"
   integrity sha512-c8y8JgaBVwXytNQeT6UnocdiQIkVfRPTadzhA6sq38c6rJEUxwa5VsfiEu8xRi7rSwcpPc7QJqyFHRHrMrLL5Q==
 
-"@ndla/ui@^37.0.2":
-  version "37.0.2"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-37.0.2.tgz#167362e7b1b34de15b6832c51471b0ce9c07bd95"
-  integrity sha512-NBV4EFcNwgEb0GXuN1vcKKuyMMhZCkCppDcya7kdPHDyk5gvGLi0/pkm0V5UkSJO8qLXZXn6ovMD9iSsseX3yw==
+"@ndla/ui@^37.0.6":
+  version "37.0.6"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-37.0.6.tgz#f1c50dc3195bef9f377017c35b483b64eb81d8c6"
+  integrity sha512-Fyi9q2w5i2+4Q08Rh9Y1ZmBfpDRVR47hT1Qdg1+whemyvhf5G3EJFglv0ZDyN2gZkxycePHsJ7IUjDqOQjKpRg==
   dependencies:
-    "@ndla/accordion" "^2.2.0"
+    "@ndla/accordion" "^2.2.1"
     "@ndla/article-scripts" "^3.0.17"
     "@ndla/button" "^10.1.0"
     "@ndla/carousel" "^3.1.0"
