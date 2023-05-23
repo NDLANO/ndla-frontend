@@ -10,7 +10,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { breakpoints, mq } from '@ndla/core';
-import { Plus } from '@ndla/icons/lib/action';
+import { Plus } from '@ndla/icons/action';
 import {
   ModalBody,
   ModalCloseButton,
