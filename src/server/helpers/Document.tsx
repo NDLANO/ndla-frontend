@@ -8,6 +8,7 @@
 
 import { HelmetServerState } from 'react-helmet-async';
 import serialize from 'serialize-javascript';
+// eslint-disable-next-line no-restricted-imports
 import ScriptLoader from '@ndla/polyfill/lib/ScriptLoader';
 import { GoogleTagMangerScript, GoogleTagMangerNoScript } from './Gtm';
 import { Matomo } from './Matomo';
