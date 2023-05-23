@@ -91,7 +91,6 @@
     "prettier": "^2.8.4",
     "react-refresh": "^0.14.0",
     "regenerator-runtime": "0.13.7",
-    "rimraf": "^3.0.0",
     "sass": "1.40.0",
     "sass-loader": "^13.1.0",
     "style-loader": "^3.3.1",
