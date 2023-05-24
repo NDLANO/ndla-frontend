@@ -60,13 +60,15 @@ const ProgrammeContainer = ({
         description={metaDescription}
         imageUrl={image}
       />
-      <Programme
-        headingId={SKIP_TO_CONTENT_ID}
-        heading={heading}
-        grades={grades}
-        image={image}
-        selectedGrade={grade.toLowerCase()}
-      />
+      <main>
+        <Programme
+          headingId={SKIP_TO_CONTENT_ID}
+          heading={heading}
+          grades={grades}
+          image={image}
+          selectedGrade={grade.toLowerCase()}
+        />
+      </main>
     </>
   );
 };

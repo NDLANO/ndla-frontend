@@ -143,6 +143,7 @@ export type GQLAudioLicense = {
   __typename?: 'AudioLicense';
   copyText?: Maybe<Scalars['String']>;
   copyright: GQLCopyright;
+  id: Scalars['String'];
   src: Scalars['String'];
   title: Scalars['String'];
 };
@@ -211,6 +212,7 @@ export type GQLBrightcoveLicense = {
   cover?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   download?: Maybe<Scalars['String']>;
+  id: Scalars['String'];
   iframe?: Maybe<GQLBrightcoveIframe>;
   src?: Maybe<Scalars['String']>;
   title: Scalars['String'];
@@ -293,7 +295,10 @@ export type GQLConceptFolderResourceMeta = GQLFolderResourceMeta & {
 
 export type GQLConceptLicense = {
   __typename?: 'ConceptLicense';
+  content?: Maybe<Scalars['String']>;
   copyright?: Maybe<GQLConceptCopyright>;
+  id: Scalars['String'];
+  metaImageUrl?: Maybe<Scalars['String']>;
   src?: Maybe<Scalars['String']>;
   title: Scalars['String'];
 };
@@ -510,6 +515,7 @@ export type GQLH5pElement = {
 export type GQLH5pLicense = {
   __typename?: 'H5pLicense';
   copyright?: Maybe<GQLCopyright>;
+  id: Scalars['String'];
   src?: Maybe<Scalars['String']>;
   thumbnail?: Maybe<Scalars['String']>;
   title: Scalars['String'];
@@ -560,6 +566,7 @@ export type GQLImageLicense = {
   contentType?: Maybe<Scalars['String']>;
   copyText?: Maybe<Scalars['String']>;
   copyright: GQLCopyright;
+  id: Scalars['String'];
   src: Scalars['String'];
   title: Scalars['String'];
 };
@@ -871,7 +878,9 @@ export type GQLPodcastLicense = {
   __typename?: 'PodcastLicense';
   copyText?: Maybe<Scalars['String']>;
   copyright: GQLCopyright;
+  coverPhotoUrl?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
+  id: Scalars['String'];
   src: Scalars['String'];
   title: Scalars['String'];
 };
@@ -959,6 +968,7 @@ export type GQLQuery = {
   podcastSeries?: Maybe<GQLPodcastSeriesWithEpisodes>;
   podcastSeriesSearch?: Maybe<GQLPodcastSeriesSearch>;
   resource?: Maybe<GQLResource>;
+  resourceEmbed: GQLResourceEmbed;
   resourceTypes?: Maybe<Array<GQLResourceTypeDefinition>>;
   search?: Maybe<GQLSearch>;
   searchWithoutPagination?: Maybe<GQLSearchWithoutPagination>;
@@ -1101,6 +1111,11 @@ export type GQLQueryResourceArgs = {
   topicId?: InputMaybe<Scalars['String']>;
 };
 
+export type GQLQueryResourceEmbedArgs = {
+  id: Scalars['String'];
+  type: Scalars['String'];
+};
+
 export type GQLQuerySearchArgs = {
   aggregatePaths?: InputMaybe<Array<Scalars['String']>>;
   contextFilters?: InputMaybe<Scalars['String']>;
@@ -1204,6 +1219,22 @@ export type GQLResourceArticleArgs = {
   convertEmbeds?: InputMaybe<Scalars['Boolean']>;
   isOembed?: InputMaybe<Scalars['String']>;
   subjectId?: InputMaybe<Scalars['String']>;
+};
+
+export type GQLResourceEmbed = {
+  __typename?: 'ResourceEmbed';
+  content: Scalars['String'];
+  meta: GQLResourceMetaData;
+};
+
+export type GQLResourceMetaData = {
+  __typename?: 'ResourceMetaData';
+  audios?: Maybe<Array<GQLAudioLicense>>;
+  brightcoves?: Maybe<Array<GQLBrightcoveLicense>>;
+  concepts?: Maybe<Array<GQLConceptLicense>>;
+  h5ps?: Maybe<Array<GQLH5pLicense>>;
+  images?: Maybe<Array<GQLImageLicense>>;
+  podcasts?: Maybe<Array<GQLPodcastLicense>>;
 };
 
 export type GQLResourceType = {
@@ -1871,6 +1902,7 @@ export type GQLVisualElementWrapper_VisualElementFragment = {
 
 export type GQLAudioLicenseList_AudioLicenseFragment = {
   __typename?: 'AudioLicense';
+  id: string;
   src: string;
   title: string;
   copyright: {
@@ -1881,6 +1913,7 @@ export type GQLAudioLicenseList_AudioLicenseFragment = {
 
 export type GQLConceptLicenseList_ConceptLicenseFragment = {
   __typename?: 'ConceptLicense';
+  id: string;
   title: string;
   src?: string;
   copyright?: {
@@ -1902,6 +1935,7 @@ export type GQLConceptLicenseList_ConceptLicenseFragment = {
 
 export type GQLH5pLicenseList_H5pLicenseFragment = {
   __typename?: 'H5pLicense';
+  id: string;
   title: string;
   src?: string;
   copyright?: { __typename?: 'Copyright' } & GQLLicenseListCopyrightFragment;
@@ -1909,6 +1943,7 @@ export type GQLH5pLicenseList_H5pLicenseFragment = {
 
 export type GQLImageLicenseList_ImageLicenseFragment = {
   __typename?: 'ImageLicense';
+  id: string;
   title: string;
   altText: string;
   src: string;
@@ -1960,6 +1995,7 @@ export type GQLLicenseBox_ArticleFragment = {
 
 export type GQLPodcastLicenseList_PodcastLicenseFragment = {
   __typename?: 'PodcastLicense';
+  id: string;
   src: string;
   copyText?: string;
   title: string;
@@ -1976,6 +2012,7 @@ export type GQLTextLicenseList_CopyrightFragment = {
 
 export type GQLVideoLicenseList_BrightcoveLicenseFragment = {
   __typename?: 'BrightcoveLicense';
+  id: string;
   title: string;
   download?: string;
   src?: string;
@@ -2054,33 +2091,6 @@ export type GQLArticleHero_MetaImageFragment = {
   alt: string;
 };
 
-export type GQLAudioQueryVariables = Exact<{
-  id: Scalars['Int'];
-}>;
-
-export type GQLAudioQuery = {
-  __typename?: 'Query';
-  audio?: { __typename?: 'Audio' } & GQLPodcast_AudioFragment;
-};
-
-export type GQLConceptQueryVariables = Exact<{
-  id: Scalars['Int'];
-}>;
-
-export type GQLConceptQuery = {
-  __typename?: 'Query';
-  concept?: {
-    __typename?: 'Concept';
-    content: string;
-    source?: string;
-    articles?: Array<{ __typename?: 'Meta'; title: string; id: number }>;
-    copyright?: {
-      __typename?: 'ConceptCopyright';
-      license?: { __typename?: 'License'; url?: string; description?: string };
-    };
-  } & GQLConceptSearchConceptFragment;
-};
-
 export type GQLFilmFrontpage_SubjectFragment = {
   __typename?: 'Subject';
   name: string;
@@ -2131,44 +2141,6 @@ export type GQLFilmFrontPageQuery = {
     __typename?: 'Subject';
     id: string;
   } & GQLFilmFrontpage_SubjectFragment;
-};
-
-export type GQLImageQueryVariables = Exact<{
-  id: Scalars['String'];
-}>;
-
-export type GQLImageQuery = {
-  __typename?: 'Query';
-  image?: { __typename?: 'ImageMetaInformationV2' } & GQLImageElementFragment;
-};
-
-export type GQLImageElementFragment = {
-  __typename?: 'ImageMetaInformationV2';
-  id: string;
-  metaUrl: string;
-  imageUrl: string;
-  size: number;
-  contentType: string;
-  supportedLanguages?: Array<string>;
-  created: string;
-  createdBy: string;
-  modelRelease: string;
-  title: { __typename?: 'Title'; language: string; title: string };
-  alttext: { __typename?: 'ImageAltText'; language: string; alttext: string };
-  copyright: { __typename?: 'Copyright' } & GQLCopyrightInfoFragment;
-  tags: { __typename?: 'Tags'; language: string; tags: Array<string> };
-  caption: { __typename?: 'Caption'; language: string; caption: string };
-  editorNotes?: Array<{
-    __typename?: 'EditorNote';
-    timestamp: string;
-    updatedBy: string;
-    note: string;
-  }>;
-  imageDimensions?: {
-    __typename?: 'ImageDimensions';
-    width: number;
-    height: number;
-  };
 };
 
 export type GQLLearningpathPage_TopicFragment = {
@@ -3072,6 +3044,57 @@ export type GQLPodcastSeriesPageQuery = {
   };
 };
 
+export type GQLResourceEmbedQueryVariables = Exact<{
+  id: Scalars['String'];
+  type: Scalars['String'];
+}>;
+
+export type GQLResourceEmbedQuery = {
+  __typename?: 'Query';
+  resourceEmbed: {
+    __typename?: 'ResourceEmbed';
+    content: string;
+    meta: {
+      __typename?: 'ResourceMetaData';
+    } & GQLResourceEmbedLicenseBox_MetaFragment;
+  };
+};
+
+export type GQLResourceEmbedLicenseBox_MetaFragment = {
+  __typename?: 'ResourceMetaData';
+  concepts?: Array<
+    {
+      __typename?: 'ConceptLicense';
+      content?: string;
+      metaImageUrl?: string;
+    } & GQLConceptLicenseList_ConceptLicenseFragment
+  >;
+  h5ps?: Array<
+    { __typename?: 'H5pLicense' } & GQLH5pLicenseList_H5pLicenseFragment
+  >;
+  brightcoves?: Array<
+    {
+      __typename?: 'BrightcoveLicense';
+      description?: string;
+    } & GQLVideoLicenseList_BrightcoveLicenseFragment
+  >;
+  audios?: Array<
+    { __typename?: 'AudioLicense' } & GQLAudioLicenseList_AudioLicenseFragment
+  >;
+  podcasts?: Array<
+    {
+      __typename?: 'PodcastLicense';
+      coverPhotoUrl?: string;
+    } & GQLPodcastLicenseList_PodcastLicenseFragment
+  >;
+  images?: Array<
+    {
+      __typename?: 'ImageLicense';
+      altText: string;
+    } & GQLImageLicenseList_ImageLicenseFragment
+  >;
+};
+
 export type GQLResourcePageQueryVariables = Exact<{
   topicId: Scalars['String'];
   subjectId: Scalars['String'];
@@ -3423,35 +3446,6 @@ export type GQLToolboxTopicWrapper_TopicFragment = {
     path: string;
   }>;
 } & GQLResources_TopicFragment;
-
-export type GQLBrightcoveVideoQueryVariables = Exact<{
-  id: Scalars['String'];
-}>;
-
-export type GQLBrightcoveVideoQuery = {
-  __typename?: 'Query';
-  brightcoveVideo?: {
-    __typename?: 'BrightcoveElement';
-    videoid?: string;
-    cover?: string;
-    caption?: string;
-    description?: string;
-    download?: string;
-    name?: string;
-    customFields?: {
-      __typename?: 'BrightcoveCustomFields';
-      licenseInfo: Array<string>;
-      license: string;
-      accountId?: string;
-    };
-    iframe?: {
-      __typename?: 'BrightcoveIframe';
-      height: number;
-      width: number;
-      src: string;
-    };
-  };
-};
 
 export type GQLFrontpageSubjectsQueryVariables = Exact<{
   [key: string]: never;

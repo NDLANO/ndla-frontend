@@ -54,6 +54,13 @@ export const resourceTypeMapping: Record<string, string> = {
   default: RESOURCE_TYPE_SUBJECT_MATERIAL,
 };
 
+export const resourceEmbedTypeMapping: Record<string, string> = {
+  image: 'image',
+  video: 'video',
+  concept: 'concept',
+  audio: 'audio',
+};
+
 interface ResourceType {
   id: string;
   name: string;

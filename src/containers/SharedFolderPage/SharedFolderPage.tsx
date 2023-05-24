@@ -29,12 +29,15 @@ import FolderMeta from './components/FolderMeta';
 import FolderNavigation from './components/FolderNavigation';
 import SharedArticle from './components/SharedArticle';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
+import ResourceEmbed, {
+  StandaloneEmbed,
+} from '../ResourceEmbed/components/ResourceEmbed';
 
 const Layout = styled.div`
   display: grid;
   grid-template-columns: 400px 1fr;
 
-  ${mq.range({ until: breakpoints.tablet })} {
+  ${mq.range({ until: breakpoints.desktop })} {
     display: flex;
     flex-direction: column;
   }
@@ -46,7 +49,7 @@ const Sidebar = styled.section`
   gap: ${spacing.small};
   padding: ${spacing.normal};
 
-  ${mq.range({ until: breakpoints.tablet })} {
+  ${mq.range({ until: breakpoints.desktop })} {
     padding: 0;
   }
 `;
@@ -71,8 +74,8 @@ const InfoBox = styled.article`
   gap: ${spacing.small};
   border-radius: ${misc.borderRadius};
 
-  ${mq.range({ until: breakpoints.tablet })} {
-    margin: 0 ${spacing.nsmall};
+  ${mq.range({ until: breakpoints.desktop })} {
+    margin: 0 ${spacing.small};
   }
 `;
 
@@ -109,13 +112,19 @@ const DrawerButton = styled(ButtonV2)`
 
 const DesktopPadding = styled.div`
   padding-bottom: 80px;
+  ${mq.range({ until: breakpoints.desktop })} {
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 const StyledDrawer = styled(Drawer)`
   max-height: 100%;
   border-top-left-radius: ${misc.borderRadius};
   border-top-right-radius: ${misc.borderRadius};
-  ${mq.range({ until: breakpoints.tablet })} {
+  margin: 0;
+  max-width: 100%;
+  ${mq.range({ until: breakpoints.desktop })} {
     min-height: 20%;
   }
 `;
@@ -123,6 +132,15 @@ const StyledDrawer = styled(Drawer)`
 const StyledDrawerContent = styled.div`
   padding-bottom: ${spacing.large};
 `;
+
+const LandingPageMobileWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${spacing.normal};
+  padding: ${spacing.small};
+`;
+
+const embedResourceTypes = ['video', 'audio', 'concept', 'image'];
 
 const SharedFolderPage = () => {
   const { folderId = '', resourceId } = useParams();
@@ -185,7 +203,7 @@ const SharedFolderPage = () => {
             </InfoBox>
             <FolderNavigation folder={folder} meta={keyedData} />
           </DesktopPadding>
-        ) : (
+        ) : isMobile && selectedResource ? (
           <StyledDrawer
             position="bottom"
             size="small"
@@ -212,12 +230,19 @@ const SharedFolderPage = () => {
               </StyledDrawerContent>
             )}
           </StyledDrawer>
-        )}
+        ) : null}
       </Sidebar>
       <StyledSection>
         {selectedResource ? (
-          selectedResource.resourceType === 'learningpath' ? (
+          selectedResource.resourceType === 'learningpath' ||
+          selectedResource.resourceType === 'multidisciplinary' ? (
             <SharedLearningpathWarning />
+          ) : embedResourceTypes.includes(selectedResource.resourceType) ? (
+            <ResourceEmbed
+              id={selectedResource.resourceId}
+              type={selectedResource.resourceType as StandaloneEmbed}
+              noBackground
+            />
           ) : (
             <SharedArticle
               resource={selectedResource}
@@ -229,10 +254,13 @@ const SharedFolderPage = () => {
           <FolderMeta folder={folder} title={title} />
         )}
         {!selectedResource && isMobile && (
-          <InfoBox>
-            <HumanMaleBoard />
-            <span>{t('myNdla.sharedFolder.info')}</span>
-          </InfoBox>
+          <LandingPageMobileWrapper>
+            <InfoBox>
+              <HumanMaleBoard />
+              <span>{t('myNdla.sharedFolder.info')}</span>
+            </InfoBox>
+            <FolderNavigation folder={folder} meta={keyedData} />
+          </LandingPageMobileWrapper>
         )}
       </StyledSection>
     </Layout>

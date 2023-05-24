@@ -7,7 +7,6 @@
  */
 
 import { gql } from '@apollo/client';
-import { uuid } from '@ndla/util';
 import {
   Image,
   MediaList,
@@ -42,10 +41,9 @@ export const downloadUrl = (imageSrc: string) => {
 
 interface ImageLicenseInfoProps {
   image: GQLImageLicenseList_ImageLicenseFragment;
-  articleId?: number;
 }
 
-const ImageLicenseInfo = ({ image, articleId }: ImageLicenseInfoProps) => {
+const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
   const { t, i18n } = useTranslation();
   const disableConverter = useDisableConverter();
   const safeCopyright = licenseCopyrightToCopyrightType(image.copyright);
@@ -60,7 +58,7 @@ const ImageLicenseInfo = ({ image, articleId }: ImageLicenseInfoProps) => {
         image.title,
         undefined,
         image.src,
-        `${config.ndlaFrontendDomain}/article/${articleId}`,
+        `${config.ndlaFrontendDomain}/image/${image.id}`,
         image.copyright,
         image.copyright.license.license,
         '',
@@ -126,18 +124,17 @@ const ImageLicenseInfo = ({ image, articleId }: ImageLicenseInfoProps) => {
 
 interface Props {
   images: GQLImageLicenseList_ImageLicenseFragment[];
-  articleId?: number;
 }
 
-const ImageLicenseList = ({ images, articleId }: Props) => {
+const ImageLicenseList = ({ images }: Props) => {
   const { t } = useTranslation();
   return (
     <div>
       <h2>{t('license.images.heading')}</h2>
       <p>{t('license.images.description')}</p>
       <MediaList>
-        {images.map((image) => (
-          <ImageLicenseInfo image={image} articleId={articleId} key={uuid()} />
+        {images.map((image, index) => (
+          <ImageLicenseInfo image={image} key={`${image.id}-${index}`} />
         ))}
       </MediaList>
     </div>
@@ -147,6 +144,7 @@ const ImageLicenseList = ({ images, articleId }: Props) => {
 ImageLicenseList.fragments = {
   image: gql`
     fragment ImageLicenseList_ImageLicense on ImageLicense {
+      id
       title
       altText
       src

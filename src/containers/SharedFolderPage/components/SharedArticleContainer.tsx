@@ -12,6 +12,7 @@ import { useEffect, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { CustomWithTranslation, withTranslation } from 'react-i18next';
 import { withTracker } from '@ndla/tracker';
+import { DynamicComponents } from '@ndla/article-converter';
 import Article from '../../../components/Article';
 import config from '../../../config';
 import { SKIP_TO_CONTENT_ID } from '../../../constants';
@@ -25,12 +26,16 @@ import { getContentTypeFromResourceTypes } from '../../../util/getContentType';
 import { structuredArticleDataFragment } from '../../../util/getStructuredDataFromArticle';
 import { transformArticle } from '../../../util/transformArticle';
 import { getAllDimensions } from '../../../util/trackingUtil';
+import AddEmbedToFolder from '../../../components/MyNdla/AddEmbedToFolder';
 
 interface Props extends CustomWithTranslation {
   article: GQLSharedResourceArticleContainer_ArticleFragment;
   meta?: GQLFolderResourceMetaSearchQuery['folderResourceMetaSearch'][0];
   title: string;
 }
+
+const converterComponents: DynamicComponents | undefined =
+  config.favoriteEmbedEnabled ? { heartButton: AddEmbedToFolder } : undefined;
 
 const SharedArticleContainer = ({
   article: propArticle,
@@ -52,6 +57,7 @@ const SharedArticleContainer = ({
       transformArticle(propArticle, i18n.language, {
         enabled: true,
         path: `${config.ndlaFrontendDomain}/article/${propArticle.id}`,
+        components: converterComponents,
       }),
       getArticleScripts(propArticle, i18n.language),
     ];

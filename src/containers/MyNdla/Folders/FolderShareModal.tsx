@@ -63,6 +63,11 @@ const CopyLinkButton = styled(ButtonV2)`
   white-space: nowrap;
   text-overflow: ellipsis;
   justify-content: space-between;
+  span {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
 
   &:hover,
   &:active,
@@ -204,8 +209,10 @@ const FolderShareModal = ({
                       });
                     }}
                   >
-                    {previewLink(folder.id)}
-                    <Copy />
+                    <span>{previewLink(folder.id)}</span>
+                    <div>
+                      <Copy />
+                    </div>
                   </CopyLinkButton>
                 </Tooltip>
               </div>

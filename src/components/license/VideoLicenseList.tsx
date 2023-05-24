@@ -100,6 +100,7 @@ const VideoLicenseList = ({ videos }: Props) => {
 VideoLicenseList.fragments = {
   video: gql`
     fragment VideoLicenseList_BrightcoveLicense on BrightcoveLicense {
+      id
       title
       download
       src

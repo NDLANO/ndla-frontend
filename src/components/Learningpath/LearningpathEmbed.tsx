@@ -15,6 +15,7 @@ import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { Spinner } from '@ndla/icons';
 import { CreatedBy } from '@ndla/ui';
+import { DynamicComponents } from '@ndla/article-converter';
 import Article from '../Article';
 import { transformArticle } from '../../util/transformArticle';
 import { getArticleScripts } from '../../util/getArticleScripts';
@@ -35,6 +36,7 @@ import config from '../../config';
 import { useGraphQuery } from '../../util/runQueries';
 import { supportedLanguages } from '../../i18n';
 import { useDisableConverter } from '../ArticleConverterContext';
+import AddEmbedToFolder from '../MyNdla/AddEmbedToFolder';
 
 interface StyledIframeContainerProps {
   oembedWidth: number;
@@ -72,6 +74,9 @@ const getIdFromIframeUrl = (
   }
   return [undefined, undefined];
 };
+
+const converterComponents: DynamicComponents | undefined =
+  config.favoriteEmbedEnabled ? { heartButton: AddEmbedToFolder } : undefined;
 
 interface Props {
   learningpathStep: GQLLearningpathEmbed_LearningpathStepFragment;
@@ -133,6 +138,7 @@ const LearningpathEmbed = ({
         enabled: true,
         path: `${config.ndlaFrontendDomain}/article/${article.id}`,
         subject: subjectId,
+        components: converterComponents,
       }),
       getArticleScripts(article, i18n.language),
     ];

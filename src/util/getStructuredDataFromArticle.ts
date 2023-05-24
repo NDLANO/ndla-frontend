@@ -395,7 +395,7 @@ const createVideoData = (
       description: video?.description,
       acquireLicensePage: AcquireLicensePage,
       uploadDate: video?.uploadDate
-        ? format(new Date(video?.uploadDate!), 'yyyy-mm-dd')
+        ? format(new Date(video?.uploadDate!), 'yyyy-MM-dd')
         : undefined,
       ...getCopyrightData(video?.copyright!),
     };

@@ -19,7 +19,10 @@ import {
   GQLFolderResource,
   GQLFolderResourceMetaSearchQuery,
 } from '../../../graphqlTypes';
-import { contentTypeMapping } from '../../../util/getContentType';
+import {
+  contentTypeMapping,
+  resourceEmbedTypeMapping,
+} from '../../../util/getContentType';
 
 interface StyledProps {
   level: number;
@@ -72,6 +75,11 @@ const isLastStyle = css`
   border-bottom: 1px solid ${colors.brand.light};
 `;
 
+const allContentTypes = {
+  ...contentTypeMapping,
+  ...resourceEmbedTypeMapping,
+};
+
 interface Props {
   parentId: string;
   meta?: GQLFolderResourceMetaSearchQuery['folderResourceMetaSearch'][0];
@@ -94,30 +102,40 @@ const FolderResource = ({
   const { folderId: rootFolderId, subfolderId, resourceId } = useParams();
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const isLearningPath = useMemo(
-    () => resource.resourceType === 'learningpath',
+  const isLearningPathOrCase = useMemo(
+    () =>
+      resource.resourceType === 'learningpath' ||
+      resource.resourceType === 'multidisciplinary',
     [resource.resourceType],
   );
   const link = useMemo(
     () =>
-      isLearningPath
+      isLearningPathOrCase
         ? resource.path
         : `/folder/${rootFolderId}/${parentId}/${resource.id}`,
-    [isLearningPath, resource.path, resource.id, rootFolderId, parentId],
+    [isLearningPathOrCase, resource.path, resource.id, rootFolderId, parentId],
   );
 
   const onClick = useCallback(
     (e: MouseEvent<HTMLAnchorElement>) => {
       e.preventDefault();
       setFocus(`shared-${parentId}-${resource.id}`);
-      if (isLearningPath) {
+      if (isLearningPathOrCase) {
         window.open(link);
       } else {
         navigate(link);
       }
       onClose?.();
     },
-    [setFocus, parentId, resource.id, isLearningPath, onClose, link, navigate],
+    [
+      setFocus,
+      parentId,
+      resource.id,
+      isLearningPathOrCase,
+      onClose,
+      link,
+      navigate,
+    ],
   );
 
   const isCurrent = resource.id === resourceId && parentId === subfolderId;
@@ -126,8 +144,11 @@ const FolderResource = ({
       ? t('myNdla.sharedFolder.willOpenInNewTab')
       : '';
 
-  const contentType =
-    contentTypeMapping[meta?.resourceTypes?.[0]?.id || 'default'];
+  const maybeContentType = meta?.resourceTypes?.find(
+    (rt) => allContentTypes[rt.id],
+  );
+
+  const contentType = allContentTypes[maybeContentType?.id ?? 'default'];
 
   return (
     <ListElement css={isLast ? isLastStyle : undefined} role="none">
@@ -138,7 +159,7 @@ const FolderResource = ({
         id={`shared-${parentId}-${resource.id}`}
         aria-label={[
           `${meta?.title}.`,
-          `${t(`contentTypes.${contentType}`)}.`,
+          `${t(`contentTypes.${contentType}`)}`,
           openInfo,
         ]
           .filter((i) => !!i)
@@ -152,7 +173,8 @@ const FolderResource = ({
       >
         <ContentTypeBadge type={contentType!} border={false} />
         <StyledSpan>{meta?.title}</StyledSpan>
-        {resource.resourceType === 'learningpath' && (
+        {(resource.resourceType === 'learningpath' ||
+          resource.resourceType === 'multidisciplinary') && (
           <Launch height={'24px'} width={'24px'} />
         )}
       </StyledSafelinkButton>

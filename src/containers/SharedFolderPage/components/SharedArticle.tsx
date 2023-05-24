@@ -73,7 +73,11 @@ const SharedArticle = ({ resource, meta, title }: Props) => {
     return <ErrorPage />;
   }
 
-  return <SharedArticleContainer article={article} meta={meta} title={title} />;
+  return (
+    <main>
+      <SharedArticleContainer article={article} meta={meta} title={title} />
+    </main>
+  );
 };
 
 export default SharedArticle;

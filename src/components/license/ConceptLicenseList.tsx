@@ -100,6 +100,7 @@ const ConceptLicenseList = ({ concepts }: Props) => {
 ConceptLicenseList.fragments = {
   concept: gql`
     fragment ConceptLicenseList_ConceptLicense on ConceptLicense {
+      id
       title
       src
       copyright {

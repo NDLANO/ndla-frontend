@@ -17,6 +17,7 @@ import {
   withTranslation,
 } from 'react-i18next';
 import { GraphQLError } from 'graphql';
+import { DynamicComponents } from '@ndla/article-converter';
 import Article from '../../components/Article';
 import ArticleHero from './components/ArticleHero';
 import ArticleErrorMessage from './components/ArticleErrorMessage';
@@ -47,6 +48,7 @@ import {
   GQLArticlePage_TopicPathFragment,
 } from '../../graphqlTypes';
 import { useDisableConverter } from '../../components/ArticleConverterContext';
+import AddEmbedToFolder from '../../components/MyNdla/AddEmbedToFolder';
 
 interface Props extends CustomWithTranslation {
   resource?: GQLArticlePage_ResourceFragment;
@@ -60,6 +62,9 @@ interface Props extends CustomWithTranslation {
   user?: FeideUserApiType;
   skipToContentId?: string;
 }
+
+const converterComponents: DynamicComponents | undefined =
+  config.favoriteEmbedEnabled ? { heartButton: AddEmbedToFolder } : undefined;
 
 const ArticlePage = ({
   resource,
@@ -82,6 +87,7 @@ const ArticlePage = ({
         path: `${config.ndlaFrontendDomain}/article/${resource.article?.id}`,
         enabled: disableConverter,
         subject: subject?.id,
+        components: converterComponents,
       }),
       getArticleScripts(resource.article, i18n.language),
     ];
