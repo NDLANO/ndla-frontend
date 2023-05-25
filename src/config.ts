@@ -136,6 +136,7 @@ export type ConfigType = {
   disableConverter: boolean;
   folderDescriptionEnabled: boolean;
   favoriteEmbedEnabled: boolean;
+  filterInactiveContexts: boolean;
 };
 
 const config: ConfigType = {
@@ -178,6 +179,10 @@ const config: ConfigType = {
     false,
   ),
   favoriteEmbedEnabled: getEnvironmentVariabel('FAVORITE_EMBED_ENABLED', true),
+  filterInactiveContexts: getEnvironmentVariabel(
+    'FILTER_INACTIVE_CONTEXTS',
+    false,
+  ),
 };
 
 export function getUniversalConfig() {
