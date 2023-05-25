@@ -9,7 +9,13 @@
 import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ListResource } from '@ndla/ui';
-import { ModalBody, ModalCloseButton, ModalHeader, ModalV2 } from '@ndla/modal';
+import {
+  ModalBody,
+  ModalCloseButton,
+  ModalHeader,
+  ModalTitle,
+  Modal,
+} from '@ndla/modal';
 import AddResourceToFolder, { ResourceAttributes } from './AddResourceToFolder';
 import { AuthContext } from '../AuthenticationContext';
 import { useFolderResourceMeta } from '../../containers/MyNdla/folderMutations';
@@ -37,17 +43,11 @@ const AddResourceToFolderModal = ({
 
   if (authenticated) {
     return (
-      <ModalV2
-        controlled
-        isOpen={isOpen}
-        size="normal"
-        onClose={onClose}
-        label={t('myNdla.resource.addToMyNdla')}
-      >
+      <Modal controlled isOpen={isOpen} size="normal" onClose={onClose}>
         {(onCloseModal) => (
           <>
             <ModalHeader>
-              <h1>{t('myNdla.resource.addToMyNdla')}</h1>
+              <ModalTitle>{t('myNdla.resource.addToMyNdla')}</ModalTitle>
               <ModalCloseButton
                 onMouseDown={(e) => e.preventDefault()}
                 onMouseUp={(e) => e.preventDefault()}
@@ -64,7 +64,7 @@ const AddResourceToFolderModal = ({
             </ModalBody>
           </>
         )}
-      </ModalV2>
+      </Modal>
     );
   } else {
     return (

@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { breakpoints, fonts, mq, spacing } from '@ndla/core';
-import { ModalBody, ModalHeader, ModalCloseButton, ModalV2 } from '@ndla/modal';
+import { ModalBody, ModalHeader, ModalCloseButton, Modal } from '@ndla/modal';
 import Tooltip from '@ndla/tooltip';
 import { Switch } from '@ndla/switch';
 import { LearningPathQuiz } from '@ndla/icons/contentType';
@@ -99,8 +99,8 @@ const ResourcesTopicTitle = ({
             onChange={toggleAdditionalResources}
             css={invertedStyle ? invertedSwitchCSS : switchCSS}
           />
-          <ModalV2
-            labelledBy={tooltipId}
+          <Modal
+            aria-labelledby={tooltipId}
             wrapperFunctionForButton={(activateButton: ReactNode) => (
               <Tooltip tooltip={t('resource.dialogTooltip')}>
                 {activateButton}
@@ -133,7 +133,7 @@ const ResourcesTopicTitle = ({
                 </ModalBody>
               </>
             )}
-          </ModalV2>
+          </Modal>
         </StyledRow>
       )}
     </TopicTitleWrapper>

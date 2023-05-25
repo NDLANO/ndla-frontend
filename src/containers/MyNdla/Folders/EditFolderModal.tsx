@@ -6,7 +6,13 @@
  *
  */
 
-import { ModalBody, ModalCloseButton, ModalHeader, ModalV2 } from '@ndla/modal';
+import {
+  ModalBody,
+  ModalCloseButton,
+  ModalHeader,
+  ModalTitle,
+  Modal,
+} from '@ndla/modal';
 import { useTranslation } from 'react-i18next';
 import { useMemo } from 'react';
 import { useApolloClient } from '@apollo/client';
@@ -45,16 +51,11 @@ const EditFolderModal = ({ folder, isOpen, onClose, onSaved }: Props) => {
   const siblings = levelFolders.filter((f) => f.id !== folder?.id);
 
   return (
-    <ModalV2
-      controlled
-      isOpen={isOpen}
-      onClose={onClose}
-      labelledBy={'editHeading'}
-    >
+    <Modal controlled isOpen={isOpen} onClose={onClose}>
       {(onCloseModal) => (
         <>
           <ModalHeader>
-            <h1 id="editHeading">{t('myNdla.folder.edit')}</h1>
+            <ModalTitle>{t('myNdla.folder.edit')}</ModalTitle>
             <ModalCloseButton
               title={t('modal.closeModal')}
               onClick={onCloseModal}
@@ -83,7 +84,7 @@ const EditFolderModal = ({ folder, isOpen, onClose, onSaved }: Props) => {
           </ModalBody>
         </>
       )}
-    </ModalV2>
+    </Modal>
   );
 };
 

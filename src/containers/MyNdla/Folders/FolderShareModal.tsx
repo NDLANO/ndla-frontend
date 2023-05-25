@@ -10,8 +10,9 @@ import { useTranslation } from 'react-i18next';
 import {
   ModalBody,
   ModalCloseButton,
-  ModalHeaderV2,
-  ModalV2,
+  ModalHeader,
+  ModalTitle,
+  Modal,
 } from '@ndla/modal';
 import styled from '@emotion/styled';
 import { breakpoints, colors, fonts, misc, mq, spacing } from '@ndla/core';
@@ -26,10 +27,6 @@ import FolderAndResourceCount from './FolderAndResourceCount';
 import { toFolderPreview } from '../../../routeHelpers';
 import { previewLink } from './util';
 import IsMobileContext from '../../../IsMobileContext';
-
-const Title = styled.h1`
-  margin-bottom: 0;
-`;
 
 const FolderName = styled.span`
   ${fonts.sizes('18px', '24px')};
@@ -167,22 +164,16 @@ const FolderShareModal = ({
   );
 
   return (
-    <ModalV2
-      controlled
-      isOpen={isOpen}
-      size="normal"
-      onClose={onClose}
-      label={t('user.modal.isNotAuth')}
-    >
+    <Modal controlled isOpen={isOpen} size="normal" onClose={onClose}>
       {(onCloseModal) => (
         <>
-          <ModalHeaderV2>
-            <Title>{t(`myNdla.folder.sharing.header.${type}`)}</Title>
+          <ModalHeader>
+            <ModalTitle>{t(`myNdla.folder.sharing.header.${type}`)}</ModalTitle>
             <ModalCloseButton
               title={t('myNdla.folder.closeModal')}
               onClick={onCloseModal}
             />
-          </ModalHeaderV2>
+          </ModalHeader>
           <StyledModalBody>
             <FolderName aria-label={folder.name}>{folder.name}</FolderName>
             <FolderAndResourceCount
@@ -237,7 +228,7 @@ const FolderShareModal = ({
           </StyledModalBody>
         </>
       )}
-    </ModalV2>
+    </Modal>
   );
 };
 
