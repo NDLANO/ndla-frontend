@@ -49,7 +49,7 @@ function renderCompetenceGoals(
   setCompetenceGoalsLoading: (loading: boolean) => void,
   subjectId?: string,
   isOembed?: boolean,
-): ((inp: CompetenceGoalModalProps) => ReactNode) | null {
+): ((inp: CompetenceGoalModalProps) => ReactNode) | undefined {
   // Don't show competence goals for topics or articles without grepCodes
   if (
     !isTopicArticle &&
@@ -67,7 +67,7 @@ function renderCompetenceGoals(
       />
     );
   }
-  return null;
+  return undefined;
 }
 
 interface Props {

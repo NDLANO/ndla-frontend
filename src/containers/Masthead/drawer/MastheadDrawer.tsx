@@ -94,10 +94,11 @@ const MastheadDrawer = ({ subject }: Props) => {
   return (
     <Drawer
       expands
+      position="left"
       size="xsmall"
       animationDuration={100}
-      animation="fade"
-      label={t('masthead.menu.modalLabel')}
+      animation="slideIn"
+      aria-label={t('masthead.menu.modalLabel')}
       activateButton={
         <ButtonV2
           aria-haspopup="menu"

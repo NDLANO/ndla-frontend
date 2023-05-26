@@ -207,7 +207,8 @@ const SharedFolderPage = () => {
           <StyledDrawer
             position="bottom"
             size="small"
-            labelledBy="folder-drawer-button"
+            expands
+            aria-labelledby="folder-drawer-button"
             activateButton={
               <DrawerButton shape="sharp" colorTheme="light">
                 <span id="folder-drawer-button">
