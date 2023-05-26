@@ -10,10 +10,12 @@ import { ReactNode, useCallback, useContext, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import { AuthModal } from '@ndla/ui';
-import { ButtonV2 as Button } from '@ndla/button';
+import { UserInfo } from '@ndla/ui';
+import { ButtonV2 as Button, ButtonV2 } from '@ndla/button';
 import { colors, spacing } from '@ndla/core';
 import { SafeLinkButton } from '@ndla/safelink';
+import { FeideText, LogOut } from '@ndla/icons/common';
+import { Modal, ModalBody, ModalCloseButton, ModalHeader } from '@ndla/modal';
 import { AuthContext } from '../AuthenticationContext';
 import IsMobileContext from '../../IsMobileContext';
 import { useIsNdlaFilm } from '../../routeHelpers';
@@ -36,6 +38,20 @@ const StyledLink = styled(SafeLinkButton)`
     width: 20px;
     height: 20px;
   }
+`;
+
+const StyledHeading = styled.h1`
+  margin: ${spacing.small} 0 0;
+  svg {
+    width: 82px;
+    height: 28px;
+    color: #000000;
+  }
+`;
+
+const StyledButton = styled(ButtonV2)`
+  display: flex;
+  margin-top: ${spacing.normal};
 `;
 
 interface Props {
@@ -88,19 +104,36 @@ const FeideLoginButton = ({ footer, children }: Props) => {
   }
 
   return (
-    <AuthModal
+    <Modal
+      position="top"
       activateButton={<FeideFooterButton>{children}</FeideFooterButton>}
-      isAuthenticated={authenticated}
-      showGeneralMessage={false}
-      user={user}
-      onAuthenticateClick={() => {
-        const route = authenticated ? 'logout' : 'login';
-        window.location.href = constructNewPath(
-          `/${route}?state=${toHref(location)}`,
-          basename,
-        );
-      }}
-    />
+      aria-label={t('user.modal.isAuth')}
+    >
+      {(onClose: () => void) => (
+        <>
+          <ModalHeader>
+            <StyledHeading aria-label="Feide">
+              <FeideText aria-hidden />
+            </StyledHeading>
+            <ModalCloseButton onClick={onClose} title="Lukk" />
+          </ModalHeader>
+          <ModalBody>
+            {user && <UserInfo user={user} />}
+            <StyledButton
+              onClick={() => {
+                window.location.href = constructNewPath(
+                  `/logout?state=${toHref(location)}`,
+                  basename,
+                );
+              }}
+            >
+              {t('user.buttonLogOut')}
+              <LogOut />
+            </StyledButton>
+          </ModalBody>
+        </>
+      )}
+    </Modal>
   );
 };
 
