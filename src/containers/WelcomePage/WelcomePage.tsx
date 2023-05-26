@@ -125,7 +125,7 @@ const WelcomePage = () => {
               }}
               content={{
                 content:
-                  'Vi hjelper deg med eksamensforberedelsene! Sjekk våre tips og ressurser som kan ta deg litt nærmere hvilepuls på eksamensdagen. Visste du at NDLA er et av få åpne nettsteder du har lov til å bruke som hjelpemiddel under eksamen?',
+                  'Vi hjelper deg med eksamensforberedelsene! Visste du at NDLA er et av få åpne nettsteder du har lov til å bruke som hjelpemiddel under eksamen?',
                 lang: 'nb',
               }}
               linkText={{
