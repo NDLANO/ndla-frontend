@@ -62,7 +62,7 @@ configureTracker({
   listen: () => {
     return () => {};
   },
-  gaTrackingId: config.gaTrackingId,
+  gaTrackingId: undefined,
   googleTagManagerId: config.googleTagManagerId,
 });
 

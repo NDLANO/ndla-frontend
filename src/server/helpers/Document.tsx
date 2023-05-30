@@ -51,9 +51,6 @@ const Document = ({ helmet, assets, data, styles }: Props) => {
           name="viewport"
           content="width=device-width, initial-scale=1 viewport-fit=cover"
         />
-        {config.gaTrackingId ? (
-          <script async src="https://www.google-analytics.com/analytics.js" />
-        ) : null}
         <GoogleTagMangerScript />
         {helmet.title.toComponent()}
         {helmet.meta.toComponent()}
