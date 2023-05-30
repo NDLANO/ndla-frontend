@@ -13,7 +13,7 @@ import ScriptLoader from '@ndla/polyfill/lib/ScriptLoader';
 import { GoogleTagMangerScript, GoogleTagMangerNoScript } from './Gtm';
 import { Matomo } from './Matomo';
 import Tagmanager from './Tagmanager';
-import config, { ConfigType } from '../../config';
+import { ConfigType } from '../../config';
 
 export interface Assets {
   css?: string;
@@ -51,9 +51,6 @@ const Document = ({ helmet, assets, data, styles }: Props) => {
           name="viewport"
           content="width=device-width, initial-scale=1 viewport-fit=cover"
         />
-        {config.gaTrackingId ? (
-          <script async src="https://www.google-analytics.com/analytics.js" />
-        ) : null}
         <GoogleTagMangerScript />
         {helmet.title.toComponent()}
         {helmet.meta.toComponent()}
