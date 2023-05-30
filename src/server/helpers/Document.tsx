@@ -13,7 +13,7 @@ import ScriptLoader from '@ndla/polyfill/lib/ScriptLoader';
 import { GoogleTagMangerScript, GoogleTagMangerNoScript } from './Gtm';
 import { Matomo } from './Matomo';
 import Tagmanager from './Tagmanager';
-import config, { ConfigType } from '../../config';
+import { ConfigType } from '../../config';
 
 export interface Assets {
   css?: string;
