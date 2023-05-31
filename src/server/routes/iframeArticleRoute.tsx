@@ -27,7 +27,6 @@ import { createApolloClient } from '../../util/apiHelpers';
 import RedirectContext, {
   RedirectInfo,
 } from '../../components/RedirectContext';
-import { ArticleConverterProvider } from '../../components/ArticleConverterContext';
 
 const assets =
   process.env.NODE_ENV !== 'unittest' && process.env.RAZZLE_ASSETS_MANIFEST
@@ -61,10 +60,6 @@ const disableSSR = (req: Request) => {
 async function doRenderPage(req: Request, initialProps: InitialProps) {
   const context: RedirectInfo = {};
 
-  const disableConverter = req.query?.disableConverter?.length
-    ? req.query.disableConverter === 'true'
-    : config.disableConverter;
-
   const client = createApolloClient(initialProps.locale);
 
   //@ts-ignore
@@ -80,19 +75,17 @@ async function doRenderPage(req: Request, initialProps: InitialProps) {
       {disableSSR(req) ? (
         ''
       ) : (
-        <ArticleConverterProvider value={disableConverter}>
-          <I18nextProvider i18n={i18n}>
-            <RedirectContext.Provider value={context}>
-              <ApolloProvider client={client}>
-                <CacheProvider value={cache}>
-                  <StaticRouter location={req.url}>
-                    <IframePageContainer {...initialProps} />
-                  </StaticRouter>
-                </CacheProvider>
-              </ApolloProvider>
-            </RedirectContext.Provider>
-          </I18nextProvider>
-        </ArticleConverterProvider>
+        <I18nextProvider i18n={i18n}>
+          <RedirectContext.Provider value={context}>
+            <ApolloProvider client={client}>
+              <CacheProvider value={cache}>
+                <StaticRouter location={req.url}>
+                  <IframePageContainer {...initialProps} />
+                </StaticRouter>
+              </CacheProvider>
+            </ApolloProvider>
+          </RedirectContext.Provider>
+        </I18nextProvider>
       )}
     </HelmetProvider>
   );

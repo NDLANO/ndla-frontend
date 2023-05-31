@@ -55,7 +55,6 @@ const SharedArticleContainer = ({
   const [article, scripts] = useMemo(() => {
     return [
       transformArticle(propArticle, i18n.language, {
-        enabled: true,
         path: `${config.ndlaFrontendDomain}/article/${propArticle.id}`,
         components: converterComponents,
       }),

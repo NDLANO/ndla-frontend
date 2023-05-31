@@ -47,7 +47,6 @@ import {
   GQLArticlePage_TopicFragment,
   GQLArticlePage_TopicPathFragment,
 } from '../../graphqlTypes';
-import { useDisableConverter } from '../../components/ArticleConverterContext';
 import AddEmbedToFolder from '../../components/MyNdla/AddEmbedToFolder';
 
 interface Props extends CustomWithTranslation {
@@ -78,20 +77,18 @@ const ArticlePage = ({
   skipToContentId,
 }: Props) => {
   const subjectPageUrl = config.ndlaFrontendDomain;
-  const disableConverter = useDisableConverter();
 
   const [article, scripts] = useMemo(() => {
     if (!resource?.article) return [];
     return [
       transformArticle(resource?.article, i18n.language, {
         path: `${config.ndlaFrontendDomain}/article/${resource.article?.id}`,
-        enabled: disableConverter,
         subject: subject?.id,
         components: converterComponents,
       }),
       getArticleScripts(resource.article, i18n.language),
     ];
-  }, [subject?.id, resource?.article, i18n.language, disableConverter])!;
+  }, [subject?.id, resource?.article, i18n.language])!;
 
   useEffect(() => {
     if (window.MathJax && typeof window.MathJax.typeset === 'function') {
@@ -198,7 +195,7 @@ const ArticlePage = ({
       />
       <OneColumn>
         <Article
-          contentTransformed={disableConverter}
+          contentTransformed
           path={resource.path}
           id={skipToContentId}
           article={article}

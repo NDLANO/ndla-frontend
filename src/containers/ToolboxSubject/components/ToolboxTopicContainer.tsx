@@ -20,7 +20,6 @@ import { useGraphQuery } from '../../../util/runQueries';
 import ToolboxTopicWrapper, {
   toolboxTopicWrapperFragments,
 } from './ToolboxTopicWrapper';
-import { useDisableConverter } from '../../../components/ArticleConverterContext';
 
 interface Props {
   subject: GQLToolboxTopicContainer_SubjectFragment;
@@ -54,7 +53,6 @@ export const ToolboxTopicContainer = ({
   index,
 }: Props) => {
   const { user } = useContext(AuthContext);
-  const disableConverter = useDisableConverter();
   const { loading, data } = useGraphQuery<
     GQLToolboxTopicContainerQuery,
     GQLToolboxTopicContainerQueryVariables
@@ -62,7 +60,7 @@ export const ToolboxTopicContainer = ({
     variables: {
       subjectId: subject.id,
       topicId,
-      convertEmbeds: disableConverter,
+      convertEmbeds: true,
     },
   });
 
