@@ -49,7 +49,7 @@ function buildLicenseTabList(
             title: article.title,
             copyright: article.copyright,
             updated: article.published,
-            copyText: copyText,
+            copyText,
           },
         ]}
       />
