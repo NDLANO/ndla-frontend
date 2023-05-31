@@ -103,7 +103,8 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
 }
 
 .emotion-12 {
-  border: 1px solid #ceddea;
+  border: 1px solid #deebf6;
+  border-radius: 2px;
 }
 
 .emotion-12[data-state='open'] {

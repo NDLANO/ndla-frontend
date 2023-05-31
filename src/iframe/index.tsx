@@ -62,7 +62,6 @@ configureTracker({
   listen: () => {
     return () => {};
   },
-  gaTrackingId: undefined,
   googleTagManagerId: config.googleTagManagerId,
 });
 
