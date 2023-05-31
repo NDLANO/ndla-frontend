@@ -115,7 +115,7 @@ const FeideLoginButton = ({ footer, children }: Props) => {
             <StyledHeading aria-label="Feide">
               <FeideText aria-hidden />
             </StyledHeading>
-            <ModalCloseButton onClick={onClose} title="Lukk" />
+            <ModalCloseButton onClick={onClose} />
           </ModalHeader>
           <ModalBody>
             {user && <UserInfo user={user} />}
