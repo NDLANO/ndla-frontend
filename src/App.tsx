@@ -64,7 +64,6 @@ class App extends Component<AppProps, State> {
     if (props.isClient && props.history) {
       configureTracker({
         listen: props.history.listen,
-        gaTrackingId: window.location.host ? config?.gaTrackingId : '',
         googleTagManagerId: config?.googleTagManagerId,
       });
     }

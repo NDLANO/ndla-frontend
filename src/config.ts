@@ -81,23 +81,6 @@ export const feideDomain = (): string => {
   }
 };
 
-const gaTrackingId = (): string => {
-  if (process.env.NODE_ENV !== 'production') {
-    return '';
-  }
-
-  switch (ndlaEnvironment) {
-    case 'local':
-      return '';
-    case 'dev':
-      return '';
-    case 'prod':
-      return 'UA-9036010-1';
-    default:
-      return 'UA-9036010-31';
-  }
-};
-
 const logglyApiKey = (): string | undefined => {
   if (process.env.NODE_ENV === 'unittest') {
     return '';
@@ -123,7 +106,6 @@ export type ConfigType = {
   ndlaFrontendDomain: string;
   learningPathDomain: string;
   googleTagManagerId: string | undefined;
-  gaTrackingId: string | undefined;
   zendeskWidgetKey: string | undefined;
   localGraphQLApi: boolean;
   showAllFrontpageSubjects: boolean;
@@ -133,7 +115,6 @@ export type ConfigType = {
   matomoUrl: string;
   matomoSiteId: string;
   matomoTagmanagerId: string;
-  disableConverter: boolean;
   folderDescriptionEnabled: boolean;
   favoriteEmbedEnabled: boolean;
 };
@@ -162,7 +143,6 @@ const config: ConfigType = {
     learningPathDomain(),
   ),
   googleTagManagerId: getEnvironmentVariabel('NDLA_GOOGLE_TAG_MANAGER_ID'),
-  gaTrackingId: getEnvironmentVariabel('GA_TRACKING_ID', gaTrackingId()),
   zendeskWidgetKey: getEnvironmentVariabel('NDLA_ZENDESK_WIDGET_KEY'),
   localGraphQLApi: getEnvironmentVariabel('LOCAL_GRAPHQL_API', false),
   showAllFrontpageSubjects: true,
@@ -172,7 +152,6 @@ const config: ConfigType = {
   matomoUrl: getEnvironmentVariabel('MATOMO_URL', 'https://tall.ndla.no'),
   matomoSiteId: getEnvironmentVariabel('MATOMO_SITE_ID', ''),
   matomoTagmanagerId: getEnvironmentVariabel('MATOMO_TAGMANAGER_ID', ''),
-  disableConverter: getEnvironmentVariabel('USE_ARTICLE_CONVERTER', true),
   folderDescriptionEnabled: getEnvironmentVariabel(
     'FOLDER_DESCRIPTION_ENABLED',
     false,

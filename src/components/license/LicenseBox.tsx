@@ -18,13 +18,11 @@ import H5pLicenseList from './H5pLicenseList';
 import ConceptLicenseList from './ConceptLicenseList';
 import OembedItem from './OembedItem';
 import { GQLLicenseBox_ArticleFragment } from '../../graphqlTypes';
-import { useDisableConverter } from '../ArticleConverterContext';
 
 function buildLicenseTabList(
   article: GQLLicenseBox_ArticleFragment,
   t: TFunction,
   copyText?: string,
-  disableConverter?: boolean,
   printUrl?: string,
 ) {
   const images = article.metaData?.images || [];
@@ -51,7 +49,7 @@ function buildLicenseTabList(
             title: article.title,
             copyright: article.copyright,
             updated: article.published,
-            copyText: !disableConverter ? article.metaData?.copyText : copyText,
+            copyText,
           },
         ]}
       />
@@ -110,14 +108,7 @@ interface Props {
 }
 const LicenseBox = ({ article, copyText, printUrl }: Props) => {
   const { t } = useTranslation();
-  const disableConverter = useDisableConverter();
-  const tabs = buildLicenseTabList(
-    article,
-    t,
-    copyText,
-    disableConverter,
-    printUrl,
-  );
+  const tabs = buildLicenseTabList(article, t, copyText, printUrl);
   return <Tabs tabs={tabs} />;
 };
 

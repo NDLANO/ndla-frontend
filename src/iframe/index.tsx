@@ -8,7 +8,6 @@
 
 import '../style/index.css';
 import ReactDOM from 'react-dom';
-import qs from 'query-string';
 import { I18nextProvider } from 'react-i18next';
 import { HelmetProvider } from 'react-helmet-async';
 import { ApolloProvider } from '@apollo/client';
@@ -35,7 +34,6 @@ import IframePageContainer from './IframePageContainer';
 import { EmotionCacheKey } from '../constants';
 import { createApolloClient } from '../util/apiHelpers';
 import { initializeI18n } from '../i18n';
-import { ArticleConverterProvider } from '../components/ArticleConverterContext';
 
 const { config, initialProps } = window.DATA;
 
@@ -45,12 +43,6 @@ const {
   logEnvironment: environment,
   componentName,
 } = config;
-
-const { disableConverter } = qs.parse(window.location.search);
-
-const disableConverterValue = disableConverter?.length
-  ? disableConverter === 'true'
-  : config.disableConverter;
 
 window.errorReporter = ErrorReporter.getInstance({
   logglyApiKey,
@@ -62,7 +54,6 @@ configureTracker({
   listen: () => {
     return () => {};
   },
-  gaTrackingId: config.gaTrackingId,
   googleTagManagerId: config.googleTagManagerId,
 });
 
@@ -75,21 +66,19 @@ const i18n = initializeI18n(i18nInstance, language);
 
 const renderOrHydrate = disableSSR ? ReactDOM.render : ReactDOM.hydrate;
 renderOrHydrate(
-  <ArticleConverterProvider value={disableConverterValue}>
-    <HelmetProvider>
-      <I18nextProvider i18n={i18n}>
-        <ApolloProvider client={client}>
-          <CacheProvider value={cache}>
-            <BrowserRouter>
-              <MissingRouterContext.Provider value={true}>
-                <IframePageContainer {...initialProps} />
-              </MissingRouterContext.Provider>
-            </BrowserRouter>
-          </CacheProvider>
-        </ApolloProvider>
-      </I18nextProvider>
-    </HelmetProvider>
-  </ArticleConverterProvider>,
+  <HelmetProvider>
+    <I18nextProvider i18n={i18n}>
+      <ApolloProvider client={client}>
+        <CacheProvider value={cache}>
+          <BrowserRouter>
+            <MissingRouterContext.Provider value={true}>
+              <IframePageContainer {...initialProps} />
+            </MissingRouterContext.Provider>
+          </BrowserRouter>
+        </CacheProvider>
+      </ApolloProvider>
+    </I18nextProvider>
+  </HelmetProvider>,
   document.getElementById('root'),
   () => {
     window.hasHydrated = true;
