@@ -277,13 +277,11 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
           <section
             class="u-4/6@desktop u-push-1/6@desktop u-10/12@tablet u-push-1/12@tablet"
           >
-            <div>
-              <section>
-                <p>
-                  Dersom du leser de ulike partiprogrammene, ser du fort at partiene har ulike svar både på hva som er viktige utfordringer, og på hvordan de skal løses.
-                </p>
-              </section>
-            </div>
+            <section>
+              <p>
+                Dersom du leser de ulike partiprogrammene, ser du fort at partiene har ulike svar både på hva som er viktige utfordringer, og på hvordan de skal løses.
+              </p>
+            </section>
           </section>
           <section
             class="u-4/6@desktop u-push-1/6@desktop u-10/12@tablet u-push-1/12@tablet"
