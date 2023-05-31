@@ -35,7 +35,6 @@ import {
 import config from '../../config';
 import { useGraphQuery } from '../../util/runQueries';
 import { supportedLanguages } from '../../i18n';
-import { useDisableConverter } from '../ArticleConverterContext';
 import AddEmbedToFolder from '../MyNdla/AddEmbedToFolder';
 
 interface StyledIframeContainerProps {
@@ -93,7 +92,6 @@ const LearningpathEmbed = ({
   breadcrumbItems,
 }: Props) => {
   const { t, i18n } = useTranslation();
-  const disableConverter = useDisableConverter();
   const location = useLocation();
   const [taxId, articleId] =
     !learningpathStep.resource && learningpathStep.embedUrl?.url
@@ -118,7 +116,7 @@ const LearningpathEmbed = ({
       includeResource: !!taxId,
     },
     skip:
-      (disableConverter && !!learningpathStep.resource?.article) ||
+      !!learningpathStep.resource?.article ||
       (!learningpathStep.embedUrl && !learningpathStep.resource),
   });
 
@@ -128,14 +126,12 @@ const LearningpathEmbed = ({
   const contentUrl = path ? `${config.ndlaFrontendDomain}${path}` : undefined;
 
   const [article, scripts] = useMemo(() => {
-    const article =
-      disableConverter && !!learningpathStep.resource?.article
-        ? learningpathStep.resource.article
-        : data?.article;
+    const article = learningpathStep.resource?.article
+      ? learningpathStep.resource.article
+      : data?.article;
     if (!article) return [undefined, undefined];
     return [
       transformArticle(article, i18n.language, {
-        enabled: true,
         path: `${config.ndlaFrontendDomain}/article/${article.id}`,
         subject: subjectId,
         components: converterComponents,
@@ -144,7 +140,6 @@ const LearningpathEmbed = ({
     ];
   }, [
     data?.article,
-    disableConverter,
     i18n.language,
     learningpathStep.resource?.article,
     subjectId,
@@ -184,14 +179,8 @@ const LearningpathEmbed = ({
     return <Spinner />;
   }
 
-  const learningpathStepResource =
-    disableConverter && learningpathStep.resource
-      ? learningpathStep.resource
-      : data;
-  const resource =
-    disableConverter && learningpathStep.resource
-      ? learningpathStep.resource
-      : data?.resource;
+  const learningpathStepResource = learningpathStep.resource ?? data;
+  const resource = learningpathStep.resource ?? data?.resource;
   const stepArticle = learningpathStepResource?.article;
 
   if (!stepArticle) {

@@ -8,7 +8,6 @@
 
 import 'isomorphic-unfetch';
 import ReactDOM from 'react-dom';
-import qs from 'query-string';
 import { HelmetProvider } from 'react-helmet-async';
 import { I18nextProvider } from 'react-i18next';
 import ErrorReporter from '@ndla/error-reporter';
@@ -33,19 +32,12 @@ import LtiProvider from './LtiProvider';
 import '../style/index.css';
 import { STORED_LANGUAGE_COOKIE_KEY } from '../constants';
 import { initializeI18n, isValidLocale } from '../i18n';
-import { ArticleConverterProvider } from '../components/ArticleConverterContext';
 
 const {
   DATA: { initialProps, config },
 } = window;
 
 const { logglyApiKey, logEnvironment: environment, componentName } = config;
-
-const { disableConverter } = qs.parse(window.location.search);
-
-const disableConverterValue = disableConverter?.length
-  ? disableConverter === 'true'
-  : config.disableConverter;
 
 window.errorReporter = ErrorReporter.getInstance({
   logglyApiKey,
@@ -62,17 +54,15 @@ const client = createApolloClient(language);
 const i18n = initializeI18n(i18nInstance, language);
 
 ReactDOM.render(
-  <ArticleConverterProvider value={disableConverterValue}>
-    <HelmetProvider>
-      <I18nextProvider i18n={i18n}>
-        <ApolloProvider client={client}>
-          <MissingRouterContext.Provider value={true}>
-            <LtiProvider {...initialProps} />
-          </MissingRouterContext.Provider>
-        </ApolloProvider>
-      </I18nextProvider>
-    </HelmetProvider>
-  </ArticleConverterProvider>,
+  <HelmetProvider>
+    <I18nextProvider i18n={i18n}>
+      <ApolloProvider client={client}>
+        <MissingRouterContext.Provider value={true}>
+          <LtiProvider {...initialProps} />
+        </MissingRouterContext.Provider>
+      </ApolloProvider>
+    </I18nextProvider>
+  </HelmetProvider>,
   document.getElementById('root'),
 );
 

@@ -63,7 +63,6 @@ const MultidisciplinarySubjectArticle = ({
     if (!topic.article) return [undefined, undefined];
     return [
       transformArticle(topic.article, i18n.language, {
-        enabled: true,
         path: `${config.ndlaFrontendDomain}/article/${topic.article.id}`,
         subject: subject.id,
         components: converterComponents,

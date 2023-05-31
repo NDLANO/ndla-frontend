@@ -26,7 +26,6 @@ import { GQLPlainArticleContainer_ArticleFragment } from '../../graphqlTypes';
 import config from '../../config';
 import { getArticleProps } from '../../util/getArticleProps';
 import { getAllDimensions } from '../../util/trackingUtil';
-import { useDisableConverter } from '../../components/ArticleConverterContext';
 import AddEmbedToFolder from '../../components/MyNdla/AddEmbedToFolder';
 
 interface Props extends CustomWithTranslation {
@@ -47,7 +46,6 @@ const PlainArticleContainer = ({
   t,
   skipToContentId,
 }: Props) => {
-  const disableConverter = useDisableConverter();
   useEffect(() => {
     if (window.MathJax && typeof window.MathJax.typeset === 'function') {
       try {
@@ -61,13 +59,12 @@ const PlainArticleContainer = ({
   const [article, scripts] = useMemo(() => {
     return [
       transformArticle(propArticle, i18n.language, {
-        enabled: disableConverter,
         path: `${config.ndlaFrontendDomain}/article/${propArticle.id}`,
         components: converterComponents,
       }),
       getArticleScripts(propArticle, i18n.language),
     ];
-  }, [propArticle, i18n.language, disableConverter]);
+  }, [propArticle, i18n.language]);
 
   if (!article) return <NotFoundPage />;
   const oembedUrl = `${config.ndlaFrontendDomain}/oembed?url=${config.ndlaFrontendDomain}/article/${article.id}`;
@@ -109,7 +106,7 @@ const PlainArticleContainer = ({
       />
       <OneColumn>
         <Article
-          contentTransformed={disableConverter}
+          contentTransformed
           isPlainArticle
           id={skipToContentId}
           article={article}

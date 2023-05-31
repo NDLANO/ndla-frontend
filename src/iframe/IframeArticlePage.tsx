@@ -26,7 +26,6 @@ import {
   GQLIframeArticlePage_ResourceFragment,
 } from '../graphqlTypes';
 import { LocaleType } from '../interfaces';
-import { useDisableConverter } from '../components/ArticleConverterContext';
 
 interface Props extends CustomWithTranslation {
   locale?: LocaleType;
@@ -42,17 +41,15 @@ const IframeArticlePage = ({
   locale: propsLocale,
 }: Props) => {
   const locale = propsLocale ?? i18n.language;
-  const disableConverter = useDisableConverter();
   const [article, scripts] = useMemo(() => {
     return [
       transformArticle(propArticle, locale, {
-        enabled: disableConverter,
         path: `${config.ndlaFrontendDomain}/article/${propArticle.id}`,
         isOembed: true,
       }),
       getArticleScripts(propArticle, locale),
     ];
-  }, [propArticle, locale, disableConverter])!;
+  }, [propArticle, locale])!;
   const contentUrl = resource?.path
     ? `${config.ndlaFrontendDomain}${resource.path}`
     : undefined;
@@ -81,7 +78,7 @@ const IframeArticlePage = ({
       <FixDialogPosition />
       <main>
         <Article
-          contentTransformed={disableConverter}
+          contentTransformed
           article={article}
           isPlainArticle
           isOembed

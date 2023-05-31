@@ -20,7 +20,6 @@ import {
   GQLIframePageQuery,
   GQLIframePageQueryVariables,
 } from '../graphqlTypes';
-import { useDisableConverter } from '../components/ArticleConverterContext';
 import RedirectContext from '../components/RedirectContext';
 import NotFound from '../containers/NotFoundPage/NotFoundPage';
 
@@ -97,7 +96,6 @@ export const IframePage = ({
   isTopicArticle = false,
 }: Props) => {
   const location = useLocation();
-  const disableConverter = useDisableConverter();
   const redirectContext = useContext(RedirectContext);
   const includeResource = !isTopicArticle && taxonomyId !== undefined;
   const includeTopic = isTopicArticle;
@@ -113,7 +111,7 @@ export const IframePage = ({
       includeResource,
       includeTopic,
       showVisualElement: isTopicArticle ? 'true' : 'false',
-      convertEmbeds: disableConverter,
+      convertEmbeds: true,
     },
     skip: !articleId,
   });
