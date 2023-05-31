@@ -16,7 +16,6 @@ import { transformArticle } from '../util/transformArticle';
 import Article from '../components/Article';
 import { getArticleScripts } from '../util/getArticleScripts';
 import PostResizeMessage from './PostResizeMessage';
-import FixDialogPosition from './FixDialogPosition';
 import SocialMediaMetadata from '../components/SocialMediaMetadata';
 import getStructuredDataFromArticle, {
   structuredArticleDataFragment,
@@ -93,7 +92,6 @@ export const IframeTopicPage = ({
         />
       )}
       <PostResizeMessage />
-      <FixDialogPosition />
       <OneColumn>
         <main>
           <Article
