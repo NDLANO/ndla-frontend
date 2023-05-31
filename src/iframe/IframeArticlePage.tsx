@@ -18,7 +18,6 @@ import { getArticleScripts } from '../util/getArticleScripts';
 import { getArticleProps } from '../util/getArticleProps';
 import { getAllDimensions } from '../util/trackingUtil';
 import PostResizeMessage from './PostResizeMessage';
-import FixDialogPosition from './FixDialogPosition';
 import SocialMediaMetadata from '../components/SocialMediaMetadata';
 import config from '../config';
 import {
@@ -75,7 +74,6 @@ const IframeArticlePage = ({
         trackableContent={article}
       />
       <PostResizeMessage />
-      <FixDialogPosition />
       <main>
         <Article
           contentTransformed
