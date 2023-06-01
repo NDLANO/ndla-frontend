@@ -201,7 +201,7 @@ export async function oembedArticleRoute(req: express.Request) {
 
     return {
       status,
-      data: 'Internal server error',
+      data: typedError.status === 404 ? 'Not found' : 'Internal server error',
     };
   }
 }
