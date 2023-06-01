@@ -8,6 +8,7 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { gql } from '@apollo/client';
+import styled from '@emotion/styled';
 import { DynamicComponents, transform } from '@ndla/article-converter';
 import { Spinner } from '@ndla/icons';
 import { HelmetWithTracker } from '@ndla/tracker';
@@ -17,6 +18,8 @@ import {
   AccordionItem,
   AccordionRoot,
 } from '@ndla/accordion';
+import { CreatedBy } from '@ndla/ui';
+import { spacing } from '@ndla/core';
 import ResourceEmbedLicenseBox from './ResourceEmbedLicenseBox';
 import {
   GQLResourceEmbedLicenseBox_MetaFragment,
@@ -33,8 +36,13 @@ import config from '../../../config';
 
 export type StandaloneEmbed = 'image' | 'audio' | 'video' | 'h5p' | 'concept';
 
+const CreatedByWrapper = styled.div`
+  margin-top: ${spacing.small};
+`;
+
 interface Props {
   id: string;
+  isOembed?: boolean;
   type: StandaloneEmbed;
   noBackground?: boolean;
 }
@@ -102,7 +110,7 @@ const metaToProperties = (
   }
 };
 
-const ResourceEmbed = ({ id, type, noBackground }: Props) => {
+const ResourceEmbed = ({ id, type, noBackground, isOembed }: Props) => {
   const { t } = useTranslation();
 
   const { data, loading, error } = useGraphQuery<
@@ -124,9 +132,9 @@ const ResourceEmbed = ({ id, type, noBackground }: Props) => {
     }
     return transform(data.resourceEmbed.content, {
       frontendDomain: '',
-      components: converterComponents,
+      components: isOembed ? undefined : converterComponents,
     });
-  }, [data?.resourceEmbed.content]);
+  }, [data?.resourceEmbed.content, isOembed]);
 
   if (loading) {
     return <Spinner />;
@@ -171,6 +179,15 @@ const ResourceEmbed = ({ id, type, noBackground }: Props) => {
               </AccordionItem>
             )}
           </AccordionRoot>
+          {isOembed && (
+            <CreatedByWrapper>
+              <CreatedBy
+                name={t('createdBy.content')}
+                description={t('createdBy.text')}
+                url={`${config.ndlaFrontendDomain}/${type}/${id}`}
+              />
+            </CreatedByWrapper>
+          )}
         </ResourceEmbedWrapper>
       </main>
     </>

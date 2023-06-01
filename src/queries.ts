@@ -602,3 +602,27 @@ export const alertsQuery = gql`
     }
   }
 `;
+
+export const embedOembedQuery = gql`
+  query embedOembed($id: String!, $type: String!) {
+    resourceEmbed(id: $id, type: $type) {
+      meta {
+        images {
+          title
+        }
+        concepts {
+          title
+        }
+        audios {
+          title
+        }
+        podcasts {
+          title
+        }
+        brightcoves {
+          title
+        }
+      }
+    }
+  }
+`;
