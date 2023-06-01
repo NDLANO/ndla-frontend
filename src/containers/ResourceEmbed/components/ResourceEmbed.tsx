@@ -8,6 +8,7 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { gql } from '@apollo/client';
+import styled from '@emotion/styled';
 import { DynamicComponents, transform } from '@ndla/article-converter';
 import { Spinner } from '@ndla/icons';
 import { HelmetWithTracker } from '@ndla/tracker';
@@ -17,6 +18,8 @@ import {
   AccordionItem,
   AccordionRoot,
 } from '@ndla/accordion';
+import { CreatedBy } from '@ndla/ui';
+import { spacing } from '@ndla/core';
 import ResourceEmbedLicenseBox from './ResourceEmbedLicenseBox';
 import {
   GQLResourceEmbedLicenseBox_MetaFragment,
@@ -30,9 +33,6 @@ import NotFound from '../../NotFoundPage/NotFoundPage';
 import { useGraphQuery } from '../../../util/runQueries';
 import AddEmbedToFolder from '../../../components/MyNdla/AddEmbedToFolder';
 import config from '../../../config';
-import { CreatedBy } from '@ndla/ui';
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
 
 export type StandaloneEmbed = 'image' | 'audio' | 'video' | 'h5p' | 'concept';
 
