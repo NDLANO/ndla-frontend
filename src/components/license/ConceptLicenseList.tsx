@@ -24,6 +24,7 @@ import { useTranslation } from 'react-i18next';
 import CopyTextButton from './CopyTextButton';
 import { GQLConceptLicenseList_ConceptLicenseFragment } from '../../graphqlTypes';
 import { licenseCopyrightToCopyrightType } from './licenseHelpers';
+import config from '../../config';
 
 interface ConceptLicenseInfoProps {
   concept: GQLConceptLicenseList_ConceptLicenseFragment;
@@ -37,7 +38,7 @@ const ConceptLicenseInfo = ({ concept }: ConceptLicenseInfoProps) => {
   )
     return null;
 
-  const src = `/embed-iframe/${i18n.language}/concept/${concept.id}`;
+  const src = `${config.ndlaFrontendDomain}/embed-iframe/${i18n.language}/concept/${concept.id}`;
   const safeCopyright = licenseCopyrightToCopyrightType(concept.copyright);
   const items = getGroupedContributorDescriptionList(
     safeCopyright,

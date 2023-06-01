@@ -276,7 +276,6 @@ const iframArticleCallback = async (req: Request, res: Response) => {
 };
 
 const iframeEmbedCallback = async (req: Request, res: Response) => {
-  console.log('yes yes hello');
   res.removeHeader('X-Frame-Options');
   handleRequest(req, res, iframeEmbedRoute);
 };

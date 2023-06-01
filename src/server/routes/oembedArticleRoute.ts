@@ -153,7 +153,6 @@ export async function oembedArticleRoute(req: express.Request) {
       data: 'Bad request. Invalid url.',
     };
   }
-  console.log(match);
 
   const {
     params: {
