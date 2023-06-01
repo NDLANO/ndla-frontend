@@ -37,7 +37,7 @@ const ConceptLicenseInfo = ({ concept }: ConceptLicenseInfoProps) => {
   )
     return null;
 
-  const src = `${concept.src}/${i18n.language}`;
+  const src = `/embed-iframe/${i18n.language}/concept/${concept.id}`;
   const safeCopyright = licenseCopyrightToCopyrightType(concept.copyright);
   const items = getGroupedContributorDescriptionList(
     safeCopyright,
