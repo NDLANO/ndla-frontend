@@ -11,7 +11,7 @@ import { ButtonV2 } from '@ndla/button';
 import { breakpoints, colors, misc, mq, spacing } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import { HumanMaleBoard } from '@ndla/icons/common';
-import { Drawer, ModalCloseButton, ModalHeaderV2 } from '@ndla/modal';
+import { Drawer, ModalCloseButton, ModalHeader } from '@ndla/modal';
 import { ErrorMessage, OneColumn } from '@ndla/ui';
 import keyBy from 'lodash/keyBy';
 import { useContext } from 'react';
@@ -207,7 +207,8 @@ const SharedFolderPage = () => {
           <StyledDrawer
             position="bottom"
             size="small"
-            labelledBy="folder-drawer-button"
+            expands
+            aria-labelledby="folder-drawer-button"
             activateButton={
               <DrawerButton shape="sharp" colorTheme="light">
                 <span id="folder-drawer-button">
@@ -218,10 +219,10 @@ const SharedFolderPage = () => {
           >
             {(close) => (
               <StyledDrawerContent>
-                <ModalHeaderV2>
+                <ModalHeader>
                   <h1>{t('myNdla.sharedFolder.drawerTitle')}</h1>
                   <ModalCloseButton onClick={close} />
-                </ModalHeaderV2>
+                </ModalHeader>
                 <FolderNavigation
                   onClose={close}
                   folder={folder}

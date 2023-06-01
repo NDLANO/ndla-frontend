@@ -9,7 +9,13 @@
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
-import { ModalBody, ModalCloseButton, ModalHeader, ModalV2 } from '@ndla/modal';
+import {
+  ModalBody,
+  ModalCloseButton,
+  ModalHeader,
+  ModalTitle,
+  Modal,
+} from '@ndla/modal';
 import { useTranslation } from 'react-i18next';
 
 interface Props {
@@ -38,16 +44,11 @@ const DeleteModal = ({
 }: Props) => {
   const { t } = useTranslation();
   return (
-    <ModalV2
-      controlled
-      isOpen={isOpen}
-      onClose={onClose}
-      labelledBy={'deleteTitle'}
-    >
+    <Modal controlled isOpen={isOpen} onClose={onClose}>
       {(onCloseModal) => (
         <>
           <ModalHeader>
-            <h1 id="deleteTitle">{title}</h1>
+            <ModalTitle>{title}</ModalTitle>
             <ModalCloseButton
               title={t('modal.closeModal')}
               onClick={onCloseModal}
@@ -70,7 +71,7 @@ const DeleteModal = ({
           </ModalBody>
         </>
       )}
-    </ModalV2>
+    </Modal>
   );
 };
 

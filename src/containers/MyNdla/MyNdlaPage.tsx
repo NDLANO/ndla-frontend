@@ -19,7 +19,13 @@ import { ListResource, UserInfo } from '@ndla/ui';
 import { ButtonV2 } from '@ndla/button';
 import SafeLink, { SafeLinkButton } from '@ndla/safelink';
 import { HelmetWithTracker } from '@ndla/tracker';
-import { ModalBody, ModalCloseButton, ModalHeader, ModalV2 } from '@ndla/modal';
+import {
+  ModalBody,
+  ModalCloseButton,
+  ModalHeader,
+  ModalTitle,
+  Modal,
+} from '@ndla/modal';
 import InfoPart, { InfoPartIcon, InfoPartText } from './InfoSection';
 import { AuthContext } from '../../components/AuthenticationContext';
 import {
@@ -214,18 +220,17 @@ const MyNdlaPage = () => {
       </ButtonContainer>
       <ButtonContainer>
         {t('myNdla.myPage.wishToDelete')}
-        <ModalV2
+        <Modal
           activateButton={
             <ButtonV2 colorTheme="danger" variant="outline">
               {t('myNdla.myPage.deleteAccount')}
             </ButtonV2>
           }
-          label={t('myNdla.myPage.deleteAccount')}
         >
           {(onClose) => (
             <>
               <ModalHeader>
-                <h1>{t('myNdla.myPage.deleteAccount')}</h1>
+                <ModalTitle>{t('myNdla.myPage.deleteAccount')}</ModalTitle>
                 <ModalCloseButton
                   title={t('modal.closeModal')}
                   onClick={onClose}
@@ -248,7 +253,7 @@ const MyNdlaPage = () => {
               </ModalBody>
             </>
           )}
-        </ModalV2>
+        </Modal>
       </ButtonContainer>
     </StyledPageContentContainer>
   );

@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { ModalBody, ModalCloseButton, ModalHeader, ModalV2 } from '@ndla/modal';
+import { ModalBody, ModalCloseButton, ModalHeader, Modal } from '@ndla/modal';
 import { ReactNode } from 'react';
 import styled from '@emotion/styled';
 import { breakpoints, fonts, mq } from '@ndla/core';
@@ -45,12 +45,12 @@ const LoginModal = ({
   const { t } = useTranslation();
 
   return (
-    <ModalV2
+    <Modal
       controlled
       isOpen={isOpen}
       size="normal"
       onClose={onClose}
-      label={t('user.modal.isNotAuth')}
+      aria-label={t('user.modal.isNotAuth')}
     >
       {(onCloseModal) => (
         <>
@@ -70,7 +70,7 @@ const LoginModal = ({
           </StyledModalBody>
         </>
       )}
-    </ModalV2>
+    </Modal>
   );
 };
 

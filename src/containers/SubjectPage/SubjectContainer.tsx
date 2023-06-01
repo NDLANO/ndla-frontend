@@ -142,7 +142,7 @@ const SubjectContainer = ({ t, subjectId, topicIds, subject }: Props) => {
         Dialog: ComponentType;
         dialogProps: { isOpen: boolean; onClose: () => void };
       }) => ReactNode)
-    | null {
+    | undefined {
     // Don't show competence goals for topics or articles without grepCodes
     if (subject.grepCodes?.length) {
       return ({
@@ -161,7 +161,7 @@ const SubjectContainer = ({ t, subjectId, topicIds, subject }: Props) => {
         />
       );
     }
-    return null;
+    return undefined;
   }
 
   const headerRef = useRef<HTMLDivElement>(null);
