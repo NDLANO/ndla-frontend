@@ -176,7 +176,7 @@ const ArticlePage = ({
         ] === constants.subjectCategories.ARCHIVE_SUBJECTS && (
           <meta name="robots" content="noindex, nofollow" />
         )}
-
+        <meta name="pageid" content={`${article.id}`} />
         <script type="application/ld+json">
           {JSON.stringify(
             getStructuredDataFromArticle(
