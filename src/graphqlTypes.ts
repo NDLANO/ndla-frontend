@@ -4104,6 +4104,27 @@ export type GQLAlertsQuery = {
   }>;
 };
 
+export type GQLEmbedOembedQueryVariables = Exact<{
+  id: Scalars['String'];
+  type: Scalars['String'];
+}>;
+
+export type GQLEmbedOembedQuery = {
+  __typename?: 'Query';
+  resourceEmbed: {
+    __typename?: 'ResourceEmbed';
+    content: string;
+    meta: {
+      __typename?: 'ResourceMetaData';
+      images?: Array<{ __typename?: 'ImageLicense'; title: string }>;
+      concepts?: Array<{ __typename?: 'ConceptLicense'; title: string }>;
+      audios?: Array<{ __typename?: 'AudioLicense'; title: string }>;
+      podcasts?: Array<{ __typename?: 'PodcastLicense'; title: string }>;
+      brightcoves?: Array<{ __typename?: 'BrightcoveLicense'; title: string }>;
+    };
+  };
+};
+
 export type GQLStructuredArticleData_CopyrightFragment = {
   __typename?: 'Copyright';
   license: { __typename?: 'License'; url?: string };
