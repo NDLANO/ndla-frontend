@@ -6,28 +6,16 @@
  *
  */
 
-import { useContext, useMemo } from 'react';
-import {
-  Masthead,
-  MastheadItem,
-  LanguageSelector,
-  Logo,
-  DisplayOnPageYOffset,
-  HeaderBreadcrumb,
-} from '@ndla/ui';
+import { useContext } from 'react';
+import { Masthead, MastheadItem, LanguageSelector, Logo } from '@ndla/ui';
 import styled from '@emotion/styled';
-import { breakpoints, mq, spacing } from '@ndla/core';
+import { breakpoints, mq } from '@ndla/core';
 import { useLocation } from 'react-router-dom';
-import keyBy from 'lodash/keyBy';
 import { gql } from '@apollo/client';
 
 import { Feide } from '@ndla/icons/common';
 import { useTranslation } from 'react-i18next';
-import {
-  toBreadcrumbItems,
-  useIsNdlaFilm,
-  useUrnIds,
-} from '../../routeHelpers';
+import { useIsNdlaFilm, useUrnIds } from '../../routeHelpers';
 
 import FeideLoginButton from '../../components/FeideLoginButton';
 import MastheadSearch from './components/MastheadSearch';
@@ -44,13 +32,6 @@ import {
 } from '../../graphqlTypes';
 import { supportedLanguages } from '../../i18n';
 
-const BreadcrumbWrapper = styled.div`
-  margin-left: ${spacing.normal};
-  ${mq.range({ until: breakpoints.desktop })} {
-    display: none;
-  }
-`;
-
 const FeideLoginLabel = styled.span`
   ${mq.range({ until: breakpoints.mobileWide })} {
     display: none;
@@ -64,17 +45,9 @@ const LanguageSelectWrapper = styled.div`
 `;
 
 const mastheadQuery = gql`
-  query mastHead(
-    $subjectId: String!
-    $resourceId: String!
-    $skipResource: Boolean!
-  ) {
+  query mastHead($subjectId: String!) {
     subject(id: $subjectId) {
       ...MastheadDrawer_Subject
-    }
-    resource(id: $resourceId) @skip(if: $skipResource) {
-      id
-      name
     }
   }
   ${MastheadDrawer.fragments.subject}
@@ -83,45 +56,22 @@ const mastheadQuery = gql`
 const MastheadContainer = () => {
   const { t, i18n } = useTranslation();
   const locale = i18n.language;
-  const { subjectId, resourceId, subjectType, topicList } = useUrnIds();
+  const { subjectId } = useUrnIds();
   const { user } = useContext(AuthContext);
   const { openAlerts, closeAlert } = useAlerts();
   const location = useLocation();
   const ndlaFilm = useIsNdlaFilm();
-  const hideBreadcrumb =
-    !subjectId || (subjectType === 'standard' && !resourceId);
   const { data: freshData, previousData } = useGraphQuery<
     GQLMastHeadQuery,
     GQLMastHeadQueryVariables
   >(mastheadQuery, {
     variables: {
       subjectId: subjectId!,
-      resourceId: resourceId ?? '',
-      skipResource: !resourceId,
     },
     skip: !subjectId,
   });
 
   const data = freshData ?? previousData;
-
-  const path = useMemo(() => {
-    if (!data?.subject?.allTopics?.length) {
-      return [];
-    }
-    const keyed = keyBy(data.subject.allTopics, (t) => t.id);
-    const transformed = topicList.map((t) => keyed[t]);
-    return transformed;
-  }, [data?.subject?.allTopics, topicList]);
-
-  const breadcrumbBlockItems = (
-    data?.subject?.id
-      ? toBreadcrumbItems(t('breadcrumb.toFrontpage'), [
-          data.subject,
-          ...path,
-          ...(data?.resource ? [data.resource] : []),
-        ])
-      : []
-  ).filter((uri) => !!uri.name && !!uri.to);
 
   const renderSearchComponent = (hideOnNarrowScreen: boolean) =>
     !location.pathname.includes('search') &&
@@ -150,22 +100,6 @@ const MastheadContainer = () => {
       >
         <MastheadItem left>
           <MastheadDrawer subject={data?.subject} />
-          {!hideBreadcrumb && !!breadcrumbBlockItems.length && (
-            <DisplayOnPageYOffset yOffsetMin={150}>
-              <BreadcrumbWrapper>
-                <HeaderBreadcrumb
-                  light={ndlaFilm}
-                  items={
-                    breadcrumbBlockItems.length > 1
-                      ? breadcrumbBlockItems
-                          .slice(1)
-                          .map((uri) => ({ name: uri.name!, to: uri.to! }))
-                      : []
-                  }
-                />
-              </BreadcrumbWrapper>
-            </DisplayOnPageYOffset>
-          )}
         </MastheadItem>
         <MastheadItem right>
           <LanguageSelectWrapper>

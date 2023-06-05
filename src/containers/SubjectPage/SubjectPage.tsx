@@ -117,7 +117,6 @@ const SubjectPage = () => {
 
   return (
     <SubjectContainer
-      subjectId={subjectId}
       topicIds={topicList}
       subject={data.subject}
       loading={loading}

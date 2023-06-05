@@ -944,7 +944,6 @@ export type GQLQuery = {
   allFolderResources: Array<GQLFolderResource>;
   article?: Maybe<GQLArticle>;
   audio?: Maybe<GQLAudio>;
-  brightcoveVideo?: Maybe<GQLBrightcoveElement>;
   competenceGoal?: Maybe<GQLCompetenceGoal>;
   competenceGoals?: Maybe<Array<GQLCompetenceGoal>>;
   concept?: Maybe<GQLConcept>;
@@ -997,10 +996,6 @@ export type GQLQueryArticleArgs = {
 
 export type GQLQueryAudioArgs = {
   id: Scalars['Int'];
-};
-
-export type GQLQueryBrightcoveVideoArgs = {
-  id: Scalars['String'];
 };
 
 export type GQLQueryCompetenceGoalArgs = {
@@ -1066,6 +1061,7 @@ export type GQLQueryGroupSearchArgs = {
   aggregatePaths?: InputMaybe<Array<Scalars['String']>>;
   contextTypes?: InputMaybe<Scalars['String']>;
   fallback?: InputMaybe<Scalars['String']>;
+  filterInactive?: InputMaybe<Scalars['String']>;
   grepCodes?: InputMaybe<Scalars['String']>;
   language?: InputMaybe<Scalars['String']>;
   levels?: InputMaybe<Scalars['String']>;
@@ -1120,6 +1116,7 @@ export type GQLQuerySearchArgs = {
   contextFilters?: InputMaybe<Scalars['String']>;
   contextTypes?: InputMaybe<Scalars['String']>;
   fallback?: InputMaybe<Scalars['String']>;
+  filterInactive?: InputMaybe<Scalars['String']>;
   grepCodes?: InputMaybe<Scalars['String']>;
   ids?: InputMaybe<Array<Scalars['Int']>>;
   language?: InputMaybe<Scalars['String']>;
@@ -2187,14 +2184,11 @@ export type GQLLearningpathPage_TopicPathFragment = {
 
 export type GQLMastHeadQueryVariables = Exact<{
   subjectId: Scalars['String'];
-  resourceId: Scalars['String'];
-  skipResource: Scalars['Boolean'];
 }>;
 
 export type GQLMastHeadQuery = {
   __typename?: 'Query';
   subject?: { __typename?: 'Subject' } & GQLMastheadDrawer_SubjectFragment;
-  resource?: { __typename?: 'Resource'; id: string; name: string };
 };
 
 export type GQLMastheadSearch_SubjectFragment = {
@@ -2371,6 +2365,7 @@ export type GQLMultidisciplinarySubjectPageQuery = {
 export type GQLMultidisciplinarySubjectArticle_TopicFragment = {
   __typename?: 'Topic';
   path: string;
+  id: string;
   article?: {
     __typename?: 'Article';
     created: string;
@@ -2388,7 +2383,12 @@ export type GQLMultidisciplinarySubjectArticle_SubjectFragment = {
   name: string;
   id: string;
   path: string;
-  allTopics?: Array<{ __typename?: 'Topic'; id: string; name: string }>;
+  allTopics?: Array<{
+    __typename?: 'Topic';
+    id: string;
+    name: string;
+    parentId?: string;
+  }>;
   subjectpage?: {
     __typename?: 'SubjectPage';
     about?: { __typename?: 'SubjectPageAbout'; title: string };
@@ -4113,7 +4113,6 @@ export type GQLEmbedOembedQuery = {
   __typename?: 'Query';
   resourceEmbed: {
     __typename?: 'ResourceEmbed';
-    content: string;
     meta: {
       __typename?: 'ResourceMetaData';
       images?: Array<{ __typename?: 'ImageLicense'; title: string }>;
