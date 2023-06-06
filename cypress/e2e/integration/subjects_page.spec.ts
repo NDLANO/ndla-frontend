@@ -52,8 +52,12 @@ describe('Subjects page', () => {
       .click();
     cy.gqlWait('@subjectpage');
 
-    cy.get('[data-testid="breadcrumb-list"] a')
-      .should('have.length', 1)
-      .and('have.attr', 'href');
+    cy.get('[aria-label="Brødsmulesti"] ol').should('have.length', 1);
+
+    cy.get('[aria-label="Brødsmulesti"]')
+      .children()
+      .first()
+      .get('a')
+      .should('exist');
   });
 });
