@@ -7,7 +7,7 @@
  */
 
 import styled from '@emotion/styled';
-import { colors, fonts, spacing } from '@ndla/core';
+import { colors, spacing } from '@ndla/core';
 import { Select } from '@ndla/select';
 import { HelmetWithTracker } from '@ndla/tracker';
 import {
@@ -16,6 +16,7 @@ import {
   OneColumn,
   constants,
   getMastheadHeight,
+  Heading,
 } from '@ndla/ui';
 import { TFunction } from 'i18next';
 import sortBy from 'lodash/sortBy';
@@ -81,11 +82,6 @@ const StyledList = styled.ul`
   list-style: none;
   margin: 0;
   padding: 0;
-`;
-
-const StyledHeading = styled.h1`
-  font-weight: ${fonts.weight.semibold};
-  ${fonts.sizes('48px', '60px')};
 `;
 
 const SelectWrapper = styled.div`
@@ -180,9 +176,9 @@ const AllSubjectsPage = () => {
     <main className="c-resources u-padding-top-large">
       <HelmetWithTracker title={t('htmlTitles.subjectsPage')} />
       <StyledColumn wide>
-        <StyledHeading id={SKIP_TO_CONTENT_ID}>
+        <Heading element="h1" headingStyle="h1" serif id={SKIP_TO_CONTENT_ID}>
           {t('subjectsPage.allSubjects')}
-        </StyledHeading>
+        </Heading>
         {!!favoriteSubjects?.length && (
           <FavoriteSubjects
             favorites={favoriteSubjects}

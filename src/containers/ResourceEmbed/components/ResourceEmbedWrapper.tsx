@@ -9,8 +9,9 @@ import { ReactNode } from 'react';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { breakpoints, colors, fonts, mq, spacing } from '@ndla/core';
-import { OneColumn } from '@ndla/ui';
+import { OneColumn, Heading } from '@ndla/ui';
 import ResourceBadge from './ResourceBadge';
+import { SKIP_TO_CONTENT_ID } from '../../../constants';
 
 export type EmbedType =
   | 'video'
@@ -110,7 +111,14 @@ const ResourceEmbedWrapper = ({
             <ResourceBadge type={type} />
             <hgroup>
               <StyledParagraph>{t(`embed.type.${type}`)}</StyledParagraph>
-              <h1>{title}</h1>
+              <Heading
+                element="h1"
+                headingStyle="h1"
+                id={SKIP_TO_CONTENT_ID}
+                tabIndex={-1}
+              >
+                {title}
+              </Heading>
             </hgroup>
           </TitleWrapper>
           {children}
