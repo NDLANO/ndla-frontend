@@ -12,7 +12,6 @@ import { renderToString, renderToStaticMarkup } from 'react-dom/server';
 import { renderToStringWithData } from '@apollo/client/react/ssr';
 import { EmotionCache } from '@emotion/cache';
 import { ApolloClient } from '@apollo/client';
-import { resetIdCounter } from '@ndla/tabs';
 import createEmotionServer from '@emotion/server/create-instance';
 import { OK, MOVED_PERMANENTLY } from '../../statusCodes';
 
@@ -25,7 +24,6 @@ export function renderPage<T extends object>(
   assets: Assets,
   data?: T,
 ) {
-  resetIdCounter();
   const html = renderToString(Page);
   return {
     html,
@@ -54,7 +52,6 @@ export async function renderPageWithData<T extends object>({
   cache,
   client,
 }: Props<T>) {
-  resetIdCounter();
   if (cache) {
     const { extractCriticalToChunks, constructStyleTagsFromChunks } =
       createEmotionServer(cache);
