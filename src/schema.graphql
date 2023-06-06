@@ -925,6 +925,7 @@ type Resource implements TaxonomyEntity & WithArticle {
   availability: String
   breadcrumbs: [[String!]!]
   contentUri: String
+  contexts: [TaxonomyContext!]!
   id: String!
   learningpath: Learningpath
   meta: Meta
@@ -1110,6 +1111,12 @@ type Tags {
   tags: [String!]!
 }
 
+type TaxonomyContext {
+  breadcrumbs: [String!]!
+  parentIds: [String!]!
+  path: String!
+}
+
 interface TaxonomyEntity {
   contentUri: String
   id: String!
@@ -1141,8 +1148,9 @@ type Topic implements TaxonomyEntity & WithArticle {
     subjectId: String
   ): Article
   availability: String
-  breadcrumbs: [[String!]!]
+  breadcrumbs: [String!]!
   contentUri: String
+  contexts: [TaxonomyContext!]!
   coreResources(subjectId: String): [Resource!]
   id: String!
   isPrimary: Boolean

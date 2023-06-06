@@ -1196,6 +1196,7 @@ export type GQLResource = GQLTaxonomyEntity &
     availability?: Maybe<Scalars['String']>;
     breadcrumbs?: Maybe<Array<Array<Scalars['String']>>>;
     contentUri?: Maybe<Scalars['String']>;
+    contexts: Array<GQLTaxonomyContext>;
     id: Scalars['String'];
     learningpath?: Maybe<GQLLearningpath>;
     meta?: Maybe<GQLMeta>;
@@ -1429,6 +1430,13 @@ export type GQLTags = {
   tags: Array<Scalars['String']>;
 };
 
+export type GQLTaxonomyContext = {
+  __typename?: 'TaxonomyContext';
+  breadcrumbs: Array<Scalars['String']>;
+  parentIds: Array<Scalars['String']>;
+  path: Scalars['String'];
+};
+
 export type GQLTaxonomyEntity = {
   contentUri?: Maybe<Scalars['String']>;
   id: Scalars['String'];
@@ -1460,8 +1468,9 @@ export type GQLTopic = GQLTaxonomyEntity &
     alternateTopics?: Maybe<Array<GQLTopic>>;
     article?: Maybe<GQLArticle>;
     availability?: Maybe<Scalars['String']>;
-    breadcrumbs?: Maybe<Array<Array<Scalars['String']>>>;
+    breadcrumbs: Array<Scalars['String']>;
     contentUri?: Maybe<Scalars['String']>;
+    contexts: Array<GQLTaxonomyContext>;
     coreResources?: Maybe<Array<GQLResource>>;
     id: Scalars['String'];
     isPrimary?: Maybe<Scalars['Boolean']>;
@@ -2284,7 +2293,10 @@ export type GQLMovedResourcePage_ResourceFragment = {
   name: string;
   path: string;
   paths: Array<string>;
-  breadcrumbs?: Array<Array<string>>;
+  contexts: Array<{
+    __typename?: 'TaxonomyContext';
+    breadcrumbs: Array<string>;
+  }>;
   article?: {
     __typename?: 'Article';
     id: number;
@@ -3245,12 +3257,15 @@ export type GQLMovedTopicPage_TopicFragment = {
   id: string;
   path: string;
   name: string;
-  breadcrumbs?: Array<Array<string>>;
   meta?: {
     __typename?: 'Meta';
     metaDescription?: string;
     metaImage?: { __typename?: 'MetaImage'; url: string; alt: string };
   };
+  contexts: Array<{
+    __typename?: 'TaxonomyContext';
+    breadcrumbs: Array<string>;
+  }>;
 };
 
 export type GQLSubjectPageContent_SubjectFragment = {
@@ -4050,7 +4065,13 @@ export type GQLMovedResourceQueryVariables = Exact<{
 
 export type GQLMovedResourceQuery = {
   __typename?: 'Query';
-  resource?: { __typename?: 'Resource'; breadcrumbs?: Array<Array<string>> };
+  resource?: {
+    __typename?: 'Resource';
+    contexts: Array<{
+      __typename?: 'TaxonomyContext';
+      breadcrumbs: Array<string>;
+    }>;
+  };
 };
 
 export type GQLCompetenceGoalsQueryVariables = Exact<{

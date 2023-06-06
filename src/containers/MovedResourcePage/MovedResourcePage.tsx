@@ -53,10 +53,10 @@ const MovedResourcePage = ({ resource }: Props) => {
         type: resource.resourceTypes?.find(
           (type) => !contentTypeMapping[type.id],
         )?.name,
-        subjects: data?.resource?.breadcrumbs?.map((crumb, index) => ({
+        subjects: data?.resource?.contexts.map(({ breadcrumbs }, index) => ({
           url: resource.paths?.[index],
-          title: crumb[0] ?? '',
-          breadcrumb: crumb,
+          title: breadcrumbs[0] ?? '',
+          breadcrumb: breadcrumbs,
         })),
         ...(isLearningpath
           ? {
@@ -113,7 +113,9 @@ MovedResourcePage.fragments = {
       name
       path
       paths
-      breadcrumbs
+      contexts {
+        breadcrumbs
+      }
       article(subjectId: $subjectId, convertEmbeds: $convertEmbeds) {
         id
         metaDescription
