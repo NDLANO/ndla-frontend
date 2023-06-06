@@ -10,19 +10,23 @@ import { gql } from '@apollo/client';
 import { withTracker } from '@ndla/tracker';
 import {
   FeideUserApiType,
+  HomeBreadcrumb,
   OneColumn,
+  SimpleBreadcrumbItem,
   SubjectBanner,
   ToolboxInfo,
 } from '@ndla/ui';
-import { useEffect, createRef } from 'react';
+import { useEffect, createRef, useState, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import {
   CustomWithTranslation,
   useTranslation,
   withTranslation,
 } from 'react-i18next';
+import styled from '@emotion/styled';
+import { spacing } from '@ndla/core';
 import { GQLToolboxSubjectContainer_SubjectFragment } from '../../graphqlTypes';
-import { toTopic } from '../../routeHelpers';
+import { removeUrn, toTopic } from '../../routeHelpers';
 import { htmlTitle } from '../../util/titleHelper';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { ToolboxTopicContainer } from './components/ToolboxTopicContainer';
@@ -34,6 +38,10 @@ interface Props extends CustomWithTranslation {
   topicList: string[];
   user?: FeideUserApiType;
 }
+
+const BreadcrumbWrapper = styled.div`
+  margin-top: ${spacing.mediumlarge};
+`;
 
 const getSocialMediaMetaData = (
   { subject, topicList, t }: Pick<Props, 'subject' | 'topicList' | 't'>,
@@ -92,6 +100,35 @@ const ToolboxSubjectContainer = ({ topicList, subject }: Props) => {
   const { t } = useTranslation();
   const selectedTopics = topicList;
 
+  const [topicCrumbs, setTopicCrumbs] = useState<SimpleBreadcrumbItem[]>([]);
+
+  useEffect(() => {
+    setTopicCrumbs((crumbs) => crumbs.slice(0, selectedTopics.length));
+  }, [selectedTopics.length]);
+
+  const breadCrumbs: SimpleBreadcrumbItem[] = useMemo(
+    () =>
+      [
+        {
+          name: t('breadcrumb.toFrontpage'),
+          to: '/',
+        },
+        {
+          to: `${removeUrn(subject.id)}`,
+          name: subject.name,
+        },
+        ...topicCrumbs,
+      ].reduce<SimpleBreadcrumbItem[]>((crumbs, crumb) => {
+        crumbs.push({
+          name: crumb.name,
+          to: `${crumbs[crumbs.length - 1]?.to ?? ''}${crumb.to}`,
+        });
+
+        return crumbs;
+      }, []),
+    [subject.id, subject.name, t, topicCrumbs],
+  );
+
   const refs = topicList.map(() => createRef<HTMLDivElement>());
 
   const scrollToTopic = (index: number) => {
@@ -111,31 +148,17 @@ const ToolboxSubjectContainer = ({ topicList, subject }: Props) => {
     scrollToTopic(topicList.length - 1);
   });
 
-  const topics = subject.topics?.map((topic) => {
-    return {
-      ...topic,
-      label: topic.name,
-      selected: topic.id === topicList[0],
-      url: toTopic(subject.id, topic.id),
-    };
-  });
-
-  const TopicBoxes = () => (
-    <>
-      {selectedTopics.map((topic: string, index: number) => {
-        return (
-          <div key={index} ref={refs[index]}>
-            <ToolboxTopicContainer
-              key={topic}
-              subject={subject}
-              topicId={topic}
-              topicList={topicList}
-              index={index}
-            />
-          </div>
-        );
-      })}
-    </>
+  const topics = useMemo(
+    () =>
+      subject.topics?.map((topic) => {
+        return {
+          ...topic,
+          label: topic.name,
+          selected: topic.id === topicList[0],
+          url: toTopic(subject.id, topic.id),
+        };
+      }),
+    [subject.id, subject.topics, topicList],
   );
 
   if (!topics) {
@@ -162,13 +185,27 @@ const ToolboxSubjectContainer = ({ topicList, subject }: Props) => {
         imageUrl={socialMediaMetaData.image?.url}
       />
       <OneColumn className={''}>
+        <BreadcrumbWrapper>
+          <HomeBreadcrumb items={breadCrumbs} />
+        </BreadcrumbWrapper>
         <ToolboxInfo
           id={!topicList.length ? SKIP_TO_CONTENT_ID : undefined}
           topics={topics}
           title={subject.name}
           introduction={t('toolboxPage.introduction')}
         />
-        <TopicBoxes />
+        {selectedTopics.map((topic: string, index: number) => (
+          <div key={topic} ref={refs[index]}>
+            <ToolboxTopicContainer
+              setCrumbs={setTopicCrumbs}
+              key={topic}
+              subject={subject}
+              topicId={topic}
+              topicList={topicList}
+              index={index}
+            />
+          </div>
+        ))}
         {subject.subjectpage?.banner && (
           <SubjectBanner
             image={subject.subjectpage?.banner.desktopUrl || ''}

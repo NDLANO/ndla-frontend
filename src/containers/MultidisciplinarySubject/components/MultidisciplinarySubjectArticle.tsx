@@ -10,15 +10,18 @@ import { gql } from '@apollo/client';
 import { useRef, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import {
-  ArticleSideBar,
-  Breadcrumblist,
   FeideUserApiType,
   MultidisciplinarySubjectHeader,
   OneColumn,
+  SimpleBreadcrumbItem,
 } from '@ndla/ui';
 import { withTracker } from '@ndla/tracker';
 import { DynamicComponents } from '@ndla/article-converter';
-import { CustomWithTranslation, withTranslation } from 'react-i18next';
+import {
+  CustomWithTranslation,
+  useTranslation,
+  withTranslation,
+} from 'react-i18next';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import { htmlTitle } from '../../../util/titleHelper';
 import Article from '../../../components/Article';
@@ -32,6 +35,8 @@ import { transformArticle } from '../../../util/transformArticle';
 import config from '../../../config';
 import { getArticleScripts } from '../../../util/getArticleScripts';
 import AddEmbedToFolder from '../../../components/MyNdla/AddEmbedToFolder';
+import { removeUrn } from '../../../routeHelpers';
+import { getTopicPath } from '../../../util/getTopicPath';
 
 const filterCodes: Record<string, 'publicHealth' | 'democracy' | 'climate'> = {
   TT1: 'publicHealth',
@@ -58,6 +63,37 @@ const MultidisciplinarySubjectArticle = ({
   skipToContentId,
 }: Props) => {
   const resourcesRef = useRef(null);
+  const { t } = useTranslation();
+  const topicCrumbs = useMemo(
+    () => getTopicPath(subject.id, topic.id, subject.allTopics),
+    [subject.allTopics, subject.id, topic.id],
+  );
+
+  const breadCrumbs: SimpleBreadcrumbItem[] = useMemo(
+    () =>
+      [
+        {
+          name: t('breadcrumb.toFrontpage'),
+          to: '/',
+        },
+        {
+          name: subject.name,
+          to: removeUrn(subject.id),
+        },
+        ...topicCrumbs.map((topic) => ({
+          name: topic.name,
+          to: `/${removeUrn(topic.id)}`,
+        })),
+      ].reduce<SimpleBreadcrumbItem[]>((crumbs, crumb) => {
+        crumbs.push({
+          name: crumb.name,
+          to: `${crumbs[crumbs.length - 1]?.to ?? ''}${crumb.to}`,
+        });
+
+        return crumbs;
+      }, []),
+    [subject.id, subject.name, t, topicCrumbs],
+  );
 
   const [article, scripts] = useMemo(() => {
     if (!topic.article) return [undefined, undefined];
@@ -98,10 +134,8 @@ const MultidisciplinarySubjectArticle = ({
           />
         ))}
       </Helmet>
-      <Breadcrumblist hideOnNarrow items={[]} startOffset={268}>
-        <ArticleSideBar />
-      </Breadcrumblist>
       <MultidisciplinarySubjectHeader
+        breadcrumbs={breadCrumbs}
         subjects={subjects}
         subjectsLinks={subjectLinks}
       />
@@ -134,6 +168,7 @@ export const multidisciplinarySubjectArticleFragments = {
   topic: gql`
     fragment MultidisciplinarySubjectArticle_Topic on Topic {
       path
+      id
       article(showVisualElement: "true", convertEmbeds: $convertEmbeds) {
         created
         updated
@@ -156,6 +191,7 @@ export const multidisciplinarySubjectArticleFragments = {
       allTopics {
         id
         name
+        parentId
       }
       subjectpage {
         about {

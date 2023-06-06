@@ -7,20 +7,19 @@
  */
 
 import { gql } from '@apollo/client';
-import { RefObject, useEffect } from 'react';
-import { NavigationBox } from '@ndla/ui';
+import { Dispatch, RefObject, SetStateAction, useEffect } from 'react';
+import { NavigationBox, SimpleBreadcrumbItem } from '@ndla/ui';
 import { RELEVANCE_SUPPLEMENTARY } from '../../../constants';
 import { scrollToRef } from '../subjectPageHelpers';
 import { toTopic, useIsNdlaFilm } from '../../../routeHelpers';
 import TopicWrapper from './TopicWrapper';
-import { BreadcrumbItem } from '../../../interfaces';
 import { GQLSubjectPageContent_SubjectFragment } from '../../../graphqlTypes';
 
 interface Props {
   subject: GQLSubjectPageContent_SubjectFragment;
   topicIds: Array<string>;
   refs: Array<RefObject<HTMLDivElement>>;
-  setBreadCrumb: (topic: BreadcrumbItem) => void;
+  setBreadCrumb: Dispatch<SetStateAction<SimpleBreadcrumbItem[]>>;
 }
 
 const SubjectPageContent = ({
