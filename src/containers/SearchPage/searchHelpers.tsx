@@ -175,8 +175,7 @@ const getContextLabels = (
   contexts: GQLGroupSearchResourceFragment['contexts'] | undefined,
 ) => {
   if (!contexts?.[0]) return [];
-  const types =
-    contexts[0].resourceTypes?.slice(0, 1)?.map((t) => t.name) ?? [];
+  const types = contexts[0].resourceTypes?.slice(1)?.map((t) => t.name) ?? [];
   const relevance = isSupplementary(contexts[0]) ? [contexts[0].relevance] : [];
   const labels = types.concat(relevance);
   return labels.filter((label): label is string => label !== undefined);
@@ -222,8 +221,8 @@ export const mapResourcesToItems = (
       ? resource.path
       : plainUrl(resource.path),
     labels: [
-      ...getContextLabels(resource.contexts),
       ...mapTraits(resource.traits, t),
+      ...getContextLabels(resource.contexts),
     ],
     contexts: resource.contexts?.map((context) => ({
       url: context.path,
