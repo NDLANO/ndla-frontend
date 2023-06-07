@@ -21,11 +21,11 @@ import {
   OneColumn,
   SubjectBanner,
   LayoutItem,
-  NavigationHeading,
   MessageBox,
   FeideUserApiType,
   SimpleBreadcrumbItem,
   HomeBreadcrumb,
+  Heading,
 } from '@ndla/ui';
 import { withTracker } from '@ndla/tracker';
 import {
@@ -34,7 +34,7 @@ import {
   CustomWithTranslation,
 } from 'react-i18next';
 import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
+import { colors, spacing } from '@ndla/core';
 import SubjectPageContent from './components/SubjectPageContent';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import CompetenceGoals from '../../components/CompetenceGoals';
@@ -57,6 +57,12 @@ type Props = {
 
 const BreadcrumbWrapper = styled.div`
   margin-top: ${spacing.mediumlarge};
+`;
+
+const StyledHeading = styled(Heading)`
+  &[data-inverted='true'] {
+    color: ${colors.white};
+  }
 `;
 
 const getSubjectCategoryMessage = (
@@ -217,12 +223,16 @@ const SubjectContainer = ({ t, topicIds, subject }: Props) => {
             <BreadcrumbWrapper>
               <HomeBreadcrumb light={ndlaFilm} items={breadCrumbs} />
             </BreadcrumbWrapper>
-            <NavigationHeading
-              headingId={topicIds.length === 0 ? SKIP_TO_CONTENT_ID : undefined}
-              invertedStyle={ndlaFilm}
+            <StyledHeading
+              element="h1"
+              margin="xlarge"
+              headingStyle="h1"
+              data-inverted={ndlaFilm}
+              id={topicIds.length === 0 ? SKIP_TO_CONTENT_ID : undefined}
+              tabIndex={-1}
             >
               {subject.name}
-            </NavigationHeading>
+            </StyledHeading>
           </ArticleHeaderWrapper>
           {!ndlaFilm && nonRegularSubjectMessage && (
             <MessageBox>{nonRegularSubjectMessage}</MessageBox>
