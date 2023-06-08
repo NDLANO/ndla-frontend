@@ -248,7 +248,7 @@ const CompetenceGoals = ({
   }
 
   const LK20Goals = groupCompetenceGoals(
-    data?.competenceGoals?.filter((goal) => goal.type === 'LK20') ?? [],
+    data?.competenceGoals ?? [],
     true,
     'LK20',
     subjectId,
