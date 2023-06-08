@@ -800,7 +800,6 @@ type Query {
     subjectId: String
   ): Article
   audio(id: Int!): Audio
-  brightcoveVideo(id: String!): BrightcoveElement
   competenceGoal(code: String!, language: String): CompetenceGoal
   competenceGoals(codes: [String], language: String): [CompetenceGoal!]
   concept(id: Int!): Concept
@@ -837,7 +836,7 @@ type Query {
     aggregatePaths: [String!]
     contextTypes: String
     fallback: String
-    filterInactive: String
+    filterInactive: Boolean
     grepCodes: String
     language: String
     levels: String
@@ -866,7 +865,7 @@ type Query {
     contextFilters: String
     contextTypes: String
     fallback: String
-    filterInactive: String
+    filterInactive: Boolean
     grepCodes: String
     ids: [Int!]
     language: String

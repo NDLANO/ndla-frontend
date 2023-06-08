@@ -944,7 +944,6 @@ export type GQLQuery = {
   allFolderResources: Array<GQLFolderResource>;
   article?: Maybe<GQLArticle>;
   audio?: Maybe<GQLAudio>;
-  brightcoveVideo?: Maybe<GQLBrightcoveElement>;
   competenceGoal?: Maybe<GQLCompetenceGoal>;
   competenceGoals?: Maybe<Array<GQLCompetenceGoal>>;
   concept?: Maybe<GQLConcept>;
@@ -997,10 +996,6 @@ export type GQLQueryArticleArgs = {
 
 export type GQLQueryAudioArgs = {
   id: Scalars['Int'];
-};
-
-export type GQLQueryBrightcoveVideoArgs = {
-  id: Scalars['String'];
 };
 
 export type GQLQueryCompetenceGoalArgs = {
@@ -1066,7 +1061,7 @@ export type GQLQueryGroupSearchArgs = {
   aggregatePaths?: InputMaybe<Array<Scalars['String']>>;
   contextTypes?: InputMaybe<Scalars['String']>;
   fallback?: InputMaybe<Scalars['String']>;
-  filterInactive?: InputMaybe<Scalars['String']>;
+  filterInactive?: InputMaybe<Scalars['Boolean']>;
   grepCodes?: InputMaybe<Scalars['String']>;
   language?: InputMaybe<Scalars['String']>;
   levels?: InputMaybe<Scalars['String']>;
@@ -1121,7 +1116,7 @@ export type GQLQuerySearchArgs = {
   contextFilters?: InputMaybe<Scalars['String']>;
   contextTypes?: InputMaybe<Scalars['String']>;
   fallback?: InputMaybe<Scalars['String']>;
-  filterInactive?: InputMaybe<Scalars['String']>;
+  filterInactive?: InputMaybe<Scalars['Boolean']>;
   grepCodes?: InputMaybe<Scalars['String']>;
   ids?: InputMaybe<Array<Scalars['Int']>>;
   language?: InputMaybe<Scalars['String']>;
@@ -3536,7 +3531,7 @@ export type GQLSearchQueryVariables = Exact<{
   languageFilter?: InputMaybe<Scalars['String']>;
   relevance?: InputMaybe<Scalars['String']>;
   grepCodes?: InputMaybe<Scalars['String']>;
-  filterInactive?: InputMaybe<Scalars['String']>;
+  filterInactive?: InputMaybe<Scalars['Boolean']>;
 }>;
 
 export type GQLSearchQuery = {
@@ -3740,7 +3735,7 @@ export type GQLGroupSearchQueryVariables = Exact<{
   grepCodesList?: InputMaybe<
     Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>
   >;
-  filterInactive?: InputMaybe<Scalars['String']>;
+  filterInactive?: InputMaybe<Scalars['Boolean']>;
 }>;
 
 export type GQLGroupSearchQuery = {

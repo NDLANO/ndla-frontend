@@ -32,7 +32,7 @@ export const searchQuery = gql`
     $languageFilter: String
     $relevance: String
     $grepCodes: String
-    $filterInactive: String
+    $filterInactive: Boolean
   ) {
     search(
       query: $query
@@ -227,7 +227,7 @@ export const groupSearchQuery = gql`
     $grepCodes: String
     $aggregatePaths: [String!]
     $grepCodesList: [String]
-    $filterInactive: String
+    $filterInactive: Boolean
   ) {
     groupSearch(
       resourceTypes: $resourceTypes
