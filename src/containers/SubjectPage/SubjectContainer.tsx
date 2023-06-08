@@ -7,13 +7,7 @@
  */
 
 import { gql } from '@apollo/client';
-import {
-  ComponentType,
-  ReactNode,
-  useState,
-  createRef,
-  useEffect,
-} from 'react';
+import { useState, createRef, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import {
   constants,
@@ -98,7 +92,6 @@ const getSubjectTypeMessage = (
 
 const SubjectContainer = ({ t, topicIds, subject }: Props) => {
   const ndlaFilm = useIsNdlaFilm();
-  const [competenceGoalsLoading, setCompetenceGoalsLoading] = useState(true);
   const about = subject.subjectpage?.about;
 
   const [topicCrumbs, setTopicCrumbs] = useState<SimpleBreadcrumbItem[]>([]);
@@ -125,35 +118,6 @@ const SubjectContainer = ({ t, topicIds, subject }: Props) => {
 
     return crumbs;
   }, []);
-
-  function renderCompetenceGoals(
-    subject: GQLSubjectContainer_SubjectFragment,
-  ):
-    | ((inp: {
-        Dialog: ComponentType;
-        dialogProps: { isOpen: boolean; onClose: () => void };
-      }) => ReactNode)
-    | undefined {
-    // Don't show competence goals for topics or articles without grepCodes
-    if (subject.grepCodes?.length) {
-      return ({
-        Dialog,
-        dialogProps,
-      }: {
-        Dialog: ComponentType;
-        dialogProps: { isOpen: boolean; onClose: () => void };
-      }) => (
-        <CompetenceGoals
-          setCompetenceGoalsLoading={setCompetenceGoalsLoading}
-          codes={subject.grepCodes}
-          subjectId={subject.id}
-          wrapperComponent={Dialog}
-          wrapperComponentProps={dialogProps}
-        />
-      );
-    }
-    return undefined;
-  }
 
   const topicRefs = topicIds.map((_) => createRef<HTMLDivElement>());
 
@@ -217,8 +181,14 @@ const SubjectContainer = ({ t, topicIds, subject }: Props) => {
             trackableContent={{ supportedLanguages }}
           />
           <ArticleHeaderWrapper
-            competenceGoalsLoading={competenceGoalsLoading}
-            competenceGoals={renderCompetenceGoals(subject)}
+            competenceGoals={
+              subject.grepCodes?.length ? (
+                <CompetenceGoals
+                  codes={subject.grepCodes}
+                  subjectId={subject.id}
+                />
+              ) : undefined
+            }
           >
             <BreadcrumbWrapper>
               <HomeBreadcrumb light={ndlaFilm} items={breadCrumbs} />

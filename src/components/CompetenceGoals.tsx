@@ -5,9 +5,20 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import { ComponentType, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CompetenceGoalTab } from '@ndla/ui';
+import { ButtonV2 } from '@ndla/button';
+import { FooterHeaderIcon } from '@ndla/icons/common';
+import styled from '@emotion/styled';
+import {
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalHeader,
+  ModalTitle,
+} from '@ndla/modal';
+import { breakpoints, mq } from '@ndla/core';
 import { competenceGoalsQuery } from '../queries';
 import handleError from '../util/handleError';
 import {
@@ -22,10 +33,7 @@ interface Props {
   supportedLanguages?: string[];
   subjectId?: string;
   codes?: string[];
-  wrapperComponent: ComponentType;
-  wrapperComponentProps: any;
   isOembed?: boolean;
-  setCompetenceGoalsLoading: (loading: boolean) => void;
 }
 
 // We swap 'title' for 'name' when we fetch CompetenceGoals from GraphQL
@@ -47,6 +55,21 @@ interface ElementType {
   groupedCompetenceGoals?: CompetenceGoalType[];
   groupedCoreElementItems?: CoreElementType[];
 }
+
+const CompetenceBadgeText = styled.span`
+  padding: 0 5px;
+`;
+
+const CompetenceGoalsWrapper = styled.div`
+  height: 100%;
+  max-width: 960px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 32px;
+  ${mq.range({ from: breakpoints.mobile })} {
+    padding: 0;
+  }
+`;
 
 interface CompetenceGoalType {
   title: string;
@@ -195,12 +218,11 @@ const groupCoreElements = (
 const CompetenceGoals = ({
   codes,
   subjectId,
-  wrapperComponent: Component,
-  wrapperComponentProps,
   supportedLanguages,
   isOembed,
-  setCompetenceGoalsLoading,
 }: Props) => {
+  const [competenceGoalsLoading, setCompetenceGoalsLoading] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const { t, i18n } = useTranslation();
   const language =
     supportedLanguages?.find((l) => l === i18n.language) ||
@@ -225,16 +247,13 @@ const CompetenceGoals = ({
     return null;
   }
 
-  if (!data) return null;
-
-  const { competenceGoals, coreElements } = data;
   const LK20Goals = groupCompetenceGoals(
-    competenceGoals?.filter((goal) => goal.type === 'LK20') ?? [],
+    data?.competenceGoals?.filter((goal) => goal.type === 'LK20') ?? [],
     true,
     'LK20',
     subjectId,
   );
-  const LK20Elements = groupCoreElements(coreElements || []);
+  const LK20Elements = groupCoreElements(data?.coreElements || []);
 
   const CompetenceGoalsLK20Template: ElementType = {
     id: '1',
@@ -256,9 +275,47 @@ const CompetenceGoals = ({
   ];
 
   return (
-    <Component {...wrapperComponentProps}>
-      <CompetenceGoalTab list={competenceGoalsList} isOembed={isOembed} />
-    </Component>
+    <>
+      <ButtonV2
+        aria-busy={competenceGoalsLoading}
+        size="xsmall"
+        colorTheme="light"
+        shape="pill"
+        disabled={competenceGoalsLoading}
+        onClick={() => setIsOpen(true)}
+      >
+        <FooterHeaderIcon />
+        <CompetenceBadgeText>
+          {t('competenceGoals.showCompetenceGoals')}
+        </CompetenceBadgeText>
+      </ButtonV2>
+      <Modal
+        controlled
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        size="full"
+      >
+        {(close) => (
+          <>
+            <ModalHeader>
+              <ModalTitle>
+                <FooterHeaderIcon size="24px" style={{ marginRight: '20px' }} />
+                {t('competenceGoals.modalText')}
+              </ModalTitle>
+              <ModalCloseButton onClick={close} />
+            </ModalHeader>
+            <ModalBody>
+              <CompetenceGoalsWrapper>
+                <CompetenceGoalTab
+                  list={competenceGoalsList}
+                  isOembed={isOembed}
+                />
+              </CompetenceGoalsWrapper>
+            </ModalBody>
+          </>
+        )}
+      </Modal>
+    </>
   );
 };
 
