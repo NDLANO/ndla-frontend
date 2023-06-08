@@ -18,7 +18,6 @@ import { getArticleScripts } from '../util/getArticleScripts';
 import { getArticleProps } from '../util/getArticleProps';
 import { getAllDimensions } from '../util/trackingUtil';
 import PostResizeMessage from './PostResizeMessage';
-import FixDialogPosition from './FixDialogPosition';
 import SocialMediaMetadata from '../components/SocialMediaMetadata';
 import config from '../config';
 import {
@@ -26,7 +25,6 @@ import {
   GQLIframeArticlePage_ResourceFragment,
 } from '../graphqlTypes';
 import { LocaleType } from '../interfaces';
-import { useDisableConverter } from '../components/ArticleConverterContext';
 
 interface Props extends CustomWithTranslation {
   locale?: LocaleType;
@@ -42,17 +40,15 @@ const IframeArticlePage = ({
   locale: propsLocale,
 }: Props) => {
   const locale = propsLocale ?? i18n.language;
-  const disableConverter = useDisableConverter();
   const [article, scripts] = useMemo(() => {
     return [
       transformArticle(propArticle, locale, {
-        enabled: disableConverter,
         path: `${config.ndlaFrontendDomain}/article/${propArticle.id}`,
         isOembed: true,
       }),
       getArticleScripts(propArticle, locale),
     ];
-  }, [propArticle, locale, disableConverter])!;
+  }, [propArticle, locale])!;
   const contentUrl = resource?.path
     ? `${config.ndlaFrontendDomain}${resource.path}`
     : undefined;
@@ -78,10 +74,9 @@ const IframeArticlePage = ({
         trackableContent={article}
       />
       <PostResizeMessage />
-      <FixDialogPosition />
       <main>
         <Article
-          contentTransformed={disableConverter}
+          contentTransformed
           article={article}
           isPlainArticle
           isOembed

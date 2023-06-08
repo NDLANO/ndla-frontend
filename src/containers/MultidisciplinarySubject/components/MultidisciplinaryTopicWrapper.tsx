@@ -1,6 +1,7 @@
 import { gql } from '@apollo/client';
 import { Spinner } from '@ndla/icons';
-import { FeideUserApiType } from '@ndla/ui';
+import { FeideUserApiType, SimpleBreadcrumbItem } from '@ndla/ui';
+import { Dispatch, SetStateAction } from 'react';
 import { useGraphQuery } from '../../../util/runQueries';
 import MultidisciplinaryTopic, {
   multidisciplinaryTopicFragments,
@@ -11,13 +12,16 @@ import {
   GQLMultidisciplinaryTopic_SubjectFragment,
 } from '../../../graphqlTypes';
 import DefaultErrorMessage from '../../../components/DefaultErrorMessage';
+import { removeUrn } from '../../../routeHelpers';
 
 interface Props {
   topicId: string;
   subjectId: string;
   subTopicId?: string;
   subject: GQLMultidisciplinaryTopic_SubjectFragment;
+  setCrumbs: Dispatch<SetStateAction<SimpleBreadcrumbItem[]>>;
   disableNav?: boolean;
+  index: number;
   user?: FeideUserApiType;
 }
 
@@ -40,6 +44,8 @@ const MultidisciplinaryTopicWrapper = ({
   subjectId,
   subTopicId,
   subject,
+  setCrumbs,
+  index,
   disableNav,
   user,
 }: Props) => {
@@ -51,6 +57,17 @@ const MultidisciplinaryTopicWrapper = ({
       topicId,
       subjectId,
       convertEmbeds: true,
+    },
+    onCompleted: (data) => {
+      const topic = data.topic;
+      if (topic) {
+        setCrumbs((crumbs) =>
+          crumbs.slice(0, index).concat({
+            to: `/${removeUrn(topic.id)}`,
+            name: topic.name,
+          }),
+        );
+      }
     },
   });
 

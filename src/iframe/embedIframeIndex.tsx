@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-present, NDLA.
+ * Copyright (c) 2023-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
@@ -30,10 +30,11 @@ import '@fontsource/source-code-pro/700.css';
 import '@fontsource/source-serif-pro/index.css';
 import '@fontsource/source-serif-pro/400-italic.css';
 import '@fontsource/source-serif-pro/700.css';
-import IframePageContainer from './IframePageContainer';
 import { EmotionCacheKey } from '../constants';
 import { createApolloClient } from '../util/apiHelpers';
 import { initializeI18n } from '../i18n';
+import EmbedIframePageContainer from './EmbedIframePageContainer';
+import { EmbedInitialProps } from '../server/routes/iframeEmbedRoute';
 
 const { config, initialProps } = window.DATA;
 
@@ -72,7 +73,9 @@ renderOrHydrate(
         <CacheProvider value={cache}>
           <BrowserRouter>
             <MissingRouterContext.Provider value={true}>
-              <IframePageContainer {...initialProps} />
+              <EmbedIframePageContainer
+                {...(initialProps as EmbedInitialProps)}
+              />
             </MissingRouterContext.Provider>
           </BrowserRouter>
         </CacheProvider>

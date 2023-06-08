@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-present, NDLA.
+ * Copyright (c) 2023-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
@@ -17,16 +17,28 @@ import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import { INTERNAL_SERVER_ERROR, OK } from '../../statusCodes';
 import { getHtmlLang, initializeI18n, isValidLocale } from '../../i18n';
-import IframePageContainer from '../../iframe/IframePageContainer';
 import config from '../../config';
 import handleError from '../../util/handleError';
 import { renderPageWithData, renderHtml } from '../helpers/render';
 import { EmotionCacheKey } from '../../constants';
-import { InitialProps } from '../../interfaces';
 import { createApolloClient } from '../../util/apiHelpers';
 import RedirectContext, {
   RedirectInfo,
 } from '../../components/RedirectContext';
+import { LocaleType, LtiData } from '../../interfaces';
+import EmbedIframePageContainer from '../../iframe/EmbedIframePageContainer';
+
+export type EmbedInitialProps = {
+  embedId?: string;
+  embedType?: string;
+  isOembed?: string;
+  status?: 'success' | 'error';
+  loading?: boolean;
+  resCookie?: string;
+  basename?: string;
+  locale?: LocaleType;
+  ltiData?: LtiData;
+};
 
 const assets =
   process.env.NODE_ENV !== 'unittest' && process.env.RAZZLE_ASSETS_MANIFEST
@@ -44,7 +56,7 @@ if (process.env.NODE_ENV === 'unittest') {
 
 const getAssets = () => ({
   css: assets['client.css'],
-  js: [{ src: assets['embed.js'] }],
+  js: [{ src: assets['embedIframe.js'] }],
   polyfill: { src: assets['polyfill.js'] },
   mathJaxConfig: { js: assets['mathJaxConfig.js'] },
 });
@@ -57,7 +69,7 @@ const disableSSR = (req: Request) => {
   return urlParts.query && urlParts.query.disableSSR === 'true';
 };
 
-async function doRenderPage(req: Request, initialProps: InitialProps) {
+async function doRenderPage(req: Request, initialProps: EmbedInitialProps) {
   const context: RedirectInfo = {};
 
   const client = createApolloClient(initialProps.locale);
@@ -80,7 +92,7 @@ async function doRenderPage(req: Request, initialProps: InitialProps) {
             <ApolloProvider client={client}>
               <CacheProvider value={cache}>
                 <StaticRouter location={req.url}>
-                  <IframePageContainer {...initialProps} />
+                  <EmbedIframePageContainer {...initialProps} />
                 </StaticRouter>
               </CacheProvider>
             </ApolloProvider>
@@ -99,20 +111,19 @@ async function doRenderPage(req: Request, initialProps: InitialProps) {
   return { html, docProps, helmetContext, redirectContext: context };
 }
 
-export async function iframeArticleRoute(req: Request) {
+export async function iframeEmbedRoute(req: Request) {
   const lang = req.params.lang ?? '';
   const htmlLang = getHtmlLang(lang);
   const locale = isValidLocale(htmlLang) ? htmlLang : undefined;
-  const { articleId, taxonomyId } = req.params;
+  const { embedType, embedId } = req.params;
   try {
     const { html, docProps, helmetContext, redirectContext } =
       await doRenderPage(req, {
-        articleId,
-        taxonomyId,
         isOembed: 'true',
-        isTopicArticle: taxonomyId?.startsWith('urn:topic') || false,
         basename: lang,
         locale,
+        embedType,
+        embedId,
         status: 'success',
       });
 

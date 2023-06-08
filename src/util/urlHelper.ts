@@ -16,14 +16,22 @@ type OembedParams =
   | 'resourceId'
   | 'articleId'
   | 'lang'
-  | 'topicOrResourceId';
+  | 'topicOrResourceId'
+  | 'audioId'
+  | 'videoId'
+  | 'imageId'
+  | 'conceptId';
 
 type OembedReturnParams =
   | 'subjectId'
   | 'topicId'
   | 'resourceId'
   | 'articleId'
-  | 'lang';
+  | 'lang'
+  | 'audioId'
+  | 'videoId'
+  | 'imageId'
+  | 'conceptId';
 
 const matchUrl = (
   pathname: string,

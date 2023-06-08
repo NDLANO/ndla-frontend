@@ -16,7 +16,6 @@ import { transformArticle } from '../util/transformArticle';
 import Article from '../components/Article';
 import { getArticleScripts } from '../util/getArticleScripts';
 import PostResizeMessage from './PostResizeMessage';
-import FixDialogPosition from './FixDialogPosition';
 import SocialMediaMetadata from '../components/SocialMediaMetadata';
 import getStructuredDataFromArticle, {
   structuredArticleDataFragment,
@@ -27,7 +26,6 @@ import {
   GQLIframeTopicPage_TopicFragment,
 } from '../graphqlTypes';
 import { LocaleType } from '../interfaces';
-import { useDisableConverter } from '../components/ArticleConverterContext';
 
 interface Props extends CustomWithTranslation {
   locale?: LocaleType;
@@ -52,18 +50,16 @@ export const IframeTopicPage = ({
   locale: localeProp,
 }: Props) => {
   const locale = localeProp ?? i18n.language;
-  const disableConverter = useDisableConverter();
 
   const [article, scripts] = useMemo(() => {
     return [
       transformArticle(propArticle, locale, {
-        enabled: disableConverter,
         path: `${config.ndlaFrontendDomain}/article/${propArticle.id}`,
         isOembed: true,
       }),
       getArticleScripts(propArticle, locale),
     ];
-  }, [propArticle, locale, disableConverter]);
+  }, [propArticle, locale]);
 
   const contentUrl = topic?.path
     ? `${config.ndlaFrontendDomain}${topic.path}`
@@ -96,11 +92,10 @@ export const IframeTopicPage = ({
         />
       )}
       <PostResizeMessage />
-      <FixDialogPosition />
       <OneColumn>
         <main>
           <Article
-            contentTransformed={disableConverter}
+            contentTransformed
             isTopicArticle
             article={article}
             label={t('topicPage.topic')}

@@ -7,8 +7,9 @@
  */
 
 import { gql } from '@apollo/client';
-import { useContext } from 'react';
+import { Dispatch, SetStateAction, useContext } from 'react';
 import { Spinner } from '@ndla/icons';
+import { SimpleBreadcrumbItem } from '@ndla/ui';
 import DefaultErrorMessage from '../../../components/DefaultErrorMessage';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import {
@@ -20,12 +21,13 @@ import { useGraphQuery } from '../../../util/runQueries';
 import ToolboxTopicWrapper, {
   toolboxTopicWrapperFragments,
 } from './ToolboxTopicWrapper';
-import { useDisableConverter } from '../../../components/ArticleConverterContext';
+import { removeUrn } from '../../../routeHelpers';
 
 interface Props {
   subject: GQLToolboxTopicContainer_SubjectFragment;
   topicId: string;
   topicList: Array<string>;
+  setCrumbs: Dispatch<SetStateAction<SimpleBreadcrumbItem[]>>;
   index: number;
 }
 
@@ -51,10 +53,10 @@ export const ToolboxTopicContainer = ({
   subject,
   topicId,
   topicList,
+  setCrumbs,
   index,
 }: Props) => {
   const { user } = useContext(AuthContext);
-  const disableConverter = useDisableConverter();
   const { loading, data } = useGraphQuery<
     GQLToolboxTopicContainerQuery,
     GQLToolboxTopicContainerQueryVariables
@@ -62,7 +64,18 @@ export const ToolboxTopicContainer = ({
     variables: {
       subjectId: subject.id,
       topicId,
-      convertEmbeds: disableConverter,
+      convertEmbeds: true,
+    },
+    onCompleted: (data) => {
+      const topic = data.topic;
+      if (topic) {
+        setCrumbs((crumbs) =>
+          crumbs.slice(0, index).concat({
+            to: `/${removeUrn(topic.id)}`,
+            name: topic.name,
+          }),
+        );
+      }
     },
   });
 

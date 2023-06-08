@@ -6,14 +6,7 @@
  *
  */
 
-import {
-  ComponentType,
-  ReactNode,
-  ReactElement,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import { ReactElement, useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Remarkable } from 'remarkable';
 import { gql } from '@apollo/client';
@@ -37,38 +30,6 @@ import { MastheadHeightPx } from '../../constants';
 import { useGraphQuery } from '../../util/runQueries';
 import AddResourceToFolderModal from '../MyNdla/AddResourceToFolderModal';
 import FavoriteButton from './FavoritesButton';
-
-interface CompetenceGoalModalProps {
-  Dialog: ComponentType;
-  dialogProps: { isOpen: boolean; onClose: () => void };
-}
-
-function renderCompetenceGoals(
-  article: GQLArticle_ArticleFragment,
-  isTopicArticle: boolean,
-  setCompetenceGoalsLoading: (loading: boolean) => void,
-  subjectId?: string,
-  isOembed?: boolean,
-): ((inp: CompetenceGoalModalProps) => ReactNode) | null {
-  // Don't show competence goals for topics or articles without grepCodes
-  if (
-    !isTopicArticle &&
-    article.grepCodes?.filter((gc) => gc.toUpperCase().startsWith('K')).length
-  ) {
-    return ({ Dialog, dialogProps }: CompetenceGoalModalProps) => (
-      <CompetenceGoals
-        setCompetenceGoalsLoading={setCompetenceGoalsLoading}
-        codes={article.grepCodes}
-        subjectId={subjectId}
-        supportedLanguages={article.supportedLanguages}
-        wrapperComponent={Dialog}
-        wrapperComponentProps={dialogProps}
-        isOembed={isOembed}
-      />
-    );
-  }
-  return null;
-}
 
 interface Props {
   id?: string;
@@ -204,7 +165,6 @@ const Article = ({
 }: Props) => {
   const { t, i18n } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
-  const [competenceGoalsLoading, setCompetenceGoalsLoading] = useState(true);
   const markdown = useMemo(() => {
     const md = new Remarkable({ breaks: true });
     md.inline.ruler.enable(['sub', 'sup']);
@@ -307,14 +267,18 @@ const Article = ({
           />
         }
         messages={messages}
-        competenceGoalsLoading={competenceGoalsLoading}
-        competenceGoals={renderCompetenceGoals(
-          article,
-          isTopicArticle,
-          setCompetenceGoalsLoading,
-          subjectId,
-          isOembed,
-        )}
+        competenceGoals={
+          !isTopicArticle &&
+          article.grepCodes?.filter((gc) => gc.toUpperCase().startsWith('K'))
+            .length ? (
+            <CompetenceGoals
+              codes={article.grepCodes}
+              subjectId={subjectId}
+              supportedLanguages={article.supportedLanguages}
+              isOembed={isOembed}
+            />
+          ) : undefined
+        }
         notions={
           isPlainArticle
             ? undefined

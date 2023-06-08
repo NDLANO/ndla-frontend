@@ -18,6 +18,7 @@ import {
   iframeArticleRoute,
   forwardingRoute,
   ltiRoute,
+  iframeEmbedRoute,
 } from './routes';
 import contentSecurityPolicy from './contentSecurityPolicy';
 import handleError from '../util/handleError';
@@ -273,6 +274,17 @@ const iframArticleCallback = async (req: Request, res: Response) => {
   res.removeHeader('X-Frame-Options');
   handleRequest(req, res, iframeArticleRoute);
 };
+
+const iframeEmbedCallback = async (req: Request, res: Response) => {
+  res.removeHeader('X-Frame-Options');
+  handleRequest(req, res, iframeEmbedRoute);
+};
+
+app.get(
+  '/embed-iframe/:lang?/:embedType/:embedId',
+  ndlaMiddleware,
+  iframeEmbedCallback,
+);
 
 app.get(
   '/article-iframe/:lang?/article/:articleId',

@@ -14,8 +14,9 @@ import { Plus } from '@ndla/icons/action';
 import {
   ModalBody,
   ModalCloseButton,
-  ModalHeaderV2,
-  ModalV2,
+  ModalHeader,
+  ModalTitle,
+  Modal,
 } from '@ndla/modal';
 import { useTranslation } from 'react-i18next';
 import FolderForm from './FolderForm';
@@ -45,8 +46,7 @@ const CreateFolderModal = ({ onSaved, parentFolder }: Props) => {
   const { folders } = useFolders();
 
   return (
-    <ModalV2
-      labelledBy="createHeading"
+    <Modal
       activateButton={
         <AddButton shape="pill" colorTheme="lighter">
           <Plus css={iconCss} />
@@ -56,10 +56,10 @@ const CreateFolderModal = ({ onSaved, parentFolder }: Props) => {
     >
       {(close) => (
         <>
-          <ModalHeaderV2>
-            <h1 id="createHeading">{t('myNdla.newFolder')}</h1>
+          <ModalHeader>
+            <ModalTitle>{t('myNdla.newFolder')}</ModalTitle>
             <ModalCloseButton onClick={close} />
-          </ModalHeaderV2>
+          </ModalHeader>
           <ModalBody>
             <FolderForm
               siblings={parentFolder?.subfolders ?? folders ?? []}
@@ -81,7 +81,7 @@ const CreateFolderModal = ({ onSaved, parentFolder }: Props) => {
           </ModalBody>
         </>
       )}
-    </ModalV2>
+    </Modal>
   );
 };
 

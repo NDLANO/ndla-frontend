@@ -29,7 +29,6 @@ import { GQLImageLicenseList_ImageLicenseFragment } from '../../graphqlTypes';
 import { licenseCopyrightToCopyrightType } from './licenseHelpers';
 import { licenseListCopyrightFragment } from './licenseFragments';
 import config from '../../config';
-import { useDisableConverter } from '../ArticleConverterContext';
 
 export const downloadUrl = (imageSrc: string) => {
   const urlObject = queryString.parseUrl(imageSrc);
@@ -45,26 +44,23 @@ interface ImageLicenseInfoProps {
 
 const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
   const { t, i18n } = useTranslation();
-  const disableConverter = useDisableConverter();
   const safeCopyright = licenseCopyrightToCopyrightType(image.copyright);
   const items = getGroupedContributorDescriptionList(
     safeCopyright,
     i18n.language,
   );
 
-  const copyText = !disableConverter
-    ? image.copyText
-    : figureApa7CopyString(
-        image.title,
-        undefined,
-        image.src,
-        `${config.ndlaFrontendDomain}/image/${image.id}`,
-        image.copyright,
-        image.copyright.license.license,
-        '',
-        (id: string) => t(id),
-        i18n.language,
-      );
+  const copyText = figureApa7CopyString(
+    image.title,
+    undefined,
+    image.src,
+    `${config.ndlaFrontendDomain}/image/${image.id}`,
+    image.copyright,
+    image.copyright.license.license,
+    '',
+    (id: string) => t(id),
+    i18n.language,
+  );
 
   if (image.title) {
     items.unshift({

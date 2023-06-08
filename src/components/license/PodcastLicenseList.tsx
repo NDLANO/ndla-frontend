@@ -28,7 +28,6 @@ import { GQLPodcastLicenseList_PodcastLicenseFragment } from '../../graphqlTypes
 import { licenseCopyrightToCopyrightType } from './licenseHelpers';
 import { licenseListCopyrightFragment } from './licenseFragments';
 import config from '../../config';
-import { useDisableConverter } from '../ArticleConverterContext';
 
 interface PodcastLicenseInfoProps {
   podcast: GQLPodcastLicenseList_PodcastLicenseFragment;
@@ -37,25 +36,22 @@ interface PodcastLicenseInfoProps {
 const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
   const { t, i18n } = useTranslation();
   const safeCopyright = licenseCopyrightToCopyrightType(podcast.copyright);
-  const disableConverter = useDisableConverter();
   const items = getGroupedContributorDescriptionList(
     safeCopyright,
     i18n.language,
   );
 
-  const copyText = !disableConverter
-    ? podcast.copyText
-    : figureApa7CopyString(
-        podcast.title,
-        undefined,
-        podcast.src,
-        `${config.ndlaFrontendDomain}/audio/${podcast.id}`,
-        podcast.copyright,
-        podcast.copyright.license.license,
-        '',
-        (id: string) => t(id),
-        i18n.language,
-      );
+  const copyText = figureApa7CopyString(
+    podcast.title,
+    undefined,
+    podcast.src,
+    `${config.ndlaFrontendDomain}/audio/${podcast.id}`,
+    podcast.copyright,
+    podcast.copyright.license.license,
+    '',
+    (id: string) => t(id),
+    i18n.language,
+  );
 
   if (podcast.title) {
     items.unshift({

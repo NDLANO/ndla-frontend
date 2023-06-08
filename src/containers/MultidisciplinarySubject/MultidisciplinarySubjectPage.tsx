@@ -7,16 +7,17 @@
  */
 
 import { gql } from '@apollo/client';
-import { createRef, useContext, useEffect } from 'react';
+import { createRef, useContext, useEffect, useState } from 'react';
 import {
   ContentPlaceholder,
   MultidisciplinarySubject,
   NavigationBox,
+  SimpleBreadcrumbItem,
 } from '@ndla/ui';
 
 import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet-async';
-import { toTopic, useUrnIds } from '../../routeHelpers';
+import { removeUrn, toTopic, useUrnIds } from '../../routeHelpers';
 import { useGraphQuery } from '../../util/runQueries';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import MultidisciplinaryTopicWrapper from './components/MultidisciplinaryTopicWrapper';
@@ -67,6 +68,11 @@ const MultidisciplinarySubjectPage = () => {
   const { user } = useContext(AuthContext);
   const { subjectId, topicList: selectedTopics } = useUrnIds();
   const refs = selectedTopics.map((_) => createRef<HTMLDivElement>());
+  const [topicCrumbs, setTopicCrumbs] = useState<SimpleBreadcrumbItem[]>([]);
+
+  useEffect(() => {
+    setTopicCrumbs((crumbs) => crumbs.slice(0, selectedTopics.length));
+  }, [selectedTopics.length]);
 
   useEffect(() => {
     if (selectedTopics.length) {
@@ -97,6 +103,25 @@ const MultidisciplinarySubjectPage = () => {
   if (!data?.subject) {
     return <DefaultErrorMessage />;
   }
+
+  const breadCrumbs: SimpleBreadcrumbItem[] = [
+    {
+      name: t('breadcrumb.toFrontpage'),
+      to: '/',
+    },
+    {
+      to: `${removeUrn(data.subject.id)}`,
+      name: data.subject.name,
+    },
+    ...topicCrumbs,
+  ].reduce<SimpleBreadcrumbItem[]>((crumbs, crumb) => {
+    crumbs.push({
+      name: crumb.name,
+      to: `${crumbs[crumbs.length - 1]?.to ?? ''}${crumb.to}`,
+    });
+
+    return crumbs;
+  }, []);
 
   const { subject } = data;
 
@@ -134,25 +159,6 @@ const MultidisciplinarySubjectPage = () => {
           ...topic,
         })) || [];
 
-  const TopicBoxes = () => (
-    <>
-      {selectedTopics.map((topicId, index) => {
-        return (
-          <div key={index} ref={refs[index]}>
-            <MultidisciplinaryTopicWrapper
-              disableNav={index >= selectionLimit - 1}
-              topicId={topicId}
-              subjectId={subject.id}
-              subTopicId={selectedTopics[index + 1]}
-              subject={subject}
-              user={user}
-            />
-          </div>
-        );
-      })}
-    </>
-  );
-
   const selectedMetadata = [...(subject.allTopics ?? [])]
     .reverse()
     .find((t) => selectedTopics.includes(t.id));
@@ -189,13 +195,28 @@ const MultidisciplinarySubjectPage = () => {
       />
       <main>
         <MultidisciplinarySubject
+          breadcrumbs={breadCrumbs}
           id={selectedTopics.length === 0 ? SKIP_TO_CONTENT_ID : undefined}
           hideCards={isNotLastTopic}
           cards={cards}
           totalCardCount={cards.length}
         >
           <NavigationBox items={mainTopics} listDirection="horizontal" />
-          <TopicBoxes />
+
+          {selectedTopics.map((topicId, index) => (
+            <div key={index} ref={refs[index]}>
+              <MultidisciplinaryTopicWrapper
+                index={index}
+                setCrumbs={setTopicCrumbs}
+                disableNav={index >= selectionLimit - 1}
+                topicId={topicId}
+                subjectId={subject.id}
+                subTopicId={selectedTopics[index + 1]}
+                subject={subject}
+                user={user}
+              />
+            </div>
+          ))}
         </MultidisciplinarySubject>
       </main>
     </>

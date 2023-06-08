@@ -2184,14 +2184,11 @@ export type GQLLearningpathPage_TopicPathFragment = {
 
 export type GQLMastHeadQueryVariables = Exact<{
   subjectId: Scalars['String'];
-  resourceId: Scalars['String'];
-  skipResource: Scalars['Boolean'];
 }>;
 
 export type GQLMastHeadQuery = {
   __typename?: 'Query';
   subject?: { __typename?: 'Subject' } & GQLMastheadDrawer_SubjectFragment;
-  resource?: { __typename?: 'Resource'; id: string; name: string };
 };
 
 export type GQLMastheadSearch_SubjectFragment = {
@@ -2368,6 +2365,7 @@ export type GQLMultidisciplinarySubjectPageQuery = {
 export type GQLMultidisciplinarySubjectArticle_TopicFragment = {
   __typename?: 'Topic';
   path: string;
+  id: string;
   article?: {
     __typename?: 'Article';
     created: string;
@@ -2385,7 +2383,12 @@ export type GQLMultidisciplinarySubjectArticle_SubjectFragment = {
   name: string;
   id: string;
   path: string;
-  allTopics?: Array<{ __typename?: 'Topic'; id: string; name: string }>;
+  allTopics?: Array<{
+    __typename?: 'Topic';
+    id: string;
+    name: string;
+    parentId?: string;
+  }>;
   subjectpage?: {
     __typename?: 'SubjectPage';
     about?: { __typename?: 'SubjectPageAbout'; title: string };
@@ -4101,6 +4104,26 @@ export type GQLAlertsQuery = {
     closable: boolean;
     number: number;
   }>;
+};
+
+export type GQLEmbedOembedQueryVariables = Exact<{
+  id: Scalars['String'];
+  type: Scalars['String'];
+}>;
+
+export type GQLEmbedOembedQuery = {
+  __typename?: 'Query';
+  resourceEmbed: {
+    __typename?: 'ResourceEmbed';
+    meta: {
+      __typename?: 'ResourceMetaData';
+      images?: Array<{ __typename?: 'ImageLicense'; title: string }>;
+      concepts?: Array<{ __typename?: 'ConceptLicense'; title: string }>;
+      audios?: Array<{ __typename?: 'AudioLicense'; title: string }>;
+      podcasts?: Array<{ __typename?: 'PodcastLicense'; title: string }>;
+      brightcoves?: Array<{ __typename?: 'BrightcoveLicense'; title: string }>;
+    };
+  };
 };
 
 export type GQLStructuredArticleData_CopyrightFragment = {
