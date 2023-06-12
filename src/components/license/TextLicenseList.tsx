@@ -27,6 +27,7 @@ import CopyTextButton from './CopyTextButton';
 import { GQLTextLicenseList_CopyrightFragment } from '../../graphqlTypes';
 import { licenseCopyrightToCopyrightType } from './licenseHelpers';
 import { licenseListCopyrightFragment } from './licenseFragments';
+import LicenseDescription from './LicenseDescription';
 
 interface TextLicenseInfoProps {
   text: TextItem;
@@ -95,8 +96,7 @@ const TextLicenseList = ({ texts, printUrl }: Props) => {
   const { t } = useTranslation();
   return (
     <div>
-      <h2>{t('license.text.heading')}</h2>
-      <p>{t('license.text.description')}</p>
+      <LicenseDescription>{t('license.text.description')}</LicenseDescription>
       {printUrl && (
         <ButtonV2
           size="small"

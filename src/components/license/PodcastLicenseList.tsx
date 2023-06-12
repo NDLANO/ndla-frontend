@@ -23,11 +23,16 @@ import {
 } from '@ndla/licenses';
 import { useTranslation } from 'react-i18next';
 import { SafeLinkButton } from '@ndla/safelink';
+import { Link } from 'react-router-dom';
 import CopyTextButton from './CopyTextButton';
 import { GQLPodcastLicenseList_PodcastLicenseFragment } from '../../graphqlTypes';
-import { licenseCopyrightToCopyrightType } from './licenseHelpers';
+import {
+  isCopyrighted,
+  licenseCopyrightToCopyrightType,
+} from './licenseHelpers';
 import { licenseListCopyrightFragment } from './licenseFragments';
 import config from '../../config';
+import LicenseDescription from './LicenseDescription';
 
 interface PodcastLicenseInfoProps {
   podcast: GQLPodcastLicenseList_PodcastLicenseFragment;
@@ -71,7 +76,18 @@ const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
   return (
     <MediaListItem>
       <MediaListItemImage>
-        <Podcast className="c-medialist__icon" />
+        {isCopyrighted(podcast.copyright.license.license) ? (
+          <Podcast className="c-medialist__icon" />
+        ) : (
+          <Link
+            to={`/audio/${podcast.id}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={t('embed.goTo', { type: t('embed.type.podcast') })}
+          >
+            <Podcast className="c-medialist__icon" />
+          </Link>
+        )}
       </MediaListItemImage>
 
       <MediaListItemBody
@@ -113,8 +129,9 @@ const PodcastLicenseList = ({ podcasts }: Props) => {
   const { t } = useTranslation();
   return (
     <div>
-      <h2>{t('license.podcast.heading')}</h2>
-      <p>{t('license.podcast.description')}</p>
+      <LicenseDescription>
+        {t('license.podcast.description')}
+      </LicenseDescription>
       <MediaList>
         {podcasts.map((podcast, index) => (
           <PodcastLicenseInfo
