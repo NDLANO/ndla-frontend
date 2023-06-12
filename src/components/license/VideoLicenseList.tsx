@@ -22,10 +22,15 @@ import {
   getGroupedContributorDescriptionList,
 } from '@ndla/licenses';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import CopyTextButton from './CopyTextButton';
 import { GQLVideoLicenseList_BrightcoveLicenseFragment } from '../../graphqlTypes';
-import { licenseCopyrightToCopyrightType } from './licenseHelpers';
+import {
+  isCopyrighted,
+  licenseCopyrightToCopyrightType,
+} from './licenseHelpers';
 import { licenseListCopyrightFragment } from './licenseFragments';
+import LicenseDescription from './LicenseDescription';
 
 interface VideoLicenseInfoProps {
   video: GQLVideoLicenseList_BrightcoveLicenseFragment;
@@ -48,7 +53,18 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
   return (
     <MediaListItem>
       <MediaListItemImage>
-        <img alt="presentation" src={video.cover} />
+        {isCopyrighted(video.copyright?.license.license) ? (
+          <img alt="presentation" src={video.cover} />
+        ) : (
+          <Link
+            to={`/video/${video.id}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={t('embed.goTo', { type: t('embed.type.video') })}
+          >
+            <img alt="presentation" src={video.cover} />
+          </Link>
+        )}
       </MediaListItemImage>
       <MediaListItemBody
         title={t('license.video.rules')}
@@ -86,8 +102,7 @@ const VideoLicenseList = ({ videos }: Props) => {
   const { t } = useTranslation();
   return (
     <div>
-      <h2>{t('license.video.heading')}</h2>
-      <p>{t('license.video.description')}</p>
+      <LicenseDescription>{t('license.video.description')}</LicenseDescription>
       <MediaList>
         {videos.map((video) => (
           <VideoLicenseInfo video={video} key={uuid()} />

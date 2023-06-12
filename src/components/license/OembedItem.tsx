@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import CopyTextButton from './CopyTextButton';
+import LicenseDescription from './LicenseDescription';
 
 interface Props {
   oembed: string;
@@ -8,8 +9,9 @@ const OembedItem = ({ oembed }: Props) => {
   const { t } = useTranslation();
   return (
     <div>
-      <h2>{t('license.embedlink.heading')}</h2>
-      <p>{t('license.embedlink.description')}</p>
+      <LicenseDescription>
+        {t('license.embedlink.description')}
+      </LicenseDescription>
       <CopyTextButton
         copyTitle={t('license.embedlink.copyTitle')}
         hasCopiedTitle={t('license.embedlink.hasCopiedTitle')}
