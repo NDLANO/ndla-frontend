@@ -10,7 +10,6 @@ import { useContext } from 'react';
 import { Masthead, MastheadItem, LanguageSelector, Logo } from '@ndla/ui';
 import styled from '@emotion/styled';
 import { breakpoints, mq } from '@ndla/core';
-import { useLocation } from 'react-router-dom';
 import { gql } from '@apollo/client';
 
 import { Feide } from '@ndla/icons/common';
@@ -59,7 +58,6 @@ const MastheadContainer = () => {
   const { subjectId } = useUrnIds();
   const { user } = useContext(AuthContext);
   const { openAlerts, closeAlert } = useAlerts();
-  const location = useLocation();
   const ndlaFilm = useIsNdlaFilm();
   const { data: freshData, previousData } = useGraphQuery<
     GQLMastHeadQuery,
@@ -72,16 +70,6 @@ const MastheadContainer = () => {
   });
 
   const data = freshData ?? previousData;
-
-  const renderSearchComponent = (hideOnNarrowScreen: boolean) =>
-    !location.pathname.includes('search') &&
-    location.pathname !== '/' &&
-    (location.pathname.includes('utdanning') || data?.subject) && (
-      <MastheadSearch
-        subject={data?.subject}
-        hideOnNarrowScreen={hideOnNarrowScreen}
-      />
-    );
 
   const alerts = openAlerts?.map((alert) => ({
     content: alert.body || alert.title,
@@ -121,7 +109,7 @@ const MastheadContainer = () => {
               <Feide />
             </FeideLoginButton>
           )}
-          {renderSearchComponent(true)}
+          <MastheadSearch subject={data?.subject} hideOnNarrowScreen />
           <Logo
             to="/"
             locale={locale}
