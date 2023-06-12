@@ -8914,11 +8914,6 @@ jest-snapshot@^29.0.2:
     pretty-format "^29.0.2"
     semver "^7.3.5"
 
-jest-transform-graphql@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/jest-transform-graphql/-/jest-transform-graphql-2.1.0.tgz#903cb66bb27bc2772fd3e5dd4f7e9b57230f5829"
-  integrity sha512-oLVErzg6bN9eJPB/b8c1+0go3K1F1OZNkvlbUfOgK+96ulfX/fnp+4jI3tjQ1IUVL2XcSjhzwDwNdwsNI5EhRg==
-
 jest-util@^29.0.0, jest-util@^29.0.2, jest-util@^29.2.1:
   version "29.2.1"
   resolved "https://registry.yarnpkg.com/jest-util/-/jest-util-29.2.1.tgz#f26872ba0dc8cbefaba32c34f98935f6cf5fc747"
