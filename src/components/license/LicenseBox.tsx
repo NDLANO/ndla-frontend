@@ -90,7 +90,13 @@ function buildLicenseTabList(
     });
   }
 
-  if (concepts.length) {
+  if (
+    concepts.some(
+      (concept) =>
+        concept.copyright?.license?.license &&
+        concept.copyright.license.license !== 'unknown',
+    )
+  ) {
     tabs.push({
       title: t('license.tabs.concept'),
       id: 'concept',
