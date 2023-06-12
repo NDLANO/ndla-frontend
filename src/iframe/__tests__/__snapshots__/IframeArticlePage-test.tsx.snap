@@ -440,6 +440,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                   <a
                     class="emotion-7 emotion-8"
                     href="https://creativecommons.org/licenses/by-sa/4.0/deed.no"
+                    rel="license"
                   >
                     CC BY-SA
                   </a>
