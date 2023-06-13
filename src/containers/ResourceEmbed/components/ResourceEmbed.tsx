@@ -19,7 +19,7 @@ import {
   AccordionRoot,
 } from '@ndla/accordion';
 import { CreatedBy } from '@ndla/ui';
-import { spacing } from '@ndla/core';
+import { fonts, spacing } from '@ndla/core';
 import ResourceEmbedLicenseBox from './ResourceEmbedLicenseBox';
 import {
   GQLResourceEmbedLicenseBox_MetaFragment,
@@ -38,6 +38,11 @@ export type StandaloneEmbed = 'image' | 'audio' | 'video' | 'h5p' | 'concept';
 
 const CreatedByWrapper = styled.div`
   margin-top: ${spacing.small};
+`;
+
+const StyledAccordionHeader = styled(AccordionHeader)`
+  font-size: ${fonts.sizes('16px', '29px')};
+  font-weight: ${fonts.weight.semibold};
 `;
 
 interface Props {
@@ -172,7 +177,9 @@ const ResourceEmbed = ({ id, type, noBackground, isOembed }: Props) => {
           <AccordionRoot type="single" collapsible>
             {data?.resourceEmbed.meta && (
               <AccordionItem value="rulesForUse">
-                <AccordionHeader>{t('article.useContent')}</AccordionHeader>
+                <StyledAccordionHeader>
+                  {t('article.useContent')}
+                </StyledAccordionHeader>
                 <AccordionContent>
                   <ResourceEmbedLicenseBox metaData={data.resourceEmbed.meta} />
                 </AccordionContent>
