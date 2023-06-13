@@ -3321,11 +3321,11 @@ export const programmes: ProgrammeType[] = [
                 id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
               },
               {
-                id: 'urn:subject:1:b561f04f-d633-453e-b0ce-84985f97969b'
+                id: 'urn:subject:1:b561f04f-d633-453e-b0ce-84985f97969b',
               },
               {
-                id: 'urn:subject:1:734bd33b-da6d-49b0-bb34-c6df5b956f8e'
-              }
+                id: 'urn:subject:1:734bd33b-da6d-49b0-bb34-c6df5b956f8e',
+              },
             ],
           },
           {
