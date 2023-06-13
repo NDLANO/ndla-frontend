@@ -11,13 +11,13 @@ import { useEffect } from 'react';
 import { HelmetWithTracker } from '@ndla/tracker';
 import {
   FrontpageHeader,
-  FrontpageFilm,
   OneColumn,
   FrontpageToolbox,
   FrontpageMultidisciplinarySubject,
   BannerCard,
+  CampaignBlock,
 } from '@ndla/ui';
-import { spacing, utils } from '@ndla/core';
+import { breakpoints, mq, spacing, utils } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import { gql, useLazyQuery } from '@apollo/client';
 
@@ -55,6 +55,14 @@ const HiddenHeading = styled.h1`
 
 const BannerCardWrapper = styled.div`
   padding-bottom: ${spacing.large};
+`;
+
+const StyledCampaignBlock = styled(CampaignBlock)`
+  margin-top: ${spacing.large};
+  ${mq.range({ from: breakpoints.tabletWide })} {
+    max-width: 1102px;
+    flex-direction: row;
+  }
 `;
 
 const frontpageSubjectsQuery = gql`
@@ -157,10 +165,29 @@ const WelcomePage = () => {
             urlTeachers={toSubject(TOOLBOX_TEACHER_SUBJECT_ID)}
           />
           <BlogPosts locale={i18n.language} />
-          <FrontpageFilm
-            imageUrl="/static/film_illustrasjon.svg"
-            url={FILM_PAGE_PATH}
+          <StyledCampaignBlock
+            title={{
+              title: t('welcomePage.film.header'),
+              language: i18n.language,
+            }}
+            url={{
+              url: FILM_PAGE_PATH,
+              text: t('welcomePage.film.linkLabel'),
+            }}
+            imageAfter={{
+              src: `/static/film_illustration_after.svg`,
+              alt: '',
+            }}
+            imageBefore={{
+              src: `/static/film_illustration_before.svg`,
+              alt: '',
+            }}
+            description={{
+              text: t('welcomePage.film.text'),
+              language: i18n.language,
+            }}
           />
+
           <WelcomePageInfo />
         </OneColumn>
       </main>
