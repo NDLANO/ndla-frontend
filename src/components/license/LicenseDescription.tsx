@@ -11,7 +11,7 @@ import { spacing } from '@ndla/core';
 
 const LicenseDescription = styled.p`
   margin-top: ${spacing.small} !important;
-  margin-bottom: 0px;
+  margin-bottom: ${spacing.small};
 `;
 
 export default LicenseDescription;

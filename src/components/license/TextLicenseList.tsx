@@ -98,12 +98,7 @@ const TextLicenseList = ({ texts, printUrl }: Props) => {
     <div>
       <LicenseDescription>{t('license.text.description')}</LicenseDescription>
       {printUrl && (
-        <ButtonV2
-          size="small"
-          shape="pill"
-          variant="outline"
-          onClick={() => printPage(printUrl)}
-        >
+        <ButtonV2 variant="outline" onClick={() => printPage(printUrl)}>
           {t('article.printPage')}
         </ButtonV2>
       )}
