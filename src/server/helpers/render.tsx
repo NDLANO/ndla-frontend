@@ -43,6 +43,7 @@ interface Props<T extends object> {
   data?: T;
   cache?: EmotionCache;
   client: ApolloClient<any>;
+  disableSSR?: boolean;
 }
 
 export async function renderPageWithData<T extends object>({
@@ -51,6 +52,7 @@ export async function renderPageWithData<T extends object>({
   data,
   cache,
   client,
+  disableSSR,
 }: Props<T>) {
   if (cache) {
     const { extractCriticalToChunks, constructStyleTagsFromChunks } =
@@ -67,7 +69,7 @@ export async function renderPageWithData<T extends object>({
       data: {
         ...data,
         apolloState,
-        config,
+        config: { ...config, disableSSR },
         assets,
       },
     };
@@ -81,7 +83,7 @@ export async function renderPageWithData<T extends object>({
     data: {
       ...data,
       apolloState,
-      config,
+      config: { ...config, disableSSR },
       assets,
     },
   };
