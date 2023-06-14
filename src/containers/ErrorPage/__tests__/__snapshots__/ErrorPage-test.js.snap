@@ -810,7 +810,7 @@ exports[`ErrorPage renderers correctly 1`] = `
             aria-label="Velg språk (language): "
             class="emotion-17"
             data-state="closed"
-            id="radix-0"
+            id="radix-:r0:"
             type="button"
           >
             Velg språk 

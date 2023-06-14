@@ -134,31 +134,29 @@ const MastheadSearch = ({ hideOnNarrowScreen = false, subject }: Props) => {
     >
       {(onCloseModal: Function) => {
         closeModal = onCloseModal as () => void;
-        return (
-          error || (
-            <SearchFieldForm onSubmit={onSearch}>
-              <SearchField
-                placeholder={t('searchPage.searchFieldPlaceholder')}
-                value={query}
-                inputRef={inputRef}
-                onChange={onQueryChange}
-                filters={filters}
-                onFilterRemove={onFilterRemove}
+        return error ? (
+          <SearchFieldForm onSubmit={onSearch}>
+            <SearchField
+              placeholder={t('searchPage.searchFieldPlaceholder')}
+              value={query}
+              inputRef={inputRef}
+              onChange={onQueryChange}
+              filters={filters}
+              onFilterRemove={onFilterRemove}
+              loading={loading}
+            />
+            {query.length > 2 && (
+              <SearchResultSleeve
+                result={mapResults(searchResult.groupSearch)}
+                searchString={query}
+                allResultUrl={toSearch(searchString)}
+                resourceToLinkProps={searchResultToLinkProps}
+                onNavigate={onNavigate}
                 loading={loading}
               />
-              {query.length > 2 && (
-                <SearchResultSleeve
-                  result={mapResults(searchResult.groupSearch)}
-                  searchString={query}
-                  allResultUrl={toSearch(searchString)}
-                  resourceToLinkProps={searchResultToLinkProps}
-                  onNavigate={onNavigate}
-                  loading={loading}
-                />
-              )}
-            </SearchFieldForm>
-          )
-        );
+            )}
+          </SearchFieldForm>
+        ) : null;
       }}
     </MastheadSearchModal>
   );

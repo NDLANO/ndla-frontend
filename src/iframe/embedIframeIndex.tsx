@@ -7,7 +7,6 @@
  */
 
 import '../style/index.css';
-import ReactDOM from 'react-dom';
 import { I18nextProvider } from 'react-i18next';
 import { HelmetProvider } from 'react-helmet-async';
 import { ApolloProvider } from '@apollo/client';
@@ -30,6 +29,8 @@ import '@fontsource/source-code-pro/700.css';
 import '@fontsource/source-serif-pro/index.css';
 import '@fontsource/source-serif-pro/400-italic.css';
 import '@fontsource/source-serif-pro/700.css';
+import { ReactNode } from 'react';
+import { createRoot, hydrateRoot } from 'react-dom/client';
 import { EmotionCacheKey } from '../constants';
 import { createApolloClient } from '../util/apiHelpers';
 import { initializeI18n } from '../i18n';
@@ -38,12 +39,7 @@ import { EmbedInitialProps } from '../server/routes/iframeEmbedRoute';
 
 const { config, initialProps } = window.DATA;
 
-const {
-  disableSSR,
-  logglyApiKey,
-  logEnvironment: environment,
-  componentName,
-} = config;
+const { logglyApiKey, logEnvironment: environment, componentName } = config;
 
 window.errorReporter = ErrorReporter.getInstance({
   logglyApiKey,
@@ -65,8 +61,16 @@ const cache = createCache({ key: EmotionCacheKey });
 const client = createApolloClient(language);
 const i18n = initializeI18n(i18nInstance, language);
 
-const renderOrHydrate = disableSSR ? ReactDOM.render : ReactDOM.hydrate;
+const renderOrHydrate = (container: HTMLElement, children: ReactNode) => {
+  if (config.disableSSR) {
+    const root = createRoot(container);
+    root.render(children);
+  } else {
+    hydrateRoot(container, children);
+  }
+};
 renderOrHydrate(
+  document.getElementById('root')!,
   <HelmetProvider>
     <I18nextProvider i18n={i18n}>
       <ApolloProvider client={client}>
@@ -82,10 +86,6 @@ renderOrHydrate(
       </ApolloProvider>
     </I18nextProvider>
   </HelmetProvider>,
-  document.getElementById('root'),
-  () => {
-    window.hasHydrated = true;
-  },
 );
 
 if (module.hot) {
