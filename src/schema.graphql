@@ -1054,6 +1054,7 @@ type Subject implements TaxonomyEntity {
   paths: [String!]!
   rank: Int
   relevanceId: String!
+  resourceTypes: [ResourceType!]
   subjectpage: SubjectPage
   supportedLanguages: [String!]!
   topics(all: Boolean): [Topic!]
@@ -1062,18 +1063,10 @@ type Subject implements TaxonomyEntity {
 type SubjectPage {
   about: SubjectPageAbout
   banner: SubjectPageBanner!
-  editorsChoices(subjectId: String): [TaxonomyEntity!]!
-  facebook: String
-  goTo: [ResourceTypeDefinition!]!
   id: Int!
-  latestContent(subjectId: String): [TaxonomyEntity!]
-  layout: String!
   metaDescription: String
-  mostRead(subjectId: String): [TaxonomyEntity!]!
   name: String!
   supportedLanguages: [String!]!
-  topical(subjectId: String): TaxonomyEntity
-  twitter: String
 }
 
 type SubjectPageAbout {
@@ -1119,6 +1112,7 @@ interface TaxonomyEntity {
   paths: [String!]!
   rank: Int
   relevanceId: String
+  resourceTypes: [ResourceType!]
   supportedLanguages: [String!]!
 }
 
@@ -1156,6 +1150,7 @@ type Topic implements TaxonomyEntity & WithArticle {
   paths: [String!]!
   rank: Int
   relevanceId: String
+  resourceTypes: [ResourceType!]
   subtopics: [Topic!]
   supplementaryResources(subjectId: String): [Resource!]
   supportedLanguages: [String!]!
