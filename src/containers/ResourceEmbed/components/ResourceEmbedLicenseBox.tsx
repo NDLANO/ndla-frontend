@@ -80,7 +80,6 @@ const ResourceEmbedLicenseBox = ({ metaData }: Props) => {
 
   return (
     <div>
-      <h1 className="license__heading">{t('license.heading')}</h1>
       <Tabs tabs={tabs} />
     </div>
   );
