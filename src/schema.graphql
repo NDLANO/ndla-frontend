@@ -781,6 +781,7 @@ type PodcastSeriesWithEpisodes implements PodcastSeriesBase {
   coverPhoto: CoverPhoto!
   description: Description!
   episodes: [Audio!]
+  hasRSS: Boolean!
   id: Int!
   supportedLanguages: [String!]!
   title: Title!

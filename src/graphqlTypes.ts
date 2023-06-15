@@ -933,6 +933,7 @@ export type GQLPodcastSeriesWithEpisodes = GQLPodcastSeriesBase & {
   coverPhoto: GQLCoverPhoto;
   description: GQLDescription;
   episodes?: Maybe<Array<GQLAudio>>;
+  hasRSS: Scalars['Boolean'];
   id: Scalars['Int'];
   supportedLanguages: Array<Scalars['String']>;
   title: GQLTitle;
@@ -3030,6 +3031,7 @@ export type GQLPodcastSeriesPageQuery = {
     __typename?: 'PodcastSeriesWithEpisodes';
     id: number;
     supportedLanguages: Array<string>;
+    hasRSS: boolean;
     title: { __typename?: 'Title'; title: string };
     description: { __typename?: 'Description'; description: string };
     coverPhoto: { __typename?: 'CoverPhoto'; url: string };
