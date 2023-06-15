@@ -19,7 +19,7 @@ import {
   AccordionRoot,
 } from '@ndla/accordion';
 import { CreatedBy } from '@ndla/ui';
-import { fonts, spacing } from '@ndla/core';
+import { colors, fonts, spacing } from '@ndla/core';
 import ResourceEmbedLicenseBox from './ResourceEmbedLicenseBox';
 import {
   GQLResourceEmbedLicenseBox_MetaFragment,
@@ -41,6 +41,8 @@ const CreatedByWrapper = styled.div`
 `;
 
 const StyledAccordionHeader = styled(AccordionHeader)`
+  background-color: ${colors.brand.lightest};
+  border: 1px solid ${colors.brand.lighter};
   font-size: ${fonts.sizes('16px', '29px')};
   font-weight: ${fonts.weight.semibold};
 `;
