@@ -44,7 +44,7 @@ const ContentWrapper = styled.div`
 `;
 
 const TextWrapper = styled.div`
-  padding: 26px 26px 0;
+  padding: ${spacing.normal} ${spacing.normal} 0;
   display: flex;
   flex-direction: column;
   gap: ${spacing.small};
