@@ -9,12 +9,7 @@
 import { gql } from '@apollo/client';
 import { useRef, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
-import {
-  FeideUserApiType,
-  MultidisciplinarySubjectHeader,
-  OneColumn,
-  SimpleBreadcrumbItem,
-} from '@ndla/ui';
+import { FeideUserApiType, OneColumn, SimpleBreadcrumbItem } from '@ndla/ui';
 import { withTracker } from '@ndla/tracker';
 import { DynamicComponents } from '@ndla/article-converter';
 import {
@@ -37,6 +32,7 @@ import { getArticleScripts } from '../../../util/getArticleScripts';
 import AddEmbedToFolder from '../../../components/MyNdla/AddEmbedToFolder';
 import { removeUrn } from '../../../routeHelpers';
 import { getTopicPath } from '../../../util/getTopicPath';
+import MultidisciplinarySubjectHeader from '../MultidisciplinarySubjectHeader';
 
 const filterCodes: Record<string, 'publicHealth' | 'democracy' | 'climate'> = {
   TT1: 'publicHealth',
