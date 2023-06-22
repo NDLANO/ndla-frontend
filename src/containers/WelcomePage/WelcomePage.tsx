@@ -52,10 +52,6 @@ const HiddenHeading = styled.h1`
   ${utils.visuallyHidden};
 `;
 
-const BannerCardWrapper = styled.div`
-  padding-bottom: ${spacing.large};
-`;
-
 const frontpageSubjectsQuery = gql`
   query frontpageSubjects {
     subjects(filterVisible: true) {
