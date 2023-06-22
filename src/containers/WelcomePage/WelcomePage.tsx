@@ -16,7 +16,7 @@ import {
   FrontpageToolbox,
   FrontpageMultidisciplinarySubject,
 } from '@ndla/ui';
-import { spacing, utils } from '@ndla/core';
+import { utils } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import { gql, useLazyQuery } from '@apollo/client';
 
