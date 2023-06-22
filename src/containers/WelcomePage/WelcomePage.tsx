@@ -15,7 +15,6 @@ import {
   OneColumn,
   FrontpageToolbox,
   FrontpageMultidisciplinarySubject,
-  BannerCard,
 } from '@ndla/ui';
 import { spacing, utils } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
@@ -116,28 +115,6 @@ const WelcomePage = () => {
       </FrontpageHeader>
       <main>
         <OneColumn extraPadding>
-          <BannerCardWrapper>
-            <BannerCard
-              link="https://blogg.ndla.no/eksamenstips/?utm_source=NDLA&utm_medium=Annonse&utm_campaign=Eksamen"
-              title={{
-                title: 'Skal du ha eksamen?',
-                lang: 'nb',
-              }}
-              content={{
-                content:
-                  'Vi hjelper deg med eksamensforberedelsene! Visste du at NDLA er et av få åpne nettsteder du har lov til å bruke som hjelpemiddel under eksamen?',
-                lang: 'nb',
-              }}
-              linkText={{
-                text: 'Les alle våre eksamenstips',
-                lang: 'nb',
-              }}
-              image={{
-                altText: '',
-                imageSrc: '/static/eksamenstips.png',
-              }}
-            />
-          </BannerCardWrapper>
           <div data-testid="category-list" id={SKIP_TO_CONTENT_ID}>
             <FrontpageSubjects
               locale={i18n.language}
