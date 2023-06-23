@@ -105,7 +105,7 @@
     "webpack-hot-middleware": "^2.25.3",
     "webpack-manifest-plugin": "^5.0.0",
     "webpack-node-externals": "^3.0.0",
-    "yarn-deduplicate": "^6.0.0"
+    "yarn-deduplicate": "^6.0.2"
   },
   "dependencies": {
     "@apollo/client": "^3.7.1",
