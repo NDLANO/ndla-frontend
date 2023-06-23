@@ -210,6 +210,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   display: -ms-flexbox;
   display: flex;
   gap: 12px;
+  padding-right: 6px;
 }
 
 .emotion-7 {
@@ -217,6 +218,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   font-weight: 700;
   -webkit-text-decoration: underline;
   text-decoration: underline;
+  white-space: nowrap;
   box-shadow: none;
 }
 
