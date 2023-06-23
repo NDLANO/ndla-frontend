@@ -9,14 +9,14 @@ module.exports = {
       '@babel/preset-env',
       {
         targets: {
-          browsers: ['last 2 versions', 'not dead'],
+          browsers: ['> 0.25%', 'not dead'],
         },
       },
     ],
   ],
 
   plugins: [
-    ['@emotion', { autoLabel: 'always', sourceMap: false }],
+    ['@emotion', { autoLabel: 'always' }],
     'graphql-tag',
     process.env.BABEL_ENV === 'development' &&
     process.env.BUILD_TARGET === 'client'
