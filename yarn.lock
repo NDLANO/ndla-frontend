@@ -2642,7 +2642,7 @@
     hoist-non-react-statics "^3.3.2"
     tiny-warning "^1.0.3"
 
-"@ndla/types-backend@^0.2.14":
+"@ndla/types-backend@^0.2.15":
   version "0.2.15"
   resolved "https://registry.yarnpkg.com/@ndla/types-backend/-/types-backend-0.2.15.tgz#7ee42baf81f4a0cd9b88844608db6ff2f40fe0a9"
   integrity sha512-pi30pPF2+UtcByvus0IQMgmHxuU7/82U2f440DNk57ol13Zsh85+3xWMZRfQje75uJrNhmJbnBG1lSboC227LA==
