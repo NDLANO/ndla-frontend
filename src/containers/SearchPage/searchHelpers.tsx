@@ -218,7 +218,7 @@ export const mapResourcesToItems = (
           language,
         )
       : resource.contexts?.length
-      ? resource.path
+      ? resource.contexts[0]?.path || resource.path
       : plainUrl(resource.path),
     labels: [
       ...mapTraits(resource.traits, t),
