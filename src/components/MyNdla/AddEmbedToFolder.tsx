@@ -9,8 +9,12 @@
 import { FavoriteButton } from '@ndla/button';
 import { EmbedMetaData } from '@ndla/types-embed';
 import { useCallback, useMemo, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import { NoSSR } from '@ndla/util';
 import { ResourceAttributes } from './AddResourceToFolder';
 import AddResourceToFolderModal from './AddResourceToFolderModal';
+import { useFolders } from '../../containers/MyNdla/folderMutations';
+import { getAllResources } from '../../util/folderHelpers';
 
 interface Props {
   embed: Extract<EmbedMetaData, { status: 'success' }>;
@@ -49,18 +53,26 @@ const embedToResource = (
   }
 };
 
-const AddEmbedToFolder = ({ embed }: Props) => {
+const ClientAddEmbedToFolder = ({ embed }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const resource = useMemo(() => embedToResource(embed), [embed]);
   const onClose = useCallback(() => setIsOpen(false), []);
   const onOpen = useCallback(() => setIsOpen(true), []);
+  const { pathname } = useLocation();
+  const { folders } = useFolders();
+
+  const exists = useMemo(() => {
+    const resources = getAllResources(folders);
+    return resources.some((r) => r.path === pathname);
+  }, [folders, pathname]);
 
   if (!resource) {
     return null;
   }
+
   return (
     <>
-      <FavoriteButton onClick={onOpen} />
+      <FavoriteButton onClick={onOpen} isFavorite={exists} />
       {isOpen && (
         <AddResourceToFolderModal
           isOpen={isOpen}
@@ -69,6 +81,14 @@ const AddEmbedToFolder = ({ embed }: Props) => {
         />
       )}
     </>
+  );
+};
+
+const AddEmbedToFolder = ({ embed }: Props) => {
+  return (
+    <NoSSR fallback={<FavoriteButton />}>
+      <ClientAddEmbedToFolder embed={embed} />
+    </NoSSR>
   );
 };
 
