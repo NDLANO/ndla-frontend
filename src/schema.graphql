@@ -747,6 +747,7 @@ type PodcastMeta {
 type PodcastSeries implements PodcastSeriesBase {
   coverPhoto: CoverPhoto!
   description: Description!
+  hasRSS: Boolean!
   id: Int!
   supportedLanguages: [String!]!
   title: Title!
@@ -755,6 +756,7 @@ type PodcastSeries implements PodcastSeriesBase {
 interface PodcastSeriesBase {
   coverPhoto: CoverPhoto!
   description: Description!
+  hasRSS: Boolean!
   id: Int!
   supportedLanguages: [String!]!
   title: Title!
@@ -781,6 +783,7 @@ type PodcastSeriesWithEpisodes implements PodcastSeriesBase {
   coverPhoto: CoverPhoto!
   description: Description!
   episodes: [Audio!]
+  hasRSS: Boolean!
   id: Int!
   supportedLanguages: [String!]!
   title: Title!
