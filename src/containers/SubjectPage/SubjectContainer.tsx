@@ -153,7 +153,7 @@ const SubjectContainer = ({ t, topicIds, subject }: Props) => {
   const supportedLanguages =
     topicsOnPage[topicsOnPage.length - 1]?.supportedLanguages;
 
-  const customFields = subject?.metadata.customFields || [];
+  const customFields = subject?.metadata.customFields || {};
 
   const nonRegularSubjectMessage = getSubjectCategoryMessage(
     customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY],
