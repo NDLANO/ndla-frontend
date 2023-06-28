@@ -92,7 +92,9 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
 
   return (
     <MediaListItem>
-      <MediaListItemImage>
+      <MediaListItemImage
+        canOpen={!isCopyrighted(image.copyright.license.license)}
+      >
         {isCopyrighted(image.copyright.license.license) ? (
           <Image alt={image.altText} src={image.src} />
         ) : (
