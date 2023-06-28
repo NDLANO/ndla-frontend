@@ -155,12 +155,3 @@ export const PublicHealthDemocracyClimateIllustration = styled.div`
     height: 178px;
   }
 `;
-
-export const AllSubjectsPersonIllustration = styled.div`
-  background-image: url('/static/illustrations/all_subjects_person.svg');
-  background-repeat: no-repeat;
-  background-size: auto 100%;
-  background-position: 100% 100%;
-  height: 175px;
-  width: 208px;
-`;

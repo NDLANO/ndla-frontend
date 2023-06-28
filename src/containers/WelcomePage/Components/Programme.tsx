@@ -18,9 +18,17 @@ import {
 import { ProgrammeCard, ProgrammeV2 } from '@ndla/ui';
 import { css } from '@emotion/react';
 import { useMemo } from 'react';
-import { AllSubjectsPersonIllustration } from '../../MultidisciplinarySubject/Illustrations';
 
-const DesktopContainer = styled.div`
+const AllSubjectsPersonIllustration = styled.div`
+  background-image: url('/static/illustrations/all_subjects_person.svg');
+  background-repeat: no-repeat;
+  background-size: auto 100%;
+  background-position: 100% 100%;
+  height: 175px;
+  width: 208px;
+`;
+
+const Desktop = styled.div`
   display: none;
   ${mq.range({ from: breakpoints.tablet })} {
     display: flex;
@@ -30,18 +38,18 @@ const DesktopContainer = styled.div`
   }
 `;
 
-const MobilContainer = styled.div`
+const Mobile = styled.div`
   display: none;
   ${mq.range({ until: breakpoints.tablet })} {
     display: block;
   }
 `;
 
-const StyledAccordianRoot = styled(AccordionRoot)`
+const StyledAccordionRoot = styled(AccordionRoot)`
   gap: 0;
 `;
 
-const StyledAccordianContent = styled(AccordionContent)`
+const StyledAccordionContent = styled(AccordionContent)`
   a {
     margin-top: ${spacing.normal};
   }
@@ -87,9 +95,9 @@ const Programme = ({ programmes }: Props) => {
 
   return (
     <>
-      <DesktopContainer>{programmeCards}</DesktopContainer>
-      <MobilContainer>
-        <StyledAccordianRoot type="single" collapsible>
+      <Desktop>{programmeCards}</Desktop>
+      <Mobile>
+        <StyledAccordionRoot type="single" collapsible>
           <ImageWrapper>
             <AllSubjectsPersonIllustration />
           </ImageWrapper>
@@ -97,10 +105,10 @@ const Programme = ({ programmes }: Props) => {
             <AccordionHeader headerCSS={AccordionHeaderStyling}>
               {t('programme.accordianHeader')}
             </AccordionHeader>
-            <StyledAccordianContent>{programmeCards}</StyledAccordianContent>
+            <StyledAccordionContent>{programmeCards}</StyledAccordionContent>
           </AccordionItem>
-        </StyledAccordianRoot>
-      </MobilContainer>
+        </StyledAccordionRoot>
+      </Mobile>
     </>
   );
 };
