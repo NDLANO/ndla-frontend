@@ -9,44 +9,21 @@
 import styled from '@emotion/styled';
 import { useEffect } from 'react';
 import { HelmetWithTracker } from '@ndla/tracker';
-import {
-  FrontpageHeader,
-  FrontpageFilm,
-  OneColumn,
-  FrontpageToolbox,
-  FrontpageMultidisciplinarySubject,
-} from '@ndla/ui';
+import { FrontpageHeader, FrontpageFilm, OneColumn } from '@ndla/ui';
 import { utils } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import { gql, useLazyQuery } from '@apollo/client';
 
 import WelcomePageInfo from './WelcomePageInfo';
 import FrontpageSubjects from './FrontpageSubjects';
-import {
-  FILM_PAGE_PATH,
-  SKIP_TO_CONTENT_ID,
-  MULTIDISCIPLINARY_SUBJECT_ID,
-  TOOLBOX_STUDENT_SUBJECT_ID,
-  TOOLBOX_TEACHER_SUBJECT_ID,
-} from '../../constants';
+import { FILM_PAGE_PATH, SKIP_TO_CONTENT_ID } from '../../constants';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import config from '../../config';
 import BlogPosts from './BlogPosts';
 import WelcomePageSearch from './WelcomePageSearch';
-import { toSubject, toTopic } from '../../routeHelpers';
-import { LocaleType, TopicType } from '../../interfaces';
 import { GQLSubjectsQuery } from '../../graphqlTypes';
-import { multidisciplinaryTopics } from '../../data/subjects';
-
-const getMultidisciplinaryTopics = (locale: LocaleType) => {
-  return multidisciplinaryTopics.map((topic: TopicType) => {
-    return {
-      id: topic.id,
-      title: topic.name?.[locale] ?? '',
-      url: toTopic(MULTIDISCIPLINARY_SUBJECT_ID, topic.id ?? ''),
-    };
-  });
-};
+import FrontpageMultidisciplinarySubject from './FrontpageMultidisciplinarySubject';
+import FrontpageToolbox from './FrontpageToolbox';
 
 const HiddenHeading = styled.h1`
   ${utils.visuallyHidden};
@@ -119,16 +96,8 @@ const WelcomePage = () => {
           </div>
         </OneColumn>
         <OneColumn wide>
-          <FrontpageMultidisciplinarySubject
-            headingLevel="h2"
-            url={toSubject(MULTIDISCIPLINARY_SUBJECT_ID)}
-            topics={getMultidisciplinaryTopics(i18n.language)}
-          />
-          <FrontpageToolbox
-            headingLevel="h2"
-            urlStudents={toSubject(TOOLBOX_STUDENT_SUBJECT_ID)}
-            urlTeachers={toSubject(TOOLBOX_TEACHER_SUBJECT_ID)}
-          />
+          <FrontpageMultidisciplinarySubject />
+          <FrontpageToolbox />
           <BlogPosts locale={i18n.language} />
           <FrontpageFilm
             imageUrl="/static/film_illustrasjon.svg"

@@ -9,7 +9,6 @@
 import { FavoriteButton } from '@ndla/button';
 import { EmbedMetaData } from '@ndla/types-embed';
 import { useCallback, useContext, useMemo, useState } from 'react';
-import { useLocation } from 'react-router-dom';
 import { NoSSR } from '@ndla/util';
 import { ResourceAttributes } from './AddResourceToFolder';
 import AddResourceToFolderModal from './AddResourceToFolderModal';
@@ -60,13 +59,12 @@ const ClientAddEmbedToFolder = ({ embed }: Props) => {
   const resource = useMemo(() => embedToResource(embed), [embed]);
   const onClose = useCallback(() => setIsOpen(false), []);
   const onOpen = useCallback(() => setIsOpen(true), []);
-  const { pathname } = useLocation();
   const { folders } = useFolders({ skip: !authenticated });
 
   const exists = useMemo(() => {
     const resources = getAllResources(folders);
-    return resources.some((r) => r.path === pathname);
-  }, [folders, pathname]);
+    return resources.some((r) => r.path === resource?.path);
+  }, [folders, resource?.path]);
 
   if (!resource) {
     return null;
