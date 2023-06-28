@@ -1346,6 +1346,7 @@ export type GQLSubject = GQLTaxonomyEntity & {
   paths: Array<Scalars['String']>;
   rank?: Maybe<Scalars['Int']>;
   relevanceId: Scalars['String'];
+  resourceTypes?: Maybe<Array<GQLResourceType>>;
   subjectpage?: Maybe<GQLSubjectPage>;
   supportedLanguages: Array<Scalars['String']>;
   topics?: Maybe<Array<GQLTopic>>;
@@ -1359,34 +1360,10 @@ export type GQLSubjectPage = {
   __typename?: 'SubjectPage';
   about?: Maybe<GQLSubjectPageAbout>;
   banner: GQLSubjectPageBanner;
-  editorsChoices: Array<GQLTaxonomyEntity>;
-  facebook?: Maybe<Scalars['String']>;
-  goTo: Array<GQLResourceTypeDefinition>;
   id: Scalars['Int'];
-  latestContent?: Maybe<Array<GQLTaxonomyEntity>>;
-  layout: Scalars['String'];
   metaDescription?: Maybe<Scalars['String']>;
-  mostRead: Array<GQLTaxonomyEntity>;
   name: Scalars['String'];
   supportedLanguages: Array<Scalars['String']>;
-  topical?: Maybe<GQLTaxonomyEntity>;
-  twitter?: Maybe<Scalars['String']>;
-};
-
-export type GQLSubjectPageEditorsChoicesArgs = {
-  subjectId?: InputMaybe<Scalars['String']>;
-};
-
-export type GQLSubjectPageLatestContentArgs = {
-  subjectId?: InputMaybe<Scalars['String']>;
-};
-
-export type GQLSubjectPageMostReadArgs = {
-  subjectId?: InputMaybe<Scalars['String']>;
-};
-
-export type GQLSubjectPageTopicalArgs = {
-  subjectId?: InputMaybe<Scalars['String']>;
 };
 
 export type GQLSubjectPageAbout = {
@@ -1438,6 +1415,7 @@ export type GQLTaxonomyEntity = {
   paths: Array<Scalars['String']>;
   rank?: Maybe<Scalars['Int']>;
   relevanceId?: Maybe<Scalars['String']>;
+  resourceTypes?: Maybe<Array<GQLResourceType>>;
   supportedLanguages: Array<Scalars['String']>;
 };
 
@@ -1475,6 +1453,7 @@ export type GQLTopic = GQLTaxonomyEntity &
     paths: Array<Scalars['String']>;
     rank?: Maybe<Scalars['Int']>;
     relevanceId?: Maybe<Scalars['String']>;
+    resourceTypes?: Maybe<Array<GQLResourceType>>;
     subtopics?: Maybe<Array<GQLTopic>>;
     supplementaryResources?: Maybe<Array<GQLResource>>;
     supportedLanguages: Array<Scalars['String']>;
