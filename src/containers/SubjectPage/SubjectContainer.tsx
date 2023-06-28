@@ -169,12 +169,10 @@ const SubjectContainer = ({ t, topicIds, subject }: Props) => {
     <main>
       <Helmet>
         <title>{pageTitle}</title>
-        {(customFields?.[
-          TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY
-        ] === constants.subjectCategories.ARCHIVE_SUBJECTS ||
-          customFields?.[
-            TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT
-          ] === 'true') && <meta name="robots" content="noindex, nofollow" />}
+        {(customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] ===
+          constants.subjectCategories.ARCHIVE_SUBJECTS ||
+          customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] ===
+            'true') && <meta name="robots" content="noindex, nofollow" />}
       </Helmet>
       <OneColumn>
         <LayoutItem layout="extend">
