@@ -67,7 +67,7 @@ const NdlaFilm = () => {
       const byType = allMovies.searchWithoutPagination?.results?.map(
         (movie) => {
           const contexts = movie.contexts.filter(
-            (ctx) => ctx.learningResourceType === 'standard',
+            (ctx) => ctx.contextType === 'standard',
           );
           return {
             ...movie,
