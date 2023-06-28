@@ -7,6 +7,9 @@
  */
 
 import 'regenerator-runtime/runtime';
+import { TextEncoder } from 'util';
+
+global.TextEncoder = TextEncoder;
 
 const jestTimeout = process.env.JEST_TIMEOUT
   ? parseInt(process.env.JEST_TIMEOUT, 10)

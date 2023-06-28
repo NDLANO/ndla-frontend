@@ -6,7 +6,7 @@
  *
  */
 
-import { Component, ErrorInfo } from 'react';
+import { Component, ErrorInfo, ReactNode } from 'react';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import handleError from '../../util/handleError';
 
@@ -14,7 +14,9 @@ interface State {
   hasError: boolean;
 }
 
-interface Props {}
+interface Props {
+  children?: ReactNode;
+}
 class ErrorBoundary extends Component<Props, State> {
   constructor(props: Props) {
     super(props);

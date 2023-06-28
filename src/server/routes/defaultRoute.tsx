@@ -49,10 +49,10 @@ const getAssets = (): Assets => ({
 
 const disableSSR = (req: Request) => {
   const urlParts = url.parse(req.url, true);
-  if (config.disableSSR) {
-    return true;
+  if (urlParts.query && urlParts.query.disableSSR) {
+    return urlParts.query.disableSSR === 'true';
   }
-  return urlParts.query && urlParts.query.disableSSR === 'true';
+  return config.disableSSR;
 };
 
 async function doRender(req: Request) {
@@ -69,6 +69,7 @@ async function doRender(req: Request) {
       : undefined;
   const { basename, abbreviation } = getLocaleInfoFromPath(req.path);
   const locale = getCookieLocaleOrFallback(resCookie, abbreviation);
+  const noSSR = disableSSR(req);
 
   const client = createApolloClient(locale, versionHash);
 
@@ -79,7 +80,7 @@ async function doRender(req: Request) {
 
   // @ts-ignore
   const helmetContext: FilledContext = {};
-  const Page = !disableSSR(req) ? (
+  const Page = !noSSR ? (
     <RedirectContext.Provider value={context}>
       <HelmetProvider context={helmetContext}>
         <I18nextProvider i18n={i18n}>
@@ -105,6 +106,7 @@ async function doRender(req: Request) {
   const docProps = await renderPageWithData({
     Page,
     assets: getAssets(),
+    disableSSR: noSSR,
     data: {
       apolloState,
       serverPath: req.path,

@@ -31,10 +31,10 @@ import { createBrowserHistory, createMemoryHistory, History } from 'history';
 // @ts-ignore
 import queryString from 'query-string';
 import { ReactNode, useEffect, useLayoutEffect, useRef, useState } from 'react';
-import ReactDOM from 'react-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { I18nextProvider, useTranslation } from 'react-i18next';
 import { Router } from 'react-router-dom';
+import { createRoot, hydrateRoot } from 'react-dom/client';
 import App from './App';
 import { VersionHashProvider } from './components/VersionHashContext';
 import { getDefaultLocale } from './config';
@@ -93,9 +93,6 @@ window.errorReporter = ErrorReporter.getInstance({
   componentName: config.componentName,
   ignoreUrls: [/https:\/\/.*hotjar\.com.*/],
 });
-
-window.hasHydrated = false;
-const renderOrHydrate = config.disableSSR ? ReactDOM.render : ReactDOM.hydrate;
 
 const client = createApolloClient(storedLanguage, versionHash);
 const cache = createCache({ key: EmotionCacheKey });
@@ -247,7 +244,17 @@ const LanguageWrapper = ({ basename }: { basename?: string }) => {
 
 removeUniversalPortals();
 
+const renderOrHydrate = (container: HTMLElement, children: ReactNode) => {
+  if (config.disableSSR) {
+    const root = createRoot(container);
+    root.render(children);
+  } else {
+    hydrateRoot(container, children);
+  }
+};
+
 renderOrHydrate(
+  document.getElementById('root')!,
   <HelmetProvider>
     <I18nextProvider i18n={i18n}>
       <ApolloProvider client={client}>
@@ -261,11 +268,6 @@ renderOrHydrate(
       </ApolloProvider>
     </I18nextProvider>
   </HelmetProvider>,
-  document.getElementById('root'),
-  () => {
-    // See: /src/util/transformArticle.js for info on why this is needed.
-    window.hasHydrated = true;
-  },
 );
 
 if (module.hot) {
