@@ -44,6 +44,7 @@
     }
   ],
   "env": {
-    "NDLA_ZENDESK_WIDGET_KEY": "@ndla_zendesk_widget_key"
+    "NDLA_ZENDESK_WIDGET_KEY": "@ndla_zendesk_widget_key",
+    "IS_VERCEL": "true"
   }
 }
