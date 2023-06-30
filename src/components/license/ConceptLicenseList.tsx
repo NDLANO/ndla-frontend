@@ -58,7 +58,9 @@ const ConceptLicenseInfo = ({ concept }: ConceptLicenseInfoProps) => {
   }
   return (
     <MediaListItem>
-      <MediaListItemImage>
+      <MediaListItemImage
+        canOpen={!isCopyrighted(concept.copyright?.license?.license)}
+      >
         {isCopyrighted(concept.copyright?.license?.license) ? (
           <Concept className="c-medialist__icon" />
         ) : (

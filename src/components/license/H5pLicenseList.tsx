@@ -48,7 +48,7 @@ const H5pLicenseInfo = ({ h5p }: H5pLicenseInfoProps) => {
   }
   return (
     <MediaListItem>
-      <MediaListItemImage>
+      <MediaListItemImage canOpen>
         <a
           href={h5p.src}
           target="_blank"
