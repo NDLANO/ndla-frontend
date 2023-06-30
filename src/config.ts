@@ -118,6 +118,7 @@ export type ConfigType = {
   folderDescriptionEnabled: boolean;
   favoriteEmbedEnabled: boolean;
   filterInactiveContexts: boolean;
+  isVercel: boolean;
 };
 
 const config: ConfigType = {
@@ -162,6 +163,7 @@ const config: ConfigType = {
     'FILTER_INACTIVE_CONTEXTS',
     true,
   ),
+  isVercel: getEnvironmentVariabel('IS_VERCEL', false),
 };
 
 export function getUniversalConfig() {
