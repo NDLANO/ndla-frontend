@@ -403,7 +403,6 @@ type FrontpageSearch {
 }
 
 type FrontpageSearchResult {
-  filters: [SearchContextFilter!]!
   id: String!
   name: String!
   path: String!
@@ -981,13 +980,21 @@ type Search {
 
 type SearchContext {
   breadcrumbs: [String!]!
-  filters: [SearchContextFilter!]!
+  contextId: String!
+  contextType: String!
   id: String!
+  isActive: Boolean!
+  isPrimary: Boolean!
+  isVisible: Boolean!
   language: String!
   learningResourceType: String!
+  parentIds: [String!]!
   path: String!
+  publicId: String!
   relevance: String!
   resourceTypes: [SearchContextResourceTypes!]!
+  root: String!
+  rootId: String!
   subject: String!
   subjectId: String!
 }
