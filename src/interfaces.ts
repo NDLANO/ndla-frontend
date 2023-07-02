@@ -37,7 +37,6 @@ export interface WindowData {
 export interface NDLAWindow {
   DATA: WindowData;
   errorReporter: any;
-  hasHydrated?: boolean;
   browserHistory: History;
 }
 

@@ -63,10 +63,10 @@ const getAssets = () => ({
 
 const disableSSR = (req: Request) => {
   const urlParts = url.parse(req.url, true);
-  if (config.disableSSR) {
-    return true;
+  if (urlParts.query && urlParts.query.disableSSR) {
+    return urlParts.query.disableSSR === 'true';
   }
-  return urlParts.query && urlParts.query.disableSSR === 'true';
+  return config.disableSSR;
 };
 
 async function doRenderPage(req: Request, initialProps: EmbedInitialProps) {
@@ -77,6 +77,7 @@ async function doRenderPage(req: Request, initialProps: EmbedInitialProps) {
   //@ts-ignore
   const helmetContext: FilledContext = {};
   const cache = createCache({ key: EmotionCacheKey });
+  const noSSR = disableSSR(req);
 
   const i18n = initializeI18n(
     i18nInstance,
@@ -84,7 +85,7 @@ async function doRenderPage(req: Request, initialProps: EmbedInitialProps) {
   );
   const Page = (
     <HelmetProvider context={helmetContext}>
-      {disableSSR(req) ? (
+      {noSSR ? (
         ''
       ) : (
         <I18nextProvider i18n={i18n}>
@@ -105,6 +106,7 @@ async function doRenderPage(req: Request, initialProps: EmbedInitialProps) {
   const { html, ...docProps } = await renderPageWithData({
     Page,
     assets,
+    disableSSR: noSSR,
     data: { initialProps },
     client,
   });

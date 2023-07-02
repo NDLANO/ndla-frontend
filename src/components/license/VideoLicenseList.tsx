@@ -52,7 +52,9 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
   }
   return (
     <MediaListItem>
-      <MediaListItemImage>
+      <MediaListItemImage
+        canOpen={!isCopyrighted(video.copyright?.license.license)}
+      >
         {isCopyrighted(video.copyright?.license.license) ? (
           <img alt="presentation" src={video.cover} />
         ) : (

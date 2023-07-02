@@ -474,7 +474,6 @@ export type GQLFrontpageSearch = {
 
 export type GQLFrontpageSearchResult = {
   __typename?: 'FrontpageSearchResult';
-  filters: Array<GQLSearchContextFilter>;
   id: Scalars['String'];
   name: Scalars['String'];
   path: Scalars['String'];
@@ -896,6 +895,7 @@ export type GQLPodcastSeries = GQLPodcastSeriesBase & {
   __typename?: 'PodcastSeries';
   coverPhoto: GQLCoverPhoto;
   description: GQLDescription;
+  hasRSS: Scalars['Boolean'];
   id: Scalars['Int'];
   supportedLanguages: Array<Scalars['String']>;
   title: GQLTitle;
@@ -904,6 +904,7 @@ export type GQLPodcastSeries = GQLPodcastSeriesBase & {
 export type GQLPodcastSeriesBase = {
   coverPhoto: GQLCoverPhoto;
   description: GQLDescription;
+  hasRSS: Scalars['Boolean'];
   id: Scalars['Int'];
   supportedLanguages: Array<Scalars['String']>;
   title: GQLTitle;
@@ -933,6 +934,7 @@ export type GQLPodcastSeriesWithEpisodes = GQLPodcastSeriesBase & {
   coverPhoto: GQLCoverPhoto;
   description: GQLDescription;
   episodes?: Maybe<Array<GQLAudio>>;
+  hasRSS: Scalars['Boolean'];
   id: Scalars['Int'];
   supportedLanguages: Array<Scalars['String']>;
   title: GQLTitle;
@@ -1265,13 +1267,21 @@ export type GQLSearch = {
 export type GQLSearchContext = {
   __typename?: 'SearchContext';
   breadcrumbs: Array<Scalars['String']>;
-  filters: Array<GQLSearchContextFilter>;
+  contextId: Scalars['String'];
+  contextType: Scalars['String'];
   id: Scalars['String'];
+  isActive: Scalars['Boolean'];
+  isPrimary: Scalars['Boolean'];
+  isVisible: Scalars['Boolean'];
   language: Scalars['String'];
   learningResourceType: Scalars['String'];
+  parentIds: Array<Scalars['String']>;
   path: Scalars['String'];
+  publicId: Scalars['String'];
   relevance: Scalars['String'];
   resourceTypes: Array<GQLSearchContextResourceTypes>;
+  root: Scalars['String'];
+  rootId: Scalars['String'];
   subject: Scalars['String'];
   subjectId: Scalars['String'];
 };
@@ -1346,6 +1356,7 @@ export type GQLSubject = GQLTaxonomyEntity & {
   paths: Array<Scalars['String']>;
   rank?: Maybe<Scalars['Int']>;
   relevanceId: Scalars['String'];
+  resourceTypes?: Maybe<Array<GQLResourceType>>;
   subjectpage?: Maybe<GQLSubjectPage>;
   supportedLanguages: Array<Scalars['String']>;
   topics?: Maybe<Array<GQLTopic>>;
@@ -1359,34 +1370,10 @@ export type GQLSubjectPage = {
   __typename?: 'SubjectPage';
   about?: Maybe<GQLSubjectPageAbout>;
   banner: GQLSubjectPageBanner;
-  editorsChoices: Array<GQLTaxonomyEntity>;
-  facebook?: Maybe<Scalars['String']>;
-  goTo: Array<GQLResourceTypeDefinition>;
   id: Scalars['Int'];
-  latestContent?: Maybe<Array<GQLTaxonomyEntity>>;
-  layout: Scalars['String'];
   metaDescription?: Maybe<Scalars['String']>;
-  mostRead: Array<GQLTaxonomyEntity>;
   name: Scalars['String'];
   supportedLanguages: Array<Scalars['String']>;
-  topical?: Maybe<GQLTaxonomyEntity>;
-  twitter?: Maybe<Scalars['String']>;
-};
-
-export type GQLSubjectPageEditorsChoicesArgs = {
-  subjectId?: InputMaybe<Scalars['String']>;
-};
-
-export type GQLSubjectPageLatestContentArgs = {
-  subjectId?: InputMaybe<Scalars['String']>;
-};
-
-export type GQLSubjectPageMostReadArgs = {
-  subjectId?: InputMaybe<Scalars['String']>;
-};
-
-export type GQLSubjectPageTopicalArgs = {
-  subjectId?: InputMaybe<Scalars['String']>;
 };
 
 export type GQLSubjectPageAbout = {
@@ -1438,6 +1425,7 @@ export type GQLTaxonomyEntity = {
   paths: Array<Scalars['String']>;
   rank?: Maybe<Scalars['Int']>;
   relevanceId?: Maybe<Scalars['String']>;
+  resourceTypes?: Maybe<Array<GQLResourceType>>;
   supportedLanguages: Array<Scalars['String']>;
 };
 
@@ -1475,6 +1463,7 @@ export type GQLTopic = GQLTaxonomyEntity &
     paths: Array<Scalars['String']>;
     rank?: Maybe<Scalars['Int']>;
     relevanceId?: Maybe<Scalars['String']>;
+    resourceTypes?: Maybe<Array<GQLResourceType>>;
     subtopics?: Maybe<Array<GQLTopic>>;
     supplementaryResources?: Maybe<Array<GQLResource>>;
     supportedLanguages: Array<Scalars['String']>;
@@ -3030,6 +3019,7 @@ export type GQLPodcastSeriesPageQuery = {
     __typename?: 'PodcastSeriesWithEpisodes';
     id: number;
     supportedLanguages: Array<string>;
+    hasRSS: boolean;
     title: { __typename?: 'Title'; title: string };
     description: { __typename?: 'Description'; description: string };
     coverPhoto: { __typename?: 'CoverPhoto'; url: string };
@@ -3561,10 +3551,10 @@ export type GQLSearchQuery = {
             breadcrumbs: Array<string>;
             relevance: string;
             language: string;
-            learningResourceType: string;
+            contextType: string;
             path: string;
-            subject: string;
-            subjectId: string;
+            root: string;
+            rootId: string;
             resourceTypes: Array<{
               __typename?: 'SearchContextResourceTypes';
               id: string;
@@ -3588,10 +3578,10 @@ export type GQLSearchQuery = {
             breadcrumbs: Array<string>;
             relevance: string;
             language: string;
-            learningResourceType: string;
+            contextType: string;
             path: string;
-            subject: string;
-            subjectId: string;
+            root: string;
+            rootId: string;
             resourceTypes: Array<{
               __typename?: 'SearchContextResourceTypes';
               id: string;
@@ -3633,9 +3623,9 @@ export type GQLSearchFilmArticleSearchResultFragment = {
     breadcrumbs: Array<string>;
     relevance: string;
     language: string;
-    learningResourceType: string;
+    contextType: string;
     path: string;
-    subject: string;
+    root: string;
     resourceTypes: Array<{
       __typename?: 'SearchContextResourceTypes';
       id: string;
@@ -3659,9 +3649,9 @@ export type GQLSearchFilmLearningpathSearchResultFragment = {
     breadcrumbs: Array<string>;
     relevance: string;
     language: string;
-    learningResourceType: string;
+    contextType: string;
     path: string;
-    subject: string;
+    root: string;
     resourceTypes: Array<{
       __typename?: 'SearchContextResourceTypes';
       id: string;
@@ -3712,8 +3702,8 @@ export type GQLGroupSearchResourceFragment = {
     language: string;
     path: string;
     breadcrumbs: Array<string>;
-    subjectId: string;
-    subject: string;
+    rootId: string;
+    root: string;
     relevance: string;
     resourceTypes: Array<{
       __typename?: 'SearchContextResourceTypes';

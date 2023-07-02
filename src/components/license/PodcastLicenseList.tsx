@@ -75,7 +75,9 @@ const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
 
   return (
     <MediaListItem>
-      <MediaListItemImage>
+      <MediaListItemImage
+        canOpen={!isCopyrighted(podcast.copyright.license.license)}
+      >
         {isCopyrighted(podcast.copyright.license.license) ? (
           <Podcast className="c-medialist__icon" />
         ) : (
