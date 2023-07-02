@@ -15,33 +15,16 @@ import { useTranslation } from 'react-i18next';
 import { gql, useLazyQuery } from '@apollo/client';
 
 import WelcomePageInfo from './WelcomePageInfo';
-import FrontpageSubjects from './FrontpageSubjects';
-import {
-  FILM_PAGE_PATH,
-  MULTIDISCIPLINARY_SUBJECT_ID,
-  SKIP_TO_CONTENT_ID,
-} from '../../constants';
+import { FILM_PAGE_PATH } from '../../constants';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import config from '../../config';
 import BlogPosts from './BlogPosts';
 import WelcomePageSearch from './WelcomePageSearch';
 import { GQLSubjectsQuery } from '../../graphqlTypes';
-import { multidisciplinaryTopics } from '../../data/subjects';
 import Programme from './Components/Programme';
 import FrontpageMultidisciplinarySubject from './FrontpageMultidisciplinarySubject';
 import FrontpageToolbox from './FrontpageToolbox';
-import { LocaleType, TopicType } from '../../interfaces';
-import { toTopic } from '../../routeHelpers';
 
-const getMultidisciplinaryTopics = (locale: LocaleType) => {
-  return multidisciplinaryTopics.map((topic: TopicType) => {
-    return {
-      id: topic.id,
-      title: topic.name?.[locale] ?? '',
-      url: toTopic(MULTIDISCIPLINARY_SUBJECT_ID, topic.id ?? ''),
-    };
-  });
-};
 const HiddenHeading = styled.h1`
   ${utils.visuallyHidden};
 `;
@@ -277,9 +260,7 @@ const frontpageSubjectsQuery = gql`
 
 const WelcomePage = () => {
   const { t, i18n } = useTranslation();
-  const [fetchData, { data }] = useLazyQuery<GQLSubjectsQuery>(
-    frontpageSubjectsQuery,
-  );
+  const [fetchData] = useLazyQuery<GQLSubjectsQuery>(frontpageSubjectsQuery);
 
   useEffect(() => {
     const getData = () => {
