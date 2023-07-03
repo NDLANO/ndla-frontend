@@ -29,24 +29,28 @@ const buildLicenseTabList = (
   if (metaData.images?.length) {
     tabs.push({
       title: t('license.tabs.images'),
+      id: 'images',
       content: <ImageLicenseList images={metaData.images} />,
     });
   }
   if (metaData.audios?.length) {
     tabs.push({
       title: t('license.tabs.audio'),
+      id: 'audio',
       content: <AudioLicenseList audios={metaData.audios} />,
     });
   }
   if (metaData.podcasts?.length) {
     tabs.push({
       title: t('license.tabs.podcast'),
+      id: 'podcast',
       content: <PodcastLicenseList podcasts={metaData.podcasts} />,
     });
   }
   if (metaData.brightcoves?.length) {
     tabs.push({
       title: t('license.tabs.video'),
+      id: 'video',
       content: <VideoLicenseList videos={metaData.brightcoves} />,
     });
   }
@@ -54,6 +58,7 @@ const buildLicenseTabList = (
   if (metaData.h5ps?.length) {
     tabs.push({
       title: t('license.tabs.h5p'),
+      id: 'h5p',
       content: <H5pLicenseList h5ps={metaData.h5ps} />,
     });
   }
@@ -61,6 +66,7 @@ const buildLicenseTabList = (
   if (metaData.concepts?.length) {
     tabs.push({
       title: t('license.tabs.concept'),
+      id: 'concept',
       content: <ConceptLicenseList concepts={metaData.concepts} />,
     });
   }
@@ -74,7 +80,6 @@ const ResourceEmbedLicenseBox = ({ metaData }: Props) => {
 
   return (
     <div>
-      <h1 className="license__heading">{t('license.heading')}</h1>
       <Tabs tabs={tabs} />
     </div>
   );

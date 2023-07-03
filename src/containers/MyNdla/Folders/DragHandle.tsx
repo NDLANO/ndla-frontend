@@ -12,7 +12,7 @@ import { useSortable } from '@dnd-kit/sortable';
 import styled from '@emotion/styled';
 import { IconButtonV2 } from '@ndla/button';
 import { DragVertical } from '@ndla/icons/editor';
-import { spacing } from '@ndla/core';
+import { breakpoints, mq, spacing } from '@ndla/core';
 
 interface Props extends HTMLProps<HTMLButtonElement> {
   sortableId: string;
@@ -21,10 +21,12 @@ interface Props extends HTMLProps<HTMLButtonElement> {
 }
 
 const StyledDragHandle = styled(IconButtonV2)`
-  touch-action: manipulation;
-  position: absolute;
-  left: -${spacing.xxsmall};
-  transform: translateX(-100%);
+  touch-action: none;
+  ${mq.range({ from: breakpoints.tablet })} {
+    position: absolute;
+    left: -${spacing.xxsmall};
+    transform: translateX(-100%);
+  }
   :disabled {
     display: none;
   }

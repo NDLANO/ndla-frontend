@@ -36,11 +36,13 @@ function buildLicenseTabList(
   if (images.length > 0) {
     tabs.push({
       title: t('license.tabs.images'),
+      id: 'images',
       content: <ImageLicenseList images={images} />,
     });
   }
   tabs.push({
     title: t('license.tabs.text'),
+    id: 'text',
     content: (
       <TextLicenseList
         printUrl={printUrl}
@@ -59,6 +61,7 @@ function buildLicenseTabList(
   if (audios.length > 0) {
     tabs.push({
       title: t('license.tabs.audio'),
+      id: 'audio',
       content: <AudioLicenseList audios={audios} />,
     });
   }
@@ -66,6 +69,7 @@ function buildLicenseTabList(
   if (podcasts.length > 0) {
     tabs.push({
       title: t('license.tabs.podcast'),
+      id: 'podcast',
       content: <PodcastLicenseList podcasts={podcasts} />,
     });
   }
@@ -73,6 +77,7 @@ function buildLicenseTabList(
   if (brightcove.length > 0) {
     tabs.push({
       title: t('license.tabs.video'),
+      id: 'video',
       content: <VideoLicenseList videos={brightcove} />,
     });
   }
@@ -80,13 +85,21 @@ function buildLicenseTabList(
   if (h5ps.length) {
     tabs.push({
       title: t('license.tabs.h5p'),
+      id: 'h5p',
       content: <H5pLicenseList h5ps={h5ps} />,
     });
   }
 
-  if (concepts.length) {
+  if (
+    concepts.some(
+      (concept) =>
+        concept.copyright?.license?.license &&
+        concept.copyright.license.license !== 'unknown',
+    )
+  ) {
     tabs.push({
       title: t('license.tabs.concept'),
+      id: 'concept',
       content: <ConceptLicenseList concepts={concepts} />,
     });
   }
@@ -94,6 +107,7 @@ function buildLicenseTabList(
   if (oembed) {
     tabs.push({
       title: t('license.tabs.embedlink'),
+      id: 'embedLink',
       content: <OembedItem oembed={oembed} />,
     });
   }

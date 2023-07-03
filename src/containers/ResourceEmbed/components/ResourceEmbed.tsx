@@ -19,7 +19,7 @@ import {
   AccordionRoot,
 } from '@ndla/accordion';
 import { CreatedBy } from '@ndla/ui';
-import { spacing } from '@ndla/core';
+import { colors, fonts, spacing } from '@ndla/core';
 import ResourceEmbedLicenseBox from './ResourceEmbedLicenseBox';
 import {
   GQLResourceEmbedLicenseBox_MetaFragment,
@@ -38,6 +38,13 @@ export type StandaloneEmbed = 'image' | 'audio' | 'video' | 'h5p' | 'concept';
 
 const CreatedByWrapper = styled.div`
   margin-top: ${spacing.small};
+`;
+
+const StyledAccordionHeader = styled(AccordionHeader)`
+  background-color: ${colors.brand.lightest};
+  border: 1px solid ${colors.brand.tertiary};
+  font-size: ${fonts.sizes('16px', '29px')};
+  font-weight: ${fonts.weight.semibold};
 `;
 
 interface Props {
@@ -110,6 +117,23 @@ const metaToProperties = (
   }
 };
 
+const hasLicensedContent = (meta: GQLResourceEmbedLicenseBox_MetaFragment) => {
+  if (meta.h5ps?.some((value) => value.copyright)) {
+    return true;
+  } else if (meta.images?.some((val) => val.copyright)) {
+    return true;
+  } else if (meta.audios?.some((val) => val.copyright)) {
+    return true;
+  } else if (meta.concepts?.some((val) => val.copyright)) {
+    return true;
+  } else if (meta.brightcoves?.some((val) => val.copyright)) {
+    return true;
+  } else if (meta.podcasts?.some((val) => val.copyright)) {
+    return true;
+  }
+  return false;
+};
+
 const ResourceEmbed = ({ id, type, noBackground, isOembed }: Props) => {
   const { t } = useTranslation();
 
@@ -170,14 +194,19 @@ const ResourceEmbed = ({ id, type, noBackground, isOembed }: Props) => {
         >
           {transformedContent}
           <AccordionRoot type="single" collapsible>
-            {data?.resourceEmbed.meta && (
-              <AccordionItem value="rulesForUse">
-                <AccordionHeader>{t('article.useContent')}</AccordionHeader>
-                <AccordionContent>
-                  <ResourceEmbedLicenseBox metaData={data.resourceEmbed.meta} />
-                </AccordionContent>
-              </AccordionItem>
-            )}
+            {data?.resourceEmbed.meta &&
+              hasLicensedContent(data.resourceEmbed.meta) && (
+                <AccordionItem value="rulesForUse">
+                  <StyledAccordionHeader>
+                    {t('article.useContent')}
+                  </StyledAccordionHeader>
+                  <AccordionContent>
+                    <ResourceEmbedLicenseBox
+                      metaData={data.resourceEmbed.meta}
+                    />
+                  </AccordionContent>
+                </AccordionItem>
+              )}
           </AccordionRoot>
           {isOembed && (
             <CreatedByWrapper>

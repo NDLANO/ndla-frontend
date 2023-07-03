@@ -7,13 +7,7 @@
  */
 
 import { gql } from '@apollo/client';
-import {
-  ComponentType,
-  ReactNode,
-  useState,
-  createRef,
-  useEffect,
-} from 'react';
+import { useState, createRef, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import {
   constants,
@@ -21,11 +15,11 @@ import {
   OneColumn,
   SubjectBanner,
   LayoutItem,
-  NavigationHeading,
   MessageBox,
   FeideUserApiType,
   SimpleBreadcrumbItem,
   HomeBreadcrumb,
+  Heading,
 } from '@ndla/ui';
 import { withTracker } from '@ndla/tracker';
 import {
@@ -34,7 +28,7 @@ import {
   CustomWithTranslation,
 } from 'react-i18next';
 import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
+import { colors, spacing } from '@ndla/core';
 import SubjectPageContent from './components/SubjectPageContent';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import CompetenceGoals from '../../components/CompetenceGoals';
@@ -44,6 +38,7 @@ import { GQLSubjectContainer_SubjectFragment } from '../../graphqlTypes';
 import {
   SKIP_TO_CONTENT_ID,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
+  TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE,
 } from '../../constants';
 import { removeUrn, useIsNdlaFilm } from '../../routeHelpers';
@@ -57,6 +52,12 @@ type Props = {
 
 const BreadcrumbWrapper = styled.div`
   margin-top: ${spacing.mediumlarge};
+`;
+
+const StyledHeading = styled(Heading)`
+  &[data-inverted='true'] {
+    color: ${colors.white};
+  }
 `;
 
 const getSubjectCategoryMessage = (
@@ -92,7 +93,6 @@ const getSubjectTypeMessage = (
 
 const SubjectContainer = ({ t, topicIds, subject }: Props) => {
   const ndlaFilm = useIsNdlaFilm();
-  const [competenceGoalsLoading, setCompetenceGoalsLoading] = useState(true);
   const about = subject.subjectpage?.about;
 
   const [topicCrumbs, setTopicCrumbs] = useState<SimpleBreadcrumbItem[]>([]);
@@ -119,35 +119,6 @@ const SubjectContainer = ({ t, topicIds, subject }: Props) => {
 
     return crumbs;
   }, []);
-
-  function renderCompetenceGoals(
-    subject: GQLSubjectContainer_SubjectFragment,
-  ):
-    | ((inp: {
-        Dialog: ComponentType;
-        dialogProps: { isOpen: boolean; onClose: () => void };
-      }) => ReactNode)
-    | undefined {
-    // Don't show competence goals for topics or articles without grepCodes
-    if (subject.grepCodes?.length) {
-      return ({
-        Dialog,
-        dialogProps,
-      }: {
-        Dialog: ComponentType;
-        dialogProps: { isOpen: boolean; onClose: () => void };
-      }) => (
-        <CompetenceGoals
-          setCompetenceGoalsLoading={setCompetenceGoalsLoading}
-          codes={subject.grepCodes}
-          subjectId={subject.id}
-          wrapperComponent={Dialog}
-          wrapperComponentProps={dialogProps}
-        />
-      );
-    }
-    return undefined;
-  }
 
   const topicRefs = topicIds.map((_) => createRef<HTMLDivElement>());
 
@@ -182,13 +153,15 @@ const SubjectContainer = ({ t, topicIds, subject }: Props) => {
   const supportedLanguages =
     topicsOnPage[topicsOnPage.length - 1]?.supportedLanguages;
 
+  const customFields = subject?.metadata.customFields || {};
+
   const nonRegularSubjectMessage = getSubjectCategoryMessage(
-    subject.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY],
+    customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY],
     t,
   );
 
   const nonRegularSubjectTypeMessage = getSubjectTypeMessage(
-    subject.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE],
+    customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE],
     t,
   );
 
@@ -196,11 +169,10 @@ const SubjectContainer = ({ t, topicIds, subject }: Props) => {
     <main>
       <Helmet>
         <title>{pageTitle}</title>
-        {subject?.metadata.customFields?.[
-          TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY
-        ] === constants.subjectCategories.ARCHIVE_SUBJECTS && (
-          <meta name="robots" content="noindex, nofollow" />
-        )}
+        {(customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] ===
+          constants.subjectCategories.ARCHIVE_SUBJECTS ||
+          customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] ===
+            'true') && <meta name="robots" content="noindex, nofollow" />}
       </Helmet>
       <OneColumn>
         <LayoutItem layout="extend">
@@ -211,18 +183,28 @@ const SubjectContainer = ({ t, topicIds, subject }: Props) => {
             trackableContent={{ supportedLanguages }}
           />
           <ArticleHeaderWrapper
-            competenceGoalsLoading={competenceGoalsLoading}
-            competenceGoals={renderCompetenceGoals(subject)}
+            competenceGoals={
+              subject.grepCodes?.length ? (
+                <CompetenceGoals
+                  codes={subject.grepCodes}
+                  subjectId={subject.id}
+                />
+              ) : undefined
+            }
           >
             <BreadcrumbWrapper>
               <HomeBreadcrumb light={ndlaFilm} items={breadCrumbs} />
             </BreadcrumbWrapper>
-            <NavigationHeading
-              headingId={topicIds.length === 0 ? SKIP_TO_CONTENT_ID : undefined}
-              invertedStyle={ndlaFilm}
+            <StyledHeading
+              element="h1"
+              margin="xlarge"
+              headingStyle="h1"
+              data-inverted={ndlaFilm}
+              id={topicIds.length === 0 ? SKIP_TO_CONTENT_ID : undefined}
+              tabIndex={-1}
             >
               {subject.name}
-            </NavigationHeading>
+            </StyledHeading>
           </ArticleHeaderWrapper>
           {!ndlaFilm && nonRegularSubjectMessage && (
             <MessageBox>{nonRegularSubjectMessage}</MessageBox>

@@ -24,11 +24,17 @@ import {
 import { SafeLinkButton } from '@ndla/safelink';
 import queryString from 'query-string';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
+import styled from '@emotion/styled';
 import CopyTextButton from './CopyTextButton';
 import { GQLImageLicenseList_ImageLicenseFragment } from '../../graphqlTypes';
-import { licenseCopyrightToCopyrightType } from './licenseHelpers';
+import {
+  isCopyrighted,
+  licenseCopyrightToCopyrightType,
+} from './licenseHelpers';
 import { licenseListCopyrightFragment } from './licenseFragments';
 import config from '../../config';
+import LicenseDescription from './LicenseDescription';
 
 export const downloadUrl = (imageSrc: string) => {
   const urlObject = queryString.parseUrl(imageSrc);
@@ -37,6 +43,12 @@ export const downloadUrl = (imageSrc: string) => {
     download: true,
   })}`;
 };
+
+const StyledLink = styled(Link)`
+  ::before {
+    z-index: 1;
+  }
+`;
 
 interface ImageLicenseInfoProps {
   image: GQLImageLicenseList_ImageLicenseFragment;
@@ -80,8 +92,21 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
 
   return (
     <MediaListItem>
-      <MediaListItemImage>
-        <Image alt={image.altText} src={image.src} />
+      <MediaListItemImage
+        canOpen={!isCopyrighted(image.copyright.license.license)}
+      >
+        {isCopyrighted(image.copyright.license.license) ? (
+          <Image alt={image.altText} src={image.src} />
+        ) : (
+          <StyledLink
+            to={`/image/${image.id}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={t('embed.goTo', { type: t('embed.type.image') })}
+          >
+            <Image alt={image.altText} src={image.src} />
+          </StyledLink>
+        )}
       </MediaListItemImage>
       <MediaListItemBody
         title={t('license.images.rules')}
@@ -126,8 +151,7 @@ const ImageLicenseList = ({ images }: Props) => {
   const { t } = useTranslation();
   return (
     <div>
-      <h2>{t('license.images.heading')}</h2>
-      <p>{t('license.images.description')}</p>
+      <LicenseDescription>{t('license.images.description')}</LicenseDescription>
       <MediaList>
         {images.map((image, index) => (
           <ImageLicenseInfo image={image} key={`${image.id}-${index}`} />

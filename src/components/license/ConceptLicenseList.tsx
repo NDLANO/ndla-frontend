@@ -21,10 +21,15 @@ import {
 } from '@ndla/licenses';
 import { Concept } from '@ndla/icons/editor';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import CopyTextButton from './CopyTextButton';
 import { GQLConceptLicenseList_ConceptLicenseFragment } from '../../graphqlTypes';
-import { licenseCopyrightToCopyrightType } from './licenseHelpers';
+import {
+  isCopyrighted,
+  licenseCopyrightToCopyrightType,
+} from './licenseHelpers';
 import config from '../../config';
+import LicenseDescription from './LicenseDescription';
 
 interface ConceptLicenseInfoProps {
   concept: GQLConceptLicenseList_ConceptLicenseFragment;
@@ -53,10 +58,21 @@ const ConceptLicenseInfo = ({ concept }: ConceptLicenseInfoProps) => {
   }
   return (
     <MediaListItem>
-      <MediaListItemImage>
-        <a href={src} target="_blank" rel="noopener noreferrer">
+      <MediaListItemImage
+        canOpen={!isCopyrighted(concept.copyright?.license?.license)}
+      >
+        {isCopyrighted(concept.copyright?.license?.license) ? (
           <Concept className="c-medialist__icon" />
-        </a>
+        ) : (
+          <Link
+            to={`/concept/${concept.id}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={t('embed.goTo', { type: t('embed.type.concept') })}
+          >
+            <Concept className="c-medialist__icon" />
+          </Link>
+        )}
       </MediaListItemImage>
       <MediaListItemBody
         license={concept.copyright.license.license}
@@ -87,8 +103,9 @@ const ConceptLicenseList = ({ concepts }: Props) => {
   const { t } = useTranslation();
   return (
     <div>
-      <h2>{t('license.concept.heading')}</h2>
-      <p>{t('license.concept.description')}</p>
+      <LicenseDescription>
+        {t('license.concept.description')}
+      </LicenseDescription>
       <MediaList>
         {concepts.map((concept, index) => (
           <ConceptLicenseInfo concept={concept} key={index} />

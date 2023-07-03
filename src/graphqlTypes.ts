@@ -3037,6 +3037,7 @@ export type GQLPodcastSeriesPageQuery = {
     __typename?: 'PodcastSeriesWithEpisodes';
     id: number;
     supportedLanguages: Array<string>;
+    hasRSS: boolean;
     title: { __typename?: 'Title'; title: string };
     description: { __typename?: 'Description'; description: string };
     coverPhoto: { __typename?: 'CoverPhoto'; url: string };
@@ -3544,6 +3545,7 @@ export type GQLSearchQueryVariables = Exact<{
   languageFilter?: InputMaybe<Scalars['String']>;
   relevance?: InputMaybe<Scalars['String']>;
   grepCodes?: InputMaybe<Scalars['String']>;
+  filterInactive?: InputMaybe<Scalars['Boolean']>;
 }>;
 
 export type GQLSearchQuery = {
@@ -3570,10 +3572,10 @@ export type GQLSearchQuery = {
             breadcrumbs: Array<string>;
             relevance: string;
             language: string;
-            learningResourceType: string;
+            contextType: string;
             path: string;
-            subject: string;
-            subjectId: string;
+            root: string;
+            rootId: string;
             resourceTypes: Array<{
               __typename?: 'SearchContextResourceTypes';
               id: string;
@@ -3597,10 +3599,10 @@ export type GQLSearchQuery = {
             breadcrumbs: Array<string>;
             relevance: string;
             language: string;
-            learningResourceType: string;
+            contextType: string;
             path: string;
-            subject: string;
-            subjectId: string;
+            root: string;
+            rootId: string;
             resourceTypes: Array<{
               __typename?: 'SearchContextResourceTypes';
               id: string;
@@ -3642,9 +3644,9 @@ export type GQLSearchFilmArticleSearchResultFragment = {
     breadcrumbs: Array<string>;
     relevance: string;
     language: string;
-    learningResourceType: string;
+    contextType: string;
     path: string;
-    subject: string;
+    root: string;
     resourceTypes: Array<{
       __typename?: 'SearchContextResourceTypes';
       id: string;
@@ -3668,9 +3670,9 @@ export type GQLSearchFilmLearningpathSearchResultFragment = {
     breadcrumbs: Array<string>;
     relevance: string;
     language: string;
-    learningResourceType: string;
+    contextType: string;
     path: string;
-    subject: string;
+    root: string;
     resourceTypes: Array<{
       __typename?: 'SearchContextResourceTypes';
       id: string;
@@ -3721,8 +3723,8 @@ export type GQLGroupSearchResourceFragment = {
     language: string;
     path: string;
     breadcrumbs: Array<string>;
-    subjectId: string;
-    subject: string;
+    rootId: string;
+    root: string;
     relevance: string;
     resourceTypes: Array<{
       __typename?: 'SearchContextResourceTypes';
@@ -3747,6 +3749,7 @@ export type GQLGroupSearchQueryVariables = Exact<{
   grepCodesList?: InputMaybe<
     Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>
   >;
+  filterInactive?: InputMaybe<Scalars['Boolean']>;
 }>;
 
 export type GQLGroupSearchQuery = {

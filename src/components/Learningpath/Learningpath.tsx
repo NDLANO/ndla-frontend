@@ -21,7 +21,10 @@ import {
   LearningPathMobileHeader,
   constants,
   HomeBreadcrumb,
+  HeroContent,
 } from '@ndla/ui';
+import { breakpoints, mq } from '@ndla/core';
+import styled from '@emotion/styled';
 import { toLearningPath, useIsNdlaFilm } from '../../routeHelpers';
 import LastLearningpathStepInfo from './LastLearningpathStepInfo';
 import LearningpathEmbed from './LearningpathEmbed';
@@ -147,16 +150,24 @@ const Learningpath = ({
     />
   );
 
+  const StyledHeroContent = styled(HeroContent)`
+    display: none;
+
+    ${mq.range({ from: breakpoints.tablet })} {
+      display: flex;
+    }
+  `;
+
   const previousStep = learningsteps[learningpathStep.seqNo - 1];
   const nextStep = learningsteps[learningpathStep.seqNo + 1];
 
   return (
     <LearningPathWrapper invertedStyle={ndlaFilm}>
-      <div className="c-hero__content">
+      <StyledHeroContent>
         <section>
           <HomeBreadcrumb light={ndlaFilm} items={breadcrumbItems} />
         </section>
-      </div>
+      </StyledHeroContent>
       <LearningPathContent>
         {mobileView ? <LearningPathMobileHeader /> : learningPathMenu}
         {learningpathStep && (

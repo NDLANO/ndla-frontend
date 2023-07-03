@@ -41,7 +41,7 @@ exports[`ErrorPage renderers correctly 1`] = `
   -ms-flex-align: center;
   align-items: center;
   text-align: center;
-  padding: 13px;
+  padding: 12px;
   font-weight: 400;
   display: -webkit-box;
   display: -webkit-flex;
@@ -58,7 +58,7 @@ exports[`ErrorPage renderers correctly 1`] = `
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  gap: 13px;
+  gap: 12px;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -71,7 +71,7 @@ exports[`ErrorPage renderers correctly 1`] = `
 
 @media (min-width: 37.5625em) {
   .emotion-4 {
-    padding: 13px 0;
+    padding: 12px 0;
     padding: 0;
   }
 }
@@ -89,27 +89,27 @@ exports[`ErrorPage renderers correctly 1`] = `
 }
 
 .emotion-8 {
-  margin-bottom: 26px;
+  margin-bottom: 24px;
 }
 
 @media (min-width: 37.5625em) {
   .emotion-8 {
-    margin-top: 52px;
+    margin-top: 48px;
   }
 }
 
 .emotion-10 {
-  margin-bottom: 26px;
+  margin-bottom: 24px;
 }
 
 @media (min-width: 37.5625em) {
   .emotion-10 {
-    margin-bottom: 52px;
+    margin-bottom: 48px;
   }
 }
 
 .emotion-12 {
-  margin-top: 6.5px;
+  margin-top: 6px;
 }
 
 .emotion-13 {
@@ -123,7 +123,7 @@ exports[`ErrorPage renderers correctly 1`] = `
 .emotion-15 {
   position: relative;
   z-index: 1;
-  margin-top: 26px;
+  margin-top: 24px;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -151,7 +151,7 @@ exports[`ErrorPage renderers correctly 1`] = `
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  gap: 6.5px;
+  gap: 6px;
   color: #fff;
   background: #20588f;
   border: 2px solid #20588f;
@@ -166,12 +166,12 @@ exports[`ErrorPage renderers correctly 1`] = `
   transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
   box-shadow: none;
   text-align: center;
-  padding: 4.333333333333333px 13px;
+  padding: 4px 12px;
   font-size: 16px;
   font-size: 0.8888888888888888rem;
-  line-height: 1.625;
+  line-height: 1.5;
   min-height: 40px;
-  border-radius: 26px;
+  border-radius: 24px;
   color: #20588f;
   background: transparent;
   border-color: #20588f;
@@ -237,11 +237,11 @@ exports[`ErrorPage renderers correctly 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  padding: 52px 52px 0 0;
+  padding: 48px 48px 0 0;
 }
 
 .emotion-20>div:first-of-type {
-  padding: 26px;
+  padding: 24px;
 }
 
 @media (min-width: 48em) {
@@ -256,32 +256,32 @@ exports[`ErrorPage renderers correctly 1`] = `
   }
 
   .emotion-20>div:first-of-type {
-    padding: 26px 45.5px 26px 52px;
+    padding: 24px 42px 24px 48px;
   }
 }
 
 @media (min-width: 61.3125em) {
   .emotion-20 {
-    padding: 52px 0;
+    padding: 48px 0;
   }
 }
 
 @media (max-width: 48em) {
   .emotion-20 {
-    padding: 26px 26px 13px;
+    padding: 24px 24px 12px;
   }
 }
 
 .emotion-22 {
   color: #fff;
-  width: 52px;
-  height: 52px;
+  width: 48px;
+  height: 48px;
 }
 
 @media (min-width: 48em) {
   .emotion-22 {
-    width: 78px;
-    height: 78px;
+    width: 72px;
+    height: 72px;
   }
 }
 
@@ -306,7 +306,7 @@ exports[`ErrorPage renderers correctly 1`] = `
     font-size: 24;
     font-size: 1.3333333333333333rem;
     line-height: 1.5;
-    margin: 26px 26px 52px 0;
+    margin: 24px 24px 48px 0;
     text-align: left;
   }
 
@@ -327,16 +327,16 @@ exports[`ErrorPage renderers correctly 1`] = `
   -webkit-box-align: flex-start;
   -ms-flex-align: flex-start;
   align-items: flex-start;
-  gap: 26px;
+  gap: 24px;
 }
 
 .emotion-26 div:first-of-type {
-  margin-right: 52px;
+  margin-right: 48px;
 }
 
 @media (min-width: 61.3125em) {
   .emotion-26 div:first-of-type {
-    margin-right: 104px;
+    margin-right: 96px;
   }
 }
 
@@ -348,7 +348,7 @@ exports[`ErrorPage renderers correctly 1`] = `
   }
 
   .emotion-26>div {
-    margin-top: 52px;
+    margin-top: 48px;
   }
 }
 
@@ -357,7 +357,7 @@ exports[`ErrorPage renderers correctly 1`] = `
   font-size: 0.8888888888888888rem;
   line-height: 1.5;
   font-weight: 600;
-  margin: 6.5px 0;
+  margin: 6px 0;
 }
 
 .emotion-28[lang='zh'],
@@ -379,7 +379,7 @@ exports[`ErrorPage renderers correctly 1`] = `
 }
 
 .emotion-30 div {
-  margin: 6.5px 0;
+  margin: 6px 0;
 }
 
 .emotion-32 {
@@ -401,7 +401,7 @@ exports[`ErrorPage renderers correctly 1`] = `
   -moz-transform: translateY(-2px);
   -ms-transform: translateY(-2px);
   transform: translateY(-2px);
-  margin-left: 6.5px;
+  margin-left: 6px;
 }
 
 .emotion-44 {
@@ -431,9 +431,9 @@ exports[`ErrorPage renderers correctly 1`] = `
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  width: 52px;
-  height: 52px;
-  margin-right: 13px;
+  width: 48px;
+  height: 48px;
+  margin-right: 12px;
 }
 
 .emotion-46 svg {
@@ -443,13 +443,13 @@ exports[`ErrorPage renderers correctly 1`] = `
 
 .emotion-74 {
   height: 1px;
-  margin: 26px;
+  margin: 24px;
   background: rgba(255, 255, 255, 0.1);
 }
 
 @media (min-width: 48em) {
   .emotion-74 {
-    margin: 52px;
+    margin: 48px;
   }
 }
 
@@ -472,7 +472,7 @@ exports[`ErrorPage renderers correctly 1`] = `
 }
 
 .emotion-76>span {
-  padding: 6.5px 0;
+  padding: 6px 0;
   text-align: center;
 }
 
@@ -510,7 +510,7 @@ exports[`ErrorPage renderers correctly 1`] = `
   }
 
   .emotion-76>span {
-    padding-bottom: 6.5px;
+    padding-bottom: 6px;
   }
 }
 
@@ -530,11 +530,11 @@ exports[`ErrorPage renderers correctly 1`] = `
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  margin-bottom: 52px;
+  margin-bottom: 48px;
 }
 
 .emotion-78>span {
-  padding: 6.5px 0;
+  padding: 6px 0;
   text-align: center;
 }
 
@@ -575,7 +575,7 @@ exports[`ErrorPage renderers correctly 1`] = `
   }
 
   .emotion-78>span {
-    padding-bottom: 6.5px;
+    padding-bottom: 6px;
   }
 }
 
@@ -594,9 +594,9 @@ exports[`ErrorPage renderers correctly 1`] = `
 }
 
 .emotion-82 {
-  margin-left: 4.333333333333333px;
-  margin-right: 4.333333333333333px;
-  margin-bottom: 52px;
+  margin-left: 4px;
+  margin-right: 4px;
+  margin-bottom: 48px;
 }
 
 @media (max-width: 29.75em) {
@@ -632,7 +632,7 @@ exports[`ErrorPage renderers correctly 1`] = `
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  gap: 6.5px;
+  gap: 6px;
   color: #fff;
   background: #20588f;
   border: 2px solid #20588f;
@@ -647,17 +647,17 @@ exports[`ErrorPage renderers correctly 1`] = `
   transition: all .2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
   box-shadow: none;
   text-align: center;
-  padding: 4.333333333333333px 13px;
+  padding: 4px 12px;
   font-size: 16px;
   font-size: 0.8888888888888888rem;
-  line-height: 1.625;
+  line-height: 1.5;
   min-height: 40px;
   color: #20588f;
   background: transparent;
   border-color: #20588f;
   border-radius: 2px;
   background-color: white;
-  margin-top: 26px;
+  margin-top: 24px;
 }
 
 .emotion-93:hover,
@@ -810,7 +810,7 @@ exports[`ErrorPage renderers correctly 1`] = `
             aria-label="Velg språk (language): "
             class="emotion-17"
             data-state="closed"
-            id="radix-0"
+            id="radix-:r0:"
             type="button"
           >
             Velg språk 

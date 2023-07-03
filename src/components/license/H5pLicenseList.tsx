@@ -26,6 +26,7 @@ import { GQLH5pLicenseList_H5pLicenseFragment } from '../../graphqlTypes';
 import CopyTextButton from './CopyTextButton';
 import { licenseCopyrightToCopyrightType } from './licenseHelpers';
 import { licenseListCopyrightFragment } from './licenseFragments';
+import LicenseDescription from './LicenseDescription';
 
 interface H5pLicenseInfoProps {
   h5p: GQLH5pLicenseList_H5pLicenseFragment;
@@ -47,8 +48,13 @@ const H5pLicenseInfo = ({ h5p }: H5pLicenseInfoProps) => {
   }
   return (
     <MediaListItem>
-      <MediaListItemImage>
-        <a href={h5p.src} target="_blank" rel="noopener noreferrer">
+      <MediaListItemImage canOpen>
+        <a
+          href={h5p.src}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={t('embed.goTo', { type: t('embed.type.h5p') })}
+        >
           <H5PBold className="c-medialist__icon" />
         </a>
       </MediaListItemImage>
@@ -82,8 +88,7 @@ const H5pLicenseList = ({ h5ps }: Props) => {
   const { t } = useTranslation();
   return (
     <div>
-      <h2>{t('license.h5p.heading')}</h2>
-      <p>{t('license.h5p.description')}</p>
+      <LicenseDescription>{t('license.h5p.description')}</LicenseDescription>
       <MediaList>
         {h5ps.map((h5p) => (
           <H5pLicenseInfo h5p={h5p} key={uuid()} />

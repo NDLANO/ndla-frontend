@@ -23,9 +23,14 @@ import {
 } from '@ndla/licenses';
 import { useTranslation } from 'react-i18next';
 import { SafeLinkButton } from '@ndla/safelink';
+import { Link } from 'react-router-dom';
 import { GQLAudioLicenseList_AudioLicenseFragment } from '../../graphqlTypes';
-import { licenseCopyrightToCopyrightType } from './licenseHelpers';
+import {
+  isCopyrighted,
+  licenseCopyrightToCopyrightType,
+} from './licenseHelpers';
 import { licenseListCopyrightFragment } from './licenseFragments';
+import LicenseDescription from './LicenseDescription';
 
 interface AudioLicenseInfoProps {
   audio: GQLAudioLicenseList_AudioLicenseFragment;
@@ -56,8 +61,21 @@ const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
 
   return (
     <MediaListItem>
-      <MediaListItemImage>
-        <AudioDocument className="c-medialist__icon" />
+      <MediaListItemImage
+        canOpen={!isCopyrighted(audio.copyright.license.license)}
+      >
+        {isCopyrighted(audio.copyright.license.license) ? (
+          <AudioDocument className="c-medialist__icon" />
+        ) : (
+          <Link
+            to={`/audio/${audio.id}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={t('embed.goTo', { type: t('embed.type.audio') })}
+          >
+            <AudioDocument className="c-medialist__icon" />
+          </Link>
+        )}
       </MediaListItemImage>
 
       <MediaListItemBody
@@ -92,8 +110,7 @@ const AudioLicenseList = ({ audios }: Props) => {
   const { t } = useTranslation();
   return (
     <div>
-      <h2>{t('license.audio.heading')}</h2>
-      <p>{t('license.audio.description')}</p>
+      <LicenseDescription>{t('license.audio.description')}</LicenseDescription>
       <MediaList>
         {audios.map((audio) => (
           <AudioLicenseInfo audio={audio} key={uuid()} />

@@ -32,6 +32,7 @@ export const searchQuery = gql`
     $languageFilter: String
     $relevance: String
     $grepCodes: String
+    $filterInactive: Boolean
   ) {
     search(
       query: $query
@@ -48,6 +49,7 @@ export const searchQuery = gql`
       languageFilter: $languageFilter
       relevance: $relevance
       grepCodes: $grepCodes
+      filterInactive: $filterInactive
     ) {
       language
       page
@@ -66,15 +68,15 @@ export const searchQuery = gql`
           breadcrumbs
           relevance
           language
-          learningResourceType
+          contextType
           path
           resourceTypes {
             id
             name
             language
           }
-          subject
-          subjectId
+          root
+          rootId
           relevance
         }
         supportedLanguages
@@ -111,14 +113,14 @@ export const searchFilmQuery = gql`
       breadcrumbs
       relevance
       language
-      learningResourceType
+      contextType
       path
       resourceTypes {
         id
         name
         language
       }
-      subject
+      root
     }
     supportedLanguages
     traits
@@ -136,14 +138,14 @@ export const searchFilmQuery = gql`
       breadcrumbs
       relevance
       language
-      learningResourceType
+      contextType
       path
       resourceTypes {
         id
         name
         language
       }
-      subject
+      root
     }
     supportedLanguages
     traits
@@ -197,8 +199,8 @@ export const GroupSearchResourceFragment = gql`
       language
       path
       breadcrumbs
-      subjectId
-      subject
+      rootId
+      root
       relevance
       resourceTypes {
         id
@@ -225,6 +227,7 @@ export const groupSearchQuery = gql`
     $grepCodes: String
     $aggregatePaths: [String!]
     $grepCodesList: [String]
+    $filterInactive: Boolean
   ) {
     groupSearch(
       resourceTypes: $resourceTypes
@@ -237,6 +240,7 @@ export const groupSearchQuery = gql`
       fallback: $fallback
       grepCodes: $grepCodes
       aggregatePaths: $aggregatePaths
+      filterInactive: $filterInactive
     ) {
       resources {
         ...GroupSearchResource
