@@ -50,6 +50,8 @@ export interface SubjectItem {
 export type SearchCompetenceGoal =
   Required<GQLGroupSearchQuery>['competenceGoals'][0];
 
+export type SearchCoreElements =
+  Required<GQLGroupSearchQuery>['coreElements'][0];
 interface Props {
   selectedFilters: string[];
   activeSubFilters: string[];
@@ -87,6 +89,7 @@ const SearchInnerPage = ({
   const [competenceGoals, setCompetenceGoals] = useState<
     SearchCompetenceGoal[]
   >([]);
+  const [coreElements, setCoreElements] = useState<SearchCoreElements[]>([]);
   const initialGQLCall = useRef(true);
 
   useEffect(() => {
@@ -141,6 +144,7 @@ const SearchInnerPage = ({
           initialGQLCall.current = false;
         }
         setCompetenceGoals(data.competenceGoals ?? []);
+        setCoreElements(data.coreElements ?? []);
       },
     });
 
@@ -319,6 +323,7 @@ const SearchInnerPage = ({
       loading={loading}
       isLti={isLti}
       competenceGoals={competenceGoals}
+      coreElements={coreElements}
     />
   );
 };

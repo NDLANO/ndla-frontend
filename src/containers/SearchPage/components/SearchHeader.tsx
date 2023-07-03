@@ -10,7 +10,7 @@ import { SearchHeader as SearchHeaderUI } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
 import { getSubjectsCategories } from '../../../data/subjects';
 import { groupCompetenceGoals } from '../../../components/CompetenceGoals';
-import { SearchCompetenceGoal } from '../SearchInnerPage';
+import { SearchCompetenceGoal, SearchCoreElements } from '../SearchInnerPage';
 import { LocaleType } from '../../../interfaces';
 import { GQLSubjectInfoFragment } from '../../../graphqlTypes';
 
@@ -21,6 +21,7 @@ interface Props {
   subjectIds: string[];
   subjects?: GQLSubjectInfoFragment[];
   competenceGoals: SearchCompetenceGoal[];
+  coreElements: SearchCoreElements[];
   noResults: boolean;
   locale: LocaleType;
   loading: boolean;
@@ -40,6 +41,7 @@ const SearchHeader = ({
   noResults,
   locale,
   competenceGoals,
+  coreElements,
   loading,
 }: Props) => {
   const { t } = useTranslation();
@@ -64,13 +66,15 @@ const SearchHeader = ({
         title: name,
       };
     });
-    const activeGrepCodes = competenceGoals.map((e) => ({
+
+    const activeGrepCodes = [...competenceGoals, ...coreElements].map((e) => ({
       value: e.id,
       name: e.id,
       title: e.id,
     }));
+
     setActiveFilters([...activeSubjects, ...activeGrepCodes]);
-  }, [subjects, subjectIds, locale, competenceGoals]);
+  }, [subjects, subjectIds, locale, competenceGoals, coreElements]);
 
   const onSubjectValuesChange = (values: string[]) => {
     handleSearchParamsChange({
@@ -135,7 +139,7 @@ const SearchHeader = ({
         handleSearchParamsChange({ query: suggestion })
       }
       searchValue={searchValue}
-      onSearchValueChange={(value) => onSearchValueChange(value)}
+      onSearchValueChange={(value: string) => onSearchValueChange(value)}
       onSubmit={handleSearchSubmit}
       activeFilters={{
         filters: activeFilters,
@@ -144,6 +148,7 @@ const SearchHeader = ({
       filters={subjectFilterProps}
       noResults={noResults}
       competenceGoals={competenceGoalsMetadata}
+      coreElements={coreElements}
       loading={loading}
     />
   );

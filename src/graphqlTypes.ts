@@ -3750,6 +3750,11 @@ export type GQLGroupSearchQuery = {
     curriculum?: { __typename?: 'Reference'; id: string; title: string };
     competenceGoalSet?: { __typename?: 'Reference'; id: string; title: string };
   }>;
+  coreElements?: Array<{
+    __typename: 'CoreElement';
+    title: string;
+    id: string;
+  }>;
 };
 
 export type GQLCopyrightInfoFragment = {

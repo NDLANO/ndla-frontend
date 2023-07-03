@@ -89,12 +89,9 @@ interface CoreElementType {
   title: string;
   elements: {
     id: string;
-    name: string;
+    title: string;
     text: string;
-    goals: {
-      id: string;
-      name: string;
-    }[];
+    url: string;
   }[];
 }
 
@@ -201,16 +198,20 @@ export const groupCompetenceGoals = (
 
 const groupCoreElements = (
   coreElements: LocalGQLCoreElement[],
+  subjectId?: string,
 ): ElementType['groupedCoreElementItems'] => {
+  const searchUrl = subjectId
+    ? `/search?subjects=${subjectId}&grepCodes=`
+    : '/search?grepCodes=';
   return getUniqueCurriculums(coreElements).map((curriculum) => ({
     title: `${curriculum?.title} (${curriculum!.id})`,
     elements: coreElements
       .filter((e) => e.curriculum?.id === curriculum!.id)
       .map((coreElement) => ({
         id: coreElement!.id,
-        name: coreElement!.name,
+        title: coreElement!.name,
         text: coreElement.text!,
-        goals: [], // Currently (13.09.21) CoreElements does not have any goals
+        url: `${searchUrl}${coreElement.id}`,
       })),
   }));
 };
@@ -253,7 +254,7 @@ const CompetenceGoals = ({
     'LK20',
     subjectId,
   );
-  const LK20Elements = groupCoreElements(data?.coreElements || []);
+  const LK20Elements = groupCoreElements(data?.coreElements || [], subjectId);
 
   const CompetenceGoalsLK20Template: ElementType = {
     id: '1',

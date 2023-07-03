@@ -274,6 +274,11 @@ export const groupSearchQuery = gql`
         title
       }
     }
+    coreElements(codes: $grepCodesList, language: $language) {
+      id
+      title
+      text: description
+    }
   }
   ${GroupSearchResourceFragment}
 `;
