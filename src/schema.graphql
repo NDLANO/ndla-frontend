@@ -29,6 +29,7 @@ type Article {
   requiredLibraries: [ArticleRequiredLibrary!]
   revision: Int!
   revisionDate: String
+  slug: String
   supportedLanguages: [String!]
   tags: [String!]
   title: String!
@@ -185,11 +186,6 @@ type BucketResult {
 type Caption {
   caption: String!
   language: String!
-}
-
-type Category {
-  name: String!
-  subjects: [Subject!]!
 }
 
 type CompetenceGoal {
@@ -393,8 +389,8 @@ type FrontPageResources {
 }
 
 type Frontpage {
-  categories: [Category!]!
-  topical: [Resource!]!
+  article: Article
+  menu: [Menu]!
 }
 
 type FrontpageSearch {
@@ -403,7 +399,6 @@ type FrontpageSearch {
 }
 
 type FrontpageSearchResult {
-  filters: [SearchContextFilter!]!
   id: String!
   name: String!
   path: String!
@@ -623,6 +618,12 @@ type Manuscript {
   manuscript: String!
 }
 
+type Menu {
+  menu: [Menu]!
+  slug: String
+  title: String
+}
+
 type Meta {
   availability: String
   id: Int!
@@ -747,6 +748,7 @@ type PodcastMeta {
 type PodcastSeries implements PodcastSeriesBase {
   coverPhoto: CoverPhoto!
   description: Description!
+  hasRSS: Boolean!
   id: Int!
   supportedLanguages: [String!]!
   title: Title!
@@ -755,6 +757,7 @@ type PodcastSeries implements PodcastSeriesBase {
 interface PodcastSeriesBase {
   coverPhoto: CoverPhoto!
   description: Description!
+  hasRSS: Boolean!
   id: Int!
   supportedLanguages: [String!]!
   title: Title!
@@ -781,6 +784,7 @@ type PodcastSeriesWithEpisodes implements PodcastSeriesBase {
   coverPhoto: CoverPhoto!
   description: Description!
   episodes: [Audio!]
+  hasRSS: Boolean!
   id: Int!
   supportedLanguages: [String!]!
   title: Title!
@@ -836,7 +840,7 @@ type Query {
     aggregatePaths: [String!]
     contextTypes: String
     fallback: String
-    filterInactive: String
+    filterInactive: Boolean
     grepCodes: String
     language: String
     levels: String
@@ -865,7 +869,7 @@ type Query {
     contextFilters: String
     contextTypes: String
     fallback: String
-    filterInactive: String
+    filterInactive: Boolean
     grepCodes: String
     ids: [Int!]
     language: String
@@ -923,7 +927,7 @@ type RelatedContent {
 type Resource implements TaxonomyEntity & WithArticle {
   article(convertEmbeds: Boolean, isOembed: String, subjectId: String): Article
   availability: String
-  breadcrumbs: [[String!]!]
+  breadcrumbs: [String!]!
   contentUri: String
   contexts: [TaxonomyContext!]!
   id: String!
@@ -979,13 +983,21 @@ type Search {
 
 type SearchContext {
   breadcrumbs: [String!]!
-  filters: [SearchContextFilter!]!
+  contextId: String!
+  contextType: String!
   id: String!
+  isActive: Boolean!
+  isPrimary: Boolean!
+  isVisible: Boolean!
   language: String!
   learningResourceType: String!
+  parentIds: [String!]!
   path: String!
+  publicId: String!
   relevance: String!
   resourceTypes: [SearchContextResourceTypes!]!
+  root: String!
+  rootId: String!
   subject: String!
   subjectId: String!
 }
@@ -1046,7 +1058,9 @@ scalar StringRecord
 
 type Subject implements TaxonomyEntity {
   allTopics: [Topic!]
+  breadcrumbs: [String!]!
   contentUri: String
+  contexts: [TaxonomyContext!]!
   grepCodes: [String!]!
   id: String!
   metadata: TaxonomyMetadata!
@@ -1055,6 +1069,7 @@ type Subject implements TaxonomyEntity {
   paths: [String!]!
   rank: Int
   relevanceId: String!
+  resourceTypes: [ResourceType!]
   subjectpage: SubjectPage
   supportedLanguages: [String!]!
   topics(all: Boolean): [Topic!]
@@ -1063,18 +1078,10 @@ type Subject implements TaxonomyEntity {
 type SubjectPage {
   about: SubjectPageAbout
   banner: SubjectPageBanner!
-  editorsChoices(subjectId: String): [TaxonomyEntity!]!
-  facebook: String
-  goTo: [ResourceTypeDefinition!]!
   id: Int!
-  latestContent(subjectId: String): [TaxonomyEntity!]
-  layout: String!
   metaDescription: String
-  mostRead(subjectId: String): [TaxonomyEntity!]!
   name: String!
   supportedLanguages: [String!]!
-  topical(subjectId: String): TaxonomyEntity
-  twitter: String
 }
 
 type SubjectPageAbout {
@@ -1118,7 +1125,9 @@ type TaxonomyContext {
 }
 
 interface TaxonomyEntity {
+  breadcrumbs: [String!]!
   contentUri: String
+  contexts: [TaxonomyContext!]!
   id: String!
   metadata: TaxonomyMetadata!
   name: String!
@@ -1126,6 +1135,7 @@ interface TaxonomyEntity {
   paths: [String!]!
   rank: Int
   relevanceId: String
+  resourceTypes: [ResourceType!]
   supportedLanguages: [String!]!
 }
 
@@ -1164,6 +1174,7 @@ type Topic implements TaxonomyEntity & WithArticle {
   paths: [String!]!
   rank: Int
   relevanceId: String
+  resourceTypes: [ResourceType!]
   subtopics: [Topic!]
   supplementaryResources(subjectId: String): [Resource!]
   supportedLanguages: [String!]!
