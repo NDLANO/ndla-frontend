@@ -29,6 +29,7 @@ type Article {
   requiredLibraries: [ArticleRequiredLibrary!]
   revision: Int!
   revisionDate: String
+  slug: String
   supportedLanguages: [String!]
   tags: [String!]
   title: String!
@@ -185,11 +186,6 @@ type BucketResult {
 type Caption {
   caption: String!
   language: String!
-}
-
-type Category {
-  name: String!
-  subjects: [Subject!]!
 }
 
 type CompetenceGoal {
@@ -393,8 +389,8 @@ type FrontPageResources {
 }
 
 type Frontpage {
-  categories: [Category!]!
-  topical: [Resource!]!
+  article: Article
+  menu: [Menu]!
 }
 
 type FrontpageSearch {
@@ -620,6 +616,12 @@ type ListingPage {
 type Manuscript {
   language: String!
   manuscript: String!
+}
+
+type Menu {
+  menu: [Menu]!
+  slug: String
+  title: String
 }
 
 type Meta {
@@ -925,8 +927,9 @@ type RelatedContent {
 type Resource implements TaxonomyEntity & WithArticle {
   article(convertEmbeds: Boolean, isOembed: String, subjectId: String): Article
   availability: String
-  breadcrumbs: [[String!]!]
+  breadcrumbs: [String!]!
   contentUri: String
+  contexts: [TaxonomyContext!]!
   id: String!
   learningpath: Learningpath
   meta: Meta
@@ -1055,7 +1058,9 @@ scalar StringRecord
 
 type Subject implements TaxonomyEntity {
   allTopics: [Topic!]
+  breadcrumbs: [String!]!
   contentUri: String
+  contexts: [TaxonomyContext!]!
   grepCodes: [String!]!
   id: String!
   metadata: TaxonomyMetadata!
@@ -1113,8 +1118,16 @@ type Tags {
   tags: [String!]!
 }
 
+type TaxonomyContext {
+  breadcrumbs: [String!]!
+  parentIds: [String!]!
+  path: String!
+}
+
 interface TaxonomyEntity {
+  breadcrumbs: [String!]!
   contentUri: String
+  contexts: [TaxonomyContext!]!
   id: String!
   metadata: TaxonomyMetadata!
   name: String!
@@ -1145,8 +1158,9 @@ type Topic implements TaxonomyEntity & WithArticle {
     subjectId: String
   ): Article
   availability: String
-  breadcrumbs: [[String!]!]
+  breadcrumbs: [String!]!
   contentUri: String
+  contexts: [TaxonomyContext!]!
   coreResources(subjectId: String): [Resource!]
   id: String!
   isPrimary: Boolean
