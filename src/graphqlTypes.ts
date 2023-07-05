@@ -1437,7 +1437,6 @@ export type GQLTaxonomyEntity = {
   name: Scalars['String'];
   path: Scalars['String'];
   paths: Array<Scalars['String']>;
-  rank?: Maybe<Scalars['Int']>;
   relevanceId?: Maybe<Scalars['String']>;
   resourceTypes?: Maybe<Array<GQLResourceType>>;
   supportedLanguages: Array<Scalars['String']>;
@@ -2290,6 +2289,7 @@ export type GQLMovedResourcePage_ResourceFragment = {
   paths: Array<string>;
   contexts: Array<{
     __typename?: 'TaxonomyContext';
+    path: string;
     breadcrumbs: Array<string>;
   }>;
   article?: {
@@ -4067,6 +4067,7 @@ export type GQLMovedResourceQuery = {
     __typename?: 'Resource';
     contexts: Array<{
       __typename?: 'TaxonomyContext';
+      path: string;
       breadcrumbs: Array<string>;
     }>;
   };

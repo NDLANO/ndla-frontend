@@ -1133,7 +1133,6 @@ interface TaxonomyEntity {
   name: String!
   path: String!
   paths: [String!]!
-  rank: Int
   relevanceId: String
   resourceTypes: [ResourceType!]
   supportedLanguages: [String!]!
