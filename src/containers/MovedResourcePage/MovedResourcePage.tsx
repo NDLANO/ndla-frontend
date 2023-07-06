@@ -53,8 +53,8 @@ const MovedResourcePage = ({ resource }: Props) => {
         type: resource.resourceTypes?.find(
           (type) => !contentTypeMapping[type.id],
         )?.name,
-        subjects: data?.resource?.contexts.map(({ breadcrumbs }, index) => ({
-          url: resource.paths?.[index],
+        subjects: data?.resource?.contexts.map(({ breadcrumbs, path }) => ({
+          url: path,
           title: breadcrumbs[0] ?? '',
           breadcrumb: breadcrumbs,
         })),
@@ -114,6 +114,7 @@ MovedResourcePage.fragments = {
       path
       paths
       contexts {
+        path
         breadcrumbs
       }
       article(subjectId: $subjectId, convertEmbeds: $convertEmbeds) {
