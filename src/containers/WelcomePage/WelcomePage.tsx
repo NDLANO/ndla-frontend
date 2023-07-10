@@ -64,7 +64,7 @@ const formatProgrammes = (data: GQLProgramme[]): ProgrammeV2[] => {
         src: p.subjectpage?.banner.mobileUrl || '',
         alt: '',
       },
-      url: p.url,
+      url: p.url || '',
     };
   });
 };
