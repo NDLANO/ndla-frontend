@@ -52,6 +52,7 @@ export type GQLArticle = {
   requiredLibraries?: Maybe<Array<GQLArticleRequiredLibrary>>;
   revision: Scalars['Int'];
   revisionDate?: Maybe<Scalars['String']>;
+  slug?: Maybe<Scalars['String']>;
   supportedLanguages?: Maybe<Array<Scalars['String']>>;
   tags?: Maybe<Array<Scalars['String']>>;
   title: Scalars['String'];
@@ -229,12 +230,6 @@ export type GQLCaption = {
   __typename?: 'Caption';
   caption: Scalars['String'];
   language: Scalars['String'];
-};
-
-export type GQLCategory = {
-  __typename?: 'Category';
-  name: Scalars['String'];
-  subjects: Array<GQLSubject>;
 };
 
 export type GQLCompetenceGoal = {
@@ -462,8 +457,8 @@ export type GQLFrontPageResources = {
 
 export type GQLFrontpage = {
   __typename?: 'Frontpage';
-  categories: Array<GQLCategory>;
-  topical: Array<GQLResource>;
+  article?: Maybe<GQLArticle>;
+  menu: Array<Maybe<GQLMenu>>;
 };
 
 export type GQLFrontpageSearch = {
@@ -713,6 +708,13 @@ export type GQLManuscript = {
   __typename?: 'Manuscript';
   language: Scalars['String'];
   manuscript: Scalars['String'];
+};
+
+export type GQLMenu = {
+  __typename?: 'Menu';
+  menu: Array<Maybe<GQLMenu>>;
+  slug?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
 };
 
 export type GQLMeta = {
@@ -1196,8 +1198,9 @@ export type GQLResource = GQLTaxonomyEntity &
     __typename?: 'Resource';
     article?: Maybe<GQLArticle>;
     availability?: Maybe<Scalars['String']>;
-    breadcrumbs?: Maybe<Array<Array<Scalars['String']>>>;
+    breadcrumbs: Array<Scalars['String']>;
     contentUri?: Maybe<Scalars['String']>;
+    contexts: Array<GQLTaxonomyContext>;
     id: Scalars['String'];
     learningpath?: Maybe<GQLLearningpath>;
     meta?: Maybe<GQLMeta>;
@@ -1347,7 +1350,9 @@ export type GQLSortResult = {
 export type GQLSubject = GQLTaxonomyEntity & {
   __typename?: 'Subject';
   allTopics?: Maybe<Array<GQLTopic>>;
+  breadcrumbs: Array<Scalars['String']>;
   contentUri?: Maybe<Scalars['String']>;
+  contexts: Array<GQLTaxonomyContext>;
   grepCodes: Array<Scalars['String']>;
   id: Scalars['String'];
   metadata: GQLTaxonomyMetadata;
@@ -1416,8 +1421,17 @@ export type GQLTags = {
   tags: Array<Scalars['String']>;
 };
 
+export type GQLTaxonomyContext = {
+  __typename?: 'TaxonomyContext';
+  breadcrumbs: Array<Scalars['String']>;
+  parentIds: Array<Scalars['String']>;
+  path: Scalars['String'];
+};
+
 export type GQLTaxonomyEntity = {
+  breadcrumbs: Array<Scalars['String']>;
   contentUri?: Maybe<Scalars['String']>;
+  contexts: Array<GQLTaxonomyContext>;
   id: Scalars['String'];
   metadata: GQLTaxonomyMetadata;
   name: Scalars['String'];
@@ -1448,8 +1462,9 @@ export type GQLTopic = GQLTaxonomyEntity &
     alternateTopics?: Maybe<Array<GQLTopic>>;
     article?: Maybe<GQLArticle>;
     availability?: Maybe<Scalars['String']>;
-    breadcrumbs?: Maybe<Array<Array<Scalars['String']>>>;
+    breadcrumbs: Array<Scalars['String']>;
     contentUri?: Maybe<Scalars['String']>;
+    contexts: Array<GQLTaxonomyContext>;
     coreResources?: Maybe<Array<GQLResource>>;
     id: Scalars['String'];
     isPrimary?: Maybe<Scalars['Boolean']>;
@@ -2273,7 +2288,10 @@ export type GQLMovedResourcePage_ResourceFragment = {
   name: string;
   path: string;
   paths: Array<string>;
-  breadcrumbs?: Array<Array<string>>;
+  contexts: Array<{
+    __typename?: 'TaxonomyContext';
+    breadcrumbs: Array<string>;
+  }>;
   article?: {
     __typename?: 'Article';
     id: number;
@@ -3235,12 +3253,15 @@ export type GQLMovedTopicPage_TopicFragment = {
   id: string;
   path: string;
   name: string;
-  breadcrumbs?: Array<Array<string>>;
   meta?: {
     __typename?: 'Meta';
     metaDescription?: string;
     metaImage?: { __typename?: 'MetaImage'; url: string; alt: string };
   };
+  contexts: Array<{
+    __typename?: 'TaxonomyContext';
+    breadcrumbs: Array<string>;
+  }>;
 };
 
 export type GQLSubjectPageContent_SubjectFragment = {
@@ -4042,7 +4063,13 @@ export type GQLMovedResourceQueryVariables = Exact<{
 
 export type GQLMovedResourceQuery = {
   __typename?: 'Query';
-  resource?: { __typename?: 'Resource'; breadcrumbs?: Array<Array<string>> };
+  resource?: {
+    __typename?: 'Resource';
+    contexts: Array<{
+      __typename?: 'TaxonomyContext';
+      breadcrumbs: Array<string>;
+    }>;
+  };
 };
 
 export type GQLCompetenceGoalsQueryVariables = Exact<{

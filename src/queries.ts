@@ -547,7 +547,9 @@ export const subjectsQuery = gql`
 export const movedResourceQuery = gql`
   query movedResource($resourceId: String!) {
     resource(id: $resourceId) {
-      breadcrumbs
+      contexts {
+        breadcrumbs
+      }
     }
   }
 `;
