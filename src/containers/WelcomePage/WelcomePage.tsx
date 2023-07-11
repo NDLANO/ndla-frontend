@@ -25,7 +25,7 @@ import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import config from '../../config';
 import BlogPosts from './BlogPosts';
 import WelcomePageSearch from './WelcomePageSearch';
-import { GQLFrontpageDataQuery, GQLProgramme } from '../../graphqlTypes';
+import { GQLFrontpageDataQuery, GQLProgrammePage } from '../../graphqlTypes';
 import Programme from './Components/Programme';
 import FrontpageMultidisciplinarySubject from './FrontpageMultidisciplinarySubject';
 import FrontpageToolbox from './FrontpageToolbox';
@@ -38,31 +38,35 @@ const frontpageQuery = gql`
   query frontpageData {
     programmes {
       id
-      name
-      url
-      subjectpage {
-        name
-        banner {
-          desktopUrl
-          mobileUrl
-        }
+      title {
+        title
+        language
       }
+      desktopImage {
+        url
+        alt
+      }
+      mobileImage {
+        url
+        alt
+      }
+      url
     }
   }
 `;
 
-const formatProgrammes = (data: GQLProgramme[]): ProgrammeV2[] => {
+const formatProgrammes = (data: GQLProgrammePage[]): ProgrammeV2[] => {
   return data.map((p) => {
     return {
       id: p.id,
-      title: { title: p.name, language: 'nb' },
+      title: p.title,
       desktopImage: {
-        src: p.subjectpage?.banner.desktopUrl || '',
-        alt: '',
+        src: p.desktopImage?.url || '',
+        alt: p.desktopImage?.alt || ''
       },
       mobileImage: {
-        src: p.subjectpage?.banner.mobileUrl || '',
-        alt: '',
+        src: p.mobileImage?.url || '',
+        alt: p.mobileImage?.alt || ''
       },
       url: p.url || '',
     };

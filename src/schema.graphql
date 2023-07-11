@@ -188,6 +188,12 @@ type Caption {
   language: String!
 }
 
+type Category {
+  id: String!
+  subjects: [String!]
+  title: Title!
+}
+
 type CompetenceGoal {
   code: String
   competenceGoalSet: Reference
@@ -404,6 +410,13 @@ type FrontpageSearchResult {
   path: String!
   resourceTypes: [SearchContextResourceTypes!]!
   subject: String!
+}
+
+type Grade {
+  categories: [Category!]
+  id: String!
+  title: Title!
+  url: String!
 }
 
 type GroupSearch {
@@ -790,20 +803,15 @@ type PodcastSeriesWithEpisodes implements PodcastSeriesBase {
   title: Title!
 }
 
-type Programme implements TaxonomyEntity {
-  breadcrumbs: [String!]!
+type ProgrammePage {
   contentUri: String
-  contexts: [TaxonomyContext!]!
+  desktopImage: MetaImage
+  grades: [Grade!]
   id: String!
-  metadata: TaxonomyMetadata!
-  name: String!
-  path: String!
-  paths: [String!]!
-  relevanceId: String
-  resourceTypes: [ResourceType!]
-  subjectpage: SubjectPage
-  supportedLanguages: [String!]!
-  url: String
+  metaDescription: String
+  mobileImage: MetaImage
+  title: Title!
+  url: String!
 }
 
 type Query {
@@ -878,7 +886,8 @@ type Query {
     page: Int!
     pageSize: Int!
   ): PodcastSeriesSearch
-  programmes: [Programme!]
+  programme(path: String): ProgrammePage
+  programmes: [ProgrammePage!]
   resource(id: String!, subjectId: String, topicId: String): Resource
   resourceEmbed(id: String!, type: String!): ResourceEmbed!
   resourceTypes: [ResourceTypeDefinition!]
