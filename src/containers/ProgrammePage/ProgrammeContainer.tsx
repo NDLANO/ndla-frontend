@@ -11,20 +11,22 @@ import { FeideUserApiType, Programme } from '@ndla/ui';
 import { Helmet } from 'react-helmet-async';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { SKIP_TO_CONTENT_ID } from '../../constants';
-import { LocaleType, ProgrammeType } from '../../interfaces';
+import { LocaleType } from '../../interfaces';
 import { htmlTitle } from '../../util/titleHelper';
 import { getAllDimensions } from '../../util/trackingUtil';
-import { mapGradesData } from './ProgrammePage';
-import { GQLSubjectInfoFragment } from '../../graphqlTypes';
+import {
+  GQLGrade,
+  GQLProgrammePage,
+  GQLSubjectInfoFragment,
+} from '../../graphqlTypes';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 
 const getDocumentTitle = ({
   programme,
   grade,
-  locale,
   t,
-}: Pick<Props, 'programme' | 'grade' | 'locale' | 't'>) => {
-  return htmlTitle(`${programme.name[locale]} - ${grade}`, [
+}: Pick<Props, 'programme' | 'grade' | 't'>) => {
+  return htmlTitle(`${programme.title.title} - ${grade.title.title}`, [
     t('htmlTitles.titleTemplate'),
   ]);
 };
@@ -33,23 +35,55 @@ interface Props extends WithTranslation {
   locale: LocaleType;
   user?: FeideUserApiType;
   subjects?: GQLSubjectInfoFragment[];
-  programme: ProgrammeType;
-  grade: string;
+  programme: GQLProgrammePage;
+  grade: GQLGrade;
 }
 
-const ProgrammeContainer = ({
-  programme,
-  subjects,
-  locale,
-  grade,
-  t,
-}: Props) => {
-  const heading = programme.name[locale];
-  const grades = mapGradesData(programme.grades, subjects || [], locale);
-  const socialMediaTitle = `${programme.name[locale]} - ${grade}`;
-  const metaDescription = programme.meta?.description?.[locale];
-  const image = programme.image?.url || '';
-  const pageTitle = getDocumentTitle({ programme, grade, locale, t });
+interface GradesData {
+  name: string;
+  categories?: {
+    missingProgrammeSubjects?: boolean;
+    name: string;
+    subjects?: {
+      label: string;
+      url: string;
+    }[];
+  }[];
+}
+
+export const mapGradesData = (
+  grades: GQLGrade[],
+  locale: LocaleType,
+): GradesData[] => {
+  return grades.map((grade) => {
+    const categories = grade.categories?.map((category) => {
+      const categorySubjects = category.subjects?.map((subject) => {
+        return {
+          label: subject.subjectpage?.about?.title || subject.name || '',
+          url: subject.path ?? '',
+        };
+      }) || [];
+      categorySubjects?.sort((a, b) => a.label?.localeCompare(b.label, locale));
+      return {
+        name: category.title.title ?? '',
+        subjects: categorySubjects,
+      };
+    }) || [];
+    return {
+      name: grade.title.title,
+      categories,
+      missingProgrammeSubjects: false,
+    };
+  });
+};
+
+const ProgrammeContainer = ({ programme, locale, grade, t }: Props) => {
+  const heading = programme.title.title;
+  const grades = mapGradesData(programme.grades || [], locale);
+  const socialMediaTitle = `${programme.title.title} - ${grade.title.title}`;
+  const metaDescription = programme.metaDescription;
+  const image = programme.desktopImage?.url || '';
+  const pageTitle = getDocumentTitle({ programme, grade, t });
   return (
     <>
       <Helmet>
@@ -66,7 +100,7 @@ const ProgrammeContainer = ({
           heading={heading}
           grades={grades}
           image={image}
-          selectedGrade={grade.toLowerCase()}
+          selectedGrade={grade.url}
         />
       </main>
     </>
@@ -76,8 +110,8 @@ const ProgrammeContainer = ({
 ProgrammeContainer.getDocumentTitle = getDocumentTitle;
 
 ProgrammeContainer.getDimensions = (props: Props) => {
-  const { programme, grade, locale, user } = props;
-  const subjectName = `${programme.name[locale]} - ${grade}`;
+  const { programme, grade, user } = props;
+  const subjectName = `${programme.title.title} - ${grade}`;
   return getAllDimensions(
     { subject: { name: subjectName }, user },
     undefined,

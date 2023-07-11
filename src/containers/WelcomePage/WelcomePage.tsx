@@ -20,7 +20,7 @@ import { useTranslation } from 'react-i18next';
 import { gql, useLazyQuery } from '@apollo/client';
 
 import WelcomePageInfo from './WelcomePageInfo';
-import { FILM_PAGE_PATH } from '../../constants';
+import { FILM_PAGE_PATH, PROGRAMME_PATH } from '../../constants';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import config from '../../config';
 import BlogPosts from './BlogPosts';
@@ -62,13 +62,13 @@ const formatProgrammes = (data: GQLProgrammePage[]): ProgrammeV2[] => {
       title: p.title,
       desktopImage: {
         src: p.desktopImage?.url || '',
-        alt: p.desktopImage?.alt || ''
+        alt: p.desktopImage?.alt || '',
       },
       mobileImage: {
         src: p.mobileImage?.url || '',
-        alt: p.mobileImage?.alt || ''
+        alt: p.mobileImage?.alt || '',
       },
-      url: p.url || '',
+      url: `${PROGRAMME_PATH}${p.url}` || '',
     };
   });
 };

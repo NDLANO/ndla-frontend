@@ -235,7 +235,7 @@ export type GQLCaption = {
 export type GQLCategory = {
   __typename?: 'Category';
   id: Scalars['String'];
-  subjects?: Maybe<Array<Scalars['String']>>;
+  subjects?: Maybe<Array<GQLSubject>>;
   title: GQLTitle;
 };
 
@@ -1388,7 +1388,7 @@ export type GQLSubject = GQLTaxonomyEntity & {
   breadcrumbs: Array<Scalars['String']>;
   contentUri?: Maybe<Scalars['String']>;
   contexts: Array<GQLTaxonomyContext>;
-  grepCodes: Array<Scalars['String']>;
+  grepCodes?: Maybe<Array<Scalars['String']>>;
   id: Scalars['String'];
   metadata: GQLTaxonomyMetadata;
   name: Scalars['String'];
@@ -3085,6 +3085,35 @@ export type GQLPodcastSeriesPageQuery = {
   };
 };
 
+export type GQLProgrammePageQueryVariables = Exact<{
+  path: Scalars['String'];
+}>;
+
+export type GQLProgrammePageQuery = {
+  __typename?: 'Query';
+  programme?: {
+    __typename?: 'ProgrammePage';
+    id: string;
+    metaDescription?: string;
+    url: string;
+    title: { __typename?: 'Title'; title: string };
+    desktopImage?: { __typename?: 'MetaImage'; url: string };
+    mobileImage?: { __typename?: 'MetaImage'; url: string };
+    grades?: Array<{
+      __typename?: 'Grade';
+      id: string;
+      url: string;
+      title: { __typename?: 'Title'; title: string };
+      categories?: Array<{
+        __typename?: 'Category';
+        id: string;
+        title: { __typename?: 'Title'; title: string };
+        subjects?: Array<{ __typename?: 'Subject' } & GQLSubjectInfoFragment>;
+      }>;
+    }>;
+  };
+};
+
 export type GQLResourceEmbedQueryVariables = Exact<{
   id: Scalars['String'];
   type: Scalars['String'];
@@ -3230,7 +3259,7 @@ export type GQLSharedResourceArticleContainer_ArticleFragment = {
 
 export type GQLSubjectContainer_SubjectFragment = {
   __typename?: 'Subject';
-  grepCodes: Array<string>;
+  grepCodes?: Array<string>;
   metadata: { __typename?: 'TaxonomyMetadata'; customFields: any };
   topics?: Array<{
     __typename?: 'Topic';

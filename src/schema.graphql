@@ -190,7 +190,7 @@ type Caption {
 
 type Category {
   id: String!
-  subjects: [String!]
+  subjects: [Subject!]
   title: Title!
 }
 
@@ -1089,7 +1089,7 @@ type Subject implements TaxonomyEntity {
   breadcrumbs: [String!]!
   contentUri: String
   contexts: [TaxonomyContext!]!
-  grepCodes: [String!]!
+  grepCodes: [String!]
   id: String!
   metadata: TaxonomyMetadata!
   name: String!
