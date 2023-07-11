@@ -21,7 +21,6 @@ import { AuthContext } from '../../components/AuthenticationContext';
 
 interface MatchParams extends TypedParams {
   programme: string;
-  grade: string;
 }
 
 const programmePageQuery = gql`
@@ -62,7 +61,7 @@ const programmePageQuery = gql`
 
 const ProgrammePage = () => {
   const { i18n } = useTranslation();
-  const { programme: path, grade } = useTypedParams<MatchParams>();
+  const { programme: path } = useTypedParams<MatchParams>();
   const { user } = useContext(AuthContext);
   const { loading, data } = useGraphQuery<GQLProgrammePageQuery>(
     programmePageQuery,

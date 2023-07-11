@@ -20,7 +20,12 @@ import { useTranslation } from 'react-i18next';
 import { gql, useLazyQuery } from '@apollo/client';
 
 import WelcomePageInfo from './WelcomePageInfo';
-import { FILM_PAGE_PATH, PROGRAMME_PATH } from '../../constants';
+import FrontpageSubjects from './FrontpageSubjects';
+import {
+  FILM_PAGE_PATH,
+  PROGRAMME_PATH,
+  SKIP_TO_CONTENT_ID,
+} from '../../constants';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import config from '../../config';
 import BlogPosts from './BlogPosts';
@@ -52,6 +57,14 @@ const frontpageQuery = gql`
       }
       url
     }
+    subjects(filterVisible: true) {
+      id
+      name
+      path
+      metadata {
+        customFields
+      }
+    }
   }
 `;
 
@@ -80,7 +93,7 @@ const WelcomePage = () => {
   const [programmes, setProgrammes] = useState<ProgrammeV2[]>([]);
 
   useEffect(() => {
-    const getData = async () => {
+    const getData = () => {
       fetchData();
     };
     getData();
@@ -124,9 +137,21 @@ const WelcomePage = () => {
         <WelcomePageSearch />
       </FrontpageHeader>
       <main>
-        <OneColumn wide>
-          <Programme programmes={programmes} />
-        </OneColumn>
+        {config.taxonomyProgrammesEnabled && (
+          <OneColumn wide>
+            <Programme programmes={programmes} />
+          </OneColumn>
+        )}
+        {!config.taxonomyProgrammesEnabled && (
+          <OneColumn extraPadding>
+            <div data-testid="category-list" id={SKIP_TO_CONTENT_ID}>
+              <FrontpageSubjects
+                locale={i18n.language}
+                subjects={data?.subjects}
+              />
+            </div>
+          </OneColumn>
+        )}
         <OneColumn wide>
           <FrontpageMultidisciplinarySubject />
           <FrontpageToolbox />

@@ -3532,6 +3532,13 @@ export type GQLFrontpageDataQuery = {
     desktopImage?: { __typename?: 'MetaImage'; url: string; alt: string };
     mobileImage?: { __typename?: 'MetaImage'; url: string; alt: string };
   }>;
+  subjects?: Array<{
+    __typename?: 'Subject';
+    id: string;
+    name: string;
+    path: string;
+    metadata: { __typename?: 'TaxonomyMetadata'; customFields: any };
+  }>;
 };
 
 export type GQLIframeArticlePage_ArticleFragment = {

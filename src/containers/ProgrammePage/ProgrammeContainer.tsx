@@ -56,19 +56,23 @@ export const mapGradesData = (
   locale: LocaleType,
 ): GradesData[] => {
   return grades.map((grade) => {
-    const categories = grade.categories?.map((category) => {
-      const categorySubjects = category.subjects?.map((subject) => {
+    const categories =
+      grade.categories?.map((category) => {
+        const categorySubjects =
+          category.subjects?.map((subject) => {
+            return {
+              label: subject.subjectpage?.about?.title || subject.name || '',
+              url: subject.path ?? '',
+            };
+          }) || [];
+        categorySubjects?.sort((a, b) =>
+          a.label?.localeCompare(b.label, locale),
+        );
         return {
-          label: subject.subjectpage?.about?.title || subject.name || '',
-          url: subject.path ?? '',
+          name: category.title.title ?? '',
+          subjects: categorySubjects,
         };
       }) || [];
-      categorySubjects?.sort((a, b) => a.label?.localeCompare(b.label, locale));
-      return {
-        name: category.title.title ?? '',
-        subjects: categorySubjects,
-      };
-    }) || [];
     return {
       name: grade.title.title,
       categories,

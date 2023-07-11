@@ -35,6 +35,7 @@ import PodcastSeriesListPage from './containers/PodcastPage/PodcastSeriesListPag
 import PodcastSeriesPage from './containers/PodcastPage/PodcastSeriesPage';
 import PrivateRoute from './containers/PrivateRoute/PrivateRoute';
 import ProgrammePage from './containers/ProgrammePage/ProgrammePage';
+import OldProgrammePage from './containers/ProgrammePage/OldProgrammePage';
 import ResourcePage from './containers/ResourcePage/ResourcePage';
 import SearchPage from './containers/SearchPage/SearchPage';
 import SubjectRouting from './containers/SubjectPage/SubjectRouting';
@@ -85,6 +86,9 @@ class App extends Component<AppProps, State> {
     return <AppRoutes base={this.props.base} />;
   }
 }
+const PPage = config.taxonomyProgrammesEnabled
+  ? ProgrammePage
+  : OldProgrammePage;
 
 const AppRoutes = ({ base }: AppProps) => {
   return (
@@ -97,7 +101,7 @@ const AppRoutes = ({ base }: AppProps) => {
                 <Route index element={<WelcomePage />} />
                 <Route path="subjects" element={<AllSubjectsPage />} />
                 <Route path="search" element={<SearchPage />} />
-                <Route path="utdanning/:programme" element={<ProgrammePage />}>
+                <Route path="utdanning/:programme" element={<PPage />}>
                   <Route path=":grade" element={null} />
                 </Route>
                 <Route path="podkast">
