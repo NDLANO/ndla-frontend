@@ -89,7 +89,7 @@ const formatProgrammes = (data: GQLProgrammePage[]): ProgrammeV2[] => {
 
 const WelcomePage = () => {
   const { t, i18n } = useTranslation();
-  const [fetchData, { data }] =
+  const [fetchData, { data, loading }] =
     useLazyQuery<GQLFrontpageDataQuery>(frontpageQuery);
   const [programmes, setProgrammes] = useState<ProgrammeV2[]>([]);
   const taxonomyProgrammesEnabled = useEnableTaxStructure();
@@ -141,7 +141,9 @@ const WelcomePage = () => {
       <main>
         {taxonomyProgrammesEnabled && (
           <OneColumn wide>
-            <Programme programmes={programmes} />
+            <div data-testid="programme-list" id={SKIP_TO_CONTENT_ID}>
+              <Programme programmes={programmes} loading={loading} />
+            </div>
           </OneColumn>
         )}
         {!taxonomyProgrammesEnabled && (

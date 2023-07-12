@@ -64,7 +64,7 @@ const paths = window.location.pathname.split('/');
 const basename = isValidLocale(paths[1] ?? '') ? `${paths[1]}` : undefined;
 
 const { versionHash, taxStructure } = queryString.parse(window.location.search);
-const taxStructureValue = taxStructure.length
+const taxStructureValue = taxStructure?.length
   ? taxStructure === 'true'
   : config.taxonomyProgrammesEnabled;
 
