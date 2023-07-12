@@ -30,44 +30,44 @@ interface GradeResult {
   id: string;
   title: {
     title: string;
-  }
+  };
   url?: string;
   categories?: {
     id: string;
     title: {
       title: string;
-    }
+    };
     subjects?: {
       id: string;
       name: string;
       path: string;
       metadata: {
         customFields: Record<string, string>;
-      }
+      };
       subjectpage?: {
-        about: {
+        about?: {
           title: string;
-        }
+        };
         banner?: {
           desktopUrl: string;
-        }
-      }
+        };
+      };
     }[];
   }[];
-} 
+}
 
 interface ProgrammeQueryResult {
   id: string;
   title: {
     title: string;
-  }
+  };
   metaDescription?: string;
   desktopImage?: {
     url: string;
-  }
+  };
   mobileImage?: {
     url: string;
-  }
+  };
   grades?: GradeResult[];
 }
 
@@ -90,24 +90,20 @@ interface Props extends WithTranslation {
   grade: string;
 }
 
-export const mapGradesData = (
-  grades: GradeResult[],
-): GradesData[] => {
+export const mapGradesData = (grades: GradeResult[]): GradesData[] => {
   return grades?.map((grade) => {
-    const categories =
-      grade.categories?.map((category) => {
-        const categorySubjects =
-          category.subjects?.map((subject) => {
-            return {
-              label: subject.subjectpage?.about?.title || subject.name || '',
-              url: subject.path,
-            };
-          });
+    const categories = grade.categories?.map((category) => {
+      const categorySubjects = category.subjects?.map((subject) => {
         return {
-          name: category.title.title,
-          subjects: categorySubjects,
+          label: subject.subjectpage?.about?.title || subject.name || '',
+          url: subject.path,
         };
       });
+      return {
+        name: category.title.title,
+        subjects: categorySubjects,
+      };
+    });
     return {
       name: grade.title.title,
       missingProgrammeSubjects: false,

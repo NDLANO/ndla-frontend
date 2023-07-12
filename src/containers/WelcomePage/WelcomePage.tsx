@@ -34,6 +34,7 @@ import { GQLFrontpageDataQuery, GQLProgrammePage } from '../../graphqlTypes';
 import Programme from './Components/Programme';
 import FrontpageMultidisciplinarySubject from './FrontpageMultidisciplinarySubject';
 import FrontpageToolbox from './FrontpageToolbox';
+import { useEnableTaxStructure } from '../../components/TaxonomyStructureContext';
 
 const HiddenHeading = styled.h1`
   ${utils.visuallyHidden};
@@ -91,6 +92,7 @@ const WelcomePage = () => {
   const [fetchData, { data }] =
     useLazyQuery<GQLFrontpageDataQuery>(frontpageQuery);
   const [programmes, setProgrammes] = useState<ProgrammeV2[]>([]);
+  const taxonomyProgrammesEnabled = useEnableTaxStructure();
 
   useEffect(() => {
     const getData = () => {
@@ -137,12 +139,12 @@ const WelcomePage = () => {
         <WelcomePageSearch />
       </FrontpageHeader>
       <main>
-        {config.taxonomyProgrammesEnabled && (
+        {taxonomyProgrammesEnabled && (
           <OneColumn wide>
             <Programme programmes={programmes} />
           </OneColumn>
         )}
-        {!config.taxonomyProgrammesEnabled && (
+        {!taxonomyProgrammesEnabled && (
           <OneColumn extraPadding>
             <div data-testid="category-list" id={SKIP_TO_CONTENT_ID}>
               <FrontpageSubjects

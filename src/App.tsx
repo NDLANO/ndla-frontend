@@ -44,6 +44,7 @@ import { LocaleType } from './interfaces';
 import handleError from './util/handleError';
 import SharedFolderPage from './containers/SharedFolderPage/SharedFolderPage';
 import FavoriteSubjectsPage from './containers/MyNdla/FavoriteSubjects/FavoriteSubjectsPage';
+import { useEnableTaxStructure } from './components/TaxonomyStructureContext';
 
 interface State {
   hasError: boolean;
@@ -86,11 +87,11 @@ class App extends Component<AppProps, State> {
     return <AppRoutes base={this.props.base} />;
   }
 }
-const PPage = config.taxonomyProgrammesEnabled
-  ? ProgrammePage
-  : OldProgrammePage;
 
 const AppRoutes = ({ base }: AppProps) => {
+  const taxonomyProgrammesEnabled = useEnableTaxStructure();
+  const PPage = taxonomyProgrammesEnabled ? ProgrammePage : OldProgrammePage;
+
   return (
     <AlertsProvider>
       <BaseNameProvider value={base}>
