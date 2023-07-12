@@ -83,7 +83,7 @@ const ProgrammePage = () => {
   return (
     <ProgrammeContainer
       programme={data.programme}
-      grade={data.programme.grades?.[0]}
+      grade={data.programme.grades?.[0]?.title.title || ''}
       locale={i18n.language}
       user={user}
     />

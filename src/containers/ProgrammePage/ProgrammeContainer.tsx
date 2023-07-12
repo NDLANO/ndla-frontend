@@ -14,11 +14,6 @@ import { SKIP_TO_CONTENT_ID } from '../../constants';
 import { LocaleType } from '../../interfaces';
 import { htmlTitle } from '../../util/titleHelper';
 import { getAllDimensions } from '../../util/trackingUtil';
-import {
-  GQLGrade,
-  GQLProgrammePage,
-  GQLSubjectInfoFragment,
-} from '../../graphqlTypes';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 
 const getDocumentTitle = ({
@@ -26,23 +21,60 @@ const getDocumentTitle = ({
   grade,
   t,
 }: Pick<Props, 'programme' | 'grade' | 't'>) => {
-  return htmlTitle(`${programme.title.title} - ${grade.title.title}`, [
+  return htmlTitle(`${programme.title.title} - ${grade}`, [
     t('htmlTitles.titleTemplate'),
   ]);
 };
 
-interface Props extends WithTranslation {
-  locale: LocaleType;
-  user?: FeideUserApiType;
-  subjects?: GQLSubjectInfoFragment[];
-  programme: GQLProgrammePage;
-  grade: GQLGrade;
+interface GradeResult {
+  id: string;
+  title: {
+    title: string;
+  }
+  url?: string;
+  categories?: {
+    id: string;
+    title: {
+      title: string;
+    }
+    subjects?: {
+      id: string;
+      name: string;
+      path: string;
+      metadata: {
+        customFields: Record<string, string>;
+      }
+      subjectpage?: {
+        about: {
+          title: string;
+        }
+        banner?: {
+          desktopUrl: string;
+        }
+      }
+    }[];
+  }[];
+} 
+
+interface ProgrammeQueryResult {
+  id: string;
+  title: {
+    title: string;
+  }
+  metaDescription?: string;
+  desktopImage?: {
+    url: string;
+  }
+  mobileImage?: {
+    url: string;
+  }
+  grades?: GradeResult[];
 }
 
 interface GradesData {
   name: string;
+  missingProgrammeSubjects: boolean;
   categories?: {
-    missingProgrammeSubjects?: boolean;
     name: string;
     subjects?: {
       label: string;
@@ -51,40 +83,43 @@ interface GradesData {
   }[];
 }
 
+interface Props extends WithTranslation {
+  locale: LocaleType;
+  user?: FeideUserApiType;
+  programme: ProgrammeQueryResult;
+  grade: string;
+}
+
 export const mapGradesData = (
-  grades: GQLGrade[],
-  locale: LocaleType,
+  grades: GradeResult[],
 ): GradesData[] => {
-  return grades.map((grade) => {
+  return grades?.map((grade) => {
     const categories =
       grade.categories?.map((category) => {
         const categorySubjects =
           category.subjects?.map((subject) => {
             return {
               label: subject.subjectpage?.about?.title || subject.name || '',
-              url: subject.path ?? '',
+              url: subject.path,
             };
-          }) || [];
-        categorySubjects?.sort((a, b) =>
-          a.label?.localeCompare(b.label, locale),
-        );
+          });
         return {
-          name: category.title.title ?? '',
+          name: category.title.title,
           subjects: categorySubjects,
         };
-      }) || [];
+      });
     return {
       name: grade.title.title,
-      categories,
       missingProgrammeSubjects: false,
+      categories,
     };
   });
 };
 
-const ProgrammeContainer = ({ programme, locale, grade, t }: Props) => {
+const ProgrammeContainer = ({ programme, grade, t }: Props) => {
   const heading = programme.title.title;
-  const grades = mapGradesData(programme.grades || [], locale);
-  const socialMediaTitle = `${programme.title.title} - ${grade.title.title}`;
+  const grades = mapGradesData(programme.grades || []);
+  const socialMediaTitle = `${programme.title.title} - ${grade}`;
   const metaDescription = programme.metaDescription;
   const image = programme.desktopImage?.url || '';
   const pageTitle = getDocumentTitle({ programme, grade, t });
@@ -104,7 +139,7 @@ const ProgrammeContainer = ({ programme, locale, grade, t }: Props) => {
           heading={heading}
           grades={grades}
           image={image}
-          selectedGrade={grade.url}
+          selectedGrade={grade}
         />
       </main>
     </>
