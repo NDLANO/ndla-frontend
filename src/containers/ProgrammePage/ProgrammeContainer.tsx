@@ -135,7 +135,7 @@ const ProgrammeContainer = ({ programme, grade, t }: Props) => {
           heading={heading}
           grades={grades}
           image={image}
-          selectedGrade={grade}
+          selectedGrade={grade.toLowerCase()}
         />
       </main>
     </>

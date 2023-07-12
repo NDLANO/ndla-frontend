@@ -3541,6 +3541,15 @@ export type GQLFrontpageDataQuery = {
   }>;
 };
 
+export type GQLProgrammeFragmentFragment = {
+  __typename?: 'ProgrammePage';
+  id: string;
+  url: string;
+  title: { __typename?: 'Title'; title: string; language: string };
+  desktopImage?: { __typename?: 'MetaImage'; url: string; alt: string };
+  mobileImage?: { __typename?: 'MetaImage'; url: string; alt: string };
+};
+
 export type GQLIframeArticlePage_ArticleFragment = {
   __typename?: 'Article';
   created: string;

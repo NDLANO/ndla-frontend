@@ -40,23 +40,29 @@ const HiddenHeading = styled.h1`
   ${utils.visuallyHidden};
 `;
 
+export const programmeFragment = gql`
+  fragment ProgrammeFragment on ProgrammePage {
+    id
+    title {
+      title
+      language
+    }
+    desktopImage {
+      url
+      alt
+    }
+    mobileImage {
+      url
+      alt
+    }
+    url
+  }
+`;
+
 const frontpageQuery = gql`
   query frontpageData {
     programmes {
-      id
-      title {
-        title
-        language
-      }
-      desktopImage {
-        url
-        alt
-      }
-      mobileImage {
-        url
-        alt
-      }
-      url
+      ...ProgrammeFragment
     }
     subjects(filterVisible: true) {
       id
@@ -67,6 +73,7 @@ const frontpageQuery = gql`
       }
     }
   }
+  ${programmeFragment}
 `;
 
 const formatProgrammes = (data: GQLProgrammePage[]): ProgrammeV2[] => {

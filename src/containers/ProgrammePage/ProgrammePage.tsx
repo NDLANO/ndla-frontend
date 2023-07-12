@@ -18,26 +18,17 @@ import { GQLProgrammePageQuery } from '../../graphqlTypes';
 import { TypedParams, useTypedParams } from '../../routeHelpers';
 import ProgrammeContainer from './ProgrammeContainer';
 import { AuthContext } from '../../components/AuthenticationContext';
+import { programmeFragment } from '../WelcomePage/WelcomePage';
 
 interface MatchParams extends TypedParams {
   programme: string;
+  grade?: string;
 }
 
 const programmePageQuery = gql`
   query programmePage($path: String!) {
     programme(path: $path) {
-      id
-      title {
-        title
-      }
-      metaDescription
-      desktopImage {
-        url
-      }
-      mobileImage {
-        url
-      }
-      url
+      ...ProgrammeFragment
       grades {
         id
         title {
@@ -56,12 +47,13 @@ const programmePageQuery = gql`
       }
     }
   }
+  ${programmeFragment}
   ${subjectInfoFragment}
 `;
 
 const ProgrammePage = () => {
   const { i18n } = useTranslation();
-  const { programme: path } = useTypedParams<MatchParams>();
+  const { programme: path, grade: gradeParam } = useTypedParams<MatchParams>();
   const { user } = useContext(AuthContext);
   const { loading, data } = useGraphQuery<GQLProgrammePageQuery>(
     programmePageQuery,
@@ -80,10 +72,14 @@ const ProgrammePage = () => {
     return <NotFoundPage />;
   }
 
+  const selectedGrade = data.programme.grades?.find(
+    (grade) => grade.title.title.toLowerCase() === gradeParam,
+  );
+
   return (
     <ProgrammeContainer
       programme={data.programme}
-      grade={data.programme.grades?.[0]?.title.title || ''}
+      grade={selectedGrade?.title.title || ''}
       locale={i18n.language}
       user={user}
     />
