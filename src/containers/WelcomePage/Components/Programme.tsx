@@ -97,10 +97,42 @@ const Programme = ({ programmes, loading }: Props) => {
   if (loading) {
     return (
       <ContentLoader width={1150} height={220}>
-          <rect x="0" y="10" rx="3" ry="3" width="250" height="220" key="rect-1-1" />
-          <rect x="260" y="10" rx="3" ry="3" width="250" height="220" key="rect-1-2" />
-          <rect x="520" y="10" rx="3" ry="3" width="250" height="220" key="rect-1-3" />
-          <rect x="780" y="10" rx="3" ry="3" width="250" height="220" key="rect-1-4" />
+        <rect
+          x="0"
+          y="10"
+          rx="3"
+          ry="3"
+          width="250"
+          height="220"
+          key="rect-1-1"
+        />
+        <rect
+          x="260"
+          y="10"
+          rx="3"
+          ry="3"
+          width="250"
+          height="220"
+          key="rect-1-2"
+        />
+        <rect
+          x="520"
+          y="10"
+          rx="3"
+          ry="3"
+          width="250"
+          height="220"
+          key="rect-1-3"
+        />
+        <rect
+          x="780"
+          y="10"
+          rx="3"
+          ry="3"
+          width="250"
+          height="220"
+          key="rect-1-4"
+        />
       </ContentLoader>
     );
   }
