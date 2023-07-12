@@ -190,6 +190,7 @@ type Caption {
 
 type Category {
   id: String!
+  isProgrammeSubject: Boolean!
   subjects: [Subject!]
   title: Title!
 }

@@ -37,6 +37,7 @@ interface GradeResult {
     title: {
       title: string;
     };
+    isProgrammeSubject: boolean;
     subjects?: {
       id: string;
       name: string;
@@ -92,7 +93,10 @@ interface Props extends WithTranslation {
 
 export const mapGradesData = (grades: GradeResult[]): GradesData[] => {
   return grades?.map((grade) => {
+    let foundProgrammeSubject = false;
     const categories = grade.categories?.map((category) => {
+      foundProgrammeSubject =
+        foundProgrammeSubject || category.isProgrammeSubject;
       const categorySubjects = category.subjects?.map((subject) => {
         return {
           label: subject.subjectpage?.about?.title || subject.name || '',
@@ -101,12 +105,13 @@ export const mapGradesData = (grades: GradeResult[]): GradesData[] => {
       });
       return {
         name: category.title.title,
+        isProgrammeSubject: category.isProgrammeSubject,
         subjects: categorySubjects,
       };
     });
     return {
       name: grade.title.title,
-      missingProgrammeSubjects: false,
+      missingProgrammeSubjects: !foundProgrammeSubject,
       categories,
     };
   });

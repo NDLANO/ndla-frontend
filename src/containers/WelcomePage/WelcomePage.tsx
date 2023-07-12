@@ -146,23 +146,21 @@ const WelcomePage = () => {
         <WelcomePageSearch />
       </FrontpageHeader>
       <main>
-        {taxonomyProgrammesEnabled && (
-          <OneColumn wide>
+        <OneColumn wide>
+          {taxonomyProgrammesEnabled && (
             <div data-testid="programme-list" id={SKIP_TO_CONTENT_ID}>
               <Programmes programmes={programmes} loading={loading} />
             </div>
-          </OneColumn>
-        )}
-        {!taxonomyProgrammesEnabled && (
-          <OneColumn extraPadding>
+          )}
+          {!taxonomyProgrammesEnabled && (
             <div data-testid="category-list" id={SKIP_TO_CONTENT_ID}>
               <FrontpageSubjects
                 locale={i18n.language}
                 subjects={data?.subjects}
               />
             </div>
-          </OneColumn>
-        )}
+          )}
+        </OneColumn>
         <OneColumn wide>
           <FrontpageMultidisciplinarySubject />
           <FrontpageToolbox />

@@ -40,6 +40,7 @@ const programmePageQuery = gql`
           title {
             title
           }
+          isProgrammeSubject
           subjects {
             ...SubjectInfo
           }

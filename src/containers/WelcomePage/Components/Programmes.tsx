@@ -18,6 +18,15 @@ import {
 } from '@ndla/accordion';
 import { ContentLoader, ProgrammeCard, ProgrammeV2 } from '@ndla/ui';
 
+const StyledWrapper = styled.div`
+  margin-bottom: ${spacing.large};
+  padding-top: 4px;
+  ${mq.range({ from: breakpoints.desktop })} {
+    padding-top: ${spacing.nsmall};
+    margin: 0 0 124px;
+  }
+`;
+
 const AllSubjectsPersonIllustration = styled.div`
   background-image: url('/static/illustrations/all_subjects_person.svg');
   background-repeat: no-repeat;
@@ -137,7 +146,7 @@ const Programmes = ({ programmes, loading }: Props) => {
   }
 
   return (
-    <>
+    <StyledWrapper>
       <Desktop>{programmeCards}</Desktop>
       <Mobile>
         <StyledAccordionRoot type="single" collapsible>
@@ -152,7 +161,7 @@ const Programmes = ({ programmes, loading }: Props) => {
           </AccordionItem>
         </StyledAccordionRoot>
       </Mobile>
-    </>
+    </StyledWrapper>
   );
 };
 

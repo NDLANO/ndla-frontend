@@ -235,6 +235,7 @@ export type GQLCaption = {
 export type GQLCategory = {
   __typename?: 'Category';
   id: Scalars['String'];
+  isProgrammeSubject: Scalars['Boolean'];
   subjects?: Maybe<Array<GQLSubject>>;
   title: GQLTitle;
 };
@@ -3093,12 +3094,6 @@ export type GQLProgrammePageQuery = {
   __typename?: 'Query';
   programme?: {
     __typename?: 'ProgrammePage';
-    id: string;
-    metaDescription?: string;
-    url: string;
-    title: { __typename?: 'Title'; title: string };
-    desktopImage?: { __typename?: 'MetaImage'; url: string };
-    mobileImage?: { __typename?: 'MetaImage'; url: string };
     grades?: Array<{
       __typename?: 'Grade';
       id: string;
@@ -3107,11 +3102,12 @@ export type GQLProgrammePageQuery = {
       categories?: Array<{
         __typename?: 'Category';
         id: string;
+        isProgrammeSubject: boolean;
         title: { __typename?: 'Title'; title: string };
         subjects?: Array<{ __typename?: 'Subject' } & GQLSubjectInfoFragment>;
       }>;
     }>;
-  };
+  } & GQLProgrammeFragmentFragment;
 };
 
 export type GQLResourceEmbedQueryVariables = Exact<{
@@ -3520,27 +3516,6 @@ export type GQLToolboxTopicWrapper_TopicFragment = {
   }>;
 } & GQLResources_TopicFragment;
 
-export type GQLFrontpageDataQueryVariables = Exact<{ [key: string]: never }>;
-
-export type GQLFrontpageDataQuery = {
-  __typename?: 'Query';
-  programmes?: Array<{
-    __typename?: 'ProgrammePage';
-    id: string;
-    url: string;
-    title: { __typename?: 'Title'; title: string; language: string };
-    desktopImage?: { __typename?: 'MetaImage'; url: string; alt: string };
-    mobileImage?: { __typename?: 'MetaImage'; url: string; alt: string };
-  }>;
-  subjects?: Array<{
-    __typename?: 'Subject';
-    id: string;
-    name: string;
-    path: string;
-    metadata: { __typename?: 'TaxonomyMetadata'; customFields: any };
-  }>;
-};
-
 export type GQLProgrammeFragmentFragment = {
   __typename?: 'ProgrammePage';
   id: string;
@@ -3548,6 +3523,22 @@ export type GQLProgrammeFragmentFragment = {
   title: { __typename?: 'Title'; title: string; language: string };
   desktopImage?: { __typename?: 'MetaImage'; url: string; alt: string };
   mobileImage?: { __typename?: 'MetaImage'; url: string; alt: string };
+};
+
+export type GQLFrontpageDataQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GQLFrontpageDataQuery = {
+  __typename?: 'Query';
+  programmes?: Array<
+    { __typename?: 'ProgrammePage' } & GQLProgrammeFragmentFragment
+  >;
+  subjects?: Array<{
+    __typename?: 'Subject';
+    id: string;
+    name: string;
+    path: string;
+    metadata: { __typename?: 'TaxonomyMetadata'; customFields: any };
+  }>;
 };
 
 export type GQLIframeArticlePage_ArticleFragment = {
