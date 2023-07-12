@@ -31,7 +31,7 @@ import config from '../../config';
 import BlogPosts from './BlogPosts';
 import WelcomePageSearch from './WelcomePageSearch';
 import { GQLFrontpageDataQuery, GQLProgrammePage } from '../../graphqlTypes';
-import Programme from './Components/Programme';
+import Programmes from './Components/Programmes';
 import FrontpageMultidisciplinarySubject from './FrontpageMultidisciplinarySubject';
 import FrontpageToolbox from './FrontpageToolbox';
 import { useEnableTaxStructure } from '../../components/TaxonomyStructureContext';
@@ -149,7 +149,7 @@ const WelcomePage = () => {
         {taxonomyProgrammesEnabled && (
           <OneColumn wide>
             <div data-testid="programme-list" id={SKIP_TO_CONTENT_ID}>
-              <Programme programmes={programmes} loading={loading} />
+              <Programmes programmes={programmes} loading={loading} />
             </div>
           </OneColumn>
         )}

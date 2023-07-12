@@ -9,7 +9,7 @@
 import { configureTracker } from '@ndla/tracker';
 import { SnackbarProvider } from '@ndla/ui';
 import { History } from 'history';
-import { Component, ErrorInfo, ReactNode } from 'react';
+import { Component, ErrorInfo, ReactNode, useMemo } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import VideoPage from './containers/ResourceEmbed/VideoPage';
 import ImagePage from './containers/ResourceEmbed/ImagePage';
@@ -90,7 +90,10 @@ class App extends Component<AppProps, State> {
 
 const AppRoutes = ({ base }: AppProps) => {
   const taxonomyProgrammesEnabled = useEnableTaxStructure();
-  const PPage = taxonomyProgrammesEnabled ? ProgrammePage : OldProgrammePage;
+  const ProgPage = useMemo(
+    () => (taxonomyProgrammesEnabled ? ProgrammePage : OldProgrammePage),
+    [taxonomyProgrammesEnabled],
+  );
 
   return (
     <AlertsProvider>
@@ -102,7 +105,7 @@ const AppRoutes = ({ base }: AppProps) => {
                 <Route index element={<WelcomePage />} />
                 <Route path="subjects" element={<AllSubjectsPage />} />
                 <Route path="search" element={<SearchPage />} />
-                <Route path="utdanning/:programme" element={<PPage />}>
+                <Route path="utdanning/:programme" element={<ProgPage />}>
                   <Route path=":grade" element={null} />
                 </Route>
                 <Route path="podkast">

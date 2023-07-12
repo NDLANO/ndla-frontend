@@ -6,6 +6,7 @@
  *
  */
 
+import { useMemo } from 'react';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { spacing, fonts, breakpoints, mq } from '@ndla/core';
@@ -16,8 +17,6 @@ import {
   AccordionContent,
 } from '@ndla/accordion';
 import { ContentLoader, ProgrammeCard, ProgrammeV2 } from '@ndla/ui';
-import { css } from '@emotion/react';
-import { useMemo } from 'react';
 
 const AllSubjectsPersonIllustration = styled.div`
   background-image: url('/static/illustrations/all_subjects_person.svg');
@@ -55,7 +54,7 @@ const StyledAccordionContent = styled(AccordionContent)`
   }
 `;
 
-const AccordionHeaderStyling = css`
+const StyledAccordionHeader = styled(AccordionHeader)`
   ${fonts.sizes('16px', '24px')};
   ${fonts.weight.semibold};
   :hover {
@@ -78,7 +77,7 @@ interface Props {
   loading: boolean;
 }
 
-const Programme = ({ programmes, loading }: Props) => {
+const Programmes = ({ programmes, loading }: Props) => {
   const { t } = useTranslation();
 
   const programmeCards = useMemo(() => {
@@ -146,9 +145,9 @@ const Programme = ({ programmes, loading }: Props) => {
             <AllSubjectsPersonIllustration />
           </ImageWrapper>
           <AccordionItem value="1">
-            <AccordionHeader headerCSS={AccordionHeaderStyling}>
+            <StyledAccordionHeader>
               {t('programme.accordianHeader')}
-            </AccordionHeader>
+            </StyledAccordionHeader>
             <StyledAccordionContent>{programmeCards}</StyledAccordionContent>
           </AccordionItem>
         </StyledAccordionRoot>
@@ -157,4 +156,4 @@ const Programme = ({ programmes, loading }: Props) => {
   );
 };
 
-export default Programme;
+export default Programmes;
