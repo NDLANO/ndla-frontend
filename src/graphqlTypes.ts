@@ -3094,6 +3094,7 @@ export type GQLProgrammePageQuery = {
   __typename?: 'Query';
   programme?: {
     __typename?: 'ProgrammePage';
+    metaDescription?: string;
     grades?: Array<{
       __typename?: 'Grade';
       id: string;

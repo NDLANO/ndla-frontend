@@ -29,6 +29,7 @@ const programmePageQuery = gql`
   query programmePage($path: String!) {
     programme(path: $path) {
       ...ProgrammeFragment
+      metaDescription
       grades {
         id
         title {
