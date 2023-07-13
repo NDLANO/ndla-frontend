@@ -89,14 +89,15 @@ interface Props {
 const Programmes = ({ programmes, loading }: Props) => {
   const { t } = useTranslation();
 
+  // The switch between mobile and desktop image is intended!
   const programmeCards = useMemo(() => {
     return programmes.map((programme) => (
       <ProgrammeCard
         key={programme.id}
         id={programme.id}
         title={programme.title}
-        desktopImage={programme.desktopImage}
-        mobileImage={programme.mobileImage}
+        desktopImage={programme.mobileImage}
+        mobileImage={programme.desktopImage}
         url={programme.url}
       />
     ));
