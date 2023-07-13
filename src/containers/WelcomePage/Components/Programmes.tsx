@@ -152,9 +152,9 @@ const Programmes = ({ programmes, loading }: Props) => {
   return (
     <StyledWrapper>
       <Heading element="h2" headingStyle="h1" serif id={SKIP_TO_CONTENT_ID}>
-        {t('programme.header')}
+        {t('programmes.header')}
       </Heading>
-      <Description>{t('programme.description')}</Description>
+      <Description>{t('programmes.description')}</Description>
       <Desktop>{loading ? placeholder : programmeCards}</Desktop>
       <Mobile>
         <StyledAccordionRoot type="single" collapsible>
@@ -163,7 +163,7 @@ const Programmes = ({ programmes, loading }: Props) => {
           </ImageWrapper>
           <AccordionItem value="1">
             <StyledAccordionHeader>
-              {t('programme.accordionHeader')}
+              {t('programmes.accordionHeader')}
             </StyledAccordionHeader>
             <StyledAccordionContent>{programmeCards}</StyledAccordionContent>
           </AccordionItem>
