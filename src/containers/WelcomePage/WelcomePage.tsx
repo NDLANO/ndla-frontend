@@ -81,11 +81,11 @@ const formatProgrammes = (data: GQLProgrammePage[]): ProgrammeV2[] => {
     return {
       id: p.id,
       title: p.title,
-      desktopImage: {
+      wideImage: {
         src: p.desktopImage?.url || '',
         alt: p.desktopImage?.alt || '',
       },
-      mobileImage: {
+      narrowImage: {
         src: p.mobileImage?.url || '',
         alt: p.mobileImage?.alt || '',
       },
@@ -142,13 +142,15 @@ const WelcomePage = () => {
       >
         <meta name="keywords" content={t('meta.keywords')} />
       </SocialMediaMetadata>
-      <FrontpageHeader locale={i18n.language} showHeader={true}>
-        <WelcomePageSearch />
-      </FrontpageHeader>
+      {!taxonomyProgrammesEnabled && (
+        <FrontpageHeader locale={i18n.language} showHeader={true}>
+          <WelcomePageSearch />
+        </FrontpageHeader>
+      )}
       <main>
         <OneColumn wide>
           {taxonomyProgrammesEnabled && (
-            <div data-testid="programme-list" id={SKIP_TO_CONTENT_ID}>
+            <div data-testid="programme-list">
               <Programmes programmes={programmes} loading={loading} />
             </div>
           )}

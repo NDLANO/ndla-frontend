@@ -16,24 +16,19 @@ import {
   AccordionHeader,
   AccordionContent,
 } from '@ndla/accordion';
-import { ContentLoader, ProgrammeCard, ProgrammeV2 } from '@ndla/ui';
+import { ContentLoader, Heading, ProgrammeCard, ProgrammeV2 } from '@ndla/ui';
+import { SKIP_TO_CONTENT_ID } from '../../../constants';
 
 const StyledWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   margin-bottom: ${spacing.large};
   padding-top: 4px;
   ${mq.range({ from: breakpoints.desktop })} {
     padding-top: ${spacing.nsmall};
     margin: 0 0 124px;
   }
-`;
-
-const AllSubjectsPersonIllustration = styled.div`
-  background-image: url('/static/illustrations/all_subjects_person.svg');
-  background-repeat: no-repeat;
-  background-size: auto 100%;
-  background-position: 100% 100%;
-  height: 175px;
-  width: 208px;
 `;
 
 const Desktop = styled.div`
@@ -49,8 +44,18 @@ const Desktop = styled.div`
 const Mobile = styled.div`
   display: none;
   ${mq.range({ until: breakpoints.tablet })} {
+    width: 100%;
     display: block;
   }
+`;
+
+const AllSubjectsPersonIllustration = styled.div`
+  background-image: url('/static/illustrations/all_subjects_person.svg');
+  background-repeat: no-repeat;
+  background-size: auto 100%;
+  background-position: 100% 100%;
+  height: 175px;
+  width: 208px;
 `;
 
 const StyledAccordionRoot = styled(AccordionRoot)`
@@ -77,8 +82,11 @@ const StyledAccordionHeader = styled(AccordionHeader)`
 const ImageWrapper = styled.div`
   width: 100%;
   height: 100%;
-  display: flex;
+  display: none;
   justify-content: center;
+  ${mq.range({ until: breakpoints.tablet })} {
+    display: flex;
+  }
 `;
 
 interface Props {
@@ -119,18 +127,23 @@ const placeholder = (
   </ContentLoader>
 );
 
+const Description = styled.div`
+  margin-top: ${spacing.xsmall};
+  margin-bottom: ${spacing.large};
+  ${fonts.sizes('18px', '24px')};
+`;
+
 const Programmes = ({ programmes, loading }: Props) => {
   const { t } = useTranslation();
 
-  // The switch between mobile and desktop image is intended!
   const programmeCards = useMemo(() => {
     return programmes.map((programme) => (
       <ProgrammeCard
         key={programme.id}
         id={programme.id}
         title={programme.title}
-        desktopImage={programme.mobileImage}
-        mobileImage={programme.desktopImage}
+        wideImage={programme.wideImage}
+        narrowImage={programme.narrowImage}
         url={programme.url}
       />
     ));
@@ -138,6 +151,10 @@ const Programmes = ({ programmes, loading }: Props) => {
 
   return (
     <StyledWrapper>
+      <Heading element="h2" headingStyle="h1" serif id={SKIP_TO_CONTENT_ID}>
+        {t('programme.header')}
+      </Heading>
+      <Description>{t('programme.description')}</Description>
       <Desktop>{loading ? placeholder : programmeCards}</Desktop>
       <Mobile>
         <StyledAccordionRoot type="single" collapsible>
@@ -146,7 +163,7 @@ const Programmes = ({ programmes, loading }: Props) => {
           </ImageWrapper>
           <AccordionItem value="1">
             <StyledAccordionHeader>
-              {t('programme.accordianHeader')}
+              {t('programme.accordionHeader')}
             </StyledAccordionHeader>
             <StyledAccordionContent>{programmeCards}</StyledAccordionContent>
           </AccordionItem>
