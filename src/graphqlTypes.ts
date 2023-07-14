@@ -232,6 +232,14 @@ export type GQLCaption = {
   language: Scalars['String'];
 };
 
+export type GQLCategory = {
+  __typename?: 'Category';
+  id: Scalars['String'];
+  isProgrammeSubject: Scalars['Boolean'];
+  subjects?: Maybe<Array<GQLSubject>>;
+  title: GQLTitle;
+};
+
 export type GQLCompetenceGoal = {
   __typename?: 'CompetenceGoal';
   code?: Maybe<Scalars['String']>;
@@ -474,6 +482,14 @@ export type GQLFrontpageSearchResult = {
   path: Scalars['String'];
   resourceTypes: Array<GQLSearchContextResourceTypes>;
   subject: Scalars['String'];
+};
+
+export type GQLGrade = {
+  __typename?: 'Grade';
+  categories?: Maybe<Array<GQLCategory>>;
+  id: Scalars['String'];
+  title: GQLTitle;
+  url: Scalars['String'];
 };
 
 export type GQLGroupSearch = {
@@ -942,6 +958,18 @@ export type GQLPodcastSeriesWithEpisodes = GQLPodcastSeriesBase & {
   title: GQLTitle;
 };
 
+export type GQLProgrammePage = {
+  __typename?: 'ProgrammePage';
+  contentUri?: Maybe<Scalars['String']>;
+  desktopImage?: Maybe<GQLMetaImage>;
+  grades?: Maybe<Array<GQLGrade>>;
+  id: Scalars['String'];
+  metaDescription?: Maybe<Scalars['String']>;
+  mobileImage?: Maybe<GQLMetaImage>;
+  title: GQLTitle;
+  url: Scalars['String'];
+};
+
 export type GQLQuery = {
   __typename?: 'Query';
   alerts?: Maybe<Array<Maybe<GQLUptimeAlert>>>;
@@ -970,6 +998,8 @@ export type GQLQuery = {
   podcastSearch?: Maybe<GQLAudioSearch>;
   podcastSeries?: Maybe<GQLPodcastSeriesWithEpisodes>;
   podcastSeriesSearch?: Maybe<GQLPodcastSeriesSearch>;
+  programme?: Maybe<GQLProgrammePage>;
+  programmes?: Maybe<Array<GQLProgrammePage>>;
   resource?: Maybe<GQLResource>;
   resourceEmbed: GQLResourceEmbed;
   resourceTypes?: Maybe<Array<GQLResourceTypeDefinition>>;
@@ -1017,6 +1047,7 @@ export type GQLQueryConceptArgs = {
 };
 
 export type GQLQueryConceptSearchArgs = {
+  conceptType?: InputMaybe<Scalars['String']>;
   exactMatch?: InputMaybe<Scalars['Boolean']>;
   fallback?: InputMaybe<Scalars['Boolean']>;
   ids?: InputMaybe<Array<Scalars['Int']>>;
@@ -1102,6 +1133,10 @@ export type GQLQueryPodcastSeriesSearchArgs = {
   fallback?: InputMaybe<Scalars['Boolean']>;
   page: Scalars['Int'];
   pageSize: Scalars['Int'];
+};
+
+export type GQLQueryProgrammeArgs = {
+  path?: InputMaybe<Scalars['String']>;
 };
 
 export type GQLQueryResourceArgs = {
@@ -1213,6 +1248,7 @@ export type GQLResource = GQLTaxonomyEntity &
     relevanceId?: Maybe<Scalars['String']>;
     resourceTypes?: Maybe<Array<GQLResourceType>>;
     supportedLanguages: Array<Scalars['String']>;
+    url?: Maybe<Scalars['String']>;
   };
 
 export type GQLResourceArticleArgs = {
@@ -1353,18 +1389,18 @@ export type GQLSubject = GQLTaxonomyEntity & {
   breadcrumbs: Array<Scalars['String']>;
   contentUri?: Maybe<Scalars['String']>;
   contexts: Array<GQLTaxonomyContext>;
-  grepCodes: Array<Scalars['String']>;
+  grepCodes?: Maybe<Array<Scalars['String']>>;
   id: Scalars['String'];
   metadata: GQLTaxonomyMetadata;
   name: Scalars['String'];
   path: Scalars['String'];
   paths: Array<Scalars['String']>;
-  rank?: Maybe<Scalars['Int']>;
-  relevanceId: Scalars['String'];
+  relevanceId?: Maybe<Scalars['String']>;
   resourceTypes?: Maybe<Array<GQLResourceType>>;
   subjectpage?: Maybe<GQLSubjectPage>;
   supportedLanguages: Array<Scalars['String']>;
   topics?: Maybe<Array<GQLTopic>>;
+  url?: Maybe<Scalars['String']>;
 };
 
 export type GQLSubjectTopicsArgs = {
@@ -1440,6 +1476,7 @@ export type GQLTaxonomyEntity = {
   relevanceId?: Maybe<Scalars['String']>;
   resourceTypes?: Maybe<Array<GQLResourceType>>;
   supportedLanguages: Array<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
 };
 
 export type GQLTaxonomyMetadata = {
@@ -1475,12 +1512,12 @@ export type GQLTopic = GQLTaxonomyEntity &
     path: Scalars['String'];
     pathTopics?: Maybe<Array<Array<GQLTopic>>>;
     paths: Array<Scalars['String']>;
-    rank?: Maybe<Scalars['Int']>;
     relevanceId?: Maybe<Scalars['String']>;
     resourceTypes?: Maybe<Array<GQLResourceType>>;
     subtopics?: Maybe<Array<GQLTopic>>;
     supplementaryResources?: Maybe<Array<GQLResource>>;
     supportedLanguages: Array<Scalars['String']>;
+    url?: Maybe<Scalars['String']>;
   };
 
 export type GQLTopicArticleArgs = {
@@ -3050,6 +3087,31 @@ export type GQLPodcastSeriesPageQuery = {
   };
 };
 
+export type GQLProgrammePageQueryVariables = Exact<{
+  path: Scalars['String'];
+}>;
+
+export type GQLProgrammePageQuery = {
+  __typename?: 'Query';
+  programme?: {
+    __typename?: 'ProgrammePage';
+    metaDescription?: string;
+    grades?: Array<{
+      __typename?: 'Grade';
+      id: string;
+      url: string;
+      title: { __typename?: 'Title'; title: string };
+      categories?: Array<{
+        __typename?: 'Category';
+        id: string;
+        isProgrammeSubject: boolean;
+        title: { __typename?: 'Title'; title: string };
+        subjects?: Array<{ __typename?: 'Subject' } & GQLSubjectInfoFragment>;
+      }>;
+    }>;
+  } & GQLProgrammeFragmentFragment;
+};
+
 export type GQLResourceEmbedQueryVariables = Exact<{
   id: Scalars['String'];
   type: Scalars['String'];
@@ -3195,7 +3257,7 @@ export type GQLSharedResourceArticleContainer_ArticleFragment = {
 
 export type GQLSubjectContainer_SubjectFragment = {
   __typename?: 'Subject';
-  grepCodes: Array<string>;
+  grepCodes?: Array<string>;
   metadata: { __typename?: 'TaxonomyMetadata'; customFields: any };
   topics?: Array<{
     __typename?: 'Topic';
@@ -3456,12 +3518,22 @@ export type GQLToolboxTopicWrapper_TopicFragment = {
   }>;
 } & GQLResources_TopicFragment;
 
-export type GQLFrontpageSubjectsQueryVariables = Exact<{
-  [key: string]: never;
-}>;
+export type GQLProgrammeFragmentFragment = {
+  __typename?: 'ProgrammePage';
+  id: string;
+  url: string;
+  title: { __typename?: 'Title'; title: string; language: string };
+  desktopImage?: { __typename?: 'MetaImage'; url: string; alt: string };
+  mobileImage?: { __typename?: 'MetaImage'; url: string; alt: string };
+};
 
-export type GQLFrontpageSubjectsQuery = {
+export type GQLFrontpageDataQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GQLFrontpageDataQuery = {
   __typename?: 'Query';
+  programmes?: Array<
+    { __typename?: 'ProgrammePage' } & GQLProgrammeFragmentFragment
+  >;
   subjects?: Array<{
     __typename?: 'Subject';
     id: string;
