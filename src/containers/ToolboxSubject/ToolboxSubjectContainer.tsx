@@ -268,8 +268,8 @@ ToolboxSubjectContainer.willTrackPageView = (
 
 ToolboxSubjectContainer.getDimensions = (props: Props) => {
   const { subject, topicList, user } = props;
-  const topicPath = topicList.map((t) =>
-    subject.allTopics?.find((topic) => topic.id === t),
+  const topicPath = topicList.map(
+    (t) => subject.allTopics?.find((topic) => topic.id === t),
   );
 
   return getAllDimensions({

@@ -124,8 +124,8 @@ const SubjectContainer = ({ t, topicIds, subject }: Props) => {
 
   const moveBannerUp = !topicIds?.length;
 
-  const topicPath = topicIds?.map((t) =>
-    subject.allTopics?.find((topic) => topic.id === t),
+  const topicPath = topicIds?.map(
+    (t) => subject.allTopics?.find((topic) => topic.id === t),
   );
 
   const topicTitle = topicPath?.[topicPath.length - 1]?.name;
@@ -246,8 +246,8 @@ SubjectContainer.willTrackPageView = (
 
 SubjectContainer.getDimensions = (props: Props) => {
   const { subject, topicIds, user } = props;
-  const topicPath = topicIds.map((t) =>
-    subject.allTopics?.find((topic) => topic.id === t),
+  const topicPath = topicIds.map(
+    (t) => subject.allTopics?.find((topic) => topic.id === t),
   );
 
   return getAllDimensions({
