@@ -6,7 +6,7 @@
  *
  */
 
-import { useContext } from 'react';
+import { useCallback, useContext, useMemo } from 'react';
 import { Masthead, MastheadItem, LanguageSelector, Logo } from '@ndla/ui';
 import styled from '@emotion/styled';
 import { breakpoints, mq } from '@ndla/core';
@@ -71,11 +71,20 @@ const MastheadContainer = () => {
 
   const data = freshData ?? previousData;
 
-  const alerts = openAlerts?.map((alert) => ({
-    content: alert.body || alert.title,
-    closable: alert.closable,
-    number: alert.number,
-  }));
+  const alerts = useMemo(
+    () =>
+      openAlerts?.map((alert) => ({
+        content: alert.body || alert.title,
+        closable: alert.closable,
+        number: alert.number,
+      })),
+    [openAlerts],
+  );
+
+  const onCloseAlert = useCallback(
+    (id: number) => closeAlert(id),
+    [closeAlert],
+  );
 
   return (
     <ErrorBoundary>
@@ -83,7 +92,7 @@ const MastheadContainer = () => {
         fixed
         ndlaFilm={ndlaFilm}
         skipToMainContentId={SKIP_TO_CONTENT_ID}
-        onCloseAlert={(id) => closeAlert(id)}
+        onCloseAlert={onCloseAlert}
         messages={alerts}
       >
         <MastheadItem left>

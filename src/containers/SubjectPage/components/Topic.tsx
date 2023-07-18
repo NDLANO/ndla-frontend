@@ -7,7 +7,7 @@
  */
 
 import { gql } from '@apollo/client';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Remarkable } from 'remarkable';
 import {
   CustomWithTranslation,
@@ -78,84 +78,99 @@ const Topic = ({
     return md;
   }, []);
   const ndlaFilm = useIsNdlaFilm();
-  const renderMarkdown = (text: string) => markdown.render(text);
+  const renderMarkdown = useCallback(
+    (text: string) => markdown.render(text),
+    [markdown],
+  );
+
+  const _toggleShowContent = useCallback(() => setShowContent((p) => !p), []);
+
+  const onToggleShowContent = useCallback(
+    () => (topic?.article?.content !== '' ? _toggleShowContent : undefined),
+    [_toggleShowContent, topic?.article?.content],
+  );
 
   useEffect(() => {
     setShowContent(false);
   }, [topicId]);
 
+  const image = useMemo(() => {
+    const article = topic.article;
+    if (!article) return;
+    if (article.visualElement?.resource === 'image') {
+      return {
+        url: article.visualElement.image?.src!,
+        alt: article.visualElement.image?.alt!,
+        crop: getCrop(article.visualElement.image!),
+        focalPoint: getFocalPoint(article.visualElement.image!),
+      };
+    } else if (article.metaImage) {
+      return {
+        url: article.metaImage.url,
+        alt: article?.metaImage.alt,
+      };
+    } else return undefined;
+  }, [topic.article]);
+
+  const transposedTopic: TopicProps | undefined = useMemo(() => {
+    const article = topic.article;
+    if (!article) return;
+    return {
+      topic: {
+        title: article.title,
+        introduction: article.introduction!,
+        image,
+        visualElement: article.visualElement
+          ? {
+              type: getResourceType(article.visualElement.resource),
+              element: (
+                <VisualElementWrapper
+                  visualElement={{
+                    ...article.visualElement,
+                    image: getImageWithoutCrop(article.visualElement.image),
+                  }}
+                />
+              ),
+            }
+          : undefined,
+        resources: topic.subtopics ? (
+          <Resources
+            topic={topic}
+            resourceTypes={resourceTypes}
+            headingType="h3"
+            subHeadingType="h4"
+          />
+        ) : undefined,
+      },
+    };
+  }, [image, resourceTypes, topic]);
+
+  const subTopics = useMemo(() => {
+    const topicPath = topic?.path
+      ?.split('/')
+      .slice(2)
+      .map((id) => `urn:${id}`);
+    return topic?.subtopics?.map((subtopic) => {
+      return {
+        ...subtopic,
+        label: subtopic.name,
+        selected: subtopic.id === subTopicId,
+        url: toTopic(subjectId, ...topicPath, subtopic.id),
+        isAdditionalResource: subtopic.relevanceId === RELEVANCE_SUPPLEMENTARY,
+      };
+    });
+  }, [subTopicId, subjectId, topic?.path, topic?.subtopics]);
+
   if (!topic.article) {
     return null;
   }
 
-  const { article } = topic;
-  const image =
-    article.visualElement?.resource === 'image'
-      ? {
-          url: article.visualElement.image?.src!,
-          alt: article.visualElement.image?.alt!,
-          crop: getCrop(article.visualElement.image!),
-          focalPoint: getFocalPoint(article.visualElement.image!),
-        }
-      : article.metaImage
-      ? {
-          url: article.metaImage.url,
-          alt: article?.metaImage.alt,
-        }
-      : undefined;
-  const transposedTopic: TopicProps = {
-    topic: {
-      title: article.title,
-      introduction: article.introduction!,
-      image,
-      visualElement: article.visualElement
-        ? {
-            type: getResourceType(article.visualElement.resource),
-            element: (
-              <VisualElementWrapper
-                visualElement={{
-                  ...article.visualElement,
-                  image: getImageWithoutCrop(article.visualElement.image),
-                }}
-              />
-            ),
-          }
-        : undefined,
-      resources: topic.subtopics ? (
-        <Resources
-          topic={topic}
-          resourceTypes={resourceTypes}
-          headingType="h3"
-          subHeadingType="h4"
-        />
-      ) : undefined,
-    },
-  };
-
-  const path = topic?.path || '';
-  const topicPath = path
-    ?.split('/')
-    .slice(2)
-    .map((id) => `urn:${id}`);
-
-  const subTopics = topic?.subtopics?.map((subtopic) => {
-    return {
-      ...subtopic,
-      label: subtopic.name,
-      selected: subtopic.id === subTopicId,
-      url: toTopic(subjectId, ...topicPath, subtopic.id),
-      isAdditionalResource: subtopic.relevanceId === RELEVANCE_SUPPLEMENTARY,
-    };
-  });
-
   return (
     <UITopic
       id={urnTopicId === topicId ? SKIP_TO_CONTENT_ID : undefined}
-      onToggleShowContent={
-        article.content !== '' ? () => setShowContent(!showContent) : undefined
-      }
+      onToggleShowContent={onToggleShowContent}
       showContent={showContent}
-      topic={transposedTopic.topic}
+      topic={transposedTopic?.topic}
       subTopics={subTopics}
       isLoading={false}
       renderMarkdown={renderMarkdown}

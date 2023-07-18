@@ -71,6 +71,8 @@ const FeideLoginButton = ({ footer, children }: Props) => {
 
   const onClose = useCallback(() => setIsOpen(false), []);
 
+  const onAuthenticateClick = useCallback(() => setIsOpen(true), []);
+
   if (authenticated && !footer) {
     return (
       <StyledLink
@@ -92,7 +94,7 @@ const FeideLoginButton = ({ footer, children }: Props) => {
         <Button
           variant={footer ? 'outline' : 'ghost'}
           colorTheme={footer ? 'greyLighter' : 'lighter'}
-          onClick={() => setIsOpen(true)}
+          onClick={onAuthenticateClick}
           inverted={!footer && ndlaFilm}
           shape={footer ? 'normal' : 'pill'}
         >

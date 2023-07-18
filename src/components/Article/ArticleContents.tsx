@@ -6,7 +6,7 @@
  *
  */
 
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { Remarkable } from 'remarkable';
 import { gql } from '@apollo/client';
 import {
@@ -50,9 +50,12 @@ const ArticleContents = ({
     return md;
   }, []);
 
-  const renderMarkdown = (text: string) => {
-    return markdown.render(text);
-  };
+  const renderMarkdown = useCallback(
+    (text: string) => {
+      return markdown.render(text);
+    },
+    [markdown],
+  );
 
   const [article, scripts] = useMemo(() => {
     if (!topic.article) return [undefined, undefined];
