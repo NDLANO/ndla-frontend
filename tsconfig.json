@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     /* Full property definition at https://aka.ms/tsconfig.json */
-    "target": "es5",
+    "target": "es6",
     "module": "commonjs",
     "lib": ["es2019", "esnext.asynciterable", "dom"],
     "jsx": "react-jsx",

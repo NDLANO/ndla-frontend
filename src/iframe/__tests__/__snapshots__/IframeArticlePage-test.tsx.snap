@@ -210,6 +210,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   display: -ms-flexbox;
   display: flex;
   gap: 12px;
+  padding-right: 6px;
 }
 
 .emotion-7 {
@@ -217,6 +218,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   font-weight: 700;
   -webkit-text-decoration: underline;
   text-decoration: underline;
+  white-space: nowrap;
   box-shadow: none;
 }
 
@@ -482,13 +484,13 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                     data-state="closed"
                   >
                     <button
-                      aria-controls="radix-0"
+                      aria-controls="radix-:r1:"
                       aria-expanded="false"
                       class="emotion-17 emotion-18 emotion-19"
                       data-orientation="vertical"
                       data-radix-collection-item=""
                       data-state="closed"
-                      id="radix-1"
+                      id="radix-:r0:"
                       type="button"
                     >
                       Regler for bruk
@@ -517,12 +519,12 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                     </button>
                   </h2>
                   <div
-                    aria-labelledby="radix-1"
+                    aria-labelledby="radix-:r0:"
                     class="emotion-22 emotion-23"
                     data-orientation="vertical"
                     data-state="closed"
                     hidden=""
-                    id="radix-0"
+                    id="radix-:r1:"
                     role="region"
                     style="--radix-accordion-content-height: var(--radix-collapsible-content-height); --radix-accordion-content-width: var(--radix-collapsible-content-width);"
                   />

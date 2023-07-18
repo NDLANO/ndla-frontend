@@ -118,6 +118,8 @@ export type ConfigType = {
   folderDescriptionEnabled: boolean;
   favoriteEmbedEnabled: boolean;
   filterInactiveContexts: boolean;
+  taxonomyProgrammesEnabled: boolean;
+  isVercel: boolean;
 };
 
 const config: ConfigType = {
@@ -155,13 +157,18 @@ const config: ConfigType = {
   matomoTagmanagerId: getEnvironmentVariabel('MATOMO_TAGMANAGER_ID', ''),
   folderDescriptionEnabled: getEnvironmentVariabel(
     'FOLDER_DESCRIPTION_ENABLED',
-    false,
+    true,
   ),
   favoriteEmbedEnabled: getEnvironmentVariabel('FAVORITE_EMBED_ENABLED', true),
   filterInactiveContexts: getEnvironmentVariabel(
     'FILTER_INACTIVE_CONTEXTS',
+    true,
+  ),
+  taxonomyProgrammesEnabled: getEnvironmentVariabel(
+    'TAXONOMY_PROGRAMMES_ENABLED',
     false,
   ),
+  isVercel: getEnvironmentVariabel('IS_VERCEL', false),
 };
 
 export function getUniversalConfig() {

@@ -10,6 +10,7 @@ import styled from '@emotion/styled';
 import { gql } from '@apollo/client';
 import {
   Hero,
+  HeroContent,
   HeroContentType,
   HomeBreadcrumb,
   NdlaFilmHero,
@@ -22,6 +23,7 @@ import {
 } from '../../../graphqlTypes';
 import { Breadcrumb as BreadcrumbType } from '../../../interfaces';
 import { useIsNdlaFilm } from '../../../routeHelpers';
+
 interface WrapperProps {
   children: ReactNode;
   resourceType?: HeroContentType;
@@ -44,6 +46,28 @@ const WrapperComponent = ({
 
   return <Hero contentType={resourceType}>{children}</Hero>;
 };
+
+const HeroBackground = styled.div`
+  position: absolute;
+  width: 100%;
+  img {
+    display: block;
+    width: 100%;
+    opacity: 0.4;
+    max-width: 1460px;
+    margin: 0 auto;
+  }
+
+  &:after {
+    content: '';
+    position: absolute;
+    display: block;
+    background-image: linear-gradient(#091a2a00, #091a2aff);
+    width: 100%;
+    height: 100px;
+    bottom: 0px;
+  }
+`;
 
 interface Props {
   subject?: GQLArticleHero_SubjectFragment;
@@ -69,13 +93,13 @@ const ArticleHero = ({
       resourceType={resourceType}
       metaImage={metaImage}
     >
-      {ndlaFilm && metaImage && metaImage.url && (
-        <div className="c-hero__background">
+      {ndlaFilm && metaImage?.url && (
+        <HeroBackground>
           <img src={metaImage.url} alt="" />
-        </div>
+        </HeroBackground>
       )}
       <OneColumn>
-        <div className="c-hero__content">
+        <HeroContent data-image={!!(ndlaFilm && metaImage?.url)}>
           <StyledSection>
             {subject && (
               <HomeBreadcrumb
@@ -84,7 +108,7 @@ const ArticleHero = ({
               />
             )}
           </StyledSection>
-        </div>
+        </HeroContent>
       </OneColumn>
     </WrapperComponent>
   );

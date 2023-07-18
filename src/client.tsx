@@ -31,11 +31,12 @@ import { createBrowserHistory, createMemoryHistory, History } from 'history';
 // @ts-ignore
 import queryString from 'query-string';
 import { ReactNode, useEffect, useLayoutEffect, useRef, useState } from 'react';
-import ReactDOM from 'react-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { I18nextProvider, useTranslation } from 'react-i18next';
 import { Router } from 'react-router-dom';
+import { createRoot, hydrateRoot } from 'react-dom/client';
 import App from './App';
+import { TaxonomyStructureProvider } from './components/TaxonomyStructureContext';
 import { VersionHashProvider } from './components/VersionHashContext';
 import { getDefaultLocale } from './config';
 import { EmotionCacheKey, STORED_LANGUAGE_COOKIE_KEY } from './constants';
@@ -62,7 +63,10 @@ const { basepath, abbreviation } = getLocaleInfoFromPath(serverPath ?? '');
 const paths = window.location.pathname.split('/');
 const basename = isValidLocale(paths[1] ?? '') ? `${paths[1]}` : undefined;
 
-const { versionHash } = queryString.parse(window.location.search);
+const { versionHash, taxStructure } = queryString.parse(window.location.search);
+const taxStructureValue = taxStructure?.length
+  ? taxStructure === 'true'
+  : config.taxonomyProgrammesEnabled;
 
 const serverQueryString = decodeURIComponent(
   queryString.stringify(serverQuery),
@@ -93,9 +97,6 @@ window.errorReporter = ErrorReporter.getInstance({
   componentName: config.componentName,
   ignoreUrls: [/https:\/\/.*hotjar\.com.*/],
 });
-
-window.hasHydrated = false;
-const renderOrHydrate = config.disableSSR ? ReactDOM.render : ReactDOM.hydrate;
 
 const client = createApolloClient(storedLanguage, versionHash);
 const cache = createCache({ key: EmotionCacheKey });
@@ -247,25 +248,32 @@ const LanguageWrapper = ({ basename }: { basename?: string }) => {
 
 removeUniversalPortals();
 
+const renderOrHydrate = (container: HTMLElement, children: ReactNode) => {
+  if (config.disableSSR) {
+    const root = createRoot(container);
+    root.render(children);
+  } else {
+    hydrateRoot(container, children);
+  }
+};
+
 renderOrHydrate(
-  <HelmetProvider>
-    <I18nextProvider i18n={i18n}>
-      <ApolloProvider client={client}>
-        <CacheProvider value={cache}>
-          <VersionHashProvider value={versionHash}>
-            <IsMobileContext.Provider value={isMobile}>
-              <LanguageWrapper basename={basename} />
-            </IsMobileContext.Provider>
-          </VersionHashProvider>
-        </CacheProvider>
-      </ApolloProvider>
-    </I18nextProvider>
-  </HelmetProvider>,
-  document.getElementById('root'),
-  () => {
-    // See: /src/util/transformArticle.js for info on why this is needed.
-    window.hasHydrated = true;
-  },
+  document.getElementById('root')!,
+  <TaxonomyStructureProvider value={taxStructureValue}>
+    <HelmetProvider>
+      <I18nextProvider i18n={i18n}>
+        <ApolloProvider client={client}>
+          <CacheProvider value={cache}>
+            <VersionHashProvider value={versionHash}>
+              <IsMobileContext.Provider value={isMobile}>
+                <LanguageWrapper basename={basename} />
+              </IsMobileContext.Provider>
+            </VersionHashProvider>
+          </CacheProvider>
+        </ApolloProvider>
+      </I18nextProvider>
+    </HelmetProvider>
+  </TaxonomyStructureProvider>,
 );
 
 if (module.hot) {

@@ -68,15 +68,15 @@ export const searchQuery = gql`
           breadcrumbs
           relevance
           language
-          learningResourceType
+          contextType
           path
           resourceTypes {
             id
             name
             language
           }
-          subject
-          subjectId
+          root
+          rootId
           relevance
         }
         supportedLanguages
@@ -113,14 +113,14 @@ export const searchFilmQuery = gql`
       breadcrumbs
       relevance
       language
-      learningResourceType
+      contextType
       path
       resourceTypes {
         id
         name
         language
       }
-      subject
+      root
     }
     supportedLanguages
     traits
@@ -138,14 +138,14 @@ export const searchFilmQuery = gql`
       breadcrumbs
       relevance
       language
-      learningResourceType
+      contextType
       path
       resourceTypes {
         id
         name
         language
       }
-      subject
+      root
     }
     supportedLanguages
     traits
@@ -199,8 +199,8 @@ export const GroupSearchResourceFragment = gql`
       language
       path
       breadcrumbs
-      subjectId
-      subject
+      rootId
+      root
       relevance
       resourceTypes {
         id
@@ -547,7 +547,10 @@ export const subjectsQuery = gql`
 export const movedResourceQuery = gql`
   query movedResource($resourceId: String!) {
     resource(id: $resourceId) {
-      breadcrumbs
+      contexts {
+        path
+        breadcrumbs
+      }
     }
   }
 `;

@@ -61,7 +61,9 @@ const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
 
   return (
     <MediaListItem>
-      <MediaListItemImage>
+      <MediaListItemImage
+        canOpen={!isCopyrighted(audio.copyright.license.license)}
+      >
         {isCopyrighted(audio.copyright.license.license) ? (
           <AudioDocument className="c-medialist__icon" />
         ) : (

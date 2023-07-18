@@ -141,7 +141,7 @@ const PodcastSeriesPage = () => {
       url: url,
       name: podcastSeries.title.title,
       abstract: podcastSeries.description.description,
-      webFeed: rssUrl,
+      webFeed: podcastSeries.hasRSS && rssUrl,
       image: podcastSeries.coverPhoto.url,
       acquireLicensePage: AcquireLicensePage,
       ...publisher,
@@ -180,12 +180,14 @@ const PodcastSeriesPage = () => {
             content={podcastSeries.description.description}
           />
         )}
-        <link
-          type="application/rss+xml"
-          rel="alternate"
-          title={podcastSeries.title.title}
-          href={rssUrl}
-        />
+        {podcastSeries.hasRSS && (
+          <link
+            type="application/rss+xml"
+            rel="alternate"
+            title={podcastSeries.title.title}
+            href={rssUrl}
+          />
+        )}
         <script type="application/ld+json">{podcastSeriesJSONLd()}</script>
       </HelmetWithTracker>
       <SocialMediaMetadata
@@ -245,6 +247,7 @@ const podcastSeriesPageQuery = gql`
           tags
         }
       }
+      hasRSS
     }
   }
 `;

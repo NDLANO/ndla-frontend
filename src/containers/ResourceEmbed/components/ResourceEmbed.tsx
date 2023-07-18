@@ -117,6 +117,23 @@ const metaToProperties = (
   }
 };
 
+const hasLicensedContent = (meta: GQLResourceEmbedLicenseBox_MetaFragment) => {
+  if (meta.h5ps?.some((value) => value.copyright)) {
+    return true;
+  } else if (meta.images?.some((val) => val.copyright)) {
+    return true;
+  } else if (meta.audios?.some((val) => val.copyright)) {
+    return true;
+  } else if (meta.concepts?.some((val) => val.copyright)) {
+    return true;
+  } else if (meta.brightcoves?.some((val) => val.copyright)) {
+    return true;
+  } else if (meta.podcasts?.some((val) => val.copyright)) {
+    return true;
+  }
+  return false;
+};
+
 const ResourceEmbed = ({ id, type, noBackground, isOembed }: Props) => {
   const { t } = useTranslation();
 
@@ -177,16 +194,19 @@ const ResourceEmbed = ({ id, type, noBackground, isOembed }: Props) => {
         >
           {transformedContent}
           <AccordionRoot type="single" collapsible>
-            {data?.resourceEmbed.meta && (
-              <AccordionItem value="rulesForUse">
-                <StyledAccordionHeader>
-                  {t('article.useContent')}
-                </StyledAccordionHeader>
-                <AccordionContent>
-                  <ResourceEmbedLicenseBox metaData={data.resourceEmbed.meta} />
-                </AccordionContent>
-              </AccordionItem>
-            )}
+            {data?.resourceEmbed.meta &&
+              hasLicensedContent(data.resourceEmbed.meta) && (
+                <AccordionItem value="rulesForUse">
+                  <StyledAccordionHeader>
+                    {t('article.useContent')}
+                  </StyledAccordionHeader>
+                  <AccordionContent>
+                    <ResourceEmbedLicenseBox
+                      metaData={data.resourceEmbed.meta}
+                    />
+                  </AccordionContent>
+                </AccordionItem>
+              )}
           </AccordionRoot>
           {isOembed && (
             <CreatedByWrapper>
