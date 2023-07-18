@@ -1,11 +1,15 @@
 module.exports = {
   presets: [
+    '@babel/preset-typescript',
     [
-      'razzle',
+      '@babel/preset-react',
+      { runtime: 'automatic', importSource: '@emotion/react' },
+    ],
+    [
+      '@babel/preset-env',
       {
-        'preset-react': {
-          runtime: 'automatic',
-          importSource: '@emotion/react',
+        targets: {
+          browsers: ['> 0.25%', 'supports es6-module', 'not dead'],
         },
       },
     ],
@@ -14,10 +18,9 @@ module.exports = {
   plugins: [
     ['@emotion', { autoLabel: 'always' }],
     'graphql-tag',
-    '@babel/plugin-proposal-optional-chaining',
     process.env.BABEL_ENV === 'development' &&
     process.env.BUILD_TARGET === 'client'
       ? 'react-refresh/babel'
       : false,
-  ].filter(e => !!e),
+  ].filter((e) => !!e),
 };
