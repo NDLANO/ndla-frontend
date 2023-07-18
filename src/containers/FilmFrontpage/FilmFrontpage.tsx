@@ -89,9 +89,8 @@ const FilmFrontpage = ({
   );
 
   const onChangeResourceType = (resourceType?: string) => {
-    const placeholderHeight = `${
-      movieListRef.current?.getBoundingClientRect().height
-    }px`;
+    const placeholderHeight = `${movieListRef.current?.getBoundingClientRect()
+      .height}px`;
 
     if (resourceType) {
       onSelectedMovieByType(resourceType);
