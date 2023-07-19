@@ -53,6 +53,7 @@ export type GQLArticle = {
   revision: Scalars['Int'];
   revisionDate?: Maybe<Scalars['String']>;
   slug?: Maybe<Scalars['String']>;
+  stringifiedVisualElement?: Maybe<Scalars['String']>;
   supportedLanguages?: Maybe<Array<Scalars['String']>>;
   tags?: Maybe<Array<Scalars['String']>>;
   title: Scalars['String'];
@@ -1863,78 +1864,6 @@ export type GQLSubjectLinkListSubjectFragment = {
   name: string;
 };
 
-export type GQLVisualElement_VisualElementFragment = {
-  __typename?: 'VisualElement';
-  url?: string;
-  title?: string;
-  image?: {
-    __typename?: 'ImageElement';
-    alt?: string;
-    altText: string;
-    src: string;
-    focalX?: number;
-    focalY?: number;
-    lowerRightX?: number;
-    lowerRightY?: number;
-    upperLeftX?: number;
-    upperLeftY?: number;
-  };
-  oembed?: {
-    __typename?: 'VisualElementOembed';
-    html?: string;
-    fullscreen?: boolean;
-    title?: string;
-  };
-  brightcove?: {
-    __typename?: 'BrightcoveElement';
-    iframe?: { __typename?: 'BrightcoveIframe'; height: number; width: number };
-  };
-  h5p?: { __typename?: 'H5pElement'; src?: string };
-};
-
-export type GQLVisualElementLicenseButtons_VisualElementFragment = {
-  __typename?: 'VisualElement';
-  copyright?: {
-    __typename?: 'Copyright';
-    license: { __typename?: 'License'; license: string };
-  };
-  image?: { __typename?: 'ImageElement'; src: string; copyText?: string };
-  brightcove?: {
-    __typename?: 'BrightcoveElement';
-    download?: string;
-    iframe?: {
-      __typename?: 'BrightcoveIframe';
-      width: number;
-      height: number;
-      src: string;
-    };
-  };
-};
-
-export type GQLVisualElementWrapper_VisualElementFragment = {
-  __typename?: 'VisualElement';
-  resource?: string;
-  copyright?: {
-    __typename?: 'Copyright';
-    origin?: string;
-    license: { __typename?: 'License'; license: string };
-    creators: Array<{ __typename?: 'Contributor'; name: string; type: string }>;
-    processors: Array<{
-      __typename?: 'Contributor';
-      name: string;
-      type: string;
-    }>;
-    rightsholders: Array<{
-      __typename?: 'Contributor';
-      name: string;
-      type: string;
-    }>;
-  };
-  image?: { __typename?: 'ImageElement'; caption?: string };
-  brightcove?: { __typename?: 'BrightcoveElement'; caption?: string };
-} & GQLVisualElement_VisualElementFragment &
-  GQLVisualElementLicenseButtons_VisualElementFragment;
-
 export type GQLAudioLicenseList_AudioLicenseFragment = {
   __typename?: 'AudioLicense';
   id: string;
@@ -2450,10 +2379,8 @@ export type GQLMultidisciplinaryTopic_TopicFragment = {
   subtopics?: Array<{ __typename?: 'Topic'; id: string; name: string }>;
   article?: {
     __typename?: 'Article';
+    stringifiedVisualElement?: string;
     metaImage?: { __typename?: 'MetaImage'; url: string; alt: string };
-    visualElement?: {
-      __typename?: 'VisualElement';
-    } & GQLVisualElementWrapper_VisualElementFragment;
   };
 } & GQLArticleContents_TopicFragment &
   GQLResources_TopicFragment;
@@ -3357,11 +3284,9 @@ export type GQLTopic_TopicFragment = {
   }>;
   article?: {
     __typename?: 'Article';
+    stringifiedVisualElement?: string;
     revisionDate?: string;
     metaImage?: { __typename?: 'MetaImage'; url: string; alt: string };
-    visualElement?: {
-      __typename?: 'VisualElement';
-    } & GQLVisualElementWrapper_VisualElementFragment;
   };
 } & GQLArticleContents_TopicFragment &
   GQLResources_TopicFragment;
@@ -3474,6 +3399,7 @@ export type GQLToolboxTopicWrapper_TopicFragment = {
     __typename?: 'Article';
     title: string;
     introduction?: string;
+    stringifiedVisualElement?: string;
     copyright: {
       __typename?: 'Copyright';
       license: { __typename?: 'License'; license: string };
@@ -3494,21 +3420,6 @@ export type GQLToolboxTopicWrapper_TopicFragment = {
       }>;
     };
     metaImage?: { __typename?: 'MetaImage'; alt: string; url: string };
-    visualElement?: {
-      __typename?: 'VisualElement';
-      resource?: string;
-      image?: {
-        __typename?: 'ImageElement';
-        src: string;
-        alt?: string;
-        lowerRightX?: number;
-        lowerRightY?: number;
-        upperLeftX?: number;
-        upperLeftY?: number;
-        focalX?: number;
-        focalY?: number;
-      };
-    } & GQLVisualElementWrapper_VisualElementFragment;
   };
   subtopics?: Array<{
     __typename?: 'Topic';
@@ -3855,9 +3766,10 @@ export type GQLGroupSearchQuery = {
     competenceGoalSet?: { __typename?: 'Reference'; id: string; title: string };
   }>;
   coreElements?: Array<{
-    __typename: 'CoreElement';
-    title: string;
+    __typename?: 'CoreElement';
     id: string;
+    title: string;
+    text?: string;
   }>;
 };
 

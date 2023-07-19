@@ -55,8 +55,6 @@ export type LocaleType = (typeof LocaleValues)[number];
 
 export type Breadcrumb = { to: string; name: string };
 
-export type ResourceType = 'image' | 'other' | 'video';
-
 export type CompetenceGoalsType = 'LK06' | 'LK20';
 
 export type HeadingType = 'h1' | 'h2' | 'h3' | 'h4' | 'h5';

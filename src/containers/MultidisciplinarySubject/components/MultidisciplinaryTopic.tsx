@@ -7,21 +7,18 @@
  */
 import { gql } from '@apollo/client';
 import { withTracker } from '@ndla/tracker';
-import { FeideUserApiType, Topic as UITopic, TopicProps } from '@ndla/ui';
+import { FeideUserApiType, Topic as UITopic } from '@ndla/ui';
 import { useEffect, useMemo, useState } from 'react';
 import { Remarkable } from 'remarkable';
 import { CustomWithTranslation, withTranslation } from 'react-i18next';
 
+import { extractEmbedMeta } from '@ndla/article-converter';
 import ArticleContents from '../../../components/Article/ArticleContents';
-import VisualElementWrapper, {
-  getResourceType,
-} from '../../../components/VisualElement/VisualElementWrapper';
 import {
   GQLMultidisciplinaryTopic_SubjectFragment,
   GQLMultidisciplinaryTopic_TopicFragment,
 } from '../../../graphqlTypes';
 import { toTopic, useIsNdlaFilm, useUrnIds } from '../../../routeHelpers';
-import { getCrop, getFocalPoint } from '../../../util/imageHelpers';
 import { htmlTitle } from '../../../util/titleHelper';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import Resources from '../../Resources/Resources';
@@ -65,6 +62,12 @@ const MultidisciplinaryTopic = ({
   }, []);
   const renderMarkdown = (text: string) => markdown.render(text);
 
+  const embedMeta = useMemo(() => {
+    if (!topic.article?.stringifiedVisualElement) return undefined;
+    const embedMeta = extractEmbedMeta(topic.article.stringifiedVisualElement);
+    return embedMeta;
+  }, [topic?.article?.stringifiedVisualElement]);
+
   const topicPath = topic.path
     ?.split('/')
     .slice(2)
@@ -77,41 +80,11 @@ const MultidisciplinaryTopic = ({
       url: toTopic(subjectId, ...(topicPath ?? []), item.id),
     })) ?? [];
 
-  const toTopicProps = (
-    article: GQLMultidisciplinaryTopic_TopicFragment['article'],
-  ): TopicProps | undefined => {
-    if (!article) return;
-    const image =
-      article?.visualElement?.resource === 'image' &&
-      article.visualElement.image
-        ? {
-            url: article.visualElement.image?.src ?? '',
-            alt: article.visualElement.image?.alt ?? '',
-            crop: getCrop(article.visualElement.image),
-            focalPoint: getFocalPoint(article.visualElement.image),
-          }
-        : {
-            url: article?.metaImage?.url ?? '',
-            alt: article?.metaImage?.alt ?? '',
-          };
-    return {
-      topic: {
-        title: article.title,
-        introduction: article.introduction ?? '',
-        image,
-        visualElement: article.visualElement
-          ? {
-              type: getResourceType(article.visualElement.resource),
-              element: (
-                <VisualElementWrapper visualElement={article.visualElement} />
-              ),
-            }
-          : undefined,
-      },
-    };
-  };
-
   const { article } = topic;
+
+  if (!article) {
+    return null;
+  }
 
   return (
     <UITopic
@@ -120,11 +93,14 @@ const MultidisciplinaryTopic = ({
           ? SKIP_TO_CONTENT_ID
           : undefined
       }
+      title={article.title}
+      introduction={article.introduction ?? ''}
+      metaImage={article.metaImage}
+      visualElementEmbedMeta={embedMeta}
       onToggleShowContent={
         article?.content !== '' ? () => setShowContent(!showContent) : undefined
       }
       showContent={showContent}
-      topic={toTopicProps(article)?.topic}
       subTopics={!disableNav ? subTopics : undefined}
       isLoading={false}
       renderMarkdown={renderMarkdown}
@@ -153,14 +129,11 @@ export const multidisciplinaryTopicFragments = {
           url
           alt
         }
-        visualElement {
-          ...VisualElementWrapper_VisualElement
-        }
+        stringifiedVisualElement
       }
       ...ArticleContents_Topic
       ...Resources_Topic
     }
-    ${VisualElementWrapper.fragments.visualElement}
     ${Resources.fragments.topic}
     ${ArticleContents.fragments.topic}
   `,
@@ -193,9 +166,8 @@ MultidisciplinaryTopic.getDimensions = (props: Props) => {
   const topicPath = topic.path
     ?.split('/')
     .slice(2)
-    .map(
-      (t) =>
-        subject.allTopics?.find((topic) => topic.id.replace('urn:', '') === t),
+    .map((t) =>
+      subject.allTopics?.find((topic) => topic.id.replace('urn:', '') === t),
     );
 
   return getAllDimensions(
