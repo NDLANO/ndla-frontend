@@ -112,7 +112,10 @@ const SearchHeader = ({
 
   const handleFilterRemove = (value: string) => {
     onFilterValueChange(
-      competenceGoals.filter((e) => e.id !== value).map((e) => e.id),
+      competenceGoals
+        .filter((e) => e.id !== value)
+        .map((e) => e.id)
+        .concat(coreElements.filter((e) => e.id !== value).map((e) => e.id)),
       subjectIds.filter((id) => id !== value),
     );
     setActiveFilters(activeFilters.filter((filter) => filter.value !== value));
