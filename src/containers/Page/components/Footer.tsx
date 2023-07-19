@@ -15,7 +15,7 @@ import {
   Youtube,
 } from '@ndla/icons/common';
 import { useTranslation } from 'react-i18next';
-import { useMemo } from 'react';
+import { memo, useMemo } from 'react';
 import { supportedLanguages } from '../../../i18n';
 
 const FooterWrapper = () => {
@@ -90,4 +90,4 @@ const FooterWrapper = () => {
   );
 };
 
-export default FooterWrapper;
+export default memo(FooterWrapper);

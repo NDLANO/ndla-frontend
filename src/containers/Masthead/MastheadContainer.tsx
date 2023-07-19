@@ -54,7 +54,6 @@ const mastheadQuery = gql`
 
 const MastheadContainer = () => {
   const { t, i18n } = useTranslation();
-  const locale = i18n.language;
   const { subjectId } = useUrnIds();
   const { user } = useContext(AuthContext);
   const { openAlerts, closeAlert } = useAlerts();
@@ -69,7 +68,10 @@ const MastheadContainer = () => {
     skip: !subjectId,
   });
 
-  const data = freshData ?? previousData;
+  const data = useMemo(
+    () => freshData ?? previousData,
+    [freshData, previousData],
+  );
 
   const alerts = useMemo(
     () =>
@@ -121,7 +123,7 @@ const MastheadContainer = () => {
           <MastheadSearch subject={data?.subject} hideOnNarrowScreen />
           <Logo
             to="/"
-            locale={locale}
+            locale={i18n.language}
             label={t('logo.altText')}
             cssModifier={ndlaFilm ? 'white' : ''}
           />
