@@ -317,6 +317,10 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   font-size: calc(0.8888888888888888rem * 1.11);
 }
 
+.emotion-18[data-background-color='white'] {
+  background-color: #ffffff;
+}
+
 .emotion-20 {
   color: #20588f;
   -webkit-transition: all 200ms ease-in-out;
@@ -487,6 +491,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                       aria-controls="radix-:r1:"
                       aria-expanded="false"
                       class="emotion-17 emotion-18 emotion-19"
+                      data-background-color="blue"
                       data-orientation="vertical"
                       data-radix-collection-item=""
                       data-state="closed"
@@ -508,7 +513,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                       >
                         <g>
                           <path
-                            d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
+                            d="M16.6 8.6 12 13.2 7.4 8.6 6 10l6 6 6-6z"
                           />
                           <path
                             d="M0 0h24v24H0z"
