@@ -38,6 +38,7 @@ import { GQLSubjectContainer_SubjectFragment } from '../../graphqlTypes';
 import {
   SKIP_TO_CONTENT_ID,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
+  TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE,
 } from '../../constants';
 import { removeUrn, useIsNdlaFilm } from '../../routeHelpers';
@@ -123,8 +124,8 @@ const SubjectContainer = ({ t, topicIds, subject }: Props) => {
 
   const moveBannerUp = !topicIds?.length;
 
-  const topicPath = topicIds?.map((t) =>
-    subject.allTopics?.find((topic) => topic.id === t),
+  const topicPath = topicIds?.map(
+    (t) => subject.allTopics?.find((topic) => topic.id === t),
   );
 
   const topicTitle = topicPath?.[topicPath.length - 1]?.name;
@@ -152,13 +153,15 @@ const SubjectContainer = ({ t, topicIds, subject }: Props) => {
   const supportedLanguages =
     topicsOnPage[topicsOnPage.length - 1]?.supportedLanguages;
 
+  const customFields = subject?.metadata.customFields || {};
+
   const nonRegularSubjectMessage = getSubjectCategoryMessage(
-    subject.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY],
+    customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY],
     t,
   );
 
   const nonRegularSubjectTypeMessage = getSubjectTypeMessage(
-    subject.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE],
+    customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE],
     t,
   );
 
@@ -166,11 +169,10 @@ const SubjectContainer = ({ t, topicIds, subject }: Props) => {
     <main>
       <Helmet>
         <title>{pageTitle}</title>
-        {subject?.metadata.customFields?.[
-          TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY
-        ] === constants.subjectCategories.ARCHIVE_SUBJECTS && (
-          <meta name="robots" content="noindex, nofollow" />
-        )}
+        {(customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] ===
+          constants.subjectCategories.ARCHIVE_SUBJECTS ||
+          customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] ===
+            'true') && <meta name="robots" content="noindex, nofollow" />}
       </Helmet>
       <OneColumn>
         <LayoutItem layout="extend">
@@ -244,8 +246,8 @@ SubjectContainer.willTrackPageView = (
 
 SubjectContainer.getDimensions = (props: Props) => {
   const { subject, topicIds, user } = props;
-  const topicPath = topicIds.map((t) =>
-    subject.allTopics?.find((topic) => topic.id === t),
+  const topicPath = topicIds.map(
+    (t) => subject.allTopics?.find((topic) => topic.id === t),
   );
 
   return getAllDimensions({

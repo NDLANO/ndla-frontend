@@ -36,6 +36,7 @@ import { I18nextProvider, useTranslation } from 'react-i18next';
 import { Router } from 'react-router-dom';
 import { createRoot, hydrateRoot } from 'react-dom/client';
 import App from './App';
+import { TaxonomyStructureProvider } from './components/TaxonomyStructureContext';
 import { VersionHashProvider } from './components/VersionHashContext';
 import { getDefaultLocale } from './config';
 import { EmotionCacheKey, STORED_LANGUAGE_COOKIE_KEY } from './constants';
@@ -62,7 +63,10 @@ const { basepath, abbreviation } = getLocaleInfoFromPath(serverPath ?? '');
 const paths = window.location.pathname.split('/');
 const basename = isValidLocale(paths[1] ?? '') ? `${paths[1]}` : undefined;
 
-const { versionHash } = queryString.parse(window.location.search);
+const { versionHash, taxStructure } = queryString.parse(window.location.search);
+const taxStructureValue = taxStructure?.length
+  ? taxStructure === 'true'
+  : config.taxonomyProgrammesEnabled;
 
 const serverQueryString = decodeURIComponent(
   queryString.stringify(serverQuery),
@@ -255,19 +259,21 @@ const renderOrHydrate = (container: HTMLElement, children: ReactNode) => {
 
 renderOrHydrate(
   document.getElementById('root')!,
-  <HelmetProvider>
-    <I18nextProvider i18n={i18n}>
-      <ApolloProvider client={client}>
-        <CacheProvider value={cache}>
-          <VersionHashProvider value={versionHash}>
-            <IsMobileContext.Provider value={isMobile}>
-              <LanguageWrapper basename={basename} />
-            </IsMobileContext.Provider>
-          </VersionHashProvider>
-        </CacheProvider>
-      </ApolloProvider>
-    </I18nextProvider>
-  </HelmetProvider>,
+  <TaxonomyStructureProvider value={taxStructureValue}>
+    <HelmetProvider>
+      <I18nextProvider i18n={i18n}>
+        <ApolloProvider client={client}>
+          <CacheProvider value={cache}>
+            <VersionHashProvider value={versionHash}>
+              <IsMobileContext.Provider value={isMobile}>
+                <LanguageWrapper basename={basename} />
+              </IsMobileContext.Provider>
+            </VersionHashProvider>
+          </CacheProvider>
+        </ApolloProvider>
+      </I18nextProvider>
+    </HelmetProvider>
+  </TaxonomyStructureProvider>,
 );
 
 if (module.hot) {

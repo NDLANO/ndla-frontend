@@ -42,6 +42,7 @@ export const TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES = 'topic-resources';
 export const TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE = 'ungrouped';
 export const TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY = 'subjectCategory';
 export const TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE = 'subjectType';
+export const TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT = 'forklaringsfag';
 export const OLD_SUBJECT_PAGE_REDIRECT_CUSTOM_FIELD = 'old-subject-id';
 
 export const LocaleValues = ['nb', 'nn', 'en', 'se'] as const;

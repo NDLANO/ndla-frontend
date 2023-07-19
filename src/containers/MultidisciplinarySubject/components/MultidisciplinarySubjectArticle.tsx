@@ -223,8 +223,9 @@ MultidisciplinarySubjectArticle.getDimensions = (props: Props) => {
   const topicPath = topic.path
     ?.split('/')
     .slice(2)
-    .map((t) =>
-      subject.allTopics?.find((topic) => topic.id.replace('urn:', '') === t),
+    .map(
+      (t) =>
+        subject.allTopics?.find((topic) => topic.id.replace('urn:', '') === t),
     );
 
   return getAllDimensions(

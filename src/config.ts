@@ -118,6 +118,8 @@ export type ConfigType = {
   folderDescriptionEnabled: boolean;
   favoriteEmbedEnabled: boolean;
   filterInactiveContexts: boolean;
+  taxonomyProgrammesEnabled: boolean;
+  isVercel: boolean;
 };
 
 const config: ConfigType = {
@@ -162,6 +164,11 @@ const config: ConfigType = {
     'FILTER_INACTIVE_CONTEXTS',
     true,
   ),
+  taxonomyProgrammesEnabled: getEnvironmentVariabel(
+    'TAXONOMY_PROGRAMMES_ENABLED',
+    false,
+  ),
+  isVercel: getEnvironmentVariabel('IS_VERCEL', false),
 };
 
 export function getUniversalConfig() {

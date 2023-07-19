@@ -52,6 +52,7 @@ export type GQLArticle = {
   requiredLibraries?: Maybe<Array<GQLArticleRequiredLibrary>>;
   revision: Scalars['Int'];
   revisionDate?: Maybe<Scalars['String']>;
+  slug?: Maybe<Scalars['String']>;
   supportedLanguages?: Maybe<Array<Scalars['String']>>;
   tags?: Maybe<Array<Scalars['String']>>;
   title: Scalars['String'];
@@ -233,8 +234,10 @@ export type GQLCaption = {
 
 export type GQLCategory = {
   __typename?: 'Category';
-  name: Scalars['String'];
-  subjects: Array<GQLSubject>;
+  id: Scalars['String'];
+  isProgrammeSubject: Scalars['Boolean'];
+  subjects?: Maybe<Array<GQLSubject>>;
+  title: GQLTitle;
 };
 
 export type GQLCompetenceGoal = {
@@ -462,8 +465,8 @@ export type GQLFrontPageResources = {
 
 export type GQLFrontpage = {
   __typename?: 'Frontpage';
-  categories: Array<GQLCategory>;
-  topical: Array<GQLResource>;
+  article?: Maybe<GQLArticle>;
+  menu: Array<Maybe<GQLMenu>>;
 };
 
 export type GQLFrontpageSearch = {
@@ -474,12 +477,19 @@ export type GQLFrontpageSearch = {
 
 export type GQLFrontpageSearchResult = {
   __typename?: 'FrontpageSearchResult';
-  filters: Array<GQLSearchContextFilter>;
   id: Scalars['String'];
   name: Scalars['String'];
   path: Scalars['String'];
   resourceTypes: Array<GQLSearchContextResourceTypes>;
   subject: Scalars['String'];
+};
+
+export type GQLGrade = {
+  __typename?: 'Grade';
+  categories?: Maybe<Array<GQLCategory>>;
+  id: Scalars['String'];
+  title: GQLTitle;
+  url: Scalars['String'];
 };
 
 export type GQLGroupSearch = {
@@ -716,6 +726,13 @@ export type GQLManuscript = {
   manuscript: Scalars['String'];
 };
 
+export type GQLMenu = {
+  __typename?: 'Menu';
+  menu: Array<Maybe<GQLMenu>>;
+  slug?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+};
+
 export type GQLMeta = {
   __typename?: 'Meta';
   availability?: Maybe<Scalars['String']>;
@@ -896,6 +913,7 @@ export type GQLPodcastSeries = GQLPodcastSeriesBase & {
   __typename?: 'PodcastSeries';
   coverPhoto: GQLCoverPhoto;
   description: GQLDescription;
+  hasRSS: Scalars['Boolean'];
   id: Scalars['Int'];
   supportedLanguages: Array<Scalars['String']>;
   title: GQLTitle;
@@ -904,6 +922,7 @@ export type GQLPodcastSeries = GQLPodcastSeriesBase & {
 export type GQLPodcastSeriesBase = {
   coverPhoto: GQLCoverPhoto;
   description: GQLDescription;
+  hasRSS: Scalars['Boolean'];
   id: Scalars['Int'];
   supportedLanguages: Array<Scalars['String']>;
   title: GQLTitle;
@@ -933,9 +952,22 @@ export type GQLPodcastSeriesWithEpisodes = GQLPodcastSeriesBase & {
   coverPhoto: GQLCoverPhoto;
   description: GQLDescription;
   episodes?: Maybe<Array<GQLAudio>>;
+  hasRSS: Scalars['Boolean'];
   id: Scalars['Int'];
   supportedLanguages: Array<Scalars['String']>;
   title: GQLTitle;
+};
+
+export type GQLProgrammePage = {
+  __typename?: 'ProgrammePage';
+  contentUri?: Maybe<Scalars['String']>;
+  desktopImage?: Maybe<GQLMetaImage>;
+  grades?: Maybe<Array<GQLGrade>>;
+  id: Scalars['String'];
+  metaDescription?: Maybe<Scalars['String']>;
+  mobileImage?: Maybe<GQLMetaImage>;
+  title: GQLTitle;
+  url: Scalars['String'];
 };
 
 export type GQLQuery = {
@@ -966,6 +998,8 @@ export type GQLQuery = {
   podcastSearch?: Maybe<GQLAudioSearch>;
   podcastSeries?: Maybe<GQLPodcastSeriesWithEpisodes>;
   podcastSeriesSearch?: Maybe<GQLPodcastSeriesSearch>;
+  programme?: Maybe<GQLProgrammePage>;
+  programmes?: Maybe<Array<GQLProgrammePage>>;
   resource?: Maybe<GQLResource>;
   resourceEmbed: GQLResourceEmbed;
   resourceTypes?: Maybe<Array<GQLResourceTypeDefinition>>;
@@ -1013,6 +1047,7 @@ export type GQLQueryConceptArgs = {
 };
 
 export type GQLQueryConceptSearchArgs = {
+  conceptType?: InputMaybe<Scalars['String']>;
   exactMatch?: InputMaybe<Scalars['Boolean']>;
   fallback?: InputMaybe<Scalars['Boolean']>;
   ids?: InputMaybe<Array<Scalars['Int']>>;
@@ -1098,6 +1133,10 @@ export type GQLQueryPodcastSeriesSearchArgs = {
   fallback?: InputMaybe<Scalars['Boolean']>;
   page: Scalars['Int'];
   pageSize: Scalars['Int'];
+};
+
+export type GQLQueryProgrammeArgs = {
+  path?: InputMaybe<Scalars['String']>;
 };
 
 export type GQLQueryResourceArgs = {
@@ -1194,8 +1233,9 @@ export type GQLResource = GQLTaxonomyEntity &
     __typename?: 'Resource';
     article?: Maybe<GQLArticle>;
     availability?: Maybe<Scalars['String']>;
-    breadcrumbs?: Maybe<Array<Array<Scalars['String']>>>;
+    breadcrumbs: Array<Scalars['String']>;
     contentUri?: Maybe<Scalars['String']>;
+    contexts: Array<GQLTaxonomyContext>;
     id: Scalars['String'];
     learningpath?: Maybe<GQLLearningpath>;
     meta?: Maybe<GQLMeta>;
@@ -1208,6 +1248,7 @@ export type GQLResource = GQLTaxonomyEntity &
     relevanceId?: Maybe<Scalars['String']>;
     resourceTypes?: Maybe<Array<GQLResourceType>>;
     supportedLanguages: Array<Scalars['String']>;
+    url?: Maybe<Scalars['String']>;
   };
 
 export type GQLResourceArticleArgs = {
@@ -1265,13 +1306,21 @@ export type GQLSearch = {
 export type GQLSearchContext = {
   __typename?: 'SearchContext';
   breadcrumbs: Array<Scalars['String']>;
-  filters: Array<GQLSearchContextFilter>;
+  contextId: Scalars['String'];
+  contextType: Scalars['String'];
   id: Scalars['String'];
+  isActive: Scalars['Boolean'];
+  isPrimary: Scalars['Boolean'];
+  isVisible: Scalars['Boolean'];
   language: Scalars['String'];
   learningResourceType: Scalars['String'];
+  parentIds: Array<Scalars['String']>;
   path: Scalars['String'];
+  publicId: Scalars['String'];
   relevance: Scalars['String'];
   resourceTypes: Array<GQLSearchContextResourceTypes>;
+  root: Scalars['String'];
+  rootId: Scalars['String'];
   subject: Scalars['String'];
   subjectId: Scalars['String'];
 };
@@ -1337,19 +1386,21 @@ export type GQLSortResult = {
 export type GQLSubject = GQLTaxonomyEntity & {
   __typename?: 'Subject';
   allTopics?: Maybe<Array<GQLTopic>>;
+  breadcrumbs: Array<Scalars['String']>;
   contentUri?: Maybe<Scalars['String']>;
-  grepCodes: Array<Scalars['String']>;
+  contexts: Array<GQLTaxonomyContext>;
+  grepCodes?: Maybe<Array<Scalars['String']>>;
   id: Scalars['String'];
   metadata: GQLTaxonomyMetadata;
   name: Scalars['String'];
   path: Scalars['String'];
   paths: Array<Scalars['String']>;
-  rank?: Maybe<Scalars['Int']>;
-  relevanceId: Scalars['String'];
+  relevanceId?: Maybe<Scalars['String']>;
   resourceTypes?: Maybe<Array<GQLResourceType>>;
   subjectpage?: Maybe<GQLSubjectPage>;
   supportedLanguages: Array<Scalars['String']>;
   topics?: Maybe<Array<GQLTopic>>;
+  url?: Maybe<Scalars['String']>;
 };
 
 export type GQLSubjectTopicsArgs = {
@@ -1406,17 +1457,26 @@ export type GQLTags = {
   tags: Array<Scalars['String']>;
 };
 
+export type GQLTaxonomyContext = {
+  __typename?: 'TaxonomyContext';
+  breadcrumbs: Array<Scalars['String']>;
+  parentIds: Array<Scalars['String']>;
+  path: Scalars['String'];
+};
+
 export type GQLTaxonomyEntity = {
+  breadcrumbs: Array<Scalars['String']>;
   contentUri?: Maybe<Scalars['String']>;
+  contexts: Array<GQLTaxonomyContext>;
   id: Scalars['String'];
   metadata: GQLTaxonomyMetadata;
   name: Scalars['String'];
   path: Scalars['String'];
   paths: Array<Scalars['String']>;
-  rank?: Maybe<Scalars['Int']>;
   relevanceId?: Maybe<Scalars['String']>;
   resourceTypes?: Maybe<Array<GQLResourceType>>;
   supportedLanguages: Array<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
 };
 
 export type GQLTaxonomyMetadata = {
@@ -1438,8 +1498,9 @@ export type GQLTopic = GQLTaxonomyEntity &
     alternateTopics?: Maybe<Array<GQLTopic>>;
     article?: Maybe<GQLArticle>;
     availability?: Maybe<Scalars['String']>;
-    breadcrumbs?: Maybe<Array<Array<Scalars['String']>>>;
+    breadcrumbs: Array<Scalars['String']>;
     contentUri?: Maybe<Scalars['String']>;
+    contexts: Array<GQLTaxonomyContext>;
     coreResources?: Maybe<Array<GQLResource>>;
     id: Scalars['String'];
     isPrimary?: Maybe<Scalars['Boolean']>;
@@ -1451,12 +1512,12 @@ export type GQLTopic = GQLTaxonomyEntity &
     path: Scalars['String'];
     pathTopics?: Maybe<Array<Array<GQLTopic>>>;
     paths: Array<Scalars['String']>;
-    rank?: Maybe<Scalars['Int']>;
     relevanceId?: Maybe<Scalars['String']>;
     resourceTypes?: Maybe<Array<GQLResourceType>>;
     subtopics?: Maybe<Array<GQLTopic>>;
     supplementaryResources?: Maybe<Array<GQLResource>>;
     supportedLanguages: Array<Scalars['String']>;
+    url?: Maybe<Scalars['String']>;
   };
 
 export type GQLTopicArticleArgs = {
@@ -2263,7 +2324,11 @@ export type GQLMovedResourcePage_ResourceFragment = {
   name: string;
   path: string;
   paths: Array<string>;
-  breadcrumbs?: Array<Array<string>>;
+  contexts: Array<{
+    __typename?: 'TaxonomyContext';
+    path: string;
+    breadcrumbs: Array<string>;
+  }>;
   article?: {
     __typename?: 'Article';
     id: number;
@@ -3009,6 +3074,7 @@ export type GQLPodcastSeriesPageQuery = {
     __typename?: 'PodcastSeriesWithEpisodes';
     id: number;
     supportedLanguages: Array<string>;
+    hasRSS: boolean;
     title: { __typename?: 'Title'; title: string };
     description: { __typename?: 'Description'; description: string };
     coverPhoto: { __typename?: 'CoverPhoto'; url: string };
@@ -3019,6 +3085,31 @@ export type GQLPodcastSeriesPageQuery = {
       } & GQLPodcast_AudioFragment
     >;
   };
+};
+
+export type GQLProgrammePageQueryVariables = Exact<{
+  path: Scalars['String'];
+}>;
+
+export type GQLProgrammePageQuery = {
+  __typename?: 'Query';
+  programme?: {
+    __typename?: 'ProgrammePage';
+    metaDescription?: string;
+    grades?: Array<{
+      __typename?: 'Grade';
+      id: string;
+      url: string;
+      title: { __typename?: 'Title'; title: string };
+      categories?: Array<{
+        __typename?: 'Category';
+        id: string;
+        isProgrammeSubject: boolean;
+        title: { __typename?: 'Title'; title: string };
+        subjects?: Array<{ __typename?: 'Subject' } & GQLSubjectInfoFragment>;
+      }>;
+    }>;
+  } & GQLProgrammeFragmentFragment;
 };
 
 export type GQLResourceEmbedQueryVariables = Exact<{
@@ -3166,7 +3257,7 @@ export type GQLSharedResourceArticleContainer_ArticleFragment = {
 
 export type GQLSubjectContainer_SubjectFragment = {
   __typename?: 'Subject';
-  grepCodes: Array<string>;
+  grepCodes?: Array<string>;
   metadata: { __typename?: 'TaxonomyMetadata'; customFields: any };
   topics?: Array<{
     __typename?: 'Topic';
@@ -3224,12 +3315,15 @@ export type GQLMovedTopicPage_TopicFragment = {
   id: string;
   path: string;
   name: string;
-  breadcrumbs?: Array<Array<string>>;
   meta?: {
     __typename?: 'Meta';
     metaDescription?: string;
     metaImage?: { __typename?: 'MetaImage'; url: string; alt: string };
   };
+  contexts: Array<{
+    __typename?: 'TaxonomyContext';
+    breadcrumbs: Array<string>;
+  }>;
 };
 
 export type GQLSubjectPageContent_SubjectFragment = {
@@ -3424,12 +3518,22 @@ export type GQLToolboxTopicWrapper_TopicFragment = {
   }>;
 } & GQLResources_TopicFragment;
 
-export type GQLFrontpageSubjectsQueryVariables = Exact<{
-  [key: string]: never;
-}>;
+export type GQLProgrammeFragmentFragment = {
+  __typename?: 'ProgrammePage';
+  id: string;
+  url: string;
+  title: { __typename?: 'Title'; title: string; language: string };
+  desktopImage?: { __typename?: 'MetaImage'; url: string; alt: string };
+  mobileImage?: { __typename?: 'MetaImage'; url: string; alt: string };
+};
 
-export type GQLFrontpageSubjectsQuery = {
+export type GQLFrontpageDataQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GQLFrontpageDataQuery = {
   __typename?: 'Query';
+  programmes?: Array<
+    { __typename?: 'ProgrammePage' } & GQLProgrammeFragmentFragment
+  >;
   subjects?: Array<{
     __typename?: 'Subject';
     id: string;
@@ -3540,10 +3644,10 @@ export type GQLSearchQuery = {
             breadcrumbs: Array<string>;
             relevance: string;
             language: string;
-            learningResourceType: string;
+            contextType: string;
             path: string;
-            subject: string;
-            subjectId: string;
+            root: string;
+            rootId: string;
             resourceTypes: Array<{
               __typename?: 'SearchContextResourceTypes';
               id: string;
@@ -3567,10 +3671,10 @@ export type GQLSearchQuery = {
             breadcrumbs: Array<string>;
             relevance: string;
             language: string;
-            learningResourceType: string;
+            contextType: string;
             path: string;
-            subject: string;
-            subjectId: string;
+            root: string;
+            rootId: string;
             resourceTypes: Array<{
               __typename?: 'SearchContextResourceTypes';
               id: string;
@@ -3612,9 +3716,9 @@ export type GQLSearchFilmArticleSearchResultFragment = {
     breadcrumbs: Array<string>;
     relevance: string;
     language: string;
-    learningResourceType: string;
+    contextType: string;
     path: string;
-    subject: string;
+    root: string;
     resourceTypes: Array<{
       __typename?: 'SearchContextResourceTypes';
       id: string;
@@ -3638,9 +3742,9 @@ export type GQLSearchFilmLearningpathSearchResultFragment = {
     breadcrumbs: Array<string>;
     relevance: string;
     language: string;
-    learningResourceType: string;
+    contextType: string;
     path: string;
-    subject: string;
+    root: string;
     resourceTypes: Array<{
       __typename?: 'SearchContextResourceTypes';
       id: string;
@@ -3691,8 +3795,8 @@ export type GQLGroupSearchResourceFragment = {
     language: string;
     path: string;
     breadcrumbs: Array<string>;
-    subjectId: string;
-    subject: string;
+    rootId: string;
+    root: string;
     relevance: string;
     resourceTypes: Array<{
       __typename?: 'SearchContextResourceTypes';
@@ -4036,7 +4140,14 @@ export type GQLMovedResourceQueryVariables = Exact<{
 
 export type GQLMovedResourceQuery = {
   __typename?: 'Query';
-  resource?: { __typename?: 'Resource'; breadcrumbs?: Array<Array<string>> };
+  resource?: {
+    __typename?: 'Resource';
+    contexts: Array<{
+      __typename?: 'TaxonomyContext';
+      path: string;
+      breadcrumbs: Array<string>;
+    }>;
+  };
 };
 
 export type GQLCompetenceGoalsQueryVariables = Exact<{

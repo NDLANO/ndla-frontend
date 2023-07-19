@@ -39,10 +39,10 @@ const convertTopicToResult = (
     url: topic.path || '',
     id: topic.id,
     ingress: topic.meta?.metaDescription ?? '',
-    subjects: topic.breadcrumbs?.map((crumb) => ({
+    subjects: topic.contexts?.map(({ breadcrumbs }) => ({
       url: topic.path,
-      title: crumb?.[0]!,
-      breadcrumb: crumb,
+      title: breadcrumbs[0]!,
+      breadcrumb: breadcrumbs,
     })),
     contentType: 'topic',
   };
@@ -95,7 +95,9 @@ MovedTopicPage.fragments = {
           alt
         }
       }
-      breadcrumbs
+      contexts {
+        breadcrumbs
+      }
     }
   `,
 };

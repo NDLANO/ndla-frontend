@@ -35,13 +35,6 @@ export const plainUrl = (url: string) => {
   return isLearningpath ? `/learningpaths/${id}` : `/article/${id}`;
 };
 
-const updateBreadcrumbSubject = (
-  breadcrumbs: string[] | undefined,
-  subject: string | undefined,
-) => {
-  return [subject ?? '', ...(breadcrumbs?.slice(1) ?? [])];
-};
-
 const arrayFields = [
   'languageFilter',
   'subjects',
@@ -226,7 +219,7 @@ export const mapResourcesToItems = (
     ],
     contexts: resource.contexts?.map((context) => ({
       url: context.path,
-      breadcrumb: updateBreadcrumbSubject(context.breadcrumbs, context.subject),
+      breadcrumb: context.breadcrumbs,
       isAdditional: isSupplementary(context),
     })),
     ...(resource.metaImage?.url && {
