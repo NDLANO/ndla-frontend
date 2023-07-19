@@ -13,7 +13,7 @@ import { spacing } from '@ndla/core';
 import { Menu } from '@ndla/icons/common';
 import { Cross } from '@ndla/icons/action';
 import { Drawer } from '@ndla/modal';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { GQLMastheadDrawer_SubjectFragment } from '../../../graphqlTypes';
 import { useIsNdlaFilm, useUrnIds } from '../../../routeHelpers';
@@ -91,6 +91,22 @@ const MastheadDrawer = ({ subject }: Props) => {
     }
   }, [topicPath, type]);
 
+  const activateButton = useMemo(() => {
+    return (
+      <ButtonV2
+        aria-haspopup="menu"
+        inverted={ndlaFilm}
+        shape="pill"
+        variant="outline"
+        data-testid="masthead-menu-button"
+        aria-label={t('masthead.menu.title')}
+      >
+        <Menu />
+        {t('masthead.menu.button')}
+      </ButtonV2>
+    );
+  }, [ndlaFilm, t]);
+
   return (
     <Drawer
       expands
@@ -99,19 +115,7 @@ const MastheadDrawer = ({ subject }: Props) => {
       animationDuration={100}
       animation="slideIn"
       aria-label={t('masthead.menu.modalLabel')}
-      activateButton={
-        <ButtonV2
-          aria-haspopup="menu"
-          inverted={ndlaFilm}
-          shape="pill"
-          variant="outline"
-          data-testid="masthead-menu-button"
-          aria-label={t('masthead.menu.title')}
-        >
-          <Menu />
-          {t('masthead.menu.button')}
-        </ButtonV2>
-      }
+      activateButton={activateButton}
     >
       {(close) => (
         <MainMenu>

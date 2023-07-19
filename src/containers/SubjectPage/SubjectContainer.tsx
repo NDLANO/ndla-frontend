@@ -7,7 +7,7 @@
  */
 
 import { gql } from '@apollo/client';
-import { useState, createRef, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import {
   constants,
@@ -101,26 +101,28 @@ const SubjectContainer = ({ t, topicIds, subject }: Props) => {
     setTopicCrumbs((crumbs) => crumbs.slice(0, topicIds.length));
   }, [topicIds.length]);
 
-  const breadCrumbs: SimpleBreadcrumbItem[] = [
-    {
-      name: t('breadcrumb.toFrontpage'),
-      to: '/',
-    },
-    {
-      to: `${removeUrn(subject.id)}`,
-      name: subject.name,
-    },
-    ...topicCrumbs,
-  ].reduce<SimpleBreadcrumbItem[]>((crumbs, crumb) => {
-    crumbs.push({
-      name: crumb.name,
-      to: `${crumbs[crumbs.length - 1]?.to ?? ''}${crumb.to}`,
-    });
+  const breadCrumbs: SimpleBreadcrumbItem[] = useMemo(
+    () =>
+      [
+        {
+          name: t('breadcrumb.toFrontpage'),
+          to: '/',
+        },
+        {
+          to: `${removeUrn(subject.id)}`,
+          name: subject.name,
+        },
+        ...topicCrumbs,
+      ].reduce<SimpleBreadcrumbItem[]>((crumbs, crumb) => {
+        crumbs.push({
+          name: crumb.name,
+          to: `${crumbs[crumbs.length - 1]?.to ?? ''}${crumb.to}`,
+        });
 
-    return crumbs;
-  }, []);
-
-  const topicRefs = topicIds.map((_) => createRef<HTMLDivElement>());
+        return crumbs;
+      }, []),
+    [subject.id, subject.name, t, topicCrumbs],
+  );
 
   const moveBannerUp = !topicIds?.length;
 
@@ -165,6 +167,14 @@ const SubjectContainer = ({ t, topicIds, subject }: Props) => {
     t,
   );
 
+  const competenceGoals = useMemo(() => {
+    if (subject.grepCodes?.length) {
+      return (
+        <CompetenceGoals codes={subject.grepCodes} subjectId={subject.id} />
+      );
+    } else return undefined;
+  }, [subject.grepCodes, subject.id]);
+
   return (
     <main>
       <Helmet>
@@ -182,16 +192,7 @@ const SubjectContainer = ({ t, topicIds, subject }: Props) => {
             imageUrl={socialMediaMetadata.image?.url}
             trackableContent={{ supportedLanguages }}
           />
-          <ArticleHeaderWrapper
-            competenceGoals={
-              subject.grepCodes?.length ? (
-                <CompetenceGoals
-                  codes={subject.grepCodes}
-                  subjectId={subject.id}
-                />
-              ) : undefined
-            }
-          >
+          <ArticleHeaderWrapper competenceGoals={competenceGoals}>
             <BreadcrumbWrapper>
               <HomeBreadcrumb light={ndlaFilm} items={breadCrumbs} />
             </BreadcrumbWrapper>
@@ -215,7 +216,6 @@ const SubjectContainer = ({ t, topicIds, subject }: Props) => {
           <SubjectPageContent
             subject={subject}
             topicIds={topicIds}
-            refs={topicRefs}
             setBreadCrumb={setTopicCrumbs}
           />
         </LayoutItem>

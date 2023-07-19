@@ -7,7 +7,7 @@
  */
 
 import { gql } from '@apollo/client';
-import { Dispatch, RefObject, SetStateAction, useEffect } from 'react';
+import { Dispatch, SetStateAction, createRef, useEffect, useMemo } from 'react';
 import { NavigationBox, SimpleBreadcrumbItem } from '@ndla/ui';
 import { RELEVANCE_SUPPLEMENTARY } from '../../../constants';
 import { scrollToRef } from '../subjectPageHelpers';
@@ -18,31 +18,31 @@ import { GQLSubjectPageContent_SubjectFragment } from '../../../graphqlTypes';
 interface Props {
   subject: GQLSubjectPageContent_SubjectFragment;
   topicIds: Array<string>;
-  refs: Array<RefObject<HTMLDivElement>>;
   setBreadCrumb: Dispatch<SetStateAction<SimpleBreadcrumbItem[]>>;
 }
 
-const SubjectPageContent = ({
-  subject,
-  topicIds,
-  refs,
-  setBreadCrumb,
-}: Props) => {
+const SubjectPageContent = ({ subject, topicIds, setBreadCrumb }: Props) => {
   const ndlaFilm = useIsNdlaFilm();
   useEffect(() => {
     if (topicIds.length) scrollToRef(refs[topicIds.length - 1]!);
   }, [topicIds]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const mainTopics = subject?.topics?.map((topic) => {
-    return {
-      ...topic,
-      label: topic?.name,
-      selected: topic?.id === topicIds[0],
-      url: toTopic(subject.id, topic?.id),
-      isRestrictedResource: topic.availability !== 'everyone',
-      isAdditionalResource: topic.relevanceId === RELEVANCE_SUPPLEMENTARY,
-    };
-  });
+  const refs = topicIds.map((_) => createRef<HTMLDivElement>());
+
+  const mainTopics = useMemo(
+    () =>
+      subject?.topics?.map((topic) => {
+        return {
+          ...topic,
+          label: topic?.name,
+          selected: topic?.id === topicIds[0],
+          url: toTopic(subject.id, topic?.id),
+          isRestrictedResource: topic.availability !== 'everyone',
+          isAdditionalResource: topic.relevanceId === RELEVANCE_SUPPLEMENTARY,
+        };
+      }),
+    [subject.id, subject?.topics, topicIds],
+  );
 
   return (
     <>

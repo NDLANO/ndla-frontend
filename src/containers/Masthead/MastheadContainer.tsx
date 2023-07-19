@@ -6,7 +6,7 @@
  *
  */
 
-import { useContext } from 'react';
+import { useCallback, useContext, useMemo } from 'react';
 import { Masthead, MastheadItem, LanguageSelector, Logo } from '@ndla/ui';
 import styled from '@emotion/styled';
 import { breakpoints, mq } from '@ndla/core';
@@ -54,7 +54,6 @@ const mastheadQuery = gql`
 
 const MastheadContainer = () => {
   const { t, i18n } = useTranslation();
-  const locale = i18n.language;
   const { subjectId } = useUrnIds();
   const { user } = useContext(AuthContext);
   const { openAlerts, closeAlert } = useAlerts();
@@ -69,13 +68,25 @@ const MastheadContainer = () => {
     skip: !subjectId,
   });
 
-  const data = freshData ?? previousData;
+  const data = useMemo(
+    () => freshData ?? previousData,
+    [freshData, previousData],
+  );
 
-  const alerts = openAlerts?.map((alert) => ({
-    content: alert.body || alert.title,
-    closable: alert.closable,
-    number: alert.number,
-  }));
+  const alerts = useMemo(
+    () =>
+      openAlerts?.map((alert) => ({
+        content: alert.body || alert.title,
+        closable: alert.closable,
+        number: alert.number,
+      })),
+    [openAlerts],
+  );
+
+  const onCloseAlert = useCallback(
+    (id: number) => closeAlert(id),
+    [closeAlert],
+  );
 
   return (
     <ErrorBoundary>
@@ -83,7 +94,7 @@ const MastheadContainer = () => {
         fixed
         ndlaFilm={ndlaFilm}
         skipToMainContentId={SKIP_TO_CONTENT_ID}
-        onCloseAlert={(id) => closeAlert(id)}
+        onCloseAlert={onCloseAlert}
         messages={alerts}
       >
         <MastheadItem left>
@@ -112,7 +123,7 @@ const MastheadContainer = () => {
           <MastheadSearch subject={data?.subject} hideOnNarrowScreen />
           <Logo
             to="/"
-            locale={locale}
+            locale={i18n.language}
             label={t('logo.altText')}
             cssModifier={ndlaFilm ? 'white' : ''}
           />
