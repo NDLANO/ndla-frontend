@@ -25,7 +25,11 @@ import {
   GQLConceptSearchConceptFragment,
   GQLSubjectInfoFragment,
 } from '../../graphqlTypes';
-import { SearchCompetenceGoal, SubjectItem } from './SearchInnerPage';
+import {
+  SearchCompetenceGoal,
+  SearchCoreElements,
+  SubjectItem,
+} from './SearchInnerPage';
 import { LocaleType } from '../../interfaces';
 import { supportedLanguages } from '../../i18n';
 
@@ -46,6 +50,7 @@ interface Props {
   subjectIds: string[];
   subjects?: GQLSubjectInfoFragment[];
   competenceGoals: SearchCompetenceGoal[];
+  coreElements: SearchCoreElements[];
   subjectItems?: SubjectItem[];
   concepts?: GQLConceptSearchConceptFragment[];
   suggestion?: string;
@@ -79,6 +84,7 @@ const SearchContainer = ({
   loading,
   isLti,
   competenceGoals,
+  coreElements,
 }: Props) => {
   const { t, i18n } = useTranslation();
   const [listViewType, setListViewType] = useState<ViewType>('grid');
@@ -108,6 +114,7 @@ const SearchContainer = ({
         noResults={sortedFilterButtonItems.length === 0}
         locale={locale}
         competenceGoals={competenceGoals}
+        coreElements={coreElements}
         loading={loading}
       />
       {showConcepts && concepts && concepts.length > 0 && (
