@@ -8,6 +8,8 @@
 
 import { gql } from '@apollo/client';
 import { createRef, useContext, useEffect, useState } from 'react';
+import styled from '@emotion/styled';
+import { breakpoints, fonts, mq } from '@ndla/core';
 import {
   ContentPlaceholder,
   Heading,
@@ -32,8 +34,6 @@ import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { AuthContext } from '../../components/AuthenticationContext';
 import { htmlTitle } from '../../util/titleHelper';
 import { SKIP_TO_CONTENT_ID } from '../../constants';
-import styled from '@emotion/styled';
-import { breakpoints, fonts, mq } from '@ndla/core';
 import MultidisciplinaryArticleList from './components/MultidisciplinaryArticleList';
 
 const multidisciplinarySubjectPageQuery = gql`
