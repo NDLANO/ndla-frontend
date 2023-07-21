@@ -36,17 +36,6 @@ const SearchPage = () => {
   const searchParams = converSearchStringToObject(location, i18n.language);
 
   const { data, loading } = useGraphQuery<GQLSearchPageQuery>(searchPageQuery);
-  /*const { data: conceptData } = useGraphQuery<GQLConceptSearchQuery>(
-    conceptSearchQuery,
-    {
-      skip: !searchParams.query,
-      variables: {
-        ...stateSearchParams,
-        exactMatch: true,
-        fallback: true,
-      },
-    },
-  );*/
 
   if (loading) {
     return <ContentPlaceholder />;
@@ -77,8 +66,6 @@ const SearchPage = () => {
           activeSubFilters={searchParams.activeSubFilters?.split(',') ?? []}
           subjectItems={subjectItems}
           subjects={data?.subjects}
-          //concepts={conceptData?.conceptSearch?.concepts} // Save for later
-          concepts={undefined}
           resourceTypes={data?.resourceTypes}
           location={location}
         />
