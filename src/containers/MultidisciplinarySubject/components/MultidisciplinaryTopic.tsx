@@ -23,6 +23,7 @@ import { htmlTitle } from '../../../util/titleHelper';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import Resources from '../../Resources/Resources';
 import { SKIP_TO_CONTENT_ID } from '../../../constants';
+import TopicVisualElementContent from '../../SubjectPage/components/TopicVisualElementContent';
 
 interface Props extends CustomWithTranslation {
   topicId: string;
@@ -63,10 +64,23 @@ const MultidisciplinaryTopic = ({
   const renderMarkdown = (text: string) => markdown.render(text);
 
   const embedMeta = useMemo(() => {
-    if (!topic.article?.stringifiedVisualElement) return undefined;
-    const embedMeta = extractEmbedMeta(topic.article.stringifiedVisualElement);
+    if (!topic.article?.visualElementEmbed?.content) return undefined;
+    const embedMeta = extractEmbedMeta(
+      topic.article.visualElementEmbed.content,
+    );
     return embedMeta;
-  }, [topic?.article?.stringifiedVisualElement]);
+  }, [topic?.article?.visualElementEmbed?.content]);
+
+  const visualElement = useMemo(() => {
+    if (!embedMeta || !topic.article?.visualElementEmbed?.meta)
+      return undefined;
+    return (
+      <TopicVisualElementContent
+        embed={embedMeta}
+        metadata={topic.article?.visualElementEmbed?.meta}
+      />
+    );
+  }, [embedMeta, topic.article?.visualElementEmbed?.meta]);
 
   const topicPath = topic.path
     ?.split('/')
@@ -97,6 +111,7 @@ const MultidisciplinaryTopic = ({
       introduction={article.introduction ?? ''}
       metaImage={article.metaImage}
       visualElementEmbedMeta={embedMeta}
+      visualElement={visualElement}
       onToggleShowContent={
         article?.content !== '' ? () => setShowContent(!showContent) : undefined
       }
@@ -129,13 +144,19 @@ export const multidisciplinaryTopicFragments = {
           url
           alt
         }
-        stringifiedVisualElement
+        visualElementEmbed {
+          content
+          meta {
+            ...TopicVisualElementContent_Meta
+          }
+        }
       }
       ...ArticleContents_Topic
       ...Resources_Topic
     }
     ${Resources.fragments.topic}
     ${ArticleContents.fragments.topic}
+    ${TopicVisualElementContent.fragments.metadata}
   `,
   subject: gql`
     fragment MultidisciplinaryTopic_Subject on Subject {

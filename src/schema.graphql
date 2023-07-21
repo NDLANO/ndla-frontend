@@ -30,12 +30,12 @@ type Article {
   revision: Int!
   revisionDate: String
   slug: String
-  stringifiedVisualElement: String
   supportedLanguages: [String!]
   tags: [String!]
   title: String!
   updated: String!
   visualElement: VisualElement
+  visualElementEmbed: ResourceEmbed
 }
 
 type ArticleFolderResourceMeta implements FolderResourceMeta {
@@ -892,6 +892,7 @@ type Query {
   programmes: [ProgrammePage!]
   resource(id: String!, subjectId: String, topicId: String): Resource
   resourceEmbed(id: String!, type: String!): ResourceEmbed!
+  resourceEmbeds(resources: [ResourceEmbedInput!]!): ResourceEmbed!
   resourceTypes: [ResourceTypeDefinition!]
   search(
     aggregatePaths: [String!]
@@ -977,6 +978,12 @@ type Resource implements TaxonomyEntity & WithArticle {
 type ResourceEmbed {
   content: String!
   meta: ResourceMetaData!
+}
+
+input ResourceEmbedInput {
+  conceptType: String
+  id: String!
+  type: String!
 }
 
 type ResourceMetaData {

@@ -53,12 +53,12 @@ export type GQLArticle = {
   revision: Scalars['Int'];
   revisionDate?: Maybe<Scalars['String']>;
   slug?: Maybe<Scalars['String']>;
-  stringifiedVisualElement?: Maybe<Scalars['String']>;
   supportedLanguages?: Maybe<Array<Scalars['String']>>;
   tags?: Maybe<Array<Scalars['String']>>;
   title: Scalars['String'];
   updated: Scalars['String'];
   visualElement?: Maybe<GQLVisualElement>;
+  visualElementEmbed?: Maybe<GQLResourceEmbed>;
 };
 
 export type GQLArticleCrossSubjectTopicsArgs = {
@@ -1003,6 +1003,7 @@ export type GQLQuery = {
   programmes?: Maybe<Array<GQLProgrammePage>>;
   resource?: Maybe<GQLResource>;
   resourceEmbed: GQLResourceEmbed;
+  resourceEmbeds: GQLResourceEmbed;
   resourceTypes?: Maybe<Array<GQLResourceTypeDefinition>>;
   search?: Maybe<GQLSearch>;
   searchWithoutPagination?: Maybe<GQLSearchWithoutPagination>;
@@ -1151,6 +1152,10 @@ export type GQLQueryResourceEmbedArgs = {
   type: Scalars['String'];
 };
 
+export type GQLQueryResourceEmbedsArgs = {
+  resources: Array<GQLResourceEmbedInput>;
+};
+
 export type GQLQuerySearchArgs = {
   aggregatePaths?: InputMaybe<Array<Scalars['String']>>;
   contextFilters?: InputMaybe<Scalars['String']>;
@@ -1262,6 +1267,12 @@ export type GQLResourceEmbed = {
   __typename?: 'ResourceEmbed';
   content: Scalars['String'];
   meta: GQLResourceMetaData;
+};
+
+export type GQLResourceEmbedInput = {
+  conceptType?: InputMaybe<Scalars['String']>;
+  id: Scalars['String'];
+  type: Scalars['String'];
 };
 
 export type GQLResourceMetaData = {
@@ -1590,56 +1601,16 @@ export type GQLWithArticle = {
   meta?: Maybe<GQLMeta>;
 };
 
-export type GQLArticle_ConceptFragment = {
-  __typename?: 'Concept';
-  subjectNames?: Array<string>;
-  id: number;
-  title: string;
-  content: string;
-  copyright?: {
-    __typename?: 'ConceptCopyright';
-    license?: { __typename?: 'License'; license: string };
-    creators: Array<{ __typename?: 'Contributor'; name: string; type: string }>;
-  };
-  image?: { __typename?: 'ImageLicense'; src: string; altText: string };
-  visualElement?: {
-    __typename?: 'VisualElement';
-    resource?: string;
-    title?: string;
-    url?: string;
-    copyright?: {
-      __typename?: 'Copyright';
-      origin?: string;
-      license: { __typename?: 'License'; license: string };
-      creators: Array<{
-        __typename?: 'Contributor';
-        name: string;
-        type: string;
-      }>;
-      processors: Array<{
-        __typename?: 'Contributor';
-        name: string;
-        type: string;
-      }>;
-      rightsholders: Array<{
-        __typename?: 'Contributor';
-        name: string;
-        type: string;
-      }>;
-    };
-    image?: { __typename?: 'ImageElement'; src: string; alt?: string };
-  };
-};
-
-export type GQLArticleConceptsQueryVariables = Exact<{
-  conceptIds: Array<Scalars['Int']> | Scalars['Int'];
+export type GQLArticleConceptEmbedsQueryVariables = Exact<{
+  resources: Array<GQLResourceEmbedInput> | GQLResourceEmbedInput;
 }>;
 
-export type GQLArticleConceptsQuery = {
+export type GQLArticleConceptEmbedsQuery = {
   __typename?: 'Query';
-  conceptSearch?: {
-    __typename?: 'ConceptResult';
-    concepts: Array<{ __typename?: 'Concept' } & GQLArticle_ConceptFragment>;
+  resourceEmbeds: {
+    __typename?: 'ResourceEmbed';
+    content: string;
+    meta: { __typename?: 'ResourceMetaData' } & GQLNotionsContent_MetaFragment;
   };
 };
 
@@ -1698,6 +1669,10 @@ export type GQLArticleContents_TopicFragment = {
     };
   } & GQLLicenseBox_ArticleFragment;
 };
+
+export type GQLNotionsContent_MetaFragment = {
+  __typename?: 'ResourceMetaData';
+} & GQLResourceEmbedLicenseBox_MetaFragment;
 
 export type GQLExamLockStatusQueryVariables = Exact<{ [key: string]: never }>;
 
@@ -2379,8 +2354,14 @@ export type GQLMultidisciplinaryTopic_TopicFragment = {
   subtopics?: Array<{ __typename?: 'Topic'; id: string; name: string }>;
   article?: {
     __typename?: 'Article';
-    stringifiedVisualElement?: string;
     metaImage?: { __typename?: 'MetaImage'; url: string; alt: string };
+    visualElementEmbed?: {
+      __typename?: 'ResourceEmbed';
+      content: string;
+      meta: {
+        __typename?: 'ResourceMetaData';
+      } & GQLTopicVisualElementContent_MetaFragment;
+    };
   };
 } & GQLArticleContents_TopicFragment &
   GQLResources_TopicFragment;
@@ -3284,9 +3265,15 @@ export type GQLTopic_TopicFragment = {
   }>;
   article?: {
     __typename?: 'Article';
-    stringifiedVisualElement?: string;
     revisionDate?: string;
     metaImage?: { __typename?: 'MetaImage'; url: string; alt: string };
+    visualElementEmbed?: {
+      __typename?: 'ResourceEmbed';
+      content: string;
+      meta: {
+        __typename?: 'ResourceMetaData';
+      } & GQLTopicVisualElementContent_MetaFragment;
+    };
   };
 } & GQLArticleContents_TopicFragment &
   GQLResources_TopicFragment;
@@ -3294,6 +3281,10 @@ export type GQLTopic_TopicFragment = {
 export type GQLTopic_ResourceTypeDefinitionFragment = {
   __typename?: 'ResourceTypeDefinition';
 } & GQLResources_ResourceTypeDefinitionFragment;
+
+export type GQLTopicVisualElementContent_MetaFragment = {
+  __typename?: 'ResourceMetaData';
+} & GQLResourceEmbedLicenseBox_MetaFragment;
 
 export type GQLTopicWrapperQueryVariables = Exact<{
   topicId: Scalars['String'];
@@ -3399,7 +3390,6 @@ export type GQLToolboxTopicWrapper_TopicFragment = {
     __typename?: 'Article';
     title: string;
     introduction?: string;
-    stringifiedVisualElement?: string;
     copyright: {
       __typename?: 'Copyright';
       license: { __typename?: 'License'; license: string };
@@ -3420,6 +3410,13 @@ export type GQLToolboxTopicWrapper_TopicFragment = {
       }>;
     };
     metaImage?: { __typename?: 'MetaImage'; alt: string; url: string };
+    visualElementEmbed?: {
+      __typename?: 'ResourceEmbed';
+      content: string;
+      meta: {
+        __typename?: 'ResourceMetaData';
+      } & GQLTopicVisualElementContent_MetaFragment;
+    };
   };
   subtopics?: Array<{
     __typename?: 'Topic';

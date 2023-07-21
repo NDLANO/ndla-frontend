@@ -22,6 +22,7 @@ import {
 import { getAllDimensions } from '../../../util/trackingUtil';
 import { htmlTitle } from '../../../util/titleHelper';
 import { SKIP_TO_CONTENT_ID } from '../../../constants';
+import TopicVisualElementContent from '../../SubjectPage/components/TopicVisualElementContent';
 
 interface Props extends CustomWithTranslation {
   subject: GQLToolboxTopicWrapper_SubjectFragment;
@@ -46,10 +47,23 @@ const ToolboxTopicWrapper = ({
   loading,
 }: Props) => {
   const embedMeta = useMemo(() => {
-    if (!topic.article?.stringifiedVisualElement) return undefined;
-    const embedMeta = extractEmbedMeta(topic.article.stringifiedVisualElement);
+    if (!topic.article?.visualElementEmbed?.content) return undefined;
+    const embedMeta = extractEmbedMeta(
+      topic.article.visualElementEmbed?.content,
+    );
     return embedMeta;
-  }, [topic?.article?.stringifiedVisualElement]);
+  }, [topic?.article?.visualElementEmbed?.content]);
+
+  const visualElement = useMemo(() => {
+    if (!embedMeta || !topic.article?.visualElementEmbed?.meta)
+      return undefined;
+    return (
+      <TopicVisualElementContent
+        embed={embedMeta}
+        metadata={topic.article?.visualElementEmbed?.meta}
+      />
+    );
+  }, [embedMeta, topic.article?.visualElementEmbed?.meta]);
 
   const resources = useMemo(() => {
     if (topic.subtopics) {
@@ -97,6 +111,7 @@ const ToolboxTopicWrapper = ({
       introduction={topic.article.introduction ?? ''}
       metaImage={topic.article.metaImage}
       visualElementEmbedMeta={embedMeta}
+      visualElement={visualElement}
       resources={resources}
     />
   );
@@ -181,7 +196,12 @@ export const toolboxTopicWrapperFragments = {
           alt
           url
         }
-        stringifiedVisualElement
+        visualElementEmbed {
+          content
+          meta {
+            ...TopicVisualElementContent_Meta
+          }
+        }
       }
       subtopics {
         id
@@ -191,6 +211,7 @@ export const toolboxTopicWrapperFragments = {
       ...Resources_Topic
     }
     ${Resources.fragments.topic}
+    ${TopicVisualElementContent.fragments.metadata}
   `,
 };
 

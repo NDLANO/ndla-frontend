@@ -31,6 +31,7 @@ import {
   GQLTopic_SubjectFragment,
   GQLTopic_TopicFragment,
 } from '../../../graphqlTypes';
+import TopicVisualElementContent from './TopicVisualElementContent';
 
 const getDocumentTitle = ({
   t,
@@ -74,10 +75,23 @@ const Topic = ({
   const renderMarkdown = (text: string) => markdown.render(text);
 
   const embedMeta = useMemo(() => {
-    if (!topic.article?.stringifiedVisualElement) return undefined;
-    const embedMeta = extractEmbedMeta(topic.article.stringifiedVisualElement);
+    if (!topic.article?.visualElementEmbed?.content) return undefined;
+    const embedMeta = extractEmbedMeta(
+      topic.article.visualElementEmbed.content,
+    );
     return embedMeta;
-  }, [topic?.article?.stringifiedVisualElement]);
+  }, [topic?.article?.visualElementEmbed?.content]);
+
+  const visualElement = useMemo(() => {
+    if (!embedMeta || !topic.article?.visualElementEmbed?.meta)
+      return undefined;
+    return (
+      <TopicVisualElementContent
+        embed={embedMeta}
+        metadata={topic.article?.visualElementEmbed?.meta}
+      />
+    );
+  }, [embedMeta, topic.article?.visualElementEmbed?.meta]);
 
   useEffect(() => {
     setShowContent(false);
@@ -121,6 +135,7 @@ const Topic = ({
 
   return (
     <UITopic
+      visualElement={visualElement}
       visualElementEmbedMeta={embedMeta}
       id={urnTopicId === topicId ? SKIP_TO_CONTENT_ID : undefined}
       onToggleShowContent={
@@ -206,12 +221,18 @@ export const topicFragments = {
           url
           alt
         }
-        stringifiedVisualElement
+        visualElementEmbed {
+          content
+          meta {
+            ...TopicVisualElementContent_Meta
+          }
+        }
         revisionDate
       }
       ...ArticleContents_Topic
       ...Resources_Topic
     }
+    ${TopicVisualElementContent.fragments.metadata}
     ${ArticleContents.fragments.topic}
     ${Resources.fragments.topic}
   `,
