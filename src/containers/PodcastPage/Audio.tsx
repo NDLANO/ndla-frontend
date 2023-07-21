@@ -6,7 +6,6 @@
  *
  */
 
-import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   AudioPlayer,
@@ -21,7 +20,6 @@ import {
   figureApa7CopyString,
   getCopyString,
 } from '@ndla/licenses';
-import { initArticleScripts } from '@ndla/article-scripts';
 import { gql } from '@apollo/client';
 import { SafeLinkButton } from '@ndla/safelink';
 
@@ -55,10 +53,6 @@ const Audio = ({ audio, seriesId = '' }: Props) => {
     url: image.imageUrl,
     alt: image.altText,
   };
-
-  useEffect(() => {
-    initArticleScripts();
-  }, []);
 
   const podcastMessages = {
     learnAboutLicenses: license
