@@ -15,11 +15,11 @@ import { Drawer, ModalBody, ModalCloseButton, ModalHeader } from '@ndla/modal';
 import { HorizontalMenu } from '@ndla/icons/contentType';
 import { breakpoints, colors, fonts, misc, mq, spacing } from '@ndla/core';
 import {
-  Dropdown,
+  DropdownMenu,
   DropdownTrigger,
   DropdownContent,
   DropdownItem,
-} from '@ndla/dropdown';
+} from '@ndla/dropdown-menu';
 
 export interface MenuItemProps {
   icon?: ReactNode;
@@ -146,7 +146,7 @@ const SettingsMenu = ({ menuItems, children }: Props) => {
   }
 
   return (
-    <Dropdown>
+    <DropdownMenu>
       <DropdownTrigger>
         <DropdownTriggerButton
           aria-label={t('myNdla.more')}
@@ -175,7 +175,7 @@ const SettingsMenu = ({ menuItems, children }: Props) => {
           </DropdownItem>
         ))}
       </DropdownContent>
-    </Dropdown>
+    </DropdownMenu>
   );
 };
 
