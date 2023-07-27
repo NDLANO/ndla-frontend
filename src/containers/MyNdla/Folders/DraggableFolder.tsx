@@ -16,13 +16,14 @@ import { DeleteForever } from '@ndla/icons/editor';
 import { Folder } from '@ndla/ui';
 import { colors, spacing } from '@ndla/core';
 import { Share } from '@ndla/icons/common';
-import { MenuItemProps } from '@ndla/button';
 import { GQLFolder } from '../../../graphqlTypes';
 import { FolderTotalCount } from '../../../util/folderHelpers';
 import { FolderAction, ViewType } from './FoldersPage';
 import DragHandle from './DragHandle';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import { isStudent } from './util';
+import FolderMenu from '../components/FolderMenu';
+import { MenuItemProps } from '../components/SettingsMenu';
 
 interface Props {
   folder: GQLFolder;
@@ -78,6 +79,7 @@ const DraggableFolder = ({
   };
 
   const menuItems: MenuItemProps[] = useMemo(() => {
+    if (examLock) return [];
     const editFolder: MenuItemProps = {
       icon: <Pencil />,
       text: t('myNdla.folder.edit'),
@@ -137,7 +139,18 @@ const DraggableFolder = ({
       folder.status === 'shared' ? [shareLink, unShare] : [share];
 
     return [editFolder, sharedOptions, deleteOpt].flat();
-  }, [folder, index, setFolderAction, t, user]);
+  }, [examLock, folder, index, setFolderAction, t, user]);
+
+  const menu = useMemo(
+    () => (
+      <FolderMenu
+        menuItems={menuItems}
+        viewType={type}
+        onViewTypeChange={onViewTypeChange}
+      />
+    ),
+    [menuItems, onViewTypeChange, type],
+  );
 
   return (
     <DraggableListItem
@@ -160,10 +173,9 @@ const DraggableFolder = ({
           link={`/minndla/folders/${folder.id}`}
           title={folder.name}
           type={type}
-          onViewTypeChange={onViewTypeChange}
+          menu={menu}
           subFolders={foldersCount[folder.id]?.folders}
           subResources={foldersCount[folder.id]?.resources}
-          menuItems={!examLock ? menuItems : undefined}
         />
       </DragWrapper>
     </DraggableListItem>
