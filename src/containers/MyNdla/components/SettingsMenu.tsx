@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next';
 import { IconButtonV2, ButtonV2 } from '@ndla/button';
 import { Drawer, ModalBody, ModalCloseButton, ModalHeader } from '@ndla/modal';
 import { HorizontalMenu } from '@ndla/icons/contentType';
-import { breakpoints, colors, misc, mq, spacing } from '@ndla/core';
+import { breakpoints, colors, fonts, misc, mq, spacing } from '@ndla/core';
 import {
   Dropdown,
   DropdownTrigger,
@@ -76,8 +76,19 @@ const DropdownTriggerButton = styled(IconButtonV2)`
 
 const ItemButton = styled(ButtonV2)`
   display: flex;
-  align-items: flex-start;
+  align-items: center;
+  color: ${colors.text.primary};
+  ${fonts.sizes('16px', '16px')};
   justify-content: flex-start;
+  &[data-danger='true'] {
+    color: ${colors.support.red};
+    &:hover,
+    &:focus-within,
+    &:focus,
+    &:focus-visible {
+      color: ${colors.white};
+    }
+  }
 `;
 
 const SettingsMenu = ({ menuItems, children }: Props) => {
@@ -154,7 +165,8 @@ const SettingsMenu = ({ menuItems, children }: Props) => {
               shape="sharp"
               variant="ghost"
               size="small"
-              fontWeight="semibold"
+              fontWeight="normal"
+              data-danger={item.type === 'danger'}
               onClick={item.onClick}
             >
               {item.icon}
