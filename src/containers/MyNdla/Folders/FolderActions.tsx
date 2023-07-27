@@ -6,17 +6,17 @@
  *
  */
 
-import { MenuItemProps } from '@ndla/button';
 import { Cross, Pencil } from '@ndla/icons/action';
 import { DeleteForever } from '@ndla/icons/editor';
 import { Share } from '@ndla/icons/common';
-import { FolderMenu } from '@ndla/ui';
 import { useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { GQLFolder } from '../../../graphqlTypes';
 import { FolderActionType, ViewType } from './FoldersPage';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import { isStudent } from './util';
+import { MenuItemProps } from '../components/SettingsMenu';
+import FolderMenu from '../components/FolderMenu';
 
 interface Props {
   onActionChanged: (action: FolderActionType) => void;

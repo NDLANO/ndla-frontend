@@ -6,7 +6,7 @@
  *
  */
 
-import { useContext } from 'react';
+import { useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
@@ -23,6 +23,7 @@ import DragHandle from './DragHandle';
 import { ViewType } from './FoldersPage';
 import { ResourceAction } from './ResourceList';
 import { AuthContext } from '../../../components/AuthenticationContext';
+import SettingsMenu, { MenuItemProps } from '../components/SettingsMenu';
 
 interface Props {
   resource: GQLFolderResource;
@@ -54,6 +55,43 @@ const DraggableResource = ({
     });
 
   const Resource = viewType === 'block' ? BlockResource : ListResource;
+
+  const actions: MenuItemProps[] = useMemo(() => {
+    if (examLock) return [];
+    return [
+      {
+        icon: <FolderOutlined />,
+        text: t('myNdla.resource.add'),
+        onClick: () => setResourceAction({ action: 'add', resource }),
+      },
+      {
+        icon: <Link />,
+        text: t('myNdla.resource.copyLink'),
+        onClick: () => {
+          navigator.clipboard.writeText(
+            `${config.ndlaFrontendDomain}${resource.path}`,
+          );
+          addSnack({
+            content: t('myNdla.resource.linkCopied'),
+            id: 'linkCopied',
+          });
+        },
+      },
+      {
+        icon: <DeleteForever />,
+        text: t('myNdla.resource.remove'),
+        onClick: () =>
+          setResourceAction({
+            action: 'delete',
+            resource,
+            index,
+          }),
+        type: 'danger',
+      },
+    ];
+  }, [addSnack, examLock, index, resource, setResourceAction, t]);
+
+  const menu = useMemo(() => <SettingsMenu menuItems={actions} />, [actions]);
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -91,42 +129,7 @@ const DraggableResource = ({
           description={
             viewType !== 'list' ? resourceMeta?.description ?? '' : undefined
           }
-          menuItems={
-            !examLock
-              ? [
-                  {
-                    icon: <FolderOutlined />,
-                    text: t('myNdla.resource.add'),
-                    onClick: () =>
-                      setResourceAction({ action: 'add', resource }),
-                  },
-                  {
-                    icon: <Link />,
-                    text: t('myNdla.resource.copyLink'),
-                    onClick: () => {
-                      navigator.clipboard.writeText(
-                        `${config.ndlaFrontendDomain}${resource.path}`,
-                      );
-                      addSnack({
-                        content: t('myNdla.resource.linkCopied'),
-                        id: 'linkCopied',
-                      });
-                    },
-                  },
-                  {
-                    icon: <DeleteForever />,
-                    text: t('myNdla.resource.remove'),
-                    onClick: () =>
-                      setResourceAction({
-                        action: 'delete',
-                        resource,
-                        index,
-                      }),
-                    type: 'danger',
-                  },
-                ]
-              : undefined
-          }
+          menu={menu}
         />
       </DragWrapper>
     </DraggableListItem>
