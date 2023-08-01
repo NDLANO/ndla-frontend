@@ -32,8 +32,6 @@ import { MoviesByType } from './NdlaFilmFrontpage';
 import { movieFragment } from '../../queries';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 
-const ARIA_FILMCATEGORY_ID = 'movieCategoriesId';
-
 const sortAlphabetically = (movies: MoviesByType[], locale: string) =>
   movies.sort((a, b) => {
     if (!a.title && !b.title) {
@@ -89,8 +87,9 @@ const FilmFrontpage = ({
   );
 
   const onChangeResourceType = (resourceType?: string) => {
-    const placeholderHeight = `${movieListRef.current?.getBoundingClientRect()
-      .height}px`;
+    const placeholderHeight = `${
+      movieListRef.current?.getBoundingClientRect().height
+    }px`;
 
     if (resourceType) {
       onSelectedMovieByType(resourceType);
@@ -124,7 +123,6 @@ const FilmFrontpage = ({
         ) : null}
         <FilmMovieSearch
           skipToContentId={skipToContentId}
-          ariaControlId={ARIA_FILMCATEGORY_ID}
           topics={subject?.topics ?? []}
           resourceTypes={resourceTypes}
           resourceTypeSelected={resourceTypeName}
