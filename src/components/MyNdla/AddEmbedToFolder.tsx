@@ -8,7 +8,7 @@
 
 import { FavoriteButton } from '@ndla/button';
 import { EmbedMetaData } from '@ndla/types-embed';
-import { useCallback, useContext, useMemo, useState } from 'react';
+import { useContext, useMemo } from 'react';
 import { NoSSR } from '@ndla/util';
 import { ResourceAttributes } from './AddResourceToFolder';
 import AddResourceToFolderModal from './AddResourceToFolderModal';
@@ -55,10 +55,7 @@ const embedToResource = (
 
 const ClientAddEmbedToFolder = ({ embed }: Props) => {
   const { authenticated } = useContext(AuthContext);
-  const [isOpen, setIsOpen] = useState(false);
   const resource = useMemo(() => embedToResource(embed), [embed]);
-  const onClose = useCallback(() => setIsOpen(false), []);
-  const onOpen = useCallback(() => setIsOpen(true), []);
   const { folders } = useFolders({ skip: !authenticated });
 
   const exists = useMemo(() => {
@@ -71,16 +68,9 @@ const ClientAddEmbedToFolder = ({ embed }: Props) => {
   }
 
   return (
-    <>
-      <FavoriteButton onClick={onOpen} isFavorite={exists} />
-      {isOpen && (
-        <AddResourceToFolderModal
-          isOpen={isOpen}
-          onClose={onClose}
-          resource={resource}
-        />
-      )}
-    </>
+    <AddResourceToFolderModal resource={resource}>
+      <FavoriteButton isFavorite={exists} />
+    </AddResourceToFolderModal>
   );
 };
 

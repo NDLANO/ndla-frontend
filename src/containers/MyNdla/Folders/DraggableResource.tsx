@@ -6,7 +6,7 @@
  *
  */
 
-import { useContext, useMemo } from 'react';
+import { useCallback, useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
@@ -15,23 +15,28 @@ import { DeleteForever, Link } from '@ndla/icons/editor';
 import { BlockResource, ListResource, useSnack } from '@ndla/ui';
 import config from '../../../config';
 import {
+  GQLFolder,
   GQLFolderResource,
   GQLFolderResourceMeta,
 } from '../../../graphqlTypes';
 import { DraggableListItem, DragWrapper } from './DraggableFolder';
 import DragHandle from './DragHandle';
 import { ViewType } from './FoldersPage';
-import { ResourceAction } from './ResourceList';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import SettingsMenu, { MenuItemProps } from '../components/SettingsMenu';
+import { AddResourceToFolderModalContent } from '../../../components/MyNdla/AddResourceToFolderModal';
+import DeleteModalContent from '../components/DeleteModalContent';
+import { useDeleteFolderResourceMutation } from '../folderMutations';
 
 interface Props {
   resource: GQLFolderResource;
+  resources: GQLFolderResource[];
+  selectedFolder: GQLFolder;
   viewType: ViewType;
   loading?: boolean;
   index: number;
-  setResourceAction: (action: ResourceAction) => void;
   resourceMeta?: GQLFolderResourceMeta;
+  setFocusId: (id: string | undefined) => void;
 }
 
 const DraggableResource = ({
@@ -39,8 +44,10 @@ const DraggableResource = ({
   loading,
   viewType,
   index,
-  setResourceAction,
   resourceMeta,
+  selectedFolder,
+  resources,
+  setFocusId,
 }: Props) => {
   const { t } = useTranslation();
   const { examLock } = useContext(AuthContext);
@@ -54,6 +61,36 @@ const DraggableResource = ({
       },
     });
 
+  const { deleteFolderResource } = useDeleteFolderResourceMutation(
+    selectedFolder.id,
+  );
+
+  const onDeleteFolder = useCallback(
+    async (resource: GQLFolderResource, index?: number) => {
+      const next = index !== undefined ? resources[index + 1]?.id : undefined;
+      const prev = index !== undefined ? resources[index - 1]?.id : undefined;
+      await deleteFolderResource({
+        variables: { folderId: selectedFolder.id, resourceId: resource.id },
+      });
+      addSnack({
+        id: `removedFromFolder${selectedFolder.id}`,
+        content: t('myNdla.resource.removedFromFolder', {
+          folderName: selectedFolder.name,
+        }),
+      });
+      setFocusId(next ?? prev);
+    },
+    [
+      addSnack,
+      deleteFolderResource,
+      resources,
+      selectedFolder.id,
+      selectedFolder.name,
+      setFocusId,
+      t,
+    ],
+  );
+
   const Resource = viewType === 'block' ? BlockResource : ListResource;
 
   const actions: MenuItemProps[] = useMemo(() => {
@@ -62,7 +99,18 @@ const DraggableResource = ({
       {
         icon: <FolderOutlined />,
         text: t('myNdla.resource.add'),
-        onClick: () => setResourceAction({ action: 'add', resource }),
+        isModal: true,
+        modalContent: (close) => (
+          <AddResourceToFolderModalContent
+            close={close}
+            defaultOpenFolder={selectedFolder}
+            resource={{
+              id: resource.resourceId,
+              resourceType: resource.resourceType,
+              path: resource.path,
+            }}
+          />
+        ),
       },
       {
         icon: <Link />,
@@ -80,16 +128,22 @@ const DraggableResource = ({
       {
         icon: <DeleteForever />,
         text: t('myNdla.resource.remove'),
-        onClick: () =>
-          setResourceAction({
-            action: 'delete',
-            resource,
-            index,
-          }),
+        isModal: true,
+        modalContent: (close) => (
+          <DeleteModalContent
+            onDelete={async () => {
+              await onDeleteFolder(resource, index);
+              close();
+            }}
+            description={t('myNdla.resource.confirmRemove')}
+            title={t('myNdla.resource.removeTitle')}
+            removeText={t('myNdla.resource.remove')}
+          />
+        ),
         type: 'danger',
       },
     ];
-  }, [addSnack, examLock, index, resource, setResourceAction, t]);
+  }, [addSnack, examLock, index, onDeleteFolder, resource, selectedFolder, t]);
 
   const menu = useMemo(() => <SettingsMenu menuItems={actions} />, [actions]);
 

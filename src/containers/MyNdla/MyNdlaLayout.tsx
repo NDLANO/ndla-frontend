@@ -96,6 +96,7 @@ const MyNdlaLayout = () => {
   const [page, folderId] = location.pathname
     .replace('/minndla/', '')
     .split('/');
+
   const selectedFolder = useFolder(folderId);
 
   const isMobile = useContext(IsMobileContext);
@@ -104,13 +105,13 @@ const MyNdlaLayout = () => {
     if (typeof page === 'string') {
       if (folderId) {
         return [page].concat(
-          selectedFolder ? selectedFolder.breadcrumbs.map((b) => b.id) : [],
+          selectedFolder?.breadcrumbs.map((b) => b.id) ?? [],
         );
       }
       return [page];
     }
     return [];
-  }, [selectedFolder, folderId, page]);
+  }, [selectedFolder?.breadcrumbs, folderId, page]);
 
   const links = useMemo(() => {
     return navigationLinks(t);

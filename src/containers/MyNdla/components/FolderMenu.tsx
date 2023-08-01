@@ -12,13 +12,14 @@ import Tooltip from '@ndla/tooltip';
 import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
+import { useCallback } from 'react';
 import SettingsMenu, { MenuItemProps } from './SettingsMenu';
 import { ViewType } from '../Folders/FoldersPage';
 
 interface Props {
   menuItems: MenuItemProps[];
-  viewType?: ViewType;
-  onViewTypeChange?: (type: ViewType) => void;
+  viewType: ViewType;
+  onViewTypeChange: (type: ViewType) => void;
 }
 
 const ViewButtonWrapper = styled.div`
@@ -61,40 +62,42 @@ const ViewButton = styled(ButtonV2)`
 
 const FolderMenu = ({ menuItems, viewType, onViewTypeChange }: Props) => {
   const { t } = useTranslation();
+
+  const onListClick = useCallback(() => {
+    return onViewTypeChange?.('list');
+  }, [onViewTypeChange]);
+
+  const onListLargerClick = useCallback(() => {
+    return onViewTypeChange?.('listLarger');
+  }, [onViewTypeChange]);
+
   return (
     <SettingsMenu menuItems={menuItems}>
-      {(_) => {
-        if (!viewType || !onViewTypeChange) {
-          return null;
-        }
-        return (
-          <ViewTypeWrapper>
-            <span>{t('myNdla.selectView')}</span>
-            <ViewButtonWrapper>
-              <Tooltip tooltip={t('myNdla.listView')}>
-                <ViewButton
-                  size="large"
-                  aria-current={viewType === 'list'}
-                  colorTheme="primary"
-                  onClick={() => onViewTypeChange('list')}
-                >
-                  <FourlineHamburger />
-                </ViewButton>
-              </Tooltip>
-              <Tooltip tooltip={t('myNdla.detailView')}>
-                <ViewButton
-                  size="large"
-                  aria-current={viewType === 'listLarger'}
-                  colorTheme="primary"
-                  onClick={() => onViewTypeChange('listLarger')}
-                >
-                  <List />
-                </ViewButton>
-              </Tooltip>
-            </ViewButtonWrapper>
-          </ViewTypeWrapper>
-        );
-      }}
+      <ViewTypeWrapper>
+        <span>{t('myNdla.selectView')}</span>
+        <ViewButtonWrapper>
+          <Tooltip tooltip={t('myNdla.listView')}>
+            <ViewButton
+              size="large"
+              aria-current={viewType === 'list'}
+              colorTheme="primary"
+              onClick={onListClick}
+            >
+              <FourlineHamburger />
+            </ViewButton>
+          </Tooltip>
+          <Tooltip tooltip={t('myNdla.detailView')}>
+            <ViewButton
+              size="large"
+              aria-current={viewType === 'listLarger'}
+              colorTheme="primary"
+              onClick={onListLargerClick}
+            >
+              <List />
+            </ViewButton>
+          </Tooltip>
+        </ViewButtonWrapper>
+      </ViewTypeWrapper>
     </SettingsMenu>
   );
 };

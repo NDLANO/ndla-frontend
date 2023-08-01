@@ -11,10 +11,16 @@ import { ButtonV2 } from '@ndla/button';
 import { breakpoints, colors, misc, mq, spacing } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import { HumanMaleBoard } from '@ndla/icons/common';
-import { Drawer, ModalCloseButton, ModalHeader } from '@ndla/modal';
+import {
+  Drawer,
+  Modal,
+  ModalCloseButton,
+  ModalHeader,
+  ModalTrigger,
+} from '@ndla/modal';
 import { ErrorMessage, OneColumn } from '@ndla/ui';
 import keyBy from 'lodash/keyBy';
-import { useContext } from 'react';
+import { useCallback, useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { GQLFolder, GQLFolderResource } from '../../graphqlTypes';
@@ -143,6 +149,7 @@ const LandingPageMobileWrapper = styled.div`
 const embedResourceTypes = ['video', 'audio', 'concept', 'image'];
 
 const SharedFolderPage = () => {
+  const [open, setOpen] = useState(false);
   const { folderId = '', resourceId } = useParams();
   const { t } = useTranslation();
   const isMobile = useContext(IsMobileContext);
@@ -163,6 +170,8 @@ const SharedFolderPage = () => {
     })),
     { skip: resources.length === 0 },
   );
+
+  const close = useCallback(() => setOpen(false), []);
 
   if (loading) {
     return <Spinner />;
@@ -204,33 +213,33 @@ const SharedFolderPage = () => {
             <FolderNavigation folder={folder} meta={keyedData} />
           </DesktopPadding>
         ) : isMobile && selectedResource ? (
-          <StyledDrawer
-            position="bottom"
-            size="small"
-            expands
-            aria-labelledby="folder-drawer-button"
-            activateButton={
+          <Modal open={open} onOpenChange={setOpen}>
+            <ModalTrigger>
               <DrawerButton shape="sharp" colorTheme="light">
                 <span id="folder-drawer-button">
                   {t('myNdla.sharedFolder.drawerButton')}
                 </span>
               </DrawerButton>
-            }
-          >
-            {(close) => (
-              <StyledDrawerContent>
-                <ModalHeader>
-                  <h1>{t('myNdla.sharedFolder.drawerTitle')}</h1>
-                  <ModalCloseButton onClick={close} />
-                </ModalHeader>
-                <FolderNavigation
-                  onClose={close}
-                  folder={folder}
-                  meta={keyedData}
-                />
-              </StyledDrawerContent>
-            )}
-          </StyledDrawer>
+              <StyledDrawer
+                position="bottom"
+                size="small"
+                expands
+                aria-labelledby="folder-drawer-button"
+              >
+                <StyledDrawerContent>
+                  <ModalHeader>
+                    <h1>{t('myNdla.sharedFolder.drawerTitle')}</h1>
+                    <ModalCloseButton />
+                  </ModalHeader>
+                  <FolderNavigation
+                    onClose={close}
+                    folder={folder}
+                    meta={keyedData}
+                  />
+                </StyledDrawerContent>
+              </StyledDrawer>
+            </ModalTrigger>
+          </Modal>
         ) : null}
       </Sidebar>
       <StyledSection>

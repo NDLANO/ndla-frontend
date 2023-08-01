@@ -14,6 +14,7 @@ import SafeLink, { SafeLinkButton } from '@ndla/safelink';
 import { ReactNode } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
+import { ModalCloseButton } from '@ndla/modal';
 import { toHref } from '../../util/urlHelper';
 
 const LoginComponentContainer = styled.div`
@@ -76,12 +77,11 @@ const ContentWrapper = styled.div`
 `;
 
 interface Props {
-  onClose: () => void;
   masthead?: boolean;
   content?: ReactNode;
 }
 
-const LoginComponent = ({ masthead, onClose, content }: Props) => {
+const LoginComponent = ({ masthead, content }: Props) => {
   const { t } = useTranslation();
   const location = useLocation();
 
@@ -113,9 +113,9 @@ const LoginComponent = ({ masthead, onClose, content }: Props) => {
           Feide
         </FeideRow>
         <ButtonRow>
-          <ButtonV2 onClick={onClose} variant="outline">
-            {t('cancel')}
-          </ButtonV2>
+          <ModalCloseButton>
+            <ButtonV2 variant="outline">{t('cancel')}</ButtonV2>
+          </ModalCloseButton>
           <SafeLinkButton
             reloadDocument
             to={`/login?state=${masthead ? '/minndla' : toHref(location)}`}

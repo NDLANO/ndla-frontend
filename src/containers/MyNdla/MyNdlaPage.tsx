@@ -25,6 +25,8 @@ import {
   ModalHeader,
   ModalTitle,
   Modal,
+  ModalTrigger,
+  ModalContent,
 } from '@ndla/modal';
 import InfoPart, { InfoPartIcon, InfoPartText } from './InfoSection';
 import { AuthContext } from '../../components/AuthenticationContext';
@@ -220,39 +222,33 @@ const MyNdlaPage = () => {
       </ButtonContainer>
       <ButtonContainer>
         {t('myNdla.myPage.wishToDelete')}
-        <Modal
-          activateButton={
+        <Modal>
+          <ModalTrigger>
             <ButtonV2 colorTheme="danger" variant="outline">
               {t('myNdla.myPage.deleteAccount')}
             </ButtonV2>
-          }
-        >
-          {(onClose) => (
-            <>
-              <ModalHeader>
-                <ModalTitle>{t('myNdla.myPage.deleteAccount')}</ModalTitle>
-                <ModalCloseButton
-                  title={t('modal.closeModal')}
-                  onClick={onClose}
-                />
-              </ModalHeader>
-              <ModalBody>
-                <p>{t('myNdla.myPage.confirmDeleteAccount')}</p>
-                <ButtonRow>
-                  <ButtonV2 variant="outline" onClick={onClose}>
-                    {t('cancel')}
-                  </ButtonV2>
-                  <ButtonV2
-                    colorTheme="danger"
-                    variant="outline"
-                    onClick={onDeleteAccount}
-                  >
-                    {t('myNdla.myPage.confirmDeleteAccountButton')}
-                  </ButtonV2>
-                </ButtonRow>
-              </ModalBody>
-            </>
-          )}
+          </ModalTrigger>
+          <ModalContent>
+            <ModalHeader>
+              <ModalTitle>{t('myNdla.myPage.deleteAccount')}</ModalTitle>
+              <ModalCloseButton title={t('modal.closeModal')} />
+            </ModalHeader>
+            <ModalBody>
+              <p>{t('myNdla.myPage.confirmDeleteAccount')}</p>
+              <ButtonRow>
+                <ModalCloseButton>
+                  <ButtonV2 variant="outline">{t('cancel')}</ButtonV2>
+                </ModalCloseButton>
+                <ButtonV2
+                  colorTheme="danger"
+                  variant="outline"
+                  onClick={onDeleteAccount}
+                >
+                  {t('myNdla.myPage.confirmDeleteAccountButton')}
+                </ButtonV2>
+              </ButtonRow>
+            </ModalBody>
+          </ModalContent>
         </Modal>
       </ButtonContainer>
     </StyledPageContentContainer>

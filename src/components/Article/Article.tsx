@@ -6,7 +6,7 @@
  *
  */
 
-import { ReactElement, useEffect, useMemo, useState } from 'react';
+import { ReactElement, useEffect, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Remarkable } from 'remarkable';
 import { gql } from '@apollo/client';
@@ -164,7 +164,6 @@ const Article = ({
   ...rest
 }: Props) => {
   const { t, i18n } = useTranslation();
-  const [isOpen, setIsOpen] = useState(false);
   const markdown = useMemo(() => {
     const md = new Remarkable({ breaks: true });
     md.inline.ruler.enable(['sub', 'sup']);
@@ -290,23 +289,24 @@ const Article = ({
         renderMarkdown={renderMarkdown}
         modifier={isResourceArticle ? resourceType : modifier ?? 'clean'}
         heartButton={
-          path && <FavoriteButton path={path} onClick={() => setIsOpen(true)} />
+          path &&
+          config.feideEnabled &&
+          showFavoriteButton && (
+            <AddResourceToFolderModal
+              resource={{
+                id: article.id.toString(),
+                path,
+                resourceType: myNdlaResourceType,
+              }}
+            >
+              <FavoriteButton path={path} />
+            </AddResourceToFolderModal>
+          )
         }
         {...rest}
       >
         {children}
       </UIArticle>
-      {config.feideEnabled && showFavoriteButton && (
-        <AddResourceToFolderModal
-          isOpen={isOpen}
-          onClose={() => setIsOpen(false)}
-          resource={{
-            id: article.id.toString(),
-            path: location.pathname,
-            resourceType: myNdlaResourceType,
-          }}
-        />
-      )}
     </>
   );
 };

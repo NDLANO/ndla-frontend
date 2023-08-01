@@ -17,8 +17,11 @@ import {
   ModalHeader,
   ModalTitle,
   Modal,
+  ModalTrigger,
+  ModalContent,
 } from '@ndla/modal';
 import { useTranslation } from 'react-i18next';
+import { useCallback, useState } from 'react';
 import FolderForm from './FolderForm';
 import { useAddFolderMutation, useFolders } from '../folderMutations';
 import { GQLFolder } from '../../../graphqlTypes';
@@ -40,47 +43,58 @@ interface Props {
 }
 
 const CreateFolderModal = ({ onSaved, parentFolder }: Props) => {
+  const [open, setOpen] = useState(false);
   const { t } = useTranslation();
   const { addFolder, loading } = useAddFolderMutation();
+  const [folderCreated, setFolderCreated] = useState(false);
 
   const { folders } = useFolders();
 
+  const close = useCallback(() => setOpen(false), []);
+
+  const onModalClose = useCallback(
+    (e: Event) => {
+      if (folderCreated) {
+        e.preventDefault();
+        setFolderCreated(false);
+      }
+    },
+    [folderCreated],
+  );
+
   return (
-    <Modal
-      activateButton={
+    <Modal open={open} onOpenChange={setOpen}>
+      <ModalTrigger>
         <AddButton shape="pill" colorTheme="lighter">
           <Plus css={iconCss} />
           <span>{t('myNdla.newFolder')}</span>
         </AddButton>
-      }
-    >
-      {(close) => (
-        <>
-          <ModalHeader>
-            <ModalTitle>{t('myNdla.newFolder')}</ModalTitle>
-            <ModalCloseButton onClick={close} />
-          </ModalHeader>
-          <ModalBody>
-            <FolderForm
-              siblings={parentFolder?.subfolders ?? folders ?? []}
-              onSave={async (values) => {
-                const res = await addFolder({
-                  variables: {
-                    name: values.name,
-                    description: values.description,
-                    parentId: parentFolder?.id ?? undefined,
-                  },
-                });
-                close();
-                const folder = res.data?.addFolder as GQLFolder | undefined;
-                onSaved(folder);
-              }}
-              onClose={close}
-              loading={loading}
-            />
-          </ModalBody>
-        </>
-      )}
+      </ModalTrigger>
+      <ModalContent onCloseAutoFocus={onModalClose}>
+        <ModalHeader>
+          <ModalTitle>{t('myNdla.newFolder')}</ModalTitle>
+          <ModalCloseButton />
+        </ModalHeader>
+        <ModalBody>
+          <FolderForm
+            siblings={parentFolder?.subfolders ?? folders ?? []}
+            onSave={async (values) => {
+              const res = await addFolder({
+                variables: {
+                  name: values.name,
+                  description: values.description,
+                  parentId: parentFolder?.id ?? undefined,
+                },
+              });
+              setFolderCreated(true);
+              close();
+              const folder = res.data?.addFolder as GQLFolder | undefined;
+              onSaved(folder);
+            }}
+            loading={loading}
+          />
+        </ModalBody>
+      </ModalContent>
     </Modal>
   );
 };

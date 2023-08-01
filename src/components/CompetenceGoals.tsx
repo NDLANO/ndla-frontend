@@ -15,8 +15,10 @@ import {
   Modal,
   ModalBody,
   ModalCloseButton,
+  ModalContent,
   ModalHeader,
   ModalTitle,
+  ModalTrigger,
 } from '@ndla/modal';
 import { breakpoints, mq } from '@ndla/core';
 import { competenceGoalsQuery } from '../queries';
@@ -223,7 +225,6 @@ const CompetenceGoals = ({
   isOembed,
 }: Props) => {
   const [competenceGoalsLoading, setCompetenceGoalsLoading] = useState(true);
-  const [isOpen, setIsOpen] = useState(false);
   const { t, i18n } = useTranslation();
   const language =
     supportedLanguages?.find((l) => l === i18n.language) ||
@@ -277,44 +278,38 @@ const CompetenceGoals = ({
 
   return (
     <>
-      <ButtonV2
-        aria-busy={competenceGoalsLoading}
-        size="xsmall"
-        colorTheme="light"
-        shape="pill"
-        disabled={competenceGoalsLoading}
-        onClick={() => setIsOpen(true)}
-      >
-        <FooterHeaderIcon />
-        <CompetenceBadgeText>
-          {t('competenceGoals.showCompetenceGoals')}
-        </CompetenceBadgeText>
-      </ButtonV2>
-      <Modal
-        controlled
-        isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
-        size="full"
-      >
-        {(close) => (
-          <>
-            <ModalHeader>
-              <ModalTitle>
-                <FooterHeaderIcon size="24px" style={{ marginRight: '20px' }} />
-                {t('competenceGoals.modalText')}
-              </ModalTitle>
-              <ModalCloseButton onClick={close} />
-            </ModalHeader>
-            <ModalBody>
-              <CompetenceGoalsWrapper>
-                <CompetenceGoalTab
-                  list={competenceGoalsList}
-                  isOembed={isOembed}
-                />
-              </CompetenceGoalsWrapper>
-            </ModalBody>
-          </>
-        )}
+      <Modal>
+        <ModalTrigger>
+          <ButtonV2
+            aria-busy={competenceGoalsLoading}
+            size="xsmall"
+            colorTheme="light"
+            shape="pill"
+            disabled={competenceGoalsLoading}
+          >
+            <FooterHeaderIcon />
+            <CompetenceBadgeText>
+              {t('competenceGoals.showCompetenceGoals')}
+            </CompetenceBadgeText>
+          </ButtonV2>
+        </ModalTrigger>
+        <ModalContent size="full">
+          <ModalHeader>
+            <ModalTitle>
+              <FooterHeaderIcon size="24px" style={{ marginRight: '20px' }} />
+              {t('competenceGoals.modalText')}
+            </ModalTitle>
+            <ModalCloseButton />
+          </ModalHeader>
+          <ModalBody>
+            <CompetenceGoalsWrapper>
+              <CompetenceGoalTab
+                list={competenceGoalsList}
+                isOembed={isOembed}
+              />
+            </CompetenceGoalsWrapper>
+          </ModalBody>
+        </ModalContent>
       </Modal>
     </>
   );

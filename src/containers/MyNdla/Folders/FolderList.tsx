@@ -6,7 +6,7 @@
  *
  */
 
-import { Dispatch, useMemo, useState, useEffect } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { useApolloClient } from '@apollo/client';
 import { useTranslation } from 'react-i18next';
 import {
@@ -27,7 +27,7 @@ import {
   restrictToParentElement,
 } from '@dnd-kit/modifiers';
 import { Spinner } from '@ndla/icons';
-import { BlockWrapper, FolderAction, ViewType } from './FoldersPage';
+import { BlockWrapper, ViewType } from './FoldersPage';
 import WhileLoading from '../../../components/WhileLoading';
 import { GQLFolder } from '../../../graphqlTypes';
 import {
@@ -43,7 +43,6 @@ interface Props {
   type: ViewType;
   folders: GQLFolder[];
   folderId: string | undefined;
-  setFolderAction: Dispatch<FolderAction | undefined>;
   onViewTypeChange: (type: ViewType) => void;
 }
 
@@ -52,7 +51,6 @@ const FolderList = ({
   type,
   folders,
   folderId,
-  setFolderAction,
   onViewTypeChange,
 }: Props) => {
   const { t } = useTranslation();
@@ -140,7 +138,6 @@ const FolderList = ({
                   index={index}
                   foldersCount={foldersCount}
                   type={type}
-                  setFolderAction={setFolderAction}
                 />
               ))}
             </SortableContext>
