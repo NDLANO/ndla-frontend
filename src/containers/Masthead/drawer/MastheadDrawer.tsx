@@ -12,7 +12,7 @@ import { ButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
 import { Menu } from '@ndla/icons/common';
 import { Cross } from '@ndla/icons/action';
-import { Drawer } from '@ndla/modal';
+import { Drawer, Modal, ModalCloseButton, ModalTrigger } from '@ndla/modal';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { GQLMastheadDrawer_SubjectFragment } from '../../../graphqlTypes';
@@ -51,6 +51,7 @@ interface Props {
 }
 
 const MastheadDrawer = ({ subject }: Props) => {
+  const [open, setOpen] = useState(false);
   const { subjectId, topicList, programme } = useUrnIds();
   const prevProgramme = usePrevious(programme);
   const [type, setType] = useState<MenuType | undefined>(undefined);
@@ -73,6 +74,8 @@ const MastheadDrawer = ({ subject }: Props) => {
     }
   }, [programme, prevProgramme]);
 
+  const close = useCallback(() => setOpen(false), []);
+
   const closeSubMenu = useCallback(() => {
     setTopicPath([]);
     setType(undefined);
@@ -92,14 +95,8 @@ const MastheadDrawer = ({ subject }: Props) => {
   }, [topicPath, type]);
 
   return (
-    <Drawer
-      expands
-      position="left"
-      size="xsmall"
-      animationDuration={100}
-      animation="slideIn"
-      aria-label={t('masthead.menu.modalLabel')}
-      activateButton={
+    <Modal open={open} onOpenChange={setOpen}>
+      <ModalTrigger>
         <ButtonV2
           aria-haspopup="menu"
           inverted={ndlaFilm}
@@ -111,15 +108,22 @@ const MastheadDrawer = ({ subject }: Props) => {
           <Menu />
           {t('masthead.menu.button')}
         </ButtonV2>
-      }
-    >
-      {(close) => (
+      </ModalTrigger>
+      <Drawer
+        expands
+        position="left"
+        size="xsmall"
+        animationDuration={100}
+        aria-label={t('masthead.menu.modalLabel')}
+      >
         <MainMenu>
           <HeadWrapper>
-            <ButtonV2 variant="outline" shape="pill" onClick={close}>
-              <Cross />
-              {t('close')}
-            </ButtonV2>
+            <ModalCloseButton>
+              <ButtonV2 variant="outline" shape="pill">
+                <Cross />
+                {t('close')}
+              </ButtonV2>
+            </ModalCloseButton>
           </HeadWrapper>
           <DrawerContainer>
             <DrawerProvider>
@@ -144,8 +148,8 @@ const MastheadDrawer = ({ subject }: Props) => {
             </DrawerProvider>
           </DrawerContainer>
         </MainMenu>
-      )}
-    </Drawer>
+      </Drawer>
+    </Modal>
   );
 };
 

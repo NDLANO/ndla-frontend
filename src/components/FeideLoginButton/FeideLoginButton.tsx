@@ -6,7 +6,7 @@
  *
  */
 
-import { ReactNode, useCallback, useContext, useState } from 'react';
+import { ReactNode, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
@@ -15,13 +15,20 @@ import { ButtonV2 as Button, ButtonV2 } from '@ndla/button';
 import { colors, spacing } from '@ndla/core';
 import { SafeLinkButton } from '@ndla/safelink';
 import { FeideText, LogOut } from '@ndla/icons/common';
-import { Modal, ModalBody, ModalCloseButton, ModalHeader } from '@ndla/modal';
+import {
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalTrigger,
+} from '@ndla/modal';
 import { AuthContext } from '../AuthenticationContext';
 import IsMobileContext from '../../IsMobileContext';
 import { useIsNdlaFilm } from '../../routeHelpers';
 import { constructNewPath, toHref } from '../../util/urlHelper';
 import { useBaseName } from '../BaseNameContext';
-import LoginModal from '../MyNdla/LoginModal';
+import LoginModalContent from '../MyNdla/LoginModalContent';
 
 const FeideFooterButton = styled(Button)`
   padding: ${spacing.xsmall} ${spacing.small};
@@ -66,10 +73,7 @@ const FeideLoginButton = ({ footer, children }: Props) => {
   const basename = useBaseName();
   const ndlaFilm = useIsNdlaFilm();
   const isMobile = useContext(IsMobileContext);
-  const [isOpen, setIsOpen] = useState(false);
   const destination = isMobile ? '/minndla/meny' : '/minndla';
-
-  const onClose = useCallback(() => setIsOpen(false), []);
 
   if (authenticated && !footer) {
     return (
@@ -88,51 +92,49 @@ const FeideLoginButton = ({ footer, children }: Props) => {
 
   if (!authenticated) {
     return (
-      <>
-        <Button
-          variant={footer ? 'outline' : 'ghost'}
-          colorTheme={footer ? 'greyLighter' : 'lighter'}
-          onClick={() => setIsOpen(true)}
-          inverted={!footer && ndlaFilm}
-          shape={footer ? 'normal' : 'pill'}
-        >
-          {children}
-        </Button>
-        <LoginModal isOpen={isOpen} onClose={onClose} masthead />
-      </>
+      <Modal>
+        <ModalTrigger>
+          <Button
+            variant={footer ? 'outline' : 'ghost'}
+            colorTheme={footer ? 'greyLighter' : 'lighter'}
+            inverted={!footer && ndlaFilm}
+            shape={footer ? 'normal' : 'pill'}
+          >
+            {children}
+          </Button>
+        </ModalTrigger>
+        <LoginModalContent masthead />
+      </Modal>
     );
   }
 
   return (
-    <Modal
-      position="top"
-      activateButton={<FeideFooterButton>{children}</FeideFooterButton>}
-      aria-label={t('user.modal.isAuth')}
-    >
-      {(onClose: () => void) => (
-        <>
-          <ModalHeader>
-            <StyledHeading aria-label="Feide">
-              <FeideText aria-hidden />
-            </StyledHeading>
-            <ModalCloseButton onClick={onClose} />
-          </ModalHeader>
-          <ModalBody>
-            {user && <UserInfo user={user} />}
-            <StyledButton
-              onClick={() => {
-                window.location.href = constructNewPath(
-                  `/logout?state=${toHref(location)}`,
-                  basename,
-                );
-              }}
-            >
-              {t('user.buttonLogOut')}
-              <LogOut />
-            </StyledButton>
-          </ModalBody>
-        </>
-      )}
+    <Modal aria-label={t('user.modal.isAuth')}>
+      <ModalTrigger>
+        <FeideFooterButton>{children}</FeideFooterButton>
+      </ModalTrigger>
+      <ModalContent position="top">
+        <ModalHeader>
+          <StyledHeading aria-label="Feide">
+            <FeideText aria-hidden />
+          </StyledHeading>
+          <ModalCloseButton />
+        </ModalHeader>
+        <ModalBody>
+          {user && <UserInfo user={user} />}
+          <StyledButton
+            onClick={() => {
+              window.location.href = constructNewPath(
+                `/logout?state=${toHref(location)}`,
+                basename,
+              );
+            }}
+          >
+            {t('user.buttonLogOut')}
+            <LogOut />
+          </StyledButton>
+        </ModalBody>
+      </ModalContent>
     </Modal>
   );
 };

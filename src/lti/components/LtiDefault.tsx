@@ -6,45 +6,77 @@
  *
  */
 
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { ButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
-import LtiEmbedCode from './LtiEmbedCode';
+import {
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalTrigger,
+} from '@ndla/modal';
+import styled from '@emotion/styled';
 import { fetchArticleOembed } from '../../containers/ArticlePage/articleApi';
 import { LtiItem } from '../../interfaces';
 import config from '../../config';
+
+const MarginLeftParagraph = styled.p`
+  margin-left: 26px;
+`;
+
+const CodeWithBreakWord = styled.code`
+  word-break: break-word;
+`;
 
 interface Props {
   item: LtiItem;
 }
 const LtiDefault = ({ item }: Props) => {
   const [embedCode, setEmbedCode] = useState('');
-  const [isOpen, setIsOpen] = useState(false);
+  const [open, setOpen] = useState(false);
   const { t } = useTranslation();
-  const showEmbedCode = async (item: LtiItem) => {
-    if (typeof item.url === 'string') {
-      const oembed = await fetchArticleOembed(
-        `${config.ndlaFrontendDomain}${item.url}`,
-      );
-      setEmbedCode(oembed.html);
-    } else {
-      setEmbedCode(
-        `<iframe src="${item.url.href}" frameborder="0" allowFullscreen="" aria-label="${item.url.href}" />`,
-      );
-    }
-    setIsOpen(true);
-  };
 
-  const hideEmbedCode = () => {
-    setEmbedCode('');
-    setIsOpen(false);
-  };
+  const onOpenChange = useCallback(
+    async (open: boolean) => {
+      if (!open) {
+        setOpen(false);
+        setEmbedCode('');
+      } else {
+        if (typeof item.url === 'string') {
+          const oembed = await fetchArticleOembed(
+            `${config.ndlaFrontendDomain}${item.url}`,
+          );
+          setEmbedCode(oembed.html);
+        } else {
+          setEmbedCode(
+            `<iframe src="${item.url.href}" frameborder="0" allowFullscreen="" aria-label="${item.url.href}" />`,
+          );
+        }
+        setOpen(true);
+      }
+    },
+    [item.url],
+  );
 
   return (
-    <>
-      <ButtonV2 onClick={() => showEmbedCode(item)}>{t('lti.embed')}</ButtonV2>
-      <LtiEmbedCode isOpen={isOpen} code={embedCode} onClose={hideEmbedCode} />
-    </>
+    <Modal open={open} onOpenChange={onOpenChange}>
+      <ModalTrigger>
+        <ButtonV2>{t('lti.embed')}</ButtonV2>
+      </ModalTrigger>
+      <ModalContent size="normal">
+        <ModalHeader>
+          <ModalCloseButton />
+        </ModalHeader>
+        <ModalBody>
+          <MarginLeftParagraph>{t('lti.notSupported')}</MarginLeftParagraph>
+          <pre>
+            <CodeWithBreakWord>{embedCode}</CodeWithBreakWord>
+          </pre>
+        </ModalBody>
+      </ModalContent>
+    </Modal>
   );
 };
 

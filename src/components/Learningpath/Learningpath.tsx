@@ -70,7 +70,6 @@ const Learningpath = ({
   onKeyUpEvent,
   breadcrumbItems,
 }: Props) => {
-  const [isAdding, setIsAdding] = useState(false);
   const ndlaFilm = useIsNdlaFilm();
   const { id, learningsteps, lastUpdated, copyright, title } = learningpath;
 
@@ -141,10 +140,15 @@ const Learningpath = ({
       heartButton={
         resource?.path &&
         config.feideEnabled && (
-          <FavoriteButton
-            path={resource.path}
-            onClick={() => setIsAdding(true)}
-          />
+          <AddResourceToFolderModal
+            resource={{
+              id: learningpath.id.toString(),
+              path: resource.path,
+              resourceType: 'learningpath',
+            }}
+          >
+            <FavoriteButton path={resource.path} />
+          </AddResourceToFolderModal>
         )
       }
     />
@@ -235,17 +239,6 @@ const Learningpath = ({
           <LearningPathStickyPlaceholder />
         )}
       </LearningPathSticky>
-      {resource?.path && (
-        <AddResourceToFolderModal
-          isOpen={isAdding}
-          onClose={() => setIsAdding(false)}
-          resource={{
-            id: learningpath.id.toString(),
-            path: resource.path,
-            resourceType: 'learningpath',
-          }}
-        />
-      )}
     </LearningPathWrapper>
   );
 };

@@ -7,7 +7,7 @@
  */
 
 import { gql } from '@apollo/client';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { ResourcesWrapper, ResourceGroup } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
 import { contentTypeMapping } from '../../util/getContentType';
@@ -17,15 +17,16 @@ import {
   TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE,
 } from '../../constants';
 import {
+  GQLResources_ResourceFragment,
   GQLResources_ResourceTypeDefinitionFragment,
   GQLResources_TopicFragment,
 } from '../../graphqlTypes';
 import { TypedParams, useIsNdlaFilm, useTypedParams } from '../../routeHelpers';
 import AddResourceToFolderModal from '../../components/MyNdla/AddResourceToFolderModal';
-import { ResourceAttributes } from '../../components/MyNdla/AddResourceToFolder';
 import FavoriteButton from '../../components/Article/FavoritesButton';
 import ResourcesTopicTitle from './ResourcesTopicTitle';
 import { HeadingType } from '../../interfaces';
+import { ResourceAttributes } from '../../components/MyNdla/AddResourceToFolder';
 
 interface MatchProps extends TypedParams {
   topicId?: string;
@@ -48,9 +49,6 @@ const Resources = ({
 }: Props) => {
   const params = useTypedParams<MatchProps>();
   const [showAdditionalResources, setShowAdditionalResources] = useState(false);
-  const [resourceToAdd, setResourceToAdd] = useState<
-    ResourceAttributes | undefined
-  >(undefined);
   const ndlaFilm = useIsNdlaFilm();
   const { t } = useTranslation();
 
@@ -153,13 +151,6 @@ const Resources = ({
     }),
   }));
 
-  const onToggleAddToFavorites = (contentUri?: string, path?: string) => {
-    const [, resourceType, articleIdString] = contentUri?.split(':') ?? [];
-    const articleId = articleIdString ? parseInt(articleIdString) : undefined;
-    if (!resourceType || !articleId || !path) return;
-    setResourceToAdd({ id: articleId.toString(), path, resourceType });
-  };
-
   return (
     <ResourcesWrapper
       header={
@@ -181,13 +172,7 @@ const Resources = ({
           toggleAdditionalResources={toggleAdditionalResources}
           invertedStyle={ndlaFilm}
           heartButton={(p) => (
-            <FavoriteButton
-              path={p}
-              onClick={() => {
-                const resource = ungroupedResources?.find((r) => r.path === p);
-                onToggleAddToFavorites(resource?.contentUri, resource?.path);
-              }}
-            />
+            <AddResource resources={ungroupedResources} path={p} />
           )}
         />
       )}
@@ -203,24 +188,39 @@ const Resources = ({
             contentType={type.contentType}
             invertedStyle={ndlaFilm}
             heartButton={(p) => (
-              <FavoriteButton
-                path={p}
-                onClick={() => {
-                  const resource = ungroupedResources?.find(
-                    (r) => r.path === p,
-                  );
-                  onToggleAddToFavorites(resource?.contentUri, resource?.path);
-                }}
-              />
+              <AddResource resources={type.resources ?? []} path={p} />
             )}
           />
         ))}
-      <AddResourceToFolderModal
-        isOpen={!!resourceToAdd}
-        onClose={() => setResourceToAdd(undefined)}
-        resource={resourceToAdd!}
-      />
     </ResourcesWrapper>
+  );
+};
+
+interface AddResourceProps {
+  resources: GQLResources_ResourceFragment[];
+  path: string;
+}
+
+const AddResource = ({ resources, path }: AddResourceProps) => {
+  const resource: ResourceAttributes | undefined = useMemo(() => {
+    const res = resources?.find((r) => r.path === path);
+    const [, resourceType, articleIdString] = res?.contentUri?.split(':') ?? [];
+    const articleId = articleIdString ? parseInt(articleIdString) : undefined;
+    if (!resourceType || !articleId || !path) return undefined;
+
+    return {
+      id: articleId?.toString(),
+      path: path,
+      resourceType,
+    };
+  }, [path, resources]);
+
+  if (!resource) return null;
+
+  return (
+    <AddResourceToFolderModal resource={resource}>
+      <FavoriteButton path={path} />
+    </AddResourceToFolderModal>
   );
 };
 
