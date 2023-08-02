@@ -164,7 +164,7 @@ const SettingsMenu = ({ menuItems, children }: Props) => {
             {!!menuItems?.length && (
               <StyledUl>
                 {menuItems.map((item) => (
-                  <StyledLi key={item.text} hidden>
+                  <StyledLi key={item.text}>
                     <Item
                       keepOpen={item.keepOpen}
                       handleDialogItemOpenChange={handleDialogItemOpenChange}
