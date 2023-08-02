@@ -46,27 +46,21 @@ interface Props {
   metadata: GQLTopicVisualElementContent_MetaFragment;
 }
 
-const EmbedWrapper = styled.div`
-  padding: 0 ${spacing.small};
-`;
-
 const TopicVisualElementContent = ({ embed, metadata }: Props) => {
   const { t } = useTranslation();
   return (
     <Wrapper>
-      <EmbedWrapper>
-        {embed.resource === 'image' ? (
-          <ImageEmbed embed={embed} />
-        ) : embed.resource === 'brightcove' ? (
-          <BrightcoveEmbed embed={embed} />
-        ) : embed.resource === 'h5p' ? (
-          <H5pEmbed embed={embed} />
-        ) : embed.resource === 'iframe' ? (
-          <IframeEmbed embed={embed} />
-        ) : embed.resource === 'external' ? (
-          <ExternalEmbed embed={embed} />
-        ) : null}
-      </EmbedWrapper>
+      {embed.resource === 'image' ? (
+        <ImageEmbed embed={embed} />
+      ) : embed.resource === 'brightcove' ? (
+        <BrightcoveEmbed embed={embed} />
+      ) : embed.resource === 'h5p' ? (
+        <H5pEmbed embed={embed} />
+      ) : embed.resource === 'iframe' ? (
+        <IframeEmbed embed={embed} />
+      ) : embed.resource === 'external' ? (
+        <ExternalEmbed embed={embed} />
+      ) : null}
       <AccordionRoot type="single" collapsible>
         {metadata && hasLicensedContent(metadata) && (
           <AccordionItem value="rulesForUse">
