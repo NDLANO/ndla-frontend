@@ -7,7 +7,7 @@
  */
 
 import 'isomorphic-unfetch';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { HelmetProvider } from 'react-helmet-async';
 import { I18nextProvider } from 'react-i18next';
 import ErrorReporter from '@ndla/error-reporter';
@@ -53,7 +53,8 @@ const language = isValidLocale(storedLanguage)
 const client = createApolloClient(language);
 const i18n = initializeI18n(i18nInstance, language);
 
-ReactDOM.render(
+const root = createRoot(document.getElementById('root')!);
+root.render(
   <HelmetProvider>
     <I18nextProvider i18n={i18n}>
       <ApolloProvider client={client}>
@@ -63,7 +64,6 @@ ReactDOM.render(
       </ApolloProvider>
     </I18nextProvider>
   </HelmetProvider>,
-  document.getElementById('root'),
 );
 
 if (module.hot) {

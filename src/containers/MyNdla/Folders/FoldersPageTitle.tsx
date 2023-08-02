@@ -8,16 +8,15 @@
 import { ContentLoader } from '@ndla/ui';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
-import { Dispatch, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
+import { memo } from 'react';
 import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
 import MyNdlaTitle from '../components/MyNdlaTitle';
 import TitleWrapper from '../components/TitleWrapper';
 import FolderActions from './FolderActions';
 import WhileLoading from '../../../components/WhileLoading';
 import { GQLFolder } from '../../../graphqlTypes';
-import { FolderAction, ViewType } from './FoldersPage';
-import { AuthContext } from '../../../components/AuthenticationContext';
+import { ViewType } from './FoldersPage';
 
 const TitleRow = styled.div`
   display: flex;
@@ -27,23 +26,18 @@ const TitleRow = styled.div`
 
 interface Props {
   loading: boolean;
-  hasSelectedFolder: boolean;
   selectedFolder: GQLFolder | null;
-  setFolderAction: Dispatch<FolderAction | undefined>;
   viewType: ViewType;
   onViewTypeChange: (type: ViewType) => void;
 }
 
 const FoldersPageTitle = ({
   loading,
-  hasSelectedFolder,
   selectedFolder,
-  setFolderAction,
   viewType,
   onViewTypeChange,
 }: Props) => {
   const { t } = useTranslation();
-  const { examLock } = useContext(AuthContext);
   const crumbs = selectedFolder?.breadcrumbs ?? [];
 
   const backCrumb =
@@ -58,7 +52,7 @@ const FoldersPageTitle = ({
       <WhileLoading
         isLoading={loading}
         fallback={
-          hasSelectedFolder && (
+          !!selectedFolder && (
             <ContentLoader
               width={500}
               height={30}
@@ -88,7 +82,7 @@ const FoldersPageTitle = ({
           fallback={
             <ContentLoader
               width={500}
-              height={hasSelectedFolder ? 44 : 28}
+              height={selectedFolder ? 44 : 28}
               css={{ maxWidth: '500px', minWidth: '500px' }}
             >
               <rect
@@ -97,7 +91,7 @@ const FoldersPageTitle = ({
                 rx="3"
                 ry="3"
                 width="300"
-                height={hasSelectedFolder ? '40' : '24'}
+                height={selectedFolder ? '40' : '24'}
                 key="rect-1"
               />
             </ContentLoader>
@@ -105,21 +99,18 @@ const FoldersPageTitle = ({
           isLoading={loading}
         >
           <MyNdlaTitle title={selectedFolder?.name ?? t('myNdla.myFolders')} />
-          {hasSelectedFolder && !examLock && (
-            <FolderActions
-              selectedFolder={selectedFolder}
-              viewType={viewType}
-              onViewTypeChange={onViewTypeChange}
-              onActionChanged={(action) =>
-                selectedFolder &&
-                setFolderAction({ action, folder: selectedFolder })
-              }
-            />
-          )}
         </WhileLoading>
+        {selectedFolder && (
+          <FolderActions
+            key={selectedFolder.id}
+            selectedFolder={selectedFolder}
+            viewType={viewType}
+            onViewTypeChange={onViewTypeChange}
+          />
+        )}
       </TitleRow>
     </TitleWrapper>
   );
 };
 
-export default FoldersPageTitle;
+export default memo(FoldersPageTitle);

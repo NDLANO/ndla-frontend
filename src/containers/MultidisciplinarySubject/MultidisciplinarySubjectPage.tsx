@@ -8,10 +8,15 @@
 
 import { gql } from '@apollo/client';
 import { createRef, useContext, useEffect, useState } from 'react';
+import styled from '@emotion/styled';
+import { breakpoints, fonts, mq } from '@ndla/core';
 import {
   ContentPlaceholder,
-  MultidisciplinarySubject,
+  Heading,
+  HomeBreadcrumb,
+  LayoutItem,
   NavigationBox,
+  OneColumn,
   SimpleBreadcrumbItem,
 } from '@ndla/ui';
 
@@ -29,6 +34,7 @@ import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { AuthContext } from '../../components/AuthenticationContext';
 import { htmlTitle } from '../../util/titleHelper';
 import { SKIP_TO_CONTENT_ID } from '../../constants';
+import MultidisciplinaryArticleList from './components/MultidisciplinaryArticleList';
 
 const multidisciplinarySubjectPageQuery = gql`
   query multidisciplinarySubjectPage($subjectId: String!) {
@@ -61,6 +67,66 @@ const multidisciplinarySubjectPageQuery = gql`
     }
   }
   ${MultidisciplinaryTopicWrapper.fragments.subject}
+`;
+
+const StyledWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const StyledBackground = styled.div`
+  width: 100%;
+  background: linear-gradient(
+      179.64deg,
+      rgba(255, 255, 255, 0.6) 80.1%,
+      rgba(255, 255, 255) 99.05%
+    ),
+    linear-gradient(
+      318.9deg,
+      rgb(239, 238, 220, 0.6) 35.53%,
+      rgb(250, 246, 235) 74.23%
+    ),
+    rgb(221, 216, 175);
+`;
+
+const Illustration = styled.div`
+  background-image: url('/static/illustrations/frontpage_multidisciplinary.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: bottom;
+  height: 88px;
+  width: 100%;
+  margin: 0 0 -15px;
+
+  ${mq.range({ from: breakpoints.mobileWide })} {
+    margin: 32px 0 -15px;
+  }
+  ${mq.range({ from: breakpoints.tablet })} {
+    height: 114px;
+    margin: 40px 0 -15px;
+  }
+  ${mq.range({ from: breakpoints.tabletWide })} {
+    height: 146px;
+    margin: 56px 0 -15px;
+  }
+  ${mq.range({ from: breakpoints.desktop })} {
+    height: 175px;
+  }
+`;
+
+const InfoText = styled.div`
+  max-width: 720px;
+  font-size: ${fonts.sizes('16px', '24px')};
+  ${mq.range({ from: breakpoints.mobileWide })} {
+    ${fonts.sizes('20px', '32px')};
+  }
+`;
+
+const Header = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 32px 0px;
 `;
 
 const MultidisciplinarySubjectPage = () => {
@@ -194,30 +260,58 @@ const MultidisciplinarySubjectPage = () => {
         imageUrl={socialMediaMetaData.image?.url}
       />
       <main>
-        <MultidisciplinarySubject
-          breadcrumbs={breadCrumbs}
-          id={selectedTopics.length === 0 ? SKIP_TO_CONTENT_ID : undefined}
-          hideCards={isNotLastTopic}
-          cards={cards}
-          totalCardCount={cards.length}
-        >
-          <NavigationBox items={mainTopics} listDirection="horizontal" />
-
-          {selectedTopics.map((topicId, index) => (
-            <div key={index} ref={refs[index]}>
-              <MultidisciplinaryTopicWrapper
-                index={index}
-                setCrumbs={setTopicCrumbs}
-                disableNav={index >= selectionLimit - 1}
-                topicId={topicId}
-                subjectId={subject.id}
-                subTopicId={selectedTopics[index + 1]}
-                subject={subject}
-                user={user}
-              />
-            </div>
-          ))}
-        </MultidisciplinarySubject>
+        <StyledWrapper>
+          <StyledBackground>
+            <OneColumn wide>
+              <Header>
+                <LayoutItem layout="extend">
+                  <HomeBreadcrumb items={breadCrumbs} />
+                  <Heading
+                    element="h1"
+                    headingStyle="h1"
+                    id={
+                      selectedTopics.length === 0
+                        ? SKIP_TO_CONTENT_ID
+                        : undefined
+                    }
+                    tabIndex={-1}
+                  >
+                    {t('frontpageMultidisciplinarySubject.heading')}
+                  </Heading>
+                  <InfoText>
+                    {t('frontpageMultidisciplinarySubject.text')}
+                  </InfoText>
+                </LayoutItem>
+                <Illustration />
+              </Header>
+            </OneColumn>
+          </StyledBackground>
+          <OneColumn wide>
+            <LayoutItem layout="extend">
+              <NavigationBox items={mainTopics} listDirection="horizontal" />
+              {selectedTopics.map((topicId, index) => (
+                <div key={index} ref={refs[index]}>
+                  <MultidisciplinaryTopicWrapper
+                    index={index}
+                    setCrumbs={setTopicCrumbs}
+                    disableNav={index >= selectionLimit - 1}
+                    topicId={topicId}
+                    subjectId={subject.id}
+                    subTopicId={selectedTopics[index + 1]}
+                    subject={subject}
+                    user={user}
+                  />
+                </div>
+              ))}
+              {isNotLastTopic || (
+                <MultidisciplinaryArticleList
+                  items={cards}
+                  totalCount={cards.length}
+                />
+              )}
+            </LayoutItem>
+          </OneColumn>
+        </StyledWrapper>
       </main>
     </>
   );

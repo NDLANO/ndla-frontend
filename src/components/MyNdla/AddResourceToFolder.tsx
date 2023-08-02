@@ -241,7 +241,7 @@ const AddResourceToFolder = ({
     }
 
     return defaultOpen;
-  }, [structureFolders, defaultOpenFolder, selectedFolderId]);
+  }, [structureFolders, defaultOpenFolder?.breadcrumbs, selectedFolderId]);
 
   const noFolderSelected = selectedFolderId === 'folders';
 

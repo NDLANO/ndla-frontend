@@ -6,73 +6,214 @@
  *
  */
 
-import { MenuItemProps } from '@ndla/button';
 import { Cross, Pencil } from '@ndla/icons/action';
 import { DeleteForever } from '@ndla/icons/editor';
-import { Share } from '@ndla/icons/common';
-import { FolderMenu } from '@ndla/ui';
-import { useContext, useMemo } from 'react';
+import { Link, Share } from '@ndla/icons/common';
+import { useCallback, useContext, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useSnack } from '@ndla/ui';
+import { useNavigate, useParams } from 'react-router-dom';
 import { GQLFolder } from '../../../graphqlTypes';
-import { FolderActionType, ViewType } from './FoldersPage';
+import { ViewType } from './FoldersPage';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import { isStudent } from './util';
+import { MenuItemProps } from '../components/SettingsMenu';
+import FolderMenu from '../components/FolderMenu';
+import EditFolderModalContent from './EditFolderModalContent';
+import { FolderShareModalContent } from './FolderShareModal';
+import {
+  useDeleteFolderMutation,
+  useUpdateFolderStatusMutation,
+} from '../folderMutations';
+import DeleteModalContent from '../components/DeleteModalContent';
+import config from '../../../config';
 
 interface Props {
-  onActionChanged: (action: FolderActionType) => void;
-  selectedFolder: GQLFolder | null;
+  selectedFolder: GQLFolder;
   viewType: ViewType;
   onViewTypeChange: (type: ViewType) => void;
 }
 
 const FolderActions = ({
-  onActionChanged,
   selectedFolder,
   viewType,
   onViewTypeChange,
 }: Props) => {
   const { t } = useTranslation();
-  const { user } = useContext(AuthContext);
+  const { addSnack } = useSnack();
+  const { folderId } = useParams();
+  const navigate = useNavigate();
+
+  const { updateFolderStatus } = useUpdateFolderStatusMutation();
+
+  const { deleteFolder, loading: deleteFolderLoading } =
+    useDeleteFolderMutation();
+
+  const onDeleteFolder = useCallback(async () => {
+    await deleteFolder({ variables: { id: selectedFolder.id } });
+    if (selectedFolder.id === folderId) {
+      navigate(`/minndla/folders/${selectedFolder.parentId ?? ''}`, {
+        replace: true,
+      });
+    }
+    addSnack({
+      id: 'folderDeleted',
+      content: t('myNdla.folder.folderDeleted', {
+        folderName: selectedFolder.name,
+      }),
+    });
+  }, [addSnack, deleteFolder, folderId, navigate, selectedFolder, t]);
+
+  const shareRef = useRef<HTMLButtonElement | null>(null);
+  const unShareRef = useRef<HTMLButtonElement | null>(null);
+  const previewRef = useRef<HTMLButtonElement | null>(null);
+
+  const onFolderUpdated = useCallback(() => {
+    addSnack({ id: 'folderUpdated', content: t('myNdla.folder.updated') });
+  }, [addSnack, t]);
+
+  const { user, examLock } = useContext(AuthContext);
+
   const actionItems: MenuItemProps[] = useMemo(() => {
+    if (examLock) return [];
     const editFolder: MenuItemProps = {
       icon: <Pencil />,
       text: t('myNdla.folder.edit'),
-      onClick: () => onActionChanged('edit'),
+      isModal: true,
+      modalContent: (close) => (
+        <EditFolderModalContent
+          onClose={close}
+          onSaved={onFolderUpdated}
+          folder={selectedFolder}
+        />
+      ),
     };
 
     const shareLink: MenuItemProps = {
       icon: <Share />,
       text: t('myNdla.folder.sharing.button.share'),
-      onClick: () => onActionChanged('shared'),
+      ref: previewRef,
+      isModal: true,
+      keepOpen: true,
+      modalContent: (close) => (
+        <FolderShareModalContent
+          type="shared"
+          folder={selectedFolder}
+          onClose={close}
+          onUpdateStatus={async (close) => {
+            close();
+            unShareRef.current?.click();
+          }}
+        />
+      ),
+    };
+
+    const copyLink: MenuItemProps = {
+      icon: <Link />,
+      text: t('myNdla.folder.sharing.copyLink'),
+      onClick: () => {
+        navigator.clipboard.writeText(
+          `${config.ndlaFrontendDomain}/folder/${selectedFolder.id}`,
+        );
+        addSnack({
+          content: t('myNdla.resource.linkCopied'),
+          id: 'linkCopied',
+        });
+      },
     };
 
     const unShare: MenuItemProps = {
       icon: <Cross />,
       text: t('myNdla.folder.sharing.button.unShare'),
-      onClick: () => onActionChanged('unShare'),
+      isModal: true,
+      ref: unShareRef,
+      modalContent: (close) => (
+        <FolderShareModalContent
+          type="unShare"
+          folder={selectedFolder}
+          onClose={close}
+          onUpdateStatus={async (close) => {
+            updateFolderStatus({
+              variables: {
+                folderId: selectedFolder.id,
+                status: 'private',
+              },
+            });
+            close();
+            addSnack({
+              id: 'sharingDeleted',
+              content: t('myNdla.folder.sharing.unShare'),
+            });
+          }}
+        />
+      ),
     };
 
     const share: MenuItemProps = {
       icon: <Share />,
       text: t('myNdla.folder.sharing.share'),
-      onClick: () => onActionChanged('private'),
+      isModal: true,
+      ref: shareRef,
+      modalContent: (close) => (
+        <FolderShareModalContent
+          type="private"
+          folder={selectedFolder}
+          onClose={close}
+          onUpdateStatus={async (close) => {
+            await updateFolderStatus({
+              variables: {
+                folderId: selectedFolder.id,
+                status: 'shared',
+              },
+            });
+            close();
+            addSnack({
+              id: 'folderShared',
+              content: t('myNdla.folder.sharing.header.shared'),
+            });
+          }}
+        />
+      ),
     };
+
     const deleteOpt: MenuItemProps = {
       icon: <DeleteForever />,
       text: t('myNdla.folder.delete'),
       type: 'danger',
-      onClick: () => onActionChanged('delete'),
+      isModal: true,
+      modalContent: (close) => (
+        <DeleteModalContent
+          loading={deleteFolderLoading}
+          title={t('myNdla.folder.delete')}
+          description={t('myNdla.confirmDeleteFolder')}
+          removeText={t('myNdla.folder.delete')}
+          onDelete={async () => {
+            await onDeleteFolder();
+            close();
+          }}
+        />
+      ),
     };
 
     if (isStudent(user)) {
       return [editFolder, deleteOpt];
     }
 
-    const sharedOptions =
-      selectedFolder?.status === 'shared' ? [shareLink, unShare] : [share];
-
-    return [editFolder, sharedOptions, deleteOpt].flat();
-  }, [onActionChanged, selectedFolder, t, user]);
+    if (selectedFolder.status === 'shared') {
+      return [editFolder, shareLink, copyLink, unShare, deleteOpt];
+    }
+    return [editFolder, share, deleteOpt];
+  }, [
+    addSnack,
+    deleteFolderLoading,
+    examLock,
+    onDeleteFolder,
+    onFolderUpdated,
+    selectedFolder,
+    t,
+    updateFolderStatus,
+    user,
+  ]);
 
   return (
     <FolderMenu

@@ -13,6 +13,7 @@ import { useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { spacing } from '@ndla/core';
+import { ModalCloseButton } from '@ndla/modal';
 import config from '../../../config';
 import { GQLFolder } from '../../../graphqlTypes';
 import useValidationTranslation from '../../../util/useValidationTranslation';
@@ -21,7 +22,6 @@ interface EditFolderFormProps {
   folder?: GQLFolder;
   onSave: (values: FolderFormValues) => Promise<void>;
   siblings: GQLFolder[];
-  onClose: () => void;
   loading?: boolean;
 }
 
@@ -60,7 +60,6 @@ const nameMaxLength = 64;
 const FolderForm = ({
   folder,
   onSave,
-  onClose,
   siblings,
   loading,
 }: EditFolderFormProps) => {
@@ -172,9 +171,9 @@ const FolderForm = ({
       )}
 
       <ButtonRow>
-        <ButtonV2 variant="outline" onClick={onClose}>
-          {t('cancel')}
-        </ButtonV2>
+        <ModalCloseButton>
+          <ButtonV2 variant="outline">{t('cancel')}</ButtonV2>
+        </ModalCloseButton>
         <LoadingButton
           loading={loading}
           type="submit"
