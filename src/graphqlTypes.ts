@@ -950,6 +950,7 @@ export type GQLPodcastSeriesSummary = {
 
 export type GQLPodcastSeriesWithEpisodes = GQLPodcastSeriesBase & {
   __typename?: 'PodcastSeriesWithEpisodes';
+  content?: Maybe<GQLResourceEmbed>;
   coverPhoto: GQLCoverPhoto;
   description: GQLDescription;
   episodes?: Maybe<Array<GQLAudio>>;
@@ -2922,29 +2923,6 @@ export type GQLPlainLearningpathPageQuery = {
   } & GQLPlainLearningpathContainer_LearningpathFragment;
 };
 
-export type GQLPodcast_AudioFragment = {
-  __typename?: 'Audio';
-  id: number;
-  created: string;
-  audioType: string;
-  title: { __typename?: 'Title'; title: string };
-  audioFile: { __typename?: 'AudioFile'; url: string };
-  copyright: { __typename?: 'Copyright' } & GQLCopyrightInfoFragment;
-  manuscript?: { __typename?: 'Manuscript'; manuscript: string };
-  podcastMeta?: {
-    __typename?: 'PodcastMeta';
-    introduction: string;
-    image?: {
-      __typename?: 'ImageMetaInformation';
-      id: string;
-      imageUrl: string;
-      title: string;
-      altText: string;
-      copyright: { __typename?: 'Copyright' } & GQLCopyrightInfoFragment;
-    };
-  };
-};
-
 export type GQLPodcastSeries_PodcastSeriesSummaryFragment = {
   __typename?: 'PodcastSeriesSummary';
   id: number;
@@ -2986,12 +2964,22 @@ export type GQLPodcastSeriesPageQuery = {
     title: { __typename?: 'Title'; title: string };
     description: { __typename?: 'Description'; description: string };
     coverPhoto: { __typename?: 'CoverPhoto'; url: string };
-    episodes?: Array<
-      {
-        __typename?: 'Audio';
-        tags: { __typename?: 'Tags'; tags: Array<string> };
-      } & GQLPodcast_AudioFragment
-    >;
+    content?: {
+      __typename?: 'ResourceEmbed';
+      content: string;
+      meta: {
+        __typename?: 'ResourceMetaData';
+      } & GQLResourceEmbedLicenseBox_MetaFragment;
+    };
+    episodes?: Array<{
+      __typename?: 'Audio';
+      id: number;
+      title: { __typename?: 'Title'; title: string };
+      audioFile: { __typename?: 'AudioFile'; url: string };
+      podcastMeta?: { __typename?: 'PodcastMeta'; introduction: string };
+      copyright: { __typename?: 'Copyright' } & GQLCopyrightInfoFragment;
+      tags: { __typename?: 'Tags'; tags: Array<string> };
+    }>;
   };
 };
 

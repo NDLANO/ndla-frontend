@@ -796,6 +796,7 @@ type PodcastSeriesSummary {
 }
 
 type PodcastSeriesWithEpisodes implements PodcastSeriesBase {
+  content: ResourceEmbed
   coverPhoto: CoverPhoto!
   description: Description!
   episodes: [Audio!]
