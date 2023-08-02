@@ -26,6 +26,8 @@ import queryString from 'query-string';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
+import { useMemo } from 'react';
+import uniqBy from 'lodash/uniqBy';
 import CopyTextButton from './CopyTextButton';
 import { GQLImageLicenseList_ImageLicenseFragment } from '../../graphqlTypes';
 import {
@@ -149,11 +151,12 @@ interface Props {
 
 const ImageLicenseList = ({ images }: Props) => {
   const { t } = useTranslation();
+  const unique = useMemo(() => uniqBy(images, (image) => image.id), [images]);
   return (
     <div>
       <LicenseDescription>{t('license.images.description')}</LicenseDescription>
       <MediaList>
-        {images.map((image, index) => (
+        {unique.map((image, index) => (
           <ImageLicenseInfo image={image} key={`${image.id}-${index}`} />
         ))}
       </MediaList>

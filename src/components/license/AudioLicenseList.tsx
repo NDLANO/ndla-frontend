@@ -24,6 +24,8 @@ import {
 import { useTranslation } from 'react-i18next';
 import { SafeLinkButton } from '@ndla/safelink';
 import { Link } from 'react-router-dom';
+import uniqBy from 'lodash/uniqBy';
+import { useMemo } from 'react';
 import { GQLAudioLicenseList_AudioLicenseFragment } from '../../graphqlTypes';
 import {
   isCopyrighted,
@@ -108,11 +110,12 @@ interface Props {
 
 const AudioLicenseList = ({ audios }: Props) => {
   const { t } = useTranslation();
+  const unique = useMemo(() => uniqBy(audios, (audio) => audio.id), [audios]);
   return (
     <div>
       <LicenseDescription>{t('license.audio.description')}</LicenseDescription>
       <MediaList>
-        {audios.map((audio) => (
+        {unique.map((audio) => (
           <AudioLicenseInfo audio={audio} key={uuid()} />
         ))}
       </MediaList>

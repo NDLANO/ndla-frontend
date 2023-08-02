@@ -22,6 +22,8 @@ import {
 } from '@ndla/licenses';
 import { H5PBold } from '@ndla/icons/editor';
 import { useTranslation } from 'react-i18next';
+import { useMemo } from 'react';
+import uniqBy from 'lodash/uniqBy';
 import { GQLH5pLicenseList_H5pLicenseFragment } from '../../graphqlTypes';
 import CopyTextButton from './CopyTextButton';
 import { licenseCopyrightToCopyrightType } from './licenseHelpers';
@@ -86,11 +88,12 @@ interface Props {
 
 const H5pLicenseList = ({ h5ps }: Props) => {
   const { t } = useTranslation();
+  const unique = useMemo(() => uniqBy(h5ps, (h5p) => h5p.id), [h5ps]);
   return (
     <div>
       <LicenseDescription>{t('license.h5p.description')}</LicenseDescription>
       <MediaList>
-        {h5ps.map((h5p) => (
+        {unique.map((h5p) => (
           <H5pLicenseInfo h5p={h5p} key={uuid()} />
         ))}
       </MediaList>
