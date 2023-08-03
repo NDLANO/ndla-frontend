@@ -40,17 +40,17 @@ const start = async () => {
     clientCompiler,
   );
 
-  clientDevServer.startCallback(err => {
+  clientDevServer.startCallback((err) => {
     if (err) {
       logMessage(err, 'error');
     }
   });
 
-  const serverBuildPromise = new Promise<void>(resolve => {
+  const serverBuildPromise = new Promise<void>((resolve) => {
     serverCompiler.hooks.done.tap('server', () => resolve());
   });
 
-  const clientBuildPromise = new Promise<void>(resolve => {
+  const clientBuildPromise = new Promise<void>((resolve) => {
     clientCompiler.hooks.done.tap('client', () => resolve());
   });
   await clientBuildPromise;
