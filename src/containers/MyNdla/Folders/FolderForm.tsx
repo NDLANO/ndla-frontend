@@ -175,6 +175,7 @@ const FolderForm = ({
           <ButtonV2 variant="outline">{t('cancel')}</ButtonV2>
         </ModalCloseButton>
         <LoadingButton
+          colorTheme="light"
           loading={loading}
           type="submit"
           disabled={!isValid || !isDirty || loading}

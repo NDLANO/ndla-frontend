@@ -143,13 +143,17 @@ export const FolderShareModalContent = ({
   const modalButton = useMemo(() => {
     if (type === 'shared') {
       return (
-        <SafeLinkButton shape="pill" to={toFolderPreview(folder.id)}>
+        <SafeLinkButton
+          shape="pill"
+          to={toFolderPreview(folder.id)}
+          colorTheme="light"
+        >
           {t('myNdla.folder.sharing.button.preview')}
         </SafeLinkButton>
       );
     } else {
       return (
-        <ButtonV2 shape="pill" onClick={onUpdate}>
+        <ButtonV2 shape="pill" onClick={onUpdate} colorTheme="light">
           {t(
             `myNdla.folder.sharing.button.${
               type === 'private' ? 'share' : 'unShare'
