@@ -6,15 +6,21 @@
  *
  */
 
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { ArticleTitle, getMastheadHeight, OneColumn } from '@ndla/ui';
 import { Navigate, useLocation } from 'react-router-dom';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { useTranslation } from 'react-i18next';
 import { gql, useQuery } from '@apollo/client';
 import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
-import Audio from './Audio';
+import { colors, fonts, spacing } from '@ndla/core';
+import { transform } from '@ndla/article-converter';
+import {
+  AccordionContent,
+  AccordionHeader,
+  AccordionItem,
+  AccordionRoot,
+} from '@ndla/accordion';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import {
@@ -30,6 +36,9 @@ import {
   GQLPodcastSeriesPageQuery,
 } from '../../graphqlTypes';
 import { TypedParams, useTypedParams } from '../../routeHelpers';
+import ResourceEmbedLicenseBox from '../ResourceEmbed/components/ResourceEmbedLicenseBox';
+import { hasLicensedContent } from '../ResourceEmbed/components/ResourceEmbed';
+import { copyrightInfoFragment } from '../../queries';
 
 interface RouteParams extends TypedParams {
   id: string;
@@ -39,6 +48,13 @@ const TitleWrapper = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: ${spacing.normal};
+`;
+
+const StyledAccordionHeader = styled(AccordionHeader)`
+  background-color: ${colors.brand.lightest};
+  border: 1px solid ${colors.brand.tertiary};
+  font-size: ${fonts.sizes('16px', '29px')};
+  font-weight: ${fonts.weight.semibold};
 `;
 
 const SeriesDescription = styled.div`
@@ -72,6 +88,11 @@ const PodcastSeriesPage = () => {
   } = useQuery<GQLPodcastSeriesPageQuery>(podcastSeriesPageQuery, {
     variables: { id: Number(id) },
   });
+
+  const embeds = useMemo(() => {
+    if (!podcastSeries?.content?.content) return;
+    return transform(podcastSeries.content.content, {});
+  }, [podcastSeries?.content?.content]);
 
   const location = useLocation();
 
@@ -211,12 +232,25 @@ const PodcastSeriesPage = () => {
           {podcastSeries.description.description}
         </SeriesDescription>
         <EpisodesWrapper>
-          {podcastSeries.episodes?.length ? (
+          {podcastSeries.content ? (
             <>
               <h2>{t('podcastPage.episodes')}</h2>
-              {podcastSeries.episodes.map((episode) => (
-                <Audio key={episode.id} audio={episode} seriesId={id} />
-              ))}
+              {embeds}
+              <AccordionRoot type="single" collapsible>
+                {podcastSeries.content.meta &&
+                  hasLicensedContent(podcastSeries.content.meta) && (
+                    <AccordionItem value="rulesForUse">
+                      <StyledAccordionHeader>
+                        {t('article.useContent')}
+                      </StyledAccordionHeader>
+                      <AccordionContent>
+                        <ResourceEmbedLicenseBox
+                          metaData={podcastSeries.content.meta}
+                        />
+                      </AccordionContent>
+                    </AccordionItem>
+                  )}
+              </AccordionRoot>
             </>
           ) : (
             <NoResults>{t('podcastPage.noResults')}</NoResults>
@@ -227,7 +261,6 @@ const PodcastSeriesPage = () => {
   );
 };
 const podcastSeriesPageQuery = gql`
-  ${Audio.fragments.audio}
   query podcastSeriesPage($id: Int!) {
     podcastSeries(id: $id) {
       id
@@ -241,14 +274,35 @@ const podcastSeriesPageQuery = gql`
       coverPhoto {
         url
       }
+      content {
+        content
+        meta {
+      ...ResourceEmbedLicenseBox_Meta
+        }
+      }
       episodes {
-        ...Podcast_Audio
+        id
+        title {
+        title
+      }
+          audioFile {
+        url
+      }
+          podcastMeta {
+        introduction
+      }
+          copyright {
+
+        ...CopyrightInfo
+      }
         tags {
           tags
         }
       }
       hasRSS
     }
+    ${ResourceEmbedLicenseBox.fragments.metaData}
+    ${copyrightInfoFragment}
   }
 `;
 

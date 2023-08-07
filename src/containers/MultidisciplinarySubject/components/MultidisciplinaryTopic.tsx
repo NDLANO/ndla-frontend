@@ -7,25 +7,23 @@
  */
 import { gql } from '@apollo/client';
 import { withTracker } from '@ndla/tracker';
-import { FeideUserApiType, Topic as UITopic, TopicProps } from '@ndla/ui';
+import { FeideUserApiType, Topic as UITopic } from '@ndla/ui';
 import { useEffect, useMemo, useState } from 'react';
 import { Remarkable } from 'remarkable';
 import { CustomWithTranslation, withTranslation } from 'react-i18next';
 
+import { extractEmbedMeta } from '@ndla/article-converter';
 import ArticleContents from '../../../components/Article/ArticleContents';
-import VisualElementWrapper, {
-  getResourceType,
-} from '../../../components/VisualElement/VisualElementWrapper';
 import {
   GQLMultidisciplinaryTopic_SubjectFragment,
   GQLMultidisciplinaryTopic_TopicFragment,
 } from '../../../graphqlTypes';
 import { toTopic, useIsNdlaFilm, useUrnIds } from '../../../routeHelpers';
-import { getCrop, getFocalPoint } from '../../../util/imageHelpers';
 import { htmlTitle } from '../../../util/titleHelper';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import Resources from '../../Resources/Resources';
 import { SKIP_TO_CONTENT_ID } from '../../../constants';
+import TopicVisualElementContent from '../../SubjectPage/components/TopicVisualElementContent';
 
 interface Props extends CustomWithTranslation {
   topicId: string;
@@ -65,6 +63,25 @@ const MultidisciplinaryTopic = ({
   }, []);
   const renderMarkdown = (text: string) => markdown.render(text);
 
+  const embedMeta = useMemo(() => {
+    if (!topic.article?.visualElementEmbed?.content) return undefined;
+    const embedMeta = extractEmbedMeta(
+      topic.article.visualElementEmbed.content,
+    );
+    return embedMeta;
+  }, [topic?.article?.visualElementEmbed?.content]);
+
+  const visualElement = useMemo(() => {
+    if (!embedMeta || !topic.article?.visualElementEmbed?.meta)
+      return undefined;
+    return (
+      <TopicVisualElementContent
+        embed={embedMeta}
+        metadata={topic.article?.visualElementEmbed?.meta}
+      />
+    );
+  }, [embedMeta, topic.article?.visualElementEmbed?.meta]);
+
   const topicPath = topic.path
     ?.split('/')
     .slice(2)
@@ -77,41 +94,11 @@ const MultidisciplinaryTopic = ({
       url: toTopic(subjectId, ...(topicPath ?? []), item.id),
     })) ?? [];
 
-  const toTopicProps = (
-    article: GQLMultidisciplinaryTopic_TopicFragment['article'],
-  ): TopicProps | undefined => {
-    if (!article) return;
-    const image =
-      article?.visualElement?.resource === 'image' &&
-      article.visualElement.image
-        ? {
-            url: article.visualElement.image?.src ?? '',
-            alt: article.visualElement.image?.alt ?? '',
-            crop: getCrop(article.visualElement.image),
-            focalPoint: getFocalPoint(article.visualElement.image),
-          }
-        : {
-            url: article?.metaImage?.url ?? '',
-            alt: article?.metaImage?.alt ?? '',
-          };
-    return {
-      topic: {
-        title: article.title,
-        introduction: article.introduction ?? '',
-        image,
-        visualElement: article.visualElement
-          ? {
-              type: getResourceType(article.visualElement.resource),
-              element: (
-                <VisualElementWrapper visualElement={article.visualElement} />
-              ),
-            }
-          : undefined,
-      },
-    };
-  };
-
   const { article } = topic;
+
+  if (!article) {
+    return null;
+  }
 
   return (
     <UITopic
@@ -120,11 +107,15 @@ const MultidisciplinaryTopic = ({
           ? SKIP_TO_CONTENT_ID
           : undefined
       }
+      title={article.title}
+      introduction={article.introduction ?? ''}
+      metaImage={article.metaImage}
+      visualElementEmbedMeta={embedMeta}
+      visualElement={visualElement}
       onToggleShowContent={
         article?.content !== '' ? () => setShowContent(!showContent) : undefined
       }
       showContent={showContent}
-      topic={toTopicProps(article)?.topic}
       subTopics={!disableNav ? subTopics : undefined}
       isLoading={false}
       renderMarkdown={renderMarkdown}
@@ -153,16 +144,19 @@ export const multidisciplinaryTopicFragments = {
           url
           alt
         }
-        visualElement {
-          ...VisualElementWrapper_VisualElement
+        visualElementEmbed {
+          content
+          meta {
+            ...TopicVisualElementContent_Meta
+          }
         }
       }
       ...ArticleContents_Topic
       ...Resources_Topic
     }
-    ${VisualElementWrapper.fragments.visualElement}
     ${Resources.fragments.topic}
     ${ArticleContents.fragments.topic}
+    ${TopicVisualElementContent.fragments.metadata}
   `,
   subject: gql`
     fragment MultidisciplinaryTopic_Subject on Subject {

@@ -8,13 +8,11 @@
 
 import { gql } from '@apollo/client';
 import { CustomWithTranslation, withTranslation } from 'react-i18next';
-import { FeideUserApiType, Topic, TopicProps } from '@ndla/ui';
+import { FeideUserApiType, Topic } from '@ndla/ui';
 import { withTracker } from '@ndla/tracker';
-import VisualElementWrapper, {
-  getResourceType,
-} from '../../../components/VisualElement/VisualElementWrapper';
+import { useMemo } from 'react';
+import { extractEmbedMeta } from '@ndla/article-converter';
 import { toTopic } from '../../../routeHelpers';
-import { getCrop, getFocalPoint } from '../../../util/imageHelpers';
 import Resources from '../../Resources/Resources';
 import {
   GQLToolboxTopicWrapper_ResourceTypeDefinitionFragment,
@@ -24,6 +22,7 @@ import {
 import { getAllDimensions } from '../../../util/trackingUtil';
 import { htmlTitle } from '../../../util/titleHelper';
 import { SKIP_TO_CONTENT_ID } from '../../../constants';
+import TopicVisualElementContent from '../../SubjectPage/components/TopicVisualElementContent';
 
 interface Props extends CustomWithTranslation {
   subject: GQLToolboxTopicWrapper_SubjectFragment;
@@ -47,47 +46,42 @@ const ToolboxTopicWrapper = ({
   resourceTypes,
   loading,
 }: Props) => {
-  if (!topic.article) {
-    return null;
-  }
+  const embedMeta = useMemo(() => {
+    if (!topic.article?.visualElementEmbed?.content) return undefined;
+    const embedMeta = extractEmbedMeta(
+      topic.article.visualElementEmbed?.content,
+    );
+    return embedMeta;
+  }, [topic?.article?.visualElementEmbed?.content]);
 
-  const { article } = topic;
+  const visualElement = useMemo(() => {
+    if (!embedMeta || !topic.article?.visualElementEmbed?.meta)
+      return undefined;
+    return (
+      <TopicVisualElementContent
+        embed={embedMeta}
+        metadata={topic.article?.visualElementEmbed?.meta}
+      />
+    );
+  }, [embedMeta, topic.article?.visualElementEmbed?.meta]);
 
-  const image =
-    article?.visualElement?.resource === 'image'
-      ? {
-          url: article.visualElement.image?.src!,
-          alt: article.visualElement.image?.alt!,
-          crop: getCrop(article.visualElement.image!),
-          focalPoint: getFocalPoint(article.visualElement.image!),
-        }
-      : {
-          url: article?.metaImage?.url!,
-          alt: article?.metaImage?.alt!,
-        };
-  const toolboxTopic: TopicProps = {
-    topic: {
-      title: article.title,
-      introduction: article.introduction || '',
-      image,
-      ...(article.visualElement && {
-        visualElement: {
-          type: getResourceType(article.visualElement.resource),
-          element: (
-            <VisualElementWrapper visualElement={article.visualElement} />
-          ),
-        },
-      }),
-      resources: topic?.subtopics ? (
+  const resources = useMemo(() => {
+    if (topic.subtopics) {
+      return (
         <Resources
           topic={topic}
           resourceTypes={resourceTypes}
-          headingType="h2"
-          subHeadingType="h3"
+          headingType="h3"
+          subHeadingType="h4"
         />
-      ) : undefined,
-    },
-  };
+      );
+    }
+    return null;
+  }, [resourceTypes, topic]);
+
+  if (!topic.article) {
+    return null;
+  }
 
   const subTopics = topic?.subtopics?.map((subtopic) => {
     const path = topic.path || '';
@@ -113,7 +107,12 @@ const ToolboxTopicWrapper = ({
       frame={subTopics?.length === 0}
       isLoading={loading}
       subTopics={subTopics}
-      topic={toolboxTopic.topic}
+      title={topic.article.title}
+      introduction={topic.article.introduction ?? ''}
+      metaImage={topic.article.metaImage}
+      visualElementEmbedMeta={embedMeta}
+      visualElement={visualElement}
+      resources={resources}
     />
   );
 };
@@ -197,19 +196,11 @@ export const toolboxTopicWrapperFragments = {
           alt
           url
         }
-        visualElement {
-          resource
-          image {
-            src
-            alt
-            lowerRightX
-            lowerRightY
-            upperLeftX
-            upperLeftY
-            focalX
-            focalY
+        visualElementEmbed {
+          content
+          meta {
+            ...TopicVisualElementContent_Meta
           }
-          ...VisualElementWrapper_VisualElement
         }
       }
       subtopics {
@@ -219,8 +210,8 @@ export const toolboxTopicWrapperFragments = {
       }
       ...Resources_Topic
     }
-    ${VisualElementWrapper.fragments.visualElement}
     ${Resources.fragments.topic}
+    ${TopicVisualElementContent.fragments.metadata}
   `,
 };
 

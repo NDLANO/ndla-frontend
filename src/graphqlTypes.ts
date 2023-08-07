@@ -58,6 +58,7 @@ export type GQLArticle = {
   title: Scalars['String'];
   updated: Scalars['String'];
   visualElement?: Maybe<GQLVisualElement>;
+  visualElementEmbed?: Maybe<GQLResourceEmbed>;
 };
 
 export type GQLArticleCrossSubjectTopicsArgs = {
@@ -949,6 +950,7 @@ export type GQLPodcastSeriesSummary = {
 
 export type GQLPodcastSeriesWithEpisodes = GQLPodcastSeriesBase & {
   __typename?: 'PodcastSeriesWithEpisodes';
+  content?: Maybe<GQLResourceEmbed>;
   coverPhoto: GQLCoverPhoto;
   description: GQLDescription;
   episodes?: Maybe<Array<GQLAudio>>;
@@ -1002,6 +1004,7 @@ export type GQLQuery = {
   programmes?: Maybe<Array<GQLProgrammePage>>;
   resource?: Maybe<GQLResource>;
   resourceEmbed: GQLResourceEmbed;
+  resourceEmbeds: GQLResourceEmbed;
   resourceTypes?: Maybe<Array<GQLResourceTypeDefinition>>;
   search?: Maybe<GQLSearch>;
   searchWithoutPagination?: Maybe<GQLSearchWithoutPagination>;
@@ -1150,6 +1153,10 @@ export type GQLQueryResourceEmbedArgs = {
   type: Scalars['String'];
 };
 
+export type GQLQueryResourceEmbedsArgs = {
+  resources: Array<GQLResourceEmbedInput>;
+};
+
 export type GQLQuerySearchArgs = {
   aggregatePaths?: InputMaybe<Array<Scalars['String']>>;
   contextFilters?: InputMaybe<Scalars['String']>;
@@ -1261,6 +1268,12 @@ export type GQLResourceEmbed = {
   __typename?: 'ResourceEmbed';
   content: Scalars['String'];
   meta: GQLResourceMetaData;
+};
+
+export type GQLResourceEmbedInput = {
+  conceptType?: InputMaybe<Scalars['String']>;
+  id: Scalars['String'];
+  type: Scalars['String'];
 };
 
 export type GQLResourceMetaData = {
@@ -1589,56 +1602,16 @@ export type GQLWithArticle = {
   meta?: Maybe<GQLMeta>;
 };
 
-export type GQLArticle_ConceptFragment = {
-  __typename?: 'Concept';
-  subjectNames?: Array<string>;
-  id: number;
-  title: string;
-  content: string;
-  copyright?: {
-    __typename?: 'ConceptCopyright';
-    license?: { __typename?: 'License'; license: string };
-    creators: Array<{ __typename?: 'Contributor'; name: string; type: string }>;
-  };
-  image?: { __typename?: 'ImageLicense'; src: string; altText: string };
-  visualElement?: {
-    __typename?: 'VisualElement';
-    resource?: string;
-    title?: string;
-    url?: string;
-    copyright?: {
-      __typename?: 'Copyright';
-      origin?: string;
-      license: { __typename?: 'License'; license: string };
-      creators: Array<{
-        __typename?: 'Contributor';
-        name: string;
-        type: string;
-      }>;
-      processors: Array<{
-        __typename?: 'Contributor';
-        name: string;
-        type: string;
-      }>;
-      rightsholders: Array<{
-        __typename?: 'Contributor';
-        name: string;
-        type: string;
-      }>;
-    };
-    image?: { __typename?: 'ImageElement'; src: string; alt?: string };
-  };
-};
-
-export type GQLArticleConceptsQueryVariables = Exact<{
-  conceptIds: Array<Scalars['Int']> | Scalars['Int'];
+export type GQLArticleConceptEmbedsQueryVariables = Exact<{
+  resources: Array<GQLResourceEmbedInput> | GQLResourceEmbedInput;
 }>;
 
-export type GQLArticleConceptsQuery = {
+export type GQLArticleConceptEmbedsQuery = {
   __typename?: 'Query';
-  conceptSearch?: {
-    __typename?: 'ConceptResult';
-    concepts: Array<{ __typename?: 'Concept' } & GQLArticle_ConceptFragment>;
+  resourceEmbeds: {
+    __typename?: 'ResourceEmbed';
+    content: string;
+    meta: { __typename?: 'ResourceMetaData' } & GQLNotionsContent_MetaFragment;
   };
 };
 
@@ -1697,6 +1670,10 @@ export type GQLArticleContents_TopicFragment = {
     };
   } & GQLLicenseBox_ArticleFragment;
 };
+
+export type GQLNotionsContent_MetaFragment = {
+  __typename?: 'ResourceMetaData';
+} & GQLResourceEmbedLicenseBox_MetaFragment;
 
 export type GQLExamLockStatusQueryVariables = Exact<{ [key: string]: never }>;
 
@@ -1862,78 +1839,6 @@ export type GQLSubjectLinkListSubjectFragment = {
   id: string;
   name: string;
 };
-
-export type GQLVisualElement_VisualElementFragment = {
-  __typename?: 'VisualElement';
-  url?: string;
-  title?: string;
-  image?: {
-    __typename?: 'ImageElement';
-    alt?: string;
-    altText: string;
-    src: string;
-    focalX?: number;
-    focalY?: number;
-    lowerRightX?: number;
-    lowerRightY?: number;
-    upperLeftX?: number;
-    upperLeftY?: number;
-  };
-  oembed?: {
-    __typename?: 'VisualElementOembed';
-    html?: string;
-    fullscreen?: boolean;
-    title?: string;
-  };
-  brightcove?: {
-    __typename?: 'BrightcoveElement';
-    iframe?: { __typename?: 'BrightcoveIframe'; height: number; width: number };
-  };
-  h5p?: { __typename?: 'H5pElement'; src?: string };
-};
-
-export type GQLVisualElementLicenseButtons_VisualElementFragment = {
-  __typename?: 'VisualElement';
-  copyright?: {
-    __typename?: 'Copyright';
-    license: { __typename?: 'License'; license: string };
-  };
-  image?: { __typename?: 'ImageElement'; src: string; copyText?: string };
-  brightcove?: {
-    __typename?: 'BrightcoveElement';
-    download?: string;
-    iframe?: {
-      __typename?: 'BrightcoveIframe';
-      width: number;
-      height: number;
-      src: string;
-    };
-  };
-};
-
-export type GQLVisualElementWrapper_VisualElementFragment = {
-  __typename?: 'VisualElement';
-  resource?: string;
-  copyright?: {
-    __typename?: 'Copyright';
-    origin?: string;
-    license: { __typename?: 'License'; license: string };
-    creators: Array<{ __typename?: 'Contributor'; name: string; type: string }>;
-    processors: Array<{
-      __typename?: 'Contributor';
-      name: string;
-      type: string;
-    }>;
-    rightsholders: Array<{
-      __typename?: 'Contributor';
-      name: string;
-      type: string;
-    }>;
-  };
-  image?: { __typename?: 'ImageElement'; caption?: string };
-  brightcove?: { __typename?: 'BrightcoveElement'; caption?: string };
-} & GQLVisualElement_VisualElementFragment &
-  GQLVisualElementLicenseButtons_VisualElementFragment;
 
 export type GQLAudioLicenseList_AudioLicenseFragment = {
   __typename?: 'AudioLicense';
@@ -2451,9 +2356,13 @@ export type GQLMultidisciplinaryTopic_TopicFragment = {
   article?: {
     __typename?: 'Article';
     metaImage?: { __typename?: 'MetaImage'; url: string; alt: string };
-    visualElement?: {
-      __typename?: 'VisualElement';
-    } & GQLVisualElementWrapper_VisualElementFragment;
+    visualElementEmbed?: {
+      __typename?: 'ResourceEmbed';
+      content: string;
+      meta: {
+        __typename?: 'ResourceMetaData';
+      } & GQLTopicVisualElementContent_MetaFragment;
+    };
   };
 } & GQLArticleContents_TopicFragment &
   GQLResources_TopicFragment;
@@ -3014,29 +2923,6 @@ export type GQLPlainLearningpathPageQuery = {
   } & GQLPlainLearningpathContainer_LearningpathFragment;
 };
 
-export type GQLPodcast_AudioFragment = {
-  __typename?: 'Audio';
-  id: number;
-  created: string;
-  audioType: string;
-  title: { __typename?: 'Title'; title: string };
-  audioFile: { __typename?: 'AudioFile'; url: string };
-  copyright: { __typename?: 'Copyright' } & GQLCopyrightInfoFragment;
-  manuscript?: { __typename?: 'Manuscript'; manuscript: string };
-  podcastMeta?: {
-    __typename?: 'PodcastMeta';
-    introduction: string;
-    image?: {
-      __typename?: 'ImageMetaInformation';
-      id: string;
-      imageUrl: string;
-      title: string;
-      altText: string;
-      copyright: { __typename?: 'Copyright' } & GQLCopyrightInfoFragment;
-    };
-  };
-};
-
 export type GQLPodcastSeries_PodcastSeriesSummaryFragment = {
   __typename?: 'PodcastSeriesSummary';
   id: number;
@@ -3078,12 +2964,22 @@ export type GQLPodcastSeriesPageQuery = {
     title: { __typename?: 'Title'; title: string };
     description: { __typename?: 'Description'; description: string };
     coverPhoto: { __typename?: 'CoverPhoto'; url: string };
-    episodes?: Array<
-      {
-        __typename?: 'Audio';
-        tags: { __typename?: 'Tags'; tags: Array<string> };
-      } & GQLPodcast_AudioFragment
-    >;
+    content?: {
+      __typename?: 'ResourceEmbed';
+      content: string;
+      meta: {
+        __typename?: 'ResourceMetaData';
+      } & GQLResourceEmbedLicenseBox_MetaFragment;
+    };
+    episodes?: Array<{
+      __typename?: 'Audio';
+      id: number;
+      title: { __typename?: 'Title'; title: string };
+      audioFile: { __typename?: 'AudioFile'; url: string };
+      podcastMeta?: { __typename?: 'PodcastMeta'; introduction: string };
+      copyright: { __typename?: 'Copyright' } & GQLCopyrightInfoFragment;
+      tags: { __typename?: 'Tags'; tags: Array<string> };
+    }>;
   };
 };
 
@@ -3359,9 +3255,13 @@ export type GQLTopic_TopicFragment = {
     __typename?: 'Article';
     revisionDate?: string;
     metaImage?: { __typename?: 'MetaImage'; url: string; alt: string };
-    visualElement?: {
-      __typename?: 'VisualElement';
-    } & GQLVisualElementWrapper_VisualElementFragment;
+    visualElementEmbed?: {
+      __typename?: 'ResourceEmbed';
+      content: string;
+      meta: {
+        __typename?: 'ResourceMetaData';
+      } & GQLTopicVisualElementContent_MetaFragment;
+    };
   };
 } & GQLArticleContents_TopicFragment &
   GQLResources_TopicFragment;
@@ -3369,6 +3269,10 @@ export type GQLTopic_TopicFragment = {
 export type GQLTopic_ResourceTypeDefinitionFragment = {
   __typename?: 'ResourceTypeDefinition';
 } & GQLResources_ResourceTypeDefinitionFragment;
+
+export type GQLTopicVisualElementContent_MetaFragment = {
+  __typename?: 'ResourceMetaData';
+} & GQLResourceEmbedLicenseBox_MetaFragment;
 
 export type GQLTopicWrapperQueryVariables = Exact<{
   topicId: Scalars['String'];
@@ -3494,21 +3398,13 @@ export type GQLToolboxTopicWrapper_TopicFragment = {
       }>;
     };
     metaImage?: { __typename?: 'MetaImage'; alt: string; url: string };
-    visualElement?: {
-      __typename?: 'VisualElement';
-      resource?: string;
-      image?: {
-        __typename?: 'ImageElement';
-        src: string;
-        alt?: string;
-        lowerRightX?: number;
-        lowerRightY?: number;
-        upperLeftX?: number;
-        upperLeftY?: number;
-        focalX?: number;
-        focalY?: number;
-      };
-    } & GQLVisualElementWrapper_VisualElementFragment;
+    visualElementEmbed?: {
+      __typename?: 'ResourceEmbed';
+      content: string;
+      meta: {
+        __typename?: 'ResourceMetaData';
+      } & GQLTopicVisualElementContent_MetaFragment;
+    };
   };
   subtopics?: Array<{
     __typename?: 'Topic';
@@ -3855,9 +3751,10 @@ export type GQLGroupSearchQuery = {
     competenceGoalSet?: { __typename?: 'Reference'; id: string; title: string };
   }>;
   coreElements?: Array<{
-    __typename: 'CoreElement';
-    title: string;
+    __typename?: 'CoreElement';
     id: string;
+    title: string;
+    text?: string;
   }>;
 };
 

@@ -17,19 +17,21 @@ import {
 } from '@ndla/ui';
 import { webpageReferenceApa7CopyString } from '@ndla/licenses';
 import { useTranslation } from 'react-i18next';
+import { extractEmbedMetas } from '@ndla/article-converter';
+import { ConceptMetaData } from '@ndla/types-embed';
 import config from '../../config';
 import LicenseBox from '../license/LicenseBox';
 import CompetenceGoals from '../CompetenceGoals';
 import {
-  GQLArticleConceptsQuery,
-  GQLArticleConceptsQueryVariables,
+  GQLArticleConceptEmbedsQuery,
   GQLArticle_ArticleFragment,
-  GQLArticle_ConceptFragment,
+  GQLResourceEmbedInput,
 } from '../../graphqlTypes';
 import { MastheadHeightPx } from '../../constants';
 import { useGraphQuery } from '../../util/runQueries';
 import AddResourceToFolderModal from '../MyNdla/AddResourceToFolderModal';
 import FavoriteButton from './FavoritesButton';
+import NotionsContent from './NotionsContent';
 
 interface Props {
   id?: string;
@@ -51,97 +53,16 @@ interface Props {
   contentTransformed?: boolean;
 }
 
-const renderNotions = (
-  concepts: GQLArticle_ConceptFragment[],
-  relatedContent: GQLArticle_ArticleFragment['relatedContent'],
-) => {
-  const notions =
-    concepts?.map((concept) => {
-      return {
-        ...concept,
-        labels: concept.subjectNames ?? [],
-        text: concept.content ?? '',
-        image: concept.image && {
-          src: concept.image.src,
-          alt: concept.image.altText,
-        },
-      };
-    }) ?? [];
-  const related =
-    relatedContent?.map((rc) => ({
-      ...rc,
-      label: rc.title,
-    })) ?? [];
-  if (
-    config.ndlaEnvironment !== 'prod' &&
-    (notions.length > 0 || related.length > 0)
-  ) {
-    return {
-      list: notions,
-      related,
-    };
-  }
-  return undefined;
-};
-
-const articleConceptFragment = gql`
-  fragment Article_Concept on Concept {
-    copyright {
-      license {
-        license
-      }
-      creators {
-        name
-        type
-      }
-    }
-    subjectNames
-    id
-    title
-    content
-    image {
-      src
-      altText
-    }
-    visualElement {
-      resource
-      title
-      url
-      copyright {
-        license {
-          license
-        }
-        creators {
-          name
-          type
-        }
-        processors {
-          name
-          type
-        }
-        rightsholders {
-          name
-          type
-        }
-        origin
-      }
-      image {
-        src
-        alt
+const articleConceptEmbeds = gql`
+  query articleConceptEmbeds($resources: [ResourceEmbedInput!]!) {
+    resourceEmbeds(resources: $resources) {
+      content
+      meta {
+        ...NotionsContent_Meta
       }
     }
   }
-`;
-
-const articleConceptQuery = gql`
-  query articleConcepts($conceptIds: [Int!]!) {
-    conceptSearch(ids: $conceptIds) {
-      concepts {
-        ...Article_Concept
-      }
-    }
-  }
-  ${articleConceptFragment}
+  ${NotionsContent.fragments.metadata}
 `;
 
 const Article = ({
@@ -186,19 +107,54 @@ const Article = ({
     (id: string) => t(id),
   );
 
-  const { data: concepts } = useGraphQuery<
-    GQLArticleConceptsQuery,
-    GQLArticleConceptsQueryVariables
-  >(articleConceptQuery, {
-    variables: {
-      conceptIds: article.conceptIds!,
+  const conceptInputs: GQLResourceEmbedInput[] | undefined = useMemo(() => {
+    return article.conceptIds?.map((id) => ({
+      id: id.toString(),
+      type: 'concept',
+      conceptType: 'notion',
+    }));
+  }, [article.conceptIds]);
+
+  const { data } = useGraphQuery<GQLArticleConceptEmbedsQuery>(
+    articleConceptEmbeds,
+    {
+      variables: { resources: conceptInputs },
+      skip:
+        typeof window === 'undefined' || // only fetch on client. ssr: false does not work.
+        !conceptInputs?.length ||
+        isPlainArticle,
     },
-    skip:
-      typeof window === 'undefined' || // only fetch on client. ssr: false does not work.
-      !article.conceptIds ||
-      article.conceptIds.length === 0 ||
-      isPlainArticle,
-  });
+  );
+
+  const conceptNotions = useMemo(() => {
+    if (!data?.resourceEmbeds?.content) {
+      return [];
+    }
+    return extractEmbedMetas(data.resourceEmbeds.content);
+  }, [data?.resourceEmbeds.content]);
+
+  const notions = useMemo(() => {
+    if (
+      config.ndlaEnvironment === 'prod' ||
+      isPlainArticle ||
+      (!conceptNotions.length && !article?.relatedContent?.length)
+    ) {
+      return null;
+    }
+    return (
+      <NotionsContent
+        embeds={conceptNotions as ConceptMetaData[]}
+        relatedContent={article.relatedContent}
+        metadata={data?.resourceEmbeds.meta}
+      />
+    );
+  }, [
+    article.relatedContent,
+    conceptNotions,
+    data?.resourceEmbeds.meta,
+    isPlainArticle,
+  ]);
+
   const location = useLocation();
 
   // Scroll to element with ID passed in as a query-parameter.
@@ -257,7 +213,6 @@ const Article = ({
         id={id ?? article.id.toString()}
         article={art}
         icon={icon}
-        locale={i18n.language}
         licenseBox={
           <LicenseBox
             article={article}
@@ -278,14 +233,7 @@ const Article = ({
             />
           ) : undefined
         }
-        notions={
-          isPlainArticle
-            ? undefined
-            : renderNotions(
-                concepts?.conceptSearch?.concepts ?? [],
-                article.relatedContent,
-              )
-        }
+        notions={notions}
         renderMarkdown={renderMarkdown}
         modifier={isResourceArticle ? resourceType : modifier ?? 'clean'}
         heartButton={

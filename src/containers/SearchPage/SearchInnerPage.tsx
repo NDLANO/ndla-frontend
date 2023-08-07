@@ -25,7 +25,6 @@ import { useGraphQuery } from '../../util/runQueries';
 import config, { getDefaultLocale } from '../../config';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import {
-  GQLConceptSearchConceptFragment,
   GQLGroupSearchQuery,
   GQLResourceTypeDefinition,
   GQLSubjectInfoFragment,
@@ -61,7 +60,6 @@ interface Props {
   subjects?: GQLSubjectInfoFragment[];
   programmeNames: string[];
   subjectItems?: SubjectItem[];
-  concepts?: GQLConceptSearchConceptFragment[];
   resourceTypes?: GQLResourceTypeDefinition[];
   ltiData?: LtiData;
   isLti?: boolean;
@@ -75,7 +73,6 @@ const SearchInnerPage = ({
   programmeNames,
   subjectItems,
   subjects,
-  concepts,
   resourceTypes,
   ltiData,
   isLti,
@@ -84,7 +81,6 @@ const SearchInnerPage = ({
   location,
 }: Props) => {
   const { t, i18n } = useTranslation();
-  const [showConcepts, setShowConcepts] = useState(true);
   const [typeFilter, setTypeFilter] = useState<Record<string, TypeFilter>>({});
   const [competenceGoals, setCompetenceGoals] = useState<
     SearchCompetenceGoal[]
@@ -97,10 +93,6 @@ const SearchInnerPage = ({
       getTypeFilter(resourceTypes, selectedFilters, activeSubFilters, t),
     );
   }, [resourceTypes, selectedFilters, activeSubFilters, t]);
-
-  useEffect(() => {
-    setShowConcepts(true);
-  }, [query, subjects, resourceTypes, selectedFilters]);
 
   const searchParams = converSearchStringToObject(location, i18n.language);
   const stateSearchParams = isLti
@@ -311,13 +303,10 @@ const SearchInnerPage = ({
       subjectIds={subjectIds}
       suggestion={suggestion}
       subjects={subjects}
-      concepts={concepts}
       query={query}
       subjectItems={subjectItems}
       typeFilter={typeFilter}
       searchGroups={searchGroups}
-      showConcepts={showConcepts}
-      setShowConcepts={setShowConcepts}
       showAll={showAll}
       locale={i18n.language}
       loading={loading}

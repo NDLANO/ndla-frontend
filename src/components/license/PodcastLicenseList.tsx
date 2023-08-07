@@ -24,6 +24,8 @@ import {
 import { useTranslation } from 'react-i18next';
 import { SafeLinkButton } from '@ndla/safelink';
 import { Link } from 'react-router-dom';
+import { useMemo } from 'react';
+import uniqBy from 'lodash/uniqBy';
 import CopyTextButton from './CopyTextButton';
 import { GQLPodcastLicenseList_PodcastLicenseFragment } from '../../graphqlTypes';
 import {
@@ -129,13 +131,16 @@ interface Props {
 
 const PodcastLicenseList = ({ podcasts }: Props) => {
   const { t } = useTranslation();
+
+  const unique = useMemo(() => uniqBy(podcasts, (p) => p.id), [podcasts]);
+
   return (
     <div>
       <LicenseDescription>
         {t('license.podcast.description')}
       </LicenseDescription>
       <MediaList>
-        {podcasts.map((podcast, index) => (
+        {unique.map((podcast, index) => (
           <PodcastLicenseInfo
             podcast={podcast}
             key={`${podcast.id}-${index}`}
