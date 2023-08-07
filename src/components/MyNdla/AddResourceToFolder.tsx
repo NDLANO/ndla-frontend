@@ -323,6 +323,7 @@ const AddResourceToFolder = ({
         </Button>
         <LoadingButton
           loading={addResourceLoading}
+          colorTheme="light"
           disabled={
             !canSave || addResourceLoading || noFolderSelected || examLock
           }

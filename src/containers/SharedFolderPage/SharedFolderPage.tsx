@@ -220,25 +220,25 @@ const SharedFolderPage = () => {
                   {t('myNdla.sharedFolder.drawerButton')}
                 </span>
               </DrawerButton>
-              <StyledDrawer
-                position="bottom"
-                size="small"
-                expands
-                aria-labelledby="folder-drawer-button"
-              >
-                <StyledDrawerContent>
-                  <ModalHeader>
-                    <h1>{t('myNdla.sharedFolder.drawerTitle')}</h1>
-                    <ModalCloseButton />
-                  </ModalHeader>
-                  <FolderNavigation
-                    onClose={close}
-                    folder={folder}
-                    meta={keyedData}
-                  />
-                </StyledDrawerContent>
-              </StyledDrawer>
             </ModalTrigger>
+            <StyledDrawer
+              position="bottom"
+              size="small"
+              expands
+              aria-labelledby="folder-drawer-button"
+            >
+              <StyledDrawerContent>
+                <ModalHeader>
+                  <h1>{t('myNdla.sharedFolder.drawerTitle')}</h1>
+                  <ModalCloseButton />
+                </ModalHeader>
+                <FolderNavigation
+                  onClose={close}
+                  folder={folder}
+                  meta={keyedData}
+                />
+              </StyledDrawerContent>
+            </StyledDrawer>
           </Modal>
         ) : null}
       </Sidebar>

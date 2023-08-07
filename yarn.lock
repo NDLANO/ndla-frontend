@@ -1086,10 +1086,10 @@
   resolved "https://registry.yarnpkg.com/@babel/regjsgen/-/regjsgen-0.8.0.tgz#f0ba69b075e1f05fb2825b7fad991e7adbb18310"
   integrity sha512-x/rqGMdzj+fWZvCOYForTghzbtqPDZ5gPwaoNGHdgDfF2QA/XZbCBp4Moo5scrkAMPhB7z26XM/AaHuIJdgauA==
 
-"@babel/runtime@^7.0.0", "@babel/runtime@^7.12.0", "@babel/runtime@^7.12.5", "@babel/runtime@^7.13.10", "@babel/runtime@^7.14.5", "@babel/runtime@^7.14.6", "@babel/runtime@^7.17.2", "@babel/runtime@^7.18.3", "@babel/runtime@^7.20.7", "@babel/runtime@^7.3.1", "@babel/runtime@^7.5.5", "@babel/runtime@^7.7.6", "@babel/runtime@^7.8.4", "@babel/runtime@^7.8.7":
-  version "7.21.5"
-  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.21.5.tgz#8492dddda9644ae3bda3b45eabe87382caee7200"
-  integrity sha512-8jI69toZqqcsnqGGqwGS4Qb1VwLOEp4hz+CXPywcvjs60u3B4Pom/U/7rm4W8tMOYEB+E9wgD0mW1l3r8qlI9Q==
+"@babel/runtime@^7.0.0", "@babel/runtime@^7.12.0", "@babel/runtime@^7.12.5", "@babel/runtime@^7.13.10", "@babel/runtime@^7.14.5", "@babel/runtime@^7.14.6", "@babel/runtime@^7.17.2", "@babel/runtime@^7.18.3", "@babel/runtime@^7.20.7", "@babel/runtime@^7.21.0", "@babel/runtime@^7.3.1", "@babel/runtime@^7.5.5", "@babel/runtime@^7.7.6", "@babel/runtime@^7.8.4", "@babel/runtime@^7.8.7":
+  version "7.22.6"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.22.6.tgz#57d64b9ae3cff1d67eb067ae117dac087f5bd438"
+  integrity sha512-wDb5pWm4WDdF6LFUde3Jl8WzPA+3ZbxYqkC6xAXuD3irdEHN1k0NfTRrJD8ZD378SJ61miMLCqIOXYhd8x+AJQ==
   dependencies:
     regenerator-runtime "^0.13.11"
 
@@ -2516,11 +2516,11 @@
     "@radix-ui/react-slot" "^1.0.2"
 
 "@ndla/error-reporter@^1.0.30":
-  version "1.0.30"
-  resolved "https://registry.yarnpkg.com/@ndla/error-reporter/-/error-reporter-1.0.30.tgz#0a5fec43ba52e49b77dfdf48fec46535c429c37d"
-  integrity sha512-WT/ZLMe4TaCYpgATnt5Xa8eU+Sn/E7Or9NkrZtY6ltXJowHvjTRzZb/njjOoczAIh3A6bwFbgmO82d1W3xndOg==
+  version "1.0.31"
+  resolved "https://registry.yarnpkg.com/@ndla/error-reporter/-/error-reporter-1.0.31.tgz#3423bab9fee59662392251fbd007408d3fd7a494"
+  integrity sha512-NPdFjmBZd6hlRLs7BJpH2nQMI4+WwKTtuVtrQdEmjoHr3qXmuBovd88aYWvCy9/1peNQCY5UZgBxBKbgdL7GvA==
   dependencies:
-    "@ndla/util" "^3.1.14"
+    "@ndla/util" "^3.1.15"
     raven-js "^3.22.3"
 
 "@ndla/forms@^4.3.16", "@ndla/forms@^4.3.17":
@@ -2583,9 +2583,9 @@
     "@ndla/safelink" "^4.1.16"
 
 "@ndla/polyfill@^1.0.8":
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/@ndla/polyfill/-/polyfill-1.0.8.tgz#8be9cf7be84b24002eaeee41c5bfd974e4a4f27b"
-  integrity sha512-wjvf6n6+K9zdMLdqDxgxX294y9ey31xsmuwJvsTgl/FnBAkKbMj0wewNQpSz72MLbDNzcKW4PbNI9xZYdsU0TQ==
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/@ndla/polyfill/-/polyfill-1.0.9.tgz#092c35e3a70dd1e667573d2bbf66fe3b6639780d"
+  integrity sha512-bZ1cz4roDjufTYl6Tgx3HhBlIEluI9IH9BWCye2m/NNR+iX5j7jaKUu1q4bbTC1opljgUAoAmG+u+scAbp5zzA==
   dependencies:
     core-js "^3.10.2"
     details-polyfill "^1.1.0"
@@ -2647,17 +2647,17 @@
     html-react-parser "^3.0.8"
 
 "@ndla/tracker@^4.0.3":
-  version "4.0.3"
-  resolved "https://registry.yarnpkg.com/@ndla/tracker/-/tracker-4.0.3.tgz#f3a3e4cb2a3202cd2c301b175ef09169655cffc2"
-  integrity sha512-9Xd6s0TJsORh5PpQRz6hSL3C9U4wCLJHG8TsVLE735f++XV4ducjl2PANlagaWTinBe39/ebqWJWdrno6T8G4Q==
+  version "4.0.4"
+  resolved "https://registry.yarnpkg.com/@ndla/tracker/-/tracker-4.0.4.tgz#703f1fe808232895b50bf04df0b66350a35ed07e"
+  integrity sha512-qDWtZmKe/pyNP9b8sxsWOhfO+Nfzd1z1zuKE7L8SDWGzDwQzbvD7WC3XSzn5HKzPgDL+id4EUR4PcnUX4SXtEA==
   dependencies:
     hoist-non-react-statics "^3.3.2"
     tiny-warning "^1.0.3"
 
-"@ndla/types-backend@^0.2.16":
-  version "0.2.16"
-  resolved "https://registry.yarnpkg.com/@ndla/types-backend/-/types-backend-0.2.16.tgz#d59191fa4b73c69013652f05729fd0ab8cf92018"
-  integrity sha512-E8nCfDfmhc9C4SWXQ4ruRQkDfYaj1jtVlxMt0fOpqZM9P3FoEaED1SFe/xwXZGhvySCNe1ksWNJTL8xrarj1Vw==
+"@ndla/types-backend@^0.2.17":
+  version "0.2.17"
+  resolved "https://registry.yarnpkg.com/@ndla/types-backend/-/types-backend-0.2.17.tgz#b14c4592e59e753daf6487e2fcf9c4f06b122325"
+  integrity sha512-eDYLrpnr8fhRZ31pzY18GctL7RYsK90rqL+ZWGivXhnzVLR5Jy9DKn53vfyZe0CwEuMrKJRA/cWaGp+ZLdF+HA==
 
 "@ndla/types-embed@^2.0.7":
   version "2.0.7"
@@ -2708,11 +2708,11 @@
     remarkable "^2.0.1"
 
 "@ndla/zendesk@^1.2.15":
-  version "1.2.15"
-  resolved "https://registry.yarnpkg.com/@ndla/zendesk/-/zendesk-1.2.15.tgz#189b53c296b776e55faba82fc5efceb3a8eb61b7"
-  integrity sha512-tlZF2TqLfuBOaodcDFZGAmyhf0vHRRQtbEGISipZ0OpTjFDoc0AMMz6bireyK8u1cBxuZxUr6+bnP2chjLBmxg==
+  version "1.2.16"
+  resolved "https://registry.yarnpkg.com/@ndla/zendesk/-/zendesk-1.2.16.tgz#5146e2603704f4e72a880b1c76c363da90b47447"
+  integrity sha512-iks+NwUnqjUicRHJ8O11l3z535DP5J932hOFzsGDwwMja4lwY581SB5MawmpsWfYyx1XkaYnc/SoMFkxPYITtQ==
   dependencies:
-    "@ndla/button" "^11.0.1"
+    "@ndla/button" "^11.0.2"
     "@ndla/core" "^4.1.4"
 
 "@nicolo-ribaudo/eslint-scope-5-internals@5.1.1-v1":
@@ -5975,10 +5975,12 @@ dataloader@^2.2.2:
   resolved "https://registry.yarnpkg.com/dataloader/-/dataloader-2.2.2.tgz#216dc509b5abe39d43a9b9d97e6e5e473dfbe3e0"
   integrity sha512-8YnDaaf7N3k/q5HnTJVuzSyLETjoZjVmHc4AeKAzOvKHEFQKcn64OKBfzHYtE9zGjctNM7V9I0MfnUVLpi7M5g==
 
-date-fns@^2.29.3:
-  version "2.29.3"
-  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.29.3.tgz#27402d2fc67eb442b511b70bbdf98e6411cd68a8"
-  integrity sha512-dDCnyH2WnnKusqvZZ6+jA1O51Ibt8ZMRNkDZdyAyK4YfbDwa/cEmuztzG5pk6hqlp9aSBPYcjOlktquahGwGeA==
+date-fns@^2.29.3, date-fns@^2.30.0:
+  version "2.30.0"
+  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.30.0.tgz#f367e644839ff57894ec6ac480de40cae4b0f4d0"
+  integrity sha512-fnULvOpxnC5/Vg3NCiWelDsLiUc9bRwAPs/+LfTLNvetFCtCTN+yQz15C/fs4AwX1R9K5GLtLfn8QW+dWisaAw==
+  dependencies:
+    "@babel/runtime" "^7.21.0"
 
 dayjs@^1.10.4:
   version "1.10.4"
