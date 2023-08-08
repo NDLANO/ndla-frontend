@@ -174,6 +174,7 @@ const Folder = ({
                 setFocus(`shared-${folder.id}`);
                 onClose?.();
               }}
+              level={0}
             >
               <StyledArrow
                 css={!isOpen ? arrowOpenCss : undefined}

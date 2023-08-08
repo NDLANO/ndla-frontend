@@ -149,28 +149,20 @@ const LandingPageMobileWrapper = styled.div`
 const embedResourceTypes = ['video', 'audio', 'concept', 'image'];
 
 const findSubfolder = (
-  folder?: GQLFolder,
-  id?: string,
+  id: string,
+  folder: GQLFolder,
 ): GQLFolder | undefined => {
-  if (!id || !folder) return;
-
   if (folder.id === id) {
     return folder;
-  }
-
-  for (const subfolder of folder.subfolders) {
-    const foundSubfolder = findSubfolder(subfolder, id);
-    if (foundSubfolder) {
-      return foundSubfolder;
+  } else {
+    for (const subfolder of folder.subfolders) {
+      const foundSubfolder = findSubfolder(id, subfolder);
+      if (foundSubfolder) {
+        return foundSubfolder;
+      }
     }
+    return undefined;
   }
-  return undefined;
-
-  // return folder.id === id
-  //   ? folder
-  //   : folder.subfolders.find((subfolder) => {
-  //       return findSubfolder(subfolder, id);
-  //     });
 };
 
 const SharedFolderPage = () => {
@@ -221,7 +213,7 @@ const SharedFolderPage = () => {
 
   const selectedFolder = !subfolderId
     ? folder
-    : findSubfolder(folder, subfolderId);
+    : findSubfolder(subfolderId, folder);
 
   const title = `${selectedFolder?.name} - ${
     articleMeta?.title ?? t('sharedFolder')
