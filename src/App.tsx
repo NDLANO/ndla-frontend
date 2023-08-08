@@ -174,6 +174,7 @@ const AppRoutes = ({ base }: AppProps) => {
                 </Route>
                 <Route path="folder/:folderId">
                   <Route index element={<SharedFolderPage />} />
+                  <Route path=":subfolderId" element={<SharedFolderPage />} />
                   <Route
                     path=":subfolderId/:resourceId"
                     element={<SharedFolderPage />}

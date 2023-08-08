@@ -8,7 +8,6 @@
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
 import { colors, spacing } from '@ndla/core';
 import { ArrowDropDownRounded } from '@ndla/icons/common';
 import { SafeLinkButton } from '@ndla/safelink';
@@ -34,13 +33,13 @@ export const StyledLi = styled.li`
   margin: 0;
 `;
 
-interface ButtonProps {
-  level: number;
+interface LinkProps {
+  level?: number;
 }
 
-const forwardButton = (p: string) => p !== 'level';
+const forwardLink = (p: string) => p !== 'level';
 
-const folderButtonOptions = { shouldForwardProp: forwardButton };
+const folderLinkOptions = { shouldForwardProp: forwardLink };
 
 const FolderButtonContainer = styled.div`
   padding-bottom: ${spacing.xxsmall};
@@ -48,26 +47,8 @@ const FolderButtonContainer = styled.div`
   border-bottom: 1px solid ${colors.brand.light};
 `;
 
-const FolderButton = styled(ButtonV2, folderButtonOptions)<ButtonProps>`
-  color: ${colors.text.primary};
-  justify-content: flex-start;
-  border: none;
+const FolderLink = styled(SafeLinkButton, folderLinkOptions)<LinkProps>`
   padding-left: calc(${(p) => p.level} * ${spacing.small});
-  &:hover,
-  &:active {
-    background-color: transparent;
-    border-color: transparent;
-    text-decoration: underline;
-  }
-  &:focus-visible {
-    color: ${colors.brand.primary};
-    background: none;
-    outline: 2px solid ${colors.brand.primary};
-  }
-`;
-
-const FolderLink = styled(SafeLinkButton)`
-  padding-left: 0;
   align-items: center;
   justify-content: center;
   color: ${colors.text.primary};
@@ -121,6 +102,7 @@ interface Props {
     GQLFolderResourceMetaSearchQuery['folderResourceMetaSearch'][0]
   >;
   root?: boolean;
+  subfolderKey?: string;
 }
 
 const Folder = ({
@@ -131,9 +113,10 @@ const Folder = ({
   root,
   level,
   onClose,
+  subfolderKey,
 }: Props) => {
   const { name, subfolders, resources } = folder;
-  const { resourceId, subfolderId } = useParams();
+  const { folderId: rootFolderId, resourceId, subfolderId } = useParams();
 
   const [isOpen, setIsOpen] = useState(
     containsFolder(folder, defaultOpenFolder) || !!root,
@@ -167,7 +150,8 @@ const Folder = ({
     }
   };
 
-  const selected = !resourceId && !subfolderId;
+  const rootSelected = !resourceId && !subfolderId;
+  const subfolderSelected = !resourceId && subfolderKey === subfolderId;
 
   return (
     <StyledLi role="none" data-list-item>
@@ -181,7 +165,7 @@ const Folder = ({
               id={`shared-${folder.id}`}
               tabIndex={-1}
               colorTheme={'light'}
-              variant={selected ? 'solid' : 'ghost'}
+              variant={rootSelected ? 'solid' : 'ghost'}
               color="light"
               role="treeitem"
               onKeyDown={handleLinkClick}
@@ -206,13 +190,14 @@ const Folder = ({
         </>
       ) : (
         <FolderButtonContainer>
-          <FolderButton
+          <FolderLink
+            to={`/folder/${rootFolderId}/${subfolderKey}`}
             level={level}
             aria-owns={`folder-sublist-${folder.id}`}
             aria-expanded={isOpen}
             id={`shared-${folder.id}`}
             tabIndex={-1}
-            variant="ghost"
+            variant={subfolderSelected ? 'solid' : 'ghost'}
             colorTheme="light"
             role="treeitem"
             onKeyDown={handleKeydown}
@@ -222,7 +207,7 @@ const Folder = ({
             }}
           >
             <StyledArrow css={!isOpen ? arrowOpenCss : undefined} /> {name}
-          </FolderButton>
+          </FolderLink>
         </FolderButtonContainer>
       )}
 
@@ -253,6 +238,7 @@ const Folder = ({
               key={subfolder.id}
               folder={subfolder}
               meta={meta}
+              subfolderKey={subfolder.id}
             />
           ))}
         </StyledUl>

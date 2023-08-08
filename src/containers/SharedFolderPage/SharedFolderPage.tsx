@@ -148,9 +148,34 @@ const LandingPageMobileWrapper = styled.div`
 
 const embedResourceTypes = ['video', 'audio', 'concept', 'image'];
 
+const findSubfolder = (
+  folder?: GQLFolder,
+  id?: string,
+): GQLFolder | undefined => {
+  if (!id || !folder) return;
+
+  if (folder.id === id) {
+    return folder;
+  }
+
+  for (const subfolder of folder.subfolders) {
+    const foundSubfolder = findSubfolder(subfolder, id);
+    if (foundSubfolder) {
+      return foundSubfolder;
+    }
+  }
+  return undefined;
+
+  // return folder.id === id
+  //   ? folder
+  //   : folder.subfolders.find((subfolder) => {
+  //       return findSubfolder(subfolder, id);
+  //     });
+};
+
 const SharedFolderPage = () => {
   const [open, setOpen] = useState(false);
-  const { folderId = '', resourceId } = useParams();
+  const { folderId = '', resourceId, subfolderId } = useParams();
   const { t } = useTranslation();
   const isMobile = useContext(IsMobileContext);
 
@@ -194,7 +219,13 @@ const SharedFolderPage = () => {
       `${selectedResource?.resourceType}-${selectedResource?.resourceId}`
     ];
 
-  const title = `${folder.name} - ${articleMeta?.title ?? t('sharedFolder')}`;
+  const selectedFolder = !subfolderId
+    ? folder
+    : findSubfolder(folder, subfolderId);
+
+  const title = `${selectedFolder?.name} - ${
+    articleMeta?.title ?? t('sharedFolder')
+  }`;
 
   return (
     <Layout>
@@ -261,7 +292,7 @@ const SharedFolderPage = () => {
             />
           )
         ) : (
-          <FolderMeta folder={folder} title={title} />
+          <FolderMeta folder={selectedFolder} title={title} />
         )}
         {!selectedResource && isMobile && (
           <LandingPageMobileWrapper>
