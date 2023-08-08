@@ -39,8 +39,7 @@ export function getArticleScripts(
     });
 
     scripts.push({
-      src:
-        'https://cdn.jsdelivr.net/npm/mathjax@4.0.0-beta.3/mml-chtml.js',
+      src: 'https://cdn.jsdelivr.net/npm/mathjax@4.0.0-beta.3/mml-chtml.js',
       type: 'text/javascript',
       async: false,
       defer: true,
