@@ -32,14 +32,14 @@ export function getArticleScripts(
   ) {
     // Increment number for each change in config.
     scripts.push({
-      src: `/static/mathjax-config.js?locale=${locale}&ts=${2}`,
+      src: `/static/mathjax-config.js?locale=${locale}&ts=${3}`,
       type: 'text/javascript',
       async: false,
       defer: true,
     });
 
     scripts.push({
-      src: 'https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/mml-chtml.js',
+      src: 'https://cdn.jsdelivr.net/npm/mathjax@4.0.0-beta.3/mml-chtml.js',
       type: 'text/javascript',
       async: false,
       defer: true,
