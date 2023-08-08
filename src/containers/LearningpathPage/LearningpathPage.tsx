@@ -67,12 +67,14 @@ const LearningpathPage = ({ data, skipToContentId, stepId, t }: Props) => {
   const onKeyUpEvent = (evt: KeyboardEvent) => {
     const steps = data?.resource?.learningpath?.learningsteps;
     const learningpathStep = stepId
-      ? steps?.find(step => step.id.toString() === stepId.toString())
+      ? steps?.find((step) => step.id.toString() === stepId.toString())
       : steps?.[0];
     if (evt.code === 'ArrowRight' || evt.code === 'ArrowLeft') {
       const directionValue = evt.code === 'ArrowRight' ? 1 : -1;
       const newSeqNo = (learningpathStep?.seqNo ?? 0) + directionValue;
-      const newLearningpathStep = steps?.find(step => step.seqNo === newSeqNo);
+      const newLearningpathStep = steps?.find(
+        (step) => step.seqNo === newSeqNo,
+      );
       if (newLearningpathStep) {
         const res = resource.path
           ? { path: resource.path, id: resource.id }
@@ -103,7 +105,7 @@ const LearningpathPage = ({ data, skipToContentId, stepId, t }: Props) => {
 
   const learningpathStep = stepId
     ? learningpath.learningsteps?.find(
-        step => step.id.toString() === stepId.toString(),
+        (step) => step.id.toString() === stepId.toString(),
       )
     : learningpath.learningsteps?.[0];
 
@@ -125,7 +127,7 @@ const LearningpathPage = ({ data, skipToContentId, stepId, t }: Props) => {
   return (
     <div>
       <Helmet>
-        <title>{`${getDocumentTitle(t, data)}`}</title>
+        <title>{`${getDocumentTitle(t, data, stepId)}`}</title>
         {subject?.metadata.customFields?.[
           TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY
         ] === constants.subjectCategories.ARCHIVE_SUBJECTS && (
@@ -174,7 +176,7 @@ LearningpathPage.getDimensions = (props: Props) => {
   const learningpath = resource?.learningpath;
   const firstStep = learningpath?.learningsteps?.[0];
   const currentStep = learningpath?.learningsteps?.find(
-    ls => `${ls.id}` === stepId,
+    (ls) => `${ls.id}` === stepId,
   );
   const learningstep = currentStep || firstStep;
 
@@ -204,10 +206,14 @@ const getTitle = (
   ]);
 };
 
-const getDocumentTitle = (t: TFunction, data: PropData) => {
+const getDocumentTitle = (t: TFunction, data: PropData, stepId?: string) => {
   const subject = data.subject;
   const learningpath = data.resource?.learningpath;
-  return htmlTitle(getTitle(subject, learningpath), [
+  const maybeStepId = parseInt(stepId ?? '');
+  const step = learningpath?.learningsteps.find(
+    (step) => step.id === maybeStepId,
+  );
+  return htmlTitle(getTitle(subject, learningpath, step), [
     t('htmlTitles.titleTemplate'),
   ]);
 };

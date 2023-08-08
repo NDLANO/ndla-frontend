@@ -81,34 +81,6 @@ export const feideDomain = (): string => {
   }
 };
 
-export const matomoDomain = (): string => {
-  switch (ndlaEnvironment) {
-    case 'dev':
-      return 'https://analytics.test.ndla.no/';
-    case 'prod':
-      return 'https://analytics.ndla.no/';
-    default:
-      return `https://analytics.${ndlaEnvironmentHostname}.ndla.no/`;
-  }
-};
-
-const gaTrackingId = (): string => {
-  if (process.env.NODE_ENV !== 'production') {
-    return '';
-  }
-
-  switch (ndlaEnvironment) {
-    case 'local':
-      return '';
-    case 'dev':
-      return '';
-    case 'prod':
-      return 'UA-9036010-1';
-    default:
-      return 'UA-9036010-31';
-  }
-};
-
 const logglyApiKey = (): string | undefined => {
   if (process.env.NODE_ENV === 'unittest') {
     return '';
@@ -134,14 +106,20 @@ export type ConfigType = {
   ndlaFrontendDomain: string;
   learningPathDomain: string;
   googleTagManagerId: string | undefined;
-  gaTrackingId: string | undefined;
   zendeskWidgetKey: string | undefined;
   localGraphQLApi: boolean;
   showAllFrontpageSubjects: boolean;
+  saamiEnabled: boolean;
   feideDomain: string;
   feideEnabled: boolean;
   matomoUrl: string;
   matomoSiteId: string;
+  matomoTagmanagerId: string;
+  folderDescriptionEnabled: boolean;
+  favoriteEmbedEnabled: boolean;
+  filterInactiveContexts: boolean;
+  taxonomyProgrammesEnabled: boolean;
+  isVercel: boolean;
 };
 
 const config: ConfigType = {
@@ -168,14 +146,29 @@ const config: ConfigType = {
     learningPathDomain(),
   ),
   googleTagManagerId: getEnvironmentVariabel('NDLA_GOOGLE_TAG_MANAGER_ID'),
-  gaTrackingId: getEnvironmentVariabel('GA_TRACKING_ID', gaTrackingId()),
   zendeskWidgetKey: getEnvironmentVariabel('NDLA_ZENDESK_WIDGET_KEY'),
   localGraphQLApi: getEnvironmentVariabel('LOCAL_GRAPHQL_API', false),
   showAllFrontpageSubjects: true,
+  saamiEnabled: getEnvironmentVariabel('SAAMI_ENABLED', false),
   feideDomain: feideDomain(),
   feideEnabled: getEnvironmentVariabel('FEIDE_ENABLED', false),
-  matomoUrl: getEnvironmentVariabel('MATOMO_URL', matomoDomain()),
+  matomoUrl: getEnvironmentVariabel('MATOMO_URL', 'https://tall.ndla.no'),
   matomoSiteId: getEnvironmentVariabel('MATOMO_SITE_ID', ''),
+  matomoTagmanagerId: getEnvironmentVariabel('MATOMO_TAGMANAGER_ID', ''),
+  folderDescriptionEnabled: getEnvironmentVariabel(
+    'FOLDER_DESCRIPTION_ENABLED',
+    true,
+  ),
+  favoriteEmbedEnabled: getEnvironmentVariabel('FAVORITE_EMBED_ENABLED', true),
+  filterInactiveContexts: getEnvironmentVariabel(
+    'FILTER_INACTIVE_CONTEXTS',
+    true,
+  ),
+  taxonomyProgrammesEnabled: getEnvironmentVariabel(
+    'TAXONOMY_PROGRAMMES_ENABLED',
+    false,
+  ),
+  isVercel: getEnvironmentVariabel('IS_VERCEL', false),
 };
 
 export function getUniversalConfig() {

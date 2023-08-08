@@ -7,8 +7,9 @@
  */
 
 import { gql } from '@apollo/client';
+import { licenseListCopyrightFragment } from './components/license/licenseFragments';
 
-const contributorInfoFragment = gql`
+export const contributorInfoFragment = gql`
   fragment ContributorInfo on Contributor {
     name
     type
@@ -31,6 +32,7 @@ export const searchQuery = gql`
     $languageFilter: String
     $relevance: String
     $grepCodes: String
+    $filterInactive: Boolean
   ) {
     search(
       query: $query
@@ -47,6 +49,7 @@ export const searchQuery = gql`
       languageFilter: $languageFilter
       relevance: $relevance
       grepCodes: $grepCodes
+      filterInactive: $filterInactive
     ) {
       language
       page
@@ -65,15 +68,15 @@ export const searchQuery = gql`
           breadcrumbs
           relevance
           language
-          learningResourceType
+          contextType
           path
           resourceTypes {
             id
             name
             language
           }
-          subject
-          subjectId
+          root
+          rootId
           relevance
         }
         supportedLanguages
@@ -110,14 +113,14 @@ export const searchFilmQuery = gql`
       breadcrumbs
       relevance
       language
-      learningResourceType
+      contextType
       path
       resourceTypes {
         id
         name
         language
       }
-      subject
+      root
     }
     supportedLanguages
     traits
@@ -135,14 +138,14 @@ export const searchFilmQuery = gql`
       breadcrumbs
       relevance
       language
-      learningResourceType
+      contextType
       path
       resourceTypes {
         id
         name
         language
       }
-      subject
+      root
     }
     supportedLanguages
     traits
@@ -196,8 +199,8 @@ export const GroupSearchResourceFragment = gql`
       language
       path
       breadcrumbs
-      subjectId
-      subject
+      rootId
+      root
       relevance
       resourceTypes {
         id
@@ -224,6 +227,7 @@ export const groupSearchQuery = gql`
     $grepCodes: String
     $aggregatePaths: [String!]
     $grepCodesList: [String]
+    $filterInactive: Boolean
   ) {
     groupSearch(
       resourceTypes: $resourceTypes
@@ -236,6 +240,7 @@ export const groupSearchQuery = gql`
       fallback: $fallback
       grepCodes: $grepCodes
       aggregatePaths: $aggregatePaths
+      filterInactive: $filterInactive
     ) {
       resources {
         ...GroupSearchResource
@@ -269,6 +274,11 @@ export const groupSearchQuery = gql`
         title
       }
     }
+    coreElements(codes: $grepCodesList, language: $language) {
+      id
+      title
+      text: description
+    }
   }
   ${GroupSearchResourceFragment}
 `;
@@ -279,6 +289,7 @@ export const copyrightInfoFragment = gql`
     license {
       license
       url
+      description
     }
     creators {
       ...ContributorInfo
@@ -294,13 +305,14 @@ export const copyrightInfoFragment = gql`
 `;
 
 export const visualElementFragment = gql`
-  ${copyrightInfoFragment}
+  ${licenseListCopyrightFragment}
   fragment VisualElementInfo on VisualElement {
     title
     resource
     url
     copyright {
-      ...CopyrightInfo
+      ...LicenseListCopyright
+      origin
     }
     language
     embed
@@ -355,6 +367,8 @@ export const conceptSearchInfoFragment = gql`
     visualElement {
       ...VisualElementInfo
     }
+    tags
+    supportedLanguages
     copyright {
       license {
         license
@@ -446,7 +460,7 @@ export const topicInfoFragment = gql`
     name
     contentUri
     path
-    parent
+    parentId
     relevanceId
     supportedLanguages
     meta {
@@ -538,7 +552,10 @@ export const subjectsQuery = gql`
 export const movedResourceQuery = gql`
   query movedResource($resourceId: String!) {
     resource(id: $resourceId) {
-      breadcrumbs
+      contexts {
+        path
+        breadcrumbs
+      }
     }
   }
 `;
@@ -594,6 +611,30 @@ export const alertsQuery = gql`
       body
       closable
       number
+    }
+  }
+`;
+
+export const embedOembedQuery = gql`
+  query embedOembed($id: String!, $type: String!) {
+    resourceEmbed(id: $id, type: $type) {
+      meta {
+        images {
+          title
+        }
+        concepts {
+          title
+        }
+        audios {
+          title
+        }
+        podcasts {
+          title
+        }
+        brightcoves {
+          title
+        }
+      }
     }
   }
 `;

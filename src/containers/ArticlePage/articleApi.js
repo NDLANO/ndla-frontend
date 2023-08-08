@@ -12,22 +12,12 @@ import {
   fetch,
 } from '../../util/apiHelpers';
 
-const converterBaseUrl = (() => {
-  if (process.env.RAZZLE_LOCAL_ARTICLE_CONVERTER) {
-    return 'http://localhost:3100/article-converter/json';
-  }
-  return apiResourceUrl('/article-converter/json');
-})();
-
 const baseUrl = apiResourceUrl('/article-api/v2/articles');
 
-export const fetchArticle = (id, locale, isOembed = false) =>
-  fetch(`${converterBaseUrl}/${locale}/${id}?isOembed=${isOembed}`).then(
+export const fetchArticle = (id, locale) =>
+  fetch(`${baseUrl}/${id}?lang=${locale}&fallback=true`).then(
     resolveJsonOrRejectWithError,
   );
 
-export const fetchArticles = ids =>
-  fetch(`${baseUrl}?ids=${ids.join(',')}`).then(resolveJsonOrRejectWithError);
-
-export const fetchArticleOembed = url =>
+export const fetchArticleOembed = (url) =>
   fetch(`oembed?url=${url}`).then(resolveJsonOrRejectWithError);

@@ -22,7 +22,7 @@ const subjectsQueryFragment = gql`
 
 const subjectsQuery = gql`
   query allSubjects {
-    subjects {
+    subjects(filterVisible: true) {
       ...MySubjectsSubjectFragment
     }
   }
@@ -30,8 +30,7 @@ const subjectsQuery = gql`
 `;
 
 export const useSubjects = () => {
-  const { data, loading, error } = useGraphQuery<GQLSubjectsQuery>(
-    subjectsQuery,
-  );
+  const { data, loading, error } =
+    useGraphQuery<GQLSubjectsQuery>(subjectsQuery);
   return { subjects: data?.subjects, loading, error };
 };

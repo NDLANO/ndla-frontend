@@ -18,19 +18,15 @@ const messages = {
     notFound: `Siden finnes ikke - ${titleTemplate}`,
     accessDenied: `Ingen tilgang - ${titleTemplate}`,
     subject: 'Fag',
-    podcast: `Podkast - Side {{pageNumber}} - ${titleTemplate}`,
+    podcast: `Podkast - Side {{page}} - ${titleTemplate}`,
     lti: `LTI - ${titleTemplate}`,
     movedResourcePage: `Siden har flyttet - ${titleTemplate}`,
     myNdlaPage: `Min NDLA - ${titleTemplate}`,
     myFoldersPage: `Mine mapper - ${titleTemplate}`,
     myFolderPage: `{{folderName}} - ${titleTemplate}`,
     myTagPage: `#{{tag}} - ${titleTemplate}`,
-    myTagsPage: `Mine tags - ${titleTemplate}`,
-    toolbox: {
-      visualElement: 'Om emne video',
-      introduction:
-        'Hva vil det si å arbeide utforskende? Hvordan kan du lære bedre? Hva skal til for å få gruppearbeid til å fungere? I Verktøykassa finner både elever og lærere ressurser som er aktuelle for alle fag, og som støtter opp under læringsarbeid og utvikling av kunnskap, ferdigheter og forståelse.',
-    },
+    myTagsPage: `Mine emneknagger - ${titleTemplate}`,
+    sharedFolderPage: `{{name}} - ${titleTemplate}`,
   },
   podcastPage: {
     episodes: 'Episoder',
@@ -39,19 +35,16 @@ const messages = {
     pageInfo: 'Side {{page}} av {{lastPage}}',
     noResults: '...Ingen episoder',
   },
-  messageBoxInfo: {
-    subjectBeta:
-      'Dette faget er i betaversjon. Vi fyller på med ressurser fortløpende.',
-  },
+  sharedFolder: 'Delt mappe',
   blogPosts: {
     blog1: {
-      imageUrl: '/static/nye-fag.jpg',
-      text: 'Forslag til årsplaner fra NDLA',
+      imageUrl: '/static/samiske-laeremidler.jpg',
+      text: 'Utvikler samiske ressurser på NDLA',
       externalLink:
-        'https://blogg.ndla.no/2021/08/forslag-til-arsplaner-hos-ndla/',
+        'https://blogg.ndla.no/2023/02/utvikler-samiske-ressurser-pa-ndla/',
       linkText: 'Fagblogg',
       license: 'CC-BY-SA-4.0',
-      licenseAuthor: 'Vibeke Klungland',
+      licenseAuthor: 'Jan Frode Lindsø',
     },
     blog2: {
       imageUrl: '/static/aktiviser-elevene.jpg',
@@ -67,6 +60,7 @@ const messages = {
   validation: {
     fields: {
       name: 'Navn',
+      description: 'Beskrivelse',
     },
     required: 'Dette feltet er påkrevd',
     requiredField: '$t(validation.fields.{{field}}) er påkrevd',
@@ -74,6 +68,12 @@ const messages = {
     maxLength: 'Dette feltet kan maks inneholde {{count}} tegn',
     maxLengthField:
       '$t(validation.fields.{{field}}) kan maks innholde {{count}} tegn',
+  },
+  resourcepageTitles: {
+    video: 'Video',
+    image: 'Bilde',
+    audio: 'Audio',
+    concept: 'Forklaring',
   },
 };
 

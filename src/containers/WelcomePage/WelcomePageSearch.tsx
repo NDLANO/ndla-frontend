@@ -32,9 +32,8 @@ const WelcomePageSearch = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  const [runSearch, { loading, data: searchResult, error }] = useLazyQuery(
-    frontpageSearchQuery,
-  );
+  const [runSearch, { loading, data: searchResult, error }] =
+    useLazyQuery(frontpageSearchQuery);
 
   useEffect(() => {
     if (delayedSearchQuery.length >= 2) {

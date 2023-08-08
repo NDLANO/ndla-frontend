@@ -9,24 +9,24 @@ import { useState } from 'react';
 import styled from '@emotion/styled';
 import {
   SearchSubjectResult,
-  SearchNotionsResult,
   SearchFilterContent,
   LanguageSelector,
-  ConceptNotion,
 } from '@ndla/ui';
 import { spacingUnit } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
+import { Spinner } from '@ndla/icons';
 
 import SearchHeader from './components/SearchHeader';
 import SearchResults, { ViewType } from './components/SearchResults';
 import { SearchGroup, sortResourceTypes, TypeFilter } from './searchHelpers';
+import { GQLSubjectInfoFragment } from '../../graphqlTypes';
 import {
-  GQLConceptSearchConceptFragment,
-  GQLSubjectInfoFragment,
-} from '../../graphqlTypes';
-import { SearchCompetenceGoal, SubjectItem } from './SearchInnerPage';
+  SearchCompetenceGoal,
+  SearchCoreElements,
+  SubjectItem,
+} from './SearchInnerPage';
 import { LocaleType } from '../../interfaces';
-import { getLocaleUrls } from '../../util/localeHelpers';
+import { supportedLanguages } from '../../i18n';
 
 const StyledLanguageSelector = styled.div`
   width: 100%;
@@ -45,13 +45,11 @@ interface Props {
   subjectIds: string[];
   subjects?: GQLSubjectInfoFragment[];
   competenceGoals: SearchCompetenceGoal[];
+  coreElements: SearchCoreElements[];
   subjectItems?: SubjectItem[];
-  concepts?: GQLConceptSearchConceptFragment[];
   suggestion?: string;
   typeFilter: Record<string, TypeFilter>;
   searchGroups: SearchGroup[];
-  showConcepts: boolean;
-  setShowConcepts: (show: boolean) => void;
   showAll: boolean;
   locale: LocaleType;
   loading: boolean;
@@ -67,24 +65,22 @@ const SearchContainer = ({
   subjectIds,
   subjectItems,
   subjects,
-  concepts,
   suggestion,
   typeFilter,
   searchGroups,
-  showConcepts,
-  setShowConcepts,
   showAll,
   locale,
   loading,
   isLti,
   competenceGoals,
+  coreElements,
 }: Props) => {
   const { t, i18n } = useTranslation();
   const [listViewType, setListViewType] = useState<ViewType>('grid');
 
   const filterButtonItems = [];
   for (const [type, values] of Object.entries(typeFilter)) {
-    if (searchGroups.find(group => group.type === type)?.items?.length) {
+    if (searchGroups.find((group) => group.type === type)?.items?.length) {
       filterButtonItems.push({
         value: type,
         label: t(`contentTypes.${type}`),
@@ -107,32 +103,15 @@ const SearchContainer = ({
         noResults={sortedFilterButtonItems.length === 0}
         locale={locale}
         competenceGoals={competenceGoals}
+        coreElements={coreElements}
+        loading={loading}
       />
-      {showConcepts && concepts && concepts.length > 0 && (
-        <SearchNotionsResult
-          totalCount={concepts.length}
-          onRemove={() => {
-            setShowConcepts(false);
-          }}>
-          {concepts.map(concept => (
-            <ConceptNotion
-              key={concept.id}
-              concept={{
-                ...concept,
-                image: concept.image
-                  ? {
-                      src: concept.image.url,
-                      alt: concept.image.alt,
-                    }
-                  : undefined,
-              }}
-            />
-          ))}
-        </SearchNotionsResult>
-      )}
       {subjectItems && subjectItems?.length > 0 && (
         <SearchSubjectResult items={subjectItems} />
       )}
+      <div aria-live="assertive">
+        {loading && searchGroups.length === 0 && <Spinner />}
+      </div>
       {searchGroups && searchGroups.length > 0 && (
         <>
           {sortedFilterButtonItems.length > 1 && (
@@ -141,7 +120,7 @@ const SearchContainer = ({
               onFilterToggle={handleFilterToggle}
               onRemoveAllFilters={handleFilterReset}
               viewType={listViewType}
-              onChangeViewType={viewType => setListViewType(viewType)}
+              onChangeViewType={(viewType) => setListViewType(viewType)}
             />
           )}
           <SearchResults
@@ -156,11 +135,8 @@ const SearchContainer = ({
           {isLti && (
             <StyledLanguageSelector>
               <LanguageSelector
-                center
-                outline
-                alwaysVisible
-                options={getLocaleUrls(i18n.language, window.location)}
-                currentLanguage={i18n.language}
+                locales={supportedLanguages}
+                onSelect={i18n.changeLanguage}
               />
             </StyledLanguageSelector>
           )}

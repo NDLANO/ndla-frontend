@@ -23,10 +23,16 @@ import {
 } from '@ndla/licenses';
 import { useTranslation } from 'react-i18next';
 import { SafeLinkButton } from '@ndla/safelink';
-import CopyTextButton from './CopyTextButton';
+import { Link } from 'react-router-dom';
+import uniqBy from 'lodash/uniqBy';
+import { useMemo } from 'react';
 import { GQLAudioLicenseList_AudioLicenseFragment } from '../../graphqlTypes';
-import { licenseCopyrightToCopyrightType } from './licenseHelpers';
+import {
+  isCopyrighted,
+  licenseCopyrightToCopyrightType,
+} from './licenseHelpers';
 import { licenseListCopyrightFragment } from './licenseFragments';
+import LicenseDescription from './LicenseDescription';
 
 interface AudioLicenseInfoProps {
   audio: GQLAudioLicenseList_AudioLicenseFragment;
@@ -57,8 +63,21 @@ const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
 
   return (
     <MediaListItem>
-      <MediaListItemImage>
-        <AudioDocument className="c-medialist__icon" />
+      <MediaListItemImage
+        canOpen={!isCopyrighted(audio.copyright.license.license)}
+      >
+        {isCopyrighted(audio.copyright.license.license) ? (
+          <AudioDocument className="c-medialist__icon" />
+        ) : (
+          <Link
+            to={`/audio/${audio.id}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={t('embed.goTo', { type: t('embed.type.audio') })}
+          >
+            <AudioDocument className="c-medialist__icon" />
+          </Link>
+        )}
       </MediaListItemImage>
 
       <MediaListItemBody
@@ -66,19 +85,13 @@ const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
         license={audio.copyright.license?.license}
         resourceType="audio"
         resourceUrl={audio.src}
-        locale={i18n.language}>
+        locale={i18n.language}
+      >
         <MediaListItemActions>
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />
             {audio.copyright.license?.license !== 'COPYRIGHTED' && (
               <>
-                {audio.copyText && (
-                  <CopyTextButton
-                    stringToCopy={audio.copyText}
-                    copyTitle={t('license.copyTitle')}
-                    hasCopiedTitle={t('license.hasCopiedTitle')}
-                  />
-                )}
                 <SafeLinkButton to={audio.src} download variant="outline">
                   {t('license.download')}
                 </SafeLinkButton>
@@ -97,12 +110,12 @@ interface Props {
 
 const AudioLicenseList = ({ audios }: Props) => {
   const { t } = useTranslation();
+  const unique = useMemo(() => uniqBy(audios, (audio) => audio.id), [audios]);
   return (
     <div>
-      <h2>{t('license.audio.heading')}</h2>
-      <p>{t('license.audio.description')}</p>
+      <LicenseDescription>{t('license.audio.description')}</LicenseDescription>
       <MediaList>
-        {audios.map(audio => (
+        {unique.map((audio) => (
           <AudioLicenseInfo audio={audio} key={uuid()} />
         ))}
       </MediaList>
@@ -113,8 +126,8 @@ const AudioLicenseList = ({ audios }: Props) => {
 AudioLicenseList.fragments = {
   audio: gql`
     fragment AudioLicenseList_AudioLicense on AudioLicense {
+      id
       src
-      copyText
       title
       copyright {
         origin

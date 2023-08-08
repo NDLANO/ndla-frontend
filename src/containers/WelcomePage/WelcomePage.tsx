@@ -7,61 +7,99 @@
  */
 
 import styled from '@emotion/styled';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { HelmetWithTracker } from '@ndla/tracker';
 import {
   FrontpageHeader,
   FrontpageFilm,
   OneColumn,
-  FrontpageToolbox,
-  FrontpageMultidisciplinarySubject,
-  BannerCard,
+  ProgrammeV2,
 } from '@ndla/ui';
-import { spacing, utils } from '@ndla/core';
+import { utils } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
-import { useLazyQuery } from '@apollo/client';
+import { gql, useLazyQuery } from '@apollo/client';
 
 import WelcomePageInfo from './WelcomePageInfo';
 import FrontpageSubjects from './FrontpageSubjects';
 import {
   FILM_PAGE_PATH,
+  PROGRAMME_PATH,
   SKIP_TO_CONTENT_ID,
-  UKR_PAGE_PATH,
-  MULTIDISCIPLINARY_SUBJECT_ID,
-  TOOLBOX_STUDENT_SUBJECT_ID,
-  TOOLBOX_TEACHER_SUBJECT_ID,
 } from '../../constants';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import config from '../../config';
 import BlogPosts from './BlogPosts';
 import WelcomePageSearch from './WelcomePageSearch';
-import { toSubject, toTopic } from '../../routeHelpers';
-import { LocaleType, TopicType } from '../../interfaces';
-import { subjectsQuery } from '../../queries';
-import { GQLSubjectsQuery } from '../../graphqlTypes';
-import { multidisciplinaryTopics } from '../../data/subjects.ts';
-
-const getMultidisciplinaryTopics = (locale: LocaleType) => {
-  return multidisciplinaryTopics.map((topic: TopicType) => {
-    return {
-      id: topic.id,
-      title: topic.name?.[locale],
-      url: toTopic(MULTIDISCIPLINARY_SUBJECT_ID, topic.id ?? ''),
-    };
-  });
-};
+import { GQLFrontpageDataQuery, GQLProgrammePage } from '../../graphqlTypes';
+import Programmes from './Components/Programmes';
+import FrontpageMultidisciplinarySubject from './FrontpageMultidisciplinarySubject';
+import FrontpageToolbox from './FrontpageToolbox';
+import { useEnableTaxStructure } from '../../components/TaxonomyStructureContext';
 
 const HiddenHeading = styled.h1`
   ${utils.visuallyHidden};
 `;
 
-const BannerCardWrapper = styled.div`
-  padding-bottom: ${spacing.large};
+export const programmeFragment = gql`
+  fragment ProgrammeFragment on ProgrammePage {
+    id
+    title {
+      title
+      language
+    }
+    desktopImage {
+      url
+      alt
+    }
+    mobileImage {
+      url
+      alt
+    }
+    url
+  }
 `;
+
+const frontpageQuery = gql`
+  query frontpageData {
+    programmes {
+      ...ProgrammeFragment
+    }
+    subjects(filterVisible: true) {
+      id
+      name
+      path
+      metadata {
+        customFields
+      }
+    }
+  }
+  ${programmeFragment}
+`;
+
+const formatProgrammes = (data: GQLProgrammePage[]): ProgrammeV2[] => {
+  return data.map((p) => {
+    return {
+      id: p.id,
+      title: p.title,
+      wideImage: {
+        src: p.desktopImage?.url || '',
+        alt: p.desktopImage?.alt || '',
+      },
+      narrowImage: {
+        src: p.mobileImage?.url || '',
+        alt: p.mobileImage?.alt || '',
+      },
+      url: `${PROGRAMME_PATH}${p.url}` || '',
+    };
+  });
+};
 
 const WelcomePage = () => {
   const { t, i18n } = useTranslation();
-  const [fetchData, { data }] = useLazyQuery<GQLSubjectsQuery>(subjectsQuery);
+  const [fetchData, { data, loading }] =
+    useLazyQuery<GQLFrontpageDataQuery>(frontpageQuery);
+  const [programmes, setProgrammes] = useState<ProgrammeV2[]>([]);
+  const taxonomyProgrammesEnabled = useEnableTaxStructure();
 
   useEffect(() => {
     const getData = () => {
@@ -69,6 +107,12 @@ const WelcomePage = () => {
     };
     getData();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (data?.programmes) {
+      setProgrammes(formatProgrammes(data.programmes));
+    }
+  }, [data]);
 
   const googleSearchJSONLd = () => {
     const data = {
@@ -91,46 +135,37 @@ const WelcomePage = () => {
         <script type="application/ld+json">{googleSearchJSONLd()}</script>
       </HelmetWithTracker>
       <SocialMediaMetadata
+        type="website"
         title={t('welcomePage.heading.heading')}
         description={t('meta.description')}
-        imageUrl={`${config.ndlaFrontendDomain}/static/logo.png`}>
+        imageUrl={`${config.ndlaFrontendDomain}/static/logo.png`}
+      >
         <meta name="keywords" content={t('meta.keywords')} />
       </SocialMediaMetadata>
-      <FrontpageHeader locale={i18n.language} showHeader={true}>
-        <WelcomePageSearch />
-      </FrontpageHeader>
+      {!taxonomyProgrammesEnabled && (
+        <FrontpageHeader locale={i18n.language} showHeader={true}>
+          <WelcomePageSearch />
+        </FrontpageHeader>
+      )}
       <main>
-        <OneColumn extraPadding>
-          <BannerCardWrapper>
-            <BannerCard
-              link={UKR_PAGE_PATH}
-              title="Lær om det norske samfunnet - på ukrainsk"
-              content="Дізнайтеся про норвезьке суспільство – українською"
-              linkText="Learn about Norwegian society - in Ukrainian"
-              image={{
-                altText: '',
-                imageSrc: '/static/flag_of_ukraine.svg',
-              }}
-            />
-          </BannerCardWrapper>
-          <div data-testid="category-list" id={SKIP_TO_CONTENT_ID}>
-            <FrontpageSubjects
-              locale={i18n.language}
-              subjects={data?.subjects}
-            />
-          </div>
+        <OneColumn wide>
+          {taxonomyProgrammesEnabled && (
+            <div data-testid="programme-list">
+              <Programmes programmes={programmes} loading={loading} />
+            </div>
+          )}
+          {!taxonomyProgrammesEnabled && (
+            <div data-testid="category-list" id={SKIP_TO_CONTENT_ID}>
+              <FrontpageSubjects
+                locale={i18n.language}
+                subjects={data?.subjects}
+              />
+            </div>
+          )}
         </OneColumn>
         <OneColumn wide>
-          <FrontpageMultidisciplinarySubject
-            headingLevel="h2"
-            url={toSubject(MULTIDISCIPLINARY_SUBJECT_ID)}
-            topics={getMultidisciplinaryTopics(i18n.language)}
-          />
-          <FrontpageToolbox
-            headingLevel="h2"
-            urlStudents={toSubject(TOOLBOX_STUDENT_SUBJECT_ID)}
-            urlTeachers={toSubject(TOOLBOX_TEACHER_SUBJECT_ID)}
-          />
+          <FrontpageMultidisciplinarySubject />
+          <FrontpageToolbox />
           <BlogPosts locale={i18n.language} />
           <FrontpageFilm
             imageUrl="/static/film_illustrasjon.svg"

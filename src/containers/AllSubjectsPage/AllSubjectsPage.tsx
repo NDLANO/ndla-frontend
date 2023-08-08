@@ -7,7 +7,7 @@
  */
 
 import styled from '@emotion/styled';
-import { colors, fonts, spacing } from '@ndla/core';
+import { colors, spacing } from '@ndla/core';
 import { Select } from '@ndla/select';
 import { HelmetWithTracker } from '@ndla/tracker';
 import {
@@ -15,6 +15,8 @@ import {
   ContentPlaceholder,
   OneColumn,
   constants,
+  getMastheadHeight,
+  Heading,
 } from '@ndla/ui';
 import { TFunction } from 'i18next';
 import sortBy from 'lodash/sortBy';
@@ -23,9 +25,8 @@ import { useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../components/AuthenticationContext';
-import LoginModal from '../../components/MyNdla/LoginModal';
 import TabFilter from '../../components/TabFilter';
-import { SKIP_TO_CONTENT_ID } from '../../constants';
+import { MastheadHeightPx, SKIP_TO_CONTENT_ID } from '../../constants';
 import IsMobileContext from '../../IsMobileContext';
 
 import { useSubjects } from '../MyNdla/subjectQueries';
@@ -35,14 +36,17 @@ import LetterNavigation from './LetterNavigation';
 import SubjectCategory from './SubjectCategory';
 import { filterSubjects, groupSubjects } from './utils';
 
-const {
-  ACTIVE_SUBJECTS,
-  ARCHIVE_SUBJECTS,
-  BETA_SUBJECTS,
-} = constants.subjectCategories;
+const { ACTIVE_SUBJECTS, ARCHIVE_SUBJECTS, BETA_SUBJECTS, OTHER } =
+  constants.subjectCategories;
 
-const createFilterTranslation = (t: TFunction, key: string) =>
-  `${t(`subjectCategories.${key}`)} ${t('contentTypes.subject')}`.toUpperCase();
+const createFilterTranslation = (t: TFunction, key: string, addTail = true) => {
+  const label = addTail
+    ? `${t(`subjectCategories.${key}`)} ${t('common.subject', {
+        count: 2,
+      })}`
+    : t(`subjectCategories.${key}`);
+  return label.toLocaleUpperCase();
+};
 
 const createFilters = (t: TFunction) => [
   {
@@ -58,9 +62,13 @@ const createFilters = (t: TFunction) => [
     value: BETA_SUBJECTS,
   },
   {
-    label: `${t('contentTypes.all')} ${t(
-      'contentTypes.subject',
-    )}`.toUpperCase(),
+    label: createFilterTranslation(t, OTHER, false),
+    value: OTHER,
+  },
+  {
+    label: `${t('contentTypes.all')} ${t('common.subject', {
+      count: 2,
+    })}`.toUpperCase(),
     value: 'all',
   },
 ];
@@ -72,11 +80,8 @@ const StyledColumn = styled(OneColumn)`
 
 const StyledList = styled.ul`
   list-style: none;
-`;
-
-const StyledHeading = styled.h1`
-  font-weight: ${fonts.weight.semibold};
-  ${fonts.sizes('48px', '60px')};
+  margin: 0;
+  padding: 0;
 `;
 
 const SelectWrapper = styled.div`
@@ -93,7 +98,24 @@ const AllSubjectsPage = () => {
   const isMobile = useContext(IsMobileContext);
   const location = useLocation();
   const { authenticated } = useContext(AuthContext);
-  const [showLoginModal, setShowLoginModal] = useState(false);
+
+  useEffect(() => {
+    if (window.location && window.location.hash) {
+      setTimeout(() => {
+        const element = document.getElementById(window.location.hash.slice(1));
+        const elementTop = element?.getBoundingClientRect().top ?? 0;
+        const bodyTop = document.body.getBoundingClientRect().top ?? 0;
+        const absoluteTop = elementTop - bodyTop;
+        const scrollPosition =
+          absoluteTop - (getMastheadHeight() || MastheadHeightPx) - 20;
+
+        window.scrollTo({
+          top: scrollPosition,
+          behavior: 'smooth',
+        });
+      }, 400);
+    }
+  }, []);
 
   const { error, loading, subjects } = useSubjects();
   const { personalData, fetch: fetchPersonalData } = usePersonalData();
@@ -113,17 +135,19 @@ const AllSubjectsPage = () => {
   };
 
   const favoriteSubjects = personalData?.favoriteSubjects;
-  const sortedSubjects = useMemo(() => sortBy(subjects, s => s.name), [
-    subjects,
-  ]);
+  const sortedSubjects = useMemo(
+    () => sortBy(subjects, (s) => s.name),
+    [subjects],
+  );
   const groupedSubjects = useMemo(() => {
     const filteredSubjects = filterSubjects(sortedSubjects, filter);
     return groupSubjects(filteredSubjects);
   }, [sortedSubjects, filter]);
 
-  const letters = useMemo(() => groupedSubjects.map(group => group.label), [
-    groupedSubjects,
-  ]);
+  const letters = useMemo(
+    () => groupedSubjects.map((group) => group.label),
+    [groupedSubjects],
+  );
 
   useEffect(() => {
     if (authenticated) {
@@ -149,12 +173,12 @@ const AllSubjectsPage = () => {
     );
 
   return (
-    <div className="c-resources u-padding-top-large">
+    <main className="c-resources u-padding-top-large">
       <HelmetWithTracker title={t('htmlTitles.subjectsPage')} />
       <StyledColumn wide>
-        <StyledHeading id={SKIP_TO_CONTENT_ID}>
+        <Heading element="h1" headingStyle="h1" serif id={SKIP_TO_CONTENT_ID}>
           {t('subjectsPage.allSubjects')}
-        </StyledHeading>
+        </Heading>
         {!!favoriteSubjects?.length && (
           <FavoriteSubjects
             favorites={favoriteSubjects}
@@ -164,8 +188,8 @@ const AllSubjectsPage = () => {
         {isMobile ? (
           <SelectWrapper>
             <Select<false>
-              value={filterOptions.find(opt => opt.value === filter)}
-              onChange={value => value && setFilter(value?.value)}
+              value={filterOptions.find((opt) => opt.value === filter)}
+              onChange={(value) => value && setFilter(value?.value)}
               options={filterOptions}
               colorTheme="white"
               outline
@@ -188,16 +212,11 @@ const AllSubjectsPage = () => {
               key={label}
               label={label}
               subjects={subjects}
-              openLoginModal={() => setShowLoginModal(true)}
             />
           ))}
         </StyledList>
-        <LoginModal
-          isOpen={showLoginModal}
-          onClose={() => setShowLoginModal(false)}
-        />
       </StyledColumn>
-    </div>
+    </main>
   );
 };
 

@@ -10,7 +10,7 @@ describe('Subjects page', () => {
   beforeEach(() => {
     cy.gqlIntercept({
       alias: 'alerts',
-      operations: ['alerts', 'subjects'],
+      operations: ['examLockStatus', 'alerts', 'frontpageData'],
     });
     cy.fixCypressSpec('/e2e/integration/subjects_page.spec.ts');
     cy.visit('/?disableSSR=true');
@@ -33,7 +33,7 @@ describe('Subjects page', () => {
 
     cy.get('[data-testid="nav-box-item"] span').contains(/\w+/);
 
-    cy.get('[data-testid="nav-box-list"] li a').each(el => {
+    cy.get('[data-testid="nav-box-list"] li a').each((el) => {
       cy.wrap(el).should('have.attr', 'href');
       cy.wrap(el).contains(/\w+/);
     });
@@ -52,8 +52,12 @@ describe('Subjects page', () => {
       .click();
     cy.gqlWait('@subjectpage');
 
-    cy.get('[data-testid="breadcrumb-list"] a')
-      .should('have.length', 1)
-      .and('have.attr', 'href');
+    cy.get('[aria-label="Brødsmulesti"] ol').should('have.length', 1);
+
+    cy.get('[aria-label="Brødsmulesti"]')
+      .children()
+      .first()
+      .get('a')
+      .should('exist');
   });
 });

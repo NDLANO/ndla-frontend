@@ -28,7 +28,7 @@ interface MatchParams extends TypedParams {
 }
 
 const plainLearningpathPageQuery = gql`
-  query plainLearningpathPage($pathId: String!) {
+  query plainLearningpathPage($pathId: String!, $convertEmbeds: Boolean) {
     learningpath(pathId: $pathId) {
       ...PlainLearningpathContainer_Learningpath
     }
@@ -44,7 +44,10 @@ const PlainLearningpathPage = () => {
     GQLPlainLearningpathPageQuery,
     GQLPlainLearningpathPageQueryVariables
   >(plainLearningpathPageQuery, {
-    variables: { pathId: learningpathId },
+    variables: {
+      pathId: learningpathId,
+      convertEmbeds: true,
+    },
   });
 
   if (loading) {

@@ -14,7 +14,7 @@ export const Matomo = () => {
     return (
       <MatomoTracker
         siteId={config.matomoSiteId}
-        trackerUrl={config.matomoUrl}
+        trackerUrl={`${config.matomoUrl}/`}
       />
     );
   }

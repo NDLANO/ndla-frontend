@@ -23,7 +23,7 @@ import { GQLSearchPageQuery } from '../../graphqlTypes';
 
 const getStateSearchParams = (searchParams: Record<string, any>) => {
   const stateSearchParams: Record<string, any> = {};
-  Object.keys(searchParams).forEach(key => {
+  Object.keys(searchParams).forEach((key) => {
     stateSearchParams[key] = convertSearchParam(searchParams[key]);
   });
   return stateSearchParams;
@@ -36,17 +36,10 @@ const SearchPage = () => {
   const searchParams = converSearchStringToObject(location, i18n.language);
 
   const { data, loading } = useGraphQuery<GQLSearchPageQuery>(searchPageQuery);
-  /*const { data: conceptData } = useGraphQuery<GQLConceptSearchQuery>(
-    conceptSearchQuery,
-    {
-      skip: !searchParams.query,
-      variables: {
-        ...stateSearchParams,
-        exactMatch: true,
-        fallback: true,
-      },
-    },
-  );*/
+
+  if (loading) {
+    return <ContentPlaceholder />;
+  }
 
   const subjectItems = searchSubjects(searchParams.query, data?.subjects);
 
@@ -59,10 +52,6 @@ const SearchPage = () => {
       }),
     });
   };
-
-  if (loading) {
-    return <ContentPlaceholder />;
-  }
 
   return (
     <>
@@ -77,8 +66,6 @@ const SearchPage = () => {
           activeSubFilters={searchParams.activeSubFilters?.split(',') ?? []}
           subjectItems={subjectItems}
           subjects={data?.subjects}
-          //concepts={conceptData?.conceptSearch?.concepts} // Save for later
-          concepts={undefined}
           resourceTypes={data?.resourceTypes}
           location={location}
         />

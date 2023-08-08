@@ -6,10 +6,8 @@
  *
  */
 
-import { Dispatch, useMemo, useState, useEffect } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { useApolloClient } from '@apollo/client';
-import styled from '@emotion/styled';
-import { colors, spacing } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import {
   closestCenter,
@@ -29,10 +27,8 @@ import {
   restrictToParentElement,
 } from '@dnd-kit/modifiers';
 import { Spinner } from '@ndla/icons';
-import { FolderOutlined } from '@ndla/icons/contentType';
-import { BlockWrapper, FolderAction, ViewType } from './FoldersPage';
+import { BlockWrapper, ViewType } from './FoldersPage';
 import WhileLoading from '../../../components/WhileLoading';
-import NewFolder from '../../../components/MyNdla/NewFolder';
 import { GQLFolder } from '../../../graphqlTypes';
 import {
   FolderTotalCount,
@@ -42,36 +38,20 @@ import { useSortFoldersMutation } from '../folderMutations';
 import DraggableFolder from './DraggableFolder';
 import { makeDndSortFunction, makeDndTranslations } from './util';
 
-const StyledFolderIcon = styled.span`
-  display: flex;
-  padding: ${spacing.small};
-  svg {
-    color: ${colors.brand.primary};
-    height: 20px;
-    width: 20px;
-  }
-`;
-
 interface Props {
   loading: boolean;
   type: ViewType;
   folders: GQLFolder[];
-  isAdding: boolean;
-  onFolderAdd: (folder: GQLFolder) => Promise<void>;
   folderId: string | undefined;
-  setIsAdding: Dispatch<boolean>;
-  setFolderAction: Dispatch<FolderAction | undefined>;
+  onViewTypeChange: (type: ViewType) => void;
 }
 
 const FolderList = ({
   loading,
   type,
   folders,
-  isAdding,
-  setIsAdding,
-  onFolderAdd,
   folderId,
-  setFolderAction,
+  onViewTypeChange,
 }: Props) => {
   const { t } = useTranslation();
   const { sortFolders } = useSortFoldersMutation();
@@ -95,8 +75,8 @@ const FolderList = ({
     const sortCacheModifierFunction = (
       existing: (GQLFolder & { __ref: string })[],
     ) => {
-      return newOrder.map(id =>
-        existing.find(ef => ef.__ref === `Folder:${id}`),
+      return newOrder.map((id) =>
+        existing.find((ef) => ef.__ref === `Folder:${id}`),
       );
     };
 
@@ -136,18 +116,6 @@ const FolderList = ({
 
   return (
     <WhileLoading isLoading={loading} fallback={<Spinner />}>
-      {isAdding && (
-        <NewFolder
-          icon={
-            <StyledFolderIcon>
-              <FolderOutlined />
-            </StyledFolderIcon>
-          }
-          parentId={folderId ?? 'folders'}
-          onClose={() => setIsAdding(false)}
-          onCreate={onFolderAdd}
-        />
-      )}
       {folders.length > 0 && (
         <BlockWrapper type={type}>
           <DndContext
@@ -155,19 +123,21 @@ const FolderList = ({
             collisionDetection={closestCenter}
             onDragEnd={sortFolderIds}
             accessibility={{ announcements }}
-            modifiers={[restrictToVerticalAxis, restrictToParentElement]}>
+            modifiers={[restrictToVerticalAxis, restrictToParentElement]}
+          >
             <SortableContext
               items={sortedFolders}
               disabled={folders.length < 2}
-              strategy={verticalListSortingStrategy}>
+              strategy={verticalListSortingStrategy}
+            >
               {folders.map((folder, index) => (
                 <DraggableFolder
+                  onViewTypeChange={onViewTypeChange}
                   key={`folder-${folder.id}`}
                   folder={folder}
                   index={index}
                   foldersCount={foldersCount}
                   type={type}
-                  setFolderAction={setFolderAction}
                 />
               ))}
             </SortableContext>

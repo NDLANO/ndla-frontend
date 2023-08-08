@@ -14,8 +14,8 @@ interface Props {
 }
 
 const WhileLoading = ({ fallback, children, isLoading }: Props) => {
-  if (isLoading) return <>{fallback}</>;
-  return <>{children}</>;
+  if (isLoading) return fallback;
+  return children;
 };
 
 export default WhileLoading;

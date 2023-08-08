@@ -3,7 +3,7 @@ import { FieldError } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import messages from '../messages/messagesNB';
 
-type SupportedFields = keyof typeof messages['validation']['fields'];
+type SupportedFields = keyof (typeof messages)['validation']['fields'];
 
 interface TranslationProps {
   field?: SupportedFields;
@@ -16,7 +16,7 @@ type Props = TranslationProps | string;
 const useValidationTranslation = () => {
   const { t: internalT } = useTranslation();
 
-  const t = useCallback(
+  const validationT = useCallback(
     (translation: Props | string) => {
       if (typeof translation === 'string') {
         return internalT(translation);
@@ -32,7 +32,7 @@ const useValidationTranslation = () => {
     [internalT],
   );
 
-  return { t };
+  return { validationT };
 };
 
 export default useValidationTranslation;

@@ -12,7 +12,7 @@ import { ButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
 import { Menu } from '@ndla/icons/common';
 import { Cross } from '@ndla/icons/action';
-import { Drawer } from '@ndla/modal';
+import { Drawer, Modal, ModalCloseButton, ModalTrigger } from '@ndla/modal';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { GQLMastheadDrawer_SubjectFragment } from '../../../graphqlTypes';
@@ -21,6 +21,7 @@ import { usePrevious } from '../../../util/utilityHooks';
 import DefaultMenu from './DefaultMenu';
 import DrawerContent from './DrawerContent';
 import { MenuType } from './drawerMenuTypes';
+import { DrawerProvider } from './DrawerContext';
 
 const MainMenu = styled.div`
   display: flex;
@@ -40,7 +41,9 @@ const DrawerContainer = styled.nav`
 `;
 
 const HeadWrapper = styled.div`
-  padding: ${spacing.small};
+  padding-top: 22px;
+  padding-left: ${spacing.small};
+  padding-bottom: 22px;
 `;
 
 interface Props {
@@ -48,6 +51,7 @@ interface Props {
 }
 
 const MastheadDrawer = ({ subject }: Props) => {
+  const [open, setOpen] = useState(false);
   const { subjectId, topicList, programme } = useUrnIds();
   const prevProgramme = usePrevious(programme);
   const [type, setType] = useState<MenuType | undefined>(undefined);
@@ -70,6 +74,8 @@ const MastheadDrawer = ({ subject }: Props) => {
     }
   }, [programme, prevProgramme]);
 
+  const close = useCallback(() => setOpen(false), []);
+
   const closeSubMenu = useCallback(() => {
     setTopicPath([]);
     setType(undefined);
@@ -80,64 +86,70 @@ const MastheadDrawer = ({ subject }: Props) => {
       setType(undefined);
     } else {
       const newPath = topicPath.slice(0, topicPath.length - 1);
-      const id = topicPath[topicPath.length - 1];
-      if (id) {
-        document.getElementById(id)?.focus();
+      const pathId = topicPath[topicPath.length - 1];
+      if (pathId) {
+        document.getElementById(pathId)?.focus();
       }
       setTopicPath(newPath);
     }
   }, [topicPath, type]);
 
   return (
-    <Drawer
-      expands
-      size="xsmall"
-      animationDuration={100}
-      animation="fade"
-      label={t('masthead.menu.modalLabel')}
-      activateButton={
+    <Modal open={open} onOpenChange={setOpen}>
+      <ModalTrigger>
         <ButtonV2
           aria-haspopup="menu"
           inverted={ndlaFilm}
           shape="pill"
           variant="outline"
           data-testid="masthead-menu-button"
-          aria-label={t('masthead.menu.title')}>
+          aria-label={t('masthead.menu.title')}
+        >
           <Menu />
           {t('masthead.menu.button')}
         </ButtonV2>
-      }>
-      {close => (
+      </ModalTrigger>
+      <Drawer
+        expands
+        position="left"
+        size="xsmall"
+        animationDuration={100}
+        aria-label={t('masthead.menu.modalLabel')}
+      >
         <MainMenu>
           <HeadWrapper>
-            <ButtonV2 variant="outline" shape="pill" onClick={close}>
-              <Cross />
-              {t('close')}
-            </ButtonV2>
+            <ModalCloseButton>
+              <ButtonV2 variant="outline" shape="pill">
+                <Cross />
+                {t('close')}
+              </ButtonV2>
+            </ModalCloseButton>
           </HeadWrapper>
           <DrawerContainer>
-            <DefaultMenu
-              onClose={close}
-              onCloseMenuPortion={onCloseMenuPortion}
-              setActiveMenu={setType}
-              subject={subject}
-              type={type}
-              closeSubMenu={closeSubMenu}
-            />
-            {type && (
-              <DrawerContent
+            <DrawerProvider>
+              <DefaultMenu
                 onClose={close}
-                type={type}
-                topicPath={topicPath}
-                subject={subject}
-                setTopicPathIds={setTopicPath}
                 onCloseMenuPortion={onCloseMenuPortion}
+                setActiveMenu={setType}
+                subject={subject}
+                type={type}
+                closeSubMenu={closeSubMenu}
               />
-            )}
+              {type && (
+                <DrawerContent
+                  onClose={close}
+                  type={type}
+                  topicPath={topicPath}
+                  subject={subject}
+                  setTopicPathIds={setTopicPath}
+                  onCloseMenuPortion={onCloseMenuPortion}
+                />
+              )}
+            </DrawerProvider>
           </DrawerContainer>
         </MainMenu>
-      )}
-    </Drawer>
+      </Drawer>
+    </Modal>
   );
 };
 

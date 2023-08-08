@@ -51,29 +51,31 @@ const NdlaFilm = () => {
   const [fetchingMoviesByType, setFetchingMoviesByType] = useState(false);
   const { t, i18n } = useTranslation();
 
-  const { data: { filmfrontpage, subject } = {} } = useGraphQuery<
-    GQLFilmFrontPageQuery
-  >(filmFrontPageQuery, { variables: { subjectId: 'urn:subject:20' } });
+  const { data: { filmfrontpage, subject } = {}, loading } =
+    useGraphQuery<GQLFilmFrontPageQuery>(filmFrontPageQuery, {
+      variables: { subjectId: 'urn:subject:20' },
+    });
 
-  const [searchAllMovies, { data: allMovies }] = useLazyQuery<
-    GQLSearchWithoutPaginationQuery
-  >(searchFilmQuery, {
-    variables: { language: i18n.language, fallback: 'true' },
-  });
+  const [searchAllMovies, { data: allMovies }] =
+    useLazyQuery<GQLSearchWithoutPaginationQuery>(searchFilmQuery, {
+      variables: { language: i18n.language, fallback: 'true' },
+    });
 
   useEffect(() => {
     // if we receive new movies we map them into state
     if (allMovies) {
-      const byType = allMovies.searchWithoutPagination?.results?.map(movie => {
-        const contexts = movie.contexts.filter(
-          ctx => ctx.learningResourceType === 'standard',
-        );
-        return {
-          ...movie,
-          path: contexts[0]?.path ?? '',
-          resourceTypes: contexts.flatMap(ctx => ctx.resourceTypes),
-        };
-      });
+      const byType = allMovies.searchWithoutPagination?.results?.map(
+        (movie) => {
+          const contexts = movie.contexts.filter(
+            (ctx) => ctx.contextType === 'standard',
+          );
+          return {
+            ...movie,
+            path: contexts[0]?.path ?? '',
+            resourceTypes: contexts.flatMap((ctx) => ctx.resourceTypes),
+          };
+        },
+      );
 
       setMoviesByType(byType ?? []);
       setFetchingMoviesByType(false);
@@ -86,7 +88,7 @@ const NdlaFilm = () => {
     setFetchingMoviesByType(true);
 
     const resourceTypes = showingAll
-      ? movieResourceTypes.map(resourceType => resourceType.id).toString()
+      ? movieResourceTypes.map((resourceType) => resourceType.id).toString()
       : resourceId;
 
     searchAllMovies({
@@ -104,11 +106,12 @@ const NdlaFilm = () => {
   };
 
   const allResourceTypes = movieResourceTypes
-    .map(rt => ({ ...rt, name: t(rt.name) }))
+    .map((rt) => ({ ...rt, name: t(rt.name) }))
     .concat([allResources]);
 
   return (
     <FilmFrontpage
+      loading={loading}
       filmFrontpage={filmfrontpage}
       showingAll={showingAll}
       moviesByType={moviesByType}

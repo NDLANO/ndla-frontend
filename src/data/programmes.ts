@@ -6,18 +6,19 @@ export const programmes: ProgrammeType[] = [
       nb: 'Bygg- og anleggsteknikk',
       nn: 'Bygg- og anleggsteknikk',
       en: 'Building and construction',
+      se: 'Bygg- og anleggsteknikk',
     },
     url: {
       nb: 'bygg-og-anleggsteknikk',
       nn: 'bygg-og-anleggsteknikk',
+      se: 'bygg-og-anleggsteknikk',
       en: 'bygg-og-anleggsteknikk',
     },
     meta: {
       description: {
-        nb:
-          'Utdanningsprogram med programfagene Praktisk yrkesutøvelse og Arbeidsmiljø og dokumentasjon i Bygg- og anleggsteknikk.',
-        nn:
-          'Utdanningsprogram med programfaga Praktisk yrkesutøving og Arbeidsmiljø og dokumentasjon i Bygg- og anleggsteknikk.',
+        nb: 'Utdanningsprogram med programfagene Praktisk yrkesutøvelse og Arbeidsmiljø og dokumentasjon i Bygg- og anleggsteknikk.',
+        se: 'Utdanningsprogram med programfaga Praktisk yrkesutøving og Arbeidsmiljø og dokumentasjon i Bygg- og anleggsteknikk.',
+        nn: 'Utdanningsprogram med programfaga Praktisk yrkesutøving og Arbeidsmiljø og dokumentasjon i Bygg- og anleggsteknikk.',
       },
     },
     image: { url: 'https://api.ndla.no/image-api/raw/4WzuGfBZ.jpg' },
@@ -30,6 +31,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Felles programfag',
               nn: 'Felles programfag',
               en: 'Common programme subjects',
+              se: 'Felles programfag',
             },
             subjects: [
               {
@@ -45,6 +47,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
+              se: 'Fellesfag',
             },
             subjects: [
               {
@@ -75,6 +78,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Andre ressurser',
               nn: 'Andre ressursar',
               en: 'Additional resources',
+              se: 'Andre ressursar',
             },
             subjects: [
               {
@@ -102,6 +106,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
+              se: 'Fellesfag',
             },
             subjects: [
               {
@@ -126,6 +131,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Andre ressurser',
               nn: 'Andre ressursar',
               en: 'Additional resources',
+              se: 'Andre ressursar',
             },
             subjects: [
               {
@@ -151,18 +157,18 @@ export const programmes: ProgrammeType[] = [
       nb: 'Elektro og datateknologi',
       nn: 'Elektro og datateknologi',
       en: 'Electrical engineering and computer technology',
+      se: 'Elektro og datateknologi',
     },
     url: {
       nb: 'elektro-og-datateknologi',
       nn: 'elektro-og-datateknologi',
+      se: 'elektro-og-datateknologi',
       en: 'elektro-og-datateknologi',
     },
     meta: {
       description: {
-        nb:
-          'Utdanningsprogrammet består av programfagene elektroniske kretser og nettverk og energi og styresystemer i tillegg til yrkesfaglig fordypning.',
-        nn:
-          'Utdanningsprogrammet består av programfaga elektroniske kretser og nettverk og energi og styresystemer i tillegg til yrkesfagleg fordjuping.',
+        nb: 'Utdanningsprogrammet består av programfagene elektroniske kretser og nettverk og energi og styresystemer i tillegg til yrkesfaglig fordypning.',
+        nn: 'Utdanningsprogrammet består av programfaga elektroniske kretser og nettverk og energi og styresystemer i tillegg til yrkesfagleg fordjuping.',
       },
     },
     image: { url: 'https://api.ndla.no/image-api/raw/8vHJcYft.jpg' },
@@ -175,6 +181,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Felles programfag',
               nn: 'Felles programfag',
               en: 'Common programme subjects',
+              se: 'Felles programfag',
             },
             subjects: [
               {
@@ -193,6 +200,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
+              se: 'Fellesfag',
             },
             subjects: [
               {
@@ -223,6 +231,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Andre ressurser',
               nn: 'Andre ressursar',
               en: 'Additional resources',
+              se: 'Andre ressursar',
             },
             subjects: [
               {
@@ -250,6 +259,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
+              se: 'Fellesfag',
             },
             subjects: [
               {
@@ -274,6 +284,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Andre ressurser',
               nn: 'Andre ressursar',
               en: 'Additional resources',
+              se: 'Andre ressursar',
             },
             subjects: [
               {
@@ -299,18 +310,18 @@ export const programmes: ProgrammeType[] = [
       nb: 'Frisør, blomster, interiør og eksponeringsdesign',
       nn: 'Frisør, blomar, interiør og eksponeringsdesign',
       en: 'Hairdressing, floral, interior and retail design',
+      se: 'Frisør, blomar, interiør og eksponeringsdesign',
     },
     url: {
       nb: 'frisor-blomster-interior-og-eksponeringsdesign',
       nn: 'frisor-blomster-interior-og-eksponeringsdesign',
+      se: 'frisor-blomster-interior-og-eksponeringsdesign',
       en: 'frisor-blomster-interior-og-eksponeringsdesign',
     },
     meta: {
       description: {
-        nb:
-          'Utdanningsprogrammet består av programfagene produktutvikling og produksjon og kommunikasjon, kunde og arbeidsliv i tillegg til yrkesfaglig fordypning.',
-        nn:
-          'Utdanningsprogrammet består av programfaga produktutvikling og produksjon og kommunikasjon, kunde og arbeidsliv i tillegg til yrkesfagleg fordjuping.',
+        nb: 'Utdanningsprogrammet består av programfagene produktutvikling og produksjon og kommunikasjon, kunde og arbeidsliv i tillegg til yrkesfaglig fordypning.',
+        nn: 'Utdanningsprogrammet består av programfaga produktutvikling og produksjon og kommunikasjon, kunde og arbeidsliv i tillegg til yrkesfagleg fordjuping.',
       },
     },
     image: { url: 'https://api.ndla.no/image-api/raw/co1nyxz1.jpg' },
@@ -323,6 +334,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Felles programfag',
               nn: 'Felles programfag',
               en: 'Common programme subjects',
+              se: 'Felles programfag',
             },
             subjects: [
               {
@@ -338,6 +350,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
+              se: 'Fellesfag',
             },
             subjects: [
               {
@@ -368,6 +381,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Andre ressurser',
               nn: 'Andre ressursar',
               en: 'Additional resources',
+              se: 'Andre ressursar',
             },
             subjects: [
               {
@@ -395,6 +409,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
+              se: 'Fellesfag',
             },
             subjects: [
               {
@@ -419,6 +434,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Andre ressurser',
               nn: 'Andre ressursar',
               en: 'Additional resources',
+              se: 'Andre ressursar',
             },
             subjects: [
               {
@@ -444,18 +460,18 @@ export const programmes: ProgrammeType[] = [
       nb: 'Håndverk, design og produktutvikling',
       nn: 'Handverk, design og produktutvikling',
       en: 'Crafts, design and product development',
+      se: 'Handverk, design og produktutvikling',
     },
     url: {
       nb: 'handverk-design-og-produktutvikling',
       nn: 'handverk-design-og-produktutvikling',
+      se: 'handverk-design-og-produktutvikling',
       en: 'handverk-design-og-produktutvikling',
     },
     meta: {
       description: {
-        nb:
-          'Utdanningsprogrammet består av programfagene produktutvikling og skapende prosesser og materialer og teknikker i tillegg til yrkesfaglig fordypning.',
-        nn:
-          'Utdanningsprogrammet består av programfaga produktutvikling og skapende prosesser og materialer og teknikker i tillegg til yrkesfagleg fordjuping.',
+        nb: 'Utdanningsprogrammet består av programfagene produktutvikling og skapende prosesser og materialer og teknikker i tillegg til yrkesfaglig fordypning.',
+        nn: 'Utdanningsprogrammet består av programfaga produktutvikling og skapende prosesser og materialer og teknikker i tillegg til yrkesfagleg fordjuping.',
       },
     },
     image: { url: 'https://api.ndla.no/image-api/raw/omQ1nTbk.jpg' },
@@ -468,6 +484,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Felles programfag',
               nn: 'Felles programfag',
               en: 'Common programme subjects',
+              se: 'Felles programfag',
             },
             subjects: [
               {
@@ -483,6 +500,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
+              se: 'Fellesfag',
             },
             subjects: [
               {
@@ -513,6 +531,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Andre ressurser',
               nn: 'Andre ressursar',
               en: 'Additional resources',
+              se: 'Andre ressursar',
             },
             subjects: [
               {
@@ -540,6 +559,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
+              se: 'Fellesfag',
             },
             subjects: [
               {
@@ -564,6 +584,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Andre ressurser',
               nn: 'Andre ressursar',
               en: 'Additional resources',
+              se: 'Andre ressursar',
             },
             subjects: [
               {
@@ -589,18 +610,18 @@ export const programmes: ProgrammeType[] = [
       nb: 'Helse- og oppvekstfag',
       nn: 'Helse- og oppvekstfag',
       en: 'Healthcare, childhood and youth development',
+      se: 'Helse- og oppvekstfag',
     },
     url: {
       nb: 'helse-og-oppvekstfag',
       nn: 'helse-og-oppvekstfag',
+      se: 'helse-og-oppvekstfag',
       en: 'helse-og-oppvekstfag',
     },
     meta: {
       description: {
-        nb:
-          'Utdanningsprogram med programfagene helsefremmende arbeid, kommunikasjon og samhandling og yrkesliv i helse- og oppvekstfag og yrkesfaglig fordypning.',
-        nn:
-          'Utdanningsprogram med programfaga helsefremmende arbeid, kommunikasjon og samhandling og yrkesliv i helse- og oppvekstfag og yrkesfagleg fordjuping.',
+        nb: 'Utdanningsprogram med programfagene helsefremmende arbeid, kommunikasjon og samhandling og yrkesliv i helse- og oppvekstfag og yrkesfaglig fordypning.',
+        nn: 'Utdanningsprogram med programfaga helsefremmende arbeid, kommunikasjon og samhandling og yrkesliv i helse- og oppvekstfag og yrkesfagleg fordjuping.',
       },
     },
     image: { url: 'https://api.ndla.no/image-api/raw/QhG3IA4s.jpg' },
@@ -613,6 +634,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Felles programfag',
               nn: 'Felles programfag',
               en: 'Common programme subjects',
+              se: 'Felles programfag',
             },
             subjects: [
               {
@@ -634,6 +656,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
+              se: 'Fellesfag',
             },
             subjects: [
               {
@@ -664,6 +687,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Andre ressurser',
               nn: 'Andre ressursar',
               en: 'Additional resources',
+              se: 'Andre ressursar',
             },
             subjects: [
               {
@@ -690,6 +714,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Helsearbeiderfag',
               nn: 'Helsearbeidarfag',
               en: 'Health work',
+              se: 'Helsearbeidarfag',
             },
             subjects: [
               {
@@ -711,6 +736,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Barne- og ungdomsarbeiderfag',
               nn: 'Barne- og ungdomsarbeidarfag',
               en: 'Child care and youth work',
+              se: 'Barne- og ungdomsarbeidarfag',
             },
             subjects: [
               {
@@ -732,6 +758,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
+              se: 'Fellesfag',
             },
             subjects: [
               {
@@ -756,6 +783,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Andre ressurser',
               nn: 'Andre ressursar',
               en: 'Additional resources',
+              se: 'Andre ressursar',
             },
             subjects: [
               {
@@ -781,18 +809,18 @@ export const programmes: ProgrammeType[] = [
       nb: 'Idrettsfag',
       nn: 'Idrettsfag',
       en: 'Sports and physical education',
+      se: 'Idrettsfag',
     },
     url: {
       nb: 'idrettsfag',
       nn: 'idrettsfag',
+      se: 'idrettsfag',
       en: 'idrettsfag',
     },
     meta: {
       description: {
-        nb:
-          'Utdanningsprogrammet består av programfagene aktivitetslære, treningslære, idrett og samfunn og treningsledelse. Du oppnår studiekompetanse.',
-        nn:
-          'Utdanningsprogrammet består av programfaga aktivitetslære, treningslære, idrett og samfunn og treningsledelse. Du oppnår studiekompetanse.',
+        nb: 'Utdanningsprogrammet består av programfagene aktivitetslære, treningslære, idrett og samfunn og treningsledelse. Du oppnår studiekompetanse.',
+        nn: 'Utdanningsprogrammet består av programfaga aktivitetslære, treningslære, idrett og samfunn og treningsledelse. Du oppnår studiekompetanse.',
       },
     },
     image: { url: 'https://api.ndla.no/image-api/raw/tEoZoZj2.jpg' },
@@ -806,6 +834,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
+              se: 'Fellesfag',
             },
             subjects: [
               {
@@ -838,6 +867,9 @@ export const programmes: ProgrammeType[] = [
               {
                 id: 'urn:subject:1:a5d7da3a-8a19-4a83-9b3f-3c855621df70',
               },
+              {
+                id: 'urn:subject:ca64e4ed-8b7f-4b63-b4c2-85cf262dc134',
+              },
             ],
           },
           {
@@ -845,6 +877,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Andre ressurser',
               nn: 'Andre ressursar',
               en: 'Additional resources',
+              se: 'Andre ressursar',
             },
             subjects: [
               {
@@ -872,6 +905,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
+              se: 'Fellesfag',
             },
             subjects: [
               {
@@ -890,9 +924,6 @@ export const programmes: ProgrammeType[] = [
                 id: 'urn:subject:1:3170610c-6a5a-4da5-aeba-adb247aae48c',
               },
               {
-                id: 'urn:subject:1:a5d7da3a-8a19-4a83-9b3f-3c855621df70',
-              },
-              {
                 id: 'urn:subject:1:ff69c291-6374-4766-80c2-47d5840d8bbf',
               },
               {
@@ -901,6 +932,12 @@ export const programmes: ProgrammeType[] = [
               {
                 id: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
               },
+              {
+                id: 'urn:subject:ca64e4ed-8b7f-4b63-b4c2-85cf262dc134',
+              },
+              {
+                id: 'urn:subject:fdb6b622-7537-41df-9700-9d66532754f5',
+              },
             ],
           },
           {
@@ -908,6 +945,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Valgfrie programfag',
               nn: 'Valfrie programfag',
               en: 'Optional programme subjects',
+              se: 'Valfrie programfag',
             },
             subjects: [
               {
@@ -937,6 +975,12 @@ export const programmes: ProgrammeType[] = [
               {
                 id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
               },
+              {
+                id: 'urn:subject:1:1a05c6c7-121e-49e2-933c-580da74afe1a',
+              },
+              {
+                id: 'urn:subject:1:1d441d40-358a-47a8-8cd5-7a80382a9062',
+              },
             ],
           },
           {
@@ -944,6 +988,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Andre ressurser',
               nn: 'Andre ressursar',
               en: 'Additional resources',
+              se: 'Andre ressursar',
             },
             subjects: [
               {
@@ -971,6 +1016,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
+              se: 'Fellesfag',
             },
             subjects: [
               {
@@ -995,6 +1041,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Valgfrie programfag',
               nn: 'Valfrie programfag',
               en: 'Optional programme subjects',
+              se: 'Valfrie programfag',
             },
             subjects: [
               {
@@ -1042,6 +1089,24 @@ export const programmes: ProgrammeType[] = [
               {
                 id: 'urn:subject:6e2e2319-cb8a-4dd2-b382-e30f001633bb',
               },
+              {
+                id: 'urn:subject:3afc9903-6ede-496e-a93e-96b319c3ff54',
+              },
+              {
+                id: 'urn:subject:1:1a05c6c7-121e-49e2-933c-580da74afe1a',
+              },
+              {
+                id: 'urn:subject:1:1d441d40-358a-47a8-8cd5-7a80382a9062',
+              },
+              {
+                id: 'urn:subject:1:ec288dfb-4768-4f82-8387-fe2d73fff1e1',
+              },
+              {
+                id: 'urn:subject:1:3170610c-6a5a-4da5-aeba-adb247aae48c',
+              },
+              {
+                id: 'urn:subject:ca64e4ed-8b7f-4b63-b4c2-85cf262dc134',
+              },
             ],
           },
           {
@@ -1049,6 +1114,7 @@ export const programmes: ProgrammeType[] = [
               nb: 'Andre ressurser',
               nn: 'Andre ressursar',
               en: 'Additional resources',
+              se: 'Andre ressursar',
             },
             subjects: [
               {
@@ -1074,18 +1140,18 @@ export const programmes: ProgrammeType[] = [
       nb: 'Informasjonsteknologi og medieproduksjon',
       nn: 'Informasjonsteknologi og medieproduksjon',
       en: 'Information technology and media production',
+      se: 'Informasjonsteknologi og medieproduksjon',
     },
     url: {
       nb: 'informasjonsteknologi-og-medieproduksjon',
       nn: 'informasjonsteknologi-og-medieproduksjon',
+      se: 'informasjonsteknologi-og-medieproduksjon',
       en: 'informasjonsteknologi-og-medieproduksjon',
     },
     meta: {
       description: {
-        nb:
-          'IT og media er fagområder i utvikling og med økende overlapping. Her finner du fagstoff, oppgaver og læringsressurser til utdanningsprogrammet IM Vg1.',
-        nn:
-          'IT og media er fagområde i utvikling og med aukande overlapping. Her finn du fagstoff, oppgåver og læringsressursar til utdanningsprogrammet IM Vg1.',
+        nb: 'IT og media er fagområder i utvikling og med økende overlapping. Her finner du fagstoff, oppgaver og læringsressurser til utdanningsprogrammet IM Vg1.',
+        nn: 'IT og media er fagområde i utvikling og med aukande overlapping. Her finn du fagstoff, oppgåver og læringsressursar til utdanningsprogrammet IM Vg1.',
       },
     },
     image: { url: 'https://api.ndla.no/image-api/raw/1nOY6rEf.jpg' },
@@ -1117,6 +1183,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Fellesfag',
+              se: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
             },
@@ -1147,6 +1214,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Andre ressurser',
+              se: 'Andre ressursar',
               nn: 'Andre ressursar',
               en: 'Additional resources',
             },
@@ -1173,6 +1241,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Informasjonsteknologi',
+              se: 'Informasjonsteknologi',
               nn: 'Informasjonsteknologi',
               en: 'Information technology',
             },
@@ -1191,6 +1260,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Medieproduksjon',
+              se: 'Medieproduksjon',
               nn: 'Medieproduksjon',
               en: 'Media production',
             },
@@ -1209,6 +1279,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Fellesfag',
+              se: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
             },
@@ -1233,6 +1304,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Andre ressurser',
+              se: 'Andre ressursar',
               nn: 'Andre ressursar',
               en: 'Additional resources',
             },
@@ -1258,20 +1330,20 @@ export const programmes: ProgrammeType[] = [
   {
     name: {
       nb: 'Kunst, design og arkitektur',
+      se: 'Kunst, design og arkitektur',
       nn: 'Kunst, design og arkitektur',
       en: 'Art, design and architecture',
     },
     url: {
       nb: 'kunst-design-og-arkitektur',
+      se: 'kunst-design-og-arkitektur',
       nn: 'kunst-design-og-arkitektur',
       en: 'kunst-design-og-arkitektur',
     },
     meta: {
       description: {
-        nb:
-          'Utdanningsprogrammet består av programfagene design og arkitektur og kunst og visuelle hjelpemidler. Du oppnår studiekompetanse.',
-        nn:
-          'Utdanningsprogrammet består av programfagene design og arkitektur og kunst og visuelle hjelpemidler. Du oppnår studiekompetanse.',
+        nb: 'Utdanningsprogrammet består av programfagene design og arkitektur og kunst og visuelle hjelpemidler. Du oppnår studiekompetanse.',
+        nn: 'Utdanningsprogrammet består av programfagene design og arkitektur og kunst og visuelle hjelpemidler. Du oppnår studiekompetanse.',
       },
     },
     image: { url: 'https://api.ndla.no/image-api/raw/q13BFrCg.jpg' },
@@ -1283,6 +1355,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Fellesfag',
+              se: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
             },
@@ -1323,11 +1396,15 @@ export const programmes: ProgrammeType[] = [
               {
                 id: 'urn:subject:1:ca607ca1-4dd0-4bbd-954f-67461f4b96fc',
               },
+              {
+                id: 'urn:subject:ca64e4ed-8b7f-4b63-b4c2-85cf262dc134',
+              },
             ],
           },
           {
             name: {
               nb: 'Andre ressurser',
+              se: 'Andre ressursar',
               nn: 'Andre ressursar',
               en: 'Additional resources',
             },
@@ -1355,6 +1432,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Fellesfag',
+              se: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
             },
@@ -1375,9 +1453,6 @@ export const programmes: ProgrammeType[] = [
                 id: 'urn:subject:1:3170610c-6a5a-4da5-aeba-adb247aae48c',
               },
               {
-                id: 'urn:subject:1:a5d7da3a-8a19-4a83-9b3f-3c855621df70',
-              },
-              {
                 id: 'urn:subject:1:ff69c291-6374-4766-80c2-47d5840d8bbf',
               },
               {
@@ -1389,11 +1464,18 @@ export const programmes: ProgrammeType[] = [
               {
                 id: 'urn:subject:1:fa2a7d6a-5e8e-4976-82c0-9a1266684c1c',
               },
+              {
+                id: 'urn:subject:ca64e4ed-8b7f-4b63-b4c2-85cf262dc134',
+              },
+              {
+                id: 'urn:subject:fdb6b622-7537-41df-9700-9d66532754f5',
+              },
             ],
           },
           {
             name: {
               nb: 'Valgfrie programfag',
+              se: 'Valfrie programfag',
               nn: 'Valfrie programfag',
               en: 'Optional programme subjects',
             },
@@ -1425,11 +1507,18 @@ export const programmes: ProgrammeType[] = [
               {
                 id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
               },
+              {
+                id: 'urn:subject:1:1a05c6c7-121e-49e2-933c-580da74afe1a',
+              },
+              {
+                id: 'urn:subject:1:1d441d40-358a-47a8-8cd5-7a80382a9062',
+              },
             ],
           },
           {
             name: {
               nb: 'Andre ressurser',
+              se: 'Andre ressursar',
               nn: 'Andre ressursar',
               en: 'Additional resources',
             },
@@ -1457,6 +1546,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Fellesfag',
+              se: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
             },
@@ -1484,6 +1574,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Valgfrie programfag',
+              se: 'Valfrie programfag',
               nn: 'Valfrie programfag',
               en: 'Optional programme subjects',
             },
@@ -1533,11 +1624,30 @@ export const programmes: ProgrammeType[] = [
               {
                 id: 'urn:subject:6e2e2319-cb8a-4dd2-b382-e30f001633bb',
               },
+              {
+                id: 'urn:subject:3afc9903-6ede-496e-a93e-96b319c3ff54',
+              },
+              {
+                id: 'urn:subject:1:1a05c6c7-121e-49e2-933c-580da74afe1a',
+              },
+              {
+                id: 'urn:subject:1:1d441d40-358a-47a8-8cd5-7a80382a9062',
+              },
+              {
+                id: 'urn:subject:1:ec288dfb-4768-4f82-8387-fe2d73fff1e1',
+              },
+              {
+                id: 'urn:subject:1:3170610c-6a5a-4da5-aeba-adb247aae48c',
+              },
+              {
+                id: 'urn:subject:ca64e4ed-8b7f-4b63-b4c2-85cf262dc134',
+              },
             ],
           },
           {
             name: {
               nb: 'Andre ressurser',
+              se: 'Andre ressursar',
               nn: 'Andre ressursar',
               en: 'Additional resources',
             },
@@ -1563,20 +1673,20 @@ export const programmes: ProgrammeType[] = [
   {
     name: {
       nb: 'Medier og kommunikasjon',
+      se: 'Medium og kommunikasjon',
       nn: 'Medium og kommunikasjon',
       en: 'Media and communication',
     },
     url: {
       nb: 'medier-og-kommunikasjon',
+      se: 'medier-og-kommunikasjon',
       nn: 'medier-og-kommunikasjon',
       en: 'medier-og-kommunikasjon',
     },
     meta: {
       description: {
-        nb:
-          'Utdanningsprogrammet består av programfagene mediesamfunnet og medieuttrykk. Du oppnår studiekompetanse.',
-        nn:
-          'Utdanningsprogrammet består av programfaga mediesamfunnet og medieuttrykk. Du oppnår studiekompetanse.',
+        nb: 'Utdanningsprogrammet består av programfagene mediesamfunnet og medieuttrykk. Du oppnår studiekompetanse.',
+        nn: 'Utdanningsprogrammet består av programfaga mediesamfunnet og medieuttrykk. Du oppnår studiekompetanse.',
       },
     },
     image: { url: 'https://api.ndla.no/image-api/raw/mtbzOofz.jpg' },
@@ -1602,6 +1712,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Fellesfag',
+              se: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
             },
@@ -1642,11 +1753,15 @@ export const programmes: ProgrammeType[] = [
               {
                 id: 'urn:subject:1:ca607ca1-4dd0-4bbd-954f-67461f4b96fc',
               },
+              {
+                id: 'urn:subject:ca64e4ed-8b7f-4b63-b4c2-85cf262dc134',
+              },
             ],
           },
           {
             name: {
               nb: 'Andre ressurser',
+              se: 'Andre ressursar',
               nn: 'Andre ressursar',
               en: 'Additional resources',
             },
@@ -1688,6 +1803,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Fellesfag',
+              se: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
             },
@@ -1708,9 +1824,6 @@ export const programmes: ProgrammeType[] = [
                 id: 'urn:subject:1:3170610c-6a5a-4da5-aeba-adb247aae48c',
               },
               {
-                id: 'urn:subject:1:a5d7da3a-8a19-4a83-9b3f-3c855621df70',
-              },
-              {
                 id: 'urn:subject:1:ff69c291-6374-4766-80c2-47d5840d8bbf',
               },
               {
@@ -1722,11 +1835,18 @@ export const programmes: ProgrammeType[] = [
               {
                 id: 'urn:subject:1:fa2a7d6a-5e8e-4976-82c0-9a1266684c1c',
               },
+              {
+                id: 'urn:subject:ca64e4ed-8b7f-4b63-b4c2-85cf262dc134',
+              },
+              {
+                id: 'urn:subject:fdb6b622-7537-41df-9700-9d66532754f5',
+              },
             ],
           },
           {
             name: {
               nb: 'Valgfrie programfag',
+              se: 'Valfrie programfag',
               nn: 'Valfrie programfag',
               en: 'Optional programme subjects',
             },
@@ -1758,11 +1878,18 @@ export const programmes: ProgrammeType[] = [
               {
                 id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
               },
+              {
+                id: 'urn:subject:1:1a05c6c7-121e-49e2-933c-580da74afe1a',
+              },
+              {
+                id: 'urn:subject:1:1d441d40-358a-47a8-8cd5-7a80382a9062',
+              },
             ],
           },
           {
             name: {
               nb: 'Andre ressurser',
+              se: 'Andre ressursar',
               nn: 'Andre ressursar',
               en: 'Additional resources',
             },
@@ -1804,6 +1931,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Fellesfag',
+              se: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
             },
@@ -1831,6 +1959,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Valgfrie programfag',
+              se: 'Valfrie programfag',
               nn: 'Valfrie programfag',
               en: 'Optional programme subjects',
             },
@@ -1880,11 +2009,30 @@ export const programmes: ProgrammeType[] = [
               {
                 id: 'urn:subject:6e2e2319-cb8a-4dd2-b382-e30f001633bb',
               },
+              {
+                id: 'urn:subject:3afc9903-6ede-496e-a93e-96b319c3ff54',
+              },
+              {
+                id: 'urn:subject:1:1a05c6c7-121e-49e2-933c-580da74afe1a',
+              },
+              {
+                id: 'urn:subject:1:1d441d40-358a-47a8-8cd5-7a80382a9062',
+              },
+              {
+                id: 'urn:subject:1:ec288dfb-4768-4f82-8387-fe2d73fff1e1',
+              },
+              {
+                id: 'urn:subject:1:3170610c-6a5a-4da5-aeba-adb247aae48c',
+              },
+              {
+                id: 'urn:subject:ca64e4ed-8b7f-4b63-b4c2-85cf262dc134',
+              },
             ],
           },
           {
             name: {
               nb: 'Andre ressurser',
+              se: 'Andre ressursar',
               nn: 'Andre ressursar',
               en: 'Additional resources',
             },
@@ -1910,20 +2058,20 @@ export const programmes: ProgrammeType[] = [
   {
     name: {
       nb: 'Musikk, dans og drama',
+      se: 'Musikk, dans og drama',
       nn: 'Musikk, dans og drama',
       en: 'Music, dance and drama',
     },
     url: {
       nb: 'musikk-dans-og-drama',
+      se: 'musikk-dans-og-drama',
       nn: 'musikk-dans-og-drama',
       en: 'musikk-dans-og-drama',
     },
     meta: {
       description: {
-        nb:
-          'Utdanningsprogrammet består av ulike programfag innen musikk, dans og drama. Du oppnår studiekompetanse og kan ta høyere utdanning. ',
-        nn:
-          'Utdanningsprogrammet består av ulike programfag innan musikk, dans og drama. Du oppnår studiekompetanse og kan ta høgare utdanning. ',
+        nb: 'Utdanningsprogrammet består av ulike programfag innen musikk, dans og drama. Du oppnår studiekompetanse og kan ta høyere utdanning. ',
+        nn: 'Utdanningsprogrammet består av ulike programfag innan musikk, dans og drama. Du oppnår studiekompetanse og kan ta høgare utdanning. ',
       },
     },
     image: { url: 'https://api.ndla.no/image-api/raw/B6lpbgh5.jpg' },
@@ -1935,6 +2083,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Fellesfag',
+              se: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
             },
@@ -1972,11 +2121,15 @@ export const programmes: ProgrammeType[] = [
               {
                 id: 'urn:subject:1:f7c5f36a-198d-4c38-a330-2957cf1a8325',
               },
+              {
+                id: 'urn:subject:ca64e4ed-8b7f-4b63-b4c2-85cf262dc134',
+              },
             ],
           },
           {
             name: {
               nb: 'Andre ressurser',
+              se: 'Andre ressursar',
               nn: 'Andre ressursar',
               en: 'Additional resources',
             },
@@ -2004,6 +2157,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Fellesfag',
+              se: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
             },
@@ -2024,9 +2178,6 @@ export const programmes: ProgrammeType[] = [
                 id: 'urn:subject:1:3170610c-6a5a-4da5-aeba-adb247aae48c',
               },
               {
-                id: 'urn:subject:1:a5d7da3a-8a19-4a83-9b3f-3c855621df70',
-              },
-              {
                 id: 'urn:subject:1:ff69c291-6374-4766-80c2-47d5840d8bbf',
               },
               {
@@ -2035,11 +2186,18 @@ export const programmes: ProgrammeType[] = [
               {
                 id: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
               },
+              {
+                id: 'urn:subject:ca64e4ed-8b7f-4b63-b4c2-85cf262dc134',
+              },
+              {
+                id: 'urn:subject:fdb6b622-7537-41df-9700-9d66532754f5',
+              },
             ],
           },
           {
             name: {
               nb: 'Valgfrie programfag',
+              se: 'Valfrie programfag',
               nn: 'Valfrie programfag',
               en: 'Optional programme subjects',
             },
@@ -2071,11 +2229,18 @@ export const programmes: ProgrammeType[] = [
               {
                 id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
               },
+              {
+                id: 'urn:subject:1:1a05c6c7-121e-49e2-933c-580da74afe1a',
+              },
+              {
+                id: 'urn:subject:1:1d441d40-358a-47a8-8cd5-7a80382a9062',
+              },
             ],
           },
           {
             name: {
               nb: 'Andre ressurser',
+              se: 'Andre ressursar',
               nn: 'Andre ressursar',
               en: 'Additional resources',
             },
@@ -2103,6 +2268,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Fellesfag',
+              se: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
             },
@@ -2127,6 +2293,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Valgfrie programfag',
+              se: 'Valfrie programfag',
               nn: 'Valfrie programfag',
               en: 'Optional programme subjects',
             },
@@ -2179,11 +2346,30 @@ export const programmes: ProgrammeType[] = [
               {
                 id: 'urn:subject:6e2e2319-cb8a-4dd2-b382-e30f001633bb',
               },
+              {
+                id: 'urn:subject:3afc9903-6ede-496e-a93e-96b319c3ff54',
+              },
+              {
+                id: 'urn:subject:1:1a05c6c7-121e-49e2-933c-580da74afe1a',
+              },
+              {
+                id: 'urn:subject:1:1d441d40-358a-47a8-8cd5-7a80382a9062',
+              },
+              {
+                id: 'urn:subject:1:ec288dfb-4768-4f82-8387-fe2d73fff1e1',
+              },
+              {
+                id: 'urn:subject:1:3170610c-6a5a-4da5-aeba-adb247aae48c',
+              },
+              {
+                id: 'urn:subject:ca64e4ed-8b7f-4b63-b4c2-85cf262dc134',
+              },
             ],
           },
           {
             name: {
               nb: 'Andre ressurser',
+              se: 'Andre ressursar',
               nn: 'Andre ressursar',
               en: 'Additional resources',
             },
@@ -2209,20 +2395,20 @@ export const programmes: ProgrammeType[] = [
   {
     name: {
       nb: 'Naturbruk',
+      se: 'Naturbruk',
       nn: 'Naturbruk',
       en: 'Agriculture, fishing and forestry',
     },
     url: {
       nb: 'naturbruk',
+      se: 'naturbruk',
       nn: 'naturbruk',
       en: 'naturbruk',
     },
     meta: {
       description: {
-        nb:
-          'Naturbruk handler om å drive næring basert på naturressurser. Fagene dreier seg om tradisjonelle og nye driftsformer innenfor norske og samiske næringer.',
-        nn:
-          'Naturbruk handlar om å drive næring basert på naturressursar. Faga dreier seg om tradisjonelle og nye driftsformar innanfor norske og samiske næringar.',
+        nb: 'Naturbruk handler om å drive næring basert på naturressurser. Fagene dreier seg om tradisjonelle og nye driftsformer innenfor norske og samiske næringer.',
+        nn: 'Naturbruk handlar om å drive næring basert på naturressursar. Faga dreier seg om tradisjonelle og nye driftsformar innanfor norske og samiske næringar.',
       },
     },
     image: { url: 'https://api.ndla.no/image-api/raw/vcus7cFa.jpg' },
@@ -2248,6 +2434,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Fellesfag',
+              se: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
             },
@@ -2278,6 +2465,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Andre ressurser',
+              se: 'Andre ressursar',
               nn: 'Andre ressursar',
               en: 'Additional resources',
             },
@@ -2300,11 +2488,24 @@ export const programmes: ProgrammeType[] = [
       },
       {
         name: 'Vg2',
-        missingProgrammeSubjects: true,
         categories: [
           {
             name: {
+              nb: 'Landbruk og gartnernæring',
+              nn: 'Landbruk og gartnernæring',
+              se: 'Landbruk og gartnernæring',
+              en: 'Agriculture and horticulture',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:57f73fac-aef5-4ab9-9ce0-55f031c24768',
+              },
+            ],
+          },
+          {
+            name: {
               nb: 'Fellesfag',
+              se: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
             },
@@ -2329,6 +2530,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Andre ressurser',
+              se: 'Andre ressursar',
               nn: 'Andre ressursar',
               en: 'Additional resources',
             },
@@ -2354,11 +2556,13 @@ export const programmes: ProgrammeType[] = [
   {
     name: {
       nb: 'Påbygg',
+      se: 'Påbygg',
       nn: 'Påbygg',
       en: 'Supplementary programme',
     },
     url: {
       nb: 'pabygg',
+      se: 'pabygg',
       nn: 'pabygg',
       en: 'pabygg',
     },
@@ -2370,6 +2574,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Fellesfag',
+              se: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
             },
@@ -2397,6 +2602,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Valgfrie programfag',
+              se: 'Valfrie programfag',
               nn: 'Valfrie programfag',
               en: 'Optional programme subjects',
             },
@@ -2442,6 +2648,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Andre ressurser',
+              se: 'Andre ressursar',
               nn: 'Andre ressursar',
               en: 'Additional resources',
             },
@@ -2467,20 +2674,20 @@ export const programmes: ProgrammeType[] = [
   {
     name: {
       nb: 'Restaurant- og matfag',
+      se: 'Restaurant- og matfag',
       nn: 'Restaurant- og matfag',
       en: 'Restaurant and food processing',
     },
     url: {
       nb: 'restaurant-og-matfag',
+      se: 'restaurant-og-matfag',
       nn: 'restaurant-og-matfag',
       en: 'restaurant-og-matfag',
     },
     meta: {
       description: {
-        nb:
-          'Utdanningsprogram med programfagene råvare, produksjon og kvalitet og bransje og arbeidsliv',
-        nn:
-          'Utdanningsprogram med programfaga råvare, produksjon og kvalitet og bransje og arbeidsliv',
+        nb: 'Utdanningsprogram med programfagene råvare, produksjon og kvalitet og bransje og arbeidsliv',
+        nn: 'Utdanningsprogram med programfaga råvare, produksjon og kvalitet og bransje og arbeidsliv',
       },
     },
     image: { url: 'https://api.ndla.no/image-api/raw/1pBrsVLW.jpg' },
@@ -2509,6 +2716,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Fellesfag',
+              se: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
             },
@@ -2539,6 +2747,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Andre ressurser',
+              se: 'Andre ressursar',
               nn: 'Andre ressursar',
               en: 'Additional resources',
             },
@@ -2565,6 +2774,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Kokk- og servitørfag',
+              se: 'Kokk- og servitørfag',
               nn: 'Kokk- og servitørfag',
               en: 'Cookery and waiting',
             },
@@ -2583,6 +2793,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Fellesfag',
+              se: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
             },
@@ -2607,6 +2818,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Andre ressurser',
+              se: 'Andre ressursar',
               nn: 'Andre ressursar',
               en: 'Additional resources',
             },
@@ -2632,20 +2844,20 @@ export const programmes: ProgrammeType[] = [
   {
     name: {
       nb: 'Salg, service og reiseliv',
+      se: 'Sal, service og reiseliv',
       nn: 'Sal, service og reiseliv',
       en: 'Sales, service and tourism',
     },
     url: {
       nb: 'salg-service-og-reiseliv',
+      se: 'salg-service-og-reiseliv',
       nn: 'salg-service-og-reiseliv',
       en: 'salg-service-og-reiseliv',
     },
     meta: {
       description: {
-        nb:
-          'Utdanningsprogrammet består av programfagene forretningsdrift, markedsføring og innovasjon og kultur og samhandling i tillegg til yrkesfaglig fordypning.',
-        nn:
-          'Utdanningsprogrammet består av programfaga forretningsdrift, markedsføring og innovasjon og kultur og samhandling i tillegg til yrkesfagleg fordjuping.',
+        nb: 'Utdanningsprogrammet består av programfagene forretningsdrift, markedsføring og innovasjon og kultur og samhandling i tillegg til yrkesfaglig fordypning.',
+        nn: 'Utdanningsprogrammet består av programfaga forretningsdrift, markedsføring og innovasjon og kultur og samhandling i tillegg til yrkesfagleg fordjuping.',
       },
     },
     image: { url: 'https://api.ndla.no/image-api/raw/5E4fooai.jpg' },
@@ -2677,6 +2889,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Fellesfag',
+              se: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
             },
@@ -2707,6 +2920,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Andre ressurser',
+              se: 'Andre ressursar',
               nn: 'Andre ressursar',
               en: 'Additional resources',
             },
@@ -2733,6 +2947,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Salg og reiseliv',
+              se: 'Sal og reiseliv',
               nn: 'Sal og reiseliv',
               en: 'Sales and tourism',
             },
@@ -2754,6 +2969,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Service, sikkerhet og administrasjon',
+              se: 'Service, sikkerheit og administrasjon',
               nn: 'Service, sikkerheit og administrasjon',
               en: 'Service, safety and administration',
             },
@@ -2776,6 +2992,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Fellesfag',
+              se: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
             },
@@ -2800,6 +3017,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Andre ressurser',
+              se: 'Andre ressursar',
               nn: 'Andre ressursar',
               en: 'Additional resources',
             },
@@ -2825,20 +3043,20 @@ export const programmes: ProgrammeType[] = [
   {
     name: {
       nb: 'Studiespesialisering',
+      se: 'Studiespesialisering',
       nn: 'Studiespesialisering',
       en: 'Specialization in general studies',
     },
     url: {
       nb: 'studiespesialisering',
+      se: 'studiespesialisering',
       nn: 'studiespesialisering',
       en: 'studiespesialisering',
     },
     meta: {
       description: {
-        nb:
-          'På studiespesialisering velger du fordypning i enten realfag eller språk, samfunnsfag og økonomi. Du oppnår studiekompetanse og kan ta høyere utdanning. ',
-        nn:
-          'På studiespesialisering vel du fordjuping i anten realfag eller språk, samfunnsfag og økonomi. Du oppnår studiekompetanse og kan ta høgare utdanning. ',
+        nb: 'På studiespesialisering velger du fordypning i enten realfag eller språk, samfunnsfag og økonomi. Du oppnår studiekompetanse og kan ta høyere utdanning. ',
+        nn: 'På studiespesialisering vel du fordjuping i anten realfag eller språk, samfunnsfag og økonomi. Du oppnår studiekompetanse og kan ta høgare utdanning. ',
       },
     },
     image: { url: 'https://api.ndla.no/image-api/raw/RPzTRrF3.jpg' },
@@ -2849,6 +3067,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Fellesfag',
+              se: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
             },
@@ -2892,11 +3111,18 @@ export const programmes: ProgrammeType[] = [
               {
                 id: 'urn:subject:1:f7c5f36a-198d-4c38-a330-2957cf1a8325',
               },
+              {
+                id: 'urn:subject:e474cd73-5b8a-42cf-b0f1-b027e522057c',
+              },
+              {
+                id: 'urn:subject:ca64e4ed-8b7f-4b63-b4c2-85cf262dc134',
+              },
             ],
           },
           {
             name: {
               nb: 'Andre ressurser',
+              se: 'Andre ressursar',
               nn: 'Andre ressursar',
               en: 'Additional resources',
             },
@@ -2923,6 +3149,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Fellesfag',
+              se: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
             },
@@ -2952,13 +3179,17 @@ export const programmes: ProgrammeType[] = [
                 id: 'urn:subject:1:ec288dfb-4768-4f82-8387-fe2d73fff1e1',
               },
               {
-                id: 'urn:subject:1:d4511941-a1fc-4336-bc80-0a05c534a182',
+                id: 'urn:subject:fdb6b622-7537-41df-9700-9d66532754f5',
+              },
+              {
+                id: 'urn:subject:ca64e4ed-8b7f-4b63-b4c2-85cf262dc134',
               },
             ],
           },
           {
             name: {
               nb: 'Realfag',
+              se: 'Realfag',
               nn: 'Realfag',
               en: 'Natural science and mathematics',
             },
@@ -2977,6 +3208,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Språk, samfunnsfag og økonomi',
+              se: 'Språk, samfunnsfag og økonomi',
               nn: 'Språk, samfunnsfag og økonomi',
               en: 'Languages, social sciences and economics',
             },
@@ -3014,11 +3246,15 @@ export const programmes: ProgrammeType[] = [
               {
                 id: 'urn:subject:c0ce0b31-33f6-4f6f-bbe0-caa878f7ab9b',
               },
+              {
+                id: 'urn:subject:ca64e4ed-8b7f-4b63-b4c2-85cf262dc134',
+              },
             ],
           },
           {
             name: {
               nb: 'Andre ressurser',
+              se: 'Andre ressursar',
               nn: 'Andre ressursar',
               en: 'Additional resources',
             },
@@ -3045,6 +3281,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Fellesfag',
+              se: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
             },
@@ -3069,6 +3306,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Realfag',
+              se: 'Realfag',
               nn: 'Realfag',
               en: 'Natural science and mathematics',
             },
@@ -3079,15 +3317,21 @@ export const programmes: ProgrammeType[] = [
               {
                 id: 'urn:subject:da2379d0-3c91-4e4d-94d7-fc42f69593d2',
               },
-
               {
                 id: 'urn:subject:1:83ce68bc-19c9-4f2b-8dba-caf401428f21',
+              },
+              {
+                id: 'urn:subject:1:b561f04f-d633-453e-b0ce-84985f97969b',
+              },
+              {
+                id: 'urn:subject:1:734bd33b-da6d-49b0-bb34-c6df5b956f8e',
               },
             ],
           },
           {
             name: {
               nb: 'Språk, samfunnsfag og økonomi',
+              se: 'Språk, samfunnsfag og økonomi',
               nn: 'Språk, samfunnsfag og økonomi',
               en: 'Languages, social sciences and economics',
             },
@@ -3131,11 +3375,18 @@ export const programmes: ProgrammeType[] = [
               {
                 id: 'urn:subject:1:576cc40f-cc74-4418-9721-9b15ffd29cff',
               },
+              {
+                id: 'urn:subject:3afc9903-6ede-496e-a93e-96b319c3ff54',
+              },
+              {
+                id: 'urn:subject:ca64e4ed-8b7f-4b63-b4c2-85cf262dc134',
+              },
             ],
           },
           {
             name: {
               nb: 'Andre ressurser',
+              se: 'Andre ressursar',
               nn: 'Andre ressursar',
               en: 'Additional resources',
             },
@@ -3161,20 +3412,20 @@ export const programmes: ProgrammeType[] = [
   {
     name: {
       nb: 'Teknologi- og industrifag',
+      se: 'Teknologi- og industrifag',
       nn: 'Teknologi- og industrifag',
       en: 'Technological and industrial production',
     },
     url: {
       nb: 'teknologi-og-industrifag',
+      se: 'teknologi-og-industrifag',
       nn: 'teknologi-og-industrifag',
       en: 'teknologi-og-industrifag',
     },
     meta: {
       description: {
-        nb:
-          'Utdanningsprogram med programfagene produksjon og tjenester, konstruksjons- og styringsteknikk og produktivitet og kvalitetsstyring og YFF.',
-        nn:
-          'Utdanningsprogram med programfaga produksjon og tjenester, konstruksjons- og styringsteknikk og produktivitet og kvalitetsstyring og YFF.',
+        nb: 'Utdanningsprogram med programfagene produksjon og tjenester, konstruksjons- og styringsteknikk og produktivitet og kvalitetsstyring og YFF.',
+        nn: 'Utdanningsprogram med programfaga produksjon og tjenester, konstruksjons- og styringsteknikk og produktivitet og kvalitetsstyring og YFF.',
       },
     },
     image: { url: 'https://api.ndla.no/image-api/raw/sq1cLlG0.jpg' },
@@ -3206,6 +3457,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Fellesfag',
+              se: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
             },
@@ -3236,6 +3488,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Andre ressurser',
+              se: 'Andre ressursar',
               nn: 'Andre ressursar',
               en: 'Additional resources',
             },
@@ -3262,6 +3515,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Brønnteknikk',
+              se: 'Brønnteknikk',
               nn: 'Brønnteknikk',
               en: 'Well technology',
             },
@@ -3283,6 +3537,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Transport og logistikk',
+              se: 'Transport og logistikk',
               nn: 'Transport og logistikk',
               en: 'Transport and logistics',
             },
@@ -3303,7 +3558,21 @@ export const programmes: ProgrammeType[] = [
           },
           {
             name: {
+              nb: 'Industriteknologi',
+              nn: 'Industriteknologi',
+              se: 'Industriteknologi',
+              en: 'Industrial technology',
+            },
+            subjects: [
+              {
+                id: 'urn:subject:551850e9-5b0b-4d99-b664-ea19256e1101',
+              },
+            ],
+          },
+          {
+            name: {
               nb: 'Fellesfag',
+              se: 'Fellesfag',
               nn: 'Fellesfag',
               en: 'Common core subjects',
             },
@@ -3328,6 +3597,7 @@ export const programmes: ProgrammeType[] = [
           {
             name: {
               nb: 'Andre ressurser',
+              se: 'Andre ressursar',
               nn: 'Andre ressursar',
               en: 'Additional resources',
             },
@@ -3353,13 +3623,13 @@ export const programmes: ProgrammeType[] = [
 ];
 
 export const getProgrammeBySlug = (slug: string, locale: LocaleType) => {
-  return programmes.find(item => {
+  return programmes.find((item) => {
     if (item.url) {
       if (locale) {
         return item.url[locale] === slug;
       } else {
         return Object.keys(item.url).find(
-          lang => item.url[lang as LocaleType] === slug,
+          (lang) => item.url[lang as LocaleType] === slug,
         );
       }
     }

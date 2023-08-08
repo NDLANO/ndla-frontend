@@ -31,7 +31,7 @@ export const getErrorStatuses = (
     if (error?.status) {
       statuses.push(error.status);
     } else if (error.graphQLErrors) {
-      error.graphQLErrors.forEach(e => {
+      error.graphQLErrors.forEach((e) => {
         if (e.status) statuses.push(e.status);
       });
     }
@@ -47,7 +47,7 @@ export const isAccessDeniedError = (
 ): boolean => {
   if (!error) return false;
   const codes = getErrorStatuses(error);
-  return codes.find(c => AccessDeniedCodes.includes(c)) !== undefined;
+  return codes.find((c) => AccessDeniedCodes.includes(c)) !== undefined;
 };
 
 const handleError = (

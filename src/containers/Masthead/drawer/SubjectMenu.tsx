@@ -7,7 +7,13 @@
  */
 
 import partition from 'lodash/partition';
-import { Dispatch, SetStateAction, useCallback, useMemo } from 'react';
+import {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useMemo,
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { gql } from '@apollo/client';
@@ -21,6 +27,7 @@ import DrawerRowHeader from './DrawerRowHeader';
 import { removeUrn } from '../../../routeHelpers';
 import BackButton from './BackButton';
 import useArrowNavigation from './useArrowNavigation';
+import { useDrawerContext } from './DrawerContext';
 
 interface Props {
   subject?: GQLSubjectMenu_SubjectFragment;
@@ -44,10 +51,13 @@ const groupTopics = (
   root: AllTopicsType,
   topics: AllTopicsType[],
 ): TopicWithSubTopics => {
-  const [children, descendants] = partition(topics, t => t.parent === root.id);
+  const [children, descendants] = partition(
+    topics,
+    (t) => t.parentId === root.id,
+  );
   return {
     ...root,
-    subtopics: children.map(c => groupTopics(c, descendants)),
+    subtopics: children.map((c) => groupTopics(c, descendants)),
   };
 };
 
@@ -56,7 +66,10 @@ const constructTopicPath = (
   topicList: string[],
 ): TopicWithSubTopics[] => {
   if (!topicList.length || !topics.length) return [];
-  const topic = topics.find(t => t.id === topicList[0])!;
+  const topic = topics.find((t) => t.id === topicList[0])!;
+  if (!topic) {
+    return [];
+  }
   return [topic].concat(
     constructTopicPath(topic.subtopics, topicList.slice(1)),
   );
@@ -71,12 +84,13 @@ const SubjectMenu = ({
 }: Props) => {
   const { t } = useTranslation();
   const location = useLocation();
+  const { shouldCloseLevel, setLevelClosed } = useDrawerContext();
   const groupedTopics = useMemo(() => {
     const [roots, rest] = partition(
-      subject?.allTopics?.filter(t => !!t.parent),
-      t => t.parent === subject?.id,
+      subject?.allTopics?.filter((t) => !!t.parentId),
+      (t) => t.parentId === subject?.id,
     );
-    return roots.map(r => groupTopics(r, rest));
+    return roots.map((r) => groupTopics(r, rest));
   }, [subject?.allTopics, subject?.id]);
 
   const topicPath = useMemo(
@@ -84,23 +98,30 @@ const SubjectMenu = ({
     [topicPathIds, groupedTopics],
   );
 
+  useEffect(() => {
+    if (!topicPath.length && shouldCloseLevel) {
+      onCloseMenuPortion();
+      setLevelClosed();
+    }
+  }, [topicPath.length, shouldCloseLevel, onCloseMenuPortion, setLevelClosed]);
+
   const addTopic = useCallback(
     (topic: TopicWithSubTopics, index: number) => {
-      setTopicPathIds(prev => prev.slice(0, index).concat(topic.id));
+      setTopicPathIds((prev) => prev.slice(0, index).concat(topic.id));
     },
     [setTopicPathIds],
   );
 
   const removeTopic = useCallback(
     (index: number) => {
-      setTopicPathIds(prev => prev.slice(0, index));
+      setTopicPathIds((prev) => prev.slice(0, index));
     },
     [setTopicPathIds],
   );
 
   const keyboardAddTopic = useCallback(
     (id: string | undefined) => {
-      const topic = groupedTopics.find(t => t.id === id);
+      const topic = groupedTopics.find((t) => t.id === id);
       if (topic) {
         addTopic(topic, 0);
       }
@@ -108,16 +129,15 @@ const SubjectMenu = ({
     [addTopic, groupedTopics],
   );
 
-  useArrowNavigation(
-    !topicPath.length,
-    topicPath.length
+  useArrowNavigation(!topicPath.length, {
+    initialFocused: topicPath.length
       ? topicPath[0]?.id
       : subject
       ? `header-${subject.id}`
       : undefined,
-    keyboardAddTopic,
-    onCloseMenuPortion,
-  );
+    onLeftKeyPressed: onCloseMenuPortion,
+    onRightKeyPressed: keyboardAddTopic,
+  });
 
   const path = subject ? `/${removeUrn(subject.id)}` : '';
 
@@ -140,20 +160,21 @@ const SubjectMenu = ({
               to={path}
               onClose={onClose}
             />
-            {groupedTopics.map(t => (
+            {groupedTopics.map((t) => (
               <DrawerMenuItem
                 id={t.id}
                 key={t.id}
                 type="button"
                 current={t.path === location.pathname}
-                onClick={expanded => {
+                onClick={(expanded) => {
                   if (expanded) {
                     setTopicPathIds([]);
                   } else {
                     addTopic(t, 0);
                   }
                 }}
-                active={topicPath[0]?.id === t.id}>
+                active={topicPath[0]?.id === t.id}
+              >
                 {t.name}
               </DrawerMenuItem>
             ))}
@@ -163,9 +184,10 @@ const SubjectMenu = ({
             height={'100%'}
             width={'100%'}
             viewBox={null}
-            preserveAspectRatio="none">
+            preserveAspectRatio="none"
+          >
             <rect x="5" y="2" rx="3" ry="3" height="50" width="90%" />
-            {placeholders.map(p => (
+            {placeholders.map((p) => (
               <rect
                 key={p}
                 x="20"
@@ -205,7 +227,7 @@ SubjectMenu.fragments = {
       allTopics {
         id
         name
-        parent
+        parentId
         path
       }
       ...TopicMenu_Subject

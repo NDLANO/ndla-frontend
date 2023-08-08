@@ -18,6 +18,7 @@ import {
   iframeArticleRoute,
   forwardingRoute,
   ltiRoute,
+  iframeEmbedRoute,
 } from './routes';
 import contentSecurityPolicy from './contentSecurityPolicy';
 import handleError from '../util/handleError';
@@ -69,10 +70,11 @@ const ndlaMiddleware = [
   }),
   express.urlencoded({ extended: true }),
   express.json({
-    type: req =>
+    type: (req) =>
       allowedBodyContentTypes.includes(req.headers['content-type'] ?? ''),
   }),
   helmet({
+    crossOriginEmbedderPolicy: false,
     hsts: {
       maxAge: 31536000,
       includeSubDomains: true,
@@ -217,7 +219,7 @@ app.get('/logout/session', (req: Request, res: Response) => {
   res.clearCookie('feide_auth');
   const state = typeof req.query.state === 'string' ? req.query.state : '/';
   const { basepath, basename } = getLocaleInfoFromPath(state);
-  const wasPrivateRoute = privateRoutes.some(r => matchPath(r, basepath));
+  const wasPrivateRoute = privateRoutes.some((r) => matchPath(r, basepath));
   const redirect = wasPrivateRoute ? constructNewPath('/', basename) : state;
   res.setHeader('Cache-Control', 'private');
   return res.redirect(redirect);
@@ -242,13 +244,11 @@ export async function sendInternalServerError(res: Response) {
 }
 
 function sendResponse(res: Response, data: any, status = OK) {
-  if (
-    status === MOVED_PERMANENTLY ||
-    status === TEMPORARY_REDIRECT ||
-    status === GONE
-  ) {
+  if (status === MOVED_PERMANENTLY || status === TEMPORARY_REDIRECT) {
     res.writeHead(status, data);
     res.end();
+  } else if (status === GONE) {
+    res.status(status).send(data);
   } else if (res.getHeader('Content-Type') === 'application/json') {
     res.status(status).json(data);
   } else {
@@ -274,6 +274,17 @@ const iframArticleCallback = async (req: Request, res: Response) => {
   res.removeHeader('X-Frame-Options');
   handleRequest(req, res, iframeArticleRoute);
 };
+
+const iframeEmbedCallback = async (req: Request, res: Response) => {
+  res.removeHeader('X-Frame-Options');
+  handleRequest(req, res, iframeEmbedRoute);
+};
+
+app.get(
+  '/embed-iframe/:lang?/:embedType/:embedId',
+  ndlaMiddleware,
+  iframeEmbedCallback,
+);
 
 app.get(
   '/article-iframe/:lang?/article/:articleId',
@@ -357,7 +368,7 @@ app.get('/lti', ndlaMiddleware, async (req: Request, res: Response) => {
   'aktualitet',
   'oppgave',
   'fagstoff',
-].forEach(path => {
+].forEach((path) => {
   app.get(`/:lang?/${path}/:nodeId`, async (req, res, next) =>
     forwardingRoute(req, res, next),
   );
@@ -371,8 +382,8 @@ app.get(
   '/*',
   (req: Request, res: Response, next: NextFunction) => {
     const { basepath: path } = getLocaleInfoFromPath(req.path);
-    const route = routes.find(r => matchPath(r, path)); // match with routes used in frontend
-    const isPrivate = privateRoutes.some(r => matchPath(r, path));
+    const route = routes.find((r) => matchPath(r, path)); // match with routes used in frontend
+    const isPrivate = privateRoutes.some((r) => matchPath(r, path));
     const feideCookie = getCookie('feide_auth', req.headers.cookie ?? '') ?? '';
     const feideToken = feideCookie ? JSON.parse(feideCookie) : undefined;
     const isTokenValid = !!feideToken && isAccessTokenValid(feideToken);

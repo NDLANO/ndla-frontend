@@ -21,11 +21,15 @@ export function getArticleScripts(
   locale = 'nb',
 ) {
   const scripts: Array<Scripts> =
-    article.requiredLibraries?.map(lib => ({
+    article.requiredLibraries?.map((lib) => ({
       src: lib.url,
       type: lib.mediaType,
     })) || [];
-  if (article && article.content.indexOf('<math') > -1) {
+  if (
+    article &&
+    article.content.indexOf('<math') > -1 &&
+    process.env.BUILD_TARGET === 'client'
+  ) {
     // Increment number for each change in config.
     scripts.push({
       src: `/static/mathjax-config.js?locale=${locale}&ts=${3}`,
@@ -37,6 +41,15 @@ export function getArticleScripts(
     scripts.push({
       src:
         'https://cdn.jsdelivr.net/npm/mathjax@4.0.0-alpha.1/es5/mml-chtml.js',
+      type: 'text/javascript',
+      async: false,
+      defer: true,
+    });
+  }
+
+  if (article && article.content.indexOf('data-resource="h5p"') > -1) {
+    scripts.push({
+      src: 'https://ca.h5p.ndla.no/h5p-php-library/js/h5p-resizer.js',
       type: 'text/javascript',
       async: false,
       defer: true,

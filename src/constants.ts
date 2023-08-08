@@ -30,7 +30,7 @@ export const TOOLBOX_STUDENT_SUBJECT_ID =
   'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4';
 
 export const SKIP_TO_CONTENT_ID = 'SkipToContentId';
-export const SUPPORTED_LANGUAGES = ['nb', 'nn', 'en'];
+export const SUPPORTED_LANGUAGES = ['nb', 'nn', 'en', 'se'];
 export const STORED_LANGUAGE_COOKIE_KEY = 'language';
 export const STORED_RESOURCE_VIEW_SETTINGS = 'STORED_RESOURCE_VIEW_SETTINGS';
 
@@ -42,9 +42,10 @@ export const TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES = 'topic-resources';
 export const TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE = 'ungrouped';
 export const TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY = 'subjectCategory';
 export const TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE = 'subjectType';
+export const TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT = 'forklaringsfag';
 export const OLD_SUBJECT_PAGE_REDIRECT_CUSTOM_FIELD = 'old-subject-id';
 
-export const LocaleValues = ['nb', 'nn', 'en'] as const;
+export const LocaleValues = ['nb', 'nn', 'en', 'se'] as const;
 
 export const MastheadHeightPx = 84; // See `misc` in @ndla/core for origin
 export const EmotionCacheKey = 'css';
@@ -54,12 +55,47 @@ export const AcquireLicensePage =
 
 export const aboutNdlaUrl = 'https://om.ndla.no/';
 
-export const aboutNdlaLinks = {
-  whatIs: `${aboutNdlaUrl}hva-er-ndla/`,
-  numbers: `${aboutNdlaUrl}tall-og-rapporter/`,
-  organization: `${aboutNdlaUrl}organisasjon/`,
-  keyPersonnel: `${aboutNdlaUrl}organisasjon/nokkelpersoner-ndla/`,
-  vacancies: `${aboutNdlaUrl}utlysninger/`,
-  newsletter: `${aboutNdlaUrl}nyhetsbrev/`,
-  contact: `${aboutNdlaUrl}kontakt-oss/`,
+export interface LinkType {
+  link: string;
+  key: string;
+  subTypes?: LinkType[];
+}
+
+const whoAreWe: LinkType = {
+  key: 'whoAreWe',
+  link: `${aboutNdlaUrl}hvem-er-vi/`,
+  subTypes: [
+    { key: 'organizing', link: `${aboutNdlaUrl}organisering/` },
+    { key: 'keyPersonnel', link: `${aboutNdlaUrl}nokkelpersoner/` },
+    { key: 'articlesOfAssociation', link: `${aboutNdlaUrl}vedtekter/` },
+    { key: 'history', link: `${aboutNdlaUrl}ndlas-historie/` },
+  ],
+};
+
+const whatWeDo: LinkType = {
+  key: 'whatWeDo',
+  link: `${aboutNdlaUrl}hva-gjor-vi/`,
+  subTypes: [
+    { key: 'communityPurpose', link: `${aboutNdlaUrl}vart-samfunnsoppdrag/` },
+    { key: 'vision', link: `${aboutNdlaUrl}visjon-og-verdier-2/` },
+    { key: 'numbers', link: `${aboutNdlaUrl}tall-og-rapporter-2/` },
+    { key: 'cooperation', link: `${aboutNdlaUrl}vare-samarbeid/` },
+  ],
+};
+
+const careers: LinkType = {
+  key: 'careers',
+  link: `${aboutNdlaUrl}bli-med-pa-laget/`,
+  subTypes: [{ key: 'vacancies', link: `${aboutNdlaUrl}utlysninger/` }],
+};
+
+const contactUs: LinkType = {
+  key: 'contactUs',
+  link: `${aboutNdlaUrl}kontakt-oss-2/`,
+};
+
+export const ndlaLinks: LinkType = {
+  key: 'title',
+  link: aboutNdlaUrl,
+  subTypes: [whoAreWe, whatWeDo, careers, contactUs],
 };

@@ -11,7 +11,7 @@ describe('Toolbox page', () => {
     cy.fixCypressSpec('/e2e/integration/toolbox.spec.ts');
     cy.gqlIntercept({
       alias: 'alerts',
-      operations: ['alerts', 'subjects'],
+      operations: ['examLockStatus', 'alerts', 'frontpageData'],
     });
     cy.visit('/?disableSSR=true');
     cy.gqlWait('@alerts');
@@ -29,7 +29,7 @@ describe('Toolbox page', () => {
 
     cy.get('[data-testid="nav-box-item"] span').contains(/\w+/);
 
-    cy.get('[data-testid="nav-box-list"] li a').each(el => {
+    cy.get('[data-testid="nav-box-list"] li a').each((el) => {
       cy.wrap(el).should('have.attr', 'href');
       cy.wrap(el).contains(/\w+/);
     });
@@ -47,7 +47,7 @@ describe('Toolbox page', () => {
 
     cy.get('[data-testid="nav-box-item"] span').contains(/\w+/);
 
-    cy.get('[data-testid="nav-box-list"] li a').each(el => {
+    cy.get('[data-testid="nav-box-list"] li a').each((el) => {
       cy.wrap(el).should('have.attr', 'href');
       cy.wrap(el).contains(/\w+/);
     });

@@ -7,11 +7,12 @@
  */
 
 import { gql } from '@apollo/client';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { CustomWithTranslation, withTranslation } from 'react-i18next';
 import { FeideUserApiType, OneColumn } from '@ndla/ui';
 import { withTracker } from '@ndla/tracker';
+import { DynamicComponents } from '@ndla/article-converter';
 import { transformArticle } from '../../util/transformArticle';
 import { getArticleScripts } from '../../util/getArticleScripts';
 import Article from '../../components/Article';
@@ -25,12 +26,16 @@ import { GQLPlainArticleContainer_ArticleFragment } from '../../graphqlTypes';
 import config from '../../config';
 import { getArticleProps } from '../../util/getArticleProps';
 import { getAllDimensions } from '../../util/trackingUtil';
+import AddEmbedToFolder from '../../components/MyNdla/AddEmbedToFolder';
 
 interface Props extends CustomWithTranslation {
   article: GQLPlainArticleContainer_ArticleFragment;
   user?: FeideUserApiType;
   skipToContentId?: string;
 }
+
+const converterComponents: DynamicComponents | undefined =
+  config.favoriteEmbedEnabled ? { heartButton: AddEmbedToFolder } : undefined;
 
 const getDocumentTitle = ({ t, article }: Pick<Props, 't' | 'article'>) =>
   htmlTitle(article.title, [t('htmlTitles.titleTemplate')]);
@@ -51,9 +56,17 @@ const PlainArticleContainer = ({
     }
   });
 
-  const article = transformArticle(propArticle, i18n.language);
+  const [article, scripts] = useMemo(() => {
+    return [
+      transformArticle(propArticle, i18n.language, {
+        path: `${config.ndlaFrontendDomain}/article/${propArticle.id}`,
+        components: converterComponents,
+      }),
+      getArticleScripts(propArticle, i18n.language),
+    ];
+  }, [propArticle, i18n.language]);
+
   if (!article) return <NotFoundPage />;
-  const scripts = getArticleScripts(article, i18n.language);
   const oembedUrl = `${config.ndlaFrontendDomain}/oembed?url=${config.ndlaFrontendDomain}/article/${article.id}`;
 
   return (
@@ -61,7 +74,7 @@ const PlainArticleContainer = ({
       <Helmet>
         <title>{`${getDocumentTitle({ t, article })}`}</title>
         <meta name="robots" content="noindex" />
-        {scripts.map(script => (
+        {scripts.map((script) => (
           <script
             key={script.src}
             src={script.src}
@@ -93,6 +106,7 @@ const PlainArticleContainer = ({
       />
       <OneColumn>
         <Article
+          contentTransformed
           isPlainArticle
           id={skipToContentId}
           article={article}

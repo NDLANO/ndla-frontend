@@ -10,17 +10,25 @@ import { ReactNode, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import { AuthModal } from '@ndla/ui';
-import { appearances, ButtonV2 as Button } from '@ndla/button';
-import { colors, fonts, spacing } from '@ndla/core';
-import Modal, { ModalBody, ModalCloseButton, ModalHeader } from '@ndla/modal';
-import SafeLink from '@ndla/safelink';
+import { UserInfo } from '@ndla/ui';
+import { ButtonV2 as Button, ButtonV2 } from '@ndla/button';
+import { colors, spacing } from '@ndla/core';
+import { SafeLinkButton } from '@ndla/safelink';
+import { FeideText, LogOut } from '@ndla/icons/common';
+import {
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalTrigger,
+} from '@ndla/modal';
 import { AuthContext } from '../AuthenticationContext';
-import LoginComponent from '../MyNdla/LoginComponent';
 import IsMobileContext from '../../IsMobileContext';
 import { useIsNdlaFilm } from '../../routeHelpers';
 import { constructNewPath, toHref } from '../../util/urlHelper';
 import { useBaseName } from '../BaseNameContext';
+import LoginModalContent from '../MyNdla/LoginModalContent';
 
 const FeideFooterButton = styled(Button)`
   padding: ${spacing.xsmall} ${spacing.small};
@@ -29,47 +37,36 @@ const FeideFooterButton = styled(Button)`
   border: 2px solid ${colors.brand.grey};
 `;
 
-interface StyledLinkProps {
-  ndlaFilm?: boolean;
-}
-
-const shouldForwardProp = (p: string) => p !== 'ndlaFilm';
-
-const StyledLink = styled(SafeLink, { shouldForwardProp })<StyledLinkProps>`
-  ${appearances.ghostPill};
+const StyledLink = styled(SafeLinkButton)`
   display: flex;
-  align-items: center;
-  color: ${p => (p.ndlaFilm ? colors.white : colors.brand.primary)};
   gap: ${spacing.small};
-  box-shadow: none;
-  font-size: 16px;
   margin-right: ${spacing.normal};
-  font-weight: ${fonts.weight.semibold};
   svg {
     width: 20px;
     height: 20px;
   }
 `;
 
-const MyNdlaButton = styled(Button)`
-  font-weight: ${fonts.weight.semibold};
-  display: flex;
-  align-items: center;
-  gap: ${spacing.xxsmall};
+const StyledHeading = styled.h1`
+  margin: ${spacing.small} 0 0;
   svg {
-    height: 22px;
-    width: 22px;
-    margin-left: ${spacing.xxsmall};
+    width: 82px;
+    height: 28px;
+    color: #000000;
   }
+`;
+
+const StyledButton = styled(ButtonV2)`
+  display: flex;
+  margin-top: ${spacing.normal};
 `;
 
 interface Props {
   footer?: boolean;
   children?: ReactNode;
-  masthead?: boolean;
 }
 
-const FeideLoginButton = ({ footer, children, masthead }: Props) => {
+const FeideLoginButton = ({ footer, children }: Props) => {
   const location = useLocation();
   const { t } = useTranslation();
   const { authenticated, user } = useContext(AuthContext);
@@ -77,25 +74,17 @@ const FeideLoginButton = ({ footer, children, masthead }: Props) => {
   const ndlaFilm = useIsNdlaFilm();
   const isMobile = useContext(IsMobileContext);
   const destination = isMobile ? '/minndla/meny' : '/minndla';
-  const activateButton = footer ? (
-    <FeideFooterButton>{children}</FeideFooterButton>
-  ) : (
-    <MyNdlaButton
-      variant="ghost"
-      shape="pill"
-      colorTheme="lighter"
-      size="medium"
-      inverted={ndlaFilm}>
-      {children}
-    </MyNdlaButton>
-  );
 
   if (authenticated && !footer) {
     return (
       <StyledLink
-        ndlaFilm={ndlaFilm}
+        variant="ghost"
+        colorTheme="light"
+        shape="pill"
+        inverted={ndlaFilm}
         to={destination}
-        aria-label={t('myNdla.myNDLA')}>
+        aria-label={t('myNdla.myNDLA')}
+      >
         {children}
       </StyledLink>
     );
@@ -103,43 +92,50 @@ const FeideLoginButton = ({ footer, children, masthead }: Props) => {
 
   if (!authenticated) {
     return (
-      <>
-        <Modal
-          backgroundColor="white"
-          activateButton={activateButton}
-          label={t('user.modal.isNotAuth')}>
-          {onClose => (
-            <>
-              <ModalHeader>
-                <ModalCloseButton
-                  title={t('modal.closeModal')}
-                  onClick={onClose}
-                />
-              </ModalHeader>
-              <ModalBody>
-                <LoginComponent onClose={onClose} masthead={masthead} />
-              </ModalBody>
-            </>
-          )}
-        </Modal>
-      </>
+      <Modal>
+        <ModalTrigger>
+          <Button
+            variant={footer ? 'outline' : 'ghost'}
+            colorTheme={footer ? 'greyLighter' : 'lighter'}
+            inverted={!footer && ndlaFilm}
+            shape={footer ? 'normal' : 'pill'}
+          >
+            {children}
+          </Button>
+        </ModalTrigger>
+        <LoginModalContent masthead />
+      </Modal>
     );
   }
 
   return (
-    <AuthModal
-      activateButton={activateButton}
-      isAuthenticated={authenticated}
-      showGeneralMessage={false}
-      user={user}
-      onAuthenticateClick={() => {
-        const route = authenticated ? 'logout' : 'login';
-        window.location.href = constructNewPath(
-          `/${route}?state=${toHref(location)}`,
-          basename,
-        );
-      }}
-    />
+    <Modal aria-label={t('user.modal.isAuth')}>
+      <ModalTrigger>
+        <FeideFooterButton>{children}</FeideFooterButton>
+      </ModalTrigger>
+      <ModalContent position="top">
+        <ModalHeader>
+          <StyledHeading aria-label="Feide">
+            <FeideText aria-hidden />
+          </StyledHeading>
+          <ModalCloseButton />
+        </ModalHeader>
+        <ModalBody>
+          {user && <UserInfo user={user} />}
+          <StyledButton
+            onClick={() => {
+              window.location.href = constructNewPath(
+                `/logout?state=${toHref(location)}`,
+                basename,
+              );
+            }}
+          >
+            {t('user.buttonLogOut')}
+            <LogOut />
+          </StyledButton>
+        </ModalBody>
+      </ModalContent>
+    </Modal>
   );
 };
 

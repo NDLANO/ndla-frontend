@@ -25,6 +25,7 @@ import {
 import { AuthContext } from '../../components/AuthenticationContext';
 import { TypedParams, useTypedParams } from '../../routeHelpers';
 import { SKIP_TO_CONTENT_ID } from '../../constants';
+import RedirectContext from '../../components/RedirectContext';
 
 interface MatchParams extends TypedParams {
   articleId: string;
@@ -36,12 +37,14 @@ const plainArticlePageQuery = gql`
     $isOembed: String
     $path: String
     $showVisualElement: String
+    $convertEmbeds: Boolean
   ) {
     article(
       id: $articleId
       isOembed: $isOembed
       path: $path
       showVisualElement: $showVisualElement
+      convertEmbeds: $convertEmbeds
     ) {
       ...PlainArticleContainer_Article
     }
@@ -53,6 +56,7 @@ const PlainArticlePage = () => {
   const { user } = useContext(AuthContext);
   const { articleId } = useTypedParams<MatchParams>();
   const { pathname } = useLocation();
+  const redirectContext = useContext(RedirectContext);
   const { loading, data, error } = useGraphQuery<
     GQLPlainArticlePageQuery,
     GQLPlainArticlePageQueryVariables
@@ -62,11 +66,18 @@ const PlainArticlePage = () => {
       isOembed: 'false',
       path: pathname,
       showVisualElement: 'true',
+      convertEmbeds: true,
     },
   });
 
   if (loading) {
     return <ContentPlaceholder />;
+  }
+  if (
+    error?.graphQLErrors.some((err) => err.extensions.status === 410) &&
+    redirectContext
+  ) {
+    redirectContext.status = 410;
   }
 
   if (error) {

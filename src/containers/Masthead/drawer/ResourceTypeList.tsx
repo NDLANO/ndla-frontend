@@ -27,7 +27,7 @@ interface HeaderProps {
 const shouldForwardProp = (p: string) => p !== 'backgroundColor';
 
 const ResourceTypeHeader = styled('li', { shouldForwardProp })<HeaderProps>`
-  background-color: ${p => p.backgroundColor};
+  background-color: ${(p) => p.backgroundColor};
   display: flex;
   align-items: center;
   padding: ${spacing.xxsmall} 0 ${spacing.xxsmall} ${spacing.normal};
@@ -53,10 +53,12 @@ const ResourceTypeList = ({ name, id, children }: Props) => {
       <StyledResourceTypeList
         id={id}
         role="group"
-        aria-labelledby={`header-${id}`}>
+        aria-labelledby={`header-${id}`}
+      >
         <ResourceTypeHeader
           id={`header-${id}`}
-          backgroundColor={resourceTypeColor(contentType!)}>
+          backgroundColor={resourceTypeColor(contentType!)}
+        >
           <ContentTypeBadge type={contentType!} border={false} />
           {name}
         </ResourceTypeHeader>

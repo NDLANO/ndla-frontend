@@ -7,7 +7,7 @@
  */
 
 import { constants, HeroContentType } from '@ndla/ui';
-import { GQLResource, GQLResourceType, GQLTopic } from '../graphqlTypes';
+import { GQLResource, GQLTopic } from '../graphqlTypes';
 
 import {
   RESOURCE_TYPE_ASSESSMENT_RESOURCES,
@@ -46,19 +46,37 @@ export const resourceTypeMapping: Record<string, string> = {
 
   [contentTypes.ASSESSMENT_RESOURCES]: RESOURCE_TYPE_ASSESSMENT_RESOURCES,
 
-  [contentTypes.EXTERNAL_LEARNING_RESOURCES]: RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES,
+  [contentTypes.EXTERNAL_LEARNING_RESOURCES]:
+    RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES,
 
   [contentTypes.SOURCE_MATERIAL]: RESOURCE_TYPE_SOURCE_MATERIAL,
 
   default: RESOURCE_TYPE_SUBJECT_MATERIAL,
 };
 
-function getContentTypeFromResourceTypes(
-  resourceTypes: GQLResourceType[] = [],
+export const resourceEmbedTypeMapping: Record<string, string> = {
+  image: 'image',
+  video: 'video',
+  concept: 'concept',
+  audio: 'audio',
+};
+
+interface ResourceType {
+  id: string;
+  name: string;
+}
+
+export function getContentTypeFromResourceTypes(
+  resourceTypes: ResourceType[] = [],
 ) {
-  const resourceType = resourceTypes.find(type => contentTypeMapping[type.id]);
+  const resourceType = resourceTypes.find(
+    (type) => contentTypeMapping[type.id],
+  );
   if (resourceType) {
-    return { contentType: contentTypeMapping[resourceType.id] };
+    return {
+      contentType: contentTypeMapping[resourceType.id],
+      label: resourceType.name,
+    };
   }
   return { contentType: contentTypeMapping.default };
 }

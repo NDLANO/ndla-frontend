@@ -20,12 +20,12 @@ export const generateOauthData = (url: string, body: any) => {
   const sortedBody: Record<string, any> = {};
   Object.keys(data)
     .sort()
-    .forEach(function(key) {
+    .forEach(function (key) {
       sortedBody[key] = data[key] || '';
     });
 
   const params = Object.keys(sortedBody)
-    .map(key => `${key}=${encodeURIComponent(sortedBody[key])}`)
+    .map((key) => `${key}=${encodeURIComponent(sortedBody[key])}`)
     .join('&');
 
   const signatureBaseString = `POST&${encodeURIComponent(

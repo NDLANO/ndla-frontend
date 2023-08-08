@@ -18,6 +18,7 @@ import { ViewType } from './FoldersPage';
 
 const StyledDisplayOptionsContainer = styled.div`
   display: flex;
+  align-items: center;
   margin-left: auto;
 `;
 
@@ -38,7 +39,7 @@ const StyledIconButton = styled(IconButtonV2)<StyledIconButtonProps>`
     margin: 0;
     width: 24px;
     height: 24px;
-    fill: ${p => (p.selected ? colors.brand.primary : colors.brand.tertiary)};
+    fill: ${(p) => (p.selected ? colors.brand.primary : colors.brand.tertiary)};
   }
   :focus {
     background-color: transparent;
@@ -68,7 +69,8 @@ const ListViewOptions = ({ onTypeChange, type }: Props) => {
           colorTheme="light"
           onClick={() => onTypeChange('list')}
           size="small"
-          aria-label={t('myNdla.listView')}>
+          aria-label={t('myNdla.listView')}
+        >
           <FourlineHamburger />
         </StyledIconButton>
       </Tooltip>
@@ -79,7 +81,8 @@ const ListViewOptions = ({ onTypeChange, type }: Props) => {
           colorTheme="light"
           onClick={() => onTypeChange('listLarger')}
           size="small"
-          aria-label={t('myNdla.detailView')}>
+          aria-label={t('myNdla.detailView')}
+        >
           <List />
         </StyledIconButton>
       </Tooltip>
@@ -90,7 +93,8 @@ const ListViewOptions = ({ onTypeChange, type }: Props) => {
           colorTheme="light"
           onClick={() => onTypeChange('block')}
           size="small"
-          aria-label={t('myNdla.shortView')}>
+          aria-label={t('myNdla.shortView')}
+        >
           <GridListView />
         </StyledIconButton>
       </Tooltip>

@@ -32,6 +32,7 @@ import {
 import { renderHtml, renderPageWithData } from '../helpers/render';
 import { EmotionCacheKey, STORED_LANGUAGE_COOKIE_KEY } from '../../constants';
 import { VersionHashProvider } from '../../components/VersionHashContext';
+import { TaxonomyStructureProvider } from '../../components/TaxonomyStructureContext';
 import IsMobileContext from '../../IsMobileContext';
 import { TEMPORARY_REDIRECT } from '../../statusCodes';
 import { Assets } from '../helpers/Document';
@@ -49,10 +50,18 @@ const getAssets = (): Assets => ({
 
 const disableSSR = (req: Request) => {
   const urlParts = url.parse(req.url, true);
-  if (config.disableSSR) {
-    return true;
+  if (urlParts.query && urlParts.query.disableSSR) {
+    return urlParts.query.disableSSR === 'true';
   }
-  return urlParts.query && urlParts.query.disableSSR === 'true';
+  return config.disableSSR;
+};
+
+const enableTaxStructure = (req: Request) => {
+  const urlParts = url.parse(req.url, true);
+  if (urlParts.query && urlParts.query.taxStructure) {
+    return urlParts.query.taxStructure === 'true';
+  }
+  return config.taxonomyProgrammesEnabled;
 };
 
 async function doRender(req: Request) {
@@ -69,6 +78,8 @@ async function doRender(req: Request) {
       : undefined;
   const { basename, abbreviation } = getLocaleInfoFromPath(req.path);
   const locale = getCookieLocaleOrFallback(resCookie, abbreviation);
+  const noSSR = disableSSR(req);
+  const taxStructureValue = enableTaxStructure(req);
 
   const client = createApolloClient(locale, versionHash);
 
@@ -79,23 +90,25 @@ async function doRender(req: Request) {
 
   // @ts-ignore
   const helmetContext: FilledContext = {};
-  const Page = !disableSSR(req) ? (
+  const Page = !noSSR ? (
     <RedirectContext.Provider value={context}>
-      <HelmetProvider context={helmetContext}>
-        <I18nextProvider i18n={i18n}>
-          <ApolloProvider client={client}>
-            <CacheProvider value={cache}>
-              <VersionHashProvider value={versionHash}>
-                <IsMobileContext.Provider value={isMobile}>
-                  <StaticRouter basename={basename} location={req.url}>
-                    <App isClient={false} locale={locale} key={locale} />
-                  </StaticRouter>
-                </IsMobileContext.Provider>
-              </VersionHashProvider>
-            </CacheProvider>
-          </ApolloProvider>
-        </I18nextProvider>
-      </HelmetProvider>
+      <TaxonomyStructureProvider value={taxStructureValue}>
+        <HelmetProvider context={helmetContext}>
+          <I18nextProvider i18n={i18n}>
+            <ApolloProvider client={client}>
+              <CacheProvider value={cache}>
+                <VersionHashProvider value={versionHash}>
+                  <IsMobileContext.Provider value={isMobile}>
+                    <StaticRouter basename={basename} location={req.url}>
+                      <App isClient={false} locale={locale} key={locale} />
+                    </StaticRouter>
+                  </IsMobileContext.Provider>
+                </VersionHashProvider>
+              </CacheProvider>
+            </ApolloProvider>
+          </I18nextProvider>
+        </HelmetProvider>
+      </TaxonomyStructureProvider>
     </RedirectContext.Provider>
   ) : (
     <HelmetProvider context={helmetContext}>{''}</HelmetProvider>
@@ -105,6 +118,7 @@ async function doRender(req: Request) {
   const docProps = await renderPageWithData({
     Page,
     assets: getAssets(),
+    disableSSR: noSSR,
     data: {
       apolloState,
       serverPath: req.path,

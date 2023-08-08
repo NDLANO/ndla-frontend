@@ -15,27 +15,32 @@ import {
   ArticleHeaderWrapper,
   ArticleIntroduction,
   ArticleByline,
-  ArticleContent,
   ArticleFootNotes,
 } from '@ndla/ui';
+import { DynamicComponents } from '@ndla/article-converter';
 
 import { useTranslation } from 'react-i18next';
 import LicenseBox from '../license/LicenseBox';
 import { transformArticle } from '../../util/transformArticle';
 import { GQLArticleContents_TopicFragment } from '../../graphqlTypes';
+import config from '../../config';
+import { getArticleScripts } from '../../util/getArticleScripts';
+import AddEmbedToFolder from '../MyNdla/AddEmbedToFolder';
 
 interface Props {
   topic: GQLArticleContents_TopicFragment;
-  copyPageUrlLink: string;
   modifier: 'clean' | 'in-topic';
   showIngress: boolean;
+  subjectId?: string;
 }
+const converterComponents: DynamicComponents | undefined =
+  config.favoriteEmbedEnabled ? { heartButton: AddEmbedToFolder } : undefined;
 
 const ArticleContents = ({
   topic,
-  copyPageUrlLink,
   modifier = 'clean',
   showIngress = true,
+  subjectId,
 }: Props) => {
   const { i18n } = useTranslation();
   const markdown = useMemo(() => {
@@ -49,12 +54,31 @@ const ArticleContents = ({
     return markdown.render(text);
   };
 
-  if (!topic.article) return null;
+  const [article, scripts] = useMemo(() => {
+    if (!topic.article) return [undefined, undefined];
+    return [
+      transformArticle(topic.article, i18n.language, {
+        path: `${config.ndlaFrontendDomain}/article/${topic.article?.id}`,
+        subject: subjectId,
+        components: converterComponents,
+      }),
+      getArticleScripts(topic.article, i18n.language),
+    ];
+  }, [i18n.language, subjectId, topic.article]);
 
-  const article = transformArticle(topic.article, i18n.language);
+  if (!topic.article || !article) return null;
 
   return (
     <ArticleWrapper modifier={modifier} id={topic.article.id.toString()}>
+      {scripts?.map((script) => (
+        <script
+          key={script.src}
+          src={script.src}
+          type={script.type}
+          async={script.async}
+          defer={script.defer}
+        />
+      ))}
       {showIngress && (
         <LayoutItem layout="extend">
           <ArticleHeaderWrapper>
@@ -64,18 +88,15 @@ const ArticleContents = ({
           </ArticleHeaderWrapper>
         </LayoutItem>
       )}
+      <LayoutItem layout="extend">{article.content}</LayoutItem>
       <LayoutItem layout="extend">
-        <ArticleContent content={article.content} locale={i18n.language} />
-      </LayoutItem>
-      <LayoutItem layout="extend">
-        {article.metaData?.footnotes?.length && (
+        {article.metaData?.footnotes?.length ? (
           <ArticleFootNotes footNotes={article.metaData?.footnotes} />
-        )}
+        ) : undefined}
       </LayoutItem>
       <LayoutItem layout="extend">
         <ArticleByline
           licenseBox={<LicenseBox article={article} />}
-          copyPageUrlLink={copyPageUrlLink}
           {...{
             authors: article.copyright?.creators,
             published: article.published,
@@ -90,7 +111,7 @@ const ArticleContents = ({
 ArticleContents.fragments = {
   topic: gql`
     fragment ArticleContents_Topic on Topic {
-      article {
+      article(convertEmbeds: $convertEmbeds) {
         id
         content
         created

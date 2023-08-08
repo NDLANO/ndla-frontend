@@ -6,6 +6,7 @@
  *
  */
 
+import { useMemo } from 'react';
 import { gql } from '@apollo/client';
 import { Helmet } from 'react-helmet-async';
 import { OneColumn, CreatedBy } from '@ndla/ui';
@@ -17,7 +18,6 @@ import { getArticleScripts } from '../util/getArticleScripts';
 import { getArticleProps } from '../util/getArticleProps';
 import { getAllDimensions } from '../util/trackingUtil';
 import PostResizeMessage from './PostResizeMessage';
-import FixDialogPosition from './FixDialogPosition';
 import SocialMediaMetadata from '../components/SocialMediaMetadata';
 import config from '../config';
 import {
@@ -35,13 +35,20 @@ interface Props extends CustomWithTranslation {
 const IframeArticlePage = ({
   resource,
   t,
-  article: propsArticle,
+  article: propArticle,
   i18n,
   locale: propsLocale,
 }: Props) => {
   const locale = propsLocale ?? i18n.language;
-  const article = transformArticle(propsArticle, locale);
-  const scripts = getArticleScripts(article, locale);
+  const [article, scripts] = useMemo(() => {
+    return [
+      transformArticle(propArticle, locale, {
+        path: `${config.ndlaFrontendDomain}/article/${propArticle.id}`,
+        isOembed: true,
+      }),
+      getArticleScripts(propArticle, locale),
+    ];
+  }, [propArticle, locale])!;
   const contentUrl = resource?.path
     ? `${config.ndlaFrontendDomain}${resource.path}`
     : undefined;
@@ -50,7 +57,7 @@ const IframeArticlePage = ({
       <Helmet>
         <title>{`NDLA | ${article.title}`}</title>
         <meta name="robots" content="noindex" />
-        {scripts.map(script => (
+        {scripts.map((script) => (
           <script
             key={script.src}
             src={script.src}
@@ -67,14 +74,15 @@ const IframeArticlePage = ({
         trackableContent={article}
       />
       <PostResizeMessage />
-      <FixDialogPosition />
       <main>
         <Article
+          contentTransformed
           article={article}
           isPlainArticle
           isOembed
           modifier="clean iframe"
-          {...getArticleProps(resource)}>
+          {...getArticleProps(resource)}
+        >
           <CreatedBy
             name={t('createdBy.content')}
             description={t('createdBy.text')}

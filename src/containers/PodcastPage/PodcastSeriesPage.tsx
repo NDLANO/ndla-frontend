@@ -6,15 +6,21 @@
  *
  */
 
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { ArticleTitle, getMastheadHeight, OneColumn } from '@ndla/ui';
 import { Navigate, useLocation } from 'react-router-dom';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { useTranslation } from 'react-i18next';
 import { gql, useQuery } from '@apollo/client';
 import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
-import Podcast from './Podcast';
+import { colors, fonts, spacing } from '@ndla/core';
+import { transform } from '@ndla/article-converter';
+import {
+  AccordionContent,
+  AccordionHeader,
+  AccordionItem,
+  AccordionRoot,
+} from '@ndla/accordion';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import {
@@ -30,6 +36,9 @@ import {
   GQLPodcastSeriesPageQuery,
 } from '../../graphqlTypes';
 import { TypedParams, useTypedParams } from '../../routeHelpers';
+import ResourceEmbedLicenseBox from '../ResourceEmbed/components/ResourceEmbedLicenseBox';
+import { hasLicensedContent } from '../ResourceEmbed/components/ResourceEmbed';
+import { copyrightInfoFragment } from '../../queries';
 
 interface RouteParams extends TypedParams {
   id: string;
@@ -39,6 +48,13 @@ const TitleWrapper = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: ${spacing.normal};
+`;
+
+const StyledAccordionHeader = styled(AccordionHeader)`
+  background-color: ${colors.brand.lightest};
+  border: 1px solid ${colors.brand.tertiary};
+  font-size: ${fonts.sizes('16px', '29px')};
+  font-weight: ${fonts.weight.semibold};
 `;
 
 const SeriesDescription = styled.div`
@@ -65,11 +81,18 @@ const NoResults = styled.div`
 
 const PodcastSeriesPage = () => {
   const { id } = useTypedParams<RouteParams>();
-  const { error, loading, data: { podcastSeries } = {} } = useQuery<
-    GQLPodcastSeriesPageQuery
-  >(podcastSeriesPageQuery, {
+  const {
+    error,
+    loading,
+    data: { podcastSeries } = {},
+  } = useQuery<GQLPodcastSeriesPageQuery>(podcastSeriesPageQuery, {
     variables: { id: Number(id) },
   });
+
+  const embeds = useMemo(() => {
+    if (!podcastSeries?.content?.content) return;
+    return transform(podcastSeries.content.content, {});
+  }, [podcastSeries?.content?.content]);
 
   const location = useLocation();
 
@@ -117,7 +140,7 @@ const PodcastSeriesPage = () => {
   const rssUrl = `${url}/feed.xml`;
 
   const mapType = (type: string, arr?: GQLContributorInfoFragment[]) =>
-    arr?.map(item => ({
+    arr?.map((item) => ({
       '@type': type,
       name: item.name,
     }));
@@ -139,12 +162,12 @@ const PodcastSeriesPage = () => {
       url: url,
       name: podcastSeries.title.title,
       abstract: podcastSeries.description.description,
-      webFeed: rssUrl,
+      webFeed: podcastSeries.hasRSS && rssUrl,
       image: podcastSeries.coverPhoto.url,
       acquireLicensePage: AcquireLicensePage,
       ...publisher,
     };
-    const episodes = podcastSeries.episodes?.map(episode => {
+    const episodes = podcastSeries.episodes?.map((episode) => {
       return {
         '@context': 'https://schema.org',
         '@type': 'PodcastEpisode',
@@ -178,18 +201,21 @@ const PodcastSeriesPage = () => {
             content={podcastSeries.description.description}
           />
         )}
-        <link
-          type="application/rss+xml"
-          rel="alternate"
-          title={podcastSeries.title.title}
-          href={rssUrl}
-        />
+        {podcastSeries.hasRSS && (
+          <link
+            type="application/rss+xml"
+            rel="alternate"
+            title={podcastSeries.title.title}
+            href={rssUrl}
+          />
+        )}
         <script type="application/ld+json">{podcastSeriesJSONLd()}</script>
       </HelmetWithTracker>
       <SocialMediaMetadata
+        type="website"
         title={podcastSeries.title.title ?? ''}
         trackableContent={{
-          tags: podcastSeries?.episodes?.flatMap(ep => ep.tags?.tags || []),
+          tags: podcastSeries?.episodes?.flatMap((ep) => ep.tags?.tags || []),
           supportedLanguages: podcastSeries.supportedLanguages,
         }}
         description={podcastSeries.description.description}
@@ -206,12 +232,25 @@ const PodcastSeriesPage = () => {
           {podcastSeries.description.description}
         </SeriesDescription>
         <EpisodesWrapper>
-          {podcastSeries.episodes?.length ? (
+          {podcastSeries.content ? (
             <>
               <h2>{t('podcastPage.episodes')}</h2>
-              {podcastSeries.episodes.map(episode => (
-                <Podcast key={episode.id} podcast={episode} seriesId={id} />
-              ))}
+              {embeds}
+              <AccordionRoot type="single" collapsible>
+                {podcastSeries.content.meta &&
+                  hasLicensedContent(podcastSeries.content.meta) && (
+                    <AccordionItem value="rulesForUse">
+                      <StyledAccordionHeader>
+                        {t('article.useContent')}
+                      </StyledAccordionHeader>
+                      <AccordionContent>
+                        <ResourceEmbedLicenseBox
+                          metaData={podcastSeries.content.meta}
+                        />
+                      </AccordionContent>
+                    </AccordionItem>
+                  )}
+              </AccordionRoot>
             </>
           ) : (
             <NoResults>{t('podcastPage.noResults')}</NoResults>
@@ -222,7 +261,6 @@ const PodcastSeriesPage = () => {
   );
 };
 const podcastSeriesPageQuery = gql`
-  ${Podcast.fragments.podcast}
   query podcastSeriesPage($id: Int!) {
     podcastSeries(id: $id) {
       id
@@ -236,13 +274,35 @@ const podcastSeriesPageQuery = gql`
       coverPhoto {
         url
       }
+      content {
+        content
+        meta {
+      ...ResourceEmbedLicenseBox_Meta
+        }
+      }
       episodes {
-        ...Podcast_Audio
+        id
+        title {
+        title
+      }
+          audioFile {
+        url
+      }
+          podcastMeta {
+        introduction
+      }
+          copyright {
+
+        ...CopyrightInfo
+      }
         tags {
           tags
         }
       }
+      hasRSS
     }
+    ${ResourceEmbedLicenseBox.fragments.metaData}
+    ${copyrightInfoFragment}
   }
 `;
 

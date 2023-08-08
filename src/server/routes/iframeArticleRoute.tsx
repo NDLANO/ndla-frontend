@@ -24,7 +24,9 @@ import { renderPageWithData, renderHtml } from '../helpers/render';
 import { EmotionCacheKey } from '../../constants';
 import { InitialProps } from '../../interfaces';
 import { createApolloClient } from '../../util/apiHelpers';
-import RedirectContext from '../../components/RedirectContext';
+import RedirectContext, {
+  RedirectInfo,
+} from '../../components/RedirectContext';
 
 const assets =
   process.env.NODE_ENV !== 'unittest' && process.env.RAZZLE_ASSETS_MANIFEST
@@ -49,20 +51,21 @@ const getAssets = () => ({
 
 const disableSSR = (req: Request) => {
   const urlParts = url.parse(req.url, true);
-  if (config.disableSSR) {
-    return true;
+  if (urlParts.query && urlParts.query.disableSSR) {
+    return urlParts.query.disableSSR === 'true';
   }
-  return urlParts.query && urlParts.query.disableSSR === 'true';
+  return config.disableSSR;
 };
 
 async function doRenderPage(req: Request, initialProps: InitialProps) {
-  const context = {};
+  const context: RedirectInfo = {};
 
   const client = createApolloClient(initialProps.locale);
 
   //@ts-ignore
   const helmetContext: FilledContext = {};
   const cache = createCache({ key: EmotionCacheKey });
+  const noSSR = disableSSR(req);
 
   const i18n = initializeI18n(
     i18nInstance,
@@ -70,7 +73,7 @@ async function doRenderPage(req: Request, initialProps: InitialProps) {
   );
   const Page = (
     <HelmetProvider context={helmetContext}>
-      {disableSSR(req) ? (
+      {noSSR ? (
         ''
       ) : (
         <I18nextProvider i18n={i18n}>
@@ -91,10 +94,11 @@ async function doRenderPage(req: Request, initialProps: InitialProps) {
   const { html, ...docProps } = await renderPageWithData({
     Page,
     assets,
+    disableSSR: noSSR,
     data: { initialProps },
     client,
   });
-  return { html, docProps, helmetContext };
+  return { html, docProps, helmetContext, redirectContext: context };
 }
 
 export async function iframeArticleRoute(req: Request) {
@@ -103,17 +107,23 @@ export async function iframeArticleRoute(req: Request) {
   const locale = isValidLocale(htmlLang) ? htmlLang : undefined;
   const { articleId, taxonomyId } = req.params;
   try {
-    const { html, docProps, helmetContext } = await doRenderPage(req, {
-      articleId,
-      taxonomyId,
-      isOembed: 'true',
-      isTopicArticle: taxonomyId?.startsWith('urn:topic') || false,
-      basename: lang,
-      locale,
-      status: 'success',
-    });
+    const { html, docProps, helmetContext, redirectContext } =
+      await doRenderPage(req, {
+        articleId,
+        taxonomyId,
+        isOembed: 'true',
+        isTopicArticle: taxonomyId?.startsWith('urn:topic') || false,
+        basename: lang,
+        locale,
+        status: 'success',
+      });
 
-    return renderHtml(html, { status: OK }, docProps, helmetContext);
+    return renderHtml(
+      html,
+      { status: redirectContext.status ?? OK },
+      docProps,
+      helmetContext,
+    );
   } catch (error) {
     if (process.env.NODE_ENV !== 'unittest') {
       // skip log in unittests

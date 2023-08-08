@@ -1,30 +1,35 @@
 import { gql } from '@apollo/client';
-import { useContext } from 'react';
+import { Dispatch, SetStateAction, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Spinner } from '@ndla/icons';
+import { SimpleBreadcrumbItem } from '@ndla/ui';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import Topic, { topicFragments } from './Topic';
 import { useGraphQuery } from '../../../util/runQueries';
 import handleError, { isAccessDeniedError } from '../../../util/handleError';
-import { BreadcrumbItem } from '../../../interfaces';
 import {
   GQLTopicWrapperQuery,
   GQLTopicWrapperQueryVariables,
   GQLTopicWrapper_SubjectFragment,
 } from '../../../graphqlTypes';
+import { removeUrn } from '../../../routeHelpers';
 
 type Props = {
   topicId: string;
   subjectId: string;
   subTopicId?: string;
-  setBreadCrumb: (item: BreadcrumbItem) => void;
+  setBreadCrumb: Dispatch<SetStateAction<SimpleBreadcrumbItem[]>>;
   index: number;
   showResources: boolean;
   subject: GQLTopicWrapper_SubjectFragment;
 };
 
 const topicWrapperQuery = gql`
-  query topicWrapper($topicId: String!, $subjectId: String) {
+  query topicWrapper(
+    $topicId: String!
+    $subjectId: String
+    $convertEmbeds: Boolean
+  ) {
     topic(id: $topicId, subjectId: $subjectId) {
       id
       ...Topic_Topic
@@ -52,15 +57,20 @@ const TopicWrapper = ({
     GQLTopicWrapperQuery,
     GQLTopicWrapperQueryVariables
   >(topicWrapperQuery, {
-    variables: { topicId, subjectId },
-    onCompleted: data => {
-      if (data.topic) {
-        setBreadCrumb({
-          id: data.topic.id,
-          label: data.topic.name,
-          index: index,
-          url: '',
-        });
+    variables: {
+      topicId,
+      subjectId,
+      convertEmbeds: true,
+    },
+    onCompleted: (data) => {
+      const topic = data.topic;
+      if (topic) {
+        setBreadCrumb((crumbs) =>
+          crumbs.slice(0, index).concat({
+            to: `/${removeUrn(topic.id)}`,
+            name: topic.name,
+          }),
+        );
       }
     },
   });

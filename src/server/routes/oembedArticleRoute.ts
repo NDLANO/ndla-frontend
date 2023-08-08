@@ -8,6 +8,7 @@
 
 import express from 'express';
 import { PathMatch } from 'react-router-dom';
+import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import { BAD_REQUEST, INTERNAL_SERVER_ERROR } from '../../statusCodes';
 import { getArticleIdFromResource } from '../../containers/Resources/resourceHelpers';
 import {
@@ -18,6 +19,12 @@ import config from '../../config';
 import handleError from '../../util/handleError';
 import { fetchArticle } from '../../containers/ArticlePage/articleApi';
 import { parseOembedUrl } from '../../util/urlHelper';
+import { createApolloClient } from '../../util/apiHelpers';
+import { embedOembedQuery } from '../../queries';
+import {
+  GQLEmbedOembedQuery,
+  GQLEmbedOembedQueryVariables,
+} from '../../graphqlTypes';
 
 function getOembedObject(req: express.Request, title?: string, html?: string) {
   return {
@@ -33,6 +40,19 @@ function getOembedObject(req: express.Request, title?: string, html?: string) {
 }
 
 type MatchParams = 'resourceId' | 'topicId' | 'lang' | 'articleId';
+
+let apolloClient: ApolloClient<NormalizedCacheObject>;
+let storedLocale: string;
+
+const getApolloClient = (locale: string) => {
+  if (apolloClient && locale === storedLocale) {
+    return apolloClient;
+  } else {
+    apolloClient = createApolloClient(locale);
+    storedLocale = locale;
+    return apolloClient;
+  }
+};
 
 const getHTMLandTitle = async (
   match: PathMatch<MatchParams>,
@@ -51,9 +71,11 @@ const getHTMLandTitle = async (
       title: topic.name,
       html: `<iframe aria-label="${topic.name}" src="${
         config.ndlaFrontendDomain
-      }/article-iframe/${lang}/${topic.id}/${articleId}" height="${req.query
-        .height || 480}" width="${req.query.width ||
-        854}" frameborder="0" allowFullscreen="" />`,
+      }/article-iframe/${lang}/${topic.id}/${articleId}" height="${
+        req.query.height || 480
+      }" width="${
+        req.query.width || 854
+      }" frameborder="0" allowFullscreen="" />`,
     };
   }
 
@@ -63,10 +85,56 @@ const getHTMLandTitle = async (
     title: resource.name,
     html: `<iframe aria-label="${resource.name}" src="${
       config.ndlaFrontendDomain
-    }/article-iframe/${lang}/${resource.id}/${articleId}" height="${req.query
-      .height || 480}" width="${req.query.width ||
-      854}" frameborder="0" allowFullscreen="" />`,
+    }/article-iframe/${lang}/${resource.id}/${articleId}" height="${
+      req.query.height || 480
+    }" width="${req.query.width || 854}" frameborder="0" allowFullscreen="" />`,
   };
+};
+
+export const getEmbedTitle = (type: string, data: GQLEmbedOembedQuery) => {
+  if (type === 'concept') {
+    return data.resourceEmbed.meta.concepts?.[0]?.title ?? '';
+  } else if (type === 'audio') {
+    return (
+      data.resourceEmbed.meta.podcasts?.[0]?.title ??
+      data.resourceEmbed.meta.audios?.[0]?.title ??
+      ''
+    );
+  } else if (type === 'video') {
+    return data.resourceEmbed.meta.brightcoves?.[0]?.title ?? '';
+  } else {
+    return data.resourceEmbed.meta.images?.[0]?.title ?? '';
+  }
+};
+
+export const getEmbedObject = async (
+  lang: string,
+  embedId: string,
+  embedType: string,
+  req: express.Request,
+) => {
+  const client = getApolloClient(lang);
+
+  const embed = await client.query<
+    GQLEmbedOembedQuery,
+    GQLEmbedOembedQueryVariables
+  >({
+    query: embedOembedQuery,
+    variables: {
+      id: embedId,
+      type: embedType,
+    },
+  });
+  const title = getEmbedTitle(embedType, embed.data);
+  return getOembedObject(
+    req,
+    title,
+    `<iframe aria-label="${title}" src="${
+      config.ndlaFrontendDomain
+    }/embed-iframe/${lang}/${embedType}/${embedId}" height="${
+      req.query.height || 480
+    }" width="${req.query.width || 854}" frameborder="0" allowFullscreen="" />`,
+  );
 };
 
 export async function oembedArticleRoute(req: express.Request) {
@@ -87,22 +155,40 @@ export async function oembedArticleRoute(req: express.Request) {
   }
 
   const {
-    params: { resourceId, topicId, lang = config.defaultLocale },
+    params: {
+      resourceId,
+      audioId,
+      conceptId,
+      videoId,
+      imageId,
+      topicId,
+      lang = config.defaultLocale,
+    },
   } = match;
   try {
-    if (!resourceId && !topicId) {
+    if (conceptId) {
+      return await getEmbedObject(lang, conceptId, 'concept', req);
+    } else if (audioId) {
+      return await getEmbedObject(lang, audioId, 'audio', req);
+    } else if (videoId) {
+      return await getEmbedObject(lang, videoId, 'video', req);
+    } else if (imageId) {
+      return await getEmbedObject(lang, imageId, 'image', req);
+    } else if (!resourceId && !topicId) {
       const {
         params: { articleId },
       } = match;
       const article = await fetchArticle(articleId, lang);
       return getOembedObject(
         req,
-        article.title,
-        `<iframe aria-label="${article.title}" src="${
+        article.title.title,
+        `<iframe aria-label="${article.title.title}" src="${
           config.ndlaFrontendDomain
-        }/article-iframe/${lang}/article/${articleId}" height="${req.query
-          .height || 480}" width="${req.query.width ||
-          854}" frameborder="0" allowFullscreen="" />`,
+        }/article-iframe/${lang}/article/${articleId}" height="${
+          req.query.height || 480
+        }" width="${
+          req.query.width || 854
+        }" frameborder="0" allowFullscreen="" />`,
       );
     }
     const { html, title } = await getHTMLandTitle(match, req);
@@ -115,7 +201,7 @@ export async function oembedArticleRoute(req: express.Request) {
 
     return {
       status,
-      data: 'Internal server error',
+      data: typedError.status === 404 ? 'Not found' : 'Internal server error',
     };
   }
 }

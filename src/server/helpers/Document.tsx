@@ -8,10 +8,12 @@
 
 import { HelmetServerState } from 'react-helmet-async';
 import serialize from 'serialize-javascript';
+// eslint-disable-next-line no-restricted-imports
 import ScriptLoader from '@ndla/polyfill/lib/ScriptLoader';
 import { GoogleTagMangerScript, GoogleTagMangerNoScript } from './Gtm';
 import { Matomo } from './Matomo';
-import config, { ConfigType } from '../../config';
+import Tagmanager from './Tagmanager';
+import { ConfigType } from '../../config';
 
 export interface Assets {
   css?: string;
@@ -42,15 +44,13 @@ const Document = ({ helmet, assets, data, styles }: Props) => {
     // eslint-disable-next-line jsx-a11y/html-has-lang
     <html {...htmlAttrs}>
       <head>
+        <Tagmanager />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <meta charSet="utf-8" />
         <meta
           name="viewport"
           content="width=device-width, initial-scale=1 viewport-fit=cover"
         />
-        {config.gaTrackingId ? (
-          <script async src="https://www.google-analytics.com/analytics.js" />
-        ) : null}
         <GoogleTagMangerScript />
         {helmet.title.toComponent()}
         {helmet.meta.toComponent()}
@@ -71,6 +71,7 @@ const Document = ({ helmet, assets, data, styles }: Props) => {
           dangerouslySetInnerHTML={{
             __html: `
             window.dataLayer = window.dataLayer || [];
+            window._mtm = window._mtm || [];
             window.originalLocation = { originalLocation: document.location.protocol + '//' + document.location.hostname + document.location.pathname + document.location.search };
             window.dataLayer.push(window.originalLocation);`,
           }}

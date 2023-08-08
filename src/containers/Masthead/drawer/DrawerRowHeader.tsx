@@ -116,7 +116,8 @@ const DrawerRowHeader = ({
             setExpanded(true);
             rest.onClick();
           }}
-          id={`header-${id}`}>
+          id={`header-${id}`}
+        >
           {contents}
           <RightArrow />
         </StyledButton>
@@ -131,7 +132,8 @@ const DrawerRowHeader = ({
           role="menuitem"
           to={rest.to}
           onClick={rest.onClose}
-          id={`header-${id}`}>
+          id={`header-${id}`}
+        >
           {contents}
           <ForwardArrow />
         </StyledLink>

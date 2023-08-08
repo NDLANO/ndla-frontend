@@ -48,14 +48,15 @@ const MovedResourcePage = ({ resource }: Props) => {
         title: resource.name,
         url: resource.path ?? '',
         contentType: resource.resourceTypes
-          ?.map(type => contentTypeMapping[type.id])
-          .find(t => t),
-        type: resource.resourceTypes?.find(type => !contentTypeMapping[type.id])
-          ?.name,
-        subjects: data?.resource?.breadcrumbs?.map((crumb, index) => ({
-          url: resource.paths?.[index],
-          title: crumb[0] ?? '',
-          breadcrumb: crumb,
+          ?.map((type) => contentTypeMapping[type.id])
+          .find((t) => t),
+        type: resource.resourceTypes?.find(
+          (type) => !contentTypeMapping[type.id],
+        )?.name,
+        subjects: data?.resource?.contexts.map(({ breadcrumbs, path }) => ({
+          url: path,
+          title: breadcrumbs[0] ?? '',
+          breadcrumb: breadcrumbs,
         })),
         ...(isLearningpath
           ? {
@@ -112,8 +113,11 @@ MovedResourcePage.fragments = {
       name
       path
       paths
-      breadcrumbs
-      article(subjectId: $subjectId) {
+      contexts {
+        path
+        breadcrumbs
+      }
+      article(subjectId: $subjectId, convertEmbeds: $convertEmbeds) {
         id
         metaDescription
         metaImage {

@@ -49,9 +49,7 @@ const DrawerContent = ({
       />
     );
   } else {
-    return (
-      <AboutMenu onClose={onClose} onCloseMenuPortion={onCloseMenuPortion} />
-    );
+    return <AboutMenu onCloseMenuPortion={onCloseMenuPortion} />;
   }
 };
 

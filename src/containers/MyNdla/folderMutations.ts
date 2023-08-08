@@ -8,6 +8,7 @@
 
 import {
   ApolloCache,
+  ApolloError,
   gql,
   QueryHookOptions,
   Reference,
@@ -32,10 +33,14 @@ import {
   GQLMutationSortResourcesArgs,
   GQLMutationUpdateFolderArgs,
   GQLMutationUpdateFolderResourceArgs,
+  GQLMutationUpdateFolderStatusArgs,
   GQLRecentlyUsedQuery,
+  GQLSharedFolderQuery,
+  GQLSharedFolderQueryVariables,
   GQLSortFoldersMutation,
   GQLUpdateFolderMutation,
   GQLUpdateFolderResourceMutation,
+  GQLUpdateFolderStatusMutation,
 } from '../../graphqlTypes';
 import { useGraphQuery } from '../../util/runQueries';
 
@@ -58,6 +63,31 @@ export const folderFragment = gql`
     name
     status
     parentId
+    created
+    updated
+    description
+    breadcrumbs {
+      __typename
+      id
+      name
+    }
+    resources {
+      ...FolderResourceFragment
+    }
+  }
+  ${folderResourceFragment}
+`;
+
+export const sharedFolderFragment = gql`
+  fragment SharedFolderFragment on SharedFolder {
+    __typename
+    id
+    name
+    status
+    parentId
+    created
+    updated
+    description
     breadcrumbs {
       __typename
       id
@@ -113,6 +143,40 @@ export const foldersPageQueryFragment = gql`
   ${folderFragment}
 `;
 
+export const sharedFoldersPageQueryFragment = gql`
+  fragment SharedFoldersPageQueryFragment on SharedFolder {
+    ...SharedFolderFragment
+    subfolders {
+      ...SharedFolderFragment
+      subfolders {
+        ...SharedFolderFragment
+        subfolders {
+          ...SharedFolderFragment
+          subfolders {
+            ...SharedFolderFragment
+            subfolders {
+              ...SharedFolderFragment
+              subfolders {
+                ...SharedFolderFragment
+                subfolders {
+                  ...SharedFolderFragment
+                  subfolders {
+                    ...SharedFolderFragment
+                    subfolders {
+                      ...SharedFolderFragment
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  ${sharedFolderFragment}
+`;
+
 export const foldersPageQuery = gql`
   query foldersPage {
     folders(includeSubfolders: true, includeResources: true) {
@@ -132,8 +196,18 @@ const updateFolderResourceMutation = gql`
 `;
 
 const addFolderMutation = gql`
-  mutation addFolder($name: String!, $parentId: String, $status: String) {
-    addFolder(name: $name, parentId: $parentId, status: $status) {
+  mutation addFolder(
+    $name: String!
+    $parentId: String
+    $status: String
+    $description: String
+  ) {
+    addFolder(
+      name: $name
+      parentId: $parentId
+      status: $status
+      description: $description
+    ) {
       ...FoldersPageQueryFragment
     }
   }
@@ -141,8 +215,18 @@ const addFolderMutation = gql`
 `;
 
 const updateFolderMutation = gql`
-  mutation updateFolder($id: String!, $name: String, $status: String) {
-    updateFolder(id: $id, name: $name, status: $status) {
+  mutation updateFolder(
+    $id: String!
+    $name: String
+    $status: String
+    $description: String
+  ) {
+    updateFolder(
+      id: $id
+      name: $name
+      status: $status
+      description: $description
+    ) {
       ...FoldersPageQueryFragment
     }
   }
@@ -167,6 +251,12 @@ const sortResourcesMutation = gql`
   }
 `;
 
+const updateFolderStatusMutation = gql`
+  mutation updateFolderStatus($folderId: String!, $status: String!) {
+    updateFolderStatus(folderId: $folderId, status: $status)
+  }
+`;
+
 const folderResourceMetaFragment = gql`
   fragment FolderResourceMeta on FolderResourceMeta {
     __typename
@@ -185,6 +275,23 @@ const folderResourceMetaFragment = gql`
   }
 `;
 
+export const sharedFolderQuery = gql`
+  query sharedFolder(
+    $id: String!
+    $includeSubfolders: Boolean
+    $includeResources: Boolean
+  ) {
+    sharedFolder(
+      id: $id
+      includeSubfolders: $includeSubfolders
+      includeResources: $includeResources
+    ) {
+      ...SharedFoldersPageQueryFragment
+    }
+  }
+  ${sharedFoldersPageQueryFragment}
+`;
+
 const folderResourceMetaQuery = gql`
   query folderResourceMeta($resource: FolderResourceMetaSearchInput!) {
     folderResourceMeta(resource: $resource) {
@@ -198,12 +305,11 @@ export const useFolderResourceMeta = (
   resource: GQLFolderResourceMetaSearchInput,
   options?: QueryHookOptions<GQLFolderResourceMetaQuery>,
 ) => {
-  const { data: { folderResourceMeta } = {}, ...rest } = useGraphQuery<
-    GQLFolderResourceMetaQuery
-  >(folderResourceMetaQuery, {
-    variables: { resource },
-    ...options,
-  });
+  const { data: { folderResourceMeta } = {}, ...rest } =
+    useGraphQuery<GQLFolderResourceMetaQuery>(folderResourceMetaQuery, {
+      variables: { resource },
+      ...options,
+    });
 
   return { meta: folderResourceMeta, ...rest };
 };
@@ -224,16 +330,14 @@ export const useFolderResourceMetaSearch = (
   resources: GQLFolderResourceMetaSearchInput[],
   options?: QueryHookOptions<GQLFolderResourceMetaSearchQuery>,
 ) => {
-  const {
-    data: { folderResourceMetaSearch: data } = {},
-    ...rest
-  } = useGraphQuery<GQLFolderResourceMetaSearchQuery>(
-    folderResourceMetaSearchQuery,
-    {
-      variables: { resources },
-      ...options,
-    },
-  );
+  const { data: { folderResourceMetaSearch: data } = {}, ...rest } =
+    useGraphQuery<GQLFolderResourceMetaSearchQuery>(
+      folderResourceMetaSearchQuery,
+      {
+        variables: { resources },
+        ...options,
+      },
+    );
 
   return { data, ...rest };
 };
@@ -277,6 +381,33 @@ export const getFolder = (
 export const useFolder = (folderId?: string): GQLFolder | null => {
   const { cache } = useApolloClient();
   return getFolder(cache, folderId);
+};
+
+interface UseSharedFolder {
+  id: string;
+  includeResources?: boolean;
+  includeSubfolders?: boolean;
+}
+
+export const useSharedFolder = ({
+  id,
+  includeResources,
+  includeSubfolders,
+}: UseSharedFolder): {
+  folder?: GQLFolder;
+  loading: boolean;
+  error?: ApolloError;
+} => {
+  const { data, loading, error } = useGraphQuery<
+    GQLSharedFolderQuery,
+    GQLSharedFolderQueryVariables
+  >(sharedFolderQuery, {
+    variables: { id, includeResources, includeSubfolders },
+  });
+
+  const folder = data?.sharedFolder as GQLFolder | undefined;
+
+  return { folder, loading, error };
 };
 
 export const recentlyUsedQuery = gql`
@@ -377,12 +508,51 @@ export const useUpdateFolderResourceMutation = () => {
   return { updateFolderResource, loading };
 };
 
+export const useUpdateFolderStatusMutation = () => {
+  const { cache } = useApolloClient();
+  const [updateFolderStatus, { loading }] = useMutation<
+    GQLUpdateFolderStatusMutation,
+    GQLMutationUpdateFolderStatusArgs
+  >(updateFolderStatusMutation, {
+    onCompleted: (data, values) => {
+      data?.updateFolderStatus.forEach((folderId) => {
+        cache.modify({
+          id: cache.identify({ id: folderId, __typename: 'Folder' }),
+          fields: {
+            status: () => {
+              return values!.variables!.status;
+            },
+          },
+        });
+      });
+    },
+  });
+  return { updateFolderStatus, loading };
+};
+
 export const useUpdateFolderMutation = () => {
+  const { cache } = useApolloClient();
   const [updateFolder, { loading }] = useMutation<
     GQLUpdateFolderMutation,
     GQLMutationUpdateFolderArgs
-  >(updateFolderMutation);
-
+  >(updateFolderMutation, {
+    onCompleted(data, values) {
+      cache.modify({
+        id: cache.identify({
+          id: data.updateFolder.id,
+          __typename: 'SharedFolder',
+        }),
+        fields: {
+          name: () => {
+            return values!.variables!.name;
+          },
+          description: () => {
+            return values!.variables!.description;
+          },
+        },
+      });
+    },
+  });
   return { updateFolder, loading };
 };
 
@@ -405,7 +575,7 @@ export const useSortResourcesMutation = () => {
 
 const addResourceToFolderQuery = gql`
   mutation addResourceToFolder(
-    $resourceId: Int!
+    $resourceId: String!
     $folderId: String!
     $resourceType: String!
     $path: String!
@@ -431,7 +601,7 @@ export const useAddResourceToFolderMutation = (folderId: string) => {
     GQLMutationAddFolderResourceArgs
   >(addResourceToFolderQuery, {
     refetchQueries: [{ query: recentlyUsedQuery }],
-    onCompleted: data => {
+    onCompleted: (data) => {
       cache.modify({
         id: cache.identify({
           __ref: `Folder:${folderId}`,

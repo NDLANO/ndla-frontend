@@ -76,7 +76,7 @@ const activeStyle = css`
 const shouldForwardProp = (prop: string) => prop !== 'active';
 
 const StyledButton = styled(ButtonV2, { shouldForwardProp })<StyledButtonProps>`
-  ${p =>
+  ${(p) =>
     p.active &&
     css`
       background-color: ${colors.brand.primary};
@@ -120,7 +120,8 @@ const DrawerMenuItem = ({
           id={id}
           onClick={() => specificProps.onClick(!!active)}
           css={[style, active ? activeStyle : []]}
-          className={className}>
+          className={className}
+        >
           <TextWrapper>
             {children}
             {current && (
@@ -141,7 +142,8 @@ const DrawerMenuItem = ({
           to={specificProps.to}
           onClick={specificProps.onClose}
           className={className}
-          css={[style, active ? activeStyle : []]}>
+          css={[style, active ? activeStyle : []]}
+        >
           <TextWrapper>
             {children}
             {current && (

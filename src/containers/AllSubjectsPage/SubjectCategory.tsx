@@ -9,20 +9,13 @@
 import styled from '@emotion/styled';
 import { buttonStyleV2 } from '@ndla/button';
 import { breakpoints, colors, fonts, misc, mq, spacing } from '@ndla/core';
+import { useIntersectionObserver } from '@ndla/hooks';
 import { Forward } from '@ndla/icons/common';
 import { useMastheadHeight } from '@ndla/ui';
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import useStickyObserver from '../../util/useStickyObserver';
 import { Subject } from './interfaces';
 import SubjectLink from './SubjectLink';
-
-interface Props {
-  label: string;
-  subjects: Subject[];
-  favorites: string[] | undefined;
-  openLoginModal: () => void;
-}
 
 export const GridList = styled.ul`
   display: grid;
@@ -76,6 +69,9 @@ const StickyHeading = styled.div<StyledProps>`
 const StyledH2 = styled.h2`
   margin: 0;
   ${fonts.sizes('18px', '24px')};
+  ${mq.range({ until: breakpoints.tabletWide })} {
+    ${fonts.sizes('30px', '36px')};
+  }
 `;
 
 const StyledArrow = styled(Forward)`
@@ -106,30 +102,38 @@ const GoToTop = styled.a<GoToTopProps>`
     border-width: 1px;
   }
 `;
+interface Props {
+  label: string;
+  subjects: Subject[];
+  favorites: string[] | undefined;
+}
 
-const SubjectCategory = ({
-  label,
-  subjects,
-  favorites,
-  openLoginModal,
-}: Props) => {
+const SubjectCategory = ({ label, subjects, favorites }: Props) => {
   const rootRef = useRef<HTMLLIElement>(null);
   const { t } = useTranslation();
   const stickyRef = useRef<HTMLDivElement>(null);
-  const { isSticky } = useStickyObserver(rootRef, stickyRef);
+  const { entry } = useIntersectionObserver({
+    root: rootRef.current,
+    target: stickyRef.current,
+    rootMargin: '-1px 0px 0px 0px',
+    threshold: 1,
+  });
   const { height = 85 } = useMastheadHeight();
+
   return (
     <li
       ref={rootRef}
       aria-owns={`subject-${label}`}
-      aria-labelledby={`subject-header-${label}`}>
+      aria-labelledby={`subject-header-${label}`}
+    >
       <StickyHeading ref={stickyRef} offset={height}>
         <StyledH2
           id={`subject-header-${label}`}
-          aria-label={label === '#' ? t('labels.other') : label}>
+          aria-label={label === '#' ? t('labels.other') : label}
+        >
           {label.toUpperCase()}
         </StyledH2>
-        <GoToTop isSticky={isSticky} href="#SkipToContentId">
+        <GoToTop isSticky={!!entry?.isIntersecting} href="#SkipToContentId">
           {t('subjectsPage.goToTop')} <StyledArrow />
         </GoToTop>
       </StickyHeading>
@@ -137,10 +141,10 @@ const SubjectCategory = ({
         id={`subject-${label}`}
         aria-label={t('subjectsPage.subjectGroup', {
           category: label === '#' ? t('labels.other') : label,
-        })}>
-        {subjects.map(subject => (
+        })}
+      >
+        {subjects.map((subject) => (
           <SubjectLink
-            openLoginModal={openLoginModal}
             favorites={favorites}
             key={subject.id}
             subject={subject}

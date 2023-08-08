@@ -11,7 +11,7 @@ describe('Topic page', () => {
     cy.fixCypressSpec('/cypress/integration/topic_page.spec.ts');
     cy.gqlIntercept({
       alias: 'alerts',
-      operations: ['alerts', 'subjects'],
+      operations: ['examLockStatus', 'alerts', 'frontpageData'],
     });
     cy.visit('/?disableSSR=true');
     cy.gqlWait('@alerts');
@@ -25,7 +25,7 @@ describe('Topic page', () => {
 
     cy.get('[data-testid="category-list"]  button:contains("Alle fag"):visible')
       .click()
-      .get('[data-cy="Alle fag-video-tab"]')
+      .get('button[id$="trigger-allsubjects"]')
       .click()
       .get('a:contains("Medieuttrykk 3 og mediesamfunnet 3")')
       .last()
@@ -54,7 +54,7 @@ describe('Topic page', () => {
 
     cy.get('[data-testid="category-list"]  button:contains("Alle fag"):visible')
       .click()
-      .get('[data-cy="Alle fag-video-tab"]')
+      .get('button[id$="trigger-allsubjects"]')
       .click()
       .get('a:contains("Medieuttrykk 3 og mediesamfunnet 3")')
       .last()

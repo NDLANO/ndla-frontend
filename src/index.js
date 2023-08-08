@@ -8,14 +8,12 @@
 
 /*  eslint-disable no-console, global-require */
 
-import express from 'express';
-
 import config from './config';
 
 let app = require('./server/server').default;
 
 if (module.hot) {
-  module.hot.accept('./server/server', function() {
+  module.hot.accept('./server/server', function () {
     console.log('🔁  HMR Reloading `./server/server`...');
     try {
       app = require('./server/server').default;
@@ -26,12 +24,14 @@ if (module.hot) {
   console.info('✅  Server-side HMR Enabled!');
 }
 
-export default express()
-  .use((req, res) => app.handle(req, res))
-  .listen(config.port, function(err) {
+if (!config.isVercel) {
+  app.listen(config.port, (err) => {
     if (err) {
       console.error(err);
       return;
     }
     console.log(`> Started on port ${config.port}`);
   });
+}
+
+export default app;

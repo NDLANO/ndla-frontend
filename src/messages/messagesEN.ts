@@ -26,11 +26,7 @@ const messages = {
     myFolderPage: `{{folderName}} - ${titleTemplate}`,
     myTagPage: `#{{tag}} - ${titleTemplate}`,
     myTagsPage: `My tags - ${titleTemplate}`,
-    toolbox: {
-      visualElement: 'About subject video',
-      introduction:
-        'What will it mean to work exploratory? How can you learn better? What is needed in order to make group work function? In the toolbox both students and teach find resources that are current for every subject, and that support learning work and development of knowledge, skills and understanding.',
-    },
+    sharedFolderPage: `{{name}} - ${titleTemplate}`,
   },
   podcastPage: {
     episodes: 'Episodes',
@@ -39,19 +35,16 @@ const messages = {
     pageInfo: 'Page {{page}} of {{lastPage}}',
     noResults: '...No episodes',
   },
-  messageBoxInfo: {
-    subjectBeta:
-      'This course is in beta. New resources are being added continously.',
-  },
+  sharedFolder: 'Shared folder',
   blogPosts: {
     blog1: {
-      imageUrl: '/static/nye-fag.jpg',
-      text: 'Forslag til årsplaner fra NDLA',
+      imageUrl: '/static/samiske-laeremidler.jpg',
+      text: 'Utvikler samiske ressurser på NDLA',
       externalLink:
-        'https://blogg.ndla.no/2021/08/forslag-til-arsplaner-hos-ndla/',
+        'https://blogg.ndla.no/2023/02/utvikler-samiske-ressurser-pa-ndla/',
       linkText: 'Fagblogg',
       license: 'CC-BY-SA-4.0',
-      licenseAuthor: 'Vibeke Klungland',
+      licenseAuthor: 'Jan Frode Lindsø',
     },
     blog2: {
       imageUrl: '/static/aktiviser-elevene.jpg',
@@ -66,12 +59,19 @@ const messages = {
   validation: {
     fields: {
       name: 'Name',
+      description: 'Description',
     },
     required: 'This field is required',
     requiredField: '$t(validation.fields.{{field}}) is required',
     notUnique: 'Already exists',
     maxLength: 'This field can only contain {{count}} characters',
-    maxLengthField: `$t(validation.fields.{{field}}) can only contain {{count}} characters)}`,
+    maxLengthField: `$t(validation.fields.{{field}}) can only contain {{count}} characters`,
+  },
+  resourcepageTitles: {
+    video: 'Video',
+    image: 'Image',
+    concept: 'Concept',
+    audio: 'Audio',
   },
 };
 

@@ -47,10 +47,10 @@ const NewFolder = ({
         : folders,
     [parentId, cache, folders],
   );
-  const siblingNames = siblings.map(sib => sib.name.toLowerCase());
+  const siblingNames = siblings.map((sib) => sib.name.toLowerCase());
   const { addFolder, loading } = useAddFolderMutation();
   const { t } = useTranslation();
-  const { t: validateT } = useValidationTranslation();
+  const { validationT } = useValidationTranslation();
 
   const onSave = async () => {
     if (error) {
@@ -74,12 +74,12 @@ const NewFolder = ({
       return;
     }
     if (name.length === 0) {
-      setError(validateT({ field: 'name', type: 'required' }));
+      setError(validationT({ field: 'name', type: 'required' }));
     } else if (siblingNames.includes(name.toLowerCase())) {
-      setError(validateT({ type: 'notUnique' }));
+      setError(validationT({ type: 'notUnique' }));
     } else if (name.length > 64) {
       setError(
-        validateT({
+        validationT({
           type: 'maxLength',
           field: 'name',
           vars: { count: 64 },
@@ -88,7 +88,7 @@ const NewFolder = ({
     } else {
       setError('');
     }
-  }, [name, validateT, siblingNames]);
+  }, [name, validationT, siblingNames]);
 
   return (
     <FolderInput
@@ -106,12 +106,12 @@ const NewFolder = ({
       error={error}
       value={name}
       before={icon}
-      onChange={e => {
+      onChange={(e) => {
         if (!loading) {
           setName(e.currentTarget.value);
         }
       }}
-      onKeyDown={e => {
+      onKeyDown={(e) => {
         if (e.key === 'Escape') {
           e.preventDefault();
           onClose?.();

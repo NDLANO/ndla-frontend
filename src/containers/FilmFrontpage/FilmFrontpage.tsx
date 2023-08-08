@@ -9,7 +9,7 @@
 import { useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { css } from '@emotion/react';
-import { spacingUnit } from '@ndla/core';
+import { spacingUnit, utils } from '@ndla/core';
 import { gql } from '@apollo/client';
 import {
   FilmSlideshow,
@@ -18,6 +18,8 @@ import {
   AllMoviesAlphabetically,
 } from '@ndla/ui';
 import { TFunction, withTranslation, WithTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
+import { Spinner } from '@ndla/icons';
 
 import MovieCategory from './MovieCategory';
 import { htmlTitle } from '../../util/titleHelper';
@@ -30,8 +32,6 @@ import { MoviesByType } from './NdlaFilmFrontpage';
 import { movieFragment } from '../../queries';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 
-const ARIA_FILMCATEGORY_ID = 'movieCategoriesId';
-
 const sortAlphabetically = (movies: MoviesByType[], locale: string) =>
   movies.sort((a, b) => {
     if (!a.title && !b.title) {
@@ -43,6 +43,10 @@ const sortAlphabetically = (movies: MoviesByType[], locale: string) =>
     } else return a.title!.localeCompare(b.title!, locale);
   });
 
+const StyledH1 = styled.h1`
+  ${utils.visuallyHidden}
+`;
+
 interface Props extends WithTranslation {
   filmFrontpage?: GQLFilmFrontpage_FilmFrontpageFragment;
   showingAll?: boolean;
@@ -52,6 +56,7 @@ interface Props extends WithTranslation {
   resourceTypes: { id: string; name: string }[];
   onSelectedMovieByType: (resourceId: string) => void;
   skipToContentId?: string;
+  loading?: boolean;
 }
 const getDocumentTitle = (
   t: TFunction,
@@ -69,22 +74,21 @@ const FilmFrontpage = ({
   fetchingMoviesByType,
   onSelectedMovieByType,
   i18n,
+  loading,
 }: Props) => {
   const [resourceTypeSelected, setResourceTypeSelected] = useState<
     string | undefined
   >(undefined);
-  const [loadingPlaceholderHeight, setLoadingPlaceholderHeight] = useState<
-    string
-  >('');
+  const [loadingPlaceholderHeight, setLoadingPlaceholderHeight] =
+    useState<string>('');
   const movieListRef = useRef<HTMLDivElement | null>(null);
   const about = filmFrontpage?.about?.find(
-    about => about.language === i18n.language,
+    (about) => about.language === i18n.language,
   );
 
   const onChangeResourceType = (resourceType?: string) => {
-    const placeholderHeight = `${
-      movieListRef.current?.getBoundingClientRect().height
-    }px`;
+    const placeholderHeight = `${movieListRef.current?.getBoundingClientRect()
+      .height}px`;
 
     if (resourceType) {
       onSelectedMovieByType(resourceType);
@@ -94,7 +98,7 @@ const FilmFrontpage = ({
   };
 
   const resourceTypeName = resourceTypeSelected
-    ? resourceTypes.find(rt => rt.id === resourceTypeSelected)
+    ? resourceTypes.find((rt) => rt.id === resourceTypeSelected)
     : undefined;
 
   const pageTitle = getDocumentTitle(t, subject);
@@ -105,14 +109,19 @@ const FilmFrontpage = ({
         <title>{pageTitle}</title>
       </Helmet>
       <SocialMediaMetadata
+        type="website"
         title={subject?.name ?? ''}
         description={about?.description}
       />
+      <StyledH1>{t('ndlaFilm.heading')}</StyledH1>
       <main>
-        <FilmSlideshow slideshow={filmFrontpage?.slideShow ?? []} />
+        {loading ? (
+          <Spinner />
+        ) : filmFrontpage?.slideShow ? (
+          <FilmSlideshow slideshow={filmFrontpage.slideShow} />
+        ) : null}
         <FilmMovieSearch
           skipToContentId={skipToContentId}
-          ariaControlId={ARIA_FILMCATEGORY_ID}
           topics={subject?.topics ?? []}
           resourceTypes={resourceTypes}
           resourceTypeSelected={resourceTypeName}
@@ -122,11 +131,11 @@ const FilmFrontpage = ({
           ref={movieListRef}
           css={css`
             margin: ${spacingUnit * 3}px 0 ${spacingUnit * 4}px;
-          `}>
+          `}
+        >
           {showingAll ? (
             <AllMoviesAlphabetically
               movies={sortAlphabetically(moviesByType, i18n.language)}
-              locale={i18n.language}
             />
           ) : (
             <MovieCategory

@@ -97,11 +97,11 @@ const MastheadSearch = ({ hideOnNarrowScreen = false, subject }: Props) => {
 
   const mapResults = (results: MapResultsType[] = []) =>
     query.length > 1
-      ? results.map(result => {
+      ? results.map((result) => {
           const contentType = contentTypeMapping[result.resourceType];
           return {
             ...result,
-            resources: result.resources.map(resource => ({
+            resources: result.resources.map((resource) => ({
               ...resource,
               id: resource.id.toString(),
               resourceType: result.resourceType,
@@ -130,34 +130,33 @@ const MastheadSearch = ({ hideOnNarrowScreen = false, subject }: Props) => {
     <MastheadSearchModal
       onClose={onClearQuery}
       hideOnNarrowScreen={hideOnNarrowScreen}
-      ndlaFilm={ndlaFilm}>
+      ndlaFilm={ndlaFilm}
+    >
       {(onCloseModal: Function) => {
         closeModal = onCloseModal as () => void;
-        return (
-          error || (
-            <SearchFieldForm onSubmit={onSearch}>
-              <SearchField
-                placeholder={t('searchPage.searchFieldPlaceholder')}
-                value={query}
-                inputRef={inputRef}
-                onChange={onQueryChange}
-                filters={filters}
-                onFilterRemove={onFilterRemove}
+        return !error ? (
+          <SearchFieldForm onSubmit={onSearch}>
+            <SearchField
+              placeholder={t('searchPage.searchFieldPlaceholder')}
+              value={query}
+              inputRef={inputRef}
+              onChange={onQueryChange}
+              filters={filters}
+              onFilterRemove={onFilterRemove}
+              loading={loading}
+            />
+            {query.length > 2 && (
+              <SearchResultSleeve
+                result={mapResults(searchResult.groupSearch)}
+                searchString={query}
+                allResultUrl={toSearch(searchString)}
+                resourceToLinkProps={searchResultToLinkProps}
+                onNavigate={onNavigate}
                 loading={loading}
               />
-              {query.length > 2 && (
-                <SearchResultSleeve
-                  result={mapResults(searchResult.groupSearch)}
-                  searchString={query}
-                  allResultUrl={toSearch(searchString)}
-                  resourceToLinkProps={searchResultToLinkProps}
-                  onNavigate={onNavigate}
-                  loading={loading}
-                />
-              )}
-            </SearchFieldForm>
-          )
-        );
+            )}
+          </SearchFieldForm>
+        ) : null;
       }}
     </MastheadSearchModal>
   );

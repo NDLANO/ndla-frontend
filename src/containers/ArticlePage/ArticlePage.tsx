@@ -7,7 +7,7 @@
  */
 
 import { gql } from '@apollo/client';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { OneColumn, LayoutItem, FeideUserApiType, constants } from '@ndla/ui';
 import { withTracker } from '@ndla/tracker';
@@ -17,11 +17,12 @@ import {
   withTranslation,
 } from 'react-i18next';
 import { GraphQLError } from 'graphql';
+import { DynamicComponents } from '@ndla/article-converter';
 import Article from '../../components/Article';
 import ArticleHero from './components/ArticleHero';
 import ArticleErrorMessage from './components/ArticleErrorMessage';
 import { getContentType, isHeroContentType } from '../../util/getContentType';
-import { getArticleScripts, Scripts } from '../../util/getArticleScripts';
+import { getArticleScripts } from '../../util/getArticleScripts';
 import getStructuredDataFromArticle, {
   structuredArticleDataFragment,
 } from '../../util/getStructuredDataFromArticle';
@@ -46,6 +47,7 @@ import {
   GQLArticlePage_TopicFragment,
   GQLArticlePage_TopicPathFragment,
 } from '../../graphqlTypes';
+import AddEmbedToFolder from '../../components/MyNdla/AddEmbedToFolder';
 
 interface Props extends CustomWithTranslation {
   resource?: GQLArticlePage_ResourceFragment;
@@ -60,6 +62,9 @@ interface Props extends CustomWithTranslation {
   skipToContentId?: string;
 }
 
+const converterComponents: DynamicComponents | undefined =
+  config.favoriteEmbedEnabled ? { heartButton: AddEmbedToFolder } : undefined;
+
 const ArticlePage = ({
   resource,
   topic,
@@ -71,14 +76,19 @@ const ArticlePage = ({
   t,
   skipToContentId,
 }: Props) => {
-  const [scripts, setScripts] = useState<Scripts[]>([]);
   const subjectPageUrl = config.ndlaFrontendDomain;
-  useEffect(() => {
-    if (!resource?.article) return;
-    const article = transformArticle(resource.article, i18n.language);
-    const scripts = getArticleScripts(article, i18n.language);
-    setScripts(scripts);
-  }, [i18n.language, resource]);
+
+  const [article, scripts] = useMemo(() => {
+    if (!resource?.article) return [];
+    return [
+      transformArticle(resource?.article, i18n.language, {
+        path: `${config.ndlaFrontendDomain}/article/${resource.article?.id}`,
+        subject: subject?.id,
+        components: converterComponents,
+      }),
+      getArticleScripts(resource.article, i18n.language),
+    ];
+  }, [subject?.id, resource?.article, i18n.language])!;
 
   useEffect(() => {
     if (window.MathJax && typeof window.MathJax.typeset === 'function') {
@@ -98,13 +108,14 @@ const ArticlePage = ({
       </Status>
     );
   }
-  if (!resource?.article) {
-    const error = errors?.find(e => e.path?.includes('resource'));
+  if (!resource?.article || !article) {
+    const error = errors?.find((e) => e.path?.includes('resource'));
     return (
       <div>
         <ArticleErrorMessage
           //@ts-ignore
-          status={error?.status}>
+          status={error?.status}
+        >
           {topic && (
             <Resources
               topic={topic}
@@ -118,7 +129,6 @@ const ArticlePage = ({
     );
   }
 
-  const article = transformArticle(resource.article, i18n.language)!;
   const contentType = resource ? getContentType(resource) : undefined;
   const resourceType =
     contentType && isHeroContentType(contentType) ? contentType : undefined;
@@ -144,7 +154,7 @@ const ArticlePage = ({
       />
       <Helmet>
         <title>{`${getDocumentTitle(t, resource, subject)}`}</title>
-        {scripts.map(script => (
+        {scripts?.map((script) => (
           <script
             key={script.src}
             src={script.src}
@@ -166,7 +176,7 @@ const ArticlePage = ({
         ] === constants.subjectCategories.ARCHIVE_SUBJECTS && (
           <meta name="robots" content="noindex, nofollow" />
         )}
-
+        <meta name="pageid" content={`${article.id}`} />
         <script type="application/ld+json">
           {JSON.stringify(
             getStructuredDataFromArticle(
@@ -185,12 +195,12 @@ const ArticlePage = ({
       />
       <OneColumn>
         <Article
+          contentTransformed
           path={resource.path}
           id={skipToContentId}
           article={article}
           resourceType={contentType}
           isResourceArticle
-          copyPageUrlLink={copyPageUrlLink}
           printUrl={printUrl}
           subjectId={subject?.id}
           showFavoriteButton={config.feideEnabled}
@@ -274,7 +284,7 @@ export const articlePageFragments = {
       name
       path
       contentUri
-      article(subjectId: $subjectId) {
+      article(subjectId: $subjectId, convertEmbeds: $convertEmbeds) {
         created
         updated
         metaDescription

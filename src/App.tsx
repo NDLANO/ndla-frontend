@@ -9,8 +9,12 @@
 import { configureTracker } from '@ndla/tracker';
 import { SnackbarProvider } from '@ndla/ui';
 import { History } from 'history';
-import { Component, ErrorInfo, ReactNode } from 'react';
+import { Component, ErrorInfo, ReactNode, useMemo } from 'react';
 import { Route, Routes } from 'react-router-dom';
+import VideoPage from './containers/ResourceEmbed/VideoPage';
+import ImagePage from './containers/ResourceEmbed/ImagePage';
+import ConceptPage from './containers/ResourceEmbed/ConceptPage';
+import AudioPage from './containers/ResourceEmbed/AudioPage';
 import { AlertsProvider } from './components/AlertsContext';
 import AuthenticationContext from './components/AuthenticationContext';
 import { BaseNameProvider } from './components/BaseNameContext';
@@ -31,12 +35,16 @@ import PodcastSeriesListPage from './containers/PodcastPage/PodcastSeriesListPag
 import PodcastSeriesPage from './containers/PodcastPage/PodcastSeriesPage';
 import PrivateRoute from './containers/PrivateRoute/PrivateRoute';
 import ProgrammePage from './containers/ProgrammePage/ProgrammePage';
+import OldProgrammePage from './containers/ProgrammePage/OldProgrammePage';
 import ResourcePage from './containers/ResourcePage/ResourcePage';
 import SearchPage from './containers/SearchPage/SearchPage';
 import SubjectRouting from './containers/SubjectPage/SubjectRouting';
 import WelcomePage from './containers/WelcomePage/WelcomePage';
 import { LocaleType } from './interfaces';
 import handleError from './util/handleError';
+import SharedFolderPage from './containers/SharedFolderPage/SharedFolderPage';
+import FavoriteSubjectsPage from './containers/MyNdla/FavoriteSubjects/FavoriteSubjectsPage';
+import { useEnableTaxStructure } from './components/TaxonomyStructureContext';
 
 interface State {
   hasError: boolean;
@@ -58,7 +66,6 @@ class App extends Component<AppProps, State> {
     if (props.isClient && props.history) {
       configureTracker({
         listen: props.history.listen,
-        gaTrackingId: window.location.host ? config?.gaTrackingId : '',
         googleTagManagerId: config?.googleTagManagerId,
       });
     }
@@ -82,6 +89,12 @@ class App extends Component<AppProps, State> {
 }
 
 const AppRoutes = ({ base }: AppProps) => {
+  const taxonomyProgrammesEnabled = useEnableTaxStructure();
+  const ProgPage = useMemo(
+    () => (taxonomyProgrammesEnabled ? ProgrammePage : OldProgrammePage),
+    [taxonomyProgrammesEnabled],
+  );
+
   return (
     <AlertsProvider>
       <BaseNameProvider value={base}>
@@ -92,7 +105,7 @@ const AppRoutes = ({ base }: AppProps) => {
                 <Route index element={<WelcomePage />} />
                 <Route path="subjects" element={<AllSubjectsPage />} />
                 <Route path="search" element={<SearchPage />} />
-                <Route path="utdanning/:programme" element={<ProgrammePage />}>
+                <Route path="utdanning/:programme" element={<ProgPage />}>
                   <Route path=":grade" element={null} />
                 </Route>
                 <Route path="podkast">
@@ -105,7 +118,8 @@ const AppRoutes = ({ base }: AppProps) => {
                 />
                 <Route
                   path="learningpaths/:learningpathId"
-                  element={<PlainLearningpathPage />}>
+                  element={<PlainLearningpathPage />}
+                >
                   <Route path="steps/:stepId" element={null} />
                 </Route>
                 <Route path="subject:subjectId/topic:topicId/resource:resourceId">
@@ -138,9 +152,14 @@ const AppRoutes = ({ base }: AppProps) => {
                     </Route>
                   </Route>
                 </Route>
+                <Route path="video/:videoId" element={<VideoPage />} />
+                <Route path="image/:imageId" element={<ImagePage />} />
+                <Route path="concept/:conceptId" element={<ConceptPage />} />
+                <Route path="audio/:audioId" element={<AudioPage />} />
                 <Route
                   path="minndla"
-                  element={<PrivateRoute element={<MyNdlaLayout />} />}>
+                  element={<PrivateRoute element={<MyNdlaLayout />} />}
+                >
                   <Route index element={<MyNdlaPage />} />
                   <Route path="meny" element={<MyNdlaMobileMenuPage />} />
                   <Route path="folders">
@@ -151,10 +170,19 @@ const AppRoutes = ({ base }: AppProps) => {
                     <Route index element={<TagsPage />} />
                     <Route path=":tag" element={<TagsPage />} />
                   </Route>
+                  <Route path="subjects" element={<FavoriteSubjectsPage />} />
+                </Route>
+                <Route path="folder/:folderId">
+                  <Route index element={<SharedFolderPage />} />
+                  <Route
+                    path=":subfolderId/:resourceId"
+                    element={<SharedFolderPage />}
+                  />
                 </Route>
                 <Route path="404" element={<NotFound />} />
                 <Route path="403" element={<AccessDenied />} />
                 <Route path="*" element={<NotFound />} />
+                <Route path="p/:articleId" element={<PlainArticlePage />} />
               </Route>
             </Routes>
           </SnackbarProvider>

@@ -7,7 +7,7 @@
  */
 
 import { gql } from '@apollo/client';
-import { uuid } from '@ndla/util';
+import { printPage, uuid } from '@ndla/util';
 import {
   MediaList,
   MediaListItem,
@@ -20,12 +20,14 @@ import {
   metaTypes,
   getGroupedContributorDescriptionList,
 } from '@ndla/licenses';
+import { ButtonV2 } from '@ndla/button';
 import { FileDocumentOutline } from '@ndla/icons/common';
 import { useTranslation } from 'react-i18next';
 import CopyTextButton from './CopyTextButton';
 import { GQLTextLicenseList_CopyrightFragment } from '../../graphqlTypes';
 import { licenseCopyrightToCopyrightType } from './licenseHelpers';
 import { licenseListCopyrightFragment } from './licenseFragments';
+import LicenseDescription from './LicenseDescription';
 
 interface TextLicenseInfoProps {
   text: TextItem;
@@ -45,7 +47,7 @@ const TextLicenseInfo = ({ text }: TextLicenseInfoProps) => {
     });
   }
   items.push({
-    label: t('license.text.published'),
+    label: t('article.lastUpdated'),
     description: text.updated,
     metaType: metaTypes.other,
   });
@@ -59,7 +61,8 @@ const TextLicenseInfo = ({ text }: TextLicenseInfoProps) => {
         license={text.copyright.license?.license}
         title={t('license.text.rules')}
         resourceType="text"
-        locale={i18n.language}>
+        locale={i18n.language}
+      >
         <MediaListItemActions>
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />
@@ -86,16 +89,21 @@ interface TextItem {
 
 interface Props {
   texts: TextItem[];
+  printUrl?: string;
 }
 
-const TextLicenseList = ({ texts }: Props) => {
+const TextLicenseList = ({ texts, printUrl }: Props) => {
   const { t } = useTranslation();
   return (
     <div>
-      <h2>{t('license.text.heading')}</h2>
-      <p>{t('license.text.description')}</p>
+      <LicenseDescription>{t('license.text.description')}</LicenseDescription>
+      {printUrl && (
+        <ButtonV2 variant="outline" onClick={() => printPage(printUrl)}>
+          {t('article.printPage')}
+        </ButtonV2>
+      )}
       <MediaList>
-        {texts.map(text => (
+        {texts.map((text) => (
           <TextLicenseInfo text={text} key={uuid()} />
         ))}
       </MediaList>

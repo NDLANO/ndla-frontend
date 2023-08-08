@@ -57,7 +57,7 @@ function doRenderPage<T extends object>(initialProps: T) {
 export function parseAndValidateParameters(body: any) {
   let validBody = true;
   const errorMessages: { field: string; message: string }[] = [];
-  Object.keys(bodyFields).forEach(key => {
+  Object.keys(bodyFields).forEach((key) => {
     const bodyValue = body[key];
     if (bodyFields[key]?.required && !bodyValue) {
       validBody = false;
@@ -90,7 +90,7 @@ export function ltiRoute(req: Request) {
   if (isPostRequest) {
     if (!validParameters?.valid) {
       const messages = validParameters?.messages
-        ?.map(msg => `Field ${msg.field} with error: ${msg.message}.`)
+        ?.map((msg) => `Field ${msg.field} with error: ${msg.message}.`)
         .join(',');
       return {
         status: BAD_REQUEST,
@@ -100,7 +100,7 @@ export function ltiRoute(req: Request) {
   }
 
   const lang = getHtmlLang(req.params.lang ?? '');
-  const locale = getLocaleObject(lang);
+  const locale = getLocaleObject(lang).abbreviation;
 
   const { html, docProps, helmetContext } = doRenderPage({
     locale,

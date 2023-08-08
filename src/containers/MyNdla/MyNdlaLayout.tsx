@@ -14,6 +14,7 @@ import { MessageBox, TreeStructure } from '@ndla/ui';
 import { SafeLinkButton } from '@ndla/safelink';
 import { FolderOutlined } from '@ndla/icons/contentType';
 import { HashTag, Person } from '@ndla/icons/common';
+import { MenuBook } from '@ndla/icons/action';
 import { TFunction } from 'i18next';
 import { Outlet, useLocation } from 'react-router-dom';
 import { AuthContext } from '../../components/AuthenticationContext';
@@ -27,6 +28,11 @@ const navigationLinks = (t: TFunction) => [
     id: 'tags',
     icon: <HashTag />,
     name: t('myNdla.myTags'),
+  },
+  {
+    id: 'subjects',
+    icon: <MenuBook />,
+    name: t('myNdla.favoriteSubjects.title'),
   },
 ];
 
@@ -90,6 +96,7 @@ const MyNdlaLayout = () => {
   const [page, folderId] = location.pathname
     .replace('/minndla/', '')
     .split('/');
+
   const selectedFolder = useFolder(folderId);
 
   const isMobile = useContext(IsMobileContext);
@@ -98,13 +105,13 @@ const MyNdlaLayout = () => {
     if (typeof page === 'string') {
       if (folderId) {
         return [page].concat(
-          selectedFolder ? selectedFolder.breadcrumbs.map(b => b.id) : [],
+          selectedFolder?.breadcrumbs.map((b) => b.id) ?? [],
         );
       }
       return [page];
     }
     return [];
-  }, [selectedFolder, folderId, page]);
+  }, [selectedFolder?.breadcrumbs, folderId, page]);
 
   const links = useMemo(() => {
     return navigationLinks(t);
@@ -141,7 +148,7 @@ const MyNdlaLayout = () => {
                   />
                 )}
               </StyledLi>
-              {links.map(link => (
+              {links.map((link) => (
                 <StyledLi key={link.id} role="none">
                   <NavigationLink
                     id={link.id}
@@ -156,7 +163,8 @@ const MyNdlaLayout = () => {
             <SafeLinkButton
               variant="outline"
               reloadDocument
-              to={`/logout?state=${toHref(location)}`}>
+              to={`/logout?state=${toHref(location)}`}
+            >
               {t('user.buttonLogOut')}
             </SafeLinkButton>
           </ButtonWrapper>

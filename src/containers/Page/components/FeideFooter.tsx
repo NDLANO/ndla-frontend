@@ -15,6 +15,7 @@ import { FeideText, LogIn } from '@ndla/icons/common';
 
 import FeideLoginButton from '../../../components/FeideLoginButton';
 import { AuthContext } from '../../../components/AuthenticationContext';
+import { getAffiliationRoleOrDefault } from '../../../util/apiHelpers';
 
 const StyledFeideFooter = styled.div`
   display: flex;
@@ -55,11 +56,16 @@ const StyledFeideIcon = styled(FeideText)`
   height: 28px;
 `;
 
+const StyledLogIn = styled(LogIn)`
+  width: 24px;
+  height: 24px;
+`;
+
 const FeideFooter = () => {
   const { t } = useTranslation();
   const inRouterContext = useInRouterContext();
   const { authenticated, user } = useContext(AuthContext);
-  const affiliationRole = user?.eduPersonPrimaryAffiliation;
+  const affiliationRole = getAffiliationRoleOrDefault(user);
 
   return (
     <StyledFeideFooter>
@@ -76,7 +82,7 @@ const FeideFooter = () => {
               </span>
             ) : (
               <span>
-                {t('user.buttonLogIn')} <LogIn className="c-icon--medium" />
+                {t('user.buttonLogIn')} <StyledLogIn />
               </span>
             )}
           </FeideLoginButton>

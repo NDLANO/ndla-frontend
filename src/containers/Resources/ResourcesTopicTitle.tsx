@@ -1,10 +1,15 @@
-import { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { breakpoints, fonts, mq, spacing } from '@ndla/core';
-import Modal, { ModalBody, ModalHeader, ModalCloseButton } from '@ndla/modal';
-import Tooltip from '@ndla/tooltip';
+import {
+  ModalBody,
+  ModalHeader,
+  ModalCloseButton,
+  Modal,
+  ModalTrigger,
+  ModalContent,
+} from '@ndla/modal';
 import { Switch } from '@ndla/switch';
 import { LearningPathQuiz } from '@ndla/icons/contentType';
 import { IconButtonV2 } from '@ndla/button';
@@ -84,7 +89,8 @@ const ResourcesTopicTitle = ({
 
   return (
     <TopicTitleWrapper
-      css={invertedStyle ? invertedTopicTitleWrapperStyle : undefined}>
+      css={invertedStyle ? invertedTopicTitleWrapperStyle : undefined}
+    >
       <StyledHGroup>
         <Heading css={headingStyle}>{title}</Heading>
         <StyledParagraph>{subTitle}</StyledParagraph>
@@ -98,39 +104,29 @@ const ResourcesTopicTitle = ({
             onChange={toggleAdditionalResources}
             css={invertedStyle ? invertedSwitchCSS : switchCSS}
           />
-          <Modal
-            labelledBy={tooltipId}
-            narrow
-            wrapperFunctionForButton={(activateButton: ReactNode) => (
-              <Tooltip tooltip={t('resource.dialogTooltip')}>
-                {activateButton}
-              </Tooltip>
-            )}
-            activateButton={
+          <Modal aria-labelledby={tooltipId}>
+            <ModalTrigger>
               <IconButtonV2
                 colorTheme="light"
                 inverted={invertedStyle}
                 id={tooltipId}
-                aria-label={t('resource.dialogTooltip')}>
+                aria-label={t('resource.dialogTooltip')}
+                title={t('resource.dialogTooltip')}
+              >
                 <LearningPathQuiz />
               </IconButtonV2>
-            }>
-            {(onClose: () => void) => (
-              <>
-                <ModalHeader>
-                  <ModalCloseButton
-                    title={t('modal.closeModal')}
-                    onClick={onClose}
-                  />
-                </ModalHeader>
-                <ModalBody>
-                  <h1>{t('resource.dialogHeading')}</h1>
-                  <hr />
-                  <p>{t('resource.dialogText1')}</p>
-                  <p>{t('resource.dialogText2')}</p>
-                </ModalBody>
-              </>
-            )}
+            </ModalTrigger>
+            <ModalContent>
+              <ModalHeader>
+                <h1>{t('resource.dialogHeading')}</h1>
+                <ModalCloseButton title={t('modal.closeModal')} />
+              </ModalHeader>
+              <ModalBody>
+                <hr />
+                <p>{t('resource.dialogText1')}</p>
+                <p>{t('resource.dialogText2')}</p>
+              </ModalBody>
+            </ModalContent>
           </Modal>
         </StyledRow>
       )}

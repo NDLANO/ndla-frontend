@@ -20,11 +20,11 @@ export const podcastFeedRoute = async (req: Request, res: Response) => {
   }
 
   await podcastRssFeed(idNum)
-    .then(podcastPage => {
+    .then((podcastPage) => {
       res.setHeader('Content-Type', 'application/xml');
       res.send(podcastPage);
     })
-    .catch(err => {
+    .catch((err) => {
       if (err.status === 404) {
         res.redirect(NOT_FOUND_PAGE_PATH);
         return;

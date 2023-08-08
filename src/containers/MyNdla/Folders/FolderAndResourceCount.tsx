@@ -6,7 +6,7 @@
  *
  */
 import { useMemo } from 'react';
-import { FileDocumentOutline } from '@ndla/icons/common';
+import { FileDocumentOutline, Share } from '@ndla/icons/common';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { FolderOutlined } from '@ndla/icons/contentType';
@@ -40,7 +40,8 @@ const CountLoadingShimmer = () => {
         maxWidth: '75px',
         minWidth: '75px',
         maxHeight: '15px',
-      }}>
+      }}
+    >
       <rect x="0" y="3" rx="3" ry="3" width="75" height="15" key="rect-1" />
     </ContentLoader>
   );
@@ -70,13 +71,20 @@ const FolderAndResourceCount = ({
   return (
     <>
       <ResourceCountContainer>
+        {selectedFolder?.status === 'shared' && (
+          <>
+            <Share />
+            <span>{t('myNdla.folder.sharing.shared')}</span>
+          </>
+        )}
         {folders && (
           <>
             <FolderOutlined />
             <span>
               <WhileLoading
                 isLoading={loading}
-                fallback={<CountLoadingShimmer />}>
+                fallback={<CountLoadingShimmer />}
+              >
                 {t('myNdla.folders', {
                   count: hasSelectedFolder
                     ? selectedFolderCount?.folders
@@ -92,7 +100,8 @@ const FolderAndResourceCount = ({
             <span>
               <WhileLoading
                 isLoading={loading}
-                fallback={<CountLoadingShimmer />}>
+                fallback={<CountLoadingShimmer />}
+              >
                 {t('myNdla.resources', {
                   count: selectedFolderCount?.resources ?? allFoldersCount,
                 })}

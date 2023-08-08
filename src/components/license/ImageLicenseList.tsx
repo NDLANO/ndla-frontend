@@ -7,7 +7,6 @@
  */
 
 import { gql } from '@apollo/client';
-import { uuid } from '@ndla/util';
 import {
   Image,
   MediaList,
@@ -20,14 +19,24 @@ import {
 import {
   metaTypes,
   getGroupedContributorDescriptionList,
+  figureApa7CopyString,
 } from '@ndla/licenses';
 import { SafeLinkButton } from '@ndla/safelink';
 import queryString from 'query-string';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
+import styled from '@emotion/styled';
+import { useMemo } from 'react';
+import uniqBy from 'lodash/uniqBy';
 import CopyTextButton from './CopyTextButton';
 import { GQLImageLicenseList_ImageLicenseFragment } from '../../graphqlTypes';
-import { licenseCopyrightToCopyrightType } from './licenseHelpers';
+import {
+  isCopyrighted,
+  licenseCopyrightToCopyrightType,
+} from './licenseHelpers';
 import { licenseListCopyrightFragment } from './licenseFragments';
+import config from '../../config';
+import LicenseDescription from './LicenseDescription';
 
 export const downloadUrl = (imageSrc: string) => {
   const urlObject = queryString.parseUrl(imageSrc);
@@ -36,6 +45,12 @@ export const downloadUrl = (imageSrc: string) => {
     download: true,
   })}`;
 };
+
+const StyledLink = styled(Link)`
+  ::before {
+    z-index: 1;
+  }
+`;
 
 interface ImageLicenseInfoProps {
   image: GQLImageLicenseList_ImageLicenseFragment;
@@ -46,6 +61,18 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
   const safeCopyright = licenseCopyrightToCopyrightType(image.copyright);
   const items = getGroupedContributorDescriptionList(
     safeCopyright,
+    i18n.language,
+  );
+
+  const copyText = figureApa7CopyString(
+    image.title,
+    undefined,
+    image.src,
+    `${config.ndlaFrontendDomain}/image/${image.id}`,
+    image.copyright,
+    image.copyright.license.license,
+    '',
+    (id: string) => t(id),
     i18n.language,
   );
 
@@ -67,23 +94,37 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
 
   return (
     <MediaListItem>
-      <MediaListItemImage>
-        <Image alt={image.altText} src={image.src} />
+      <MediaListItemImage
+        canOpen={!isCopyrighted(image.copyright.license.license)}
+      >
+        {isCopyrighted(image.copyright.license.license) ? (
+          <Image alt={image.altText} src={image.src} />
+        ) : (
+          <StyledLink
+            to={`/image/${image.id}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={t('embed.goTo', { type: t('embed.type.image') })}
+          >
+            <Image alt={image.altText} src={image.src} />
+          </StyledLink>
+        )}
       </MediaListItemImage>
       <MediaListItemBody
         title={t('license.images.rules')}
         license={image.copyright.license?.license}
         resourceType="image"
         resourceUrl={image.src}
-        locale={i18n.language}>
+        locale={i18n.language}
+      >
         <MediaListItemActions>
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />
             {image.copyright.license?.license !== 'COPYRIGHTED' && (
               <>
-                {image.copyText && (
+                {copyText && (
                   <CopyTextButton
-                    stringToCopy={image.copyText}
+                    stringToCopy={copyText}
                     copyTitle={t('license.copyTitle')}
                     hasCopiedTitle={t('license.hasCopiedTitle')}
                   />
@@ -91,7 +132,8 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
                 <SafeLinkButton
                   to={downloadUrl(image.src)}
                   variant="outline"
-                  download>
+                  download
+                >
                   {t('license.download')}
                 </SafeLinkButton>
               </>
@@ -109,13 +151,13 @@ interface Props {
 
 const ImageLicenseList = ({ images }: Props) => {
   const { t } = useTranslation();
+  const unique = useMemo(() => uniqBy(images, (image) => image.id), [images]);
   return (
     <div>
-      <h2>{t('license.images.heading')}</h2>
-      <p>{t('license.images.description')}</p>
+      <LicenseDescription>{t('license.images.description')}</LicenseDescription>
       <MediaList>
-        {images.map(image => (
-          <ImageLicenseInfo image={image} key={uuid()} />
+        {unique.map((image, index) => (
+          <ImageLicenseInfo image={image} key={`${image.id}-${index}`} />
         ))}
       </MediaList>
     </div>
@@ -125,6 +167,7 @@ const ImageLicenseList = ({ images }: Props) => {
 ImageLicenseList.fragments = {
   image: gql`
     fragment ImageLicenseList_ImageLicense on ImageLicense {
+      id
       title
       altText
       src

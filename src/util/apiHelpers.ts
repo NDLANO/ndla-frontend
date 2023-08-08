@@ -16,6 +16,7 @@ import {
 import { BatchHttpLink } from '@apollo/client/link/batch-http';
 import { onError } from '@apollo/client/link/error';
 import { setContext } from '@apollo/client/link/context';
+import { AffiliationType, FeideUserApiType } from '@ndla/ui';
 import config from '../config';
 import handleError from './handleError';
 import { default as createFetch } from './fetch';
@@ -67,7 +68,7 @@ export function resolveJsonOrRejectWithError<T>(
     }
     return res
       .json()
-      .then(json => {
+      .then((json) => {
         const payload = createErrorPayload(
           res.status,
           json.message ?? res.statusText,
@@ -86,11 +87,38 @@ const uri = (() => {
   return apiResourceUrl('/graphql-api/graphql');
 })();
 
+const student: AffiliationType = 'student';
+const priorityAffiliations: AffiliationType[] = [
+  'employee',
+  'staff',
+  'faculty',
+];
+const findDefaultAffiliation = (
+  userAffiliations: AffiliationType[],
+): AffiliationType => {
+  if (userAffiliations.includes(student)) return student;
+
+  const maybeDefaultAffiliation = priorityAffiliations.find((affiliation) =>
+    userAffiliations.includes(affiliation),
+  );
+  return maybeDefaultAffiliation || student;
+};
+
+export const getAffiliationRoleOrDefault = (
+  user: FeideUserApiType | undefined,
+): AffiliationType => {
+  if (user === undefined) return student;
+  return (
+    user.eduPersonPrimaryAffiliation ||
+    findDefaultAffiliation(user.eduPersonAffiliation)
+  );
+};
+
 const getParentType = (type: string, aggregations?: GQLBucketResult[]) => {
   if (!aggregations) return undefined;
-  const typeValue = aggregations.find(agg => agg.value === type);
+  const typeValue = aggregations.find((agg) => agg.value === type);
   return aggregations.find(
-    agg => agg.count === typeValue?.count && agg.value !== type,
+    (agg) => agg.count === typeValue?.count && agg.value !== type,
   )?.value;
 };
 
@@ -100,8 +128,8 @@ const mergeGroupSearch = (
   page: number,
 ) => {
   if (!existing) return incoming;
-  return existing.map(group => {
-    const searchResults = incoming.filter(result => {
+  return existing.map((group) => {
+    const searchResults = incoming.filter((result) => {
       if (group.resourceType === result.resourceType) {
         return true;
       } else if (result.resourceType === 'topic-article') {
@@ -168,7 +196,7 @@ const typePolicies: TypePolicies = {
             canRead,
           }: FieldFunctionOptions<GQLQueryFolderResourceMetaSearchArgs>,
         ) {
-          const refs = args?.resources.map(arg =>
+          const refs = args?.resources.map((arg) =>
             toReference(
               `${
                 arg.resourceType === 'learningpath' ? 'Learningpath' : 'Article'
@@ -176,7 +204,7 @@ const typePolicies: TypePolicies = {
             ),
           );
 
-          if (refs && refs.every(ref => canRead(ref))) {
+          if (refs && refs.every((ref) => canRead(ref))) {
             return refs;
           }
           return undefined;
@@ -205,16 +233,16 @@ const typePolicies: TypePolicies = {
     keyFields: ['path'],
   },
   Filter: {
-    keyFields: object => `${object.id}+${object.relevanceId}`,
+    keyFields: (object) => `${object.id}+${object.relevanceId}`,
   },
   FrontpageSearchResult: {
     keyFields: ['path'],
   },
   FolderResourceMeta: {
-    keyFields: obj => `${obj.__typename}:${obj.type}${obj.id}`,
+    keyFields: (obj) => `${obj.__typename}:${obj.type}${obj.id}`,
   },
   MyNdlaPersonalData: {
-    keyFields: obj => obj.__typename,
+    keyFields: (obj) => obj.__typename,
   },
 };
 

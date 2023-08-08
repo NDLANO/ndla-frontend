@@ -7,14 +7,7 @@
  */
 
 import { gql } from '@apollo/client';
-import {
-  ComponentType,
-  ReactNode,
-  useState,
-  useRef,
-  createRef,
-  MouseEvent,
-} from 'react';
+import { useState, createRef, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import {
   constants,
@@ -22,40 +15,50 @@ import {
   OneColumn,
   SubjectBanner,
   LayoutItem,
-  NavigationHeading,
-  Breadcrumblist,
   MessageBox,
   FeideUserApiType,
+  SimpleBreadcrumbItem,
+  HomeBreadcrumb,
+  Heading,
 } from '@ndla/ui';
 import { withTracker } from '@ndla/tracker';
-import { useIntersectionObserver } from '@ndla/hooks';
 import {
   withTranslation,
   TFunction,
   CustomWithTranslation,
 } from 'react-i18next';
+import styled from '@emotion/styled';
+import { colors, spacing } from '@ndla/core';
 import SubjectPageContent from './components/SubjectPageContent';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
-import { scrollToRef } from './subjectPageHelpers';
 import CompetenceGoals from '../../components/CompetenceGoals';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { htmlTitle } from '../../util/titleHelper';
-import { BreadcrumbItem } from '../../interfaces';
 import { GQLSubjectContainer_SubjectFragment } from '../../graphqlTypes';
 import {
   SKIP_TO_CONTENT_ID,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
+  TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE,
 } from '../../constants';
-import { useIsNdlaFilm } from '../../routeHelpers';
+import { removeUrn, useIsNdlaFilm } from '../../routeHelpers';
 
 type Props = {
-  subjectId: string;
   topicIds: string[];
   subject: GQLSubjectContainer_SubjectFragment;
   loading?: boolean;
   user?: FeideUserApiType;
 } & CustomWithTranslation;
+
+const BreadcrumbWrapper = styled.div`
+  margin-top: ${spacing.mediumlarge};
+`;
+
+const StyledHeading = styled(Heading)`
+  &[data-inverted='true'] {
+    color: ${colors.white};
+  }
+`;
 
 const getSubjectCategoryMessage = (
   subjectCategory: string | undefined,
@@ -66,8 +69,6 @@ const getSubjectCategoryMessage = (
     subjectCategory === constants.subjectCategories.ACTIVE_SUBJECTS
   ) {
     return undefined;
-  } else if (subjectCategory === constants.subjectCategories.BETA_SUBJECTS) {
-    return t('messageBoxInfo.subjectFuture');
   } else if (subjectCategory === constants.subjectCategories.ARCHIVE_SUBJECTS) {
     return t('messageBoxInfo.subjectOutdated');
   } else {
@@ -90,112 +91,46 @@ const getSubjectTypeMessage = (
   }
 };
 
-const SubjectContainer = ({ t, subjectId, topicIds, subject }: Props) => {
+const SubjectContainer = ({ t, topicIds, subject }: Props) => {
   const ndlaFilm = useIsNdlaFilm();
   const about = subject.subjectpage?.about;
 
-  const [currentLevel, setCurrentLevel] = useState<number | string | undefined>(
-    0,
-  );
-  const [breadCrumbList, setBreadCrumbList] = useState<BreadcrumbItem[]>([]);
+  const [topicCrumbs, setTopicCrumbs] = useState<SimpleBreadcrumbItem[]>([]);
 
-  const breadCrumbs: BreadcrumbItem[] = [
+  useEffect(() => {
+    setTopicCrumbs((crumbs) => crumbs.slice(0, topicIds.length));
+  }, [topicIds.length]);
+
+  const breadCrumbs: SimpleBreadcrumbItem[] = [
     {
-      id: subjectId,
-      label: subject.name,
-      typename: 'Subject',
-      url: '#',
-      isCurrent: currentLevel === 'Subject',
+      name: t('breadcrumb.toFrontpage'),
+      to: '/',
     },
-    ...(breadCrumbList.length > 0
-      ? breadCrumbList.map(crumb => ({
-          ...crumb,
-          isCurrent: currentLevel === crumb.index,
-          typename:
-            (crumb.index ?? 0) > 0
-              ? 'Subtopic'
-              : ('Topic' as BreadcrumbItem['typename']),
-          url: '#',
-        }))
-      : []),
-  ];
+    {
+      to: `${removeUrn(subject.id)}`,
+      name: subject.name,
+    },
+    ...topicCrumbs,
+  ].reduce<SimpleBreadcrumbItem[]>((crumbs, crumb) => {
+    crumbs.push({
+      name: crumb.name,
+      to: `${crumbs[crumbs.length - 1]?.to ?? ''}${crumb.to}`,
+    });
 
-  const setBreadCrumb = (topic: BreadcrumbItem) => {
-    setCurrentLevel(topic.index);
-    setBreadCrumbList(prevCrumbs => [
-      ...prevCrumbs.filter(crumb => {
-        return (
-          crumb.id.toString().localeCompare(topic.id.toString()) !== 0 &&
-          (crumb.typename === 'Subjecttype' ||
-            crumb.typename === 'Subject' ||
-            topicIds?.includes(crumb.id.toString()))
-        );
-      }),
-      topic,
-    ]);
-  };
+    return crumbs;
+  }, []);
 
-  function renderCompetenceGoals(
-    subject: GQLSubjectContainer_SubjectFragment,
-  ):
-    | ((inp: {
-        Dialog: ComponentType;
-        dialogProps: { isOpen: boolean; onClose: () => void };
-      }) => ReactNode)
-    | null {
-    // Don't show competence goals for topics or articles without grepCodes
-    if (subject.grepCodes?.length) {
-      return ({
-        Dialog,
-        dialogProps,
-      }: {
-        Dialog: ComponentType;
-        dialogProps: { isOpen: boolean; onClose: () => void };
-      }) => (
-        <CompetenceGoals
-          codes={subject.grepCodes}
-          subjectId={subject.id}
-          wrapperComponent={Dialog}
-          wrapperComponentProps={dialogProps}
-        />
-      );
-    }
-    return null;
-  }
+  const topicRefs = topicIds.map((_) => createRef<HTMLDivElement>());
 
-  const headerRef = useRef<HTMLDivElement>(null);
-  const topicRefs = topicIds.map(_ => createRef<HTMLDivElement>());
-
-  const handleNav = (e: MouseEvent<HTMLElement>, item: BreadcrumbItem) => {
-    e.preventDefault();
-    const { typename, index } = item;
-    if (typename === 'Subjecttype' || typename === 'Subject') {
-      setCurrentLevel(typename);
-      scrollToRef(headerRef);
-    } else {
-      if (index !== undefined) {
-        setCurrentLevel(index);
-        const refToScroll = topicRefs[index];
-        if (refToScroll) scrollToRef(refToScroll);
-      }
-    }
-  };
-
-  // show/hide breadcrumb based on intersection
-  const [containerRef, { entry }] = useIntersectionObserver({
-    root: null,
-    rootMargin: '-275px',
-  });
-  const showBreadCrumb = entry && entry.isIntersecting;
   const moveBannerUp = !topicIds?.length;
 
-  const topicPath = topicIds?.map(t =>
-    subject.allTopics?.find(topic => topic.id === t),
+  const topicPath = topicIds?.map(
+    (t) => subject.allTopics?.find((topic) => topic.id === t),
   );
 
   const topicTitle = topicPath?.[topicPath.length - 1]?.name;
   const subjectTitle = subject.name;
-  const title = [topicTitle, subjectTitle].filter(e => !!e).join(' - ');
+  const title = [topicTitle, subjectTitle].filter((e) => !!e).join(' - ');
   const socialMediaMetadata = {
     title,
     description:
@@ -212,19 +147,21 @@ const SubjectContainer = ({ t, subjectId, topicIds, subject }: Props) => {
 
   const topicsOnPage =
     (topicIds.length > 0
-      ? subject.topics?.filter(topic => topicIds.includes(topic.id))
+      ? subject.topics?.filter((topic) => topicIds.includes(topic.id))
       : subject.topics) || [];
 
   const supportedLanguages =
     topicsOnPage[topicsOnPage.length - 1]?.supportedLanguages;
 
+  const customFields = subject?.metadata.customFields || {};
+
   const nonRegularSubjectMessage = getSubjectCategoryMessage(
-    subject.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY],
+    customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY],
     t,
   );
 
   const nonRegularSubjectTypeMessage = getSubjectTypeMessage(
-    subject.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE],
+    customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE],
     t,
   );
 
@@ -232,62 +169,63 @@ const SubjectContainer = ({ t, subjectId, topicIds, subject }: Props) => {
     <main>
       <Helmet>
         <title>{pageTitle}</title>
-        {subject?.metadata.customFields?.[
-          TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY
-        ] === constants.subjectCategories.ARCHIVE_SUBJECTS && (
-          <meta name="robots" content="noindex, nofollow" />
-        )}
+        {(customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] ===
+          constants.subjectCategories.ARCHIVE_SUBJECTS ||
+          customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] ===
+            'true') && <meta name="robots" content="noindex, nofollow" />}
       </Helmet>
-      <div ref={containerRef}>
-        <OneColumn>
-          <LayoutItem layout="extend">
-            <SocialMediaMetadata
-              title={socialMediaMetadata.title}
-              description={socialMediaMetadata.description}
-              imageUrl={socialMediaMetadata.image?.url}
-              trackableContent={{ supportedLanguages }}
-            />
-            <div ref={headerRef}>
-              <ArticleHeaderWrapper
-                competenceGoals={renderCompetenceGoals(subject)}>
-                <NavigationHeading
-                  headingId={
-                    topicIds.length === 0 ? SKIP_TO_CONTENT_ID : undefined
-                  }
-                  invertedStyle={ndlaFilm}>
-                  {subject.name}
-                </NavigationHeading>
-              </ArticleHeaderWrapper>
-            </div>
-            {!ndlaFilm && nonRegularSubjectMessage && (
-              <MessageBox>{nonRegularSubjectMessage}</MessageBox>
-            )}
-            {!ndlaFilm && nonRegularSubjectTypeMessage && (
-              <MessageBox>{nonRegularSubjectTypeMessage}</MessageBox>
-            )}
-            <SubjectPageContent
-              subject={subject}
-              topicIds={topicIds}
-              refs={topicRefs}
-              setBreadCrumb={setBreadCrumb}
-            />
-          </LayoutItem>
-        </OneColumn>
-      </div>
+      <OneColumn>
+        <LayoutItem layout="extend">
+          <SocialMediaMetadata
+            title={socialMediaMetadata.title}
+            description={socialMediaMetadata.description}
+            imageUrl={socialMediaMetadata.image?.url}
+            trackableContent={{ supportedLanguages }}
+          />
+          <ArticleHeaderWrapper
+            competenceGoals={
+              subject.grepCodes?.length ? (
+                <CompetenceGoals
+                  codes={subject.grepCodes}
+                  subjectId={subject.id}
+                />
+              ) : undefined
+            }
+          >
+            <BreadcrumbWrapper>
+              <HomeBreadcrumb light={ndlaFilm} items={breadCrumbs} />
+            </BreadcrumbWrapper>
+            <StyledHeading
+              element="h1"
+              margin="xlarge"
+              headingStyle="h1"
+              data-inverted={ndlaFilm}
+              id={topicIds.length === 0 ? SKIP_TO_CONTENT_ID : undefined}
+              tabIndex={-1}
+            >
+              {subject.name}
+            </StyledHeading>
+          </ArticleHeaderWrapper>
+          {!ndlaFilm && nonRegularSubjectMessage && (
+            <MessageBox>{nonRegularSubjectMessage}</MessageBox>
+          )}
+          {!ndlaFilm && nonRegularSubjectTypeMessage && (
+            <MessageBox>{nonRegularSubjectTypeMessage}</MessageBox>
+          )}
+          <SubjectPageContent
+            subject={subject}
+            topicIds={topicIds}
+            refs={topicRefs}
+            setBreadCrumb={setTopicCrumbs}
+          />
+        </LayoutItem>
+      </OneColumn>
       {subject.subjectpage?.banner && (
         <SubjectBanner
           image={subject.subjectpage?.banner.desktopUrl || ''}
           negativeTopMargin={moveBannerUp}
         />
       )}
-      <OneColumn wide>
-        <Breadcrumblist
-          items={breadCrumbs}
-          onNav={handleNav}
-          invertedStyle={ndlaFilm}
-          isVisible={showBreadCrumb}
-        />
-      </OneColumn>
     </main>
   );
 };
@@ -308,8 +246,8 @@ SubjectContainer.willTrackPageView = (
 
 SubjectContainer.getDimensions = (props: Props) => {
   const { subject, topicIds, user } = props;
-  const topicPath = topicIds.map(t =>
-    subject.allTopics?.find(topic => topic.id === t),
+  const topicPath = topicIds.map(
+    (t) => subject.allTopics?.find((topic) => topic.id === t),
   );
 
   return getAllDimensions({

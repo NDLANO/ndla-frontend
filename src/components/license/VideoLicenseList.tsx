@@ -22,10 +22,17 @@ import {
   getGroupedContributorDescriptionList,
 } from '@ndla/licenses';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
+import { useMemo } from 'react';
+import uniqBy from 'lodash/uniqBy';
 import CopyTextButton from './CopyTextButton';
 import { GQLVideoLicenseList_BrightcoveLicenseFragment } from '../../graphqlTypes';
-import { licenseCopyrightToCopyrightType } from './licenseHelpers';
+import {
+  isCopyrighted,
+  licenseCopyrightToCopyrightType,
+} from './licenseHelpers';
 import { licenseListCopyrightFragment } from './licenseFragments';
+import LicenseDescription from './LicenseDescription';
 
 interface VideoLicenseInfoProps {
   video: GQLVideoLicenseList_BrightcoveLicenseFragment;
@@ -47,19 +54,33 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
   }
   return (
     <MediaListItem>
-      <MediaListItemImage>
-        <img alt="presentation" src={video.cover} />
+      <MediaListItemImage
+        canOpen={!isCopyrighted(video.copyright?.license.license)}
+      >
+        {isCopyrighted(video.copyright?.license.license) ? (
+          <img alt="presentation" src={video.cover} />
+        ) : (
+          <Link
+            to={`/video/${video.id}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={t('embed.goTo', { type: t('embed.type.video') })}
+          >
+            <img alt="presentation" src={video.cover} />
+          </Link>
+        )}
       </MediaListItemImage>
       <MediaListItemBody
         title={t('license.video.rules')}
-        license={video.copyright.license?.license}
+        license={video.copyright?.license?.license ?? ''}
         resourceType="video"
         resourceUrl={video.src}
-        locale={i18n.language}>
+        locale={i18n.language}
+      >
         <MediaListItemActions>
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />
-            {video.copyright.license?.license !== 'COPYRIGHTED' &&
+            {video.copyright?.license?.license !== 'COPYRIGHTED' &&
               video.download && (
                 <SafeLinkButton to={video.download} download variant="outline">
                   {t('license.download')}
@@ -83,12 +104,12 @@ interface Props {
 
 const VideoLicenseList = ({ videos }: Props) => {
   const { t } = useTranslation();
+  const unique = useMemo(() => uniqBy(videos, (video) => video.id), [videos]);
   return (
     <div>
-      <h2>{t('license.video.heading')}</h2>
-      <p>{t('license.video.description')}</p>
+      <LicenseDescription>{t('license.video.description')}</LicenseDescription>
       <MediaList>
-        {videos.map(video => (
+        {unique.map((video) => (
           <VideoLicenseInfo video={video} key={uuid()} />
         ))}
       </MediaList>
@@ -99,6 +120,7 @@ const VideoLicenseList = ({ videos }: Props) => {
 VideoLicenseList.fragments = {
   video: gql`
     fragment VideoLicenseList_BrightcoveLicense on BrightcoveLicense {
+      id
       title
       download
       src

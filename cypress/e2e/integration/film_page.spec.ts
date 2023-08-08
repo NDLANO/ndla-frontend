@@ -11,26 +11,26 @@ describe('Film page', () => {
     cy.fixCypressSpec('/e2e/integration/film_page.spec.ts');
     cy.gqlIntercept({
       alias: 'filmPage',
-      operations: ['filmFrontPage', 'alerts', 'mastHead'],
+      operations: ['examLockStatus', 'filmFrontPage', 'alerts', 'mastHead'],
     });
   });
 
   it('has content', () => {
     cy.visit('/subject:20?disableSSR=true');
     cy.gqlWait('@filmPage');
-    cy.contains('h1', 'Alle utlendinger').should('be.visible');
+    cy.contains('a', 'Alle utlendinger').should('be.visible');
     cy.contains('h2', 'Emner i film')
       .parent()
       .within(() => {
-        cy.get('nav > ul > li').should($list => {
+        cy.get('nav > ul > li').should(($list) => {
           expect($list).to.have.length(7);
         });
       });
-    cy.contains('h1', 'Identitet')
+    cy.contains('h2', 'Identitet')
       .parent()
       .parent()
       .children()
-      .should($list => {
+      .should(($list) => {
         expect($list).to.have.length(5);
       });
   });

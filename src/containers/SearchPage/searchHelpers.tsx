@@ -35,13 +35,6 @@ export const plainUrl = (url: string) => {
   return isLearningpath ? `/learningpaths/${id}` : `/article/${id}`;
 };
 
-const updateBreadcrumbSubject = (
-  breadcrumbs: string[] | undefined,
-  subject: string | undefined,
-) => {
-  return [subject ?? '', ...(breadcrumbs?.slice(1) ?? [])];
-};
-
 const arrayFields = [
   'languageFilter',
   'subjects',
@@ -95,11 +88,11 @@ export const convertProgramSearchParams = (
   locale: LocaleType,
 ) => {
   const subjectParams: string[] = [];
-  programmes.forEach(programme => {
+  programmes.forEach((programme) => {
     if (values.includes(programme.url[locale])) {
-      programme.grades.forEach(grade =>
-        grade.categories.forEach(category => {
-          category.subjects.forEach(subject => {
+      programme.grades.forEach((grade) =>
+        grade.categories.forEach((category) => {
+          category.subjects.forEach((subject) => {
             if (!subjectParams.includes(subject.id))
               subjectParams.push(subject.id);
           });
@@ -129,7 +122,7 @@ export const resultsWithContentTypeBadgeAndImage = <T extends ResultBase>(
   includeEmbedButton?: boolean,
   ltiData?: LtiData,
 ) =>
-  results.map(result => {
+  results.map((result) => {
     const { url, contentType, metaImage } = result;
     return {
       ...result,
@@ -149,7 +142,7 @@ export const resultsWithContentTypeBadgeAndImage = <T extends ResultBase>(
   });
 
 const mapTraits = (traits: string[] | undefined, t: TFunction) =>
-  traits?.map(trait => {
+  traits?.map((trait) => {
     if (trait === 'VIDEO') {
       return t('resource.trait.video');
     } else if (trait === 'H5P') {
@@ -175,7 +168,7 @@ const getContextLabels = (
   contexts: GQLGroupSearchResourceFragment['contexts'] | undefined,
 ) => {
   if (!contexts?.[0]) return [];
-  const types = contexts[0].resourceTypes?.slice(1)?.map(t => t.name) ?? [];
+  const types = contexts[0].resourceTypes?.slice(1)?.map((t) => t.name) ?? [];
   const relevance = isSupplementary(contexts[0]) ? [contexts[0].relevance] : [];
   const labels = types.concat(relevance);
   return labels.filter((label): label is string => label !== undefined);
@@ -206,7 +199,7 @@ export const mapResourcesToItems = (
   language: LocaleType | undefined,
   t: TFunction,
 ): SearchItem[] =>
-  resources.map(resource => ({
+  resources.map((resource) => ({
     id: resource.id,
     title: resource.name,
     ingress: resource.ingress,
@@ -218,15 +211,15 @@ export const mapResourcesToItems = (
           language,
         )
       : resource.contexts?.length
-      ? resource.path
+      ? resource.contexts[0]?.path || resource.path
       : plainUrl(resource.path),
     labels: [
       ...mapTraits(resource.traits, t),
       ...getContextLabels(resource.contexts),
     ],
-    contexts: resource.contexts?.map(context => ({
+    contexts: resource.contexts?.map((context) => ({
       url: context.path,
-      breadcrumb: updateBreadcrumbSubject(context.breadcrumbs, context.subject),
+      breadcrumb: context.breadcrumbs,
       isAdditional: isSupplementary(context),
     })),
     ...(resource.metaImage?.url && {
@@ -244,9 +237,7 @@ export const mapResourcesToItems = (
           url: resource.path,
         }}
       />
-    ) : (
-      undefined
-    ),
+    ) : undefined,
   }));
 
 export const sortResourceTypes = <T extends Record<string, any>>(
@@ -275,8 +266,8 @@ const getResourceTypeFilters = (
 ) => {
   return (
     resourceTypes?.subtypes
-      ?.map(type => type.id)
-      .filter(t => aggregations?.includes(t)) || []
+      ?.map((type) => type.id)
+      .filter((t) => aggregations?.includes(t)) || []
   );
 };
 
@@ -296,11 +287,11 @@ export const mapSearchDataToGroups = (
   t: TFunction,
 ): SearchGroup[] => {
   if (!searchData) return [];
-  return searchData.map(result => ({
+  return searchData.map((result) => ({
     items: mapResourcesToItems(result.resources, ltiData, !!isLti, language, t),
     resourceTypes: getResourceTypeFilters(
-      resourceTypes?.find(type => type.id === result.resourceType),
-      result.aggregations?.[0]?.values?.map(value => value.value),
+      resourceTypes?.find((type) => type.id === result.resourceType),
+      result.aggregations?.[0]?.values?.map((value) => value.value),
     ),
     totalCount: result.totalCount,
     type: contentTypeMapping[result.resourceType] || result.resourceType,
@@ -330,7 +321,7 @@ export const getTypeFilter = (
     'topic-article': {
       page: 1,
       pageSize: 6,
-      selected: selectedFilters?.some(f => f === 'topic-article'),
+      selected: selectedFilters?.some((f) => f === 'topic-article'),
       filters: [],
     },
   };
@@ -342,12 +333,12 @@ export const getTypeFilter = (
     {},
   );
   if (resourceTypes) {
-    resourceTypes.forEach(type => {
+    resourceTypes.forEach((type) => {
       const filters: SubTypeFilter[] = [];
       if (type.subtypes) {
         const apiFilters = [...JSON.parse(JSON.stringify(type.subtypes))];
         let hasActive = false;
-        const withActive = apiFilters.map(f => {
+        const withActive = apiFilters.map((f) => {
           if (subFilterMapping[`${contentTypeMapping[type.id]}:${f.id}`]) {
             f.active = true;
             hasActive = true;
@@ -363,7 +354,7 @@ export const getTypeFilter = (
         filters.push(...withActive);
       }
       const isSelected = selectedFilters?.some(
-        f => f === contentTypeMapping[type.id],
+        (f) => f === contentTypeMapping[type.id],
       );
       const key = contentTypeMapping[type.id];
       if (!key) return;
@@ -385,19 +376,21 @@ export const getTypeParams = (
   if (!types?.length) {
     return {
       resourceTypes: allResourceTypes
-        ?.map(resourceType => resourceType.id)
+        ?.map((resourceType) => resourceType.id)
         .join(),
       contextTypes: 'topic-article',
     };
   }
-  const contextTypes = types.find(type => type === 'topic-article');
+  const contextTypes = types.find((type) => type === 'topic-article');
   if (contextTypes) {
     return {
       contextTypes,
     };
   }
   return {
-    resourceTypes: types.map(type => resourceTypeMapping[type] || type).join(),
+    resourceTypes: types
+      .map((type) => resourceTypeMapping[type] || type)
+      .join(),
     contextTypes: undefined,
   };
 };

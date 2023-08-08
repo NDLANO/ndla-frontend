@@ -11,27 +11,25 @@ describe('Front page', () => {
     cy.fixCypressSpec('/e2e/integration/frontpage.spec.ts');
     cy.gqlIntercept({
       alias: 'alerts',
-      operations: ['alerts', 'subjects'],
+      operations: ['examLockStatus', 'alerts', 'frontpageData'],
     });
     cy.visit('/?disableSSR=true');
     cy.gqlWait('@alerts');
   });
   it('should have a list of valid links on front page', () => {
-    cy.get('[data-testid="category-list"] nav a').each(el => {
+    cy.get('[data-testid="category-list"] nav a').each((el) => {
       cy.wrap(el).should('have.attr', 'href');
       cy.wrap(el).contains(/\w+/);
     });
   });
 
   it('should have a functioning change language box', () => {
-    cy.get('[class*="StyledLanguageWrapper"] button')
+    cy.get('[class*="StyledLanguageWrapper"] button').first().click();
+    cy.get('[data-radix-popper-content-wrapper]')
       .contains('Bokmål')
-      .first()
-      .click();
-    cy.get('button')
-      .contains('Nynorsk')
-      .first()
-      .click();
+      .invoke('attr', 'aria-current')
+      .should('eq', 'true');
+    cy.get('button').contains('Nynorsk').first().click();
     cy.url().should('include', '/nn/');
   });
 });

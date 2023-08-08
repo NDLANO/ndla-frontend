@@ -23,7 +23,7 @@ export const getArticleProps = <T extends Topic>(
     hasResourceTypes && resource ? getContentType(resource) : undefined;
 
   const additional =
-    topic?.supplementaryResources?.some(item => item?.id === resource?.id) ??
+    topic?.supplementaryResources?.some((item) => item?.id === resource?.id) ??
     false;
 
   const label = (hasResourceTypes && resource?.resourceTypes![0]?.name) || '';

@@ -36,7 +36,7 @@ const urlInPaths = (
   location: Location,
   resource: Pick<GQLResource, 'paths'>,
 ) => {
-  return resource.paths?.find(p => location.pathname.includes(p));
+  return resource.paths?.find((p) => location.pathname.includes(p));
 };
 
 const resourcePageQuery = gql`
@@ -44,10 +44,11 @@ const resourcePageQuery = gql`
     $topicId: String!
     $subjectId: String!
     $resourceId: String!
+    $convertEmbeds: Boolean
   ) {
     subject(id: $subjectId) {
       topics(all: true) {
-        parent
+        parentId
         ...LearningpathPage_TopicPath
         ...ArticlePage_TopicPath
       }
@@ -94,6 +95,7 @@ const ResourcePage = () => {
         subjectId,
         topicId,
         resourceId,
+        convertEmbeds: true,
       },
     },
   );
@@ -105,6 +107,13 @@ const ResourcePage = () => {
 
   if (isAccessDeniedError(error)) {
     return <AccessDeniedPage />;
+  }
+
+  if (
+    error?.graphQLErrors.some((err) => err.extensions.status === 410) &&
+    redirectContext
+  ) {
+    redirectContext.status = 410;
   }
 
   if (!data) {

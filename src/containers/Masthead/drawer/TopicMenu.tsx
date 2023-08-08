@@ -8,12 +8,13 @@
 
 import { gql } from '@apollo/client';
 import { Bookmark, Class } from '@ndla/icons/action';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import sortBy from 'lodash/sortBy';
 import { ContentTypeBadge } from '@ndla/ui';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {
   GQLTopicMenuResourcesQuery,
   GQLTopicMenuResourcesQueryVariables,
@@ -36,6 +37,7 @@ import {
   TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE,
 } from '../../../constants';
 import { contentTypeMapping } from '../../../util/getContentType';
+import { useDrawerContext } from './DrawerContext';
 
 interface Props {
   topic: TopicWithSubTopics;
@@ -64,8 +66,10 @@ const TopicMenu = ({
   level,
   removeTopic,
 }: Props) => {
-  const parentIsTopic = topic.parent?.startsWith('urn:subject');
+  const { t } = useTranslation();
+  const parentIsTopic = topic.parentId?.startsWith('urn:subject');
   const location = useLocation();
+  const { shouldCloseLevel, setLevelClosed } = useDrawerContext();
   const Icon = parentIsTopic ? Class : Bookmark;
 
   const { data } = useGraphQuery<
@@ -82,7 +86,7 @@ const TopicMenu = ({
 
   const arrowAddTopic = useCallback(
     (id: string | undefined) => {
-      const newTopic = topic.subtopics.find(t => t.id === id);
+      const newTopic = topic.subtopics.find((t) => t.id === id);
       if (newTopic) {
         addTopic(newTopic, level);
       }
@@ -95,16 +99,23 @@ const TopicMenu = ({
     [topic, topicPath],
   );
 
-  useArrowNavigation(
-    active,
-    active ? `header-${topic.id}` : topicPath[level]?.id,
-    arrowAddTopic,
-    onCloseMenuPortion,
-  );
+  useArrowNavigation(active, {
+    initialFocused: active ? `header-${topic.id}` : topicPath[level]?.id,
+    onRightKeyPressed: arrowAddTopic,
+    onLeftKeyPressed: onCloseMenuPortion,
+  });
 
-  const coreResources = useMemo(() => data?.topic?.coreResources ?? [], [
-    data?.topic?.coreResources,
-  ]);
+  useEffect(() => {
+    if (active && shouldCloseLevel) {
+      onCloseMenuPortion();
+      setLevelClosed();
+    }
+  }, [active, shouldCloseLevel, setLevelClosed, onCloseMenuPortion]);
+
+  const coreResources = useMemo(
+    () => data?.topic?.coreResources ?? [],
+    [data?.topic?.coreResources],
+  );
   const supplementaryResources = useMemo(
     () => data?.topic?.supplementaryResources ?? [],
     [data?.topic?.supplementaryResources],
@@ -112,8 +123,8 @@ const TopicMenu = ({
 
   const sortedResources = useMemo(
     () =>
-      sortBy(coreResources.concat(supplementaryResources), r => r.rank).map(
-        r => ({
+      sortBy(coreResources.concat(supplementaryResources), (r) => r.rank).map(
+        (r) => ({
           ...r,
           resourceTypes: sortResourceTypes(r.resourceTypes ?? []),
         }),
@@ -152,56 +163,59 @@ const TopicMenu = ({
           title={topic.name}
           onClose={onClose}
         />
-        {topic.subtopics.map(t => (
+        {topic.subtopics.map((t) => (
           <DrawerMenuItem
             id={t.id}
             key={t.id}
             current={t.path === location.pathname}
             type="button"
             active={levelId === t.id}
-            onClick={expanded =>
+            onClick={(expanded) =>
               expanded ? removeTopic(level) : addTopic(t, level)
-            }>
+            }
+          >
             {t.name}
           </DrawerMenuItem>
         ))}
         {!isUngrouped
-          ? groupedResources.map(group => (
+          ? groupedResources.map((group) => (
               <ResourceTypeList id={group.id} key={group.id} name={group.name}>
-                {group.resources?.map(res => (
+                {group.resources?.map((res) => (
                   <DrawerMenuItem
                     id={`${topic.id}-${res.id}`}
                     type="link"
                     to={res.path}
                     current={res.path === location.pathname}
                     onClose={onClose}
-                    key={res.id}>
+                    key={res.id}
+                  >
                     {res.name}
                   </DrawerMenuItem>
                 ))}
               </ResourceTypeList>
             ))
-          : sortedResources.map(res => (
-              <DrawerMenuItem
-                id={`${topic.id}-${res.id}`}
-                type="link"
-                to={res.path}
-                current={res.path === location.pathname}
-                onClose={onClose}
-                key={res.id}>
-                <StyledResourceSpan>
-                  <ContentTypeBadge
-                    type={
-                      res.resourceTypes[0]
-                        ? contentTypeMapping[res.resourceTypes[0]?.id]!
-                        : 'subject-material'
-                    }
-                    border={false}
-                  />
-                  {res.name}
-                </StyledResourceSpan>
-              </DrawerMenuItem>
-            ))}
+          : sortedResources.map((res) => {
+              const type = res.resourceTypes[0]
+                ? contentTypeMapping[res.resourceTypes[0]?.id]!
+                : 'subject-material';
+              return (
+                <DrawerMenuItem
+                  id={`${topic.id}-${res.id}`}
+                  type="link"
+                  to={res.path}
+                  current={res.path === location.pathname}
+                  onClose={onClose}
+                  key={res.id}
+                >
+                  <StyledResourceSpan
+                    aria-label={`${res.name}, ${t(`contentTypes.${type}`)}`}
+                  >
+                    <ContentTypeBadge type={type} border={false} />
+                    {res.name}
+                  </StyledResourceSpan>
+                </DrawerMenuItem>
+              );
+            })}
       </DrawerList>
     </DrawerPortion>
   );

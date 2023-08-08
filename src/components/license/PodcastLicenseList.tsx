@@ -7,7 +7,6 @@
  */
 
 import { gql } from '@apollo/client';
-import { uuid } from '@ndla/util';
 import {
   MediaList,
   MediaListItem,
@@ -18,15 +17,24 @@ import {
 } from '@ndla/ui';
 import { Podcast } from '@ndla/icons/common';
 import {
+  figureApa7CopyString,
   getGroupedContributorDescriptionList,
   metaTypes,
 } from '@ndla/licenses';
 import { useTranslation } from 'react-i18next';
 import { SafeLinkButton } from '@ndla/safelink';
+import { Link } from 'react-router-dom';
+import { useMemo } from 'react';
+import uniqBy from 'lodash/uniqBy';
 import CopyTextButton from './CopyTextButton';
 import { GQLPodcastLicenseList_PodcastLicenseFragment } from '../../graphqlTypes';
-import { licenseCopyrightToCopyrightType } from './licenseHelpers';
+import {
+  isCopyrighted,
+  licenseCopyrightToCopyrightType,
+} from './licenseHelpers';
 import { licenseListCopyrightFragment } from './licenseFragments';
+import config from '../../config';
+import LicenseDescription from './LicenseDescription';
 
 interface PodcastLicenseInfoProps {
   podcast: GQLPodcastLicenseList_PodcastLicenseFragment;
@@ -37,6 +45,18 @@ const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
   const safeCopyright = licenseCopyrightToCopyrightType(podcast.copyright);
   const items = getGroupedContributorDescriptionList(
     safeCopyright,
+    i18n.language,
+  );
+
+  const copyText = figureApa7CopyString(
+    podcast.title,
+    undefined,
+    podcast.src,
+    `${config.ndlaFrontendDomain}/audio/${podcast.id}`,
+    podcast.copyright,
+    podcast.copyright.license.license,
+    '',
+    (id: string) => t(id),
     i18n.language,
   );
 
@@ -57,8 +77,21 @@ const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
 
   return (
     <MediaListItem>
-      <MediaListItemImage>
-        <Podcast className="c-medialist__icon" />
+      <MediaListItemImage
+        canOpen={!isCopyrighted(podcast.copyright.license.license)}
+      >
+        {isCopyrighted(podcast.copyright.license.license) ? (
+          <Podcast className="c-medialist__icon" />
+        ) : (
+          <Link
+            to={`/audio/${podcast.id}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={t('embed.goTo', { type: t('embed.type.podcast') })}
+          >
+            <Podcast className="c-medialist__icon" />
+          </Link>
+        )}
       </MediaListItemImage>
 
       <MediaListItemBody
@@ -66,15 +99,16 @@ const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
         license={podcast.copyright.license?.license}
         resourceType="podcast"
         resourceUrl={podcast.src}
-        locale={i18n.language}>
+        locale={i18n.language}
+      >
         <MediaListItemActions>
           <div className="c-medialist__ref">
             <MediaListItemMeta items={items} />
             {podcast.copyright.license?.license !== 'COPYRIGHTED' && (
               <>
-                {podcast.copyText && (
+                {copyText && (
                   <CopyTextButton
-                    stringToCopy={podcast.copyText}
+                    stringToCopy={copyText}
                     copyTitle={t('license.copyTitle')}
                     hasCopiedTitle={t('license.hasCopiedTitle')}
                   />
@@ -97,13 +131,20 @@ interface Props {
 
 const PodcastLicenseList = ({ podcasts }: Props) => {
   const { t } = useTranslation();
+
+  const unique = useMemo(() => uniqBy(podcasts, (p) => p.id), [podcasts]);
+
   return (
     <div>
-      <h2>{t('license.podcast.heading')}</h2>
-      <p>{t('license.podcast.description')}</p>
+      <LicenseDescription>
+        {t('license.podcast.description')}
+      </LicenseDescription>
       <MediaList>
-        {podcasts.map(podcast => (
-          <PodcastLicenseInfo podcast={podcast} key={uuid()} />
+        {unique.map((podcast, index) => (
+          <PodcastLicenseInfo
+            podcast={podcast}
+            key={`${podcast.id}-${index}`}
+          />
         ))}
       </MediaList>
     </div>
@@ -113,6 +154,7 @@ const PodcastLicenseList = ({ podcasts }: Props) => {
 PodcastLicenseList.fragments = {
   podcast: gql`
     fragment PodcastLicenseList_PodcastLicense on PodcastLicense {
+      id
       src
       copyText
       title

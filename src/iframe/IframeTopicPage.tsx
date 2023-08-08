@@ -6,6 +6,7 @@
  *
  */
 
+import { useMemo } from 'react';
 import { gql } from '@apollo/client';
 import { Helmet } from 'react-helmet-async';
 import { withTracker } from '@ndla/tracker';
@@ -15,7 +16,6 @@ import { transformArticle } from '../util/transformArticle';
 import Article from '../components/Article';
 import { getArticleScripts } from '../util/getArticleScripts';
 import PostResizeMessage from './PostResizeMessage';
-import FixDialogPosition from './FixDialogPosition';
 import SocialMediaMetadata from '../components/SocialMediaMetadata';
 import getStructuredDataFromArticle, {
   structuredArticleDataFragment,
@@ -50,8 +50,17 @@ export const IframeTopicPage = ({
   locale: localeProp,
 }: Props) => {
   const locale = localeProp ?? i18n.language;
-  const article = transformArticle(propArticle, locale);
-  const scripts = getArticleScripts(article, locale);
+
+  const [article, scripts] = useMemo(() => {
+    return [
+      transformArticle(propArticle, locale, {
+        path: `${config.ndlaFrontendDomain}/article/${propArticle.id}`,
+        isOembed: true,
+      }),
+      getArticleScripts(propArticle, locale),
+    ];
+  }, [propArticle, locale]);
+
   const contentUrl = topic?.path
     ? `${config.ndlaFrontendDomain}${topic.path}`
     : undefined;
@@ -60,7 +69,7 @@ export const IframeTopicPage = ({
       <Helmet>
         <title>{`${getDocumentTitle({ article })}`}</title>
         <meta name="robots" content="noindex" />
-        {scripts.map(script => (
+        {scripts.map((script) => (
           <script
             key={script.src}
             src={script.src}
@@ -83,16 +92,17 @@ export const IframeTopicPage = ({
         />
       )}
       <PostResizeMessage />
-      <FixDialogPosition />
       <OneColumn>
         <main>
           <Article
+            contentTransformed
             isTopicArticle
             article={article}
             label={t('topicPage.topic')}
             isPlainArticle
             isOembed
-            contentType={constants.contentTypes.TOPIC}>
+            contentType={constants.contentTypes.TOPIC}
+          >
             <CreatedBy
               name={t('createdBy.content')}
               description={t('createdBy.text')}

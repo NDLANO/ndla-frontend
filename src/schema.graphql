@@ -29,16 +29,18 @@ type Article {
   requiredLibraries: [ArticleRequiredLibrary!]
   revision: Int!
   revisionDate: String
+  slug: String
   supportedLanguages: [String!]
   tags: [String!]
   title: String!
   updated: String!
   visualElement: VisualElement
+  visualElementEmbed: ResourceEmbed
 }
 
 type ArticleFolderResourceMeta implements FolderResourceMeta {
   description: String!
-  id: Int!
+  id: String!
   metaImage: MetaImage
   resourceTypes: [FolderResourceResourceType!]!
   title: String!
@@ -73,7 +75,7 @@ type ArticleSearchResult implements SearchResult {
   url: String!
 }
 
-type Audio implements AudioBase {
+type Audio {
   audioFile: AudioFile!
   audioType: String!
   copyright: Copyright!
@@ -82,21 +84,7 @@ type Audio implements AudioBase {
   manuscript: Manuscript
   podcastMeta: PodcastMeta
   revision: Int!
-  supportedLanguages: [String!]!
-  tags: Tags!
-  title: Title!
-  updated: String!
-}
-
-interface AudioBase {
-  audioFile: AudioFile!
-  audioType: String!
-  copyright: Copyright!
-  created: String!
-  id: Int!
-  manuscript: Manuscript
-  podcastMeta: PodcastMeta
-  revision: Int!
+  series: PodcastSeries
   supportedLanguages: [String!]!
   tags: Tags!
   title: Title!
@@ -110,9 +98,19 @@ type AudioFile {
   url: String!
 }
 
+type AudioFolderResourceMeta implements FolderResourceMeta {
+  description: String!
+  id: String!
+  metaImage: MetaImage
+  resourceTypes: [FolderResourceResourceType!]!
+  title: String!
+  type: String!
+}
+
 type AudioLicense {
   copyText: String
   copyright: Copyright!
+  id: String!
   src: String!
   title: String!
 }
@@ -137,34 +135,26 @@ type AudioSummary {
   url: String!
 }
 
-type AudioWithSeries implements AudioBase {
-  audioFile: AudioFile!
-  audioType: String!
-  copyright: Copyright!
-  created: String!
-  id: Int!
-  manuscript: Manuscript
-  podcastMeta: PodcastMeta
-  revision: Int!
-  series: PodcastSeries
-  supportedLanguages: [String!]!
-  tags: Tags!
-  title: Title!
-  updated: String!
-}
-
 type Breadcrumb {
   id: String!
   name: String!
+}
+
+type BrightcoveCustomFields {
+  accountId: String
+  license: String!
+  licenseInfo: [String!]!
 }
 
 type BrightcoveElement {
   account: String
   caption: String
   cover: String
+  customFields: BrightcoveCustomFields
   description: String
   download: String
   iframe: BrightcoveIframe
+  name: String
   player: String
   src: String
   uploadDate: String
@@ -178,10 +168,11 @@ type BrightcoveIframe {
 }
 
 type BrightcoveLicense {
-  copyright: Copyright!
+  copyright: Copyright
   cover: String
   description: String
   download: String
+  id: String!
   iframe: BrightcoveIframe
   src: String
   title: String!
@@ -193,9 +184,16 @@ type BucketResult {
   value: String!
 }
 
+type Caption {
+  caption: String!
+  language: String!
+}
+
 type Category {
-  name: String!
-  subjects: [Subject!]!
+  id: String!
+  isProgrammeSubject: Boolean!
+  subjects: [Subject!]
+  title: Title!
 }
 
 type CompetenceGoal {
@@ -227,6 +225,7 @@ type Concept {
   source: String
   subjectIds: [String!]
   subjectNames: [String!]
+  supportedLanguages: [String!]!
   tags: [String!]!
   title: String!
   visualElement: VisualElement
@@ -240,8 +239,20 @@ type ConceptCopyright {
   rightsholders: [Contributor!]!
 }
 
+type ConceptFolderResourceMeta implements FolderResourceMeta {
+  description: String!
+  id: String!
+  metaImage: MetaImage
+  resourceTypes: [FolderResourceResourceType!]!
+  title: String!
+  type: String!
+}
+
 type ConceptLicense {
+  content: String
   copyright: ConceptCopyright
+  id: String!
+  metaImageUrl: String
   src: String
   title: String!
 }
@@ -252,6 +263,11 @@ type ConceptResult {
   page: Int
   pageSize: Int!
   totalCount: Int!
+}
+
+type ConfigMetaRestricted {
+  key: String!
+  value: String!
 }
 
 type Contributor {
@@ -293,6 +309,12 @@ type Description {
   language: String!
 }
 
+type EditorNote {
+  note: String!
+  timestamp: String!
+  updatedBy: String!
+}
+
 type Element {
   explanation: [String]!
   reference: Reference!
@@ -318,26 +340,29 @@ type FilmPageAbout {
 
 type Folder {
   breadcrumbs: [Breadcrumb!]!
+  created: String!
+  description: String
   id: String!
   name: String!
   parentId: String
   resources: [FolderResource!]!
   status: String!
   subfolders: [Folder!]!
+  updated: String!
 }
 
 type FolderResource {
   created: String!
   id: String!
   path: String!
-  resourceId: Int!
+  resourceId: String!
   resourceType: String!
   tags: [String!]!
 }
 
 interface FolderResourceMeta {
   description: String!
-  id: Int!
+  id: String!
   metaImage: MetaImage
   resourceTypes: [FolderResourceResourceType!]!
   title: String!
@@ -345,7 +370,7 @@ interface FolderResourceMeta {
 }
 
 input FolderResourceMetaSearchInput {
-  id: Int!
+  id: String!
   path: String!
   resourceType: String!
 }
@@ -372,8 +397,8 @@ type FrontPageResources {
 }
 
 type Frontpage {
-  categories: [Category!]!
-  topical: [Resource!]!
+  article: Article
+  menu: [Menu]!
 }
 
 type FrontpageSearch {
@@ -382,12 +407,18 @@ type FrontpageSearch {
 }
 
 type FrontpageSearchResult {
-  filters: [SearchContextFilter!]!
   id: String!
   name: String!
   path: String!
   resourceTypes: [SearchContextResourceTypes!]!
   subject: String!
+}
+
+type Grade {
+  categories: [Category!]
+  id: String!
+  title: Title!
+  url: String!
 }
 
 type GroupSearch {
@@ -418,10 +449,21 @@ type H5pElement {
 }
 
 type H5pLicense {
-  copyright: Copyright!
+  copyright: Copyright
+  id: String!
   src: String
   thumbnail: String
   title: String!
+}
+
+type ImageAltText {
+  alttext: String!
+  language: String!
+}
+
+type ImageDimensions {
+  height: Int!
+  width: Int!
 }
 
 type ImageElement {
@@ -440,11 +482,21 @@ type ImageElement {
   upperLeftY: Float
 }
 
+type ImageFolderResourceMeta implements FolderResourceMeta {
+  description: String!
+  id: String!
+  metaImage: MetaImage
+  resourceTypes: [FolderResourceResourceType!]!
+  title: String!
+  type: String!
+}
+
 type ImageLicense {
   altText: String!
   contentType: String
   copyText: String
   copyright: Copyright!
+  id: String!
   src: String!
   title: String!
 }
@@ -463,6 +515,25 @@ type ImageMetaInformation {
   supportedLanguages: [String!]!
   tags: [String!]!
   title: String!
+}
+
+type ImageMetaInformationV2 {
+  alttext: ImageAltText!
+  caption: Caption!
+  contentType: String!
+  copyright: Copyright!
+  created: String!
+  createdBy: String!
+  editorNotes: [EditorNote!]
+  id: String!
+  imageDimensions: ImageDimensions
+  imageUrl: String!
+  metaUrl: String!
+  modelRelease: String!
+  size: Int!
+  supportedLanguages: [String!]
+  tags: Tags!
+  title: Title!
 }
 
 type Learningpath {
@@ -497,7 +568,7 @@ type LearningpathCoverphoto {
 
 type LearningpathFolderResourceMeta implements FolderResourceMeta {
   description: String!
-  id: Int!
+  id: String!
   metaImage: MetaImage
   resourceTypes: [FolderResourceResourceType!]!
   title: String!
@@ -562,6 +633,12 @@ type Manuscript {
   manuscript: String!
 }
 
+type Menu {
+  menu: [Menu]!
+  slug: String
+  title: String
+}
+
 type Meta {
   availability: String
   id: Int!
@@ -607,11 +684,16 @@ type MovieTheme {
 }
 
 type Mutation {
-  addFolder(name: String!, parentId: String, status: String): Folder!
+  addFolder(
+    description: String
+    name: String!
+    parentId: String
+    status: String
+  ): Folder!
   addFolderResource(
     folderId: String!
     path: String!
-    resourceId: Int!
+    resourceId: String!
     resourceType: String!
     tags: [String!]
   ): FolderResource!
@@ -620,8 +702,22 @@ type Mutation {
   deletePersonalData: Boolean!
   sortFolders(parentId: String, sortedIds: [String!]!): SortResult!
   sortResources(parentId: String!, sortedIds: [String!]!): SortResult!
-  updateFolder(id: String!, name: String, status: String): Folder!
+  transformArticleContent(
+    absoluteUrl: Boolean
+    content: String!
+    draftConcept: Boolean
+    previewH5p: Boolean
+    subject: String
+    visualElement: String
+  ): String!
+  updateFolder(
+    description: String
+    id: String!
+    name: String
+    status: String
+  ): Folder!
   updateFolderResource(id: String!, tags: [String!]): FolderResource!
+  updateFolderStatus(folderId: String!, status: String!): [String!]!
   updatePersonalData(favoriteSubjects: [String!]!): MyNdlaPersonalData!
 }
 
@@ -651,7 +747,9 @@ type NewFolderResource {
 type PodcastLicense {
   copyText: String
   copyright: Copyright!
+  coverPhotoUrl: String
   description: String
+  id: String!
   src: String!
   title: String!
 }
@@ -665,6 +763,7 @@ type PodcastMeta {
 type PodcastSeries implements PodcastSeriesBase {
   coverPhoto: CoverPhoto!
   description: Description!
+  hasRSS: Boolean!
   id: Int!
   supportedLanguages: [String!]!
   title: Title!
@@ -673,6 +772,7 @@ type PodcastSeries implements PodcastSeriesBase {
 interface PodcastSeriesBase {
   coverPhoto: CoverPhoto!
   description: Description!
+  hasRSS: Boolean!
   id: Int!
   supportedLanguages: [String!]!
   title: Title!
@@ -696,28 +796,46 @@ type PodcastSeriesSummary {
 }
 
 type PodcastSeriesWithEpisodes implements PodcastSeriesBase {
+  content: ResourceEmbed
   coverPhoto: CoverPhoto!
   description: Description!
   episodes: [Audio!]
+  hasRSS: Boolean!
   id: Int!
   supportedLanguages: [String!]!
   title: Title!
+}
+
+type ProgrammePage {
+  contentUri: String
+  desktopImage: MetaImage
+  grades: [Grade!]
+  id: String!
+  metaDescription: String
+  mobileImage: MetaImage
+  title: Title!
+  url: String!
 }
 
 type Query {
   alerts: [UptimeAlert]
   allFolderResources(size: Int): [FolderResource!]!
   article(
+    absoluteUrl: Boolean
+    convertEmbeds: Boolean
+    draftConcept: Boolean
     id: String!
     isOembed: String
     path: String
     showVisualElement: String
     subjectId: String
   ): Article
+  audio(id: Int!): Audio
   competenceGoal(code: String!, language: String): CompetenceGoal
   competenceGoals(codes: [String], language: String): [CompetenceGoal!]
   concept(id: Int!): Concept
   conceptSearch(
+    conceptType: String
     exactMatch: Boolean
     fallback: Boolean
     ids: [Int!]
@@ -730,9 +848,10 @@ type Query {
   ): ConceptResult
   coreElement(code: String!, language: String): CoreElement
   coreElements(codes: [String], language: String): [CoreElement!]
+  examLockStatus: ConfigMetaRestricted!
   filmfrontpage: FilmFrontpage
   folder(
-    id: Int!
+    id: String!
     includeResources: Boolean
     includeSubfolders: Boolean
   ): Folder!
@@ -749,6 +868,7 @@ type Query {
     aggregatePaths: [String!]
     contextTypes: String
     fallback: String
+    filterInactive: Boolean
     grepCodes: String
     language: String
     levels: String
@@ -758,10 +878,10 @@ type Query {
     resourceTypes: String
     subjects: String
   ): [GroupSearch!]
+  image(id: String!): ImageMetaInformationV2
   learningpath(pathId: String!): Learningpath
   listingPage(subjects: String): ListingPage
   personalData: MyNdlaPersonalData!
-  podcast(id: Int!): AudioWithSeries
   podcastSearch(fallback: Boolean, page: Int!, pageSize: Int!): AudioSearch
   podcastSeries(id: Int!): PodcastSeriesWithEpisodes
   podcastSeriesSearch(
@@ -769,13 +889,18 @@ type Query {
     page: Int!
     pageSize: Int!
   ): PodcastSeriesSearch
+  programme(path: String): ProgrammePage
+  programmes: [ProgrammePage!]
   resource(id: String!, subjectId: String, topicId: String): Resource
+  resourceEmbed(id: String!, type: String!): ResourceEmbed!
+  resourceEmbeds(resources: [ResourceEmbedInput!]!): ResourceEmbed!
   resourceTypes: [ResourceTypeDefinition!]
   search(
     aggregatePaths: [String!]
     contextFilters: String
     contextTypes: String
     fallback: String
+    filterInactive: Boolean
     grepCodes: String
     ids: [Int!]
     language: String
@@ -803,11 +928,15 @@ type Query {
     sort: String
     subjects: String
   ): SearchWithoutPagination
+  sharedFolder(
+    id: String!
+    includeResources: Boolean
+    includeSubfolders: Boolean
+  ): SharedFolder!
   subject(id: String!): Subject
   subjectpage(id: Int!): SubjectPage
   subjects(
     filterVisible: Boolean
-    ids: [String!]
     metadataFilterKey: String
     metadataFilterValue: String
   ): [Subject!]
@@ -827,10 +956,11 @@ type RelatedContent {
 }
 
 type Resource implements TaxonomyEntity & WithArticle {
-  article(isOembed: String, subjectId: String): Article
+  article(convertEmbeds: Boolean, isOembed: String, subjectId: String): Article
   availability: String
-  breadcrumbs: [[String!]!]
+  breadcrumbs: [String!]!
   contentUri: String
+  contexts: [TaxonomyContext!]!
   id: String!
   learningpath: Learningpath
   meta: Meta
@@ -843,6 +973,27 @@ type Resource implements TaxonomyEntity & WithArticle {
   relevanceId: String
   resourceTypes: [ResourceType!]
   supportedLanguages: [String!]!
+  url: String
+}
+
+type ResourceEmbed {
+  content: String!
+  meta: ResourceMetaData!
+}
+
+input ResourceEmbedInput {
+  conceptType: String
+  id: String!
+  type: String!
+}
+
+type ResourceMetaData {
+  audios: [AudioLicense!]
+  brightcoves: [BrightcoveLicense!]
+  concepts: [ConceptLicense!]
+  h5ps: [H5pLicense!]
+  images: [ImageLicense!]
+  podcasts: [PodcastLicense!]
 }
 
 type ResourceType {
@@ -870,13 +1021,21 @@ type Search {
 
 type SearchContext {
   breadcrumbs: [String!]!
-  filters: [SearchContextFilter!]!
+  contextId: String!
+  contextType: String!
   id: String!
+  isActive: Boolean!
+  isPrimary: Boolean!
+  isVisible: Boolean!
   language: String!
   learningResourceType: String!
+  parentIds: [String!]!
   path: String!
+  publicId: String!
   relevance: String!
   resourceTypes: [SearchContextResourceTypes!]!
+  root: String!
+  rootId: String!
   subject: String!
   subjectId: String!
 }
@@ -915,6 +1074,19 @@ type SearchWithoutPagination {
   results: [SearchResult!]!
 }
 
+type SharedFolder {
+  breadcrumbs: [Breadcrumb!]!
+  created: String!
+  description: String
+  id: String!
+  name: String!
+  parentId: String
+  resources: [FolderResource!]!
+  status: String!
+  subfolders: [SharedFolder!]!
+  updated: String!
+}
+
 type SortResult {
   parentId: String
   sortedIds: [String!]!
@@ -924,35 +1096,30 @@ scalar StringRecord
 
 type Subject implements TaxonomyEntity {
   allTopics: [Topic!]
+  breadcrumbs: [String!]!
   contentUri: String
-  grepCodes: [String!]!
+  contexts: [TaxonomyContext!]!
+  grepCodes: [String!]
   id: String!
   metadata: TaxonomyMetadata!
   name: String!
   path: String!
   paths: [String!]!
-  rank: Int
-  relevanceId: String!
+  relevanceId: String
+  resourceTypes: [ResourceType!]
   subjectpage: SubjectPage
   supportedLanguages: [String!]!
   topics(all: Boolean): [Topic!]
+  url: String
 }
 
 type SubjectPage {
   about: SubjectPageAbout
   banner: SubjectPageBanner!
-  editorsChoices(subjectId: String): [TaxonomyEntity!]!
-  facebook: String
-  goTo: [ResourceTypeDefinition!]!
   id: Int!
-  latestContent(subjectId: String): [TaxonomyEntity!]
-  layout: String!
   metaDescription: String
-  mostRead(subjectId: String): [TaxonomyEntity!]!
   name: String!
   supportedLanguages: [String!]!
-  topical(subjectId: String): TaxonomyEntity
-  twitter: String
 }
 
 type SubjectPageAbout {
@@ -989,16 +1156,25 @@ type Tags {
   tags: [String!]!
 }
 
+type TaxonomyContext {
+  breadcrumbs: [String!]!
+  parentIds: [String!]!
+  path: String!
+}
+
 interface TaxonomyEntity {
+  breadcrumbs: [String!]!
   contentUri: String
+  contexts: [TaxonomyContext!]!
   id: String!
   metadata: TaxonomyMetadata!
   name: String!
   path: String!
   paths: [String!]!
-  rank: Int
   relevanceId: String
+  resourceTypes: [ResourceType!]
   supportedLanguages: [String!]!
+  url: String
 }
 
 type TaxonomyMetadata {
@@ -1014,10 +1190,15 @@ type Title {
 
 type Topic implements TaxonomyEntity & WithArticle {
   alternateTopics: [Topic!]
-  article(showVisualElement: String, subjectId: String): Article
+  article(
+    convertEmbeds: Boolean
+    showVisualElement: String
+    subjectId: String
+  ): Article
   availability: String
-  breadcrumbs: [[String!]!]
+  breadcrumbs: [String!]!
   contentUri: String
+  contexts: [TaxonomyContext!]!
   coreResources(subjectId: String): [Resource!]
   id: String!
   isPrimary: Boolean
@@ -1025,14 +1206,16 @@ type Topic implements TaxonomyEntity & WithArticle {
   metadata: TaxonomyMetadata!
   name: String!
   parent: String
+  parentId: String
   path: String!
   pathTopics: [[Topic!]!]
   paths: [String!]!
-  rank: Int
   relevanceId: String
+  resourceTypes: [ResourceType!]
   subtopics: [Topic!]
   supplementaryResources(subjectId: String): [Resource!]
   supportedLanguages: [String!]!
+  url: String
 }
 
 type UpdatedFolder {
@@ -1049,6 +1232,15 @@ type UptimeAlert {
   closable: Boolean!
   number: Int!
   title: String!
+}
+
+type VideoFolderResourceMeta implements FolderResourceMeta {
+  description: String!
+  id: String!
+  metaImage: MetaImage
+  resourceTypes: [FolderResourceResourceType!]!
+  title: String!
+  type: String!
 }
 
 type VisualElement {

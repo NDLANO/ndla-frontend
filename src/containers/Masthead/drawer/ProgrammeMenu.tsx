@@ -8,11 +8,12 @@
 
 import styled from '@emotion/styled';
 import { fonts, spacing } from '@ndla/core';
-import { memo, useMemo } from 'react';
+import { memo, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router-dom';
+import { useUrnIds } from '../../../routeHelpers';
 import { getProgrammes } from '../../../util/programmesSubjectsHelper';
 import BackButton from './BackButton';
+import { useDrawerContext } from './DrawerContext';
 import DrawerMenuItem from './DrawerMenuItem';
 import DrawerPortion, { DrawerList } from './DrawerPortion';
 import useArrowNavigation from './useArrowNavigation';
@@ -30,12 +31,26 @@ const StyledTitle = styled.h1`
 
 const ProgrammeMenu = ({ onClose, onCloseMenuPortion }: Props) => {
   const { i18n, t } = useTranslation();
-  const location = useLocation();
-  const programmes = useMemo(() => getProgrammes(i18n.language), [
-    i18n.language,
-  ]);
+  const { programme: urlProgramme } = useUrnIds();
+  const { shouldCloseLevel, setLevelClosed } = useDrawerContext();
+  const programmes = useMemo(
+    () => getProgrammes(i18n.language),
+    [i18n.language],
+  );
 
-  useArrowNavigation(true, programmes[0]?.path, undefined, onCloseMenuPortion);
+  useEffect(() => {
+    if (shouldCloseLevel) {
+      onCloseMenuPortion();
+      setLevelClosed();
+    }
+  }, [shouldCloseLevel, onCloseMenuPortion, setLevelClosed]);
+
+  const programmePath = `/utdanning/${urlProgramme}`;
+
+  useArrowNavigation(true, {
+    initialFocused: programmes[0]?.path,
+    onLeftKeyPressed: onCloseMenuPortion,
+  });
 
   return (
     <DrawerPortion>
@@ -44,17 +59,20 @@ const ProgrammeMenu = ({ onClose, onCloseMenuPortion }: Props) => {
         homeButton
         onGoBack={onCloseMenuPortion}
       />
-      <StyledTitle aria-hidden={true}>Utdanningsprogram</StyledTitle>
+      <StyledTitle aria-hidden={true}>
+        {t('masthead.menuOptions.programme')}
+      </StyledTitle>
       <DrawerList id="programme-menu">
-        {programmes.map(programme => (
+        {programmes.map((programme) => (
           <DrawerMenuItem
             id={programme.path}
             type="link"
             to={programme.path}
-            current={programme.path === location.pathname}
+            current={programme.path === programmePath}
             onClose={onClose}
-            active={programme.path === location.pathname}
-            key={programme.url}>
+            active={programme.path === programmePath}
+            key={programme.url}
+          >
             {programme.name}
           </DrawerMenuItem>
         ))}

@@ -22,6 +22,8 @@ import { GQLLicenseBox_ArticleFragment } from '../../graphqlTypes';
 function buildLicenseTabList(
   article: GQLLicenseBox_ArticleFragment,
   t: TFunction,
+  copyText?: string,
+  printUrl?: string,
 ) {
   const images = article.metaData?.images || [];
   const audios = article.metaData?.audios || [];
@@ -34,19 +36,22 @@ function buildLicenseTabList(
   if (images.length > 0) {
     tabs.push({
       title: t('license.tabs.images'),
+      id: 'images',
       content: <ImageLicenseList images={images} />,
     });
   }
   tabs.push({
     title: t('license.tabs.text'),
+    id: 'text',
     content: (
       <TextLicenseList
+        printUrl={printUrl}
         texts={[
           {
             title: article.title,
             copyright: article.copyright,
             updated: article.published,
-            copyText: article.metaData?.copyText,
+            copyText,
           },
         ]}
       />
@@ -56,6 +61,7 @@ function buildLicenseTabList(
   if (audios.length > 0) {
     tabs.push({
       title: t('license.tabs.audio'),
+      id: 'audio',
       content: <AudioLicenseList audios={audios} />,
     });
   }
@@ -63,6 +69,7 @@ function buildLicenseTabList(
   if (podcasts.length > 0) {
     tabs.push({
       title: t('license.tabs.podcast'),
+      id: 'podcast',
       content: <PodcastLicenseList podcasts={podcasts} />,
     });
   }
@@ -70,6 +77,7 @@ function buildLicenseTabList(
   if (brightcove.length > 0) {
     tabs.push({
       title: t('license.tabs.video'),
+      id: 'video',
       content: <VideoLicenseList videos={brightcove} />,
     });
   }
@@ -77,13 +85,21 @@ function buildLicenseTabList(
   if (h5ps.length) {
     tabs.push({
       title: t('license.tabs.h5p'),
+      id: 'h5p',
       content: <H5pLicenseList h5ps={h5ps} />,
     });
   }
 
-  if (concepts.length) {
+  if (
+    concepts.some(
+      (concept) =>
+        concept.copyright?.license?.license &&
+        concept.copyright.license.license !== 'unknown',
+    )
+  ) {
     tabs.push({
       title: t('license.tabs.concept'),
+      id: 'concept',
       content: <ConceptLicenseList concepts={concepts} />,
     });
   }
@@ -91,6 +107,7 @@ function buildLicenseTabList(
   if (oembed) {
     tabs.push({
       title: t('license.tabs.embedlink'),
+      id: 'embedLink',
       content: <OembedItem oembed={oembed} />,
     });
   }
@@ -100,21 +117,19 @@ function buildLicenseTabList(
 
 interface Props {
   article: GQLLicenseBox_ArticleFragment;
+  copyText?: string;
+  printUrl?: string;
 }
-const LicenseBox = ({ article }: Props) => {
+const LicenseBox = ({ article, copyText, printUrl }: Props) => {
   const { t } = useTranslation();
-  const tabs = buildLicenseTabList(article, t);
-  return (
-    <div>
-      <h1 className="license__heading">{t('license.heading')}</h1>
-      <Tabs tabs={tabs} />
-    </div>
-  );
+  const tabs = buildLicenseTabList(article, t, copyText, printUrl);
+  return <Tabs tabs={tabs} />;
 };
 
 LicenseBox.fragments = {
   article: gql`
     fragment LicenseBox_Article on Article {
+      id
       title
       oembed
       published

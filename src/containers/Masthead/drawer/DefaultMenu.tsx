@@ -22,6 +22,7 @@ import {
 import { GQLDefaultMenu_SubjectFragment } from '../../../graphqlTypes';
 import { removeUrn } from '../../../routeHelpers';
 import { usePrevious } from '../../../util/utilityHooks';
+import { useDrawerContext } from './DrawerContext';
 import DrawerMenuItem from './DrawerMenuItem';
 import { MenuType } from './drawerMenuTypes';
 import DrawerPortion, { DrawerList } from './DrawerPortion';
@@ -72,10 +73,10 @@ const DefaultMenu = ({
   subject,
   type,
   closeSubMenu,
-  onCloseMenuPortion,
 }: Props) => {
   const previousType = usePrevious(type);
   const { t } = useTranslation();
+  const { setShouldCloseLevel } = useDrawerContext();
 
   const onRightClick = useCallback(
     (id: string | undefined) => {
@@ -87,25 +88,26 @@ const DefaultMenu = ({
     [setActiveMenu],
   );
 
-  useArrowNavigation(
-    !type,
-    `header-${type ?? previousType ?? 'programme'}`,
-    onRightClick,
-  );
+  useArrowNavigation(!type, {
+    initialFocused: `header-${type ?? previousType ?? 'programme'}`,
+    onRightKeyPressed: onRightClick,
+  });
 
   if (type) {
     return (
       <StyledCollapsedMenu>
         <IconButtonV2
-          onClick={onCloseMenuPortion}
+          onClick={setShouldCloseLevel}
           aria-label="Go back"
-          colorTheme="light">
+          colorTheme="light"
+        >
           <Back />
         </IconButtonV2>
         <IconButtonV2
           onClick={closeSubMenu}
           aria-label="Home"
-          colorTheme="light">
+          colorTheme="light"
+        >
           <Home />
         </IconButtonV2>
       </StyledCollapsedMenu>
@@ -148,28 +150,32 @@ const DefaultMenu = ({
           id="multidisciplinary"
           type="link"
           to={multiDiscUrl}
-          onClose={onClose}>
+          onClose={onClose}
+        >
           {t('masthead.menuOptions.multidisciplinarySubjects')}
         </DrawerMenuItem>
         <DrawerMenuItem
           id="toolboxStudents"
           type="link"
           to={studentToolboxUrl}
-          onClose={onClose}>
+          onClose={onClose}
+        >
           {t('masthead.menuOptions.toolboxStudents')}
         </DrawerMenuItem>
         <DrawerMenuItem
           id="toolboxTeachers"
           type="link"
           to={teacherToolboxUrl}
-          onClose={onClose}>
+          onClose={onClose}
+        >
           {t('masthead.menuOptions.toolboxTeachers')}
         </DrawerMenuItem>
         <DrawerMenuItem
           id="film"
           type="link"
           to={FILM_PAGE_PATH}
-          onClose={onClose}>
+          onClose={onClose}
+        >
           {t('masthead.menuOptions.film')}
         </DrawerMenuItem>
       </DrawerList>

@@ -33,7 +33,7 @@ const SearchResults = ({
   return (
     <>
       {searchGroups
-        .map(group => {
+        .map((group) => {
           const { totalCount, type, items, resourceTypes } = group;
           const filter = typeFilter[type];
           if (
@@ -47,12 +47,12 @@ const SearchResults = ({
                 <SearchTypeResult
                   filters={
                     filter?.filters?.filter(
-                      filter =>
+                      (filter) =>
                         resourceTypes.includes(filter.id) ||
                         filter.id === 'all',
                     ) ?? []
                   }
-                  onFilterClick={id => handleSubFilterClick(type, id)}
+                  onFilterClick={(id) => handleSubFilterClick(type, id)}
                   items={items.slice(0, toCount)}
                   loading={loading}
                   pagination={{
@@ -64,7 +64,8 @@ const SearchResults = ({
                   //@ts-ignore
                   type={type === 'topic-article' ? 'topic' : type}
                   viewType={viewType}
-                  totalCount={totalCount}></SearchTypeResult>
+                  totalCount={totalCount}
+                ></SearchTypeResult>
               </Fragment>
             );
           }

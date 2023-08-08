@@ -108,7 +108,7 @@ const mapType = (
   type: typeof PERSON_TYPE | typeof ORGANIZATION_TYPE,
   arr?: GQLContributor[],
 ) =>
-  arr?.map(item => ({
+  arr?.map((item) => ({
     '@type': type,
     name: item.name,
   }));
@@ -150,7 +150,7 @@ const getAllignments = (
   article: GQLStructuredArticleDataFragment,
 ): Alignment[] | undefined => {
   const core = article.coreElements
-    ? article.coreElements?.map(ce => {
+    ? article.coreElements?.map((ce) => {
         return {
           '@type': 'AlignmentObject',
           alignmentType: 'assesses',
@@ -162,7 +162,7 @@ const getAllignments = (
       })
     : [];
   const goals = article.competenceGoals
-    ? article.competenceGoals?.map(kg => {
+    ? article.competenceGoals?.map((kg) => {
         return {
           '@type': 'AlignmentObject',
           alignmentType: 'teaches',
@@ -314,9 +314,15 @@ const getStructuredDataFromArticle = (
       ],
     },
     description: article.metaDescription,
-    dateCreated: format(article.published, 'YYYY-MM-DD'),
-    datePublished: format(article.published, 'YYYY-MM-DD'),
-    dateModified: format(article.updated, 'YYYY-MM-DD'),
+    dateCreated: article.published
+      ? format(new Date(article.published), 'yyyy-MM-dd')
+      : undefined,
+    datePublished: article.published
+      ? format(new Date(article.published), 'yyyy-MM-dd')
+      : undefined,
+    dateModified: article.updated
+      ? format(new Date(article.updated), 'yyyy-MM-dd')
+      : undefined,
     educationalAlignment,
     image: article.metaImage?.url,
     thumbnailUrl: article.metaImage?.url,
@@ -328,8 +334,8 @@ const getStructuredDataFromArticle = (
   const structuredData = crumbs ? [articleData, crumbs] : [articleData];
 
   const metaData = article.metaData;
-  const images = metaData?.images?.map(i => ({ data: i, type: IMAGE_TYPE }));
-  const audios = metaData?.audios?.map(a => ({ data: a, type: AUDIO_TYPE }));
+  const images = metaData?.images?.map((i) => ({ data: i, type: IMAGE_TYPE }));
+  const audios = metaData?.audios?.map((a) => ({ data: a, type: AUDIO_TYPE }));
 
   const mediaElements: Mediaelements[] = [...(images ?? []), ...(audios ?? [])];
   const podcasts = article.metaData?.podcasts || [];
@@ -343,7 +349,7 @@ const getStructuredDataFromArticle = (
 };
 
 const createMediaData = (media: Mediaelements[]): StructuredData[] =>
-  media.map(media => {
+  media.map((media) => {
     const { data, type } = media;
     return {
       ...structuredDataBase,
@@ -359,7 +365,7 @@ const createMediaData = (media: Mediaelements[]): StructuredData[] =>
 const createPodcastData = (
   podcasts: GQLStructuredArticleData_PodcastLicenseFragment[],
 ): StructuredData[] =>
-  podcasts.map(podcast => {
+  podcasts.map((podcast) => {
     return {
       ...structuredDataBase,
       '@type': PODCAST_TYPE,
@@ -378,7 +384,7 @@ const createPodcastData = (
 const createVideoData = (
   videos: GQLStructuredArticleData_BrightcoveLicenseFragment[],
 ): StructuredData[] =>
-  videos.map(video => {
+  videos.map((video) => {
     return {
       ...structuredDataBase,
       '@type': VIDEO_TYPE,
@@ -388,7 +394,9 @@ const createVideoData = (
       thumbnailUrl: video?.cover,
       description: video?.description,
       acquireLicensePage: AcquireLicensePage,
-      uploadDate: format(video?.uploadDate!, 'YYYY-MM-DD'),
+      uploadDate: video?.uploadDate
+        ? format(new Date(video?.uploadDate!), 'yyyy-MM-dd')
+        : undefined,
       ...getCopyrightData(video?.copyright!),
     };
   });

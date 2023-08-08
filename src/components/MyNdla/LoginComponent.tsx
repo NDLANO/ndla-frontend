@@ -11,12 +11,11 @@ import { ButtonV2 } from '@ndla/button';
 import { mq, breakpoints, fonts, spacing } from '@ndla/core';
 import { Feide } from '@ndla/icons/common';
 import SafeLink, { SafeLinkButton } from '@ndla/safelink';
-import { ListResource } from '@ndla/ui';
+import { ReactNode } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
-import { GQLFolderResourceMetaFragment } from '../../graphqlTypes';
+import { ModalCloseButton } from '@ndla/modal';
 import { toHref } from '../../util/urlHelper';
-import { ResourceAttributes } from './AddResourceToFolder';
 
 const LoginComponentContainer = styled.div`
   display: flex;
@@ -48,6 +47,7 @@ const ButtonRow = styled.div`
 `;
 
 const Title = styled.h1`
+  margin-bottom: 0;
   ${fonts.sizes('30px')};
   ${mq.range({ until: breakpoints.tablet })} {
     ${fonts.sizes('20px')};
@@ -77,48 +77,28 @@ const ContentWrapper = styled.div`
 `;
 
 interface Props {
-  onClose: () => void;
   masthead?: boolean;
-  resource?: ResourceAttributes;
-  meta?: GQLFolderResourceMetaFragment;
+  content?: ReactNode;
 }
 
-const LoginComponent = ({ resource, meta, masthead, onClose }: Props) => {
+const LoginComponent = ({ masthead, content }: Props) => {
   const { t } = useTranslation();
   const location = useLocation();
 
   return (
     <LoginComponentContainer>
-      <TitleRow>
-        {resource ? (
-          <Title>{t('myNdla.myPage.loginResourcePitch')}</Title>
-        ) : (
-          <>
-            <Title>
-              <Trans t={t} i18nKey="myNdla.myPage.loginWelcome" />
-            </Title>
-            <StyledImage
-              src="/static/my-ndla-login.png"
-              alt={t('myNdla.myPage.imageAlt')}
-            />
-          </>
-        )}
-      </TitleRow>
-      {resource && meta && (
-        <ContentWrapper>
-          <ListResource
-            id={resource.id.toString()}
-            tagLinkPrefix="/minndla/tags"
-            link={resource.path}
-            title={meta.title}
-            resourceImage={{
-              src: meta.metaImage?.url ?? '',
-              alt: meta.metaImage?.alt ?? '',
-            }}
-            resourceTypes={meta.resourceTypes}
+      {!content && (
+        <TitleRow>
+          <Title>
+            <Trans t={t} i18nKey="myNdla.myPage.loginWelcome" />
+          </Title>
+          <StyledImage
+            src="/static/my-ndla-login.png"
+            alt={t('myNdla.myPage.imageAlt')}
           />
-        </ContentWrapper>
+        </TitleRow>
       )}
+      {content}
       <ContentWrapper>
         <p>
           {t('myNdla.myPage.loginText')}
@@ -133,12 +113,13 @@ const LoginComponent = ({ resource, meta, masthead, onClose }: Props) => {
           Feide
         </FeideRow>
         <ButtonRow>
-          <ButtonV2 onClick={onClose} variant="outline">
-            {t('cancel')}
-          </ButtonV2>
+          <ModalCloseButton>
+            <ButtonV2 variant="outline">{t('cancel')}</ButtonV2>
+          </ModalCloseButton>
           <SafeLinkButton
             reloadDocument
-            to={`/login?state=${masthead ? '/minndla' : toHref(location)}`}>
+            to={`/login?state=${masthead ? '/minndla' : toHref(location)}`}
+          >
             {t('user.buttonLogIn')}
           </SafeLinkButton>
         </ButtonRow>

@@ -35,7 +35,7 @@ export const createSubjectUrl = (subject: SubjectType) => {
 };
 
 export const getProgrammes = (locale: LocaleType) => {
-  const programmesData = programmes.map(program => {
+  const programmesData = programmes.map((program) => {
     const path = toProgramme(program.url[locale]);
     return {
       label: program.name[locale],

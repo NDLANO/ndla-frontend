@@ -54,14 +54,14 @@ const PlainLearningpathContainer = ({
 
   const onKeyUpEvent = (evt: KeyboardEvent) => {
     const currentStep = stepId
-      ? steps?.find(step => step.id.toString() === stepId)
+      ? steps?.find((step) => step.id.toString() === stepId)
       : steps?.[0];
     if (!currentStep) return;
     if (evt.code === 'ArrowRight' || evt.code === 'ArrowLeft') {
       const directionValue = evt.code === 'ArrowRight' ? 1 : -1;
       const newSeqNo = currentStep.seqNo + directionValue;
       const newLearningpathStep = learningpath.learningsteps?.find(
-        step => step.seqNo === newSeqNo,
+        (step) => step.seqNo === newSeqNo,
       );
       if (newLearningpathStep) {
         navigate(toLearningPath(learningpath.id, newLearningpathStep.id));
@@ -70,7 +70,7 @@ const PlainLearningpathContainer = ({
   };
 
   const currentStep = stepId
-    ? steps.find(step => step.id.toString() === stepId)
+    ? steps.find((step) => step.id.toString() === stepId)
     : steps[0];
 
   if (!currentStep) {
@@ -111,7 +111,7 @@ PlainLearningpathContainer.willTrackPageView = (
 PlainLearningpathContainer.getDimensions = (props: Props) => {
   const { learningpath, user, stepId } = props;
   const learningstep = stepId
-    ? learningpath.learningsteps?.find(step => `${step.id}` === stepId)
+    ? learningpath.learningsteps?.find((step) => `${step.id}` === stepId)
     : learningpath.learningsteps?.[0];
   return getAllDimensions(
     { learningpath, user, learningstep },

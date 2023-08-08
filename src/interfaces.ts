@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree. *
  */
 import { NormalizedCacheObject } from '@apollo/client';
-import { BreadcrumbItemProps } from '@ndla/ui';
 import { History } from 'history';
 import { ConfigType } from './config';
 import { LocaleValues } from './constants';
@@ -38,7 +37,6 @@ export interface WindowData {
 export interface NDLAWindow {
   DATA: WindowData;
   errorReporter: any;
-  hasHydrated?: boolean;
   browserHistory: History;
 }
 
@@ -53,13 +51,9 @@ export interface Author {
   type: string;
 }
 
-export type LocaleType = typeof LocaleValues[number];
-
-export type BreadcrumbItem = BreadcrumbItemProps & { index?: number };
+export type LocaleType = (typeof LocaleValues)[number];
 
 export type Breadcrumb = { to: string; name: string };
-
-export type ResourceType = 'image' | 'other' | 'video';
 
 export type CompetenceGoalsType = 'LK06' | 'LK20';
 

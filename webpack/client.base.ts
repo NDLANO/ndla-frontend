@@ -20,6 +20,7 @@ const baseClientConfig: Configuration = {
     client: ['./src/client.tsx'],
     polyfill: ['@ndla/polyfill'],
     embed: ['./src/iframe/index.tsx'],
+    embedIframe: ['./src/iframe/embedIframeIndex.tsx'],
     lti: ['./src/lti/index.tsx'],
     mathJaxConfig: ['./public/static/mathjax-config.js'],
   },

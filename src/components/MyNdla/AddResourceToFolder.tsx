@@ -16,7 +16,6 @@ import styled from '@emotion/styled';
 import { ButtonV2 as Button, LoadingButton } from '@ndla/button';
 import { colors, spacing } from '@ndla/core';
 import SafeLink from '@ndla/safelink';
-import { IFolder } from '@ndla/types-learningpath-api';
 import {
   ListResource,
   MessageBox,
@@ -39,7 +38,7 @@ import { AuthContext } from '../AuthenticationContext';
 export interface ResourceAttributes {
   path: string;
   resourceType: string;
-  id: number;
+  id: string;
 }
 
 interface Props {
@@ -134,8 +133,8 @@ const AddResourceToFolder = ({
     if (!loading && folders && !storedResource) {
       const _storedResource = getResourceForPath(folders, resource.path);
       setStoredResource(_storedResource ?? undefined);
-      setTags(tags => uniq(compact(tags.concat(getAllTags(folders)))));
-      setSelectedTags(prevTags =>
+      setTags((tags) => uniq(compact(tags.concat(getAllTags(folders)))));
+      setSelectedTags((prevTags) =>
         uniq(prevTags.concat(_storedResource?.tags ?? [])),
       );
     }
@@ -150,7 +149,7 @@ const AddResourceToFolder = ({
         setCanSave(false);
       } else if (
         selectedFolder.resources.some(
-          resource => resource.id === storedResource?.id,
+          (resource) => resource.id === storedResource?.id,
         )
       ) {
         setCanSave(tagsChanged);
@@ -171,7 +170,7 @@ const AddResourceToFolder = ({
     return !isEqual(sortedStored, sortedSelected);
   };
 
-  const structureFolders: IFolder[] = useMemo(
+  const structureFolders: GQLFolder[] = useMemo(
     () => [
       {
         id: 'folders',
@@ -180,19 +179,19 @@ const AddResourceToFolder = ({
         subfolders: folders,
         breadcrumbs: [],
         resources: [],
+        created: '',
+        updated: '',
       },
     ],
     [folders, t],
   );
 
   const { updateFolderResource } = useUpdateFolderResourceMutation();
-  const {
-    addResourceToFolder,
-    loading: addResourceLoading,
-  } = useAddResourceToFolderMutation(selectedFolder?.id ?? '');
+  const { addResourceToFolder, loading: addResourceLoading } =
+    useAddResourceToFolderMutation(selectedFolder?.id ?? '');
 
   const alreadyAdded = selectedFolder?.resources.some(
-    resource => resource.id === storedResource?.id,
+    (resource) => resource.id === storedResource?.id,
   );
 
   const onSave = async () => {
@@ -228,7 +227,7 @@ const AddResourceToFolder = ({
   const defaultOpenFolders = useMemo(() => {
     const firstFolderId = structureFolders?.[0]?.subfolders[0]?.id;
     const defaultOpenFolderIds = defaultOpenFolder?.breadcrumbs.map(
-      bc => bc.id,
+      (bc) => bc.id,
     );
     const defaultOpen = defaultOpenFolderIds
       ? ['folders'].concat(defaultOpenFolderIds)
@@ -242,7 +241,7 @@ const AddResourceToFolder = ({
     }
 
     return defaultOpen;
-  }, [structureFolders, defaultOpenFolder, selectedFolderId]);
+  }, [structureFolders, defaultOpenFolder?.breadcrumbs, selectedFolderId]);
 
   const noFolderSelected = selectedFolderId === 'folders';
 
@@ -298,12 +297,12 @@ const AddResourceToFolder = ({
               label={t('myNdla.myTags')}
               selected={selectedTags}
               tags={tags}
-              onChange={tags => {
+              onChange={(tags) => {
                 setSelectedTags(tags);
               }}
-              onCreateTag={tag => {
-                setTags(prev => prev.concat(tag));
-                setSelectedTags(prev => uniq(prev.concat(tag)));
+              onCreateTag={(tag) => {
+                setTags((prev) => prev.concat(tag));
+                setSelectedTags((prev) => uniq(prev.concat(tag)));
               }}
             />
           </ComboboxContainer>
@@ -313,26 +312,29 @@ const AddResourceToFolder = ({
         <Button
           variant="outline"
           onClick={onClose}
-          onMouseDown={e => {
+          onMouseDown={(e) => {
             e.preventDefault();
           }}
-          onMouseUp={e => {
+          onMouseUp={(e) => {
             e.preventDefault();
-          }}>
+          }}
+        >
           {t('cancel')}
         </Button>
         <LoadingButton
           loading={addResourceLoading}
+          colorTheme="light"
           disabled={
             !canSave || addResourceLoading || noFolderSelected || examLock
           }
           onClick={onSave}
-          onMouseDown={e => {
+          onMouseDown={(e) => {
             e.preventDefault();
           }}
-          onMouseUp={e => {
+          onMouseUp={(e) => {
             e.preventDefault();
-          }}>
+          }}
+        >
           {t('myNdla.resource.save')}
         </LoadingButton>
       </ButtonRow>
