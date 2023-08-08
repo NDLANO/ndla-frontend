@@ -16,7 +16,7 @@ import config from '../../../config';
 import ErrorPage from '../../ErrorPage';
 
 interface Props {
-  folder?: GQLFolder;
+  folder: GQLFolder | null;
   title: string;
 }
 

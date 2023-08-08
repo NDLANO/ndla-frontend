@@ -28,6 +28,7 @@ import IsMobileContext from '../../IsMobileContext';
 import ErrorPage from '../ErrorPage';
 import {
   useFolderResourceMetaSearch,
+  useGetSharedFolder,
   useSharedFolder,
 } from '../MyNdla/folderMutations';
 import NotFound from '../NotFoundPage/NotFoundPage';
@@ -148,34 +149,19 @@ const LandingPageMobileWrapper = styled.div`
 
 const embedResourceTypes = ['video', 'audio', 'concept', 'image'];
 
-const findSubfolder = (
-  id: string,
-  folder: GQLFolder,
-): GQLFolder | undefined => {
-  if (folder.id === id) {
-    return folder;
-  } else {
-    for (const subfolder of folder.subfolders) {
-      const foundSubfolder = findSubfolder(id, subfolder);
-      if (foundSubfolder) {
-        return foundSubfolder;
-      }
-    }
-    return undefined;
-  }
-};
-
 const SharedFolderPage = () => {
   const [open, setOpen] = useState(false);
   const { folderId = '', resourceId, subfolderId } = useParams();
   const { t } = useTranslation();
   const isMobile = useContext(IsMobileContext);
 
-  const { folder, loading, error } = useSharedFolder({
+  const { folder, loading, error } = useGetSharedFolder({
     id: folderId,
     includeResources: true,
     includeSubfolders: true,
   });
+
+  const subFolder = useSharedFolder(subfolderId);
 
   const resources = flattenResources(folder);
 
@@ -210,10 +196,7 @@ const SharedFolderPage = () => {
     keyedData[
       `${selectedResource?.resourceType}-${selectedResource?.resourceId}`
     ];
-
-  const selectedFolder = !subfolderId
-    ? folder
-    : findSubfolder(subfolderId, folder);
+  const selectedFolder = !subfolderId ? folder : subFolder;
 
   const title = `${selectedFolder?.name} - ${
     articleMeta?.title ?? t('sharedFolder')
