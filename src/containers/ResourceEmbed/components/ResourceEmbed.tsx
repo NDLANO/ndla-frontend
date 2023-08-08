@@ -117,7 +117,9 @@ const metaToProperties = (
   }
 };
 
-const hasLicensedContent = (meta: GQLResourceEmbedLicenseBox_MetaFragment) => {
+export const hasLicensedContent = (
+  meta: GQLResourceEmbedLicenseBox_MetaFragment,
+) => {
   if (meta.h5ps?.some((value) => value.copyright)) {
     return true;
   } else if (meta.images?.some((val) => val.copyright)) {

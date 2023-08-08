@@ -22,6 +22,8 @@ import {
 import { Concept } from '@ndla/icons/editor';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
+import { useMemo } from 'react';
+import uniqBy from 'lodash/uniqBy';
 import CopyTextButton from './CopyTextButton';
 import { GQLConceptLicenseList_ConceptLicenseFragment } from '../../graphqlTypes';
 import {
@@ -101,13 +103,17 @@ interface Props {
 
 const ConceptLicenseList = ({ concepts }: Props) => {
   const { t } = useTranslation();
+  const unique = useMemo(
+    () => uniqBy(concepts, (concept) => concept.id),
+    [concepts],
+  );
   return (
     <div>
       <LicenseDescription>
         {t('license.concept.description')}
       </LicenseDescription>
       <MediaList>
-        {concepts.map((concept, index) => (
+        {unique.map((concept, index) => (
           <ConceptLicenseInfo concept={concept} key={index} />
         ))}
       </MediaList>

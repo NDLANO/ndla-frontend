@@ -9,10 +9,8 @@ import { useState } from 'react';
 import styled from '@emotion/styled';
 import {
   SearchSubjectResult,
-  SearchNotionsResult,
   SearchFilterContent,
   LanguageSelector,
-  ConceptNotion,
 } from '@ndla/ui';
 import { spacingUnit } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
@@ -21,10 +19,7 @@ import { Spinner } from '@ndla/icons';
 import SearchHeader from './components/SearchHeader';
 import SearchResults, { ViewType } from './components/SearchResults';
 import { SearchGroup, sortResourceTypes, TypeFilter } from './searchHelpers';
-import {
-  GQLConceptSearchConceptFragment,
-  GQLSubjectInfoFragment,
-} from '../../graphqlTypes';
+import { GQLSubjectInfoFragment } from '../../graphqlTypes';
 import {
   SearchCompetenceGoal,
   SearchCoreElements,
@@ -52,12 +47,9 @@ interface Props {
   competenceGoals: SearchCompetenceGoal[];
   coreElements: SearchCoreElements[];
   subjectItems?: SubjectItem[];
-  concepts?: GQLConceptSearchConceptFragment[];
   suggestion?: string;
   typeFilter: Record<string, TypeFilter>;
   searchGroups: SearchGroup[];
-  showConcepts: boolean;
-  setShowConcepts: (show: boolean) => void;
   showAll: boolean;
   locale: LocaleType;
   loading: boolean;
@@ -73,12 +65,9 @@ const SearchContainer = ({
   subjectIds,
   subjectItems,
   subjects,
-  concepts,
   suggestion,
   typeFilter,
   searchGroups,
-  showConcepts,
-  setShowConcepts,
   showAll,
   locale,
   loading,
@@ -117,29 +106,6 @@ const SearchContainer = ({
         coreElements={coreElements}
         loading={loading}
       />
-      {showConcepts && concepts && concepts.length > 0 && (
-        <SearchNotionsResult
-          totalCount={concepts.length}
-          onRemove={() => {
-            setShowConcepts(false);
-          }}
-        >
-          {concepts.map((concept) => (
-            <ConceptNotion
-              key={concept.id}
-              concept={{
-                ...concept,
-                image: concept.image
-                  ? {
-                      src: concept.image.url,
-                      alt: concept.image.alt,
-                    }
-                  : undefined,
-              }}
-            />
-          ))}
-        </SearchNotionsResult>
-      )}
       {subjectItems && subjectItems?.length > 0 && (
         <SearchSubjectResult items={subjectItems} />
       )}

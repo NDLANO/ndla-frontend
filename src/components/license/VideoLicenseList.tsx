@@ -23,6 +23,8 @@ import {
 } from '@ndla/licenses';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
+import { useMemo } from 'react';
+import uniqBy from 'lodash/uniqBy';
 import CopyTextButton from './CopyTextButton';
 import { GQLVideoLicenseList_BrightcoveLicenseFragment } from '../../graphqlTypes';
 import {
@@ -102,11 +104,12 @@ interface Props {
 
 const VideoLicenseList = ({ videos }: Props) => {
   const { t } = useTranslation();
+  const unique = useMemo(() => uniqBy(videos, (video) => video.id), [videos]);
   return (
     <div>
       <LicenseDescription>{t('license.video.description')}</LicenseDescription>
       <MediaList>
-        {videos.map((video) => (
+        {unique.map((video) => (
           <VideoLicenseInfo video={video} key={uuid()} />
         ))}
       </MediaList>

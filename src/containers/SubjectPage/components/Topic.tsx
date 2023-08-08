@@ -14,8 +14,9 @@ import {
   TFunction,
   withTranslation,
 } from 'react-i18next';
-import { TopicProps, FeideUserApiType, Topic as UITopic } from '@ndla/ui';
+import { FeideUserApiType, Topic as UITopic } from '@ndla/ui';
 import { withTracker } from '@ndla/tracker';
+import { extractEmbedMeta } from '@ndla/article-converter';
 import {
   RELEVANCE_SUPPLEMENTARY,
   SKIP_TO_CONTENT_ID,
@@ -26,18 +27,11 @@ import { toTopic, useIsNdlaFilm, useUrnIds } from '../../../routeHelpers';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import { htmlTitle } from '../../../util/titleHelper';
 import {
-  getCrop,
-  getFocalPoint,
-  getImageWithoutCrop,
-} from '../../../util/imageHelpers';
-import {
   GQLTopic_ResourceTypeDefinitionFragment,
   GQLTopic_SubjectFragment,
   GQLTopic_TopicFragment,
 } from '../../../graphqlTypes';
-import VisualElementWrapper, {
-  getResourceType,
-} from '../../../components/VisualElement/VisualElementWrapper';
+import TopicVisualElementContent from './TopicVisualElementContent';
 
 const getDocumentTitle = ({
   t,
@@ -80,57 +74,48 @@ const Topic = ({
   const ndlaFilm = useIsNdlaFilm();
   const renderMarkdown = (text: string) => markdown.render(text);
 
+  const embedMeta = useMemo(() => {
+    if (!topic.article?.visualElementEmbed?.content) return undefined;
+    const embedMeta = extractEmbedMeta(
+      topic.article.visualElementEmbed.content,
+    );
+    return embedMeta;
+  }, [topic?.article?.visualElementEmbed?.content]);
+
+  const visualElement = useMemo(() => {
+    if (!embedMeta || !topic.article?.visualElementEmbed?.meta)
+      return undefined;
+    return (
+      <TopicVisualElementContent
+        embed={embedMeta}
+        metadata={topic.article?.visualElementEmbed?.meta}
+      />
+    );
+  }, [embedMeta, topic.article?.visualElementEmbed?.meta]);
+
   useEffect(() => {
     setShowContent(false);
   }, [topicId]);
 
-  if (!topic.article) {
-    return null;
-  }
-
-  const { article } = topic;
-  const image =
-    article.visualElement?.resource === 'image'
-      ? {
-          url: article.visualElement.image?.src!,
-          alt: article.visualElement.image?.alt!,
-          crop: getCrop(article.visualElement.image!),
-          focalPoint: getFocalPoint(article.visualElement.image!),
-        }
-      : article.metaImage
-      ? {
-          url: article.metaImage.url,
-          alt: article?.metaImage.alt,
-        }
-      : undefined;
-  const transposedTopic: TopicProps = {
-    topic: {
-      title: article.title,
-      introduction: article.introduction!,
-      image,
-      visualElement: article.visualElement
-        ? {
-            type: getResourceType(article.visualElement.resource),
-            element: (
-              <VisualElementWrapper
-                visualElement={{
-                  ...article.visualElement,
-                  image: getImageWithoutCrop(article.visualElement.image),
-                }}
-              />
-            ),
-          }
-        : undefined,
-      resources: topic.subtopics ? (
+  const resources = useMemo(() => {
+    if (topic.subtopics) {
+      return (
         <Resources
           topic={topic}
           resourceTypes={resourceTypes}
           headingType="h3"
           subHeadingType="h4"
         />
-      ) : undefined,
-    },
-  };
+      );
+    }
+    return null;
+  }, [resourceTypes, topic]);
+
+  if (!topic.article) {
+    return null;
+  }
+
+  const { article } = topic;
 
   const path = topic?.path || '';
   const topicPath = path
@@ -150,13 +135,18 @@ const Topic = ({
 
   return (
     <UITopic
+      visualElement={visualElement}
+      visualElementEmbedMeta={embedMeta}
       id={urnTopicId === topicId ? SKIP_TO_CONTENT_ID : undefined}
       onToggleShowContent={
         article.content !== '' ? () => setShowContent(!showContent) : undefined
       }
       showContent={showContent}
-      topic={transposedTopic.topic}
+      title={article.title}
+      introduction={article.introduction ?? ''}
+      resources={resources}
       subTopics={subTopics}
+      metaImage={article.metaImage}
       isLoading={false}
       renderMarkdown={renderMarkdown}
       invertedStyle={ndlaFilm}
@@ -232,15 +222,18 @@ export const topicFragments = {
           url
           alt
         }
-        visualElement {
-          ...VisualElementWrapper_VisualElement
+        visualElementEmbed {
+          content
+          meta {
+            ...TopicVisualElementContent_Meta
+          }
         }
         revisionDate
       }
       ...ArticleContents_Topic
       ...Resources_Topic
     }
-    ${VisualElementWrapper.fragments.visualElement}
+    ${TopicVisualElementContent.fragments.metadata}
     ${ArticleContents.fragments.topic}
     ${Resources.fragments.topic}
   `,
