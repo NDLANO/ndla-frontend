@@ -170,7 +170,6 @@ const Folder = ({
               role="treeitem"
               onKeyDown={handleLinkClick}
               onClick={() => {
-                setIsOpen(!isOpen);
                 setFocus(`shared-${folder.id}`);
                 onClose?.();
               }}
@@ -178,7 +177,6 @@ const Folder = ({
             >
               <StyledArrow
                 css={!isOpen ? arrowOpenCss : undefined}
-                // @ts-ignore
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
@@ -204,10 +202,17 @@ const Folder = ({
             onKeyDown={handleKeydown}
             onClick={() => {
               setFocus(`shared-${folder.id}`);
-              setIsOpen(!isOpen);
             }}
           >
-            <StyledArrow css={!isOpen ? arrowOpenCss : undefined} /> {name}
+            <StyledArrow
+              css={!isOpen ? arrowOpenCss : undefined}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setIsOpen(!isOpen);
+              }}
+            />
+            {name}
           </FolderLink>
         </FolderButtonContainer>
       )}
