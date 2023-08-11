@@ -18,6 +18,7 @@ import {
 import {
   GQLAddFolderMutation,
   GQLAddResourceToFolderMutation,
+  GQLCopySharedFolderMutation,
   GQLDeleteFolderMutation,
   GQLDeleteFolderResourceMutation,
   GQLFolder,
@@ -27,6 +28,7 @@ import {
   GQLFoldersPageQuery,
   GQLMutationAddFolderArgs,
   GQLMutationAddFolderResourceArgs,
+  GQLMutationCopySharedFolderArgs,
   GQLMutationDeleteFolderArgs,
   GQLMutationDeleteFolderResourceArgs,
   GQLMutationSortFoldersArgs,
@@ -254,6 +256,14 @@ const sortResourcesMutation = gql`
 const updateFolderStatusMutation = gql`
   mutation updateFolderStatus($folderId: String!, $status: String!) {
     updateFolderStatus(folderId: $folderId, status: $status)
+  }
+`;
+
+const copySharedFolderMutation = gql`
+  mutation copySharedFolder($folderId: String!) {
+    copySharedFolder(folderId: $folderId) {
+      id
+    }
   }
 `;
 
@@ -542,6 +552,16 @@ export const useUpdateFolderStatusMutation = () => {
     },
   });
   return { updateFolderStatus, loading };
+};
+
+export const useCopySharedFolder = () => {
+  const [copiedFolder, loading] = useMutation<
+    GQLCopySharedFolderMutation,
+    GQLMutationCopySharedFolderArgs
+  >(copySharedFolderMutation);
+
+  console.log(copiedFolder, loading);
+  return { copiedFolder, loading };
 };
 
 export const useUpdateFolderMutation = () => {

@@ -789,6 +789,7 @@ export type GQLMutation = {
   __typename?: 'Mutation';
   addFolder: GQLFolder;
   addFolderResource: GQLFolderResource;
+  copySharedFolder: GQLFolderResource;
   deleteFolder: Scalars['String'];
   deleteFolderResource: Scalars['String'];
   deletePersonalData: Scalars['Boolean'];
@@ -814,6 +815,10 @@ export type GQLMutationAddFolderResourceArgs = {
   resourceId: Scalars['String'];
   resourceType: Scalars['String'];
   tags?: InputMaybe<Array<Scalars['String']>>;
+};
+
+export type GQLMutationCopySharedFolderArgs = {
+  folderId: Scalars['String'];
 };
 
 export type GQLMutationDeleteFolderArgs = {
@@ -2620,6 +2625,15 @@ export type GQLUpdateFolderStatusMutationVariables = Exact<{
 export type GQLUpdateFolderStatusMutation = {
   __typename?: 'Mutation';
   updateFolderStatus: Array<string>;
+};
+
+export type GQLCopySharedFolderMutationVariables = Exact<{
+  folderId: Scalars['String'];
+}>;
+
+export type GQLCopySharedFolderMutation = {
+  __typename?: 'Mutation';
+  copySharedFolder: { __typename?: 'FolderResource'; id: string };
 };
 
 type GQLFolderResourceMeta_ArticleFolderResourceMeta_Fragment = {
