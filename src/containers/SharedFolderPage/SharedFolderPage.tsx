@@ -275,7 +275,11 @@ const SharedFolderPage = () => {
               <HumanMaleBoard />
               <span>{t('myNdla.sharedFolder.info')}</span>
             </InfoBox>
-            <FolderNavigation folder={folder} meta={keyedData} />
+            <FolderNavigation
+              folder={folder}
+              meta={keyedData}
+              onClose={close}
+            />
           </LandingPageMobileWrapper>
         )}
       </StyledSection>
