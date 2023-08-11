@@ -23,7 +23,7 @@ import {
 } from '@ndla/licenses';
 import { useTranslation } from 'react-i18next';
 import { SafeLinkButton } from '@ndla/safelink';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import uniqBy from 'lodash/uniqBy';
 import { useMemo } from 'react';
 import { GQLAudioLicenseList_AudioLicenseFragment } from '../../graphqlTypes';
@@ -40,6 +40,16 @@ interface AudioLicenseInfoProps {
 
 const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
   const { t, i18n } = useTranslation();
+  const { pathname } = useLocation();
+
+  const pageUrl = `/audio/${audio.id}`;
+
+  const shouldShowLink = useMemo(
+    () =>
+      pathname !== pageUrl && !isCopyrighted(audio.copyright.license.license),
+    [pathname, audio.copyright.license.license],
+  );
+
   const safeCopyright = licenseCopyrightToCopyrightType(audio.copyright);
   const items = getGroupedContributorDescriptionList(
     safeCopyright,
@@ -63,14 +73,12 @@ const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
 
   return (
     <MediaListItem>
-      <MediaListItemImage
-        canOpen={!isCopyrighted(audio.copyright.license.license)}
-      >
-        {isCopyrighted(audio.copyright.license.license) ? (
+      <MediaListItemImage canOpen={shouldShowLink}>
+        {!shouldShowLink ? (
           <AudioDocument className="c-medialist__icon" />
         ) : (
           <Link
-            to={`/audio/${audio.id}`}
+            to={pageUrl}
             target="_blank"
             rel="noopener noreferrer"
             aria-label={t('embed.goTo', { type: t('embed.type.audio') })}

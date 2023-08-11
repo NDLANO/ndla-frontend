@@ -23,7 +23,7 @@ import {
 } from '@ndla/licenses';
 import { useTranslation } from 'react-i18next';
 import { SafeLinkButton } from '@ndla/safelink';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useMemo } from 'react';
 import uniqBy from 'lodash/uniqBy';
 import CopyTextButton from './CopyTextButton';
@@ -42,6 +42,16 @@ interface PodcastLicenseInfoProps {
 
 const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
   const { t, i18n } = useTranslation();
+  const { pathname } = useLocation();
+
+  const pageUrl = `/audio/${podcast.id}`;
+
+  const shouldShowLink = useMemo(
+    () =>
+      pathname !== pageUrl && !isCopyrighted(podcast.copyright.license.license),
+    [pathname, podcast.copyright.license.license],
+  );
+
   const safeCopyright = licenseCopyrightToCopyrightType(podcast.copyright);
   const items = getGroupedContributorDescriptionList(
     safeCopyright,
@@ -77,14 +87,12 @@ const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
 
   return (
     <MediaListItem>
-      <MediaListItemImage
-        canOpen={!isCopyrighted(podcast.copyright.license.license)}
-      >
-        {isCopyrighted(podcast.copyright.license.license) ? (
+      <MediaListItemImage canOpen={shouldShowLink}>
+        {!shouldShowLink ? (
           <Podcast className="c-medialist__icon" />
         ) : (
           <Link
-            to={`/audio/${podcast.id}`}
+            to={pageUrl}
             target="_blank"
             rel="noopener noreferrer"
             aria-label={t('embed.goTo', { type: t('embed.type.podcast') })}
