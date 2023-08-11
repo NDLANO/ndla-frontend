@@ -6,11 +6,7 @@ import {
   RESOURCE_TYPE_SOURCE_MATERIAL,
   RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES,
 } from '../../constants';
-import {
-  GQLResource,
-  GQLResourceInfoFragment,
-  GQLResourceType,
-} from '../../graphqlTypes';
+import { GQLResource, GQLResourceType } from '../../graphqlTypes';
 
 export const sortOrder: Record<string, number> = {
   [RESOURCE_TYPE_LEARNING_PATH]: 1,
@@ -21,9 +17,11 @@ export const sortOrder: Record<string, number> = {
   [RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES]: 6,
 };
 
-export const groupResourcesByResourceTypes = (
-  supplementaryResources: Omit<GQLResourceInfoFragment, 'paths'>[],
-  coreResources: Omit<GQLResourceInfoFragment, 'paths'>[],
+type GQLResourceLike = Pick<GQLResource, 'id' | 'resourceTypes'>;
+
+const groupResourcesByResourceTypes = <T extends GQLResourceLike>(
+  supplementaryResources: T[],
+  coreResources: T[],
 ) => {
   const resources = [
     ...coreResources,
@@ -61,10 +59,10 @@ export const sortResourceTypes = (resourceTypes: SharedResourceType[]) =>
     return 0;
   });
 
-export const getResourceGroups = (
+export const getResourceGroups = <T extends GQLResourceLike>(
   resourceTypes: SharedResourceType[],
-  supplementaryResources: Omit<GQLResourceInfoFragment, 'paths'>[],
-  coreResouces: Omit<GQLResourceInfoFragment, 'paths'>[],
+  supplementaryResources: T[],
+  coreResouces: T[],
 ): GQLResourceType[] => {
   const groupedResources = groupResourcesByResourceTypes(
     supplementaryResources,
