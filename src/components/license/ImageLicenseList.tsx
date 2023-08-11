@@ -60,12 +60,12 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
   const { t, i18n } = useTranslation();
   const { pathname } = useLocation();
 
-  const pageUrl = `/image/${image.id}`;
+  const pageUrl = useMemo(() => `/image/${image.id}`, [image.id]);
 
   const shouldShowLink = useMemo(
     () =>
       pathname !== pageUrl && !isCopyrighted(image.copyright.license.license),
-    [pathname, image.copyright.license.license],
+    [pathname, pageUrl, image.copyright.license.license],
   );
 
   const safeCopyright = licenseCopyrightToCopyrightType(image.copyright);

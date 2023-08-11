@@ -42,12 +42,12 @@ const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
   const { t, i18n } = useTranslation();
   const { pathname } = useLocation();
 
-  const pageUrl = `/audio/${audio.id}`;
+  const pageUrl = useMemo(() => `/audio/${audio.id}`, [audio.id]);
 
   const shouldShowLink = useMemo(
     () =>
       pathname !== pageUrl && !isCopyrighted(audio.copyright.license.license),
-    [pathname, audio.copyright.license.license],
+    [pathname, pageUrl, audio.copyright.license.license],
   );
 
   const safeCopyright = licenseCopyrightToCopyrightType(audio.copyright);

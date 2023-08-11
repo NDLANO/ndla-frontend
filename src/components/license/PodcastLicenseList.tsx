@@ -44,12 +44,12 @@ const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
   const { t, i18n } = useTranslation();
   const { pathname } = useLocation();
 
-  const pageUrl = `/audio/${podcast.id}`;
+  const pageUrl = useMemo(() => `/audio/${podcast.id}`, [podcast.id]);
 
   const shouldShowLink = useMemo(
     () =>
       pathname !== pageUrl && !isCopyrighted(podcast.copyright.license.license),
-    [pathname, podcast.copyright.license.license],
+    [pageUrl, pathname, podcast.copyright.license.license],
   );
 
   const safeCopyright = licenseCopyrightToCopyrightType(podcast.copyright);

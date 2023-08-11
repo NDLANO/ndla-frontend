@@ -41,12 +41,12 @@ interface VideoLicenseInfoProps {
 const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
   const { t, i18n } = useTranslation();
   const { pathname } = useLocation();
-  const pageUrl = `/video/${video.id}`;
+  const pageUrl = useMemo(() => `/video/${video.id}`, [video.id]);
 
   const shouldShowLink = useMemo(
     () =>
       pathname !== pageUrl && !isCopyrighted(video.copyright?.license.license),
-    [pathname, video.copyright?.license.license],
+    [pageUrl, pathname, video.copyright?.license.license],
   );
 
   const safeCopyright = licenseCopyrightToCopyrightType(video.copyright);
