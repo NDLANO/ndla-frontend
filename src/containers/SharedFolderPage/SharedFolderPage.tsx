@@ -28,6 +28,7 @@ import IsMobileContext from '../../IsMobileContext';
 import ErrorPage from '../ErrorPage';
 import {
   useFolderResourceMetaSearch,
+  useGetSharedFolder,
   useSharedFolder,
 } from '../MyNdla/folderMutations';
 import NotFound from '../NotFoundPage/NotFoundPage';
@@ -150,15 +151,17 @@ const embedResourceTypes = ['video', 'audio', 'concept', 'image'];
 
 const SharedFolderPage = () => {
   const [open, setOpen] = useState(false);
-  const { folderId = '', resourceId } = useParams();
+  const { folderId = '', resourceId, subfolderId } = useParams();
   const { t } = useTranslation();
   const isMobile = useContext(IsMobileContext);
 
-  const { folder, loading, error } = useSharedFolder({
+  const { folder, loading, error } = useGetSharedFolder({
     id: folderId,
     includeResources: true,
     includeSubfolders: true,
   });
+
+  const subFolder = useSharedFolder(subfolderId);
 
   const resources = flattenResources(folder);
 
@@ -193,8 +196,11 @@ const SharedFolderPage = () => {
     keyedData[
       `${selectedResource?.resourceType}-${selectedResource?.resourceId}`
     ];
+  const selectedFolder = !subfolderId ? folder : subFolder;
 
-  const title = `${folder.name} - ${articleMeta?.title ?? t('sharedFolder')}`;
+  const title = `${selectedFolder?.name} - ${
+    articleMeta?.title ?? t('sharedFolder')
+  }`;
 
   return (
     <Layout>
@@ -261,7 +267,7 @@ const SharedFolderPage = () => {
             />
           )
         ) : (
-          <FolderMeta folder={folder} title={title} />
+          <FolderMeta folder={selectedFolder} title={title} />
         )}
         {!selectedResource && isMobile && (
           <LandingPageMobileWrapper>
@@ -269,7 +275,11 @@ const SharedFolderPage = () => {
               <HumanMaleBoard />
               <span>{t('myNdla.sharedFolder.info')}</span>
             </InfoBox>
-            <FolderNavigation folder={folder} meta={keyedData} />
+            <FolderNavigation
+              folder={folder}
+              meta={keyedData}
+              onClose={close}
+            />
           </LandingPageMobileWrapper>
         )}
       </StyledSection>

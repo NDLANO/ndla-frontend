@@ -368,13 +368,21 @@ export const useFolders = ({ skip }: UseFolders = {}): {
 export const getFolder = (
   cache: ApolloCache<object>,
   folderId?: string,
+  shared?: boolean,
 ): GQLFolder | null => {
   if (!folderId) return null;
 
   return cache.readFragment({
-    fragmentName: 'FoldersPageQueryFragment',
-    fragment: foldersPageQueryFragment,
-    id: cache.identify({ __typename: 'Folder', id: folderId }),
+    fragmentName: shared
+      ? 'SharedFoldersPageQueryFragment'
+      : 'FoldersPageQueryFragment',
+    fragment: shared
+      ? sharedFoldersPageQueryFragment
+      : foldersPageQueryFragment,
+    id: cache.identify({
+      __typename: shared ? 'SharedFolder' : 'Folder',
+      id: folderId,
+    }),
   });
 };
 
@@ -383,13 +391,19 @@ export const useFolder = (folderId?: string): GQLFolder | null => {
   return getFolder(cache, folderId);
 };
 
+export const useSharedFolder = (folderId?: string): GQLFolder | null => {
+  const { cache } = useApolloClient();
+
+  return getFolder(cache, folderId, true);
+};
+
 interface UseSharedFolder {
   id: string;
   includeResources?: boolean;
   includeSubfolders?: boolean;
 }
 
-export const useSharedFolder = ({
+export const useGetSharedFolder = ({
   id,
   includeResources,
   includeSubfolders,
