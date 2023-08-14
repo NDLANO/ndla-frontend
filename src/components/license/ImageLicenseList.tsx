@@ -24,7 +24,7 @@ import {
 import { SafeLinkButton } from '@ndla/safelink';
 import queryString from 'query-string';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { useMemo } from 'react';
 import uniqBy from 'lodash/uniqBy';
@@ -58,6 +58,16 @@ interface ImageLicenseInfoProps {
 
 const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
   const { t, i18n } = useTranslation();
+  const { pathname } = useLocation();
+
+  const pageUrl = useMemo(() => `/image/${image.id}`, [image.id]);
+
+  const shouldShowLink = useMemo(
+    () =>
+      pathname !== pageUrl && !isCopyrighted(image.copyright.license.license),
+    [pathname, pageUrl, image.copyright.license.license],
+  );
+
   const safeCopyright = licenseCopyrightToCopyrightType(image.copyright);
   const items = getGroupedContributorDescriptionList(
     safeCopyright,
@@ -94,14 +104,12 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
 
   return (
     <MediaListItem>
-      <MediaListItemImage
-        canOpen={!isCopyrighted(image.copyright.license.license)}
-      >
-        {isCopyrighted(image.copyright.license.license) ? (
+      <MediaListItemImage canOpen={shouldShowLink}>
+        {!shouldShowLink ? (
           <Image alt={image.altText} src={image.src} />
         ) : (
           <StyledLink
-            to={`/image/${image.id}`}
+            to={pageUrl}
             target="_blank"
             rel="noopener noreferrer"
             aria-label={t('embed.goTo', { type: t('embed.type.image') })}

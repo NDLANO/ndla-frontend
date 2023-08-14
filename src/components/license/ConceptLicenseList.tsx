@@ -21,7 +21,7 @@ import {
 } from '@ndla/licenses';
 import { Concept } from '@ndla/icons/editor';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useMemo } from 'react';
 import uniqBy from 'lodash/uniqBy';
 import CopyTextButton from './CopyTextButton';
@@ -39,11 +39,17 @@ interface ConceptLicenseInfoProps {
 
 const ConceptLicenseInfo = ({ concept }: ConceptLicenseInfoProps) => {
   const { t, i18n } = useTranslation();
+  const { pathname } = useLocation();
   if (
     concept.copyright?.license?.license === undefined ||
     concept.copyright.license.license === 'unknown'
   )
     return null;
+
+  const pageUrl = `/concept/${concept.id}`;
+
+  const shouldShowLink =
+    pathname !== pageUrl && !isCopyrighted(concept.copyright.license.license);
 
   const src = `${config.ndlaFrontendDomain}/embed-iframe/${i18n.language}/concept/${concept.id}`;
   const safeCopyright = licenseCopyrightToCopyrightType(concept.copyright);
@@ -60,14 +66,12 @@ const ConceptLicenseInfo = ({ concept }: ConceptLicenseInfoProps) => {
   }
   return (
     <MediaListItem>
-      <MediaListItemImage
-        canOpen={!isCopyrighted(concept.copyright?.license?.license)}
-      >
-        {isCopyrighted(concept.copyright?.license?.license) ? (
+      <MediaListItemImage canOpen={shouldShowLink}>
+        {!shouldShowLink ? (
           <Concept className="c-medialist__icon" />
         ) : (
           <Link
-            to={`/concept/${concept.id}`}
+            to={pageUrl}
             target="_blank"
             rel="noopener noreferrer"
             aria-label={t('embed.goTo', { type: t('embed.type.concept') })}
