@@ -260,8 +260,11 @@ const updateFolderStatusMutation = gql`
 `;
 
 const copySharedFolderMutation = gql`
-  mutation copySharedFolder($folderId: String!) {
-    copySharedFolder(folderId: $folderId) {
+  mutation copySharedFolder($folderId: String!, $destinationFolderId: String) {
+    copySharedFolder(
+      folderId: $folderId
+      destinationFolderId: $destinationFolderId
+    ) {
       id
     }
   }
@@ -555,13 +558,12 @@ export const useUpdateFolderStatusMutation = () => {
 };
 
 export const useCopySharedFolder = () => {
-  const [copiedFolder, loading] = useMutation<
+  const [copySharedFolder, { loading, error }] = useMutation<
     GQLCopySharedFolderMutation,
     GQLMutationCopySharedFolderArgs
   >(copySharedFolderMutation);
 
-  console.log(copiedFolder, loading);
-  return { copiedFolder, loading };
+  return { copySharedFolder, loading, error };
 };
 
 export const useUpdateFolderMutation = () => {

@@ -818,6 +818,7 @@ export type GQLMutationAddFolderResourceArgs = {
 };
 
 export type GQLMutationCopySharedFolderArgs = {
+  destinationFolderId?: InputMaybe<Scalars['String']>;
   folderId: Scalars['String'];
 };
 

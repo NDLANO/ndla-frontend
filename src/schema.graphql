@@ -697,7 +697,10 @@ type Mutation {
     resourceType: String!
     tags: [String!]
   ): FolderResource!
-  copySharedFolder(folderId: String!): FolderResource!
+  copySharedFolder(
+    destinationFolderId: String
+    folderId: String!
+  ): FolderResource!
   deleteFolder(id: String!): String!
   deleteFolderResource(folderId: String!, resourceId: String!): String!
   deletePersonalData: Boolean!
