@@ -7,95 +7,11 @@
  */
 
 import { gql } from '@apollo/client';
-import { licenseListCopyrightFragment } from './components/license/licenseFragments';
 
 export const contributorInfoFragment = gql`
   fragment ContributorInfo on Contributor {
     name
     type
-  }
-`;
-
-export const searchQuery = gql`
-  query Search(
-    $query: String
-    $page: Int
-    $pageSize: Int
-    $contextTypes: String
-    $language: String
-    $ids: [Int!]
-    $resourceTypes: String
-    $contextFilters: String
-    $sort: String
-    $fallback: String
-    $subjects: String
-    $languageFilter: String
-    $relevance: String
-    $grepCodes: String
-    $filterInactive: Boolean
-  ) {
-    search(
-      query: $query
-      page: $page
-      pageSize: $pageSize
-      contextTypes: $contextTypes
-      language: $language
-      ids: $ids
-      resourceTypes: $resourceTypes
-      contextFilters: $contextFilters
-      sort: $sort
-      fallback: $fallback
-      subjects: $subjects
-      languageFilter: $languageFilter
-      relevance: $relevance
-      grepCodes: $grepCodes
-      filterInactive: $filterInactive
-    ) {
-      language
-      page
-      pageSize
-      results {
-        id
-        url
-        metaDescription
-        metaImage {
-          url
-          alt
-        }
-        title
-        contexts {
-          id
-          breadcrumbs
-          relevance
-          language
-          contextType
-          path
-          resourceTypes {
-            id
-            name
-            language
-          }
-          root
-          rootId
-          relevance
-        }
-        supportedLanguages
-        traits
-      }
-      suggestions {
-        name
-        suggestions {
-          text
-          offset
-          length
-          options {
-            text
-            score
-          }
-        }
-      }
-      totalCount
-    }
   }
 `;
 
@@ -304,95 +220,6 @@ export const copyrightInfoFragment = gql`
   }
 `;
 
-export const visualElementFragment = gql`
-  ${licenseListCopyrightFragment}
-  fragment VisualElementInfo on VisualElement {
-    title
-    resource
-    url
-    copyright {
-      ...LicenseListCopyright
-      origin
-    }
-    language
-    embed
-    brightcove {
-      videoid
-      player
-      account
-      caption
-      description
-      cover
-      src
-      download
-      iframe {
-        src
-        height
-        width
-      }
-      uploadDate
-    }
-    h5p {
-      src
-      thumbnail
-    }
-    oembed {
-      title
-      html
-      fullscreen
-    }
-    image {
-      resourceid
-      alt
-      caption
-      lowerRightX
-      lowerRightY
-      upperLeftX
-      upperLeftY
-      focalX
-      focalY
-      src
-      altText
-      contentType
-      copyText
-    }
-  }
-`;
-
-export const conceptSearchInfoFragment = gql`
-  fragment ConceptSearchConcept on Concept {
-    id
-    title
-    subjectNames
-    visualElement {
-      ...VisualElementInfo
-    }
-    tags
-    supportedLanguages
-    copyright {
-      license {
-        license
-      }
-      creators {
-        ...ContributorInfo
-      }
-      processors {
-        ...ContributorInfo
-      }
-      rightsholders {
-        ...ContributorInfo
-      }
-      origin
-    }
-    text: content
-    image: metaImage {
-      url
-      alt
-    }
-  }
-  ${contributorInfoFragment}
-  ${visualElementFragment}
-`;
 export const frontpageSearchQuery = gql`
   query FrontpageSearch($query: String) {
     frontpageSearch(query: $query) {
@@ -440,39 +267,6 @@ export const frontpageSearchQuery = gql`
   }
 `;
 
-export const metaInfoFragment = gql`
-  fragment MetaInfo on Meta {
-    id
-    title
-    introduction
-    metaDescription
-    metaImage {
-      url
-      alt
-    }
-    lastUpdated
-  }
-`;
-
-export const topicInfoFragment = gql`
-  fragment TopicInfo on Topic {
-    id
-    name
-    contentUri
-    path
-    parentId
-    relevanceId
-    supportedLanguages
-    meta {
-      ...MetaInfo
-    }
-    metadata {
-      customFields
-    }
-  }
-  ${metaInfoFragment}
-`;
-
 export const subjectInfoFragment = gql`
   fragment SubjectInfo on Subject {
     id
@@ -487,37 +281,6 @@ export const subjectInfoFragment = gql`
       }
       banner {
         desktopUrl
-      }
-    }
-  }
-`;
-
-export const resourceInfoFragment = gql`
-  fragment ResourceInfo on Resource {
-    id
-    name
-    contentUri
-    path
-    paths
-    relevanceId
-    rank
-    resourceTypes {
-      id
-      name
-    }
-  }
-`;
-
-export const taxonomyEntityInfo = gql`
-  fragment TaxonomyEntityInfo on TaxonomyEntity {
-    id
-    name
-    contentUri
-    path
-    ... on Resource {
-      resourceTypes {
-        id
-        name
       }
     }
   }
