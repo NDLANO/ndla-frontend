@@ -1992,20 +1992,7 @@ export type GQLAboutPage_ArticleFragment = {
   created: string;
   updated: string;
   published: string;
-  metaData?: {
-    __typename?: 'ArticleMetaData';
-    copyText?: string;
-    footnotes?: Array<{
-      __typename?: 'FootNote';
-      ref: number;
-      title: string;
-      year: string;
-      authors: Array<string>;
-      edition?: string;
-      publisher?: string;
-      url?: string;
-    }>;
-  };
+  metaData?: { __typename?: 'ArticleMetaData'; copyText?: string };
 } & GQLLicenseBox_ArticleFragment;
 
 export type GQLAboutPage_FrontpageMenuFragment = {
@@ -2013,20 +2000,25 @@ export type GQLAboutPage_FrontpageMenuFragment = {
   menu: Array<
     { __typename?: 'FrontpageMenu' } & GQLAboutPageFooter_FrontpageMenuFragment
   >;
+} & GQLFrontpageMenuFragmentFragment;
+
+export type GQLFrontpageMenuFragmentFragment = {
+  __typename?: 'FrontpageMenu';
+  articleId: number;
+  article: { __typename?: 'Article'; title: string; slug?: string };
 };
 
 export type GQLAboutPageFooter_FrontpageMenuFragment = {
   __typename?: 'FrontpageMenu';
-  article: { __typename?: 'Article'; title: string; slug?: string };
-  menu: Array<{
-    __typename?: 'FrontpageMenu';
-    article: { __typename?: 'Article'; title: string; slug?: string };
-    menu: Array<{
+  menu: Array<
+    {
       __typename?: 'FrontpageMenu';
-      article: { __typename?: 'Article'; title: string; slug?: string };
-    }>;
-  }>;
-};
+      menu: Array<
+        { __typename?: 'FrontpageMenu' } & GQLFrontpageMenuFragmentFragment
+      >;
+    } & GQLFrontpageMenuFragmentFragment
+  >;
+} & GQLFrontpageMenuFragmentFragment;
 
 export type GQLArticlePage_ResourceTypeFragment = {
   __typename?: 'ResourceTypeDefinition';

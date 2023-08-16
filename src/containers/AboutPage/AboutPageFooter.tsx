@@ -99,26 +99,28 @@ const AboutPageFooter = ({ frontpage }: Props) => {
   );
 };
 
+export const frontpageMenuFragment = gql`
+  fragment FrontpageMenuFragment on FrontpageMenu {
+    articleId
+    article {
+      title
+      slug
+    }
+  }
+`;
+
 AboutPageFooter.fragments = {
   frontpageMenu: gql`
     fragment AboutPageFooter_FrontpageMenu on FrontpageMenu {
-      article {
-        title
-        slug
-      }
+      ...FrontpageMenuFragment
       menu {
-        article {
-          title
-          slug
-        }
+        ...FrontpageMenuFragment
         menu {
-          article {
-            title
-            slug
-          }
+          ...FrontpageMenuFragment
         }
       }
     }
+    ${frontpageMenuFragment}
   `,
 };
 
