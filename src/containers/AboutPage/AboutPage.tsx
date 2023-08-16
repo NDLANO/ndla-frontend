@@ -20,6 +20,7 @@ import {
 } from '../../graphqlTypes';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import AboutPageContent, { aboutPageFragments } from './AboutPageContent';
+import { useEnableTaxStructure } from '../../components/TaxonomyStructureContext';
 
 const aboutPageQuery = gql`
   query aboutPage($slug: String!) {
@@ -36,11 +37,12 @@ const aboutPageQuery = gql`
 
 const AboutPage = () => {
   const { slug } = useTypedParams<{ slug: string }>();
+  const taxonomyProgrammesEnabled = useEnableTaxStructure();
   const { error, loading, data } = useGraphQuery<
     GQLAboutPageQuery,
     GQLAboutPageQueryVariables
   >(aboutPageQuery, {
-    skip: !slug,
+    skip: !slug || !taxonomyProgrammesEnabled,
     variables: {
       slug,
     },
