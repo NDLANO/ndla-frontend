@@ -12,6 +12,7 @@ import { SafeLinkButton } from '@ndla/safelink';
 import { Forward } from '@ndla/icons/common';
 import { FRONTPAGE_ARTICLE_MAX_WIDTH, Heading } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
+import { Fragment } from 'react';
 import { GQLAboutPageFooter_FrontpageMenuFragment } from '../../graphqlTypes';
 
 interface Props {
@@ -63,8 +64,8 @@ const AboutPageFooter = ({ frontpage }: Props) => {
       <StyledNav aria-labelledby="aboutNavTitle">
         <StyledList>
           {frontpage.menu.map((item) => (
-            <>
-              <li key={item.article.slug}>
+            <Fragment key={item.article.slug}>
+              <li>
                 <StyledSafeLinkButton
                   to={`/about/${item.article.slug}`}
                   variant="solid"
@@ -91,7 +92,7 @@ const AboutPageFooter = ({ frontpage }: Props) => {
                   ))}
                 </StyledList>
               )}
-            </>
+            </Fragment>
           ))}
         </StyledList>
       </StyledNav>
