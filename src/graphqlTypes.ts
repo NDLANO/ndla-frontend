@@ -1993,7 +1993,8 @@ export type GQLAboutPage_ArticleFragment = {
   updated: string;
   published: string;
   metaData?: { __typename?: 'ArticleMetaData'; copyText?: string };
-} & GQLLicenseBox_ArticleFragment;
+} & GQLLicenseBox_ArticleFragment &
+  GQLStructuredArticleDataFragment;
 
 export type GQLAboutPage_FrontpageMenuFragment = {
   __typename?: 'FrontpageMenu';

@@ -8,17 +8,18 @@
 import { gql } from '@apollo/client';
 import {
   FRONTPAGE_ARTICLE_MAX_WIDTH,
+  FeideUserApiType,
   FrontpageArticle,
   HomeBreadcrumb,
-  SimpleBreadcrumbItem,
 } from '@ndla/ui';
 import { DynamicComponents } from '@ndla/article-converter';
-import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useEffect, useMemo } from 'react';
+import { CustomWithTranslation, withTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet-async';
 import styled from '@emotion/styled';
 import { colors, spacing, spacingUnit } from '@ndla/core';
 import { TFunction } from 'i18next';
+import { withTracker } from '@ndla/tracker';
 import LicenseBox from '../../components/license/LicenseBox';
 import {
   GQLAboutPage_ArticleFragment,
@@ -30,10 +31,16 @@ import { getArticleScripts } from '../../util/getArticleScripts';
 import { SKIP_TO_CONTENT_ID } from '../../constants';
 import AddEmbedToFolder from '../../components/MyNdla/AddEmbedToFolder';
 import AboutPageFooter from './AboutPageFooter';
+import getStructuredDataFromArticle, {
+  structuredArticleDataFragment,
+} from '../../util/getStructuredDataFromArticle';
+import { getAllDimensions } from '../../util/trackingUtil';
+import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 
-interface Props {
+interface Props extends CustomWithTranslation {
   article: GQLAboutPage_ArticleFragment;
   frontpage: GQLAboutPage_FrontpageMenuFragment;
+  user: FeideUserApiType | undefined;
 }
 
 const StyledMain = styled.main`
@@ -88,7 +95,7 @@ const getBreadcrumb = (
   articleId: number,
   frontpage: GQLAboutPage_FrontpageMenuFragment,
   t: TFunction,
-): SimpleBreadcrumbItem[] => {
+) => {
   const crumbs = findBreadcrumb(
     frontpage.menu as GQLAboutPage_FrontpageMenuFragment[],
     articleId,
@@ -106,11 +113,16 @@ const getBreadcrumb = (
   );
 };
 
+const getDocumentTitle = (
+  t: TFunction,
+  article: GQLAboutPage_ArticleFragment,
+) => t('htmlTitles.aboutPage', { name: article.title });
+
 const converterComponents: DynamicComponents | undefined =
   config.favoriteEmbedEnabled ? { heartButton: AddEmbedToFolder } : undefined;
 
-const AboutPageContent = ({ article: _article, frontpage }: Props) => {
-  const { t, i18n } = useTranslation();
+const AboutPageContent = ({ article: _article, frontpage, t, i18n }: Props) => {
+  const oembedUrl = `${config.ndlaFrontendDomain}/oembed?url=${config.ndlaFrontendDomain}/article/${_article.id}`;
   const crumbs = useMemo(
     () => getBreadcrumb(_article.id, frontpage, t),
     [_article.id, frontpage, t],
@@ -130,10 +142,22 @@ const AboutPageContent = ({ article: _article, frontpage }: Props) => {
     ];
   }, [_article, i18n.language])!;
 
+  useEffect(() => {
+    if (window.MathJax && typeof window.MathJax.typeset === 'function') {
+      try {
+        window.MathJax.typeset();
+      } catch (err) {
+        // do nothing
+      }
+    }
+  });
+
   return (
     <Wrapper>
       <StyledMain>
         <Helmet>
+          <title>{`${getDocumentTitle(t, article)}`}</title>
+          <meta name="pageid" content={`${article.id}`} />
           {scripts?.map((script) => (
             <script
               key={script.src}
@@ -143,7 +167,24 @@ const AboutPageContent = ({ article: _article, frontpage }: Props) => {
               defer={script.defer}
             />
           ))}
+          <link
+            rel="alternate"
+            type="application/json+oembed"
+            href={oembedUrl}
+            title={article.title}
+          />
+          <script type="application/ld+json">
+            {JSON.stringify(
+              getStructuredDataFromArticle(_article, i18n.language, crumbs),
+            )}
+          </script>
         </Helmet>
+        <SocialMediaMetadata
+          title={article.title}
+          description={article.metaDescription}
+          imageUrl={article.metaImage?.url}
+          trackableContent={article}
+        />
         <HomeBreadcrumb items={crumbs} />
         <FrontpageArticle
           id={SKIP_TO_CONTENT_ID}
@@ -161,6 +202,21 @@ const AboutPageContent = ({ article: _article, frontpage }: Props) => {
   );
 };
 
+AboutPageContent.getDimensions = (props: Props) => {
+  const { user, article } = props;
+
+  return getAllDimensions({ article, user }, undefined, true);
+};
+
+AboutPageContent.willTrackPageView = (
+  trackPageView: (props: Props) => void,
+  props: Props,
+) => {
+  if (props.article) {
+    trackPageView(props);
+  }
+};
+
 export const aboutPageFragments = {
   article: gql`
     fragment AboutPage_Article on Article {
@@ -174,8 +230,10 @@ export const aboutPageFragments = {
         copyText
       }
       ...LicenseBox_Article
+      ...StructuredArticleData
     }
     ${LicenseBox.fragments.article}
+    ${structuredArticleDataFragment}
   `,
   frontpageMenu: gql`
     fragment AboutPage_FrontpageMenu on FrontpageMenu {
@@ -188,4 +246,7 @@ export const aboutPageFragments = {
   `,
 };
 
-export default AboutPageContent;
+AboutPageContent.getDocumentTitle = ({ t, article }: Props) =>
+  getDocumentTitle(t, article);
+
+export default withTranslation()(withTracker(AboutPageContent));
