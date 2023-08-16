@@ -39,6 +39,7 @@ export const routes = [
   'folder/:folderId/:subFolderId/:resourceId',
   'folder/:folderId/:subFolderId',
   'p/:articleId',
+  'about/:slug',
   'learningpaths/:learningpathId',
   'learningpaths/:learningpathId/:stepId',
   'subject:subjectId',

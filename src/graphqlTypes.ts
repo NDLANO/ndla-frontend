@@ -464,10 +464,11 @@ export type GQLFrontPageResources = {
   totalCount: Scalars['Int'];
 };
 
-export type GQLFrontpage = {
-  __typename?: 'Frontpage';
-  article?: Maybe<GQLArticle>;
-  menu: Array<Maybe<GQLMenu>>;
+export type GQLFrontpageMenu = {
+  __typename?: 'FrontpageMenu';
+  article: GQLArticle;
+  articleId: Scalars['Int'];
+  menu: Array<Maybe<GQLFrontpageMenu>>;
 };
 
 export type GQLFrontpageSearch = {
@@ -727,13 +728,6 @@ export type GQLManuscript = {
   manuscript: Scalars['String'];
 };
 
-export type GQLMenu = {
-  __typename?: 'Menu';
-  menu: Array<Maybe<GQLMenu>>;
-  slug?: Maybe<Scalars['String']>;
-  title?: Maybe<Scalars['String']>;
-};
-
 export type GQLMeta = {
   __typename?: 'Meta';
   availability?: Maybe<Scalars['String']>;
@@ -990,7 +984,7 @@ export type GQLQuery = {
   folderResourceMeta?: Maybe<GQLFolderResourceMeta>;
   folderResourceMetaSearch: Array<GQLFolderResourceMeta>;
   folders: Array<GQLFolder>;
-  frontpage?: Maybe<GQLFrontpage>;
+  frontpage?: Maybe<GQLFrontpageMenu>;
   frontpageSearch?: Maybe<GQLFrontpageSearch>;
   groupSearch?: Maybe<Array<GQLGroupSearch>>;
   image?: Maybe<GQLImageMetaInformationV2>;
@@ -1975,6 +1969,62 @@ export type GQLLicenseListCopyrightFragment = {
     __typename?: 'Contributor';
     name: string;
     type: string;
+  }>;
+};
+
+export type GQLAboutPageQueryVariables = Exact<{
+  slug: Scalars['String'];
+}>;
+
+export type GQLAboutPageQuery = {
+  __typename?: 'Query';
+  article?: { __typename?: 'Article' } & GQLAboutPage_ArticleFragment;
+  frontpage?: {
+    __typename?: 'FrontpageMenu';
+  } & GQLAboutPage_FrontpageMenuFragment;
+};
+
+export type GQLAboutPage_ArticleFragment = {
+  __typename?: 'Article';
+  id: number;
+  content: string;
+  introduction?: string;
+  created: string;
+  updated: string;
+  published: string;
+  metaData?: {
+    __typename?: 'ArticleMetaData';
+    copyText?: string;
+    footnotes?: Array<{
+      __typename?: 'FootNote';
+      ref: number;
+      title: string;
+      year: string;
+      authors: Array<string>;
+      edition?: string;
+      publisher?: string;
+      url?: string;
+    }>;
+  };
+} & GQLLicenseBox_ArticleFragment;
+
+export type GQLAboutPage_FrontpageMenuFragment = {
+  __typename?: 'FrontpageMenu';
+  menu: Array<
+    { __typename?: 'FrontpageMenu' } & GQLAboutPageFooter_FrontpageMenuFragment
+  >;
+};
+
+export type GQLAboutPageFooter_FrontpageMenuFragment = {
+  __typename?: 'FrontpageMenu';
+  article: { __typename?: 'Article'; title: string; slug?: string };
+  menu: Array<{
+    __typename?: 'FrontpageMenu';
+    article: { __typename?: 'Article'; title: string; slug?: string };
+    menu: Array<{
+      __typename?: 'FrontpageMenu';
+      article: { __typename?: 'Article'; title: string; slug?: string };
+    }>;
   }>;
 };
 
