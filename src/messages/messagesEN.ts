@@ -36,6 +36,12 @@ const messages = {
     noResults: '...No episodes',
   },
   sharedFolder: 'Shared folder',
+  campaignBlock: {
+    title: 'Make plans for the school year with NDLA',
+    linkText: 'Read more',
+    ingress:
+      'See our tips for activities and annual plans. Good results start with good planning.',
+  },
   blogPosts: {
     blog1: {
       imageUrl: '/static/samiske-laeremidler.jpg',
