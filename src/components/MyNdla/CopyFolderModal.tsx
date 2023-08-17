@@ -6,7 +6,7 @@
  *
  */
 
-import { ReactNode, useCallback, useContext, useState } from 'react';
+import { ReactNode, useCallback, useContext, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ListResource } from '@ndla/ui';
 import {
@@ -35,7 +35,7 @@ const CopyFolderModal = ({ folder, children }: Props) => {
 
   const close = useCallback(() => setOpen(false), []);
 
-  const sharedFolder = baseSharedFolder(t);
+  const sharedFolder = useMemo(() => baseSharedFolder(t), [t]);
 
   return (
     <Modal open={open} onOpenChange={setOpen}>

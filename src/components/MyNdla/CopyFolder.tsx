@@ -8,7 +8,7 @@
 
 import { ListResource, MessageBox } from '@ndla/ui';
 import { TFunction, useTranslation } from 'react-i18next';
-import { useContext, useState } from 'react';
+import { useContext, useMemo, useState } from 'react';
 import { ButtonV2 as Button, LoadingButton } from '@ndla/button';
 import { GQLFolder } from '../../graphqlTypes';
 import FolderSelect from './FolderSelect';
@@ -54,7 +54,7 @@ const CopyFolder = ({ folder, onClose }: Props) => {
     onClose();
   };
 
-  const sharedFolder = baseSharedFolder(t);
+  const sharedFolder = useMemo(() => baseSharedFolder(t), [t]);
 
   return (
     <AddResourceContainer>
@@ -87,16 +87,7 @@ const CopyFolder = ({ folder, onClose }: Props) => {
         </>
       )}
       <ButtonRow>
-        <Button
-          variant="outline"
-          onClick={onClose}
-          onMouseDown={(e) => {
-            e.preventDefault();
-          }}
-          onMouseUp={(e) => {
-            e.preventDefault();
-          }}
-        >
+        <Button variant="outline" onClick={onClose}>
           {t('cancel')}
         </Button>
         <LoadingButton
@@ -104,12 +95,6 @@ const CopyFolder = ({ folder, onClose }: Props) => {
           colorTheme="light"
           disabled={examLock || copySharedFolderLoading}
           onClick={onSave}
-          onMouseDown={(e) => {
-            e.preventDefault();
-          }}
-          onMouseUp={(e) => {
-            e.preventDefault();
-          }}
         >
           {t('myNdla.resource.save')}
         </LoadingButton>
