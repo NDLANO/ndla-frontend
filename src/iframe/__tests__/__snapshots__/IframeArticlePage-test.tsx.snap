@@ -571,6 +571,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                   <a
                     aria-label="NDLA"
                     href="https://ndla.no"
+                    title="NDLA"
                   >
                     <svg
                       class="c-logo__graphic"
