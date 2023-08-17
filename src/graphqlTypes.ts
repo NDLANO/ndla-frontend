@@ -2207,12 +2207,14 @@ export type GQLAboutMenu_FrontpageMenuFragment = {
     {
       __typename?: 'FrontpageMenu';
       menu: Array<
-        { __typename?: 'FrontpageMenu' } & GQLAboutMenuFragment &
-          GQLAboutMenuFragment
+        {
+          __typename?: 'FrontpageMenu';
+          menu: Array<{ __typename?: 'FrontpageMenu' } & GQLAboutMenuFragment>;
+        } & GQLAboutMenuFragment
       >;
     } & GQLAboutMenuFragment
   >;
-};
+} & GQLAboutMenuFragment;
 
 export type GQLDefaultMenu_SubjectFragment = {
   __typename?: 'Subject';

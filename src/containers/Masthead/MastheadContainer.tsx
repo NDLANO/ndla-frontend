@@ -28,6 +28,7 @@ import { useGraphQuery } from '../../util/runQueries';
 import {
   GQLMastHeadQuery,
   GQLMastHeadQueryVariables,
+  GQLMastheadFrontpageQuery,
 } from '../../graphqlTypes';
 import { supportedLanguages } from '../../i18n';
 
@@ -52,6 +53,15 @@ const mastheadQuery = gql`
   ${MastheadDrawer.fragments.subject}
 `;
 
+const mastheadFrontpageQuery = gql`
+  query mastheadFrontpage {
+    frontpage {
+      ...MastheadDrawer_FrontpageMenu
+    }
+  }
+  ${MastheadDrawer.fragments.frontpage}
+`;
+
 const MastheadContainer = () => {
   const { t, i18n } = useTranslation();
   const locale = i18n.language;
@@ -68,6 +78,10 @@ const MastheadContainer = () => {
     },
     skip: !subjectId,
   });
+
+  const frontpageQuery = useGraphQuery<GQLMastheadFrontpageQuery>(
+    mastheadFrontpageQuery,
+  );
 
   const data = freshData ?? previousData;
 
@@ -87,7 +101,11 @@ const MastheadContainer = () => {
         messages={alerts}
       >
         <MastheadItem left>
-          <MastheadDrawer subject={data?.subject} />
+          <MastheadDrawer
+            subject={data?.subject}
+            menuLoading={frontpageQuery.loading}
+            menu={frontpageQuery.data?.frontpage}
+          />
         </MastheadItem>
         <MastheadItem right>
           <LanguageSelectWrapper>

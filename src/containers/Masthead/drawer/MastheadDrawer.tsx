@@ -15,7 +15,10 @@ import { Cross } from '@ndla/icons/action';
 import { Drawer, Modal, ModalCloseButton, ModalTrigger } from '@ndla/modal';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { GQLMastheadDrawer_SubjectFragment } from '../../../graphqlTypes';
+import {
+  GQLMastheadDrawer_FrontpageMenuFragment,
+  GQLMastheadDrawer_SubjectFragment,
+} from '../../../graphqlTypes';
 import { useIsNdlaFilm, useUrnIds } from '../../../routeHelpers';
 import { usePrevious } from '../../../util/utilityHooks';
 import DefaultMenu from './DefaultMenu';
@@ -48,10 +51,15 @@ const HeadWrapper = styled.div`
 
 interface Props {
   subject?: GQLMastheadDrawer_SubjectFragment;
+  menu?: GQLMastheadDrawer_FrontpageMenuFragment;
+  menuLoading: boolean;
 }
 
-const MastheadDrawer = ({ subject }: Props) => {
+const MastheadDrawer = ({ subject, menu }: Props) => {
   const [open, setOpen] = useState(false);
+  const [frontpageMenu, _setFrontpageMenu] = useState<
+    GQLMastheadDrawer_FrontpageMenuFragment | undefined
+  >();
   const { subjectId, topicList, programme } = useUrnIds();
   const prevProgramme = usePrevious(programme);
   const [type, setType] = useState<MenuType | undefined>(undefined);
@@ -73,6 +81,14 @@ const MastheadDrawer = ({ subject }: Props) => {
       setType('programme');
     }
   }, [programme, prevProgramme]);
+
+  const setFrontpageMenu = useCallback(
+    (menu: GQLMastheadDrawer_FrontpageMenuFragment) => {
+      _setFrontpageMenu(menu);
+      setType('about');
+    },
+    [],
+  );
 
   const close = useCallback(() => setOpen(false), []);
 
@@ -131,6 +147,11 @@ const MastheadDrawer = ({ subject }: Props) => {
                 onClose={close}
                 onCloseMenuPortion={onCloseMenuPortion}
                 setActiveMenu={setType}
+                setFrontpageMenu={setFrontpageMenu}
+                dynamicMenus={
+                  (menu?.menu ??
+                    []) as GQLMastheadDrawer_FrontpageMenuFragment[]
+                }
                 subject={subject}
                 type={type}
                 closeSubMenu={closeSubMenu}
@@ -139,6 +160,7 @@ const MastheadDrawer = ({ subject }: Props) => {
                 <DrawerContent
                   onClose={close}
                   type={type}
+                  menu={frontpageMenu}
                   topicPath={topicPath}
                   subject={subject}
                   setTopicPathIds={setTopicPath}
@@ -161,6 +183,12 @@ MastheadDrawer.fragments = {
     }
     ${DefaultMenu.fragments.subject}
     ${DrawerContent.fragments.subject}
+  `,
+  frontpage: gql`
+    fragment MastheadDrawer_FrontpageMenu on FrontpageMenu {
+      ...DrawerContent_FrontpageMenu
+    }
+    ${DrawerContent.fragments.frontpage}
   `,
 };
 

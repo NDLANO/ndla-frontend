@@ -19,7 +19,10 @@ import {
   TOOLBOX_STUDENT_SUBJECT_ID,
   TOOLBOX_TEACHER_SUBJECT_ID,
 } from '../../../constants';
-import { GQLDefaultMenu_SubjectFragment } from '../../../graphqlTypes';
+import {
+  GQLDefaultMenu_SubjectFragment,
+  GQLMastheadDrawer_FrontpageMenuFragment,
+} from '../../../graphqlTypes';
 import { removeUrn } from '../../../routeHelpers';
 import { usePrevious } from '../../../util/utilityHooks';
 import { useDrawerContext } from './DrawerContext';
@@ -59,6 +62,8 @@ const teacherToolboxUrl = `/${removeUrn(TOOLBOX_TEACHER_SUBJECT_ID)}`;
 interface Props {
   onClose: () => void;
   setActiveMenu: (type: MenuType | undefined) => void;
+  setFrontpageMenu: (menu: GQLMastheadDrawer_FrontpageMenuFragment) => void;
+  dynamicMenus: GQLMastheadDrawer_FrontpageMenuFragment[];
   subject?: GQLDefaultMenu_SubjectFragment;
   type?: MenuType;
   closeSubMenu: () => void;
@@ -72,6 +77,8 @@ const DefaultMenu = ({
   setActiveMenu,
   subject,
   type,
+  setFrontpageMenu,
+  dynamicMenus,
   closeSubMenu,
 }: Props) => {
   const previousType = usePrevious(type);
@@ -83,9 +90,15 @@ const DefaultMenu = ({
       const strippedId = id?.replace('header-', '');
       if (validMenus.includes(strippedId as MenuType)) {
         setActiveMenu(strippedId as MenuType);
+      } else if (id?.endsWith('-dynamic')) {
+        setFrontpageMenu(
+          dynamicMenus.find(
+            (menu) => menu.article.slug === strippedId?.replace('-dynamic', ''),
+          )!,
+        );
       }
     },
-    [setActiveMenu],
+    [dynamicMenus, setActiveMenu, setFrontpageMenu],
   );
 
   useArrowNavigation(!type, {
@@ -139,13 +152,16 @@ const DefaultMenu = ({
             onClick={() => setActiveMenu('subject')}
           />
         )}
-        <DrawerRowHeader
-          ownsId="about-menu"
-          id="about"
-          type="button"
-          title={t('masthead.menuOptions.about.title')}
-          onClick={() => setActiveMenu('about')}
-        />
+        {dynamicMenus.map((menu) => (
+          <DrawerRowHeader
+            key={menu.article.slug}
+            ownsId={`${menu.article.slug}-menu`}
+            id={`${menu.article.slug}-dynamic`}
+            type="button"
+            title={menu.article.title}
+            onClick={() => setFrontpageMenu(menu)}
+          />
+        ))}
         <DrawerMenuItem
           id="multidisciplinary"
           type="link"

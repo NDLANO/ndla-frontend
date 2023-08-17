@@ -8,11 +8,15 @@
 
 import { gql } from '@apollo/client';
 import { Dispatch, SetStateAction } from 'react';
-import { GQLDrawerContent_SubjectFragment } from '../../../graphqlTypes';
-import AboutMenu from './AboutMenu';
+import {
+  GQLDrawerContent_FrontpageMenuFragment,
+  GQLDrawerContent_SubjectFragment,
+} from '../../../graphqlTypes';
+import AboutMenu, { NewAboutMenu } from './AboutMenu';
 import { MenuType } from './drawerMenuTypes';
 import ProgrammeMenu from './ProgrammeMenu';
 import SubjectMenu from './SubjectMenu';
+import { useEnableTaxStructure } from '../../../components/TaxonomyStructureContext';
 
 interface Props {
   onClose: () => void;
@@ -21,6 +25,7 @@ interface Props {
   subject?: GQLDrawerContent_SubjectFragment;
   type: MenuType;
   setTopicPathIds: Dispatch<SetStateAction<string[]>>;
+  menu?: GQLDrawerContent_FrontpageMenuFragment;
 }
 
 const DrawerContent = ({
@@ -30,7 +35,9 @@ const DrawerContent = ({
   topicPath,
   subject,
   setTopicPathIds,
+  menu,
 }: Props) => {
+  const taxStructure = useEnableTaxStructure();
   if (type === 'programme') {
     return (
       <ProgrammeMenu
@@ -49,6 +56,15 @@ const DrawerContent = ({
       />
     );
   } else {
+    if (taxStructure && menu) {
+      return (
+        <NewAboutMenu
+          menu={menu}
+          onClose={onClose}
+          onCloseMenuPortion={onCloseMenuPortion}
+        />
+      );
+    }
     return <AboutMenu onCloseMenuPortion={onCloseMenuPortion} />;
   }
 };
@@ -59,6 +75,12 @@ DrawerContent.fragments = {
       ...SubjectMenu_Subject
     }
     ${SubjectMenu.fragments.subject}
+  `,
+  frontpage: gql`
+    fragment DrawerContent_FrontpageMenu on FrontpageMenu {
+      ...AboutMenu_FrontpageMenu
+    }
+    ${NewAboutMenu.fragments.frontpage}
   `,
 };
 
