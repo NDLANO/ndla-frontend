@@ -52,7 +52,6 @@ const HeadWrapper = styled.div`
 interface Props {
   subject?: GQLMastheadDrawer_SubjectFragment;
   menu?: GQLMastheadDrawer_FrontpageMenuFragment;
-  menuLoading: boolean;
 }
 
 const MastheadDrawer = ({ subject, menu }: Props) => {

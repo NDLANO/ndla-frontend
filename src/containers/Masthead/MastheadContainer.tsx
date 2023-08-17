@@ -31,6 +31,7 @@ import {
   GQLMastheadFrontpageQuery,
 } from '../../graphqlTypes';
 import { supportedLanguages } from '../../i18n';
+import { useEnableTaxStructure } from '../../components/TaxonomyStructureContext';
 
 const FeideLoginLabel = styled.span`
   ${mq.range({ until: breakpoints.mobileWide })} {
@@ -64,6 +65,7 @@ const mastheadFrontpageQuery = gql`
 
 const MastheadContainer = () => {
   const { t, i18n } = useTranslation();
+  const taxEnabled = useEnableTaxStructure();
   const locale = i18n.language;
   const { subjectId } = useUrnIds();
   const { user } = useContext(AuthContext);
@@ -81,6 +83,7 @@ const MastheadContainer = () => {
 
   const frontpageQuery = useGraphQuery<GQLMastheadFrontpageQuery>(
     mastheadFrontpageQuery,
+    { skip: !taxEnabled },
   );
 
   const data = freshData ?? previousData;
@@ -103,7 +106,6 @@ const MastheadContainer = () => {
         <MastheadItem left>
           <MastheadDrawer
             subject={data?.subject}
-            menuLoading={frontpageQuery.loading}
             menu={frontpageQuery.data?.frontpage}
           />
         </MastheadItem>

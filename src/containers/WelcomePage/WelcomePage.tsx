@@ -160,7 +160,9 @@ const WelcomePage = () => {
     { skip: typeof window === 'undefined' },
   );
 
-  const fpQuery = useGraphQuery<GQLFrontpageDataQuery>(frontpageQuery);
+  const fpQuery = useGraphQuery<GQLFrontpageDataQuery>(frontpageQuery, {
+    skip: !taxonomyProgrammesEnabled,
+  });
 
   const programmes = useMemo(() => {
     if (fpQuery.data?.programmes) {
