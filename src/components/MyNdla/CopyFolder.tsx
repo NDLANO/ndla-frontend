@@ -26,7 +26,7 @@ interface Props {
 
 export const baseSharedFolder = (t: TFunction) => ({
   id: 'shared-folder',
-  name: t('sharedFolder'),
+  name: t('myNdla.folder.sharing.sharedFolder'),
 });
 
 const CopyFolder = ({ folder, onClose }: Props) => {
