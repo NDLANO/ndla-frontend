@@ -2179,10 +2179,39 @@ export type GQLMastHeadQuery = {
   subject?: { __typename?: 'Subject' } & GQLMastheadDrawer_SubjectFragment;
 };
 
+export type GQLMastheadFrontpageQueryVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type GQLMastheadFrontpageQuery = {
+  __typename?: 'Query';
+  frontpage?: {
+    __typename?: 'FrontpageMenu';
+  } & GQLMastheadDrawer_FrontpageMenuFragment;
+};
+
 export type GQLMastheadSearch_SubjectFragment = {
   __typename?: 'Subject';
   id: string;
   name: string;
+};
+
+export type GQLAboutMenuFragment = {
+  __typename?: 'FrontpageMenu';
+  article: { __typename?: 'Article'; id: number; title: string; slug?: string };
+};
+
+export type GQLAboutMenu_FrontpageMenuFragment = {
+  __typename?: 'FrontpageMenu';
+  menu: Array<
+    {
+      __typename?: 'FrontpageMenu';
+      menu: Array<
+        { __typename?: 'FrontpageMenu' } & GQLAboutMenuFragment &
+          GQLAboutMenuFragment
+      >;
+    } & GQLAboutMenuFragment
+  >;
 };
 
 export type GQLDefaultMenu_SubjectFragment = {
@@ -2195,10 +2224,18 @@ export type GQLDrawerContent_SubjectFragment = {
   __typename?: 'Subject';
 } & GQLSubjectMenu_SubjectFragment;
 
+export type GQLDrawerContent_FrontpageMenuFragment = {
+  __typename?: 'FrontpageMenu';
+} & GQLAboutMenu_FrontpageMenuFragment;
+
 export type GQLMastheadDrawer_SubjectFragment = {
   __typename?: 'Subject';
 } & GQLDefaultMenu_SubjectFragment &
   GQLDrawerContent_SubjectFragment;
+
+export type GQLMastheadDrawer_FrontpageMenuFragment = {
+  __typename?: 'FrontpageMenu';
+} & GQLDrawerContent_FrontpageMenuFragment;
 
 export type GQLSubjectMenu_SubjectFragment = {
   __typename?: 'Subject';
@@ -3473,6 +3510,28 @@ export type GQLFrontpageDataQuery = {
   programmes?: Array<
     { __typename?: 'ProgrammePage' } & GQLProgrammeFragmentFragment
   >;
+  frontpage?: {
+    __typename?: 'FrontpageMenu';
+    article: {
+      __typename?: 'Article';
+      id: number;
+      content: string;
+      introduction?: string;
+      created: string;
+      updated: string;
+      published: string;
+      metaData?: { __typename?: 'ArticleMetaData'; copyText?: string };
+    } & GQLLicenseBox_ArticleFragment &
+      GQLStructuredArticleDataFragment;
+  };
+};
+
+export type GQLFrontpageSubjectsQueryVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type GQLFrontpageSubjectsQuery = {
+  __typename?: 'Query';
   subjects?: Array<{
     __typename?: 'Subject';
     id: string;

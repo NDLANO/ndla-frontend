@@ -17,7 +17,7 @@ import { useEffect, useMemo } from 'react';
 import { CustomWithTranslation, withTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet-async';
 import styled from '@emotion/styled';
-import { colors, spacing, spacingUnit } from '@ndla/core';
+import { breakpoints, colors, mq, spacing, spacingUnit } from '@ndla/core';
 import { TFunction } from 'i18next';
 import { withTracker } from '@ndla/tracker';
 import LicenseBox from '../../components/license/LicenseBox';
@@ -59,6 +59,9 @@ const StyledMain = styled.main`
     max-width: ${FRONTPAGE_ARTICLE_MAX_WIDTH};
     width: 100%;
   }
+  ${mq.range({ until: breakpoints.tabletWide })} {
+    padding: ${spacing.normal};
+  }
 `;
 
 const Wrapper = styled.div`
@@ -77,7 +80,7 @@ const findBreadcrumb = (
     const newPath = currentPath.concat(item);
     if (item.articleId === articleId) {
       return newPath;
-    } else if (item.menu.length) {
+    } else if (item.menu?.length) {
       const foundPath = findBreadcrumb(
         item.menu as GQLAboutPage_FrontpageMenuFragment[],
         articleId,
