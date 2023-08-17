@@ -167,9 +167,9 @@ const WelcomePage = () => {
       return formatProgrammes(fpQuery.data.programmes);
     }
     return [];
-  }, []);
+  }, [fpQuery.data?.programmes]);
 
-  const [article, scripts] = useMemo(() => {
+  const [article] = useMemo(() => {
     const _article = fpQuery.data?.frontpage?.article;
     if (!_article) return [undefined, undefined];
     const transformedArticle = transformArticle(_article, i18n.language, {
