@@ -51,6 +51,7 @@ export const NewAboutMenu = ({
       item={item}
       onClose={onClose}
       onGoBack={onCloseMenuPortion}
+      nextItem={menuItems[index + 1]}
       current={index === menuItems.length - 1}
       homeButton
     />
@@ -62,6 +63,7 @@ interface NewAboutMenuPortionProps {
   onGoBack: () => void;
   onClose: () => void;
   current?: boolean;
+  nextItem?: GQLAboutMenu_FrontpageMenuFragment;
   setMenu: Dispatch<SetStateAction<GQLAboutMenu_FrontpageMenuFragment[]>>;
   homeButton?: boolean;
 }
@@ -73,6 +75,7 @@ const NewAboutMenuPortion = ({
   setMenu,
   homeButton,
   current,
+  nextItem,
 }: NewAboutMenuPortionProps) => {
   const { t } = useTranslation();
   const [selected, setSelected] = useState<GQLAboutMenuFragment | undefined>(
@@ -90,10 +93,13 @@ const NewAboutMenuPortion = ({
   }, [selected, shouldCloseLevel, onGoBack, setLevelClosed]);
 
   useEffect(() => {
-    if (!initialKey && item) {
+    if (!initialKey && nextItem) {
+      setInitialKey(nextItem.article.slug);
+      setSelected(nextItem);
+    } else if (!initialKey && item) {
       setInitialKey(`header-${item.article.slug}`);
     }
-  }, [initialKey, item]);
+  }, [initialKey, item, nextItem]);
 
   const onGoRight = useCallback(
     (slug?: string) => {
