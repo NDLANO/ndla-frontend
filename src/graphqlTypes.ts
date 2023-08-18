@@ -3518,6 +3518,7 @@ export type GQLFrontpageDataQuery = {
   >;
   frontpage?: {
     __typename?: 'FrontpageMenu';
+    articleId: number;
     article: {
       __typename?: 'Article';
       id: number;

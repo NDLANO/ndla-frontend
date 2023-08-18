@@ -101,6 +101,7 @@ const frontpageQuery = gql`
       ...ProgrammeFragment
     }
     frontpage {
+      articleId
       article {
         id
         content
