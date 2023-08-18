@@ -6,7 +6,7 @@
  *
  */
 
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Content, PageContainer, useMastheadHeight } from '@ndla/ui';
 import ZendeskButton from '@ndla/zendesk';
 import { spacing } from '@ndla/core';
@@ -47,6 +47,14 @@ const Layout = () => {
   const backgroundWide = !!matchPath(
     '/learningpaths/:learningpathId',
     pathname,
+  );
+
+  const wrapperStyle = useMemo(
+    () =>
+      pathname === '/' || pathname === '' || pathname.startsWith('/about/')
+        ? undefined
+        : bottomPadding,
+    [pathname],
   );
 
   useEffect(() => {
@@ -91,7 +99,7 @@ const Layout = () => {
       </Helmet>
       <Masthead />
       <Content>
-        <div css={bottomPadding}>
+        <div css={wrapperStyle}>
           <Outlet />
         </div>
       </Content>

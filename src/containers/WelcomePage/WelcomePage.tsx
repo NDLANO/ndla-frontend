@@ -18,7 +18,14 @@ import {
   FrontpageArticle,
   WIDE_FRONTPAGE_ARTICLE_MAX_WIDTH,
 } from '@ndla/ui';
-import { breakpoints, mq, spacing, spacingUnit, utils } from '@ndla/core';
+import {
+  breakpoints,
+  colors,
+  mq,
+  spacing,
+  spacingUnit,
+  utils,
+} from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import { gql } from '@apollo/client';
 
@@ -59,6 +66,7 @@ const StyledMain = styled.main`
   align-items: center;
   padding-bottom: ${spacingUnit * 3}px;
   padding-top: ${spacing.normal};
+  background-color: ${colors.background.lightBlue};
 
   section {
     padding: 0px;
