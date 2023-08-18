@@ -17,6 +17,7 @@ import {
   FRONTPAGE_ARTICLE_MAX_WIDTH,
   FrontpageArticle,
   WIDE_FRONTPAGE_ARTICLE_MAX_WIDTH,
+  BannerCard,
 } from '@ndla/ui';
 import {
   breakpoints,
@@ -238,6 +239,22 @@ const WelcomePage = () => {
       ) : (
         <main>
           <OneColumn wide>
+            <BannerCard
+              link="https://blogg.ndla.no/laeremidlene-du-trenger-til-skolearet/"
+              title={{ title: t('campaignBlock.title'), lang: i18n.language }}
+              image={{
+                imageSrc: '/static/planlegg_skolearet.jpeg',
+                altText: '',
+              }}
+              linkText={{
+                text: t('campaignBlock.linkText'),
+                lang: i18n.language,
+              }}
+              content={{
+                content: t('campaignBlock.ingress'),
+                lang: i18n.language,
+              }}
+            />
             <div data-testid="category-list" id={SKIP_TO_CONTENT_ID}>
               <FrontpageSubjects
                 locale={i18n.language}

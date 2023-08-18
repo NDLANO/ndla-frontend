@@ -37,6 +37,12 @@ const messages = {
     noResults: '...Ingen episoder',
   },
   sharedFolder: 'Delt mappe',
+  campaignBlock: {
+    title: 'Planlegg skoleåret med NDLA',
+    linkText: 'Les mer',
+    ingress:
+      'Se våre forslag til aktiviteter og årsplaner. Gode resultater starter med god planlegging.',
+  },
   blogPosts: {
     blog1: {
       imageUrl: '/static/samiske-laeremidler.jpg',
