@@ -86,7 +86,7 @@ const findBreadcrumb = (
         articleId,
         newPath,
       );
-      if (foundPath) {
+      if (foundPath.length) {
         return foundPath;
       }
     }
