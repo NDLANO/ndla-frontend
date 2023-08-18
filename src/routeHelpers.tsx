@@ -34,6 +34,7 @@ interface MatchParams extends TypedParams {
   topic3?: string;
   topic4?: string;
   programme?: string;
+  slug?: string;
 }
 
 export const useOnTopicPage = () => {
@@ -81,6 +82,7 @@ export const useUrnIds = () => {
     programme: params.programme,
     stepId: params.stepId,
     subjectType: subjectId ? getSubjectType(subjectId) : undefined,
+    slug: params.slug,
   };
 };
 

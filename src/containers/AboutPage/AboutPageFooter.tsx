@@ -70,7 +70,7 @@ const StyledNav = styled.nav`
 
 const AboutPageFooter = ({ frontpage }: Props) => {
   const { t } = useTranslation();
-  if (!frontpage.menu.length) return null;
+  if (!frontpage.menu?.length) return null;
 
   return (
     <FooterWrapper>

@@ -24,8 +24,11 @@ interface Props {
   topicPath: string[];
   subject?: GQLDrawerContent_SubjectFragment;
   type: MenuType;
+  setFrontpageMenu: Dispatch<
+    SetStateAction<GQLDrawerContent_FrontpageMenuFragment[]>
+  >;
   setTopicPathIds: Dispatch<SetStateAction<string[]>>;
-  menu?: GQLDrawerContent_FrontpageMenuFragment;
+  menuItems?: GQLDrawerContent_FrontpageMenuFragment[];
 }
 
 const DrawerContent = ({
@@ -35,7 +38,8 @@ const DrawerContent = ({
   topicPath,
   subject,
   setTopicPathIds,
-  menu,
+  setFrontpageMenu,
+  menuItems,
 }: Props) => {
   const taxStructure = useEnableTaxStructure();
   if (type === 'programme') {
@@ -56,11 +60,12 @@ const DrawerContent = ({
       />
     );
   } else {
-    if (taxStructure && menu) {
+    if (taxStructure && menuItems) {
       return (
         <NewAboutMenu
-          menu={menu}
+          menuItems={menuItems}
           onClose={onClose}
+          setMenu={setFrontpageMenu}
           onCloseMenuPortion={onCloseMenuPortion}
         />
       );

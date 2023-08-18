@@ -399,7 +399,7 @@ type FrontPageResources {
 type FrontpageMenu {
   article: Article!
   articleId: Int!
-  menu: [FrontpageMenu]!
+  menu: [FrontpageMenu]
 }
 
 type FrontpageSearch {
@@ -691,6 +691,10 @@ type Mutation {
     resourceId: String!
     resourceType: String!
     tags: [String!]
+  ): FolderResource!
+  copySharedFolder(
+    destinationFolderId: String
+    folderId: String!
   ): FolderResource!
   deleteFolder(id: String!): String!
   deleteFolderResource(folderId: String!, resourceId: String!): String!

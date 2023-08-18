@@ -468,7 +468,7 @@ export type GQLFrontpageMenu = {
   __typename?: 'FrontpageMenu';
   article: GQLArticle;
   articleId: Scalars['Int'];
-  menu: Array<Maybe<GQLFrontpageMenu>>;
+  menu?: Maybe<Array<Maybe<GQLFrontpageMenu>>>;
 };
 
 export type GQLFrontpageSearch = {
@@ -783,6 +783,7 @@ export type GQLMutation = {
   __typename?: 'Mutation';
   addFolder: GQLFolder;
   addFolderResource: GQLFolderResource;
+  copySharedFolder: GQLFolderResource;
   deleteFolder: Scalars['String'];
   deleteFolderResource: Scalars['String'];
   deletePersonalData: Scalars['Boolean'];
@@ -808,6 +809,11 @@ export type GQLMutationAddFolderResourceArgs = {
   resourceId: Scalars['String'];
   resourceType: Scalars['String'];
   tags?: InputMaybe<Array<Scalars['String']>>;
+};
+
+export type GQLMutationCopySharedFolderArgs = {
+  destinationFolderId?: InputMaybe<Scalars['String']>;
+  folderId: Scalars['String'];
 };
 
 export type GQLMutationDeleteFolderArgs = {
@@ -1991,6 +1997,7 @@ export type GQLAboutPage_ArticleFragment = {
   introduction?: string;
   created: string;
   updated: string;
+  slug?: string;
   published: string;
   metaData?: { __typename?: 'ArticleMetaData'; copyText?: string };
 } & GQLLicenseBox_ArticleFragment &
@@ -1998,7 +2005,7 @@ export type GQLAboutPage_ArticleFragment = {
 
 export type GQLAboutPage_FrontpageMenuFragment = {
   __typename?: 'FrontpageMenu';
-  menu: Array<
+  menu?: Array<
     { __typename?: 'FrontpageMenu' } & GQLAboutPageFooter_FrontpageMenuFragment
   >;
 } & GQLFrontpageMenuFragmentFragment;
@@ -2011,10 +2018,10 @@ export type GQLFrontpageMenuFragmentFragment = {
 
 export type GQLAboutPageFooter_FrontpageMenuFragment = {
   __typename?: 'FrontpageMenu';
-  menu: Array<
+  menu?: Array<
     {
       __typename?: 'FrontpageMenu';
-      menu: Array<
+      menu?: Array<
         { __typename?: 'FrontpageMenu' } & GQLFrontpageMenuFragmentFragment
       >;
     } & GQLFrontpageMenuFragmentFragment
@@ -2179,17 +2186,6 @@ export type GQLMastHeadQuery = {
   subject?: { __typename?: 'Subject' } & GQLMastheadDrawer_SubjectFragment;
 };
 
-export type GQLMastheadFrontpageQueryVariables = Exact<{
-  [key: string]: never;
-}>;
-
-export type GQLMastheadFrontpageQuery = {
-  __typename?: 'Query';
-  frontpage?: {
-    __typename?: 'FrontpageMenu';
-  } & GQLMastheadDrawer_FrontpageMenuFragment;
-};
-
 export type GQLMastheadSearch_SubjectFragment = {
   __typename?: 'Subject';
   id: string;
@@ -2198,18 +2194,19 @@ export type GQLMastheadSearch_SubjectFragment = {
 
 export type GQLAboutMenuFragment = {
   __typename?: 'FrontpageMenu';
+  articleId: number;
   article: { __typename?: 'Article'; id: number; title: string; slug?: string };
 };
 
 export type GQLAboutMenu_FrontpageMenuFragment = {
   __typename?: 'FrontpageMenu';
-  menu: Array<
+  menu?: Array<
     {
       __typename?: 'FrontpageMenu';
-      menu: Array<
+      menu?: Array<
         {
           __typename?: 'FrontpageMenu';
-          menu: Array<{ __typename?: 'FrontpageMenu' } & GQLAboutMenuFragment>;
+          menu?: Array<{ __typename?: 'FrontpageMenu' } & GQLAboutMenuFragment>;
         } & GQLAboutMenuFragment
       >;
     } & GQLAboutMenuFragment
@@ -2230,14 +2227,21 @@ export type GQLDrawerContent_FrontpageMenuFragment = {
   __typename?: 'FrontpageMenu';
 } & GQLAboutMenu_FrontpageMenuFragment;
 
+export type GQLMastheadFrontpageQueryVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type GQLMastheadFrontpageQuery = {
+  __typename?: 'Query';
+  frontpage?: {
+    __typename?: 'FrontpageMenu';
+  } & GQLDrawerContent_FrontpageMenuFragment;
+};
+
 export type GQLMastheadDrawer_SubjectFragment = {
   __typename?: 'Subject';
 } & GQLDefaultMenu_SubjectFragment &
   GQLDrawerContent_SubjectFragment;
-
-export type GQLMastheadDrawer_FrontpageMenuFragment = {
-  __typename?: 'FrontpageMenu';
-} & GQLDrawerContent_FrontpageMenuFragment;
 
 export type GQLSubjectMenu_SubjectFragment = {
   __typename?: 'Subject';

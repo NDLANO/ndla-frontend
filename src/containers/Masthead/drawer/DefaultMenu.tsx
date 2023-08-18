@@ -21,7 +21,7 @@ import {
 } from '../../../constants';
 import {
   GQLDefaultMenu_SubjectFragment,
-  GQLMastheadDrawer_FrontpageMenuFragment,
+  GQLDrawerContent_FrontpageMenuFragment,
 } from '../../../graphqlTypes';
 import { removeUrn } from '../../../routeHelpers';
 import { usePrevious } from '../../../util/utilityHooks';
@@ -62,8 +62,9 @@ const teacherToolboxUrl = `/${removeUrn(TOOLBOX_TEACHER_SUBJECT_ID)}`;
 interface Props {
   onClose: () => void;
   setActiveMenu: (type: MenuType | undefined) => void;
-  setFrontpageMenu: (menu: GQLMastheadDrawer_FrontpageMenuFragment) => void;
-  dynamicMenus: GQLMastheadDrawer_FrontpageMenuFragment[];
+  setFrontpageMenu: (menu: GQLDrawerContent_FrontpageMenuFragment) => void;
+  dynamicMenus: GQLDrawerContent_FrontpageMenuFragment[];
+  dynamicId?: string;
   subject?: GQLDefaultMenu_SubjectFragment;
   type?: MenuType;
   closeSubMenu: () => void;
@@ -80,6 +81,7 @@ const DefaultMenu = ({
   setFrontpageMenu,
   dynamicMenus,
   closeSubMenu,
+  dynamicId,
 }: Props) => {
   const previousType = usePrevious(type);
   const { t } = useTranslation();
@@ -102,7 +104,9 @@ const DefaultMenu = ({
   );
 
   useArrowNavigation(!type, {
-    initialFocused: `header-${type ?? previousType ?? 'programme'}`,
+    initialFocused: `header-${
+      dynamicId ?? type ?? previousType ?? 'programme'
+    }`,
     onRightKeyPressed: onRightClick,
   });
 

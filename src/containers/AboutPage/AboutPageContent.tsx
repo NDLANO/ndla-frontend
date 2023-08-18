@@ -71,19 +71,19 @@ const Wrapper = styled.div`
   width: 100%;
 `;
 
-const findBreadcrumb = (
+export const findBreadcrumb = (
   menu: GQLAboutPage_FrontpageMenuFragment[],
-  articleId: number,
+  slug: string | undefined,
   currentPath: GQLAboutPage_FrontpageMenuFragment[] = [],
 ): GQLAboutPage_FrontpageMenuFragment[] => {
   for (const item of menu) {
     const newPath = currentPath.concat(item);
-    if (item.articleId === articleId) {
+    if (item.article.slug === slug) {
       return newPath;
     } else if (item.menu?.length) {
       const foundPath = findBreadcrumb(
         item.menu as GQLAboutPage_FrontpageMenuFragment[],
-        articleId,
+        slug,
         newPath,
       );
       if (foundPath.length) {
@@ -95,13 +95,13 @@ const findBreadcrumb = (
 };
 
 const getBreadcrumb = (
-  articleId: number,
+  slug: string | undefined,
   frontpage: GQLAboutPage_FrontpageMenuFragment,
   t: TFunction,
 ) => {
   const crumbs = findBreadcrumb(
     frontpage.menu as GQLAboutPage_FrontpageMenuFragment[],
-    articleId,
+    slug,
   );
   return [
     {
@@ -127,8 +127,8 @@ const converterComponents: DynamicComponents | undefined =
 const AboutPageContent = ({ article: _article, frontpage, t, i18n }: Props) => {
   const oembedUrl = `${config.ndlaFrontendDomain}/oembed?url=${config.ndlaFrontendDomain}/article/${_article.id}`;
   const crumbs = useMemo(
-    () => getBreadcrumb(_article.id, frontpage, t),
-    [_article.id, frontpage, t],
+    () => getBreadcrumb(_article.slug, frontpage, t),
+    [_article.slug, frontpage, t],
   );
 
   const [article, scripts] = useMemo(() => {
@@ -228,6 +228,7 @@ export const aboutPageFragments = {
       introduction
       created
       updated
+      slug
       published
       metaData {
         copyText

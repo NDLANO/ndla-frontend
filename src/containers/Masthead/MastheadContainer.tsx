@@ -28,10 +28,8 @@ import { useGraphQuery } from '../../util/runQueries';
 import {
   GQLMastHeadQuery,
   GQLMastHeadQueryVariables,
-  GQLMastheadFrontpageQuery,
 } from '../../graphqlTypes';
 import { supportedLanguages } from '../../i18n';
-import { useEnableTaxStructure } from '../../components/TaxonomyStructureContext';
 
 const FeideLoginLabel = styled.span`
   ${mq.range({ until: breakpoints.mobileWide })} {
@@ -54,18 +52,8 @@ const mastheadQuery = gql`
   ${MastheadDrawer.fragments.subject}
 `;
 
-const mastheadFrontpageQuery = gql`
-  query mastheadFrontpage {
-    frontpage {
-      ...MastheadDrawer_FrontpageMenu
-    }
-  }
-  ${MastheadDrawer.fragments.frontpage}
-`;
-
 const MastheadContainer = () => {
   const { t, i18n } = useTranslation();
-  const taxEnabled = useEnableTaxStructure();
   const locale = i18n.language;
   const { subjectId } = useUrnIds();
   const { user } = useContext(AuthContext);
@@ -80,11 +68,6 @@ const MastheadContainer = () => {
     },
     skip: !subjectId,
   });
-
-  const frontpageQuery = useGraphQuery<GQLMastheadFrontpageQuery>(
-    mastheadFrontpageQuery,
-    { skip: !taxEnabled },
-  );
 
   const data = freshData ?? previousData;
 
@@ -104,10 +87,7 @@ const MastheadContainer = () => {
         messages={alerts}
       >
         <MastheadItem left>
-          <MastheadDrawer
-            subject={data?.subject}
-            menu={frontpageQuery.data?.frontpage}
-          />
+          <MastheadDrawer subject={data?.subject} />
         </MastheadItem>
         <MastheadItem right>
           <LanguageSelectWrapper>

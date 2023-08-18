@@ -7,7 +7,13 @@
  */
 
 import styled from '@emotion/styled';
-import { useCallback, useEffect, useState } from 'react';
+import {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import { gql } from '@apollo/client';
 import { LinkType, ndlaLinks } from '../../../constants';
@@ -27,29 +33,36 @@ interface Props {
 }
 
 interface NewAboutMenuProps extends Props {
-  menu: GQLAboutMenu_FrontpageMenuFragment;
+  menuItems: GQLAboutMenu_FrontpageMenuFragment[];
+  setMenu: Dispatch<SetStateAction<GQLAboutMenu_FrontpageMenuFragment[]>>;
   onClose: () => void;
 }
 
 export const NewAboutMenu = ({
   onCloseMenuPortion,
   onClose,
-  menu,
+  setMenu,
+  menuItems,
 }: NewAboutMenuProps) => {
-  return (
+  return menuItems.map((item, index) => (
     <NewAboutMenuPortion
-      item={menu}
+      key={item.article.id}
+      setMenu={setMenu}
+      item={item}
       onClose={onClose}
       onGoBack={onCloseMenuPortion}
+      current={index === menuItems.length - 1}
       homeButton
     />
-  );
+  ));
 };
 
 interface NewAboutMenuPortionProps {
   item: GQLAboutMenu_FrontpageMenuFragment;
   onGoBack: () => void;
   onClose: () => void;
+  current?: boolean;
+  setMenu: Dispatch<SetStateAction<GQLAboutMenu_FrontpageMenuFragment[]>>;
   homeButton?: boolean;
 }
 
@@ -57,7 +70,9 @@ const NewAboutMenuPortion = ({
   item,
   onGoBack,
   onClose,
+  setMenu,
   homeButton,
+  current,
 }: NewAboutMenuPortionProps) => {
   const { t } = useTranslation();
   const [selected, setSelected] = useState<GQLAboutMenuFragment | undefined>(
@@ -82,24 +97,21 @@ const NewAboutMenuPortion = ({
 
   const onGoRight = useCallback(
     (slug?: string) => {
-      if (slug && item) {
+      const newItem = item.menu?.find((t) => t.article.slug === slug && t.menu);
+      if (newItem) {
+        setMenu((p) => p.concat(newItem));
         setInitialKey(slug);
-        setSelected(item.menu?.find((t) => t.article.slug === slug && t.menu));
+        setSelected(newItem);
       }
     },
-    [item],
+    [item, setMenu],
   );
 
-  const { setFocused } = useArrowNavigation(!selected, {
+  useArrowNavigation(!!current, {
     initialFocused: initialKey,
     onRightKeyPressed: onGoRight,
     onLeftKeyPressed: onGoBack,
   });
-
-  const onCloseSelected = useCallback(() => {
-    setSelected(undefined);
-    setFocused(initialKey!);
-  }, [initialKey, setFocused]);
 
   if (!item) {
     return;
@@ -122,7 +134,7 @@ const NewAboutMenuPortion = ({
             onClose={onClose}
             active={!selected}
           />
-          {item.menu.map((link) => {
+          {item.menu?.map((link) => {
             if (!link.menu?.length) {
               return (
                 <DrawerMenuItem
@@ -150,13 +162,6 @@ const NewAboutMenuPortion = ({
           })}
         </DrawerList>
       </DrawerPortion>
-      {selected && (
-        <NewAboutMenuPortion
-          onClose={onClose}
-          item={selected as GQLAboutMenu_FrontpageMenuFragment}
-          onGoBack={onCloseSelected}
-        />
-      )}
     </PortionWrapper>
   );
 };
@@ -273,6 +278,7 @@ const AboutMenuPortion = ({
 
 const aboutMenuFragment = gql`
   fragment AboutMenu on FrontpageMenu {
+    articleId
     article {
       id
       title
