@@ -48,7 +48,8 @@ const CopyFolder = ({ folder, onClose }: Props) => {
     await copySharedFolder({
       variables: {
         folderId: folder.id,
-        destinationFolderId: selectedFolderId,
+        destinationFolderId:
+          selectedFolderId === 'folders' ? undefined : selectedFolderId,
       },
     });
     onClose();
