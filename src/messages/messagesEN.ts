@@ -38,7 +38,7 @@ const messages = {
   sharedFolder: 'Shared folder',
   campaignBlock: {
     title: 'Make plans for the school year with NDLA',
-    linkText: 'Read more',
+    linkText: 'View tips',
     ingress:
       'See our tips for activities and annual plans. Good results start with good planning.',
   },
