@@ -36,6 +36,7 @@ import getStructuredDataFromArticle, {
 } from '../../util/getStructuredDataFromArticle';
 import { getAllDimensions } from '../../util/trackingUtil';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
+import { toAbout } from '../../routeHelpers';
 
 interface Props extends CustomWithTranslation {
   article: GQLAboutPage_ArticleFragment;
@@ -111,7 +112,7 @@ const getBreadcrumb = (
   ].concat(
     crumbs.map((crumb) => ({
       name: crumb.article.title,
-      to: `/about/${crumb.article.slug}`,
+      to: toAbout(crumb.article.slug),
     })),
   );
 };

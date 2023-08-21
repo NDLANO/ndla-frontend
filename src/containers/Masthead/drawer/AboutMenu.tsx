@@ -27,6 +27,7 @@ import {
   GQLAboutMenuFragment,
   GQLAboutMenu_FrontpageMenuFragment,
 } from '../../../graphqlTypes';
+import { toAbout } from '../../../routeHelpers';
 
 interface Props {
   onCloseMenuPortion: () => void;
@@ -136,7 +137,7 @@ const NewAboutMenuPortion = ({
             id={item.article.slug}
             title={item.article.title}
             type="link"
-            to={`/about/${item.article.slug}`}
+            to={toAbout(item.article.slug)}
             onClose={onClose}
             active={!selected}
           />
@@ -148,7 +149,7 @@ const NewAboutMenuPortion = ({
                   id={link.article.slug!}
                   type="link"
                   onClose={onClose}
-                  to={`/about/${link.article.slug}`}
+                  to={toAbout(item.article.slug)}
                 >
                   {link.article.title}
                 </DrawerMenuItem>

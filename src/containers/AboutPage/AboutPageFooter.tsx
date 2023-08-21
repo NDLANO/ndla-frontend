@@ -14,6 +14,7 @@ import { FRONTPAGE_ARTICLE_MAX_WIDTH, Heading } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
 import { Fragment } from 'react';
 import { GQLAboutPageFooter_FrontpageMenuFragment } from '../../graphqlTypes';
+import { toAbout } from '../../routeHelpers';
 
 interface Props {
   frontpage: GQLAboutPageFooter_FrontpageMenuFragment;
@@ -99,7 +100,7 @@ const MenuList = ({ items, level }: MenuListProps) => {
           <li>
             {level ? (
               <StyledSubSafeLinkButton
-                to={`/about/${item.article.slug}`}
+                to={toAbout(item.article.slug)}
                 variant="ghost"
                 colorTheme="light"
               >
@@ -107,7 +108,7 @@ const MenuList = ({ items, level }: MenuListProps) => {
               </StyledSubSafeLinkButton>
             ) : (
               <StyledSafeLinkButton
-                to={`/about/${item.article.slug}`}
+                to={toAbout(item.article.slug)}
                 variant="solid"
                 colorTheme="greyLighter"
                 shape="sharp"
