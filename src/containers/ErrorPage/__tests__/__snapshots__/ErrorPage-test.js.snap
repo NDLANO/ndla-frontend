@@ -724,6 +724,7 @@ exports[`ErrorPage renderers correctly 1`] = `
               aria-label="Nasjonal digital læringsarena"
               href="/"
               tabindex="0"
+              title="Nasjonal digital læringsarena"
             >
               <svg
                 class="c-logo__graphic"
