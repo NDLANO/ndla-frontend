@@ -72,6 +72,7 @@ const rowHeaderWrapperStyles = css`
 
 const StyledButton = styled(ButtonV2)`
   ${rowHeaderWrapperStyles};
+  text-align: start;
 `;
 
 const StyledLink = styled(SafeLinkButton)`
