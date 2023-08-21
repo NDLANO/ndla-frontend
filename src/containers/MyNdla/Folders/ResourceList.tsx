@@ -30,6 +30,7 @@ import {
 } from '@dnd-kit/modifiers';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
+import { Reference } from '@apollo/client/cache';
 import { GQLFolder } from '../../../graphqlTypes';
 import {
   useFolderResourceMetaSearch,
@@ -90,11 +91,11 @@ const ResourceList = ({ selectedFolder, viewType }: Props) => {
   );
 
   const updateCache = (newOrder: string[]) => {
-    const sortCacheModifierFunction = (
-      existing: (GQLFolder & { __ref: string })[],
-    ) => {
-      return newOrder.map((id) =>
-        existing.find((ef) => ef.__ref === `FolderResource:${id}`),
+    const sortCacheModifierFunction = <T extends Reference>(
+      existing: readonly T[],
+    ): T[] => {
+      return newOrder.map(
+        (id) => existing.find((ef) => ef.__ref === `FolderResource:${id}`)!,
       );
     };
 

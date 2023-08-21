@@ -6,8 +6,12 @@
  *
  */
 
-import { useApolloClient, useLazyQuery, useMutation } from '@apollo/client';
-import gql from 'graphql-tag';
+import {
+  useApolloClient,
+  useLazyQuery,
+  useMutation,
+  gql,
+} from '@apollo/client';
 import {
   GQLPersonalDataQuery,
   GQLUpdatePersonalDataMutation,
