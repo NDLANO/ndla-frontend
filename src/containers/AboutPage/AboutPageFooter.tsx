@@ -24,7 +24,6 @@ const StyledList = styled.ul`
   flex-direction: column;
   margin: 0px;
   padding: 0px;
-  /* gap: ${spacing.small}; */
   list-style: none;
   li {
     margin: 0px;
