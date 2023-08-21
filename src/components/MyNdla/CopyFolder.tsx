@@ -6,7 +6,7 @@
  *
  */
 
-import { ListResource, MessageBox } from '@ndla/ui';
+import { ListResource, MessageBox, useSnack } from '@ndla/ui';
 import { TFunction, useTranslation } from 'react-i18next';
 import { useContext, useMemo, useState } from 'react';
 import { ButtonV2 as Button, LoadingButton } from '@ndla/button';
@@ -36,7 +36,7 @@ const CopyFolder = ({ folder, onClose }: Props) => {
 
   const { examLock } = useContext(AuthContext);
   const { t } = useTranslation();
-
+  const { addSnack } = useSnack();
   const { folders, loading } = useFolders();
   const {
     copySharedFolder,
@@ -52,6 +52,10 @@ const CopyFolder = ({ folder, onClose }: Props) => {
       },
     });
     onClose();
+    addSnack({
+      content: t('myNdla.sharedFolder.folderCopied'),
+      id: 'sharedFolderCopied',
+    });
   };
 
   const sharedFolder = useMemo(() => baseSharedFolder(t), [t]);
