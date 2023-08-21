@@ -22,7 +22,7 @@ import {
   getGroupedContributorDescriptionList,
 } from '@ndla/licenses';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useMemo } from 'react';
 import uniqBy from 'lodash/uniqBy';
 import CopyTextButton from './CopyTextButton';
@@ -40,6 +40,15 @@ interface VideoLicenseInfoProps {
 
 const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
   const { t, i18n } = useTranslation();
+  const { pathname } = useLocation();
+  const pageUrl = useMemo(() => `/video/${video.id}`, [video.id]);
+
+  const shouldShowLink = useMemo(
+    () =>
+      pathname !== pageUrl && !isCopyrighted(video.copyright?.license.license),
+    [pageUrl, pathname, video.copyright?.license.license],
+  );
+
   const safeCopyright = licenseCopyrightToCopyrightType(video.copyright);
   const items = getGroupedContributorDescriptionList(
     safeCopyright,
@@ -54,14 +63,12 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
   }
   return (
     <MediaListItem>
-      <MediaListItemImage
-        canOpen={!isCopyrighted(video.copyright?.license.license)}
-      >
-        {isCopyrighted(video.copyright?.license.license) ? (
+      <MediaListItemImage canOpen={shouldShowLink}>
+        {!shouldShowLink ? (
           <img alt="presentation" src={video.cover} />
         ) : (
           <Link
-            to={`/video/${video.id}`}
+            to={pageUrl}
             target="_blank"
             rel="noopener noreferrer"
             aria-label={t('embed.goTo', { type: t('embed.type.video') })}

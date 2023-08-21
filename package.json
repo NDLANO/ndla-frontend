@@ -120,7 +120,7 @@
     "@fontsource/source-code-pro": "^4.5.10",
     "@fontsource/source-sans-pro": "^4.5.9",
     "@fontsource/source-serif-pro": "^4.5.7",
-    "@ndla/article-converter": "^2.5.7",
+    "@ndla/article-converter": "^2.5.10",
     "@ndla/button": "^11.0.3",
     "@ndla/carousel": "^3.1.13",
     "@ndla/core": "^4.1.4",

@@ -404,7 +404,6 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
       <div>
         <article
           class="c-article c-article--clean c-article--iframe"
-          id="54"
         >
           <section
             class="u-4/6@desktop u-push-1/6@desktop u-10/12@tablet u-push-1/12@tablet"
@@ -419,6 +418,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                   class="emotion-0"
                   data-margin="normal"
                   data-style="h1"
+                  id="54"
                   tabindex="-1"
                 >
                   Politiske skillelinjer

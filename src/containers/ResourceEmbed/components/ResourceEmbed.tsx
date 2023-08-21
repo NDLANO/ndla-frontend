@@ -20,6 +20,7 @@ import {
 } from '@ndla/accordion';
 import { CreatedBy } from '@ndla/ui';
 import { colors, fonts, spacing } from '@ndla/core';
+import { useLocation } from 'react-router-dom';
 import ResourceEmbedLicenseBox from './ResourceEmbedLicenseBox';
 import {
   GQLResourceEmbedLicenseBox_MetaFragment,
@@ -138,6 +139,7 @@ export const hasLicensedContent = (
 
 const ResourceEmbed = ({ id, type, noBackground, isOembed }: Props) => {
   const { t } = useTranslation();
+  const { pathname } = useLocation();
 
   const { data, loading, error } = useGraphQuery<
     GQLResourceEmbedQuery,
@@ -159,8 +161,9 @@ const ResourceEmbed = ({ id, type, noBackground, isOembed }: Props) => {
     return transform(data.resourceEmbed.content, {
       frontendDomain: '',
       components: isOembed ? undefined : converterComponents,
+      path: pathname,
     });
-  }, [data?.resourceEmbed.content, isOembed]);
+  }, [data?.resourceEmbed.content, isOembed, pathname]);
 
   if (loading) {
     return <Spinner />;

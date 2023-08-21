@@ -14,6 +14,7 @@ import {
   FrontpageFilm,
   OneColumn,
   ProgrammeV2,
+  BannerCard,
 } from '@ndla/ui';
 import { utils } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
@@ -149,6 +150,22 @@ const WelcomePage = () => {
       )}
       <main>
         <OneColumn wide>
+          <BannerCard
+            link="https://blogg.ndla.no/laeremidlene-du-trenger-til-skolearet/"
+            title={{ title: t('campaignBlock.title'), lang: i18n.language }}
+            image={{
+              imageSrc: '/static/planlegg_skolearet.jpeg',
+              altText: '',
+            }}
+            linkText={{
+              text: t('campaignBlock.linkText'),
+              lang: i18n.language,
+            }}
+            content={{
+              content: t('campaignBlock.ingress'),
+              lang: i18n.language,
+            }}
+          />
           {taxonomyProgrammesEnabled && (
             <div data-testid="programme-list">
               <Programmes programmes={programmes} loading={loading} />
