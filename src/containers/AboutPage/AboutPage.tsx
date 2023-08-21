@@ -22,6 +22,7 @@ import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import AboutPageContent, { aboutPageFragments } from './AboutPageContent';
 import { useEnableTaxStructure } from '../../components/TaxonomyStructureContext';
 import { AuthContext } from '../../components/AuthenticationContext';
+import { GONE } from '../../statusCodes';
 
 const aboutPageQuery = gql`
   query aboutPage($slug: String!) {
@@ -57,10 +58,10 @@ const AboutPage = () => {
   }
 
   if (
-    error?.graphQLErrors.some((err) => err.extensions.status === 410) &&
+    error?.graphQLErrors.some((err) => err.extensions.status === GONE) &&
     redirectContext
   ) {
-    redirectContext.status = 410;
+    redirectContext.status = GONE;
   }
 
   if (!data?.article || !data.frontpage) {
