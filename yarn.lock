@@ -2664,6 +2664,42 @@
   resolved "https://registry.yarnpkg.com/@ndla/types-embed/-/types-embed-2.0.7.tgz#552728fb23e03943c47689209513b88fbfdf833a"
   integrity sha512-u48azjdULP6fqHbVqrhPSoIJXUU+fstcuOmnoVMWVcl0/R9CR7agpRfpqPb+F2scDx8obsKy8l16v4bNwZCUDg==
 
+"@ndla/ui@^44.0.10":
+  version "44.0.10"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-44.0.10.tgz#40e0dcc578d48e0b1c6408ad95fdd7dcc7d78582"
+  integrity sha512-TWdnRovc96rNm++YPhxcYrEC/MGAqZt8Qv9tbYYa8wBOSk/FhsAl78mgxL0zNHcfnTQSyD/IE30k5ZsnTn6zVw==
+  dependencies:
+    "@ndla/accordion" "^2.2.18"
+    "@ndla/article-scripts" "^3.0.20"
+    "@ndla/button" "^11.0.3"
+    "@ndla/carousel" "^3.1.13"
+    "@ndla/core" "^4.1.4"
+    "@ndla/dropdown-menu" "^1.0.2"
+    "@ndla/forms" "^4.3.18"
+    "@ndla/hooks" "^2.0.9"
+    "@ndla/icons" "^4.0.3"
+    "@ndla/licenses" "^7.1.3"
+    "@ndla/modal" "^4.0.2"
+    "@ndla/notion" "^5.0.17"
+    "@ndla/safelink" "^4.1.17"
+    "@ndla/select" "^2.4.9"
+    "@ndla/switch" "^1.1.9"
+    "@ndla/tabs" "^3.0.5"
+    "@ndla/tooltip" "^4.1.15"
+    "@ndla/util" "^3.1.15"
+    "@radix-ui/react-popover" "^1.0.6"
+    "@radix-ui/react-slider" "^1.1.2"
+    date-fns "^2.30.0"
+    framer-motion "^6.5.1"
+    html-react-parser "^3.0.8"
+    i18next-browser-languagedetector "^6.1.1"
+    react-bem-helper "1.4.1"
+    react-device-detect "^2.2.3"
+    react-select "^5.7.0"
+    react-swipeable "^7.0.0"
+    remarkable "^2.0.1"
+    shave "^2.5.10"
+
 "@ndla/ui@^44.0.7":
   version "44.0.7"
   resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-44.0.7.tgz#7d20700162e1b4e6940a39facf7921b905a9f47a"

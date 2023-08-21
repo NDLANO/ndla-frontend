@@ -137,7 +137,7 @@
     "@ndla/select": "^2.4.9",
     "@ndla/tabs": "^3.0.5",
     "@ndla/tracker": "^4.0.4",
-    "@ndla/ui": "^44.0.7",
+    "@ndla/ui": "^44.0.10",
     "@ndla/util": "^3.1.15",
     "@ndla/zendesk": "^1.2.17",
     "bunyan": "^1.8.15",
