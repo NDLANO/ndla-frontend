@@ -31,6 +31,7 @@ import { MenuType } from './drawerMenuTypes';
 import DrawerPortion, { DrawerList } from './DrawerPortion';
 import DrawerRowHeader from './DrawerRowHeader';
 import useArrowNavigation from './useArrowNavigation';
+import { useEnableTaxStructure } from '../../../components/TaxonomyStructureContext';
 
 const StyledCollapsedMenu = styled.div`
   display: flex;
@@ -83,6 +84,7 @@ const DefaultMenu = ({
   closeSubMenu,
   dynamicId,
 }: Props) => {
+  const enableTax = useEnableTaxStructure();
   const previousType = usePrevious(type);
   const { t } = useTranslation();
   const { setShouldCloseLevel } = useDrawerContext();
@@ -156,16 +158,26 @@ const DefaultMenu = ({
             onClick={() => setActiveMenu('subject')}
           />
         )}
-        {dynamicMenus.map((menu) => (
+        {enableTax ? (
+          dynamicMenus.map((menu) => (
+            <DrawerRowHeader
+              key={menu.article.slug}
+              ownsId={`${menu.article.slug}-menu`}
+              id={`${menu.article.slug}-dynamic`}
+              type="button"
+              title={menu.article.title}
+              onClick={() => setFrontpageMenu(menu)}
+            />
+          ))
+        ) : (
           <DrawerRowHeader
-            key={menu.article.slug}
-            ownsId={`${menu.article.slug}-menu`}
-            id={`${menu.article.slug}-dynamic`}
+            ownsId="about-menu"
+            id="about"
             type="button"
-            title={menu.article.title}
-            onClick={() => setFrontpageMenu(menu)}
+            title={t('masthead.menuOptions.about.title')}
+            onClick={() => setActiveMenu('about')}
           />
-        ))}
+        )}
         <DrawerMenuItem
           id="multidisciplinary"
           type="link"
