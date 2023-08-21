@@ -396,9 +396,10 @@ type FrontPageResources {
   totalCount: Int!
 }
 
-type Frontpage {
-  article: Article
-  menu: [Menu]!
+type FrontpageMenu {
+  article: Article!
+  articleId: Int!
+  menu: [FrontpageMenu]
 }
 
 type FrontpageSearch {
@@ -633,12 +634,6 @@ type Manuscript {
   manuscript: String!
 }
 
-type Menu {
-  menu: [Menu]!
-  slug: String
-  title: String
-}
-
 type Meta {
   availability: String
   id: Int!
@@ -696,6 +691,10 @@ type Mutation {
     resourceId: String!
     resourceType: String!
     tags: [String!]
+  ): FolderResource!
+  copySharedFolder(
+    destinationFolderId: String
+    folderId: String!
   ): FolderResource!
   deleteFolder(id: String!): String!
   deleteFolderResource(folderId: String!, resourceId: String!): String!
@@ -862,7 +861,7 @@ type Query {
     resources: [FolderResourceMetaSearchInput!]!
   ): [FolderResourceMeta!]!
   folders(includeResources: Boolean, includeSubfolders: Boolean): [Folder!]!
-  frontpage: Frontpage
+  frontpage: FrontpageMenu
   frontpageSearch(query: String): FrontpageSearch
   groupSearch(
     aggregatePaths: [String!]
