@@ -26,8 +26,10 @@ import useArrowNavigation from './useArrowNavigation';
 import {
   GQLAboutMenuFragment,
   GQLAboutMenu_FrontpageMenuFragment,
+  GQLDrawerContent_FrontpageMenuFragment,
 } from '../../../graphqlTypes';
 import { toAbout } from '../../../routeHelpers';
+import { findBreadcrumb } from '../../AboutPage/AboutPageContent';
 
 interface Props {
   onCloseMenuPortion: () => void;
@@ -42,9 +44,17 @@ interface NewAboutMenuProps extends Props {
 export const NewAboutMenu = ({
   onCloseMenuPortion,
   onClose,
-  setMenu,
+  setMenu: _setMenu,
   menuItems,
 }: NewAboutMenuProps) => {
+  const setMenu = useCallback(
+    (value: GQLAboutMenu_FrontpageMenuFragment) => {
+      const newMenu = findBreadcrumb(menuItems, value.article.slug);
+      _setMenu(newMenu as GQLDrawerContent_FrontpageMenuFragment[]);
+    },
+    [menuItems, _setMenu],
+  );
+
   return menuItems.map((item, index) => (
     <NewAboutMenuPortion
       key={item.article.id}
@@ -65,7 +75,7 @@ interface NewAboutMenuPortionProps {
   onClose: () => void;
   current?: boolean;
   nextItem?: GQLAboutMenu_FrontpageMenuFragment;
-  setMenu: Dispatch<SetStateAction<GQLAboutMenu_FrontpageMenuFragment[]>>;
+  setMenu: (value: GQLAboutMenu_FrontpageMenuFragment) => void;
   homeButton?: boolean;
 }
 
@@ -106,7 +116,7 @@ const NewAboutMenuPortion = ({
     (slug?: string) => {
       const newItem = item.menu?.find((t) => t.article.slug === slug && t.menu);
       if (newItem) {
-        setMenu((p) => p.concat(newItem));
+        setMenu(newItem);
         setInitialKey(slug);
         setSelected(newItem);
       }
