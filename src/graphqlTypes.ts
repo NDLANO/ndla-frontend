@@ -2227,6 +2227,10 @@ export type GQLDrawerContent_FrontpageMenuFragment = {
   __typename?: 'FrontpageMenu';
 } & GQLAboutMenu_FrontpageMenuFragment;
 
+export type GQLDrawerContent_ProgrammePageFragment = {
+  __typename?: 'ProgrammePage';
+} & GQLProgrammeMenu_ProgrammePageFragment;
+
 export type GQLMastheadFrontpageQueryVariables = Exact<{
   [key: string]: never;
 }>;
@@ -2238,10 +2242,29 @@ export type GQLMastheadFrontpageQuery = {
   } & GQLDrawerContent_FrontpageMenuFragment;
 };
 
+export type GQLMastheadProgrammeQueryVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type GQLMastheadProgrammeQuery = {
+  __typename?: 'Query';
+  programmes?: Array<
+    { __typename?: 'ProgrammePage' } & GQLDrawerContent_ProgrammePageFragment
+  >;
+};
+
 export type GQLMastheadDrawer_SubjectFragment = {
   __typename?: 'Subject';
 } & GQLDefaultMenu_SubjectFragment &
   GQLDrawerContent_SubjectFragment;
+
+export type GQLProgrammeMenu_ProgrammePageFragment = {
+  __typename?: 'ProgrammePage';
+  id: string;
+  url: string;
+  contentUri?: string;
+  title: { __typename?: 'Title'; title: string };
+};
 
 export type GQLSubjectMenu_SubjectFragment = {
   __typename?: 'Subject';

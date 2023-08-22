@@ -10,6 +10,7 @@ import { gql } from '@apollo/client';
 import { Dispatch, SetStateAction } from 'react';
 import {
   GQLDrawerContent_FrontpageMenuFragment,
+  GQLDrawerContent_ProgrammePageFragment,
   GQLDrawerContent_SubjectFragment,
 } from '../../../graphqlTypes';
 import AboutMenu, { NewAboutMenu } from './AboutMenu';
@@ -29,6 +30,7 @@ interface Props {
   >;
   setTopicPathIds: Dispatch<SetStateAction<string[]>>;
   menuItems?: GQLDrawerContent_FrontpageMenuFragment[];
+  programmes: GQLDrawerContent_ProgrammePageFragment[];
 }
 
 const DrawerContent = ({
@@ -40,11 +42,13 @@ const DrawerContent = ({
   setTopicPathIds,
   setFrontpageMenu,
   menuItems,
+  programmes,
 }: Props) => {
   const taxStructure = useEnableTaxStructure();
   if (type === 'programme') {
     return (
       <ProgrammeMenu
+        programmes={programmes}
         onClose={onClose}
         onCloseMenuPortion={onCloseMenuPortion}
       />
@@ -86,6 +90,12 @@ DrawerContent.fragments = {
       ...AboutMenu_FrontpageMenu
     }
     ${NewAboutMenu.fragments.frontpage}
+  `,
+  programmeMenu: gql`
+    fragment DrawerContent_ProgrammePage on ProgrammePage {
+      ...ProgrammeMenu_ProgrammePage
+    }
+    ${ProgrammeMenu.fragments.programmeMenu}
   `,
 };
 

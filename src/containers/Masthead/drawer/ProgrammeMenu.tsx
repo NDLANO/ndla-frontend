@@ -8,8 +8,9 @@
 
 import styled from '@emotion/styled';
 import { fonts, spacing } from '@ndla/core';
-import { memo, useEffect, useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { gql } from '@apollo/client';
 import { useUrnIds } from '../../../routeHelpers';
 import { getProgrammes } from '../../../util/programmesSubjectsHelper';
 import BackButton from './BackButton';
@@ -17,8 +18,11 @@ import { useDrawerContext } from './DrawerContext';
 import DrawerMenuItem from './DrawerMenuItem';
 import DrawerPortion, { DrawerList } from './DrawerPortion';
 import useArrowNavigation from './useArrowNavigation';
+import { GQLProgrammeMenu_ProgrammePageFragment } from '../../../graphqlTypes';
+import { useEnableTaxStructure } from '../../../components/TaxonomyStructureContext';
 
 interface Props {
+  programmes: GQLProgrammeMenu_ProgrammePageFragment[];
   onClose: () => void;
   onCloseMenuPortion: () => void;
 }
@@ -29,13 +33,25 @@ const StyledTitle = styled.h1`
   padding: ${spacing.normal} 0 ${spacing.normal} 40px;
 `;
 
-const ProgrammeMenu = ({ onClose, onCloseMenuPortion }: Props) => {
+const ProgrammeMenu = ({
+  onClose,
+  onCloseMenuPortion,
+  programmes: programmesProp,
+}: Props) => {
   const { i18n, t } = useTranslation();
   const { programme: urlProgramme } = useUrnIds();
   const { shouldCloseLevel, setLevelClosed } = useDrawerContext();
+  const enableTax = useEnableTaxStructure();
   const programmes = useMemo(
-    () => getProgrammes(i18n.language),
-    [i18n.language],
+    () =>
+      enableTax
+        ? programmesProp.map((prog) => ({
+            ...prog,
+            path: prog.url,
+            name: prog.title.title,
+          }))
+        : getProgrammes(i18n.language),
+    [enableTax, i18n.language, programmesProp],
   );
 
   useEffect(() => {
@@ -81,4 +97,17 @@ const ProgrammeMenu = ({ onClose, onCloseMenuPortion }: Props) => {
   );
 };
 
-export default memo(ProgrammeMenu);
+ProgrammeMenu.fragments = {
+  programmeMenu: gql`
+    fragment ProgrammeMenu_ProgrammePage on ProgrammePage {
+      id
+      title {
+        title
+      }
+      url
+      contentUri
+    }
+  `,
+};
+
+export default ProgrammeMenu;

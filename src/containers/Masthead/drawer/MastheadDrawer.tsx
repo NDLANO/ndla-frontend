@@ -19,6 +19,7 @@ import {
   GQLDrawerContent_FrontpageMenuFragment,
   GQLMastheadDrawer_SubjectFragment,
   GQLMastheadFrontpageQuery,
+  GQLMastheadProgrammeQuery,
 } from '../../../graphqlTypes';
 import { useIsNdlaFilm, useUrnIds } from '../../../routeHelpers';
 import { usePrevious } from '../../../util/utilityHooks';
@@ -66,6 +67,15 @@ const mastheadFrontpageQuery = gql`
   ${DrawerContent.fragments.frontpage}
 `;
 
+const mastheadProgrammeQuery = gql`
+  query mastheadProgramme {
+    programmes {
+      ...DrawerContent_ProgrammePage
+    }
+  }
+  ${DrawerContent.fragments.programmeMenu}
+`;
+
 const MastheadDrawer = ({ subject }: Props) => {
   const [open, setOpen] = useState(false);
   const [frontpageMenu, _setFrontpageMenu] = useState<
@@ -81,6 +91,11 @@ const MastheadDrawer = ({ subject }: Props) => {
 
   const frontpageQuery = useGraphQuery<GQLMastheadFrontpageQuery>(
     mastheadFrontpageQuery,
+    { skip: !taxEnabled },
+  );
+
+  const programmesQuery = useGraphQuery<GQLMastheadProgrammeQuery>(
+    mastheadProgrammeQuery,
     { skip: !taxEnabled },
   );
 
@@ -207,6 +222,7 @@ const MastheadDrawer = ({ subject }: Props) => {
                   setFrontpageMenu={_setFrontpageMenu}
                   setTopicPathIds={setTopicPath}
                   onCloseMenuPortion={onCloseMenuPortion}
+                  programmes={programmesQuery.data?.programmes ?? []}
                 />
               )}
             </DrawerProvider>
