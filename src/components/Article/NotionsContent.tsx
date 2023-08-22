@@ -9,7 +9,7 @@ import styled from '@emotion/styled';
 import { colors, fonts, spacing } from '@ndla/core';
 import { ConceptMetaData } from '@ndla/types-embed';
 import { ConceptEmbed } from '@ndla/ui';
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client';
 import {
   AccordionContent,
   AccordionHeader,

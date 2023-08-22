@@ -6,7 +6,7 @@
  *
  */
 
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client';
 import { GQLSubjectsQuery } from '../../graphqlTypes';
 import { useGraphQuery } from '../../util/runQueries';
 
