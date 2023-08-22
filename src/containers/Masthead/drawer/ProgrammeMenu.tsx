@@ -11,7 +11,7 @@ import { fonts, spacing } from '@ndla/core';
 import { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { gql } from '@apollo/client';
-import { useUrnIds } from '../../../routeHelpers';
+import { toProgramme, useUrnIds } from '../../../routeHelpers';
 import { getProgrammes } from '../../../util/programmesSubjectsHelper';
 import BackButton from './BackButton';
 import { useDrawerContext } from './DrawerContext';
@@ -47,7 +47,7 @@ const ProgrammeMenu = ({
       enableTax
         ? programmesProp.map((prog) => ({
             ...prog,
-            path: prog.url,
+            path: toProgramme(prog.url.slice(1)),
             name: prog.title.title,
           }))
         : getProgrammes(i18n.language),
