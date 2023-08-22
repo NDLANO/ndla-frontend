@@ -149,7 +149,7 @@ const NewAboutMenuPortion = ({
                   id={link.article.slug!}
                   type="link"
                   onClose={onClose}
-                  to={toAbout(item.article.slug)}
+                  to={toAbout(link.article.slug)}
                 >
                   {link.article.title}
                 </DrawerMenuItem>
