@@ -466,7 +466,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                   <span
                     class="emotion-9 emotion-10"
                   >
-                    Skrevet av Someone
+                    Skrevet av Someone. 
                   </span>
                 </div>
                 <div>
