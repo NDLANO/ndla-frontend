@@ -27,6 +27,7 @@ import {
   AcquireLicensePage,
   MastheadHeightPx,
   PODCAST_SERIES_LIST_PAGE_PATH,
+  SKIP_TO_CONTENT_ID,
 } from '../../constants';
 import config from '../../config';
 import { publisher } from '../../util/getStructuredDataFromArticle';
@@ -223,7 +224,10 @@ const PodcastSeriesPage = () => {
       />
       <OneColumn>
         <TitleWrapper>
-          <ArticleTitle label={t('podcastPage.podcast')}>
+          <ArticleTitle
+            label={t('podcastPage.podcast')}
+            id={SKIP_TO_CONTENT_ID}
+          >
             {podcastSeries.title.title}
           </ArticleTitle>
         </TitleWrapper>

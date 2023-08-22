@@ -18,8 +18,6 @@ describe('Plain article page', () => {
   it('contains content', () => {
     cy.visit('/article/1/?disableSSR=true');
     cy.gqlWait('@plainArticle');
-    cy.get('[id="SkipToContentId"]').within(() => {
-      cy.get('h1').contains('Utforskeren');
-    });
+    cy.get('[id="SkipToContentId"]').contains('Utforskeren');
   });
 });

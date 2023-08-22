@@ -56,6 +56,10 @@ import { useGraphQuery } from '../../util/runQueries';
 import { transformArticle } from '../../util/transformArticle';
 import { getArticleScripts } from '../../util/getArticleScripts';
 
+const BannerWrapper = styled.div`
+  margin-bottom: ${spacing.normal};
+`;
+
 const HiddenHeading = styled.h1`
   ${utils.visuallyHidden};
 `;
@@ -239,22 +243,24 @@ const WelcomePage = () => {
       ) : (
         <main>
           <OneColumn wide>
-            <BannerCard
-              link="https://blogg.ndla.no/laeremidlene-du-trenger-til-skolearet/"
-              title={{ title: t('campaignBlock.title'), lang: i18n.language }}
-              image={{
-                imageSrc: '/static/planlegg_skolearet.jpeg',
-                altText: '',
-              }}
-              linkText={{
-                text: t('campaignBlock.linkText'),
-                lang: i18n.language,
-              }}
-              content={{
-                content: t('campaignBlock.ingress'),
-                lang: i18n.language,
-              }}
-            />
+            <BannerWrapper>
+              <BannerCard
+                link="https://blogg.ndla.no/laeremidlene-du-trenger-til-skolearet/"
+                title={{ title: t('campaignBlock.title'), lang: i18n.language }}
+                image={{
+                  imageSrc: '/static/planlegg_skolearet.jpeg',
+                  altText: '',
+                }}
+                linkText={{
+                  text: t('campaignBlock.linkText'),
+                  lang: i18n.language,
+                }}
+                content={{
+                  content: t('campaignBlock.ingress'),
+                  lang: i18n.language,
+                }}
+              />
+            </BannerWrapper>
             <div data-testid="category-list" id={SKIP_TO_CONTENT_ID}>
               <FrontpageSubjects
                 locale={i18n.language}

@@ -69,7 +69,7 @@ const ArticleContents = ({
   if (!topic.article || !article) return null;
 
   return (
-    <ArticleWrapper modifier={modifier} id={topic.article.id.toString()}>
+    <ArticleWrapper modifier={modifier}>
       {scripts?.map((script) => (
         <script
           key={script.src}

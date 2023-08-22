@@ -38,7 +38,7 @@ const messages = {
   sharedFolder: 'Delt mappe',
   campaignBlock: {
     title: 'Planlegg skuleåret med NDLA',
-    linkText: 'Les meir',
+    linkText: 'Sjå forslag',
     ingress:
       'Sjå våre forslag til aktivitetar og årsplanar. Gode resultat startar med god planlegging.',
   },
