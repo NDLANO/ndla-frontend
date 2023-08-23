@@ -265,9 +265,28 @@ const copySharedFolderMutation = gql`
       folderId: $folderId
       destinationFolderId: $destinationFolderId
     ) {
+      __typename
       id
+      name
+      status
+      created
+      updated
+      description
+      breadcrumbs {
+        __typename
+        id
+        name
+      }
+      subfolders {
+        ...FoldersPageQueryFragment
+      }
+      resources {
+        ...FolderResourceFragment
+      }
     }
   }
+  ${foldersPageQueryFragment}
+  ${folderResourceFragment}
 `;
 
 const folderResourceMetaFragment = gql`
@@ -558,10 +577,37 @@ export const useUpdateFolderStatusMutation = () => {
 };
 
 export const useCopySharedFolder = () => {
+  const { cache } = useApolloClient();
   const [copySharedFolder, { loading, error }] = useMutation<
     GQLCopySharedFolderMutation,
     GQLMutationCopySharedFolderArgs
-  >(copySharedFolderMutation);
+  >(copySharedFolderMutation, {
+    onCompleted: (data, values) => {
+      if (values?.variables?.destinationFolderId) {
+        cache.modify({
+          id: cache.identify({
+            __ref: `Folder:${values.variables.destinationFolderId}`,
+          }),
+          fields: {
+            subfolders: (existing = []) => {
+              return existing.concat({
+                __ref: cache.identify(data.copySharedFolder),
+              });
+            },
+          },
+        });
+      } else {
+        cache.modify({
+          fields: {
+            folders: (existingFolders = []) =>
+              existingFolders.concat({
+                __ref: cache.identify(data.copySharedFolder),
+              }),
+          },
+        });
+      }
+    },
+  });
 
   return { copySharedFolder, loading, error };
 };
