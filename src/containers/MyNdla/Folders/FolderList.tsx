@@ -7,7 +7,7 @@
  */
 
 import { useMemo, useState, useEffect } from 'react';
-import { useApolloClient } from '@apollo/client';
+import { Reference, useApolloClient } from '@apollo/client';
 import { useTranslation } from 'react-i18next';
 import {
   closestCenter,
@@ -72,11 +72,11 @@ const FolderList = ({
   );
 
   const updateCache = (newOrder: string[]) => {
-    const sortCacheModifierFunction = (
-      existing: (GQLFolder & { __ref: string })[],
-    ) => {
-      return newOrder.map((id) =>
-        existing.find((ef) => ef.__ref === `Folder:${id}`),
+    const sortCacheModifierFunction = <T extends Reference>(
+      existing: readonly T[],
+    ): T[] => {
+      return newOrder.map(
+        (id) => existing.find((ef) => ef.__ref === `Folder:${id}`)!,
       );
     };
 

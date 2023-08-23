@@ -1,0 +1,21 @@
+import type { CodegenConfig } from '@graphql-codegen/cli';
+
+const config: CodegenConfig = {
+  overwrite: true,
+  schema: 'http://localhost:4000/graphql-api/graphql',
+  documents: './src/**/!(*.d).{ts,tsx}',
+  generates: {
+    'src/graphqlTypes.ts': {
+      plugins: ['typescript', 'typescript-operations'],
+    },
+    'src/schema.graphql': {
+      plugins: ['schema-ast'],
+    },
+  },
+  config: {
+    maybeValue: 'T',
+    typesPrefix: 'GQL',
+    inlineFragmentTypes: 'combine',
+  },
+};
+export default config;

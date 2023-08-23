@@ -62,6 +62,7 @@ const Topic = ({
   subTopicId,
   topic,
   resourceTypes,
+  showResources,
 }: Props) => {
   const { topicId: urnTopicId } = useUrnIds();
   const [showContent, setShowContent] = useState(false);
@@ -98,7 +99,7 @@ const Topic = ({
   }, [topicId]);
 
   const resources = useMemo(() => {
-    if (topic.subtopics) {
+    if (topic.subtopics && showResources) {
       return (
         <Resources
           topic={topic}
@@ -109,7 +110,7 @@ const Topic = ({
       );
     }
     return null;
-  }, [resourceTypes, topic]);
+  }, [resourceTypes, topic, showResources]);
 
   if (!topic.article) {
     return null;
