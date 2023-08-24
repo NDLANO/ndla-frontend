@@ -9,7 +9,7 @@
 import { gql } from '@apollo/client';
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
-import { spacing } from '@ndla/core';
+import { breakpoints, mq, spacing } from '@ndla/core';
 import { Menu } from '@ndla/icons/common';
 import { Cross } from '@ndla/icons/action';
 import { Drawer, Modal, ModalCloseButton, ModalTrigger } from '@ndla/modal';
@@ -52,6 +52,17 @@ const HeadWrapper = styled.div`
   padding-top: 22px;
   padding-left: ${spacing.small};
   padding-bottom: 22px;
+  ${mq.range({ from: breakpoints.tablet })} {
+    padding-left: ${spacing.normal};
+  }
+`;
+
+const DrawerButton = styled(ButtonV2)`
+  ${mq.range({ until: breakpoints.tablet })} {
+    span {
+      display: none;
+    }
+  }
 `;
 
 interface Props {
@@ -164,17 +175,18 @@ const MastheadDrawer = ({ subject }: Props) => {
   return (
     <Modal open={open} onOpenChange={setOpen}>
       <ModalTrigger>
-        <ButtonV2
+        <DrawerButton
           aria-haspopup="menu"
           inverted={ndlaFilm}
           shape="pill"
           variant="outline"
           data-testid="masthead-menu-button"
           aria-label={t('masthead.menu.title')}
+          title={t('masthead.menu.title')}
         >
           <Menu />
-          {t('masthead.menu.button')}
-        </ButtonV2>
+          <span>{t('masthead.menu.button')}</span>
+        </DrawerButton>
       </ModalTrigger>
       <Drawer
         expands

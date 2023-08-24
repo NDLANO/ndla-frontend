@@ -7,7 +7,7 @@
  */
 
 import styled from '@emotion/styled';
-import { Content, Masthead, MastheadItem, Logo, PageContainer } from '@ndla/ui';
+import { Content, Masthead, Logo, PageContainer } from '@ndla/ui';
 import ZendeskButton from '@ndla/zendesk';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
@@ -18,6 +18,12 @@ import Footer from '../Page/components/Footer';
 
 const ZendeskWrapper = styled.div`
   z-index: 10;
+`;
+
+const LogoWrapper = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: center;
 `;
 
 const ErrorPage = () => {
@@ -32,9 +38,9 @@ const ErrorPage = () => {
         meta={[{ name: 'description', content: t('meta.description') }]}
       />
       <Masthead fixed>
-        <MastheadItem right>
+        <LogoWrapper>
           <Logo to="/" locale={i18n.language} label={t('logo.altText')} />
-        </MastheadItem>
+        </LogoWrapper>
       </Masthead>
       <Content>
         <DefaultErrorMessage />
