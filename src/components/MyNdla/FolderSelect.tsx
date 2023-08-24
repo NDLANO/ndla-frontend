@@ -91,7 +91,7 @@ const FolderSelect = ({
         label={t('myNdla.myFolders')}
         onSelectFolder={setSelectedFolderId}
         defaultOpenFolders={defaultOpenFolders}
-        type={'picker'}
+        type="picker"
         targetResource={storedResource}
         newFolderInput={({ parentId, onClose, onCreate }) => (
           <StyledNewFolder
