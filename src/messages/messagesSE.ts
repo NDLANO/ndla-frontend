@@ -26,7 +26,7 @@ const messages = {
     myFolderPage: `{{folderName}} - ${titleTemplate}`,
     myTagPage: `#{{tag}} - ${titleTemplate}`,
     myTagsPage: `Mu lihput - ${titleTemplate}`,
-    aboutPage: `{{name}} - Om NDLA - ${titleTemplate}`,
+    aboutPage: `{{name}} - ${titleTemplate}`,
   },
   podcastPage: {
     episodes: 'Episoder',

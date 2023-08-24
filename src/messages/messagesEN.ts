@@ -27,7 +27,7 @@ const messages = {
     myTagPage: `#{{tag}} - ${titleTemplate}`,
     myTagsPage: `My tags - ${titleTemplate}`,
     sharedFolderPage: `{{name}} - ${titleTemplate}`,
-    aboutPage: `{{name}} - About NDLA - ${titleTemplate}`,
+    aboutPage: `{{name}} - ${titleTemplate}`,
   },
   podcastPage: {
     episodes: 'Episodes',
