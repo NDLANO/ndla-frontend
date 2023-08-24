@@ -26,7 +26,6 @@ import {
   defaultValue,
   useVersionHash,
 } from '../../components/VersionHashContext';
-import { ABOUT_PATH } from '../../constants';
 
 const ZendeskWrapper = styled.div`
   z-index: 10;
@@ -51,10 +50,7 @@ const Layout = () => {
   );
 
   const wrapperStyle = useMemo(
-    () =>
-      pathname === '/' || pathname === '' || pathname.startsWith(ABOUT_PATH)
-        ? undefined
-        : bottomPadding,
+    () => (pathname === '/' || pathname === '' ? undefined : bottomPadding),
     [pathname],
   );
 

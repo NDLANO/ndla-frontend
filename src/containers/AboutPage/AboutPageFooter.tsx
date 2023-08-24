@@ -11,10 +11,11 @@ import { breakpoints, colors, mq, spacing } from '@ndla/core';
 import { SafeLinkButton } from '@ndla/safelink';
 import { Forward } from '@ndla/icons/common';
 import { FRONTPAGE_ARTICLE_MAX_WIDTH, Heading } from '@ndla/ui';
-import { useTranslation } from 'react-i18next';
-import { Fragment } from 'react';
+import { useMemo } from 'react';
+import { useParams } from 'react-router-dom';
 import { GQLAboutPageFooter_FrontpageMenuFragment } from '../../graphqlTypes';
 import { toAbout } from '../../routeHelpers';
+import { findBreadcrumb } from './AboutPageContent';
 
 interface Props {
   frontpage: GQLAboutPageFooter_FrontpageMenuFragment;
@@ -26,11 +27,9 @@ const StyledList = styled.ul`
   margin: 0px;
   padding: 0px;
   list-style: none;
+  gap: ${spacing.small};
   li {
     margin: 0px;
-  }
-  &:not([data-level='0']) {
-    margin-left: ${spacing.small};
   }
 `;
 
@@ -41,6 +40,13 @@ const StyledSafeLinkButton = styled(SafeLinkButton)`
   border-color: ${colors.brand.tertiary};
   border-width: 1px;
   background-color: ${colors.background.lightBlue};
+  &[data-current='true'] {
+    background-color: ${colors.brand.primary};
+    color: ${colors.white};
+    svg {
+      color: ${colors.white};
+    }
+  }
 `;
 
 const StyledSubSafeLinkButton = styled(SafeLinkButton)`
@@ -48,6 +54,15 @@ const StyledSubSafeLinkButton = styled(SafeLinkButton)`
   padding-left: ${spacing.medium};
   padding-right: ${spacing.medium};
   justify-content: space-between;
+  &[aria-current='page'] {
+    &:not(:hover, :focus, :focus-visible) {
+      background-color: ${colors.brand.primary};
+      color: ${colors.white};
+      svg {
+        color: ${colors.white};
+      }
+    }
+  }
 `;
 
 const FooterWrapper = styled.div`
@@ -69,64 +84,66 @@ const StyledNav = styled.nav`
 `;
 
 const AboutPageFooter = ({ frontpage }: Props) => {
-  const { t } = useTranslation();
-  if (!frontpage.menu?.length) return null;
+  const { slug } = useParams();
+
+  const crumb = useMemo(
+    () => findBreadcrumb(frontpage.menu ?? [], slug),
+    [frontpage.menu, slug],
+  );
+
+  const [title, menu] = useMemo(() => {
+    if (frontpage.article.slug === slug) {
+      return [frontpage.article.title, frontpage.menu];
+    }
+    const item = crumb[crumb.length - 1];
+    // If the current page does not have a menu, use the parent menu.
+    const menu = item?.menu ?? crumb[crumb.length - 2]?.menu ?? [];
+    // If the current page does not have a menu, use the parent title.
+    return [
+      item?.menu ? item.article.title : crumb[crumb.length - 2]?.article.title,
+      menu,
+    ];
+  }, [crumb, frontpage, slug]);
+
+  const isRoot = useMemo(() => crumb.length === 1, [crumb]);
+
+  if (!title || !slug) return null;
 
   return (
     <FooterWrapper>
       <Heading element="h2" id="aboutNavTitle" headingStyle="list-title">
-        {t('about.menuTitle')}
+        {title}
       </Heading>
       <StyledNav aria-labelledby="aboutNavTitle">
-        <MenuList
-          items={frontpage.menu as GQLAboutPageFooter_FrontpageMenuFragment[]}
-          level={0}
-        />
+        <StyledList>
+          {menu?.map((menuItem) => (
+            <li key={menuItem.article.slug}>
+              {isRoot ? (
+                <StyledSafeLinkButton
+                  to={toAbout(menuItem.article.slug)}
+                  variant="ghost"
+                  colorTheme="light"
+                  shape="sharp"
+                  aria-current={menuItem.article.slug === slug ? 'page' : false}
+                >
+                  {menuItem.article.title}
+                  <Forward />
+                </StyledSafeLinkButton>
+              ) : (
+                <StyledSubSafeLinkButton
+                  to={toAbout(menuItem.article.slug)}
+                  variant="ghost"
+                  colorTheme="light"
+                  aria-current={menuItem.article.slug === slug ? 'page' : false}
+                >
+                  {menuItem.article.title}
+                </StyledSubSafeLinkButton>
+              )}
+            </li>
+          ))}
+        </StyledList>
       </StyledNav>
     </FooterWrapper>
-  );
-};
-
-interface MenuListProps {
-  items: GQLAboutPageFooter_FrontpageMenuFragment[];
-  level: number;
-}
-
-const MenuList = ({ items, level }: MenuListProps) => {
-  return (
-    <StyledList data-level={level}>
-      {items.map((item) => (
-        <Fragment key={item.article.slug}>
-          <li>
-            {level ? (
-              <StyledSubSafeLinkButton
-                to={toAbout(item.article.slug)}
-                variant="ghost"
-                colorTheme="light"
-              >
-                {item.article.title}
-              </StyledSubSafeLinkButton>
-            ) : (
-              <StyledSafeLinkButton
-                to={toAbout(item.article.slug)}
-                variant="solid"
-                colorTheme="greyLighter"
-                shape="sharp"
-              >
-                {item.article.title}
-                <Forward />
-              </StyledSafeLinkButton>
-            )}
-          </li>
-          {!!item.menu?.length && (
-            <MenuList
-              items={item.menu as GQLAboutPageFooter_FrontpageMenuFragment[]}
-              level={level + 1}
-            />
-          )}
-        </Fragment>
-      ))}
-    </StyledList>
   );
 };
 
