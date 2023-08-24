@@ -26,6 +26,7 @@ import {
   defaultValue,
   useVersionHash,
 } from '../../components/VersionHashContext';
+import { useEnableTaxStructure } from '../../components/TaxonomyStructureContext';
 
 const ZendeskWrapper = styled.div`
   z-index: 10;
@@ -36,6 +37,7 @@ const bottomPadding = css`
 `;
 
 const Layout = () => {
+  const enableTax = useEnableTaxStructure();
   const { t, i18n } = useTranslation();
   const { pathname } = useLocation();
   const { height } = useMastheadHeight();
@@ -50,8 +52,11 @@ const Layout = () => {
   );
 
   const wrapperStyle = useMemo(
-    () => (pathname === '/' || pathname === '' ? undefined : bottomPadding),
-    [pathname],
+    () =>
+      (pathname === '/' || pathname === '') && enableTax
+        ? undefined
+        : bottomPadding,
+    [pathname, enableTax],
   );
 
   useEffect(() => {
