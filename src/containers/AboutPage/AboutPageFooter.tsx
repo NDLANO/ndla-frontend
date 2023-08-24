@@ -71,6 +71,7 @@ const FooterWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   max-width: ${FRONTPAGE_ARTICLE_MAX_WIDTH};
+  margin-bottom: ${spacing.large};
   ${mq.range({ until: breakpoints.tabletWide })} {
     padding: ${spacing.normal};
   }
