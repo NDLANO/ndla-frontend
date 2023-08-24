@@ -28,7 +28,7 @@ import {
   GQLAboutMenu_FrontpageMenuFragment,
   GQLDrawerContent_FrontpageMenuFragment,
 } from '../../../graphqlTypes';
-import { toAbout } from '../../../routeHelpers';
+import { toAbout, useTypedParams } from '../../../routeHelpers';
 import { findBreadcrumb } from '../../AboutPage/AboutPageContent';
 
 interface Props {
@@ -63,7 +63,7 @@ export const NewAboutMenu = ({
       onClose={onClose}
       onGoBack={onCloseMenuPortion}
       nextItem={menuItems[index + 1]}
-      current={index === menuItems.length - 1}
+      lastPortion={index === menuItems.length - 1}
       homeButton
     />
   ));
@@ -73,7 +73,7 @@ interface NewAboutMenuPortionProps {
   item: GQLAboutMenu_FrontpageMenuFragment;
   onGoBack: () => void;
   onClose: () => void;
-  current?: boolean;
+  lastPortion?: boolean;
   nextItem?: GQLAboutMenu_FrontpageMenuFragment;
   setMenu: (value: GQLAboutMenu_FrontpageMenuFragment) => void;
   homeButton?: boolean;
@@ -85,10 +85,11 @@ const NewAboutMenuPortion = ({
   onClose,
   setMenu,
   homeButton,
-  current,
+  lastPortion,
   nextItem,
 }: NewAboutMenuPortionProps) => {
   const { t } = useTranslation();
+  const { slug } = useTypedParams();
   const [selected, setSelected] = useState<GQLAboutMenuFragment | undefined>(
     undefined,
   );
@@ -112,6 +113,11 @@ const NewAboutMenuPortion = ({
     }
   }, [initialKey, item, nextItem]);
 
+  const onLeft = useCallback(() => {
+    setSelected(undefined);
+    onGoBack();
+  }, [onGoBack]);
+
   const onGoRight = useCallback(
     (slug?: string) => {
       const newItem = item.menu?.find((t) => t.article.slug === slug && t.menu);
@@ -124,10 +130,10 @@ const NewAboutMenuPortion = ({
     [item, setMenu],
   );
 
-  useArrowNavigation(!!current, {
+  useArrowNavigation(!!lastPortion, {
     initialFocused: initialKey,
     onRightKeyPressed: onGoRight,
-    onLeftKeyPressed: onGoBack,
+    onLeftKeyPressed: onLeft,
   });
 
   if (!item) {
@@ -159,6 +165,7 @@ const NewAboutMenuPortion = ({
                   id={link.article.slug!}
                   type="link"
                   onClose={onClose}
+                  current={link.article.slug === slug}
                   to={toAbout(link.article.slug)}
                 >
                   {link.article.title}
@@ -169,7 +176,7 @@ const NewAboutMenuPortion = ({
               <DrawerMenuItem
                 id={link.article.slug!}
                 key={link.article.slug}
-                active={selected?.article.slug === link.article.slug}
+                active={nextItem?.article.slug === link.article.slug}
                 type="button"
                 onClick={() => onGoRight(link.article.slug)}
               >
