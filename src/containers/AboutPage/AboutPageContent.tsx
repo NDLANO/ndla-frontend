@@ -17,7 +17,7 @@ import { useEffect, useMemo } from 'react';
 import { CustomWithTranslation, withTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet-async';
 import styled from '@emotion/styled';
-import { breakpoints, colors, mq, spacing, spacingUnit } from '@ndla/core';
+import { breakpoints, colors, mq, spacing } from '@ndla/core';
 import { TFunction } from 'i18next';
 import { withTracker } from '@ndla/tracker';
 import LicenseBox from '../../components/license/LicenseBox';
