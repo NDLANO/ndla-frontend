@@ -50,7 +50,7 @@ const StyledMain = styled.main`
   flex-direction: column;
   align-items: center;
   background-color: ${colors.background.lightBlue};
-  padding-bottom: ${spacingUnit * 4}px;
+  padding-bottom: ${spacing.large};
   padding-top: ${spacing.normal};
   border-bottom: 1px solid ${colors.brand.light};
   section {
