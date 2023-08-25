@@ -36,6 +36,8 @@ export const STORED_RESOURCE_VIEW_SETTINGS = 'STORED_RESOURCE_VIEW_SETTINGS';
 
 export const PROGRAMME_PATH = '/utdanning';
 
+export const ABOUT_PATH = '/about/';
+
 export const PODCAST_SERIES_PAGE_PATH = '/podkast/:id';
 export const PODCAST_SERIES_LIST_PAGE_PATH = '/podkast';
 export const TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES = 'topic-resources';

@@ -37,10 +37,14 @@ const FeideFooterButton = styled(Button)`
   border: 2px solid ${colors.brand.grey};
 `;
 
+const LoginButton = styled(Button)`
+  white-space: nowrap;
+`;
+
 const StyledLink = styled(SafeLinkButton)`
   display: flex;
   gap: ${spacing.small};
-  margin-right: ${spacing.normal};
+  white-space: nowrap;
   svg {
     width: 20px;
     height: 20px;
@@ -94,14 +98,14 @@ const FeideLoginButton = ({ footer, children }: Props) => {
     return (
       <Modal>
         <ModalTrigger>
-          <Button
+          <LoginButton
             variant={footer ? 'outline' : 'ghost'}
             colorTheme={footer ? 'greyLighter' : 'lighter'}
             inverted={!footer && ndlaFilm}
             shape={footer ? 'normal' : 'pill'}
           >
             {children}
-          </Button>
+          </LoginButton>
         </ModalTrigger>
         <LoginModalContent masthead />
       </Modal>

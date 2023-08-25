@@ -29,11 +29,10 @@ import {
 const debounceCall = debounce((fun: (func?: Function) => void) => fun(), 250);
 
 interface Props {
-  hideOnNarrowScreen?: boolean;
   subject?: GQLMastheadSearch_SubjectFragment;
 }
 
-const MastheadSearch = ({ hideOnNarrowScreen = false, subject }: Props) => {
+const MastheadSearch = ({ subject }: Props) => {
   const ndlaFilm = useIsNdlaFilm();
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -127,11 +126,7 @@ const MastheadSearch = ({ hideOnNarrowScreen = false, subject }: Props) => {
     subjects && subject ? [{ title: subject.name, value: subject.id }] : [];
 
   return (
-    <MastheadSearchModal
-      onClose={onClearQuery}
-      hideOnNarrowScreen={hideOnNarrowScreen}
-      ndlaFilm={ndlaFilm}
-    >
+    <MastheadSearchModal onClose={onClearQuery} ndlaFilm={ndlaFilm}>
       {(onCloseModal: Function) => {
         closeModal = onCloseModal as () => void;
         return !error ? (

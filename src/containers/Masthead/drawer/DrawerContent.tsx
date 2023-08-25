@@ -8,11 +8,16 @@
 
 import { gql } from '@apollo/client';
 import { Dispatch, SetStateAction } from 'react';
-import { GQLDrawerContent_SubjectFragment } from '../../../graphqlTypes';
-import AboutMenu from './AboutMenu';
+import {
+  GQLDrawerContent_FrontpageMenuFragment,
+  GQLDrawerContent_ProgrammePageFragment,
+  GQLDrawerContent_SubjectFragment,
+} from '../../../graphqlTypes';
+import AboutMenu, { NewAboutMenu } from './AboutMenu';
 import { MenuType } from './drawerMenuTypes';
 import ProgrammeMenu from './ProgrammeMenu';
 import SubjectMenu from './SubjectMenu';
+import { useEnableTaxStructure } from '../../../components/TaxonomyStructureContext';
 
 interface Props {
   onClose: () => void;
@@ -20,7 +25,12 @@ interface Props {
   topicPath: string[];
   subject?: GQLDrawerContent_SubjectFragment;
   type: MenuType;
+  setFrontpageMenu: Dispatch<
+    SetStateAction<GQLDrawerContent_FrontpageMenuFragment[]>
+  >;
   setTopicPathIds: Dispatch<SetStateAction<string[]>>;
+  menuItems?: GQLDrawerContent_FrontpageMenuFragment[];
+  programmes: GQLDrawerContent_ProgrammePageFragment[];
 }
 
 const DrawerContent = ({
@@ -30,10 +40,15 @@ const DrawerContent = ({
   topicPath,
   subject,
   setTopicPathIds,
+  setFrontpageMenu,
+  menuItems,
+  programmes,
 }: Props) => {
+  const taxStructure = useEnableTaxStructure();
   if (type === 'programme') {
     return (
       <ProgrammeMenu
+        programmes={programmes}
         onClose={onClose}
         onCloseMenuPortion={onCloseMenuPortion}
       />
@@ -49,6 +64,16 @@ const DrawerContent = ({
       />
     );
   } else {
+    if (taxStructure && menuItems) {
+      return (
+        <NewAboutMenu
+          menuItems={menuItems}
+          onClose={onClose}
+          setMenu={setFrontpageMenu}
+          onCloseMenuPortion={onCloseMenuPortion}
+        />
+      );
+    }
     return <AboutMenu onCloseMenuPortion={onCloseMenuPortion} />;
   }
 };
@@ -59,6 +84,18 @@ DrawerContent.fragments = {
       ...SubjectMenu_Subject
     }
     ${SubjectMenu.fragments.subject}
+  `,
+  frontpage: gql`
+    fragment DrawerContent_FrontpageMenu on FrontpageMenu {
+      ...AboutMenu_FrontpageMenu
+    }
+    ${NewAboutMenu.fragments.frontpage}
+  `,
+  programmeMenu: gql`
+    fragment DrawerContent_ProgrammePage on ProgrammePage {
+      ...ProgrammeMenu_ProgrammePage
+    }
+    ${ProgrammeMenu.fragments.programmeMenu}
   `,
 };
 

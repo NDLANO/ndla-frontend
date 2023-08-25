@@ -7,9 +7,9 @@
  */
 
 import { useContext } from 'react';
-import { Masthead, MastheadItem, LanguageSelector, Logo } from '@ndla/ui';
+import { Masthead, LanguageSelector, Logo } from '@ndla/ui';
 import styled from '@emotion/styled';
-import { breakpoints, mq } from '@ndla/core';
+import { breakpoints, mq, spacing } from '@ndla/core';
 import { gql } from '@apollo/client';
 
 import { Feide } from '@ndla/icons/common';
@@ -38,9 +38,29 @@ const FeideLoginLabel = styled.span`
 `;
 
 const LanguageSelectWrapper = styled.div`
-  ${mq.range({ until: breakpoints.tablet })} {
+  margin-left: ${spacing.xxsmall};
+  ${mq.range({ until: breakpoints.desktop })} {
     display: none;
   }
+`;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  gap: ${spacing.xsmall};
+  align-items: center;
+  justify-content: flex-end;
+  flex: 1;
+`;
+
+const DrawerWrapper = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  flex: 1;
+`;
+
+const LogoWrapper = styled.div`
+  display: flex;
+  justify-content: center;
 `;
 
 const mastheadQuery = gql`
@@ -86,10 +106,19 @@ const MastheadContainer = () => {
         onCloseAlert={(id) => closeAlert(id)}
         messages={alerts}
       >
-        <MastheadItem left>
+        <DrawerWrapper>
           <MastheadDrawer subject={data?.subject} />
-        </MastheadItem>
-        <MastheadItem right>
+        </DrawerWrapper>
+        <LogoWrapper>
+          <Logo
+            to="/"
+            locale={locale}
+            label={t('logo.altText')}
+            cssModifier={ndlaFilm ? 'white' : ''}
+          />
+        </LogoWrapper>
+        <ButtonWrapper>
+          <MastheadSearch subject={data?.subject} />
           <LanguageSelectWrapper>
             <LanguageSelector
               inverted={ndlaFilm}
@@ -109,14 +138,7 @@ const MastheadContainer = () => {
               <Feide />
             </FeideLoginButton>
           )}
-          <MastheadSearch subject={data?.subject} hideOnNarrowScreen />
-          <Logo
-            to="/"
-            locale={locale}
-            label={t('logo.altText')}
-            cssModifier={ndlaFilm ? 'white' : ''}
-          />
-        </MastheadItem>
+        </ButtonWrapper>
       </Masthead>
     </ErrorBoundary>
   );

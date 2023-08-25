@@ -212,6 +212,9 @@ const typePolicies: TypePolicies = {
   Filter: {
     keyFields: (object) => `${object.id}+${object.relevanceId}`,
   },
+  FrontpageMenu: {
+    keyFields: ['articleId'],
+  },
   FrontpageSearchResult: {
     keyFields: ['path'],
   },
