@@ -585,8 +585,8 @@ export const useCopySharedFolderMutation = () => {
       } else {
         cache.modify({
           fields: {
-            folders: (existingFolders = []) =>
-              existingFolders.concat({
+            folders: (existing = []) =>
+              existing.concat({
                 __ref: cache.identify(data.copySharedFolder),
               }),
           },
