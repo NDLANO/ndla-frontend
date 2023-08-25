@@ -6,7 +6,7 @@
  *
  */
 
-import { useMemo } from 'react';
+import { useMemo, useContext } from 'react';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { spacing, fonts, breakpoints, mq } from '@ndla/core';
@@ -18,6 +18,7 @@ import {
 } from '@ndla/accordion';
 import { ContentLoader, Heading, ProgrammeCard, ProgrammeV2 } from '@ndla/ui';
 import { SKIP_TO_CONTENT_ID } from '../../../constants';
+import IsMobileContext from '../../../IsMobileContext';
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -31,21 +32,15 @@ const StyledWrapper = styled.div`
 `;
 
 const Desktop = styled.ul`
-  display: none;
-  ${mq.range({ from: breakpoints.tablet })} {
-    display: flex;
-    justify-content: space-evenly;
-    flex-wrap: wrap;
-    gap: ${spacing.normal};
-  }
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  gap: ${spacing.normal};
 `;
 
 const Mobile = styled.div`
-  display: none;
-  ${mq.range({ until: breakpoints.tablet })} {
-    width: 100%;
-    display: block;
-  }
+  display: block;
+  width: 100%;
 `;
 
 const AllSubjectsPersonIllustration = styled.div`
@@ -146,6 +141,7 @@ const Description = styled.div`
 
 const Programmes = ({ programmes, loading }: Props) => {
   const { t } = useTranslation();
+  const isMobile = useContext(IsMobileContext);
 
   const programmeCards = useMemo(() => {
     return programmes.map((programme) => (
@@ -153,13 +149,13 @@ const Programmes = ({ programmes, loading }: Props) => {
         <ProgrammeCard
           id={programme.id}
           title={programme.title}
-          wideImage={programme.wideImage}
-          narrowImage={programme.narrowImage}
+          wideImage={isMobile ? programme.wideImage : undefined}
+          narrowImage={isMobile ? undefined : programme.narrowImage}
           url={programme.url}
         />
       </StyledLi>
     ));
-  }, [programmes]);
+  }, [isMobile, programmes]);
 
   return (
     <StyledWrapper>
@@ -167,26 +163,29 @@ const Programmes = ({ programmes, loading }: Props) => {
         {t('programmes.header')}
       </Heading>
       <Description>{t('programmes.description')}</Description>
-      <StyledNav aria-labelledby={SKIP_TO_CONTENT_ID}>
-        <Desktop>{loading ? placeholder : programmeCards}</Desktop>
-      </StyledNav>
-      <Mobile>
-        <StyledAccordionRoot type="single" collapsible>
-          <ImageWrapper>
-            <AllSubjectsPersonIllustration />
-          </ImageWrapper>
-          <AccordionItem value="1">
-            <StyledAccordionHeader id="accordionHeader">
-              {t('programmes.accordionHeader')}
-            </StyledAccordionHeader>
-            <StyledAccordionContent>
-              <StyledNav aria-labelledby="accordionHeader">
-                <ul>{programmeCards}</ul>
-              </StyledNav>
-            </StyledAccordionContent>
-          </AccordionItem>
-        </StyledAccordionRoot>
-      </Mobile>
+      {isMobile ? (
+        <Mobile>
+          <StyledAccordionRoot type="single" collapsible>
+            <ImageWrapper>
+              <AllSubjectsPersonIllustration />
+            </ImageWrapper>
+            <AccordionItem value="1">
+              <StyledAccordionHeader id="accordionHeader">
+                {t('programmes.accordionHeader')}
+              </StyledAccordionHeader>
+              <StyledAccordionContent>
+                <StyledNav aria-labelledby="accordionHeader">
+                  <ul>{programmeCards}</ul>
+                </StyledNav>
+              </StyledAccordionContent>
+            </AccordionItem>
+          </StyledAccordionRoot>
+        </Mobile>
+      ) : (
+        <StyledNav aria-labelledby={SKIP_TO_CONTENT_ID}>
+          <Desktop>{loading ? placeholder : programmeCards}</Desktop>
+        </StyledNav>
+      )}
     </StyledWrapper>
   );
 };
