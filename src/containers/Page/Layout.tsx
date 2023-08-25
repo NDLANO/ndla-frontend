@@ -6,7 +6,7 @@
  *
  */
 
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import { Content, PageContainer, useMastheadHeight } from '@ndla/ui';
 import ZendeskButton from '@ndla/zendesk';
 import { spacing } from '@ndla/core';
@@ -26,7 +26,6 @@ import {
   defaultValue,
   useVersionHash,
 } from '../../components/VersionHashContext';
-import { useEnableTaxStructure } from '../../components/TaxonomyStructureContext';
 
 const ZendeskWrapper = styled.div`
   z-index: 10;
@@ -37,7 +36,6 @@ const bottomPadding = css`
 `;
 
 const Layout = () => {
-  const enableTax = useEnableTaxStructure();
   const { t, i18n } = useTranslation();
   const { pathname } = useLocation();
   const { height } = useMastheadHeight();
@@ -49,14 +47,6 @@ const Layout = () => {
   const backgroundWide = !!matchPath(
     '/learningpaths/:learningpathId',
     pathname,
-  );
-
-  const wrapperStyle = useMemo(
-    () =>
-      (pathname === '/' || pathname === '') && enableTax
-        ? undefined
-        : bottomPadding,
-    [pathname, enableTax],
   );
 
   useEffect(() => {
@@ -101,7 +91,7 @@ const Layout = () => {
       </Helmet>
       <Masthead />
       <Content>
-        <div css={wrapperStyle}>
+        <div css={bottomPadding}>
           <Outlet />
         </div>
       </Content>
