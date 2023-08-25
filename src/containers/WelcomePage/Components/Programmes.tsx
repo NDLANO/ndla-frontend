@@ -31,7 +31,7 @@ const StyledWrapper = styled.div`
   }
 `;
 
-const Desktop = styled.div`
+const Desktop = styled.ul`
   display: flex;
   justify-content: space-evenly;
   flex-wrap: wrap;
@@ -83,6 +83,18 @@ const ImageWrapper = styled.div`
   }
 `;
 
+const StyledNav = styled.nav`
+  ul {
+    margin: unset;
+    padding: unset;
+  }
+`;
+
+const StyledLi = styled.li`
+  list-style: none;
+  margin: unset;
+  line-height: unset;
+`;
 interface Props {
   programmes: ProgrammeV2[];
   loading: boolean;
@@ -133,14 +145,15 @@ const Programmes = ({ programmes, loading }: Props) => {
 
   const programmeCards = useMemo(() => {
     return programmes.map((programme) => (
-      <ProgrammeCard
-        key={programme.id}
-        id={programme.id}
-        title={programme.title}
-        wideImage={isMobile ? programme.wideImage : undefined}
-        narrowImage={isMobile ? undefined : programme.narrowImage}
-        url={programme.url}
-      />
+      <StyledLi key={programme.id}>
+        <ProgrammeCard
+          id={programme.id}
+          title={programme.title}
+          wideImage={isMobile ? programme.wideImage : undefined}
+          narrowImage={isMobile ? undefined : programme.narrowImage}
+          url={programme.url}
+        />
+      </StyledLi>
     ));
   }, [isMobile, programmes]);
 
@@ -157,15 +170,21 @@ const Programmes = ({ programmes, loading }: Props) => {
               <AllSubjectsPersonIllustration />
             </ImageWrapper>
             <AccordionItem value="1">
-              <StyledAccordionHeader>
+              <StyledAccordionHeader id="accordionHeader">
                 {t('programmes.accordionHeader')}
               </StyledAccordionHeader>
-              <StyledAccordionContent>{programmeCards}</StyledAccordionContent>
+              <StyledAccordionContent>
+                <StyledNav aria-labelledby="accordionHeader">
+                  <ul>{programmeCards}</ul>
+                </StyledNav>
+              </StyledAccordionContent>
             </AccordionItem>
           </StyledAccordionRoot>
         </Mobile>
       ) : (
-        <Desktop>{loading ? placeholder : programmeCards}</Desktop>
+        <StyledNav aria-labelledby={SKIP_TO_CONTENT_ID}>
+          <Desktop>{loading ? placeholder : programmeCards}</Desktop>
+        </StyledNav>
       )}
     </StyledWrapper>
   );

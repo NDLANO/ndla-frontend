@@ -14,7 +14,6 @@ import {
   FrontpageFilm,
   OneColumn,
   ProgrammeV2,
-  FRONTPAGE_ARTICLE_MAX_WIDTH,
   FrontpageArticle,
   WIDE_FRONTPAGE_ARTICLE_MAX_WIDTH,
   BannerCard,
@@ -77,7 +76,7 @@ const StyledMain = styled.main`
     padding: 0px;
   }
   nav {
-    max-width: ${FRONTPAGE_ARTICLE_MAX_WIDTH};
+    max-width: ${WIDE_FRONTPAGE_ARTICLE_MAX_WIDTH};
     width: 100%;
   }
   ${mq.range({ until: breakpoints.desktop })} {
