@@ -23,11 +23,10 @@ const StyledWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: ${spacing.large};
+  margin: 0;
   padding-top: 4px;
   ${mq.range({ from: breakpoints.desktop })} {
     padding-top: ${spacing.nsmall};
-    margin: 0 0 124px;
   }
 `;
 

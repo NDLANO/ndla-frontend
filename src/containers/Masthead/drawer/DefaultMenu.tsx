@@ -19,7 +19,10 @@ import {
   TOOLBOX_STUDENT_SUBJECT_ID,
   TOOLBOX_TEACHER_SUBJECT_ID,
 } from '../../../constants';
-import { GQLDefaultMenu_SubjectFragment } from '../../../graphqlTypes';
+import {
+  GQLDefaultMenu_SubjectFragment,
+  GQLDrawerContent_FrontpageMenuFragment,
+} from '../../../graphqlTypes';
 import { removeUrn } from '../../../routeHelpers';
 import { usePrevious } from '../../../util/utilityHooks';
 import { useDrawerContext } from './DrawerContext';
@@ -28,6 +31,7 @@ import { MenuType } from './drawerMenuTypes';
 import DrawerPortion, { DrawerList } from './DrawerPortion';
 import DrawerRowHeader from './DrawerRowHeader';
 import useArrowNavigation from './useArrowNavigation';
+import { useEnableTaxStructure } from '../../../components/TaxonomyStructureContext';
 
 const StyledCollapsedMenu = styled.div`
   display: flex;
@@ -59,6 +63,9 @@ const teacherToolboxUrl = `/${removeUrn(TOOLBOX_TEACHER_SUBJECT_ID)}`;
 interface Props {
   onClose: () => void;
   setActiveMenu: (type: MenuType | undefined) => void;
+  setFrontpageMenu: (menu: GQLDrawerContent_FrontpageMenuFragment) => void;
+  dynamicMenus: GQLDrawerContent_FrontpageMenuFragment[];
+  dynamicId?: string;
   subject?: GQLDefaultMenu_SubjectFragment;
   type?: MenuType;
   closeSubMenu: () => void;
@@ -72,8 +79,12 @@ const DefaultMenu = ({
   setActiveMenu,
   subject,
   type,
+  setFrontpageMenu,
+  dynamicMenus,
   closeSubMenu,
+  dynamicId,
 }: Props) => {
+  const enableTax = useEnableTaxStructure();
   const previousType = usePrevious(type);
   const { t } = useTranslation();
   const { setShouldCloseLevel } = useDrawerContext();
@@ -83,13 +94,21 @@ const DefaultMenu = ({
       const strippedId = id?.replace('header-', '');
       if (validMenus.includes(strippedId as MenuType)) {
         setActiveMenu(strippedId as MenuType);
+      } else if (id?.endsWith('-dynamic')) {
+        setFrontpageMenu(
+          dynamicMenus.find(
+            (menu) => menu.article.slug === strippedId?.replace('-dynamic', ''),
+          )!,
+        );
       }
     },
-    [setActiveMenu],
+    [dynamicMenus, setActiveMenu, setFrontpageMenu],
   );
 
   useArrowNavigation(!type, {
-    initialFocused: `header-${type ?? previousType ?? 'programme'}`,
+    initialFocused: `header-${
+      dynamicId ?? type ?? previousType ?? 'programme'
+    }`,
     onRightKeyPressed: onRightClick,
   });
 
@@ -139,13 +158,26 @@ const DefaultMenu = ({
             onClick={() => setActiveMenu('subject')}
           />
         )}
-        <DrawerRowHeader
-          ownsId="about-menu"
-          id="about"
-          type="button"
-          title={t('masthead.menuOptions.about.title')}
-          onClick={() => setActiveMenu('about')}
-        />
+        {enableTax ? (
+          dynamicMenus.map((menu) => (
+            <DrawerRowHeader
+              key={menu.article.slug}
+              ownsId={`${menu.article.slug}-menu`}
+              id={`${menu.article.slug}-dynamic`}
+              type="button"
+              title={menu.article.title}
+              onClick={() => setFrontpageMenu(menu)}
+            />
+          ))
+        ) : (
+          <DrawerRowHeader
+            ownsId="about-menu"
+            id="about"
+            type="button"
+            title={t('masthead.menuOptions.about.title')}
+            onClick={() => setActiveMenu('about')}
+          />
+        )}
         <DrawerMenuItem
           id="multidisciplinary"
           type="link"

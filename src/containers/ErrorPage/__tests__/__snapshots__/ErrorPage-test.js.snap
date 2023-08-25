@@ -41,7 +41,7 @@ exports[`ErrorPage renderers correctly 1`] = `
   -ms-flex-align: center;
   align-items: center;
   text-align: center;
-  padding: 12px;
+  padding: 12px 24px;
   font-weight: 400;
   display: -webkit-box;
   display: -webkit-flex;
@@ -51,6 +51,14 @@ exports[`ErrorPage renderers correctly 1`] = `
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
   justify-content: space-between;
+  gap: 6px;
+}
+
+@media (max-width: 37.5625em) {
+  .emotion-2 {
+    padding: 12px;
+    gap: 6px;
+  }
 }
 
 .emotion-4 {
@@ -58,61 +66,50 @@ exports[`ErrorPage renderers correctly 1`] = `
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  gap: 12px;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: end;
-  -ms-flex-pack: end;
-  -webkit-justify-content: flex-end;
-  justify-content: flex-end;
+  width: 100%;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
 }
 
-@media (min-width: 37.5625em) {
-  .emotion-4 {
-    padding: 12px 0;
-    padding: 0;
-  }
-}
-
-.emotion-6 {
+.emotion-5 {
   text-align: center;
 }
 
-.emotion-6 a {
+.emotion-5 a {
   color: #20588f;
 }
 
-.emotion-6 h1 {
+.emotion-5 h1 {
   margin-top: 0;
 }
 
-.emotion-8 {
+.emotion-7 {
   margin-bottom: 24px;
 }
 
 @media (min-width: 37.5625em) {
-  .emotion-8 {
+  .emotion-7 {
     margin-top: 48px;
   }
 }
 
-.emotion-10 {
+.emotion-9 {
   margin-bottom: 24px;
 }
 
 @media (min-width: 37.5625em) {
-  .emotion-10 {
+  .emotion-9 {
     margin-bottom: 48px;
   }
 }
 
-.emotion-12 {
+.emotion-11 {
   margin-top: 6px;
 }
 
-.emotion-13 {
+.emotion-12 {
   color: #fff;
   position: relative;
   background: #184673;
@@ -120,7 +117,7 @@ exports[`ErrorPage renderers correctly 1`] = `
   z-index: 0;
 }
 
-.emotion-15 {
+.emotion-14 {
   position: relative;
   z-index: 1;
   margin-top: 24px;
@@ -138,7 +135,7 @@ exports[`ErrorPage renderers correctly 1`] = `
   justify-content: center;
 }
 
-.emotion-17 {
+.emotion-16 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -180,52 +177,52 @@ exports[`ErrorPage renderers correctly 1`] = `
   border-color: #fff;
 }
 
-.emotion-17:hover,
-.emotion-17:focus-visible {
+.emotion-16:hover,
+.emotion-16:focus-visible {
   color: #20588f;
   background-color: #ceddea;
   border-color: #ceddea;
 }
 
-.emotion-17[disabled] {
+.emotion-16[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-17[lang='zh'],
-.emotion-17[lang='zh-Hans'],
-.emotion-17[lang='zh-Hant'] {
+.emotion-16[lang='zh'],
+.emotion-16[lang='zh-Hans'],
+.emotion-16[lang='zh-Hant'] {
   font-size: calc(16px * 1.11);
   font-size: calc(0.8888888888888888rem * 1.11);
 }
 
-.emotion-17:hover {
+.emotion-16:hover {
   color: #fff;
   background: #20588f;
   border-color: #20588f;
 }
 
-.emotion-17[disabled] {
+.emotion-16[disabled] {
   color: #777777;
   background-color: transparent;
   border-color: #777777;
   cursor: not-allowed;
 }
 
-.emotion-17:hover {
+.emotion-16:hover {
   color: #fff;
   background: #20588f;
   border-color: #20588f;
 }
 
-.emotion-18 {
+.emotion-17 {
   z-index: 1;
   position: relative;
 }
 
-.emotion-20 {
+.emotion-19 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -240,12 +237,12 @@ exports[`ErrorPage renderers correctly 1`] = `
   padding: 48px 48px 0 0;
 }
 
-.emotion-20>div:first-of-type {
+.emotion-19>div:first-of-type {
   padding: 24px;
 }
 
 @media (min-width: 48em) {
-  .emotion-20 {
+  .emotion-19 {
     -webkit-flex-direction: row;
     -ms-flex-direction: row;
     flex-direction: row;
@@ -255,37 +252,37 @@ exports[`ErrorPage renderers correctly 1`] = `
     align-items: flex-start;
   }
 
-  .emotion-20>div:first-of-type {
+  .emotion-19>div:first-of-type {
     padding: 24px 42px 24px 48px;
   }
 }
 
 @media (min-width: 61.3125em) {
-  .emotion-20 {
+  .emotion-19 {
     padding: 48px 0;
   }
 }
 
 @media (max-width: 48em) {
-  .emotion-20 {
+  .emotion-19 {
     padding: 24px 24px 12px;
   }
 }
 
-.emotion-22 {
+.emotion-21 {
   color: #fff;
   width: 48px;
   height: 48px;
 }
 
 @media (min-width: 48em) {
-  .emotion-22 {
+  .emotion-21 {
     width: 72px;
     height: 72px;
   }
 }
 
-.emotion-24 {
+.emotion-23 {
   font-size: 20;
   font-size: 1.1111111111111112rem;
   line-height: 1.5;
@@ -294,15 +291,15 @@ exports[`ErrorPage renderers correctly 1`] = `
   text-align: center;
 }
 
-.emotion-24[lang='zh'],
-.emotion-24[lang='zh-Hans'],
-.emotion-24[lang='zh-Hant'] {
+.emotion-23[lang='zh'],
+.emotion-23[lang='zh-Hans'],
+.emotion-23[lang='zh-Hant'] {
   font-size: calc(20 * 1.11);
   font-size: calc(1.1111111111111112rem * 1.11);
 }
 
 @media (min-width: 48em) {
-  .emotion-24 {
+  .emotion-23 {
     font-size: 24;
     font-size: 1.3333333333333333rem;
     line-height: 1.5;
@@ -310,15 +307,15 @@ exports[`ErrorPage renderers correctly 1`] = `
     text-align: left;
   }
 
-  .emotion-24[lang='zh'],
-  .emotion-24[lang='zh-Hans'],
-  .emotion-24[lang='zh-Hant'] {
+  .emotion-23[lang='zh'],
+  .emotion-23[lang='zh-Hans'],
+  .emotion-23[lang='zh-Hant'] {
     font-size: calc(24 * 1.11);
     font-size: calc(1.3333333333333333rem * 1.11);
   }
 }
 
-.emotion-26 {
+.emotion-25 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -330,29 +327,29 @@ exports[`ErrorPage renderers correctly 1`] = `
   gap: 24px;
 }
 
-.emotion-26 div:first-of-type {
+.emotion-25 div:first-of-type {
   margin-right: 48px;
 }
 
 @media (min-width: 61.3125em) {
-  .emotion-26 div:first-of-type {
+  .emotion-25 div:first-of-type {
     margin-right: 96px;
   }
 }
 
 @media (max-width: 48em) {
-  .emotion-26 {
+  .emotion-25 {
     -webkit-flex-direction: column;
     -ms-flex-direction: column;
     flex-direction: column;
   }
 
-  .emotion-26>div {
+  .emotion-25>div {
     margin-top: 48px;
   }
 }
 
-.emotion-28 {
+.emotion-27 {
   font-size: 16;
   font-size: 0.8888888888888888rem;
   line-height: 1.5;
@@ -360,14 +357,14 @@ exports[`ErrorPage renderers correctly 1`] = `
   margin: 6px 0;
 }
 
-.emotion-28[lang='zh'],
-.emotion-28[lang='zh-Hans'],
-.emotion-28[lang='zh-Hant'] {
+.emotion-27[lang='zh'],
+.emotion-27[lang='zh-Hans'],
+.emotion-27[lang='zh-Hant'] {
   font-size: calc(16 * 1.11);
   font-size: calc(0.8888888888888888rem * 1.11);
 }
 
-.emotion-30 {
+.emotion-29 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -378,25 +375,25 @@ exports[`ErrorPage renderers correctly 1`] = `
   color: #fff;
 }
 
-.emotion-30 div {
+.emotion-29 div {
   margin: 6px 0;
 }
 
-.emotion-32 {
+.emotion-31 {
   color: #fff;
   font-size: 16;
   font-size: 0.8888888888888888rem;
   line-height: 1.5;
 }
 
-.emotion-32[lang='zh'],
-.emotion-32[lang='zh-Hans'],
-.emotion-32[lang='zh-Hant'] {
+.emotion-31[lang='zh'],
+.emotion-31[lang='zh-Hans'],
+.emotion-31[lang='zh-Hant'] {
   font-size: calc(16 * 1.11);
   font-size: calc(0.8888888888888888rem * 1.11);
 }
 
-.emotion-32 svg {
+.emotion-31 svg {
   -webkit-transform: translateY(-2px);
   -moz-transform: translateY(-2px);
   -ms-transform: translateY(-2px);
@@ -404,7 +401,7 @@ exports[`ErrorPage renderers correctly 1`] = `
   margin-left: 6px;
 }
 
-.emotion-44 {
+.emotion-43 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -415,7 +412,7 @@ exports[`ErrorPage renderers correctly 1`] = `
   align-items: center;
 }
 
-.emotion-46 {
+.emotion-45 {
   background: #fff;
   color: #20588f;
   border-radius: 100%;
@@ -436,28 +433,28 @@ exports[`ErrorPage renderers correctly 1`] = `
   margin-right: 12px;
 }
 
-.emotion-46 svg {
+.emotion-45 svg {
   width: 20px;
   height: 20px;
 }
 
-.emotion-74 {
+.emotion-73 {
   height: 1px;
   margin: 24px;
   background: rgba(255, 255, 255, 0.1);
 }
 
 @media (min-width: 48em) {
-  .emotion-74 {
+  .emotion-73 {
     margin: 48px;
   }
 }
 
-.emotion-74:before {
+.emotion-73:before {
   content: none;
 }
 
-.emotion-76 {
+.emotion-75 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -471,50 +468,50 @@ exports[`ErrorPage renderers correctly 1`] = `
   align-items: center;
 }
 
-.emotion-76>span {
+.emotion-75>span {
   padding: 6px 0;
   text-align: center;
 }
 
 @media (max-width: 48em) {
-  .emotion-76 {
+  .emotion-75 {
     font-size: 16;
     font-size: 0.8888888888888888rem;
     line-height: 1.5;
   }
 
-  .emotion-76[lang='zh'],
-  .emotion-76[lang='zh-Hans'],
-  .emotion-76[lang='zh-Hant'] {
+  .emotion-75[lang='zh'],
+  .emotion-75[lang='zh-Hans'],
+  .emotion-75[lang='zh-Hant'] {
     font-size: calc(16 * 1.11);
     font-size: calc(0.8888888888888888rem * 1.11);
   }
 
-  .emotion-76>span {
+  .emotion-75>span {
     padding: 0;
   }
 }
 
 @media (max-width: 29.75em) {
-  .emotion-76 {
+  .emotion-75 {
     font-size: 14;
     font-size: 0.7777777777777778rem;
     line-height: 1.3;
   }
 
-  .emotion-76[lang='zh'],
-  .emotion-76[lang='zh-Hans'],
-  .emotion-76[lang='zh-Hant'] {
+  .emotion-75[lang='zh'],
+  .emotion-75[lang='zh-Hans'],
+  .emotion-75[lang='zh-Hant'] {
     font-size: calc(14 * 1.11);
     font-size: calc(0.7777777777777778rem * 1.11);
   }
 
-  .emotion-76>span {
+  .emotion-75>span {
     padding-bottom: 6px;
   }
 }
 
-.emotion-78 {
+.emotion-77 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -533,32 +530,32 @@ exports[`ErrorPage renderers correctly 1`] = `
   margin-bottom: 48px;
 }
 
-.emotion-78>span {
+.emotion-77>span {
   padding: 6px 0;
   text-align: center;
 }
 
 @media (max-width: 48em) {
-  .emotion-78 {
+  .emotion-77 {
     font-size: 16;
     font-size: 0.8888888888888888rem;
     line-height: 1.5;
   }
 
-  .emotion-78[lang='zh'],
-  .emotion-78[lang='zh-Hans'],
-  .emotion-78[lang='zh-Hant'] {
+  .emotion-77[lang='zh'],
+  .emotion-77[lang='zh-Hans'],
+  .emotion-77[lang='zh-Hant'] {
     font-size: calc(16 * 1.11);
     font-size: calc(0.8888888888888888rem * 1.11);
   }
 
-  .emotion-78>span {
+  .emotion-77>span {
     padding: 0;
   }
 }
 
 @media (max-width: 29.75em) {
-  .emotion-78 {
+  .emotion-77 {
     font-size: 14;
     font-size: 0.7777777777777778rem;
     line-height: 1.3;
@@ -567,19 +564,19 @@ exports[`ErrorPage renderers correctly 1`] = `
     flex-direction: column;
   }
 
-  .emotion-78[lang='zh'],
-  .emotion-78[lang='zh-Hans'],
-  .emotion-78[lang='zh-Hant'] {
+  .emotion-77[lang='zh'],
+  .emotion-77[lang='zh-Hans'],
+  .emotion-77[lang='zh-Hant'] {
     font-size: calc(14 * 1.11);
     font-size: calc(0.7777777777777778rem * 1.11);
   }
 
-  .emotion-78>span {
+  .emotion-77>span {
     padding-bottom: 6px;
   }
 }
 
-.emotion-80 {
+.emotion-79 {
   background: none;
   color: #fff;
   border: 0;
@@ -588,24 +585,24 @@ exports[`ErrorPage renderers correctly 1`] = `
   cursor: pointer;
 }
 
-.emotion-80:hover,
-.emotion-80:focus {
+.emotion-79:hover,
+.emotion-79:focus {
   box-shadow: none;
 }
 
-.emotion-82 {
+.emotion-81 {
   margin-left: 4px;
   margin-right: 4px;
   margin-bottom: 48px;
 }
 
 @media (max-width: 29.75em) {
-  .emotion-82 {
+  .emotion-81 {
     visibility: hidden;
   }
 }
 
-.emotion-90 {
+.emotion-89 {
   display: block;
   position: absolute;
   top: 0;
@@ -615,11 +612,11 @@ exports[`ErrorPage renderers correctly 1`] = `
   background: linear-gradient(96deg, rgba(0, 117, 160, 1) 0%, rgba(32, 88, 143, 0) 100%);
 }
 
-.emotion-92 {
+.emotion-91 {
   z-index: 10;
 }
 
-.emotion-93 {
+.emotion-92 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -660,34 +657,34 @@ exports[`ErrorPage renderers correctly 1`] = `
   margin-top: 24px;
 }
 
-.emotion-93:hover,
-.emotion-93:focus-visible {
+.emotion-92:hover,
+.emotion-92:focus-visible {
   color: #20588f;
   background-color: #ceddea;
   border-color: #ceddea;
 }
 
-.emotion-93[disabled] {
+.emotion-92[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-93[lang='zh'],
-.emotion-93[lang='zh-Hans'],
-.emotion-93[lang='zh-Hant'] {
+.emotion-92[lang='zh'],
+.emotion-92[lang='zh-Hans'],
+.emotion-92[lang='zh-Hant'] {
   font-size: calc(16px * 1.11);
   font-size: calc(0.8888888888888888rem * 1.11);
 }
 
-.emotion-93:hover {
+.emotion-92:hover {
   color: #fff;
   background: #20588f;
   border-color: #20588f;
 }
 
-.emotion-93[disabled] {
+.emotion-92[disabled] {
   color: #777777;
   background-color: transparent;
   border-color: #777777;
@@ -695,7 +692,7 @@ exports[`ErrorPage renderers correctly 1`] = `
 }
 
 @media (min-width: 61.3125em) {
-  .emotion-93 {
+  .emotion-92 {
     position: fixed;
     right: 2rem;
     bottom: 2rem;
@@ -715,7 +712,7 @@ exports[`ErrorPage renderers correctly 1`] = `
         class="u-1/1 emotion-2 emotion-3"
       >
         <div
-          class="emotion-4 emotion-5"
+          class="emotion-4"
         >
           <div
             class="c-logo"
@@ -764,10 +761,10 @@ exports[`ErrorPage renderers correctly 1`] = `
         class="o-wrapper o-wrapper--clear undefined"
       >
         <article
-          class="emotion-6 emotion-7"
+          class="emotion-5 emotion-6"
         >
           <div
-            class="emotion-8 emotion-9"
+            class="emotion-7 emotion-8"
           >
             <img
               alt="Ops, noe gikk galt"
@@ -778,7 +775,7 @@ exports[`ErrorPage renderers correctly 1`] = `
             Ops, noe gikk galt
           </h1>
           <p
-            class="emotion-10 emotion-11"
+            class="emotion-9 emotion-10"
           >
             Beklager, en feil oppstod.
           </p>
@@ -786,7 +783,7 @@ exports[`ErrorPage renderers correctly 1`] = `
             Kom igang:
           </h2>
           <div
-            class="emotion-12"
+            class="emotion-11"
           >
             <a
               href="/"
@@ -800,16 +797,16 @@ exports[`ErrorPage renderers correctly 1`] = `
     </div>
     <footer>
       <div
-        class="emotion-13 emotion-14"
+        class="emotion-12 emotion-13"
       >
         <div
-          class="emotion-15 emotion-16"
+          class="emotion-14 emotion-15"
         >
           <button
             aria-expanded="false"
             aria-haspopup="menu"
             aria-label="Velg språk (language): "
-            class="emotion-17"
+            class="emotion-16"
             data-state="closed"
             id="radix-:r0:"
             type="button"
@@ -840,15 +837,15 @@ exports[`ErrorPage renderers correctly 1`] = `
           </button>
         </div>
         <div
-          class="o-wrapper o-wrapper--large emotion-18 emotion-19"
+          class="o-wrapper o-wrapper--large emotion-17 emotion-18"
         >
           <div
-            class="emotion-20 emotion-21"
+            class="emotion-19 emotion-20"
           >
             <div>
               <svg
                 aria-hidden="true"
-                class="c-icon emotion-22 emotion-23"
+                class="c-icon emotion-21 emotion-22"
                 data-license="CC-BY 4.0"
                 data-source="Keyteq"
                 fill="currentColor"
@@ -867,16 +864,16 @@ exports[`ErrorPage renderers correctly 1`] = `
             </div>
             <div>
               <h2
-                class="emotion-24 emotion-25"
+                class="emotion-23 emotion-24"
               >
                 Sammen skaper vi framtidas læring
               </h2>
               <div
-                class="emotion-26 emotion-27"
+                class="emotion-25 emotion-26"
               >
                 <div>
                   <h3
-                    class="emotion-28 emotion-29"
+                    class="emotion-27 emotion-28"
                     id="otherLinks"
                   >
                     Andre NDLA-nettsteder 
@@ -905,12 +902,12 @@ exports[`ErrorPage renderers correctly 1`] = `
                   </h3>
                   <nav
                     aria-labelledby="otherLinks"
-                    class="emotion-30 emotion-31"
+                    class="emotion-29 emotion-30"
                   >
                     <div>
                       <a
                         aria-label="Om NDLA"
-                        class="emotion-32 emotion-33"
+                        class="emotion-31 emotion-32"
                         href="https://om.ndla.no"
                         rel="noopener noreferrer"
                         target="_blank"
@@ -921,7 +918,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                     <div>
                       <a
                         aria-label="About NDLA"
-                        class="emotion-32 emotion-33"
+                        class="emotion-31 emotion-32"
                         href="https://om.ndla.no/about-ndla"
                         rel="noopener noreferrer"
                         target="_blank"
@@ -932,7 +929,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                     <div>
                       <a
                         aria-label="Fagblogg"
-                        class="emotion-32 emotion-33"
+                        class="emotion-31 emotion-32"
                         href="https://blogg.ndla.no"
                         rel="noopener noreferrer"
                         target="_blank"
@@ -943,7 +940,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                     <div>
                       <a
                         aria-label="Tips til elever"
-                        class="emotion-32 emotion-33"
+                        class="emotion-31 emotion-32"
                         href="https://blogg.ndla.no/elever"
                         rel="noopener noreferrer"
                         target="_blank"
@@ -954,7 +951,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                     <div>
                       <a
                         aria-label="Ledige stillinger"
-                        class="emotion-32 emotion-33"
+                        class="emotion-31 emotion-32"
                         href="https://om.ndla.no/jobb-for-ndla/"
                         rel="noopener noreferrer"
                         target="_blank"
@@ -966,13 +963,13 @@ exports[`ErrorPage renderers correctly 1`] = `
                 </div>
                 <nav
                   aria-label="Sosiale medier"
-                  class="emotion-30 emotion-31"
+                  class="emotion-29 emotion-30"
                 >
                   <div
-                    class="emotion-44 emotion-45"
+                    class="emotion-43 emotion-44"
                   >
                     <span
-                      class="emotion-46 emotion-47"
+                      class="emotion-45 emotion-46"
                     >
                       <svg
                         aria-hidden="true"
@@ -994,7 +991,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                       </svg>
                     </span>
                     <a
-                      class="emotion-32 emotion-33"
+                      class="emotion-31 emotion-32"
                       href="https://www.facebook.com/ndla.no"
                     >
                       NDLA på Facebook
@@ -1023,10 +1020,10 @@ exports[`ErrorPage renderers correctly 1`] = `
                     </a>
                   </div>
                   <div
-                    class="emotion-44 emotion-45"
+                    class="emotion-43 emotion-44"
                   >
                     <span
-                      class="emotion-46 emotion-47"
+                      class="emotion-45 emotion-46"
                     >
                       <svg
                         aria-hidden="true"
@@ -1049,7 +1046,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                       </svg>
                     </span>
                     <a
-                      class="emotion-32 emotion-33"
+                      class="emotion-31 emotion-32"
                       href="https://instagram.com/ndla_no/"
                     >
                       NDLA på Instagram
@@ -1078,10 +1075,10 @@ exports[`ErrorPage renderers correctly 1`] = `
                     </a>
                   </div>
                   <div
-                    class="emotion-44 emotion-45"
+                    class="emotion-43 emotion-44"
                   >
                     <span
-                      class="emotion-46 emotion-47"
+                      class="emotion-45 emotion-46"
                     >
                       <svg
                         aria-hidden="true"
@@ -1104,7 +1101,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                       </svg>
                     </span>
                     <a
-                      class="emotion-32 emotion-33"
+                      class="emotion-31 emotion-32"
                       href="https://www.linkedin.com/company/ndla/"
                     >
                       NDLA på LinkedIn
@@ -1133,10 +1130,10 @@ exports[`ErrorPage renderers correctly 1`] = `
                     </a>
                   </div>
                   <div
-                    class="emotion-44 emotion-45"
+                    class="emotion-43 emotion-44"
                   >
                     <span
-                      class="emotion-46 emotion-47"
+                      class="emotion-45 emotion-46"
                     >
                       <svg
                         aria-hidden="true"
@@ -1172,7 +1169,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                       </svg>
                     </span>
                     <a
-                      class="emotion-32 emotion-33"
+                      class="emotion-31 emotion-32"
                       href="https://www.youtube.com/channel/UCBlt6T8B0mmvDh3k5q7EhsA"
                     >
                       NDLA på YouTube
@@ -1201,10 +1198,10 @@ exports[`ErrorPage renderers correctly 1`] = `
                     </a>
                   </div>
                   <div
-                    class="emotion-44 emotion-45"
+                    class="emotion-43 emotion-44"
                   >
                     <span
-                      class="emotion-46 emotion-47"
+                      class="emotion-45 emotion-46"
                     >
                       <svg
                         aria-hidden="true"
@@ -1226,7 +1223,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                       </svg>
                     </span>
                     <a
-                      class="emotion-32 emotion-33"
+                      class="emotion-31 emotion-32"
                       href="https://om.ndla.no/nyhetsbrev/"
                     >
                       Meld deg på vårt nyhetsbrev
@@ -1259,10 +1256,10 @@ exports[`ErrorPage renderers correctly 1`] = `
             </div>
           </div>
           <hr
-            class="emotion-74 emotion-75"
+            class="emotion-73 emotion-74"
           />
           <p
-            class="emotion-76 emotion-77"
+            class="emotion-75 emotion-76"
           >
             <span>
               <strong>
@@ -1273,11 +1270,11 @@ exports[`ErrorPage renderers correctly 1`] = `
             Nettstedet er utarbeidet av NDLA med åpen kildekode.
           </p>
           <div
-            class="emotion-78 emotion-79"
+            class="emotion-77 emotion-78"
           >
             <div>
               <a
-                class="emotion-80 emotion-81"
+                class="emotion-79 emotion-80"
                 href="https://om.ndla.no/gdpr"
               >
                 Personvernerklæring
@@ -1286,12 +1283,12 @@ exports[`ErrorPage renderers correctly 1`] = `
             <div>
               <span
                 aria-hidden="true"
-                class="emotion-82 emotion-83"
+                class="emotion-81 emotion-82"
               >
                 |
               </span>
               <a
-                class="emotion-80 emotion-81"
+                class="emotion-79 emotion-80"
                 href="https://om.ndla.no/cookies"
               >
                 Erklæring om informasjonskapsler
@@ -1300,12 +1297,12 @@ exports[`ErrorPage renderers correctly 1`] = `
             <div>
               <span
                 aria-hidden="true"
-                class="emotion-82 emotion-83"
+                class="emotion-81 emotion-82"
               >
                 |
               </span>
               <a
-                class="emotion-80 emotion-81"
+                class="emotion-79 emotion-80"
                 href="https://uustatus.no/nn/erklaringer/publisert/8cefdf3d-3272-402a-907b-689ddfc9bba7"
               >
                 Tilgjengelighetserklæring
@@ -1314,15 +1311,15 @@ exports[`ErrorPage renderers correctly 1`] = `
           </div>
         </div>
         <div
-          class="emotion-90 emotion-91"
+          class="emotion-89 emotion-90"
         />
       </div>
     </footer>
     <div
-      class="emotion-92"
+      class="emotion-91"
     >
       <button
-        class="emotion-93"
+        class="emotion-92"
         id="zendeskButton"
         type="button"
       >

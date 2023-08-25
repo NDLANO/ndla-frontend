@@ -45,6 +45,7 @@ import handleError from './util/handleError';
 import SharedFolderPage from './containers/SharedFolderPage/SharedFolderPage';
 import FavoriteSubjectsPage from './containers/MyNdla/FavoriteSubjects/FavoriteSubjectsPage';
 import { useEnableTaxStructure } from './components/TaxonomyStructureContext';
+import AboutPage from './containers/AboutPage/AboutPage';
 
 interface State {
   hasError: boolean;
@@ -172,6 +173,8 @@ const AppRoutes = ({ base }: AppProps) => {
                   </Route>
                   <Route path="subjects" element={<FavoriteSubjectsPage />} />
                 </Route>
+                <Route path="about/:slug" element={<AboutPage />} />
+
                 <Route path="folder/:folderId">
                   <Route index element={<SharedFolderPage />} />
                   <Route path=":subfolderId" element={<SharedFolderPage />} />

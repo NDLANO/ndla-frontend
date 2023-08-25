@@ -11,7 +11,7 @@ describe('Front page', () => {
     cy.fixCypressSpec('/e2e/integration/frontpage.spec.ts');
     cy.gqlIntercept({
       alias: 'alerts',
-      operations: ['examLockStatus', 'alerts', 'frontpageData'],
+      operations: ['examLockStatus', 'alerts', 'frontpageSubjects'],
     });
     cy.visit('/?disableSSR=true');
     cy.gqlWait('@alerts');

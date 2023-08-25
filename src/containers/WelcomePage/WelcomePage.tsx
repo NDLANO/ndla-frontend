@@ -7,18 +7,28 @@
  */
 
 import styled from '@emotion/styled';
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 import { HelmetWithTracker } from '@ndla/tracker';
 import {
   FrontpageHeader,
   FrontpageFilm,
   OneColumn,
   ProgrammeV2,
+  FRONTPAGE_ARTICLE_MAX_WIDTH,
+  FrontpageArticle,
+  WIDE_FRONTPAGE_ARTICLE_MAX_WIDTH,
   BannerCard,
 } from '@ndla/ui';
-import { spacing, utils } from '@ndla/core';
+import {
+  breakpoints,
+  colors,
+  mq,
+  spacing,
+  spacingUnit,
+  utils,
+} from '@ndla/core';
 import { useTranslation } from 'react-i18next';
-import { gql, useLazyQuery } from '@apollo/client';
+import { gql } from '@apollo/client';
 
 import WelcomePageInfo from './WelcomePageInfo';
 import FrontpageSubjects from './FrontpageSubjects';
@@ -31,18 +41,52 @@ import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import config from '../../config';
 import BlogPosts from './BlogPosts';
 import WelcomePageSearch from './WelcomePageSearch';
-import { GQLFrontpageDataQuery, GQLProgrammePage } from '../../graphqlTypes';
+import {
+  GQLFrontpageDataQuery,
+  GQLFrontpageSubjectsQuery,
+  GQLProgrammePage,
+} from '../../graphqlTypes';
 import Programmes from './Components/Programmes';
 import FrontpageMultidisciplinarySubject from './FrontpageMultidisciplinarySubject';
 import FrontpageToolbox from './FrontpageToolbox';
 import { useEnableTaxStructure } from '../../components/TaxonomyStructureContext';
+import LicenseBox from '../../components/license/LicenseBox';
+import { structuredArticleDataFragment } from '../../util/getStructuredDataFromArticle';
+import { useGraphQuery } from '../../util/runQueries';
+import { transformArticle } from '../../util/transformArticle';
+import { getArticleScripts } from '../../util/getArticleScripts';
+
+const BannerWrapper = styled.div`
+  margin-bottom: ${spacing.normal};
+`;
 
 const HiddenHeading = styled.h1`
   ${utils.visuallyHidden};
 `;
 
-const BannerWrapper = styled.div`
-  margin-bottom: ${spacing.normal};
+const StyledMain = styled.main`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: ${spacingUnit * 3}px;
+  padding-top: ${spacing.normal};
+  background-color: ${colors.background.lightBlue};
+
+  section {
+    padding: 0px;
+  }
+  nav {
+    max-width: ${FRONTPAGE_ARTICLE_MAX_WIDTH};
+    width: 100%;
+  }
+  ${mq.range({ until: breakpoints.desktop })} {
+    padding: ${spacing.xsmall};
+  }
+`;
+
+const ProgrammeWrapper = styled.div`
+  max-width: ${WIDE_FRONTPAGE_ARTICLE_MAX_WIDTH};
 `;
 
 export const programmeFragment = gql`
@@ -69,6 +113,30 @@ const frontpageQuery = gql`
     programmes {
       ...ProgrammeFragment
     }
+    frontpage {
+      articleId
+      article {
+        id
+        content
+        introduction
+        created
+        updated
+        published
+        metaData {
+          copyText
+        }
+        ...LicenseBox_Article
+        ...StructuredArticleData
+      }
+    }
+  }
+  ${LicenseBox.fragments.article}
+  ${structuredArticleDataFragment}
+  ${programmeFragment}
+`;
+
+const frontpageSubjectsQuery = gql`
+  query frontpageSubjects {
     subjects(filterVisible: true) {
       id
       name
@@ -78,7 +146,6 @@ const frontpageQuery = gql`
       }
     }
   }
-  ${programmeFragment}
 `;
 
 const formatProgrammes = (data: GQLProgrammePage[]): ProgrammeV2[] => {
@@ -101,23 +168,37 @@ const formatProgrammes = (data: GQLProgrammePage[]): ProgrammeV2[] => {
 
 const WelcomePage = () => {
   const { t, i18n } = useTranslation();
-  const [fetchData, { data, loading }] =
-    useLazyQuery<GQLFrontpageDataQuery>(frontpageQuery);
-  const [programmes, setProgrammes] = useState<ProgrammeV2[]>([]);
   const taxonomyProgrammesEnabled = useEnableTaxStructure();
+  const subjectsQuery = useGraphQuery<GQLFrontpageSubjectsQuery>(
+    frontpageSubjectsQuery,
+    { skip: typeof window === 'undefined' },
+  );
 
-  useEffect(() => {
-    const getData = () => {
-      fetchData();
-    };
-    getData();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  const fpQuery = useGraphQuery<GQLFrontpageDataQuery>(frontpageQuery, {
+    skip: !taxonomyProgrammesEnabled,
+  });
 
-  useEffect(() => {
-    if (data?.programmes) {
-      setProgrammes(formatProgrammes(data.programmes));
+  const programmes = useMemo(() => {
+    if (fpQuery.data?.programmes) {
+      return formatProgrammes(fpQuery.data.programmes);
     }
-  }, [data]);
+    return [];
+  }, [fpQuery.data?.programmes]);
+
+  const [article] = useMemo(() => {
+    const _article = fpQuery.data?.frontpage?.article;
+    if (!_article) return [undefined, undefined];
+    const transformedArticle = transformArticle(_article, i18n.language, {
+      path: `${config.ndlaFrontendDomain}/article/${_article.id}`,
+    });
+    return [
+      {
+        ...transformedArticle,
+        introduction: transformedArticle.introduction ?? '',
+      },
+      getArticleScripts(_article, i18n.language),
+    ];
+  }, [fpQuery.data?.frontpage?.article, i18n.language])!;
 
   const googleSearchJSONLd = () => {
     const data = {
@@ -152,51 +233,53 @@ const WelcomePage = () => {
           <WelcomePageSearch />
         </FrontpageHeader>
       )}
-      <main>
-        <OneColumn wide>
-          <BannerWrapper>
-            <BannerCard
-              link="https://blogg.ndla.no/laeremidlene-du-trenger-til-skolearet/"
-              title={{ title: t('campaignBlock.title'), lang: i18n.language }}
-              image={{
-                imageSrc: '/static/planlegg_skolearet.jpeg',
-                altText: '',
-              }}
-              linkText={{
-                text: t('campaignBlock.linkText'),
-                lang: i18n.language,
-              }}
-              content={{
-                content: t('campaignBlock.ingress'),
-                lang: i18n.language,
-              }}
-            />
-          </BannerWrapper>
-          {taxonomyProgrammesEnabled && (
-            <div data-testid="programme-list">
-              <Programmes programmes={programmes} loading={loading} />
-            </div>
-          )}
-          {!taxonomyProgrammesEnabled && (
+      {taxonomyProgrammesEnabled && article ? (
+        <StyledMain>
+          <ProgrammeWrapper data-testid="programme-list">
+            <Programmes programmes={programmes} loading={fpQuery.loading} />
+          </ProgrammeWrapper>
+          <FrontpageArticle isWide id={SKIP_TO_CONTENT_ID} article={article} />
+        </StyledMain>
+      ) : (
+        <main>
+          <OneColumn wide>
+            <BannerWrapper>
+              <BannerCard
+                link="https://blogg.ndla.no/laeremidlene-du-trenger-til-skolearet/"
+                title={{ title: t('campaignBlock.title'), lang: i18n.language }}
+                image={{
+                  imageSrc: '/static/planlegg_skolearet.jpeg',
+                  altText: '',
+                }}
+                linkText={{
+                  text: t('campaignBlock.linkText'),
+                  lang: i18n.language,
+                }}
+                content={{
+                  content: t('campaignBlock.ingress'),
+                  lang: i18n.language,
+                }}
+              />
+            </BannerWrapper>
             <div data-testid="category-list" id={SKIP_TO_CONTENT_ID}>
               <FrontpageSubjects
                 locale={i18n.language}
-                subjects={data?.subjects}
+                subjects={subjectsQuery?.data?.subjects}
               />
             </div>
-          )}
-        </OneColumn>
-        <OneColumn wide>
-          <FrontpageMultidisciplinarySubject />
-          <FrontpageToolbox />
-          <BlogPosts locale={i18n.language} />
-          <FrontpageFilm
-            imageUrl="/static/film_illustrasjon.svg"
-            url={FILM_PAGE_PATH}
-          />
-          <WelcomePageInfo />
-        </OneColumn>
-      </main>
+          </OneColumn>
+          <OneColumn wide>
+            <FrontpageMultidisciplinarySubject />
+            <FrontpageToolbox />
+            <BlogPosts locale={i18n.language} />
+            <FrontpageFilm
+              imageUrl="/static/film_illustrasjon.svg"
+              url={FILM_PAGE_PATH}
+            />
+            <WelcomePageInfo />
+          </OneColumn>
+        </main>
+      )}
     </>
   );
 };

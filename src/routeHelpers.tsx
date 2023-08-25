@@ -9,6 +9,7 @@
 import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import {
+  ABOUT_PATH,
   MULTIDISCIPLINARY_SUBJECT_ID,
   PROGRAMME_PATH,
   TOOLBOX_STUDENT_SUBJECT_ID,
@@ -34,6 +35,7 @@ interface MatchParams extends TypedParams {
   topic3?: string;
   topic4?: string;
   programme?: string;
+  slug?: string;
 }
 
 export const useOnTopicPage = () => {
@@ -81,6 +83,7 @@ export const useUrnIds = () => {
     programme: params.programme,
     stepId: params.stepId,
     subjectType: subjectId ? getSubjectType(subjectId) : undefined,
+    slug: params.slug,
   };
 };
 
@@ -152,6 +155,8 @@ export function toArticle(
   }
   return `/article/${articleId}`;
 }
+
+export const toAbout = (slug = '') => `${ABOUT_PATH}${slug}`;
 
 export function toSubject(subjectId: string) {
   return `/${removeUrn(subjectId)}`;
