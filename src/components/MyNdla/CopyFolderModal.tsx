@@ -8,7 +8,7 @@
 
 import { ReactNode, useCallback, useContext, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ListResource } from '@ndla/ui';
+import { Folder } from '@ndla/ui';
 import {
   ModalBody,
   ModalCloseButton,
@@ -21,7 +21,8 @@ import {
 import { AuthContext } from '../AuthenticationContext';
 import { GQLFolder } from '../../graphqlTypes';
 import LoginModalContent from './LoginModalContent';
-import CopyFolder, { baseSharedFolder } from './CopyFolder';
+import CopyFolder from './CopyFolder';
+import { getTotalCountForFolder } from '../../util/folderHelpers';
 
 interface Props {
   folder: GQLFolder;
@@ -35,7 +36,7 @@ const CopyFolderModal = ({ folder, children }: Props) => {
 
   const close = useCallback(() => setOpen(false), []);
 
-  const sharedFolder = useMemo(() => baseSharedFolder(t), [t]);
+  const folderCount = useMemo(() => getTotalCountForFolder(folder), [folder]);
 
   return (
     <Modal open={open} onOpenChange={setOpen}>
@@ -55,15 +56,13 @@ const CopyFolderModal = ({ folder, children }: Props) => {
           title={t('myNdla.loginCopyFolderPitch')}
           content={
             folder && (
-              <ListResource
+              <Folder
                 id={folder.id.toString()}
-                link={`/folder/${folder.id}`}
                 title={folder.name ?? ''}
-                resourceImage={{
-                  src: '',
-                  alt: '',
-                }}
-                resourceTypes={[sharedFolder]}
+                link={`/folder/${folder.id}`}
+                isShared={true}
+                subFolders={folderCount.folders}
+                subResources={folderCount.resources}
               />
             )
           }

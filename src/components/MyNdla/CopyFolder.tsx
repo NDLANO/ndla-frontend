@@ -6,8 +6,8 @@
  *
  */
 
-import { ListResource, MessageBox, useSnack } from '@ndla/ui';
-import { TFunction, useTranslation } from 'react-i18next';
+import { Folder, MessageBox, useSnack } from '@ndla/ui';
+import { useTranslation } from 'react-i18next';
 import { useContext, useMemo, useState } from 'react';
 import { ButtonV2 as Button, LoadingButton } from '@ndla/button';
 import { GQLFolder } from '../../graphqlTypes';
@@ -18,16 +18,12 @@ import {
 } from '../../containers/MyNdla/folderMutations';
 import { AuthContext } from '../AuthenticationContext';
 import { AddResourceContainer, ButtonRow } from './AddResourceToFolder';
+import { getTotalCountForFolder } from '../../util/folderHelpers';
 
 interface Props {
   folder: GQLFolder;
   onClose: () => void;
 }
-
-export const baseSharedFolder = (t: TFunction) => ({
-  id: 'shared-folder',
-  name: t('myNdla.folder.sharing.sharedFolder'),
-});
 
 const CopyFolder = ({ folder, onClose }: Props) => {
   const [selectedFolderId, setSelectedFolderId] = useState<string | undefined>(
@@ -39,7 +35,7 @@ const CopyFolder = ({ folder, onClose }: Props) => {
   const { addSnack } = useSnack();
   const { folders, loading } = useFolders();
   const copySharedFolderMutation = useCopySharedFolderMutation();
-  const sharedFolder = useMemo(() => baseSharedFolder(t), [t]);
+  const folderCount = useMemo(() => getTotalCountForFolder(folder), [folder]);
 
   const onSave = async () => {
     await copySharedFolderMutation.copySharedFolder({
@@ -58,15 +54,13 @@ const CopyFolder = ({ folder, onClose }: Props) => {
 
   return (
     <AddResourceContainer>
-      <ListResource
+      <Folder
         id={folder.id.toString()}
-        link={`/folder/${folder.id}`}
         title={folder.name ?? ''}
-        resourceTypes={[sharedFolder]}
-        resourceImage={{
-          src: '',
-          alt: '',
-        }}
+        link={`/folder/${folder.id}`}
+        isShared={true}
+        subFolders={folderCount.folders}
+        subResources={folderCount.resources}
       />
       {examLock ? (
         <MessageBox>{t('myNdla.examLockInfo')}</MessageBox>
