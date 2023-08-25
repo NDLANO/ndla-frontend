@@ -17,13 +17,7 @@ import {
   AccordionContent,
 } from '@ndla/accordion';
 import { ContentLoader, Heading, ProgrammeCard, ProgrammeV2 } from '@ndla/ui';
-import { css } from '@emotion/react';
 import { SKIP_TO_CONTENT_ID } from '../../../constants';
-
-const UlStyling = css`
-  margin: unset;
-  padding: unset;
-`;
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -44,8 +38,6 @@ const Desktop = styled.ul`
     flex-wrap: wrap;
     gap: ${spacing.normal};
   }
-
-  ${UlStyling};
 `;
 
 const Mobile = styled.div`
@@ -97,8 +89,10 @@ const ImageWrapper = styled.div`
 `;
 
 const StyledNav = styled.nav`
-  width: unset !important;
-  max-width: unset !important;
+  ul {
+    margin: unset;
+    padding: unset;
+  }
 `;
 
 const StyledLi = styled.li`
@@ -187,7 +181,7 @@ const Programmes = ({ programmes, loading }: Props) => {
             </StyledAccordionHeader>
             <StyledAccordionContent>
               <StyledNav aria-labelledby="accordionHeader">
-                <ul css={UlStyling}>{programmeCards}</ul>
+                <ul>{programmeCards}</ul>
               </StyledNav>
             </StyledAccordionContent>
           </AccordionItem>
