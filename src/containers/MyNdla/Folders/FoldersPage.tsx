@@ -42,7 +42,7 @@ import FolderList from './FolderList';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import FolderShareModal from './FolderShareModal';
 import config from '../../../config';
-import { isStudent } from './util';
+import { copyFolderSharingLink, isStudent } from './util';
 import CreateFolderModal from './CreateFolderModal';
 import ResourceList from './ResourceList';
 
@@ -251,6 +251,7 @@ const FoldersPage = () => {
                     close();
                     unShareRef.current?.click();
                   }}
+                  onCopyText={() => copyFolderSharingLink(selectedFolder.id)}
                 >
                   <ButtonV2
                     colorTheme="lighter"
