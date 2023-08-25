@@ -265,28 +265,14 @@ const copySharedFolderMutation = gql`
       folderId: $folderId
       destinationFolderId: $destinationFolderId
     ) {
-      __typename
-      id
-      name
-      status
-      created
-      updated
-      description
-      breadcrumbs {
-        __typename
-        id
-        name
-      }
+      ...FolderFragment
       subfolders {
         ...FoldersPageQueryFragment
       }
-      resources {
-        ...FolderResourceFragment
-      }
     }
   }
+  ${folderFragment}
   ${foldersPageQueryFragment}
-  ${folderResourceFragment}
 `;
 
 const folderResourceMetaFragment = gql`
