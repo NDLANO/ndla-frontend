@@ -576,7 +576,7 @@ export const useUpdateFolderStatusMutation = () => {
   return { updateFolderStatus, loading };
 };
 
-export const useCopySharedFolder = () => {
+export const useCopySharedFolderMutation = () => {
   const { cache } = useApolloClient();
   const [copySharedFolder, { loading, error }] = useMutation<
     GQLCopySharedFolderMutation,

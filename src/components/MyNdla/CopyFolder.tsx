@@ -13,7 +13,7 @@ import { ButtonV2 as Button, LoadingButton } from '@ndla/button';
 import { GQLFolder } from '../../graphqlTypes';
 import FolderSelect from './FolderSelect';
 import {
-  useCopySharedFolder,
+  useCopySharedFolderMutation,
   useFolders,
 } from '../../containers/MyNdla/folderMutations';
 import { AuthContext } from '../AuthenticationContext';
@@ -38,14 +38,11 @@ const CopyFolder = ({ folder, onClose }: Props) => {
   const { t } = useTranslation();
   const { addSnack } = useSnack();
   const { folders, loading } = useFolders();
-  const {
-    copySharedFolder,
-    loading: copySharedFolderLoading,
-    error: copySharedFolderError,
-  } = useCopySharedFolder();
+  const copySharedFolderMutation = useCopySharedFolderMutation();
+  const sharedFolder = useMemo(() => baseSharedFolder(t), [t]);
 
   const onSave = async () => {
-    await copySharedFolder({
+    await copySharedFolderMutation.copySharedFolder({
       variables: {
         folderId: folder.id,
         destinationFolderId:
@@ -58,8 +55,6 @@ const CopyFolder = ({ folder, onClose }: Props) => {
       id: 'sharedFolderCopied',
     });
   };
-
-  const sharedFolder = useMemo(() => baseSharedFolder(t), [t]);
 
   return (
     <AddResourceContainer>
@@ -84,7 +79,7 @@ const CopyFolder = ({ folder, onClose }: Props) => {
             setSelectedFolderId={setSelectedFolderId}
           />
           <MessageBox>{t('myNdla.copyFolderDisclaimer')}</MessageBox>
-          {copySharedFolderError && (
+          {copySharedFolderMutation.error && (
             <MessageBox type="danger">
               {t('errorMessage.description')}
             </MessageBox>
@@ -96,9 +91,9 @@ const CopyFolder = ({ folder, onClose }: Props) => {
           {t('cancel')}
         </Button>
         <LoadingButton
-          loading={copySharedFolderLoading}
+          loading={copySharedFolderMutation.loading}
           colorTheme="light"
-          disabled={examLock || copySharedFolderLoading}
+          disabled={examLock || copySharedFolderMutation.loading}
           onClick={onSave}
         >
           {t('myNdla.resource.save')}
