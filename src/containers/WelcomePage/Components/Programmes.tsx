@@ -30,7 +30,7 @@ const StyledWrapper = styled.div`
   }
 `;
 
-const Desktop = styled.div`
+const Desktop = styled.ul`
   display: none;
   ${mq.range({ from: breakpoints.tablet })} {
     display: flex;
@@ -88,6 +88,18 @@ const ImageWrapper = styled.div`
   }
 `;
 
+const StyledNav = styled.nav`
+  ul {
+    margin: unset;
+    padding: unset;
+  }
+`;
+
+const StyledLi = styled.li`
+  list-style: none;
+  margin: unset;
+  line-height: unset;
+`;
 interface Props {
   programmes: ProgrammeV2[];
   loading: boolean;
@@ -137,14 +149,15 @@ const Programmes = ({ programmes, loading }: Props) => {
 
   const programmeCards = useMemo(() => {
     return programmes.map((programme) => (
-      <ProgrammeCard
-        key={programme.id}
-        id={programme.id}
-        title={programme.title}
-        wideImage={programme.wideImage}
-        narrowImage={programme.narrowImage}
-        url={programme.url}
-      />
+      <StyledLi key={programme.id}>
+        <ProgrammeCard
+          id={programme.id}
+          title={programme.title}
+          wideImage={programme.wideImage}
+          narrowImage={programme.narrowImage}
+          url={programme.url}
+        />
+      </StyledLi>
     ));
   }, [programmes]);
 
@@ -154,17 +167,23 @@ const Programmes = ({ programmes, loading }: Props) => {
         {t('programmes.header')}
       </Heading>
       <Description>{t('programmes.description')}</Description>
-      <Desktop>{loading ? placeholder : programmeCards}</Desktop>
+      <StyledNav aria-labelledby={SKIP_TO_CONTENT_ID}>
+        <Desktop>{loading ? placeholder : programmeCards}</Desktop>
+      </StyledNav>
       <Mobile>
         <StyledAccordionRoot type="single" collapsible>
           <ImageWrapper>
             <AllSubjectsPersonIllustration />
           </ImageWrapper>
           <AccordionItem value="1">
-            <StyledAccordionHeader>
+            <StyledAccordionHeader id="accordionHeader">
               {t('programmes.accordionHeader')}
             </StyledAccordionHeader>
-            <StyledAccordionContent>{programmeCards}</StyledAccordionContent>
+            <StyledAccordionContent>
+              <StyledNav aria-labelledby="accordionHeader">
+                <ul>{programmeCards}</ul>
+              </StyledNav>
+            </StyledAccordionContent>
           </AccordionItem>
         </StyledAccordionRoot>
       </Mobile>
