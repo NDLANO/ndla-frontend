@@ -81,13 +81,28 @@ const CopyFolder = ({ folder, onClose }: Props) => {
         </>
       )}
       <ButtonRow>
-        <Button variant="outline" onClick={onClose}>
+        <Button
+          variant="outline"
+          onClick={onClose}
+          onMouseDown={(e) => {
+            e.preventDefault();
+          }}
+          onMouseUp={(e) => {
+            e.preventDefault();
+          }}
+        >
           {t('cancel')}
         </Button>
         <LoadingButton
           loading={copySharedFolderMutation.loading}
           colorTheme="light"
           disabled={examLock || copySharedFolderMutation.loading}
+          onMouseDown={(e) => {
+            e.preventDefault();
+          }}
+          onMouseUp={(e) => {
+            e.preventDefault();
+          }}
           onClick={onSave}
         >
           {t('myNdla.resource.save')}
