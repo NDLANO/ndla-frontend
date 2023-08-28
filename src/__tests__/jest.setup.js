@@ -6,7 +6,6 @@
  *
  */
 
-import 'regenerator-runtime/runtime';
 import { TextEncoder } from 'util';
 
 global.TextEncoder = TextEncoder;

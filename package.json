@@ -90,7 +90,6 @@
     "postcss-reporter": "^7.0.5",
     "prettier": "^3.0.0",
     "react-refresh": "^0.14.0",
-    "regenerator-runtime": "0.13.11",
     "sass": "1.40.0",
     "sass-loader": "^13.3.2",
     "style-loader": "^3.3.3",
