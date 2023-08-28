@@ -11,9 +11,12 @@ import { breakpoints, mq } from '@ndla/core';
 import { OneColumn } from '@ndla/ui';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { useTranslation } from 'react-i18next';
+import { ButtonV2 } from '@ndla/button';
+import { Copy } from '@ndla/icons/action';
 import { GQLFolder } from '../../../graphqlTypes';
 import config from '../../../config';
 import ErrorPage from '../../ErrorPage';
+import CopyFolderModal from '../../../components/MyNdla/CopyFolderModal';
 
 interface Props {
   folder: GQLFolder | null;
@@ -47,6 +50,13 @@ const FolderMeta = ({ folder, title }: Props) => {
           {(config.folderDescriptionEnabled && folder.description) ||
             t('myNdla.sharedFolder.description.all')}
         </StyledDescription>
+
+        <CopyFolderModal folder={folder}>
+          <ButtonV2 colorTheme="light">
+            <Copy />
+            {t('myNdla.folder.copy')}
+          </ButtonV2>
+        </CopyFolderModal>
       </StyledOneColumn>
     </main>
   );

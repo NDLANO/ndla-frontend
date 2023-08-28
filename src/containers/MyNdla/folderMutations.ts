@@ -18,6 +18,7 @@ import {
 import {
   GQLAddFolderMutation,
   GQLAddResourceToFolderMutation,
+  GQLCopySharedFolderMutation,
   GQLDeleteFolderMutation,
   GQLDeleteFolderResourceMutation,
   GQLFolder,
@@ -27,6 +28,7 @@ import {
   GQLFoldersPageQuery,
   GQLMutationAddFolderArgs,
   GQLMutationAddFolderResourceArgs,
+  GQLMutationCopySharedFolderArgs,
   GQLMutationDeleteFolderArgs,
   GQLMutationDeleteFolderResourceArgs,
   GQLMutationSortFoldersArgs,
@@ -255,6 +257,22 @@ const updateFolderStatusMutation = gql`
   mutation updateFolderStatus($folderId: String!, $status: String!) {
     updateFolderStatus(folderId: $folderId, status: $status)
   }
+`;
+
+const copySharedFolderMutation = gql`
+  mutation copySharedFolder($folderId: String!, $destinationFolderId: String) {
+    copySharedFolder(
+      folderId: $folderId
+      destinationFolderId: $destinationFolderId
+    ) {
+      ...FolderFragment
+      subfolders {
+        ...FoldersPageQueryFragment
+      }
+    }
+  }
+  ${folderFragment}
+  ${foldersPageQueryFragment}
 `;
 
 const folderResourceMetaFragment = gql`
@@ -542,6 +560,42 @@ export const useUpdateFolderStatusMutation = () => {
     },
   });
   return { updateFolderStatus, loading };
+};
+
+export const useCopySharedFolderMutation = () => {
+  const { cache } = useApolloClient();
+  const [copySharedFolder, { loading, error }] = useMutation<
+    GQLCopySharedFolderMutation,
+    GQLMutationCopySharedFolderArgs
+  >(copySharedFolderMutation, {
+    onCompleted: (data, values) => {
+      if (values?.variables?.destinationFolderId) {
+        cache.modify({
+          id: cache.identify({
+            __ref: `Folder:${values.variables.destinationFolderId}`,
+          }),
+          fields: {
+            subfolders: (existing = []) => {
+              return existing.concat({
+                __ref: cache.identify(data.copySharedFolder),
+              });
+            },
+          },
+        });
+      } else {
+        cache.modify({
+          fields: {
+            folders: (existing = []) =>
+              existing.concat({
+                __ref: cache.identify(data.copySharedFolder),
+              }),
+          },
+        });
+      }
+    },
+  });
+
+  return { copySharedFolder, loading, error };
 };
 
 export const useUpdateFolderMutation = () => {

@@ -792,7 +792,7 @@ export type GQLMutation = {
   __typename?: 'Mutation';
   addFolder: GQLFolder;
   addFolderResource: GQLFolderResource;
-  copySharedFolder: GQLFolderResource;
+  copySharedFolder: GQLFolder;
   deleteFolder: Scalars['String']['output'];
   deleteFolderResource: Scalars['String']['output'];
   deletePersonalData: Scalars['Boolean']['output'];
@@ -2738,6 +2738,31 @@ export type GQLUpdateFolderStatusMutationVariables = Exact<{
 export type GQLUpdateFolderStatusMutation = {
   __typename?: 'Mutation';
   updateFolderStatus: Array<string>;
+};
+
+export type GQLCopySharedFolderMutationVariables = Exact<{
+  folderId: Scalars['String']['input'];
+  destinationFolderId?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+export type GQLCopySharedFolderMutation = {
+  __typename?: 'Mutation';
+  copySharedFolder: {
+    __typename: 'Folder';
+    id: string;
+    name: string;
+    status: string;
+    created: string;
+    updated: string;
+    description?: string;
+    breadcrumbs: Array<{ __typename: 'Breadcrumb'; id: string; name: string }>;
+    subfolders: Array<
+      { __typename?: 'Folder' } & GQLFoldersPageQueryFragmentFragment
+    >;
+    resources: Array<
+      { __typename?: 'FolderResource' } & GQLFolderResourceFragmentFragment
+    >;
+  };
 };
 
 type GQLFolderResourceMeta_ArticleFolderResourceMeta_Fragment = {

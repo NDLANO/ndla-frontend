@@ -10,19 +10,13 @@ import compact from 'lodash/compact';
 import isEqual from 'lodash/isEqual';
 import sortBy from 'lodash/sortBy';
 import uniq from 'lodash/uniq';
-import { useEffect, useState, useMemo, useContext } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { ButtonV2 as Button, LoadingButton } from '@ndla/button';
 import { colors, spacing } from '@ndla/core';
 import SafeLink from '@ndla/safelink';
-import {
-  ListResource,
-  MessageBox,
-  TagSelector,
-  TreeStructure,
-  useSnack,
-} from '@ndla/ui';
+import { ListResource, MessageBox, TagSelector, useSnack } from '@ndla/ui';
 import {
   useAddResourceToFolderMutation,
   useFolder,
@@ -32,8 +26,8 @@ import {
 } from '../../containers/MyNdla/folderMutations';
 import { GQLFolder, GQLFolderResource } from '../../graphqlTypes';
 import { getAllTags, getResourceForPath } from '../../util/folderHelpers';
-import NewFolder from './NewFolder';
 import { AuthContext } from '../AuthenticationContext';
+import FolderSelect from './FolderSelect';
 
 export interface ResourceAttributes {
   path: string;
@@ -47,19 +41,19 @@ interface Props {
   defaultOpenFolder?: GQLFolder;
 }
 
-const ButtonRow = styled.div`
+export const ButtonRow = styled.div`
   display: flex;
   justify-content: flex-end;
   gap: ${spacing.small};
 `;
 
-const AddResourceContainer = styled.div`
+export const AddResourceContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${spacing.normal};
 `;
 
-const ComboboxContainer = styled.div`
+export const ComboboxContainer = styled.div`
   display: flex;
   max-height: 320px;
   overflow: hidden;
@@ -72,18 +66,6 @@ const StyledResourceAddedSnack = styled.div`
 
 const StyledResource = styled.p`
   margin: 0;
-`;
-
-const StyledNewFolder = styled(NewFolder)`
-  border-left: ${spacing.xsmall} solid ${colors.brand.light};
-  border-right: ${spacing.xsmall} solid ${colors.brand.light};
-  &:focus-within {
-    border-color: ${colors.brand.light};
-  }
-  // Not good practice, but necessary to give error message same padding as caused by border.
-  & + span {
-    padding: 0 ${spacing.xsmall};
-  }
 `;
 
 interface ResourceAddedSnackProps {
@@ -170,22 +152,6 @@ const AddResourceToFolder = ({
     return !isEqual(sortedStored, sortedSelected);
   };
 
-  const structureFolders: GQLFolder[] = useMemo(
-    () => [
-      {
-        id: 'folders',
-        name: t('myNdla.myFolders'),
-        status: 'private',
-        subfolders: folders,
-        breadcrumbs: [],
-        resources: [],
-        created: '',
-        updated: '',
-      },
-    ],
-    [folders, t],
-  );
-
   const { updateFolderResource } = useUpdateFolderResourceMutation();
   const { addResourceToFolder, loading: addResourceLoading } =
     useAddResourceToFolderMutation(selectedFolder?.id ?? '');
@@ -224,25 +190,6 @@ const AddResourceToFolder = ({
     onClose();
   };
 
-  const defaultOpenFolders = useMemo(() => {
-    const firstFolderId = structureFolders?.[0]?.subfolders[0]?.id;
-    const defaultOpenFolderIds = defaultOpenFolder?.breadcrumbs.map(
-      (bc) => bc.id,
-    );
-    const defaultOpen = defaultOpenFolderIds
-      ? ['folders'].concat(defaultOpenFolderIds)
-      : firstFolderId
-      ? ['folders', firstFolderId]
-      : ['folders'];
-
-    const last = defaultOpen[defaultOpen.length - 1];
-    if (last !== 'folders' && !selectedFolderId) {
-      setSelectedFolderId(last);
-    }
-
-    return defaultOpen;
-  }, [structureFolders, defaultOpenFolder?.breadcrumbs, selectedFolderId]);
-
   const noFolderSelected = selectedFolderId === 'folders';
 
   return (
@@ -263,25 +210,14 @@ const AddResourceToFolder = ({
         <MessageBox>{t('myNdla.examLockInfo')}</MessageBox>
       ) : (
         <>
-          <ComboboxContainer>
-            <TreeStructure
-              loading={loading}
-              folders={structureFolders}
-              label={t('myNdla.myFolders')}
-              onSelectFolder={setSelectedFolderId}
-              defaultOpenFolders={defaultOpenFolders}
-              type={'picker'}
-              targetResource={storedResource}
-              newFolderInput={({ parentId, onClose, onCreate }) => (
-                <StyledNewFolder
-                  parentId={parentId}
-                  onClose={onClose}
-                  onCreate={onCreate}
-                />
-              )}
-              ariaDescribedby="treestructure-error-label"
-            />
-          </ComboboxContainer>
+          <FolderSelect
+            folders={folders}
+            loading={loading}
+            selectedFolderId={selectedFolderId}
+            setSelectedFolderId={setSelectedFolderId}
+            defaultOpenFolder={defaultOpenFolder}
+            storedResource={storedResource}
+          />
           <div id="treestructure-error-label" aria-live="assertive">
             {alreadyAdded && (
               <MessageBox>{t('myNdla.alreadyInFolder')}</MessageBox>
