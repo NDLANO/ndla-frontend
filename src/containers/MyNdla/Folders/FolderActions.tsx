@@ -16,7 +16,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { GQLFolder } from '../../../graphqlTypes';
 import { ViewType } from './FoldersPage';
 import { AuthContext } from '../../../components/AuthenticationContext';
-import { isStudent } from './util';
+import { copyFolderSharingLink, isStudent } from './util';
 import { MenuItemProps } from '../components/SettingsMenu';
 import FolderMenu from '../components/FolderMenu';
 import EditFolderModalContent from './EditFolderModalContent';
@@ -100,6 +100,7 @@ const FolderActions = ({
           type="shared"
           folder={selectedFolder}
           onClose={close}
+          onCopyText={() => copyFolderSharingLink(selectedFolder.id)}
           onUpdateStatus={async (close) => {
             close();
             unShareRef.current?.click();
