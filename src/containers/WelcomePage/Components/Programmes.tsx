@@ -9,7 +9,7 @@
 import { useMemo, useContext } from 'react';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
-import { spacing, fonts, breakpoints, mq } from '@ndla/core';
+import { spacing, fonts, breakpoints, mq, colors } from '@ndla/core';
 import {
   AccordionRoot,
   AccordionItem,
@@ -57,6 +57,7 @@ const StyledAccordionRoot = styled(AccordionRoot)`
 `;
 
 const StyledAccordionContent = styled(AccordionContent)`
+  background-color: ${colors.white};
   a {
     margin-top: ${spacing.normal};
   }
@@ -65,6 +66,7 @@ const StyledAccordionContent = styled(AccordionContent)`
 const StyledAccordionHeader = styled(AccordionHeader)`
   ${fonts.sizes('16px', '24px')};
   ${fonts.weight.semibold};
+  background-color: ${colors.white};
   :hover {
     text-decoration: none;
   }
