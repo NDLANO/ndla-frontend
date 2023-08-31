@@ -58,7 +58,7 @@ const NotionsContent = ({ embeds, relatedContent, metadata }: Props) => {
   return (
     <NotionsWrapper>
       {embeds.map((embed) => (
-        <ConceptEmbed key={embed.seq} embed={embed} />
+        <ConceptEmbed key={embed.embedData.contentId} embed={embed} />
       ))}
       {!!relatedContent?.length && (
         <>
