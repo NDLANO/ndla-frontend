@@ -79,8 +79,9 @@ const StyledMain = styled.main`
     max-width: ${WIDE_FRONTPAGE_ARTICLE_MAX_WIDTH};
     width: 100%;
   }
-  ${mq.range({ until: breakpoints.desktop })} {
-    padding: ${spacing.xsmall};
+  ${mq.range({ until: breakpoints.wide })} {
+    padding-left: ${spacing.normal};
+    padding-right: ${spacing.normal};
   }
 `;
 
