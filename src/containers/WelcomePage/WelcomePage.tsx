@@ -189,7 +189,8 @@ const WelcomePage = () => {
     const _article = fpQuery.data?.frontpage?.article;
     if (!_article) return [undefined, undefined];
     const transformedArticle = transformArticle(_article, i18n.language, {
-      path: `${config.ndlaFrontendDomain}/article/${_article.id}`,
+      path: `${config.ndlaFrontendDomain}/`,
+      frontendDomain: config.ndlaFrontendDomain,
     });
     return [
       {

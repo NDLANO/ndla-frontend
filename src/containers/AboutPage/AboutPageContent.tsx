@@ -134,7 +134,7 @@ const AboutPageContent = ({ article: _article, frontpage, t, i18n }: Props) => {
 
   const [article, scripts] = useMemo(() => {
     const transformedArticle = transformArticle(_article, i18n.language, {
-      path: `${config.ndlaFrontendDomain}/article/${_article.id}`,
+      path: `${config.ndlaFrontendDomain}/about/${_article.slug}`,
       components: converterComponents,
     });
     return [
