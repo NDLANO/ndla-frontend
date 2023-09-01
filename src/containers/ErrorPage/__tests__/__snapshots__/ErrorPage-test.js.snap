@@ -516,9 +516,6 @@ exports[`ErrorPage renderers correctly 1`] = `
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-flex-direction: row;
-  -ms-flex-direction: row;
-  flex-direction: row;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -527,82 +524,69 @@ exports[`ErrorPage renderers correctly 1`] = `
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
+  font-size: 16;
+  font-size: 0.8888888888888888rem;
+  line-height: 1.5;
   margin-bottom: 48px;
 }
 
-.emotion-77>span {
-  padding: 6px 0;
-  text-align: center;
+.emotion-77[lang='zh'],
+.emotion-77[lang='zh-Hans'],
+.emotion-77[lang='zh-Hant'] {
+  font-size: calc(16 * 1.11);
+  font-size: calc(0.8888888888888888rem * 1.11);
 }
 
-@media (max-width: 48em) {
+@media (max-width: 37.5625em) {
   .emotion-77 {
-    font-size: 16;
-    font-size: 0.8888888888888888rem;
-    line-height: 1.5;
-  }
-
-  .emotion-77[lang='zh'],
-  .emotion-77[lang='zh-Hans'],
-  .emotion-77[lang='zh-Hant'] {
-    font-size: calc(16 * 1.11);
-    font-size: calc(0.8888888888888888rem * 1.11);
-  }
-
-  .emotion-77>span {
-    padding: 0;
-  }
-}
-
-@media (max-width: 29.75em) {
-  .emotion-77 {
-    font-size: 14;
-    font-size: 0.7777777777777778rem;
-    line-height: 1.3;
     -webkit-flex-direction: column;
     -ms-flex-direction: column;
     flex-direction: column;
-  }
-
-  .emotion-77[lang='zh'],
-  .emotion-77[lang='zh-Hans'],
-  .emotion-77[lang='zh-Hant'] {
-    font-size: calc(14 * 1.11);
-    font-size: calc(0.7777777777777778rem * 1.11);
-  }
-
-  .emotion-77>span {
-    padding-bottom: 6px;
+    gap: 12px;
   }
 }
 
-.emotion-79 {
-  background: none;
-  color: #fff;
-  border: 0;
-  padding: 0;
-  box-shadow: inset 0 -1px;
-  cursor: pointer;
-}
-
-.emotion-79:hover,
-.emotion-79:focus {
-  box-shadow: none;
+@media (min-width: 37.5625em) {
+  .emotion-79 {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-align-self: flex-start;
+    -ms-flex-item-align: flex-start;
+    align-self: flex-start;
+    text-align: center;
+  }
 }
 
 .emotion-81 {
-  margin-left: 4px;
-  margin-right: 4px;
-  margin-bottom: 48px;
+  color: #fff;
+  box-shadow: none;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
 }
 
-@media (max-width: 29.75em) {
-  .emotion-81 {
-    visibility: hidden;
+.emotion-81:hover,
+.emotion-81:focus {
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.emotion-85 {
+  margin: 0 12px;
+}
+
+@media (max-width: 37.5625em) {
+  .emotion-85 {
+    display: none;
   }
 }
 
-.emotion-89 {
+.emotion-95 {
   display: block;
   position: absolute;
   top: 0;
@@ -612,11 +596,11 @@ exports[`ErrorPage renderers correctly 1`] = `
   background: linear-gradient(96deg, rgba(0, 117, 160, 1) 0%, rgba(32, 88, 143, 0) 100%);
 }
 
-.emotion-91 {
+.emotion-97 {
   z-index: 10;
 }
 
-.emotion-92 {
+.emotion-98 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -657,34 +641,34 @@ exports[`ErrorPage renderers correctly 1`] = `
   margin-top: 24px;
 }
 
-.emotion-92:hover,
-.emotion-92:focus-visible {
+.emotion-98:hover,
+.emotion-98:focus-visible {
   color: #20588f;
   background-color: #ceddea;
   border-color: #ceddea;
 }
 
-.emotion-92[disabled] {
+.emotion-98[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-92[lang='zh'],
-.emotion-92[lang='zh-Hans'],
-.emotion-92[lang='zh-Hant'] {
+.emotion-98[lang='zh'],
+.emotion-98[lang='zh-Hans'],
+.emotion-98[lang='zh-Hant'] {
   font-size: calc(16px * 1.11);
   font-size: calc(0.8888888888888888rem * 1.11);
 }
 
-.emotion-92:hover {
+.emotion-98:hover {
   color: #fff;
   background: #20588f;
   border-color: #20588f;
 }
 
-.emotion-92[disabled] {
+.emotion-98[disabled] {
   color: #777777;
   background-color: transparent;
   border-color: #777777;
@@ -692,7 +676,7 @@ exports[`ErrorPage renderers correctly 1`] = `
 }
 
 @media (min-width: 61.3125em) {
-  .emotion-92 {
+  .emotion-98 {
     position: fixed;
     right: 2rem;
     bottom: 2rem;
@@ -1272,37 +1256,43 @@ exports[`ErrorPage renderers correctly 1`] = `
           <div
             class="emotion-77 emotion-78"
           >
-            <div>
+            <div
+              class="emotion-79 emotion-80"
+            >
               <a
-                class="emotion-79 emotion-80"
+                class="emotion-81 emotion-82"
                 href="https://om.ndla.no/gdpr"
               >
                 Personvernerklæring
               </a>
             </div>
-            <div>
+            <div
+              class="emotion-79 emotion-80"
+            >
               <span
                 aria-hidden="true"
-                class="emotion-81 emotion-82"
+                class="emotion-85 emotion-86"
               >
                 |
               </span>
               <a
-                class="emotion-79 emotion-80"
+                class="emotion-81 emotion-82"
                 href="https://om.ndla.no/cookies"
               >
                 Erklæring om informasjonskapsler
               </a>
             </div>
-            <div>
+            <div
+              class="emotion-79 emotion-80"
+            >
               <span
                 aria-hidden="true"
-                class="emotion-81 emotion-82"
+                class="emotion-85 emotion-86"
               >
                 |
               </span>
               <a
-                class="emotion-79 emotion-80"
+                class="emotion-81 emotion-82"
                 href="https://uustatus.no/nn/erklaringer/publisert/8cefdf3d-3272-402a-907b-689ddfc9bba7"
               >
                 Tilgjengelighetserklæring
@@ -1311,15 +1301,15 @@ exports[`ErrorPage renderers correctly 1`] = `
           </div>
         </div>
         <div
-          class="emotion-89 emotion-90"
+          class="emotion-95 emotion-96"
         />
       </div>
     </footer>
     <div
-      class="emotion-91"
+      class="emotion-97"
     >
       <button
-        class="emotion-92"
+        class="emotion-98"
         id="zendeskButton"
         type="button"
       >
