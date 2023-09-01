@@ -317,7 +317,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   font-size: calc(0.8888888888888888rem * 1.11);
 }
 
-.emotion-18[data-background-color='white'] {
+.emotion-18[data-background-color='white'][data-state='closed'] {
   background-color: #ffffff;
 }
 
