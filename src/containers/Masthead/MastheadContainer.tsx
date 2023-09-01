@@ -89,7 +89,7 @@ const MastheadContainer = () => {
     skip: !subjectId,
   });
 
-  const data = freshData ?? previousData;
+  const data = subjectId ? freshData ?? previousData : undefined;
 
   const alerts = openAlerts?.map((alert) => ({
     content: alert.body || alert.title,
