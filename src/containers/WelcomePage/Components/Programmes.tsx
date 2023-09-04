@@ -96,6 +96,12 @@ const StyledLi = styled.li`
   list-style: none;
   margin: unset;
   line-height: unset;
+  &[data-mobile='false'] {
+    min-height: 350px;
+    min-width: 250px;
+    max-height: 350px;
+    width: 250px;
+  }
 `;
 interface Props {
   programmes: ProgrammeV2[];
@@ -147,7 +153,7 @@ const Programmes = ({ programmes, loading }: Props) => {
 
   const programmeCards = useMemo(() => {
     return programmes.map((programme) => (
-      <StyledLi key={programme.id}>
+      <StyledLi key={programme.id} data-mobile={isMobile}>
         <ProgrammeCard
           id={programme.id}
           title={programme.title}
