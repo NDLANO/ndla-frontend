@@ -56,15 +56,12 @@ const PlainLearningpathContainer = ({
       const learningstep = stepId
         ? learningpath.learningsteps?.find((step) => `${step.id}` === stepId)
         : learningpath.learningsteps?.[0];
-      const dims = getAllDimensions(
+      const dimensions = getAllDimensions(
         { learningpath, user, learningstep },
         undefined,
         true,
       );
-      trackPageView({
-        dimensions: dims.gtm,
-        title: getDocumentTitle(learningpath, t),
-      });
+      trackPageView({ dimensions, title: getDocumentTitle(learningpath, t) });
     }
   }, [learningpath, stepId, t, trackPageView, user]);
 

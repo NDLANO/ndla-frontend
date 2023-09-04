@@ -55,17 +55,14 @@ const ToolboxTopicWrapper = ({
       const topicPath = topicList.map(
         (t) => subject.allTopics?.find((topic) => topic.id === t),
       );
-      const dims = getAllDimensions({
+      const dimensions = getAllDimensions({
         subject,
         topicPath,
         filter: subject.name,
         article: topic.article,
         user,
       });
-      trackPageView({
-        dimensions: dims.gtm,
-        title: getDocumentTitle(topic.name, t),
-      });
+      trackPageView({ dimensions, title: getDocumentTitle(topic.name, t) });
     }
   }, [index, subject, t, topic, topicList, trackPageView, user]);
 

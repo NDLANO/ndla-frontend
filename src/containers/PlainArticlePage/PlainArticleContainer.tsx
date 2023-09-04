@@ -59,13 +59,13 @@ const PlainArticleContainer = ({
 
   useEffect(() => {
     if (!propArticle) return;
-    const dims = getAllDimensions(
+    const dimensions = getAllDimensions(
       { article: propArticle, user },
       undefined,
       true,
     );
     trackPageView({
-      dimensions: dims.gtm,
+      dimensions,
       title: getDocumentTitle(t, propArticle.title),
     });
   }, [propArticle, t, trackPageView, user]);

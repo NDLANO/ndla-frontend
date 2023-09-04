@@ -102,14 +102,14 @@ const ToolboxSubjectContainer = ({ topicList, subject, user }: Props) => {
       const topicPath = topicList.map(
         (id) => subject.allTopics?.find((t) => t.id === id),
       );
-      const dims = getAllDimensions({
+      const dimensions = getAllDimensions({
         subject,
         topicPath,
         filter: subject.name,
         user,
       });
       trackPageView({
-        dimensions: dims.gtm,
+        dimensions,
         title: getSocialMediaMetaData({ topicList, subject, t }).title,
       });
     }

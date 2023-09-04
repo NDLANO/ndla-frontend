@@ -54,9 +54,13 @@ export const IframeTopicPage = ({
 
   useEffect(() => {
     if (!propArticle?.id) return;
-    const dims = getAllDimensions({ article: propArticle }, undefined, true);
+    const dimensions = getAllDimensions(
+      { article: propArticle },
+      undefined,
+      true,
+    );
     trackPageView({
-      dimensions: dims.gtm,
+      dimensions,
       title: getDocumentTitle({ article: propArticle }),
     });
   }, [propArticle, trackPageView]);

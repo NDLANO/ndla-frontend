@@ -70,7 +70,7 @@ const MultidisciplinaryTopic = ({
             (topic) => topic.id.replace('urn:', '') === t,
           ),
       );
-    const dims = getAllDimensions(
+    const dimensions = getAllDimensions(
       {
         subject,
         topicPath,
@@ -82,10 +82,7 @@ const MultidisciplinaryTopic = ({
       true,
     );
 
-    trackPageView({
-      dimensions: dims.gtm,
-      title: getDocumentTitle(topic.name, t),
-    });
+    trackPageView({ dimensions, title: getDocumentTitle(topic.name, t) });
   }, [subject, t, topic.article, topic.name, topic.path, trackPageView, user]);
 
   const markdown = useMemo(() => {

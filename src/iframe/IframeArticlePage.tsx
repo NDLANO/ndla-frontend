@@ -53,13 +53,13 @@ const IframeArticlePage = ({
   useEffect(() => {
     if (propArticle?.id) {
       const articleProps = getArticleProps(resource?.id ? resource : undefined);
-      const dims = getAllDimensions(
+      const dimensions = getAllDimensions(
         { article: propArticle },
         articleProps.label,
         true,
       );
       trackPageView({
-        dimensions: dims.gtm,
+        dimensions,
         title: propArticle?.id ? `NDLA | ${propArticle.title}` : '',
       });
     }

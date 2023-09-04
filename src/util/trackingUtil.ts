@@ -33,77 +33,31 @@ type DimensionKeys =
 type DimensionType = Record<DimensionKeys, string | number | undefined>;
 
 export const getDimensionsCodes = {
-  '3': {
-    ga: 'dimension3',
-    gtm: 'CustDimOverordnet',
-  },
-  '4': {
-    ga: 'dimension4',
-    gtm: 'CustDimInnholdstype',
-  },
-  '5': {
-    ga: 'dimension5',
-    gtm: 'CustDimFag',
-  },
-  '6': {
-    ga: 'dimension6',
-    gtm: 'CustDimHovedemne',
-  },
-  '7': {
-    ga: 'dimension7',
-    gtm: 'CustDimEmne',
-  },
-  '8': {
-    ga: 'dimension8',
-    gtm: 'CustDimFagartikkel',
-  },
-  '9': {
-    ga: 'dimension9',
-    gtm: 'CustDimForfatter',
-  },
-  '10': {
-    ga: 'dimension10',
-    gtm: 'CustDimKjerneelement',
-  },
-  '13': {
-    ga: 'dimension13',
-    gtm: 'CustDimStiLengde',
-  },
-  '14': {
-    ga: 'dimension14',
-    gtm: 'CustDimStiSteg',
-  },
-  '16': {
-    ga: 'dimension16',
-    gtm: 'CustDimFylke',
-  },
-  '17': {
-    ga: 'dimension17',
-    gtm: 'CustDimSkule',
-  },
-  '18': {
-    ga: 'dimension18',
-    gtm: 'CustDimRolle',
-  },
-  '19': {
-    ga: 'dimension19',
-    gtm: 'CustDimFilter',
-  },
-  '20': {
-    ga: 'dimension20',
-    gtm: 'CustDimKompetansemaal',
-  },
+  '3': 'CustDimOverordnet',
+  '4': 'CustDimInnholdstype',
+  '5': 'CustDimFag',
+  '6': 'CustDimHovedemne',
+  '7': 'CustDimEmne',
+  '8': 'CustDimFagartikkel',
+  '9': 'CustDimForfatter',
+  '10': 'CustDimKjerneelement',
+  '13': 'CustDimStiLengde',
+  '14': 'CustDimStiSteg',
+  '16': 'CustDimFylke',
+  '17': 'CustDimSkule',
+  '18': 'CustDimRolle',
+  '19': 'CustDimFilter',
+  '20': 'CustDimKompetansemaal',
 };
 
 export const convertToGaOrGtmDimension = (
   dimensions: DimensionType,
-  type: 'ga' | 'gtm',
 ): Record<string | number, any> => {
   return Object.keys(dimensions).reduce((prev, curr) => {
     const key = curr as DimensionKeys;
     return {
       ...prev,
-      [getDimensionsCodes[key][type]]: dimensions[key],
+      [getDimensionsCodes[key]]: dimensions[key],
     };
   }, {});
 };
@@ -166,8 +120,5 @@ export const getAllDimensions = (
     '20': getGrepCodeOfType('KM', article?.grepCodes),
   };
 
-  return {
-    ga: convertToGaOrGtmDimension(dimensions, 'ga'),
-    gtm: convertToGaOrGtmDimension(dimensions, 'gtm'),
-  };
+  return convertToGaOrGtmDimension(dimensions);
 };

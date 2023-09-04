@@ -70,7 +70,7 @@ const MultidisciplinarySubjectArticle = ({
       .map(
         (id) => subject.allTopics?.find((t) => t.id.replace('urn:', '') === id),
       );
-    const dims = getAllDimensions(
+    const dimensions = getAllDimensions(
       {
         subject,
         topicPath,
@@ -82,7 +82,7 @@ const MultidisciplinarySubjectArticle = ({
       true,
     );
     trackPageView({
-      dimensions: dims.gtm,
+      dimensions,
       title: htmlTitle(topic.name || '', [t('htmlTitles.titleTemplate')]),
     });
   }, [subject, t, topic.article, topic.name, topic.path, trackPageView, user]);

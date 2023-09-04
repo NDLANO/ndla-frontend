@@ -129,7 +129,7 @@ const ProgrammeContainer = ({ programme, grade, user }: Props) => {
       false,
     );
     trackPageView({
-      dimensions: dimensions.gtm,
+      dimensions,
       title: getDocumentTitle(programme.title.title, grade, t),
     });
   }, [grade, programme.title.title, t, trackPageView, user]);

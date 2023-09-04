@@ -79,7 +79,7 @@ const ArticlePage = ({
   useEffect(() => {
     if (!loading) {
       const articleProps = getArticleProps(resource);
-      const dims = getAllDimensions(
+      const dimensions = getAllDimensions(
         {
           article: resource?.article,
           subject,
@@ -91,7 +91,7 @@ const ArticlePage = ({
         true,
       );
       trackPageView({
-        dimensions: dims.gtm,
+        dimensions,
         title: getDocumentTitle(t, resource, subject),
       });
     }

@@ -98,14 +98,14 @@ const SubjectContainer = ({ topicIds, subject, loading, user }: Props) => {
       const topicPath = topicIds.map(
         (id) => subject.allTopics?.find((t) => t.id === id),
       );
-      const dims = getAllDimensions({
+      const dimensions = getAllDimensions({
         subject,
         topicPath,
         filter: subject.name,
         user,
       });
       trackPageView({
-        dimensions: dims.gtm,
+        dimensions,
         title: htmlTitle(subject.name, [t('htmlTitles.titleTemplate')]),
       });
     }

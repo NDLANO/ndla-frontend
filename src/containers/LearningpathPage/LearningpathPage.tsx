@@ -78,7 +78,7 @@ const LearningpathPage = ({
       (ls) => `${ls.id}` === stepId,
     );
     const learningstep = currentStep || firstStep;
-    const dims = getAllDimensions(
+    const dimensions = getAllDimensions(
       {
         subject,
         relevance,
@@ -91,10 +91,7 @@ const LearningpathPage = ({
       articleProps.label,
       false,
     );
-    trackPageView({
-      dimensions: dims.gtm,
-      title: getDocumentTitle(t, data, stepId),
-    });
+    trackPageView({ dimensions, title: getDocumentTitle(t, data, stepId) });
   }, [data, loading, stepId, t, trackPageView, user]);
 
   const onKeyUpEvent = (evt: KeyboardEvent) => {

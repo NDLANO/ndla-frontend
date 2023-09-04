@@ -52,14 +52,14 @@ const SharedArticleContainer = ({ article: propArticle, meta }: Props) => {
 
   useEffect(() => {
     if (propArticle) {
-      const dims = getAllDimensions(
+      const dimensions = getAllDimensions(
         { article: propArticle },
         meta?.resourceTypes &&
           getContentTypeFromResourceTypes(meta.resourceTypes)?.label,
         true,
       );
       trackPageView({
-        dimensions: dims.gtm,
+        dimensions,
         title: getDocumentTitle(propArticle.title, t),
       });
     }

@@ -56,13 +56,13 @@ const OldProgrammeContainer = ({
 
   useEffect(() => {
     const subjectName = `${programme.name[locale]} - ${grade}`;
-    const dims = getAllDimensions(
+    const dimensions = getAllDimensions(
       { subject: { name: subjectName }, user },
       undefined,
       false,
     );
     trackPageView({
-      dimensions: dims.gtm,
+      dimensions,
       title: getDocumentTitle({ programme, grade, locale, t }),
     });
   }, [grade, locale, programme, t, trackPageView, user]);

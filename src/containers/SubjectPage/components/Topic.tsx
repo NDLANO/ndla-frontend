@@ -87,7 +87,7 @@ const Topic = ({
               (topic) => topic.id.replace('urn:', '') === t,
             ),
         );
-      const dims = getAllDimensions(
+      const dimensions = getAllDimensions(
         {
           subject,
           topicPath,
@@ -98,10 +98,7 @@ const Topic = ({
         undefined,
         true,
       );
-      trackPageView({
-        dimensions: dims.gtm,
-        title: getDocumentTitle({ t, topic }),
-      });
+      trackPageView({ dimensions, title: getDocumentTitle({ t, topic }) });
     }
   }, [loading, showResources, subject, t, topic, trackPageView, user]);
 
