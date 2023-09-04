@@ -87,6 +87,7 @@ const StyledMain = styled.main`
 
 const ProgrammeWrapper = styled.div`
   max-width: ${WIDE_FRONTPAGE_ARTICLE_MAX_WIDTH};
+  width: 100%;
 `;
 
 export const programmeFragment = gql`
