@@ -6,10 +6,11 @@
  *
  */
 
-import { withTracker } from '@ndla/tracker';
+import { useTracker } from '@ndla/tracker';
 import { FeideUserApiType, Programme } from '@ndla/ui';
 import { Helmet } from 'react-helmet-async';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { TFunction, useTranslation } from 'react-i18next';
+import { useEffect } from 'react';
 import { SKIP_TO_CONTENT_ID } from '../../constants';
 import { LocaleType, ProgrammeType } from '../../interfaces';
 import { htmlTitle } from '../../util/titleHelper';
@@ -23,13 +24,13 @@ const getDocumentTitle = ({
   grade,
   locale,
   t,
-}: Pick<Props, 'programme' | 'grade' | 'locale' | 't'>) => {
+}: Pick<Props, 'programme' | 'grade' | 'locale'> & { t: TFunction }) => {
   return htmlTitle(`${programme.name[locale]} - ${grade}`, [
     t('htmlTitles.titleTemplate'),
   ]);
 };
 
-interface Props extends WithTranslation {
+interface Props {
   locale: LocaleType;
   user?: FeideUserApiType;
   subjects?: GQLSubjectInfoFragment[];
@@ -42,14 +43,30 @@ const OldProgrammeContainer = ({
   subjects,
   locale,
   grade,
-  t,
+  user,
 }: Props) => {
+  const { t } = useTranslation();
+  const { trackPageView } = useTracker();
   const heading = programme.name[locale];
   const grades = mapGradesData(programme.grades, subjects || [], locale);
   const socialMediaTitle = `${programme.name[locale]} - ${grade}`;
   const metaDescription = programme.meta?.description?.[locale];
   const image = programme.image?.url || '';
   const pageTitle = getDocumentTitle({ programme, grade, locale, t });
+
+  useEffect(() => {
+    const subjectName = `${programme.name[locale]} - ${grade}`;
+    const dims = getAllDimensions(
+      { subject: { name: subjectName }, user },
+      undefined,
+      false,
+    );
+    trackPageView({
+      dimensions: dims.gtm,
+      title: getDocumentTitle({ programme, grade, locale, t }),
+    });
+  }, [grade, locale, programme, t, trackPageView, user]);
+
   return (
     <>
       <Helmet>
@@ -73,16 +90,4 @@ const OldProgrammeContainer = ({
   );
 };
 
-OldProgrammeContainer.getDocumentTitle = getDocumentTitle;
-
-OldProgrammeContainer.getDimensions = (props: Props) => {
-  const { programme, grade, locale, user } = props;
-  const subjectName = `${programme.name[locale]} - ${grade}`;
-  return getAllDimensions(
-    { subject: { name: subjectName }, user },
-    undefined,
-    false,
-  );
-};
-
-export default withTranslation()(withTracker(OldProgrammeContainer));
+export default OldProgrammeContainer;

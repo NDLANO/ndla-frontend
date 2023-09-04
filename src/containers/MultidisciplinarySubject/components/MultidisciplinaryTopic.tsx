@@ -6,11 +6,11 @@
  *
  */
 import { gql } from '@apollo/client';
-import { withTracker } from '@ndla/tracker';
+import { useTracker } from '@ndla/tracker';
 import { FeideUserApiType, Topic as UITopic } from '@ndla/ui';
 import { useEffect, useMemo, useState } from 'react';
 import { Remarkable } from 'remarkable';
-import { CustomWithTranslation, withTranslation } from 'react-i18next';
+import { TFunction, useTranslation } from 'react-i18next';
 
 import { extractEmbedMeta } from '@ndla/article-converter';
 import ArticleContents from '../../../components/Article/ArticleContents';
@@ -25,7 +25,7 @@ import Resources from '../../Resources/Resources';
 import { SKIP_TO_CONTENT_ID } from '../../../constants';
 import TopicVisualElementContent from '../../SubjectPage/components/TopicVisualElementContent';
 
-interface Props extends CustomWithTranslation {
+interface Props {
   topicId: string;
   subjectId: string;
   subTopicId?: string;
@@ -36,8 +36,8 @@ interface Props extends CustomWithTranslation {
   user?: FeideUserApiType;
 }
 
-const getDocumentTitle = ({ t, topic }: Props) => {
-  return htmlTitle(topic.name, [t('htmlTitles.titleTemplate')]);
+const getDocumentTitle = (name: string, t: TFunction) => {
+  return htmlTitle(name, [t('htmlTitles.titleTemplate')]);
 };
 
 const MultidisciplinaryTopic = ({
@@ -45,8 +45,12 @@ const MultidisciplinaryTopic = ({
   subjectId,
   subTopicId,
   topic,
+  subject,
   disableNav,
+  user,
 }: Props) => {
+  const { t } = useTranslation();
+  const { trackPageView } = useTracker();
   const [showContent, setShowContent] = useState(false);
   const ndlaFilm = useIsNdlaFilm();
   const { topicList } = useUrnIds();
@@ -54,6 +58,35 @@ const MultidisciplinaryTopic = ({
   useEffect(() => {
     setShowContent(false);
   }, [topicId]);
+
+  useEffect(() => {
+    if (!topic?.article) return;
+    const topicPath = topic.path
+      ?.split('/')
+      .slice(2)
+      .map(
+        (t) =>
+          subject.allTopics?.find(
+            (topic) => topic.id.replace('urn:', '') === t,
+          ),
+      );
+    const dims = getAllDimensions(
+      {
+        subject,
+        topicPath,
+        article: topic.article,
+        filter: subject.name,
+        user,
+      },
+      undefined,
+      true,
+    );
+
+    trackPageView({
+      dimensions: dims.gtm,
+      title: getDocumentTitle(topic.name, t),
+    });
+  }, [subject, t, topic.article, topic.name, topic.path, trackPageView, user]);
 
   const markdown = useMemo(() => {
     const md = new Remarkable({ breaks: true });
@@ -170,39 +203,4 @@ export const multidisciplinaryTopicFragments = {
   `,
 };
 
-MultidisciplinaryTopic.getDocumentTitle = getDocumentTitle;
-
-MultidisciplinaryTopic.willTrackPageView = (
-  trackPageView: (item: Props) => void,
-  currentProps: Props,
-) => {
-  const { topic } = currentProps;
-  if (topic.article) {
-    trackPageView(currentProps);
-  }
-};
-
-MultidisciplinaryTopic.getDimensions = (props: Props) => {
-  const { topic, subject, user } = props;
-  const topicPath = topic.path
-    ?.split('/')
-    .slice(2)
-    .map(
-      (t) =>
-        subject.allTopics?.find((topic) => topic.id.replace('urn:', '') === t),
-    );
-
-  return getAllDimensions(
-    {
-      subject,
-      topicPath,
-      article: topic.article,
-      filter: subject.name,
-      user,
-    },
-    undefined,
-    true,
-  );
-};
-
-export default withTranslation()(withTracker(MultidisciplinaryTopic));
+export default MultidisciplinaryTopic;

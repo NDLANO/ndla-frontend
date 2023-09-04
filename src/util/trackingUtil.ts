@@ -98,7 +98,7 @@ export const getDimensionsCodes = {
 export const convertToGaOrGtmDimension = (
   dimensions: DimensionType,
   type: 'ga' | 'gtm',
-) => {
+): Record<string | number, any> => {
   return Object.keys(dimensions).reduce((prev, curr) => {
     const key = curr as DimensionKeys;
     return {

@@ -7,16 +7,12 @@
  */
 
 import { gql } from '@apollo/client';
-import { useRef, useMemo } from 'react';
+import { useRef, useMemo, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { FeideUserApiType, OneColumn, SimpleBreadcrumbItem } from '@ndla/ui';
-import { withTracker } from '@ndla/tracker';
+import { useTracker } from '@ndla/tracker';
 import { DynamicComponents } from '@ndla/article-converter';
-import {
-  CustomWithTranslation,
-  useTranslation,
-  withTranslation,
-} from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import { htmlTitle } from '../../../util/titleHelper';
 import Article from '../../../components/Article';
@@ -40,7 +36,7 @@ const filterCodes: Record<string, 'publicHealth' | 'democracy' | 'climate'> = {
   TT3: 'climate',
 };
 
-interface Props extends CustomWithTranslation {
+interface Props {
   topic: GQLMultidisciplinarySubjectArticle_TopicFragment;
   subject: GQLMultidisciplinarySubjectArticle_SubjectFragment;
   resourceTypes?: GQLMultidisciplinarySubjectArticle_ResourceTypeDefinitionFragment[];
@@ -54,16 +50,42 @@ const converterComponents: DynamicComponents | undefined =
 const MultidisciplinarySubjectArticle = ({
   topic,
   subject,
-  i18n,
   resourceTypes,
   skipToContentId,
+  user,
 }: Props) => {
+  const { t, i18n } = useTranslation();
+  const { trackPageView } = useTracker();
   const resourcesRef = useRef(null);
-  const { t } = useTranslation();
   const topicCrumbs = useMemo(
     () => getTopicPath(subject.id, topic.id, subject.allTopics),
     [subject.allTopics, subject.id, topic.id],
   );
+
+  useEffect(() => {
+    if (!topic?.article) return;
+    const topicPath = topic.path
+      ?.split('/')
+      .slice(2)
+      .map(
+        (id) => subject.allTopics?.find((t) => t.id.replace('urn:', '') === id),
+      );
+    const dims = getAllDimensions(
+      {
+        subject,
+        topicPath,
+        article: topic.article,
+        filter: subject.name,
+        user,
+      },
+      undefined,
+      true,
+    );
+    trackPageView({
+      dimensions: dims.gtm,
+      title: htmlTitle(topic.name || '', [t('htmlTitles.titleTemplate')]),
+    });
+  }, [subject, t, topic.article, topic.name, topic.path, trackPageView, user]);
 
   const breadCrumbs: SimpleBreadcrumbItem[] = useMemo(
     () =>
@@ -204,41 +226,4 @@ export const multidisciplinarySubjectArticleFragments = {
   `,
 };
 
-MultidisciplinarySubjectArticle.getDocumentTitle = ({ t, topic }: Props) => {
-  return htmlTitle(topic.name || '', [t('htmlTitles.titleTemplate')]);
-};
-
-MultidisciplinarySubjectArticle.willTrackPageView = (
-  trackPageView: (item: Props) => void,
-  currentProps: Props,
-) => {
-  const { topic } = currentProps;
-  if (topic?.article) {
-    trackPageView(currentProps);
-  }
-};
-
-MultidisciplinarySubjectArticle.getDimensions = (props: Props) => {
-  const { topic, subject, user } = props;
-  const topicPath = topic.path
-    ?.split('/')
-    .slice(2)
-    .map(
-      (t) =>
-        subject.allTopics?.find((topic) => topic.id.replace('urn:', '') === t),
-    );
-
-  return getAllDimensions(
-    {
-      subject,
-      topicPath,
-      article: topic?.article,
-      filter: subject.name,
-      user,
-    },
-    undefined,
-    true,
-  );
-};
-
-export default withTranslation()(withTracker(MultidisciplinarySubjectArticle));
+export default MultidisciplinarySubjectArticle;

@@ -6,12 +6,12 @@
  *
  */
 
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { gql } from '@apollo/client';
 import { Helmet } from 'react-helmet-async';
-import { withTracker } from '@ndla/tracker';
+import { useTracker } from '@ndla/tracker';
 import { OneColumn, CreatedBy, constants } from '@ndla/ui';
-import { CustomWithTranslation, withTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { transformArticle } from '../util/transformArticle';
 import Article from '../components/Article';
 import { getArticleScripts } from '../util/getArticleScripts';
@@ -26,8 +26,9 @@ import {
   GQLIframeTopicPage_TopicFragment,
 } from '../graphqlTypes';
 import { LocaleType } from '../interfaces';
+import { getAllDimensions } from '../util/trackingUtil';
 
-interface Props extends CustomWithTranslation {
+interface Props {
   locale?: LocaleType;
   article: GQLIframeTopicPage_ArticleFragment;
   topic?: GQLIframeTopicPage_TopicFragment;
@@ -45,11 +46,20 @@ const getDocumentTitle = ({ article }: Pick<Props, 'article'>) => {
 export const IframeTopicPage = ({
   article: propArticle,
   topic,
-  t,
-  i18n,
   locale: localeProp,
 }: Props) => {
+  const { t, i18n } = useTranslation();
+  const { trackPageView } = useTracker();
   const locale = localeProp ?? i18n.language;
+
+  useEffect(() => {
+    if (!propArticle?.id) return;
+    const dims = getAllDimensions({ article: propArticle }, undefined, true);
+    trackPageView({
+      dimensions: dims.gtm,
+      title: getDocumentTitle({ article: propArticle }),
+    });
+  }, [propArticle, trackPageView]);
 
   const [article, scripts] = useMemo(() => {
     return [
@@ -133,16 +143,4 @@ export const iframeTopicPageFragments = {
   `,
 };
 
-IframeTopicPage.getDocumentTitle = getDocumentTitle;
-
-IframeTopicPage.willTrackPageView = (
-  trackPageView: (currentProps: Props) => void,
-  currentProps: Props,
-) => {
-  const { article } = currentProps;
-  if (article?.id) {
-    trackPageView(currentProps);
-  }
-};
-
-export default withTranslation()(withTracker(IframeTopicPage));
+export default IframeTopicPage;

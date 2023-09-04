@@ -9,13 +9,9 @@
 import { gql } from '@apollo/client';
 import { useEffect, useMemo, useState } from 'react';
 import { Remarkable } from 'remarkable';
-import {
-  CustomWithTranslation,
-  TFunction,
-  withTranslation,
-} from 'react-i18next';
+import { TFunction, useTranslation } from 'react-i18next';
 import { FeideUserApiType, Topic as UITopic } from '@ndla/ui';
-import { withTracker } from '@ndla/tracker';
+import { useTracker } from '@ndla/tracker';
 import { extractEmbedMeta } from '@ndla/article-converter';
 import {
   RELEVANCE_SUPPLEMENTARY,
@@ -54,7 +50,7 @@ type Props = {
   topic: GQLTopic_TopicFragment;
   resourceTypes?: GQLTopic_ResourceTypeDefinitionFragment[];
   user?: FeideUserApiType;
-} & CustomWithTranslation;
+};
 
 const Topic = ({
   topicId,
@@ -62,8 +58,14 @@ const Topic = ({
   subTopicId,
   topic,
   resourceTypes,
+  showResources,
+  loading,
+  subject,
+  user,
 }: Props) => {
+  const { t } = useTranslation();
   const { topicId: urnTopicId } = useUrnIds();
+  const { trackPageView } = useTracker();
   const [showContent, setShowContent] = useState(false);
   const markdown = useMemo(() => {
     const md = new Remarkable({ breaks: true });
@@ -73,6 +75,35 @@ const Topic = ({
   }, []);
   const ndlaFilm = useIsNdlaFilm();
   const renderMarkdown = (text: string) => markdown.render(text);
+
+  useEffect(() => {
+    if (showResources && !loading && topic.article) {
+      const topicPath = topic?.path
+        ?.split('/')
+        .slice(2)
+        .map(
+          (t) =>
+            subject?.allTopics?.find(
+              (topic) => topic.id.replace('urn:', '') === t,
+            ),
+        );
+      const dims = getAllDimensions(
+        {
+          subject,
+          topicPath,
+          article: topic.article,
+          filter: subject?.name,
+          user,
+        },
+        undefined,
+        true,
+      );
+      trackPageView({
+        dimensions: dims.gtm,
+        title: getDocumentTitle({ t, topic }),
+      });
+    }
+  }, [loading, showResources, subject, t, topic, trackPageView, user]);
 
   const embedMeta = useMemo(() => {
     if (!topic.article?.visualElementEmbed?.content) return undefined;
@@ -162,40 +193,6 @@ const Topic = ({
   );
 };
 
-Topic.getDocumentTitle = getDocumentTitle;
-
-Topic.willTrackPageView = (
-  trackPageView: (item: Props) => void,
-  currentProps: Props,
-) => {
-  const { topic, loading, showResources } = currentProps;
-  if (showResources && !loading && topic?.article) {
-    trackPageView(currentProps);
-  }
-};
-
-Topic.getDimensions = ({ topic, subject, user }: Props) => {
-  const topicPath = topic?.path
-    ?.split('/')
-    .slice(2)
-    .map(
-      (t) =>
-        subject?.allTopics?.find((topic) => topic.id.replace('urn:', '') === t),
-    );
-
-  return getAllDimensions(
-    {
-      subject: subject,
-      topicPath,
-      article: topic.article,
-      filter: subject?.name,
-      user,
-    },
-    undefined,
-    true,
-  );
-};
-
 export const topicFragments = {
   subject: gql`
     fragment Topic_Subject on Subject {
@@ -245,4 +242,4 @@ export const topicFragments = {
   `,
 };
 
-export default withTranslation()(withTracker(Topic));
+export default Topic;
