@@ -100,6 +100,7 @@ const DraggableResource = ({
         icon: <FolderOutlined />,
         text: t('myNdla.resource.add'),
         isModal: true,
+        modality: false,
         modalContent: (close) => (
           <AddResourceToFolderModalContent
             close={close}
