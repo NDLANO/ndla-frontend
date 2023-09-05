@@ -111,7 +111,7 @@ const getBreadcrumb = (
     },
   ].concat(
     crumbs.map((crumb) => ({
-      name: crumb.article.title,
+      name: crumb.article.title.title,
       to: toAbout(crumb.article.slug),
     })),
   );
@@ -175,7 +175,7 @@ const AboutPageContent = ({ article: _article, frontpage, t, i18n }: Props) => {
             rel="alternate"
             type="application/json+oembed"
             href={oembedUrl}
-            title={article.title}
+            title={article.title.title}
           />
           <script type="application/ld+json">
             {JSON.stringify(
@@ -184,7 +184,7 @@ const AboutPageContent = ({ article: _article, frontpage, t, i18n }: Props) => {
           </script>
         </Helmet>
         <SocialMediaMetadata
-          title={article.title}
+          title={article.title.title}
           description={article.metaDescription}
           imageUrl={article.metaImage?.url}
           trackableContent={article}
@@ -225,7 +225,10 @@ export const aboutPageFragments = {
   article: gql`
     fragment AboutPage_Article on Article {
       id
-      content
+      content {
+        content
+        language
+      }
       introduction
       created
       updated

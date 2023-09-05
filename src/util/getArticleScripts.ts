@@ -27,7 +27,7 @@ export function getArticleScripts(
     })) || [];
   if (
     article &&
-    article.content.indexOf('<math') > -1 &&
+    article.content.content.indexOf('<math') > -1 &&
     process.env.BUILD_TARGET === 'client'
   ) {
     // Increment number for each change in config.
@@ -46,7 +46,7 @@ export function getArticleScripts(
     });
   }
 
-  if (article && article.content.indexOf('data-resource="h5p"') > -1) {
+  if (article && article.content.content.indexOf('data-resource="h5p"') > -1) {
     scripts.push({
       src: 'https://ca.h5p.ndla.no/h5p-php-library/js/h5p-resizer.js',
       type: 'text/javascript',

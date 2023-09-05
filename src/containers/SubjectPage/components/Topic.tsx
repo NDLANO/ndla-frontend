@@ -139,10 +139,12 @@ const Topic = ({
       visualElementEmbedMeta={embedMeta}
       id={urnTopicId === topicId ? SKIP_TO_CONTENT_ID : undefined}
       onToggleShowContent={
-        article.content !== '' ? () => setShowContent(!showContent) : undefined
+        article.content.content !== ''
+          ? () => setShowContent(!showContent)
+          : undefined
       }
       showContent={showContent}
-      title={article.title}
+      title={article.title.title}
       introduction={article.introduction ?? ''}
       resources={resources}
       subTopics={subTopics}

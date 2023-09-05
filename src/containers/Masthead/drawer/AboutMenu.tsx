@@ -151,7 +151,7 @@ const NewAboutMenuPortion = ({
         <DrawerList id={`list-${item.article.slug}`}>
           <DrawerRowHeader
             id={item.article.slug}
-            title={item.article.title}
+            title={item.article.title.title}
             type="link"
             to={toAbout(item.article.slug)}
             onClose={onClose}
@@ -168,7 +168,7 @@ const NewAboutMenuPortion = ({
                   current={link.article.slug === slug}
                   to={toAbout(link.article.slug)}
                 >
-                  {link.article.title}
+                  {link.article.title.title}
                 </DrawerMenuItem>
               );
             }
@@ -180,7 +180,7 @@ const NewAboutMenuPortion = ({
                 type="button"
                 onClick={() => onGoRight(link.article.slug)}
               >
-                {link.article.title}
+                {link.article.title.title}
               </DrawerMenuItem>
             );
           })}
@@ -305,7 +305,10 @@ const aboutMenuFragment = gql`
     articleId
     article {
       id
-      title
+      title {
+        title
+        language
+      }
       slug
     }
   }

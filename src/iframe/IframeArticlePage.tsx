@@ -68,7 +68,7 @@ const IframeArticlePage = ({
         ))}
       </Helmet>
       <SocialMediaMetadata
-        title={article.title}
+        title={article.title.title}
         imageUrl={article.metaImage?.url}
         description={article.metaDescription}
         trackableContent={article}

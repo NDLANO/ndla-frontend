@@ -97,7 +97,7 @@ const Article = ({
     .map((s) => parseInt(s));
   const published = new Date(year!, month! - 1, day!).toUTCString();
   const copyText = webpageReferenceApa7CopyString(
-    article.title,
+    article.title.title,
     undefined,
     published,
     `${config.ndlaFrontendDomain}/article/${article.id}`,
@@ -263,7 +263,10 @@ Article.fragments = {
   article: gql`
     fragment Article_Article on Article {
       id
-      content
+      content {
+        content
+        language
+      }
       supportedLanguages
       grepCodes
       oldNdlaUrl

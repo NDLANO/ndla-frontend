@@ -107,13 +107,15 @@ const MultidisciplinaryTopic = ({
           ? SKIP_TO_CONTENT_ID
           : undefined
       }
-      title={article.title}
+      title={article.title.title}
       introduction={article.introduction ?? ''}
       metaImage={article.metaImage}
       visualElementEmbedMeta={embedMeta}
       visualElement={visualElement}
       onToggleShowContent={
-        article?.content !== '' ? () => setShowContent(!showContent) : undefined
+        article?.content.content !== ''
+          ? () => setShowContent(!showContent)
+          : undefined
       }
       showContent={showContent}
       subTopics={!disableNav ? subTopics : undefined}

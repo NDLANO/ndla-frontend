@@ -38,7 +38,7 @@ const converterComponents: DynamicComponents | undefined =
   config.favoriteEmbedEnabled ? { heartButton: AddEmbedToFolder } : undefined;
 
 const getDocumentTitle = ({ t, article }: Pick<Props, 't' | 'article'>) =>
-  htmlTitle(article.title, [t('htmlTitles.titleTemplate')]);
+  htmlTitle(article.title.title, [t('htmlTitles.titleTemplate')]);
 
 const PlainArticleContainer = ({
   article: propArticle,
@@ -88,7 +88,7 @@ const PlainArticleContainer = ({
             rel="alternate"
             type="application/json+oembed"
             href={oembedUrl}
-            title={article.title}
+            title={article.title.title}
           />
         )}
 
@@ -99,7 +99,7 @@ const PlainArticleContainer = ({
         </script>
       </Helmet>
       <SocialMediaMetadata
-        title={article.title}
+        title={article.title.title}
         description={article.metaDescription}
         imageUrl={article.metaImage?.url}
         trackableContent={article}

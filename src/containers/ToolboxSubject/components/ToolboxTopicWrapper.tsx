@@ -107,7 +107,7 @@ const ToolboxTopicWrapper = ({
       frame={subTopics?.length === 0}
       isLoading={loading}
       subTopics={subTopics}
-      title={topic.article.title}
+      title={topic.article.title.title}
       introduction={topic.article.introduction ?? ''}
       metaImage={topic.article.metaImage}
       visualElementEmbedMeta={embedMeta}
@@ -173,7 +173,10 @@ export const toolboxTopicWrapperFragments = {
       name
       path
       article(convertEmbeds: $convertEmbeds) {
-        title
+        title {
+          title
+          language
+        }
         introduction
         copyright {
           license {

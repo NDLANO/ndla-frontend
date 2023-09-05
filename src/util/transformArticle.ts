@@ -33,13 +33,14 @@ type BaseArticle = Pick<
   | 'published'
   | 'requiredLibraries'
   | 'revisionDate'
+  | 'title'
 >;
 export const transformArticle = <T extends BaseArticle>(
   article: T,
   locale: LocaleType,
   options?: TransformOptions,
 ): T => {
-  const content = getContent(article.content, options ?? {});
+  const content = getContent(article.content.content, options ?? {});
   const footNotes = article?.metaData?.footnotes ?? [];
   return {
     ...article,

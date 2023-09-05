@@ -48,7 +48,7 @@ function buildLicenseTabList(
         printUrl={printUrl}
         texts={[
           {
-            title: article.title,
+            title: article.title.title,
             copyright: article.copyright,
             updated: article.published,
             copyText,
@@ -130,7 +130,10 @@ LicenseBox.fragments = {
   article: gql`
     fragment LicenseBox_Article on Article {
       id
-      title
+      title {
+        title
+        language
+      }
       oembed
       published
       copyright {

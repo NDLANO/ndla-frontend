@@ -118,7 +118,10 @@ const frontpageQuery = gql`
       articleId
       article {
         id
-        content
+        content {
+          content
+          language
+        }
         introduction
         created
         updated

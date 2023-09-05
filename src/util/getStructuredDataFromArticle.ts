@@ -244,7 +244,10 @@ const brightcoveLicenseFragment = gql`
 export const structuredArticleDataFragment = gql`
   fragment StructuredArticleData on Article {
     id
-    title
+    title {
+      title
+      language
+    }
     metaDescription
     published
     updated
@@ -304,8 +307,8 @@ const getStructuredDataFromArticle = (
     identifier: `${config.ndlaFrontendDomain}/article/${article.id}`,
     inLanguage: inLanguage,
     learningResourceType: ['text'],
-    name: article.title,
-    headline: article.title,
+    name: article.title.title,
+    headline: article.title.title,
     abstract: article.metaDescription,
     audience: {
       '@type': AUDIENCE_TYPE,

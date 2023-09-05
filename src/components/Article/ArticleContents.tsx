@@ -88,7 +88,7 @@ const ArticleContents = ({
           </ArticleHeaderWrapper>
         </LayoutItem>
       )}
-      <LayoutItem layout="extend">{article.content}</LayoutItem>
+      <LayoutItem layout="extend">{article.content.content}</LayoutItem>
       <LayoutItem layout="extend">
         {article.metaData?.footnotes?.length ? (
           <ArticleFootNotes footNotes={article.metaData?.footnotes} />
@@ -113,7 +113,10 @@ ArticleContents.fragments = {
     fragment ArticleContents_Topic on Topic {
       article(convertEmbeds: $convertEmbeds) {
         id
-        content
+        content {
+          content
+          language
+        }
         created
         updated
         introduction

@@ -43,7 +43,7 @@ export type GQLArticle = {
   competenceGoals?: Maybe<Array<GQLCompetenceGoal>>;
   conceptIds?: Maybe<Array<Scalars['Int']['output']>>;
   concepts?: Maybe<Array<GQLConcept>>;
-  content: Scalars['String']['output'];
+  content: GQLContent;
   copyright: GQLCopyright;
   coreElements?: Maybe<Array<GQLCoreElement>>;
   created: Scalars['String']['output'];
@@ -64,7 +64,7 @@ export type GQLArticle = {
   slug?: Maybe<Scalars['String']['output']>;
   supportedLanguages?: Maybe<Array<Scalars['String']['output']>>;
   tags?: Maybe<Array<Scalars['String']['output']>>;
-  title: Scalars['String']['output'];
+  title: GQLTitle;
   updated: Scalars['String']['output'];
   visualElement?: Maybe<GQLVisualElement>;
   visualElementEmbed?: Maybe<GQLResourceEmbed>;
@@ -329,6 +329,12 @@ export type GQLConfigMetaRestricted = {
   __typename?: 'ConfigMetaRestricted';
   key: Scalars['String']['output'];
   value: Scalars['String']['output'];
+};
+
+export type GQLContent = {
+  __typename?: 'Content';
+  content: Scalars['String']['output'];
+  language: Scalars['String']['output'];
 };
 
 export type GQLContributor = {
@@ -1627,13 +1633,13 @@ export type GQLArticleConceptEmbedsQuery = {
 export type GQLArticle_ArticleFragment = {
   __typename?: 'Article';
   id: number;
-  content: string;
   supportedLanguages?: Array<string>;
   grepCodes?: Array<string>;
   oldNdlaUrl?: string;
   introduction?: string;
   conceptIds?: Array<number>;
   revisionDate?: string;
+  content: { __typename?: 'Content'; content: string; language: string };
   metaData?: {
     __typename?: 'ArticleMetaData';
     copyText?: string;
@@ -1660,10 +1666,10 @@ export type GQLArticleContents_TopicFragment = {
   article?: {
     __typename?: 'Article';
     id: number;
-    content: string;
     created: string;
     updated: string;
     introduction?: string;
+    content: { __typename?: 'Content'; content: string; language: string };
     metaData?: {
       __typename?: 'ArticleMetaData';
       footnotes?: Array<{
@@ -1906,9 +1912,9 @@ export type GQLImageLicenseList_ImageLicenseFragment = {
 export type GQLLicenseBox_ArticleFragment = {
   __typename?: 'Article';
   id: number;
-  title: string;
   oembed?: string;
   published: string;
+  title: { __typename?: 'Title'; title: string; language: string };
   copyright: {
     __typename?: 'Copyright';
   } & GQLTextLicenseList_CopyrightFragment;
@@ -2002,12 +2008,12 @@ export type GQLAboutPageQuery = {
 export type GQLAboutPage_ArticleFragment = {
   __typename?: 'Article';
   id: number;
-  content: string;
   introduction?: string;
   created: string;
   updated: string;
   slug?: string;
   published: string;
+  content: { __typename?: 'Content'; content: string; language: string };
   metaData?: { __typename?: 'ArticleMetaData'; copyText?: string };
 } & GQLLicenseBox_ArticleFragment &
   GQLStructuredArticleDataFragment;
@@ -2022,7 +2028,11 @@ export type GQLAboutPage_FrontpageMenuFragment = {
 export type GQLFrontpageMenuFragmentFragment = {
   __typename?: 'FrontpageMenu';
   articleId: number;
-  article: { __typename?: 'Article'; title: string; slug?: string };
+  article: {
+    __typename?: 'Article';
+    slug?: string;
+    title: { __typename?: 'Title'; title: string; language: string };
+  };
 };
 
 export type GQLAboutPageFooter_FrontpageMenuFragment = {
@@ -2204,7 +2214,12 @@ export type GQLMastheadSearch_SubjectFragment = {
 export type GQLAboutMenuFragment = {
   __typename?: 'FrontpageMenu';
   articleId: number;
-  article: { __typename?: 'Article'; id: number; title: string; slug?: string };
+  article: {
+    __typename?: 'Article';
+    id: number;
+    slug?: string;
+    title: { __typename?: 'Title'; title: string; language: string };
+  };
 };
 
 export type GQLAboutMenu_FrontpageMenuFragment = {
@@ -2748,21 +2763,11 @@ export type GQLCopySharedFolderMutationVariables = Exact<{
 export type GQLCopySharedFolderMutation = {
   __typename?: 'Mutation';
   copySharedFolder: {
-    __typename: 'Folder';
-    id: string;
-    name: string;
-    status: string;
-    created: string;
-    updated: string;
-    description?: string;
-    breadcrumbs: Array<{ __typename: 'Breadcrumb'; id: string; name: string }>;
+    __typename?: 'Folder';
     subfolders: Array<
       { __typename?: 'Folder' } & GQLFoldersPageQueryFragmentFragment
     >;
-    resources: Array<
-      { __typename?: 'FolderResource' } & GQLFolderResourceFragmentFragment
-    >;
-  };
+  } & GQLFolderFragmentFragment;
 };
 
 type GQLFolderResourceMeta_ArticleFolderResourceMeta_Fragment = {
@@ -3523,8 +3528,8 @@ export type GQLToolboxTopicWrapper_TopicFragment = {
   path: string;
   article?: {
     __typename?: 'Article';
-    title: string;
     introduction?: string;
+    title: { __typename?: 'Title'; title: string; language: string };
     copyright: {
       __typename?: 'Copyright';
       license: { __typename?: 'License'; license: string };
@@ -3583,11 +3588,11 @@ export type GQLFrontpageDataQuery = {
     article: {
       __typename?: 'Article';
       id: number;
-      content: string;
       introduction?: string;
       created: string;
       updated: string;
       published: string;
+      content: { __typename?: 'Content'; content: string; language: string };
       metaData?: { __typename?: 'ArticleMetaData'; copyText?: string };
     } & GQLLicenseBox_ArticleFragment &
       GQLStructuredArticleDataFragment;
@@ -4094,12 +4099,12 @@ export type GQLStructuredArticleData_BrightcoveLicenseFragment = {
 export type GQLStructuredArticleDataFragment = {
   __typename?: 'Article';
   id: number;
-  title: string;
   metaDescription: string;
   published: string;
   updated: string;
   supportedLanguages?: Array<string>;
   availability?: string;
+  title: { __typename?: 'Title'; title: string; language: string };
   copyright: {
     __typename?: 'Copyright';
   } & GQLStructuredArticleData_CopyrightFragment;

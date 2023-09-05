@@ -112,7 +112,7 @@ const AboutPageFooter = ({ frontpage }: Props) => {
   return (
     <FooterWrapper>
       <Heading element="h2" id="aboutNavTitle" headingStyle="list-title">
-        {title}
+        {title.title}
       </Heading>
       <StyledNav aria-labelledby="aboutNavTitle">
         <StyledList>
@@ -126,7 +126,7 @@ const AboutPageFooter = ({ frontpage }: Props) => {
                   shape="sharp"
                   aria-current={menuItem.article.slug === slug ? 'page' : false}
                 >
-                  {menuItem.article.title}
+                  {menuItem.article.title.title}
                   <Forward />
                 </StyledSafeLinkButton>
               ) : (
@@ -136,7 +136,7 @@ const AboutPageFooter = ({ frontpage }: Props) => {
                   colorTheme="light"
                   aria-current={menuItem.article.slug === slug ? 'page' : false}
                 >
-                  {menuItem.article.title}
+                  {menuItem.article.title.title}
                 </StyledSubSafeLinkButton>
               )}
             </li>
@@ -151,7 +151,10 @@ export const frontpageMenuFragment = gql`
   fragment FrontpageMenuFragment on FrontpageMenu {
     articleId
     article {
-      title
+      title {
+        title
+        language
+      }
       slug
     }
   }

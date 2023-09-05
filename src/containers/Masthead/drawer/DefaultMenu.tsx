@@ -165,7 +165,7 @@ const DefaultMenu = ({
               ownsId={`${menu.article.slug}-menu`}
               id={`${menu.article.slug}-dynamic`}
               type="button"
-              title={menu.article.title}
+              title={menu.article.title.title}
               onClick={() => setFrontpageMenu(menu)}
             />
           ))

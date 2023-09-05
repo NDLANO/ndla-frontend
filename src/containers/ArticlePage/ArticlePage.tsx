@@ -168,7 +168,7 @@ const ArticlePage = ({
             rel="alternate"
             type="application/json+oembed"
             href={`${config.ndlaFrontendDomain}/oembed?url=${copyPageUrlLink}`}
-            title={article.title}
+            title={article.title.title}
           />
         )}
         {subject?.metadata.customFields?.[
@@ -188,7 +188,7 @@ const ArticlePage = ({
         </script>
       </Helmet>
       <SocialMediaMetadata
-        title={htmlTitle(article.title, [subject?.name])}
+        title={htmlTitle(article.title.title, [subject?.name])}
         trackableContent={article}
         description={article.metaDescription}
         imageUrl={article.metaImage?.url}
@@ -248,7 +248,7 @@ const getDocumentTitle = (
   resource?: GQLArticlePage_ResourceFragment,
   subject?: GQLArticlePage_SubjectFragment,
 ) =>
-  htmlTitle(resource?.article?.title, [
+  htmlTitle(resource?.article?.title.title, [
     subject?.subjectpage?.about?.title || subject?.name,
     t('htmlTitles.titleTemplate'),
   ]);

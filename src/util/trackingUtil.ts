@@ -154,7 +154,7 @@ export const getAllDimensions = (
       topicPath && topicPath[1]
         ? topicPath[topicPath.length - 1]?.name
         : undefined,
-    '8': isArticle && article ? article.title : undefined,
+    '8': isArticle && article ? article.title.title : undefined,
     '9': authors?.map((author) => author?.name).join(', '),
     '10': getGrepCodeOfType('KE', article?.grepCodes),
     '13': learningpath?.learningsteps?.length,
