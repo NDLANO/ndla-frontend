@@ -45,10 +45,10 @@ const AddResourceToFolderModal = ({
   const close = useCallback(() => setOpen(false), []);
 
   return (
-    <Modal open={open} onOpenChange={setOpen}>
+    <Modal open={open} onOpenChange={setOpen} modal={false}>
       <ModalTrigger>{children}</ModalTrigger>
       {authenticated ? (
-        <ModalContent>
+        <ModalContent forceOverlay>
           <ModalHeader>
             <ModalTitle>{t('myNdla.resource.addToMyNdla')}</ModalTitle>
             <ModalCloseButton title={t('modal.closeModal')} />
@@ -99,7 +99,7 @@ export const AddResourceToFolderModalContent = ({
 }: ContentProps) => {
   const { t } = useTranslation();
   return (
-    <ModalContent>
+    <ModalContent forceOverlay>
       <ModalHeader>
         <ModalTitle>{t('myNdla.resource.addToMyNdla')}</ModalTitle>
         <ModalCloseButton title={t('modal.closeModal')} />

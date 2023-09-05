@@ -175,6 +175,7 @@ const Resources = ({ resources }: ResourcesProps) => {
                             icon: <FolderOutlined />,
                             text: t('myNdla.resource.add'),
                             isModal: true,
+                            modality: false,
                             modalContent: (close) => (
                               <AddResourceToFolderModalContent
                                 resource={{

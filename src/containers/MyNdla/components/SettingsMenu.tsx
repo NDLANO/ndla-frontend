@@ -45,6 +45,7 @@ export interface MenuItemProps {
   keepOpen?: boolean;
   ref?: RefObject<HTMLButtonElement>;
   modalContent?: (close: VoidFunction) => ReactNode;
+  modality?: boolean;
 }
 
 interface Props {
@@ -170,6 +171,7 @@ const SettingsMenu = ({ menuItems, children }: Props) => {
                       handleDialogItemOpenChange={handleDialogItemOpenChange}
                       isModal={item.isModal}
                       modalContent={item.modalContent}
+                      modality={item.modality}
                     >
                       <ButtonV2
                         fontWeight="normal"
@@ -229,6 +231,7 @@ const SettingsMenu = ({ menuItems, children }: Props) => {
             isModal={item.isModal}
             modalContent={item.modalContent}
             keepOpen={item.keepOpen}
+            modality={item.modality}
           >
             <DropdownItem
               asChild
@@ -261,7 +264,10 @@ const SettingsMenu = ({ menuItems, children }: Props) => {
 };
 
 interface ItemProps
-  extends Pick<MenuItemProps, 'isModal' | 'modalContent' | 'keepOpen'> {
+  extends Pick<
+    MenuItemProps,
+    'isModal' | 'modalContent' | 'keepOpen' | 'modality'
+  > {
   children?: ReactNode;
   handleDialogItemOpenChange?: (open: boolean, keepOpen?: boolean) => void;
 }
@@ -272,6 +278,7 @@ const Item = ({
   isModal,
   modalContent,
   keepOpen,
+  modality = true,
 }: ItemProps) => {
   const [open, setOpen] = useState(false);
 
@@ -293,7 +300,7 @@ const Item = ({
   }
 
   return (
-    <Modal open={open} onOpenChange={onOpenChange}>
+    <Modal open={open} onOpenChange={onOpenChange} modal={modality}>
       <ModalTrigger>{children}</ModalTrigger>
       {modalContent(close)}
     </Modal>
