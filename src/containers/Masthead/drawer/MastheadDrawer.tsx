@@ -111,7 +111,7 @@ const MastheadDrawer = ({ subject }: Props) => {
   );
 
   useEffect(() => {
-    if (!programme && type === 'programme') {
+    if (prevProgramme && !programme && type === 'programme') {
       setType(undefined);
     }
   }, [programme, type]);
