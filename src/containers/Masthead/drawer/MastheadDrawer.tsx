@@ -114,7 +114,7 @@ const MastheadDrawer = ({ subject }: Props) => {
     if (prevProgramme && !programme && type === 'programme') {
       setType(undefined);
     }
-  }, [programme, type]);
+  }, [programme, type, prevProgramme]);
 
   useEffect(() => {
     setTopicPath(topicList);
