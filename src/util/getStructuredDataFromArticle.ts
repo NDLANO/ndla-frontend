@@ -345,7 +345,10 @@ const getStructuredDataFromArticle = (
   const podcastData = createPodcastData(podcasts);
   const videoData = createVideoData(videos);
 
-  return [...structuredData, ...mediaData, ...podcastData, ...videoData];
+  return {
+    ...structuredDataBase,
+    '@graph': [...structuredData, ...mediaData, ...podcastData, ...videoData],
+  };
 };
 
 const createMediaData = (media: Mediaelements[]): StructuredData[] =>
