@@ -39,7 +39,7 @@ const StyledModalBody = styled(ModalBody)`
 
 const LoginModalContent = ({ title, content, masthead = false }: Props) => {
   return (
-    <ModalContent forceOverlay>
+    <ModalContent>
       <ModalHeader>
         <Title>{title}</Title>
         <ModalCloseButton />

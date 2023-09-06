@@ -45,7 +45,7 @@ const AddResourceToFolderModal = ({
   const close = useCallback(() => setOpen(false), []);
 
   return (
-    <Modal open={open} onOpenChange={setOpen} modal={false}>
+    <Modal open={open} onOpenChange={setOpen} modal={!authenticated}>
       <ModalTrigger>{children}</ModalTrigger>
       {authenticated ? (
         <ModalContent forceOverlay>
