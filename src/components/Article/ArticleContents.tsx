@@ -62,7 +62,7 @@ const ArticleContents = ({
         subject: subjectId,
         components: converterComponents,
       }),
-      getArticleScripts(topic.article, i18n.language),
+      getArticleScripts(topic.article),
     ];
   }, [i18n.language, subjectId, topic.article]);
 

@@ -198,7 +198,7 @@ const WelcomePage = () => {
         ...transformedArticle,
         introduction: transformedArticle.introduction ?? '',
       },
-      getArticleScripts(_article, i18n.language),
+      getArticleScripts(_article),
     ];
   }, [fpQuery.data?.frontpage?.article, i18n.language])!;
 

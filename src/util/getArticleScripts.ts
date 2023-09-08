@@ -18,52 +18,12 @@ export interface Scripts {
 
 export function getArticleScripts(
   article: Pick<GQLArticle, 'requiredLibraries' | 'content'>,
-  locale = 'nb',
 ) {
   const scripts: Array<Scripts> =
     article.requiredLibraries?.map((lib) => ({
       src: lib.url,
       type: lib.mediaType,
     })) || [];
-  if (
-    article &&
-    article.content.indexOf('<math') > -1 &&
-    process.env.BUILD_TARGET === 'client'
-  ) {
-    if (!window.MathJax) {
-      window.MathJax = {
-        chtml: {
-          mathmlSpacing: false,
-        },
-        options: {
-          enableMenu: true,
-          menuOptions: {
-            settings: {
-              assistiveMml: false,
-              collapsible: false,
-              explorer: true,
-            },
-          },
-          sre: {
-            domain: 'mathspeak',
-            style: 'sbrief',
-            speech: 'shallow',
-            locale: locale,
-            structure: false,
-          },
-        },
-      };
-    } else if (window.MathJax.options?.sre) {
-      window.MathJax.options.sre.locale = locale;
-    }
-
-    scripts.push({
-      src: 'https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/mml-chtml.js',
-      type: 'text/javascript',
-      async: false,
-      defer: true,
-    });
-  }
 
   if (article && article.content.indexOf('data-resource="h5p"') > -1) {
     scripts.push({

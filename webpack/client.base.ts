@@ -22,7 +22,6 @@ const baseClientConfig: Configuration = {
     embed: ['./src/iframe/index.tsx'],
     embedIframe: ['./src/iframe/embedIframeIndex.tsx'],
     lti: ['./src/lti/index.tsx'],
-    mathJaxConfig: ['./public/static/mathjax-config.js'],
   },
   resolve: {
     // defaults only includes .js, .json and .wasm

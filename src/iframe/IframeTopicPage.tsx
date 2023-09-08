@@ -57,7 +57,7 @@ export const IframeTopicPage = ({
         path: `${config.ndlaFrontendDomain}/article/${propArticle.id}`,
         isOembed: true,
       }),
-      getArticleScripts(propArticle, locale),
+      getArticleScripts(propArticle),
     ];
   }, [propArticle, locale]);
 
