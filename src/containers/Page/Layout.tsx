@@ -9,7 +9,7 @@
 import { useEffect } from 'react';
 import { Content, PageContainer, useMastheadHeight } from '@ndla/ui';
 import ZendeskButton from '@ndla/zendesk';
-import { spacing } from '@ndla/core';
+import { colors, spacing } from '@ndla/core';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
@@ -33,6 +33,12 @@ const ZendeskWrapper = styled.div`
 
 const bottomPadding = css`
   padding-bottom: ${spacing.large};
+`;
+
+const StyledPageContainer = styled(PageContainer)`
+  &[data-film='true'] {
+    background-color: ${colors.ndlaFilm.filmColor};
+  }
 `;
 
 const Layout = () => {
@@ -74,7 +80,11 @@ const Layout = () => {
   );
 
   return (
-    <PageContainer backgroundWide={backgroundWide} ndlaFilm={ndlaFilm}>
+    <StyledPageContainer
+      backgroundWide={backgroundWide}
+      ndlaFilm={ndlaFilm}
+      data-film={ndlaFilm}
+    >
       <TitleAnnouncer />
       <Global
         styles={css`
@@ -108,7 +118,7 @@ const Layout = () => {
           </ZendeskButton>
         </ZendeskWrapper>
       )}
-    </PageContainer>
+    </StyledPageContainer>
   );
 };
 export default Layout;
