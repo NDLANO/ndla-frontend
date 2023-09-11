@@ -121,7 +121,6 @@
     "@fontsource/source-serif-pro": "^4.5.7",
     "@ndla/article-converter": "^3.0.4",
     "@ndla/button": "^11.0.6",
-    "@ndla/carousel": "^3.1.15",
     "@ndla/core": "^4.1.6",
     "@ndla/dropdown-menu": "^1.0.4",
     "@ndla/error-reporter": "^1.0.31",
