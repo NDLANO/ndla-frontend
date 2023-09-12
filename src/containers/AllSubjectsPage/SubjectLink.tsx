@@ -14,7 +14,7 @@ import SafeLink from '@ndla/safelink';
 import { useSnack } from '@ndla/ui';
 import { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Modal, ModalContent, ModalTrigger } from '@ndla/modal';
+import { Modal, ModalTrigger } from '@ndla/modal';
 import { AuthContext } from '../../components/AuthenticationContext';
 import { toSubject } from '../../routeHelpers';
 import { useUpdatePersonalData } from '../MyNdla/userMutations';
@@ -119,16 +119,14 @@ const SubjectLink = ({ subject, favorites, className }: Props) => {
               <Heart />
             </StyledIconButton>
           </ModalTrigger>
-          <ModalContent>
-            <DeleteModalContent
-              onDelete={removeFavorite}
-              title={t('subjectsPage.removeFavorite')}
-              removeText={t('myNdla.resource.remove')}
-              description={t('subjectsPage.confirmRemove', {
-                subject: subject.name,
-              })}
-            />
-          </ModalContent>
+          <DeleteModalContent
+            onDelete={removeFavorite}
+            title={t('subjectsPage.removeFavorite')}
+            removeText={t('myNdla.resource.remove')}
+            description={t('subjectsPage.confirmRemove', {
+              subject: subject.name,
+            })}
+          />
         </Modal>
       ) : (
         <Modal>
