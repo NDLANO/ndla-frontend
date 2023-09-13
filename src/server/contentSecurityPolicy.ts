@@ -223,7 +223,11 @@ const contentSecurityPolicy = {
   directives: {
     baseUri: ["'self'", 'https://tall.ndla.no'],
     defaultSrc: ["'self'", 'blob:'],
-    upgradeInsecureRequests: process.env.NODE_ENV === 'development' ? null : [],
+    upgradeInsecureRequests:
+      process.env.NODE_ENV === 'development' ||
+      config.ndlaEnvironment === 'local'
+        ? null
+        : [],
     scriptSrc,
     frameSrc,
     frameAncestors: null,

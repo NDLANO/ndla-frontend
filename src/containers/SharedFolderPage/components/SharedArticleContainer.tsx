@@ -34,8 +34,9 @@ interface Props extends CustomWithTranslation {
   title: string;
 }
 
-const converterComponents: DynamicComponents | undefined =
-  config.favoriteEmbedEnabled ? { heartButton: AddEmbedToFolder } : undefined;
+const converterComponents: DynamicComponents = {
+  heartButton: AddEmbedToFolder,
+};
 
 const SharedArticleContainer = ({
   article: propArticle,

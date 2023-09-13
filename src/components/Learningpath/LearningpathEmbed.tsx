@@ -74,8 +74,9 @@ const getIdFromIframeUrl = (
   return [undefined, undefined];
 };
 
-const converterComponents: DynamicComponents | undefined =
-  config.favoriteEmbedEnabled ? { heartButton: AddEmbedToFolder } : undefined;
+const converterComponents: DynamicComponents = {
+  heartButton: AddEmbedToFolder,
+};
 
 interface Props {
   learningpathStep: GQLLearningpathEmbed_LearningpathStepFragment;
