@@ -115,9 +115,6 @@ export type ConfigType = {
   matomoUrl: string;
   matomoSiteId: string;
   matomoTagmanagerId: string;
-  folderDescriptionEnabled: boolean;
-  favoriteEmbedEnabled: boolean;
-  filterInactiveContexts: boolean;
   taxonomyProgrammesEnabled: boolean;
   isVercel: boolean;
 };
@@ -155,15 +152,6 @@ const config: ConfigType = {
   matomoUrl: getEnvironmentVariabel('MATOMO_URL', 'https://tall.ndla.no'),
   matomoSiteId: getEnvironmentVariabel('MATOMO_SITE_ID', ''),
   matomoTagmanagerId: getEnvironmentVariabel('MATOMO_TAGMANAGER_ID', ''),
-  folderDescriptionEnabled: getEnvironmentVariabel(
-    'FOLDER_DESCRIPTION_ENABLED',
-    true,
-  ),
-  favoriteEmbedEnabled: getEnvironmentVariabel('FAVORITE_EMBED_ENABLED', true),
-  filterInactiveContexts: getEnvironmentVariabel(
-    'FILTER_INACTIVE_CONTEXTS',
-    true,
-  ),
   taxonomyProgrammesEnabled: getEnvironmentVariabel(
     'TAXONOMY_PROGRAMMES_ENABLED',
     false,

@@ -22,7 +22,7 @@ import { contentTypeMapping } from '../../util/getContentType';
 import handleError from '../../util/handleError';
 import { groupSearchQuery } from '../../queries';
 import { useGraphQuery } from '../../util/runQueries';
-import config, { getDefaultLocale } from '../../config';
+import { getDefaultLocale } from '../../config';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import {
   GQLGroupSearchQuery,
@@ -119,8 +119,7 @@ const SearchInnerPage = ({
         ...getTypeParams([], resourceTypes),
         aggregatePaths: ['contexts.resourceTypes.id'],
         grepCodesList: searchParams.grepCodes,
-        filterInactive:
-          config.filterInactiveContexts && subjectIds.length === 0,
+        filterInactive: subjectIds.length === 0,
       },
       notifyOnNetworkStatusChange: true,
       onCompleted: async (data) => {

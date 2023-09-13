@@ -122,8 +122,9 @@ const getDocumentTitle = (
   article: GQLAboutPage_ArticleFragment,
 ) => t('htmlTitles.aboutPage', { name: article.title });
 
-const converterComponents: DynamicComponents | undefined =
-  config.favoriteEmbedEnabled ? { heartButton: AddEmbedToFolder } : undefined;
+const converterComponents: DynamicComponents = {
+  heartButton: AddEmbedToFolder,
+};
 
 const AboutPageContent = ({ article: _article, frontpage, t, i18n }: Props) => {
   const oembedUrl = `${config.ndlaFrontendDomain}/oembed?url=${config.ndlaFrontendDomain}/article/${_article.id}`;

@@ -34,8 +34,9 @@ interface Props extends CustomWithTranslation {
   skipToContentId?: string;
 }
 
-const converterComponents: DynamicComponents | undefined =
-  config.favoriteEmbedEnabled ? { heartButton: AddEmbedToFolder } : undefined;
+const converterComponents: DynamicComponents = {
+  heartButton: AddEmbedToFolder,
+};
 
 const getDocumentTitle = ({ t, article }: Pick<Props, 't' | 'article'>) =>
   htmlTitle(article.title, [t('htmlTitles.titleTemplate')]);

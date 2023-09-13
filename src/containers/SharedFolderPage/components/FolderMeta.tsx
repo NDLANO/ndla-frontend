@@ -14,7 +14,6 @@ import { useTranslation } from 'react-i18next';
 import { ButtonV2 } from '@ndla/button';
 import { Copy } from '@ndla/icons/action';
 import { GQLFolder } from '../../../graphqlTypes';
-import config from '../../../config';
 import ErrorPage from '../../ErrorPage';
 import CopyFolderModal from '../../../components/MyNdla/CopyFolderModal';
 
@@ -47,8 +46,7 @@ const FolderMeta = ({ folder, title }: Props) => {
         />
         <h1>{folder.name}</h1>
         <StyledDescription>
-          {(config.folderDescriptionEnabled && folder.description) ||
-            t('myNdla.sharedFolder.description.all')}
+          {folder.description || t('myNdla.sharedFolder.description.all')}
         </StyledDescription>
 
         <CopyFolderModal folder={folder}>

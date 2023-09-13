@@ -33,8 +33,9 @@ interface Props {
   showIngress: boolean;
   subjectId?: string;
 }
-const converterComponents: DynamicComponents | undefined =
-  config.favoriteEmbedEnabled ? { heartButton: AddEmbedToFolder } : undefined;
+const converterComponents: DynamicComponents = {
+  heartButton: AddEmbedToFolder,
+};
 
 const ArticleContents = ({
   topic,

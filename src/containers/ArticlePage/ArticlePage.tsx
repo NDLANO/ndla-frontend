@@ -62,8 +62,9 @@ interface Props extends CustomWithTranslation {
   skipToContentId?: string;
 }
 
-const converterComponents: DynamicComponents | undefined =
-  config.favoriteEmbedEnabled ? { heartButton: AddEmbedToFolder } : undefined;
+const converterComponents: DynamicComponents = {
+  heartButton: AddEmbedToFolder,
+};
 
 const ArticlePage = ({
   resource,
