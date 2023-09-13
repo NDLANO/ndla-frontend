@@ -95,7 +95,7 @@ window.errorReporter = ErrorReporter.getInstance({
   logglyApiKey: config.logglyApiKey,
   environment: config.ndlaEnvironment,
   componentName: config.componentName,
-  ignoreUrls: [/https:\/\/.*hotjar\.com.*/],
+  ignoreUrls: [],
 });
 
 const client = createApolloClient(storedLanguage, versionHash);

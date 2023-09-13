@@ -97,13 +97,15 @@ const ResourcesTopicTitle = ({
       </StyledHGroup>
       {hasAdditionalResources && (
         <StyledRow>
-          <Switch
-            id="toggleAdditionID"
-            checked={showAdditionalResources}
-            label={t('resource.activateAdditionalResources')}
-            onChange={toggleAdditionalResources}
-            css={invertedStyle ? invertedSwitchCSS : switchCSS}
-          />
+          <form>
+            <Switch
+              id="toggleAdditionID"
+              checked={showAdditionalResources}
+              label={t('resource.activateAdditionalResources')}
+              onChange={toggleAdditionalResources}
+              css={invertedStyle ? invertedSwitchCSS : switchCSS}
+            />
+          </form>
           <Modal aria-labelledby={tooltipId}>
             <ModalTrigger>
               <IconButtonV2

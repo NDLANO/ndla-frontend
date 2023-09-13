@@ -43,7 +43,7 @@ window.errorReporter = ErrorReporter.getInstance({
   logglyApiKey,
   environment,
   componentName,
-  ignoreUrls: [/https:\/\/.*hotjar\.com.*/],
+  ignoreUrls: [],
 });
 
 const storedLanguage = getCookie(STORED_LANGUAGE_COOKIE_KEY, document.cookie);
