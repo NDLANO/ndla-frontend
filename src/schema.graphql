@@ -19,6 +19,7 @@ type Article {
   grepCodes: [String!]
   id: Int!
   introduction: String
+  language: String!
   metaData: ArticleMetaData
   metaDescription: String!
   metaImage: MetaImage

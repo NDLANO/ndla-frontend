@@ -51,6 +51,7 @@ export type GQLArticle = {
   grepCodes?: Maybe<Array<Scalars['String']['output']>>;
   id: Scalars['Int']['output'];
   introduction?: Maybe<Scalars['String']['output']>;
+  language: Scalars['String']['output'];
   metaData?: Maybe<GQLArticleMetaData>;
   metaDescription: Scalars['String']['output'];
   metaImage?: Maybe<GQLMetaImage>;
@@ -1634,6 +1635,7 @@ export type GQLArticle_ArticleFragment = {
   introduction?: string;
   conceptIds?: Array<number>;
   revisionDate?: string;
+  language: string;
   metaData?: {
     __typename?: 'ArticleMetaData';
     copyText?: string;
@@ -2748,21 +2750,11 @@ export type GQLCopySharedFolderMutationVariables = Exact<{
 export type GQLCopySharedFolderMutation = {
   __typename?: 'Mutation';
   copySharedFolder: {
-    __typename: 'Folder';
-    id: string;
-    name: string;
-    status: string;
-    created: string;
-    updated: string;
-    description?: string;
-    breadcrumbs: Array<{ __typename: 'Breadcrumb'; id: string; name: string }>;
+    __typename?: 'Folder';
     subfolders: Array<
       { __typename?: 'Folder' } & GQLFoldersPageQueryFragmentFragment
     >;
-    resources: Array<
-      { __typename?: 'FolderResource' } & GQLFolderResourceFragmentFragment
-    >;
-  };
+  } & GQLFolderFragmentFragment;
 };
 
 type GQLFolderResourceMeta_ArticleFolderResourceMeta_Fragment = {
