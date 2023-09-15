@@ -105,7 +105,6 @@ export type ConfigType = {
   ndlaApiUrl: string;
   ndlaFrontendDomain: string;
   learningPathDomain: string;
-  googleTagManagerId: string | undefined;
   zendeskWidgetKey: string | undefined;
   localGraphQLApi: boolean;
   showAllFrontpageSubjects: boolean;
@@ -145,7 +144,6 @@ const config: ConfigType = {
     'LEARNINGPATH_DOMAIN',
     learningPathDomain(),
   ),
-  googleTagManagerId: getEnvironmentVariabel('NDLA_GOOGLE_TAG_MANAGER_ID'),
   zendeskWidgetKey: getEnvironmentVariabel('NDLA_ZENDESK_WIDGET_KEY'),
   localGraphQLApi: getEnvironmentVariabel('LOCAL_GRAPHQL_API', false),
   showAllFrontpageSubjects: true,
