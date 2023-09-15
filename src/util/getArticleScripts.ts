@@ -30,13 +30,32 @@ export function getArticleScripts(
     article.content.indexOf('<math') > -1 &&
     process.env.BUILD_TARGET === 'client'
   ) {
-    // Increment number for each change in config.
-    scripts.push({
-      src: `/static/mathjax-config.js?locale=${locale}&ts=${2}`,
-      type: 'text/javascript',
-      async: false,
-      defer: true,
-    });
+    if (!window.MathJax) {
+      window.MathJax = {
+        chtml: {
+          mathmlSpacing: false,
+        },
+        options: {
+          enableMenu: true,
+          menuOptions: {
+            settings: {
+              assistiveMml: false,
+              collapsible: false,
+              explorer: true,
+            },
+          },
+          sre: {
+            domain: 'mathspeak',
+            style: 'sbrief',
+            speech: 'shallow',
+            locale: locale,
+            structure: false,
+          },
+        },
+      };
+    } else if (window.MathJax.options?.sre) {
+      window.MathJax.options.sre.locale = locale;
+    }
 
     scripts.push({
       src: 'https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/mml-chtml.js',

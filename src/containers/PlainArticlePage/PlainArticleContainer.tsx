@@ -34,8 +34,9 @@ interface Props {
   skipToContentId?: string;
 }
 
-const converterComponents: DynamicComponents | undefined =
-  config.favoriteEmbedEnabled ? { heartButton: AddEmbedToFolder } : undefined;
+const converterComponents: DynamicComponents = {
+  heartButton: AddEmbedToFolder,
+};
 
 const getDocumentTitle = (t: TFunction, title: string) =>
   htmlTitle(title, [t('htmlTitles.titleTemplate')]);

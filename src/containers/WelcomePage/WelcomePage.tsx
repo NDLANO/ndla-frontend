@@ -235,12 +235,18 @@ const WelcomePage = () => {
           <WelcomePageSearch />
         </FrontpageHeader>
       )}
-      {taxonomyProgrammesEnabled && article ? (
+      {taxonomyProgrammesEnabled ? (
         <StyledMain>
           <ProgrammeWrapper data-testid="programme-list">
             <Programmes programmes={programmes} loading={fpQuery.loading} />
           </ProgrammeWrapper>
-          <FrontpageArticle isWide id={SKIP_TO_CONTENT_ID} article={article} />
+          {article && (
+            <FrontpageArticle
+              isWide
+              id={SKIP_TO_CONTENT_ID}
+              article={article}
+            />
+          )}
         </StyledMain>
       ) : (
         <main>

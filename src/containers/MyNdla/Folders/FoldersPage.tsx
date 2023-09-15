@@ -41,7 +41,6 @@ import FolderAndResourceCount, {
 import FolderList from './FolderList';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import FolderShareModal from './FolderShareModal';
-import config from '../../../config';
 import { copyFolderSharingLink, isStudent } from './util';
 import CreateFolderModal from './CreateFolderModal';
 import ResourceList from './ResourceList';
@@ -223,7 +222,7 @@ const FoldersPage = () => {
         folderData={(data?.folders ?? []) as GQLFolder[]}
         loading={loading}
       />
-      {selectedFolder && config.folderDescriptionEnabled && (
+      {selectedFolder && (
         <p>
           <StyledEm>
             {selectedFolder.description ??

@@ -122,8 +122,9 @@ const getDocumentTitle = (
   article: GQLAboutPage_ArticleFragment,
 ) => t('htmlTitles.aboutPage', { name: article.title });
 
-const converterComponents: DynamicComponents | undefined =
-  config.favoriteEmbedEnabled ? { heartButton: AddEmbedToFolder } : undefined;
+const converterComponents: DynamicComponents = {
+  heartButton: AddEmbedToFolder,
+};
 
 const AboutPageContent = ({ article: _article, frontpage, user }: Props) => {
   const { t, i18n } = useTranslation();

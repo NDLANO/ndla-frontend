@@ -63,8 +63,9 @@ interface MetaProperies {
   type: StandaloneEmbed | 'podcast';
 }
 
-const converterComponents: DynamicComponents | undefined =
-  config.favoriteEmbedEnabled ? { heartButton: AddEmbedToFolder } : undefined;
+const converterComponents: DynamicComponents = {
+  heartButton: AddEmbedToFolder,
+};
 
 const metaToProperties = (
   meta: GQLResourceEmbedLicenseBox_MetaFragment | undefined,

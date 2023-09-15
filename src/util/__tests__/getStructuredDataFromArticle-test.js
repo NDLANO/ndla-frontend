@@ -43,7 +43,7 @@ const getBaseArticle = () => ({
 test('util/getStructuredDataFromArticle article with copyright should return structured data', () => {
   const article = getBaseArticle();
 
-  const structuredData = getStructuredDataFromArticle(article, 'nb');
+  const structuredData = getStructuredDataFromArticle(article, 'nb')['@graph'];
   expect(structuredData.length).toBe(1);
   expect(structuredData[0].author[0].name).toBe(
     article.copyright.creators[0].name,
@@ -71,7 +71,7 @@ test('util/getStructuredDataFromArticle article with image should return image s
     },
   ];
 
-  const structuredData = getStructuredDataFromArticle(article, 'nb');
+  const structuredData = getStructuredDataFromArticle(article, 'nb')['@graph'];
 
   expect(structuredData.length).toBe(2);
   expect(structuredData[1].name).toBe(article.metaData.images[0].title);
@@ -89,7 +89,7 @@ test('util/getStructuredDataFromArticle article with video should return video s
     },
   ];
 
-  const structuredData = getStructuredDataFromArticle(article, 'nb');
+  const structuredData = getStructuredDataFromArticle(article, 'nb')['@graph'];
 
   expect(structuredData.length).toBe(2);
   expect(structuredData[1].name).toBe(article.metaData.brightcoves[0].title);
@@ -113,7 +113,7 @@ test('util/getStructuredDataFromArticle article with breadcrumbs should return b
     article,
     'nb',
     breadcrumbItems,
-  );
+  )['@graph'];
   expect(structuredData.length).toBe(2);
   expect(structuredData[1]['@type']).toBe('BreadcrumbList');
   expect(structuredData[1].numberOfItems).toBe(2);

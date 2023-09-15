@@ -14,7 +14,6 @@ import { useForm, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { spacing } from '@ndla/core';
 import { ModalCloseButton } from '@ndla/modal';
-import config from '../../../config';
 import { GQLFolder } from '../../../graphqlTypes';
 import useValidationTranslation from '../../../util/useValidationTranslation';
 
@@ -136,40 +135,35 @@ const FolderForm = ({
           </div>
         )}
       />
-      {config.folderDescriptionEnabled && (
-        <>
-          <Controller
-            control={control}
-            name="description"
-            rules={{
-              maxLength: {
-                value: descriptionMaxLength,
-                message: validationT({
-                  type: 'maxLength',
-                  field: 'description',
-                  vars: { count: descriptionMaxLength },
-                }),
-              },
-            }}
-            render={({ field }) => (
-              <div>
-                <TextAreaV2
-                  label={t('validation.fields.description')}
-                  error={errors.description?.message}
-                  id="description"
-                  {...field}
-                />
-                <FieldLength
-                  value={field.value?.length ?? 0}
-                  maxLength={descriptionMaxLength}
-                />
-              </div>
-            )}
-          />
-          <StyledParagraph>{t('myNdla.folder.sharedWarning')}</StyledParagraph>
-        </>
-      )}
-
+      <Controller
+        control={control}
+        name="description"
+        rules={{
+          maxLength: {
+            value: descriptionMaxLength,
+            message: validationT({
+              type: 'maxLength',
+              field: 'description',
+              vars: { count: descriptionMaxLength },
+            }),
+          },
+        }}
+        render={({ field }) => (
+          <div>
+            <TextAreaV2
+              label={t('validation.fields.description')}
+              error={errors.description?.message}
+              id="description"
+              {...field}
+            />
+            <FieldLength
+              value={field.value?.length ?? 0}
+              maxLength={descriptionMaxLength}
+            />
+          </div>
+        )}
+      />
+      <StyledParagraph>{t('myNdla.folder.sharedWarning')}</StyledParagraph>
       <ButtonRow>
         <ModalCloseButton>
           <ButtonV2 variant="outline">{t('cancel')}</ButtonV2>
