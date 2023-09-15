@@ -12,18 +12,13 @@ import { render } from '@testing-library/react';
 import { createSerializer } from '@emotion/jest';
 import { MockedProvider } from '@apollo/client/testing';
 import { I18nextProvider, Translation } from 'react-i18next';
-import { configureTracker } from '@ndla/tracker';
-import { createMemoryHistory } from 'history';
 import { i18nInstance } from '@ndla/ui';
 import { StaticRouter } from 'react-router-dom/server.js';
 import IframePageContainer from '../IframePageContainer';
 import IframeArticlePage from '../IframeArticlePage';
 import { initializeI18n } from '../../i18n';
 
-window.dataLayer = [];
 window._mtm = [];
-const history = createMemoryHistory();
-configureTracker({ listen: history.listen });
 HelmetProvider.canUseDOM = false;
 
 expect.addSnapshotSerializer(createSerializer());

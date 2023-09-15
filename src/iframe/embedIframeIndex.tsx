@@ -10,7 +10,6 @@ import '../style/index.css';
 import { I18nextProvider } from 'react-i18next';
 import { HelmetProvider } from 'react-helmet-async';
 import { ApolloProvider } from '@apollo/client';
-import { configureTracker } from '@ndla/tracker';
 import { i18nInstance } from '@ndla/ui';
 import { MissingRouterContext } from '@ndla/safelink';
 import ErrorReporter from '@ndla/error-reporter';
@@ -45,13 +44,6 @@ window.errorReporter = ErrorReporter.getInstance({
   logglyApiKey,
   environment,
   componentName,
-});
-
-configureTracker({
-  listen: () => {
-    return () => {};
-  },
-  googleTagManagerId: config.googleTagManagerId,
 });
 
 const language = initialProps.locale ?? config.defaultLocale;

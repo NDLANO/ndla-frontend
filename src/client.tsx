@@ -239,9 +239,7 @@ const LanguageWrapper = ({ basename }: { basename?: string }) => {
 
   return (
     <NDLARouter key={base} base={base}>
-      {(history) => (
-        <App locale={i18n.language} history={history} isClient base={base} />
-      )}
+      {(_) => <App base={base} />}
     </NDLARouter>
   );
 };

@@ -6,11 +6,10 @@
  *
  */
 
-import { CarouselAutosize } from '@ndla/carousel';
 import { FilmMovieList, MovieGrid } from '@ndla/ui';
 import { gql } from '@apollo/client';
 import { useTranslation } from 'react-i18next';
-import { breakpoints, findName } from './filmHelper';
+import { findName } from './filmHelper';
 import { GQLMovieCategory_MovieThemeFragment } from '../../graphqlTypes';
 import { MoviesByType } from './NdlaFilmFrontpage';
 import { movieFragment } from '../../queries';
@@ -35,33 +34,31 @@ const MovieCategory = ({
   loadingPlaceholderHeight,
 }: Props) => {
   const { t, i18n } = useTranslation();
+  if (resourceTypeSelected) {
+    return (
+      <MovieGrid
+        resourceTypeName={resourceTypeName}
+        fetchingMoviesByType={!!fetchingMoviesByType}
+        moviesByType={moviesByType ?? []}
+        resourceTypes={resourceTypes}
+        loadingPlaceholderHeight={loadingPlaceholderHeight}
+      />
+    );
+  }
+
   return (
-    <CarouselAutosize breakpoints={breakpoints} itemsLength={themes.length}>
-      {(autoSizedProps) =>
-        resourceTypeSelected ? (
-          <MovieGrid
-            autoSizedProps={autoSizedProps}
-            resourceTypeName={resourceTypeName}
-            fetchingMoviesByType={!!fetchingMoviesByType}
-            moviesByType={moviesByType ?? []}
-            resourceTypes={resourceTypes}
-            loadingPlaceholderHeight={loadingPlaceholderHeight}
-          />
-        ) : (
-          themes.map((theme) => (
-            <FilmMovieList
-              key={theme.name[0]?.name}
-              name={findName(theme.name ?? [], i18n.language)}
-              movies={theme.movies}
-              autoSizedProps={autoSizedProps}
-              slideForwardsLabel={t('ndlaFilm.slideForwardsLabel')}
-              slideBackwardsLabel={t('ndlaFilm.slideBackwardsLabel')}
-              resourceTypes={resourceTypes}
-            />
-          ))
-        )
-      }
-    </CarouselAutosize>
+    <>
+      {themes.map((theme) => (
+        <FilmMovieList
+          key={theme.name[0]?.name}
+          name={findName(theme.name ?? [], i18n.language)}
+          movies={theme.movies}
+          slideForwardsLabel={t('ndlaFilm.slideForwardsLabel')}
+          slideBackwardsLabel={t('ndlaFilm.slideBackwardsLabel')}
+          resourceTypes={resourceTypes}
+        />
+      ))}
+    </>
   );
 };
 
