@@ -26,7 +26,6 @@ const DefaultErrorMessage = ({ minimal }: Props) => {
     description: t('errorMessage.description'),
     ...(!minimal && {
       linksTitle: t('errorMessage.linksTitle'),
-      back: t('errorMessage.back'),
       goToFrontPage: t('errorMessage.goToFrontPage'),
     }),
   };

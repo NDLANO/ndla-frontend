@@ -166,7 +166,6 @@ const AllSubjectsPage = () => {
         messages={{
           title: t('errorMessage.title'),
           description: t('subjectsPage.errorDescription'),
-          back: t('errorMessage.back'),
           goToFrontPage: t('errorMessage.goToFrontPage'),
         }}
       />
