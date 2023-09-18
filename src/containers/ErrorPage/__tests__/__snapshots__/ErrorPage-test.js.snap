@@ -766,12 +766,6 @@ exports[`ErrorPage renderers correctly 1`] = `
           <h2>
             Kom igang:
           </h2>
-          <a
-            href="/#G%C3%A5%20tilbake"
-            tabindex="0"
-          >
-            Gå tilbake
-          </a>
           <div
             class="emotion-11"
           >
