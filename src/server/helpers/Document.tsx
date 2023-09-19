@@ -10,7 +10,6 @@ import { HelmetServerState } from 'react-helmet-async';
 import serialize from 'serialize-javascript';
 // eslint-disable-next-line no-restricted-imports
 import ScriptLoader from '@ndla/polyfill/lib/ScriptLoader';
-import { GoogleTagMangerScript, GoogleTagMangerNoScript } from './Gtm';
 import { Matomo } from './Matomo';
 import Tagmanager from './Tagmanager';
 import { ConfigType } from '../../config';
@@ -51,7 +50,6 @@ const Document = ({ helmet, assets, data, styles }: Props) => {
           name="viewport"
           content="width=device-width, initial-scale=1 viewport-fit=cover"
         />
-        <GoogleTagMangerScript />
         {helmet.title.toComponent()}
         {helmet.meta.toComponent()}
         {helmet.link.toComponent()}
@@ -65,7 +63,6 @@ const Document = ({ helmet, assets, data, styles }: Props) => {
         {styles && <div dangerouslySetInnerHTML={{ __html: styles }} />}
       </head>
       <body {...bodyAttrs}>
-        <GoogleTagMangerNoScript />
         <Matomo />
         <script
           dangerouslySetInnerHTML={{

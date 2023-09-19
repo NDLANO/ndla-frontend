@@ -40,10 +40,7 @@ describe('Topic page', () => {
       '[data-testid="nav-box-list"] li a:contains("Idéskaping og mediedesign")',
     ).click();
     cy.gqlWait('@topicpage');
-    cy.get('[data-testid="nav-topic-about"]').within(() => {
-      cy.get('h1').contains(/\w+/);
-      cy.get('div').contains(/\w+/);
-    });
+    cy.get('[id="SkipToContentId"]').contains('Idéskaping og mediedesign');
   });
 
   it('contains article header, introduction and content', () => {
@@ -69,10 +66,7 @@ describe('Topic page', () => {
       '[data-testid="nav-box-list"] li a:contains("Tverrfaglige medieoppdrag")',
     ).click();
     cy.gqlWait('@topicpageWithContent');
-    cy.get('[data-testid="nav-topic-about"]').within(() => {
-      cy.get('h1').contains(/\w+/);
-      cy.get('div').contains(/\w+/);
-      cy.get('button').contains('Vis hele emnebeskrivelsen');
-    });
+    cy.get('[id="SkipToContentId"]').contains('Tverrfaglige medieoppdrag');
+    cy.get('button').contains('Vis hele emnebeskrivelsen');
   });
 });

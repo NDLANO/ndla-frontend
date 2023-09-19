@@ -6,24 +6,19 @@
  *
  */
 
-import { withTracker } from '@ndla/tracker';
+import { useTracker } from '@ndla/tracker';
 import { FeideUserApiType, Programme } from '@ndla/ui';
 import { Helmet } from 'react-helmet-async';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { TFunction, useTranslation } from 'react-i18next';
+import { useEffect } from 'react';
 import { SKIP_TO_CONTENT_ID } from '../../constants';
 import { LocaleType } from '../../interfaces';
 import { htmlTitle } from '../../util/titleHelper';
 import { getAllDimensions } from '../../util/trackingUtil';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 
-const getDocumentTitle = ({
-  programme,
-  grade,
-  t,
-}: Pick<Props, 'programme' | 'grade' | 't'>) => {
-  return htmlTitle(`${programme.title.title} - ${grade}`, [
-    t('htmlTitles.titleTemplate'),
-  ]);
+const getDocumentTitle = (title: string, grade: string, t: TFunction) => {
+  return htmlTitle(`${title} - ${grade}`, [t('htmlTitles.titleTemplate')]);
 };
 
 interface GradeResult {
@@ -84,7 +79,7 @@ interface GradesData {
   }[];
 }
 
-interface Props extends WithTranslation {
+interface Props {
   locale: LocaleType;
   user?: FeideUserApiType;
   programme: ProgrammeQueryResult;
@@ -117,13 +112,28 @@ export const mapGradesData = (grades: GradeResult[]): GradesData[] => {
   });
 };
 
-const ProgrammeContainer = ({ programme, grade, t }: Props) => {
+const ProgrammeContainer = ({ programme, grade, user }: Props) => {
+  const { t } = useTranslation();
   const heading = programme.title.title;
   const grades = mapGradesData(programme.grades || []);
   const socialMediaTitle = `${programme.title.title} - ${grade}`;
   const metaDescription = programme.metaDescription;
   const image = programme.desktopImage?.url || '';
-  const pageTitle = getDocumentTitle({ programme, grade, t });
+  const pageTitle = getDocumentTitle(programme.title.title, grade, t);
+  const { trackPageView } = useTracker();
+
+  useEffect(() => {
+    const dimensions = getAllDimensions(
+      { subject: { name: `${programme.title.title} - ${grade}` }, user },
+      undefined,
+      false,
+    );
+    trackPageView({
+      dimensions,
+      title: getDocumentTitle(programme.title.title, grade, t),
+    });
+  }, [grade, programme.title.title, t, trackPageView, user]);
+
   return (
     <>
       <Helmet>
@@ -147,16 +157,4 @@ const ProgrammeContainer = ({ programme, grade, t }: Props) => {
   );
 };
 
-ProgrammeContainer.getDocumentTitle = getDocumentTitle;
-
-ProgrammeContainer.getDimensions = (props: Props) => {
-  const { programme, grade, user } = props;
-  const subjectName = `${programme.title.title} - ${grade}`;
-  return getAllDimensions(
-    { subject: { name: subjectName }, user },
-    undefined,
-    false,
-  );
-};
-
-export default withTranslation()(withTracker(ProgrammeContainer));
+export default ProgrammeContainer;

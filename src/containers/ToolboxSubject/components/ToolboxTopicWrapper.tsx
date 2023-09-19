@@ -7,10 +7,10 @@
  */
 
 import { gql } from '@apollo/client';
-import { CustomWithTranslation, withTranslation } from 'react-i18next';
+import { TFunction, useTranslation } from 'react-i18next';
 import { FeideUserApiType, Topic } from '@ndla/ui';
-import { withTracker } from '@ndla/tracker';
-import { useMemo } from 'react';
+import { useTracker } from '@ndla/tracker';
+import { useEffect, useMemo } from 'react';
 import { extractEmbedMeta } from '@ndla/article-converter';
 import { toTopic } from '../../../routeHelpers';
 import Resources from '../../Resources/Resources';
@@ -24,7 +24,7 @@ import { htmlTitle } from '../../../util/titleHelper';
 import { SKIP_TO_CONTENT_ID } from '../../../constants';
 import TopicVisualElementContent from '../../SubjectPage/components/TopicVisualElementContent';
 
-interface Props extends CustomWithTranslation {
+interface Props {
   subject: GQLToolboxTopicWrapper_SubjectFragment;
   topic: GQLToolboxTopicWrapper_TopicFragment;
   resourceTypes?: GQLToolboxTopicWrapper_ResourceTypeDefinitionFragment[];
@@ -34,8 +34,8 @@ interface Props extends CustomWithTranslation {
   user?: FeideUserApiType;
 }
 
-const getDocumentTitle = ({ t, topic }: Props) => {
-  return htmlTitle(topic.name, [t('htmlTitles.titleTemplate')]);
+const getDocumentTitle = (name: string, t: TFunction) => {
+  return htmlTitle(name, [t('htmlTitles.titleTemplate')]);
 };
 
 const ToolboxTopicWrapper = ({
@@ -45,7 +45,27 @@ const ToolboxTopicWrapper = ({
   topic,
   resourceTypes,
   loading,
+  user,
 }: Props) => {
+  const { trackPageView } = useTracker();
+  const { t } = useTranslation();
+
+  useEffect(() => {
+    if (topic && index === topicList.length - 1) {
+      const topicPath = topicList.map(
+        (t) => subject.allTopics?.find((topic) => topic.id === t),
+      );
+      const dimensions = getAllDimensions({
+        subject,
+        topicPath,
+        filter: subject.name,
+        article: topic.article,
+        user,
+      });
+      trackPageView({ dimensions, title: getDocumentTitle(topic.name, t) });
+    }
+  }, [index, subject, t, topic, topicList, trackPageView, user]);
+
   const embedMeta = useMemo(() => {
     if (!topic.article?.visualElementEmbed?.content) return undefined;
     const embedMeta = extractEmbedMeta(
@@ -117,39 +137,6 @@ const ToolboxTopicWrapper = ({
   );
 };
 
-ToolboxTopicWrapper.getDocumentTitle = getDocumentTitle;
-
-ToolboxTopicWrapper.willTrackPageView = (
-  trackPageView: (item: Props) => void,
-  currentProps: Props,
-) => {
-  if (
-    currentProps.topic &&
-    currentProps.index === currentProps.topicList.length - 1
-  ) {
-    trackPageView(currentProps);
-  }
-};
-
-ToolboxTopicWrapper.getDimensions = (props: Props) => {
-  const { subject, topicList, topic, user } = props;
-  const topicPath = topicList.map(
-    (t) => subject.allTopics?.find((topic) => topic.id === t),
-  );
-
-  return getAllDimensions(
-    {
-      subject: subject,
-      topicPath,
-      filter: subject.name,
-      article: topic.article,
-      user,
-    },
-    undefined,
-    topicList.length > 0,
-  );
-};
-
 export const toolboxTopicWrapperFragments = {
   subject: gql`
     fragment ToolboxTopicWrapper_Subject on Subject {
@@ -215,4 +202,4 @@ export const toolboxTopicWrapperFragments = {
   `,
 };
 
-export default withTranslation()(withTracker(ToolboxTopicWrapper));
+export default ToolboxTopicWrapper;

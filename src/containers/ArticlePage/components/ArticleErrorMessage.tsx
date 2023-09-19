@@ -36,7 +36,6 @@ const ArticleErrorMessage = ({ status, children }: Props) => {
               status === 404
                 ? t('articlePage.error404Description')
                 : t('articlePage.errorDescription'),
-            back: t('errorMessage.back'),
             goToFrontPage: t('errorMessage.goToFrontPage'),
           }}
         />

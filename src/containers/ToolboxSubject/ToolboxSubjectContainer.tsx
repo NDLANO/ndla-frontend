@@ -7,7 +7,7 @@
  */
 
 import { gql } from '@apollo/client';
-import { withTracker } from '@ndla/tracker';
+import { useTracker } from '@ndla/tracker';
 import {
   FeideUserApiType,
   HomeBreadcrumb,
@@ -18,11 +18,7 @@ import {
 } from '@ndla/ui';
 import { useEffect, createRef, useState, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
-import {
-  CustomWithTranslation,
-  useTranslation,
-  withTranslation,
-} from 'react-i18next';
+import { TFunction, useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { GQLToolboxSubjectContainer_SubjectFragment } from '../../graphqlTypes';
@@ -33,7 +29,7 @@ import { ToolboxTopicContainer } from './components/ToolboxTopicContainer';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { SKIP_TO_CONTENT_ID } from '../../constants';
 
-interface Props extends CustomWithTranslation {
+interface Props {
   subject: GQLToolboxSubjectContainer_SubjectFragment;
   topicList: string[];
   user?: FeideUserApiType;
@@ -44,7 +40,11 @@ const BreadcrumbWrapper = styled.div`
 `;
 
 const getSocialMediaMetaData = (
-  { subject, topicList, t }: Pick<Props, 'subject' | 'topicList' | 't'>,
+  {
+    subject,
+    topicList,
+    t,
+  }: Pick<Props, 'subject' | 'topicList'> & { t: TFunction },
   selectedTopics?: string[],
 ) => {
   const topics = selectedTopics ?? getInitialSelectedTopics(topicList, subject);
@@ -74,10 +74,6 @@ const getSocialMediaMetaData = (
   };
 };
 
-const getDocumentTitle = (props: Props) => {
-  return getSocialMediaMetaData(props).title;
-};
-
 const getInitialSelectedTopics = (
   topicList: string[],
   subject: GQLToolboxSubjectContainer_SubjectFragment,
@@ -96,9 +92,28 @@ const getInitialSelectedTopics = (
   return initialSelectedTopics;
 };
 
-const ToolboxSubjectContainer = ({ topicList, subject }: Props) => {
+const ToolboxSubjectContainer = ({ topicList, subject, user }: Props) => {
   const { t } = useTranslation();
+  const { trackPageView } = useTracker();
   const selectedTopics = topicList;
+
+  useEffect(() => {
+    if (subject && topicList.length === 0) {
+      const topicPath = topicList.map(
+        (id) => subject.allTopics?.find((t) => t.id === id),
+      );
+      const dimensions = getAllDimensions({
+        subject,
+        topicPath,
+        filter: subject.name,
+        user,
+      });
+      trackPageView({
+        dimensions,
+        title: getSocialMediaMetaData({ topicList, subject, t }).title,
+      });
+    }
+  }, [subject, t, topicList, trackPageView, user]);
 
   const [topicCrumbs, setTopicCrumbs] = useState<SimpleBreadcrumbItem[]>([]);
 
@@ -255,29 +270,4 @@ export const toolboxSubjectContainerFragments = {
   `,
 };
 
-ToolboxSubjectContainer.getDocumentTitle = getDocumentTitle;
-
-ToolboxSubjectContainer.willTrackPageView = (
-  trackPageView: (item: Props) => void,
-  currentProps: Props,
-) => {
-  if (currentProps.subject && currentProps.topicList.length === 0) {
-    trackPageView(currentProps);
-  }
-};
-
-ToolboxSubjectContainer.getDimensions = (props: Props) => {
-  const { subject, topicList, user } = props;
-  const topicPath = topicList.map(
-    (t) => subject.allTopics?.find((topic) => topic.id === t),
-  );
-
-  return getAllDimensions({
-    subject,
-    topicPath,
-    filter: subject.name,
-    user,
-  });
-};
-
-export default withTranslation()(withTracker(ToolboxSubjectContainer));
+export default ToolboxSubjectContainer;

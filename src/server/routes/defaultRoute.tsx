@@ -100,7 +100,7 @@ async function doRender(req: Request) {
                 <VersionHashProvider value={versionHash}>
                   <IsMobileContext.Provider value={isMobile}>
                     <StaticRouter basename={basename} location={req.url}>
-                      <App isClient={false} locale={locale} key={locale} />
+                      <App key={locale} />
                     </StaticRouter>
                   </IsMobileContext.Provider>
                 </VersionHashProvider>
