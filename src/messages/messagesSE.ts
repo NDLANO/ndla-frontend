@@ -28,6 +28,10 @@ const messages = {
     myTagsPage: `Mu lihput - ${titleTemplate}`,
     aboutPage: `{{name}} - ${titleTemplate}`,
   },
+  programmes: {
+    header: 'Hva vil du lære om i dag?',
+    description: 'Velg utdanningsprogram for å se dine fag',
+  },
   podcastPage: {
     episodes: 'Episoder',
     podcast: 'Podkast',

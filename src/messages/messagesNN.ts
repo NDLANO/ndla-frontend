@@ -29,6 +29,10 @@ const messages = {
     sharedFolderPage: `{{name}} - ${titleTemplate}`,
     aboutPage: `{{name}} - ${titleTemplate}`,
   },
+  programmes: {
+    header: 'Kva vil du lære om i dag?',
+    description: 'Velg utdanningsprogram for å sjå faga dine',
+  },
   podcastPage: {
     episodes: 'Episoder',
     podcast: 'Podkast',
