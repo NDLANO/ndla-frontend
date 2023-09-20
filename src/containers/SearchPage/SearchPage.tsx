@@ -5,12 +5,13 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import { HelmetWithTracker } from '@ndla/tracker';
+import { HelmetWithTracker, useTracker } from '@ndla/tracker';
 import { ContentPlaceholder, OneColumn } from '@ndla/ui';
 import queryString from 'query-string';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
+import { useContext, useEffect } from 'react';
 import { searchPageQuery } from '../../queries';
 import SearchInnerPage from './SearchInnerPage';
 import {
@@ -20,6 +21,8 @@ import {
 import { searchSubjects } from '../../util/searchHelpers';
 import { useGraphQuery } from '../../util/runQueries';
 import { GQLSearchPageQuery } from '../../graphqlTypes';
+import { AuthContext } from '../../components/AuthenticationContext';
+import { getAllDimensions } from '../../util/trackingUtil';
 
 const getStateSearchParams = (searchParams: Record<string, any>) => {
   const stateSearchParams: Record<string, any> = {};
@@ -31,11 +34,22 @@ const getStateSearchParams = (searchParams: Record<string, any>) => {
 
 const SearchPage = () => {
   const { t, i18n } = useTranslation();
+  const { trackPageView } = useTracker();
+  const { user } = useContext(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
   const searchParams = converSearchStringToObject(location, i18n.language);
 
   const { data, loading } = useGraphQuery<GQLSearchPageQuery>(searchPageQuery);
+
+  useEffect(() => {
+    if (!loading) {
+      trackPageView({
+        title: t('htmlTitles.searchPage'),
+        dimensions: getAllDimensions({ user }),
+      });
+    }
+  }, [loading, t, trackPageView, user]);
 
   if (loading) {
     return <ContentPlaceholder />;
