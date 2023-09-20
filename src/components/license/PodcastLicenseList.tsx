@@ -14,6 +14,7 @@ import {
   MediaListItemBody,
   MediaListItemActions,
   MediaListItemMeta,
+  ItemType,
 } from '@ndla/ui';
 import { Podcast } from '@ndla/icons/common';
 import {
@@ -53,7 +54,7 @@ const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
   );
 
   const safeCopyright = licenseCopyrightToCopyrightType(podcast.copyright);
-  const items = getGroupedContributorDescriptionList(
+  const items: ItemType[] = getGroupedContributorDescriptionList(
     safeCopyright,
     i18n.language,
   );
@@ -82,6 +83,13 @@ const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
       label: t('source'),
       description: podcast.copyright.origin,
       metaType: metaTypes.other,
+    });
+  }
+
+  if (podcast.copyright.processed === true) {
+    items.push({
+      label: t('license.processed'),
+      metaType: metaTypes.otherWithoutDescription,
     });
   }
 

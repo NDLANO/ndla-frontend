@@ -17,5 +17,7 @@ export const licenseListCopyrightFragment = gql`
       name
       type
     }
+    origin
+    processed
   }
 `;
