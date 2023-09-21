@@ -78,11 +78,8 @@ const StyledAccordionHeader = styled(AccordionHeader)`
 const ImageWrapper = styled.div`
   width: 100%;
   height: 100%;
-  display: none;
+  display: flex;
   justify-content: center;
-  ${mq.range({ until: breakpoints.tablet })} {
-    display: flex;
-  }
 `;
 
 const StyledNav = styled.nav`
