@@ -287,7 +287,6 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   -webkit-transition: all 200ms ease-in-out;
   transition: all 200ms ease-in-out;
   background-color: #F0F6FB;
-  border: 1px solid #a5bcd3;
   font-size:font-size: 16px;
   font-size: 0.8888888888888888rem;
   line-height: 29px;
