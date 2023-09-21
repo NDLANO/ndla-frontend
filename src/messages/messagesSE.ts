@@ -29,8 +29,8 @@ const messages = {
     aboutPage: `{{name}} - ${titleTemplate}`,
   },
   programmes: {
-    header: 'Hva vil du lære om i dag?',
-    description: 'Velg utdanningsprogram for å se dine fag',
+    header: 'Maid háliidat oahppat odne?',
+    description: 'Vállje oahppoprográmma vai oainnát iežat fágaid',
   },
   podcastPage: {
     episodes: 'Episoder',

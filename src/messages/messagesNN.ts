@@ -31,7 +31,7 @@ const messages = {
   },
   programmes: {
     header: 'Kva vil du lære om i dag?',
-    description: 'Velg utdanningsprogram for å sjå faga dine',
+    description: 'Vel utdanningsprogram for å sjå faga dine',
   },
   podcastPage: {
     episodes: 'Episoder',
