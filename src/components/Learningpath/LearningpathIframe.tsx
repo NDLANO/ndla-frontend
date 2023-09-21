@@ -6,7 +6,7 @@
  *
  */
 
-import { MutableRefObject, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import parse from 'html-react-parser';
 
 export const urlIsNDLAApiUrl = (url: string) =>
@@ -20,86 +20,22 @@ export const urlIsNDLAUrl = (url: string) =>
 
 interface Props {
   html: string;
-  url: string;
 }
 
-const LearningpathIframe = ({ html, url }: Props) => {
-  const iframeRef = useRef() as MutableRefObject<HTMLInputElement>;
-  const [listeningToMessages, setListeningToMessages] = useState(true);
-
-  const handleIframeResizing = (url: string) => {
-    if (urlIsNDLAUrl(url)) {
-      enableIframeMessageListener();
-    } else {
-      disableIframeMessageListener();
-    }
-  };
+const LearningpathIframe = ({ html }: Props) => {
+  const iframeWrapperRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    handleIframeResizing(url);
-  });
-
-  const getIframeDOM = () => {
-    return iframeRef.current?.children[0] as HTMLIFrameElement;
-  };
-
-  const enableIframeMessageListener = () => {
-    window.addEventListener('message', handleIframeMessages);
-    setListeningToMessages(true);
-  };
-
-  const disableIframeMessageListener = () => {
-    window.removeEventListener('message', handleIframeMessages);
-    setListeningToMessages(false);
-  };
-
-  const handleScrollTo = (evt: MessageEvent) => {
-    const iframe = getIframeDOM();
+    const iframe = iframeWrapperRef.current?.querySelector('iframe');
     if (iframe) {
-      const rect = iframe.getBoundingClientRect();
-      const scrollTop =
-        window.pageYOffset || document.documentElement.scrollTop;
-
-      const top = evt.data.top + rect.top + scrollTop;
-      window.scroll({ top });
+      const [width, height] = [parseInt(iframe.width), parseInt(iframe.height)];
+      iframe.style.aspectRatio = `${width ? width : 16}/${height ? height : 9}`;
+      iframe.width = '';
+      iframe.height = '';
     }
-  };
+  }, []);
 
-  const handleResize = (evt: MessageEvent) => {
-    if (!evt.data.height) {
-      return;
-    }
-    const iframe = getIframeDOM();
-    if (iframe) {
-      const newHeight = parseInt(evt.data.height, 10);
-      iframe.style.height = `${newHeight}px`; // eslint-disable-line no-param-reassign
-    }
-  };
-
-  const handleIframeMessages = (event: MessageEvent) => {
-    const iframe = getIframeDOM();
-    /* Needed to enforce content to stay within iframe on Safari iOS */
-    if (iframe) {
-      iframe.setAttribute('scrolling', 'no');
-    }
-
-    if (!listeningToMessages || !event || !event.data) {
-      return;
-    }
-
-    switch (event.data.event) {
-      case 'resize':
-        handleResize(event);
-        break;
-      case 'scrollTo':
-        handleScrollTo(event);
-        break;
-      default:
-        break;
-    }
-  };
-
-  return <div ref={iframeRef}>{parse(html)}</div>;
+  return <div ref={iframeWrapperRef}>{parse(html)}</div>;
 };
 
 export default LearningpathIframe;

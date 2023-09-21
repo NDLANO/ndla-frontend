@@ -43,6 +43,9 @@ interface StyledIframeContainerProps {
 }
 const StyledIframeContainer = styled.div<StyledIframeContainerProps>`
   margin-bottom: ${spacing.normal};
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
   & > iframe {
     padding-top: 1em;
     border: 0 none;
@@ -167,7 +170,7 @@ const LearningpathEmbed = ({
         oembedWidth={oembed.width}
         oembedHeight={oembed.height}
       >
-        <LearningpathIframe html={oembed.html} url={embedUrl.url} />
+        <LearningpathIframe html={oembed.html} />
       </StyledIframeContainer>
     );
   }
