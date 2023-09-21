@@ -113,7 +113,7 @@ const MastheadContainer = () => {
           <Logo
             to="/"
             locale={locale}
-            label={t('logo.altText')}
+            label="NDLA"
             cssModifier={ndlaFilm ? 'white' : ''}
           />
         </LogoWrapper>
