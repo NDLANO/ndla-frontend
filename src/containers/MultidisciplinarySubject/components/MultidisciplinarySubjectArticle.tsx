@@ -122,7 +122,7 @@ const MultidisciplinarySubjectArticle = ({
         subject: subject.id,
         components: converterComponents,
       }),
-      getArticleScripts(topic.article, i18n.language),
+      getArticleScripts(topic.article),
     ];
   }, [topic.article, i18n.language, subject.id]);
 

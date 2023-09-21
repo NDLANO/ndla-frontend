@@ -72,7 +72,7 @@ const SharedArticleContainer = ({ article: propArticle, meta }: Props) => {
         path: `${config.ndlaFrontendDomain}/article/${propArticle.id}`,
         components: converterComponents,
       }),
-      getArticleScripts(propArticle, i18n.language),
+      getArticleScripts(propArticle),
     ];
   }, [propArticle, i18n.language]);
 

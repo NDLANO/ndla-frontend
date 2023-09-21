@@ -137,7 +137,7 @@ const LearningpathEmbed = ({
         subject: subjectId,
         components: converterComponents,
       }),
-      getArticleScripts(article, i18n.language),
+      getArticleScripts(article),
     ];
   }, [
     data?.article,

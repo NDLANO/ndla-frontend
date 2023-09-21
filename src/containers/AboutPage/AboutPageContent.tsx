@@ -156,7 +156,7 @@ const AboutPageContent = ({ article: _article, frontpage, user }: Props) => {
         ...transformedArticle,
         introduction: transformedArticle.introduction ?? '',
       },
-      getArticleScripts(_article, i18n.language),
+      getArticleScripts(_article),
     ];
   }, [_article, i18n.language])!;
 

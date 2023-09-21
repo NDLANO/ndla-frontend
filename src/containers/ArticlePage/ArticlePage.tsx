@@ -106,7 +106,7 @@ const ArticlePage = ({
         subject: subject?.id,
         components: converterComponents,
       }),
-      getArticleScripts(resource.article, i18n.language),
+      getArticleScripts(resource.article),
     ];
   }, [subject?.id, resource?.article, i18n.language])!;
 
