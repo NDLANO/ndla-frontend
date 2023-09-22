@@ -6,7 +6,7 @@
  *
  */
 
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
 import keyBy from 'lodash/keyBy';
@@ -18,7 +18,7 @@ import { Feide, Share } from '@ndla/icons/common';
 import { ListResource, UserInfo } from '@ndla/ui';
 import { ButtonV2 } from '@ndla/button';
 import SafeLink, { SafeLinkButton } from '@ndla/safelink';
-import { HelmetWithTracker } from '@ndla/tracker';
+import { HelmetWithTracker, useTracker } from '@ndla/tracker';
 import {
   ModalBody,
   ModalCloseButton,
@@ -40,6 +40,7 @@ import TitleWrapper from './components/TitleWrapper';
 import { constructNewPath, toHref } from '../../util/urlHelper';
 import { useBaseName } from '../../components/BaseNameContext';
 import { useDeletePersonalData } from './userMutations';
+import { getAllDimensions } from '../../util/trackingUtil';
 
 const ShareIcon = InfoPartIcon.withComponent(Share);
 const HeartOutlineIcon = InfoPartIcon.withComponent(HeartOutline);
@@ -100,6 +101,7 @@ const MyNdlaPage = () => {
   const { t } = useTranslation();
   const basename = useBaseName();
   const location = useLocation();
+  const { trackPageView } = useTracker();
   const { deletePersonalData } = useDeletePersonalData();
   const { allFolderResources } = useRecentlyUsedResources();
   const { data: metaData, loading } = useFolderResourceMetaSearch(
@@ -112,6 +114,13 @@ const MyNdlaPage = () => {
       skip: !allFolderResources || !allFolderResources.length,
     },
   );
+
+  useEffect(() => {
+    trackPageView({
+      title: t('htmlTitles.myNdlaPage'),
+      dimensions: getAllDimensions({ user }),
+    });
+  }, [t, trackPageView, user]);
 
   const onDeleteAccount = async () => {
     await deletePersonalData();
