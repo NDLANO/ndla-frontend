@@ -23,7 +23,6 @@ interface Props {
   title: string;
   description: string;
   removeText: string;
-  loading?: boolean;
 }
 
 const StyledButtonRow = styled.div`

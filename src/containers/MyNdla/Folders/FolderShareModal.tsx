@@ -163,6 +163,7 @@ export const FolderShareModalContent = ({
       );
     }
   }, [folder.id, onUpdate, t, type]);
+
   const unShareButton = useMemo(
     () =>
       type === 'shared' ? (

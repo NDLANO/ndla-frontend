@@ -46,8 +46,7 @@ const FolderActions = ({
 
   const { updateFolderStatus } = useUpdateFolderStatusMutation();
 
-  const { deleteFolder, loading: deleteFolderLoading } =
-    useDeleteFolderMutation();
+  const { deleteFolder } = useDeleteFolderMutation();
 
   const onDeleteFolder = useCallback(async () => {
     await deleteFolder({ variables: { id: selectedFolder.id } });
@@ -184,7 +183,6 @@ const FolderActions = ({
       isModal: true,
       modalContent: (close) => (
         <DeleteModalContent
-          loading={deleteFolderLoading}
           title={t('myNdla.folder.delete')}
           description={t('myNdla.confirmDeleteFolder')}
           removeText={t('myNdla.folder.delete')}
@@ -206,7 +204,6 @@ const FolderActions = ({
     return [editFolder, share, deleteOpt];
   }, [
     addSnack,
-    deleteFolderLoading,
     examLock,
     onDeleteFolder,
     onFolderUpdated,

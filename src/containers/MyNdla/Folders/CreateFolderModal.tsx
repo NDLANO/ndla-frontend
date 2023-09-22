@@ -65,7 +65,7 @@ const CreateFolderModal = ({ onSaved, parentFolder }: Props) => {
   return (
     <Modal open={open} onOpenChange={setOpen}>
       <ModalTrigger>
-        <AddButton shape="pill" colorTheme="lighter">
+        <AddButton variant="ghost" colorTheme="lighter">
           <Plus css={iconCss} />
           <span>{t('myNdla.newFolder')}</span>
         </AddButton>
