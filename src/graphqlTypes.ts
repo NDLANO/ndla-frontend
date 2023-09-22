@@ -2748,21 +2748,11 @@ export type GQLCopySharedFolderMutationVariables = Exact<{
 export type GQLCopySharedFolderMutation = {
   __typename?: 'Mutation';
   copySharedFolder: {
-    __typename: 'Folder';
-    id: string;
-    name: string;
-    status: string;
-    created: string;
-    updated: string;
-    description?: string;
-    breadcrumbs: Array<{ __typename: 'Breadcrumb'; id: string; name: string }>;
+    __typename?: 'Folder';
     subfolders: Array<
       { __typename?: 'Folder' } & GQLFoldersPageQueryFragmentFragment
     >;
-    resources: Array<
-      { __typename?: 'FolderResource' } & GQLFolderResourceFragmentFragment
-    >;
-  };
+  } & GQLFolderFragmentFragment;
 };
 
 type GQLFolderResourceMeta_ArticleFolderResourceMeta_Fragment = {
@@ -3592,21 +3582,6 @@ export type GQLFrontpageDataQuery = {
     } & GQLLicenseBox_ArticleFragment &
       GQLStructuredArticleDataFragment;
   };
-};
-
-export type GQLFrontpageSubjectsQueryVariables = Exact<{
-  [key: string]: never;
-}>;
-
-export type GQLFrontpageSubjectsQuery = {
-  __typename?: 'Query';
-  subjects?: Array<{
-    __typename?: 'Subject';
-    id: string;
-    name: string;
-    path: string;
-    metadata: { __typename?: 'TaxonomyMetadata'; customFields: any };
-  }>;
 };
 
 export type GQLIframeArticlePage_ArticleFragment = {

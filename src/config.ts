@@ -107,14 +107,12 @@ export type ConfigType = {
   learningPathDomain: string;
   zendeskWidgetKey: string | undefined;
   localGraphQLApi: boolean;
-  showAllFrontpageSubjects: boolean;
   saamiEnabled: boolean;
   feideDomain: string;
   feideEnabled: boolean;
   matomoUrl: string;
   matomoSiteId: string;
   matomoTagmanagerId: string;
-  taxonomyProgrammesEnabled: boolean;
   isVercel: boolean;
   monsidoToken: string;
 };
@@ -144,17 +142,12 @@ const config: ConfigType = {
   ),
   zendeskWidgetKey: getEnvironmentVariabel('NDLA_ZENDESK_WIDGET_KEY'),
   localGraphQLApi: getEnvironmentVariabel('LOCAL_GRAPHQL_API', false),
-  showAllFrontpageSubjects: true,
   saamiEnabled: getEnvironmentVariabel('SAAMI_ENABLED', false),
   feideDomain: feideDomain(),
   feideEnabled: getEnvironmentVariabel('FEIDE_ENABLED', false),
   matomoUrl: getEnvironmentVariabel('MATOMO_URL', 'https://tall.ndla.no'),
   matomoSiteId: getEnvironmentVariabel('MATOMO_SITE_ID', ''),
   matomoTagmanagerId: getEnvironmentVariabel('MATOMO_TAGMANAGER_ID', ''),
-  taxonomyProgrammesEnabled: getEnvironmentVariabel(
-    'TAXONOMY_PROGRAMMES_ENABLED',
-    false,
-  ),
   isVercel: getEnvironmentVariabel('IS_VERCEL', false),
   monsidoToken: getEnvironmentVariabel('MONSIDO_TOKEN', ''),
 };

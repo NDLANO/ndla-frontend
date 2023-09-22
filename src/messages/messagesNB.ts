@@ -47,27 +47,6 @@ const messages = {
     ingress:
       'Se våre forslag til aktiviteter og årsplaner. Gode resultater starter med god planlegging.',
   },
-  blogPosts: {
-    blog1: {
-      imageUrl: '/static/samiske-laeremidler.jpg',
-      text: 'Utvikler samiske ressurser på NDLA',
-      externalLink:
-        'https://blogg.ndla.no/2023/02/utvikler-samiske-ressurser-pa-ndla/',
-      linkText: 'Fagblogg',
-      license: 'CC-BY-SA-4.0',
-      licenseAuthor: 'Jan Frode Lindsø',
-    },
-    blog2: {
-      imageUrl: '/static/aktiviser-elevene.jpg',
-      text: 'Huskeliste for kontaktlærere',
-      externalLink:
-        'https://blogg.ndla.no/2019/08/huskeliste-for-kontaktlaerere/',
-      linkText: 'Fagblogg',
-      license: 'CC-BY-SA-4.0',
-      licenseAuthor: 'Tom Knudsen',
-    },
-  },
-
   validation: {
     fields: {
       name: 'Navn',

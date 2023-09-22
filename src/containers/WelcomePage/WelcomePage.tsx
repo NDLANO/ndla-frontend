@@ -10,13 +10,9 @@ import styled from '@emotion/styled';
 import { useContext, useEffect, useMemo } from 'react';
 import { HelmetWithTracker, useTracker } from '@ndla/tracker';
 import {
-  FrontpageHeader,
-  FrontpageFilm,
-  OneColumn,
   ProgrammeV2,
   FrontpageArticle,
   WIDE_FRONTPAGE_ARTICLE_MAX_WIDTH,
-  BannerCard,
 } from '@ndla/ui';
 import {
   breakpoints,
@@ -29,26 +25,11 @@ import {
 import { useTranslation } from 'react-i18next';
 import { gql } from '@apollo/client';
 
-import WelcomePageInfo from './WelcomePageInfo';
-import FrontpageSubjects from './FrontpageSubjects';
-import {
-  FILM_PAGE_PATH,
-  PROGRAMME_PATH,
-  SKIP_TO_CONTENT_ID,
-} from '../../constants';
+import { PROGRAMME_PATH, SKIP_TO_CONTENT_ID } from '../../constants';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import config from '../../config';
-import BlogPosts from './BlogPosts';
-import WelcomePageSearch from './WelcomePageSearch';
-import {
-  GQLFrontpageDataQuery,
-  GQLFrontpageSubjectsQuery,
-  GQLProgrammePage,
-} from '../../graphqlTypes';
+import { GQLFrontpageDataQuery, GQLProgrammePage } from '../../graphqlTypes';
 import Programmes from './Components/Programmes';
-import FrontpageMultidisciplinarySubject from './FrontpageMultidisciplinarySubject';
-import FrontpageToolbox from './FrontpageToolbox';
-import { useEnableTaxStructure } from '../../components/TaxonomyStructureContext';
 import LicenseBox from '../../components/license/LicenseBox';
 import { structuredArticleDataFragment } from '../../util/getStructuredDataFromArticle';
 import { useGraphQuery } from '../../util/runQueries';
@@ -56,10 +37,6 @@ import { transformArticle } from '../../util/transformArticle';
 import { getArticleScripts } from '../../util/getArticleScripts';
 import { AuthContext } from '../../components/AuthenticationContext';
 import { getAllDimensions } from '../../util/trackingUtil';
-
-const BannerWrapper = styled.div`
-  margin-bottom: ${spacing.normal};
-`;
 
 const HiddenHeading = styled.h1`
   ${utils.visuallyHidden};
@@ -138,19 +115,6 @@ const frontpageQuery = gql`
   ${programmeFragment}
 `;
 
-const frontpageSubjectsQuery = gql`
-  query frontpageSubjects {
-    subjects(filterVisible: true) {
-      id
-      name
-      path
-      metadata {
-        customFields
-      }
-    }
-  }
-`;
-
 const formatProgrammes = (data: GQLProgrammePage[]): ProgrammeV2[] => {
   return data.map((p) => {
     return {
@@ -173,11 +137,6 @@ const WelcomePage = () => {
   const { t, i18n } = useTranslation();
   const { trackPageView } = useTracker();
   const { user } = useContext(AuthContext);
-  const taxonomyProgrammesEnabled = useEnableTaxStructure();
-  const subjectsQuery = useGraphQuery<GQLFrontpageSubjectsQuery>(
-    frontpageSubjectsQuery,
-    { skip: typeof window === 'undefined' },
-  );
 
   useEffect(() => {
     trackPageView({
@@ -186,9 +145,7 @@ const WelcomePage = () => {
     });
   }, [t, trackPageView, user]);
 
-  const fpQuery = useGraphQuery<GQLFrontpageDataQuery>(frontpageQuery, {
-    skip: !taxonomyProgrammesEnabled,
-  });
+  const fpQuery = useGraphQuery<GQLFrontpageDataQuery>(frontpageQuery);
 
   const programmes = useMemo(() => {
     if (fpQuery.data?.programmes) {
@@ -241,64 +198,14 @@ const WelcomePage = () => {
       >
         <meta name="keywords" content={t('meta.keywords')} />
       </SocialMediaMetadata>
-      {!taxonomyProgrammesEnabled && (
-        <FrontpageHeader locale={i18n.language} showHeader={true}>
-          <WelcomePageSearch />
-        </FrontpageHeader>
-      )}
-      {taxonomyProgrammesEnabled ? (
-        <StyledMain>
-          <ProgrammeWrapper data-testid="programme-list">
-            <Programmes programmes={programmes} loading={fpQuery.loading} />
-          </ProgrammeWrapper>
-          {article && (
-            <FrontpageArticle
-              isWide
-              id={SKIP_TO_CONTENT_ID}
-              article={article}
-            />
-          )}
-        </StyledMain>
-      ) : (
-        <main>
-          <OneColumn wide>
-            <BannerWrapper>
-              <BannerCard
-                link="https://blogg.ndla.no/laeremidlene-du-trenger-til-skolearet/"
-                title={{ title: t('campaignBlock.title'), lang: i18n.language }}
-                image={{
-                  imageSrc: '/static/planlegg_skolearet.jpeg',
-                  altText: '',
-                }}
-                linkText={{
-                  text: t('campaignBlock.linkText'),
-                  lang: i18n.language,
-                }}
-                content={{
-                  content: t('campaignBlock.ingress'),
-                  lang: i18n.language,
-                }}
-              />
-            </BannerWrapper>
-            <div data-testid="category-list" id={SKIP_TO_CONTENT_ID}>
-              <FrontpageSubjects
-                locale={i18n.language}
-                subjects={subjectsQuery?.data?.subjects}
-              />
-            </div>
-          </OneColumn>
-          <OneColumn wide>
-            <FrontpageMultidisciplinarySubject />
-            <FrontpageToolbox />
-            <BlogPosts locale={i18n.language} />
-            <FrontpageFilm
-              imageUrl="/static/film_illustrasjon.svg"
-              url={FILM_PAGE_PATH}
-            />
-            <WelcomePageInfo />
-          </OneColumn>
-        </main>
-      )}
+      <StyledMain>
+        <ProgrammeWrapper data-testid="programme-list">
+          <Programmes programmes={programmes} loading={fpQuery.loading} />
+        </ProgrammeWrapper>
+        {article && (
+          <FrontpageArticle isWide id={SKIP_TO_CONTENT_ID} article={article} />
+        )}
+      </StyledMain>
     </>
   );
 };
