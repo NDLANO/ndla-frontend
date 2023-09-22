@@ -11,13 +11,13 @@ describe('Front page', () => {
     cy.fixCypressSpec('/e2e/integration/frontpage.spec.ts');
     cy.gqlIntercept({
       alias: 'alerts',
-      operations: ['examLockStatus', 'alerts', 'frontpageSubjects'],
+      operations: ['examLockStatus', 'alerts', 'frontpageData', 'mastheadProgramme', 'mastheadFrontpage'],
     });
     cy.visit('/?disableSSR=true');
     cy.gqlWait('@alerts');
   });
   it('should have a list of valid links on front page', () => {
-    cy.get('[data-testid="category-list"] nav a').each((el) => {
+    cy.get('[data-testid="programme-list"] nav a').each((el) => {
       cy.wrap(el).should('have.attr', 'href');
       cy.wrap(el).contains(/\w+/);
     });

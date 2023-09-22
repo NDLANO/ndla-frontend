@@ -11,7 +11,7 @@ describe('Topic page', () => {
     cy.fixCypressSpec('/cypress/integration/topic_page.spec.ts');
     cy.gqlIntercept({
       alias: 'alerts',
-      operations: ['examLockStatus', 'alerts', 'frontpageSubjects'],
+      operations: ['examLockStatus', 'alerts', 'frontpageData', 'mastheadProgramme', 'mastheadFrontpage'],
     });
     cy.visit('/?disableSSR=true');
     cy.gqlWait('@alerts');
@@ -19,15 +19,21 @@ describe('Topic page', () => {
 
   it('contains article header and introduction', () => {
     cy.gqlIntercept({
+      alias: 'subjects',
+      operations: ['allSubjects'],
+    });
+    cy.gqlIntercept({
       alias: 'medieutrykk',
       operations: ['mastHead', 'subjectPageTest'],
     });
 
-    cy.get('[data-testid="category-list"]  button:contains("Alle fag"):visible')
-      .click()
-      .get('button[id$="trigger-allsubjects"]')
-      .click()
-      .get('a:contains("Medieuttrykk 3 og mediesamfunnet 3")')
+    cy.get('button:contains("Meny")').click();
+    cy.get('div[role=dialog] nav a:contains("Fag")').click();
+    cy.gqlWait('@subjects');
+
+    cy.get('ul[aria-label="Filtrer fag"]  button:contains("ALLE FAG"):visible')
+      .click();
+    cy.get('a:contains("Medieuttrykk 3")')
       .last()
       .click();
     cy.gqlWait('@medieutrykk');
@@ -45,15 +51,21 @@ describe('Topic page', () => {
 
   it('contains article header, introduction and content', () => {
     cy.gqlIntercept({
+      alias: 'subjects',
+      operations: ['allSubjects'],
+    });
+    cy.gqlIntercept({
       alias: 'medieutrykk',
       operations: ['mastHead', 'subjectPageTest'],
     });
 
-    cy.get('[data-testid="category-list"]  button:contains("Alle fag"):visible')
-      .click()
-      .get('button[id$="trigger-allsubjects"]')
-      .click()
-      .get('a:contains("Medieuttrykk 3 og mediesamfunnet 3")')
+    cy.get('button:contains("Meny")').click();
+    cy.get('div[role=dialog] nav a:contains("Fag")').click();
+    cy.gqlWait('@subjects');
+
+    cy.get('ul[aria-label="Filtrer fag"]  button:contains("ALLE FAG"):visible')
+      .click();
+    cy.get('a:contains("Medieuttrykk 3")')
       .last()
       .click();
     cy.gqlWait('@medieutrykk');

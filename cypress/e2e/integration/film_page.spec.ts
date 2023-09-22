@@ -11,7 +11,7 @@ describe('Film page', () => {
     cy.fixCypressSpec('/e2e/integration/film_page.spec.ts');
     cy.gqlIntercept({
       alias: 'filmPage',
-      operations: ['examLockStatus', 'filmFrontPage', 'alerts', 'mastHead'],
+      operations: ['examLockStatus', 'filmFrontPage', 'alerts', 'mastHead', 'mastheadFrontpage', 'mastheadProgramme'],
     });
   });
 
@@ -31,7 +31,7 @@ describe('Film page', () => {
       .parent()
       .children()
       .should(($list) => {
-        expect($list).to.have.length(5);
+        expect($list).to.have.length(6);
       });
   });
 });
