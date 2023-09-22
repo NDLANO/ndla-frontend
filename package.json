@@ -51,7 +51,7 @@
     "@graphql-codegen/typescript-operations": "^4.0.1",
     "@graphql-eslint/eslint-plugin": "^3.19.0",
     "@ndla/scripts": "^1.0.4",
-    "@ndla/types-backend": "^0.2.20",
+    "@ndla/types-backend": "^0.2.21",
     "@ndla/types-embed": "^4.0.0",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.10",
     "@testing-library/react": "14.0.0",
