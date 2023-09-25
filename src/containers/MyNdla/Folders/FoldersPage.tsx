@@ -22,7 +22,7 @@ import {
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import { HelmetWithTracker } from '@ndla/tracker';
+import { HelmetWithTracker, useTracker } from '@ndla/tracker';
 import { FileDocumentOutline, Share } from '@ndla/icons/common';
 import { TrashCanOutline } from '@ndla/icons/action';
 import { GQLFolder, GQLFoldersPageQuery } from '../../../graphqlTypes';
@@ -44,6 +44,7 @@ import FolderShareModal from './FolderShareModal';
 import { copyFolderSharingLink, isStudent } from './util';
 import CreateFolderModal from './CreateFolderModal';
 import ResourceList from './ResourceList';
+import { getAllDimensions } from '../../../util/trackingUtil';
 
 interface BlockWrapperProps {
   type?: string;
@@ -115,6 +116,7 @@ const FoldersPage = () => {
   const { t } = useTranslation();
   const { folderId } = useParams();
   const { user } = useContext(AuthContext);
+  const { trackPageView } = useTracker();
   const [viewType, _setViewType] = useState<ViewType>(
     (localStorage.getItem(STORED_RESOURCE_VIEW_SETTINGS) as ViewType) || 'list',
   );
@@ -129,6 +131,13 @@ const FoldersPage = () => {
 
   const hasSelectedFolder = !!folderId;
   const selectedFolder = useFolder(folderId);
+
+  const title = useMemo(() => {
+    if (folderId) {
+      return t('htmlTitles.myFolderPage', { folderName: selectedFolder?.name });
+    } else return t('htmlTitles.myFoldersPage');
+  }, [folderId, selectedFolder?.name, t]);
+
   const folders: GQLFolder[] = useMemo(
     () =>
       selectedFolder
@@ -138,6 +147,11 @@ const FoldersPage = () => {
   );
   const [previousFolders, setPreviousFolders] = useState<GQLFolder[]>(folders);
   const [focusId, setFocusId] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    trackPageView({ title, dimensions: getAllDimensions({ user }) });
+  }, [title, trackPageView, user]);
+
   useEffect(() => {
     const folderIds = folders.map((f) => f.id).sort();
     const prevFolderIds = previousFolders.map((f) => f.id).sort();
@@ -201,13 +215,7 @@ const FoldersPage = () => {
 
   return (
     <FoldersPageContainer>
-      <HelmetWithTracker
-        title={
-          hasSelectedFolder
-            ? t('htmlTitles.myFolderPage', { folderName: selectedFolder?.name })
-            : t('htmlTitles.myFoldersPage')
-        }
-      />
+      <HelmetWithTracker title={title} />
       <FoldersPageTitle
         key={selectedFolder?.id}
         loading={loading}
