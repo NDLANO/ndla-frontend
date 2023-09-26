@@ -47,6 +47,14 @@ const messages = {
     ingress:
       'See our tips for activities and annual plans. Good results start with good planning.',
   },
+  myndla: {
+    campaignBlock: {
+      title: 'Try our chatbot',
+      linkText: 'Try NDLAs chatbots',
+      ingress:
+        "We have created two chatbots that you can use in your everyday work. The teacher's aid is designed to come up with creative solutions to didactic problems. Student support can explain subject matter and phenomena in an educational way to upper secondary school students. Find the robots at ai.ndla.no and use the code ndla2023",
+    },
+  },
   blogPosts: {
     blog1: {
       imageUrl: '/static/samiske-laeremidler.jpg',

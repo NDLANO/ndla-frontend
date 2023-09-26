@@ -46,6 +46,14 @@ const messages = {
     ingress:
       'Sjå våre forslag til aktivitetar og årsplanar. Gode resultat startar med god planlegging.',
   },
+  myndla: {
+    campaignBlock: {
+      title: 'Geahččal min ságastallanbottu',
+      linkText: 'Geahččal NDLA ságastallanrobohta',
+      ingress:
+        'Mii leat ráhkadan guokte hupmanrobota maid sáhtát geavahit bargobeaivvis. Oahpaheaddjiveahkki lea ráhkaduvvon hutkkálaš čovdosiid ovddideapmái didákttalaš čuolmmaide. Oahppiveahkki máhttá čilget fágadoahpagiid ja fenomenaid oahpaheaddji láhkai joatkkaskuvlla ohppiide. Gávnna robttaid ai.ndla.no ja geavat koda ndla2023',
+    },
+  },
   blogPosts: {
     blog1: {
       imageUrl: '/static/samiske-laeremidler.jpg',

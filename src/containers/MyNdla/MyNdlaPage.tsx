@@ -15,7 +15,7 @@ import { fonts, spacing } from '@ndla/core';
 import { HeartOutline, MenuBook } from '@ndla/icons/action';
 import { FolderOutlined } from '@ndla/icons/contentType';
 import { Feide, Share } from '@ndla/icons/common';
-import { ListResource, UserInfo } from '@ndla/ui';
+import { BannerCard, ListResource, UserInfo } from '@ndla/ui';
 import { ButtonV2 } from '@ndla/button';
 import SafeLink, { SafeLinkButton } from '@ndla/safelink';
 import { HelmetWithTracker, useTracker } from '@ndla/tracker';
@@ -96,9 +96,16 @@ const StyledDescription = styled.p`
   ${fonts.sizes('24px')};
 `;
 
+const StyledBannerCard = styled(BannerCard)`
+  max-width: 100%;
+  div p {
+    white-space: pre-wrap;
+  }
+`;
+
 const MyNdlaPage = () => {
   const { user } = useContext(AuthContext);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const basename = useBaseName();
   const location = useLocation();
   const { trackPageView } = useTracker();
@@ -140,6 +147,22 @@ const MyNdlaPage = () => {
         <MyNdlaTitle title={t('myNdla.myPage.myPage')} />
       </TitleWrapper>
       <StyledDescription>{t('myNdla.myPage.welcome')}</StyledDescription>
+      <StyledBannerCard
+        link="https://ai.ndla.no/"
+        title={{ title: t('myndla.campaignBlock.title'), lang: i18n.language }}
+        image={{
+          imageSrc: '/static/planlegg_skolearet.jpeg',
+          altText: '',
+        }}
+        linkText={{
+          text: t('myndla.campaignBlock.linkText'),
+          lang: i18n.language,
+        }}
+        content={{
+          content: t('myndla.campaignBlock.ingress'),
+          lang: i18n.language,
+        }}
+      />
       <InfoPart icon={<ShareIcon />} title={t('myNdla.myPage.sharing.title')}>
         <InfoPartText>{t('myNdla.myPage.sharing.text')}</InfoPartText>
       </InfoPart>

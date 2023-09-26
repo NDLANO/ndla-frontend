@@ -47,6 +47,14 @@ const messages = {
     ingress:
       'Se våre forslag til aktiviteter og årsplaner. Gode resultater starter med god planlegging.',
   },
+  myndla: {
+    campaignBlock: {
+      title: 'Prøv vår praterobot',
+      linkText: 'Prøv NDLAs prateroboter',
+      ingress:
+        'Vi har laget to prateroboter som du kan bruke i din arbeidshverdag. Lærerhjelpen er laget for å komme med kreative løsninger på didaktiske problemer. Elevhjelpen kan forklare fagstoff og fenomener på en lærerik måte til elever på videregående skole. \n\nFinn robotene på ai.ndla.no og bruk koden ndla2023',
+    },
+  },
   blogPosts: {
     blog1: {
       imageUrl: '/static/samiske-laeremidler.jpg',
