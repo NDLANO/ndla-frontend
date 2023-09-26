@@ -24,7 +24,7 @@ describe('Front page', () => {
   });
 
   it('should have a functioning change language box', () => {
-    cy.get('[class*="StyledLanguageWrapper"] button').first().click();
+    cy.get('[class*="LanguageSelectWrapper"] button').first().click();
     cy.get('[data-radix-popper-content-wrapper]')
       .contains('Bokmål')
       .invoke('attr', 'aria-current')
