@@ -51,6 +51,13 @@ const FavoriteSubjectIcon = InfoPartIcon.withComponent(MenuBook);
 const StyledPageContentContainer = styled.div`
   display: flex;
   flex-direction: column;
+  // Temp to force styling in bannercard
+  div {
+    max-width: 100%;
+    p {
+      white-space: pre-wrap;
+    }
+  }
 `;
 
 const ButtonRow = styled.div`

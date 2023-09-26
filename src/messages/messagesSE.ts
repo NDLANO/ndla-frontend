@@ -51,7 +51,7 @@ const messages = {
       title: 'Geahččal min ságastallanbottu',
       linkText: 'Geahččal NDLA ságastallanrobohta',
       ingress:
-        'Mii leat ráhkadan guokte hupmanrobota maid sáhtát geavahit bargobeaivvis. Oahpaheaddjiveahkki lea ráhkaduvvon hutkkálaš čovdosiid ovddideapmái didákttalaš čuolmmaide. Oahppiveahkki máhttá čilget fágadoahpagiid ja fenomenaid oahpaheaddji láhkai joatkkaskuvlla ohppiide. Gávnna robttaid ai.ndla.no ja geavat koda ndla2023',
+        'Mii leat ráhkadan guokte hupmanrobota maid sáhtát geavahit bargobeaivvis. Oahpaheaddjiveahkki lea ráhkaduvvon hutkkálaš čovdosiid ovddideapmái didákttalaš čuolmmaide. Oahppiveahkki máhttá čilget fágadoahpagiid ja fenomenaid oahpaheaddji láhkai joatkkaskuvlla ohppiide. \n\nGávnna robttaid ai.ndla.no ja geavat koda ndla2023',
     },
   },
   blogPosts: {
