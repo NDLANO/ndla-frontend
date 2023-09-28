@@ -14,6 +14,7 @@ import {
   MediaListItemBody,
   MediaListItemActions,
   MediaListItemMeta,
+  ItemType,
 } from '@ndla/ui';
 import {
   metaTypes,
@@ -53,7 +54,7 @@ const ConceptLicenseInfo = ({ concept }: ConceptLicenseInfoProps) => {
 
   const src = `${config.ndlaFrontendDomain}/embed-iframe/${i18n.language}/concept/${concept.id}`;
   const safeCopyright = licenseCopyrightToCopyrightType(concept.copyright);
-  const items = getGroupedContributorDescriptionList(
+  const items: ItemType[] = getGroupedContributorDescriptionList(
     safeCopyright,
     i18n.language,
   );
@@ -64,6 +65,20 @@ const ConceptLicenseInfo = ({ concept }: ConceptLicenseInfoProps) => {
       metaType: metaTypes.title,
     });
   }
+  if (concept.copyright.origin) {
+    items.push({
+      label: t('source'),
+      description: concept.copyright.origin,
+      metaType: metaTypes.other,
+    });
+  }
+  if (concept.copyright.processed === true) {
+    items.push({
+      label: t('license.processed'),
+      metaType: metaTypes.otherWithoutDescription,
+    });
+  }
+
   return (
     <MediaListItem>
       <MediaListItemImage canOpen={shouldShowLink}>
@@ -147,6 +162,8 @@ ConceptLicenseList.fragments = {
           name
           type
         }
+        origin
+        processed
       }
     }
   `,
