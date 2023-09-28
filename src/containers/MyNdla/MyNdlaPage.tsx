@@ -40,12 +40,16 @@ import TitleWrapper from './components/TitleWrapper';
 import { constructNewPath, toHref } from '../../util/urlHelper';
 import { useBaseName } from '../../components/BaseNameContext';
 import { useDeletePersonalData } from './userMutations';
+import ArenaCard, { StyledLeftIcon } from './ArenaCards/ArenaCard';
 
 const ShareIcon = InfoPartIcon.withComponent(Share);
 const HeartOutlineIcon = InfoPartIcon.withComponent(HeartOutline);
 const FolderOutlinedIcon = InfoPartIcon.withComponent(FolderOutlined);
 const FeideIcon = InfoPartIcon.withComponent(Feide);
 const FavoriteSubjectIcon = InfoPartIcon.withComponent(MenuBook);
+
+//test item for arenacard
+const FolderIcon = StyledLeftIcon.withComponent(MenuBook);
 
 const StyledPageContentContainer = styled.div`
   display: flex;
@@ -154,6 +158,7 @@ const MyNdlaPage = () => {
           <Trans i18nKey="myNdla.myPage.folderInfo.text" />
         </InfoPartText>
       </InfoPart>
+      <ArenaCard leftIcon={<FolderIcon />} />
       {allFolderResources && allFolderResources.length > 0 && (
         <>
           <h2>{t('myNdla.myPage.newFavourite')}</h2>
