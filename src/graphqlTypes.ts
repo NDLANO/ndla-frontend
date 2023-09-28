@@ -1637,6 +1637,7 @@ export type GQLArticle_ArticleFragment = {
   introduction?: string;
   conceptIds?: Array<number>;
   revisionDate?: string;
+  language: string;
   metaData?: {
     __typename?: 'ArticleMetaData';
     copyText?: string;

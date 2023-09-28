@@ -286,6 +286,7 @@ Article.fragments = {
         url
       }
       revisionDate
+      language
       ...LicenseBox_Article
     }
     ${LicenseBox.fragments.article}
