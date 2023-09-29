@@ -38,6 +38,7 @@ import MyNdlaBreadcrumb from './components/MyNdlaBreadcrumb';
 import MyNdlaTitle from './components/MyNdlaTitle';
 import TitleWrapper from './components/TitleWrapper';
 import { constructNewPath, toHref } from '../../util/urlHelper';
+import { isStudent } from './Folders/util';
 import { useBaseName } from '../../components/BaseNameContext';
 import { useDeletePersonalData } from './userMutations';
 import { getAllDimensions } from '../../util/trackingUtil';
@@ -54,9 +55,6 @@ const StyledPageContentContainer = styled.div`
   // Temp to force styling in bannercard
   div {
     max-width: 100%;
-    p {
-      white-space: pre-wrap;
-    }
   }
 `;
 
@@ -158,7 +156,7 @@ const MyNdlaPage = () => {
         link="https://ai.ndla.no/"
         title={{ title: t('myndla.campaignBlock.title'), lang: i18n.language }}
         image={{
-          imageSrc: '/static/planlegg_skolearet.jpeg',
+          imageSrc: '/static/ndla-ai.png',
           altText: '',
         }}
         linkText={{
@@ -166,7 +164,9 @@ const MyNdlaPage = () => {
           lang: i18n.language,
         }}
         content={{
-          content: t('myndla.campaignBlock.ingress'),
+          content: isStudent(user)
+            ? t('myndla.campaignBlock.ingressStudent')
+            : t('myndla.campaignBlock.ingress'),
           lang: i18n.language,
         }}
       />

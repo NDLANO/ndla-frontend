@@ -51,8 +51,10 @@ const messages = {
     campaignBlock: {
       title: 'Prøv praterobotane våre',
       linkText: 'Prøv NDLAs praterobotar',
+      ingressStudent:
+        'Lurer du på noko i faget ditt? Vil du ha hjelp til å forenkle ein tekst, øve til ein prøve eller få forslag til ein disposisjon? Prøv prateroboten vår og sjå om han kan hjelpe deg!',
       ingress:
-        'Vi har laga to praterobotar som du kan bruke i din arbeidskvardag. Lærerhjelpa er laga for å komme med kreative løsninger på didaktiske problemer. Elevhjelpa kan forklare fagstoff og fenomener på ein lærerik måte til elever på videregående skule.\n\nFinn robotane på ai.ndla.no og bruk koden ndla2023',
+        'Vil du bruke AI i undervisninga? NDLA har laga to praterobotar som tek vare på personvernet ditt og trygt kan brukast til jobb og i undervisning.',
     },
   },
   blogPosts: {

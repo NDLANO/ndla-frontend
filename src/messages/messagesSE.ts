@@ -50,8 +50,10 @@ const messages = {
     campaignBlock: {
       title: 'Geahččal min ságastallanbottu',
       linkText: 'Geahččal NDLA ságastallanrobohta',
+      ingressStudent:
+        'Lea go dus juoga maid háliidat oahppat iežat fágas? Háliidatgo veahki teavstta álkidahttit, hárjehallat geahččalit dahje evttohit mo teavstta hábmet? Geahččal min ságastallanrobahttii ja oainnát sáhttágo dat veahkehit du!',
       ingress:
-        'Mii leat ráhkadan guokte hupmanrobota maid sáhtát geavahit bargobeaivvis. Oahpaheaddjiveahkki lea ráhkaduvvon hutkkálaš čovdosiid ovddideapmái didákttalaš čuolmmaide. Oahppiveahkki máhttá čilget fágadoahpagiid ja fenomenaid oahpaheaddji láhkai joatkkaskuvlla ohppiide. \n\nGávnna robttaid ai.ndla.no ja geavat koda ndla2023',
+        'Áiggut go AI geavahit oahpahusas? NDLA lea ráhkadan guokte hupmanrobota mat suodjalit du priváhtavuođa ja maid sáhttá geavahit sihkkarit sihke barggus ja oahpahusas.',
     },
   },
   blogPosts: {
