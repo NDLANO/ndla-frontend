@@ -51,6 +51,7 @@ const FavoriteSubjectIcon = InfoPartIcon.withComponent(MenuBook);
 const StyledPageContentContainer = styled.div`
   display: flex;
   flex-direction: column;
+  margin-top: ${spacing.large};
 `;
 
 const ButtonRow = styled.div`

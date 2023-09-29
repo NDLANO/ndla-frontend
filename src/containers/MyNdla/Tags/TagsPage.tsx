@@ -47,6 +47,7 @@ const TagsPageContainer = styled.div`
   flex-direction: column;
   gap: ${spacing.xsmall};
   flex: 1;
+  margin-top: ${spacing.normal};
 `;
 
 const StyledSafeLinkButton = styled(SafeLinkButton)`

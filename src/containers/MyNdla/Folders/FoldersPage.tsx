@@ -54,6 +54,7 @@ const FoldersPageContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${spacing.xsmall};
+  margin-top: ${spacing.normal};
 `;
 
 const OptionsWrapper = styled.div`
