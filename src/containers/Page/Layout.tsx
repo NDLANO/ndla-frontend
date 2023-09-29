@@ -31,8 +31,11 @@ const ZendeskWrapper = styled.div`
   z-index: 10;
 `;
 
-const bottomPadding = css`
+const BottomPadding = styled.div`
   padding-bottom: ${spacing.large};
+  &[data-no-padding='true'] {
+    padding-bottom: unset;
+  }
 `;
 
 const StyledPageContainer = styled(PageContainer)`
@@ -54,6 +57,8 @@ const Layout = () => {
     '/learningpaths/:learningpathId',
     pathname,
   );
+  const noPaddingBottom =
+    !!matchPath('/minndla*', pathname) || !!matchPath('/', pathname);
 
   useEffect(() => {
     if (!prevPathname || pathname === prevPathname) {
@@ -101,9 +106,9 @@ const Layout = () => {
       </Helmet>
       <Masthead />
       <Content>
-        <div css={bottomPadding}>
+        <BottomPadding data-no-padding={noPaddingBottom}>
           <Outlet />
-        </div>
+        </BottomPadding>
       </Content>
       <Footer />
       {config.feideEnabled && <FeideFooter />}

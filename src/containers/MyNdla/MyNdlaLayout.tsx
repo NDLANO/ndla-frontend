@@ -61,6 +61,8 @@ const StyledContent = styled.main`
   flex: 1;
   margin: 0 ${spacing.large};
 
+  padding-bottom: ${spacing.large};
+
   &[data-is-mobile='true'] {
     margin: 0 ${spacing.nsmall};
   }
