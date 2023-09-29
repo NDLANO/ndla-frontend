@@ -6,11 +6,11 @@
  *
  */
 
-import { useTracker } from '@ndla/tracker';
-import { FeideUserApiType, Programme } from '@ndla/ui';
+import { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { TFunction, useTranslation } from 'react-i18next';
-import { useEffect } from 'react';
+import { useTracker } from '@ndla/tracker';
+import { FeideUserApiType, Programme } from '@ndla/ui';
 import { SKIP_TO_CONTENT_ID } from '../../constants';
 import { LocaleType } from '../../interfaces';
 import { htmlTitle } from '../../util/titleHelper';
