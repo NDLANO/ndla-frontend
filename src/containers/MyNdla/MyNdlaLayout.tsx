@@ -67,7 +67,7 @@ const StyledContent = styled.main`
 `;
 
 const StyledSideBar = styled.div`
-  margin-left: ${spacing.normal};
+  padding-left: ${spacing.normal};
   display: flex;
   gap: ${spacing.normal};
   flex-direction: column;
