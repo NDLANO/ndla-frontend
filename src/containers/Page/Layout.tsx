@@ -58,7 +58,7 @@ const Layout = () => {
     pathname,
   );
   const noPaddingBottom =
-    !!matchPath('/minndla*', pathname) || !!matchPath('/', pathname);
+    !!matchPath('/minndla/*', pathname) || !!matchPath('/', pathname);
 
   useEffect(() => {
     if (!prevPathname || pathname === prevPathname) {

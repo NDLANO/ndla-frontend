@@ -71,7 +71,7 @@ export const BlockWrapper = styled.ul<BlockWrapperProps>`
   gap: ${spacing.xsmall};
   margin: 0;
   margin-bottom: ${spacing.medium};
-  padding: 0;
+  padding: 0 0 0 ${spacing.medium};
   ${(props) =>
     props.type === 'block' &&
     css`
