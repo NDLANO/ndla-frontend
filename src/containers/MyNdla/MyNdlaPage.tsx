@@ -103,9 +103,6 @@ const StyledDescription = styled.p`
 
 const StyledBannerCard = styled(BannerCard)`
   max-width: 100%;
-  div p {
-    white-space: pre-wrap;
-  }
 `;
 
 const MyNdlaPage = () => {

@@ -46,6 +46,7 @@ test('IframeArticlePage with article renderers correctly', () => {
   const locale = 'nb';
   const article = {
     id: 54,
+    language: 'nb',
     revision: 1,
     articleType: 'standard',
     content:
