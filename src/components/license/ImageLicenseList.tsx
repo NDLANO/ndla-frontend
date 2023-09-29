@@ -15,6 +15,7 @@ import {
   MediaListItemBody,
   MediaListItemActions,
   MediaListItemMeta,
+  ItemType,
 } from '@ndla/ui';
 import {
   metaTypes,
@@ -69,7 +70,7 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
   );
 
   const safeCopyright = licenseCopyrightToCopyrightType(image.copyright);
-  const items = getGroupedContributorDescriptionList(
+  const items: ItemType[] = getGroupedContributorDescriptionList(
     safeCopyright,
     i18n.language,
   );
@@ -99,6 +100,13 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
       label: t('license.images.source'),
       description: image.copyright.origin,
       metaType: metaTypes.other,
+    });
+  }
+
+  if (image.copyright.processed === true) {
+    items.push({
+      label: t('license.processed'),
+      metaType: metaTypes.otherWithoutDescription,
     });
   }
 
