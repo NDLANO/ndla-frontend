@@ -199,6 +199,7 @@ const Article = ({
       creators: article.copyright.creators ?? [],
       rightsholders: article.copyright.rightsholders ?? [],
       processors: article.copyright.processors ?? [],
+      processed: article.copyright.processed ?? false,
     },
     footNotes: article.metaData?.footnotes ?? [],
   };
