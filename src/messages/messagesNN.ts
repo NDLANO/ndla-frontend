@@ -47,6 +47,16 @@ const messages = {
     ingress:
       'Sjå våre forslag til aktivitetar og årsplanar. Gode resultat startar med god planlegging.',
   },
+  myndla: {
+    campaignBlock: {
+      title: 'Prøv praterobotane våre',
+      linkText: 'Prøv NDLAs praterobotar',
+      ingressStudent:
+        'Lurer du på noko i faget ditt? Vil du ha hjelp til å forenkle ein tekst, øve til ein prøve eller få forslag til ein disposisjon? Prøv prateroboten vår og sjå om han kan hjelpe deg!',
+      ingress:
+        'Vil du bruke AI i undervisninga? NDLA har laga to praterobotar som tek vare på personvernet ditt og trygt kan brukast til jobb og i undervisning.',
+    },
+  },
   blogPosts: {
     blog1: {
       imageUrl: '/static/samiske-laeremidler.jpg',

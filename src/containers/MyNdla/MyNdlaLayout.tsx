@@ -40,7 +40,7 @@ const StyledLayout = styled.div`
   display: grid;
   min-height: 60vh;
   grid-template-columns:
-    minmax(auto, 1fr) minmax(auto, 1496px)
+    minmax(auto, 1fr) minmax(auto, 1440px)
     minmax(0px, 1fr);
 
   ${mq.range({ until: breakpoints.tablet })} {
