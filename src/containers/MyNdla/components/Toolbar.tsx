@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { ButtonV2 } from '@ndla/button';
 import { breakpoints, colors, mq, spacing } from '@ndla/core';
 import { ReactNode } from 'react';
 
@@ -20,7 +21,7 @@ const ButtonContainer = styled.div`
   }
 `;
 
-const FolderActionsWrapper = styled.div`
+const DropdownWrapper = styled.div`
   ${mq.range({ from: breakpoints.desktop })} {
     display: none;
   }
@@ -31,11 +32,12 @@ interface Props {
   dropDownMenu?: ReactNode;
 }
 
-const Toolbar = ({ buttons, dropDownMenu }: Props) => {
+const Toolbar = ({ buttons, dropDownMenu, ...rest }: Props) => {
   return (
-    <ToolbarContainer>
+    <ToolbarContainer {...rest}>
       <ButtonContainer>{buttons}</ButtonContainer>
-      <FolderActionsWrapper>{dropDownMenu}</FolderActionsWrapper>
+      <DropdownWrapper>{dropDownMenu}</DropdownWrapper>
+      <ButtonV2>Notifikasjon</ButtonV2>
     </ToolbarContainer>
   );
 };

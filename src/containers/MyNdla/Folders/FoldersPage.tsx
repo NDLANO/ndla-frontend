@@ -114,6 +114,12 @@ const StyledEm = styled.em`
   white-space: pre-wrap;
 `;
 
+const StyledToolbar = styled(Toolbar)`
+  ${mq.range({ from: breakpoints.mobile, until: breakpoints.tablet })} {
+    display: none;
+  }
+`;
+
 export type ViewType = 'list' | 'block' | 'listLarger';
 
 const FoldersPage = () => {
@@ -346,7 +352,7 @@ const FoldersPage = () => {
 
   return (
     <FoldersPageContainer>
-      <Toolbar
+      <StyledToolbar
         dropDownMenu={
           selectedFolder && (
             <FolderActions
