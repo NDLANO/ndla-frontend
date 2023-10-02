@@ -46,10 +46,6 @@ import CreateFolderModal from './CreateFolderModal';
 import ResourceList from './ResourceList';
 import { getAllDimensions } from '../../../util/trackingUtil';
 
-interface BlockWrapperProps {
-  type?: string;
-}
-
 const FoldersPageContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -65,27 +61,30 @@ const OptionsWrapper = styled.div`
   }
 `;
 
-export const BlockWrapper = styled.ul<BlockWrapperProps>`
+export const BlockWrapper = styled.ul`
   display: flex;
   flex-direction: column;
   gap: ${spacing.xsmall};
   margin: 0;
   margin-bottom: ${spacing.medium};
   padding: 0 0 0 ${spacing.medium};
-  ${(props) =>
-    props.type === 'block' &&
-    css`
-      display: grid;
-      gap: ${spacing.normal};
-      margin-top: ${spacing.normal};
-      grid-template-columns: repeat(
-        3,
-        calc(33.33% - (${spacing.normal} / 3 * 2))
-      );
-      ${mq.range({ until: breakpoints.wide })} {
-        grid-template-columns: repeat(2, calc(50% - ${spacing.normal} / 2));
-      }
-    `};
+
+  &[data-type='block'] {
+    display: grid;
+    gap: ${spacing.normal};
+    margin-top: ${spacing.normal};
+    grid-template-columns: repeat(
+      3,
+      calc(33.33% - (${spacing.normal} / 3 * 2))
+    );
+    ${mq.range({ until: breakpoints.wide })} {
+      grid-template-columns: repeat(2, calc(50% - ${spacing.normal} / 2));
+    }
+  }
+
+  ${mq.range({ until: breakpoints.desktop })} {
+    padding: 0;
+  }
 `;
 
 const iconCss = css`

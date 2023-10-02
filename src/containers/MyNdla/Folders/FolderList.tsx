@@ -117,7 +117,7 @@ const FolderList = ({
   return (
     <WhileLoading isLoading={loading} fallback={<Spinner />}>
       {folders.length > 0 && (
-        <BlockWrapper type={type}>
+        <BlockWrapper data-type={type}>
           <DndContext
             sensors={sensors}
             collisionDetection={closestCenter}
