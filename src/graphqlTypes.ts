@@ -1631,6 +1631,8 @@ export type GQLArticle_ArticleFragment = {
   __typename?: 'Article';
   id: number;
   content: string;
+  created: string;
+  updated: string;
   supportedLanguages?: Array<string>;
   grepCodes?: Array<string>;
   oldNdlaUrl?: string;
@@ -1659,30 +1661,27 @@ export type GQLArticle_ArticleFragment = {
   }>;
 } & GQLLicenseBox_ArticleFragment;
 
-export type GQLArticleContents_TopicFragment = {
-  __typename?: 'Topic';
-  article?: {
-    __typename?: 'Article';
-    id: number;
-    content: string;
-    created: string;
-    updated: string;
-    introduction?: string;
-    metaData?: {
-      __typename?: 'ArticleMetaData';
-      footnotes?: Array<{
-        __typename?: 'FootNote';
-        ref: number;
-        authors: Array<string>;
-        edition?: string;
-        publisher?: string;
-        year: string;
-        url?: string;
-        title: string;
-      }>;
-    };
-  } & GQLLicenseBox_ArticleFragment;
-};
+export type GQLArticleContents_ArticleFragment = {
+  __typename?: 'Article';
+  id: number;
+  content: string;
+  created: string;
+  updated: string;
+  introduction?: string;
+  metaData?: {
+    __typename?: 'ArticleMetaData';
+    footnotes?: Array<{
+      __typename?: 'FootNote';
+      ref: number;
+      authors: Array<string>;
+      edition?: string;
+      publisher?: string;
+      year: string;
+      url?: string;
+      title: string;
+    }>;
+  };
+} & GQLLicenseBox_ArticleFragment;
 
 export type GQLNotionsContent_MetaFragment = {
   __typename?: 'ResourceMetaData';
@@ -2489,9 +2488,8 @@ export type GQLMultidisciplinaryTopic_TopicFragment = {
         __typename?: 'ResourceMetaData';
       } & GQLTopicVisualElementContent_MetaFragment;
     };
-  };
-} & GQLArticleContents_TopicFragment &
-  GQLResources_TopicFragment;
+  } & GQLArticleContents_ArticleFragment;
+} & GQLResources_TopicFragment;
 
 export type GQLMultidisciplinaryTopic_SubjectFragment = {
   __typename?: 'Subject';
@@ -3407,9 +3405,8 @@ export type GQLTopic_TopicFragment = {
         __typename?: 'ResourceMetaData';
       } & GQLTopicVisualElementContent_MetaFragment;
     };
-  };
-} & GQLArticleContents_TopicFragment &
-  GQLResources_TopicFragment;
+  } & GQLArticleContents_ArticleFragment;
+} & GQLResources_TopicFragment;
 
 export type GQLTopic_ResourceTypeDefinitionFragment = {
   __typename?: 'ResourceTypeDefinition';

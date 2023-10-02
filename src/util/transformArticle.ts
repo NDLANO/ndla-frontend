@@ -6,7 +6,9 @@
  *
  */
 
+import { Remarkable } from 'remarkable';
 import { transform, TransformOptions } from '@ndla/article-converter';
+import { ReactNode } from 'react';
 import { GQLArticle } from '../graphqlTypes';
 import { LocaleType } from '../interfaces';
 import formatDate from './formatDate';
@@ -24,9 +26,14 @@ function getContent(
   });
 }
 
-type BaseArticle = Pick<
+const md = new Remarkable({ breaks: true });
+md.inline.ruler.enable(['sub', 'sup']);
+md.block.ruler.disable(['list']);
+
+export type BaseArticle = Pick<
   GQLArticle,
   | 'content'
+  | 'introduction'
   | 'metaData'
   | 'created'
   | 'updated'
@@ -34,16 +41,25 @@ type BaseArticle = Pick<
   | 'requiredLibraries'
   | 'revisionDate'
 >;
+
+export type TransformedBaseArticle<T extends BaseArticle> = Omit<
+  T,
+  'content' | 'introduction'
+> & {
+  content: ReactNode;
+  introduction: ReactNode;
+};
 export const transformArticle = <T extends BaseArticle>(
   article: T,
   locale: LocaleType,
   options?: TransformOptions,
-): T => {
+): TransformedBaseArticle<T> => {
   const content = getContent(article.content, options ?? {});
   const footNotes = article?.metaData?.footnotes ?? [];
   return {
     ...article,
     content,
+    introduction: transform(md.render(article.introduction ?? ''), {}),
     created: formatDate(article.created, locale),
     updated: formatDate(article.updated, locale),
     published: formatDate(article.published, locale),

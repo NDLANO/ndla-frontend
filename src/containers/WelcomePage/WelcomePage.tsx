@@ -204,13 +204,7 @@ const WelcomePage = () => {
       path: `${config.ndlaFrontendDomain}/`,
       frontendDomain: config.ndlaFrontendDomain,
     });
-    return [
-      {
-        ...transformedArticle,
-        introduction: transformedArticle.introduction ?? '',
-      },
-      getArticleScripts(_article, i18n.language),
-    ];
+    return [transformedArticle, getArticleScripts(_article, i18n.language)];
   }, [fpQuery.data?.frontpage?.article, i18n.language])!;
 
   const googleSearchJSONLd = () => {

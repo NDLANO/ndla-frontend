@@ -8,7 +8,6 @@
 
 import { ReactElement, useEffect, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Remarkable } from 'remarkable';
 import { gql } from '@apollo/client';
 import {
   Article as UIArticle,
@@ -32,10 +31,11 @@ import { useGraphQuery } from '../../util/runQueries';
 import AddResourceToFolderModal from '../MyNdla/AddResourceToFolderModal';
 import FavoriteButton from './FavoritesButton';
 import NotionsContent from './NotionsContent';
+import { TransformedBaseArticle } from '../../util/transformArticle';
 
 interface Props {
   id?: string;
-  article: GQLArticle_ArticleFragment;
+  article: TransformedBaseArticle<GQLArticle_ArticleFragment>;
   resourceType?: string;
   isTopicArticle?: boolean;
   children?: ReactElement;
@@ -85,12 +85,6 @@ const Article = ({
   ...rest
 }: Props) => {
   const { t, i18n } = useTranslation();
-  const markdown = useMemo(() => {
-    const md = new Remarkable({ breaks: true });
-    md.inline.ruler.enable(['sub', 'sup']);
-    md.block.ruler.disable(['list']);
-    return md;
-  }, []);
 
   const [day, month, year] = article.published
     .split('.')
@@ -182,10 +176,6 @@ const Article = ({
     return children || null;
   }
 
-  const renderMarkdown = (text: string) => {
-    return markdown.render(text);
-  };
-
   const icon = contentType ? (
     <ContentTypeBadge type={contentType} background size="large" />
   ) : null;
@@ -234,7 +224,6 @@ const Article = ({
           ) : undefined
         }
         notions={notions}
-        renderMarkdown={renderMarkdown}
         modifier={isResourceArticle ? resourceType : modifier ?? 'clean'}
         heartButton={
           path &&
@@ -264,6 +253,8 @@ Article.fragments = {
     fragment Article_Article on Article {
       id
       content
+      created
+      updated
       supportedLanguages
       grepCodes
       oldNdlaUrl
