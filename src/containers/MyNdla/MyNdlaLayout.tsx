@@ -54,6 +54,7 @@ const StyledLayout = styled.div`
 
 const StyledNavList = styled.ul`
   list-style: none;
+  padding: 0 1rem 0 0;
 `;
 
 const StyledLi = styled.li`
@@ -73,7 +74,7 @@ const StyledContent = styled.main`
 `;
 
 const StyledSideBar = styled.div`
-  padding-left: ${spacing.normal};
+  padding: 0 0 ${spacing.small} ${spacing.normal};
   display: flex;
   gap: ${spacing.normal};
   flex-direction: column;
