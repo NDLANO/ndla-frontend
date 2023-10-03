@@ -40,7 +40,7 @@ const StyledLayout = styled.div`
   display: grid;
   min-height: 60vh;
   grid-template-columns:
-    minmax(auto, 1fr) minmax(auto, 1440px)
+    minmax(300px, 1fr) minmax(auto, 1440px)
     minmax(0px, 1fr);
 
   ${mq.range({ until: breakpoints.tablet })} {
@@ -57,7 +57,7 @@ const StyledLi = styled.li`
 `;
 
 const StyledContent = styled.main`
-  max-width: 1400px;
+  max-width: 1440px;
   flex: 1;
   margin: 0 ${spacing.large};
 

@@ -85,6 +85,10 @@ export const BlockWrapper = styled.ul`
   ${mq.range({ until: breakpoints.desktop })} {
     padding: 0;
   }
+
+  &[data-no-padding='true'] {
+    padding: 0;
+  }
 `;
 
 const iconCss = css`
