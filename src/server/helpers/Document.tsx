@@ -12,7 +12,7 @@ import serialize from 'serialize-javascript';
 import ScriptLoader from '@ndla/polyfill/lib/ScriptLoader';
 import { Matomo } from './Matomo';
 import Tagmanager from './Tagmanager';
-import { ConfigType } from '../../config';
+import config, { ConfigType } from '../../config';
 
 export interface Assets {
   css?: string;
@@ -73,6 +73,35 @@ const Document = ({ helmet, assets, data, styles }: Props) => {
             window.dataLayer.push(window.originalLocation);`,
           }}
         />
+        {config.monsidoToken.length ? (
+          <>
+            <script
+              type="text/javascript"
+              dangerouslySetInnerHTML={{
+                __html: `
+    window._monsido = window._monsido || {
+        token: "${config.monsidoToken}",
+        statistics: {
+            enabled: true,
+            cookieLessTracking: true,
+            documentTracking: {
+                enabled: false,
+                documentCls: "monsido_download",
+                documentIgnoreCls: "monsido_ignore_download",
+                documentExt: [],
+            },
+        },
+    };
+`,
+              }}
+            />
+            <script
+              type="text/javascript"
+              async
+              src="https://app-script.monsido.com/v2/monsido-script.js"
+            ></script>
+          </>
+        ) : null}
         <div id="root">REPLACE_ME</div>
         <script
           type="text/javascript"

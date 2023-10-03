@@ -85,6 +85,10 @@ const StyledMain = styled.main`
     padding-left: ${spacing.normal};
     padding-right: ${spacing.normal};
   }
+  /* This is a SSR-friendly :first-child */
+  [data-wide] > section > *:not(:is(*:not(style) ~ *)) {
+    margin-top: ${spacingUnit * 4}px;
+  }
 `;
 
 const ProgrammeWrapper = styled.div`
@@ -207,6 +211,10 @@ const WelcomePage = () => {
     return [
       {
         ...transformedArticle,
+        copyright: {
+          ..._article.copyright,
+          processed: _article.copyright.processed ?? false,
+        },
         introduction: transformedArticle.introduction ?? '',
       },
       getArticleScripts(_article, i18n.language),

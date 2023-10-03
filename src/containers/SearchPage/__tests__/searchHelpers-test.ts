@@ -26,15 +26,6 @@ test('searchHelpers searchResultToLinkProps article', () => {
   expect(searchResultToLinkProps(result)).toMatchSnapshot();
 });
 
-test('searchHelpers searchResultToLinkProps article without paths', () => {
-  const result = {
-    id: 404,
-    resourceType: 'urn:resourcetype:subjectMaterial',
-  };
-
-  expect(searchResultToLinkProps(result)).toMatchSnapshot();
-});
-
 test('searchHelpers converSearchStringToObject converts search string', () => {
   const locationWithSearch = {
     search:

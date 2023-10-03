@@ -154,6 +154,10 @@ const AboutPageContent = ({ article: _article, frontpage, user }: Props) => {
     return [
       {
         ...transformedArticle,
+        copyright: {
+          ..._article.copyright,
+          processed: _article.copyright.processed ?? false,
+        },
         introduction: transformedArticle.introduction ?? '',
       },
       getArticleScripts(_article, i18n.language),

@@ -43,6 +43,7 @@ const ButtonContainer = styled.ul`
   align-self: flex-start;
   margin: ${spacing.normal} 0 ${spacing.small};
   list-style: none;
+  flex-wrap: wrap;
 `;
 
 interface Option {

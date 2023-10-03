@@ -9,7 +9,7 @@
 import { useMemo, useContext } from 'react';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
-import { breakpoints, mq, spacing } from '@ndla/core';
+import { breakpoints, colors, mq, spacing, spacingUnit } from '@ndla/core';
 import { MessageBox, TreeStructure } from '@ndla/ui';
 import { SafeLinkButton } from '@ndla/safelink';
 import { FolderOutlined } from '@ndla/icons/contentType';
@@ -22,6 +22,10 @@ import { useFolder, useFolders } from './folderMutations';
 import IsMobileContext from '../../IsMobileContext';
 import { toHref } from '../../util/urlHelper';
 import NavigationLink from './components/NavigationLink';
+import { aboutNdlaContentWidth } from '../../constants';
+
+const aboutNdlaMainContentWithSpacing =
+  aboutNdlaContentWidth + spacingUnit * 2 * 2;
 
 const navigationLinks = (t: TFunction) => [
   {
@@ -39,11 +43,9 @@ const navigationLinks = (t: TFunction) => [
 const StyledLayout = styled.div`
   display: grid;
   min-height: 60vh;
-  margin-top: ${spacing.medium};
-  grid-template-columns: minmax(300px, 1fr) minmax(auto, 1024px) minmax(
-      0px,
-      1fr
-    );
+  grid-template-columns:
+    minmax(300px, 1fr) minmax(auto, ${aboutNdlaMainContentWithSpacing}px)
+    minmax(0px, 1fr);
 
   ${mq.range({ until: breakpoints.tablet })} {
     display: flex;
@@ -52,29 +54,35 @@ const StyledLayout = styled.div`
 
 const StyledNavList = styled.ul`
   list-style: none;
+  padding: 0 1rem 0 0;
 `;
 
 const StyledLi = styled.li`
   margin: 0;
 `;
 
-interface StyledContentProps {
-  isMobile: boolean;
-}
-
-const StyledContent = styled.main<StyledContentProps>`
-  max-width: 1024px;
+const StyledContent = styled.main`
+  max-width: ${aboutNdlaContentWidth}px;
   flex: 1;
-  margin: 0 ${({ isMobile }) => (isMobile ? spacing.nsmall : spacing.large)};
+  margin: 0 ${spacing.large};
+
+  padding-bottom: ${spacing.large};
+
+  &[data-is-mobile='true'] {
+    margin: 0 ${spacing.nsmall};
+  }
 `;
 
 const StyledSideBar = styled.div`
-  margin-left: auto;
+  padding: 0 0 ${spacing.small} ${spacing.normal};
   display: flex;
   gap: ${spacing.normal};
   flex-direction: column;
   min-width: 300px;
   width: 300px;
+  border-right: 1px solid ${colors.brand.lighter};
+  background: ${colors.background.lightBlue};
+
   ${mq.range({ until: breakpoints.tablet })} {
     display: none;
   }
@@ -170,7 +178,7 @@ const MyNdlaLayout = () => {
           </ButtonWrapper>
         </div>
       </StyledSideBar>
-      <StyledContent isMobile={isMobile}>
+      <StyledContent data-is-mobile={isMobile}>
         {examLock && (
           <MessageboxWrapper>
             <MessageBox>{t('myNdla.examLockInfo')}</MessageBox>

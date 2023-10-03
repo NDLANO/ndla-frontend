@@ -11,7 +11,7 @@ import { useEffect, useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { breakpoints, colors, mq, spacing } from '@ndla/core';
-import { HelmetWithTracker } from '@ndla/tracker';
+import { HelmetWithTracker, useTracker } from '@ndla/tracker';
 import { SafeLinkButton } from '@ndla/safelink';
 import { MenuBook } from '@ndla/icons/action';
 import { AuthContext } from '../../../components/AuthenticationContext';
@@ -20,6 +20,7 @@ import { useSubjects } from '../subjectQueries';
 import { usePersonalData } from '../userMutations';
 import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
 import MyNdlaTitle from '../components/MyNdlaTitle';
+import { getAllDimensions } from '../../../util/trackingUtil';
 
 const Container = styled.div`
   display: flex;
@@ -53,6 +54,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: ${spacing.small};
+  margin-top: ${spacing.normal};
 `;
 
 const StyledUl = styled.ul`
@@ -65,7 +67,8 @@ const FavoriteSubjectsPage = () => {
   const { t } = useTranslation();
   const { loading, subjects } = useSubjects();
   const { personalData, fetch: fetchPersonalData } = usePersonalData();
-  const { authenticated } = useContext(AuthContext);
+  const { authenticated, user } = useContext(AuthContext);
+  const { trackPageView } = useTracker();
 
   const favoriteSubjects = useMemo(() => {
     if (loading || !subjects || !personalData?.favoriteSubjects) return [];
@@ -77,6 +80,13 @@ const FavoriteSubjectsPage = () => {
       fetchPersonalData();
     }
   }, [authenticated, fetchPersonalData]);
+
+  useEffect(() => {
+    trackPageView({
+      title: t('myNdla.favoriteSubjects.title'),
+      dimensions: getAllDimensions({ user }),
+    });
+  }, [t, trackPageView, user]);
 
   if (loading) {
     return <Spinner />;

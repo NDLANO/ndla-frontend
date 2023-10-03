@@ -15,6 +15,7 @@ import {
   MediaListItemBody,
   MediaListItemActions,
   MediaListItemMeta,
+  ItemType,
 } from '@ndla/ui';
 import { AudioDocument } from '@ndla/icons/common';
 import {
@@ -51,7 +52,7 @@ const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
   );
 
   const safeCopyright = licenseCopyrightToCopyrightType(audio.copyright);
-  const items = getGroupedContributorDescriptionList(
+  const items: ItemType[] = getGroupedContributorDescriptionList(
     safeCopyright,
     i18n.language,
   );
@@ -68,6 +69,12 @@ const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
       label: t('source'),
       description: audio.copyright.origin,
       metaType: metaTypes.other,
+    });
+  }
+  if (audio.copyright.processed === true) {
+    items.push({
+      label: t('license.processed'),
+      metaType: metaTypes.otherWithoutDescription,
     });
   }
 

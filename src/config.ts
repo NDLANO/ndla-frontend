@@ -116,6 +116,7 @@ export type ConfigType = {
   matomoTagmanagerId: string;
   taxonomyProgrammesEnabled: boolean;
   isVercel: boolean;
+  monsidoToken: string;
 };
 
 const config: ConfigType = {
@@ -155,6 +156,7 @@ const config: ConfigType = {
     false,
   ),
   isVercel: getEnvironmentVariabel('IS_VERCEL', false),
+  monsidoToken: getEnvironmentVariabel('MONSIDO_TOKEN', ''),
 };
 
 export function getUniversalConfig() {

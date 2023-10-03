@@ -27,6 +27,7 @@ import { structuredArticleDataFragment } from '../../../util/getStructuredDataFr
 import { transformArticle } from '../../../util/transformArticle';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import AddEmbedToFolder from '../../../components/MyNdla/AddEmbedToFolder';
+import SocialMediaMetadata from '../../../components/SocialMediaMetadata';
 
 interface Props {
   article: GQLSharedResourceArticleContainer_ArticleFragment;
@@ -38,7 +39,11 @@ const converterComponents: DynamicComponents = {
   heartButton: AddEmbedToFolder,
 };
 
-const SharedArticleContainer = ({ article: propArticle, meta }: Props) => {
+const SharedArticleContainer = ({
+  article: propArticle,
+  meta,
+  title,
+}: Props) => {
   const { t, i18n } = useTranslation();
   const { trackPageView } = useTracker();
   useEffect(() => {
@@ -92,6 +97,12 @@ const SharedArticleContainer = ({ article: propArticle, meta }: Props) => {
           />
         ))}
       </Helmet>
+      <SocialMediaMetadata
+        title={title}
+        imageUrl={article.metaImage?.url}
+        trackableContent={article}
+        description={article.metaDescription}
+      />
       <Article
         contentTransformed
         id={SKIP_TO_CONTENT_ID}

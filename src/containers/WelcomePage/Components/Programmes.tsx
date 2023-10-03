@@ -17,7 +17,6 @@ import {
   AccordionContent,
 } from '@ndla/accordion';
 import { ContentLoader, Heading, ProgrammeCard, ProgrammeV2 } from '@ndla/ui';
-import { SKIP_TO_CONTENT_ID } from '../../../constants';
 import IsMobileContext from '../../../IsMobileContext';
 
 const StyledWrapper = styled.div`
@@ -78,11 +77,8 @@ const StyledAccordionHeader = styled(AccordionHeader)`
 const ImageWrapper = styled.div`
   width: 100%;
   height: 100%;
-  display: none;
+  display: flex;
   justify-content: center;
-  ${mq.range({ until: breakpoints.tablet })} {
-    display: flex;
-  }
 `;
 
 const StyledNav = styled.nav`
@@ -167,7 +163,7 @@ const Programmes = ({ programmes, loading }: Props) => {
 
   return (
     <StyledWrapper>
-      <Heading element="h2" headingStyle="h1" serif id={SKIP_TO_CONTENT_ID}>
+      <Heading element="h2" headingStyle="h1" serif id="programmes-heading">
         {t('programmes.header')}
       </Heading>
       <Description>{t('programmes.description')}</Description>
@@ -190,7 +186,7 @@ const Programmes = ({ programmes, loading }: Props) => {
           </StyledAccordionRoot>
         </Mobile>
       ) : (
-        <StyledNav aria-labelledby={SKIP_TO_CONTENT_ID}>
+        <StyledNav aria-labelledby="programmes-heading">
           <Desktop>{loading ? placeholder : programmeCards}</Desktop>
         </StyledNav>
       )}
