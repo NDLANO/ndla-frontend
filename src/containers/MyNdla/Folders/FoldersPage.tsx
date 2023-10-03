@@ -82,7 +82,7 @@ export const BlockWrapper = styled.ul`
     }
   }
 
-  ${mq.range({ until: breakpoints.desktop })} {
+  ${mq.range({ until: breakpoints.tablet })} {
     padding: 0;
   }
 
