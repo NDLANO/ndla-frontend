@@ -85,6 +85,10 @@ const StyledMain = styled.main`
     padding-left: ${spacing.normal};
     padding-right: ${spacing.normal};
   }
+  /* This is a SSR-friendly :first-child */
+  [data-wide] > section > *:not(:is(*:not(style) ~ *)) {
+    margin-top: ${spacingUnit * 4}px;
+  }
 `;
 
 const ProgrammeWrapper = styled.div`

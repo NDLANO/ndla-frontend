@@ -11,7 +11,7 @@ import { useLocation } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
 import keyBy from 'lodash/keyBy';
 import styled from '@emotion/styled';
-import { colors, fonts, spacing } from '@ndla/core';
+import { fonts, spacing } from '@ndla/core';
 import { HeartOutline, MenuBook } from '@ndla/icons/action';
 import { FolderOutlined } from '@ndla/icons/contentType';
 import { Feide, Share } from '@ndla/icons/common';
@@ -55,9 +55,6 @@ const StyledPageContentContainer = styled.div`
   // Temp to force styling in bannercard
   div {
     max-width: 100%;
-    p {
-      color: ${colors.text.primary};
-    }
   }
 `;
 
