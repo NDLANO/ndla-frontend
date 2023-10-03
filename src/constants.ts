@@ -56,6 +56,7 @@ export const AcquireLicensePage =
   'https://ndla.zendesk.com/hc/no/articles/360000945552-Bruk-av-lisenser-og-lisensiering';
 
 export const aboutNdlaUrl = 'https://om.ndla.no/';
+export const aboutNdlaContentWidth = 1440;
 
 export interface LinkType {
   link: string;

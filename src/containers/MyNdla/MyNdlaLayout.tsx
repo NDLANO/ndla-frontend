@@ -9,7 +9,7 @@
 import { useMemo, useContext } from 'react';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
-import { breakpoints, colors, mq, spacing } from '@ndla/core';
+import { breakpoints, colors, mq, spacing, spacingUnit } from '@ndla/core';
 import { MessageBox, TreeStructure } from '@ndla/ui';
 import { SafeLinkButton } from '@ndla/safelink';
 import { FolderOutlined } from '@ndla/icons/contentType';
@@ -22,6 +22,10 @@ import { useFolder, useFolders } from './folderMutations';
 import IsMobileContext from '../../IsMobileContext';
 import { toHref } from '../../util/urlHelper';
 import NavigationLink from './components/NavigationLink';
+import { aboutNdlaContentWidth } from '../../constants';
+
+const aboutNdlaMainContentWithSpacing =
+  aboutNdlaContentWidth + spacingUnit * 2 * 2;
 
 const navigationLinks = (t: TFunction) => [
   {
@@ -40,7 +44,7 @@ const StyledLayout = styled.div`
   display: grid;
   min-height: 60vh;
   grid-template-columns:
-    minmax(300px, 1fr) minmax(auto, 1440px)
+    minmax(300px, 1fr) minmax(auto, ${aboutNdlaMainContentWithSpacing}px)
     minmax(0px, 1fr);
 
   ${mq.range({ until: breakpoints.tablet })} {
@@ -57,7 +61,7 @@ const StyledLi = styled.li`
 `;
 
 const StyledContent = styled.main`
-  max-width: 1440px;
+  max-width: ${aboutNdlaContentWidth}px;
   flex: 1;
   margin: 0 ${spacing.large};
 
