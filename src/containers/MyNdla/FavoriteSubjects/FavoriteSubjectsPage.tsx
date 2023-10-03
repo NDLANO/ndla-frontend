@@ -54,6 +54,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: ${spacing.small};
+  margin-top: ${spacing.normal};
 `;
 
 const StyledUl = styled.ul`

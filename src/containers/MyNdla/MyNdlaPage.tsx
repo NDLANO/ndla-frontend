@@ -52,6 +52,7 @@ const FavoriteSubjectIcon = InfoPartIcon.withComponent(MenuBook);
 const StyledPageContentContainer = styled.div`
   display: flex;
   flex-direction: column;
+  margin-top: ${spacing.large};
   // Temp to force styling in bannercard
   div {
     max-width: 100%;

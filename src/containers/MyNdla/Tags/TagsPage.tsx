@@ -47,6 +47,7 @@ const TagsPageContainer = styled.div`
   flex-direction: column;
   gap: ${spacing.xsmall};
   flex: 1;
+  margin-top: ${spacing.normal};
 `;
 
 const StyledSafeLinkButton = styled(SafeLinkButton)`
@@ -152,7 +153,7 @@ const Resources = ({ resources }: ResourcesProps) => {
         <span>{t('myNdla.resources', { count: resources.length })}</span>
       </CountWrapper>
       <ListViewOptions type={viewType} onTypeChange={setViewType} />
-      <BlockWrapper type={viewType}>
+      <BlockWrapper data-type={viewType}>
         {resources.map((resource) => {
           const meta =
             keyedData[`${resource.resourceType}-${resource.resourceId}`];
