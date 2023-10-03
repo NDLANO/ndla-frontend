@@ -42,6 +42,7 @@ import SharedFolderPage from './containers/SharedFolderPage/SharedFolderPage';
 import FavoriteSubjectsPage from './containers/MyNdla/FavoriteSubjects/FavoriteSubjectsPage';
 import { useEnableTaxStructure } from './components/TaxonomyStructureContext';
 import AboutPage from './containers/AboutPage/AboutPage';
+import GlossPage from './containers/ResourceEmbed/GlossPage';
 
 interface State {
   hasError: boolean;
@@ -146,6 +147,7 @@ const AppRoutes = ({ base }: AppProps) => {
                 <Route path="video/:videoId" element={<VideoPage />} />
                 <Route path="image/:imageId" element={<ImagePage />} />
                 <Route path="concept/:conceptId" element={<ConceptPage />} />
+                <Route path="gloss/:glossId" element={<GlossPage />} />
                 <Route path="audio/:audioId" element={<AudioPage />} />
                 <Route
                   path="minndla"

@@ -24,7 +24,7 @@ export type EmbedType =
 interface Props {
   children: ReactNode;
   title: string;
-  type: EmbedType;
+  type: EmbedType | 'gloss';
   noBackground?: boolean;
 }
 

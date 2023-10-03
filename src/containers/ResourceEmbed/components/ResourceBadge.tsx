@@ -10,6 +10,7 @@ import styled from '@emotion/styled';
 import { breakpoints, colors, mq, spacing } from '@ndla/core';
 import {
   Concept,
+  Globe,
   H5PBold,
   Media,
   SquareAudio,
@@ -19,7 +20,7 @@ import { Podcast } from '@ndla/icons/common';
 import { EmbedType } from './ResourceEmbedWrapper';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
-  type: EmbedType;
+  type: EmbedType | 'gloss';
 }
 
 const BadgeWrapper = styled.div`
@@ -38,13 +39,14 @@ const BadgeWrapper = styled.div`
   }
 `;
 
-const typeIconMapping: Record<EmbedType, ElementType> = {
+const typeIconMapping: Record<EmbedType | 'gloss', ElementType> = {
   video: SquareVideo,
   audio: SquareAudio,
   podcast: Podcast,
   h5p: H5PBold,
   image: Media,
   concept: Concept,
+  gloss: Globe,
 };
 
 const ResourceBadge = ({ type }: Props) => {

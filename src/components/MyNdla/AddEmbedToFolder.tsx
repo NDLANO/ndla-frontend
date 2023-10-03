@@ -46,7 +46,7 @@ const embedToResource = (
       return {
         id: embed.data.concept.id.toString(),
         resourceType: 'concept',
-        path: `/concept/${embed.data.concept.id}`,
+        path: `/${embed.data.concept.conceptType}/${embed.data.concept.id}`,
       };
     default:
       return undefined;

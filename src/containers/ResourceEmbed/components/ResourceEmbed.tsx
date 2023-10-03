@@ -51,7 +51,7 @@ const StyledAccordionHeader = styled(AccordionHeader)`
 interface Props {
   id: string;
   isOembed?: boolean;
-  type: StandaloneEmbed;
+  type: StandaloneEmbed | 'gloss';
   noBackground?: boolean;
 }
 
@@ -142,17 +142,19 @@ const ResourceEmbed = ({ id, type, noBackground, isOembed }: Props) => {
   const { t } = useTranslation();
   const { pathname } = useLocation();
 
+  const embedType = type === 'gloss' ? 'concept' : type;
+
   const { data, loading, error } = useGraphQuery<
     GQLResourceEmbedQuery,
     GQLResourceEmbedQueryVariables
   >(ResourceEmbedQuery, {
-    variables: { id: id ?? '', type },
+    variables: { id: id ?? '', type: embedType },
     skip: !id,
   });
 
   const properties = useMemo(
-    () => metaToProperties(data?.resourceEmbed.meta, type),
-    [data?.resourceEmbed.meta, type],
+    () => metaToProperties(data?.resourceEmbed.meta, embedType),
+    [data?.resourceEmbed.meta, embedType],
   );
 
   const transformedContent = useMemo(() => {
