@@ -33,6 +33,7 @@ import { STORED_RESOURCE_VIEW_SETTINGS } from '../../../constants';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import SettingsMenu from '../components/SettingsMenu';
 import { getAllDimensions } from '../../../util/trackingUtil';
+import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
 
 const StyledUl = styled.ul`
   padding: 0px;
@@ -47,7 +48,6 @@ const TagsPageContainer = styled.div`
   flex-direction: column;
   gap: ${spacing.xsmall};
   flex: 1;
-  margin-top: ${spacing.normal};
 `;
 
 const StyledSafeLinkButton = styled(SafeLinkButton)`
@@ -96,19 +96,21 @@ const TagsPage = () => {
   }
 
   return (
-    <TagsPageContainer>
-      <HelmetWithTracker title={title} />
-      <TitleWrapper>
-        <MyNdlaBreadcrumb
-          page="tags"
-          breadcrumbs={tag ? [{ name: tag, id: tag }] : []}
-          backCrumb={tag ? 'tags' : 'minndla'}
-        />
-        <MyNdlaTitle title={tag ? tag : t('myNdla.myTags')} />
-      </TitleWrapper>
-      {!tag && tags.length ? <Tags tags={tags} /> : null}
-      {tag && resources && <Resources resources={resources} />}
-    </TagsPageContainer>
+    <MyNdlaPageWrapper>
+      <TagsPageContainer>
+        <HelmetWithTracker title={title} />
+        <TitleWrapper>
+          <MyNdlaBreadcrumb
+            page="tags"
+            breadcrumbs={tag ? [{ name: tag, id: tag }] : []}
+            backCrumb={tag ? 'tags' : 'minndla'}
+          />
+          <MyNdlaTitle title={tag ? tag : t('myNdla.myTags')} />
+        </TitleWrapper>
+        {!tag && tags.length ? <Tags tags={tags} /> : null}
+        {tag && resources && <Resources resources={resources} />}
+      </TagsPageContainer>
+    </MyNdlaPageWrapper>
   );
 };
 

@@ -21,6 +21,7 @@ import { usePersonalData } from '../userMutations';
 import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
 import MyNdlaTitle from '../components/MyNdlaTitle';
 import { getAllDimensions } from '../../../util/trackingUtil';
+import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
 
 const Container = styled.div`
   display: flex;
@@ -93,47 +94,49 @@ const FavoriteSubjectsPage = () => {
   }
 
   return (
-    <Wrapper>
-      <HelmetWithTracker title={t('myNdla.favoriteSubjects.title')} />
-      <MyNdlaBreadcrumb
-        page="subjects"
-        breadcrumbs={[]}
-        backCrumb={'minndla'}
-      />
-      <MyNdlaTitle title={t('myNdla.favoriteSubjects.title')} />
-      <Container>
-        <CountContainer>
-          <MenuBook />
-          {t('myNdla.favoriteSubjects.subjects', {
-            count: favoriteSubjects.length,
-          })}
-        </CountContainer>
+    <MyNdlaPageWrapper>
+      <Wrapper>
+        <HelmetWithTracker title={t('myNdla.favoriteSubjects.title')} />
+        <MyNdlaBreadcrumb
+          page="subjects"
+          breadcrumbs={[]}
+          backCrumb={'minndla'}
+        />
+        <MyNdlaTitle title={t('myNdla.favoriteSubjects.title')} />
+        <Container>
+          <CountContainer>
+            <MenuBook />
+            {t('myNdla.favoriteSubjects.subjects', {
+              count: favoriteSubjects.length,
+            })}
+          </CountContainer>
 
-        <StyledSafeLinkButton
-          size="normal"
-          to="/subjects"
-          colorTheme="light"
-          shape="pill"
-        >
-          {t('myNdla.favoriteSubjects.goToAllSubjects')}
-        </StyledSafeLinkButton>
-      </Container>
-      {loading ? (
-        <Spinner />
-      ) : !favoriteSubjects?.length ? (
-        <p>{t('myNdla.favoriteSubjects.noFavorites')}</p>
-      ) : (
-        <StyledUl>
-          {favoriteSubjects.map((subject) => (
-            <StyledSubjectLink
-              key={subject.id}
-              favorites={personalData?.favoriteSubjects}
-              subject={subject}
-            />
-          ))}
-        </StyledUl>
-      )}
-    </Wrapper>
+          <StyledSafeLinkButton
+            size="normal"
+            to="/subjects"
+            colorTheme="light"
+            shape="pill"
+          >
+            {t('myNdla.favoriteSubjects.goToAllSubjects')}
+          </StyledSafeLinkButton>
+        </Container>
+        {loading ? (
+          <Spinner />
+        ) : !favoriteSubjects?.length ? (
+          <p>{t('myNdla.favoriteSubjects.noFavorites')}</p>
+        ) : (
+          <StyledUl>
+            {favoriteSubjects.map((subject) => (
+              <StyledSubjectLink
+                key={subject.id}
+                favorites={personalData?.favoriteSubjects}
+                subject={subject}
+              />
+            ))}
+          </StyledUl>
+        )}
+      </Wrapper>
+    </MyNdlaPageWrapper>
   );
 };
 

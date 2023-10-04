@@ -45,17 +45,16 @@ import FolderShareModal from './FolderShareModal';
 import { copyFolderSharingLink, isStudent } from './util';
 import CreateFolderModal from './CreateFolderModal';
 import ResourceList from './ResourceList';
-import Toolbar from '../components/Toolbar';
 import FolderActions from './FolderActions';
 import FolderEditModal from './FolderEditModal';
 import FolderDeleteModal from './FolderDeleteModal';
 import { getAllDimensions } from '../../../util/trackingUtil';
+import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
 
 const FoldersPageContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${spacing.xsmall};
-  margin-top: ${spacing.normal};
 `;
 
 const OptionsWrapper = styled.div`
@@ -75,6 +74,7 @@ export const BlockWrapper = styled.ul`
   padding: 0 0 0 ${spacing.medium};
 
   &[data-type='block'] {
+    padding: 0;
     display: grid;
     gap: ${spacing.normal};
     margin-top: ${spacing.normal};
@@ -105,6 +105,7 @@ export const ListItem = styled.li`
   overflow: hidden;
   list-style: none;
   margin: 0;
+  width: 100%;
 `;
 
 const StyledRow = styled.div`
@@ -117,12 +118,6 @@ const StyledRow = styled.div`
 
 const StyledEm = styled.em`
   white-space: pre-wrap;
-`;
-
-const StyledToolbar = styled(Toolbar)`
-  ${mq.range({ from: breakpoints.mobile, until: breakpoints.tablet })} {
-    display: none;
-  }
 `;
 
 export type ViewType = 'list' | 'block' | 'listLarger';
@@ -369,66 +364,69 @@ const FoldersPage = () => {
   ]);
 
   return (
-    <FoldersPageContainer>
-      <StyledToolbar
-        dropDownMenu={
-          selectedFolder && (
-            <FolderActions
-              viewType={viewType}
-              onViewTypeChange={setViewType}
-              selectedFolder={selectedFolder}
-            />
-          )
-        }
-        buttons={toolbarButtons}
-      />
-      <HelmetWithTracker title={title} />
-      <FoldersPageTitle
-        key={selectedFolder?.id}
-        loading={loading}
-        selectedFolder={selectedFolder}
-      />
-      <FolderAndResourceCount
-        selectedFolder={selectedFolder}
-        hasSelectedFolder={hasSelectedFolder}
-        folders={folders}
-        folderData={(data?.folders ?? []) as GQLFolder[]}
-        loading={loading}
-      />
-      {selectedFolder && (
-        <p>
-          <StyledEm>
-            {selectedFolder.description ??
-              t('myNdla.folder.defaultPageDescription')}
-          </StyledEm>
-        </p>
-      )}
-      <StyledRow>
-        <OptionsWrapper>
-          <ListViewOptions type={viewType} onTypeChange={setViewType} />
-        </OptionsWrapper>
-      </StyledRow>
-      <FolderList
-        onViewTypeChange={setViewType}
-        type={viewType}
-        folders={folders}
-        loading={loading}
-        folderId={folderId}
-      />
-      {!!selectedFolder?.resources.length && (
-        <ResourceCountContainer>
-          <FileDocumentOutline />
-          <span>
-            {t('myNdla.resources', {
-              count: selectedFolder?.resources.length,
-            })}
-          </span>
-        </ResourceCountContainer>
-      )}
-      {selectedFolder && (
-        <ResourceList selectedFolder={selectedFolder} viewType={viewType} />
-      )}
-    </FoldersPageContainer>
+    <MyNdlaPageWrapper
+      dropDownMenu={
+        selectedFolder && (
+          <FolderActions
+            viewType={viewType}
+            onViewTypeChange={setViewType}
+            selectedFolder={selectedFolder}
+          />
+        )
+      }
+      buttons={toolbarButtons}
+    >
+      <FoldersPageContainer>
+        <HelmetWithTracker title={title} />
+        <FoldersPageTitle
+          key={selectedFolder?.id}
+          loading={loading}
+          selectedFolder={selectedFolder}
+          viewType={viewType}
+          onViewTypeChange={setViewType}
+        />
+        <FolderAndResourceCount
+          selectedFolder={selectedFolder}
+          hasSelectedFolder={hasSelectedFolder}
+          folders={folders}
+          folderData={(data?.folders ?? []) as GQLFolder[]}
+          loading={loading}
+        />
+        {selectedFolder && (
+          <p>
+            <StyledEm>
+              {selectedFolder.description ??
+                t('myNdla.folder.defaultPageDescription')}
+            </StyledEm>
+          </p>
+        )}
+        <StyledRow>
+          <OptionsWrapper>
+            <ListViewOptions type={viewType} onTypeChange={setViewType} />
+          </OptionsWrapper>
+        </StyledRow>
+        <FolderList
+          onViewTypeChange={setViewType}
+          type={viewType}
+          folders={folders}
+          loading={loading}
+          folderId={folderId}
+        />
+        {!!selectedFolder?.resources.length && (
+          <ResourceCountContainer>
+            <FileDocumentOutline />
+            <span>
+              {t('myNdla.resources', {
+                count: selectedFolder?.resources.length,
+              })}
+            </span>
+          </ResourceCountContainer>
+        )}
+        {selectedFolder && (
+          <ResourceList selectedFolder={selectedFolder} viewType={viewType} />
+        )}
+      </FoldersPageContainer>
+    </MyNdlaPageWrapper>
   );
 };
 
