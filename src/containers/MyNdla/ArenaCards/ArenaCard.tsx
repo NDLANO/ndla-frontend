@@ -11,10 +11,36 @@ import SafeLink from '@ndla/safelink';
 import { colors, spacing, breakpoints, mq, fonts, misc } from '@ndla/core';
 import Icon from '@ndla/icons';
 import { ReactNode } from 'react';
+import { css } from '@emotion/react';
 
 interface Props {
+  cardType: 'Category' | 'Post';
   leftIcon: ReactNode;
+  header: string;
+  subText: string;
+  date?: string;
+  count: number;
 }
+
+const StyledCategoryCard = css`
+  background-color: ${colors.background.default};
+  &:hover {
+    background-color: ${colors.background.lightBlue};
+  }
+  &:focus-visible {
+    background-color: ${colors.background.lightBlue};
+  }
+`;
+
+const StyledPostCard = css`
+  background-color: ${colors.background.lightBlue};
+  &:hover {
+    background-color: ${colors.brand.lighter};
+  }
+  &:focus-visible {
+    background-color: ${colors.brand.lighter};
+  }
+`;
 
 const StyledCardContainer = styled(SafeLink)`
   display: flex;
@@ -73,6 +99,10 @@ const StyledCountContainer = styled.div`
   flex-direction: column;
   align-items: center;
   color: ${colors.text.primary};
+  ${mq.range({ until: breakpoints.tabletWide })} {
+    // Usikker på breakpoint her
+    display: none;
+  }
 `;
 
 const StyledCountDiv = styled.div`
@@ -85,23 +115,58 @@ export const StyledLeftIcon = styled(Icon)`
   width: 40px;
   height: 40px;
   color: ${colors.brand.primary};
-  ${mq.range({ until: breakpoints.tabletWide })} {
+  ${mq.range({ until: breakpoints.mobileWide })} {
     // Usikker på breakpoint her
     display: none;
   }
 `;
 
-const ArenaCard = ({ leftIcon }: Props) => {
+const StyledAvatarContainer = styled.div`
+  //Placeholder til avatar kommer
+  margin-right: ${spacing.normal};
+  width: 48px;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  border: solid 1px ${colors.brand.tertiary};
+  border-radius: 50px;
+  ${mq.range({ until: breakpoints.mobileWide })} {
+    // Usikker på breakpoint her
+    display: none;
+  }
+`;
+
+const ArenaCard = ({
+  cardType,
+  leftIcon,
+  header,
+  subText,
+  date,
+  count,
+}: Props) => {
   return (
-    <StyledCardContainer to="">
-      {leftIcon}
+    <StyledCardContainer
+      css={cardType === 'Category' ? StyledCategoryCard : StyledPostCard}
+      to=""
+    >
+      {cardType === 'Category' ? (
+        leftIcon
+      ) : (
+        <StyledAvatarContainer>R</StyledAvatarContainer>
+      )}
       <StyledTextContainer>
-        <StyledHeader>Navn på kategori </StyledHeader>
-        <StyledText>Beskrivelse</StyledText>
+        <StyledHeader>{header}</StyledHeader>
+        <StyledText>
+          {subText}
+          {date ? ' | ' : ''}
+          {date}
+        </StyledText>
       </StyledTextContainer>
       <StyledCountContainer>
-        <StyledCountDiv>20</StyledCountDiv>
-        <StyledText>Innlegg</StyledText>
+        <StyledCountDiv>{count}</StyledCountDiv>
+        <StyledText>{cardType === 'Category' ? 'Innlegg' : 'Svar'}</StyledText>
       </StyledCountContainer>
     </StyledCardContainer>
   );

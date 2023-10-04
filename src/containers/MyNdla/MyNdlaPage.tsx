@@ -50,6 +50,7 @@ const FavoriteSubjectIcon = InfoPartIcon.withComponent(MenuBook);
 
 //test item for arenacard
 const FolderIcon = StyledLeftIcon.withComponent(MenuBook);
+const AvatarIcon = StyledLeftIcon.withComponent(HeartOutline);
 
 const StyledPageContentContainer = styled.div`
   display: flex;
@@ -158,7 +159,21 @@ const MyNdlaPage = () => {
           <Trans i18nKey="myNdla.myPage.folderInfo.text" />
         </InfoPartText>
       </InfoPart>
-      <ArenaCard leftIcon={<FolderIcon />} />
+      <ArenaCard
+        cardType="Category"
+        leftIcon={<FolderIcon />}
+        header={'Navn på kategori'}
+        subText={'Beskrivelse'}
+        count={29}
+      />
+      <ArenaCard
+        cardType="Post"
+        leftIcon={<AvatarIcon />}
+        header={'Innlegg'}
+        subText={'Kategori'}
+        date={'7.1.2023'}
+        count={10}
+      />
       {allFolderResources && allFolderResources.length > 0 && (
         <>
           <h2>{t('myNdla.myPage.newFavourite')}</h2>
