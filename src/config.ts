@@ -88,6 +88,18 @@ const logglyApiKey = (): string | undefined => {
   return getEnvironmentVariabel('LOGGLY_API_KEY');
 };
 
+export const tempAllowedAIOrgs = () => {
+  const defaultList = [
+    'Innlandet fylkeskommune',
+    'Rogaland fylkeskommune',
+    'Vestland fylkeskommune',
+  ];
+  if (['local', 'dev', 'test'].includes(ndlaEnvironment)) {
+    return [...defaultList, 'Universitetet i Rogn'];
+  }
+  return defaultList;
+};
+
 export const getDefaultLocale = () =>
   getEnvironmentVariabel('NDLA_DEFAULT_LOCALE', 'nb');
 
