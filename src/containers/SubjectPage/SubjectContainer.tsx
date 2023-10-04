@@ -19,8 +19,8 @@ import {
   FeideUserApiType,
   SimpleBreadcrumbItem,
   HomeBreadcrumb,
-  Heading,
 } from '@ndla/ui';
+import { Heading } from '@ndla/typography';
 import { useTracker } from '@ndla/tracker';
 import { TFunction, useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';

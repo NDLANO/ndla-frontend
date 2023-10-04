@@ -16,8 +16,8 @@ import {
   OneColumn,
   constants,
   getMastheadHeight,
-  Heading,
 } from '@ndla/ui';
+import { Heading } from '@ndla/typography';
 import { TFunction } from 'i18next';
 import sortBy from 'lodash/sortBy';
 import { parse, stringify } from 'query-string';

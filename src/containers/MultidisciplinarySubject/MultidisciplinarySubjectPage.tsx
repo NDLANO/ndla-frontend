@@ -12,14 +12,13 @@ import styled from '@emotion/styled';
 import { breakpoints, fonts, mq } from '@ndla/core';
 import {
   ContentPlaceholder,
-  Heading,
   HomeBreadcrumb,
   LayoutItem,
   NavigationBox,
   OneColumn,
   SimpleBreadcrumbItem,
 } from '@ndla/ui';
-
+import { Heading } from '@ndla/typography';
 import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet-async';
 import { removeUrn, toTopic, useUrnIds } from '../../routeHelpers';
