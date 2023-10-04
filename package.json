@@ -128,7 +128,6 @@
     "@ndla/icons": "^4.0.6",
     "@ndla/licenses": "^7.1.4",
     "@ndla/modal": "^4.0.7",
-    "@ndla/notion": "^5.0.25",
     "@ndla/pager": "^2.2.21",
     "@ndla/polyfill": "^1.0.9",
     "@ndla/safelink": "^4.1.21",
