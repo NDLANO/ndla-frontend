@@ -76,7 +76,7 @@ const ndlaMiddleware = [
   helmet({
     crossOriginEmbedderPolicy: false,
     referrerPolicy: {
-      policy: ['origin'],
+      policy: ['origin', 'no-referrer-when-downgrade'],
     },
     hsts: {
       maxAge: 31536000,
