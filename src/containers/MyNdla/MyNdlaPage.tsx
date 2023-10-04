@@ -151,7 +151,7 @@ const MyNdlaPage = () => {
         <MyNdlaTitle title={t('myNdla.myPage.myPage')} />
       </TitleWrapper>
       <StyledDescription>{t('myNdla.myPage.welcome')}</StyledDescription>
-      {tempAllowedAIOrgs().includes(user?.baseOrg?.displayName) && (
+      {tempAllowedAIOrgs().includes(user?.baseOrg?.displayName ?? '') && (
         <StyledBannerCard
           link="https://ai.ndla.no/"
           title={{
