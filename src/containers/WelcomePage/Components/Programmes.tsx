@@ -16,7 +16,8 @@ import {
   AccordionHeader,
   AccordionContent,
 } from '@ndla/accordion';
-import { ContentLoader, Heading, ProgrammeCard, ProgrammeV2 } from '@ndla/ui';
+import { ContentLoader, ProgrammeCard, ProgrammeV2 } from '@ndla/ui';
+import { Heading } from '@ndla/typography';
 import IsMobileContext from '../../../IsMobileContext';
 
 const StyledWrapper = styled.div`
