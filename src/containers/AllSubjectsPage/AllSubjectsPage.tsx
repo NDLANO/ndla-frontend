@@ -204,17 +204,17 @@ const AllSubjectsPage = () => {
           />
         )}
         <LetterNavigation activeLetters={letters} />
-        <StyledList aria-label={t('subjectsPage.alphabeticSort')}>
-          {groupedSubjects.map(({ label, subjects }) => (
-            <SubjectCategory
-              favorites={favoriteSubjects}
-              key={label}
-              label={label}
-              subjects={subjects}
-            />
-          ))}
-        </StyledList>
       </StyledColumn>
+      <StyledList aria-label={t('subjectsPage.alphabeticSort')}>
+        {groupedSubjects.map(({ label, subjects }) => (
+          <SubjectCategory
+            favorites={favoriteSubjects}
+            key={label}
+            label={label}
+            subjects={subjects}
+          />
+        ))}
+      </StyledList>
     </main>
   );
 };
