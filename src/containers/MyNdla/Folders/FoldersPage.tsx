@@ -348,31 +348,29 @@ const FoldersPage = () => {
       deleteFolderButton,
     ];
   }, [
+    updateFolderStatus,
+    onFolderUpdated,
     selectedFolder,
     onDeleteFolder,
     onFolderAdded,
-    onFolderUpdated,
     previewRef,
     unShareRef,
     shareRef,
-    t,
     addSnack,
     examLock,
     folderId,
     user,
-    updateFolderStatus,
+    t,
   ]);
 
   return (
     <MyNdlaPageWrapper
       dropDownMenu={
-        selectedFolder && (
-          <FolderActions
-            viewType={viewType}
-            onViewTypeChange={setViewType}
-            selectedFolder={selectedFolder}
-          />
-        )
+        <FolderActions
+          viewType={viewType}
+          onViewTypeChange={setViewType}
+          selectedFolder={selectedFolder}
+        />
       }
       buttons={toolbarButtons}
     >
@@ -382,8 +380,6 @@ const FoldersPage = () => {
           key={selectedFolder?.id}
           loading={loading}
           selectedFolder={selectedFolder}
-          viewType={viewType}
-          onViewTypeChange={setViewType}
         />
         <FolderAndResourceCount
           selectedFolder={selectedFolder}

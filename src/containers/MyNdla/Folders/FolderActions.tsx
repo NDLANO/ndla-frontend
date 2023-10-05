@@ -6,7 +6,7 @@
  *
  */
 
-import { Cross, Pencil } from '@ndla/icons/action';
+import { Cross, Pencil, Plus } from '@ndla/icons/action';
 import { DeleteForever } from '@ndla/icons/editor';
 import { Link, Share } from '@ndla/icons/common';
 import { useCallback, useContext, useMemo, useRef } from 'react';
@@ -22,14 +22,17 @@ import FolderMenu from '../components/FolderMenu';
 import EditFolderModalContent from './EditFolderModalContent';
 import { FolderShareModalContent } from './FolderShareModal';
 import {
+  useAddFolderMutation,
   useDeleteFolderMutation,
   useUpdateFolderStatusMutation,
 } from '../folderMutations';
 import DeleteModalContent from '../components/DeleteModalContent';
 import config from '../../../config';
+import CreateModalContent from '../components/CreateModalContent';
+import { FolderFormValues } from './FolderForm';
 
 interface Props {
-  selectedFolder: GQLFolder;
+  selectedFolder: GQLFolder | null;
   viewType: ViewType;
   onViewTypeChange: (type: ViewType) => void;
 }
@@ -45,23 +48,8 @@ const FolderActions = ({
   const navigate = useNavigate();
 
   const { updateFolderStatus } = useUpdateFolderStatusMutation();
-
   const { deleteFolder } = useDeleteFolderMutation();
-
-  const onDeleteFolder = useCallback(async () => {
-    await deleteFolder({ variables: { id: selectedFolder.id } });
-    if (selectedFolder.id === folderId) {
-      navigate(`/minndla/folders/${selectedFolder.parentId ?? ''}`, {
-        replace: true,
-      });
-    }
-    addSnack({
-      id: 'folderDeleted',
-      content: t('myNdla.folder.folderDeleted', {
-        folderName: selectedFolder.name,
-      }),
-    });
-  }, [addSnack, deleteFolder, folderId, navigate, selectedFolder, t]);
+  const { addFolder } = useAddFolderMutation();
 
   const shareRef = useRef<HTMLButtonElement | null>(null);
   const unShareRef = useRef<HTMLButtonElement | null>(null);
@@ -72,9 +60,63 @@ const FolderActions = ({
   }, [addSnack, t]);
 
   const { user, examLock } = useContext(AuthContext);
+  const onDeleteFolder = useCallback(async () => {
+    await deleteFolder({ variables: { id: selectedFolder?.id ?? '' } });
+    if (selectedFolder?.id === folderId) {
+      navigate(`/minndla/folders/${selectedFolder?.parentId ?? ''}`, {
+        replace: true,
+      });
+    }
+    addSnack({
+      id: 'folderDeleted',
+      content: t('myNdla.folder.folderDeleted', {
+        folderName: selectedFolder?.name,
+      }),
+    });
+  }, [addSnack, deleteFolder, folderId, navigate, selectedFolder, t]);
+
+  const onFolderAdded = useCallback(
+    async (values: FolderFormValues) => {
+      const res = await addFolder({
+        variables: {
+          name: values.name,
+          description: values.description,
+          parentId: selectedFolder?.parentId ?? undefined,
+        },
+      });
+      const folder = res.data?.addFolder as GQLFolder | undefined;
+
+      if (folder) {
+        addSnack({
+          id: 'folderAdded',
+          content: t('myNdla.folder.folderCreated', {
+            folderName: folder.name,
+          }),
+        });
+      }
+    },
+    [addSnack, t, selectedFolder?.parentId, addFolder],
+  );
 
   const actionItems: MenuItemProps[] = useMemo(() => {
     if (examLock) return [];
+
+    const addFolderButton: MenuItemProps = {
+      icon: <Plus />,
+      text: t('myNdla.newFolder'),
+      isModal: true,
+      modalContent: (close) => (
+        <CreateModalContent
+          onCreate={onFolderAdded}
+          parentFolder={selectedFolder}
+          folders={selectedFolder?.subfolders}
+          onClose={close}
+        />
+      ),
+    };
+
+    if (!selectedFolder) return [addFolderButton];
+
     const editFolder: MenuItemProps = {
       icon: <Pencil />,
       text: t('myNdla.folder.edit'),
@@ -205,12 +247,13 @@ const FolderActions = ({
   }, [
     addSnack,
     examLock,
+    onFolderAdded,
     onDeleteFolder,
     onFolderUpdated,
     selectedFolder,
-    t,
     updateFolderStatus,
     user,
+    t,
   ]);
 
   return (

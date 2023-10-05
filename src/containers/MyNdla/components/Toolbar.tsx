@@ -7,8 +7,7 @@
  */
 
 import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { breakpoints, colors, mq, spacing } from '@ndla/core';
+import { breakpoints, colors, mq, spacing, spacingUnit } from '@ndla/core';
 import { ReactNode } from 'react';
 
 const ToolbarContainer = styled.div`
@@ -16,6 +15,7 @@ const ToolbarContainer = styled.div`
   justify-content: center;
   border-bottom: 1px solid ${colors.brand.lighter};
   padding: ${spacing.small} ${spacing.large};
+  height: ${spacingUnit * 3};
 `;
 
 const ButtonContainer = styled.div`
@@ -37,7 +37,7 @@ const DropdownWrapper = styled.div`
 const StyledDiv = styled.div`
   display: flex;
   max-width: 1440px;
-  width: 100%;
+  flex-grow: 1;
   justify-content: space-between;
 `;
 
@@ -52,7 +52,6 @@ const Toolbar = ({ buttons, dropDownMenu, ...rest }: Props) => {
       <StyledDiv>
         <ButtonContainer>{buttons}</ButtonContainer>
         <DropdownWrapper>{dropDownMenu}</DropdownWrapper>
-        <ButtonV2>Notifikasjon</ButtonV2>
       </StyledDiv>
     </ToolbarContainer>
   );

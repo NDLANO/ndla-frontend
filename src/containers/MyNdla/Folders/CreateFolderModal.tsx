@@ -11,20 +11,12 @@ import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { breakpoints, mq } from '@ndla/core';
 import { Plus } from '@ndla/icons/action';
-import {
-  ModalBody,
-  ModalCloseButton,
-  ModalHeader,
-  ModalTitle,
-  Modal,
-  ModalTrigger,
-  ModalContent,
-} from '@ndla/modal';
+import { Modal, ModalTrigger } from '@ndla/modal';
 import { useTranslation } from 'react-i18next';
 import { useCallback, useState } from 'react';
-import FolderForm from './FolderForm';
 import { useAddFolderMutation, useFolders } from '../folderMutations';
 import { GQLFolder } from '../../../graphqlTypes';
+import CreateModalContent from '../components/CreateModalContent';
 
 const iconCss = css`
   width: 22px;
@@ -45,7 +37,7 @@ interface Props {
 const CreateFolderModal = ({ onSaved, parentFolder }: Props) => {
   const [open, setOpen] = useState(false);
   const { t } = useTranslation();
-  const { addFolder, loading } = useAddFolderMutation();
+  const { addFolder } = useAddFolderMutation();
   const [folderCreated, setFolderCreated] = useState(false);
 
   const { folders } = useFolders();
@@ -70,31 +62,24 @@ const CreateFolderModal = ({ onSaved, parentFolder }: Props) => {
           <span>{t('myNdla.newFolder')}</span>
         </AddButton>
       </ModalTrigger>
-      <ModalContent onCloseAutoFocus={onModalClose}>
-        <ModalHeader>
-          <ModalTitle>{t('myNdla.newFolder')}</ModalTitle>
-          <ModalCloseButton />
-        </ModalHeader>
-        <ModalBody>
-          <FolderForm
-            siblings={parentFolder?.subfolders ?? folders ?? []}
-            onSave={async (values) => {
-              const res = await addFolder({
-                variables: {
-                  name: values.name,
-                  description: values.description,
-                  parentId: parentFolder?.id ?? undefined,
-                },
-              });
-              setFolderCreated(true);
-              close();
-              const folder = res.data?.addFolder as GQLFolder | undefined;
-              onSaved(folder);
-            }}
-            loading={loading}
-          />
-        </ModalBody>
-      </ModalContent>
+      <CreateModalContent
+        onClose={() => onModalClose}
+        parentFolder={parentFolder}
+        folders={folders}
+        onCreate={async (values) => {
+          const res = await addFolder({
+            variables: {
+              name: values.name,
+              description: values.description,
+              parentId: parentFolder?.id ?? undefined,
+            },
+          });
+          setFolderCreated(true);
+          close();
+          const folder = res.data?.addFolder as GQLFolder | undefined;
+          onSaved(folder);
+        }}
+      />
     </Modal>
   );
 };
