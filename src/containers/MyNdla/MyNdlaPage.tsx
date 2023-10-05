@@ -28,6 +28,7 @@ import {
   ModalTrigger,
   ModalContent,
 } from '@ndla/modal';
+import { tempAllowedAIOrgs } from '../../config';
 import InfoPart, { InfoPartIcon, InfoPartText } from './InfoSection';
 import { AuthContext } from '../../components/AuthenticationContext';
 import {
@@ -154,28 +155,31 @@ const MyNdlaPage = () => {
           />
           <MyNdlaTitle title={t('myNdla.myPage.myPage')} />
         </TitleWrapper>
+
         <StyledDescription>{t('myNdla.myPage.welcome')}</StyledDescription>
-        <StyledBannerCard
-          link="https://ai.ndla.no/"
-          title={{
-            title: t('myndla.campaignBlock.title'),
-            lang: i18n.language,
-          }}
-          image={{
-            imageSrc: '/static/ndla-ai.png',
-            altText: '',
-          }}
-          linkText={{
-            text: t('myndla.campaignBlock.linkText'),
-            lang: i18n.language,
-          }}
-          content={{
-            content: isStudent(user)
-              ? t('myndla.campaignBlock.ingressStudent')
-              : t('myndla.campaignBlock.ingress'),
-            lang: i18n.language,
-          }}
-        />
+        {tempAllowedAIOrgs().includes(user?.baseOrg?.displayName ?? '') && (
+          <StyledBannerCard
+            link="https://ai.ndla.no/"
+            title={{
+              title: t('myndla.campaignBlock.title'),
+              lang: i18n.language,
+            }}
+            image={{
+              imageSrc: '/static/ndla-ai.png',
+              altText: '',
+            }}
+            linkText={{
+              text: t('myndla.campaignBlock.linkText'),
+              lang: i18n.language,
+            }}
+            content={{
+              content: isStudent(user)
+                ? t('myndla.campaignBlock.ingressStudent')
+                : t('myndla.campaignBlock.ingress'),
+              lang: i18n.language,
+            }}
+          />
+        )}
         <InfoPart icon={<ShareIcon />} title={t('myNdla.myPage.sharing.title')}>
           <InfoPartText>{t('myNdla.myPage.sharing.text')}</InfoPartText>
         </InfoPart>
