@@ -19,17 +19,17 @@ import { AuthContext } from '../../../components/AuthenticationContext';
 import { copyFolderSharingLink, isStudent } from './util';
 import { MenuItemProps } from '../components/SettingsMenu';
 import FolderMenu from '../components/FolderMenu';
-import EditFolderModalContent from './EditFolderModalContent';
 import { FolderShareModalContent } from './FolderShareModal';
 import {
   useAddFolderMutation,
   useDeleteFolderMutation,
   useUpdateFolderStatusMutation,
 } from '../folderMutations';
-import DeleteModalContent from '../components/DeleteModalContent';
 import config from '../../../config';
-import CreateModalContent from '../components/CreateModalContent';
 import { FolderFormValues } from './FolderForm';
+import { CreateModalContent } from './FolderCreateModal';
+import { DeleteModalContent } from './FolderDeleteModal';
+import { EditFolderModalContent } from './FolderEditModal';
 
 interface Props {
   selectedFolder: GQLFolder | null;
@@ -51,14 +51,6 @@ const FolderActions = ({
   const { deleteFolder } = useDeleteFolderMutation();
   const { addFolder } = useAddFolderMutation();
 
-  const shareRef = useRef<HTMLButtonElement | null>(null);
-  const unShareRef = useRef<HTMLButtonElement | null>(null);
-  const previewRef = useRef<HTMLButtonElement | null>(null);
-
-  const onFolderUpdated = useCallback(() => {
-    addSnack({ id: 'folderUpdated', content: t('myNdla.folder.updated') });
-  }, [addSnack, t]);
-
   const { user, examLock } = useContext(AuthContext);
   const onDeleteFolder = useCallback(async () => {
     await deleteFolder({ variables: { id: selectedFolder?.id ?? '' } });
@@ -75,6 +67,13 @@ const FolderActions = ({
     });
   }, [addSnack, deleteFolder, folderId, navigate, selectedFolder, t]);
 
+  const shareRef = useRef<HTMLButtonElement | null>(null);
+  const unShareRef = useRef<HTMLButtonElement | null>(null);
+  const previewRef = useRef<HTMLButtonElement | null>(null);
+
+  const onFolderUpdated = useCallback(() => {
+    addSnack({ id: 'folderUpdated', content: t('myNdla.folder.updated') });
+  }, [addSnack, t]);
   const onFolderAdded = useCallback(
     async (values: FolderFormValues) => {
       const res = await addFolder({

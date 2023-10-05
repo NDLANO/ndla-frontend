@@ -7,8 +7,9 @@
  */
 
 import styled from '@emotion/styled';
-import { breakpoints, colors, mq, spacing, spacingUnit } from '@ndla/core';
 import { ReactNode } from 'react';
+import { breakpoints, colors, mq, spacing, spacingUnit } from '@ndla/core';
+import { myNdlaContentWidth } from '../../../constants';
 
 const ToolbarContainer = styled.div`
   display: flex;
@@ -36,7 +37,7 @@ const DropdownWrapper = styled.div`
 
 const StyledDiv = styled.div`
   display: flex;
-  max-width: 1440px;
+  max-width: ${myNdlaContentWidth}px;
   flex-grow: 1;
   justify-content: space-between;
 `;

@@ -43,13 +43,13 @@ import FolderList from './FolderList';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import FolderShareModal from './FolderShareModal';
 import { copyFolderSharingLink, isStudent } from './util';
-import CreateFolderModal from './CreateFolderModal';
 import ResourceList from './ResourceList';
 import FolderActions from './FolderActions';
 import FolderEditModal from './FolderEditModal';
 import FolderDeleteModal from './FolderDeleteModal';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
+import FolderCreateModal from './FolderCreateModal';
 
 const FoldersPageContainer = styled.div`
   display: flex;
@@ -316,7 +316,7 @@ const FoldersPage = () => {
     );
 
     const addFolderButton = showAddButton && (
-      <CreateFolderModal
+      <FolderCreateModal
         onSaved={onFolderAdded}
         parentFolder={selectedFolder}
       />

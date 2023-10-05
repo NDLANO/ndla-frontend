@@ -11,12 +11,20 @@ import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { breakpoints, mq } from '@ndla/core';
 import { Plus } from '@ndla/icons/action';
-import { Modal, ModalTrigger } from '@ndla/modal';
+import {
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalTitle,
+  ModalTrigger,
+} from '@ndla/modal';
 import { useTranslation } from 'react-i18next';
 import { useCallback, useState } from 'react';
 import { useAddFolderMutation, useFolders } from '../folderMutations';
 import { GQLFolder } from '../../../graphqlTypes';
-import CreateModalContent from '../components/CreateModalContent';
+import FolderForm, { FolderFormValues } from './FolderForm';
 
 const iconCss = css`
   width: 22px;
@@ -34,7 +42,7 @@ interface Props {
   parentFolder?: GQLFolder | null;
 }
 
-const CreateFolderModal = ({ onSaved, parentFolder }: Props) => {
+const FolderCreateModal = ({ onSaved, parentFolder }: Props) => {
   const [open, setOpen] = useState(false);
   const { t } = useTranslation();
   const { addFolder } = useAddFolderMutation();
@@ -84,4 +92,34 @@ const CreateFolderModal = ({ onSaved, parentFolder }: Props) => {
   );
 };
 
-export default CreateFolderModal;
+export default FolderCreateModal;
+
+interface ContentProps {
+  onClose: () => void;
+  onCreate: (values: FolderFormValues) => Promise<void>;
+  folders?: GQLFolder[];
+  parentFolder?: GQLFolder | null;
+}
+
+export const CreateModalContent = ({
+  onClose,
+  parentFolder,
+  folders,
+  onCreate,
+}: ContentProps) => {
+  const { t } = useTranslation();
+  return (
+    <ModalContent onCloseAutoFocus={onClose}>
+      <ModalHeader>
+        <ModalTitle>{t('myNdla.newFolder')}</ModalTitle>
+        <ModalCloseButton />
+      </ModalHeader>
+      <ModalBody>
+        <FolderForm
+          siblings={parentFolder?.subfolders ?? folders ?? []}
+          onSave={onCreate}
+        />
+      </ModalBody>
+    </ModalContent>
+  );
+};

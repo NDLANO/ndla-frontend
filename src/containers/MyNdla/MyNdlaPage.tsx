@@ -53,7 +53,6 @@ const FavoriteSubjectIcon = InfoPartIcon.withComponent(MenuBook);
 const StyledPageContentContainer = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: ${spacing.large};
   // Temp to force styling in bannercard
   div {
     max-width: 100%;
@@ -104,7 +103,7 @@ const StyledDescription = styled.p`
 `;
 
 const StyledBannerCard = styled(BannerCard)`
-  max-width: fit-content !important;
+  max-width: 100%;
 `;
 
 const MyNdlaPage = () => {
