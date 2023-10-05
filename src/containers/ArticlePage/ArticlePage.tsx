@@ -10,14 +10,10 @@ import { gql } from '@apollo/client';
 import { useEffect, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { OneColumn, LayoutItem, FeideUserApiType, constants } from '@ndla/ui';
-import { withTracker } from '@ndla/tracker';
-import {
-  CustomWithTranslation,
-  TFunction,
-  withTranslation,
-} from 'react-i18next';
+import { TFunction, useTranslation } from 'react-i18next';
 import { GraphQLError } from 'graphql';
 import { DynamicComponents } from '@ndla/article-converter';
+import { useTracker } from '@ndla/tracker';
 import Article from '../../components/Article';
 import ArticleHero from './components/ArticleHero';
 import ArticleErrorMessage from './components/ArticleErrorMessage';
@@ -49,7 +45,7 @@ import {
 } from '../../graphqlTypes';
 import AddEmbedToFolder from '../../components/MyNdla/AddEmbedToFolder';
 
-interface Props extends CustomWithTranslation {
+interface Props {
   resource?: GQLArticlePage_ResourceFragment;
   topic?: GQLArticlePage_TopicFragment;
   topicPath: GQLArticlePage_TopicPathFragment[];
@@ -73,11 +69,34 @@ const ArticlePage = ({
   subject,
   topicPath,
   errors,
-  i18n,
-  t,
   skipToContentId,
+  loading,
+  user,
 }: Props) => {
+  const { t, i18n } = useTranslation();
+  const { trackPageView } = useTracker();
   const subjectPageUrl = config.ndlaFrontendDomain;
+
+  useEffect(() => {
+    if (!loading) {
+      const articleProps = getArticleProps(resource);
+      const dimensions = getAllDimensions(
+        {
+          article: resource?.article,
+          subject,
+          topicPath,
+          filter: subject?.name,
+          user,
+        },
+        articleProps.label,
+        true,
+      );
+      trackPageView({
+        dimensions,
+        title: getDocumentTitle(t, resource, subject),
+      });
+    }
+  }, [loading, resource, subject, t, topicPath, trackPageView, user]);
 
   const [article, scripts] = useMemo(() => {
     if (!resource?.article) return [];
@@ -222,28 +241,6 @@ const ArticlePage = ({
   );
 };
 
-ArticlePage.willTrackPageView = (
-  trackPageView: (item: Props) => void,
-  currentProps: Props,
-) => {
-  if (currentProps.loading) {
-    return;
-  }
-  trackPageView(currentProps);
-};
-
-ArticlePage.getDimensions = (props: Props) => {
-  const articleProps = getArticleProps(props.resource);
-  const { subject, topicPath, relevance, user } = props;
-  const article = props.resource?.article;
-
-  return getAllDimensions(
-    { article, relevance, subject, topicPath, filter: subject?.name, user },
-    articleProps.label,
-    true,
-  );
-};
-
 const getDocumentTitle = (
   t: TFunction,
   resource?: GQLArticlePage_ResourceFragment,
@@ -253,9 +250,6 @@ const getDocumentTitle = (
     subject?.subjectpage?.about?.title || subject?.name,
     t('htmlTitles.titleTemplate'),
   ]);
-
-ArticlePage.getDocumentTitle = ({ t, resource, subject }: Props) =>
-  getDocumentTitle(t, resource, subject);
 
 export const articlePageFragments = {
   resourceType: gql`
@@ -316,4 +310,4 @@ export const articlePageFragments = {
   `,
 };
 
-export default withTranslation()(withTracker(ArticlePage));
+export default ArticlePage;

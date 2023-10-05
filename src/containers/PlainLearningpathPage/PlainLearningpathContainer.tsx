@@ -7,10 +7,10 @@
  */
 
 import { gql } from '@apollo/client';
-import { withTracker } from '@ndla/tracker';
+import { useTracker } from '@ndla/tracker';
 import { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { CustomWithTranslation, withTranslation } from 'react-i18next';
+import { TFunction, useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { FeideUserApiType } from '@ndla/ui';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
@@ -21,25 +21,24 @@ import { getAllDimensions } from '../../util/trackingUtil';
 import Learningpath from '../../components/Learningpath';
 import ErrorPage from '../ErrorPage';
 
-const getDocumentTitle = ({
-  learningpath,
-  t,
-}: Pick<Props, 'learningpath' | 't'>) =>
+const getDocumentTitle = (learningpath: Props['learningpath'], t: TFunction) =>
   htmlTitle(learningpath.title, [t('htmlTitles.titleTemplate')]);
 
-interface Props extends CustomWithTranslation {
+interface Props {
   learningpath: GQLPlainLearningpathContainer_LearningpathFragment;
   stepId: string | undefined;
   skipToContentId?: string;
   user?: FeideUserApiType;
 }
 const PlainLearningpathContainer = ({
-  t,
   learningpath,
   skipToContentId,
   stepId,
+  user,
 }: Props) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
+  const { trackPageView } = useTracker();
   const steps = learningpath.learningsteps;
 
   useEffect(() => {
@@ -51,6 +50,20 @@ const PlainLearningpathContainer = ({
       }
     }
   });
+
+  useEffect(() => {
+    if (learningpath) {
+      const learningstep = stepId
+        ? learningpath.learningsteps?.find((step) => `${step.id}` === stepId)
+        : learningpath.learningsteps?.[0];
+      const dimensions = getAllDimensions(
+        { learningpath, user, learningstep },
+        undefined,
+        true,
+      );
+      trackPageView({ dimensions, title: getDocumentTitle(learningpath, t) });
+    }
+  }, [learningpath, stepId, t, trackPageView, user]);
 
   const onKeyUpEvent = (evt: KeyboardEvent) => {
     const currentStep = stepId
@@ -80,7 +93,7 @@ const PlainLearningpathContainer = ({
   return (
     <div>
       <Helmet>
-        <title>{`${getDocumentTitle({ t, learningpath })}`}</title>
+        <title>{`${getDocumentTitle(learningpath, t)}`}</title>
         <meta name="robots" content="noindex" />
       </Helmet>
       <SocialMediaMetadata
@@ -99,28 +112,6 @@ const PlainLearningpathContainer = ({
     </div>
   );
 };
-
-PlainLearningpathContainer.willTrackPageView = (
-  trackPageView: (props: Props) => void,
-  currentProps: Props,
-) => {
-  if (!currentProps.learningpath) return;
-  trackPageView(currentProps);
-};
-
-PlainLearningpathContainer.getDimensions = (props: Props) => {
-  const { learningpath, user, stepId } = props;
-  const learningstep = stepId
-    ? learningpath.learningsteps?.find((step) => `${step.id}` === stepId)
-    : learningpath.learningsteps?.[0];
-  return getAllDimensions(
-    { learningpath, user, learningstep },
-    undefined,
-    true,
-  );
-};
-
-PlainLearningpathContainer.getDocumentTitle = getDocumentTitle;
 
 export const plainLearningpathContainerFragments = {
   learningpath: gql`
@@ -141,4 +132,4 @@ export const plainLearningpathContainerFragments = {
   `,
 };
 
-export default withTranslation()(withTracker(PlainLearningpathContainer));
+export default PlainLearningpathContainer;

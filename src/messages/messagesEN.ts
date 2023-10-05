@@ -29,6 +29,10 @@ const messages = {
     sharedFolderPage: `{{name}} - ${titleTemplate}`,
     aboutPage: `{{name}} - ${titleTemplate}`,
   },
+  programmes: {
+    header: 'What do you want to learn today?',
+    description: 'Choose a programme to see your subjects',
+  },
   podcastPage: {
     episodes: 'Episodes',
     podcast: 'Podcast',
@@ -42,6 +46,16 @@ const messages = {
     linkText: 'View tips',
     ingress:
       'See our tips for activities and annual plans. Good results start with good planning.',
+  },
+  myndla: {
+    campaignBlock: {
+      title: 'Try our chatbot',
+      linkText: 'Try NDLAs chatbots',
+      ingressStudent:
+        'Are you wondering about anything in your course? Do you need help simplifying a text, practicing for a test, or getting suggestions for an outline? Try our chatbot and see if it can help you out!',
+      ingress:
+        'Do you want to use AI in your teaching? NDLA has created two chatbots that protect your privacy and can be safely used for work and in teaching.',
+    },
   },
   blogPosts: {
     blog1: {

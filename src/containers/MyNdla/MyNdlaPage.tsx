@@ -6,7 +6,7 @@
  *
  */
 
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
 import keyBy from 'lodash/keyBy';
@@ -15,10 +15,10 @@ import { fonts, spacing } from '@ndla/core';
 import { HeartOutline, MenuBook } from '@ndla/icons/action';
 import { FolderOutlined } from '@ndla/icons/contentType';
 import { Feide, Share } from '@ndla/icons/common';
-import { ListResource, UserInfo } from '@ndla/ui';
+import { BannerCard, ListResource, UserInfo } from '@ndla/ui';
 import { ButtonV2 } from '@ndla/button';
 import SafeLink, { SafeLinkButton } from '@ndla/safelink';
-import { HelmetWithTracker } from '@ndla/tracker';
+import { HelmetWithTracker, useTracker } from '@ndla/tracker';
 import {
   ModalBody,
   ModalCloseButton,
@@ -28,6 +28,7 @@ import {
   ModalTrigger,
   ModalContent,
 } from '@ndla/modal';
+import { tempAllowedAIOrgs } from '../../config';
 import InfoPart, { InfoPartIcon, InfoPartText } from './InfoSection';
 import { AuthContext } from '../../components/AuthenticationContext';
 import {
@@ -38,8 +39,10 @@ import MyNdlaBreadcrumb from './components/MyNdlaBreadcrumb';
 import MyNdlaTitle from './components/MyNdlaTitle';
 import TitleWrapper from './components/TitleWrapper';
 import { constructNewPath, toHref } from '../../util/urlHelper';
+import { isStudent } from './Folders/util';
 import { useBaseName } from '../../components/BaseNameContext';
 import { useDeletePersonalData } from './userMutations';
+import { getAllDimensions } from '../../util/trackingUtil';
 import ArenaCard, { StyledLeftIcon } from './ArenaCards/ArenaCard';
 
 const ShareIcon = InfoPartIcon.withComponent(Share);
@@ -55,6 +58,11 @@ const AvatarIcon = StyledLeftIcon.withComponent(HeartOutline);
 const StyledPageContentContainer = styled.div`
   display: flex;
   flex-direction: column;
+  margin-top: ${spacing.large};
+  // Temp to force styling in bannercard
+  div {
+    max-width: 100%;
+  }
 `;
 
 const ButtonRow = styled.div`
@@ -100,11 +108,16 @@ const StyledDescription = styled.p`
   ${fonts.sizes('24px')};
 `;
 
+const StyledBannerCard = styled(BannerCard)`
+  max-width: 100%;
+`;
+
 const MyNdlaPage = () => {
   const { user } = useContext(AuthContext);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const basename = useBaseName();
   const location = useLocation();
+  const { trackPageView } = useTracker();
   const { deletePersonalData } = useDeletePersonalData();
   const { allFolderResources } = useRecentlyUsedResources();
   const { data: metaData, loading } = useFolderResourceMetaSearch(
@@ -117,6 +130,13 @@ const MyNdlaPage = () => {
       skip: !allFolderResources || !allFolderResources.length,
     },
   );
+
+  useEffect(() => {
+    trackPageView({
+      title: t('htmlTitles.myNdlaPage'),
+      dimensions: getAllDimensions({ user }),
+    });
+  }, [t, trackPageView, user]);
 
   const onDeleteAccount = async () => {
     await deletePersonalData();
@@ -136,6 +156,29 @@ const MyNdlaPage = () => {
         <MyNdlaTitle title={t('myNdla.myPage.myPage')} />
       </TitleWrapper>
       <StyledDescription>{t('myNdla.myPage.welcome')}</StyledDescription>
+      {tempAllowedAIOrgs().includes(user?.baseOrg?.displayName ?? '') && (
+        <StyledBannerCard
+          link="https://ai.ndla.no/"
+          title={{
+            title: t('myndla.campaignBlock.title'),
+            lang: i18n.language,
+          }}
+          image={{
+            imageSrc: '/static/ndla-ai.png',
+            altText: '',
+          }}
+          linkText={{
+            text: t('myndla.campaignBlock.linkText'),
+            lang: i18n.language,
+          }}
+          content={{
+            content: isStudent(user)
+              ? t('myndla.campaignBlock.ingressStudent')
+              : t('myndla.campaignBlock.ingress'),
+            lang: i18n.language,
+          }}
+        />
+      )}
       <InfoPart icon={<ShareIcon />} title={t('myNdla.myPage.sharing.title')}>
         <InfoPartText>{t('myNdla.myPage.sharing.text')}</InfoPartText>
       </InfoPart>

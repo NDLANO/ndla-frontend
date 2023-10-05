@@ -6,12 +6,12 @@
  *
  */
 
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { gql } from '@apollo/client';
 import { Helmet } from 'react-helmet-async';
 import { OneColumn, CreatedBy } from '@ndla/ui';
-import { withTracker } from '@ndla/tracker';
-import { CustomWithTranslation, withTranslation } from 'react-i18next';
+import { useTracker } from '@ndla/tracker';
+import { useTranslation } from 'react-i18next';
 import { transformArticle } from '../util/transformArticle';
 import Article from '../components/Article';
 import { getArticleScripts } from '../util/getArticleScripts';
@@ -26,7 +26,7 @@ import {
 } from '../graphqlTypes';
 import { LocaleType } from '../interfaces';
 
-interface Props extends CustomWithTranslation {
+interface Props {
   locale?: LocaleType;
   resource?: GQLIframeArticlePage_ResourceFragment;
   article: GQLIframeArticlePage_ArticleFragment;
@@ -34,11 +34,11 @@ interface Props extends CustomWithTranslation {
 
 const IframeArticlePage = ({
   resource,
-  t,
   article: propArticle,
-  i18n,
   locale: propsLocale,
 }: Props) => {
+  const { trackPageView } = useTracker();
+  const { t, i18n } = useTranslation();
   const locale = propsLocale ?? i18n.language;
   const [article, scripts] = useMemo(() => {
     return [
@@ -49,6 +49,22 @@ const IframeArticlePage = ({
       getArticleScripts(propArticle, locale),
     ];
   }, [propArticle, locale])!;
+
+  useEffect(() => {
+    if (propArticle?.id) {
+      const articleProps = getArticleProps(resource?.id ? resource : undefined);
+      const dimensions = getAllDimensions(
+        { article: propArticle },
+        articleProps.label,
+        true,
+      );
+      trackPageView({
+        dimensions,
+        title: propArticle?.id ? `NDLA | ${propArticle.title}` : '',
+      });
+    }
+  }, [propArticle, resource, trackPageView]);
+
   const contentUrl = resource?.path
     ? `${config.ndlaFrontendDomain}${resource.path}`
     : undefined;
@@ -120,23 +136,4 @@ export const iframeArticlePageFragments = {
   `,
 };
 
-IframeArticlePage.getDocumentTitle = ({ article }: Pick<Props, 'article'>) => {
-  return article.id ? `NDLA | ${article.title}` : '';
-};
-
-IframeArticlePage.getDimensions = ({ resource, article }: Props) => {
-  const articleProps = getArticleProps(resource?.id ? resource : undefined);
-  return getAllDimensions({ article }, articleProps.label, true);
-};
-
-IframeArticlePage.willTrackPageView = (
-  trackPageView: (props: Props) => void,
-  currentProps: Props,
-) => {
-  const { article } = currentProps;
-  if (article?.id) {
-    trackPageView(currentProps);
-  }
-};
-
-export default withTranslation()(withTracker(IframeArticlePage));
+export default IframeArticlePage;

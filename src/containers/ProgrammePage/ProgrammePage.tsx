@@ -74,9 +74,10 @@ const ProgrammePage = () => {
     return <NotFoundPage />;
   }
 
-  const selectedGrade = data.programme.grades?.find(
-    (grade) => grade.title.title.toLowerCase() === gradeParam,
-  );
+  const selectedGrade =
+    data.programme.grades?.find(
+      (grade) => grade.title.title.toLowerCase() === gradeParam,
+    ) ?? data.programme.grades?.[0];
 
   return (
     <ProgrammeContainer

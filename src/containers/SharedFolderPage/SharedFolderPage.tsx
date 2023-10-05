@@ -198,6 +198,8 @@ const SharedFolderPage = () => {
     ];
   const selectedFolder = !subfolderId ? folder : subFolder;
 
+  const metaWithMetaImage = data?.find((d) => !!d.metaImage?.url);
+
   const title = `${selectedFolder?.name} - ${
     articleMeta?.title ?? t('sharedFolder')
   }`;
@@ -207,6 +209,7 @@ const SharedFolderPage = () => {
       <SocialMediaMetadata
         type="website"
         title={title}
+        imageUrl={metaWithMetaImage?.metaImage?.url}
         description={t('myNdla.sharedFolder.description.info1')}
       />
       <Sidebar>

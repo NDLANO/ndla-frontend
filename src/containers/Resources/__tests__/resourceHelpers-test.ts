@@ -8,7 +8,8 @@
 
 import * as helper from '../resourceHelpers';
 
-const testHelper = (fn, input, expected) => expect(fn(input)).toBe(expected);
+const testHelper = <T, R>(fn: (val: T) => R, input: T, expected: R) =>
+  expect(fn(input)).toBe(expected);
 
 test('resourceHelpers/isLearningPathResource ', () => {
   testHelper(
@@ -27,8 +28,6 @@ test('resourceHelpers/isLearningPathResource ', () => {
     false,
   );
   testHelper(helper.isLearningPathResource, {}, false);
-  testHelper(helper.isLearningPathResource, undefined, false);
-  testHelper(helper.isLearningPathResource, null, false);
 });
 
 test('resourceHelpers/isArticleResource ', () => {
@@ -40,7 +39,6 @@ test('resourceHelpers/isArticleResource ', () => {
   );
   testHelper(helper.isArticleResource, { contentUri: 'urn:articl:123' }, false);
   testHelper(helper.isArticleResource, {}, false);
-  testHelper(helper.isArticleResource, undefined, false);
 });
 
 test('resourceHelpers/getArticleIdFromResource ', () => {

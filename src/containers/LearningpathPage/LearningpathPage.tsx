@@ -9,12 +9,8 @@
 import { useEffect } from 'react';
 import { gql } from '@apollo/client';
 import { Helmet } from 'react-helmet-async';
-import { withTracker } from '@ndla/tracker';
-import {
-  CustomWithTranslation,
-  TFunction,
-  withTranslation,
-} from 'react-i18next';
+import { useTracker } from '@ndla/tracker';
+import { TFunction, useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { constants, FeideUserApiType } from '@ndla/ui';
 import { getArticleProps } from '../../util/getArticleProps';
@@ -44,7 +40,7 @@ interface PropData {
   resource?: GQLLearningpathPage_ResourceFragment;
 }
 
-interface Props extends CustomWithTranslation {
+interface Props {
   loading: boolean;
   data: PropData;
   skipToContentId: string;
@@ -52,7 +48,15 @@ interface Props extends CustomWithTranslation {
   user?: FeideUserApiType;
 }
 
-const LearningpathPage = ({ data, skipToContentId, stepId, t }: Props) => {
+const LearningpathPage = ({
+  data,
+  skipToContentId,
+  stepId,
+  loading,
+  user,
+}: Props) => {
+  const { t } = useTranslation();
+  const { trackPageView } = useTracker();
   const navigate = useNavigate();
   useEffect(() => {
     if (window.MathJax && typeof window.MathJax.typeset === 'function') {
@@ -63,6 +67,32 @@ const LearningpathPage = ({ data, skipToContentId, stepId, t }: Props) => {
       }
     }
   });
+
+  useEffect(() => {
+    if (loading || !data) return;
+    const articleProps = getArticleProps(data.resource);
+    const { resource, subject, topicPath, relevance } = data;
+    const learningpath = resource?.learningpath;
+    const firstStep = learningpath?.learningsteps?.[0];
+    const currentStep = learningpath?.learningsteps?.find(
+      (ls) => `${ls.id}` === stepId,
+    );
+    const learningstep = currentStep || firstStep;
+    const dimensions = getAllDimensions(
+      {
+        subject,
+        relevance,
+        topicPath,
+        learningpath,
+        learningstep,
+        filter: subject?.name,
+        user,
+      },
+      articleProps.label,
+      false,
+    );
+    trackPageView({ dimensions, title: getDocumentTitle(t, data, stepId) });
+  }, [data, loading, stepId, t, trackPageView, user]);
 
   const onKeyUpEvent = (evt: KeyboardEvent) => {
     const steps = data?.resource?.learningpath?.learningsteps;
@@ -158,43 +188,6 @@ const LearningpathPage = ({ data, skipToContentId, stepId, t }: Props) => {
   );
 };
 
-LearningpathPage.willTrackPageView = (
-  trackPageView: (item: Props) => void,
-  currentProps: Props,
-) => {
-  const { loading, data } = currentProps;
-  if (loading || !data) {
-    return;
-  }
-  trackPageView(currentProps);
-};
-
-LearningpathPage.getDimensions = (props: Props) => {
-  const articleProps = getArticleProps(props.data.resource);
-  const { data, stepId, user } = props;
-  const { resource, subject, topicPath, relevance } = data;
-  const learningpath = resource?.learningpath;
-  const firstStep = learningpath?.learningsteps?.[0];
-  const currentStep = learningpath?.learningsteps?.find(
-    (ls) => `${ls.id}` === stepId,
-  );
-  const learningstep = currentStep || firstStep;
-
-  return getAllDimensions(
-    {
-      subject,
-      relevance,
-      topicPath,
-      learningpath,
-      learningstep,
-      filter: subject?.name,
-      user,
-    },
-    articleProps.label,
-    false,
-  );
-};
-
 const getTitle = (
   subject?: Pick<GQLLearningpathPage_SubjectFragment, 'name' | 'subjectpage'>,
   learningpath?: Pick<GQLLearningpath, 'title'>,
@@ -217,9 +210,6 @@ const getDocumentTitle = (t: TFunction, data: PropData, stepId?: string) => {
     t('htmlTitles.titleTemplate'),
   ]);
 };
-
-LearningpathPage.getDocumentTitle = ({ t, data }: Props) =>
-  getDocumentTitle(t, data);
 
 export const learningpathPageFragments = {
   topic: gql`
@@ -280,4 +270,4 @@ export const learningpathPageFragments = {
   `,
 };
 
-export default withTranslation()(withTracker(LearningpathPage));
+export default LearningpathPage;

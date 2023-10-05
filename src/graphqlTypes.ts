@@ -51,6 +51,7 @@ export type GQLArticle = {
   grepCodes?: Maybe<Array<Scalars['String']['output']>>;
   id: Scalars['Int']['output'];
   introduction?: Maybe<Scalars['String']['output']>;
+  language: Scalars['String']['output'];
   metaData?: Maybe<GQLArticleMetaData>;
   metaDescription: Scalars['String']['output'];
   metaImage?: Maybe<GQLMetaImage>;
@@ -292,6 +293,7 @@ export type GQLConceptCopyright = {
   creators: Array<GQLContributor>;
   license?: Maybe<GQLLicense>;
   origin?: Maybe<Scalars['String']['output']>;
+  processed?: Maybe<Scalars['Boolean']['output']>;
   processors: Array<GQLContributor>;
   rightsholders: Array<GQLContributor>;
 };
@@ -342,6 +344,7 @@ export type GQLCopyright = {
   creators: Array<GQLContributor>;
   license: GQLLicense;
   origin?: Maybe<Scalars['String']['output']>;
+  processed?: Maybe<Scalars['Boolean']['output']>;
   processors: Array<GQLContributor>;
   rightsholders: Array<GQLContributor>;
 };
@@ -1634,6 +1637,7 @@ export type GQLArticle_ArticleFragment = {
   introduction?: string;
   conceptIds?: Array<number>;
   revisionDate?: string;
+  language: string;
   metaData?: {
     __typename?: 'ArticleMetaData';
     copyText?: string;
@@ -1867,6 +1871,8 @@ export type GQLConceptLicenseList_ConceptLicenseFragment = {
   src?: string;
   copyright?: {
     __typename?: 'ConceptCopyright';
+    origin?: string;
+    processed?: boolean;
     license?: { __typename?: 'License'; license: string };
     creators: Array<{ __typename?: 'Contributor'; name: string; type: string }>;
     processors: Array<{
@@ -1977,6 +1983,8 @@ export type GQLVideoLicenseList_BrightcoveLicenseFragment = {
 
 export type GQLLicenseListCopyrightFragment = {
   __typename?: 'Copyright';
+  origin?: string;
+  processed?: boolean;
   license: { __typename?: 'License'; license: string };
   creators: Array<{ __typename?: 'Contributor'; name: string; type: string }>;
   processors: Array<{ __typename?: 'Contributor'; name: string; type: string }>;
@@ -2748,21 +2756,11 @@ export type GQLCopySharedFolderMutationVariables = Exact<{
 export type GQLCopySharedFolderMutation = {
   __typename?: 'Mutation';
   copySharedFolder: {
-    __typename: 'Folder';
-    id: string;
-    name: string;
-    status: string;
-    created: string;
-    updated: string;
-    description?: string;
-    breadcrumbs: Array<{ __typename: 'Breadcrumb'; id: string; name: string }>;
+    __typename?: 'Folder';
     subfolders: Array<
       { __typename?: 'Folder' } & GQLFoldersPageQueryFragmentFragment
     >;
-    resources: Array<
-      { __typename?: 'FolderResource' } & GQLFolderResourceFragmentFragment
-    >;
-  };
+  } & GQLFolderFragmentFragment;
 };
 
 type GQLFolderResourceMeta_ArticleFolderResourceMeta_Fragment = {
@@ -4040,6 +4038,7 @@ export type GQLEmbedOembedQuery = {
 
 export type GQLStructuredArticleData_CopyrightFragment = {
   __typename?: 'Copyright';
+  processed?: boolean;
   license: { __typename?: 'License'; url?: string };
   creators: Array<{ __typename?: 'Contributor'; name: string; type: string }>;
   processors: Array<{ __typename?: 'Contributor'; name: string; type: string }>;

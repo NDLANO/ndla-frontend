@@ -14,12 +14,12 @@ import {
 } from '@ndla/ui';
 import { DynamicComponents } from '@ndla/article-converter';
 import { useEffect, useMemo } from 'react';
-import { CustomWithTranslation, withTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet-async';
 import styled from '@emotion/styled';
 import { breakpoints, colors, mq, spacing } from '@ndla/core';
 import { TFunction } from 'i18next';
-import { withTracker } from '@ndla/tracker';
+import { useTracker } from '@ndla/tracker';
 import LicenseBox from '../../components/license/LicenseBox';
 import {
   GQLAboutPage_ArticleFragment,
@@ -38,7 +38,7 @@ import { getAllDimensions } from '../../util/trackingUtil';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { toAbout } from '../../routeHelpers';
 
-interface Props extends CustomWithTranslation {
+interface Props {
   article: GQLAboutPage_ArticleFragment;
   frontpage: GQLAboutPage_FrontpageMenuFragment;
   user: FeideUserApiType | undefined;
@@ -126,12 +126,25 @@ const converterComponents: DynamicComponents = {
   heartButton: AddEmbedToFolder,
 };
 
-const AboutPageContent = ({ article: _article, frontpage, t, i18n }: Props) => {
+const AboutPageContent = ({ article: _article, frontpage, user }: Props) => {
+  const { t, i18n } = useTranslation();
+  const { trackPageView } = useTracker();
   const oembedUrl = `${config.ndlaFrontendDomain}/oembed?url=${config.ndlaFrontendDomain}/article/${_article.id}`;
   const crumbs = useMemo(
     () => getBreadcrumb(_article.slug, frontpage, t),
     [_article.slug, frontpage, t],
   );
+
+  useEffect(() => {
+    if (_article) {
+      const dimensions = getAllDimensions(
+        { article: _article, user },
+        undefined,
+        true,
+      );
+      trackPageView({ dimensions, title: getDocumentTitle(t, _article) });
+    }
+  }, [_article, t, trackPageView, user]);
 
   const [article, scripts] = useMemo(() => {
     const transformedArticle = transformArticle(_article, i18n.language, {
@@ -141,6 +154,10 @@ const AboutPageContent = ({ article: _article, frontpage, t, i18n }: Props) => {
     return [
       {
         ...transformedArticle,
+        copyright: {
+          ..._article.copyright,
+          processed: _article.copyright.processed ?? false,
+        },
         introduction: transformedArticle.introduction ?? '',
       },
       getArticleScripts(_article, i18n.language),
@@ -207,21 +224,6 @@ const AboutPageContent = ({ article: _article, frontpage, t, i18n }: Props) => {
   );
 };
 
-AboutPageContent.getDimensions = (props: Props) => {
-  const { user, article } = props;
-
-  return getAllDimensions({ article, user }, undefined, true);
-};
-
-AboutPageContent.willTrackPageView = (
-  trackPageView: (props: Props) => void,
-  props: Props,
-) => {
-  if (props.article) {
-    trackPageView(props);
-  }
-};
-
 export const aboutPageFragments = {
   article: gql`
     fragment AboutPage_Article on Article {
@@ -252,7 +254,4 @@ export const aboutPageFragments = {
   `,
 };
 
-AboutPageContent.getDocumentTitle = ({ t, article }: Props) =>
-  getDocumentTitle(t, article);
-
-export default withTranslation()(withTracker(AboutPageContent));
+export default AboutPageContent;

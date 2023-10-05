@@ -9,9 +9,9 @@
 import { gql } from '@apollo/client';
 import { useEffect, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { CustomWithTranslation, withTranslation } from 'react-i18next';
+import { TFunction, useTranslation } from 'react-i18next';
 import { FeideUserApiType, OneColumn } from '@ndla/ui';
-import { withTracker } from '@ndla/tracker';
+import { useTracker } from '@ndla/tracker';
 import { DynamicComponents } from '@ndla/article-converter';
 import { transformArticle } from '../../util/transformArticle';
 import { getArticleScripts } from '../../util/getArticleScripts';
@@ -28,7 +28,7 @@ import { getArticleProps } from '../../util/getArticleProps';
 import { getAllDimensions } from '../../util/trackingUtil';
 import AddEmbedToFolder from '../../components/MyNdla/AddEmbedToFolder';
 
-interface Props extends CustomWithTranslation {
+interface Props {
   article: GQLPlainArticleContainer_ArticleFragment;
   user?: FeideUserApiType;
   skipToContentId?: string;
@@ -38,15 +38,16 @@ const converterComponents: DynamicComponents = {
   heartButton: AddEmbedToFolder,
 };
 
-const getDocumentTitle = ({ t, article }: Pick<Props, 't' | 'article'>) =>
-  htmlTitle(article.title, [t('htmlTitles.titleTemplate')]);
+const getDocumentTitle = (t: TFunction, title: string) =>
+  htmlTitle(title, [t('htmlTitles.titleTemplate')]);
 
 const PlainArticleContainer = ({
   article: propArticle,
-  i18n,
-  t,
   skipToContentId,
+  user,
 }: Props) => {
+  const { t, i18n } = useTranslation();
+  const { trackPageView } = useTracker();
   useEffect(() => {
     if (window.MathJax && typeof window.MathJax.typeset === 'function') {
       try {
@@ -56,6 +57,19 @@ const PlainArticleContainer = ({
       }
     }
   });
+
+  useEffect(() => {
+    if (!propArticle) return;
+    const dimensions = getAllDimensions(
+      { article: propArticle, user },
+      undefined,
+      true,
+    );
+    trackPageView({
+      dimensions,
+      title: getDocumentTitle(t, propArticle.title),
+    });
+  }, [propArticle, t, trackPageView, user]);
 
   const [article, scripts] = useMemo(() => {
     return [
@@ -73,7 +87,7 @@ const PlainArticleContainer = ({
   return (
     <div>
       <Helmet>
-        <title>{`${getDocumentTitle({ t, article })}`}</title>
+        <title>{`${getDocumentTitle(t, article.title)}`}</title>
         <meta name="robots" content="noindex" />
         {scripts.map((script) => (
           <script
@@ -118,22 +132,6 @@ const PlainArticleContainer = ({
   );
 };
 
-PlainArticleContainer.willTrackPageView = (
-  trackPageView: (props: Props) => void,
-  props: Props,
-) => {
-  if (props.article) {
-    trackPageView(props);
-  }
-};
-
-PlainArticleContainer.getDimensions = (props: Props) => {
-  const { article, user } = props;
-  return getAllDimensions({ article, user }, undefined, true);
-};
-
-PlainArticleContainer.getDocumentTitle = getDocumentTitle;
-
 export const plainArticleContainerFragments = {
   article: gql`
     fragment PlainArticleContainer_Article on Article {
@@ -146,4 +144,4 @@ export const plainArticleContainerFragments = {
     ${Article.fragments.article}
   `,
 };
-export default withTranslation()(withTracker(PlainArticleContainer));
+export default PlainArticleContainer;

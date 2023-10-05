@@ -46,12 +46,6 @@ exports[`searchHelpers searchResultToLinkProps article 1`] = `
 }
 `;
 
-exports[`searchHelpers searchResultToLinkProps article without paths 1`] = `
-{
-  "to": "/404",
-}
-`;
-
 exports[`searchHelpers searchResultToLinkProps learningpath 1`] = `
 {
   "to": "/learningpath/500",

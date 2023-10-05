@@ -88,6 +88,18 @@ const logglyApiKey = (): string | undefined => {
   return getEnvironmentVariabel('LOGGLY_API_KEY');
 };
 
+export const tempAllowedAIOrgs = () => {
+  const defaultList = [
+    'Innlandet fylkeskommune',
+    'Rogaland fylkeskommune',
+    'Vestland fylkeskommune',
+  ];
+  if (['local', 'dev', 'test'].includes(ndlaEnvironment)) {
+    return [...defaultList, 'Universitetet i Rogn'];
+  }
+  return defaultList;
+};
+
 export const getDefaultLocale = () =>
   getEnvironmentVariabel('NDLA_DEFAULT_LOCALE', 'nb');
 
@@ -105,7 +117,6 @@ export type ConfigType = {
   ndlaApiUrl: string;
   ndlaFrontendDomain: string;
   learningPathDomain: string;
-  googleTagManagerId: string | undefined;
   zendeskWidgetKey: string | undefined;
   localGraphQLApi: boolean;
   showAllFrontpageSubjects: boolean;
@@ -117,6 +128,7 @@ export type ConfigType = {
   matomoTagmanagerId: string;
   taxonomyProgrammesEnabled: boolean;
   isVercel: boolean;
+  monsidoToken: string;
 };
 
 const config: ConfigType = {
@@ -142,7 +154,6 @@ const config: ConfigType = {
     'LEARNINGPATH_DOMAIN',
     learningPathDomain(),
   ),
-  googleTagManagerId: getEnvironmentVariabel('NDLA_GOOGLE_TAG_MANAGER_ID'),
   zendeskWidgetKey: getEnvironmentVariabel('NDLA_ZENDESK_WIDGET_KEY'),
   localGraphQLApi: getEnvironmentVariabel('LOCAL_GRAPHQL_API', false),
   showAllFrontpageSubjects: true,
@@ -157,6 +168,7 @@ const config: ConfigType = {
     false,
   ),
   isVercel: getEnvironmentVariabel('IS_VERCEL', false),
+  monsidoToken: getEnvironmentVariabel('MONSIDO_TOKEN', ''),
 };
 
 export function getUniversalConfig() {

@@ -19,6 +19,7 @@ type Article {
   grepCodes: [String!]
   id: Int!
   introduction: String
+  language: String!
   metaData: ArticleMetaData
   metaDescription: String!
   metaImage: MetaImage
@@ -235,6 +236,7 @@ type ConceptCopyright {
   creators: [Contributor!]!
   license: License
   origin: String
+  processed: Boolean
   processors: [Contributor!]!
   rightsholders: [Contributor!]!
 }
@@ -279,6 +281,7 @@ type Copyright {
   creators: [Contributor!]!
   license: License!
   origin: String
+  processed: Boolean
   processors: [Contributor!]!
   rightsholders: [Contributor!]!
 }

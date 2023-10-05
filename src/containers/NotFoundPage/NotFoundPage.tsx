@@ -25,7 +25,6 @@ const NotFound = () => {
           messages={{
             title: t('notFoundPage.title'),
             description: t('notFoundPage.errorDescription'),
-            back: t('errorMessage.back'),
             goToFrontPage: t('errorMessage.goToFrontPage'),
           }}
         />

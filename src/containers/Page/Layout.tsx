@@ -9,7 +9,7 @@
 import { useEffect } from 'react';
 import { Content, PageContainer, useMastheadHeight } from '@ndla/ui';
 import ZendeskButton from '@ndla/zendesk';
-import { spacing } from '@ndla/core';
+import { colors, spacing } from '@ndla/core';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
@@ -31,8 +31,17 @@ const ZendeskWrapper = styled.div`
   z-index: 10;
 `;
 
-const bottomPadding = css`
+const BottomPadding = styled.div`
   padding-bottom: ${spacing.large};
+  &[data-no-padding='true'] {
+    padding-bottom: unset;
+  }
+`;
+
+const StyledPageContainer = styled(PageContainer)`
+  &[data-film='true'] {
+    background-color: ${colors.ndlaFilm.filmColor};
+  }
 `;
 
 const Layout = () => {
@@ -48,6 +57,8 @@ const Layout = () => {
     '/learningpaths/:learningpathId',
     pathname,
   );
+  const noPaddingBottom =
+    !!matchPath('/minndla/*', pathname) || !!matchPath('/', pathname);
 
   useEffect(() => {
     if (!prevPathname || pathname === prevPathname) {
@@ -74,7 +85,11 @@ const Layout = () => {
   );
 
   return (
-    <PageContainer backgroundWide={backgroundWide} ndlaFilm={ndlaFilm}>
+    <StyledPageContainer
+      backgroundWide={backgroundWide}
+      ndlaFilm={ndlaFilm}
+      data-film={ndlaFilm}
+    >
       <TitleAnnouncer />
       <Global
         styles={css`
@@ -91,9 +106,9 @@ const Layout = () => {
       </Helmet>
       <Masthead />
       <Content>
-        <div css={bottomPadding}>
+        <BottomPadding data-no-padding={noPaddingBottom}>
           <Outlet />
-        </div>
+        </BottomPadding>
       </Content>
       <Footer />
       {config.feideEnabled && <FeideFooter />}
@@ -108,7 +123,7 @@ const Layout = () => {
           </ZendeskButton>
         </ZendeskWrapper>
       )}
-    </PageContainer>
+    </StyledPageContainer>
   );
 };
 export default Layout;

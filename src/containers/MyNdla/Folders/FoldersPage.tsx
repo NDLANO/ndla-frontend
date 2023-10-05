@@ -22,7 +22,7 @@ import {
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import { HelmetWithTracker } from '@ndla/tracker';
+import { HelmetWithTracker, useTracker } from '@ndla/tracker';
 import { FileDocumentOutline, Share } from '@ndla/icons/common';
 import { TrashCanOutline } from '@ndla/icons/action';
 import { GQLFolder, GQLFoldersPageQuery } from '../../../graphqlTypes';
@@ -44,15 +44,13 @@ import FolderShareModal from './FolderShareModal';
 import { copyFolderSharingLink, isStudent } from './util';
 import CreateFolderModal from './CreateFolderModal';
 import ResourceList from './ResourceList';
-
-interface BlockWrapperProps {
-  type?: string;
-}
+import { getAllDimensions } from '../../../util/trackingUtil';
 
 const FoldersPageContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${spacing.xsmall};
+  margin-top: ${spacing.normal};
 `;
 
 const OptionsWrapper = styled.div`
@@ -63,27 +61,34 @@ const OptionsWrapper = styled.div`
   }
 `;
 
-export const BlockWrapper = styled.ul<BlockWrapperProps>`
+export const BlockWrapper = styled.ul`
   display: flex;
   flex-direction: column;
   gap: ${spacing.xsmall};
   margin: 0;
   margin-bottom: ${spacing.medium};
-  padding: 0;
-  ${(props) =>
-    props.type === 'block' &&
-    css`
-      display: grid;
-      gap: ${spacing.normal};
-      margin-top: ${spacing.normal};
-      grid-template-columns: repeat(
-        3,
-        calc(33.33% - (${spacing.normal} / 3 * 2))
-      );
-      ${mq.range({ until: breakpoints.wide })} {
-        grid-template-columns: repeat(2, calc(50% - ${spacing.normal} / 2));
-      }
-    `};
+  padding: 0 0 0 ${spacing.medium};
+
+  &[data-type='block'] {
+    display: grid;
+    gap: ${spacing.normal};
+    margin-top: ${spacing.normal};
+    grid-template-columns: repeat(
+      3,
+      calc(33.33% - (${spacing.normal} / 3 * 2))
+    );
+    ${mq.range({ until: breakpoints.wide })} {
+      grid-template-columns: repeat(2, calc(50% - ${spacing.normal} / 2));
+    }
+  }
+
+  ${mq.range({ until: breakpoints.tablet })} {
+    padding: 0;
+  }
+
+  &[data-no-padding='true'] {
+    padding: 0;
+  }
 `;
 
 const iconCss = css`
@@ -115,6 +120,7 @@ const FoldersPage = () => {
   const { t } = useTranslation();
   const { folderId } = useParams();
   const { user } = useContext(AuthContext);
+  const { trackPageView } = useTracker();
   const [viewType, _setViewType] = useState<ViewType>(
     (localStorage.getItem(STORED_RESOURCE_VIEW_SETTINGS) as ViewType) || 'list',
   );
@@ -129,6 +135,13 @@ const FoldersPage = () => {
 
   const hasSelectedFolder = !!folderId;
   const selectedFolder = useFolder(folderId);
+
+  const title = useMemo(() => {
+    if (folderId) {
+      return t('htmlTitles.myFolderPage', { folderName: selectedFolder?.name });
+    } else return t('htmlTitles.myFoldersPage');
+  }, [folderId, selectedFolder?.name, t]);
+
   const folders: GQLFolder[] = useMemo(
     () =>
       selectedFolder
@@ -138,6 +151,11 @@ const FoldersPage = () => {
   );
   const [previousFolders, setPreviousFolders] = useState<GQLFolder[]>(folders);
   const [focusId, setFocusId] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    trackPageView({ title, dimensions: getAllDimensions({ user }) });
+  }, [title, trackPageView, user]);
+
   useEffect(() => {
     const folderIds = folders.map((f) => f.id).sort();
     const prevFolderIds = previousFolders.map((f) => f.id).sort();
@@ -201,13 +219,7 @@ const FoldersPage = () => {
 
   return (
     <FoldersPageContainer>
-      <HelmetWithTracker
-        title={
-          hasSelectedFolder
-            ? t('htmlTitles.myFolderPage', { folderName: selectedFolder?.name })
-            : t('htmlTitles.myFoldersPage')
-        }
-      />
+      <HelmetWithTracker title={title} />
       <FoldersPageTitle
         key={selectedFolder?.id}
         loading={loading}

@@ -6,9 +6,7 @@
  *
  */
 
-import { configureTracker } from '@ndla/tracker';
 import { SnackbarProvider } from '@ndla/ui';
-import { History } from 'history';
 import { Component, ErrorInfo, ReactNode, useMemo } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import VideoPage from './containers/ResourceEmbed/VideoPage';
@@ -18,7 +16,6 @@ import AudioPage from './containers/ResourceEmbed/AudioPage';
 import { AlertsProvider } from './components/AlertsContext';
 import AuthenticationContext from './components/AuthenticationContext';
 import { BaseNameProvider } from './components/BaseNameContext';
-import config from './config';
 import AccessDenied from './containers/AccessDeniedPage/AccessDeniedPage';
 import AllSubjectsPage from './containers/AllSubjectsPage/AllSubjectsPage';
 import ErrorPage from './containers/ErrorPage/ErrorPage';
@@ -40,7 +37,6 @@ import ResourcePage from './containers/ResourcePage/ResourcePage';
 import SearchPage from './containers/SearchPage/SearchPage';
 import SubjectRouting from './containers/SubjectPage/SubjectRouting';
 import WelcomePage from './containers/WelcomePage/WelcomePage';
-import { LocaleType } from './interfaces';
 import handleError from './util/handleError';
 import SharedFolderPage from './containers/SharedFolderPage/SharedFolderPage';
 import FavoriteSubjectsPage from './containers/MyNdla/FavoriteSubjects/FavoriteSubjectsPage';
@@ -64,12 +60,6 @@ class App extends Component<AppProps, State> {
     this.state = {
       hasError: false,
     };
-    if (props.isClient && props.history) {
-      configureTracker({
-        listen: props.history.listen,
-        googleTagManagerId: config?.googleTagManagerId,
-      });
-    }
   }
 
   componentDidCatch(error: Error, info: ErrorInfo) {
@@ -198,9 +188,6 @@ const AppRoutes = ({ base }: AppProps) => {
 
 interface AppProps {
   base?: string;
-  locale?: LocaleType;
-  history?: History;
-  isClient?: boolean;
 }
 
 export default App;

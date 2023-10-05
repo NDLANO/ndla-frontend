@@ -7,8 +7,8 @@
  */
 
 import styled from '@emotion/styled';
-import { useMemo } from 'react';
-import { HelmetWithTracker } from '@ndla/tracker';
+import { useContext, useEffect, useMemo } from 'react';
+import { HelmetWithTracker, useTracker } from '@ndla/tracker';
 import {
   FrontpageHeader,
   FrontpageFilm,
@@ -54,6 +54,8 @@ import { structuredArticleDataFragment } from '../../util/getStructuredDataFromA
 import { useGraphQuery } from '../../util/runQueries';
 import { transformArticle } from '../../util/transformArticle';
 import { getArticleScripts } from '../../util/getArticleScripts';
+import { AuthContext } from '../../components/AuthenticationContext';
+import { getAllDimensions } from '../../util/trackingUtil';
 
 const BannerWrapper = styled.div`
   margin-bottom: ${spacing.normal};
@@ -82,6 +84,10 @@ const StyledMain = styled.main`
   ${mq.range({ until: breakpoints.wide })} {
     padding-left: ${spacing.normal};
     padding-right: ${spacing.normal};
+  }
+  /* This is a SSR-friendly :first-child */
+  [data-wide] > section > *:not(:is(*:not(style) ~ *)) {
+    margin-top: ${spacingUnit * 4}px;
   }
 `;
 
@@ -169,11 +175,20 @@ const formatProgrammes = (data: GQLProgrammePage[]): ProgrammeV2[] => {
 
 const WelcomePage = () => {
   const { t, i18n } = useTranslation();
+  const { trackPageView } = useTracker();
+  const { user } = useContext(AuthContext);
   const taxonomyProgrammesEnabled = useEnableTaxStructure();
   const subjectsQuery = useGraphQuery<GQLFrontpageSubjectsQuery>(
     frontpageSubjectsQuery,
     { skip: typeof window === 'undefined' },
   );
+
+  useEffect(() => {
+    trackPageView({
+      title: t('htmlTitles.welcomePage'),
+      dimensions: getAllDimensions({ user }),
+    });
+  }, [t, trackPageView, user]);
 
   const fpQuery = useGraphQuery<GQLFrontpageDataQuery>(frontpageQuery, {
     skip: !taxonomyProgrammesEnabled,
@@ -196,6 +211,10 @@ const WelcomePage = () => {
     return [
       {
         ...transformedArticle,
+        copyright: {
+          ..._article.copyright,
+          processed: _article.copyright.processed ?? false,
+        },
         introduction: transformedArticle.introduction ?? '',
       },
       getArticleScripts(_article, i18n.language),

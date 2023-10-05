@@ -19,14 +19,10 @@ import {
   FeideUserApiType,
   SimpleBreadcrumbItem,
   HomeBreadcrumb,
-  Heading,
 } from '@ndla/ui';
-import { withTracker } from '@ndla/tracker';
-import {
-  withTranslation,
-  TFunction,
-  CustomWithTranslation,
-} from 'react-i18next';
+import { Heading } from '@ndla/typography';
+import { useTracker } from '@ndla/tracker';
+import { TFunction, useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
 import SubjectPageContent from './components/SubjectPageContent';
@@ -48,7 +44,7 @@ type Props = {
   subject: GQLSubjectContainer_SubjectFragment;
   loading?: boolean;
   user?: FeideUserApiType;
-} & CustomWithTranslation;
+};
 
 const BreadcrumbWrapper = styled.div`
   margin-top: ${spacing.mediumlarge};
@@ -91,9 +87,29 @@ const getSubjectTypeMessage = (
   }
 };
 
-const SubjectContainer = ({ t, topicIds, subject }: Props) => {
+const SubjectContainer = ({ topicIds, subject, loading, user }: Props) => {
   const ndlaFilm = useIsNdlaFilm();
+  const { t } = useTranslation();
+  const { trackPageView } = useTracker();
   const about = subject.subjectpage?.about;
+
+  useEffect(() => {
+    if (!loading && !!subject.topics?.length && topicIds.length === 0) {
+      const topicPath = topicIds.map(
+        (id) => subject.allTopics?.find((t) => t.id === id),
+      );
+      const dimensions = getAllDimensions({
+        subject,
+        topicPath,
+        filter: subject.name,
+        user,
+      });
+      trackPageView({
+        dimensions,
+        title: htmlTitle(subject.name, [t('htmlTitles.titleTemplate')]),
+      });
+    }
+  }, [loading, subject, t, topicIds, trackPageView, user]);
 
   const [topicCrumbs, setTopicCrumbs] = useState<SimpleBreadcrumbItem[]>([]);
 
@@ -230,34 +246,6 @@ const SubjectContainer = ({ t, topicIds, subject }: Props) => {
   );
 };
 
-SubjectContainer.getDocumentTitle = ({ t, subject }: Props): string => {
-  return htmlTitle(subject?.name, [t('htmlTitles.titleTemplate')]);
-};
-
-SubjectContainer.willTrackPageView = (
-  trackPageView: (p: Props) => void,
-  currentProps: Props,
-) => {
-  const { subject, loading, topicIds } = currentProps;
-  if (!loading && (subject.topics?.length ?? 0) > 0 && topicIds?.length === 0) {
-    trackPageView(currentProps);
-  }
-};
-
-SubjectContainer.getDimensions = (props: Props) => {
-  const { subject, topicIds, user } = props;
-  const topicPath = topicIds.map(
-    (t) => subject.allTopics?.find((topic) => topic.id === t),
-  );
-
-  return getAllDimensions({
-    subject,
-    topicPath,
-    filter: subject.name,
-    user,
-  });
-};
-
 export const subjectContainerFragments = {
   subject: gql`
     fragment SubjectContainer_Subject on Subject {
@@ -297,4 +285,4 @@ export const subjectContainerFragments = {
   `,
 };
 
-export default withTranslation()(withTracker(SubjectContainer));
+export default SubjectContainer;

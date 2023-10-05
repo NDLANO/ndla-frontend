@@ -10,8 +10,8 @@ import { gql } from '@apollo/client';
 import { OneColumn } from '@ndla/ui';
 import { useEffect, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { CustomWithTranslation, withTranslation } from 'react-i18next';
-import { withTracker } from '@ndla/tracker';
+import { TFunction, useTranslation } from 'react-i18next';
+import { useTracker } from '@ndla/tracker';
 import { DynamicComponents } from '@ndla/article-converter';
 import Article from '../../../components/Article';
 import config from '../../../config';
@@ -27,8 +27,9 @@ import { structuredArticleDataFragment } from '../../../util/getStructuredDataFr
 import { transformArticle } from '../../../util/transformArticle';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import AddEmbedToFolder from '../../../components/MyNdla/AddEmbedToFolder';
+import SocialMediaMetadata from '../../../components/SocialMediaMetadata';
 
-interface Props extends CustomWithTranslation {
+interface Props {
   article: GQLSharedResourceArticleContainer_ArticleFragment;
   meta?: GQLFolderResourceMetaSearchQuery['folderResourceMetaSearch'][0];
   title: string;
@@ -41,8 +42,10 @@ const converterComponents: DynamicComponents = {
 const SharedArticleContainer = ({
   article: propArticle,
   meta,
-  i18n,
+  title,
 }: Props) => {
+  const { t, i18n } = useTranslation();
+  const { trackPageView } = useTracker();
   useEffect(() => {
     if (window.MathJax && typeof window.MathJax.typeset === 'function') {
       try {
@@ -52,6 +55,21 @@ const SharedArticleContainer = ({
       }
     }
   });
+
+  useEffect(() => {
+    if (propArticle) {
+      const dimensions = getAllDimensions(
+        { article: propArticle },
+        meta?.resourceTypes &&
+          getContentTypeFromResourceTypes(meta.resourceTypes)?.label,
+        true,
+      );
+      trackPageView({
+        dimensions,
+        title: getDocumentTitle(propArticle.title, t),
+      });
+    }
+  }, [meta?.resourceTypes, propArticle, t, trackPageView]);
 
   const [article, scripts] = useMemo(() => {
     return [
@@ -79,6 +97,12 @@ const SharedArticleContainer = ({
           />
         ))}
       </Helmet>
+      <SocialMediaMetadata
+        title={title}
+        imageUrl={article.metaImage?.url}
+        trackableContent={article}
+        description={article.metaDescription}
+      />
       <Article
         contentTransformed
         id={SKIP_TO_CONTENT_ID}
@@ -91,28 +115,10 @@ const SharedArticleContainer = ({
   );
 };
 
-SharedArticleContainer.getDocumentTitle = ({ title, t }: Props) =>
+const getDocumentTitle = (title: string, t: TFunction) =>
   t('htmlTitles.sharedFolderPage', { name: title });
 
-SharedArticleContainer.willTrackPageView = (
-  trackpageView: (item: Props) => void,
-  currentProps: Props,
-) => {
-  if (currentProps.article) {
-    trackpageView(currentProps);
-  }
-};
-
-SharedArticleContainer.getDimensions = ({ article, meta }: Props) => {
-  return getAllDimensions(
-    { article },
-    meta?.resourceTypes &&
-      getContentTypeFromResourceTypes(meta.resourceTypes)?.label,
-    true,
-  );
-};
-
-export default withTranslation()(withTracker(SharedArticleContainer));
+export default SharedArticleContainer;
 
 export const sharedArticleContainerFragments = {
   article: gql`

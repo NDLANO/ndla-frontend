@@ -10,10 +10,9 @@ import { HelmetServerState } from 'react-helmet-async';
 import serialize from 'serialize-javascript';
 // eslint-disable-next-line no-restricted-imports
 import ScriptLoader from '@ndla/polyfill/lib/ScriptLoader';
-import { GoogleTagMangerScript, GoogleTagMangerNoScript } from './Gtm';
 import { Matomo } from './Matomo';
 import Tagmanager from './Tagmanager';
-import { ConfigType } from '../../config';
+import config, { ConfigType } from '../../config';
 
 export interface Assets {
   css?: string;
@@ -51,7 +50,6 @@ const Document = ({ helmet, assets, data, styles }: Props) => {
           name="viewport"
           content="width=device-width, initial-scale=1 viewport-fit=cover"
         />
-        <GoogleTagMangerScript />
         {helmet.title.toComponent()}
         {helmet.meta.toComponent()}
         {helmet.link.toComponent()}
@@ -65,7 +63,6 @@ const Document = ({ helmet, assets, data, styles }: Props) => {
         {styles && <div dangerouslySetInnerHTML={{ __html: styles }} />}
       </head>
       <body {...bodyAttrs}>
-        <GoogleTagMangerNoScript />
         <Matomo />
         <script
           dangerouslySetInnerHTML={{
@@ -76,6 +73,35 @@ const Document = ({ helmet, assets, data, styles }: Props) => {
             window.dataLayer.push(window.originalLocation);`,
           }}
         />
+        {config.monsidoToken.length ? (
+          <>
+            <script
+              type="text/javascript"
+              dangerouslySetInnerHTML={{
+                __html: `
+    window._monsido = window._monsido || {
+        token: "${config.monsidoToken}",
+        statistics: {
+            enabled: true,
+            cookieLessTracking: true,
+            documentTracking: {
+                enabled: false,
+                documentCls: "monsido_download",
+                documentIgnoreCls: "monsido_ignore_download",
+                documentExt: [],
+            },
+        },
+    };
+`,
+              }}
+            />
+            <script
+              type="text/javascript"
+              async
+              src="https://app-script.monsido.com/v2/monsido-script.js"
+            ></script>
+          </>
+        ) : null}
         <div id="root">REPLACE_ME</div>
         <script
           type="text/javascript"
