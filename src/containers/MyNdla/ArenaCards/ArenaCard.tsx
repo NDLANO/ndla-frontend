@@ -10,16 +10,18 @@ import styled from '@emotion/styled';
 import SafeLink from '@ndla/safelink';
 import { colors, spacing, breakpoints, mq, fonts, misc } from '@ndla/core';
 import Icon from '@ndla/icons';
-import { ReactNode } from 'react';
 import { css } from '@emotion/react';
+import { MenuBook } from '@ndla/icons/lib/action';
+import { Share } from '@ndla/icons/lib/common';
 
 interface Props {
+  id: string;
   cardType: 'Category' | 'Post';
-  leftIcon: ReactNode;
-  header: string;
+  title: string;
   subText: string;
-  date?: string;
+  created_at: string;
   count: number;
+  locked?: boolean;
 }
 
 const StyledCategoryCard = css`
@@ -110,7 +112,7 @@ const StyledCountDiv = styled.div`
   font-weight: ${fonts.weight.semibold};
 `;
 
-export const StyledLeftIcon = styled(Icon)`
+const StyledLeftIcon = styled(Icon)`
   margin-right: ${spacing.normal};
   width: 40px;
   height: 40px;
@@ -120,6 +122,15 @@ export const StyledLeftIcon = styled(Icon)`
     display: none;
   }
 `;
+
+const StyledLockedIcon = styled(Icon)`
+  width: 24px;
+  height: 24px;
+  color: ${colors.brand.primary};
+`;
+
+const FolderIcon = StyledLeftIcon.withComponent(MenuBook);
+const LockedIcon = StyledLockedIcon.withComponent(Share);
 
 const StyledAvatarContainer = styled.div`
   //Placeholder til avatar kommer
@@ -139,34 +150,43 @@ const StyledAvatarContainer = styled.div`
 `;
 
 const ArenaCard = ({
+  id,
   cardType,
-  leftIcon,
-  header,
+  title,
   subText,
-  date,
+  created_at,
   count,
+  locked,
 }: Props) => {
   return (
     <StyledCardContainer
+      id={id}
       css={cardType === 'Category' ? StyledCategoryCard : StyledPostCard}
       to=""
     >
       {cardType === 'Category' ? (
-        leftIcon
+        <FolderIcon />
       ) : (
         <StyledAvatarContainer>R</StyledAvatarContainer>
       )}
       <StyledTextContainer>
-        <StyledHeader>{header}</StyledHeader>
+        <StyledHeader>{title}</StyledHeader>
         <StyledText>
           {subText}
-          {date ? ' | ' : ''}
-          {date}
+          {cardType === 'Post' ? ` | ${created_at}` : ''}
         </StyledText>
       </StyledTextContainer>
       <StyledCountContainer>
-        <StyledCountDiv>{count}</StyledCountDiv>
-        <StyledText>{cardType === 'Category' ? 'Innlegg' : 'Svar'}</StyledText>
+        {locked ? (
+          <LockedIcon />
+        ) : (
+          <>
+            <StyledCountDiv>{count}</StyledCountDiv>
+            <StyledText>
+              {cardType === 'Category' ? 'Innlegg' : 'Svar'}
+            </StyledText>
+          </>
+        )}
       </StyledCountContainer>
     </StyledCardContainer>
   );

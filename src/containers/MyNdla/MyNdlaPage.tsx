@@ -43,17 +43,13 @@ import { isStudent } from './Folders/util';
 import { useBaseName } from '../../components/BaseNameContext';
 import { useDeletePersonalData } from './userMutations';
 import { getAllDimensions } from '../../util/trackingUtil';
-import ArenaCard, { StyledLeftIcon } from './ArenaCards/ArenaCard';
+import ArenaCard from './ArenaCards/ArenaCard';
 
 const ShareIcon = InfoPartIcon.withComponent(Share);
 const HeartOutlineIcon = InfoPartIcon.withComponent(HeartOutline);
 const FolderOutlinedIcon = InfoPartIcon.withComponent(FolderOutlined);
 const FeideIcon = InfoPartIcon.withComponent(Feide);
 const FavoriteSubjectIcon = InfoPartIcon.withComponent(MenuBook);
-
-//test item for arenacard
-const FolderIcon = StyledLeftIcon.withComponent(MenuBook);
-const AvatarIcon = StyledLeftIcon.withComponent(HeartOutline);
 
 const StyledPageContentContainer = styled.div`
   display: flex;
@@ -203,18 +199,19 @@ const MyNdlaPage = () => {
         </InfoPartText>
       </InfoPart>
       <ArenaCard
+        id="123"
         cardType="Category"
-        leftIcon={<FolderIcon />}
-        header={'Navn på kategori'}
+        title={'Navn på kategori'}
         subText={'Beskrivelse'}
+        created_at={'2023-10-05T10:00:00Z'}
         count={29}
       />
       <ArenaCard
+        id="1"
         cardType="Post"
-        leftIcon={<AvatarIcon />}
-        header={'Innlegg'}
+        title={'Innlegg'}
         subText={'Kategori'}
-        date={'7.1.2023'}
+        created_at={'7.1.2023'}
         count={10}
       />
       {allFolderResources && allFolderResources.length > 0 && (
