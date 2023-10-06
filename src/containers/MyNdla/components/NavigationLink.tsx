@@ -7,7 +7,7 @@
  */
 
 import styled from '@emotion/styled';
-import { colors, fonts, spacing } from '@ndla/core';
+import { breakpoints, colors, fonts, mq, spacing } from '@ndla/core';
 import { ReactNode } from 'react';
 import SafeLink from '@ndla/safelink';
 import { useLocation } from 'react-router-dom';
@@ -17,8 +17,8 @@ interface StyledProps {
 }
 
 const StyledSafeLink = styled(SafeLink)<StyledProps>`
-  display: grid;
-  grid-template-columns: ${spacing.medium} 1fr;
+  display: flex;
+  flex-direction: row;
   align-items: center;
   padding: ${spacing.small} ${spacing.xxsmall};
   margin: 0;
@@ -39,6 +39,10 @@ const StyledSafeLink = styled(SafeLink)<StyledProps>`
     height: 26px;
     width: 26px;
   }
+
+  ${mq.range({ from: breakpoints.tablet, until: breakpoints.desktop })} {
+    flex-direction: column;
+  }
 `;
 
 const IconWrapper = styled.span`
@@ -47,15 +51,38 @@ const IconWrapper = styled.span`
   justify-content: center;
 `;
 
+const LongText = styled.span`
+  ${mq.range({ from: breakpoints.tablet, until: breakpoints.desktop })} {
+    display: none;
+    width: 0px;
+  }
+`;
+
+const ShortText = styled.span`
+  ${mq.range({ from: breakpoints.desktop })} {
+    display: none;
+  }
+  ${mq.range({ from: breakpoints.mobile, until: breakpoints.tablet })} {
+    display: none;
+  }
+`;
 interface Props {
   loading?: boolean;
   id: string;
   icon: ReactNode;
   name: string;
+  shortName?: string;
   expanded?: boolean;
 }
 
-const NavigationLink = ({ loading, id, icon, name, expanded }: Props) => {
+const NavigationLink = ({
+  loading,
+  id,
+  icon,
+  name,
+  shortName,
+  expanded,
+}: Props) => {
   const location = useLocation();
   const selected = location.pathname === `/minndla/${id}`;
 
@@ -69,7 +96,8 @@ const NavigationLink = ({ loading, id, icon, name, expanded }: Props) => {
       to={loading ? '' : `/minndla/${id}`}
     >
       <IconWrapper>{icon}</IconWrapper>
-      {name}
+      <LongText>{name}</LongText>
+      <ShortText>{shortName}</ShortText>
     </StyledSafeLink>
   );
 };
