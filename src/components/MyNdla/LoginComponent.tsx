@@ -82,7 +82,7 @@ const LoginComponent = ({ masthead, content }: Props) => {
     <LoginComponentContainer>
       {!content && (
         <TitleRow>
-          <Heading headingStyle="h2" element="h2">
+          <Heading headingStyle="h2" element="h1">
             <Trans t={t} i18nKey="myNdla.myPage.loginWelcome" />
           </Heading>
           <StyledImage

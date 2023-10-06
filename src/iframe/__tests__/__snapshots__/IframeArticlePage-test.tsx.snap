@@ -191,6 +191,36 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
 }
 
 .emotion-1 {
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 400;
+  font-size: 20px;
+  font-size: 1.1111111111111112rem;
+  line-height: 31px;
+}
+
+.emotion-1[lang='zh'],
+.emotion-1[lang='zh-Hans'],
+.emotion-1[lang='zh-Hant'] {
+  font-size: calc(20px * 1.11);
+  font-size: calc(1.1111111111111112rem * 1.11);
+}
+
+@media (min-width: 37.5625em) {
+  .emotion-1 {
+    font-size: 24px;
+    font-size: 1.3333333333333333rem;
+    line-height: 35px;
+  }
+
+  .emotion-1[lang='zh'],
+  .emotion-1[lang='zh-Hans'],
+  .emotion-1[lang='zh-Hant'] {
+    font-size: calc(24px * 1.11);
+    font-size: calc(1.3333333333333333rem * 1.11);
+  }
+}
+
+.emotion-2 {
   margin-top: 24px;
   padding-top: 24px;
   padding-bottom: 6px;
@@ -202,14 +232,14 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   color: #4d4d4d;
 }
 
-.emotion-1[lang='zh'],
-.emotion-1[lang='zh-Hans'],
-.emotion-1[lang='zh-Hant'] {
+.emotion-2[lang='zh'],
+.emotion-2[lang='zh-Hans'],
+.emotion-2[lang='zh-Hant'] {
   font-size: calc(16px * 1.11);
   font-size: calc(0.8888888888888888rem * 1.11);
 }
 
-.emotion-3 {
+.emotion-4 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -222,7 +252,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
 }
 
 @media (max-width: 48em) {
-  .emotion-3 {
+  .emotion-4 {
     -webkit-flex-direction: column;
     -ms-flex-direction: column;
     flex-direction: column;
@@ -233,7 +263,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   }
 }
 
-.emotion-5 {
+.emotion-6 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -242,7 +272,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   padding-right: 6px;
 }
 
-.emotion-7 {
+.emotion-8 {
   color: #20588f;
   font-weight: 700;
   -webkit-text-decoration: underline;
@@ -251,17 +281,17 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   box-shadow: none;
 }
 
-.emotion-7:hover,
-.emotion-7:focus-within {
+.emotion-8:hover,
+.emotion-8:focus-within {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-9 {
+.emotion-10 {
   margin-left: 4px;
 }
 
-.emotion-11 {
+.emotion-12 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -272,16 +302,16 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   gap: 12px;
 }
 
-.emotion-13 {
+.emotion-14 {
   border: 1px solid #ceddea;
   border-radius: 2px;
 }
 
-.emotion-13[data-state='open'] {
+.emotion-14[data-state='open'] {
   border-color: #20588f;
 }
 
-.emotion-15 {
+.emotion-16 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -289,7 +319,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   margin: 0;
 }
 
-.emotion-18 {
+.emotion-19 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -322,34 +352,34 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   font-weight: 600;
 }
 
-.emotion-18[data-state='open'] {
+.emotion-19[data-state='open'] {
   background-color: #deebf6;
   border-bottom: 1px solid #20588f;
 }
 
-.emotion-18:hover,
-.emotion-18:focus-visible {
+.emotion-19:hover,
+.emotion-19:focus-visible {
   -webkit-text-decoration: underline;
   text-decoration: underline;
   text-underline-offset: 4px;
 }
 
-.emotion-18:focus-visible {
+.emotion-19:focus-visible {
   outline: 2px solid #20588f;
 }
 
-.emotion-18[lang='zh'],
-.emotion-18[lang='zh-Hans'],
-.emotion-18[lang='zh-Hant'] {
+.emotion-19[lang='zh'],
+.emotion-19[lang='zh-Hans'],
+.emotion-19[lang='zh-Hant'] {
   font-size: calc(16px * 1.11);
   font-size: calc(0.8888888888888888rem * 1.11);
 }
 
-.emotion-18[data-background-color='white'][data-state='closed'] {
+.emotion-19[data-background-color='white'][data-state='closed'] {
   background-color: #ffffff;
 }
 
-.emotion-20 {
+.emotion-21 {
   color: #20588f;
   -webkit-transition: all 200ms ease-in-out;
   transition: all 200ms ease-in-out;
@@ -357,33 +387,33 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   height: 24px;
 }
 
-.emotion-19[data-state='open']>.emotion-20 {
+.emotion-20[data-state='open']>.emotion-21 {
   -webkit-transform: rotate(180deg);
   -moz-transform: rotate(180deg);
   -ms-transform: rotate(180deg);
   transform: rotate(180deg);
 }
 
-.emotion-22 {
+.emotion-23 {
   overflow: hidden;
 }
 
-.emotion-22[data-state='open'] {
+.emotion-23[data-state='open'] {
   -webkit-animation: animation-0 300ms ease-out;
   animation: animation-0 300ms ease-out;
 }
 
-.emotion-22[data-state='closed'] {
+.emotion-23[data-state='closed'] {
   -webkit-animation: animation-1 300ms ease-out;
   animation: animation-1 300ms ease-out;
 }
 
-.emotion-22[data-disable-animate='true'] {
+.emotion-23[data-disable-animate='true'] {
   -webkit-animation: none;
   animation: none;
 }
 
-.emotion-24 {
+.emotion-25 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -394,7 +424,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   justify-content: flex-end;
 }
 
-.emotion-26 {
+.emotion-27 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -405,7 +435,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   align-items: center;
 }
 
-.emotion-28 {
+.emotion-29 {
   color: #757575;
   margin-right: 38px;
   font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
@@ -414,14 +444,14 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   line-height: 20px;
 }
 
-.emotion-28[lang='zh'],
-.emotion-28[lang='zh-Hans'],
-.emotion-28[lang='zh-Hant'] {
+.emotion-29[lang='zh'],
+.emotion-29[lang='zh-Hans'],
+.emotion-29[lang='zh-Hant'] {
   font-size: calc(20px * 1.11);
   font-size: calc(1.1111111111111112rem * 1.11);
 }
 
-.emotion-30 {
+.emotion-31 {
   color: #757575;
 }
 
@@ -452,15 +482,15 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                   Politiske skillelinjer
                 </h1>
               </div>
-              <div
-                class="article_introduction"
-              >
-                <p>
-                  Politiske skillelinjer, eller konfliktlinjer, er varige og grunnleggende motsetninger i samfunnet og blant velgerne. Du synes kanskje det er vanskelig å se forskjell på de politiske partiene – det er du i så fall ikke alene om!
-                </p>
-                
+              <p
+                class="emotion-1"
+              />
+              <p>
+                Politiske skillelinjer, eller konfliktlinjer, er varige og grunnleggende motsetninger i samfunnet og blant velgerne. Du synes kanskje det er vanskelig å se forskjell på de politiske partiene – det er du i så fall ikke alene om!
+              </p>
+              
 
-              </div>
+              <p />
             </div>
           </section>
           <section
@@ -476,23 +506,23 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
             class="u-4/6@desktop u-push-1/6@desktop u-10/12@tablet u-push-1/12@tablet"
           >
             <div
-              class="emotion-1 emotion-2"
+              class="emotion-2 emotion-3"
             >
               <div
-                class="emotion-3 emotion-4"
+                class="emotion-4 emotion-5"
               >
                 <div
-                  class="emotion-5 emotion-6"
+                  class="emotion-6 emotion-7"
                 >
                   <a
-                    class="emotion-7 emotion-8"
+                    class="emotion-8 emotion-9"
                     href="https://creativecommons.org/licenses/by-sa/4.0/deed.no"
                     rel="license"
                   >
                     CC BY-SA
                   </a>
                   <span
-                    class="emotion-9 emotion-10"
+                    class="emotion-10 emotion-11"
                   >
                     Skrevet av Someone. 
                   </span>
@@ -502,23 +532,23 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                 </div>
               </div>
               <div
-                class="emotion-11 emotion-12"
+                class="emotion-12 emotion-13"
                 data-orientation="vertical"
               >
                 <div
-                  class="emotion-13 emotion-14"
+                  class="emotion-14 emotion-15"
                   data-orientation="vertical"
                   data-state="closed"
                 >
                   <h2
-                    class="emotion-15 emotion-16"
+                    class="emotion-16 emotion-17"
                     data-orientation="vertical"
                     data-state="closed"
                   >
                     <button
                       aria-controls="radix-:r1:"
                       aria-expanded="false"
-                      class="emotion-17 emotion-18 emotion-19"
+                      class="emotion-18 emotion-19 emotion-20"
                       data-background-color="blue"
                       data-orientation="vertical"
                       data-radix-collection-item=""
@@ -529,7 +559,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                       Regler for bruk
                       <svg
                         aria-hidden="true"
-                        class="c-icon emotion-20 emotion-21"
+                        class="c-icon emotion-21 emotion-22"
                         data-license="Apache License 2.0"
                         data-source="Material Design"
                         fill="currentColor"
@@ -553,7 +583,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                   </h2>
                   <div
                     aria-labelledby="radix-:r0:"
-                    class="emotion-22 emotion-23"
+                    class="emotion-23 emotion-24"
                     data-orientation="vertical"
                     data-state="closed"
                     hidden=""
@@ -569,16 +599,16 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
             class="u-10/12@desktop u-push-1/12@desktop u-10/12@tablet u-push-1/12@tablet"
           >
             <div
-              class="emotion-24 emotion-25"
+              class="emotion-25 emotion-26"
             >
               <div
-                class="emotion-26 emotion-27"
+                class="emotion-27 emotion-28"
               >
                 <div
-                  class="emotion-28 emotion-29"
+                  class="emotion-29 emotion-30"
                 >
                   <a
-                    class="emotion-30 emotion-31"
+                    class="emotion-31 emotion-32"
                     href="https://test.ndla.no/subject:1/resource:1"
                     target="_blank"
                   >
@@ -586,7 +616,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                   </a>
                    er hentet fra 
                   <a
-                    class="emotion-30 emotion-31"
+                    class="emotion-31 emotion-32"
                     href="https://ndla.no"
                     target="_blank"
                   >
