@@ -9,6 +9,7 @@
 import styled from '@emotion/styled';
 import { colors, fonts, spacing } from '@ndla/core';
 import Icon from '@ndla/icons';
+import { Heading } from '@ndla/typography';
 import { ReactNode } from 'react';
 
 interface Props {
@@ -21,8 +22,6 @@ const InfoPartWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${spacing.small};
-  padding: ${spacing.normal} 0;
-  border-bottom: 1px solid ${colors.brand.greyLight};
 `;
 
 const InfoPartHeader = styled.div`
@@ -31,10 +30,8 @@ const InfoPartHeader = styled.div`
   gap: ${spacing.nsmall};
 `;
 
-const StyledTitle = styled.h2`
-  font-weight: ${fonts.weight.semibold};
-  margin: 0;
-  padding: 0;
+const StyledTitle = styled(Heading)`
+  ${fonts.sizes('22px', '33px')}
 `;
 
 export const InfoPartText = styled.p`
@@ -51,7 +48,14 @@ const InfoPart = ({ icon, title, children }: Props) => {
     <InfoPartWrapper>
       <InfoPartHeader>
         {icon}
-        <StyledTitle>{title}</StyledTitle>
+        <StyledTitle
+          element="h2"
+          id="myProfileTitle"
+          margin="none"
+          headingStyle="default"
+        >
+          {title}
+        </StyledTitle>
       </InfoPartHeader>
       {children}
     </InfoPartWrapper>
