@@ -38,8 +38,7 @@ const TitleWrapper = styled.div`
   }
 `;
 
-const StyledParagraph = styled.p`
-  text-transform: uppercase;
+const StyledParagraph = styled(Heading)`
   font-weight: ${fonts.weight.semibold};
   color: ${colors.text.light};
   margin: 0;
@@ -111,7 +110,9 @@ const ResourceEmbedWrapper = ({
           <TitleWrapper>
             <ResourceBadge type={type} />
             <hgroup>
-              <StyledParagraph>{t(`embed.type.${type}`)}</StyledParagraph>
+              <StyledParagraph element="p" headingStyle="list-title">
+                {t(`embed.type.${type}`)}
+              </StyledParagraph>
               <Heading
                 element="h1"
                 headingStyle="h1"

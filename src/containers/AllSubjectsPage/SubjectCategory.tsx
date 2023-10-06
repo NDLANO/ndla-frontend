@@ -8,12 +8,13 @@
 
 import styled from '@emotion/styled';
 import { buttonStyleV2 } from '@ndla/button';
-import { breakpoints, colors, fonts, misc, mq, spacing } from '@ndla/core';
+import { breakpoints, colors, misc, mq, spacing } from '@ndla/core';
 import { useIntersectionObserver } from '@ndla/hooks';
 import { Forward } from '@ndla/icons/common';
 import { useMastheadHeight } from '@ndla/ui';
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Heading, Text } from '@ndla/typography';
 import { Subject } from './interfaces';
 import SubjectLink from './SubjectLink';
 
@@ -66,14 +67,6 @@ const StickyHeading = styled.div<StyledProps>`
   }
 `;
 
-const StyledH2 = styled.h2`
-  margin: 0;
-  ${fonts.sizes('18px', '24px')};
-  ${mq.range({ until: breakpoints.tabletWide })} {
-    ${fonts.sizes('30px', '36px')};
-  }
-`;
-
 const StyledArrow = styled(Forward)`
   transform: rotate(-90deg);
 `;
@@ -82,9 +75,7 @@ interface GoToTopProps {
   isSticky: boolean;
 }
 
-const GoToTop = styled.a<GoToTopProps>`
-  ${fonts.sizes('16px', '24px')};
-  font-weight: ${fonts.weight.semibold};
+const GoToTop = styled(Text)<GoToTopProps>`
   display: flex;
   align-items: center;
   gap: ${spacing.small};
@@ -127,13 +118,21 @@ const SubjectCategory = ({ label, subjects, favorites }: Props) => {
       aria-labelledby={`subject-header-${label}`}
     >
       <StickyHeading ref={stickyRef} offset={height}>
-        <StyledH2
+        <Heading
+          element="h2"
+          headingStyle="list-title"
+          margin="none"
           id={`subject-header-${label}`}
           aria-label={label === '#' ? t('labels.other') : label}
         >
           {label.toUpperCase()}
-        </StyledH2>
-        <GoToTop isSticky={!!entry?.isIntersecting} href="#SkipToContentId">
+        </Heading>
+        <GoToTop
+          textStyle="button"
+          element="a"
+          isSticky={!!entry?.isIntersecting}
+          href="#SkipToContentId"
+        >
           {t('subjectsPage.goToTop')} <StyledArrow />
         </GoToTop>
       </StickyHeading>

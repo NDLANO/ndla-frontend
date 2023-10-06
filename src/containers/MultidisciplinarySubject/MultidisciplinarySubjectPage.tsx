@@ -9,7 +9,7 @@
 import { gql } from '@apollo/client';
 import { createRef, useContext, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
-import { breakpoints, fonts, mq } from '@ndla/core';
+import { breakpoints, mq } from '@ndla/core';
 import {
   ContentPlaceholder,
   HomeBreadcrumb,
@@ -18,7 +18,7 @@ import {
   OneColumn,
   SimpleBreadcrumbItem,
 } from '@ndla/ui';
-import { Heading } from '@ndla/typography';
+import { Heading, Text } from '@ndla/typography';
 import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet-async';
 import { removeUrn, toTopic, useUrnIds } from '../../routeHelpers';
@@ -110,14 +110,6 @@ const Illustration = styled.div`
   }
   ${mq.range({ from: breakpoints.desktop })} {
     height: 175px;
-  }
-`;
-
-const InfoText = styled.div`
-  max-width: 720px;
-  font-size: ${fonts.sizes('16px', '24px')};
-  ${mq.range({ from: breakpoints.mobileWide })} {
-    ${fonts.sizes('20px', '32px')};
   }
 `;
 
@@ -277,9 +269,9 @@ const MultidisciplinarySubjectPage = () => {
                   >
                     {t('frontpageMultidisciplinarySubject.heading')}
                   </Heading>
-                  <InfoText>
+                  <Text textStyle="ingress">
                     {t('frontpageMultidisciplinarySubject.text')}
-                  </InfoText>
+                  </Text>
                 </LayoutItem>
                 <Illustration />
               </Header>

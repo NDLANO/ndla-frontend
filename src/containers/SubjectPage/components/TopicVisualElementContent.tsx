@@ -12,7 +12,7 @@ import {
   AccordionItem,
   AccordionRoot,
 } from '@ndla/accordion';
-import { colors, fonts, spacing } from '@ndla/core';
+import { colors, spacing } from '@ndla/core';
 import { gql } from '@apollo/client';
 import { useTranslation } from 'react-i18next';
 import { EmbedMetaData } from '@ndla/types-embed';
@@ -23,6 +23,7 @@ import {
   IframeEmbed,
   ImageEmbed,
 } from '@ndla/ui';
+import { Text } from '@ndla/typography';
 import ResourceEmbedLicenseBox from '../../ResourceEmbed/components/ResourceEmbedLicenseBox';
 import { hasLicensedContent } from '../../ResourceEmbed/components/ResourceEmbed';
 import { GQLTopicVisualElementContent_MetaFragment } from '../../../graphqlTypes';
@@ -37,8 +38,6 @@ const Wrapper = styled.div`
 const StyledAccordionHeader = styled(AccordionHeader)`
   background-color: ${colors.brand.lightest};
   border: 1px solid ${colors.brand.tertiary};
-  font-size: ${fonts.sizes('16px', '29px')};
-  font-weight: ${fonts.weight.semibold};
 `;
 
 interface Props {
@@ -65,7 +64,9 @@ const TopicVisualElementContent = ({ embed, metadata }: Props) => {
         {metadata && hasLicensedContent(metadata) && (
           <AccordionItem value="rulesForUse">
             <StyledAccordionHeader>
-              {t('article.useContent')}
+              <Text element="span" textStyle="button" margin="none">
+                {t('article.useContent')}
+              </Text>
             </StyledAccordionHeader>
             <AccordionContent>
               <ResourceEmbedLicenseBox metaData={metadata} />

@@ -9,6 +9,7 @@
 import styled from '@emotion/styled';
 import { breakpoints, colors, fonts, misc, mq, spacing } from '@ndla/core';
 import SafeLink from '@ndla/safelink';
+import { Text } from '@ndla/typography';
 
 const Header = styled.div`
   display: flex;
@@ -70,8 +71,7 @@ const Title = styled.h3`
   margin: 0 0 8px;
 `;
 
-const Introduction = styled.div`
-  ${fonts.sizes('16px', '24px')};
+const Introduction = styled(Text)`
   color: ${colors.text.primary};
 `;
 
@@ -107,7 +107,7 @@ const ListItem = ({
       {image && <Image src={image} alt={imageAlt} />}
       <TextWrapper>
         <Title>{title}</Title>
-        <Introduction>{introduction}</Introduction>
+        <Introduction textStyle="meta-text-small">{introduction}</Introduction>
         {subjects.length && (
           <Subjects>
             {subjects.map((subject) => (

@@ -8,7 +8,8 @@
 
 import { gql } from '@apollo/client';
 import styled from '@emotion/styled';
-import { colors, fonts, spacing } from '@ndla/core';
+import { colors, spacing } from '@ndla/core';
+import { Text } from '@ndla/typography';
 import { Link } from 'react-router-dom';
 import { GQLPodcastSeries_PodcastSeriesSummaryFragment } from '../../graphqlTypes';
 
@@ -41,8 +42,7 @@ const StyledHeader = styled.h3`
   margin: 0px 0px ${spacing.xsmall};
 `;
 
-const StyledDescription = styled.p`
-  ${fonts.sizes(16)};
+const StyledDescription = styled(Text)`
   margin: 0;
   max-width: 600px;
   display: -webkit-box;
@@ -68,7 +68,9 @@ const PodcastSeries = ({
             <StyledHeader>{title.title}</StyledHeader>
           </Link>
         </div>
-        <StyledDescription>{description.description}</StyledDescription>
+        <StyledDescription textStyle="meta-text-small">
+          {description.description}
+        </StyledDescription>
       </div>
     </FlexWrapper>
   );

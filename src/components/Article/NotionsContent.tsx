@@ -6,7 +6,7 @@
  */
 
 import styled from '@emotion/styled';
-import { colors, fonts, spacing } from '@ndla/core';
+import { colors, spacing } from '@ndla/core';
 import { ConceptMetaData } from '@ndla/types-embed';
 import { ConceptEmbed } from '@ndla/ui';
 import { gql } from '@apollo/client';
@@ -16,6 +16,7 @@ import {
   AccordionItem,
   AccordionRoot,
 } from '@ndla/accordion';
+import { Text } from '@ndla/typography';
 import { useTranslation } from 'react-i18next';
 import ResourceEmbedLicenseBox from '../../containers/ResourceEmbed/components/ResourceEmbedLicenseBox';
 import { GQLNotionsContent_MetaFragment } from '../../graphqlTypes';
@@ -24,8 +25,6 @@ import { hasLicensedContent } from '../../containers/ResourceEmbed/components/Re
 const StyledAccordionHeader = styled(AccordionHeader)`
   background-color: ${colors.brand.lightest};
   border: 1px solid ${colors.brand.tertiary};
-  font-size: ${fonts.sizes('16px', '29px')};
-  font-weight: ${fonts.weight.semibold};
 `;
 
 const RelatedContentContainer = styled.ul`
@@ -76,7 +75,9 @@ const NotionsContent = ({ embeds, relatedContent, metadata }: Props) => {
         {metadata && hasLicensedContent(metadata) && (
           <AccordionItem value="rulesForUse">
             <StyledAccordionHeader>
-              {t('article.useContent')}
+              <Text element="span" textStyle="button" margin="none">
+                {t('article.useContent')}
+              </Text>
             </StyledAccordionHeader>
             <AccordionContent>
               <ResourceEmbedLicenseBox metaData={metadata} />
