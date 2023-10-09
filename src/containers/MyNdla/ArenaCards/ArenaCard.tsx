@@ -27,9 +27,7 @@ interface Props {
 
 const StyledCategoryCard = css`
   background-color: ${colors.background.default};
-  &:hover {
-    background-color: ${colors.background.lightBlue};
-  }
+  &:hover,
   &:focus-visible {
     background-color: ${colors.background.lightBlue};
   }
@@ -37,9 +35,7 @@ const StyledCategoryCard = css`
 
 const StyledTopicCard = css`
   background-color: ${colors.background.lightBlue};
-  &:hover {
-    background-color: ${colors.brand.lighter};
-  }
+  &:hover,
   &:focus-visible {
     background-color: ${colors.brand.lighter};
   }
@@ -65,7 +61,7 @@ const StyledCardContainer = styled(SafeLink)`
   }
   &:focus-visible {
     background-color: ${colors.background.lightBlue};
-    border-color: #025fcc;
+    border: 2px solid #025fcc;
     > * > span {
       text-decoration: none;
     }
@@ -141,7 +137,7 @@ const StyledAvatarContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: white;
+  background-color: ${colors.white};
   border: solid 1px ${colors.brand.tertiary};
   border-radius: 50px;
   ${mq.range({ until: breakpoints.mobileWide })} {
