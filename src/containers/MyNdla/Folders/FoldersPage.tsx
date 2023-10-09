@@ -60,7 +60,8 @@ const FoldersPageContainer = styled.div`
 const OptionsWrapper = styled.div`
   display: none;
   flex: 1;
-  ${mq.range({ from: breakpoints.desktop })} {
+
+  ${mq.range({ from: breakpoints.tablet })} {
     display: flex;
   }
 `;
@@ -326,7 +327,7 @@ const FoldersPage = () => {
       <FolderEditModal onSaved={onFolderUpdated} folder={selectedFolder} />
     );
 
-    const deleteFolderButton = !!selectedFolder?.parentId && (
+    const deleteFolderButton = !!selectedFolder?.id && (
       <FolderDeleteModal
         onDelete={onDeleteFolder}
         title={t('myNdla.folder.delete')}
@@ -370,6 +371,7 @@ const FoldersPage = () => {
           viewType={viewType}
           onViewTypeChange={setViewType}
           selectedFolder={selectedFolder}
+          inToolbar={true}
         />
       }
       buttons={toolbarButtons}

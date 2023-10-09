@@ -9,14 +9,14 @@
 import styled from '@emotion/styled';
 import { ReactNode } from 'react';
 import { breakpoints, colors, mq, spacing, spacingUnit } from '@ndla/core';
-import { myNdlaContentWidth } from '../../../constants';
+import { MY_NDLA_CONTENT_WIDTH } from '../../../constants';
 
 const ToolbarContainer = styled.div`
   display: flex;
   justify-content: center;
   border-bottom: 1px solid ${colors.brand.lighter};
   padding: ${spacing.small} ${spacing.large};
-  height: ${spacingUnit * 3};
+  height: ${spacingUnit * 3}px;
 `;
 
 const ButtonContainer = styled.div`
@@ -35,9 +35,9 @@ const DropdownWrapper = styled.div`
   }
 `;
 
-const StyledDiv = styled.div`
+const Wrapper = styled.div`
   display: flex;
-  max-width: ${myNdlaContentWidth}px;
+  max-width: ${MY_NDLA_CONTENT_WIDTH}px;
   flex-grow: 1;
   justify-content: space-between;
 `;
@@ -50,10 +50,10 @@ interface Props {
 const Toolbar = ({ buttons, dropDownMenu, ...rest }: Props) => {
   return (
     <ToolbarContainer {...rest}>
-      <StyledDiv>
+      <Wrapper>
         <ButtonContainer>{buttons}</ButtonContainer>
         <DropdownWrapper>{dropDownMenu}</DropdownWrapper>
-      </StyledDiv>
+      </Wrapper>
     </ToolbarContainer>
   );
 };

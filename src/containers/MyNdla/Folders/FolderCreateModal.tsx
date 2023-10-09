@@ -117,7 +117,10 @@ export const CreateModalContent = ({
       <ModalBody>
         <FolderForm
           siblings={parentFolder?.subfolders ?? folders ?? []}
-          onSave={onCreate}
+          onSave={async (values) => {
+            await onCreate(values);
+            onClose();
+          }}
         />
       </ModalBody>
     </ModalContent>

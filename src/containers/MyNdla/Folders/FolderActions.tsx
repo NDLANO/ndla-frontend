@@ -30,17 +30,20 @@ import { FolderFormValues } from './FolderForm';
 import { CreateModalContent } from './FolderCreateModal';
 import { DeleteModalContent } from './FolderDeleteModal';
 import { EditFolderModalContent } from './FolderEditModal';
+import { concat } from 'lodash';
 
 interface Props {
   selectedFolder: GQLFolder | null;
   viewType: ViewType;
   onViewTypeChange: (type: ViewType) => void;
+  inToolbar?: boolean;
 }
 
 const FolderActions = ({
   selectedFolder,
   viewType,
   onViewTypeChange,
+  inToolbar = false,
 }: Props) => {
   const { t } = useTranslation();
   const { addSnack } = useSnack();
@@ -52,21 +55,6 @@ const FolderActions = ({
   const { addFolder } = useAddFolderMutation();
 
   const { user, examLock } = useContext(AuthContext);
-  const onDeleteFolder = useCallback(async () => {
-    await deleteFolder({ variables: { id: selectedFolder?.id ?? '' } });
-    if (selectedFolder?.id === folderId) {
-      navigate(`/minndla/folders/${selectedFolder?.parentId ?? ''}`, {
-        replace: true,
-      });
-    }
-    addSnack({
-      id: 'folderDeleted',
-      content: t('myNdla.folder.folderDeleted', {
-        folderName: selectedFolder?.name,
-      }),
-    });
-  }, [addSnack, deleteFolder, folderId, navigate, selectedFolder, t]);
-
   const shareRef = useRef<HTMLButtonElement | null>(null);
   const unShareRef = useRef<HTMLButtonElement | null>(null);
   const previewRef = useRef<HTMLButtonElement | null>(null);
@@ -97,6 +85,23 @@ const FolderActions = ({
     [addSnack, t, selectedFolder?.parentId, addFolder],
   );
 
+  const onDeleteFolder = useCallback(async () => {
+    if (selectedFolder) {
+      await deleteFolder({ variables: { id: selectedFolder.id } });
+      if (selectedFolder?.id === folderId) {
+        navigate(`/minndla/folders/${selectedFolder.parentId}`, {
+          replace: true,
+        });
+      }
+      addSnack({
+        id: 'folderDeleted',
+        content: t('myNdla.folder.folderDeleted', {
+          folderName: selectedFolder.name,
+        }),
+      });
+    }
+  }, [addSnack, deleteFolder, folderId, navigate, selectedFolder, t]);
+
   const actionItems: MenuItemProps[] = useMemo(() => {
     if (examLock) return [];
 
@@ -106,9 +111,9 @@ const FolderActions = ({
       isModal: true,
       modalContent: (close) => (
         <CreateModalContent
-          onCreate={onFolderAdded}
-          parentFolder={selectedFolder}
           folders={selectedFolder?.subfolders}
+          parentFolder={selectedFolder}
+          onCreate={onFolderAdded}
           onClose={close}
         />
       ),
@@ -235,14 +240,27 @@ const FolderActions = ({
       ),
     };
 
+    const actions = [];
+
+    if (inToolbar) {
+      actions.push(addFolderButton);
+    }
+
     if (isStudent(user)) {
-      return [editFolder, deleteOpt];
+      return concat(actions, [editFolder, deleteOpt]);
     }
 
     if (selectedFolder.status === 'shared') {
-      return [editFolder, shareLink, copyLink, unShare, deleteOpt];
+      return concat(actions, [
+        editFolder,
+        shareLink,
+        copyLink,
+        unShare,
+        deleteOpt,
+      ]);
     }
-    return [editFolder, share, deleteOpt];
+
+    return concat(actions, [editFolder, share, deleteOpt]);
   }, [
     addSnack,
     examLock,

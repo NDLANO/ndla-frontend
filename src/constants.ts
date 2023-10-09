@@ -57,7 +57,7 @@ export const AcquireLicensePage =
 
 export const aboutNdlaUrl = 'https://om.ndla.no/';
 
-export const myNdlaContentWidth = 1440;
+export const MY_NDLA_CONTENT_WIDTH = 1440;
 
 export interface LinkType {
   link: string;
