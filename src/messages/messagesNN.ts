@@ -95,6 +95,15 @@ const messages = {
     concept: 'Forklaring',
     audio: 'Audio',
   },
+
+  arena: {
+    category: {
+      posts: 'Innlegg',
+    },
+    topic: {
+      responses: 'Svar',
+    },
+  },
 };
 
 export default messages;

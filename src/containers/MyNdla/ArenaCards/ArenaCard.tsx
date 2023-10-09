@@ -8,6 +8,7 @@
 
 import styled from '@emotion/styled';
 import SafeLink from '@ndla/safelink';
+import { useTranslation } from 'react-i18next';
 import { colors, spacing, breakpoints, mq, fonts, misc } from '@ndla/core';
 import Icon from '@ndla/icons';
 import { css } from '@emotion/react';
@@ -158,6 +159,7 @@ const ArenaCard = ({
   count,
   locked,
 }: Props) => {
+  const { t } = useTranslation();
   return (
     <StyledCardContainer
       id={id}
@@ -183,7 +185,9 @@ const ArenaCard = ({
           <>
             <StyledCountDiv>{count}</StyledCountDiv>
             <StyledText>
-              {cardType === 'ArenaCategory' ? 'Innlegg' : 'Svar'}
+              {cardType === 'ArenaCategory'
+                ? `${t('arena.category.posts')}`
+                : `${t('arena.topic.responses')}`}
             </StyledText>
           </>
         )}

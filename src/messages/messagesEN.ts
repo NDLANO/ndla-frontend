@@ -94,6 +94,15 @@ const messages = {
     concept: 'Concept',
     audio: 'Audio',
   },
+
+  arena: {
+    category: {
+      posts: 'Posts',
+    },
+    topic: {
+      responses: 'Responses',
+    },
+  },
 };
 
 export default messages;
