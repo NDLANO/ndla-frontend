@@ -214,7 +214,7 @@ const SubjectContainer = ({ topicIds, subject, loading, user }: Props) => {
             <StyledHeading
               element="h1"
               margin="xlarge"
-              headingStyle="h1"
+              headingStyle="h1-resource"
               data-inverted={ndlaFilm}
               id={topicIds.length === 0 ? SKIP_TO_CONTENT_ID : undefined}
               tabIndex={-1}

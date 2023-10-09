@@ -259,7 +259,7 @@ const MultidisciplinarySubjectPage = () => {
                   <HomeBreadcrumb items={breadCrumbs} />
                   <Heading
                     element="h1"
-                    headingStyle="h1"
+                    headingStyle="h1-resource"
                     id={
                       selectedTopics.length === 0
                         ? SKIP_TO_CONTENT_ID
