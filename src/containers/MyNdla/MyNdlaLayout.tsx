@@ -166,7 +166,7 @@ const MyNdlaLayout = () => {
                 {showFolders && (
                   <TreeStructureWrapper>
                     <TreeStructure
-                      type={'navigation'}
+                      type="navigation"
                       folders={folders}
                       defaultOpenFolders={defaultSelected}
                     />
@@ -185,7 +185,7 @@ const MyNdlaLayout = () => {
               ))}
               <StyledLi role="none">
                 <NavigationLink
-                  id={'logout-path'}
+                  id="logout-path"
                   name={t('user.buttonLogOut')}
                   shortName={t('user.buttonLogOut')}
                   to={`/logout?state=${toHref(location)}`}

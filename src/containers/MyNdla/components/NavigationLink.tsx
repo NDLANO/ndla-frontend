@@ -12,11 +12,7 @@ import { ReactNode } from 'react';
 import SafeLink from '@ndla/safelink';
 import { useLocation } from 'react-router-dom';
 
-interface StyledProps {
-  selected?: boolean;
-}
-
-const StyledSafeLink = styled(SafeLink)<StyledProps>`
+const StyledSafeLink = styled(SafeLink)`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -25,10 +21,14 @@ const StyledSafeLink = styled(SafeLink)<StyledProps>`
   gap: ${spacing.xxsmall};
   box-shadow: none;
 
-  color: ${({ selected }) =>
-    selected ? colors.brand.primary : colors.text.primary};
-  font-weight: ${({ selected }) =>
-    selected ? fonts.weight.semibold : fonts.weight.normal};
+  color: ${colors.text.primary};
+  font-weight: ${fonts.weight.normal};
+
+  &[data-selected='true'] {
+    color: ${colors.brand.primary};
+    font-weight: ${fonts.weight.semibold};
+  }
+
   ${fonts.sizes('16px')};
 
   :hover,
@@ -36,8 +36,8 @@ const StyledSafeLink = styled(SafeLink)<StyledProps>`
     color: ${colors.brand.primary};
   }
   svg {
-    height: 26px;
-    width: 26px;
+    height: ${spacing.normal};
+    width: ${spacing.normal};
   }
 
   ${mq.range({ from: breakpoints.tablet, until: breakpoints.desktop })} {
@@ -94,8 +94,9 @@ const NavigationLink = ({
       aria-expanded={expanded}
       aria-current={selected ? 'page' : undefined}
       tabIndex={0}
-      selected={selected}
+      data-selected={selected}
       to={loading ? '' : to ? to : `/minndla/${id}`}
+      reloadDocument={!!to}
     >
       <IconWrapper>{icon}</IconWrapper>
       <LongText>{name}</LongText>
