@@ -143,7 +143,7 @@ const MyNdlaPage = () => {
 
   const keyedData = keyBy(metaData ?? [], (r) => `${r.type}${r.id}`);
 
-  const aiLang = i18n.language === 'nn' ? i18n.language : 'nb';
+  const aiLang = i18n.language === 'nn' ? 'nn' : '';
 
   return (
     <StyledPageContentContainer>
