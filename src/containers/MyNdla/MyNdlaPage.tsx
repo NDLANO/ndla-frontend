@@ -200,7 +200,7 @@ const MyNdlaPage = () => {
       </InfoPart>
       <ArenaCard
         id="123"
-        cardType="Category"
+        cardType="ArenaCategory"
         title={'Navn på kategori'}
         subText={'Beskrivelse'}
         created_at={'2023-10-05T10:00:00Z'}
@@ -208,7 +208,7 @@ const MyNdlaPage = () => {
       />
       <ArenaCard
         id="1"
-        cardType="Post"
+        cardType="ArenaTopic"
         title={'Innlegg'}
         subText={'Kategori'}
         created_at={'7.1.2023'}

@@ -16,7 +16,7 @@ import { Share } from '@ndla/icons/lib/common';
 
 interface Props {
   id: string;
-  cardType: 'Category' | 'Post';
+  cardType: 'ArenaCategory' | 'ArenaTopic';
   title: string;
   subText: string;
   created_at: string;
@@ -34,7 +34,7 @@ const StyledCategoryCard = css`
   }
 `;
 
-const StyledPostCard = css`
+const StyledTopicCard = css`
   background-color: ${colors.background.lightBlue};
   &:hover {
     background-color: ${colors.brand.lighter};
@@ -161,10 +161,10 @@ const ArenaCard = ({
   return (
     <StyledCardContainer
       id={id}
-      css={cardType === 'Category' ? StyledCategoryCard : StyledPostCard}
+      css={cardType === 'ArenaCategory' ? StyledCategoryCard : StyledTopicCard}
       to=""
     >
-      {cardType === 'Category' ? (
+      {cardType === 'ArenaCategory' ? (
         <FolderIcon />
       ) : (
         <StyledAvatarContainer>R</StyledAvatarContainer>
@@ -173,7 +173,7 @@ const ArenaCard = ({
         <StyledHeader>{title}</StyledHeader>
         <StyledText>
           {subText}
-          {cardType === 'Post' ? ` | ${created_at}` : ''}
+          {cardType === 'ArenaTopic' ? ` | ${created_at}` : ''}
         </StyledText>
       </StyledTextContainer>
       <StyledCountContainer>
@@ -183,7 +183,7 @@ const ArenaCard = ({
           <>
             <StyledCountDiv>{count}</StyledCountDiv>
             <StyledText>
-              {cardType === 'Category' ? 'Innlegg' : 'Svar'}
+              {cardType === 'ArenaCategory' ? 'Innlegg' : 'Svar'}
             </StyledText>
           </>
         )}
