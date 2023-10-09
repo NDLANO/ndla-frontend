@@ -93,8 +93,6 @@ export const tempAllowedAIOrgs = () => {
   if (['local', 'dev', 'test'].includes(ndlaEnvironment)) {
     return [
       ...defaultList,
-      'Innlandet fylkeskommune',
-      'Vestland fylkeskommune',
       'Universitetet i Rogn',
     ];
   }
