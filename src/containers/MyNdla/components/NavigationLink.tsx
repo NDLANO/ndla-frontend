@@ -73,6 +73,7 @@ interface Props {
   name: string;
   shortName?: string;
   expanded?: boolean;
+  to?: string;
 }
 
 const NavigationLink = ({
@@ -82,6 +83,7 @@ const NavigationLink = ({
   name,
   shortName,
   expanded,
+  to,
 }: Props) => {
   const location = useLocation();
   const selected = location.pathname === `/minndla/${id}`;
@@ -93,7 +95,7 @@ const NavigationLink = ({
       aria-current={selected ? 'page' : undefined}
       tabIndex={0}
       selected={selected}
-      to={loading ? '' : `/minndla/${id}`}
+      to={loading ? '' : to ? to : `/minndla/${id}`}
     >
       <IconWrapper>{icon}</IconWrapper>
       <LongText>{name}</LongText>

@@ -11,7 +11,6 @@ import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { breakpoints, colors, mq, spacing, spacingUnit } from '@ndla/core';
 import { MessageBox, TreeStructure } from '@ndla/ui';
-import { SafeLinkIconButton } from '@ndla/safelink';
 import { FolderOutlined } from '@ndla/icons/contentType';
 import { HashTag, LogOut, Person } from '@ndla/icons/common';
 import { MenuBook } from '@ndla/icons/action';
@@ -99,28 +98,9 @@ const MessageboxWrapper = styled.div`
   margin-bottom: ${spacing.nsmall};
 `;
 
-const StyledSafeLinkIconButton = styled(SafeLinkIconButton)`
-  display: flex;
-  padding: unset;
-  justify-content: flex-start;
-  gap: ${spacing.small};
-  padding: ${spacing.xxsmall};
-  color: ${colors.brand.greyDark};
-
-  :hover,
-  :focus {
-    color: ${colors.brand.primary};
-  }
-
-  ${mq.range({ from: breakpoints.mobile, until: breakpoints.desktop })} {
-    flex-direction: column;
-    padding-right: ${spacing.normal};
-  }
-`;
-
 const LogOutIcon = styled(LogOut)`
-  height: 26px;
-  width: 26px;
+  height: ${spacing.normal};
+  width: ${spacing.normal};
 `;
 
 const TreeStructureWrapper = styled.div`
@@ -203,15 +183,17 @@ const MyNdlaLayout = () => {
                   />
                 </StyledLi>
               ))}
+              <StyledLi role="none">
+                <NavigationLink
+                  id={'logout-path'}
+                  name={t('user.buttonLogOut')}
+                  shortName={t('user.buttonLogOut')}
+                  to={`/logout?state=${toHref(location)}`}
+                  icon={<LogOutIcon />}
+                />
+              </StyledLi>
             </StyledNavList>
           </nav>
-          <StyledSafeLinkIconButton
-            variant="stripped"
-            to={`/logout?state=${toHref(location)}`}
-          >
-            <LogOutIcon />
-            {t('user.buttonLogOut')}
-          </StyledSafeLinkIconButton>
         </div>
       </StyledSideBar>
       <StyledContent data-is-mobile={isMobile}>
