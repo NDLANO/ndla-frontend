@@ -11,11 +11,20 @@ import { buttonStyleV2 } from '@ndla/button';
 import { breakpoints, colors, fonts, misc, mq, spacing } from '@ndla/core';
 import { useIntersectionObserver } from '@ndla/hooks';
 import { Forward } from '@ndla/icons/common';
-import { useMastheadHeight } from '@ndla/ui';
+import { OneColumn, useMastheadHeight } from '@ndla/ui';
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Subject } from './interfaces';
 import SubjectLink from './SubjectLink';
+
+const StyledColumn = styled(OneColumn)`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  &::after {
+    content: none !important;
+  }
+`;
 
 export const GridList = styled.ul`
   display: grid;
@@ -56,7 +65,7 @@ const StickyHeading = styled.div<StyledProps>`
     :before {
       content: '';
       position: absolute;
-      width: 100vw;
+      width: 100%;
       bottom: 0;
       right: 50%;
       transform: translateX(50%);
@@ -127,30 +136,34 @@ const SubjectCategory = ({ label, subjects, favorites }: Props) => {
       aria-labelledby={`subject-header-${label}`}
     >
       <StickyHeading ref={stickyRef} offset={height}>
-        <StyledH2
-          id={`subject-header-${label}`}
-          aria-label={label === '#' ? t('labels.other') : label}
-        >
-          {label.toUpperCase()}
-        </StyledH2>
-        <GoToTop isSticky={!!entry?.isIntersecting} href="#SkipToContentId">
-          {t('subjectsPage.goToTop')} <StyledArrow />
-        </GoToTop>
+        <StyledColumn wide>
+          <StyledH2
+            id={`subject-header-${label}`}
+            aria-label={label === '#' ? t('labels.other') : label}
+          >
+            {label.toUpperCase()}
+          </StyledH2>
+          <GoToTop isSticky={!!entry?.isIntersecting} href="#SkipToContentId">
+            {t('subjectsPage.goToTop')} <StyledArrow />
+          </GoToTop>
+        </StyledColumn>
       </StickyHeading>
-      <GridList
-        id={`subject-${label}`}
-        aria-label={t('subjectsPage.subjectGroup', {
-          category: label === '#' ? t('labels.other') : label,
-        })}
-      >
-        {subjects.map((subject) => (
-          <SubjectLink
-            favorites={favorites}
-            key={subject.id}
-            subject={subject}
-          />
-        ))}
-      </GridList>
+      <StyledColumn wide>
+        <GridList
+          id={`subject-${label}`}
+          aria-label={t('subjectsPage.subjectGroup', {
+            category: label === '#' ? t('labels.other') : label,
+          })}
+        >
+          {subjects.map((subject) => (
+            <SubjectLink
+              favorites={favorites}
+              key={subject.id}
+              subject={subject}
+            />
+          ))}
+        </GridList>
+      </StyledColumn>
     </li>
   );
 };

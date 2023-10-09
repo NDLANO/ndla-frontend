@@ -144,6 +144,8 @@ const MyNdlaPage = () => {
 
   const keyedData = keyBy(metaData ?? [], (r) => `${r.type}${r.id}`);
 
+  const aiLang = i18n.language === 'nn' ? 'nn' : '';
+
   return (
     <StyledPageContentContainer>
       <HelmetWithTracker title={t('htmlTitles.myNdlaPage')} />
@@ -154,7 +156,7 @@ const MyNdlaPage = () => {
       <StyledDescription>{t('myNdla.myPage.welcome')}</StyledDescription>
       {tempAllowedAIOrgs().includes(user?.baseOrg?.displayName ?? '') && (
         <StyledBannerCard
-          link="https://ai.ndla.no/"
+          link={`https://ai.ndla.no/${aiLang}`}
           title={{
             title: t('myndla.campaignBlock.title'),
             lang: i18n.language,
