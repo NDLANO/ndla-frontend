@@ -7,10 +7,10 @@
  */
 
 import { gql } from '@apollo/client';
-import { useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { Remarkable } from 'remarkable';
 import { TFunction, useTranslation } from 'react-i18next';
-import { FeideUserApiType, Topic as UITopic } from '@ndla/ui';
+import { Topic as UITopic } from '@ndla/ui';
 import { useTracker } from '@ndla/tracker';
 import { extractEmbedMeta } from '@ndla/article-converter';
 import {
@@ -28,6 +28,7 @@ import {
   GQLTopic_TopicFragment,
 } from '../../../graphqlTypes';
 import TopicVisualElementContent from './TopicVisualElementContent';
+import { AuthContext } from '../../../components/AuthenticationContext';
 
 const getDocumentTitle = ({
   t,
@@ -49,7 +50,6 @@ type Props = {
   loading?: boolean;
   topic: GQLTopic_TopicFragment;
   resourceTypes?: GQLTopic_ResourceTypeDefinitionFragment[];
-  user?: FeideUserApiType;
 };
 
 const Topic = ({
@@ -61,9 +61,9 @@ const Topic = ({
   showResources,
   loading,
   subject,
-  user,
 }: Props) => {
   const { t } = useTranslation();
+  const { user, authContextLoaded } = useContext(AuthContext);
   const { topicId: urnTopicId } = useUrnIds();
   const { trackPageView } = useTracker();
   const [showContent, setShowContent] = useState(false);
@@ -77,7 +77,7 @@ const Topic = ({
   const renderMarkdown = (text: string) => markdown.render(text);
 
   useEffect(() => {
-    if (showResources && !loading && topic.article) {
+    if (showResources && !loading && topic.article && authContextLoaded) {
       const topicPath = topic?.path
         ?.split('/')
         .slice(2)
@@ -100,7 +100,16 @@ const Topic = ({
       );
       trackPageView({ dimensions, title: getDocumentTitle({ t, topic }) });
     }
-  }, [loading, showResources, subject, t, topic, trackPageView, user]);
+  }, [
+    authContextLoaded,
+    loading,
+    showResources,
+    subject,
+    t,
+    topic,
+    trackPageView,
+    user,
+  ]);
 
   const embedMeta = useMemo(() => {
     if (!topic.article?.visualElementEmbed?.content) return undefined;

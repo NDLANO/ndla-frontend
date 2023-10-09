@@ -22,7 +22,6 @@ import {
   GQLPlainArticlePageQuery,
   GQLPlainArticlePageQueryVariables,
 } from '../../graphqlTypes';
-import { AuthContext } from '../../components/AuthenticationContext';
 import { TypedParams, useTypedParams } from '../../routeHelpers';
 import { SKIP_TO_CONTENT_ID } from '../../constants';
 import RedirectContext from '../../components/RedirectContext';
@@ -53,7 +52,6 @@ const plainArticlePageQuery = gql`
 `;
 
 const PlainArticlePage = () => {
-  const { user } = useContext(AuthContext);
   const { articleId } = useTypedParams<MatchParams>();
   const { pathname } = useLocation();
   const redirectContext = useContext(RedirectContext);
@@ -98,7 +96,6 @@ const PlainArticlePage = () => {
   return (
     <PlainArticleContainer
       article={data.article}
-      user={user}
       skipToContentId={SKIP_TO_CONTENT_ID}
     />
   );

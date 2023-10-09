@@ -176,7 +176,7 @@ const formatProgrammes = (data: GQLProgrammePage[]): ProgrammeV2[] => {
 const WelcomePage = () => {
   const { t, i18n } = useTranslation();
   const { trackPageView } = useTracker();
-  const { user } = useContext(AuthContext);
+  const { user, authContextLoaded } = useContext(AuthContext);
   const taxonomyProgrammesEnabled = useEnableTaxStructure();
   const subjectsQuery = useGraphQuery<GQLFrontpageSubjectsQuery>(
     frontpageSubjectsQuery,
@@ -184,11 +184,13 @@ const WelcomePage = () => {
   );
 
   useEffect(() => {
-    trackPageView({
-      title: t('htmlTitles.welcomePage'),
-      dimensions: getAllDimensions({ user }),
-    });
-  }, [t, trackPageView, user]);
+    if (authContextLoaded) {
+      trackPageView({
+        title: t('htmlTitles.welcomePage'),
+        dimensions: getAllDimensions({ user }),
+      });
+    }
+  }, [authContextLoaded, t, trackPageView, user]);
 
   const fpQuery = useGraphQuery<GQLFrontpageDataQuery>(frontpageQuery, {
     skip: !taxonomyProgrammesEnabled,
