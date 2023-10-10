@@ -12,8 +12,8 @@ import { useTranslation } from 'react-i18next';
 import { colors, spacing, breakpoints, mq, fonts, misc } from '@ndla/core';
 import Icon from '@ndla/icons';
 import { css } from '@emotion/react';
-import { MenuBook } from '@ndla/icons/lib/action';
-import { Share } from '@ndla/icons/lib/common';
+import { MenuBook } from '@ndla/icons/action';
+import { Share } from '@ndla/icons/common';
 
 interface Props {
   id: string;
