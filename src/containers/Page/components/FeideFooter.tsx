@@ -38,16 +38,6 @@ const StyledFeideFooter = styled.div`
     margin-top: 26px;
     -webkit-box-align: center;
     align-items: center;
-
-    p {
-      margin: 0px 0px 32.5px;
-      font-weight: 300;
-      line-height: 32px;
-
-      span {
-        margin-left: 6.5px;
-      }
-    }
   }
 `;
 

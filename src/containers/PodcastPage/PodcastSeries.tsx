@@ -9,7 +9,7 @@
 import { gql } from '@apollo/client';
 import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
-import { Text } from '@ndla/typography';
+import { Heading, Text } from '@ndla/typography';
 import { Link } from 'react-router-dom';
 import { GQLPodcastSeries_PodcastSeriesSummaryFragment } from '../../graphqlTypes';
 
@@ -33,17 +33,13 @@ const ImageWrapper = styled.div`
   border: 1px solid ${colors.brand.greyLight};
 `;
 
-const StyledHeader = styled.h3`
-  display: inline-block;
-  font-size: 1rem;
-  line-height: 1.3;
-  color: ${colors.brand.primary};
-  font-weight: 700;
-  margin: 0px 0px ${spacing.xsmall};
+const TextWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${spacing.small};
 `;
 
 const StyledDescription = styled(Text)`
-  margin: 0;
   max-width: 600px;
   display: -webkit-box;
   -webkit-line-clamp: 3;
@@ -62,16 +58,16 @@ const PodcastSeries = ({
       <ImageWrapper>
         <StyledCoverPhoto src={coverPhoto.url} alt={coverPhoto.altText} />
       </ImageWrapper>
-      <div>
+      <TextWrapper>
         <div>
-          <Link to={`/podkast/${id}`}>
-            <StyledHeader>{title.title}</StyledHeader>
-          </Link>
+          <Heading headingStyle="default" element="h3" margin="none">
+            <Link to={`/podkast/${id}`}>{title.title}</Link>
+          </Heading>
         </div>
-        <StyledDescription textStyle="meta-text-small">
+        <StyledDescription textStyle="meta-text-small" margin="none">
           {description.description}
         </StyledDescription>
-      </div>
+      </TextWrapper>
     </FlexWrapper>
   );
 };
