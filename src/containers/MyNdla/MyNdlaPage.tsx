@@ -43,7 +43,7 @@ import { isStudent } from './Folders/util';
 import { useBaseName } from '../../components/BaseNameContext';
 import { useDeletePersonalData } from './userMutations';
 import { getAllDimensions } from '../../util/trackingUtil';
-import { UserInfo } from './components/User/UserInfo';
+import { UserInfo } from './components/UserInfo';
 
 const ShareIcon = InfoPartIcon.withComponent(Share);
 const HeartOutlineIcon = InfoPartIcon.withComponent(HeartOutline);
