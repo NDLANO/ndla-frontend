@@ -89,11 +89,7 @@ const logglyApiKey = (): string | undefined => {
 };
 
 export const tempAllowedAIOrgs = () => {
-  const defaultList = [
-    'Innlandet fylkeskommune',
-    'Rogaland fylkeskommune',
-    'Vestland fylkeskommune',
-  ];
+  const defaultList = ['Rogaland fylkeskommune'];
   if (['local', 'dev', 'test'].includes(ndlaEnvironment)) {
     return [...defaultList, 'Universitetet i Rogn'];
   }

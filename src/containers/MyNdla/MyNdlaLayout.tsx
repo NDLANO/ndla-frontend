@@ -11,9 +11,8 @@ import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { breakpoints, colors, mq, spacing } from '@ndla/core';
 import { MessageBox, TreeStructure } from '@ndla/ui';
-import { SafeLinkButton } from '@ndla/safelink';
 import { FolderOutlined } from '@ndla/icons/contentType';
-import { HashTag, Person } from '@ndla/icons/common';
+import { HashTag, LogOut, Person } from '@ndla/icons/common';
 import { MenuBook } from '@ndla/icons/action';
 import { TFunction } from 'i18next';
 import { Outlet, useLocation } from 'react-router-dom';
@@ -28,11 +27,13 @@ const navigationLinks = (t: TFunction) => [
     id: 'tags',
     icon: <HashTag />,
     name: t('myNdla.myTags'),
+    shortName: t('myNdla.iconMenu.tags'),
   },
   {
     id: 'subjects',
     icon: <MenuBook />,
     name: t('myNdla.favoriteSubjects.title'),
+    shortName: t('myNdla.iconMenu.subjects'),
   },
 ];
 
@@ -70,17 +71,28 @@ const StyledSideBar = styled.div`
   border-right: 1px solid ${colors.brand.lighter};
   background: ${colors.background.lightBlue};
 
+  ${mq.range({ until: breakpoints.desktop })} {
+    min-width: unset;
+  }
+
   ${mq.range({ until: breakpoints.tablet })} {
     display: none;
   }
 `;
 
-const ButtonWrapper = styled.div`
-  padding: 0 ${spacing.normal};
-`;
-
 const MessageboxWrapper = styled.div`
   margin-bottom: ${spacing.nsmall};
+`;
+
+const LogOutIcon = styled(LogOut)`
+  height: ${spacing.normal};
+  width: ${spacing.normal};
+`;
+
+const TreeStructureWrapper = styled.div`
+  ${mq.range({ until: breakpoints.desktop })} {
+    display: none;
+  }
 `;
 
 const MyNdlaLayout = () => {
@@ -125,6 +137,7 @@ const MyNdlaLayout = () => {
                 <NavigationLink
                   id=""
                   name={t('myNdla.myPage.myPage')}
+                  shortName={t('myNdla.myNDLA')}
                   icon={<Person />}
                 />
               </StyledLi>
@@ -132,15 +145,18 @@ const MyNdlaLayout = () => {
                 <NavigationLink
                   id="folders"
                   name={t('myNdla.myFolders')}
+                  shortName={t('myNdla.iconMenu.folders')}
                   icon={<FolderOutlined />}
                   expanded={showFolders}
                 />
                 {showFolders && (
-                  <TreeStructure
-                    type={'navigation'}
-                    folders={folders}
-                    defaultOpenFolders={defaultSelected}
-                  />
+                  <TreeStructureWrapper>
+                    <TreeStructure
+                      type="navigation"
+                      folders={folders}
+                      defaultOpenFolders={defaultSelected}
+                    />
+                  </TreeStructureWrapper>
                 )}
               </StyledLi>
               {links.map((link) => (
@@ -148,21 +164,22 @@ const MyNdlaLayout = () => {
                   <NavigationLink
                     id={link.id}
                     name={link.name}
+                    shortName={link.shortName}
                     icon={link.icon}
                   />
                 </StyledLi>
               ))}
+              <StyledLi role="none">
+                <NavigationLink
+                  id="logout-path"
+                  name={t('user.buttonLogOut')}
+                  shortName={t('user.buttonLogOut')}
+                  to={`/logout?state=${toHref(location)}`}
+                  icon={<LogOutIcon />}
+                />
+              </StyledLi>
             </StyledNavList>
           </nav>
-          <ButtonWrapper>
-            <SafeLinkButton
-              variant="outline"
-              reloadDocument
-              to={`/logout?state=${toHref(location)}`}
-            >
-              {t('user.buttonLogOut')}
-            </SafeLinkButton>
-          </ButtonWrapper>
         </div>
       </StyledSideBar>
       <StyledContent data-is-mobile={isMobile}>
