@@ -6,7 +6,13 @@
  */
 
 import groupBy from 'lodash/groupBy';
-import { FeideGoGroup, FeideGrep, FeideGroup, FeideOrg, FeideUserApiType } from './apiTypes';
+import {
+  FeideGoGroup,
+  FeideGrep,
+  FeideGroup,
+  FeideOrg,
+  FeideUserApiType,
+} from './apiTypes';
 
 type GoGroupType = 'basic' | 'teaching' | 'other';
 
@@ -46,7 +52,9 @@ const createGroupings = (groups: FeideGoGroup[]) => {
  * @returns An object containing root groups mapped with children.
  */
 const parseOrgs = (groups: FeideGroup[]) => {
-  const [roots, children, grep] = groups.reduce<[FeideOrg[], FeideGoGroup[], FeideGrep[]]>(
+  const [roots, children, grep] = groups.reduce<
+    [FeideOrg[], FeideGoGroup[], FeideGrep[]]
+  >(
     (acc, curr) => {
       if (curr.type === 'fc:org') {
         return [acc[0].concat(curr), acc[1], acc[2]];
@@ -60,7 +68,10 @@ const parseOrgs = (groups: FeideGroup[]) => {
   );
 
   const childrenByParentId = groupBy(children, (c) => c.parent);
-  const rootsWithChildren = roots.map((root) => ({ ...root, children: childrenByParentId[root.id] ?? [] }));
+  const rootsWithChildren = roots.map((root) => ({
+    ...root,
+    children: childrenByParentId[root.id] ?? [],
+  }));
 
   return {
     grepCodes: grep,

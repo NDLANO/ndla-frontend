@@ -13,7 +13,13 @@ type OrgType =
   | 'upper_secondary'
   | 'upper_secondary_owner';
 
-export type AffiliationType = 'member' | 'student' | 'faculty' | 'staff' | 'affiliate' | 'employee';
+export type AffiliationType =
+  | 'member'
+  | 'student'
+  | 'faculty'
+  | 'staff'
+  | 'affiliate'
+  | 'employee';
 
 export interface FeideMembershipType {
   basic: 'member' | 'admin' | 'owner'; // Basic membership role of user.

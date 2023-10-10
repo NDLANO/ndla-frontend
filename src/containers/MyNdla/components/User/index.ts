@@ -18,4 +18,12 @@ import type {
 } from './apiTypes';
 
 export { UserInfo };
-export type { AffiliationType, FeideGoGroup, FeideGroup, FeideOrg, FeideUserApiType, FeideMembershipType, FeideUser };
+export type {
+  AffiliationType,
+  FeideGoGroup,
+  FeideGroup,
+  FeideOrg,
+  FeideUserApiType,
+  FeideMembershipType,
+  FeideUser,
+};

@@ -23,7 +23,8 @@ const ShortInfoDiv = styled.div`
   margin: 2rem auto;
 `;
 
-const isTeacher = (affiliations: FeideUserApiType['eduPersonAffiliation']) => affiliations.includes('employee');
+const isTeacher = (affiliations: FeideUserApiType['eduPersonAffiliation']) =>
+  affiliations.includes('employee');
 
 export const UserInfo = ({ user }: Props) => {
   const { t } = useTranslation();
@@ -35,7 +36,13 @@ export const UserInfo = ({ user }: Props) => {
       {
         <p>
           {t('user.loggedInAs', {
-            role: t(`user.role.${isTeacher(parsedUser.eduPersonAffiliation) ? 'employee' : 'student'}`),
+            role: t(
+              `user.role.${
+                isTeacher(parsedUser.eduPersonAffiliation)
+                  ? 'employee'
+                  : 'student'
+              }`,
+            ),
           })}
         </p>
       }
@@ -52,7 +59,8 @@ export const UserInfo = ({ user }: Props) => {
         </div>
         {user.preferredLanguage && (
           <div data-hj-suppress>
-            {t('user.preferredLanguage')}: <b>{t(`languages.${user.preferredLanguage}`)}</b>
+            {t('user.preferredLanguage')}:{' '}
+            <b>{t(`languages.${user.preferredLanguage}`)}</b>
           </div>
         )}
         {user.mobile && (
@@ -65,7 +73,11 @@ export const UserInfo = ({ user }: Props) => {
       <InfoList data-hj-suppress>
         {parsedUser.organizations.map((org) => (
           <li key={org.id}>
-            {`${org.displayName}${org.membership.primarySchool ? ` (${t('user.primarySchool')})` : ''}`}
+            {`${org.displayName}${
+              org.membership.primarySchool
+                ? ` (${t('user.primarySchool')})`
+                : ''
+            }`}
             <InfoList>
               {Object.entries(org.children).map(([groupType, val]) => {
                 if (val.length < 1) return null;
@@ -74,7 +86,9 @@ export const UserInfo = ({ user }: Props) => {
                     {t(`user.groupTypes.${groupType}`)}
                     <InfoList>
                       {val.map((group) => (
-                        <li key={group.id}>{`${group.displayName}${group.grep ? ` (${group.grep.code})` : ''}`}</li>
+                        <li key={group.id}>{`${group.displayName}${
+                          group.grep ? ` (${group.grep.code})` : ''
+                        }`}</li>
                       ))}
                     </InfoList>
                   </li>
