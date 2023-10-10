@@ -54,6 +54,7 @@ const UserAvatar = ({ hasUploadedAvatar }: UserAvatarProps) => {
   return (
     <StyledUserAvatarContainer hasUploadedAvatar={hasUploadedAvatar}>
       <StyledUserInitials>UA</StyledUserInitials>
+      {/* Check for path to display the button. Only show in My Profile to make component generic */}
       <StyledDesktopButtonContainer>
         <EditProfilePicture />
       </StyledDesktopButtonContainer>

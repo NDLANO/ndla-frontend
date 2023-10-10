@@ -93,6 +93,7 @@ const MyContactArea = ({ user }: MyContractAreaProps) => {
             parsedUser.organizations.at(0)?.displayName}
         </StyledUserCountyText>
       </StyledUserInfoContainer>
+      {/* Check for path to display the button. Only show in My Profile to make component generic */}
       <StyledMobileButtonContainer>
         <EditProfilePicture />
       </StyledMobileButtonContainer>

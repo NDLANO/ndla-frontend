@@ -10,7 +10,7 @@ import { useContext, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import { fonts, spacing } from '@ndla/core';
+import { breakpoints, fonts, mq, spacing } from '@ndla/core';
 import { UserInfo } from '@ndla/ui';
 import { ButtonV2 } from '@ndla/button';
 import SafeLink from '@ndla/safelink';
@@ -42,8 +42,11 @@ const StyledPageContentContainer = styled.div`
 `;
 
 const StyledHeading = styled(Heading)`
-  ${fonts.sizes('38px', '48px')}
+  ${fonts.sizes('30px', '36px')}
   font-weight: ${fonts.weight.bold};
+  ${mq.range({ from: breakpoints.tablet })} {
+    ${fonts.sizes('38px', '48px')}
+  }
 `;
 
 const ButtonRow = styled.div`
@@ -68,6 +71,10 @@ const ButtonContainer = styled.div`
   flex-direction: column;
   gap: ${spacing.small};
   padding-bottom: ${spacing.normal};
+`;
+
+const StyledDeleteUserHeading = styled(Heading)`
+  ${fonts.sizes('22px', '33px')}
 `;
 
 const MyProfilePage = () => {
@@ -129,7 +136,14 @@ const MyProfilePage = () => {
         </LinkText>
       </InfoContainer>
       <ButtonContainer>
-        {t('myNdla.myPage.wishToDelete')}
+        <StyledDeleteUserHeading
+          element="h2"
+          id="deleteUserTitle"
+          margin="none"
+          headingStyle="default"
+        >
+          {t('myNdla.myPage.wishToDelete')}
+        </StyledDeleteUserHeading>
         <Modal>
           <ModalTrigger>
             <ButtonV2 colorTheme="danger" variant="outline">
