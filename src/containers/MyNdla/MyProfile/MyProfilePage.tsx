@@ -32,6 +32,7 @@ import { useBaseName } from '../../../components/BaseNameContext';
 import { useDeletePersonalData } from '../userMutations';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import MyPreferences from './MyPreferences';
+import MyContactArea from './MyContactArea';
 
 const StyledPageContentContainer = styled.div`
   display: flex;
@@ -57,7 +58,6 @@ const LinkText = styled.p`
 
 const InfoContainer = styled.div`
   display: flex;
-  padding: ${spacing.medium} 0;
   flex-direction: column;
   gap: ${spacing.small};
 `;
@@ -104,6 +104,7 @@ const MyProfilePage = () => {
       >
         {t('myndla.myProfile.title')}
       </StyledHeading>
+      <MyContactArea user={user} />
       <MyPreferences />
       {user && (
         <InfoPart title={t('myNdla.myPage.feide')} icon={''}>

@@ -7,7 +7,7 @@
  */
 
 import styled from '@emotion/styled';
-import { colors, fonts, spacing } from '@ndla/core';
+import { fonts, spacing } from '@ndla/core';
 import Icon from '@ndla/icons';
 import { Heading } from '@ndla/typography';
 import { ReactNode } from 'react';
@@ -22,6 +22,7 @@ const InfoPartWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${spacing.small};
+  max-width: 700px;
 `;
 
 const InfoPartHeader = styled.div`
