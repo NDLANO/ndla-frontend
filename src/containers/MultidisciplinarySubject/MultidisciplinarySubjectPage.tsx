@@ -7,7 +7,7 @@
  */
 
 import { gql } from '@apollo/client';
-import { createRef, useContext, useEffect, useState } from 'react';
+import { createRef, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { breakpoints, fonts, mq } from '@ndla/core';
 import {
@@ -30,7 +30,6 @@ import {
   GQLMultidisciplinarySubjectPageQueryVariables,
 } from '../../graphqlTypes';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
-import { AuthContext } from '../../components/AuthenticationContext';
 import { htmlTitle } from '../../util/titleHelper';
 import { SKIP_TO_CONTENT_ID } from '../../constants';
 import MultidisciplinaryArticleList from './components/MultidisciplinaryArticleList';
@@ -130,7 +129,6 @@ const Header = styled.div`
 
 const MultidisciplinarySubjectPage = () => {
   const { t } = useTranslation();
-  const { user } = useContext(AuthContext);
   const { subjectId, topicList: selectedTopics } = useUrnIds();
   const refs = selectedTopics.map((_) => createRef<HTMLDivElement>());
   const [topicCrumbs, setTopicCrumbs] = useState<SimpleBreadcrumbItem[]>([]);
@@ -298,7 +296,6 @@ const MultidisciplinarySubjectPage = () => {
                     subjectId={subject.id}
                     subTopicId={selectedTopics[index + 1]}
                     subject={subject}
-                    user={user}
                   />
                 </div>
               ))}

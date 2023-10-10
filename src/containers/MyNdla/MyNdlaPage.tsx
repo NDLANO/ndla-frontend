@@ -108,7 +108,7 @@ const StyledBannerCard = styled(BannerCard)`
 `;
 
 const MyNdlaPage = () => {
-  const { user } = useContext(AuthContext);
+  const { user, authContextLoaded } = useContext(AuthContext);
   const { t, i18n } = useTranslation();
   const basename = useBaseName();
   const location = useLocation();
@@ -127,11 +127,12 @@ const MyNdlaPage = () => {
   );
 
   useEffect(() => {
+    if (!authContextLoaded) return;
     trackPageView({
       title: t('htmlTitles.myNdlaPage'),
       dimensions: getAllDimensions({ user }),
     });
-  }, [t, trackPageView, user]);
+  }, [authContextLoaded, t, trackPageView, user]);
 
   const onDeleteAccount = async () => {
     await deletePersonalData();
