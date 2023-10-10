@@ -6,7 +6,7 @@
  *
  */
 
-import { FeideUserApiType } from '../apiTypes';
+import { FeideUserApiType } from '../../../../interfaces';
 import { parseUserObject } from '../parseUserObject';
 
 const feideUserLaerer: FeideUserApiType = {

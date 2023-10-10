@@ -12,7 +12,7 @@ import {
   FeideGroup,
   FeideOrg,
   FeideUserApiType,
-} from './apiTypes';
+} from '../../../interfaces';
 
 type GoGroupType = 'basic' | 'teaching' | 'other';
 

@@ -8,7 +8,7 @@
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
-import { FeideUserApiType } from './apiTypes';
+import { FeideUserApiType } from '../../../interfaces';
 import { parseUserObject } from './parseUserObject';
 
 const InfoList = styled.ul`
