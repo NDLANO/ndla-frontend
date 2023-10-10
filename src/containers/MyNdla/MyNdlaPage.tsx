@@ -43,7 +43,7 @@ import { isStudent } from './Folders/util';
 import { useBaseName } from '../../components/BaseNameContext';
 import { useDeletePersonalData } from './userMutations';
 import { getAllDimensions } from '../../util/trackingUtil';
-import ArenaCard from './ArenaCards/ArenaCard';
+import ArenaCard from './ArenaCards/ArenaCard'; //Temp for å teste styling
 
 const ShareIcon = InfoPartIcon.withComponent(Share);
 const HeartOutlineIcon = InfoPartIcon.withComponent(HeartOutline);
@@ -200,12 +200,12 @@ const MyNdlaPage = () => {
           <Trans i18nKey="myNdla.myPage.folderInfo.text" />
         </InfoPartText>
       </InfoPart>
-      <ArenaCard
+      <ArenaCard //Temp for å teste styling
         id="123"
         cardType="ArenaCategory"
         title={'Navn på kategori'}
         subText={'Beskrivelse'}
-        created_at={'2023-10-05T10:00:00Z'}
+        timestamp={'2023-10-05T10:00:00Z'}
         count={29}
       />
       <ArenaCard
@@ -213,7 +213,7 @@ const MyNdlaPage = () => {
         cardType="ArenaTopic"
         title={'Innlegg'}
         subText={'Kategori'}
-        created_at={'7.1.2023'}
+        timestamp={'7.1.2023'}
         count={10}
       />
       {allFolderResources && allFolderResources.length > 0 && (

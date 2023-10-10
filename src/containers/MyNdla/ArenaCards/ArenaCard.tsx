@@ -20,7 +20,7 @@ interface Props {
   cardType: 'ArenaCategory' | 'ArenaTopic';
   title: string;
   subText: string;
-  created_at: string;
+  timestamp: string;
   count: number;
   locked?: boolean;
 }
@@ -52,16 +52,9 @@ const StyledCardContainer = styled(SafeLink)`
   > * > span {
     text-decoration: underline;
   }
-  // text decoration skal ikke dukke opp på undertekst
-  &:hover {
-    background-color: ${colors.background.lightBlue};
-    > * > span {
-      text-decoration: none;
-    }
-  }
+  &:hover,
   &:focus-visible {
-    background-color: ${colors.background.lightBlue};
-    border: 2px solid #025fcc;
+    background-color: ${colors.brand.lighter};
     > * > span {
       text-decoration: none;
     }
@@ -81,16 +74,18 @@ const StyledHeader = styled.span`
   margin: 0;
 `;
 
+const StyledDescriptionText = styled.div`
+  ${mq.range({ until: breakpoints.mobileWide })} {
+    display: none;
+  }
+`;
+
 const StyledText = styled.div`
   margin: 0;
   color: ${colors.text.primary};
   padding-top: ${spacing.xsmall};
   ${fonts.sizes('16px', '26px')};
   font-weight: ${fonts.weight.normal};
-  ${mq.range({ until: breakpoints.tabletWide })} {
-    // Usikker på breakpoint her
-    display: none;
-  }
 `;
 
 const StyledCountContainer = styled.div`
@@ -99,7 +94,6 @@ const StyledCountContainer = styled.div`
   align-items: center;
   color: ${colors.text.primary};
   ${mq.range({ until: breakpoints.tabletWide })} {
-    // Usikker på breakpoint her
     display: none;
   }
 `;
@@ -115,7 +109,6 @@ const StyledLeftIcon = styled(Icon)`
   height: 40px;
   color: ${colors.brand.primary};
   ${mq.range({ until: breakpoints.mobileWide })} {
-    // Usikker på breakpoint her
     display: none;
   }
 `;
@@ -126,8 +119,8 @@ const StyledLockedIcon = styled(Icon)`
   color: ${colors.brand.primary};
 `;
 
-const FolderIcon = StyledLeftIcon.withComponent(MenuBook);
-const LockedIcon = StyledLockedIcon.withComponent(Share);
+const FolderIcon = StyledLeftIcon.withComponent(MenuBook); //Temp før nye iconer kommer til biblioteket
+const LockedIcon = StyledLockedIcon.withComponent(Share); //Temp før nye iconer kommer til biblioteket
 
 const StyledAvatarContainer = styled.div`
   //Placeholder til avatar kommer
@@ -141,7 +134,6 @@ const StyledAvatarContainer = styled.div`
   border: solid 1px ${colors.brand.tertiary};
   border-radius: 50px;
   ${mq.range({ until: breakpoints.mobileWide })} {
-    // Usikker på breakpoint her
     display: none;
   }
 `;
@@ -151,7 +143,7 @@ const ArenaCard = ({
   cardType,
   title,
   subText,
-  created_at,
+  timestamp,
   count,
   locked,
 }: Props) => {
@@ -169,10 +161,13 @@ const ArenaCard = ({
       )}
       <StyledTextContainer>
         <StyledHeader>{title}</StyledHeader>
-        <StyledText>
-          {subText}
-          {cardType === 'ArenaTopic' ? ` | ${created_at}` : ''}
-        </StyledText>
+        {cardType === 'ArenaCategory' ? (
+          <StyledDescriptionText>{subText}</StyledDescriptionText>
+        ) : (
+          <StyledText>
+            {subText} | {timestamp}
+          </StyledText>
+        )}
       </StyledTextContainer>
       <StyledCountContainer>
         {locked ? (
