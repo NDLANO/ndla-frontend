@@ -28,7 +28,7 @@ import {
   ModalTrigger,
   ModalContent,
 } from '@ndla/modal';
-import { tempAllowedAIOrgs } from '../../config';
+import config from '../../config';
 import InfoPart, { InfoPartIcon, InfoPartText } from './InfoSection';
 import { AuthContext } from '../../components/AuthenticationContext';
 import {
@@ -154,7 +154,7 @@ const MyNdlaPage = () => {
         <MyNdlaTitle title={t('myNdla.myPage.myPage')} />
       </TitleWrapper>
       <StyledDescription>{t('myNdla.myPage.welcome')}</StyledDescription>
-      {tempAllowedAIOrgs().includes(user?.baseOrg?.displayName ?? '') && (
+      {config.allowedAIOrgs.includes(user?.baseOrg?.displayName ?? '') && (
         <StyledBannerCard
           link={`https://ai.ndla.no/${aiLang}`}
           title={{
