@@ -6,7 +6,6 @@
  */
 
 import { gql } from '@apollo/client';
-import { FeideUserApiType } from '@ndla/ui';
 import {
   createContext,
   ReactNode,
@@ -14,6 +13,7 @@ import {
   useState,
   useCallback,
 } from 'react';
+import { FeideUserApiType } from '../interfaces';
 import { GQLExamLockStatusQuery } from '../graphqlTypes';
 import { isAccessTokenValid, millisUntilExpiration } from '../util/authHelpers';
 import { fetchFeideUserWithGroups } from '../util/feideApi';

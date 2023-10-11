@@ -6,7 +6,7 @@
  *
  */
 
-import { FeideUserApiType, FeideUser, FeideGroup } from '@ndla/ui';
+import { FeideGroup, FeideUser, FeideUserApiType } from '../interfaces';
 import {
   fetchWithFeideAuthorization,
   resolveJsonOrRejectWithError,
