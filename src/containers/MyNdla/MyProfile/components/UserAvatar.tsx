@@ -13,6 +13,7 @@ import EditProfilePicture from './EditProfilePicture';
 
 type UserAvatarProps = {
   hasUploadedAvatar: boolean;
+  userName: string | undefined;
 };
 
 const StyledUserAvatarContainer = styled.div<UserAvatarProps>`
@@ -50,10 +51,21 @@ const StyledDesktopButtonContainer = styled.div`
   }
 `;
 
-const UserAvatar = ({ hasUploadedAvatar }: UserAvatarProps) => {
+const UserAvatar = ({ hasUploadedAvatar, userName }: UserAvatarProps) => {
+  const initials = userName
+    ?.match(/(^\S\S?|\s\S)?/g)
+    ?.map((v) => v.trim())
+    .join('')
+    .match(/(^\S|\S$)?/g)
+    ?.join('')
+    .toLocaleUpperCase();
+
   return (
-    <StyledUserAvatarContainer hasUploadedAvatar={hasUploadedAvatar}>
-      <StyledUserInitials>UA</StyledUserInitials>
+    <StyledUserAvatarContainer
+      hasUploadedAvatar={hasUploadedAvatar}
+      userName={userName}
+    >
+      <StyledUserInitials>{initials}</StyledUserInitials>
       {/* Check for path to display the button. Only show in My Profile to make component generic */}
       <StyledDesktopButtonContainer>
         <EditProfilePicture />

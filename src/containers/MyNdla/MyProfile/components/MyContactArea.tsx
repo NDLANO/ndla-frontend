@@ -73,7 +73,7 @@ const MyContactArea = ({ user }: MyContractAreaProps) => {
   return (
     <StyledMyContactAreaContainer>
       <StyledAvatarContainer>
-        <UserAvatar hasUploadedAvatar />
+        <UserAvatar hasUploadedAvatar userName={user?.displayName} />
       </StyledAvatarContainer>
       <StyledUserNameHeading
         element="h2"

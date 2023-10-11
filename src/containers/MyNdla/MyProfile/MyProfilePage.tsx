@@ -31,8 +31,8 @@ import { constructNewPath, toHref } from '../../../util/urlHelper';
 import { useBaseName } from '../../../components/BaseNameContext';
 import { useDeletePersonalData } from '../userMutations';
 import { getAllDimensions } from '../../../util/trackingUtil';
-import MyPreferences from './MyPreferences';
-import MyContactArea from './MyContactArea';
+import MyPreferences from './components/MyPreferences';
+import MyContactArea from './components/MyContactArea';
 
 const StyledPageContentContainer = styled.div`
   display: flex;
