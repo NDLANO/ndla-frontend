@@ -28,6 +28,7 @@ import {
   ModalTrigger,
   ModalContent,
 } from '@ndla/modal';
+import config from '../../config';
 import InfoPart, { InfoPartIcon, InfoPartText } from './InfoSection';
 import { AuthContext } from '../../components/AuthenticationContext';
 import {
@@ -52,6 +53,7 @@ const FavoriteSubjectIcon = InfoPartIcon.withComponent(MenuBook);
 const StyledPageContentContainer = styled.div`
   display: flex;
   flex-direction: column;
+  margin-top: ${spacing.large};
   // Temp to force styling in bannercard
   div {
     max-width: 100%;
@@ -106,7 +108,7 @@ const StyledBannerCard = styled(BannerCard)`
 `;
 
 const MyNdlaPage = () => {
-  const { user } = useContext(AuthContext);
+  const { user, authContextLoaded } = useContext(AuthContext);
   const { t, i18n } = useTranslation();
   const basename = useBaseName();
   const location = useLocation();
@@ -125,11 +127,12 @@ const MyNdlaPage = () => {
   );
 
   useEffect(() => {
+    if (!authContextLoaded) return;
     trackPageView({
       title: t('htmlTitles.myNdlaPage'),
       dimensions: getAllDimensions({ user }),
     });
-  }, [t, trackPageView, user]);
+  }, [authContextLoaded, t, trackPageView, user]);
 
   const onDeleteAccount = async () => {
     await deletePersonalData();
@@ -141,6 +144,8 @@ const MyNdlaPage = () => {
 
   const keyedData = keyBy(metaData ?? [], (r) => `${r.type}${r.id}`);
 
+  const aiLang = i18n.language === 'nn' ? 'nn' : '';
+
   return (
     <StyledPageContentContainer>
       <HelmetWithTracker title={t('htmlTitles.myNdlaPage')} />
@@ -149,24 +154,29 @@ const MyNdlaPage = () => {
         <MyNdlaTitle title={t('myNdla.myPage.myPage')} />
       </TitleWrapper>
       <StyledDescription>{t('myNdla.myPage.welcome')}</StyledDescription>
-      <StyledBannerCard
-        link="https://ai.ndla.no/"
-        title={{ title: t('myndla.campaignBlock.title'), lang: i18n.language }}
-        image={{
-          imageSrc: '/static/ndla-ai.png',
-          altText: '',
-        }}
-        linkText={{
-          text: t('myndla.campaignBlock.linkText'),
-          lang: i18n.language,
-        }}
-        content={{
-          content: isStudent(user)
-            ? t('myndla.campaignBlock.ingressStudent')
-            : t('myndla.campaignBlock.ingress'),
-          lang: i18n.language,
-        }}
-      />
+      {config.allowedAIOrgs.includes(user?.baseOrg?.displayName ?? '') && (
+        <StyledBannerCard
+          link={`https://ai.ndla.no/${aiLang}`}
+          title={{
+            title: t('myndla.campaignBlock.title'),
+            lang: i18n.language,
+          }}
+          image={{
+            imageSrc: '/static/ndla-ai.png',
+            altText: '',
+          }}
+          linkText={{
+            text: t('myndla.campaignBlock.linkText'),
+            lang: i18n.language,
+          }}
+          content={{
+            content: isStudent(user)
+              ? t('myndla.campaignBlock.ingressStudent')
+              : t('myndla.campaignBlock.ingress'),
+            lang: i18n.language,
+          }}
+        />
+      )}
       <InfoPart icon={<ShareIcon />} title={t('myNdla.myPage.sharing.title')}>
         <InfoPartText>{t('myNdla.myPage.sharing.text')}</InfoPartText>
       </InfoPart>

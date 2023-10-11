@@ -65,6 +65,9 @@ const StyledButton = styled(ButtonV2)`
   margin-top: ${spacing.normal};
 `;
 
+const StyledLogOut = styled(LogOut)`
+  color: ${colors.white};
+`;
 interface Props {
   footer?: boolean;
   children?: ReactNode;
@@ -137,7 +140,7 @@ const FeideLoginButton = ({ footer, children }: Props) => {
             }}
           >
             {t('user.buttonLogOut')}
-            <LogOut />
+            <StyledLogOut />
           </StyledButton>
         </ModalBody>
       </ModalContent>

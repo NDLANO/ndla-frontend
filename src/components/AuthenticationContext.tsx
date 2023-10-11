@@ -63,7 +63,6 @@ const AuthenticationContext = ({ children }: Props) => {
   useEffect(() => {
     const isValid = isAccessTokenValid();
     setAuthenticated(isValid);
-    setLoaded(true);
 
     if (isValid) {
       fetchFeideUserWithGroups().then((user) => {
@@ -71,12 +70,15 @@ const AuthenticationContext = ({ children }: Props) => {
           setExamLock(examLockStatus?.value === 'true');
         }
         setUser(user);
+        setLoaded(true);
       });
       // Since we can't listen to cookies set a timeout to update context
       const timeoutMillis = millisUntilExpiration();
       window.setTimeout(() => {
         setAuthenticated(false);
       }, timeoutMillis);
+    } else {
+      setLoaded(true);
     }
   }, [authenticated, error, examLockStatus?.value]);
 

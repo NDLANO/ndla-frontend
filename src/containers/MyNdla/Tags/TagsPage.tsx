@@ -47,6 +47,7 @@ const TagsPageContainer = styled.div`
   flex-direction: column;
   gap: ${spacing.xsmall};
   flex: 1;
+  margin-top: ${spacing.normal};
 `;
 
 const StyledSafeLinkButton = styled(SafeLinkButton)`
@@ -62,7 +63,7 @@ const CountWrapper = styled.div`
 `;
 
 const TagsPage = () => {
-  const { user } = useContext(AuthContext);
+  const { user, authContextLoaded } = useContext(AuthContext);
   const { trackPageView } = useTracker();
   const { folders } = useFolders();
   const { tag } = useParams();
@@ -81,8 +82,9 @@ const TagsPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (!authContextLoaded) return;
     trackPageView({ title: title, dimensions: getAllDimensions({ user }) });
-  }, [title, trackPageView, user]);
+  }, [authContextLoaded, title, trackPageView, user]);
 
   useEffect(() => {
     if (tag && !!previousResources?.length && resources.length === 0) {
@@ -152,7 +154,7 @@ const Resources = ({ resources }: ResourcesProps) => {
         <span>{t('myNdla.resources', { count: resources.length })}</span>
       </CountWrapper>
       <ListViewOptions type={viewType} onTypeChange={setViewType} />
-      <BlockWrapper type={viewType}>
+      <BlockWrapper data-type={viewType}>
         {resources.map((resource) => {
           const meta =
             keyedData[`${resource.resourceType}-${resource.resourceId}`];

@@ -46,14 +46,11 @@ import CreateFolderModal from './CreateFolderModal';
 import ResourceList from './ResourceList';
 import { getAllDimensions } from '../../../util/trackingUtil';
 
-interface BlockWrapperProps {
-  type?: string;
-}
-
 const FoldersPageContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${spacing.xsmall};
+  margin-top: ${spacing.normal};
 `;
 
 const OptionsWrapper = styled.div`
@@ -64,27 +61,34 @@ const OptionsWrapper = styled.div`
   }
 `;
 
-export const BlockWrapper = styled.ul<BlockWrapperProps>`
+export const BlockWrapper = styled.ul`
   display: flex;
   flex-direction: column;
   gap: ${spacing.xsmall};
   margin: 0;
   margin-bottom: ${spacing.medium};
-  padding: 0;
-  ${(props) =>
-    props.type === 'block' &&
-    css`
-      display: grid;
-      gap: ${spacing.normal};
-      margin-top: ${spacing.normal};
-      grid-template-columns: repeat(
-        3,
-        calc(33.33% - (${spacing.normal} / 3 * 2))
-      );
-      ${mq.range({ until: breakpoints.wide })} {
-        grid-template-columns: repeat(2, calc(50% - ${spacing.normal} / 2));
-      }
-    `};
+  padding: 0 0 0 ${spacing.medium};
+
+  &[data-type='block'] {
+    display: grid;
+    gap: ${spacing.normal};
+    margin-top: ${spacing.normal};
+    grid-template-columns: repeat(
+      3,
+      calc(33.33% - (${spacing.normal} / 3 * 2))
+    );
+    ${mq.range({ until: breakpoints.wide })} {
+      grid-template-columns: repeat(2, calc(50% - ${spacing.normal} / 2));
+    }
+  }
+
+  ${mq.range({ until: breakpoints.tablet })} {
+    padding: 0;
+  }
+
+  &[data-no-padding='true'] {
+    padding: 0;
+  }
 `;
 
 const iconCss = css`
@@ -115,7 +119,7 @@ export type ViewType = 'list' | 'block' | 'listLarger';
 const FoldersPage = () => {
   const { t } = useTranslation();
   const { folderId } = useParams();
-  const { user } = useContext(AuthContext);
+  const { user, authContextLoaded } = useContext(AuthContext);
   const { trackPageView } = useTracker();
   const [viewType, _setViewType] = useState<ViewType>(
     (localStorage.getItem(STORED_RESOURCE_VIEW_SETTINGS) as ViewType) || 'list',
@@ -149,8 +153,9 @@ const FoldersPage = () => {
   const [focusId, setFocusId] = useState<string | undefined>(undefined);
 
   useEffect(() => {
+    if (!authContextLoaded) return;
     trackPageView({ title, dimensions: getAllDimensions({ user }) });
-  }, [title, trackPageView, user]);
+  }, [authContextLoaded, title, trackPageView, user]);
 
   useEffect(() => {
     const folderIds = folders.map((f) => f.id).sort();

@@ -4035,6 +4035,7 @@ export type GQLEmbedOembedQuery = {
 
 export type GQLStructuredArticleData_CopyrightFragment = {
   __typename?: 'Copyright';
+  processed?: boolean;
   license: { __typename?: 'License'; url?: string };
   creators: Array<{ __typename?: 'Contributor'; name: string; type: string }>;
   processors: Array<{ __typename?: 'Contributor'; name: string; type: string }>;
