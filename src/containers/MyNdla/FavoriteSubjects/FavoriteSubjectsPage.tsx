@@ -97,11 +97,7 @@ const FavoriteSubjectsPage = () => {
     <MyNdlaPageWrapper>
       <Wrapper>
         <HelmetWithTracker title={t('myNdla.favoriteSubjects.title')} />
-        <MyNdlaBreadcrumb
-          page="subjects"
-          breadcrumbs={[]}
-          backCrumb={'minndla'}
-        />
+        <MyNdlaBreadcrumb page="subjects" breadcrumbs={[]} />
         <MyNdlaTitle title={t('myNdla.favoriteSubjects.title')} />
         <Container>
           <CountContainer>

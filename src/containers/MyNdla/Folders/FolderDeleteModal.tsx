@@ -43,7 +43,7 @@ const FolderDeleteModal = ({
   return (
     <Modal open={open} onOpenChange={setOpen}>
       <ModalTrigger>
-        <ButtonV2 variant="ghost" colorTheme="lighter">
+        <ButtonV2 variant="ghost" colorTheme="danger">
           <TrashCanOutline />
           {t('myNdla.folder.delete')}
         </ButtonV2>

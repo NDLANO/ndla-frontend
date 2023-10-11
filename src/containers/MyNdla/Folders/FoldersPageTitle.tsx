@@ -29,14 +29,6 @@ interface Props {
 
 const FoldersPageTitle = ({ loading, selectedFolder }: Props) => {
   const { t } = useTranslation();
-  const crumbs = selectedFolder?.breadcrumbs ?? [];
-
-  const backCrumb =
-    crumbs.length > 1
-      ? crumbs[crumbs.length - 2]!
-      : crumbs.length === 1
-      ? 'folders'
-      : 'minndla';
 
   return (
     <TitleWrapper>
@@ -64,7 +56,6 @@ const FoldersPageTitle = ({ loading, selectedFolder }: Props) => {
       >
         <MyNdlaBreadcrumb
           breadcrumbs={selectedFolder?.breadcrumbs ?? []}
-          backCrumb={backCrumb}
           page="folders"
         />
       </WhileLoading>

@@ -16,7 +16,7 @@ const StyledSafeLink = styled(SafeLink)`
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: ${spacing.small} ${spacing.xxsmall};
+  padding: ${spacing.small} ${spacing.xsmall};
   margin: 0;
   gap: ${spacing.xxsmall};
   box-shadow: none;
@@ -40,7 +40,7 @@ const StyledSafeLink = styled(SafeLink)`
     width: ${spacing.normal};
   }
 
-  ${mq.range({ from: breakpoints.tablet, until: breakpoints.desktop })} {
+  ${mq.range({ until: breakpoints.desktop })} {
     flex-direction: column;
   }
 `;
@@ -52,38 +52,41 @@ const IconWrapper = styled.span`
 `;
 
 const LongText = styled.span`
-  ${mq.range({ from: breakpoints.tablet, until: breakpoints.desktop })} {
+  ${mq.range({ until: breakpoints.desktop })} {
     display: none;
     width: 0px;
   }
 `;
 
 const ShortText = styled.span`
+  line-height: ${spacing.small};
   ${mq.range({ from: breakpoints.desktop })} {
     display: none;
   }
-  ${mq.range({ from: breakpoints.mobile, until: breakpoints.tablet })} {
-    display: none;
-  }
 `;
+
 interface Props {
   loading?: boolean;
   id: string;
   icon: ReactNode;
+  iconFilled?: ReactNode;
   name: string;
   shortName?: string;
   expanded?: boolean;
   to?: string;
+  onClick?: () => void;
 }
 
 const NavigationLink = ({
   loading,
   id,
   icon,
+  iconFilled,
   name,
   shortName,
   expanded,
   to,
+  onClick,
 }: Props) => {
   const location = useLocation();
   const selected = location.pathname === `/minndla/${id}`;
@@ -97,8 +100,9 @@ const NavigationLink = ({
       data-selected={selected}
       to={loading ? '' : to ? to : `/minndla/${id}`}
       reloadDocument={!!to}
+      onClick={onClick}
     >
-      <IconWrapper>{icon}</IconWrapper>
+      <IconWrapper>{selected ? iconFilled ?? icon : icon}</IconWrapper>
       <LongText>{name}</LongText>
       <ShortText>{shortName}</ShortText>
     </StyledSafeLink>

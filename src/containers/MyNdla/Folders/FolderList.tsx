@@ -43,16 +43,9 @@ interface Props {
   type: ViewType;
   folders: GQLFolder[];
   folderId: string | undefined;
-  onViewTypeChange: (type: ViewType) => void;
 }
 
-const FolderList = ({
-  loading,
-  type,
-  folders,
-  folderId,
-  onViewTypeChange,
-}: Props) => {
+const FolderList = ({ loading, type, folders, folderId }: Props) => {
   const { t } = useTranslation();
   const { sortFolders } = useSortFoldersMutation();
   const client = useApolloClient();
@@ -132,7 +125,6 @@ const FolderList = ({
             >
               {folders.map((folder, index) => (
                 <DraggableFolder
-                  onViewTypeChange={onViewTypeChange}
                   key={`folder-${folder.id}`}
                   folder={folder}
                   index={index}

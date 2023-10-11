@@ -21,7 +21,7 @@ import {
   useState,
 } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
 import { HelmetWithTracker, useTracker } from '@ndla/tracker';
 import { FileDocumentOutline, Share } from '@ndla/icons/common';
 import { Cross } from '@ndla/icons/action';
@@ -50,6 +50,7 @@ import FolderDeleteModal from './FolderDeleteModal';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
 import FolderCreateModal from './FolderCreateModal';
+import { OutletContext } from '../MyNdlaLayout';
 
 const FoldersPageContainer = styled.div`
   display: flex;
@@ -201,6 +202,7 @@ const FoldersPage = () => {
 
   const { updateFolderStatus } = useUpdateFolderStatusMutation();
   const { deleteFolder } = useDeleteFolderMutation();
+  const { setIsOpen } = useOutletContext<OutletContext>();
 
   const onFolderAdded = useCallback(
     (folder?: GQLFolder) => {
@@ -212,14 +214,16 @@ const FoldersPage = () => {
           }),
         });
         setFocusId(folder.id);
+        setIsOpen(false);
       }
     },
-    [addSnack, t],
+    [addSnack, t, setIsOpen],
   );
 
   const onFolderUpdated = useCallback(() => {
     addSnack({ id: 'folderUpdated', content: t('myNdla.folder.updated') });
-  }, [addSnack, t]);
+    setIsOpen(false);
+  }, [addSnack, t, setIsOpen]);
 
   const onDeleteFolder = useCallback(async () => {
     if (selectedFolder) {
@@ -235,8 +239,17 @@ const FoldersPage = () => {
           folderName: selectedFolder.name,
         }),
       });
+      setIsOpen(false);
     }
-  }, [addSnack, deleteFolder, folderId, navigate, selectedFolder, t]);
+  }, [
+    addSnack,
+    deleteFolder,
+    folderId,
+    navigate,
+    selectedFolder,
+    t,
+    setIsOpen,
+  ]);
 
   const setViewType = useCallback((type: ViewType) => {
     _setViewType(type);
@@ -256,10 +269,16 @@ const FoldersPage = () => {
         onUpdateStatus={async (close) => {
           close();
           unShareRef.current?.click();
+          setIsOpen(false);
         }}
         onCopyText={() => copyFolderSharingLink(selectedFolder.id)}
       >
-        <ButtonV2 colorTheme="lighter" variant="ghost" ref={previewRef}>
+        <ButtonV2
+          colorTheme="lighter"
+          variant="ghost"
+          ref={previewRef}
+          onClick={() => setIsOpen(false)}
+        >
           <Share />
           {t('myNdla.folder.sharing.button.share')}
         </ButtonV2>
@@ -282,6 +301,7 @@ const FoldersPage = () => {
             id: 'sharingDeleted',
             content: t('myNdla.folder.sharing.unShare'),
           });
+          setIsOpen(false);
         }}
       >
         <ButtonV2 variant="ghost" colorTheme="lighter" ref={unShareRef}>
@@ -307,6 +327,7 @@ const FoldersPage = () => {
             id: 'folderShared',
             content: t('myNdla.folder.sharing.header.shared'),
           });
+          setIsOpen(false);
         }}
       >
         <ButtonV2 variant="ghost" colorTheme="lighter" ref={shareRef}>
@@ -356,25 +377,26 @@ const FoldersPage = () => {
     onFolderAdded,
     previewRef,
     unShareRef,
+    setIsOpen,
     shareRef,
     addSnack,
     examLock,
     folderId,
     user,
     t,
-  ]);
+  ]).filter((btn) => !!btn);
+
+  const dropDownMenu = useMemo(
+    () => <FolderActions selectedFolder={selectedFolder} inToolbar={true} />,
+    [selectedFolder],
+  );
 
   return (
     <MyNdlaPageWrapper
-      dropDownMenu={
-        <FolderActions
-          viewType={viewType}
-          onViewTypeChange={setViewType}
-          selectedFolder={selectedFolder}
-          inToolbar={true}
-        />
-      }
+      dropDownMenu={dropDownMenu}
       buttons={toolbarButtons}
+      viewType={viewType}
+      onViewTypeChange={setViewType}
     >
       <FoldersPageContainer>
         <HelmetWithTracker title={title} />
@@ -404,7 +426,6 @@ const FoldersPage = () => {
           </OptionsWrapper>
         </StyledRow>
         <FolderList
-          onViewTypeChange={setViewType}
           type={viewType}
           folders={folders}
           loading={loading}

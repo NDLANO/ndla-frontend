@@ -23,7 +23,6 @@ interface Props {
   index: number;
   type: ViewType;
   foldersCount: Record<string, FolderTotalCount>;
-  onViewTypeChange: (type: ViewType) => void;
 }
 
 interface DraggableListItemProps {
@@ -46,13 +45,7 @@ export const DragWrapper = styled.div`
   flex-grow: 1;
 `;
 
-const DraggableFolder = ({
-  index,
-  folder,
-  type,
-  foldersCount,
-  onViewTypeChange,
-}: Props) => {
+const DraggableFolder = ({ index, folder, type, foldersCount }: Props) => {
   const { attributes, setNodeRef, transform, transition, items, isDragging } =
     useSortable({
       id: folder.id,
@@ -68,15 +61,8 @@ const DraggableFolder = ({
   };
 
   const menu = useMemo(
-    () => (
-      <FolderActions
-        key={folder.id}
-        selectedFolder={folder}
-        viewType={type}
-        onViewTypeChange={onViewTypeChange}
-      />
-    ),
-    [folder, onViewTypeChange, type],
+    () => <FolderActions key={folder.id} selectedFolder={folder} />,
+    [folder],
   );
 
   return (

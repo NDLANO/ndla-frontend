@@ -6,49 +6,63 @@
  *
  */
 
-import { useMemo, useContext } from 'react';
+import { useMemo, useContext, useState, Dispatch, SetStateAction } from 'react';
+import { Location, Outlet, useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
-import { breakpoints, colors, mq, spacing } from '@ndla/core';
+import { breakpoints, colors, mq, spacing, spacingUnit } from '@ndla/core';
 import { MessageBox, TreeStructure } from '@ndla/ui';
 import { FolderOutlined } from '@ndla/icons/contentType';
-import { HashTag, LogOut, Person } from '@ndla/icons/common';
-import { MenuBook } from '@ndla/icons/action';
+import {
+  Book,
+  BookOutlined,
+  HashTag,
+  LogOut,
+  ProfilePerson,
+  ProfilePersonOutlined,
+} from '@ndla/icons/common';
+import { Modal, ModalTrigger } from '@ndla/modal';
+import { IconButtonV2 } from '@ndla/button';
+import { DragHorizontal, Folder } from '@ndla/icons/editor';
 import { TFunction } from 'i18next';
-import { Outlet, useLocation } from 'react-router-dom';
 import { AuthContext } from '../../components/AuthenticationContext';
 import { useFolder, useFolders } from './folderMutations';
 import IsMobileContext from '../../IsMobileContext';
-import { toHref } from '../../util/urlHelper';
 import NavigationLink from './components/NavigationLink';
-
-const navigationLinks = (t: TFunction) => [
-  {
-    id: 'tags',
-    icon: <HashTag />,
-    name: t('myNdla.myTags'),
-    shortName: t('myNdla.iconMenu.tags'),
-  },
-  {
-    id: 'subjects',
-    icon: <MenuBook />,
-    name: t('myNdla.favoriteSubjects.title'),
-    shortName: t('myNdla.iconMenu.subjects'),
-  },
-];
+import { toHref } from '../../util/urlHelper';
 
 const StyledLayout = styled.div`
   display: flex;
   min-height: 60vh;
+  flex-direction: row;
+  ${mq.range({ until: breakpoints.mobileWide })} {
+    flex-direction: column;
+  }
 `;
 
 const StyledNavList = styled.ul`
   list-style: none;
-  padding: 0 1rem 0 0;
+  display: flex;
+  flex-direction: row;
+  margin: unset !important;
+  padding: unset;
+
+  ${mq.range({ from: breakpoints.mobileWide })} {
+    flex-direction: column;
+    padding: 0 1rem 0 0;
+  }
 `;
 
 const StyledLi = styled.li`
   margin: 0;
+
+  &:not(:nth-child(-n + 4)) {
+    display: none;
+  }
+
+  ${mq.range({ from: breakpoints.mobileWide })} {
+    display: unset !important;
+  }
 `;
 
 const StyledContent = styled.main`
@@ -58,25 +72,26 @@ const StyledContent = styled.main`
   padding-bottom: ${spacing.large};
 
   &[data-is-mobile='true'] {
-    margin: 0 ${spacing.nsmall};
+    padding: 0 ${spacing.nsmall} ${spacingUnit * 5}px ${spacing.nsmall};
   }
 `;
 
 const StyledSideBar = styled.div`
-  padding: 0 0 ${spacing.small} ${spacing.normal};
   display: flex;
-  gap: ${spacing.normal};
-  flex-direction: column;
-  min-width: 300px;
+  flex-direction: row;
   border-right: 1px solid ${colors.brand.lighter};
   background: ${colors.background.lightBlue};
+  justify-content: center;
 
-  ${mq.range({ until: breakpoints.desktop })} {
-    min-width: unset;
+  ${mq.range({ from: breakpoints.mobileWide })} {
+    padding: 0 0 ${spacing.small} ${spacing.normal};
   }
 
-  ${mq.range({ until: breakpoints.tablet })} {
-    display: none;
+  ${mq.range({ from: breakpoints.desktop })} {
+    justify-content: flex-start;
+    gap: ${spacing.normal};
+    flex-direction: column;
+    min-width: 300px;
   }
 `;
 
@@ -84,14 +99,31 @@ const MessageboxWrapper = styled.div`
   margin-bottom: ${spacing.nsmall};
 `;
 
-const LogOutIcon = styled(LogOut)`
-  height: ${spacing.normal};
-  width: ${spacing.normal};
-`;
-
 const TreeStructureWrapper = styled.div`
   ${mq.range({ until: breakpoints.desktop })} {
     display: none;
+  }
+`;
+
+const MoreButton = styled(IconButtonV2)`
+  display: flex;
+  flex-direction: column;
+  padding: ${spacing.small} ${spacing.xsmall};
+  gap: ${spacing.xxsmall};
+  line-height: ${spacing.small};
+
+  ${mq.range({ from: breakpoints.mobileWide })} {
+    display: none;
+  }
+`;
+
+const StyledDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  padding-bottom: ${spacing.small};
+
+  ${mq.range({ from: breakpoints.mobileWide })} {
+    flex-direction: column;
   }
 `;
 
@@ -103,10 +135,9 @@ const MyNdlaLayout = () => {
   const [page, folderId] = location.pathname
     .replace('/minndla/', '')
     .split('/');
-
   const selectedFolder = useFolder(folderId);
-
   const isMobile = useContext(IsMobileContext);
+  const [isOpen, setIsOpen] = useState(false);
 
   const defaultSelected = useMemo(() => {
     if (typeof page === 'string') {
@@ -120,78 +151,101 @@ const MyNdlaLayout = () => {
     return [];
   }, [selectedFolder?.breadcrumbs, folderId, page]);
 
-  const links = useMemo(() => {
-    return navigationLinks(t);
-  }, [t]);
-
   const showFolders =
     location.pathname.startsWith('/minndla/folders') && folders.length > 0;
 
   return (
     <StyledLayout>
-      <StyledSideBar>
-        <div>
-          <nav>
-            <StyledNavList role="tablist">
-              <StyledLi role="none">
-                <NavigationLink
-                  id=""
-                  name={t('myNdla.myPage.myPage')}
-                  shortName={t('myNdla.myNDLA')}
-                  icon={<Person />}
-                />
-              </StyledLi>
-              <StyledLi role="none">
-                <NavigationLink
-                  id="folders"
-                  name={t('myNdla.myFolders')}
-                  shortName={t('myNdla.iconMenu.folders')}
-                  icon={<FolderOutlined />}
-                  expanded={showFolders}
-                />
-                {showFolders && (
-                  <TreeStructureWrapper>
-                    <TreeStructure
-                      type="navigation"
-                      folders={folders}
-                      defaultOpenFolders={defaultSelected}
-                    />
-                  </TreeStructureWrapper>
+      <Modal open={isOpen} onOpenChange={setIsOpen}>
+        <StyledSideBar>
+          <StyledDiv>
+            <nav>
+              <StyledNavList role="tablist">
+                {menuActions(t, location).map(
+                  ({ name, shortName, id, icon, to, iconFilled }) => (
+                    <StyledLi key={id} role="none">
+                      <NavigationLink
+                        id={id}
+                        name={name}
+                        shortName={shortName}
+                        icon={icon}
+                        to={to}
+                        iconFilled={iconFilled}
+                      />
+                      {showFolders && id === 'folders' && (
+                        <TreeStructureWrapper>
+                          <TreeStructure
+                            type="navigation"
+                            folders={folders}
+                            defaultOpenFolders={defaultSelected}
+                          />
+                        </TreeStructureWrapper>
+                      )}
+                    </StyledLi>
+                  ),
                 )}
-              </StyledLi>
-              {links.map((link) => (
-                <StyledLi key={link.id} role="none">
-                  <NavigationLink
-                    id={link.id}
-                    name={link.name}
-                    shortName={link.shortName}
-                    icon={link.icon}
-                  />
-                </StyledLi>
-              ))}
-              <StyledLi role="none">
-                <NavigationLink
-                  id="logout-path"
-                  name={t('user.buttonLogOut')}
-                  shortName={t('user.buttonLogOut')}
-                  to={`/logout?state=${toHref(location)}`}
-                  icon={<LogOutIcon />}
-                />
-              </StyledLi>
-            </StyledNavList>
-          </nav>
-        </div>
-      </StyledSideBar>
-      <StyledContent data-is-mobile={isMobile}>
-        {examLock && (
-          <MessageboxWrapper>
-            <MessageBox>{t('myNdla.examLockInfo')}</MessageBox>
-          </MessageboxWrapper>
-        )}
-        <Outlet />
-      </StyledContent>
+              </StyledNavList>
+            </nav>
+            <ModalTrigger>
+              <MoreButton variant="stripped" aria-label="Mer">
+                <DragHorizontal />
+                {t('Mer')}
+              </MoreButton>
+            </ModalTrigger>
+          </StyledDiv>
+        </StyledSideBar>
+        <StyledContent data-is-mobile={isMobile}>
+          {examLock && (
+            <MessageboxWrapper>
+              <MessageBox>{t('myNdla.examLockInfo')}</MessageBox>
+            </MessageboxWrapper>
+          )}
+          <Outlet context={{ setIsOpen }} />
+        </StyledContent>
+      </Modal>
     </StyledLayout>
   );
 };
 
 export default MyNdlaLayout;
+
+export interface OutletContext {
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
+}
+
+export const menuActions = (t: TFunction, location: Location) => [
+  {
+    id: '',
+    name: t('myNdla.myPage.myPage'),
+    shortName: t('myNdla.myNDLA'),
+    icon: <ProfilePersonOutlined />,
+    iconFilled: <ProfilePerson />,
+  },
+  {
+    id: 'folders',
+    name: t('myNdla.myFolders'),
+    shortName: t('myNdla.iconMenu.folders'),
+    icon: <FolderOutlined />,
+    iconFilled: <Folder />,
+  },
+  {
+    id: 'subjects',
+    name: t('myNdla.favoriteSubjects.title'),
+    shortName: t('myNdla.iconMenu.subjects'),
+    icon: <BookOutlined />,
+    iconFilled: <Book />,
+  },
+  {
+    id: 'tags',
+    name: t('myNdla.myTags'),
+    shortName: t('myNdla.iconMenu.tags'),
+    icon: <HashTag />,
+  },
+  {
+    id: 'logout-path',
+    name: t('user.buttonLogOut'),
+    shortName: t('user.buttonLogOut'),
+    icon: <LogOut />,
+    to: `/logout?state=${toHref(location)}`,
+  },
+];

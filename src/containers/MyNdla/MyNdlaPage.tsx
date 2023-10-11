@@ -35,7 +35,6 @@ import {
   useFolderResourceMetaSearch,
   useRecentlyUsedResources,
 } from './folderMutations';
-import MyNdlaBreadcrumb from './components/MyNdlaBreadcrumb';
 import MyNdlaTitle from './components/MyNdlaTitle';
 import TitleWrapper from './components/TitleWrapper';
 import { constructNewPath, toHref } from '../../util/urlHelper';
@@ -150,11 +149,6 @@ const MyNdlaPage = () => {
       <StyledPageContentContainer>
         <HelmetWithTracker title={t('htmlTitles.myNdlaPage')} />
         <TitleWrapper>
-          <MyNdlaBreadcrumb
-            page="minndla"
-            breadcrumbs={[]}
-            backCrumb="minndla"
-          />
           <MyNdlaTitle title={t('myNdla.myPage.myPage')} />
         </TitleWrapper>
         <StyledDescription>{t('myNdla.myPage.welcome')}</StyledDescription>

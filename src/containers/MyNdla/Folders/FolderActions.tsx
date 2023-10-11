@@ -12,13 +12,12 @@ import { Link, Share } from '@ndla/icons/common';
 import { useCallback, useContext, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSnack } from '@ndla/ui';
+import concat from 'lodash/fp/concat';
 import { useNavigate, useParams } from 'react-router-dom';
 import { GQLFolder } from '../../../graphqlTypes';
-import { ViewType } from './FoldersPage';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import { copyFolderSharingLink, isStudent } from './util';
-import { MenuItemProps } from '../components/SettingsMenu';
-import FolderMenu from '../components/FolderMenu';
+import SettingsMenu, { MenuItemProps } from '../components/SettingsMenu';
 import { FolderShareModalContent } from './FolderShareModal';
 import {
   useAddFolderMutation,
@@ -30,21 +29,13 @@ import { FolderFormValues } from './FolderForm';
 import { CreateModalContent } from './FolderCreateModal';
 import { DeleteModalContent } from './FolderDeleteModal';
 import { EditFolderModalContent } from './FolderEditModal';
-import { concat } from 'lodash';
 
 interface Props {
   selectedFolder: GQLFolder | null;
-  viewType: ViewType;
-  onViewTypeChange: (type: ViewType) => void;
   inToolbar?: boolean;
 }
 
-const FolderActions = ({
-  selectedFolder,
-  viewType,
-  onViewTypeChange,
-  inToolbar = false,
-}: Props) => {
+const FolderActions = ({ selectedFolder, inToolbar = false }: Props) => {
   const { t } = useTranslation();
   const { addSnack } = useSnack();
   const { folderId } = useParams();
@@ -262,24 +253,19 @@ const FolderActions = ({
 
     return concat(actions, [editFolder, share, deleteOpt]);
   }, [
-    addSnack,
-    examLock,
-    onFolderAdded,
-    onDeleteFolder,
-    onFolderUpdated,
-    selectedFolder,
     updateFolderStatus,
+    onFolderUpdated,
+    onDeleteFolder,
+    selectedFolder,
+    onFolderAdded,
+    inToolbar,
+    examLock,
+    addSnack,
     user,
     t,
   ]);
 
-  return (
-    <FolderMenu
-      menuItems={actionItems}
-      viewType={viewType}
-      onViewTypeChange={onViewTypeChange}
-    />
-  );
+  return <SettingsMenu menuItems={actionItems} />;
 };
 
 export default FolderActions;
