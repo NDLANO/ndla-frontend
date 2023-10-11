@@ -6,7 +6,6 @@
  *
  */
 
-import { Remarkable } from 'remarkable';
 import { transform, TransformOptions } from '@ndla/article-converter';
 import { ReactNode } from 'react';
 import { GQLArticle } from '../graphqlTypes';
@@ -25,10 +24,6 @@ function getContent(
     components,
   });
 }
-
-const md = new Remarkable({ breaks: true });
-md.inline.ruler.enable(['sub', 'sup']);
-md.block.ruler.disable(['list']);
 
 export type BaseArticle = Pick<
   GQLArticle,
@@ -59,7 +54,7 @@ export const transformArticle = <T extends BaseArticle>(
   return {
     ...article,
     content,
-    introduction: transform(md.render(article.introduction ?? ''), {}),
+    introduction: transform(article.introduction ?? '', {}),
     created: formatDate(article.created, locale),
     updated: formatDate(article.updated, locale),
     published: formatDate(article.published, locale),
