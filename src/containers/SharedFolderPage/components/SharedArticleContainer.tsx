@@ -8,7 +8,7 @@
 
 import { gql } from '@apollo/client';
 import { OneColumn } from '@ndla/ui';
-import { useEffect, useMemo } from 'react';
+import { useContext, useEffect, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { TFunction, useTranslation } from 'react-i18next';
 import { useTracker } from '@ndla/tracker';
@@ -28,6 +28,7 @@ import { transformArticle } from '../../../util/transformArticle';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import AddEmbedToFolder from '../../../components/MyNdla/AddEmbedToFolder';
 import SocialMediaMetadata from '../../../components/SocialMediaMetadata';
+import { AuthContext } from '../../../components/AuthenticationContext';
 
 interface Props {
   article: GQLSharedResourceArticleContainer_ArticleFragment;
@@ -45,6 +46,7 @@ const SharedArticleContainer = ({
   title,
 }: Props) => {
   const { t, i18n } = useTranslation();
+  const { user, authContextLoaded } = useContext(AuthContext);
   const { trackPageView } = useTracker();
   useEffect(() => {
     if (window.MathJax && typeof window.MathJax.typeset === 'function') {
@@ -57,9 +59,9 @@ const SharedArticleContainer = ({
   });
 
   useEffect(() => {
-    if (propArticle) {
+    if (propArticle && authContextLoaded) {
       const dimensions = getAllDimensions(
-        { article: propArticle },
+        { article: propArticle, user },
         meta?.resourceTypes &&
           getContentTypeFromResourceTypes(meta.resourceTypes)?.label,
         true,
@@ -69,7 +71,14 @@ const SharedArticleContainer = ({
         title: getDocumentTitle(propArticle.title, t),
       });
     }
-  }, [meta?.resourceTypes, propArticle, t, trackPageView]);
+  }, [
+    authContextLoaded,
+    user,
+    meta?.resourceTypes,
+    propArticle,
+    t,
+    trackPageView,
+  ]);
 
   const [article, scripts] = useMemo(() => {
     return [

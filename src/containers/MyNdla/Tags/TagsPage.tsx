@@ -63,7 +63,7 @@ const CountWrapper = styled.div`
 `;
 
 const TagsPage = () => {
-  const { user } = useContext(AuthContext);
+  const { user, authContextLoaded } = useContext(AuthContext);
   const { trackPageView } = useTracker();
   const { folders } = useFolders();
   const { tag } = useParams();
@@ -82,8 +82,9 @@ const TagsPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (!authContextLoaded) return;
     trackPageView({ title: title, dimensions: getAllDimensions({ user }) });
-  }, [title, trackPageView, user]);
+  }, [authContextLoaded, title, trackPageView, user]);
 
   useEffect(() => {
     if (tag && !!previousResources?.length && resources.length === 0) {

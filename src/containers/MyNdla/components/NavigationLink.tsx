@@ -7,28 +7,28 @@
  */
 
 import styled from '@emotion/styled';
-import { colors, fonts, spacing } from '@ndla/core';
+import { breakpoints, colors, fonts, mq, spacing } from '@ndla/core';
 import { ReactNode } from 'react';
 import SafeLink from '@ndla/safelink';
 import { useLocation } from 'react-router-dom';
 
-interface StyledProps {
-  selected?: boolean;
-}
-
-const StyledSafeLink = styled(SafeLink)<StyledProps>`
-  display: grid;
-  grid-template-columns: ${spacing.medium} 1fr;
+const StyledSafeLink = styled(SafeLink)`
+  display: flex;
+  flex-direction: row;
   align-items: center;
   padding: ${spacing.small} ${spacing.xxsmall};
   margin: 0;
   gap: ${spacing.xxsmall};
   box-shadow: none;
 
-  color: ${({ selected }) =>
-    selected ? colors.brand.primary : colors.text.primary};
-  font-weight: ${({ selected }) =>
-    selected ? fonts.weight.semibold : fonts.weight.normal};
+  color: ${colors.text.primary};
+  font-weight: ${fonts.weight.normal};
+
+  &[data-selected='true'] {
+    color: ${colors.brand.primary};
+    font-weight: ${fonts.weight.semibold};
+  }
+
   ${fonts.sizes('16px')};
 
   :hover,
@@ -36,8 +36,12 @@ const StyledSafeLink = styled(SafeLink)<StyledProps>`
     color: ${colors.brand.primary};
   }
   svg {
-    height: 26px;
-    width: 26px;
+    height: ${spacing.normal};
+    width: ${spacing.normal};
+  }
+
+  ${mq.range({ from: breakpoints.tablet, until: breakpoints.desktop })} {
+    flex-direction: column;
   }
 `;
 
@@ -47,15 +51,40 @@ const IconWrapper = styled.span`
   justify-content: center;
 `;
 
+const LongText = styled.span`
+  ${mq.range({ from: breakpoints.tablet, until: breakpoints.desktop })} {
+    display: none;
+    width: 0px;
+  }
+`;
+
+const ShortText = styled.span`
+  ${mq.range({ from: breakpoints.desktop })} {
+    display: none;
+  }
+  ${mq.range({ from: breakpoints.mobile, until: breakpoints.tablet })} {
+    display: none;
+  }
+`;
 interface Props {
   loading?: boolean;
   id: string;
   icon: ReactNode;
   name: string;
+  shortName?: string;
   expanded?: boolean;
+  to?: string;
 }
 
-const NavigationLink = ({ loading, id, icon, name, expanded }: Props) => {
+const NavigationLink = ({
+  loading,
+  id,
+  icon,
+  name,
+  shortName,
+  expanded,
+  to,
+}: Props) => {
   const location = useLocation();
   const selected = location.pathname === `/minndla/${id}`;
 
@@ -65,11 +94,13 @@ const NavigationLink = ({ loading, id, icon, name, expanded }: Props) => {
       aria-expanded={expanded}
       aria-current={selected ? 'page' : undefined}
       tabIndex={0}
-      selected={selected}
-      to={loading ? '' : `/minndla/${id}`}
+      data-selected={selected}
+      to={loading ? '' : to ? to : `/minndla/${id}`}
+      reloadDocument={!!to}
     >
       <IconWrapper>{icon}</IconWrapper>
-      {name}
+      <LongText>{name}</LongText>
+      <ShortText>{shortName}</ShortText>
     </StyledSafeLink>
   );
 };

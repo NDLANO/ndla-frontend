@@ -6,13 +6,13 @@
  *
  */
 
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { gql } from '@apollo/client';
 import { Helmet } from 'react-helmet-async';
 import { useTracker } from '@ndla/tracker';
 import { TFunction, useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { constants, FeideUserApiType } from '@ndla/ui';
+import { constants } from '@ndla/ui';
 import { getArticleProps } from '../../util/getArticleProps';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { htmlTitle } from '../../util/titleHelper';
@@ -30,6 +30,7 @@ import {
   GQLLearningpathStep,
 } from '../../graphqlTypes';
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from '../../constants';
+import { AuthContext } from '../../components/AuthenticationContext';
 
 interface PropData {
   relevance: string;
@@ -45,7 +46,6 @@ interface Props {
   data: PropData;
   skipToContentId: string;
   stepId?: string;
-  user?: FeideUserApiType;
 }
 
 const LearningpathPage = ({
@@ -53,8 +53,8 @@ const LearningpathPage = ({
   skipToContentId,
   stepId,
   loading,
-  user,
 }: Props) => {
+  const { user, authContextLoaded } = useContext(AuthContext);
   const { t } = useTranslation();
   const { trackPageView } = useTracker();
   const navigate = useNavigate();
@@ -69,7 +69,7 @@ const LearningpathPage = ({
   });
 
   useEffect(() => {
-    if (loading || !data) return;
+    if (loading || !data || !authContextLoaded) return;
     const articleProps = getArticleProps(data.resource);
     const { resource, subject, topicPath, relevance } = data;
     const learningpath = resource?.learningpath;
@@ -92,7 +92,7 @@ const LearningpathPage = ({
       false,
     );
     trackPageView({ dimensions, title: getDocumentTitle(t, data, stepId) });
-  }, [data, loading, stepId, t, trackPageView, user]);
+  }, [authContextLoaded, data, loading, stepId, t, trackPageView, user]);
 
   const onKeyUpEvent = (evt: KeyboardEvent) => {
     const steps = data?.resource?.learningpath?.learningsteps;

@@ -6,7 +6,6 @@
  *
  */
 
-import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Spinner } from '@ndla/icons';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
@@ -18,7 +17,6 @@ import { useGraphQuery } from '../../util/runQueries';
 import { GQLSubjectsQuery, GQLSubjectInfoFragment } from '../../graphqlTypes';
 import { TypedParams, useTypedParams } from '../../routeHelpers';
 import OldProgrammeContainer from './OldProgrammeContainer';
-import { AuthContext } from '../../components/AuthenticationContext';
 
 export interface GradesData {
   name: string;
@@ -81,7 +79,6 @@ export const getGradeNameFromProgramme = (
 const OldProgrammePage = () => {
   const { i18n } = useTranslation();
   const { programme: slug, grade: gradeParam } = useTypedParams<MatchParams>();
-  const { user } = useContext(AuthContext);
   const { loading, data } = useGraphQuery<GQLSubjectsQuery>(subjectsQuery);
   const programmeData = getProgrammeBySlug(slug, i18n.language);
   const grade = getGradeNameFromProgramme(gradeParam, programmeData);
@@ -104,7 +101,6 @@ const OldProgrammePage = () => {
       subjects={data.subjects}
       grade={grade}
       locale={i18n.language}
-      user={user}
     />
   );
 };

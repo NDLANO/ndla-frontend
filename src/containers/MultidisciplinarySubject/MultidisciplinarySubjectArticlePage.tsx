@@ -7,7 +7,6 @@
  */
 
 import { gql } from '@apollo/client';
-import { useContext } from 'react';
 import { ContentPlaceholder } from '@ndla/ui';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
@@ -23,7 +22,6 @@ import {
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import { htmlTitle } from '../../util/titleHelper';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
-import { AuthContext } from '../../components/AuthenticationContext';
 import { SKIP_TO_CONTENT_ID } from '../../constants';
 
 const multidisciplinarySubjectArticlePageQuery = gql`
@@ -57,7 +55,6 @@ const multidisciplinarySubjectArticlePageQuery = gql`
 
 const MultidisciplinarySubjectArticlePage = () => {
   const { t } = useTranslation();
-  const { user } = useContext(AuthContext);
   const { topicId, subjectId } = useUrnIds();
 
   const { data, loading } = useGraphQuery<
@@ -110,7 +107,6 @@ const MultidisciplinarySubjectArticlePage = () => {
         topic={topic}
         subject={subject}
         resourceTypes={resourceTypes}
-        user={user}
       />
     </>
   );
