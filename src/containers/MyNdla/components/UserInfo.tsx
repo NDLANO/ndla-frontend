@@ -19,6 +19,10 @@ interface Props {
   user: FeideUserApiType;
 }
 
+const StyledComponentContainer = styled.div`
+  max-width: 700px;
+`;
+
 const ShortInfoDiv = styled.div`
   margin: 2rem auto;
 `;
@@ -32,9 +36,9 @@ export const UserInfo = ({ user }: Props) => {
   const parsedUser = parseUserObject(user);
 
   return (
-    <div>
+    <StyledComponentContainer>
       {
-        <p>
+        <div>
           {t('user.loggedInAs', {
             role: t(
               `user.role.${
@@ -44,27 +48,27 @@ export const UserInfo = ({ user }: Props) => {
               }`,
             ),
           })}
-        </p>
+        </div>
       }
       <ShortInfoDiv>
         <div>
-          {t('user.username')}: <b>{user.uid}</b>
+          {t('user.username')}: {user.uid}
         </div>
         <div>
-          {t('user.name')}: <b>{user.displayName}</b>
+          {t('user.name')}: {user.displayName}
         </div>
         <div>
-          {t('user.mail')}: <b>{user.mail?.join(', ')}</b>
+          {t('user.mail')}: {user.mail?.join(', ')}
         </div>
         {user.preferredLanguage && (
           <div>
             {t('user.preferredLanguage')}:{' '}
-            <b>{t(`languages.${user.preferredLanguage}`)}</b>
+            {t(`languages.${user.preferredLanguage}`)}
           </div>
         )}
         {user.mobile && (
           <div>
-            {t('user.mobile')}: <b>{user.mobile}</b>
+            {t('user.mobile')}: {user.mobile}
           </div>
         )}
       </ShortInfoDiv>
@@ -108,6 +112,6 @@ export const UserInfo = ({ user }: Props) => {
           </li>
         </InfoList>
       )}
-    </div>
+    </StyledComponentContainer>
   );
 };

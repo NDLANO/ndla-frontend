@@ -41,10 +41,10 @@ const StyledUserInitials = styled.div`
 `;
 
 const StyledDesktopButtonContainer = styled.div`
-  ${mq.range({ until: breakpoints.tabletWide })} {
+  ${mq.range({ until: breakpoints.tablet })} {
     display: none;
   }
-  ${mq.range({ from: breakpoints.tabletWide })} {
+  ${mq.range({ from: breakpoints.tablet })} {
     position: absolute;
     bottom: 0px;
     left: 125px;

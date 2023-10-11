@@ -11,7 +11,6 @@ import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { breakpoints, fonts, mq, spacing } from '@ndla/core';
-import { UserInfo } from '@ndla/ui';
 import { ButtonV2 } from '@ndla/button';
 import SafeLink from '@ndla/safelink';
 import { HelmetWithTracker, useTracker } from '@ndla/tracker';
@@ -33,6 +32,7 @@ import { useDeletePersonalData } from '../userMutations';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import MyPreferences from './components/MyPreferences';
 import MyContactArea from './components/MyContactArea';
+import { UserInfo } from '../components/UserInfo';
 
 const StyledPageContentContainer = styled.div`
   display: flex;
@@ -113,18 +113,18 @@ const MyProfilePage = () => {
       </StyledHeading>
       <MyContactArea user={user} />
       <MyPreferences />
-      {user && (
-        <InfoPart title={t('myNdla.myPage.feide')} icon={''}>
-          <UserInfo user={user} />
-          <p>
-            {t('user.wrongUserInfoDisclaimer')}
-            <SafeLink to="https://feide.no/brukerstotte">
-              feide.no/brukerstotte
-            </SafeLink>
-          </p>
-        </InfoPart>
-      )}
       <InfoContainer>
+        {user && (
+          <InfoPart title={t('myNdla.myPage.feide')} icon={''}>
+            <UserInfo user={user} />
+            <span>
+              {t('user.wrongUserInfoDisclaimer')}
+              <SafeLink to="https://feide.no/brukerstotte">
+                feide.no/brukerstotte
+              </SafeLink>
+            </span>
+          </InfoPart>
+        )}
         <LinkText>
           {`${t('myNdla.myPage.questions.question')} `}
           <ButtonV2

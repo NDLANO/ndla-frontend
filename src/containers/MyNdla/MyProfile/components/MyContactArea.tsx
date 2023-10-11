@@ -9,9 +9,8 @@
 import styled from '@emotion/styled';
 import { fonts, colors, spacing, breakpoints, mq } from '@ndla/core';
 import { Heading } from '@ndla/typography';
-// eslint-disable-next-line no-restricted-imports
-import { parseUserObject } from '@ndla/ui/lib/User/parseUserObject';
 import { FeideUserApiType } from '@ndla/ui';
+import { parseUserObject } from '../../components/parseUserObject';
 import UserAvatar from './UserAvatar';
 import EditProfilePicture from './EditProfilePicture';
 
@@ -62,7 +61,7 @@ const StyledUserCountyText = styled.div`
 
 const StyledMobileButtonContainer = styled.div`
   padding-top: ${spacing.xxsmall};
-  ${mq.range({ from: breakpoints.tabletWide })} {
+  ${mq.range({ from: breakpoints.tablet })} {
     display: none;
   }
 `;
