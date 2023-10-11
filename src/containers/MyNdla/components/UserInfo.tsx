@@ -46,31 +46,29 @@ export const UserInfo = ({ user }: Props) => {
           })}
         </p>
       }
-
       <ShortInfoDiv>
-        <div data-hj-suppress>
+        <div>
           {t('user.username')}: <b>{user.uid}</b>
         </div>
-        <div data-hj-suppress>
+        <div>
           {t('user.name')}: <b>{user.displayName}</b>
         </div>
-        <div data-hj-suppress>
+        <div>
           {t('user.mail')}: <b>{user.mail?.join(', ')}</b>
         </div>
         {user.preferredLanguage && (
-          <div data-hj-suppress>
+          <div>
             {t('user.preferredLanguage')}:{' '}
             <b>{t(`languages.${user.preferredLanguage}`)}</b>
           </div>
         )}
         {user.mobile && (
-          <div data-hj-suppress>
+          <div>
             {t('user.mobile')}: <b>{user.mobile}</b>
           </div>
         )}
       </ShortInfoDiv>
-
-      <InfoList data-hj-suppress>
+      <InfoList>
         {parsedUser.organizations.map((org) => (
           <li key={org.id}>
             {`${org.displayName}${
@@ -99,7 +97,7 @@ export const UserInfo = ({ user }: Props) => {
         ))}
       </InfoList>
       {parsedUser.grepCodes.length > 0 && (
-        <InfoList data-hj-suppress>
+        <InfoList>
           <li key="grepCodes">
             {t('user.groupTypes.grepCode')}
             <InfoList>
