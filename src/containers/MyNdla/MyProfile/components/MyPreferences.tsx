@@ -45,42 +45,6 @@ const SelectOtionContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${spacing.small};
-  /* background-color: blue; */
-  .RadioButtonGroupWrapper & {
-    display: flex;
-    flex-direction: column;
-    gap: ${spacing.small};
-    border: 2px;
-    background-color: red;
-  }
-  > * {
-    /* background-color: red; */
-  }
-`;
-
-const StyledRadioButtonGroup = styled(RadioButtonGroup)`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-  border: 2px;
-  border-color: azure;
-  background-color: red;
-  .RadioButtonGroupWrapper & {
-    & ~ & {
-      background-color: aqua;
-    }
-    > * {
-      background-color: aqua;
-    }
-    flex-direction: column;
-    background-color: aqua;
-  }
-  > * {
-    background-color: aqua;
-  }
-  & ~ & {
-    background-color: aqua;
-  }
 `;
 
 const MyPreferences = () => {
@@ -112,7 +76,7 @@ const MyPreferences = () => {
         <StyledText>{t('myndla.myProfile.preferenceText')}</StyledText>
       </OptionContainer>
       <SelectOtionContainer>
-        <StyledRadioButtonGroup
+        <RadioButtonGroup
           options={[
             {
               title: 'Vis navnet mitt når jeg deler en mappe',

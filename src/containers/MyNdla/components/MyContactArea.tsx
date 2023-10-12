@@ -10,15 +10,16 @@ import styled from '@emotion/styled';
 import { fonts, colors, spacing, breakpoints, mq } from '@ndla/core';
 import { Heading } from '@ndla/typography';
 import { FeideUserApiType } from '@ndla/ui';
-import { parseUserObject } from '../../components/parseUserObject';
-import UserAvatar from './UserAvatar';
-import EditProfilePicture from './EditProfilePicture';
+import { parseUserObject } from './parseUserObject';
+import UserAvatar from '../MyProfile/components/UserAvatar';
+import EditProfilePicture from '../MyProfile/components/EditProfilePicture';
 
 type MyContractAreaProps = {
   user: FeideUserApiType | undefined;
+  showProfileButton?: boolean;
 };
 
-const StyledMyContactAreaContainer = styled.div`
+const MyContactAreaContainer = styled.div`
   max-width: 100%;
   max-height: fit-content;
   padding: ${spacing.large} 0;
@@ -31,7 +32,7 @@ const StyledMyContactAreaContainer = styled.div`
   gap: ${spacing.small};
 `;
 
-const StyledAvatarContainer = styled.div`
+const AvatarContainer = styled.div`
   max-width: 250px;
   max-height: 250px;
 `;
@@ -40,40 +41,44 @@ const StyledUserNameHeading = styled(Heading)`
   ${fonts.sizes('30px', '38px')}
 `;
 
-const StyledUserInfoContainer = styled.div`
+const UserInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${spacing.xxsmall};
   align-items: center;
 `;
 
-const StyledUserWorkPlaceText = styled.div`
+const UserWorkPlaceText = styled.div`
   ${fonts.sizes('18px', '24px')};
   font-weight: ${fonts.weight.bold};
   text-transform: uppercase;
   color: ${colors.brand.primary};
 `;
 
-const StyledUserCountyText = styled.div`
+const UserCountyText = styled.div`
   ${fonts.sizes('16px', '26px')};
   color: ${colors.brand.primary};
 `;
 
-const StyledMobileButtonContainer = styled.div`
+const MobileButtonContainer = styled.div`
   padding-top: ${spacing.xxsmall};
   ${mq.range({ from: breakpoints.tablet })} {
     display: none;
   }
 `;
 
-const MyContactArea = ({ user }: MyContractAreaProps) => {
+const MyContactArea = ({ user, showProfileButton }: MyContractAreaProps) => {
   const parsedUser = user && parseUserObject(user);
 
   return (
-    <StyledMyContactAreaContainer>
-      <StyledAvatarContainer>
-        <UserAvatar hasUploadedAvatar userName={user?.displayName} />
-      </StyledAvatarContainer>
+    <MyContactAreaContainer>
+      <AvatarContainer>
+        <UserAvatar
+          hasUploadedAvatar={false}
+          userName="John Superman"
+          showProfileButton
+        />
+      </AvatarContainer>
       <StyledUserNameHeading
         element="h2"
         id="userName"
@@ -82,21 +87,22 @@ const MyContactArea = ({ user }: MyContractAreaProps) => {
       >
         {user?.displayName}
       </StyledUserNameHeading>
-      <StyledUserInfoContainer>
-        <StyledUserWorkPlaceText>
+      <UserInfoContainer>
+        <UserWorkPlaceText>
           {user?.primarySchool?.displayName}
-        </StyledUserWorkPlaceText>
-        <StyledUserCountyText>
+        </UserWorkPlaceText>
+        <UserCountyText>
           {parsedUser &&
             parsedUser.organizations.length > 0 &&
             parsedUser.organizations.at(0)?.displayName}
-        </StyledUserCountyText>
-      </StyledUserInfoContainer>
-      {/* Check for path to display the button. Only show in My Profile to make component generic */}
-      <StyledMobileButtonContainer>
-        <EditProfilePicture />
-      </StyledMobileButtonContainer>
-    </StyledMyContactAreaContainer>
+        </UserCountyText>
+      </UserInfoContainer>
+      {showProfileButton && (
+        <MobileButtonContainer>
+          <EditProfilePicture />
+        </MobileButtonContainer>
+      )}
+    </MyContactAreaContainer>
   );
 };
 export default MyContactArea;

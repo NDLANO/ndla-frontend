@@ -14,33 +14,38 @@ import EditProfilePicture from './EditProfilePicture';
 type UserAvatarProps = {
   hasUploadedAvatar: boolean;
   userName: string | undefined;
+  showProfileButton?: boolean;
 };
 
-const StyledUserAvatarContainer = styled.div<UserAvatarProps>`
+const UserAvatarContainer = styled.div`
+  position: relative;
+`;
+
+const StyledUserAvatarWrapper = styled.div<UserAvatarProps>`
   width: 250px;
   height: 250px;
-  border-radius: 250px;
   ${({ hasUploadedAvatar }) =>
     hasUploadedAvatar
       ? css`
+          border-radius: 249px;
           border: 1px solid ${colors.brand.tertiary};
         `
       : css`
+          border-radius: 246px;
           border: 4px solid ${colors.brand.tertiary};
         `};
   background-color: ${colors.background.default};
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative;
 `;
 
-const StyledUserInitials = styled.div`
+const UserInitials = styled.div`
   ${fonts.sizes('130px', '24px')};
   color: ${colors.brand.dark};
 `;
 
-const StyledDesktopButtonContainer = styled.div`
+const DesktopButtonContainer = styled.div`
   ${mq.range({ until: breakpoints.tablet })} {
     display: none;
   }
@@ -51,7 +56,12 @@ const StyledDesktopButtonContainer = styled.div`
   }
 `;
 
-const UserAvatar = ({ hasUploadedAvatar, userName }: UserAvatarProps) => {
+const UserAvatar = ({
+  hasUploadedAvatar,
+  userName,
+  showProfileButton,
+}: UserAvatarProps) => {
+  // regex to get user initials
   const initials = userName
     ?.match(/(^\S\S?|\s\S)?/g)
     ?.map((v) => v.trim())
@@ -61,16 +71,19 @@ const UserAvatar = ({ hasUploadedAvatar, userName }: UserAvatarProps) => {
     .toLocaleUpperCase();
 
   return (
-    <StyledUserAvatarContainer
-      hasUploadedAvatar={hasUploadedAvatar}
-      userName={userName}
-    >
-      <StyledUserInitials>{initials}</StyledUserInitials>
-      {/* Check for path to display the button. Only show in My Profile to make component generic */}
-      <StyledDesktopButtonContainer>
-        <EditProfilePicture />
-      </StyledDesktopButtonContainer>
-    </StyledUserAvatarContainer>
+    <UserAvatarContainer>
+      <StyledUserAvatarWrapper
+        hasUploadedAvatar={hasUploadedAvatar}
+        userName={userName}
+      >
+        <UserInitials>{initials}</UserInitials>
+      </StyledUserAvatarWrapper>
+      {showProfileButton && (
+        <DesktopButtonContainer>
+          <EditProfilePicture />
+        </DesktopButtonContainer>
+      )}
+    </UserAvatarContainer>
   );
 };
 

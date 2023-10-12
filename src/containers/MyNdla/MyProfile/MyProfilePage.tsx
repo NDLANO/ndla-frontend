@@ -31,7 +31,7 @@ import { useBaseName } from '../../../components/BaseNameContext';
 import { useDeletePersonalData } from '../userMutations';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import MyPreferences from './components/MyPreferences';
-import MyContactArea from './components/MyContactArea';
+import MyContactArea from '../components/MyContactArea';
 import { UserInfo } from '../components/UserInfo';
 
 const StyledPageContentContainer = styled.div`
@@ -111,7 +111,7 @@ const MyProfilePage = () => {
       >
         {t('myndla.myProfile.title')}
       </StyledHeading>
-      <MyContactArea user={user} />
+      <MyContactArea user={user} showProfileButton />
       <MyPreferences />
       <InfoContainer>
         {user && (
