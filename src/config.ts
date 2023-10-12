@@ -89,17 +89,16 @@ const logglyApiKey = (): string | undefined => {
 };
 
 export const allowedAIOrgs = () => {
-  const defaultList = ['Rogaland fylkeskommune'];
+  const defaultList = ['Rogaland fylkeskommune', 'Nordland fylkeskommune'];
   if (['local', 'dev'].includes(ndlaEnvironment)) {
     return [...defaultList, 'Universitetet i Rogn']; // frank_foreleser
   }
-  if (['test', 'staging'].includes(ndlaEnvironment)) {
+  if (['test'].includes(ndlaEnvironment)) {
     return [
       ...defaultList,
       'Agder fylkeskommune',
       'Innlandet fylkeskommune',
       'Møre og Romsdal fylkeskommune',
-      'Nordland fylkeskommune',
       'Troms og Finnmark fylkeskommune',
       'Trøndelag fylkeskommune',
       'Vestfold og Telemark fylkeskommune',
