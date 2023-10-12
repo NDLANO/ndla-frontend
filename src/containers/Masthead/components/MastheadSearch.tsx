@@ -2,7 +2,7 @@ import { useState, useRef, useEffect, FormEvent } from 'react';
 import { SearchField, SearchResultSleeve, SearchFieldForm } from '@ndla/ui';
 import queryString from 'query-string';
 import { gql, useLazyQuery } from '@apollo/client';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import debounce from 'lodash/debounce';
 
 import { useTranslation } from 'react-i18next';
@@ -63,12 +63,17 @@ const StyledDrawer = styled(Drawer)`
 const MastheadSearch = ({ subject }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const ndlaFilm = useIsNdlaFilm();
+  const { pathname } = useLocation();
   const navigate = useNavigate();
   const { t } = useTranslation();
   const inputRef = useRef(null);
   const [query, setQuery] = useState('');
   const [delayedSearchQuery, setDelayedQuery] = useState('');
   const [subjects, setSubjects] = useState(subject ? subject.id : undefined);
+
+  useEffect(() => {
+    setQuery('');
+  }, [pathname]);
 
   const [runSearch, { loading, data: searchResult = {}, error }] = useLazyQuery<
     GQLGroupSearchQuery,
