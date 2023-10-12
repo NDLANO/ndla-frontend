@@ -173,6 +173,14 @@ const MyNdlaLayout = () => {
                   </TreeStructureWrapper>
                 )}
               </StyledLi>
+              <StyledLi role="none">
+                <NavigationLink
+                  id="profile"
+                  name="Min Profil"
+                  shortName="Profil"
+                  icon={<Person />}
+                />
+              </StyledLi>
               {links.map((link) => (
                 <StyledLi key={link.id} role="none">
                   <NavigationLink

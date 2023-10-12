@@ -75,7 +75,7 @@ const MyContactArea = ({ user, showProfileButton }: MyContractAreaProps) => {
       <AvatarContainer>
         <UserAvatar
           hasUploadedAvatar={false}
-          userName="John Superman"
+          userName={user?.displayName}
           showProfileButton
         />
       </AvatarContainer>
