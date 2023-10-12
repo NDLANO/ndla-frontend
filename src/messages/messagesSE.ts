@@ -28,6 +28,10 @@ const messages = {
     myTagsPage: `Mu lihput - ${titleTemplate}`,
     aboutPage: `{{name}} - ${titleTemplate}`,
   },
+  programmes: {
+    header: 'Maid háliidat oahppat odne?',
+    description: 'Vállje oahppoprográmma vai oainnát iežat fágaid',
+  },
   podcastPage: {
     episodes: 'Episoder',
     podcast: 'Podkast',
@@ -41,6 +45,16 @@ const messages = {
     linkText: 'Sjå forslag',
     ingress:
       'Sjå våre forslag til aktivitetar og årsplanar. Gode resultat startar med god planlegging.',
+  },
+  myndla: {
+    campaignBlock: {
+      title: 'Geahččal min ságastallanbottu',
+      linkText: 'Geahččal NDLA ságastallanrobohta',
+      ingressStudent:
+        'Lea go dus juoga maid háliidat oahppat iežat fágas? Háliidatgo veahki teavstta álkidahttit, hárjehallat geahččalit dahje evttohit mo teavstta hábmet? Geahččal min ságastallanrobahttii ja oainnát sáhttágo dat veahkehit du!',
+      ingress:
+        'Áiggut go AI geavahit oahpahusas? NDLA lea ráhkadan guokte hupmanrobota mat suodjalit du priváhtavuođa ja maid sáhttá geavahit sihkkarit sihke barggus ja oahpahusas.',
+    },
   },
   blogPosts: {
     blog1: {

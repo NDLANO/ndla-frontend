@@ -1,9 +1,8 @@
 import { gql } from '@apollo/client';
-import { Dispatch, SetStateAction, useContext } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Spinner } from '@ndla/icons';
 import { SimpleBreadcrumbItem } from '@ndla/ui';
-import { AuthContext } from '../../../components/AuthenticationContext';
 import Topic, { topicFragments } from './Topic';
 import { useGraphQuery } from '../../../util/runQueries';
 import handleError, { isAccessDeniedError } from '../../../util/handleError';
@@ -52,7 +51,6 @@ const TopicWrapper = ({
   index,
 }: Props) => {
   const navigate = useNavigate();
-  const { user } = useContext(AuthContext);
   const { data, loading, error } = useGraphQuery<
     GQLTopicWrapperQuery,
     GQLTopicWrapperQueryVariables
@@ -98,7 +96,6 @@ const TopicWrapper = ({
       showResources={showResources}
       subject={subject}
       loading={loading}
-      user={user}
     />
   );
 };

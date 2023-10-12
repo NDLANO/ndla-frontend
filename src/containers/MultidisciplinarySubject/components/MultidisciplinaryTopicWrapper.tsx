@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 import { Spinner } from '@ndla/icons';
-import { FeideUserApiType, SimpleBreadcrumbItem } from '@ndla/ui';
+import { SimpleBreadcrumbItem } from '@ndla/ui';
 import { Dispatch, SetStateAction } from 'react';
 import { useGraphQuery } from '../../../util/runQueries';
 import MultidisciplinaryTopic, {
@@ -22,7 +22,6 @@ interface Props {
   setCrumbs: Dispatch<SetStateAction<SimpleBreadcrumbItem[]>>;
   disableNav?: boolean;
   index: number;
-  user?: FeideUserApiType;
 }
 
 const multidisciplinaryTopicWrapperQuery = gql`
@@ -47,7 +46,6 @@ const MultidisciplinaryTopicWrapper = ({
   setCrumbs,
   index,
   disableNav,
-  user,
 }: Props) => {
   const { data, loading } = useGraphQuery<
     GQLMultidisciplinaryTopicWrapperQuery,
@@ -87,7 +85,6 @@ const MultidisciplinaryTopicWrapper = ({
       subTopicId={subTopicId}
       subject={subject}
       disableNav={disableNav}
-      user={user}
     />
   );
 };

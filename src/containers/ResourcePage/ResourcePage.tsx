@@ -27,7 +27,6 @@ import { RELEVANCE_SUPPLEMENTARY, SKIP_TO_CONTENT_ID } from '../../constants';
 import { isAccessDeniedError } from '../../util/handleError';
 import AccessDeniedPage from '../AccessDeniedPage/AccessDeniedPage';
 import { GQLResource, GQLResourcePageQuery } from '../../graphqlTypes';
-import { AuthContext } from '../../components/AuthenticationContext';
 import RedirectContext, {
   RedirectInfo,
 } from '../../components/RedirectContext';
@@ -85,7 +84,6 @@ const resourcePageQuery = gql`
 `;
 const ResourcePage = () => {
   const { t } = useTranslation();
-  const { user } = useContext(AuthContext);
   const { subjectId, resourceId, topicId, stepId } = useUrnIds();
   const location = useLocation();
   const { error, loading, data } = useGraphQuery<GQLResourcePageQuery>(
@@ -153,7 +151,6 @@ const ResourcePage = () => {
       <LearningpathPage
         skipToContentId={SKIP_TO_CONTENT_ID}
         stepId={stepId}
-        user={user}
         data={{ ...data, relevance, topicPath }}
         loading={loading}
       />
@@ -170,7 +167,6 @@ const ResourcePage = () => {
       resourceTypes={data.resourceTypes}
       errors={error?.graphQLErrors}
       loading={loading}
-      user={user}
     />
   );
 };

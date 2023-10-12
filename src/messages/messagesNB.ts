@@ -29,6 +29,10 @@ const messages = {
     sharedFolderPage: `{{name}} - ${titleTemplate}`,
     aboutPage: `{{name}} - ${titleTemplate}`,
   },
+  programmes: {
+    header: 'Hva vil du lære om i dag?',
+    description: 'Velg utdanningsprogram for å se dine fag',
+  },
   podcastPage: {
     episodes: 'Episoder',
     podcast: 'Podkast',
@@ -42,6 +46,16 @@ const messages = {
     linkText: 'Se forslag',
     ingress:
       'Se våre forslag til aktiviteter og årsplaner. Gode resultater starter med god planlegging.',
+  },
+  myndla: {
+    campaignBlock: {
+      title: 'Prøv vår praterobot',
+      linkText: 'Prøv NDLAs prateroboter',
+      ingressStudent:
+        'Lurer du på noe i faget ditt? Vil du ha hjelp til å forenkle en tekst, øve til en prøve eller få forslag til en disposisjon? Prøv prateroboten vår og se om den kan hjelpe deg!',
+      ingress:
+        'Vil du bruke AI i undervisninga? NDLA har laget to prateroboter som tar vare på personvernet ditt og trygt kan brukes til jobb og i undervisning.',
+    },
   },
   blogPosts: {
     blog1: {

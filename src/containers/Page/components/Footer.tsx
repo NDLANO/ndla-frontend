@@ -15,7 +15,17 @@ import {
   Youtube,
 } from '@ndla/icons/common';
 import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
 import { supportedLanguages } from '../../../i18n';
+
+const FooterTextWrapper = styled.div`
+  p:first-of-type {
+    margin-bottom: 0;
+  }
+  p:last-of-type {
+    margin-top: 0;
+  }
+`;
 
 const FooterWrapper = () => {
   const { t, i18n } = useTranslation();
@@ -71,10 +81,15 @@ const FooterWrapper = () => {
       }
       privacyLinks={privacyLinks}
     >
-      <FooterText>
-        <EditorName title={t('footer.editorInChief')} name="Sigurd Trageton" />
-        {t('footer.info')}
-      </FooterText>
+      <FooterTextWrapper>
+        <FooterText>
+          <EditorName
+            title={t('footer.editorInChief')}
+            name="Sigurd Trageton"
+          />
+        </FooterText>
+        <FooterText>{t('footer.info')}</FooterText>
+      </FooterTextWrapper>
     </Footer>
   );
 };

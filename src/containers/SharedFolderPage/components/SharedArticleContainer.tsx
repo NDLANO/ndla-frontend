@@ -8,7 +8,7 @@
 
 import { gql } from '@apollo/client';
 import { OneColumn } from '@ndla/ui';
-import { useEffect, useMemo } from 'react';
+import { useContext, useEffect, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { TFunction, useTranslation } from 'react-i18next';
 import { useTracker } from '@ndla/tracker';
@@ -27,6 +27,8 @@ import { structuredArticleDataFragment } from '../../../util/getStructuredDataFr
 import { transformArticle } from '../../../util/transformArticle';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import AddEmbedToFolder from '../../../components/MyNdla/AddEmbedToFolder';
+import SocialMediaMetadata from '../../../components/SocialMediaMetadata';
+import { AuthContext } from '../../../components/AuthenticationContext';
 
 interface Props {
   article: GQLSharedResourceArticleContainer_ArticleFragment;
@@ -38,8 +40,13 @@ const converterComponents: DynamicComponents = {
   heartButton: AddEmbedToFolder,
 };
 
-const SharedArticleContainer = ({ article: propArticle, meta }: Props) => {
+const SharedArticleContainer = ({
+  article: propArticle,
+  meta,
+  title,
+}: Props) => {
   const { t, i18n } = useTranslation();
+  const { user, authContextLoaded } = useContext(AuthContext);
   const { trackPageView } = useTracker();
   useEffect(() => {
     if (window.MathJax && typeof window.MathJax.typeset === 'function') {
@@ -52,9 +59,9 @@ const SharedArticleContainer = ({ article: propArticle, meta }: Props) => {
   });
 
   useEffect(() => {
-    if (propArticle) {
+    if (propArticle && authContextLoaded) {
       const dimensions = getAllDimensions(
-        { article: propArticle },
+        { article: propArticle, user },
         meta?.resourceTypes &&
           getContentTypeFromResourceTypes(meta.resourceTypes)?.label,
         true,
@@ -64,7 +71,14 @@ const SharedArticleContainer = ({ article: propArticle, meta }: Props) => {
         title: getDocumentTitle(propArticle.title, t),
       });
     }
-  }, [meta?.resourceTypes, propArticle, t, trackPageView]);
+  }, [
+    authContextLoaded,
+    user,
+    meta?.resourceTypes,
+    propArticle,
+    t,
+    trackPageView,
+  ]);
 
   const [article, scripts] = useMemo(() => {
     return [
@@ -92,6 +106,12 @@ const SharedArticleContainer = ({ article: propArticle, meta }: Props) => {
           />
         ))}
       </Helmet>
+      <SocialMediaMetadata
+        title={title}
+        imageUrl={article.metaImage?.url}
+        trackableContent={article}
+        description={article.metaDescription}
+      />
       <Article
         contentTransformed
         id={SKIP_TO_CONTENT_ID}

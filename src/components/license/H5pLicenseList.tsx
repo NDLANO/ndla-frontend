@@ -15,6 +15,7 @@ import {
   MediaListItemBody,
   MediaListItemActions,
   MediaListItemMeta,
+  ItemType,
 } from '@ndla/ui';
 import {
   metaTypes,
@@ -37,7 +38,7 @@ interface H5pLicenseInfoProps {
 const H5pLicenseInfo = ({ h5p }: H5pLicenseInfoProps) => {
   const { t, i18n } = useTranslation();
   const safeCopyright = licenseCopyrightToCopyrightType(h5p.copyright);
-  const items = getGroupedContributorDescriptionList(
+  const items: ItemType[] = getGroupedContributorDescriptionList(
     safeCopyright,
     i18n.language,
   );

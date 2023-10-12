@@ -63,6 +63,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
 }
 
 .emotion-0[data-style='h1'] {
+  font-family: 'Source Serif Pro',Times,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',serif;
   font-size: 30px;
   font-size: 1.6666666666666667rem;
   line-height: 36px;
@@ -88,6 +89,34 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   .emotion-0[data-style='h1'][lang='zh-Hant'] {
     font-size: calc(48px * 1.11);
     font-size: calc(2.6666666666666665rem * 1.11);
+  }
+}
+
+.emotion-0[data-style='h1-resource'] {
+  font-size: 30px;
+  font-size: 1.6666666666666667rem;
+  line-height: 36px;
+}
+
+.emotion-0[data-style='h1-resource'][lang='zh'],
+.emotion-0[data-style='h1-resource'][lang='zh-Hans'],
+.emotion-0[data-style='h1-resource'][lang='zh-Hant'] {
+  font-size: calc(30px * 1.11);
+  font-size: calc(1.6666666666666667rem * 1.11);
+}
+
+@media (min-width: 37.5625em) {
+  .emotion-0[data-style='h1-resource'] {
+    font-size: 38px;
+    font-size: 2.111111111111111rem;
+    line-height: 48px;
+  }
+
+  .emotion-0[data-style='h1-resource'][lang='zh'],
+  .emotion-0[data-style='h1-resource'][lang='zh-Hans'],
+  .emotion-0[data-style='h1-resource'][lang='zh-Hant'] {
+    font-size: calc(38px * 1.11);
+    font-size: calc(2.111111111111111rem * 1.11);
   }
 }
 
@@ -287,7 +316,6 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   -webkit-transition: all 200ms ease-in-out;
   transition: all 200ms ease-in-out;
   background-color: #F0F6FB;
-  border: 1px solid #a5bcd3;
   font-size:font-size: 16px;
   font-size: 0.8888888888888888rem;
   line-height: 29px;

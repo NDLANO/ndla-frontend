@@ -8,12 +8,11 @@
 import { gql } from '@apollo/client';
 import {
   FRONTPAGE_ARTICLE_MAX_WIDTH,
-  FeideUserApiType,
   FrontpageArticle,
   HomeBreadcrumb,
 } from '@ndla/ui';
 import { DynamicComponents } from '@ndla/article-converter';
-import { useEffect, useMemo } from 'react';
+import { useContext, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet-async';
 import styled from '@emotion/styled';
@@ -37,11 +36,11 @@ import getStructuredDataFromArticle, {
 import { getAllDimensions } from '../../util/trackingUtil';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { toAbout } from '../../routeHelpers';
+import { AuthContext } from '../../components/AuthenticationContext';
 
 interface Props {
   article: GQLAboutPage_ArticleFragment;
   frontpage: GQLAboutPage_FrontpageMenuFragment;
-  user: FeideUserApiType | undefined;
 }
 
 const StyledMain = styled.main`
@@ -126,7 +125,8 @@ const converterComponents: DynamicComponents = {
   heartButton: AddEmbedToFolder,
 };
 
-const AboutPageContent = ({ article: _article, frontpage, user }: Props) => {
+const AboutPageContent = ({ article: _article, frontpage }: Props) => {
+  const { user, authContextLoaded } = useContext(AuthContext);
   const { t, i18n } = useTranslation();
   const { trackPageView } = useTracker();
   const oembedUrl = `${config.ndlaFrontendDomain}/oembed?url=${config.ndlaFrontendDomain}/article/${_article.id}`;
@@ -136,7 +136,7 @@ const AboutPageContent = ({ article: _article, frontpage, user }: Props) => {
   );
 
   useEffect(() => {
-    if (_article) {
+    if (_article && authContextLoaded) {
       const dimensions = getAllDimensions(
         { article: _article, user },
         undefined,
@@ -144,7 +144,7 @@ const AboutPageContent = ({ article: _article, frontpage, user }: Props) => {
       );
       trackPageView({ dimensions, title: getDocumentTitle(t, _article) });
     }
-  }, [_article, t, trackPageView, user]);
+  }, [_article, authContextLoaded, t, trackPageView, user]);
 
   const [article, scripts] = useMemo(() => {
     const transformedArticle = transformArticle(_article, i18n.language, {
@@ -154,6 +154,10 @@ const AboutPageContent = ({ article: _article, frontpage, user }: Props) => {
     return [
       {
         ...transformedArticle,
+        copyright: {
+          ..._article.copyright,
+          processed: _article.copyright.processed ?? false,
+        },
         introduction: transformedArticle.introduction ?? '',
       },
       getArticleScripts(_article, i18n.language),
