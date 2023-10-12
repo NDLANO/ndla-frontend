@@ -68,7 +68,7 @@ const FavoriteSubjectsPage = () => {
   const { t } = useTranslation();
   const { loading, subjects } = useSubjects();
   const { personalData, fetch: fetchPersonalData } = usePersonalData();
-  const { authenticated, user } = useContext(AuthContext);
+  const { authenticated, user, authContextLoaded } = useContext(AuthContext);
   const { trackPageView } = useTracker();
 
   const favoriteSubjects = useMemo(() => {
@@ -83,11 +83,12 @@ const FavoriteSubjectsPage = () => {
   }, [authenticated, fetchPersonalData]);
 
   useEffect(() => {
+    if (!authContextLoaded) return;
     trackPageView({
       title: t('myNdla.favoriteSubjects.title'),
       dimensions: getAllDimensions({ user }),
     });
-  }, [t, trackPageView, user]);
+  }, [authContextLoaded, t, trackPageView, user]);
 
   if (loading) {
     return <Spinner />;

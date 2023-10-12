@@ -127,7 +127,7 @@ export type ViewType = 'list' | 'block' | 'listLarger';
 const FoldersPage = () => {
   const { t } = useTranslation();
   const { folderId } = useParams();
-  const { user } = useContext(AuthContext);
+  const { user, authContextLoaded } = useContext(AuthContext);
   const { trackPageView } = useTracker();
   const [viewType, _setViewType] = useState<ViewType>(
     (localStorage.getItem(STORED_RESOURCE_VIEW_SETTINGS) as ViewType) || 'list',
@@ -162,8 +162,9 @@ const FoldersPage = () => {
   const [focusId, setFocusId] = useState<string | undefined>(undefined);
 
   useEffect(() => {
+    if (!authContextLoaded) return;
     trackPageView({ title, dimensions: getAllDimensions({ user }) });
-  }, [title, trackPageView, user]);
+  }, [authContextLoaded, title, trackPageView, user]);
 
   useEffect(() => {
     const folderIds = folders.map((f) => f.id).sort();

@@ -191,7 +191,7 @@ const Toolbar = ({
           </MenuItem>
         ),
       ),
-    [t, location, menuActions, setIsOpen],
+    [t, location, setIsOpen],
   );
 
   return (
@@ -210,18 +210,18 @@ const Toolbar = ({
           </Title>
           <MenuItems>{menuLinks}</MenuItems>
           {buttons && buttons.length > 0 && (
-            <div>
+            <>
               <Title data-border-top={true}>{t('myNdla.tools')}</Title>
               <ToolMenu>
                 {buttons?.map((button, index) => (
                   <ToolItem key={index}>{button}</ToolItem>
                 ))}
               </ToolMenu>
-            </div>
+            </>
           )}
 
           {!!viewType && (
-            <div>
+            <>
               <Title>{t('myNdla.selectView')}</Title>
               <ViewButtonWrapper>
                 <ViewButton
@@ -241,7 +241,7 @@ const Toolbar = ({
                   {t('myNdla.detailedList')}
                 </ViewButton>
               </ViewButtonWrapper>
-            </div>
+            </>
           )}
         </StyledModalBody>
       </ModalContent>

@@ -8,10 +8,10 @@
 
 import { DragEndEvent, Announcements } from '@dnd-kit/core';
 import { arrayMove } from '@dnd-kit/sortable';
-import { FeideUserApiType } from '@ndla/ui';
 import { TFunction } from 'i18next';
 import config from '../../../config';
 import { getAffiliationRoleOrDefault } from '../../../util/apiHelpers';
+import { FeideUserApiType } from '../../../interfaces';
 
 export const makeDndSortFunction = <PID, RES, T extends { id: string }>(
   parentId: PID,
