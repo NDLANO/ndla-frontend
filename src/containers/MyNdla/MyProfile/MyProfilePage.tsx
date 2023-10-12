@@ -62,7 +62,7 @@ const LinkText = styled.p`
 const InfoContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${spacing.small};
+  gap: ${spacing.normal};
 `;
 
 const ButtonContainer = styled.div`
@@ -70,7 +70,6 @@ const ButtonContainer = styled.div`
   align-items: baseline;
   flex-direction: column;
   gap: ${spacing.small};
-  padding-bottom: ${spacing.normal};
 `;
 
 const StyledDeleteUserHeading = styled(Heading)`

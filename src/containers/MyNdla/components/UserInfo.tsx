@@ -24,7 +24,10 @@ const StyledComponentContainer = styled.div`
 `;
 
 const ShortInfoDiv = styled.div`
-  margin: 2rem auto;
+  margin: ${spacing.normal} auto;
+  display: flex;
+  flex-direction: column;
+  gap: ${spacing.xxsmall};
 `;
 
 const isTeacher = (affiliations: FeideUserApiType['eduPersonAffiliation']) =>
