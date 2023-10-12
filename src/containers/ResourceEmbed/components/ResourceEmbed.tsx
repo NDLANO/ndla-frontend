@@ -113,7 +113,12 @@ const metaToProperties = (
       type: 'concept',
     };
   } else if (type === 'h5p') {
-    return undefined;
+    const h5p = meta.h5ps?.[0];
+    if (!h5p) return undefined;
+    return {
+      title: h5p.title,
+      type: 'h5p',
+    };
   } else {
     return undefined;
   }
