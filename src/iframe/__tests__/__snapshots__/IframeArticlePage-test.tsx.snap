@@ -445,7 +445,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                 <h1
                   class="emotion-0"
                   data-margin="normal"
-                  data-style="h1"
+                  data-style="h1-resource"
                   id="54"
                   tabindex="-1"
                 >

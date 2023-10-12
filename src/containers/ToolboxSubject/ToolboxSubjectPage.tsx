@@ -7,12 +7,10 @@
  */
 
 import { gql } from '@apollo/client';
-import { useContext } from 'react';
 import { ContentPlaceholder } from '@ndla/ui';
 import { useUrnIds } from '../../routeHelpers';
 import { useGraphQuery } from '../../util/runQueries';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
-import { AuthContext } from '../../components/AuthenticationContext';
 import {
   GQLToolboxSubjectPageQuery,
   GQLToolboxSubjectPageQueryVariables,
@@ -30,7 +28,6 @@ const toolboxSubjectPageQuery = gql`
   ${toolboxSubjectContainerFragments.subject}
 `;
 const ToolboxSubjectPage = () => {
-  const { user } = useContext(AuthContext);
   const { subjectId, topicList } = useUrnIds();
 
   const { loading, data } = useGraphQuery<
@@ -52,11 +49,7 @@ const ToolboxSubjectPage = () => {
 
   return (
     <main>
-      <ToolboxSubjectContainer
-        subject={data.subject}
-        topicList={topicList}
-        user={user}
-      />
+      <ToolboxSubjectContainer subject={data.subject} topicList={topicList} />
     </main>
   );
 };

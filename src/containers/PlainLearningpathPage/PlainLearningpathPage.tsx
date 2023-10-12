@@ -7,7 +7,6 @@
  */
 
 import { gql } from '@apollo/client';
-import { useContext } from 'react';
 import { ContentPlaceholder } from '@ndla/ui';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import { useGraphQuery } from '../../util/runQueries';
@@ -18,7 +17,6 @@ import {
   GQLPlainLearningpathPageQuery,
   GQLPlainLearningpathPageQueryVariables,
 } from '../../graphqlTypes';
-import { AuthContext } from '../../components/AuthenticationContext';
 import { TypedParams, useTypedParams } from '../../routeHelpers';
 import { SKIP_TO_CONTENT_ID } from '../../constants';
 
@@ -38,7 +36,6 @@ const plainLearningpathPageQuery = gql`
 
 const PlainLearningpathPage = () => {
   const { learningpathId, stepId } = useTypedParams<MatchParams>();
-  const { user } = useContext(AuthContext);
 
   const { data, loading } = useGraphQuery<
     GQLPlainLearningpathPageQuery,
@@ -66,7 +63,6 @@ const PlainLearningpathPage = () => {
       learningpath={data.learningpath}
       skipToContentId={SKIP_TO_CONTENT_ID}
       stepId={stepId}
-      user={user}
     />
   );
 };
