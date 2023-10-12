@@ -17,7 +17,7 @@ const unvalidArticleUrl = 'https://test.ndla.no/subject:3';
 
 test('oembedArticleRoute success', async () => {
   nock('http://ndla-api')
-    .get('/taxonomy/v1/resources/urn:resource:1:1682/?language=nb')
+    .get('/taxonomy/v1/resources/urn:resource:1:1682?language=nb')
     .times(2)
     .reply(200, {
       id: 'urn:resource:1',
