@@ -25,8 +25,8 @@ import { ViewType } from './FoldersPage';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import SettingsMenu, { MenuItemProps } from '../components/SettingsMenu';
 import { AddResourceToFolderModalContent } from '../../../components/MyNdla/AddResourceToFolderModal';
+import DeleteModalContent from '../components/DeleteModalContent';
 import { useDeleteFolderResourceMutation } from '../folderMutations';
-import { DeleteModalContent } from './FolderDeleteModal';
 
 interface Props {
   resource: GQLFolderResource;

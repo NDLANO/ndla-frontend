@@ -7,7 +7,7 @@
  */
 
 import styled from '@emotion/styled';
-import { spacingUnit } from '@ndla/core';
+import { breakpoints, mq, spacing, spacingUnit } from '@ndla/core';
 import { HTMLAttributes, ReactNode } from 'react';
 import { MY_NDLA_CONTENT_WIDTH } from '../../../constants';
 import { ViewType } from '../Folders/FoldersPage';
@@ -16,7 +16,11 @@ import Toolbar from './Toolbar';
 const ContentWrapper = styled.div`
   display: flex;
   justify-content: center;
-  padding-bottom: ${spacingUnit * 6};
+  padding: 0 ${spacing.nsmall} ${spacingUnit * 3}px ${spacing.nsmall};
+
+  ${mq.range({ from: breakpoints.mobileWide })} {
+    padding: 0 ${spacing.large} ${spacingUnit * 3}px ${spacing.large};
+  }
 `;
 
 export const Content = styled.div`
@@ -25,15 +29,13 @@ export const Content = styled.div`
 `;
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
-  showToolbar?: boolean;
   dropDownMenu?: ReactNode;
-  buttons?: ReactNode[];
+  buttons?: ReactNode;
   viewType?: ViewType;
   onViewTypeChange?: (val: ViewType) => void;
 }
 
 const MyNdlaPageWrapper = ({
-  showToolbar = true,
   buttons,
   dropDownMenu,
   onViewTypeChange,
@@ -42,14 +44,12 @@ const MyNdlaPageWrapper = ({
 }: Props) => {
   return (
     <>
-      {showToolbar && (
-        <Toolbar
-          buttons={buttons}
-          dropDownMenu={dropDownMenu}
-          onViewTypeChange={onViewTypeChange}
-          viewType={viewType}
-        />
-      )}
+      <Toolbar
+        buttons={buttons}
+        dropDownMenu={dropDownMenu}
+        onViewTypeChange={onViewTypeChange}
+        viewType={viewType}
+      />
       <ContentWrapper>
         <Content>{children}</Content>
       </ContentWrapper>

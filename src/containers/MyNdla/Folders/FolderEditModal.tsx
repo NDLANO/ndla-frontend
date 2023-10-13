@@ -18,7 +18,7 @@ import {
   ModalTitle,
   ModalTrigger,
 } from '@ndla/modal';
-import { useCallback, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { GQLFolder } from '../../../graphqlTypes';
 import {
@@ -27,6 +27,7 @@ import {
   getFolder,
 } from '../folderMutations';
 import FolderForm from './FolderForm';
+import { buttonCss, iconCss } from './FoldersPage';
 
 interface Props {
   folder?: GQLFolder;
@@ -37,19 +38,17 @@ const FolderEditModal = ({ folder, onSaved }: Props) => {
   const [open, setOpen] = useState(false);
   const { t } = useTranslation();
 
-  const close = useCallback(() => setOpen(false), []);
-
   return (
     <Modal open={open} onOpenChange={setOpen}>
       <ModalTrigger>
-        <ButtonV2 variant="ghost" colorTheme="lighter">
-          <Pencil />
+        <ButtonV2 css={buttonCss} variant="ghost" colorTheme="lighter">
+          <Pencil css={iconCss} />
           {t('myNdla.folder.edit')}
         </ButtonV2>
       </ModalTrigger>
       <EditFolderModalContent
         folder={folder}
-        onClose={close}
+        onClose={() => setOpen(false)}
         onSaved={onSaved}
       />
     </Modal>

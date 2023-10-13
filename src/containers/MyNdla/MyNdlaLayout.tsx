@@ -10,7 +10,7 @@ import { useMemo, useContext, useState, Dispatch, SetStateAction } from 'react';
 import { Location, Outlet, useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
-import { breakpoints, colors, mq, spacing, spacingUnit } from '@ndla/core';
+import { breakpoints, colors, fonts, mq, spacing } from '@ndla/core';
 import { MessageBox, TreeStructure } from '@ndla/ui';
 import { FolderOutlined } from '@ndla/icons/contentType';
 import {
@@ -27,7 +27,6 @@ import { DragHorizontal, Folder } from '@ndla/icons/editor';
 import { TFunction } from 'i18next';
 import { AuthContext } from '../../components/AuthenticationContext';
 import { useFolder, useFolders } from './folderMutations';
-import IsMobileContext from '../../IsMobileContext';
 import NavigationLink from './components/NavigationLink';
 import { toHref } from '../../util/urlHelper';
 
@@ -46,17 +45,20 @@ const StyledNavList = styled.ul`
   flex-direction: row;
   margin: unset !important;
   padding: unset;
+  justify-content: space-between;
 
   ${mq.range({ from: breakpoints.mobileWide })} {
     flex-direction: column;
-    padding: 0 1rem 0 0;
   }
+`;
+
+const StyledNav = styled.nav`
+  width: 100%;
 `;
 
 const StyledLi = styled.li`
   margin: 0;
-
-  &:not(:nth-child(-n + 4)) {
+  &:not(:nth-of-type(-n + 4)) {
     display: none;
   }
 
@@ -65,15 +67,8 @@ const StyledLi = styled.li`
   }
 `;
 
-const StyledContent = styled.main`
-  display: flex;
-  flex-direction: column;
+const StyledContent = styled.div`
   width: 100%;
-  padding-bottom: ${spacing.large};
-
-  &[data-is-mobile='true'] {
-    padding: 0 ${spacing.nsmall} ${spacingUnit * 5}px ${spacing.nsmall};
-  }
 `;
 
 const StyledSideBar = styled.div`
@@ -82,9 +77,11 @@ const StyledSideBar = styled.div`
   border-right: 1px solid ${colors.brand.lighter};
   background: ${colors.background.lightBlue};
   justify-content: center;
+  padding: ${spacing.xsmall};
+  gap: ${spacing.nsmall};
 
   ${mq.range({ from: breakpoints.mobileWide })} {
-    padding: 0 0 ${spacing.small} ${spacing.normal};
+    padding: ${spacing.nsmall};
   }
 
   ${mq.range({ from: breakpoints.desktop })} {
@@ -108,24 +105,19 @@ const TreeStructureWrapper = styled.div`
 const MoreButton = styled(IconButtonV2)`
   display: flex;
   flex-direction: column;
-  padding: ${spacing.small} ${spacing.xsmall};
+  padding: ${spacing.small};
   gap: ${spacing.xxsmall};
-  line-height: ${spacing.small};
+  color: ${colors.brand.primary};
+  ${fonts.sizes('10px', '12px')};
 
   ${mq.range({ from: breakpoints.mobileWide })} {
     display: none;
   }
 `;
 
-const StyledDiv = styled.div`
-  display: flex;
-  flex-direction: row;
-  padding-bottom: ${spacing.small};
-
-  ${mq.range({ from: breakpoints.mobileWide })} {
-    flex-direction: column;
-  }
-`;
+export interface OutletContext {
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
+}
 
 const MyNdlaLayout = () => {
   const { folders } = useFolders();
@@ -136,7 +128,6 @@ const MyNdlaLayout = () => {
     .replace('/minndla/', '')
     .split('/');
   const selectedFolder = useFolder(folderId);
-  const isMobile = useContext(IsMobileContext);
   const [isOpen, setIsOpen] = useState(false);
 
   const defaultSelected = useMemo(() => {
@@ -154,47 +145,52 @@ const MyNdlaLayout = () => {
   const showFolders =
     location.pathname.startsWith('/minndla/folders') && folders.length > 0;
 
+  const menuOptions = useMemo(
+    () =>
+      menuActions(t, location).map(
+        ({ name, shortName, id, icon, to, iconFilled }) => (
+          <StyledLi key={id} role="none">
+            <NavigationLink
+              id={id}
+              name={name}
+              shortName={shortName}
+              icon={icon}
+              to={to}
+              iconFilled={iconFilled}
+            />
+            {showFolders && id === 'folders' && (
+              <TreeStructureWrapper>
+                <TreeStructure
+                  type="navigation"
+                  folders={folders}
+                  defaultOpenFolders={defaultSelected}
+                />
+              </TreeStructureWrapper>
+            )}
+          </StyledLi>
+        ),
+      ),
+    [location, t, folders, showFolders, defaultSelected],
+  );
+
   return (
     <StyledLayout>
       <Modal open={isOpen} onOpenChange={setIsOpen}>
         <StyledSideBar>
-          <StyledDiv>
-            <nav>
-              <StyledNavList role="tablist">
-                {menuActions(t, location).map(
-                  ({ name, shortName, id, icon, to, iconFilled }) => (
-                    <StyledLi key={id} role="none">
-                      <NavigationLink
-                        id={id}
-                        name={name}
-                        shortName={shortName}
-                        icon={icon}
-                        to={to}
-                        iconFilled={iconFilled}
-                      />
-                      {showFolders && id === 'folders' && (
-                        <TreeStructureWrapper>
-                          <TreeStructure
-                            type="navigation"
-                            folders={folders}
-                            defaultOpenFolders={defaultSelected}
-                          />
-                        </TreeStructureWrapper>
-                      )}
-                    </StyledLi>
-                  ),
-                )}
-              </StyledNavList>
-            </nav>
-            <ModalTrigger>
-              <MoreButton variant="stripped" aria-label="Mer">
-                <DragHorizontal />
-                {t('Mer')}
-              </MoreButton>
-            </ModalTrigger>
-          </StyledDiv>
+          <StyledNav>
+            <StyledNavList role="tablist">{menuOptions}</StyledNavList>
+          </StyledNav>
+          <ModalTrigger>
+            <MoreButton
+              variant="stripped"
+              aria-label={t('myNdla.iconMenu.more')}
+            >
+              <DragHorizontal />
+              {t('myNdla.iconMenu.more')}
+            </MoreButton>
+          </ModalTrigger>
         </StyledSideBar>
-        <StyledContent data-is-mobile={isMobile}>
+        <StyledContent>
           {examLock && (
             <MessageboxWrapper>
               <MessageBox>{t('myNdla.examLockInfo')}</MessageBox>
@@ -208,10 +204,6 @@ const MyNdlaLayout = () => {
 };
 
 export default MyNdlaLayout;
-
-export interface OutletContext {
-  setIsOpen: Dispatch<SetStateAction<boolean>>;
-}
 
 export const menuActions = (t: TFunction, location: Location) => [
   {

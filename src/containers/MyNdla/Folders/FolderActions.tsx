@@ -27,8 +27,8 @@ import {
 import config from '../../../config';
 import { FolderFormValues } from './FolderForm';
 import { CreateModalContent } from './FolderCreateModal';
-import { DeleteModalContent } from './FolderDeleteModal';
 import { EditFolderModalContent } from './FolderEditModal';
+import DeleteModalContent from '../components/DeleteModalContent';
 
 interface Props {
   selectedFolder: GQLFolder | null;

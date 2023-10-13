@@ -20,7 +20,7 @@ import { toSubject } from '../../routeHelpers';
 import { useUpdatePersonalData } from '../MyNdla/userMutations';
 import { Subject } from './interfaces';
 import LoginModalContent from '../../components/MyNdla/LoginModalContent';
-import { DeleteModalContent } from '../../containers/MyNdla/Folders/FolderDeleteModal';
+import DeleteModalContent from '../MyNdla/components/DeleteModalContent';
 
 const SubjectLinkWrapper = styled.li`
   display: flex;

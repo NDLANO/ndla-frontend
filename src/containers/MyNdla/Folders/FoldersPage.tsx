@@ -7,50 +7,28 @@
  */
 
 import isEqual from 'lodash/isEqual';
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { breakpoints, mq, spacing } from '@ndla/core';
-import { useSnack } from '@ndla/ui';
-import {
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { breakpoints, fonts, mq, spacing } from '@ndla/core';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { HelmetWithTracker, useTracker } from '@ndla/tracker';
-import { FileDocumentOutline, Share } from '@ndla/icons/common';
-import { Cross } from '@ndla/icons/action';
+import { FileDocumentOutline } from '@ndla/icons/common';
+import { css } from '@emotion/react';
 import { GQLFolder, GQLFoldersPageQuery } from '../../../graphqlTypes';
 import { useGraphQuery } from '../../../util/runQueries';
 import ListViewOptions from './ListViewOptions';
-import {
-  foldersPageQuery,
-  useDeleteFolderMutation,
-  useFolder,
-  useUpdateFolderStatusMutation,
-} from '../folderMutations';
+import { foldersPageQuery, useFolder } from '../folderMutations';
 import { STORED_RESOURCE_VIEW_SETTINGS } from '../../../constants';
 import FoldersPageTitle from './FoldersPageTitle';
-import FolderAndResourceCount, {
-  ResourceCountContainer,
-} from './FolderAndResourceCount';
+import { ResourceCountContainer } from './FolderAndResourceCount';
 import FolderList from './FolderList';
 import { AuthContext } from '../../../components/AuthenticationContext';
-import FolderShareModal from './FolderShareModal';
-import { copyFolderSharingLink, isStudent } from './util';
 import ResourceList from './ResourceList';
 import FolderActions from './FolderActions';
-import FolderEditModal from './FolderEditModal';
-import FolderDeleteModal from './FolderDeleteModal';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
-import FolderCreateModal from './FolderCreateModal';
-import { OutletContext } from '../MyNdlaLayout';
+import FolderButtons from './FolderButtons';
 
 const FoldersPageContainer = styled.div`
   display: flex;
@@ -77,15 +55,18 @@ export const BlockWrapper = styled.ul`
 
   &[data-type='block'] {
     padding: 0;
-    display: grid;
     gap: ${spacing.normal};
     margin-top: ${spacing.normal};
-    grid-template-columns: repeat(
-      3,
-      calc(33.33% - (${spacing.normal} / 3 * 2))
-    );
+    flex-direction: row;
+    flex-wrap: wrap;
+    li {
+      width: calc(33% - ${spacing.nsmall});
+    }
+
     ${mq.range({ until: breakpoints.wide })} {
-      grid-template-columns: repeat(2, calc(50% - ${spacing.normal} / 2));
+      li {
+        width: calc(50% - ${spacing.nsmall});
+      }
     }
   }
 
@@ -98,9 +79,18 @@ export const BlockWrapper = styled.ul`
   }
 `;
 
-const iconCss = css`
-  width: 22px;
-  height: 22px;
+export const buttonCss = css`
+  display: flex;
+  justify-content: flex-start;
+
+  ${mq.range({ until: breakpoints.mobileWide })} {
+    font-weight: ${fonts.weight.normal};
+  }
+`;
+
+export const iconCss = css`
+  width: ${spacing.normal};
+  height: ${spacing.normal};
 `;
 
 export const ListItem = styled.li`
@@ -132,17 +122,9 @@ const FoldersPage = () => {
   const [viewType, _setViewType] = useState<ViewType>(
     (localStorage.getItem(STORED_RESOURCE_VIEW_SETTINGS) as ViewType) || 'list',
   );
-  const navigate = useNavigate();
-  const { addSnack } = useSnack();
-  const { examLock } = useContext(AuthContext);
-  const shareRef = useRef<HTMLButtonElement | null>(null);
-  const unShareRef = useRef<HTMLButtonElement | null>(null);
-  const previewRef = useRef<HTMLButtonElement | null>(null);
-
   const { data, loading } =
     useGraphQuery<GQLFoldersPageQuery>(foldersPageQuery);
 
-  const hasSelectedFolder = !!folderId;
   const selectedFolder = useFolder(folderId);
 
   const title = useMemo(() => {
@@ -201,195 +183,21 @@ const FoldersPage = () => {
     }
   }, [folders, focusId, previousFolders]);
 
-  const { updateFolderStatus } = useUpdateFolderStatusMutation();
-  const { deleteFolder } = useDeleteFolderMutation();
-  const { setIsOpen } = useOutletContext<OutletContext>();
-
-  const onFolderAdded = useCallback(
-    (folder?: GQLFolder) => {
-      if (folder) {
-        addSnack({
-          id: 'folderAdded',
-          content: t('myNdla.folder.folderCreated', {
-            folderName: folder.name,
-          }),
-        });
-        setFocusId(folder.id);
-        setIsOpen(false);
-      }
-    },
-    [addSnack, t, setIsOpen],
-  );
-
-  const onFolderUpdated = useCallback(() => {
-    addSnack({ id: 'folderUpdated', content: t('myNdla.folder.updated') });
-    setIsOpen(false);
-  }, [addSnack, t, setIsOpen]);
-
-  const onDeleteFolder = useCallback(async () => {
-    if (selectedFolder) {
-      await deleteFolder({ variables: { id: selectedFolder.id } });
-      if (selectedFolder.id === folderId) {
-        navigate(`/minndla/folders/${selectedFolder.parentId ?? ''}`, {
-          replace: true,
-        });
-      }
-      addSnack({
-        id: 'folderDeleted',
-        content: t('myNdla.folder.folderDeleted', {
-          folderName: selectedFolder.name,
-        }),
-      });
-      setIsOpen(false);
-    }
-  }, [
-    addSnack,
-    deleteFolder,
-    folderId,
-    navigate,
-    selectedFolder,
-    t,
-    setIsOpen,
-  ]);
-
   const setViewType = useCallback((type: ViewType) => {
     _setViewType(type);
     localStorage.setItem(STORED_RESOURCE_VIEW_SETTINGS, type);
   }, []);
 
-  const toolbarButtons = useMemo(() => {
-    const showAddButton =
-      (selectedFolder?.breadcrumbs.length || 0) < 5 && !examLock;
-    const showShareFolder = folderId !== null && !isStudent(user);
-    const isFolderShared = selectedFolder?.status !== 'private';
-
-    const sharedButton = selectedFolder && isFolderShared && (
-      <FolderShareModal
-        type="shared"
-        folder={selectedFolder}
-        onUpdateStatus={async (close) => {
-          close();
-          unShareRef.current?.click();
-          setIsOpen(false);
-        }}
-        onCopyText={() => copyFolderSharingLink(selectedFolder.id)}
-      >
-        <ButtonV2
-          colorTheme="lighter"
-          variant="ghost"
-          ref={previewRef}
-          onClick={() => setIsOpen(false)}
-        >
-          <Share />
-          {t('myNdla.folder.sharing.button.share')}
-        </ButtonV2>
-      </FolderShareModal>
-    );
-
-    const unShareButton = selectedFolder && isFolderShared && (
-      <FolderShareModal
-        type="unShare"
-        folder={selectedFolder}
-        onUpdateStatus={async (close) => {
-          updateFolderStatus({
-            variables: {
-              folderId: selectedFolder.id,
-              status: 'private',
-            },
-          }).then(() => setTimeout(() => shareRef.current?.focus(), 100));
-          close();
-          addSnack({
-            id: 'sharingDeleted',
-            content: t('myNdla.folder.sharing.unShare'),
-          });
-          setIsOpen(false);
-        }}
-      >
-        <ButtonV2 variant="ghost" colorTheme="lighter" ref={unShareRef}>
-          <Cross css={iconCss} />
-          {t('myNdla.folder.sharing.button.unShare')}
-        </ButtonV2>
-      </FolderShareModal>
-    );
-
-    const shareButton = selectedFolder && !isFolderShared && (
-      <FolderShareModal
-        type="private"
-        folder={selectedFolder}
-        onUpdateStatus={async (close) => {
-          updateFolderStatus({
-            variables: {
-              folderId: selectedFolder.id,
-              status: 'shared',
-            },
-          }).then(() => setTimeout(() => previewRef.current?.focus(), 100));
-          close();
-          addSnack({
-            id: 'folderShared',
-            content: t('myNdla.folder.sharing.header.shared'),
-          });
-          setIsOpen(false);
-        }}
-      >
-        <ButtonV2 variant="ghost" colorTheme="lighter" ref={shareRef}>
-          <Share />
-          {t('myNdla.folder.sharing.share')}
-        </ButtonV2>
-      </FolderShareModal>
-    );
-
-    const addFolderButton = showAddButton && (
-      <FolderCreateModal
-        onSaved={onFolderAdded}
-        parentFolder={selectedFolder}
-      />
-    );
-
-    const editFolderButton = selectedFolder && (
-      <FolderEditModal onSaved={onFolderUpdated} folder={selectedFolder} />
-    );
-
-    const deleteFolderButton = !!selectedFolder?.id && (
-      <FolderDeleteModal
-        onDelete={onDeleteFolder}
-        title={t('myNdla.folder.delete')}
-        description={t('myNdla.confirmDeleteFolder')}
-        removeText={t('myNdla.folder.delete')}
-      />
-    );
-
-    if (!showShareFolder) {
-      return [addFolderButton, editFolderButton, deleteFolderButton];
-    }
-
-    return [
-      addFolderButton,
-      editFolderButton,
-      shareButton,
-      sharedButton,
-      unShareButton,
-      deleteFolderButton,
-    ];
-  }, [
-    updateFolderStatus,
-    onFolderUpdated,
-    selectedFolder,
-    onDeleteFolder,
-    onFolderAdded,
-    previewRef,
-    unShareRef,
-    setIsOpen,
-    shareRef,
-    addSnack,
-    examLock,
-    folderId,
-    user,
-    t,
-  ]).filter((btn) => !!btn);
-
   const dropDownMenu = useMemo(
     () => <FolderActions selectedFolder={selectedFolder} inToolbar={true} />,
     [selectedFolder],
+  );
+
+  const toolbarButtons = useMemo(
+    () => (
+      <FolderButtons selectedFolder={selectedFolder} setFocusId={setFocusId} />
+    ),
+    [selectedFolder, setFocusId],
   );
 
   return (
@@ -405,13 +213,6 @@ const FoldersPage = () => {
           key={selectedFolder?.id}
           loading={loading}
           selectedFolder={selectedFolder}
-        />
-        <FolderAndResourceCount
-          selectedFolder={selectedFolder}
-          hasSelectedFolder={hasSelectedFolder}
-          folders={folders}
-          folderData={(data?.folders ?? []) as GQLFolder[]}
-          loading={loading}
         />
         {selectedFolder && (
           <p>

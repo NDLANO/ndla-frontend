@@ -6,7 +6,6 @@
  *
  */
 
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { breakpoints, mq } from '@ndla/core';
@@ -25,11 +24,7 @@ import { useCallback, useState } from 'react';
 import { useAddFolderMutation, useFolders } from '../folderMutations';
 import { GQLFolder } from '../../../graphqlTypes';
 import FolderForm, { FolderFormValues } from './FolderForm';
-
-const iconCss = css`
-  width: 22px;
-  height: 22px;
-`;
+import { buttonCss, iconCss } from './FoldersPage';
 
 const AddButton = styled(ButtonV2)`
   ${mq.range({ until: breakpoints.tablet })} {
@@ -50,8 +45,6 @@ const FolderCreateModal = ({ onSaved, parentFolder }: Props) => {
 
   const { folders } = useFolders();
 
-  const close = useCallback(() => setOpen(false), []);
-
   const onModalClose = useCallback(
     (e: Event) => {
       if (folderCreated) {
@@ -65,7 +58,7 @@ const FolderCreateModal = ({ onSaved, parentFolder }: Props) => {
   return (
     <Modal open={open} onOpenChange={setOpen}>
       <ModalTrigger>
-        <AddButton variant="ghost" colorTheme="lighter">
+        <AddButton css={buttonCss} variant="ghost" colorTheme="lighter">
           <Plus css={iconCss} />
           <span>{t('myNdla.newFolder')}</span>
         </AddButton>
@@ -83,7 +76,7 @@ const FolderCreateModal = ({ onSaved, parentFolder }: Props) => {
             },
           });
           setFolderCreated(true);
-          close();
+          setOpen(false);
           const folder = res.data?.addFolder as GQLFolder | undefined;
           onSaved(folder);
         }}

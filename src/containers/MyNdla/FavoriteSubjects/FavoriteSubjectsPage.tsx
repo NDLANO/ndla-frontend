@@ -10,10 +10,11 @@ import { Spinner } from '@ndla/icons';
 import { useEffect, useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import { breakpoints, colors, mq, spacing } from '@ndla/core';
+import { colors, spacing } from '@ndla/core';
 import { HelmetWithTracker, useTracker } from '@ndla/tracker';
+import { useNavigate } from 'react-router-dom';
 import { SafeLinkButton } from '@ndla/safelink';
-import { MenuBook } from '@ndla/icons/action';
+import { Forward } from '@ndla/icons/common';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import SubjectLink from '../../AllSubjectsPage/SubjectLink';
 import { useSubjects } from '../subjectQueries';
@@ -22,32 +23,13 @@ import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
 import MyNdlaTitle from '../components/MyNdlaTitle';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-  width: 100%;
-  ${mq.range({ from: breakpoints.desktop })} {
-    align-items: flex-start;
-    width: auto;
-  }
-`;
-
-const CountContainer = styled.div`
-  display: flex;
-  align-items: center;
-  gap: ${spacing.small};
-`;
+import { buttonCss, iconCss } from '../Folders/FoldersPage';
+import SettingsMenu from '../components/SettingsMenu';
 
 const StyledSubjectLink = styled(SubjectLink)`
   border: 1px solid ${colors.brand.neutral7};
   padding: ${spacing.small};
   border-radius: 2px;
-`;
-
-const StyledSafeLinkButton = styled(SafeLinkButton)`
-  flex-grow: 1;
 `;
 
 const Wrapper = styled.div`
@@ -70,6 +52,7 @@ const FavoriteSubjectsPage = () => {
   const { personalData, fetch: fetchPersonalData } = usePersonalData();
   const { authenticated, user, authContextLoaded } = useContext(AuthContext);
   const { trackPageView } = useTracker();
+  const navigate = useNavigate();
 
   const favoriteSubjects = useMemo(() => {
     if (loading || !subjects || !personalData?.favoriteSubjects) return [];
@@ -90,33 +73,46 @@ const FavoriteSubjectsPage = () => {
     });
   }, [authContextLoaded, t, trackPageView, user]);
 
+  const allSubjects = useMemo(
+    () => (
+      <SafeLinkButton
+        css={buttonCss}
+        variant="ghost"
+        colorTheme="lighter"
+        to={'/subjects'}
+      >
+        {t('subjectsPage.allSubjects')}
+        <Forward css={iconCss} />
+      </SafeLinkButton>
+    ),
+    [t],
+  );
+
+  const dropDown = useMemo(
+    () => (
+      <SettingsMenu
+        menuItems={[
+          {
+            text: t('subjectsPage.allSubjects'),
+            icon: <Forward css={iconCss} />,
+            onClick: () => navigate('/subjects'),
+          },
+        ]}
+      />
+    ),
+    [t, navigate],
+  );
+
   if (loading) {
     return <Spinner />;
   }
 
   return (
-    <MyNdlaPageWrapper>
+    <MyNdlaPageWrapper buttons={allSubjects} dropDownMenu={dropDown}>
       <Wrapper>
         <HelmetWithTracker title={t('myNdla.favoriteSubjects.title')} />
         <MyNdlaBreadcrumb page="subjects" breadcrumbs={[]} />
         <MyNdlaTitle title={t('myNdla.favoriteSubjects.title')} />
-        <Container>
-          <CountContainer>
-            <MenuBook />
-            {t('myNdla.favoriteSubjects.subjects', {
-              count: favoriteSubjects.length,
-            })}
-          </CountContainer>
-
-          <StyledSafeLinkButton
-            size="normal"
-            to="/subjects"
-            colorTheme="light"
-            shape="pill"
-          >
-            {t('myNdla.favoriteSubjects.goToAllSubjects')}
-          </StyledSafeLinkButton>
-        </Container>
         {loading ? (
           <Spinner />
         ) : !favoriteSubjects?.length ? (

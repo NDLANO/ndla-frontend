@@ -8,98 +8,39 @@
 
 import { ButtonV2 } from '@ndla/button';
 import { TrashCanOutline } from '@ndla/icons/action';
-import {
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalTitle,
-  ModalTrigger,
-} from '@ndla/modal';
-import { useCallback, useState } from 'react';
+import { Modal, ModalTrigger } from '@ndla/modal';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
+import DeleteModalContent from '../components/DeleteModalContent';
+import { buttonCss, iconCss } from './FoldersPage';
 
 interface Props {
   onDelete: () => void;
-  title: string;
-  description: string;
-  removeText: string;
 }
 
-const FolderDeleteModal = ({
-  onDelete,
-  title,
-  description,
-  removeText,
-}: Props) => {
+const FolderDeleteModal = ({ onDelete }: Props) => {
   const [open, setOpen] = useState(false);
   const { t } = useTranslation();
-
-  const close = useCallback(() => setOpen(false), []);
 
   return (
     <Modal open={open} onOpenChange={setOpen}>
       <ModalTrigger>
-        <ButtonV2 variant="ghost" colorTheme="danger">
-          <TrashCanOutline />
+        <ButtonV2 css={buttonCss} variant="ghost" colorTheme="danger">
+          <TrashCanOutline css={iconCss} />
           {t('myNdla.folder.delete')}
         </ButtonV2>
       </ModalTrigger>
       <DeleteModalContent
         onDelete={async () => {
           onDelete();
-          close();
+          setOpen(false);
         }}
-        title={title}
-        description={description}
-        removeText={removeText}
+        title={t('myNdla.folder.delete')}
+        description={t('myNdla.confirmDeleteFolder')}
+        removeText={t('myNdla.folder.delete')}
       />
     </Modal>
   );
 };
 
 export default FolderDeleteModal;
-
-interface ContentProps {
-  onDelete: () => void;
-  title: string;
-  description: string;
-  removeText: string;
-}
-
-const StyledButtonRow = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  gap: ${spacing.small};
-`;
-
-export const DeleteModalContent = ({
-  onDelete,
-  title,
-  description,
-  removeText,
-}: ContentProps) => {
-  const { t } = useTranslation();
-  return (
-    <ModalContent>
-      <ModalHeader>
-        <ModalTitle>{title}</ModalTitle>
-        <ModalCloseButton />
-      </ModalHeader>
-      <ModalBody>
-        <p>{description}</p>
-        <StyledButtonRow>
-          <ModalCloseButton>
-            <ButtonV2 variant="outline">{t('cancel')}</ButtonV2>
-          </ModalCloseButton>
-          <ButtonV2 colorTheme="danger" variant="outline" onClick={onDelete}>
-            {removeText}
-          </ButtonV2>
-        </StyledButtonRow>
-      </ModalBody>
-    </ModalContent>
-  );
-};

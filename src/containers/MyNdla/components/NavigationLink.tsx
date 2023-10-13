@@ -16,12 +16,12 @@ const StyledSafeLink = styled(SafeLink)`
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: ${spacing.small} ${spacing.xsmall};
+  padding: ${spacing.small};
   margin: 0;
   gap: ${spacing.xxsmall};
   box-shadow: none;
 
-  color: ${colors.text.primary};
+  color: ${colors.brand.primary};
   font-weight: ${fonts.weight.normal};
 
   &[data-selected='true'] {
@@ -31,10 +31,6 @@ const StyledSafeLink = styled(SafeLink)`
 
   ${fonts.sizes('16px')};
 
-  :hover,
-  :focus {
-    color: ${colors.brand.primary};
-  }
   svg {
     height: ${spacing.normal};
     width: ${spacing.normal};
@@ -59,7 +55,11 @@ const LongText = styled.span`
 `;
 
 const ShortText = styled.span`
-  line-height: ${spacing.small};
+  ${fonts.sizes('10px', '12px')};
+
+  ${mq.range({ from: breakpoints.mobileWide })} {
+    font-weight: ${fonts.weight.bold};
+  }
   ${mq.range({ from: breakpoints.desktop })} {
     display: none;
   }
@@ -89,7 +89,9 @@ const NavigationLink = ({
   onClick,
 }: Props) => {
   const location = useLocation();
-  const selected = location.pathname === `/minndla/${id}`;
+  const selected =
+    location.pathname === `/minndla/${id}` ||
+    (id === '' && location.pathname === `/minndla`);
 
   return (
     <StyledSafeLink
