@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree. *
  */
 import { NormalizedCacheObject } from '@apollo/client';
-import { History } from 'history';
 import { ConfigType } from './config';
 import { LocaleValues } from './constants';
 
@@ -37,7 +36,6 @@ export interface WindowData {
 export interface NDLAWindow {
   DATA: WindowData;
   errorReporter: any;
-  browserHistory: History;
 }
 
 export interface License {
