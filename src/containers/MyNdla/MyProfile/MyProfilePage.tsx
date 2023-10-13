@@ -125,13 +125,11 @@ const MyProfilePage = () => {
           </InfoPart>
         )}
         <LinkText>
-          {`${t('myNdla.myPage.questions.question')} `}
-          <ButtonV2
-            variant="link"
-            onClick={() => document.getElementById('zendesk')?.click()} //ny link
-          >
-            {t('myNdla.myPage.questions.ask')} {/*Ny tekst */}
-          </ButtonV2>
+          {`${t('myNdla.myPage.read.read')} `}
+          <SafeLink to={t('myNdla.myPage.privacyLink')}>
+            {t('myNdla.myPage.privacy')}
+          </SafeLink>
+          {`${t('myNdla.myPage.read.our')} `}
         </LinkText>
       </InfoContainer>
       <ButtonContainer>
