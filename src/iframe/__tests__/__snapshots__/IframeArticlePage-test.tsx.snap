@@ -457,11 +457,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                 class="article_introduction"
                 lang="nb"
               >
-                <p>
-                  Politiske skillelinjer, eller konfliktlinjer, er varige og grunnleggende motsetninger i samfunnet og blant velgerne. Du synes kanskje det er vanskelig å se forskjell på de politiske partiene – det er du i så fall ikke alene om!
-                </p>
-                
-
+                Politiske skillelinjer, eller konfliktlinjer, er varige og grunnleggende motsetninger i samfunnet og blant velgerne. Du synes kanskje det er vanskelig å se forskjell på de politiske partiene – det er du i så fall ikke alene om!
               </div>
             </div>
           </section>

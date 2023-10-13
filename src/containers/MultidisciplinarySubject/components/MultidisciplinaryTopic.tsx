@@ -9,7 +9,8 @@ import { gql } from '@apollo/client';
 import { useTracker } from '@ndla/tracker';
 import { Topic as UITopic } from '@ndla/ui';
 import { useContext, useEffect, useMemo, useState } from 'react';
-import { TFunction, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
 
 import { DynamicComponents, extractEmbedMeta } from '@ndla/article-converter';
 import ArticleContents from '../../../components/Article/ArticleContents';

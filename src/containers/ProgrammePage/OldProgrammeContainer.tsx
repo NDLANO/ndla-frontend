@@ -9,7 +9,8 @@
 import { useTracker } from '@ndla/tracker';
 import { Programme } from '@ndla/ui';
 import { Helmet } from 'react-helmet-async';
-import { TFunction, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
 import { useContext, useEffect } from 'react';
 import { SKIP_TO_CONTENT_ID } from '../../constants';
 import { LocaleType, ProgrammeType } from '../../interfaces';

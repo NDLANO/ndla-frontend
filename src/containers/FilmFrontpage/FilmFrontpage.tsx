@@ -17,7 +17,8 @@ import {
   FilmMovieSearch,
   AllMoviesAlphabetically,
 } from '@ndla/ui';
-import { TFunction, withTranslation, WithTranslation } from 'react-i18next';
+import { withTranslation, WithTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
 import styled from '@emotion/styled';
 import { Spinner } from '@ndla/icons';
 
