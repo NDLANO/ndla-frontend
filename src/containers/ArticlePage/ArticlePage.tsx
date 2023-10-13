@@ -114,6 +114,7 @@ const ArticlePage = ({
         path: `${config.ndlaFrontendDomain}/article/${resource.article?.id}`,
         subject: subject?.id,
         components: converterComponents,
+        articleLanguage: resource.article.language,
       }),
       getArticleScripts(resource.article, i18n.language),
     ];

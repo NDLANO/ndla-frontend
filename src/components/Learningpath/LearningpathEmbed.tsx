@@ -136,6 +136,7 @@ const LearningpathEmbed = ({
         path: `${config.ndlaFrontendDomain}/article/${article.id}`,
         subject: subjectId,
         components: converterComponents,
+        articleLanguage: article.language,
       }),
       getArticleScripts(article, i18n.language),
     ];

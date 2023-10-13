@@ -234,6 +234,7 @@ const Article = ({
             />
           ) : undefined
         }
+        lang={art.language}
         notions={notions}
         renderMarkdown={renderMarkdown}
         modifier={isResourceArticle ? resourceType : modifier ?? 'clean'}
