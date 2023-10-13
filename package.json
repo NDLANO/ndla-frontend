@@ -137,6 +137,7 @@
     "@ndla/ui": "^46.0.2",
     "@ndla/util": "^3.2.0",
     "@ndla/zendesk": "^1.2.24",
+    "@ndla/typography": "^0.2.1",
     "bunyan": "^1.8.15",
     "cross-env": "^7.0.3",
     "date-fns": "^2.30.0",

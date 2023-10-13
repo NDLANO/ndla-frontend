@@ -19,7 +19,8 @@ import {
   AccordionRoot,
 } from '@ndla/accordion';
 import { CreatedBy } from '@ndla/ui';
-import { colors, fonts, spacing } from '@ndla/core';
+import { colors, spacing } from '@ndla/core';
+import { Text } from '@ndla/typography';
 import { useLocation } from 'react-router-dom';
 import ResourceEmbedLicenseBox from './ResourceEmbedLicenseBox';
 import {
@@ -44,8 +45,6 @@ const CreatedByWrapper = styled.div`
 const StyledAccordionHeader = styled(AccordionHeader)`
   background-color: ${colors.brand.lightest};
   border: 1px solid ${colors.brand.tertiary};
-  font-size: ${fonts.sizes('16px', '29px')};
-  font-weight: ${fonts.weight.semibold};
 `;
 
 interface Props {
@@ -204,7 +203,9 @@ const ResourceEmbed = ({ id, type, noBackground, isOembed }: Props) => {
               hasLicensedContent(data.resourceEmbed.meta) && (
                 <AccordionItem value="rulesForUse">
                   <StyledAccordionHeader>
-                    {t('article.useContent')}
+                    <Text element="span" textStyle="button" margin="none">
+                      {t('article.useContent')}
+                    </Text>
                   </StyledAccordionHeader>
                   <AccordionContent>
                     <ResourceEmbedLicenseBox
