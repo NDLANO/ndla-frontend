@@ -70,6 +70,7 @@ export const IframeTopicPage = ({
       transformArticle(propArticle, locale, {
         path: `${config.ndlaFrontendDomain}/article/${propArticle.id}`,
         isOembed: true,
+        articleLanguage: propArticle.language,
       }),
       getArticleScripts(propArticle, locale),
     ];

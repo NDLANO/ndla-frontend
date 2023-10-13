@@ -2570,13 +2570,13 @@
     "@ndla/icons" "^4.0.9"
     "@radix-ui/react-accordion" "^1.1.2"
 
-"@ndla/article-converter@^4.0.20":
-  version "4.0.20"
-  resolved "https://registry.yarnpkg.com/@ndla/article-converter/-/article-converter-4.0.20.tgz#17eeeeae7a0187c8318535145e2a59494dd23b3c"
-  integrity sha512-OVmCWRoO9ldpho1STQDEkLa0VkXAYMdDb+EFPmYRxhPALz8fnqtn6GT9hGKz2fLHOScxrkenu+A+BjXX61fshg==
+"@ndla/article-converter@^4.1.0":
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/@ndla/article-converter/-/article-converter-4.1.0.tgz#bce94562a841a670ebc8d61fd5e3015346425213"
+  integrity sha512-cNb2FyH8sCJ5DfRxU7V7Z7Y1Ol2e7tax8ffnVXNLcdX4tASef5jQ8umugoS8irXFKsv4KR6La5yKniQmG6nb2g==
   dependencies:
     "@ndla/code" "^4.0.6"
-    "@ndla/ui" "^46.0.1"
+    "@ndla/ui" "^46.0.2"
     html-react-parser "^3.0.8"
     lodash "^4.17.20"
 
@@ -2779,10 +2779,10 @@
   dependencies:
     "@ndla/core" "^4.1.9"
 
-"@ndla/ui@^46.0.1":
-  version "46.0.1"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-46.0.1.tgz#13ab1857cfe0ba4c00e45cf6a28304935cf257a5"
-  integrity sha512-SYxlq1ue966GljEaGNLNAdbEjb4TJCIqdnA+MVCh6Df63I477Kt7pSeSp6drd4gluLcGnTBKj1fB8uxbnQdtPg==
+"@ndla/ui@^46.0.2":
+  version "46.0.2"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-46.0.2.tgz#dfbfa44a16415949d190471447de2a3e6901f1c5"
+  integrity sha512-NDJ18km+xD0l5YSIVNFZjgNqiO8WPUCb3EwfWZDen3obcYD9/EW/H9z/Q/KfWPg1UxSt/QjDw9NGw7wQ+BShVQ==
   dependencies:
     "@ndla/accordion" "^2.2.25"
     "@ndla/button" "^11.0.10"
