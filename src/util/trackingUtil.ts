@@ -6,7 +6,7 @@
  *
  */
 
-import { FeideUserApiType } from '@ndla/ui';
+import { FeideUserApiType } from '../interfaces';
 import {
   GQLArticle,
   GQLSubject,

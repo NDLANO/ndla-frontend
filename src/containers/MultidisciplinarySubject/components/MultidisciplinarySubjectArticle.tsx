@@ -130,6 +130,7 @@ const MultidisciplinarySubjectArticle = ({
         path: `${config.ndlaFrontendDomain}/article/${topic.article.id}`,
         subject: subject.id,
         components: converterComponents,
+        articleLanguage: topic.article.language,
       }),
       getArticleScripts(topic.article, i18n.language),
     ];

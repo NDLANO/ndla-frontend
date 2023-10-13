@@ -76,6 +76,7 @@ const PlainArticleContainer = ({
       transformArticle(propArticle, i18n.language, {
         path: `${config.ndlaFrontendDomain}/article/${propArticle.id}`,
         components: converterComponents,
+        articleLanguage: propArticle.language,
       }),
       getArticleScripts(propArticle, i18n.language),
     ];

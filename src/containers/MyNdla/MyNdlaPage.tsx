@@ -15,7 +15,7 @@ import { fonts, spacing } from '@ndla/core';
 import { HeartOutline, MenuBook } from '@ndla/icons/action';
 import { FolderOutlined } from '@ndla/icons/contentType';
 import { Feide, Share } from '@ndla/icons/common';
-import { BannerCard, ListResource, UserInfo } from '@ndla/ui';
+import { BannerCard, ListResource } from '@ndla/ui';
 import { ButtonV2 } from '@ndla/button';
 import SafeLink, { SafeLinkButton } from '@ndla/safelink';
 import { HelmetWithTracker, useTracker } from '@ndla/tracker';
@@ -43,6 +43,7 @@ import { isStudent } from './Folders/util';
 import { useBaseName } from '../../components/BaseNameContext';
 import { useDeletePersonalData } from './userMutations';
 import { getAllDimensions } from '../../util/trackingUtil';
+import { UserInfo } from './components/UserInfo';
 
 const ShareIcon = InfoPartIcon.withComponent(Share);
 const HeartOutlineIcon = InfoPartIcon.withComponent(HeartOutline);
