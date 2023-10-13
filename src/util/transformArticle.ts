@@ -13,7 +13,7 @@ import formatDate from './formatDate';
 
 function getContent(
   content: string,
-  { path, isOembed, subject, components }: TransformOptions,
+  { path, isOembed, subject, components, articleLanguage }: TransformOptions,
 ) {
   return transform(content, {
     frontendDomain: '',
@@ -21,6 +21,7 @@ function getContent(
     isOembed,
     subject,
     components,
+    articleLanguage,
   });
 }
 
