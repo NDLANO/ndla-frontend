@@ -1,7 +1,15 @@
+/*
+ * Copyright (c) 2022-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import { useTranslation } from 'react-i18next';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { breakpoints, fonts, mq, spacing } from '@ndla/core';
+import { breakpoints, mq, spacing } from '@ndla/core';
 import {
   ModalBody,
   ModalHeader,
@@ -13,6 +21,7 @@ import {
 import { Switch } from '@ndla/switch';
 import { LearningPathQuiz } from '@ndla/icons/contentType';
 import { IconButtonV2 } from '@ndla/button';
+import { Heading, Text } from '@ndla/typography';
 import { HeadingType } from '../../interfaces';
 
 const switchCSS = css`
@@ -22,13 +31,6 @@ const switchCSS = css`
 const invertedSwitchCSS = css`
   margin-right: ${spacing.xsmall};
   color: #fff;
-`;
-
-const headingStyle = css`
-  ${fonts.sizes('20px', '26px')};
-  font-weight: ${fonts.weight.bold};
-  margin: 0;
-  text-transform: uppercase;
 `;
 
 const TopicTitleWrapper = styled.header`
@@ -54,11 +56,6 @@ const StyledRow = styled.div`
   gap: ${spacing.xsmall};
 `;
 
-const StyledParagraph = styled.p`
-  margin: 0;
-  padding: 0;
-`;
-
 const StyledHGroup = styled.hgroup`
   display: flex;
   gap: ${spacing.small};
@@ -80,7 +77,7 @@ const ResourcesTopicTitle = ({
   hasAdditionalResources,
   toggleAdditionalResources,
   showAdditionalResources,
-  heading: Heading,
+  heading,
   invertedStyle = false,
 }: Props) => {
   const { t } = useTranslation();
@@ -92,8 +89,12 @@ const ResourcesTopicTitle = ({
       css={invertedStyle ? invertedTopicTitleWrapperStyle : undefined}
     >
       <StyledHGroup>
-        <Heading css={headingStyle}>{title}</Heading>
-        <StyledParagraph>{subTitle}</StyledParagraph>
+        <Heading element={heading} headingStyle="list-title" margin="none">
+          {title}
+        </Heading>
+        <Text textStyle="content-alt" margin="none">
+          {subTitle}
+        </Text>
       </StyledHGroup>
       {hasAdditionalResources && (
         <StyledRow>
