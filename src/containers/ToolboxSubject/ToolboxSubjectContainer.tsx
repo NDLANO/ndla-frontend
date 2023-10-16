@@ -17,7 +17,8 @@ import {
 } from '@ndla/ui';
 import { useEffect, createRef, useState, useMemo, useContext } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { TFunction, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { GQLToolboxSubjectContainer_SubjectFragment } from '../../graphqlTypes';

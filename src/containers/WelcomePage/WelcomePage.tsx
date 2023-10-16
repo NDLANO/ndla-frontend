@@ -217,7 +217,6 @@ const WelcomePage = () => {
           ..._article.copyright,
           processed: _article.copyright.processed ?? false,
         },
-        introduction: transformedArticle.introduction ?? '',
       },
       getArticleScripts(_article, i18n.language),
     ];
