@@ -44,6 +44,7 @@ import { useBaseName } from '../../components/BaseNameContext';
 import { useDeletePersonalData } from './userMutations';
 import { getAllDimensions } from '../../util/trackingUtil';
 import ArenaCard from './ArenaCards/ArenaCard'; //Temp for å teste styling
+import ArenaPage from './ArenaPage/ArenaPage';
 
 const ShareIcon = InfoPartIcon.withComponent(Share);
 const HeartOutlineIcon = InfoPartIcon.withComponent(HeartOutline);
@@ -200,6 +201,7 @@ const MyNdlaPage = () => {
           <Trans i18nKey="myNdla.myPage.folderInfo.text" />
         </InfoPartText>
       </InfoPart>
+      <ArenaPage />
       <ArenaCard //Temp for å teste styling
         id="123"
         cardType="ArenaCategory"

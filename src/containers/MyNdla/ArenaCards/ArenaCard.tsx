@@ -20,7 +20,7 @@ interface Props {
   cardType: 'ArenaCategory' | 'ArenaTopic';
   title: string;
   subText: string;
-  timestamp: string;
+  timestamp?: string;
   count: number;
   locked?: boolean;
 }
