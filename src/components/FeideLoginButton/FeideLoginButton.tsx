@@ -10,7 +10,6 @@ import { ReactNode, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import { UserInfo } from '@ndla/ui';
 import { ButtonV2 as Button, ButtonV2 } from '@ndla/button';
 import { colors, spacing } from '@ndla/core';
 import { SafeLinkButton } from '@ndla/safelink';
@@ -23,6 +22,7 @@ import {
   ModalHeader,
   ModalTrigger,
 } from '@ndla/modal';
+import { UserInfo } from '../../containers/MyNdla/components/UserInfo';
 import { AuthContext } from '../AuthenticationContext';
 import IsMobileContext from '../../IsMobileContext';
 import { useIsNdlaFilm } from '../../routeHelpers';
@@ -65,6 +65,9 @@ const StyledButton = styled(ButtonV2)`
   margin-top: ${spacing.normal};
 `;
 
+const StyledLogOut = styled(LogOut)`
+  color: ${colors.white};
+`;
 interface Props {
   footer?: boolean;
   children?: ReactNode;
@@ -137,7 +140,7 @@ const FeideLoginButton = ({ footer, children }: Props) => {
             }}
           >
             {t('user.buttonLogOut')}
-            <LogOut />
+            <StyledLogOut />
           </StyledButton>
         </ModalBody>
       </ModalContent>

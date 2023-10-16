@@ -7,8 +7,8 @@
  */
 import { gql } from '@apollo/client';
 import { useTracker } from '@ndla/tracker';
-import { FeideUserApiType, Topic as UITopic } from '@ndla/ui';
-import { useEffect, useMemo, useState } from 'react';
+import { Topic as UITopic } from '@ndla/ui';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { Remarkable } from 'remarkable';
 import { TFunction, useTranslation } from 'react-i18next';
 
@@ -24,6 +24,7 @@ import { getAllDimensions } from '../../../util/trackingUtil';
 import Resources from '../../Resources/Resources';
 import { SKIP_TO_CONTENT_ID } from '../../../constants';
 import TopicVisualElementContent from '../../SubjectPage/components/TopicVisualElementContent';
+import { AuthContext } from '../../../components/AuthenticationContext';
 
 interface Props {
   topicId: string;
@@ -33,7 +34,6 @@ interface Props {
   topic: GQLMultidisciplinaryTopic_TopicFragment;
   loading?: boolean;
   disableNav?: boolean;
-  user?: FeideUserApiType;
 }
 
 const getDocumentTitle = (name: string, t: TFunction) => {
@@ -47,9 +47,9 @@ const MultidisciplinaryTopic = ({
   topic,
   subject,
   disableNav,
-  user,
 }: Props) => {
   const { t } = useTranslation();
+  const { user, authContextLoaded } = useContext(AuthContext);
   const { trackPageView } = useTracker();
   const [showContent, setShowContent] = useState(false);
   const ndlaFilm = useIsNdlaFilm();
@@ -60,7 +60,7 @@ const MultidisciplinaryTopic = ({
   }, [topicId]);
 
   useEffect(() => {
-    if (!topic?.article) return;
+    if (!topic?.article || !authContextLoaded) return;
     const topicPath = topic.path
       ?.split('/')
       .slice(2)
@@ -83,7 +83,16 @@ const MultidisciplinaryTopic = ({
     );
 
     trackPageView({ dimensions, title: getDocumentTitle(topic.name, t) });
-  }, [subject, t, topic.article, topic.name, topic.path, trackPageView, user]);
+  }, [
+    authContextLoaded,
+    subject,
+    t,
+    topic.article,
+    topic.name,
+    topic.path,
+    trackPageView,
+    user,
+  ]);
 
   const markdown = useMemo(() => {
     const md = new Remarkable({ breaks: true });

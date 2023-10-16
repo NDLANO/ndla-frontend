@@ -7,9 +7,9 @@
  */
 
 import { gql } from '@apollo/client';
-import { useEffect, useMemo } from 'react';
+import { useContext, useEffect, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { OneColumn, LayoutItem, FeideUserApiType, constants } from '@ndla/ui';
+import { OneColumn, LayoutItem, constants } from '@ndla/ui';
 import { TFunction, useTranslation } from 'react-i18next';
 import { GraphQLError } from 'graphql';
 import { DynamicComponents } from '@ndla/article-converter';
@@ -44,6 +44,7 @@ import {
   GQLArticlePage_TopicPathFragment,
 } from '../../graphqlTypes';
 import AddEmbedToFolder from '../../components/MyNdla/AddEmbedToFolder';
+import { AuthContext } from '../../components/AuthenticationContext';
 
 interface Props {
   resource?: GQLArticlePage_ResourceFragment;
@@ -54,7 +55,6 @@ interface Props {
   resourceTypes?: GQLArticlePage_ResourceTypeFragment[];
   errors?: readonly GraphQLError[];
   loading?: boolean;
-  user?: FeideUserApiType;
   skipToContentId?: string;
 }
 
@@ -71,14 +71,14 @@ const ArticlePage = ({
   errors,
   skipToContentId,
   loading,
-  user,
 }: Props) => {
+  const { user, authContextLoaded } = useContext(AuthContext);
   const { t, i18n } = useTranslation();
   const { trackPageView } = useTracker();
   const subjectPageUrl = config.ndlaFrontendDomain;
 
   useEffect(() => {
-    if (!loading) {
+    if (!loading && authContextLoaded) {
       const articleProps = getArticleProps(resource);
       const dimensions = getAllDimensions(
         {
@@ -96,7 +96,16 @@ const ArticlePage = ({
         title: getDocumentTitle(t, resource, subject),
       });
     }
-  }, [loading, resource, subject, t, topicPath, trackPageView, user]);
+  }, [
+    authContextLoaded,
+    loading,
+    resource,
+    subject,
+    t,
+    topicPath,
+    trackPageView,
+    user,
+  ]);
 
   const [article, scripts] = useMemo(() => {
     if (!resource?.article) return [];
@@ -105,6 +114,7 @@ const ArticlePage = ({
         path: `${config.ndlaFrontendDomain}/article/${resource.article?.id}`,
         subject: subject?.id,
         components: converterComponents,
+        articleLanguage: resource.article.language,
       }),
       getArticleScripts(resource.article, i18n.language),
     ];

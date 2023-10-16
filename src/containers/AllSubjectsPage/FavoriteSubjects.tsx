@@ -6,19 +6,12 @@
  *
  */
 
-import styled from '@emotion/styled';
-import { fonts, spacing } from '@ndla/core';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Heading } from '@ndla/typography';
 import { Subject } from './interfaces';
 import { GridList } from './SubjectCategory';
 import SubjectLink from './SubjectLink';
-
-const StyledHeader = styled.h2`
-  text-transform: uppercase;
-  margin: ${spacing.normal} ${spacing.nsmall};
-  ${fonts.sizes('18px', '24px')}
-`;
 
 interface Props {
   subjects: Subject[];
@@ -34,7 +27,9 @@ const FavoriteSubjects = ({ favorites, subjects }: Props) => {
 
   return (
     <div>
-      <StyledHeader>{t('subjectsPage.myFavoriteSubjects')}</StyledHeader>
+      <Heading element="h2" headingStyle="list-title">
+        {t('subjectsPage.myFavoriteSubjects')}
+      </Heading>
       <GridList>
         {mappedFavorites.map((subject) => (
           <SubjectLink
