@@ -6,7 +6,7 @@
  *
  */
 
-import { useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { css } from '@emotion/react';
 import { spacingUnit, utils } from '@ndla/core';
@@ -87,6 +87,10 @@ const FilmFrontpage = ({
     (about) => about.language === i18n.language,
   );
 
+  const definedSlideshowMovies = useMemo(
+    () => filmFrontpage?.slideShow.filter((slideshow) => !!slideshow.metaImage),
+    [filmFrontpage?.slideShow],
+  );
   const onChangeResourceType = (resourceType?: string) => {
     const placeholderHeight = `${movieListRef.current?.getBoundingClientRect()
       .height}px`;
@@ -118,8 +122,8 @@ const FilmFrontpage = ({
       <main>
         {loading ? (
           <Spinner />
-        ) : filmFrontpage?.slideShow ? (
-          <FilmSlideshow slideshow={filmFrontpage.slideShow} />
+        ) : definedSlideshowMovies ? (
+          <FilmSlideshow slideshow={definedSlideshowMovies} />
         ) : null}
         <FilmMovieSearch
           skipToContentId={skipToContentId}
