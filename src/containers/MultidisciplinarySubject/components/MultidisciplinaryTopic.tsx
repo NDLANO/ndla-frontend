@@ -9,10 +9,10 @@ import { gql } from '@apollo/client';
 import { useTracker } from '@ndla/tracker';
 import { Topic as UITopic } from '@ndla/ui';
 import { useContext, useEffect, useMemo, useState } from 'react';
-import { Remarkable } from 'remarkable';
-import { TFunction, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
 
-import { extractEmbedMeta } from '@ndla/article-converter';
+import { DynamicComponents, extractEmbedMeta } from '@ndla/article-converter';
 import ArticleContents from '../../../components/Article/ArticleContents';
 import {
   GQLMultidisciplinaryTopic_SubjectFragment,
@@ -24,6 +24,10 @@ import { getAllDimensions } from '../../../util/trackingUtil';
 import Resources from '../../Resources/Resources';
 import { SKIP_TO_CONTENT_ID } from '../../../constants';
 import TopicVisualElementContent from '../../SubjectPage/components/TopicVisualElementContent';
+import config from '../../../config';
+import { transformArticle } from '../../../util/transformArticle';
+import { getArticleScripts } from '../../../util/getArticleScripts';
+import AddEmbedToFolder from '../../../components/MyNdla/AddEmbedToFolder';
 import { AuthContext } from '../../../components/AuthenticationContext';
 
 interface Props {
@@ -40,6 +44,10 @@ const getDocumentTitle = (name: string, t: TFunction) => {
   return htmlTitle(name, [t('htmlTitles.titleTemplate')]);
 };
 
+const converterComponents: DynamicComponents = {
+  heartButton: AddEmbedToFolder,
+};
+
 const MultidisciplinaryTopic = ({
   topicId,
   subjectId,
@@ -48,7 +56,7 @@ const MultidisciplinaryTopic = ({
   subject,
   disableNav,
 }: Props) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { user, authContextLoaded } = useContext(AuthContext);
   const { trackPageView } = useTracker();
   const [showContent, setShowContent] = useState(false);
@@ -94,14 +102,6 @@ const MultidisciplinaryTopic = ({
     user,
   ]);
 
-  const markdown = useMemo(() => {
-    const md = new Remarkable({ breaks: true });
-    md.inline.ruler.enable(['sub', 'sup']);
-    md.block.ruler.disable(['list']);
-    return md;
-  }, []);
-  const renderMarkdown = (text: string) => markdown.render(text);
-
   const embedMeta = useMemo(() => {
     if (!topic.article?.visualElementEmbed?.content) return undefined;
     const embedMeta = extractEmbedMeta(
@@ -133,9 +133,19 @@ const MultidisciplinaryTopic = ({
       url: toTopic(subjectId, ...(topicPath ?? []), item.id),
     })) ?? [];
 
-  const { article } = topic;
+  const [article, scripts] = useMemo(() => {
+    if (!topic.article) return [undefined, undefined];
+    return [
+      transformArticle(topic.article, i18n.language, {
+        path: `${config.ndlaFrontendDomain}/article/${topic.article?.id}`,
+        subject: subjectId,
+        components: converterComponents,
+      }),
+      getArticleScripts(topic.article, i18n.language),
+    ];
+  }, [i18n.language, subjectId, topic.article]);
 
-  if (!article) {
+  if (!topic.article || !article) {
     return null;
   }
 
@@ -147,24 +157,25 @@ const MultidisciplinaryTopic = ({
           : undefined
       }
       title={article.title}
-      introduction={article.introduction ?? ''}
+      introduction={article.introduction}
       metaImage={article.metaImage}
       visualElementEmbedMeta={embedMeta}
       visualElement={visualElement}
       onToggleShowContent={
-        article?.content !== '' ? () => setShowContent(!showContent) : undefined
+        topic.article?.content !== ''
+          ? () => setShowContent(!showContent)
+          : undefined
       }
       showContent={showContent}
       subTopics={!disableNav ? subTopics : undefined}
       isLoading={false}
-      renderMarkdown={renderMarkdown}
       invertedStyle={ndlaFilm}
     >
       <ArticleContents
-        topic={topic}
+        article={article}
+        scripts={scripts}
         modifier="in-topic"
         showIngress={false}
-        subjectId={subjectId}
       />
     </UITopic>
   );
@@ -189,12 +200,12 @@ export const multidisciplinaryTopicFragments = {
             ...TopicVisualElementContent_Meta
           }
         }
+        ...ArticleContents_Article
       }
-      ...ArticleContents_Topic
       ...Resources_Topic
     }
     ${Resources.fragments.topic}
-    ${ArticleContents.fragments.topic}
+    ${ArticleContents.fragments.article}
     ${TopicVisualElementContent.fragments.metadata}
   `,
   subject: gql`

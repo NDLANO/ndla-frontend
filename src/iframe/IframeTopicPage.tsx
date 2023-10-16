@@ -82,7 +82,7 @@ export const IframeTopicPage = ({
   return (
     <>
       <Helmet>
-        <title>{`${getDocumentTitle({ article })}`}</title>
+        <title>{`${getDocumentTitle({ article: propArticle })}`}</title>
         <meta name="robots" content="noindex" />
         {scripts.map((script) => (
           <script
