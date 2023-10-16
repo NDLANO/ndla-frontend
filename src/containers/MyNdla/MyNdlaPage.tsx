@@ -205,16 +205,25 @@ const MyNdlaPage = () => {
       <ArenaCard //Temp for å teste styling
         id="123"
         cardType="ArenaCategory"
-        title={'Navn på kategori'}
-        subText={'Beskrivelse'}
+        title="Elektronikk "
+        subText="Diskuter, del og samarbeid om alt innen elektronikkfagene"
         timestamp={'2023-10-05T10:00:00Z'}
         count={29}
       />
       <ArenaCard
         id="1"
         cardType="ArenaTopic"
-        title={'Innlegg'}
-        subText={'Kategori'}
+        title="Åpent innlegg"
+        subText="Kategori"
+        timestamp={'7.1.2023'}
+        count={10}
+        locked={true}
+      />
+      <ArenaCard
+        id="2"
+        cardType="ArenaTopic"
+        title="Låst innlegg"
+        subText="Kategori"
         timestamp={'7.1.2023'}
         count={10}
       />

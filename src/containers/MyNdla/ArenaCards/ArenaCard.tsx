@@ -12,8 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { colors, spacing, breakpoints, mq, fonts, misc } from '@ndla/core';
 import Icon from '@ndla/icons';
 import { css } from '@emotion/react';
-import { MenuBook } from '@ndla/icons/action';
-import { Share } from '@ndla/icons/common';
+import { Forum, ForumOutlined, Locked } from '@ndla/icons/common';
 
 interface Props {
   id: string;
@@ -27,9 +26,18 @@ interface Props {
 
 const StyledCategoryCard = css`
   background-color: ${colors.background.default};
+  svg:nth-child(2) {
+    display: none;
+  }
   &:hover,
   &:focus-visible {
     background-color: ${colors.background.lightBlue};
+    svg:nth-child(1) {
+      display: none;
+    }
+    svg:nth-child(2) {
+      display: block;
+    }
   }
 `;
 
@@ -92,6 +100,7 @@ const StyledCountContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-right: ${spacing.xsmall};
   color: ${colors.text.primary};
   ${mq.range({ until: breakpoints.tabletWide })} {
     display: none;
@@ -119,8 +128,9 @@ const StyledLockedIcon = styled(Icon)`
   color: ${colors.brand.primary};
 `;
 
-const FolderIcon = StyledLeftIcon.withComponent(MenuBook); //Temp før nye iconer kommer til biblioteket
-const LockedIcon = StyledLockedIcon.withComponent(Share); //Temp før nye iconer kommer til biblioteket
+const FolderFilledIcon = StyledLeftIcon.withComponent(Forum);
+const FolderOutlinedIcon = StyledLeftIcon.withComponent(ForumOutlined);
+const LockedIcon = StyledLockedIcon.withComponent(Locked); //Temp før nye iconer kommer til biblioteket
 
 const StyledAvatarContainer = styled.div`
   //Placeholder til avatar kommer
@@ -155,7 +165,10 @@ const ArenaCard = ({
       to=""
     >
       {cardType === 'ArenaCategory' ? (
-        <FolderIcon />
+        <>
+          <FolderOutlinedIcon />
+          <FolderFilledIcon />
+        </>
       ) : (
         <StyledAvatarContainer>R</StyledAvatarContainer>
       )}
