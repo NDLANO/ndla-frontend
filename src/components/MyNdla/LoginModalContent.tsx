@@ -14,16 +14,8 @@ import {
 } from '@ndla/modal';
 import { ReactNode } from 'react';
 import styled from '@emotion/styled';
-import { breakpoints, fonts, mq } from '@ndla/core';
+import { Heading } from '@ndla/typography';
 import LoginComponent from './LoginComponent';
-
-const Title = styled.h1`
-  margin-bottom: 0;
-  ${fonts.sizes('30px')};
-  ${mq.range({ until: breakpoints.tablet })} {
-    ${fonts.sizes('20px')};
-  }
-`;
 
 interface Props {
   title?: string;
@@ -41,7 +33,9 @@ const LoginModalContent = ({ title, content, masthead = false }: Props) => {
   return (
     <ModalContent>
       <ModalHeader>
-        <Title>{title}</Title>
+        <Heading element="h1" headingStyle="default">
+          {title}
+        </Heading>
         <ModalCloseButton />
       </ModalHeader>
       <StyledModalBody>

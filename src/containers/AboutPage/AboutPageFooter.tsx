@@ -108,7 +108,7 @@ const AboutPageFooter = ({ frontpage }: Props) => {
 
   const isRoot = useMemo(() => crumb.length === 1, [crumb]);
 
-  if (!title || !slug) return null;
+  if (!title || !slug || !menu?.length) return null;
 
   return (
     <FooterWrapper>

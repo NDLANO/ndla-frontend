@@ -7,7 +7,9 @@
  */
 
 import { gql } from '@apollo/client';
-import { TFunction, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
+import parse from 'html-react-parser';
 import { Topic } from '@ndla/ui';
 import { useTracker } from '@ndla/tracker';
 import { useContext, useEffect, useMemo } from 'react';
@@ -137,7 +139,7 @@ const ToolboxTopicWrapper = ({
       isLoading={loading}
       subTopics={subTopics}
       title={topic.article.title}
-      introduction={topic.article.introduction ?? ''}
+      introduction={parse(topic.article.introduction ?? '')}
       metaImage={topic.article.metaImage}
       visualElementEmbedMeta={embedMeta}
       visualElement={visualElement}

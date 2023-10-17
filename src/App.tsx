@@ -41,6 +41,7 @@ import SharedFolderPage from './containers/SharedFolderPage/SharedFolderPage';
 import FavoriteSubjectsPage from './containers/MyNdla/FavoriteSubjects/FavoriteSubjectsPage';
 import { useEnableTaxStructure } from './components/TaxonomyStructureContext';
 import AboutPage from './containers/AboutPage/AboutPage';
+import H5pPage from './containers/ResourceEmbed/H5pPage';
 
 interface State {
   hasError: boolean;
@@ -146,6 +147,7 @@ const AppRoutes = ({ base }: AppProps) => {
                 <Route path="image/:imageId" element={<ImagePage />} />
                 <Route path="concept/:conceptId" element={<ConceptPage />} />
                 <Route path="audio/:audioId" element={<AudioPage />} />
+                <Route path="h5p/:h5pId" element={<H5pPage />} />
                 <Route
                   path="minndla"
                   element={<PrivateRoute element={<MyNdlaLayout />} />}
