@@ -126,7 +126,7 @@ const MyProfilePage = () => {
         )}
         <LinkText>
           {`${t('myNdla.myPage.read.read')} `}
-          <SafeLink to={t('myNdla.myPage.privacyLink')}>
+          <SafeLink target="_blank" to={t('myNdla.myPage.privacyLink')}>
             {t('myNdla.myPage.privacy')}
           </SafeLink>
           {`${t('myNdla.myPage.read.our')} `}
