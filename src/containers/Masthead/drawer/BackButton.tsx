@@ -9,8 +9,7 @@
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { breakpoints, colors, mq, spacing } from '@ndla/core';
-import { Home } from '@ndla/icons/action';
-import { Back } from '@ndla/icons/common';
+import { Back, Home } from '@ndla/icons/common';
 
 interface Props {
   onGoBack: () => void;
