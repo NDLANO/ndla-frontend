@@ -8,7 +8,8 @@
 
 import { gql } from '@apollo/client';
 import Tabs from '@ndla/tabs';
-import { useTranslation, TFunction } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
 import ImageLicenseList from './ImageLicenseList';
 import AudioLicenseList from './AudioLicenseList';
 import PodcastLicenseList from './PodcastLicenseList';

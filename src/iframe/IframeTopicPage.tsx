@@ -70,6 +70,7 @@ export const IframeTopicPage = ({
       transformArticle(propArticle, locale, {
         path: `${config.ndlaFrontendDomain}/article/${propArticle.id}`,
         isOembed: true,
+        articleLanguage: propArticle.language,
       }),
       getArticleScripts(propArticle, locale),
     ];
@@ -81,7 +82,7 @@ export const IframeTopicPage = ({
   return (
     <>
       <Helmet>
-        <title>{`${getDocumentTitle({ article })}`}</title>
+        <title>{`${getDocumentTitle({ article: propArticle })}`}</title>
         <meta name="robots" content="noindex" />
         {scripts.map((script) => (
           <script

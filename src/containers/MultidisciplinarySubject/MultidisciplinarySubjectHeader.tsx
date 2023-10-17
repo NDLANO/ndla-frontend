@@ -8,9 +8,10 @@
 
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
-import { breakpoints, mq, fonts, spacing } from '@ndla/core';
+import { breakpoints, mq, spacing } from '@ndla/core';
 import SafeLink from '@ndla/safelink';
 import { HomeBreadcrumb, SimpleBreadcrumbItem } from '@ndla/ui';
+import { Text } from '@ndla/typography';
 import {
   ClimateIllustration,
   DemocracyClimateIllustration,
@@ -55,13 +56,8 @@ const TextWrapper = styled.div`
   }
 `;
 
-const Heading = styled.div`
-  ${fonts.sizes('18px', '24px')};
-  margin-bottom: 10px;
-`;
-
 const SubjectsWrapper = styled.div`
-  ${fonts.sizes('14px', '18px')};
+  margin-top: ${spacing.small};
 `;
 
 type IllustrationsWrapperProps = {
@@ -118,9 +114,13 @@ const MultidisciplinarySubjectHeader = ({
       <ContentWrapper>
         <TextWrapper>
           <HomeBreadcrumb items={breadcrumbs} />
-          <Heading>{t('frontpageMultidisciplinarySubject.heading')}</Heading>
+          <Text element="span" textStyle="meta-text-large">
+            {t('frontpageMultidisciplinarySubject.heading')}
+          </Text>
           <SubjectsWrapper>
-            {t('multidisciplinarySubject.subjectsLinksDescription')}:{' '}
+            <Text textStyle="content-alt" element="span" margin="none">
+              {t('multidisciplinarySubject.subjectsLinksDescription')}:{' '}
+            </Text>
             {subjectsLinks.map((subject, index) => {
               return (
                 <span key={subject.label}>

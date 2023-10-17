@@ -21,7 +21,8 @@ import {
 } from '@ndla/ui';
 import { Heading } from '@ndla/typography';
 import { useTracker } from '@ndla/tracker';
-import { TFunction, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
 import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
 import SubjectPageContent from './components/SubjectPageContent';
@@ -215,7 +216,7 @@ const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
             <StyledHeading
               element="h1"
               margin="xlarge"
-              headingStyle="h1"
+              headingStyle="h1-resource"
               data-inverted={ndlaFilm}
               id={topicIds.length === 0 ? SKIP_TO_CONTENT_ID : undefined}
               tabIndex={-1}

@@ -15,6 +15,7 @@ import { ReactNode } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { ModalCloseButton } from '@ndla/modal';
+import { Heading, Text } from '@ndla/typography';
 import { toHref } from '../../util/urlHelper';
 
 const LoginComponentContainer = styled.div`
@@ -44,14 +45,6 @@ const BottomRow = styled.div`
 const ButtonRow = styled.div`
   display: flex;
   gap: ${spacing.small};
-`;
-
-const Title = styled.h1`
-  margin-bottom: 0;
-  ${fonts.sizes('30px')};
-  ${mq.range({ until: breakpoints.tablet })} {
-    ${fonts.sizes('20px')};
-  }
 `;
 
 const TitleRow = styled.div`
@@ -89,9 +82,9 @@ const LoginComponent = ({ masthead, content }: Props) => {
     <LoginComponentContainer>
       {!content && (
         <TitleRow>
-          <Title>
+          <Heading headingStyle="h2" element="h1">
             <Trans t={t} i18nKey="myNdla.myPage.loginWelcome" />
-          </Title>
+          </Heading>
           <StyledImage
             src="/static/my-ndla-login.png"
             alt={t('myNdla.myPage.imageAlt')}
@@ -100,12 +93,12 @@ const LoginComponent = ({ masthead, content }: Props) => {
       )}
       {content}
       <ContentWrapper>
-        <p>
+        <Text textStyle="meta-text-large">
           {t('myNdla.myPage.loginText')}
           <SafeLink target="_blank" to="https://om.ndla.no/gdpr">
             {t('myNdla.myPage.loginTextLink')}
           </SafeLink>
-        </p>
+        </Text>
       </ContentWrapper>
       <BottomRow>
         <FeideRow>

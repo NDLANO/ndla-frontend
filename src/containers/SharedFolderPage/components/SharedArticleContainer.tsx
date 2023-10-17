@@ -10,7 +10,8 @@ import { gql } from '@apollo/client';
 import { OneColumn } from '@ndla/ui';
 import { useContext, useEffect, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { TFunction, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
 import { useTracker } from '@ndla/tracker';
 import { DynamicComponents } from '@ndla/article-converter';
 import Article from '../../../components/Article';
@@ -85,6 +86,7 @@ const SharedArticleContainer = ({
       transformArticle(propArticle, i18n.language, {
         path: `${config.ndlaFrontendDomain}/article/${propArticle.id}`,
         components: converterComponents,
+        articleLanguage: propArticle.language,
       }),
       getArticleScripts(propArticle, i18n.language),
     ];

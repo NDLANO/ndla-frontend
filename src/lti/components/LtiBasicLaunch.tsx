@@ -6,7 +6,7 @@
 
 import styled from '@emotion/styled';
 import queryString from 'query-string';
-import { CustomWithTranslation, withTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import config from '../../config';
 import { LtiData, LtiItem } from '../../interfaces';
 
@@ -69,14 +69,17 @@ const getQuery = (ltiData: LtiData, item: LtiItem) => {
   })}`;
 };
 
-interface Props extends CustomWithTranslation {
+interface Props {
   ltiData: LtiData;
   item: LtiItem;
 }
-const LtiBasicLaunch = ({ ltiData, item, t }: Props) => (
-  <StyledLinkAsButton href={getQuery(ltiData, item)}>
-    {t('lti.embed')}
-  </StyledLinkAsButton>
-);
+const LtiBasicLaunch = ({ ltiData, item }: Props) => {
+  const { t } = useTranslation();
+  return (
+    <StyledLinkAsButton href={getQuery(ltiData, item)}>
+      {t('lti.embed')}
+    </StyledLinkAsButton>
+  );
+};
 
-export default withTranslation()(LtiBasicLaunch);
+export default LtiBasicLaunch;
