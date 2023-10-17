@@ -44,6 +44,7 @@ import { useBaseName } from '../../components/BaseNameContext';
 import { useDeletePersonalData } from './userMutations';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { UserInfo } from './components/UserInfo';
+import UserProfileTag from './components/UserProfileTag';
 
 const ShareIcon = InfoPartIcon.withComponent(Share);
 const HeartOutlineIcon = InfoPartIcon.withComponent(HeartOutline);
@@ -154,6 +155,7 @@ const MyNdlaPage = () => {
         <MyNdlaBreadcrumb page="minndla" breadcrumbs={[]} backCrumb="minndla" />
         <MyNdlaTitle title={t('myNdla.myPage.myPage')} />
       </TitleWrapper>
+      <UserProfileTag user={user} />
       <StyledDescription>{t('myNdla.myPage.welcome')}</StyledDescription>
       {config.allowedAIOrgs.includes(user?.baseOrg?.displayName ?? '') && (
         <StyledBannerCard
