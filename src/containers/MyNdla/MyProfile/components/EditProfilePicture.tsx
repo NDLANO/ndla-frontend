@@ -13,8 +13,9 @@ import { useTranslation } from 'react-i18next';
 import { Pencil } from '@ndla/icons/action';
 
 const StyledChangeAvatarButton = styled(ButtonV2)`
-  min-width: 172px;
   height: 42px;
+  gap: 8px;
+  white-space: nowrap;
 `;
 
 const StyledPencilSvg = styled(Icon)`

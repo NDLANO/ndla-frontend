@@ -8,7 +8,7 @@
 
 import { useState } from 'react';
 import styled from '@emotion/styled';
-import { fonts, spacing } from '@ndla/core';
+import { colors, fonts, misc, spacing } from '@ndla/core';
 import { Heading } from '@ndla/typography';
 import { RadioButtonGroup } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
@@ -41,10 +41,40 @@ const OptionContainer = styled.div`
   gap: ${spacing.small};
 `;
 
-const SelectOtionContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
+const StyledRadioButtonGroup = styled(RadioButtonGroup)`
+  gap: 0px;
+  max-width: 380px;
+  padding: 0;
+  > div {
+    box-sizing: content-box;
+    border-radius: ${misc.borderRadius};
+    border: 1px solid ${colors.brand.greyLight};
+    border-radius: 0px;
+    padding: ${spacing.small} ${spacing.normal};
+    border-color: ${colors.brand.light};
+    &:focus-within,
+    &[data-state='checked'] {
+      outline: 0px;
+      border-color: ${colors.brand.primary};
+      border-radius: 0px;
+      z-index: 1;
+    }
+    &:first-of-type {
+      border-top-left-radius: ${misc.borderRadius};
+      border-top-right-radius: ${misc.borderRadius};
+    }
+    &:not(:first-of-type) {
+      margin-top: -1px;
+    }
+    &:last-of-type {
+      border-bottom-left-radius: ${misc.borderRadius};
+      border-bottom-right-radius: ${misc.borderRadius};
+    }
+    > label {
+      ${fonts.sizes('16px', '24px')}
+      font-weight: ${fonts.weight.semibold};
+    }
+  }
 `;
 
 const MyPreferences = () => {
@@ -75,23 +105,23 @@ const MyPreferences = () => {
         </StyledH2Heading>
         <StyledText>{t('myNdla.myProfile.preferenceText')}</StyledText>
       </OptionContainer>
-      <SelectOtionContainer>
-        <RadioButtonGroup
-          options={[
-            {
-              title: 'Vis navnet mitt når jeg deler en mappe',
-              value: 'showName',
-            },
-            {
-              title: 'Ikke vis navnet mitt når jeg deler en mappe        ',
-              value: 'dontShowName',
-            },
-          ]}
-          onChange={(value) => {
-            setUserPreference(value);
-          }}
-        />
-      </SelectOtionContainer>
+      <StyledRadioButtonGroup
+        options={[
+          {
+            title: t('myNdla.myProfile.radioButtonText.option1'),
+            value: 'showName',
+          },
+          {
+            title: t('myNdla.myProfile.radioButtonText.option2'),
+            value: 'dontShowName',
+          },
+        ]}
+        direction="vertical"
+        uniqeIds
+        onChange={(value) => {
+          setUserPreference(value);
+        }}
+      />
     </PreferenceContainer>
   );
 };
