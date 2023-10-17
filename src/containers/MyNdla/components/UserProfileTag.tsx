@@ -28,6 +28,7 @@ const UserProfileTagContainer = styled(SafeLink)`
   height: fit-content;
   width: fit-content;
   text-decoration: none;
+  box-shadow: none;
   &:hover {
     ${Name} {
       text-decoration: none;
