@@ -36,6 +36,57 @@ export type GQLAggregationResult = {
   values: Array<GQLBucketResult>;
 };
 
+export type GQLArenaBreadcrumb = {
+  __typename?: 'ArenaBreadcrumb';
+  id: Scalars['Int']['output'];
+  name: Scalars['String']['output'];
+  type: Scalars['String']['output'];
+};
+
+export type GQLArenaCategory = {
+  __typename?: 'ArenaCategory';
+  description: Scalars['String']['output'];
+  disabled: Scalars['Boolean']['output'];
+  htmlDescription: Scalars['String']['output'];
+  id: Scalars['Int']['output'];
+  name: Scalars['String']['output'];
+  postCount: Scalars['Int']['output'];
+  slug: Scalars['String']['output'];
+  topicCount: Scalars['Int']['output'];
+  topics?: Maybe<Array<GQLArenaTopic>>;
+};
+
+export type GQLArenaPost = {
+  __typename?: 'ArenaPost';
+  content: Scalars['String']['output'];
+  id: Scalars['Int']['output'];
+  isMainPost: Scalars['Boolean']['output'];
+  timestamp: Scalars['String']['output'];
+  topicId: Scalars['Int']['output'];
+  user: GQLArenaUser;
+};
+
+export type GQLArenaTopic = {
+  __typename?: 'ArenaTopic';
+  breadcrumbs: Array<GQLArenaBreadcrumb>;
+  categoryId: Scalars['Int']['output'];
+  id: Scalars['Int']['output'];
+  locked: Scalars['Boolean']['output'];
+  postCount: Scalars['Int']['output'];
+  posts: Array<GQLArenaPost>;
+  slug: Scalars['String']['output'];
+  timestamp: Scalars['String']['output'];
+  title: Scalars['String']['output'];
+};
+
+export type GQLArenaUser = {
+  __typename?: 'ArenaUser';
+  displayName: Scalars['String']['output'];
+  id: Scalars['Int']['output'];
+  profilePicture?: Maybe<Scalars['String']['output']>;
+  slug: Scalars['String']['output'];
+};
+
 export type GQLArticle = {
   __typename?: 'Article';
   articleType: Scalars['String']['output'];
@@ -273,9 +324,11 @@ export type GQLConcept = {
   __typename?: 'Concept';
   articleIds: Array<Scalars['Int']['output']>;
   articles?: Maybe<Array<GQLMeta>>;
+  conceptType: Scalars['String']['output'];
   content: Scalars['String']['output'];
   copyright?: Maybe<GQLConceptCopyright>;
   created: Scalars['String']['output'];
+  glossData?: Maybe<GQLGloss>;
   id: Scalars['Int']['output'];
   image?: Maybe<GQLImageLicense>;
   metaImage?: Maybe<GQLMetaImage>;
@@ -397,6 +450,13 @@ export type GQLEmbedVisualelement = {
   visualElement?: Maybe<GQLVisualElement>;
 };
 
+export type GQLExamples = {
+  __typename?: 'Examples';
+  example: Scalars['String']['output'];
+  language: Scalars['String']['output'];
+  transcriptions: GQLTranscription;
+};
+
 export type GQLFilmFrontpage = {
   __typename?: 'FilmFrontpage';
   about: Array<GQLFilmPageAbout>;
@@ -496,6 +556,15 @@ export type GQLFrontpageSearchResult = {
   path: Scalars['String']['output'];
   resourceTypes: Array<GQLSearchContextResourceTypes>;
   subject: Scalars['String']['output'];
+};
+
+export type GQLGloss = {
+  __typename?: 'Gloss';
+  examples?: Maybe<Array<Array<GQLExamples>>>;
+  gloss: Scalars['String']['output'];
+  originalLanguage: Scalars['String']['output'];
+  transcriptions: GQLTranscription;
+  wordClass: Scalars['String']['output'];
 };
 
 export type GQLGrade = {
@@ -988,6 +1057,11 @@ export type GQLQuery = {
   __typename?: 'Query';
   alerts?: Maybe<Array<Maybe<GQLUptimeAlert>>>;
   allFolderResources: Array<GQLFolderResource>;
+  arenaCategories: Array<GQLArenaCategory>;
+  arenaCategory?: Maybe<GQLArenaCategory>;
+  arenaRecentTopics: Array<GQLArenaTopic>;
+  arenaTopic?: Maybe<GQLArenaTopic>;
+  arenaTopicsByUser: Array<GQLArenaTopic>;
   article?: Maybe<GQLArticle>;
   audio?: Maybe<GQLAudio>;
   competenceGoal?: Maybe<GQLCompetenceGoal>;
@@ -1030,6 +1104,20 @@ export type GQLQuery = {
 
 export type GQLQueryAllFolderResourcesArgs = {
   size?: InputMaybe<Scalars['Int']['input']>;
+};
+
+export type GQLQueryArenaCategoryArgs = {
+  categoryId: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+};
+
+export type GQLQueryArenaTopicArgs = {
+  page: Scalars['Int']['input'];
+  topicId: Scalars['Int']['input'];
+};
+
+export type GQLQueryArenaTopicsByUserArgs = {
+  userSlug: Scalars['String']['input'];
 };
 
 export type GQLQueryArticleArgs = {
@@ -1557,6 +1645,12 @@ export type GQLTopicCoreResourcesArgs = {
 
 export type GQLTopicSupplementaryResourcesArgs = {
   subjectId?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type GQLTranscription = {
+  __typename?: 'Transcription';
+  pinyin?: Maybe<Scalars['String']['output']>;
+  traditional?: Maybe<Scalars['String']['output']>;
 };
 
 export type GQLUpdatedFolder = {
