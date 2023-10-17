@@ -30,7 +30,7 @@ function EditProfilePicture() {
   return (
     <StyledChangeAvatarButton colorTheme="primary">
       <PencilIcon />
-      {t('myndla.myProfile.editButtonText')}
+      {t('myNdla.myProfile.editButtonText')}
     </StyledChangeAvatarButton>
   );
 }

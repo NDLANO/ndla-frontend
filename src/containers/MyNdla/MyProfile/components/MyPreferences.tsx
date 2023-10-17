@@ -60,9 +60,9 @@ const MyPreferences = () => {
           margin="none"
           headingStyle="default"
         >
-          {t('myndla.myProfile.disclaimerTitle')}
+          {t('myNdla.myProfile.disclaimerTitle')}
         </StyledH2Heading>
-        <StyledText>{t('myndla.myProfile.disclaimerText')}</StyledText>
+        <StyledText>{t('myNdla.myProfile.disclaimerText')}</StyledText>
       </DisclaimerContainer>
       <OptionContainer>
         <StyledH2Heading
@@ -71,9 +71,9 @@ const MyPreferences = () => {
           margin="none"
           headingStyle="default"
         >
-          {t('myndla.myProfile.preferenceTitle')}
+          {t('myNdla.myProfile.preferenceTitle')}
         </StyledH2Heading>
-        <StyledText>{t('myndla.myProfile.preferenceText')}</StyledText>
+        <StyledText>{t('myNdla.myProfile.preferenceText')}</StyledText>
       </OptionContainer>
       <SelectOtionContainer>
         <RadioButtonGroup

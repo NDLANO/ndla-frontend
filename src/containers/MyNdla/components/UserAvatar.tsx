@@ -9,7 +9,7 @@
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import { fonts, colors, breakpoints, mq } from '@ndla/core';
-import EditProfilePicture from './EditProfilePicture';
+import EditProfilePicture from '../MyProfile/components/EditProfilePicture';
 
 type UserAvatarProps = {
   hasUploadedAvatar: boolean;

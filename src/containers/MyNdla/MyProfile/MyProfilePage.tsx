@@ -101,14 +101,14 @@ const MyProfilePage = () => {
 
   return (
     <StyledPageContentContainer>
-      <HelmetWithTracker title={t('htmlTitles.myProfile')} />
+      <HelmetWithTracker title={t('myNdla.myProfile.title')} />
       <StyledHeading
         element="h1"
         id="myProfileTitle"
         margin="none"
         headingStyle="default"
       >
-        {t('myndla.myProfile.title')}
+        {t('myNdla.myProfile.title')}
       </StyledHeading>
       <MyContactArea user={user} showProfileButton />
       <MyPreferences />

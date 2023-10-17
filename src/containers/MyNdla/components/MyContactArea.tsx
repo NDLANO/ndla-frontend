@@ -9,10 +9,10 @@
 import styled from '@emotion/styled';
 import { fonts, colors, spacing, breakpoints, mq } from '@ndla/core';
 import { Heading } from '@ndla/typography';
-import { FeideUserApiType } from '@ndla/ui';
 import { parseUserObject } from './parseUserObject';
-import UserAvatar from '../MyProfile/components/UserAvatar';
+import UserAvatar from './UserAvatar';
 import EditProfilePicture from '../MyProfile/components/EditProfilePicture';
+import { FeideUserApiType } from '../../../interfaces';
 
 type MyContractAreaProps = {
   user: FeideUserApiType | undefined;
