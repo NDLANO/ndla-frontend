@@ -16,6 +16,12 @@ const StyledCardContainer = styled.div`
   gap: 8px;
 `;
 
+const StyledArenaTitle = styled.div`
+  ${fonts.sizes('38px', '48px')};
+  font-weight: ${fonts.weight.bold};
+  margin-bottom: ${spacing.small};
+`;
+
 const ArenaDescription = styled.div`
   width: 700px;
   margin-bottom: 48px;
@@ -29,10 +35,16 @@ const ArenaTitle = styled.div`
   margin-bottom: 24px;
 `;
 
+const StyledBottomText = styled.div`
+  ${fonts.sizes('16px', '26px')};
+  font-weight: ${fonts.weight.normal};
+  margin-top: ${spacing.normal};
+`;
+
 const ArenaPage = () => {
   return (
     <>
-      <h1>Arena</h1>
+      <StyledArenaTitle>Arena</StyledArenaTitle>
       <ArenaDescription>
         Velkommen til NDLAs Arena. Her kan du diskutere, dele og samarbeide med
         andre lærere fra hele Norge.
@@ -61,10 +73,10 @@ const ArenaPage = () => {
           count={20}
         />
       </StyledCardContainer>
-      <div>
+      <StyledBottomText>
         Savner du en kategori? Du kan be om nye kategorier. Bruk “Spør NDLA”
         eller send en epost til moderator@ndla.no
-      </div>
+      </StyledBottomText>
     </>
   );
 };
