@@ -44,7 +44,6 @@ import { useBaseName } from '../../components/BaseNameContext';
 import { useDeletePersonalData } from './userMutations';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { UserInfo } from './components/UserInfo';
-import ArenaCard from './ArenaCards/ArenaCard'; //Temp for å teste styling
 
 const ShareIcon = InfoPartIcon.withComponent(Share);
 const HeartOutlineIcon = InfoPartIcon.withComponent(HeartOutline);
@@ -202,31 +201,6 @@ const MyNdlaPage = () => {
           <Trans i18nKey="myNdla.myPage.folderInfo.text" />
         </InfoPartText>
       </InfoPart>
-      <ArenaCard //Temp for å teste styling
-        id="123"
-        cardType="ArenaCategory"
-        title="Elektronikk "
-        subText="Diskuter, del og samarbeid om alt innen elektronikkfagene"
-        timestamp={'2023-10-05T10:00:00Z'}
-        count={29}
-      />
-      <ArenaCard
-        id="1"
-        cardType="ArenaTopic"
-        title="Åpent innlegg"
-        subText="Kategori"
-        timestamp={'7.1.2023'}
-        count={10}
-        locked={true}
-      />
-      <ArenaCard
-        id="2"
-        cardType="ArenaTopic"
-        title="Låst innlegg"
-        subText="Kategori"
-        timestamp={'7.1.2023'}
-        count={10}
-      />
       {allFolderResources && allFolderResources.length > 0 && (
         <>
           <h2>{t('myNdla.myPage.newFavourite')}</h2>

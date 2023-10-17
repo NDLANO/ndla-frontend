@@ -54,6 +54,7 @@ const StyledCardContainer = styled(SafeLink)`
   flex-direction: row;
   align-items: center;
   padding: ${spacing.normal};
+  padding-right: ${spacing.medium};
   border: 1px solid ${colors.brand.light};
   border-radius: ${misc.borderRadius};
   box-shadow: none;
@@ -83,6 +84,8 @@ const StyledHeader = styled.span`
 `;
 
 const StyledDescriptionText = styled.div`
+  padding-top: ${spacing.xsmall};
+  ${fonts.sizes('16px', '26px')};
   ${mq.range({ until: breakpoints.mobileWide })} {
     display: none;
   }
@@ -100,7 +103,6 @@ const StyledCountContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-right: ${spacing.xsmall};
   color: ${colors.text.primary};
   ${mq.range({ until: breakpoints.tabletWide })} {
     display: none;
@@ -114,7 +116,7 @@ const StyledCountDiv = styled.div`
 
 const StyledLeftIcon = styled(Icon)`
   margin-right: ${spacing.normal};
-  width: 40px;
+  min-width: 40px;
   height: 40px;
   color: ${colors.brand.primary};
   ${mq.range({ until: breakpoints.mobileWide })} {
@@ -130,10 +132,10 @@ const StyledLockedIcon = styled(Icon)`
 
 const FolderFilledIcon = StyledLeftIcon.withComponent(Forum);
 const FolderOutlinedIcon = StyledLeftIcon.withComponent(ForumOutlined);
-const LockedIcon = StyledLockedIcon.withComponent(Locked); //Temp før nye iconer kommer til biblioteket
+const LockedIcon = StyledLockedIcon.withComponent(Locked);
 
 const StyledAvatarContainer = styled.div`
-  //Placeholder til avatar kommer
+  //Placeholder until Avatar
   margin-right: ${spacing.normal};
   width: 48px;
   height: 48px;
