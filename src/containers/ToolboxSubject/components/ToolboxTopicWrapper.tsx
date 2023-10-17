@@ -7,10 +7,12 @@
  */
 
 import { gql } from '@apollo/client';
-import { TFunction, useTranslation } from 'react-i18next';
-import { FeideUserApiType, Topic } from '@ndla/ui';
+import { useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
+import parse from 'html-react-parser';
+import { Topic } from '@ndla/ui';
 import { useTracker } from '@ndla/tracker';
-import { useEffect, useMemo } from 'react';
+import { useContext, useEffect, useMemo } from 'react';
 import { extractEmbedMeta } from '@ndla/article-converter';
 import { toTopic } from '../../../routeHelpers';
 import Resources from '../../Resources/Resources';
@@ -23,6 +25,7 @@ import { getAllDimensions } from '../../../util/trackingUtil';
 import { htmlTitle } from '../../../util/titleHelper';
 import { SKIP_TO_CONTENT_ID } from '../../../constants';
 import TopicVisualElementContent from '../../SubjectPage/components/TopicVisualElementContent';
+import { AuthContext } from '../../../components/AuthenticationContext';
 
 interface Props {
   subject: GQLToolboxTopicWrapper_SubjectFragment;
@@ -31,7 +34,6 @@ interface Props {
   topicList: Array<string>;
   index: number;
   loading?: boolean;
-  user?: FeideUserApiType;
 }
 
 const getDocumentTitle = (name: string, t: TFunction) => {
@@ -45,13 +47,13 @@ const ToolboxTopicWrapper = ({
   topic,
   resourceTypes,
   loading,
-  user,
 }: Props) => {
+  const { user, authContextLoaded } = useContext(AuthContext);
   const { trackPageView } = useTracker();
   const { t } = useTranslation();
 
   useEffect(() => {
-    if (topic && index === topicList.length - 1) {
+    if (authContextLoaded && topic && index === topicList.length - 1) {
       const topicPath = topicList.map(
         (t) => subject.allTopics?.find((topic) => topic.id === t),
       );
@@ -64,7 +66,16 @@ const ToolboxTopicWrapper = ({
       });
       trackPageView({ dimensions, title: getDocumentTitle(topic.name, t) });
     }
-  }, [index, subject, t, topic, topicList, trackPageView, user]);
+  }, [
+    authContextLoaded,
+    index,
+    subject,
+    t,
+    topic,
+    topicList,
+    trackPageView,
+    user,
+  ]);
 
   const embedMeta = useMemo(() => {
     if (!topic.article?.visualElementEmbed?.content) return undefined;
@@ -128,7 +139,7 @@ const ToolboxTopicWrapper = ({
       isLoading={loading}
       subTopics={subTopics}
       title={topic.article.title}
-      introduction={topic.article.introduction ?? ''}
+      introduction={parse(topic.article.introduction ?? '')}
       metaImage={topic.article.metaImage}
       visualElementEmbedMeta={embedMeta}
       visualElement={visualElement}

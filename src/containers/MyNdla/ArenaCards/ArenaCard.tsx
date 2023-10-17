@@ -12,8 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { colors, spacing, breakpoints, mq, fonts, misc } from '@ndla/core';
 import Icon from '@ndla/icons';
 import { css } from '@emotion/react';
-import { MenuBook } from '@ndla/icons/action';
-import { Share } from '@ndla/icons/common';
+import { Forum, ForumOutlined, Locked } from '@ndla/icons/common';
 
 interface Props {
   id: string;
@@ -27,9 +26,18 @@ interface Props {
 
 const StyledCategoryCard = css`
   background-color: ${colors.background.default};
+  svg:nth-child(2) {
+    display: none;
+  }
   &:hover,
   &:focus-visible {
     background-color: ${colors.background.lightBlue};
+    svg:nth-child(1) {
+      display: none;
+    }
+    svg:nth-child(2) {
+      display: block;
+    }
   }
 `;
 
@@ -46,6 +54,7 @@ const StyledCardContainer = styled(SafeLink)`
   flex-direction: row;
   align-items: center;
   padding: ${spacing.normal};
+  padding-right: ${spacing.medium};
   border: 1px solid ${colors.brand.light};
   border-radius: ${misc.borderRadius};
   box-shadow: none;
@@ -75,6 +84,8 @@ const StyledHeader = styled.span`
 `;
 
 const StyledDescriptionText = styled.div`
+  padding-top: ${spacing.xsmall};
+  ${fonts.sizes('16px', '26px')};
   ${mq.range({ until: breakpoints.mobileWide })} {
     display: none;
   }
@@ -105,7 +116,7 @@ const StyledCountDiv = styled.div`
 
 const StyledLeftIcon = styled(Icon)`
   margin-right: ${spacing.normal};
-  width: 40px;
+  min-width: 40px;
   height: 40px;
   color: ${colors.brand.primary};
   ${mq.range({ until: breakpoints.mobileWide })} {
@@ -119,11 +130,12 @@ const StyledLockedIcon = styled(Icon)`
   color: ${colors.brand.primary};
 `;
 
-const FolderIcon = StyledLeftIcon.withComponent(MenuBook); //Temp før nye iconer kommer til biblioteket
-const LockedIcon = StyledLockedIcon.withComponent(Share); //Temp før nye iconer kommer til biblioteket
+const FolderFilledIcon = StyledLeftIcon.withComponent(Forum);
+const FolderOutlinedIcon = StyledLeftIcon.withComponent(ForumOutlined);
+const LockedIcon = StyledLockedIcon.withComponent(Locked);
 
 const StyledAvatarContainer = styled.div`
-  //Placeholder til avatar kommer
+  //Placeholder until Avatar
   margin-right: ${spacing.normal};
   width: 48px;
   height: 48px;
@@ -155,7 +167,10 @@ const ArenaCard = ({
       to=""
     >
       {cardType === 'ArenaCategory' ? (
-        <FolderIcon />
+        <>
+          <FolderOutlinedIcon />
+          <FolderFilledIcon />
+        </>
       ) : (
         <StyledAvatarContainer>R</StyledAvatarContainer>
       )}

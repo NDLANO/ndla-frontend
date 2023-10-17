@@ -7,9 +7,9 @@
  */
 
 import { gql } from '@apollo/client';
-import { useRef, useMemo, useEffect } from 'react';
+import { useRef, useMemo, useEffect, useContext } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { FeideUserApiType, OneColumn, SimpleBreadcrumbItem } from '@ndla/ui';
+import { OneColumn, SimpleBreadcrumbItem } from '@ndla/ui';
 import { useTracker } from '@ndla/tracker';
 import { DynamicComponents } from '@ndla/article-converter';
 import { useTranslation } from 'react-i18next';
@@ -29,6 +29,7 @@ import AddEmbedToFolder from '../../../components/MyNdla/AddEmbedToFolder';
 import { removeUrn } from '../../../routeHelpers';
 import { getTopicPath } from '../../../util/getTopicPath';
 import MultidisciplinarySubjectHeader from '../MultidisciplinarySubjectHeader';
+import { AuthContext } from '../../../components/AuthenticationContext';
 
 const filterCodes: Record<string, 'publicHealth' | 'democracy' | 'climate'> = {
   TT1: 'publicHealth',
@@ -40,7 +41,6 @@ interface Props {
   topic: GQLMultidisciplinarySubjectArticle_TopicFragment;
   subject: GQLMultidisciplinarySubjectArticle_SubjectFragment;
   resourceTypes?: GQLMultidisciplinarySubjectArticle_ResourceTypeDefinitionFragment[];
-  user?: FeideUserApiType;
   skipToContentId?: string;
 }
 
@@ -53,8 +53,8 @@ const MultidisciplinarySubjectArticle = ({
   subject,
   resourceTypes,
   skipToContentId,
-  user,
 }: Props) => {
+  const { user, authContextLoaded } = useContext(AuthContext);
   const { t, i18n } = useTranslation();
   const { trackPageView } = useTracker();
   const resourcesRef = useRef(null);
@@ -64,7 +64,7 @@ const MultidisciplinarySubjectArticle = ({
   );
 
   useEffect(() => {
-    if (!topic?.article) return;
+    if (!topic?.article || !authContextLoaded) return;
     const topicPath = topic.path
       ?.split('/')
       .slice(2)
@@ -86,7 +86,16 @@ const MultidisciplinarySubjectArticle = ({
       dimensions,
       title: htmlTitle(topic.name || '', [t('htmlTitles.titleTemplate')]),
     });
-  }, [subject, t, topic.article, topic.name, topic.path, trackPageView, user]);
+  }, [
+    authContextLoaded,
+    subject,
+    t,
+    topic.article,
+    topic.name,
+    topic.path,
+    trackPageView,
+    user,
+  ]);
 
   const breadCrumbs: SimpleBreadcrumbItem[] = useMemo(
     () =>
@@ -121,6 +130,7 @@ const MultidisciplinarySubjectArticle = ({
         path: `${config.ndlaFrontendDomain}/article/${topic.article.id}`,
         subject: subject.id,
         components: converterComponents,
+        articleLanguage: topic.article.language,
       }),
       getArticleScripts(topic.article, i18n.language),
     ];

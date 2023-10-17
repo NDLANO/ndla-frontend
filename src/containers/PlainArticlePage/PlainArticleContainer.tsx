@@ -7,10 +7,11 @@
  */
 
 import { gql } from '@apollo/client';
-import { useEffect, useMemo } from 'react';
+import { useContext, useEffect, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { TFunction, useTranslation } from 'react-i18next';
-import { FeideUserApiType, OneColumn } from '@ndla/ui';
+import { useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
+import { OneColumn } from '@ndla/ui';
 import { useTracker } from '@ndla/tracker';
 import { DynamicComponents } from '@ndla/article-converter';
 import { transformArticle } from '../../util/transformArticle';
@@ -27,10 +28,10 @@ import config from '../../config';
 import { getArticleProps } from '../../util/getArticleProps';
 import { getAllDimensions } from '../../util/trackingUtil';
 import AddEmbedToFolder from '../../components/MyNdla/AddEmbedToFolder';
+import { AuthContext } from '../../components/AuthenticationContext';
 
 interface Props {
   article: GQLPlainArticleContainer_ArticleFragment;
-  user?: FeideUserApiType;
   skipToContentId?: string;
 }
 
@@ -44,8 +45,8 @@ const getDocumentTitle = (t: TFunction, title: string) =>
 const PlainArticleContainer = ({
   article: propArticle,
   skipToContentId,
-  user,
 }: Props) => {
+  const { user, authContextLoaded } = useContext(AuthContext);
   const { t, i18n } = useTranslation();
   const { trackPageView } = useTracker();
   useEffect(() => {
@@ -59,7 +60,7 @@ const PlainArticleContainer = ({
   });
 
   useEffect(() => {
-    if (!propArticle) return;
+    if (!propArticle || !authContextLoaded) return;
     const dimensions = getAllDimensions(
       { article: propArticle, user },
       undefined,
@@ -69,13 +70,14 @@ const PlainArticleContainer = ({
       dimensions,
       title: getDocumentTitle(t, propArticle.title),
     });
-  }, [propArticle, t, trackPageView, user]);
+  }, [authContextLoaded, propArticle, t, trackPageView, user]);
 
   const [article, scripts] = useMemo(() => {
     return [
       transformArticle(propArticle, i18n.language, {
         path: `${config.ndlaFrontendDomain}/article/${propArticle.id}`,
         components: converterComponents,
+        articleLanguage: propArticle.language,
       }),
       getArticleScripts(propArticle, i18n.language),
     ];

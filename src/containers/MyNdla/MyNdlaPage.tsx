@@ -15,7 +15,7 @@ import { fonts, spacing } from '@ndla/core';
 import { HeartOutline, MenuBook } from '@ndla/icons/action';
 import { FolderOutlined } from '@ndla/icons/contentType';
 import { Feide, Share } from '@ndla/icons/common';
-import { BannerCard, ListResource, UserInfo } from '@ndla/ui';
+import { BannerCard, ListResource } from '@ndla/ui';
 import { ButtonV2 } from '@ndla/button';
 import SafeLink, { SafeLinkButton } from '@ndla/safelink';
 import { HelmetWithTracker, useTracker } from '@ndla/tracker';
@@ -28,7 +28,7 @@ import {
   ModalTrigger,
   ModalContent,
 } from '@ndla/modal';
-import { tempAllowedAIOrgs } from '../../config';
+import config from '../../config';
 import InfoPart, { InfoPartIcon, InfoPartText } from './InfoSection';
 import { AuthContext } from '../../components/AuthenticationContext';
 import {
@@ -43,7 +43,7 @@ import { isStudent } from './Folders/util';
 import { useBaseName } from '../../components/BaseNameContext';
 import { useDeletePersonalData } from './userMutations';
 import { getAllDimensions } from '../../util/trackingUtil';
-import ArenaCard from './ArenaCards/ArenaCard'; //Temp for å teste styling
+import { UserInfo } from './components/UserInfo';
 import ArenaPage from './ArenaPage/ArenaPage';
 
 const ShareIcon = InfoPartIcon.withComponent(Share);
@@ -110,7 +110,7 @@ const StyledBannerCard = styled(BannerCard)`
 `;
 
 const MyNdlaPage = () => {
-  const { user } = useContext(AuthContext);
+  const { user, authContextLoaded } = useContext(AuthContext);
   const { t, i18n } = useTranslation();
   const basename = useBaseName();
   const location = useLocation();
@@ -129,11 +129,12 @@ const MyNdlaPage = () => {
   );
 
   useEffect(() => {
+    if (!authContextLoaded) return;
     trackPageView({
       title: t('htmlTitles.myNdlaPage'),
       dimensions: getAllDimensions({ user }),
     });
-  }, [t, trackPageView, user]);
+  }, [authContextLoaded, t, trackPageView, user]);
 
   const onDeleteAccount = async () => {
     await deletePersonalData();
@@ -155,7 +156,7 @@ const MyNdlaPage = () => {
         <MyNdlaTitle title={t('myNdla.myPage.myPage')} />
       </TitleWrapper>
       <StyledDescription>{t('myNdla.myPage.welcome')}</StyledDescription>
-      {tempAllowedAIOrgs().includes(user?.baseOrg?.displayName ?? '') && (
+      {config.allowedAIOrgs.includes(user?.baseOrg?.displayName ?? '') && (
         <StyledBannerCard
           link={`https://ai.ndla.no/${aiLang}`}
           title={{
@@ -202,22 +203,6 @@ const MyNdlaPage = () => {
         </InfoPartText>
       </InfoPart>
       <ArenaPage />
-      <ArenaCard //Temp for å teste styling
-        id="123"
-        cardType="ArenaCategory"
-        title={'Navn på kategori'}
-        subText={'Beskrivelse'}
-        timestamp={'2023-10-05T10:00:00Z'}
-        count={29}
-      />
-      <ArenaCard
-        id="1"
-        cardType="ArenaTopic"
-        title={'Innlegg'}
-        subText={'Kategori'}
-        timestamp={'7.1.2023'}
-        count={10}
-      />
       {allFolderResources && allFolderResources.length > 0 && (
         <>
           <h2>{t('myNdla.myPage.newFavourite')}</h2>

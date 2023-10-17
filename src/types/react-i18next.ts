@@ -1,5 +1,12 @@
-import { Callback, i18n } from 'i18next';
-import { ComponentProps, ComponentType } from 'react';
+import { $Tuple } from 'react-i18next/helpers';
+import {
+  Callback,
+  FlatNamespace,
+  i18n,
+  KeyPrefix,
+  Namespace,
+  TFunction,
+} from 'i18next';
 import { LocaleType } from '../interfaces';
 
 declare module 'react-i18next' {
@@ -11,39 +18,21 @@ declare module 'react-i18next' {
     ) => Promise<TFunction>;
   }
 
-  interface CustomUseTranslationResponse<N extends Namespace = DefaultNamespace>
-    extends Omit<UseTranslationResponse<N>, 'i18n'> {
+  export type CustomUseTranslationResponse<Ns extends Namespace, KPrefix> = [
+    t: TFunction<Ns, KPrefix>,
+    i18n: CustomI18n,
+    ready: boolean,
+  ] & {
+    t: TFunction<Ns, KPrefix>;
     i18n: CustomI18n;
-  }
-  interface CustomWithTranslation<N extends Namespace = DefaultNamespace> {
-    t: TFunction<N>;
-    i18n: CustomI18n;
-    tReady: boolean;
-  }
+    ready: boolean;
+  };
 
-  function useTranslation<N extends Namespace = DefaultNamespace>(
-    ns?: N | Readonly<N>,
-    options?: UseTranslationOptions,
-  ): CustomUseTranslationResponse<N>;
-
-  function withTranslation<
-    N extends Namespace = DefaultNamespace,
-    TKPrefix extends KeyPrefix<N> = undefined,
+  export function useTranslation<
+    Ns extends FlatNamespace | $Tuple<FlatNamespace> | undefined = undefined,
+    KPrefix extends KeyPrefix<FallbackNs<Ns>> = undefined,
   >(
-    ns?: N,
-    options?: {
-      withRef?: boolean;
-      keyPrefix?: TKPrefix;
-    },
-  ): <
-    C extends ComponentType<ComponentProps<any> & WithTranslationProps>,
-    ResolvedProps = JSX.LibraryManagedAttributes<
-      C,
-      Subtract<ComponentProps<C>, WithTranslationProps>
-    >,
-  >(
-    component: C,
-  ) => ComponentType<
-    Omit<ResolvedProps, keyof CustomWithTranslation<N>> & WithTranslationProps
-  >;
+    ns?: Ns,
+    options?: UseTranslationOptions<KPrefix>,
+  ): CustomUseTranslationResponse<FallbackNs<Ns>, KPrefix>;
 }

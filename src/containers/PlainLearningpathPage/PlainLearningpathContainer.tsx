@@ -8,11 +8,11 @@
 
 import { gql } from '@apollo/client';
 import { useTracker } from '@ndla/tracker';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { TFunction, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
 import { useNavigate } from 'react-router-dom';
-import { FeideUserApiType } from '@ndla/ui';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { GQLPlainLearningpathContainer_LearningpathFragment } from '../../graphqlTypes';
 import { toLearningPath } from '../../routeHelpers';
@@ -20,6 +20,7 @@ import { htmlTitle } from '../../util/titleHelper';
 import { getAllDimensions } from '../../util/trackingUtil';
 import Learningpath from '../../components/Learningpath';
 import ErrorPage from '../ErrorPage';
+import { AuthContext } from '../../components/AuthenticationContext';
 
 const getDocumentTitle = (learningpath: Props['learningpath'], t: TFunction) =>
   htmlTitle(learningpath.title, [t('htmlTitles.titleTemplate')]);
@@ -28,14 +29,13 @@ interface Props {
   learningpath: GQLPlainLearningpathContainer_LearningpathFragment;
   stepId: string | undefined;
   skipToContentId?: string;
-  user?: FeideUserApiType;
 }
 const PlainLearningpathContainer = ({
   learningpath,
   skipToContentId,
   stepId,
-  user,
 }: Props) => {
+  const { user, authContextLoaded } = useContext(AuthContext);
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { trackPageView } = useTracker();
@@ -52,7 +52,7 @@ const PlainLearningpathContainer = ({
   });
 
   useEffect(() => {
-    if (learningpath) {
+    if (learningpath && authContextLoaded) {
       const learningstep = stepId
         ? learningpath.learningsteps?.find((step) => `${step.id}` === stepId)
         : learningpath.learningsteps?.[0];
@@ -63,7 +63,7 @@ const PlainLearningpathContainer = ({
       );
       trackPageView({ dimensions, title: getDocumentTitle(learningpath, t) });
     }
-  }, [learningpath, stepId, t, trackPageView, user]);
+  }, [authContextLoaded, learningpath, stepId, t, trackPageView, user]);
 
   const onKeyUpEvent = (evt: KeyboardEvent) => {
     const currentStep = stepId

@@ -8,8 +8,9 @@
 
 import { ReactNode } from 'react';
 import styled from '@emotion/styled';
-import { fonts, spacing } from '@ndla/core';
+import { spacing } from '@ndla/core';
 import { ContentTypeBadge, resourceTypeColor } from '@ndla/ui';
+import { Heading } from '@ndla/typography';
 import { contentTypeMapping } from '../../../util/getContentType';
 import { DrawerListItem } from './DrawerPortion';
 
@@ -34,10 +35,6 @@ const ResourceTypeHeader = styled('li', { shouldForwardProp })<HeaderProps>`
   gap: ${spacing.small};
   margin: 0;
   margin-top: ${spacing.small};
-  list-style: none;
-  ${fonts.sizes('18px', '24px')};
-  font-weight: ${fonts.weight.bold};
-  text-transform: uppercase;
 `;
 
 interface Props {
@@ -60,7 +57,9 @@ const ResourceTypeList = ({ name, id, children }: Props) => {
           backgroundColor={resourceTypeColor(contentType!)}
         >
           <ContentTypeBadge type={contentType!} border={false} />
-          {name}
+          <Heading element="span" headingStyle="list-title" margin="none">
+            {name}
+          </Heading>
         </ResourceTypeHeader>
         {children}
       </StyledResourceTypeList>

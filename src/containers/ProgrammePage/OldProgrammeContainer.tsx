@@ -7,10 +7,11 @@
  */
 
 import { useTracker } from '@ndla/tracker';
-import { FeideUserApiType, Programme } from '@ndla/ui';
+import { Programme } from '@ndla/ui';
 import { Helmet } from 'react-helmet-async';
-import { TFunction, useTranslation } from 'react-i18next';
-import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
+import { useContext, useEffect } from 'react';
 import { SKIP_TO_CONTENT_ID } from '../../constants';
 import { LocaleType, ProgrammeType } from '../../interfaces';
 import { htmlTitle } from '../../util/titleHelper';
@@ -18,6 +19,7 @@ import { getAllDimensions } from '../../util/trackingUtil';
 import { mapGradesData } from './OldProgrammePage';
 import { GQLSubjectInfoFragment } from '../../graphqlTypes';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
+import { AuthContext } from '../../components/AuthenticationContext';
 
 const getDocumentTitle = ({
   programme,
@@ -32,7 +34,6 @@ const getDocumentTitle = ({
 
 interface Props {
   locale: LocaleType;
-  user?: FeideUserApiType;
   subjects?: GQLSubjectInfoFragment[];
   programme: ProgrammeType;
   grade: string;
@@ -43,8 +44,8 @@ const OldProgrammeContainer = ({
   subjects,
   locale,
   grade,
-  user,
 }: Props) => {
+  const { user, authContextLoaded } = useContext(AuthContext);
   const { t } = useTranslation();
   const { trackPageView } = useTracker();
   const heading = programme.name[locale];
@@ -55,6 +56,7 @@ const OldProgrammeContainer = ({
   const pageTitle = getDocumentTitle({ programme, grade, locale, t });
 
   useEffect(() => {
+    if (!authContextLoaded) return;
     const subjectName = `${programme.name[locale]} - ${grade}`;
     const dimensions = getAllDimensions(
       { subject: { name: subjectName }, user },
@@ -65,7 +67,7 @@ const OldProgrammeContainer = ({
       dimensions,
       title: getDocumentTitle({ programme, grade, locale, t }),
     });
-  }, [grade, locale, programme, t, trackPageView, user]);
+  }, [authContextLoaded, grade, locale, programme, t, trackPageView, user]);
 
   return (
     <>

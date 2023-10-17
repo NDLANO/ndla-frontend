@@ -7,11 +7,10 @@
  */
 
 import { gql } from '@apollo/client';
-import { Dispatch, SetStateAction, useContext } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import { Spinner } from '@ndla/icons';
 import { SimpleBreadcrumbItem } from '@ndla/ui';
 import DefaultErrorMessage from '../../../components/DefaultErrorMessage';
-import { AuthContext } from '../../../components/AuthenticationContext';
 import {
   GQLToolboxTopicContainerQuery,
   GQLToolboxTopicContainerQueryVariables,
@@ -56,7 +55,6 @@ export const ToolboxTopicContainer = ({
   setCrumbs,
   index,
 }: Props) => {
-  const { user } = useContext(AuthContext);
   const { loading, data } = useGraphQuery<
     GQLToolboxTopicContainerQuery,
     GQLToolboxTopicContainerQueryVariables
@@ -95,7 +93,6 @@ export const ToolboxTopicContainer = ({
       resourceTypes={data.resourceTypes}
       topicList={topicList}
       index={index}
-      user={user}
     />
   );
 };

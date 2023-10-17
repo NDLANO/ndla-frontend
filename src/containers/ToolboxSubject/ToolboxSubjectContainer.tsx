@@ -9,16 +9,16 @@
 import { gql } from '@apollo/client';
 import { useTracker } from '@ndla/tracker';
 import {
-  FeideUserApiType,
   HomeBreadcrumb,
   OneColumn,
   SimpleBreadcrumbItem,
   SubjectBanner,
   ToolboxInfo,
 } from '@ndla/ui';
-import { useEffect, createRef, useState, useMemo } from 'react';
+import { useEffect, createRef, useState, useMemo, useContext } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { TFunction, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { GQLToolboxSubjectContainer_SubjectFragment } from '../../graphqlTypes';
@@ -28,11 +28,11 @@ import { getAllDimensions } from '../../util/trackingUtil';
 import { ToolboxTopicContainer } from './components/ToolboxTopicContainer';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { SKIP_TO_CONTENT_ID } from '../../constants';
+import { AuthContext } from '../../components/AuthenticationContext';
 
 interface Props {
   subject: GQLToolboxSubjectContainer_SubjectFragment;
   topicList: string[];
-  user?: FeideUserApiType;
 }
 
 const BreadcrumbWrapper = styled.div`
@@ -92,12 +92,14 @@ const getInitialSelectedTopics = (
   return initialSelectedTopics;
 };
 
-const ToolboxSubjectContainer = ({ topicList, subject, user }: Props) => {
+const ToolboxSubjectContainer = ({ topicList, subject }: Props) => {
   const { t } = useTranslation();
+  const { user, authContextLoaded } = useContext(AuthContext);
   const { trackPageView } = useTracker();
   const selectedTopics = topicList;
 
   useEffect(() => {
+    if (!authContextLoaded) return;
     if (subject && topicList.length === 0) {
       const topicPath = topicList.map(
         (id) => subject.allTopics?.find((t) => t.id === id),
@@ -113,7 +115,7 @@ const ToolboxSubjectContainer = ({ topicList, subject, user }: Props) => {
         title: getSocialMediaMetaData({ topicList, subject, t }).title,
       });
     }
-  }, [subject, t, topicList, trackPageView, user]);
+  }, [authContextLoaded, subject, t, topicList, trackPageView, user]);
 
   const [topicCrumbs, setTopicCrumbs] = useState<SimpleBreadcrumbItem[]>([]);
 

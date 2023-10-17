@@ -88,10 +88,24 @@ const logglyApiKey = (): string | undefined => {
   return getEnvironmentVariabel('LOGGLY_API_KEY');
 };
 
-export const tempAllowedAIOrgs = () => {
-  const defaultList = ['Rogaland fylkeskommune'];
-  if (['local', 'dev', 'test'].includes(ndlaEnvironment)) {
-    return [...defaultList, 'Universitetet i Rogn'];
+export const allowedAIOrgs = () => {
+  const defaultList = ['Rogaland fylkeskommune', 'Nordland fylkeskommune'];
+  if (['local', 'dev'].includes(ndlaEnvironment)) {
+    return [...defaultList, 'Universitetet i Rogn']; // frank_foreleser
+  }
+  if (['test'].includes(ndlaEnvironment)) {
+    return [
+      ...defaultList,
+      'Agder fylkeskommune',
+      'Innlandet fylkeskommune',
+      'Møre og Romsdal fylkeskommune',
+      'Troms og Finnmark fylkeskommune',
+      'Trøndelag fylkeskommune',
+      'Vestfold og Telemark fylkeskommune',
+      'Vestland fylkeskommune',
+      'Viken fylkeskommune',
+      'Universitetet i Rogn',
+    ];
   }
   return defaultList;
 };
@@ -125,6 +139,7 @@ export type ConfigType = {
   taxonomyProgrammesEnabled: boolean;
   isVercel: boolean;
   monsidoToken: string;
+  allowedAIOrgs: string[];
 };
 
 const config: ConfigType = {
@@ -165,6 +180,7 @@ const config: ConfigType = {
   ),
   isVercel: getEnvironmentVariabel('IS_VERCEL', false),
   monsidoToken: getEnvironmentVariabel('MONSIDO_TOKEN', ''),
+  allowedAIOrgs: allowedAIOrgs(),
 };
 
 export function getUniversalConfig() {
