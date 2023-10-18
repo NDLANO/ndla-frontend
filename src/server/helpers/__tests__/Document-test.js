@@ -18,7 +18,7 @@ test('Document renderers correctly', () => {
   // Render page with Helmet component
   render(
     <HelmetProvider context={helmetContext}>
-      <PageContainer locale="nb" t={() => 'dummy text'}>
+      <PageContainer>
         <h1>Hello World</h1>
         <Helmet
           htmlAttributes={{ lang: 'nb' }}
