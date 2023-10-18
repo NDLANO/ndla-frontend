@@ -260,6 +260,7 @@ const SharedFolderPage = () => {
             <ResourceEmbed
               id={selectedResource.resourceId}
               type={selectedResource.resourceType as StandaloneEmbed}
+              folder={selectedFolder}
               noBackground
             />
           ) : (

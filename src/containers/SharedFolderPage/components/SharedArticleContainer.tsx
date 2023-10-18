@@ -61,15 +61,15 @@ const SharedArticleContainer = ({
 
   useEffect(() => {
     if (propArticle && authContextLoaded) {
+      const contentType = getContentTypeFromResourceTypes(meta?.resourceTypes);
       const dimensions = getAllDimensions(
         { article: propArticle, user },
-        meta?.resourceTypes &&
-          getContentTypeFromResourceTypes(meta.resourceTypes)?.label,
+        meta?.resourceTypes && contentType?.label,
         true,
       );
       trackPageView({
         dimensions,
-        title: getDocumentTitle(propArticle.title, t),
+        title: getDocumentTitle(propArticle.title, contentType?.label, t),
       });
     }
   }, [
@@ -97,7 +97,7 @@ const SharedArticleContainer = ({
 
   return (
     <OneColumn>
-      <Helmet>
+      <Helmet title={getDocumentTitle(title, contentType?.label, t)}>
         {scripts.map((script) => (
           <script
             key={script.src}
@@ -126,8 +126,14 @@ const SharedArticleContainer = ({
   );
 };
 
-const getDocumentTitle = (title: string, t: TFunction) =>
-  t('htmlTitles.sharedFolderPage', { name: title });
+const getDocumentTitle = (
+  title: string,
+  contentType: string | undefined,
+  t: TFunction,
+) =>
+  t('htmlTitles.sharedFolderPage', {
+    name: `${title}${contentType ? ` - ${contentType}` : ''}`,
+  });
 
 export default SharedArticleContainer;
 
