@@ -77,14 +77,20 @@ const MastheadSearch = ({ subject }: Props) => {
 
   useEffect(() => {
     const onSlashPressed = (evt: KeyboardEvent) => {
-      if (evt.key === '/') {
+      if (
+        evt.key === '/' &&
+        !['input', 'textarea'].includes(
+          document.activeElement?.tagName.toLowerCase() ?? '',
+        ) &&
+        !isOpen
+      ) {
         evt.preventDefault();
         setIsOpen(true);
       }
     };
     window.addEventListener('keydown', onSlashPressed);
     return () => window.removeEventListener('keydown', onSlashPressed);
-  }, []);
+  }, [isOpen]);
 
   const [runSearch, { loading, data: searchResult = {}, error }] = useLazyQuery<
     GQLGroupSearchQuery,
