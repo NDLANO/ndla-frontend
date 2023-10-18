@@ -107,8 +107,10 @@ export const oembedRoutes = [
   'embed-iframe/audio/:audioId',
   'embed-iframe/image/:imageId',
   'embed-iframe/concept/:conceptId',
+  'embed-iframe/h5p/:h5pId',
   'embed-iframe/:lang/video/:videoId',
   'embed-iframe/:lang/audio/:audioId',
   'embed-iframe/:lang/image/:imageId',
   'embed-iframe/:lang/concept/:conceptId',
+  'embed-iframe/:lang/h5p/:h5pId',
 ];
