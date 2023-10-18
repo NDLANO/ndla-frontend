@@ -6,24 +6,47 @@
  *
  */
 
+import { gql, ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import config from '../config';
-import { fetchSeries } from '../util/audioApi';
+import { createApolloClient } from '../util/apiHelpers';
+import { copyrightInfoFragment } from '../queries';
+import { GQLPodcastSeriesQuery } from '../graphqlTypes';
 
-const podcastRssFeed = async (seriesId: number): Promise<string> => {
+let apolloClient: ApolloClient<NormalizedCacheObject>;
+let storedLocale: string;
+
+const getApolloClient = (locale: string) => {
+  if (apolloClient && locale === storedLocale) {
+    return apolloClient;
+  } else {
+    apolloClient = createApolloClient(locale);
+    storedLocale = locale;
+    return apolloClient;
+  }
+};
+
+const PodcastRssFeed = async (seriesId: number): Promise<string> => {
+  const client = getApolloClient('nb');
+
+  const { data: { podcastSeries } = {} } =
+    await client.query<GQLPodcastSeriesQuery>({
+      query: podcastSeriesQuery,
+      variables: { id: seriesId },
+    });
+
   try {
-    const series = await fetchSeries(seriesId, 'nb');
-    const podcastUrl = `${config?.ndlaFrontendDomain}/podkast/${series.id}`;
+    const podcastUrl = `${config?.ndlaFrontendDomain}/podkast/${podcastSeries?.id}`;
     const ownerEmail = 'hjelp+podcast@ndla.no';
 
     const description = `
     <description>
       <![CDATA[
-      ${series.description.description}
+      ${podcastSeries?.description.description}
       ]]>
     </description>
     `;
 
-    const episodes = series.episodes.map((episode) => {
+    const episodes = podcastSeries?.episodes?.map((episode) => {
       const episodeLink = `${podcastUrl}#episode-${episode.id}`;
       const GUIDEnvPart =
         config.ndlaEnvironment === 'prod' ? '' : `${config.ndlaEnvironment}-`;
@@ -41,9 +64,9 @@ const podcastRssFeed = async (seriesId: number): Promise<string> => {
       <link>${episodeLink}</link>
       `;
 
-      const coverPhoto = !episode.podcastMeta?.coverPhoto.url
+      const coverPhoto = !episode.podcastMeta?.image?.imageUrl
         ? ''
-        : `<itunes:image href="${episode.podcastMeta.coverPhoto.url}" />`;
+        : `<itunes:image href="${episode.podcastMeta.image.imageUrl}" />`;
       return `
       <item>
         <title>${episode.title.title}</title>
@@ -67,10 +90,10 @@ const podcastRssFeed = async (seriesId: number): Promise<string> => {
     return `<?xml version="1.0" encoding="UTF-8"?>
     <rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:content="http://purl.org/rss/1.0/modules/content/">
       <channel>
-        <title>${series.title.title}</title>
+        <title>${podcastSeries?.title.title}</title>
         ${description}
         <link>${podcastUrl}</link>
-        <language>${series.title.language}</language>
+        <language>${podcastSeries?.title.language}</language>
         ${category}
         <itunes:explicit>${explicitness}</itunes:explicit>
         <itunes:author>NDLA</itunes:author>
@@ -78,8 +101,8 @@ const podcastRssFeed = async (seriesId: number): Promise<string> => {
           <itunes:name>NDLA</itunes:name>
           <itunes:email>${ownerEmail}</itunes:email>
         </itunes:owner>
-        <itunes:image href="${series.coverPhoto.url}" />
-        ${episodes.join('')}
+        <itunes:image href="${podcastSeries?.image.imageUrl}" />
+        ${episodes?.join('')}
       </channel>
     </rss>
       `;
@@ -87,5 +110,55 @@ const podcastRssFeed = async (seriesId: number): Promise<string> => {
     return Promise.reject(err);
   }
 };
+const podcastSeriesQuery = gql`
+  query podcastSeries($id: Int!) {
+    podcastSeries(id: $id) {
+      id
+      title {
+        title
+        language
+      }
+      description {
+        description
+      }
+      supportedLanguages
+      image {
+        imageUrl
+      }
+      coverPhoto {
+        url
+      }
+      content {
+        content
+      }
+      episodes {
+        id
+        created
+        title {
+          title
+        }
+        audioFile {
+          url
+          fileSize
+          mimeType
+        }
+        podcastMeta {
+          introduction
+          image {
+            imageUrl
+          }
+        }
+        copyright {
+        ...CopyrightInfo
+        }
+        tags {
+          tags
+        }
+      }
+      hasRSS
+    }
+    ${copyrightInfoFragment}
+  }
+`;
 
-export default podcastRssFeed;
+export default PodcastRssFeed;

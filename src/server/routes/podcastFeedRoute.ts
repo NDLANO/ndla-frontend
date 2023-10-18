@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { BAD_REQUEST } from '../../statusCodes';
-import podcastRssFeed from '../podcastRssFeed';
+import PodcastRssFeed from '../podcastRssFeed';
 import { NOT_FOUND_PAGE_PATH } from '../../constants';
 import { sendInternalServerError } from '../server';
 
@@ -19,7 +19,7 @@ export const podcastFeedRoute = async (req: Request, res: Response) => {
     return;
   }
 
-  await podcastRssFeed(idNum)
+  await PodcastRssFeed(idNum)
     .then((podcastPage) => {
       res.setHeader('Content-Type', 'application/xml');
       res.send(podcastPage);
