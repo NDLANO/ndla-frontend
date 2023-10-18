@@ -75,6 +75,17 @@ const MastheadSearch = ({ subject }: Props) => {
     setQuery('');
   }, [pathname]);
 
+  useEffect(() => {
+    const onSlashPressed = (evt: KeyboardEvent) => {
+      if (evt.key === '/') {
+        evt.preventDefault();
+        setIsOpen(true);
+      }
+    };
+    window.addEventListener('keydown', onSlashPressed);
+    return () => window.removeEventListener('keydown', onSlashPressed);
+  }, []);
+
   const [runSearch, { loading, data: searchResult = {}, error }] = useLazyQuery<
     GQLGroupSearchQuery,
     GQLGroupSearchQueryVariables
