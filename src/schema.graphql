@@ -5,6 +5,52 @@ type AggregationResult {
   values: [BucketResult!]!
 }
 
+type ArenaBreadcrumb {
+  id: Int!
+  name: String!
+  type: String!
+}
+
+type ArenaCategory {
+  description: String!
+  disabled: Boolean!
+  htmlDescription: String!
+  id: Int!
+  name: String!
+  postCount: Int!
+  slug: String!
+  topicCount: Int!
+  topics: [ArenaTopic!]
+}
+
+type ArenaPost {
+  content: String!
+  id: Int!
+  isMainPost: Boolean!
+  timestamp: String!
+  topicId: Int!
+  user: ArenaUser!
+}
+
+type ArenaTopic {
+  breadcrumbs: [ArenaBreadcrumb!]!
+  categoryId: Int!
+  id: Int!
+  locked: Boolean!
+  postCount: Int!
+  posts: [ArenaPost!]!
+  slug: String!
+  timestamp: String!
+  title: String!
+}
+
+type ArenaUser {
+  displayName: String!
+  id: Int!
+  profilePicture: String
+  slug: String!
+}
+
 type Article {
   articleType: String!
   availability: String
@@ -19,6 +65,7 @@ type Article {
   grepCodes: [String!]
   id: Int!
   introduction: String
+  language: String!
   metaData: ArticleMetaData
   metaDescription: String!
   metaImage: MetaImage
@@ -216,9 +263,11 @@ type CompetenceGoal {
 type Concept {
   articleIds: [Int!]!
   articles: [Meta!]
+  conceptType: String!
   content: String!
   copyright: ConceptCopyright
   created: String!
+  glossData: Gloss
   id: Int!
   image: ImageLicense
   metaImage: MetaImage
@@ -235,6 +284,7 @@ type ConceptCopyright {
   creators: [Contributor!]!
   license: License
   origin: String
+  processed: Boolean
   processors: [Contributor!]!
   rightsholders: [Contributor!]!
 }
@@ -279,6 +329,7 @@ type Copyright {
   creators: [Contributor!]!
   license: License!
   origin: String
+  processed: Boolean
   processors: [Contributor!]!
   rightsholders: [Contributor!]!
 }
@@ -322,6 +373,12 @@ type Element {
 
 type EmbedVisualelement {
   visualElement: VisualElement
+}
+
+type Examples {
+  example: String!
+  language: String!
+  transcriptions: Transcription!
 }
 
 type FilmFrontpage {
@@ -413,6 +470,14 @@ type FrontpageSearchResult {
   path: String!
   resourceTypes: [SearchContextResourceTypes!]!
   subject: String!
+}
+
+type Gloss {
+  examples: [[Examples!]!]
+  gloss: String!
+  originalLanguage: String!
+  transcriptions: Transcription!
+  wordClass: String!
 }
 
 type Grade {
@@ -816,6 +881,11 @@ type ProgrammePage {
 type Query {
   alerts: [UptimeAlert]
   allFolderResources(size: Int): [FolderResource!]!
+  arenaCategories: [ArenaCategory!]!
+  arenaCategory(categoryId: Int!, page: Int!): ArenaCategory
+  arenaRecentTopics: [ArenaTopic!]!
+  arenaTopic(page: Int!, topicId: Int!): ArenaTopic
+  arenaTopicsByUser(userSlug: String!): [ArenaTopic!]!
   article(
     absoluteUrl: Boolean
     convertEmbeds: Boolean
@@ -1212,6 +1282,11 @@ type Topic implements TaxonomyEntity & WithArticle {
   supplementaryResources(subjectId: String): [Resource!]
   supportedLanguages: [String!]!
   url: String
+}
+
+type Transcription {
+  pinyin: String
+  traditional: String
 }
 
 type UpdatedFolder {

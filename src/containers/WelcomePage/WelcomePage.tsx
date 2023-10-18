@@ -62,6 +62,10 @@ const StyledMain = styled.main`
     padding-left: ${spacing.normal};
     padding-right: ${spacing.normal};
   }
+  /* This is a SSR-friendly :first-child */
+  [data-wide] > section > *:not(:is(*:not(style) ~ *)) {
+    margin-top: ${spacingUnit * 4}px;
+  }
 `;
 
 const ProgrammeWrapper = styled.div`
@@ -136,14 +140,16 @@ const formatProgrammes = (data: GQLProgrammePage[]): ProgrammeV2[] => {
 const WelcomePage = () => {
   const { t, i18n } = useTranslation();
   const { trackPageView } = useTracker();
-  const { user } = useContext(AuthContext);
+  const { user, authContextLoaded } = useContext(AuthContext);
 
   useEffect(() => {
-    trackPageView({
-      title: t('htmlTitles.welcomePage'),
-      dimensions: getAllDimensions({ user }),
-    });
-  }, [t, trackPageView, user]);
+    if (authContextLoaded) {
+      trackPageView({
+        title: t('htmlTitles.welcomePage'),
+        dimensions: getAllDimensions({ user }),
+      });
+    }
+  }, [authContextLoaded, t, trackPageView, user]);
 
   const fpQuery = useGraphQuery<GQLFrontpageDataQuery>(frontpageQuery);
 
@@ -164,7 +170,10 @@ const WelcomePage = () => {
     return [
       {
         ...transformedArticle,
-        introduction: transformedArticle.introduction ?? '',
+        copyright: {
+          ..._article.copyright,
+          processed: _article.copyright.processed ?? false,
+        },
       },
       getArticleScripts(_article, i18n.language),
     ];

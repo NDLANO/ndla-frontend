@@ -7,7 +7,7 @@
  */
 
 import { gql } from '@apollo/client';
-import { useContext, useRef } from 'react';
+import { useRef } from 'react';
 import { Navigate } from 'react-router-dom';
 import { ContentPlaceholder } from '@ndla/ui';
 import SubjectContainer, {
@@ -19,7 +19,6 @@ import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { useGraphQuery } from '../../util/runQueries';
 import MovedTopicPage from './components/MovedTopicPage';
 import { OLD_SUBJECT_PAGE_REDIRECT_CUSTOM_FIELD } from '../../constants';
-import { AuthContext } from '../../components/AuthenticationContext';
 import {
   GQLSubjectPageTestQuery,
   GQLSubjectPageTestQueryVariables,
@@ -57,7 +56,6 @@ const subjectPageQuery = gql`
 `;
 
 const SubjectPage = () => {
-  const { user } = useContext(AuthContext);
   const { subjectId, topicId, topicList } = useUrnIds();
 
   const initialLoad = useRef(true);
@@ -120,7 +118,6 @@ const SubjectPage = () => {
       topicIds={topicList}
       subject={data.subject}
       loading={loading}
-      user={user}
     />
   );
 };

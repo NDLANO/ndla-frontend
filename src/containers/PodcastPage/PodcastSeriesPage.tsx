@@ -13,7 +13,7 @@ import { HelmetWithTracker } from '@ndla/tracker';
 import { useTranslation } from 'react-i18next';
 import { gql, useQuery } from '@apollo/client';
 import styled from '@emotion/styled';
-import { colors, fonts, spacing } from '@ndla/core';
+import { colors, spacing } from '@ndla/core';
 import { transform } from '@ndla/article-converter';
 import {
   AccordionContent,
@@ -21,6 +21,7 @@ import {
   AccordionItem,
   AccordionRoot,
 } from '@ndla/accordion';
+import { Text } from '@ndla/typography';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import {
@@ -54,8 +55,6 @@ const TitleWrapper = styled.div`
 const StyledAccordionHeader = styled(AccordionHeader)`
   background-color: ${colors.brand.lightest};
   border: 1px solid ${colors.brand.tertiary};
-  font-size: ${fonts.sizes('16px', '29px')};
-  font-weight: ${fonts.weight.semibold};
 `;
 
 const SeriesDescription = styled.div`
@@ -245,7 +244,9 @@ const PodcastSeriesPage = () => {
                   hasLicensedContent(podcastSeries.content.meta) && (
                     <AccordionItem value="rulesForUse">
                       <StyledAccordionHeader>
-                        {t('article.useContent')}
+                        <Text element="span" textStyle="button" margin="none">
+                          {t('article.useContent')}
+                        </Text>
                       </StyledAccordionHeader>
                       <AccordionContent>
                         <ResourceEmbedLicenseBox

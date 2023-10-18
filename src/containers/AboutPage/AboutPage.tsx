@@ -20,7 +20,6 @@ import {
 } from '../../graphqlTypes';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import AboutPageContent, { aboutPageFragments } from './AboutPageContent';
-import { AuthContext } from '../../components/AuthenticationContext';
 import { GONE } from '../../statusCodes';
 
 const aboutPageQuery = gql`
@@ -38,7 +37,6 @@ const aboutPageQuery = gql`
 
 const AboutPage = () => {
   const { slug } = useTypedParams<{ slug: string }>();
-  const { user } = useContext(AuthContext);
   const { error, loading, data } = useGraphQuery<
     GQLAboutPageQuery,
     GQLAboutPageQueryVariables
@@ -68,13 +66,7 @@ const AboutPage = () => {
     return <DefaultErrorMessage />;
   }
 
-  return (
-    <AboutPageContent
-      article={data.article}
-      frontpage={data.frontpage}
-      user={user}
-    />
-  );
+  return <AboutPageContent article={data.article} frontpage={data.frontpage} />;
 };
 
 export default AboutPage;

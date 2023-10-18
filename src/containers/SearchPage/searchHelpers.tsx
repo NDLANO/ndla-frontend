@@ -24,8 +24,8 @@ const isSupplementary = (context: Pick<GQLSearchContext, 'relevance'>) => {
   );
 };
 
-export const searchResultToLinkProps = (result: { path?: string }) => {
-  return result.path ? { to: result.path } : { to: '/404' };
+export const searchResultToLinkProps = (result?: { path?: string }) => {
+  return result?.path ? { to: result.path } : { to: '/404' };
 };
 
 export const plainUrl = (url: string) => {
@@ -46,7 +46,7 @@ const arrayFields = [
 ];
 
 export const converSearchStringToObject = (
-  location?: Location,
+  location?: Pick<Location, 'search'>,
   locale?: LocaleType,
 ): Record<string, any> => {
   const searchLocation: Record<string, string> = queryString.parse(
@@ -66,7 +66,7 @@ export const converSearchStringToObject = (
   };
 };
 
-export const convertSearchParam = (value: any) => {
+export const convertSearchParam = (value?: any) => {
   if (!value) {
     return undefined;
   }

@@ -34,7 +34,6 @@ const StyledIconButton = styled(IconButtonV2)`
 `;
 
 const SubjectSafeLink = styled(SafeLink)`
-  ${fonts.sizes('18px', '24px')};
   font-weight: ${fonts.weight.semibold};
   box-shadow: none;
   :hover {

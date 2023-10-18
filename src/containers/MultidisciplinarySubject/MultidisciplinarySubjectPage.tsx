@@ -7,19 +7,18 @@
  */
 
 import { gql } from '@apollo/client';
-import { createRef, useContext, useEffect, useState } from 'react';
+import { createRef, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
-import { breakpoints, fonts, mq } from '@ndla/core';
+import { breakpoints, mq } from '@ndla/core';
 import {
   ContentPlaceholder,
-  Heading,
   HomeBreadcrumb,
   LayoutItem,
   NavigationBox,
   OneColumn,
   SimpleBreadcrumbItem,
 } from '@ndla/ui';
-
+import { Heading, Text } from '@ndla/typography';
 import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet-async';
 import { removeUrn, toTopic, useUrnIds } from '../../routeHelpers';
@@ -31,7 +30,6 @@ import {
   GQLMultidisciplinarySubjectPageQueryVariables,
 } from '../../graphqlTypes';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
-import { AuthContext } from '../../components/AuthenticationContext';
 import { htmlTitle } from '../../util/titleHelper';
 import { SKIP_TO_CONTENT_ID } from '../../constants';
 import MultidisciplinaryArticleList from './components/MultidisciplinaryArticleList';
@@ -114,14 +112,6 @@ const Illustration = styled.div`
   }
 `;
 
-const InfoText = styled.div`
-  max-width: 720px;
-  font-size: ${fonts.sizes('16px', '24px')};
-  ${mq.range({ from: breakpoints.mobileWide })} {
-    ${fonts.sizes('20px', '32px')};
-  }
-`;
-
 const Header = styled.div`
   display: flex;
   flex-direction: column;
@@ -131,7 +121,6 @@ const Header = styled.div`
 
 const MultidisciplinarySubjectPage = () => {
   const { t } = useTranslation();
-  const { user } = useContext(AuthContext);
   const { subjectId, topicList: selectedTopics } = useUrnIds();
   const refs = selectedTopics.map((_) => createRef<HTMLDivElement>());
   const [topicCrumbs, setTopicCrumbs] = useState<SimpleBreadcrumbItem[]>([]);
@@ -268,7 +257,7 @@ const MultidisciplinarySubjectPage = () => {
                   <HomeBreadcrumb items={breadCrumbs} />
                   <Heading
                     element="h1"
-                    headingStyle="h1"
+                    headingStyle="h1-resource"
                     id={
                       selectedTopics.length === 0
                         ? SKIP_TO_CONTENT_ID
@@ -278,9 +267,9 @@ const MultidisciplinarySubjectPage = () => {
                   >
                     {t('frontpageMultidisciplinarySubject.heading')}
                   </Heading>
-                  <InfoText>
+                  <Text textStyle="ingress">
                     {t('frontpageMultidisciplinarySubject.text')}
-                  </InfoText>
+                  </Text>
                 </LayoutItem>
                 <Illustration />
               </Header>
@@ -299,7 +288,6 @@ const MultidisciplinarySubjectPage = () => {
                     subjectId={subject.id}
                     subTopicId={selectedTopics[index + 1]}
                     subject={subject}
-                    user={user}
                   />
                 </div>
               ))}

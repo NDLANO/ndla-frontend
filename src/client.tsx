@@ -27,13 +27,12 @@ import '@fontsource/source-serif-pro/index.css';
 import ErrorReporter from '@ndla/error-reporter';
 import { i18nInstance } from '@ndla/ui';
 import { getCookie, setCookie } from '@ndla/util';
-import { createBrowserHistory, createMemoryHistory, History } from 'history';
 // @ts-ignore
 import queryString from 'query-string';
 import { ReactNode, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
 import { I18nextProvider, useTranslation } from 'react-i18next';
-import { Router } from 'react-router-dom';
+import { BrowserRouter, MemoryRouter } from 'react-router-dom';
 import { createRoot, hydrateRoot } from 'react-dom/client';
 import App from './App';
 import { VersionHashProvider } from './components/VersionHashContext';
@@ -103,67 +102,21 @@ const isGoogleUrl =
   decodeURIComponent(window.location.search).indexOf(testLocation) > -1;
 
 interface RCProps {
-  children: (history: History) => ReactNode;
+  children: ReactNode;
   base: string;
 }
 
-/*
-  This is a custom router based on the source code of BrowserRouter and MemoryRouter from
-  react-router-dom@6.3.0. It's intended purpose is to provide App with an instance of
-  the internal history object without using the UNSAFE navigation context provided by RR,
-  as well as setting and replacing the Router basename in a safe way. The exposed history
-  object should not be used or passed to anyting else than configureTracker.
-*/
-const NDLARouter = ({ children, base }: RCProps) => {
-  const historyRef = useRef<History>();
-  if (isGoogleUrl && historyRef.current == null) {
-    historyRef.current = createMemoryHistory({
-      initialEntries: [locationFromServer],
-    });
-  } else if (historyRef.current == null) {
-    historyRef.current = createBrowserHistory();
-  }
-
-  const history = historyRef.current!;
-  const [state, setState] = useState({
-    action: history.action,
-    location: history.location,
-  });
-
-  useLayoutEffect(() => history.listen(setState), [history]);
-
-  return (
-    <Router
-      basename={base}
-      location={state.location}
-      navigationType={state.action}
-      navigator={history}
-    >
-      {children(history)}
-    </Router>
+const RouterComponent = ({ children, base }: RCProps) =>
+  isGoogleUrl ? (
+    <MemoryRouter initialEntries={[locationFromServer]}>
+      {children}
+    </MemoryRouter>
+  ) : (
+    <BrowserRouter key={base} basename={base}>
+      {children}
+    </BrowserRouter>
   );
-};
 
-function canUseDOM() {
-  return !!(
-    typeof window !== 'undefined' &&
-    window.document &&
-    window.document.createElement
-  );
-}
-
-function removeUniversalPortals() {
-  if (canUseDOM()) {
-    document
-      .querySelectorAll('[data-react-universal-portal]')
-      .forEach((node) => {
-        if (node.hasAttribute('data-from-article-converter')) {
-          return;
-        }
-        node.remove();
-      });
-  }
-}
 const constructNewPath = (newLocale?: string) => {
   const regex = new RegExp(`\\/(${supportedLanguages.join('|')})($|\\/)`, '');
   const path = window.location.pathname.replace(regex, '');
@@ -234,13 +187,11 @@ const LanguageWrapper = ({ basename }: { basename?: string }) => {
   }, [base, windowPath]);
 
   return (
-    <NDLARouter key={base} base={base}>
-      {(_) => <App base={base} />}
-    </NDLARouter>
+    <RouterComponent key={base} base={base}>
+      <App base={base} />
+    </RouterComponent>
   );
 };
-
-removeUniversalPortals();
 
 const renderOrHydrate = (container: HTMLElement, children: ReactNode) => {
   if (config.disableSSR) {

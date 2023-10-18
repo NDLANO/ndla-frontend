@@ -6,16 +6,18 @@
  *
  */
 
-import { useTracker } from '@ndla/tracker';
-import { FeideUserApiType, Programme } from '@ndla/ui';
+import { useContext, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { TFunction, useTranslation } from 'react-i18next';
-import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
+import { useTracker } from '@ndla/tracker';
+import { Programme } from '@ndla/ui';
 import { SKIP_TO_CONTENT_ID } from '../../constants';
 import { LocaleType } from '../../interfaces';
 import { htmlTitle } from '../../util/titleHelper';
 import { getAllDimensions } from '../../util/trackingUtil';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
+import { AuthContext } from '../../components/AuthenticationContext';
 
 const getDocumentTitle = (title: string, grade: string, t: TFunction) => {
   return htmlTitle(`${title} - ${grade}`, [t('htmlTitles.titleTemplate')]);
@@ -81,7 +83,6 @@ interface GradesData {
 
 interface Props {
   locale: LocaleType;
-  user?: FeideUserApiType;
   programme: ProgrammeQueryResult;
   grade: string;
 }
@@ -112,7 +113,8 @@ export const mapGradesData = (grades: GradeResult[]): GradesData[] => {
   });
 };
 
-const ProgrammeContainer = ({ programme, grade, user }: Props) => {
+const ProgrammeContainer = ({ programme, grade }: Props) => {
+  const { user, authContextLoaded } = useContext(AuthContext);
   const { t } = useTranslation();
   const heading = programme.title.title;
   const grades = mapGradesData(programme.grades || []);
@@ -123,6 +125,7 @@ const ProgrammeContainer = ({ programme, grade, user }: Props) => {
   const { trackPageView } = useTracker();
 
   useEffect(() => {
+    if (!authContextLoaded) return;
     const dimensions = getAllDimensions(
       { subject: { name: `${programme.title.title} - ${grade}` }, user },
       undefined,
@@ -132,7 +135,7 @@ const ProgrammeContainer = ({ programme, grade, user }: Props) => {
       dimensions,
       title: getDocumentTitle(programme.title.title, grade, t),
     });
-  }, [grade, programme.title.title, t, trackPageView, user]);
+  }, [authContextLoaded, grade, programme.title.title, t, trackPageView, user]);
 
   return (
     <>

@@ -7,7 +7,7 @@
  */
 
 import { gql } from '@apollo/client';
-import { useState, createRef, useEffect } from 'react';
+import { useState, createRef, useEffect, useContext } from 'react';
 import { Helmet } from 'react-helmet-async';
 import {
   constants,
@@ -16,13 +16,13 @@ import {
   SubjectBanner,
   LayoutItem,
   MessageBox,
-  FeideUserApiType,
   SimpleBreadcrumbItem,
   HomeBreadcrumb,
-  Heading,
 } from '@ndla/ui';
+import { Heading } from '@ndla/typography';
 import { useTracker } from '@ndla/tracker';
-import { TFunction, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
 import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
 import SubjectPageContent from './components/SubjectPageContent';
@@ -38,12 +38,12 @@ import {
   TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE,
 } from '../../constants';
 import { removeUrn, useIsNdlaFilm } from '../../routeHelpers';
+import { AuthContext } from '../../components/AuthenticationContext';
 
 type Props = {
   topicIds: string[];
   subject: GQLSubjectContainer_SubjectFragment;
   loading?: boolean;
-  user?: FeideUserApiType;
 };
 
 const BreadcrumbWrapper = styled.div`
@@ -87,13 +87,15 @@ const getSubjectTypeMessage = (
   }
 };
 
-const SubjectContainer = ({ topicIds, subject, loading, user }: Props) => {
+const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
+  const { user, authContextLoaded } = useContext(AuthContext);
   const ndlaFilm = useIsNdlaFilm();
   const { t } = useTranslation();
   const { trackPageView } = useTracker();
   const about = subject.subjectpage?.about;
 
   useEffect(() => {
+    if (!authContextLoaded) return;
     if (!loading && !!subject.topics?.length && topicIds.length === 0) {
       const topicPath = topicIds.map(
         (id) => subject.allTopics?.find((t) => t.id === id),
@@ -109,7 +111,7 @@ const SubjectContainer = ({ topicIds, subject, loading, user }: Props) => {
         title: htmlTitle(subject.name, [t('htmlTitles.titleTemplate')]),
       });
     }
-  }, [loading, subject, t, topicIds, trackPageView, user]);
+  }, [authContextLoaded, loading, subject, t, topicIds, trackPageView, user]);
 
   const [topicCrumbs, setTopicCrumbs] = useState<SimpleBreadcrumbItem[]>([]);
 
@@ -214,7 +216,7 @@ const SubjectContainer = ({ topicIds, subject, loading, user }: Props) => {
             <StyledHeading
               element="h1"
               margin="xlarge"
-              headingStyle="h1"
+              headingStyle="h1-resource"
               data-inverted={ndlaFilm}
               id={topicIds.length === 0 ? SKIP_TO_CONTENT_ID : undefined}
               tabIndex={-1}

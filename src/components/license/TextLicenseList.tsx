@@ -7,7 +7,7 @@
  */
 
 import { gql } from '@apollo/client';
-import { printPage, uuid } from '@ndla/util';
+import { printPage } from '@ndla/util';
 import {
   MediaList,
   MediaListItem,
@@ -16,6 +16,7 @@ import {
   MediaListItemActions,
   MediaListItemMeta,
 } from '@ndla/ui';
+import type { ItemType } from '@ndla/ui';
 import {
   metaTypes,
   getGroupedContributorDescriptionList,
@@ -35,7 +36,7 @@ interface TextLicenseInfoProps {
 const TextLicenseInfo = ({ text }: TextLicenseInfoProps) => {
   const { t, i18n } = useTranslation();
   const safeCopyright = licenseCopyrightToCopyrightType(text.copyright);
-  const items = getGroupedContributorDescriptionList(
+  const items: ItemType[] = getGroupedContributorDescriptionList(
     safeCopyright,
     i18n.language,
   );
@@ -51,6 +52,21 @@ const TextLicenseInfo = ({ text }: TextLicenseInfoProps) => {
     description: text.updated,
     metaType: metaTypes.other,
   });
+
+  if (text.copyright.origin) {
+    items.push({
+      label: t('license.source'),
+      description: text.copyright.origin,
+      metaType: metaTypes.other,
+    });
+  }
+
+  if (text.copyright.processed === true) {
+    items.push({
+      label: t('license.processed'),
+      metaType: metaTypes.otherWithoutDescription,
+    });
+  }
 
   return (
     <MediaListItem>
@@ -103,8 +119,8 @@ const TextLicenseList = ({ texts, printUrl }: Props) => {
         </ButtonV2>
       )}
       <MediaList>
-        {texts.map((text) => (
-          <TextLicenseInfo text={text} key={uuid()} />
+        {texts.map((text, index) => (
+          <TextLicenseInfo text={text} key={index} />
         ))}
       </MediaList>
     </div>

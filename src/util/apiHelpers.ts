@@ -16,7 +16,7 @@ import {
 import { BatchHttpLink } from '@apollo/client/link/batch-http';
 import { onError } from '@apollo/client/link/error';
 import { setContext } from '@apollo/client/link/context';
-import { FeideUserApiType } from '@ndla/ui';
+import { FeideUserApiType } from '../interfaces';
 import config from '../config';
 import handleError from './handleError';
 import { default as createFetch } from './fetch';

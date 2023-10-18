@@ -9,15 +9,15 @@
 import { useMemo, useContext } from 'react';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
-import { spacing, fonts, breakpoints, mq, colors } from '@ndla/core';
+import { spacing, breakpoints, mq, colors } from '@ndla/core';
 import {
   AccordionRoot,
   AccordionItem,
   AccordionHeader,
   AccordionContent,
 } from '@ndla/accordion';
-import { ContentLoader, Heading, ProgrammeCard, ProgrammeV2 } from '@ndla/ui';
-import { SKIP_TO_CONTENT_ID } from '../../../constants';
+import { ContentLoader, ProgrammeCard, ProgrammeV2 } from '@ndla/ui';
+import { Heading, Text } from '@ndla/typography';
 import IsMobileContext from '../../../IsMobileContext';
 
 const StyledWrapper = styled.div`
@@ -64,8 +64,6 @@ const StyledAccordionContent = styled(AccordionContent)`
 `;
 
 const StyledAccordionHeader = styled(AccordionHeader)`
-  ${fonts.sizes('16px', '24px')};
-  ${fonts.weight.semibold};
   background-color: ${colors.white};
   :hover {
     text-decoration: none;
@@ -138,10 +136,9 @@ const placeholder = (
   </ContentLoader>
 );
 
-const Description = styled.div`
+const Description = styled(Text)`
   margin-top: ${spacing.xsmall};
   margin-bottom: ${spacing.large};
-  ${fonts.sizes('18px', '24px')};
 `;
 
 const Programmes = ({ programmes, loading }: Props) => {
@@ -164,10 +161,12 @@ const Programmes = ({ programmes, loading }: Props) => {
 
   return (
     <StyledWrapper>
-      <Heading element="h2" headingStyle="h1" serif id={SKIP_TO_CONTENT_ID}>
+      <Heading element="h2" headingStyle="h1" serif id="programmes-heading">
         {t('programmes.header')}
       </Heading>
-      <Description>{t('programmes.description')}</Description>
+      <Description textStyle="content-alt" margin="none">
+        {t('programmes.description')}
+      </Description>
       {isMobile ? (
         <Mobile>
           <StyledAccordionRoot type="single" collapsible>
@@ -176,7 +175,9 @@ const Programmes = ({ programmes, loading }: Props) => {
             </ImageWrapper>
             <AccordionItem value="1">
               <StyledAccordionHeader id="accordionHeader">
-                {t('programmes.accordionHeader')}
+                <Text element="span" textStyle="button" margin="none">
+                  {t('programmes.accordionHeader')}
+                </Text>
               </StyledAccordionHeader>
               <StyledAccordionContent>
                 <StyledNav aria-labelledby="accordionHeader">
@@ -187,7 +188,7 @@ const Programmes = ({ programmes, loading }: Props) => {
           </StyledAccordionRoot>
         </Mobile>
       ) : (
-        <StyledNav aria-labelledby={SKIP_TO_CONTENT_ID}>
+        <StyledNav aria-labelledby="programmes-heading">
           <Desktop>{loading ? placeholder : programmeCards}</Desktop>
         </StyledNav>
       )}

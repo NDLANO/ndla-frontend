@@ -11,7 +11,7 @@ import keyBy from 'lodash/keyBy';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import { HelmetWithTracker } from '@ndla/tracker';
+import { HelmetWithTracker, useTracker } from '@ndla/tracker';
 import { spacing } from '@ndla/core';
 import { SafeLinkButton } from '@ndla/safelink';
 import { BlockResource, ListResource, useSnack } from '@ndla/ui';
@@ -32,6 +32,7 @@ import { usePrevious } from '../../../util/utilityHooks';
 import { STORED_RESOURCE_VIEW_SETTINGS } from '../../../constants';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import SettingsMenu from '../components/SettingsMenu';
+import { getAllDimensions } from '../../../util/trackingUtil';
 
 const StyledUl = styled.ul`
   padding: 0px;
@@ -46,6 +47,7 @@ const TagsPageContainer = styled.div`
   flex-direction: column;
   gap: ${spacing.xsmall};
   flex: 1;
+  margin-top: ${spacing.normal};
 `;
 
 const StyledSafeLinkButton = styled(SafeLinkButton)`
@@ -61,16 +63,28 @@ const CountWrapper = styled.div`
 `;
 
 const TagsPage = () => {
+  const { user, authContextLoaded } = useContext(AuthContext);
+  const { trackPageView } = useTracker();
   const { folders } = useFolders();
   const { tag } = useParams();
   const { t } = useTranslation();
-  const tags = getAllTags(folders);
+  const title = useMemo(
+    () =>
+      tag ? t('htmlTitles.myTagPage', { tag }) : t('htmlTitles.myTagsPage'),
+    [t, tag],
+  );
+  const tags = useMemo(() => getAllTags(folders), [folders]);
   const resources = useMemo(
     () => (tag ? getResourcesForTag(folders, tag) : []),
     [tag, folders],
   );
   const previousResources = usePrevious(resources);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!authContextLoaded) return;
+    trackPageView({ title: title, dimensions: getAllDimensions({ user }) });
+  }, [authContextLoaded, title, trackPageView, user]);
 
   useEffect(() => {
     if (tag && !!previousResources?.length && resources.length === 0) {
@@ -84,11 +98,7 @@ const TagsPage = () => {
 
   return (
     <TagsPageContainer>
-      <HelmetWithTracker
-        title={
-          tag ? t('htmlTitles.myTagPage', { tag }) : t('htmlTitles.myTagsPage')
-        }
-      />
+      <HelmetWithTracker title={title} />
       <TitleWrapper>
         <MyNdlaBreadcrumb
           page="tags"
@@ -144,7 +154,7 @@ const Resources = ({ resources }: ResourcesProps) => {
         <span>{t('myNdla.resources', { count: resources.length })}</span>
       </CountWrapper>
       <ListViewOptions type={viewType} onTypeChange={setViewType} />
-      <BlockWrapper type={viewType}>
+      <BlockWrapper data-type={viewType}>
         {resources.map((resource) => {
           const meta =
             keyedData[`${resource.resourceType}-${resource.resourceId}`];
