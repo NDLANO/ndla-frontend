@@ -12,6 +12,13 @@ import { colors, fonts, misc, spacing } from '@ndla/core';
 import { Heading } from '@ndla/typography';
 import { RadioButtonGroup } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
+import { parseUserObject } from '../../components/parseUserObject';
+import { AffiliationType, FeideUserApiType } from '../../../../interfaces';
+
+type MyPreferencesProps = {
+  user: FeideUserApiType | undefined;
+  isTeacher: (affiliations: AffiliationType[]) => boolean;
+};
 
 const PreferenceContainer = styled.div`
   display: flex;
@@ -77,9 +84,10 @@ const StyledRadioButtonGroup = styled(RadioButtonGroup)`
   }
 `;
 
-const MyPreferences = () => {
+const MyPreferences = ({ isTeacher, user }: MyPreferencesProps) => {
   const [_userPreference, setUserPreference] = useState<string>('showName');
   const { t } = useTranslation();
+  const parsedUser = user && parseUserObject(user);
 
   return (
     <PreferenceContainer>
@@ -94,34 +102,38 @@ const MyPreferences = () => {
         </StyledH2Heading>
         <StyledText>{t('myNdla.myProfile.disclaimerText')}</StyledText>
       </DisclaimerContainer>
-      <OptionContainer>
-        <StyledH2Heading
-          element="h2"
-          id="myProfileTitle"
-          margin="none"
-          headingStyle="default"
-        >
-          {t('myNdla.myProfile.preferenceTitle')}
-        </StyledH2Heading>
-        <StyledText>{t('myNdla.myProfile.preferenceText')}</StyledText>
-      </OptionContainer>
-      <StyledRadioButtonGroup
-        options={[
-          {
-            title: t('myNdla.myProfile.radioButtonText.option1'),
-            value: 'showName',
-          },
-          {
-            title: t('myNdla.myProfile.radioButtonText.option2'),
-            value: 'dontShowName',
-          },
-        ]}
-        direction="vertical"
-        uniqeIds
-        onChange={(value) => {
-          setUserPreference(value);
-        }}
-      />
+      {parsedUser && isTeacher(parsedUser.eduPersonAffiliation) && (
+        <>
+          <OptionContainer>
+            <StyledH2Heading
+              element="h2"
+              id="myProfileTitle"
+              margin="none"
+              headingStyle="default"
+            >
+              {t('myNdla.myProfile.preferenceTitle')}
+            </StyledH2Heading>
+            <StyledText>{t('myNdla.myProfile.preferenceText')}</StyledText>
+          </OptionContainer>
+          <StyledRadioButtonGroup
+            options={[
+              {
+                title: t('myNdla.myProfile.radioButtonText.option1'),
+                value: 'showName',
+              },
+              {
+                title: t('myNdla.myProfile.radioButtonText.option2'),
+                value: 'dontShowName',
+              },
+            ]}
+            direction="vertical"
+            uniqeIds
+            onChange={(value) => {
+              setUserPreference(value);
+            }}
+          />
+        </>
+      )}
     </PreferenceContainer>
   );
 };

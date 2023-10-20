@@ -67,18 +67,23 @@ const MobileButtonContainer = styled.div`
   }
 `;
 
+const isTeacher = (affiliations: FeideUserApiType['eduPersonAffiliation']) =>
+  affiliations.includes('employee');
+
 const MyContactArea = ({ user, showProfileButton }: MyContractAreaProps) => {
   const parsedUser = user && parseUserObject(user);
 
   return (
     <MyContactAreaContainer>
-      <AvatarContainer>
-        <UserAvatar
-          hasUploadedAvatar={false}
-          userName={user?.displayName}
-          showProfileButton
-        />
-      </AvatarContainer>
+      {parsedUser && isTeacher(parsedUser.eduPersonAffiliation) && (
+        <AvatarContainer>
+          <UserAvatar
+            hasUploadedAvatar={false}
+            userName={user?.displayName}
+            showProfileButton
+          />
+        </AvatarContainer>
+      )}
       <StyledUserNameHeading
         element="h2"
         id="userName"
@@ -98,9 +103,13 @@ const MyContactArea = ({ user, showProfileButton }: MyContractAreaProps) => {
         </UserCountyText>
       </UserInfoContainer>
       {showProfileButton && (
-        <MobileButtonContainer>
-          <EditProfilePicture />
-        </MobileButtonContainer>
+        <>
+          {parsedUser && isTeacher(parsedUser.eduPersonAffiliation) && (
+            <MobileButtonContainer>
+              <EditProfilePicture />
+            </MobileButtonContainer>
+          )}
+        </>
       )}
     </MyContactAreaContainer>
   );
