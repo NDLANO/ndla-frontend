@@ -106,6 +106,8 @@ const messages = {
     topic: {
       responses: 'Responses',
     },
+    bottomText:
+      'Are you missing a category? You can request new categories. Use "Ask NDLA" or send an email to moderator@ndla.no',
   },
 };
 

@@ -107,6 +107,8 @@ const messages = {
     topic: {
       responses: 'Svar',
     },
+    bottomText:
+      'Saknar du ein kategori? Du kan be om nye kategoriar. Bruk "Spør NDLA" eller send ein epost til moderator@ndla.no',
   },
 };
 

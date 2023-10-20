@@ -70,10 +70,7 @@ const ArenaPage = () => {
           count={20}
         />
       </StyledCardContainer>
-      <StyledBottomText>
-        Savner du en kategori? Du kan be om nye kategorier. Bruk “Spør NDLA”
-        eller send en epost til moderator@ndla.no
-      </StyledBottomText>
+      <StyledBottomText>{t('arena.bottomText')}</StyledBottomText>
     </>
   );
 };
