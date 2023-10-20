@@ -118,7 +118,7 @@ const ResourceEmbedWrapper = ({
               </StyledEmbedTypeHeader>
               <Heading
                 element="h1"
-                headingStyle="h1"
+                headingStyle="h1-resource"
                 id={SKIP_TO_CONTENT_ID}
                 tabIndex={-1}
               >

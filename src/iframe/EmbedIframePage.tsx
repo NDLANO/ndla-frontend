@@ -22,6 +22,7 @@ const supportedEmbedTypes: StandaloneEmbed[] = [
   'video',
   'audio',
   'image',
+  'h5p',
 ];
 const EmbedIframePage = ({ embedId, embedType }: Props) => {
   if (embedId && supportedEmbedTypes.some((t) => t === embedType)) {
