@@ -96,6 +96,10 @@ const messages = {
   },
 
   arena: {
+    header: 'Arena',
+    description:
+      'Velkommen til NDLAs Arena. Her kan du diskutere, dele og samarbeide med andre lærere fra hele Norge.',
+    title: 'Kategorier',
     category: {
       posts: 'Innlegg',
     },

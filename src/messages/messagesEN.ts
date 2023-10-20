@@ -96,6 +96,10 @@ const messages = {
   },
 
   arena: {
+    header: 'Arena',
+    description:
+      "Welcome to NDLA's Arena. Here you can discuss, share and collaborate with other teachers from all over Norway.",
+    title: 'Categories',
     category: {
       posts: 'Posts',
     },

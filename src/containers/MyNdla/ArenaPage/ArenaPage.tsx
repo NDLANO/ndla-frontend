@@ -7,16 +7,11 @@
  */
 
 import styled from '@emotion/styled';
+import { useTranslation } from 'react-i18next';
 import { colors, spacing, breakpoints, mq, fonts, misc } from '@ndla/core';
 import ArenaCard from '../ArenaCards/ArenaCard';
 
-const StyledCardContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-`;
-
-const StyledArenaTitle = styled.div`
+const StyledArenaHeader = styled.h1`
   ${fonts.sizes('38px', '48px')};
   font-weight: ${fonts.weight.bold};
   margin-bottom: ${spacing.small};
@@ -24,32 +19,34 @@ const StyledArenaTitle = styled.div`
 
 const ArenaDescription = styled.div`
   width: 700px;
-  margin-bottom: 48px;
   ${fonts.sizes('18px', '29px')};
   font-weight: ${fonts.weight.normal};
 `;
 
-const ArenaTitle = styled.div`
+const ArenaTitle = styled.h2`
   ${fonts.sizes('22px', '33px')};
-  font-weight: ${fonts.weight.bold};
-  margin-bottom: 24px;
+`;
+
+const StyledCardContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: ${spacing.small} 0;
 `;
 
 const StyledBottomText = styled.div`
   ${fonts.sizes('16px', '26px')};
   font-weight: ${fonts.weight.normal};
-  margin-top: ${spacing.normal};
+  margin-top: ${spacing.small};
 `;
 
 const ArenaPage = () => {
+  const { t } = useTranslation();
   return (
     <>
-      <StyledArenaTitle>Arena</StyledArenaTitle>
-      <ArenaDescription>
-        Velkommen til NDLAs Arena. Her kan du diskutere, dele og samarbeide med
-        andre lærere fra hele Norge.
-      </ArenaDescription>
-      <ArenaTitle>Kategorier</ArenaTitle>
+      <StyledArenaHeader>{t('arena.header')}</StyledArenaHeader>
+      <ArenaDescription>{t('arena.description')}</ArenaDescription>
+      <ArenaTitle>{t('arena.title')}</ArenaTitle>
       <StyledCardContainer>
         <ArenaCard
           id="123"
