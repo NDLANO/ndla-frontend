@@ -33,7 +33,6 @@ import { getAllDimensions } from '../../../util/trackingUtil';
 import MyPreferences from './components/MyPreferences';
 import MyContactArea from '../components/MyContactArea';
 import { UserInfo } from '../components/UserInfo';
-import { FeideUserApiType } from '../../../interfaces';
 
 const StyledPageContentContainer = styled.div`
   display: flex;
@@ -85,9 +84,6 @@ const MyProfilePage = () => {
   const { trackPageView } = useTracker();
   const { deletePersonalData } = useDeletePersonalData();
 
-  const isTeacher = (affiliations: FeideUserApiType['eduPersonAffiliation']) =>
-    affiliations.includes('student');
-
   useEffect(() => {
     trackPageView({
       title: t('htmlTitles.myProfile'),
@@ -115,11 +111,11 @@ const MyProfilePage = () => {
         {t('myNdla.myProfile.title')}
       </StyledHeading>
       <MyContactArea user={user} showProfileButton />
-      <MyPreferences isTeacher={isTeacher} user={user} />
+      <MyPreferences user={user} />
       <InfoContainer>
         {user && (
           <InfoPart title={t('myNdla.myPage.feide')} icon={''}>
-            <UserInfo user={user} isTeacher={isTeacher} />
+            <UserInfo user={user} />
             <span>
               {t('user.wrongUserInfoDisclaimer')}
               <SafeLink to="https://feide.no/brukerstotte">

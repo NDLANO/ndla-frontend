@@ -12,12 +12,11 @@ import { colors, fonts, misc, spacing } from '@ndla/core';
 import { Heading } from '@ndla/typography';
 import { RadioButtonGroup } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
-import { parseUserObject } from '../../components/parseUserObject';
-import { AffiliationType, FeideUserApiType } from '../../../../interfaces';
+import { FeideUserApiType } from '../../../../interfaces';
+import { isStudent } from '../../Folders/util';
 
 type MyPreferencesProps = {
   user: FeideUserApiType | undefined;
-  isTeacher: (affiliations: AffiliationType[]) => boolean;
 };
 
 const PreferenceContainer = styled.div`
@@ -84,10 +83,9 @@ const StyledRadioButtonGroup = styled(RadioButtonGroup)`
   }
 `;
 
-const MyPreferences = ({ isTeacher, user }: MyPreferencesProps) => {
+const MyPreferences = ({ user }: MyPreferencesProps) => {
   const [_userPreference, setUserPreference] = useState<string>('showName');
   const { t } = useTranslation();
-  const parsedUser = user && parseUserObject(user);
 
   return (
     <PreferenceContainer>
@@ -102,7 +100,7 @@ const MyPreferences = ({ isTeacher, user }: MyPreferencesProps) => {
         </StyledH2Heading>
         <StyledText>{t('myNdla.myProfile.disclaimerText')}</StyledText>
       </DisclaimerContainer>
-      {parsedUser && isTeacher(parsedUser.eduPersonAffiliation) && (
+      {!isStudent(user) && (
         <>
           <OptionContainer>
             <StyledH2Heading

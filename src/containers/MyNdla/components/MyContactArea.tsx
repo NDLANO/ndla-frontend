@@ -13,6 +13,7 @@ import { parseUserObject } from './parseUserObject';
 import UserAvatar from './UserAvatar';
 import EditProfilePicture from '../MyProfile/components/EditProfilePicture';
 import { FeideUserApiType } from '../../../interfaces';
+import { isStudent } from '../Folders/util';
 
 type MyContractAreaProps = {
   user: FeideUserApiType | undefined;
@@ -67,15 +68,12 @@ const MobileButtonContainer = styled.div`
   }
 `;
 
-const isTeacher = (affiliations: FeideUserApiType['eduPersonAffiliation']) =>
-  affiliations.includes('employee');
-
 const MyContactArea = ({ user, showProfileButton }: MyContractAreaProps) => {
   const parsedUser = user && parseUserObject(user);
 
   return (
     <MyContactAreaContainer>
-      {parsedUser && isTeacher(parsedUser.eduPersonAffiliation) && (
+      {!isStudent(user) && (
         <AvatarContainer>
           <UserAvatar
             hasUploadedAvatar={false}
@@ -104,7 +102,7 @@ const MyContactArea = ({ user, showProfileButton }: MyContractAreaProps) => {
       </UserInfoContainer>
       {showProfileButton && (
         <>
-          {parsedUser && isTeacher(parsedUser.eduPersonAffiliation) && (
+          {!isStudent(user) && (
             <MobileButtonContainer>
               <EditProfilePicture />
             </MobileButtonContainer>
