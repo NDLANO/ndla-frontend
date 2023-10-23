@@ -6,24 +6,13 @@
  *
  */
 
-import { useMemo, useState, useEffect } from 'react';
-import { Reference, useApolloClient, gql } from '@apollo/client';
 import { Spinner } from '@ndla/icons';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
-import { colors, spacing, breakpoints, mq, fonts, misc } from '@ndla/core';
-import {
-  GQLArenaBreadcrumb,
-  GQLArenaCategory,
-  GQLArenaPost,
-  GQLArenaTopic,
-} from '../../../graphqlTypes';
+import { spacing, fonts } from '@ndla/core';
 import { Heading } from '@ndla/typography';
+import { useCategories } from '../arenaMutations';
 import ArenaCard from '../ArenaCards/ArenaCard';
-
-interface Props {
-  categories: GQLArenaCategory[];
-}
 
 const StyledArenaHeader = styled(Heading)`
   ${fonts.sizes('38px', '48px')};
@@ -55,6 +44,12 @@ const StyledBottomText = styled.div`
 
 const ArenaPage = () => {
   const { t } = useTranslation();
+  const { loading, arenaCategories } = useCategories();
+
+  if (loading) {
+    return <Spinner />;
+  }
+
   return (
     <>
       <StyledArenaHeader element="h1" headingStyle="default">
@@ -62,29 +57,42 @@ const ArenaPage = () => {
       </StyledArenaHeader>
       <ArenaDescription>{t('arena.description')}</ArenaDescription>
       <ArenaTitle>{t('arena.title')}</ArenaTitle>
-      <StyledCardContainer>
-        <ArenaCard
-          id="123"
-          cardType="ArenaCategory"
-          title="Bygg- og anleggsteknikk"
-          subText="Beskrivelse"
-          count={20}
-        />
-        <ArenaCard
-          id="123"
-          cardType="ArenaCategory"
-          title="Bygg- og anleggsteknikk"
-          subText="Beskrivelse"
-          count={20}
-        />
-        <ArenaCard
-          id="123"
-          cardType="ArenaCategory"
-          title="Bygg- og anleggsteknikk"
-          subText="Beskrivelse"
-          count={20}
-        />
-      </StyledCardContainer>
+      {loading ? (
+        <Spinner />
+      ) : (
+        <StyledCardContainer>
+          {/* {arenaCategories.map((category) => (
+            <ArenaCard
+              id={category.id}
+              cardType="ArenaCategory"
+              title={category.name}
+              subText={category.description}
+              count={20}
+            />
+          ))} */}
+          <ArenaCard
+            id="123"
+            cardType="ArenaCategory"
+            title="Test for styling"
+            subText="Beskrivelse"
+            count={20}
+          />
+          <ArenaCard
+            id="123"
+            cardType="ArenaCategory"
+            title="Test for styling"
+            subText="Beskrivelse"
+            count={20}
+          />
+          <ArenaCard
+            id="123"
+            cardType="ArenaCategory"
+            title="Test for styling"
+            subText="Beskrivelse"
+            count={20}
+          />
+        </StyledCardContainer>
+      )}
       <StyledBottomText>{t('arena.bottomText')}</StyledBottomText>
     </>
   );

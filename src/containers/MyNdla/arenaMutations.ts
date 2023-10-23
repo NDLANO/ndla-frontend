@@ -6,20 +6,12 @@
  *
  */
 
-import {
-  ApolloCache,
-  ApolloError,
-  gql,
-  QueryHookOptions,
-  Reference,
-  useApolloClient,
-  useMutation,
-} from '@apollo/client';
+import { gql } from '@apollo/client';
+import { GQLArenaCategory } from '../../graphqlTypes';
 import { useGraphQuery } from '../../util/runQueries';
 
 const arenaPageQueryFragment = gql`
   fragment ArenaPageQueryFragment on ArenaCategory {
-    __typename
     description
     disabled
     htmlDescription
@@ -29,11 +21,18 @@ const arenaPageQueryFragment = gql`
     slug
   }
 `;
+
 export const arenaPageQuery = gql`
   query arenaPage {
-    arenaCategories(){
+    arenaCategories(filterVisible: true) {
       ...ArenaPageQueryFragment
     }
-    ${arenaPageQueryFragment}
   }
+  ${arenaPageQueryFragment}
 `;
+
+export const useCategories = () => {
+  const { data, loading, error } =
+    useGraphQuery<GQLArenaCategory>(arenaPageQuery);
+  return { arenaCategories: data, loading, error };
+};
