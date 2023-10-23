@@ -8,7 +8,7 @@
 
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
-import { colors, spacing, breakpoints, mq, fonts, misc } from '@ndla/core';
+import { spacing, fonts } from '@ndla/core';
 import ArenaCard from '../ArenaCards/ArenaCard';
 
 const StyledArenaHeader = styled.h1`
@@ -51,22 +51,22 @@ const ArenaPage = () => {
         <ArenaCard
           id="123"
           cardType="ArenaCategory"
-          title={'Bygg- og anleggsteknikk'}
-          subText={'Beskrivelse'}
+          title="Bygg- og anleggsteknikk"
+          subText="Beskrivelse"
           count={20}
         />
         <ArenaCard
           id="123"
           cardType="ArenaCategory"
-          title={'Bygg- og anleggsteknikk'}
-          subText={'Beskrivelse'}
+          title="Bygg- og anleggsteknikk"
+          subText="Beskrivelse"
           count={20}
         />
         <ArenaCard
           id="123"
           cardType="ArenaCategory"
-          title={'Bygg- og anleggsteknikk'}
-          subText={'Beskrivelse'}
+          title="Bygg- og anleggsteknikk"
+          subText="Beskrivelse"
           count={20}
         />
       </StyledCardContainer>
