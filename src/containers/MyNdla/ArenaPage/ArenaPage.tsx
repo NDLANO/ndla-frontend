@@ -9,15 +9,15 @@
 import { useMemo, useState, useEffect } from 'react';
 import { Reference, useApolloClient, gql } from '@apollo/client';
 import { Spinner } from '@ndla/icons';
+import styled from '@emotion/styled';
+import { useTranslation } from 'react-i18next';
+import { colors, spacing, breakpoints, mq, fonts, misc } from '@ndla/core';
 import {
   GQLArenaBreadcrumb,
   GQLArenaCategory,
   GQLArenaPost,
   GQLArenaTopic,
 } from '../../../graphqlTypes';
-import styled from '@emotion/styled';
-import { useTranslation } from 'react-i18next';
-import { colors, spacing, breakpoints, mq, fonts, misc } from '@ndla/core';
 import ArenaCard from '../ArenaCards/ArenaCard';
 
 interface Props {
