@@ -16,12 +16,11 @@ import {
   GQLResourceTypeDefinition,
   GQLSearchContext,
 } from '../../graphqlTypes';
+import { RELEVANCE_SUPPLEMENTARY } from '../../constants';
 
-const isSupplementary = (context: Pick<GQLSearchContext, 'relevance'>) => {
+const isSupplementary = (context: Pick<GQLSearchContext, 'relevanceId'>) => {
   return (
-    // Consider getting from constants
-    context?.relevance === 'Tilleggsstoff' ||
-    context?.relevance === 'Supplementary'
+    context?.relevanceId === RELEVANCE_SUPPLEMENTARY
   );
 };
 

@@ -826,6 +826,7 @@ type PodcastSeries implements PodcastSeriesBase {
   description: Description!
   hasRSS: Boolean!
   id: Int!
+  image: ImageMetaInformation!
   supportedLanguages: [String!]!
   title: Title!
 }
@@ -835,6 +836,7 @@ interface PodcastSeriesBase {
   description: Description!
   hasRSS: Boolean!
   id: Int!
+  image: ImageMetaInformation!
   supportedLanguages: [String!]!
   title: Title!
 }
@@ -863,6 +865,7 @@ type PodcastSeriesWithEpisodes implements PodcastSeriesBase {
   episodes: [Audio!]
   hasRSS: Boolean!
   id: Int!
+  image: ImageMetaInformation!
   supportedLanguages: [String!]!
   title: Title!
 }
@@ -1099,6 +1102,7 @@ type SearchContext {
   path: String!
   publicId: String!
   relevance: String!
+  relevanceId: String!
   resourceTypes: [SearchContextResourceTypes!]!
   root: String!
   rootId: String!
