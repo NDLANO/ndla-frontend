@@ -18,15 +18,15 @@ import {
   GQLArenaPost,
   GQLArenaTopic,
 } from '../../../graphqlTypes';
+import { Heading } from '@ndla/typography';
 import ArenaCard from '../ArenaCards/ArenaCard';
 
 interface Props {
   categories: GQLArenaCategory[];
 }
 
-const StyledArenaHeader = styled.h1`
+const StyledArenaHeader = styled(Heading)`
   ${fonts.sizes('38px', '48px')};
-  font-weight: ${fonts.weight.bold};
   margin-bottom: ${spacing.small};
 `;
 
@@ -57,7 +57,9 @@ const ArenaPage = () => {
   const { t } = useTranslation();
   return (
     <>
-      <StyledArenaHeader>{t('arena.header')}</StyledArenaHeader>
+      <StyledArenaHeader element="h1" headingStyle="default">
+        {t('arena.header')}
+      </StyledArenaHeader>
       <ArenaDescription>{t('arena.description')}</ArenaDescription>
       <ArenaTitle>{t('arena.title')}</ArenaTitle>
       <StyledCardContainer>
