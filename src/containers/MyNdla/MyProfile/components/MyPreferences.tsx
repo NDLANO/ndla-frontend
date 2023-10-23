@@ -96,9 +96,19 @@ const MyPreferences = ({ user }: MyPreferencesProps) => {
           margin="none"
           headingStyle="default"
         >
-          {t('myNdla.myProfile.disclaimerTitle')}
+          {t(
+            `myNdla.myProfile.disclaimerTitle.${
+              isStudent(user) ? 'student' : 'employee'
+            }`,
+          )}
         </StyledH2Heading>
-        <StyledText>{t('myNdla.myProfile.disclaimerText')}</StyledText>
+        <StyledText>
+          {t(
+            `myNdla.myProfile.disclaimerText.${
+              isStudent(user) ? 'student' : 'employee'
+            }`,
+          )}
+        </StyledText>
       </DisclaimerContainer>
       {!isStudent(user) && (
         <>
