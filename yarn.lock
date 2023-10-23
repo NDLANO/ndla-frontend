@@ -2681,14 +2681,6 @@
     "@ndla/core" "^4.2.0"
     "@ndla/safelink" "^4.1.27"
 
-"@ndla/polyfill@^1.0.9":
-  version "1.0.9"
-  resolved "https://registry.yarnpkg.com/@ndla/polyfill/-/polyfill-1.0.9.tgz#092c35e3a70dd1e667573d2bbf66fe3b6639780d"
-  integrity sha512-bZ1cz4roDjufTYl6Tgx3HhBlIEluI9IH9BWCye2m/NNR+iX5j7jaKUu1q4bbTC1opljgUAoAmG+u+scAbp5zzA==
-  dependencies:
-    core-js "^3.10.2"
-    details-polyfill "^1.1.0"
-
 "@ndla/safelink@^4.1.27":
   version "4.1.27"
   resolved "https://registry.yarnpkg.com/@ndla/safelink/-/safelink-4.1.27.tgz#7dbfba71e09d2b628ee6289d0cb7531c619046f5"
@@ -5722,11 +5714,6 @@ core-js-pure@^3.23.3:
   resolved "https://registry.yarnpkg.com/core-js-pure/-/core-js-pure-3.26.1.tgz#653f4d7130c427820dcecd3168b594e8bb095a33"
   integrity sha512-VVXcDpp/xJ21KdULRq/lXdLzQAtX7+37LzpyfFM973il0tWSsDEoyzG38G14AjTpK9VTfiNM9jnFauq/CpaWGQ==
 
-core-js@^3.10.2:
-  version "3.10.2"
-  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.10.2.tgz#17cb038ce084522a717d873b63f2b3ee532e2cd5"
-  integrity sha512-W+2oVYeNghuBr3yTzZFQ5rfmjZtYB/Ubg87R5YOmlGrIb+Uw9f7qjUbhsj+/EkXhcV7eOD3jiM4+sgraX3FZUw==
-
 core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
@@ -6259,11 +6246,6 @@ destroy@1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/destroy/-/destroy-1.2.0.tgz#4803735509ad8be552934c67df614f94e66fa015"
   integrity sha512-2sJGJTaXIIaR1w4iJSNoN0hnMY7Gpc/n8D4qSCJw8QqFWXf7cuAgnEHxBpweaVcPevC2l3KpjYCx3NypQQgaJg==
-
-details-polyfill@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/details-polyfill/-/details-polyfill-1.1.0.tgz#d6d71be0885560e7afca42688b03ff379fd80e56"
-  integrity sha512-YARtvrZ+FobZBMjfAyCxNZ5Cm5riB2tKMsdUQvTFnCvg3OeAkOGCoSxgDZT0uAXV+t5zgJYMGWd/ftVI6v8I0w==
 
 detect-indent@^6.0.0:
   version "6.1.0"

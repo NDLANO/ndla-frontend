@@ -8,8 +8,9 @@
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
-import { AffiliationType, FeideUserApiType } from '../../../interfaces';
+import { FeideUserApiType } from '../../../interfaces';
 import { parseUserObject } from './parseUserObject';
+import { isStudent } from '../Folders/util';
 
 const InfoList = styled.ul`
   padding: 0 0 0 ${spacing.normal};
@@ -17,7 +18,6 @@ const InfoList = styled.ul`
 
 interface Props {
   user: FeideUserApiType;
-  isTeacher: (affiliations: AffiliationType[]) => boolean;
 }
 
 const StyledComponentContainer = styled.div`
@@ -31,7 +31,7 @@ const ShortInfoDiv = styled.div`
   gap: ${spacing.xxsmall};
 `;
 
-export const UserInfo = ({ user, isTeacher }: Props) => {
+export const UserInfo = ({ user }: Props) => {
   const { t } = useTranslation();
   const parsedUser = parseUserObject(user);
 
@@ -40,13 +40,7 @@ export const UserInfo = ({ user, isTeacher }: Props) => {
       {
         <div>
           {t('user.loggedInAs', {
-            role: t(
-              `user.role.${
-                isTeacher(parsedUser.eduPersonAffiliation)
-                  ? 'employee'
-                  : 'student'
-              }`,
-            ),
+            role: t(`user.role.${isStudent(user) ? 'student' : 'employee'}`),
           })}
         </div>
       }
