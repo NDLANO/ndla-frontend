@@ -8,16 +8,25 @@
 
 import { useTranslation } from 'react-i18next';
 
-import { gql } from '@apollo/client';
+// import { gql } from '@apollo/client';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 
-const LinksContainer = styled.div`
+const ComponentRoot = styled.div`
   margin-bottom: ${spacing.medium};
 `;
 
 const StyledLink = styled.a`
-  margin-left: ${spacing.xsmall};
+  white-space: wrap;
+`;
+
+const LinkElement = styled.span`
+  display: inline-block;
+  margin-right: ${spacing.small};
+`;
+
+const LinkSetTitle = styled.span`
+  margin-right: ${spacing.small};
 `;
 
 type SubjectLinkItem = {
@@ -26,6 +35,7 @@ type SubjectLinkItem = {
 };
 
 type SubjectLinkSetProps = {
+  set: string;
   subjects: SubjectLinkItem[];
   title: string;
 };
@@ -36,12 +46,15 @@ type SubjectLinksProps = {
   leadsTo: SubjectLinkItem[];
 };
 
-const SubjectLinkSet = ({ subjects, title }: SubjectLinkSetProps) => {
+const SubjectLinkSet = ({ set, subjects, title }: SubjectLinkSetProps) => {
   return (
     <div>
-      <span>{title}:</span>
-      {subjects.map((subject) => (
-        <StyledLink href={subject.path}>{subject.name}</StyledLink>
+      <LinkSetTitle>{title}:</LinkSetTitle>
+      {subjects.map((subject, index) => (
+        <LinkElement key={`${set}-${index}`}>
+          <StyledLink href={subject.path}>{subject.name}</StyledLink>
+          {index < subjects.length - 1 && ','}
+        </LinkElement>
       ))}
     </div>
   );
@@ -54,40 +67,30 @@ const SubjectLinks = ({
 }: SubjectLinksProps) => {
   const { t } = useTranslation();
   return (
-    <LinksContainer>
+    <ComponentRoot>
       {connectedTo.length > 0 ? (
         <SubjectLinkSet
+          set={'connectedTo'}
           subjects={connectedTo}
           title={t('subjects.connectedTo')}
         />
       ) : null}
       {buildsOn.length > 0 ? (
-        <SubjectLinkSet subjects={buildsOn} title={t('subjects.buildsOn')} />
+        <SubjectLinkSet
+          set={'buildsOn'}
+          subjects={buildsOn}
+          title={t('subjects.buildsOn')}
+        />
       ) : null}
       {leadsTo.length > 0 ? (
-        <SubjectLinkSet subjects={leadsTo} title={t('subjects.leadsTo')} />
+        <SubjectLinkSet
+          set={'leadsTo'}
+          subjects={leadsTo}
+          title={t('subjects.leadsTo')}
+        />
       ) : null}
-    </LinksContainer>
+    </ComponentRoot>
   );
-};
-
-SubjectLinks.fragments = {
-  links: gql`
-    fragment SubjectLinks_Subject on SubjectPage {
-      buildsOn {
-        path
-        name
-      }
-      connectedTo {
-        path
-        name
-      }
-      leadsTo {
-        path
-        name
-      }
-    }
-  `,
 };
 
 export default SubjectLinks;

@@ -287,16 +287,16 @@ export const subjectContainerFragments = {
           desktopUrl
         }
         buildsOn {
-          path
           name
+          path
         }
         connectedTo {
-          path
           name
+          path
         }
         leadsTo {
-          path
           name
+          path
         }
       }
       ...SubjectPageContent_Subject

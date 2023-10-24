@@ -3430,18 +3430,18 @@ export type GQLSubjectContainer_SubjectFragment = {
     banner: { __typename?: 'SubjectPageBanner'; desktopUrl: string };
     buildsOn: Array<{
       __typename?: 'SubjectLink';
-      path?: string;
       name?: string;
+      path?: string;
     }>;
     connectedTo: Array<{
       __typename?: 'SubjectLink';
-      path?: string;
       name?: string;
+      path?: string;
     }>;
     leadsTo: Array<{
       __typename?: 'SubjectLink';
-      path?: string;
       name?: string;
+      path?: string;
     }>;
   };
 } & GQLSubjectPageContent_SubjectFragment;
@@ -3484,17 +3484,6 @@ export type GQLMovedTopicPage_TopicFragment = {
     __typename?: 'TaxonomyContext';
     breadcrumbs: Array<string>;
   }>;
-};
-
-export type GQLSubjectLinks_SubjectFragment = {
-  __typename?: 'SubjectPage';
-  buildsOn: Array<{ __typename?: 'SubjectLink'; path?: string; name?: string }>;
-  connectedTo: Array<{
-    __typename?: 'SubjectLink';
-    path?: string;
-    name?: string;
-  }>;
-  leadsTo: Array<{ __typename?: 'SubjectLink'; path?: string; name?: string }>;
 };
 
 export type GQLSubjectPageContent_SubjectFragment = {
