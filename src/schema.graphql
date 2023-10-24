@@ -1163,10 +1163,13 @@ scalar StringRecord
 type Subject implements TaxonomyEntity {
   allTopics: [Topic!]
   breadcrumbs: [String!]!
+  buildsOn: [String!]
+  connectedTo: [String!]
   contentUri: String
   contexts: [TaxonomyContext!]!
   grepCodes: [String!]
   id: String!
+  leadsTo: [String!]
   metadata: TaxonomyMetadata!
   name: String!
   path: String!
@@ -1179,10 +1182,18 @@ type Subject implements TaxonomyEntity {
   url: String
 }
 
+type SubjectLink {
+  name: String
+  path: String
+}
+
 type SubjectPage {
   about: SubjectPageAbout
   banner: SubjectPageBanner!
+  buildsOn: [SubjectLink]!
+  connectedTo: [SubjectLink]!
   id: Int!
+  leadsTo: [SubjectLink]!
   metaDescription: String
   name: String!
   supportedLanguages: [String!]!

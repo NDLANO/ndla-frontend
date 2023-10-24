@@ -1500,10 +1500,13 @@ export type GQLSubject = GQLTaxonomyEntity & {
   __typename?: 'Subject';
   allTopics?: Maybe<Array<GQLTopic>>;
   breadcrumbs: Array<Scalars['String']['output']>;
+  buildsOn?: Maybe<Array<Scalars['String']['output']>>;
+  connectedTo?: Maybe<Array<Scalars['String']['output']>>;
   contentUri?: Maybe<Scalars['String']['output']>;
   contexts: Array<GQLTaxonomyContext>;
   grepCodes?: Maybe<Array<Scalars['String']['output']>>;
   id: Scalars['String']['output'];
+  leadsTo?: Maybe<Array<Scalars['String']['output']>>;
   metadata: GQLTaxonomyMetadata;
   name: Scalars['String']['output'];
   path: Scalars['String']['output'];
@@ -1520,11 +1523,20 @@ export type GQLSubjectTopicsArgs = {
   all?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+export type GQLSubjectLink = {
+  __typename?: 'SubjectLink';
+  name?: Maybe<Scalars['String']['output']>;
+  path?: Maybe<Scalars['String']['output']>;
+};
+
 export type GQLSubjectPage = {
   __typename?: 'SubjectPage';
   about?: Maybe<GQLSubjectPageAbout>;
   banner: GQLSubjectPageBanner;
+  buildsOn: Array<Maybe<GQLSubjectLink>>;
+  connectedTo: Array<Maybe<GQLSubjectLink>>;
   id: Scalars['Int']['output'];
+  leadsTo: Array<Maybe<GQLSubjectLink>>;
   metaDescription?: Maybe<Scalars['String']['output']>;
   name: Scalars['String']['output'];
   supportedLanguages: Array<Scalars['String']['output']>;
@@ -3416,6 +3428,21 @@ export type GQLSubjectContainer_SubjectFragment = {
       visualElement: { __typename?: 'SubjectPageVisualElement'; url: string };
     };
     banner: { __typename?: 'SubjectPageBanner'; desktopUrl: string };
+    buildsOn: Array<{
+      __typename?: 'SubjectLink';
+      path?: string;
+      name?: string;
+    }>;
+    connectedTo: Array<{
+      __typename?: 'SubjectLink';
+      path?: string;
+      name?: string;
+    }>;
+    leadsTo: Array<{
+      __typename?: 'SubjectLink';
+      path?: string;
+      name?: string;
+    }>;
   };
 } & GQLSubjectPageContent_SubjectFragment;
 
@@ -3457,6 +3484,17 @@ export type GQLMovedTopicPage_TopicFragment = {
     __typename?: 'TaxonomyContext';
     breadcrumbs: Array<string>;
   }>;
+};
+
+export type GQLSubjectLinks_SubjectFragment = {
+  __typename?: 'SubjectPage';
+  buildsOn: Array<{ __typename?: 'SubjectLink'; path?: string; name?: string }>;
+  connectedTo: Array<{
+    __typename?: 'SubjectLink';
+    path?: string;
+    name?: string;
+  }>;
+  leadsTo: Array<{ __typename?: 'SubjectLink'; path?: string; name?: string }>;
 };
 
 export type GQLSubjectPageContent_SubjectFragment = {

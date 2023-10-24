@@ -96,6 +96,11 @@ const messages = {
     audio: 'Audio',
     concept: 'Forklaring',
   },
+  subjects: {
+    buildsOn: 'Bygger på',
+    connectedTo: 'Felles programfag sammen med',
+    leadsTo: 'Leder til',
+  },
 };
 
 export default messages;
