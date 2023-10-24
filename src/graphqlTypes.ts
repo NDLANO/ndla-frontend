@@ -381,10 +381,22 @@ export type GQLConceptResult = {
   totalCount: Scalars['Int']['output'];
 };
 
+export type GQLConfigMetaBoolean = {
+  __typename?: 'ConfigMetaBoolean';
+  key: Scalars['String']['output'];
+  value: Scalars['Boolean']['output'];
+};
+
 export type GQLConfigMetaRestricted = {
   __typename?: 'ConfigMetaRestricted';
   key: Scalars['String']['output'];
   value: Scalars['String']['output'];
+};
+
+export type GQLConfigMetaStringList = {
+  __typename?: 'ConfigMetaStringList';
+  key: Scalars['String']['output'];
+  value: Array<Scalars['String']['output']>;
 };
 
 export type GQLContributor = {
@@ -949,8 +961,10 @@ export type GQLMutationUpdatePersonalDataArgs = {
 
 export type GQLMyNdlaPersonalData = {
   __typename?: 'MyNdlaPersonalData';
+  arenaEnabled: Scalars['Boolean']['output'];
   favoriteSubjects: Array<Scalars['String']['output']>;
   id: Scalars['Int']['output'];
+  organization: Scalars['String']['output'];
   role: Scalars['String']['output'];
 };
 
@@ -1063,6 +1077,7 @@ export type GQLQuery = {
   allFolderResources: Array<GQLFolderResource>;
   arenaCategories: Array<GQLArenaCategory>;
   arenaCategory?: Maybe<GQLArenaCategory>;
+  arenaEnabledOrgs?: Maybe<GQLConfigMetaStringList>;
   arenaRecentTopics: Array<GQLArenaTopic>;
   arenaTopic?: Maybe<GQLArenaTopic>;
   arenaTopicsByUser: Array<GQLArenaTopic>;
@@ -1075,7 +1090,7 @@ export type GQLQuery = {
   conceptSearch?: Maybe<GQLConceptResult>;
   coreElement?: Maybe<GQLCoreElement>;
   coreElements?: Maybe<Array<GQLCoreElement>>;
-  examLockStatus: GQLConfigMetaRestricted;
+  examLockStatus: GQLConfigMetaBoolean;
   filmfrontpage?: Maybe<GQLFilmFrontpage>;
   folder: GQLFolder;
   folderResourceMeta?: Maybe<GQLFolderResourceMeta>;
@@ -1808,9 +1823,9 @@ export type GQLExamLockStatusQueryVariables = Exact<{ [key: string]: never }>;
 export type GQLExamLockStatusQuery = {
   __typename?: 'Query';
   examLockStatus: {
-    __typename?: 'ConfigMetaRestricted';
+    __typename?: 'ConfigMetaBoolean';
     key: string;
-    value: string;
+    value: boolean;
   };
 };
 
