@@ -62,11 +62,13 @@ const UserRegion = styled.div`
 function UserProfileTag({ user }: UserProfileTagProps) {
   return (
     <UserProfileTagContainer to="https://om.ndla.no/gdpr">
-      <UserIcon />
+      {/* missing profile link */}
+      <UserIcon /> {/* missing avatar */}
       <UserInformationContainer>
         <NameAndTagContainer>
           <Name>{user?.displayName}</Name>
-          {user?.displayName && <ModeratorTag />}
+          {user?.displayName && <ModeratorTag />}{' '}
+          {/* missing user info for logic to show/hide tag */}
         </NameAndTagContainer>
         <UserRegion>{user?.primarySchool?.displayName}</UserRegion>
       </UserInformationContainer>

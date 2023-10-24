@@ -22,11 +22,7 @@ const ModeratorTagContainer = styled.div`
 
 function ModeratorTag() {
   const { t } = useTranslation();
-  return (
-    <ModeratorTagContainer>
-      {t('Moderator')} {/*add text to packages*/}
-    </ModeratorTagContainer>
-  );
+  return <ModeratorTagContainer>{t('user.moderator')}</ModeratorTagContainer>;
 }
 
 export default ModeratorTag;
