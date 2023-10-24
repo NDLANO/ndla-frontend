@@ -7,23 +7,11 @@
  */
 
 import 'isomorphic-unfetch';
-import './raf-polyfill';
 
 /* eslint-disable */
 global.__CLIENT__ = false;
 global.__SERVER__ = true;
 /* eslint-enable */
-
-// fix: `matchMedia` not present, legacy browsers require a polyfill
-global.matchMedia =
-  global.matchMedia ||
-  function matchMedia() {
-    return {
-      matches: false,
-      addListener() {},
-      removeListener() {},
-    };
-  };
 
 jest.mock('../style/index.css', () => {});
 

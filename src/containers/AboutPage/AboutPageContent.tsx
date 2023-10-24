@@ -116,10 +116,8 @@ const getBreadcrumb = (
   );
 };
 
-const getDocumentTitle = (
-  t: TFunction,
-  article: GQLAboutPage_ArticleFragment,
-) => t('htmlTitles.aboutPage', { name: article.title });
+const getDocumentTitle = (t: TFunction, title: string) =>
+  t('htmlTitles.aboutPage', { name: title });
 
 const converterComponents: DynamicComponents = {
   heartButton: AddEmbedToFolder,
@@ -142,7 +140,7 @@ const AboutPageContent = ({ article: _article, frontpage }: Props) => {
         undefined,
         true,
       );
-      trackPageView({ dimensions, title: getDocumentTitle(t, _article) });
+      trackPageView({ dimensions, title: getDocumentTitle(t, _article.title) });
     }
   }, [_article, authContextLoaded, t, trackPageView, user]);
 
@@ -178,7 +176,7 @@ const AboutPageContent = ({ article: _article, frontpage }: Props) => {
     <Wrapper>
       <StyledMain>
         <Helmet>
-          <title>{`${getDocumentTitle(t, article)}`}</title>
+          <title>{`${getDocumentTitle(t, article.title)}`}</title>
           <meta name="pageid" content={`${article.id}`} />
           {scripts?.map((script) => (
             <script

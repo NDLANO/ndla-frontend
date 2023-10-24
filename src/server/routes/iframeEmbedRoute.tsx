@@ -46,7 +46,6 @@ const assets =
     : {
         'client.css': 'mock.css',
         'embed.js': 'mock.js',
-        'polyfill.js': 'mock.js',
         'mathJaxConfig.js': 'mock.js',
       };
 
@@ -57,7 +56,6 @@ if (process.env.NODE_ENV === 'unittest') {
 const getAssets = () => ({
   css: assets['client.css'],
   js: [{ src: assets['embedIframe.js'] }],
-  polyfill: { src: assets['polyfill.js'] },
   mathJaxConfig: { js: assets['mathJaxConfig.js'] },
 });
 

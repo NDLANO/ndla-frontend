@@ -6,8 +6,6 @@
  *
  */
 
-import { useMemo } from 'react';
-import { Remarkable } from 'remarkable';
 import { gql } from '@apollo/client';
 import {
   ArticleWrapper,
@@ -17,58 +15,25 @@ import {
   ArticleByline,
   ArticleFootNotes,
 } from '@ndla/ui';
-import { DynamicComponents } from '@ndla/article-converter';
 
-import { useTranslation } from 'react-i18next';
 import LicenseBox from '../license/LicenseBox';
-import { transformArticle } from '../../util/transformArticle';
-import { GQLArticleContents_TopicFragment } from '../../graphqlTypes';
-import config from '../../config';
-import { getArticleScripts } from '../../util/getArticleScripts';
-import AddEmbedToFolder from '../MyNdla/AddEmbedToFolder';
+import { TransformedBaseArticle } from '../../util/transformArticle';
+import { GQLArticleContents_ArticleFragment } from '../../graphqlTypes';
+import { Scripts } from '../../util/getArticleScripts';
 
 interface Props {
-  topic: GQLArticleContents_TopicFragment;
+  article: TransformedBaseArticle<GQLArticleContents_ArticleFragment>;
   modifier: 'clean' | 'in-topic';
   showIngress: boolean;
-  subjectId?: string;
+  scripts?: Scripts[];
 }
-const converterComponents: DynamicComponents = {
-  heartButton: AddEmbedToFolder,
-};
 
 const ArticleContents = ({
-  topic,
+  article,
   modifier = 'clean',
   showIngress = true,
-  subjectId,
+  scripts,
 }: Props) => {
-  const { i18n } = useTranslation();
-  const markdown = useMemo(() => {
-    const md = new Remarkable({ breaks: true });
-    md.inline.ruler.enable(['sub', 'sup']);
-    md.block.ruler.disable(['list']);
-    return md;
-  }, []);
-
-  const renderMarkdown = (text: string) => {
-    return markdown.render(text);
-  };
-
-  const [article, scripts] = useMemo(() => {
-    if (!topic.article) return [undefined, undefined];
-    return [
-      transformArticle(topic.article, i18n.language, {
-        path: `${config.ndlaFrontendDomain}/article/${topic.article?.id}`,
-        subject: subjectId,
-        components: converterComponents,
-      }),
-      getArticleScripts(topic.article, i18n.language),
-    ];
-  }, [i18n.language, subjectId, topic.article]);
-
-  if (!topic.article || !article) return null;
-
   return (
     <ArticleWrapper modifier={modifier}>
       {scripts?.map((script) => (
@@ -83,9 +48,7 @@ const ArticleContents = ({
       {showIngress && (
         <LayoutItem layout="extend">
           <ArticleHeaderWrapper>
-            <ArticleIntroduction renderMarkdown={renderMarkdown}>
-              {article.introduction}
-            </ArticleIntroduction>
+            <ArticleIntroduction>{article.introduction}</ArticleIntroduction>
           </ArticleHeaderWrapper>
         </LayoutItem>
       )}
@@ -110,27 +73,25 @@ const ArticleContents = ({
 };
 
 ArticleContents.fragments = {
-  topic: gql`
-    fragment ArticleContents_Topic on Topic {
-      article(convertEmbeds: $convertEmbeds) {
-        id
-        content
-        created
-        updated
-        introduction
-        metaData {
-          footnotes {
-            ref
-            authors
-            edition
-            publisher
-            year
-            url
-            title
-          }
+  article: gql`
+    fragment ArticleContents_Article on Article {
+      id
+      content
+      created
+      updated
+      introduction
+      metaData {
+        footnotes {
+          ref
+          authors
+          edition
+          publisher
+          year
+          url
+          title
         }
-        ...LicenseBox_Article
       }
+      ...LicenseBox_Article
     }
     ${LicenseBox.fragments.article}
   `,

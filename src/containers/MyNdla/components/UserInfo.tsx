@@ -10,6 +10,7 @@ import { spacing } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import { FeideUserApiType } from '../../../interfaces';
 import { parseUserObject } from './parseUserObject';
+import { isStudent } from '../Folders/util';
 
 const InfoList = styled.ul`
   padding: 0 0 0 ${spacing.normal};
@@ -23,9 +24,6 @@ const ShortInfoDiv = styled.div`
   margin: 2rem auto;
 `;
 
-const isTeacher = (affiliations: FeideUserApiType['eduPersonAffiliation']) =>
-  affiliations.includes('employee');
-
 export const UserInfo = ({ user }: Props) => {
   const { t } = useTranslation();
 
@@ -36,13 +34,7 @@ export const UserInfo = ({ user }: Props) => {
       {
         <p>
           {t('user.loggedInAs', {
-            role: t(
-              `user.role.${
-                isTeacher(parsedUser.eduPersonAffiliation)
-                  ? 'employee'
-                  : 'student'
-              }`,
-            ),
+            role: t(`user.role.${isStudent(user) ? 'student' : 'employee'}`),
           })}
         </p>
       }
