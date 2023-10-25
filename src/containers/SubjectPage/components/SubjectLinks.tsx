@@ -8,7 +8,7 @@
 
 import { useTranslation } from 'react-i18next';
 
-// import { gql } from '@apollo/client';
+import { gql } from '@apollo/client';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 
@@ -91,6 +91,25 @@ const SubjectLinks = ({
       ) : null}
     </ComponentRoot>
   );
+};
+
+SubjectLinks.fragments = {
+  links: gql`
+    fragment SubjectLinks_Subject on SubjectPage {
+      buildsOn {
+        name
+        path
+      }
+      connectedTo {
+        name
+        path
+      }
+      leadsTo {
+        name
+        path
+      }
+    }
+  `,
 };
 
 export default SubjectLinks;

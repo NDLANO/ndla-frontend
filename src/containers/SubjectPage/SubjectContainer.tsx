@@ -286,22 +286,12 @@ export const subjectContainerFragments = {
         banner {
           desktopUrl
         }
-        buildsOn {
-          name
-          path
-        }
-        connectedTo {
-          name
-          path
-        }
-        leadsTo {
-          name
-          path
-        }
+        ...SubjectLinks_Subject
       }
       ...SubjectPageContent_Subject
     }
     ${SubjectPageContent.fragments.subject}
+    ${SubjectLinks.fragments.links}
   `,
 };
 
