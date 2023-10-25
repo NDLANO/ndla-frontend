@@ -73,21 +73,21 @@ const SubjectLinks = ({
         <SubjectLinkSet
           set={'connectedTo'}
           subjects={connectedTo}
-          title={t('subjects.connectedTo')}
+          title={t('subjectFrontPage.connectedTo')}
         />
       ) : null}
       {buildsOn.length > 0 ? (
         <SubjectLinkSet
           set={'buildsOn'}
           subjects={buildsOn}
-          title={t('subjects.buildsOn')}
+          title={t('subjectFrontPage.buildsOn')}
         />
       ) : null}
       {leadsTo.length > 0 ? (
         <SubjectLinkSet
           set={'leadsTo'}
           subjects={leadsTo}
-          title={t('subjects.leadsTo')}
+          title={t('subjectFrontPage.leadsTo')}
         />
       ) : null}
     </ComponentRoot>

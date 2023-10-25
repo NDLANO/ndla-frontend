@@ -94,11 +94,6 @@ const messages = {
     concept: 'Concept',
     audio: 'Audio',
   },
-  subjects: {
-    buildsOn: 'Builds on',
-    connectedTo: 'Common programme subject with',
-    leadsTo: 'Leads to',
-  },
 };
 
 export default messages;
