@@ -997,6 +997,7 @@ export type GQLPodcastSeries = GQLPodcastSeriesBase & {
   description: GQLDescription;
   hasRSS: Scalars['Boolean']['output'];
   id: Scalars['Int']['output'];
+  image: GQLImageMetaInformation;
   supportedLanguages: Array<Scalars['String']['output']>;
   title: GQLTitle;
 };
@@ -1006,6 +1007,7 @@ export type GQLPodcastSeriesBase = {
   description: GQLDescription;
   hasRSS: Scalars['Boolean']['output'];
   id: Scalars['Int']['output'];
+  image: GQLImageMetaInformation;
   supportedLanguages: Array<Scalars['String']['output']>;
   title: GQLTitle;
 };
@@ -1037,6 +1039,7 @@ export type GQLPodcastSeriesWithEpisodes = GQLPodcastSeriesBase & {
   episodes?: Maybe<Array<GQLAudio>>;
   hasRSS: Scalars['Boolean']['output'];
   id: Scalars['Int']['output'];
+  image: GQLImageMetaInformation;
   supportedLanguages: Array<Scalars['String']['output']>;
   title: GQLTitle;
 };
@@ -1431,6 +1434,7 @@ export type GQLSearchContext = {
   path: Scalars['String']['output'];
   publicId: Scalars['String']['output'];
   relevance: Scalars['String']['output'];
+  relevanceId: Scalars['String']['output'];
   resourceTypes: Array<GQLSearchContextResourceTypes>;
   root: Scalars['String']['output'];
   rootId: Scalars['String']['output'];
@@ -3797,6 +3801,7 @@ export type GQLSearchFilmArticleSearchResultFragment = {
     __typename?: 'SearchContext';
     breadcrumbs: Array<string>;
     relevance: string;
+    relevanceId: string;
     language: string;
     contextType: string;
     path: string;
@@ -3823,6 +3828,7 @@ export type GQLSearchFilmLearningpathSearchResultFragment = {
     __typename?: 'SearchContext';
     breadcrumbs: Array<string>;
     relevance: string;
+    relevanceId: string;
     language: string;
     contextType: string;
     path: string;
@@ -3880,6 +3886,7 @@ export type GQLGroupSearchResourceFragment = {
     rootId: string;
     root: string;
     relevance: string;
+    relevanceId: string;
     resourceTypes: Array<{
       __typename?: 'SearchContextResourceTypes';
       id: string;

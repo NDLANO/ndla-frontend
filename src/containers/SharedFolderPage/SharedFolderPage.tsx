@@ -211,7 +211,9 @@ const SharedFolderPage = () => {
         title={title}
         imageUrl={metaWithMetaImage?.metaImage?.url}
         description={t('myNdla.sharedFolder.description.info1')}
-      />
+      >
+        <meta name="robots" content="noindex, nofollow" />
+      </SocialMediaMetadata>
       <Sidebar>
         {!isMobile ? (
           <DesktopPadding>
