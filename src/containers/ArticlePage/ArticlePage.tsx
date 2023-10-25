@@ -183,7 +183,7 @@ const ArticlePage = ({
         metaImage={article.metaImage}
         breadcrumbItems={breadcrumbItems}
       />
-      <Helmet>
+      <Helmet htmlAttributes={{ lang: article.language }}>
         <title>{`${getDocumentTitle(t, resource, subject)}`}</title>
         {scripts?.map((script) => (
           <script

@@ -88,7 +88,7 @@ const PlainArticleContainer = ({
 
   return (
     <div>
-      <Helmet>
+      <Helmet htmlAttributes={{ lang: article.language }}>
         <title>{`${getDocumentTitle(t, article.title)}`}</title>
         <meta name="robots" content="noindex" />
         {scripts.map((script) => (

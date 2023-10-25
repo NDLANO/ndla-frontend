@@ -71,7 +71,7 @@ const IframeArticlePage = ({
     : undefined;
   return (
     <OneColumn>
-      <Helmet>
+      <Helmet htmlAttributes={{ lang: article.language }}>
         <title>{`NDLA | ${article.title}`}</title>
         <meta name="robots" content="noindex" />
         {scripts.map((script) => (

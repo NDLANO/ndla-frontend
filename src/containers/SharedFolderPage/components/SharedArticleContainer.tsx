@@ -97,7 +97,10 @@ const SharedArticleContainer = ({
 
   return (
     <OneColumn>
-      <Helmet title={getDocumentTitle(title, contentType?.label, t)}>
+      <Helmet
+        htmlAttributes={{ lang: article.language }}
+        title={getDocumentTitle(title, contentType?.label, t)}
+      >
         {scripts.map((script) => (
           <script
             key={script.src}

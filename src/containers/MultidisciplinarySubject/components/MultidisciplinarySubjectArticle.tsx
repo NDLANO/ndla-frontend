@@ -152,7 +152,7 @@ const MultidisciplinarySubjectArticle = ({
 
   return (
     <main>
-      <Helmet>
+      <Helmet htmlAttributes={{ lang: article.language }}>
         {scripts?.map((script) => (
           <script
             key={script.src}
