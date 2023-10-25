@@ -26,6 +26,7 @@ const LinkElement = styled.span`
 `;
 
 const LinkSetTitle = styled.span`
+  font-weight: 600;
   margin-right: ${spacing.small};
 `;
 
