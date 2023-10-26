@@ -93,6 +93,7 @@ export const allowedAIOrgs = () => {
     'Agder fylkeskommune',
     'Nordland fylkeskommune',
     'Rogaland fylkeskommune',
+    'Trøndelag fylkeskommune',
   ];
   if (['local', 'dev'].includes(ndlaEnvironment)) {
     return [...defaultList, 'Universitetet i Rogn']; // frank_foreleser
@@ -103,7 +104,6 @@ export const allowedAIOrgs = () => {
       'Innlandet fylkeskommune',
       'Møre og Romsdal fylkeskommune',
       'Troms og Finnmark fylkeskommune',
-      'Trøndelag fylkeskommune',
       'Vestfold og Telemark fylkeskommune',
       'Vestland fylkeskommune',
       'Viken fylkeskommune',
