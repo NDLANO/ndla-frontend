@@ -12,8 +12,13 @@ import { gql } from '@apollo/client';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 
-const ComponentRoot = styled.div`
+const ComponentRoot = styled.ul`
   margin-bottom: ${spacing.medium};
+  list-style: none;
+`;
+
+const SubComponentRoot = styled.li`
+  margin: 0;
 `;
 
 const StyledLink = styled.a`
@@ -55,7 +60,7 @@ const SubjectLinkSet = ({ set, subjects, title }: SubjectLinkSetProps) => {
   const { t } = useTranslation();
 
   return (
-    <div>
+    <SubComponentRoot>
       <LinkSetTitle>{title}:</LinkSetTitle>
       {subjects.map((subject, index) => (
         <>
@@ -68,7 +73,7 @@ const SubjectLinkSet = ({ set, subjects, title }: SubjectLinkSetProps) => {
           )}
         </>
       ))}
-    </div>
+    </SubComponentRoot>
   );
 };
 
