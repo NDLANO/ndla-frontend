@@ -1065,6 +1065,7 @@ export type GQLQuery = {
   arenaRecentTopics: Array<GQLArenaTopic>;
   arenaTopic?: Maybe<GQLArenaTopic>;
   arenaTopicsByUser: Array<GQLArenaTopic>;
+  arenaUser?: Maybe<GQLArenaUser>;
   article?: Maybe<GQLArticle>;
   audio?: Maybe<GQLAudio>;
   competenceGoal?: Maybe<GQLCompetenceGoal>;
@@ -1121,6 +1122,10 @@ export type GQLQueryArenaTopicArgs = {
 
 export type GQLQueryArenaTopicsByUserArgs = {
   userSlug: Scalars['String']['input'];
+};
+
+export type GQLQueryArenaUserArgs = {
+  id: Scalars['ID']['input'];
 };
 
 export type GQLQueryArticleArgs = {
@@ -1524,11 +1529,20 @@ export type GQLSubjectTopicsArgs = {
   all?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+export type GQLSubjectLink = {
+  __typename?: 'SubjectLink';
+  name?: Maybe<Scalars['String']['output']>;
+  path?: Maybe<Scalars['String']['output']>;
+};
+
 export type GQLSubjectPage = {
   __typename?: 'SubjectPage';
   about?: Maybe<GQLSubjectPageAbout>;
   banner: GQLSubjectPageBanner;
+  buildsOn: Array<Maybe<GQLSubjectLink>>;
+  connectedTo: Array<Maybe<GQLSubjectLink>>;
   id: Scalars['Int']['output'];
+  leadsTo: Array<Maybe<GQLSubjectLink>>;
   metaDescription?: Maybe<Scalars['String']['output']>;
   name: Scalars['String']['output'];
   supportedLanguages: Array<Scalars['String']['output']>;
