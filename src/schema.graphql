@@ -889,6 +889,7 @@ type Query {
   arenaRecentTopics: [ArenaTopic!]!
   arenaTopic(page: Int!, topicId: Int!): ArenaTopic
   arenaTopicsByUser(userSlug: String!): [ArenaTopic!]!
+  arenaUser(id: ID!): ArenaUser
   article(
     absoluteUrl: Boolean
     convertEmbeds: Boolean
@@ -1183,10 +1184,18 @@ type Subject implements TaxonomyEntity {
   url: String
 }
 
+type SubjectLink {
+  name: String
+  path: String
+}
+
 type SubjectPage {
   about: SubjectPageAbout
   banner: SubjectPageBanner!
+  buildsOn: [SubjectLink]!
+  connectedTo: [SubjectLink]!
   id: Int!
+  leadsTo: [SubjectLink]!
   metaDescription: String
   name: String!
   supportedLanguages: [String!]!
