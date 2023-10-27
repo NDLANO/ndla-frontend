@@ -46,7 +46,7 @@ const StyledBottomText = styled.div`
 const ArenaPage = () => {
   const { t } = useTranslation();
   const { error, loading, arenaCategories } = useCategories();
-
+  console.log(arenaCategories);
   if (loading) {
     return <Spinner />;
   }
@@ -61,17 +61,15 @@ const ArenaPage = () => {
         <Spinner />
       ) : (
         <StyledCardContainer>
-          {arenaCategories?.arenaCategories?.map(
-            (category: GQLArenaCategory) => (
-              <ArenaCard
-                id={category.id.toString()}
-                cardType="ArenaCategory"
-                title={category.name}
-                subText={category.description}
-                count={20}
-              />
-            ),
-          )}
+          {arenaCategories?.arenaCategories?.map((category) => (
+            <ArenaCard
+              id={category.id.toString()}
+              cardType="ArenaCategory"
+              title={category.name}
+              subText={category.description}
+              count={20}
+            />
+          ))}
         </StyledCardContainer>
       )}
       <StyledBottomText>{t('arena.bottomText')}</StyledBottomText>

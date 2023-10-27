@@ -2610,6 +2610,26 @@ export type GQLMultidisciplinaryTopicWrapper_SubjectFragment = {
   __typename?: 'Subject';
 } & GQLMultidisciplinaryTopic_SubjectFragment;
 
+export type GQLArenaPageQueryFragmentFragment = {
+  __typename?: 'ArenaCategory';
+  description: string;
+  disabled: boolean;
+  htmlDescription: string;
+  id: number;
+  name: string;
+  postCount: number;
+  slug: string;
+};
+
+export type GQLArenaPageQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GQLArenaPageQuery = {
+  __typename?: 'Query';
+  arenaCategories: Array<
+    { __typename?: 'ArenaCategory' } & GQLArenaPageQueryFragmentFragment
+  >;
+};
+
 export type GQLFolderResourceFragmentFragment = {
   __typename: 'FolderResource';
   resourceId: string;

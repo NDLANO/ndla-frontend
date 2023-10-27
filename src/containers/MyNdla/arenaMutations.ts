@@ -7,11 +7,12 @@
  */
 
 import { gql } from '@apollo/client';
-import { GQLArenaCategory } from '../../graphqlTypes';
+import { GQLArenaPageQuery } from '../../graphqlTypes';
 import { useGraphQuery } from '../../util/runQueries';
 
 const arenaPageQueryFragment = gql`
   fragment ArenaPageQueryFragment on ArenaCategory {
+    __typename
     description
     disabled
     htmlDescription
@@ -33,6 +34,6 @@ export const arenaPageQuery = gql`
 
 export const useCategories = () => {
   const { data, loading, error } =
-    useGraphQuery<GQLArenaCategory[]>(arenaPageQuery);
+    useGraphQuery<GQLArenaPageQuery>(arenaPageQuery);
   return { arenaCategories: data, loading, error };
 };
