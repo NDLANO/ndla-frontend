@@ -11,7 +11,6 @@ import { ButtonV2 } from '@ndla/button';
 import Icon from '@ndla/icons';
 import { useTranslation } from 'react-i18next';
 import { Pencil } from '@ndla/icons/action';
-import { useRef, useState } from 'react';
 
 const StyledChangeAvatarButton = styled(ButtonV2)`
   height: 42px;
@@ -28,30 +27,16 @@ const PencilIcon = StyledPencilSvg.withComponent(Pencil);
 
 function EditProfilePicture() {
   const { t } = useTranslation();
-  const [_profilePicture, setProfilePicture] = useState<string | null>();
-  const fileRef = useRef<HTMLInputElement>(null);
-
-  function handleChange(e: any) {
-    setProfilePicture(URL.createObjectURL(e.target.files[0]));
-  }
 
   return (
     <>
       <StyledChangeAvatarButton
         colorTheme="primary"
-        onClick={() => fileRef.current?.click()}
+        //onClick={} to open picture upload modal
       >
         <PencilIcon />
         {t('myNdla.myProfile.editButtonText')}
       </StyledChangeAvatarButton>
-      <input
-        type="file"
-        accept="image/*"
-        hidden
-        multiple={false}
-        onChange={handleChange}
-        ref={fileRef}
-      />
     </>
   );
 }
