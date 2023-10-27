@@ -22,12 +22,16 @@ const StyledLink = styled.a`
 
 const LinkElement = styled.span`
   display: inline-block;
-  margin-right: ${spacing.small};
+  margin-right: ${spacing.xsmall};
 `;
 
 const LinkSetTitle = styled.span`
   font-weight: 600;
-  margin-right: ${spacing.small};
+  margin-right: ${spacing.xsmall};
+`;
+
+const Conjunction = styled.span`
+  margin-right: ${spacing.xsmall};
 `;
 
 type SubjectLinkItem = {
@@ -48,14 +52,21 @@ type SubjectLinksProps = {
 };
 
 const SubjectLinkSet = ({ set, subjects, title }: SubjectLinkSetProps) => {
+  const { t } = useTranslation();
+
   return (
     <div>
       <LinkSetTitle>{title}:</LinkSetTitle>
       {subjects.map((subject, index) => (
-        <LinkElement key={`${set}-${index}`}>
-          <StyledLink href={subject.path}>{subject.name}</StyledLink>
-          {index < subjects.length - 1 && ','}
-        </LinkElement>
+        <>
+          <LinkElement key={`${set}-${index}`}>
+            <StyledLink href={subject.path}>{subject.name}</StyledLink>
+            {index < subjects.length - 2 && ','}
+          </LinkElement>
+          {index === subjects.length - 2 && (
+            <Conjunction>{t('article.conjunction')}</Conjunction>
+          )}
+        </>
       ))}
     </div>
   );
