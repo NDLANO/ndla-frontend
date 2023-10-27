@@ -46,7 +46,7 @@ const StyledBottomText = styled.div`
 const ArenaPage = () => {
   const { t } = useTranslation();
   const { error, loading, arenaCategories } = useCategories();
-  console.log(arenaCategories);
+
   if (loading) {
     return <Spinner />;
   }
@@ -63,6 +63,7 @@ const ArenaPage = () => {
         <StyledCardContainer>
           {arenaCategories?.arenaCategories?.map((category) => (
             <ArenaCard
+              key={category.id}
               id={category.id.toString()}
               cardType="ArenaCategory"
               title={category.name}
