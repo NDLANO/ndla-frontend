@@ -24,7 +24,7 @@ const arenaPageQueryFragment = gql`
 
 export const arenaPageQuery = gql`
   query arenaPage {
-    arenaCategories(filterVisible: true) {
+    arenaCategories {
       ...ArenaPageQueryFragment
     }
   }
@@ -33,6 +33,6 @@ export const arenaPageQuery = gql`
 
 export const useCategories = () => {
   const { data, loading, error } =
-    useGraphQuery<GQLArenaCategory>(arenaPageQuery);
+    useGraphQuery<GQLArenaCategory[]>(arenaPageQuery);
   return { arenaCategories: data, loading, error };
 };

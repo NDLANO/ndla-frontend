@@ -13,6 +13,7 @@ import { spacing, fonts } from '@ndla/core';
 import { Heading } from '@ndla/typography';
 import { useCategories } from '../arenaMutations';
 import ArenaCard from '../ArenaCards/ArenaCard';
+import { GQLArenaCategory } from '../../../graphqlTypes';
 
 const StyledArenaHeader = styled(Heading)`
   ${fonts.sizes('38px', '48px')};
@@ -44,12 +45,11 @@ const StyledBottomText = styled.div`
 
 const ArenaPage = () => {
   const { t } = useTranslation();
-  const { loading, arenaCategories } = useCategories();
+  const { error, loading, arenaCategories } = useCategories();
 
   if (loading) {
     return <Spinner />;
   }
-
   return (
     <>
       <StyledArenaHeader element="h1" headingStyle="default">
@@ -61,36 +61,17 @@ const ArenaPage = () => {
         <Spinner />
       ) : (
         <StyledCardContainer>
-          {/* {arenaCategories.map((category) => (
-            <ArenaCard
-              id={category.id}
-              cardType="ArenaCategory"
-              title={category.name}
-              subText={category.description}
-              count={20}
-            />
-          ))} */}
-          <ArenaCard
-            id="123"
-            cardType="ArenaCategory"
-            title="Test for styling"
-            subText="Beskrivelse"
-            count={20}
-          />
-          <ArenaCard
-            id="123"
-            cardType="ArenaCategory"
-            title="Test for styling"
-            subText="Beskrivelse"
-            count={20}
-          />
-          <ArenaCard
-            id="123"
-            cardType="ArenaCategory"
-            title="Test for styling"
-            subText="Beskrivelse"
-            count={20}
-          />
+          {arenaCategories?.arenaCategories?.map(
+            (category: GQLArenaCategory) => (
+              <ArenaCard
+                id={category.id.toString()}
+                cardType="ArenaCategory"
+                title={category.name}
+                subText={category.description}
+                count={20}
+              />
+            ),
+          )}
         </StyledCardContainer>
       )}
       <StyledBottomText>{t('arena.bottomText')}</StyledBottomText>
