@@ -1125,7 +1125,7 @@ export type GQLQueryArenaTopicsByUserArgs = {
 };
 
 export type GQLQueryArenaUserArgs = {
-  id: Scalars['ID']['input'];
+  username: Scalars['String']['input'];
 };
 
 export type GQLQueryArticleArgs = {
