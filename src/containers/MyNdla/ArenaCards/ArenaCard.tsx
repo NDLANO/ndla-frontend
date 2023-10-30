@@ -164,7 +164,7 @@ const ArenaCard = ({
     <StyledCardContainer
       id={id}
       css={cardType === 'ArenaCategory' ? StyledCategoryCard : StyledTopicCard}
-      to=""
+      to="topic"
     >
       {cardType === 'ArenaCategory' ? (
         <>
