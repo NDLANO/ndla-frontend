@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { breakpoints, colors, mq, spacing, spacingUnit } from '@ndla/core';
 import { MessageBox, TreeStructure } from '@ndla/ui';
 import { FolderOutlined } from '@ndla/icons/contentType';
-import { HashTag, LogOut, Person, Forum } from '@ndla/icons/common';
+import { HashTag, LogOut, Person, ForumOutlined } from '@ndla/icons/common';
 import { MenuBook } from '@ndla/icons/action';
 import { TFunction } from 'i18next';
 import { Outlet, useLocation } from 'react-router-dom';
@@ -178,7 +178,7 @@ const MyNdlaLayout = () => {
                   id="arena"
                   name="Arena"
                   shortName="Arena"
-                  icon={<Forum />}
+                  icon={<ForumOutlined />}
                 />
               </StyledLi>
               {links.map((link) => (
