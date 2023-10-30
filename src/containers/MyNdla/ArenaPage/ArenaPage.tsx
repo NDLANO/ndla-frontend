@@ -68,7 +68,7 @@ const ArenaPage = () => {
               cardType="ArenaCategory"
               title={category.name}
               subText={category.description}
-              count={20}
+              count={category.postCount}
             />
           ))}
         </StyledCardContainer>
