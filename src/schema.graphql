@@ -49,6 +49,7 @@ type ArenaUser {
   id: Int!
   profilePicture: String
   slug: String!
+  username: String!
 }
 
 type Article {

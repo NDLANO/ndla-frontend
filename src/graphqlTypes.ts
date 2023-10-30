@@ -85,6 +85,7 @@ export type GQLArenaUser = {
   id: Scalars['Int']['output'];
   profilePicture?: Maybe<Scalars['String']['output']>;
   slug: Scalars['String']['output'];
+  username: Scalars['String']['output'];
 };
 
 export type GQLArticle = {
