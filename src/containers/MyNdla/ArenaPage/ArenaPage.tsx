@@ -67,7 +67,7 @@ const ArenaPage = () => {
         <StyledCardContainer>
           {arenaCategories?.arenaCategories?.map((category) => (
             <ArenaCard
-              key={category.id}
+              key={`topic-${category.id}`}
               id={category.id.toString()}
               cardType="ArenaCategory"
               title={category.name}
