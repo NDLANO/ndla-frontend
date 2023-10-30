@@ -7,12 +7,14 @@
  */
 
 import styled from '@emotion/styled';
-// import { css } from '@emotion/react';
 import { fonts, colors } from '@ndla/core';
+import { useArenaUser } from '../arenaMutations';
+import { FeideUserApiType } from '../../../interfaces';
+import { parseUserObject } from './parseUserObject';
 
 type AvatarProps = {
   myProfile?: boolean;
-  userName: string | undefined;
+  user?: FeideUserApiType;
 };
 
 const StyledAvatarContainer = styled.div`
@@ -40,9 +42,13 @@ const UserInitials = styled.div`
   }
 `;
 
-function Avatar({ myProfile, userName }: AvatarProps) {
+function Avatar({ myProfile, user }: AvatarProps) {
+  // const parsedUser = user && parseUserObject(user);
+  const { arenaUser } = useArenaUser('jonas'); //error, loading,
   // regex to get user initials
-  const initials = userName
+
+  console.log(arenaUser);
+  const initials = user?.displayName
     ?.match(/(^\S\S?|\s\S)?/g)
     ?.map((v) => v.trim())
     .join('')

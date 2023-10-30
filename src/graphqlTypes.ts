@@ -85,6 +85,7 @@ export type GQLArenaUser = {
   id: Scalars['Int']['output'];
   profilePicture?: Maybe<Scalars['String']['output']>;
   slug: Scalars['String']['output'];
+  username: Scalars['String']['output'];
 };
 
 export type GQLArticle = {
@@ -1125,7 +1126,7 @@ export type GQLQueryArenaTopicsByUserArgs = {
 };
 
 export type GQLQueryArenaUserArgs = {
-  id: Scalars['ID']['input'];
+  username: Scalars['String']['input'];
 };
 
 export type GQLQueryArticleArgs = {
@@ -2627,6 +2628,23 @@ export type GQLMultidisciplinaryTopicWrapperQuery = {
 export type GQLMultidisciplinaryTopicWrapper_SubjectFragment = {
   __typename?: 'Subject';
 } & GQLMultidisciplinaryTopic_SubjectFragment;
+
+export type GQLArenaUserQueryFragmentFragment = {
+  __typename?: 'ArenaUser';
+  displayName: string;
+  id: number;
+  profilePicture?: string;
+  slug: string;
+};
+
+export type GQLArenaUserQueryVariables = Exact<{
+  username: Scalars['String']['input'];
+}>;
+
+export type GQLArenaUserQuery = {
+  __typename?: 'Query';
+  arenaUser?: { __typename?: 'ArenaUser' } & GQLArenaUserQueryFragmentFragment;
+};
 
 export type GQLFolderResourceFragmentFragment = {
   __typename: 'FolderResource';

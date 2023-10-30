@@ -49,6 +49,7 @@ type ArenaUser {
   id: Int!
   profilePicture: String
   slug: String!
+  username: String!
 }
 
 type Article {
@@ -889,7 +890,7 @@ type Query {
   arenaRecentTopics: [ArenaTopic!]!
   arenaTopic(page: Int!, topicId: Int!): ArenaTopic
   arenaTopicsByUser(userSlug: String!): [ArenaTopic!]!
-  arenaUser(id: ID!): ArenaUser
+  arenaUser(username: String!): ArenaUser
   article(
     absoluteUrl: Boolean
     convertEmbeds: Boolean

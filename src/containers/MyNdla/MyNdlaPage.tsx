@@ -162,7 +162,7 @@ const MyNdlaPage = () => {
       </TitleWrapper>
       <StyledDescription>{t('myNdla.myPage.welcome')}</StyledDescription>
       <AvatarWrapper>
-        <Avatar userName={user?.displayName} myProfile />
+        <Avatar user={user} myProfile />
       </AvatarWrapper>
       {config.allowedAIOrgs.includes(user?.baseOrg?.displayName ?? '') && (
         <StyledBannerCard
