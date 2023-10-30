@@ -13,7 +13,6 @@ import { spacing, fonts } from '@ndla/core';
 import { Heading } from '@ndla/typography';
 import { useCategories } from '../arenaMutations';
 import ArenaCard from '../ArenaCards/ArenaCard';
-import { GQLArenaCategory } from '../../../graphqlTypes';
 
 const StyledArenaHeader = styled(Heading)`
   ${fonts.sizes('38px', '48px')};
@@ -46,6 +45,11 @@ const StyledBottomText = styled.div`
 const ArenaPage = () => {
   const { t } = useTranslation();
   const { error, loading, arenaCategories } = useCategories();
+
+  console.log(
+    'arenaCategories?.arenaCategories',
+    arenaCategories?.arenaCategories,
+  );
 
   if (loading) {
     return <Spinner />;

@@ -7,7 +7,7 @@
  */
 
 import { gql } from '@apollo/client';
-import { GQLArenaPageQuery } from '../../graphqlTypes';
+import { GQLArenaPageQuery, GQLArenaTopic } from '../../graphqlTypes';
 import { useGraphQuery } from '../../util/runQueries';
 
 const arenaPageQueryFragment = gql`
@@ -36,4 +36,9 @@ export const useCategories = () => {
   const { data, loading, error } =
     useGraphQuery<GQLArenaPageQuery>(arenaPageQuery);
   return { arenaCategories: data, loading, error };
+};
+
+export const useTopics = () => {
+  const { data, loading, error } = useGraphQuery<GQLArenaTopic>(arenaPageQuery);
+  return { arenaTopics: data, loading, error };
 };
