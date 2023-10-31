@@ -7,7 +7,7 @@
  */
 
 import styled from '@emotion/styled';
-import { fonts, colors } from '@ndla/core';
+import { fonts, colors, spacing } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import { useArenaUser } from '../arenaMutations';
 import { FeideUserApiType } from '../../../interfaces';
@@ -18,14 +18,14 @@ type AvatarProps = {
 };
 
 const StyledAvatarContainer = styled.div`
-  width: 48px;
-  height: 48px;
-  border-radius: 48px;
+  width: ${spacing.large};
+  height: ${spacing.large};
+  border-radius: 50%;
   border: 1px solid ${colors.brand.tertiary};
   &[data-myprofile='true'] {
     width: 250px;
     height: 250px;
-    border-radius: 246px;
+    border-radius: 50%;
     border: 4px solid ${colors.brand.tertiary};
   }
   background-color: ${colors.background.default};
