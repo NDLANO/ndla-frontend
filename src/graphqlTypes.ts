@@ -85,6 +85,7 @@ export type GQLArenaUser = {
   id: Scalars['Int']['output'];
   profilePicture?: Maybe<Scalars['String']['output']>;
   slug: Scalars['String']['output'];
+  username: Scalars['String']['output'];
 };
 
 export type GQLArticle = {
@@ -1065,6 +1066,7 @@ export type GQLQuery = {
   arenaRecentTopics: Array<GQLArenaTopic>;
   arenaTopic?: Maybe<GQLArenaTopic>;
   arenaTopicsByUser: Array<GQLArenaTopic>;
+  arenaUser?: Maybe<GQLArenaUser>;
   article?: Maybe<GQLArticle>;
   audio?: Maybe<GQLAudio>;
   competenceGoal?: Maybe<GQLCompetenceGoal>;
@@ -1121,6 +1123,10 @@ export type GQLQueryArenaTopicArgs = {
 
 export type GQLQueryArenaTopicsByUserArgs = {
   userSlug: Scalars['String']['input'];
+};
+
+export type GQLQueryArenaUserArgs = {
+  username: Scalars['String']['input'];
 };
 
 export type GQLQueryArticleArgs = {
