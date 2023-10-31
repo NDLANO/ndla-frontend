@@ -10,6 +10,7 @@ import { userInitials } from '../Avatar';
 test('that function produces right initials', () => {
   expect(typeof userInitials).toBe('function');
 
+  expect(userInitials('Nordmann')).toBe('N');
   expect(userInitials('Ole Ås Nordmann')).toBe('ON');
   expect(userInitials('Åse Ås Peter Åsen')).toBe('ÅÅ');
 });

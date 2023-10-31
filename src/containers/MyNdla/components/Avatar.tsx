@@ -10,11 +10,11 @@ import styled from '@emotion/styled';
 import { fonts, colors, spacing } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import { useArenaUser } from '../arenaQueries';
-import { FeideUserApiType } from '../../../interfaces';
 
 type AvatarProps = {
   myProfile?: boolean;
-  user: FeideUserApiType | undefined;
+  displayName: string | undefined;
+  userId: string | undefined;
 };
 
 const StyledAvatarContainer = styled.div`
@@ -25,7 +25,6 @@ const StyledAvatarContainer = styled.div`
   &[data-myprofile='true'] {
     width: 250px;
     height: 250px;
-    border-radius: 50%;
     border: 4px solid ${colors.brand.tertiary};
   }
   background-color: ${colors.background.default};
@@ -46,34 +45,33 @@ const UserPersonalPicture = styled.img`
   width: 100%;
   height: 100%;
   aspect-ratio: 1/1;
-  border-radius: 48px;
-  &[data-myprofile='true'] {
-    border-radius: 246px;
-  }
+  border-radius: 50%;
 `;
 
 export const userInitials = (name: string | undefined) => {
+  // a function to split up displayName, get the initials of first and last names and merge them
   return name
     ?.split(' ')
-    .map((n, i, a) => (i === 0 || i + 1 === a.length ? n.at(0) : null))
+    .map((value, index, array) =>
+      index === 0 || index + 1 === array.length ? value.at(0) : null,
+    )
     .join('');
 };
 
-function Avatar({ myProfile, user }: AvatarProps) {
+function Avatar({ myProfile, displayName, userId }: AvatarProps) {
   const { t } = useTranslation();
-  const { arenaUser } = useArenaUser(user?.uid.at(0) ?? '');
+  const { arenaUser } = useArenaUser(userId ?? '');
 
   return (
     <StyledAvatarContainer data-myprofile={myProfile}>
       <UserInitials data-myprofile={myProfile}>
         {arenaUser?.profilePicture ? (
           <UserPersonalPicture
-            data-myprofile={myProfile}
             src={arenaUser.profilePicture}
             alt={t('myNdla.userPictureAltText')}
           />
         ) : (
-          userInitials(user?.displayName)
+          userInitials(displayName)
         )}
       </UserInitials>
     </StyledAvatarContainer>
