@@ -6,24 +6,14 @@
  *
  */
 
-import { Spinner } from '@ndla/icons';
+import Icon, { Spinner } from '@ndla/icons';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { spacing, fonts } from '@ndla/core';
 import { Heading } from '@ndla/typography';
-import { useTopics } from '../arenaMutations';
-import Icon from '@ndla/icons';
 import { ButtonV2 } from '@ndla/button';
-import {
-  ModalBody,
-  ModalCloseButton,
-  ModalHeader,
-  ModalTitle,
-  Modal,
-  ModalTrigger,
-  ModalContent,
-} from '@ndla/modal';
 import { Pencil } from '@ndla/icons/action';
+import { useTopics } from '../arenaMutations';
 import ArenaCard from '../ArenaCards/ArenaCard';
 
 const StyledTopicHeader = styled(Heading)`
@@ -71,7 +61,9 @@ const StyledCardContainer = styled.div`
 
 const TopicPage = () => {
   const { t } = useTranslation();
-  const { error, loading, arenaTopics } = useTopics();
+  const { loading, arenaTopics } = useTopics();
+
+  //console.log(arenaTopics);
 
   if (loading) {
     return <Spinner />;
@@ -83,7 +75,7 @@ const TopicPage = () => {
       </StyledTopicHeader>
       <TopicDescription>{'test description to be replaced'}</TopicDescription>
       <StyledContainer>
-        <StyledTopicH2>{'Innlegg'}</StyledTopicH2>
+        <StyledTopicH2>{t('arena.category.posts')}</StyledTopicH2>
         <StyledNewTopicButton
           colorTheme="lighter"
           //onClick={} to open modal

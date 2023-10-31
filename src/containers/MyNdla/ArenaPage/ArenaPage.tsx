@@ -44,12 +44,12 @@ const StyledBottomText = styled.div`
 
 const ArenaPage = () => {
   const { t } = useTranslation();
-  const { error, loading, arenaCategories } = useCategories();
+  const { loading, arenaCategories } = useCategories();
 
-  console.log(
-    'arenaCategories?.arenaCategories',
-    arenaCategories?.arenaCategories,
-  );
+  // console.log(
+  //   'arenaCategories?.arenaCategories',
+  //   arenaCategories?.arenaCategories,
+  // );
 
   if (loading) {
     return <Spinner />;
