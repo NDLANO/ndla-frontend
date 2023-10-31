@@ -12,6 +12,18 @@ import { useTranslation } from 'react-i18next';
 import { spacing, fonts } from '@ndla/core';
 import { Heading } from '@ndla/typography';
 import { useTopics } from '../arenaMutations';
+import Icon from '@ndla/icons';
+import { ButtonV2 } from '@ndla/button';
+import {
+  ModalBody,
+  ModalCloseButton,
+  ModalHeader,
+  ModalTitle,
+  Modal,
+  ModalTrigger,
+  ModalContent,
+} from '@ndla/modal';
+import { Pencil } from '@ndla/icons/action';
 import ArenaCard from '../ArenaCards/ArenaCard';
 
 const StyledTopicHeader = styled(Heading)`
@@ -25,9 +37,30 @@ const TopicDescription = styled.div`
   font-weight: ${fonts.weight.normal};
 `;
 
+const StyledContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin: ${spacing.large} 0 ${spacing.normal};
+`;
+
 const StyledTopicH2 = styled.h2`
   ${fonts.sizes('22px', '33px')};
+  margin: 0;
+  align-self: center;
 `;
+
+const StyledNewTopicButton = styled(ButtonV2)`
+  height: 42px;
+  gap: 8px;
+  white-space: nowrap;
+`;
+
+const StyledPencilIcon = styled(Icon)`
+  width: 20px;
+  height: 20px;
+`;
+
+const PencilIcon = StyledPencilIcon.withComponent(Pencil);
 
 const StyledCardContainer = styled.div`
   display: flex;
@@ -49,7 +82,16 @@ const TopicPage = () => {
         {'test'}
       </StyledTopicHeader>
       <TopicDescription>{'test description to be replaced'}</TopicDescription>
-      <StyledTopicH2>{'Innlegg'}</StyledTopicH2>
+      <StyledContainer>
+        <StyledTopicH2>{'Innlegg'}</StyledTopicH2>
+        <StyledNewTopicButton
+          colorTheme="lighter"
+          //onClick={} to open modal
+        >
+          {t('arena.category.newPost')}
+          <PencilIcon />
+        </StyledNewTopicButton>
+      </StyledContainer>
       {loading ? (
         <Spinner />
       ) : (
@@ -60,6 +102,7 @@ const TopicPage = () => {
             cardType="ArenaTopic"
             title={'test'}
             subText={'Blalalalalalal'}
+            timestamp={'30.10.2024'}
             count={20}
           />
         </StyledCardContainer>

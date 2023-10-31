@@ -102,6 +102,7 @@ const messages = {
     title: 'Categories',
     category: {
       posts: 'Posts',
+      newPost: 'New post',
     },
     topic: {
       responses: 'Responses',

@@ -103,6 +103,7 @@ const messages = {
     title: 'Kategoriar',
     category: {
       posts: 'Innlegg',
+      newPost: 'Nytt innlegg',
     },
     topic: {
       responses: 'Svar',
