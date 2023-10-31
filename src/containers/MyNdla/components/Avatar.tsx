@@ -45,6 +45,11 @@ const UserInitials = styled.div`
 const UserPersonalPicture = styled.img`
   width: 100%;
   height: 100%;
+  aspect-ratio: 1/1;
+  border-radius: 48px;
+  &[data-myprofile='true'] {
+    border-radius: 246px;
+  }
 `;
 
 function Avatar({ myProfile, user }: AvatarProps) {
@@ -64,6 +69,7 @@ function Avatar({ myProfile, user }: AvatarProps) {
       <UserInitials data-myprofile={myProfile}>
         {arenaUser?.profilePicture ? (
           <UserPersonalPicture
+            data-myprofile={myProfile}
             src={arenaUser.profilePicture}
             alt={t('myNdla.userPictureAltText')}
           />
