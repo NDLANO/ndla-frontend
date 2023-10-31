@@ -15,6 +15,7 @@ import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { ButtonV2 as Button, LoadingButton } from '@ndla/button';
 import { colors, spacing } from '@ndla/core';
+import { InformationOutline } from '@ndla/icons/common';
 import SafeLink from '@ndla/safelink';
 import { ListResource, MessageBox, TagSelector, useSnack } from '@ndla/ui';
 import {
@@ -207,7 +208,10 @@ const AddResourceToFolder = ({
         }}
       />
       {examLock ? (
-        <MessageBox>{t('myNdla.examLockInfo')}</MessageBox>
+        <MessageBox>
+          <InformationOutline />
+          {t('myNdla.examLockInfo')}
+        </MessageBox>
       ) : (
         <>
           <FolderSelect
@@ -224,6 +228,7 @@ const AddResourceToFolder = ({
             )}
             {noFolderSelected && (
               <MessageBox type="danger">
+                <InformationOutline />
                 {t('myNdla.noFolderSelected')}
               </MessageBox>
             )}
