@@ -44,7 +44,6 @@ import { useBaseName } from '../../components/BaseNameContext';
 import { useDeletePersonalData } from './userMutations';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { UserInfo } from './components/UserInfo';
-import Avatar from './components/Avatar';
 
 const ShareIcon = InfoPartIcon.withComponent(Share);
 const HeartOutlineIcon = InfoPartIcon.withComponent(HeartOutline);
@@ -109,11 +108,6 @@ const StyledBannerCard = styled(BannerCard)`
   max-width: 100%;
 `;
 
-const AvatarWrapper = styled.div`
-  width: fit-content;
-  height: fit-content;
-`;
-
 const MyNdlaPage = () => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const { t, i18n } = useTranslation();
@@ -161,9 +155,6 @@ const MyNdlaPage = () => {
         <MyNdlaTitle title={t('myNdla.myPage.myPage')} />
       </TitleWrapper>
       <StyledDescription>{t('myNdla.myPage.welcome')}</StyledDescription>
-      <AvatarWrapper>
-        <Avatar user={user} myProfile />
-      </AvatarWrapper>
       {config.allowedAIOrgs.includes(user?.baseOrg?.displayName ?? '') && (
         <StyledBannerCard
           link={`https://ai.ndla.no/${aiLang}`}
