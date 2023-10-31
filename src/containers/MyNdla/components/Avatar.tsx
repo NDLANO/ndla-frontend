@@ -9,7 +9,7 @@
 import styled from '@emotion/styled';
 import { fonts, colors, spacing } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
-import { useArenaUser } from '../arenaMutations';
+import { useArenaUser } from '../arenaQueries';
 import { FeideUserApiType } from '../../../interfaces';
 
 type AvatarProps = {
@@ -52,18 +52,17 @@ const UserPersonalPicture = styled.img`
   }
 `;
 
+export const userInitials = (name: string | undefined) => {
+  return name
+    ?.split(' ')
+    .map((n, i, a) => (i === 0 || i + 1 === a.length ? n.at(0) : null))
+    .join('');
+};
+
 function Avatar({ myProfile, user }: AvatarProps) {
   const { t } = useTranslation();
   const { arenaUser } = useArenaUser(user?.uid.at(0) ?? '');
 
-  // regex to get user initials
-  const initials = user?.displayName
-    ?.match(/(^\S\S?|\s\S)?/g)
-    ?.map((v) => v.trim())
-    .join('')
-    .match(/(^\S|\S$)?/g)
-    ?.join('')
-    .toLocaleUpperCase();
   return (
     <StyledAvatarContainer data-myprofile={myProfile}>
       <UserInitials data-myprofile={myProfile}>
@@ -74,7 +73,7 @@ function Avatar({ myProfile, user }: AvatarProps) {
             alt={t('myNdla.userPictureAltText')}
           />
         ) : (
-          initials
+          userInitials(user?.displayName)
         )}
       </UserInitials>
     </StyledAvatarContainer>
