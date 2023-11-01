@@ -15,6 +15,7 @@ import { ButtonV2 } from '@ndla/button';
 import { Pencil } from '@ndla/icons/action';
 import { useTopics } from '../arenaMutations';
 import ArenaCard from '../ArenaCards/ArenaCard';
+import PostCard from '../ArenaCards/PostCard';
 
 const StyledTopicHeader = styled(Heading)`
   ${fonts.sizes('38px', '48px')};
@@ -63,7 +64,7 @@ const TopicPage = () => {
   const { t } = useTranslation();
   const { loading, arenaTopics } = useTopics();
 
-  //console.log(arenaTopics);
+  console.log(arenaTopics);
 
   if (loading) {
     return <Spinner />;
@@ -99,6 +100,7 @@ const TopicPage = () => {
           />
         </StyledCardContainer>
       )}
+      <PostCard />
     </>
   );
 };
