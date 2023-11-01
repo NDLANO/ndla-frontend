@@ -100,7 +100,7 @@ const TopicPage = () => {
           />
         </StyledCardContainer>
       )}
-      <PostCard />
+      {/* <PostCard /> */}
     </>
   );
 };
