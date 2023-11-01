@@ -7,12 +7,19 @@
  */
 
 import Icon from '@ndla/icons';
-import { DropdownMenu, DropdownTrigger } from '@ndla/dropdown-menu';
-import { Pencil } from '@ndla/icons/action';
+import {
+  DropdownMenu,
+  DropdownTrigger,
+  DropdownContent,
+  DropdownItem,
+} from '@ndla/dropdown-menu';
+import { Pencil, TrashCanOutline } from '@ndla/icons/action';
+import { HorizontalMenu } from '@ndla/icons/lib/contentType';
+import { ReportOutlined } from '@ndla/icons/lib/common';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { Switch } from '@ndla/switch';
-import { IconButtonV2 } from '@ndla/button';
+import { ButtonV2, IconButtonV2 } from '@ndla/button';
 import { colors, spacing, breakpoints, mq, fonts, misc } from '@ndla/core';
 
 interface Props {
@@ -82,6 +89,7 @@ const StyledContentContainer = styled.div`
 
 const StyledH2 = styled.h2`
   ${fonts.sizes('22px', '33px')};
+  margin-top: ${spacing.normal};
 `;
 
 const StyledP = styled.p`
@@ -91,9 +99,24 @@ const StyledP = styled.p`
 
 const BottomContainer = styled.div`
   display: flex;
+  justify-content: space-between;
+  margin-top: ${spacing.normal};
 `;
 
-const PostCard = ({}: Props) => {
+const StyledButton = styled(ButtonV2)`
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: flex-start;
+`;
+
+const StyledAddCommentButton = styled(ButtonV2)`
+  height: 42px;
+  gap: 8px;
+  white-space: nowrap;
+`;
+
+const PostCard = () => {
   return (
     <StyledCardContainer>
       <StyledTopContainer>
@@ -148,8 +171,20 @@ const PostCard = ({}: Props) => {
                 size="small"
                 variant="ghost"
               >
-                <Folder />
-                Add item
+                <ReportOutlined />
+                Rapporter innlegg til moderator
+              </StyledButton>
+            </DropdownItem>
+            <DropdownItem>
+              <StyledButton
+                colorTheme="light"
+                fontWeight="normal"
+                shape="sharp"
+                size="small"
+                variant="ghost"
+              >
+                <Pencil />
+                Rediger innlegg
               </StyledButton>
             </DropdownItem>
             <DropdownItem>
@@ -160,12 +195,13 @@ const PostCard = ({}: Props) => {
                 size="small"
                 variant="ghost"
               >
-                <DeleteForever />
-                Delete item
+                <TrashCanOutline />
+                Slett Innlegget
               </StyledButton>
             </DropdownItem>
           </DropdownContent>
         </DropdownMenu>
+        <StyledAddCommentButton>Skriv et svar</StyledAddCommentButton>
       </BottomContainer>
     </StyledCardContainer>
   );
