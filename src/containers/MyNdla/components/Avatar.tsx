@@ -9,6 +9,7 @@
 import styled from '@emotion/styled';
 import { fonts, colors, spacing } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
+import { useMemo } from 'react';
 import { useArenaUser } from '../arenaQueries';
 
 type AvatarProps = {
@@ -48,9 +49,9 @@ const UserPersonalPicture = styled.img`
   border-radius: 50%;
 `;
 
-export const userInitials = (name: string | undefined) => {
+export const getFirstLastInitials = (userName: string | undefined) => {
   // a function to split up displayName, get the initials of first and last names and merge them
-  return name
+  return userName
     ?.split(' ')
     .map((value, index, array) =>
       index === 0 || index + 1 === array.length ? value.at(0) : null,
@@ -61,19 +62,21 @@ export const userInitials = (name: string | undefined) => {
 function Avatar({ myProfile, displayName, userId }: AvatarProps) {
   const { t } = useTranslation();
   const { arenaUser } = useArenaUser(userId ?? '');
+  const initials = useMemo(
+    () => getFirstLastInitials(displayName),
+    [displayName],
+  );
 
   return (
     <StyledAvatarContainer data-myprofile={myProfile}>
-      <UserInitials data-myprofile={myProfile}>
-        {arenaUser?.profilePicture ? (
-          <UserPersonalPicture
-            src={arenaUser.profilePicture}
-            alt={t('myNdla.userPictureAltText')}
-          />
-        ) : (
-          userInitials(displayName)
-        )}
-      </UserInitials>
+      {arenaUser?.profilePicture ? (
+        <UserPersonalPicture
+          src={arenaUser.profilePicture}
+          alt={t('myNdla.userPictureAltText')}
+        />
+      ) : (
+        <UserInitials data-myprofile={myProfile}>{initials}</UserInitials>
+      )}
     </StyledAvatarContainer>
   );
 }
