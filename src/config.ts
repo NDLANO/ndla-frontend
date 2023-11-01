@@ -71,13 +71,12 @@ const learningPathDomain = (): string => {
 export const feideDomain = (): string => {
   switch (ndlaEnvironment) {
     case 'local':
-      return 'http://localhost:30017';
     case 'dev':
-      return 'http://localhost:3000';
+      return 'localhost';
     case 'prod':
-      return 'https://ndla.no';
+      return 'ndla.no';
     default:
-      return `https://${ndlaEnvironmentHostname}.ndla.no`;
+      return `${ndlaEnvironmentHostname}.ndla.no`;
   }
 };
 
