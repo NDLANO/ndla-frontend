@@ -96,7 +96,7 @@ const FooterWrapper = () => {
     },
     {
       text: t('footer.ndlaLinks.aboutNdla'),
-      to: 'https://ndla.no/about/about-ndla',
+      to: 'https://ndla.no/about/about-us',
       external: false,
     },
     {
