@@ -868,29 +868,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                     class="emotion-27 emotion-28"
                     id="otherLinks"
                   >
-                    Andre NDLA-nettsteder 
-                    <svg
-                      aria-hidden="true"
-                      class="c-icon"
-                      data-license="Apache License 2.0"
-                      data-source="Material Design"
-                      fill="currentColor"
-                      height="1em"
-                      preserveAspectRatio="xMidYMid meet"
-                      style="vertical-align: middle;"
-                      viewBox="0 0 24 24"
-                      width="1em"
-                    >
-                      <g>
-                        <path
-                          d="M0 0h24v24H0z"
-                          fill="none"
-                        />
-                        <path
-                          d="M19 19H5V5h7V3H5a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2v-7h-2v7zM14 3v2h3.6l-9.8 9.8 1.4 1.4L19 6.4V10h2V3h-7z"
-                        />
-                      </g>
-                    </svg>
+                    Andre NDLA-nettsteder
                   </h3>
                   <nav
                     aria-labelledby="otherLinks"
@@ -905,6 +883,28 @@ exports[`ErrorPage renderers correctly 1`] = `
                         target="_blank"
                       >
                         Om NDLA
+                        <svg
+                          aria-hidden="true"
+                          class="c-icon"
+                          data-license="Apache License 2.0"
+                          data-source="Material Design"
+                          fill="currentColor"
+                          height="1em"
+                          preserveAspectRatio="xMidYMid meet"
+                          style="vertical-align: middle;"
+                          viewBox="0 0 24 24"
+                          width="1em"
+                        >
+                          <g>
+                            <path
+                              d="M0 0h24v24H0z"
+                              fill="none"
+                            />
+                            <path
+                              d="M19 19H5V5h7V3H5a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2v-7h-2v7zM14 3v2h3.6l-9.8 9.8 1.4 1.4L19 6.4V10h2V3h-7z"
+                            />
+                          </g>
+                        </svg>
                       </a>
                     </div>
                     <div>
@@ -916,6 +916,28 @@ exports[`ErrorPage renderers correctly 1`] = `
                         target="_blank"
                       >
                         About NDLA
+                        <svg
+                          aria-hidden="true"
+                          class="c-icon"
+                          data-license="Apache License 2.0"
+                          data-source="Material Design"
+                          fill="currentColor"
+                          height="1em"
+                          preserveAspectRatio="xMidYMid meet"
+                          style="vertical-align: middle;"
+                          viewBox="0 0 24 24"
+                          width="1em"
+                        >
+                          <g>
+                            <path
+                              d="M0 0h24v24H0z"
+                              fill="none"
+                            />
+                            <path
+                              d="M19 19H5V5h7V3H5a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2v-7h-2v7zM14 3v2h3.6l-9.8 9.8 1.4 1.4L19 6.4V10h2V3h-7z"
+                            />
+                          </g>
+                        </svg>
                       </a>
                     </div>
                     <div>
@@ -927,6 +949,28 @@ exports[`ErrorPage renderers correctly 1`] = `
                         target="_blank"
                       >
                         Fagblogg
+                        <svg
+                          aria-hidden="true"
+                          class="c-icon"
+                          data-license="Apache License 2.0"
+                          data-source="Material Design"
+                          fill="currentColor"
+                          height="1em"
+                          preserveAspectRatio="xMidYMid meet"
+                          style="vertical-align: middle;"
+                          viewBox="0 0 24 24"
+                          width="1em"
+                        >
+                          <g>
+                            <path
+                              d="M0 0h24v24H0z"
+                              fill="none"
+                            />
+                            <path
+                              d="M19 19H5V5h7V3H5a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2v-7h-2v7zM14 3v2h3.6l-9.8 9.8 1.4 1.4L19 6.4V10h2V3h-7z"
+                            />
+                          </g>
+                        </svg>
                       </a>
                     </div>
                     <div>
@@ -938,6 +982,28 @@ exports[`ErrorPage renderers correctly 1`] = `
                         target="_blank"
                       >
                         Tips til elever
+                        <svg
+                          aria-hidden="true"
+                          class="c-icon"
+                          data-license="Apache License 2.0"
+                          data-source="Material Design"
+                          fill="currentColor"
+                          height="1em"
+                          preserveAspectRatio="xMidYMid meet"
+                          style="vertical-align: middle;"
+                          viewBox="0 0 24 24"
+                          width="1em"
+                        >
+                          <g>
+                            <path
+                              d="M0 0h24v24H0z"
+                              fill="none"
+                            />
+                            <path
+                              d="M19 19H5V5h7V3H5a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2v-7h-2v7zM14 3v2h3.6l-9.8 9.8 1.4 1.4L19 6.4V10h2V3h-7z"
+                            />
+                          </g>
+                        </svg>
                       </a>
                     </div>
                     <div>
@@ -949,6 +1015,28 @@ exports[`ErrorPage renderers correctly 1`] = `
                         target="_blank"
                       >
                         Ledige stillinger
+                        <svg
+                          aria-hidden="true"
+                          class="c-icon"
+                          data-license="Apache License 2.0"
+                          data-source="Material Design"
+                          fill="currentColor"
+                          height="1em"
+                          preserveAspectRatio="xMidYMid meet"
+                          style="vertical-align: middle;"
+                          viewBox="0 0 24 24"
+                          width="1em"
+                        >
+                          <g>
+                            <path
+                              d="M0 0h24v24H0z"
+                              fill="none"
+                            />
+                            <path
+                              d="M19 19H5V5h7V3H5a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2v-7h-2v7zM14 3v2h3.6l-9.8 9.8 1.4 1.4L19 6.4V10h2V3h-7z"
+                            />
+                          </g>
+                        </svg>
                       </a>
                     </div>
                   </nav>
