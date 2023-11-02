@@ -110,13 +110,17 @@ const MoreButton = styled(IconButtonV2)`
   color: ${colors.brand.primary};
   ${fonts.sizes('10px', '12px')};
 
+  border-radius: ${spacing.xxsmall};
+
   ${mq.range({ from: breakpoints.mobileWide })} {
     display: none;
   }
 `;
 
 export interface OutletContext {
+  setResetFocus: Dispatch<SetStateAction<boolean>>;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
+  resetFocus: boolean;
 }
 
 const MyNdlaLayout = () => {
@@ -129,6 +133,7 @@ const MyNdlaLayout = () => {
     .split('/');
   const selectedFolder = useFolder(folderId);
   const [isOpen, setIsOpen] = useState(false);
+  const [resetFocus, setResetFocus] = useState(false);
 
   const defaultSelected = useMemo(() => {
     if (typeof page === 'string') {
@@ -147,7 +152,7 @@ const MyNdlaLayout = () => {
 
   const menuOptions = useMemo(
     () =>
-      menuActions(t, location).map(
+      menuLinks(t, location).map(
         ({ name, shortName, id, icon, to, iconFilled }) => (
           <StyledLi key={id} role="none">
             <NavigationLink
@@ -196,7 +201,7 @@ const MyNdlaLayout = () => {
               <MessageBox>{t('myNdla.examLockInfo')}</MessageBox>
             </MessageboxWrapper>
           )}
-          <Outlet context={{ setIsOpen }} />
+          <Outlet context={{ setIsOpen, resetFocus, setResetFocus }} />
         </StyledContent>
       </Modal>
     </StyledLayout>
@@ -205,7 +210,7 @@ const MyNdlaLayout = () => {
 
 export default MyNdlaLayout;
 
-export const menuActions = (t: TFunction, location: Location) => [
+export const menuLinks = (t: TFunction, location: Location) => [
   {
     id: '',
     name: t('myNdla.myPage.myPage'),

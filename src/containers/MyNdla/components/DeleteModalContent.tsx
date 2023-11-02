@@ -23,6 +23,7 @@ interface Props {
   title: string;
   description: string;
   removeText: string;
+  onClose?: (e?: Event) => void;
 }
 
 const StyledButtonRow = styled.div`
@@ -33,13 +34,14 @@ const StyledButtonRow = styled.div`
 
 const DeleteModalContent = ({
   onDelete,
+  onClose,
   title,
   description,
   removeText,
 }: Props) => {
   const { t } = useTranslation();
   return (
-    <ModalContent>
+    <ModalContent onCloseAutoFocus={onClose}>
       <ModalHeader>
         <ModalTitle>{title}</ModalTitle>
         <ModalCloseButton />

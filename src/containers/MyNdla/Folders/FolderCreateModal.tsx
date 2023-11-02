@@ -46,9 +46,9 @@ const FolderCreateModal = ({ onSaved, parentFolder }: Props) => {
   const { folders } = useFolders();
 
   const onModalClose = useCallback(
-    (e: Event) => {
+    (e?: Event) => {
       if (folderCreated) {
-        e.preventDefault();
+        e?.preventDefault();
         setFolderCreated(false);
       }
     },
@@ -64,7 +64,7 @@ const FolderCreateModal = ({ onSaved, parentFolder }: Props) => {
         </AddButton>
       </ModalTrigger>
       <CreateModalContent
-        onClose={() => onModalClose}
+        onClose={onModalClose}
         parentFolder={parentFolder}
         folders={folders}
         onCreate={async (values) => {
@@ -88,10 +88,11 @@ const FolderCreateModal = ({ onSaved, parentFolder }: Props) => {
 export default FolderCreateModal;
 
 interface ContentProps {
-  onClose: () => void;
+  onClose: (e?: Event) => void;
   onCreate: (values: FolderFormValues) => Promise<void>;
   folders?: GQLFolder[];
   parentFolder?: GQLFolder | null;
+  skipAutoFocus?: VoidFunction;
 }
 
 export const CreateModalContent = ({
@@ -99,6 +100,7 @@ export const CreateModalContent = ({
   parentFolder,
   folders,
   onCreate,
+  skipAutoFocus,
 }: ContentProps) => {
   const { t } = useTranslation();
   return (
@@ -111,6 +113,7 @@ export const CreateModalContent = ({
         <FolderForm
           siblings={parentFolder?.subfolders ?? folders ?? []}
           onSave={async (values) => {
+            skipAutoFocus?.();
             await onCreate(values);
             onClose();
           }}

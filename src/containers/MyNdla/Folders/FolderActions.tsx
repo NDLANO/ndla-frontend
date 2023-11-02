@@ -9,11 +9,18 @@
 import { Cross, Pencil, Plus } from '@ndla/icons/action';
 import { DeleteForever } from '@ndla/icons/editor';
 import { Link, Share } from '@ndla/icons/common';
-import { useCallback, useContext, useMemo, useRef } from 'react';
+import {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useContext,
+  useMemo,
+  useRef,
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSnack } from '@ndla/ui';
-import concat from 'lodash/fp/concat';
 import { useNavigate, useParams } from 'react-router-dom';
+import isEqual from 'lodash/isEqual';
 import { GQLFolder } from '../../../graphqlTypes';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import { copyFolderSharingLink, isStudent } from './util';
@@ -33,9 +40,18 @@ import DeleteModalContent from '../components/DeleteModalContent';
 interface Props {
   selectedFolder: GQLFolder | null;
   inToolbar?: boolean;
+  setFocusId: Dispatch<SetStateAction<string | undefined>>;
+  previousFolders?: GQLFolder[];
+  folders: GQLFolder[];
 }
 
-const FolderActions = ({ selectedFolder, inToolbar = false }: Props) => {
+const FolderActions = ({
+  selectedFolder,
+  setFocusId,
+  folders,
+  previousFolders,
+  inToolbar = false,
+}: Props) => {
   const { t } = useTranslation();
   const { addSnack } = useSnack();
   const { folderId } = useParams();
@@ -53,13 +69,16 @@ const FolderActions = ({ selectedFolder, inToolbar = false }: Props) => {
   const onFolderUpdated = useCallback(() => {
     addSnack({ id: 'folderUpdated', content: t('myNdla.folder.updated') });
   }, [addSnack, t]);
+
   const onFolderAdded = useCallback(
     async (values: FolderFormValues) => {
       const res = await addFolder({
         variables: {
           name: values.name,
           description: values.description,
-          parentId: selectedFolder?.parentId ?? undefined,
+          parentId: inToolbar
+            ? folderId
+            : selectedFolder?.parentId ?? undefined,
         },
       });
       const folder = res.data?.addFolder as GQLFolder | undefined;
@@ -71,9 +90,18 @@ const FolderActions = ({ selectedFolder, inToolbar = false }: Props) => {
             folderName: folder.name,
           }),
         });
+        setFocusId(folder.id);
       }
     },
-    [addSnack, t, selectedFolder?.parentId, addFolder],
+    [
+      selectedFolder?.parentId,
+      setFocusId,
+      inToolbar,
+      addFolder,
+      addSnack,
+      folderId,
+      t,
+    ],
   );
 
   const onDeleteFolder = useCallback(async () => {
@@ -90,8 +118,24 @@ const FolderActions = ({ selectedFolder, inToolbar = false }: Props) => {
           folderName: selectedFolder.name,
         }),
       });
+      const previousFolderId = folders.indexOf(selectedFolder) - 1;
+      setFocusId(
+        inToolbar || previousFolderId === -1
+          ? undefined
+          : folders[previousFolderId]?.id ?? undefined,
+      );
     }
-  }, [addSnack, deleteFolder, folderId, navigate, selectedFolder, t]);
+  }, [
+    selectedFolder,
+    deleteFolder,
+    setFocusId,
+    inToolbar,
+    addSnack,
+    folderId,
+    navigate,
+    folders,
+    t,
+  ]);
 
   const actionItems: MenuItemProps[] = useMemo(() => {
     if (examLock) return [];
@@ -100,12 +144,13 @@ const FolderActions = ({ selectedFolder, inToolbar = false }: Props) => {
       icon: <Plus />,
       text: t('myNdla.newFolder'),
       isModal: true,
-      modalContent: (close) => (
+      modalContent: (close, setFocus) => (
         <CreateModalContent
+          onClose={close}
           folders={selectedFolder?.subfolders}
           parentFolder={selectedFolder}
           onCreate={onFolderAdded}
-          onClose={close}
+          skipAutoFocus={setFocus}
         />
       ),
     };
@@ -227,6 +272,7 @@ const FolderActions = ({ selectedFolder, inToolbar = false }: Props) => {
             await onDeleteFolder();
             close();
           }}
+          onClose={close}
         />
       ),
     };
@@ -238,20 +284,20 @@ const FolderActions = ({ selectedFolder, inToolbar = false }: Props) => {
     }
 
     if (isStudent(user)) {
-      return concat(actions, [editFolder, deleteOpt]);
+      return actions.concat(editFolder, deleteOpt);
     }
 
     if (selectedFolder.status === 'shared') {
-      return concat(actions, [
+      return actions.concat(
         editFolder,
         shareLink,
         copyLink,
         unShare,
         deleteOpt,
-      ]);
+      );
     }
 
-    return concat(actions, [editFolder, share, deleteOpt]);
+    return actions.concat(editFolder, share, deleteOpt);
   }, [
     updateFolderStatus,
     onFolderUpdated,
@@ -265,7 +311,16 @@ const FolderActions = ({ selectedFolder, inToolbar = false }: Props) => {
     t,
   ]);
 
-  return <SettingsMenu menuItems={actionItems} />;
+  return (
+    <SettingsMenu
+      menuItems={actionItems}
+      isLastFolder={
+        folders.length === 1 &&
+        previousFolders?.length !== 1 &&
+        isEqual(previousFolders, folders)
+      }
+    />
+  );
 };
 
 export default FolderActions;

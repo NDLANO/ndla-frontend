@@ -18,7 +18,7 @@ const StyledSafeLink = styled(SafeLink)`
   align-items: center;
   padding: ${spacing.small};
   margin: 0;
-  gap: ${spacing.xxsmall};
+  gap: ${spacing.xsmall};
   box-shadow: none;
 
   color: ${colors.brand.primary};
@@ -56,10 +56,8 @@ const LongText = styled.span`
 
 const ShortText = styled.span`
   ${fonts.sizes('10px', '12px')};
+  font-weight: ${fonts.weight.bold};
 
-  ${mq.range({ from: breakpoints.mobileWide })} {
-    font-weight: ${fonts.weight.bold};
-  }
   ${mq.range({ from: breakpoints.desktop })} {
     display: none;
   }
@@ -89,22 +87,20 @@ const NavigationLink = ({
   onClick,
 }: Props) => {
   const location = useLocation();
-  const selected =
-    location.pathname === `/minndla/${id}` ||
-    (id === '' && location.pathname === `/minndla`);
+  const selected = location.pathname.match(`^/minndla/${id}$`);
+  const selectedIcon = selected ? iconFilled ?? icon : icon;
 
   return (
     <StyledSafeLink
       role="tab"
       aria-expanded={expanded}
       aria-current={selected ? 'page' : undefined}
-      tabIndex={0}
       data-selected={selected}
       to={loading ? '' : to ? to : `/minndla/${id}`}
       reloadDocument={!!to}
       onClick={onClick}
     >
-      <IconWrapper>{selected ? iconFilled ?? icon : icon}</IconWrapper>
+      <IconWrapper>{selectedIcon}</IconWrapper>
       <LongText>{name}</LongText>
       <ShortText>{shortName}</ShortText>
     </StyledSafeLink>

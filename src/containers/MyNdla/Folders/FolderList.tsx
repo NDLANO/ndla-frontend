@@ -6,7 +6,7 @@
  *
  */
 
-import { useMemo, useState, useEffect } from 'react';
+import { useMemo, useState, useEffect, SetStateAction, Dispatch } from 'react';
 import { Reference, useApolloClient } from '@apollo/client';
 import { useTranslation } from 'react-i18next';
 import {
@@ -43,9 +43,16 @@ interface Props {
   type: ViewType;
   folders: GQLFolder[];
   folderId: string | undefined;
+  setFocusId: Dispatch<SetStateAction<string | undefined>>;
 }
 
-const FolderList = ({ loading, type, folders, folderId }: Props) => {
+const FolderList = ({
+  loading,
+  type,
+  folders,
+  folderId,
+  setFocusId,
+}: Props) => {
   const { t } = useTranslation();
   const { sortFolders } = useSortFoldersMutation();
   const client = useApolloClient();
@@ -130,6 +137,8 @@ const FolderList = ({ loading, type, folders, folderId }: Props) => {
                   index={index}
                   foldersCount={foldersCount}
                   type={type}
+                  folders={folders}
+                  setFocusId={setFocusId}
                 />
               ))}
             </SortableContext>

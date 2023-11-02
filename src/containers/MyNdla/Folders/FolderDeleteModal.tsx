@@ -16,9 +16,10 @@ import { buttonCss, iconCss } from './FoldersPage';
 
 interface Props {
   onDelete: () => void;
+  onClose: (e?: Event) => void;
 }
 
-const FolderDeleteModal = ({ onDelete }: Props) => {
+const FolderDeleteModal = ({ onDelete, onClose }: Props) => {
   const [open, setOpen] = useState(false);
   const { t } = useTranslation();
 
@@ -31,9 +32,11 @@ const FolderDeleteModal = ({ onDelete }: Props) => {
         </ButtonV2>
       </ModalTrigger>
       <DeleteModalContent
+        onClose={onClose}
         onDelete={async () => {
           onDelete();
           setOpen(false);
+          onClose();
         }}
         title={t('myNdla.folder.delete')}
         description={t('myNdla.confirmDeleteFolder')}

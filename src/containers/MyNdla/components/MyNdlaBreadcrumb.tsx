@@ -44,7 +44,7 @@ const MyNdlaBreadcrumb = ({ breadcrumbs, page }: Props) => {
   );
 
   if (breadcrumbs.length > 0) {
-    return <Breadcrumb items={crumbs} autoCollapse />;
+    return <Breadcrumb items={crumbs} />;
   }
   return null;
 };

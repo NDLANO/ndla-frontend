@@ -24,6 +24,7 @@ import { SafeLinkButton } from '@ndla/safelink';
 import Tooltip from '@ndla/tooltip';
 import { useSnack } from '@ndla/ui';
 import { ReactNode, useCallback, useContext, useMemo, useState } from 'react';
+import { isTablet } from 'react-device-detect';
 import { GQLFolder } from '../../../graphqlTypes';
 import FolderAndResourceCount from './FolderAndResourceCount';
 import { toFolderPreview } from '../../../routeHelpers';
@@ -201,7 +202,7 @@ export const FolderShareModalContent = ({
             </CopyLinkHeader>
             <Tooltip tooltip={t('myNdla.folder.sharing.button.shareLink')}>
               <CopyLinkButton
-                aria-label={`${previewLink(folder.id)}`}
+                aria-label={previewLink(folder.id)}
                 variant="stripped"
                 onClick={() => {
                   onCopyText?.();
@@ -221,7 +222,7 @@ export const FolderShareModalContent = ({
         )}
         {t(`myNdla.folder.sharing.description.${type}`)}
         <StyledButtonRow>
-          {isMobile ? (
+          {isMobile && !isTablet ? (
             <>
               {modalButton}
               {unShareButton}

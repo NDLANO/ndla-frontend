@@ -6,7 +6,7 @@
  *
  */
 
-import { memo, useMemo } from 'react';
+import { Dispatch, SetStateAction, memo, useMemo } from 'react';
 import styled from '@emotion/styled';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
@@ -23,6 +23,8 @@ interface Props {
   index: number;
   type: ViewType;
   foldersCount: Record<string, FolderTotalCount>;
+  folders: GQLFolder[];
+  setFocusId: Dispatch<SetStateAction<string | undefined>>;
 }
 
 interface DraggableListItemProps {
@@ -45,7 +47,14 @@ export const DragWrapper = styled.div`
   flex-grow: 1;
 `;
 
-const DraggableFolder = ({ index, folder, type, foldersCount }: Props) => {
+const DraggableFolder = ({
+  index,
+  folder,
+  type,
+  foldersCount,
+  folders,
+  setFocusId,
+}: Props) => {
   const { attributes, setNodeRef, transform, transition, items, isDragging } =
     useSortable({
       id: folder.id,
@@ -61,8 +70,15 @@ const DraggableFolder = ({ index, folder, type, foldersCount }: Props) => {
   };
 
   const menu = useMemo(
-    () => <FolderActions key={folder.id} selectedFolder={folder} />,
-    [folder],
+    () => (
+      <FolderActions
+        folders={folders}
+        key={folder.id}
+        selectedFolder={folder}
+        setFocusId={setFocusId}
+      />
+    ),
+    [folder, folders, setFocusId],
   );
 
   return (

@@ -16,10 +16,10 @@ import Toolbar from './Toolbar';
 const ContentWrapper = styled.div`
   display: flex;
   justify-content: center;
-  padding: 0 ${spacing.nsmall} ${spacingUnit * 3}px ${spacing.nsmall};
+  margin: 0 ${spacing.nsmall} ${spacingUnit * 3}px ${spacing.nsmall};
 
-  ${mq.range({ from: breakpoints.mobileWide })} {
-    padding: 0 ${spacing.large} ${spacingUnit * 3}px ${spacing.large};
+  ${mq.range({ from: breakpoints.tablet })} {
+    margin: 0 ${spacing.large} ${spacingUnit * 3}px ${spacing.large};
   }
 `;
 
@@ -33,6 +33,8 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   buttons?: ReactNode;
   viewType?: ViewType;
   onViewTypeChange?: (val: ViewType) => void;
+  focusId?: string;
+  numberOfButtons?: number;
 }
 
 const MyNdlaPageWrapper = ({
@@ -40,6 +42,7 @@ const MyNdlaPageWrapper = ({
   dropDownMenu,
   onViewTypeChange,
   viewType,
+  numberOfButtons,
   children,
 }: Props) => {
   return (
@@ -49,6 +52,7 @@ const MyNdlaPageWrapper = ({
         dropDownMenu={dropDownMenu}
         onViewTypeChange={onViewTypeChange}
         viewType={viewType}
+        numberOfButtons={numberOfButtons}
       />
       <ContentWrapper>
         <Content>{children}</Content>

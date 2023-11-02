@@ -37,14 +37,20 @@ import { isStudent, copyFolderSharingLink } from './util';
 interface FolderButtonProps {
   setFocusId: Dispatch<SetStateAction<string | undefined>>;
   selectedFolder: GQLFolder | null;
+  folders: GQLFolder[];
 }
 
-const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
+const FolderButtons = ({
+  setFocusId,
+  selectedFolder,
+  folders,
+}: FolderButtonProps) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { folderId } = useParams();
   const { addSnack } = useSnack();
   const { examLock, user } = useContext(AuthContext);
+  const { setResetFocus } = useOutletContext<OutletContext>();
 
   const shareRef = useRef<HTMLButtonElement | null>(null);
   const unShareRef = useRef<HTMLButtonElement | null>(null);
@@ -90,6 +96,15 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
         }),
       });
       setIsOpen(false);
+      const previousFolderId = folders.indexOf(selectedFolder) - 1;
+      setFocusId(
+        previousFolderId <= -1
+          ? undefined
+          : folders[previousFolderId]?.id ?? undefined,
+      );
+      if (folders.length - 1 <= 0) {
+        setResetFocus(true);
+      }
     }
   }, [
     addSnack,
@@ -97,8 +112,11 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
     folderId,
     navigate,
     selectedFolder,
+    setResetFocus,
     t,
     setIsOpen,
+    folders,
+    setFocusId,
   ]);
 
   const toolbarButtons = useMemo(() => {
@@ -109,6 +127,7 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
 
     const sharedButton = selectedFolder && isFolderShared && (
       <FolderShareModal
+        key="sharedFolderButton"
         type="shared"
         folder={selectedFolder}
         onUpdateStatus={async (close) => {
@@ -132,6 +151,7 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
 
     const unShareButton = selectedFolder && isFolderShared && (
       <FolderShareModal
+        key="unShareFolderButton"
         type="unShare"
         folder={selectedFolder}
         onUpdateStatus={async (close) => {
@@ -163,6 +183,7 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
 
     const shareButton = selectedFolder && !isFolderShared && (
       <FolderShareModal
+        key="shareFolderButton"
         type="private"
         folder={selectedFolder}
         onUpdateStatus={async (close) => {
@@ -194,21 +215,36 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
 
     const addFolderButton = showAddButton && (
       <FolderCreateModal
+        key="createFolderButton"
         onSaved={onFolderAdded}
         parentFolder={selectedFolder}
       />
     );
 
     const editFolderButton = selectedFolder && (
-      <FolderEditModal onSaved={onFolderUpdated} folder={selectedFolder} />
+      <FolderEditModal
+        key="editFolderButton"
+        onSaved={onFolderUpdated}
+        folder={selectedFolder}
+      />
     );
 
     const deleteFolderButton = !!selectedFolder?.id && (
-      <FolderDeleteModal onDelete={onDeleteFolder} />
+      <FolderDeleteModal
+        key="deleteFolderButton"
+        onDelete={onDeleteFolder}
+        onClose={(e) => {
+          if (folders.length - 1 <= 0) {
+            e?.preventDefault();
+            document.getElementById('titleAnnouncer')?.focus();
+          }
+        }}
+      />
     );
 
     const copySharedFolderLink = selectedFolder && isFolderShared && (
       <ButtonV2
+        key="copySharedLink"
         css={buttonCss}
         variant="ghost"
         colorTheme="lighter"
@@ -239,6 +275,7 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
       deleteFolderButton,
     ];
   }, [
+    folders.length,
     updateFolderStatus,
     onFolderUpdated,
     selectedFolder,
@@ -255,7 +292,7 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
     t,
   ]).filter(Boolean);
 
-  return <>{toolbarButtons}</>;
+  return toolbarButtons;
 };
 
 export default FolderButtons;

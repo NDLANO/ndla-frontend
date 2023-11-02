@@ -17,11 +17,11 @@ import {
   ModalContent,
   ModalCloseButton,
 } from '@ndla/modal';
-import { ReactNode, useMemo } from 'react';
+import { ReactNode, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useOutletContext } from 'react-router-dom';
 import { ViewType } from '../Folders/FoldersPage';
-import { OutletContext, menuActions } from '../MyNdlaLayout';
+import { OutletContext, menuLinks } from '../MyNdlaLayout';
 import NavigationLink from './NavigationLink';
 
 const MenuItem = styled.li`
@@ -78,7 +78,6 @@ const ToolMenu = styled.div`
 
   padding: unset;
   margin: unset;
-
   button,
   a {
     ${ToolItem};
@@ -123,16 +122,18 @@ interface Props {
   onViewTypeChange?: (val: ViewType) => void;
   viewType?: ViewType;
   buttons?: ReactNode;
+  focusId?: string;
 }
 
 const MenuModalContent = ({ onViewTypeChange, viewType, buttons }: Props) => {
   const { t } = useTranslation();
   const location = useLocation();
-  const { setIsOpen } = useOutletContext<OutletContext>();
+  const { setIsOpen, resetFocus, setResetFocus } =
+    useOutletContext<OutletContext>();
 
-  const menuLinks = useMemo(
+  const links = useMemo(
     () =>
-      menuActions(t, location).map(
+      menuLinks(t, location).map(
         ({ id, shortName, icon, to, name, iconFilled }) => (
           <MenuItem key={id}>
             <NavigationLink
@@ -150,8 +151,19 @@ const MenuModalContent = ({ onViewTypeChange, viewType, buttons }: Props) => {
     [t, location, setIsOpen],
   );
 
+  const onCloseModal = useCallback(
+    (e: Event) => {
+      e.preventDefault();
+      if (resetFocus || location.pathname !== window.location.pathname) {
+        document.getElementById('titleAnnouncer')?.focus();
+        setResetFocus(false);
+      }
+    },
+    [resetFocus, setResetFocus, location],
+  );
+
   return (
-    <ModalContent>
+    <ModalContent onCloseAutoFocus={onCloseModal}>
       <StyledModalHeader>
         <ModalCloseButton title={t('close')} />
       </StyledModalHeader>
@@ -159,14 +171,15 @@ const MenuModalContent = ({ onViewTypeChange, viewType, buttons }: Props) => {
         <Title data-no-padding-top={true} data-blue-background={true}>
           {t('myNdla.myNDLA')}
         </Title>
-        <MenuItems>{menuLinks}</MenuItems>
+        <nav>
+          <MenuItems role="tablist">{links}</MenuItems>
+        </nav>
         {buttons && (
           <>
             <Title data-border-top={true}>{t('myNdla.tools')}</Title>
             <ToolMenu>{buttons}</ToolMenu>
           </>
         )}
-
         {!!viewType && (
           <>
             <Title>{t('myNdla.selectView')}</Title>

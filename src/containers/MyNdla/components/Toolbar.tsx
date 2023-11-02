@@ -14,34 +14,48 @@ import { ViewType } from '../Folders/FoldersPage';
 import MenuModalContent from './MenuModalContent';
 
 const ToolbarContainer = styled.div`
-  display: flex;
+  display: none;
   justify-content: center;
   border-bottom: 1px solid ${colors.brand.lighter};
   padding: ${spacing.small} ${spacing.large};
   height: ${spacingUnit * 3}px;
 
-  ${mq.range({ until: breakpoints.mobileWide })} {
-    display: none;
+  ${mq.range({ from: breakpoints.mobileWide })} {
+    display: flex;
   }
 `;
 
 const ButtonContainer = styled.div`
-  display: flex;
+  display: none;
   flex-direction: row;
   gap: ${spacing.small};
 
-  ${mq.range({ until: breakpoints.desktop })} {
-    display: none;
+  @container (min-width:600px) {
+    display: flex;
+  }
+
+  ${mq.range({ from: breakpoints.mobileWide, until: breakpoints.desktop })} {
+    &[data-hide-buttons='true'] {
+      display: none;
+    }
   }
 `;
 
 const DropdownWrapper = styled.div`
-  ${mq.range({ from: breakpoints.desktop })} {
-    display: none;
+  display: none;
+
+  ${mq.range({ from: breakpoints.mobileWide, until: breakpoints.desktop })} {
+    @container (max-width:600px) {
+      display: unset;
+    }
+    &[data-always-show='true'] {
+      display: unset;
+    }
   }
 `;
 
 const Wrapper = styled.div`
+  container-type: inline-size;
   display: flex;
   max-width: ${MY_NDLA_CONTENT_WIDTH}px;
   flex-grow: 1;
@@ -53,6 +67,7 @@ interface Props {
   dropDownMenu?: ReactNode;
   viewType?: ViewType;
   onViewTypeChange?: (val: ViewType) => void;
+  numberOfButtons?: number;
 }
 
 const Toolbar = ({
@@ -60,12 +75,19 @@ const Toolbar = ({
   dropDownMenu,
   onViewTypeChange,
   viewType,
+  numberOfButtons,
 }: Props) => {
+  const tooManyButtons = (numberOfButtons ?? 1) > 4;
+
   return (
     <ToolbarContainer>
       <Wrapper>
-        <ButtonContainer>{buttons}</ButtonContainer>
-        <DropdownWrapper>{dropDownMenu}</DropdownWrapper>
+        <ButtonContainer data-hide-buttons={tooManyButtons}>
+          {buttons}
+        </ButtonContainer>
+        <DropdownWrapper data-always-show={tooManyButtons}>
+          {dropDownMenu}
+        </DropdownWrapper>
       </Wrapper>
       <MenuModalContent
         onViewTypeChange={onViewTypeChange}

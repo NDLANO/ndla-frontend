@@ -83,7 +83,7 @@ export const buttonCss = css`
   display: flex;
   justify-content: flex-start;
 
-  ${mq.range({ until: breakpoints.mobileWide })} {
+  ${mq.range({ until: breakpoints.tablet })} {
     font-weight: ${fonts.weight.normal};
   }
 `;
@@ -151,7 +151,6 @@ const FoldersPage = () => {
   useEffect(() => {
     const folderIds = folders.map((f) => f.id).sort();
     const prevFolderIds = previousFolders.map((f) => f.id).sort();
-
     if (!isEqual(folderIds, prevFolderIds) && focusId) {
       setTimeout(
         () =>
@@ -189,23 +188,34 @@ const FoldersPage = () => {
   }, []);
 
   const dropDownMenu = useMemo(
-    () => <FolderActions selectedFolder={selectedFolder} inToolbar={true} />,
-    [selectedFolder],
-  );
-
-  const toolbarButtons = useMemo(
     () => (
-      <FolderButtons selectedFolder={selectedFolder} setFocusId={setFocusId} />
+      <FolderActions
+        selectedFolder={selectedFolder}
+        setFocusId={setFocusId}
+        folders={folders}
+        previousFolders={previousFolders}
+        inToolbar
+      />
     ),
-    [selectedFolder, setFocusId],
+    [selectedFolder, folders, setFocusId, previousFolders],
   );
 
+  const toolbarButtons = useCallback(
+    () =>
+      FolderButtons({
+        selectedFolder: selectedFolder,
+        setFocusId: setFocusId,
+        folders: folders,
+      }),
+    [selectedFolder, setFocusId, folders],
+  );
   return (
     <MyNdlaPageWrapper
       dropDownMenu={dropDownMenu}
-      buttons={toolbarButtons}
+      buttons={<>{toolbarButtons()}</>}
       viewType={viewType}
       onViewTypeChange={setViewType}
+      numberOfButtons={toolbarButtons().length}
     >
       <FoldersPageContainer>
         <HelmetWithTracker title={title} />
@@ -232,6 +242,7 @@ const FoldersPage = () => {
           folders={folders}
           loading={loading}
           folderId={folderId}
+          setFocusId={setFocusId}
         />
         {!!selectedFolder?.resources.length && (
           <ResourceCountContainer>
