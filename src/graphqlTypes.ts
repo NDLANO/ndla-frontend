@@ -2629,6 +2629,23 @@ export type GQLMultidisciplinaryTopicWrapper_SubjectFragment = {
   __typename?: 'Subject';
 } & GQLMultidisciplinaryTopic_SubjectFragment;
 
+export type GQLArenaUserQueryFragmentFragment = {
+  __typename?: 'ArenaUser';
+  displayName: string;
+  id: number;
+  profilePicture?: string;
+  slug: string;
+};
+
+export type GQLArenaUserQueryVariables = Exact<{
+  username: Scalars['String']['input'];
+}>;
+
+export type GQLArenaUserQuery = {
+  __typename?: 'Query';
+  arenaUser?: { __typename?: 'ArenaUser' } & GQLArenaUserQueryFragmentFragment;
+};
+
 export type GQLFolderResourceFragmentFragment = {
   __typename: 'FolderResource';
   resourceId: string;
