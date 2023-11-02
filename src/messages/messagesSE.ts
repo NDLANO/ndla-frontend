@@ -28,6 +28,9 @@ const messages = {
     myTagsPage: `Mu lihput - ${titleTemplate}`,
     aboutPage: `{{name}} - ${titleTemplate}`,
   },
+  footer: {
+    cookiesLink: 'Julggaštus diehtočoahku ektui (gáhkožat)',
+  },
   programmes: {
     header: 'Maid háliidat oahppat odne?',
     description: 'Vállje oahppoprográmma vai oainnát iežat fágaid',
