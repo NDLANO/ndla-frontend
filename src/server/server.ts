@@ -49,7 +49,7 @@ import {
 } from '../statusCodes';
 import { isAccessTokenValid } from '../util/authHelpers';
 import { constructNewPath } from '../util/urlHelper';
-import { getDefaultLocale } from '../config';
+import config, { getDefaultLocale } from '../config';
 
 // @ts-ignore
 global.fetch = fetch;
@@ -181,6 +181,7 @@ app.get('/login/success', async (req: Request, res: Response) => {
     res.cookie('feide_auth', JSON.stringify(feideCookie), {
       expires: new Date(feideCookie.ndla_expires_at),
       encode: String,
+      domain: `.${config.feideDomain}`,
     });
     const languageCookie = getCookie(
       STORED_LANGUAGE_COOKIE_KEY,
