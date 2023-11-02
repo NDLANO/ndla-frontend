@@ -8,11 +8,13 @@
 import styled from '@emotion/styled';
 import { fonts, colors, spacing } from '@ndla/core';
 import SafeLink from '@ndla/safelink';
-import { FeideUserApiType } from '../../../interfaces';
 import ModeratorTag from './ModeratorTag';
+import Avatar from './Avatar';
 
 type UserProfileTagProps = {
-  user: FeideUserApiType | undefined;
+  displayName: string | undefined;
+  userId: string | undefined;
+  affiliation: string | undefined;
 };
 
 const Name = styled.div`
@@ -37,11 +39,6 @@ const UserProfileTagContainer = styled(SafeLink)`
   padding: ${spacing.xsmall};
 `;
 
-const UserIcon = styled.div`
-  width: 48px;
-  height: 48px;
-`;
-
 const UserInformationContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -59,21 +56,25 @@ const UserRegion = styled.div`
   ${fonts.size.text.metaTextSmall}
 `;
 
-function UserProfileTag({ user }: UserProfileTagProps) {
+// missing link to profile
+// missing moderator tag logic
+const UserProfileTag = ({
+  displayName,
+  userId,
+  affiliation,
+}: UserProfileTagProps) => {
   return (
     <UserProfileTagContainer to="https://om.ndla.no/gdpr">
-      {/* missing profile link */}
-      <UserIcon /> {/* missing avatar */}
+      <Avatar displayName={displayName} userId={userId} />
       <UserInformationContainer>
         <NameAndTagContainer>
-          <Name>{user?.displayName}</Name>
-          {user?.displayName && <ModeratorTag />}{' '}
-          {/* missing user info for logic to show/hide tag */}
+          <Name>{displayName}</Name>
+          {displayName && <ModeratorTag />}
         </NameAndTagContainer>
-        <UserRegion>{user?.primarySchool?.displayName}</UserRegion>
+        <UserRegion>{affiliation}</UserRegion>
       </UserInformationContainer>
     </UserProfileTagContainer>
   );
-}
+};
 
 export default UserProfileTag;

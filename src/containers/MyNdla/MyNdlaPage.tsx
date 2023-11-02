@@ -155,7 +155,11 @@ const MyNdlaPage = () => {
         <MyNdlaBreadcrumb page="minndla" breadcrumbs={[]} backCrumb="minndla" />
         <MyNdlaTitle title={t('myNdla.myPage.myPage')} />
       </TitleWrapper>
-      <UserProfileTag user={user} />
+      <UserProfileTag
+        displayName={user?.displayName}
+        userId={user?.uid.at(0)}
+        affiliation={user?.primarySchool?.displayName}
+      />
       <StyledDescription>{t('myNdla.myPage.welcome')}</StyledDescription>
       {config.allowedAIOrgs.includes(user?.baseOrg?.displayName ?? '') && (
         <StyledBannerCard
