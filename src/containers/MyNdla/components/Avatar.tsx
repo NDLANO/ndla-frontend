@@ -59,7 +59,7 @@ export const getFirstLastInitials = (userName: string | undefined) => {
     .join('');
 };
 
-function Avatar({ myProfile, displayName, userId }: AvatarProps) {
+const Avatar = ({ myProfile, displayName, userId }: AvatarProps) => {
   const { t } = useTranslation();
   const { arenaUser } = useArenaUser(userId ?? '');
   const initials = useMemo(
@@ -79,6 +79,6 @@ function Avatar({ myProfile, displayName, userId }: AvatarProps) {
       )}
     </StyledAvatarContainer>
   );
-}
+};
 
 export default Avatar;
