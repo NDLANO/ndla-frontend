@@ -31,9 +31,22 @@ exports[`Document renderers correctly 1`] = `
       rel="stylesheet"
     />
     <link
-      href="/static/ndla-favicon.png"
-      rel="shortcut icon"
-      type="image/x-icon"
+      href="/static/favicon-test-32x32.png"
+      rel="icon"
+      sizes="32x32"
+      type="image/png"
+    />
+    <link
+      href="/static/favicon-test-16x16.png"
+      rel="icon"
+      sizes="16x16"
+      type="image/png"
+    />
+    <link
+      href="/static/apple-touch-icon-test.png"
+      rel="apple-touch-icon"
+      sizes="180x180"
+      type="image/png"
     />
   </head>
   <body>
