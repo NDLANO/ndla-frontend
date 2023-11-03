@@ -7,7 +7,7 @@
  */
 
 import { gql } from '@apollo/client';
-import { GQLArenaPageQuery, GQLArenaTopic } from '../../graphqlTypes';
+import { GQLArenaPageQuery, GQLTopicPageQuery } from '../../graphqlTypes';
 import { useGraphQuery } from '../../util/runQueries';
 
 const arenaPageQueryFragment = gql`
@@ -23,11 +23,20 @@ const arenaPageQueryFragment = gql`
   }
 `;
 
-// const topicPageQueryFragment = gql`
-//   fragment TopicPageQueryFragment on ArenaTopic {
-
-//   }
-// `;
+const topicPageQueryFragment = gql`
+  fragment TopicPageQueryFragment on ArenaTopic {
+    __typename
+    breadcrumbs
+    categoryId
+    id
+    locked
+    postCount
+    posts
+    slug
+    timestamp
+    title
+  }
+`;
 
 export const arenaPageQuery = gql`
   query arenaPage {
@@ -38,6 +47,15 @@ export const arenaPageQuery = gql`
   ${arenaPageQueryFragment}
 `;
 
+export const topicPageQuery = gql`
+  query topicPage {
+    arenaTopics {
+      ...TopicPageQueryFragment
+    }
+  }
+  ${topicPageQueryFragment}
+`;
+
 export const useCategories = () => {
   const { data, loading, error } =
     useGraphQuery<GQLArenaPageQuery>(arenaPageQuery);
@@ -45,6 +63,7 @@ export const useCategories = () => {
 };
 
 export const useTopics = () => {
-  const { data, loading, error } = useGraphQuery<GQLArenaTopic>(arenaPageQuery);
+  const { data, loading, error } =
+    useGraphQuery<GQLTopicPageQuery>(topicPageQuery);
   return { arenaTopics: data, loading, error };
 };
