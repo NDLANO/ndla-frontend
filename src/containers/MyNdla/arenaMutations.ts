@@ -23,6 +23,12 @@ const arenaPageQueryFragment = gql`
   }
 `;
 
+// const topicPageQueryFragment = gql`
+//   fragment TopicPageQueryFragment on ArenaTopic {
+
+//   }
+// `;
+
 export const arenaPageQuery = gql`
   query arenaPage {
     arenaCategories {
