@@ -6,10 +6,11 @@
  *
  */
 
-import { Folder, MessageBox, useSnack } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
 import { useContext, useMemo, useState } from 'react';
 import { ButtonV2 as Button, LoadingButton } from '@ndla/button';
+import { InformationOutline, WarningOutline } from '@ndla/icons/common';
+import { Folder, MessageBox, useSnack } from '@ndla/ui';
 import { GQLFolder } from '../../graphqlTypes';
 import FolderSelect from './FolderSelect';
 import {
@@ -63,7 +64,10 @@ const CopyFolder = ({ folder, onClose }: Props) => {
         subResources={folderCount.resources}
       />
       {examLock ? (
-        <MessageBox>{t('myNdla.examLockInfo')}</MessageBox>
+        <MessageBox>
+          <InformationOutline />
+          {t('myNdla.examLockInfo')}
+        </MessageBox>
       ) : (
         <>
           <FolderSelect
@@ -72,9 +76,13 @@ const CopyFolder = ({ folder, onClose }: Props) => {
             selectedFolderId={selectedFolderId}
             setSelectedFolderId={setSelectedFolderId}
           />
-          <MessageBox>{t('myNdla.copyFolderDisclaimer')}</MessageBox>
+          <MessageBox>
+            <InformationOutline />
+            {t('myNdla.copyFolderDisclaimer')}
+          </MessageBox>
           {copySharedFolderMutation.error && (
             <MessageBox type="danger">
+              <WarningOutline />
               {t('errorMessage.description')}
             </MessageBox>
           )}

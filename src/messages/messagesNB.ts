@@ -29,6 +29,9 @@ const messages = {
     sharedFolderPage: `{{name}} - ${titleTemplate}`,
     aboutPage: `{{name}} - ${titleTemplate}`,
   },
+  footer: {
+    cookiesLink: 'Erklæring for informasjonskapsler',
+  },
   programmes: {
     header: 'Hva vil du lære om i dag?',
     description: 'Velg utdanningsprogram for å se dine fag',

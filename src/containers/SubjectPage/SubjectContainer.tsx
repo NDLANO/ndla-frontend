@@ -9,6 +9,7 @@
 import { gql } from '@apollo/client';
 import { useState, createRef, useEffect, useContext } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { InformationOutline } from '@ndla/icons/common';
 import {
   constants,
   ArticleHeaderWrapper,
@@ -225,10 +226,16 @@ const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
             </StyledHeading>
           </ArticleHeaderWrapper>
           {!ndlaFilm && nonRegularSubjectMessage && (
-            <MessageBox>{nonRegularSubjectMessage}</MessageBox>
+            <MessageBox>
+              <InformationOutline />
+              {nonRegularSubjectMessage}
+            </MessageBox>
           )}
           {!ndlaFilm && nonRegularSubjectTypeMessage && (
-            <MessageBox>{nonRegularSubjectTypeMessage}</MessageBox>
+            <MessageBox>
+              <InformationOutline />
+              {nonRegularSubjectTypeMessage}
+            </MessageBox>
           )}
           <SubjectPageContent
             subject={subject}
