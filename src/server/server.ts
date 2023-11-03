@@ -329,8 +329,7 @@ app.get(
   '/utdanningsprogram-sitemap.txt',
   ndlaMiddleware,
   async (_req: Request, res: Response) => {
-    res.setHeader('Content-Type', 'application/txt');
-    res.send('');
+    sendResponse(res, undefined, 410);
   },
 );
 

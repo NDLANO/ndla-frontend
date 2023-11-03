@@ -13,7 +13,7 @@ import {
   GQLDrawerContent_ProgrammePageFragment,
   GQLDrawerContent_SubjectFragment,
 } from '../../../graphqlTypes';
-import { NewAboutMenu } from './AboutMenu';
+import AboutMenu from './AboutMenu';
 import { MenuType } from './drawerMenuTypes';
 import ProgrammeMenu from './ProgrammeMenu';
 import SubjectMenu from './SubjectMenu';
@@ -63,7 +63,7 @@ const DrawerContent = ({
     );
   } else {
     return (
-      <NewAboutMenu
+      <AboutMenu
         menuItems={menuItems}
         onClose={onClose}
         setMenu={setFrontpageMenu}
@@ -84,7 +84,7 @@ DrawerContent.fragments = {
     fragment DrawerContent_FrontpageMenu on FrontpageMenu {
       ...AboutMenu_FrontpageMenu
     }
-    ${NewAboutMenu.fragments.frontpage}
+    ${AboutMenu.fragments.frontpage}
   `,
   programmeMenu: gql`
     fragment DrawerContent_ProgrammePage on ProgrammePage {
