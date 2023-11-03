@@ -20,7 +20,8 @@ type OembedParams =
   | 'audioId'
   | 'videoId'
   | 'imageId'
-  | 'conceptId';
+  | 'conceptId'
+  | 'h5pId';
 
 type OembedReturnParams =
   | 'subjectId'
@@ -31,7 +32,8 @@ type OembedReturnParams =
   | 'audioId'
   | 'videoId'
   | 'imageId'
-  | 'conceptId';
+  | 'conceptId'
+  | 'h5pId';
 
 const matchUrl = (
   pathname: string,

@@ -49,6 +49,7 @@ type ArenaUser {
   id: Int!
   profilePicture: String
   slug: String!
+  username: String!
 }
 
 type Article {
@@ -826,6 +827,7 @@ type PodcastSeries implements PodcastSeriesBase {
   description: Description!
   hasRSS: Boolean!
   id: Int!
+  image: ImageMetaInformation!
   supportedLanguages: [String!]!
   title: Title!
 }
@@ -835,6 +837,7 @@ interface PodcastSeriesBase {
   description: Description!
   hasRSS: Boolean!
   id: Int!
+  image: ImageMetaInformation!
   supportedLanguages: [String!]!
   title: Title!
 }
@@ -863,6 +866,7 @@ type PodcastSeriesWithEpisodes implements PodcastSeriesBase {
   episodes: [Audio!]
   hasRSS: Boolean!
   id: Int!
+  image: ImageMetaInformation!
   supportedLanguages: [String!]!
   title: Title!
 }
@@ -886,6 +890,7 @@ type Query {
   arenaRecentTopics: [ArenaTopic!]!
   arenaTopic(page: Int!, topicId: Int!): ArenaTopic
   arenaTopicsByUser(userSlug: String!): [ArenaTopic!]!
+  arenaUser(username: String!): ArenaUser
   article(
     absoluteUrl: Boolean
     convertEmbeds: Boolean
@@ -1099,6 +1104,7 @@ type SearchContext {
   path: String!
   publicId: String!
   relevance: String!
+  relevanceId: String!
   resourceTypes: [SearchContextResourceTypes!]!
   root: String!
   rootId: String!
@@ -1179,10 +1185,18 @@ type Subject implements TaxonomyEntity {
   url: String
 }
 
+type SubjectLink {
+  name: String
+  path: String
+}
+
 type SubjectPage {
   about: SubjectPageAbout
   banner: SubjectPageBanner!
+  buildsOn: [SubjectLink]!
+  connectedTo: [SubjectLink]!
   id: Int!
+  leadsTo: [SubjectLink]!
   metaDescription: String
   name: String!
   supportedLanguages: [String!]!

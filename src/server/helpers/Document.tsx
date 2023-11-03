@@ -8,8 +8,6 @@
 
 import { HelmetServerState } from 'react-helmet-async';
 import serialize from 'serialize-javascript';
-// eslint-disable-next-line no-restricted-imports
-import ScriptLoader from '@ndla/polyfill/lib/ScriptLoader';
 import { Matomo } from './Matomo';
 import Tagmanager from './Tagmanager';
 import config, { ConfigType } from '../../config';
@@ -18,7 +16,6 @@ export interface Assets {
   css?: string;
   js: { src: string }[];
   mathJaxConfig?: { js: string };
-  polyfill?: { src: string };
 }
 
 export interface DocumentData {
@@ -109,7 +106,15 @@ const Document = ({ helmet, assets, data, styles }: Props) => {
             __html: `window.DATA = ${serialize(data)}; `,
           }}
         />
-        <ScriptLoader polyfill={assets.polyfill} scripts={assets.js} />
+        {assets.js.map((asset) => (
+          <script
+            key={asset.src}
+            type="text/javascript"
+            src={asset.src}
+            defer
+            crossOrigin="anonymous"
+          />
+        ))}
       </body>
     </html>
   );

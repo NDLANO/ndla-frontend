@@ -38,7 +38,6 @@ test('Document renderers correctly', () => {
       assets={{
         css: '/main.css',
         js: [{ src: '/client.js' }, { src: '/vendor.js' }],
-        polyfill: { src: '/polyfill.js' },
       }}
     />,
   );

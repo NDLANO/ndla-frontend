@@ -89,7 +89,19 @@ const uri = (() => {
 
 export const getAffiliationRoleOrDefault = (
   user: FeideUserApiType | undefined,
-) => (user?.eduPersonAffiliation.includes('employee') ? 'employee' : 'student');
+) => {
+  if (user?.eduPersonAffiliation.includes('student')) {
+    return 'student';
+  }
+  if (
+    user?.eduPersonAffiliation.includes('employee') ||
+    user?.eduPersonAffiliation.includes('faculty') ||
+    user?.eduPersonAffiliation.includes('staff')
+  ) {
+    return 'employee';
+  }
+  return 'student';
+};
 
 const getParentType = (type: string, aggregations?: GQLBucketResult[]) => {
   if (!aggregations) return undefined;

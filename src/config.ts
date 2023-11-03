@@ -71,13 +71,12 @@ const learningPathDomain = (): string => {
 export const feideDomain = (): string => {
   switch (ndlaEnvironment) {
     case 'local':
-      return 'http://localhost:30017';
     case 'dev':
-      return 'http://localhost:3000';
+      return 'localhost';
     case 'prod':
-      return 'https://ndla.no';
+      return 'ndla.no';
     default:
-      return `https://${ndlaEnvironmentHostname}.ndla.no`;
+      return `${ndlaEnvironmentHostname}.ndla.no`;
   }
 };
 
@@ -93,6 +92,9 @@ export const allowedAIOrgs = () => {
     'Agder fylkeskommune',
     'Nordland fylkeskommune',
     'Rogaland fylkeskommune',
+    'Troms og Finnmark fylkeskommune',
+    'Trøndelag fylkeskommune',
+    'Vestland fylkeskommune',
   ];
   if (['local', 'dev'].includes(ndlaEnvironment)) {
     return [...defaultList, 'Universitetet i Rogn']; // frank_foreleser
@@ -102,10 +104,7 @@ export const allowedAIOrgs = () => {
       ...defaultList,
       'Innlandet fylkeskommune',
       'Møre og Romsdal fylkeskommune',
-      'Troms og Finnmark fylkeskommune',
-      'Trøndelag fylkeskommune',
       'Vestfold og Telemark fylkeskommune',
-      'Vestland fylkeskommune',
       'Viken fylkeskommune',
       'Universitetet i Rogn',
     ];
