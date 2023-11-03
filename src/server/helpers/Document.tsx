@@ -52,25 +52,25 @@ const Document = ({ helmet, assets, data, styles }: Props) => {
         {helmet.link.toComponent()}
         {assets.css && <link rel="stylesheet" href={assets.css} />}
 
-        {config.ndlaEnvironment === 'test' ? (
+        {config.ndlaEnvironment === 'prod' ? (
           <>
             <link
               rel="icon"
               type="image/png"
               sizes="32x32"
-              href="/static/favicon-test-32x32.png"
+              href="/static/favicon-prod-32x32.png"
             />
             <link
               rel="icon"
               type="image/png"
               sizes="16x16"
-              href="/static/favicon-test-16x16.png"
+              href="/static/favicon-prod-16x16.png"
             />
             <link
               rel="apple-touch-icon"
               type="image/png"
               sizes="180x180"
-              href="/static/apple-touch-icon-test.png"
+              href="/static/apple-touch-icon-prod.png"
             />
           </>
         ) : config.ndlaEnvironment === 'staging' ? (
@@ -100,19 +100,19 @@ const Document = ({ helmet, assets, data, styles }: Props) => {
               rel="icon"
               type="image/png"
               sizes="32x32"
-              href="/static/favicon-prod-32x32.png"
+              href="/static/favicon-test-32x32.png"
             />
             <link
               rel="icon"
               type="image/png"
               sizes="16x16"
-              href="/static/favicon-prod-16x16.png"
+              href="/static/favicon-test-16x16.png"
             />
             <link
               rel="apple-touch-icon"
               type="image/png"
               sizes="180x180"
-              href="/static/apple-touch-icon-prod.png"
+              href="/static/apple-touch-icon-test.png"
             />
           </>
         )}
