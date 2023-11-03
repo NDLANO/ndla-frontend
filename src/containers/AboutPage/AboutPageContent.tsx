@@ -78,7 +78,7 @@ export const findBreadcrumb = (
 ): GQLAboutPage_FrontpageMenuFragment[] => {
   for (const item of menu) {
     const newPath = currentPath.concat(item);
-    if (item.article.slug === slug) {
+    if (item.article.slug?.toLowerCase() === slug?.toLowerCase()) {
       return newPath;
     } else if (item.menu?.length) {
       const foundPath = findBreadcrumb(

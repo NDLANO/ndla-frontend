@@ -2561,13 +2561,13 @@
     "@ndla/icons" "^4.1.4"
     "@radix-ui/react-accordion" "^1.1.2"
 
-"@ndla/article-converter@^5.1.4":
-  version "5.1.4"
-  resolved "https://registry.yarnpkg.com/@ndla/article-converter/-/article-converter-5.1.4.tgz#25dcf03fca9ba203440627e764814fae2e19173a"
-  integrity sha512-NJbUNxtXt8j0LoWRa7GDP4y2gBVTTF6iYtn+nwH2GLjNjmF2BT8DgUJBzVMNnjm83/fZe9iUoYCTskahMo/6kw==
+"@ndla/article-converter@^5.1.5":
+  version "5.1.5"
+  resolved "https://registry.yarnpkg.com/@ndla/article-converter/-/article-converter-5.1.5.tgz#9e359cc125ffc700e4d0e11bc62deef02538378c"
+  integrity sha512-kxVN9ELVySc8VXFj3UrB0DLsjp6jIsFPdcc+P54Us1lOYgUACwcD3GOogcTihBIH8SiI9L3ulofFQC4acpugKA==
   dependencies:
     "@ndla/code" "^5.0.7"
-    "@ndla/ui" "^47.3.1"
+    "@ndla/ui" "^47.4.0"
     html-react-parser "^4.2.2"
     lodash "^4.17.20"
 
@@ -2762,10 +2762,10 @@
   dependencies:
     "@ndla/core" "^4.2.3"
 
-"@ndla/ui@^47.3.1":
-  version "47.3.1"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-47.3.1.tgz#43d070dd0bebb8f9b965890b4da926835ffb0a24"
-  integrity sha512-vNNgLBA/XY+X+1s9HT0w5PbxEgzYJJS3FG6gB2fsvhZ9zfXLh2VD9J9RP2zp+j6r7tttPAOcj9FqqD6P1rIXvg==
+"@ndla/ui@^47.4.0":
+  version "47.4.0"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-47.4.0.tgz#56f96c0530103b07ad28b32d85394de11058f89a"
+  integrity sha512-f+x40WRHZpqj+YnRucbgLX9pltzEWC/mMoMhiQ65d4LwfawH+vbUVSt8lqT/PBhzj3AmhmEmSPXq+bY9tJb0jQ==
   dependencies:
     "@ndla/accordion" "^2.2.32"
     "@ndla/button" "^12.0.6"
