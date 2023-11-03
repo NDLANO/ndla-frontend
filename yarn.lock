@@ -2635,16 +2635,6 @@
     "@ndla/pager" "^2.2.31"
     "@ndla/util" "^4.0.0"
 
-"@ndla/forms@^5.0.6":
-  version "5.0.6"
-  resolved "https://registry.yarnpkg.com/@ndla/forms/-/forms-5.0.6.tgz#8b146ae212b72569643cefd496fb9b0d4f1d4708"
-  integrity sha512-fh/3mJxUhnC9yCApjZAqzm0Cg4zuV3OXM21VY50k1V/DAWv9clkufDC/iUpqaCVUGvWyprD664k1Hfc06DUdUQ==
-  dependencies:
-    "@ndla/core" "^4.2.2"
-    "@ndla/icons" "^4.1.3"
-    "@ndla/pager" "^2.2.30"
-    "@ndla/util" "^4.0.0"
-
 "@ndla/hooks@^2.1.1":
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/@ndla/hooks/-/hooks-2.1.1.tgz#3d8e0f617cf290c72ea20ff81e43066f7a05fb63"
@@ -2747,17 +2737,6 @@
     "@radix-ui/react-tooltip" "^1.0.7"
     html-react-parser "^4.2.2"
 
-"@ndla/tooltip@^5.0.5":
-  version "5.0.5"
-  resolved "https://registry.yarnpkg.com/@ndla/tooltip/-/tooltip-5.0.5.tgz#05a678b9a9fad3aea583c28a4bfca8f4ce757060"
-  integrity sha512-R/5Xe6gvsJ79WUlag1MJKRQI9nJoyAiLfdMht8UCRY0fdY8X9M2yGZDxMlPAAeDpgwE77WTIn6A4GI+eSfszwA==
-  dependencies:
-    "@ndla/core" "^4.2.2"
-    "@ndla/icons" "^4.1.3"
-    "@radix-ui/react-popover" "^1.0.7"
-    "@radix-ui/react-tooltip" "^1.0.7"
-    html-react-parser "^4.2.2"
-
 "@ndla/tracker@^5.0.2":
   version "5.0.2"
   resolved "https://registry.yarnpkg.com/@ndla/tracker/-/tracker-5.0.2.tgz#1230405e349eca15ffa0f2f381aabd52f0cb2046"
@@ -2817,28 +2796,28 @@
     react-select "^5.7.5"
     react-swipeable "^7.0.0"
 
-"@ndla/ui@^47.2.1":
-  version "47.2.1"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-47.2.1.tgz#c14650f9b5f80997e6e139dd6f249c5e7fdd521b"
-  integrity sha512-Akhq4b1hnWCbkjyKtnUEVhCF3haxev4c+rhoXcJVoIWQ3/SJLty7Z1tYnJJZRfWUVCSOEtyW1A7wmL1h4LbkhA==
+"@ndla/ui@^47.4.0":
+  version "47.4.0"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-47.4.0.tgz#56f96c0530103b07ad28b32d85394de11058f89a"
+  integrity sha512-f+x40WRHZpqj+YnRucbgLX9pltzEWC/mMoMhiQ65d4LwfawH+vbUVSt8lqT/PBhzj3AmhmEmSPXq+bY9tJb0jQ==
   dependencies:
-    "@ndla/accordion" "^2.2.31"
-    "@ndla/button" "^12.0.5"
-    "@ndla/carousel" "^4.0.8"
-    "@ndla/core" "^4.2.2"
-    "@ndla/dropdown-menu" "^1.0.11"
-    "@ndla/forms" "^5.0.6"
+    "@ndla/accordion" "^2.2.32"
+    "@ndla/button" "^12.0.6"
+    "@ndla/carousel" "^4.0.9"
+    "@ndla/core" "^4.2.3"
+    "@ndla/dropdown-menu" "^1.0.12"
+    "@ndla/forms" "^5.0.8"
     "@ndla/hooks" "^2.1.1"
-    "@ndla/icons" "^4.1.3"
+    "@ndla/icons" "^4.1.4"
     "@ndla/licenses" "^7.2.2"
-    "@ndla/modal" "^5.0.5"
-    "@ndla/notion" "^6.0.7"
-    "@ndla/safelink" "^4.1.30"
-    "@ndla/select" "^3.1.3"
-    "@ndla/switch" "^1.1.17"
-    "@ndla/tabs" "^3.1.2"
-    "@ndla/tooltip" "^5.0.5"
-    "@ndla/typography" "^0.2.4"
+    "@ndla/modal" "^5.0.6"
+    "@ndla/notion" "^6.0.8"
+    "@ndla/safelink" "^4.1.31"
+    "@ndla/select" "^3.1.4"
+    "@ndla/switch" "^1.1.18"
+    "@ndla/tabs" "^3.1.3"
+    "@ndla/tooltip" "^5.0.6"
+    "@ndla/typography" "^0.2.5"
     "@ndla/util" "^4.0.0"
     "@radix-ui/react-popover" "^1.0.7"
     "@radix-ui/react-radio-group" "^1.1.3"
