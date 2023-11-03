@@ -66,7 +66,10 @@ const ProgrammePage = () => {
     return (
       <Status code={301}>
         <RedirectExternal
-          to={toProgramme(programmeRedirects[path] || '', gradeParam)}
+          to={toProgramme(
+            encodeURIComponent(programmeRedirects[path] || ''),
+            gradeParam,
+          )}
         />
       </Status>
     );

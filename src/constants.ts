@@ -61,7 +61,7 @@ export const aboutNdlaContentWidth = 1440;
 export const programmeRedirects: Record<string, string> = {
   'bygg-og-anleggsteknikk': 'bygg-og-anleggsteknikk__847f59182173',
   'elektro-og-datateknologi': 'elektro-og-datateknologi__55ad4a85ba78',
-  'frisor-blomster-interior-og-eksponeringsdesign':
+  'frisør-blomster-interior-og-eksponeringsdesign':
     'frisor-blomster-interiør-og-eksponeringsdesign__235c13273508',
   'handverk-design-og-produktutvikling':
     'håndverk-design-og-produktutvikling__28899b73c188',
@@ -73,7 +73,7 @@ export const programmeRedirects: Record<string, string> = {
   'medier-og-kommunikasjon': 'medier-og-kommunikasjon__57b0e8cd7270',
   'musikk-dans-og-drama': 'musikk-dans-og-drama__338394ba465c',
   naturbruk: 'naturbruk__d23305736cde',
-  pabygg: 'pabygg__6ea1ed34e5e7',
+  pabygg: 'påbygg__6ea1ed34e5e7',
   'restaurant-og-matfag': 'restaurant-og-matfag__0a0cd4e39743',
   'salg-service-og-reiseliv': 'salg-service-og-reiseliv__b55100bbc29e',
   studiespesialisering: 'studiespesialisering__7d5badf01ff2',
