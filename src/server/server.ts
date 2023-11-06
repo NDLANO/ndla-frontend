@@ -38,7 +38,6 @@ import {
   feideLogout,
 } from './helpers/openidHelper';
 import { podcastFeedRoute } from './routes/podcastFeedRoute';
-import programmeSitemap from './programmeSitemap';
 import {
   OK,
   INTERNAL_SERVER_ERROR,
@@ -330,8 +329,7 @@ app.get(
   '/utdanningsprogram-sitemap.txt',
   ndlaMiddleware,
   async (_req: Request, res: Response) => {
-    res.setHeader('Content-Type', 'application/txt');
-    res.send(programmeSitemap());
+    sendResponse(res, undefined, 410);
   },
 );
 
