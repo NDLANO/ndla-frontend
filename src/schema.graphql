@@ -1169,10 +1169,13 @@ scalar StringRecord
 type Subject implements TaxonomyEntity {
   allTopics: [Topic!]
   breadcrumbs: [String!]!
+  buildsOn: [String!]
+  connectedTo: [String!]
   contentUri: String
   contexts: [TaxonomyContext!]!
   grepCodes: [String!]
   id: String!
+  leadsTo: [String!]
   metadata: TaxonomyMetadata!
   name: String!
   path: String!
