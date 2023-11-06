@@ -220,7 +220,7 @@ app.get('/:lang?/logout', async (req: Request, res: Response) => {
 });
 
 app.get('/logout/session', (req: Request, res: Response) => {
-  res.clearCookie('feide_auth');
+  res.clearCookie('feide_auth', { domain: `.${config.feideDomain}` });
   const state = typeof req.query.state === 'string' ? req.query.state : '/';
   const { basepath, basename } = getLocaleInfoFromPath(state);
   const wasPrivateRoute = privateRoutes.some((r) => matchPath(r, basepath));
