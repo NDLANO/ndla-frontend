@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { gql } from '@apollo/client';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
+import SafeLink from '@ndla/safelink';
 
 const ComponentRoot = styled.ul`
   margin-bottom: ${spacing.medium};
@@ -19,10 +20,6 @@ const ComponentRoot = styled.ul`
 
 const SubComponentRoot = styled.li`
   margin: 0;
-`;
-
-const StyledLink = styled.a`
-  white-space: wrap;
 `;
 
 const LinkElement = styled.span`
@@ -65,7 +62,12 @@ const SubjectLinkSet = ({ set, subjects, title }: SubjectLinkSetProps) => {
       {subjects.map((subject, index) => (
         <>
           <LinkElement key={`${set}-${index}`}>
-            <StyledLink href={subject.path}>{subject.name}</StyledLink>
+            {subject.path ? (
+              <SafeLink to={subject.path}>{subject.name}</SafeLink>
+            ) : (
+              <span>{subject.name}</span>
+            )}
+
             {index < subjects.length - 2 && ','}
           </LinkElement>
           {index === subjects.length - 2 && (
