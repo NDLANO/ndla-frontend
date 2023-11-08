@@ -8,8 +8,9 @@
 
 import { ButtonV2 } from '@ndla/button';
 import { Cross, Copy } from '@ndla/icons/action';
-import { Share } from '@ndla/icons/common';
+import { Share, ShareArrow } from '@ndla/icons/common';
 import { useSnack } from '@ndla/ui';
+import { SafeLinkButton } from '@ndla/safelink';
 import {
   Dispatch,
   SetStateAction,
@@ -32,7 +33,7 @@ import FolderDeleteModal from './FolderDeleteModal';
 import FolderEditModal from './FolderEditModal';
 import FolderShareModal from './FolderShareModal';
 import { buttonCss, iconCss } from './FoldersPage';
-import { isStudent, copyFolderSharingLink } from './util';
+import { isStudent, copyFolderSharingLink, previewLink } from './util';
 
 interface FolderButtonProps {
   setFocusId: Dispatch<SetStateAction<string | undefined>>;
@@ -73,8 +74,9 @@ const FolderButtons = ({
       });
       setFocusId(folder.id);
       setIsOpen(false);
+      setResetFocus(true);
     },
-    [addSnack, t, setIsOpen, setFocusId],
+    [addSnack, t, setIsOpen, setFocusId, setResetFocus],
   );
 
   const onFolderUpdated = useCallback(() => {
@@ -136,7 +138,6 @@ const FolderButtons = ({
         onUpdateStatus={async (close) => {
           close();
           unShareRef.current?.click();
-          setIsOpen(false);
         }}
         onCopyText={() => copyFolderSharingLink(selectedFolder.id)}
       >
@@ -164,7 +165,7 @@ const FolderButtons = ({
               folderId: selectedFolder.id,
               status: 'private',
             },
-          }).then(() => setTimeout(() => shareRef.current?.focus(), 100));
+          }).then(() => setTimeout(() => shareRef.current?.focus(), 0));
           close();
           addSnack({
             id: 'sharingDeleted',
@@ -197,7 +198,7 @@ const FolderButtons = ({
               folderId: selectedFolder.id,
               status: 'shared',
             },
-          }).then(() => setTimeout(() => previewRef.current?.focus(), 100));
+          }).then(() => setTimeout(() => previewRef.current?.focus(), 0));
           close();
           addSnack({
             id: 'folderShared',
@@ -234,12 +235,12 @@ const FolderButtons = ({
     />
   ) : null;
 
-  const deleteFolderButton = !!selectedFolder?.id ? (
+  const deleteFolderButton = selectedFolder?.id ? (
     <FolderDeleteModal
       key="deleteFolderButton"
       onDelete={onDeleteFolder}
       onClose={(e) => {
-        if (folders.length <= 1) {
+        if (folders.length <= 0) {
           e?.preventDefault();
           document.getElementById('titleAnnouncer')?.focus();
         }
@@ -267,6 +268,20 @@ const FolderButtons = ({
       </ButtonV2>
     ) : null;
 
+  const previewFolderButton =
+    selectedFolder && isFolderShared ? (
+      <SafeLinkButton
+        key="previewFolder"
+        css={buttonCss}
+        variant="ghost"
+        colorTheme="lighter"
+        to={previewLink(selectedFolder.id)}
+      >
+        <ShareArrow css={iconCss} />
+        {t('myNdla.folder.sharing.button.preview')}
+      </SafeLinkButton>
+    ) : null;
+
   if (!showShareFolder) {
     return [addFolderButton, editFolderButton, deleteFolderButton];
   }
@@ -276,8 +291,9 @@ const FolderButtons = ({
     editFolderButton,
     shareButton,
     sharedButton,
-    unShareButton,
+    previewFolderButton,
     copySharedFolderLink,
+    unShareButton,
     deleteFolderButton,
   ];
 };

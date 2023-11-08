@@ -20,7 +20,7 @@ const ToolbarContainer = styled.div`
   padding: ${spacing.small} ${spacing.large};
   height: ${spacingUnit * 3}px;
 
-  ${mq.range({ from: breakpoints.tablet })} {
+  ${mq.range({ from: breakpoints.mobileWide })} {
     display: flex;
   }
 `;
@@ -30,13 +30,14 @@ const ButtonContainer = styled.div`
   flex-direction: row;
   gap: ${spacing.small};
 
-  @container (min-width:570px) {
-    display: flex;
+  &[data-extend-view='true'] {
+    ${mq.range({ from: breakpoints.wide })} {
+      display: flex;
+    }
   }
-
-  ${mq.range({ from: breakpoints.tablet, until: breakpoints.desktop })} {
-    &[data-hide-buttons='true'] {
-      display: none;
+  &[data-extend-view='false'] {
+    ${mq.range({ from: breakpoints.desktop })} {
+      display: flex;
     }
   }
 `;
@@ -44,18 +45,17 @@ const ButtonContainer = styled.div`
 const DropdownWrapper = styled.div`
   display: none;
 
-  ${mq.range({ from: breakpoints.tablet, until: breakpoints.desktop })} {
-    @container (max-width:570px) {
-      display: unset;
-    }
-    &[data-always-show='true'] {
+  ${mq.range({ from: breakpoints.mobileWide, until: breakpoints.desktop })} {
+    display: unset;
+  }
+  &[data-extend-view='true'] {
+    ${mq.range({ from: breakpoints.desktop, until: breakpoints.wide })} {
       display: unset;
     }
   }
 `;
 
 const Wrapper = styled.div`
-  container-type: inline-size;
   display: flex;
   max-width: ${MY_NDLA_CONTENT_WIDTH}px;
   flex-grow: 1;
@@ -67,7 +67,7 @@ interface Props {
   dropDownMenu?: ReactNode;
   viewType?: ViewType;
   onViewTypeChange?: (val: ViewType) => void;
-  tooManyButtons?: boolean;
+  extendTabletView?: boolean;
 }
 
 const Toolbar = ({
@@ -75,15 +75,15 @@ const Toolbar = ({
   dropDownMenu,
   onViewTypeChange,
   viewType,
-  tooManyButtons,
+  extendTabletView,
 }: Props) => {
   return (
     <ToolbarContainer>
       <Wrapper>
-        <ButtonContainer data-hide-buttons={!!tooManyButtons}>
+        <ButtonContainer data-extend-view={extendTabletView}>
           {buttons}
         </ButtonContainer>
-        <DropdownWrapper data-always-show={!!tooManyButtons}>
+        <DropdownWrapper data-extend-view={extendTabletView}>
           {dropDownMenu}
         </DropdownWrapper>
       </Wrapper>

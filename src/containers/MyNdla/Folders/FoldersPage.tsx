@@ -124,7 +124,6 @@ const FoldersPage = () => {
   );
   const { data, loading } =
     useGraphQuery<GQLFoldersPageQuery>(foldersPageQuery);
-
   const selectedFolder = useFolder(folderId);
 
   const title = useMemo(() => {
@@ -193,11 +192,10 @@ const FoldersPage = () => {
         selectedFolder={selectedFolder}
         setFocusId={setFocusId}
         folders={folders}
-        previousFolders={previousFolders}
         inToolbar
       />
     ),
-    [selectedFolder, folders, setFocusId, previousFolders],
+    [selectedFolder, folders, setFocusId],
   );
 
   return (
@@ -205,14 +203,14 @@ const FoldersPage = () => {
       dropDownMenu={dropDownMenu}
       buttons={
         <FolderButtons
-          setFocusId={setFocusId}
           selectedFolder={selectedFolder}
+          setFocusId={setFocusId}
           folders={folders}
         />
       }
       viewType={viewType}
       onViewTypeChange={setViewType}
-      tooManyButtons={selectedFolder?.status === 'shared'}
+      extendTabletView={selectedFolder?.status === 'shared'}
     >
       <FoldersPageContainer>
         <HelmetWithTracker title={title} />

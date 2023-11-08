@@ -13,6 +13,8 @@ import {
   useCallback,
   useRef,
   RefObject,
+  SetStateAction,
+  Dispatch,
 } from 'react';
 import styled from '@emotion/styled';
 import { isMobile, isTablet } from 'react-device-detect';
@@ -53,7 +55,8 @@ export interface MenuItemProps {
 
 interface Props {
   menuItems?: MenuItemProps[];
-  isLastFolder?: boolean;
+  preventDefault?: boolean;
+  setPreventDefault?: Dispatch<SetStateAction<boolean>>;
 }
 
 const StyledDrawer = styled(Drawer)`
@@ -119,7 +122,11 @@ const ItemButton = styled(ButtonV2)`
   }
 `;
 
-const SettingsMenu = ({ menuItems, isLastFolder }: Props) => {
+const SettingsMenu = ({
+  menuItems,
+  preventDefault,
+  setPreventDefault,
+}: Props) => {
   const [open, setOpen] = useState(false);
   const [hasOpenModal, setHasOpenModal] = useState(false);
   const [skipAutoFocus, setSkipAutoFocus] = useState(false);
@@ -156,14 +163,13 @@ const SettingsMenu = ({ menuItems, isLastFolder }: Props) => {
           hidden={hasOpenModal}
           onCloseAutoFocus={(event) => {
             setHasOpenModal(false);
-            if (!isLastFolder) {
-              document.getElementById('titleAnnouncer')?.focus();
-              return;
-            }
-
-            event.preventDefault();
             if (skipAutoFocus) {
+              event.preventDefault();
               setSkipAutoFocus(false);
+            } else if (preventDefault) {
+              event.preventDefault();
+              setPreventDefault?.(false);
+              document.getElementById('titleAnnouncer')?.focus();
             } else {
               dropdownTriggerRef.current?.focus();
             }

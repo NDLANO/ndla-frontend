@@ -149,10 +149,12 @@ const MenuModalContent = ({ onViewTypeChange, viewType, buttons }: Props) => {
 
   const onCloseModal = useCallback(
     (e: Event) => {
-      e.preventDefault();
-      if (resetFocus || location.pathname !== window.location.pathname) {
-        document.getElementById('titleAnnouncer')?.focus();
+      if (resetFocus) {
+        e.preventDefault();
         setResetFocus(false);
+      }
+      if (location.pathname !== window.location.pathname) {
+        document.getElementById('titleAnnouncer')?.focus();
       }
     },
     [resetFocus, setResetFocus, location],
