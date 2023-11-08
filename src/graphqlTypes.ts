@@ -387,12 +387,6 @@ export type GQLConfigMetaBoolean = {
   value: Scalars['Boolean']['output'];
 };
 
-export type GQLConfigMetaRestricted = {
-  __typename?: 'ConfigMetaRestricted';
-  key: Scalars['String']['output'];
-  value: Scalars['String']['output'];
-};
-
 export type GQLConfigMetaStringList = {
   __typename?: 'ConfigMetaStringList';
   key: Scalars['String']['output'];
@@ -1368,6 +1362,7 @@ export type GQLResource = GQLTaxonomyEntity &
     contentUri?: Maybe<Scalars['String']['output']>;
     contexts: Array<GQLTaxonomyContext>;
     id: Scalars['String']['output'];
+    language?: Maybe<Scalars['String']['output']>;
     learningpath?: Maybe<GQLLearningpath>;
     meta?: Maybe<GQLMeta>;
     metadata: GQLTaxonomyMetadata;
@@ -1525,13 +1520,11 @@ export type GQLSubject = GQLTaxonomyEntity & {
   __typename?: 'Subject';
   allTopics?: Maybe<Array<GQLTopic>>;
   breadcrumbs: Array<Scalars['String']['output']>;
-  buildsOn?: Maybe<Array<Scalars['String']['output']>>;
-  connectedTo?: Maybe<Array<Scalars['String']['output']>>;
   contentUri?: Maybe<Scalars['String']['output']>;
   contexts: Array<GQLTaxonomyContext>;
   grepCodes?: Maybe<Array<Scalars['String']['output']>>;
   id: Scalars['String']['output'];
-  leadsTo?: Maybe<Array<Scalars['String']['output']>>;
+  language?: Maybe<Scalars['String']['output']>;
   metadata: GQLTaxonomyMetadata;
   name: Scalars['String']['output'];
   path: Scalars['String']['output'];
@@ -1619,6 +1612,7 @@ export type GQLTaxonomyEntity = {
   contentUri?: Maybe<Scalars['String']['output']>;
   contexts: Array<GQLTaxonomyContext>;
   id: Scalars['String']['output'];
+  language?: Maybe<Scalars['String']['output']>;
   metadata: GQLTaxonomyMetadata;
   name: Scalars['String']['output'];
   path: Scalars['String']['output'];
@@ -1654,6 +1648,7 @@ export type GQLTopic = GQLTaxonomyEntity &
     coreResources?: Maybe<Array<GQLResource>>;
     id: Scalars['String']['output'];
     isPrimary?: Maybe<Scalars['Boolean']['output']>;
+    language?: Maybe<Scalars['String']['output']>;
     meta?: Maybe<GQLMeta>;
     metadata: GQLTaxonomyMetadata;
     name: Scalars['String']['output'];
@@ -3470,22 +3465,7 @@ export type GQLSubjectContainer_SubjectFragment = {
       visualElement: { __typename?: 'SubjectPageVisualElement'; url: string };
     };
     banner: { __typename?: 'SubjectPageBanner'; desktopUrl: string };
-    buildsOn: Array<{
-      __typename?: 'SubjectLink';
-      name?: string;
-      path?: string;
-    }>;
-    connectedTo: Array<{
-      __typename?: 'SubjectLink';
-      name?: string;
-      path?: string;
-    }>;
-    leadsTo: Array<{
-      __typename?: 'SubjectLink';
-      name?: string;
-      path?: string;
-    }>;
-  };
+  } & GQLSubjectLinks_SubjectFragment;
 } & GQLSubjectPageContent_SubjectFragment;
 
 export type GQLSubjectPageTestQueryVariables = Exact<{
@@ -3526,6 +3506,17 @@ export type GQLMovedTopicPage_TopicFragment = {
     __typename?: 'TaxonomyContext';
     breadcrumbs: Array<string>;
   }>;
+};
+
+export type GQLSubjectLinks_SubjectFragment = {
+  __typename?: 'SubjectPage';
+  buildsOn: Array<{ __typename?: 'SubjectLink'; name?: string; path?: string }>;
+  connectedTo: Array<{
+    __typename?: 'SubjectLink';
+    name?: string;
+    path?: string;
+  }>;
+  leadsTo: Array<{ __typename?: 'SubjectLink'; name?: string; path?: string }>;
 };
 
 export type GQLSubjectPageContent_SubjectFragment = {
