@@ -159,6 +159,7 @@ export async function oembedArticleRoute(req: express.Request) {
       resourceId,
       audioId,
       conceptId,
+      h5pId,
       videoId,
       imageId,
       topicId,
@@ -174,6 +175,8 @@ export async function oembedArticleRoute(req: express.Request) {
       return await getEmbedObject(lang, videoId, 'video', req);
     } else if (imageId) {
       return await getEmbedObject(lang, imageId, 'image', req);
+    } else if (h5pId) {
+      return await getEmbedObject(lang, h5pId, 'h5p', req);
     } else if (!resourceId && !topicId) {
       const {
         params: { articleId },

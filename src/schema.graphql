@@ -5,6 +5,53 @@ type AggregationResult {
   values: [BucketResult!]!
 }
 
+type ArenaBreadcrumb {
+  id: Int!
+  name: String!
+  type: String!
+}
+
+type ArenaCategory {
+  description: String!
+  disabled: Boolean!
+  htmlDescription: String!
+  id: Int!
+  name: String!
+  postCount: Int!
+  slug: String!
+  topicCount: Int!
+  topics: [ArenaTopic!]
+}
+
+type ArenaPost {
+  content: String!
+  id: Int!
+  isMainPost: Boolean!
+  timestamp: String!
+  topicId: Int!
+  user: ArenaUser!
+}
+
+type ArenaTopic {
+  breadcrumbs: [ArenaBreadcrumb!]!
+  categoryId: Int!
+  id: Int!
+  locked: Boolean!
+  postCount: Int!
+  posts: [ArenaPost!]!
+  slug: String!
+  timestamp: String!
+  title: String!
+}
+
+type ArenaUser {
+  displayName: String!
+  id: Int!
+  profilePicture: String
+  slug: String!
+  username: String!
+}
+
 type Article {
   articleType: String!
   availability: String
@@ -217,9 +264,11 @@ type CompetenceGoal {
 type Concept {
   articleIds: [Int!]!
   articles: [Meta!]
+  conceptType: String!
   content: String!
   copyright: ConceptCopyright
   created: String!
+  glossData: Gloss
   id: Int!
   image: ImageLicense
   metaImage: MetaImage
@@ -327,6 +376,12 @@ type EmbedVisualelement {
   visualElement: VisualElement
 }
 
+type Examples {
+  example: String!
+  language: String!
+  transcriptions: Transcription!
+}
+
 type FilmFrontpage {
   about: [FilmPageAbout!]!
   movieThemes: [MovieTheme!]!
@@ -416,6 +471,14 @@ type FrontpageSearchResult {
   path: String!
   resourceTypes: [SearchContextResourceTypes!]!
   subject: String!
+}
+
+type Gloss {
+  examples: [[Examples!]!]
+  gloss: String!
+  originalLanguage: String!
+  transcriptions: Transcription!
+  wordClass: String!
 }
 
 type Grade {
@@ -764,6 +827,7 @@ type PodcastSeries implements PodcastSeriesBase {
   description: Description!
   hasRSS: Boolean!
   id: Int!
+  image: ImageMetaInformation!
   supportedLanguages: [String!]!
   title: Title!
 }
@@ -773,6 +837,7 @@ interface PodcastSeriesBase {
   description: Description!
   hasRSS: Boolean!
   id: Int!
+  image: ImageMetaInformation!
   supportedLanguages: [String!]!
   title: Title!
 }
@@ -801,6 +866,7 @@ type PodcastSeriesWithEpisodes implements PodcastSeriesBase {
   episodes: [Audio!]
   hasRSS: Boolean!
   id: Int!
+  image: ImageMetaInformation!
   supportedLanguages: [String!]!
   title: Title!
 }
@@ -819,6 +885,12 @@ type ProgrammePage {
 type Query {
   alerts: [UptimeAlert]
   allFolderResources(size: Int): [FolderResource!]!
+  arenaCategories: [ArenaCategory!]!
+  arenaCategory(categoryId: Int!, page: Int!): ArenaCategory
+  arenaRecentTopics: [ArenaTopic!]!
+  arenaTopic(page: Int!, topicId: Int!): ArenaTopic
+  arenaTopicsByUser(userSlug: String!): [ArenaTopic!]!
+  arenaUser(username: String!): ArenaUser
   article(
     absoluteUrl: Boolean
     convertEmbeds: Boolean
@@ -829,6 +901,7 @@ type Query {
     showVisualElement: String
     subjectId: String
   ): Article
+  articleResource(articleId: String, taxonomyId: String): Resource
   audio(id: Int!): Audio
   competenceGoal(code: String!, language: String): CompetenceGoal
   competenceGoals(codes: [String], language: String): [CompetenceGoal!]
@@ -961,6 +1034,7 @@ type Resource implements TaxonomyEntity & WithArticle {
   contentUri: String
   contexts: [TaxonomyContext!]!
   id: String!
+  language: String
   learningpath: Learningpath
   meta: Meta
   metadata: TaxonomyMetadata!
@@ -1032,6 +1106,7 @@ type SearchContext {
   path: String!
   publicId: String!
   relevance: String!
+  relevanceId: String!
   resourceTypes: [SearchContextResourceTypes!]!
   root: String!
   rootId: String!
@@ -1100,6 +1175,7 @@ type Subject implements TaxonomyEntity {
   contexts: [TaxonomyContext!]!
   grepCodes: [String!]
   id: String!
+  language: String
   metadata: TaxonomyMetadata!
   name: String!
   path: String!
@@ -1112,10 +1188,18 @@ type Subject implements TaxonomyEntity {
   url: String
 }
 
+type SubjectLink {
+  name: String
+  path: String
+}
+
 type SubjectPage {
   about: SubjectPageAbout
   banner: SubjectPageBanner!
+  buildsOn: [SubjectLink]!
+  connectedTo: [SubjectLink]!
   id: Int!
+  leadsTo: [SubjectLink]!
   metaDescription: String
   name: String!
   supportedLanguages: [String!]!
@@ -1166,6 +1250,7 @@ interface TaxonomyEntity {
   contentUri: String
   contexts: [TaxonomyContext!]!
   id: String!
+  language: String
   metadata: TaxonomyMetadata!
   name: String!
   path: String!
@@ -1201,6 +1286,7 @@ type Topic implements TaxonomyEntity & WithArticle {
   coreResources(subjectId: String): [Resource!]
   id: String!
   isPrimary: Boolean
+  language: String
   meta: Meta
   metadata: TaxonomyMetadata!
   name: String!
@@ -1215,6 +1301,11 @@ type Topic implements TaxonomyEntity & WithArticle {
   supplementaryResources(subjectId: String): [Resource!]
   supportedLanguages: [String!]!
   url: String
+}
+
+type Transcription {
+  pinyin: String
+  traditional: String
 }
 
 type UpdatedFolder {

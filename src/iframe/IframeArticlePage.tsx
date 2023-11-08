@@ -9,7 +9,7 @@
 import { useEffect, useMemo } from 'react';
 import { gql } from '@apollo/client';
 import { Helmet } from 'react-helmet-async';
-import { OneColumn, CreatedBy } from '@ndla/ui';
+import { OneColumn, CreatedBy, constants } from '@ndla/ui';
 import { useTracker } from '@ndla/tracker';
 import { useTranslation } from 'react-i18next';
 import { transformArticle } from '../util/transformArticle';
@@ -25,6 +25,9 @@ import {
   GQLIframeArticlePage_ResourceFragment,
 } from '../graphqlTypes';
 import { LocaleType } from '../interfaces';
+import getStructuredDataFromArticle, {
+  structuredArticleDataFragment,
+} from '../util/getStructuredDataFromArticle';
 
 interface Props {
   locale?: LocaleType;
@@ -32,14 +35,22 @@ interface Props {
   article: GQLIframeArticlePage_ArticleFragment;
 }
 
+const getDocumentTitle = ({ article }: Pick<Props, 'article'>) => {
+  if (article?.id) {
+    return `NDLA | ${article.title}`;
+  }
+  return '';
+};
+
 const IframeArticlePage = ({
   resource,
   article: propArticle,
-  locale: propsLocale,
+  locale: localeProp,
 }: Props) => {
   const { trackPageView } = useTracker();
   const { t, i18n } = useTranslation();
-  const locale = propsLocale ?? i18n.language;
+  const locale = localeProp ?? i18n.language;
+
   const [article, scripts] = useMemo(() => {
     return [
       transformArticle(propArticle, locale, {
@@ -49,30 +60,39 @@ const IframeArticlePage = ({
       }),
       getArticleScripts(propArticle, locale),
     ];
-  }, [propArticle, locale])!;
+  }, [propArticle, locale]);
 
   useEffect(() => {
-    if (propArticle?.id) {
-      const articleProps = getArticleProps(resource?.id ? resource : undefined);
-      const dimensions = getAllDimensions(
-        { article: propArticle },
-        articleProps.label,
-        true,
-      );
-      trackPageView({
-        dimensions,
-        title: propArticle?.id ? `NDLA | ${propArticle.title}` : '',
-      });
-    }
+    if (propArticle?.id) return;
+    const articleProps = getArticleProps(resource?.id ? resource : undefined);
+    const dimensions = getAllDimensions(
+      { article: propArticle },
+      articleProps.label,
+      true,
+    );
+    trackPageView({
+      dimensions,
+      title: getDocumentTitle({ article: propArticle }),
+    });
   }, [propArticle, resource, trackPageView]);
 
   const contentUrl = resource?.path
     ? `${config.ndlaFrontendDomain}${resource.path}`
     : undefined;
+
+  const articleProps =
+    article.articleType === 'standard'
+      ? getArticleProps(resource)
+      : article.articleType === 'topic-article'
+      ? {
+          label: t('topicPage.topic'),
+          contentType: constants.contentTypes.TOPIC,
+        }
+      : { label: '' };
   return (
     <OneColumn>
       <Helmet>
-        <title>{`NDLA | ${article.title}`}</title>
+        <title>{getDocumentTitle({ article: propArticle })}</title>
         <meta name="robots" content="noindex" />
         {scripts.map((script) => (
           <script
@@ -83,6 +103,11 @@ const IframeArticlePage = ({
             defer={script.defer}
           />
         ))}
+        <script type="application/ld+json">
+          {JSON.stringify(
+            getStructuredDataFromArticle(propArticle, i18n.language),
+          )}
+        </script>
       </Helmet>
       <SocialMediaMetadata
         title={article.title}
@@ -95,10 +120,11 @@ const IframeArticlePage = ({
         <Article
           contentTransformed
           article={article}
+          isTopicArticle={article.articleType === 'topic-article'}
           isPlainArticle
           isOembed
           modifier="clean iframe"
-          {...getArticleProps(resource)}
+          {...articleProps}
         >
           <CreatedBy
             name={t('createdBy.content')}
@@ -114,6 +140,7 @@ const IframeArticlePage = ({
 export const iframeArticlePageFragments = {
   article: gql`
     fragment IframeArticlePage_Article on Article {
+      articleType
       created
       updated
       metaDescription
@@ -122,8 +149,10 @@ export const iframeArticlePageFragments = {
       }
       tags
       ...Article_Article
+      ...StructuredArticleData
     }
     ${Article.fragments.article}
+    ${structuredArticleDataFragment}
   `,
   resource: gql`
     fragment IframeArticlePage_Resource on Resource {

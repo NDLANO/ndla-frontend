@@ -34,7 +34,6 @@ const assets =
     : {
         'client.css': 'mock.css',
         'embed.js': 'mock.js',
-        'polyfill.js': 'mock.js',
         'mathJaxConfig.js': 'mock.js',
       };
 
@@ -45,7 +44,6 @@ if (process.env.NODE_ENV === 'unittest') {
 const getAssets = () => ({
   css: assets['client.css'],
   js: [{ src: assets['embed.js'] }],
-  polyfill: { src: assets['polyfill.js'] },
   mathJaxConfig: { js: assets['mathJaxConfig.js'] },
 });
 
@@ -112,7 +110,6 @@ export async function iframeArticleRoute(req: Request) {
         articleId,
         taxonomyId,
         isOembed: 'true',
-        isTopicArticle: taxonomyId?.startsWith('urn:topic') || false,
         basename: lang,
         locale,
         status: 'success',

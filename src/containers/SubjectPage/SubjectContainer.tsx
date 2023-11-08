@@ -9,6 +9,7 @@
 import { gql } from '@apollo/client';
 import { useState, createRef, useEffect, useContext } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { InformationOutline } from '@ndla/icons/common';
 import {
   constants,
   ArticleHeaderWrapper,
@@ -26,6 +27,7 @@ import { TFunction } from 'i18next';
 import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
 import SubjectPageContent from './components/SubjectPageContent';
+import SubjectLinks from './components/SubjectLinks';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import CompetenceGoals from '../../components/CompetenceGoals';
 import { getAllDimensions } from '../../util/trackingUtil';
@@ -223,12 +225,23 @@ const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
             >
               {subject.name}
             </StyledHeading>
+            <SubjectLinks
+              buildsOn={subject.subjectpage?.buildsOn ?? []}
+              connectedTo={subject.subjectpage?.connectedTo ?? []}
+              leadsTo={subject.subjectpage?.leadsTo ?? []}
+            />
           </ArticleHeaderWrapper>
           {!ndlaFilm && nonRegularSubjectMessage && (
-            <MessageBox>{nonRegularSubjectMessage}</MessageBox>
+            <MessageBox>
+              <InformationOutline />
+              {nonRegularSubjectMessage}
+            </MessageBox>
           )}
           {!ndlaFilm && nonRegularSubjectTypeMessage && (
-            <MessageBox>{nonRegularSubjectTypeMessage}</MessageBox>
+            <MessageBox>
+              <InformationOutline />
+              {nonRegularSubjectTypeMessage}
+            </MessageBox>
           )}
           <SubjectPageContent
             subject={subject}
@@ -280,10 +293,12 @@ export const subjectContainerFragments = {
         banner {
           desktopUrl
         }
+        ...SubjectLinks_Subject
       }
       ...SubjectPageContent_Subject
     }
     ${SubjectPageContent.fragments.subject}
+    ${SubjectLinks.fragments.links}
   `,
 };
 

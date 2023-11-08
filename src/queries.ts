@@ -28,6 +28,7 @@ export const searchFilmQuery = gql`
     contexts {
       breadcrumbs
       relevance
+      relevanceId
       language
       contextType
       path
@@ -53,6 +54,7 @@ export const searchFilmQuery = gql`
     contexts {
       breadcrumbs
       relevance
+      relevanceId
       language
       contextType
       path
@@ -118,6 +120,7 @@ export const GroupSearchResourceFragment = gql`
       rootId
       root
       relevance
+      relevanceId
       resourceTypes {
         id
         name
