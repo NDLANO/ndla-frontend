@@ -110,7 +110,7 @@ export const IframePage = ({
       taxonomyId: taxonomyId || '',
       includeResource,
       includeTopic,
-      showVisualElement: isTopicArticle ? 'true' : 'false',
+      showVisualElement: 'true',
       convertEmbeds: true,
     },
     skip: !articleId,
