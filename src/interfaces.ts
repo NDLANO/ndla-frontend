@@ -12,7 +12,6 @@ export type InitialProps = {
   articleId?: string;
   taxonomyId?: string;
   isOembed?: string;
-  isTopicArticle?: boolean;
   status?: 'success' | 'error';
   loading?: boolean;
   resCookie?: string;
