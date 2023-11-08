@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 
 import { gql } from '@apollo/client';
 import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
+import { colors, fonts, spacing } from '@ndla/core';
 
 const ComponentRoot = styled.ul`
   margin-bottom: ${spacing.medium};
@@ -23,6 +23,8 @@ const SubComponentRoot = styled.li`
 
 const StyledLink = styled.a`
   white-space: wrap;
+  color: ${colors.brand.primary};
+  font-weight: ${fonts.weight.normal};
 `;
 
 const LinkElement = styled.span`
