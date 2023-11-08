@@ -62,7 +62,12 @@ const SubjectLinkSet = ({ set, subjects, title }: SubjectLinkSetProps) => {
       {subjects.map((subject, index) => (
         <>
           <LinkElement key={`${set}-${index}`}>
-            <SafeLink to={subject.path as string}>{subject.name}</SafeLink>
+            {subject.path ? (
+              <SafeLink to={subject.path}>{subject.name}</SafeLink>
+            ) : (
+              <span>{subject.name}</span>
+            )}
+
             {index < subjects.length - 2 && ','}
           </LinkElement>
           {index === subjects.length - 2 && (
