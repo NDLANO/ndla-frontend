@@ -193,6 +193,7 @@ export const structuredArticleCopyrightFragment = gql`
       name
       type
     }
+    processed
   }
 `;
 

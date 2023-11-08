@@ -1,37 +1,7 @@
 import { constants } from '@ndla/ui';
-import { TFunction } from 'react-i18next';
+import { TFunction } from 'i18next';
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from '../constants';
 import { GQLSubjectInfoFragment } from '../graphqlTypes';
-
-export const multidisciplinaryTopics = [
-  {
-    name: {
-      nb: 'Folkehelse og livsmestring',
-      nn: 'Folkehelse og livsmeistring',
-      se: 'Folkehelse og livsmeistring',
-      en: 'Public health and life management',
-    },
-    id: 'urn:topic:3cdf9349-4593-498c-a899-9310133a4788',
-  },
-  {
-    name: {
-      nb: 'Demokrati og medborgerskap',
-      nn: 'Demokrati og medborgarskap',
-      se: 'Demokrati og medborgarskap',
-      en: 'Democracy and citizenship',
-    },
-    id: 'urn:topic:077a5e01-6bb8-4c0b-b1d4-94b683d91803',
-  },
-  {
-    name: {
-      nb: 'Bærekraftig utvikling',
-      nn: 'Berekraftig utvikling',
-      se: 'Berekraftig utvikling',
-      en: 'Sustainable development',
-    },
-    id: 'urn:topic:a2f5aaa0-ab52-49d5-aabf-e7ffeac47fa2',
-  },
-];
 
 const filterSubjects = (
   subjects: GQLSubjectInfoFragment[],

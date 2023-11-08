@@ -8,9 +8,10 @@
 
 import { gql } from '@apollo/client';
 import { OneColumn } from '@ndla/ui';
-import { useEffect, useMemo } from 'react';
+import { useContext, useEffect, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { TFunction, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
 import { useTracker } from '@ndla/tracker';
 import { DynamicComponents } from '@ndla/article-converter';
 import Article from '../../../components/Article';
@@ -27,6 +28,8 @@ import { structuredArticleDataFragment } from '../../../util/getStructuredDataFr
 import { transformArticle } from '../../../util/transformArticle';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import AddEmbedToFolder from '../../../components/MyNdla/AddEmbedToFolder';
+import SocialMediaMetadata from '../../../components/SocialMediaMetadata';
+import { AuthContext } from '../../../components/AuthenticationContext';
 
 interface Props {
   article: GQLSharedResourceArticleContainer_ArticleFragment;
@@ -38,8 +41,13 @@ const converterComponents: DynamicComponents = {
   heartButton: AddEmbedToFolder,
 };
 
-const SharedArticleContainer = ({ article: propArticle, meta }: Props) => {
+const SharedArticleContainer = ({
+  article: propArticle,
+  meta,
+  title,
+}: Props) => {
   const { t, i18n } = useTranslation();
+  const { user, authContextLoaded } = useContext(AuthContext);
   const { trackPageView } = useTracker();
   useEffect(() => {
     if (window.MathJax && typeof window.MathJax.typeset === 'function') {
@@ -52,25 +60,33 @@ const SharedArticleContainer = ({ article: propArticle, meta }: Props) => {
   });
 
   useEffect(() => {
-    if (propArticle) {
+    if (propArticle && authContextLoaded) {
+      const contentType = getContentTypeFromResourceTypes(meta?.resourceTypes);
       const dimensions = getAllDimensions(
-        { article: propArticle },
-        meta?.resourceTypes &&
-          getContentTypeFromResourceTypes(meta.resourceTypes)?.label,
+        { article: propArticle, user },
+        meta?.resourceTypes && contentType?.label,
         true,
       );
       trackPageView({
         dimensions,
-        title: getDocumentTitle(propArticle.title, t),
+        title: getDocumentTitle(propArticle.title, contentType?.label, t),
       });
     }
-  }, [meta?.resourceTypes, propArticle, t, trackPageView]);
+  }, [
+    authContextLoaded,
+    user,
+    meta?.resourceTypes,
+    propArticle,
+    t,
+    trackPageView,
+  ]);
 
   const [article, scripts] = useMemo(() => {
     return [
       transformArticle(propArticle, i18n.language, {
         path: `${config.ndlaFrontendDomain}/article/${propArticle.id}`,
         components: converterComponents,
+        articleLanguage: propArticle.language,
       }),
       getArticleScripts(propArticle, i18n.language),
     ];
@@ -81,7 +97,7 @@ const SharedArticleContainer = ({ article: propArticle, meta }: Props) => {
 
   return (
     <OneColumn>
-      <Helmet>
+      <Helmet title={getDocumentTitle(title, contentType?.label, t)}>
         {scripts.map((script) => (
           <script
             key={script.src}
@@ -92,6 +108,12 @@ const SharedArticleContainer = ({ article: propArticle, meta }: Props) => {
           />
         ))}
       </Helmet>
+      <SocialMediaMetadata
+        title={title}
+        imageUrl={article.metaImage?.url}
+        trackableContent={article}
+        description={article.metaDescription}
+      />
       <Article
         contentTransformed
         id={SKIP_TO_CONTENT_ID}
@@ -104,8 +126,14 @@ const SharedArticleContainer = ({ article: propArticle, meta }: Props) => {
   );
 };
 
-const getDocumentTitle = (title: string, t: TFunction) =>
-  t('htmlTitles.sharedFolderPage', { name: title });
+const getDocumentTitle = (
+  title: string,
+  contentType: string | undefined,
+  t: TFunction,
+) =>
+  t('htmlTitles.sharedFolderPage', {
+    name: `${title}${contentType ? ` - ${contentType}` : ''}`,
+  });
 
 export default SharedArticleContainer;
 

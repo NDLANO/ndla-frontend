@@ -5,7 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { TFunction, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
 import { useMemo } from 'react';
 import { gql } from '@apollo/client';
 import Tabs from '@ndla/tabs';

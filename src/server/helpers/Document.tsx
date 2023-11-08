@@ -8,17 +8,14 @@
 
 import { HelmetServerState } from 'react-helmet-async';
 import serialize from 'serialize-javascript';
-// eslint-disable-next-line no-restricted-imports
-import ScriptLoader from '@ndla/polyfill/lib/ScriptLoader';
 import { Matomo } from './Matomo';
 import Tagmanager from './Tagmanager';
-import { ConfigType } from '../../config';
+import config, { ConfigType } from '../../config';
 
 export interface Assets {
   css?: string;
   js: { src: string }[];
   mathJaxConfig?: { js: string };
-  polyfill?: { src: string };
 }
 
 export interface DocumentData {
@@ -54,11 +51,71 @@ const Document = ({ helmet, assets, data, styles }: Props) => {
         {helmet.meta.toComponent()}
         {helmet.link.toComponent()}
         {assets.css && <link rel="stylesheet" href={assets.css} />}
-        <link
-          rel="shortcut icon"
-          href="/static/ndla-favicon.png"
-          type="image/x-icon"
-        />
+
+        {config.ndlaEnvironment === 'prod' ? (
+          <>
+            <link
+              rel="icon"
+              type="image/png"
+              sizes="32x32"
+              href="/static/favicon-prod-32x32.png"
+            />
+            <link
+              rel="icon"
+              type="image/png"
+              sizes="16x16"
+              href="/static/favicon-prod-16x16.png"
+            />
+            <link
+              rel="apple-touch-icon"
+              type="image/png"
+              sizes="180x180"
+              href="/static/apple-touch-icon-prod.png"
+            />
+          </>
+        ) : config.ndlaEnvironment === 'staging' ? (
+          <>
+            <link
+              rel="icon"
+              type="image/png"
+              sizes="32x32"
+              href="/static/favicon-staging-32x32.png"
+            />
+            <link
+              rel="icon"
+              type="image/png"
+              sizes="16x16"
+              href="/static/favicon-staging-16x16.png"
+            />
+            <link
+              rel="apple-touch-icon"
+              type="image/png"
+              sizes="180x180"
+              href="/static/apple-touch-icon-staging.png"
+            />
+          </>
+        ) : (
+          <>
+            <link
+              rel="icon"
+              type="image/png"
+              sizes="32x32"
+              href="/static/favicon-test-32x32.png"
+            />
+            <link
+              rel="icon"
+              type="image/png"
+              sizes="16x16"
+              href="/static/favicon-test-16x16.png"
+            />
+            <link
+              rel="apple-touch-icon"
+              type="image/png"
+              sizes="180x180"
+              href="/static/apple-touch-icon-test.png"
+            />
+          </>
+        )}
         {helmet.script.toComponent()}
         {styles && <div dangerouslySetInnerHTML={{ __html: styles }} />}
       </head>
@@ -73,6 +130,35 @@ const Document = ({ helmet, assets, data, styles }: Props) => {
             window.dataLayer.push(window.originalLocation);`,
           }}
         />
+        {config.monsidoToken.length ? (
+          <>
+            <script
+              type="text/javascript"
+              dangerouslySetInnerHTML={{
+                __html: `
+    window._monsido = window._monsido || {
+        token: "${config.monsidoToken}",
+        statistics: {
+            enabled: true,
+            cookieLessTracking: true,
+            documentTracking: {
+                enabled: false,
+                documentCls: "monsido_download",
+                documentIgnoreCls: "monsido_ignore_download",
+                documentExt: [],
+            },
+        },
+    };
+`,
+              }}
+            />
+            <script
+              type="text/javascript"
+              async
+              src="https://app-script.monsido.com/v2/monsido-script.js"
+            ></script>
+          </>
+        ) : null}
         <div id="root">REPLACE_ME</div>
         <script
           type="text/javascript"
@@ -80,7 +166,15 @@ const Document = ({ helmet, assets, data, styles }: Props) => {
             __html: `window.DATA = ${serialize(data)}; `,
           }}
         />
-        <ScriptLoader polyfill={assets.polyfill} scripts={assets.js} />
+        {assets.js.map((asset) => (
+          <script
+            key={asset.src}
+            type="text/javascript"
+            src={asset.src}
+            defer
+            crossOrigin="anonymous"
+          />
+        ))}
       </body>
     </html>
   );

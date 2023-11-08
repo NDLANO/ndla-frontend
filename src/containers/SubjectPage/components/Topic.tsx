@@ -7,12 +7,12 @@
  */
 
 import { gql } from '@apollo/client';
-import { useEffect, useMemo, useState } from 'react';
-import { Remarkable } from 'remarkable';
-import { TFunction, useTranslation } from 'react-i18next';
-import { FeideUserApiType, Topic as UITopic } from '@ndla/ui';
+import { useContext, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
+import { Topic as UITopic } from '@ndla/ui';
 import { useTracker } from '@ndla/tracker';
-import { extractEmbedMeta } from '@ndla/article-converter';
+import { DynamicComponents, extractEmbedMeta } from '@ndla/article-converter';
 import {
   RELEVANCE_SUPPLEMENTARY,
   SKIP_TO_CONTENT_ID,
@@ -28,6 +28,11 @@ import {
   GQLTopic_TopicFragment,
 } from '../../../graphqlTypes';
 import TopicVisualElementContent from './TopicVisualElementContent';
+import { transformArticle } from '../../../util/transformArticle';
+import config from '../../../config';
+import { getArticleScripts } from '../../../util/getArticleScripts';
+import AddEmbedToFolder from '../../../components/MyNdla/AddEmbedToFolder';
+import { AuthContext } from '../../../components/AuthenticationContext';
 
 const getDocumentTitle = ({
   t,
@@ -37,6 +42,10 @@ const getDocumentTitle = ({
   topic: Props['topic'];
 }) => {
   return htmlTitle(topic?.name, [t('htmlTitles.titleTemplate')]);
+};
+
+const converterComponents: DynamicComponents = {
+  heartButton: AddEmbedToFolder,
 };
 
 type Props = {
@@ -49,7 +58,6 @@ type Props = {
   loading?: boolean;
   topic: GQLTopic_TopicFragment;
   resourceTypes?: GQLTopic_ResourceTypeDefinitionFragment[];
-  user?: FeideUserApiType;
 };
 
 const Topic = ({
@@ -61,23 +69,16 @@ const Topic = ({
   showResources,
   loading,
   subject,
-  user,
 }: Props) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const { user, authContextLoaded } = useContext(AuthContext);
   const { topicId: urnTopicId } = useUrnIds();
   const { trackPageView } = useTracker();
   const [showContent, setShowContent] = useState(false);
-  const markdown = useMemo(() => {
-    const md = new Remarkable({ breaks: true });
-    md.inline.ruler.enable(['sub', 'sup']);
-    md.block.ruler.disable(['list']);
-    return md;
-  }, []);
   const ndlaFilm = useIsNdlaFilm();
-  const renderMarkdown = (text: string) => markdown.render(text);
 
   useEffect(() => {
-    if (showResources && !loading && topic.article) {
+    if (showResources && !loading && topic.article && authContextLoaded) {
       const topicPath = topic?.path
         ?.split('/')
         .slice(2)
@@ -100,7 +101,16 @@ const Topic = ({
       );
       trackPageView({ dimensions, title: getDocumentTitle({ t, topic }) });
     }
-  }, [loading, showResources, subject, t, topic, trackPageView, user]);
+  }, [
+    authContextLoaded,
+    loading,
+    showResources,
+    subject,
+    t,
+    topic,
+    trackPageView,
+    user,
+  ]);
 
   const embedMeta = useMemo(() => {
     if (!topic.article?.visualElementEmbed?.content) return undefined;
@@ -139,11 +149,21 @@ const Topic = ({
     return null;
   }, [resourceTypes, topic]);
 
-  if (!topic.article) {
+  const [article, scripts] = useMemo(() => {
+    if (!topic.article) return [undefined, undefined];
+    return [
+      transformArticle(topic.article, i18n.language, {
+        path: `${config.ndlaFrontendDomain}/article/${topic.article?.id}`,
+        subject: subjectId,
+        components: converterComponents,
+      }),
+      getArticleScripts(topic.article, i18n.language),
+    ];
+  }, [i18n.language, subjectId, topic.article]);
+
+  if (!topic.article || !article) {
     return null;
   }
-
-  const { article } = topic;
 
   const path = topic?.path || '';
   const topicPath = path
@@ -167,24 +187,25 @@ const Topic = ({
       visualElementEmbedMeta={embedMeta}
       id={urnTopicId === topicId ? SKIP_TO_CONTENT_ID : undefined}
       onToggleShowContent={
-        article.content !== '' ? () => setShowContent(!showContent) : undefined
+        topic.article?.content !== ''
+          ? () => setShowContent(!showContent)
+          : undefined
       }
       showContent={showContent}
       title={article.title}
-      introduction={article.introduction ?? ''}
+      introduction={article.introduction}
       resources={resources}
       subTopics={subTopics}
       metaImage={article.metaImage}
       isLoading={false}
-      renderMarkdown={renderMarkdown}
       invertedStyle={ndlaFilm}
       isAdditionalTopic={topic.relevanceId === RELEVANCE_SUPPLEMENTARY}
     >
       <ArticleContents
-        topic={topic}
+        article={article}
+        scripts={scripts}
         modifier="in-topic"
         showIngress={false}
-        subjectId={subjectId}
       />
     </UITopic>
   );
@@ -223,12 +244,12 @@ export const topicFragments = {
           }
         }
         revisionDate
+        ...ArticleContents_Article
       }
-      ...ArticleContents_Topic
       ...Resources_Topic
     }
     ${TopicVisualElementContent.fragments.metadata}
-    ${ArticleContents.fragments.topic}
+    ${ArticleContents.fragments.article}
     ${Resources.fragments.topic}
   `,
   resourceType: gql`

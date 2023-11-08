@@ -38,7 +38,6 @@ import {
   feideLogout,
 } from './helpers/openidHelper';
 import { podcastFeedRoute } from './routes/podcastFeedRoute';
-import programmeSitemap from './programmeSitemap';
 import {
   OK,
   INTERNAL_SERVER_ERROR,
@@ -49,7 +48,7 @@ import {
 } from '../statusCodes';
 import { isAccessTokenValid } from '../util/authHelpers';
 import { constructNewPath } from '../util/urlHelper';
-import { getDefaultLocale } from '../config';
+import config, { getDefaultLocale } from '../config';
 
 // @ts-ignore
 global.fetch = fetch;
@@ -75,6 +74,9 @@ const ndlaMiddleware = [
   }),
   helmet({
     crossOriginEmbedderPolicy: false,
+    referrerPolicy: {
+      policy: ['origin', 'no-referrer-when-downgrade'],
+    },
     hsts: {
       maxAge: 31536000,
       includeSubDomains: true,
@@ -178,6 +180,7 @@ app.get('/login/success', async (req: Request, res: Response) => {
     res.cookie('feide_auth', JSON.stringify(feideCookie), {
       expires: new Date(feideCookie.ndla_expires_at),
       encode: String,
+      domain: `.${config.feideDomain}`,
     });
     const languageCookie = getCookie(
       STORED_LANGUAGE_COOKIE_KEY,
@@ -216,7 +219,7 @@ app.get('/:lang?/logout', async (req: Request, res: Response) => {
 });
 
 app.get('/logout/session', (req: Request, res: Response) => {
-  res.clearCookie('feide_auth');
+  res.clearCookie('feide_auth', { domain: `.${config.feideDomain}` });
   const state = typeof req.query.state === 'string' ? req.query.state : '/';
   const { basepath, basename } = getLocaleInfoFromPath(state);
   const wasPrivateRoute = privateRoutes.some((r) => matchPath(r, basepath));
@@ -326,8 +329,7 @@ app.get(
   '/utdanningsprogram-sitemap.txt',
   ndlaMiddleware,
   async (_req: Request, res: Response) => {
-    res.setHeader('Content-Type', 'application/txt');
-    res.send(programmeSitemap());
+    sendResponse(res, undefined, 410);
   },
 );
 

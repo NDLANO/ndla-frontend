@@ -136,7 +136,7 @@ const ResourceList = ({ selectedFolder, viewType }: Props) => {
 
   return (
     <ResourceListWrapper>
-      <BlockWrapper type={viewType}>
+      <BlockWrapper data-type={viewType}>
         <DndContext
           sensors={sensors}
           collisionDetection={closestCenter}

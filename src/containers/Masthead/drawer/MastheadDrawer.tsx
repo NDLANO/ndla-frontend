@@ -29,7 +29,6 @@ import { MenuType } from './drawerMenuTypes';
 import { DrawerProvider } from './DrawerContext';
 import { findBreadcrumb } from '../../AboutPage/AboutPageContent';
 import { useGraphQuery } from '../../../util/runQueries';
-import { useEnableTaxStructure } from '../../../components/TaxonomyStructureContext';
 
 const MainMenu = styled.div`
   display: flex;
@@ -93,7 +92,6 @@ const MastheadDrawer = ({ subject }: Props) => {
     GQLDrawerContent_FrontpageMenuFragment[]
   >([]);
   const { subjectId, topicList, programme, slug } = useUrnIds();
-  const taxEnabled = useEnableTaxStructure();
   const prevProgramme = usePrevious(programme);
   const [type, setType] = useState<MenuType | undefined>(undefined);
   const [topicPath, setTopicPath] = useState<string[]>(topicList);
@@ -102,12 +100,10 @@ const MastheadDrawer = ({ subject }: Props) => {
 
   const frontpageQuery = useGraphQuery<GQLMastheadFrontpageQuery>(
     mastheadFrontpageQuery,
-    { skip: !taxEnabled },
   );
 
   const programmesQuery = useGraphQuery<GQLMastheadProgrammeQuery>(
     mastheadProgrammeQuery,
-    { skip: !taxEnabled },
   );
 
   useEffect(() => {

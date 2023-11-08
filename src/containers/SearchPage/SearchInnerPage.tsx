@@ -14,7 +14,6 @@ import {
   mapSearchDataToGroups,
   convertSearchParam,
   converSearchStringToObject,
-  convertProgramSearchParams,
   getTypeParams,
   TypeFilter,
 } from './searchHelpers';
@@ -58,7 +57,6 @@ interface Props {
   query?: string;
   subjectIds: string[];
   subjects?: GQLSubjectInfoFragment[];
-  programmeNames: string[];
   subjectItems?: SubjectItem[];
   resourceTypes?: GQLResourceTypeDefinition[];
   ltiData?: LtiData;
@@ -70,7 +68,6 @@ const SearchInnerPage = ({
   handleSearchParamsChange,
   query,
   subjectIds,
-  programmeNames,
   subjectItems,
   subjects,
   resourceTypes,
@@ -98,10 +95,7 @@ const SearchInnerPage = ({
   const stateSearchParams = isLti
     ? {
         query,
-        subjects: convertSearchParam([
-          ...subjectIds,
-          ...convertProgramSearchParams(programmeNames, i18n.language).subjects,
-        ]),
+        subjects: convertSearchParam([...subjectIds]),
       }
     : getStateSearchParams(searchParams);
 

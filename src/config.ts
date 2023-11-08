@@ -71,13 +71,12 @@ const learningPathDomain = (): string => {
 export const feideDomain = (): string => {
   switch (ndlaEnvironment) {
     case 'local':
-      return 'http://localhost:30017';
     case 'dev':
-      return 'http://localhost:3000';
+      return 'localhost';
     case 'prod':
-      return 'https://ndla.no';
+      return 'ndla.no';
     default:
-      return `https://${ndlaEnvironmentHostname}.ndla.no`;
+      return `${ndlaEnvironmentHostname}.ndla.no`;
   }
 };
 
@@ -86,6 +85,31 @@ const logglyApiKey = (): string | undefined => {
     return '';
   }
   return getEnvironmentVariabel('LOGGLY_API_KEY');
+};
+
+export const allowedAIOrgs = () => {
+  const defaultList = [
+    'Agder fylkeskommune',
+    'Nordland fylkeskommune',
+    'Rogaland fylkeskommune',
+    'Troms og Finnmark fylkeskommune',
+    'Trøndelag fylkeskommune',
+    'Vestland fylkeskommune',
+  ];
+  if (['local', 'dev'].includes(ndlaEnvironment)) {
+    return [...defaultList, 'Universitetet i Rogn']; // frank_foreleser
+  }
+  if (['test'].includes(ndlaEnvironment)) {
+    return [
+      ...defaultList,
+      'Innlandet fylkeskommune',
+      'Møre og Romsdal fylkeskommune',
+      'Vestfold og Telemark fylkeskommune',
+      'Viken fylkeskommune',
+      'Universitetet i Rogn',
+    ];
+  }
+  return defaultList;
 };
 
 export const getDefaultLocale = () =>
@@ -107,15 +131,15 @@ export type ConfigType = {
   learningPathDomain: string;
   zendeskWidgetKey: string | undefined;
   localGraphQLApi: boolean;
-  showAllFrontpageSubjects: boolean;
   saamiEnabled: boolean;
   feideDomain: string;
   feideEnabled: boolean;
   matomoUrl: string;
   matomoSiteId: string;
   matomoTagmanagerId: string;
-  taxonomyProgrammesEnabled: boolean;
   isVercel: boolean;
+  monsidoToken: string;
+  allowedAIOrgs: string[];
 };
 
 const config: ConfigType = {
@@ -143,18 +167,15 @@ const config: ConfigType = {
   ),
   zendeskWidgetKey: getEnvironmentVariabel('NDLA_ZENDESK_WIDGET_KEY'),
   localGraphQLApi: getEnvironmentVariabel('LOCAL_GRAPHQL_API', false),
-  showAllFrontpageSubjects: true,
   saamiEnabled: getEnvironmentVariabel('SAAMI_ENABLED', false),
   feideDomain: feideDomain(),
   feideEnabled: getEnvironmentVariabel('FEIDE_ENABLED', false),
   matomoUrl: getEnvironmentVariabel('MATOMO_URL', 'https://tall.ndla.no'),
   matomoSiteId: getEnvironmentVariabel('MATOMO_SITE_ID', ''),
   matomoTagmanagerId: getEnvironmentVariabel('MATOMO_TAGMANAGER_ID', ''),
-  taxonomyProgrammesEnabled: getEnvironmentVariabel(
-    'TAXONOMY_PROGRAMMES_ENABLED',
-    false,
-  ),
   isVercel: getEnvironmentVariabel('IS_VERCEL', false),
+  monsidoToken: getEnvironmentVariabel('MONSIDO_TOKEN', ''),
+  allowedAIOrgs: allowedAIOrgs(),
 };
 
 export function getUniversalConfig() {

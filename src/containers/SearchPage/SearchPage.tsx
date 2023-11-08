@@ -35,7 +35,7 @@ const getStateSearchParams = (searchParams: Record<string, any>) => {
 const SearchPage = () => {
   const { t, i18n } = useTranslation();
   const { trackPageView } = useTracker();
-  const { user } = useContext(AuthContext);
+  const { user, authContextLoaded } = useContext(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
   const searchParams = converSearchStringToObject(location, i18n.language);
@@ -43,13 +43,13 @@ const SearchPage = () => {
   const { data, loading } = useGraphQuery<GQLSearchPageQuery>(searchPageQuery);
 
   useEffect(() => {
-    if (!loading) {
+    if (!loading && authContextLoaded) {
       trackPageView({
         title: t('htmlTitles.searchPage'),
         dimensions: getAllDimensions({ user }),
       });
     }
-  }, [loading, t, trackPageView, user]);
+  }, [authContextLoaded, loading, t, trackPageView, user]);
 
   if (loading) {
     return <ContentPlaceholder />;
@@ -75,7 +75,6 @@ const SearchPage = () => {
           handleSearchParamsChange={handleSearchParamsChange}
           query={searchParams.query}
           subjectIds={searchParams.subjects}
-          programmeNames={searchParams.programs}
           selectedFilters={searchParams.selectedFilters?.split(',') ?? []}
           activeSubFilters={searchParams.activeSubFilters?.split(',') ?? []}
           subjectItems={subjectItems}

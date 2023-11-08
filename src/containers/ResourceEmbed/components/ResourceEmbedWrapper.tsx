@@ -9,7 +9,8 @@ import { ReactNode } from 'react';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { breakpoints, colors, fonts, mq, spacing } from '@ndla/core';
-import { Heading, OneColumn } from '@ndla/ui';
+import { OneColumn } from '@ndla/ui';
+import { Heading } from '@ndla/typography';
 import ResourceBadge from './ResourceBadge';
 import { SKIP_TO_CONTENT_ID } from '../../../constants';
 
@@ -37,11 +38,9 @@ const TitleWrapper = styled.div`
   }
 `;
 
-const StyledParagraph = styled.p`
-  text-transform: uppercase;
+const StyledEmbedTypeHeader = styled(Heading)`
   font-weight: ${fonts.weight.semibold};
   color: ${colors.text.light};
-  margin: 0;
 `;
 
 const ResourceHero = styled.div`
@@ -110,10 +109,16 @@ const ResourceEmbedWrapper = ({
           <TitleWrapper>
             <ResourceBadge type={type} />
             <hgroup>
-              <StyledParagraph>{t(`embed.type.${type}`)}</StyledParagraph>
+              <StyledEmbedTypeHeader
+                element="p"
+                headingStyle="list-title"
+                margin="none"
+              >
+                {t(`embed.type.${type}`)}
+              </StyledEmbedTypeHeader>
               <Heading
                 element="h1"
-                headingStyle="h1"
+                headingStyle="h1-resource"
                 id={SKIP_TO_CONTENT_ID}
                 tabIndex={-1}
               >

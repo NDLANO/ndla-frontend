@@ -11,7 +11,7 @@ describe('Plain learningpath page', () => {
     cy.fixCypressSpec('/e2e/integration/plain_learningpath.spec.ts');
     cy.gqlIntercept({
       alias: 'plainLearningpath',
-      operations: ['examLockStatus', 'plainLearningpathPage', 'alerts'],
+      operations: ['examLockStatus', 'plainLearningpathPage', 'alerts', 'mastheadFrontpage', 'mastheadProgramme'],
     });
   });
 

@@ -15,7 +15,17 @@ import {
   Youtube,
 } from '@ndla/icons/common';
 import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
 import { supportedLanguages } from '../../../i18n';
+
+const FooterTextWrapper = styled.div`
+  p:first-of-type {
+    margin-bottom: 0;
+  }
+  p:last-of-type {
+    margin-top: 0;
+  }
+`;
 
 const FooterWrapper = () => {
   const { t, i18n } = useTranslation();
@@ -48,9 +58,43 @@ const FooterWrapper = () => {
     },
   ];
 
+  const commonLinks = [
+    {
+      text: t('footer.ndlaLinks.omNdla'),
+      to: 'https://ndla.no/about/om-ndla',
+      external: false,
+    },
+    {
+      text: t('footer.ndlaLinks.aboutNdla'),
+      to: 'https://ndla.no/about/about-us',
+      external: false,
+    },
+    {
+      text: t('footer.ndlaLinks.blog'),
+      to: 'https://blogg.ndla.no',
+      external: true,
+    },
+    {
+      text: t('footer.ndlaLinks.tips'),
+      to: 'https://blogg.ndla.no/elever',
+      external: true,
+    },
+    {
+      text: t('footer.ndlaLinks.vacancies'),
+      to: 'https://ndla.no/about/utlysninger',
+      external: false,
+    },
+  ];
+
   const privacyLinks = [
-    { url: 'https://om.ndla.no/gdpr', label: t('footer.privacyLink') },
-    { url: 'https://om.ndla.no/cookies', label: t('footer.cookiesLink') },
+    {
+      url: 'https://ndla.no/article/personvernerklaering',
+      label: t('footer.privacyLink'),
+    },
+    {
+      url: 'https://ndla.no/article/erklaering-for-informasjonskapsler',
+      label: t('footer.cookiesLink'),
+    },
     {
       url: 'https://uustatus.no/nn/erklaringer/publisert/8cefdf3d-3272-402a-907b-689ddfc9bba7',
       label: t('footer.availabilityLink'),
@@ -61,6 +105,7 @@ const FooterWrapper = () => {
     <Footer
       lang={i18n.language}
       //@ts-ignore Wrongly typed as an array with a single element in frontend-packages.
+      commonLinks={commonLinks}
       links={links}
       languageSelector={
         <LanguageSelector
@@ -71,10 +116,15 @@ const FooterWrapper = () => {
       }
       privacyLinks={privacyLinks}
     >
-      <FooterText>
-        <EditorName title={t('footer.editorInChief')} name="Sigurd Trageton" />
-        {t('footer.info')}
-      </FooterText>
+      <FooterTextWrapper>
+        <FooterText>
+          <EditorName
+            title={t('footer.editorInChief')}
+            name="Sigurd Trageton"
+          />
+        </FooterText>
+        <FooterText>{t('footer.info')}</FooterText>
+      </FooterTextWrapper>
     </Footer>
   );
 };

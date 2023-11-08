@@ -10,7 +10,8 @@ import styled from '@emotion/styled';
 import { breakpoints, colors, mq, spacing } from '@ndla/core';
 import { SafeLinkButton } from '@ndla/safelink';
 import { Forward } from '@ndla/icons/common';
-import { FRONTPAGE_ARTICLE_MAX_WIDTH, Heading } from '@ndla/ui';
+import { FRONTPAGE_ARTICLE_MAX_WIDTH } from '@ndla/ui';
+import { Heading } from '@ndla/typography';
 import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { GQLAboutPageFooter_FrontpageMenuFragment } from '../../graphqlTypes';
@@ -107,7 +108,7 @@ const AboutPageFooter = ({ frontpage }: Props) => {
 
   const isRoot = useMemo(() => crumb.length === 1, [crumb]);
 
-  if (!title || !slug) return null;
+  if (!title || !slug || !menu?.length) return null;
 
   return (
     <FooterWrapper>

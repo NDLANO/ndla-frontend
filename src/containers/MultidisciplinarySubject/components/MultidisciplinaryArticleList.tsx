@@ -9,13 +9,8 @@
 import styled from '@emotion/styled';
 import { breakpoints, colors, fonts, misc, mq, spacing } from '@ndla/core';
 import SafeLink from '@ndla/safelink';
+import { Heading, Text } from '@ndla/typography';
 
-const Header = styled.div`
-  display: flex;
-  font-weight: ${fonts.weight.semibold};
-  ${fonts.sizes('20px', '32px')}
-  margin-bottom: ${spacing.medium};
-`;
 const ListWrapper = styled.div`
   display: grid;
   grid-column-gap: 20px;
@@ -40,7 +35,9 @@ export type ListProps = {
 
 const MultidisciplinaryArticleList = ({ items, totalCount }: ListProps) => (
   <>
-    <Header>{totalCount} caser</Header>
+    <Heading headingStyle="default" element="h2">
+      {totalCount} caser
+    </Heading>
     <ListWrapper>
       {items.map((item) => (
         <ListItem key={item.title} {...item} />
@@ -70,14 +67,12 @@ const Title = styled.h3`
   margin: 0 0 8px;
 `;
 
-const Introduction = styled.div`
-  ${fonts.sizes('16px', '24px')};
+const Introduction = styled(Text)`
   color: ${colors.text.primary};
 `;
 
-const Subjects = styled.div`
-  ${fonts.sizes('14px', '20px')};
-  color: ${colors.text.light};
+const Subjects = styled(Text)`
+  color: ${colors.text.primary};
   margin-top: ${spacing.nsmall};
 `;
 
@@ -107,9 +102,9 @@ const ListItem = ({
       {image && <Image src={image} alt={imageAlt} />}
       <TextWrapper>
         <Title>{title}</Title>
-        <Introduction>{introduction}</Introduction>
+        <Introduction textStyle="meta-text-small">{introduction}</Introduction>
         {subjects.length && (
-          <Subjects>
+          <Subjects textStyle="meta-text-small" margin="none">
             {subjects.map((subject) => (
               <Subject key={subject}>{subject}</Subject>
             ))}

@@ -108,6 +108,7 @@ const scriptSrc = (() => {
     'cdn.jsdelivr.net',
     'https://*.dataporten.no',
     'https://*.clarity.ms',
+    'https://app-script.monsido.com',
   ];
   if (process.env.NODE_ENV === 'development') {
     return [...defaultScriptSrc, `http://localhost:${hmrPort}`];
@@ -256,6 +257,7 @@ const contentSecurityPolicy = {
       'https://www.gstatic.com',
       'https://*.clarity.ms',
       'https://ndla.zendesk.com',
+      'tracking.monsido.com',
       '*.facebook.com',
       '*.twitter.com',
       '*.twimg.com',

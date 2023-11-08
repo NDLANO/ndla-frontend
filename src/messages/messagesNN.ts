@@ -29,9 +29,12 @@ const messages = {
     sharedFolderPage: `{{name}} - ${titleTemplate}`,
     aboutPage: `{{name}} - ${titleTemplate}`,
   },
+  footer: {
+    cookiesLink: 'Erklæring for informasjonskapslar',
+  },
   programmes: {
     header: 'Kva vil du lære om i dag?',
-    description: 'Velg utdanningsprogram for å sjå faga dine',
+    description: 'Vel utdanningsprogram for å sjå faga dine',
   },
   podcastPage: {
     episodes: 'Episoder',
@@ -47,24 +50,14 @@ const messages = {
     ingress:
       'Sjå våre forslag til aktivitetar og årsplanar. Gode resultat startar med god planlegging.',
   },
-  blogPosts: {
-    blog1: {
-      imageUrl: '/static/samiske-laeremidler.jpg',
-      text: 'Utvikler samiske ressurser på NDLA',
-      externalLink:
-        'https://blogg.ndla.no/2023/02/utvikler-samiske-ressurser-pa-ndla/',
-      linkText: 'Fagblogg',
-      license: 'CC-BY-SA-4.0',
-      licenseAuthor: 'Jan Frode Lindsø',
-    },
-    blog2: {
-      imageUrl: '/static/aktiviser-elevene.jpg',
-      text: 'Huskeliste for kontaktlærere',
-      externalLink:
-        'https://blogg.ndla.no/2019/08/huskeliste-for-kontaktlaerere/',
-      linkText: 'Fagblogg',
-      license: 'CC-BY-SA-4.0',
-      licenseAuthor: 'Tom Knudsen',
+  myndla: {
+    campaignBlock: {
+      title: 'Prøv praterobotane våre',
+      linkText: 'Prøv NDLAs praterobotar',
+      ingressStudent:
+        'Lurer du på noko i faget ditt? Vil du ha hjelp til å forenkle ein tekst, øve til ein prøve eller få forslag til ein disposisjon? Prøv prateroboten vår og sjå om han kan hjelpe deg!',
+      ingress:
+        'Vil du bruke AI i undervisninga? NDLA har laga to praterobotar som tek vare på personvernet ditt og trygt kan brukast til jobb og i undervisning.',
     },
   },
   validation: {

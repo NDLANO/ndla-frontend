@@ -13,11 +13,10 @@ import {
   GQLDrawerContent_ProgrammePageFragment,
   GQLDrawerContent_SubjectFragment,
 } from '../../../graphqlTypes';
-import AboutMenu, { NewAboutMenu } from './AboutMenu';
+import AboutMenu from './AboutMenu';
 import { MenuType } from './drawerMenuTypes';
 import ProgrammeMenu from './ProgrammeMenu';
 import SubjectMenu from './SubjectMenu';
-import { useEnableTaxStructure } from '../../../components/TaxonomyStructureContext';
 
 interface Props {
   onClose: () => void;
@@ -29,7 +28,7 @@ interface Props {
     SetStateAction<GQLDrawerContent_FrontpageMenuFragment[]>
   >;
   setTopicPathIds: Dispatch<SetStateAction<string[]>>;
-  menuItems?: GQLDrawerContent_FrontpageMenuFragment[];
+  menuItems: GQLDrawerContent_FrontpageMenuFragment[];
   programmes: GQLDrawerContent_ProgrammePageFragment[];
 }
 
@@ -44,7 +43,6 @@ const DrawerContent = ({
   menuItems,
   programmes,
 }: Props) => {
-  const taxStructure = useEnableTaxStructure();
   if (type === 'programme') {
     return (
       <ProgrammeMenu
@@ -64,17 +62,14 @@ const DrawerContent = ({
       />
     );
   } else {
-    if (taxStructure && menuItems) {
-      return (
-        <NewAboutMenu
-          menuItems={menuItems}
-          onClose={onClose}
-          setMenu={setFrontpageMenu}
-          onCloseMenuPortion={onCloseMenuPortion}
-        />
-      );
-    }
-    return <AboutMenu onCloseMenuPortion={onCloseMenuPortion} />;
+    return (
+      <AboutMenu
+        menuItems={menuItems}
+        onClose={onClose}
+        setMenu={setFrontpageMenu}
+        onCloseMenuPortion={onCloseMenuPortion}
+      />
+    );
   }
 };
 
@@ -89,7 +84,7 @@ DrawerContent.fragments = {
     fragment DrawerContent_FrontpageMenu on FrontpageMenu {
       ...AboutMenu_FrontpageMenu
     }
-    ${NewAboutMenu.fragments.frontpage}
+    ${AboutMenu.fragments.frontpage}
   `,
   programmeMenu: gql`
     fragment DrawerContent_ProgrammePage on ProgrammePage {

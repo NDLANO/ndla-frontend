@@ -16,8 +16,8 @@ import {
   OneColumn,
   constants,
   getMastheadHeight,
-  Heading,
 } from '@ndla/ui';
+import { Heading } from '@ndla/typography';
 import { TFunction } from 'i18next';
 import sortBy from 'lodash/sortBy';
 import { parse, stringify } from 'query-string';
@@ -204,17 +204,17 @@ const AllSubjectsPage = () => {
           />
         )}
         <LetterNavigation activeLetters={letters} />
-        <StyledList aria-label={t('subjectsPage.alphabeticSort')}>
-          {groupedSubjects.map(({ label, subjects }) => (
-            <SubjectCategory
-              favorites={favoriteSubjects}
-              key={label}
-              label={label}
-              subjects={subjects}
-            />
-          ))}
-        </StyledList>
       </StyledColumn>
+      <StyledList aria-label={t('subjectsPage.alphabeticSort')}>
+        {groupedSubjects.map(({ label, subjects }) => (
+          <SubjectCategory
+            favorites={favoriteSubjects}
+            key={label}
+            label={label}
+            subjects={subjects}
+          />
+        ))}
+      </StyledList>
     </main>
   );
 };

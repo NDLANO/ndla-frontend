@@ -15,6 +15,7 @@ import {
   MediaListItemBody,
   MediaListItemActions,
   MediaListItemMeta,
+  ItemType,
 } from '@ndla/ui';
 import { SafeLinkButton } from '@ndla/safelink';
 import {
@@ -50,7 +51,7 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
   );
 
   const safeCopyright = licenseCopyrightToCopyrightType(video.copyright);
-  const items = getGroupedContributorDescriptionList(
+  const items: ItemType[] = getGroupedContributorDescriptionList(
     safeCopyright,
     i18n.language,
   );

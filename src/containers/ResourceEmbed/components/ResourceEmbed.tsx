@@ -5,13 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { useMemo } from 'react';
+import { useContext, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { gql } from '@apollo/client';
 import styled from '@emotion/styled';
 import { DynamicComponents, transform } from '@ndla/article-converter';
 import { Spinner } from '@ndla/icons';
-import { HelmetWithTracker } from '@ndla/tracker';
+import { HelmetWithTracker, useTracker } from '@ndla/tracker';
 import {
   AccordionContent,
   AccordionHeader,
@@ -19,10 +19,13 @@ import {
   AccordionRoot,
 } from '@ndla/accordion';
 import { CreatedBy } from '@ndla/ui';
-import { colors, fonts, spacing } from '@ndla/core';
+import { colors, spacing } from '@ndla/core';
+import { Text } from '@ndla/typography';
 import { useLocation } from 'react-router-dom';
+import { TFunction } from 'i18next';
 import ResourceEmbedLicenseBox from './ResourceEmbedLicenseBox';
 import {
+  GQLFolder,
   GQLResourceEmbedLicenseBox_MetaFragment,
   GQLResourceEmbedQuery,
   GQLResourceEmbedQueryVariables,
@@ -34,6 +37,8 @@ import NotFound from '../../NotFoundPage/NotFoundPage';
 import { useGraphQuery } from '../../../util/runQueries';
 import AddEmbedToFolder from '../../../components/MyNdla/AddEmbedToFolder';
 import config from '../../../config';
+import { AuthContext } from '../../../components/AuthenticationContext';
+import { getAllDimensions } from '../../../util/trackingUtil';
 
 export type StandaloneEmbed = 'image' | 'audio' | 'video' | 'h5p' | 'concept';
 
@@ -44,14 +49,13 @@ const CreatedByWrapper = styled.div`
 const StyledAccordionHeader = styled(AccordionHeader)`
   background-color: ${colors.brand.lightest};
   border: 1px solid ${colors.brand.tertiary};
-  font-size: ${fonts.sizes('16px', '29px')};
-  font-weight: ${fonts.weight.semibold};
 `;
 
 interface Props {
   id: string;
   isOembed?: boolean;
   type: StandaloneEmbed;
+  folder?: GQLFolder | null;
   noBackground?: boolean;
 }
 
@@ -113,7 +117,12 @@ const metaToProperties = (
       type: 'concept',
     };
   } else if (type === 'h5p') {
-    return undefined;
+    const h5p = meta.h5ps?.[0];
+    if (!h5p) return undefined;
+    return {
+      title: h5p.title,
+      type: 'h5p',
+    };
   } else {
     return undefined;
   }
@@ -138,7 +147,9 @@ export const hasLicensedContent = (
   return false;
 };
 
-const ResourceEmbed = ({ id, type, noBackground, isOembed }: Props) => {
+const ResourceEmbed = ({ id, type, noBackground, isOembed, folder }: Props) => {
+  const { user, authContextLoaded } = useContext(AuthContext);
+  const { trackPageView } = useTracker();
   const { t } = useTranslation();
   const { pathname } = useLocation();
 
@@ -166,6 +177,18 @@ const ResourceEmbed = ({ id, type, noBackground, isOembed }: Props) => {
     });
   }, [data?.resourceEmbed.content, isOembed, pathname]);
 
+  useEffect(() => {
+    if (!authContextLoaded || !properties) return;
+    const dimensions = getAllDimensions({ user }, properties.type, false);
+    const title = getDocumentTitle(
+      folder?.name,
+      properties.title,
+      properties.type,
+      t,
+    );
+    trackPageView({ dimensions, title });
+  }, [authContextLoaded, properties, t, trackPageView, user, folder]);
+
   if (loading) {
     return <Spinner />;
   }
@@ -182,7 +205,14 @@ const ResourceEmbed = ({ id, type, noBackground, isOembed }: Props) => {
   )}`;
   return (
     <>
-      <HelmetWithTracker title={`${socialMediaTitle} - NDLA`} />
+      <HelmetWithTracker
+        title={getDocumentTitle(
+          folder?.name,
+          properties.title,
+          properties.type,
+          t,
+        )}
+      />
       <SocialMediaMetadata
         type="website"
         audioUrl={properties?.audioUrl}
@@ -204,7 +234,9 @@ const ResourceEmbed = ({ id, type, noBackground, isOembed }: Props) => {
               hasLicensedContent(data.resourceEmbed.meta) && (
                 <AccordionItem value="rulesForUse">
                   <StyledAccordionHeader>
-                    {t('article.useContent')}
+                    <Text element="span" textStyle="button" margin="none">
+                      {t('article.useContent')}
+                    </Text>
                   </StyledAccordionHeader>
                   <AccordionContent>
                     <ResourceEmbedLicenseBox
@@ -227,6 +259,19 @@ const ResourceEmbed = ({ id, type, noBackground, isOembed }: Props) => {
       </main>
     </>
   );
+};
+
+const getDocumentTitle = (
+  folderName: string | undefined,
+  title: string,
+  type: string | undefined,
+  t: TFunction,
+) => {
+  const maybeFolder = folderName ? `${folderName} - ` : '';
+  const maybeType = type ? ` - ${t(`embed.type.${type}`)}` : '';
+  return t('htmlTitles.sharedFolderPage', {
+    name: `${maybeFolder}${title}${maybeType}`,
+  });
 };
 
 export const ResourceEmbedQuery = gql`

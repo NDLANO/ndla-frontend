@@ -6,19 +6,19 @@
  *
  */
 
-import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { gql } from '@apollo/client';
 import { Spinner } from '@ndla/icons';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import { subjectInfoFragment } from '../../queries';
+import { RedirectExternal, Status } from '../../components';
 import { useGraphQuery } from '../../util/runQueries';
 import { GQLProgrammePageQuery } from '../../graphqlTypes';
-import { TypedParams, useTypedParams } from '../../routeHelpers';
+import { toProgramme, TypedParams, useTypedParams } from '../../routeHelpers';
 import ProgrammeContainer from './ProgrammeContainer';
-import { AuthContext } from '../../components/AuthenticationContext';
 import { programmeFragment } from '../WelcomePage/WelcomePage';
+import { programmeRedirects } from '../../constants';
 
 interface MatchParams extends TypedParams {
   programme: string;
@@ -56,11 +56,24 @@ const programmePageQuery = gql`
 const ProgrammePage = () => {
   const { i18n } = useTranslation();
   const { programme: path, grade: gradeParam } = useTypedParams<MatchParams>();
-  const { user } = useContext(AuthContext);
+  const oldProgramme = programmeRedirects[path] !== undefined;
   const { loading, data } = useGraphQuery<GQLProgrammePageQuery>(
     programmePageQuery,
-    { variables: { path: path } },
+    { variables: { path: path }, skip: oldProgramme },
   );
+
+  if (oldProgramme) {
+    return (
+      <Status code={301}>
+        <RedirectExternal
+          to={toProgramme(
+            encodeURIComponent(programmeRedirects[path] || ''),
+            gradeParam,
+          )}
+        />
+      </Status>
+    );
+  }
 
   if (loading) {
     return <Spinner />;
@@ -84,7 +97,6 @@ const ProgrammePage = () => {
       programme={data.programme}
       grade={selectedGrade?.title.title || ''}
       locale={i18n.language}
-      user={user}
     />
   );
 };

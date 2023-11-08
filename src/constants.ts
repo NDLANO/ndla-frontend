@@ -56,48 +56,26 @@ export const AcquireLicensePage =
   'https://ndla.zendesk.com/hc/no/articles/360000945552-Bruk-av-lisenser-og-lisensiering';
 
 export const aboutNdlaUrl = 'https://om.ndla.no/';
+export const aboutNdlaContentWidth = 1440;
 
-export interface LinkType {
-  link: string;
-  key: string;
-  subTypes?: LinkType[];
-}
-
-const whoAreWe: LinkType = {
-  key: 'whoAreWe',
-  link: `${aboutNdlaUrl}hvem-er-vi/`,
-  subTypes: [
-    { key: 'organizing', link: `${aboutNdlaUrl}organisering/` },
-    { key: 'keyPersonnel', link: `${aboutNdlaUrl}nokkelpersoner/` },
-    { key: 'articlesOfAssociation', link: `${aboutNdlaUrl}vedtekter/` },
-    { key: 'history', link: `${aboutNdlaUrl}ndlas-historie/` },
-  ],
-};
-
-const whatWeDo: LinkType = {
-  key: 'whatWeDo',
-  link: `${aboutNdlaUrl}hva-gjor-vi/`,
-  subTypes: [
-    { key: 'communityPurpose', link: `${aboutNdlaUrl}vart-samfunnsoppdrag/` },
-    { key: 'vision', link: `${aboutNdlaUrl}visjon-og-verdier-2/` },
-    { key: 'numbers', link: `${aboutNdlaUrl}tall-og-rapporter-2/` },
-    { key: 'cooperation', link: `${aboutNdlaUrl}vare-samarbeid/` },
-  ],
-};
-
-const careers: LinkType = {
-  key: 'careers',
-  link: `${aboutNdlaUrl}bli-med-pa-laget/`,
-  subTypes: [{ key: 'vacancies', link: `${aboutNdlaUrl}utlysninger/` }],
-};
-
-const contactUs: LinkType = {
-  key: 'contactUs',
-  link: `${aboutNdlaUrl}kontakt-oss-2/`,
-};
-
-export const ndlaLinks: LinkType = {
-  key: 'title',
-  link: aboutNdlaUrl,
-  subTypes: [whoAreWe, whatWeDo, careers, contactUs],
+export const programmeRedirects: Record<string, string> = {
+  'bygg-og-anleggsteknikk': 'bygg-og-anleggsteknikk__847f59182173',
+  'elektro-og-datateknologi': 'elektro-og-datateknologi__55ad4a85ba78',
+  'frisør-blomster-interior-og-eksponeringsdesign':
+    'frisor-blomster-interiør-og-eksponeringsdesign__235c13273508',
+  'handverk-design-og-produktutvikling':
+    'håndverk-design-og-produktutvikling__28899b73c188',
+  'helse-og-oppvekstfag': 'helse-og-oppvekstfag__5ad439a5dacb',
+  idrettsfag: 'idrettsfag__dd37b407714d',
+  'informasjonsteknologi-og-medieproduksjon':
+    'informasjonsteknologi-og-medieproduksjon__23f18a24131e',
+  'kunst-design-og-arkitektur': 'kunst-design-og-arkitektur__72376dcfd25a',
+  'medier-og-kommunikasjon': 'medier-og-kommunikasjon__57b0e8cd7270',
+  'musikk-dans-og-drama': 'musikk-dans-og-drama__338394ba465c',
+  naturbruk: 'naturbruk__d23305736cde',
+  pabygg: 'påbygg__6ea1ed34e5e7',
+  'restaurant-og-matfag': 'restaurant-og-matfag__0a0cd4e39743',
+  'salg-service-og-reiseliv': 'salg-service-og-reiseliv__b55100bbc29e',
+  studiespesialisering: 'studiespesialisering__7d5badf01ff2',
+  'teknologi-og-industrifag': 'teknologi-og-industrifag__a920d0b5cbbb',
 };
