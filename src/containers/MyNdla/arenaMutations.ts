@@ -26,12 +26,10 @@ const arenaPageQueryFragment = gql`
 const topicPageQueryFragment = gql`
   fragment TopicPageQueryFragment on ArenaTopic {
     __typename
-    breadcrumbs
     categoryId
     id
     locked
     postCount
-    posts
     slug
     timestamp
     title
