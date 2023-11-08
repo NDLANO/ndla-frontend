@@ -86,7 +86,7 @@ const FeideLoginButton = ({ footer, children }: Props) => {
         colorTheme="light"
         shape="pill"
         inverted={ndlaFilm}
-        to={'/minndla'}
+        to="/minndla"
         aria-label={t('myNdla.myNDLA')}
       >
         {children}

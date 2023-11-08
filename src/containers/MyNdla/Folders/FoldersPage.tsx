@@ -200,22 +200,19 @@ const FoldersPage = () => {
     [selectedFolder, folders, setFocusId, previousFolders],
   );
 
-  const toolbarButtons = useCallback(
-    () =>
-      FolderButtons({
-        selectedFolder: selectedFolder,
-        setFocusId: setFocusId,
-        folders: folders,
-      }),
-    [selectedFolder, setFocusId, folders],
-  );
   return (
     <MyNdlaPageWrapper
       dropDownMenu={dropDownMenu}
-      buttons={<>{toolbarButtons()}</>}
+      buttons={
+        <FolderButtons
+          setFocusId={setFocusId}
+          selectedFolder={selectedFolder}
+          folders={folders}
+        />
+      }
       viewType={viewType}
       onViewTypeChange={setViewType}
-      numberOfButtons={toolbarButtons().length}
+      tooManyButtons={selectedFolder?.status === 'shared'}
     >
       <FoldersPageContainer>
         <HelmetWithTracker title={title} />

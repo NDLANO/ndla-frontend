@@ -34,7 +34,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   viewType?: ViewType;
   onViewTypeChange?: (val: ViewType) => void;
   focusId?: string;
-  numberOfButtons?: number;
+  tooManyButtons?: boolean;
 }
 
 const MyNdlaPageWrapper = ({
@@ -42,7 +42,7 @@ const MyNdlaPageWrapper = ({
   dropDownMenu,
   onViewTypeChange,
   viewType,
-  numberOfButtons,
+  tooManyButtons,
   children,
 }: Props) => {
   return (
@@ -52,7 +52,7 @@ const MyNdlaPageWrapper = ({
         dropDownMenu={dropDownMenu}
         onViewTypeChange={onViewTypeChange}
         viewType={viewType}
-        numberOfButtons={numberOfButtons}
+        tooManyButtons={tooManyButtons}
       />
       <ContentWrapper>
         <Content>{children}</Content>

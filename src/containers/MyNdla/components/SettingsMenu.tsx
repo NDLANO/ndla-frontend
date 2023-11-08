@@ -156,13 +156,15 @@ const SettingsMenu = ({ menuItems, isLastFolder }: Props) => {
           hidden={hasOpenModal}
           onCloseAutoFocus={(event) => {
             setHasOpenModal(false);
-            if (skipAutoFocus) {
-              event.preventDefault();
-              setSkipAutoFocus(false);
-            } else if (!isLastFolder) {
+            if (!isLastFolder) {
               document.getElementById('titleAnnouncer')?.focus();
-            } else if (!skipAutoFocus) {
-              event.preventDefault();
+              return;
+            }
+
+            event.preventDefault();
+            if (skipAutoFocus) {
+              setSkipAutoFocus(false);
+            } else {
               dropdownTriggerRef.current?.focus();
             }
           }}

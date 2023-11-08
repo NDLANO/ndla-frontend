@@ -6,7 +6,6 @@
  *
  */
 
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { IconButtonV2 } from '@ndla/button';
 import { spacing, fonts, colors } from '@ndla/core';
@@ -64,23 +63,20 @@ const MenuItems = styled.ul`
   background: ${colors.background.lightBlue};
 `;
 
-const ToolItem = css`
-  border-top: 0.5px solid ${colors.brand.greyLighter};
-  padding: ${spacing.small} ${spacing.normal};
-  &:last-child {
-    border-bottom: 0.5px solid ${colors.brand.greyLighter};
-  }
-`;
-
 const ToolMenu = styled.div`
   display: flex;
   flex-direction: column;
 
   padding: unset;
   margin: unset;
+
   button,
   a {
-    ${ToolItem};
+    border-top: 0.5px solid ${colors.brand.greyLighter};
+    padding: ${spacing.small} ${spacing.normal};
+    &:last-child {
+      border-bottom: 0.5px solid ${colors.brand.greyLighter};
+    }
   }
 `;
 

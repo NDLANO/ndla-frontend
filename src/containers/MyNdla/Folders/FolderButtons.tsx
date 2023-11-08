@@ -16,7 +16,7 @@ import {
   useContext,
   useRef,
   useCallback,
-  useMemo,
+  memo,
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams, useOutletContext } from 'react-router-dom';
@@ -62,16 +62,17 @@ const FolderButtons = ({
 
   const onFolderAdded = useCallback(
     (folder?: GQLFolder) => {
-      if (folder) {
-        addSnack({
-          id: 'folderAdded',
-          content: t('myNdla.folder.folderCreated', {
-            folderName: folder.name,
-          }),
-        });
-        setFocusId(folder.id);
-        setIsOpen(false);
+      if (!folder) {
+        return;
       }
+      addSnack({
+        id: 'folderAdded',
+        content: t('myNdla.folder.folderCreated', {
+          folderName: folder.name,
+        }),
+      });
+      setFocusId(folder.id);
+      setIsOpen(false);
     },
     [addSnack, t, setIsOpen, setFocusId],
   );
@@ -82,29 +83,31 @@ const FolderButtons = ({
   }, [addSnack, t, setIsOpen]);
 
   const onDeleteFolder = useCallback(async () => {
-    if (selectedFolder) {
-      await deleteFolder({ variables: { id: selectedFolder.id } });
-      if (selectedFolder.id === folderId) {
-        navigate(`/minndla/folders/${selectedFolder.parentId ?? ''}`, {
-          replace: true,
-        });
-      }
-      addSnack({
-        id: 'folderDeleted',
-        content: t('myNdla.folder.folderDeleted', {
-          folderName: selectedFolder.name,
-        }),
+    if (!selectedFolder) {
+      return;
+    }
+    await deleteFolder({ variables: { id: selectedFolder.id } });
+    if (selectedFolder.id === folderId) {
+      navigate(`/minndla/folders/${selectedFolder.parentId ?? ''}`, {
+        replace: true,
       });
-      setIsOpen(false);
-      const previousFolderId = folders.indexOf(selectedFolder) - 1;
-      setFocusId(
-        previousFolderId <= -1
-          ? undefined
-          : folders[previousFolderId]?.id ?? undefined,
-      );
-      if (folders.length - 1 <= 0) {
-        setResetFocus(true);
-      }
+    }
+    addSnack({
+      id: 'folderDeleted',
+      content: t('myNdla.folder.folderDeleted', {
+        folderName: selectedFolder.name,
+      }),
+    });
+    setIsOpen(false);
+    const previousFolderId = folders.indexOf(selectedFolder) - 1;
+    setFocusId(
+      previousFolderId <= -1
+        ? undefined
+        : folders[previousFolderId]?.id ?? undefined,
+    );
+
+    if (folders.length <= 1) {
+      setResetFocus(true);
     }
   }, [
     addSnack,
@@ -119,13 +122,13 @@ const FolderButtons = ({
     setFocusId,
   ]);
 
-  const toolbarButtons = useMemo(() => {
-    const showAddButton =
-      (selectedFolder?.breadcrumbs.length || 0) < 5 && !examLock;
-    const showShareFolder = folderId !== null && !isStudent(user);
-    const isFolderShared = selectedFolder?.status !== 'private';
+  const showAddButton =
+    (selectedFolder?.breadcrumbs.length || 0) < 5 && !examLock;
+  const showShareFolder = folderId !== null && !isStudent(user);
+  const isFolderShared = selectedFolder?.status !== 'private';
 
-    const sharedButton = selectedFolder && isFolderShared && (
+  const sharedButton =
+    selectedFolder && isFolderShared ? (
       <FolderShareModal
         key="sharedFolderButton"
         type="shared"
@@ -147,9 +150,10 @@ const FolderButtons = ({
           {t('myNdla.folder.sharing.button.share')}
         </ButtonV2>
       </FolderShareModal>
-    );
+    ) : null;
 
-    const unShareButton = selectedFolder && isFolderShared && (
+  const unShareButton =
+    selectedFolder && isFolderShared ? (
       <FolderShareModal
         key="unShareFolderButton"
         type="unShare"
@@ -179,9 +183,10 @@ const FolderButtons = ({
           {t('myNdla.folder.sharing.button.unShare')}
         </ButtonV2>
       </FolderShareModal>
-    );
+    ) : null;
 
-    const shareButton = selectedFolder && !isFolderShared && (
+  const shareButton =
+    selectedFolder && !isFolderShared ? (
       <FolderShareModal
         key="shareFolderButton"
         type="private"
@@ -211,38 +216,39 @@ const FolderButtons = ({
           {t('myNdla.folder.sharing.share')}
         </ButtonV2>
       </FolderShareModal>
-    );
+    ) : null;
 
-    const addFolderButton = showAddButton && (
-      <FolderCreateModal
-        key="createFolderButton"
-        onSaved={onFolderAdded}
-        parentFolder={selectedFolder}
-      />
-    );
+  const addFolderButton = showAddButton ? (
+    <FolderCreateModal
+      key="createFolderButton"
+      onSaved={onFolderAdded}
+      parentFolder={selectedFolder}
+    />
+  ) : null;
 
-    const editFolderButton = selectedFolder && (
-      <FolderEditModal
-        key="editFolderButton"
-        onSaved={onFolderUpdated}
-        folder={selectedFolder}
-      />
-    );
+  const editFolderButton = selectedFolder ? (
+    <FolderEditModal
+      key="editFolderButton"
+      onSaved={onFolderUpdated}
+      folder={selectedFolder}
+    />
+  ) : null;
 
-    const deleteFolderButton = !!selectedFolder?.id && (
-      <FolderDeleteModal
-        key="deleteFolderButton"
-        onDelete={onDeleteFolder}
-        onClose={(e) => {
-          if (folders.length - 1 <= 0) {
-            e?.preventDefault();
-            document.getElementById('titleAnnouncer')?.focus();
-          }
-        }}
-      />
-    );
+  const deleteFolderButton = !!selectedFolder?.id ? (
+    <FolderDeleteModal
+      key="deleteFolderButton"
+      onDelete={onDeleteFolder}
+      onClose={(e) => {
+        if (folders.length <= 1) {
+          e?.preventDefault();
+          document.getElementById('titleAnnouncer')?.focus();
+        }
+      }}
+    />
+  ) : null;
 
-    const copySharedFolderLink = selectedFolder && isFolderShared && (
+  const copySharedFolderLink =
+    selectedFolder && isFolderShared ? (
       <ButtonV2
         key="copySharedLink"
         css={buttonCss}
@@ -259,40 +265,21 @@ const FolderButtons = ({
         <Copy css={iconCss} />
         {t('myNdla.folder.sharing.button.shareLink')}
       </ButtonV2>
-    );
+    ) : null;
 
-    if (!showShareFolder) {
-      return [addFolderButton, editFolderButton, deleteFolderButton];
-    }
+  if (!showShareFolder) {
+    return [addFolderButton, editFolderButton, deleteFolderButton];
+  }
 
-    return [
-      addFolderButton,
-      editFolderButton,
-      shareButton,
-      sharedButton,
-      unShareButton,
-      copySharedFolderLink,
-      deleteFolderButton,
-    ];
-  }, [
-    folders.length,
-    updateFolderStatus,
-    onFolderUpdated,
-    selectedFolder,
-    onDeleteFolder,
-    onFolderAdded,
-    previewRef,
-    unShareRef,
-    setIsOpen,
-    shareRef,
-    addSnack,
-    examLock,
-    folderId,
-    user,
-    t,
-  ]).filter(Boolean);
-
-  return toolbarButtons;
+  return [
+    addFolderButton,
+    editFolderButton,
+    shareButton,
+    sharedButton,
+    unShareButton,
+    copySharedFolderLink,
+    deleteFolderButton,
+  ];
 };
 
-export default FolderButtons;
+export default memo(FolderButtons);

@@ -20,7 +20,7 @@ const ToolbarContainer = styled.div`
   padding: ${spacing.small} ${spacing.large};
   height: ${spacingUnit * 3}px;
 
-  ${mq.range({ from: breakpoints.mobileWide })} {
+  ${mq.range({ from: breakpoints.tablet })} {
     display: flex;
   }
 `;
@@ -30,11 +30,11 @@ const ButtonContainer = styled.div`
   flex-direction: row;
   gap: ${spacing.small};
 
-  @container (min-width:600px) {
+  @container (min-width:570px) {
     display: flex;
   }
 
-  ${mq.range({ from: breakpoints.mobileWide, until: breakpoints.desktop })} {
+  ${mq.range({ from: breakpoints.tablet, until: breakpoints.desktop })} {
     &[data-hide-buttons='true'] {
       display: none;
     }
@@ -44,8 +44,8 @@ const ButtonContainer = styled.div`
 const DropdownWrapper = styled.div`
   display: none;
 
-  ${mq.range({ from: breakpoints.mobileWide, until: breakpoints.desktop })} {
-    @container (max-width:600px) {
+  ${mq.range({ from: breakpoints.tablet, until: breakpoints.desktop })} {
+    @container (max-width:570px) {
       display: unset;
     }
     &[data-always-show='true'] {
@@ -67,7 +67,7 @@ interface Props {
   dropDownMenu?: ReactNode;
   viewType?: ViewType;
   onViewTypeChange?: (val: ViewType) => void;
-  numberOfButtons?: number;
+  tooManyButtons?: boolean;
 }
 
 const Toolbar = ({
@@ -75,17 +75,15 @@ const Toolbar = ({
   dropDownMenu,
   onViewTypeChange,
   viewType,
-  numberOfButtons,
+  tooManyButtons,
 }: Props) => {
-  const tooManyButtons = (numberOfButtons ?? 1) > 4;
-
   return (
     <ToolbarContainer>
       <Wrapper>
-        <ButtonContainer data-hide-buttons={tooManyButtons}>
+        <ButtonContainer data-hide-buttons={!!tooManyButtons}>
           {buttons}
         </ButtonContainer>
-        <DropdownWrapper data-always-show={tooManyButtons}>
+        <DropdownWrapper data-always-show={!!tooManyButtons}>
           {dropDownMenu}
         </DropdownWrapper>
       </Wrapper>
