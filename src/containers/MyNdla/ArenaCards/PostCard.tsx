@@ -25,11 +25,11 @@ import { colors, spacing, breakpoints, mq, fonts, misc } from '@ndla/core';
 interface Props {
   id: string;
   isMainPost: boolean;
-  avatar: {
-    image: string;
-    name: string;
-    school: string;
-  };
+  // avatar: {
+  //   image: string;
+  //   name: string;
+  //   school: string;
+  // };
   title: string;
   content: string;
   notify: boolean;
@@ -116,7 +116,7 @@ const StyledAddCommentButton = styled(ButtonV2)`
   white-space: nowrap;
 `;
 
-const PostCard = () => {
+const PostCard = ({ id, isMainPost, title, content, notify }: Props) => {
   return (
     <StyledCardContainer>
       <StyledTopContainer>
@@ -137,18 +137,8 @@ const PostCard = () => {
         />
       </StyledTopContainer>
       <StyledContentContainer>
-        <StyledH2>Tittel på innlegget</StyledH2>
-        <StyledP>
-          Lorem ipsum dolor sit amet consectetur. Vitae ut maecenas commodo nisi
-          cursus amet. Mattis a eu suspendisse massa. Vel ac risus nibh
-          phasellus. Est proin in eget ligula at turpis lectus tristique.
-          Ullamcorper praesent eget turpis convallis. Faucibus pellentesque
-          pharetra posuere scelerisque. Ligula at neque tellus aenean. Vivamus
-          posuere eu non ipsum. Ut tellus vivamus mi proin. Duis orci
-          ullamcorper enim gravida nibh tristique adipiscing. Mi lobortis mauris
-          sem tellus neque. Pellentesque montes ut in habitant viverra convallis
-          ac.
-        </StyledP>
+        <StyledH2>{title}</StyledH2>
+        <StyledP>{content}</StyledP>
       </StyledContentContainer>
       <BottomContainer>
         <DropdownMenu>

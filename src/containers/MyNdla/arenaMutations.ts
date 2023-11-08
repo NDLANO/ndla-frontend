@@ -7,7 +7,7 @@
  */
 
 import { gql } from '@apollo/client';
-import { GQLArenaPageQuery, GQLTopicPageQuery } from '../../graphqlTypes';
+import { GQLArenaPageQuery } from '../../graphqlTypes';
 import { useGraphQuery } from '../../util/runQueries';
 
 const arenaPageQueryFragment = gql`

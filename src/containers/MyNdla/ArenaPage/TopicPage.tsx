@@ -100,7 +100,15 @@ const TopicPage = () => {
           />
         </StyledCardContainer>
       )}
-      <PostCard />
+      <PostCard
+        id={'1'}
+        isMainPost={true}
+        title={'Tittel på innlegget'}
+        content={
+          'Lorem ipsum dolor sit amet consectetur. Vitae ut maecenas commodo nisi cursus amet. Mattis a eu suspendisse massa. Vel ac risus nibh phasellus. Est proin in eget ligula at turpis lectus tristique. Ullamcorper praesent eget turpis convallis. Faucibus pellentesque pharetra posuere scelerisque. Ligula at neque tellus aenean. Vivamus posuere eu non ipsum. Ut tellus vivamus mi proin. Duis orci ullamcorper enim gravida nibh tristique adipiscing. Mi lobortis mauris sem tellus neque. Pellentesque montes ut in habitant viverra convallis ac.'
+        }
+        notify={true}
+      />
     </>
   );
 };
