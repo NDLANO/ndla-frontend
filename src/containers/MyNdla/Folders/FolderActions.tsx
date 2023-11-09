@@ -126,10 +126,10 @@ const FolderActions = ({
     const nextFolderId = folders.indexOf(selectedFolder) + 1;
     if (inToolbar) {
       setPreventDefault(true);
-    } else if (folders?.[previousFolderId]) {
-      setFocusId(folders?.[previousFolderId]?.id);
     } else if (folders?.[nextFolderId]?.id) {
       setFocusId(folders[nextFolderId]?.id);
+    } else if (folders?.[previousFolderId]) {
+      setFocusId(folders?.[previousFolderId]?.id);
     } else {
       setPreventDefault(true);
     }

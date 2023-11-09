@@ -6,7 +6,7 @@
  *
  */
 
-import { useCallback, useContext, useMemo } from 'react';
+import { useCallback, useContext, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
@@ -65,6 +65,8 @@ const DraggableResource = ({
     selectedFolder.id,
   );
 
+  const [preventDefault, setPreventDefault] = useState(false);
+
   const onDeleteFolder = useCallback(
     async (resource: GQLFolderResource, index?: number) => {
       const next = index !== undefined ? resources[index + 1]?.id : undefined;
@@ -78,7 +80,14 @@ const DraggableResource = ({
           folderName: selectedFolder.name,
         }),
       });
-      setFocusId(next ?? prev);
+      console.log(next, prev);
+      if (next) {
+        setFocusId(next);
+      } else if (prev) {
+        setFocusId(prev);
+      } else {
+        setPreventDefault(true);
+      }
     },
     [
       addSnack,
@@ -146,7 +155,16 @@ const DraggableResource = ({
     ];
   }, [addSnack, examLock, index, onDeleteFolder, resource, selectedFolder, t]);
 
-  const menu = useMemo(() => <SettingsMenu menuItems={actions} />, [actions]);
+  const menu = useMemo(
+    () => (
+      <SettingsMenu
+        menuItems={actions}
+        setPreventDefault={setPreventDefault}
+        preventDefault={preventDefault}
+      />
+    ),
+    [actions, preventDefault, setPreventDefault],
+  );
 
   const style = {
     transform: CSS.Transform.toString(transform),

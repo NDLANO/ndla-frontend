@@ -251,6 +251,7 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
             id: 'folderLinkCopied',
             content: t('myNdla.folder.sharing.link'),
           });
+          setIsOpen(false);
         }}
       >
         <Copy css={iconCss} />

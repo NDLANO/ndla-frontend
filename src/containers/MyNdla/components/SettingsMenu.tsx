@@ -162,11 +162,13 @@ const SettingsMenu = ({
           size="small"
           hidden={hasOpenModal}
           onCloseAutoFocus={(event) => {
+            console.log(preventDefault);
             setHasOpenModal(false);
             if (skipAutoFocus) {
               event.preventDefault();
               setSkipAutoFocus(false);
             } else if (preventDefault) {
+              console.log(preventDefault);
               event.preventDefault();
               setPreventDefault?.(false);
               document.getElementById('titleAnnouncer')?.focus();
