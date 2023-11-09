@@ -110,7 +110,6 @@ export async function iframeArticleRoute(req: Request) {
         articleId,
         taxonomyId,
         isOembed: 'true',
-        isTopicArticle: taxonomyId?.startsWith('urn:topic') || false,
         basename: lang,
         locale,
         status: 'success',
