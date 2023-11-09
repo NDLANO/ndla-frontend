@@ -126,7 +126,6 @@ const MenuModalContent = ({ onViewTypeChange, viewType, buttons }: Props) => {
   const location = useLocation();
   const { setIsOpen, resetFocus, setResetFocus } =
     useOutletContext<OutletContext>();
-
   const links = useMemo(
     () =>
       menuLinks(t, location).map(
@@ -153,11 +152,8 @@ const MenuModalContent = ({ onViewTypeChange, viewType, buttons }: Props) => {
         e.preventDefault();
         setResetFocus(false);
       }
-      if (location.pathname !== window.location.pathname) {
-        document.getElementById('titleAnnouncer')?.focus();
-      }
     },
-    [resetFocus, setResetFocus, location],
+    [resetFocus, setResetFocus],
   );
 
   return (

@@ -18,6 +18,7 @@ import {
   useRef,
   useCallback,
   memo,
+  useState,
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams, useOutletContext } from 'react-router-dom';
@@ -38,20 +39,15 @@ import { isStudent, copyFolderSharingLink, previewLink } from './util';
 interface FolderButtonProps {
   setFocusId: Dispatch<SetStateAction<string | undefined>>;
   selectedFolder: GQLFolder | null;
-  folders: GQLFolder[];
 }
 
-const FolderButtons = ({
-  setFocusId,
-  selectedFolder,
-  folders,
-}: FolderButtonProps) => {
+const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { folderId } = useParams();
   const { addSnack } = useSnack();
   const { examLock, user } = useContext(AuthContext);
-  const { setResetFocus } = useOutletContext<OutletContext>();
+  const { setResetFocus, setIsOpen } = useOutletContext<OutletContext>();
 
   const shareRef = useRef<HTMLButtonElement | null>(null);
   const unShareRef = useRef<HTMLButtonElement | null>(null);
@@ -59,7 +55,8 @@ const FolderButtons = ({
 
   const { updateFolderStatus } = useUpdateFolderStatusMutation();
   const { deleteFolder } = useDeleteFolderMutation();
-  const { setIsOpen } = useOutletContext<OutletContext>();
+
+  const [preventDefault, setPreventDefault] = useState(false);
 
   const onFolderAdded = useCallback(
     (folder?: GQLFolder) => {
@@ -88,6 +85,7 @@ const FolderButtons = ({
     if (!selectedFolder) {
       return;
     }
+
     await deleteFolder({ variables: { id: selectedFolder.id } });
     if (selectedFolder.id === folderId) {
       navigate(`/minndla/folders/${selectedFolder.parentId ?? ''}`, {
@@ -100,28 +98,19 @@ const FolderButtons = ({
         folderName: selectedFolder.name,
       }),
     });
+    setResetFocus(true);
     setIsOpen(false);
-    const previousFolderId = folders.indexOf(selectedFolder) - 1;
-    setFocusId(
-      previousFolderId <= -1
-        ? undefined
-        : folders[previousFolderId]?.id ?? undefined,
-    );
-
-    if (folders.length <= 1) {
-      setResetFocus(true);
-    }
+    setPreventDefault(true);
   }, [
     addSnack,
     deleteFolder,
     folderId,
     navigate,
     selectedFolder,
-    setResetFocus,
     t,
+    setResetFocus,
     setIsOpen,
-    folders,
-    setFocusId,
+    setPreventDefault,
   ]);
 
   const showAddButton =
@@ -240,9 +229,10 @@ const FolderButtons = ({
       key="deleteFolderButton"
       onDelete={onDeleteFolder}
       onClose={(e) => {
-        if (folders.length <= 0) {
+        if (preventDefault) {
           e?.preventDefault();
           document.getElementById('titleAnnouncer')?.focus();
+          setPreventDefault(false);
         }
       }}
     />

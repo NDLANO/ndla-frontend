@@ -24,7 +24,6 @@ import { SafeLinkButton } from '@ndla/safelink';
 import Tooltip from '@ndla/tooltip';
 import { useSnack } from '@ndla/ui';
 import { ReactNode, useCallback, useContext, useMemo, useState } from 'react';
-import { isTablet } from 'react-device-detect';
 import { GQLFolder } from '../../../graphqlTypes';
 import FolderAndResourceCount from './FolderAndResourceCount';
 import { toFolderPreview } from '../../../routeHelpers';
@@ -222,18 +221,18 @@ export const FolderShareModalContent = ({
         )}
         {t(`myNdla.folder.sharing.description.${type}`)}
         <StyledButtonRow>
-          {isMobile && !isTablet ? (
-            <>
-              {modalButton}
-              {unShareButton}
-              {cancelButton}
-            </>
-          ) : (
+          {!isMobile ? (
             <>
               {unShareButton}
               <StyledSpacing />
               {cancelButton}
               {modalButton}
+            </>
+          ) : (
+            <>
+              {modalButton}
+              {unShareButton}
+              {cancelButton}
             </>
           )}
         </StyledButtonRow>

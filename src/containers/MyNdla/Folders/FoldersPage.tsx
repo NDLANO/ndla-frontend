@@ -198,16 +198,17 @@ const FoldersPage = () => {
     [selectedFolder, folders, setFocusId],
   );
 
+  const folderButtons = useMemo(
+    () => (
+      <FolderButtons selectedFolder={selectedFolder} setFocusId={setFocusId} />
+    ),
+    [selectedFolder, setFocusId],
+  );
+
   return (
     <MyNdlaPageWrapper
       dropDownMenu={dropDownMenu}
-      buttons={
-        <FolderButtons
-          selectedFolder={selectedFolder}
-          setFocusId={setFocusId}
-          folders={folders}
-        />
-      }
+      buttons={folderButtons}
       viewType={viewType}
       onViewTypeChange={setViewType}
       extendTabletView={selectedFolder?.status === 'shared'}
