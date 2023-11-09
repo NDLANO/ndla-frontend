@@ -91,7 +91,7 @@ const PodcastSeriesPage = () => {
 
   const embeds = useMemo(() => {
     if (!podcastSeries?.content?.content) return;
-    return transform(podcastSeries.content.content, {});
+    return transform(podcastSeries.content.content, { renderContext: 'embed' });
   }, [podcastSeries?.content?.content]);
 
   const location = useLocation();
