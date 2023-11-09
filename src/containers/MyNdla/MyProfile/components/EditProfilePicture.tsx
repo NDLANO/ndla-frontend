@@ -11,10 +11,14 @@ import { ButtonV2 } from '@ndla/button';
 import Icon from '@ndla/icons';
 import { useTranslation } from 'react-i18next';
 import { Pencil } from '@ndla/icons/action';
+import { useState } from 'react';
+import { spacing } from '@ndla/core';
+import { Modal, ModalTrigger } from '@ndla/modal';
+import UploadModalContent from './UploadModalContent';
 
 const StyledChangeAvatarButton = styled(ButtonV2)`
   height: 42px;
-  gap: 8px;
+  gap: ${spacing.xsmall};
   white-space: nowrap;
 `;
 
@@ -25,20 +29,24 @@ const StyledPencilSvg = styled(Icon)`
 
 const PencilIcon = StyledPencilSvg.withComponent(Pencil);
 
-function EditProfilePicture() {
+const EditProfilePicture = () => {
   const { t } = useTranslation();
+  const [showModal, setShowModal] = useState<boolean>(false);
 
   return (
-    <>
-      <StyledChangeAvatarButton
-        colorTheme="primary"
-        //onClick={} to open picture upload modal
-      >
-        <PencilIcon />
-        {t('myNdla.myProfile.editButtonText')}
-      </StyledChangeAvatarButton>
-    </>
+    <Modal open={showModal} onOpenChange={setShowModal}>
+      <ModalTrigger>
+        <StyledChangeAvatarButton
+          colorTheme="primary"
+          onClick={() => setShowModal(!showModal)}
+        >
+          <PencilIcon />
+          {t('myNdla.myProfile.editButtonText')}
+          <UploadModalContent />
+        </StyledChangeAvatarButton>
+      </ModalTrigger>
+    </Modal>
   );
-}
+};
 
 export default EditProfilePicture;
