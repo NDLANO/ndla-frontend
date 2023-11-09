@@ -1510,10 +1510,13 @@ export type GQLSubject = GQLTaxonomyEntity & {
   __typename?: 'Subject';
   allTopics?: Maybe<Array<GQLTopic>>;
   breadcrumbs: Array<Scalars['String']['output']>;
+  buildsOn?: Maybe<Array<Scalars['String']['output']>>;
+  connectedTo?: Maybe<Array<Scalars['String']['output']>>;
   contentUri?: Maybe<Scalars['String']['output']>;
   contexts: Array<GQLTaxonomyContext>;
   grepCodes?: Maybe<Array<Scalars['String']['output']>>;
   id: Scalars['String']['output'];
+  leadsTo?: Maybe<Array<Scalars['String']['output']>>;
   metadata: GQLTaxonomyMetadata;
   name: Scalars['String']['output'];
   path: Scalars['String']['output'];
@@ -3452,6 +3455,21 @@ export type GQLSubjectContainer_SubjectFragment = {
       visualElement: { __typename?: 'SubjectPageVisualElement'; url: string };
     };
     banner: { __typename?: 'SubjectPageBanner'; desktopUrl: string };
+    buildsOn: Array<{
+      __typename?: 'SubjectLink';
+      name?: string;
+      path?: string;
+    }>;
+    connectedTo: Array<{
+      __typename?: 'SubjectLink';
+      name?: string;
+      path?: string;
+    }>;
+    leadsTo: Array<{
+      __typename?: 'SubjectLink';
+      name?: string;
+      path?: string;
+    }>;
   };
 } & GQLSubjectPageContent_SubjectFragment;
 
@@ -3717,21 +3735,6 @@ export type GQLFrontpageDataQuery = {
     } & GQLLicenseBox_ArticleFragment &
       GQLStructuredArticleDataFragment;
   };
-};
-
-export type GQLFrontpageSubjectsQueryVariables = Exact<{
-  [key: string]: never;
-}>;
-
-export type GQLFrontpageSubjectsQuery = {
-  __typename?: 'Query';
-  subjects?: Array<{
-    __typename?: 'Subject';
-    id: string;
-    name: string;
-    path: string;
-    metadata: { __typename?: 'TaxonomyMetadata'; customFields: any };
-  }>;
 };
 
 export type GQLIframeArticlePage_ArticleFragment = {
