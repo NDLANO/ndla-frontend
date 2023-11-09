@@ -6,7 +6,6 @@
  *
  */
 
-import Icon from '@ndla/icons';
 import {
   DropdownMenu,
   DropdownTrigger,
@@ -17,19 +16,13 @@ import { Pencil, TrashCanOutline } from '@ndla/icons/action';
 import { HorizontalMenu } from '@ndla/icons/lib/contentType';
 import { ReportOutlined } from '@ndla/icons/lib/common';
 import styled from '@emotion/styled';
-import { useTranslation } from 'react-i18next';
 import { Switch } from '@ndla/switch';
 import { ButtonV2, IconButtonV2 } from '@ndla/button';
-import { colors, spacing, breakpoints, mq, fonts, misc } from '@ndla/core';
+import { colors, spacing, fonts } from '@ndla/core';
 
 interface Props {
   id: string;
   isMainPost: boolean;
-  // avatar: {
-  //   image: string;
-  //   name: string;
-  //   school: string;
-  // };
   title: string;
   content: string;
   notify: boolean;
@@ -116,9 +109,9 @@ const StyledAddCommentButton = styled(ButtonV2)`
   white-space: nowrap;
 `;
 
-const PostCard = ({ id, isMainPost, title, content, notify }: Props) => {
+const PostCard = ({ id, title, content }: Props) => {
   return (
-    <StyledCardContainer>
+    <StyledCardContainer key={id}>
       <StyledTopContainer>
         <StyledAvatarContainer>
           <StyledAvatarImg>R</StyledAvatarImg>
