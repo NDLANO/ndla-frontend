@@ -76,9 +76,9 @@ const MyContactArea = ({ user, showProfileButton }: MyContractAreaProps) => {
       {!isStudent(user) && (
         <AvatarContainer>
           <UserAvatar
-            hasUploadedAvatar={false}
             userName={user?.displayName}
             showProfileButton
+            userId={user?.uid?.at(0)}
           />
         </AvatarContainer>
       )}

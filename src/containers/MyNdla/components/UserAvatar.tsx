@@ -7,42 +7,18 @@
  */
 
 import styled from '@emotion/styled';
-import { css } from '@emotion/react';
-import { fonts, colors, breakpoints, mq } from '@ndla/core';
+import { breakpoints, mq } from '@ndla/core';
 import EditProfilePicture from '../MyProfile/components/EditProfilePicture';
+import Avatar from './Avatar';
 
 type UserAvatarProps = {
-  hasUploadedAvatar: boolean;
   userName: string | undefined;
+  userId: string | undefined;
   showProfileButton?: boolean;
 };
 
 const UserAvatarContainer = styled.div`
   position: relative;
-`;
-
-const StyledUserAvatarWrapper = styled.div<UserAvatarProps>`
-  width: 250px;
-  height: 250px;
-  ${({ hasUploadedAvatar }) =>
-    hasUploadedAvatar
-      ? css`
-          border-radius: 249px;
-          border: 1px solid ${colors.brand.tertiary};
-        `
-      : css`
-          border-radius: 246px;
-          border: 4px solid ${colors.brand.tertiary};
-        `};
-  background-color: ${colors.background.default};
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const UserInitials = styled.div`
-  ${fonts.sizes('130px', '24px')};
-  color: ${colors.brand.dark};
 `;
 
 const DesktopButtonContainer = styled.div`
@@ -57,27 +33,13 @@ const DesktopButtonContainer = styled.div`
 `;
 
 const UserAvatar = ({
-  hasUploadedAvatar,
   userName,
   showProfileButton,
+  userId,
 }: UserAvatarProps) => {
-  // regex to get user initials
-  const initials = userName
-    ?.match(/(^\S\S?|\s\S)?/g)
-    ?.map((v) => v.trim())
-    .join('')
-    .match(/(^\S|\S$)?/g)
-    ?.join('')
-    .toLocaleUpperCase();
-
   return (
     <UserAvatarContainer>
-      <StyledUserAvatarWrapper
-        hasUploadedAvatar={hasUploadedAvatar}
-        userName={userName}
-      >
-        <UserInitials>{initials}</UserInitials>
-      </StyledUserAvatarWrapper>
+      <Avatar displayName={userName} userId={userId} myProfile />
       {showProfileButton && (
         <DesktopButtonContainer>
           <EditProfilePicture />
