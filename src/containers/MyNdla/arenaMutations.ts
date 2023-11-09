@@ -62,6 +62,6 @@ export const useCategories = () => {
 
 export const useTopics = () => {
   const { data, loading, error } =
-    useGraphQuery<GQLTopicPageQuery>(topicPageQuery);
+    useGraphQuery<GQLArenaPageQuery>(topicPageQuery);
   return { arenaTopics: data, loading, error };
 };

@@ -46,11 +46,6 @@ const ArenaPage = () => {
   const { t } = useTranslation();
   const { loading, arenaCategories } = useCategories();
 
-  console.log(
-    'arenaCategories?.arenaCategories',
-    arenaCategories?.arenaCategories,
-  );
-
   if (loading) {
     return <Spinner />;
   }

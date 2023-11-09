@@ -62,9 +62,7 @@ const StyledCardContainer = styled.div`
 
 const TopicPage = () => {
   const { t } = useTranslation();
-  const { loading, arenaTopics } = useTopics();
-
-  console.log(arenaTopics);
+  const { loading } = useTopics();
 
   if (loading) {
     return <Spinner />;
