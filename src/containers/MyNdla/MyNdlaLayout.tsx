@@ -109,6 +109,7 @@ const MoreButton = styled(IconButtonV2)`
   gap: ${spacing.xxsmall};
   color: ${colors.brand.primary};
   ${fonts.sizes('10px', '12px')};
+  font-weight: ${fonts.weight.bold};
 
   border-radius: ${spacing.xxsmall};
 

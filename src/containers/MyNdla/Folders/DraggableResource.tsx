@@ -80,7 +80,6 @@ const DraggableResource = ({
           folderName: selectedFolder.name,
         }),
       });
-      console.log(next, prev);
       if (next) {
         setFocusId(next);
       } else if (prev) {
