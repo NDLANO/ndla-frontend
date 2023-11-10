@@ -43,7 +43,11 @@ const arenaNotificationFragment = gql`
     importance
     path
     read
+    user {
+      ...ArenaUserQueryFragment
+    }
   }
+  ${arenaUserFragment}
 `;
 
 const arenaNotificationQuery = gql`

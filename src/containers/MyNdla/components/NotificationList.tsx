@@ -129,17 +129,20 @@ const NotificationList = ({ notifications, markAllRead }: Props) => {
                 <StyledKeyboardReturn />
                 <div>
                   <NotificationTitle>
-                    {`${notification.from} 
+                    {`${notification.user.displayName} 
                         ${t('myNdla.arena.notification.commentedOn')} `}
                     <em>{notification.bodyShort}</em>
                   </NotificationTitle>
                   <TimeSince>
-                    {`${capitalizeFirstLetter(
-                      formatDistanceStrict(notification.datetimeISO, now, {
+                    {`${capitalizeFirstLetter('Frank')}
+                    ${formatDistanceStrict(
+                      Date.parse(notification.datetimeISO),
+                      now,
+                      {
                         addSuffix: true,
                         locale: Locales[language],
                         roundingMethod: 'floor',
-                      }),
+                      },
                     )}`}
                   </TimeSince>
                 </div>

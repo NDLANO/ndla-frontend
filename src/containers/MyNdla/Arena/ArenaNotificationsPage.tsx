@@ -15,6 +15,7 @@ const Description = styled.div`
 const ArenaNotificationPage = () => {
   const { t } = useTranslation();
   const { notifications } = useArenaNotifications();
+  console.log(notifications);
   return (
     <div>
       <HelmetWithTracker

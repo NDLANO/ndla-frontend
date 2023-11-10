@@ -59,11 +59,15 @@ export type GQLArenaCategory = {
 export type GQLArenaNotification = {
   __typename?: 'ArenaNotification';
   bodyShort: Scalars['String']['output'];
-  datetimeISO: Scalars['Int']['output'];
+  datetime: Scalars['Int']['output'];
+  datetimeISO: Scalars['String']['output'];
   from: Scalars['Int']['output'];
+  image: Scalars['String']['output'];
   importance: Scalars['Int']['output'];
   path: Scalars['String']['output'];
   read: Scalars['Boolean']['output'];
+  readClass: Scalars['String']['output'];
+  user: GQLArenaUser;
 };
 
 export type GQLArenaPost = {
@@ -391,16 +395,10 @@ export type GQLConceptResult = {
   totalCount: Scalars['Int']['output'];
 };
 
-export type GQLConfigMetaBoolean = {
-  __typename?: 'ConfigMetaBoolean';
+export type GQLConfigMetaRestricted = {
+  __typename?: 'ConfigMetaRestricted';
   key: Scalars['String']['output'];
-  value: Scalars['Boolean']['output'];
-};
-
-export type GQLConfigMetaStringList = {
-  __typename?: 'ConfigMetaStringList';
-  key: Scalars['String']['output'];
-  value: Array<Scalars['String']['output']>;
+  value: Scalars['String']['output'];
 };
 
 export type GQLContributor = {
@@ -965,10 +963,8 @@ export type GQLMutationUpdatePersonalDataArgs = {
 
 export type GQLMyNdlaPersonalData = {
   __typename?: 'MyNdlaPersonalData';
-  arenaEnabled: Scalars['Boolean']['output'];
   favoriteSubjects: Array<Scalars['String']['output']>;
   id: Scalars['Int']['output'];
-  organization: Scalars['String']['output'];
   role: Scalars['String']['output'];
 };
 
@@ -1082,7 +1078,6 @@ export type GQLQuery = {
   arenaCategories: Array<GQLArenaCategory>;
   arenaCategory?: Maybe<GQLArenaCategory>;
   arenaNotifications: Array<GQLArenaNotification>;
-  arenaEnabledOrgs?: Maybe<GQLConfigMetaStringList>;
   arenaRecentTopics: Array<GQLArenaTopic>;
   arenaTopic?: Maybe<GQLArenaTopic>;
   arenaTopicsByUser: Array<GQLArenaTopic>;
@@ -1096,7 +1091,7 @@ export type GQLQuery = {
   conceptSearch?: Maybe<GQLConceptResult>;
   coreElement?: Maybe<GQLCoreElement>;
   coreElements?: Maybe<Array<GQLCoreElement>>;
-  examLockStatus: GQLConfigMetaBoolean;
+  examLockStatus: GQLConfigMetaRestricted;
   filmfrontpage?: Maybe<GQLFilmFrontpage>;
   folder: GQLFolder;
   folderResourceMeta?: Maybe<GQLFolderResourceMeta>;
@@ -1835,9 +1830,9 @@ export type GQLExamLockStatusQueryVariables = Exact<{ [key: string]: never }>;
 export type GQLExamLockStatusQuery = {
   __typename?: 'Query';
   examLockStatus: {
-    __typename?: 'ConfigMetaBoolean';
+    __typename?: 'ConfigMetaRestricted';
     key: string;
-    value: boolean;
+    value: string;
   };
 };
 
@@ -2679,11 +2674,12 @@ export type GQLArenaUserQuery = {
 export type GQLArenaNotificationFragmentFragment = {
   __typename?: 'ArenaNotification';
   bodyShort: string;
-  datetimeISO: number;
+  datetimeISO: string;
   from: number;
   importance: number;
   path: string;
   read: boolean;
+  user: { __typename?: 'ArenaUser' } & GQLArenaUserQueryFragmentFragment;
 };
 
 export type GQLArenaNotificationsQueryVariables = Exact<{
