@@ -14,10 +14,11 @@ import NotificationList from './NotificationList';
 import { SafeLinkButton } from '@ndla/safelink';
 import { toAllNotifications } from '../../../routeHelpers';
 import NotificationBellButton from './NotificationButton';
+import { GQLArenaNotification } from '../../../graphqlTypes';
 
 const StyledContent = styled(Content)`
   background-color: ${colors.background.default};
-  box-shadow: 0 0 12px #ccc;
+  box-shadow: 0 0 ${spacing.nsmall} #ccc;
   padding: ${spacing.normal};
   gap: ${spacing.small};
 `;
@@ -31,7 +32,7 @@ const ShowAllButton = styled(SafeLinkButton)`
 `;
 
 interface Props {
-  notifications: any[];
+  notifications: GQLArenaNotification[];
 }
 
 const Notifications = ({ notifications }: Props) => {
@@ -47,7 +48,7 @@ const Notifications = ({ notifications }: Props) => {
       <Portal>
         <StyledContent>
           <NotificationList
-            notifications={notifications.slice(0, 5)}
+            notifications={notifications?.slice(0, 5)}
             markAllRead={markAllNotificationsAsRead}
           />
           <ShowAllButton to={toAllNotifications()} fontWeight="bold">

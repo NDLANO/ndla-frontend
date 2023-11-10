@@ -23,6 +23,15 @@ type ArenaCategory {
   topics: [ArenaTopic!]
 }
 
+type ArenaNotification {
+  bodyShort: String!
+  datetimeISO: Int!
+  from: Int!
+  importance: Int!
+  path: String!
+  read: Boolean!
+}
+
 type ArenaPost {
   content: String!
   id: Int!
@@ -887,6 +896,7 @@ type Query {
   allFolderResources(size: Int): [FolderResource!]!
   arenaCategories: [ArenaCategory!]!
   arenaCategory(categoryId: Int!, page: Int!): ArenaCategory
+  arenaNotifications: [ArenaNotification!]!
   arenaRecentTopics: [ArenaTopic!]!
   arenaTopic(page: Int!, topicId: Int!): ArenaTopic
   arenaTopicsByUser(userSlug: String!): [ArenaTopic!]!

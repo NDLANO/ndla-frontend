@@ -1,11 +1,12 @@
 import { ButtonV2 } from '@ndla/button';
 import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
-import { NotificationsFilled } from '@ndla/icons/common';
+import { Bell } from '@ndla/icons/common';
 import { useTranslation } from 'react-i18next';
 import { SafeLinkButton } from '@ndla/safelink';
 import { toAllNotifications } from '../../../routeHelpers';
 import { useMemo } from 'react';
+import { GQLArenaNotification } from '../../../graphqlTypes';
 
 const NotificationCounter = styled.div`
   position: relative;
@@ -28,16 +29,16 @@ const IconWrapper = styled.div`
   vertical-align: center;
 `;
 
-const StyledBellIcon = styled(NotificationsFilled)`
+const StyledBellIcon = styled(Bell)`
   width: 20px;
   height: 20px;
 `;
 
-const getNewNotifications = (notifications: any[]) =>
-  notifications.filter((notification) => !notification.viewed).length;
+const getNewNotifications = (notifications?: GQLArenaNotification[]) =>
+  notifications?.filter((notification) => !notification.read)?.length ?? 0;
 
 interface Props {
-  notifications: any[];
+  notifications?: GQLArenaNotification[];
   type?: 'link';
 }
 

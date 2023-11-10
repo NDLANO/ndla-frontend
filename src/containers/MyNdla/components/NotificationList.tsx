@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { StyledUl } from '../../SharedFolderPage/components/Folder';
 import { formatDistanceStrict } from 'date-fns';
 import { nb, nn, enGB } from 'date-fns/locale';
-import { toArenaNotification } from '../../../routeHelpers';
+import { GQLArenaNotification } from '../../../graphqlTypes';
 
 const TitleWrapper = styled.div`
   display: flex;
@@ -97,7 +97,7 @@ const capitalizeFirstLetter = (str: string) =>
   str.charAt(0).toUpperCase() + str.slice(1);
 
 interface Props {
-  notifications: any[];
+  notifications?: GQLArenaNotification[];
   markAllRead: () => void;
 }
 
@@ -117,24 +117,24 @@ const NotificationList = ({ notifications, markAllRead }: Props) => {
         </ButtonV2>
       </TitleWrapper>
       <StyledList>
-        {notifications.map((notification) => (
+        {notifications?.map((notification) => (
           <StyledLi>
             <StyledLink
-              to={toArenaNotification(notification.subjectId)}
+              to={notification.path}
               variant="stripped"
-              data-not-viewed={!notification.viewed}
+              data-not-viewed={!notification.read}
             >
               <Notification>
                 <StyledKeyboardReturn />
                 <div>
                   <NotificationTitle>
-                    {`${notification.fromUser} 
+                    {`${notification.from} 
                         ${t('myNdla.arena.notification.commentedOn')} `}
-                    <em>{notification.title}</em>
+                    <em>{notification.bodyShort}</em>
                   </NotificationTitle>
                   <TimeSince>
                     {`${capitalizeFirstLetter(
-                      formatDistanceStrict(notification.time, now, {
+                      formatDistanceStrict(notification.datetimeISO, now, {
                         addSuffix: true,
                         locale: Locales[language],
                         roundingMethod: 'floor',
@@ -143,7 +143,7 @@ const NotificationList = ({ notifications, markAllRead }: Props) => {
                   </TimeSince>
                 </div>
               </Notification>
-              {!notification.viewed && <StyledDot />}
+              {!notification.read && <StyledDot />}
             </StyledLink>
           </StyledLi>
         ))}

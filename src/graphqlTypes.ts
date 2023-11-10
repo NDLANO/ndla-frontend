@@ -56,6 +56,16 @@ export type GQLArenaCategory = {
   topics?: Maybe<Array<GQLArenaTopic>>;
 };
 
+export type GQLArenaNotification = {
+  __typename?: 'ArenaNotification';
+  bodyShort: Scalars['String']['output'];
+  datetimeISO: Scalars['Int']['output'];
+  from: Scalars['Int']['output'];
+  importance: Scalars['Int']['output'];
+  path: Scalars['String']['output'];
+  read: Scalars['Boolean']['output'];
+};
+
 export type GQLArenaPost = {
   __typename?: 'ArenaPost';
   content: Scalars['String']['output'];
@@ -1063,6 +1073,7 @@ export type GQLQuery = {
   allFolderResources: Array<GQLFolderResource>;
   arenaCategories: Array<GQLArenaCategory>;
   arenaCategory?: Maybe<GQLArenaCategory>;
+  arenaNotifications: Array<GQLArenaNotification>;
   arenaRecentTopics: Array<GQLArenaTopic>;
   arenaTopic?: Maybe<GQLArenaTopic>;
   arenaTopicsByUser: Array<GQLArenaTopic>;
@@ -2638,23 +2649,6 @@ export type GQLMultidisciplinaryTopicWrapperQuery = {
 export type GQLMultidisciplinaryTopicWrapper_SubjectFragment = {
   __typename?: 'Subject';
 } & GQLMultidisciplinaryTopic_SubjectFragment;
-
-export type GQLArenaUserQueryFragmentFragment = {
-  __typename?: 'ArenaUser';
-  displayName: string;
-  id: number;
-  profilePicture?: string;
-  slug: string;
-};
-
-export type GQLArenaUserQueryVariables = Exact<{
-  username: Scalars['String']['input'];
-}>;
-
-export type GQLArenaUserQuery = {
-  __typename?: 'Query';
-  arenaUser?: { __typename?: 'ArenaUser' } & GQLArenaUserQueryFragmentFragment;
-};
 
 export type GQLFolderResourceFragmentFragment = {
   __typename: 'FolderResource';
