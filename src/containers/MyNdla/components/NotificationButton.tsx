@@ -2,10 +2,10 @@ import { ButtonV2 } from '@ndla/button';
 import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
 import { Bell } from '@ndla/icons/common';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { SafeLinkButton } from '@ndla/safelink';
 import { toAllNotifications } from '../../../routeHelpers';
-import { useMemo } from 'react';
 import { GQLArenaNotification } from '../../../graphqlTypes';
 
 const NotificationCounter = styled.div`

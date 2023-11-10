@@ -1,14 +1,14 @@
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { spacing, colors, fonts } from '@ndla/core';
-import { HelpCircleDual, KeyboardReturn } from '@ndla/icons/lib/common';
+import { HelpCircleDual, KeyboardReturn } from '@ndla/icons/common';
 import { SafeLinkButton } from '@ndla/safelink';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyledUl } from '../../SharedFolderPage/components/Folder';
 import { formatDistanceStrict } from 'date-fns';
 import { nb, nn, enGB } from 'date-fns/locale';
-import { GQLArenaNotification } from '../../../graphqlTypes';
-import { useMemo } from 'react';
+import { GQLArenaNotificationFragmentFragment } from '../../../graphqlTypes';
 
 const TitleWrapper = styled.div`
   display: flex;
@@ -98,7 +98,7 @@ const capitalizeFirstLetter = (str: string) =>
   str.charAt(0).toUpperCase() + str.slice(1);
 
 interface Props {
-  notifications?: GQLArenaNotification[];
+  notifications?: GQLArenaNotificationFragmentFragment[];
   markAllRead: () => void;
 }
 
@@ -108,7 +108,7 @@ const NotificationList = ({ notifications, markAllRead }: Props) => {
     i18n: { language },
   } = useTranslation();
 
-  const now = useMemo(() => new Date(), [notifications]);
+  const now = useMemo(() => new Date(), []);
   return (
     <>
       <TitleWrapper>
@@ -118,8 +118,8 @@ const NotificationList = ({ notifications, markAllRead }: Props) => {
         </ButtonV2>
       </TitleWrapper>
       <StyledList>
-        {notifications?.map((notification) => (
-          <StyledLi>
+        {notifications?.map((notification, index) => (
+          <StyledLi key={index}>
             <StyledLink
               to={notification.path}
               variant="stripped"

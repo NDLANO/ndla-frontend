@@ -6,12 +6,12 @@
  *
  */
 
-import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
+import { SafeLinkButton } from '@ndla/safelink';
+import styled from '@emotion/styled';
 import { Root, Trigger, Portal, Content, Arrow } from '@radix-ui/react-popover';
 import { useTranslation } from 'react-i18next';
 import NotificationList from './NotificationList';
-import { SafeLinkButton } from '@ndla/safelink';
 import { toAllNotifications } from '../../../routeHelpers';
 import NotificationBellButton from './NotificationButton';
 import { GQLArenaNotification } from '../../../graphqlTypes';
@@ -37,7 +37,6 @@ interface Props {
 
 const Notifications = ({ notifications }: Props) => {
   const { t } = useTranslation();
-  console.log(notifications);
 
   const markAllNotificationsAsRead = () => {};
   return (
