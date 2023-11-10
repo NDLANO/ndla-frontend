@@ -168,8 +168,8 @@ const SettingsMenu = ({
               setSkipAutoFocus(false);
             } else if (preventDefault) {
               event.preventDefault();
-              setPreventDefault?.(false);
               document.getElementById('titleAnnouncer')?.focus();
+              setPreventDefault?.(false);
             } else {
               dropdownTriggerRef.current?.focus();
             }
@@ -239,7 +239,11 @@ const SettingsMenu = ({
         forceMount
         onCloseAutoFocus={(event) => {
           event.preventDefault();
-          dropdownTriggerRef.current?.focus();
+          if (dropdownTriggerRef.current) {
+            dropdownTriggerRef.current?.focus();
+          } else {
+            document.getElementById('titleAnnouncer')?.focus();
+          }
           setHasOpenModal(false);
         }}
       >
