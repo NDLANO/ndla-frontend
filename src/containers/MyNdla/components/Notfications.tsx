@@ -37,9 +37,9 @@ interface Props {
 
 const Notifications = ({ notifications }: Props) => {
   const { t } = useTranslation();
+  console.log(notifications);
 
   const markAllNotificationsAsRead = () => {};
-
   return (
     <Root>
       <Trigger asChild>

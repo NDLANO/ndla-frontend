@@ -7,7 +7,7 @@
  */
 
 import { gql } from '@apollo/client';
-import { GQLArenaNotification, GQLArenaUser } from '../../graphqlTypes';
+import { GQLArenaNotificationsQuery, GQLArenaUser } from '../../graphqlTypes';
 import { useGraphQuery } from '../../util/runQueries';
 
 const arenaUserFragment = gql`
@@ -56,8 +56,8 @@ const arenaNotificationQuery = gql`
 `;
 
 export const useArenaNotifications = () => {
-  const { loading, data } = useGraphQuery<GQLArenaNotification[]>(
+  const { loading, data } = useGraphQuery<GQLArenaNotificationsQuery>(
     arenaNotificationQuery,
   );
-  return { notifications: data, loading };
+  return { notifications: data?.arenaNotifications, loading };
 };

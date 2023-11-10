@@ -8,6 +8,7 @@ import { StyledUl } from '../../SharedFolderPage/components/Folder';
 import { formatDistanceStrict } from 'date-fns';
 import { nb, nn, enGB } from 'date-fns/locale';
 import { GQLArenaNotification } from '../../../graphqlTypes';
+import { useMemo } from 'react';
 
 const TitleWrapper = styled.div`
   display: flex;
@@ -107,7 +108,7 @@ const NotificationList = ({ notifications, markAllRead }: Props) => {
     i18n: { language },
   } = useTranslation();
 
-  const now = new Date();
+  const now = useMemo(() => new Date(), [notifications]);
   return (
     <>
       <TitleWrapper>
