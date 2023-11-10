@@ -7,11 +7,11 @@
 
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
-import { fonts, colors } from '@ndla/core';
+import { fonts, colors, spacing } from '@ndla/core';
 
 const ModeratorTagContainer = styled.div`
-  border-radius: 4px;
-  padding: 2px 12px;
+  border-radius: ${spacing.xxsmall};
+  padding: 2px ${spacing.small};
   background-color: ${colors.brand.primary};
   width: fit-content;
   height: fit-content;
@@ -20,9 +20,9 @@ const ModeratorTagContainer = styled.div`
   font-weight: ${fonts.weight.semibold};
 `;
 
-function ModeratorTag() {
+const ModeratorTag = () => {
   const { t } = useTranslation();
   return <ModeratorTagContainer>{t('user.moderator')}</ModeratorTagContainer>;
-}
+};
 
 export default ModeratorTag;
