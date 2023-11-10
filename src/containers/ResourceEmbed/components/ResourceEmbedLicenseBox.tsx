@@ -16,7 +16,9 @@ import AudioLicenseList from '../../../components/license/AudioLicenseList';
 import PodcastLicenseList from '../../../components/license/PodcastLicenseList';
 import VideoLicenseList from '../../../components/license/VideoLicenseList';
 import H5pLicenseList from '../../../components/license/H5pLicenseList';
-import ConceptLicenseList from '../../../components/license/ConceptLicenseList';
+import ConceptLicenseList, {
+  GlossLicenseList,
+} from '../../../components/license/ConceptLicenseList';
 
 interface Props {
   metaData: GQLResourceEmbedLicenseBox_MetaFragment;
@@ -71,6 +73,13 @@ const buildLicenseTabList = (
       content: <ConceptLicenseList concepts={metaData.concepts} />,
     });
   }
+  if (metaData.glosses?.length) {
+    tabs.push({
+      title: t('license.tabs.gloss'),
+      id: 'gloss',
+      content: <GlossLicenseList glosses={metaData.glosses} />,
+    });
+  }
 
   return tabs;
 };
@@ -94,6 +103,11 @@ ResourceEmbedLicenseBox.fragments = {
         metaImageUrl
         ...ConceptLicenseList_ConceptLicense
       }
+      glosses {
+        content
+        metaImageUrl
+        ...GlossLicenseList_GlossLicense
+      }
       h5ps {
         ...H5pLicenseList_H5pLicense
       }
@@ -113,6 +127,7 @@ ResourceEmbedLicenseBox.fragments = {
         ...ImageLicenseList_ImageLicense
       }
     }
+    ${GlossLicenseList.fragments.gloss}
     ${ConceptLicenseList.fragments.concept}
     ${H5pLicenseList.fragments.h5p}
     ${VideoLicenseList.fragments.video}

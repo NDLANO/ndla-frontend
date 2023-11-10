@@ -101,6 +101,7 @@ type ArticleMetaData {
   concepts: [ConceptLicense!]
   copyText: String
   footnotes: [FootNote!]
+  glosses: [GlossLicense!]
   h5ps: [H5pLicense!]
   images: [ImageLicense!]
   podcasts: [PodcastLicense!]
@@ -484,6 +485,15 @@ type Gloss {
   originalLanguage: String!
   transcriptions: Transcription!
   wordClass: String!
+}
+
+type GlossLicense {
+  content: String
+  copyright: ConceptCopyright
+  id: String!
+  metaImageUrl: String
+  src: String
+  title: String!
 }
 
 type Grade {
@@ -1072,6 +1082,7 @@ type ResourceMetaData {
   audios: [AudioLicense!]
   brightcoves: [BrightcoveLicense!]
   concepts: [ConceptLicense!]
+  glosses: [GlossLicense!]
   h5ps: [H5pLicense!]
   images: [ImageLicense!]
   podcasts: [PodcastLicense!]
