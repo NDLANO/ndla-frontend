@@ -16,6 +16,7 @@ const arenaUserFragment = gql`
     id
     profilePicture
     slug
+    groupTitle
   }
 `;
 

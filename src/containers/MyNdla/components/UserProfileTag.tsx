@@ -10,10 +10,11 @@ import { fonts, colors, spacing } from '@ndla/core';
 import SafeLink from '@ndla/safelink';
 import ModeratorTag from './ModeratorTag';
 import Avatar from './Avatar';
+import { useArenaUser } from '../arenaQueries';
 
 type UserProfileTagProps = {
   displayName: string | undefined;
-  userId: string | undefined;
+  username: string | undefined;
   affiliation: string | undefined;
 };
 
@@ -57,19 +58,25 @@ const UserRegion = styled.div`
 `;
 
 // missing link to profile
-// missing moderator tag logic
 const UserProfileTag = ({
   displayName,
-  userId,
+  username,
   affiliation,
 }: UserProfileTagProps) => {
+  const { arenaUser } = useArenaUser(username ?? '');
+
   return (
     <UserProfileTagContainer to="https://om.ndla.no/gdpr">
-      <Avatar displayName={displayName} userId={userId} />
+      <Avatar
+        displayName={arenaUser?.arenaUser?.displayName}
+        profilePicture={arenaUser?.arenaUser?.profilePicture}
+      />
       <UserInformationContainer>
         <NameAndTagContainer>
           <Name>{displayName}</Name>
-          {displayName && <ModeratorTag />}
+          {arenaUser?.arenaUser?.groupTitle === '["Moderator"]' && (
+            <ModeratorTag />
+          )}
         </NameAndTagContainer>
         <UserRegion>{affiliation}</UserRegion>
       </UserInformationContainer>

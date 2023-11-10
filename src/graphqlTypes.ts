@@ -80,12 +80,16 @@ export type GQLArenaTopic = {
 };
 
 export type GQLArenaUser = {
-  __typename?: 'ArenaUser';
-  displayName: Scalars['String']['output'];
-  id: Scalars['Int']['output'];
-  profilePicture?: Maybe<Scalars['String']['output']>;
-  slug: Scalars['String']['output'];
-  username: Scalars['String']['output'];
+  __typename?: 'Query';
+  arenaUser: {
+    __typename?: 'ArenaUser';
+    displayName: Scalars['String']['output'];
+    groupTitle?: Maybe<Scalars['String']['output']>;
+    id: Scalars['Int']['output'];
+    profilePicture?: Maybe<Scalars['String']['output']>;
+    slug: Scalars['String']['output'];
+    username: Scalars['String']['output'];
+  };
 };
 
 export type GQLArticle = {
