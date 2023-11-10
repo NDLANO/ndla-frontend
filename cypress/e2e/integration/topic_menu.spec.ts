@@ -11,10 +11,14 @@ describe('Topic menu', () => {
     cy.fixCypressSpec('/e2e/integration/topic_menu.spec.ts');
     cy.gqlIntercept({
       alias: 'alerts',
-      operations: ['examLockStatus', 'alerts', 'frontpageSubjects'],
+      operations: ['examLockStatus', 'alerts', 'frontpageData', 'mastheadProgramme', 'mastheadFrontpage'],
     });
     cy.visit('/?disableSSR=true');
     cy.gqlWait('@alerts');
+    cy.gqlIntercept({
+      alias: 'programme',
+      operations: ['programmePage'],
+    });
     cy.gqlIntercept({
       alias: 'subjectpageTopicMenu',
       operations: ['mastHead', 'subjectPageTest'],
@@ -22,15 +26,17 @@ describe('Topic menu', () => {
   });
 
   it('Menu is displayed', () => {
-    cy.get('[data-testid="category-list"]  button:contains("Alle fag"):visible')
-      .click()
-      .get('a:contains("Markedsføring og ledelse 1")')
+    cy.get('[data-testid="programme-list"]  a:contains("Medier og kommunikasjon"):visible')
+      .click();
+    cy.gqlWait('@programme');
+    
+    cy.get('a:contains("Medie- og informasjonskunnskap 2")')
       .last()
       .click();
     cy.gqlWait('@subjectpageTopicMenu');
 
     cy.get('[data-testid=masthead-menu-button]').click();
 
-    cy.get('a').contains('Markedsføring og ledelse 1');
+    cy.get('a').contains('Medie- og informasjonskunnskap 2');
   });
 });

@@ -101,7 +101,6 @@ const LtiProvider = ({ locale: propsLocale, ltiData }: Props) => {
         handleSearchParamsChange={handleSearchParamsChange}
         query={searchParams.query}
         subjectIds={searchParams.subjects}
-        programmeNames={searchParams.programs}
         selectedFilters={searchParams.selectedFilters}
         activeSubFilters={searchParams.activeSubFilters}
         subjects={data?.subjects}

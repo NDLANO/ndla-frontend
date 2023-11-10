@@ -15,13 +15,17 @@ const ltiConfig = (): string => {
     <blti:title>NDLA</blti:title>
     <blti:description>Search for and embed NDLA content</blti:description>
     <blti:launch_url>${launchUrl}/lti</blti:launch_url>
-    <blti:icon>${config?.ndlaFrontendDomain}/static/ndla-favicon.png</blti:icon>
+    <blti:icon>${config?.ndlaFrontendDomain}/static/favicon-${
+      config?.ndlaEnvironment === 'dev' ? 'prod' : config?.ndlaEnvironment
+    }-32x32.png</blti:icon>
     <blti:extensions platform="canvas.instructure.com">
         ${domainXML}
         <lticm:options name="editor_button">
             <lticm:property name="enabled">true</lticm:property>
         </lticm:options>
-        <lticm:property name="icon_url">${config?.ndlaFrontendDomain}/static/ndla-favicon.png</lticm:property>
+        <lticm:property name="icon_url">${config?.ndlaFrontendDomain}/static/favicon-${
+          config?.ndlaEnvironment === 'dev' ? 'prod' : config?.ndlaEnvironment
+        }-32x32.png</lticm:property>
         <lticm:property name="privacy_level">public</lticm:property>
         <lticm:options name="resource_selection">
             <lticm:property name="enabled">true</lticm:property>

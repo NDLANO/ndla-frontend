@@ -11,7 +11,7 @@ describe('Toolbox page', () => {
     cy.fixCypressSpec('/e2e/integration/toolbox.spec.ts');
     cy.gqlIntercept({
       alias: 'alerts',
-      operations: ['examLockStatus', 'alerts', 'frontpageSubjects'],
+      operations: ['examLockStatus', 'alerts', 'frontpageData', 'mastheadProgramme', 'mastheadFrontpage'],
     });
     cy.visit('/?disableSSR=true');
     cy.gqlWait('@alerts');
@@ -22,10 +22,9 @@ describe('Toolbox page', () => {
       alias: 'toolboxStudents',
       operations: ['toolboxSubjectPage', 'mastHead'],
     });
-    cy.get('a:contains("Se alle tipsene for elever")').click();
-    cy.gqlWait('@toolboxStudents');
-
-    cy.get('[class="o-wrapper "] h1:contains("Verktøykassa – for elev")');
+    cy.get('button:contains("Meny")').click();
+    cy.get('a:contains("Verktøykassa - for elever")').click();
+    cy.get('[class="o-wrapper "] h1:contains("Verktøykassa – for elever")');
 
     cy.get('[data-testid="nav-box-item"] span').contains(/\w+/);
 
@@ -40,10 +39,10 @@ describe('Toolbox page', () => {
       alias: 'toolboxTeachers',
       operations: ['toolboxSubjectPage', 'mastHead'],
     });
-    cy.get('a:contains("Se alle tipsene for lærere")').click();
-    cy.gqlWait('@toolboxTeachers');
+    cy.get('button:contains("Meny")').click();
+    cy.get('a:contains("Verktøykassa - for lærere")').click();
 
-    cy.get('[class="o-wrapper "] h1:contains("Verktøykassa – for lærer")');
+    cy.get('[class="o-wrapper "] h1:contains("Verktøykassa – for lærere")');
 
     cy.get('[data-testid="nav-box-item"] span').contains(/\w+/);
 

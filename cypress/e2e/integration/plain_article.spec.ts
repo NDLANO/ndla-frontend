@@ -11,7 +11,7 @@ describe('Plain article page', () => {
     cy.fixCypressSpec('/e2e/integration/plain_article.spec.ts');
     cy.gqlIntercept({
       alias: 'plainArticle',
-      operations: ['examLockStatus', 'plainArticlePage', 'alerts'],
+      operations: ['examLockStatus', 'plainArticlePage', 'alerts', 'mastheadFrontpage', 'mastheadProgramme'],
     });
   });
 
