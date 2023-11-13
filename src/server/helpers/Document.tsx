@@ -51,11 +51,71 @@ const Document = ({ helmet, assets, data, styles }: Props) => {
         {helmet.meta.toComponent()}
         {helmet.link.toComponent()}
         {assets.css && <link rel="stylesheet" href={assets.css} />}
-        <link
-          rel="shortcut icon"
-          href="/static/ndla-favicon.png"
-          type="image/x-icon"
-        />
+
+        {config.ndlaEnvironment === 'prod' ? (
+          <>
+            <link
+              rel="icon"
+              type="image/png"
+              sizes="32x32"
+              href="/static/favicon-prod-32x32.png"
+            />
+            <link
+              rel="icon"
+              type="image/png"
+              sizes="16x16"
+              href="/static/favicon-prod-16x16.png"
+            />
+            <link
+              rel="apple-touch-icon"
+              type="image/png"
+              sizes="180x180"
+              href="/static/apple-touch-icon-prod.png"
+            />
+          </>
+        ) : config.ndlaEnvironment === 'staging' ? (
+          <>
+            <link
+              rel="icon"
+              type="image/png"
+              sizes="32x32"
+              href="/static/favicon-staging-32x32.png"
+            />
+            <link
+              rel="icon"
+              type="image/png"
+              sizes="16x16"
+              href="/static/favicon-staging-16x16.png"
+            />
+            <link
+              rel="apple-touch-icon"
+              type="image/png"
+              sizes="180x180"
+              href="/static/apple-touch-icon-staging.png"
+            />
+          </>
+        ) : (
+          <>
+            <link
+              rel="icon"
+              type="image/png"
+              sizes="32x32"
+              href="/static/favicon-test-32x32.png"
+            />
+            <link
+              rel="icon"
+              type="image/png"
+              sizes="16x16"
+              href="/static/favicon-test-16x16.png"
+            />
+            <link
+              rel="apple-touch-icon"
+              type="image/png"
+              sizes="180x180"
+              href="/static/apple-touch-icon-test.png"
+            />
+          </>
+        )}
         {helmet.script.toComponent()}
         {styles && <div dangerouslySetInnerHTML={{ __html: styles }} />}
       </head>

@@ -60,27 +60,6 @@ const messages = {
         'Vil du bruke AI i undervisninga? NDLA har laget to prateroboter som tar vare på personvernet ditt og trygt kan brukes til jobb og i undervisning.',
     },
   },
-  blogPosts: {
-    blog1: {
-      imageUrl: '/static/samiske-laeremidler.jpg',
-      text: 'Utvikler samiske ressurser på NDLA',
-      externalLink:
-        'https://blogg.ndla.no/2023/02/utvikler-samiske-ressurser-pa-ndla/',
-      linkText: 'Fagblogg',
-      license: 'CC-BY-SA-4.0',
-      licenseAuthor: 'Jan Frode Lindsø',
-    },
-    blog2: {
-      imageUrl: '/static/aktiviser-elevene.jpg',
-      text: 'Huskeliste for kontaktlærere',
-      externalLink:
-        'https://blogg.ndla.no/2019/08/huskeliste-for-kontaktlaerere/',
-      linkText: 'Fagblogg',
-      license: 'CC-BY-SA-4.0',
-      licenseAuthor: 'Tom Knudsen',
-    },
-  },
-
   validation: {
     fields: {
       name: 'Navn',

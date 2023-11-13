@@ -75,7 +75,6 @@ const SearchPage = () => {
           handleSearchParamsChange={handleSearchParamsChange}
           query={searchParams.query}
           subjectIds={searchParams.subjects}
-          programmeNames={searchParams.programs}
           selectedFilters={searchParams.selectedFilters?.split(',') ?? []}
           activeSubFilters={searchParams.activeSubFilters?.split(',') ?? []}
           subjectItems={subjectItems}
