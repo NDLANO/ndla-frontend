@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022-present, NDLA.
+ * Copyright (c) 2023-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
@@ -21,13 +21,17 @@ import { useCallback, useEffect, useState } from 'react';
 
 const StyledModalContent = styled(ModalContent)`
   border-radius: ${spacing.xxsmall};
-  height: 100%;
+`;
+
+const StyledModalHeader = styled(ModalHeader)`
+  padding-bottom: 0px;
 `;
 
 const UploadTextContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: ${spacing.xsmall};
 `;
 
 const DragAndDropText = styled.div`
@@ -39,13 +43,14 @@ const ClickToUploadText = styled.div`
   ${fonts.sizes('16px', '26px')};
 `;
 
-const FileText = styled.div``;
+const FileText = styled.div`
+  ${fonts.sizes('14px', '32px')};
+`;
 
 const TextAndButtonContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 100%;
 `;
 
 const AcceptableFileTypes = styled.div`
@@ -65,28 +70,39 @@ const UploadModalContent = () => {
     setIsLoading(isLoading);
   }, [isLoading]);
 
-  // change to single file
+  // UploadDropZone requires array?
   const onAddFiles = useCallback((files: File[]) => {
     setIsLoading(true);
     setTimeout(() => {
-      setAddedFiles((prev) => prev?.concat(files));
+      setAddedFiles(files);
       setIsLoading(false);
     }, 500);
   }, []);
 
-  // missing logic to add files via queries/cancel modal
+  const deleteProfilePicture = () => {
+    //query to delete picture
+  };
+
+  const cancel = () => {
+    setAddedFiles([]);
+  };
+
+  const addProfilePicture = () => {
+    //query to add picture
+  };
+
   return (
     <StyledModalContent
       size={{
         width: 'normal',
         height: 'small',
       }}
-      animation="zoom"
+      animation="zoom" //fade works only on modal, uploadDropZone keeps zoom animation
     >
-      <ModalHeader>
+      <StyledModalHeader>
         <ModalTitle>Last opp nytt profilbilde</ModalTitle>
         <ModalCloseButton />
-      </ModalHeader>
+      </StyledModalHeader>
       <ModalBody>
         <UploadDropZone
           name="file"
@@ -103,19 +119,25 @@ const UploadModalContent = () => {
             </ClickToUploadText>
           </UploadTextContainer>
         </UploadDropZone>
-        {addedFiles &&
-          addedFiles.map((file) => (
-            <FileText key={file.name}>{`Opplastet fil: ${file.name}`}</FileText>
-          ))}
+        {addedFiles.length > 0 && (
+          <FileText
+            key={addedFiles?.at(0)?.name}
+          >{`Opplastet fil: ${addedFiles?.at(0)?.name}`}</FileText>
+        )}
         <TextAndButtonContainer>
           <AcceptableFileTypes>
-            {'Filtyper som er akseptert: PNG, JPG (Maks 5MB)'}
+            {'Godkjente filtyper: PNG, JPG (Maks 5MB)'}
           </AcceptableFileTypes>
           <ButtonContainer>
-            <ButtonV2 fontWeight="semibold" variant="outline">
+            <ButtonV2 fontWeight="semibold" onClick={deleteProfilePicture}>
+              {'Slett profilbilde'}
+            </ButtonV2>
+            <ButtonV2 fontWeight="semibold" variant="outline" onClick={cancel}>
               {'Avbryt'}
             </ButtonV2>
-            <ButtonV2 fontWeight="semibold">{'Lagre profilbilde'}</ButtonV2>
+            <ButtonV2 fontWeight="semibold" onClick={addProfilePicture}>
+              {'Lagre profilbilde'}
+            </ButtonV2>
           </ButtonContainer>
         </TextAndButtonContainer>
       </ModalBody>
