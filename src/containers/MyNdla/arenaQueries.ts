@@ -33,5 +33,5 @@ export const useArenaUser = (username: string) => {
   const { data } = useGraphQuery<GQLArenaUser>(arenaUserQuery, {
     variables: { username },
   });
-  return { arenaUser: data };
+  return { data };
 };

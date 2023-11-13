@@ -8,7 +8,7 @@
 import styled from '@emotion/styled';
 import { fonts, colors, spacing } from '@ndla/core';
 import SafeLink from '@ndla/safelink';
-import ModeratorTag from './ModeratorTag';
+import { useTranslation } from 'react-i18next';
 import Avatar from './Avatar';
 import { useArenaUser } from '../arenaQueries';
 
@@ -52,30 +52,46 @@ const NameAndTagContainer = styled.div`
   align-items: center;
 `;
 
+const ModeratorTag = styled.span`
+  border-radius: ${spacing.xxsmall};
+  padding: 2px ${spacing.small};
+  background-color: ${colors.brand.primary};
+  width: fit-content;
+  height: fit-content;
+  ${fonts.sizes('12px', '20px')}
+  color: ${colors.white};
+  font-weight: ${fonts.weight.semibold};
+`;
+
 const UserRegion = styled.div`
   color: ${colors.text.primary};
   ${fonts.size.text.metaTextSmall}
 `;
 
-// missing link to profile
 const UserProfileTag = ({
   displayName,
   username,
   affiliation,
 }: UserProfileTagProps) => {
-  const { arenaUser } = useArenaUser(username ?? '');
+  const { t } = useTranslation();
+  const { data } = useArenaUser(username ?? '');
+
+  const checkIfModerator = (): boolean | undefined => {
+    return data?.arenaUser?.groupTitleArray?.includes('Moderator');
+  };
 
   return (
+    // missing link to profile
     <UserProfileTagContainer to="https://om.ndla.no/gdpr">
       <Avatar
-        displayName={arenaUser?.arenaUser?.displayName}
-        profilePicture={arenaUser?.arenaUser?.profilePicture}
+        displayName={data?.arenaUser?.displayName}
+        profilePicture={data?.arenaUser?.profilePicture}
       />
       <UserInformationContainer>
         <NameAndTagContainer>
           <Name>{displayName}</Name>
-          {arenaUser?.arenaUser?.groupTitleArray?.includes('Moderator') && (
-            <ModeratorTag />
+          {checkIfModerator() && (
+            <ModeratorTag>{t('user.moderator')}</ModeratorTag>
           )}
         </NameAndTagContainer>
         <UserRegion>{affiliation}</UserRegion>
