@@ -74,7 +74,7 @@ const UserProfileTag = ({
       <UserInformationContainer>
         <NameAndTagContainer>
           <Name>{displayName}</Name>
-          {arenaUser?.arenaUser?.groupTitle === '["Moderator"]' && (
+          {arenaUser?.arenaUser?.groupTitleArray?.includes('Moderator') && (
             <ModeratorTag />
           )}
         </NameAndTagContainer>
