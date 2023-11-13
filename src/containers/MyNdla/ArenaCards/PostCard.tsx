@@ -13,8 +13,8 @@ import {
   DropdownItem,
 } from '@ndla/dropdown-menu';
 import { Pencil, TrashCanOutline } from '@ndla/icons/action';
-import { HorizontalMenu } from '@ndla/icons/lib/contentType';
-import { ReportOutlined } from '@ndla/icons/lib/common';
+import { HorizontalMenu } from '@ndla/icons/contentType';
+import { ReportOutlined } from '@ndla/icons/common';
 import styled from '@emotion/styled';
 import { Switch } from '@ndla/switch';
 import { ButtonV2, IconButtonV2 } from '@ndla/button';
@@ -121,9 +121,7 @@ const PostCard = ({ id, title, content }: Props) => {
           </StyledTextContainer>
         </StyledAvatarContainer>
         <StyledSwitch
-          onChange={function (checked: boolean): void {
-            throw new Error('Function not implemented.');
-          }}
+          onChange={() => {}}
           checked={false}
           label={'Få varsel om nye svar'}
           id={'1'}

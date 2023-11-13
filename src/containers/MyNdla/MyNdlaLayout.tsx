@@ -29,7 +29,6 @@ import IsMobileContext from '../../IsMobileContext';
 import { toHref } from '../../util/urlHelper';
 import NavigationLink from './components/NavigationLink';
 import { aboutNdlaContentWidth } from '../../constants';
-import { pseudoRandomBytes } from 'crypto';
 
 const aboutNdlaMainContentWithSpacing =
   aboutNdlaContentWidth + spacingUnit * 2 * 2;
@@ -189,14 +188,15 @@ const MyNdlaLayout = () => {
                 )}
               </StyledLi>
               {personalData?.arenaEnabled && (
-              <StyledLi role="none">
-                <NavigationLink
-                  id="arena"
-                  name="Arena"
-                  shortName="Arena"
-                  icon={<ForumOutlined />}
-                />
-              </StyledLi>)}
+                <StyledLi role="none">
+                  <NavigationLink
+                    id="arena"
+                    name="Arena"
+                    shortName="Arena"
+                    icon={<ForumOutlined />}
+                  />
+                </StyledLi>
+              )}
               {links.map((link) => (
                 <StyledLi key={link.id} role="none">
                   <NavigationLink
