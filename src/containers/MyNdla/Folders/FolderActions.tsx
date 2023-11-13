@@ -16,7 +16,6 @@ import {
   useContext,
   useMemo,
   useRef,
-  useState,
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSnack } from '@ndla/ui';
@@ -39,8 +38,9 @@ import DeleteModalContent from '../components/DeleteModalContent';
 
 interface Props {
   selectedFolder: GQLFolder | null;
-  inToolbar?: boolean;
+  folderRefId?: string;
   setFocusId: Dispatch<SetStateAction<string | undefined>>;
+  inToolbar?: boolean;
   folders: GQLFolder[];
 }
 
@@ -49,6 +49,7 @@ const FolderActions = ({
   setFocusId,
   folders,
   inToolbar = false,
+  folderRefId,
 }: Props) => {
   const { t } = useTranslation();
   const { addSnack } = useSnack();
@@ -64,8 +65,6 @@ const FolderActions = ({
   const shareRef = useRef<HTMLButtonElement | null>(null);
   const unShareRef = useRef<HTMLButtonElement | null>(null);
   const previewRef = useRef<HTMLButtonElement | null>(null);
-
-  const [preventDefault, setPreventDefault] = useState(false);
 
   const onFolderUpdated = useCallback(() => {
     addSnack({ id: 'folderUpdated', content: t('myNdla.folder.updated') });
@@ -106,36 +105,45 @@ const FolderActions = ({
   );
 
   const onDeleteFolder = useCallback(async () => {
-    if (!selectedFolder) {
-      return;
-    }
+    if (!selectedFolder) return;
 
     await deleteFolder({ variables: { id: selectedFolder.id } });
+
     if (selectedFolder?.id === folderId) {
       navigate(`/minndla/folders/${selectedFolder.parentId}`, {
         replace: true,
       });
     }
+
     addSnack({
       id: 'folderDeleted',
       content: t('myNdla.folder.folderDeleted', {
         folderName: selectedFolder.name,
       }),
     });
+
     const previousFolderId = folders.indexOf(selectedFolder) - 1;
     const nextFolderId = folders.indexOf(selectedFolder) + 1;
-    if (inToolbar) {
-      setPreventDefault(true);
-    } else if (folders?.[nextFolderId]?.id) {
-      setFocusId(folders[nextFolderId]?.id);
-    } else if (folders?.[previousFolderId]) {
-      setFocusId(folders?.[previousFolderId]?.id);
-    } else {
-      setPreventDefault(true);
+    if (folders?.[nextFolderId]?.id || folders?.[previousFolderId]?.id) {
+      setFocusId(folders[nextFolderId]?.id ?? folders?.[previousFolderId]?.id);
+    } else if (folderRefId) {
+      setTimeout(
+        () =>
+          (
+            document
+              .getElementById(folderRefId)
+              ?.getElementsByTagName('a')?.[0] ??
+            document.getElementById(folderRefId)
+          )?.focus(),
+        0,
+      );
+    } else if (inToolbar) {
+      document.getElementById('titleAnnouncer')?.focus();
     }
   }, [
     selectedFolder,
     deleteFolder,
+    folderRefId,
     setFocusId,
     addSnack,
     folderId,
@@ -271,12 +279,13 @@ const FolderActions = ({
       text: t('myNdla.folder.delete'),
       type: 'danger',
       isModal: true,
-      modalContent: (close) => (
+      modalContent: (close, setSkipAutoFocus) => (
         <DeleteModalContent
           title={t('myNdla.folder.delete')}
           description={t('myNdla.confirmDeleteFolder')}
           removeText={t('myNdla.folder.delete')}
           onDelete={async () => {
+            setSkipAutoFocus?.();
             await onDeleteFolder();
             close();
           }}
@@ -319,13 +328,7 @@ const FolderActions = ({
     t,
   ]);
 
-  return (
-    <SettingsMenu
-      menuItems={actionItems}
-      preventDefault={preventDefault}
-      setPreventDefault={setPreventDefault}
-    />
-  );
+  return <SettingsMenu menuItems={actionItems} />;
 };
 
 export default FolderActions;

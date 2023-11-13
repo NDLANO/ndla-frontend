@@ -44,6 +44,7 @@ import DraggableResource from './DraggableResource';
 interface Props {
   selectedFolder: GQLFolder;
   viewType: ViewType;
+  resourceRefId?: string;
 }
 
 const ResourceListWrapper = styled.div`
@@ -52,7 +53,7 @@ const ResourceListWrapper = styled.div`
   gap: ${spacing.xsmall};
 `;
 
-const ResourceList = ({ selectedFolder, viewType }: Props) => {
+const ResourceList = ({ selectedFolder, viewType, resourceRefId }: Props) => {
   const { t } = useTranslation();
   const client = useApolloClient();
   const resources = useMemo(() => selectedFolder.resources, [selectedFolder]);
@@ -163,6 +164,7 @@ const ResourceList = ({ selectedFolder, viewType }: Props) => {
                   resources={resources}
                   setFocusId={setFocusId}
                   selectedFolder={selectedFolder}
+                  resourceRefId={resourceRefId}
                 />
               );
             })}

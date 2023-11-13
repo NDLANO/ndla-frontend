@@ -44,6 +44,7 @@ interface Props {
   folders: GQLFolder[];
   folderId: string | undefined;
   setFocusId: Dispatch<SetStateAction<string | undefined>>;
+  folderRefId?: string;
 }
 
 const FolderList = ({
@@ -52,6 +53,7 @@ const FolderList = ({
   folders,
   folderId,
   setFocusId,
+  folderRefId,
 }: Props) => {
   const { t } = useTranslation();
   const { sortFolders } = useSortFoldersMutation();
@@ -139,6 +141,7 @@ const FolderList = ({
                   type={type}
                   folders={folders}
                   setFocusId={setFocusId}
+                  folderRefId={folderRefId}
                 />
               ))}
             </SortableContext>

@@ -142,6 +142,26 @@ const FoldersPage = () => {
   const [previousFolders, setPreviousFolders] = useState<GQLFolder[]>(folders);
   const [focusId, setFocusId] = useState<string | undefined>(undefined);
 
+  const resourceRefId = useMemo(
+    () =>
+      folders.length === 0 && selectedFolder?.resources.length === 1
+        ? 'languageSelectorFooter'
+        : selectedFolder?.resources?.length !== 1
+        ? undefined
+        : `folder-${folders.slice(-1)[0]?.id}`,
+    [folders, selectedFolder?.resources],
+  );
+
+  const folderRefId = useMemo(
+    () =>
+      folders.length === 1 && selectedFolder?.resources.length === 0
+        ? 'languageSelectorFooter'
+        : folders.length !== 1
+        ? undefined
+        : `resource-${selectedFolder?.resources[0]?.id}`,
+    [selectedFolder?.resources, folders],
+  );
+
   useEffect(() => {
     if (!authContextLoaded) return;
     trackPageView({ title, dimensions: getAllDimensions({ user }) });
@@ -239,6 +259,7 @@ const FoldersPage = () => {
           loading={loading}
           folderId={folderId}
           setFocusId={setFocusId}
+          folderRefId={folderRefId}
         />
         {!!selectedFolder?.resources.length && (
           <ResourceCountContainer>
@@ -251,7 +272,11 @@ const FoldersPage = () => {
           </ResourceCountContainer>
         )}
         {selectedFolder && (
-          <ResourceList selectedFolder={selectedFolder} viewType={viewType} />
+          <ResourceList
+            selectedFolder={selectedFolder}
+            viewType={viewType}
+            resourceRefId={resourceRefId}
+          />
         )}
       </FoldersPageContainer>
     </MyNdlaPageWrapper>

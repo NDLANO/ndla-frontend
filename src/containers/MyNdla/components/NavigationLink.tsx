@@ -87,7 +87,7 @@ const NavigationLink = ({
   onClick,
 }: Props) => {
   const location = useLocation();
-  const selected = location.pathname.match(`^/minndla/${id}$`);
+  const selected = location.pathname.match(`^/minndla/(?:${id})(?:/([^/]+))?$`);
   const selectedIcon = selected ? iconFilled ?? icon : icon;
 
   return (

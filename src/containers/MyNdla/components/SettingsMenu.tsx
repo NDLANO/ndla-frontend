@@ -13,8 +13,6 @@ import {
   useCallback,
   useRef,
   RefObject,
-  SetStateAction,
-  Dispatch,
 } from 'react';
 import styled from '@emotion/styled';
 import { isMobile, isTablet } from 'react-device-detect';
@@ -55,8 +53,7 @@ export interface MenuItemProps {
 
 interface Props {
   menuItems?: MenuItemProps[];
-  preventDefault?: boolean;
-  setPreventDefault?: Dispatch<SetStateAction<boolean>>;
+  inToolbar?: boolean;
 }
 
 const StyledDrawer = styled(Drawer)`
@@ -122,11 +119,7 @@ const ItemButton = styled(ButtonV2)`
   }
 `;
 
-const SettingsMenu = ({
-  menuItems,
-  preventDefault,
-  setPreventDefault,
-}: Props) => {
+const SettingsMenu = ({ menuItems }: Props) => {
   const [open, setOpen] = useState(false);
   const [hasOpenModal, setHasOpenModal] = useState(false);
   const [skipAutoFocus, setSkipAutoFocus] = useState(false);
@@ -166,12 +159,9 @@ const SettingsMenu = ({
             if (skipAutoFocus) {
               event.preventDefault();
               setSkipAutoFocus(false);
-            } else if (preventDefault) {
+            } else if (dropdownTriggerRef.current) {
               event.preventDefault();
-              document.getElementById('titleAnnouncer')?.focus();
-              setPreventDefault?.(false);
-            } else {
-              dropdownTriggerRef.current?.focus();
+              dropdownTriggerRef.current.focus();
             }
           }}
         >
@@ -238,13 +228,11 @@ const SettingsMenu = ({
         hidden={hasOpenModal}
         forceMount
         onCloseAutoFocus={(event) => {
-          event.preventDefault();
-          if (dropdownTriggerRef.current) {
-            dropdownTriggerRef.current?.focus();
-          } else {
-            document.getElementById('titleAnnouncer')?.focus();
-          }
           setHasOpenModal(false);
+          if (dropdownTriggerRef.current) {
+            event.preventDefault();
+            dropdownTriggerRef.current?.focus();
+          }
         }}
       >
         {menuItems?.map((item) => (

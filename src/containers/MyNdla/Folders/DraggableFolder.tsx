@@ -25,6 +25,7 @@ interface Props {
   foldersCount: Record<string, FolderTotalCount>;
   folders: GQLFolder[];
   setFocusId: Dispatch<SetStateAction<string | undefined>>;
+  folderRefId?: string;
 }
 
 interface DraggableListItemProps {
@@ -54,6 +55,7 @@ const DraggableFolder = ({
   foldersCount,
   folders,
   setFocusId,
+  folderRefId,
 }: Props) => {
   const { attributes, setNodeRef, transform, transition, items, isDragging } =
     useSortable({
@@ -76,9 +78,10 @@ const DraggableFolder = ({
         key={folder.id}
         selectedFolder={folder}
         setFocusId={setFocusId}
+        folderRefId={folderRefId}
       />
     ),
-    [folder, folders, setFocusId],
+    [folder, folders, setFocusId, folderRefId],
   );
 
   return (

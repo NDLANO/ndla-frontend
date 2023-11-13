@@ -6,7 +6,7 @@
  *
  */
 
-import { useCallback, useContext, useMemo, useState } from 'react';
+import { useCallback, useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
@@ -37,6 +37,7 @@ interface Props {
   index: number;
   resourceMeta?: GQLFolderResourceMeta;
   setFocusId: (id: string | undefined) => void;
+  resourceRefId?: string;
 }
 
 const DraggableResource = ({
@@ -48,6 +49,7 @@ const DraggableResource = ({
   selectedFolder,
   resources,
   setFocusId,
+  resourceRefId,
 }: Props) => {
   const { t } = useTranslation();
   const { examLock } = useContext(AuthContext);
@@ -65,8 +67,6 @@ const DraggableResource = ({
     selectedFolder.id,
   );
 
-  const [preventDefault, setPreventDefault] = useState(false);
-
   const onDeleteFolder = useCallback(
     async (resource: GQLFolderResource, index?: number) => {
       const next = index !== undefined ? resources[index + 1]?.id : undefined;
@@ -80,12 +80,8 @@ const DraggableResource = ({
           folderName: selectedFolder.name,
         }),
       });
-      if (next) {
-        setFocusId(next);
-      } else if (prev) {
-        setFocusId(prev);
-      } else {
-        setPreventDefault(true);
+      if (next || prev) {
+        setFocusId(next ?? prev);
       }
     },
     [
@@ -143,6 +139,18 @@ const DraggableResource = ({
             onDelete={async () => {
               await onDeleteFolder(resource, index);
               close();
+              if (resourceRefId) {
+                setTimeout(
+                  () =>
+                    (
+                      document
+                        .getElementById(resourceRefId)
+                        ?.getElementsByTagName('a')?.[0] ??
+                      document.getElementById(resourceRefId)
+                    )?.focus(),
+                  0,
+                );
+              }
             }}
             description={t('myNdla.resource.confirmRemove')}
             title={t('myNdla.resource.removeTitle')}
@@ -152,18 +160,18 @@ const DraggableResource = ({
         type: 'danger',
       },
     ];
-  }, [addSnack, examLock, index, onDeleteFolder, resource, selectedFolder, t]);
+  }, [
+    addSnack,
+    examLock,
+    index,
+    onDeleteFolder,
+    resource,
+    selectedFolder,
+    t,
+    resourceRefId,
+  ]);
 
-  const menu = useMemo(
-    () => (
-      <SettingsMenu
-        menuItems={actions}
-        setPreventDefault={setPreventDefault}
-        preventDefault={preventDefault}
-      />
-    ),
-    [actions, preventDefault, setPreventDefault],
-  );
+  const menu = useMemo(() => <SettingsMenu menuItems={actions} />, [actions]);
 
   const style = {
     transform: CSS.Transform.toString(transform),
