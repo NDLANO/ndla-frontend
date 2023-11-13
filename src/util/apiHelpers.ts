@@ -236,15 +236,11 @@ const typePolicies: TypePolicies = {
   MyNdlaPersonalData: {
     keyFields: (obj) => obj.__typename,
   },
+  ConfigMetaBoolean: {
+    keyFields: ['key'],
+  },
   ConfigMetaStringList: {
     keyFields: ['key'],
-    fields: {
-      value: {
-        merge(existing = [], incoming: string[]) {
-          return [...existing, ...incoming];
-        },
-      },
-    },
   },
 };
 

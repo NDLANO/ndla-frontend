@@ -116,7 +116,7 @@ const MyNdlaPage = () => {
   const { trackPageView } = useTracker();
   const { deletePersonalData } = useDeletePersonalData();
   const { allFolderResources } = useRecentlyUsedResources();
-  const { aiEnabledOrgs } = useAiOrgs();
+  const { data: aiData } = useAiOrgs();
   const { data: metaData, loading } = useFolderResourceMetaSearch(
     allFolderResources?.map((r) => ({
       id: r.resourceId,
@@ -147,10 +147,11 @@ const MyNdlaPage = () => {
   const keyedData = keyBy(metaData ?? [], (r) => `${r.type}${r.id}`);
 
   const aiLang = i18n.language === 'nn' ? 'nn' : '';
+
   const allowedAiOrgs = useMemo(() => {
-    if (!aiEnabledOrgs?.value) return [];
-    return aiEnabledOrgs.value;
-  }, [aiEnabledOrgs]);
+    if (!aiData?.aiEnabledOrgs?.value) return [];
+    return aiData?.aiEnabledOrgs?.value;
+  }, [aiData]);
 
   return (
     <StyledPageContentContainer>

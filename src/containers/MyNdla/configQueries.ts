@@ -21,5 +21,5 @@ export const configQuery = gql`
 
 export const useAiOrgs = () => {
   const { data } = useGraphQuery<GQLConfigMetaStringList>(configQuery);
-  return { aiEnabledOrgs: data };
+  return { data };
 };
