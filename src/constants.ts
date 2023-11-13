@@ -62,7 +62,7 @@ export const MY_NDLA_CONTENT_WIDTH = 1440;
 export const programmeRedirects: Record<string, string> = {
   'bygg-og-anleggsteknikk': 'bygg-og-anleggsteknikk__847f59182173',
   'elektro-og-datateknologi': 'elektro-og-datateknologi__55ad4a85ba78',
-  'frisør-blomster-interior-og-eksponeringsdesign':
+  'frisor-blomster-interior-og-eksponeringsdesign':
     'frisor-blomster-interiør-og-eksponeringsdesign__235c13273508',
   'handverk-design-og-produktutvikling':
     'håndverk-design-og-produktutvikling__28899b73c188',

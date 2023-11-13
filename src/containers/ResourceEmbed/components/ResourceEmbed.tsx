@@ -174,6 +174,7 @@ const ResourceEmbed = ({ id, type, noBackground, isOembed, folder }: Props) => {
       frontendDomain: '',
       components: isOembed ? undefined : converterComponents,
       path: pathname,
+      renderContext: 'embed',
     });
   }, [data?.resourceEmbed.content, isOembed, pathname]);
 
