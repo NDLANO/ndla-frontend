@@ -82,6 +82,7 @@ export type GQLArenaTopic = {
 export type GQLArenaUser = {
   __typename?: 'ArenaUser';
   displayName: Scalars['String']['output'];
+  groupTitleArray?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   id: Scalars['Int']['output'];
   profilePicture?: Maybe<Scalars['String']['output']>;
   slug: Scalars['String']['output'];
@@ -144,6 +145,7 @@ export type GQLArticleMetaData = {
   concepts?: Maybe<Array<GQLConceptLicense>>;
   copyText?: Maybe<Scalars['String']['output']>;
   footnotes?: Maybe<Array<GQLFootNote>>;
+  glosses?: Maybe<Array<GQLGlossLicense>>;
   h5ps?: Maybe<Array<GQLH5pLicense>>;
   images?: Maybe<Array<GQLImageLicense>>;
   podcasts?: Maybe<Array<GQLPodcastLicense>>;
@@ -572,6 +574,16 @@ export type GQLGloss = {
   originalLanguage: Scalars['String']['output'];
   transcriptions: GQLTranscription;
   wordClass: Scalars['String']['output'];
+};
+
+export type GQLGlossLicense = {
+  __typename?: 'GlossLicense';
+  content?: Maybe<Scalars['String']['output']>;
+  copyright?: Maybe<GQLConceptCopyright>;
+  id: Scalars['String']['output'];
+  metaImageUrl?: Maybe<Scalars['String']['output']>;
+  src?: Maybe<Scalars['String']['output']>;
+  title: Scalars['String']['output'];
 };
 
 export type GQLGrade = {
@@ -1067,6 +1079,7 @@ export type GQLProgrammePage = {
 
 export type GQLQuery = {
   __typename?: 'Query';
+  aiEnabledOrgs?: Maybe<GQLConfigMetaStringList>;
   alerts?: Maybe<Array<Maybe<GQLUptimeAlert>>>;
   allFolderResources: Array<GQLFolderResource>;
   arenaCategories: Array<GQLArenaCategory>;
@@ -1406,6 +1419,7 @@ export type GQLResourceMetaData = {
   audios?: Maybe<Array<GQLAudioLicense>>;
   brightcoves?: Maybe<Array<GQLBrightcoveLicense>>;
   concepts?: Maybe<Array<GQLConceptLicense>>;
+  glosses?: Maybe<Array<GQLGlossLicense>>;
   h5ps?: Maybe<Array<GQLH5pLicense>>;
   images?: Maybe<Array<GQLImageLicense>>;
   podcasts?: Maybe<Array<GQLPodcastLicense>>;
@@ -2648,6 +2662,46 @@ export type GQLMultidisciplinaryTopicWrapper_SubjectFragment = {
   __typename?: 'Subject';
 } & GQLMultidisciplinaryTopic_SubjectFragment;
 
+export type GQLArenaPageQueryFragmentFragment = {
+  __typename: 'ArenaCategory';
+  description: string;
+  disabled: boolean;
+  htmlDescription: string;
+  id: number;
+  name: string;
+  postCount: number;
+  slug: string;
+};
+
+export type GQLTopicPageQueryFragmentFragment = {
+  __typename: 'ArenaTopic';
+  categoryId: number;
+  id: number;
+  locked: boolean;
+  postCount: number;
+  slug: string;
+  timestamp: string;
+  title: string;
+};
+
+export type GQLArenaPageQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GQLArenaPageQuery = {
+  __typename?: 'Query';
+  arenaCategories: Array<
+    { __typename?: 'ArenaCategory' } & GQLArenaPageQueryFragmentFragment
+  >;
+};
+
+export type GQLTopicPageQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GQLTopicPageQuery = {
+  __typename?: 'Query';
+  arenaCategories: Array<
+    { __typename?: 'ArenaCategory' } & GQLArenaPageQueryFragmentFragment
+  >;
+};
+
 export type GQLArenaUserQueryFragmentFragment = {
   __typename?: 'ArenaUser';
   displayName: string;
@@ -2663,26 +2717,6 @@ export type GQLArenaUserQueryVariables = Exact<{
 export type GQLArenaUserQuery = {
   __typename?: 'Query';
   arenaUser?: { __typename?: 'ArenaUser' } & GQLArenaUserQueryFragmentFragment;
-};
-
-export type GQLArenaPageQueryFragmentFragment = {
-  __typename?: 'ArenaCategory';
-  description: string;
-  disabled: boolean;
-  htmlDescription: string;
-  id: number;
-  name: string;
-  postCount: number;
-  slug: string;
-};
-
-export type GQLArenaPageQueryVariables = Exact<{ [key: string]: never }>;
-
-export type GQLArenaPageQuery = {
-  __typename?: 'Query';
-  arenaCategories: Array<
-    { __typename?: 'ArenaCategory' } & GQLArenaPageQueryFragmentFragment
-  >;
 };
 
 export type GQLFolderResourceFragmentFragment = {
@@ -3164,6 +3198,7 @@ export type GQLMySubjectMyNdlaPersonalDataFragmentFragment = {
   id: number;
   favoriteSubjects: Array<string>;
   role: string;
+  arenaEnabled: boolean;
 };
 
 export type GQLPersonalDataQueryVariables = Exact<{ [key: string]: never }>;

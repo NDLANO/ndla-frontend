@@ -6,7 +6,7 @@
  *
  */
 
-import { useMemo, useContext } from 'react';
+import { useEffect, useMemo, useContext } from 'react';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { breakpoints, colors, mq, spacing, spacingUnit } from '@ndla/core';
@@ -24,10 +24,12 @@ import { TFunction } from 'i18next';
 import { Outlet, useLocation } from 'react-router-dom';
 import { AuthContext } from '../../components/AuthenticationContext';
 import { useFolder, useFolders } from './folderMutations';
+import { usePersonalData } from './userMutations';
 import IsMobileContext from '../../IsMobileContext';
 import { toHref } from '../../util/urlHelper';
 import NavigationLink from './components/NavigationLink';
 import { aboutNdlaContentWidth } from '../../constants';
+import { pseudoRandomBytes } from 'crypto';
 
 const aboutNdlaMainContentWithSpacing =
   aboutNdlaContentWidth + spacingUnit * 2 * 2;
@@ -117,12 +119,19 @@ const TreeStructureWrapper = styled.div`
 
 const MyNdlaLayout = () => {
   const { folders } = useFolders();
+  const { personalData, fetch: fetchPersonalData } = usePersonalData();
   const { t } = useTranslation();
-  const { examLock } = useContext(AuthContext);
+  const { authenticated, examLock } = useContext(AuthContext);
   const location = useLocation();
   const [page, folderId] = location.pathname
     .replace('/minndla/', '')
     .split('/');
+
+  useEffect(() => {
+    if (authenticated) {
+      fetchPersonalData();
+    }
+  }, [authenticated, fetchPersonalData]);
 
   const selectedFolder = useFolder(folderId);
 
@@ -179,6 +188,7 @@ const MyNdlaLayout = () => {
                   </TreeStructureWrapper>
                 )}
               </StyledLi>
+              {personalData?.arenaEnabled && (
               <StyledLi role="none">
                 <NavigationLink
                   id="arena"
@@ -186,7 +196,7 @@ const MyNdlaLayout = () => {
                   shortName="Arena"
                   icon={<ForumOutlined />}
                 />
-              </StyledLi>
+              </StyledLi>)}
               {links.map((link) => (
                 <StyledLi key={link.id} role="none">
                   <NavigationLink
