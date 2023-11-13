@@ -2561,13 +2561,13 @@
     "@ndla/icons" "^4.1.5"
     "@radix-ui/react-accordion" "^1.1.2"
 
-"@ndla/article-converter@^6.0.0":
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/@ndla/article-converter/-/article-converter-6.0.0.tgz#701a597ec9739a5f98156db9622b8607eda7d58a"
-  integrity sha512-Aum3GBIqwazz83rDy5p6JvZd9lEMs4truHEvgrkSTMHQlf6mP7keILa4JEBGOmSREiILOkc3cecWZoBT/Tdzag==
+"@ndla/article-converter@^6.0.2":
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/@ndla/article-converter/-/article-converter-6.0.2.tgz#e4788ab549414f7f5d2675e666981f3fd9e49519"
+  integrity sha512-5kvEsxEmZh6+YrzL8J2L5v6+DA29kGnDZtccW+EDxXmJiKFx/o7IH+8t7STwDmwjp2UdbwJNhAGzfQKKOe7evg==
   dependencies:
     "@ndla/code" "^5.0.10"
-    "@ndla/ui" "^49.0.1"
+    "@ndla/ui" "^49.0.3"
     html-react-parser "^4.2.2"
     lodash "^4.17.20"
 
@@ -2742,10 +2742,10 @@
     "@ndla/util" "^4.0.0"
     tiny-warning "^1.0.3"
 
-"@ndla/types-backend@0.2.24":
-  version "0.2.24"
-  resolved "https://registry.yarnpkg.com/@ndla/types-backend/-/types-backend-0.2.24.tgz#8515b11575558a605b5d4423b718062553fb378d"
-  integrity sha512-GbJQs6+cKU7GSmpj+lRs/qS9euHiVj2qRx81P8oUL+EbB5pAPxHWVbpQP2SQIKJTArPh5GtT1PMd/6TNwflJHg==
+"@ndla/types-backend@0.2.26":
+  version "0.2.26"
+  resolved "https://registry.yarnpkg.com/@ndla/types-backend/-/types-backend-0.2.26.tgz#cf0e5ff76ce2893d7b54a475df4fa4865bf7a0a7"
+  integrity sha512-xSl2C20vXo1VvcOH7qWfsgg+T9sSmxInuPTcWgZPChKSX+Mo8nIZlz1Arz2gw9pg9YYDrMnMwKVD8B7i9xOihQ==
 
 "@ndla/types-embed@^4.0.5":
   version "4.0.5"
@@ -2759,10 +2759,10 @@
   dependencies:
     "@ndla/core" "^4.2.4"
 
-"@ndla/ui@^49.0.1":
-  version "49.0.1"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-49.0.1.tgz#a025a25d3cb759e43af7977eba2996b373e7a130"
-  integrity sha512-hP9wZnccJm3Vd5hFfP1ZIw71arp2YBlQuEjCylkiGWHOSkVTJtEI7L+To7ZCo98HyUFxKMT9mmyXws1/cwhPXw==
+"@ndla/ui@^49.0.3":
+  version "49.0.3"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-49.0.3.tgz#7bc3de94feae44eb42ea7235bca93acbc3dcec3c"
+  integrity sha512-1Irah6YHdUGl4j+lhxnPkT6uiEbI1+XiOFnxDci5jG7WM2V3nE9zdi/cD4JA6GArdeXWGXESM1i3h2xyoA0laQ==
   dependencies:
     "@ndla/accordion" "^3.0.2"
     "@ndla/button" "^12.0.8"
