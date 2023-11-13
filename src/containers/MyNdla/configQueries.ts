@@ -7,7 +7,7 @@
  */
 
 import { gql } from '@apollo/client';
-import { GQLConfigMetaStringList } from '../../graphqlTypes';
+import { GQLAiOrganizationsQuery } from '../../graphqlTypes';
 import { useGraphQuery } from '../../util/runQueries';
 
 export const configQuery = gql`
@@ -20,6 +20,6 @@ export const configQuery = gql`
 `;
 
 export const useAiOrgs = () => {
-  const { data } = useGraphQuery<GQLConfigMetaStringList>(configQuery);
+  const { data } = useGraphQuery<GQLAiOrganizationsQuery>(configQuery);
   return { data };
 };
