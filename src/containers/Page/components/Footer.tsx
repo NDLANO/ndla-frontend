@@ -112,7 +112,7 @@ const FooterWrapper = () => {
           inverted
           locales={supportedLanguages}
           onSelect={i18n.changeLanguage}
-          id="languageSelectorFooter"
+          triggerId="languageSelectorFooter"
         />
       }
       privacyLinks={privacyLinks}

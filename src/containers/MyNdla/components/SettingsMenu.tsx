@@ -229,7 +229,10 @@ const SettingsMenu = ({ menuItems }: Props) => {
         forceMount
         onCloseAutoFocus={(event) => {
           setHasOpenModal(false);
-          if (dropdownTriggerRef.current) {
+          if (skipAutoFocus) {
+            event.preventDefault();
+            setSkipAutoFocus(false);
+          } else if (dropdownTriggerRef.current) {
             event.preventDefault();
             dropdownTriggerRef.current?.focus();
           }
@@ -243,6 +246,7 @@ const SettingsMenu = ({ menuItems }: Props) => {
             modalContent={item.modalContent}
             keepOpen={item.keepOpen}
             modality={item.modality}
+            setSkipAutoFocus={() => setSkipAutoFocus(true)}
           >
             <DropdownItem
               asChild
