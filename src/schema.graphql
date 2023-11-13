@@ -317,9 +317,14 @@ type ConceptResult {
   totalCount: Int!
 }
 
-type ConfigMetaRestricted {
+type ConfigMetaBoolean {
   key: String!
-  value: String!
+  value: Boolean!
+}
+
+type ConfigMetaStringList {
+  key: String!
+  value: [String!]!
 }
 
 type Contributor {
@@ -785,8 +790,10 @@ type Mutation {
 }
 
 type MyNdlaPersonalData {
+  arenaEnabled: Boolean!
   favoriteSubjects: [String!]!
   id: Int!
+  organization: String!
   role: String!
 }
 
@@ -888,6 +895,7 @@ type Query {
   allFolderResources(size: Int): [FolderResource!]!
   arenaCategories: [ArenaCategory!]!
   arenaCategory(categoryId: Int!, page: Int!): ArenaCategory
+  arenaEnabledOrgs: ConfigMetaStringList
   arenaRecentTopics: [ArenaTopic!]!
   arenaTopic(page: Int!, topicId: Int!): ArenaTopic
   arenaTopicsByUser(userSlug: String!): [ArenaTopic!]!
@@ -921,7 +929,7 @@ type Query {
   ): ConceptResult
   coreElement(code: String!, language: String): CoreElement
   coreElements(codes: [String], language: String): [CoreElement!]
-  examLockStatus: ConfigMetaRestricted!
+  examLockStatus: ConfigMetaBoolean!
   filmfrontpage: FilmFrontpage
   folder(
     id: String!
