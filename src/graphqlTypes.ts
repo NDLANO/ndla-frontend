@@ -1067,6 +1067,7 @@ export type GQLProgrammePage = {
 
 export type GQLQuery = {
   __typename?: 'Query';
+  aiEnabledOrgs?: Maybe<GQLConfigMetaStringList>;
   alerts?: Maybe<Array<Maybe<GQLUptimeAlert>>>;
   allFolderResources: Array<GQLFolderResource>;
   arenaCategories: Array<GQLArenaCategory>;
@@ -2663,6 +2664,17 @@ export type GQLArenaUserQueryVariables = Exact<{
 export type GQLArenaUserQuery = {
   __typename?: 'Query';
   arenaUser?: { __typename?: 'ArenaUser' } & GQLArenaUserQueryFragmentFragment;
+};
+
+export type GQLAiOrganizationsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GQLAiOrganizationsQuery = {
+  __typename?: 'Query';
+  aiEnabledOrgs?: {
+    __typename?: 'ConfigMetaStringList';
+    key: string;
+    value: Array<string>;
+  };
 };
 
 export type GQLFolderResourceFragmentFragment = {
