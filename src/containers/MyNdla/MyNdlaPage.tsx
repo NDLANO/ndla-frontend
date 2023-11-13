@@ -150,7 +150,7 @@ const MyNdlaPage = () => {
 
   const allowedAiOrgs = useMemo(() => {
     if (!aiData?.aiEnabledOrgs?.value) return [];
-    return aiData?.aiEnabledOrgs?.value;
+    return aiData?.aiEnabledOrgs.value;
   }, [aiData]);
 
   return (
