@@ -71,6 +71,9 @@ const messages = {
     maxLength: 'This field can only contain {{count}} characters',
     maxLengthField: `$t(validation.fields.{{field}}) can only contain {{count}} characters`,
   },
+  lti: {
+    goBack: 'Go back to LTI search',
+  },
   resourcepageTitles: {
     video: 'Video',
     image: 'Image',

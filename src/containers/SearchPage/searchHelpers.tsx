@@ -126,7 +126,7 @@ const getLtiUrl = (
   isContext: boolean,
   language?: LocaleType,
 ) => {
-  const commonPath = `article-iframe/${language ? `${language}/` : ''}`;
+  const commonPath = `/article-iframe/${language ? `${language}/` : ''}`;
   if (isContext) {
     return `${commonPath}urn:${path.split('/').pop()}/${id}`;
   }
