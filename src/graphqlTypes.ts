@@ -4180,6 +4180,44 @@ export type GQLEmbedOembedQuery = {
   };
 };
 
+export type GQLPodcastSeriesQueryVariables = Exact<{
+  id: Scalars['Int']['input'];
+}>;
+
+export type GQLPodcastSeriesQuery = {
+  __typename?: 'Query';
+  podcastSeries?: {
+    __typename?: 'PodcastSeriesWithEpisodes';
+    id: number;
+    supportedLanguages: Array<string>;
+    hasRSS: boolean;
+    title: { __typename?: 'Title'; title: string; language: string };
+    description: { __typename?: 'Description'; description: string };
+    image: { __typename?: 'ImageMetaInformation'; imageUrl: string };
+    coverPhoto: { __typename?: 'CoverPhoto'; url: string };
+    content?: { __typename?: 'ResourceEmbed'; content: string };
+    episodes?: Array<{
+      __typename?: 'Audio';
+      id: number;
+      created: string;
+      title: { __typename?: 'Title'; title: string };
+      audioFile: {
+        __typename?: 'AudioFile';
+        url: string;
+        fileSize: number;
+        mimeType: string;
+      };
+      podcastMeta?: {
+        __typename?: 'PodcastMeta';
+        introduction: string;
+        image?: { __typename?: 'ImageMetaInformation'; imageUrl: string };
+      };
+      copyright: { __typename?: 'Copyright' } & GQLCopyrightInfoFragment;
+      tags: { __typename?: 'Tags'; tags: Array<string> };
+    }>;
+  };
+};
+
 export type GQLStructuredArticleData_CopyrightFragment = {
   __typename?: 'Copyright';
   processed?: boolean;
