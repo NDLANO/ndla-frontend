@@ -25,7 +25,7 @@ const getApolloClient = (locale: string) => {
   }
 };
 
-const PodcastRssFeed = async (seriesId: number): Promise<string> => {
+const podcastRssFeed = async (seriesId: number): Promise<string> => {
   const client = getApolloClient('nb');
 
   const { data: { podcastSeries } = {} } =
@@ -161,4 +161,4 @@ const podcastSeriesQuery = gql`
   }
 `;
 
-export default PodcastRssFeed;
+export default podcastRssFeed;
