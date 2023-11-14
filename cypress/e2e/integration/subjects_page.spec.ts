@@ -10,7 +10,7 @@ describe('Subjects page', () => {
   beforeEach(() => {
     cy.gqlIntercept({
       alias: 'alerts',
-      operations: ['examLockStatus', 'alerts', 'frontpageSubjects'],
+      operations: ['examLockStatus', 'alerts', 'frontpageData', 'mastheadProgramme', 'mastheadFrontpage'],
     });
     cy.fixCypressSpec('/e2e/integration/subjects_page.spec.ts');
     cy.visit('/?disableSSR=true');
@@ -20,13 +20,19 @@ describe('Subjects page', () => {
 
   it('should include a list of valid topic links', () => {
     cy.gqlIntercept({
+      alias: 'programme',
+      operations: ['programmePage'],
+    });
+    cy.get('[data-testid="programme-list"]  a:contains("Medier og kommunikasjon"):visible')
+      .click();
+    cy.gqlWait('@programme');
+
+    cy.gqlIntercept({
       alias: 'subjectpage',
       operations: ['subjectPageTest', 'mastHead'],
     });
 
-    cy.get('[data-testid="category-list"]  button:contains("Alle fag"):visible')
-      .click()
-      .get('a:contains("Medie- og informasjonskunnskap")')
+    cy.get('a:contains("Medie- og informasjonskunnskap")')
       .last()
       .click();
     cy.gqlWait('@subjectpage');
@@ -41,13 +47,18 @@ describe('Subjects page', () => {
 
   it('should have a valid breadcrumb', () => {
     cy.gqlIntercept({
+      alias: 'programme',
+      operations: ['programmePage'],
+    });
+    cy.get('[data-testid="programme-list"]  a:contains("Medier og kommunikasjon"):visible')
+      .click();
+    cy.gqlWait('@programme');
+
+    cy.gqlIntercept({
       alias: 'subjectpage',
       operations: ['subjectPageTest', 'mastHead'],
     });
-
-    cy.get('[data-testid="category-list"]  button:contains("Alle fag"):visible')
-      .click()
-      .get('a:contains("Medie- og informasjonskunnskap")')
+    cy.get('a:contains("Medie- og informasjonskunnskap")')
       .last()
       .click();
     cy.gqlWait('@subjectpage');

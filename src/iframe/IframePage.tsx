@@ -15,7 +15,6 @@ import { useGraphQuery } from '../util/runQueries';
 import IframeArticlePage, {
   iframeArticlePageFragments,
 } from './IframeArticlePage';
-import IframeTopicPage, { iframeTopicPageFragments } from './IframeTopicPage';
 import {
   GQLIframePageQuery,
   GQLIframePageQueryVariables,
@@ -51,7 +50,6 @@ interface Props {
   taxonomyId?: string;
   status?: 'success' | 'error';
   isOembed?: string;
-  isTopicArticle?: boolean;
 }
 
 const iframePageQuery = gql`
@@ -60,8 +58,6 @@ const iframePageQuery = gql`
     $isOembed: String
     $path: String
     $taxonomyId: String!
-    $includeResource: Boolean!
-    $includeTopic: Boolean!
     $showVisualElement: String
     $convertEmbeds: Boolean
   ) {
@@ -72,20 +68,14 @@ const iframePageQuery = gql`
       showVisualElement: $showVisualElement
       convertEmbeds: $convertEmbeds
     ) {
-      ...IframeTopicPage_Article
       ...IframeArticlePage_Article
     }
-    resource(id: $taxonomyId) @include(if: $includeResource) {
+    articleResource(taxonomyId: $taxonomyId, articleId: $articleId) {
       ...IframeArticlePage_Resource
-    }
-    topic(id: $taxonomyId) @include(if: $includeTopic) {
-      ...IframeTopicPage_Topic
     }
   }
   ${iframeArticlePageFragments.resource}
   ${iframeArticlePageFragments.article}
-  ${iframeTopicPageFragments.topic}
-  ${iframeTopicPageFragments.article}
 `;
 
 export const IframePage = ({
@@ -93,12 +83,9 @@ export const IframePage = ({
   taxonomyId,
   articleId,
   isOembed,
-  isTopicArticle = false,
 }: Props) => {
   const location = useLocation();
   const redirectContext = useContext(RedirectContext);
-  const includeResource = !isTopicArticle && taxonomyId !== undefined;
-  const includeTopic = isTopicArticle;
   const { loading, data, error } = useGraphQuery<
     GQLIframePageQuery,
     GQLIframePageQueryVariables
@@ -108,9 +95,7 @@ export const IframePage = ({
       isOembed,
       path: location.pathname,
       taxonomyId: taxonomyId || '',
-      includeResource,
-      includeTopic,
-      showVisualElement: isTopicArticle ? 'true' : 'false',
+      showVisualElement: 'true',
       convertEmbeds: true,
     },
     skip: !articleId,
@@ -130,16 +115,12 @@ export const IframePage = ({
     redirectContext.status = 410;
   }
 
-  const { article, resource, topic } = data ?? {};
+  const { article, articleResource } = data ?? {};
   // Only care if article can be rendered
   if (!article) {
     return <NotFound />;
   }
-
-  if (isTopicArticle) {
-    return <IframeTopicPage article={article} topic={topic} />;
-  }
-  return <IframeArticlePage resource={resource} article={article} />;
+  return <IframeArticlePage resource={articleResource} article={article} />;
 };
 
 export default IframePage;

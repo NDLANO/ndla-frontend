@@ -8,7 +8,6 @@ import {
   resourceTypeMapping,
 } from '../../util/getContentType';
 import LtiEmbed from '../../lti/LtiEmbed';
-import { programmes } from '../../data/programmes';
 import { LocaleType, LtiData } from '../../interfaces';
 import {
   GQLGroupSearchQuery,
@@ -73,28 +72,6 @@ export const convertSearchParam = (value?: any) => {
     return value;
   }
   return value.length > 0 ? value : undefined;
-};
-
-export const convertProgramSearchParams = (
-  values: string[],
-  locale: LocaleType,
-) => {
-  const subjectParams: string[] = [];
-  programmes.forEach((programme) => {
-    if (values.includes(programme.url[locale])) {
-      programme.grades.forEach((grade) =>
-        grade.categories.forEach((category) => {
-          category.subjects.forEach((subject) => {
-            if (!subjectParams.includes(subject.id))
-              subjectParams.push(subject.id);
-          });
-        }),
-      );
-    }
-  });
-  return {
-    subjects: subjectParams,
-  };
 };
 
 interface ResultBase {

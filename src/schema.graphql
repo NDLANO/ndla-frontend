@@ -49,6 +49,7 @@ type ArenaUser {
   id: Int!
   profilePicture: String
   slug: String!
+  username: String!
 }
 
 type Article {
@@ -315,9 +316,14 @@ type ConceptResult {
   totalCount: Int!
 }
 
-type ConfigMetaRestricted {
+type ConfigMetaBoolean {
   key: String!
-  value: String!
+  value: Boolean!
+}
+
+type ConfigMetaStringList {
+  key: String!
+  value: [String!]!
 }
 
 type Contributor {
@@ -783,8 +789,10 @@ type Mutation {
 }
 
 type MyNdlaPersonalData {
+  arenaEnabled: Boolean!
   favoriteSubjects: [String!]!
   id: Int!
+  organization: String!
   role: String!
 }
 
@@ -882,13 +890,16 @@ type ProgrammePage {
 }
 
 type Query {
+  aiEnabledOrgs: ConfigMetaStringList
   alerts: [UptimeAlert]
   allFolderResources(size: Int): [FolderResource!]!
   arenaCategories: [ArenaCategory!]!
   arenaCategory(categoryId: Int!, page: Int!): ArenaCategory
+  arenaEnabledOrgs: ConfigMetaStringList
   arenaRecentTopics: [ArenaTopic!]!
   arenaTopic(page: Int!, topicId: Int!): ArenaTopic
   arenaTopicsByUser(userSlug: String!): [ArenaTopic!]!
+  arenaUser(username: String!): ArenaUser
   article(
     absoluteUrl: Boolean
     convertEmbeds: Boolean
@@ -899,6 +910,7 @@ type Query {
     showVisualElement: String
     subjectId: String
   ): Article
+  articleResource(articleId: String, taxonomyId: String): Resource
   audio(id: Int!): Audio
   competenceGoal(code: String!, language: String): CompetenceGoal
   competenceGoals(codes: [String], language: String): [CompetenceGoal!]
@@ -917,7 +929,7 @@ type Query {
   ): ConceptResult
   coreElement(code: String!, language: String): CoreElement
   coreElements(codes: [String], language: String): [CoreElement!]
-  examLockStatus: ConfigMetaRestricted!
+  examLockStatus: ConfigMetaBoolean!
   filmfrontpage: FilmFrontpage
   folder(
     id: String!
@@ -1031,6 +1043,7 @@ type Resource implements TaxonomyEntity & WithArticle {
   contentUri: String
   contexts: [TaxonomyContext!]!
   id: String!
+  language: String
   learningpath: Learningpath
   meta: Meta
   metadata: TaxonomyMetadata!
@@ -1171,6 +1184,7 @@ type Subject implements TaxonomyEntity {
   contexts: [TaxonomyContext!]!
   grepCodes: [String!]
   id: String!
+  language: String
   metadata: TaxonomyMetadata!
   name: String!
   path: String!
@@ -1183,10 +1197,18 @@ type Subject implements TaxonomyEntity {
   url: String
 }
 
+type SubjectLink {
+  name: String
+  path: String
+}
+
 type SubjectPage {
   about: SubjectPageAbout
   banner: SubjectPageBanner!
+  buildsOn: [SubjectLink]!
+  connectedTo: [SubjectLink]!
   id: Int!
+  leadsTo: [SubjectLink]!
   metaDescription: String
   name: String!
   supportedLanguages: [String!]!
@@ -1237,6 +1259,7 @@ interface TaxonomyEntity {
   contentUri: String
   contexts: [TaxonomyContext!]!
   id: String!
+  language: String
   metadata: TaxonomyMetadata!
   name: String!
   path: String!
@@ -1272,6 +1295,7 @@ type Topic implements TaxonomyEntity & WithArticle {
   coreResources(subjectId: String): [Resource!]
   id: String!
   isPrimary: Boolean
+  language: String
   meta: Meta
   metadata: TaxonomyMetadata!
   name: String!

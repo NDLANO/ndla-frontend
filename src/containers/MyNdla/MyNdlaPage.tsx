@@ -6,7 +6,7 @@
  *
  */
 
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
 import keyBy from 'lodash/keyBy';
@@ -28,7 +28,6 @@ import {
   ModalTrigger,
   ModalContent,
 } from '@ndla/modal';
-import config from '../../config';
 import InfoPart, { InfoPartIcon, InfoPartText } from './InfoSection';
 import { AuthContext } from '../../components/AuthenticationContext';
 import {
@@ -44,6 +43,7 @@ import { useBaseName } from '../../components/BaseNameContext';
 import { useDeletePersonalData } from './userMutations';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { UserInfo } from './components/UserInfo';
+import { useAiOrgs } from './configQueries';
 
 const ShareIcon = InfoPartIcon.withComponent(Share);
 const HeartOutlineIcon = InfoPartIcon.withComponent(HeartOutline);
@@ -116,6 +116,7 @@ const MyNdlaPage = () => {
   const { trackPageView } = useTracker();
   const { deletePersonalData } = useDeletePersonalData();
   const { allFolderResources } = useRecentlyUsedResources();
+  const { data: aiData } = useAiOrgs();
   const { data: metaData, loading } = useFolderResourceMetaSearch(
     allFolderResources?.map((r) => ({
       id: r.resourceId,
@@ -147,6 +148,11 @@ const MyNdlaPage = () => {
 
   const aiLang = i18n.language === 'nn' ? 'nn' : '';
 
+  const allowedAiOrgs = useMemo(() => {
+    if (!aiData?.aiEnabledOrgs?.value) return [];
+    return aiData?.aiEnabledOrgs.value;
+  }, [aiData]);
+
   return (
     <StyledPageContentContainer>
       <HelmetWithTracker title={t('htmlTitles.myNdlaPage')} />
@@ -155,7 +161,7 @@ const MyNdlaPage = () => {
         <MyNdlaTitle title={t('myNdla.myPage.myPage')} />
       </TitleWrapper>
       <StyledDescription>{t('myNdla.myPage.welcome')}</StyledDescription>
-      {config.allowedAIOrgs.includes(user?.baseOrg?.displayName ?? '') && (
+      {allowedAiOrgs.includes(user?.baseOrg?.displayName ?? '') && (
         <StyledBannerCard
           link={`https://ai.ndla.no/${aiLang}`}
           title={{
