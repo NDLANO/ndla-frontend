@@ -1067,6 +1067,7 @@ export type GQLProgrammePage = {
 
 export type GQLQuery = {
   __typename?: 'Query';
+  aiEnabledOrgs?: Maybe<GQLConfigMetaStringList>;
   alerts?: Maybe<Array<Maybe<GQLUptimeAlert>>>;
   allFolderResources: Array<GQLFolderResource>;
   arenaCategories: Array<GQLArenaCategory>;
@@ -2665,6 +2666,17 @@ export type GQLArenaUserQuery = {
   arenaUser?: { __typename?: 'ArenaUser' } & GQLArenaUserQueryFragmentFragment;
 };
 
+export type GQLAiOrganizationsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GQLAiOrganizationsQuery = {
+  __typename?: 'Query';
+  aiEnabledOrgs?: {
+    __typename?: 'ConfigMetaStringList';
+    key: string;
+    value: Array<string>;
+  };
+};
+
 export type GQLFolderResourceFragmentFragment = {
   __typename: 'FolderResource';
   resourceId: string;
@@ -4170,7 +4182,7 @@ export type GQLEmbedOembedQuery = {
 export type GQLStructuredArticleData_CopyrightFragment = {
   __typename?: 'Copyright';
   processed?: boolean;
-  license: { __typename?: 'License'; url?: string };
+  license: { __typename?: 'License'; url?: string; license: string };
   creators: Array<{ __typename?: 'Contributor'; name: string; type: string }>;
   processors: Array<{ __typename?: 'Contributor'; name: string; type: string }>;
   rightsholders: Array<{

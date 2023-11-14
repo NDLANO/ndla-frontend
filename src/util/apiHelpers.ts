@@ -236,6 +236,12 @@ const typePolicies: TypePolicies = {
   MyNdlaPersonalData: {
     keyFields: (obj) => obj.__typename,
   },
+  ConfigMetaBoolean: {
+    keyFields: ['key'],
+  },
+  ConfigMetaStringList: {
+    keyFields: ['key'],
+  },
 };
 
 function getCache() {
