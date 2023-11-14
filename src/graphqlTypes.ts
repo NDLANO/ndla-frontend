@@ -3396,6 +3396,7 @@ export type GQLResources_ResourceFragment = {
   path: string;
   paths: Array<string>;
   rank?: number;
+  language?: string;
   resourceTypes?: Array<{
     __typename?: 'ResourceType';
     id: string;
