@@ -37,7 +37,6 @@ import {
   useSortResourcesMutation,
 } from '../folderMutations';
 import { BlockWrapper, ViewType } from './FoldersPage';
-import { usePrevious } from '../../../util/utilityHooks';
 import { makeDndSortFunction, makeDndTranslations } from './util';
 import DraggableResource from './DraggableResource';
 
@@ -57,10 +56,11 @@ const ResourceList = ({ selectedFolder, viewType, resourceRefId }: Props) => {
   const { t } = useTranslation();
   const client = useApolloClient();
   const resources = useMemo(() => selectedFolder.resources, [selectedFolder]);
-  const prevResources = usePrevious(resources);
   const { sortResources } = useSortResourcesMutation();
+
   const [focusId, setFocusId] = useState<string | undefined>(undefined);
   const [sortedResources, setSortedResources] = useState(resources);
+  const [prevResources, setPrevResources] = useState(resources);
 
   useEffect(() => {
     setSortedResources(resources);
@@ -69,7 +69,6 @@ const ResourceList = ({ selectedFolder, viewType, resourceRefId }: Props) => {
   useEffect(() => {
     const resourceIds = resources.map((f) => f.id).sort();
     const prevResourceIds = prevResources?.map((f) => f.id).sort();
-
     if (!isEqual(resourceIds, prevResourceIds) && focusId) {
       setTimeout(
         () =>
@@ -77,9 +76,10 @@ const ResourceList = ({ selectedFolder, viewType, resourceRefId }: Props) => {
             .getElementById(`resource-${focusId}`)
             ?.getElementsByTagName('a')?.[0]
             ?.focus(),
-        0,
+        1,
       );
       setFocusId(undefined);
+      setPrevResources(resources);
     }
   }, [resources, prevResources, focusId]);
 

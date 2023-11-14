@@ -82,6 +82,17 @@ const DraggableResource = ({
       });
       if (next || prev) {
         setFocusId(next ?? prev);
+      } else if (resourceRefId) {
+        setTimeout(
+          () =>
+            (
+              document
+                .getElementById(resourceRefId)
+                ?.getElementsByTagName('a')?.[0] ??
+              document.getElementById(resourceRefId)
+            )?.focus({ preventScroll: true }),
+          1,
+        );
       }
     },
     [
@@ -91,6 +102,7 @@ const DraggableResource = ({
       selectedFolder.id,
       selectedFolder.name,
       setFocusId,
+      resourceRefId,
       t,
     ],
   );
@@ -134,23 +146,13 @@ const DraggableResource = ({
         icon: <DeleteForever />,
         text: t('myNdla.resource.remove'),
         isModal: true,
-        modalContent: (close) => (
+        modalContent: (close, setSkipAutoFocus) => (
           <DeleteModalContent
+            onClose={close}
             onDelete={async () => {
+              setSkipAutoFocus?.();
               await onDeleteFolder(resource, index);
               close();
-              if (resourceRefId) {
-                setTimeout(
-                  () =>
-                    (
-                      document
-                        .getElementById(resourceRefId)
-                        ?.getElementsByTagName('a')?.[0] ??
-                      document.getElementById(resourceRefId)
-                    )?.focus(),
-                  0,
-                );
-              }
             }}
             description={t('myNdla.resource.confirmRemove')}
             title={t('myNdla.resource.removeTitle')}
@@ -160,16 +162,7 @@ const DraggableResource = ({
         type: 'danger',
       },
     ];
-  }, [
-    addSnack,
-    examLock,
-    index,
-    onDeleteFolder,
-    resource,
-    selectedFolder,
-    t,
-    resourceRefId,
-  ]);
+  }, [addSnack, examLock, index, onDeleteFolder, resource, selectedFolder, t]);
 
   const menu = useMemo(() => <SettingsMenu menuItems={actions} />, [actions]);
 

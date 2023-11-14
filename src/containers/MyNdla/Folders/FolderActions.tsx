@@ -134,8 +134,8 @@ const FolderActions = ({
               .getElementById(folderRefId)
               ?.getElementsByTagName('a')?.[0] ??
             document.getElementById(folderRefId)
-          )?.focus(),
-        0,
+          )?.focus({ preventScroll: true }),
+        1,
       );
     } else if (inToolbar) {
       document.getElementById('titleAnnouncer')?.focus();
