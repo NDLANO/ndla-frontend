@@ -2662,7 +2662,7 @@ export type GQLMultidisciplinaryTopicWrapper_SubjectFragment = {
   __typename?: 'Subject';
 } & GQLMultidisciplinaryTopic_SubjectFragment;
 
-export type GQLArenaPageQueryFragmentFragment = {
+export type GQLArenaCategoriesFragmentFragment = {
   __typename: 'ArenaCategory';
   description: string;
   disabled: boolean;
@@ -2671,6 +2671,8 @@ export type GQLArenaPageQueryFragmentFragment = {
   name: string;
   postCount: number;
   slug: string;
+  topicCount: number;
+  topics: Array<GQLArenaTopic>;
 };
 
 export type GQLTopicPageQueryFragmentFragment = {
@@ -2686,20 +2688,20 @@ export type GQLTopicPageQueryFragmentFragment = {
 
 export type GQLArenaPageQueryVariables = Exact<{ [key: string]: never }>;
 
-export type GQLArenaPageQuery = {
+export type GQLArenaCategoriesQuery = {
   __typename?: 'Query';
   arenaCategories: Array<
-    { __typename?: 'ArenaCategory' } & GQLArenaPageQueryFragmentFragment
+    { __typename?: 'ArenaCategory' } & GQLArenaCategoriesFragmentFragment
   >;
 };
 
 export type GQLTopicPageQueryVariables = Exact<{ [key: string]: never }>;
 
-export type GQLTopicPageQuery = {
+export type GQLArenaCategoryQuery = {
   __typename?: 'Query';
-  arenaCategories: Array<
-    { __typename?: 'ArenaCategory' } & GQLArenaPageQueryFragmentFragment
-  >;
+  arenaCategory: {
+    __typename?: 'ArenaCategory';
+  } & GQLArenaCategoriesFragmentFragment;
 };
 
 export type GQLArenaUserQueryFragmentFragment = {

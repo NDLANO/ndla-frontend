@@ -11,7 +11,7 @@ import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { spacing, fonts } from '@ndla/core';
 import { Heading } from '@ndla/typography';
-import { useCategories } from '../arenaMutations';
+import { useArenaCategories } from '../arenaMutations';
 import ArenaCard from '../ArenaCards/ArenaCard';
 
 const StyledArenaHeader = styled(Heading)`
@@ -44,7 +44,7 @@ const StyledBottomText = styled.div`
 
 const ArenaPage = () => {
   const { t } = useTranslation();
-  const { loading, arenaCategories } = useCategories();
+  const { loading, data } = useArenaCategories();
 
   if (loading) {
     return <Spinner />;
@@ -60,7 +60,7 @@ const ArenaPage = () => {
         <Spinner />
       ) : (
         <StyledCardContainer>
-          {arenaCategories?.arenaCategories?.map((category) => (
+          {data?.arenaCategories?.map((category) => (
             <ArenaCard
               key={`topic-${category.id}`}
               id={category.id.toString()}

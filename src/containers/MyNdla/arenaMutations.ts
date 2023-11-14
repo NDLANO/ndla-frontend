@@ -7,11 +7,14 @@
  */
 
 import { gql } from '@apollo/client';
-import { GQLArenaPageQuery } from '../../graphqlTypes';
+import {
+  GQLArenaCategoriesQuery,
+  GQLArenaCategoryQuery,
+} from '../../graphqlTypes';
 import { useGraphQuery } from '../../util/runQueries';
 
-const arenaPageQueryFragment = gql`
-  fragment ArenaPageQueryFragment on ArenaCategory {
+const arenaCategoriesFragment = gql`
+  fragment ArenaCategoriesFragment on ArenaCategory {
     __typename
     description
     disabled
@@ -23,8 +26,21 @@ const arenaPageQueryFragment = gql`
   }
 `;
 
-const topicPageQueryFragment = gql`
-  fragment TopicPageQueryFragment on ArenaTopic {
+const arenaCategoryFragment = gql`
+  fragment ArenaCategoryFragment on ArenaCategory {
+    __typename
+    description
+    disabled
+    htmlDescription
+    id
+    name
+    postCount
+    slug
+  }
+`;
+
+const arenaTopicFragment = gql`
+  fragment ArenaTopicFragment on ArenaTopic {
     __typename
     categoryId
     id
@@ -36,32 +52,41 @@ const topicPageQueryFragment = gql`
   }
 `;
 
-export const arenaPageQuery = gql`
+export const arenaCategoriesQuery = gql`
   query arenaPage {
     arenaCategories {
-      ...ArenaPageQueryFragment
+      ...ArenaCategoriesFragment
     }
   }
-  ${arenaPageQueryFragment}
+  ${arenaCategoriesFragment}
 `;
 
-export const topicPageQuery = gql`
-  query topicPage {
-    arenaTopics {
-      ...TopicPageQueryFragment
+export const arenaCategoryQuery = gql`
+  query arenaCategory($categoryId: Int!, $page: Int!) {
+    arenaCategory(categoryId: $categoryId, page: $page) {
+      ...ArenaCategoryFragment
+      topics {
+        ...ArenaTopicFragment
+      }
+      topicCount
     }
   }
-  ${topicPageQueryFragment}
+  ${arenaCategoryFragment}
+  ${arenaTopicFragment}
 `;
 
-export const useCategories = () => {
+export const useArenaCategories = () => {
   const { data, loading, error } =
-    useGraphQuery<GQLArenaPageQuery>(arenaPageQuery);
-  return { arenaCategories: data, loading, error };
+    useGraphQuery<GQLArenaCategoriesQuery>(arenaCategoriesQuery);
+  return { data, loading, error };
 };
 
-export const useTopics = () => {
-  const { data, loading, error } =
-    useGraphQuery<GQLArenaPageQuery>(topicPageQuery);
-  return { arenaTopics: data, loading, error };
+export const useArenaCategory = (categoryId: number, page: number) => {
+  const { data, loading, error } = useGraphQuery<GQLArenaCategoryQuery>(
+    arenaCategoryQuery,
+    {
+      variables: { categoryId, page },
+    },
+  );
+  return { data, loading, error };
 };

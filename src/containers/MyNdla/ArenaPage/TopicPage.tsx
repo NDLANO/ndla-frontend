@@ -13,9 +13,10 @@ import { spacing, fonts } from '@ndla/core';
 import { Heading } from '@ndla/typography';
 import { ButtonV2 } from '@ndla/button';
 import { Pencil } from '@ndla/icons/action';
-import { useTopics } from '../arenaMutations';
+import { useArenaCategory } from '../arenaMutations';
 import ArenaCard from '../ArenaCards/ArenaCard';
-import PostCard from '../ArenaCards/PostCard';
+import { GQLArenaTopic } from '../../../graphqlTypes';
+// import PostCard from '../ArenaCards/PostCard';
 
 const StyledTopicHeader = styled(Heading)`
   ${fonts.sizes('38px', '48px')};
@@ -62,7 +63,7 @@ const StyledCardContainer = styled.div`
 
 const TopicPage = () => {
   const { t } = useTranslation();
-  const { loading } = useTopics();
+  const { loading, data } = useArenaCategory(1, 1);
 
   if (loading) {
     return <Spinner />;
@@ -86,19 +87,21 @@ const TopicPage = () => {
       {loading ? (
         <Spinner />
       ) : (
-        <StyledCardContainer>
-          <ArenaCard
-            key={1}
-            id={'1'}
-            cardType="ArenaTopic"
-            title={'test'}
-            subText={'Blalalalalalal'}
-            timestamp={'30.10.2024'}
-            count={20}
-          />
-        </StyledCardContainer>
+        data?.arenaCategory?.topics?.map((topic: GQLArenaTopic) => (
+          <StyledCardContainer key={topic.id}>
+            <ArenaCard
+              key={topic.id}
+              id={'topic.id'}
+              cardType="ArenaTopic"
+              title={topic.title}
+              subText={'Blalalalalalal'}
+              timestamp={topic.timestamp}
+              count={topic.postCount}
+            />
+          </StyledCardContainer>
+        ))
       )}
-      <PostCard
+      {/* <PostCard
         id={'1'}
         isMainPost={true}
         title={'Tittel på innlegget'}
@@ -106,7 +109,7 @@ const TopicPage = () => {
           'Lorem ipsum dolor sit amet consectetur. Vitae ut maecenas commodo nisi cursus amet. Mattis a eu suspendisse massa. Vel ac risus nibh phasellus. Est proin in eget ligula at turpis lectus tristique. Ullamcorper praesent eget turpis convallis. Faucibus pellentesque pharetra posuere scelerisque. Ligula at neque tellus aenean. Vivamus posuere eu non ipsum. Ut tellus vivamus mi proin. Duis orci ullamcorper enim gravida nibh tristique adipiscing. Mi lobortis mauris sem tellus neque. Pellentesque montes ut in habitant viverra convallis ac.'
         }
         notify={true}
-      />
+      /> */}
     </>
   );
 };
