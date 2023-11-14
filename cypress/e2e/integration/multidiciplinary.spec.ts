@@ -11,26 +11,10 @@ describe('Multidiciplinary page', () => {
     cy.fixCypressSpec('/e2e/integration/multidisciplinary.spec.ts');
     cy.gqlIntercept({
       alias: 'alerts',
-      operations: ['examLockStatus', 'alerts', 'frontpageSubjects'],
+      operations: ['examLockStatus', 'alerts', 'frontpageData', 'mastheadProgramme', 'mastheadFrontpage'],
     });
     cy.visit('/?disableSSR=true');
     cy.gqlWait('@alerts');
-  });
-
-  it('should include a list of valid topic links', () => {
-    cy.gqlIntercept({
-      alias: 'multidisciplinary',
-      operations: ['multidisciplinarySubjectPage', 'mastHead'],
-    });
-    cy.get('a:contains("Se caser for tverrfaglige temaer")').click();
-    cy.gqlWait('@multidisciplinary');
-
-    cy.get('[data-testid="nav-box-item"] span').contains(/\w+/);
-
-    cy.get('[data-testid="nav-box-list"] li a').each((el) => {
-      cy.wrap(el).should('have.attr', 'href');
-      cy.wrap(el).contains(/\w+/);
-    });
   });
 
   it('should show header', () => {
@@ -38,7 +22,8 @@ describe('Multidiciplinary page', () => {
       alias: 'multidisciplinary',
       operations: ['multidisciplinarySubjectPage', 'mastHead'],
     });
-    cy.get('a:contains("Se caser for tverrfaglige temaer")').click();
+    cy.get('button:contains("Meny")').click();
+    cy.get('a:contains("Tverrfaglige tema")').click();
     cy.gqlWait('@multidisciplinary');
 
     cy.get('h1:contains("Tverrfaglige temaer")');

@@ -18,7 +18,6 @@ const baseClientConfig: Configuration = {
   // The names that are used here will carry over into the actually compiled files.
   entry: {
     client: ['./src/client.tsx'],
-    polyfill: ['@ndla/polyfill'],
     embed: ['./src/iframe/index.tsx'],
     embedIframe: ['./src/iframe/embedIframeIndex.tsx'],
     lti: ['./src/lti/index.tsx'],

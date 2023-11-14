@@ -28,6 +28,9 @@ const messages = {
     myTagsPage: `Mu lihput - ${titleTemplate}`,
     aboutPage: `{{name}} - ${titleTemplate}`,
   },
+  footer: {
+    cookiesLink: 'Julggaštus diehtočoahku ektui (gáhkožat)',
+  },
   programmes: {
     header: 'Maid háliidat oahppat odne?',
     description: 'Vállje oahppoprográmma vai oainnát iežat fágaid',
@@ -54,26 +57,6 @@ const messages = {
         'Lea go dus juoga maid háliidat oahppat iežat fágas? Háliidatgo veahki teavstta álkidahttit, hárjehallat geahččalit dahje evttohit mo teavstta hábmet? Geahččal min ságastallanrobahttii ja oainnát sáhttágo dat veahkehit du!',
       ingress:
         'Áiggut go AI geavahit oahpahusas? NDLA lea ráhkadan guokte hupmanrobota mat suodjalit du priváhtavuođa ja maid sáhttá geavahit sihkkarit sihke barggus ja oahpahusas.',
-    },
-  },
-  blogPosts: {
-    blog1: {
-      imageUrl: '/static/samiske-laeremidler.jpg',
-      text: 'Utvikler samiske ressurser på NDLA',
-      externalLink:
-        'https://blogg.ndla.no/2023/02/utvikler-samiske-ressurser-pa-ndla/',
-      linkText: 'Fagblogg',
-      license: 'CC-BY-SA-4.0',
-      licenseAuthor: 'Jan Frode Lindsø',
-    },
-    blog2: {
-      imageUrl: '/static/aktiviser-elevene.jpg',
-      text: 'Huskeliste for kontaktlærere',
-      externalLink:
-        'https://blogg.ndla.no/2019/08/huskeliste-for-kontaktlaerere/',
-      linkText: 'Fagblogg',
-      license: 'CC-BY-SA-4.0',
-      licenseAuthor: 'Tom Knudsen',
     },
   },
   validation: {

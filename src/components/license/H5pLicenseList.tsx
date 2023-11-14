@@ -56,7 +56,7 @@ const H5pLicenseInfo = ({ h5p }: H5pLicenseInfoProps) => {
       <MediaListItemImage canOpen>
         <a
           href={
-            pathname.startsWith('/h5p/') && h5p.src ? h5p.src : `/h5p/${h5p.id}`
+            pathname.includes('/h5p/') && h5p.src ? h5p.src : `/h5p/${h5p.id}`
           }
           target="_blank"
           rel="noopener noreferrer"

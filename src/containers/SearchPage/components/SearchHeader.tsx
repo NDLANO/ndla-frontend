@@ -8,7 +8,7 @@
 import { useState, useEffect, useMemo, FormEvent } from 'react';
 import { SearchHeader as SearchHeaderUI } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
-import { getSubjectsCategories } from '../../../data/subjects';
+import { getSubjectsCategories } from '../../../util/subjects';
 import { groupCompetenceGoals } from '../../../components/CompetenceGoals';
 import { SearchCompetenceGoal, SearchCoreElements } from '../SearchInnerPage';
 import { LocaleType } from '../../../interfaces';

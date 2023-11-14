@@ -20,7 +20,6 @@ interface Props {
   taxonomyId?: string;
   status?: 'success' | 'error';
   isOembed?: string;
-  isTopicArticle?: boolean;
 }
 const IframePageContainer = ({
   basename,
@@ -28,7 +27,6 @@ const IframePageContainer = ({
   taxonomyId,
   articleId,
   isOembed,
-  isTopicArticle,
   locale,
 }: Props) => {
   return (
@@ -40,7 +38,6 @@ const IframePageContainer = ({
           taxonomyId={taxonomyId}
           articleId={articleId}
           isOembed={isOembed}
-          isTopicArticle={isTopicArticle}
         />
       </PageContainer>
     </BaseNameProvider>

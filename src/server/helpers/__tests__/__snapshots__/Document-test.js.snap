@@ -31,9 +31,22 @@ exports[`Document renderers correctly 1`] = `
       rel="stylesheet"
     />
     <link
-      href="/static/ndla-favicon.png"
-      rel="shortcut icon"
-      type="image/x-icon"
+      href="/static/favicon-test-32x32.png"
+      rel="icon"
+      sizes="32x32"
+      type="image/png"
+    />
+    <link
+      href="/static/favicon-test-16x16.png"
+      rel="icon"
+      sizes="16x16"
+      type="image/png"
+    />
+    <link
+      href="/static/apple-touch-icon-test.png"
+      rel="apple-touch-icon"
+      sizes="180x180"
+      type="image/png"
     />
   </head>
   <body>
@@ -55,39 +68,17 @@ exports[`Document renderers correctly 1`] = `
       window.DATA = {}; 
     </script>
     <script
+      crossorigin="anonymous"
+      defer=""
+      src="/client.js"
       type="text/javascript"
-    >
-      
-  var feats = [];
-  ('fetch' in window) || feats.push('fetch');('includes' in Array.prototype) || feats.push('Array.prototype.includes');('fill' in Array.prototype) || feats.push('Array.prototype.fill');('open' in document.createElement('details')) || feats.push('details');('assign' in Object) || feats.push('Object.assign');('remove' in Element.prototype) || feats.push('Element.prototype.remove');('includes' in String.prototype) || feats.push('String.prototype.includes');('startsWith' in String.prototype) || feats.push('String.prototype.startsWith');('endsWith' in String.prototype) || feats.push('String.prototype.endsWith');('isInteger' in Number) || feats.push('Number.isInteger');('isNaN' in Number) || feats.push('Number.isNaN');
-
-  function cs(script, useHead, onLoad) {
-    var s = document.createElement('script');
-    s.src = script.src;
-    s.async = true;
-    s.crossorigin = 'anonymous';
-    if (onLoad) { s.onload = onLoad; }
-    if (useHead) {
-      document.head.appendChild(s);
-    } else {
-      document.body.appendChild(s);
-    }
-  }
-
-  function _polyfillComplete() {
-    var scripts = [{"src":"/client.js"},{"src":"/vendor.js"}];
-    for (var i = 0; i &lt; scripts.length; i++) {
-      cs(scripts[i], false);
-    }
-  }
-
-  if (feats.length && {"src":"/polyfill.js"}) {
-    cs({"src":"/polyfill.js"}, true, _polyfillComplete);
-  } else {
-    _polyfillComplete();
-  }
-  
-    </script>
+    />
+    <script
+      crossorigin="anonymous"
+      defer=""
+      src="/vendor.js"
+      type="text/javascript"
+    />
   </body>
 </html>
 `;

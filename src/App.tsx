@@ -7,7 +7,7 @@
  */
 
 import { SnackbarProvider } from '@ndla/ui';
-import { Component, ErrorInfo, ReactNode, useMemo } from 'react';
+import { Component, ErrorInfo, ReactNode } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import VideoPage from './containers/ResourceEmbed/VideoPage';
 import ImagePage from './containers/ResourceEmbed/ImagePage';
@@ -32,7 +32,6 @@ import PodcastSeriesListPage from './containers/PodcastPage/PodcastSeriesListPag
 import PodcastSeriesPage from './containers/PodcastPage/PodcastSeriesPage';
 import PrivateRoute from './containers/PrivateRoute/PrivateRoute';
 import ProgrammePage from './containers/ProgrammePage/ProgrammePage';
-import OldProgrammePage from './containers/ProgrammePage/OldProgrammePage';
 import ResourcePage from './containers/ResourcePage/ResourcePage';
 import SearchPage from './containers/SearchPage/SearchPage';
 import SubjectRouting from './containers/SubjectPage/SubjectRouting';
@@ -40,7 +39,6 @@ import WelcomePage from './containers/WelcomePage/WelcomePage';
 import handleError from './util/handleError';
 import SharedFolderPage from './containers/SharedFolderPage/SharedFolderPage';
 import FavoriteSubjectsPage from './containers/MyNdla/FavoriteSubjects/FavoriteSubjectsPage';
-import { useEnableTaxStructure } from './components/TaxonomyStructureContext';
 import AboutPage from './containers/AboutPage/AboutPage';
 import H5pPage from './containers/ResourceEmbed/H5pPage';
 
@@ -81,12 +79,6 @@ class App extends Component<AppProps, State> {
 }
 
 const AppRoutes = ({ base }: AppProps) => {
-  const taxonomyProgrammesEnabled = useEnableTaxStructure();
-  const ProgPage = useMemo(
-    () => (taxonomyProgrammesEnabled ? ProgrammePage : OldProgrammePage),
-    [taxonomyProgrammesEnabled],
-  );
-
   return (
     <AlertsProvider>
       <BaseNameProvider value={base}>
@@ -97,7 +89,7 @@ const AppRoutes = ({ base }: AppProps) => {
                 <Route index element={<WelcomePage />} />
                 <Route path="subjects" element={<AllSubjectsPage />} />
                 <Route path="search" element={<SearchPage />} />
-                <Route path="utdanning/:programme" element={<ProgPage />}>
+                <Route path="utdanning/:programme" element={<ProgrammePage />}>
                   <Route path=":grade" element={null} />
                 </Route>
                 <Route path="podkast">

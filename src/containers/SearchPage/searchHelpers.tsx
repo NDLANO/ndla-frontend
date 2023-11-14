@@ -8,22 +8,13 @@ import {
   resourceTypeMapping,
 } from '../../util/getContentType';
 import LtiEmbed from '../../lti/LtiEmbed';
-import { programmes } from '../../data/programmes';
 import { LocaleType, LtiData } from '../../interfaces';
 import {
   GQLGroupSearchQuery,
   GQLGroupSearchResourceFragment,
   GQLResourceTypeDefinition,
-  GQLSearchContext,
 } from '../../graphqlTypes';
-
-const isSupplementary = (context: Pick<GQLSearchContext, 'relevance'>) => {
-  return (
-    // Consider getting from constants
-    context?.relevance === 'Tilleggsstoff' ||
-    context?.relevance === 'Supplementary'
-  );
-};
+import { RELEVANCE_SUPPLEMENTARY } from '../../constants';
 
 export const searchResultToLinkProps = (result?: { path?: string }) => {
   return result?.path ? { to: result.path } : { to: '/404' };
@@ -81,28 +72,6 @@ export const convertSearchParam = (value?: any) => {
     return value;
   }
   return value.length > 0 ? value : undefined;
-};
-
-export const convertProgramSearchParams = (
-  values: string[],
-  locale: LocaleType,
-) => {
-  const subjectParams: string[] = [];
-  programmes.forEach((programme) => {
-    if (values.includes(programme.url[locale])) {
-      programme.grades.forEach((grade) =>
-        grade.categories.forEach((category) => {
-          category.subjects.forEach((subject) => {
-            if (!subjectParams.includes(subject.id))
-              subjectParams.push(subject.id);
-          });
-        }),
-      );
-    }
-  });
-  return {
-    subjects: subjectParams,
-  };
 };
 
 interface ResultBase {
@@ -169,7 +138,10 @@ const getContextLabels = (
 ) => {
   if (!contexts?.[0]) return [];
   const types = contexts[0].resourceTypes?.slice(1)?.map((t) => t.name) ?? [];
-  const relevance = isSupplementary(contexts[0]) ? [contexts[0].relevance] : [];
+  const relevance =
+    contexts[0].relevanceId === RELEVANCE_SUPPLEMENTARY
+      ? [contexts[0].relevance]
+      : [];
   const labels = types.concat(relevance);
   return labels.filter((label): label is string => label !== undefined);
 };
@@ -220,7 +192,7 @@ export const mapResourcesToItems = (
     contexts: resource.contexts?.map((context) => ({
       url: context.path,
       breadcrumb: context.breadcrumbs,
-      isAdditional: isSupplementary(context),
+      isAdditional: context?.relevanceId === RELEVANCE_SUPPLEMENTARY,
     })),
     ...(resource.metaImage?.url && {
       img: {
