@@ -13,10 +13,10 @@ import { spacing, fonts } from '@ndla/core';
 import { Heading } from '@ndla/typography';
 import { ButtonV2 } from '@ndla/button';
 import { Pencil } from '@ndla/icons/action';
+import { useParams } from 'react-router-dom';
 import { useArenaCategory } from '../arenaMutations';
 import ArenaCard from '../ArenaCards/ArenaCard';
 import { GQLArenaTopic } from '../../../graphqlTypes';
-// import PostCard from '../ArenaCards/PostCard';
 
 const StyledTopicHeader = styled(Heading)`
   ${fonts.sizes('38px', '48px')};
@@ -63,7 +63,8 @@ const StyledCardContainer = styled.div`
 
 const TopicPage = () => {
   const { t } = useTranslation();
-  const { loading, data } = useArenaCategory(1, 1);
+  const { categoryId } = useParams();
+  const { loading, data } = useArenaCategory(Number(categoryId), 1);
 
   if (loading) {
     return <Spinner />;
@@ -71,7 +72,7 @@ const TopicPage = () => {
   return (
     <>
       <StyledTopicHeader element="h1" headingStyle="default">
-        {'test'}
+        {data?.arenaCategory?.name}
       </StyledTopicHeader>
       <TopicDescription>{'test description to be replaced'}</TopicDescription>
       <StyledContainer>
@@ -88,10 +89,10 @@ const TopicPage = () => {
         <Spinner />
       ) : (
         data?.arenaCategory?.topics?.map((topic: GQLArenaTopic) => (
-          <StyledCardContainer key={topic.id}>
+          <StyledCardContainer key={`topicContainer-${topic.id}`}>
             <ArenaCard
-              key={topic.id}
-              id={'topic.id'}
+              key={`topic-${topic.id}`}
+              id={topic.id.toString()}
               cardType="ArenaTopic"
               title={topic.title}
               subText={'Blalalalalalal'}
@@ -101,15 +102,6 @@ const TopicPage = () => {
           </StyledCardContainer>
         ))
       )}
-      {/* <PostCard
-        id={'1'}
-        isMainPost={true}
-        title={'Tittel på innlegget'}
-        content={
-          'Lorem ipsum dolor sit amet consectetur. Vitae ut maecenas commodo nisi cursus amet. Mattis a eu suspendisse massa. Vel ac risus nibh phasellus. Est proin in eget ligula at turpis lectus tristique. Ullamcorper praesent eget turpis convallis. Faucibus pellentesque pharetra posuere scelerisque. Ligula at neque tellus aenean. Vivamus posuere eu non ipsum. Ut tellus vivamus mi proin. Duis orci ullamcorper enim gravida nibh tristique adipiscing. Mi lobortis mauris sem tellus neque. Pellentesque montes ut in habitant viverra convallis ac.'
-        }
-        notify={true}
-      /> */}
     </>
   );
 };

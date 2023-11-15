@@ -10,6 +10,7 @@ import { gql } from '@apollo/client';
 import {
   GQLArenaCategoriesQuery,
   GQLArenaCategoryQuery,
+  GQLArenaTopicQuery,
 } from '../../graphqlTypes';
 import { useGraphQuery } from '../../util/runQueries';
 
@@ -52,6 +53,16 @@ const arenaTopicFragment = gql`
   }
 `;
 
+const arenaPostFragment = gql`
+  fragment ArenaPostFragment on ArenaPost {
+    __typename
+    content
+    id
+    timestamp
+    topicId
+  }
+`;
+
 export const arenaCategoriesQuery = gql`
   query arenaPage {
     arenaCategories {
@@ -75,6 +86,19 @@ export const arenaCategoryQuery = gql`
   ${arenaTopicFragment}
 `;
 
+export const arenaTopicById = gql`
+  query arenaTopicById($topicId: Int!, $page: Int!) {
+    arenaTopic(topicId: $topicId, page: $page) {
+      ...ArenaTopicFragment
+      posts {
+        ...ArenaPostFragment
+      }
+    }
+  }
+  ${arenaTopicFragment}
+  ${arenaPostFragment}
+`;
+
 export const useArenaCategories = () => {
   const { data, loading, error } =
     useGraphQuery<GQLArenaCategoriesQuery>(arenaCategoriesQuery);
@@ -86,6 +110,16 @@ export const useArenaCategory = (categoryId: number, page: number) => {
     arenaCategoryQuery,
     {
       variables: { categoryId, page },
+    },
+  );
+  return { data, loading, error };
+};
+
+export const useArenaTopic = (topicId: number, page: number) => {
+  const { data, loading, error } = useGraphQuery<GQLArenaTopicQuery>(
+    arenaTopicById,
+    {
+      variables: { topicId, page },
     },
   );
   return { data, loading, error };

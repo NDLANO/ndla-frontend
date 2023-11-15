@@ -164,7 +164,11 @@ const ArenaCard = ({
     <StyledCardContainer
       id={id}
       css={cardType === 'ArenaCategory' ? StyledCategoryCard : StyledTopicCard}
-      to="topic"
+      to={
+        cardType === 'ArenaCategory'
+          ? `/minndla/arena/${id}`
+          : `/minndla/arena/kategorier/${id}`
+      } //temporary fix to make SafeLink work
     >
       {cardType === 'ArenaCategory' ? (
         <>

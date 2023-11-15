@@ -43,6 +43,7 @@ import SharedFolderPage from './containers/SharedFolderPage/SharedFolderPage';
 import FavoriteSubjectsPage from './containers/MyNdla/FavoriteSubjects/FavoriteSubjectsPage';
 import AboutPage from './containers/AboutPage/AboutPage';
 import H5pPage from './containers/ResourceEmbed/H5pPage';
+import PostsPage from './containers/MyNdla/ArenaPage/PostsPage';
 
 interface State {
   hasError: boolean;
@@ -154,7 +155,11 @@ const AppRoutes = ({ base }: AppProps) => {
                     <Route path=":folderId" element={<FoldersPage />} />
                   </Route>
                   <Route path="arena" element={<ArenaPage />} />
-                  <Route path="arena/:topic" element={<TopicPage />} />
+                  <Route path="arena/:categoryId" element={<TopicPage />} />
+                  <Route
+                    path="arena/kategorier/:topicId"
+                    element={<PostsPage />}
+                  />
                   <Route path="tags">
                     <Route index element={<TagsPage />} />
                     <Route path=":tag" element={<TagsPage />} />

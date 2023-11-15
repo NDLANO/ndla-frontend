@@ -11,7 +11,7 @@ export const privateRoutes = [
   'minndla/meny',
   'minndla/folders',
   'minndla/arena',
-  'minndla/arena/:topic',
+  'minndla/arena/:categoryId',
   'minndla/tags',
   'minndla/tags/:tag',
   'minndla/folders/:folderId',

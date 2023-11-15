@@ -2681,6 +2681,7 @@ export type GQLTopicPageQueryFragmentFragment = {
   id: number;
   locked: boolean;
   postCount: number;
+  posts: Array<GQLArenaPost>;
   slug: string;
   timestamp: string;
   title: string;
@@ -2702,6 +2703,13 @@ export type GQLArenaCategoryQuery = {
   arenaCategory: {
     __typename?: 'ArenaCategory';
   } & GQLArenaCategoriesFragmentFragment;
+};
+
+export type GQLArenaTopicQuery = {
+  __typename?: 'Query';
+  arenaTopic: {
+    __typename?: 'ArenaTopic';
+  } & GQLTopicPageQueryFragmentFragment;
 };
 
 export type GQLArenaUserQueryFragmentFragment = {
