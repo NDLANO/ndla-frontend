@@ -15,6 +15,7 @@ const Description = styled.div`
 const ArenaNotificationPage = () => {
   const { t } = useTranslation();
   const { notifications } = useArenaNotifications();
+
   return (
     <div>
       <HelmetWithTracker
@@ -34,7 +35,7 @@ const ArenaNotificationPage = () => {
         <MyNdlaTitle title={t('myNdla.arena.notification.myNotification')} />
       </TitleWrapper>
       <Description>{t('myNdla.arena.notification.description')}</Description>
-      <NotificationList markAllRead={() => {}} notifications={notifications} />
+      <NotificationList notifications={notifications} />
     </div>
   );
 };

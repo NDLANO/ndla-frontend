@@ -38,7 +38,6 @@ interface Props {
 const Notifications = ({ notifications }: Props) => {
   const { t } = useTranslation();
 
-  const markAllNotificationsAsRead = () => {};
   return (
     <Root>
       <Trigger asChild>
@@ -46,10 +45,7 @@ const Notifications = ({ notifications }: Props) => {
       </Trigger>
       <Portal>
         <StyledContent>
-          <NotificationList
-            notifications={notifications?.slice(0, 5)}
-            markAllRead={markAllNotificationsAsRead}
-          />
+          <NotificationList notifications={notifications} isButton />
           <ShowAllButton to={toAllNotifications()} fontWeight="bold">
             {t('myNdla.arena.notification.showAll')}
           </ShowAllButton>

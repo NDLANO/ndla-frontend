@@ -6,8 +6,13 @@
  *
  */
 
-import { gql } from '@apollo/client';
-import { GQLArenaNotificationsQuery, GQLArenaUser } from '../../graphqlTypes';
+import { gql, useMutation } from '@apollo/client';
+import {
+  GQLArenaNotificationsQuery,
+  GQLArenaUser,
+  GQLMarkNotificationReadMutation,
+  GQLMutationMarkNotificationReadArgs,
+} from '../../graphqlTypes';
 import { useGraphQuery } from '../../util/runQueries';
 
 const arenaUserFragment = gql`
@@ -43,6 +48,11 @@ const arenaNotificationFragment = gql`
     importance
     path
     read
+    tid
+    pid
+    topicTitle
+    subject
+    type
     user {
       ...ArenaUserQueryFragment
     }
@@ -64,4 +74,18 @@ export const useArenaNotifications = () => {
     arenaNotificationQuery,
   );
   return { notifications: data?.arenaNotifications, loading };
+};
+
+const arenaMarkNotificationAsReadMutation = gql`
+  mutation MarkNotificationRead($topicId: Int!) {
+    markNotificationRead(topicId: $topicId)
+  }
+`;
+
+export const useMarkNotificationsAsRead = () => {
+  const [markNotificationRead, { loading }] = useMutation<
+    GQLMarkNotificationReadMutation,
+    GQLMutationMarkNotificationReadArgs
+  >(arenaMarkNotificationAsReadMutation);
+  return { markNotificationRead, loading };
 };

@@ -25,14 +25,18 @@ type ArenaCategory {
 
 type ArenaNotification {
   bodyShort: String!
-  datetime: Int!
   datetimeISO: String!
   from: Int!
   image: String!
   importance: Int!
   path: String!
+  pid: Int!
   read: Boolean!
   readClass: String!
+  subject: String!
+  tid: Int!
+  topicTitle: String!
+  type: String!
   user: ArenaUser!
 }
 
@@ -775,6 +779,7 @@ type Mutation {
   deleteFolder(id: String!): String!
   deleteFolderResource(folderId: String!, resourceId: String!): String!
   deletePersonalData: Boolean!
+  markNotificationRead(topicId: Int!): Int
   sortFolders(parentId: String, sortedIds: [String!]!): SortResult!
   sortResources(parentId: String!, sortedIds: [String!]!): SortResult!
   transformArticleContent(

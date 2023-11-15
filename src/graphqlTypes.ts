@@ -59,14 +59,18 @@ export type GQLArenaCategory = {
 export type GQLArenaNotification = {
   __typename?: 'ArenaNotification';
   bodyShort: Scalars['String']['output'];
-  datetime: Scalars['Int']['output'];
   datetimeISO: Scalars['String']['output'];
   from: Scalars['Int']['output'];
   image: Scalars['String']['output'];
   importance: Scalars['Int']['output'];
   path: Scalars['String']['output'];
+  pid: Scalars['Int']['output'];
   read: Scalars['Boolean']['output'];
   readClass: Scalars['String']['output'];
+  subject: Scalars['String']['output'];
+  tid: Scalars['Int']['output'];
+  topicTitle: Scalars['String']['output'];
+  type: Scalars['String']['output'];
   user: GQLArenaUser;
 };
 
@@ -883,6 +887,7 @@ export type GQLMutation = {
   deleteFolder: Scalars['String']['output'];
   deleteFolderResource: Scalars['String']['output'];
   deletePersonalData: Scalars['Boolean']['output'];
+  markNotificationRead?: Maybe<Scalars['Int']['output']>;
   sortFolders: GQLSortResult;
   sortResources: GQLSortResult;
   transformArticleContent: Scalars['String']['output'];
@@ -919,6 +924,10 @@ export type GQLMutationDeleteFolderArgs = {
 export type GQLMutationDeleteFolderResourceArgs = {
   folderId: Scalars['String']['input'];
   resourceId: Scalars['String']['input'];
+};
+
+export type GQLMutationMarkNotificationReadArgs = {
+  topicId: Scalars['Int']['input'];
 };
 
 export type GQLMutationSortFoldersArgs = {
@@ -2679,6 +2688,11 @@ export type GQLArenaNotificationFragmentFragment = {
   importance: number;
   path: string;
   read: boolean;
+  tid: number;
+  pid: number;
+  topicTitle: string;
+  subject: string;
+  type: string;
   user: { __typename?: 'ArenaUser' } & GQLArenaUserQueryFragmentFragment;
 };
 
@@ -2691,6 +2705,15 @@ export type GQLArenaNotificationsQuery = {
   arenaNotifications: Array<
     { __typename?: 'ArenaNotification' } & GQLArenaNotificationFragmentFragment
   >;
+};
+
+export type GQLMarkNotificationReadMutationVariables = Exact<{
+  topicId: Scalars['Int']['input'];
+}>;
+
+export type GQLMarkNotificationReadMutation = {
+  __typename?: 'Mutation';
+  markNotificationRead?: number;
 };
 
 export type GQLFolderResourceFragmentFragment = {

@@ -3,12 +3,13 @@ import { ButtonV2 } from '@ndla/button';
 import { spacing, colors, fonts } from '@ndla/core';
 import { HelpCircleDual, KeyboardReturn } from '@ndla/icons/common';
 import { SafeLinkButton } from '@ndla/safelink';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyledUl } from '../../SharedFolderPage/components/Folder';
 import { formatDistanceStrict } from 'date-fns';
 import { nb, nn, enGB } from 'date-fns/locale';
 import { GQLArenaNotificationFragmentFragment } from '../../../graphqlTypes';
+import { useMarkNotificationsAsRead } from '../arenaQueries';
 
 const TitleWrapper = styled.div`
   display: flex;
@@ -83,8 +84,8 @@ const NotificationTitle = styled.span`
 
 const StyledKeyboardReturn = styled(KeyboardReturn)`
   transform: scaleY(-1);
-  min-width: 24px;
-  min-height: 24px;
+  min-width: ${spacing.normal};
+  min-height: ${spacing.normal};
 `;
 
 const Locales = {
@@ -97,18 +98,37 @@ const Locales = {
 const capitalizeFirstLetter = (str: string) =>
   str.charAt(0).toUpperCase() + str.slice(1);
 
+const toArenaTopic = (tid: number) => `/${tid}`;
+const toArenaPost = (tid: number, pid: number) =>
+  `/${toArenaTopic(tid)}/${pid}`;
 interface Props {
   notifications?: GQLArenaNotificationFragmentFragment[];
-  markAllRead: () => void;
+  isButton?: boolean;
 }
 
-const NotificationList = ({ notifications, markAllRead }: Props) => {
+const NotificationList = ({ notifications, isButton }: Props) => {
   const {
     t,
     i18n: { language },
   } = useTranslation();
-
   const now = useMemo(() => new Date(), []);
+  const { markNotificationRead } = useMarkNotificationsAsRead();
+
+  const markAllRead = useCallback(async () => {
+    await Promise.all(
+      notifications
+        ?.filter(({ read }) => !read)
+        ?.map(({ tid }) => {
+          markNotificationRead({ variables: { topicId: tid } });
+        }) ?? [],
+    );
+  }, [notifications]);
+
+  const notifcationsToShow = useMemo(
+    () => (!!isButton ? notifications?.slice(0, 5) : notifications),
+    [notifications, isButton],
+  );
+
   return (
     <>
       <TitleWrapper>
@@ -118,39 +138,37 @@ const NotificationList = ({ notifications, markAllRead }: Props) => {
         </ButtonV2>
       </TitleWrapper>
       <StyledList>
-        {notifications?.map((notification, index) => (
-          <StyledLi key={index}>
-            <StyledLink
-              to={notification.path}
-              variant="stripped"
-              data-not-viewed={!notification.read}
-            >
-              <Notification>
-                <StyledKeyboardReturn />
-                <div>
-                  <NotificationTitle>
-                    {`${notification.user.displayName} 
+        {notifcationsToShow?.map(
+          ({ tid, pid, read, user, datetimeISO, topicTitle }, index) => (
+            <StyledLi key={index}>
+              <StyledLink
+                to={toArenaPost(tid, pid)}
+                variant="stripped"
+                data-not-viewed={!read}
+              >
+                <Notification>
+                  <StyledKeyboardReturn />
+                  <div>
+                    <NotificationTitle>
+                      {`${user.displayName} 
                         ${t('myNdla.arena.notification.commentedOn')} `}
-                    <em>{notification.bodyShort}</em>
-                  </NotificationTitle>
-                  <TimeSince>
-                    {`${capitalizeFirstLetter('Frank')}
-                    ${formatDistanceStrict(
-                      Date.parse(notification.datetimeISO),
-                      now,
-                      {
-                        addSuffix: true,
-                        locale: Locales[language],
-                        roundingMethod: 'floor',
-                      },
-                    )}`}
-                  </TimeSince>
-                </div>
-              </Notification>
-              {!notification.read && <StyledDot />}
-            </StyledLink>
-          </StyledLi>
-        ))}
+                      <em>{topicTitle}</em>
+                    </NotificationTitle>
+                    <TimeSince>
+                      {`${capitalizeFirstLetter('Frank')}
+                    ${formatDistanceStrict(Date.parse(datetimeISO), now, {
+                      addSuffix: true,
+                      locale: Locales[language],
+                      roundingMethod: 'floor',
+                    })}`}
+                    </TimeSince>
+                  </div>
+                </Notification>
+                {!read && <StyledDot />}
+              </StyledLink>
+            </StyledLi>
+          ),
+        )}
       </StyledList>
     </>
   );
