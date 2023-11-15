@@ -17,7 +17,7 @@ export const LtiIframePage = () => {
     <PageContainer>
       <Helmet htmlAttributes={{ lang: lang }} />
       <IframePage
-        status={'success'}
+        status="success"
         taxonomyId={taxonomyId}
         articleId={articleId}
       />
