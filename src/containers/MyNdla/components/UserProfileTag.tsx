@@ -6,7 +6,7 @@
  */
 
 import styled from '@emotion/styled';
-import { fonts, colors, spacing } from '@ndla/core';
+import { fonts, colors, spacing, misc } from '@ndla/core';
 import SafeLink from '@ndla/safelink';
 import { useTranslation } from 'react-i18next';
 import Avatar from './Avatar';
@@ -53,7 +53,7 @@ const NameAndTagContainer = styled.div`
 `;
 
 const ModeratorTag = styled.span`
-  border-radius: ${spacing.xxsmall};
+  border-radius: ${misc.borderRadius};
   padding: 2px ${spacing.small};
   background-color: ${colors.brand.primary};
   width: fit-content;
