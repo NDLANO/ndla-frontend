@@ -8,14 +8,16 @@
 
 import styled from '@emotion/styled';
 import { IconButtonV2 } from '@ndla/button';
-import { spacing, fonts, colors } from '@ndla/core';
+import { spacing, colors, fonts } from '@ndla/core';
 import { FourlineHamburger, List } from '@ndla/icons/action';
 import {
   ModalBody,
   ModalHeader,
   ModalContent,
   ModalCloseButton,
+  ModalTitle,
 } from '@ndla/modal';
+import { Text } from '@ndla/typography';
 import { ReactNode, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useOutletContext } from 'react-router-dom';
@@ -25,16 +27,14 @@ import NavigationLink from './NavigationLink';
 
 const MenuItem = styled.li`
   list-style: none;
-  flex-basis: 24%;
   margin: unset;
 `;
 
-const Title = styled.div`
+const StyledText = styled(Text)`
   text-transform: uppercase;
   padding: ${spacing.normal} ${spacing.small} ${spacing.small} ${spacing.small};
-  ${fonts.sizes('18px', '24px')};
-  font-weight: ${fonts.weight.bold};
   color: ${colors.brand.grey};
+  font-weight: ${fonts.weight.bold};
 
   &[data-border-top='true'] {
     border-top: 1px solid ${colors.brand.lightest};
@@ -43,16 +43,16 @@ const Title = styled.div`
   &[data-no-padding-top='true'] {
     padding-top: unset;
   }
+`;
 
-  &[data-blue-background='true'] {
-    background: ${colors.background.lightBlue};
-  }
+const StyledModalTitle = styled(ModalTitle)`
+  color: ${colors.brand.grey} !important;
+  padding: unset;
 `;
 
 const MenuItems = styled.ul`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(auto, 1fr));
 
   justify-content: space-between;
   padding: unset;
@@ -99,10 +99,6 @@ const ViewButtonWrapper = styled.div`
 const ViewButton = styled(IconButtonV2)`
   display: flex;
   flex-direction: column;
-  overflow-wrap: break-word;
-  ${fonts.sizes('10px', '12px')};
-
-  width: 75px;
 
   background-color: transparent;
   color: ${colors.brand.primary};
@@ -114,14 +110,27 @@ const ViewButton = styled(IconButtonV2)`
   }
 `;
 
+const CloseWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  color: ${colors.brand.primary};
+  justify-content: center;
+  align-items: center;
+`;
+
 interface Props {
   onViewTypeChange?: (val: ViewType) => void;
   viewType?: ViewType;
   buttons?: ReactNode;
-  focusId?: string;
+  showButtons?: boolean;
 }
 
-const MenuModalContent = ({ onViewTypeChange, viewType, buttons }: Props) => {
+const MenuModalContent = ({
+  onViewTypeChange,
+  viewType,
+  buttons,
+  showButtons = true,
+}: Props) => {
   const { t } = useTranslation();
   const location = useLocation();
   const { setIsOpen, resetFocus, setResetFocus } =
@@ -159,24 +168,37 @@ const MenuModalContent = ({ onViewTypeChange, viewType, buttons }: Props) => {
   return (
     <ModalContent onCloseAutoFocus={onCloseModal}>
       <StyledModalHeader>
-        <ModalCloseButton title={t('close')} />
+        <StyledModalTitle data-no-padding-top={true}>
+          {t('myNdla.myNDLA')}
+        </StyledModalTitle>
+        <CloseWrapper>
+          <ModalCloseButton />
+          <Text textStyle="meta-text-xxsmall" margin="none">
+            {t('close')}
+          </Text>
+        </CloseWrapper>
       </StyledModalHeader>
       <StyledModalBody>
-        <Title data-no-padding-top={true} data-blue-background={true}>
-          {t('myNdla.myNDLA')}
-        </Title>
         <nav>
           <MenuItems role="tablist">{links}</MenuItems>
         </nav>
-        {buttons && (
+        {!!buttons && showButtons && (
           <>
-            <Title data-border-top={true}>{t('myNdla.tools')}</Title>
+            <StyledText margin="none" textStyle="meta-text-medium">
+              {t('myNdla.tools')}
+            </StyledText>
             <ToolMenu>{buttons}</ToolMenu>
           </>
         )}
         {!!viewType && (
           <>
-            <Title>{t('myNdla.selectView')}</Title>
+            <StyledText
+              data-border-top={showButtons}
+              textStyle="meta-text-medium"
+              margin="none"
+            >
+              {t('myNdla.selectView')}
+            </StyledText>
             <ViewButtonWrapper>
               <ViewButton
                 aria-label={t('myNdla.listView')}
@@ -184,7 +206,9 @@ const MenuModalContent = ({ onViewTypeChange, viewType, buttons }: Props) => {
                 onClick={() => onViewTypeChange?.('list')}
               >
                 <FourlineHamburger />
-                {t('myNdla.simpleList')}
+                <Text textStyle="meta-text-xxsmall" margin="none">
+                  {t('myNdla.simpleList')}
+                </Text>
               </ViewButton>
               <ViewButton
                 aria-label={t('myNdla.detailView')}
@@ -192,7 +216,9 @@ const MenuModalContent = ({ onViewTypeChange, viewType, buttons }: Props) => {
                 onClick={() => onViewTypeChange?.('listLarger')}
               >
                 <List />
-                {t('myNdla.detailedList')}
+                <Text textStyle="meta-text-xxsmall" margin="none">
+                  {t('myNdla.detailedList')}
+                </Text>
               </ViewButton>
             </ViewButtonWrapper>
           </>

@@ -39,9 +39,14 @@ import { isStudent, copyFolderSharingLink, previewLink } from './util';
 interface FolderButtonProps {
   setFocusId: Dispatch<SetStateAction<string | undefined>>;
   selectedFolder: GQLFolder | null;
+  setAmountOfButtons: Dispatch<SetStateAction<number>>;
 }
 
-const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
+const FolderButtons = ({
+  setFocusId,
+  selectedFolder,
+  setAmountOfButtons,
+}: FolderButtonProps) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { folderId } = useParams();
@@ -274,10 +279,11 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
     ) : null;
 
   if (!showShareFolder) {
-    return [addFolderButton, editFolderButton, deleteFolderButton];
+    const buttons = [addFolderButton, editFolderButton, deleteFolderButton];
+    setAmountOfButtons(buttons.filter(Boolean).length);
+    return buttons;
   }
-
-  return [
+  const buttons = [
     addFolderButton,
     editFolderButton,
     shareButton,
@@ -287,6 +293,8 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
     unShareButton,
     deleteFolderButton,
   ];
+  setAmountOfButtons(buttons.filter(Boolean).length);
+  return buttons;
 };
 
 export default memo(FolderButtons);

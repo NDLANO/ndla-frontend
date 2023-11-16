@@ -141,6 +141,7 @@ const FoldersPage = () => {
   );
   const [previousFolders, setPreviousFolders] = useState<GQLFolder[]>(folders);
   const [focusId, setFocusId] = useState<string | undefined>(undefined);
+  const [amountOfButtons, setAmountOfButtons] = useState<number>(0);
 
   const resourceRefId = useMemo(
     () =>
@@ -220,7 +221,11 @@ const FoldersPage = () => {
 
   const folderButtons = useMemo(
     () => (
-      <FolderButtons selectedFolder={selectedFolder} setFocusId={setFocusId} />
+      <FolderButtons
+        selectedFolder={selectedFolder}
+        setFocusId={setFocusId}
+        setAmountOfButtons={setAmountOfButtons}
+      />
     ),
     [selectedFolder, setFocusId],
   );
@@ -232,6 +237,7 @@ const FoldersPage = () => {
       viewType={viewType}
       onViewTypeChange={setViewType}
       extendTabletView={selectedFolder?.status === 'shared'}
+      showButtons={amountOfButtons > 0}
     >
       <FoldersPageContainer>
         <HelmetWithTracker title={title} />

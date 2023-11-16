@@ -34,6 +34,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   viewType?: ViewType;
   onViewTypeChange?: (val: ViewType) => void;
   extendTabletView?: boolean;
+  showButtons?: boolean;
 }
 
 const MyNdlaPageWrapper = ({
@@ -42,6 +43,7 @@ const MyNdlaPageWrapper = ({
   onViewTypeChange,
   viewType,
   extendTabletView,
+  showButtons,
   children,
 }: Props) => {
   return (
@@ -52,6 +54,7 @@ const MyNdlaPageWrapper = ({
         onViewTypeChange={onViewTypeChange}
         viewType={viewType}
         extendTabletView={extendTabletView}
+        showButtons={showButtons}
       />
       <ContentWrapper>
         <Content>{children}</Content>

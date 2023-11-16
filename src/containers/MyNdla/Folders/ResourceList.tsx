@@ -76,6 +76,7 @@ const ResourceList = ({ selectedFolder, viewType, resourceRefId }: Props) => {
             .getElementById(`resource-${focusId}`)
             ?.getElementsByTagName('a')?.[0]
             ?.focus(),
+        // Timeout needs to be bigger than 0 in order for timeout to execute on FireFox
         1,
       );
       setFocusId(undefined);

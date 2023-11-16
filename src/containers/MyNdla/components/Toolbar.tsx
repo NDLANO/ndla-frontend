@@ -30,13 +30,12 @@ const ButtonContainer = styled.div`
   flex-direction: row;
   gap: ${spacing.small};
 
-  &[data-extend-view='true'] {
-    ${mq.range({ from: breakpoints.wide })} {
-      display: flex;
-    }
+  ${mq.range({ from: breakpoints.desktop })} {
+    display: flex;
   }
-  &[data-extend-view='false'] {
-    ${mq.range({ from: breakpoints.desktop })} {
+
+  &[data-extend-tablet-view='true'] {
+    ${mq.range({ from: breakpoints.wide })} {
       display: flex;
     }
   }
@@ -48,7 +47,7 @@ const DropdownWrapper = styled.div`
   ${mq.range({ from: breakpoints.mobileWide, until: breakpoints.desktop })} {
     display: unset;
   }
-  &[data-extend-view='true'] {
+  &[data-extend-tablet-view='true'] {
     ${mq.range({ from: breakpoints.desktop, until: breakpoints.wide })} {
       display: unset;
     }
@@ -68,6 +67,7 @@ interface Props {
   viewType?: ViewType;
   onViewTypeChange?: (val: ViewType) => void;
   extendTabletView?: boolean;
+  showButtons?: boolean;
 }
 
 const Toolbar = ({
@@ -76,14 +76,15 @@ const Toolbar = ({
   onViewTypeChange,
   viewType,
   extendTabletView,
+  showButtons,
 }: Props) => {
   return (
     <ToolbarContainer>
       <Wrapper>
-        <ButtonContainer data-extend-view={extendTabletView}>
+        <ButtonContainer data-extend-tablet-view={extendTabletView}>
           {buttons}
         </ButtonContainer>
-        <DropdownWrapper data-extend-view={extendTabletView}>
+        <DropdownWrapper data-extend-tablet-view={extendTabletView}>
           {dropDownMenu}
         </DropdownWrapper>
       </Wrapper>
@@ -91,6 +92,7 @@ const Toolbar = ({
         onViewTypeChange={onViewTypeChange}
         buttons={buttons}
         viewType={viewType}
+        showButtons={showButtons}
       />
     </ToolbarContainer>
   );

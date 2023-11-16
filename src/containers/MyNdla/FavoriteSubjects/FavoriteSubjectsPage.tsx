@@ -19,7 +19,6 @@ import { AuthContext } from '../../../components/AuthenticationContext';
 import SubjectLink from '../../AllSubjectsPage/SubjectLink';
 import { useSubjects } from '../subjectQueries';
 import { usePersonalData } from '../userMutations';
-import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
 import MyNdlaTitle from '../components/MyNdlaTitle';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
@@ -79,7 +78,7 @@ const FavoriteSubjectsPage = () => {
         css={buttonCss}
         variant="ghost"
         colorTheme="lighter"
-        to={'/subjects'}
+        to="/subjects"
       >
         {t('subjectsPage.allSubjects')}
         <Forward css={iconCss} />
@@ -111,7 +110,6 @@ const FavoriteSubjectsPage = () => {
     <MyNdlaPageWrapper buttons={allSubjects} dropDownMenu={dropDown}>
       <Wrapper>
         <HelmetWithTracker title={t('myNdla.favoriteSubjects.title')} />
-        <MyNdlaBreadcrumb page="subjects" breadcrumbs={[]} />
         <MyNdlaTitle title={t('myNdla.favoriteSubjects.title')} />
         {loading ? (
           <Spinner />

@@ -10,7 +10,7 @@ import { useMemo, useContext, useState, Dispatch, SetStateAction } from 'react';
 import { Location, Outlet, useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
-import { breakpoints, colors, fonts, mq, spacing } from '@ndla/core';
+import { breakpoints, colors, mq, spacing } from '@ndla/core';
 import { MessageBox, TreeStructure } from '@ndla/ui';
 import { FolderOutlined } from '@ndla/icons/contentType';
 import {
@@ -24,6 +24,7 @@ import {
 import { Modal, ModalTrigger } from '@ndla/modal';
 import { IconButtonV2 } from '@ndla/button';
 import { DragHorizontal, Folder } from '@ndla/icons/editor';
+import { Text } from '@ndla/typography';
 import { TFunction } from 'i18next';
 import { AuthContext } from '../../components/AuthenticationContext';
 import { useFolder, useFolders } from './folderMutations';
@@ -43,7 +44,7 @@ const StyledNavList = styled.ul`
   list-style: none;
   display: flex;
   flex-direction: row;
-  margin: unset !important;
+  margin: 0px;
   padding: unset;
   justify-content: space-between;
 
@@ -54,14 +55,11 @@ const StyledNavList = styled.ul`
 
 const StyledNav = styled.nav`
   width: 100%;
+  padding-right: ${spacing.small};
 `;
 
 const StyledLi = styled.li`
   margin: 0;
-  &:not(:nth-of-type(-n + 4)) {
-    display: none;
-  }
-
   ${mq.range({ from: breakpoints.mobileWide })} {
     display: unset !important;
   }
@@ -78,7 +76,6 @@ const StyledSideBar = styled.div`
   background: ${colors.background.lightBlue};
   justify-content: center;
   padding: ${spacing.xsmall};
-  gap: ${spacing.nsmall};
 
   ${mq.range({ from: breakpoints.mobileWide })} {
     padding: ${spacing.nsmall};
@@ -105,11 +102,10 @@ const TreeStructureWrapper = styled.div`
 const MoreButton = styled(IconButtonV2)`
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
   padding: ${spacing.small};
-  gap: ${spacing.xxsmall};
+  gap: ${spacing.xsmall};
   color: ${colors.brand.primary};
-  ${fonts.sizes('10px', '12px')};
-  font-weight: ${fonts.weight.bold};
 
   border-radius: ${spacing.xxsmall};
 
@@ -184,7 +180,9 @@ const MyNdlaLayout = () => {
       <Modal open={isOpen} onOpenChange={setIsOpen}>
         <StyledSideBar>
           <StyledNav>
-            <StyledNavList role="tablist">{menuOptions}</StyledNavList>
+            <StyledNavList role="tablist">
+              {menuOptions.slice(0, 4)}
+            </StyledNavList>
           </StyledNav>
           <ModalTrigger>
             <MoreButton
@@ -192,7 +190,9 @@ const MyNdlaLayout = () => {
               aria-label={t('myNdla.iconMenu.more')}
             >
               <DragHorizontal />
-              {t('myNdla.iconMenu.more')}
+              <Text margin="none" textStyle="meta-text-xxsmall">
+                {t('myNdla.iconMenu.more')}
+              </Text>
             </MoreButton>
           </ModalTrigger>
         </StyledSideBar>
@@ -220,27 +220,27 @@ export const menuLinks = (t: TFunction, location: Location) => [
     iconFilled: <ProfilePerson />,
   },
   {
-    id: 'folders',
+    id: '/folders',
     name: t('myNdla.myFolders'),
     shortName: t('myNdla.iconMenu.folders'),
     icon: <FolderOutlined />,
     iconFilled: <Folder />,
   },
   {
-    id: 'subjects',
+    id: '/subjects',
     name: t('myNdla.favoriteSubjects.title'),
     shortName: t('myNdla.iconMenu.subjects'),
     icon: <BookOutlined />,
     iconFilled: <Book />,
   },
   {
-    id: 'tags',
+    id: '/tags',
     name: t('myNdla.myTags'),
     shortName: t('myNdla.iconMenu.tags'),
     icon: <HashTag />,
   },
   {
-    id: 'logout-path',
+    id: '/logout-path',
     name: t('user.buttonLogOut'),
     shortName: t('user.buttonLogOut'),
     icon: <LogOut />,

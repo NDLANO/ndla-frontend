@@ -11,6 +11,7 @@ import { breakpoints, colors, fonts, mq, spacing } from '@ndla/core';
 import { ReactNode } from 'react';
 import SafeLink from '@ndla/safelink';
 import { useLocation } from 'react-router-dom';
+import { Text } from '@ndla/typography';
 
 const StyledSafeLink = styled(SafeLink)`
   display: flex;
@@ -47,20 +48,20 @@ const IconWrapper = styled.span`
   justify-content: center;
 `;
 
-const LongText = styled.span`
+const LongText = styled(Text)`
   ${mq.range({ until: breakpoints.desktop })} {
     display: none;
     width: 0px;
   }
+  margin: 0px;
 `;
 
-const ShortText = styled.span`
-  ${fonts.sizes('10px', '12px')};
-  font-weight: ${fonts.weight.bold};
-
+const ShortText = styled(Text)`
   ${mq.range({ from: breakpoints.desktop })} {
     display: none;
   }
+
+  margin: 0px;
 `;
 
 interface Props {
@@ -87,7 +88,9 @@ const NavigationLink = ({
   onClick,
 }: Props) => {
   const location = useLocation();
-  const selected = location.pathname.match(`^/minndla/(?:${id})(?:/([^/]+))?$`);
+  const selected = !!id
+    ? location.pathname.startsWith(`/minndla${id}`)
+    : location.pathname === '/minndla';
   const selectedIcon = selected ? iconFilled ?? icon : icon;
 
   return (
@@ -96,13 +99,17 @@ const NavigationLink = ({
       aria-expanded={expanded}
       aria-current={selected ? 'page' : undefined}
       data-selected={selected}
-      to={loading ? '' : to ? to : `/minndla/${id}`}
+      to={loading ? '' : to ? to : `/minndla${id}`}
       reloadDocument={!!to}
       onClick={onClick}
     >
       <IconWrapper>{selectedIcon}</IconWrapper>
-      <LongText>{name}</LongText>
-      <ShortText>{shortName}</ShortText>
+      <LongText textStyle="meta-text-xxsmall" margin="small">
+        {name}
+      </LongText>
+      <ShortText textStyle="meta-text-xxsmall" margin="small">
+        {shortName}
+      </ShortText>
     </StyledSafeLink>
   );
 };
