@@ -8,10 +8,13 @@
 
 import { useEffect, useMemo } from 'react';
 import { gql } from '@apollo/client';
+import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { OneColumn, CreatedBy, constants } from '@ndla/ui';
+import { OneColumn, CreatedBy, constants, LayoutItem } from '@ndla/ui';
 import { useTracker } from '@ndla/tracker';
 import { useTranslation } from 'react-i18next';
+import { ButtonV2 } from '@ndla/button';
+import { Back } from '@ndla/icons/common';
 import { transformArticle } from '../util/transformArticle';
 import Article from '../components/Article';
 import { getArticleScripts } from '../util/getArticleScripts';
@@ -28,6 +31,7 @@ import { LocaleType } from '../interfaces';
 import getStructuredDataFromArticle, {
   structuredArticleDataFragment,
 } from '../util/getStructuredDataFromArticle';
+import { useLtiData } from '../components/LtiContext';
 
 interface Props {
   locale?: LocaleType;
@@ -48,6 +52,8 @@ const IframeArticlePage = ({
   locale: localeProp,
 }: Props) => {
   const { trackPageView } = useTracker();
+  const navigate = useNavigate();
+  const ltiData = useLtiData();
   const { t, i18n } = useTranslation();
   const locale = localeProp ?? i18n.language;
 
@@ -117,6 +123,14 @@ const IframeArticlePage = ({
       />
       <PostResizeMessage />
       <main>
+        {!!ltiData && (
+          <LayoutItem layout="center">
+            <ButtonV2 variant="link" onClick={() => navigate(-1)}>
+              <Back />
+              {t('lti.goBack')}
+            </ButtonV2>
+          </LayoutItem>
+        )}
         <Article
           contentTransformed
           article={article}

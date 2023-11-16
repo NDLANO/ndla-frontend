@@ -72,6 +72,9 @@ const messages = {
     maxLengthField:
       '$t(validation.fields.{{field}}) kan maks innholde {{count}} tegn',
   },
+  lti: {
+    goBack: 'Tilbake til LTI-søk',
+  },
   resourcepageTitles: {
     video: 'Video',
     image: 'Bilde',

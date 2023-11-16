@@ -23,12 +23,12 @@ import {
   RESOURCE_TYPE_LEARNING_PATH,
   STORED_LANGUAGE_COOKIE_KEY,
 } from '../constants';
-import { LocaleType, LtiData } from '../interfaces';
+import { LocaleType } from '../interfaces';
 import { GQLSearchPageQuery } from '../graphqlTypes';
 import { createApolloLinks } from '../util/apiHelpers';
+import { useLtiData } from '../components/LtiContext';
 
 interface Props {
-  ltiData?: LtiData;
   locale?: LocaleType;
 }
 
@@ -39,7 +39,8 @@ interface SearchParams {
   selectedFilters: string[];
   activeSubFilters: string[];
 }
-const LtiProvider = ({ locale: propsLocale, ltiData }: Props) => {
+const LtiProvider = ({ locale: propsLocale }: Props) => {
+  const ltiContext = useLtiData();
   const [searchParams, setSearchParams] = useState<SearchParams>({
     query: '',
     subjects: [],
@@ -108,7 +109,7 @@ const LtiProvider = ({ locale: propsLocale, ltiData }: Props) => {
         resourceTypes={data?.resourceTypes?.filter(
           (type) => type.id !== RESOURCE_TYPE_LEARNING_PATH,
         )}
-        ltiData={ltiData}
+        ltiData={ltiContext?.ltiData}
         isLti
       />
     </ErrorBoundary>
