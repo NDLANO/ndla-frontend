@@ -7,11 +7,11 @@
  */
 
 import 'isomorphic-unfetch';
+import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { createRoot } from 'react-dom/client';
 import { HelmetProvider } from 'react-helmet-async';
 import { I18nextProvider } from 'react-i18next';
 import ErrorReporter from '@ndla/error-reporter';
-import { MissingRouterContext } from '@ndla/safelink';
 import { i18nInstance } from '@ndla/ui';
 import { ApolloProvider } from '@apollo/client';
 import '@fontsource/source-sans-pro/index.css';
@@ -32,6 +32,8 @@ import LtiProvider from './LtiProvider';
 import '../style/index.css';
 import { STORED_LANGUAGE_COOKIE_KEY } from '../constants';
 import { initializeI18n, isValidLocale } from '../i18n';
+import { LtiContextProvider } from '../components/LtiContext';
+import { LtiIframePage } from './LtiIframePage';
 
 const {
   DATA: { initialProps, config },
@@ -56,13 +58,23 @@ const i18n = initializeI18n(i18nInstance, language);
 const root = createRoot(document.getElementById('root')!);
 root.render(
   <HelmetProvider>
-    <I18nextProvider i18n={i18n}>
-      <ApolloProvider client={client}>
-        <MissingRouterContext.Provider value={true}>
-          <LtiProvider {...initialProps} />
-        </MissingRouterContext.Provider>
-      </ApolloProvider>
-    </I18nextProvider>
+    <LtiContextProvider ltiData={initialProps.ltiData}>
+      <I18nextProvider i18n={i18n}>
+        <ApolloProvider client={client}>
+          <MemoryRouter initialEntries={['/lti']} basename="/">
+            <Routes>
+              <Route path="lti" element={<LtiProvider />} />
+              <Route path="article-iframe" element={<LtiIframePage />}>
+                <Route path="article/:articleId" element={null} />
+                <Route path=":lang/article/:articleId" element={null} />
+                <Route path=":taxonomyId/:articleId" element={null} />
+                <Route path=":lang/:taxonomyId/:articleId" element={null} />
+              </Route>
+            </Routes>
+          </MemoryRouter>
+        </ApolloProvider>
+      </I18nextProvider>
+    </LtiContextProvider>
   </HelmetProvider>,
 );
 

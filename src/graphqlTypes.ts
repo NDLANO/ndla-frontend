@@ -162,6 +162,7 @@ export type GQLArticleMetaData = {
   concepts?: Maybe<Array<GQLConceptLicense>>;
   copyText?: Maybe<Scalars['String']['output']>;
   footnotes?: Maybe<Array<GQLFootNote>>;
+  glosses?: Maybe<Array<GQLGlossLicense>>;
   h5ps?: Maybe<Array<GQLH5pLicense>>;
   images?: Maybe<Array<GQLImageLicense>>;
   podcasts?: Maybe<Array<GQLPodcastLicense>>;
@@ -584,6 +585,16 @@ export type GQLGloss = {
   originalLanguage: Scalars['String']['output'];
   transcriptions: GQLTranscription;
   wordClass: Scalars['String']['output'];
+};
+
+export type GQLGlossLicense = {
+  __typename?: 'GlossLicense';
+  content?: Maybe<Scalars['String']['output']>;
+  copyright?: Maybe<GQLConceptCopyright>;
+  id: Scalars['String']['output'];
+  metaImageUrl?: Maybe<Scalars['String']['output']>;
+  src?: Maybe<Scalars['String']['output']>;
+  title: Scalars['String']['output'];
 };
 
 export type GQLGrade = {
@@ -1082,6 +1093,7 @@ export type GQLProgrammePage = {
 
 export type GQLQuery = {
   __typename?: 'Query';
+  aiEnabledOrgs?: Maybe<GQLConfigMetaStringList>;
   alerts?: Maybe<Array<Maybe<GQLUptimeAlert>>>;
   allFolderResources: Array<GQLFolderResource>;
   arenaCategories: Array<GQLArenaCategory>;
@@ -1421,6 +1433,7 @@ export type GQLResourceMetaData = {
   audios?: Maybe<Array<GQLAudioLicense>>;
   brightcoves?: Maybe<Array<GQLBrightcoveLicense>>;
   concepts?: Maybe<Array<GQLConceptLicense>>;
+  glosses?: Maybe<Array<GQLGlossLicense>>;
   h5ps?: Maybe<Array<GQLH5pLicense>>;
   images?: Maybe<Array<GQLImageLicense>>;
   podcasts?: Maybe<Array<GQLPodcastLicense>>;
@@ -2010,6 +2023,30 @@ export type GQLAudioLicenseList_AudioLicenseFragment = {
   } & GQLLicenseListCopyrightFragment;
 };
 
+export type GQLGlossLicenseList_GlossLicenseFragment = {
+  __typename?: 'GlossLicense';
+  id: string;
+  title: string;
+  src?: string;
+  copyright?: {
+    __typename?: 'ConceptCopyright';
+    origin?: string;
+    processed?: boolean;
+    license?: { __typename?: 'License'; license: string };
+    creators: Array<{ __typename?: 'Contributor'; name: string; type: string }>;
+    processors: Array<{
+      __typename?: 'Contributor';
+      name: string;
+      type: string;
+    }>;
+    rightsholders: Array<{
+      __typename?: 'Contributor';
+      name: string;
+      type: string;
+    }>;
+  };
+};
+
 export type GQLConceptLicenseList_ConceptLicenseFragment = {
   __typename?: 'ConceptLicense';
   id: string;
@@ -2071,6 +2108,9 @@ export type GQLLicenseBox_ArticleFragment = {
       {
         __typename?: 'ConceptLicense';
       } & GQLConceptLicenseList_ConceptLicenseFragment
+    >;
+    glosses?: Array<
+      { __typename?: 'GlossLicense' } & GQLGlossLicenseList_GlossLicenseFragment
     >;
     h5ps?: Array<
       { __typename?: 'H5pLicense' } & GQLH5pLicenseList_H5pLicenseFragment
@@ -2714,6 +2754,15 @@ export type GQLMarkNotificationReadMutationVariables = Exact<{
 export type GQLMarkNotificationReadMutation = {
   __typename?: 'Mutation';
   markNotificationRead?: number;
+export type GQLAiOrganizationsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GQLAiOrganizationsQuery = {
+  __typename?: 'Query';
+  aiEnabledOrgs?: {
+    __typename?: 'ConfigMetaStringList';
+    key: string;
+    value: Array<string>;
+  };
 };
 
 export type GQLFolderResourceFragmentFragment = {
@@ -3376,6 +3425,13 @@ export type GQLResourceEmbedLicenseBox_MetaFragment = {
       metaImageUrl?: string;
     } & GQLConceptLicenseList_ConceptLicenseFragment
   >;
+  glosses?: Array<
+    {
+      __typename?: 'GlossLicense';
+      content?: string;
+      metaImageUrl?: string;
+    } & GQLGlossLicenseList_GlossLicenseFragment
+  >;
   h5ps?: Array<
     { __typename?: 'H5pLicense' } & GQLH5pLicenseList_H5pLicenseFragment
   >;
@@ -3447,6 +3503,7 @@ export type GQLResources_ResourceFragment = {
   path: string;
   paths: Array<string>;
   rank?: number;
+  language?: string;
   resourceTypes?: Array<{
     __typename?: 'ResourceType';
     id: string;
@@ -4218,10 +4275,48 @@ export type GQLEmbedOembedQuery = {
   };
 };
 
+export type GQLPodcastSeriesQueryVariables = Exact<{
+  id: Scalars['Int']['input'];
+}>;
+
+export type GQLPodcastSeriesQuery = {
+  __typename?: 'Query';
+  podcastSeries?: {
+    __typename?: 'PodcastSeriesWithEpisodes';
+    id: number;
+    supportedLanguages: Array<string>;
+    hasRSS: boolean;
+    title: { __typename?: 'Title'; title: string; language: string };
+    description: { __typename?: 'Description'; description: string };
+    image: { __typename?: 'ImageMetaInformation'; imageUrl: string };
+    coverPhoto: { __typename?: 'CoverPhoto'; url: string };
+    content?: { __typename?: 'ResourceEmbed'; content: string };
+    episodes?: Array<{
+      __typename?: 'Audio';
+      id: number;
+      created: string;
+      title: { __typename?: 'Title'; title: string };
+      audioFile: {
+        __typename?: 'AudioFile';
+        url: string;
+        fileSize: number;
+        mimeType: string;
+      };
+      podcastMeta?: {
+        __typename?: 'PodcastMeta';
+        introduction: string;
+        image?: { __typename?: 'ImageMetaInformation'; imageUrl: string };
+      };
+      copyright: { __typename?: 'Copyright' } & GQLCopyrightInfoFragment;
+      tags: { __typename?: 'Tags'; tags: Array<string> };
+    }>;
+  };
+};
+
 export type GQLStructuredArticleData_CopyrightFragment = {
   __typename?: 'Copyright';
   processed?: boolean;
-  license: { __typename?: 'License'; url?: string };
+  license: { __typename?: 'License'; url?: string; license: string };
   creators: Array<{ __typename?: 'Contributor'; name: string; type: string }>;
   processors: Array<{ __typename?: 'Contributor'; name: string; type: string }>;
   rightsholders: Array<{

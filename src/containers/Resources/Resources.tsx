@@ -212,6 +212,7 @@ const resourceFragment = gql`
     path
     paths
     rank
+    language
     resourceTypes {
       id
       name

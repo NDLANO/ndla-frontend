@@ -64,7 +64,7 @@ interface MetaProperies {
   audioUrl?: string;
   description?: string;
   imageUrl?: string;
-  type: StandaloneEmbed | 'podcast';
+  type: StandaloneEmbed | 'gloss' | 'podcast';
 }
 
 const converterComponents: DynamicComponents = {
@@ -108,13 +108,13 @@ const metaToProperties = (
       type: 'video',
     };
   } else if (type === 'concept') {
-    const concept = meta.concepts?.[0];
+    const concept = meta.concepts?.[0] ?? meta.glosses?.[0];
     if (!concept) return undefined;
     return {
       title: concept.title,
       description: concept.content,
       imageUrl: concept.metaImageUrl,
-      type: 'concept',
+      type: concept.__typename === 'GlossLicense' ? 'gloss' : 'concept',
     };
   } else if (type === 'h5p') {
     const h5p = meta.h5ps?.[0];
@@ -138,6 +138,8 @@ export const hasLicensedContent = (
   } else if (meta.audios?.some((val) => val.copyright)) {
     return true;
   } else if (meta.concepts?.some((val) => val.copyright)) {
+    return true;
+  } else if (meta.glosses?.some((val) => val.copyright)) {
     return true;
   } else if (meta.brightcoves?.some((val) => val.copyright)) {
     return true;
