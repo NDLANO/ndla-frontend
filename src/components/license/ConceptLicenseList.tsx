@@ -20,13 +20,16 @@ import {
   metaTypes,
   getGroupedContributorDescriptionList,
 } from '@ndla/licenses';
-import { Concept } from '@ndla/icons/editor';
+import { Concept, Globe } from '@ndla/icons/editor';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation } from 'react-router-dom';
-import { useMemo } from 'react';
+import { ReactNode, useMemo } from 'react';
 import uniqBy from 'lodash/uniqBy';
 import CopyTextButton from './CopyTextButton';
-import { GQLConceptLicenseList_ConceptLicenseFragment } from '../../graphqlTypes';
+import {
+  GQLConceptLicenseList_ConceptLicenseFragment,
+  GQLGlossLicenseList_GlossLicenseFragment,
+} from '../../graphqlTypes';
 import {
   isCopyrighted,
   licenseCopyrightToCopyrightType,
@@ -35,10 +38,18 @@ import config from '../../config';
 import LicenseDescription from './LicenseDescription';
 
 interface ConceptLicenseInfoProps {
-  concept: GQLConceptLicenseList_ConceptLicenseFragment;
+  concept:
+    | GQLConceptLicenseList_ConceptLicenseFragment
+    | GQLGlossLicenseList_GlossLicenseFragment;
+  icon: ReactNode;
+  type: 'gloss' | 'concept';
 }
 
-const ConceptLicenseInfo = ({ concept }: ConceptLicenseInfoProps) => {
+const ConceptLicenseInfo = ({
+  concept,
+  icon,
+  type,
+}: ConceptLicenseInfoProps) => {
   const { t, i18n } = useTranslation();
   const { pathname } = useLocation();
   if (
@@ -60,7 +71,7 @@ const ConceptLicenseInfo = ({ concept }: ConceptLicenseInfoProps) => {
   );
   if (concept.title) {
     items.unshift({
-      label: t('license.concept.title'),
+      label: t(`license.${type}.title`),
       description: concept.title,
       metaType: metaTypes.title,
     });
@@ -83,21 +94,21 @@ const ConceptLicenseInfo = ({ concept }: ConceptLicenseInfoProps) => {
     <MediaListItem>
       <MediaListItemImage canOpen={shouldShowLink}>
         {!shouldShowLink ? (
-          <Concept className="c-medialist__icon" />
+          icon
         ) : (
           <Link
             to={pageUrl}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label={t('embed.goTo', { type: t('embed.type.concept') })}
+            aria-label={t('embed.goTo', { type: t(`embed.type.${type}`) })}
           >
-            <Concept className="c-medialist__icon" />
+            {icon}
           </Link>
         )}
       </MediaListItemImage>
       <MediaListItemBody
         license={concept.copyright.license.license}
-        title={t('license.concept.rules')}
+        title={t(`license.${type}.rules`)}
         resourceUrl={concept.src}
         locale={i18n.language}
       >
@@ -133,11 +144,70 @@ const ConceptLicenseList = ({ concepts }: Props) => {
       </LicenseDescription>
       <MediaList>
         {unique.map((concept, index) => (
-          <ConceptLicenseInfo concept={concept} key={index} />
+          <ConceptLicenseInfo
+            type="concept"
+            concept={concept}
+            key={index}
+            icon={<Concept className="c-medialist__icon" />}
+          />
         ))}
       </MediaList>
     </div>
   );
+};
+
+interface GlossLicenseListProps {
+  glosses: GQLGlossLicenseList_GlossLicenseFragment[];
+}
+
+export const GlossLicenseList = ({ glosses }: GlossLicenseListProps) => {
+  const { t } = useTranslation();
+  const unique = useMemo(() => uniqBy(glosses, (gloss) => gloss.id), [glosses]);
+
+  return (
+    <div>
+      <LicenseDescription>{t('license.gloss.description')}</LicenseDescription>
+      <MediaList>
+        {unique.map((gloss, index) => (
+          <ConceptLicenseInfo
+            type="gloss"
+            concept={gloss}
+            key={index}
+            icon={<Globe className="c-medialist__icon" />}
+          />
+        ))}
+      </MediaList>
+    </div>
+  );
+};
+
+GlossLicenseList.fragments = {
+  gloss: gql`
+    fragment GlossLicenseList_GlossLicense on GlossLicense {
+      id
+      title
+      src
+      copyright {
+        license {
+          license
+        }
+        creators {
+          name
+          type
+        }
+        processors {
+          name
+          type
+        }
+        rightsholders {
+          name
+          type
+        }
+        origin
+        processed
+      }
+    }
+  `,
 };
 
 ConceptLicenseList.fragments = {

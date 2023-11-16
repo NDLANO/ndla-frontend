@@ -16,7 +16,7 @@ import PodcastLicenseList from './PodcastLicenseList';
 import TextLicenseList from './TextLicenseList';
 import VideoLicenseList from './VideoLicenseList';
 import H5pLicenseList from './H5pLicenseList';
-import ConceptLicenseList from './ConceptLicenseList';
+import ConceptLicenseList, { GlossLicenseList } from './ConceptLicenseList';
 import OembedItem from './OembedItem';
 import { GQLLicenseBox_ArticleFragment } from '../../graphqlTypes';
 
@@ -33,6 +33,7 @@ function buildLicenseTabList(
   const h5ps = article.metaData?.h5ps || [];
   const oembed = article.oembed;
   const concepts = article.metaData?.concepts || [];
+  const glosses = article.metaData?.glosses || [];
   const tabs = [];
   if (images.length > 0) {
     tabs.push({
@@ -105,6 +106,14 @@ function buildLicenseTabList(
     });
   }
 
+  if (glosses.length) {
+    tabs.push({
+      title: t('license.tabs.gloss'),
+      id: 'gloss',
+      content: <GlossLicenseList glosses={glosses} />,
+    });
+  }
+
   if (oembed) {
     tabs.push({
       title: t('license.tabs.embedlink'),
@@ -142,6 +151,9 @@ LicenseBox.fragments = {
         concepts {
           ...ConceptLicenseList_ConceptLicense
         }
+        glosses {
+          ...GlossLicenseList_GlossLicense
+        }
         h5ps {
           ...H5pLicenseList_H5pLicense
         }
@@ -159,6 +171,7 @@ LicenseBox.fragments = {
         }
       }
     }
+    ${GlossLicenseList.fragments.gloss}
     ${ConceptLicenseList.fragments.concept}
     ${H5pLicenseList.fragments.h5p}
     ${VideoLicenseList.fragments.video}
