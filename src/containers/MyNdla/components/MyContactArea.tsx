@@ -11,7 +11,7 @@ import { fonts, colors, spacing, breakpoints, mq } from '@ndla/core';
 import { Heading } from '@ndla/typography';
 import { parseUserObject } from './parseUserObject';
 import UserAvatar from './UserAvatar';
-import EditProfilePicture from '../MyProfile/components/EditProfilePicture';
+// import EditProfilePicture from '../MyProfile/components/EditProfilePicture';
 import { FeideUserApiType } from '../../../interfaces';
 import { isStudent } from '../Folders/util';
 
@@ -104,7 +104,7 @@ const MyContactArea = ({ user, showProfileButton }: MyContractAreaProps) => {
         <>
           {!isStudent(user) && (
             <MobileButtonContainer>
-              <EditProfilePicture />
+              {/* <EditProfilePicture /> */}
             </MobileButtonContainer>
           )}
         </>

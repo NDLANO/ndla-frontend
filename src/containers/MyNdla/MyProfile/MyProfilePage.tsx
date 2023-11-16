@@ -110,7 +110,7 @@ const MyProfilePage = () => {
       >
         {t('myNdla.myProfile.title')}
       </StyledHeading>
-      <MyContactArea user={user} showProfileButton />
+      <MyContactArea user={user} />
       <MyPreferences user={user} />
       <InfoContainer>
         {user && (
