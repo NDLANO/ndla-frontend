@@ -16,7 +16,7 @@ import MenuModalContent from './MenuModalContent';
 const ToolbarContainer = styled.div`
   display: none;
   justify-content: center;
-  border-bottom: 1px solid ${colors.brand.lighter};
+  border-bottom: 1px solid ${colors.brand.lightest};
   padding: ${spacing.small} ${spacing.large};
   height: ${spacingUnit * 3}px;
 

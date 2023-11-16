@@ -104,7 +104,7 @@ const NavigationLink = ({
       onClick={onClick}
     >
       <IconWrapper>{selectedIcon}</IconWrapper>
-      <LongText textStyle="meta-text-xxsmall" margin="small">
+      <LongText textStyle="meta-text-small" margin="small">
         {name}
       </LongText>
       <ShortText textStyle="meta-text-xxsmall" margin="small">

@@ -42,10 +42,12 @@ const StyledLayout = styled.div`
 
 const StyledNavList = styled.ul`
   list-style: none;
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(auto, 1fr));
+  grid-gap: ${spacing.xsmall};
+
   margin: 0px;
-  padding: unset;
+  padding: 0 ${spacing.xsmall} 0 0;
   justify-content: space-between;
 
   ${mq.range({ from: breakpoints.mobileWide })} {
@@ -53,12 +55,12 @@ const StyledNavList = styled.ul`
   }
 `;
 
-const StyledNav = styled.nav`
-  width: 100%;
-  padding-right: ${spacing.small};
-`;
-
 const StyledLi = styled.li`
+  // Menubar on phone should only display first 4 links and the rest when the modal is open
+  &:not(:nth-of-type(-n + 4)) {
+    display: none;
+  }
+
   margin: 0;
   ${mq.range({ from: breakpoints.mobileWide })} {
     display: unset !important;
@@ -72,13 +74,14 @@ const StyledContent = styled.div`
 const StyledSideBar = styled.div`
   display: flex;
   flex-direction: row;
-  border-right: 1px solid ${colors.brand.lighter};
+  border-bottom: 1px solid ${colors.brand.lightest};
   background: ${colors.background.lightBlue};
   justify-content: center;
-  padding: ${spacing.xsmall};
 
   ${mq.range({ from: breakpoints.mobileWide })} {
     padding: ${spacing.nsmall};
+    border-right: 1px solid ${colors.brand.lightest};
+    border-bottom: unset;
   }
 
   ${mq.range({ from: breakpoints.desktop })} {
@@ -86,6 +89,8 @@ const StyledSideBar = styled.div`
     gap: ${spacing.normal};
     flex-direction: column;
     min-width: 300px;
+    border-right: 1px solid ${colors.brand.lightest};
+    border-bottom: unset;
   }
 `;
 
@@ -149,9 +154,8 @@ const MyNdlaLayout = () => {
 
   const menuLink = useMemo(
     () =>
-      menuLinks(t, location)
-        .slice(0, 4)
-        .map(({ name, shortName, id, icon, to, iconFilled }) => (
+      menuLinks(t, location).map(
+        ({ name, shortName, id, icon, to, iconFilled }) => (
           <StyledLi key={id} role="none">
             <NavigationLink
               id={id}
@@ -171,7 +175,8 @@ const MyNdlaLayout = () => {
               </TreeStructureWrapper>
             )}
           </StyledLi>
-        )),
+        ),
+      ),
     [location, t, folders, showFolders, defaultSelected],
   );
 
@@ -179,9 +184,9 @@ const MyNdlaLayout = () => {
     <StyledLayout>
       <Modal open={isOpen} onOpenChange={setIsOpen}>
         <StyledSideBar>
-          <StyledNav>
+          <nav>
             <StyledNavList role="tablist">{menuLink}</StyledNavList>
-          </StyledNav>
+          </nav>
           <ModalTrigger>
             <MoreButton
               variant="stripped"
