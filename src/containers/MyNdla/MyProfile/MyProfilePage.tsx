@@ -10,7 +10,7 @@ import { useContext, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import { breakpoints, fonts, mq, spacing } from '@ndla/core';
+import { spacing } from '@ndla/core';
 import { ButtonV2 } from '@ndla/button';
 import SafeLink from '@ndla/safelink';
 import { HelmetWithTracker, useTracker } from '@ndla/tracker';
@@ -41,14 +41,6 @@ const StyledPageContentContainer = styled.div`
   gap: ${spacing.large};
 `;
 
-const StyledHeading = styled(Heading)`
-  ${fonts.sizes('30px', '36px')}
-  font-weight: ${fonts.weight.bold};
-  ${mq.range({ from: breakpoints.tablet })} {
-    ${fonts.sizes('38px', '48px')}
-  }
-`;
-
 const ButtonRow = styled.div`
   display: flex;
   gap: ${spacing.small};
@@ -70,10 +62,6 @@ const ButtonContainer = styled.div`
   align-items: baseline;
   flex-direction: column;
   gap: ${spacing.small};
-`;
-
-const StyledDeleteUserHeading = styled(Heading)`
-  ${fonts.sizes('22px', '33px')}
 `;
 
 const MyProfilePage = () => {
@@ -102,14 +90,14 @@ const MyProfilePage = () => {
   return (
     <StyledPageContentContainer>
       <HelmetWithTracker title={t('myNdla.myProfile.title')} />
-      <StyledHeading
+      <Heading
         element="h1"
         id="myProfileTitle"
         margin="none"
-        headingStyle="default"
+        headingStyle="h1-resource"
       >
         {t('myNdla.myProfile.title')}
-      </StyledHeading>
+      </Heading>
       <MyContactArea user={user} />
       <MyPreferences user={user} />
       <InfoContainer>
@@ -133,14 +121,14 @@ const MyProfilePage = () => {
         </LinkText>
       </InfoContainer>
       <ButtonContainer>
-        <StyledDeleteUserHeading
+        <Heading
           element="h2"
           id="deleteUserTitle"
           margin="none"
-          headingStyle="default"
+          headingStyle="h2"
         >
           {t('myNdla.myPage.wishToDelete')}
-        </StyledDeleteUserHeading>
+        </Heading>
         <Modal>
           <ModalTrigger>
             <ButtonV2 colorTheme="danger" variant="outline">

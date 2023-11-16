@@ -7,8 +7,8 @@
  */
 
 import styled from '@emotion/styled';
-import { fonts, colors, spacing, breakpoints, mq } from '@ndla/core';
-import { Heading } from '@ndla/typography';
+import { colors, spacing, breakpoints, mq } from '@ndla/core';
+import { Heading, Text } from '@ndla/typography';
 import { parseUserObject } from './parseUserObject';
 import UserAvatar from './UserAvatar';
 // import EditProfilePicture from '../MyProfile/components/EditProfilePicture';
@@ -38,10 +38,6 @@ const AvatarContainer = styled.div`
   max-height: 250px;
 `;
 
-const StyledUserNameHeading = styled(Heading)`
-  ${fonts.sizes('30px', '38px')}
-`;
-
 const UserInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -49,15 +45,11 @@ const UserInfoContainer = styled.div`
   align-items: center;
 `;
 
-const UserWorkPlaceText = styled.div`
-  ${fonts.sizes('18px', '24px')};
-  font-weight: ${fonts.weight.bold};
-  text-transform: uppercase;
+const UserWorkPlaceText = styled(Heading)`
   color: ${colors.brand.primary};
 `;
 
-const UserCountyText = styled.div`
-  ${fonts.sizes('16px', '26px')};
+const UserCountyText = styled(Text)`
   color: ${colors.brand.primary};
 `;
 
@@ -82,19 +74,14 @@ const MyContactArea = ({ user, showProfileButton }: MyContractAreaProps) => {
           />
         </AvatarContainer>
       )}
-      <StyledUserNameHeading
-        element="h2"
-        id="userName"
-        margin="none"
-        headingStyle="default"
-      >
+      <Heading element="h2" id="userName" margin="none" headingStyle="h2">
         {user?.displayName}
-      </StyledUserNameHeading>
+      </Heading>
       <UserInfoContainer>
-        <UserWorkPlaceText>
+        <UserWorkPlaceText element="h2" headingStyle="list-title" margin="none">
           {user?.primarySchool?.displayName}
         </UserWorkPlaceText>
-        <UserCountyText>
+        <UserCountyText element="p" textStyle="meta-text-small" margin="none">
           {parsedUser &&
             parsedUser.organizations.length > 0 &&
             parsedUser.organizations.at(0)?.displayName}

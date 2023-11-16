@@ -9,7 +9,7 @@
 import { useState } from 'react';
 import styled from '@emotion/styled';
 import { colors, fonts, misc, spacing } from '@ndla/core';
-import { Heading } from '@ndla/typography';
+import { Heading, Text } from '@ndla/typography';
 import { RadioButtonGroup } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
 import { FeideUserApiType } from '../../../../interfaces';
@@ -30,15 +30,6 @@ const DisclaimerContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${spacing.small};
-`;
-
-const StyledH2Heading = styled(Heading)`
-  ${fonts.sizes('22px', '33px')}
-`;
-
-const StyledText = styled.p`
-  margin: 0;
-  ${fonts.sizes('18px', '29px')}
 `;
 
 const OptionContainer = styled.div`
@@ -90,38 +81,40 @@ const MyPreferences = ({ user }: MyPreferencesProps) => {
   return (
     <PreferenceContainer>
       <DisclaimerContainer>
-        <StyledH2Heading
+        <Heading
           element="h2"
           id="myProfileTitle"
           margin="none"
-          headingStyle="default"
+          headingStyle="h2"
         >
           {t(
             `myNdla.myProfile.disclaimerTitle.${
               isStudent(user) ? 'student' : 'employee'
             }`,
           )}
-        </StyledH2Heading>
-        <StyledText>
+        </Heading>
+        <Text textStyle="content" margin="none">
           {t(
             `myNdla.myProfile.disclaimerText.${
               isStudent(user) ? 'student' : 'employee'
             }`,
           )}
-        </StyledText>
+        </Text>
       </DisclaimerContainer>
       {!isStudent(user) && (
         <>
           <OptionContainer>
-            <StyledH2Heading
+            <Heading
               element="h2"
               id="myProfileTitle"
               margin="none"
-              headingStyle="default"
+              headingStyle="h2"
             >
               {t('myNdla.myProfile.preferenceTitle')}
-            </StyledH2Heading>
-            <StyledText>{t('myNdla.myProfile.preferenceText')}</StyledText>
+            </Heading>
+            <Text textStyle="content" margin="none">
+              {t('myNdla.myProfile.preferenceText')}
+            </Text>
           </OptionContainer>
           <StyledRadioButtonGroup
             options={[
