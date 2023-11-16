@@ -6,9 +6,10 @@
  */
 
 import styled from '@emotion/styled';
-import { fonts, colors, spacing, misc } from '@ndla/core';
+import { colors, spacing, misc } from '@ndla/core';
 import SafeLink from '@ndla/safelink';
 import { useTranslation } from 'react-i18next';
+import { Text } from '@ndla/typography';
 import Avatar from './Avatar';
 import { useArenaUser } from '../arenaQueries';
 
@@ -18,10 +19,8 @@ type UserProfileTagProps = {
   affiliation: string | undefined;
 };
 
-const Name = styled.div`
+const Name = styled(Text)`
   text-decoration: underline;
-  ${fonts.sizes('22px', '30px')}
-  font-weight: ${fonts.weight.bold};
 `;
 
 const UserProfileTagContainer = styled(SafeLink)`
@@ -52,20 +51,13 @@ const NameAndTagContainer = styled.div`
   align-items: center;
 `;
 
-const ModeratorTag = styled.span`
+const ModeratorTag = styled(Text)`
   border-radius: ${misc.borderRadius};
   padding: 2px ${spacing.small};
   background-color: ${colors.brand.primary};
   width: fit-content;
   height: fit-content;
-  ${fonts.sizes('12px', '20px')}
   color: ${colors.white};
-  font-weight: ${fonts.weight.semibold};
-`;
-
-const UserRegion = styled.div`
-  color: ${colors.text.primary};
-  ${fonts.size.text.metaTextSmall}
 `;
 
 const UserProfileTag = ({
@@ -89,12 +81,18 @@ const UserProfileTag = ({
       />
       <UserInformationContainer>
         <NameAndTagContainer>
-          <Name>{displayName}</Name>
+          <Name textStyle="meta-text-large" margin="none">
+            {displayName}
+          </Name>
           {checkIfModerator() && (
-            <ModeratorTag>{t('user.moderator')}</ModeratorTag>
+            <ModeratorTag textStyle="meta-text-xsmall" margin="none">
+              {t('user.moderator')}
+            </ModeratorTag>
           )}
         </NameAndTagContainer>
-        <UserRegion>{affiliation}</UserRegion>
+        <Text textStyle="meta-text-small" margin="none">
+          {affiliation}
+        </Text>
       </UserInformationContainer>
     </UserProfileTagContainer>
   );
