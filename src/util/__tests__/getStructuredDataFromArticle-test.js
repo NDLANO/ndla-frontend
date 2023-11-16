@@ -40,6 +40,39 @@ const getBaseArticle = () => ({
   metaData: {},
 });
 
+const getArticleWithImage = () => ({
+  ...getBaseArticle(),
+  metaData: {
+    images: [
+      {
+        title: 'Image title',
+        src: 'http://image.url',
+        copyright: {
+          license: { license: 'COPYRIGHTED', description: 'Copyrighted' },
+          creators: [
+            {
+              type: 'artist',
+              name: 'Kunstner Kunstnersen',
+            },
+          ],
+          processors: [],
+          rightsholders: [
+            {
+              type: 'rightsholder',
+              name: 'Rettighetshaver',
+            },
+            {
+              type: 'publisher',
+              name: 'Rettighetshaver2',
+            },
+          ],
+          processed: false,
+        },
+      },
+    ],
+  },
+});
+
 test('util/getStructuredDataFromArticle article with copyright should return structured data', () => {
   const article = getBaseArticle();
 
@@ -62,21 +95,26 @@ test('util/getStructuredDataFromArticle article with copyright should return str
 });
 
 test('util/getStructuredDataFromArticle article with image should return image structured data', () => {
-  const article = getBaseArticle();
-  article.metaData.images = [
-    {
-      title: 'Image title',
-      src: 'http://image.url',
-      copyright: getBaseCopyrightInfo(),
-    },
+  const articleWithImage = getArticleWithImage();
+
+  const structuredData = getStructuredDataFromArticle(articleWithImage, 'nb')[
+    '@graph'
   ];
 
-  const structuredData = getStructuredDataFromArticle(article, 'nb')['@graph'];
-
   expect(structuredData.length).toBe(2);
-  expect(structuredData[1].name).toBe(article.metaData.images[0].title);
-  expect(structuredData[1].contentUrl).toBe(article.metaData.images[0].src);
+  expect(structuredData[1].name).toBe(
+    articleWithImage.metaData.images[0].title,
+  );
+  expect(structuredData[1].contentUrl).toBe(
+    articleWithImage.metaData.images[0].src,
+  );
   expect(structuredData[1]['@type']).toBe('ImageObject');
+  expect(structuredData[1].creditText).toBe(
+    'Rettighetshaver, Rettighetshaver2',
+  );
+  expect(structuredData[1].copyrightNotice).toBe(
+    'Rettighetshaver, Rettighetshaver2',
+  );
 });
 
 test('util/getStructuredDataFromArticle article with video should return video structured data', () => {

@@ -31,9 +31,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   margin: 24px 0 24px 0;
 }
 
-.emotion-0[lang='zh'],
-.emotion-0[lang='zh-Hans'],
-.emotion-0[lang='zh-Hant'] {
+.emotion-0:where([lang='zh'], .emotion-0[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(22px * 1.11);
   font-size: calc(1.2222222222222223rem * 1.11);
 }
@@ -69,9 +67,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   line-height: 36px;
 }
 
-.emotion-0[data-style='h1'][lang='zh'],
-.emotion-0[data-style='h1'][lang='zh-Hans'],
-.emotion-0[data-style='h1'][lang='zh-Hant'] {
+.emotion-0[data-style='h1']:where([lang='zh'], .emotion-0[data-style='h1'][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(30px * 1.11);
   font-size: calc(1.6666666666666667rem * 1.11);
 }
@@ -84,9 +80,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
     margin-bottom: 24px;
   }
 
-  .emotion-0[data-style='h1'][lang='zh'],
-  .emotion-0[data-style='h1'][lang='zh-Hans'],
-  .emotion-0[data-style='h1'][lang='zh-Hant'] {
+  .emotion-0[data-style='h1']:where([lang='zh'], .emotion-0[data-style='h1'][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
     font-size: calc(48px * 1.11);
     font-size: calc(2.6666666666666665rem * 1.11);
   }
@@ -98,9 +92,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   line-height: 36px;
 }
 
-.emotion-0[data-style='h1-resource'][lang='zh'],
-.emotion-0[data-style='h1-resource'][lang='zh-Hans'],
-.emotion-0[data-style='h1-resource'][lang='zh-Hant'] {
+.emotion-0[data-style='h1-resource']:where([lang='zh'], .emotion-0[data-style='h1-resource'][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(30px * 1.11);
   font-size: calc(1.6666666666666667rem * 1.11);
 }
@@ -112,9 +104,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
     line-height: 48px;
   }
 
-  .emotion-0[data-style='h1-resource'][lang='zh'],
-  .emotion-0[data-style='h1-resource'][lang='zh-Hans'],
-  .emotion-0[data-style='h1-resource'][lang='zh-Hant'] {
+  .emotion-0[data-style='h1-resource']:where([lang='zh'], .emotion-0[data-style='h1-resource'][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
     font-size: calc(38px * 1.11);
     font-size: calc(2.111111111111111rem * 1.11);
   }
@@ -126,9 +116,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   line-height: 36px;
 }
 
-.emotion-0[data-style='h2'][lang='zh'],
-.emotion-0[data-style='h2'][lang='zh-Hans'],
-.emotion-0[data-style='h2'][lang='zh-Hant'] {
+.emotion-0[data-style='h2']:where([lang='zh'], .emotion-0[data-style='h2'][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(28px * 1.11);
   font-size: calc(1.5555555555555556rem * 1.11);
 }
@@ -140,9 +128,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
     line-height: 38px;
   }
 
-  .emotion-0[data-style='h2'][lang='zh'],
-  .emotion-0[data-style='h2'][lang='zh-Hans'],
-  .emotion-0[data-style='h2'][lang='zh-Hant'] {
+  .emotion-0[data-style='h2']:where([lang='zh'], .emotion-0[data-style='h2'][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
     font-size: calc(30px * 1.11);
     font-size: calc(1.6666666666666667rem * 1.11);
   }
@@ -154,9 +140,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   line-height: 35px;
 }
 
-.emotion-0[data-style='h3'][lang='zh'],
-.emotion-0[data-style='h3'][lang='zh-Hans'],
-.emotion-0[data-style='h3'][lang='zh-Hant'] {
+.emotion-0[data-style='h3']:where([lang='zh'], .emotion-0[data-style='h3'][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(26px * 1.11);
   font-size: calc(1.4444444444444444rem * 1.11);
 }
@@ -168,9 +152,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
     line-height: 36px;
   }
 
-  .emotion-0[data-style='h3'][lang='zh'],
-  .emotion-0[data-style='h3'][lang='zh-Hans'],
-  .emotion-0[data-style='h3'][lang='zh-Hant'] {
+  .emotion-0[data-style='h3']:where([lang='zh'], .emotion-0[data-style='h3'][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
     font-size: calc(26px * 1.11);
     font-size: calc(1.4444444444444444rem * 1.11);
   }
@@ -183,9 +165,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   text-transform: uppercase;
 }
 
-.emotion-0[data-style='list-title'][lang='zh'],
-.emotion-0[data-style='list-title'][lang='zh-Hans'],
-.emotion-0[data-style='list-title'][lang='zh-Hant'] {
+.emotion-0[data-style='list-title']:where([lang='zh'], .emotion-0[data-style='list-title'][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(18px * 1.11);
   font-size: calc(1rem * 1.11);
 }
@@ -198,9 +178,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   line-height: 31px;
 }
 
-.emotion-1[lang='zh'],
-.emotion-1[lang='zh-Hans'],
-.emotion-1[lang='zh-Hant'] {
+.emotion-1:where([lang='zh'], .emotion-1[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(20px * 1.11);
   font-size: calc(1.1111111111111112rem * 1.11);
 }
@@ -212,9 +190,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
     line-height: 35px;
   }
 
-  .emotion-1[lang='zh'],
-  .emotion-1[lang='zh-Hans'],
-  .emotion-1[lang='zh-Hant'] {
+  .emotion-1:where([lang='zh'], .emotion-1[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
     font-size: calc(24px * 1.11);
     font-size: calc(1.3333333333333333rem * 1.11);
   }
@@ -232,9 +208,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   color: #4d4d4d;
 }
 
-.emotion-2[lang='zh'],
-.emotion-2[lang='zh-Hans'],
-.emotion-2[lang='zh-Hant'] {
+.emotion-2:where([lang='zh'], .emotion-2[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(16px * 1.11);
   font-size: calc(0.8888888888888888rem * 1.11);
 }
@@ -368,9 +342,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   outline: 2px solid #20588f;
 }
 
-.emotion-19[lang='zh'],
-.emotion-19[lang='zh-Hans'],
-.emotion-19[lang='zh-Hant'] {
+.emotion-19:where([lang='zh'], .emotion-19[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(16px * 1.11);
   font-size: calc(0.8888888888888888rem * 1.11);
 }
@@ -444,9 +416,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   line-height: 20px;
 }
 
-.emotion-29[lang='zh'],
-.emotion-29[lang='zh-Hans'],
-.emotion-29[lang='zh-Hant'] {
+.emotion-29:where([lang='zh'], .emotion-29[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(20px * 1.11);
   font-size: calc(1.1111111111111112rem * 1.11);
 }

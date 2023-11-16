@@ -900,6 +900,7 @@ type ProgrammePage {
 }
 
 type Query {
+  aiEnabledOrgs: ConfigMetaStringList
   alerts: [UptimeAlert]
   allFolderResources(size: Int): [FolderResource!]!
   arenaCategories: [ArenaCategory!]!

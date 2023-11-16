@@ -8,6 +8,7 @@
 
 import { gql } from '@apollo/client';
 import format from 'date-fns/format';
+import { COPYRIGHTED } from '@ndla/licenses';
 import {
   GQLContributor,
   GQLStructuredArticleData_CopyrightFragment,
@@ -43,6 +44,9 @@ interface StructuredData {
   contentUrl?: string;
   contributor?: CopyrightHolder[];
   copyrightHolder?: CopyrightHolder[];
+  creator?: CopyrightHolder[];
+  creditText?: string;
+  copyrightNotice?: string;
   dateCreated?: string;
   dateModified?: string;
   datePublished?: string;
@@ -124,6 +128,26 @@ const getCopyrightData = (
     contributor: mapType(PERSON_TYPE, processors),
   };
 };
+const getCopyrightDataImage = (
+  copyright: GQLStructuredArticleData_CopyrightFragment,
+): StructuredData => {
+  const { creators, rightsholders, license, processors } = copyright;
+
+  return {
+    license: license?.url,
+    creator: mapType(PERSON_TYPE, creators),
+    copyrightHolder: mapType(ORGANIZATION_TYPE, rightsholders),
+    contributor: mapType(PERSON_TYPE, processors),
+    ...(rightsholders.length
+      ? { creditText: rightsholders.map((r) => r.name).join(', ') }
+      : {}),
+    ...(license.license?.toLocaleLowerCase() === COPYRIGHTED
+      ? {
+          copyrightNotice: rightsholders.map((r) => r.name).join(', '),
+        }
+      : {}),
+  };
+};
 
 const getBreadcrumbs = (
   breadcrumbItems?: Breadcrumb[],
@@ -180,6 +204,7 @@ export const structuredArticleCopyrightFragment = gql`
   fragment StructuredArticleData_Copyright on Copyright {
     license {
       url
+      license
     }
     creators {
       name
@@ -362,7 +387,9 @@ const createMediaData = (media: Mediaelements[]): StructuredData[] =>
       name: data?.title,
       contentUrl: data?.src,
       acquireLicensePage: AcquireLicensePage,
-      ...getCopyrightData(data?.copyright!),
+      ...(type === IMAGE_TYPE
+        ? getCopyrightDataImage(data?.copyright!)
+        : getCopyrightData(data?.copyright!)),
     };
   });
 
