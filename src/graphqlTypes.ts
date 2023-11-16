@@ -1067,6 +1067,7 @@ export type GQLProgrammePage = {
 
 export type GQLQuery = {
   __typename?: 'Query';
+  aiEnabledOrgs?: Maybe<GQLConfigMetaStringList>;
   alerts?: Maybe<Array<Maybe<GQLUptimeAlert>>>;
   allFolderResources: Array<GQLFolderResource>;
   arenaCategories: Array<GQLArenaCategory>;
@@ -2665,6 +2666,17 @@ export type GQLArenaUserQuery = {
   arenaUser?: { __typename?: 'ArenaUser' } & GQLArenaUserQueryFragmentFragment;
 };
 
+export type GQLAiOrganizationsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GQLAiOrganizationsQuery = {
+  __typename?: 'Query';
+  aiEnabledOrgs?: {
+    __typename?: 'ConfigMetaStringList';
+    key: string;
+    value: Array<string>;
+  };
+};
+
 export type GQLFolderResourceFragmentFragment = {
   __typename: 'FolderResource';
   resourceId: string;
@@ -3396,6 +3408,7 @@ export type GQLResources_ResourceFragment = {
   path: string;
   paths: Array<string>;
   rank?: number;
+  language?: string;
   resourceTypes?: Array<{
     __typename?: 'ResourceType';
     id: string;
@@ -4167,10 +4180,48 @@ export type GQLEmbedOembedQuery = {
   };
 };
 
+export type GQLPodcastSeriesQueryVariables = Exact<{
+  id: Scalars['Int']['input'];
+}>;
+
+export type GQLPodcastSeriesQuery = {
+  __typename?: 'Query';
+  podcastSeries?: {
+    __typename?: 'PodcastSeriesWithEpisodes';
+    id: number;
+    supportedLanguages: Array<string>;
+    hasRSS: boolean;
+    title: { __typename?: 'Title'; title: string; language: string };
+    description: { __typename?: 'Description'; description: string };
+    image: { __typename?: 'ImageMetaInformation'; imageUrl: string };
+    coverPhoto: { __typename?: 'CoverPhoto'; url: string };
+    content?: { __typename?: 'ResourceEmbed'; content: string };
+    episodes?: Array<{
+      __typename?: 'Audio';
+      id: number;
+      created: string;
+      title: { __typename?: 'Title'; title: string };
+      audioFile: {
+        __typename?: 'AudioFile';
+        url: string;
+        fileSize: number;
+        mimeType: string;
+      };
+      podcastMeta?: {
+        __typename?: 'PodcastMeta';
+        introduction: string;
+        image?: { __typename?: 'ImageMetaInformation'; imageUrl: string };
+      };
+      copyright: { __typename?: 'Copyright' } & GQLCopyrightInfoFragment;
+      tags: { __typename?: 'Tags'; tags: Array<string> };
+    }>;
+  };
+};
+
 export type GQLStructuredArticleData_CopyrightFragment = {
   __typename?: 'Copyright';
   processed?: boolean;
-  license: { __typename?: 'License'; url?: string };
+  license: { __typename?: 'License'; url?: string; license: string };
   creators: Array<{ __typename?: 'Contributor'; name: string; type: string }>;
   processors: Array<{ __typename?: 'Contributor'; name: string; type: string }>;
   rightsholders: Array<{
