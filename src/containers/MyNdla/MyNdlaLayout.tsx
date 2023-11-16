@@ -147,10 +147,11 @@ const MyNdlaLayout = () => {
   const showFolders =
     location.pathname.startsWith('/minndla/folders') && folders.length > 0;
 
-  const menuOptions = useMemo(
+  const menuLink = useMemo(
     () =>
-      menuLinks(t, location).map(
-        ({ name, shortName, id, icon, to, iconFilled }) => (
+      menuLinks(t, location)
+        .slice(0, 4)
+        .map(({ name, shortName, id, icon, to, iconFilled }) => (
           <StyledLi key={id} role="none">
             <NavigationLink
               id={id}
@@ -170,8 +171,7 @@ const MyNdlaLayout = () => {
               </TreeStructureWrapper>
             )}
           </StyledLi>
-        ),
-      ),
+        )),
     [location, t, folders, showFolders, defaultSelected],
   );
 
@@ -180,9 +180,7 @@ const MyNdlaLayout = () => {
       <Modal open={isOpen} onOpenChange={setIsOpen}>
         <StyledSideBar>
           <StyledNav>
-            <StyledNavList role="tablist">
-              {menuOptions.slice(0, 4)}
-            </StyledNavList>
+            <StyledNavList role="tablist">{menuLink}</StyledNavList>
           </StyledNav>
           <ModalTrigger>
             <MoreButton

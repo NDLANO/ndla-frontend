@@ -88,7 +88,7 @@ const NavigationLink = ({
   onClick,
 }: Props) => {
   const location = useLocation();
-  const selected = !!id
+  const selected = id
     ? location.pathname.startsWith(`/minndla${id}`)
     : location.pathname === '/minndla';
   const selectedIcon = selected ? iconFilled ?? icon : icon;
