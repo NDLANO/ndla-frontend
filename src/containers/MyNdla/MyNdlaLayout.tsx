@@ -11,7 +11,7 @@ import { Location, Outlet, useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { breakpoints, colors, mq, spacing } from '@ndla/core';
-import { MessageBox, TreeStructure } from '@ndla/ui';
+import { MessageBox } from '@ndla/ui';
 import { FolderOutlined } from '@ndla/icons/contentType';
 import {
   Book,
@@ -27,7 +27,6 @@ import { DragHorizontal, Folder } from '@ndla/icons/editor';
 import { Text } from '@ndla/typography';
 import { TFunction } from 'i18next';
 import { AuthContext } from '../../components/AuthenticationContext';
-import { useFolder, useFolders } from './folderMutations';
 import NavigationLink from './components/NavigationLink';
 import { toHref } from '../../util/urlHelper';
 
@@ -100,12 +99,6 @@ const MessageboxWrapper = styled.div`
   margin-bottom: ${spacing.nsmall};
 `;
 
-const TreeStructureWrapper = styled.div`
-  ${mq.range({ until: breakpoints.desktop })} {
-    display: none;
-  }
-`;
-
 const MoreButton = styled(IconButtonV2)`
   display: flex;
   flex-direction: column;
@@ -128,31 +121,11 @@ export interface OutletContext {
 }
 
 const MyNdlaLayout = () => {
-  const { folders } = useFolders();
   const { t } = useTranslation();
   const { examLock } = useContext(AuthContext);
   const location = useLocation();
-  const [page, folderId] = location.pathname
-    .replace('/minndla/', '')
-    .split('/');
-  const selectedFolder = useFolder(folderId);
   const [isOpen, setIsOpen] = useState(false);
   const [resetFocus, setResetFocus] = useState(false);
-
-  const defaultSelected = useMemo(() => {
-    if (typeof page === 'string') {
-      if (folderId) {
-        return [page].concat(
-          selectedFolder?.breadcrumbs.map((b) => b.id) ?? [],
-        );
-      }
-      return [page];
-    }
-    return [];
-  }, [selectedFolder?.breadcrumbs, folderId, page]);
-
-  const showFolders =
-    location.pathname.startsWith('/minndla/folders') && folders.length > 0;
 
   const menuLink = useMemo(
     () =>
@@ -167,19 +140,10 @@ const MyNdlaLayout = () => {
               to={to}
               iconFilled={iconFilled}
             />
-            {showFolders && id === 'folders' && (
-              <TreeStructureWrapper>
-                <TreeStructure
-                  type="navigation"
-                  folders={folders}
-                  defaultOpenFolders={defaultSelected}
-                />
-              </TreeStructureWrapper>
-            )}
           </StyledLi>
         ),
       ),
-    [location, t, folders, showFolders, defaultSelected],
+    [location, t],
   );
 
   return (
@@ -225,27 +189,27 @@ export const menuLinks = (t: TFunction, location: Location) => [
     iconFilled: <ProfilePerson />,
   },
   {
-    id: '/folders',
+    id: 'folders',
     name: t('myNdla.myFolders'),
     shortName: t('myNdla.iconMenu.folders'),
     icon: <FolderOutlined />,
     iconFilled: <Folder />,
   },
   {
-    id: '/subjects',
+    id: 'subjects',
     name: t('myNdla.favoriteSubjects.title'),
     shortName: t('myNdla.iconMenu.subjects'),
     icon: <BookOutlined />,
     iconFilled: <Book />,
   },
   {
-    id: '/tags',
+    id: 'tags',
     name: t('myNdla.myTags'),
     shortName: t('myNdla.iconMenu.tags'),
     icon: <HashTag />,
   },
   {
-    id: '/logout-path',
+    id: 'logout-path',
     name: t('user.buttonLogOut'),
     shortName: t('user.buttonLogOut'),
     icon: <LogOut />,

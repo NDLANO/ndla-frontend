@@ -89,6 +89,7 @@ const NavigationLink = ({
     ? location.pathname.startsWith(`/minndla${id}`)
     : location.pathname === '/minndla';
   const selectedIcon = selected ? iconFilled ?? icon : icon;
+  const linkTo = to ?? `/minndla${id ? `/${id}` : ''}`;
 
   return (
     <StyledSafeLink
@@ -96,7 +97,7 @@ const NavigationLink = ({
       aria-expanded={expanded}
       aria-current={selected ? 'page' : undefined}
       data-selected={selected}
-      to={loading ? '' : to ? to : `/minndla${id}`}
+      to={loading ? '' : linkTo}
       reloadDocument={!!to}
       onClick={onClick}
     >
