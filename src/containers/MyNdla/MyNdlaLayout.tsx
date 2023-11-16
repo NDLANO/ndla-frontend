@@ -51,12 +51,14 @@ const StyledNavList = styled.ul`
   justify-content: space-between;
 
   ${mq.range({ from: breakpoints.mobileWide })} {
+    display: flex;
     flex-direction: column;
   }
 `;
 
 const StyledLi = styled.li`
-  // Menubar on phone should only display first 4 links and the rest when the modal is open
+  /* Menubar on phone should only display first 4 
+  links and the rest when the modal is open */
   &:not(:nth-of-type(-n + 4)) {
     display: none;
   }

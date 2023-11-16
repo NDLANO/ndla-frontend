@@ -53,15 +53,12 @@ const LongText = styled(Text)`
     display: none;
     width: 0px;
   }
-  margin: 0px;
 `;
 
 const ShortText = styled(Text)`
   ${mq.range({ from: breakpoints.desktop })} {
     display: none;
   }
-
-  margin: 0px;
 `;
 
 interface Props {
@@ -104,10 +101,10 @@ const NavigationLink = ({
       onClick={onClick}
     >
       <IconWrapper>{selectedIcon}</IconWrapper>
-      <LongText textStyle="meta-text-small" margin="small">
+      <LongText textStyle="meta-text-small" margin="none">
         {name}
       </LongText>
-      <ShortText textStyle="meta-text-xxsmall" margin="small">
+      <ShortText textStyle="meta-text-xxsmall" margin="none">
         {shortName}
       </ShortText>
     </StyledSafeLink>

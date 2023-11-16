@@ -46,8 +46,7 @@ const OptionsWrapper = styled.div`
 `;
 
 export const BlockWrapper = styled.ul`
-  display: flex;
-  flex-direction: column;
+  display: grid;
   gap: ${spacing.xsmall};
   margin: 0;
   margin-bottom: ${spacing.medium};
@@ -57,16 +56,10 @@ export const BlockWrapper = styled.ul`
     padding: 0;
     gap: ${spacing.normal};
     margin-top: ${spacing.normal};
-    flex-direction: row;
-    flex-wrap: wrap;
-    li {
-      width: calc(33% - ${spacing.nsmall});
-    }
+    grid-template-columns: repeat(3, 1fr);
 
     ${mq.range({ until: breakpoints.wide })} {
-      li {
-        width: calc(50% - ${spacing.nsmall});
-      }
+      grid-template-columns: repeat(2, 1fr);
     }
   }
 
