@@ -7,7 +7,7 @@
  */
 
 import styled from '@emotion/styled';
-import { fonts, spacing } from '@ndla/core';
+import { spacing } from '@ndla/core';
 import Icon from '@ndla/icons';
 import { Heading } from '@ndla/typography';
 import { ReactNode } from 'react';
@@ -31,10 +31,6 @@ const InfoPartHeader = styled.div`
   gap: ${spacing.nsmall};
 `;
 
-const StyledTitle = styled(Heading)`
-  ${fonts.sizes('22px', '33px')}
-`;
-
 export const InfoPartText = styled.p`
   margin: 0;
 `;
@@ -49,14 +45,14 @@ const InfoPart = ({ icon, title, children }: Props) => {
     <InfoPartWrapper>
       <InfoPartHeader>
         {icon}
-        <StyledTitle
+        <Heading
           element="h2"
           id="myProfileTitle"
           margin="none"
-          headingStyle="default"
+          headingStyle="h2"
         >
           {title}
-        </StyledTitle>
+        </Heading>
       </InfoPartHeader>
       {children}
     </InfoPartWrapper>

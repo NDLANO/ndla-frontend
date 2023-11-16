@@ -23,7 +23,7 @@ import {
   ModalTrigger,
   ModalContent,
 } from '@ndla/modal';
-import { Heading } from '@ndla/typography';
+import { Heading, Text } from '@ndla/typography';
 import InfoPart from '../InfoSection';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import { constructNewPath, toHref } from '../../../util/urlHelper';
@@ -104,12 +104,12 @@ const MyProfilePage = () => {
         {user && (
           <InfoPart title={t('myNdla.myPage.feide')} icon={''}>
             <UserInfo user={user} />
-            <span>
+            <Text element="p" textStyle="content-alt" margin="none">
               {t('user.wrongUserInfoDisclaimer')}
               <SafeLink to="https://feide.no/brukerstotte">
                 feide.no/brukerstotte
               </SafeLink>
-            </span>
+            </Text>
           </InfoPart>
         )}
         <LinkText>

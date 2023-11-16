@@ -8,6 +8,7 @@
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
+import { Text } from '@ndla/typography';
 import { FeideUserApiType } from '../../../interfaces';
 import { parseUserObject } from './parseUserObject';
 import { isStudent } from '../Folders/util';
@@ -38,32 +39,32 @@ export const UserInfo = ({ user }: Props) => {
   return (
     <StyledComponentContainer>
       {
-        <div>
+        <Text element="p" textStyle="content-alt" margin="none">
           {t('user.loggedInAs', {
             role: t(`user.role.${isStudent(user) ? 'student' : 'employee'}`),
           })}
-        </div>
+        </Text>
       }
       <ShortInfoDiv>
-        <div>
+        <Text element="p" textStyle="content-alt" margin="none">
           {t('user.username')}: {user.uid}
-        </div>
-        <div>
+        </Text>
+        <Text element="p" textStyle="content-alt" margin="none">
           {t('user.name')}: {user.displayName}
-        </div>
-        <div>
+        </Text>
+        <Text element="p" textStyle="content-alt" margin="none">
           {t('user.mail')}: {user.mail?.join(', ')}
-        </div>
+        </Text>
         {user.preferredLanguage && (
-          <div>
+          <Text element="p" textStyle="content-alt" margin="none">
             {t('user.preferredLanguage')}:{' '}
             {t(`languages.${user.preferredLanguage}`)}
-          </div>
+          </Text>
         )}
         {user.mobile && (
-          <div>
+          <Text element="p" textStyle="content-alt" margin="none">
             {t('user.mobile')}: {user.mobile}
-          </div>
+          </Text>
         )}
       </ShortInfoDiv>
       <InfoList>

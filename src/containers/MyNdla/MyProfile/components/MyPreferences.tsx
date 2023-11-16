@@ -93,7 +93,7 @@ const MyPreferences = ({ user }: MyPreferencesProps) => {
             }`,
           )}
         </Heading>
-        <Text textStyle="content" margin="none">
+        <Text element="p" textStyle="content-alt" margin="none">
           {t(
             `myNdla.myProfile.disclaimerText.${
               isStudent(user) ? 'student' : 'employee'
@@ -112,7 +112,7 @@ const MyPreferences = ({ user }: MyPreferencesProps) => {
             >
               {t('myNdla.myProfile.preferenceTitle')}
             </Heading>
-            <Text textStyle="content" margin="none">
+            <Text element="p" textStyle="content-alt" margin="none">
               {t('myNdla.myProfile.preferenceText')}
             </Text>
           </OptionContainer>
