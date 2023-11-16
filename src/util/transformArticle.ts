@@ -23,6 +23,9 @@ function getContent(
     subject,
     components,
     articleLanguage,
+    canonicalUrls: {
+      image: (image) => `/image/${image.id}`,
+    },
   });
 }
 

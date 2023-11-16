@@ -114,7 +114,7 @@ const MultidisciplinarySubjectHeader = ({
       <ContentWrapper>
         <TextWrapper>
           <HomeBreadcrumb items={breadcrumbs} />
-          <Text element="span" textStyle="meta-text-large">
+          <Text element="span" textStyle="meta-text-medium">
             {t('frontpageMultidisciplinarySubject.heading')}
           </Text>
           <SubjectsWrapper>
