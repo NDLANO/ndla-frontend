@@ -32,7 +32,7 @@ const UserProfileTagContainer = styled(SafeLink)`
   text-decoration: none;
   box-shadow: none;
   &:hover {
-    ${Name} {
+    [data-name='hover'] {
       text-decoration: none;
     }
   }
@@ -66,22 +66,22 @@ const UserProfileTag = ({
   affiliation,
 }: UserProfileTagProps) => {
   const { t } = useTranslation();
-  const { data } = useArenaUser(username ?? '');
+  const { arenaUser } = useArenaUser(username ?? '');
 
   const checkIfModerator = (): boolean | undefined => {
-    return data?.arenaUser?.groupTitleArray?.includes('Moderator');
+    return arenaUser?.groupTitleArray?.includes('Moderator');
   };
 
   return (
     // missing link to profile
     <UserProfileTagContainer to="https://om.ndla.no/gdpr">
       <Avatar
-        displayName={data?.arenaUser?.displayName}
-        profilePicture={data?.arenaUser?.profilePicture}
+        displayName={arenaUser?.displayName}
+        profilePicture={arenaUser?.profilePicture}
       />
       <UserInformationContainer>
         <NameAndTagContainer>
-          <Name textStyle="meta-text-large" margin="none">
+          <Name textStyle="meta-text-large" margin="none" data-name="hover">
             {displayName}
           </Name>
           {checkIfModerator() && (

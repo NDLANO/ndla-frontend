@@ -80,16 +80,13 @@ export type GQLArenaTopic = {
 };
 
 export type GQLArenaUser = {
-  __typename?: 'Query';
-  arenaUser: {
-    __typename?: 'ArenaUser';
-    displayName: Scalars['String']['output'];
-    groupTitleArray?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-    id: Scalars['Int']['output'];
-    profilePicture?: Maybe<Scalars['String']['output']>;
-    slug: Scalars['String']['output'];
-    username: Scalars['String']['output'];
-  };
+  __typename?: 'ArenaUser';
+  displayName: Scalars['String']['output'];
+  groupTitleArray: Array<Scalars['String']['output']>;
+  id: Scalars['Int']['output'];
+  profilePicture?: Maybe<Scalars['String']['output']>;
+  slug: Scalars['String']['output'];
+  username: Scalars['String']['output'];
 };
 
 export type GQLArticle = {
@@ -2698,7 +2695,7 @@ export type GQLArenaUserQueryFragmentFragment = {
   id: number;
   profilePicture?: string;
   slug: string;
-  groupTitleArray?: Array<string>;
+  groupTitleArray: Array<string>;
 };
 
 export type GQLArenaUserQueryVariables = Exact<{
