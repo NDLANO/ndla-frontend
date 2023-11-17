@@ -30,12 +30,12 @@ const ButtonContainer = styled.div`
   flex-direction: row;
   gap: ${spacing.small};
 
-  ${mq.range({ from: breakpoints.desktop })} {
+  ${mq.range({ from: breakpoints.wide })} {
     display: flex;
   }
 
-  &[data-extend-tablet-view='true'] {
-    ${mq.range({ from: breakpoints.wide })} {
+  &[data-extend-tablet-view='false'] {
+    ${mq.range({ from: breakpoints.desktop })} {
       display: flex;
     }
   }
