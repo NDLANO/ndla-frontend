@@ -12,6 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { colors, spacing, breakpoints, mq, fonts, misc } from '@ndla/core';
 import Icon from '@ndla/icons';
 import { css } from '@emotion/react';
+import { Text } from '@ndla/typography';
 import { Forum, ForumOutlined, Locked } from '@ndla/icons/common';
 
 interface Props {
@@ -83,20 +84,16 @@ const StyledHeader = styled.span`
   margin: 0;
 `;
 
-const StyledDescriptionText = styled.div`
+const StyledDescriptionText = styled(Text)`
   padding-top: ${spacing.xsmall};
-  ${fonts.sizes('16px', '26px')};
   ${mq.range({ until: breakpoints.mobileWide })} {
     display: none;
   }
 `;
 
-const StyledText = styled.div`
-  margin: 0;
+const StyledText = styled(Text)`
   color: ${colors.text.primary};
   padding-top: ${spacing.xsmall};
-  ${fonts.sizes('16px', '26px')};
-  font-weight: ${fonts.weight.normal};
 `;
 
 const StyledCountContainer = styled.div`
@@ -181,9 +178,11 @@ const ArenaCard = ({
       <StyledTextContainer>
         <StyledHeader>{title}</StyledHeader>
         {cardType === 'ArenaCategory' ? (
-          <StyledDescriptionText>{subText}</StyledDescriptionText>
+          <StyledDescriptionText textStyle="meta-text-small" margin="none">
+            {subText}
+          </StyledDescriptionText>
         ) : (
-          <StyledText>
+          <StyledText textStyle="meta-text-small" margin="none">
             {subText} | {timestamp}
           </StyledText>
         )}
@@ -194,7 +193,7 @@ const ArenaCard = ({
         ) : (
           <>
             <StyledCountDiv>{count}</StyledCountDiv>
-            <StyledText>
+            <StyledText textStyle="meta-text-small" margin="none">
               {cardType === 'ArenaCategory'
                 ? `${t('arena.category.posts')}`
                 : `${t('arena.topic.responses')}`}

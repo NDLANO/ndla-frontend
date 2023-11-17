@@ -9,8 +9,8 @@
 import Icon, { Spinner } from '@ndla/icons';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
-import { spacing, fonts } from '@ndla/core';
-import { Heading } from '@ndla/typography';
+import { spacing } from '@ndla/core';
+import { Heading, Text } from '@ndla/typography';
 import { ButtonV2 } from '@ndla/button';
 import { Pencil } from '@ndla/icons/action';
 import { useParams } from 'react-router-dom';
@@ -19,14 +19,11 @@ import ArenaCard from '../ArenaCards/ArenaCard';
 import { GQLArenaTopic } from '../../../graphqlTypes';
 
 const StyledTopicHeader = styled(Heading)`
-  ${fonts.sizes('38px', '48px')};
   margin-bottom: ${spacing.small};
 `;
 
-const TopicDescription = styled.div`
+const TopicDescription = styled(Text)`
   width: 700px;
-  ${fonts.sizes('18px', '29px')};
-  font-weight: ${fonts.weight.normal};
 `;
 
 const StyledContainer = styled.div`
@@ -35,21 +32,19 @@ const StyledContainer = styled.div`
   margin: ${spacing.large} 0 ${spacing.normal};
 `;
 
-const StyledTopicH2 = styled.h2`
-  ${fonts.sizes('22px', '33px')};
-  margin: 0;
+const StyledTopicH2 = styled(Heading)`
   align-self: center;
 `;
 
 const StyledNewTopicButton = styled(ButtonV2)`
   height: 42px;
-  gap: 8px;
+  gap: ${spacing.xsmall};
   white-space: nowrap;
 `;
 
 const StyledPencilIcon = styled(Icon)`
-  width: 20px;
-  height: 20px;
+  width: ${spacing.snormal};
+  height: ${spacing.snormal};
 `;
 
 const PencilIcon = StyledPencilIcon.withComponent(Pencil);
@@ -57,7 +52,7 @@ const PencilIcon = StyledPencilIcon.withComponent(Pencil);
 const StyledCardContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: ${spacing.xsmall};
   margin: ${spacing.small} 0;
 `;
 
@@ -71,12 +66,16 @@ const TopicPage = () => {
   }
   return (
     <>
-      <StyledTopicHeader element="h1" headingStyle="default">
+      <StyledTopicHeader element="h1" headingStyle="h1-resource">
         {data?.arenaCategory?.name}
       </StyledTopicHeader>
-      <TopicDescription>{'test description to be replaced'}</TopicDescription>
+      <TopicDescription element="p" textStyle="content-alt" margin="none">
+        {'test description to be replaced'}
+      </TopicDescription>
       <StyledContainer>
-        <StyledTopicH2>{t('arena.category.posts')}</StyledTopicH2>
+        <StyledTopicH2 element="h2" headingStyle="h2" margin="none">
+          {t('arena.category.posts')}
+        </StyledTopicH2>
         <StyledNewTopicButton
           colorTheme="lighter"
           //onClick={} to open modal

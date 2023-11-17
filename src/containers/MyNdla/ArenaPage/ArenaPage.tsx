@@ -10,30 +10,25 @@ import { Spinner } from '@ndla/icons';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { spacing, fonts } from '@ndla/core';
-import { Heading } from '@ndla/typography';
+import { Heading, Text } from '@ndla/typography';
 import { useArenaCategories } from '../arenaMutations';
 import ArenaCard from '../ArenaCards/ArenaCard';
 
 const StyledArenaHeader = styled(Heading)`
-  ${fonts.sizes('38px', '48px')};
   margin-bottom: ${spacing.small};
 `;
 
-const ArenaDescription = styled.div`
+const ArenaDescription = styled(Text)`
   width: 700px;
-  ${fonts.sizes('18px', '29px')};
-  font-weight: ${fonts.weight.normal};
-`;
-
-const ArenaTitle = styled.h2`
-  ${fonts.sizes('22px', '33px')};
+  margin-top: 0px;
+  margin-bottom: ${spacing.large};
 `;
 
 const StyledCardContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  margin: ${spacing.small} 0;
+  gap: ${spacing.xsmall};
+  margin: ${spacing.normal} 0;
 `;
 
 const StyledBottomText = styled.div`
@@ -51,11 +46,15 @@ const ArenaPage = () => {
   }
   return (
     <>
-      <StyledArenaHeader element="h1" headingStyle="default">
+      <StyledArenaHeader element="h1" headingStyle="h1-resource">
         {t('arena.header')}
       </StyledArenaHeader>
-      <ArenaDescription>{t('arena.description')}</ArenaDescription>
-      <ArenaTitle>{t('arena.title')}</ArenaTitle>
+      <ArenaDescription element="p" textStyle="content-alt">
+        {t('arena.description')}
+      </ArenaDescription>
+      <Heading element="h2" headingStyle="h2" margin="none">
+        {t('arena.title')}
+      </Heading>
       {loading ? (
         <Spinner />
       ) : (

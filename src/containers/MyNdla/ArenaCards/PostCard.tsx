@@ -18,7 +18,8 @@ import { ReportOutlined } from '@ndla/icons/common';
 import styled from '@emotion/styled';
 import { Switch } from '@ndla/switch';
 import { ButtonV2, IconButtonV2 } from '@ndla/button';
-import { colors, spacing, fonts } from '@ndla/core';
+import { colors, spacing, fonts, misc } from '@ndla/core';
+import { Text } from '@ndla/typography';
 
 interface Props {
   id: string;
@@ -31,7 +32,7 @@ interface Props {
 const StyledCardContainer = styled.div`
   background-color: ${colors.background.lightBlue};
   border: ${colors.brand.light} solid 1px;
-  border-radius: 4px;
+  border-radius: ${misc.borderRadius};
   padding: ${spacing.normal};
 `;
 
@@ -80,14 +81,9 @@ const StyledContentContainer = styled.div`
   flex-direction: column;
 `;
 
-const StyledH2 = styled.h2`
+const StyledH2 = styled.div`
   ${fonts.sizes('22px', '33px')};
   margin-top: ${spacing.normal};
-`;
-
-const StyledP = styled.p`
-  ${fonts.sizes('18px', '29px')};
-  margin: 0;
 `;
 
 const BottomContainer = styled.div`
@@ -105,7 +101,6 @@ const StyledButton = styled(ButtonV2)`
 
 const StyledAddCommentButton = styled(ButtonV2)`
   height: 42px;
-  gap: 8px;
   white-space: nowrap;
 `;
 
@@ -129,7 +124,9 @@ const PostCard = ({ id, title, content }: Props) => {
       </StyledTopContainer>
       <StyledContentContainer>
         <StyledH2>{title}</StyledH2>
-        <StyledP>{content}</StyledP>
+        <Text element="p" textStyle="content-alt" margin="none">
+          {content}
+        </Text>
       </StyledContentContainer>
       <BottomContainer>
         <DropdownMenu>
