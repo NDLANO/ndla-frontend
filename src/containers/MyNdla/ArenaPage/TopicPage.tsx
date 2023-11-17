@@ -59,7 +59,7 @@ const StyledCardContainer = styled.div`
 const TopicPage = () => {
   const { t } = useTranslation();
   const { categoryId } = useParams();
-  const { loading, data } = useArenaCategory(Number(categoryId), 1);
+  const { loading, arenaCategory } = useArenaCategory(Number(categoryId), 1);
 
   if (loading) {
     return <Spinner />;
@@ -67,7 +67,7 @@ const TopicPage = () => {
   return (
     <>
       <StyledTopicHeader element="h1" headingStyle="h1-resource">
-        {data?.arenaCategory?.name}
+        {arenaCategory?.name}
       </StyledTopicHeader>
       <TopicDescription element="p" textStyle="content-alt" margin="none">
         {'test description to be replaced'}
@@ -87,7 +87,7 @@ const TopicPage = () => {
       {loading ? (
         <Spinner />
       ) : (
-        data?.arenaCategory?.topics?.map((topic: GQLArenaTopic) => (
+        arenaCategory?.topics?.map((topic: GQLArenaTopic) => (
           <StyledCardContainer key={`topicContainer-${topic.id}`}>
             <ArenaCard
               key={`topic-${topic.id}`}

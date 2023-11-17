@@ -102,7 +102,7 @@ export const arenaTopicById = gql`
 export const useArenaCategories = () => {
   const { data, loading, error } =
     useGraphQuery<GQLArenaCategoriesQuery>(arenaCategoriesQuery);
-  return { data, loading, error };
+  return { arenaCategories: data?.arenaCategories, loading, error };
 };
 
 export const useArenaCategory = (categoryId: number, page: number) => {
@@ -112,7 +112,7 @@ export const useArenaCategory = (categoryId: number, page: number) => {
       variables: { categoryId, page },
     },
   );
-  return { data, loading, error };
+  return { arenaCategory: data?.arenaCategory, loading, error };
 };
 
 export const useArenaTopic = (topicId: number, page: number) => {
@@ -122,5 +122,5 @@ export const useArenaTopic = (topicId: number, page: number) => {
       variables: { topicId, page },
     },
   );
-  return { data, loading, error };
+  return { arenaTopic: data?.arenaTopic, loading, error };
 };

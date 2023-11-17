@@ -14,14 +14,14 @@ import { GQLArenaPost } from '../../../graphqlTypes';
 
 const PostsPage = () => {
   const { topicId } = useParams();
-  const { data, loading } = useArenaTopic(Number(topicId), 1);
+  const { arenaTopic, loading } = useArenaTopic(Number(topicId), 1);
 
   return (
     <>
       {loading ? (
         <Spinner />
       ) : (
-        data?.arenaTopic?.posts?.map((post: GQLArenaPost) => (
+        arenaTopic?.posts?.map((post: GQLArenaPost) => (
           <div key={post.id}>
             <PostCard
               id={post.id.toString()}

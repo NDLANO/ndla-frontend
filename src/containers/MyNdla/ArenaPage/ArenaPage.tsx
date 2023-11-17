@@ -39,7 +39,7 @@ const StyledBottomText = styled.div`
 
 const ArenaPage = () => {
   const { t } = useTranslation();
-  const { loading, data } = useArenaCategories();
+  const { loading, arenaCategories } = useArenaCategories();
 
   if (loading) {
     return <Spinner />;
@@ -59,7 +59,7 @@ const ArenaPage = () => {
         <Spinner />
       ) : (
         <StyledCardContainer>
-          {data?.arenaCategories?.map((category) => (
+          {arenaCategories?.map((category) => (
             <ArenaCard
               key={`topic-${category.id}`}
               id={category.id.toString()}
