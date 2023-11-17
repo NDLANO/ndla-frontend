@@ -8,7 +8,6 @@
 
 export const privateRoutes = [
   'minndla',
-  'minndla/meny',
   'minndla/folders',
   'minndla/tags',
   'minndla/tags/:tag',

@@ -2551,23 +2551,23 @@
     semver "^7.3.5"
     tar "^6.1.11"
 
-"@ndla/accordion@^3.0.4":
-  version "3.0.4"
-  resolved "https://registry.yarnpkg.com/@ndla/accordion/-/accordion-3.0.4.tgz#28d8acd22acf2fb8986657359534244b532c98cf"
-  integrity sha512-SFA6j9D/B88/0xiSBs3EkXGhf8HXyXp/fmej/BkVVY8K/B3oDgLV+H2Jc1jDmKfakGlBY7hsJ/SoSjtXi05kPA==
+"@ndla/accordion@^3.0.5":
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/@ndla/accordion/-/accordion-3.0.5.tgz#f0bd1ee2aa7ef431aff9a50d41259b3decd4585f"
+  integrity sha512-MO3UqibHmJq142tAP/MzwjpbHx7+KpD+PMel966cpcu1WzSoaDr5zscaEroJqD8YKmoe5SvzGLse0yDyQZ2Q1Q==
   dependencies:
     "@ndla/button" "^12.0.10"
     "@ndla/core" "^4.2.6"
     "@ndla/icons" "^4.1.7"
     "@radix-ui/react-accordion" "^1.1.2"
 
-"@ndla/article-converter@^6.0.6":
-  version "6.0.6"
-  resolved "https://registry.yarnpkg.com/@ndla/article-converter/-/article-converter-6.0.6.tgz#17e89d55f98d6a1208e8a062edaf17cb308032f2"
-  integrity sha512-tLxaZ5rBzxSLHUmMxOjJLiLpzd56ftZdpY4GqjJ/bKAJ6u4HF2OUlOw9/QHf3a3lY2Ezr3IKm27ZxZjhgcO0cQ==
+"@ndla/article-converter@^6.0.7":
+  version "6.0.7"
+  resolved "https://registry.yarnpkg.com/@ndla/article-converter/-/article-converter-6.0.7.tgz#86a9e86ea47af8dfbef648b454185cd84fd505b8"
+  integrity sha512-k48n0srT7gpahnV5E7oqJXkU4VDDeMkgs/sx008cHQy/Yz6IBLgxHnoWJ4pB8Aa5lzZ9ttldfe4FwiIWqLOC1w==
   dependencies:
     "@ndla/code" "^5.0.13"
-    "@ndla/ui" "^49.0.7"
+    "@ndla/ui" "^49.0.8"
     html-react-parser "^4.2.2"
     lodash "^4.17.20"
 
@@ -2759,12 +2759,12 @@
   dependencies:
     "@ndla/core" "^4.2.6"
 
-"@ndla/ui@^49.0.7":
-  version "49.0.7"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-49.0.7.tgz#c8bd56bb76a76498fe57ecadda2041c38ecc6081"
-  integrity sha512-KwW8/T2bGnBWoMNM+qvtbsIozcs8Ck8qsNIXVvF3sYjUrZC8ucFWOUzsZmGQYjeEQN+VAXbismuNBx5d79clNA==
+"@ndla/ui@^49.0.8":
+  version "49.0.8"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-49.0.8.tgz#b2a2cd02c2037654f2241646d474fb44b9e2c09d"
+  integrity sha512-uIflmSSsjYbP64zNUkJL8Sp7ItLe+qrzlkxxyefnpv7ybimU5IeHnzQ0HTTnvk5ww3hqus7rlnBPWNi9s4MDwA==
   dependencies:
-    "@ndla/accordion" "^3.0.4"
+    "@ndla/accordion" "^3.0.5"
     "@ndla/button" "^12.0.10"
     "@ndla/carousel" "^4.0.12"
     "@ndla/core" "^4.2.6"

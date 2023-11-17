@@ -56,7 +56,8 @@ export const AcquireLicensePage =
   'https://ndla.zendesk.com/hc/no/articles/360000945552-Bruk-av-lisenser-og-lisensiering';
 
 export const aboutNdlaUrl = 'https://om.ndla.no/';
-export const aboutNdlaContentWidth = 1440;
+
+export const MY_NDLA_CONTENT_WIDTH = 1440;
 
 export const programmeRedirects: Record<string, string> = {
   'bygg-og-anleggsteknikk': 'bygg-og-anleggsteknikk__847f59182173',

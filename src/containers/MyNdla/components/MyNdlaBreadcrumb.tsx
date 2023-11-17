@@ -6,21 +6,16 @@
  *
  */
 
-import { Back } from '@ndla/icons/common';
-import { SafeLinkButton } from '@ndla/safelink';
 import { Breadcrumb } from '@ndla/ui';
-import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { GQLBreadcrumb } from '../../../graphqlTypes';
-import IsMobileContext from '../../../IsMobileContext';
 
 interface Props {
   breadcrumbs: GQLBreadcrumb[];
   page: PageType;
-  backCrumb: PageType | GQLBreadcrumb;
 }
 
-type PageType = 'folders' | 'tags' | 'minndla' | 'subjects' | 'arena';
+type PageType = 'folders' | 'tags' | 'subjects' | 'arena';
 
 const types = {
   folders: {
@@ -30,10 +25,6 @@ const types = {
   tags: {
     to: '/minndla/tags',
     name: 'myNdla.myTags',
-  },
-  minndla: {
-    to: '/minndla/meny',
-    name: 'myNdla.myNDLA',
   },
   subjects: {
     to: '/minndla/subjects',
@@ -45,13 +36,8 @@ const types = {
   },
 };
 
-const MyNdlaBreadcrumb = ({ breadcrumbs, backCrumb, page }: Props) => {
-  const isMobile = useContext(IsMobileContext);
+const MyNdlaBreadcrumb = ({ breadcrumbs, page }: Props) => {
   const { t } = useTranslation();
-  const back =
-    typeof backCrumb === 'object'
-      ? { name: backCrumb.name, to: `/minndla/folders/${backCrumb.id}` }
-      : { ...types[backCrumb], name: t(types[backCrumb].name) };
 
   const baseCrumb = types[page];
   const crumbs = [{ to: baseCrumb.to, name: t(baseCrumb.name) }].concat(
@@ -61,16 +47,8 @@ const MyNdlaBreadcrumb = ({ breadcrumbs, backCrumb, page }: Props) => {
     })),
   );
 
-  if (isMobile) {
-    return (
-      <SafeLinkButton variant="ghost" to={back.to}>
-        <Back />
-        {back.name}
-      </SafeLinkButton>
-    );
-  }
   if (breadcrumbs.length > 0) {
-    return <Breadcrumb items={crumbs} autoCollapse />;
+    return <Breadcrumb items={crumbs} />;
   }
   return null;
 };

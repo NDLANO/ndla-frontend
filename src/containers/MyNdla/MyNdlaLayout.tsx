@@ -6,96 +6,92 @@
  *
  */
 
-import { useMemo, useContext } from 'react';
+import { useMemo, useContext, useState, Dispatch, SetStateAction } from 'react';
+import { Location, Outlet, useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
-import { breakpoints, colors, mq, spacing, spacingUnit } from '@ndla/core';
-import { MessageBox, TreeStructure } from '@ndla/ui';
+import { breakpoints, colors, mq, spacing } from '@ndla/core';
+import { MessageBox } from '@ndla/ui';
 import { FolderOutlined } from '@ndla/icons/contentType';
 import {
+  Book,
+  BookOutlined,
   HashTag,
-  InformationOutline,
   LogOut,
-  Person,
+  ProfilePerson,
+  ProfilePersonOutlined,
 } from '@ndla/icons/common';
-import { MenuBook } from '@ndla/icons/action';
+import { Modal, ModalTrigger } from '@ndla/modal';
+import { IconButtonV2 } from '@ndla/button';
+import { DragHorizontal, Folder } from '@ndla/icons/editor';
+import { Text } from '@ndla/typography';
 import { TFunction } from 'i18next';
-import { Outlet, useLocation } from 'react-router-dom';
 import { AuthContext } from '../../components/AuthenticationContext';
-import { useFolder, useFolders } from './folderMutations';
-import IsMobileContext from '../../IsMobileContext';
-import { toHref } from '../../util/urlHelper';
 import NavigationLink from './components/NavigationLink';
-import { aboutNdlaContentWidth } from '../../constants';
-
-const aboutNdlaMainContentWithSpacing =
-  aboutNdlaContentWidth + spacingUnit * 2 * 2;
-
-const navigationLinks = (t: TFunction) => [
-  {
-    id: 'tags',
-    icon: <HashTag />,
-    name: t('myNdla.myTags'),
-    shortName: t('myNdla.iconMenu.tags'),
-  },
-  {
-    id: 'subjects',
-    icon: <MenuBook />,
-    name: t('myNdla.favoriteSubjects.title'),
-    shortName: t('myNdla.iconMenu.subjects'),
-  },
-];
+import { toHref } from '../../util/urlHelper';
 
 const StyledLayout = styled.div`
-  display: grid;
+  display: flex;
   min-height: 60vh;
-  grid-template-columns:
-    minmax(auto, 1fr) minmax(auto, ${aboutNdlaMainContentWithSpacing}px)
-    minmax(0px, 1fr);
-
-  ${mq.range({ until: breakpoints.tablet })} {
-    display: flex;
+  flex-direction: row;
+  ${mq.range({ until: breakpoints.mobileWide })} {
+    flex-direction: column;
   }
 `;
 
 const StyledNavList = styled.ul`
   list-style: none;
-  padding: 0 1rem 0 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(auto, 1fr));
+  grid-gap: ${spacing.xsmall};
+
+  margin: 0px;
+  padding: 0 ${spacing.xsmall} 0 0;
+  justify-content: space-between;
+
+  ${mq.range({ from: breakpoints.mobileWide })} {
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 const StyledLi = styled.li`
+  /* Menubar on phone should only display first 4 
+  links and the rest when the modal is open */
+  &:not(:nth-of-type(-n + 4)) {
+    display: none;
+  }
+
   margin: 0;
+  ${mq.range({ from: breakpoints.mobileWide })} {
+    display: unset !important;
+  }
 `;
 
-const StyledContent = styled.main`
-  max-width: ${aboutNdlaContentWidth}px;
-  flex: 1;
-  margin: 0 ${spacing.large};
-
-  padding-bottom: ${spacing.large};
-
-  &[data-is-mobile='true'] {
-    margin: 0 ${spacing.nsmall};
-  }
+const StyledContent = styled.div`
+  width: 100%;
 `;
 
 const StyledSideBar = styled.div`
-  padding: 0 0 ${spacing.small} ${spacing.normal};
   display: flex;
-  gap: ${spacing.normal};
-  flex-direction: column;
-  min-width: 300px;
-  width: 300px;
-  border-right: 1px solid ${colors.brand.lighter};
+  flex-direction: row;
+  border-bottom: 1px solid ${colors.brand.lightest};
   background: ${colors.background.lightBlue};
+  justify-content: center;
 
-  ${mq.range({ until: breakpoints.desktop })} {
-    min-width: unset;
-    width: 100%;
+  ${mq.range({ from: breakpoints.mobileWide })} {
+    padding: ${spacing.nsmall};
+    border-right: 1px solid ${colors.brand.lightest};
+    border-bottom: unset;
   }
 
-  ${mq.range({ until: breakpoints.tablet })} {
-    display: none;
+  ${mq.range({ from: breakpoints.desktop })} {
+    justify-content: flex-start;
+    gap: ${spacing.normal};
+    flex-direction: column;
+    min-width: 300px;
+    border-right: 1px solid ${colors.brand.lightest};
+    border-bottom: unset;
   }
 `;
 
@@ -103,117 +99,120 @@ const MessageboxWrapper = styled.div`
   margin-bottom: ${spacing.nsmall};
 `;
 
-const LogOutIcon = styled(LogOut)`
-  height: ${spacing.normal};
-  width: ${spacing.normal};
-`;
+const MoreButton = styled(IconButtonV2)`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: ${spacing.small};
+  gap: ${spacing.xsmall};
+  color: ${colors.brand.primary};
 
-const TreeStructureWrapper = styled.div`
-  ${mq.range({ until: breakpoints.desktop })} {
+  border-radius: ${spacing.xxsmall};
+
+  ${mq.range({ from: breakpoints.mobileWide })} {
     display: none;
   }
 `;
 
+export interface OutletContext {
+  setResetFocus: Dispatch<SetStateAction<boolean>>;
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
+  resetFocus: boolean;
+}
+
 const MyNdlaLayout = () => {
-  const { folders } = useFolders();
   const { t } = useTranslation();
   const { examLock } = useContext(AuthContext);
   const location = useLocation();
-  const [page, folderId] = location.pathname
-    .replace('/minndla/', '')
-    .split('/');
+  const [isOpen, setIsOpen] = useState(false);
+  const [resetFocus, setResetFocus] = useState(false);
 
-  const selectedFolder = useFolder(folderId);
-
-  const isMobile = useContext(IsMobileContext);
-
-  const defaultSelected = useMemo(() => {
-    if (typeof page === 'string') {
-      if (folderId) {
-        return [page].concat(
-          selectedFolder?.breadcrumbs.map((b) => b.id) ?? [],
-        );
-      }
-      return [page];
-    }
-    return [];
-  }, [selectedFolder?.breadcrumbs, folderId, page]);
-
-  const links = useMemo(() => {
-    return navigationLinks(t);
-  }, [t]);
-
-  const showFolders =
-    location.pathname.startsWith('/minndla/folders') && folders.length > 0;
+  const menuLink = useMemo(
+    () =>
+      menuLinks(t, location).map(
+        ({ name, shortName, id, icon, to, iconFilled }) => (
+          <StyledLi key={id} role="none">
+            <NavigationLink
+              id={id}
+              name={name}
+              shortName={shortName}
+              icon={icon}
+              to={to}
+              iconFilled={iconFilled}
+            />
+          </StyledLi>
+        ),
+      ),
+    [location, t],
+  );
 
   return (
     <StyledLayout>
-      <StyledSideBar>
-        <div>
+      <Modal open={isOpen} onOpenChange={setIsOpen}>
+        <StyledSideBar>
           <nav>
-            <StyledNavList role="tablist">
-              <StyledLi role="none">
-                <NavigationLink
-                  id=""
-                  name={t('myNdla.myPage.myPage')}
-                  shortName={t('myNdla.myNDLA')}
-                  icon={<Person />}
-                />
-              </StyledLi>
-              <StyledLi role="none">
-                <NavigationLink
-                  id="folders"
-                  name={t('myNdla.myFolders')}
-                  shortName={t('myNdla.iconMenu.folders')}
-                  icon={<FolderOutlined />}
-                  expanded={showFolders}
-                />
-                {showFolders && (
-                  <TreeStructureWrapper>
-                    <TreeStructure
-                      type="navigation"
-                      folders={folders}
-                      defaultOpenFolders={defaultSelected}
-                    />
-                  </TreeStructureWrapper>
-                )}
-              </StyledLi>
-              {links.map((link) => (
-                <StyledLi key={link.id} role="none">
-                  <NavigationLink
-                    id={link.id}
-                    name={link.name}
-                    shortName={link.shortName}
-                    icon={link.icon}
-                  />
-                </StyledLi>
-              ))}
-              <StyledLi role="none">
-                <NavigationLink
-                  id="logout-path"
-                  name={t('user.buttonLogOut')}
-                  shortName={t('user.buttonLogOut')}
-                  to={`/logout?state=${toHref(location)}`}
-                  icon={<LogOutIcon />}
-                />
-              </StyledLi>
-            </StyledNavList>
+            <StyledNavList role="tablist">{menuLink}</StyledNavList>
           </nav>
-        </div>
-      </StyledSideBar>
-      <StyledContent data-is-mobile={isMobile}>
-        {examLock && (
-          <MessageboxWrapper>
-            <MessageBox>
-              <InformationOutline />
-              {t('myNdla.examLockInfo')}
-            </MessageBox>
-          </MessageboxWrapper>
-        )}
-        <Outlet />
-      </StyledContent>
+          <ModalTrigger>
+            <MoreButton
+              variant="stripped"
+              aria-label={t('myNdla.iconMenu.more')}
+            >
+              <DragHorizontal />
+              <Text margin="none" textStyle="meta-text-xxsmall">
+                {t('myNdla.iconMenu.more')}
+              </Text>
+            </MoreButton>
+          </ModalTrigger>
+        </StyledSideBar>
+        <StyledContent>
+          {examLock && (
+            <MessageboxWrapper>
+              <MessageBox>{t('myNdla.examLockInfo')}</MessageBox>
+            </MessageboxWrapper>
+          )}
+          <Outlet context={{ setIsOpen, resetFocus, setResetFocus }} />
+        </StyledContent>
+      </Modal>
     </StyledLayout>
   );
 };
 
 export default MyNdlaLayout;
+
+export const menuLinks = (t: TFunction, location: Location) => [
+  {
+    id: '',
+    name: t('myNdla.myPage.myPage'),
+    shortName: t('myNdla.myNDLA'),
+    icon: <ProfilePersonOutlined />,
+    iconFilled: <ProfilePerson />,
+  },
+  {
+    id: 'folders',
+    name: t('myNdla.myFolders'),
+    shortName: t('myNdla.iconMenu.folders'),
+    icon: <FolderOutlined />,
+    iconFilled: <Folder />,
+  },
+  {
+    id: 'subjects',
+    name: t('myNdla.favoriteSubjects.title'),
+    shortName: t('myNdla.iconMenu.subjects'),
+    icon: <BookOutlined />,
+    iconFilled: <Book />,
+  },
+  {
+    id: 'tags',
+    name: t('myNdla.myTags'),
+    shortName: t('myNdla.iconMenu.tags'),
+    icon: <HashTag />,
+  },
+  {
+    id: 'logout-path',
+    name: t('user.buttonLogOut'),
+    shortName: t('user.buttonLogOut'),
+    icon: <LogOut />,
+    to: `/logout?state=${toHref(location)}`,
+  },
+];

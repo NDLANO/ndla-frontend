@@ -6,37 +6,71 @@
  *
  */
 
+import { ButtonV2 } from '@ndla/button';
+import { Pencil } from '@ndla/icons/action';
+import { useApolloClient } from '@apollo/client';
 import {
+  Modal,
   ModalBody,
   ModalCloseButton,
+  ModalContent,
   ModalHeader,
   ModalTitle,
-  ModalContent,
+  ModalTrigger,
 } from '@ndla/modal';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useMemo } from 'react';
-import { useApolloClient } from '@apollo/client';
 import { GQLFolder } from '../../../graphqlTypes';
-import FolderForm from './FolderForm';
 import {
-  getFolder,
-  useFolders,
   useUpdateFolderMutation,
+  useFolders,
+  getFolder,
 } from '../folderMutations';
+import FolderForm from './FolderForm';
+import { buttonCss, iconCss } from './FoldersPage';
 
 interface Props {
+  folder?: GQLFolder;
+  onSaved: () => void;
+}
+
+const FolderEditModal = ({ folder, onSaved }: Props) => {
+  const [open, setOpen] = useState(false);
+  const { t } = useTranslation();
+
+  return (
+    <Modal open={open} onOpenChange={setOpen}>
+      <ModalTrigger>
+        <ButtonV2 css={buttonCss} variant="ghost" colorTheme="lighter">
+          <Pencil css={iconCss} />
+          {t('myNdla.folder.edit')}
+        </ButtonV2>
+      </ModalTrigger>
+      <EditFolderModalContent
+        folder={folder}
+        onClose={() => setOpen(false)}
+        onSaved={onSaved}
+      />
+    </Modal>
+  );
+};
+
+export default FolderEditModal;
+
+interface ContentProps {
   folder?: GQLFolder;
   onClose: () => void;
   onSaved: () => void;
 }
 
-const EditFolderModalContent = ({ folder, onClose, onSaved }: Props) => {
+export const EditFolderModalContent = ({
+  folder,
+  onClose,
+  onSaved,
+}: ContentProps) => {
   const { t } = useTranslation();
-
   const { updateFolder, loading } = useUpdateFolderMutation();
-
   const { cache } = useApolloClient();
-
   const { folders } = useFolders();
 
   const levelFolders = useMemo(
@@ -78,5 +112,3 @@ const EditFolderModalContent = ({ folder, onClose, onSaved }: Props) => {
     </ModalContent>
   );
 };
-
-export default EditFolderModalContent;

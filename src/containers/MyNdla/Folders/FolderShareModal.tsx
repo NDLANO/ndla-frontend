@@ -201,7 +201,7 @@ export const FolderShareModalContent = ({
             </CopyLinkHeader>
             <Tooltip tooltip={t('myNdla.folder.sharing.button.shareLink')}>
               <CopyLinkButton
-                aria-label={`${previewLink(folder.id)}`}
+                aria-label={previewLink(folder.id)}
                 variant="stripped"
                 onClick={() => {
                   onCopyText?.();
@@ -221,18 +221,18 @@ export const FolderShareModalContent = ({
         )}
         {t(`myNdla.folder.sharing.description.${type}`)}
         <StyledButtonRow>
-          {isMobile ? (
-            <>
-              {modalButton}
-              {unShareButton}
-              {cancelButton}
-            </>
-          ) : (
+          {!isMobile ? (
             <>
               {unShareButton}
               <StyledSpacing />
               {cancelButton}
               {modalButton}
+            </>
+          ) : (
+            <>
+              {modalButton}
+              {unShareButton}
+              {cancelButton}
             </>
           )}
         </StyledButtonRow>
