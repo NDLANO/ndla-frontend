@@ -14,6 +14,7 @@ const TitleWrapper = styled.div`
   align-items: flex-start;
   flex-direction: column;
   gap: ${spacing.nsmall};
+  padding-top: ${spacing.normal};
 `;
 
 export default TitleWrapper;

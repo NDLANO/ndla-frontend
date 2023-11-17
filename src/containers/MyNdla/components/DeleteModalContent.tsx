@@ -10,11 +10,11 @@ import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
 import {
-  ModalBody,
-  ModalCloseButton,
+  ModalContent,
   ModalHeader,
   ModalTitle,
-  ModalContent,
+  ModalCloseButton,
+  ModalBody,
 } from '@ndla/modal';
 import { useTranslation } from 'react-i18next';
 
@@ -23,7 +23,7 @@ interface Props {
   title: string;
   description: string;
   removeText: string;
-  loading?: boolean;
+  onClose?: (e?: Event) => void;
 }
 
 const StyledButtonRow = styled.div`
@@ -34,13 +34,14 @@ const StyledButtonRow = styled.div`
 
 const DeleteModalContent = ({
   onDelete,
+  onClose,
   title,
   description,
   removeText,
 }: Props) => {
   const { t } = useTranslation();
   return (
-    <ModalContent>
+    <ModalContent onCloseAutoFocus={onClose}>
       <ModalHeader>
         <ModalTitle>{title}</ModalTitle>
         <ModalCloseButton />

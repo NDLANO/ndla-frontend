@@ -782,6 +782,7 @@ exports[`ErrorPage renderers correctly 1`] = `
             aria-label="Velg språk (language): "
             class="emotion-16"
             data-state="closed"
+            id="languageSelectorFooter"
             type="button"
           >
             Velg språk 

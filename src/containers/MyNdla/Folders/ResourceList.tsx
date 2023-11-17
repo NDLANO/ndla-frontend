@@ -37,13 +37,13 @@ import {
   useSortResourcesMutation,
 } from '../folderMutations';
 import { BlockWrapper, ViewType } from './FoldersPage';
-import { usePrevious } from '../../../util/utilityHooks';
 import { makeDndSortFunction, makeDndTranslations } from './util';
 import DraggableResource from './DraggableResource';
 
 interface Props {
   selectedFolder: GQLFolder;
   viewType: ViewType;
+  resourceRefId?: string;
 }
 
 const ResourceListWrapper = styled.div`
@@ -52,14 +52,15 @@ const ResourceListWrapper = styled.div`
   gap: ${spacing.xsmall};
 `;
 
-const ResourceList = ({ selectedFolder, viewType }: Props) => {
+const ResourceList = ({ selectedFolder, viewType, resourceRefId }: Props) => {
   const { t } = useTranslation();
   const client = useApolloClient();
   const resources = useMemo(() => selectedFolder.resources, [selectedFolder]);
-  const prevResources = usePrevious(resources);
   const { sortResources } = useSortResourcesMutation();
+
   const [focusId, setFocusId] = useState<string | undefined>(undefined);
   const [sortedResources, setSortedResources] = useState(resources);
+  const [prevResources, setPrevResources] = useState(resources);
 
   useEffect(() => {
     setSortedResources(resources);
@@ -68,7 +69,6 @@ const ResourceList = ({ selectedFolder, viewType }: Props) => {
   useEffect(() => {
     const resourceIds = resources.map((f) => f.id).sort();
     const prevResourceIds = prevResources?.map((f) => f.id).sort();
-
     if (!isEqual(resourceIds, prevResourceIds) && focusId) {
       setTimeout(
         () =>
@@ -76,9 +76,11 @@ const ResourceList = ({ selectedFolder, viewType }: Props) => {
             .getElementById(`resource-${focusId}`)
             ?.getElementsByTagName('a')?.[0]
             ?.focus(),
-        0,
+        // Timeout needs to be bigger than 0 in order for timeout to execute on FireFox
+        1,
       );
       setFocusId(undefined);
+      setPrevResources(resources);
     }
   }, [resources, prevResources, focusId]);
 
@@ -163,6 +165,7 @@ const ResourceList = ({ selectedFolder, viewType }: Props) => {
                   resources={resources}
                   setFocusId={setFocusId}
                   selectedFolder={selectedFolder}
+                  resourceRefId={resourceRefId}
                 />
               );
             })}
