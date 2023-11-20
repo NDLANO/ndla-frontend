@@ -130,18 +130,23 @@ const getCopyrightData = (
 };
 const getCopyrightDataImage = (
   copyright: GQLStructuredArticleData_CopyrightFragment,
+  language: string,
 ): StructuredData => {
   const { creators, rightsholders, license, processors } = copyright;
 
+  const isCopyrighted = license.license?.toLocaleLowerCase() === COPYRIGHTED;
+
   return {
-    license: license?.url,
+    license: isCopyrighted
+      ? `https://ndla.no/${language}/article/opphavsrett`
+      : license?.url,
     creator: mapType(PERSON_TYPE, creators),
     copyrightHolder: mapType(ORGANIZATION_TYPE, rightsholders),
     contributor: mapType(PERSON_TYPE, processors),
     ...(rightsholders.length
       ? { creditText: rightsholders.map((r) => r.name).join(', ') }
       : {}),
-    ...(license.license?.toLocaleLowerCase() === COPYRIGHTED
+    ...(isCopyrighted
       ? {
           copyrightNotice: rightsholders.map((r) => r.name).join(', '),
         }
@@ -367,7 +372,7 @@ const getStructuredDataFromArticle = (
   const podcasts = article.metaData?.podcasts || [];
   const videos = article.metaData?.brightcoves || [];
 
-  const mediaData = createMediaData(mediaElements);
+  const mediaData = createMediaData(mediaElements, language);
   const podcastData = createPodcastData(podcasts);
   const videoData = createVideoData(videos);
 
@@ -377,7 +382,10 @@ const getStructuredDataFromArticle = (
   };
 };
 
-const createMediaData = (media: Mediaelements[]): StructuredData[] =>
+const createMediaData = (
+  media: Mediaelements[],
+  language: string,
+): StructuredData[] =>
   media.map((media) => {
     const { data, type } = media;
     return {
@@ -388,7 +396,7 @@ const createMediaData = (media: Mediaelements[]): StructuredData[] =>
       contentUrl: data?.src,
       acquireLicensePage: AcquireLicensePage,
       ...(type === IMAGE_TYPE
-        ? getCopyrightDataImage(data?.copyright!)
+        ? getCopyrightDataImage(data?.copyright!, language)
         : getCopyrightData(data?.copyright!)),
     };
   });
