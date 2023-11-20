@@ -9,13 +9,10 @@ import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import { Text } from '@ndla/typography';
+import { UnOrderedList } from '@ndla/ui';
 import { FeideUserApiType } from '../../../interfaces';
 import { parseUserObject } from './parseUserObject';
 import { isStudent } from '../Folders/util';
-
-const InfoList = styled.ul`
-  padding: 0 0 0 ${spacing.normal};
-`;
 
 interface Props {
   user: FeideUserApiType;
@@ -67,45 +64,65 @@ export const UserInfo = ({ user }: Props) => {
           </Text>
         )}
       </ShortInfoDiv>
-      <InfoList>
+      <UnOrderedList>
         {parsedUser.organizations.map((org) => (
-          <li key={org.id}>
+          <Text element="li" textStyle="content-alt" margin="none" key={org.id}>
             {`${org.displayName}${
               org.membership.primarySchool
                 ? ` (${t('user.primarySchool')})`
                 : ''
             }`}
-            <InfoList>
+            <UnOrderedList>
               {Object.entries(org.children).map(([groupType, val]) => {
                 if (val.length < 1) return null;
                 return (
-                  <li key={groupType}>
+                  <Text
+                    element="li"
+                    textStyle="content-alt"
+                    margin="none"
+                    key={groupType}
+                  >
                     {t(`user.groupTypes.${groupType}`)}
-                    <InfoList>
+                    <UnOrderedList>
                       {val.map((group) => (
-                        <li key={group.id}>{`${group.displayName}${
+                        <Text
+                          element="li"
+                          textStyle="content-alt"
+                          margin="none"
+                          key={group.id}
+                        >{`${group.displayName}${
                           group.grep ? ` (${group.grep.code})` : ''
-                        }`}</li>
+                        }`}</Text>
                       ))}
-                    </InfoList>
-                  </li>
+                    </UnOrderedList>
+                  </Text>
                 );
               })}
-            </InfoList>
-          </li>
+            </UnOrderedList>
+          </Text>
         ))}
-      </InfoList>
+      </UnOrderedList>
       {parsedUser.grepCodes.length > 0 && (
-        <InfoList>
-          <li key="grepCodes">
+        <UnOrderedList>
+          <Text
+            element="li"
+            textStyle="content-alt"
+            margin="none"
+            key="grepCodes"
+          >
             {t('user.groupTypes.grepCode')}
-            <InfoList>
+            <UnOrderedList>
               {parsedUser.grepCodes.map((code) => (
-                <li key={code.id}>{`${code.displayName} (${code.code})`}</li>
+                <Text
+                  element="li"
+                  textStyle="content-alt"
+                  margin="none"
+                  key={code.id}
+                >{`${code.displayName} (${code.code})`}</Text>
               ))}
-            </InfoList>
-          </li>
-        </InfoList>
+            </UnOrderedList>
+          </Text>
+        </UnOrderedList>
       )}
     </StyledComponentContainer>
   );

@@ -48,10 +48,6 @@ const ButtonRow = styled.div`
   justify-content: flex-end;
 `;
 
-const LinkText = styled.p`
-  margin: 0;
-`;
-
 const InfoContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -114,13 +110,13 @@ const MyProfilePage = () => {
               </Text>
             </InfoPart>
           )}
-          <LinkText>
+          <Text element="p" textStyle="content-alt" margin="none">
             {`${t('myNdla.myPage.read.read')} `}
             <SafeLink target="_blank" to={t('myNdla.myPage.privacyLink')}>
               {t('myNdla.myPage.privacy')}
             </SafeLink>
             {`${t('myNdla.myPage.read.our')} `}
-          </LinkText>
+          </Text>
         </InfoContainer>
         <ButtonContainer>
           <Heading
