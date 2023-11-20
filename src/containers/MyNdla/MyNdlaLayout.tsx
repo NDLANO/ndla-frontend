@@ -12,7 +12,7 @@ import {
   useState,
   Dispatch,
   SetStateAction,
-  useEffect,
+  // useEffect,
 } from 'react';
 import { Location, Outlet, useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
@@ -38,7 +38,7 @@ import { TFunction } from 'i18next';
 import { AuthContext } from '../../components/AuthenticationContext';
 import NavigationLink from './components/NavigationLink';
 import { toHref } from '../../util/urlHelper';
-import { usePersonalData } from './userMutations';
+// import { usePersonalData } from './userMutations';
 
 const StyledLayout = styled.div`
   display: flex;
@@ -131,18 +131,19 @@ export interface OutletContext {
 }
 
 const MyNdlaLayout = () => {
-  const { personalData, fetch: fetchPersonalData } = usePersonalData();
+  // const { personalData, fetch: fetchPersonalData } = usePersonalData();
   const { t } = useTranslation();
-  const { authenticated, examLock } = useContext(AuthContext);
+  // const { authenticated, examLock } = useContext(AuthContext);
+  const { examLock } = useContext(AuthContext);
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const [resetFocus, setResetFocus] = useState(false);
 
-  useEffect(() => {
-    if (authenticated) {
-      fetchPersonalData();
-    }
-  }, [authenticated, fetchPersonalData]);
+  // useEffect(() => {
+  //   if (authenticated) {
+  //     fetchPersonalData();
+  //   }
+  // }, [authenticated, fetchPersonalData]);
 
   const menuLink = useMemo(
     () =>
@@ -227,8 +228,8 @@ export const menuLinks = (t: TFunction, location: Location) => [
   },
   {
     id: 'arena',
-    name: t('myNdla.arena'),
-    shortName: t('myNdla.arena'),
+    name: t('myNdla.arena.title'),
+    shortName: t('myNdla.arena.title'),
     icon: <ForumOutlined />,
     iconFilled: <Forum />,
   },
