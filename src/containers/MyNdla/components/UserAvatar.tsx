@@ -7,7 +7,7 @@
  */
 
 import styled from '@emotion/styled';
-import { breakpoints, mq } from '@ndla/core';
+import { breakpoints, misc, mq } from '@ndla/core';
 // import EditProfilePicture from '../MyProfile/components/EditProfilePicture';
 import Avatar from './Avatar';
 
@@ -28,7 +28,7 @@ const DesktopButtonContainer = styled.div`
   ${mq.range({ from: breakpoints.tablet })} {
     position: absolute;
     bottom: 0px;
-    left: 125px;
+    left: ${misc.borderRadiusLarge};
   }
 `;
 

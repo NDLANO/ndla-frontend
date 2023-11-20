@@ -23,8 +23,8 @@ const StyledChangeAvatarButton = styled(ButtonV2)`
 `;
 
 const StyledPencilSvg = styled(Icon)`
-  width: 20px;
-  height: 20px;
+  width: ${spacing.snormal};
+  height: ${spacing.snormal};
 `;
 
 const PencilIcon = StyledPencilSvg.withComponent(Pencil);
