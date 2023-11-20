@@ -44,13 +44,16 @@ export interface MenuItemProps {
   onClick?: (e?: MouseEvent<HTMLElement>) => void;
   keepOpen?: boolean;
   ref?: RefObject<HTMLButtonElement>;
-  modalContent?: (close: VoidFunction) => ReactNode;
+  modalContent?: (
+    close: VoidFunction,
+    setSkipAutoFocus?: VoidFunction,
+  ) => ReactNode;
   modality?: boolean;
 }
 
 interface Props {
   menuItems?: MenuItemProps[];
-  children?: ReactNode;
+  inToolbar?: boolean;
 }
 
 const StyledDrawer = styled(Drawer)`
@@ -116,9 +119,10 @@ const ItemButton = styled(ButtonV2)`
   }
 `;
 
-const SettingsMenu = ({ menuItems, children }: Props) => {
+const SettingsMenu = ({ menuItems }: Props) => {
   const [open, setOpen] = useState(false);
   const [hasOpenModal, setHasOpenModal] = useState(false);
+  const [skipAutoFocus, setSkipAutoFocus] = useState(false);
   const dropdownTriggerRef = useRef<HTMLButtonElement | null>(null);
   const { t } = useTranslation();
 
@@ -151,9 +155,14 @@ const SettingsMenu = ({ menuItems, children }: Props) => {
           size="small"
           hidden={hasOpenModal}
           onCloseAutoFocus={(event) => {
-            event.preventDefault();
-            dropdownTriggerRef.current?.focus();
             setHasOpenModal(false);
+            if (skipAutoFocus) {
+              event.preventDefault();
+              setSkipAutoFocus(false);
+            } else if (dropdownTriggerRef.current) {
+              event.preventDefault();
+              dropdownTriggerRef.current.focus();
+            }
           }}
         >
           <ModalHeader>
@@ -161,7 +170,6 @@ const SettingsMenu = ({ menuItems, children }: Props) => {
             <ModalCloseButton />
           </ModalHeader>
           <StyledModalBody>
-            {children}
             {!!menuItems?.length && (
               <StyledUl>
                 {menuItems.map((item) => (
@@ -172,6 +180,7 @@ const SettingsMenu = ({ menuItems, children }: Props) => {
                       isModal={item.isModal}
                       modalContent={item.modalContent}
                       modality={item.modality}
+                      setSkipAutoFocus={() => setSkipAutoFocus(true)}
                     >
                       <ButtonV2
                         fontWeight="normal"
@@ -219,9 +228,14 @@ const SettingsMenu = ({ menuItems, children }: Props) => {
         hidden={hasOpenModal}
         forceMount
         onCloseAutoFocus={(event) => {
-          event.preventDefault();
-          dropdownTriggerRef.current?.focus();
           setHasOpenModal(false);
+          if (skipAutoFocus) {
+            event.preventDefault();
+            setSkipAutoFocus(false);
+          } else if (dropdownTriggerRef.current) {
+            event.preventDefault();
+            dropdownTriggerRef.current?.focus();
+          }
         }}
       >
         {menuItems?.map((item) => (
@@ -232,6 +246,7 @@ const SettingsMenu = ({ menuItems, children }: Props) => {
             modalContent={item.modalContent}
             keepOpen={item.keepOpen}
             modality={item.modality}
+            setSkipAutoFocus={() => setSkipAutoFocus(true)}
           >
             <DropdownItem
               asChild
@@ -270,15 +285,17 @@ interface ItemProps
   > {
   children?: ReactNode;
   handleDialogItemOpenChange?: (open: boolean, keepOpen?: boolean) => void;
+  setSkipAutoFocus?: VoidFunction;
 }
 
 const Item = ({
-  children,
   handleDialogItemOpenChange,
-  isModal,
+  setSkipAutoFocus,
+  modality = true,
   modalContent,
   keepOpen,
-  modality = true,
+  children,
+  isModal,
 }: ItemProps) => {
   const [open, setOpen] = useState(false);
 
@@ -302,7 +319,7 @@ const Item = ({
   return (
     <Modal open={open} onOpenChange={onOpenChange} modal={modality}>
       <ModalTrigger>{children}</ModalTrigger>
-      {modalContent(close)}
+      {modalContent(close, setSkipAutoFocus)}
     </Modal>
   );
 };

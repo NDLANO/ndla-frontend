@@ -6,7 +6,7 @@
  *
  */
 
-import { memo, useMemo } from 'react';
+import { Dispatch, SetStateAction, memo, useMemo } from 'react';
 import styled from '@emotion/styled';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
@@ -23,7 +23,9 @@ interface Props {
   index: number;
   type: ViewType;
   foldersCount: Record<string, FolderTotalCount>;
-  onViewTypeChange: (type: ViewType) => void;
+  folders: GQLFolder[];
+  setFocusId: Dispatch<SetStateAction<string | undefined>>;
+  folderRefId?: string;
 }
 
 interface DraggableListItemProps {
@@ -51,7 +53,9 @@ const DraggableFolder = ({
   folder,
   type,
   foldersCount,
-  onViewTypeChange,
+  folders,
+  setFocusId,
+  folderRefId,
 }: Props) => {
   const { attributes, setNodeRef, transform, transition, items, isDragging } =
     useSortable({
@@ -70,13 +74,14 @@ const DraggableFolder = ({
   const menu = useMemo(
     () => (
       <FolderActions
+        folders={folders}
         key={folder.id}
         selectedFolder={folder}
-        viewType={type}
-        onViewTypeChange={onViewTypeChange}
+        setFocusId={setFocusId}
+        folderRefId={folderRefId}
       />
     ),
-    [folder, onViewTypeChange, type],
+    [folder, folders, setFocusId, folderRefId],
   );
 
   return (

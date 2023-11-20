@@ -24,7 +24,6 @@ import {
 } from '@ndla/modal';
 import { UserInfo } from '../../containers/MyNdla/components/UserInfo';
 import { AuthContext } from '../AuthenticationContext';
-import IsMobileContext from '../../IsMobileContext';
 import { useIsNdlaFilm } from '../../routeHelpers';
 import { constructNewPath, toHref } from '../../util/urlHelper';
 import { useBaseName } from '../BaseNameContext';
@@ -79,8 +78,6 @@ const FeideLoginButton = ({ footer, children }: Props) => {
   const { authenticated, user } = useContext(AuthContext);
   const basename = useBaseName();
   const ndlaFilm = useIsNdlaFilm();
-  const isMobile = useContext(IsMobileContext);
-  const destination = isMobile ? '/minndla/meny' : '/minndla';
 
   if (authenticated && !footer) {
     return (
@@ -89,7 +86,7 @@ const FeideLoginButton = ({ footer, children }: Props) => {
         colorTheme="light"
         shape="pill"
         inverted={ndlaFilm}
-        to={destination}
+        to="/minndla"
         aria-label={t('myNdla.myNDLA')}
       >
         {children}

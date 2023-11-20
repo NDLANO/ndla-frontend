@@ -37,6 +37,7 @@ interface Props {
   index: number;
   resourceMeta?: GQLFolderResourceMeta;
   setFocusId: (id: string | undefined) => void;
+  resourceRefId?: string;
 }
 
 const DraggableResource = ({
@@ -48,6 +49,7 @@ const DraggableResource = ({
   selectedFolder,
   resources,
   setFocusId,
+  resourceRefId,
 }: Props) => {
   const { t } = useTranslation();
   const { examLock } = useContext(AuthContext);
@@ -78,7 +80,20 @@ const DraggableResource = ({
           folderName: selectedFolder.name,
         }),
       });
-      setFocusId(next ?? prev);
+      if (next || prev) {
+        setFocusId(next ?? prev);
+      } else if (resourceRefId) {
+        setTimeout(
+          () =>
+            (
+              document
+                .getElementById(resourceRefId)
+                ?.getElementsByTagName('a')?.[0] ??
+              document.getElementById(resourceRefId)
+            )?.focus({ preventScroll: true }),
+          1,
+        );
+      }
     },
     [
       addSnack,
@@ -87,6 +102,7 @@ const DraggableResource = ({
       selectedFolder.id,
       selectedFolder.name,
       setFocusId,
+      resourceRefId,
       t,
     ],
   );
@@ -130,9 +146,11 @@ const DraggableResource = ({
         icon: <DeleteForever />,
         text: t('myNdla.resource.remove'),
         isModal: true,
-        modalContent: (close) => (
+        modalContent: (close, setSkipAutoFocus) => (
           <DeleteModalContent
+            onClose={close}
             onDelete={async () => {
+              setSkipAutoFocus?.();
               await onDeleteFolder(resource, index);
               close();
             }}

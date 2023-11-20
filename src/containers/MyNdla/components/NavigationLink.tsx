@@ -11,17 +11,18 @@ import { breakpoints, colors, fonts, mq, spacing } from '@ndla/core';
 import { ReactNode } from 'react';
 import SafeLink from '@ndla/safelink';
 import { useLocation } from 'react-router-dom';
+import { Text } from '@ndla/typography';
 
 const StyledSafeLink = styled(SafeLink)`
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: ${spacing.small} ${spacing.xxsmall};
+  padding: ${spacing.small};
   margin: 0;
-  gap: ${spacing.xxsmall};
+  gap: ${spacing.xsmall};
   box-shadow: none;
 
-  color: ${colors.text.primary};
+  color: ${colors.brand.primary};
   font-weight: ${fonts.weight.normal};
 
   &[data-selected='true'] {
@@ -31,16 +32,12 @@ const StyledSafeLink = styled(SafeLink)`
 
   ${fonts.sizes('16px')};
 
-  :hover,
-  :focus {
-    color: ${colors.brand.primary};
-  }
   svg {
     height: ${spacing.normal};
     width: ${spacing.normal};
   }
 
-  ${mq.range({ from: breakpoints.tablet, until: breakpoints.desktop })} {
+  ${mq.range({ until: breakpoints.desktop })} {
     flex-direction: column;
   }
 `;
@@ -51,56 +48,66 @@ const IconWrapper = styled.span`
   justify-content: center;
 `;
 
-const LongText = styled.span`
-  ${mq.range({ from: breakpoints.tablet, until: breakpoints.desktop })} {
+const LongText = styled(Text)`
+  ${mq.range({ until: breakpoints.desktop })} {
     display: none;
     width: 0px;
   }
 `;
 
-const ShortText = styled.span`
+const ShortText = styled(Text)`
   ${mq.range({ from: breakpoints.desktop })} {
     display: none;
   }
-  ${mq.range({ from: breakpoints.mobile, until: breakpoints.tablet })} {
-    display: none;
-  }
 `;
+
 interface Props {
   loading?: boolean;
   id: string;
   icon: ReactNode;
+  iconFilled?: ReactNode;
   name: string;
   shortName?: string;
   expanded?: boolean;
   to?: string;
+  onClick?: () => void;
 }
 
 const NavigationLink = ({
   loading,
   id,
   icon,
+  iconFilled,
   name,
   shortName,
   expanded,
   to,
+  onClick,
 }: Props) => {
   const location = useLocation();
-  const selected = location.pathname === `/minndla/${id}`;
+  const selected = id
+    ? location.pathname.startsWith(`/minndla/${id}`)
+    : location.pathname === '/minndla';
+  const selectedIcon = selected ? iconFilled ?? icon : icon;
+  const linkTo = to ?? `/minndla${id ? `/${id}` : ''}`;
 
   return (
     <StyledSafeLink
       role="tab"
       aria-expanded={expanded}
       aria-current={selected ? 'page' : undefined}
-      tabIndex={0}
       data-selected={selected}
-      to={loading ? '' : to ? to : `/minndla/${id}`}
+      to={loading ? '' : linkTo}
       reloadDocument={!!to}
+      onClick={onClick}
     >
-      <IconWrapper>{icon}</IconWrapper>
-      <LongText>{name}</LongText>
-      <ShortText>{shortName}</ShortText>
+      <IconWrapper>{selectedIcon}</IconWrapper>
+      <LongText textStyle="meta-text-small" margin="none">
+        {name}
+      </LongText>
+      <ShortText textStyle="meta-text-xxsmall" margin="none">
+        {shortName}
+      </ShortText>
     </StyledSafeLink>
   );
 };
