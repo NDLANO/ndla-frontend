@@ -40,6 +40,7 @@ import SharedFolderPage from './containers/SharedFolderPage/SharedFolderPage';
 import FavoriteSubjectsPage from './containers/MyNdla/FavoriteSubjects/FavoriteSubjectsPage';
 import AboutPage from './containers/AboutPage/AboutPage';
 import H5pPage from './containers/ResourceEmbed/H5pPage';
+import MyNdlaPage from './containers/MyNdla/MyNdlaPage';
 
 interface State {
   hasError: boolean;
@@ -144,7 +145,7 @@ const AppRoutes = ({ base }: AppProps) => {
                   path="minndla"
                   element={<PrivateRoute element={<MyNdlaLayout />} />}
                 >
-                  <Route index element={<MyProfilePage />} />
+                  <Route index element={<MyNdlaPage />} />
                   <Route path="folders">
                     <Route index element={<FoldersPage />} />
                     <Route path=":folderId" element={<FoldersPage />} />
@@ -154,6 +155,7 @@ const AppRoutes = ({ base }: AppProps) => {
                     <Route path=":tag" element={<TagsPage />} />
                   </Route>
                   <Route path="subjects" element={<FavoriteSubjectsPage />} />
+                  <Route path="profile" element={<MyProfilePage />} />
                 </Route>
                 <Route path="about/:slug" element={<AboutPage />} />
 
