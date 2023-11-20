@@ -13,6 +13,7 @@ import { spacing, fonts } from '@ndla/core';
 import { Heading, Text } from '@ndla/typography';
 import { useArenaCategories } from '../arenaMutations';
 import ArenaCard from '../ArenaCards/ArenaCard';
+import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
 
 const StyledArenaHeader = styled(Heading)`
   margin-bottom: ${spacing.small};
@@ -45,7 +46,7 @@ const ArenaPage = () => {
     return <Spinner />;
   }
   return (
-    <>
+    <MyNdlaPageWrapper>
       <StyledArenaHeader element="h1" headingStyle="h1-resource">
         {t('arena.header')}
       </StyledArenaHeader>
@@ -72,7 +73,7 @@ const ArenaPage = () => {
         </StyledCardContainer>
       )}
       <StyledBottomText>{t('arena.bottomText')}</StyledBottomText>
-    </>
+    </MyNdlaPageWrapper>
   );
 };
 

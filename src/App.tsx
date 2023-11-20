@@ -153,9 +153,12 @@ const AppRoutes = ({ base }: AppProps) => {
                     <Route path=":folderId" element={<FoldersPage />} />
                   </Route>
                   <Route path="arena" element={<ArenaPage />} />
-                  <Route path="arena/:categoryId" element={<TopicPage />} />
                   <Route
-                    path="arena/kategorier/:topicId"
+                    path="arena/category/:categoryId"
+                    element={<TopicPage />}
+                  />
+                  <Route
+                    path="arena/category/:categoryId/topic/:topicId"
                     element={<PostsPage />}
                   />
                   <Route path="tags">

@@ -17,6 +17,7 @@ import { useParams } from 'react-router-dom';
 import { useArenaCategory } from '../arenaMutations';
 import ArenaCard from '../ArenaCards/ArenaCard';
 import { GQLArenaTopic } from '../../../graphqlTypes';
+import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
 
 const StyledTopicHeader = styled(Heading)`
   margin-bottom: ${spacing.small};
@@ -65,7 +66,7 @@ const TopicPage = () => {
     return <Spinner />;
   }
   return (
-    <>
+    <MyNdlaPageWrapper>
       <StyledTopicHeader element="h1" headingStyle="h1-resource">
         {arenaCategory?.name}
       </StyledTopicHeader>
@@ -101,7 +102,7 @@ const TopicPage = () => {
           </StyledCardContainer>
         ))
       )}
-    </>
+    </MyNdlaPageWrapper>
   );
 };
 

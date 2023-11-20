@@ -11,13 +11,14 @@ import { useParams } from 'react-router';
 import PostCard from '../ArenaCards/PostCard';
 import { useArenaTopic } from '../arenaMutations';
 import { GQLArenaPost } from '../../../graphqlTypes';
+import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
 
 const PostsPage = () => {
   const { topicId } = useParams();
   const { arenaTopic, loading } = useArenaTopic(Number(topicId), 1);
 
   return (
-    <>
+    <MyNdlaPageWrapper>
       {loading ? (
         <Spinner />
       ) : (
@@ -33,7 +34,7 @@ const PostsPage = () => {
           </div>
         ))
       )}
-    </>
+    </MyNdlaPageWrapper>
   );
 };
 

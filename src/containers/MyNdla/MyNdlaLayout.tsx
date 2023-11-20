@@ -23,6 +23,8 @@ import { FolderOutlined } from '@ndla/icons/contentType';
 import {
   Book,
   BookOutlined,
+  Forum,
+  ForumOutlined,
   HashTag,
   LogOut,
   ProfilePerson,
@@ -222,6 +224,13 @@ export const menuLinks = (t: TFunction, location: Location) => [
     name: t('myNdla.myTags'),
     shortName: t('myNdla.iconMenu.tags'),
     icon: <HashTag />,
+  },
+  {
+    id: 'arena',
+    name: t('myNdla.arena'),
+    shortName: t('myNdla.arena'),
+    icon: <ForumOutlined />,
+    iconFilled: <Forum />,
   },
   {
     id: 'logout-path',
