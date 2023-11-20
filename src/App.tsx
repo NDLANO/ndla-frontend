@@ -21,7 +21,6 @@ import AllSubjectsPage from './containers/AllSubjectsPage/AllSubjectsPage';
 import ErrorPage from './containers/ErrorPage/ErrorPage';
 import FoldersPage from './containers/MyNdla/Folders/FoldersPage';
 import MyNdlaLayout from './containers/MyNdla/MyNdlaLayout';
-import MyNdlaPage from './containers/MyNdla/MyNdlaPage';
 import MyProfilePage from './containers/MyNdla/MyProfile/MyProfilePage';
 import TagsPage from './containers/MyNdla/Tags/TagsPage';
 import NotFound from './containers/NotFoundPage/NotFoundPage';
@@ -145,12 +144,11 @@ const AppRoutes = ({ base }: AppProps) => {
                   path="minndla"
                   element={<PrivateRoute element={<MyNdlaLayout />} />}
                 >
-                  <Route index element={<MyNdlaPage />} />
+                  <Route index element={<MyProfilePage />} />
                   <Route path="folders">
                     <Route index element={<FoldersPage />} />
                     <Route path=":folderId" element={<FoldersPage />} />
                   </Route>
-                  <Route path="profile" element={<MyProfilePage />} />
                   <Route path="tags">
                     <Route index element={<TagsPage />} />
                     <Route path=":tag" element={<TagsPage />} />

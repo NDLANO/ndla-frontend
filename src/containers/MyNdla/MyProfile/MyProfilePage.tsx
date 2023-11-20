@@ -33,6 +33,7 @@ import { getAllDimensions } from '../../../util/trackingUtil';
 import MyPreferences from './components/MyPreferences';
 import MyContactArea from '../components/MyContactArea';
 import { UserInfo } from '../components/UserInfo';
+import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
 
 const StyledPageContentContainer = styled.div`
   display: flex;
@@ -88,77 +89,79 @@ const MyProfilePage = () => {
   };
 
   return (
-    <StyledPageContentContainer>
-      <HelmetWithTracker title={t('myNdla.myProfile.title')} />
-      <Heading
-        element="h1"
-        id="myProfileTitle"
-        margin="none"
-        headingStyle="h1-resource"
-      >
-        {t('myNdla.myProfile.title')}
-      </Heading>
-      <MyContactArea user={user} />
-      <MyPreferences user={user} />
-      <InfoContainer>
-        {user && (
-          <InfoPart title={t('myNdla.myPage.feide')} icon={''}>
-            <UserInfo user={user} />
-            <Text element="p" textStyle="content-alt" margin="none">
-              {t('user.wrongUserInfoDisclaimer')}
-              <SafeLink to="https://feide.no/brukerstotte">
-                feide.no/brukerstotte
-              </SafeLink>
-            </Text>
-          </InfoPart>
-        )}
-        <LinkText>
-          {`${t('myNdla.myPage.read.read')} `}
-          <SafeLink target="_blank" to={t('myNdla.myPage.privacyLink')}>
-            {t('myNdla.myPage.privacy')}
-          </SafeLink>
-          {`${t('myNdla.myPage.read.our')} `}
-        </LinkText>
-      </InfoContainer>
-      <ButtonContainer>
+    <MyNdlaPageWrapper>
+      <StyledPageContentContainer>
+        <HelmetWithTracker title={t('myNdla.myProfile.title')} />
         <Heading
-          element="h2"
-          id="deleteUserTitle"
+          element="h1"
+          id="myProfileTitle"
           margin="none"
-          headingStyle="h2"
+          headingStyle="h1-resource"
         >
-          {t('myNdla.myPage.wishToDelete')}
+          {t('myNdla.myProfile.title')}
         </Heading>
-        <Modal>
-          <ModalTrigger>
-            <ButtonV2 colorTheme="danger" variant="outline">
-              {t('myNdla.myPage.deleteAccount')}
-            </ButtonV2>
-          </ModalTrigger>
-          <ModalContent>
-            <ModalHeader>
-              <ModalTitle>{t('myNdla.myPage.deleteAccount')}</ModalTitle>
-              <ModalCloseButton title={t('modal.closeModal')} />
-            </ModalHeader>
-            <ModalBody>
-              <p>{t('myNdla.myPage.confirmDeleteAccount')}</p>
-              <ButtonRow>
-                <ModalCloseButton>
-                  <ButtonV2 variant="outline">{t('cancel')}</ButtonV2>
-                </ModalCloseButton>
-                <ButtonV2
-                  colorTheme="danger"
-                  variant="outline"
-                  onClick={onDeleteAccount}
-                >
-                  {t('myNdla.myPage.confirmDeleteAccountButton')}
-                </ButtonV2>
-              </ButtonRow>
-            </ModalBody>
-          </ModalContent>
-        </Modal>
-      </ButtonContainer>
-    </StyledPageContentContainer>
+        <MyContactArea user={user} />
+        <MyPreferences user={user} />
+        <InfoContainer>
+          {user && (
+            <InfoPart title={t('myNdla.myPage.feide')} icon={''}>
+              <UserInfo user={user} />
+              <Text element="p" textStyle="content-alt" margin="none">
+                {t('user.wrongUserInfoDisclaimer')}
+                <SafeLink to="https://feide.no/brukerstotte">
+                  feide.no/brukerstotte
+                </SafeLink>
+              </Text>
+            </InfoPart>
+          )}
+          <LinkText>
+            {`${t('myNdla.myPage.read.read')} `}
+            <SafeLink target="_blank" to={t('myNdla.myPage.privacyLink')}>
+              {t('myNdla.myPage.privacy')}
+            </SafeLink>
+            {`${t('myNdla.myPage.read.our')} `}
+          </LinkText>
+        </InfoContainer>
+        <ButtonContainer>
+          <Heading
+            element="h2"
+            id="deleteUserTitle"
+            margin="none"
+            headingStyle="h2"
+          >
+            {t('myNdla.myPage.wishToDelete')}
+          </Heading>
+          <Modal>
+            <ModalTrigger>
+              <ButtonV2 colorTheme="danger" variant="outline">
+                {t('myNdla.myPage.deleteAccount')}
+              </ButtonV2>
+            </ModalTrigger>
+            <ModalContent>
+              <ModalHeader>
+                <ModalTitle>{t('myNdla.myPage.deleteAccount')}</ModalTitle>
+                <ModalCloseButton title={t('modal.closeModal')} />
+              </ModalHeader>
+              <ModalBody>
+                <p>{t('myNdla.myPage.confirmDeleteAccount')}</p>
+                <ButtonRow>
+                  <ModalCloseButton>
+                    <ButtonV2 variant="outline">{t('cancel')}</ButtonV2>
+                  </ModalCloseButton>
+                  <ButtonV2
+                    colorTheme="danger"
+                    variant="outline"
+                    onClick={onDeleteAccount}
+                  >
+                    {t('myNdla.myPage.confirmDeleteAccountButton')}
+                  </ButtonV2>
+                </ButtonRow>
+              </ModalBody>
+            </ModalContent>
+          </Modal>
+        </ButtonContainer>
+      </StyledPageContentContainer>
+    </MyNdlaPageWrapper>
   );
 };
 

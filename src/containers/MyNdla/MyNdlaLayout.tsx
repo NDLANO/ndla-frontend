@@ -183,7 +183,7 @@ export default MyNdlaLayout;
 export const menuLinks = (t: TFunction, location: Location) => [
   {
     id: '',
-    name: t('myNdla.myPage.myPage'),
+    name: t('myNdla.myProfile.title'),
     shortName: t('myNdla.myNDLA'),
     icon: <ProfilePersonOutlined />,
     iconFilled: <ProfilePerson />,
