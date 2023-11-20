@@ -6,7 +6,7 @@
  *
  */
 
-import { useMemo, useState, useEffect } from 'react';
+import { useMemo, useState, useEffect, SetStateAction, Dispatch } from 'react';
 import { Reference, useApolloClient } from '@apollo/client';
 import { useTranslation } from 'react-i18next';
 import {
@@ -43,7 +43,8 @@ interface Props {
   type: ViewType;
   folders: GQLFolder[];
   folderId: string | undefined;
-  onViewTypeChange: (type: ViewType) => void;
+  setFocusId: Dispatch<SetStateAction<string | undefined>>;
+  folderRefId?: string;
 }
 
 const FolderList = ({
@@ -51,7 +52,8 @@ const FolderList = ({
   type,
   folders,
   folderId,
-  onViewTypeChange,
+  setFocusId,
+  folderRefId,
 }: Props) => {
   const { t } = useTranslation();
   const { sortFolders } = useSortFoldersMutation();
@@ -132,12 +134,14 @@ const FolderList = ({
             >
               {folders.map((folder, index) => (
                 <DraggableFolder
-                  onViewTypeChange={onViewTypeChange}
                   key={`folder-${folder.id}`}
                   folder={folder}
                   index={index}
                   foldersCount={foldersCount}
                   type={type}
+                  folders={folders}
+                  setFocusId={setFocusId}
+                  folderRefId={folderRefId}
                 />
               ))}
             </SortableContext>

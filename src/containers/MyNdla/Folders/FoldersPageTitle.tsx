@@ -13,10 +13,8 @@ import { memo } from 'react';
 import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
 import MyNdlaTitle from '../components/MyNdlaTitle';
 import TitleWrapper from '../components/TitleWrapper';
-import FolderActions from './FolderActions';
 import WhileLoading from '../../../components/WhileLoading';
 import { GQLFolder } from '../../../graphqlTypes';
-import { ViewType } from './FoldersPage';
 
 const TitleRow = styled.div`
   display: flex;
@@ -27,25 +25,10 @@ const TitleRow = styled.div`
 interface Props {
   loading: boolean;
   selectedFolder: GQLFolder | null;
-  viewType: ViewType;
-  onViewTypeChange: (type: ViewType) => void;
 }
 
-const FoldersPageTitle = ({
-  loading,
-  selectedFolder,
-  viewType,
-  onViewTypeChange,
-}: Props) => {
+const FoldersPageTitle = ({ loading, selectedFolder }: Props) => {
   const { t } = useTranslation();
-  const crumbs = selectedFolder?.breadcrumbs ?? [];
-
-  const backCrumb =
-    crumbs.length > 1
-      ? crumbs[crumbs.length - 2]!
-      : crumbs.length === 1
-      ? 'folders'
-      : 'minndla';
 
   return (
     <TitleWrapper>
@@ -73,7 +56,6 @@ const FoldersPageTitle = ({
       >
         <MyNdlaBreadcrumb
           breadcrumbs={selectedFolder?.breadcrumbs ?? []}
-          backCrumb={backCrumb}
           page="folders"
         />
       </WhileLoading>
@@ -100,14 +82,6 @@ const FoldersPageTitle = ({
         >
           <MyNdlaTitle title={selectedFolder?.name ?? t('myNdla.myFolders')} />
         </WhileLoading>
-        {selectedFolder && (
-          <FolderActions
-            key={selectedFolder.id}
-            selectedFolder={selectedFolder}
-            viewType={viewType}
-            onViewTypeChange={onViewTypeChange}
-          />
-        )}
       </TitleRow>
     </TitleWrapper>
   );

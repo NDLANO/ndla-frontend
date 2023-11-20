@@ -144,6 +144,7 @@ export type GQLArticleMetaData = {
   concepts?: Maybe<Array<GQLConceptLicense>>;
   copyText?: Maybe<Scalars['String']['output']>;
   footnotes?: Maybe<Array<GQLFootNote>>;
+  glosses?: Maybe<Array<GQLGlossLicense>>;
   h5ps?: Maybe<Array<GQLH5pLicense>>;
   images?: Maybe<Array<GQLImageLicense>>;
   podcasts?: Maybe<Array<GQLPodcastLicense>>;
@@ -572,6 +573,16 @@ export type GQLGloss = {
   originalLanguage: Scalars['String']['output'];
   transcriptions: GQLTranscription;
   wordClass: Scalars['String']['output'];
+};
+
+export type GQLGlossLicense = {
+  __typename?: 'GlossLicense';
+  content?: Maybe<Scalars['String']['output']>;
+  copyright?: Maybe<GQLConceptCopyright>;
+  id: Scalars['String']['output'];
+  metaImageUrl?: Maybe<Scalars['String']['output']>;
+  src?: Maybe<Scalars['String']['output']>;
+  title: Scalars['String']['output'];
 };
 
 export type GQLGrade = {
@@ -1407,6 +1418,7 @@ export type GQLResourceMetaData = {
   audios?: Maybe<Array<GQLAudioLicense>>;
   brightcoves?: Maybe<Array<GQLBrightcoveLicense>>;
   concepts?: Maybe<Array<GQLConceptLicense>>;
+  glosses?: Maybe<Array<GQLGlossLicense>>;
   h5ps?: Maybe<Array<GQLH5pLicense>>;
   images?: Maybe<Array<GQLImageLicense>>;
   podcasts?: Maybe<Array<GQLPodcastLicense>>;
@@ -1996,6 +2008,30 @@ export type GQLAudioLicenseList_AudioLicenseFragment = {
   } & GQLLicenseListCopyrightFragment;
 };
 
+export type GQLGlossLicenseList_GlossLicenseFragment = {
+  __typename?: 'GlossLicense';
+  id: string;
+  title: string;
+  src?: string;
+  copyright?: {
+    __typename?: 'ConceptCopyright';
+    origin?: string;
+    processed?: boolean;
+    license?: { __typename?: 'License'; license: string };
+    creators: Array<{ __typename?: 'Contributor'; name: string; type: string }>;
+    processors: Array<{
+      __typename?: 'Contributor';
+      name: string;
+      type: string;
+    }>;
+    rightsholders: Array<{
+      __typename?: 'Contributor';
+      name: string;
+      type: string;
+    }>;
+  };
+};
+
 export type GQLConceptLicenseList_ConceptLicenseFragment = {
   __typename?: 'ConceptLicense';
   id: string;
@@ -2057,6 +2093,9 @@ export type GQLLicenseBox_ArticleFragment = {
       {
         __typename?: 'ConceptLicense';
       } & GQLConceptLicenseList_ConceptLicenseFragment
+    >;
+    glosses?: Array<
+      { __typename?: 'GlossLicense' } & GQLGlossLicenseList_GlossLicenseFragment
     >;
     h5ps?: Array<
       { __typename?: 'H5pLicense' } & GQLH5pLicenseList_H5pLicenseFragment
@@ -3336,6 +3375,13 @@ export type GQLResourceEmbedLicenseBox_MetaFragment = {
       content?: string;
       metaImageUrl?: string;
     } & GQLConceptLicenseList_ConceptLicenseFragment
+  >;
+  glosses?: Array<
+    {
+      __typename?: 'GlossLicense';
+      content?: string;
+      metaImageUrl?: string;
+    } & GQLGlossLicenseList_GlossLicenseFragment
   >;
   h5ps?: Array<
     { __typename?: 'H5pLicense' } & GQLH5pLicenseList_H5pLicenseFragment
