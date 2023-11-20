@@ -159,3 +159,7 @@ export function getUniversalConfig() {
 }
 
 export default getUniversalConfig();
+
+export const checkIfModerator = (user: any): boolean | undefined => {
+  return user?.includes('Moderator');
+};

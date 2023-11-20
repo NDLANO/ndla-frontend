@@ -10,6 +10,7 @@ import { colors, spacing, misc } from '@ndla/core';
 import SafeLink from '@ndla/safelink';
 import { useTranslation } from 'react-i18next';
 import { Text } from '@ndla/typography';
+import { checkIfModerator } from '../../../config';
 import Avatar from './Avatar';
 import { useArenaUser } from '../arenaQueries';
 
@@ -68,13 +69,9 @@ const UserProfileTag = ({
   const { t } = useTranslation();
   const { arenaUser } = useArenaUser(username ?? '');
 
-  const checkIfModerator = (): boolean | undefined => {
-    return arenaUser?.groupTitleArray?.includes('Moderator');
-  };
-
   return (
     // missing link to profile
-    <UserProfileTagContainer to="https://om.ndla.no/gdpr">
+    <UserProfileTagContainer to="/myndla/arena/user/{username}">
       <Avatar
         displayName={arenaUser?.displayName}
         profilePicture={arenaUser?.profilePicture}
@@ -84,7 +81,7 @@ const UserProfileTag = ({
           <Name textStyle="meta-text-large" margin="none" data-name="hover">
             {displayName}
           </Name>
-          {checkIfModerator() && (
+          {checkIfModerator(arenaUser?.groupTitleArray) && (
             <ModeratorTag textStyle="meta-text-xsmall" margin="none">
               {t('user.moderator')}
             </ModeratorTag>
