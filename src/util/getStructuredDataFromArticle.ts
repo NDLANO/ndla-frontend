@@ -8,7 +8,7 @@
 
 import { gql } from '@apollo/client';
 import format from 'date-fns/format';
-import { COPYRIGHTED } from '@ndla/licenses';
+import { COPYRIGHTED, getLicenseByAbbreviation } from '@ndla/licenses';
 import {
   GQLContributor,
   GQLStructuredArticleData_CopyrightFragment,
@@ -136,10 +136,12 @@ const getCopyrightDataImage = (
 
   const isCopyrighted = license.license?.toLocaleLowerCase() === COPYRIGHTED;
 
+  const licenseUrl = isCopyrighted
+    ? getLicenseByAbbreviation(license.license, language).url
+    : license?.url;
+
   return {
-    license: isCopyrighted
-      ? `https://ndla.no/${language}/article/opphavsrett`
-      : license?.url,
+    license: licenseUrl,
     creator: mapType(PERSON_TYPE, creators),
     copyrightHolder: mapType(ORGANIZATION_TYPE, rightsholders),
     contributor: mapType(PERSON_TYPE, processors),
