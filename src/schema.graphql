@@ -46,6 +46,7 @@ type ArenaTopic {
 
 type ArenaUser {
   displayName: String!
+  groupTitleArray: [String!]!
   id: Int!
   profilePicture: String
   slug: String!
