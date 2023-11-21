@@ -9,7 +9,15 @@
 import styled from '@emotion/styled';
 import SafeLink from '@ndla/safelink';
 import { useTranslation } from 'react-i18next';
-import { colors, spacing, breakpoints, mq, fonts, misc } from '@ndla/core';
+import {
+  colors,
+  spacing,
+  breakpoints,
+  mq,
+  fonts,
+  misc,
+  spacingUnit,
+} from '@ndla/core';
 import Icon from '@ndla/icons';
 import { css } from '@emotion/react';
 import { Text } from '@ndla/typography';
@@ -86,6 +94,7 @@ const StyledHeader = styled.span`
 
 const StyledDescriptionText = styled(Text)`
   padding-top: ${spacing.xsmall};
+  ${colors.text.primary}
   ${mq.range({ until: breakpoints.mobileWide })} {
     display: none;
   }
@@ -122,30 +131,14 @@ const StyledLeftIcon = styled(Icon)`
 `;
 
 const StyledLockedIcon = styled(Icon)`
-  width: 24px;
-  height: 24px;
+  width: ${spacingUnit};
+  height: ${spacingUnit};
   color: ${colors.brand.primary};
 `;
 
 const FolderFilledIcon = StyledLeftIcon.withComponent(Forum);
 const FolderOutlinedIcon = StyledLeftIcon.withComponent(ForumOutlined);
 const LockedIcon = StyledLockedIcon.withComponent(Locked);
-
-const StyledAvatarContainer = styled.div`
-  //Placeholder until Avatar
-  margin-right: ${spacing.normal};
-  width: 48px;
-  height: 48px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: ${colors.white};
-  border: solid 1px ${colors.brand.tertiary};
-  border-radius: 50px;
-  ${mq.range({ until: breakpoints.mobileWide })} {
-    display: none;
-  }
-`;
 
 const ArenaCard = ({
   id,
@@ -167,22 +160,24 @@ const ArenaCard = ({
           : `/minndla/arena/category/${id}/topic/${id}`
       } //temporary fix to make SafeLink work
     >
-      {cardType === 'ArenaCategory' ? (
+      {cardType === 'ArenaCategory' && (
         <>
           <FolderOutlinedIcon />
           <FolderFilledIcon />
         </>
-      ) : (
-        <StyledAvatarContainer>R</StyledAvatarContainer>
       )}
       <StyledTextContainer>
         <StyledHeader>{title}</StyledHeader>
         {cardType === 'ArenaCategory' ? (
-          <StyledDescriptionText textStyle="meta-text-small" margin="none">
+          <StyledDescriptionText
+            element="p"
+            textStyle="meta-text-small"
+            margin="none"
+          >
             {subText}
           </StyledDescriptionText>
         ) : (
-          <StyledText textStyle="meta-text-small" margin="none">
+          <StyledText element="p" textStyle="meta-text-small" margin="none">
             {subText} | {timestamp}
           </StyledText>
         )}

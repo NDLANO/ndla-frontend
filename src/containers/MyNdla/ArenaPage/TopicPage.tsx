@@ -18,6 +18,11 @@ import { useArenaCategory } from '../arenaMutations';
 import ArenaCard from '../ArenaCards/ArenaCard';
 import { GQLArenaTopic } from '../../../graphqlTypes';
 import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
+import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
+
+const BreadcrumbWrapper = styled.div`
+  margin-top: ${spacing.normal};
+`;
 
 const StyledTopicHeader = styled(Heading)`
   margin-bottom: ${spacing.small};
@@ -65,8 +70,19 @@ const TopicPage = () => {
   if (loading) {
     return <Spinner />;
   }
+
   return (
     <MyNdlaPageWrapper>
+      <BreadcrumbWrapper>
+        <MyNdlaBreadcrumb
+          breadcrumbs={
+            categoryId
+              ? [{ name: arenaCategory?.name ?? '', id: categoryId }]
+              : []
+          }
+          page={'arena'}
+        />
+      </BreadcrumbWrapper>
       <StyledTopicHeader element="h1" headingStyle="h1-resource">
         {arenaCategory?.name}
       </StyledTopicHeader>
@@ -85,23 +101,19 @@ const TopicPage = () => {
           <PencilIcon />
         </StyledNewTopicButton>
       </StyledContainer>
-      {loading ? (
-        <Spinner />
-      ) : (
-        arenaCategory?.topics?.map((topic: GQLArenaTopic) => (
-          <StyledCardContainer key={`topicContainer-${topic.id}`}>
-            <ArenaCard
-              key={`topic-${topic.id}`}
-              id={topic.id.toString()}
-              cardType="ArenaTopic"
-              title={topic.title}
-              subText={'Blalalalalalal'}
-              timestamp={topic.timestamp}
-              count={topic.postCount}
-            />
-          </StyledCardContainer>
-        ))
-      )}
+      {arenaCategory?.topics?.map((topic: GQLArenaTopic) => (
+        <StyledCardContainer key={`topicContainer-${topic.id}`}>
+          <ArenaCard
+            key={`topic-${topic.id}`}
+            id={topic.id.toString()}
+            cardType="ArenaTopic"
+            title={topic.title}
+            subText={'Blalalalalalal'}
+            timestamp={topic.timestamp}
+            count={topic.postCount}
+          />
+        </StyledCardContainer>
+      ))}
     </MyNdlaPageWrapper>
   );
 };

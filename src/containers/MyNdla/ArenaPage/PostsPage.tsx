@@ -8,32 +8,57 @@
 
 import { Spinner } from '@ndla/icons';
 import { useParams } from 'react-router';
+import { spacing } from '@ndla/core';
+import styled from '@emotion/styled';
 import PostCard from '../ArenaCards/PostCard';
-import { useArenaTopic } from '../arenaMutations';
+import { useArenaCategory, useArenaTopic } from '../arenaMutations';
 import { GQLArenaPost } from '../../../graphqlTypes';
 import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
+import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
+
+const BreadcrumbWrapper = styled.div`
+  margin-top: ${spacing.normal};
+  margin-bottom: ${spacing.large};
+`;
 
 const PostsPage = () => {
   const { topicId } = useParams();
   const { arenaTopic, loading } = useArenaTopic(Number(topicId), 1);
+  const { arenaCategory } = useArenaCategory(Number(arenaTopic?.categoryId), 1);
+
+  if (loading) {
+    return <Spinner />;
+  }
 
   return (
     <MyNdlaPageWrapper>
-      {loading ? (
-        <Spinner />
-      ) : (
-        arenaTopic?.posts?.map((post: GQLArenaPost) => (
-          <div key={post.id}>
-            <PostCard
-              id={post.id.toString()}
-              isMainPost={post.isMainPost}
-              title={'Test test'}
-              content={post.content}
-              notify={true}
-            />
-          </div>
-        ))
-      )}
+      <BreadcrumbWrapper>
+        <MyNdlaBreadcrumb
+          breadcrumbs={
+            topicId
+              ? [
+                  {
+                    name: arenaCategory?.name ?? '',
+                    id: `category/${arenaTopic?.categoryId.toString()}` ?? '',
+                  },
+                  { name: arenaTopic?.title ?? '', id: topicId },
+                ]
+              : []
+          }
+          page={'arena'}
+        />
+      </BreadcrumbWrapper>
+      {arenaTopic?.posts?.map((post: GQLArenaPost) => (
+        <div key={post.id}>
+          <PostCard
+            id={post.id.toString()}
+            isMainPost={post.isMainPost}
+            title={arenaTopic.title ?? ''}
+            content={post.content}
+            notify={true}
+          />
+        </div>
+      ))}
     </MyNdlaPageWrapper>
   );
 };
