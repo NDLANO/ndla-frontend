@@ -82,6 +82,7 @@ export type GQLArenaTopic = {
 export type GQLArenaUser = {
   __typename?: 'ArenaUser';
   displayName: Scalars['String']['output'];
+  groupTitleArray: Array<Scalars['String']['output']>;
   id: Scalars['Int']['output'];
   profilePicture?: Maybe<Scalars['String']['output']>;
   slug: Scalars['String']['output'];
@@ -832,6 +833,7 @@ export type GQLMeta = {
   availability?: Maybe<Scalars['String']['output']>;
   id: Scalars['Int']['output'];
   introduction?: Maybe<Scalars['String']['output']>;
+  language?: Maybe<Scalars['String']['output']>;
   lastUpdated?: Maybe<Scalars['String']['output']>;
   metaDescription?: Maybe<Scalars['String']['output']>;
   metaImage?: Maybe<GQLMetaImage>;
@@ -962,6 +964,7 @@ export type GQLMutationUpdateFolderStatusArgs = {
 
 export type GQLMutationUpdatePersonalDataArgs = {
   favoriteSubjects: Array<Scalars['String']['input']>;
+  shareName?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type GQLMyNdlaPersonalData = {
@@ -971,6 +974,7 @@ export type GQLMyNdlaPersonalData = {
   id: Scalars['Int']['output'];
   organization: Scalars['String']['output'];
   role: Scalars['String']['output'];
+  shareName: Scalars['Boolean']['output'];
 };
 
 export type GQLName = {
@@ -991,6 +995,11 @@ export type GQLNewFolderResource = {
   path: Scalars['String']['output'];
   resourceType: Scalars['String']['output'];
   tags?: Maybe<Array<Scalars['String']['output']>>;
+};
+
+export type GQLOwner = {
+  __typename?: 'Owner';
+  name: Scalars['String']['output'];
 };
 
 export type GQLPodcastLicense = {
@@ -1522,6 +1531,7 @@ export type GQLSharedFolder = {
   description?: Maybe<Scalars['String']['output']>;
   id: Scalars['String']['output'];
   name: Scalars['String']['output'];
+  owner?: Maybe<GQLOwner>;
   parentId?: Maybe<Scalars['String']['output']>;
   resources: Array<GQLFolderResource>;
   status: Scalars['String']['output'];
@@ -2751,6 +2761,7 @@ export type GQLSharedFolderFragmentFragment = {
   updated: string;
   description?: string;
   breadcrumbs: Array<{ __typename: 'Breadcrumb'; id: string; name: string }>;
+  owner?: { __typename?: 'Owner'; name: string };
   resources: Array<
     { __typename?: 'FolderResource' } & GQLFolderResourceFragmentFragment
   >;

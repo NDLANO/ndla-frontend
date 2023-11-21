@@ -95,6 +95,9 @@ export const sharedFolderFragment = gql`
       id
       name
     }
+    owner {
+      name
+    }
     resources {
       ...FolderResourceFragment
     }
