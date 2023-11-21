@@ -70,7 +70,6 @@ const UserProfileTag = ({
   const { arenaUser } = useArenaUser(username ?? '');
 
   return (
-    // missing link to profile
     <UserProfileTagContainer to={`/myndla/arena/user/${username}`}>
       <Avatar
         displayName={arenaUser?.displayName}
