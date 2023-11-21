@@ -21,6 +21,10 @@ const BreadcrumbWrapper = styled.div`
   margin-bottom: ${spacing.large};
 `;
 
+const PostCardWrapper = styled.div`
+  margin-bottom: ${spacing.normal};
+`;
+
 const PostsPage = () => {
   const { topicId } = useParams();
   const { arenaTopic, loading } = useArenaTopic(Number(topicId), 1);
@@ -49,7 +53,7 @@ const PostsPage = () => {
         />
       </BreadcrumbWrapper>
       {arenaTopic?.posts?.map((post: GQLArenaPost) => (
-        <div key={post.id}>
+        <PostCardWrapper key={post.id}>
           <PostCard
             id={post.id.toString()}
             isMainPost={post.isMainPost}
@@ -57,7 +61,7 @@ const PostsPage = () => {
             content={post.content}
             notify={true}
           />
-        </div>
+        </PostCardWrapper>
       ))}
     </MyNdlaPageWrapper>
   );

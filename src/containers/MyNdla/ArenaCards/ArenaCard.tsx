@@ -80,21 +80,19 @@ const StyledCardContainer = styled(SafeLink)`
 `;
 
 const StyledTextContainer = styled.div`
+  margin-left: ${spacing.normal};
   margin-right: auto;
   display: flex;
   flex-direction: column;
 `;
 
-const StyledHeader = styled.span`
-  ${fonts.sizes('18px', '24px')};
-  font-weight: ${fonts.weight.semibold};
+const StyledHeader = styled(Text)`
   color: ${colors.brand.primary};
-  margin: 0;
 `;
 
 const StyledDescriptionText = styled(Text)`
   padding-top: ${spacing.xsmall};
-  ${colors.text.primary}
+  color: ${colors.text.primary};
   ${mq.range({ until: breakpoints.mobileWide })} {
     display: none;
   }
@@ -167,7 +165,9 @@ const ArenaCard = ({
         </>
       )}
       <StyledTextContainer>
-        <StyledHeader>{title}</StyledHeader>
+        <StyledHeader element="label" textStyle="label-small" margin="none">
+          {title}
+        </StyledHeader>
         {cardType === 'ArenaCategory' ? (
           <StyledDescriptionText
             element="p"

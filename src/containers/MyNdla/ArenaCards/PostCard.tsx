@@ -104,7 +104,7 @@ const StyledAddCommentButton = styled(ButtonV2)`
   white-space: nowrap;
 `;
 
-const PostCard = ({ id, title, content }: Props) => {
+const PostCard = ({ id, title, content, isMainPost }: Props) => {
   return (
     <StyledCardContainer key={id}>
       <StyledTopContainer>
@@ -123,7 +123,7 @@ const PostCard = ({ id, title, content }: Props) => {
         />
       </StyledTopContainer>
       <StyledContentContainer>
-        <StyledH2>{title}</StyledH2>
+        {isMainPost && <StyledH2>{title}</StyledH2>}
         <Text element="p" textStyle="content-alt" margin="none">
           {content}
         </Text>
