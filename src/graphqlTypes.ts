@@ -82,7 +82,7 @@ export type GQLArenaTopic = {
 export type GQLArenaUser = {
   __typename?: 'ArenaUser';
   displayName: Scalars['String']['output'];
-  groupTitleArray?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  groupTitleArray: Array<Scalars['String']['output']>;
   id: Scalars['Int']['output'];
   profilePicture?: Maybe<Scalars['String']['output']>;
   slug: Scalars['String']['output'];
@@ -2745,6 +2745,7 @@ export type GQLArenaUserQueryFragmentFragment = {
   id: number;
   profilePicture?: string;
   slug: string;
+  groupTitleArray: Array<string>;
 };
 
 export type GQLArenaUserQueryVariables = Exact<{
