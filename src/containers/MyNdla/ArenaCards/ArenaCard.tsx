@@ -35,16 +35,16 @@ interface Props {
 
 const StyledCategoryCard = css`
   background-color: ${colors.background.default};
-  svg:nth-child(2) {
+  svg:nth-of-type(2) {
     display: none;
   }
   &:hover,
   &:focus-visible {
     background-color: ${colors.background.lightBlue};
-    svg:nth-child(1) {
+    svg:nth-of-type(1) {
       display: none;
     }
-    svg:nth-child(2) {
+    svg:nth-of-type(2) {
       display: block;
     }
   }

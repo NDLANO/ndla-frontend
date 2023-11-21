@@ -20,6 +20,7 @@ import { Switch } from '@ndla/switch';
 import { ButtonV2, IconButtonV2 } from '@ndla/button';
 import { colors, spacing, fonts, misc } from '@ndla/core';
 import { Text } from '@ndla/typography';
+import UserProfileTag from '../components/UserProfileTag';
 
 interface Props {
   id: string;
@@ -27,6 +28,9 @@ interface Props {
   title: string;
   content: string;
   notify: boolean;
+  displayName: string;
+  username: string;
+  affiliation: string;
 }
 
 const StyledCardContainer = styled.div`
@@ -39,37 +43,6 @@ const StyledCardContainer = styled.div`
 const StyledTopContainer = styled.div`
   display: flex;
   justify-content: space-between;
-`;
-
-const StyledAvatarContainer = styled.div`
-  //placeholder until avatar
-  display: flex;
-`;
-
-const StyledAvatarImg = styled.div`
-  //placeholder until avatar
-  margin-right: ${spacing.normal};
-  width: 48px;
-  height: 48px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: ${colors.white};
-  border: solid 1px ${colors.brand.tertiary};
-  border-radius: 50px;
-`;
-
-const StyledTextContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const StyledAvatarNameSpan = styled.span`
-  //placeholder until avatar
-`;
-
-const StyledSchoolNameSpan = styled.span`
-  //placeholder until avatar
 `;
 
 const StyledSwitch = styled(Switch)`
@@ -104,17 +77,23 @@ const StyledAddCommentButton = styled(ButtonV2)`
   white-space: nowrap;
 `;
 
-const PostCard = ({ id, title, content, isMainPost }: Props) => {
+const PostCard = ({
+  id,
+  title,
+  content,
+  isMainPost,
+  displayName,
+  username,
+  affiliation,
+}: Props) => {
   return (
     <StyledCardContainer key={id}>
       <StyledTopContainer>
-        <StyledAvatarContainer>
-          <StyledAvatarImg>R</StyledAvatarImg>
-          <StyledTextContainer>
-            <StyledAvatarNameSpan>Navn Navnesen</StyledAvatarNameSpan>
-            <StyledSchoolNameSpan>Skole 1</StyledSchoolNameSpan>
-          </StyledTextContainer>
-        </StyledAvatarContainer>
+        <UserProfileTag
+          displayName={displayName}
+          username={username}
+          affiliation={affiliation}
+        />
         <StyledSwitch
           onChange={() => {}}
           checked={false}

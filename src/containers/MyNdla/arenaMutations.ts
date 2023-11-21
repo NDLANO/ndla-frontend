@@ -60,6 +60,12 @@ const arenaPostFragment = gql`
     id
     timestamp
     topicId
+    user {
+      displayName
+      groupTitleArray
+      profilePicture
+      username
+    }
   }
 `;
 

@@ -15,9 +15,9 @@ import Avatar from './Avatar';
 import { useArenaUser } from '../arenaQueries';
 
 type UserProfileTagProps = {
-  displayName: string | undefined;
-  username: string | undefined;
-  affiliation: string | undefined;
+  displayName: string;
+  username: string;
+  affiliation: string;
 };
 
 const Name = styled(Text)`

@@ -60,6 +60,10 @@ const PostsPage = () => {
             title={arenaTopic.title ?? ''}
             content={post.content}
             notify={true}
+            displayName={post.user.displayName}
+            username={post.user.username}
+            // missing affiliation in user
+            affiliation={'Bergen VGS'}
           />
         </PostCardWrapper>
       ))}
