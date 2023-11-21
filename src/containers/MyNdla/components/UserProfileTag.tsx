@@ -5,10 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { colors, spacing, misc } from '@ndla/core';
 import SafeLink from '@ndla/safelink';
-import { useTranslation } from 'react-i18next';
 import { Text } from '@ndla/typography';
 import { checkIfModerator } from '../../../config';
 import Avatar from './Avatar';
@@ -71,7 +71,7 @@ const UserProfileTag = ({
 
   return (
     // missing link to profile
-    <UserProfileTagContainer to="/myndla/arena/user/{username}">
+    <UserProfileTagContainer to={`/myndla/arena/user/${username}`}>
       <Avatar
         displayName={arenaUser?.displayName}
         profilePicture={arenaUser?.profilePicture}
