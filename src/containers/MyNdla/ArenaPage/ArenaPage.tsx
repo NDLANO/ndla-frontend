@@ -6,12 +6,15 @@
  *
  */
 
-import { Spinner } from '@ndla/icons';
-import styled from '@emotion/styled';
+import { useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
 import { spacing, fonts } from '@ndla/core';
+import { Spinner } from '@ndla/icons';
 import { Heading, Text } from '@ndla/typography';
+import { AuthContext } from '../../../components/AuthenticationContext';
 import { useArenaCategories } from '../arenaMutations';
+import { usePersonalData } from '../userMutations';
 import ArenaCard from '../ArenaCards/ArenaCard';
 import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
 
@@ -41,9 +44,20 @@ const StyledBottomText = styled.div`
 const ArenaPage = () => {
   const { t } = useTranslation();
   const { loading, arenaCategories } = useArenaCategories();
+  const { authenticated } = useContext(AuthContext);
+  const { personalData, fetch: fetchPersonalData } = usePersonalData();
+  useEffect(() => {
+    if (authenticated) {
+      fetchPersonalData();
+    }
+  }, [authenticated, fetchPersonalData]);
 
   if (loading) {
     return <Spinner />;
+  }
+  if (!personalData?.arenaEnabled) {
+    // Should redirect to /myndla?
+    return null;
   }
   return (
     <MyNdlaPageWrapper>

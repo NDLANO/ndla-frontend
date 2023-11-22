@@ -15,3 +15,10 @@ export default function formatDate(date: string, locale: LocaleType) {
   }
   return format(new Date(date), 'MM/dd/yyyy');
 }
+
+export function formatDateTime(timestamp: string, locale: LocaleType) {
+  if (locale === 'nb' || locale === 'nn') {
+    return format(new Date(timestamp), 'dd.MM.yyyy HH:mm:ss');
+  }
+  return format(new Date(timestamp), 'MM/dd/yyyy HH:mm:ss');
+}

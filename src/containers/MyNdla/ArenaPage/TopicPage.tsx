@@ -87,7 +87,7 @@ const TopicPage = () => {
         {arenaCategory?.name}
       </StyledTopicHeader>
       <TopicDescription element="p" textStyle="content-alt" margin="none">
-        {'test description to be replaced'}
+        {arenaCategory?.description}
       </TopicDescription>
       <StyledContainer>
         <StyledTopicH2 element="h2" headingStyle="h2" margin="none">
@@ -108,7 +108,6 @@ const TopicPage = () => {
             id={topic.id.toString()}
             cardType="ArenaTopic"
             title={topic.title}
-            subText={'Blalalalalalal'}
             timestamp={topic.timestamp}
             count={topic.postCount}
           />

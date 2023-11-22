@@ -6,9 +6,11 @@
  *
  */
 
-import styled from '@emotion/styled';
-import SafeLink from '@ndla/safelink';
 import { useTranslation } from 'react-i18next';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+import { Text } from '@ndla/typography';
+import SafeLink from '@ndla/safelink';
 import {
   colors,
   spacing,
@@ -19,15 +21,14 @@ import {
   spacingUnit,
 } from '@ndla/core';
 import Icon from '@ndla/icons';
-import { css } from '@emotion/react';
-import { Text } from '@ndla/typography';
 import { Forum, ForumOutlined, Locked } from '@ndla/icons/common';
+import { formatDateTime } from '../../../util/formatDate';
 
 interface Props {
   id: string;
   cardType: 'ArenaCategory' | 'ArenaTopic';
   title: string;
-  subText: string;
+  subText?: string;
   timestamp?: string;
   count: number;
   locked?: boolean;
@@ -147,7 +148,7 @@ const ArenaCard = ({
   count,
   locked,
 }: Props) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   return (
     <StyledCardContainer
       id={id}
@@ -178,7 +179,7 @@ const ArenaCard = ({
           </StyledDescriptionText>
         ) : (
           <StyledText element="p" textStyle="meta-text-small" margin="none">
-            {subText} | {timestamp}
+            {timestamp && formatDateTime(timestamp, i18n.language)}
           </StyledText>
         )}
       </StyledTextContainer>
