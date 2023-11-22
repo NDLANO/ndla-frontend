@@ -2704,6 +2704,7 @@ export type GQLArenaUserQueryFragmentFragment = {
   id: number;
   profilePicture?: string;
   slug: string;
+  groupTitleArray: Array<string>;
 };
 
 export type GQLArenaUserQueryVariables = Exact<{
