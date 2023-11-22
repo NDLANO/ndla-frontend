@@ -76,6 +76,10 @@ const MyPreferences = ({ user }: MyPreferencesProps) => {
   const [_userPreference, setUserPreference] = useState<string>('showName');
   const { t } = useTranslation();
 
+  const userRole = () => {
+    return isStudent(user) ? 'student' : 'employee';
+  };
+
   return (
     <PreferenceContainer>
       <DisclaimerContainer>
@@ -85,18 +89,10 @@ const MyPreferences = ({ user }: MyPreferencesProps) => {
           margin="none"
           headingStyle="h2"
         >
-          {t(
-            `myNdla.myProfile.disclaimerTitle.${
-              isStudent(user) ? 'student' : 'employee'
-            }`,
-          )}
+          {t(`myNdla.myProfile.disclaimerTitle.${userRole()}`)}
         </Heading>
         <Text element="p" textStyle="content-alt" margin="none">
-          {t(
-            `myNdla.myProfile.disclaimerText.${
-              isStudent(user) ? 'student' : 'employee'
-            }`,
-          )}
+          {t(`myNdla.myProfile.disclaimerText.${userRole()}`)}
         </Text>
       </DisclaimerContainer>
       {!isStudent(user) && (
