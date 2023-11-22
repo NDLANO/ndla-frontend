@@ -11,7 +11,6 @@ import { fonts, colors, spacing, misc } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import { useMemo } from 'react';
 import { Text } from '@ndla/typography';
-import { useArenaUser } from '../arenaQueries';
 
 type AvatarProps = {
   myProfile?: boolean;

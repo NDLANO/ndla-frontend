@@ -13,7 +13,6 @@ import Avatar from './Avatar';
 
 type UserAvatarProps = {
   userName: string | undefined;
-  userId: string | undefined;
   showProfileButton?: boolean;
 };
 
@@ -32,14 +31,10 @@ const DesktopButtonContainer = styled.div`
   }
 `;
 
-const UserAvatar = ({
-  userName,
-  showProfileButton,
-  userId,
-}: UserAvatarProps) => {
+const UserAvatar = ({ userName, showProfileButton }: UserAvatarProps) => {
   return (
     <UserAvatarContainer>
-      <Avatar displayName={userName} userId={userId} myProfile />
+      <Avatar displayName={userName} myProfile profilePicture={undefined} />
       {showProfileButton && (
         <DesktopButtonContainer>
           <EditProfilePicture />

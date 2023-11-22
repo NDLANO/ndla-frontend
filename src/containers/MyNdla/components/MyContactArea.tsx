@@ -67,7 +67,7 @@ const MyContactArea = ({ user, showProfileButton }: MyContractAreaProps) => {
     <MyContactAreaContainer>
       {!isStudent(user) && (
         <AvatarContainer>
-          <UserAvatar userName={user?.displayName} userId={user?.uid?.at(0)} />
+          <UserAvatar userName={user?.displayName} />
         </AvatarContainer>
       )}
       <Heading element="h2" id="userName" margin="none" headingStyle="h2">
