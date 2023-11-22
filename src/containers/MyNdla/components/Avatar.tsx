@@ -7,9 +7,10 @@
  */
 
 import styled from '@emotion/styled';
-import { fonts, colors, spacing } from '@ndla/core';
+import { fonts, colors, spacing, misc } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import { useMemo } from 'react';
+import { Text } from '@ndla/typography';
 import { useArenaUser } from '../arenaQueries';
 
 type AvatarProps = {
@@ -21,12 +22,12 @@ type AvatarProps = {
 const StyledAvatarContainer = styled.div`
   width: ${spacing.large};
   height: ${spacing.large};
-  border-radius: 50%;
+  border-radius: ${misc.borderRadiusLarge};
   border: 1px solid ${colors.brand.tertiary};
   &[data-myprofile='true'] {
     width: 250px;
     height: 250px;
-    border: 4px solid ${colors.brand.tertiary};
+    border: ${misc.borderRadius} solid ${colors.brand.tertiary};
   }
   background-color: ${colors.background.default};
   display: flex;
@@ -34,8 +35,7 @@ const StyledAvatarContainer = styled.div`
   align-items: center;
 `;
 
-const UserInitials = styled.div`
-  ${fonts.sizes('24px')};
+const UserInitials = styled(Text)`
   color: ${colors.brand.dark};
   &[data-myprofile='true'] {
     ${fonts.sizes('130px')};
@@ -46,7 +46,7 @@ const UserPersonalPicture = styled.img`
   width: 100%;
   height: 100%;
   aspect-ratio: 1/1;
-  border-radius: 50%;
+  border-radius: ${misc.borderRadiusLarge};
 `;
 
 export const getFirstLastInitials = (userName: string | undefined) => {
@@ -75,7 +75,14 @@ const Avatar = ({ myProfile, displayName, userId }: AvatarProps) => {
           alt={t('myNdla.userPictureAltText')}
         />
       ) : (
-        <UserInitials data-myprofile={myProfile}>{initials}</UserInitials>
+        <UserInitials
+          element="p"
+          textStyle="ingress"
+          margin="none"
+          data-myprofile={myProfile}
+        >
+          {initials}
+        </UserInitials>
       )}
     </StyledAvatarContainer>
   );
