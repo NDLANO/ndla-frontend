@@ -6,6 +6,10 @@
  *
  */
 
+import parse from 'html-react-parser';
+import styled from '@emotion/styled';
+import { ButtonV2, IconButtonV2 } from '@ndla/button';
+import { colors, spacing, fonts, misc } from '@ndla/core';
 import {
   DropdownMenu,
   DropdownTrigger,
@@ -15,10 +19,7 @@ import {
 import { Pencil, TrashCanOutline } from '@ndla/icons/action';
 import { HorizontalMenu } from '@ndla/icons/contentType';
 import { ReportOutlined } from '@ndla/icons/common';
-import styled from '@emotion/styled';
 import { Switch } from '@ndla/switch';
-import { ButtonV2, IconButtonV2 } from '@ndla/button';
-import { colors, spacing, fonts, misc } from '@ndla/core';
 import { Text } from '@ndla/typography';
 import UserProfileTag from '../components/UserProfileTag';
 
@@ -104,7 +105,7 @@ const PostCard = ({
       <StyledContentContainer>
         {isMainPost && <StyledH2>{title}</StyledH2>}
         <Text element="p" textStyle="content-alt" margin="none">
-          {content}
+          {parse(content)}
         </Text>
       </StyledContentContainer>
       <BottomContainer>

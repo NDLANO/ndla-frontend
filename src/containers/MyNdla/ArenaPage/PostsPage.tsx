@@ -12,7 +12,7 @@ import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
 import PostCard from '../ArenaCards/PostCard';
 import { useArenaCategory, useArenaTopic } from '../arenaMutations';
-import { GQLArenaPost } from '../../../graphqlTypes';
+import { GQLArenaPostFragmentFragment } from '../../../graphqlTypes';
 import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
 import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
 
@@ -52,7 +52,7 @@ const PostsPage = () => {
           page={'arena'}
         />
       </BreadcrumbWrapper>
-      {arenaTopic?.posts?.map((post: GQLArenaPost) => (
+      {arenaTopic?.posts?.map((post: GQLArenaPostFragmentFragment) => (
         <PostCardWrapper key={post.id}>
           <PostCard
             id={post.id.toString()}
@@ -63,7 +63,7 @@ const PostsPage = () => {
             displayName={post.user.displayName}
             username={post.user.username}
             // missing affiliation in user
-            affiliation={'Bergen VGS'}
+            affiliation={post.user.location || ''}
           />
         </PostCardWrapper>
       ))}

@@ -84,6 +84,7 @@ export type GQLArenaUser = {
   displayName: Scalars['String']['output'];
   groupTitleArray: Array<Scalars['String']['output']>;
   id: Scalars['Int']['output'];
+  location?: Maybe<Scalars['String']['output']>;
   profilePicture?: Maybe<Scalars['String']['output']>;
   slug: Scalars['String']['output'];
   username: Scalars['String']['output'];
@@ -833,6 +834,7 @@ export type GQLMeta = {
   availability?: Maybe<Scalars['String']['output']>;
   id: Scalars['Int']['output'];
   introduction?: Maybe<Scalars['String']['output']>;
+  language?: Maybe<Scalars['String']['output']>;
   lastUpdated?: Maybe<Scalars['String']['output']>;
   metaDescription?: Maybe<Scalars['String']['output']>;
   metaImage?: Maybe<GQLMetaImage>;
@@ -887,6 +889,8 @@ export type GQLMutation = {
   deleteFolder: Scalars['String']['output'];
   deleteFolderResource: Scalars['String']['output'];
   deletePersonalData: Scalars['Boolean']['output'];
+  newArenaTopic: GQLArenaTopic;
+  replyToTopic: GQLArenaPost;
   sortFolders: GQLSortResult;
   sortResources: GQLSortResult;
   transformArticleContent: Scalars['String']['output'];
@@ -923,6 +927,17 @@ export type GQLMutationDeleteFolderArgs = {
 export type GQLMutationDeleteFolderResourceArgs = {
   folderId: Scalars['String']['input'];
   resourceId: Scalars['String']['input'];
+};
+
+export type GQLMutationNewArenaTopicArgs = {
+  categoryId: Scalars['Int']['input'];
+  content: Scalars['String']['input'];
+  title: Scalars['String']['input'];
+};
+
+export type GQLMutationReplyToTopicArgs = {
+  content: Scalars['String']['input'];
+  topicId: Scalars['Int']['input'];
 };
 
 export type GQLMutationSortFoldersArgs = {
@@ -962,7 +977,8 @@ export type GQLMutationUpdateFolderStatusArgs = {
 };
 
 export type GQLMutationUpdatePersonalDataArgs = {
-  favoriteSubjects: Array<Scalars['String']['input']>;
+  favoriteSubjects?: InputMaybe<Array<Scalars['String']['input']>>;
+  shareName?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type GQLMyNdlaPersonalData = {
@@ -972,6 +988,7 @@ export type GQLMyNdlaPersonalData = {
   id: Scalars['Int']['output'];
   organization: Scalars['String']['output'];
   role: Scalars['String']['output'];
+  shareName: Scalars['Boolean']['output'];
 };
 
 export type GQLName = {
@@ -992,6 +1009,11 @@ export type GQLNewFolderResource = {
   path: Scalars['String']['output'];
   resourceType: Scalars['String']['output'];
   tags?: Maybe<Array<Scalars['String']['output']>>;
+};
+
+export type GQLOwner = {
+  __typename?: 'Owner';
+  name: Scalars['String']['output'];
 };
 
 export type GQLPodcastLicense = {
@@ -1523,6 +1545,7 @@ export type GQLSharedFolder = {
   description?: Maybe<Scalars['String']['output']>;
   id: Scalars['String']['output'];
   name: Scalars['String']['output'];
+  owner?: Maybe<GQLOwner>;
   parentId?: Maybe<Scalars['String']['output']>;
   resources: Array<GQLFolderResource>;
   status: Scalars['String']['output'];
@@ -2698,45 +2721,83 @@ export type GQLArenaCategoriesFragmentFragment = {
   name: string;
   postCount: number;
   slug: string;
-  topicCount: number;
-  topics: Array<GQLArenaTopic>;
 };
 
-export type GQLTopicPageQueryFragmentFragment = {
+export type GQLArenaCategoryFragmentFragment = {
+  __typename: 'ArenaCategory';
+  description: string;
+  disabled: boolean;
+  htmlDescription: string;
+  id: number;
+  name: string;
+  postCount: number;
+  slug: string;
+};
+
+export type GQLArenaTopicFragmentFragment = {
   __typename: 'ArenaTopic';
   categoryId: number;
   id: number;
   locked: boolean;
   postCount: number;
-  posts: Array<GQLArenaPost>;
   slug: string;
   timestamp: string;
   title: string;
 };
 
+export type GQLArenaPostFragmentFragment = {
+  __typename: 'ArenaPost';
+  content: string;
+  id: number;
+  timestamp: string;
+  topicId: number;
+  isMainPost: boolean;
+  user: {
+    __typename?: 'ArenaUser';
+    displayName: string;
+    groupTitleArray: Array<string>;
+    profilePicture?: string;
+    username: string;
+    location?: string;
+  };
+};
+
 export type GQLArenaPageQueryVariables = Exact<{ [key: string]: never }>;
 
-export type GQLArenaCategoriesQuery = {
+export type GQLArenaPageQuery = {
   __typename?: 'Query';
   arenaCategories: Array<
     { __typename?: 'ArenaCategory' } & GQLArenaCategoriesFragmentFragment
   >;
 };
 
-export type GQLTopicPageQueryVariables = Exact<{ [key: string]: never }>;
+export type GQLArenaCategoryQueryVariables = Exact<{
+  categoryId: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
 
 export type GQLArenaCategoryQuery = {
   __typename?: 'Query';
-  arenaCategory: {
+  arenaCategory?: {
     __typename?: 'ArenaCategory';
-  } & GQLArenaCategoriesFragmentFragment;
+    topicCount: number;
+    topics?: Array<
+      { __typename?: 'ArenaTopic' } & GQLArenaTopicFragmentFragment
+    >;
+  } & GQLArenaCategoryFragmentFragment;
 };
 
-export type GQLArenaTopicQuery = {
+export type GQLArenaTopicByIdQueryVariables = Exact<{
+  topicId: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+export type GQLArenaTopicByIdQuery = {
   __typename?: 'Query';
-  arenaTopic: {
+  arenaTopic?: {
     __typename?: 'ArenaTopic';
-  } & GQLTopicPageQueryFragmentFragment;
+    posts: Array<{ __typename?: 'ArenaPost' } & GQLArenaPostFragmentFragment>;
+  } & GQLArenaTopicFragmentFragment;
 };
 
 export type GQLArenaUserQueryFragmentFragment = {
@@ -2746,6 +2807,7 @@ export type GQLArenaUserQueryFragmentFragment = {
   profilePicture?: string;
   slug: string;
   groupTitleArray: Array<string>;
+  location?: string;
 };
 
 export type GQLArenaUserQueryVariables = Exact<{

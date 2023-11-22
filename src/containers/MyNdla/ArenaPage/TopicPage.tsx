@@ -16,7 +16,7 @@ import { Pencil } from '@ndla/icons/action';
 import { useParams } from 'react-router-dom';
 import { useArenaCategory } from '../arenaMutations';
 import ArenaCard from '../ArenaCards/ArenaCard';
-import { GQLArenaTopic } from '../../../graphqlTypes';
+import { GQLArenaTopicFragmentFragment } from '../../../graphqlTypes';
 import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
 import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
 
@@ -101,7 +101,7 @@ const TopicPage = () => {
           <PencilIcon />
         </StyledNewTopicButton>
       </StyledContainer>
-      {arenaCategory?.topics?.map((topic: GQLArenaTopic) => (
+      {arenaCategory?.topics?.map((topic: GQLArenaTopicFragmentFragment) => (
         <StyledCardContainer key={`topicContainer-${topic.id}`}>
           <ArenaCard
             key={`topic-${topic.id}`}

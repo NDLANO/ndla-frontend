@@ -48,6 +48,7 @@ type ArenaUser {
   displayName: String!
   groupTitleArray: [String!]!
   id: Int!
+  location: String
   profilePicture: String
   slug: String!
   username: String!
@@ -720,6 +721,7 @@ type Meta {
   availability: String
   id: Int!
   introduction: String
+  language: String
   lastUpdated: String
   metaDescription: String
   metaImage: MetaImage
@@ -778,6 +780,8 @@ type Mutation {
   deleteFolder(id: String!): String!
   deleteFolderResource(folderId: String!, resourceId: String!): String!
   deletePersonalData: Boolean!
+  newArenaTopic(categoryId: Int!, content: String!, title: String!): ArenaTopic!
+  replyToTopic(content: String!, topicId: Int!): ArenaPost!
   sortFolders(parentId: String, sortedIds: [String!]!): SortResult!
   sortResources(parentId: String!, sortedIds: [String!]!): SortResult!
   transformArticleContent(
@@ -796,7 +800,10 @@ type Mutation {
   ): Folder!
   updateFolderResource(id: String!, tags: [String!]): FolderResource!
   updateFolderStatus(folderId: String!, status: String!): [String!]!
-  updatePersonalData(favoriteSubjects: [String!]!): MyNdlaPersonalData!
+  updatePersonalData(
+    favoriteSubjects: [String!]
+    shareName: Boolean
+  ): MyNdlaPersonalData!
 }
 
 type MyNdlaPersonalData {
@@ -805,6 +812,7 @@ type MyNdlaPersonalData {
   id: Int!
   organization: String!
   role: String!
+  shareName: Boolean!
 }
 
 type Name {
@@ -822,6 +830,10 @@ type NewFolderResource {
   path: String!
   resourceType: String!
   tags: [String!]
+}
+
+type Owner {
+  name: String!
 }
 
 type PodcastLicense {
@@ -1175,6 +1187,7 @@ type SharedFolder {
   description: String
   id: String!
   name: String!
+  owner: Owner
   parentId: String
   resources: [FolderResource!]!
   status: String!

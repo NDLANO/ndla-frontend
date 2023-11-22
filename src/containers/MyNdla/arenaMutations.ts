@@ -8,9 +8,9 @@
 
 import { gql } from '@apollo/client';
 import {
-  GQLArenaCategoriesQuery,
+  GQLArenaPageQuery,
   GQLArenaCategoryQuery,
-  GQLArenaTopicQuery,
+  GQLArenaTopicByIdQuery,
 } from '../../graphqlTypes';
 import { useGraphQuery } from '../../util/runQueries';
 
@@ -60,11 +60,13 @@ const arenaPostFragment = gql`
     id
     timestamp
     topicId
+    isMainPost
     user {
       displayName
       groupTitleArray
       profilePicture
       username
+      location
     }
   }
 `;
@@ -107,7 +109,7 @@ export const arenaTopicById = gql`
 
 export const useArenaCategories = () => {
   const { data, loading, error } =
-    useGraphQuery<GQLArenaCategoriesQuery>(arenaCategoriesQuery);
+    useGraphQuery<GQLArenaPageQuery>(arenaCategoriesQuery);
   return { arenaCategories: data?.arenaCategories, loading, error };
 };
 
@@ -122,7 +124,7 @@ export const useArenaCategory = (categoryId: number, page: number) => {
 };
 
 export const useArenaTopic = (topicId: number, page: number) => {
-  const { data, loading, error } = useGraphQuery<GQLArenaTopicQuery>(
+  const { data, loading, error } = useGraphQuery<GQLArenaTopicByIdQuery>(
     arenaTopicById,
     {
       variables: { topicId, page },
