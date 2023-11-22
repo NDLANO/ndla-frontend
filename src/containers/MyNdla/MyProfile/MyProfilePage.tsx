@@ -24,7 +24,7 @@ import {
   ModalContent,
 } from '@ndla/modal';
 import { Heading, Text } from '@ndla/typography';
-import InfoPart from '../InfoSection';
+import InfoPart from '../InfoPart';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import { constructNewPath, toHref } from '../../../util/urlHelper';
 import { useBaseName } from '../../../components/BaseNameContext';
@@ -100,7 +100,7 @@ const MyProfilePage = () => {
         <MyPreferences user={user} />
         <InfoContainer>
           {user && (
-            <InfoPart title={t('myNdla.myPage.feide')} icon={''}>
+            <InfoPart title={t('myNdla.myPage.feide')}>
               <UserInfo user={user} />
               <Text element="p" textStyle="content-alt" margin="none">
                 {t('user.wrongUserInfoDisclaimer')}

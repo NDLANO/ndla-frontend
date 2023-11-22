@@ -13,7 +13,7 @@ import { Heading } from '@ndla/typography';
 import { ReactNode } from 'react';
 
 interface Props {
-  icon: ReactNode;
+  icon?: ReactNode;
   title: string;
   children?: ReactNode;
 }

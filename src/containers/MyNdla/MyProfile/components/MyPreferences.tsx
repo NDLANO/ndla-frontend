@@ -44,9 +44,7 @@ const StyledRadioButtonGroup = styled(RadioButtonGroup)`
   padding: 0;
   > div {
     box-sizing: content-box;
-    border-radius: ${misc.borderRadius};
     border: 1px solid ${colors.brand.greyLight};
-    border-radius: 0px;
     padding: ${spacing.small} ${spacing.normal};
     border-color: ${colors.brand.light};
     &:focus-within,
@@ -119,11 +117,11 @@ const MyPreferences = ({ user }: MyPreferencesProps) => {
           <StyledRadioButtonGroup
             options={[
               {
-                title: t('myNdla.myProfile.radioButtonText.option1'),
+                title: t('myNdla.myProfile.namePreference.showName'),
                 value: 'showName',
               },
               {
-                title: t('myNdla.myProfile.radioButtonText.option2'),
+                title: t('myNdla.myProfile.namePreference.dontShowName'),
                 value: 'dontShowName',
               },
             ]}

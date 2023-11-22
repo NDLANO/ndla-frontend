@@ -8,7 +8,7 @@
 
 import styled from '@emotion/styled';
 import { breakpoints, misc, mq } from '@ndla/core';
-// import EditProfilePicture from '../MyProfile/components/EditProfilePicture';
+import EditProfilePicture from '../MyProfile/components/EditProfilePicture';
 import Avatar from './Avatar';
 
 type UserAvatarProps = {
@@ -42,7 +42,7 @@ const UserAvatar = ({
       <Avatar displayName={userName} userId={userId} myProfile />
       {showProfileButton && (
         <DesktopButtonContainer>
-          {/* <EditProfilePicture /> */}
+          <EditProfilePicture />
         </DesktopButtonContainer>
       )}
     </UserAvatarContainer>

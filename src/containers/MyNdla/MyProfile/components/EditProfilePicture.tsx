@@ -14,10 +14,8 @@ import { Pencil } from '@ndla/icons/action';
 import { useState } from 'react';
 import { spacing } from '@ndla/core';
 import { Modal, ModalTrigger } from '@ndla/modal';
-import UploadModalContent from './UploadModalContent';
 
 const StyledChangeAvatarButton = styled(ButtonV2)`
-  height: 42px;
   gap: ${spacing.xsmall};
   white-space: nowrap;
 `;
@@ -42,7 +40,6 @@ const EditProfilePicture = () => {
         >
           <PencilIcon />
           {t('myNdla.myProfile.editButtonText')}
-          <UploadModalContent />
         </StyledChangeAvatarButton>
       </ModalTrigger>
     </Modal>
