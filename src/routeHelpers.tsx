@@ -176,9 +176,7 @@ export function toFolderPreview(folderId: string) {
   return `/folder/${folderId}`;
 }
 
-export const toAllNotifications = () => '/arena/notifications';
-
-export const toArenaNotification = (forumId: number) => `/arena/${forumId}`;
+export const toAllNotifications = () => '/minndla/arena/notifications';
 
 export type SubjectURI = {
   id?: string;

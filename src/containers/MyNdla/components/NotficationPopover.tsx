@@ -10,17 +10,19 @@ import { colors, spacing } from '@ndla/core';
 import { SafeLinkButton } from '@ndla/safelink';
 import styled from '@emotion/styled';
 import { Root, Trigger, Portal, Content, Arrow } from '@radix-ui/react-popover';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import NotificationList from './NotificationList';
 import { toAllNotifications } from '../../../routeHelpers';
 import NotificationBellButton from './NotificationButton';
-import { GQLArenaNotification } from '../../../graphqlTypes';
+import { useArenaNotifications } from '../arenaQueries';
 
 const StyledContent = styled(Content)`
   background-color: ${colors.background.default};
   box-shadow: 0 0 ${spacing.nsmall} #ccc;
   padding: ${spacing.normal};
   gap: ${spacing.small};
+  min-width: 350px;
 `;
 
 const StyledArrow = styled(Arrow)`
@@ -31,29 +33,35 @@ const ShowAllButton = styled(SafeLinkButton)`
   width: 100%;
 `;
 
-interface Props {
-  notifications: GQLArenaNotification[];
-}
+const StyledPortal = styled(Portal)`
+  right: 50px;
+`;
 
-const Notifications = ({ notifications }: Props) => {
+const NotificationPopover = () => {
+  const { notifications } = useArenaNotifications();
   const { t } = useTranslation();
+  const [open, setOpen] = useState(false);
 
   return (
-    <Root>
+    <Root open={open} onOpenChange={setOpen}>
       <Trigger asChild>
         <NotificationBellButton notifications={notifications} />
       </Trigger>
-      <Portal>
-        <StyledContent>
-          <NotificationList notifications={notifications} isButton />
-          <ShowAllButton to={toAllNotifications()} fontWeight="bold">
+      <StyledPortal>
+        <StyledContent align="end">
+          <StyledArrow />
+          <NotificationList notifications={notifications} inPopover />
+          <ShowAllButton
+            to={toAllNotifications()}
+            onClick={() => setOpen(false)}
+            fontWeight="bold"
+          >
             {t('myNdla.arena.notification.showAll')}
           </ShowAllButton>
-          <StyledArrow />
         </StyledContent>
-      </Portal>
+      </StyledPortal>
     </Root>
   );
 };
 
-export default Notifications;
+export default NotificationPopover;

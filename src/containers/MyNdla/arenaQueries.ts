@@ -10,8 +10,8 @@ import { gql, useMutation } from '@apollo/client';
 import {
   GQLArenaNotificationsQuery,
   GQLArenaUser,
-  GQLMarkNotificationReadMutation,
-  GQLMutationMarkNotificationReadArgs,
+  GQLMarkNotificationAsReadMutation,
+  GQLMutationMarkNotificationAsReadArgs,
 } from '../../graphqlTypes';
 import { useGraphQuery } from '../../util/runQueries';
 
@@ -42,14 +42,16 @@ export const useArenaUser = (username: string) => {
 
 const arenaNotificationFragment = gql`
   fragment ArenaNotificationFragment on ArenaNotification {
+    __typename
     bodyShort
     datetimeISO
     from
     importance
     path
     read
-    tid
-    pid
+    topicId
+    postId
+    notificationId
     topicTitle
     subject
     type
@@ -70,22 +72,29 @@ const arenaNotificationQuery = gql`
 `;
 
 export const useArenaNotifications = () => {
-  const { loading, data } = useGraphQuery<GQLArenaNotificationsQuery>(
+  const { data } = useGraphQuery<GQLArenaNotificationsQuery>(
     arenaNotificationQuery,
+    {
+      pollInterval: 600000,
+    },
   );
-  return { notifications: data?.arenaNotifications, loading };
+  return {
+    notifications: data?.arenaNotifications,
+  };
 };
 
 const arenaMarkNotificationAsReadMutation = gql`
-  mutation MarkNotificationRead($topicId: Int!) {
-    markNotificationRead(topicId: $topicId)
+  mutation MarkNotificationAsRead($topicId: Int!) {
+    markNotificationAsRead(topicId: $topicId)
   }
 `;
 
 export const useMarkNotificationsAsRead = () => {
-  const [markNotificationRead, { loading }] = useMutation<
-    GQLMarkNotificationReadMutation,
-    GQLMutationMarkNotificationReadArgs
-  >(arenaMarkNotificationAsReadMutation);
-  return { markNotificationRead, loading };
+  const [markNotificationAsRead] = useMutation<
+    GQLMarkNotificationAsReadMutation,
+    GQLMutationMarkNotificationAsReadArgs
+  >(arenaMarkNotificationAsReadMutation, {
+    refetchQueries: [{ query: arenaNotificationQuery }],
+  });
+  return { markNotificationAsRead };
 };

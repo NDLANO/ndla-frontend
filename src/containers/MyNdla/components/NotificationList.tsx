@@ -3,9 +3,9 @@ import { ButtonV2 } from '@ndla/button';
 import { spacing, colors, fonts } from '@ndla/core';
 import { HelpCircleDual, KeyboardReturn } from '@ndla/icons/common';
 import { SafeLinkButton } from '@ndla/safelink';
+import { Text } from '@ndla/typography';
 import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyledUl } from '../../SharedFolderPage/components/Folder';
 import { formatDistanceStrict } from 'date-fns';
 import { nb, nn, enGB } from 'date-fns/locale';
 import { GQLArenaNotificationFragmentFragment } from '../../../graphqlTypes';
@@ -15,31 +15,36 @@ const TitleWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   padding-bottom: ${spacing.normal};
+  gap: minmax(150px, auto);
 `;
 
 const StyledDot = styled(HelpCircleDual)`
-  min-height: 10px;
-  min-width: 10px;
-  max-width: 10px;
-  max-height: 10px;
+  width: ${spacing.small};
+  height: ${spacing.small};
   color: ${colors.brand.primary};
 `;
 
 const StyledLink = styled(SafeLinkButton)`
   display: flex;
   border: solid 1px ${colors.brand.greyLight};
+  border-radius: ${spacing.xxsmall};
   justify-content: space-between;
-  padding: ${spacing.small};
+  padding: ${spacing.small} ${spacing.normal};
+  gap: ${spacing.small};
+
+  &:hover {
+    background-color: ${colors.brand.lighter};
+    border: solid 1px ${colors.brand.light};
+    color: ${colors.text.primary};
+  }
 
   &[data-not-viewed='true'] {
     background-color: ${colors.brand.lightest};
     border: solid 1px ${colors.brand.lighter};
   }
 
-  &:hover {
-    background-color: ${colors.brand.lighter};
-    border: solid 1px ${colors.brand.light};
-    color: ${colors.text.primary};
+  &[data-popover='true'] {
+    padding: ${spacing.small};
   }
 `;
 
@@ -48,38 +53,21 @@ const Notification = styled.div`
   justify-content: center;
   align-items: center;
   gap: ${spacing.small};
-
-  div {
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
-    align-items: start;
-  }
+  text-align: start;
 `;
 
-const StyledList = styled(StyledUl)`
+const StyledList = styled.ul`
   list-style: none;
   gap: ${spacing.xxsmall};
   padding-bottom: ${spacing.small};
 `;
 
 const StyledLi = styled.li`
-  margin-bottom: unset;
+  margin-bottom: ${spacing.xxsmall};
 `;
 
-const StyledHeading = styled.span`
-  font-weight: ${fonts.weight.bold};
-  ${fonts.sizes('22px', '30px')};
-`;
-
-const TimeSince = styled.span`
-  ${fonts.sizes('16px', '26px')};
-`;
-
-const NotificationTitle = styled.span`
-  ${fonts.sizes('18px', '24px')};
+const StyledText = styled(Text)`
   font-weight: ${fonts.weight.semibold};
-  text-align: left;
 `;
 
 const StyledKeyboardReturn = styled(KeyboardReturn)`
@@ -98,70 +86,75 @@ const Locales = {
 const capitalizeFirstLetter = (str: string) =>
   str.charAt(0).toUpperCase() + str.slice(1);
 
-const toArenaTopic = (tid: number) => `/${tid}`;
-const toArenaPost = (tid: number, pid: number) =>
-  `/${toArenaTopic(tid)}/${pid}`;
+const toArenaTopic = (topicId: number) => `/minndla/arena/topic/${topicId}`;
+
 interface Props {
   notifications?: GQLArenaNotificationFragmentFragment[];
-  isButton?: boolean;
+  inPopover?: boolean;
 }
 
-const NotificationList = ({ notifications, isButton }: Props) => {
+const NotificationList = ({ notifications, inPopover }: Props) => {
   const {
     t,
     i18n: { language },
   } = useTranslation();
   const now = useMemo(() => new Date(), []);
-  const { markNotificationRead } = useMarkNotificationsAsRead();
+  const { markNotificationAsRead } = useMarkNotificationsAsRead();
 
   const markAllRead = useCallback(async () => {
     await Promise.all(
       notifications
         ?.filter(({ read }) => !read)
-        ?.map(({ tid }) => {
-          markNotificationRead({ variables: { topicId: tid } });
-        }) ?? [],
+        ?.map(({ topicId }) =>
+          markNotificationAsRead({
+            variables: { topicId },
+          }),
+        ) ?? [],
     );
-  }, [notifications]);
+  }, [notifications, markNotificationAsRead]);
 
   const notifcationsToShow = useMemo(
-    () => (!!isButton ? notifications?.slice(0, 5) : notifications),
-    [notifications, isButton],
+    () => (inPopover ? notifications?.slice(0, 5) : notifications),
+    [notifications, inPopover],
   );
 
   return (
     <>
       <TitleWrapper>
-        <StyledHeading>{t('myNdla.arena.notification.title')}</StyledHeading>
+        <Text textStyle="meta-text-large" margin="none">
+          {t('myNdla.arena.notification.title')}
+        </Text>
         <ButtonV2 variant="link" fontWeight="light" onClick={markAllRead}>
           {t('myNdla.arena.notification.markAll')}
         </ButtonV2>
       </TitleWrapper>
       <StyledList>
         {notifcationsToShow?.map(
-          ({ tid, pid, read, user, datetimeISO, topicTitle }, index) => (
+          ({ topicId, read, user, datetimeISO, topicTitle }, index) => (
             <StyledLi key={index}>
               <StyledLink
-                to={toArenaPost(tid, pid)}
                 variant="stripped"
                 data-not-viewed={!read}
+                data-popover={inPopover}
+                to={toArenaTopic(topicId)}
               >
                 <Notification>
                   <StyledKeyboardReturn />
                   <div>
-                    <NotificationTitle>
-                      {`${user.displayName} 
-                        ${t('myNdla.arena.notification.commentedOn')} `}
-                      <em>{topicTitle}</em>
-                    </NotificationTitle>
-                    <TimeSince>
-                      {`${capitalizeFirstLetter('Frank')}
-                    ${formatDistanceStrict(Date.parse(datetimeISO), now, {
-                      addSuffix: true,
-                      locale: Locales[language],
-                      roundingMethod: 'floor',
-                    })}`}
-                    </TimeSince>
+                    <StyledText textStyle="meta-text-medium" margin="none">
+                      {`${user.displayName}`}
+                      {` ${t('myNdla.arena.notification.commentedOn')} `}
+                      <i>{topicTitle.replace(/"/g, '')}</i>
+                    </StyledText>
+                    <Text textStyle="meta-text-small" margin="none">
+                      {`${capitalizeFirstLetter(
+                        formatDistanceStrict(Date.parse(datetimeISO), now, {
+                          addSuffix: true,
+                          locale: Locales[language],
+                          roundingMethod: 'floor',
+                        }),
+                      )}`}
+                    </Text>
                   </div>
                 </Notification>
                 {!read && <StyledDot />}

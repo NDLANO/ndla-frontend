@@ -29,12 +29,13 @@ type ArenaNotification {
   from: Int!
   image: String!
   importance: Int!
+  notificationId: String!
   path: String!
-  pid: Int!
+  postId: Int!
   read: Boolean!
   readClass: String!
   subject: String!
-  tid: Int!
+  topicId: Int!
   topicTitle: String!
   type: String!
   user: ArenaUser!
@@ -63,6 +64,7 @@ type ArenaTopic {
 
 type ArenaUser {
   displayName: String!
+  groupTitleArray: [String!]!
   id: Int!
   profilePicture: String
   slug: String!
@@ -334,9 +336,14 @@ type ConceptResult {
   totalCount: Int!
 }
 
-type ConfigMetaRestricted {
+type ConfigMetaBoolean {
   key: String!
-  value: String!
+  value: Boolean!
+}
+
+type ConfigMetaStringList {
+  key: String!
+  value: [String!]!
 }
 
 type Contributor {
@@ -731,6 +738,7 @@ type Meta {
   availability: String
   id: Int!
   introduction: String
+  language: String
   lastUpdated: String
   metaDescription: String
   metaImage: MetaImage
@@ -789,7 +797,7 @@ type Mutation {
   deleteFolder(id: String!): String!
   deleteFolderResource(folderId: String!, resourceId: String!): String!
   deletePersonalData: Boolean!
-  markNotificationRead(topicId: Int!): Int
+  markNotificationAsRead(topicId: Int!): Int!
   sortFolders(parentId: String, sortedIds: [String!]!): SortResult!
   sortResources(parentId: String!, sortedIds: [String!]!): SortResult!
   transformArticleContent(
@@ -812,8 +820,10 @@ type Mutation {
 }
 
 type MyNdlaPersonalData {
+  arenaEnabled: Boolean!
   favoriteSubjects: [String!]!
   id: Int!
+  organization: String!
   role: String!
 }
 
@@ -916,9 +926,10 @@ type Query {
   allFolderResources(size: Int): [FolderResource!]!
   arenaCategories: [ArenaCategory!]!
   arenaCategory(categoryId: Int!, page: Int!): ArenaCategory
+  arenaEnabledOrgs: ConfigMetaStringList
   arenaNotifications: [ArenaNotification!]!
   arenaRecentTopics: [ArenaTopic!]!
-  arenaTopic(page: Int!, topicId: Int!): ArenaTopic
+  arenaTopic(page: Int, topicId: Int!): ArenaTopic
   arenaTopicsByUser(userSlug: String!): [ArenaTopic!]!
   arenaUser(username: String!): ArenaUser
   article(
@@ -950,7 +961,7 @@ type Query {
   ): ConceptResult
   coreElement(code: String!, language: String): CoreElement
   coreElements(codes: [String], language: String): [CoreElement!]
-  examLockStatus: ConfigMetaRestricted!
+  examLockStatus: ConfigMetaBoolean!
   filmfrontpage: FilmFrontpage
   folder(
     id: String!

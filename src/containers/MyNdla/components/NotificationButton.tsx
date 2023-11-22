@@ -2,11 +2,11 @@ import { ButtonV2 } from '@ndla/button';
 import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
 import { Bell } from '@ndla/icons/common';
-import { useMemo } from 'react';
+import { HTMLAttributes, forwardRef, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { SafeLinkButton } from '@ndla/safelink';
 import { toAllNotifications } from '../../../routeHelpers';
-import { GQLArenaNotification } from '../../../graphqlTypes';
+import { GQLArenaNotificationFragmentFragment } from '../../../graphqlTypes';
 
 const NotificationCounter = styled.div`
   position: relative;
@@ -16,12 +16,13 @@ const NotificationCounter = styled.div`
 
   background: ${colors.support.red};
   color: ${colors.white};
-  height: 13px;
-  border-radius: 2px;
+  height: ${spacing.nsmall};
+  right: ${spacing.xsmall};
+  bottom: ${spacing.xsmall};
   padding: 0 ${spacing.xxsmall};
   font-size: ${spacing.small};
   text-align: center;
-  right: ${spacing.small};
+  border-radius: 2px;
 `;
 
 const IconWrapper = styled.div`
@@ -34,38 +35,41 @@ const StyledBellIcon = styled(Bell)`
   height: 20px;
 `;
 
-const getNewNotifications = (notifications?: GQLArenaNotification[]) =>
-  notifications?.filter((notification) => !notification.read)?.length ?? 0;
-
-interface Props {
-  notifications?: GQLArenaNotification[];
+interface Props extends HTMLAttributes<HTMLButtonElement> {
+  notifications?: GQLArenaNotificationFragmentFragment[];
   type?: 'link';
 }
 
-const NotificationBellButton = ({ notifications, type }: Props) => {
-  const newNotifications = useMemo(
-    () => getNewNotifications(notifications),
-    [notifications],
-  );
+const NotificationBellButton = forwardRef<HTMLButtonElement, Props>(
+  ({ notifications, type, ...rest }, ref) => {
+    const { t } = useTranslation();
+    const newNotifications = useMemo(
+      () => notifications?.filter(({ read }) => !read).length,
 
-  if (type === 'link') {
-    return (
-      <SafeLinkButton
-        variant="ghost"
-        colorTheme="lighter"
-        to={toAllNotifications()}
-      >
-        <BellIcon amountOfUnreadNotifications={newNotifications} />
-      </SafeLinkButton>
+      [notifications],
     );
-  }
 
-  return (
-    <ButtonV2 variant="ghost" colorTheme="lighter">
-      <BellIcon amountOfUnreadNotifications={newNotifications} />
-    </ButtonV2>
-  );
-};
+    if (type === 'link') {
+      return (
+        <SafeLinkButton
+          variant="ghost"
+          colorTheme="lighter"
+          to={toAllNotifications()}
+        >
+          <BellIcon amountOfUnreadNotifications={newNotifications ?? 0} />
+          {t('myNdla.arena.notification.title')}
+        </SafeLinkButton>
+      );
+    }
+
+    return (
+      <ButtonV2 variant="ghost" colorTheme="lighter" ref={ref} {...rest}>
+        {t('myNdla.arena.notification.title')}
+        <BellIcon amountOfUnreadNotifications={newNotifications ?? 0} />
+      </ButtonV2>
+    );
+  },
+);
 
 export default NotificationBellButton;
 
@@ -73,22 +77,17 @@ interface BellIconProps {
   amountOfUnreadNotifications: number;
 }
 
-const BellIcon = ({ amountOfUnreadNotifications }: BellIconProps) => {
-  const { t } = useTranslation();
-
+export const BellIcon = ({ amountOfUnreadNotifications }: BellIconProps) => {
   return (
-    <>
-      {t('myNdla.arena.notification.title')}
-      <IconWrapper>
-        <StyledBellIcon />
-        {amountOfUnreadNotifications !== 0 && (
-          <NotificationCounter>
-            {amountOfUnreadNotifications > 99
-              ? '99+'
-              : amountOfUnreadNotifications}
-          </NotificationCounter>
-        )}
-      </IconWrapper>
-    </>
+    <IconWrapper>
+      <StyledBellIcon />
+      {amountOfUnreadNotifications !== 0 && (
+        <NotificationCounter>
+          {amountOfUnreadNotifications > 99
+            ? '99+'
+            : amountOfUnreadNotifications}
+        </NotificationCounter>
+      )}
+    </IconWrapper>
   );
 };

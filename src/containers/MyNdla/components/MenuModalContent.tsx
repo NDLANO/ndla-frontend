@@ -24,6 +24,7 @@ import { useLocation, useOutletContext } from 'react-router-dom';
 import { ViewType } from '../Folders/FoldersPage';
 import { OutletContext, menuLinks } from '../MyNdlaLayout';
 import NavigationLink from './NavigationLink';
+import NotificationBellButton from './NotificationButton';
 
 const MenuItem = styled.li`
   list-style: none;
@@ -187,7 +188,10 @@ const MenuModalContent = ({
             <StyledText margin="none" textStyle="meta-text-medium">
               {t('myNdla.tools')}
             </StyledText>
-            <ToolMenu>{buttons}</ToolMenu>
+            <ToolMenu>
+              {buttons}
+              <NotificationBellButton type="link" />
+            </ToolMenu>
           </>
         )}
         {!!viewType && (

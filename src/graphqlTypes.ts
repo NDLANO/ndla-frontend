@@ -63,12 +63,13 @@ export type GQLArenaNotification = {
   from: Scalars['Int']['output'];
   image: Scalars['String']['output'];
   importance: Scalars['Int']['output'];
+  notificationId: Scalars['String']['output'];
   path: Scalars['String']['output'];
-  pid: Scalars['Int']['output'];
+  postId: Scalars['Int']['output'];
   read: Scalars['Boolean']['output'];
   readClass: Scalars['String']['output'];
   subject: Scalars['String']['output'];
-  tid: Scalars['Int']['output'];
+  topicId: Scalars['Int']['output'];
   topicTitle: Scalars['String']['output'];
   type: Scalars['String']['output'];
   user: GQLArenaUser;
@@ -100,6 +101,7 @@ export type GQLArenaTopic = {
 export type GQLArenaUser = {
   __typename?: 'ArenaUser';
   displayName: Scalars['String']['output'];
+  groupTitleArray: Array<Scalars['String']['output']>;
   id: Scalars['Int']['output'];
   profilePicture?: Maybe<Scalars['String']['output']>;
   slug: Scalars['String']['output'];
@@ -400,10 +402,16 @@ export type GQLConceptResult = {
   totalCount: Scalars['Int']['output'];
 };
 
-export type GQLConfigMetaRestricted = {
-  __typename?: 'ConfigMetaRestricted';
+export type GQLConfigMetaBoolean = {
+  __typename?: 'ConfigMetaBoolean';
   key: Scalars['String']['output'];
-  value: Scalars['String']['output'];
+  value: Scalars['Boolean']['output'];
+};
+
+export type GQLConfigMetaStringList = {
+  __typename?: 'ConfigMetaStringList';
+  key: Scalars['String']['output'];
+  value: Array<Scalars['String']['output']>;
 };
 
 export type GQLContributor = {
@@ -844,6 +852,7 @@ export type GQLMeta = {
   availability?: Maybe<Scalars['String']['output']>;
   id: Scalars['Int']['output'];
   introduction?: Maybe<Scalars['String']['output']>;
+  language?: Maybe<Scalars['String']['output']>;
   lastUpdated?: Maybe<Scalars['String']['output']>;
   metaDescription?: Maybe<Scalars['String']['output']>;
   metaImage?: Maybe<GQLMetaImage>;
@@ -898,7 +907,7 @@ export type GQLMutation = {
   deleteFolder: Scalars['String']['output'];
   deleteFolderResource: Scalars['String']['output'];
   deletePersonalData: Scalars['Boolean']['output'];
-  markNotificationRead?: Maybe<Scalars['Int']['output']>;
+  markNotificationAsRead: Scalars['Int']['output'];
   sortFolders: GQLSortResult;
   sortResources: GQLSortResult;
   transformArticleContent: Scalars['String']['output'];
@@ -937,7 +946,7 @@ export type GQLMutationDeleteFolderResourceArgs = {
   resourceId: Scalars['String']['input'];
 };
 
-export type GQLMutationMarkNotificationReadArgs = {
+export type GQLMutationMarkNotificationAsReadArgs = {
   topicId: Scalars['Int']['input'];
 };
 
@@ -983,8 +992,10 @@ export type GQLMutationUpdatePersonalDataArgs = {
 
 export type GQLMyNdlaPersonalData = {
   __typename?: 'MyNdlaPersonalData';
+  arenaEnabled: Scalars['Boolean']['output'];
   favoriteSubjects: Array<Scalars['String']['output']>;
   id: Scalars['Int']['output'];
+  organization: Scalars['String']['output'];
   role: Scalars['String']['output'];
 };
 
@@ -1098,6 +1109,7 @@ export type GQLQuery = {
   allFolderResources: Array<GQLFolderResource>;
   arenaCategories: Array<GQLArenaCategory>;
   arenaCategory?: Maybe<GQLArenaCategory>;
+  arenaEnabledOrgs?: Maybe<GQLConfigMetaStringList>;
   arenaNotifications: Array<GQLArenaNotification>;
   arenaRecentTopics: Array<GQLArenaTopic>;
   arenaTopic?: Maybe<GQLArenaTopic>;
@@ -1112,7 +1124,7 @@ export type GQLQuery = {
   conceptSearch?: Maybe<GQLConceptResult>;
   coreElement?: Maybe<GQLCoreElement>;
   coreElements?: Maybe<Array<GQLCoreElement>>;
-  examLockStatus: GQLConfigMetaRestricted;
+  examLockStatus: GQLConfigMetaBoolean;
   filmfrontpage?: Maybe<GQLFilmFrontpage>;
   folder: GQLFolder;
   folderResourceMeta?: Maybe<GQLFolderResourceMeta>;
@@ -1154,7 +1166,7 @@ export type GQLQueryArenaCategoryArgs = {
 };
 
 export type GQLQueryArenaTopicArgs = {
-  page: Scalars['Int']['input'];
+  page?: InputMaybe<Scalars['Int']['input']>;
   topicId: Scalars['Int']['input'];
 };
 
@@ -1852,9 +1864,9 @@ export type GQLExamLockStatusQueryVariables = Exact<{ [key: string]: never }>;
 export type GQLExamLockStatusQuery = {
   __typename?: 'Query';
   examLockStatus: {
-    __typename?: 'ConfigMetaRestricted';
+    __typename?: 'ConfigMetaBoolean';
     key: string;
-    value: string;
+    value: boolean;
   };
 };
 
@@ -2721,15 +2733,16 @@ export type GQLArenaUserQuery = {
 };
 
 export type GQLArenaNotificationFragmentFragment = {
-  __typename?: 'ArenaNotification';
+  __typename: 'ArenaNotification';
   bodyShort: string;
   datetimeISO: string;
   from: number;
   importance: number;
   path: string;
   read: boolean;
-  tid: number;
-  pid: number;
+  topicId: number;
+  postId: number;
+  notificationId: string;
   topicTitle: string;
   subject: string;
   type: string;
@@ -2747,13 +2760,15 @@ export type GQLArenaNotificationsQuery = {
   >;
 };
 
-export type GQLMarkNotificationReadMutationVariables = Exact<{
+export type GQLMarkNotificationAsReadMutationVariables = Exact<{
   topicId: Scalars['Int']['input'];
 }>;
 
-export type GQLMarkNotificationReadMutation = {
+export type GQLMarkNotificationAsReadMutation = {
   __typename?: 'Mutation';
-  markNotificationRead?: number;
+  markNotificationAsRead: number;
+};
+
 export type GQLAiOrganizationsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GQLAiOrganizationsQuery = {
