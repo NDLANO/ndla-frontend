@@ -16,7 +16,7 @@ import { useArenaUser } from '../arenaQueries';
 type AvatarProps = {
   myProfile?: boolean;
   displayName: string | undefined;
-  userId: string | undefined;
+  profilePicture: string | undefined;
 };
 
 const StyledAvatarContainer = styled.div`
@@ -49,8 +49,8 @@ const UserPersonalPicture = styled.img`
   border-radius: ${misc.borderRadiusLarge};
 `;
 
+// a function to split up displayName, get the initials of first and last names and merge them
 export const getFirstLastInitials = (userName: string | undefined) => {
-  // a function to split up displayName, get the initials of first and last names and merge them
   return userName
     ?.split(' ')
     .map((value, index, array) =>
@@ -59,9 +59,8 @@ export const getFirstLastInitials = (userName: string | undefined) => {
     .join('');
 };
 
-const Avatar = ({ myProfile, displayName, userId }: AvatarProps) => {
+const Avatar = ({ myProfile, displayName, profilePicture }: AvatarProps) => {
   const { t } = useTranslation();
-  const { arenaUser } = useArenaUser(userId ?? '');
   const initials = useMemo(
     () => getFirstLastInitials(displayName),
     [displayName],
@@ -69,9 +68,9 @@ const Avatar = ({ myProfile, displayName, userId }: AvatarProps) => {
 
   return (
     <StyledAvatarContainer data-myprofile={myProfile}>
-      {arenaUser?.profilePicture ? (
+      {profilePicture ? (
         <UserPersonalPicture
-          src={arenaUser.profilePicture}
+          src={profilePicture}
           alt={t('myNdla.userPictureAltText')}
         />
       ) : (

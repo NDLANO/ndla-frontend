@@ -158,6 +158,17 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   }
 }
 
+.emotion-0[data-style='h4'] {
+  font-size: 22px;
+  font-size: 1.2222222222222223rem;
+  line-height: 30px;
+}
+
+.emotion-0[data-style='h4']:where([lang='zh'], .emotion-0[data-style='h4'][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+  font-size: calc(22px * 1.11);
+  font-size: calc(1.2222222222222223rem * 1.11);
+}
+
 .emotion-0[data-style='list-title'] {
   font-size: 18px;
   font-size: 1rem;

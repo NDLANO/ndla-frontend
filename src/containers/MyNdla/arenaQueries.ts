@@ -7,7 +7,7 @@
  */
 
 import { gql } from '@apollo/client';
-import { GQLArenaUser } from '../../graphqlTypes';
+import { GQLArenaUserQuery } from '../../graphqlTypes';
 import { useGraphQuery } from '../../util/runQueries';
 
 const arenaUserFragment = gql`
@@ -16,6 +16,7 @@ const arenaUserFragment = gql`
     id
     profilePicture
     slug
+    groupTitleArray
   }
 `;
 
@@ -29,8 +30,8 @@ export const arenaUserQuery = gql`
 `;
 
 export const useArenaUser = (username: string) => {
-  const { data } = useGraphQuery<GQLArenaUser>(arenaUserQuery, {
+  const { data } = useGraphQuery<GQLArenaUserQuery>(arenaUserQuery, {
     variables: { username },
   });
-  return { arenaUser: data };
+  return { arenaUser: data?.arenaUser };
 };
