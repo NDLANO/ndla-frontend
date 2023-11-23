@@ -833,6 +833,7 @@ export type GQLMeta = {
   availability?: Maybe<Scalars['String']['output']>;
   id: Scalars['Int']['output'];
   introduction?: Maybe<Scalars['String']['output']>;
+  language?: Maybe<Scalars['String']['output']>;
   lastUpdated?: Maybe<Scalars['String']['output']>;
   metaDescription?: Maybe<Scalars['String']['output']>;
   metaImage?: Maybe<GQLMetaImage>;
@@ -887,6 +888,8 @@ export type GQLMutation = {
   deleteFolder: Scalars['String']['output'];
   deleteFolderResource: Scalars['String']['output'];
   deletePersonalData: Scalars['Boolean']['output'];
+  newArenaTopic: GQLArenaTopic;
+  replyToTopic: GQLArenaPost;
   sortFolders: GQLSortResult;
   sortResources: GQLSortResult;
   transformArticleContent: Scalars['String']['output'];
@@ -923,6 +926,17 @@ export type GQLMutationDeleteFolderArgs = {
 export type GQLMutationDeleteFolderResourceArgs = {
   folderId: Scalars['String']['input'];
   resourceId: Scalars['String']['input'];
+};
+
+export type GQLMutationNewArenaTopicArgs = {
+  categoryId: Scalars['Int']['input'];
+  content: Scalars['String']['input'];
+  title: Scalars['String']['input'];
+};
+
+export type GQLMutationReplyToTopicArgs = {
+  content: Scalars['String']['input'];
+  topicId: Scalars['Int']['input'];
 };
 
 export type GQLMutationSortFoldersArgs = {
@@ -962,7 +976,7 @@ export type GQLMutationUpdateFolderStatusArgs = {
 };
 
 export type GQLMutationUpdatePersonalDataArgs = {
-  favoriteSubjects?: InputMaybe<Array<Scalars['String']['input']>>;
+  favoriteSubjects?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   shareName?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
@@ -3218,11 +3232,10 @@ export type GQLPersonalDataQuery = {
 };
 
 export type GQLUpdatePersonalDataMutationVariables = Exact<{
-  favoriteSubjects:
-    | Array<Scalars['String']['input']>
-    | Scalars['String']['input']
-    | undefined;
-  shareName: Scalars['Boolean']['input'] | undefined;
+  favoriteSubjects?: InputMaybe<
+    Array<Scalars['String']['input']> | Scalars['String']['input']
+  >;
+  shareName?: InputMaybe<Scalars['Boolean']['input']>;
 }>;
 
 export type GQLUpdatePersonalDataMutation = {

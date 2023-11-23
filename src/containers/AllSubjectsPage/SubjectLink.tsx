@@ -69,7 +69,7 @@ const SubjectLink = ({ subject, favorites, className }: Props) => {
     }
     const newFavorites = favorites.concat(subject.id);
     await updatePersonalData({
-      variables: { favoriteSubjects: newFavorites, shareName: undefined },
+      variables: { favoriteSubjects: newFavorites },
     });
     addSnack({
       id: `addedFavorite-${subject.id}`,

@@ -720,6 +720,7 @@ type Meta {
   availability: String
   id: Int!
   introduction: String
+  language: String
   lastUpdated: String
   metaDescription: String
   metaImage: MetaImage
@@ -778,6 +779,8 @@ type Mutation {
   deleteFolder(id: String!): String!
   deleteFolderResource(folderId: String!, resourceId: String!): String!
   deletePersonalData: Boolean!
+  newArenaTopic(categoryId: Int!, content: String!, title: String!): ArenaTopic!
+  replyToTopic(content: String!, topicId: Int!): ArenaPost!
   sortFolders(parentId: String, sortedIds: [String!]!): SortResult!
   sortResources(parentId: String!, sortedIds: [String!]!): SortResult!
   transformArticleContent(
@@ -797,7 +800,7 @@ type Mutation {
   updateFolderResource(id: String!, tags: [String!]): FolderResource!
   updateFolderStatus(folderId: String!, status: String!): [String!]!
   updatePersonalData(
-    favoriteSubjects: [String!]
+    favoriteSubjects: [String]
     shareName: Boolean
   ): MyNdlaPersonalData!
 }

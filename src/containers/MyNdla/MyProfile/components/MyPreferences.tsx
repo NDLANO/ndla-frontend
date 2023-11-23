@@ -86,7 +86,7 @@ const MyPreferences = ({ user }: MyPreferencesProps) => {
     setUserPreference(value);
     const newPref = value === 'showName' ? true : false;
     await updatePersonalData({
-      variables: { favoriteSubjects: undefined, shareName: newPref },
+      variables: { shareName: newPref },
     });
   };
 
