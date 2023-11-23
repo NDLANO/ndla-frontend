@@ -44,7 +44,6 @@ import FavoriteSubjectsPage from './containers/MyNdla/FavoriteSubjects/FavoriteS
 import AboutPage from './containers/AboutPage/AboutPage';
 import H5pPage from './containers/ResourceEmbed/H5pPage';
 import PostsPage from './containers/MyNdla/ArenaPage/PostsPage';
-import MyNdlaPage from './containers/MyNdla/MyNdlaPage';
 
 interface State {
   hasError: boolean;
