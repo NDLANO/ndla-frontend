@@ -8,98 +8,122 @@
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
+import { Text } from '@ndla/typography';
+import { UnOrderedList } from '@ndla/ui';
 import { FeideUserApiType } from '../../../interfaces';
 import { parseUserObject } from './parseUserObject';
 import { isStudent } from '../Folders/util';
-
-const InfoList = styled.ul`
-  padding: 0 0 0 ${spacing.normal};
-`;
 
 interface Props {
   user: FeideUserApiType;
 }
 
+const StyledComponentContainer = styled.div`
+  max-width: 700px;
+`;
+
 const ShortInfoDiv = styled.div`
-  margin: 2rem auto;
+  margin: ${spacing.normal} auto;
+  display: flex;
+  flex-direction: column;
+  gap: ${spacing.xxsmall};
 `;
 
 export const UserInfo = ({ user }: Props) => {
   const { t } = useTranslation();
-
   const parsedUser = parseUserObject(user);
 
   return (
-    <div>
+    <StyledComponentContainer>
       {
-        <p>
+        <Text element="p" textStyle="content-alt" margin="none">
           {t('user.loggedInAs', {
             role: t(`user.role.${isStudent(user) ? 'student' : 'employee'}`),
           })}
-        </p>
+        </Text>
       }
       <ShortInfoDiv>
-        <div>
-          {t('user.username')}: <b>{user.uid}</b>
-        </div>
-        <div>
-          {t('user.name')}: <b>{user.displayName}</b>
-        </div>
-        <div>
-          {t('user.mail')}: <b>{user.mail?.join(', ')}</b>
-        </div>
+        <Text element="p" textStyle="content-alt" margin="none">
+          {t('user.username')}: {user.uid}
+        </Text>
+        <Text element="p" textStyle="content-alt" margin="none">
+          {t('user.name')}: {user.displayName}
+        </Text>
+        <Text element="p" textStyle="content-alt" margin="none">
+          {t('user.mail')}: {user.mail?.join(', ')}
+        </Text>
         {user.preferredLanguage && (
-          <div>
+          <Text element="p" textStyle="content-alt" margin="none">
             {t('user.preferredLanguage')}:{' '}
-            <b>{t(`languages.${user.preferredLanguage}`)}</b>
-          </div>
+            {t(`languages.${user.preferredLanguage}`)}
+          </Text>
         )}
         {user.mobile && (
-          <div>
-            {t('user.mobile')}: <b>{user.mobile}</b>
-          </div>
+          <Text element="p" textStyle="content-alt" margin="none">
+            {t('user.mobile')}: {user.mobile}
+          </Text>
         )}
       </ShortInfoDiv>
-      <InfoList>
+      <UnOrderedList>
         {parsedUser.organizations.map((org) => (
-          <li key={org.id}>
+          <Text element="li" textStyle="content-alt" margin="none" key={org.id}>
             {`${org.displayName}${
               org.membership.primarySchool
                 ? ` (${t('user.primarySchool')})`
                 : ''
             }`}
-            <InfoList>
+            <UnOrderedList>
               {Object.entries(org.children).map(([groupType, val]) => {
                 if (val.length < 1) return null;
                 return (
-                  <li key={groupType}>
+                  <Text
+                    element="li"
+                    textStyle="content-alt"
+                    margin="none"
+                    key={groupType}
+                  >
                     {t(`user.groupTypes.${groupType}`)}
-                    <InfoList>
+                    <UnOrderedList>
                       {val.map((group) => (
-                        <li key={group.id}>{`${group.displayName}${
+                        <Text
+                          element="li"
+                          textStyle="content-alt"
+                          margin="none"
+                          key={group.id}
+                        >{`${group.displayName}${
                           group.grep ? ` (${group.grep.code})` : ''
-                        }`}</li>
+                        }`}</Text>
                       ))}
-                    </InfoList>
-                  </li>
+                    </UnOrderedList>
+                  </Text>
                 );
               })}
-            </InfoList>
-          </li>
+            </UnOrderedList>
+          </Text>
         ))}
-      </InfoList>
+      </UnOrderedList>
       {parsedUser.grepCodes.length > 0 && (
-        <InfoList>
-          <li key="grepCodes">
+        <UnOrderedList>
+          <Text
+            element="li"
+            textStyle="content-alt"
+            margin="none"
+            key="grepCodes"
+          >
             {t('user.groupTypes.grepCode')}
-            <InfoList>
+            <UnOrderedList>
               {parsedUser.grepCodes.map((code) => (
-                <li key={code.id}>{`${code.displayName} (${code.code})`}</li>
+                <Text
+                  element="li"
+                  textStyle="content-alt"
+                  margin="none"
+                  key={code.id}
+                >{`${code.displayName} (${code.code})`}</Text>
               ))}
-            </InfoList>
-          </li>
-        </InfoList>
+            </UnOrderedList>
+          </Text>
+        </UnOrderedList>
       )}
-    </div>
+    </StyledComponentContainer>
   );
 };
