@@ -72,7 +72,16 @@ export type GQLArenaNotification = {
   topicId: Scalars['Int']['output'];
   topicTitle: Scalars['String']['output'];
   type: Scalars['String']['output'];
-  user: GQLArenaUserNotification;
+  user: GQLArenaNotificationUser;
+};
+
+export type GQLArenaNotificationUser = GQLBaseUser & {
+  __typename?: 'ArenaNotificationUser';
+  displayName: Scalars['String']['output'];
+  id: Scalars['Int']['output'];
+  profilePicture?: Maybe<Scalars['String']['output']>;
+  slug: Scalars['String']['output'];
+  username: Scalars['String']['output'];
 };
 
 export type GQLArenaPost = {
@@ -102,15 +111,6 @@ export type GQLArenaUser = GQLBaseUser & {
   __typename?: 'ArenaUser';
   displayName: Scalars['String']['output'];
   groupTitleArray: Array<Scalars['String']['output']>;
-  id: Scalars['Int']['output'];
-  profilePicture?: Maybe<Scalars['String']['output']>;
-  slug: Scalars['String']['output'];
-  username: Scalars['String']['output'];
-};
-
-export type GQLArenaUserNotification = GQLBaseUser & {
-  __typename?: 'ArenaUserNotification';
-  displayName: Scalars['String']['output'];
   id: Scalars['Int']['output'];
   profilePicture?: Maybe<Scalars['String']['output']>;
   slug: Scalars['String']['output'];
@@ -2753,30 +2753,14 @@ export type GQLMultidisciplinaryTopicWrapper_SubjectFragment = {
   __typename?: 'Subject';
 } & GQLMultidisciplinaryTopic_SubjectFragment;
 
-type GQLBaseUserFragment_ArenaUser_Fragment = {
-  __typename?: 'ArenaUser';
-  displayName: string;
-  id: number;
-  profilePicture?: string;
-  slug: string;
-};
-
-type GQLBaseUserFragment_ArenaUserNotification_Fragment = {
-  __typename?: 'ArenaUserNotification';
-  displayName: string;
-  id: number;
-  profilePicture?: string;
-  slug: string;
-};
-
-export type GQLBaseUserFragmentFragment =
-  | GQLBaseUserFragment_ArenaUser_Fragment
-  | GQLBaseUserFragment_ArenaUserNotification_Fragment;
-
 export type GQLArenaUserQueryFragmentFragment = {
   __typename?: 'ArenaUser';
+  displayName: string;
+  id: number;
+  profilePicture?: string;
+  slug: string;
   groupTitleArray: Array<string>;
-} & GQLBaseUserFragment_ArenaUser_Fragment;
+};
 
 export type GQLArenaUserQueryVariables = Exact<{
   username: Scalars['String']['input'];
@@ -2802,8 +2786,12 @@ export type GQLArenaNotificationFragmentFragment = {
   subject: string;
   type: string;
   user: {
-    __typename?: 'ArenaUserNotification';
-  } & GQLBaseUserFragment_ArenaUserNotification_Fragment;
+    __typename?: 'ArenaNotificationUser';
+    displayName: string;
+    id: number;
+    profilePicture?: string;
+    slug: string;
+  };
 };
 
 export type GQLArenaNotificationsQueryVariables = Exact<{

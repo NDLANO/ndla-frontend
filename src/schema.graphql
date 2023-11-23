@@ -38,7 +38,15 @@ type ArenaNotification {
   topicId: Int!
   topicTitle: String!
   type: String!
-  user: ArenaUserNotification!
+  user: ArenaNotificationUser!
+}
+
+type ArenaNotificationUser implements BaseUser {
+  displayName: String!
+  id: Int!
+  profilePicture: String
+  slug: String!
+  username: String!
 }
 
 type ArenaPost {
@@ -65,14 +73,6 @@ type ArenaTopic {
 type ArenaUser implements BaseUser {
   displayName: String!
   groupTitleArray: [String!]!
-  id: Int!
-  profilePicture: String
-  slug: String!
-  username: String!
-}
-
-type ArenaUserNotification implements BaseUser {
-  displayName: String!
   id: Int!
   profilePicture: String
   slug: String!
