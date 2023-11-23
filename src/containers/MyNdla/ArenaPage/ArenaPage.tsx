@@ -13,7 +13,7 @@ import { spacing, fonts } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import { Heading, Text } from '@ndla/typography';
 import { AuthContext } from '../../../components/AuthenticationContext';
-import { useArenaCategories } from '../arenaMutations';
+import { useArenaCategories } from '../arenaQueries';
 import { usePersonalData } from '../userMutations';
 import ArenaCard from '../ArenaCards/ArenaCard';
 import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';

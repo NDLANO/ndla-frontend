@@ -11,7 +11,7 @@ import { useParams } from 'react-router';
 import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
 import PostCard from '../ArenaCards/PostCard';
-import { useArenaCategory, useArenaTopic } from '../arenaMutations';
+import { useArenaCategory, useArenaTopic } from '../arenaQueries';
 import { GQLArenaPostFragmentFragment } from '../../../graphqlTypes';
 import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
 import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
@@ -63,7 +63,7 @@ const PostsPage = () => {
             displayName={post.user.displayName}
             username={post.user.username}
             // missing affiliation in user
-            affiliation={post.user.location || ''}
+            affiliation={post.user.location ?? ''}
           />
         </PostCardWrapper>
       ))}

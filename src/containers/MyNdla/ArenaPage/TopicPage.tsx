@@ -14,7 +14,7 @@ import { Heading, Text } from '@ndla/typography';
 import { ButtonV2 } from '@ndla/button';
 import { Pencil } from '@ndla/icons/action';
 import { useParams } from 'react-router-dom';
-import { useArenaCategory } from '../arenaMutations';
+import { useArenaCategory } from '../arenaQueries';
 import ArenaCard from '../ArenaCards/ArenaCard';
 import { GQLArenaTopicFragmentFragment } from '../../../graphqlTypes';
 import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
