@@ -61,7 +61,7 @@ export type GQLArenaNotification = {
   bodyShort: Scalars['String']['output'];
   datetimeISO: Scalars['String']['output'];
   from: Scalars['Int']['output'];
-  image: Scalars['String']['output'];
+  image?: Maybe<Scalars['String']['output']>;
   importance: Scalars['Int']['output'];
   notificationId: Scalars['String']['output'];
   path: Scalars['String']['output'];

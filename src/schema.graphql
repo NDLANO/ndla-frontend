@@ -27,7 +27,7 @@ type ArenaNotification {
   bodyShort: String!
   datetimeISO: String!
   from: Int!
-  image: String!
+  image: String
   importance: Int!
   notificationId: String!
   path: String!
