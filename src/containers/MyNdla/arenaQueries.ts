@@ -15,14 +15,21 @@ import {
 } from '../../graphqlTypes';
 import { useGraphQuery } from '../../util/runQueries';
 
-const arenaUserFragment = gql`
-  fragment ArenaUserQueryFragment on ArenaUser {
+const baseUserFragment = gql`
+  fragment BaseUserFragment on BaseUser {
     displayName
     id
     profilePicture
     slug
+  }
+`;
+
+const arenaUserFragment = gql`
+  fragment ArenaUserQueryFragment on ArenaUser {
+    ...BaseUserFragment
     groupTitleArray
   }
+  ${baseUserFragment}
 `;
 
 export const arenaUserQuery = gql`
@@ -38,7 +45,7 @@ export const useArenaUser = (username: string) => {
   const { data } = useGraphQuery<GQLArenaUserQuery>(arenaUserQuery, {
     variables: { username },
   });
-  return { arenaUser: data };
+  return { arenaUser: data?.arenaUser };
 };
 
 const arenaNotificationFragment = gql`
@@ -57,10 +64,10 @@ const arenaNotificationFragment = gql`
     subject
     type
     user {
-      ...ArenaUserQueryFragment
+      ...BaseUserFragment
     }
   }
-  ${arenaUserFragment}
+  ${baseUserFragment}
 `;
 
 const arenaNotificationQuery = gql`

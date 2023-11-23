@@ -67,7 +67,7 @@ const AuthenticationContext = ({ children }: Props) => {
     if (isValid) {
       fetchFeideUserWithGroups().then((user) => {
         if (user?.eduPersonPrimaryAffiliation === 'student') {
-          setExamLock(!!examLockStatus?.value === true);
+          setExamLock(examLockStatus?.value === true);
         }
         setUser(user);
         setLoaded(true);

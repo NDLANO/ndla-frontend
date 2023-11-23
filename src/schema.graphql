@@ -38,7 +38,7 @@ type ArenaNotification {
   topicId: Int!
   topicTitle: String!
   type: String!
-  user: ArenaUser!
+  user: ArenaUserNotification!
 }
 
 type ArenaPost {
@@ -62,9 +62,17 @@ type ArenaTopic {
   title: String!
 }
 
-type ArenaUser {
+type ArenaUser implements BaseUser {
   displayName: String!
   groupTitleArray: [String!]!
+  id: Int!
+  profilePicture: String
+  slug: String!
+  username: String!
+}
+
+type ArenaUserNotification implements BaseUser {
+  displayName: String!
   id: Int!
   profilePicture: String
   slug: String!
@@ -201,6 +209,14 @@ type AudioSummary {
   supportedLanguages: [String!]!
   title: Title!
   url: String!
+}
+
+interface BaseUser {
+  displayName: String!
+  id: Int!
+  profilePicture: String
+  slug: String!
+  username: String!
 }
 
 type Breadcrumb {
@@ -819,7 +835,7 @@ type Mutation {
   updateFolderResource(id: String!, tags: [String!]): FolderResource!
   updateFolderStatus(folderId: String!, status: String!): [String!]!
   updatePersonalData(
-    favoriteSubjects: [String]
+    favoriteSubjects: [String!]
     shareName: Boolean
   ): MyNdlaPersonalData!
 }
