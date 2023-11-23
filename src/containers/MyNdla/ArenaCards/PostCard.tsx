@@ -21,6 +21,7 @@ import { HorizontalMenu } from '@ndla/icons/contentType';
 import { ReportOutlined } from '@ndla/icons/common';
 import { Switch } from '@ndla/switch';
 import { Text } from '@ndla/typography';
+import { useTranslation } from 'react-i18next';
 import UserProfileTag from '../components/UserProfileTag';
 
 interface Props {
@@ -87,6 +88,8 @@ const PostCard = ({
   username,
   affiliation,
 }: Props) => {
+  const { t } = useTranslation();
+
   return (
     <StyledCardContainer key={id}>
       <StyledTopContainer>
@@ -98,7 +101,7 @@ const PostCard = ({
         <StyledSwitch
           onChange={() => {}}
           checked={false}
-          label={'Få varsel om nye svar'}
+          label={t('myNdla.arena.posts.notify')}
           id={'1'}
         />
       </StyledTopContainer>
@@ -130,7 +133,7 @@ const PostCard = ({
                 variant="ghost"
               >
                 <ReportOutlined />
-                Rapporter innlegg til moderator
+                {t('myNdla.arena.posts.dropdownMenu.report')}
               </StyledButton>
             </DropdownItem>
             <DropdownItem>
@@ -142,7 +145,7 @@ const PostCard = ({
                 variant="ghost"
               >
                 <Pencil />
-                Rediger innlegg
+                {t('myNdla.arena.posts.dropdownMenu.edit')}
               </StyledButton>
             </DropdownItem>
             <DropdownItem>
@@ -154,12 +157,14 @@ const PostCard = ({
                 variant="ghost"
               >
                 <TrashCanOutline />
-                Slett Innlegget
+                {t('myNdla.arena.posts.dropdownMenu.delete')}
               </StyledButton>
             </DropdownItem>
           </DropdownContent>
         </DropdownMenu>
-        <StyledAddCommentButton>Skriv et svar</StyledAddCommentButton>
+        <StyledAddCommentButton>
+          {t('myNdla.arena.posts.comment')}
+        </StyledAddCommentButton>
       </BottomContainer>
     </StyledCardContainer>
   );

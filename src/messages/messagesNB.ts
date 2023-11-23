@@ -81,22 +81,6 @@ const messages = {
     audio: 'Audio',
     concept: 'Forklaring',
   },
-
-  arena: {
-    header: 'Arena',
-    description:
-      'Velkommen til NDLAs Arena. Her kan du diskutere, dele og samarbeide med andre lærere fra hele Norge.',
-    title: 'Kategorier',
-    category: {
-      posts: 'Innlegg',
-      newPost: 'Nytt innlegg',
-    },
-    topic: {
-      responses: 'Svar',
-    },
-    bottomText:
-      'Savner du en kategori? Du kan be om nye kategorier. Bruk “Spør NDLA” eller send en epost til moderator@ndla.no',
-  },
 };
 
 export default messages;

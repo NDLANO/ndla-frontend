@@ -91,13 +91,13 @@ const TopicPage = () => {
       </TopicDescription>
       <StyledContainer>
         <StyledTopicH2 element="h2" headingStyle="h2" margin="none">
-          {t('arena.category.posts')}
+          {t('myNdla.arena.category.posts')}
         </StyledTopicH2>
         <StyledNewTopicButton
           colorTheme="lighter"
           //onClick={} to open modal
         >
-          {t('arena.category.newPost')}
+          {t('myNdla.arena.category.newPost')}
           <PencilIcon />
         </StyledNewTopicButton>
       </StyledContainer>

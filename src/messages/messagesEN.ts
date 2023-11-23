@@ -80,22 +80,6 @@ const messages = {
     concept: 'Concept',
     audio: 'Audio',
   },
-
-  arena: {
-    header: 'Arena',
-    description:
-      "Welcome to NDLA's Arena. Here you can discuss, share and collaborate with other teachers from all over Norway.",
-    title: 'Categories',
-    category: {
-      posts: 'Posts',
-      newPost: 'New post',
-    },
-    topic: {
-      responses: 'Responses',
-    },
-    bottomText:
-      'Are you missing a category? You can request new categories. Use "Ask NDLA" or send an email to moderator@ndla.no',
-  },
 };
 
 export default messages;
