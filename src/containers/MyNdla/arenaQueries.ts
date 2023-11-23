@@ -75,7 +75,9 @@ export const useArenaNotifications = () => {
   const { data } = useGraphQuery<GQLArenaNotificationsQuery>(
     arenaNotificationQuery,
     {
-      pollInterval: 600000,
+      pollInterval: 60000,
+      ssr: false,
+      nextFetchPolicy: 'no-cache',
     },
   );
   return {
@@ -84,17 +86,17 @@ export const useArenaNotifications = () => {
 };
 
 const arenaMarkNotificationAsReadMutation = gql`
-  mutation MarkNotificationAsRead($topicId: Int!) {
-    markNotificationAsRead(topicId: $topicId)
+  mutation MarkNotificationAsRead($topicIds: [Int!]!) {
+    markNotificationAsRead(topicIds: $topicIds)
   }
 `;
 
 export const useMarkNotificationsAsRead = () => {
-  const [markNotificationAsRead] = useMutation<
+  const [markNotificationsAsRead] = useMutation<
     GQLMarkNotificationAsReadMutation,
     GQLMutationMarkNotificationAsReadArgs
   >(arenaMarkNotificationAsReadMutation, {
     refetchQueries: [{ query: arenaNotificationQuery }],
   });
-  return { markNotificationAsRead };
+  return { markNotificationsAsRead };
 };

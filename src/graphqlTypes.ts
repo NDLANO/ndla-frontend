@@ -907,7 +907,9 @@ export type GQLMutation = {
   deleteFolder: Scalars['String']['output'];
   deleteFolderResource: Scalars['String']['output'];
   deletePersonalData: Scalars['Boolean']['output'];
-  markNotificationAsRead: Scalars['Int']['output'];
+  markNotificationAsRead: Array<Scalars['Int']['output']>;
+  newArenaTopic: GQLArenaTopic;
+  replyToTopic: GQLArenaPost;
   sortFolders: GQLSortResult;
   sortResources: GQLSortResult;
   transformArticleContent: Scalars['String']['output'];
@@ -947,6 +949,17 @@ export type GQLMutationDeleteFolderResourceArgs = {
 };
 
 export type GQLMutationMarkNotificationAsReadArgs = {
+  topicIds: Array<Scalars['Int']['input']>;
+};
+
+export type GQLMutationNewArenaTopicArgs = {
+  categoryId: Scalars['Int']['input'];
+  content: Scalars['String']['input'];
+  title: Scalars['String']['input'];
+};
+
+export type GQLMutationReplyToTopicArgs = {
+  content: Scalars['String']['input'];
   topicId: Scalars['Int']['input'];
 };
 
@@ -987,7 +1000,8 @@ export type GQLMutationUpdateFolderStatusArgs = {
 };
 
 export type GQLMutationUpdatePersonalDataArgs = {
-  favoriteSubjects: Array<Scalars['String']['input']>;
+  favoriteSubjects?: InputMaybe<Array<Scalars['String']['input']>>;
+  shareName?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type GQLMyNdlaPersonalData = {
@@ -997,6 +1011,7 @@ export type GQLMyNdlaPersonalData = {
   id: Scalars['Int']['output'];
   organization: Scalars['String']['output'];
   role: Scalars['String']['output'];
+  shareName: Scalars['Boolean']['output'];
 };
 
 export type GQLName = {
@@ -1017,6 +1032,11 @@ export type GQLNewFolderResource = {
   path: Scalars['String']['output'];
   resourceType: Scalars['String']['output'];
   tags?: Maybe<Array<Scalars['String']['output']>>;
+};
+
+export type GQLOwner = {
+  __typename?: 'Owner';
+  name: Scalars['String']['output'];
 };
 
 export type GQLPodcastLicense = {
@@ -1549,6 +1569,7 @@ export type GQLSharedFolder = {
   description?: Maybe<Scalars['String']['output']>;
   id: Scalars['String']['output'];
   name: Scalars['String']['output'];
+  owner?: Maybe<GQLOwner>;
   parentId?: Maybe<Scalars['String']['output']>;
   resources: Array<GQLFolderResource>;
   status: Scalars['String']['output'];
@@ -2761,12 +2782,12 @@ export type GQLArenaNotificationsQuery = {
 };
 
 export type GQLMarkNotificationAsReadMutationVariables = Exact<{
-  topicId: Scalars['Int']['input'];
+  topicIds: Array<Scalars['Int']['input']> | Scalars['Int']['input'];
 }>;
 
 export type GQLMarkNotificationAsReadMutation = {
   __typename?: 'Mutation';
-  markNotificationAsRead: number;
+  markNotificationAsRead: Array<number>;
 };
 
 export type GQLAiOrganizationsQueryVariables = Exact<{ [key: string]: never }>;

@@ -59,7 +59,7 @@ const Notification = styled.div`
 const StyledList = styled.ul`
   list-style: none;
   gap: ${spacing.xxsmall};
-  padding-bottom: ${spacing.small};
+  padding: 0 0 ${spacing.small} 0;
 `;
 
 const StyledLi = styled.li`
@@ -94,24 +94,23 @@ interface Props {
 }
 
 const NotificationList = ({ notifications, inPopover }: Props) => {
+  const { markNotificationsAsRead } = useMarkNotificationsAsRead();
   const {
     t,
     i18n: { language },
   } = useTranslation();
   const now = useMemo(() => new Date(), []);
-  const { markNotificationAsRead } = useMarkNotificationsAsRead();
 
   const markAllRead = useCallback(async () => {
-    await Promise.all(
+    const topicIdsToBeMarkedRead =
       notifications
         ?.filter(({ read }) => !read)
-        ?.map(({ topicId }) =>
-          markNotificationAsRead({
-            variables: { topicId },
-          }),
-        ) ?? [],
-    );
-  }, [notifications, markNotificationAsRead]);
+        ?.map(({ topicId }) => topicId) ?? [];
+
+    await markNotificationsAsRead({
+      variables: { topicIds: topicIdsToBeMarkedRead },
+    });
+  }, [notifications, markNotificationsAsRead]);
 
   const notifcationsToShow = useMemo(
     () => (inPopover ? notifications?.slice(0, 5) : notifications),
