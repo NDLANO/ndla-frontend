@@ -796,7 +796,10 @@ type Mutation {
   ): Folder!
   updateFolderResource(id: String!, tags: [String!]): FolderResource!
   updateFolderStatus(folderId: String!, status: String!): [String!]!
-  updatePersonalData(favoriteSubjects: [String!]!): MyNdlaPersonalData!
+  updatePersonalData(
+    favoriteSubjects: [String!]
+    shareName: Boolean
+  ): MyNdlaPersonalData!
 }
 
 type MyNdlaPersonalData {
@@ -805,6 +808,7 @@ type MyNdlaPersonalData {
   id: Int!
   organization: String!
   role: String!
+  shareName: Boolean!
 }
 
 type Name {
@@ -822,6 +826,10 @@ type NewFolderResource {
   path: String!
   resourceType: String!
   tags: [String!]
+}
+
+type Owner {
+  name: String!
 }
 
 type PodcastLicense {
@@ -1175,6 +1183,7 @@ type SharedFolder {
   description: String
   id: String!
   name: String!
+  owner: Owner
   parentId: String
   resources: [FolderResource!]!
   status: String!

@@ -6,7 +6,7 @@
  *
  */
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { colors, fonts, misc, spacing } from '@ndla/core';
 import { Heading, Text } from '@ndla/typography';
@@ -14,6 +14,10 @@ import { RadioButtonGroup } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
 import { FeideUserApiType } from '../../../../interfaces';
 import { isStudent } from '../../Folders/util';
+import {
+  usePersonalData,
+  useUpdatePersonalData,
+} from '../../../MyNdla/userMutations';
 
 type MyPreferencesProps = {
   user: FeideUserApiType | undefined;
@@ -73,8 +77,23 @@ const StyledRadioButtonGroup = styled(RadioButtonGroup)`
 `;
 
 const MyPreferences = ({ user }: MyPreferencesProps) => {
-  const [_userPreference, setUserPreference] = useState<string>('showName');
+  const [userPreference, setUserPreference] = useState<string | undefined>();
   const { t } = useTranslation();
+  const { personalData, fetch: fetchPersonalData } = usePersonalData();
+  const { updatePersonalData } = useUpdatePersonalData();
+
+  const setUserPref = async (value: string) => {
+    setUserPreference(value);
+    const newPref = value === 'showName' ? true : false;
+    await updatePersonalData({
+      variables: { favoriteSubjects: undefined, shareName: newPref },
+    });
+  };
+
+  useEffect(() => {
+    fetchPersonalData();
+    setUserPreference(personalData?.shareName ? 'showName' : 'dontShowName');
+  }, [user, personalData?.shareName, fetchPersonalData]);
 
   const userRole = () => {
     return isStudent(user) ? 'student' : 'employee';
@@ -123,8 +142,9 @@ const MyPreferences = ({ user }: MyPreferencesProps) => {
             ]}
             direction="vertical"
             uniqeIds
+            selected={userPreference}
             onChange={(value) => {
-              setUserPreference(value);
+              setUserPref(value);
             }}
           />
         </>

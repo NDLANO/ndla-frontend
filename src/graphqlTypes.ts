@@ -962,7 +962,8 @@ export type GQLMutationUpdateFolderStatusArgs = {
 };
 
 export type GQLMutationUpdatePersonalDataArgs = {
-  favoriteSubjects: Array<Scalars['String']['input']>;
+  favoriteSubjects?: InputMaybe<Array<Scalars['String']['input']>>;
+  shareName?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type GQLMyNdlaPersonalData = {
@@ -972,6 +973,7 @@ export type GQLMyNdlaPersonalData = {
   id: Scalars['Int']['output'];
   organization: Scalars['String']['output'];
   role: Scalars['String']['output'];
+  shareName: Scalars['Boolean']['output'];
 };
 
 export type GQLName = {
@@ -992,6 +994,11 @@ export type GQLNewFolderResource = {
   path: Scalars['String']['output'];
   resourceType: Scalars['String']['output'];
   tags?: Maybe<Array<Scalars['String']['output']>>;
+};
+
+export type GQLOwner = {
+  __typename?: 'Owner';
+  name: Scalars['String']['output'];
 };
 
 export type GQLPodcastLicense = {
@@ -1523,6 +1530,7 @@ export type GQLSharedFolder = {
   description?: Maybe<Scalars['String']['output']>;
   id: Scalars['String']['output'];
   name: Scalars['String']['output'];
+  owner?: Maybe<GQLOwner>;
   parentId?: Maybe<Scalars['String']['output']>;
   resources: Array<GQLFolderResource>;
   status: Scalars['String']['output'];
@@ -3197,6 +3205,7 @@ export type GQLMySubjectMyNdlaPersonalDataFragmentFragment = {
   id: number;
   favoriteSubjects: Array<string>;
   role: string;
+  shareName: boolean;
 };
 
 export type GQLPersonalDataQueryVariables = Exact<{ [key: string]: never }>;
@@ -3211,7 +3220,9 @@ export type GQLPersonalDataQuery = {
 export type GQLUpdatePersonalDataMutationVariables = Exact<{
   favoriteSubjects:
     | Array<Scalars['String']['input']>
-    | Scalars['String']['input'];
+    | Scalars['String']['input']
+    | undefined;
+  shareName: Scalars['Boolean']['input'] | undefined;
 }>;
 
 export type GQLUpdatePersonalDataMutation = {
