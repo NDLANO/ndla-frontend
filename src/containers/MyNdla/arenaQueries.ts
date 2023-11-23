@@ -9,7 +9,7 @@
 import { gql, useMutation } from '@apollo/client';
 import {
   GQLArenaNotificationsQuery,
-  GQLArenaUser,
+  GQLArenaUserQuery,
   GQLMarkNotificationAsReadMutation,
   GQLMutationMarkNotificationAsReadArgs,
 } from '../../graphqlTypes';
@@ -21,6 +21,7 @@ const arenaUserFragment = gql`
     id
     profilePicture
     slug
+    groupTitleArray
   }
 `;
 
@@ -34,7 +35,7 @@ export const arenaUserQuery = gql`
 `;
 
 export const useArenaUser = (username: string) => {
-  const { data } = useGraphQuery<GQLArenaUser>(arenaUserQuery, {
+  const { data } = useGraphQuery<GQLArenaUserQuery>(arenaUserQuery, {
     variables: { username },
   });
   return { arenaUser: data };

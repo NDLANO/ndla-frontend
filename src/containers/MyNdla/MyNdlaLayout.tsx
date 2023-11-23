@@ -17,6 +17,8 @@ import {
   Book,
   BookOutlined,
   HashTag,
+  Home,
+  HomeOutline,
   LogOut,
   ProfilePerson,
   ProfilePersonOutlined,
@@ -185,8 +187,8 @@ export const menuLinks = (t: TFunction, location: Location) => [
     id: '',
     name: t('myNdla.myPage.myPage'),
     shortName: t('myNdla.myNDLA'),
-    icon: <ProfilePersonOutlined />,
-    iconFilled: <ProfilePerson />,
+    icon: <HomeOutline />,
+    iconFilled: <Home />,
   },
   {
     id: 'folders',
@@ -207,6 +209,13 @@ export const menuLinks = (t: TFunction, location: Location) => [
     name: t('myNdla.myTags'),
     shortName: t('myNdla.iconMenu.tags'),
     icon: <HashTag />,
+  },
+  {
+    id: 'profile',
+    name: t('myNdla.myProfile.title'),
+    shortName: t('myNdla.iconMenu.profile'),
+    icon: <ProfilePersonOutlined />,
+    iconFilled: <ProfilePerson />,
   },
   {
     id: 'logout-path',

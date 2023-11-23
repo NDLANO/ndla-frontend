@@ -28,7 +28,7 @@ import {
   ModalTrigger,
   ModalContent,
 } from '@ndla/modal';
-import InfoPart, { InfoPartIcon, InfoPartText } from './InfoSection';
+import InfoPart, { InfoPartIcon, InfoPartText } from './InfoPart';
 import { AuthContext } from '../../components/AuthenticationContext';
 import {
   useFolderResourceMetaSearch,

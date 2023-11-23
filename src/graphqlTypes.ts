@@ -1000,7 +1000,7 @@ export type GQLMutationUpdateFolderStatusArgs = {
 };
 
 export type GQLMutationUpdatePersonalDataArgs = {
-  favoriteSubjects?: InputMaybe<Array<Scalars['String']['input']>>;
+  favoriteSubjects?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   shareName?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
@@ -2742,6 +2742,7 @@ export type GQLArenaUserQueryFragmentFragment = {
   id: number;
   profilePicture?: string;
   slug: string;
+  groupTitleArray: Array<string>;
 };
 
 export type GQLArenaUserQueryVariables = Exact<{
@@ -3280,6 +3281,7 @@ export type GQLMySubjectMyNdlaPersonalDataFragmentFragment = {
   id: number;
   favoriteSubjects: Array<string>;
   role: string;
+  shareName: boolean;
 };
 
 export type GQLPersonalDataQueryVariables = Exact<{ [key: string]: never }>;
@@ -3292,9 +3294,10 @@ export type GQLPersonalDataQuery = {
 };
 
 export type GQLUpdatePersonalDataMutationVariables = Exact<{
-  favoriteSubjects:
-    | Array<Scalars['String']['input']>
-    | Scalars['String']['input'];
+  favoriteSubjects?: InputMaybe<
+    Array<Scalars['String']['input']> | Scalars['String']['input']
+  >;
+  shareName?: InputMaybe<Scalars['Boolean']['input']>;
 }>;
 
 export type GQLUpdatePersonalDataMutation = {
