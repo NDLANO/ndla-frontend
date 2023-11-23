@@ -23,6 +23,9 @@ const BreadcrumbWrapper = styled.div`
 
 const PostCardWrapper = styled.div`
   margin-bottom: ${spacing.normal};
+  &[data-mainPost='false'] {
+    margin-left: 72px;
+  }
 `;
 
 const PostsPage = () => {
@@ -53,7 +56,7 @@ const PostsPage = () => {
         />
       </BreadcrumbWrapper>
       {arenaTopic?.posts?.map((post: GQLArenaPostFragmentFragment) => (
-        <PostCardWrapper key={post.id}>
+        <PostCardWrapper key={post.id} data-mainPost={post.isMainPost}>
           <PostCard
             id={post.id.toString()}
             isMainPost={post.isMainPost}

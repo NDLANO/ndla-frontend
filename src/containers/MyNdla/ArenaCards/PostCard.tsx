@@ -102,7 +102,7 @@ const PostCard = ({
           onChange={() => {}}
           checked={false}
           label={t('myNdla.arena.posts.notify')}
-          id={'1'}
+          id={t('myNdla.arena.posts.notify')}
         />
       </StyledTopContainer>
       <StyledContentContainer>
