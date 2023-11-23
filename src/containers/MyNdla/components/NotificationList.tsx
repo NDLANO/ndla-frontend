@@ -15,7 +15,11 @@ const TitleWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   padding-bottom: ${spacing.normal};
-  gap: minmax(150px, auto);
+  padding-top: ${spacing.large};
+
+  &[data-popover='true'] {
+    padding-top: unset;
+  }
 `;
 
 const StyledDot = styled(HelpCircleDual)`
@@ -119,7 +123,7 @@ const NotificationList = ({ notifications, inPopover }: Props) => {
 
   return (
     <>
-      <TitleWrapper>
+      <TitleWrapper data-popover={!!inPopover}>
         <Text textStyle="meta-text-large" margin="none">
           {t('myNdla.arena.notification.title')}
         </Text>

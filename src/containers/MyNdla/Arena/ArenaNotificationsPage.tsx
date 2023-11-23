@@ -6,9 +6,8 @@
  *
  */
 
-import { spacing } from '@ndla/core';
 import { HelmetWithTracker } from '@ndla/tracker';
-import styled from '@emotion/styled';
+import { Text } from '@ndla/typography';
 import { useTranslation } from 'react-i18next';
 import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
 import MyNdlaTitle from '../components/MyNdlaTitle';
@@ -16,10 +15,6 @@ import NotificationList from '../components/NotificationList';
 import TitleWrapper from '../components/TitleWrapper';
 import { useArenaNotifications } from '../arenaQueries';
 import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
-
-const Description = styled.div`
-  padding: ${spacing.normal} 0;
-`;
 
 const ArenaNotificationPage = () => {
   const { t } = useTranslation();
@@ -41,7 +36,9 @@ const ArenaNotificationPage = () => {
         />
         <MyNdlaTitle title={t('myNdla.arena.notification.myNotification')} />
       </TitleWrapper>
-      <Description>{t('myNdla.arena.notification.description')}</Description>
+      <Text textStyle="content-alt" margin="small">
+        {t('myNdla.arena.notification.description')}
+      </Text>
       <NotificationList notifications={notifications} />
     </MyNdlaPageWrapper>
   );
