@@ -95,10 +95,7 @@ Disallow: /*/printpdf/
 # ndla-frontend paths
 Disallow: /health/
 Disallow: /oembed/
-Disallow: /article-iframe/
 Disallow: /lti/
-Disallow: /*/article/
-Disallow: /article/
 
 Allow: /sites/default/files/*.pdf
 Allow: /sites/default/files/images/*

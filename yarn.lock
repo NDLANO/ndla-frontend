@@ -2576,13 +2576,13 @@
     "@ndla/icons" "^4.2.0"
     "@radix-ui/react-accordion" "^1.1.2"
 
-"@ndla/article-converter@^6.0.9":
-  version "6.0.9"
-  resolved "https://registry.yarnpkg.com/@ndla/article-converter/-/article-converter-6.0.9.tgz#9034c2fe2ef9365270c99c902858937bd249e060"
-  integrity sha512-Nz5QqGPZ+p+d9WQxTUNVSPtEWofu1Tso4XSMhh175yZ0TFs+ymMrSTyoFBGzUfdFWi+49d79QWZqqd6zab3PVg==
+"@ndla/article-converter@^6.0.10":
+  version "6.0.10"
+  resolved "https://registry.yarnpkg.com/@ndla/article-converter/-/article-converter-6.0.10.tgz#14b85b4cc1585d6eb3d21a5290488d1ba6114841"
+  integrity sha512-N3ScVUD/knE+d6CQIIPwgQaZos13I8A8PhYuzeIYKtLnvcVYgNthg61S7L3fuJz9OUx8zkglCyyVhqpPulfp3A==
   dependencies:
     "@ndla/code" "^5.0.15"
-    "@ndla/ui" "^49.0.10"
+    "@ndla/ui" "^49.0.11"
     html-react-parser "^4.2.2"
     lodash "^4.17.20"
 
@@ -2717,14 +2717,14 @@
     url-regex-safe "^4.0.0"
     vercel "^32.2.5"
 
-"@ndla/select@^3.1.9":
-  version "3.1.9"
-  resolved "https://registry.yarnpkg.com/@ndla/select/-/select-3.1.9.tgz#ae874717c358c5a8ced14da0980121108489e5b5"
-  integrity sha512-TTs5BHgwmr7PkCQ1tXVsdJZvlw7nOUSTIkCMfpR1OlXv/W3uebna9RtJy/8C4fHWh8cbL7i6gZ8qw6jt/ZDjug==
+"@ndla/select@^3.2.0":
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/@ndla/select/-/select-3.2.0.tgz#47f776ac31d64c95e0c002b1d9d9c2e6feb6ada0"
+  integrity sha512-uUOpdKPmgb1FlSNTZVOH9U2WpOPr91EH7t8OZ8BNk6gYDWi5AHP2Xe40oBTTfDJXq4rbo0pzZVjMZ2qiBu0eng==
   dependencies:
     "@ndla/core" "^4.2.7"
     "@ndla/icons" "^4.2.0"
-    react-select "^5.7.5"
+    react-select "^5.8.0"
 
 "@ndla/switch@^1.1.22":
   version "1.1.22"
@@ -2776,10 +2776,10 @@
     "@ndla/core" "^4.2.7"
     "@ndla/util" "^4.0.1"
 
-"@ndla/ui@^49.0.10":
-  version "49.0.10"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-49.0.10.tgz#b2251869b93bb14811e6d3c97fe466abbb7239a3"
-  integrity sha512-21qDeULUuX5F5/JOJ9s43YtaXf7asxDA+UBHLREU0C/ZX4+D2Hu7A0+fta+WJFC7saPYbOPe9u3XjHqUobrF+A==
+"@ndla/ui@^49.0.11":
+  version "49.0.11"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-49.0.11.tgz#b06290b04748acb53373ed755cd9419a51c5a700"
+  integrity sha512-d5KP++LzyGU941sKQFcz1zc71zLyhySlhVFaQhgXlilv4PlV71elY7XOh+V9NvIx38bMEND+wVhlXUtLXnE74w==
   dependencies:
     "@ndla/accordion" "^3.0.7"
     "@ndla/button" "^12.0.12"
@@ -2793,7 +2793,7 @@
     "@ndla/modal" "^5.0.11"
     "@ndla/notion" "^6.0.14"
     "@ndla/safelink" "^4.1.37"
-    "@ndla/select" "^3.1.9"
+    "@ndla/select" "^3.2.0"
     "@ndla/switch" "^1.1.22"
     "@ndla/tabs" "^3.2.2"
     "@ndla/tooltip" "^6.0.4"
@@ -2807,7 +2807,7 @@
     i18next-browser-languagedetector "^7.1.0"
     react-bem-helper "1.4.1"
     react-device-detect "^2.2.3"
-    react-select "^5.7.5"
+    react-select "^5.8.0"
     react-swipeable "^7.0.0"
 
 "@ndla/util@^4.0.1":
@@ -11281,10 +11281,10 @@ react-router@6.3.0:
   dependencies:
     history "^5.2.0"
 
-react-select@^5.7.5:
-  version "5.7.7"
-  resolved "https://registry.yarnpkg.com/react-select/-/react-select-5.7.7.tgz#dbade9dbf711ef2a181970c10f8ab319ac37fbd0"
-  integrity sha512-HhashZZJDRlfF/AKj0a0Lnfs3sRdw/46VJIRd8IbB9/Ovr74+ZIwkAdSBjSPXsFMG+u72c5xShqwLSKIJllzqw==
+react-select@^5.8.0:
+  version "5.8.0"
+  resolved "https://registry.yarnpkg.com/react-select/-/react-select-5.8.0.tgz#bd5c467a4df223f079dd720be9498076a3f085b5"
+  integrity sha512-TfjLDo58XrhP6VG5M/Mi56Us0Yt8X7xD6cDybC7yoRMUNm7BGO7qk8J0TLQOua/prb8vUOtsfnXZwfm30HGsAA==
   dependencies:
     "@babel/runtime" "^7.12.0"
     "@emotion/cache" "^11.4.0"

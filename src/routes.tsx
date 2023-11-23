@@ -16,6 +16,7 @@ export const privateRoutes = [
   'minndla/tags/:tag',
   'minndla/folders/:folderId',
   'minndla/subjects',
+  'minndla/profile',
 ];
 
 export const routes = [

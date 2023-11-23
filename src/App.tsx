@@ -24,6 +24,7 @@ import MyNdlaLayout from './containers/MyNdla/MyNdlaLayout';
 import MyNdlaPage from './containers/MyNdla/MyNdlaPage';
 import ArenaPage from './containers/MyNdla/ArenaPage/ArenaPage';
 import TopicPage from './containers/MyNdla/ArenaPage/TopicPage';
+import MyProfilePage from './containers/MyNdla/MyProfile/MyProfilePage';
 import TagsPage from './containers/MyNdla/Tags/TagsPage';
 import NotFound from './containers/NotFoundPage/NotFoundPage';
 import Layout from './containers/Page/Layout';
@@ -43,6 +44,7 @@ import FavoriteSubjectsPage from './containers/MyNdla/FavoriteSubjects/FavoriteS
 import AboutPage from './containers/AboutPage/AboutPage';
 import H5pPage from './containers/ResourceEmbed/H5pPage';
 import PostsPage from './containers/MyNdla/ArenaPage/PostsPage';
+import MyNdlaPage from './containers/MyNdla/MyNdlaPage';
 
 interface State {
   hasError: boolean;
@@ -168,6 +170,7 @@ const AppRoutes = ({ base }: AppProps) => {
                     <Route path=":tag" element={<TagsPage />} />
                   </Route>
                   <Route path="subjects" element={<FavoriteSubjectsPage />} />
+                  <Route path="profile" element={<MyProfilePage />} />
                 </Route>
                 <Route path="about/:slug" element={<AboutPage />} />
 

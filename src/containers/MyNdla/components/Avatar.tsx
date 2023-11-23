@@ -7,9 +7,10 @@
  */
 
 import styled from '@emotion/styled';
-import { fonts, colors, spacing } from '@ndla/core';
+import { fonts, colors, spacing, misc } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import { useMemo } from 'react';
+import { Text } from '@ndla/typography';
 
 type AvatarProps = {
   myProfile?: boolean;
@@ -20,12 +21,12 @@ type AvatarProps = {
 const StyledAvatarContainer = styled.div`
   width: ${spacing.large};
   height: ${spacing.large};
-  border-radius: 50%;
+  border-radius: ${misc.borderRadiusLarge};
   border: 1px solid ${colors.brand.tertiary};
   &[data-myprofile='true'] {
     width: 250px;
     height: 250px;
-    border: 4px solid ${colors.brand.tertiary};
+    border: ${misc.borderRadius} solid ${colors.brand.tertiary};
   }
   background-color: ${colors.background.default};
   display: flex;
@@ -33,8 +34,7 @@ const StyledAvatarContainer = styled.div`
   align-items: center;
 `;
 
-const UserInitials = styled.div`
-  ${fonts.sizes('24px')};
+const UserInitials = styled(Text)`
   color: ${colors.brand.dark};
   &[data-myprofile='true'] {
     ${fonts.sizes('130px')};
@@ -44,8 +44,8 @@ const UserInitials = styled.div`
 const UserPersonalPicture = styled.img`
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  border-radius: 50%;
+  aspect-ratio: 1/1;
+  border-radius: ${misc.borderRadiusLarge};
 `;
 
 // a function to split up displayName, get the initials of first and last names and merge them
@@ -73,7 +73,14 @@ const Avatar = ({ myProfile, displayName, profilePicture }: AvatarProps) => {
           alt={t('myNdla.userPictureAltText')}
         />
       ) : (
-        <UserInitials data-myprofile={myProfile}>{initials}</UserInitials>
+        <UserInitials
+          element="p"
+          textStyle="ingress"
+          margin="none"
+          data-myprofile={myProfile}
+        >
+          {initials}
+        </UserInitials>
       )}
     </StyledAvatarContainer>
   );

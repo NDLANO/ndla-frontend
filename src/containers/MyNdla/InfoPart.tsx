@@ -7,12 +7,13 @@
  */
 
 import styled from '@emotion/styled';
-import { colors, fonts, spacing } from '@ndla/core';
+import { spacing } from '@ndla/core';
 import Icon from '@ndla/icons';
+import { Heading } from '@ndla/typography';
 import { ReactNode } from 'react';
 
 interface Props {
-  icon: ReactNode;
+  icon?: ReactNode;
   title: string;
   children?: ReactNode;
 }
@@ -21,20 +22,13 @@ const InfoPartWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${spacing.small};
-  padding: ${spacing.normal} 0;
-  border-bottom: 1px solid ${colors.brand.greyLight};
+  max-width: 700px;
 `;
 
 const InfoPartHeader = styled.div`
   display: flex;
   align-items: flex-start;
   gap: ${spacing.nsmall};
-`;
-
-const StyledTitle = styled.h2`
-  font-weight: ${fonts.weight.semibold};
-  margin: 0;
-  padding: 0;
 `;
 
 export const InfoPartText = styled.p`
@@ -51,7 +45,14 @@ const InfoPart = ({ icon, title, children }: Props) => {
     <InfoPartWrapper>
       <InfoPartHeader>
         {icon}
-        <StyledTitle>{title}</StyledTitle>
+        <Heading
+          element="h2"
+          id="myProfileTitle"
+          margin="none"
+          headingStyle="h2"
+        >
+          {title}
+        </Heading>
       </InfoPartHeader>
       {children}
     </InfoPartWrapper>

@@ -977,7 +977,7 @@ export type GQLMutationUpdateFolderStatusArgs = {
 };
 
 export type GQLMutationUpdatePersonalDataArgs = {
-  favoriteSubjects?: InputMaybe<Array<Scalars['String']['input']>>;
+  favoriteSubjects?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   shareName?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
@@ -3310,6 +3310,7 @@ export type GQLMySubjectMyNdlaPersonalDataFragmentFragment = {
   favoriteSubjects: Array<string>;
   role: string;
   arenaEnabled: boolean;
+  shareName: boolean;
 };
 
 export type GQLPersonalDataQueryVariables = Exact<{ [key: string]: never }>;
@@ -3322,9 +3323,10 @@ export type GQLPersonalDataQuery = {
 };
 
 export type GQLUpdatePersonalDataMutationVariables = Exact<{
-  favoriteSubjects:
-    | Array<Scalars['String']['input']>
-    | Scalars['String']['input'];
+  favoriteSubjects?: InputMaybe<
+    Array<Scalars['String']['input']> | Scalars['String']['input']
+  >;
+  shareName?: InputMaybe<Scalars['Boolean']['input']>;
 }>;
 
 export type GQLUpdatePersonalDataMutation = {

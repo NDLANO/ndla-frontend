@@ -84,7 +84,9 @@ const SubjectLink = ({ subject, favorites, className }: Props) => {
     const newFavorites = favorites?.filter(
       (favorite) => favorite !== subject.id,
     );
-    await updatePersonalData({ variables: { favoriteSubjects: newFavorites } });
+    await updatePersonalData({
+      variables: { favoriteSubjects: newFavorites, shareName: undefined },
+    });
     setShowDeleteModal(false);
     addSnack({
       id: `removedFavorite-${subject.id}`,

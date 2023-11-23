@@ -55,9 +55,9 @@ const messages = {
       title: 'Prøv praterobotane våre',
       linkText: 'Prøv NDLAs praterobotar',
       ingressStudent:
-        'Lurer du på noko i faget ditt? Vil du ha hjelp til å forenkle ein tekst, øve til ein prøve eller få forslag til ein disposisjon? Prøv prateroboten vår og sjå om han kan hjelpe deg!',
+        'Lurer du på noko i faget ditt? Vil du ha hjelp til å forenkle ein tekst, øve til ein prøve eller få forslag til ein disposisjon? Prøv prateroboten vår og sjå om han kan hjelpe deg! I periodar med eksamensgjennomføring kan det hende fylkeskommunen stenger tilgangen til praterobotane.',
       ingress:
-        'Vil du bruke AI i undervisninga? NDLA har laga to praterobotar som tek vare på personvernet ditt og trygt kan brukast til jobb og i undervisning.',
+        'Vil du bruke KI i undervisninga? NDLA har laga to praterobotar som tek vare på personvernet ditt og trygt kan brukast til jobb og i undervisning. I periodar med eksamensgjennomføring kan det hende fylkeskommunen stenger tilgangen til praterobotane.',
     },
   },
   validation: {
