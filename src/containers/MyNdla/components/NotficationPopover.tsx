@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2022-present, NDLA.
+ * Copyright (c) 2023-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
@@ -19,7 +19,7 @@ import { useArenaNotifications } from '../arenaQueries';
 
 const StyledContent = styled(Content)`
   background-color: ${colors.background.default};
-  box-shadow: 0 0 ${spacing.nsmall} #ccc;
+  box-shadow: 0 0 ${spacing.nsmall} ${colors.black}7f;
   padding: ${spacing.normal};
   gap: ${spacing.small};
   min-width: 350px;

@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2023-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { spacing, colors, fonts } from '@ndla/core';
@@ -145,7 +153,7 @@ const NotificationList = ({ notifications, inPopover }: Props) => {
                   <StyledKeyboardReturn />
                   <div>
                     <StyledText textStyle="meta-text-medium" margin="none">
-                      {`${user.displayName}`}
+                      {user.displayName}
                       {` ${t('myNdla.arena.notification.commentedOn')} `}
                       <i>{topicTitle.replace(/"/g, '')}</i>
                     </StyledText>

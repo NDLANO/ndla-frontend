@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2023-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import { ButtonV2 } from '@ndla/button';
 import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
@@ -31,8 +39,8 @@ const IconWrapper = styled.div`
 `;
 
 const StyledBellIcon = styled(Bell)`
-  width: 20px;
-  height: 20px;
+  width: ${spacing.normal};
+  height: ${spacing.normal};
 `;
 
 interface Props extends HTMLAttributes<HTMLButtonElement> {
