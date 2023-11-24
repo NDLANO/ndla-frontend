@@ -20,12 +20,13 @@ import { Pencil, TrashCanOutline } from '@ndla/icons/action';
 import { HorizontalMenu } from '@ndla/icons/contentType';
 import { ReportOutlined } from '@ndla/icons/common';
 import { Switch } from '@ndla/switch';
-import { Text } from '@ndla/typography';
+import { Text, Heading } from '@ndla/typography';
 import { useTranslation } from 'react-i18next';
 import UserProfileTag from '../components/UserProfileTag';
 
 interface Props {
   id: string;
+  timestamp: string;
   isMainPost: boolean;
   title: string;
   content: string;
@@ -54,18 +55,28 @@ const StyledSwitch = styled(Switch)`
 const StyledContentContainer = styled.div`
   display: flex;
   flex-direction: column;
+  gap: ${spacing.small};
+  margin: ${spacing.normal} 0;
 `;
 
-const StyledH2 = styled.div`
+const StyledHeader = styled(Heading)`
   ${fonts.sizes('22px', '33px')};
-  margin-top: ${spacing.normal};
 `;
+
+const StyledText = styled(Text)`
+  p {
+    margin: 0;
+  }
+`
 
 const BottomContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-top: ${spacing.normal};
 `;
+
+const StyledTimestamp = styled(Text)` //Trenger funksjon for utregning av tid
+  align-self: center;
+`
 
 const StyledButton = styled(ButtonV2)`
   display: flex;
@@ -83,6 +94,7 @@ const PostCard = ({
   id,
   title,
   content,
+  timestamp,
   isMainPost,
   displayName,
   username,
@@ -106,12 +118,13 @@ const PostCard = ({
         />
       </StyledTopContainer>
       <StyledContentContainer>
-        {isMainPost && <StyledH2>{title}</StyledH2>}
-        <Text element="p" textStyle="content-alt" margin="none">
+        {isMainPost && <StyledHeader element="h4" headingStyle="h4" margin="none">{title}</StyledHeader>}
+        <StyledText element="p" textStyle="content-alt" margin="none">
           {parse(content)}
-        </Text>
+        </StyledText>
       </StyledContentContainer>
       <BottomContainer>
+      {!isMainPost && <StyledTimestamp element="p" textStyle="content-alt" margin="none">{timestamp}</StyledTimestamp>}
         <DropdownMenu>
           <DropdownTrigger>
             <IconButtonV2
@@ -162,9 +175,10 @@ const PostCard = ({
             </DropdownItem>
           </DropdownContent>
         </DropdownMenu>
+        {isMainPost && 
         <StyledAddCommentButton>
           {t('myNdla.arena.posts.comment')}
-        </StyledAddCommentButton>
+        </StyledAddCommentButton>}
       </BottomContainer>
     </StyledCardContainer>
   );

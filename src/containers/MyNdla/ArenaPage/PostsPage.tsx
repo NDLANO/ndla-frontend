@@ -59,6 +59,7 @@ const PostsPage = () => {
         <PostCardWrapper key={post.id} data-mainPost={post.isMainPost}>
           <PostCard
             id={post.id.toString()}
+            timestamp={post.timestamp}
             isMainPost={post.isMainPost}
             title={arenaTopic.title ?? ''}
             content={post.content}
