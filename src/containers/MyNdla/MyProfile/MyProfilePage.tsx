@@ -34,6 +34,7 @@ import MyPreferences from './components/MyPreferences';
 import MyContactArea from '../components/MyContactArea';
 import { UserInfo } from '../components/UserInfo';
 import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
+import MyNdlaTitle from '../components/MyNdlaTitle';
 
 const StyledPageContentContainer = styled.div`
   display: flex;
@@ -88,14 +89,7 @@ const MyProfilePage = () => {
     <MyNdlaPageWrapper>
       <StyledPageContentContainer>
         <HelmetWithTracker title={t('myNdla.myProfile.title')} />
-        <Heading
-          element="h1"
-          id="myProfileTitle"
-          margin="none"
-          headingStyle="h1-resource"
-        >
-          {t('myNdla.myProfile.title')}
-        </Heading>
+        <MyNdlaTitle title={t('myNdla.myProfile.title')} />
         <MyContactArea user={user} />
         <MyPreferences user={user} />
         <InfoContainer>
