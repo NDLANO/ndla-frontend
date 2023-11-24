@@ -191,8 +191,8 @@ const ArenaCard = ({
             <StyledCountDiv>{count}</StyledCountDiv>
             <StyledText textStyle="meta-text-small" margin="none">
               {cardType === 'ArenaCategory'
-                ? `${t('arena.category.posts')}`
-                : `${t('arena.topic.responses')}`}
+                ? `${t('myNdla.arena.category.posts')}`
+                : `${t('myNdla.arena.topic.responses')}`}
             </StyledText>
           </>
         )}
