@@ -67,7 +67,7 @@ const PostsPage = () => {
             displayName={post.user.displayName}
             username={post.user.username}
             // missing affiliation in user
-            affiliation='Hardkoda tilhørighet'
+            affiliation="Hardkoda tilhørighet"
           />
         </PostCardWrapper>
       ))}

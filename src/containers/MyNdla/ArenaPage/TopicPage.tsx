@@ -110,6 +110,7 @@ const TopicPage = () => {
             title={topic.title}
             timestamp={topic.timestamp}
             count={topic.postCount}
+            categoryId={categoryId}
           />
         </StyledCardContainer>
       ))}
