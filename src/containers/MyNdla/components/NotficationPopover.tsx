@@ -23,6 +23,7 @@ const StyledContent = styled(Content)`
   padding: ${spacing.normal};
   gap: ${spacing.small};
   min-width: 350px;
+  border-radius: ${spacing.xxsmall};
 `;
 
 const StyledArrow = styled(Arrow)`
