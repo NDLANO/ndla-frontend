@@ -154,8 +154,8 @@ const ArenaCard = ({
         css={StyledCategoryCard}
         to={`/minndla/arena/category/${id}`}
       >
-          <FolderOutlinedIcon />
-          <FolderFilledIcon />
+        <FolderOutlinedIcon />
+        <FolderFilledIcon />
         <StyledTextContainer>
           <StyledHeader element="label" textStyle="label-small" margin="none">
             {title}
@@ -169,7 +169,9 @@ const ArenaCard = ({
           </StyledDescriptionText>
         </StyledTextContainer>
         <StyledCountContainer>
-          <Text element="p" textStyle="content-alt" margin="none">{count}</Text>
+          <Text element="p" textStyle="content-alt" margin="none">
+            {count}
+          </Text>
           <StyledText textStyle="meta-text-small" margin="none">
             {t('myNdla.arena.category.posts')}
           </StyledText>
@@ -197,7 +199,9 @@ const ArenaCard = ({
           <LockedIcon />
         ) : (
           <>
-            <Text element="p" textStyle="content-alt" margin="none">{count}</Text>
+            <Text element="p" textStyle="content-alt" margin="none">
+              {count}
+            </Text>
             <StyledText textStyle="meta-text-small" margin="none">
               {t('myNdla.arena.topic.responses')}
             </StyledText>
