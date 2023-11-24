@@ -9,7 +9,7 @@
 import parse from 'html-react-parser';
 import styled from '@emotion/styled';
 import { ButtonV2, IconButtonV2 } from '@ndla/button';
-import { colors, spacing, misc } from '@ndla/core';
+import { colors, spacing, misc, mq, breakpoints } from '@ndla/core';
 import {
   DropdownMenu,
   DropdownTrigger,
@@ -46,10 +46,17 @@ const StyledCardContainer = styled.div`
 const StyledTopContainer = styled.div`
   display: flex;
   justify-content: space-between;
+  ${mq.range({ until: breakpoints.desktop })} {
+    flex-direction: column-reverse;
+  }
 `;
 
 const StyledSwitch = styled(Switch)`
-  align-self: flex-start;
+align-self: flex-start;
+padding: ${spacing.xsmall};
+${mq.range({ until: breakpoints.desktop })} {
+    align-self: flex-end;
+  }
 `;
 
 const StyledContentContainer = styled.div`
@@ -107,12 +114,12 @@ const PostCard = ({
           username={username}
           affiliation={affiliation}
         />
-        <StyledSwitch
+        {isMainPost && (<StyledSwitch
           onChange={() => {}}
           checked={false}
           label={t('myNdla.arena.posts.notify')}
           id={t('myNdla.arena.posts.notify')}
-        />
+        />)}
       </StyledTopContainer>
       <StyledContentContainer>
         {isMainPost && (
