@@ -117,7 +117,7 @@ export const getAllDimensions = (
     '17': user
       ? user.groups.find((g) => g.isPrimarySchool)?.displayName
       : undefined,
-    '18': user ? user.username : undefined,
+    '18': user ? user.role : undefined,
     '19': filter,
     '20': getGrepCodeOfType('KM', article?.grepCodes),
   };
