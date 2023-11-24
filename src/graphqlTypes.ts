@@ -56,6 +56,34 @@ export type GQLArenaCategory = {
   topics?: Maybe<Array<GQLArenaTopic>>;
 };
 
+export type GQLArenaNotification = {
+  __typename?: 'ArenaNotification';
+  bodyShort: Scalars['String']['output'];
+  datetimeISO: Scalars['String']['output'];
+  from: Scalars['Int']['output'];
+  image?: Maybe<Scalars['String']['output']>;
+  importance: Scalars['Int']['output'];
+  notificationId: Scalars['String']['output'];
+  path: Scalars['String']['output'];
+  postId: Scalars['Int']['output'];
+  read: Scalars['Boolean']['output'];
+  readClass: Scalars['String']['output'];
+  subject: Scalars['String']['output'];
+  topicId: Scalars['Int']['output'];
+  topicTitle: Scalars['String']['output'];
+  type: Scalars['String']['output'];
+  user: GQLArenaNotificationUser;
+};
+
+export type GQLArenaNotificationUser = GQLBaseUser & {
+  __typename?: 'ArenaNotificationUser';
+  displayName: Scalars['String']['output'];
+  id: Scalars['Int']['output'];
+  profilePicture?: Maybe<Scalars['String']['output']>;
+  slug: Scalars['String']['output'];
+  username: Scalars['String']['output'];
+};
+
 export type GQLArenaPost = {
   __typename?: 'ArenaPost';
   content: Scalars['String']['output'];
@@ -79,7 +107,7 @@ export type GQLArenaTopic = {
   title: Scalars['String']['output'];
 };
 
-export type GQLArenaUser = {
+export type GQLArenaUser = GQLBaseUser & {
   __typename?: 'ArenaUser';
   displayName: Scalars['String']['output'];
   groupTitleArray: Array<Scalars['String']['output']>;
@@ -234,6 +262,14 @@ export type GQLAudioSummary = {
   supportedLanguages: Array<Scalars['String']['output']>;
   title: GQLTitle;
   url: Scalars['String']['output'];
+};
+
+export type GQLBaseUser = {
+  displayName: Scalars['String']['output'];
+  id: Scalars['Int']['output'];
+  profilePicture?: Maybe<Scalars['String']['output']>;
+  slug: Scalars['String']['output'];
+  username: Scalars['String']['output'];
 };
 
 export type GQLBreadcrumb = {
@@ -888,6 +924,7 @@ export type GQLMutation = {
   deleteFolder: Scalars['String']['output'];
   deleteFolderResource: Scalars['String']['output'];
   deletePersonalData: Scalars['Boolean']['output'];
+  markNotificationAsRead: Array<Scalars['Int']['output']>;
   newArenaTopic: GQLArenaTopic;
   replyToTopic: GQLArenaPost;
   sortFolders: GQLSortResult;
@@ -926,6 +963,10 @@ export type GQLMutationDeleteFolderArgs = {
 export type GQLMutationDeleteFolderResourceArgs = {
   folderId: Scalars['String']['input'];
   resourceId: Scalars['String']['input'];
+};
+
+export type GQLMutationMarkNotificationAsReadArgs = {
+  topicIds: Array<Scalars['Int']['input']>;
 };
 
 export type GQLMutationNewArenaTopicArgs = {
@@ -980,14 +1021,25 @@ export type GQLMutationUpdatePersonalDataArgs = {
   shareName?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+export type GQLMyNdlaGroup = {
+  __typename?: 'MyNdlaGroup';
+  displayName: Scalars['String']['output'];
+  id: Scalars['String']['output'];
+  isPrimarySchool: Scalars['Boolean']['output'];
+  parentId?: Maybe<Scalars['String']['output']>;
+};
+
 export type GQLMyNdlaPersonalData = {
   __typename?: 'MyNdlaPersonalData';
   arenaEnabled: Scalars['Boolean']['output'];
+  displayName: Scalars['String']['output'];
   favoriteSubjects: Array<Scalars['String']['output']>;
+  groups: Array<Maybe<GQLMyNdlaGroup>>;
   id: Scalars['Int']['output'];
   organization: Scalars['String']['output'];
   role: Scalars['String']['output'];
   shareName: Scalars['Boolean']['output'];
+  username: Scalars['String']['output'];
 };
 
 export type GQLName = {
@@ -1106,6 +1158,7 @@ export type GQLQuery = {
   arenaCategories: Array<GQLArenaCategory>;
   arenaCategory?: Maybe<GQLArenaCategory>;
   arenaEnabledOrgs?: Maybe<GQLConfigMetaStringList>;
+  arenaNotifications: Array<GQLArenaNotification>;
   arenaRecentTopics: Array<GQLArenaTopic>;
   arenaTopic?: Maybe<GQLArenaTopic>;
   arenaTopicsByUser: Array<GQLArenaTopic>;
@@ -1131,6 +1184,7 @@ export type GQLQuery = {
   image?: Maybe<GQLImageMetaInformationV2>;
   learningpath?: Maybe<GQLLearningpath>;
   listingPage?: Maybe<GQLListingPage>;
+  myNdlaUser?: Maybe<GQLMyNdlaPersonalData>;
   personalData: GQLMyNdlaPersonalData;
   podcastSearch?: Maybe<GQLAudioSearch>;
   podcastSeries?: Maybe<GQLPodcastSeriesWithEpisodes>;
@@ -1161,7 +1215,7 @@ export type GQLQueryArenaCategoryArgs = {
 };
 
 export type GQLQueryArenaTopicArgs = {
-  page: Scalars['Int']['input'];
+  page?: InputMaybe<Scalars['Int']['input']>;
   topicId: Scalars['Int']['input'];
 };
 
@@ -1864,6 +1918,33 @@ export type GQLExamLockStatusQuery = {
     key: string;
     value: boolean;
   };
+};
+
+export type GQLMyNdlaPersonalDataFragmentFragment = {
+  __typename?: 'MyNdlaPersonalData';
+  username: string;
+  displayName: string;
+  organization: string;
+  favoriteSubjects: Array<string>;
+  role: string;
+  arenaEnabled: boolean;
+  shareName: boolean;
+  groups: Array<{
+    __typename?: 'MyNdlaGroup';
+    id: string;
+    displayName: string;
+    isPrimarySchool: boolean;
+    parentId?: string;
+  }>;
+};
+
+export type GQLMyNdlaUserQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GQLMyNdlaUserQuery = {
+  __typename?: 'Query';
+  myNdlaUser?: {
+    __typename?: 'MyNdlaPersonalData';
+  } & GQLMyNdlaPersonalDataFragmentFragment;
 };
 
 export type GQLLastLearningpathStepInfo_TopicFragment = {

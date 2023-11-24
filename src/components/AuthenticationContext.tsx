@@ -13,10 +13,12 @@ import {
   useState,
   useCallback,
 } from 'react';
-import { FeideUserApiType } from '../interfaces';
-import { GQLExamLockStatusQuery } from '../graphqlTypes';
+import {
+  GQLExamLockStatusQuery,
+  GQLMyNdlaPersonalDataFragmentFragment,
+  GQLMyNdlaUserQuery,
+} from '../graphqlTypes';
 import { isAccessTokenValid, millisUntilExpiration } from '../util/authHelpers';
-import { fetchFeideUserWithGroups } from '../util/feideApi';
 import { useGraphQuery } from '../util/runQueries';
 
 interface AuthContextType {
@@ -24,7 +26,7 @@ interface AuthContextType {
   authContextLoaded: boolean;
   login: () => void;
   logout: () => void;
-  user: FeideUserApiType | undefined;
+  user: GQLMyNdlaPersonalDataFragmentFragment | undefined;
   examLock: boolean;
 }
 
@@ -51,27 +53,63 @@ const examLockStatusQuery = gql`
   }
 `;
 
+const personalDataQueryFragment = gql`
+  fragment MyNdlaPersonalDataFragment on MyNdlaPersonalData {
+    username
+    displayName
+    groups {
+      id
+      displayName
+      isPrimarySchool
+      parentId
+    }
+    organization
+    favoriteSubjects
+    role
+    arenaEnabled
+    shareName
+  }
+`;
+
+const myProfileQuery = gql`
+  query MyNdlaUser {
+    myNdlaUser {
+      ...MyNdlaPersonalDataFragment
+    }
+  }
+  ${personalDataQueryFragment}
+`;
+
+const useMyNdlaUser = () => {
+  const { data, loading, error } =
+    useGraphQuery<GQLMyNdlaUserQuery>(myProfileQuery);
+  const myNdlaUser = data?.myNdlaUser;
+  return { myNdlaUser, loading, error };
+};
+
 const AuthenticationContext = ({ children }: Props) => {
   const [authenticated, setAuthenticated] = useState(false);
   const [authContextLoaded, setLoaded] = useState(false);
-  const [user, setUser] = useState<FeideUserApiType | undefined>(undefined);
+  const [user, setUser] = useState<
+    GQLMyNdlaPersonalDataFragmentFragment | undefined
+  >(undefined);
   const [examLock, setExamLock] = useState(false);
 
-  const { data: { examLockStatus } = {}, error } =
+  const { data: { examLockStatus } = {}, error: examLockError } =
     useGraphQuery<GQLExamLockStatusQuery>(examLockStatusQuery);
+
+  const { myNdlaUser, loading, error } = useMyNdlaUser();
 
   useEffect(() => {
     const isValid = isAccessTokenValid();
     setAuthenticated(isValid);
 
-    if (isValid) {
-      fetchFeideUserWithGroups().then((user) => {
-        if (user?.eduPersonPrimaryAffiliation === 'student') {
-          setExamLock(examLockStatus?.value === true);
-        }
-        setUser(user);
-        setLoaded(true);
-      });
+    if (isValid && myNdlaUser !== undefined) {
+      if (myNdlaUser?.role === 'student') {
+        setExamLock(examLockStatus?.value === true);
+      }
+      setUser(myNdlaUser);
+      setLoaded(true);
       // Since we can't listen to cookies set a timeout to update context
       const timeoutMillis = millisUntilExpiration();
       window.setTimeout(() => {
@@ -80,7 +118,14 @@ const AuthenticationContext = ({ children }: Props) => {
     } else {
       setLoaded(true);
     }
-  }, [authenticated, error, examLockStatus?.value]);
+  }, [
+    authenticated,
+    myNdlaUser,
+    loading,
+    error,
+    examLockError,
+    examLockStatus?.value,
+  ]);
 
   const login = useCallback(() => setAuthenticated(true), []);
   const logout = useCallback(() => setAuthenticated(false), []);

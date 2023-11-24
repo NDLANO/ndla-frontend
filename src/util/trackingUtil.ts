@@ -6,12 +6,12 @@
  *
  */
 
-import { FeideUserApiType } from '../interfaces';
 import {
   GQLArticle,
   GQLSubject,
   GQLTopic,
   GQLLearningpathStep,
+  GQLMyNdlaPersonalDataFragmentFragment,
 } from '../graphqlTypes';
 
 type DimensionKeys =
@@ -78,7 +78,7 @@ interface Props {
   relevance?: string;
   learningstep?: Pick<GQLLearningpathStep, 'seqNo'>;
   filter?: string;
-  user?: FeideUserApiType;
+  user?: GQLMyNdlaPersonalDataFragmentFragment;
 }
 
 export const getAllDimensions = (
@@ -113,9 +113,11 @@ export const getAllDimensions = (
     '10': getGrepCodeOfType('KE', article?.grepCodes),
     '13': learningpath?.learningsteps?.length,
     '14': learningstep ? learningstep.seqNo + 1 : undefined,
-    '16': user ? user.baseOrg?.displayName : undefined,
-    '17': user ? user.primarySchool?.displayName : undefined,
-    '18': user ? user.eduPersonPrimaryAffiliation : undefined,
+    '16': user ? user.organization : undefined,
+    '17': user
+      ? user.groups.find((g) => g.isPrimarySchool)?.displayName
+      : undefined,
+    '18': user ? user.username : undefined,
     '19': filter,
     '20': getGrepCodeOfType('KM', article?.grepCodes),
   };

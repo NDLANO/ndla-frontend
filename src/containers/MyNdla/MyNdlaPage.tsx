@@ -25,7 +25,6 @@ import {
 } from './folderMutations';
 import MyNdlaTitle from './components/MyNdlaTitle';
 import TitleWrapper from './components/TitleWrapper';
-import { isStudent } from './Folders/util';
 import { getAllDimensions } from '../../util/trackingUtil';
 import MyNdlaPageWrapper from './components/MyNdlaPageWrapper';
 import { useAiOrgs } from './configQueries';
@@ -105,7 +104,7 @@ const MyNdlaPage = () => {
           <MyNdlaTitle title={t('myNdla.myPage.myPage')} />
         </TitleWrapper>
         <StyledDescription>{t('myNdla.myPage.welcome')}</StyledDescription>
-        {allowedAiOrgs.includes(user?.baseOrg?.displayName ?? '') && (
+        {allowedAiOrgs.includes(user?.organization ?? '') && (
           <StyledBannerCard
             link={`https://ai.ndla.no/${aiLang}`}
             title={{
@@ -121,9 +120,10 @@ const MyNdlaPage = () => {
               lang: i18n.language,
             }}
             content={{
-              content: isStudent(user)
-                ? t('myndla.campaignBlock.ingressStudent')
-                : t('myndla.campaignBlock.ingress'),
+              content:
+                user?.role === 'student'
+                  ? t('myndla.campaignBlock.ingressStudent')
+                  : t('myndla.campaignBlock.ingress'),
               lang: i18n.language,
             }}
           />

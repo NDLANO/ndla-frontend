@@ -23,6 +23,32 @@ type ArenaCategory {
   topics: [ArenaTopic!]
 }
 
+type ArenaNotification {
+  bodyShort: String!
+  datetimeISO: String!
+  from: Int!
+  image: String
+  importance: Int!
+  notificationId: String!
+  path: String!
+  postId: Int!
+  read: Boolean!
+  readClass: String!
+  subject: String!
+  topicId: Int!
+  topicTitle: String!
+  type: String!
+  user: ArenaNotificationUser!
+}
+
+type ArenaNotificationUser implements BaseUser {
+  displayName: String!
+  id: Int!
+  profilePicture: String
+  slug: String!
+  username: String!
+}
+
 type ArenaPost {
   content: String!
   id: Int!
@@ -44,7 +70,7 @@ type ArenaTopic {
   title: String!
 }
 
-type ArenaUser {
+type ArenaUser implements BaseUser {
   displayName: String!
   groupTitleArray: [String!]!
   id: Int!
@@ -183,6 +209,14 @@ type AudioSummary {
   supportedLanguages: [String!]!
   title: Title!
   url: String!
+}
+
+interface BaseUser {
+  displayName: String!
+  id: Int!
+  profilePicture: String
+  slug: String!
+  username: String!
 }
 
 type Breadcrumb {
@@ -779,6 +813,7 @@ type Mutation {
   deleteFolder(id: String!): String!
   deleteFolderResource(folderId: String!, resourceId: String!): String!
   deletePersonalData: Boolean!
+  markNotificationAsRead(topicIds: [Int!]!): [Int!]!
   newArenaTopic(categoryId: Int!, content: String!, title: String!): ArenaTopic!
   replyToTopic(content: String!, topicId: Int!): ArenaPost!
   sortFolders(parentId: String, sortedIds: [String!]!): SortResult!
@@ -805,13 +840,23 @@ type Mutation {
   ): MyNdlaPersonalData!
 }
 
+type MyNdlaGroup {
+  displayName: String!
+  id: String!
+  isPrimarySchool: Boolean!
+  parentId: String
+}
+
 type MyNdlaPersonalData {
   arenaEnabled: Boolean!
+  displayName: String!
   favoriteSubjects: [String!]!
+  groups: [MyNdlaGroup]!
   id: Int!
   organization: String!
   role: String!
   shareName: Boolean!
+  username: String!
 }
 
 type Name {
@@ -918,8 +963,9 @@ type Query {
   arenaCategories: [ArenaCategory!]!
   arenaCategory(categoryId: Int!, page: Int!): ArenaCategory
   arenaEnabledOrgs: ConfigMetaStringList
+  arenaNotifications: [ArenaNotification!]!
   arenaRecentTopics: [ArenaTopic!]!
-  arenaTopic(page: Int!, topicId: Int!): ArenaTopic
+  arenaTopic(page: Int, topicId: Int!): ArenaTopic
   arenaTopicsByUser(userSlug: String!): [ArenaTopic!]!
   arenaUser(username: String!): ArenaUser
   article(
@@ -984,6 +1030,7 @@ type Query {
   image(id: String!): ImageMetaInformationV2
   learningpath(pathId: String!): Learningpath
   listingPage(subjects: String): ListingPage
+  myNdlaUser: MyNdlaPersonalData
   personalData: MyNdlaPersonalData!
   podcastSearch(fallback: Boolean, page: Int!, pageSize: Int!): AudioSearch
   podcastSeries(id: Int!): PodcastSeriesWithEpisodes
