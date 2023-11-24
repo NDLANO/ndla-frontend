@@ -6,8 +6,10 @@
  *
  */
 import { ContentLoader } from '@ndla/ui';
-import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
+import { FolderOutlined, FolderShared } from '@ndla/icons/contentType';
+import styled from '@emotion/styled';
+import { css } from '@emotion/react';
 import { useTranslation } from 'react-i18next';
 import { memo } from 'react';
 import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
@@ -20,6 +22,11 @@ const TitleRow = styled.div`
   display: flex;
   align-items: center;
   gap: ${spacing.small};
+`;
+
+const IconCSS = css`
+  height: ${spacing.large};
+  width: ${spacing.large};
 `;
 
 interface Props {
@@ -80,6 +87,13 @@ const FoldersPageTitle = ({ loading, selectedFolder }: Props) => {
           }
           isLoading={loading}
         >
+          {selectedFolder ? (
+            selectedFolder.status === 'shared' ? (
+              <FolderShared css={IconCSS} />
+            ) : (
+              <FolderOutlined css={IconCSS} />
+            )
+          ) : null}
           <MyNdlaTitle title={selectedFolder?.name ?? t('myNdla.myFolders')} />
         </WhileLoading>
       </TitleRow>
