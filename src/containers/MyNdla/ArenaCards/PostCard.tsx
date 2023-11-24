@@ -56,6 +56,7 @@ const StyledSwitch = styled(Switch)`
   padding: ${spacing.xsmall};
   ${mq.range({ until: breakpoints.desktop })} {
     align-self: flex-end;
+    margin-bottom: ${spacing.small};
   }
 `;
 
