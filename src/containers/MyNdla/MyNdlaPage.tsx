@@ -16,7 +16,8 @@ import { FolderOutlined } from '@ndla/icons/contentType';
 import { Share } from '@ndla/icons/common';
 import { BannerCard, ListResource } from '@ndla/ui';
 import { HelmetWithTracker, useTracker } from '@ndla/tracker';
-import InfoPart, { InfoPartIcon, InfoPartText } from './InfoPart';
+import { Text } from '@ndla/typography';
+import InfoPart, { InfoPartIcon } from './InfoPart';
 import { AuthContext } from '../../components/AuthenticationContext';
 import {
   useFolderResourceMetaSearch,
@@ -59,6 +60,7 @@ const StyledDescription = styled.p`
 
 const StyledBannerCard = styled(BannerCard)`
   max-width: 100%;
+  margin-bottom: ${spacing.normal};
 `;
 
 const MyNdlaPage = () => {
@@ -127,29 +129,31 @@ const MyNdlaPage = () => {
           />
         )}
         <InfoPart icon={<ShareIcon />} title={t('myNdla.myPage.sharing.title')}>
-          <InfoPartText>{t('myNdla.myPage.sharing.text')}</InfoPartText>
+          <Text textStyle="content-alt">{t('myNdla.myPage.sharing.text')}</Text>
         </InfoPart>
         <InfoPart
           icon={<HeartOutlineIcon />}
           title={t('myNdla.myPage.storageInfo.title')}
         >
-          <InfoPartText>{t('myNdla.myPage.storageInfo.text')}</InfoPartText>
+          <Text textStyle="content-alt">
+            {t('myNdla.myPage.storageInfo.text')}
+          </Text>
         </InfoPart>
         <InfoPart
           icon={<FavoriteSubjectIcon />}
           title={t('myNdla.myPage.favoriteSubjects.title')}
         >
-          <InfoPartText>
+          <Text textStyle="content-alt">
             {t('myNdla.myPage.favoriteSubjects.text')}
-          </InfoPartText>
+          </Text>
         </InfoPart>
         <InfoPart
           icon={<FolderOutlinedIcon />}
           title={t('myNdla.myPage.folderInfo.title')}
         >
-          <InfoPartText>
+          <Text textStyle="content-alt">
             <Trans i18nKey="myNdla.myPage.folderInfo.text" />
-          </InfoPartText>
+          </Text>
         </InfoPart>
         {allFolderResources && allFolderResources.length > 0 && (
           <>
