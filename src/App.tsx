@@ -9,6 +9,7 @@
 import { SnackbarProvider } from '@ndla/ui';
 import { Component, ErrorInfo, ReactNode } from 'react';
 import { Route, Routes } from 'react-router-dom';
+import ArenaUserPage from './containers/MyNdla/ArenaUserPage';
 import VideoPage from './containers/ResourceEmbed/VideoPage';
 import ImagePage from './containers/ResourceEmbed/ImagePage';
 import ConceptPage from './containers/ResourceEmbed/ConceptPage';
@@ -156,6 +157,7 @@ const AppRoutes = ({ base }: AppProps) => {
                   </Route>
                   <Route path="subjects" element={<FavoriteSubjectsPage />} />
                   <Route path="profile" element={<MyProfilePage />} />
+                  <Route path="user/:username" element={<ArenaUserPage />} />
                 </Route>
                 <Route path="about/:slug" element={<AboutPage />} />
 

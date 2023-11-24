@@ -29,6 +29,7 @@ import { isStudent } from './Folders/util';
 import { getAllDimensions } from '../../util/trackingUtil';
 import MyNdlaPageWrapper from './components/MyNdlaPageWrapper';
 import { useAiOrgs } from './configQueries';
+import UserProfileTag from './components/UserProfileTag';
 
 const ShareIcon = InfoPartIcon.withComponent(Share);
 const HeartOutlineIcon = InfoPartIcon.withComponent(HeartOutline);
@@ -104,6 +105,11 @@ const MyNdlaPage = () => {
         <TitleWrapper>
           <MyNdlaTitle title={t('myNdla.myPage.myPage')} />
         </TitleWrapper>
+        <UserProfileTag
+          displayName={'jonas'}
+          username={'jonas'}
+          affiliation={undefined}
+        />
         <StyledDescription>{t('myNdla.myPage.welcome')}</StyledDescription>
         {allowedAiOrgs.includes(user?.baseOrg?.displayName ?? '') && (
           <StyledBannerCard
