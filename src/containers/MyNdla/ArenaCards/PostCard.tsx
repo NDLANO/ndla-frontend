@@ -63,16 +63,17 @@ const StyledText = styled(Text)`
   p {
     margin: 0;
   }
-`
+`;
 
 const BottomContainer = styled.div`
   display: flex;
   justify-content: space-between;
 `;
 
-const StyledTimestamp = styled(Text)` //Trenger funksjon for utregning av tid
+const StyledTimestamp = styled(Text)`
+  //Trenger funksjon for utregning av tid
   align-self: center;
-`
+`;
 
 const StyledButton = styled(ButtonV2)`
   display: flex;
@@ -114,13 +115,21 @@ const PostCard = ({
         />
       </StyledTopContainer>
       <StyledContentContainer>
-        {isMainPost && <Heading element="h4" headingStyle="h4" margin="none">{title}</Heading>}
+        {isMainPost && (
+          <Heading element="h4" headingStyle="h4" margin="none">
+            {title}
+          </Heading>
+        )}
         <StyledText element="p" textStyle="content-alt" margin="none">
           {parse(content)}
         </StyledText>
       </StyledContentContainer>
       <BottomContainer>
-      {!isMainPost && <StyledTimestamp element="p" textStyle="content-alt" margin="none">{timestamp}</StyledTimestamp>}
+        {!isMainPost && (
+          <StyledTimestamp element="p" textStyle="content-alt" margin="none">
+            {timestamp}
+          </StyledTimestamp>
+        )}
         <DropdownMenu>
           <DropdownTrigger>
             <IconButtonV2
@@ -171,10 +180,11 @@ const PostCard = ({
             </DropdownItem>
           </DropdownContent>
         </DropdownMenu>
-        {isMainPost && 
-        <StyledAddCommentButton>
-          {t('myNdla.arena.posts.comment')}
-        </StyledAddCommentButton>}
+        {isMainPost && (
+          <StyledAddCommentButton>
+            {t('myNdla.arena.posts.comment')}
+          </StyledAddCommentButton>
+        )}
       </BottomContainer>
     </StyledCardContainer>
   );
