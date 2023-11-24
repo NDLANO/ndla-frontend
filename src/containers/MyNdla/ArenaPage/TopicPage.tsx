@@ -43,7 +43,6 @@ const StyledTopicH2 = styled(Heading)`
 `;
 
 const StyledNewTopicButton = styled(ButtonV2)`
-  height: 42px;
   gap: ${spacing.xsmall};
   white-space: nowrap;
 `;
