@@ -32,6 +32,7 @@ interface Props {
   timestamp?: string;
   count: number;
   locked?: boolean;
+  categoryId?: string;
 }
 
 const StyledCategoryCard = css`
@@ -147,29 +148,25 @@ const ArenaCard = ({
   timestamp,
   count,
   locked,
+  categoryId,
 }: Props) => {
   const { t, i18n } = useTranslation();
-  return (
-    <StyledCardContainer
-      id={id}
-      css={cardType === 'ArenaCategory' ? StyledCategoryCard : StyledTopicCard}
-      to={
-        cardType === 'ArenaCategory'
-          ? `/minndla/arena/category/${id}`
-          : `/minndla/arena/category/${id}/topic/${id}`
-      } //temporary fix to make SafeLink work
-    >
-      {cardType === 'ArenaCategory' && (
+
+  if (cardType === 'ArenaCategory') {
+    return (
+      <StyledCardContainer
+        id={id}
+        css={StyledCategoryCard}
+        to={`/minndla/arena/category/${id}`}
+      >
         <>
           <FolderOutlinedIcon />
           <FolderFilledIcon />
         </>
-      )}
-      <StyledTextContainer>
-        <StyledHeader element="label" textStyle="label-small" margin="none">
-          {title}
-        </StyledHeader>
-        {cardType === 'ArenaCategory' ? (
+        <StyledTextContainer>
+          <StyledHeader element="label" textStyle="label-small" margin="none">
+            {title}
+          </StyledHeader>
           <StyledDescriptionText
             element="p"
             textStyle="meta-text-small"
@@ -177,11 +174,30 @@ const ArenaCard = ({
           >
             {subText}
           </StyledDescriptionText>
-        ) : (
-          <StyledText element="p" textStyle="meta-text-small" margin="none">
-            {timestamp && formatDateTime(timestamp, i18n.language)}
+        </StyledTextContainer>
+        <StyledCountContainer>
+          <StyledCountDiv>{count}</StyledCountDiv>
+          <StyledText textStyle="meta-text-small" margin="none">
+            {t('myNdla.arena.category.posts')}
           </StyledText>
-        )}
+        </StyledCountContainer>
+      </StyledCardContainer>
+    );
+  }
+
+  return (
+    <StyledCardContainer
+      id={id}
+      css={StyledTopicCard}
+      to={`/minndla/arena/category/${categoryId}/topic/${id}`}
+    >
+      <StyledTextContainer>
+        <StyledHeader element="label" textStyle="label-small" margin="none">
+          {title}
+        </StyledHeader>
+        <StyledText element="p" textStyle="meta-text-small" margin="none">
+          {timestamp && formatDateTime(timestamp, i18n.language)}
+        </StyledText>
       </StyledTextContainer>
       <StyledCountContainer>
         {locked ? (
@@ -190,9 +206,7 @@ const ArenaCard = ({
           <>
             <StyledCountDiv>{count}</StyledCountDiv>
             <StyledText textStyle="meta-text-small" margin="none">
-              {cardType === 'ArenaCategory'
-                ? `${t('arena.category.posts')}`
-                : `${t('arena.topic.responses')}`}
+              {t('myNdla.arena.topic.responses')}
             </StyledText>
           </>
         )}
