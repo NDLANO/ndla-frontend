@@ -9,7 +9,7 @@
 import parse from 'html-react-parser';
 import styled from '@emotion/styled';
 import { ButtonV2, IconButtonV2 } from '@ndla/button';
-import { colors, spacing, fonts, misc } from '@ndla/core';
+import { colors, spacing, misc } from '@ndla/core';
 import {
   DropdownMenu,
   DropdownTrigger,
@@ -57,10 +57,6 @@ const StyledContentContainer = styled.div`
   flex-direction: column;
   gap: ${spacing.small};
   margin: ${spacing.normal} 0;
-`;
-
-const StyledHeader = styled(Heading)`
-  ${fonts.sizes('22px', '33px')};
 `;
 
 const StyledText = styled(Text)`
@@ -118,7 +114,7 @@ const PostCard = ({
         />
       </StyledTopContainer>
       <StyledContentContainer>
-        {isMainPost && <StyledHeader element="h4" headingStyle="h4" margin="none">{title}</StyledHeader>}
+        {isMainPost && <Heading element="h4" headingStyle="h4" margin="none">{title}</Heading>}
         <StyledText element="p" textStyle="content-alt" margin="none">
           {parse(content)}
         </StyledText>
