@@ -14,7 +14,7 @@ import { fonts, spacing } from '@ndla/core';
 import { HeartOutline, MenuBook } from '@ndla/icons/action';
 import { FolderOutlined } from '@ndla/icons/contentType';
 import { Share } from '@ndla/icons/common';
-import { BannerCard, ListResource } from '@ndla/ui';
+import { CampaignBlock, ListResource } from '@ndla/ui';
 import { HelmetWithTracker, useTracker } from '@ndla/tracker';
 import { Text } from '@ndla/typography';
 import InfoPart, { InfoPartIcon } from './InfoPart';
@@ -29,7 +29,6 @@ import { isStudent } from './Folders/util';
 import { getAllDimensions } from '../../util/trackingUtil';
 import MyNdlaPageWrapper from './components/MyNdlaPageWrapper';
 import { useAiOrgs } from './configQueries';
-
 const ShareIcon = InfoPartIcon.withComponent(Share);
 const HeartOutlineIcon = InfoPartIcon.withComponent(HeartOutline);
 const FolderOutlinedIcon = InfoPartIcon.withComponent(FolderOutlined);
@@ -58,7 +57,7 @@ const StyledDescription = styled.p`
   ${fonts.sizes('24px')};
 `;
 
-const StyledBannerCard = styled(BannerCard)`
+const StyledCampaignBlock = styled(CampaignBlock)`
   max-width: 100%;
   margin-bottom: ${spacing.normal};
 `;
@@ -106,25 +105,26 @@ const MyNdlaPage = () => {
         </TitleWrapper>
         <StyledDescription>{t('myNdla.myPage.welcome')}</StyledDescription>
         {allowedAiOrgs.includes(user?.baseOrg?.displayName ?? '') && (
-          <StyledBannerCard
-            link={`https://ai.ndla.no/${aiLang}`}
+          <StyledCampaignBlock
             title={{
               title: t('myndla.campaignBlock.title'),
-              lang: i18n.language,
+              language: i18n.language,
             }}
+            headingLevel="h3"
             image={{
-              imageSrc: '/static/ndla-ai.png',
-              altText: '',
+              src: '/static/ndla-ai.png',
+              alt: '',
             }}
-            linkText={{
+            imageSide="left"
+            url={{
+              url: `https://ai.ndla.no/${aiLang}`,
               text: t('myndla.campaignBlock.linkText'),
-              lang: i18n.language,
             }}
-            content={{
-              content: isStudent(user)
+            description={{
+              text: isStudent(user)
                 ? t('myndla.campaignBlock.ingressStudent')
                 : t('myndla.campaignBlock.ingress'),
-              lang: i18n.language,
+              language: i18n.language,
             }}
           />
         )}
