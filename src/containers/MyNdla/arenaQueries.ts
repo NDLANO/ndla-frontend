@@ -22,7 +22,6 @@ const arenaUserFragment = gql`
     profilePicture
     slug
     groupTitleArray
-    location
   }
 `;
 
@@ -78,7 +77,6 @@ const arenaPostFragment = gql`
       groupTitleArray
       profilePicture
       username
-      location
     }
   }
 `;

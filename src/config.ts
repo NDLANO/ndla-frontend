@@ -114,6 +114,7 @@ export type ConfigType = {
   matomoTagmanagerId: string;
   isVercel: boolean;
   monsidoToken: string;
+  arenaModeratorGroup: string;
 };
 
 const config: ConfigType = {
@@ -149,6 +150,10 @@ const config: ConfigType = {
   matomoTagmanagerId: getEnvironmentVariabel('MATOMO_TAGMANAGER_ID', ''),
   isVercel: getEnvironmentVariabel('IS_VERCEL', false),
   monsidoToken: getEnvironmentVariabel('MONSIDO_TOKEN', ''),
+  arenaModeratorGroup: getEnvironmentVariabel(
+    'ARENA_MODERATOR_GROUP',
+    'Moderator',
+  ),
 };
 
 export function getUniversalConfig() {
@@ -159,7 +164,3 @@ export function getUniversalConfig() {
 }
 
 export default getUniversalConfig();
-
-export const checkIfModerator = (user: any): boolean | undefined => {
-  return user?.includes('Moderator');
-};
