@@ -52,7 +52,7 @@ const StyledCategoryCard = css`
   }
 `;
 
-const StyledTopicCard = css`
+const TopicCardCSS = css`
   background-color: ${colors.background.lightBlue};
   &:hover,
   &:focus-visible {
@@ -60,7 +60,7 @@ const StyledTopicCard = css`
   }
 `;
 
-const StyledCardContainer = styled(SafeLink)`
+const StyledSafelink = styled(SafeLink)`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -115,11 +115,6 @@ const StyledCountContainer = styled.div`
   }
 `;
 
-const StyledCountDiv = styled.div`
-  ${fonts.sizes('18px', '24px')};
-  font-weight: ${fonts.weight.semibold};
-`;
-
 const StyledLeftIcon = styled(Icon)`
   margin-right: ${spacing.normal};
   min-width: 40px;
@@ -154,7 +149,7 @@ const ArenaCard = ({
 
   if (cardType === 'ArenaCategory') {
     return (
-      <StyledCardContainer
+      <StyledSafelink
         id={id}
         css={StyledCategoryCard}
         to={`/minndla/arena/category/${id}`}
@@ -176,19 +171,19 @@ const ArenaCard = ({
           </StyledDescriptionText>
         </StyledTextContainer>
         <StyledCountContainer>
-          <StyledCountDiv>{count}</StyledCountDiv>
+          <Text element="p" textStyle="content-alt" margin="none">{count}</Text>
           <StyledText textStyle="meta-text-small" margin="none">
             {t('myNdla.arena.category.posts')}
           </StyledText>
         </StyledCountContainer>
-      </StyledCardContainer>
+      </StyledSafelink>
     );
   }
 
   return (
-    <StyledCardContainer
+    <StyledSafelink
       id={id}
-      css={StyledTopicCard}
+      css={TopicCardCSS}
       to={`/minndla/arena/category/${categoryId}/topic/${id}`}
     >
       <StyledTextContainer>
@@ -204,14 +199,14 @@ const ArenaCard = ({
           <LockedIcon />
         ) : (
           <>
-            <StyledCountDiv>{count}</StyledCountDiv>
+            <Text element="p" textStyle="content-alt" margin="none">{count}</Text>
             <StyledText textStyle="meta-text-small" margin="none">
               {t('myNdla.arena.topic.responses')}
             </StyledText>
           </>
         )}
       </StyledCountContainer>
-    </StyledCardContainer>
+    </StyledSafelink>
   );
 };
 
