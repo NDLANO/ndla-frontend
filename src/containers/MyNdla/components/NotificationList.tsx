@@ -11,7 +11,7 @@ import { ButtonV2 } from '@ndla/button';
 import { spacing, colors, fonts } from '@ndla/core';
 import { HelpCircleDual, KeyboardReturn } from '@ndla/icons/common';
 import { SafeLinkButton } from '@ndla/safelink';
-import { Text } from '@ndla/typography';
+import { Heading, Text } from '@ndla/typography';
 import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { formatDistanceStrict } from 'date-fns';
@@ -132,9 +132,16 @@ const NotificationList = ({ notifications, inPopover }: Props) => {
   return (
     <>
       <TitleWrapper data-popover={!!inPopover}>
-        <Text textStyle="meta-text-large" margin="none">
-          {t('myNdla.arena.notification.title')}
-        </Text>
+        {inPopover ? (
+          <Heading element="h4" headingStyle="h4" margin="none">
+            {t('myNdla.arena.notification.title')}
+          </Heading>
+        ) : (
+          <Heading element="h2" headingStyle="list-title" margin="none">
+            {t('myNdla.arena.notification.title')}
+          </Heading>
+        )}
+
         <ButtonV2 variant="link" fontWeight="light" onClick={markAllRead}>
           {t('myNdla.arena.notification.markAll')}
         </ButtonV2>
