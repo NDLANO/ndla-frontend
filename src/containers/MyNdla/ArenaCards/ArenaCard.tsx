@@ -154,10 +154,8 @@ const ArenaCard = ({
         css={StyledCategoryCard}
         to={`/minndla/arena/category/${id}`}
       >
-        <>
           <FolderOutlinedIcon />
           <FolderFilledIcon />
-        </>
         <StyledTextContainer>
           <StyledHeader element="label" textStyle="label-small" margin="none">
             {title}
