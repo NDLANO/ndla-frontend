@@ -52,9 +52,9 @@ const StyledTopContainer = styled.div`
 `;
 
 const StyledSwitch = styled(Switch)`
-align-self: flex-start;
-padding: ${spacing.xsmall};
-${mq.range({ until: breakpoints.desktop })} {
+  align-self: flex-start;
+  padding: ${spacing.xsmall};
+  ${mq.range({ until: breakpoints.desktop })} {
     align-self: flex-end;
   }
 `;
@@ -114,12 +114,14 @@ const PostCard = ({
           username={username}
           affiliation={affiliation}
         />
-        {isMainPost && (<StyledSwitch
-          onChange={() => {}}
-          checked={false}
-          label={t('myNdla.arena.posts.notify')}
-          id={t('myNdla.arena.posts.notify')}
-        />)}
+        {isMainPost && (
+          <StyledSwitch
+            onChange={() => {}}
+            checked={false}
+            label={t('myNdla.arena.posts.notify')}
+            id={t('myNdla.arena.posts.notify')}
+          />
+        )}
       </StyledTopContainer>
       <StyledContentContainer>
         {isMainPost && (
