@@ -25,6 +25,7 @@ import {
 } from './folderMutations';
 import MyNdlaTitle from './components/MyNdlaTitle';
 import TitleWrapper from './components/TitleWrapper';
+import { isStudent } from './Folders/util';
 import { getAllDimensions } from '../../util/trackingUtil';
 import MyNdlaPageWrapper from './components/MyNdlaPageWrapper';
 import { useAiOrgs } from './configQueries';
@@ -120,10 +121,9 @@ const MyNdlaPage = () => {
               lang: i18n.language,
             }}
             content={{
-              content:
-                user?.role === 'student'
-                  ? t('myndla.campaignBlock.ingressStudent')
-                  : t('myndla.campaignBlock.ingress'),
+              content: isStudent(user)
+                ? t('myndla.campaignBlock.ingressStudent')
+                : t('myndla.campaignBlock.ingress'),
               lang: i18n.language,
             }}
           />
