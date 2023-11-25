@@ -29,12 +29,12 @@ const messages = {
     sharedFolderPage: `{{name}} - ${titleTemplate}`,
     aboutPage: `{{name}} - ${titleTemplate}`,
   },
-  footer: {
-    cookiesLink: 'Erklæring for informasjonskapsler',
-  },
-  programmes: {
-    header: 'Hva vil du lære om i dag?',
-    description: 'Velg utdanningsprogram for å se dine fag',
+  user: {
+    role: {
+      employee: 'ansatt',
+      teacher: 'ansatt',
+      student: 'elev',
+    },
   },
   podcastPage: {
     episodes: 'Episoder',
@@ -42,13 +42,6 @@ const messages = {
     podcasts: 'Podkaster',
     pageInfo: 'Side {{page}} av {{lastPage}}',
     noResults: '...Ingen episoder',
-  },
-  sharedFolder: 'Delt mappe',
-  campaignBlock: {
-    title: 'Planlegg skoleåret med NDLA',
-    linkText: 'Se forslag',
-    ingress:
-      'Se våre forslag til aktiviteter og årsplaner. Gode resultater starter med god planlegging.',
   },
   myndla: {
     campaignBlock: {

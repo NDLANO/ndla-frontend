@@ -29,12 +29,12 @@ const messages = {
     sharedFolderPage: `{{name}} - ${titleTemplate}`,
     aboutPage: `{{name}} - ${titleTemplate}`,
   },
-  footer: {
-    cookiesLink: 'Statement about cookies',
-  },
-  programmes: {
-    header: 'What do you want to learn today?',
-    description: 'Choose a programme to see your subjects',
+  user: {
+    role: {
+      employee: 'employee',
+      teacher: 'employee',
+      student: 'student',
+    },
   },
   podcastPage: {
     episodes: 'Episodes',
@@ -42,13 +42,6 @@ const messages = {
     podcasts: 'Podcasts',
     pageInfo: 'Page {{page}} of {{lastPage}}',
     noResults: '...No episodes',
-  },
-  sharedFolder: 'Shared folder',
-  campaignBlock: {
-    title: 'Make plans for the school year with NDLA',
-    linkText: 'View tips',
-    ingress:
-      'See our tips for activities and annual plans. Good results start with good planning.',
   },
   myndla: {
     campaignBlock: {

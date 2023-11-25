@@ -28,12 +28,12 @@ const messages = {
     myTagsPage: `Mu lihput - ${titleTemplate}`,
     aboutPage: `{{name}} - ${titleTemplate}`,
   },
-  footer: {
-    cookiesLink: 'Julggaštus diehtočoahku ektui (gáhkožat)',
-  },
-  programmes: {
-    header: 'Maid háliidat oahppat odne?',
-    description: 'Vállje oahppoprográmma vai oainnát iežat fágaid',
+  user: {
+    role: {
+      employee: 'bargi',
+      teacher: 'bargi',
+      student: 'oahppi',
+    },
   },
   podcastPage: {
     episodes: 'Episoder',
@@ -41,13 +41,6 @@ const messages = {
     podcasts: 'Podkaster',
     pageInfo: 'Side {{page}} av {{lastPage}}',
     noResults: '...Ingen episoder',
-  },
-  sharedFolder: 'Delt mappe',
-  campaignBlock: {
-    title: 'Planlegg skuleåret med NDLA',
-    linkText: 'Sjå forslag',
-    ingress:
-      'Sjå våre forslag til aktivitetar og årsplanar. Gode resultat startar med god planlegging.',
   },
   myndla: {
     campaignBlock: {

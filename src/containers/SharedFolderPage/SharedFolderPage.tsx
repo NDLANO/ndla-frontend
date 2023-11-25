@@ -201,7 +201,7 @@ const SharedFolderPage = () => {
   const metaWithMetaImage = data?.find((d) => !!d.metaImage?.url);
 
   const title = `${selectedFolder?.name} - ${
-    articleMeta?.title ?? t('sharedFolder')
+    articleMeta?.title ?? t('myNdla.folder.sharing.sharedFolder')
   }`;
 
   return (
