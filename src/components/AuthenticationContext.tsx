@@ -14,9 +14,8 @@ import {
   useCallback,
 } from 'react';
 import {
-  GQLExamLockStatusQuery,
+  GQLMyNdlaDataQuery,
   GQLMyNdlaPersonalDataFragmentFragment,
-  GQLMyNdlaUserQuery,
 } from '../graphqlTypes';
 import { isAccessTokenValid, millisUntilExpiration } from '../util/authHelpers';
 import { useGraphQuery } from '../util/runQueries';
@@ -44,15 +43,6 @@ interface Props {
   initialValue?: string;
 }
 
-const examLockStatusQuery = gql`
-  query examLockStatus {
-    examLockStatus {
-      key
-      value
-    }
-  }
-`;
-
 const personalDataQueryFragment = gql`
   fragment MyNdlaPersonalDataFragment on MyNdlaPersonalData {
     username
@@ -71,21 +61,18 @@ const personalDataQueryFragment = gql`
   }
 `;
 
-const myProfileQuery = gql`
-  query MyNdlaUser {
+const myNdlaQuery = gql`
+  query myNdlaData {
+    examLockStatus {
+      key
+      value
+    }
     myNdlaUser {
       ...MyNdlaPersonalDataFragment
     }
   }
   ${personalDataQueryFragment}
 `;
-
-const useMyNdlaUser = () => {
-  const { data, loading, error } =
-    useGraphQuery<GQLMyNdlaUserQuery>(myProfileQuery);
-  const myNdlaUser = data?.myNdlaUser;
-  return { myNdlaUser, loading, error };
-};
 
 const AuthenticationContext = ({ children }: Props) => {
   const [authenticated, setAuthenticated] = useState(false);
@@ -95,14 +82,17 @@ const AuthenticationContext = ({ children }: Props) => {
   >(undefined);
   const [examLock, setExamLock] = useState(false);
 
-  const { data: { examLockStatus } = {}, error: examLockError } =
-    useGraphQuery<GQLExamLockStatusQuery>(examLockStatusQuery);
-
-  const { myNdlaUser, loading, error } = useMyNdlaUser();
+  const myNdlaData = useGraphQuery<GQLMyNdlaDataQuery>(myNdlaQuery, {
+    skip: typeof window === 'undefined',
+  });
 
   useEffect(() => {
     const isValid = isAccessTokenValid();
     setAuthenticated(isValid);
+
+    if (!myNdlaData.data) return;
+
+    const { myNdlaUser, examLockStatus } = myNdlaData.data;
 
     if (isValid && myNdlaUser !== undefined) {
       if (myNdlaUser?.role === 'student') {
@@ -118,14 +108,7 @@ const AuthenticationContext = ({ children }: Props) => {
     } else {
       setLoaded(true);
     }
-  }, [
-    authenticated,
-    myNdlaUser,
-    loading,
-    error,
-    examLockError,
-    examLockStatus?.value,
-  ]);
+  }, [myNdlaData.data]);
 
   const login = useCallback(() => setAuthenticated(true), []);
   const logout = useCallback(() => setAuthenticated(false), []);

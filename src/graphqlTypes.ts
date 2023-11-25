@@ -1909,17 +1909,6 @@ export type GQLNotionsContent_MetaFragment = {
   __typename?: 'ResourceMetaData';
 } & GQLResourceEmbedLicenseBox_MetaFragment;
 
-export type GQLExamLockStatusQueryVariables = Exact<{ [key: string]: never }>;
-
-export type GQLExamLockStatusQuery = {
-  __typename?: 'Query';
-  examLockStatus: {
-    __typename?: 'ConfigMetaBoolean';
-    key: string;
-    value: boolean;
-  };
-};
-
 export type GQLMyNdlaPersonalDataFragmentFragment = {
   __typename?: 'MyNdlaPersonalData';
   username: string;
@@ -1938,10 +1927,15 @@ export type GQLMyNdlaPersonalDataFragmentFragment = {
   }>;
 };
 
-export type GQLMyNdlaUserQueryVariables = Exact<{ [key: string]: never }>;
+export type GQLMyNdlaDataQueryVariables = Exact<{ [key: string]: never }>;
 
-export type GQLMyNdlaUserQuery = {
+export type GQLMyNdlaDataQuery = {
   __typename?: 'Query';
+  examLockStatus: {
+    __typename?: 'ConfigMetaBoolean';
+    key: string;
+    value: boolean;
+  };
   myNdlaUser?: {
     __typename?: 'MyNdlaPersonalData';
   } & GQLMyNdlaPersonalDataFragmentFragment;
