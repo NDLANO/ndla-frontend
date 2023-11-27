@@ -15,3 +15,17 @@ export default function formatDate(date: string, locale: LocaleType) {
   }
   return format(new Date(date), 'MM/dd/yyyy');
 }
+
+const timeFormatOptions = {
+  nn: 'dd.MM.yyyy HH:mm:ss',
+  nb: 'dd.MM.yyyy HH:mm:ss',
+  en: 'dd/MM/yyyy HH:mm:ss',
+  se: 'dd/MM/yyyy HH:mm:ss',
+};
+
+export function formatDateTime(timestamp: string, locale: LocaleType) {
+  return format(
+    new Date(timestamp),
+    timeFormatOptions[locale] ?? 'dd/MM/yyyy HH:mm:ss',
+  );
+}

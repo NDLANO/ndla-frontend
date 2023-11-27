@@ -6,7 +6,14 @@
  *
  */
 
-import { useMemo, useContext, useState, Dispatch, SetStateAction } from 'react';
+import {
+  useMemo,
+  useContext,
+  useState,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+} from 'react';
 import { Location, Outlet, useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
@@ -16,6 +23,8 @@ import { FolderOutlined } from '@ndla/icons/contentType';
 import {
   Book,
   BookOutlined,
+  Forum,
+  ForumOutlined,
   HashTag,
   Home,
   HomeOutline,
@@ -31,6 +40,7 @@ import { TFunction } from 'i18next';
 import { AuthContext } from '../../components/AuthenticationContext';
 import NavigationLink from './components/NavigationLink';
 import { toHref } from '../../util/urlHelper';
+import { usePersonalData } from './userMutations';
 
 const StyledLayout = styled.div`
   display: flex;
@@ -123,29 +133,41 @@ export interface OutletContext {
 }
 
 const MyNdlaLayout = () => {
+  const { personalData, fetch: fetchPersonalData } = usePersonalData();
   const { t } = useTranslation();
-  const { examLock } = useContext(AuthContext);
+  const { authenticated, examLock } = useContext(AuthContext);
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const [resetFocus, setResetFocus] = useState(false);
 
+  useEffect(() => {
+    if (authenticated) {
+      fetchPersonalData();
+    }
+  }, [authenticated, fetchPersonalData]);
+
   const menuLink = useMemo(
     () =>
       menuLinks(t, location).map(
-        ({ name, shortName, id, icon, to, iconFilled }) => (
-          <StyledLi key={id} role="none">
-            <NavigationLink
-              id={id}
-              name={name}
-              shortName={shortName}
-              icon={icon}
-              to={to}
-              iconFilled={iconFilled}
-            />
-          </StyledLi>
-        ),
+        ({ name, shortName, id, icon, to, iconFilled, restricted }) => {
+          if (restricted && !personalData?.arenaEnabled) {
+            return null;
+          }
+          return (
+            <StyledLi key={id} role="none">
+              <NavigationLink
+                id={id}
+                name={name}
+                shortName={shortName}
+                icon={icon}
+                to={to}
+                iconFilled={iconFilled}
+              />
+            </StyledLi>
+          );
+        },
       ),
-    [location, t],
+    [location, t, personalData],
   );
 
   return (
@@ -209,6 +231,14 @@ export const menuLinks = (t: TFunction, location: Location) => [
     name: t('myNdla.myTags'),
     shortName: t('myNdla.iconMenu.tags'),
     icon: <HashTag />,
+  },
+  {
+    id: 'arena',
+    name: t('myNdla.arena.title'),
+    shortName: t('myNdla.arena.title'),
+    icon: <ForumOutlined />,
+    iconFilled: <Forum />,
+    restricted: true,
   },
   {
     id: 'profile',
