@@ -25,8 +25,8 @@ const NotificationCounter = styled.div`
   background: ${colors.support.red};
   color: ${colors.white};
   height: ${spacing.nsmall};
-  right: ${spacing.xsmall};
-  bottom: ${spacing.xsmall};
+  right: ${spacing.small};
+  bottom: ${spacing.xxsmall};
   padding: 0 ${spacing.xxsmall};
   font-size: ${spacing.small};
   text-align: center;
@@ -39,8 +39,8 @@ const IconWrapper = styled.div`
 `;
 
 const StyledBellIcon = styled(Bell)`
-  width: ${spacing.normal};
-  height: ${spacing.normal};
+  width: ${spacing.snormal};
+  height: ${spacing.snormal};
 `;
 
 interface Props extends HTMLAttributes<HTMLButtonElement> {

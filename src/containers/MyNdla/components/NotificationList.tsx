@@ -41,7 +41,7 @@ const StyledLink = styled(SafeLinkButton)`
   border: solid 1px ${colors.brand.greyLight};
   border-radius: ${spacing.xxsmall};
   justify-content: space-between;
-  padding: ${spacing.small} ${spacing.normal};
+  padding: ${spacing.small};
   gap: ${spacing.small};
 
   &:hover {
