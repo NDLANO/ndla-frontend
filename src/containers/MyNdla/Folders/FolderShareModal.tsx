@@ -23,12 +23,12 @@ import { Copy, TrashCanOutline } from '@ndla/icons/action';
 import { SafeLinkButton } from '@ndla/safelink';
 import Tooltip from '@ndla/tooltip';
 import { useSnack } from '@ndla/ui';
-import { ReactNode, useCallback, useContext, useMemo, useState } from 'react';
+import { ReactNode, useCallback, useMemo, useState } from 'react';
 import { GQLFolder } from '../../../graphqlTypes';
 import FolderAndResourceCount from './FolderAndResourceCount';
 import { toFolderPreview } from '../../../routeHelpers';
 import { previewLink } from './util';
-import IsMobileContext from '../../../IsMobileContext';
+import { useUserAgent } from '../../../UserAgentContext';
 
 const FolderName = styled.span`
   ${fonts.sizes('18px', '24px')};
@@ -125,15 +125,15 @@ export const FolderShareModalContent = ({
 }: FolderShareModalContentProps) => {
   const { t } = useTranslation();
   const { addSnack } = useSnack();
-  const isMobile = useContext(IsMobileContext);
+  const selectors = useUserAgent();
   const cancelButton = useMemo(
     () =>
-      !(type === 'shared' && isMobile) ? (
+      !(type === 'shared' && selectors?.isMobile) ? (
         <ButtonV2 shape="pill" onClick={onClose} variant="outline">
           {t('cancel')}
         </ButtonV2>
       ) : null,
-    [isMobile, onClose, t, type],
+    [selectors?.isMobile, onClose, t, type],
   );
 
   const onUpdate = useCallback(() => {
@@ -168,15 +168,15 @@ export const FolderShareModalContent = ({
       type === 'shared' ? (
         <ButtonV2
           shape="pill"
-          variant={isMobile ? 'outline' : 'ghost'}
+          variant={selectors?.isMobile ? 'outline' : 'ghost'}
           colorTheme="danger"
           onClick={onUpdate}
         >
           {t('myNdla.folder.sharing.button.unShare')}
-          {!isMobile && <TrashCanOutline />}
+          {!selectors?.isMobile && <TrashCanOutline />}
         </ButtonV2>
       ) : null,
-    [isMobile, onUpdate, t, type],
+    [selectors?.isMobile, onUpdate, t, type],
   );
 
   return (
@@ -221,7 +221,7 @@ export const FolderShareModalContent = ({
         )}
         {t(`myNdla.folder.sharing.description.${type}`)}
         <StyledButtonRow>
-          {!isMobile ? (
+          {!selectors?.isMobile ? (
             <>
               {unShareButton}
               <StyledSpacing />
