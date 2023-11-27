@@ -116,7 +116,12 @@ const ArenaCard = ({ id, title, subText, count }: Props) => {
       <FolderOutlinedIcon />
       <FolderFilledIcon />
       <StyledTextContainer>
-        <StyledHeader element="label" textStyle="label-small" margin="none">
+        <StyledHeader
+          element="label"
+          textStyle="label-small"
+          margin="none"
+          data-name="hover"
+        >
           {title}
         </StyledHeader>
         <StyledDescriptionText
