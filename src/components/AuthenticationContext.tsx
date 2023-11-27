@@ -67,7 +67,7 @@ const myNdlaQuery = gql`
       key
       value
     }
-    myNdlaUser {
+    personalData {
       ...MyNdlaPersonalDataFragment
     }
   }
@@ -92,13 +92,13 @@ const AuthenticationContext = ({ children }: Props) => {
 
     if (!myNdlaData.data) return;
 
-    const { myNdlaUser, examLockStatus } = myNdlaData.data;
+    const { personalData, examLockStatus } = myNdlaData.data;
 
-    if (isValid && myNdlaUser !== undefined) {
-      if (myNdlaUser?.role === 'student') {
+    if (isValid && personalData !== undefined) {
+      if (personalData?.role === 'student') {
         setExamLock(examLockStatus?.value === true);
       }
-      setUser(myNdlaUser);
+      setUser(personalData);
       setLoaded(true);
       // Since we can't listen to cookies set a timeout to update context
       const timeoutMillis = millisUntilExpiration();

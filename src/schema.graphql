@@ -1030,8 +1030,7 @@ type Query {
   image(id: String!): ImageMetaInformationV2
   learningpath(pathId: String!): Learningpath
   listingPage(subjects: String): ListingPage
-  myNdlaUser: MyNdlaPersonalData
-  personalData: MyNdlaPersonalData!
+  personalData: MyNdlaPersonalData
   podcastSearch(fallback: Boolean, page: Int!, pageSize: Int!): AudioSearch
   podcastSeries(id: Int!): PodcastSeriesWithEpisodes
   podcastSeriesSearch(

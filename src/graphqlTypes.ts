@@ -1184,8 +1184,7 @@ export type GQLQuery = {
   image?: Maybe<GQLImageMetaInformationV2>;
   learningpath?: Maybe<GQLLearningpath>;
   listingPage?: Maybe<GQLListingPage>;
-  myNdlaUser?: Maybe<GQLMyNdlaPersonalData>;
-  personalData: GQLMyNdlaPersonalData;
+  personalData?: Maybe<GQLMyNdlaPersonalData>;
   podcastSearch?: Maybe<GQLAudioSearch>;
   podcastSeries?: Maybe<GQLPodcastSeriesWithEpisodes>;
   podcastSeriesSearch?: Maybe<GQLPodcastSeriesSearch>;
@@ -1936,7 +1935,7 @@ export type GQLMyNdlaDataQuery = {
     key: string;
     value: boolean;
   };
-  myNdlaUser?: {
+  personalData?: {
     __typename?: 'MyNdlaPersonalData';
   } & GQLMyNdlaPersonalDataFragmentFragment;
 };
@@ -3295,15 +3294,6 @@ export type GQLMySubjectMyNdlaPersonalDataFragmentFragment = {
   favoriteSubjects: Array<string>;
   role: string;
   shareName: boolean;
-};
-
-export type GQLPersonalDataQueryVariables = Exact<{ [key: string]: never }>;
-
-export type GQLPersonalDataQuery = {
-  __typename?: 'Query';
-  personalData: {
-    __typename?: 'MyNdlaPersonalData';
-  } & GQLMySubjectMyNdlaPersonalDataFragmentFragment;
 };
 
 export type GQLUpdatePersonalDataMutationVariables = Exact<{
