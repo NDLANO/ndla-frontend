@@ -154,7 +154,12 @@ const ArenaCard = ({
         <FolderOutlinedIcon />
         <FolderFilledIcon />
         <StyledTextContainer>
-          <StyledHeader element="label" textStyle="label-small" margin="none" data-name="hover">
+          <StyledHeader
+            element="label"
+            textStyle="label-small"
+            margin="none"
+            data-name="hover"
+          >
             {title}
           </StyledHeader>
           <StyledDescriptionText
