@@ -82,6 +82,8 @@ const MastheadSearch = ({ subject }: Props) => {
         !['input', 'textarea'].includes(
           document.activeElement?.tagName.toLowerCase() ?? '',
         ) &&
+        document.activeElement?.attributes.getNamedItem('contenteditable')
+          ?.value !== 'true' &&
         !isOpen
       ) {
         evt.preventDefault();
