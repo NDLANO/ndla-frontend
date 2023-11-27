@@ -1034,8 +1034,9 @@ export type GQLMyNdlaPersonalData = {
   arenaEnabled: Scalars['Boolean']['output'];
   displayName: Scalars['String']['output'];
   favoriteSubjects: Array<Scalars['String']['output']>;
+  feideId: Scalars['String']['output'];
   groups: Array<Maybe<GQLMyNdlaGroup>>;
-  id: Scalars['String']['output'];
+  id: Scalars['Int']['output'];
   organization: Scalars['String']['output'];
   role: Scalars['String']['output'];
   shareName: Scalars['Boolean']['output'];
@@ -3290,7 +3291,7 @@ export type GQLDeletePersonalDataMutation = {
 
 export type GQLMySubjectMyNdlaPersonalDataFragmentFragment = {
   __typename?: 'MyNdlaPersonalData';
-  id: string;
+  id: number;
   favoriteSubjects: Array<string>;
   role: string;
   shareName: boolean;

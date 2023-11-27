@@ -851,8 +851,9 @@ type MyNdlaPersonalData {
   arenaEnabled: Boolean!
   displayName: String!
   favoriteSubjects: [String!]!
+  feideId: String!
   groups: [MyNdlaGroup]!
-  id: String!
+  id: Int!
   organization: String!
   role: String!
   shareName: Boolean!
