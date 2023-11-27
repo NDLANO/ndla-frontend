@@ -51,10 +51,10 @@ const ArenaPage = () => {
       <Heading element="h1" headingStyle="h1-resource" margin="small">
         {t('myNdla.arena.title')}
       </Heading>
-      <Text element="p" textStyle="content-alt" margin="large">
+      <Text element="p" textStyle="content-alt">
         {t('myNdla.arena.notification.description')}
       </Text>
-      <Heading element="h2" headingStyle="h2" margin="none">
+      <Heading element="h2" headingStyle="h2" margin="large">
         {t('myNdla.arena.category.title')}
       </Heading>
       {loading ? (
@@ -72,7 +72,7 @@ const ArenaPage = () => {
           ))}
         </StyledCardContainer>
       )}
-      <Text element="p" textStyle="meta-text-small" margin="small">
+      <Text element="p" textStyle="meta-text-small" margin="none">
         {t('myNdla.arena.bottomText')}
       </Text>
     </MyNdlaPageWrapper>

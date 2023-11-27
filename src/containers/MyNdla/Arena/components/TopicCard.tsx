@@ -26,17 +26,16 @@ const StyledSafelink = styled(SafeLink)`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: ${spacing.normal};
-  padding-right: ${spacing.medium};
+  padding: ${spacing.normal} ${spacing.medium};
+  padding-left: ${spacing.large};
   border: 1px solid ${colors.brand.light};
   border-radius: ${misc.borderRadius};
   box-shadow: none;
+
   &:hover,
   &:focus-visible {
     background-color: ${colors.brand.lighter};
-    [data-name='hover'] {
-      text-decoration: none;
-    }
+    text-decoration: none;
   }
 `;
 
@@ -51,6 +50,8 @@ const TopicCardCSS = css`
 const StyledHeader = styled(Text)`
   color: ${colors.brand.primary};
   text-decoration: underline;
+  overflow-wrap: break-word;
+  cursor: pointer;
 `;
 
 const StyledText = styled(Text)`
@@ -84,12 +85,7 @@ const TopicCard = ({ id, title, locked, timestamp, count }: Props) => {
       to={`/minndla/arena/topic/${id}`}
     >
       <div>
-        <StyledHeader
-          element="label"
-          textStyle="label-small"
-          margin="none"
-          data-name="hover"
-        >
+        <StyledHeader element="label" textStyle="label-small" margin="none">
           {title}
         </StyledHeader>
         <StyledText element="p" textStyle="meta-text-small" margin="none">

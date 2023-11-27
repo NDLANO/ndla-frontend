@@ -120,12 +120,6 @@ const ItemButton = styled(ButtonV2)`
 
   &[data-type='primary'] {
     color: ${colors.brand.primary};
-    &:hover,
-    &:focus-within,
-    &:focus,
-    &:focus-visible {
-      color: ${colors.brand.primary};
-    }
   }
 `;
 

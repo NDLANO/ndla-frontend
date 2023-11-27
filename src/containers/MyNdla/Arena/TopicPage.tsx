@@ -24,17 +24,13 @@ import { usePersonalData } from '../userMutations';
 import { AuthContext } from '../../../components/AuthenticationContext';
 
 const BreadcrumbWrapper = styled.div`
-  margin-top: ${spacing.normal};
+  padding-top: ${spacing.normal};
 `;
 
 const StyledContainer = styled.div`
   display: flex;
   justify-content: space-between;
   margin: ${spacing.large} 0 ${spacing.normal};
-`;
-
-const StyledTopicH2 = styled(Heading)`
-  align-self: center;
 `;
 
 const StyledNewTopicButton = styled(ButtonV2)`
@@ -96,9 +92,9 @@ const TopicPage = () => {
         {arenaCategory?.description}
       </Text>
       <StyledContainer>
-        <StyledTopicH2 element="h2" headingStyle="h2" margin="none">
+        <Heading element="h2" headingStyle="h2" margin="none">
           {t('myNdla.arena.category.posts')}
-        </StyledTopicH2>
+        </Heading>
         <StyledNewTopicButton
           colorTheme="lighter"
           //onClick={} to open modal

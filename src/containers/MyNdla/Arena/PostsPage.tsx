@@ -21,8 +21,8 @@ import { usePersonalData } from '../userMutations';
 import { AuthContext } from '../../../components/AuthenticationContext';
 
 const BreadcrumbWrapper = styled.div`
-  margin-top: ${spacing.normal};
-  margin-bottom: ${spacing.large};
+  padding-top: ${spacing.normal};
+  padding-bottom: ${spacing.large};
 `;
 
 const PostCardWrapper = styled.div`
