@@ -211,7 +211,6 @@ export const menuLinks = (t: TFunction, location: Location) => [
     shortName: t('myNdla.myNDLA'),
     icon: <HomeOutline />,
     iconFilled: <Home />,
-    restricted: false,
   },
   {
     id: 'folders',
@@ -219,7 +218,6 @@ export const menuLinks = (t: TFunction, location: Location) => [
     shortName: t('myNdla.iconMenu.folders'),
     icon: <FolderOutlined />,
     iconFilled: <Folder />,
-    restricted: false,
   },
   {
     id: 'subjects',
@@ -227,14 +225,12 @@ export const menuLinks = (t: TFunction, location: Location) => [
     shortName: t('myNdla.iconMenu.subjects'),
     icon: <BookOutlined />,
     iconFilled: <Book />,
-    restricted: false,
   },
   {
     id: 'tags',
     name: t('myNdla.myTags'),
     shortName: t('myNdla.iconMenu.tags'),
     icon: <HashTag />,
-    restricted: false,
   },
   {
     id: 'arena',
@@ -256,7 +252,6 @@ export const menuLinks = (t: TFunction, location: Location) => [
     name: t('user.buttonLogOut'),
     shortName: t('user.buttonLogOut'),
     icon: <LogOut />,
-    restricted: false,
     to: `/logout?state=${toHref(location)}`,
   },
 ];

@@ -12,6 +12,7 @@ import styled from '@emotion/styled';
 import { spacing, fonts } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import { Heading, Text } from '@ndla/typography';
+import { Navigate } from 'react-router-dom';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import { useArenaCategories } from '../arenaQueries';
 import { usePersonalData } from '../userMutations';
@@ -46,6 +47,7 @@ const ArenaPage = () => {
   const { loading, arenaCategories } = useArenaCategories();
   const { authenticated } = useContext(AuthContext);
   const { personalData, fetch: fetchPersonalData } = usePersonalData();
+
   useEffect(() => {
     if (authenticated) {
       fetchPersonalData();
@@ -55,10 +57,11 @@ const ArenaPage = () => {
   if (loading) {
     return <Spinner />;
   }
-  if (!personalData?.arenaEnabled) {
-    // Should redirect to /myndla?
-    return null;
+
+  if (!personalData?.arenaEnabled && personalData?.arenaEnabled !== undefined) {
+    return <Navigate to="/minndla" />;
   }
+
   return (
     <MyNdlaPageWrapper>
       <StyledArenaHeader element="h1" headingStyle="h1-resource">
