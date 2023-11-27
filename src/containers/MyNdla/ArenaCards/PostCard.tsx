@@ -22,6 +22,9 @@ import { ReportOutlined } from '@ndla/icons/common';
 import { Switch } from '@ndla/switch';
 import { Text, Heading } from '@ndla/typography';
 import { useTranslation } from 'react-i18next';
+import { useMemo } from 'react';
+import { nb, nn, enGB } from 'date-fns/locale';
+import { formatDistanceStrict } from 'date-fns';
 import UserProfileTag from '../components/UserProfileTag';
 
 interface Props {
@@ -79,7 +82,6 @@ const BottomContainer = styled.div`
 `;
 
 const StyledTimestamp = styled(Text)`
-  //Trenger funksjon for utregning av tid
   align-self: center;
 `;
 
@@ -95,6 +97,16 @@ const StyledAddCommentButton = styled(ButtonV2)`
   white-space: nowrap;
 `;
 
+const Locales = {
+  nn: nn,
+  nb: nb,
+  en: enGB,
+  se: nb,
+};
+
+const capitalizeFirstLetter = (str: string) =>
+  str.charAt(0).toUpperCase() + str.slice(1);
+
 const PostCard = ({
   id,
   title,
@@ -105,7 +117,11 @@ const PostCard = ({
   username,
   affiliation,
 }: Props) => {
-  const { t } = useTranslation();
+  const {
+    t,
+    i18n: { language },
+  } = useTranslation();
+  const now = useMemo(() => new Date(), []);
 
   return (
     <StyledCardContainer key={id}>
@@ -137,7 +153,13 @@ const PostCard = ({
       <BottomContainer>
         {!isMainPost && (
           <StyledTimestamp element="p" textStyle="content-alt" margin="none">
-            {timestamp}
+            {`${capitalizeFirstLetter(
+              formatDistanceStrict(Date.parse(timestamp), now, {
+                addSuffix: true,
+                locale: Locales[language],
+                roundingMethod: 'floor',
+              }),
+            )}`}
           </StyledTimestamp>
         )}
         <DropdownMenu>
