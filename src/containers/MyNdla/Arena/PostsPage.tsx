@@ -12,7 +12,7 @@ import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
 import { useContext, useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
-import PostCard from '../ArenaCards/PostCard';
+import PostCard from './components/PostCard';
 import { useArenaCategory, useArenaTopic } from '../arenaQueries';
 import { GQLArenaPostFragmentFragment } from '../../../graphqlTypes';
 import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
@@ -74,7 +74,7 @@ const PostsPage = () => {
       {arenaTopic?.posts?.map((post: GQLArenaPostFragmentFragment) => (
         <PostCardWrapper key={post.id} data-mainPost={post.isMainPost}>
           <PostCard
-            id={post.id.toString()}
+            id={post.id}
             timestamp={post.timestamp}
             isMainPost={post.isMainPost}
             title={arenaTopic.title ?? ''}

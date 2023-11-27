@@ -39,7 +39,7 @@ export interface MenuItemProps {
   icon?: ReactNode;
   text?: string;
   disabled?: boolean;
-  type?: 'danger';
+  type?: 'danger' | 'primary';
   isModal?: boolean;
   onClick?: (e?: MouseEvent<HTMLElement>) => void;
   keepOpen?: boolean;
@@ -108,13 +108,23 @@ const ItemButton = styled(ButtonV2)`
   color: ${colors.text.primary};
   ${fonts.sizes('16px', '16px')};
   justify-content: flex-start;
-  &[data-danger='true'] {
+  &[data-type='danger'] {
     color: ${colors.support.red};
     &:hover,
     &:focus-within,
     &:focus,
     &:focus-visible {
       color: ${colors.white};
+    }
+  }
+
+  &[data-type='primary'] {
+    color: ${colors.brand.primary};
+    &:hover,
+    &:focus-within,
+    &:focus,
+    &:focus-visible {
+      color: ${colors.brand.primary};
     }
   }
 `;
@@ -257,13 +267,13 @@ const SettingsMenu = ({ menuItems }: Props) => {
               }}
             >
               <ItemButton
-                colorTheme={item.type ?? 'light'}
+                colorTheme={item.type === 'danger' ? 'danger' : 'light'}
                 disabled={item.disabled}
                 shape="sharp"
                 variant="ghost"
                 size="small"
                 fontWeight="normal"
-                data-danger={item.type === 'danger'}
+                data-type={item.type}
                 onClick={item.onClick}
                 ref={item.ref}
               >

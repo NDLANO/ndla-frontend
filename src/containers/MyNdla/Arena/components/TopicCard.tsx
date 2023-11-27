@@ -12,7 +12,7 @@ import { Text } from '@ndla/typography';
 import SafeLink from '@ndla/safelink';
 import { colors, spacing, breakpoints, mq, misc } from '@ndla/core';
 import { Locked } from '@ndla/icons/common';
-import { formatDateTime } from '../../../util/formatDate';
+import { formatDateTime } from '../../../../util/formatDate';
 
 interface Props {
   id: string;
@@ -25,6 +25,7 @@ const StyledSafelink = styled(SafeLink)`
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: space-between;
   padding: ${spacing.normal};
   padding-right: ${spacing.medium};
   border: 1px solid ${colors.brand.light};
@@ -45,13 +46,6 @@ const TopicCardCSS = css`
   &:focus-visible {
     background-color: ${colors.brand.lighter};
   }
-`;
-
-const StyledTextContainer = styled.div`
-  margin-left: ${spacing.normal};
-  margin-right: auto;
-  display: flex;
-  flex-direction: column;
 `;
 
 const StyledHeader = styled(Text)`
@@ -89,7 +83,7 @@ const TopicCard = ({ id, title, locked, timestamp, count }: Props) => {
       css={TopicCardCSS}
       to={`/minndla/arena/topic/${id}`}
     >
-      <StyledTextContainer>
+      <div>
         <StyledHeader
           element="label"
           textStyle="label-small"
@@ -101,7 +95,7 @@ const TopicCard = ({ id, title, locked, timestamp, count }: Props) => {
         <StyledText element="p" textStyle="meta-text-small" margin="none">
           {timestamp && formatDateTime(timestamp, i18n.language)}
         </StyledText>
-      </StyledTextContainer>
+      </div>
       <StyledCountContainer>
         {locked ? (
           <Locked css={LockedIconCSS} />

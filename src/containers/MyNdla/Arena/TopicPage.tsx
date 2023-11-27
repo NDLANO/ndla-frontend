@@ -16,7 +16,7 @@ import { Pencil } from '@ndla/icons/action';
 import { Navigate, useParams } from 'react-router-dom';
 import { useContext, useEffect } from 'react';
 import { useArenaCategory } from '../arenaQueries';
-import TopicCard from '../ArenaCards/TopicCard';
+import TopicCard from './components/TopicCard';
 import { GQLArenaTopicFragmentFragment } from '../../../graphqlTypes';
 import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
 import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
@@ -25,10 +25,6 @@ import { AuthContext } from '../../../components/AuthenticationContext';
 
 const BreadcrumbWrapper = styled.div`
   margin-top: ${spacing.normal};
-`;
-
-const StyledTopicHeader = styled(Heading)`
-  margin-bottom: ${spacing.small};
 `;
 
 const StyledContainer = styled.div`
@@ -93,9 +89,9 @@ const TopicPage = () => {
           page={'arena'}
         />
       </BreadcrumbWrapper>
-      <StyledTopicHeader element="h1" headingStyle="h1-resource">
+      <Heading element="h1" headingStyle="h1-resource" margin="small">
         {arenaCategory?.name}
-      </StyledTopicHeader>
+      </Heading>
       <Text element="p" textStyle="content-alt" margin="none">
         {arenaCategory?.description}
       </Text>
