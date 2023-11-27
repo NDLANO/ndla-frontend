@@ -28,9 +28,7 @@ import { AuthContext } from '../../components/AuthenticationContext';
 import TabFilter from '../../components/TabFilter';
 import { MastheadHeightPx, SKIP_TO_CONTENT_ID } from '../../constants';
 import IsMobileContext from '../../IsMobileContext';
-
 import { useSubjects } from '../MyNdla/subjectQueries';
-import { usePersonalData } from '../MyNdla/userMutations';
 import FavoriteSubjects from './FavoriteSubjects';
 import LetterNavigation from './LetterNavigation';
 import SubjectCategory from './SubjectCategory';
@@ -97,7 +95,7 @@ const AllSubjectsPage = () => {
   const navigate = useNavigate();
   const isMobile = useContext(IsMobileContext);
   const location = useLocation();
-  const { authenticated } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
     if (window.location && window.location.hash) {
@@ -118,7 +116,6 @@ const AllSubjectsPage = () => {
   }, []);
 
   const { error, loading, subjects } = useSubjects();
-  const { personalData, fetch: fetchPersonalData } = usePersonalData();
 
   const filterOptions = useMemo(() => createFilters(t), [t]);
   const [filter, _setFilter] = useState<string>(
@@ -134,7 +131,7 @@ const AllSubjectsPage = () => {
     navigate(`${location.pathname}?${search}`);
   };
 
-  const favoriteSubjects = personalData?.favoriteSubjects;
+  const favoriteSubjects = user?.favoriteSubjects;
   const sortedSubjects = useMemo(
     () => sortBy(subjects, (s) => s.name),
     [subjects],
@@ -148,12 +145,6 @@ const AllSubjectsPage = () => {
     () => groupedSubjects.map((group) => group.label),
     [groupedSubjects],
   );
-
-  useEffect(() => {
-    if (authenticated) {
-      fetchPersonalData();
-    }
-  }, [authenticated, fetchPersonalData]);
 
   if (loading) return <ContentPlaceholder />;
   if (error)
