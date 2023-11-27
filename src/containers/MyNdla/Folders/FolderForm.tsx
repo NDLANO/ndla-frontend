@@ -191,7 +191,7 @@ const StyledSpan = styled.span`
   text-align: right;
 `;
 
-const FieldLength = ({ value, maxLength }: FieldLengthProps) => {
+export const FieldLength = ({ value, maxLength }: FieldLengthProps) => {
   return <StyledSpan>{`${value}/${maxLength}`}</StyledSpan>;
 };
 
