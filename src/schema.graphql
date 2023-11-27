@@ -852,7 +852,7 @@ type MyNdlaPersonalData {
   displayName: String!
   favoriteSubjects: [String!]!
   groups: [MyNdlaGroup]!
-  id: Int!
+  id: String!
   organization: String!
   role: String!
   shareName: Boolean!
