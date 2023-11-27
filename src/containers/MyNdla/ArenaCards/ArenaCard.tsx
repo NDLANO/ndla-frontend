@@ -68,13 +68,10 @@ const StyledSafelink = styled(SafeLink)`
   border: 1px solid ${colors.brand.light};
   border-radius: ${misc.borderRadius};
   box-shadow: none;
-  > * > span {
-    text-decoration: underline;
-  }
   &:hover,
   &:focus-visible {
     background-color: ${colors.brand.lighter};
-    > * > span {
+    [data-name='hover'] {
       text-decoration: none;
     }
   }
@@ -89,6 +86,7 @@ const StyledTextContainer = styled.div`
 
 const StyledHeader = styled(Text)`
   color: ${colors.brand.primary};
+  text-decoration: underline;
 `;
 
 const StyledDescriptionText = styled(Text)`
@@ -156,7 +154,7 @@ const ArenaCard = ({
         <FolderOutlinedIcon />
         <FolderFilledIcon />
         <StyledTextContainer>
-          <StyledHeader element="label" textStyle="label-small" margin="none">
+          <StyledHeader element="label" textStyle="label-small" margin="none" data-name="hover">
             {title}
           </StyledHeader>
           <StyledDescriptionText
