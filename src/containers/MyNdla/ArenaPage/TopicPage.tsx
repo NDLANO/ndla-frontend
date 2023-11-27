@@ -28,10 +28,6 @@ const StyledTopicHeader = styled(Heading)`
   margin-bottom: ${spacing.small};
 `;
 
-const TopicDescription = styled(Text)`
-  width: 700px;
-`;
-
 const StyledContainer = styled.div`
   display: flex;
   justify-content: space-between;
@@ -85,9 +81,9 @@ const TopicPage = () => {
       <StyledTopicHeader element="h1" headingStyle="h1-resource">
         {arenaCategory?.name}
       </StyledTopicHeader>
-      <TopicDescription element="p" textStyle="content-alt" margin="none">
+      <Text element="p" textStyle="content-alt" margin="none">
         {arenaCategory?.description}
-      </TopicDescription>
+      </Text>
       <StyledContainer>
         <StyledTopicH2 element="h2" headingStyle="h2" margin="none">
           {t('myNdla.arena.category.posts')}
