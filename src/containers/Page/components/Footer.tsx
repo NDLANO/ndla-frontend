@@ -52,7 +52,7 @@ const FooterWrapper = () => {
       icon: <Youtube />,
     },
     {
-      to: 'https://om.ndla.no/nyhetsbrev/',
+      to: 'https://ndla.us6.list-manage.com/subscribe?u=99d41bbb28de0128915adebed&id=9a1d3ad1ea',
       text: t('footer.socialMediaLinks.newsletter'),
       icon: <EmailOutline />,
     },
@@ -76,7 +76,7 @@ const FooterWrapper = () => {
     },
     {
       text: t('footer.ndlaLinks.tips'),
-      to: 'https://blogg.ndla.no/elever',
+      to: 'https://blogg.ndla.no/eleverivideregaende/',
       external: true,
     },
     {
