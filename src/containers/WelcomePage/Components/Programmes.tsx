@@ -6,7 +6,7 @@
  *
  */
 
-import { useMemo, useContext } from 'react';
+import { useMemo } from 'react';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { spacing, breakpoints, mq, colors } from '@ndla/core';
@@ -18,7 +18,7 @@ import {
 } from '@ndla/accordion';
 import { ContentLoader, ProgrammeCard, ProgrammeV2 } from '@ndla/ui';
 import { Heading, Text } from '@ndla/typography';
-import IsMobileContext from '../../../IsMobileContext';
+import { useUserAgent } from '../../../UserAgentContext';
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -143,21 +143,21 @@ const Description = styled(Text)`
 
 const Programmes = ({ programmes, loading }: Props) => {
   const { t } = useTranslation();
-  const isMobile = useContext(IsMobileContext);
+  const selectors = useUserAgent();
 
   const programmeCards = useMemo(() => {
     return programmes.map((programme) => (
-      <StyledLi key={programme.id} data-mobile={isMobile}>
+      <StyledLi key={programme.id} data-mobile={!!selectors?.isMobile}>
         <ProgrammeCard
           id={programme.id}
           title={programme.title}
-          wideImage={isMobile ? programme.wideImage : undefined}
-          narrowImage={isMobile ? undefined : programme.narrowImage}
+          wideImage={selectors?.isMobile ? programme.wideImage : undefined}
+          narrowImage={selectors?.isMobile ? undefined : programme.narrowImage}
           url={programme.url}
         />
       </StyledLi>
     ));
-  }, [isMobile, programmes]);
+  }, [selectors?.isMobile, programmes]);
 
   return (
     <StyledWrapper>
@@ -167,7 +167,7 @@ const Programmes = ({ programmes, loading }: Props) => {
       <Description textStyle="content-alt" margin="none">
         {t('programmes.description')}
       </Description>
-      {isMobile ? (
+      {selectors?.isMobile ? (
         <Mobile>
           <StyledAccordionRoot type="single" collapsible>
             <ImageWrapper>

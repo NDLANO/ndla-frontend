@@ -95,7 +95,10 @@ const LoginComponent = ({ masthead, content }: Props) => {
       <ContentWrapper>
         <Text textStyle="meta-text-medium">
           {t('myNdla.myPage.loginText')}
-          <SafeLink target="_blank" to="https://om.ndla.no/gdpr">
+          <SafeLink
+            target="_blank"
+            to="https://ndla.no/article/personvernerklaering"
+          >
             {t('myNdla.myPage.loginTextLink')}
           </SafeLink>
         </Text>

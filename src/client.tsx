@@ -7,7 +7,7 @@
  */
 
 import './style/index.css';
-import { isMobile } from 'react-device-detect';
+import { useDeviceSelectors } from 'react-device-detect';
 import { ApolloProvider, useApolloClient } from '@apollo/client';
 import createCache from '@emotion/cache';
 import { CacheProvider } from '@emotion/react';
@@ -46,7 +46,7 @@ import {
 } from './i18n';
 import { NDLAWindow } from './interfaces';
 import { createApolloClient, createApolloLinks } from './util/apiHelpers';
-import IsMobileContext from './IsMobileContext';
+import { UserAgentProvider } from './UserAgentContext';
 
 declare global {
   interface Window extends NDLAWindow {}
@@ -148,6 +148,7 @@ const LanguageWrapper = ({ basename }: { basename?: string }) => {
   const firstRender = useRef(true);
   const client = useApolloClient();
   const windowPath = useReactPath();
+  const [selectors] = useDeviceSelectors(window.navigator.userAgent);
 
   i18n.on('languageChanged', (lang) => {
     setCookie({
@@ -187,9 +188,11 @@ const LanguageWrapper = ({ basename }: { basename?: string }) => {
   }, [base, windowPath]);
 
   return (
-    <RouterComponent key={base} base={base}>
-      <App base={base} />
-    </RouterComponent>
+    <UserAgentProvider value={selectors}>
+      <RouterComponent key={base} base={base}>
+        <App base={base} />
+      </RouterComponent>
+    </UserAgentProvider>
   );
 };
 
@@ -209,9 +212,7 @@ renderOrHydrate(
       <ApolloProvider client={client}>
         <CacheProvider value={cache}>
           <VersionHashProvider value={versionHash}>
-            <IsMobileContext.Provider value={isMobile}>
-              <LanguageWrapper basename={basename} />
-            </IsMobileContext.Provider>
+            <LanguageWrapper basename={basename} />
           </VersionHashProvider>
         </CacheProvider>
       </ApolloProvider>

@@ -915,7 +915,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                       <a
                         aria-label="Tips til elever"
                         class="emotion-31 emotion-32"
-                        href="https://blogg.ndla.no/elever"
+                        href="https://blogg.ndla.no/eleverivideregaende/"
                         rel="noopener noreferrer"
                         target="_blank"
                       >
@@ -1220,7 +1220,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                     </span>
                     <a
                       class="emotion-31 emotion-32"
-                      href="https://om.ndla.no/nyhetsbrev/"
+                      href="https://ndla.us6.list-manage.com/subscribe?u=99d41bbb28de0128915adebed&id=9a1d3ad1ea"
                     >
                       Meld deg på vårt nyhetsbrev
                       <svg

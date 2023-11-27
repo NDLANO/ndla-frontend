@@ -27,7 +27,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../components/AuthenticationContext';
 import TabFilter from '../../components/TabFilter';
 import { MastheadHeightPx, SKIP_TO_CONTENT_ID } from '../../constants';
-import IsMobileContext from '../../IsMobileContext';
 
 import { useSubjects } from '../MyNdla/subjectQueries';
 import { usePersonalData } from '../MyNdla/userMutations';
@@ -35,6 +34,7 @@ import FavoriteSubjects from './FavoriteSubjects';
 import LetterNavigation from './LetterNavigation';
 import SubjectCategory from './SubjectCategory';
 import { filterSubjects, groupSubjects } from './utils';
+import { useUserAgent } from '../../UserAgentContext';
 
 const { ACTIVE_SUBJECTS, ARCHIVE_SUBJECTS, BETA_SUBJECTS, OTHER } =
   constants.subjectCategories;
@@ -95,7 +95,7 @@ const SelectWrapper = styled.div`
 const AllSubjectsPage = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const isMobile = useContext(IsMobileContext);
+  const selectors = useUserAgent();
   const location = useLocation();
   const { authenticated } = useContext(AuthContext);
 
@@ -184,7 +184,7 @@ const AllSubjectsPage = () => {
             subjects={sortedSubjects}
           />
         )}
-        {isMobile ? (
+        {selectors?.isMobile ? (
           <SelectWrapper>
             <Select<false>
               value={filterOptions.find((opt) => opt.value === filter)}
