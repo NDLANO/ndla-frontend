@@ -10,11 +10,15 @@ import { Spinner } from '@ndla/icons';
 import { useParams } from 'react-router';
 import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
+import { useContext, useEffect } from 'react';
+import { Navigate } from 'react-router-dom';
 import PostCard from '../ArenaCards/PostCard';
 import { useArenaCategory, useArenaTopic } from '../arenaQueries';
 import { GQLArenaPostFragmentFragment } from '../../../graphqlTypes';
 import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
 import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
+import { usePersonalData } from '../userMutations';
+import { AuthContext } from '../../../components/AuthenticationContext';
 
 const BreadcrumbWrapper = styled.div`
   margin-top: ${spacing.normal};
@@ -32,9 +36,21 @@ const PostsPage = () => {
   const { topicId } = useParams();
   const { arenaTopic, loading } = useArenaTopic(Number(topicId), 1);
   const { arenaCategory } = useArenaCategory(Number(arenaTopic?.categoryId), 1);
+  const { authenticated } = useContext(AuthContext);
+  const { personalData, fetch: fetchPersonalData } = usePersonalData();
+
+  useEffect(() => {
+    if (authenticated) {
+      fetchPersonalData();
+    }
+  }, [authenticated, fetchPersonalData]);
 
   if (loading) {
     return <Spinner />;
+  }
+
+  if (!personalData?.arenaEnabled && personalData?.arenaEnabled !== undefined) {
+    return <Navigate to="/minndla" />;
   }
 
   return (

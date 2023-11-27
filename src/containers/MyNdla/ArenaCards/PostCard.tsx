@@ -165,9 +165,9 @@ const PostCard = ({
         <DropdownMenu>
           <DropdownTrigger>
             <IconButtonV2
-              aria-label="Show more"
+              aria-label={t('myNdla.arena.notification.showAll')}
               colorTheme="light"
-              title="Show more"
+              title={t('myNdla.arena.notification.showAll')}
               variant="ghost"
             >
               <HorizontalMenu />
