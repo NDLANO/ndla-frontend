@@ -16,7 +16,6 @@ import {
   spacing,
   breakpoints,
   mq,
-  fonts,
   misc,
   spacingUnit,
 } from '@ndla/core';
