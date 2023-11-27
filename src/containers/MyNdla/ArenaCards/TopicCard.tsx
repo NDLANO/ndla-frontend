@@ -10,15 +10,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Text } from '@ndla/typography';
 import SafeLink from '@ndla/safelink';
-import {
-  colors,
-  spacing,
-  breakpoints,
-  mq,
-  misc,
-  spacingUnit,
-} from '@ndla/core';
-import Icon from '@ndla/icons';
+import { colors, spacing, breakpoints, mq, misc } from '@ndla/core';
 import { Locked } from '@ndla/icons/common';
 import { formatDateTime } from '../../../util/formatDate';
 
@@ -82,13 +74,11 @@ const StyledCountContainer = styled.div`
   }
 `;
 
-const StyledLockedIcon = styled(Icon)`
-  width: ${spacingUnit};
-  height: ${spacingUnit};
+const LockedIconCSS = css`
+  width: ${spacing.normal};
+  height: ${spacing.normal};
   color: ${colors.brand.primary};
 `;
-
-const LockedIcon = StyledLockedIcon.withComponent(Locked);
 
 const TopicCard = ({ id, title, locked, timestamp, count }: Props) => {
   const { t, i18n } = useTranslation();
@@ -114,7 +104,7 @@ const TopicCard = ({ id, title, locked, timestamp, count }: Props) => {
       </StyledTextContainer>
       <StyledCountContainer>
         {locked ? (
-          <LockedIcon />
+          <Locked css={LockedIconCSS} />
         ) : (
           <>
             <Text element="p" textStyle="content-alt" margin="none">
