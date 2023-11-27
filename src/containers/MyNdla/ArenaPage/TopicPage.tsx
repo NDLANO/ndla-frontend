@@ -15,7 +15,7 @@ import { ButtonV2 } from '@ndla/button';
 import { Pencil } from '@ndla/icons/action';
 import { useParams } from 'react-router-dom';
 import { useArenaCategory } from '../arenaQueries';
-import ArenaCard from '../ArenaCards/ArenaCard';
+import TopicCard from '../ArenaCards/TopicCard';
 import { GQLArenaTopicFragmentFragment } from '../../../graphqlTypes';
 import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
 import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
@@ -102,14 +102,12 @@ const TopicPage = () => {
       </StyledContainer>
       {arenaCategory?.topics?.map((topic: GQLArenaTopicFragmentFragment) => (
         <StyledCardContainer key={`topicContainer-${topic.id}`}>
-          <ArenaCard
+          <TopicCard
             key={`topic-${topic.id}`}
             id={topic.id.toString()}
-            cardType="ArenaTopic"
             title={topic.title}
             timestamp={topic.timestamp}
             count={topic.postCount}
-            categoryId={categoryId}
           />
         </StyledCardContainer>
       ))}

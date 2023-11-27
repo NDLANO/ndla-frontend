@@ -78,7 +78,6 @@ const ArenaPage = () => {
             <ArenaCard
               key={`topic-${category.id}`}
               id={category.id.toString()}
-              cardType="ArenaCategory"
               title={category.name}
               subText={category.description}
               count={category.postCount}

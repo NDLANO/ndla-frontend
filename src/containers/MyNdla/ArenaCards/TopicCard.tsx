@@ -5,40 +5,30 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-
 import { useTranslation } from 'react-i18next';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Text } from '@ndla/typography';
 import SafeLink from '@ndla/safelink';
-import { colors, spacing, breakpoints, mq, misc } from '@ndla/core';
+import {
+  colors,
+  spacing,
+  breakpoints,
+  mq,
+  misc,
+  spacingUnit,
+} from '@ndla/core';
 import Icon from '@ndla/icons';
-import { Forum, ForumOutlined } from '@ndla/icons/common';
+import { Locked } from '@ndla/icons/common';
+import { formatDateTime } from '../../../util/formatDate';
 
 interface Props {
   id: string;
   title: string;
-  subText: string;
+  timestamp: string;
   count: number;
+  locked?: boolean;
 }
-
-const StyledCategoryCard = css`
-  background-color: ${colors.background.default};
-  svg:nth-of-type(2) {
-    display: none;
-  }
-  &:hover,
-  &:focus-visible {
-    background-color: ${colors.background.lightBlue};
-    svg:nth-of-type(1) {
-      display: none;
-    }
-    svg:nth-of-type(2) {
-      display: block;
-    }
-  }
-`;
-
 const StyledSafelink = styled(SafeLink)`
   display: flex;
   flex-direction: row;
@@ -60,6 +50,14 @@ const StyledSafelink = styled(SafeLink)`
   }
 `;
 
+const TopicCardCSS = css`
+  background-color: ${colors.background.lightBlue};
+  &:hover,
+  &:focus-visible {
+    background-color: ${colors.brand.lighter};
+  }
+`;
+
 const StyledTextContainer = styled.div`
   margin-left: ${spacing.normal};
   margin-right: auto;
@@ -69,14 +67,6 @@ const StyledTextContainer = styled.div`
 
 const StyledHeader = styled(Text)`
   color: ${colors.brand.primary};
-`;
-
-const StyledDescriptionText = styled(Text)`
-  padding-top: ${spacing.xsmall};
-  color: ${colors.text.primary};
-  ${mq.range({ until: breakpoints.mobileWide })} {
-    display: none;
-  }
 `;
 
 const StyledText = styled(Text)`
@@ -94,51 +84,47 @@ const StyledCountContainer = styled.div`
   }
 `;
 
-const StyledLeftIcon = styled(Icon)`
-  margin-right: ${spacing.normal};
-  min-width: 40px;
-  height: 40px;
+const StyledLockedIcon = styled(Icon)`
+  width: ${spacingUnit};
+  height: ${spacingUnit};
   color: ${colors.brand.primary};
-  ${mq.range({ until: breakpoints.mobileWide })} {
-    display: none;
-  }
 `;
 
-const FolderFilledIcon = StyledLeftIcon.withComponent(Forum);
-const FolderOutlinedIcon = StyledLeftIcon.withComponent(ForumOutlined);
+const LockedIcon = StyledLockedIcon.withComponent(Locked);
 
-const ArenaCard = ({ id, title, subText, count }: Props) => {
-  const { t } = useTranslation();
+const TopicCard = ({ id, title, locked, timestamp, count }: Props) => {
+  const { t, i18n } = useTranslation();
+
   return (
     <StyledSafelink
       id={id}
-      css={StyledCategoryCard}
-      to={`/minndla/arena/category/${id}`}
+      css={TopicCardCSS}
+      to={`/minndla/arena/topic/${id}`}
     >
-      <FolderOutlinedIcon />
-      <FolderFilledIcon />
       <StyledTextContainer>
         <StyledHeader element="label" textStyle="label-small" margin="none">
           {title}
         </StyledHeader>
-        <StyledDescriptionText
-          element="p"
-          textStyle="meta-text-small"
-          margin="none"
-        >
-          {subText}
-        </StyledDescriptionText>
+        <StyledText element="p" textStyle="meta-text-small" margin="none">
+          {timestamp && formatDateTime(timestamp, i18n.language)}
+        </StyledText>
       </StyledTextContainer>
       <StyledCountContainer>
-        <Text element="p" textStyle="content-alt" margin="none">
-          {count}
-        </Text>
-        <StyledText textStyle="meta-text-small" margin="none">
-          {t('myNdla.arena.category.posts')}
-        </StyledText>
+        {locked ? (
+          <LockedIcon />
+        ) : (
+          <>
+            <Text element="p" textStyle="content-alt" margin="none">
+              {count}
+            </Text>
+            <StyledText textStyle="meta-text-small" margin="none">
+              {t('myNdla.arena.topic.responses')}
+            </StyledText>
+          </>
+        )}
       </StyledCountContainer>
     </StyledSafelink>
   );
 };
 
-export default ArenaCard;
+export default TopicCard;
