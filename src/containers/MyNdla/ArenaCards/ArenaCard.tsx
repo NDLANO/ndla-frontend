@@ -12,7 +12,6 @@ import styled from '@emotion/styled';
 import { Text } from '@ndla/typography';
 import SafeLink from '@ndla/safelink';
 import { colors, spacing, breakpoints, mq, misc } from '@ndla/core';
-import Icon from '@ndla/icons';
 import { Forum, ForumOutlined } from '@ndla/icons/common';
 
 interface Props {
@@ -42,6 +41,7 @@ const StyledCategoryCard = css`
 const StyledSafelink = styled(SafeLink)`
   display: flex;
   flex-direction: row;
+  gap: ${spacing.normal};
   align-items: center;
   padding: ${spacing.normal};
   padding-right: ${spacing.medium};
@@ -92,18 +92,14 @@ const StyledCountContainer = styled.div`
   }
 `;
 
-const StyledLeftIcon = styled(Icon)`
-  margin-right: ${spacing.normal};
-  min-width: 40px;
-  height: 40px;
+const LeftIconCSS = css`
+  width: ${spacing.large};
+  height: ${spacing.large};
   color: ${colors.brand.primary};
   ${mq.range({ until: breakpoints.mobileWide })} {
     display: none;
   }
 `;
-
-const FolderFilledIcon = StyledLeftIcon.withComponent(Forum);
-const FolderOutlinedIcon = StyledLeftIcon.withComponent(ForumOutlined);
 
 const ArenaCard = ({ id, title, subText, count }: Props) => {
   const { t } = useTranslation();
@@ -113,8 +109,8 @@ const ArenaCard = ({ id, title, subText, count }: Props) => {
       css={StyledCategoryCard}
       to={`/minndla/arena/category/${id}`}
     >
-      <FolderOutlinedIcon />
-      <FolderFilledIcon />
+      <ForumOutlined css={LeftIconCSS} />
+      <Forum css={LeftIconCSS} />
       <StyledTextContainer>
         <StyledHeader
           element="label"
