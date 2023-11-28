@@ -219,7 +219,12 @@ const SharedFolderPage = () => {
           <DesktopPadding>
             <InfoBox>
               <HumanMaleBoard />
-              <span>{t('myNdla.sharedFolder.info')}</span>
+              <span>
+                {t('myNdla.sharedFolder.shared', {
+                  sharedBy:
+                    folder.owner?.name ?? t('myNdla.sharedFolder.aTeacher'),
+                })}
+              </span>
             </InfoBox>
             <FolderNavigation folder={folder} meta={keyedData} />
           </DesktopPadding>
@@ -279,7 +284,12 @@ const SharedFolderPage = () => {
           <LandingPageMobileWrapper>
             <InfoBox>
               <HumanMaleBoard />
-              <span>{t('myNdla.sharedFolder.info')}</span>
+              <span>
+                {t('myNdla.sharedFolder.shared', {
+                  sharedBy:
+                    folder.owner?.name ?? t('myNdla.sharedFolder.aTeacher'),
+                })}
+              </span>
             </InfoBox>
             <FolderNavigation
               folder={folder}
