@@ -28,13 +28,6 @@ const messages = {
     myTagsPage: `Mu lihput - ${titleTemplate}`,
     aboutPage: `{{name}} - ${titleTemplate}`,
   },
-  user: {
-    role: {
-      employee: 'bargi',
-      teacher: 'bargi',
-      student: 'oahppi',
-    },
-  },
   podcastPage: {
     episodes: 'Episoder',
     podcast: 'Podkast',

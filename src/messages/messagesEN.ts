@@ -29,13 +29,6 @@ const messages = {
     sharedFolderPage: `{{name}} - ${titleTemplate}`,
     aboutPage: `{{name}} - ${titleTemplate}`,
   },
-  user: {
-    role: {
-      employee: 'employee',
-      teacher: 'employee',
-      student: 'student',
-    },
-  },
   podcastPage: {
     episodes: 'Episodes',
     podcast: 'Podcast',
