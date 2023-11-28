@@ -15,7 +15,7 @@ interface Props {
   page: PageType;
 }
 
-type PageType = 'folders' | 'tags' | 'subjects';
+type PageType = 'folders' | 'tags' | 'subjects' | 'arena';
 
 const types = {
   folders: {
@@ -29,6 +29,10 @@ const types = {
   subjects: {
     to: '/minndla/subjects',
     name: 'myNdla.favoriteSubjects',
+  },
+  arena: {
+    to: '/minndla/arena',
+    name: 'myNdla.arena.title',
   },
 };
 

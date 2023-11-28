@@ -32,10 +32,10 @@ import {
 import { renderHtml, renderPageWithData } from '../helpers/render';
 import { EmotionCacheKey, STORED_LANGUAGE_COOKIE_KEY } from '../../constants';
 import { VersionHashProvider } from '../../components/VersionHashContext';
-import IsMobileContext from '../../IsMobileContext';
 import { TEMPORARY_REDIRECT } from '../../statusCodes';
 import { Assets } from '../helpers/Document';
 import { LocaleType } from '../../interfaces';
+import { UserAgentProvider } from '../../UserAgentContext';
 
 //@ts-ignore
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST); //eslint-disable-line
@@ -59,9 +59,9 @@ async function doRender(req: Request) {
   global.assets = assets; // used for including mathjax js in pages with math
   const resCookie = req.headers['cookie'] ?? '';
   const userAgent = req.headers['user-agent'];
-  const isMobile = userAgent
-    ? getSelectorsByUserAgent(userAgent)?.isMobile
-    : false;
+  const userAgentSelectors = userAgent
+    ? getSelectorsByUserAgent(userAgent)
+    : undefined;
   const versionHash =
     typeof req.query.versionHash === 'string'
       ? req.query.versionHash
@@ -86,11 +86,11 @@ async function doRender(req: Request) {
           <ApolloProvider client={client}>
             <CacheProvider value={cache}>
               <VersionHashProvider value={versionHash}>
-                <IsMobileContext.Provider value={isMobile}>
+                <UserAgentProvider value={userAgentSelectors}>
                   <StaticRouter basename={basename} location={req.url}>
                     <App key={locale} />
                   </StaticRouter>
-                </IsMobileContext.Provider>
+                </UserAgentProvider>
               </VersionHashProvider>
             </CacheProvider>
           </ApolloProvider>

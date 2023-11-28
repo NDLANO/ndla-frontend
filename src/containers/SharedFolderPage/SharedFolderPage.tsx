@@ -20,11 +20,10 @@ import {
 } from '@ndla/modal';
 import { ErrorMessage, OneColumn } from '@ndla/ui';
 import keyBy from 'lodash/keyBy';
-import { useCallback, useContext, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { GQLFolder, GQLFolderResource } from '../../graphqlTypes';
-import IsMobileContext from '../../IsMobileContext';
 import ErrorPage from '../ErrorPage';
 import {
   useFolderResourceMetaSearch,
@@ -39,6 +38,7 @@ import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import ResourceEmbed, {
   StandaloneEmbed,
 } from '../ResourceEmbed/components/ResourceEmbed';
+import { useUserAgent } from '../../UserAgentContext';
 
 const Layout = styled.div`
   display: grid;
@@ -153,7 +153,7 @@ const SharedFolderPage = () => {
   const [open, setOpen] = useState(false);
   const { folderId = '', resourceId, subfolderId } = useParams();
   const { t } = useTranslation();
-  const isMobile = useContext(IsMobileContext);
+  const selectors = useUserAgent();
 
   const { folder, loading, error } = useGetSharedFolder({
     id: folderId,
@@ -215,15 +215,20 @@ const SharedFolderPage = () => {
         <meta name="robots" content="noindex, nofollow" />
       </SocialMediaMetadata>
       <Sidebar>
-        {!isMobile ? (
+        {!selectors?.isMobile ? (
           <DesktopPadding>
             <InfoBox>
               <HumanMaleBoard />
-              <span>{t('myNdla.sharedFolder.info')}</span>
+              <span>
+                {t('myNdla.sharedFolder.shared', {
+                  sharedBy:
+                    folder.owner?.name ?? t('myNdla.sharedFolder.aTeacher'),
+                })}
+              </span>
             </InfoBox>
             <FolderNavigation folder={folder} meta={keyedData} />
           </DesktopPadding>
-        ) : isMobile && selectedResource ? (
+        ) : selectors?.isMobile && selectedResource ? (
           <Modal open={open} onOpenChange={setOpen}>
             <ModalTrigger>
               <DrawerButton shape="sharp" colorTheme="light">
@@ -275,11 +280,16 @@ const SharedFolderPage = () => {
         ) : (
           <FolderMeta folder={selectedFolder} title={title} />
         )}
-        {!selectedResource && isMobile && (
+        {!selectedResource && selectors?.isMobile && (
           <LandingPageMobileWrapper>
             <InfoBox>
               <HumanMaleBoard />
-              <span>{t('myNdla.sharedFolder.info')}</span>
+              <span>
+                {t('myNdla.sharedFolder.shared', {
+                  sharedBy:
+                    folder.owner?.name ?? t('myNdla.sharedFolder.aTeacher'),
+                })}
+              </span>
             </InfoBox>
             <FolderNavigation
               folder={folder}
