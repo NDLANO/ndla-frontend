@@ -16,7 +16,7 @@ import { Pencil } from '@ndla/icons/action';
 import { Navigate, useParams } from 'react-router-dom';
 import { useContext, useEffect } from 'react';
 import { useArenaCategory } from '../arenaQueries';
-import TopicCard from '../ArenaCards/TopicCard';
+import TopicCard from './components/TopicCard';
 import { GQLArenaTopicFragmentFragment } from '../../../graphqlTypes';
 import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
 import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
@@ -24,21 +24,13 @@ import { usePersonalData } from '../userMutations';
 import { AuthContext } from '../../../components/AuthenticationContext';
 
 const BreadcrumbWrapper = styled.div`
-  margin-top: ${spacing.normal};
-`;
-
-const StyledTopicHeader = styled(Heading)`
-  margin-bottom: ${spacing.small};
+  padding-top: ${spacing.normal};
 `;
 
 const StyledContainer = styled.div`
   display: flex;
   justify-content: space-between;
   margin: ${spacing.large} 0 ${spacing.normal};
-`;
-
-const StyledTopicH2 = styled(Heading)`
-  align-self: center;
 `;
 
 const StyledNewTopicButton = styled(ButtonV2)`
@@ -93,16 +85,16 @@ const TopicPage = () => {
           page={'arena'}
         />
       </BreadcrumbWrapper>
-      <StyledTopicHeader element="h1" headingStyle="h1-resource">
+      <Heading element="h1" headingStyle="h1-resource" margin="small">
         {arenaCategory?.name}
-      </StyledTopicHeader>
+      </Heading>
       <Text element="p" textStyle="content-alt" margin="none">
         {arenaCategory?.description}
       </Text>
       <StyledContainer>
-        <StyledTopicH2 element="h2" headingStyle="h2" margin="none">
+        <Heading element="h2" headingStyle="h2" margin="none">
           {t('myNdla.arena.category.posts')}
-        </StyledTopicH2>
+        </Heading>
         <StyledNewTopicButton
           colorTheme="lighter"
           //onClick={} to open modal

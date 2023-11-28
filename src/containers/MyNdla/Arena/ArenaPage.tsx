@@ -9,37 +9,21 @@
 import { useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import { spacing, fonts } from '@ndla/core';
+import { spacing } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import { Heading, Text } from '@ndla/typography';
 import { Navigate } from 'react-router-dom';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import { useArenaCategories } from '../arenaQueries';
 import { usePersonalData } from '../userMutations';
-import ArenaCard from '../ArenaCards/ArenaCard';
+import ArenaCard from './components/ArenaCard';
 import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
-
-const StyledArenaHeader = styled(Heading)`
-  margin-bottom: ${spacing.small};
-`;
-
-const ArenaDescription = styled(Text)`
-  width: 700px;
-  margin-top: 0px;
-  margin-bottom: ${spacing.large};
-`;
 
 const StyledCardContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${spacing.xsmall};
-  margin: ${spacing.normal} 0;
-`;
-
-const StyledBottomText = styled.div`
-  ${fonts.sizes('16px', '26px')};
-  font-weight: ${fonts.weight.normal};
-  margin-top: ${spacing.small};
+  padding: ${spacing.normal} 0;
 `;
 
 const ArenaPage = () => {
@@ -64,13 +48,13 @@ const ArenaPage = () => {
 
   return (
     <MyNdlaPageWrapper>
-      <StyledArenaHeader element="h1" headingStyle="h1-resource">
+      <Heading element="h1" headingStyle="h1-resource" margin="small">
         {t('myNdla.arena.title')}
-      </StyledArenaHeader>
-      <ArenaDescription element="p" textStyle="content-alt">
+      </Heading>
+      <Text element="p" textStyle="content-alt">
         {t('myNdla.arena.notification.description')}
-      </ArenaDescription>
-      <Heading element="h2" headingStyle="h2" margin="none">
+      </Text>
+      <Heading element="h2" headingStyle="h2" margin="large">
         {t('myNdla.arena.category.title')}
       </Heading>
       {loading ? (
@@ -88,7 +72,9 @@ const ArenaPage = () => {
           ))}
         </StyledCardContainer>
       )}
-      <StyledBottomText>{t('myNdla.arena.bottomText')}</StyledBottomText>
+      <Text element="p" textStyle="meta-text-small" margin="none">
+        {t('myNdla.arena.bottomText')}
+      </Text>
     </MyNdlaPageWrapper>
   );
 };

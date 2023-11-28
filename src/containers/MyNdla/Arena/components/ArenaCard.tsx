@@ -39,15 +39,17 @@ const StyledCategoryCard = css`
 `;
 
 const StyledSafelink = styled(SafeLink)`
+  color: ${colors.text.primary};
+
   display: flex;
   flex-direction: row;
   gap: ${spacing.normal};
-  align-items: center;
   padding: ${spacing.normal};
   padding-right: ${spacing.medium};
   border: 1px solid ${colors.brand.light};
   border-radius: ${misc.borderRadius};
   box-shadow: none;
+
   &:hover,
   &:focus-visible {
     background-color: ${colors.brand.lighter};
@@ -57,36 +59,27 @@ const StyledSafelink = styled(SafeLink)`
   }
 `;
 
-const StyledTextContainer = styled.div`
-  margin-left: ${spacing.normal};
-  margin-right: auto;
+const SpacingContainer = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
 `;
 
 const StyledHeader = styled(Text)`
   color: ${colors.brand.primary};
   text-decoration: underline;
+  cursor: pointer;
 `;
 
 const StyledDescriptionText = styled(Text)`
-  padding-top: ${spacing.xsmall};
-  color: ${colors.text.primary};
   ${mq.range({ until: breakpoints.mobileWide })} {
     display: none;
   }
 `;
 
-const StyledText = styled(Text)`
-  color: ${colors.text.primary};
-  padding-top: ${spacing.xsmall};
-`;
-
 const StyledCountContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: ${colors.text.primary};
+  text-align: center;
   ${mq.range({ until: breakpoints.tabletWide })} {
     display: none;
   }
@@ -111,31 +104,33 @@ const ArenaCard = ({ id, title, subText, count }: Props) => {
     >
       <ForumOutlined css={LeftIconCSS} />
       <Forum css={LeftIconCSS} />
-      <StyledTextContainer>
-        <StyledHeader
-          element="label"
-          textStyle="label-small"
-          margin="none"
-          data-name="hover"
-        >
-          {title}
-        </StyledHeader>
-        <StyledDescriptionText
-          element="p"
-          textStyle="meta-text-small"
-          margin="none"
-        >
-          {subText}
-        </StyledDescriptionText>
-      </StyledTextContainer>
-      <StyledCountContainer>
-        <Text element="p" textStyle="content-alt" margin="none">
-          {count}
-        </Text>
-        <StyledText textStyle="meta-text-small" margin="none">
-          {t('myNdla.arena.category.posts')}
-        </StyledText>
-      </StyledCountContainer>
+      <SpacingContainer>
+        <div>
+          <StyledHeader
+            element="label"
+            textStyle="label-small"
+            margin="none"
+            data-name="hover"
+          >
+            {title}
+          </StyledHeader>
+          <StyledDescriptionText
+            element="p"
+            textStyle="meta-text-small"
+            margin="none"
+          >
+            {subText}
+          </StyledDescriptionText>
+        </div>
+        <StyledCountContainer>
+          <Text element="p" textStyle="content-alt" margin="none">
+            {count}
+          </Text>
+          <Text textStyle="meta-text-small" margin="none">
+            {t('myNdla.arena.category.posts')}
+          </Text>
+        </StyledCountContainer>
+      </SpacingContainer>
     </StyledSafelink>
   );
 };
