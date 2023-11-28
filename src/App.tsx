@@ -23,8 +23,8 @@ import ErrorPage from './containers/ErrorPage/ErrorPage';
 import FoldersPage from './containers/MyNdla/Folders/FoldersPage';
 import MyNdlaLayout from './containers/MyNdla/MyNdlaLayout';
 import MyNdlaPage from './containers/MyNdla/MyNdlaPage';
-import ArenaPage from './containers/MyNdla/ArenaPage/ArenaPage';
-import TopicPage from './containers/MyNdla/ArenaPage/TopicPage';
+import ArenaPage from './containers/MyNdla/Arena/ArenaPage';
+import TopicPage from './containers/MyNdla/Arena/TopicPage';
 import MyProfilePage from './containers/MyNdla/MyProfile/MyProfilePage';
 import TagsPage from './containers/MyNdla/Tags/TagsPage';
 import NotFound from './containers/NotFoundPage/NotFoundPage';
@@ -44,7 +44,7 @@ import SharedFolderPage from './containers/SharedFolderPage/SharedFolderPage';
 import FavoriteSubjectsPage from './containers/MyNdla/FavoriteSubjects/FavoriteSubjectsPage';
 import AboutPage from './containers/AboutPage/AboutPage';
 import H5pPage from './containers/ResourceEmbed/H5pPage';
-import PostsPage from './containers/MyNdla/ArenaPage/PostsPage';
+import PostsPage from './containers/MyNdla/Arena/PostsPage';
 
 interface State {
   hasError: boolean;

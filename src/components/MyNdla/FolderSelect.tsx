@@ -6,26 +6,12 @@
  *
  */
 
-import styled from '@emotion/styled';
-import { spacing, colors } from '@ndla/core';
 import { TreeStructure } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useMemo } from 'react';
 import NewFolder from './NewFolder';
 import { GQLFolder, GQLFolderResource } from '../../graphqlTypes';
 import { ComboboxContainer } from './AddResourceToFolder';
-
-const StyledNewFolder = styled(NewFolder)`
-  border-left: ${spacing.xsmall} solid ${colors.brand.light};
-  border-right: ${spacing.xsmall} solid ${colors.brand.light};
-  &:focus-within {
-    border-color: ${colors.brand.light};
-  }
-  // Not good practice, but necessary to give error message same padding as caused by border.
-  & + span {
-    padding: 0 ${spacing.xsmall};
-  }
-`;
 
 interface Props {
   folders: GQLFolder[];
@@ -94,7 +80,7 @@ const FolderSelect = ({
         type="picker"
         targetResource={storedResource}
         newFolderInput={({ parentId, onClose, onCreate }) => (
-          <StyledNewFolder
+          <NewFolder
             parentId={parentId}
             onClose={onClose}
             onCreate={onCreate}

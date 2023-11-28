@@ -13,6 +13,9 @@ import {
   GQLArenaCategoryQuery,
   GQLArenaTopicByIdQuery,
   GQLArenaTopicsByUserQuery,
+  GQLArenaTopicByIdQueryVariables,
+  GQLArenaCategoryQueryVariables,
+  GQLArenaUserQueryVariables,
 } from '../../graphqlTypes';
 import { useGraphQuery } from '../../util/runQueries';
 
@@ -138,9 +141,12 @@ export const arenaTopicsByUserQuery = gql`
 `;
 
 export const useArenaUser = (username: string) => {
-  const { data } = useGraphQuery<GQLArenaUserQuery>(arenaUserQuery, {
-    variables: { username },
-  });
+  const { data } = useGraphQuery<GQLArenaUserQuery, GQLArenaUserQueryVariables>(
+    arenaUserQuery,
+    {
+      variables: { username },
+    },
+  );
   return { arenaUser: data?.arenaUser };
 };
 
@@ -151,22 +157,22 @@ export const useArenaCategories = () => {
 };
 
 export const useArenaCategory = (categoryId: number, page: number) => {
-  const { data, loading, error } = useGraphQuery<GQLArenaCategoryQuery>(
-    arenaCategoryQuery,
-    {
-      variables: { categoryId, page },
-    },
-  );
+  const { data, loading, error } = useGraphQuery<
+    GQLArenaCategoryQuery,
+    GQLArenaCategoryQueryVariables
+  >(arenaCategoryQuery, {
+    variables: { categoryId, page },
+  });
   return { arenaCategory: data?.arenaCategory, loading, error };
 };
 
 export const useArenaTopic = (topicId: number, page: number) => {
-  const { data, loading, error } = useGraphQuery<GQLArenaTopicByIdQuery>(
-    arenaTopicById,
-    {
-      variables: { topicId, page },
-    },
-  );
+  const { data, loading, error } = useGraphQuery<
+    GQLArenaTopicByIdQuery,
+    GQLArenaTopicByIdQueryVariables
+  >(arenaTopicById, {
+    variables: { topicId, page },
+  });
   return { arenaTopic: data?.arenaTopic, loading, error };
 };
 
