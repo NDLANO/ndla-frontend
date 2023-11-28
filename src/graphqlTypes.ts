@@ -505,6 +505,7 @@ export type GQLExamples = {
 export type GQLFilmFrontpage = {
   __typename?: 'FilmFrontpage';
   about: Array<GQLFilmPageAbout>;
+  article?: Maybe<GQLArticle>;
   movieThemes: Array<GQLMovieTheme>;
   name: Scalars['String']['output'];
   slideShow: Array<GQLMovie>;
@@ -2363,6 +2364,7 @@ export type GQLFilmFrontpage_FilmFrontpageFragment = {
       type: string;
     };
   }>;
+  article?: { __typename?: 'Article'; title: string; content: string };
 };
 
 export type GQLMovieCategory_MovieThemeFragment = {

@@ -425,6 +425,7 @@ type Examples {
 
 type FilmFrontpage {
   about: [FilmPageAbout!]!
+  article: Article
   movieThemes: [MovieTheme!]!
   name: String!
   slideShow: [Movie!]!

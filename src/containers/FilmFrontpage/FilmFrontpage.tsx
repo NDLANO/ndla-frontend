@@ -13,7 +13,6 @@ import { spacingUnit, utils } from '@ndla/core';
 import { gql } from '@apollo/client';
 import {
   FilmSlideshow,
-  AboutNdlaFilm,
   FilmMovieSearch,
   AllMoviesAlphabetically,
 } from '@ndla/ui';
@@ -28,8 +27,8 @@ import {
   GQLFilmFrontpage_FilmFrontpageFragment,
   GQLFilmFrontpage_SubjectFragment,
 } from '../../graphqlTypes';
-import MoreAboutNdlaFilm from './MoreAboutNdlaFilm';
 import { MoviesByType } from './NdlaFilmFrontpage';
+import AboutNdlaFilm from './AboutNdlaFilm';
 import { movieFragment } from '../../queries';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 
@@ -157,7 +156,7 @@ const FilmFrontpage = ({
         {about && (
           <AboutNdlaFilm
             aboutNDLAVideo={about}
-            moreAboutNdlaFilm={<MoreAboutNdlaFilm />}
+            article={filmFrontpage?.article}
           />
         )}
       </main>
@@ -197,6 +196,10 @@ export const filmFrontpageFragments = {
           type
         }
         language
+      }
+      article {
+        title
+        content
       }
     }
     ${MovieCategory.fragments.movieTheme}
