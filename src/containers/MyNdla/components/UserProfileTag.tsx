@@ -75,7 +75,9 @@ const UserProfileTag = ({
   const { arenaUser } = useArenaUser(username ?? '');
 
   return (
-    <UserProfileTagContainer to={`/minndla/user/${username}`}>
+    <UserProfileTagContainer
+      to={`/minndla/arena/user/${arenaUser?.displayName}`}
+    >
       <Avatar
         displayName={arenaUser?.displayName}
         profilePicture={arenaUser?.profilePicture}

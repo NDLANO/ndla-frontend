@@ -161,6 +161,7 @@ const AppRoutes = ({ base }: AppProps) => {
                       element={<TopicPage />}
                     />
                     <Route path="topic/:topicId" element={<PostsPage />} />
+                    <Route path="user/:username" element={<ArenaUserPage />} />
                   </Route>
                   <Route path="tags">
                     <Route index element={<TagsPage />} />
@@ -168,7 +169,6 @@ const AppRoutes = ({ base }: AppProps) => {
                   </Route>
                   <Route path="subjects" element={<FavoriteSubjectsPage />} />
                   <Route path="profile" element={<MyProfilePage />} />
-                  <Route path="user/:username" element={<ArenaUserPage />} />
                 </Route>
                 <Route path="about/:slug" element={<AboutPage />} />
 

@@ -12,6 +12,7 @@ import {
   GQLArenaPageQuery,
   GQLArenaCategoryQuery,
   GQLArenaTopicByIdQuery,
+  GQLArenaTopicsByUserQuery,
 } from '../../graphqlTypes';
 import { useGraphQuery } from '../../util/runQueries';
 
@@ -22,6 +23,7 @@ const arenaUserFragment = gql`
     profilePicture
     slug
     groupTitleArray
+    location
   }
 `;
 
@@ -126,6 +128,15 @@ export const arenaTopicById = gql`
   ${arenaPostFragment}
 `;
 
+export const arenaTopicsByUserQuery = gql`
+  query arenaTopicsByUser($userSlug: String!) {
+    arenaTopicsByUser(userSlug: $userSlug) {
+      ...ArenaTopicFragment
+    }
+  }
+  ${arenaTopicFragment}
+`;
+
 export const useArenaUser = (username: string) => {
   const { data } = useGraphQuery<GQLArenaUserQuery>(arenaUserQuery, {
     variables: { username },
@@ -157,4 +168,12 @@ export const useArenaTopic = (topicId: number, page: number) => {
     },
   );
   return { arenaTopic: data?.arenaTopic, loading, error };
+};
+
+export const useArenaTopicsByUser = (userSlug: string) => {
+  const { data, loading, error } = useGraphQuery<GQLArenaTopicsByUserQuery>(
+    arenaTopicsByUserQuery,
+    { variables: { userSlug } },
+  );
+  return { arenaTopicsByUser: data?.arenaTopicsByUser, loading, error };
 };

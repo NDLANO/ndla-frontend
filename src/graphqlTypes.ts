@@ -2858,6 +2858,17 @@ export type GQLArenaTopicByIdQuery = {
   } & GQLArenaTopicFragmentFragment;
 };
 
+export type GQLArenaTopicsByUserQueryVariables = Exact<{
+  userSlug: Scalars['String']['input'];
+}>;
+
+export type GQLArenaTopicsByUserQuery = {
+  __typename?: 'Query';
+  arenaTopicsByUser: Array<
+    { __typename?: 'ArenaTopic' } & GQLArenaTopicFragmentFragment
+  >;
+};
+
 export type GQLAiOrganizationsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GQLAiOrganizationsQuery = {
