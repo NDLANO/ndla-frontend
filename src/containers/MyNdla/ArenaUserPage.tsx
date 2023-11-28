@@ -26,7 +26,12 @@ const BreadcrumbWrapper = styled.div`
   margin-top: ${spacing.normal};
 `;
 
-const StyledCardContainer = styled.div`
+const StyledUlWrapper = styled.ul`
+  margin: 0px;
+  padding: 0px;
+`;
+
+const StyledCardContainer = styled.li`
   display: flex;
   flex-direction: column;
   gap: ${spacing.xsmall};
@@ -84,17 +89,19 @@ const ArenaUserPage = () => {
       <Heading element="h2" headingStyle="h2">
         {`Hardcoded Innlegg av ${arenaUser?.displayName}`}
       </Heading>
-      {arenaTopicsByUser?.map((topic: GQLArenaTopicFragmentFragment) => (
-        <StyledCardContainer key={`topicContainer-${topic.id}`}>
-          <TopicCard
-            key={`topic-${topic.id}`}
-            id={topic.id.toString()}
-            title={topic.title}
-            timestamp={topic.timestamp}
-            count={topic.postCount}
-          />
-        </StyledCardContainer>
-      ))}
+      <StyledUlWrapper>
+        {arenaTopicsByUser?.map((topic: GQLArenaTopicFragmentFragment) => (
+          <StyledCardContainer key={`topicContainer-${topic.id}`}>
+            <TopicCard
+              key={`topic-${topic.id}`}
+              id={topic.id.toString()}
+              title={topic.title}
+              timestamp={topic.timestamp}
+              count={topic.postCount}
+            />
+          </StyledCardContainer>
+        ))}
+      </StyledUlWrapper>
     </MyNdlaPageWrapper>
   );
 };
