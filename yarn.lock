@@ -2731,13 +2731,13 @@
     "@ndla/icons" "^4.2.1"
     "@radix-ui/react-accordion" "^1.1.2"
 
-"@ndla/article-converter@^6.0.12":
-  version "6.0.12"
-  resolved "https://registry.yarnpkg.com/@ndla/article-converter/-/article-converter-6.0.12.tgz#410c15e8703756b204e06d0d0b9f3df3a323c0dd"
-  integrity sha512-unfXPCN/1lJ+fhyiS5lWK3pT5965zdW1F3m/Gsr9cK4kBWy45mLE9eLz9a2wGTwxPWCCMfIKAi43Cq+X7+uKEw==
+"@ndla/article-converter@^6.0.13":
+  version "6.0.13"
+  resolved "https://registry.yarnpkg.com/@ndla/article-converter/-/article-converter-6.0.13.tgz#17a91dbe73c322753503bf2ee64e510a9fbd0248"
+  integrity sha512-Yp+64SFQxnJnA8b5vlVsjgUGjcJrQXmEehM1+6CrsNVXio1e+Jo6zrs4pvj+PtmltEPCDne3Osn6zofE8yiwHQ==
   dependencies:
     "@ndla/code" "^5.0.16"
-    "@ndla/ui" "^49.0.13"
+    "@ndla/ui" "^50.0.0"
     html-react-parser "^4.2.2"
     lodash "^4.17.20"
 
@@ -2795,16 +2795,17 @@
     "@ndla/util" "^4.0.1"
     raven-js "^3.22.3"
 
-"@ndla/forms@^5.1.3":
-  version "5.1.3"
-  resolved "https://registry.yarnpkg.com/@ndla/forms/-/forms-5.1.3.tgz#ae02ab94850c0debcf41c426330358df0ee134c2"
-  integrity sha512-ghaAR1fp9cVrvKyyPoMydit/XM0pbCkylN4bCAcfC+4R+3zA8jWTU/bbWQ/yrs+mymA0BYum+rn8YX8xtpsVug==
+"@ndla/forms@^5.2.0":
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/@ndla/forms/-/forms-5.2.0.tgz#4d5c4bf87103f459c8b734111fe2a5f1165b4a89"
+  integrity sha512-ZoDgfoClh6twvWQ7wN1PXuUjZXMTApVhxXyplUtTemdGO0vfpLC2edRmUAB7EUh0UnITrofKgP6BWPkmGH0yyg==
   dependencies:
     "@ndla/core" "^4.2.7"
     "@ndla/icons" "^4.2.1"
     "@ndla/pager" "^2.2.38"
     "@ndla/typography" "^0.4.0"
     "@ndla/util" "^4.0.1"
+    "@radix-ui/react-radio-group" "^1.1.3"
 
 "@ndla/hooks@^2.1.2":
   version "2.1.2"
@@ -2931,17 +2932,17 @@
     "@ndla/core" "^4.2.7"
     "@ndla/util" "^4.0.1"
 
-"@ndla/ui@^49.0.13":
-  version "49.0.13"
-  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-49.0.13.tgz#32d4cef277394be4d0f808293a6e9a74efb523ae"
-  integrity sha512-hbhi8/WLlbQanD4RlXEqzzC7sDBj/FeFtklp4YwJJjTWmOvOA9JtR0sAX80X1aLCAFZE1+bzbItdve8PMxMedQ==
+"@ndla/ui@^50.0.0":
+  version "50.0.0"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-50.0.0.tgz#3e63da65f5799fae34797212141b173921bb72cd"
+  integrity sha512-FUEzWv5rdSsorJU75LuwayEi/dbt1JFIjQVlh6vQHjqtG91bTD33lOlwBTs2xw+N5lDkVJHOLae5r6ut/NpFrA==
   dependencies:
     "@ndla/accordion" "^3.0.8"
     "@ndla/button" "^12.0.13"
     "@ndla/carousel" "^4.0.15"
     "@ndla/core" "^4.2.7"
     "@ndla/dropdown-menu" "^1.0.16"
-    "@ndla/forms" "^5.1.3"
+    "@ndla/forms" "^5.2.0"
     "@ndla/hooks" "^2.1.2"
     "@ndla/icons" "^4.2.1"
     "@ndla/licenses" "^7.2.2"
@@ -2955,7 +2956,6 @@
     "@ndla/typography" "^0.4.0"
     "@ndla/util" "^4.0.1"
     "@radix-ui/react-popover" "^1.0.7"
-    "@radix-ui/react-radio-group" "^1.1.3"
     "@radix-ui/react-slider" "^1.1.2"
     date-fns "^2.30.0"
     html-react-parser "^4.2.2"
