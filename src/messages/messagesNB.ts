@@ -81,6 +81,38 @@ const messages = {
     audio: 'Audio',
     concept: 'Forklaring',
   },
+  markdownEditor: {
+    link: {
+      url: 'Lenke',
+      error: {
+        empty: 'Lenka kan ikke være tom',
+        invalid: 'Ugyldig lenke. Følg formatet https://ndla.no',
+      },
+    },
+    toolbar: {
+      bold: {
+        active: 'Fjern fet skrift',
+        inactive: 'Legg til fet skrift',
+      },
+      italic: {
+        active: 'Fjerne kursiv skrift',
+        inactive: 'Legg til kursiv skrift',
+      },
+      unorderedList: {
+        active: 'Fjern punktliste',
+        inactive: 'Legg til punktliste',
+      },
+      orderedList: {
+        active: 'Fjern nummerert liste',
+        inactive: 'Legg til nummerert liste',
+      },
+      link: {
+        active: 'Fjern lenke',
+        inactive: 'Legg til lenke',
+        noSelection: 'Marker tekst for å legge til lenke',
+      },
+    },
+  },
 };
 
 export default messages;

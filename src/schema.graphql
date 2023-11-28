@@ -835,7 +835,7 @@ type Mutation {
   updateFolderResource(id: String!, tags: [String!]): FolderResource!
   updateFolderStatus(folderId: String!, status: String!): [String!]!
   updatePersonalData(
-    favoriteSubjects: [String!]
+    favoriteSubjects: [String]
     shareName: Boolean
   ): MyNdlaPersonalData!
 }

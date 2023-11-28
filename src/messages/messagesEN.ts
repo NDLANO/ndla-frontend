@@ -80,6 +80,38 @@ const messages = {
     concept: 'Concept',
     audio: 'Audio',
   },
+  markdownEditor: {
+    link: {
+      url: 'Link',
+      error: {
+        empty: 'Link must not be empty',
+        invalid: 'Invalid link. Follow the format https://ndla.no',
+      },
+    },
+    toolbar: {
+      bold: {
+        active: 'Remove bold formatting',
+        inactive: 'Add bold formatting',
+      },
+      italic: {
+        active: 'Remove italic formatting',
+        inactive: 'Add italic formatting',
+      },
+      unorderedList: {
+        active: 'Remove unordered list',
+        inactive: 'Add unordered list',
+      },
+      orderedList: {
+        active: 'Remove ordered list',
+        inactive: 'Add ordered list',
+      },
+      link: {
+        active: 'Remove link',
+        inactive: 'Add link',
+        noSelection: 'Select text to add link',
+      },
+    },
+  },
 };
 
 export default messages;

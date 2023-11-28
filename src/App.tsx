@@ -21,6 +21,9 @@ import AllSubjectsPage from './containers/AllSubjectsPage/AllSubjectsPage';
 import ErrorPage from './containers/ErrorPage/ErrorPage';
 import FoldersPage from './containers/MyNdla/Folders/FoldersPage';
 import MyNdlaLayout from './containers/MyNdla/MyNdlaLayout';
+import MyNdlaPage from './containers/MyNdla/MyNdlaPage';
+import ArenaPage from './containers/MyNdla/Arena/ArenaPage';
+import TopicPage from './containers/MyNdla/Arena/TopicPage';
 import MyProfilePage from './containers/MyNdla/MyProfile/MyProfilePage';
 import TagsPage from './containers/MyNdla/Tags/TagsPage';
 import NotFound from './containers/NotFoundPage/NotFoundPage';
@@ -41,7 +44,7 @@ import FavoriteSubjectsPage from './containers/MyNdla/FavoriteSubjects/FavoriteS
 import AboutPage from './containers/AboutPage/AboutPage';
 import ArenaNotificationPage from './containers/MyNdla/Arena/ArenaNotificationsPage';
 import H5pPage from './containers/ResourceEmbed/H5pPage';
-import MyNdlaPage from './containers/MyNdla/MyNdlaPage';
+import PostsPage from './containers/MyNdla/Arena/PostsPage';
 
 interface State {
   hasError: boolean;
@@ -151,17 +154,23 @@ const AppRoutes = ({ base }: AppProps) => {
                     <Route index element={<FoldersPage />} />
                     <Route path=":folderId" element={<FoldersPage />} />
                   </Route>
-                  <Route path="tags">
-                    <Route index element={<TagsPage />} />
-                    <Route path=":tag" element={<TagsPage />} />
-                  </Route>
-                  <Route path="subjects" element={<FavoriteSubjectsPage />} />
                   <Route path="arena">
+                    <Route index element={<ArenaPage />} />
+                    <Route
+                      path="category/:categoryId"
+                      element={<TopicPage />}
+                    />
+                    <Route path="topic/:topicId" element={<PostsPage />} />
                     <Route
                       path="notifications"
                       element={<ArenaNotificationPage />}
                     />
                   </Route>
+                  <Route path="tags">
+                    <Route index element={<TagsPage />} />
+                    <Route path=":tag" element={<TagsPage />} />
+                  </Route>
+                  <Route path="subjects" element={<FavoriteSubjectsPage />} />
                   <Route path="profile" element={<MyProfilePage />} />
                 </Route>
                 <Route path="about/:slug" element={<AboutPage />} />

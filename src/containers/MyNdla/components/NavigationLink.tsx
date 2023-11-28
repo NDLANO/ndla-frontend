@@ -17,6 +17,7 @@ const StyledSafeLink = styled(SafeLink)`
   display: flex;
   flex-direction: row;
   align-items: center;
+  text-align: center;
   padding: ${spacing.small};
   margin: 0;
   gap: ${spacing.xsmall};
