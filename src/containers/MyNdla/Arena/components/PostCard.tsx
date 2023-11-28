@@ -8,18 +8,20 @@
 
 import parse from 'html-react-parser';
 import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
 import { colors, spacing, misc, mq, breakpoints } from '@ndla/core';
 import { Pencil, TrashCanOutline } from '@ndla/icons/action';
 import { ReportOutlined } from '@ndla/icons/common';
 import { Switch } from '@ndla/switch';
 import { Text, Heading } from '@ndla/typography';
 import { useTranslation } from 'react-i18next';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { nb, nn, enGB } from 'date-fns/locale';
 import { formatDistanceStrict } from 'date-fns';
 import UserProfileTag from '../../components/UserProfileTag';
 import SettingsMenu from '../../components/SettingsMenu';
+import ArenaTextModal from './ArenaTextModal';
+import { ArenaFormValues } from './ArenaForm';
+import { useReplyToTopic } from '../../arenaQueries';
 
 interface Props {
   id: number;
@@ -31,6 +33,7 @@ interface Props {
   displayName: string;
   username: string;
   affiliation: string;
+  topicId: number;
 }
 
 const StyledCardContainer = styled.div`
@@ -92,11 +95,13 @@ const PostCard = ({
   displayName,
   username,
   affiliation,
+  topicId,
 }: Props) => {
   const {
     t,
     i18n: { language },
   } = useTranslation();
+  const { replyToTopic } = useReplyToTopic(topicId);
   const now = useMemo(() => new Date(), []);
 
   const menu = useMemo(
@@ -122,6 +127,13 @@ const PostCard = ({
       />
     ),
     [t],
+  );
+
+  const createReply = useCallback(
+    async (data: Partial<ArenaFormValues>) => {
+      await replyToTopic({ variables: { topicId, content: data.content } });
+    },
+    [replyToTopic, topicId],
   );
 
   return (
@@ -164,7 +176,7 @@ const PostCard = ({
           </StyledTimestamp>
         )}
         {menu}
-        {isMainPost && <ButtonV2>{t('myNdla.arena.posts.comment')}</ButtonV2>}
+        {isMainPost && <ArenaTextModal type="post" onSave={createReply} />}
       </BottomContainer>
     </StyledCardContainer>
   );

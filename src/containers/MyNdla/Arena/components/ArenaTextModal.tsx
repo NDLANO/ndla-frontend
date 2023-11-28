@@ -17,13 +17,13 @@ import {
 } from '@ndla/modal';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import ArenaForm, { ArenaFormValues } from './ArenaForm';
 import { ButtonV2 } from '@ndla/button';
 import { useCallback, useState } from 'react';
 import { Pencil } from '@ndla/icons/action';
-import { useUserAgent } from '../../../../UserAgentContext';
 import { spacing } from '@ndla/core';
+import { useUserAgent } from '../../../../UserAgentContext';
 import { GQLArenaTopicFragmentFragment } from '../../../../graphqlTypes';
+import ArenaForm, { ArenaFormValues } from './ArenaForm';
 
 const StyledModalBody = styled(ModalBody)`
   display: flex;
@@ -36,11 +36,12 @@ const StyledPencil = styled(Pencil)`
 `;
 
 interface Props {
-  type: 'post' | 'reply';
+  type: 'topic' | 'post';
   siblingTopics?: GQLArenaTopicFragmentFragment[];
+  onSave: (data: Partial<ArenaFormValues>) => Promise<void>;
 }
 
-const ArenaTextModal = ({ type, siblingTopics }: Props) => {
+const ArenaTextModal = ({ type, siblingTopics, onSave }: Props) => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [created, setCreated] = useState(false);
@@ -56,13 +57,22 @@ const ArenaTextModal = ({ type, siblingTopics }: Props) => {
     [created],
   );
 
+  const onCreate = useCallback(
+    async (data: Partial<ArenaFormValues>) => {
+      await onSave(data);
+      setCreated(true);
+      onModalClose();
+    },
+    [setCreated, onSave],
+  );
+
   return (
     <Modal open={open} onOpenChange={setOpen}>
       <ModalTrigger>
-        {!!userAgent?.isMobile ? (
+        {userAgent?.isMobile ? (
           <ButtonV2>
             {t('arena.topic.new', { type })}
-            {type === 'post' && <StyledPencil />}
+            {type === 'topic' && <StyledPencil />}
           </ButtonV2>
         ) : (
           <ButtonV2>{t('arena.topic.new', { type })}</ButtonV2>
@@ -72,17 +82,18 @@ const ArenaTextModal = ({ type, siblingTopics }: Props) => {
         type={type}
         onClose={onModalClose}
         siblingTopics={siblingTopics ?? []}
+        onSave={onCreate}
       />
     </Modal>
   );
 };
 
 interface ContentProps {
-  type: 'post' | 'reply';
+  type: 'topic' | 'post';
   content?: string;
   title?: string;
   siblingTopics: GQLArenaTopicFragmentFragment[];
-  onSave?: (data: ArenaFormValues) => Promise<void>;
+  onSave: (data: Partial<ArenaFormValues>) => Promise<void>;
   onClose: () => void;
 }
 
@@ -118,4 +129,4 @@ const ArenaTextModalContent = ({
   );
 };
 
-export default ArenaTextModalContent;
+export default ArenaTextModal;

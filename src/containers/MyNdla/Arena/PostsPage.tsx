@@ -82,6 +82,7 @@ const PostsPage = () => {
             notify={true}
             displayName={post.user.displayName}
             username={post.user.username}
+            topicId={arenaTopic.id}
             // missing affiliation in user
             affiliation=""
           />

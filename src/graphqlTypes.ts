@@ -72,16 +72,7 @@ export type GQLArenaNotification = {
   topicId: Scalars['Int']['output'];
   topicTitle: Scalars['String']['output'];
   type: Scalars['String']['output'];
-  user: GQLArenaNotificationUser;
-};
-
-export type GQLArenaNotificationUser = GQLBaseUser & {
-  __typename?: 'ArenaNotificationUser';
-  displayName: Scalars['String']['output'];
-  id: Scalars['Int']['output'];
-  profilePicture?: Maybe<Scalars['String']['output']>;
-  slug: Scalars['String']['output'];
-  username: Scalars['String']['output'];
+  user: GQLArenaUser;
 };
 
 export type GQLArenaPost = {
@@ -107,11 +98,12 @@ export type GQLArenaTopic = {
   title: Scalars['String']['output'];
 };
 
-export type GQLArenaUser = GQLBaseUser & {
+export type GQLArenaUser = {
   __typename?: 'ArenaUser';
   displayName: Scalars['String']['output'];
-  groupTitleArray: Array<Scalars['String']['output']>;
+  groupTitleArray?: Maybe<Array<Scalars['String']['output']>>;
   id: Scalars['Int']['output'];
+  location?: Maybe<Scalars['String']['output']>;
   profilePicture?: Maybe<Scalars['String']['output']>;
   slug: Scalars['String']['output'];
   username: Scalars['String']['output'];
@@ -262,14 +254,6 @@ export type GQLAudioSummary = {
   supportedLanguages: Array<Scalars['String']['output']>;
   title: GQLTitle;
   url: Scalars['String']['output'];
-};
-
-export type GQLBaseUser = {
-  displayName: Scalars['String']['output'];
-  id: Scalars['Int']['output'];
-  profilePicture?: Maybe<Scalars['String']['output']>;
-  slug: Scalars['String']['output'];
-  username: Scalars['String']['output'];
 };
 
 export type GQLBreadcrumb = {
@@ -505,6 +489,7 @@ export type GQLExamples = {
 export type GQLFilmFrontpage = {
   __typename?: 'FilmFrontpage';
   about: Array<GQLFilmPageAbout>;
+  article?: Maybe<GQLArticle>;
   movieThemes: Array<GQLMovieTheme>;
   name: Scalars['String']['output'];
   slideShow: Array<GQLMovie>;
@@ -525,6 +510,7 @@ export type GQLFolder = {
   description?: Maybe<Scalars['String']['output']>;
   id: Scalars['String']['output'];
   name: Scalars['String']['output'];
+  owner?: Maybe<GQLOwner>;
   parentId?: Maybe<Scalars['String']['output']>;
   resources: Array<GQLFolderResource>;
   status: Scalars['String']['output'];
@@ -2759,7 +2745,7 @@ export type GQLArenaUserQueryFragmentFragment = {
   id: number;
   profilePicture?: string;
   slug: string;
-  groupTitleArray: Array<string>;
+  groupTitleArray?: Array<string>;
 };
 
 export type GQLArenaCategoriesFragmentFragment = {
@@ -2805,7 +2791,6 @@ export type GQLArenaPostFragmentFragment = {
   user: {
     __typename?: 'ArenaUser';
     displayName: string;
-    groupTitleArray: Array<string>;
     profilePicture?: string;
     username: string;
   };
@@ -2856,6 +2841,27 @@ export type GQLArenaTopicByIdQuery = {
     __typename?: 'ArenaTopic';
     posts: Array<{ __typename?: 'ArenaPost' } & GQLArenaPostFragmentFragment>;
   } & GQLArenaTopicFragmentFragment;
+};
+
+export type GQLNewArenaTopicMutationMutationVariables = Exact<{
+  categoryId: Scalars['Int']['input'];
+  content: Scalars['String']['input'];
+  title: Scalars['String']['input'];
+}>;
+
+export type GQLNewArenaTopicMutationMutation = {
+  __typename?: 'Mutation';
+  newArenaTopic: { __typename?: 'ArenaTopic' } & GQLArenaTopicFragmentFragment;
+};
+
+export type GQLReplyToTopicMutationMutationVariables = Exact<{
+  topicId: Scalars['Int']['input'];
+  content: Scalars['String']['input'];
+}>;
+
+export type GQLReplyToTopicMutationMutation = {
+  __typename?: 'Mutation';
+  replyToTopic: { __typename?: 'ArenaPost' } & GQLArenaPostFragmentFragment;
 };
 
 export type GQLAiOrganizationsQueryVariables = Exact<{ [key: string]: never }>;

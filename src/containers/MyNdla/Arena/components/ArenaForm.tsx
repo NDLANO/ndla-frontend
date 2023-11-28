@@ -9,16 +9,17 @@
 import styled from '@emotion/styled';
 import { ButtonV2, LoadingButton } from '@ndla/button';
 import { colors, spacing } from '@ndla/core';
-import { Input, TextArea } from '@ndla/forms';
+import { InputV3 } from '@ndla/forms';
 import { InformationOutline } from '@ndla/icons/common';
 import { ModalCloseButton } from '@ndla/modal';
 import { Text } from '@ndla/typography';
-import { FieldLength } from '../../../../containers/MyNdla/Folders/FolderForm';
 import { useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { FieldLength } from '../../../../containers/MyNdla/Folders/FolderForm';
 import useValidationTranslation from '../../../../util/useValidationTranslation';
 import { GQLArenaTopicFragmentFragment } from '../../../../graphqlTypes';
+import { MarkdownEditor } from '../../../../components/MarkdownEditor/MarkdownEditor';
 
 const StyledForm = styled.form`
   display: flex;
@@ -48,12 +49,8 @@ const StyledInformationOutline = styled(InformationOutline)`
   width: ${spacing.snormal};
 `;
 
-const StyledTextArea = styled(TextArea)`
-  height: 150px;
-`;
-
 interface ArenaFormProps {
-  type: 'post' | 'reply';
+  type: 'topic' | 'post';
   title?: string;
   content?: string;
   siblingTopics: GQLArenaTopicFragmentFragment[];
@@ -73,8 +70,8 @@ const toFormValues = (
   title: string | undefined,
   content: string | undefined,
 ) => ({
-  title: title,
-  content: content,
+  title: title ?? '',
+  content: content ?? '',
 });
 
 const ArenaForm = ({
@@ -92,6 +89,7 @@ const ArenaForm = ({
     trigger,
     handleSubmit,
     formState: { isValid, isDirty },
+    setValue,
   } = useForm({
     defaultValues: toFormValues(title, content),
     reValidateMode: 'onChange',
@@ -104,10 +102,13 @@ const ArenaForm = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onSubmit = (values: ArenaFormValues) => onSave(values);
+  const onSubmit = async (values: ArenaFormValues) => {
+    console.log(values);
+    await onSave(values);
+  };
   return (
     <StyledForm onSubmit={handleSubmit(onSubmit)}>
-      {type === 'post' && (
+      {type === 'topic' && (
         <Controller
           name="title"
           control={control}
@@ -134,9 +135,9 @@ const ArenaForm = ({
           render={({ field }) => (
             <div>
               <Text margin="none" textStyle="label-small">
-                Tittel
+                {t('title')}
               </Text>
-              <Input id="title" required {...field} />
+              <InputV3 id="title" required {...field} />
               <FieldLength
                 value={field.value?.length ?? 0}
                 maxLength={titleMaxLength}
@@ -149,6 +150,7 @@ const ArenaForm = ({
         control={control}
         name="content"
         rules={{
+          required: true,
           maxLength: {
             value: descriptionMaxLength,
             message: validationT({
@@ -160,12 +162,21 @@ const ArenaForm = ({
         }}
         render={({ field }) => (
           <div>
-            {type === 'post' && (
-              <Text margin="none" textStyle="label-small">
-                Svar
+            {type === 'topic' && (
+              <Text element="label" margin="none" textStyle="label-small">
+                {t('arena.topic.topicContent')}
               </Text>
             )}
-            <StyledTextArea id="content" {...field} />
+            <MarkdownEditor
+              setContentWritten={(data) =>
+                setValue('content', data, {
+                  shouldDirty: true,
+                  shouldTouch: true,
+                  shouldValidate: true,
+                })
+              }
+              initialValue={content ?? ''}
+            />
             <FieldLength
               value={field.value?.length ?? 0}
               maxLength={descriptionMaxLength}
@@ -189,7 +200,7 @@ const ArenaForm = ({
           type="submit"
           disabled={!isValid || !isDirty || loading}
         >
-          {t('Publish')}
+          {t('arena.publish')}
         </LoadingButton>
       </ButtonRow>
     </StyledForm>

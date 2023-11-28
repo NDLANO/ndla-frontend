@@ -7,6 +7,7 @@
  */
 
 import { useState } from 'react';
+import { EditorState } from 'lexical';
 import {
   LexicalComposer,
   InitialConfigType,
@@ -16,12 +17,17 @@ import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import { ListPlugin } from '@lexical/react/LexicalListPlugin';
 import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin';
+import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
+import {
+  $convertToMarkdownString,
+  $convertFromMarkdownString,
+} from '@lexical/markdown';
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
 import styled from '@emotion/styled';
 import { colors, misc, spacing } from '@ndla/core';
 import { EditorToolbar } from './EditorToolbar';
 import { editorNodes } from './nodes';
-import { MarkdownPlugin } from './MarkdownPlugin';
+import { MarkdownPlugin, PLAYGROUND_TRANSFORMERS } from './MarkdownPlugin';
 import { editorTheme } from './editorTheme';
 import { FloatingLinkEditorPlugin } from './FloatingLinkEditorPlugin';
 
@@ -77,7 +83,12 @@ const InnerEditorContainer = styled.div`
   position: relative;
 `;
 
-export const MarkdownEditor = () => {
+interface Props {
+  setContentWritten: (data: string) => void;
+  initialValue: string;
+}
+
+export const MarkdownEditor = ({ setContentWritten, initialValue }: Props) => {
   const [floatingAnchorElem, setFloatingAnchorElem] = useState<
     HTMLDivElement | undefined
   >(undefined);
@@ -86,12 +97,21 @@ export const MarkdownEditor = () => {
     onError,
     nodes: editorNodes,
     theme: editorTheme,
+    editorState: () =>
+      $convertFromMarkdownString(initialValue, PLAYGROUND_TRANSFORMERS),
   };
 
   const onRef = (_floatingAnchorElem: HTMLDivElement) => {
     if (_floatingAnchorElem !== null) {
       setFloatingAnchorElem(_floatingAnchorElem);
     }
+  };
+
+  const onChange = (editorState: EditorState) => {
+    editorState.read(() => {
+      const markdown = $convertToMarkdownString(PLAYGROUND_TRANSFORMERS);
+      setContentWritten(markdown);
+    });
   };
 
   return (
@@ -118,6 +138,7 @@ export const MarkdownEditor = () => {
         <LinkPlugin />
         <MarkdownPlugin />
         <HistoryPlugin />
+        <OnChangePlugin ignoreSelectionChange onChange={onChange} />
       </LexicalComposer>
     </StyledEditorContainer>
   );

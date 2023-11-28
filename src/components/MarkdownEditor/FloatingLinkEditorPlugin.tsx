@@ -304,7 +304,7 @@ const FloatingLinkEditor = ({
     setIsLinkEditMode(false);
   };
 
-  return (
+  return !!isLinkEditMode ? (
     <FloatingContainer ref={editorRef} data-visible={!!isLinkEditMode}>
       <FormControl id="url" isRequired isInvalid={!!error}>
         <Label margin="none" textStyle="label-small">
@@ -333,7 +333,7 @@ const FloatingLinkEditor = ({
         <FieldErrorMessage>{error}</FieldErrorMessage>
       </FormControl>
     </FloatingContainer>
-  );
+  ) : null;
 };
 
 interface Props {

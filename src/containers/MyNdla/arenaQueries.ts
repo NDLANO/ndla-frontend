@@ -6,7 +6,7 @@
  *
  */
 
-import { gql } from '@apollo/client';
+import { gql, useMutation } from '@apollo/client';
 import {
   GQLArenaUserQuery,
   GQLArenaPageQuery,
@@ -15,6 +15,8 @@ import {
   GQLArenaTopicByIdQueryVariables,
   GQLArenaCategoryQueryVariables,
   GQLArenaUserQueryVariables,
+  GQLMutationNewArenaTopicArgs,
+  GQLMutationReplyToTopicArgs,
 } from '../../graphqlTypes';
 import { useGraphQuery } from '../../util/runQueries';
 
@@ -77,7 +79,6 @@ const arenaPostFragment = gql`
     isMainPost
     user {
       displayName
-      groupTitleArray
       profilePicture
       username
     }
@@ -163,4 +164,50 @@ export const useArenaTopic = (topicId: number, page: number) => {
     variables: { topicId, page },
   });
   return { arenaTopic: data?.arenaTopic, loading, error };
+};
+
+const newArenaTopicMutation = gql`
+  mutation newArenaTopicMutation(
+    $categoryId: Int!
+    $content: String!
+    $title: String!
+  ) {
+    newArenaTopic(categoryId: $categoryId, content: $content, title: $title) {
+      ...ArenaTopicFragment
+    }
+  }
+  ${arenaTopicFragment}
+`;
+
+export const useCreateArenaTopic = (categoryId: number) => {
+  const [createArenaTopic] = useMutation<GQLMutationNewArenaTopicArgs>(
+    newArenaTopicMutation,
+    {
+      refetchQueries: [
+        { query: arenaCategoryQuery, variables: { categoryId, page: 1 } },
+      ],
+    },
+  );
+  return { createArenaTopic };
+};
+
+const replyToTopicMutation = gql`
+  mutation replyToTopicMutation($topicId: Int!, $content: String!) {
+    replyToTopic(topicId: $topicId, content: $content) {
+      ...ArenaPostFragment
+    }
+  }
+  ${arenaPostFragment}
+`;
+
+export const useReplyToTopic = (topicId: number) => {
+  const [replyToTopic] = useMutation<GQLMutationReplyToTopicArgs>(
+    replyToTopicMutation,
+    {
+      refetchQueries: [
+        { query: arenaTopicById, variables: { topicId, page: 1 } },
+      ],
+    },
+  );
+  return { replyToTopic };
 };

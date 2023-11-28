@@ -6,22 +6,22 @@
  *
  */
 
-import Icon, { Spinner } from '@ndla/icons';
+import { Spinner } from '@ndla/icons';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { spacing } from '@ndla/core';
 import { Heading, Text } from '@ndla/typography';
-import { ButtonV2 } from '@ndla/button';
-import { Pencil } from '@ndla/icons/action';
 import { Navigate, useParams } from 'react-router-dom';
-import { useContext, useEffect } from 'react';
-import { useArenaCategory } from '../arenaQueries';
+import { useCallback, useContext, useEffect } from 'react';
+import { useArenaCategory, useCreateArenaTopic } from '../arenaQueries';
 import TopicCard from './components/TopicCard';
 import { GQLArenaTopicFragmentFragment } from '../../../graphqlTypes';
 import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
 import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
 import { usePersonalData } from '../userMutations';
 import { AuthContext } from '../../../components/AuthenticationContext';
+import ArenaTextModal from './components/ArenaTextModal';
+import { ArenaFormValues } from './components/ArenaForm';
 
 const BreadcrumbWrapper = styled.div`
   padding-top: ${spacing.normal};
@@ -32,18 +32,6 @@ const StyledContainer = styled.div`
   justify-content: space-between;
   margin: ${spacing.large} 0 ${spacing.normal};
 `;
-
-const StyledNewTopicButton = styled(ButtonV2)`
-  gap: ${spacing.xsmall};
-  white-space: nowrap;
-`;
-
-const StyledPencilIcon = styled(Icon)`
-  width: ${spacing.snormal};
-  height: ${spacing.snormal};
-`;
-
-const PencilIcon = StyledPencilIcon.withComponent(Pencil);
 
 const StyledCardContainer = styled.div`
   display: flex;
@@ -58,12 +46,22 @@ const TopicPage = () => {
   const { loading, arenaCategory } = useArenaCategory(Number(categoryId), 1);
   const { authenticated } = useContext(AuthContext);
   const { personalData, fetch: fetchPersonalData } = usePersonalData();
+  const { createArenaTopic } = useCreateArenaTopic(Number(categoryId));
 
   useEffect(() => {
     if (authenticated) {
       fetchPersonalData();
     }
   }, [authenticated, fetchPersonalData]);
+
+  const createTopic = useCallback(
+    async (data: ArenaFormValues) => {
+      await createArenaTopic({
+        variables: { ...data, categoryId: arenaCategory?.id },
+      });
+    },
+    [arenaCategory?.id, createArenaTopic],
+  );
 
   if (loading) {
     return <Spinner />;
@@ -95,13 +93,11 @@ const TopicPage = () => {
         <Heading element="h2" headingStyle="h2" margin="none">
           {t('myNdla.arena.category.posts')}
         </Heading>
-        <StyledNewTopicButton
-          colorTheme="lighter"
-          //onClick={} to open modal
-        >
-          {t('myNdla.arena.category.newPost')}
-          <PencilIcon />
-        </StyledNewTopicButton>
+        <ArenaTextModal
+          type={'topic'}
+          siblingTopics={arenaCategory?.topics}
+          onSave={createTopic}
+        />
       </StyledContainer>
       {arenaCategory?.topics?.map((topic: GQLArenaTopicFragmentFragment) => (
         <StyledCardContainer key={`topicContainer-${topic.id}`}>
