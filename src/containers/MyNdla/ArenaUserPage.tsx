@@ -7,7 +7,6 @@
  */
 
 import { useContext, useEffect } from 'react';
-import { Breadcrumb } from '@ndla/ui';
 import { Heading } from '@ndla/typography';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
@@ -23,7 +22,11 @@ import { GQLArenaTopicFragmentFragment } from '../../graphqlTypes';
 import TopicCard from './Arena/components/TopicCard';
 
 const BreadcrumbWrapper = styled.div`
-  margin-top: ${spacing.normal};
+  padding-top: ${spacing.normal};
+`;
+
+const MyContactAreaWrapper = styled.div`
+  margin: ${spacing.large} 0 ${spacing.normal};
 `;
 
 const StyledUlWrapper = styled.ul`
@@ -79,14 +82,15 @@ const ArenaUserPage = () => {
           page={'arena'}
         />
       </BreadcrumbWrapper>
-      <Breadcrumb items={[]} />
-      <MyContactArea
-        user={user}
-        arenaPage
-        arenaUserName={arenaUser?.displayName}
-        arenaUserWorkplace={arenaUser?.location}
-      />
-      <Heading element="h2" headingStyle="h2">
+      <MyContactAreaWrapper>
+        <MyContactArea
+          user={user}
+          arenaPage
+          arenaUserName={arenaUser?.displayName}
+          arenaUserWorkplace={arenaUser?.location}
+        />
+      </MyContactAreaWrapper>
+      <Heading element="h2" headingStyle="h2" margin="normal">
         {`Hardcoded Innlegg av ${arenaUser?.displayName}`}
       </Heading>
       <StyledUlWrapper>
