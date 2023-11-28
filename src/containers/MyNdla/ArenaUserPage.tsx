@@ -20,7 +20,7 @@ import MyNdlaBreadcrumb from './components/MyNdlaBreadcrumb';
 import { usePersonalData } from './userMutations';
 import { useArenaTopicsByUser, useArenaUser } from './arenaQueries';
 import { GQLArenaTopicFragmentFragment } from '../../graphqlTypes';
-import TopicCard from './ArenaCards/TopicCard';
+import TopicCard from './Arena/components/TopicCard';
 
 const BreadcrumbWrapper = styled.div`
   margin-top: ${spacing.normal};
