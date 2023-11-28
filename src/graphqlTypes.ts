@@ -525,6 +525,7 @@ export type GQLFolder = {
   description?: Maybe<Scalars['String']['output']>;
   id: Scalars['String']['output'];
   name: Scalars['String']['output'];
+  owner?: Maybe<GQLOwner>;
   parentId?: Maybe<Scalars['String']['output']>;
   resources: Array<GQLFolderResource>;
   status: Scalars['String']['output'];
@@ -601,6 +602,17 @@ export type GQLFrontpageSearchResult = {
   path: Scalars['String']['output'];
   resourceTypes: Array<GQLSearchContextResourceTypes>;
   subject: Scalars['String']['output'];
+};
+
+export type GQLFullArenaUser = GQLBaseUser & {
+  __typename?: 'FullArenaUser';
+  displayName: Scalars['String']['output'];
+  groupTitleArray: Array<Scalars['String']['output']>;
+  id: Scalars['Int']['output'];
+  location?: Maybe<Scalars['String']['output']>;
+  profilePicture?: Maybe<Scalars['String']['output']>;
+  slug: Scalars['String']['output'];
+  username: Scalars['String']['output'];
 };
 
 export type GQLGloss = {
@@ -1151,7 +1163,7 @@ export type GQLQuery = {
   arenaRecentTopics: Array<GQLArenaTopic>;
   arenaTopic?: Maybe<GQLArenaTopic>;
   arenaTopicsByUser: Array<GQLArenaTopic>;
-  arenaUser?: Maybe<GQLArenaUser>;
+  arenaUser?: Maybe<GQLFullArenaUser>;
   article?: Maybe<GQLArticle>;
   articleResource?: Maybe<GQLResource>;
   audio?: Maybe<GQLAudio>;
@@ -2754,12 +2766,13 @@ export type GQLMultidisciplinaryTopicWrapper_SubjectFragment = {
 } & GQLMultidisciplinaryTopic_SubjectFragment;
 
 export type GQLArenaUserQueryFragmentFragment = {
-  __typename?: 'ArenaUser';
+  __typename?: 'FullArenaUser';
   displayName: string;
   id: number;
   profilePicture?: string;
   slug: string;
   groupTitleArray: Array<string>;
+  location?: string;
 };
 
 export type GQLArenaCategoriesFragmentFragment = {
@@ -2817,7 +2830,9 @@ export type GQLArenaUserQueryVariables = Exact<{
 
 export type GQLArenaUserQuery = {
   __typename?: 'Query';
-  arenaUser?: { __typename?: 'ArenaUser' } & GQLArenaUserQueryFragmentFragment;
+  arenaUser?: {
+    __typename?: 'FullArenaUser';
+  } & GQLArenaUserQueryFragmentFragment;
 };
 
 export type GQLArenaPageQueryVariables = Exact<{ [key: string]: never }>;

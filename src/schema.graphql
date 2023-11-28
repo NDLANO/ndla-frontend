@@ -443,6 +443,7 @@ type Folder {
   description: String
   id: String!
   name: String!
+  owner: Owner
   parentId: String
   resources: [FolderResource!]!
   status: String!
@@ -512,6 +513,16 @@ type FrontpageSearchResult {
   path: String!
   resourceTypes: [SearchContextResourceTypes!]!
   subject: String!
+}
+
+type FullArenaUser implements BaseUser {
+  displayName: String!
+  groupTitleArray: [String!]!
+  id: Int!
+  location: String
+  profilePicture: String
+  slug: String!
+  username: String!
 }
 
 type Gloss {
@@ -957,7 +968,7 @@ type Query {
   arenaRecentTopics: [ArenaTopic!]!
   arenaTopic(page: Int, topicId: Int!): ArenaTopic
   arenaTopicsByUser(userSlug: String!): [ArenaTopic!]!
-  arenaUser(username: String!): ArenaUser
+  arenaUser(username: String!): FullArenaUser
   article(
     absoluteUrl: Boolean
     convertEmbeds: Boolean

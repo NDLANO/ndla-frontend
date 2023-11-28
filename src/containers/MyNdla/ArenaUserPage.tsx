@@ -43,8 +43,6 @@ const ArenaUserPage = () => {
     arenaUser?.slug ?? '',
   );
 
-  console.log(arenaUser);
-
   useEffect(() => {
     if (authenticated) {
       fetchPersonalData();
