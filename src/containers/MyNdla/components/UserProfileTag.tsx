@@ -10,14 +10,15 @@ import styled from '@emotion/styled';
 import { colors, spacing, misc } from '@ndla/core';
 import SafeLink from '@ndla/safelink';
 import { Text } from '@ndla/typography';
-import { checkIfModerator } from '../../../config';
 import Avatar from './Avatar';
 import { useArenaUser } from '../arenaQueries';
+import config from '../../../config';
+import { GQLArenaUserQueryFragmentFragment } from '../../../graphqlTypes';
 
 type UserProfileTagProps = {
-  displayName: string | undefined;
-  username: string | undefined;
-  affiliation: string | undefined;
+  displayName: string;
+  username: string;
+  affiliation: string;
 };
 
 const Name = styled(Text)`
@@ -61,6 +62,10 @@ const ModeratorTag = styled(Text)`
   color: ${colors.white};
 `;
 
+const isModerator = (user?: GQLArenaUserQueryFragmentFragment): boolean => {
+  return user?.groupTitleArray.includes(config.arenaModeratorGroup) ?? false;
+};
+
 const UserProfileTag = ({
   displayName,
   username,
@@ -80,7 +85,7 @@ const UserProfileTag = ({
           <Name textStyle="meta-text-large" margin="none" data-name="hover">
             {displayName}
           </Name>
-          {checkIfModerator(arenaUser?.groupTitleArray) && (
+          {isModerator(arenaUser) && (
             <ModeratorTag textStyle="meta-text-xsmall" margin="none">
               {t('user.moderator')}
             </ModeratorTag>

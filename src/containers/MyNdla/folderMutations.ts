@@ -73,6 +73,10 @@ export const folderFragment = gql`
       id
       name
     }
+    owner {
+      __typename
+      name
+    }
     resources {
       ...FolderResourceFragment
     }
@@ -93,6 +97,10 @@ export const sharedFolderFragment = gql`
     breadcrumbs {
       __typename
       id
+      name
+    }
+    owner {
+      __typename
       name
     }
     resources {

@@ -23,6 +23,32 @@ type ArenaCategory {
   topics: [ArenaTopic!]
 }
 
+type ArenaNotification {
+  bodyShort: String!
+  datetimeISO: String!
+  from: Int!
+  image: String
+  importance: Int!
+  notificationId: String!
+  path: String!
+  postId: Int!
+  read: Boolean!
+  readClass: String!
+  subject: String!
+  topicId: Int!
+  topicTitle: String!
+  type: String!
+  user: ArenaNotificationUser!
+}
+
+type ArenaNotificationUser implements BaseUser {
+  displayName: String!
+  id: Int!
+  profilePicture: String
+  slug: String!
+  username: String!
+}
+
 type ArenaPost {
   content: String!
   id: Int!
@@ -44,7 +70,7 @@ type ArenaTopic {
   title: String!
 }
 
-type ArenaUser {
+type ArenaUser implements BaseUser {
   displayName: String!
   groupTitleArray: [String!]!
   id: Int!
@@ -183,6 +209,14 @@ type AudioSummary {
   supportedLanguages: [String!]!
   title: Title!
   url: String!
+}
+
+interface BaseUser {
+  displayName: String!
+  id: Int!
+  profilePicture: String
+  slug: String!
+  username: String!
 }
 
 type Breadcrumb {
@@ -409,6 +443,7 @@ type Folder {
   description: String
   id: String!
   name: String!
+  owner: Owner
   parentId: String
   resources: [FolderResource!]!
   status: String!
@@ -779,6 +814,7 @@ type Mutation {
   deleteFolder(id: String!): String!
   deleteFolderResource(folderId: String!, resourceId: String!): String!
   deletePersonalData: Boolean!
+  markNotificationAsRead(topicIds: [Int!]!): [Int!]!
   newArenaTopic(categoryId: Int!, content: String!, title: String!): ArenaTopic!
   replyToTopic(content: String!, topicId: Int!): ArenaPost!
   sortFolders(parentId: String, sortedIds: [String!]!): SortResult!
@@ -918,8 +954,9 @@ type Query {
   arenaCategories: [ArenaCategory!]!
   arenaCategory(categoryId: Int!, page: Int!): ArenaCategory
   arenaEnabledOrgs: ConfigMetaStringList
+  arenaNotifications: [ArenaNotification!]!
   arenaRecentTopics: [ArenaTopic!]!
-  arenaTopic(page: Int!, topicId: Int!): ArenaTopic
+  arenaTopic(page: Int, topicId: Int!): ArenaTopic
   arenaTopicsByUser(userSlug: String!): [ArenaTopic!]!
   arenaUser(username: String!): ArenaUser
   article(
