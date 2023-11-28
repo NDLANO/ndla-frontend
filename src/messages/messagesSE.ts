@@ -79,6 +79,38 @@ const messages = {
     concept: 'Forklaring',
     audio: 'Audio',
   },
+  markdownEditor: {
+    link: {
+      url: 'Liŋka',
+      error: {
+        empty: 'Liŋka ii sáhte leat guorus',
+        invalid: 'Gustohis liŋka. Čuovo formáhta dáppe https://ndla.no',
+      },
+    },
+    toolbar: {
+      bold: {
+        active: 'Váldde eret buoiddes fontta',
+        inactive: 'Lasit buoiddes fontta',
+      },
+      italic: {
+        active: 'Váldde eret vinjučála fontta',
+        inactive: 'Lasit vinjučála fontta',
+      },
+      unorderedList: {
+        active: 'Váldde eret čuoggátávvala',
+        inactive: 'Lasit čuoggátávvala',
+      },
+      orderedList: {
+        active: 'Váldde eret nummáraston listtu',
+        inactive: 'Lasit nummárastojuvvon listtu',
+      },
+      link: {
+        active: 'Váldde eret liŋkka',
+        inactive: 'Lasit liŋkka',
+        noSelection: 'Merke teavstta liŋkka lasihit',
+      },
+    },
+  },
 };
 
 export default messages;

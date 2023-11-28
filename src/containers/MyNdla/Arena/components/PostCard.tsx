@@ -8,16 +8,9 @@
 
 import parse from 'html-react-parser';
 import styled from '@emotion/styled';
-import { ButtonV2, IconButtonV2 } from '@ndla/button';
+import { ButtonV2 } from '@ndla/button';
 import { colors, spacing, misc, mq, breakpoints } from '@ndla/core';
-import {
-  DropdownMenu,
-  DropdownTrigger,
-  DropdownContent,
-  DropdownItem,
-} from '@ndla/dropdown-menu';
 import { Pencil, TrashCanOutline } from '@ndla/icons/action';
-import { HorizontalMenu } from '@ndla/icons/contentType';
 import { ReportOutlined } from '@ndla/icons/common';
 import { Switch } from '@ndla/switch';
 import { Text, Heading } from '@ndla/typography';
@@ -25,10 +18,11 @@ import { useTranslation } from 'react-i18next';
 import { useMemo } from 'react';
 import { nb, nn, enGB } from 'date-fns/locale';
 import { formatDistanceStrict } from 'date-fns';
-import UserProfileTag from '../components/UserProfileTag';
+import UserProfileTag from '../../components/UserProfileTag';
+import SettingsMenu from '../../components/SettingsMenu';
 
 interface Props {
-  id: string;
+  id: number;
   timestamp: string;
   isMainPost: boolean;
   title: string;
@@ -70,12 +64,6 @@ const StyledContentContainer = styled.div`
   margin: ${spacing.normal} 0;
 `;
 
-const StyledText = styled(Text)`
-  p {
-    margin: 0;
-  }
-`;
-
 const BottomContainer = styled.div`
   display: flex;
   justify-content: space-between;
@@ -83,18 +71,6 @@ const BottomContainer = styled.div`
 
 const StyledTimestamp = styled(Text)`
   align-self: center;
-`;
-
-const StyledButton = styled(ButtonV2)`
-  display: flex;
-  flex: 1;
-  align-items: center;
-  justify-content: flex-start;
-`;
-
-const StyledAddCommentButton = styled(ButtonV2)`
-  height: 42px;
-  white-space: nowrap;
 `;
 
 const Locales = {
@@ -123,6 +99,31 @@ const PostCard = ({
   } = useTranslation();
   const now = useMemo(() => new Date(), []);
 
+  const menu = useMemo(
+    () => (
+      <SettingsMenu
+        menuItems={[
+          {
+            icon: <ReportOutlined />,
+            text: t('myNdla.arena.posts.dropdownMenu.report'),
+            type: 'primary',
+          },
+          {
+            icon: <Pencil />,
+            text: t('myNdla.arena.posts.dropdownMenu.edit'),
+            type: 'primary',
+          },
+          {
+            icon: <TrashCanOutline />,
+            type: 'danger',
+            text: t('myNdla.arena.posts.dropdownMenu.delete'),
+          },
+        ]}
+      />
+    ),
+    [t],
+  );
+
   return (
     <StyledCardContainer key={id}>
       <StyledTopContainer>
@@ -146,9 +147,9 @@ const PostCard = ({
             {title}
           </Heading>
         )}
-        <StyledText element="p" textStyle="content-alt" margin="none">
-          {parse(content)}
-        </StyledText>
+        <Text element="p" textStyle="content-alt" margin="none">
+          {parse(content ?? '')}
+        </Text>
       </StyledContentContainer>
       <BottomContainer>
         {!isMainPost && (
@@ -162,61 +163,8 @@ const PostCard = ({
             )}`}
           </StyledTimestamp>
         )}
-        <DropdownMenu>
-          <DropdownTrigger>
-            <IconButtonV2
-              aria-label={t('myNdla.arena.notification.showAll')}
-              colorTheme="light"
-              title={t('myNdla.arena.notification.showAll')}
-              variant="ghost"
-            >
-              <HorizontalMenu />
-            </IconButtonV2>
-          </DropdownTrigger>
-          <DropdownContent showArrow>
-            <DropdownItem>
-              <StyledButton
-                colorTheme="light"
-                fontWeight="normal"
-                shape="sharp"
-                size="small"
-                variant="ghost"
-              >
-                <ReportOutlined />
-                {t('myNdla.arena.posts.dropdownMenu.report')}
-              </StyledButton>
-            </DropdownItem>
-            <DropdownItem>
-              <StyledButton
-                colorTheme="light"
-                fontWeight="normal"
-                shape="sharp"
-                size="small"
-                variant="ghost"
-              >
-                <Pencil />
-                {t('myNdla.arena.posts.dropdownMenu.edit')}
-              </StyledButton>
-            </DropdownItem>
-            <DropdownItem>
-              <StyledButton
-                colorTheme="danger"
-                fontWeight="normal"
-                shape="sharp"
-                size="small"
-                variant="ghost"
-              >
-                <TrashCanOutline />
-                {t('myNdla.arena.posts.dropdownMenu.delete')}
-              </StyledButton>
-            </DropdownItem>
-          </DropdownContent>
-        </DropdownMenu>
-        {isMainPost && (
-          <StyledAddCommentButton>
-            {t('myNdla.arena.posts.comment')}
-          </StyledAddCommentButton>
-        )}
+        {menu}
+        {isMainPost && <ButtonV2>{t('myNdla.arena.posts.comment')}</ButtonV2>}
       </BottomContainer>
     </StyledCardContainer>
   );
