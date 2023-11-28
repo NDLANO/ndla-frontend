@@ -18,6 +18,9 @@ import { isStudent } from '../Folders/util';
 type MyContractAreaProps = {
   user: FeideUserApiType | undefined;
   showProfileButton?: boolean;
+  arenaUserName?: string;
+  arenaUserWorkplace?: string;
+  arenaPage?: boolean;
 };
 
 const MyContactAreaContainer = styled.div`
@@ -60,25 +63,34 @@ const MobileButtonContainer = styled.div`
   }
 `;
 
-const MyContactArea = ({ user, showProfileButton }: MyContractAreaProps) => {
+const MyContactArea = ({
+  user,
+  showProfileButton,
+  arenaPage,
+  arenaUserName,
+  arenaUserWorkplace,
+}: MyContractAreaProps) => {
   const parsedUser = user && parseUserObject(user);
 
   return (
     <MyContactAreaContainer>
       {!isStudent(user) && (
         <AvatarContainer>
-          <UserAvatar userName={user?.displayName} />
+          <UserAvatar
+            userName={arenaPage ? arenaUserName : user?.displayName}
+          />
         </AvatarContainer>
       )}
       <Heading element="h2" id="userName" margin="none" headingStyle="h2">
-        {user?.displayName}
+        {arenaPage ? arenaUserName : user?.displayName}
       </Heading>
       <UserInfoContainer>
         <UserWorkPlaceText element="h2" headingStyle="list-title" margin="none">
-          {user?.primarySchool?.displayName}
+          {arenaPage ? arenaUserWorkplace : user?.primarySchool?.displayName}
         </UserWorkPlaceText>
         <UserCountyText element="p" textStyle="meta-text-small" margin="none">
-          {parsedUser &&
+          {!arenaPage &&
+            parsedUser &&
             parsedUser.organizations.length > 0 &&
             parsedUser.organizations.at(0)?.displayName}
         </UserCountyText>

@@ -75,7 +75,12 @@ const ArenaUserPage = () => {
         />
       </BreadcrumbWrapper>
       <Breadcrumb items={[]} />
-      <MyContactArea user={user} />
+      <MyContactArea
+        user={user}
+        arenaPage
+        arenaUserName={arenaUser?.displayName}
+        arenaUserWorkplace={arenaUser?.location}
+      />
       <Heading element="h2" headingStyle="h2">
         {`Hardcoded Innlegg av ${arenaUser?.displayName}`}
       </Heading>
