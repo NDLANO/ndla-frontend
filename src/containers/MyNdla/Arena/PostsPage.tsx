@@ -6,18 +6,17 @@
  *
  */
 
-import { Spinner } from '@ndla/icons';
+import { useContext } from 'react';
 import { useParams } from 'react-router';
-import { spacing } from '@ndla/core';
-import styled from '@emotion/styled';
-import { useContext, useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
+import styled from '@emotion/styled';
+import { spacing } from '@ndla/core';
+import { Spinner } from '@ndla/icons';
 import PostCard from './components/PostCard';
 import { useArenaCategory, useArenaTopic } from '../arenaQueries';
 import { GQLArenaPostFragmentFragment } from '../../../graphqlTypes';
 import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
 import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
-import { usePersonalData } from '../userMutations';
 import { AuthContext } from '../../../components/AuthenticationContext';
 
 const BreadcrumbWrapper = styled.div`
@@ -42,20 +41,13 @@ const PostsPage = () => {
   const { topicId } = useParams();
   const { arenaTopic, loading } = useArenaTopic(Number(topicId), 1);
   const { arenaCategory } = useArenaCategory(Number(arenaTopic?.categoryId), 1);
-  const { authenticated } = useContext(AuthContext);
-  const { personalData, fetch: fetchPersonalData } = usePersonalData();
-
-  useEffect(() => {
-    if (authenticated) {
-      fetchPersonalData();
-    }
-  }, [authenticated, fetchPersonalData]);
-
+  const { user } = useContext(AuthContext);
+  
   if (loading) {
     return <Spinner />;
   }
 
-  if (!personalData?.arenaEnabled && personalData?.arenaEnabled !== undefined) {
+  if (!user?.arenaEnabled && user?.arenaEnabled !== undefined) {
     return <Navigate to="/minndla" />;
   }
 
