@@ -30,6 +30,7 @@ import {
 import { MoviesByType } from './NdlaFilmFrontpage';
 import AboutNdlaFilm from './AboutNdlaFilm';
 import { movieFragment } from '../../queries';
+import Article from '../../components/Article';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 
 const sortAlphabetically = (movies: MoviesByType[], locale: string) =>
@@ -198,12 +199,12 @@ export const filmFrontpageFragments = {
         language
       }
       article {
-        title
-        content
+        ...Article_Article
       }
     }
     ${MovieCategory.fragments.movieTheme}
     ${movieFragment}
+    ${Article.fragments.article}
   `,
 };
 

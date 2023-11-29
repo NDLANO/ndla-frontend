@@ -8,7 +8,6 @@
 
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import { transform } from '@ndla/article-converter';
 import { ButtonV2 as Button } from '@ndla/button';
 import { breakpoints, colors, mq, spacing } from '@ndla/core';
 import {
@@ -20,6 +19,12 @@ import {
   ModalTrigger,
 } from '@ndla/modal';
 import { Image } from '@ndla/ui';
+import Article from '../../components/Article';
+import {
+  TransformedBaseArticle,
+  transformArticle,
+} from '../../util/transformArticle';
+import { GQLArticle_ArticleFragment } from '../../graphqlTypes';
 
 const StyledAside = styled.aside`
   background: #184673;
@@ -95,9 +100,14 @@ interface AboutNdlaFilmProps {
 }
 
 const AboutNdlaFilm = ({ aboutNDLAVideo, article }: AboutNdlaFilmProps) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const titleId = 'about-ndla-film-title';
-  console.log(article);
+
+  const transformedArticle = transformArticle(
+    article,
+    i18n.language,
+  ) as TransformedBaseArticle<GQLArticle_ArticleFragment>;
+
   return (
     <div className="o-wrapper">
       <StyledAside aria-labelledby={titleId}>
@@ -116,7 +126,9 @@ const AboutNdlaFilm = ({ aboutNDLAVideo, article }: AboutNdlaFilmProps) => {
                 <ModalHeader>
                   <ModalCloseButton />
                 </ModalHeader>
-                <ModalBody>{transform(article.content, {})}</ModalBody>
+                <ModalBody>
+                  <Article article={transformedArticle} label={''} />
+                </ModalBody>
               </ModalContent>
             </Modal>
           )}
