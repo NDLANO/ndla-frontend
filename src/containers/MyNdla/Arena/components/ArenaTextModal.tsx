@@ -22,7 +22,6 @@ import { useCallback, useState } from 'react';
 import { Pencil } from '@ndla/icons/action';
 import { spacing } from '@ndla/core';
 import { useUserAgent } from '../../../../UserAgentContext';
-import { GQLArenaTopicFragmentFragment } from '../../../../graphqlTypes';
 import ArenaForm, { ArenaFormValues } from './ArenaForm';
 
 const StyledModalBody = styled(ModalBody)`
@@ -37,11 +36,10 @@ const StyledPencil = styled(Pencil)`
 
 interface Props {
   type: 'topic' | 'post';
-  siblingTopics?: GQLArenaTopicFragmentFragment[];
   onSave: (data: Partial<ArenaFormValues>) => Promise<void>;
 }
 
-const ArenaTextModal = ({ type, siblingTopics, onSave }: Props) => {
+const ArenaTextModal = ({ type, onSave }: Props) => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [created, setCreated] = useState(false);
@@ -58,10 +56,11 @@ const ArenaTextModal = ({ type, siblingTopics, onSave }: Props) => {
   );
 
   const onCreate = useCallback(
-    async (data: Partial<ArenaFormValues>) => {
+    async (data: Partial<ArenaFormValues> | ArenaFormValues) => {
       await onSave(data);
       setCreated(true);
       onModalClose();
+      setOpen(false);
     },
     [setCreated, onSave],
   );
@@ -71,17 +70,16 @@ const ArenaTextModal = ({ type, siblingTopics, onSave }: Props) => {
       <ModalTrigger>
         {userAgent?.isMobile ? (
           <ButtonV2>
-            {t('arena.topic.new', { type })}
+            {t('arena.new', { type })}
             {type === 'topic' && <StyledPencil />}
           </ButtonV2>
         ) : (
-          <ButtonV2>{t('arena.topic.new', { type })}</ButtonV2>
+          <ButtonV2>{t('arena.new', { type })}</ButtonV2>
         )}
       </ModalTrigger>
       <ArenaTextModalContent
         type={type}
         onClose={onModalClose}
-        siblingTopics={siblingTopics ?? []}
         onSave={onCreate}
       />
     </Modal>
@@ -92,37 +90,33 @@ interface ContentProps {
   type: 'topic' | 'post';
   content?: string;
   title?: string;
-  siblingTopics: GQLArenaTopicFragmentFragment[];
   onSave: (data: Partial<ArenaFormValues>) => Promise<void>;
   onClose: () => void;
 }
 
-const ArenaTextModalContent = ({
+export const ArenaTextModalContent = ({
   type,
   title,
   content,
-  siblingTopics,
   onSave,
   onClose,
 }: ContentProps) => {
   const { t } = useTranslation();
-
   return (
     <ModalContent>
       <ModalHeader>
-        <ModalTitle>{t('arena.topic.new', { type })}</ModalTitle>
+        <ModalTitle>{t('arena.new', { type })}</ModalTitle>
         <ModalCloseButton />
       </ModalHeader>
       <StyledModalBody>
         <ArenaForm
           title={title}
           content={content}
-          onSave={async (data: ArenaFormValues) => {
+          onSave={async (data: Partial<ArenaFormValues>) => {
             await onSave?.(data);
             onClose();
           }}
           type={type}
-          siblingTopics={siblingTopics}
         />
       </StyledModalBody>
     </ModalContent>

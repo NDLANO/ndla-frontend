@@ -7,7 +7,7 @@
  */
 
 import { useState } from 'react';
-import { EditorState } from 'lexical';
+import { $getRoot, $insertNodes, EditorState } from 'lexical';
 import {
   LexicalComposer,
   InitialConfigType,
@@ -18,10 +18,8 @@ import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import { ListPlugin } from '@lexical/react/LexicalListPlugin';
 import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin';
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
-import {
-  $convertToMarkdownString,
-  $convertFromMarkdownString,
-} from '@lexical/markdown';
+import { $convertToMarkdownString } from '@lexical/markdown';
+import { $generateNodesFromDOM } from '@lexical/html';
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
 import styled from '@emotion/styled';
 import { colors, misc, spacing } from '@ndla/core';
@@ -97,8 +95,15 @@ export const MarkdownEditor = ({ setContentWritten, initialValue }: Props) => {
     onError,
     nodes: editorNodes,
     theme: editorTheme,
-    editorState: () =>
-      $convertFromMarkdownString(initialValue, PLAYGROUND_TRANSFORMERS),
+    editorState: (editor) => {
+      const parser = new DOMParser();
+      const nodes = $generateNodesFromDOM(
+        editor,
+        parser.parseFromString(initialValue, 'text/html'),
+      );
+      $getRoot().select();
+      $insertNodes(nodes);
+    },
   };
 
   const onRef = (_floatingAnchorElem: HTMLDivElement) => {

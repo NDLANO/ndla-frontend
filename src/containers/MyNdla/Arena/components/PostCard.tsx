@@ -19,9 +19,15 @@ import { nb, nn, enGB } from 'date-fns/locale';
 import { formatDistanceStrict } from 'date-fns';
 import UserProfileTag from '../../components/UserProfileTag';
 import SettingsMenu from '../../components/SettingsMenu';
-import ArenaTextModal from './ArenaTextModal';
+import ArenaTextModal, { ArenaTextModalContent } from './ArenaTextModal';
 import { ArenaFormValues } from './ArenaForm';
-import { useReplyToTopic } from '../../arenaQueries';
+import {
+  useDeletePost,
+  useDeleteTopic,
+  useReplyToTopic,
+  useUpdatePost,
+} from '../../arenaQueries';
+import DeleteModalContent from '../../components/DeleteModalContent';
 
 interface Props {
   id: number;
@@ -102,7 +108,22 @@ const PostCard = ({
     i18n: { language },
   } = useTranslation();
   const { replyToTopic } = useReplyToTopic(topicId);
+  const { updatePost } = useUpdatePost(topicId);
+  const { deletePost } = useDeletePost(topicId);
+  const { deleteTopic } = useDeleteTopic();
+
   const now = useMemo(() => new Date(), []);
+
+  const type = isMainPost ? 'topic' : 'post';
+
+  const deleteTopicCallback = useCallback(async () => {
+    await deleteTopic({ variables: { topicId } });
+  }, [topicId, deleteTopic]);
+
+  const deletePostCallback = useCallback(async () => {
+    console.log('Hello');
+    await deletePost({ variables: { postId: id } });
+  }, [topicId, deletePost]);
 
   const menu = useMemo(
     () => (
@@ -117,21 +138,56 @@ const PostCard = ({
             icon: <Pencil />,
             text: t('myNdla.arena.posts.dropdownMenu.edit'),
             type: 'primary',
+            isModal: true,
+            modalContent: (close) => (
+              <ArenaTextModalContent
+                type={type}
+                onClose={close}
+                onSave={async (data) => {
+                  await updatePost({
+                    variables: {
+                      content: data.content!,
+                      postId: id,
+                      title: isMainPost ? data.title : undefined,
+                    },
+                  });
+                  close();
+                }}
+                title={title}
+                content={content}
+              />
+            ),
           },
           {
             icon: <TrashCanOutline />,
             type: 'danger',
             text: t('myNdla.arena.posts.dropdownMenu.delete'),
+            isModal: true,
+            modalContent: (close) => (
+              <DeleteModalContent
+                onClose={close}
+                onDelete={async () =>
+                  isMainPost
+                    ? await deleteTopicCallback()
+                    : await deletePostCallback()
+                }
+                title={t(`myNdla.arena.deleteTitle`, { type })}
+                description={t(`MyNdla.arena.description`, { type })}
+                removeText={t(`myNdla.arena.removeText`, { type })}
+              />
+            ),
           },
         ]}
       />
     ),
-    [t],
+    [t, content, title, updatePost, isMainPost],
   );
 
   const createReply = useCallback(
     async (data: Partial<ArenaFormValues>) => {
-      await replyToTopic({ variables: { topicId, content: data.content } });
+      await replyToTopic({
+        variables: { topicId, content: data.content ?? '' },
+      });
     },
     [replyToTopic, topicId],
   );

@@ -17,6 +17,10 @@ import {
   GQLArenaUserQueryVariables,
   GQLMutationNewArenaTopicArgs,
   GQLMutationReplyToTopicArgs,
+  GQLNewArenaTopicMutation,
+  GQLReplyToTopicMutation,
+  GQLUpdateFolderMutation,
+  GQLUpdatePostMutationVariables,
 } from '../../graphqlTypes';
 import { useGraphQuery } from '../../util/runQueries';
 
@@ -167,7 +171,7 @@ export const useArenaTopic = (topicId: number, page: number) => {
 };
 
 const newArenaTopicMutation = gql`
-  mutation newArenaTopicMutation(
+  mutation NewArenaTopic(
     $categoryId: Int!
     $content: String!
     $title: String!
@@ -180,19 +184,19 @@ const newArenaTopicMutation = gql`
 `;
 
 export const useCreateArenaTopic = (categoryId: number) => {
-  const [createArenaTopic] = useMutation<GQLMutationNewArenaTopicArgs>(
-    newArenaTopicMutation,
-    {
-      refetchQueries: [
-        { query: arenaCategoryQuery, variables: { categoryId, page: 1 } },
-      ],
-    },
-  );
+  const [createArenaTopic] = useMutation<
+    GQLNewArenaTopicMutation,
+    GQLMutationNewArenaTopicArgs
+  >(newArenaTopicMutation, {
+    refetchQueries: [
+      { query: arenaCategoryQuery, variables: { categoryId, page: 1 } },
+    ],
+  });
   return { createArenaTopic };
 };
 
 const replyToTopicMutation = gql`
-  mutation replyToTopicMutation($topicId: Int!, $content: String!) {
+  mutation ReplyToTopic($topicId: Int!, $content: String!) {
     replyToTopic(topicId: $topicId, content: $content) {
       ...ArenaPostFragment
     }
@@ -201,13 +205,60 @@ const replyToTopicMutation = gql`
 `;
 
 export const useReplyToTopic = (topicId: number) => {
-  const [replyToTopic] = useMutation<GQLMutationReplyToTopicArgs>(
-    replyToTopicMutation,
-    {
-      refetchQueries: [
-        { query: arenaTopicById, variables: { topicId, page: 1 } },
-      ],
-    },
-  );
+  const [replyToTopic] = useMutation<
+    GQLReplyToTopicMutation,
+    GQLMutationReplyToTopicArgs
+  >(replyToTopicMutation, {
+    refetchQueries: [
+      { query: arenaTopicById, variables: { topicId, page: 1 } },
+    ],
+  });
   return { replyToTopic };
+};
+
+const updatePostMutation = gql`
+  mutation UpdatePost($postId: Int!, $content: String!, $title: String) {
+    updatePost(postId: $postId, content: $content, title: $title) {
+      ...ArenaPostFragment
+    }
+  }
+  ${arenaPostFragment}
+`;
+
+export const useUpdatePost = (topicId: number) => {
+  const [updatePost] = useMutation<
+    GQLUpdateFolderMutation,
+    GQLUpdatePostMutationVariables
+  >(updatePostMutation, {
+    refetchQueries: [
+      { query: arenaTopicById, variables: { topicId, page: 1 } },
+    ],
+  });
+  return { updatePost };
+};
+
+const deletePostMutation = gql`
+  mutation DeletePost($postId: Int!) {
+    deletePost(postId: $postId)
+  }
+`;
+
+export const useDeletePost = (topicId: number) => {
+  const [deletePost] = useMutation(deletePostMutation, {
+    refetchQueries: [
+      { query: arenaTopicById, variables: { topicId, page: 1 } },
+    ],
+  });
+  return { deletePost };
+};
+
+const deleteTopicMutation = gql`
+  mutation DeleteTopic($topicId: Int!) {
+    deleteTopic(topicId: $topicId)
+  }
+`;
+
+export const useDeleteTopic = () => {
+  const [deleteTopic] = useMutation(deleteTopicMutation);
+  return { deleteTopic };
 };

@@ -800,6 +800,8 @@ type Mutation {
   deleteFolder(id: String!): String!
   deleteFolderResource(folderId: String!, resourceId: String!): String!
   deletePersonalData: Boolean!
+  deletePost(postId: Int!): Boolean!
+  deleteTopic(topicId: Int!): Boolean!
   markNotificationAsRead(topicIds: [Int!]!): [Int!]!
   newArenaTopic(categoryId: Int!, content: String!, title: String!): ArenaTopic!
   replyToTopic(content: String!, topicId: Int!): ArenaPost!
@@ -825,15 +827,28 @@ type Mutation {
     favoriteSubjects: [String]
     shareName: Boolean
   ): MyNdlaPersonalData!
+  updatePost(content: String!, postId: Int!, title: String): ArenaPost!
+}
+
+type MyNdlaGroup {
+  displayName: String!
+  id: String!
+  isPrimarySchool: Boolean!
+  parentId: String
 }
 
 type MyNdlaPersonalData {
   arenaEnabled: Boolean!
+  displayName: String!
+  email: String!
   favoriteSubjects: [String!]!
+  feideId: String!
+  groups: [MyNdlaGroup!]!
   id: Int!
   organization: String!
   role: String!
   shareName: Boolean!
+  username: String!
 }
 
 type Name {
@@ -1007,7 +1022,7 @@ type Query {
   image(id: String!): ImageMetaInformationV2
   learningpath(pathId: String!): Learningpath
   listingPage(subjects: String): ListingPage
-  personalData: MyNdlaPersonalData!
+  personalData: MyNdlaPersonalData
   podcastSearch(fallback: Boolean, page: Int!, pageSize: Int!): AudioSearch
   podcastSeries(id: Int!): PodcastSeriesWithEpisodes
   podcastSeriesSearch(

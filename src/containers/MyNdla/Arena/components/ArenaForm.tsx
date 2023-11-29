@@ -18,7 +18,6 @@ import { useForm, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { FieldLength } from '../../../../containers/MyNdla/Folders/FolderForm';
 import useValidationTranslation from '../../../../util/useValidationTranslation';
-import { GQLArenaTopicFragmentFragment } from '../../../../graphqlTypes';
 import { MarkdownEditor } from '../../../../components/MarkdownEditor/MarkdownEditor';
 
 const StyledForm = styled.form`
@@ -53,14 +52,13 @@ interface ArenaFormProps {
   type: 'topic' | 'post';
   title?: string;
   content?: string;
-  siblingTopics: GQLArenaTopicFragmentFragment[];
-  onSave: (data: ArenaFormValues) => Promise<void>;
+  onSave: (data: Partial<ArenaFormValues>) => Promise<void>;
   loading?: boolean;
 }
 
 export interface ArenaFormValues {
-  title?: string;
-  content?: string;
+  title: string;
+  content: string;
 }
 
 const descriptionMaxLength = 300;
@@ -74,14 +72,7 @@ const toFormValues = (
   content: content ?? '',
 });
 
-const ArenaForm = ({
-  onSave,
-  siblingTopics,
-  loading,
-  type,
-  title,
-  content,
-}: ArenaFormProps) => {
+const ArenaForm = ({ onSave, type, title, content }: ArenaFormProps) => {
   const { t } = useTranslation();
   const { validationT } = useValidationTranslation();
   const {
@@ -103,9 +94,9 @@ const ArenaForm = ({
   }, []);
 
   const onSubmit = async (values: ArenaFormValues) => {
-    console.log(values);
-    await onSave(values);
+    await onSave(type === 'topic' ? values : { content: values.content });
   };
+
   return (
     <StyledForm onSubmit={handleSubmit(onSubmit)}>
       {type === 'topic' && (
@@ -121,15 +112,6 @@ const ArenaForm = ({
                 field: 'title',
                 vars: { count: titleMaxLength },
               }),
-            },
-            validate: (title) => {
-              const exists = siblingTopics.every(
-                (s) => s.title.toLowerCase() !== title?.toLowerCase(),
-              );
-              if (!exists) {
-                return validationT('validation.notUnique');
-              }
-              return true;
             },
           }}
           render={({ field }) => (
@@ -187,7 +169,7 @@ const ArenaForm = ({
       <InformationLabel>
         <StyledInformationOutline />
         <Text margin="none" textStyle="content">
-          {t('arena.topic.warning', { type })}
+          {t('arena.warning', { type })}
         </Text>
       </InformationLabel>
       <ButtonRow>
@@ -196,9 +178,8 @@ const ArenaForm = ({
         </ModalCloseButton>
         <LoadingButton
           colorTheme="light"
-          loading={loading}
           type="submit"
-          disabled={!isValid || !isDirty || loading}
+          disabled={!isValid || !isDirty}
         >
           {t('arena.publish')}
         </LoadingButton>

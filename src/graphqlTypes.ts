@@ -910,6 +910,8 @@ export type GQLMutation = {
   deleteFolder: Scalars['String']['output'];
   deleteFolderResource: Scalars['String']['output'];
   deletePersonalData: Scalars['Boolean']['output'];
+  deletePost: Scalars['Boolean']['output'];
+  deleteTopic: Scalars['Boolean']['output'];
   markNotificationAsRead: Array<Scalars['Int']['output']>;
   newArenaTopic: GQLArenaTopic;
   replyToTopic: GQLArenaPost;
@@ -920,6 +922,7 @@ export type GQLMutation = {
   updateFolderResource: GQLFolderResource;
   updateFolderStatus: Array<Scalars['String']['output']>;
   updatePersonalData: GQLMyNdlaPersonalData;
+  updatePost: GQLArenaPost;
 };
 
 export type GQLMutationAddFolderArgs = {
@@ -949,6 +952,14 @@ export type GQLMutationDeleteFolderArgs = {
 export type GQLMutationDeleteFolderResourceArgs = {
   folderId: Scalars['String']['input'];
   resourceId: Scalars['String']['input'];
+};
+
+export type GQLMutationDeletePostArgs = {
+  postId: Scalars['Int']['input'];
+};
+
+export type GQLMutationDeleteTopicArgs = {
+  topicId: Scalars['Int']['input'];
 };
 
 export type GQLMutationMarkNotificationAsReadArgs = {
@@ -1007,14 +1018,33 @@ export type GQLMutationUpdatePersonalDataArgs = {
   shareName?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+export type GQLMutationUpdatePostArgs = {
+  content: Scalars['String']['input'];
+  postId: Scalars['Int']['input'];
+  title?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type GQLMyNdlaGroup = {
+  __typename?: 'MyNdlaGroup';
+  displayName: Scalars['String']['output'];
+  id: Scalars['String']['output'];
+  isPrimarySchool: Scalars['Boolean']['output'];
+  parentId?: Maybe<Scalars['String']['output']>;
+};
+
 export type GQLMyNdlaPersonalData = {
   __typename?: 'MyNdlaPersonalData';
   arenaEnabled: Scalars['Boolean']['output'];
+  displayName: Scalars['String']['output'];
+  email: Scalars['String']['output'];
   favoriteSubjects: Array<Scalars['String']['output']>;
+  feideId: Scalars['String']['output'];
+  groups: Array<GQLMyNdlaGroup>;
   id: Scalars['Int']['output'];
   organization: Scalars['String']['output'];
   role: Scalars['String']['output'];
   shareName: Scalars['Boolean']['output'];
+  username: Scalars['String']['output'];
 };
 
 export type GQLName = {
@@ -1159,7 +1189,7 @@ export type GQLQuery = {
   image?: Maybe<GQLImageMetaInformationV2>;
   learningpath?: Maybe<GQLLearningpath>;
   listingPage?: Maybe<GQLListingPage>;
-  personalData: GQLMyNdlaPersonalData;
+  personalData?: Maybe<GQLMyNdlaPersonalData>;
   podcastSearch?: Maybe<GQLAudioSearch>;
   podcastSeries?: Maybe<GQLPodcastSeriesWithEpisodes>;
   podcastSeriesSearch?: Maybe<GQLPodcastSeriesSearch>;
@@ -2843,25 +2873,54 @@ export type GQLArenaTopicByIdQuery = {
   } & GQLArenaTopicFragmentFragment;
 };
 
-export type GQLNewArenaTopicMutationMutationVariables = Exact<{
+export type GQLNewArenaTopicMutationVariables = Exact<{
   categoryId: Scalars['Int']['input'];
   content: Scalars['String']['input'];
   title: Scalars['String']['input'];
 }>;
 
-export type GQLNewArenaTopicMutationMutation = {
+export type GQLNewArenaTopicMutation = {
   __typename?: 'Mutation';
   newArenaTopic: { __typename?: 'ArenaTopic' } & GQLArenaTopicFragmentFragment;
 };
 
-export type GQLReplyToTopicMutationMutationVariables = Exact<{
+export type GQLReplyToTopicMutationVariables = Exact<{
   topicId: Scalars['Int']['input'];
   content: Scalars['String']['input'];
 }>;
 
-export type GQLReplyToTopicMutationMutation = {
+export type GQLReplyToTopicMutation = {
   __typename?: 'Mutation';
   replyToTopic: { __typename?: 'ArenaPost' } & GQLArenaPostFragmentFragment;
+};
+
+export type GQLUpdatePostMutationVariables = Exact<{
+  postId: Scalars['Int']['input'];
+  content: Scalars['String']['input'];
+  title?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+export type GQLUpdatePostMutation = {
+  __typename?: 'Mutation';
+  updatePost: { __typename?: 'ArenaPost' } & GQLArenaPostFragmentFragment;
+};
+
+export type GQLDeletePostMutationVariables = Exact<{
+  postId: Scalars['Int']['input'];
+}>;
+
+export type GQLDeletePostMutation = {
+  __typename?: 'Mutation';
+  deletePost: boolean;
+};
+
+export type GQLDeleteTopicMutationVariables = Exact<{
+  topicId: Scalars['Int']['input'];
+}>;
+
+export type GQLDeleteTopicMutation = {
+  __typename?: 'Mutation';
+  deleteTopic: boolean;
 };
 
 export type GQLAiOrganizationsQueryVariables = Exact<{ [key: string]: never }>;
@@ -2895,6 +2954,7 @@ export type GQLFolderFragmentFragment = {
   updated: string;
   description?: string;
   breadcrumbs: Array<{ __typename: 'Breadcrumb'; id: string; name: string }>;
+  owner?: { __typename: 'Owner'; name: string };
   resources: Array<
     { __typename?: 'FolderResource' } & GQLFolderResourceFragmentFragment
   >;
@@ -3363,7 +3423,7 @@ export type GQLPersonalDataQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GQLPersonalDataQuery = {
   __typename?: 'Query';
-  personalData: {
+  personalData?: {
     __typename?: 'MyNdlaPersonalData';
   } & GQLMySubjectMyNdlaPersonalDataFragmentFragment;
 };

@@ -79,7 +79,11 @@ const PostsPage = () => {
       </BreadcrumbWrapper>
       <ListWrapper>
         {arenaTopic?.posts?.map((post: GQLArenaPostFragmentFragment) => (
-          <PostCardWrapper key={post.id} data-mainPost={post.isMainPost}>
+          <PostCardWrapper
+            id={`post-${post.id}`}
+            key={post.id}
+            data-mainPost={post.isMainPost}
+          >
             <PostCard
               id={post.id}
               timestamp={post.timestamp}

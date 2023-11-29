@@ -11,7 +11,7 @@ import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { spacing } from '@ndla/core';
 import { Heading, Text } from '@ndla/typography';
-import { Navigate, useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { useCallback, useContext, useEffect } from 'react';
 import { useArenaCategory, useCreateArenaTopic } from '../arenaQueries';
 import TopicCard from './components/TopicCard';
@@ -47,6 +47,9 @@ const StyledCardContainer = styled.li`
   margin: 0;
 `;
 
+const toArenaTopic = (topicId: number | undefined) =>
+  `/minndla/arena/topic/${topicId}`;
+
 const TopicPage = () => {
   const { t } = useTranslation();
   const { categoryId } = useParams();
@@ -54,6 +57,7 @@ const TopicPage = () => {
   const { authenticated } = useContext(AuthContext);
   const { personalData, fetch: fetchPersonalData } = usePersonalData();
   const { createArenaTopic } = useCreateArenaTopic(Number(categoryId));
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (authenticated) {
@@ -62,10 +66,17 @@ const TopicPage = () => {
   }, [authenticated, fetchPersonalData]);
 
   const createTopic = useCallback(
-    async (data: ArenaFormValues) => {
-      await createArenaTopic({
-        variables: { ...data, categoryId: arenaCategory?.id },
-      });
+    async (data: Partial<ArenaFormValues>) => {
+      if (arenaCategory) {
+        const topic = await createArenaTopic({
+          variables: {
+            content: data.content ?? '',
+            title: data.title ?? '',
+            categoryId: arenaCategory?.id,
+          },
+        });
+        navigate(toArenaTopic(topic.data?.newArenaTopic.id));
+      }
     },
     [arenaCategory?.id, createArenaTopic],
   );
@@ -100,11 +111,7 @@ const TopicPage = () => {
         <Heading element="h2" headingStyle="h2" margin="none">
           {t('myNdla.arena.category.posts')}
         </Heading>
-        <ArenaTextModal
-          type={'topic'}
-          siblingTopics={arenaCategory?.topics}
-          onSave={createTopic}
-        />
+        <ArenaTextModal type={'topic'} onSave={createTopic} />
       </StyledContainer>
       <ListWrapper>
         {arenaCategory?.topics?.map((topic: GQLArenaTopicFragmentFragment) => (
