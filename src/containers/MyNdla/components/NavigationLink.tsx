@@ -26,7 +26,7 @@ const StyledSafeLink = styled(SafeLink)`
   color: ${colors.brand.primary};
   font-weight: ${fonts.weight.normal};
 
-  &[data-selected='true'] {
+  &[aria-current='page'] {
     color: ${colors.brand.primary};
     font-weight: ${fonts.weight.semibold};
   }
@@ -63,27 +63,21 @@ const ShortText = styled(Text)`
 `;
 
 interface Props {
-  loading?: boolean;
   id: string;
   icon: ReactNode;
   iconFilled?: ReactNode;
   name: string;
   shortName?: string;
-  expanded?: boolean;
   to?: string;
-  onClick?: () => void;
 }
 
 const NavigationLink = ({
-  loading,
   id,
   icon,
   iconFilled,
   name,
   shortName,
-  expanded,
   to,
-  onClick,
 }: Props) => {
   const location = useLocation();
   const selected = id
@@ -94,13 +88,9 @@ const NavigationLink = ({
 
   return (
     <StyledSafeLink
-      role="tab"
-      aria-expanded={expanded}
       aria-current={selected ? 'page' : undefined}
-      data-selected={selected}
-      to={loading ? '' : linkTo}
+      to={linkTo}
       reloadDocument={!!to}
-      onClick={onClick}
     >
       <IconWrapper>{selectedIcon}</IconWrapper>
       <LongText textStyle="meta-text-small" margin="none">
