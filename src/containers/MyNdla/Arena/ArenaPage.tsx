@@ -19,11 +19,16 @@ import { usePersonalData } from '../userMutations';
 import ArenaCard from './components/ArenaCard';
 import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
 
-const StyledCardContainer = styled.div`
+const StyledCardContainer = styled.ul`
   display: flex;
   flex-direction: column;
   gap: ${spacing.xsmall};
   padding: ${spacing.normal} 0;
+`;
+
+const ArenaCardWrapper = styled.li`
+  list-style: none;
+  margin: 0;
 `;
 
 const ArenaPage = () => {
@@ -62,13 +67,14 @@ const ArenaPage = () => {
       ) : (
         <StyledCardContainer>
           {arenaCategories?.map((category) => (
-            <ArenaCard
-              key={`topic-${category.id}`}
-              id={category.id.toString()}
-              title={category.name}
-              subText={category.description}
-              count={category.postCount}
-            />
+            <ArenaCardWrapper key={`topic-${category.id}`}>
+              <ArenaCard
+                id={category.id.toString()}
+                title={category.name}
+                subText={category.description}
+                count={category.postCount}
+              />
+            </ArenaCardWrapper>
           ))}
         </StyledCardContainer>
       )}
