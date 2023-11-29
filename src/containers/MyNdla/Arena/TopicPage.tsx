@@ -98,7 +98,7 @@ const TopicPage = () => {
           colorTheme="lighter"
           //onClick={} to open modal
         >
-          {t('myNdla.arena.category.newPost')}
+          {t('myNdla.arena.new.topic')}
           <PencilIcon />
         </StyledNewTopicButton>
       </StyledContainer>
