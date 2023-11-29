@@ -525,6 +525,7 @@ export type GQLFolder = {
   description?: Maybe<Scalars['String']['output']>;
   id: Scalars['String']['output'];
   name: Scalars['String']['output'];
+  owner?: Maybe<GQLOwner>;
   parentId?: Maybe<Scalars['String']['output']>;
   resources: Array<GQLFolderResource>;
   status: Scalars['String']['output'];
@@ -2796,6 +2797,55 @@ export type GQLArenaUserQueryFragmentFragment = {
   groupTitleArray: Array<string>;
 };
 
+export type GQLArenaCategoriesFragmentFragment = {
+  __typename: 'ArenaCategory';
+  description: string;
+  disabled: boolean;
+  htmlDescription: string;
+  id: number;
+  name: string;
+  postCount: number;
+  slug: string;
+};
+
+export type GQLArenaCategoryFragmentFragment = {
+  __typename: 'ArenaCategory';
+  description: string;
+  disabled: boolean;
+  htmlDescription: string;
+  id: number;
+  name: string;
+  postCount: number;
+  slug: string;
+};
+
+export type GQLArenaTopicFragmentFragment = {
+  __typename: 'ArenaTopic';
+  categoryId: number;
+  id: number;
+  locked: boolean;
+  postCount: number;
+  slug: string;
+  timestamp: string;
+  title: string;
+};
+
+export type GQLArenaPostFragmentFragment = {
+  __typename: 'ArenaPost';
+  content: string;
+  id: number;
+  timestamp: string;
+  topicId: number;
+  isMainPost: boolean;
+  user: {
+    __typename?: 'ArenaUser';
+    displayName: string;
+    groupTitleArray: Array<string>;
+    profilePicture?: string;
+    username: string;
+  };
+};
+
 export type GQLArenaUserQueryVariables = Exact<{
   username: Scalars['String']['input'];
 }>;
@@ -2803,6 +2853,44 @@ export type GQLArenaUserQueryVariables = Exact<{
 export type GQLArenaUserQuery = {
   __typename?: 'Query';
   arenaUser?: { __typename?: 'ArenaUser' } & GQLArenaUserQueryFragmentFragment;
+};
+
+export type GQLArenaPageQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GQLArenaPageQuery = {
+  __typename?: 'Query';
+  arenaCategories: Array<
+    { __typename?: 'ArenaCategory' } & GQLArenaCategoriesFragmentFragment
+  >;
+};
+
+export type GQLArenaCategoryQueryVariables = Exact<{
+  categoryId: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+export type GQLArenaCategoryQuery = {
+  __typename?: 'Query';
+  arenaCategory?: {
+    __typename?: 'ArenaCategory';
+    topicCount: number;
+    topics?: Array<
+      { __typename?: 'ArenaTopic' } & GQLArenaTopicFragmentFragment
+    >;
+  } & GQLArenaCategoryFragmentFragment;
+};
+
+export type GQLArenaTopicByIdQueryVariables = Exact<{
+  topicId: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
+}>;
+
+export type GQLArenaTopicByIdQuery = {
+  __typename?: 'Query';
+  arenaTopic?: {
+    __typename?: 'ArenaTopic';
+    posts: Array<{ __typename?: 'ArenaPost' } & GQLArenaPostFragmentFragment>;
+  } & GQLArenaTopicFragmentFragment;
 };
 
 export type GQLAiOrganizationsQueryVariables = Exact<{ [key: string]: never }>;
@@ -2851,6 +2939,7 @@ export type GQLSharedFolderFragmentFragment = {
   updated: string;
   description?: string;
   breadcrumbs: Array<{ __typename: 'Breadcrumb'; id: string; name: string }>;
+  owner?: { __typename: 'Owner'; name: string };
   resources: Array<
     { __typename?: 'FolderResource' } & GQLFolderResourceFragmentFragment
   >;
@@ -3295,6 +3384,7 @@ export type GQLMySubjectMyNdlaPersonalDataFragmentFragment = {
   id: number;
   favoriteSubjects: Array<string>;
   role: string;
+  arenaEnabled: boolean;
   shareName: boolean;
 };
 

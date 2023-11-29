@@ -443,6 +443,7 @@ type Folder {
   description: String
   id: String!
   name: String!
+  owner: Owner
   parentId: String
   resources: [FolderResource!]!
   status: String!

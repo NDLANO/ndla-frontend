@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { colors, fonts, misc, spacing } from '@ndla/core';
 import { Heading, Text } from '@ndla/typography';
-import { RadioButtonGroup } from '@ndla/ui';
+import { RadioButtonGroup } from '@ndla/forms';
 import { GQLMyNdlaPersonalDataFragmentFragment } from '../../../../graphqlTypes';
 import { isStudent } from '../../Folders/util';
 import { useUpdatePersonalData } from '../../../MyNdla/userMutations';

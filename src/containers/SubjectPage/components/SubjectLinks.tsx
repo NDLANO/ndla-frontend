@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
-
+import { Fragment } from 'react';
 import { gql } from '@apollo/client';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
@@ -60,8 +60,8 @@ const SubjectLinkSet = ({ set, subjects, title }: SubjectLinkSetProps) => {
     <SubComponentRoot>
       <LinkSetTitle>{title}:</LinkSetTitle>
       {subjects.map((subject, index) => (
-        <>
-          <LinkElement key={`${set}-${index}`}>
+        <Fragment key={`${set}-${index}`}>
+          <LinkElement>
             {subject.path ? (
               <SafeLink to={subject.path}>{subject.name}</SafeLink>
             ) : (
@@ -73,7 +73,7 @@ const SubjectLinkSet = ({ set, subjects, title }: SubjectLinkSetProps) => {
           {index === subjects.length - 2 && (
             <Conjunction>{t('article.conjunction')}</Conjunction>
           )}
-        </>
+        </Fragment>
       ))}
     </SubComponentRoot>
   );

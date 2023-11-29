@@ -35,6 +35,7 @@ const personalDataQueryFragment = gql`
     id
     favoriteSubjects
     role
+    arenaEnabled
     shareName
   }
 `;
