@@ -113,11 +113,9 @@ export const getAllDimensions = (
     '10': getGrepCodeOfType('KE', article?.grepCodes),
     '13': learningpath?.learningsteps?.length,
     '14': learningstep ? learningstep.seqNo + 1 : undefined,
-    '16': user ? user.organization : undefined,
-    '17': user
-      ? user.groups.find((g) => g.isPrimarySchool)?.displayName
-      : undefined,
-    '18': user ? user.role : undefined,
+    '16': user?.organization,
+    '17': user?.groups.find((g) => g.isPrimarySchool)?.displayName,
+    '18': user?.role,
     '19': filter,
     '20': getGrepCodeOfType('KM', article?.grepCodes),
   };
