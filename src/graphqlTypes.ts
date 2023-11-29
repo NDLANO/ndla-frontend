@@ -1033,9 +1033,10 @@ export type GQLMyNdlaPersonalData = {
   __typename?: 'MyNdlaPersonalData';
   arenaEnabled: Scalars['Boolean']['output'];
   displayName: Scalars['String']['output'];
+  email: Scalars['String']['output'];
   favoriteSubjects: Array<Scalars['String']['output']>;
   feideId: Scalars['String']['output'];
-  groups: Array<Maybe<GQLMyNdlaGroup>>;
+  groups: Array<GQLMyNdlaGroup>;
   id: Scalars['Int']['output'];
   organization: Scalars['String']['output'];
   role: Scalars['String']['output'];

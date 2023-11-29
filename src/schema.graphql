@@ -850,9 +850,10 @@ type MyNdlaGroup {
 type MyNdlaPersonalData {
   arenaEnabled: Boolean!
   displayName: String!
+  email: String!
   favoriteSubjects: [String!]!
   feideId: String!
-  groups: [MyNdlaGroup]!
+  groups: [MyNdlaGroup!]!
   id: Int!
   organization: String!
   role: String!
