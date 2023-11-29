@@ -146,7 +146,7 @@ const ArenaForm = ({ onSave, type, title, content }: ArenaFormProps) => {
           <div>
             {type === 'topic' && (
               <Text element="label" margin="none" textStyle="label-small">
-                {t('arena.topic.topicContent')}
+                {t('myNdla.arena.topic.topicContent')}
               </Text>
             )}
             <MarkdownEditor
@@ -169,7 +169,7 @@ const ArenaForm = ({ onSave, type, title, content }: ArenaFormProps) => {
       <InformationLabel>
         <StyledInformationOutline />
         <Text margin="none" textStyle="content">
-          {t('arena.warning', { type })}
+          {t(`myNdla.arena.warning.${type}`)}
         </Text>
       </InformationLabel>
       <ButtonRow>
@@ -181,7 +181,7 @@ const ArenaForm = ({ onSave, type, title, content }: ArenaFormProps) => {
           type="submit"
           disabled={!isValid || !isDirty}
         >
-          {t('arena.publish')}
+          {t('myNdla.arena.publish')}
         </LoadingButton>
       </ButtonRow>
     </StyledForm>

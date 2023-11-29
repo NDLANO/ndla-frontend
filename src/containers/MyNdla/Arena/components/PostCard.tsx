@@ -183,9 +183,9 @@ const PostCard = ({
                     ? await deleteTopicCallback(close)
                     : await deletePostCallback(close);
                 }}
-                title={t(`myNdla.arena.deleteTitle`, { type })}
-                description={t(`MyNdla.arena.description`, { type })}
-                removeText={t(`myNdla.arena.removeText`, { type })}
+                title={t(`myNdla.arena.deleteTitle.${type}`)}
+                description={t(`MyNdla.arena.description.${type}`)}
+                removeText={t(`myNdla.arena.removeText.${type}`)}
               />
             ),
           },

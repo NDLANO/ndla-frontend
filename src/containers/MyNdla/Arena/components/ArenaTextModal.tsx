@@ -70,11 +70,11 @@ const ArenaTextModal = ({ type, onSave }: Props) => {
       <ModalTrigger>
         {userAgent?.isMobile ? (
           <ButtonV2>
-            {t('arena.new', { type })}
+            {t(`myNdla.arena.new.${type}`)}
             {type === 'topic' && <StyledPencil />}
           </ButtonV2>
         ) : (
-          <ButtonV2>{t('arena.new', { type })}</ButtonV2>
+          <ButtonV2>{t(`myNdla.arena.new.${type}`)}</ButtonV2>
         )}
       </ModalTrigger>
       <ArenaTextModalContent
@@ -105,7 +105,7 @@ export const ArenaTextModalContent = ({
   return (
     <ModalContent>
       <ModalHeader>
-        <ModalTitle>{t('arena.new', { type })}</ModalTitle>
+        <ModalTitle>{t(`myNdla.arena.new.${type}`)}</ModalTitle>
         <ModalCloseButton />
       </ModalHeader>
       <StyledModalBody>
