@@ -63,7 +63,7 @@ const ModeratorTag = styled(Text)`
 `;
 
 const isModerator = (user?: GQLArenaUserQueryFragmentFragment): boolean => {
-  return user?.groupTitleArray.includes(config.arenaModeratorGroup) ?? false;
+  return user?.groupTitleArray?.includes(config.arenaModeratorGroup) ?? false;
 };
 
 const UserProfileTag = ({

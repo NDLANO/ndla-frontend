@@ -72,16 +72,7 @@ export type GQLArenaNotification = {
   topicId: Scalars['Int']['output'];
   topicTitle: Scalars['String']['output'];
   type: Scalars['String']['output'];
-  user: GQLArenaNotificationUser;
-};
-
-export type GQLArenaNotificationUser = GQLBaseUser & {
-  __typename?: 'ArenaNotificationUser';
-  displayName: Scalars['String']['output'];
-  id: Scalars['Int']['output'];
-  profilePicture?: Maybe<Scalars['String']['output']>;
-  slug: Scalars['String']['output'];
-  username: Scalars['String']['output'];
+  user: GQLArenaUser;
 };
 
 export type GQLArenaPost = {
@@ -107,11 +98,12 @@ export type GQLArenaTopic = {
   title: Scalars['String']['output'];
 };
 
-export type GQLArenaUser = GQLBaseUser & {
+export type GQLArenaUser = {
   __typename?: 'ArenaUser';
   displayName: Scalars['String']['output'];
-  groupTitleArray: Array<Scalars['String']['output']>;
+  groupTitleArray?: Maybe<Array<Scalars['String']['output']>>;
   id: Scalars['Int']['output'];
+  location?: Maybe<Scalars['String']['output']>;
   profilePicture?: Maybe<Scalars['String']['output']>;
   slug: Scalars['String']['output'];
   username: Scalars['String']['output'];
@@ -262,14 +254,6 @@ export type GQLAudioSummary = {
   supportedLanguages: Array<Scalars['String']['output']>;
   title: GQLTitle;
   url: Scalars['String']['output'];
-};
-
-export type GQLBaseUser = {
-  displayName: Scalars['String']['output'];
-  id: Scalars['Int']['output'];
-  profilePicture?: Maybe<Scalars['String']['output']>;
-  slug: Scalars['String']['output'];
-  username: Scalars['String']['output'];
 };
 
 export type GQLBreadcrumb = {
@@ -505,6 +489,7 @@ export type GQLExamples = {
 export type GQLFilmFrontpage = {
   __typename?: 'FilmFrontpage';
   about: Array<GQLFilmPageAbout>;
+  article?: Maybe<GQLArticle>;
   movieThemes: Array<GQLMovieTheme>;
   name: Scalars['String']['output'];
   slideShow: Array<GQLMovie>;
@@ -602,17 +587,6 @@ export type GQLFrontpageSearchResult = {
   path: Scalars['String']['output'];
   resourceTypes: Array<GQLSearchContextResourceTypes>;
   subject: Scalars['String']['output'];
-};
-
-export type GQLFullArenaUser = GQLBaseUser & {
-  __typename?: 'FullArenaUser';
-  displayName: Scalars['String']['output'];
-  groupTitleArray: Array<Scalars['String']['output']>;
-  id: Scalars['Int']['output'];
-  location?: Maybe<Scalars['String']['output']>;
-  profilePicture?: Maybe<Scalars['String']['output']>;
-  slug: Scalars['String']['output'];
-  username: Scalars['String']['output'];
 };
 
 export type GQLGloss = {
@@ -1163,7 +1137,7 @@ export type GQLQuery = {
   arenaRecentTopics: Array<GQLArenaTopic>;
   arenaTopic?: Maybe<GQLArenaTopic>;
   arenaTopicsByUser: Array<GQLArenaTopic>;
-  arenaUser?: Maybe<GQLFullArenaUser>;
+  arenaUser?: Maybe<GQLArenaUser>;
   article?: Maybe<GQLArticle>;
   articleResource?: Maybe<GQLResource>;
   audio?: Maybe<GQLAudio>;
@@ -2766,12 +2740,12 @@ export type GQLMultidisciplinaryTopicWrapper_SubjectFragment = {
 } & GQLMultidisciplinaryTopic_SubjectFragment;
 
 export type GQLArenaUserQueryFragmentFragment = {
-  __typename?: 'FullArenaUser';
+  __typename?: 'ArenaUser';
   displayName: string;
   id: number;
   profilePicture?: string;
   slug: string;
-  groupTitleArray: Array<string>;
+  groupTitleArray?: Array<string>;
   location?: string;
 };
 
@@ -2818,7 +2792,7 @@ export type GQLArenaPostFragmentFragment = {
   user: {
     __typename?: 'ArenaUser';
     displayName: string;
-    groupTitleArray: Array<string>;
+    groupTitleArray?: Array<string>;
     profilePicture?: string;
     username: string;
   };
@@ -2830,9 +2804,7 @@ export type GQLArenaUserQueryVariables = Exact<{
 
 export type GQLArenaUserQuery = {
   __typename?: 'Query';
-  arenaUser?: {
-    __typename?: 'FullArenaUser';
-  } & GQLArenaUserQueryFragmentFragment;
+  arenaUser?: { __typename?: 'ArenaUser' } & GQLArenaUserQueryFragmentFragment;
 };
 
 export type GQLArenaPageQueryVariables = Exact<{ [key: string]: never }>;
@@ -2915,6 +2887,7 @@ export type GQLFolderFragmentFragment = {
   updated: string;
   description?: string;
   breadcrumbs: Array<{ __typename: 'Breadcrumb'; id: string; name: string }>;
+  owner?: { __typename: 'Owner'; name: string };
   resources: Array<
     { __typename?: 'FolderResource' } & GQLFolderResourceFragmentFragment
   >;

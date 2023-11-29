@@ -20,7 +20,7 @@ import {
 import { useGraphQuery } from '../../util/runQueries';
 
 const arenaUserFragment = gql`
-  fragment ArenaUserQueryFragment on FullArenaUser {
+  fragment ArenaUserQueryFragment on ArenaUser {
     displayName
     id
     profilePicture

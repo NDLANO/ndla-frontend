@@ -38,15 +38,7 @@ type ArenaNotification {
   topicId: Int!
   topicTitle: String!
   type: String!
-  user: ArenaNotificationUser!
-}
-
-type ArenaNotificationUser implements BaseUser {
-  displayName: String!
-  id: Int!
-  profilePicture: String
-  slug: String!
-  username: String!
+  user: ArenaUser!
 }
 
 type ArenaPost {
@@ -70,10 +62,11 @@ type ArenaTopic {
   title: String!
 }
 
-type ArenaUser implements BaseUser {
+type ArenaUser {
   displayName: String!
-  groupTitleArray: [String!]!
+  groupTitleArray: [String!]
   id: Int!
+  location: String
   profilePicture: String
   slug: String!
   username: String!
@@ -209,14 +202,6 @@ type AudioSummary {
   supportedLanguages: [String!]!
   title: Title!
   url: String!
-}
-
-interface BaseUser {
-  displayName: String!
-  id: Int!
-  profilePicture: String
-  slug: String!
-  username: String!
 }
 
 type Breadcrumb {
@@ -425,6 +410,7 @@ type Examples {
 
 type FilmFrontpage {
   about: [FilmPageAbout!]!
+  article: Article
   movieThemes: [MovieTheme!]!
   name: String!
   slideShow: [Movie!]!
@@ -513,16 +499,6 @@ type FrontpageSearchResult {
   path: String!
   resourceTypes: [SearchContextResourceTypes!]!
   subject: String!
-}
-
-type FullArenaUser implements BaseUser {
-  displayName: String!
-  groupTitleArray: [String!]!
-  id: Int!
-  location: String
-  profilePicture: String
-  slug: String!
-  username: String!
 }
 
 type Gloss {
@@ -968,7 +944,7 @@ type Query {
   arenaRecentTopics: [ArenaTopic!]!
   arenaTopic(page: Int, topicId: Int!): ArenaTopic
   arenaTopicsByUser(userSlug: String!): [ArenaTopic!]!
-  arenaUser(username: String!): FullArenaUser
+  arenaUser(username: String!): ArenaUser
   article(
     absoluteUrl: Boolean
     convertEmbeds: Boolean
