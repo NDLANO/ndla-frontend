@@ -25,7 +25,13 @@ const BreadcrumbWrapper = styled.div`
   padding-bottom: ${spacing.large};
 `;
 
-const PostCardWrapper = styled.div`
+const ListWrapper = styled.ul`
+  margin: 0;
+  padding: 0;
+`;
+
+const PostCardWrapper = styled.li`
+  list-style: none;
   margin-bottom: ${spacing.normal};
   &[data-mainPost='false'] {
     margin-left: 72px;
@@ -71,23 +77,25 @@ const PostsPage = () => {
           page={'arena'}
         />
       </BreadcrumbWrapper>
-      {arenaTopic?.posts?.map((post: GQLArenaPostFragmentFragment) => (
-        <PostCardWrapper key={post.id} data-mainPost={post.isMainPost}>
-          <PostCard
-            id={post.id}
-            timestamp={post.timestamp}
-            isMainPost={post.isMainPost}
-            title={arenaTopic.title ?? ''}
-            content={post.content}
-            notify={true}
-            displayName={post.user.displayName}
-            username={post.user.username}
-            topicId={arenaTopic.id}
-            // missing affiliation in user
-            affiliation=""
-          />
-        </PostCardWrapper>
-      ))}
+      <ListWrapper>
+        {arenaTopic?.posts?.map((post: GQLArenaPostFragmentFragment) => (
+          <PostCardWrapper key={post.id} data-mainPost={post.isMainPost}>
+            <PostCard
+              id={post.id}
+              timestamp={post.timestamp}
+              isMainPost={post.isMainPost}
+              title={arenaTopic.title ?? ''}
+              content={post.content}
+              notify={true}
+              displayName={post.user.displayName}
+              username={post.user.username}
+              topicId={arenaTopic.id}
+              // missing affiliation in user
+              affiliation=""
+            />
+          </PostCardWrapper>
+        ))}
+      </ListWrapper>
     </MyNdlaPageWrapper>
   );
 };

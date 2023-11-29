@@ -27,17 +27,24 @@ const BreadcrumbWrapper = styled.div`
   padding-top: ${spacing.normal};
 `;
 
+const ListWrapper = styled.ul`
+  display: flex;
+  flex-direction: column;
+  gap: ${spacing.xsmall};
+  margin: 0;
+  padding: 0;
+`;
+
 const StyledContainer = styled.div`
   display: flex;
   justify-content: space-between;
   margin: ${spacing.large} 0 ${spacing.normal};
 `;
 
-const StyledCardContainer = styled.div`
+const StyledCardContainer = styled.li`
   display: flex;
   flex-direction: column;
-  gap: ${spacing.xsmall};
-  margin: ${spacing.small} 0;
+  margin: 0;
 `;
 
 const TopicPage = () => {
@@ -99,17 +106,19 @@ const TopicPage = () => {
           onSave={createTopic}
         />
       </StyledContainer>
-      {arenaCategory?.topics?.map((topic: GQLArenaTopicFragmentFragment) => (
-        <StyledCardContainer key={`topicContainer-${topic.id}`}>
-          <TopicCard
-            key={`topic-${topic.id}`}
-            id={topic.id.toString()}
-            title={topic.title}
-            timestamp={topic.timestamp}
-            count={topic.postCount}
-          />
-        </StyledCardContainer>
-      ))}
+      <ListWrapper>
+        {arenaCategory?.topics?.map((topic: GQLArenaTopicFragmentFragment) => (
+          <StyledCardContainer key={`topicContainer-${topic.id}`}>
+            <TopicCard
+              key={`topic-${topic.id}`}
+              id={topic.id.toString()}
+              title={topic.title}
+              timestamp={topic.timestamp}
+              count={topic.postCount}
+            />
+          </StyledCardContainer>
+        ))}
+      </ListWrapper>
     </MyNdlaPageWrapper>
   );
 };

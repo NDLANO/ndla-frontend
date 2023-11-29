@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { colors, fonts, misc, spacing } from '@ndla/core';
 import { Heading, Text } from '@ndla/typography';
-import { RadioButtonGroup } from '@ndla/ui';
+import { RadioButtonGroup } from '@ndla/forms';
 import { useTranslation } from 'react-i18next';
 import { FeideUserApiType } from '../../../../interfaces';
 import { isStudent } from '../../Folders/util';

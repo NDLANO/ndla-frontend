@@ -2910,6 +2910,7 @@ export type GQLSharedFolderFragmentFragment = {
   updated: string;
   description?: string;
   breadcrumbs: Array<{ __typename: 'Breadcrumb'; id: string; name: string }>;
+  owner?: { __typename: 'Owner'; name: string };
   resources: Array<
     { __typename?: 'FolderResource' } & GQLFolderResourceFragmentFragment
   >;
