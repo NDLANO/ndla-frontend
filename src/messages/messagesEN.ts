@@ -29,26 +29,12 @@ const messages = {
     sharedFolderPage: `{{name}} - ${titleTemplate}`,
     aboutPage: `{{name}} - ${titleTemplate}`,
   },
-  footer: {
-    cookiesLink: 'Statement about cookies',
-  },
-  programmes: {
-    header: 'What do you want to learn today?',
-    description: 'Choose a programme to see your subjects',
-  },
   podcastPage: {
     episodes: 'Episodes',
     podcast: 'Podcast',
     podcasts: 'Podcasts',
     pageInfo: 'Page {{page}} of {{lastPage}}',
     noResults: '...No episodes',
-  },
-  sharedFolder: 'Shared folder',
-  campaignBlock: {
-    title: 'Make plans for the school year with NDLA',
-    linkText: 'View tips',
-    ingress:
-      'See our tips for activities and annual plans. Good results start with good planning.',
   },
   myndla: {
     campaignBlock: {
@@ -58,6 +44,11 @@ const messages = {
         'Are you wondering about anything in your course? Do you need help simplifying a text, practicing for a test, or getting suggestions for an outline? Try our chatbot and see if it can help you out! During exams the county may deny access to the chatbots.',
       ingress:
         'Do you want to use AI in your teaching? NDLA has created two chatbots that protect your privacy and can be safely used for work and in teaching. During exams the county may deny access to the chatbots.',
+    },
+  },
+  myNdla: {
+    myPage: {
+      privacyLink: 'https://ndla.no/article/personvernerklaering',
     },
   },
   validation: {

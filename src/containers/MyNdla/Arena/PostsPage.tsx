@@ -6,18 +6,17 @@
  *
  */
 
-import { Spinner } from '@ndla/icons';
-import { useParams } from 'react-router';
-import { spacing } from '@ndla/core';
-import styled from '@emotion/styled';
 import { useContext, useEffect } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
+import { Navigate } from 'react-router-dom';
+import styled from '@emotion/styled';
+import { spacing } from '@ndla/core';
+import { Spinner } from '@ndla/icons';
 import PostCard from './components/PostCard';
 import { useArenaCategory, useArenaTopic } from '../arenaQueries';
 import { GQLArenaPostFragmentFragment } from '../../../graphqlTypes';
 import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
 import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
-import { usePersonalData } from '../userMutations';
 import { AuthContext } from '../../../components/AuthenticationContext';
 
 const BreadcrumbWrapper = styled.div`
@@ -42,15 +41,8 @@ const PostsPage = () => {
   const { topicId } = useParams();
   const { arenaTopic, loading } = useArenaTopic(Number(topicId), 1);
   const { arenaCategory } = useArenaCategory(Number(arenaTopic?.categoryId), 1);
-  const { authenticated } = useContext(AuthContext);
-  const { personalData, fetch: fetchPersonalData } = usePersonalData();
+  const { user } = useContext(AuthContext);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (authenticated) {
-      fetchPersonalData();
-    }
-  }, [authenticated, fetchPersonalData]);
 
   useEffect(() => {
     if (arenaTopic?.deleted) {
@@ -62,7 +54,7 @@ const PostsPage = () => {
     return <Spinner />;
   }
 
-  if (!personalData?.arenaEnabled && personalData?.arenaEnabled !== undefined) {
+  if (!user?.arenaEnabled && user?.arenaEnabled !== undefined) {
     return <Navigate to="/minndla" />;
   }
 

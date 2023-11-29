@@ -6,19 +6,18 @@
  *
  */
 
-import { Spinner } from '@ndla/icons';
-import styled from '@emotion/styled';
+import { useCallback, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { spacing } from '@ndla/core';
-import { Heading, Text } from '@ndla/typography';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
-import { useCallback, useContext, useEffect } from 'react';
+import styled from '@emotion/styled';
+import { spacing } from '@ndla/core';
+import { Spinner } from '@ndla/icons';
+import { Heading, Text } from '@ndla/typography';
 import { useArenaCategory, useCreateArenaTopic } from '../arenaQueries';
 import TopicCard from './components/TopicCard';
 import { GQLArenaTopicFragmentFragment } from '../../../graphqlTypes';
 import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
 import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
-import { usePersonalData } from '../userMutations';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import ArenaTextModal from './components/ArenaTextModal';
 import { ArenaFormValues } from './components/ArenaForm';
@@ -54,16 +53,9 @@ const TopicPage = () => {
   const { t } = useTranslation();
   const { categoryId } = useParams();
   const { loading, arenaCategory } = useArenaCategory(Number(categoryId), 1);
-  const { authenticated } = useContext(AuthContext);
-  const { personalData, fetch: fetchPersonalData } = usePersonalData();
-  const { createArenaTopic } = useCreateArenaTopic(Number(categoryId));
+  const { user } = useContext(AuthContext);
+  const { createArenaTopic } = useCreateArenaTopic(Number(arenaCategory?.id));
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (authenticated) {
-      fetchPersonalData();
-    }
-  }, [authenticated, fetchPersonalData]);
 
   const createTopic = useCallback(
     async (data: Partial<ArenaFormValues>) => {
@@ -85,7 +77,7 @@ const TopicPage = () => {
     return <Spinner />;
   }
 
-  if (!personalData?.arenaEnabled && personalData?.arenaEnabled !== undefined) {
+  if (!user?.arenaEnabled && user?.arenaEnabled !== undefined) {
     return <Navigate to="/minndla" />;
   }
 

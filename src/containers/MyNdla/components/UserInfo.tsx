@@ -10,12 +10,10 @@ import { spacing } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import { Text } from '@ndla/typography';
 import { UnOrderedList } from '@ndla/ui';
-import { FeideUserApiType } from '../../../interfaces';
-import { parseUserObject } from './parseUserObject';
-import { isStudent } from '../Folders/util';
+import { GQLMyNdlaPersonalDataFragmentFragment } from '../../../graphqlTypes';
 
 interface Props {
-  user: FeideUserApiType;
+  user: GQLMyNdlaPersonalDataFragmentFragment | undefined;
 }
 
 const StyledComponentContainer = styled.div`
@@ -31,99 +29,36 @@ const ShortInfoDiv = styled.div`
 
 export const UserInfo = ({ user }: Props) => {
   const { t } = useTranslation();
-  const parsedUser = parseUserObject(user);
 
   return (
     <StyledComponentContainer>
       {
         <Text element="p" textStyle="content-alt" margin="none">
           {t('user.loggedInAs', {
-            role: t(`user.role.${isStudent(user) ? 'student' : 'employee'}`),
+            role: t(`user.role.${user?.role}`),
           })}
         </Text>
       }
       <ShortInfoDiv>
         <Text element="p" textStyle="content-alt" margin="none">
-          {t('user.username')}: {user.uid}
+          {t('user.username')}: {user?.username}
         </Text>
         <Text element="p" textStyle="content-alt" margin="none">
-          {t('user.name')}: {user.displayName}
+          {t('user.name')}: {user?.displayName}
         </Text>
         <Text element="p" textStyle="content-alt" margin="none">
-          {t('user.mail')}: {user.mail?.join(', ')}
+          {t('user.mail')}: {user?.email}
         </Text>
-        {user.preferredLanguage && (
-          <Text element="p" textStyle="content-alt" margin="none">
-            {t('user.preferredLanguage')}:{' '}
-            {t(`languages.${user.preferredLanguage}`)}
-          </Text>
-        )}
-        {user.mobile && (
-          <Text element="p" textStyle="content-alt" margin="none">
-            {t('user.mobile')}: {user.mobile}
-          </Text>
-        )}
       </ShortInfoDiv>
       <UnOrderedList>
-        {parsedUser.organizations.map((org) => (
+        {user?.groups.map((org) => (
           <Text element="li" textStyle="content-alt" margin="none" key={org.id}>
             {`${org.displayName}${
-              org.membership.primarySchool
-                ? ` (${t('user.primarySchool')})`
-                : ''
+              org.isPrimarySchool ? ` (${t('user.primarySchool')})` : ''
             }`}
-            <UnOrderedList>
-              {Object.entries(org.children).map(([groupType, val]) => {
-                if (val.length < 1) return null;
-                return (
-                  <Text
-                    element="li"
-                    textStyle="content-alt"
-                    margin="none"
-                    key={groupType}
-                  >
-                    {t(`user.groupTypes.${groupType}`)}
-                    <UnOrderedList>
-                      {val.map((group) => (
-                        <Text
-                          element="li"
-                          textStyle="content-alt"
-                          margin="none"
-                          key={group.id}
-                        >{`${group.displayName}${
-                          group.grep ? ` (${group.grep.code})` : ''
-                        }`}</Text>
-                      ))}
-                    </UnOrderedList>
-                  </Text>
-                );
-              })}
-            </UnOrderedList>
           </Text>
         ))}
       </UnOrderedList>
-      {parsedUser.grepCodes.length > 0 && (
-        <UnOrderedList>
-          <Text
-            element="li"
-            textStyle="content-alt"
-            margin="none"
-            key="grepCodes"
-          >
-            {t('user.groupTypes.grepCode')}
-            <UnOrderedList>
-              {parsedUser.grepCodes.map((code) => (
-                <Text
-                  element="li"
-                  textStyle="content-alt"
-                  margin="none"
-                  key={code.id}
-                >{`${code.displayName} (${code.code})`}</Text>
-              ))}
-            </UnOrderedList>
-          </Text>
-        </UnOrderedList>
-      )}
     </StyledComponentContainer>
   );
 };

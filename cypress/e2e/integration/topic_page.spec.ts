@@ -11,7 +11,7 @@ describe('Topic page', () => {
     cy.fixCypressSpec('/cypress/integration/topic_page.spec.ts');
     cy.gqlIntercept({
       alias: 'alerts',
-      operations: ['examLockStatus', 'alerts', 'frontpageData', 'mastheadProgramme', 'mastheadFrontpage'],
+      operations: ['myNdlaData', 'alerts', 'frontpageData', 'mastheadProgramme', 'mastheadFrontpage'],
     });
     cy.visit('/?disableSSR=true');
     cy.gqlWait('@alerts');

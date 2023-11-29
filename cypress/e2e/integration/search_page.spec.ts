@@ -14,7 +14,7 @@ describe('Search page', () => {
   it('contains search bar', () => {
     cy.gqlIntercept({
       alias: 'searchPage',
-      operations: ['examLockStatus', 'searchPage', 'alerts', 'mastheadFrontpage', 'mastheadProgramme'],
+      operations: ['myNdlaData', 'searchPage', 'alerts', 'mastheadFrontpage', 'mastheadProgramme'],
     });
     cy.visit('/search/?disableSSR=true');
     cy.gqlWait('@searchPage');

@@ -839,6 +839,13 @@ type MyNdlaGroup {
   parentId: String
 }
 
+type MyNdlaGroup {
+  displayName: String!
+  id: String!
+  isPrimarySchool: Boolean!
+  parentId: String
+}
+
 type MyNdlaPersonalData {
   arenaEnabled: Boolean!
   displayName: String!
