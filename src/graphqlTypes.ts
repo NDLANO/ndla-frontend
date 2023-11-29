@@ -87,6 +87,7 @@ export type GQLArenaNotificationUser = GQLBaseUser & {
 export type GQLArenaPost = {
   __typename?: 'ArenaPost';
   content: Scalars['String']['output'];
+  flagId?: Maybe<Scalars['Int']['output']>;
   id: Scalars['Int']['output'];
   isMainPost: Scalars['Boolean']['output'];
   timestamp: Scalars['String']['output'];
@@ -927,6 +928,7 @@ export type GQLMutation = {
   deletePersonalData: Scalars['Boolean']['output'];
   markNotificationAsRead: Array<Scalars['Int']['output']>;
   newArenaTopic: GQLArenaTopic;
+  newFlag: Scalars['Boolean']['output'];
   replyToTopic: GQLArenaPost;
   sortFolders: GQLSortResult;
   sortResources: GQLSortResult;
@@ -974,6 +976,12 @@ export type GQLMutationNewArenaTopicArgs = {
   categoryId: Scalars['Int']['input'];
   content: Scalars['String']['input'];
   title: Scalars['String']['input'];
+};
+
+export type GQLMutationNewFlagArgs = {
+  id: Scalars['Int']['input'];
+  reason: Scalars['String']['input'];
+  type: Scalars['String']['input'];
 };
 
 export type GQLMutationReplyToTopicArgs = {
@@ -2754,6 +2762,14 @@ export type GQLMultidisciplinaryTopicWrapper_SubjectFragment = {
   __typename?: 'Subject';
 } & GQLMultidisciplinaryTopic_SubjectFragment;
 
+export type GQLNewFlagMutationVariables = Exact<{
+  id: Scalars['Int']['input'];
+  reason: Scalars['String']['input'];
+  type: Scalars['String']['input'];
+}>;
+
+export type GQLNewFlagMutation = { __typename?: 'Mutation'; newFlag: boolean };
+
 export type GQLArenaUserQueryFragmentFragment = {
   __typename?: 'ArenaUser';
   displayName: string;
@@ -2890,6 +2906,7 @@ export type GQLFolderFragmentFragment = {
   updated: string;
   description?: string;
   breadcrumbs: Array<{ __typename: 'Breadcrumb'; id: string; name: string }>;
+  owner?: { __typename: 'Owner'; name: string };
   resources: Array<
     { __typename?: 'FolderResource' } & GQLFolderResourceFragmentFragment
   >;

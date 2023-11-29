@@ -51,6 +51,7 @@ type ArenaNotificationUser implements BaseUser {
 
 type ArenaPost {
   content: String!
+  flagId: Int
   id: Int!
   isMainPost: Boolean!
   timestamp: String!
@@ -816,6 +817,7 @@ type Mutation {
   deletePersonalData: Boolean!
   markNotificationAsRead(topicIds: [Int!]!): [Int!]!
   newArenaTopic(categoryId: Int!, content: String!, title: String!): ArenaTopic!
+  newFlag(id: Int!, reason: String!, type: String!): Boolean!
   replyToTopic(content: String!, topicId: Int!): ArenaPost!
   sortFolders(parentId: String, sortedIds: [String!]!): SortResult!
   sortResources(parentId: String!, sortedIds: [String!]!): SortResult!
