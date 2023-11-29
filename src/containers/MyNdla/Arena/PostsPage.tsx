@@ -11,7 +11,7 @@ import { useParams } from 'react-router';
 import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
 import { useContext, useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import PostCard from './components/PostCard';
 import { useArenaCategory, useArenaTopic } from '../arenaQueries';
 import { GQLArenaPostFragmentFragment } from '../../../graphqlTypes';
@@ -44,12 +44,19 @@ const PostsPage = () => {
   const { arenaCategory } = useArenaCategory(Number(arenaTopic?.categoryId), 1);
   const { authenticated } = useContext(AuthContext);
   const { personalData, fetch: fetchPersonalData } = usePersonalData();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (authenticated) {
       fetchPersonalData();
     }
   }, [authenticated, fetchPersonalData]);
+
+  useEffect(() => {
+    if (arenaTopic?.deleted) {
+      navigate('/minndla');
+    }
+  }, [arenaTopic?.deleted, navigate]);
 
   if (loading) {
     return <Spinner />;
@@ -78,27 +85,30 @@ const PostsPage = () => {
         />
       </BreadcrumbWrapper>
       <ListWrapper>
-        {arenaTopic?.posts?.map((post: GQLArenaPostFragmentFragment) => (
-          <PostCardWrapper
-            id={`post-${post.id}`}
-            key={post.id}
-            data-mainPost={post.isMainPost}
-          >
-            <PostCard
-              id={post.id}
-              timestamp={post.timestamp}
-              isMainPost={post.isMainPost}
-              title={arenaTopic.title ?? ''}
-              content={post.content}
-              notify={true}
-              displayName={post.user.displayName}
-              username={post.user.username}
-              topicId={arenaTopic.id}
-              // missing affiliation in user
-              affiliation=""
-            />
-          </PostCardWrapper>
-        ))}
+        {arenaTopic?.posts
+          ?.filter(({ deleted }) => !deleted)
+          .map((post: GQLArenaPostFragmentFragment) => (
+            <PostCardWrapper
+              id={`post-${post.id}`}
+              key={post.id}
+              data-mainPost={post.isMainPost}
+            >
+              <PostCard
+                id={post.id}
+                timestamp={post.timestamp}
+                isMainPost={post.isMainPost}
+                title={arenaTopic.title ?? ''}
+                content={post.content}
+                notify={true}
+                displayName={post.user.displayName}
+                username={post.user.username}
+                topicId={arenaTopic.id}
+                categoryId={arenaCategory?.id}
+                // missing affiliation in user
+                affiliation=""
+              />
+            </PostCardWrapper>
+          ))}
       </ListWrapper>
     </MyNdlaPageWrapper>
   );

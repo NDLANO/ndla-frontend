@@ -13,6 +13,7 @@ import { Pencil, TrashCanOutline } from '@ndla/icons/action';
 import { ReportOutlined } from '@ndla/icons/common';
 import { Switch } from '@ndla/switch';
 import { Text, Heading } from '@ndla/typography';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useCallback, useMemo } from 'react';
 import { nb, nn, enGB } from 'date-fns/locale';
@@ -40,6 +41,7 @@ interface Props {
   username: string;
   affiliation: string;
   topicId: number;
+  categoryId?: number;
 }
 
 const StyledCardContainer = styled.div`
@@ -102,6 +104,7 @@ const PostCard = ({
   username,
   affiliation,
   topicId,
+  categoryId,
 }: Props) => {
   const {
     t,
@@ -111,19 +114,28 @@ const PostCard = ({
   const { updatePost } = useUpdatePost(topicId);
   const { deletePost } = useDeletePost(topicId);
   const { deleteTopic } = useDeleteTopic();
+  const navigate = useNavigate();
 
   const now = useMemo(() => new Date(), []);
 
   const type = isMainPost ? 'topic' : 'post';
 
-  const deleteTopicCallback = useCallback(async () => {
-    await deleteTopic({ variables: { topicId } });
-  }, [topicId, deleteTopic]);
+  const deleteTopicCallback = useCallback(
+    async (close: VoidFunction) => {
+      await deleteTopic({ variables: { topicId } });
+      close();
+      navigate(`/minndla/category/${categoryId}`);
+    },
+    [topicId, deleteTopic, navigate, categoryId],
+  );
 
-  const deletePostCallback = useCallback(async () => {
-    console.log('Hello');
-    await deletePost({ variables: { postId: id } });
-  }, [topicId, deletePost]);
+  const deletePostCallback = useCallback(
+    async (close: VoidFunction) => {
+      await deletePost({ variables: { postId: id } });
+      close();
+    },
+    [deletePost, id],
+  );
 
   const menu = useMemo(
     () => (
@@ -166,11 +178,11 @@ const PostCard = ({
             modalContent: (close) => (
               <DeleteModalContent
                 onClose={close}
-                onDelete={async () =>
+                onDelete={async () => {
                   isMainPost
-                    ? await deleteTopicCallback()
-                    : await deletePostCallback()
-                }
+                    ? await deleteTopicCallback(close)
+                    : await deletePostCallback(close);
+                }}
                 title={t(`myNdla.arena.deleteTitle`, { type })}
                 description={t(`MyNdla.arena.description`, { type })}
                 removeText={t(`myNdla.arena.removeText`, { type })}
@@ -180,7 +192,17 @@ const PostCard = ({
         ]}
       />
     ),
-    [t, content, title, updatePost, isMainPost],
+    [
+      t,
+      id,
+      type,
+      content,
+      title,
+      updatePost,
+      isMainPost,
+      deletePostCallback,
+      deleteTopicCallback,
+    ],
   );
 
   const createReply = useCallback(

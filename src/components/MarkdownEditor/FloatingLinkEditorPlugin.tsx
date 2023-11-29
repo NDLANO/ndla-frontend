@@ -304,7 +304,7 @@ const FloatingLinkEditor = ({
     setIsLinkEditMode(false);
   };
 
-  return !!isLinkEditMode ? (
+  return isLinkEditMode ? (
     <FloatingContainer ref={editorRef} data-visible={!!isLinkEditMode}>
       <FormControl id="url" isRequired isInvalid={!!error}>
         <Label margin="none" textStyle="label-small">

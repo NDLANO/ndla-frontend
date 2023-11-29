@@ -78,6 +78,7 @@ export type GQLArenaNotification = {
 export type GQLArenaPost = {
   __typename?: 'ArenaPost';
   content: Scalars['String']['output'];
+  deleted: Scalars['Boolean']['output'];
   id: Scalars['Int']['output'];
   isMainPost: Scalars['Boolean']['output'];
   timestamp: Scalars['String']['output'];
@@ -89,6 +90,7 @@ export type GQLArenaTopic = {
   __typename?: 'ArenaTopic';
   breadcrumbs: Array<GQLArenaBreadcrumb>;
   categoryId: Scalars['Int']['output'];
+  deleted: Scalars['Boolean']['output'];
   id: Scalars['Int']['output'];
   locked: Scalars['Boolean']['output'];
   postCount: Scalars['Int']['output'];
@@ -910,8 +912,8 @@ export type GQLMutation = {
   deleteFolder: Scalars['String']['output'];
   deleteFolderResource: Scalars['String']['output'];
   deletePersonalData: Scalars['Boolean']['output'];
-  deletePost: Scalars['Boolean']['output'];
-  deleteTopic: Scalars['Boolean']['output'];
+  deletePost: Scalars['Int']['output'];
+  deleteTopic: Scalars['Int']['output'];
   markNotificationAsRead: Array<Scalars['Int']['output']>;
   newArenaTopic: GQLArenaTopic;
   replyToTopic: GQLArenaPost;
@@ -2809,6 +2811,7 @@ export type GQLArenaTopicFragmentFragment = {
   slug: string;
   timestamp: string;
   title: string;
+  deleted: boolean;
 };
 
 export type GQLArenaPostFragmentFragment = {
@@ -2818,6 +2821,7 @@ export type GQLArenaPostFragmentFragment = {
   timestamp: string;
   topicId: number;
   isMainPost: boolean;
+  deleted: boolean;
   user: {
     __typename?: 'ArenaUser';
     displayName: string;
@@ -2911,7 +2915,7 @@ export type GQLDeletePostMutationVariables = Exact<{
 
 export type GQLDeletePostMutation = {
   __typename?: 'Mutation';
-  deletePost: boolean;
+  deletePost: number;
 };
 
 export type GQLDeleteTopicMutationVariables = Exact<{
@@ -2920,7 +2924,7 @@ export type GQLDeleteTopicMutationVariables = Exact<{
 
 export type GQLDeleteTopicMutation = {
   __typename?: 'Mutation';
-  deleteTopic: boolean;
+  deleteTopic: number;
 };
 
 export type GQLAiOrganizationsQueryVariables = Exact<{ [key: string]: never }>;

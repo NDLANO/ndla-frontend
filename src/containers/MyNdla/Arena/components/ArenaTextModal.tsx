@@ -62,7 +62,7 @@ const ArenaTextModal = ({ type, onSave }: Props) => {
       onModalClose();
       setOpen(false);
     },
-    [setCreated, onSave],
+    [setCreated, onSave, onModalClose],
   );
 
   return (

@@ -43,6 +43,7 @@ type ArenaNotification {
 
 type ArenaPost {
   content: String!
+  deleted: Boolean!
   id: Int!
   isMainPost: Boolean!
   timestamp: String!
@@ -53,6 +54,7 @@ type ArenaPost {
 type ArenaTopic {
   breadcrumbs: [ArenaBreadcrumb!]!
   categoryId: Int!
+  deleted: Boolean!
   id: Int!
   locked: Boolean!
   postCount: Int!
@@ -800,8 +802,8 @@ type Mutation {
   deleteFolder(id: String!): String!
   deleteFolderResource(folderId: String!, resourceId: String!): String!
   deletePersonalData: Boolean!
-  deletePost(postId: Int!): Boolean!
-  deleteTopic(topicId: Int!): Boolean!
+  deletePost(postId: Int!): Int!
+  deleteTopic(topicId: Int!): Int!
   markNotificationAsRead(topicIds: [Int!]!): [Int!]!
   newArenaTopic(categoryId: Int!, content: String!, title: String!): ArenaTopic!
   replyToTopic(content: String!, topicId: Int!): ArenaPost!

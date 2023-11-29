@@ -78,7 +78,7 @@ const TopicPage = () => {
         navigate(toArenaTopic(topic.data?.newArenaTopic.id));
       }
     },
-    [arenaCategory?.id, createArenaTopic],
+    [arenaCategory, createArenaTopic, navigate],
   );
 
   if (loading) {
@@ -114,17 +114,19 @@ const TopicPage = () => {
         <ArenaTextModal type={'topic'} onSave={createTopic} />
       </StyledContainer>
       <ListWrapper>
-        {arenaCategory?.topics?.map((topic: GQLArenaTopicFragmentFragment) => (
-          <StyledCardContainer key={`topicContainer-${topic.id}`}>
-            <TopicCard
-              key={`topic-${topic.id}`}
-              id={topic.id.toString()}
-              title={topic.title}
-              timestamp={topic.timestamp}
-              count={topic.postCount}
-            />
-          </StyledCardContainer>
-        ))}
+        {arenaCategory?.topics
+          ?.filter(({ deleted }) => !deleted)
+          .map((topic: GQLArenaTopicFragmentFragment) => (
+            <StyledCardContainer key={`topicContainer-${topic.id}`}>
+              <TopicCard
+                key={`topic-${topic.id}`}
+                id={topic.id.toString()}
+                title={topic.title}
+                timestamp={topic.timestamp}
+                count={topic.postCount}
+              />
+            </StyledCardContainer>
+          ))}
       </ListWrapper>
     </MyNdlaPageWrapper>
   );

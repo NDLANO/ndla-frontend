@@ -70,6 +70,7 @@ const arenaTopicFragment = gql`
     slug
     timestamp
     title
+    deleted
   }
 `;
 
@@ -86,6 +87,7 @@ const arenaPostFragment = gql`
       profilePicture
       username
     }
+    deleted
   }
 `;
 
