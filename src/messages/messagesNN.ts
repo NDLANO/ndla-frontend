@@ -29,26 +29,12 @@ const messages = {
     sharedFolderPage: `{{name}} - ${titleTemplate}`,
     aboutPage: `{{name}} - ${titleTemplate}`,
   },
-  footer: {
-    cookiesLink: 'Erklæring for informasjonskapslar',
-  },
-  programmes: {
-    header: 'Kva vil du lære om i dag?',
-    description: 'Vel utdanningsprogram for å sjå faga dine',
-  },
   podcastPage: {
     episodes: 'Episoder',
     podcast: 'Podkast',
     podcasts: 'Podkaster',
     pageInfo: 'Side {{page}} av {{lastPage}}',
     noResults: '...Ingen episoder',
-  },
-  sharedFolder: 'Delt mappe',
-  campaignBlock: {
-    title: 'Planlegg skuleåret med NDLA',
-    linkText: 'Sjå forslag',
-    ingress:
-      'Sjå våre forslag til aktivitetar og årsplanar. Gode resultat startar med god planlegging.',
   },
   myndla: {
     campaignBlock: {
@@ -58,6 +44,11 @@ const messages = {
         'Lurer du på noko i faget ditt? Vil du ha hjelp til å forenkle ein tekst, øve til ein prøve eller få forslag til ein disposisjon? Prøv prateroboten vår og sjå om han kan hjelpe deg! I periodar med eksamensgjennomføring kan det hende fylkeskommunen stenger tilgangen til praterobotane.',
       ingress:
         'Vil du bruke KI i undervisninga? NDLA har laga to praterobotar som tek vare på personvernet ditt og trygt kan brukast til jobb og i undervisning. I periodar med eksamensgjennomføring kan det hende fylkeskommunen stenger tilgangen til praterobotane.',
+    },
+  },
+  myNdla: {
+    myPage: {
+      privacyLink: 'https://ndla.no/article/personvernerklaering',
     },
   },
   validation: {

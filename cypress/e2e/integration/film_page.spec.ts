@@ -30,7 +30,7 @@ describe('Film page', () => {
       .parent()
       .within(() => {
         cy.get('nav > ul > li').should(($list) => {
-          expect($list).to.have.length(7);
+          expect($list).to.have.length(8);
         });
       });
     cy.contains('h2', 'Identitet')

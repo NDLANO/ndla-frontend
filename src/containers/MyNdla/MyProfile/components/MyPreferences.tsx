@@ -7,20 +7,17 @@
  */
 
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { colors, fonts, misc, spacing } from '@ndla/core';
 import { Heading, Text } from '@ndla/typography';
-import { RadioButtonGroup } from '@ndla/ui';
-import { useTranslation } from 'react-i18next';
-import { FeideUserApiType } from '../../../../interfaces';
+import { RadioButtonGroup } from '@ndla/forms';
+import { GQLMyNdlaPersonalDataFragmentFragment } from '../../../../graphqlTypes';
 import { isStudent } from '../../Folders/util';
-import {
-  usePersonalData,
-  useUpdatePersonalData,
-} from '../../../MyNdla/userMutations';
+import { useUpdatePersonalData } from '../../../MyNdla/userMutations';
 
 type MyPreferencesProps = {
-  user: FeideUserApiType | undefined;
+  user: GQLMyNdlaPersonalDataFragmentFragment | undefined;
 };
 
 const PreferenceContainer = styled.div`
@@ -79,7 +76,6 @@ const StyledRadioButtonGroup = styled(RadioButtonGroup)`
 const MyPreferences = ({ user }: MyPreferencesProps) => {
   const [userPreference, setUserPreference] = useState<string | undefined>();
   const { t } = useTranslation();
-  const { personalData, fetch: fetchPersonalData } = usePersonalData();
   const { updatePersonalData } = useUpdatePersonalData();
 
   const setUserPref = async (value: string) => {
@@ -91,13 +87,8 @@ const MyPreferences = ({ user }: MyPreferencesProps) => {
   };
 
   useEffect(() => {
-    fetchPersonalData();
-    setUserPreference(personalData?.shareName ? 'showName' : 'dontShowName');
-  }, [user, personalData?.shareName, fetchPersonalData]);
-
-  const userRole = () => {
-    return isStudent(user) ? 'student' : 'employee';
-  };
+    setUserPreference(user?.shareName ? 'showName' : 'dontShowName');
+  }, [user]);
 
   return (
     <PreferenceContainer>
@@ -108,10 +99,10 @@ const MyPreferences = ({ user }: MyPreferencesProps) => {
           margin="none"
           headingStyle="h2"
         >
-          {t(`myNdla.myProfile.disclaimerTitle.${userRole()}`)}
+          {t(`myNdla.myProfile.disclaimerTitle.${user?.role}`)}
         </Heading>
         <Text element="p" textStyle="content-alt" margin="none">
-          {t(`myNdla.myProfile.disclaimerText.${userRole()}`)}
+          {t(`myNdla.myProfile.disclaimerText.${user?.role}`)}
         </Text>
       </DisclaimerContainer>
       {!isStudent(user) && (
