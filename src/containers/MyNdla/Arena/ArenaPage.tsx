@@ -34,7 +34,7 @@ const ArenaPage = () => {
   const { t } = useTranslation();
   const { loading, arenaCategories } = useArenaCategories();
   const { user } = useContext(AuthContext);
-  
+
   if (loading) {
     return <Spinner />;
   }

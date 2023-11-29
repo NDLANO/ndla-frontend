@@ -42,7 +42,7 @@ const PostsPage = () => {
   const { arenaTopic, loading } = useArenaTopic(Number(topicId), 1);
   const { arenaCategory } = useArenaCategory(Number(arenaTopic?.categoryId), 1);
   const { user } = useContext(AuthContext);
-  
+
   if (loading) {
     return <Spinner />;
   }

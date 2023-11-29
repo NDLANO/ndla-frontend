@@ -63,7 +63,7 @@ const TopicPage = () => {
   const { categoryId } = useParams();
   const { loading, arenaCategory } = useArenaCategory(Number(categoryId), 1);
   const { user } = useContext(AuthContext);
-  
+
   if (loading) {
     return <Spinner />;
   }
