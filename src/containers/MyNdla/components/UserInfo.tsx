@@ -11,7 +11,6 @@ import { useTranslation } from 'react-i18next';
 import { Text } from '@ndla/typography';
 import { UnOrderedList } from '@ndla/ui';
 import { GQLMyNdlaPersonalDataFragmentFragment } from '../../../graphqlTypes';
-import { isStudent } from '../Folders/util';
 
 interface Props {
   user: GQLMyNdlaPersonalDataFragmentFragment | undefined;
@@ -36,7 +35,7 @@ export const UserInfo = ({ user }: Props) => {
       {
         <Text element="p" textStyle="content-alt" margin="none">
           {t('user.loggedInAs', {
-            role: t(`user.role.${isStudent(user) ? 'student' : 'employee'}`),
+            role: t(`user.role.${user?.role}`),
           })}
         </Text>
       }
@@ -48,7 +47,7 @@ export const UserInfo = ({ user }: Props) => {
           {t('user.name')}: {user?.displayName}
         </Text>
         <Text element="p" textStyle="content-alt" margin="none">
-          {t('user.mail')}: {user?.username}
+          {t('user.mail')}: {user?.email}
         </Text>
       </ShortInfoDiv>
       <UnOrderedList>

@@ -1914,6 +1914,7 @@ export type GQLNotionsContent_MetaFragment = {
 export type GQLMyNdlaPersonalDataFragmentFragment = {
   __typename?: 'MyNdlaPersonalData';
   username: string;
+  email: string;
   displayName: string;
   organization: string;
   favoriteSubjects: Array<string>;
@@ -2924,6 +2925,7 @@ export type GQLFolderFragmentFragment = {
   updated: string;
   description?: string;
   breadcrumbs: Array<{ __typename: 'Breadcrumb'; id: string; name: string }>;
+  owner?: { __typename: 'Owner'; name: string };
   resources: Array<
     { __typename?: 'FolderResource' } & GQLFolderResourceFragmentFragment
   >;

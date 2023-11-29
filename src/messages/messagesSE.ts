@@ -45,6 +45,11 @@ const messages = {
         'Áiggut go AI geavahit oahpahusas? NDLA lea ráhkadan guokte hupmanrobota mat suodjalit du priváhtavuođa ja maid sáhttá geavahit sihkkarit sihke barggus ja oahpahusas.',
     },
   },
+  myNdla: {
+    myPage: {
+      privacyLink: 'https://ndla.no/article/personvernerklaering',
+    },
+  },
   validation: {
     fields: {
       name: 'Namn',

@@ -90,10 +90,6 @@ const MyPreferences = ({ user }: MyPreferencesProps) => {
     setUserPreference(user?.shareName ? 'showName' : 'dontShowName');
   }, [user]);
 
-  const userRole = () => {
-    return isStudent(user) ? 'student' : 'employee';
-  };
-
   return (
     <PreferenceContainer>
       <DisclaimerContainer>
@@ -103,10 +99,10 @@ const MyPreferences = ({ user }: MyPreferencesProps) => {
           margin="none"
           headingStyle="h2"
         >
-          {t(`myNdla.myProfile.disclaimerTitle.${userRole()}`)}
+          {t(`myNdla.myProfile.disclaimerTitle.${user?.role}`)}
         </Heading>
         <Text element="p" textStyle="content-alt" margin="none">
-          {t(`myNdla.myProfile.disclaimerText.${userRole()}`)}
+          {t(`myNdla.myProfile.disclaimerText.${user?.role}`)}
         </Text>
       </DisclaimerContainer>
       {!isStudent(user) && (

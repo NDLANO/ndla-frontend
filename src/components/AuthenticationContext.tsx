@@ -46,6 +46,7 @@ interface Props {
 const personalDataQueryFragment = gql`
   fragment MyNdlaPersonalDataFragment on MyNdlaPersonalData {
     username
+    email
     displayName
     groups {
       id
