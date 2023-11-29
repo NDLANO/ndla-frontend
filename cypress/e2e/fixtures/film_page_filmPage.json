@@ -1,1 +1,1683 @@
-[{"data":{"frontpage":{"articleId":38140,"article":{"id":38140,"title":"Forside","slug":"forside","__typename":"Article"},"__typename":"FrontpageMenu","menu":[{"articleId":38247,"article":{"id":38247,"title":"Om NDLA","slug":"om-ndla","__typename":"Article"},"__typename":"FrontpageMenu","menu":[{"articleId":38253,"article":{"id":38253,"title":"Hvem er vi?","slug":"hvem-er-vi","__typename":"Article"},"__typename":"FrontpageMenu","menu":[]},{"articleId":38259,"article":{"id":38259,"title":"Jobb hos oss","slug":"jobb-hos-oss","__typename":"Article"},"__typename":"FrontpageMenu","menu":[]},{"articleId":38260,"article":{"id":38260,"title":"Utlysninger","slug":"utlysninger","__typename":"Article"},"__typename":"FrontpageMenu","menu":[]}]},{"articleId":38261,"article":{"id":38261,"title":"NDLAs historie","slug":"ndlas-historie","__typename":"Article"},"__typename":"FrontpageMenu","menu":[]}]}}},{"data":{"programmes":[{"id":"urn:programme:2db54146-54af-4949-966a-002acf307886","title":{"title":"Bygg- og anleggsteknikk","__typename":"Title"},"url":"/bygg-og-anleggsteknikk__847f59182173","contentUri":"urn:frontpage:250","__typename":"ProgrammePage"},{"id":"urn:programme:e1a0127c-b9b2-47a5-855b-934640abdb30","title":{"title":"Elektro og datateknologi","__typename":"Title"},"url":"/elektro-og-datateknologi__55ad4a85ba78","contentUri":"urn:frontpage:251","__typename":"ProgrammePage"},{"id":"urn:programme:c4316fb8-f97b-44d3-8a7f-b65c3da71d93","title":{"title":"Frisør, blomster, interiør og eksponeringsdesign","__typename":"Title"},"url":"/frisør-blomster-interiør-og-eksponeringsdesign__235c13273508","contentUri":"urn:frontpage:252","__typename":"ProgrammePage"},{"id":"urn:programme:22017624-90c0-4b05-bfb9-e152144445f9","title":{"title":"Håndverk, design og produktutvikling","__typename":"Title"},"url":"/håndverk-design-og-produktutvikling__28899b73c188","contentUri":"urn:frontpage:254","__typename":"ProgrammePage"},{"id":"urn:programme:6c6abdff-086b-4e5d-a8db-f23d5b677ef2","title":{"title":"Helse- og oppvekstfag","__typename":"Title"},"url":"/helse-og-oppvekstfag__5ad439a5dacb","contentUri":"urn:frontpage:253","__typename":"ProgrammePage"},{"id":"urn:programme:01323a26-1fa8-4e5e-bcde-7719758ccfbb","title":{"title":"Idrettsfag","__typename":"Title"},"url":"/idrettsfag__dd37b407714d","contentUri":"urn:frontpage:255","__typename":"ProgrammePage"},{"id":"urn:programme:4986522e-e76c-4d9b-bd20-c4b014b5e3c1","title":{"title":"Informasjonsteknologi og medieproduksjon","__typename":"Title"},"url":"/informasjonsteknologi-og-medieproduksjon__23f18a24131e","contentUri":"urn:frontpage:256","__typename":"ProgrammePage"},{"id":"urn:programme:838201bc-dd81-4fe3-890d-96621c81562c","title":{"title":"Kunst, design og arkitektur","__typename":"Title"},"url":"/kunst-design-og-arkitektur__72376dcfd25a","contentUri":"urn:frontpage:257","__typename":"ProgrammePage"},{"id":"urn:programme:147f3fdd-2c3d-4f85-b4b3-daeae7a9aa5a","title":{"title":"Medier og kommunikasjon","__typename":"Title"},"url":"/medier-og-kommunikasjon__57b0e8cd7270","contentUri":"urn:frontpage:258","__typename":"ProgrammePage"},{"id":"urn:programme:c15de191-0a59-4aa8-91e6-4520085d3f99","title":{"title":"Musikk, dans og drama","__typename":"Title"},"url":"/musikk-dans-og-drama__338394ba465c","contentUri":"urn:frontpage:259","__typename":"ProgrammePage"},{"id":"urn:programme:d70c4eea-aed6-4551-83a6-60a551047c0c","title":{"title":"Naturbruk","__typename":"Title"},"url":"/naturbruk__d23305736cde","contentUri":"urn:frontpage:260","__typename":"ProgrammePage"},{"id":"urn:programme:a105b3a3-7a29-49be-817b-803c06892237","title":{"title":"Påbygg","__typename":"Title"},"url":"/påbygg__6ea1ed34e5e7","contentUri":"urn:frontpage:261","__typename":"ProgrammePage"},{"id":"urn:programme:a90d8927-288f-44a9-99cd-585194669421","title":{"title":"Restaurant- og matfag","__typename":"Title"},"url":"/restaurant-og-matfag__0a0cd4e39743","contentUri":"urn:frontpage:262","__typename":"ProgrammePage"},{"id":"urn:programme:088a27ed-66a0-4cd1-a425-da1e1797c957","title":{"title":"Salg, service og reiseliv","__typename":"Title"},"url":"/salg-service-og-reiseliv__b55100bbc29e","contentUri":"urn:frontpage:263","__typename":"ProgrammePage"},{"id":"urn:programme:3d42b7bb-6819-495a-8c1c-1e8d6b0a90ab","title":{"title":"Studiespesialisering","__typename":"Title"},"url":"/studiespesialisering__7d5badf01ff2","contentUri":"urn:frontpage:264","__typename":"ProgrammePage"},{"id":"urn:programme:e27b83e3-5cff-49b2-aac5-1ea2cc40dc53","title":{"title":"Teknologi- og industrifag","__typename":"Title"},"url":"/teknologi-og-industrifag__a920d0b5cbbb","contentUri":"urn:frontpage:265","__typename":"ProgrammePage"}]}},{"data":{"subject":{"id":"urn:subject:20","name":"NDLA film","__typename":"Subject","allTopics":[{"id":"urn:topic:1:193723","name":"Bærekraftig utvikling","parentId":"urn:subject:20","path":"/subject:20/topic:1:193723","__typename":"Topic"},{"id":"urn:topic:1:193724","name":"Miljø","parentId":"urn:topic:1:193723","path":"/subject:20/topic:1:193723/topic:1:193724","__typename":"Topic"},{"id":"urn:topic:1:194520","name":"Urfolk","parentId":"urn:topic:1:193723","path":"/subject:20/topic:1:193723/topic:1:194520","__typename":"Topic"},{"id":"urn:topic:652170bf-ff6d-4090-b66e-008124f09ead","name":"Klima","parentId":"urn:topic:1:193723","path":"/subject:20/topic:1:193723/topic:652170bf-ff6d-4090-b66e-008124f09ead","__typename":"Topic"},{"id":"urn:topic:caaec30d-23c6-4205-a505-f3d5a59ecb2b","name":"Teknologi og etikk","parentId":"urn:topic:1:193723","path":"/subject:20/topic:1:193723/topic:caaec30d-23c6-4205-a505-f3d5a59ecb2b","__typename":"Topic"},{"id":"urn:topic:1:193713","name":"Demokrati og medborgerskap","parentId":"urn:subject:20","path":"/subject:20/topic:1:193713","__typename":"Topic"},{"id":"urn:topic:1:193714","name":"Trusler mot demokratiet","parentId":"urn:topic:1:193713","path":"/subject:20/topic:1:193713/topic:1:193714","__typename":"Topic"},{"id":"urn:topic:1:193716","name":"Menneskerettigheter","parentId":"urn:topic:1:193713","path":"/subject:20/topic:1:193713/topic:1:193716","__typename":"Topic"},{"id":"urn:topic:1:193726","name":"Krig og konflikt","parentId":"urn:topic:1:193713","path":"/subject:20/topic:1:193713/topic:1:193726","__typename":"Topic"},{"id":"urn:topic:e77e417f-093c-42c0-b635-c57136ba8af3","name":"Minoriteter, mangfold og utenforskap","parentId":"urn:topic:1:193713","path":"/subject:20/topic:1:193713/topic:e77e417f-093c-42c0-b635-c57136ba8af3","__typename":"Topic"},{"id":"urn:topic:1:193720","name":"Folkehelse og livsmestring","parentId":"urn:subject:20","path":"/subject:20/topic:1:193720","__typename":"Topic"},{"id":"urn:topic:1:193721","name":"Helse","parentId":"urn:topic:1:193720","path":"/subject:20/topic:1:193720/topic:1:193721","__typename":"Topic"},{"id":"urn:topic:1:194403","name":"Identitet","parentId":"urn:topic:1:193720","path":"/subject:20/topic:1:193720/topic:1:194403","__typename":"Topic"},{"id":"urn:topic:1:194411","name":"Kommunikasjon","parentId":"urn:topic:1:193720","path":"/subject:20/topic:1:193720/topic:1:194411","__typename":"Topic"},{"id":"urn:topic:1:198284","name":"Samiske filmstudieark","parentId":"urn:subject:20","path":"/subject:20/topic:1:198284","__typename":"Topic"},{"id":"urn:topic:1:181627","name":"Samiske filmstudieark","parentId":"urn:topic:1:198284","path":"/subject:20/topic:1:198284/topic:1:181627","__typename":"Topic"},{"id":"urn:topic:1:182010","name":"Sámi filbmaoahppoárka","parentId":"urn:topic:1:198284","path":"/subject:20/topic:1:198284/topic:1:182010","__typename":"Topic"},{"id":"urn:topic:1:182011","name":"Saemien filmestudije-aarkh","parentId":"urn:topic:1:198284","path":"/subject:20/topic:1:198284/topic:1:182011","__typename":"Topic"},{"id":"urn:topic:1:186732","name":"Filmkunnskap","parentId":"urn:subject:20","path":"/subject:20/topic:1:186732","__typename":"Topic"},{"id":"urn:topic:1:187167","name":"Filmanalyse","parentId":"urn:topic:1:186732","path":"/subject:20/topic:1:186732/topic:1:187167","__typename":"Topic"},{"id":"urn:topic:1:187125","name":"Filmatiserte bøker","parentId":"urn:topic:1:186732","path":"/subject:20/topic:1:186732/topic:1:187125","__typename":"Topic"},{"id":"urn:topic:1:193712","name":"Filmhistorie","parentId":"urn:topic:1:186732","path":"/subject:20/topic:1:186732/topic:1:193712","__typename":"Topic"},{"id":"urn:topic:1:194203","name":"Filmproduksjon","parentId":"urn:topic:1:186732","path":"/subject:20/topic:1:186732/topic:1:194203","__typename":"Topic"},{"id":"urn:topic:1:194565","name":"Læringsstier","parentId":"urn:subject:20","path":"/subject:20/topic:1:194565","__typename":"Topic"},{"id":"urn:topic:1:194655","name":"Undervisningsfilm","parentId":"urn:subject:20","path":"/subject:20/topic:1:194655","__typename":"Topic"}]}}},{"data":{"filmfrontpage":{"slideShow":[{"id":"urn:article:19452","title":"Still Alice","metaImage":{"alt":"Utsnitt fra filmen Still Alice.","url":"https://api.test.ndla.no/image-api/raw/id/46032","__typename":"MetaImage"},"metaDescription":"Julianne Moore har hovedrollen i dette sterke dramaet om språkprofessoren Alice Howland som blir diagnostisert med tidlig Alzheimers.","resourceTypes":[{"id":"urn:resourcetype:featureFilm","name":"Spillefilm","__typename":"ResourceType"},{"id":"urn:resourcetype:SourceMaterial","name":"Kildemateriell","__typename":"ResourceType"}],"path":"/subject:20/topic:1:193720/topic:1:193721/resource:1:170375","__typename":"Movie"},{"id":"urn:article:25322","title":"Alle utlendinger har lukka gardiner","metaImage":{"alt":"Utsnitt fra filmen \"Alle utlendinger har lukka gardiner\". Foto.","url":"https://api.test.ndla.no/image-api/raw/id/51411","__typename":"MetaImage"},"metaDescription":"Ungdomsdrama fra multikulturelle Romsås om oppvekst og kjærlighet.","resourceTypes":[{"id":"urn:resourcetype:featureFilm","name":"Spillefilm","__typename":"ResourceType"},{"id":"urn:resourcetype:SourceMaterial","name":"Kildemateriell","__typename":"ResourceType"}],"path":"/subject:20/topic:1:186732/topic:1:187125/resource:82fde9d2-d676-43b9-810f-84b09fa7ce1e","__typename":"Movie"},{"id":"urn:article:25527","title":"Chef Flynn","metaImage":{"alt":"Ung gutt i kokkeklær legger mat på fat. Utsnitt fra dokumentarfilmen Chef Flynn.","url":"https://api.test.ndla.no/image-api/raw/id/46494","__typename":"MetaImage"},"metaDescription":"Dokumentarfilm om Flynn McGarry. I en alder av 20 år har han gjort kometkarriere i restaurantbransjen.","resourceTypes":[{"id":"urn:resourcetype:documentary","name":"Dokumentarfilm","__typename":"ResourceType"},{"id":"urn:resourcetype:SourceMaterial","name":"Kildemateriell","__typename":"ResourceType"}],"path":"/subject:20/topic:1:193720/topic:1:194403/resource:084cfecb-6c72-4e43-b8fa-5fbc160092c1","__typename":"Movie"}],"movieThemes":[{"name":[{"name":"Identitet","language":"nb","__typename":"Name"},{"name":"Identitet","language":"nn","__typename":"Name"},{"name":"Identity","language":"en","__typename":"Name"}],"movies":[{"id":"urn:article:31913","title":"Disco","metaImage":{"alt":"Utsnitt fra filmen Disco. Foto.","url":"https://api.test.ndla.no/image-api/raw/id/58629","__typename":"MetaImage"},"metaDescription":"En film om karismatisk kristendom, discodans, identitet og tvil.","resourceTypes":[{"id":"urn:resourcetype:featureFilm","name":"Spillefilm","__typename":"ResourceType"},{"id":"urn:resourcetype:SourceMaterial","name":"Kildemateriell","__typename":"ResourceType"}],"path":"/subject:20/topic:1:193720/topic:1:194403/resource:edf99c23-2656-41c6-8e07-4a1cde282a2b","__typename":"Movie"},{"id":"urn:article:28189","title":"The Big Sick","metaImage":{"alt":"Utsnitt fra filmen The Big Sick.","url":"https://api.test.ndla.no/image-api/raw/id/54983","__typename":"MetaImage"},"metaDescription":" The Big Sick er en kritikerrost komedie om kjærlighet, sykdom og kulturelle forskjeller. \n ","resourceTypes":[{"id":"urn:resourcetype:featureFilm","name":"Spillefilm","__typename":"ResourceType"},{"id":"urn:resourcetype:SourceMaterial","name":"Kildemateriell","__typename":"ResourceType"}],"path":"/subject:20/topic:1:193720/topic:1:194403/resource:74d741e9-f657-4b80-8385-0ecb2492cc81","__typename":"Movie"},{"id":"urn:article:26219","title":"VS.","metaImage":{"alt":"Screenshot fra filmen VS.","url":"https://api.test.ndla.no/image-api/raw/id/52593","__typename":"MetaImage"},"metaDescription":"Britisk spillefilm om identitet, musikk og ungdomstid.","resourceTypes":[{"id":"urn:resourcetype:featureFilm","name":"Spillefilm","__typename":"ResourceType"},{"id":"urn:resourcetype:SourceMaterial","name":"Kildemateriell","__typename":"ResourceType"}],"path":"/subject:20/topic:1:193720/topic:1:194403/resource:21cccff4-230d-47b5-8069-5c0d08d485ae","__typename":"Movie"},{"id":"urn:article:25322","title":"Alle utlendinger har lukka gardiner","metaImage":{"alt":"Utsnitt fra filmen \"Alle utlendinger har lukka gardiner\". Foto.","url":"https://api.test.ndla.no/image-api/raw/id/51411","__typename":"MetaImage"},"metaDescription":"Ungdomsdrama fra multikulturelle Romsås om oppvekst og kjærlighet.","resourceTypes":[{"id":"urn:resourcetype:featureFilm","name":"Spillefilm","__typename":"ResourceType"},{"id":"urn:resourcetype:SourceMaterial","name":"Kildemateriell","__typename":"ResourceType"}],"path":"/subject:20/topic:1:186732/topic:1:187125/resource:82fde9d2-d676-43b9-810f-84b09fa7ce1e","__typename":"Movie"},{"id":"urn:article:25527","title":"Chef Flynn","metaImage":{"alt":"Ung gutt i kokkeklær legger mat på fat. Utsnitt fra dokumentarfilmen Chef Flynn.","url":"https://api.test.ndla.no/image-api/raw/id/46494","__typename":"MetaImage"},"metaDescription":"Dokumentarfilm om Flynn McGarry. I en alder av 20 år har han gjort kometkarriere i restaurantbransjen.","resourceTypes":[{"id":"urn:resourcetype:documentary","name":"Dokumentarfilm","__typename":"ResourceType"},{"id":"urn:resourcetype:SourceMaterial","name":"Kildemateriell","__typename":"ResourceType"}],"path":"/subject:20/topic:1:193720/topic:1:194403/resource:084cfecb-6c72-4e43-b8fa-5fbc160092c1","__typename":"Movie"},{"id":"urn:article:1303","title":"Catfish","metaImage":{"alt":"Utsnitt fra filmen Catfish.","url":"https://api.test.ndla.no/image-api/raw/id/45961","__typename":"MetaImage"},"metaDescription":"Svindel og forfalskning hører til Facebooks mørkere sider. Hvordan kan vi vite om en profil er ekte?","resourceTypes":[{"id":"urn:resourcetype:featureFilm","name":"Spillefilm","__typename":"ResourceType"},{"id":"urn:resourcetype:SourceMaterial","name":"Kildemateriell","__typename":"ResourceType"}],"path":"/subject:20/topic:1:186732/topic:1:187167/resource:1:151951","__typename":"Movie"},{"id":"urn:article:19531","title":"Sneakerheadz","metaImage":{"alt":"Utsnitt fra filmen Sneakerheadz. Foto.","url":"https://api.test.ndla.no/image-api/raw/id/1364","__typename":"MetaImage"},"metaDescription":"Dokumentarfilmen om samlemani og fascinasjonen for en bestemt skotype. Den viser at noen går langt i jakten på de rette skoene.","resourceTypes":[{"id":"urn:resourcetype:documentary","name":"Dokumentarfilm","__typename":"ResourceType"},{"id":"urn:resourcetype:SourceMaterial","name":"Kildemateriell","__typename":"ResourceType"}],"path":"/subject:20/topic:1:193720/topic:1:194403/resource:1:161197","__typename":"Movie"},{"id":"urn:article:19264","title":"Dryads – Girls Don't Cry","metaImage":{"alt":"Utsnitt fra filmen Dryads - Girls Don't Cry.","url":"https://api.test.ndla.no/image-api/raw/id/45970","__typename":"MetaImage"},"metaDescription":" «Dryads - Girls Don't Cry» er en film om ungdomstid, vennskap og musikk.","resourceTypes":[{"id":"urn:resourcetype:featureFilm","name":"Spillefilm","__typename":"ResourceType"},{"id":"urn:resourcetype:SourceMaterial","name":"Kildemateriell","__typename":"ResourceType"}],"path":"/subject:20/topic:1:186732/topic:1:187167/resource:1:171203","__typename":"Movie"},{"id":"urn:article:1302","title":"IRL","metaImage":{"alt":"Utsnitt fra filmplakaten til filmen IRL.","url":"https://api.test.ndla.no/image-api/raw/id/4694","__typename":"MetaImage"},"metaDescription":"IRL er en svensk spillefilm fra 2013 om mobbing, sosiale medier og dataspill.","resourceTypes":[{"id":"urn:resourcetype:featureFilm","name":"Spillefilm","__typename":"ResourceType"},{"id":"urn:resourcetype:SourceMaterial","name":"Kildemateriell","__typename":"ResourceType"}],"path":"/subject:20/topic:1:193720/topic:1:194403/resource:1:151968","__typename":"Movie"}],"__typename":"MovieTheme"},{"name":[{"name":"Menneskerettigheter","language":"nb","__typename":"Name"},{"name":"Menneskerettar","language":"nn","__typename":"Name"},{"name":"Human rights","language":"en","__typename":"Name"}],"movies":[{"id":"urn:article:35327","title":"MLK/FBI","metaImage":{"alt":"Foto av utsnitt fra filmen \"MLK/FBI\".","url":"https://api.test.ndla.no/image-api/raw/id/61874","__typename":"MetaImage"},"metaDescription":"Dokumentarfilm om FBIs overvåking av den kjente amerikanske borgerrettsforkjemperen Martin Luther King Jr.","resourceTypes":[{"id":"urn:resourcetype:documentary","name":"Dokumentarfilm","__typename":"ResourceType"},{"id":"urn:resourcetype:SourceMaterial","name":"Kildemateriell","__typename":"ResourceType"}],"path":"/subject:20/topic:1:193713/topic:1:193716/resource:89a9d184-367f-4c34-bc44-7b67cee0bda7","__typename":"Movie"},{"id":"urn:article:30811","title":"Hva vil folk si","metaImage":{"alt":"Utsnitt fra filmen Hva vil folk si.","url":"https://api.test.ndla.no/image-api/raw/id/57163","__typename":"MetaImage"},"metaDescription":"Hva vil folk si er en gripende og viktig film om 16 år gamle Nisha, som forsøker å finne sin plass mellom to kulturer. ","resourceTypes":[{"id":"urn:resourcetype:featureFilm","name":"Spillefilm","__typename":"ResourceType"},{"id":"urn:resourcetype:SourceMaterial","name":"Kildemateriell","__typename":"ResourceType"}],"path":"/subject:20/topic:1:193713/topic:1:193716/resource:78c43c61-f77e-4d95-ba6b-99570081b09c","__typename":"Movie"},{"id":"urn:article:30978","title":"Før snøen faller","metaImage":{"alt":"Utsnitt fra filmen Før snøen faller.","url":"https://api.test.ndla.no/image-api/raw/id/57415","__typename":"MetaImage"},"metaDescription":"Før snøen faller er en sterk film om ære, familie, tvangsekteskap og en farlig reise fra øst til vest.","resourceTypes":[{"id":"urn:resourcetype:featureFilm","name":"Spillefilm","__typename":"ResourceType"},{"id":"urn:resourcetype:SourceMaterial","name":"Kildemateriell","__typename":"ResourceType"}],"path":"/subject:20/topic:1:193713/topic:1:193716/resource:47d3f10a-27ee-4eb7-b8dc-faa5e3d9b69a","__typename":"Movie"},{"id":"urn:article:26133","title":"RBG","metaImage":{"alt":"Ruth Bader Ginsburg i filmen RBG.","url":"https://api.test.ndla.no/image-api/raw/id/52570","__typename":"MetaImage"},"metaDescription":"I denne dokumentaren blir du bedre kjent med den amerikanske høyesterettsdommeren, Ruth Bader Ginsburg (1933–2020).","resourceTypes":[{"id":"urn:resourcetype:documentary","name":"Dokumentarfilm","__typename":"ResourceType"},{"id":"urn:resourcetype:SourceMaterial","name":"Kildemateriell","__typename":"ResourceType"}],"path":"/subject:20/topic:1:193713/topic:1:193716/resource:65a09210-c9d7-4cdb-ac59-27cabb5ee9de","__typename":"Movie"},{"id":"urn:article:26066","title":"Kapernaum","metaImage":{"alt":"Utsnitt fra filmen Kapernaum.","url":"https://api.test.ndla.no/image-api/raw/id/52442","__typename":"MetaImage"},"metaDescription":"Filmen Kapernaum viser nød og fattigdom i slummen fra en tolvårings perspektiv.  ","resourceTypes":[{"id":"urn:resourcetype:featureFilm","name":"Spillefilm","__typename":"ResourceType"},{"id":"urn:resourcetype:SourceMaterial","name":"Kildemateriell","__typename":"ResourceType"}],"path":"/subject:20/topic:1:186732/topic:1:187167/resource:a4287c2c-7976-4593-a265-a86df2f3ce09","__typename":"Movie"},{"id":"urn:article:19245","title":"Bawke","metaImage":{"alt":"En mann og en gutt som er skitne i ansiktet og på klærne. Utsnitt fra filmen Bawke.","url":"https://api.test.ndla.no/image-api/raw/id/45960","__typename":"MetaImage"},"metaDescription":"Filmen Bawke er regissert av norsk-kurdiske Hisham Zaman, som kom til Norge som 17-åring etter sju år på flukt fra Kurdistan.","resourceTypes":[{"id":"urn:resourcetype:shortFilm","name":"Kortfilm","__typename":"ResourceType"},{"id":"urn:resourcetype:SourceMaterial","name":"Kildemateriell","__typename":"ResourceType"}],"path":"/subject:20/topic:1:193713/topic:1:193716/resource:1:142396","__typename":"Movie"},{"id":"urn:article:19240","title":"12 Years a Slave","metaImage":{"alt":"Utsnitt fra det historiske dramaet 12 Years a slave. Foto.","url":"https://api.test.ndla.no/image-api/raw/id/45959","__typename":"MetaImage"},"metaDescription":"Filmen 12 Years a Slave forteller den sanne historien om Solomon Northup, og gir en sterk skildring av slaveriet i USA.","resourceTypes":[{"id":"urn:resourcetype:featureFilm","name":"Spillefilm","__typename":"ResourceType"},{"id":"urn:resourcetype:SourceMaterial","name":"Kildemateriell","__typename":"ResourceType"}],"path":"/subject:20/topic:1:193713/topic:1:193716/resource:1:134367","__typename":"Movie"},{"id":"urn:article:1062","title":"Brukerstøtte","metaImage":{"alt":"Utsnitt fra filmen Brukerstøtte.","url":"https://api.test.ndla.no/image-api/raw/id/46060","__typename":"MetaImage"},"metaDescription":"«Brukerstøtte» er en humoristisk kortfilm fra 2009. Manus og regi er ved André Øvredal.","resourceTypes":[{"id":"urn:resourcetype:shortFilm","name":"Kortfilm","__typename":"ResourceType"},{"id":"urn:resourcetype:SourceMaterial","name":"Kildemateriell","__typename":"ResourceType"}],"path":"/subject:20/topic:1:193720/topic:1:194411/resource:1:142111","__typename":"Movie"}],"__typename":"MovieTheme"},{"name":[{"name":"Urfolk","language":"nb","__typename":"Name"},{"name":"Urfolk","language":"nn","__typename":"Name"},{"name":" Indigenous people","language":"en","__typename":"Name"}],"movies":[{"id":"urn:article:37677","title":"Rabbit-Proof Fence","metaImage":{"alt":"Utsnitt fra spillefilmen \"Rabbit-Proof Fence\". Foto.","url":"https://api.test.ndla.no/image-api/raw/id/65440","__typename":"MetaImage"},"metaDescription":"Spillefilm fra 2002 som er basert på den sanne historien til tre aboriginske jenter som rømte fra et barnehjem i Vest-Australia i 1931. ","resourceTypes":[{"id":"urn:resourcetype:featureFilm","name":"Spillefilm","__typename":"ResourceType"},{"id":"urn:resourcetype:SourceMaterial","name":"Kildemateriell","__typename":"ResourceType"}],"path":"/subject:20/topic:1:193723/topic:1:194520/resource:932a0d22-9582-4e92-bd90-580ba6d98ab6","__typename":"Movie"},{"id":"urn:article:19665","title":"Veiviseren (Ofelas)","metaImage":{"alt":"Ung mann med hvit lue og vinterklær står med spent bue og har en sekk med piler på ryggen. Foto.","url":"https://api.test.ndla.no/image-api/raw/id/22077","__typename":"MetaImage"},"metaDescription":"Filmen Veiviseren (samisk tittel Ofelaš) gir et innblikk i sentrale verdier i samisk kultur og religion.","resourceTypes":[{"id":"urn:resourcetype:featureFilm","name":"Spillefilm","__typename":"ResourceType"},{"id":"urn:resourcetype:SourceMaterial","name":"Kildemateriell","__typename":"ResourceType"}],"path":"/subject:20/topic:1:193723/topic:1:194520/resource:1:125255","__typename":"Movie"},{"id":"urn:article:19287","title":"Rebel (Bihttoš)","metaImage":{"alt":"Animert bilde av kvinne med sort hår og blått pannebånd. Animasjon.","url":"https://api.test.ndla.no/image-api/raw/id/44043","__typename":"MetaImage"},"metaDescription":"Eksperimentell dokumentarfilm laget av filmskaper Elle-Máijá Tailfeathers. Filmen handler om Tailfeathers' egen familiehistorie.","resourceTypes":[{"id":"urn:resourcetype:shortFilm","name":"Kortfilm","__typename":"ResourceType"},{"id":"urn:resourcetype:SourceMaterial","name":"Kildemateriell","__typename":"ResourceType"}],"path":"/subject:20/topic:1:193723/topic:1:194520/resource:1:181462","__typename":"Movie"},{"id":"urn:article:19308","title":"Whale Rider","metaImage":{"alt":"Ung jente med mørkt hår sitter i en gammel båt på en strand. Foto.","url":"https://api.test.ndla.no/image-api/raw/id/45979","__typename":"MetaImage"},"metaDescription":"Ifølge Whangara-folkets legender kom forfaren deres ridende til New Zealands kyst på ryggen av en hval for over tusen år siden.","resourceTypes":[{"id":"urn:resourcetype:featureFilm","name":"Spillefilm","__typename":"ResourceType"},{"id":"urn:resourcetype:SourceMaterial","name":"Kildemateriell","__typename":"ResourceType"}],"path":"/subject:20/topic:1:193723/topic:1:194520/resource:1:146908","__typename":"Movie"},{"id":"urn:article:35247","title":"Gállok – kampen om sameland","metaImage":{"alt":"Utsnitt fra dokumentarfilmen \"Gállok – kampen om sameland\". Foto.","url":"https://api.test.ndla.no/image-api/raw/id/61873","__typename":"MetaImage"},"metaDescription":"Dokumentar om kampen mot gruvedrift i Sverige og Sápmi.","resourceTypes":[{"id":"urn:resourcetype:documentary","name":"Dokumentarfilm","__typename":"ResourceType"},{"id":"urn:resourcetype:SourceMaterial","name":"Kildemateriell","__typename":"ResourceType"}],"path":"/subject:20/topic:1:193723/topic:1:193724/resource:4d09cc70-e930-498f-87e5-d3e20cbacf62","__typename":"Movie"},{"id":"urn:article:19280","title":"Hilbes biigá","metaImage":{"alt":"Ungdomsjente med blondt hår og spørrende ansiktsuttrykk. Et skogholt i bakgrunnen. Foto.","url":"https://api.test.ndla.no/image-api/raw/id/41718","__typename":"MetaImage"},"metaDescription":"«Hilbes biigá» er en pønkete samisk ungdomsfilm om vennskap, sjalusi, seksualitet og lengsel.","resourceTypes":[{"id":"urn:resourcetype:shortFilm","name":"Kortfilm","__typename":"ResourceType"},{"id":"urn:resourcetype:SourceMaterial","name":"Kildemateriell","__typename":"ResourceType"}],"path":"/subject:20/topic:1:193723/topic:1:194520/resource:1:181463","__typename":"Movie"},{"id":"urn:article:19660","title":"Familiebildet","metaImage":{"alt":"En ung kvinne vasker føttene til en eldre dame i en lenestol. Foto.","url":"https://api.test.ndla.no/image-api/raw/id/46107","__typename":"MetaImage"},"metaDescription":"Regissør Yvonne Thomassen tar oss med til hennes bestemor og en fortid som har splittet familien siden krigen. ","resourceTypes":[{"id":"urn:resourcetype:documentary","name":"Dokumentarfilm","__typename":"ResourceType"},{"id":"urn:resourcetype:SourceMaterial","name":"Kildemateriell","__typename":"ResourceType"}],"path":"/subject:20/topic:1:193723/topic:1:194520/resource:1:161219","__typename":"Movie"},{"id":"urn:article:19663","title":"Saiva","metaImage":{"alt":"Tegnet samisk karakter i hvitt, på sort bakgrunn. Animasjon.","url":"https://api.test.ndla.no/image-api/raw/id/46108","__typename":"MetaImage"},"metaDescription":"Animasjonsfilm som foregår i et samisk mytologisk landskap.","resourceTypes":[{"id":"urn:resourcetype:shortFilm","name":"Kortfilm","__typename":"ResourceType"},{"id":"urn:resourcetype:SourceMaterial","name":"Kildemateriell","__typename":"ResourceType"}],"path":"/subject:20/topic:1:193723/topic:1:194520/resource:1:135012","__typename":"Movie"}],"__typename":"MovieTheme"},{"name":[{"name":"Klima og miljø","language":"nb","__typename":"Name"},{"name":"Klima og miljø","language":"nn","__typename":"Name"},{"name":"Climate and environment","language":"en","__typename":"Name"}],"movies":[{"id":"urn:article:35655","title":"Pingvinenes marsj","metaImage":{"alt":"Utsnitt fra filmen \"Pingvinenes marsj\". Foto.","url":"https://api.test.ndla.no/image-api/raw/id/62353","__typename":"MetaImage"},"metaDescription":"Prisbelønnet fransk dokumentarfilm fra 2005 om keiserpingvinenes paringssyklus.","resourceTypes":[{"id":"urn:resourcetype:documentary","name":"Dokumentarfilm","__typename":"ResourceType"},{"id":"urn:resourcetype:SourceMaterial","name":"Kildemateriell","__typename":"ResourceType"}],"path":"/subject:20/topic:1:193723/topic:1:193724/resource:f7c3d2fb-210e-4d54-bea0-9fe5be9b30ea","__typename":"Movie"},{"id":"urn:article:26991","title":"Thank You For The Rain","metaImage":{"alt":"Utsnitt fra Thank You For The Rain.","url":"https://api.test.ndla.no/image-api/raw/id/53144","__typename":"MetaImage"},"metaDescription":"Dokumentarfilm fra 2017 som ser på hvordan klimaendringer påvirker alt fra tilgang til vann, menneskerettigheter, likestilling og urbanisering.","resourceTypes":[{"id":"urn:resourcetype:documentary","name":"Dokumentarfilm","__typename":"ResourceType"},{"id":"urn:resourcetype:SourceMaterial","name":"Kildemateriell","__typename":"ResourceType"}],"path":"/subject:20/topic:1:193723/topic:652170bf-ff6d-4090-b66e-008124f09ead/resource:650c485e-63bb-4980-97aa-ac6ef4b19807","__typename":"Movie"},{"id":"urn:article:22015","title":"Don't panic – The truth about population","metaImage":{"alt":"Enorm befolkningsmengde i Asia stiger om bord på et overfylt tog. Mennesker står på taket av toget. Foto.","url":"https://api.test.ndla.no/image-api/raw/id/48120","__typename":"MetaImage"},"metaDescription":"Den verdenskjente statistikeren Hans Rosling viser oss et mer nyansert verdensbilde enn det som daglig blir presentert i media. ","resourceTypes":[{"id":"urn:resourcetype:documentary","name":"Dokumentarfilm","__typename":"ResourceType"},{"id":"urn:resourcetype:SourceMaterial","name":"Kildemateriell","__typename":"ResourceType"}],"path":"/subject:20/topic:1:193723/topic:1:193724/resource:c9bf3d8d-32c7-45ad-83cc-67107271ad47","__typename":"Movie"},{"id":"urn:article:22212","title":"Olje!","metaImage":{"alt":"Tilgrisede, smilende oljearbeidere. Foto.","url":"https://api.test.ndla.no/image-api/raw/id/42887","__typename":"MetaImage"},"metaDescription":"Dokumentarserie fra 2009 om det norske oljeeventyret.","resourceTypes":[{"id":"urn:resourcetype:series","name":"Serier","__typename":"ResourceType"},{"id":"urn:resourcetype:SourceMaterial","name":"Kildemateriell","__typename":"ResourceType"}],"path":"/subject:20/topic:1:193723/topic:1:193724/resource:8a031e61-1d15-4cb1-9059-4e7e11658fe6","__typename":"Movie"},{"id":"urn:article:19550","title":"Waste Land","metaImage":{"alt":"Tre personer har en samtale. En gammel komfyr i bakgrunnen. Foto.","url":"https://api.test.ndla.no/image-api/raw/id/42694","__typename":"MetaImage"},"metaDescription":"I «Waste Land» foreviger den berømte kunstneren Vik Muniz arbeiderne på en av verdens største søppelfyllinger ved å lage portretter av søppel.","resourceTypes":[{"id":"urn:resourcetype:documentary","name":"Dokumentarfilm","__typename":"ResourceType"},{"id":"urn:resourcetype:SourceMaterial","name":"Kildemateriell","__typename":"ResourceType"}],"path":"/subject:20/topic:1:193723/topic:1:193724/resource:1:186585","__typename":"Movie"},{"id":"urn:article:19540","title":"Oceans","metaImage":{"alt":"En sel ligger på en strand. Foto.","url":"https://api.test.ndla.no/image-api/raw/id/46066","__typename":"MetaImage"},"metaDescription":"Fransk naturdokumentar som presenterer unike bilder fra jordens fem hav. \r","resourceTypes":[{"id":"urn:resourcetype:documentary","name":"Dokumentarfilm","__typename":"ResourceType"},{"id":"urn:resourcetype:SourceMaterial","name":"Kildemateriell","__typename":"ResourceType"}],"path":"/subject:20/topic:1:193723/topic:1:193724/resource:1:146913","__typename":"Movie"},{"id":"urn:article:19538","title":"Nedbemanning","metaImage":{"alt":"En mann i dressjakke og en kvinne med et fortvilet uttrykk i ansiktet. Foto.","url":"https://api.test.ndla.no/image-api/raw/id/46065","__typename":"MetaImage"},"metaDescription":"Norsk kortfilm fra 2012. På grunn av overbefolkning stiller staten strenge krav til hvem som får lov å få barn.","resourceTypes":[{"id":"urn:resourcetype:shortFilm","name":"Kortfilm","__typename":"ResourceType"},{"id":"urn:resourcetype:SourceMaterial","name":"Kildemateriell","__typename":"ResourceType"}],"path":"/subject:20/topic:1:193723/topic:1:193724/resource:1:171216","__typename":"Movie"},{"id":"urn:article:21923","title":"Kort om mikroplast","metaImage":{"alt":"Plastflaske med rød kork på blå bakgrunn. Grafikk.","url":"https://api.test.ndla.no/image-api/raw/id/48077","__typename":"MetaImage"},"metaDescription":"Kort dokumentar om hvordan plasten vi kaster på gata føres ut i havet og blir til den globale katastrofen vi nå ser ute på våre verdenshav. ","resourceTypes":[{"id":"urn:resourcetype:documentary","name":"Dokumentarfilm","__typename":"ResourceType"},{"id":"urn:resourcetype:SourceMaterial","name":"Kildemateriell","__typename":"ResourceType"}],"path":"/subject:20/topic:1:193723/topic:1:193724/resource:91e25080-72a5-4082-b474-4fe8c1ff058f","__typename":"Movie"}],"__typename":"MovieTheme"},{"name":[{"name":"Krig og konflikt","language":"nb","__typename":"Name"},{"name":"Krig og konflikt","language":"nn","__typename":"Name"},{"name":"War and conflict","language":"en","__typename":"Name"}],"movies":[{"id":"urn:article:36818","title":"Quo Vadis, Aida?","metaImage":{"alt":"En kvinne bak et gitter, bildeutsnittet viser det alvorlige ansiktet hennes. Foto.","url":"https://api.test.ndla.no/image-api/raw/id/64268","__typename":"MetaImage"},"metaDescription":"Oscar-nominert spillefilm om Srebrenica-massakren. Filmen er basert på uvirkelige, men sanne, hendelser fra Bosnia i 1995.","resourceTypes":[{"id":"urn:resourcetype:featureFilm","name":"Spillefilm","__typename":"ResourceType"},{"id":"urn:resourcetype:SourceMaterial","name":"Kildemateriell","__typename":"ResourceType"}],"path":"/subject:20/topic:1:193713/topic:1:193726/resource:e0ada752-1484-4fe7-b008-8d50e5f9ff0f","__typename":"Movie"},{"id":"urn:article:26359","title":"Another Day of Life","metaImage":{"alt":"Utsnitt fra filmen Another Day of Life.","url":"https://api.test.ndla.no/image-api/raw/id/53604","__typename":"MetaImage"},"metaDescription":"Another Day of Life er en prisvinnende animert dokumentarfilm om opplevelsene til krigsreporter Ryszard Kapuscinski  i Angola på 1970-tallet.","resourceTypes":[{"id":"urn:resourcetype:featureFilm","name":"Spillefilm","__typename":"ResourceType"},{"id":"urn:resourcetype:SourceMaterial","name":"Kildemateriell","__typename":"ResourceType"}],"path":"/subject:20/topic:1:193713/topic:1:193726/resource:ad0110ec-b740-4bee-8b8d-8c2170b82553","__typename":"Movie"},{"id":"urn:article:19569","title":"Drone","metaImage":{"alt":"Utsnitt fra dokumentarfilmen Drone.","url":"https://api.test.ndla.no/image-api/raw/id/46075","__typename":"MetaImage"},"metaDescription":"DRONE stiller ubehagelige spørsmål om amerikanernes dronebruk i jakten på terrorister. Se den prisbelønte dokumentaren her.","resourceTypes":[{"id":"urn:resourcetype:documentary","name":"Dokumentarfilm","__typename":"ResourceType"},{"id":"urn:resourcetype:SourceMaterial","name":"Kildemateriell","__typename":"ResourceType"}],"path":"/subject:20/topic:1:193713/topic:1:193726/resource:1:151162","__typename":"Movie"},{"id":"urn:article:19580","title":"Kampen om tungtvannet","metaImage":{"alt":"Utsnitt fra TV-serien Kampen om tungtvannet.","url":"https://api.test.ndla.no/image-api/raw/id/46081","__typename":"MetaImage"},"metaDescription":"TV-serie om sabotasjeaksjonene mot Norsk Hydros anlegg under andre verdenskrig. ","resourceTypes":[{"id":"urn:resourcetype:series","name":"Serier","__typename":"ResourceType"},{"id":"urn:resourcetype:SourceMaterial","name":"Kildemateriell","__typename":"ResourceType"}],"path":"/subject:20/topic:1:193713/topic:1:193726/resource:1:142383","__typename":"Movie"},{"id":"urn:article:19593","title":"Krigens unge hjerter","metaImage":{"alt":"Utsnitt fra serien Krigens unge hjerter.","url":"https://api.test.ndla.no/image-api/raw/id/46083","__typename":"MetaImage"},"metaDescription":"Kritikerrost serie om unge tyskere under andre verdenskrig.","resourceTypes":[{"id":"urn:resourcetype:series","name":"Serier","__typename":"ResourceType"},{"id":"urn:resourcetype:SourceMaterial","name":"Kildemateriell","__typename":"ResourceType"}],"path":"/subject:20/topic:1:193713/topic:1:193726/resource:1:132427","__typename":"Movie"},{"id":"urn:article:7107","title":"The Imitation Game","metaImage":{"alt":"Utsnitt fra filmen The Imitation Game.","url":"https://api.test.ndla.no/image-api/raw/id/45974","__typename":"MetaImage"},"metaDescription":"The «Imitation Game» er basert på Alan Turings banebrytende vitenskapelige krigsinnsats for å avdekke Nazi-Tysklands hemmelige radiokommunikasjon.","resourceTypes":[{"id":"urn:resourcetype:featureFilm","name":"Spillefilm","__typename":"ResourceType"},{"id":"urn:resourcetype:SourceMaterial","name":"Kildemateriell","__typename":"ResourceType"}],"path":"/subject:20/topic:1:193713/topic:1:193726/resource:1:155227","__typename":"Movie"},{"id":"urn:article:19602","title":"Med rett til å kapre","metaImage":{"alt":"Utsnitt fra filmen Med rett til å kapre.","url":"https://api.test.ndla.no/image-api/raw/id/46085","__typename":"MetaImage"},"metaDescription":"Dokumentarfilm om Norges ukjente sjørøverhistorie.","resourceTypes":[{"id":"urn:resourcetype:documentary","name":"Dokumentarfilm","__typename":"ResourceType"},{"id":"urn:resourcetype:SourceMaterial","name":"Kildemateriell","__typename":"ResourceType"}],"path":"/subject:20/topic:1:193713/topic:1:193726/resource:1:133999","__typename":"Movie"}],"__typename":"MovieTheme"}],"about":[{"title":"Om NDLA film","description":"Ndla film er en nettbasert filmtjeneste for elever og lærere i videregående skole. Her finner du spillefilmer, kortfilmer, dokumentarfilmer og TV-serier.","visualElement":{"alt":"Video: Om NDLA film.","url":"https://players.brightcove.net/4806596774001/BkLm8fT_default/index.html?videoId=5796676276001","type":"brightcove","__typename":"SubjectPageVisualElement"},"language":"nb","__typename":"FilmPageAbout"},{"title":"Om NDLA film","description":"Ndla film er ei nettbasert filmteneste for elevar og lærarar i videregåande opplæring. Her finn du spelefilmar, kortfilmar, dokumentarfilmar og TV-seriar.","visualElement":{"alt":"Video: Om NDLA film.","url":"https://players.brightcove.net/4806596774001/BkLm8fT_default/index.html?videoId=5796676276001","type":"brightcove","__typename":"SubjectPageVisualElement"},"language":"nn","__typename":"FilmPageAbout"}],"article":{"id":38253,"content":"<section><p><a href=\"https://ndla.no/\">Vanlig lenke</a></p><p><a href=\"https://ndla.no/nb\">Lenke til NB</a></p><p><a href=\"https://ndla.no/nb/film\">Lenke til NB med mer</a></p><p><a href=\"https://ndla.no/nn\">Lenke til NN</a></p><p><a href=\"https://ndla.no/nn/film\">Lenke til NN med mer</a></p><p><a href=\"https://ndla.no/se\">Lenke til SE</a></p><ndlaembed data-resource=\"image\" data-resource_id=\"41296\" data-size=\"full\" data-align=\"\" data-alt=\"\" data-caption=\"\" data-border=\"false\" data-is-decorative=\"true\" data-url=\"https://api.test.ndla.no/image-api/v2/images/41296\" data-json=\"{&quot;resource&quot;:&quot;image&quot;,&quot;embedData&quot;:{&quot;resource&quot;:&quot;image&quot;,&quot;resourceId&quot;:41296,&quot;size&quot;:&quot;full&quot;,&quot;align&quot;:&quot;&quot;,&quot;alt&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;border&quot;:false,&quot;isDecorative&quot;:true,&quot;url&quot;:&quot;https://api.test.ndla.no/image-api/v2/images/41296&quot;,&quot;pageUrl&quot;:&quot;/image/41296&quot;},&quot;status&quot;:&quot;success&quot;,&quot;data&quot;:{&quot;id&quot;:&quot;41296&quot;,&quot;metaUrl&quot;:&quot;https://api.test.ndla.no/image-api/v3/images/41296&quot;,&quot;title&quot;:{&quot;title&quot;:&quot;Studenter snakker med lærer&quot;,&quot;language&quot;:&quot;und&quot;},&quot;alttext&quot;:{&quot;alttext&quot;:&quot;&quot;,&quot;language&quot;:&quot;nb&quot;},&quot;copyright&quot;:{&quot;license&quot;:{&quot;license&quot;:&quot;CC-BY-NC-SA-4.0&quot;,&quot;description&quot;:&quot;Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International&quot;,&quot;url&quot;:&quot;https://creativecommons.org/licenses/by-nc-sa/4.0/&quot;},&quot;origin&quot;:&quot;www.scanpix.no&quot;,&quot;creators&quot;:[],&quot;processors&quot;:[],&quot;rightsholders&quot;:[{&quot;type&quot;:&quot;Supplier&quot;,&quot;name&quot;:&quot;NTB scanpix&quot;},{&quot;type&quot;:&quot;Supplier&quot;,&quot;name&quot;:&quot;Shutterstock&quot;}],&quot;processed&quot;:false},&quot;tags&quot;:{&quot;tags&quot;:[&quot;lærer&quot;,&quot;skole&quot;,&quot;student&quot;],&quot;language&quot;:&quot;nb&quot;},&quot;caption&quot;:{&quot;caption&quot;:&quot;&quot;,&quot;language&quot;:&quot;nb&quot;},&quot;supportedLanguages&quot;:[&quot;nb&quot;,&quot;nn&quot;,&quot;se&quot;,&quot;en&quot;,&quot;de&quot;,&quot;und&quot;],&quot;created&quot;:&quot;2018-08-17T09:22:47.000Z&quot;,&quot;createdBy&quot;:&quot;r0gHb9Xg3li4yyXv0QSGQczV3bviakrT&quot;,&quot;modelRelease&quot;:&quot;not-set&quot;,&quot;image&quot;:{&quot;fileName&quot;:&quot;/243764539.jpg&quot;,&quot;size&quot;:1946723,&quot;contentType&quot;:&quot;image/jpeg&quot;,&quot;imageUrl&quot;:&quot;https://api.test.ndla.no/image-api/raw/243764539.jpg&quot;,&quot;dimensions&quot;:{&quot;width&quot;:2000,&quot;height&quot;:1333},&quot;language&quot;:&quot;nb&quot;}}}\"></ndlaembed><p>Vi er et interfylkeskommunalt samarbeid bestående av ti fylkeskommuner.<br>Kun Oslo står utenfor.</p><p>Våre mer enn 50 medarbeidere har dokumentert faglig formidlingsevne og digital kompetanse, og mange jobber i videregående skole ved siden av jobben i NDLA.</p><p>Dermed er vi tett på skolehverdagen, slik at vi kan lage engasjerende og lærerike ressurser.</p><p>Ønsket vårt er å bidra til et mer åpent og inkluderende kunnskapssamfunn hvor kunnskap er tilgjengelig for alle. Alle våre læringsressurser er derfor åpne og fritt tilgjengelige for alle.<br>Slik er vi et av Norges viktigste bidrag til å nå <a href=\"https://www.fn.no/om-fn/fns-baerekraftsmaal/god-utdanning\">FNs bærekraftsmål 4</a> om inkluderende og god utdanning for alle. NDLA er en betydelig aktør i det globale Open Educational Resources-arbeidet (OER) som alle FNs medlemsland har forpliktet seg til å satse på.</p><p>Vår sentrale posisjon i markedet gjør at vi ofte blir invitert med som samarbeidspart i utdanningssatsinger, både nasjonalt og internasjonalt. <br>Eksempel på dette er representasjon i <a href=\"https://www.udir.no/\">Utdanningsdirektoratets</a> referansegruppe for vurdering av kvalitet i digitale læremiddel, og vår rolle som ambassadør i <a href=\"https://epale.ec.europa.eu/nb\">EPALE</a> (Electronic Platform for Adult Learning).</p></section>","created":"2023-08-14T13:08:08.000Z","updated":"2023-11-03T11:55:11.789Z","supportedLanguages":["nb"],"grepCodes":[],"oldNdlaUrl":null,"introduction":"<p>Nasjonal digital læringsarena (NDLA) er Norges ledende produsent av digitale læringsressurser for videregående opplæring.\nPå vår plattform finner du 16 000 læringsressurser fordelt på 146 eksamensfag.</p>\n","conceptIds":[],"metaData":{"copyText":null,"footnotes":[],"__typename":"ArticleMetaData","concepts":[],"glosses":[],"h5ps":[],"brightcoves":[],"audios":[],"podcasts":[],"images":[{"id":"41296","title":"Studenter snakker med lærer","altText":"","src":"https://api.test.ndla.no/image-api/raw/243764539.jpg","copyText":null,"copyright":{"origin":"www.scanpix.no","license":{"license":"CC-BY-NC-SA-4.0","__typename":"License"},"creators":[],"processors":[],"rightsholders":[{"name":"NTB scanpix","type":"Supplier","__typename":"Contributor"},{"name":"Shutterstock","type":"Supplier","__typename":"Contributor"}],"processed":false,"__typename":"Copyright"},"__typename":"ImageLicense"}]},"relatedContent":[],"revisionDate":"2028-08-14T13:07:59.000Z","language":"nb","title":"Hvem er vi?","oembed":null,"published":"2023-08-14T13:08:08.000Z","copyright":{"license":{"license":"CC-BY-SA-4.0","__typename":"License"},"creators":[{"name":"test","type":"originator","__typename":"Contributor"}],"processors":[],"rightsholders":[],"origin":null,"processed":false,"__typename":"Copyright"},"__typename":"Article"},"__typename":"FilmFrontpage"},"subject":{"id":"urn:subject:20","name":"NDLA film","topics":[{"id":"urn:topic:1:193723","path":"/subject:20/topic:1:193723","name":"Bærekraftig utvikling","__typename":"Topic"},{"id":"urn:topic:1:193713","path":"/subject:20/topic:1:193713","name":"Demokrati og medborgerskap","__typename":"Topic"},{"id":"urn:topic:1:193720","path":"/subject:20/topic:1:193720","name":"Folkehelse og livsmestring","__typename":"Topic"},{"id":"urn:topic:1:198284","path":"/subject:20/topic:1:198284","name":"Samiske filmstudieark","__typename":"Topic"},{"id":"urn:topic:1:186732","path":"/subject:20/topic:1:186732","name":"Filmkunnskap","__typename":"Topic"},{"id":"urn:topic:1:194565","path":"/subject:20/topic:1:194565","name":"Læringsstier","__typename":"Topic"},{"id":"urn:topic:1:194655","path":"/subject:20/topic:1:194655","name":"Undervisningsfilm","__typename":"Topic"}],"__typename":"Subject"}}},{"data":{"examLockStatus":{"key":"MY_NDLA_WRITE_RESTRICTED","value":true,"__typename":"ConfigMetaBoolean"}}},{"data":{"alerts":[]}}]
+[
+  {
+    "data": {
+      "frontpage": {
+        "articleId": 38140,
+        "article": {
+          "id": 38140,
+          "title": "Forside",
+          "slug": "Forside",
+          "__typename": "Article"
+        },
+        "__typename": "FrontpageMenu",
+        "menu": [
+          {
+            "articleId": 38247,
+            "article": {
+              "id": 38247,
+              "title": "Om NDLA",
+              "slug": "om-ndla",
+              "__typename": "Article"
+            },
+            "__typename": "FrontpageMenu",
+            "menu": [
+              {
+                "articleId": 38253,
+                "article": {
+                  "id": 38253,
+                  "title": "Hvem er vi?",
+                  "slug": "Hvem-er-vi",
+                  "__typename": "Article"
+                },
+                "__typename": "FrontpageMenu",
+                "menu": [
+                  {
+                    "articleId": 38261,
+                    "article": {
+                      "id": 38261,
+                      "title": "NDLAs historie",
+                      "slug": "NDLAs-historie",
+                      "__typename": "Article"
+                    },
+                    "__typename": "FrontpageMenu"
+                  },
+                  {
+                    "articleId": 38002,
+                    "article": {
+                      "id": 38002,
+                      "title": "Tittel på forsideartikkel",
+                      "slug": "Tittel-p-forsideartikkel",
+                      "__typename": "Article"
+                    },
+                    "__typename": "FrontpageMenu"
+                  },
+                  {
+                    "articleId": 38317,
+                    "article": {
+                      "id": 38317,
+                      "title": "test spz 20.9.23",
+                      "slug": "test-spz-20923",
+                      "__typename": "Article"
+                    },
+                    "__typename": "FrontpageMenu"
+                  }
+                ]
+              },
+              {
+                "articleId": 38259,
+                "article": {
+                  "id": 38259,
+                  "title": "Jobb hos oss",
+                  "slug": "Jobb-hos-oss",
+                  "__typename": "Article"
+                },
+                "__typename": "FrontpageMenu",
+                "menu": [
+                  {
+                    "articleId": 38260,
+                    "article": {
+                      "id": 38260,
+                      "title": "Utlysninger",
+                      "slug": "Utlysninger",
+                      "__typename": "Article"
+                    },
+                    "__typename": "FrontpageMenu"
+                  }
+                ]
+              },
+              {
+                "articleId": 38041,
+                "article": {
+                  "id": 38041,
+                  "title": "Test av KPI",
+                  "slug": "Test-av-KPI",
+                  "__typename": "Article"
+                },
+                "__typename": "FrontpageMenu",
+                "menu": []
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  {
+    "data": {
+      "programmes": [
+        {
+          "id": "urn:programme:97a5a3b0-8b9f-4d05-9248-f4ad526f8ff4",
+          "title": { "title": "Bygg og anleggsteknikk", "__typename": "Title" },
+          "url": "/bygg-og-anleggsteknikk__ca336a10475d",
+          "contentUri": "urn:frontpage:241",
+          "__typename": "ProgrammePage"
+        },
+        {
+          "id": "urn:programme:e4d0dac7-773a-4317-9c3c-45f336d184db",
+          "title": {
+            "title": "Elektro og datateknologi",
+            "__typename": "Title"
+          },
+          "url": "/elektro-og-datateknologi__a06aa90983ed",
+          "contentUri": "urn:frontpage:243",
+          "__typename": "ProgrammePage"
+        },
+        {
+          "id": "urn:programme:1458feb9-f104-4f90-a8cb-a725ab4c8a4c",
+          "title": {
+            "title": "Frisør, blomster, interiør og eksponeringsdesign",
+            "__typename": "Title"
+          },
+          "url": "/frisør-blomster-interiør-og-eksponeringsdesign__ee5b604cd833",
+          "contentUri": "urn:frontpage:244",
+          "__typename": "ProgrammePage"
+        },
+        {
+          "id": "urn:programme:fcb6cccb-399f-4109-bdbb-115ad193de79",
+          "title": {
+            "title": "Håndverk, design og produktutvikling",
+            "__typename": "Title"
+          },
+          "url": "/håndverk-design-og-produktutvikling__671494a64e1b",
+          "contentUri": "urn:frontpage:246",
+          "__typename": "ProgrammePage"
+        },
+        {
+          "id": "urn:programme:a32e6221-c260-46a2-ac8c-8237e2ef8ff5",
+          "title": { "title": "Helse- og oppvekstfag", "__typename": "Title" },
+          "url": "/helse-og-oppvekstfag__d941bb301fff",
+          "contentUri": "urn:frontpage:245",
+          "__typename": "ProgrammePage"
+        },
+        {
+          "id": "urn:programme:b56e58c7-53f3-471e-bc76-98bff166e2d6",
+          "title": { "title": "Idrettsfag", "__typename": "Title" },
+          "url": "/idrettsfag__5501f44df8d5",
+          "contentUri": "urn:frontpage:247",
+          "__typename": "ProgrammePage"
+        },
+        {
+          "id": "urn:programme:b3ed9247-0f47-4e85-9511-84e455370f12",
+          "title": {
+            "title": "Informasjonsteknologi og medieproduksjon",
+            "__typename": "Title"
+          },
+          "url": "/informasjonsteknologi-og-medieproduksjon__9e93d5a7c3a9",
+          "contentUri": "urn:frontpage:248",
+          "__typename": "ProgrammePage"
+        },
+        {
+          "id": "urn:programme:293c68bf-927c-464f-9f70-47d8ebdfe13e",
+          "title": {
+            "title": "Kunst, design og arkitektur",
+            "__typename": "Title"
+          },
+          "url": "/kunst-design-og-arkitektur__ff8a6c6558f6",
+          "contentUri": "urn:frontpage:249",
+          "__typename": "ProgrammePage"
+        },
+        {
+          "id": "urn:programme:ce0c331b-4386-4942-aef2-4f77d3844fa5",
+          "title": {
+            "title": "Medier og kommunikasjon",
+            "__typename": "Title"
+          },
+          "url": "/medier-og-kommunikasjon__20b530651a88",
+          "contentUri": "urn:frontpage:250",
+          "__typename": "ProgrammePage"
+        },
+        {
+          "id": "urn:programme:5d669d4f-24bc-4f07-91b8-f9d7f962160c",
+          "title": { "title": "Musikk, dans og drama", "__typename": "Title" },
+          "url": "/musikk-dans-og-drama__664db056bbaa",
+          "contentUri": "urn:frontpage:251",
+          "__typename": "ProgrammePage"
+        },
+        {
+          "id": "urn:programme:f4a2eb9c-4f55-4190-8e4b-d376b75fab39",
+          "title": { "title": "Naturbruk", "__typename": "Title" },
+          "url": "/naturbruk__bcf9b032b71d",
+          "contentUri": "urn:frontpage:252",
+          "__typename": "ProgrammePage"
+        },
+        {
+          "id": "urn:programme:b147db2b-0dc4-4d97-b34d-9b10c87c561b",
+          "title": { "title": "Påbygg", "__typename": "Title" },
+          "url": "/påbygg__070380bf3c6f",
+          "contentUri": "urn:frontpage:253",
+          "__typename": "ProgrammePage"
+        },
+        {
+          "id": "urn:programme:2f191b85-e031-4f1d-9702-951e455805d9",
+          "title": { "title": "Restaurant- og matfag", "__typename": "Title" },
+          "url": "/restaurant-og-matfag__bbf4c5ea93f6",
+          "contentUri": "urn:frontpage:254",
+          "__typename": "ProgrammePage"
+        },
+        {
+          "id": "urn:programme:4a4c1cda-2f1a-44f8-b195-12295bb9b750",
+          "title": {
+            "title": "Salg, service og reiseliv",
+            "__typename": "Title"
+          },
+          "url": "/salg-service-og-reiseliv__611735d0a934",
+          "contentUri": "urn:frontpage:255",
+          "__typename": "ProgrammePage"
+        },
+        {
+          "id": "urn:programme:25da77a3-7cdb-45ca-a5b5-c37401a0d7cf",
+          "title": { "title": "Studiespesialisering", "__typename": "Title" },
+          "url": "/studiespesialisering__b053339dd3d2",
+          "contentUri": "urn:frontpage:242",
+          "__typename": "ProgrammePage"
+        },
+        {
+          "id": "urn:programme:b5609bd7-c357-4c9e-9b98-35c6f206f908",
+          "title": {
+            "title": "Teknologi- og industrifag",
+            "__typename": "Title"
+          },
+          "url": "/teknologi-og-industrifag__5c3863f0665c",
+          "contentUri": "urn:frontpage:256",
+          "__typename": "ProgrammePage"
+        }
+      ]
+    }
+  },
+  {
+    "data": {
+      "subject": {
+        "id": "urn:subject:20",
+        "name": "NDLA film",
+        "__typename": "Subject",
+        "allTopics": [
+          {
+            "id": "urn:topic:1:186732",
+            "name": "Filmkunnskap",
+            "parentId": "urn:subject:20",
+            "path": "/subject:20/topic:1:186732",
+            "__typename": "Topic"
+          },
+          {
+            "id": "urn:topic:1:187167",
+            "name": "Filmanalyse",
+            "parentId": "urn:topic:1:186732",
+            "path": "/subject:20/topic:1:186732/topic:1:187167",
+            "__typename": "Topic"
+          },
+          {
+            "id": "urn:topic:1:187125",
+            "name": "Filmatiserte bøker",
+            "parentId": "urn:topic:1:186732",
+            "path": "/subject:20/topic:1:186732/topic:1:187125",
+            "__typename": "Topic"
+          },
+          {
+            "id": "urn:topic:1:193712",
+            "name": "Filmhistorie",
+            "parentId": "urn:topic:1:186732",
+            "path": "/subject:20/topic:1:186732/topic:1:193712",
+            "__typename": "Topic"
+          },
+          {
+            "id": "urn:topic:1:194203",
+            "name": "Filmproduksjon",
+            "parentId": "urn:topic:1:186732",
+            "path": "/subject:20/topic:1:186732/topic:1:194203",
+            "__typename": "Topic"
+          },
+          {
+            "id": "urn:topic:1:193713",
+            "name": "Demokrati og medborgerskap",
+            "parentId": "urn:subject:20",
+            "path": "/subject:20/topic:1:193713",
+            "__typename": "Topic"
+          },
+          {
+            "id": "urn:topic:1:193714",
+            "name": "Trusler mot demokratiet",
+            "parentId": "urn:topic:1:193713",
+            "path": "/subject:20/topic:1:193713/topic:1:193714",
+            "__typename": "Topic"
+          },
+          {
+            "id": "urn:topic:1:193716",
+            "name": "Menneskerettigheter",
+            "parentId": "urn:topic:1:193713",
+            "path": "/subject:20/topic:1:193713/topic:1:193716",
+            "__typename": "Topic"
+          },
+          {
+            "id": "urn:topic:1:193726",
+            "name": "Krig og konflikt",
+            "parentId": "urn:topic:1:193713",
+            "path": "/subject:20/topic:1:193713/topic:1:193726",
+            "__typename": "Topic"
+          },
+          {
+            "id": "urn:topic:e77e417f-093c-42c0-b635-c57136ba8af3",
+            "name": "Minoriteter, mangfold og utenforskap",
+            "parentId": "urn:topic:1:193713",
+            "path": "/subject:20/topic:1:193713/topic:e77e417f-093c-42c0-b635-c57136ba8af3",
+            "__typename": "Topic"
+          },
+          {
+            "id": "urn:topic:1:193720",
+            "name": "Folkehelse og livsmestring",
+            "parentId": "urn:subject:20",
+            "path": "/subject:20/topic:1:193720",
+            "__typename": "Topic"
+          },
+          {
+            "id": "urn:topic:1:193721",
+            "name": "Helse",
+            "parentId": "urn:topic:1:193720",
+            "path": "/subject:20/topic:1:193720/topic:1:193721",
+            "__typename": "Topic"
+          },
+          {
+            "id": "urn:topic:1:194403",
+            "name": "Identitet",
+            "parentId": "urn:topic:1:193720",
+            "path": "/subject:20/topic:1:193720/topic:1:194403",
+            "__typename": "Topic"
+          },
+          {
+            "id": "urn:topic:1:194411",
+            "name": "Kommunikasjon",
+            "parentId": "urn:topic:1:193720",
+            "path": "/subject:20/topic:1:193720/topic:1:194411",
+            "__typename": "Topic"
+          },
+          {
+            "id": "urn:topic:1:193723",
+            "name": "Bærekraftig utvikling",
+            "parentId": "urn:subject:20",
+            "path": "/subject:20/topic:1:193723",
+            "__typename": "Topic"
+          },
+          {
+            "id": "urn:topic:1:193724",
+            "name": "Miljø",
+            "parentId": "urn:topic:1:193723",
+            "path": "/subject:20/topic:1:193723/topic:1:193724",
+            "__typename": "Topic"
+          },
+          {
+            "id": "urn:topic:1:194520",
+            "name": "Urfolk",
+            "parentId": "urn:topic:1:193723",
+            "path": "/subject:20/topic:1:193723/topic:1:194520",
+            "__typename": "Topic"
+          },
+          {
+            "id": "urn:topic:652170bf-ff6d-4090-b66e-008124f09ead",
+            "name": "Klima",
+            "parentId": "urn:topic:1:193723",
+            "path": "/subject:20/topic:1:193723/topic:652170bf-ff6d-4090-b66e-008124f09ead",
+            "__typename": "Topic"
+          },
+          {
+            "id": "urn:topic:caaec30d-23c6-4205-a505-f3d5a59ecb2b",
+            "name": "Teknologi og etikk",
+            "parentId": "urn:topic:1:193723",
+            "path": "/subject:20/topic:1:193723/topic:caaec30d-23c6-4205-a505-f3d5a59ecb2b",
+            "__typename": "Topic"
+          },
+          {
+            "id": "urn:topic:1:194565",
+            "name": "Læringsstier",
+            "parentId": "urn:subject:20",
+            "path": "/subject:20/topic:1:194565",
+            "__typename": "Topic"
+          },
+          {
+            "id": "urn:topic:1:198284",
+            "name": "Samiske filmstudieark",
+            "parentId": "urn:subject:20",
+            "path": "/subject:20/topic:1:198284",
+            "__typename": "Topic"
+          },
+          {
+            "id": "urn:topic:1:181627",
+            "name": "Samiske filmstudieark",
+            "parentId": "urn:topic:1:198284",
+            "path": "/subject:20/topic:1:198284/topic:1:181627",
+            "__typename": "Topic"
+          },
+          {
+            "id": "urn:topic:1:182010",
+            "name": "Sámi filbmaoahppoárka",
+            "parentId": "urn:topic:1:198284",
+            "path": "/subject:20/topic:1:198284/topic:1:182010",
+            "__typename": "Topic"
+          },
+          {
+            "id": "urn:topic:1:182011",
+            "name": "Saemien filmestudije-aarkh",
+            "parentId": "urn:topic:1:198284",
+            "path": "/subject:20/topic:1:198284/topic:1:182011",
+            "__typename": "Topic"
+          },
+          {
+            "id": "urn:topic:1:194655",
+            "name": "Undervisningsfilm",
+            "parentId": "urn:subject:20",
+            "path": "/subject:20/topic:1:194655",
+            "__typename": "Topic"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "data": {
+      "filmfrontpage": {
+        "slideShow": [
+          {
+            "id": "urn:article:25527",
+            "title": "Chef Flynn",
+            "metaImage": {
+              "alt": "Ung gutt i kokkeklær legger mat på fat. Utsnitt fra dokumentarfilmen Chef Flynn.",
+              "url": "https://api.test.ndla.no/image-api/raw/id/46494",
+              "__typename": "MetaImage"
+            },
+            "metaDescription": "Dokumentarfilm om Flynn McGarry. I en alder av 20 år har han gjort kometkarriere i restaurantbransjen.",
+            "resourceTypes": [
+              {
+                "id": "urn:resourcetype:documentary",
+                "name": "Doumentarfilm",
+                "__typename": "ResourceType"
+              },
+              {
+                "id": "urn:resourcetype:SourceMaterial",
+                "name": "Kildemateriell",
+                "__typename": "ResourceType"
+              }
+            ],
+            "path": "/subject:20/topic:1:193720/topic:1:194403/resource:084cfecb-6c72-4e43-b8fa-5fbc160092c1",
+            "__typename": "Movie"
+          },
+          {
+            "id": "urn:article:25322",
+            "title": "Alle utlendinger har lukka gardiner",
+            "metaImage": {
+              "alt": "Utsnitt fra filmen \"Alle utlendinger har lukka gardiner\". Foto.",
+              "url": "https://api.test.ndla.no/image-api/raw/id/51411",
+              "__typename": "MetaImage"
+            },
+            "metaDescription": "Ungdomsdrama fra multikulturelle Romsås om oppvekst og kjærlighet.",
+            "resourceTypes": [
+              {
+                "id": "urn:resourcetype:featureFilm",
+                "name": "Spillefilm",
+                "__typename": "ResourceType"
+              },
+              {
+                "id": "urn:resourcetype:SourceMaterial",
+                "name": "Kildemateriell",
+                "__typename": "ResourceType"
+              }
+            ],
+            "path": "/subject:20/topic:1:186732/topic:1:187125/resource:82fde9d2-d676-43b9-810f-84b09fa7ce1e",
+            "__typename": "Movie"
+          },
+          {
+            "id": "urn:article:30978",
+            "title": "Før snøen faller",
+            "metaImage": {
+              "alt": "Utsnitt fra filmen Før snøen faller.",
+              "url": "https://api.test.ndla.no/image-api/raw/id/57415",
+              "__typename": "MetaImage"
+            },
+            "metaDescription": "Før snøen faller er en sterk film om ære, familie, tvangsekteskap og en farlig reise fra øst til vest.",
+            "resourceTypes": [
+              {
+                "id": "urn:resourcetype:featureFilm",
+                "name": "Spillefilm",
+                "__typename": "ResourceType"
+              },
+              {
+                "id": "urn:resourcetype:SourceMaterial",
+                "name": "Kildemateriell",
+                "__typename": "ResourceType"
+              }
+            ],
+            "path": "/subject:20/topic:1:193713/topic:1:193716/resource:47d3f10a-27ee-4eb7-b8dc-faa5e3d9b69a",
+            "__typename": "Movie"
+          },
+          {
+            "id": "urn:article:1302",
+            "title": "IRL",
+            "metaImage": {
+              "alt": "Utsnitt fra filmplakaten til filmen IRL.",
+              "url": "https://api.test.ndla.no/image-api/raw/id/4694",
+              "__typename": "MetaImage"
+            },
+            "metaDescription": "IRL er en svensk spillefilm fra 2013 om mobbing, sosiale medier og dataspill.",
+            "resourceTypes": [
+              {
+                "id": "urn:resourcetype:featureFilm",
+                "name": "Spillefilm",
+                "__typename": "ResourceType"
+              },
+              {
+                "id": "urn:resourcetype:SourceMaterial",
+                "name": "Kildemateriell",
+                "__typename": "ResourceType"
+              }
+            ],
+            "path": "/subject:20/topic:1:193720/topic:1:194403/resource:1:151968",
+            "__typename": "Movie"
+          },
+          {
+            "id": "urn:article:1062",
+            "title": "Brukerstøtte",
+            "metaImage": {
+              "alt": "Utsnitt fra filmen Brukerstøtte.",
+              "url": "https://api.test.ndla.no/image-api/raw/id/46060",
+              "__typename": "MetaImage"
+            },
+            "metaDescription": "«Brukerstøtte» er en humoristisk kortfilm fra 2009. Manus og regi er ved André Øvredal.",
+            "resourceTypes": [
+              {
+                "id": "urn:resourcetype:shortFilm",
+                "name": "Kortfilm",
+                "__typename": "ResourceType"
+              },
+              {
+                "id": "urn:resourcetype:SourceMaterial",
+                "name": "Kildemateriell",
+                "__typename": "ResourceType"
+              }
+            ],
+            "path": "/subject:20/topic:1:193720/topic:1:194411/resource:1:142111",
+            "__typename": "Movie"
+          }
+        ],
+        "movieThemes": [
+          {
+            "name": [
+              { "name": "Identitet", "language": "nb", "__typename": "Name" },
+              { "name": "Identitet", "language": "nn", "__typename": "Name" },
+              { "name": "Identity", "language": "en", "__typename": "Name" }
+            ],
+            "movies": [
+              {
+                "id": "urn:article:31913",
+                "title": "Disco",
+                "metaImage": {
+                  "alt": "Utsnitt fra filmen Disco. Foto.",
+                  "url": "https://api.test.ndla.no/image-api/raw/id/58629",
+                  "__typename": "MetaImage"
+                },
+                "metaDescription": "En film om karismatisk kristendom, discodans, identitet og tvil.",
+                "resourceTypes": [
+                  {
+                    "id": "urn:resourcetype:featureFilm",
+                    "name": "Spillefilm",
+                    "__typename": "ResourceType"
+                  },
+                  {
+                    "id": "urn:resourcetype:SourceMaterial",
+                    "name": "Kildemateriell",
+                    "__typename": "ResourceType"
+                  }
+                ],
+                "path": "/subject:20/topic:1:193720/topic:1:194403/resource:edf99c23-2656-41c6-8e07-4a1cde282a2b",
+                "__typename": "Movie"
+              },
+              {
+                "id": "urn:article:28189",
+                "title": "The Big Sick",
+                "metaImage": {
+                  "alt": "Utsnitt fra filmen The Big Sick.",
+                  "url": "https://api.test.ndla.no/image-api/raw/id/54983",
+                  "__typename": "MetaImage"
+                },
+                "metaDescription": " The Big Sick er en kritikerrost komedie om kjærlighet, sykdom og kulturelle forskjeller. \n ",
+                "resourceTypes": [
+                  {
+                    "id": "urn:resourcetype:featureFilm",
+                    "name": "Spillefilm",
+                    "__typename": "ResourceType"
+                  },
+                  {
+                    "id": "urn:resourcetype:SourceMaterial",
+                    "name": "Kildemateriell",
+                    "__typename": "ResourceType"
+                  }
+                ],
+                "path": "/subject:20/topic:1:193720/topic:1:194403/resource:74d741e9-f657-4b80-8385-0ecb2492cc81",
+                "__typename": "Movie"
+              },
+              {
+                "id": "urn:article:26219",
+                "title": "VS.",
+                "metaImage": {
+                  "alt": "Screenshot fra filmen VS.",
+                  "url": "https://api.test.ndla.no/image-api/raw/id/52593",
+                  "__typename": "MetaImage"
+                },
+                "metaDescription": "Britisk spillefilm om identitet, musikk og ungdomstid.",
+                "resourceTypes": [
+                  {
+                    "id": "urn:resourcetype:featureFilm",
+                    "name": "Spillefilm",
+                    "__typename": "ResourceType"
+                  },
+                  {
+                    "id": "urn:resourcetype:SourceMaterial",
+                    "name": "Kildemateriell",
+                    "__typename": "ResourceType"
+                  }
+                ],
+                "path": "/subject:20/topic:1:193720/topic:1:194403/resource:21cccff4-230d-47b5-8069-5c0d08d485ae",
+                "__typename": "Movie"
+              },
+              {
+                "id": "urn:article:25322",
+                "title": "Alle utlendinger har lukka gardiner",
+                "metaImage": {
+                  "alt": "Utsnitt fra filmen \"Alle utlendinger har lukka gardiner\". Foto.",
+                  "url": "https://api.test.ndla.no/image-api/raw/id/51411",
+                  "__typename": "MetaImage"
+                },
+                "metaDescription": "Ungdomsdrama fra multikulturelle Romsås om oppvekst og kjærlighet.",
+                "resourceTypes": [
+                  {
+                    "id": "urn:resourcetype:featureFilm",
+                    "name": "Spillefilm",
+                    "__typename": "ResourceType"
+                  },
+                  {
+                    "id": "urn:resourcetype:SourceMaterial",
+                    "name": "Kildemateriell",
+                    "__typename": "ResourceType"
+                  }
+                ],
+                "path": "/subject:20/topic:1:186732/topic:1:187125/resource:82fde9d2-d676-43b9-810f-84b09fa7ce1e",
+                "__typename": "Movie"
+              },
+              {
+                "id": "urn:article:25527",
+                "title": "Chef Flynn",
+                "metaImage": {
+                  "alt": "Ung gutt i kokkeklær legger mat på fat. Utsnitt fra dokumentarfilmen Chef Flynn.",
+                  "url": "https://api.test.ndla.no/image-api/raw/id/46494",
+                  "__typename": "MetaImage"
+                },
+                "metaDescription": "Dokumentarfilm om Flynn McGarry. I en alder av 20 år har han gjort kometkarriere i restaurantbransjen.",
+                "resourceTypes": [
+                  {
+                    "id": "urn:resourcetype:documentary",
+                    "name": "Doumentarfilm",
+                    "__typename": "ResourceType"
+                  },
+                  {
+                    "id": "urn:resourcetype:SourceMaterial",
+                    "name": "Kildemateriell",
+                    "__typename": "ResourceType"
+                  }
+                ],
+                "path": "/subject:20/topic:1:193720/topic:1:194403/resource:084cfecb-6c72-4e43-b8fa-5fbc160092c1",
+                "__typename": "Movie"
+              },
+              {
+                "id": "urn:article:1303",
+                "title": "Catfish",
+                "metaImage": {
+                  "alt": "Utsnitt fra filmen Catfish.",
+                  "url": "https://api.test.ndla.no/image-api/raw/id/45961",
+                  "__typename": "MetaImage"
+                },
+                "metaDescription": "Svindel og forfalskning hører til Facebooks mørkere sider. Hvordan kan vi vite om en profil er ekte?",
+                "resourceTypes": [
+                  {
+                    "id": "urn:resourcetype:featureFilm",
+                    "name": "Spillefilm",
+                    "__typename": "ResourceType"
+                  },
+                  {
+                    "id": "urn:resourcetype:SourceMaterial",
+                    "name": "Kildemateriell",
+                    "__typename": "ResourceType"
+                  }
+                ],
+                "path": "/subject:20/topic:1:186732/topic:1:187167/resource:1:151951",
+                "__typename": "Movie"
+              },
+              {
+                "id": "urn:article:19531",
+                "title": "Sneakerheadz",
+                "metaImage": {
+                  "alt": "Utsnitt fra filmen Sneakerheadz. Foto.",
+                  "url": "https://api.test.ndla.no/image-api/raw/id/1364",
+                  "__typename": "MetaImage"
+                },
+                "metaDescription": "Dokumentarfilmen om samlemani og fascinasjonen for en bestemt skotype. Den viser at noen går langt i jakten på de rette skoene.",
+                "resourceTypes": [
+                  {
+                    "id": "urn:resourcetype:documentary",
+                    "name": "Doumentarfilm",
+                    "__typename": "ResourceType"
+                  },
+                  {
+                    "id": "urn:resourcetype:SourceMaterial",
+                    "name": "Kildemateriell",
+                    "__typename": "ResourceType"
+                  }
+                ],
+                "path": "/subject:20/topic:1:193720/topic:1:194403/resource:1:161197",
+                "__typename": "Movie"
+              },
+              {
+                "id": "urn:article:19264",
+                "title": "Dryads – Girls Don't Cry",
+                "metaImage": {
+                  "alt": "Utsnitt fra filmen Dryads - Girls Don't Cry.",
+                  "url": "https://api.test.ndla.no/image-api/raw/id/45970",
+                  "__typename": "MetaImage"
+                },
+                "metaDescription": " «Dryads - Girls Don't Cry» er en film om ungdomstid, vennskap og musikk.",
+                "resourceTypes": [
+                  {
+                    "id": "urn:resourcetype:featureFilm",
+                    "name": "Spillefilm",
+                    "__typename": "ResourceType"
+                  },
+                  {
+                    "id": "urn:resourcetype:SourceMaterial",
+                    "name": "Kildemateriell",
+                    "__typename": "ResourceType"
+                  }
+                ],
+                "path": "/subject:20/topic:1:186732/topic:1:187167/resource:1:171203",
+                "__typename": "Movie"
+              },
+              {
+                "id": "urn:article:1302",
+                "title": "IRL",
+                "metaImage": {
+                  "alt": "Utsnitt fra filmplakaten til filmen IRL.",
+                  "url": "https://api.test.ndla.no/image-api/raw/id/4694",
+                  "__typename": "MetaImage"
+                },
+                "metaDescription": "IRL er en svensk spillefilm fra 2013 om mobbing, sosiale medier og dataspill.",
+                "resourceTypes": [
+                  {
+                    "id": "urn:resourcetype:featureFilm",
+                    "name": "Spillefilm",
+                    "__typename": "ResourceType"
+                  },
+                  {
+                    "id": "urn:resourcetype:SourceMaterial",
+                    "name": "Kildemateriell",
+                    "__typename": "ResourceType"
+                  }
+                ],
+                "path": "/subject:20/topic:1:193720/topic:1:194403/resource:1:151968",
+                "__typename": "Movie"
+              }
+            ],
+            "__typename": "MovieTheme"
+          },
+          {
+            "name": [
+              {
+                "name": "Menneskerettigheter",
+                "language": "nb",
+                "__typename": "Name"
+              },
+              {
+                "name": "Menneskerettar",
+                "language": "nn",
+                "__typename": "Name"
+              },
+              { "name": "Human rights", "language": "en", "__typename": "Name" }
+            ],
+            "movies": [
+              {
+                "id": "urn:article:35327",
+                "title": "MLK/FBI",
+                "metaImage": {
+                  "alt": "Foto av utsnitt fra filmen \"MLK/FBI\".",
+                  "url": "https://api.test.ndla.no/image-api/raw/id/61874",
+                  "__typename": "MetaImage"
+                },
+                "metaDescription": "Dokumentarfilm om FBIs overvåking av den kjente amerikanske borgerrettsforkjemperen Martin Luther King Jr.",
+                "resourceTypes": [
+                  {
+                    "id": "urn:resourcetype:documentary",
+                    "name": "Doumentarfilm",
+                    "__typename": "ResourceType"
+                  },
+                  {
+                    "id": "urn:resourcetype:SourceMaterial",
+                    "name": "Kildemateriell",
+                    "__typename": "ResourceType"
+                  }
+                ],
+                "path": "/subject:20/topic:1:193713/topic:1:193716/resource:89a9d184-367f-4c34-bc44-7b67cee0bda7",
+                "__typename": "Movie"
+              },
+              {
+                "id": "urn:article:30811",
+                "title": "Hva vil folk si",
+                "metaImage": {
+                  "alt": "Utsnitt fra filmen Hva vil folk si.",
+                  "url": "https://api.test.ndla.no/image-api/raw/id/57163",
+                  "__typename": "MetaImage"
+                },
+                "metaDescription": "Hva vil folk si er en gripende og viktig film om 16 år gamle Nisha, som forsøker å finne sin plass mellom to kulturer. ",
+                "resourceTypes": [
+                  {
+                    "id": "urn:resourcetype:featureFilm",
+                    "name": "Spillefilm",
+                    "__typename": "ResourceType"
+                  },
+                  {
+                    "id": "urn:resourcetype:SourceMaterial",
+                    "name": "Kildemateriell",
+                    "__typename": "ResourceType"
+                  }
+                ],
+                "path": "/subject:20/topic:1:193713/topic:1:193716/resource:78c43c61-f77e-4d95-ba6b-99570081b09c",
+                "__typename": "Movie"
+              },
+              {
+                "id": "urn:article:30978",
+                "title": "Før snøen faller",
+                "metaImage": {
+                  "alt": "Utsnitt fra filmen Før snøen faller.",
+                  "url": "https://api.test.ndla.no/image-api/raw/id/57415",
+                  "__typename": "MetaImage"
+                },
+                "metaDescription": "Før snøen faller er en sterk film om ære, familie, tvangsekteskap og en farlig reise fra øst til vest.",
+                "resourceTypes": [
+                  {
+                    "id": "urn:resourcetype:featureFilm",
+                    "name": "Spillefilm",
+                    "__typename": "ResourceType"
+                  },
+                  {
+                    "id": "urn:resourcetype:SourceMaterial",
+                    "name": "Kildemateriell",
+                    "__typename": "ResourceType"
+                  }
+                ],
+                "path": "/subject:20/topic:1:193713/topic:1:193716/resource:47d3f10a-27ee-4eb7-b8dc-faa5e3d9b69a",
+                "__typename": "Movie"
+              },
+              {
+                "id": "urn:article:26133",
+                "title": "RBG",
+                "metaImage": {
+                  "alt": "Ruth Bader Ginsburg i filmen RBG.",
+                  "url": "https://api.test.ndla.no/image-api/raw/id/52570",
+                  "__typename": "MetaImage"
+                },
+                "metaDescription": "I denne dokumentaren blir du bedre kjent med den amerikanske høyesterettsdommeren, Ruth Bader Ginsburg (1933–2020).",
+                "resourceTypes": [
+                  {
+                    "id": "urn:resourcetype:documentary",
+                    "name": "Doumentarfilm",
+                    "__typename": "ResourceType"
+                  },
+                  {
+                    "id": "urn:resourcetype:SourceMaterial",
+                    "name": "Kildemateriell",
+                    "__typename": "ResourceType"
+                  }
+                ],
+                "path": "/subject:20/topic:1:193713/topic:1:193716/resource:65a09210-c9d7-4cdb-ac59-27cabb5ee9de",
+                "__typename": "Movie"
+              },
+              {
+                "id": "urn:article:26066",
+                "title": "Kapernaum",
+                "metaImage": {
+                  "alt": "Utsnitt fra filmen Kapernaum.",
+                  "url": "https://api.test.ndla.no/image-api/raw/id/52442",
+                  "__typename": "MetaImage"
+                },
+                "metaDescription": "Filmen Kapernaum viser nød og fattigdom i slummen fra en tolvårings perspektiv.  ",
+                "resourceTypes": [
+                  {
+                    "id": "urn:resourcetype:featureFilm",
+                    "name": "Spillefilm",
+                    "__typename": "ResourceType"
+                  },
+                  {
+                    "id": "urn:resourcetype:SourceMaterial",
+                    "name": "Kildemateriell",
+                    "__typename": "ResourceType"
+                  }
+                ],
+                "path": "/subject:20/topic:1:186732/topic:1:187167/resource:a4287c2c-7976-4593-a265-a86df2f3ce09",
+                "__typename": "Movie"
+              },
+              {
+                "id": "urn:article:19245",
+                "title": "Bawke",
+                "metaImage": {
+                  "alt": "En mann og en gutt som er skitne i ansiktet og på klærne. Utsnitt fra filmen Bawke.",
+                  "url": "https://api.test.ndla.no/image-api/raw/id/45960",
+                  "__typename": "MetaImage"
+                },
+                "metaDescription": "Filmen Bawke er regissert av norsk-kurdiske Hisham Zaman, som kom til Norge som 17-åring etter sju år på flukt fra Kurdistan.",
+                "resourceTypes": [
+                  {
+                    "id": "urn:resourcetype:shortFilm",
+                    "name": "Kortfilm",
+                    "__typename": "ResourceType"
+                  },
+                  {
+                    "id": "urn:resourcetype:SourceMaterial",
+                    "name": "Kildemateriell",
+                    "__typename": "ResourceType"
+                  }
+                ],
+                "path": "/subject:20/topic:1:193713/topic:1:193716/resource:1:142396",
+                "__typename": "Movie"
+              },
+              {
+                "id": "urn:article:19240",
+                "title": "12 Years a Slave",
+                "metaImage": {
+                  "alt": "Utsnitt fra det historiske dramaet 12 Years a slave. Foto.",
+                  "url": "https://api.test.ndla.no/image-api/raw/id/45959",
+                  "__typename": "MetaImage"
+                },
+                "metaDescription": "Filmen 12 Years a Slave forteller den sanne historien om Solomon Northup, og gir en sterk skildring av slaveriet i USA.",
+                "resourceTypes": [
+                  {
+                    "id": "urn:resourcetype:featureFilm",
+                    "name": "Spillefilm",
+                    "__typename": "ResourceType"
+                  },
+                  {
+                    "id": "urn:resourcetype:SourceMaterial",
+                    "name": "Kildemateriell",
+                    "__typename": "ResourceType"
+                  }
+                ],
+                "path": "/subject:20/topic:1:193713/topic:1:193716/resource:1:134367",
+                "__typename": "Movie"
+              }
+            ],
+            "__typename": "MovieTheme"
+          },
+          {
+            "name": [
+              { "name": "Urfolk", "language": "nb", "__typename": "Name" },
+              { "name": "Urfolk", "language": "nn", "__typename": "Name" },
+              {
+                "name": " Indigenous people",
+                "language": "en",
+                "__typename": "Name"
+              }
+            ],
+            "movies": [
+              {
+                "id": "urn:article:35247",
+                "title": "Gállok – kampen om sameland",
+                "metaImage": {
+                  "alt": "Utsnitt fra dokumentarfilmen \"Gállok – kampen om sameland\". Foto.",
+                  "url": "https://api.test.ndla.no/image-api/raw/id/61873",
+                  "__typename": "MetaImage"
+                },
+                "metaDescription": "Dokumentar om kampen mot gruvedrift i Sverige og Sápmi.",
+                "resourceTypes": [
+                  {
+                    "id": "urn:resourcetype:documentary",
+                    "name": "Doumentarfilm",
+                    "__typename": "ResourceType"
+                  },
+                  {
+                    "id": "urn:resourcetype:SourceMaterial",
+                    "name": "Kildemateriell",
+                    "__typename": "ResourceType"
+                  }
+                ],
+                "path": "/subject:20/topic:1:193723/topic:1:193724/resource:4d09cc70-e930-498f-87e5-d3e20cbacf62",
+                "__typename": "Movie"
+              },
+              {
+                "id": "urn:article:19665",
+                "title": "Veiviseren (Ofelas)",
+                "metaImage": {
+                  "alt": "Ung mann med hvit lue og vinterklær står med spent bue og har en sekk med piler på ryggen. Foto.",
+                  "url": "https://api.test.ndla.no/image-api/raw/id/22077",
+                  "__typename": "MetaImage"
+                },
+                "metaDescription": "Filmen Veiviseren (samisk tittel Ofelaš) gir et innblikk i sentrale verdier i samisk kultur og religion.",
+                "resourceTypes": [
+                  {
+                    "id": "urn:resourcetype:featureFilm",
+                    "name": "Spillefilm",
+                    "__typename": "ResourceType"
+                  },
+                  {
+                    "id": "urn:resourcetype:SourceMaterial",
+                    "name": "Kildemateriell",
+                    "__typename": "ResourceType"
+                  }
+                ],
+                "path": "/subject:20/topic:1:193723/topic:1:194520/resource:1:125255",
+                "__typename": "Movie"
+              },
+              {
+                "id": "urn:article:19287",
+                "title": "Rebel (Bihttoš)",
+                "metaImage": {
+                  "alt": "Animert bilde av kvinne med sort hår og blått pannebånd. Animasjon.",
+                  "url": "https://api.test.ndla.no/image-api/raw/id/44043",
+                  "__typename": "MetaImage"
+                },
+                "metaDescription": "Eksperimentell dokumentarfilm laget av filmskaper Elle-Máijá Tailfeathers. Filmen handler om Tailfeathers' egen familiehistorie.",
+                "resourceTypes": [
+                  {
+                    "id": "urn:resourcetype:shortFilm",
+                    "name": "Kortfilm",
+                    "__typename": "ResourceType"
+                  },
+                  {
+                    "id": "urn:resourcetype:SourceMaterial",
+                    "name": "Kildemateriell",
+                    "__typename": "ResourceType"
+                  }
+                ],
+                "path": "/subject:20/topic:1:193723/topic:1:194520/resource:1:181462",
+                "__typename": "Movie"
+              },
+              {
+                "id": "urn:article:19308",
+                "title": "Whale Rider",
+                "metaImage": {
+                  "alt": "Ung jente med mørkt hår sitter i en gammel båt på en strand. Foto.",
+                  "url": "https://api.test.ndla.no/image-api/raw/id/45979",
+                  "__typename": "MetaImage"
+                },
+                "metaDescription": "Ifølge Whangara-folkets legender kom forfaren deres ridende til New Zealands kyst på ryggen av en hval for over tusen år siden.",
+                "resourceTypes": [
+                  {
+                    "id": "urn:resourcetype:featureFilm",
+                    "name": "Spillefilm",
+                    "__typename": "ResourceType"
+                  },
+                  {
+                    "id": "urn:resourcetype:SourceMaterial",
+                    "name": "Kildemateriell",
+                    "__typename": "ResourceType"
+                  }
+                ],
+                "path": "/subject:20/topic:1:193723/topic:1:194520/resource:1:146908",
+                "__typename": "Movie"
+              },
+              {
+                "id": "urn:article:19280",
+                "title": "Hilbes biigá",
+                "metaImage": {
+                  "alt": "Ungdomsjente med blondt hår og spørrende ansiktsuttrykk. Et skogholt i bakgrunnen. Foto.",
+                  "url": "https://api.test.ndla.no/image-api/raw/id/41718",
+                  "__typename": "MetaImage"
+                },
+                "metaDescription": "«Hilbes biigá» er en pønkete samisk ungdomsfilm om vennskap, sjalusi, seksualitet og lengsel.",
+                "resourceTypes": [
+                  {
+                    "id": "urn:resourcetype:shortFilm",
+                    "name": "Kortfilm",
+                    "__typename": "ResourceType"
+                  },
+                  {
+                    "id": "urn:resourcetype:SourceMaterial",
+                    "name": "Kildemateriell",
+                    "__typename": "ResourceType"
+                  }
+                ],
+                "path": "/subject:20/topic:1:193723/topic:1:194520/resource:1:181463",
+                "__typename": "Movie"
+              },
+              {
+                "id": "urn:article:19660",
+                "title": "Familiebildet",
+                "metaImage": {
+                  "alt": "En ung kvinne vasker føttene til en eldre dame i en lenestol. Foto.",
+                  "url": "https://api.test.ndla.no/image-api/raw/id/46107",
+                  "__typename": "MetaImage"
+                },
+                "metaDescription": "Regissør Yvonne Thomassen tar oss med til hennes bestemor og en fortid som har splittet familien siden krigen. ",
+                "resourceTypes": [
+                  {
+                    "id": "urn:resourcetype:documentary",
+                    "name": "Doumentarfilm",
+                    "__typename": "ResourceType"
+                  },
+                  {
+                    "id": "urn:resourcetype:SourceMaterial",
+                    "name": "Kildemateriell",
+                    "__typename": "ResourceType"
+                  }
+                ],
+                "path": "/subject:20/topic:1:193723/topic:1:194520/resource:1:161219",
+                "__typename": "Movie"
+              },
+              {
+                "id": "urn:article:19663",
+                "title": "Saiva",
+                "metaImage": {
+                  "alt": "Tegnet samisk karakter i hvitt, på sort bakgrunn. Animasjon.",
+                  "url": "https://api.test.ndla.no/image-api/raw/id/46108",
+                  "__typename": "MetaImage"
+                },
+                "metaDescription": "Animasjonsfilm som foregår i et samisk mytologisk landskap.",
+                "resourceTypes": [
+                  {
+                    "id": "urn:resourcetype:shortFilm",
+                    "name": "Kortfilm",
+                    "__typename": "ResourceType"
+                  },
+                  {
+                    "id": "urn:resourcetype:SourceMaterial",
+                    "name": "Kildemateriell",
+                    "__typename": "ResourceType"
+                  }
+                ],
+                "path": "/subject:20/topic:1:193723/topic:1:194520/resource:1:135012",
+                "__typename": "Movie"
+              }
+            ],
+            "__typename": "MovieTheme"
+          },
+          {
+            "name": [
+              {
+                "name": "Klima og miljø",
+                "language": "nb",
+                "__typename": "Name"
+              },
+              {
+                "name": "Klima og miljø",
+                "language": "nn",
+                "__typename": "Name"
+              },
+              {
+                "name": "Climate and environment",
+                "language": "en",
+                "__typename": "Name"
+              }
+            ],
+            "movies": [
+              {
+                "id": "urn:article:35655",
+                "title": "Pingvinenes marsj",
+                "metaImage": {
+                  "alt": "Utsnitt fra filmen \"Pingvinenes marsj\". Foto.",
+                  "url": "https://api.test.ndla.no/image-api/raw/id/62353",
+                  "__typename": "MetaImage"
+                },
+                "metaDescription": "Prisbelønnet fransk dokumentarfilm fra 2005 om keiserpingvinenes paringssyklus.",
+                "resourceTypes": [
+                  {
+                    "id": "urn:resourcetype:documentary",
+                    "name": "Doumentarfilm",
+                    "__typename": "ResourceType"
+                  },
+                  {
+                    "id": "urn:resourcetype:SourceMaterial",
+                    "name": "Kildemateriell",
+                    "__typename": "ResourceType"
+                  }
+                ],
+                "path": "/subject:20/topic:1:193723/topic:1:193724/resource:f7c3d2fb-210e-4d54-bea0-9fe5be9b30ea",
+                "__typename": "Movie"
+              },
+              {
+                "id": "urn:article:26991",
+                "title": "Thank You For The Rain",
+                "metaImage": {
+                  "alt": "Utsnitt fra Thank You For The Rain.",
+                  "url": "https://api.test.ndla.no/image-api/raw/id/53144",
+                  "__typename": "MetaImage"
+                },
+                "metaDescription": "Dokumentarfilm fra 2017 som ser på hvordan klimaendringer påvirker alt fra tilgang til vann, menneskerettigheter, likestilling og urbanisering.",
+                "resourceTypes": [
+                  {
+                    "id": "urn:resourcetype:documentary",
+                    "name": "Doumentarfilm",
+                    "__typename": "ResourceType"
+                  },
+                  {
+                    "id": "urn:resourcetype:SourceMaterial",
+                    "name": "Kildemateriell",
+                    "__typename": "ResourceType"
+                  }
+                ],
+                "path": "/subject:20/topic:1:193723/topic:652170bf-ff6d-4090-b66e-008124f09ead/resource:650c485e-63bb-4980-97aa-ac6ef4b19807",
+                "__typename": "Movie"
+              },
+              {
+                "id": "urn:article:22015",
+                "title": "Don't panic – The truth about population",
+                "metaImage": {
+                  "alt": "Enorm befolkningsmengde i Asia stiger om bord på et overfylt tog. Mennesker står på taket av toget. Foto.",
+                  "url": "https://api.test.ndla.no/image-api/raw/id/48120",
+                  "__typename": "MetaImage"
+                },
+                "metaDescription": "Den verdenskjente statistikeren Hans Rosling viser oss et mer nyansert verdensbilde enn det som daglig blir presentert i media. ",
+                "resourceTypes": [
+                  {
+                    "id": "urn:resourcetype:documentary",
+                    "name": "Doumentarfilm",
+                    "__typename": "ResourceType"
+                  },
+                  {
+                    "id": "urn:resourcetype:SourceMaterial",
+                    "name": "Kildemateriell",
+                    "__typename": "ResourceType"
+                  }
+                ],
+                "path": "/subject:20/topic:1:193723/topic:1:193724/resource:c9bf3d8d-32c7-45ad-83cc-67107271ad47",
+                "__typename": "Movie"
+              },
+              {
+                "id": "urn:article:22212",
+                "title": "Olje!",
+                "metaImage": {
+                  "alt": "Tilgrisede, smilende oljearbeidere. Foto.",
+                  "url": "https://api.test.ndla.no/image-api/raw/id/42887",
+                  "__typename": "MetaImage"
+                },
+                "metaDescription": "Dokumentarserie fra 2009 om det norske oljeeventyret.",
+                "resourceTypes": [
+                  {
+                    "id": "urn:resourcetype:series",
+                    "name": "Serier",
+                    "__typename": "ResourceType"
+                  },
+                  {
+                    "id": "urn:resourcetype:SourceMaterial",
+                    "name": "Kildemateriell",
+                    "__typename": "ResourceType"
+                  }
+                ],
+                "path": "/subject:20/topic:1:193723/topic:1:193724/resource:8a031e61-1d15-4cb1-9059-4e7e11658fe6",
+                "__typename": "Movie"
+              },
+              {
+                "id": "urn:article:19550",
+                "title": "Waste Land",
+                "metaImage": {
+                  "alt": "Tre personer har en samtale. En gammel komfyr i bakgrunnen. Foto.",
+                  "url": "https://api.test.ndla.no/image-api/raw/id/42694",
+                  "__typename": "MetaImage"
+                },
+                "metaDescription": "I «Waste Land» foreviger den berømte kunstneren Vik Muniz arbeiderne på en av verdens største søppelfyllinger ved å lage portretter av søppel.",
+                "resourceTypes": [
+                  {
+                    "id": "urn:resourcetype:documentary",
+                    "name": "Doumentarfilm",
+                    "__typename": "ResourceType"
+                  },
+                  {
+                    "id": "urn:resourcetype:SourceMaterial",
+                    "name": "Kildemateriell",
+                    "__typename": "ResourceType"
+                  }
+                ],
+                "path": "/subject:20/topic:1:193723/topic:1:193724/resource:1:186585",
+                "__typename": "Movie"
+              },
+              {
+                "id": "urn:article:19540",
+                "title": "Oceans",
+                "metaImage": {
+                  "alt": "En sel ligger på en strand. Foto.",
+                  "url": "https://api.test.ndla.no/image-api/raw/id/46066",
+                  "__typename": "MetaImage"
+                },
+                "metaDescription": "Fransk naturdokumentar som presenterer unike bilder fra jordens fem hav. \r",
+                "resourceTypes": [
+                  {
+                    "id": "urn:resourcetype:documentary",
+                    "name": "Doumentarfilm",
+                    "__typename": "ResourceType"
+                  },
+                  {
+                    "id": "urn:resourcetype:SourceMaterial",
+                    "name": "Kildemateriell",
+                    "__typename": "ResourceType"
+                  }
+                ],
+                "path": "/subject:20/topic:1:193723/topic:1:193724/resource:1:146913",
+                "__typename": "Movie"
+              },
+              {
+                "id": "urn:article:19538",
+                "title": "Nedbemanning",
+                "metaImage": {
+                  "alt": "En mann i dressjakke og en kvinne med et fortvilet uttrykk i ansiktet. Foto.",
+                  "url": "https://api.test.ndla.no/image-api/raw/id/46065",
+                  "__typename": "MetaImage"
+                },
+                "metaDescription": "Norsk kortfilm fra 2012. På grunn av overbefolkning stiller staten strenge krav til hvem som får lov å få barn.",
+                "resourceTypes": [
+                  {
+                    "id": "urn:resourcetype:shortFilm",
+                    "name": "Kortfilm",
+                    "__typename": "ResourceType"
+                  },
+                  {
+                    "id": "urn:resourcetype:SourceMaterial",
+                    "name": "Kildemateriell",
+                    "__typename": "ResourceType"
+                  }
+                ],
+                "path": "/subject:20/topic:1:193723/topic:1:193724/resource:1:171216",
+                "__typename": "Movie"
+              },
+              {
+                "id": "urn:article:21923",
+                "title": "Kort om mikroplast",
+                "metaImage": {
+                  "alt": "Plastflaske med rød kork på blå bakgrunn. Grafikk.",
+                  "url": "https://api.test.ndla.no/image-api/raw/id/48077",
+                  "__typename": "MetaImage"
+                },
+                "metaDescription": "Kort dokumentar om hvordan plasten vi kaster på gata føres ut i havet og blir til den globale katastrofen vi nå ser ute på våre verdenshav. ",
+                "resourceTypes": [
+                  {
+                    "id": "urn:resourcetype:documentary",
+                    "name": "Doumentarfilm",
+                    "__typename": "ResourceType"
+                  },
+                  {
+                    "id": "urn:resourcetype:SourceMaterial",
+                    "name": "Kildemateriell",
+                    "__typename": "ResourceType"
+                  }
+                ],
+                "path": "/subject:20/topic:1:193723/topic:1:193724/resource:91e25080-72a5-4082-b474-4fe8c1ff058f",
+                "__typename": "Movie"
+              }
+            ],
+            "__typename": "MovieTheme"
+          },
+          {
+            "name": [
+              {
+                "name": "Krig og konflikt",
+                "language": "nb",
+                "__typename": "Name"
+              },
+              {
+                "name": "Krig og konflikt",
+                "language": "nn",
+                "__typename": "Name"
+              },
+              {
+                "name": "War and conflict",
+                "language": "en",
+                "__typename": "Name"
+              }
+            ],
+            "movies": [
+              {
+                "id": "urn:article:36818",
+                "title": "Quo Vadis, Aida?",
+                "metaImage": {
+                  "alt": "En kvinne bak et gitter, bildeutsnittet viser det alvorlige ansiktet hennes. Foto.",
+                  "url": "https://api.test.ndla.no/image-api/raw/id/64268",
+                  "__typename": "MetaImage"
+                },
+                "metaDescription": "Oscar-nominert spillefilm om Srebrenica-massakren. Filmen er basert på uvirkelige, men sanne, hendelser fra Bosnia i 1995.",
+                "resourceTypes": [
+                  {
+                    "id": "urn:resourcetype:featureFilm",
+                    "name": "Spillefilm",
+                    "__typename": "ResourceType"
+                  },
+                  {
+                    "id": "urn:resourcetype:SourceMaterial",
+                    "name": "Kildemateriell",
+                    "__typename": "ResourceType"
+                  }
+                ],
+                "path": "/subject:20/topic:1:193713/topic:1:193726/resource:e0ada752-1484-4fe7-b008-8d50e5f9ff0f",
+                "__typename": "Movie"
+              },
+              {
+                "id": "urn:article:26359",
+                "title": "Another Day of Life",
+                "metaImage": {
+                  "alt": "Utsnitt fra filmen Another Day of Life.",
+                  "url": "https://api.test.ndla.no/image-api/raw/id/53604",
+                  "__typename": "MetaImage"
+                },
+                "metaDescription": "Another Day of Life er en prisvinnende animert dokumentarfilm om opplevelsene til krigsreporter Ryszard Kapuscinski  i Angola på 1970-tallet.",
+                "resourceTypes": [
+                  {
+                    "id": "urn:resourcetype:featureFilm",
+                    "name": "Spillefilm",
+                    "__typename": "ResourceType"
+                  },
+                  {
+                    "id": "urn:resourcetype:SourceMaterial",
+                    "name": "Kildemateriell",
+                    "__typename": "ResourceType"
+                  }
+                ],
+                "path": "/subject:20/topic:1:193713/topic:1:193726/resource:ad0110ec-b740-4bee-8b8d-8c2170b82553",
+                "__typename": "Movie"
+              },
+              {
+                "id": "urn:article:19569",
+                "title": "Drone",
+                "metaImage": {
+                  "alt": "Utsnitt fra dokumentarfilmen Drone.",
+                  "url": "https://api.test.ndla.no/image-api/raw/id/46075",
+                  "__typename": "MetaImage"
+                },
+                "metaDescription": "DRONE stiller ubehagelige spørsmål om amerikanernes dronebruk i jakten på terrorister. Se den prisbelønte dokumentaren her.",
+                "resourceTypes": [
+                  {
+                    "id": "urn:resourcetype:documentary",
+                    "name": "Doumentarfilm",
+                    "__typename": "ResourceType"
+                  },
+                  {
+                    "id": "urn:resourcetype:SourceMaterial",
+                    "name": "Kildemateriell",
+                    "__typename": "ResourceType"
+                  }
+                ],
+                "path": "/subject:20/topic:1:193713/topic:1:193726/resource:1:151162",
+                "__typename": "Movie"
+              },
+              {
+                "id": "urn:article:19580",
+                "title": "Kampen om tungtvannet",
+                "metaImage": {
+                  "alt": "Utsnitt fra TV-serien Kampen om tungtvannet.",
+                  "url": "https://api.test.ndla.no/image-api/raw/id/46081",
+                  "__typename": "MetaImage"
+                },
+                "metaDescription": "TV-serie om sabotasjeaksjonene mot Norsk Hydros anlegg under andre verdenskrig. ",
+                "resourceTypes": [
+                  {
+                    "id": "urn:resourcetype:series",
+                    "name": "Serier",
+                    "__typename": "ResourceType"
+                  },
+                  {
+                    "id": "urn:resourcetype:SourceMaterial",
+                    "name": "Kildemateriell",
+                    "__typename": "ResourceType"
+                  }
+                ],
+                "path": "/subject:20/topic:1:193713/topic:1:193726/resource:1:142383",
+                "__typename": "Movie"
+              },
+              {
+                "id": "urn:article:19593",
+                "title": "Krigens unge hjerter",
+                "metaImage": {
+                  "alt": "Utsnitt fra serien Krigens unge hjerter.",
+                  "url": "https://api.test.ndla.no/image-api/raw/id/46083",
+                  "__typename": "MetaImage"
+                },
+                "metaDescription": "Kritikerrost serie om unge tyskere under andre verdenskrig.",
+                "resourceTypes": [
+                  {
+                    "id": "urn:resourcetype:series",
+                    "name": "Serier",
+                    "__typename": "ResourceType"
+                  },
+                  {
+                    "id": "urn:resourcetype:SourceMaterial",
+                    "name": "Kildemateriell",
+                    "__typename": "ResourceType"
+                  }
+                ],
+                "path": "/subject:20/topic:1:193713/topic:1:193726/resource:1:132427",
+                "__typename": "Movie"
+              },
+              {
+                "id": "urn:article:7107",
+                "title": "The Imitation Game",
+                "metaImage": {
+                  "alt": "Utsnitt fra filmen The Imitation Game.",
+                  "url": "https://api.test.ndla.no/image-api/raw/id/45974",
+                  "__typename": "MetaImage"
+                },
+                "metaDescription": "The «Imitation Game» er basert på Alan Turings banebrytende vitenskapelige krigsinnsats for å avdekke Nazi-Tysklands hemmelige radiokommunikasjon.",
+                "resourceTypes": [
+                  {
+                    "id": "urn:resourcetype:featureFilm",
+                    "name": "Spillefilm",
+                    "__typename": "ResourceType"
+                  },
+                  {
+                    "id": "urn:resourcetype:SourceMaterial",
+                    "name": "Kildemateriell",
+                    "__typename": "ResourceType"
+                  }
+                ],
+                "path": "/subject:20/topic:1:193713/topic:1:193726/resource:1:155227",
+                "__typename": "Movie"
+              },
+              {
+                "id": "urn:article:19602",
+                "title": "Med rett til å kapre",
+                "metaImage": {
+                  "alt": "Utsnitt fra filmen Med rett til å kapre.",
+                  "url": "https://api.test.ndla.no/image-api/raw/id/46085",
+                  "__typename": "MetaImage"
+                },
+                "metaDescription": "Dokumentarfilm om Norges ukjente sjørøverhistorie.",
+                "resourceTypes": [
+                  {
+                    "id": "urn:resourcetype:documentary",
+                    "name": "Doumentarfilm",
+                    "__typename": "ResourceType"
+                  },
+                  {
+                    "id": "urn:resourcetype:SourceMaterial",
+                    "name": "Kildemateriell",
+                    "__typename": "ResourceType"
+                  }
+                ],
+                "path": "/subject:20/topic:1:193713/topic:1:193726/resource:1:133999",
+                "__typename": "Movie"
+              }
+            ],
+            "__typename": "MovieTheme"
+          },
+          {
+            "name": [
+              { "name": "Testgruppe", "language": "nb", "__typename": "Name" },
+              { "name": "", "language": "nn", "__typename": "Name" },
+              { "name": "", "language": "en", "__typename": "Name" },
+              { "name": "", "language": "se", "__typename": "Name" },
+              { "name": "", "language": "sma", "__typename": "Name" }
+            ],
+            "movies": [
+              {
+                "id": "urn:article:1062",
+                "title": "Brukerstøtte",
+                "metaImage": {
+                  "alt": "Utsnitt fra filmen Brukerstøtte.",
+                  "url": "https://api.test.ndla.no/image-api/raw/id/46060",
+                  "__typename": "MetaImage"
+                },
+                "metaDescription": "«Brukerstøtte» er en humoristisk kortfilm fra 2009. Manus og regi er ved André Øvredal.",
+                "resourceTypes": [
+                  {
+                    "id": "urn:resourcetype:shortFilm",
+                    "name": "Kortfilm",
+                    "__typename": "ResourceType"
+                  },
+                  {
+                    "id": "urn:resourcetype:SourceMaterial",
+                    "name": "Kildemateriell",
+                    "__typename": "ResourceType"
+                  }
+                ],
+                "path": "/subject:20/topic:1:193720/topic:1:194411/resource:1:142111",
+                "__typename": "Movie"
+              }
+            ],
+            "__typename": "MovieTheme"
+          }
+        ],
+        "about": [
+          {
+            "title": "Om NDLA film",
+            "description": "Ndla film er en nettbasert filmtjeneste for elever og lærere i videregående skole. Her finner du spillefilmer, kortfilmer, dokumentarfilmer og TV-serier.",
+            "visualElement": {
+              "alt": "Video: Om NDLA film.",
+              "url": "https://players.brightcove.net/4806596774001/BkLm8fT_default/index.html?videoId=5796676276001",
+              "type": "brightcove",
+              "__typename": "SubjectPageVisualElement"
+            },
+            "language": "nb",
+            "__typename": "FilmPageAbout"
+          },
+          {
+            "title": "Om NDLA film",
+            "description": "Ndla film er ei nettbasert filmteneste for elevar og lærarar i videregåande opplæring. Her finn du spelefilmar, kortfilmar, dokumentarfilmar og TV-seriar.",
+            "visualElement": {
+              "alt": "Video: Om NDLA film.",
+              "url": "https://players.brightcove.net/4806596774001/BkLm8fT_default/index.html?videoId=5796676276001",
+              "type": "brightcove",
+              "__typename": "SubjectPageVisualElement"
+            },
+            "language": "nn",
+            "__typename": "FilmPageAbout"
+          }
+        ],
+        "__typename": "FilmFrontpage"
+      },
+      "subject": {
+        "id": "urn:subject:20",
+        "name": "NDLA film",
+        "topics": [
+          {
+            "id": "urn:topic:1:186732",
+            "path": "/subject:20/topic:1:186732",
+            "name": "Filmkunnskap",
+            "__typename": "Topic"
+          },
+          {
+            "id": "urn:topic:1:193713",
+            "path": "/subject:20/topic:1:193713",
+            "name": "Demokrati og medborgerskap",
+            "__typename": "Topic"
+          },
+          {
+            "id": "urn:topic:1:193720",
+            "path": "/subject:20/topic:1:193720",
+            "name": "Folkehelse og livsmestring",
+            "__typename": "Topic"
+          },
+          {
+            "id": "urn:topic:1:193723",
+            "path": "/subject:20/topic:1:193723",
+            "name": "Bærekraftig utvikling",
+            "__typename": "Topic"
+          },
+          {
+            "id": "urn:topic:1:194565",
+            "path": "/subject:20/topic:1:194565",
+            "name": "Læringsstier",
+            "__typename": "Topic"
+          },
+          {
+            "id": "urn:topic:1:198284",
+            "path": "/subject:20/topic:1:198284",
+            "name": "Samiske filmstudieark",
+            "__typename": "Topic"
+          },
+          {
+            "id": "urn:topic:1:194655",
+            "path": "/subject:20/topic:1:194655",
+            "name": "Undervisningsfilm",
+            "__typename": "Topic"
+          }
+        ],
+        "__typename": "Subject"
+      }
+    }
+  },
+  {
+    "data": {
+      "examLockStatus": {
+        "key": "MY_NDLA_WRITE_RESTRICTED",
+        "value": "false",
+        "__typename": "ConfigMetaRestricted"
+      }
+    }
+  },
+  { "data": { "alerts": [] } }
+]
