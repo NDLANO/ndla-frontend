@@ -12,7 +12,7 @@ describe('Film page', () => {
     cy.gqlIntercept({
       alias: 'filmPage',
       operations: [
-        'examLockStatus',
+        'myNdlaData',
         'filmFrontPage',
         'alerts',
         'mastHead',
