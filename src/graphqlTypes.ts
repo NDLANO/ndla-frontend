@@ -72,16 +72,7 @@ export type GQLArenaNotification = {
   topicId: Scalars['Int']['output'];
   topicTitle: Scalars['String']['output'];
   type: Scalars['String']['output'];
-  user: GQLArenaNotificationUser;
-};
-
-export type GQLArenaNotificationUser = GQLBaseUser & {
-  __typename?: 'ArenaNotificationUser';
-  displayName: Scalars['String']['output'];
-  id: Scalars['Int']['output'];
-  profilePicture?: Maybe<Scalars['String']['output']>;
-  slug: Scalars['String']['output'];
-  username: Scalars['String']['output'];
+  user: GQLArenaUser;
 };
 
 export type GQLArenaPost = {
@@ -108,11 +99,12 @@ export type GQLArenaTopic = {
   title: Scalars['String']['output'];
 };
 
-export type GQLArenaUser = GQLBaseUser & {
+export type GQLArenaUser = {
   __typename?: 'ArenaUser';
   displayName: Scalars['String']['output'];
-  groupTitleArray: Array<Scalars['String']['output']>;
+  groupTitleArray?: Maybe<Array<Scalars['String']['output']>>;
   id: Scalars['Int']['output'];
+  location?: Maybe<Scalars['String']['output']>;
   profilePicture?: Maybe<Scalars['String']['output']>;
   slug: Scalars['String']['output'];
   username: Scalars['String']['output'];
@@ -263,14 +255,6 @@ export type GQLAudioSummary = {
   supportedLanguages: Array<Scalars['String']['output']>;
   title: GQLTitle;
   url: Scalars['String']['output'];
-};
-
-export type GQLBaseUser = {
-  displayName: Scalars['String']['output'];
-  id: Scalars['Int']['output'];
-  profilePicture?: Maybe<Scalars['String']['output']>;
-  slug: Scalars['String']['output'];
-  username: Scalars['String']['output'];
 };
 
 export type GQLBreadcrumb = {
@@ -506,6 +490,7 @@ export type GQLExamples = {
 export type GQLFilmFrontpage = {
   __typename?: 'FilmFrontpage';
   about: Array<GQLFilmPageAbout>;
+  article?: Maybe<GQLArticle>;
   movieThemes: Array<GQLMovieTheme>;
   name: Scalars['String']['output'];
   slideShow: Array<GQLMovie>;
@@ -928,7 +913,7 @@ export type GQLMutation = {
   deletePersonalData: Scalars['Boolean']['output'];
   markNotificationAsRead: Array<Scalars['Int']['output']>;
   newArenaTopic: GQLArenaTopic;
-  newFlag: Scalars['Boolean']['output'];
+  newFlag: Scalars['Int']['output'];
   replyToTopic: GQLArenaPost;
   sortFolders: GQLSortResult;
   sortResources: GQLSortResult;
@@ -1030,14 +1015,27 @@ export type GQLMutationUpdatePersonalDataArgs = {
   shareName?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+export type GQLMyNdlaGroup = {
+  __typename?: 'MyNdlaGroup';
+  displayName: Scalars['String']['output'];
+  id: Scalars['String']['output'];
+  isPrimarySchool: Scalars['Boolean']['output'];
+  parentId?: Maybe<Scalars['String']['output']>;
+};
+
 export type GQLMyNdlaPersonalData = {
   __typename?: 'MyNdlaPersonalData';
   arenaEnabled: Scalars['Boolean']['output'];
+  displayName: Scalars['String']['output'];
+  email: Scalars['String']['output'];
   favoriteSubjects: Array<Scalars['String']['output']>;
+  feideId: Scalars['String']['output'];
+  groups: Array<GQLMyNdlaGroup>;
   id: Scalars['Int']['output'];
   organization: Scalars['String']['output'];
   role: Scalars['String']['output'];
   shareName: Scalars['Boolean']['output'];
+  username: Scalars['String']['output'];
 };
 
 export type GQLName = {
@@ -1182,7 +1180,7 @@ export type GQLQuery = {
   image?: Maybe<GQLImageMetaInformationV2>;
   learningpath?: Maybe<GQLLearningpath>;
   listingPage?: Maybe<GQLListingPage>;
-  personalData: GQLMyNdlaPersonalData;
+  personalData?: Maybe<GQLMyNdlaPersonalData>;
   podcastSearch?: Maybe<GQLAudioSearch>;
   podcastSeries?: Maybe<GQLPodcastSeriesWithEpisodes>;
   podcastSeriesSearch?: Maybe<GQLPodcastSeriesSearch>;
@@ -2768,7 +2766,7 @@ export type GQLNewFlagMutationVariables = Exact<{
   type: Scalars['String']['input'];
 }>;
 
-export type GQLNewFlagMutation = { __typename?: 'Mutation'; newFlag: boolean };
+export type GQLNewFlagMutation = { __typename?: 'Mutation'; newFlag: number };
 
 export type GQLArenaUserQueryFragmentFragment = {
   __typename?: 'ArenaUser';
@@ -2776,7 +2774,7 @@ export type GQLArenaUserQueryFragmentFragment = {
   id: number;
   profilePicture?: string;
   slug: string;
-  groupTitleArray: Array<string>;
+  groupTitleArray?: Array<string>;
 };
 
 export type GQLArenaCategoriesFragmentFragment = {
@@ -2822,7 +2820,7 @@ export type GQLArenaPostFragmentFragment = {
   user: {
     __typename?: 'ArenaUser';
     displayName: string;
-    groupTitleArray: Array<string>;
+    groupTitleArray?: Array<string>;
     profilePicture?: string;
     username: string;
   };
@@ -3375,7 +3373,7 @@ export type GQLPersonalDataQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GQLPersonalDataQuery = {
   __typename?: 'Query';
-  personalData: {
+  personalData?: {
     __typename?: 'MyNdlaPersonalData';
   } & GQLMySubjectMyNdlaPersonalDataFragmentFragment;
 };

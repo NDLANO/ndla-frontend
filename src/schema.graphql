@@ -38,15 +38,7 @@ type ArenaNotification {
   topicId: Int!
   topicTitle: String!
   type: String!
-  user: ArenaNotificationUser!
-}
-
-type ArenaNotificationUser implements BaseUser {
-  displayName: String!
-  id: Int!
-  profilePicture: String
-  slug: String!
-  username: String!
+  user: ArenaUser!
 }
 
 type ArenaPost {
@@ -71,10 +63,11 @@ type ArenaTopic {
   title: String!
 }
 
-type ArenaUser implements BaseUser {
+type ArenaUser {
   displayName: String!
-  groupTitleArray: [String!]!
+  groupTitleArray: [String!]
   id: Int!
+  location: String
   profilePicture: String
   slug: String!
   username: String!
@@ -210,14 +203,6 @@ type AudioSummary {
   supportedLanguages: [String!]!
   title: Title!
   url: String!
-}
-
-interface BaseUser {
-  displayName: String!
-  id: Int!
-  profilePicture: String
-  slug: String!
-  username: String!
 }
 
 type Breadcrumb {
@@ -426,6 +411,7 @@ type Examples {
 
 type FilmFrontpage {
   about: [FilmPageAbout!]!
+  article: Article
   movieThemes: [MovieTheme!]!
   name: String!
   slideShow: [Movie!]!
@@ -817,7 +803,7 @@ type Mutation {
   deletePersonalData: Boolean!
   markNotificationAsRead(topicIds: [Int!]!): [Int!]!
   newArenaTopic(categoryId: Int!, content: String!, title: String!): ArenaTopic!
-  newFlag(id: Int!, reason: String!, type: String!): Boolean!
+  newFlag(id: Int!, reason: String!, type: String!): Int!
   replyToTopic(content: String!, topicId: Int!): ArenaPost!
   sortFolders(parentId: String, sortedIds: [String!]!): SortResult!
   sortResources(parentId: String!, sortedIds: [String!]!): SortResult!
@@ -843,13 +829,25 @@ type Mutation {
   ): MyNdlaPersonalData!
 }
 
+type MyNdlaGroup {
+  displayName: String!
+  id: String!
+  isPrimarySchool: Boolean!
+  parentId: String
+}
+
 type MyNdlaPersonalData {
   arenaEnabled: Boolean!
+  displayName: String!
+  email: String!
   favoriteSubjects: [String!]!
+  feideId: String!
+  groups: [MyNdlaGroup!]!
   id: Int!
   organization: String!
   role: String!
   shareName: Boolean!
+  username: String!
 }
 
 type Name {
@@ -1023,7 +1021,7 @@ type Query {
   image(id: String!): ImageMetaInformationV2
   learningpath(pathId: String!): Learningpath
   listingPage(subjects: String): ListingPage
-  personalData: MyNdlaPersonalData!
+  personalData: MyNdlaPersonalData
   podcastSearch(fallback: Boolean, page: Int!, pageSize: Int!): AudioSearch
   podcastSeries(id: Int!): PodcastSeriesWithEpisodes
   podcastSeriesSearch(
