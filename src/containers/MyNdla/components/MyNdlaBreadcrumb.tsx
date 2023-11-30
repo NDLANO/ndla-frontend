@@ -6,12 +6,11 @@
  *
  */
 
-import { Breadcrumb } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
-import { GQLBreadcrumb } from '../../../graphqlTypes';
+import { Breadcrumb, SimpleBreadcrumbItem } from '@ndla/ui';
 
 interface Props {
-  breadcrumbs: GQLBreadcrumb[];
+  breadcrumbs: SimpleBreadcrumbItem[];
   page: PageType;
 }
 
@@ -40,12 +39,11 @@ const MyNdlaBreadcrumb = ({ breadcrumbs, page }: Props) => {
   const { t } = useTranslation();
 
   const baseCrumb = types[page];
-  const crumbs = [{ to: baseCrumb.to, name: t(baseCrumb.name) }].concat(
-    breadcrumbs.map((bc) => ({
-      name: bc.name,
-      to: `/minndla/${page}/${bc.id}`,
-    })),
-  );
+  const crumbs = breadcrumbs.map((bc) => ({
+    name: bc.name,
+    to: `/minndla/${page}/${bc.to}`,
+  }));
+  crumbs.unshift({ to: baseCrumb.to, name: t(baseCrumb.name) });
 
   if (breadcrumbs.length > 0) {
     return <Breadcrumb items={crumbs} />;

@@ -103,7 +103,7 @@ const TagsPage = () => {
         <TitleWrapper>
           <MyNdlaBreadcrumb
             page="tags"
-            breadcrumbs={tag ? [{ name: tag, id: tag }] : []}
+            breadcrumbs={tag ? [{ name: tag, to: tag }] : []}
           />
           <MyNdlaTitle title={tag ? tag : t('myNdla.myTags')} />
         </TitleWrapper>

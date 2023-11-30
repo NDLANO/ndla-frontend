@@ -6,6 +6,7 @@
  *
  */
 
+import parse from 'html-react-parser';
 import { useTranslation } from 'react-i18next';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
@@ -112,7 +113,7 @@ const ArenaCard = ({ id, title, subText, count }: Props) => {
             margin="none"
             data-name="hover"
           >
-            {title}
+            {parse(title)}
           </StyledHeader>
           <StyledDescriptionText
             element="p"

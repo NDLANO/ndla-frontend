@@ -6,6 +6,7 @@
  *
  */
 
+import parse from 'html-react-parser';
 import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Navigate, useParams } from 'react-router-dom';
@@ -78,14 +79,19 @@ const TopicPage = () => {
         <MyNdlaBreadcrumb
           breadcrumbs={
             categoryId
-              ? [{ name: arenaCategory?.name ?? '', id: categoryId }]
+              ? [
+                  {
+                    name: arenaCategory ? parse(arenaCategory.name) : '',
+                    to: categoryId,
+                  },
+                ]
               : []
           }
           page={'arena'}
         />
       </BreadcrumbWrapper>
       <Heading element="h1" headingStyle="h1-resource" margin="small">
-        {arenaCategory?.name}
+        {arenaCategory ? parse(arenaCategory.name) : ''}
       </Heading>
       <Text element="p" textStyle="content-alt" margin="none">
         {arenaCategory?.description}

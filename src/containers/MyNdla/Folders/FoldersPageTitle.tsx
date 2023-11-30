@@ -5,11 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { ContentLoader } from '@ndla/ui';
+import { memo } from 'react';
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
-import { useTranslation } from 'react-i18next';
-import { memo } from 'react';
+import { ContentLoader } from '@ndla/ui';
 import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
 import MyNdlaTitle from '../components/MyNdlaTitle';
 import TitleWrapper from '../components/TitleWrapper';
@@ -55,7 +55,12 @@ const FoldersPageTitle = ({ loading, selectedFolder }: Props) => {
         }
       >
         <MyNdlaBreadcrumb
-          breadcrumbs={selectedFolder?.breadcrumbs ?? []}
+          breadcrumbs={
+            selectedFolder?.breadcrumbs?.map((bc) => ({
+              name: bc.name,
+              to: bc.id,
+            })) ?? []
+          }
           page="folders"
         />
       </WhileLoading>

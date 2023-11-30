@@ -6,6 +6,7 @@
  *
  */
 
+import parse from 'html-react-parser';
 import { useContext } from 'react';
 import { useParams } from 'react-router';
 import { Navigate } from 'react-router-dom';
@@ -59,10 +60,10 @@ const PostsPage = () => {
             topicId
               ? [
                   {
-                    name: arenaCategory?.name ?? '',
-                    id: `category/${arenaTopic?.categoryId.toString()}` ?? '',
+                    name: arenaCategory ? parse(arenaCategory?.name) : '',
+                    to: `category/${arenaTopic?.categoryId.toString()}` ?? '',
                   },
-                  { name: arenaTopic?.title ?? '', id: topicId },
+                  { name: arenaTopic?.title ?? '', to: topicId },
                 ]
               : []
           }
