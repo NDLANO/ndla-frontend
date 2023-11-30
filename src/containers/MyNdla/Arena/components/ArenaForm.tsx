@@ -9,16 +9,22 @@
 import styled from '@emotion/styled';
 import { ButtonV2, LoadingButton } from '@ndla/button';
 import { colors, spacing } from '@ndla/core';
-import { InputV3 } from '@ndla/forms';
+import {
+  FormControl,
+  InputV3,
+  InputContainer,
+  Label,
+  FieldErrorMessage,
+} from '@ndla/forms';
 import { InformationOutline } from '@ndla/icons/common';
 import { ModalCloseButton } from '@ndla/modal';
 import { Text } from '@ndla/typography';
-import { useEffect } from 'react';
-import { useForm, Controller } from 'react-hook-form';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import isEqual from 'lodash/isEqual';
 import { FieldLength } from '../../../../containers/MyNdla/Folders/FolderForm';
-import useValidationTranslation from '../../../../util/useValidationTranslation';
 import { MarkdownEditor } from '../../../../components/MarkdownEditor/MarkdownEditor';
+import useValidationTranslation from '../../../../util/useValidationTranslation';
 
 const StyledForm = styled.form`
   display: flex;
@@ -48,10 +54,14 @@ const StyledInformationOutline = styled(InformationOutline)`
   width: ${spacing.snormal};
 `;
 
+const StyledInputContainer = styled(InputContainer)`
+  padding: unset;
+`;
+
 interface ArenaFormProps {
   type: 'topic' | 'post';
-  title?: string;
-  content?: string;
+  initialTitle?: string;
+  initialContent?: string;
   onSave: (data: Partial<ArenaFormValues>) => Promise<void>;
   loading?: boolean;
 }
@@ -61,111 +71,91 @@ export interface ArenaFormValues {
   content: string;
 }
 
-const descriptionMaxLength = 300;
+const contentMaxLength = 300;
 const titleMaxLength = 64;
 
-const toFormValues = (
-  title: string | undefined,
-  content: string | undefined,
-) => ({
-  title: title ?? '',
-  content: content ?? '',
-});
-
-const ArenaForm = ({ onSave, type, title, content }: ArenaFormProps) => {
+const ArenaForm = ({
+  onSave,
+  type,
+  initialTitle,
+  initialContent,
+}: ArenaFormProps) => {
   const { t } = useTranslation();
+  const [title, setTitle] = useState(initialTitle ?? '');
+  const [content, setContent] = useState(initialContent ?? '');
   const { validationT } = useValidationTranslation();
-  const {
-    control,
-    trigger,
-    handleSubmit,
-    formState: { isValid, isDirty },
-    setValue,
-  } = useForm({
-    defaultValues: toFormValues(title, content),
-    reValidateMode: 'onChange',
-    mode: 'all',
-  });
 
-  // Validate on mount.
-  useEffect(() => {
-    trigger();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const onSubmit = async (values: ArenaFormValues) => {
-    await onSave(type === 'topic' ? values : { content: values.content });
+  const onSubmit = async () => {
+    await onSave(type === 'topic' ? { title, content } : { content });
   };
 
+  const isValidTitleLength = title.length <= titleMaxLength;
+  const isValidTitleContent = title !== '';
+  const isValidContentLength = content.length <= contentMaxLength;
+  const isValidContentContent = content.length > 8;
+
+  const isValidTitle = isValidTitleContent && isValidTitleLength;
+  const isValidContent = isValidContentContent && isValidContentLength;
+
+  const isValid = isValidContent || isValidTitle;
+
+  const isDirty = useMemo(
+    () => !isEqual(initialTitle, title) || !isEqual(initialContent, content),
+    [isEqual, initialTitle, initialContent, content, title],
+  );
+
   return (
-    <StyledForm onSubmit={handleSubmit(onSubmit)}>
+    <StyledForm onSubmit={onSubmit}>
       {type === 'topic' && (
-        <Controller
-          name="title"
-          control={control}
-          rules={{
-            required: validationT({ type: 'required', field: 'title' }),
-            maxLength: {
-              value: titleMaxLength,
-              message: validationT({
-                type: 'maxLength',
-                field: 'title',
-                vars: { count: titleMaxLength },
-              }),
-            },
-          }}
-          render={({ field }) => (
-            <div>
-              <Text margin="none" textStyle="label-small">
-                {t('title')}
-              </Text>
-              <InputV3 id="title" required {...field} />
-              <FieldLength
-                value={field.value?.length ?? 0}
-                maxLength={titleMaxLength}
-              />
-            </div>
+        <FormControl id="title" isRequired isInvalid={!isValidTitle}>
+          <Label>{t('title')}</Label>
+          <StyledInputContainer>
+            <InputV3
+              name="title"
+              aria-describedby="title-info"
+              value={title}
+              onChange={(e) => setTitle(e.currentTarget.value)}
+            />
+          </StyledInputContainer>
+          {!isValidTitle && (
+            <FieldErrorMessage id="name-error">
+              {!isValidTitleContent &&
+                validationT({ type: 'required', field: 'title' })}
+              {!isValidTitleLength &&
+                validationT({
+                  type: 'maxLength',
+                  field: 'title',
+                  vars: { count: titleMaxLength },
+                })}
+            </FieldErrorMessage>
           )}
-        />
+          <FieldLength value={title.length ?? 0} maxLength={titleMaxLength} />
+        </FormControl>
       )}
-      <Controller
-        control={control}
-        name="content"
-        rules={{
-          required: true,
-          maxLength: {
-            value: descriptionMaxLength,
-            message: validationT({
-              type: 'maxLength',
-              field: 'content',
-              vars: { count: descriptionMaxLength },
-            }),
-          },
-        }}
-        render={({ field }) => (
-          <div>
-            {type === 'topic' && (
-              <Text element="label" margin="none" textStyle="label-small">
-                {t('myNdla.arena.topic.topicContent')}
-              </Text>
-            )}
-            <MarkdownEditor
-              setContentWritten={(data) =>
-                setValue('content', data, {
-                  shouldDirty: true,
-                  shouldTouch: true,
-                  shouldValidate: true,
-                })
-              }
-              initialValue={content ?? ''}
-            />
-            <FieldLength
-              value={field.value?.length ?? 0}
-              maxLength={descriptionMaxLength}
-            />
-          </div>
+      <FormControl id="editor" isRequired isInvalid={!isValidContent}>
+        <Label htmlFor="markdown-editor">
+          {t('myNdla.arena.topic.topicContent')}
+        </Label>
+        <StyledInputContainer>
+          <MarkdownEditor
+            setContentWritten={setContent}
+            initialValue={content ?? ''}
+          />
+        </StyledInputContainer>
+        {!isValidContent && (
+          <FieldErrorMessage id="name-error">
+            {!isValidContentLength &&
+              validationT({
+                type: 'maxLength',
+                field: 'content',
+                vars: { count: contentMaxLength },
+              })}
+            {!isValidContentContent &&
+              validationT({ type: 'required', field: 'content' })}
+          </FieldErrorMessage>
         )}
-      />
+        <FieldLength value={content.length ?? 0} maxLength={contentMaxLength} />
+      </FormControl>
       <InformationLabel>
         <StyledInformationOutline />
         <Text margin="none" textStyle="content">
@@ -179,7 +169,7 @@ const ArenaForm = ({ onSave, type, title, content }: ArenaFormProps) => {
         <LoadingButton
           colorTheme="light"
           type="submit"
-          disabled={!isValid || !isDirty}
+          disabled={!isDirty || !isValid}
         >
           {t('myNdla.arena.publish')}
         </LoadingButton>

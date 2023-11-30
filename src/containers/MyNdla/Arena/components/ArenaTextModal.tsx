@@ -110,10 +110,10 @@ export const ArenaTextModalContent = ({
       </ModalHeader>
       <StyledModalBody>
         <ArenaForm
-          title={title}
-          content={content}
+          initialTitle={title}
+          initialContent={content}
           onSave={async (data: Partial<ArenaFormValues>) => {
-            await onSave?.(data);
+            await onSave(data);
             onClose();
           }}
           type={type}

@@ -122,6 +122,7 @@ const constructNewPath = (newLocale?: string) => {
   const path = window.location.pathname.replace(regex, '');
   const fullPath = path.startsWith('/') ? path : `/${path}`;
   const localePrefix = newLocale ? `/${newLocale}` : '';
+  console.log(window.location.search);
   return `${localePrefix}${fullPath}${window.location.search}`;
 };
 

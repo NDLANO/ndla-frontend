@@ -6,23 +6,22 @@
  *
  */
 
-import { gql, useMutation } from '@apollo/client';
+import { MutationHookOptions, gql, useMutation } from '@apollo/client';
 import {
-  GQLMutationNewArenaTopicArgs,
-  GQLMutationNewFlagArgs,
-  GQLMutationReplyToTopicArgs,
+  GQLDeletePostMutation,
+  GQLDeletePostMutationVariables,
+  GQLDeleteTopicMutation,
+  GQLDeleteTopicMutationVariables,
   GQLNewArenaTopicMutation,
+  GQLNewArenaTopicMutationVariables,
   GQLNewFlagMutation,
+  GQLNewFlagMutationVariables,
   GQLReplyToTopicMutation,
-  GQLUpdateFolderMutation,
+  GQLReplyToTopicMutationVariables,
+  GQLUpdatePostMutation,
   GQLUpdatePostMutationVariables,
 } from '../../graphqlTypes';
-import {
-  arenaPostFragment,
-  arenaTopicById,
-  arenaTopicFragment,
-  arenaCategoryQuery,
-} from './arenaQueries';
+import { arenaPostFragment, arenaTopicFragment } from './arenaQueries';
 
 const newFlagMutation = gql`
   mutation newFlag($id: Int!, $reason: String!, $type: String!) {
@@ -31,7 +30,7 @@ const newFlagMutation = gql`
 `;
 
 export const useNewFlagMutation = () => {
-  const [addNewFlag] = useMutation<GQLNewFlagMutation, GQLMutationNewFlagArgs>(
+  const [addNewFlag] = useMutation<GQLNewFlagMutation, GQLNewFlagMutationVariables>(
     newFlagMutation,
   );
   return { addNewFlag };
@@ -46,15 +45,16 @@ const replyToTopicMutation = gql`
   ${arenaPostFragment}
 `;
 
-export const useReplyToTopic = (topicId: number) => {
+export const useReplyToTopic = (
+  options?: MutationHookOptions<
+    GQLReplyToTopicMutation,
+    GQLReplyToTopicMutationVariables
+  >,
+) => {
   const [replyToTopic] = useMutation<
     GQLReplyToTopicMutation,
-    GQLMutationReplyToTopicArgs
-  >(replyToTopicMutation, {
-    refetchQueries: [
-      { query: arenaTopicById, variables: { topicId, page: 1 } },
-    ],
-  });
+    GQLReplyToTopicMutationVariables
+  >(replyToTopicMutation, options);
   return { replyToTopic };
 };
 
@@ -67,15 +67,16 @@ const updatePostMutation = gql`
   ${arenaPostFragment}
 `;
 
-export const useUpdatePost = (topicId: number) => {
-  const [updatePost] = useMutation<
-    GQLUpdateFolderMutation,
+export const useUpdatePost = (
+  options: MutationHookOptions<
+    GQLUpdatePostMutation,
     GQLUpdatePostMutationVariables
-  >(updatePostMutation, {
-    refetchQueries: [
-      { query: arenaTopicById, variables: { topicId, page: 1 } },
-    ],
-  });
+  >,
+) => {
+  const [updatePost] = useMutation<
+    GQLUpdatePostMutation,
+    GQLUpdatePostMutationVariables
+  >(updatePostMutation, options);
   return { updatePost };
 };
 
@@ -85,12 +86,16 @@ const deletePostMutation = gql`
   }
 `;
 
-export const useDeletePost = (topicId: number) => {
-  const [deletePost] = useMutation(deletePostMutation, {
-    refetchQueries: [
-      { query: arenaTopicById, variables: { topicId, page: 1 } },
-    ],
-  });
+export const useDeletePost = (
+  options: MutationHookOptions<
+    GQLDeletePostMutation,
+    GQLDeletePostMutationVariables
+  >,
+) => {
+  const [deletePost] = useMutation<
+    GQLDeletePostMutation,
+    GQLDeletePostMutationVariables
+  >(deletePostMutation, options);
   return { deletePost };
 };
 
@@ -100,8 +105,16 @@ const deleteTopicMutation = gql`
   }
 `;
 
-export const useDeleteTopic = () => {
-  const [deleteTopic] = useMutation(deleteTopicMutation);
+export const useDeleteTopic = (
+  options: MutationHookOptions<
+    GQLDeleteTopicMutation,
+    GQLDeleteTopicMutationVariables
+  >,
+) => {
+  const [deleteTopic] = useMutation<
+    GQLDeleteTopicMutation,
+    GQLDeleteTopicMutationVariables
+  >(deleteTopicMutation, options);
   return { deleteTopic };
 };
 
@@ -118,14 +131,15 @@ const newArenaTopicMutation = gql`
   ${arenaTopicFragment}
 `;
 
-export const useCreateArenaTopic = (categoryId: number) => {
+export const useCreateArenaTopic = (
+  options: MutationHookOptions<
+    GQLNewArenaTopicMutation,
+    GQLNewArenaTopicMutationVariables
+  >,
+) => {
   const [createArenaTopic] = useMutation<
     GQLNewArenaTopicMutation,
-    GQLMutationNewArenaTopicArgs
-  >(newArenaTopicMutation, {
-    refetchQueries: [
-      { query: arenaCategoryQuery, variables: { categoryId, page: 1 } },
-    ],
-  });
+    GQLNewArenaTopicMutationVariables
+  >(newArenaTopicMutation, options);
   return { createArenaTopic };
 };

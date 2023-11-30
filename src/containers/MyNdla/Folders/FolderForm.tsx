@@ -190,7 +190,7 @@ const StyledSpan = styled.span`
   display: block;
   text-align: right;
 `;
-
+// TODO Update component to be more UU friendly
 export const FieldLength = ({ value, maxLength }: FieldLengthProps) => {
   return <StyledSpan>{`${value}/${maxLength}`}</StyledSpan>;
 };

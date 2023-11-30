@@ -8,12 +8,12 @@
 
 import { useCallback, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Navigate, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import { Heading, Text } from '@ndla/typography';
-import { useArenaCategory, useCreateArenaTopic } from '../arenaQueries';
+import { arenaCategoryQuery, useArenaCategory } from '../arenaQueries';
 import TopicCard from './components/TopicCard';
 import { GQLArenaTopicFragmentFragment } from '../../../graphqlTypes';
 import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
@@ -21,6 +21,8 @@ import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import ArenaTextModal from './components/ArenaTextModal';
 import { ArenaFormValues } from './components/ArenaForm';
+import { useCreateArenaTopic } from '../arenaMutations';
+import { useSnack } from '@ndla/ui';
 
 const BreadcrumbWrapper = styled.div`
   padding-top: ${spacing.normal};
@@ -54,8 +56,16 @@ const TopicPage = () => {
   const { categoryId } = useParams();
   const { loading, arenaCategory } = useArenaCategory(Number(categoryId), 1);
   const { user } = useContext(AuthContext);
-  const { createArenaTopic } = useCreateArenaTopic(Number(arenaCategory?.id));
   const navigate = useNavigate();
+  const { addSnack } = useSnack();
+  const { createArenaTopic } = useCreateArenaTopic({
+    refetchQueries: [
+      {
+        query: arenaCategoryQuery,
+        variables: { categoryId: arenaCategory?.id, page: 1 },
+      },
+    ],
+  });
 
   const createTopic = useCallback(
     async (data: Partial<ArenaFormValues>) => {
@@ -67,7 +77,11 @@ const TopicPage = () => {
             categoryId: arenaCategory?.id,
           },
         });
-        navigate(toArenaTopic(topic.data?.newArenaTopic.id));
+        addSnack({
+          content: t('myNdla.arena.create.topic'),
+          id: 'arenaTopicCreated',
+        });
+        navigate(toArenaTopic(topic.data?.newArenaTopic?.id));
       }
     },
     [arenaCategory, createArenaTopic, navigate],
@@ -78,8 +92,10 @@ const TopicPage = () => {
   }
 
   if (!user?.arenaEnabled && user?.arenaEnabled !== undefined) {
-    return <Navigate to="/minndla" />;
+    navigate('/minndla');
   }
+
+  console.log(window.history);
 
   return (
     <MyNdlaPageWrapper>

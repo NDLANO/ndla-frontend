@@ -30,6 +30,8 @@ import {
 } from '../../arenaMutations';
 import DeleteModalContent from '../../components/DeleteModalContent';
 import FlagPostModalContent from './FlagPostModalContent';
+import { arenaCategoryQuery, arenaTopicById } from '../../arenaQueries';
+import { useSnack } from '@ndla/ui';
 
 interface Props {
   id: number;
@@ -37,7 +39,6 @@ interface Props {
   isMainPost: boolean;
   title: string;
   content: string;
-  notify: boolean;
   displayName: string;
   username: string;
   affiliation: string;
@@ -111,31 +112,67 @@ const PostCard = ({
     t,
     i18n: { language },
   } = useTranslation();
-  const { replyToTopic } = useReplyToTopic(topicId);
-  const { updatePost } = useUpdatePost(topicId);
-  const { deletePost } = useDeletePost(topicId);
-  const { deleteTopic } = useDeleteTopic();
   const navigate = useNavigate();
+  const { addSnack } = useSnack();
+  const { replyToTopic } = useReplyToTopic({
+    refetchQueries: [
+      {
+        query: arenaTopicById,
+        variables: { topicId, page: 1 },
+      },
+    ],
+  });
+  const { updatePost } = useUpdatePost({
+    refetchQueries: [
+      {
+        query: arenaTopicById,
+        variables: { topicId, page: 1 },
+      },
+    ],
+  });
+  const { deletePost } = useDeletePost({
+    refetchQueries: [
+      {
+        query: arenaTopicById,
+        variables: { topicId, page: 1 },
+      },
+    ],
+  });
+  const { deleteTopic } = useDeleteTopic({
+    refetchQueries: [
+      {
+        query: arenaCategoryQuery,
+        variables: { categoryId, page: 1 },
+      },
+    ],
+  });
 
-  const now = useMemo(() => new Date(), []);
-
+  const now = new Date();
   const type = isMainPost ? 'topic' : 'post';
 
   const deleteTopicCallback = useCallback(
     async (close: VoidFunction) => {
       await deleteTopic({ variables: { topicId } });
       close();
-      navigate(`/minndla/category/${categoryId}`);
+      navigate(`/minndla/arena/category/${categoryId}`);
+      addSnack({
+        content: t('myNdla.arena.delete.topic'),
+        id: 'arenaTopicDeleted',
+      });
     },
-    [topicId, deleteTopic, navigate, categoryId],
+    [topicId, deleteTopic, navigate, categoryId, addSnack],
   );
 
   const deletePostCallback = useCallback(
     async (close: VoidFunction) => {
       await deletePost({ variables: { postId: id } });
       close();
+      addSnack({
+        content: t('myNdla.arena.delete.post'),
+        id: 'arenaPostDeleted',
+      });
     },
-    [deletePost, id],
+    [deletePost, id, addSnack],
   );
 
   const menu = useMemo(
@@ -154,12 +191,15 @@ const PostCard = ({
                 onSave={async (data) => {
                   await updatePost({
                     variables: {
-                      content: data.content!,
+                      content: data.content ?? '',
                       postId: id,
                       title: isMainPost ? data.title : undefined,
                     },
                   });
-                  close();
+                  addSnack({
+                    content: t(`myNdla.arena.updated.${type}`),
+                    id: `arena${type}Updated`,
+                  });
                 }}
                 title={title}
                 content={content}
@@ -190,7 +230,7 @@ const PostCard = ({
                     : await deletePostCallback(close);
                 }}
                 title={t(`myNdla.arena.deleteTitle.${type}`)}
-                description={t(`MyNdla.arena.description.${type}`)}
+                description={t(`myNdla.arena.description.${type}`)}
                 removeText={t(`myNdla.arena.removeText.${type}`)}
               />
             ),
@@ -202,8 +242,8 @@ const PostCard = ({
       t,
       id,
       type,
-      content,
       title,
+      content,
       updatePost,
       isMainPost,
       deletePostCallback,
@@ -216,9 +256,15 @@ const PostCard = ({
       await replyToTopic({
         variables: { topicId, content: data.content ?? '' },
       });
+      addSnack({
+        content: t('myNdla.arena.create.post'),
+        id: 'arenaPostCreated',
+      });
     },
     [replyToTopic, topicId],
   );
+
+  console.log(window.history);
 
   return (
     <StyledCardContainer key={id}>

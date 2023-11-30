@@ -55,7 +55,7 @@ const messages = {
     fields: {
       name: 'Namn',
       title: 'Tittel',
-      content: 'Innhold',
+      content: 'Innhald',
       description: 'Beskriving',
     },
     required: 'Dette feltet er påkrevd',

@@ -126,7 +126,7 @@ export const MarkdownEditor = ({ setContentWritten, initialValue }: Props) => {
         <InnerEditorContainer>
           <RichTextPlugin
             contentEditable={
-              <EditableWrapper ref={onRef}>
+              <EditableWrapper aria-labelledby={'markdown-editor'} ref={onRef}>
                 <ContentEditable />
               </EditableWrapper>
             }

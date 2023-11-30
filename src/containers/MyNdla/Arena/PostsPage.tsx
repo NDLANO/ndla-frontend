@@ -6,8 +6,8 @@
  *
  */
 
-import { useContext, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router';
+import { useContext } from 'react';
+import { useParams } from 'react-router';
 import { Navigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
@@ -42,13 +42,6 @@ const PostsPage = () => {
   const { arenaTopic, loading } = useArenaTopic(Number(topicId), 1);
   const { arenaCategory } = useArenaCategory(Number(arenaTopic?.categoryId), 1);
   const { user } = useContext(AuthContext);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (arenaTopic?.deleted) {
-      navigate('/minndla');
-    }
-  }, [arenaTopic?.deleted, navigate]);
 
   if (loading) {
     return <Spinner />;
@@ -67,7 +60,7 @@ const PostsPage = () => {
               ? [
                   {
                     name: arenaCategory?.name ?? '',
-                    id: `category/${arenaTopic?.categoryId.toString()}` ?? '',
+                    id: `category/${arenaTopic?.categoryId}`,
                   },
                   { name: arenaTopic?.title ?? '', id: topicId },
                 ]
@@ -91,7 +84,6 @@ const PostsPage = () => {
                 isMainPost={post.isMainPost}
                 title={arenaTopic.title ?? ''}
                 content={post.content}
-                notify={true}
                 displayName={post.user.displayName}
                 username={post.user.username}
                 topicId={arenaTopic.id}
