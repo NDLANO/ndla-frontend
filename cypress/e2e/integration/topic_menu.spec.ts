@@ -11,7 +11,7 @@ describe('Topic menu', () => {
     cy.fixCypressSpec('/e2e/integration/topic_menu.spec.ts');
     cy.gqlIntercept({
       alias: 'alerts',
-      operations: ['examLockStatus', 'alerts', 'frontpageData', 'mastheadProgramme', 'mastheadFrontpage'],
+      operations: ['myNdlaData', 'alerts', 'frontpageData', 'mastheadProgramme', 'mastheadFrontpage'],
     });
     cy.visit('/?disableSSR=true');
     cy.gqlWait('@alerts');
@@ -30,13 +30,13 @@ describe('Topic menu', () => {
       .click();
     cy.gqlWait('@programme');
     
-    cy.get('a:contains("Medie- og informasjonskunnskap 2")')
+    cy.get('a:contains("Mediesamfunnet 1")')
       .last()
       .click();
     cy.gqlWait('@subjectpageTopicMenu');
 
     cy.get('[data-testid=masthead-menu-button]').click();
 
-    cy.get('a').contains('Medie- og informasjonskunnskap 2');
+    cy.get('a').contains('Mediesamfunnet 1');
   });
 });

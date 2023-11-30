@@ -170,7 +170,7 @@ const PostCard = ({
           </StyledTimestamp>
         )}
         {menu}
-        {isMainPost && <ButtonV2>{t('myNdla.arena.posts.comment')}</ButtonV2>}
+        {isMainPost && <ButtonV2>{t('myNdla.arena.new.post')}</ButtonV2>}
       </BottomContainer>
     </StyledCardContainer>
   );

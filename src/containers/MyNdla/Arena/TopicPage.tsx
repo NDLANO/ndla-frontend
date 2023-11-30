@@ -6,21 +6,20 @@
  *
  */
 
-import Icon, { Spinner } from '@ndla/icons';
-import styled from '@emotion/styled';
+import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { spacing } from '@ndla/core';
-import { Heading, Text } from '@ndla/typography';
-import { ButtonV2 } from '@ndla/button';
-import { Pencil } from '@ndla/icons/action';
 import { Navigate, useParams } from 'react-router-dom';
-import { useContext, useEffect } from 'react';
+import styled from '@emotion/styled';
+import { ButtonV2 } from '@ndla/button';
+import { spacing } from '@ndla/core';
+import Icon, { Spinner } from '@ndla/icons';
+import { Pencil } from '@ndla/icons/action';
+import { Heading, Text } from '@ndla/typography';
 import { useArenaCategory } from '../arenaQueries';
 import TopicCard from './components/TopicCard';
 import { GQLArenaTopicFragmentFragment } from '../../../graphqlTypes';
 import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
 import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
-import { usePersonalData } from '../userMutations';
 import { AuthContext } from '../../../components/AuthenticationContext';
 
 const BreadcrumbWrapper = styled.div`
@@ -63,20 +62,13 @@ const TopicPage = () => {
   const { t } = useTranslation();
   const { categoryId } = useParams();
   const { loading, arenaCategory } = useArenaCategory(Number(categoryId), 1);
-  const { authenticated } = useContext(AuthContext);
-  const { personalData, fetch: fetchPersonalData } = usePersonalData();
-
-  useEffect(() => {
-    if (authenticated) {
-      fetchPersonalData();
-    }
-  }, [authenticated, fetchPersonalData]);
+  const { user } = useContext(AuthContext);
 
   if (loading) {
     return <Spinner />;
   }
 
-  if (!personalData?.arenaEnabled && personalData?.arenaEnabled !== undefined) {
+  if (!user?.arenaEnabled && user?.arenaEnabled !== undefined) {
     return <Navigate to="/minndla" />;
   }
 
@@ -106,7 +98,7 @@ const TopicPage = () => {
           colorTheme="lighter"
           //onClick={} to open modal
         >
-          {t('myNdla.arena.category.newPost')}
+          {t('myNdla.arena.new.topic')}
           <PencilIcon />
         </StyledNewTopicButton>
       </StyledContainer>

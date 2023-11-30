@@ -1904,15 +1904,37 @@ export type GQLNotionsContent_MetaFragment = {
   __typename?: 'ResourceMetaData';
 } & GQLResourceEmbedLicenseBox_MetaFragment;
 
-export type GQLExamLockStatusQueryVariables = Exact<{ [key: string]: never }>;
+export type GQLMyNdlaPersonalDataFragmentFragment = {
+  __typename?: 'MyNdlaPersonalData';
+  username: string;
+  email: string;
+  displayName: string;
+  organization: string;
+  favoriteSubjects: Array<string>;
+  role: string;
+  arenaEnabled: boolean;
+  shareName: boolean;
+  groups: Array<{
+    __typename?: 'MyNdlaGroup';
+    id: string;
+    displayName: string;
+    isPrimarySchool: boolean;
+    parentId?: string;
+  }>;
+};
 
-export type GQLExamLockStatusQuery = {
+export type GQLMyNdlaDataQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GQLMyNdlaDataQuery = {
   __typename?: 'Query';
   examLockStatus: {
     __typename?: 'ConfigMetaBoolean';
     key: string;
     value: boolean;
   };
+  personalData?: {
+    __typename?: 'MyNdlaPersonalData';
+  } & GQLMyNdlaPersonalDataFragmentFragment;
 };
 
 export type GQLLastLearningpathStepInfo_TopicFragment = {
@@ -3367,15 +3389,6 @@ export type GQLMySubjectMyNdlaPersonalDataFragmentFragment = {
   role: string;
   arenaEnabled: boolean;
   shareName: boolean;
-};
-
-export type GQLPersonalDataQueryVariables = Exact<{ [key: string]: never }>;
-
-export type GQLPersonalDataQuery = {
-  __typename?: 'Query';
-  personalData?: {
-    __typename?: 'MyNdlaPersonalData';
-  } & GQLMySubjectMyNdlaPersonalDataFragmentFragment;
 };
 
 export type GQLUpdatePersonalDataMutationVariables = Exact<{
