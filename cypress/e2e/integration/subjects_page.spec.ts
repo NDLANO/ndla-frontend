@@ -10,7 +10,7 @@ describe('Subjects page', () => {
   beforeEach(() => {
     cy.gqlIntercept({
       alias: 'alerts',
-      operations: ['examLockStatus', 'alerts', 'frontpageData', 'mastheadProgramme', 'mastheadFrontpage'],
+      operations: ['myNdlaData', 'alerts', 'frontpageData', 'mastheadProgramme', 'mastheadFrontpage'],
     });
     cy.fixCypressSpec('/e2e/integration/subjects_page.spec.ts');
     cy.visit('/?disableSSR=true');
@@ -32,7 +32,7 @@ describe('Subjects page', () => {
       operations: ['subjectPageTest', 'mastHead'],
     });
 
-    cy.get('a:contains("Medie- og informasjonskunnskap")')
+    cy.get('a:contains("Mediesamfunnet 1")')
       .last()
       .click();
     cy.gqlWait('@subjectpage');
@@ -58,7 +58,7 @@ describe('Subjects page', () => {
       alias: 'subjectpage',
       operations: ['subjectPageTest', 'mastHead'],
     });
-    cy.get('a:contains("Medie- og informasjonskunnskap")')
+    cy.get('a:contains("Mediesamfunnet 1")')
       .last()
       .click();
     cy.gqlWait('@subjectpage');

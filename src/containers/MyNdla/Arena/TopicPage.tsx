@@ -6,25 +6,32 @@
  *
  */
 
-import Icon, { Spinner } from '@ndla/icons';
-import styled from '@emotion/styled';
+import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { spacing } from '@ndla/core';
-import { Heading, Text } from '@ndla/typography';
-import { ButtonV2 } from '@ndla/button';
-import { Pencil } from '@ndla/icons/action';
 import { Navigate, useParams } from 'react-router-dom';
-import { useContext, useEffect } from 'react';
+import styled from '@emotion/styled';
+import { ButtonV2 } from '@ndla/button';
+import { spacing } from '@ndla/core';
+import Icon, { Spinner } from '@ndla/icons';
+import { Pencil } from '@ndla/icons/action';
+import { Heading, Text } from '@ndla/typography';
 import { useArenaCategory } from '../arenaQueries';
 import TopicCard from './components/TopicCard';
 import { GQLArenaTopicFragmentFragment } from '../../../graphqlTypes';
 import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
 import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
-import { usePersonalData } from '../userMutations';
 import { AuthContext } from '../../../components/AuthenticationContext';
 
 const BreadcrumbWrapper = styled.div`
   padding-top: ${spacing.normal};
+`;
+
+const ListWrapper = styled.ul`
+  display: flex;
+  flex-direction: column;
+  gap: ${spacing.xsmall};
+  margin: 0;
+  padding: 0;
 `;
 
 const StyledContainer = styled.div`
@@ -45,31 +52,23 @@ const StyledPencilIcon = styled(Icon)`
 
 const PencilIcon = StyledPencilIcon.withComponent(Pencil);
 
-const StyledCardContainer = styled.div`
+const StyledCardContainer = styled.li`
   display: flex;
   flex-direction: column;
-  gap: ${spacing.xsmall};
-  margin: ${spacing.small} 0;
+  margin: 0;
 `;
 
 const TopicPage = () => {
   const { t } = useTranslation();
   const { categoryId } = useParams();
   const { loading, arenaCategory } = useArenaCategory(Number(categoryId), 1);
-  const { authenticated } = useContext(AuthContext);
-  const { personalData, fetch: fetchPersonalData } = usePersonalData();
-
-  useEffect(() => {
-    if (authenticated) {
-      fetchPersonalData();
-    }
-  }, [authenticated, fetchPersonalData]);
+  const { user } = useContext(AuthContext);
 
   if (loading) {
     return <Spinner />;
   }
 
-  if (!personalData?.arenaEnabled && personalData?.arenaEnabled !== undefined) {
+  if (!user?.arenaEnabled && user?.arenaEnabled !== undefined) {
     return <Navigate to="/minndla" />;
   }
 
@@ -99,21 +98,23 @@ const TopicPage = () => {
           colorTheme="lighter"
           //onClick={} to open modal
         >
-          {t('myNdla.arena.category.newPost')}
+          {t('myNdla.arena.new.topic')}
           <PencilIcon />
         </StyledNewTopicButton>
       </StyledContainer>
-      {arenaCategory?.topics?.map((topic: GQLArenaTopicFragmentFragment) => (
-        <StyledCardContainer key={`topicContainer-${topic.id}`}>
-          <TopicCard
-            key={`topic-${topic.id}`}
-            id={topic.id.toString()}
-            title={topic.title}
-            timestamp={topic.timestamp}
-            count={topic.postCount}
-          />
-        </StyledCardContainer>
-      ))}
+      <ListWrapper>
+        {arenaCategory?.topics?.map((topic: GQLArenaTopicFragmentFragment) => (
+          <StyledCardContainer key={`topicContainer-${topic.id}`}>
+            <TopicCard
+              key={`topic-${topic.id}`}
+              id={topic.id.toString()}
+              title={topic.title}
+              timestamp={topic.timestamp}
+              count={topic.postCount}
+            />
+          </StyledCardContainer>
+        ))}
+      </ListWrapper>
     </MyNdlaPageWrapper>
   );
 };

@@ -104,7 +104,7 @@ const MyNdlaPage = () => {
           <MyNdlaTitle title={t('myNdla.myPage.myPage')} />
         </TitleWrapper>
         <StyledDescription>{t('myNdla.myPage.welcome')}</StyledDescription>
-        {allowedAiOrgs.includes(user?.baseOrg?.displayName ?? '') && (
+        {allowedAiOrgs.includes(user?.organization ?? '') && (
           <StyledCampaignBlock
             title={{
               title: t('myndla.campaignBlock.title'),
@@ -157,7 +157,7 @@ const MyNdlaPage = () => {
         </InfoPart>
         {allFolderResources && allFolderResources.length > 0 && (
           <>
-            <h2>{t('myNdla.myPage.newFavourite')}</h2>
+            <h2>{t('myNdla.myPage.recentFavourites.title')}</h2>
             <StyledResourceList>
               {allFolderResources.map((res) => {
                 const meta = keyedData[`${res.resourceType}${res.resourceId}`];

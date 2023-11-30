@@ -6,7 +6,7 @@
  */
 
 import chalk from 'chalk';
-import { rmSync } from 'fs';
+import { rmSync, copyFile } from 'fs';
 import { resolve } from 'path';
 import webpack, { Stats, StatsCompilation } from 'webpack';
 import { Configuration, StatsError } from 'webpack';
@@ -65,6 +65,9 @@ const main = async () => {
   rmSync(resolve('./build'), { recursive: true, force: true });
   await build(clientConfig, 'client');
   await build(serverConfig, 'server');
+  await copyFile(resolve('build/assets.json'), resolve('build/public/static/assets.json'), (err) => {
+    if (err) throw err;
+  });
 };
 
 const compile = (

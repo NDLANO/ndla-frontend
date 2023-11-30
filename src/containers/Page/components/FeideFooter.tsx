@@ -15,7 +15,6 @@ import { FeideText, LogIn } from '@ndla/icons/common';
 
 import FeideLoginButton from '../../../components/FeideLoginButton';
 import { AuthContext } from '../../../components/AuthenticationContext';
-import { getAffiliationRoleOrDefault } from '../../../util/apiHelpers';
 
 const StyledFeideFooter = styled.div`
   display: flex;
@@ -55,7 +54,7 @@ const FeideFooter = () => {
   const { t } = useTranslation();
   const inRouterContext = useInRouterContext();
   const { authenticated, user } = useContext(AuthContext);
-  const affiliationRole = getAffiliationRoleOrDefault(user);
+  const affiliationRole = user?.role;
 
   return (
     <StyledFeideFooter>
