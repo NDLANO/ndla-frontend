@@ -30,8 +30,8 @@ import {
 import { GQLArticle_ArticleFragment } from '../../graphqlTypes';
 
 const StyledAside = styled.aside`
-  background: #184673;
-  color: #fff;
+  background: ${colors.brand.dark};
+  color: ${colors.white};
   display: flex;
   padding: ${spacing.normal} ${spacing.normal} ${spacing.medium};
   > div {
