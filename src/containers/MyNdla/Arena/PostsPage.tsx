@@ -35,7 +35,7 @@ const ListWrapper = styled.ul`
 const PostCardWrapper = styled.li`
   list-style: none;
   margin-bottom: ${spacing.normal};
-  &[data-mainPost='false'] {
+  &[data-main-post='false'] {
     margin-left: 72px;
   }
 `;
@@ -93,7 +93,7 @@ const PostsPage = () => {
       </BreadcrumbWrapper>
       <ListWrapper>
         {arenaTopic?.posts?.map((post: GQLArenaPostFragmentFragment) => (
-          <PostCardWrapper key={post.id} data-mainPost={post.isMainPost}>
+          <PostCardWrapper key={post.id} data-main-post={post.isMainPost}>
             <PostCard
               id={post.id}
               timestamp={post.timestamp}
