@@ -141,6 +141,15 @@ export const arenaTopicsByUserQuery = gql`
   ${arenaTopicFragment}
 `;
 
+const arenaRecentTopics = gql`
+  query arenaRecentTopics {
+    arenaRecentTopics {
+      ...ArenaTopicFragment
+    }
+  }
+  ${arenaTopicFragment}
+`;
+
 export const useArenaUser = (
   username: string,
   options?: QueryHookOptions<GQLArenaUserQuery, GQLArenaUserQueryVariables>,
@@ -190,14 +199,7 @@ export const useArenaTopicsByUser = (
     { variables: { userSlug }, ...options },
   );
   return { arenaTopicsByUser: data?.arenaTopicsByUser, loading, error };
-const arenaRecentTopics = gql`
-  query arenaRecentTopics {
-    arenaRecentTopics {
-      ...ArenaTopicFragment
-    }
-  }
-  ${arenaTopicFragment}
-`;
+};
 
 export const useRecentTopics = (
   options?: QueryHookOptions<GQLArenaRecentTopicsQuery>,
