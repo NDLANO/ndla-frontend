@@ -6,7 +6,7 @@
  *
  */
 
-import { gql, useMutation } from '@apollo/client';
+import { gql } from '@apollo/client';
 import {
   GQLArenaUserQuery,
   GQLArenaPageQuery,
@@ -15,12 +15,6 @@ import {
   GQLArenaTopicByIdQueryVariables,
   GQLArenaCategoryQueryVariables,
   GQLArenaUserQueryVariables,
-  GQLMutationNewArenaTopicArgs,
-  GQLMutationReplyToTopicArgs,
-  GQLNewArenaTopicMutation,
-  GQLReplyToTopicMutation,
-  GQLUpdateFolderMutation,
-  GQLUpdatePostMutationVariables,
 } from '../../graphqlTypes';
 import { useGraphQuery } from '../../util/runQueries';
 
@@ -34,7 +28,7 @@ const arenaUserFragment = gql`
   }
 `;
 
-const arenaCategoriesFragment = gql`
+export const arenaCategoriesFragment = gql`
   fragment ArenaCategoriesFragment on ArenaCategory {
     __typename
     description
@@ -47,7 +41,7 @@ const arenaCategoriesFragment = gql`
   }
 `;
 
-const arenaCategoryFragment = gql`
+export const arenaCategoryFragment = gql`
   fragment ArenaCategoryFragment on ArenaCategory {
     __typename
     description
@@ -60,7 +54,7 @@ const arenaCategoryFragment = gql`
   }
 `;
 
-const arenaTopicFragment = gql`
+export const arenaTopicFragment = gql`
   fragment ArenaTopicFragment on ArenaTopic {
     __typename
     categoryId
@@ -74,7 +68,7 @@ const arenaTopicFragment = gql`
   }
 `;
 
-const arenaPostFragment = gql`
+export const arenaPostFragment = gql`
   fragment ArenaPostFragment on ArenaPost {
     __typename
     content
@@ -170,97 +164,4 @@ export const useArenaTopic = (topicId: number, page: number) => {
     variables: { topicId, page },
   });
   return { arenaTopic: data?.arenaTopic, loading, error };
-};
-
-const newArenaTopicMutation = gql`
-  mutation NewArenaTopic(
-    $categoryId: Int!
-    $content: String!
-    $title: String!
-  ) {
-    newArenaTopic(categoryId: $categoryId, content: $content, title: $title) {
-      ...ArenaTopicFragment
-    }
-  }
-  ${arenaTopicFragment}
-`;
-
-export const useCreateArenaTopic = (categoryId: number) => {
-  const [createArenaTopic] = useMutation<
-    GQLNewArenaTopicMutation,
-    GQLMutationNewArenaTopicArgs
-  >(newArenaTopicMutation, {
-    refetchQueries: [
-      { query: arenaCategoryQuery, variables: { categoryId, page: 1 } },
-    ],
-  });
-  return { createArenaTopic };
-};
-
-const replyToTopicMutation = gql`
-  mutation ReplyToTopic($topicId: Int!, $content: String!) {
-    replyToTopic(topicId: $topicId, content: $content) {
-      ...ArenaPostFragment
-    }
-  }
-  ${arenaPostFragment}
-`;
-
-export const useReplyToTopic = (topicId: number) => {
-  const [replyToTopic] = useMutation<
-    GQLReplyToTopicMutation,
-    GQLMutationReplyToTopicArgs
-  >(replyToTopicMutation, {
-    refetchQueries: [
-      { query: arenaTopicById, variables: { topicId, page: 1 } },
-    ],
-  });
-  return { replyToTopic };
-};
-
-const updatePostMutation = gql`
-  mutation UpdatePost($postId: Int!, $content: String!, $title: String) {
-    updatePost(postId: $postId, content: $content, title: $title) {
-      ...ArenaPostFragment
-    }
-  }
-  ${arenaPostFragment}
-`;
-
-export const useUpdatePost = (topicId: number) => {
-  const [updatePost] = useMutation<
-    GQLUpdateFolderMutation,
-    GQLUpdatePostMutationVariables
-  >(updatePostMutation, {
-    refetchQueries: [
-      { query: arenaTopicById, variables: { topicId, page: 1 } },
-    ],
-  });
-  return { updatePost };
-};
-
-const deletePostMutation = gql`
-  mutation DeletePost($postId: Int!) {
-    deletePost(postId: $postId)
-  }
-`;
-
-export const useDeletePost = (topicId: number) => {
-  const [deletePost] = useMutation(deletePostMutation, {
-    refetchQueries: [
-      { query: arenaTopicById, variables: { topicId, page: 1 } },
-    ],
-  });
-  return { deletePost };
-};
-
-const deleteTopicMutation = gql`
-  mutation DeleteTopic($topicId: Int!) {
-    deleteTopic(topicId: $topicId)
-  }
-`;
-
-export const useDeleteTopic = () => {
-  const [deleteTopic] = useMutation(deleteTopicMutation);
-  return { deleteTopic };
 };

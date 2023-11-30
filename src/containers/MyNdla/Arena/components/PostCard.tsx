@@ -27,8 +27,9 @@ import {
   useDeleteTopic,
   useReplyToTopic,
   useUpdatePost,
-} from '../../arenaQueries';
+} from '../../arenaMutations';
 import DeleteModalContent from '../../components/DeleteModalContent';
+import FlagPostModalContent from './FlagPostModalContent';
 
 interface Props {
   id: number;
@@ -142,11 +143,6 @@ const PostCard = ({
       <SettingsMenu
         menuItems={[
           {
-            icon: <ReportOutlined />,
-            text: t('myNdla.arena.posts.dropdownMenu.report'),
-            type: 'primary',
-          },
-          {
             icon: <Pencil />,
             text: t('myNdla.arena.posts.dropdownMenu.edit'),
             type: 'primary',
@@ -168,6 +164,16 @@ const PostCard = ({
                 title={title}
                 content={content}
               />
+            ),
+          },
+          {
+            icon: <ReportOutlined />,
+            text: t('myNdla.arena.posts.dropdownMenu.report'),
+            type: 'primary',
+            isModal: true,
+            modality: false,
+            modalContent: (close) => (
+              <FlagPostModalContent id={id} onClose={close} />
             ),
           },
           {
