@@ -12,12 +12,14 @@ import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import { Heading, Text } from '@ndla/typography';
+import { HelmetWithTracker, useTracker } from '@ndla/tracker';
 import { Navigate } from 'react-router-dom';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import { useArenaCategories } from '../arenaQueries';
-import { usePersonalData } from '../userMutations';
 import ArenaCard from './components/ArenaCard';
 import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
+import { getAllDimensions } from '../../../util/trackingUtil';
+import { SKIP_TO_CONTENT_ID } from '../../../constants';
 
 const StyledCardContainer = styled.ul`
   display: flex;
@@ -34,26 +36,34 @@ const ArenaCardWrapper = styled.li`
 const ArenaPage = () => {
   const { t } = useTranslation();
   const { loading, arenaCategories } = useArenaCategories();
-  const { authenticated } = useContext(AuthContext);
-  const { personalData, fetch: fetchPersonalData } = usePersonalData();
+  const { trackPageView } = useTracker();
+  const { user, authContextLoaded } = useContext(AuthContext);
 
   useEffect(() => {
-    if (authenticated) {
-      fetchPersonalData();
-    }
-  }, [authenticated, fetchPersonalData]);
+    if (!authContextLoaded || !user?.arenaEnabled) return;
+    trackPageView({
+      title: t('htmlTitles.arenaPage'),
+      dimensions: getAllDimensions({ user }),
+    });
+  }, [authContextLoaded, t, trackPageView, user]);
 
   if (loading) {
     return <Spinner />;
   }
 
-  if (!personalData?.arenaEnabled && personalData?.arenaEnabled !== undefined) {
+  if (!user?.arenaEnabled && user?.arenaEnabled !== undefined) {
     return <Navigate to="/minndla" />;
   }
 
   return (
     <MyNdlaPageWrapper>
-      <Heading element="h1" headingStyle="h1-resource" margin="small">
+      <HelmetWithTracker title={t('htmlTitles.arenaPage')} />
+      <Heading
+        element="h1"
+        id={SKIP_TO_CONTENT_ID}
+        headingStyle="h1-resource"
+        margin="small"
+      >
         {t('myNdla.arena.title')}
       </Heading>
       <Text element="p" textStyle="content-alt">

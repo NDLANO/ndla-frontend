@@ -6,7 +6,7 @@
  *
  */
 
-import { gql } from '@apollo/client';
+import { QueryHookOptions, gql } from '@apollo/client';
 import {
   GQLArenaUserQuery,
   GQLArenaPageQuery,
@@ -15,6 +15,7 @@ import {
   GQLArenaTopicByIdQueryVariables,
   GQLArenaCategoryQueryVariables,
   GQLArenaUserQueryVariables,
+  GQLArenaRecentTopicsQuery,
 } from '../../graphqlTypes';
 import { useGraphQuery } from '../../util/runQueries';
 
@@ -163,4 +164,26 @@ export const useArenaTopic = (topicId: number, page: number) => {
     variables: { topicId, page },
   });
   return { arenaTopic: data?.arenaTopic, loading, error };
+};
+
+const arenaRecentTopics = gql`
+  query arenaRecentTopics {
+    arenaRecentTopics {
+      ...ArenaTopicFragment
+    }
+  }
+  ${arenaTopicFragment}
+`;
+
+export const useRecentTopics = (
+  options?: QueryHookOptions<GQLArenaRecentTopicsQuery>,
+) => {
+  const { data, ...rest } = useGraphQuery<GQLArenaRecentTopicsQuery>(
+    arenaRecentTopics,
+    options,
+  );
+  return {
+    data: data?.arenaRecentTopics,
+    ...rest,
+  };
 };

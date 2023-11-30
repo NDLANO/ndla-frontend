@@ -6,19 +6,21 @@
  *
  */
 
-import { Spinner } from '@ndla/icons';
-import { useParams } from 'react-router';
-import { spacing } from '@ndla/core';
-import styled from '@emotion/styled';
+import { useTranslation } from 'react-i18next';
 import { useContext, useEffect } from 'react';
+import { useParams } from 'react-router';
 import { Navigate } from 'react-router-dom';
+import styled from '@emotion/styled';
+import { spacing } from '@ndla/core';
+import { Spinner } from '@ndla/icons';
+import { HelmetWithTracker, useTracker } from '@ndla/tracker';
 import PostCard from './components/PostCard';
 import { useArenaCategory, useArenaTopic } from '../arenaQueries';
 import { GQLArenaPostFragmentFragment } from '../../../graphqlTypes';
 import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
 import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
-import { usePersonalData } from '../userMutations';
 import { AuthContext } from '../../../components/AuthenticationContext';
+import { getAllDimensions } from '../../../util/trackingUtil';
 
 const BreadcrumbWrapper = styled.div`
   padding-top: ${spacing.normal};
@@ -39,28 +41,34 @@ const PostCardWrapper = styled.li`
 `;
 
 const PostsPage = () => {
+  const { t } = useTranslation();
   const { topicId } = useParams();
   const { arenaTopic, loading } = useArenaTopic(Number(topicId), 1);
   const { arenaCategory } = useArenaCategory(Number(arenaTopic?.categoryId), 1);
-  const { authenticated } = useContext(AuthContext);
-  const { personalData, fetch: fetchPersonalData } = usePersonalData();
+  const { trackPageView } = useTracker();
+  const { user, authContextLoaded } = useContext(AuthContext);
 
   useEffect(() => {
-    if (authenticated) {
-      fetchPersonalData();
-    }
-  }, [authenticated, fetchPersonalData]);
+    if (!authContextLoaded || !user?.arenaEnabled || loading) return;
+    trackPageView({
+      title: t('htmlTitles.arenaPostPage', { name: arenaTopic?.title ?? '' }),
+      dimensions: getAllDimensions({ user }),
+    });
+  }, [arenaTopic?.title, authContextLoaded, loading, t, trackPageView, user]);
 
   if (loading) {
     return <Spinner />;
   }
 
-  if (!personalData?.arenaEnabled && personalData?.arenaEnabled !== undefined) {
+  if (!user?.arenaEnabled && user?.arenaEnabled !== undefined) {
     return <Navigate to="/minndla" />;
   }
 
   return (
     <MyNdlaPageWrapper>
+      <HelmetWithTracker
+        title={t('htmlTitles.arenaPostPage', { name: arenaTopic?.title })}
+      />
       <BreadcrumbWrapper>
         <MyNdlaBreadcrumb
           breadcrumbs={

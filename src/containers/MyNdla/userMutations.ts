@@ -6,14 +6,8 @@
  *
  */
 
+import { useApolloClient, useMutation, gql } from '@apollo/client';
 import {
-  useApolloClient,
-  useLazyQuery,
-  useMutation,
-  gql,
-} from '@apollo/client';
-import {
-  GQLPersonalDataQuery,
   GQLUpdatePersonalDataMutation,
   GQLUpdatePersonalDataMutationVariables,
 } from '../../graphqlTypes';
@@ -45,22 +39,6 @@ const personalDataQueryFragment = gql`
     shareName
   }
 `;
-
-const personalDataQuery = gql`
-  query personalData {
-    personalData {
-      ...MySubjectMyNdlaPersonalDataFragment
-    }
-  }
-  ${personalDataQueryFragment}
-`;
-
-export const usePersonalData = () => {
-  const [fetch, { data, loading }] =
-    useLazyQuery<GQLPersonalDataQuery>(personalDataQuery);
-  const personalData = data?.personalData;
-  return { personalData, loading, fetch };
-};
 
 const updatePersonalDataQuery = gql`
   mutation updatePersonalData(

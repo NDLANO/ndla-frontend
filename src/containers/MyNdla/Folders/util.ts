@@ -10,8 +10,7 @@ import { DragEndEvent, Announcements } from '@dnd-kit/core';
 import { arrayMove } from '@dnd-kit/sortable';
 import { TFunction } from 'i18next';
 import config from '../../../config';
-import { getAffiliationRoleOrDefault } from '../../../util/apiHelpers';
-import { FeideUserApiType } from '../../../interfaces';
+import { GQLMyNdlaPersonalDataFragmentFragment } from '../../../graphqlTypes';
 
 export const makeDndSortFunction = <PID, RES, T extends { id: string }>(
   parentId: PID,
@@ -103,5 +102,6 @@ export const previewLink = (id: string) =>
 export const copyFolderSharingLink = (id: string) =>
   window.navigator.clipboard.writeText(previewLink(id));
 
-export const isStudent = (user: FeideUserApiType | undefined) =>
-  getAffiliationRoleOrDefault(user) === 'student';
+export const isStudent = (
+  user: GQLMyNdlaPersonalDataFragmentFragment | undefined,
+) => user?.role === 'student';

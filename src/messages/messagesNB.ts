@@ -28,13 +28,9 @@ const messages = {
     myTagsPage: `Mine emneknagger - ${titleTemplate}`,
     sharedFolderPage: `{{name}} - ${titleTemplate}`,
     aboutPage: `{{name}} - ${titleTemplate}`,
-  },
-  footer: {
-    cookiesLink: 'Erklæring for informasjonskapsler',
-  },
-  programmes: {
-    header: 'Hva vil du lære om i dag?',
-    description: 'Velg utdanningsprogram for å se dine fag',
+    arenaPage: `Arena - ${titleTemplate}`,
+    arenaTopicPage: `{{name}} - Arena - ${titleTemplate}`,
+    arenaPostPage: `{{name}} - Arena - ${titleTemplate}`,
   },
   podcastPage: {
     episodes: 'Episoder',
@@ -42,13 +38,6 @@ const messages = {
     podcasts: 'Podkaster',
     pageInfo: 'Side {{page}} av {{lastPage}}',
     noResults: '...Ingen episoder',
-  },
-  sharedFolder: 'Delt mappe',
-  campaignBlock: {
-    title: 'Planlegg skoleåret med NDLA',
-    linkText: 'Se forslag',
-    ingress:
-      'Se våre forslag til aktiviteter og årsplaner. Gode resultater starter med god planlegging.',
   },
   myndla: {
     campaignBlock: {
@@ -58,6 +47,11 @@ const messages = {
         'Lurer du på noe i faget ditt? Vil du ha hjelp til å forenkle en tekst, øve til en prøve eller få forslag til en disposisjon? Prøv prateroboten vår og se om den kan hjelpe deg! I perioder med eksamensgjennomføring kan det hende fylkeskommunen stenger tilgangen til praterobotene.',
       ingress:
         'Vil du bruke KI i undervisninga? NDLA har laget to prateroboter som tar vare på personvernet ditt og trygt kan brukes til jobb og i undervisning. I perioder med eksamensgjennomføring kan det hende fylkeskommunen stenger tilgangen til praterobotene.',
+    },
+  },
+  myNdla: {
+    myPage: {
+      privacyLink: 'https://ndla.no/article/personvernerklaering',
     },
   },
   validation: {
