@@ -43,8 +43,14 @@ const PostCardWrapper = styled.li`
 const PostsPage = () => {
   const { t } = useTranslation();
   const { topicId } = useParams();
-  const { arenaTopic, loading } = useArenaTopic(Number(topicId), 1);
-  const { arenaCategory } = useArenaCategory(Number(arenaTopic?.categoryId), 1);
+  const { arenaTopic, loading } = useArenaTopic({
+    variables: { topicId: Number(topicId), page: 1 },
+    skip: !Number(topicId),
+  });
+  const { arenaCategory } = useArenaCategory({
+    variables: { categoryId: Number(arenaTopic?.categoryId), page: 1 },
+    skip: !Number(arenaTopic?.categoryId),
+  });
   const { trackPageView } = useTracker();
   const { user, authContextLoaded } = useContext(AuthContext);
 
