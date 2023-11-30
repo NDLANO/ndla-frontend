@@ -31,7 +31,7 @@ import { useSnack } from '@ndla/ui';
 import { useNewFlagMutation } from '../../arenaMutations';
 import handleError from '../../../../util/handleError';
 
-const MAXIMUM_LENGTH_TEXTFIELD = 64;
+const MAXIMUM_LENGTH_TEXTFIELD = 120;
 
 const StyledButtonRow = styled.div`
   display: flex;
@@ -53,10 +53,14 @@ const StyledModalBody = styled(ModalBody)`
 const StyledRadioButtonGroup = styled(RadioButtonGroup)`
   > div {
     > label {
-      ${fonts.sizes('16px')};
+      font-size: ${fonts.size.text.metaText.small};
       font-weight: ${fonts.weight.semibold};
     }
   }
+`;
+
+const StyledTextArea = styled(TextAreaV3)`
+  min-height: 74px;
 `;
 
 interface FlagPostModalProps {
@@ -119,7 +123,7 @@ const FlagPostModalContent = ({ id, onClose }: FlagPostModalProps) => {
             <Label textStyle="label-small" margin="none">
               {t('myNdla.arena.flag.reason')}
             </Label>
-            <TextAreaV3
+            <StyledTextArea
               onChange={(e) => setReportReasonText(e.target.value)}
               maxLength={MAXIMUM_LENGTH_TEXTFIELD}
             />
