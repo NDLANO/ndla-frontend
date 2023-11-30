@@ -101,7 +101,7 @@ const ArenaForm = ({
 
   const isDirty = useMemo(
     () => !isEqual(initialTitle, title) || !isEqual(initialContent, content),
-    [isEqual, initialTitle, initialContent, content, title],
+    [initialTitle, initialContent, content, title],
   );
 
   return (

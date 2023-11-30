@@ -30,9 +30,10 @@ const newFlagMutation = gql`
 `;
 
 export const useNewFlagMutation = () => {
-  const [addNewFlag] = useMutation<GQLNewFlagMutation, GQLNewFlagMutationVariables>(
-    newFlagMutation,
-  );
+  const [addNewFlag] = useMutation<
+    GQLNewFlagMutation,
+    GQLNewFlagMutationVariables
+  >(newFlagMutation);
   return { addNewFlag };
 };
 

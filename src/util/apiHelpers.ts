@@ -152,7 +152,8 @@ const typePolicies: TypePolicies = {
       folderResourceMeta: {
         read(_, { args, toReference }) {
           return toReference(
-            `FolderResourceMeta:${args!.resource.resourceType}${args!.resource.id
+            `FolderResourceMeta:${args!.resource.resourceType}${
+              args!.resource.id
             }`,
           );
         },
@@ -169,7 +170,8 @@ const typePolicies: TypePolicies = {
         ) {
           const refs = args?.resources.map((arg) =>
             toReference(
-              `${arg.resourceType === 'learningpath' ? 'Learningpath' : 'Article'
+              `${
+                arg.resourceType === 'learningpath' ? 'Learningpath' : 'Article'
               }FolderResourceMeta:${arg.resourceType}${arg.id}`,
             ),
           );

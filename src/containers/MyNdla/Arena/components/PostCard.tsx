@@ -18,6 +18,7 @@ import { useTranslation } from 'react-i18next';
 import { useCallback, useMemo } from 'react';
 import { nb, nn, enGB } from 'date-fns/locale';
 import { formatDistanceStrict } from 'date-fns';
+import { useSnack } from '@ndla/ui';
 import UserProfileTag from '../../components/UserProfileTag';
 import SettingsMenu from '../../components/SettingsMenu';
 import ArenaTextModal, { ArenaTextModalContent } from './ArenaTextModal';
@@ -31,7 +32,6 @@ import {
 import DeleteModalContent from '../../components/DeleteModalContent';
 import FlagPostModalContent from './FlagPostModalContent';
 import { arenaCategoryQuery, arenaTopicById } from '../../arenaQueries';
-import { useSnack } from '@ndla/ui';
 
 interface Props {
   id: number;
@@ -160,7 +160,7 @@ const PostCard = ({
         id: 'arenaTopicDeleted',
       });
     },
-    [topicId, deleteTopic, navigate, categoryId, addSnack],
+    [topicId, deleteTopic, navigate, categoryId, addSnack, t],
   );
 
   const deletePostCallback = useCallback(
@@ -172,7 +172,7 @@ const PostCard = ({
         id: 'arenaPostDeleted',
       });
     },
-    [deletePost, id, addSnack],
+    [deletePost, id, addSnack, t],
   );
 
   const menu = useMemo(
@@ -244,6 +244,7 @@ const PostCard = ({
       type,
       title,
       content,
+      addSnack,
       updatePost,
       isMainPost,
       deletePostCallback,
@@ -261,10 +262,8 @@ const PostCard = ({
         id: 'arenaPostCreated',
       });
     },
-    [replyToTopic, topicId],
+    [replyToTopic, topicId, addSnack, t],
   );
-
-  console.log(window.history);
 
   return (
     <StyledCardContainer key={id}>

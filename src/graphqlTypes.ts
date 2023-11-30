@@ -2965,6 +2965,17 @@ export type GQLArenaTopicByIdQuery = {
   } & GQLArenaTopicFragmentFragment;
 };
 
+export type GQLArenaRecentTopicsQueryVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type GQLArenaRecentTopicsQuery = {
+  __typename?: 'Query';
+  arenaRecentTopics: Array<
+    { __typename?: 'ArenaTopic' } & GQLArenaTopicFragmentFragment
+  >;
+};
+
 export type GQLAiOrganizationsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GQLAiOrganizationsQuery = {

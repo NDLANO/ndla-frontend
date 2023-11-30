@@ -6,13 +6,15 @@
  *
  */
 
-import { useCallback, useContext } from 'react';
+import { useCallback, useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import { Heading, Text } from '@ndla/typography';
+import { useSnack } from '@ndla/ui';
+import { HelmetWithTracker, useTracker } from '@ndla/tracker';
 import { arenaCategoryQuery, useArenaCategory } from '../arenaQueries';
 import TopicCard from './components/TopicCard';
 import { GQLArenaTopicFragmentFragment } from '../../../graphqlTypes';
@@ -22,7 +24,8 @@ import { AuthContext } from '../../../components/AuthenticationContext';
 import ArenaTextModal from './components/ArenaTextModal';
 import { ArenaFormValues } from './components/ArenaForm';
 import { useCreateArenaTopic } from '../arenaMutations';
-import { useSnack } from '@ndla/ui';
+import { getAllDimensions } from '../../../util/trackingUtil';
+import { SKIP_TO_CONTENT_ID } from '../../../constants';
 
 const BreadcrumbWrapper = styled.div`
   padding-top: ${spacing.normal};
@@ -54,10 +57,24 @@ const toArenaTopic = (topicId: number | undefined) =>
 const TopicPage = () => {
   const { t } = useTranslation();
   const { categoryId } = useParams();
-  const { loading, arenaCategory } = useArenaCategory(Number(categoryId), 1);
-  const { user } = useContext(AuthContext);
+  const { trackPageView } = useTracker();
   const navigate = useNavigate();
   const { addSnack } = useSnack();
+
+  const { loading, arenaCategory } = useArenaCategory({
+    variables: { categoryId: Number(categoryId), page: 1 },
+    skip: !Number(categoryId),
+  });
+  const { user, authContextLoaded } = useContext(AuthContext);
+
+  useEffect(() => {
+    if (!authContextLoaded || !user?.arenaEnabled || !loading) return;
+    trackPageView({
+      title: t('htmlTitles.arenaTopicPage', { name: arenaCategory?.name }),
+      dimensions: getAllDimensions({ user }),
+    });
+  }, [arenaCategory?.name, authContextLoaded, loading, t, trackPageView, user]);
+
   const { createArenaTopic } = useCreateArenaTopic({
     refetchQueries: [
       {
@@ -84,7 +101,7 @@ const TopicPage = () => {
         navigate(toArenaTopic(topic.data?.newArenaTopic?.id));
       }
     },
-    [arenaCategory, createArenaTopic, navigate],
+    [arenaCategory, createArenaTopic, navigate, addSnack, t],
   );
 
   if (loading) {
@@ -95,10 +112,11 @@ const TopicPage = () => {
     navigate('/minndla');
   }
 
-  console.log(window.history);
-
   return (
     <MyNdlaPageWrapper>
+      <HelmetWithTracker
+        title={t('htmlTitles.arenaTopicPage', { name: arenaCategory?.name })}
+      />
       <BreadcrumbWrapper>
         <MyNdlaBreadcrumb
           breadcrumbs={
@@ -109,7 +127,12 @@ const TopicPage = () => {
           page={'arena'}
         />
       </BreadcrumbWrapper>
-      <Heading element="h1" headingStyle="h1-resource" margin="small">
+      <Heading
+        element="h1"
+        id={SKIP_TO_CONTENT_ID}
+        headingStyle="h1-resource"
+        margin="small"
+      >
         {arenaCategory?.name}
       </Heading>
       <Text element="p" textStyle="content-alt" margin="none">
