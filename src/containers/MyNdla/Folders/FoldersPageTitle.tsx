@@ -7,7 +7,7 @@
  */
 import { ContentLoader } from '@ndla/ui';
 import { spacing } from '@ndla/core';
-import { FolderOutlined, FolderSharedOutline } from '@ndla/icons/contentType';
+import { FolderOutlined, FolderSharedOutlined } from '@ndla/icons/contentType';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import { useTranslation } from 'react-i18next';
@@ -89,7 +89,7 @@ const FoldersPageTitle = ({ loading, selectedFolder }: Props) => {
         >
           {selectedFolder ? (
             selectedFolder.status === 'shared' ? (
-              <FolderSharedOutline css={IconCSS} />
+              <FolderSharedOutlined css={IconCSS} />
             ) : (
               <FolderOutlined css={IconCSS} />
             )
