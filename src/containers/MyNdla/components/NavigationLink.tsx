@@ -69,6 +69,7 @@ interface Props {
   name: string;
   shortName?: string;
   to?: string;
+  onClick?: () => void;
 }
 
 const NavigationLink = ({
@@ -77,6 +78,7 @@ const NavigationLink = ({
   iconFilled,
   name,
   shortName,
+  onClick,
   to,
 }: Props) => {
   const location = useLocation();
@@ -91,6 +93,7 @@ const NavigationLink = ({
       aria-current={selected ? 'page' : undefined}
       to={linkTo}
       reloadDocument={!!to}
+      onClick={onClick}
     >
       <IconWrapper>{selectedIcon}</IconWrapper>
       <LongText textStyle="meta-text-small" margin="none">
