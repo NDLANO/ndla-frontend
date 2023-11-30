@@ -18,13 +18,14 @@ import {
   ModalTitle,
 } from '@ndla/modal';
 import { Text } from '@ndla/typography';
-import { ReactNode, useCallback, useMemo } from 'react';
+import { ReactNode, useCallback, useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useOutletContext } from 'react-router-dom';
 import { ViewType } from '../Folders/FoldersPage';
 import { OutletContext, menuLinks } from '../MyNdlaLayout';
 import NavigationLink from './NavigationLink';
 import NotificationBellButton from './NotificationButton';
+import { AuthContext } from '../../../components/AuthenticationContext';
 
 const MenuItem = styled.li`
   list-style: none;
@@ -136,6 +137,7 @@ const MenuModalContent = ({
   const location = useLocation();
   const { setIsOpen, resetFocus, setResetFocus } =
     useOutletContext<OutletContext>();
+  const { user } = useContext(AuthContext);
   const links = useMemo(
     () =>
       menuLinks(t, location).map(
@@ -190,7 +192,7 @@ const MenuModalContent = ({
             </StyledText>
             <ToolMenu>
               {buttons}
-              <NotificationBellButton type="link" />
+              {user?.arenaEnabled && <NotificationBellButton type="link" />}
             </ToolMenu>
           </>
         )}

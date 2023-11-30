@@ -7,12 +7,13 @@
  */
 
 import styled from '@emotion/styled';
-import { ReactNode } from 'react';
+import { ReactNode, useContext } from 'react';
 import { breakpoints, colors, mq, spacing, spacingUnit } from '@ndla/core';
 import { MY_NDLA_CONTENT_WIDTH } from '../../../constants';
 import { ViewType } from '../Folders/FoldersPage';
 import MenuModalContent from './MenuModalContent';
 import NotificationPopover from './NotficationPopover';
+import { AuthContext } from '../../../components/AuthenticationContext';
 
 const ToolbarContainer = styled.div`
   display: none;
@@ -84,26 +85,28 @@ const Toolbar = ({
   viewType,
   extendTabletView,
   showButtons,
-}: Props) => (
-  <ToolbarContainer>
-    <Wrapper>
-      <div>
-        <ButtonContainer data-extend-tablet-view={!!extendTabletView}>
-          {buttons}
-        </ButtonContainer>
-        <DropdownWrapper data-extend-tablet-view={!!extendTabletView}>
-          {dropDownMenu}
-        </DropdownWrapper>
-      </div>
-      <NotificationPopover />
-    </Wrapper>
-    <MenuModalContent
-      onViewTypeChange={onViewTypeChange}
-      buttons={buttons}
-      viewType={viewType}
-      showButtons={showButtons}
-    />
-  </ToolbarContainer>
-);
-
+}: Props) => {
+  const { user } = useContext(AuthContext);
+  return (
+    <ToolbarContainer>
+      <Wrapper>
+        <div>
+          <ButtonContainer data-extend-tablet-view={!!extendTabletView}>
+            {buttons}
+          </ButtonContainer>
+          <DropdownWrapper data-extend-tablet-view={!!extendTabletView}>
+            {dropDownMenu}
+          </DropdownWrapper>
+        </div>
+        {user?.arenaEnabled && <NotificationPopover />}
+      </Wrapper>
+      <MenuModalContent
+        onViewTypeChange={onViewTypeChange}
+        buttons={buttons}
+        viewType={viewType}
+        showButtons={showButtons}
+      />
+    </ToolbarContainer>
+  );
+};
 export default Toolbar;
