@@ -17,7 +17,7 @@ import { useTranslation } from 'react-i18next';
 import { formatDistanceStrict } from 'date-fns';
 import { nb, nn, enGB } from 'date-fns/locale';
 import { GQLArenaNotificationFragmentFragment } from '../../../graphqlTypes';
-import { useMarkNotificationsAsRead } from '../arenaQueries';
+import { useMarkNotificationsAsRead } from '../arenaMutations';
 
 const TitleWrapper = styled.div`
   display: flex;
@@ -107,10 +107,7 @@ interface Props {
 
 const NotificationList = ({ notifications, inPopover }: Props) => {
   const { markNotificationsAsRead } = useMarkNotificationsAsRead();
-  const {
-    t,
-    i18n: { language },
-  } = useTranslation();
+  const { t, i18n } = useTranslation();
   const now = useMemo(() => new Date(), []);
 
   const markAllRead = useCallback(async () => {
@@ -162,13 +159,13 @@ const NotificationList = ({ notifications, inPopover }: Props) => {
                     <StyledText textStyle="meta-text-medium" margin="none">
                       {user.displayName}
                       {` ${t('myNdla.arena.notification.commentedOn')} `}
-                      <i>{topicTitle.replace(/"/g, '')}</i>
+                      <i>{topicTitle}</i>
                     </StyledText>
                     <Text textStyle="meta-text-small" margin="none">
                       {`${capitalizeFirstLetter(
                         formatDistanceStrict(Date.parse(datetimeISO), now, {
                           addSuffix: true,
-                          locale: Locales[language],
+                          locale: Locales[i18n.language],
                           roundingMethod: 'floor',
                         }),
                       )}`}

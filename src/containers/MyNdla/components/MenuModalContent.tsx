@@ -20,12 +20,15 @@ import {
 import { Text } from '@ndla/typography';
 import { ReactNode, useCallback, useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { SafeLinkButton } from '@ndla/safelink';
 import { useLocation, useOutletContext } from 'react-router-dom';
-import { ViewType } from '../Folders/FoldersPage';
+import { ViewType, buttonCss } from '../Folders/FoldersPage';
 import { OutletContext, menuLinks } from '../MyNdlaLayout';
 import NavigationLink from './NavigationLink';
-import NotificationBellButton from './NotificationButton';
+import { BellIcon } from './NotificationButton';
 import { AuthContext } from '../../../components/AuthenticationContext';
+import { toAllNotifications } from '../../../routeHelpers';
+import { useArenaNotifications } from '../arenaQueries';
 
 const MenuItem = styled.li`
   list-style: none;
@@ -138,6 +141,7 @@ const MenuModalContent = ({
   const { setIsOpen, resetFocus, setResetFocus } =
     useOutletContext<OutletContext>();
   const { user } = useContext(AuthContext);
+  const { notifications } = useArenaNotifications();
   const links = useMemo(
     () =>
       menuLinks(t, location).map(
@@ -156,6 +160,26 @@ const MenuModalContent = ({
         ),
       ),
     [t, location, setIsOpen],
+  );
+
+  const notificationLink = useMemo(
+    () => (
+      <SafeLinkButton
+        variant="ghost"
+        colorTheme="lighter"
+        to={toAllNotifications()}
+        css={buttonCss}
+      >
+        <BellIcon
+          amountOfUnreadNotifications={
+            notifications?.filter(({ read }) => !read).length ?? 0
+          }
+          left={true}
+        />
+        {t('myNdla.arena.notification.title')}
+      </SafeLinkButton>
+    ),
+    [notifications, t],
   );
 
   const onCloseModal = useCallback(
@@ -185,14 +209,14 @@ const MenuModalContent = ({
         <nav>
           <MenuItems role="tablist">{links}</MenuItems>
         </nav>
-        {!!buttons && showButtons && (
+        {showButtons && (
           <>
             <StyledText margin="none" textStyle="meta-text-medium">
               {t('myNdla.tools')}
             </StyledText>
             <ToolMenu>
               {buttons}
-              {user?.arenaEnabled && <NotificationBellButton type="link" />}
+              {user?.arenaEnabled && notificationLink}
             </ToolMenu>
           </>
         )}

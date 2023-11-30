@@ -12,25 +12,25 @@ import { colors, spacing } from '@ndla/core';
 import { Bell } from '@ndla/icons/common';
 import { HTMLAttributes, forwardRef, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { SafeLinkButton } from '@ndla/safelink';
-import { toAllNotifications } from '../../../routeHelpers';
 import { GQLArenaNotificationFragmentFragment } from '../../../graphqlTypes';
+import { iconCss } from '../Folders/FoldersPage';
 
 const NotificationCounter = styled.div`
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
   background: ${colors.support.red};
   color: ${colors.white};
+
   height: ${spacing.nsmall};
-  right: ${spacing.small};
-  bottom: ${spacing.xxsmall};
   padding: 0 ${spacing.xxsmall};
   font-size: ${spacing.small};
-  text-align: center;
   border-radius: 2px;
+
+  right: ${spacing.small};
+  bottom: ${spacing.xsmall};
+
+  &[data-align-left='true'] {
+    right: ${spacing.normal};
+  }
 `;
 
 const IconWrapper = styled.div`
@@ -38,37 +38,17 @@ const IconWrapper = styled.div`
   vertical-align: center;
 `;
 
-const StyledBellIcon = styled(Bell)`
-  width: ${spacing.snormal};
-  height: ${spacing.snormal};
-`;
-
 interface Props extends HTMLAttributes<HTMLButtonElement> {
   notifications?: GQLArenaNotificationFragmentFragment[];
-  type?: 'link';
 }
 
 const NotificationBellButton = forwardRef<HTMLButtonElement, Props>(
-  ({ notifications, type, ...rest }, ref) => {
+  ({ notifications, ...rest }, ref) => {
     const { t } = useTranslation();
     const newNotifications = useMemo(
       () => notifications?.filter(({ read }) => !read).length,
-
       [notifications],
     );
-
-    if (type === 'link') {
-      return (
-        <SafeLinkButton
-          variant="ghost"
-          colorTheme="lighter"
-          to={toAllNotifications()}
-        >
-          <BellIcon amountOfUnreadNotifications={newNotifications ?? 0} />
-          {t('myNdla.arena.notification.title')}
-        </SafeLinkButton>
-      );
-    }
 
     return (
       <ButtonV2 variant="ghost" colorTheme="lighter" ref={ref} {...rest}>
@@ -80,17 +60,20 @@ const NotificationBellButton = forwardRef<HTMLButtonElement, Props>(
 );
 
 export default NotificationBellButton;
-
 interface BellIconProps {
   amountOfUnreadNotifications: number;
+  left?: boolean;
 }
 
-export const BellIcon = ({ amountOfUnreadNotifications }: BellIconProps) => {
+export const BellIcon = ({
+  amountOfUnreadNotifications,
+  left,
+}: BellIconProps) => {
   return (
     <IconWrapper>
-      <StyledBellIcon />
+      <Bell css={iconCss} />
       {amountOfUnreadNotifications !== 0 && (
-        <NotificationCounter>
+        <NotificationCounter data-align-left={left}>
           {amountOfUnreadNotifications > 99
             ? '99+'
             : amountOfUnreadNotifications}

@@ -30,12 +30,8 @@ const StyledArrow = styled(Arrow)`
   fill: ${colors.white};
 `;
 
-const ShowAllButton = styled(SafeLinkButton)`
+const ShowAllLink = styled(SafeLinkButton)`
   width: 100%;
-`;
-
-const StyledPortal = styled(Portal)`
-  right: 50px;
 `;
 
 const NotificationPopover = () => {
@@ -48,19 +44,19 @@ const NotificationPopover = () => {
       <Trigger asChild>
         <NotificationBellButton notifications={notifications} />
       </Trigger>
-      <StyledPortal>
+      <Portal>
         <StyledContent align="end">
           <StyledArrow />
           <NotificationList notifications={notifications} inPopover />
-          <ShowAllButton
+          <ShowAllLink
             to={toAllNotifications()}
             onClick={() => setOpen(false)}
             fontWeight="bold"
           >
             {t('myNdla.arena.notification.showAll')}
-          </ShowAllButton>
+          </ShowAllLink>
         </StyledContent>
-      </StyledPortal>
+      </Portal>
     </Root>
   );
 };
