@@ -19,6 +19,7 @@ import {
   ModalHeader,
   ModalTrigger,
 } from '@ndla/modal';
+import { Heading, Text } from '@ndla/typography';
 import { Image } from '@ndla/ui';
 import Article from '../../components/Article';
 import {
@@ -125,8 +126,10 @@ const AboutNdlaFilm = ({ aboutNDLAVideo, article }: AboutNdlaFilmProps) => {
           <VisualElement visualElement={aboutNDLAVideo.visualElement} />
         </div>
         <div>
-          <h2 id={titleId}>{aboutNDLAVideo.title}</h2>
-          <p>{aboutNDLAVideo.description}</p>
+          <Heading element="h2" headingStyle="h2" id={titleId}>
+            {aboutNDLAVideo.title}
+          </Heading>
+          <Text element="p">{aboutNDLAVideo.description}</Text>
           {infoArticle && (
             <Modal>
               <ModalTrigger>
