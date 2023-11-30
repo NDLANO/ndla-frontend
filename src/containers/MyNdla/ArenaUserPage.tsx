@@ -77,10 +77,12 @@ const ArenaUserPage = () => {
       </BreadcrumbWrapper>
       <MyContactAreaWrapper>
         <MyContactArea
-          user={user}
-          arenaPage
-          arenaUserName={arenaUser?.displayName}
-          arenaUserWorkplace={arenaUser?.location}
+          user={{
+            personalData: user,
+            arenaPage: true,
+            arenaUserName: arenaUser?.displayName,
+            arenaUserWorkplace: arenaUser?.location,
+          }}
         />
       </MyContactAreaWrapper>
       <Heading element="h2" headingStyle="h2" margin="normal">

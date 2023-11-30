@@ -14,12 +14,16 @@ import EditProfilePicture from '../MyProfile/components/EditProfilePicture';
 import { GQLMyNdlaPersonalDataFragmentFragment } from '../../../graphqlTypes';
 import { isStudent } from '../Folders/util';
 
-type MyContractAreaProps = {
-  user: GQLMyNdlaPersonalDataFragmentFragment | undefined;
-  showProfileButton?: boolean;
+type UserProp = {
+  personalData: GQLMyNdlaPersonalDataFragmentFragment | undefined;
   arenaUserName?: string;
   arenaUserWorkplace?: string;
   arenaPage?: boolean;
+};
+
+type MyContractAreaProps = {
+  user: UserProp;
+  showProfileButton?: boolean;
 };
 
 const MyContactAreaContainer = styled.div`
@@ -62,38 +66,37 @@ const MobileButtonContainer = styled.div`
   }
 `;
 
-const MyContactArea = ({
-  user,
-  showProfileButton,
-  arenaPage,
-  arenaUserName,
-  arenaUserWorkplace,
-}: MyContractAreaProps) => {
+const MyContactArea = ({ user, showProfileButton }: MyContractAreaProps) => {
   return (
     <MyContactAreaContainer>
-      {!isStudent(user) && (
+      {!isStudent(user.personalData) && (
         <AvatarContainer>
           <UserAvatar
-            userName={arenaPage ? arenaUserName : user?.displayName}
+            userName={
+              user.arenaPage
+                ? user.arenaUserName
+                : user.personalData?.displayName
+            }
           />
         </AvatarContainer>
       )}
       <Heading element="h2" id="userName" margin="none" headingStyle="h2">
-        {arenaPage ? arenaUserName : user?.displayName}
+        {user.arenaPage ? user.arenaUserName : user.personalData?.displayName}
       </Heading>
       <UserInfoContainer>
         <UserWorkPlaceText element="h2" headingStyle="list-title" margin="none">
-          {arenaPage
-            ? arenaUserWorkplace
-            : user?.groups.find((g) => g.isPrimarySchool)?.displayName}
+          {user.arenaPage
+            ? user.arenaUserWorkplace
+            : user.personalData?.groups.find((g) => g.isPrimarySchool)
+                ?.displayName}
         </UserWorkPlaceText>
         <UserCountyText element="p" textStyle="meta-text-small" margin="none">
-          {!arenaPage && user?.organization}
+          {!user.arenaPage && user.personalData?.organization}
         </UserCountyText>
       </UserInfoContainer>
       {showProfileButton && (
         <>
-          {!isStudent(user) && (
+          {!isStudent(user.personalData) && (
             <MobileButtonContainer>
               <EditProfilePicture />
             </MobileButtonContainer>
