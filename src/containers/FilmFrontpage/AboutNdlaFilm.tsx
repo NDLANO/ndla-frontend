@@ -117,7 +117,7 @@ const AboutNdlaFilm = ({ aboutNDLAVideo, article }: AboutNdlaFilmProps) => {
       ) as TransformedBaseArticle<GQLArticle_ArticleFragment>;
       setInfoArticle(transformedArticle);
     }
-  }, [article]);
+  }, [article, i18n.language]);
 
   return (
     <div className="o-wrapper">
