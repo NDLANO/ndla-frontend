@@ -6,6 +6,7 @@
  *
  */
 
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { ButtonV2 as Button } from '@ndla/button';
@@ -25,6 +26,7 @@ import {
   transformArticle,
 } from '../../util/transformArticle';
 import { GQLArticle_ArticleFragment } from '../../graphqlTypes';
+import { BaseArticle } from '../../util/transformArticle';
 
 const StyledAside = styled.aside`
   background: #184673;
@@ -96,17 +98,25 @@ interface AboutNdlaFilmProps {
       type: string;
     };
   };
-  article?: any;
+  article?: BaseArticle;
 }
 
 const AboutNdlaFilm = ({ aboutNDLAVideo, article }: AboutNdlaFilmProps) => {
   const { t, i18n } = useTranslation();
   const titleId = 'about-ndla-film-title';
+  const [infoArticle, setInfoArticle] = useState<
+    undefined | TransformedBaseArticle<GQLArticle_ArticleFragment>
+  >(undefined);
 
-  const transformedArticle = transformArticle(
-    article,
-    i18n.language,
-  ) as TransformedBaseArticle<GQLArticle_ArticleFragment>;
+  useEffect(() => {
+    if (article) {
+      const transformedArticle = transformArticle(
+        article,
+        i18n.language,
+      ) as TransformedBaseArticle<GQLArticle_ArticleFragment>;
+      setInfoArticle(transformedArticle);
+    }
+  }, [article]);
 
   return (
     <div className="o-wrapper">
@@ -117,7 +127,7 @@ const AboutNdlaFilm = ({ aboutNDLAVideo, article }: AboutNdlaFilmProps) => {
         <div>
           <h2 id={titleId}>{aboutNDLAVideo.title}</h2>
           <p>{aboutNDLAVideo.description}</p>
-          {article && (
+          {infoArticle && (
             <Modal>
               <ModalTrigger>
                 <Button variant="link">{t('ndlaFilm.about.more')}</Button>
@@ -127,7 +137,7 @@ const AboutNdlaFilm = ({ aboutNDLAVideo, article }: AboutNdlaFilmProps) => {
                   <ModalCloseButton />
                 </ModalHeader>
                 <ModalBody>
-                  <Article article={transformedArticle} label={''} />
+                  <Article article={infoArticle} label={''} />
                 </ModalBody>
               </ModalContent>
             </Modal>
