@@ -264,19 +264,18 @@ const FolderButtons = ({
       </ButtonV2>
     ) : null;
 
-  const previewFolderButton =
-    selectedFolder && isFolderShared ? (
-      <SafeLinkButton
-        key="previewFolder"
-        css={buttonCss}
-        variant="ghost"
-        colorTheme="lighter"
-        to={previewLink(selectedFolder.id)}
-      >
-        <ShareArrow css={iconCss} />
-        {t('myNdla.folder.sharing.button.preview')}
-      </SafeLinkButton>
-    ) : null;
+  const previewFolderButton = selectedFolder ? (
+    <SafeLinkButton
+      key="previewFolder"
+      css={buttonCss}
+      variant="ghost"
+      colorTheme="lighter"
+      to={previewLink(selectedFolder.id)}
+    >
+      <ShareArrow css={iconCss} />
+      {t(`myNdla.folder.sharing.button.${isFolderShared ? 'goTo' : 'preview'}`)}
+    </SafeLinkButton>
+  ) : null;
 
   if (!showShareFolder) {
     const buttons = [addFolderButton, editFolderButton, deleteFolderButton];
