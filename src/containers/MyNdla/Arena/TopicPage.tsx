@@ -6,7 +6,7 @@
  *
  */
 
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Navigate, useParams } from 'react-router-dom';
 import styled from '@emotion/styled';
@@ -15,12 +15,15 @@ import { spacing } from '@ndla/core';
 import Icon, { Spinner } from '@ndla/icons';
 import { Pencil } from '@ndla/icons/action';
 import { Heading, Text } from '@ndla/typography';
+import { HelmetWithTracker, useTracker } from '@ndla/tracker';
 import { useArenaCategory } from '../arenaQueries';
 import TopicCard from './components/TopicCard';
 import { GQLArenaTopicFragmentFragment } from '../../../graphqlTypes';
 import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
 import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
 import { AuthContext } from '../../../components/AuthenticationContext';
+import { getAllDimensions } from '../../../util/trackingUtil';
+import { SKIP_TO_CONTENT_ID } from '../../../constants';
 
 const BreadcrumbWrapper = styled.div`
   padding-top: ${spacing.normal};
@@ -61,8 +64,20 @@ const StyledCardContainer = styled.li`
 const TopicPage = () => {
   const { t } = useTranslation();
   const { categoryId } = useParams();
-  const { loading, arenaCategory } = useArenaCategory(Number(categoryId), 1);
-  const { user } = useContext(AuthContext);
+  const { trackPageView } = useTracker();
+  const { loading, arenaCategory } = useArenaCategory({
+    variables: { categoryId: Number(categoryId), page: 1 },
+    skip: !Number(categoryId),
+  });
+  const { user, authContextLoaded } = useContext(AuthContext);
+
+  useEffect(() => {
+    if (!authContextLoaded || !user?.arenaEnabled || !loading) return;
+    trackPageView({
+      title: t('htmlTitles.arenaTopicPage', { name: arenaCategory?.name }),
+      dimensions: getAllDimensions({ user }),
+    });
+  }, [arenaCategory?.name, authContextLoaded, loading, t, trackPageView, user]);
 
   if (loading) {
     return <Spinner />;
@@ -74,6 +89,9 @@ const TopicPage = () => {
 
   return (
     <MyNdlaPageWrapper>
+      <HelmetWithTracker
+        title={t('htmlTitles.arenaTopicPage', { name: arenaCategory?.name })}
+      />
       <BreadcrumbWrapper>
         <MyNdlaBreadcrumb
           breadcrumbs={
@@ -84,7 +102,12 @@ const TopicPage = () => {
           page={'arena'}
         />
       </BreadcrumbWrapper>
-      <Heading element="h1" headingStyle="h1-resource" margin="small">
+      <Heading
+        element="h1"
+        id={SKIP_TO_CONTENT_ID}
+        headingStyle="h1-resource"
+        margin="small"
+      >
         {arenaCategory?.name}
       </Heading>
       <Text element="p" textStyle="content-alt" margin="none">

@@ -28,6 +28,9 @@ const messages = {
     myTagsPage: `My tags - ${titleTemplate}`,
     sharedFolderPage: `{{name}} - ${titleTemplate}`,
     aboutPage: `{{name}} - ${titleTemplate}`,
+    arenaPage: `Arena - ${titleTemplate}`,
+    arenaTopicPage: `{{name}} - Arena - ${titleTemplate}`,
+    arenaPostPage: `{{name}} - Arena - ${titleTemplate}`,
   },
   podcastPage: {
     episodes: 'Episodes',

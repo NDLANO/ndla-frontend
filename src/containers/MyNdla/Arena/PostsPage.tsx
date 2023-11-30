@@ -6,18 +6,21 @@
  *
  */
 
-import { useContext } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useContext, useEffect } from 'react';
 import { useParams } from 'react-router';
 import { Navigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
+import { HelmetWithTracker, useTracker } from '@ndla/tracker';
 import PostCard from './components/PostCard';
 import { useArenaCategory, useArenaTopic } from '../arenaQueries';
 import { GQLArenaPostFragmentFragment } from '../../../graphqlTypes';
 import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
 import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
 import { AuthContext } from '../../../components/AuthenticationContext';
+import { getAllDimensions } from '../../../util/trackingUtil';
 
 const BreadcrumbWrapper = styled.div`
   padding-top: ${spacing.normal};
@@ -32,16 +35,32 @@ const ListWrapper = styled.ul`
 const PostCardWrapper = styled.li`
   list-style: none;
   margin-bottom: ${spacing.normal};
-  &[data-mainPost='false'] {
+  &[data-main-post='false'] {
     margin-left: 72px;
   }
 `;
 
 const PostsPage = () => {
+  const { t } = useTranslation();
   const { topicId } = useParams();
-  const { arenaTopic, loading } = useArenaTopic(Number(topicId), 1);
-  const { arenaCategory } = useArenaCategory(Number(arenaTopic?.categoryId), 1);
-  const { user } = useContext(AuthContext);
+  const { arenaTopic, loading } = useArenaTopic({
+    variables: { topicId: Number(topicId), page: 1 },
+    skip: !Number(topicId),
+  });
+  const { arenaCategory } = useArenaCategory({
+    variables: { categoryId: Number(arenaTopic?.categoryId), page: 1 },
+    skip: !Number(arenaTopic?.categoryId),
+  });
+  const { trackPageView } = useTracker();
+  const { user, authContextLoaded } = useContext(AuthContext);
+
+  useEffect(() => {
+    if (!authContextLoaded || !user?.arenaEnabled || loading) return;
+    trackPageView({
+      title: t('htmlTitles.arenaPostPage', { name: arenaTopic?.title ?? '' }),
+      dimensions: getAllDimensions({ user }),
+    });
+  }, [arenaTopic?.title, authContextLoaded, loading, t, trackPageView, user]);
 
   if (loading) {
     return <Spinner />;
@@ -53,6 +72,9 @@ const PostsPage = () => {
 
   return (
     <MyNdlaPageWrapper>
+      <HelmetWithTracker
+        title={t('htmlTitles.arenaPostPage', { name: arenaTopic?.title })}
+      />
       <BreadcrumbWrapper>
         <MyNdlaBreadcrumb
           breadcrumbs={
@@ -71,7 +93,7 @@ const PostsPage = () => {
       </BreadcrumbWrapper>
       <ListWrapper>
         {arenaTopic?.posts?.map((post: GQLArenaPostFragmentFragment) => (
-          <PostCardWrapper key={post.id} data-mainPost={post.isMainPost}>
+          <PostCardWrapper key={post.id} data-main-post={post.isMainPost}>
             <PostCard
               id={post.id}
               timestamp={post.timestamp}

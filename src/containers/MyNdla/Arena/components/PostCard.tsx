@@ -20,6 +20,7 @@ import { nb, nn, enGB } from 'date-fns/locale';
 import { formatDistanceStrict } from 'date-fns';
 import UserProfileTag from '../../components/UserProfileTag';
 import SettingsMenu from '../../components/SettingsMenu';
+import FlagPostModalContent from './FlagPostModalContent';
 
 interface Props {
   id: number;
@@ -104,14 +105,19 @@ const PostCard = ({
       <SettingsMenu
         menuItems={[
           {
-            icon: <ReportOutlined />,
-            text: t('myNdla.arena.posts.dropdownMenu.report'),
-            type: 'primary',
-          },
-          {
             icon: <Pencil />,
             text: t('myNdla.arena.posts.dropdownMenu.edit'),
             type: 'primary',
+          },
+          {
+            icon: <ReportOutlined />,
+            text: t('myNdla.arena.posts.dropdownMenu.report'),
+            type: 'primary',
+            isModal: true,
+            modality: false,
+            modalContent: (close) => (
+              <FlagPostModalContent id={id} onClose={close} />
+            ),
           },
           {
             icon: <TrashCanOutline />,
@@ -121,7 +127,7 @@ const PostCard = ({
         ]}
       />
     ),
-    [t],
+    [id, t],
   );
 
   return (
