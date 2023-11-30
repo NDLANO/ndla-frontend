@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
+import parse from 'html-react-parser';
 import { useTranslation } from 'react-i18next';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
@@ -86,7 +88,7 @@ const TopicCard = ({ id, title, locked, timestamp, count }: Props) => {
     >
       <div>
         <StyledHeader element="label" textStyle="label-small" margin="none">
-          {title}
+          {parse(title)}
         </StyledHeader>
         <StyledText element="p" textStyle="meta-text-small" margin="none">
           {timestamp && formatDateTime(timestamp, i18n.language)}

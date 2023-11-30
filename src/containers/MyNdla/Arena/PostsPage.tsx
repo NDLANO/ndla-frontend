@@ -61,9 +61,12 @@ const PostsPage = () => {
               ? [
                   {
                     name: arenaCategory ? parse(arenaCategory?.name) : '',
-                    to: `category/${arenaTopic?.categoryId.toString()}` ?? '',
+                    to: `category/${arenaTopic?.categoryId.toString()}`,
                   },
-                  { name: arenaTopic?.title ?? '', to: topicId },
+                  {
+                    name: arenaTopic ? parse(arenaTopic.title) : '',
+                    to: topicId,
+                  },
                 ]
               : []
           }

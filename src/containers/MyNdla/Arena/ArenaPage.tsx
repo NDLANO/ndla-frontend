@@ -8,11 +8,11 @@
 
 import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Navigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import { Heading, Text } from '@ndla/typography';
-import { Navigate } from 'react-router-dom';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import { useArenaCategories } from '../arenaQueries';
 import ArenaCard from './components/ArenaCard';

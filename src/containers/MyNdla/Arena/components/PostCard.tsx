@@ -6,7 +6,11 @@
  *
  */
 
+import { formatDistanceStrict } from 'date-fns';
+import { nb, nn, enGB } from 'date-fns/locale';
 import parse from 'html-react-parser';
+import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { colors, spacing, misc, mq, breakpoints } from '@ndla/core';
@@ -14,10 +18,6 @@ import { Pencil, TrashCanOutline } from '@ndla/icons/action';
 import { ReportOutlined } from '@ndla/icons/common';
 import { Switch } from '@ndla/switch';
 import { Text, Heading } from '@ndla/typography';
-import { useTranslation } from 'react-i18next';
-import { useMemo } from 'react';
-import { nb, nn, enGB } from 'date-fns/locale';
-import { formatDistanceStrict } from 'date-fns';
 import UserProfileTag from '../../components/UserProfileTag';
 import SettingsMenu from '../../components/SettingsMenu';
 
@@ -144,7 +144,7 @@ const PostCard = ({
       <StyledContentContainer>
         {isMainPost && (
           <Heading element="h4" headingStyle="h4" margin="none">
-            {title}
+            {parse(title)}
           </Heading>
         )}
         <Text element="p" textStyle="content-alt" margin="none">
