@@ -65,6 +65,7 @@ const arenaTopicFragment = gql`
     slug
     timestamp
     title
+    isFollowing
   }
 `;
 
