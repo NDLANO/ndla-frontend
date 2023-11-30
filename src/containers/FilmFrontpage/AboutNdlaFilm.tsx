@@ -22,11 +22,11 @@ import {
 import { Image } from '@ndla/ui';
 import Article from '../../components/Article';
 import {
+  BaseArticle,
   TransformedBaseArticle,
   transformArticle,
 } from '../../util/transformArticle';
 import { GQLArticle_ArticleFragment } from '../../graphqlTypes';
-import { BaseArticle } from '../../util/transformArticle';
 
 const StyledAside = styled.aside`
   background: #184673;
