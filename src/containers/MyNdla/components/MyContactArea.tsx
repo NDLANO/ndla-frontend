@@ -69,8 +69,6 @@ const MyContactArea = ({
   arenaUserName,
   arenaUserWorkplace,
 }: MyContractAreaProps) => {
-  const parsedUser = user && parseUserObject(user);
-
   return (
     <MyContactAreaContainer>
       {!isStudent(user) && (
@@ -85,13 +83,12 @@ const MyContactArea = ({
       </Heading>
       <UserInfoContainer>
         <UserWorkPlaceText element="h2" headingStyle="list-title" margin="none">
-          {arenaPage ? arenaUserWorkplace : user?.primarySchool?.displayName}
+          {arenaPage
+            ? arenaUserWorkplace
+            : user?.groups.find((g) => g.isPrimarySchool)?.displayName}
         </UserWorkPlaceText>
         <UserCountyText element="p" textStyle="meta-text-small" margin="none">
-          {!arenaPage &&
-            parsedUser &&
-            parsedUser.organizations.length > 0 &&
-            parsedUser.organizations.at(0)?.displayName}
+          {!arenaPage && user?.organization}
         </UserCountyText>
       </UserInfoContainer>
       {showProfileButton && (

@@ -6,7 +6,7 @@
  *
  */
 
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { Heading } from '@ndla/typography';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
@@ -17,7 +17,6 @@ import { AuthContext } from '../../components/AuthenticationContext';
 import MyContactArea from './components/MyContactArea';
 import MyNdlaPageWrapper from './components/MyNdlaPageWrapper';
 import MyNdlaBreadcrumb from './components/MyNdlaBreadcrumb';
-import { usePersonalData } from './userMutations';
 import { useArenaTopicsByUser, useArenaUser } from './arenaQueries';
 import { GQLArenaTopicFragmentFragment } from '../../graphqlTypes';
 import TopicCard from './Arena/components/TopicCard';
@@ -46,24 +45,16 @@ const ArenaUserPage = () => {
   const { t } = useTranslation();
   const { user } = useContext(AuthContext);
   const { username } = useParams();
-  const { authenticated } = useContext(AuthContext);
-  const { personalData, fetch: fetchPersonalData } = usePersonalData();
   const { arenaUser } = useArenaUser(username ?? '');
   const { arenaTopicsByUser, loading } = useArenaTopicsByUser(
     arenaUser?.slug ?? '',
   );
 
-  useEffect(() => {
-    if (authenticated) {
-      fetchPersonalData();
-    }
-  }, [authenticated, fetchPersonalData]);
-
   if (loading) {
     return <Spinner />;
   }
 
-  if (!personalData?.arenaEnabled && personalData?.arenaEnabled !== undefined) {
+  if (!user?.arenaEnabled && user?.arenaEnabled !== undefined) {
     return <Navigate to="/minndla" />;
   }
 
