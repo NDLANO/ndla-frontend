@@ -6,7 +6,7 @@
  *
  */
 
-import { gql } from '@apollo/client';
+import { QueryHookOptions, gql } from '@apollo/client';
 import {
   GQLArenaUserQuery,
   GQLArenaPageQuery,
@@ -140,11 +140,15 @@ export const arenaTopicsByUserQuery = gql`
   ${arenaTopicFragment}
 `;
 
-export const useArenaUser = (username: string) => {
+export const useArenaUser = (
+  username: string,
+  options?: QueryHookOptions<GQLArenaUserQuery, GQLArenaUserQueryVariables>,
+) => {
   const { data } = useGraphQuery<GQLArenaUserQuery, GQLArenaUserQueryVariables>(
     arenaUserQuery,
     {
       variables: { username },
+      ...options,
     },
   );
   return { arenaUser: data?.arenaUser };
@@ -176,10 +180,13 @@ export const useArenaTopic = (topicId: number, page: number) => {
   return { arenaTopic: data?.arenaTopic, loading, error };
 };
 
-export const useArenaTopicsByUser = (userSlug: string) => {
+export const useArenaTopicsByUser = (
+  userSlug: string,
+  options?: QueryHookOptions<GQLArenaTopicsByUserQuery>,
+) => {
   const { data, loading, error } = useGraphQuery<GQLArenaTopicsByUserQuery>(
     arenaTopicsByUserQuery,
-    { variables: { userSlug } },
+    { variables: { userSlug }, ...options },
   );
   return { arenaTopicsByUser: data?.arenaTopicsByUser, loading, error };
 };

@@ -45,9 +45,10 @@ const ArenaUserPage = () => {
   const { t } = useTranslation();
   const { user } = useContext(AuthContext);
   const { username } = useParams();
-  const { arenaUser } = useArenaUser(username ?? '');
+  const { arenaUser } = useArenaUser(username ?? '', { skip: !username });
   const { arenaTopicsByUser, loading } = useArenaTopicsByUser(
     arenaUser?.slug ?? '',
+    { skip: !arenaUser?.slug },
   );
 
   if (loading) {
