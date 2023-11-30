@@ -6,8 +6,15 @@
  *
  */
 
-import { gql, useMutation } from '@apollo/client';
-import { GQLMutationNewFlagArgs, GQLNewFlagMutation } from '../../graphqlTypes';
+import { gql, useApolloClient, useMutation } from '@apollo/client';
+import {
+  GQLMutationNewFlagArgs,
+  GQLMutationSubscribeToTopicArgs,
+  GQLMutationUnsubscribeFromTopicArgs,
+  GQLNewFlagMutation,
+  GQLSubscribeToTopicMutation,
+  GQLUnsubscribeFromTopicMutation,
+} from '../../graphqlTypes';
 
 const newFlagMutation = gql`
   mutation newFlag($id: Int!, $reason: String!, $type: String!) {
@@ -20,4 +27,56 @@ export const useNewFlagMutation = () => {
     newFlagMutation,
   );
   return { addNewFlag };
+};
+
+const subscribeToTopicMutation = gql`
+  mutation subscribeToTopic($topicId: Int!) {
+    subscribeToTopic(topicId: $topicId)
+  }
+`;
+
+export const useSubscribeToTopicMutation = () => {
+  const { cache } = useApolloClient();
+  return useMutation<
+    GQLSubscribeToTopicMutation,
+    GQLMutationSubscribeToTopicArgs
+  >(subscribeToTopicMutation, {
+    onCompleted: (data) => {
+      cache.modify({
+        id: cache.identify({
+          __typename: 'ArenaTopic',
+          id: data.subscribeToTopic,
+        }),
+        fields: {
+          isFollowing: () => true,
+        },
+      });
+    },
+  });
+};
+
+const unsubscribeFromTopicMutation = gql`
+  mutation unsubscribeFromTopic($topicId: Int!) {
+    unsubscribeFromTopic(topicId: $topicId)
+  }
+`;
+
+export const useUnsubscribeFromTopicMutation = () => {
+  const { cache } = useApolloClient();
+  return useMutation<
+    GQLUnsubscribeFromTopicMutation,
+    GQLMutationUnsubscribeFromTopicArgs
+  >(unsubscribeFromTopicMutation, {
+    onCompleted: (data) => {
+      cache.modify({
+        id: cache.identify({
+          __typename: 'ArenaTopic',
+          id: data.unsubscribeFromTopic,
+        }),
+        fields: {
+          isFollowing: () => false,
+        },
+      });
+    },
+  });
 };
