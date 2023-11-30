@@ -59,12 +59,12 @@ const StyledRadioButtonGroup = styled(RadioButtonGroup)`
   }
 `;
 
-interface FlagContentModalProps {
+interface FlagPostModalProps {
   id: number;
   onClose: () => void;
 }
 
-const FlagContentModalContent = ({ id, onClose }: FlagContentModalProps) => {
+const FlagPostModalContent = ({ id, onClose }: FlagPostModalProps) => {
   const [flaggedReason, setFlaggedReason] = useState<string>('spam');
   const [reportReasonText, setReportReasonText] = useState<string>('');
   const { addNewFlag } = useNewFlagMutation();
@@ -81,8 +81,7 @@ const FlagContentModalContent = ({ id, onClose }: FlagContentModalProps) => {
         },
       });
       addSnack({
-        content:
-          'Takk for at du rapporterer innhold som ikke er i tråd med våre retningslinjer. Rapporten er sendt til vår moderator og vil bli gjennomgått så fort som mulig.',
+        content: t('myNdla.arena.flag.success'),
         id: 'reportPostAdded',
       });
     } catch (err) {
@@ -104,14 +103,13 @@ const FlagContentModalContent = ({ id, onClose }: FlagContentModalProps) => {
       </ModalHeader>
       <StyledModalBody>
         <Text element="p" textStyle="meta-text-medium" margin="none">
-          Takk for at du rapporterer innhold som ikke er i tråd med våre
-          retningslinjer. Hva er grunnen til at du rapporterer dette innholdet?
+          {t('myNdla.arena.flag.disclaimer')}
         </Text>
         <StyledRadioButtonGroup
           options={[
-            { title: 'Det er spam', value: 'spam' },
-            { title: 'Innholdet er støtende', value: 'offensive' },
-            { title: 'Noe annet', value: 'other' },
+            { title: t('myNdla.arena.flag.spam'), value: 'spam' },
+            { title: t('myNdla.arena.flag.offensive'), value: 'offensive' },
+            { title: t('myNdla.arena.flag.other'), value: 'other' },
           ]}
           direction="vertical"
           onChange={setFlaggedReason}
@@ -119,7 +117,7 @@ const FlagContentModalContent = ({ id, onClose }: FlagContentModalProps) => {
         {flaggedReason === 'other' && (
           <FormControl id="flag-reason" isInvalid={!reportReasonText}>
             <Label textStyle="label-small" margin="none">
-              Årsak til rapportering av innhold
+              {t('myNdla.arena.flag.reason')}
             </Label>
             <TextAreaV3
               onChange={(e) => setReportReasonText(e.target.value)}
@@ -130,10 +128,12 @@ const FlagContentModalContent = ({ id, onClose }: FlagContentModalProps) => {
             </StyledText>
             {reportReasonText.length === MAXIMUM_LENGTH_TEXTFIELD && (
               <FieldHelper aria-live="polite">
-                Maksimal lengde for tekstfeltet er nådd
+                {t('myNdla.arena.flag.maxLength')}
               </FieldHelper>
             )}
-            <FieldErrorMessage>Feltet kan ikke være tomt</FieldErrorMessage>
+            <FieldErrorMessage>
+              {t('myNdla.arena.flag.error')}
+            </FieldErrorMessage>
           </FormControl>
         )}
         <StyledButtonRow>
@@ -144,7 +144,7 @@ const FlagContentModalContent = ({ id, onClose }: FlagContentModalProps) => {
             onClick={sendReport}
             disabled={flaggedReason === 'other' && !reportReasonText}
           >
-            Send inn rapport
+            {t('myNdla.arena.flag.send')}
           </ButtonV2>
         </StyledButtonRow>
       </StyledModalBody>
@@ -152,4 +152,4 @@ const FlagContentModalContent = ({ id, onClose }: FlagContentModalProps) => {
   );
 };
 
-export default FlagContentModalContent;
+export default FlagPostModalContent;

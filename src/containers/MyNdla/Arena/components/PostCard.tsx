@@ -20,7 +20,7 @@ import { nb, nn, enGB } from 'date-fns/locale';
 import { formatDistanceStrict } from 'date-fns';
 import UserProfileTag from '../../components/UserProfileTag';
 import SettingsMenu from '../../components/SettingsMenu';
-import FlagContentModalContent from './FlagContentModalContent';
+import FlagPostModalContent from './FlagPostModalContent';
 
 interface Props {
   id: number;
@@ -116,7 +116,7 @@ const PostCard = ({
             isModal: true,
             modality: false,
             modalContent: (close) => (
-              <FlagContentModalContent id={id} onClose={close} />
+              <FlagPostModalContent id={id} onClose={close} />
             ),
           },
           {
