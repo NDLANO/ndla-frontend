@@ -12,6 +12,7 @@ import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { Navigate, useParams } from 'react-router-dom';
 import { Spinner } from '@ndla/icons';
+import { useTranslation } from 'react-i18next';
 import { AuthContext } from '../../components/AuthenticationContext';
 import MyContactArea from './components/MyContactArea';
 import MyNdlaPageWrapper from './components/MyNdlaPageWrapper';
@@ -42,6 +43,7 @@ const StyledCardContainer = styled.li`
 `;
 
 const ArenaUserPage = () => {
+  const { t } = useTranslation();
   const { user } = useContext(AuthContext);
   const { username } = useParams();
   const { authenticated } = useContext(AuthContext);
@@ -91,7 +93,7 @@ const ArenaUserPage = () => {
         />
       </MyContactAreaWrapper>
       <Heading element="h2" headingStyle="h2" margin="normal">
-        {`Hardcoded Innlegg av ${arenaUser?.displayName}`}
+        {`${t('myNdla.arena.topicsBy')} ${arenaUser?.displayName}`}
       </Heading>
       <StyledUlWrapper>
         {arenaTopicsByUser?.map((topic: GQLArenaTopicFragmentFragment) => (
