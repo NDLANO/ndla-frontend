@@ -16,6 +16,7 @@ import {
   GQLArenaTopicByIdQueryVariables,
   GQLArenaCategoryQueryVariables,
   GQLArenaUserQueryVariables,
+  GQLArenaRecentTopicsQuery,
 } from '../../graphqlTypes';
 import { useGraphQuery } from '../../util/runQueries';
 
@@ -189,4 +190,24 @@ export const useArenaTopicsByUser = (
     { variables: { userSlug }, ...options },
   );
   return { arenaTopicsByUser: data?.arenaTopicsByUser, loading, error };
+const arenaRecentTopics = gql`
+  query arenaRecentTopics {
+    arenaRecentTopics {
+      ...ArenaTopicFragment
+    }
+  }
+  ${arenaTopicFragment}
+`;
+
+export const useRecentTopics = (
+  options?: QueryHookOptions<GQLArenaRecentTopicsQuery>,
+) => {
+  const { data, ...rest } = useGraphQuery<GQLArenaRecentTopicsQuery>(
+    arenaRecentTopics,
+    options,
+  );
+  return {
+    data: data?.arenaRecentTopics,
+    ...rest,
+  };
 };

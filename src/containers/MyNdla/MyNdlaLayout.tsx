@@ -139,7 +139,7 @@ const MyNdlaLayout = () => {
             return null;
           }
           return (
-            <StyledLi key={id} role="none">
+            <StyledLi key={id}>
               <NavigationLink
                 id={id}
                 name={name}
@@ -160,7 +160,7 @@ const MyNdlaLayout = () => {
       <Modal open={isOpen} onOpenChange={setIsOpen}>
         <StyledSideBar>
           <nav>
-            <StyledNavList role="tablist">{menuLink}</StyledNavList>
+            <StyledNavList>{menuLink}</StyledNavList>
           </nav>
           <ModalTrigger>
             <MoreButton
