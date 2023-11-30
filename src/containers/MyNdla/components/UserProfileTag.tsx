@@ -72,7 +72,10 @@ const UserProfileTag = ({
   affiliation,
 }: UserProfileTagProps) => {
   const { t } = useTranslation();
-  const { arenaUser } = useArenaUser(username ?? '');
+  const { arenaUser } = useArenaUser({
+    variables: { username: username ?? '' },
+    skip: !username,
+  });
 
   return (
     <UserProfileTagContainer

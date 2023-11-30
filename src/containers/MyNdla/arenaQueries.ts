@@ -151,15 +151,11 @@ const arenaRecentTopics = gql`
 `;
 
 export const useArenaUser = (
-  username: string,
-  options?: QueryHookOptions<GQLArenaUserQuery, GQLArenaUserQueryVariables>,
+  options: QueryHookOptions<GQLArenaUserQuery, GQLArenaUserQueryVariables>,
 ) => {
   const { data } = useGraphQuery<GQLArenaUserQuery, GQLArenaUserQueryVariables>(
     arenaUserQuery,
-    {
-      variables: { username },
-      ...options,
-    },
+    options,
   );
   return { arenaUser: data?.arenaUser };
 };
@@ -191,12 +187,11 @@ export const useArenaTopic = (topicId: number, page: number) => {
 };
 
 export const useArenaTopicsByUser = (
-  userSlug: string,
-  options?: QueryHookOptions<GQLArenaTopicsByUserQuery>,
+  options: QueryHookOptions<GQLArenaTopicsByUserQuery>,
 ) => {
   const { data, loading, error } = useGraphQuery<GQLArenaTopicsByUserQuery>(
     arenaTopicsByUserQuery,
-    { variables: { userSlug }, ...options },
+    options,
   );
   return { arenaTopicsByUser: data?.arenaTopicsByUser, loading, error };
 };
