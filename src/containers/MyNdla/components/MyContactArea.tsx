@@ -9,14 +9,13 @@
 import styled from '@emotion/styled';
 import { colors, spacing, breakpoints, mq } from '@ndla/core';
 import { Heading, Text } from '@ndla/typography';
-import { parseUserObject } from './parseUserObject';
 import UserAvatar from './UserAvatar';
 import EditProfilePicture from '../MyProfile/components/EditProfilePicture';
-import { FeideUserApiType } from '../../../interfaces';
+import { GQLMyNdlaPersonalDataFragmentFragment } from '../../../graphqlTypes';
 import { isStudent } from '../Folders/util';
 
 type MyContractAreaProps = {
-  user: FeideUserApiType | undefined;
+  user: GQLMyNdlaPersonalDataFragmentFragment | undefined;
   showProfileButton?: boolean;
   arenaUserName?: string;
   arenaUserWorkplace?: string;

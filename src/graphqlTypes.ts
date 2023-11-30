@@ -1007,14 +1007,27 @@ export type GQLMutationUpdatePersonalDataArgs = {
   shareName?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+export type GQLMyNdlaGroup = {
+  __typename?: 'MyNdlaGroup';
+  displayName: Scalars['String']['output'];
+  id: Scalars['String']['output'];
+  isPrimarySchool: Scalars['Boolean']['output'];
+  parentId?: Maybe<Scalars['String']['output']>;
+};
+
 export type GQLMyNdlaPersonalData = {
   __typename?: 'MyNdlaPersonalData';
   arenaEnabled: Scalars['Boolean']['output'];
+  displayName: Scalars['String']['output'];
+  email: Scalars['String']['output'];
   favoriteSubjects: Array<Scalars['String']['output']>;
+  feideId: Scalars['String']['output'];
+  groups: Array<GQLMyNdlaGroup>;
   id: Scalars['Int']['output'];
   organization: Scalars['String']['output'];
   role: Scalars['String']['output'];
   shareName: Scalars['Boolean']['output'];
+  username: Scalars['String']['output'];
 };
 
 export type GQLName = {
@@ -1159,7 +1172,7 @@ export type GQLQuery = {
   image?: Maybe<GQLImageMetaInformationV2>;
   learningpath?: Maybe<GQLLearningpath>;
   listingPage?: Maybe<GQLListingPage>;
-  personalData: GQLMyNdlaPersonalData;
+  personalData?: Maybe<GQLMyNdlaPersonalData>;
   podcastSearch?: Maybe<GQLAudioSearch>;
   podcastSeries?: Maybe<GQLPodcastSeriesWithEpisodes>;
   podcastSeriesSearch?: Maybe<GQLPodcastSeriesSearch>;
@@ -1883,15 +1896,37 @@ export type GQLNotionsContent_MetaFragment = {
   __typename?: 'ResourceMetaData';
 } & GQLResourceEmbedLicenseBox_MetaFragment;
 
-export type GQLExamLockStatusQueryVariables = Exact<{ [key: string]: never }>;
+export type GQLMyNdlaPersonalDataFragmentFragment = {
+  __typename?: 'MyNdlaPersonalData';
+  username: string;
+  email: string;
+  displayName: string;
+  organization: string;
+  favoriteSubjects: Array<string>;
+  role: string;
+  arenaEnabled: boolean;
+  shareName: boolean;
+  groups: Array<{
+    __typename?: 'MyNdlaGroup';
+    id: string;
+    displayName: string;
+    isPrimarySchool: boolean;
+    parentId?: string;
+  }>;
+};
 
-export type GQLExamLockStatusQuery = {
+export type GQLMyNdlaDataQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GQLMyNdlaDataQuery = {
   __typename?: 'Query';
   examLockStatus: {
     __typename?: 'ConfigMetaBoolean';
     key: string;
     value: boolean;
   };
+  personalData?: {
+    __typename?: 'MyNdlaPersonalData';
+  } & GQLMyNdlaPersonalDataFragmentFragment;
 };
 
 export type GQLLastLearningpathStepInfo_TopicFragment = {
@@ -3350,15 +3385,6 @@ export type GQLMySubjectMyNdlaPersonalDataFragmentFragment = {
   role: string;
   arenaEnabled: boolean;
   shareName: boolean;
-};
-
-export type GQLPersonalDataQueryVariables = Exact<{ [key: string]: never }>;
-
-export type GQLPersonalDataQuery = {
-  __typename?: 'Query';
-  personalData: {
-    __typename?: 'MyNdlaPersonalData';
-  } & GQLMySubjectMyNdlaPersonalDataFragmentFragment;
 };
 
 export type GQLUpdatePersonalDataMutationVariables = Exact<{
