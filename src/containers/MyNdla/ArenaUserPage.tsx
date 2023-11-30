@@ -30,15 +30,11 @@ const MyContactAreaWrapper = styled.div`
 `;
 
 const StyledUlWrapper = styled.ul`
-  margin: 0px;
   padding: 0px;
 `;
 
-const StyledCardContainer = styled.li`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.xsmall};
-  margin: ${spacing.small} 0;
+const CardListItem = styled.li`
+  list-style: none;
 `;
 
 const ArenaUserPage = () => {
@@ -76,7 +72,7 @@ const ArenaUserPage = () => {
                 ]
               : []
           }
-          page={'arena'}
+          page="arena"
         />
       </BreadcrumbWrapper>
       <MyContactAreaWrapper>
@@ -92,7 +88,7 @@ const ArenaUserPage = () => {
       </Heading>
       <StyledUlWrapper>
         {arenaTopicsByUser?.map((topic: GQLArenaTopicFragmentFragment) => (
-          <StyledCardContainer key={`topicContainer-${topic.id}`}>
+          <CardListItem key={`topicContainer-${topic.id}`}>
             <TopicCard
               key={`topic-${topic.id}`}
               id={topic.id.toString()}
@@ -100,7 +96,7 @@ const ArenaUserPage = () => {
               timestamp={topic.timestamp}
               count={topic.postCount}
             />
-          </StyledCardContainer>
+          </CardListItem>
         ))}
       </StyledUlWrapper>
     </MyNdlaPageWrapper>
