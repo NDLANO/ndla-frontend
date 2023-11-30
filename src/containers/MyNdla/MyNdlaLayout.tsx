@@ -6,14 +6,7 @@
  *
  */
 
-import {
-  useMemo,
-  useContext,
-  useState,
-  Dispatch,
-  SetStateAction,
-  useEffect,
-} from 'react';
+import { useMemo, useContext, useState, Dispatch, SetStateAction } from 'react';
 import { Location, Outlet, useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
@@ -40,7 +33,6 @@ import { TFunction } from 'i18next';
 import { AuthContext } from '../../components/AuthenticationContext';
 import NavigationLink from './components/NavigationLink';
 import { toHref } from '../../util/urlHelper';
-import { usePersonalData } from './userMutations';
 
 const StyledLayout = styled.div`
   display: flex;
@@ -133,24 +125,17 @@ export interface OutletContext {
 }
 
 const MyNdlaLayout = () => {
-  const { personalData, fetch: fetchPersonalData } = usePersonalData();
   const { t } = useTranslation();
-  const { authenticated, examLock } = useContext(AuthContext);
+  const { user, examLock } = useContext(AuthContext);
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const [resetFocus, setResetFocus] = useState(false);
-
-  useEffect(() => {
-    if (authenticated) {
-      fetchPersonalData();
-    }
-  }, [authenticated, fetchPersonalData]);
 
   const menuLink = useMemo(
     () =>
       menuLinks(t, location).map(
         ({ name, shortName, id, icon, to, iconFilled, restricted }) => {
-          if (restricted && !personalData?.arenaEnabled) {
+          if (restricted && !user?.arenaEnabled) {
             return null;
           }
           return (
@@ -167,7 +152,7 @@ const MyNdlaLayout = () => {
           );
         },
       ),
-    [location, t, personalData],
+    [location, t, user],
   );
 
   return (

@@ -18,7 +18,6 @@ import { Forward } from '@ndla/icons/common';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import SubjectLink from '../../AllSubjectsPage/SubjectLink';
 import { useSubjects } from '../subjectQueries';
-import { usePersonalData } from '../userMutations';
 import MyNdlaTitle from '../components/MyNdlaTitle';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
@@ -35,7 +34,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: ${spacing.small};
+  gap: ${spacing.large};
   margin-top: ${spacing.normal};
 `;
 
@@ -48,21 +47,14 @@ const StyledUl = styled.ul`
 const FavoriteSubjectsPage = () => {
   const { t } = useTranslation();
   const { loading, subjects } = useSubjects();
-  const { personalData, fetch: fetchPersonalData } = usePersonalData();
-  const { authenticated, user, authContextLoaded } = useContext(AuthContext);
+  const { user, authContextLoaded } = useContext(AuthContext);
   const { trackPageView } = useTracker();
   const navigate = useNavigate();
 
   const favoriteSubjects = useMemo(() => {
-    if (loading || !subjects || !personalData?.favoriteSubjects) return [];
-    return subjects.filter((s) => personalData.favoriteSubjects.includes(s.id));
-  }, [loading, personalData?.favoriteSubjects, subjects]);
-
-  useEffect(() => {
-    if (authenticated) {
-      fetchPersonalData();
-    }
-  }, [authenticated, fetchPersonalData]);
+    if (loading || !subjects || !user?.favoriteSubjects) return [];
+    return subjects.filter((s) => user.favoriteSubjects.includes(s.id));
+  }, [loading, user?.favoriteSubjects, subjects]);
 
   useEffect(() => {
     if (!authContextLoaded) return;
@@ -120,7 +112,7 @@ const FavoriteSubjectsPage = () => {
             {favoriteSubjects.map((subject) => (
               <StyledSubjectLink
                 key={subject.id}
-                favorites={personalData?.favoriteSubjects}
+                favorites={user?.favoriteSubjects}
                 subject={subject}
               />
             ))}

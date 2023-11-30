@@ -6,7 +6,7 @@
  *
  */
 
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
@@ -15,34 +15,31 @@ import { Heading, Text } from '@ndla/typography';
 import { Navigate } from 'react-router-dom';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import { useArenaCategories } from '../arenaQueries';
-import { usePersonalData } from '../userMutations';
 import ArenaCard from './components/ArenaCard';
 import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
 
-const StyledCardContainer = styled.div`
+const StyledCardContainer = styled.ul`
   display: flex;
   flex-direction: column;
   gap: ${spacing.xsmall};
   padding: ${spacing.normal} 0;
 `;
 
+const ArenaCardWrapper = styled.li`
+  list-style: none;
+  margin: 0;
+`;
+
 const ArenaPage = () => {
   const { t } = useTranslation();
   const { loading, arenaCategories } = useArenaCategories();
-  const { authenticated } = useContext(AuthContext);
-  const { personalData, fetch: fetchPersonalData } = usePersonalData();
-
-  useEffect(() => {
-    if (authenticated) {
-      fetchPersonalData();
-    }
-  }, [authenticated, fetchPersonalData]);
+  const { user } = useContext(AuthContext);
 
   if (loading) {
     return <Spinner />;
   }
 
-  if (!personalData?.arenaEnabled && personalData?.arenaEnabled !== undefined) {
+  if (!user?.arenaEnabled && user?.arenaEnabled !== undefined) {
     return <Navigate to="/minndla" />;
   }
 
@@ -62,13 +59,14 @@ const ArenaPage = () => {
       ) : (
         <StyledCardContainer>
           {arenaCategories?.map((category) => (
-            <ArenaCard
-              key={`topic-${category.id}`}
-              id={category.id.toString()}
-              title={category.name}
-              subText={category.description}
-              count={category.postCount}
-            />
+            <ArenaCardWrapper key={`topic-${category.id}`}>
+              <ArenaCard
+                id={category.id.toString()}
+                title={category.name}
+                subText={category.description}
+                count={category.postCount}
+              />
+            </ArenaCardWrapper>
           ))}
         </StyledCardContainer>
       )}

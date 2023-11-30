@@ -6,7 +6,7 @@
  *
  */
 
-import { memo, ReactNode, useEffect, useMemo, useRef, useState } from 'react';
+import { memo, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useApolloClient } from '@apollo/client';
 import { FolderInput } from '@ndla/ui';
@@ -19,7 +19,6 @@ import {
 import useValidationTranslation from '../../util/useValidationTranslation';
 
 interface Props {
-  icon?: ReactNode;
   parentId: string;
   onClose?: () => void;
   initialValue?: string;
@@ -28,7 +27,6 @@ interface Props {
 }
 
 const NewFolder = ({
-  icon,
   parentId,
   onClose,
   initialValue = '',
@@ -96,7 +94,6 @@ const NewFolder = ({
       // Necessary to move focus from new folder-button to input on click
       // eslint-disable-next-line jsx-a11y/no-autofocus
       autoFocus
-      labelHidden
       name="name"
       label={t('treeStructure.newFolder.folderName')}
       placeholder={t('treeStructure.newFolder.placeholder')}
@@ -105,7 +102,6 @@ const NewFolder = ({
       onSave={onSave}
       error={error}
       value={name}
-      before={icon}
       onChange={(e) => {
         if (!loading) {
           setName(e.currentTarget.value);
