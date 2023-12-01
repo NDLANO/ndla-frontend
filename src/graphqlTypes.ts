@@ -2821,6 +2821,56 @@ export type GQLNewFlagMutationVariables = Exact<{
 
 export type GQLNewFlagMutation = { __typename?: 'Mutation'; newFlag: number };
 
+export type GQLReplyToTopicMutationVariables = Exact<{
+  topicId: Scalars['Int']['input'];
+  content: Scalars['String']['input'];
+}>;
+
+export type GQLReplyToTopicMutation = {
+  __typename?: 'Mutation';
+  replyToTopic: { __typename?: 'ArenaPost' } & GQLArenaPostFragmentFragment;
+};
+
+export type GQLUpdatePostMutationVariables = Exact<{
+  postId: Scalars['Int']['input'];
+  content: Scalars['String']['input'];
+  title?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+export type GQLUpdatePostMutation = {
+  __typename?: 'Mutation';
+  updatePost: { __typename?: 'ArenaPost' } & GQLArenaPostFragmentFragment;
+};
+
+export type GQLDeletePostMutationVariables = Exact<{
+  postId: Scalars['Int']['input'];
+}>;
+
+export type GQLDeletePostMutation = {
+  __typename?: 'Mutation';
+  deletePost: number;
+};
+
+export type GQLDeleteTopicMutationVariables = Exact<{
+  topicId: Scalars['Int']['input'];
+}>;
+
+export type GQLDeleteTopicMutation = {
+  __typename?: 'Mutation';
+  deleteTopic: number;
+};
+
+export type GQLNewArenaTopicMutationVariables = Exact<{
+  categoryId: Scalars['Int']['input'];
+  content: Scalars['String']['input'];
+  title: Scalars['String']['input'];
+}>;
+
+export type GQLNewArenaTopicMutation = {
+  __typename?: 'Mutation';
+  newArenaTopic: { __typename?: 'ArenaTopic' } & GQLArenaTopicFragmentFragment;
+};
+
 export type GQLMarkNotificationAsReadMutationVariables = Exact<{
   topicIds: Array<Scalars['Int']['input']> | Scalars['Int']['input'];
 }>;
@@ -2890,6 +2940,7 @@ export type GQLArenaTopicFragmentFragment = {
   slug: string;
   timestamp: string;
   title: string;
+  deleted: boolean;
   isFollowing?: boolean;
 };
 
@@ -2900,10 +2951,10 @@ export type GQLArenaPostFragmentFragment = {
   timestamp: string;
   topicId: number;
   isMainPost: boolean;
+  deleted: boolean;
   user: {
     __typename?: 'ArenaUser';
     displayName: string;
-    groupTitleArray?: Array<string>;
     profilePicture?: string;
     username: string;
   };

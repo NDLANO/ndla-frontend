@@ -8,20 +8,32 @@
 
 import parse from 'html-react-parser';
 import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
 import { colors, spacing, misc, mq, breakpoints } from '@ndla/core';
 import { Pencil, TrashCanOutline } from '@ndla/icons/action';
 import { ReportOutlined } from '@ndla/icons/common';
 import { Switch } from '@ndla/switch';
 import { Text, Heading } from '@ndla/typography';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useMemo } from 'react';
+import { useCallback, useContext, useMemo } from 'react';
 import { nb, nn, enGB } from 'date-fns/locale';
 import { formatDistanceStrict } from 'date-fns';
+import { useSnack } from '@ndla/ui';
 import UserProfileTag from '../../components/UserProfileTag';
-import SettingsMenu from '../../components/SettingsMenu';
+import SettingsMenu, { MenuItemProps } from '../../components/SettingsMenu';
+import ArenaTextModal, { ArenaTextModalContent } from './ArenaTextModal';
+import { ArenaFormValues } from './ArenaForm';
+import {
+  useDeletePost,
+  useDeleteTopic,
+  useReplyToTopic,
+  useUpdatePost,
+} from '../../arenaMutations';
+import DeleteModalContent from '../../components/DeleteModalContent';
 import FlagPostModalContent from './FlagPostModalContent';
+import { arenaCategoryQuery, arenaTopicById } from '../../arenaQueries';
 import { SKIP_TO_CONTENT_ID } from '../../../../constants';
+import { AuthContext } from '../../../../components/AuthenticationContext';
 import { capitalizeFirstLetter } from '../utils';
 
 interface Props {
@@ -30,12 +42,13 @@ interface Props {
   isMainPost: boolean;
   title: string;
   content: string;
-  notify: boolean;
   displayName: string;
   username: string;
   isFollowing: boolean;
   onFollowChange: (value: boolean) => void;
   affiliation: string;
+  topicId: number;
+  categoryId?: number;
 }
 
 const StyledCardContainer = styled.div`
@@ -94,6 +107,8 @@ const PostCard = ({
   displayName,
   username,
   affiliation,
+  topicId,
+  categoryId,
   isFollowing,
   onFollowChange,
 }: Props) => {
@@ -101,36 +116,162 @@ const PostCard = ({
     t,
     i18n: { language },
   } = useTranslation();
-  const now = useMemo(() => new Date(), []);
+  const navigate = useNavigate();
+  const { addSnack } = useSnack();
+  const { user } = useContext(AuthContext);
+  const { replyToTopic } = useReplyToTopic({
+    refetchQueries: [
+      {
+        query: arenaTopicById,
+        variables: { topicId, page: 1 },
+      },
+    ],
+  });
+  const { updatePost } = useUpdatePost({
+    refetchQueries: [
+      {
+        query: arenaTopicById,
+        variables: { topicId, page: 1 },
+      },
+    ],
+  });
+  const { deletePost } = useDeletePost({
+    refetchQueries: [
+      {
+        query: arenaTopicById,
+        variables: { topicId, page: 1 },
+      },
+    ],
+  });
+  const { deleteTopic } = useDeleteTopic({
+    refetchQueries: [
+      {
+        query: arenaCategoryQuery,
+        variables: { categoryId, page: 1 },
+      },
+    ],
+  });
 
-  const menu = useMemo(
-    () => (
+  const now = new Date();
+  const type = isMainPost ? 'topic' : 'post';
+
+  const deleteTopicCallback = useCallback(
+    async (close: VoidFunction) => {
+      await deleteTopic({ variables: { topicId } });
+      close();
+      navigate(`/minndla/arena/category/${categoryId}`);
+      addSnack({
+        content: t('myNdla.arena.deleted.topic'),
+        id: 'arenaTopicDeleted',
+      });
+    },
+    [topicId, deleteTopic, navigate, categoryId, addSnack, t],
+  );
+
+  const deletePostCallback = useCallback(
+    async (close: VoidFunction) => {
+      await deletePost({ variables: { postId: id } });
+      close();
+      addSnack({
+        content: t('myNdla.arena.deleted.post'),
+        id: 'arenaPostDeleted',
+      });
+    },
+    [deletePost, id, addSnack, t],
+  );
+
+  const menu = useMemo(() => {
+    // Regex replaces @ with -. Same method as in backend
+    const isCorrectUser =
+      user?.username.replace(
+        /[^'"\s\-.*0-9\u00BF-\u1FFF\u2C00-\uD7FF\w]+/,
+        '-',
+      ) === username;
+
+    const update: MenuItemProps = {
+      icon: <Pencil />,
+      text: t('myNdla.arena.posts.dropdownMenu.edit'),
+      type: 'primary',
+      isModal: true,
+      modalContent: (close) => (
+        <ArenaTextModalContent
+          type={type}
+          onClose={close}
+          onSave={async (data) => {
+            await updatePost({
+              variables: {
+                content: data.content ?? '',
+                postId: id,
+                title: isMainPost ? data.title : undefined,
+              },
+            });
+            addSnack({
+              content: t(`myNdla.arena.updated.${type}`),
+              id: `arena${type}Updated`,
+            });
+          }}
+          title={title}
+          content={content}
+        />
+      ),
+    };
+
+    const deleteItem: MenuItemProps = {
+      icon: <TrashCanOutline />,
+      type: 'danger',
+      text: t('myNdla.arena.posts.dropdownMenu.delete'),
+      isModal: true,
+      modalContent: (close) => (
+        <DeleteModalContent
+          onClose={close}
+          onDelete={async () => {
+            isMainPost
+              ? await deleteTopicCallback(close)
+              : await deletePostCallback(close);
+          }}
+          title={t(`myNdla.arena.deleteTitle.${type}`)}
+          description={t(`myNdla.arena.description.${type}`)}
+          removeText={t(`myNdla.arena.removeText.${type}`)}
+        />
+      ),
+    };
+
+    const report: MenuItemProps = {
+      icon: <ReportOutlined />,
+      text: t('myNdla.arena.posts.dropdownMenu.report'),
+      type: 'primary',
+      isModal: true,
+      modality: false,
+      modalContent: (close) => <FlagPostModalContent id={id} onClose={close} />,
+    };
+
+    return (
       <SettingsMenu
-        menuItems={[
-          {
-            icon: <Pencil />,
-            text: t('myNdla.arena.posts.dropdownMenu.edit'),
-            type: 'primary',
-          },
-          {
-            icon: <ReportOutlined />,
-            text: t('myNdla.arena.posts.dropdownMenu.report'),
-            type: 'primary',
-            isModal: true,
-            modality: false,
-            modalContent: (close) => (
-              <FlagPostModalContent id={id} onClose={close} />
-            ),
-          },
-          {
-            icon: <TrashCanOutline />,
-            type: 'danger',
-            text: t('myNdla.arena.posts.dropdownMenu.delete'),
-          },
-        ]}
+        menuItems={isCorrectUser ? [update, deleteItem] : [report]}
       />
-    ),
-    [id, t],
+    );
+  }, [
+    t,
+    id,
+    user,
+    type,
+    title,
+    content,
+    addSnack,
+    username,
+    updatePost,
+    isMainPost,
+    deletePostCallback,
+    deleteTopicCallback,
+  ]);
+
+  const createReply = useCallback(
+    async (data: Partial<ArenaFormValues>) => {
+      await replyToTopic({
+        variables: { topicId, content: data.content ?? '' },
+      });
+    },
+    [replyToTopic, topicId],
   );
 
   return (
@@ -178,7 +319,7 @@ const PostCard = ({
           </StyledTimestamp>
         )}
         {menu}
-        {isMainPost && <ButtonV2>{t('myNdla.arena.new.post')}</ButtonV2>}
+        {isMainPost && <ArenaTextModal type="post" onSave={createReply} />}
       </BottomContainer>
     </StyledCardContainer>
   );

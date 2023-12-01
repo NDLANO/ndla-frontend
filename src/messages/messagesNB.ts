@@ -58,6 +58,8 @@ const messages = {
     fields: {
       name: 'Navn',
       description: 'Beskrivelse',
+      title: 'Tittel',
+      content: 'Innhold',
     },
     required: 'Dette feltet er påkrevd',
     requiredField: '$t(validation.fields.{{field}}) er påkrevd',

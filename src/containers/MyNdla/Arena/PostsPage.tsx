@@ -107,7 +107,7 @@ const PostsPage = () => {
               ? [
                   {
                     name: arenaCategory?.name ?? '',
-                    id: `category/${arenaTopic?.categoryId.toString()}` ?? '',
+                    id: `category/${arenaTopic?.categoryId}`,
                   },
                   { name: arenaTopic?.title ?? '', id: topicId },
                 ]
@@ -117,24 +117,27 @@ const PostsPage = () => {
         />
       </BreadcrumbWrapper>
       <ListWrapper>
-        {arenaTopic?.posts?.map((post: GQLArenaPostFragmentFragment) => (
-          <PostCardWrapper key={post.id} data-main-post={post.isMainPost}>
-            <PostCard
-              onFollowChange={onFollowChange}
-              isFollowing={!!arenaTopic.isFollowing}
-              id={post.id}
-              timestamp={post.timestamp}
-              isMainPost={post.isMainPost}
-              title={arenaTopic.title ?? ''}
-              content={post.content}
-              notify={true}
-              displayName={post.user.displayName}
-              username={post.user.username}
-              // missing affiliation in user
-              affiliation=""
-            />
-          </PostCardWrapper>
-        ))}
+        {arenaTopic?.posts
+          ?.filter(({ deleted }) => !deleted)
+          .map((post: GQLArenaPostFragmentFragment) => (
+            <PostCardWrapper key={post.id} data-main-post={post.isMainPost}>
+              <PostCard
+                id={post.id}
+                onFollowChange={onFollowChange}
+                isFollowing={!!arenaTopic.isFollowing}
+                timestamp={post.timestamp}
+                isMainPost={post.isMainPost}
+                title={arenaTopic.title ?? ''}
+                content={post.content}
+                displayName={post.user.displayName}
+                username={post.user.username}
+                topicId={post.topicId}
+                categoryId={arenaCategory?.id}
+                // missing affiliation in user
+                affiliation=""
+              />
+            </PostCardWrapper>
+          ))}
       </ListWrapper>
     </MyNdlaPageWrapper>
   );

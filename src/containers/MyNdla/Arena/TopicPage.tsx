@@ -6,22 +6,24 @@
  *
  */
 
-import { useContext, useEffect } from 'react';
+import { useCallback, useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Navigate, useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
-import Icon, { Spinner } from '@ndla/icons';
-import { Pencil } from '@ndla/icons/action';
+import { Spinner } from '@ndla/icons';
 import { Heading, Text } from '@ndla/typography';
+import { useSnack } from '@ndla/ui';
 import { HelmetWithTracker, useTracker } from '@ndla/tracker';
-import { useArenaCategory } from '../arenaQueries';
+import { arenaCategoryQuery, useArenaCategory } from '../arenaQueries';
 import TopicCard from './components/TopicCard';
 import { GQLArenaTopicFragmentFragment } from '../../../graphqlTypes';
 import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
 import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
 import { AuthContext } from '../../../components/AuthenticationContext';
+import ArenaTextModal from './components/ArenaTextModal';
+import { ArenaFormValues } from './components/ArenaForm';
+import { useCreateArenaTopic } from '../arenaMutations';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import { SKIP_TO_CONTENT_ID } from '../../../constants';
 
@@ -43,28 +45,22 @@ const StyledContainer = styled.div`
   margin: ${spacing.large} 0 ${spacing.normal};
 `;
 
-const StyledNewTopicButton = styled(ButtonV2)`
-  gap: ${spacing.xsmall};
-  white-space: nowrap;
-`;
-
-const StyledPencilIcon = styled(Icon)`
-  width: ${spacing.snormal};
-  height: ${spacing.snormal};
-`;
-
-const PencilIcon = StyledPencilIcon.withComponent(Pencil);
-
 const StyledCardContainer = styled.li`
   display: flex;
   flex-direction: column;
   margin: 0;
 `;
 
+const toArenaTopic = (topicId: number | undefined) =>
+  `/minndla/arena/topic/${topicId}`;
+
 const TopicPage = () => {
   const { t } = useTranslation();
   const { categoryId } = useParams();
   const { trackPageView } = useTracker();
+  const navigate = useNavigate();
+  const { addSnack } = useSnack();
+
   const { loading, arenaCategory } = useArenaCategory({
     variables: { categoryId: Number(categoryId), page: 1 },
     skip: !Number(categoryId),
@@ -78,6 +74,35 @@ const TopicPage = () => {
       dimensions: getAllDimensions({ user }),
     });
   }, [arenaCategory?.name, authContextLoaded, loading, t, trackPageView, user]);
+
+  const { createArenaTopic } = useCreateArenaTopic({
+    refetchQueries: [
+      {
+        query: arenaCategoryQuery,
+        variables: { categoryId: arenaCategory?.id, page: 1 },
+      },
+    ],
+  });
+
+  const createTopic = useCallback(
+    async (data: Partial<ArenaFormValues>) => {
+      if (arenaCategory) {
+        const topic = await createArenaTopic({
+          variables: {
+            content: data.content ?? '',
+            title: data.title ?? '',
+            categoryId: arenaCategory?.id,
+          },
+        });
+        addSnack({
+          content: t('myNdla.arena.create.topic'),
+          id: 'arenaTopicCreated',
+        });
+        navigate(toArenaTopic(topic.data?.newArenaTopic?.id));
+      }
+    },
+    [arenaCategory, createArenaTopic, navigate, addSnack, t],
+  );
 
   if (loading) {
     return <Spinner />;
@@ -117,26 +142,22 @@ const TopicPage = () => {
         <Heading element="h2" headingStyle="h2" margin="none">
           {t('myNdla.arena.category.posts')}
         </Heading>
-        <StyledNewTopicButton
-          colorTheme="lighter"
-          //onClick={} to open modal
-        >
-          {t('myNdla.arena.new.topic')}
-          <PencilIcon />
-        </StyledNewTopicButton>
+        <ArenaTextModal type="topic" onSave={createTopic} />
       </StyledContainer>
       <ListWrapper>
-        {arenaCategory?.topics?.map((topic: GQLArenaTopicFragmentFragment) => (
-          <StyledCardContainer key={`topicContainer-${topic.id}`}>
-            <TopicCard
-              key={`topic-${topic.id}`}
-              id={topic.id}
-              title={topic.title}
-              timestamp={topic.timestamp}
-              count={topic.postCount}
-            />
-          </StyledCardContainer>
-        ))}
+        {arenaCategory?.topics
+          ?.filter(({ deleted }) => !deleted)
+          .map((topic: GQLArenaTopicFragmentFragment) => (
+            <StyledCardContainer key={`topicContainer-${topic.id}`}>
+              <TopicCard
+                key={`topic-${topic.id}`}
+                id={topic.id}
+                title={topic.title}
+                timestamp={topic.timestamp}
+                count={topic.postCount}
+              />
+            </StyledCardContainer>
+          ))}
       </ListWrapper>
     </MyNdlaPageWrapper>
   );

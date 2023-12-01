@@ -33,7 +33,7 @@ const arenaUserFragment = gql`
   }
 `;
 
-const arenaCategoriesFragment = gql`
+export const arenaCategoriesFragment = gql`
   fragment ArenaCategoriesFragment on ArenaCategory {
     __typename
     description
@@ -46,7 +46,7 @@ const arenaCategoriesFragment = gql`
   }
 `;
 
-const arenaCategoryFragment = gql`
+export const arenaCategoryFragment = gql`
   fragment ArenaCategoryFragment on ArenaCategory {
     __typename
     description
@@ -59,7 +59,7 @@ const arenaCategoryFragment = gql`
   }
 `;
 
-const arenaTopicFragment = gql`
+export const arenaTopicFragment = gql`
   fragment ArenaTopicFragment on ArenaTopic {
     __typename
     categoryId
@@ -69,11 +69,12 @@ const arenaTopicFragment = gql`
     slug
     timestamp
     title
+    deleted
     isFollowing
   }
 `;
 
-const arenaPostFragment = gql`
+export const arenaPostFragment = gql`
   fragment ArenaPostFragment on ArenaPost {
     __typename
     content
@@ -83,10 +84,10 @@ const arenaPostFragment = gql`
     isMainPost
     user {
       displayName
-      groupTitleArray
       profilePicture
       username
     }
+    deleted
   }
 `;
 

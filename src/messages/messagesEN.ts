@@ -58,6 +58,8 @@ const messages = {
     fields: {
       name: 'Name',
       description: 'Description',
+      title: 'Title',
+      content: 'Content',
     },
     required: 'This field is required',
     requiredField: '$t(validation.fields.{{field}}) is required',
