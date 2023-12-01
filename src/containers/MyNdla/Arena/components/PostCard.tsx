@@ -21,6 +21,7 @@ import { formatDistanceStrict } from 'date-fns';
 import UserProfileTag from '../../components/UserProfileTag';
 import SettingsMenu from '../../components/SettingsMenu';
 import FlagPostModalContent from './FlagPostModalContent';
+import { SKIP_TO_CONTENT_ID } from '../../../../constants';
 
 interface Props {
   id: number;
@@ -31,6 +32,8 @@ interface Props {
   notify: boolean;
   displayName: string;
   username: string;
+  isFollowing: boolean;
+  onFollowChange: (value: boolean) => void;
   affiliation: string;
 }
 
@@ -93,6 +96,8 @@ const PostCard = ({
   displayName,
   username,
   affiliation,
+  isFollowing,
+  onFollowChange,
 }: Props) => {
   const {
     t,
@@ -140,8 +145,8 @@ const PostCard = ({
         />
         {isMainPost && (
           <StyledSwitch
-            onChange={() => {}}
-            checked={false}
+            onChange={onFollowChange}
+            checked={isFollowing}
             label={t('myNdla.arena.posts.notify')}
             id={t('myNdla.arena.posts.notify')}
           />
@@ -149,7 +154,12 @@ const PostCard = ({
       </StyledTopContainer>
       <StyledContentContainer>
         {isMainPost && (
-          <Heading element="h4" headingStyle="h4" margin="none">
+          <Heading
+            element="h1"
+            id={SKIP_TO_CONTENT_ID}
+            headingStyle="h4"
+            margin="none"
+          >
             {title}
           </Heading>
         )}

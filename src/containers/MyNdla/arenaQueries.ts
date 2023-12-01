@@ -13,6 +13,7 @@ import {
   GQLArenaPageQuery,
   GQLArenaCategoryQuery,
   GQLArenaTopicByIdQuery,
+  GQLArenaTopicsByUserQuery,
   GQLArenaTopicByIdQueryVariables,
   GQLArenaCategoryQueryVariables,
   GQLArenaUserQueryVariables,
@@ -27,6 +28,8 @@ const arenaUserFragment = gql`
     profilePicture
     slug
     groupTitleArray
+    location
+    username
   }
 `;
 
@@ -66,6 +69,7 @@ const arenaTopicFragment = gql`
     slug
     timestamp
     title
+    isFollowing
   }
 `;
 
@@ -131,12 +135,21 @@ export const arenaTopicById = gql`
   ${arenaPostFragment}
 `;
 
-export const useArenaUser = (username: string) => {
+export const arenaTopicsByUserQuery = gql`
+  query arenaTopicsByUser($userSlug: String!) {
+    arenaTopicsByUser(userSlug: $userSlug) {
+      ...ArenaTopicFragment
+    }
+  }
+  ${arenaTopicFragment}
+`;
+
+export const useArenaUser = (
+  options: QueryHookOptions<GQLArenaUserQuery, GQLArenaUserQueryVariables>,
+) => {
   const { data } = useGraphQuery<GQLArenaUserQuery, GQLArenaUserQueryVariables>(
     arenaUserQuery,
-    {
-      variables: { username },
-    },
+    options,
   );
   return { arenaUser: data?.arenaUser };
 };
@@ -222,6 +235,16 @@ const arenaRecentTopics = gql`
   }
   ${arenaTopicFragment}
 `;
+
+export const useArenaTopicsByUser = (
+  options: QueryHookOptions<GQLArenaTopicsByUserQuery>,
+) => {
+  const { data, loading, error } = useGraphQuery<GQLArenaTopicsByUserQuery>(
+    arenaTopicsByUserQuery,
+    options,
+  );
+  return { arenaTopicsByUser: data?.arenaTopicsByUser, loading, error };
+};
 
 export const useRecentTopics = (
   options?: QueryHookOptions<GQLArenaRecentTopicsQuery>,

@@ -6,12 +6,16 @@
  *
  */
 
-import { gql, useMutation } from '@apollo/client';
+import { gql, useApolloClient, useMutation } from '@apollo/client';
 import {
   GQLMarkNotificationAsReadMutation,
   GQLMarkNotificationAsReadMutationVariables,
   GQLMutationNewFlagArgs,
+  GQLMutationSubscribeToTopicArgs,
+  GQLMutationUnsubscribeFromTopicArgs,
   GQLNewFlagMutation,
+  GQLSubscribeToTopicMutation,
+  GQLUnsubscribeFromTopicMutation,
 } from '../../graphqlTypes';
 import { arenaNotificationQuery } from './arenaQueries';
 
@@ -42,4 +46,56 @@ export const useMarkNotificationsAsRead = () => {
     refetchQueries: [{ query: arenaNotificationQuery }],
   });
   return { markNotificationsAsRead };
+};
+
+const subscribeToTopicMutation = gql`
+  mutation subscribeToTopic($topicId: Int!) {
+    subscribeToTopic(topicId: $topicId)
+  }
+`;
+
+export const useSubscribeToTopicMutation = () => {
+  const { cache } = useApolloClient();
+  return useMutation<
+    GQLSubscribeToTopicMutation,
+    GQLMutationSubscribeToTopicArgs
+  >(subscribeToTopicMutation, {
+    onCompleted: (data) => {
+      cache.modify({
+        id: cache.identify({
+          __typename: 'ArenaTopic',
+          id: data.subscribeToTopic,
+        }),
+        fields: {
+          isFollowing: () => true,
+        },
+      });
+    },
+  });
+};
+
+const unsubscribeFromTopicMutation = gql`
+  mutation unsubscribeFromTopic($topicId: Int!) {
+    unsubscribeFromTopic(topicId: $topicId)
+  }
+`;
+
+export const useUnsubscribeFromTopicMutation = () => {
+  const { cache } = useApolloClient();
+  return useMutation<
+    GQLUnsubscribeFromTopicMutation,
+    GQLMutationUnsubscribeFromTopicArgs
+  >(unsubscribeFromTopicMutation, {
+    onCompleted: (data) => {
+      cache.modify({
+        id: cache.identify({
+          __typename: 'ArenaTopic',
+          id: data.unsubscribeFromTopic,
+        }),
+        fields: {
+          isFollowing: () => false,
+        },
+      });
+    },
+  });
 };

@@ -225,6 +225,15 @@ const typePolicies: TypePolicies = {
   ConfigMetaStringList: {
     keyFields: ['key'],
   },
+  ArenaTopic: {
+    fields: {
+      isFollowing: {
+        merge: (existing, incoming) => {
+          return incoming != null ? incoming : existing;
+        },
+      },
+    },
+  },
 };
 
 function getCache() {
