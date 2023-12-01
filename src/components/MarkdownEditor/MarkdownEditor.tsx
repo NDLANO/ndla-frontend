@@ -6,7 +6,7 @@
  *
  */
 
-import { useState } from 'react';
+import { forwardRef, useState } from 'react';
 import { $getRoot, $insertNodes, EditorState } from 'lexical';
 import {
   LexicalComposer,
@@ -23,6 +23,7 @@ import { $generateNodesFromDOM } from '@lexical/html';
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
 import styled from '@emotion/styled';
 import { colors, misc, spacing } from '@ndla/core';
+import { useFormControl } from '@ndla/forms';
 import { EditorToolbar } from './EditorToolbar';
 import { editorNodes } from './nodes';
 import { MarkdownPlugin, PLAYGROUND_TRANSFORMERS } from './MarkdownPlugin';
@@ -84,67 +85,71 @@ const InnerEditorContainer = styled.div`
 interface Props {
   setContentWritten: (data: string) => void;
   initialValue: string;
+  name: string;
 }
 
-export const MarkdownEditor = ({ setContentWritten, initialValue }: Props) => {
-  const [floatingAnchorElem, setFloatingAnchorElem] = useState<
-    HTMLDivElement | undefined
-  >(undefined);
-  const initialConfig: InitialConfigType = {
-    namespace: 'MyEditor',
-    onError,
-    nodes: editorNodes,
-    theme: editorTheme,
-    editorState: (editor) => {
-      const parser = new DOMParser();
-      const nodes = $generateNodesFromDOM(
-        editor,
-        parser.parseFromString(initialValue, 'text/html'),
-      );
-      $getRoot().select();
-      $insertNodes(nodes);
-    },
-  };
+export const MarkdownEditor = forwardRef(
+  ({ name, setContentWritten, initialValue }: Props, _) => {
+    const [floatingAnchorElem, setFloatingAnchorElem] = useState<
+      HTMLDivElement | undefined
+    >(undefined);
+    const props = useFormControl({});
+    const initialConfig: InitialConfigType = {
+      namespace: 'MyEditor',
+      onError,
+      nodes: editorNodes,
+      theme: editorTheme,
+      editorState: (editor) => {
+        const parser = new DOMParser();
+        const nodes = $generateNodesFromDOM(
+          editor,
+          parser.parseFromString(initialValue, 'text/html'),
+        );
+        $getRoot().select();
+        $insertNodes(nodes);
+      },
+    };
 
-  const onRef = (_floatingAnchorElem: HTMLDivElement) => {
-    if (_floatingAnchorElem !== null) {
-      setFloatingAnchorElem(_floatingAnchorElem);
-    }
-  };
+    const onRef = (_floatingAnchorElem: HTMLDivElement) => {
+      if (_floatingAnchorElem !== null) {
+        setFloatingAnchorElem(_floatingAnchorElem);
+      }
+    };
 
-  const onChange = (editorState: EditorState) => {
-    editorState.read(() => {
-      const markdown = $convertToMarkdownString(PLAYGROUND_TRANSFORMERS);
-      setContentWritten(markdown);
-    });
-  };
+    const onChange = (editorState: EditorState) => {
+      editorState.read(() => {
+        const markdown = $convertToMarkdownString(PLAYGROUND_TRANSFORMERS);
+        setContentWritten(markdown);
+      });
+    };
 
-  return (
-    <StyledEditorContainer>
-      <LexicalComposer initialConfig={initialConfig}>
-        <EditorToolbar />
-        <InnerEditorContainer>
-          <RichTextPlugin
-            contentEditable={
-              <EditableWrapper aria-labelledby={'markdown-editor'} ref={onRef}>
-                <ContentEditable />
-              </EditableWrapper>
-            }
-            placeholder={<Placeholder>Enter some text...</Placeholder>}
-            ErrorBoundary={LexicalErrorBoundary}
-          />
-        </InnerEditorContainer>
-        {floatingAnchorElem ? (
-          <FloatingLinkEditorPlugin anchorElement={floatingAnchorElem} />
-        ) : (
-          ''
-        )}
-        <ListPlugin />
-        <LinkPlugin />
-        <MarkdownPlugin />
-        <HistoryPlugin />
-        <OnChangePlugin ignoreSelectionChange onChange={onChange} />
-      </LexicalComposer>
-    </StyledEditorContainer>
-  );
-};
+    return (
+      <StyledEditorContainer>
+        <LexicalComposer initialConfig={initialConfig}>
+          <EditorToolbar />
+          <InnerEditorContainer>
+            <RichTextPlugin
+              contentEditable={
+                <EditableWrapper ref={onRef}>
+                  <ContentEditable name={name} role="textbox" {...props} />
+                </EditableWrapper>
+              }
+              placeholder={<Placeholder>Enter some text...</Placeholder>}
+              ErrorBoundary={LexicalErrorBoundary}
+            />
+          </InnerEditorContainer>
+          {floatingAnchorElem ? (
+            <FloatingLinkEditorPlugin anchorElement={floatingAnchorElem} />
+          ) : (
+            ''
+          )}
+          <ListPlugin />
+          <LinkPlugin />
+          <MarkdownPlugin />
+          <HistoryPlugin />
+          <OnChangePlugin ignoreSelectionChange onChange={onChange} />
+        </LexicalComposer>
+      </StyledEditorContainer>
+    );
+  },
+);
