@@ -66,6 +66,7 @@ export const arenaTopicFragment = gql`
     timestamp
     title
     deleted
+    isFollowing
   }
 `;
 

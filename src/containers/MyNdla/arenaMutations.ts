@@ -6,18 +6,27 @@
  *
  */
 
-import { MutationHookOptions, gql, useMutation } from '@apollo/client';
+import {
+  MutationHookOptions,
+  gql,
+  useApolloClient,
+  useMutation,
+} from '@apollo/client';
 import {
   GQLDeletePostMutation,
   GQLDeletePostMutationVariables,
   GQLDeleteTopicMutation,
   GQLDeleteTopicMutationVariables,
+  GQLMutationSubscribeToTopicArgs,
+  GQLMutationUnsubscribeFromTopicArgs,
   GQLNewArenaTopicMutation,
   GQLNewArenaTopicMutationVariables,
   GQLNewFlagMutation,
   GQLNewFlagMutationVariables,
   GQLReplyToTopicMutation,
   GQLReplyToTopicMutationVariables,
+  GQLSubscribeToTopicMutation,
+  GQLUnsubscribeFromTopicMutation,
   GQLUpdatePostMutation,
   GQLUpdatePostMutationVariables,
 } from '../../graphqlTypes';
@@ -143,4 +152,56 @@ export const useCreateArenaTopic = (
     GQLNewArenaTopicMutationVariables
   >(newArenaTopicMutation, options);
   return { createArenaTopic };
+};
+
+const subscribeToTopicMutation = gql`
+  mutation subscribeToTopic($topicId: Int!) {
+    subscribeToTopic(topicId: $topicId)
+  }
+`;
+
+export const useSubscribeToTopicMutation = () => {
+  const { cache } = useApolloClient();
+  return useMutation<
+    GQLSubscribeToTopicMutation,
+    GQLMutationSubscribeToTopicArgs
+  >(subscribeToTopicMutation, {
+    onCompleted: (data) => {
+      cache.modify({
+        id: cache.identify({
+          __typename: 'ArenaTopic',
+          id: data.subscribeToTopic,
+        }),
+        fields: {
+          isFollowing: () => true,
+        },
+      });
+    },
+  });
+};
+
+const unsubscribeFromTopicMutation = gql`
+  mutation unsubscribeFromTopic($topicId: Int!) {
+    unsubscribeFromTopic(topicId: $topicId)
+  }
+`;
+
+export const useUnsubscribeFromTopicMutation = () => {
+  const { cache } = useApolloClient();
+  return useMutation<
+    GQLUnsubscribeFromTopicMutation,
+    GQLMutationUnsubscribeFromTopicArgs
+  >(unsubscribeFromTopicMutation, {
+    onCompleted: (data) => {
+      cache.modify({
+        id: cache.identify({
+          __typename: 'ArenaTopic',
+          id: data.unsubscribeFromTopic,
+        }),
+        fields: {
+          isFollowing: () => false,
+        },
+      });
+    },
+  });
 };

@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { useContext, useEffect } from 'react';
+import { useCallback, useContext, useEffect } from 'react';
 import { useParams } from 'react-router';
 import { Navigate } from 'react-router-dom';
 import styled from '@emotion/styled';
@@ -21,6 +21,10 @@ import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
 import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import { getAllDimensions } from '../../../util/trackingUtil';
+import {
+  useSubscribeToTopicMutation,
+  useUnsubscribeFromTopicMutation,
+} from '../arenaMutations';
 
 const BreadcrumbWrapper = styled.div`
   padding-top: ${spacing.normal};
@@ -54,6 +58,9 @@ const PostsPage = () => {
   const { trackPageView } = useTracker();
   const { user, authContextLoaded } = useContext(AuthContext);
 
+  const [subscribeToTopic] = useSubscribeToTopicMutation();
+  const [unsubscribeFromTopic] = useUnsubscribeFromTopicMutation();
+
   useEffect(() => {
     if (!authContextLoaded || !user?.arenaEnabled || loading) return;
     trackPageView({
@@ -61,6 +68,15 @@ const PostsPage = () => {
       dimensions: getAllDimensions({ user }),
     });
   }, [arenaTopic?.title, authContextLoaded, loading, t, trackPageView, user]);
+
+  const onFollowChange = useCallback(() => {
+    if (!arenaTopic) return;
+    if (arenaTopic?.isFollowing) {
+      unsubscribeFromTopic({ variables: { topicId: arenaTopic.id } });
+    } else {
+      subscribeToTopic({ variables: { topicId: arenaTopic.id } });
+    }
+  }, [arenaTopic, subscribeToTopic, unsubscribeFromTopic]);
 
   if (loading) {
     return <Spinner />;
@@ -98,6 +114,8 @@ const PostsPage = () => {
             <PostCardWrapper key={post.id} data-main-post={post.isMainPost}>
               <PostCard
                 id={post.id}
+                onFollowChange={onFollowChange}
+                isFollowing={!!arenaTopic.isFollowing}
                 timestamp={post.timestamp}
                 isMainPost={post.isMainPost}
                 title={arenaTopic.title ?? ''}

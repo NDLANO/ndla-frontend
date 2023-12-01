@@ -93,6 +93,7 @@ export type GQLArenaTopic = {
   categoryId: Scalars['Int']['output'];
   deleted: Scalars['Boolean']['output'];
   id: Scalars['Int']['output'];
+  isFollowing?: Maybe<Scalars['Boolean']['output']>;
   locked: Scalars['Boolean']['output'];
   postCount: Scalars['Int']['output'];
   posts: Array<GQLArenaPost>;
@@ -921,7 +922,9 @@ export type GQLMutation = {
   replyToTopic: GQLArenaPost;
   sortFolders: GQLSortResult;
   sortResources: GQLSortResult;
+  subscribeToTopic: Scalars['Int']['output'];
   transformArticleContent: Scalars['String']['output'];
+  unsubscribeFromTopic: Scalars['Int']['output'];
   updateFolder: GQLFolder;
   updateFolderResource: GQLFolderResource;
   updateFolderStatus: Array<Scalars['String']['output']>;
@@ -997,6 +1000,10 @@ export type GQLMutationSortResourcesArgs = {
   sortedIds: Array<Scalars['String']['input']>;
 };
 
+export type GQLMutationSubscribeToTopicArgs = {
+  topicId: Scalars['Int']['input'];
+};
+
 export type GQLMutationTransformArticleContentArgs = {
   absoluteUrl?: InputMaybe<Scalars['Boolean']['input']>;
   content: Scalars['String']['input'];
@@ -1004,6 +1011,10 @@ export type GQLMutationTransformArticleContentArgs = {
   previewH5p?: InputMaybe<Scalars['Boolean']['input']>;
   subject?: InputMaybe<Scalars['String']['input']>;
   visualElement?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type GQLMutationUnsubscribeFromTopicArgs = {
+  topicId: Scalars['Int']['input'];
 };
 
 export type GQLMutationUpdateFolderArgs = {
@@ -2859,6 +2870,24 @@ export type GQLNewArenaTopicMutation = {
   newArenaTopic: { __typename?: 'ArenaTopic' } & GQLArenaTopicFragmentFragment;
 };
 
+export type GQLSubscribeToTopicMutationVariables = Exact<{
+  topicId: Scalars['Int']['input'];
+}>;
+
+export type GQLSubscribeToTopicMutation = {
+  __typename?: 'Mutation';
+  subscribeToTopic: number;
+};
+
+export type GQLUnsubscribeFromTopicMutationVariables = Exact<{
+  topicId: Scalars['Int']['input'];
+}>;
+
+export type GQLUnsubscribeFromTopicMutation = {
+  __typename?: 'Mutation';
+  unsubscribeFromTopic: number;
+};
+
 export type GQLArenaUserQueryFragmentFragment = {
   __typename?: 'ArenaUser';
   displayName: string;
@@ -2900,6 +2929,7 @@ export type GQLArenaTopicFragmentFragment = {
   timestamp: string;
   title: string;
   deleted: boolean;
+  isFollowing?: boolean;
 };
 
 export type GQLArenaPostFragmentFragment = {

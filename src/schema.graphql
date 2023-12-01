@@ -57,6 +57,7 @@ type ArenaTopic {
   categoryId: Int!
   deleted: Boolean!
   id: Int!
+  isFollowing: Boolean
   locked: Boolean!
   postCount: Int!
   posts: [ArenaPost!]!
@@ -811,6 +812,7 @@ type Mutation {
   replyToTopic(content: String!, topicId: Int!): ArenaPost!
   sortFolders(parentId: String, sortedIds: [String!]!): SortResult!
   sortResources(parentId: String!, sortedIds: [String!]!): SortResult!
+  subscribeToTopic(topicId: Int!): Int!
   transformArticleContent(
     absoluteUrl: Boolean
     content: String!
@@ -819,6 +821,7 @@ type Mutation {
     subject: String
     visualElement: String
   ): String!
+  unsubscribeFromTopic(topicId: Int!): Int!
   updateFolder(
     description: String
     id: String!
@@ -832,13 +835,6 @@ type Mutation {
     shareName: Boolean
   ): MyNdlaPersonalData!
   updatePost(content: String!, postId: Int!, title: String): ArenaPost!
-}
-
-type MyNdlaGroup {
-  displayName: String!
-  id: String!
-  isPrimarySchool: Boolean!
-  parentId: String
 }
 
 type MyNdlaGroup {

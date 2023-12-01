@@ -32,6 +32,7 @@ import {
 import DeleteModalContent from '../../components/DeleteModalContent';
 import FlagPostModalContent from './FlagPostModalContent';
 import { arenaCategoryQuery, arenaTopicById } from '../../arenaQueries';
+import { SKIP_TO_CONTENT_ID } from '../../../../constants';
 
 interface Props {
   id: number;
@@ -41,6 +42,8 @@ interface Props {
   content: string;
   displayName: string;
   username: string;
+  isFollowing: boolean;
+  onFollowChange: (value: boolean) => void;
   affiliation: string;
   topicId: number;
   categoryId?: number;
@@ -107,6 +110,8 @@ const PostCard = ({
   affiliation,
   topicId,
   categoryId,
+  isFollowing,
+  onFollowChange,
 }: Props) => {
   const {
     t,
@@ -271,8 +276,8 @@ const PostCard = ({
         />
         {isMainPost && (
           <StyledSwitch
-            onChange={() => {}}
-            checked={false}
+            onChange={onFollowChange}
+            checked={isFollowing}
             label={t('myNdla.arena.posts.notify')}
             id={t('myNdla.arena.posts.notify')}
           />
@@ -280,7 +285,12 @@ const PostCard = ({
       </StyledTopContainer>
       <StyledContentContainer>
         {isMainPost && (
-          <Heading element="h4" headingStyle="h4" margin="none">
+          <Heading
+            element="h1"
+            id={SKIP_TO_CONTENT_ID}
+            headingStyle="h4"
+            margin="none"
+          >
             {title}
           </Heading>
         )}
