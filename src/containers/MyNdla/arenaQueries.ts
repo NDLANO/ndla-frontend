@@ -221,10 +221,13 @@ export const arenaNotificationQuery = gql`
   ${arenaNotificationFragment}
 `;
 
-export const useArenaNotifications = () => {
+export const useArenaNotifications = (
+  options?: QueryHookOptions<GQLArenaNotificationsQuery>,
+) => {
   const { data, refetch } = useGraphQuery<GQLArenaNotificationsQuery>(
     arenaNotificationQuery,
     {
+      ...options,
       pollInterval: 60000,
       ssr: false,
     },

@@ -141,7 +141,9 @@ const MenuModalContent = ({
   const { setIsOpen, resetFocus, setResetFocus } =
     useOutletContext<OutletContext>();
   const { user } = useContext(AuthContext);
-  const { notifications } = useArenaNotifications();
+  const { notifications } = useArenaNotifications({
+    skip: !user?.arenaEnabled,
+  });
   const links = useMemo(
     () =>
       menuLinks(t, location).map(
@@ -209,7 +211,7 @@ const MenuModalContent = ({
         <nav>
           <MenuItems role="tablist">{links}</MenuItems>
         </nav>
-        {showButtons && (
+        {showButtons && (!!buttons || user?.arenaEnabled) && (
           <>
             <StyledText margin="none" textStyle="meta-text-medium">
               {t('myNdla.tools')}
