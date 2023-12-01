@@ -156,7 +156,7 @@ const PostCard = ({
       close();
       navigate(`/minndla/arena/category/${categoryId}`);
       addSnack({
-        content: t('myNdla.arena.delete.topic'),
+        content: t('myNdla.arena.deleted.topic'),
         id: 'arenaTopicDeleted',
       });
     },
@@ -168,7 +168,7 @@ const PostCard = ({
       await deletePost({ variables: { postId: id } });
       close();
       addSnack({
-        content: t('myNdla.arena.delete.post'),
+        content: t('myNdla.arena.deleted.post'),
         id: 'arenaPostDeleted',
       });
     },
@@ -257,12 +257,8 @@ const PostCard = ({
       await replyToTopic({
         variables: { topicId, content: data.content ?? '' },
       });
-      addSnack({
-        content: t('myNdla.arena.create.post'),
-        id: 'arenaPostCreated',
-      });
     },
-    [replyToTopic, topicId, addSnack, t],
+    [replyToTopic, topicId],
   );
 
   return (
