@@ -12,7 +12,7 @@ import { breakpoints, colors, mq, spacing, spacingUnit } from '@ndla/core';
 import { MY_NDLA_CONTENT_WIDTH } from '../../../constants';
 import { ViewType } from '../Folders/FoldersPage';
 import MenuModalContent from './MenuModalContent';
-import NotificationPopover from './NotficationPopover';
+import NotificationPopover from './NotificationPopover';
 import { AuthContext } from '../../../components/AuthenticationContext';
 
 const ToolbarContainer = styled.div`

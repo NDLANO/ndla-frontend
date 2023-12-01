@@ -13,9 +13,10 @@ import { Text } from '@ndla/typography';
 import SafeLink from '@ndla/safelink';
 import { colors, spacing, breakpoints, mq, misc } from '@ndla/core';
 import { Forum, ForumOutlined } from '@ndla/icons/common';
+import { toArenaCategory } from './utils';
 
 interface Props {
-  id: string;
+  id: number;
   title: string;
   subText: string;
   count: number;
@@ -97,11 +98,7 @@ const LeftIconCSS = css`
 const ArenaCard = ({ id, title, subText, count }: Props) => {
   const { t } = useTranslation();
   return (
-    <StyledSafelink
-      id={id}
-      css={StyledCategoryCard}
-      to={`/minndla/arena/category/${id}`}
-    >
+    <StyledSafelink css={StyledCategoryCard} to={toArenaCategory(id)}>
       <ForumOutlined css={LeftIconCSS} />
       <Forum css={LeftIconCSS} />
       <SpacingContainer>

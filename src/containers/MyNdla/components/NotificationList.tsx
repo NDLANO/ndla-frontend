@@ -18,6 +18,7 @@ import { formatDistanceStrict } from 'date-fns';
 import { nb, nn, enGB } from 'date-fns/locale';
 import { GQLArenaNotificationFragmentFragment } from '../../../graphqlTypes';
 import { useMarkNotificationsAsRead } from '../arenaMutations';
+import { toArenaTopic, capitalizeFirstLetter } from '../Arena/components/utils';
 
 const TitleWrapper = styled.div`
   display: flex;
@@ -53,10 +54,6 @@ const StyledLink = styled(SafeLinkButton)`
   &[data-not-viewed='true'] {
     background-color: ${colors.brand.lightest};
     border: solid 1px ${colors.brand.lighter};
-  }
-
-  &[data-popover='true'] {
-    padding: ${spacing.small};
   }
 `;
 
@@ -95,17 +92,12 @@ const Locales = {
   se: nb,
 };
 
-const capitalizeFirstLetter = (str: string) =>
-  str.charAt(0).toUpperCase() + str.slice(1);
-
-const toArenaTopic = (topicId: number) => `/minndla/arena/topic/${topicId}`;
-
 interface Props {
   notifications?: GQLArenaNotificationFragmentFragment[];
-  inPopover?: boolean;
+  close?: VoidFunction;
 }
 
-const NotificationList = ({ notifications, inPopover }: Props) => {
+const NotificationList = ({ notifications, close }: Props) => {
   const { markNotificationsAsRead } = useMarkNotificationsAsRead();
   const { t, i18n } = useTranslation();
   const now = useMemo(() => new Date(), []);
@@ -122,14 +114,14 @@ const NotificationList = ({ notifications, inPopover }: Props) => {
   }, [notifications, markNotificationsAsRead]);
 
   const notifcationsToShow = useMemo(
-    () => (inPopover ? notifications?.slice(0, 5) : notifications),
-    [notifications, inPopover],
+    () => (close ? notifications?.slice(0, 5) : notifications),
+    [notifications, close],
   );
 
   return (
     <>
-      <TitleWrapper data-popover={!!inPopover}>
-        {inPopover ? (
+      <TitleWrapper data-popover={!!close}>
+        {close ? (
           <Heading element="h4" headingStyle="h4" margin="none">
             {t('myNdla.arena.notification.title')}
           </Heading>
@@ -150,8 +142,8 @@ const NotificationList = ({ notifications, inPopover }: Props) => {
               <StyledLink
                 variant="stripped"
                 data-not-viewed={!read}
-                data-popover={inPopover}
                 to={toArenaTopic(topicId)}
+                onClick={() => close?.()}
               >
                 <Notification>
                   <StyledKeyboardReturn />

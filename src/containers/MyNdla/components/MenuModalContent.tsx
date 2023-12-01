@@ -27,8 +27,8 @@ import { OutletContext, menuLinks } from '../MyNdlaLayout';
 import NavigationLink from './NavigationLink';
 import { BellIcon } from './NotificationButton';
 import { AuthContext } from '../../../components/AuthenticationContext';
-import { toAllNotifications } from '../../../routeHelpers';
 import { useArenaNotifications } from '../arenaQueries';
+import { toAllNotifications } from '../Arena/components/utils';
 
 const MenuItem = styled.li`
   list-style: none;

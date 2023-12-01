@@ -13,9 +13,9 @@ import { Root, Trigger, Portal, Content, Arrow } from '@radix-ui/react-popover';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import NotificationList from './NotificationList';
-import { toAllNotifications } from '../../../routeHelpers';
 import NotificationBellButton from './NotificationButton';
 import { useArenaNotifications } from '../arenaQueries';
+import { toAllNotifications } from '../Arena/components/utils';
 
 const StyledContent = styled(Content)`
   background-color: ${colors.background.default};
@@ -47,7 +47,10 @@ const NotificationPopover = () => {
       <Portal>
         <StyledContent align="end">
           <StyledArrow />
-          <NotificationList notifications={notifications} inPopover />
+          <NotificationList
+            notifications={notifications}
+            close={() => setOpen(false)}
+          />
           <ShowAllLink
             to={toAllNotifications()}
             onClick={() => setOpen(false)}

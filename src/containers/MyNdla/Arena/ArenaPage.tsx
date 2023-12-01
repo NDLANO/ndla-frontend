@@ -79,7 +79,7 @@ const ArenaPage = () => {
           {arenaCategories?.map((category) => (
             <ArenaCardWrapper key={`topic-${category.id}`}>
               <ArenaCard
-                id={category.id.toString()}
+                id={category.id}
                 title={category.name}
                 subText={category.description}
                 count={category.postCount}
