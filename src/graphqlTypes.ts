@@ -2798,6 +2798,7 @@ export type GQLArenaUserQueryFragmentFragment = {
   slug: string;
   groupTitleArray?: Array<string>;
   location?: string;
+  username: string;
 };
 
 export type GQLArenaCategoriesFragmentFragment = {

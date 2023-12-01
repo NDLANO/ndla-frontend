@@ -28,6 +28,7 @@ const arenaUserFragment = gql`
     slug
     groupTitleArray
     location
+    username
   }
 `;
 

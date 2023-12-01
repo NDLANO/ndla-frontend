@@ -78,10 +78,9 @@ const ArenaUserPage = () => {
       <MyContactAreaWrapper>
         <MyContactArea
           user={{
-            personalData: user,
-            arenaPage: true,
-            arenaUserName: arenaUser?.displayName,
-            arenaUserWorkplace: arenaUser?.location,
+            username: arenaUser?.displayName,
+            displayName: arenaUser?.displayName,
+            primaryOrg: arenaUser?.location,
           }}
         />
       </MyContactAreaWrapper>
