@@ -2422,6 +2422,7 @@ export type GQLFilmFrontpage_FilmFrontpageFragment = {
       type: string;
     };
   }>;
+  article?: { __typename?: 'Article' } & GQLArticle_ArticleFragment;
 };
 
 export type GQLMovieCategory_MovieThemeFragment = {

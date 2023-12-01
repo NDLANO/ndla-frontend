@@ -11,7 +11,14 @@ describe('Film page', () => {
     cy.fixCypressSpec('/e2e/integration/film_page.spec.ts');
     cy.gqlIntercept({
       alias: 'filmPage',
-      operations: ['myNdlaData', 'filmFrontPage', 'alerts', 'mastHead', 'mastheadFrontpage', 'mastheadProgramme'],
+      operations: [
+        'myNdlaData',
+        'filmFrontPage',
+        'alerts',
+        'mastHead',
+        'mastheadFrontpage',
+        'mastheadProgramme',
+      ],
     });
   });
 
@@ -23,7 +30,7 @@ describe('Film page', () => {
       .parent()
       .within(() => {
         cy.get('nav > ul > li').should(($list) => {
-          expect($list).to.have.length(8);
+          expect($list).to.have.length(7);
         });
       });
     cy.contains('h2', 'Identitet')
