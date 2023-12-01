@@ -181,6 +181,7 @@ const PostCard = ({
   );
 
   const menu = useMemo(() => {
+    // Regex replaces @ with -. Same method as in backend
     const isCorrectUser =
       user?.username.replace(
         /[^'"\s\-.*0-9\u00BF-\u1FFF\u2C00-\uD7FF\w]+/,
