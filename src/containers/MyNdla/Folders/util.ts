@@ -10,7 +10,6 @@ import { DragEndEvent, Announcements } from '@dnd-kit/core';
 import { arrayMove } from '@dnd-kit/sortable';
 import { TFunction } from 'i18next';
 import config from '../../../config';
-import { GQLMyNdlaPersonalDataFragmentFragment } from '../../../graphqlTypes';
 
 export const makeDndSortFunction = <PID, RES, T extends { id: string }>(
   parentId: PID,
@@ -102,6 +101,9 @@ export const previewLink = (id: string) =>
 export const copyFolderSharingLink = (id: string) =>
   window.navigator.clipboard.writeText(previewLink(id));
 
-export const isStudent = (
-  user: GQLMyNdlaPersonalDataFragmentFragment | undefined,
-) => user?.role === 'student';
+export interface withRole {
+  role: string;
+}
+
+export const isStudent = (user: withRole | undefined) =>
+  user?.role === 'student';

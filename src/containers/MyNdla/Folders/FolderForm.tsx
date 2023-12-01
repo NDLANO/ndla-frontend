@@ -6,9 +6,16 @@
  *
  */
 
+import { TFunction } from 'i18next';
 import styled from '@emotion/styled';
 import { ButtonV2, LoadingButton } from '@ndla/button';
-import { InputV2, TextAreaV2 } from '@ndla/forms';
+import {
+  FieldErrorMessage,
+  FormControl,
+  InputV3,
+  Label,
+  TextAreaV3,
+} from '@ndla/forms';
 import { useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -41,15 +48,25 @@ const StyledParagraph = styled.p`
   margin: 0;
 `;
 
+const FieldInfoWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row-reverse;
+`;
+
 export interface FolderFormValues {
   name: string;
   description?: string;
 }
 
-const toFormValues = (folder: GQLFolder | undefined): FolderFormValues => {
+const toFormValues = (
+  folder: GQLFolder | undefined,
+  t: TFunction,
+): FolderFormValues => {
   return {
     name: folder?.name ?? '',
-    description: folder?.description,
+    description:
+      folder?.description ?? t('myNdla.sharedFolder.description.all'),
   };
 };
 
@@ -68,24 +85,12 @@ const FolderForm = ({
     control,
     trigger,
     handleSubmit,
-    getValues,
-    setValue,
     formState: { isValid, isDirty, errors },
   } = useForm({
-    defaultValues: toFormValues(folder),
+    defaultValues: toFormValues(folder, t),
     reValidateMode: 'onChange',
     mode: 'all',
   });
-
-  useEffect(() => {
-    if (!getValues().description) {
-      setValue('description', t('myNdla.sharedFolder.description.all'), {
-        shouldDirty: true,
-        shouldTouch: true,
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [t]);
 
   // Validate on mount.
   useEffect(() => {
@@ -120,19 +125,17 @@ const FolderForm = ({
           },
         }}
         render={({ field }) => (
-          <div>
-            <InputV2
-              label={t('validation.fields.name')}
-              error={errors.name?.message}
-              id="name"
-              required
-              {...field}
-            />
-            <FieldLength
-              value={field.value?.length ?? 0}
-              maxLength={nameMaxLength}
-            />
-          </div>
+          <FormControl id="name" isRequired isInvalid={!!errors.name?.message}>
+            <Label>{t('validation.fields.name')}</Label>
+            <InputV3 {...field} />
+            <FieldInfoWrapper>
+              <FieldLength
+                value={field.value?.length ?? 0}
+                maxLength={nameMaxLength}
+              />
+              <FieldErrorMessage>{errors.name?.message}</FieldErrorMessage>
+            </FieldInfoWrapper>
+          </FormControl>
         )}
       />
       <Controller
@@ -149,18 +152,22 @@ const FolderForm = ({
           },
         }}
         render={({ field }) => (
-          <div>
-            <TextAreaV2
-              label={t('validation.fields.description')}
-              error={errors.description?.message}
-              id="description"
-              {...field}
-            />
-            <FieldLength
-              value={field.value?.length ?? 0}
-              maxLength={descriptionMaxLength}
-            />
-          </div>
+          <FormControl
+            id="description"
+            isInvalid={!!errors.description?.message}
+          >
+            <Label>{t('validation.fields.description')}</Label>
+            <TextAreaV3 {...field} />
+            <FieldInfoWrapper>
+              <FieldLength
+                value={field.value?.length ?? 0}
+                maxLength={descriptionMaxLength}
+              />
+              <FieldErrorMessage>
+                {errors.description?.message}
+              </FieldErrorMessage>
+            </FieldInfoWrapper>
+          </FormControl>
         )}
       />
       <StyledParagraph>{t('myNdla.folder.sharedWarning')}</StyledParagraph>

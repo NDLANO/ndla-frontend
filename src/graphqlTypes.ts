@@ -2870,6 +2870,15 @@ export type GQLNewArenaTopicMutation = {
   newArenaTopic: { __typename?: 'ArenaTopic' } & GQLArenaTopicFragmentFragment;
 };
 
+export type GQLMarkNotificationAsReadMutationVariables = Exact<{
+  topicIds: Array<Scalars['Int']['input']> | Scalars['Int']['input'];
+}>;
+
+export type GQLMarkNotificationAsReadMutation = {
+  __typename?: 'Mutation';
+  markNotificationAsRead: Array<number>;
+};
+
 export type GQLSubscribeToTopicMutationVariables = Exact<{
   topicId: Scalars['Int']['input'];
 }>;
@@ -2895,6 +2904,8 @@ export type GQLArenaUserQueryFragmentFragment = {
   profilePicture?: string;
   slug: string;
   groupTitleArray?: Array<string>;
+  location?: string;
+  username: string;
 };
 
 export type GQLArenaCategoriesFragmentFragment = {
@@ -2995,6 +3006,17 @@ export type GQLArenaTopicByIdQuery = {
   } & GQLArenaTopicFragmentFragment;
 };
 
+export type GQLArenaTopicsByUserQueryVariables = Exact<{
+  userSlug: Scalars['String']['input'];
+}>;
+
+export type GQLArenaTopicsByUserQuery = {
+  __typename?: 'Query';
+  arenaTopicsByUser: Array<
+    { __typename?: 'ArenaTopic' } & GQLArenaTopicFragmentFragment
+  >;
+};
+
 export type GQLArenaRecentTopicsQueryVariables = Exact<{
   [key: string]: never;
 }>;
@@ -3003,6 +3025,39 @@ export type GQLArenaRecentTopicsQuery = {
   __typename?: 'Query';
   arenaRecentTopics: Array<
     { __typename?: 'ArenaTopic' } & GQLArenaTopicFragmentFragment
+  >;
+};
+
+export type GQLArenaNotificationFragmentFragment = {
+  __typename: 'ArenaNotification';
+  bodyShort: string;
+  datetimeISO: string;
+  from: number;
+  importance: number;
+  path: string;
+  read: boolean;
+  topicId: number;
+  postId: number;
+  notificationId: string;
+  topicTitle: string;
+  subject: string;
+  type: string;
+  user: {
+    __typename?: 'ArenaUser';
+    displayName: string;
+    id: number;
+    slug: string;
+  };
+};
+
+export type GQLArenaNotificationsQueryVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type GQLArenaNotificationsQuery = {
+  __typename?: 'Query';
+  arenaNotifications: Array<
+    { __typename?: 'ArenaNotification' } & GQLArenaNotificationFragmentFragment
   >;
 };
 

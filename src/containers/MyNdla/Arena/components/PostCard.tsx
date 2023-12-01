@@ -34,6 +34,7 @@ import FlagPostModalContent from './FlagPostModalContent';
 import { arenaCategoryQuery, arenaTopicById } from '../../arenaQueries';
 import { SKIP_TO_CONTENT_ID } from '../../../../constants';
 import { AuthContext } from '../../../../components/AuthenticationContext';
+import { capitalizeFirstLetter } from '../utils';
 
 interface Props {
   id: number;
@@ -96,9 +97,6 @@ const Locales = {
   en: enGB,
   se: nb,
 };
-
-const capitalizeFirstLetter = (str: string) =>
-  str.charAt(0).toUpperCase() + str.slice(1);
 
 const PostCard = ({
   id,

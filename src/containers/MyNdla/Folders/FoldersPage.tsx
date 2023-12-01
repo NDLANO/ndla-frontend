@@ -82,8 +82,8 @@ export const buttonCss = css`
 `;
 
 export const iconCss = css`
-  width: ${spacing.normal};
-  height: ${spacing.normal};
+  width: ${spacing.snormal};
+  height: ${spacing.snormal};
 `;
 
 export const ListItem = styled.li`

@@ -9,6 +9,7 @@
 import { SnackbarProvider } from '@ndla/ui';
 import { Component, ErrorInfo, ReactNode } from 'react';
 import { Route, Routes } from 'react-router-dom';
+import ArenaUserPage from './containers/MyNdla/ArenaUserPage';
 import VideoPage from './containers/ResourceEmbed/VideoPage';
 import ImagePage from './containers/ResourceEmbed/ImagePage';
 import ConceptPage from './containers/ResourceEmbed/ConceptPage';
@@ -42,6 +43,7 @@ import handleError from './util/handleError';
 import SharedFolderPage from './containers/SharedFolderPage/SharedFolderPage';
 import FavoriteSubjectsPage from './containers/MyNdla/FavoriteSubjects/FavoriteSubjectsPage';
 import AboutPage from './containers/AboutPage/AboutPage';
+import ArenaNotificationPage from './containers/MyNdla/Arena/ArenaNotificationsPage';
 import H5pPage from './containers/ResourceEmbed/H5pPage';
 import PostsPage from './containers/MyNdla/Arena/PostsPage';
 
@@ -160,6 +162,11 @@ const AppRoutes = ({ base }: AppProps) => {
                       element={<TopicPage />}
                     />
                     <Route path="topic/:topicId" element={<PostsPage />} />
+                    <Route
+                      path="notifications"
+                      element={<ArenaNotificationPage />}
+                    />
+                    <Route path="user/:username" element={<ArenaUserPage />} />
                   </Route>
                   <Route path="tags">
                     <Route index element={<TagsPage />} />

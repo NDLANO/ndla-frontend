@@ -72,10 +72,13 @@ const UserProfileTag = ({
   affiliation,
 }: UserProfileTagProps) => {
   const { t } = useTranslation();
-  const { arenaUser } = useArenaUser(username ?? '');
+  const { arenaUser } = useArenaUser({
+    variables: { username: username ?? '' },
+    skip: !username,
+  });
 
   return (
-    <UserProfileTagContainer to={`/myndla/arena/user/${username}`}>
+    <UserProfileTagContainer to={`/minndla/arena/user/${username}`}>
       <Avatar
         displayName={arenaUser?.displayName}
         profilePicture={arenaUser?.profilePicture}

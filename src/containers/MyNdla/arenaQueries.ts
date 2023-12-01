@@ -8,10 +8,12 @@
 
 import { QueryHookOptions, gql } from '@apollo/client';
 import {
+  GQLArenaNotificationsQuery,
   GQLArenaUserQuery,
   GQLArenaPageQuery,
   GQLArenaCategoryQuery,
   GQLArenaTopicByIdQuery,
+  GQLArenaTopicsByUserQuery,
   GQLArenaTopicByIdQueryVariables,
   GQLArenaCategoryQueryVariables,
   GQLArenaUserQueryVariables,
@@ -26,6 +28,8 @@ const arenaUserFragment = gql`
     profilePicture
     slug
     groupTitleArray
+    location
+    username
   }
 `;
 
@@ -132,15 +136,33 @@ export const arenaTopicById = gql`
   ${arenaPostFragment}
 `;
 
-export const useArenaUser = (username: string) => {
+export const arenaTopicsByUserQuery = gql`
+  query arenaTopicsByUser($userSlug: String!) {
+    arenaTopicsByUser(userSlug: $userSlug) {
+      ...ArenaTopicFragment
+    }
+  }
+  ${arenaTopicFragment}
+`;
+
+export const useArenaUser = (
+  options: QueryHookOptions<GQLArenaUserQuery, GQLArenaUserQueryVariables>,
+) => {
   const { data } = useGraphQuery<GQLArenaUserQuery, GQLArenaUserQueryVariables>(
     arenaUserQuery,
-    {
-      variables: { username },
-    },
+    options,
   );
   return { arenaUser: data?.arenaUser };
 };
+
+const arenaRecentTopics = gql`
+  query arenaRecentTopics {
+    arenaRecentTopics {
+      ...ArenaTopicFragment
+    }
+  }
+  ${arenaTopicFragment}
+`;
 
 export const useArenaCategories = () => {
   const { data, loading, error } =
@@ -168,14 +190,64 @@ export const useArenaTopic = (
   return { arenaTopic: data?.arenaTopic, loading, error };
 };
 
-const arenaRecentTopics = gql`
-  query arenaRecentTopics {
-    arenaRecentTopics {
-      ...ArenaTopicFragment
+const arenaNotificationFragment = gql`
+  fragment ArenaNotificationFragment on ArenaNotification {
+    __typename
+    bodyShort
+    datetimeISO
+    from
+    importance
+    path
+    read
+    topicId
+    postId
+    notificationId
+    topicTitle
+    subject
+    type
+    user {
+      displayName
+      id
+      slug
     }
   }
-  ${arenaTopicFragment}
 `;
+
+export const arenaNotificationQuery = gql`
+  query arenaNotifications {
+    arenaNotifications {
+      ...ArenaNotificationFragment
+    }
+  }
+  ${arenaNotificationFragment}
+`;
+
+export const useArenaNotifications = (
+  options?: QueryHookOptions<GQLArenaNotificationsQuery>,
+) => {
+  const { data, refetch } = useGraphQuery<GQLArenaNotificationsQuery>(
+    arenaNotificationQuery,
+    {
+      ...options,
+      pollInterval: 60000,
+      ssr: false,
+    },
+  );
+  return {
+    notifications: data?.arenaNotifications,
+    refetch,
+  };
+};
+
+export const useArenaTopicsByUser = (
+  options: QueryHookOptions<GQLArenaTopicsByUserQuery>,
+) => {
+  const { data, loading, error } = useGraphQuery<GQLArenaTopicsByUserQuery>(
+    arenaTopicsByUserQuery,
+    options,
+  );
+  return { arenaTopicsByUser: data?.arenaTopicsByUser, loading, error };
+};
 
 export const useRecentTopics = (
   options?: QueryHookOptions<GQLArenaRecentTopicsQuery>,

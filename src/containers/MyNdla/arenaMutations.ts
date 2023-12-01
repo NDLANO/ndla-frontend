@@ -17,6 +17,8 @@ import {
   GQLDeletePostMutationVariables,
   GQLDeleteTopicMutation,
   GQLDeleteTopicMutationVariables,
+  GQLMarkNotificationAsReadMutation,
+  GQLMarkNotificationAsReadMutationVariables,
   GQLMutationSubscribeToTopicArgs,
   GQLMutationUnsubscribeFromTopicArgs,
   GQLNewArenaTopicMutation,
@@ -30,7 +32,11 @@ import {
   GQLUpdatePostMutation,
   GQLUpdatePostMutationVariables,
 } from '../../graphqlTypes';
-import { arenaPostFragment, arenaTopicFragment } from './arenaQueries';
+import {
+  arenaNotificationQuery,
+  arenaPostFragment,
+  arenaTopicFragment,
+} from './arenaQueries';
 
 const newFlagMutation = gql`
   mutation newFlag($id: Int!, $reason: String!, $type: String!) {
@@ -152,6 +158,22 @@ export const useCreateArenaTopic = (
     GQLNewArenaTopicMutationVariables
   >(newArenaTopicMutation, options);
   return { createArenaTopic };
+};
+
+const arenaMarkNotificationAsReadMutation = gql`
+  mutation MarkNotificationAsRead($topicIds: [Int!]!) {
+    markNotificationAsRead(topicIds: $topicIds)
+  }
+`;
+
+export const useMarkNotificationsAsRead = () => {
+  const [markNotificationsAsRead] = useMutation<
+    GQLMarkNotificationAsReadMutation,
+    GQLMarkNotificationAsReadMutationVariables
+  >(arenaMarkNotificationAsReadMutation, {
+    refetchQueries: [{ query: arenaNotificationQuery }],
+  });
+  return { markNotificationsAsRead };
 };
 
 const subscribeToTopicMutation = gql`
