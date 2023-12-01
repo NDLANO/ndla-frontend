@@ -143,7 +143,7 @@ const AboutNdlaFilm = ({ aboutNDLAVideo, article }: AboutNdlaFilmProps) => {
                   <ModalCloseButton />
                 </ModalHeader>
                 <StyledModalBody>
-                  <Article article={iArticle} label={''} />
+                  <Article article={iArticle} label="" />
                 </StyledModalBody>
               </ModalContent>
             </Modal>
