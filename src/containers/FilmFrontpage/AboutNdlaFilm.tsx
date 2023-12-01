@@ -6,7 +6,7 @@
  *
  */
 
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { ButtonV2 as Button } from '@ndla/button';
@@ -105,18 +105,15 @@ interface AboutNdlaFilmProps {
 const AboutNdlaFilm = ({ aboutNDLAVideo, article }: AboutNdlaFilmProps) => {
   const { t, i18n } = useTranslation();
   const titleId = 'about-ndla-film-title';
-  const [infoArticle, setInfoArticle] = useState<
-    undefined | TransformedBaseArticle<GQLArticle_ArticleFragment>
-  >(undefined);
 
-  useEffect(() => {
+  const iArticle = useMemo(() => {
     if (article) {
-      const transformedArticle = transformArticle(
+      return transformArticle(
         article,
         i18n.language,
       ) as TransformedBaseArticle<GQLArticle_ArticleFragment>;
-      setInfoArticle(transformedArticle);
     }
+    return undefined;
   }, [article, i18n.language]);
 
   return (
@@ -130,7 +127,7 @@ const AboutNdlaFilm = ({ aboutNDLAVideo, article }: AboutNdlaFilmProps) => {
             {aboutNDLAVideo.title}
           </Heading>
           <Text element="p">{aboutNDLAVideo.description}</Text>
-          {infoArticle && (
+          {iArticle && (
             <Modal>
               <ModalTrigger>
                 <Button variant="link">{t('ndlaFilm.about.more')}</Button>
@@ -140,7 +137,7 @@ const AboutNdlaFilm = ({ aboutNDLAVideo, article }: AboutNdlaFilmProps) => {
                   <ModalCloseButton />
                 </ModalHeader>
                 <ModalBody>
-                  <Article article={infoArticle} label={''} />
+                  <Article article={iArticle} label={''} />
                 </ModalBody>
               </ModalContent>
             </Modal>
