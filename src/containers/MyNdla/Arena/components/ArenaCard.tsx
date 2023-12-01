@@ -40,7 +40,6 @@ const StyledCategoryCard = css`
 
 const StyledSafelink = styled(SafeLink)`
   color: ${colors.text.primary};
-
   display: flex;
   flex-direction: row;
   gap: ${spacing.normal};
@@ -49,7 +48,6 @@ const StyledSafelink = styled(SafeLink)`
   border: 1px solid ${colors.brand.light};
   border-radius: ${misc.borderRadius};
   box-shadow: none;
-
   &:hover,
   &:focus-visible {
     background-color: ${colors.brand.lighter};
