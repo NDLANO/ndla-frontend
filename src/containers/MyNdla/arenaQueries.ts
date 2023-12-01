@@ -68,6 +68,7 @@ const arenaTopicFragment = gql`
     slug
     timestamp
     title
+    isFollowing
   }
 `;
 
@@ -167,23 +168,23 @@ export const useArenaCategories = () => {
   return { arenaCategories: data?.arenaCategories, loading, error };
 };
 
-export const useArenaCategory = (categoryId: number, page: number) => {
-  const { data, loading, error } = useGraphQuery<
+export const useArenaCategory = (
+  options: QueryHookOptions<
     GQLArenaCategoryQuery,
     GQLArenaCategoryQueryVariables
-  >(arenaCategoryQuery, {
-    variables: { categoryId, page },
-  });
+  >,
+) => {
+  const { data, loading, error } = useGraphQuery(arenaCategoryQuery, options);
   return { arenaCategory: data?.arenaCategory, loading, error };
 };
 
-export const useArenaTopic = (topicId: number, page: number) => {
-  const { data, loading, error } = useGraphQuery<
+export const useArenaTopic = (
+  options: QueryHookOptions<
     GQLArenaTopicByIdQuery,
     GQLArenaTopicByIdQueryVariables
-  >(arenaTopicById, {
-    variables: { topicId, page },
-  });
+  >,
+) => {
+  const { data, loading, error } = useGraphQuery(arenaTopicById, options);
   return { arenaTopic: data?.arenaTopic, loading, error };
 };
 

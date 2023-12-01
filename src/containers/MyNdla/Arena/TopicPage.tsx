@@ -65,7 +65,10 @@ const TopicPage = () => {
   const { t } = useTranslation();
   const { categoryId } = useParams();
   const { trackPageView } = useTracker();
-  const { loading, arenaCategory } = useArenaCategory(Number(categoryId), 1);
+  const { loading, arenaCategory } = useArenaCategory({
+    variables: { categoryId: Number(categoryId), page: 1 },
+    skip: !Number(categoryId),
+  });
   const { user, authContextLoaded } = useContext(AuthContext);
 
   useEffect(() => {

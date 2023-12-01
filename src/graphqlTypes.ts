@@ -78,6 +78,7 @@ export type GQLArenaNotification = {
 export type GQLArenaPost = {
   __typename?: 'ArenaPost';
   content: Scalars['String']['output'];
+  deleted: Scalars['Boolean']['output'];
   flagId?: Maybe<Scalars['Int']['output']>;
   id: Scalars['Int']['output'];
   isMainPost: Scalars['Boolean']['output'];
@@ -90,7 +91,9 @@ export type GQLArenaTopic = {
   __typename?: 'ArenaTopic';
   breadcrumbs: Array<GQLArenaBreadcrumb>;
   categoryId: Scalars['Int']['output'];
+  deleted: Scalars['Boolean']['output'];
   id: Scalars['Int']['output'];
+  isFollowing?: Maybe<Scalars['Boolean']['output']>;
   locked: Scalars['Boolean']['output'];
   postCount: Scalars['Int']['output'];
   posts: Array<GQLArenaPost>;
@@ -911,17 +914,22 @@ export type GQLMutation = {
   deleteFolder: Scalars['String']['output'];
   deleteFolderResource: Scalars['String']['output'];
   deletePersonalData: Scalars['Boolean']['output'];
+  deletePost: Scalars['Int']['output'];
+  deleteTopic: Scalars['Int']['output'];
   markNotificationAsRead: Array<Scalars['Int']['output']>;
   newArenaTopic: GQLArenaTopic;
   newFlag: Scalars['Int']['output'];
   replyToTopic: GQLArenaPost;
   sortFolders: GQLSortResult;
   sortResources: GQLSortResult;
+  subscribeToTopic: Scalars['Int']['output'];
   transformArticleContent: Scalars['String']['output'];
+  unsubscribeFromTopic: Scalars['Int']['output'];
   updateFolder: GQLFolder;
   updateFolderResource: GQLFolderResource;
   updateFolderStatus: Array<Scalars['String']['output']>;
   updatePersonalData: GQLMyNdlaPersonalData;
+  updatePost: GQLArenaPost;
 };
 
 export type GQLMutationAddFolderArgs = {
@@ -951,6 +959,14 @@ export type GQLMutationDeleteFolderArgs = {
 export type GQLMutationDeleteFolderResourceArgs = {
   folderId: Scalars['String']['input'];
   resourceId: Scalars['String']['input'];
+};
+
+export type GQLMutationDeletePostArgs = {
+  postId: Scalars['Int']['input'];
+};
+
+export type GQLMutationDeleteTopicArgs = {
+  topicId: Scalars['Int']['input'];
 };
 
 export type GQLMutationMarkNotificationAsReadArgs = {
@@ -984,6 +1000,10 @@ export type GQLMutationSortResourcesArgs = {
   sortedIds: Array<Scalars['String']['input']>;
 };
 
+export type GQLMutationSubscribeToTopicArgs = {
+  topicId: Scalars['Int']['input'];
+};
+
 export type GQLMutationTransformArticleContentArgs = {
   absoluteUrl?: InputMaybe<Scalars['Boolean']['input']>;
   content: Scalars['String']['input'];
@@ -991,6 +1011,10 @@ export type GQLMutationTransformArticleContentArgs = {
   previewH5p?: InputMaybe<Scalars['Boolean']['input']>;
   subject?: InputMaybe<Scalars['String']['input']>;
   visualElement?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type GQLMutationUnsubscribeFromTopicArgs = {
+  topicId: Scalars['Int']['input'];
 };
 
 export type GQLMutationUpdateFolderArgs = {
@@ -1013,6 +1037,12 @@ export type GQLMutationUpdateFolderStatusArgs = {
 export type GQLMutationUpdatePersonalDataArgs = {
   favoriteSubjects?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   shareName?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type GQLMutationUpdatePostArgs = {
+  content: Scalars['String']['input'];
+  postId: Scalars['Int']['input'];
+  title?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type GQLMyNdlaGroup = {
@@ -2790,6 +2820,24 @@ export type GQLNewFlagMutationVariables = Exact<{
 
 export type GQLNewFlagMutation = { __typename?: 'Mutation'; newFlag: number };
 
+export type GQLSubscribeToTopicMutationVariables = Exact<{
+  topicId: Scalars['Int']['input'];
+}>;
+
+export type GQLSubscribeToTopicMutation = {
+  __typename?: 'Mutation';
+  subscribeToTopic: number;
+};
+
+export type GQLUnsubscribeFromTopicMutationVariables = Exact<{
+  topicId: Scalars['Int']['input'];
+}>;
+
+export type GQLUnsubscribeFromTopicMutation = {
+  __typename?: 'Mutation';
+  unsubscribeFromTopic: number;
+};
+
 export type GQLArenaUserQueryFragmentFragment = {
   __typename?: 'ArenaUser';
   displayName: string;
@@ -2832,6 +2880,7 @@ export type GQLArenaTopicFragmentFragment = {
   slug: string;
   timestamp: string;
   title: string;
+  isFollowing?: boolean;
 };
 
 export type GQLArenaPostFragmentFragment = {
