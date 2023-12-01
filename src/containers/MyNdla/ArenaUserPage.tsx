@@ -7,12 +7,12 @@
  */
 
 import { useContext } from 'react';
-import { Heading } from '@ndla/typography';
+import { useTranslation } from 'react-i18next';
+import { Navigate, useParams } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
-import { Navigate, useParams } from 'react-router-dom';
 import { Spinner } from '@ndla/icons';
-import { useTranslation } from 'react-i18next';
+import { Heading } from '@ndla/typography';
 import { AuthContext } from '../../components/AuthenticationContext';
 import MyContactArea from './components/MyContactArea';
 import MyNdlaPageWrapper from './components/MyNdlaPageWrapper';
@@ -20,6 +20,7 @@ import MyNdlaBreadcrumb from './components/MyNdlaBreadcrumb';
 import { useArenaTopicsByUser, useArenaUser } from './arenaQueries';
 import { GQLArenaTopicFragmentFragment } from '../../graphqlTypes';
 import TopicCard from './Arena/components/TopicCard';
+import { toMyNdla } from '../../routeHelpers';
 
 const BreadcrumbWrapper = styled.div`
   padding-top: ${spacing.normal};
@@ -55,7 +56,7 @@ const ArenaUserPage = () => {
   }
 
   if (!user?.arenaEnabled && user?.arenaEnabled !== undefined) {
-    return <Navigate to="/minndla" />;
+    return <Navigate to={toMyNdla()} />;
   }
 
   return (

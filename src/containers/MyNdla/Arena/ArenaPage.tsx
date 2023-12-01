@@ -20,6 +20,7 @@ import ArenaCard from './components/ArenaCard';
 import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import { SKIP_TO_CONTENT_ID } from '../../../constants';
+import { toMyNdla } from '../../../routeHelpers';
 
 const StyledCardContainer = styled.ul`
   display: flex;
@@ -52,7 +53,7 @@ const ArenaPage = () => {
   }
 
   if (!user?.arenaEnabled && user?.arenaEnabled !== undefined) {
-    return <Navigate to="/minndla" />;
+    return <Navigate to={toMyNdla()} />;
   }
 
   return (

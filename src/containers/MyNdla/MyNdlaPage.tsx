@@ -12,12 +12,12 @@ import keyBy from 'lodash/keyBy';
 import styled from '@emotion/styled';
 import { colors, fonts, spacing } from '@ndla/core';
 import { ForwardArrow, HeartOutline, MenuBook } from '@ndla/icons/action';
-import SafeLink from '@ndla/safelink';
-import { FolderOutlined } from '@ndla/icons/contentType';
 import { Share } from '@ndla/icons/common';
-import { CampaignBlock, ListResource } from '@ndla/ui';
+import { FolderOutlined } from '@ndla/icons/contentType';
+import SafeLink from '@ndla/safelink';
 import { HelmetWithTracker, useTracker } from '@ndla/tracker';
 import { Heading, Text } from '@ndla/typography';
+import { CampaignBlock, ListResource } from '@ndla/ui';
 import InfoPart, { InfoPartIcon } from './InfoPart';
 import { AuthContext } from '../../components/AuthenticationContext';
 import {
@@ -32,6 +32,7 @@ import MyNdlaPageWrapper from './components/MyNdlaPageWrapper';
 import { useAiOrgs } from './configQueries';
 import { useRecentTopics } from './arenaQueries';
 import TopicCard from './Arena/components/TopicCard';
+import { toMyNdlaTags } from '../../routeHelpers';
 
 const ShareIcon = InfoPartIcon.withComponent(Share);
 const HeartOutlineIcon = InfoPartIcon.withComponent(HeartOutline);
@@ -200,7 +201,7 @@ const MyNdlaPage = () => {
                   <ListItem key={res.id}>
                     <ListResource
                       id={res.id}
-                      tagLinkPrefix="/minndla/tags"
+                      tagLinkPrefix={toMyNdlaTags()}
                       isLoading={loading}
                       key={res.id}
                       link={res.path}

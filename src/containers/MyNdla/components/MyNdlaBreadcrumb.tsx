@@ -9,6 +9,13 @@
 import { Breadcrumb } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
 import { GQLBreadcrumb } from '../../../graphqlTypes';
+import {
+  toMyNdla,
+  toMyNdlaArena,
+  toMyNdlaFolders,
+  toMyNdlaSubjects,
+  toMyNdlaTags,
+} from '../../../routeHelpers';
 
 interface Props {
   breadcrumbs: GQLBreadcrumb[];
@@ -19,19 +26,19 @@ type PageType = 'folders' | 'tags' | 'subjects' | 'arena';
 
 const types = {
   folders: {
-    to: '/minndla/folders',
+    to: toMyNdlaFolders(),
     name: 'myNdla.myFolders',
   },
   tags: {
-    to: '/minndla/tags',
+    to: toMyNdlaTags(),
     name: 'myNdla.myTags',
   },
   subjects: {
-    to: '/minndla/subjects',
+    to: toMyNdlaSubjects(),
     name: 'myNdla.favoriteSubjects',
   },
   arena: {
-    to: '/minndla/arena',
+    to: toMyNdlaArena(),
     name: 'myNdla.arena.title',
   },
 };
@@ -43,7 +50,7 @@ const MyNdlaBreadcrumb = ({ breadcrumbs, page }: Props) => {
   const crumbs = [{ to: baseCrumb.to, name: t(baseCrumb.name) }].concat(
     breadcrumbs.map((bc) => ({
       name: bc.name,
-      to: `/minndla/${page}/${bc.id}`,
+      to: `${toMyNdla()}/${page}/${bc.id}`,
     })),
   );
 

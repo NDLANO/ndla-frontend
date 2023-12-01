@@ -27,6 +27,7 @@ import SettingsMenu, { MenuItemProps } from '../components/SettingsMenu';
 import { AddResourceToFolderModalContent } from '../../../components/MyNdla/AddResourceToFolderModal';
 import DeleteModalContent from '../components/DeleteModalContent';
 import { useDeleteFolderResourceMutation } from '../folderMutations';
+import { toMyNdlaTags } from '../../../routeHelpers';
 
 interface Props {
   resource: GQLFolderResource;
@@ -188,7 +189,7 @@ const DraggableResource = ({
       <DragWrapper>
         <Resource
           id={resource.id}
-          tagLinkPrefix="/minndla/tags"
+          tagLinkPrefix={toMyNdlaTags()}
           isLoading={loading}
           key={resource.id}
           resourceImage={{

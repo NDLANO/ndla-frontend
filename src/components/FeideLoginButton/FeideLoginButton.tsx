@@ -24,7 +24,7 @@ import {
 } from '@ndla/modal';
 import { UserInfo } from '../../containers/MyNdla/components/UserInfo';
 import { AuthContext } from '../AuthenticationContext';
-import { useIsNdlaFilm } from '../../routeHelpers';
+import { toMyNdla, useIsNdlaFilm } from '../../routeHelpers';
 import { constructNewPath, toHref } from '../../util/urlHelper';
 import { useBaseName } from '../BaseNameContext';
 import LoginModalContent from '../MyNdla/LoginModalContent';
@@ -86,7 +86,7 @@ const FeideLoginButton = ({ footer, children }: Props) => {
         colorTheme="light"
         shape="pill"
         inverted={ndlaFilm}
-        to="/minndla"
+        to={toMyNdla()}
         aria-label={t('myNdla.myNDLA')}
       >
         {children}

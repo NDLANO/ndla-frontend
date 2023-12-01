@@ -29,6 +29,7 @@ import { GQLFolder, GQLFolderResource } from '../../graphqlTypes';
 import { getAllTags, getResourceForPath } from '../../util/folderHelpers';
 import { AuthContext } from '../AuthenticationContext';
 import FolderSelect from './FolderSelect';
+import { toMyNdlaFolder, toMyNdlaTags } from '../../routeHelpers';
 
 export interface ResourceAttributes {
   path: string;
@@ -83,7 +84,7 @@ const ResourceAddedSnack = ({ folder }: ResourceAddedSnackProps) => {
     <StyledResourceAddedSnack>
       <StyledResource>
         {t('myNdla.resource.addedToFolder')}
-        <StyledSafeLink to={`/minndla/folders/${folder.id}`}>
+        <StyledSafeLink to={toMyNdlaFolder(folder.id)}>
           "{folder.name}"
         </StyledSafeLink>
       </StyledResource>
@@ -197,7 +198,7 @@ const AddResourceToFolder = ({
     <AddResourceContainer>
       <ListResource
         id={resource.id.toString()}
-        tagLinkPrefix="/minndla/tags"
+        tagLinkPrefix={toMyNdlaTags()}
         isLoading={metaLoading}
         link={resource.path}
         title={meta?.title ?? ''}

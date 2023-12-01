@@ -6,11 +6,6 @@
  *
  */
 
-import { ButtonV2 } from '@ndla/button';
-import { Cross, Copy } from '@ndla/icons/action';
-import { Share, ShareArrow } from '@ndla/icons/common';
-import { useSnack } from '@ndla/ui';
-import { SafeLinkButton } from '@ndla/safelink';
 import {
   Dispatch,
   SetStateAction,
@@ -22,6 +17,11 @@ import {
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams, useOutletContext } from 'react-router-dom';
+import { ButtonV2 } from '@ndla/button';
+import { Cross, Copy } from '@ndla/icons/action';
+import { Share, ShareArrow } from '@ndla/icons/common';
+import { useSnack } from '@ndla/ui';
+import { SafeLinkButton } from '@ndla/safelink';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import { GQLFolder } from '../../../graphqlTypes';
 import {
@@ -35,6 +35,7 @@ import FolderEditModal from './FolderEditModal';
 import FolderShareModal from './FolderShareModal';
 import { buttonCss, iconCss } from './FoldersPage';
 import { isStudent, copyFolderSharingLink, previewLink } from './util';
+import { toMyNdlaFolder } from '../../../routeHelpers';
 
 interface FolderButtonProps {
   setFocusId: Dispatch<SetStateAction<string | undefined>>;
@@ -93,7 +94,7 @@ const FolderButtons = ({
 
     await deleteFolder({ variables: { id: selectedFolder.id } });
     if (selectedFolder.id === folderId) {
-      navigate(`/minndla/folders/${selectedFolder.parentId ?? ''}`, {
+      navigate(toMyNdlaFolder(selectedFolder?.parentId ?? ''), {
         replace: true,
       });
     }

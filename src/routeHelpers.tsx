@@ -231,3 +231,39 @@ export type TypedParams = Record<string, string | undefined>;
 export const useTypedParams = <TParams extends TypedParams>() => {
   return useParams() as TParams;
 };
+
+export function toMyNdla() {
+  return '/minndla';
+}
+
+export function toMyNdlaArena() {
+  return `${toMyNdla()}/arena`;
+}
+
+export function toMyNdlaArenaCategory(categoryId: String) {
+  return `${toMyNdlaArena()}/category/${categoryId}`;
+}
+
+export function toMyNdlaArenaTopic(topicId: String) {
+  return `${toMyNdlaArena()}/topic/${topicId}`;
+}
+
+export function toMyNdlaArenaUser(username: String) {
+  return `${toMyNdlaArena()}/user/${username}`;
+}
+
+export function toMyNdlaFolders() {
+  return `${toMyNdla()}/folders`;
+}
+
+export function toMyNdlaFolder(folderId: String) {
+  return `${toMyNdlaFolders()}/${folderId}`;
+}
+
+export function toMyNdlaSubjects() {
+  return `${toMyNdla()}/subjects`;
+}
+
+export function toMyNdlaTags() {
+  return `${toMyNdla()}/tags`;
+}

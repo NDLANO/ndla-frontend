@@ -6,12 +6,13 @@
  *
  */
 
+import { ReactNode } from 'react';
+import { useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { breakpoints, colors, fonts, mq, spacing } from '@ndla/core';
-import { ReactNode } from 'react';
 import SafeLink from '@ndla/safelink';
-import { useLocation } from 'react-router-dom';
 import { Text } from '@ndla/typography';
+import { toMyNdla } from '../../../routeHelpers';
 
 const StyledSafeLink = styled(SafeLink)`
   display: flex;
@@ -83,10 +84,10 @@ const NavigationLink = ({
 }: Props) => {
   const location = useLocation();
   const selected = id
-    ? location.pathname.startsWith(`/minndla/${id}`)
-    : location.pathname === '/minndla';
+    ? location.pathname.startsWith(`${toMyNdla()}/${id}`)
+    : location.pathname === toMyNdla();
   const selectedIcon = selected ? iconFilled ?? icon : icon;
-  const linkTo = to ?? `/minndla${id ? `/${id}` : ''}`;
+  const linkTo = to ?? `${toMyNdla()}${id ? `/${id}` : ''}`;
 
   return (
     <StyledSafeLink

@@ -6,9 +6,6 @@
  *
  */
 
-import { Cross, Pencil, Plus } from '@ndla/icons/action';
-import { DeleteForever } from '@ndla/icons/editor';
-import { Link, Share } from '@ndla/icons/common';
 import {
   Dispatch,
   SetStateAction,
@@ -18,8 +15,11 @@ import {
   useRef,
 } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSnack } from '@ndla/ui';
 import { useNavigate, useParams } from 'react-router-dom';
+import { Cross, Pencil, Plus } from '@ndla/icons/action';
+import { DeleteForever } from '@ndla/icons/editor';
+import { Link, Share } from '@ndla/icons/common';
+import { useSnack } from '@ndla/ui';
 import { GQLFolder } from '../../../graphqlTypes';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import { copyFolderSharingLink, isStudent } from './util';
@@ -35,6 +35,7 @@ import { FolderFormValues } from './FolderForm';
 import { CreateModalContent } from './FolderCreateModal';
 import { EditFolderModalContent } from './FolderEditModal';
 import DeleteModalContent from '../components/DeleteModalContent';
+import { toMyNdlaFolder } from '../../../routeHelpers';
 
 interface Props {
   selectedFolder: GQLFolder | null;
@@ -110,7 +111,7 @@ const FolderActions = ({
     await deleteFolder({ variables: { id: selectedFolder.id } });
 
     if (selectedFolder?.id === folderId) {
-      navigate(`/minndla/folders/${selectedFolder.parentId}`, {
+      navigate(toMyNdlaFolder(selectedFolder?.parentId ?? ''), {
         replace: true,
       });
     }

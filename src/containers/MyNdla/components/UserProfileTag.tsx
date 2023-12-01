@@ -14,6 +14,7 @@ import Avatar from './Avatar';
 import { useArenaUser } from '../arenaQueries';
 import config from '../../../config';
 import { GQLArenaUserQueryFragmentFragment } from '../../../graphqlTypes';
+import { toMyNdlaArenaUser } from '../../../routeHelpers';
 
 type UserProfileTagProps = {
   displayName: string;
@@ -78,7 +79,7 @@ const UserProfileTag = ({
   });
 
   return (
-    <UserProfileTagContainer to={`/minndla/arena/user/${username}`}>
+    <UserProfileTagContainer to={toMyNdlaArenaUser(username)}>
       <Avatar
         displayName={arenaUser?.displayName}
         profilePicture={arenaUser?.profilePicture}

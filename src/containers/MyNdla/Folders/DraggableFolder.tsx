@@ -7,16 +7,17 @@
  */
 
 import { Dispatch, SetStateAction, memo, useMemo } from 'react';
-import styled from '@emotion/styled';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { Folder } from '@ndla/ui';
+import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
+import { Folder } from '@ndla/ui';
 import { GQLFolder } from '../../../graphqlTypes';
 import { FolderTotalCount } from '../../../util/folderHelpers';
 import { ViewType } from './FoldersPage';
 import DragHandle from './DragHandle';
 import FolderActions from './FolderActions';
+import { toMyNdlaFolder } from '../../../routeHelpers';
 
 interface Props {
   folder: GQLFolder;
@@ -102,7 +103,7 @@ const DraggableFolder = ({
         <Folder
           id={folder.id}
           isShared={folder.status === 'shared'}
-          link={`/minndla/folders/${folder.id}`}
+          link={toMyNdlaFolder(folder.id)}
           title={folder.name}
           type={type}
           menu={menu}

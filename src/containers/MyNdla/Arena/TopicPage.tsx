@@ -24,6 +24,7 @@ import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import { SKIP_TO_CONTENT_ID } from '../../../constants';
+import { toMyNdla } from '../../../routeHelpers';
 
 const BreadcrumbWrapper = styled.div`
   padding-top: ${spacing.normal};
@@ -84,7 +85,7 @@ const TopicPage = () => {
   }
 
   if (!user?.arenaEnabled && user?.arenaEnabled !== undefined) {
-    return <Navigate to="/minndla" />;
+    return <Navigate to={toMyNdla()} />;
   }
 
   return (

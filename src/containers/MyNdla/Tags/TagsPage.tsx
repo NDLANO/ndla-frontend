@@ -13,10 +13,10 @@ import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { HelmetWithTracker, useTracker } from '@ndla/tracker';
 import { spacing } from '@ndla/core';
+import { FileDocumentOutline, HashTag, Link } from '@ndla/icons/common';
+import { FolderOutlined } from '@ndla/icons/contentType';
 import { SafeLinkButton } from '@ndla/safelink';
 import { BlockResource, ListResource, useSnack } from '@ndla/ui';
-import { FolderOutlined } from '@ndla/icons/contentType';
-import { FileDocumentOutline, HashTag, Link } from '@ndla/icons/common';
 import config from '../../../config';
 import { useFolderResourceMetaSearch, useFolders } from '../folderMutations';
 import NotFoundPage from '../../NotFoundPage/NotFoundPage';
@@ -34,6 +34,7 @@ import { AuthContext } from '../../../components/AuthenticationContext';
 import SettingsMenu from '../components/SettingsMenu';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
+import { toMyNdlaTags } from '../../../routeHelpers';
 
 const StyledUl = styled.ul`
   padding: 0px;
@@ -88,7 +89,7 @@ const TagsPage = () => {
 
   useEffect(() => {
     if (tag && !!previousResources?.length && resources.length === 0) {
-      navigate('/minndla/tags');
+      navigate(toMyNdlaTags());
     }
   }, [resources, previousResources, tag, navigate]);
 
@@ -162,7 +163,7 @@ const Resources = ({ resources }: ResourcesProps) => {
           return (
             <Resource
               id={resource.id}
-              tagLinkPrefix="/minndla/tags"
+              tagLinkPrefix={toMyNdlaTags()}
               isLoading={loading}
               key={resource.id}
               link={resource.path}

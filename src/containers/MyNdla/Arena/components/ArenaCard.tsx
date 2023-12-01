@@ -9,10 +9,11 @@
 import { useTranslation } from 'react-i18next';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { Text } from '@ndla/typography';
-import SafeLink from '@ndla/safelink';
 import { colors, spacing, breakpoints, mq, misc } from '@ndla/core';
 import { Forum, ForumOutlined } from '@ndla/icons/common';
+import SafeLink from '@ndla/safelink';
+import { Text } from '@ndla/typography';
+import { toMyNdlaArenaCategory } from '../../../../routeHelpers';
 
 interface Props {
   id: string;
@@ -100,7 +101,7 @@ const ArenaCard = ({ id, title, subText, count }: Props) => {
     <StyledSafelink
       id={id}
       css={StyledCategoryCard}
-      to={`/minndla/arena/category/${id}`}
+      to={toMyNdlaArenaCategory(id)}
     >
       <ForumOutlined css={LeftIconCSS} />
       <Forum css={LeftIconCSS} />

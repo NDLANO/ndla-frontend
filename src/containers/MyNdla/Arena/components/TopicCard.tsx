@@ -8,11 +8,12 @@
 import { useTranslation } from 'react-i18next';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { Text } from '@ndla/typography';
-import SafeLink from '@ndla/safelink';
 import { colors, spacing, breakpoints, mq, misc } from '@ndla/core';
 import { Locked } from '@ndla/icons/common';
+import SafeLink from '@ndla/safelink';
+import { Text } from '@ndla/typography';
 import { formatDateTime } from '../../../../util/formatDate';
+import { toMyNdlaArenaTopic } from '../../../../routeHelpers';
 
 interface Props {
   id: string;
@@ -79,11 +80,7 @@ const TopicCard = ({ id, title, locked, timestamp, count }: Props) => {
   const { t, i18n } = useTranslation();
 
   return (
-    <StyledSafelink
-      id={id}
-      css={TopicCardCSS}
-      to={`/minndla/arena/topic/${id}`}
-    >
+    <StyledSafelink id={id} css={TopicCardCSS} to={toMyNdlaArenaTopic(id)}>
       <div>
         <StyledHeader element="label" textStyle="label-small" margin="none">
           {title}
