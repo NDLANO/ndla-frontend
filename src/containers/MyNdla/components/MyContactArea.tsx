@@ -11,11 +11,18 @@ import { colors, spacing, breakpoints, mq } from '@ndla/core';
 import { Heading, Text } from '@ndla/typography';
 import UserAvatar from './UserAvatar';
 import EditProfilePicture from '../MyProfile/components/EditProfilePicture';
-import { GQLMyNdlaPersonalDataFragmentFragment } from '../../../graphqlTypes';
-import { isStudent } from '../Folders/util';
+import { isStudent, withRole } from '../Folders/util';
+
+type UserProp = {
+  username?: string;
+  displayName?: string;
+  primaryOrg?: string;
+  rootOrg?: string;
+  role?: string;
+};
 
 type MyContractAreaProps = {
-  user: GQLMyNdlaPersonalDataFragmentFragment | undefined;
+  user: UserProp;
   showProfileButton?: boolean;
 };
 
@@ -62,25 +69,25 @@ const MobileButtonContainer = styled.div`
 const MyContactArea = ({ user, showProfileButton }: MyContractAreaProps) => {
   return (
     <MyContactAreaContainer>
-      {!isStudent(user) && (
+      {!isStudent(user as withRole) && (
         <AvatarContainer>
-          <UserAvatar userName={user?.displayName} />
+          <UserAvatar userName={user.displayName} />
         </AvatarContainer>
       )}
       <Heading element="h2" id="userName" margin="none" headingStyle="h2">
-        {user?.displayName}
+        {user.displayName}
       </Heading>
       <UserInfoContainer>
         <UserWorkPlaceText element="h2" headingStyle="list-title" margin="none">
-          {user?.groups.find((g) => g.isPrimarySchool)?.displayName}
+          {user.primaryOrg}
         </UserWorkPlaceText>
         <UserCountyText element="p" textStyle="meta-text-small" margin="none">
-          {user?.organization}
+          {user.rootOrg}
         </UserCountyText>
       </UserInfoContainer>
       {showProfileButton && (
         <>
-          {!isStudent(user) && (
+          {!isStudent(user as withRole) && (
             <MobileButtonContainer>
               <EditProfilePicture />
             </MobileButtonContainer>

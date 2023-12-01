@@ -2845,6 +2845,8 @@ export type GQLArenaUserQueryFragmentFragment = {
   profilePicture?: string;
   slug: string;
   groupTitleArray?: Array<string>;
+  location?: string;
+  username: string;
 };
 
 export type GQLArenaCategoriesFragmentFragment = {
@@ -2942,6 +2944,17 @@ export type GQLArenaTopicByIdQuery = {
     __typename?: 'ArenaTopic';
     posts: Array<{ __typename?: 'ArenaPost' } & GQLArenaPostFragmentFragment>;
   } & GQLArenaTopicFragmentFragment;
+};
+
+export type GQLArenaTopicsByUserQueryVariables = Exact<{
+  userSlug: Scalars['String']['input'];
+}>;
+
+export type GQLArenaTopicsByUserQuery = {
+  __typename?: 'Query';
+  arenaTopicsByUser: Array<
+    { __typename?: 'ArenaTopic' } & GQLArenaTopicFragmentFragment
+  >;
 };
 
 export type GQLArenaRecentTopicsQueryVariables = Exact<{
