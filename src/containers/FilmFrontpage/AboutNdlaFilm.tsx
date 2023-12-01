@@ -70,6 +70,12 @@ const StylediFrame = styled.iframe`
   padding: 0;
 `;
 
+const StyledModalBody = styled(ModalBody)`
+  h2 {
+    margin: 0;
+  }
+`;
+
 interface VisualElementProps {
   visualElement: {
     alt?: string;
@@ -136,9 +142,9 @@ const AboutNdlaFilm = ({ aboutNDLAVideo, article }: AboutNdlaFilmProps) => {
                 <ModalHeader>
                   <ModalCloseButton />
                 </ModalHeader>
-                <ModalBody>
+                <StyledModalBody>
                   <Article article={iArticle} label={''} />
-                </ModalBody>
+                </StyledModalBody>
               </ModalContent>
             </Modal>
           )}
