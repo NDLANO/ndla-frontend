@@ -8,6 +8,7 @@
 
 import { QueryHookOptions, gql } from '@apollo/client';
 import {
+  GQLArenaNotificationsQuery,
   GQLArenaUserQuery,
   GQLArenaPageQuery,
   GQLArenaCategoryQuery,
@@ -143,15 +144,6 @@ export const arenaTopicsByUserQuery = gql`
   ${arenaTopicFragment}
 `;
 
-const arenaRecentTopics = gql`
-  query arenaRecentTopics {
-    arenaRecentTopics {
-      ...ArenaTopicFragment
-    }
-  }
-  ${arenaTopicFragment}
-`;
-
 export const useArenaUser = (
   options: QueryHookOptions<GQLArenaUserQuery, GQLArenaUserQueryVariables>,
 ) => {
@@ -161,6 +153,15 @@ export const useArenaUser = (
   );
   return { arenaUser: data?.arenaUser };
 };
+
+const arenaRecentTopics = gql`
+  query arenaRecentTopics {
+    arenaRecentTopics {
+      ...ArenaTopicFragment
+    }
+  }
+  ${arenaTopicFragment}
+`;
 
 export const useArenaCategories = () => {
   const { data, loading, error } =
@@ -186,6 +187,55 @@ export const useArenaTopic = (
 ) => {
   const { data, loading, error } = useGraphQuery(arenaTopicById, options);
   return { arenaTopic: data?.arenaTopic, loading, error };
+};
+
+const arenaNotificationFragment = gql`
+  fragment ArenaNotificationFragment on ArenaNotification {
+    __typename
+    bodyShort
+    datetimeISO
+    from
+    importance
+    path
+    read
+    topicId
+    postId
+    notificationId
+    topicTitle
+    subject
+    type
+    user {
+      displayName
+      id
+      slug
+    }
+  }
+`;
+
+export const arenaNotificationQuery = gql`
+  query arenaNotifications {
+    arenaNotifications {
+      ...ArenaNotificationFragment
+    }
+  }
+  ${arenaNotificationFragment}
+`;
+
+export const useArenaNotifications = (
+  options?: QueryHookOptions<GQLArenaNotificationsQuery>,
+) => {
+  const { data, refetch } = useGraphQuery<GQLArenaNotificationsQuery>(
+    arenaNotificationQuery,
+    {
+      ...options,
+      pollInterval: 60000,
+      ssr: false,
+    },
+  );
+  return {
+    notifications: data?.arenaNotifications,
+    refetch,
+  };
 };
 
 export const useArenaTopicsByUser = (

@@ -92,7 +92,7 @@ const ArenaUserPage = () => {
           <CardListItem key={`topicContainer-${topic.id}`}>
             <TopicCard
               key={`topic-${topic.id}`}
-              id={topic.id.toString()}
+              id={topic.id}
               title={topic.title}
               timestamp={topic.timestamp}
               count={topic.postCount}

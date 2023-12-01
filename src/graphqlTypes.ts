@@ -2820,6 +2820,15 @@ export type GQLNewFlagMutationVariables = Exact<{
 
 export type GQLNewFlagMutation = { __typename?: 'Mutation'; newFlag: number };
 
+export type GQLMarkNotificationAsReadMutationVariables = Exact<{
+  topicIds: Array<Scalars['Int']['input']> | Scalars['Int']['input'];
+}>;
+
+export type GQLMarkNotificationAsReadMutation = {
+  __typename?: 'Mutation';
+  markNotificationAsRead: Array<number>;
+};
+
 export type GQLSubscribeToTopicMutationVariables = Exact<{
   topicId: Scalars['Int']['input'];
 }>;
@@ -2965,6 +2974,39 @@ export type GQLArenaRecentTopicsQuery = {
   __typename?: 'Query';
   arenaRecentTopics: Array<
     { __typename?: 'ArenaTopic' } & GQLArenaTopicFragmentFragment
+  >;
+};
+
+export type GQLArenaNotificationFragmentFragment = {
+  __typename: 'ArenaNotification';
+  bodyShort: string;
+  datetimeISO: string;
+  from: number;
+  importance: number;
+  path: string;
+  read: boolean;
+  topicId: number;
+  postId: number;
+  notificationId: string;
+  topicTitle: string;
+  subject: string;
+  type: string;
+  user: {
+    __typename?: 'ArenaUser';
+    displayName: string;
+    id: number;
+    slug: string;
+  };
+};
+
+export type GQLArenaNotificationsQueryVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type GQLArenaNotificationsQuery = {
+  __typename?: 'Query';
+  arenaNotifications: Array<
+    { __typename?: 'ArenaNotification' } & GQLArenaNotificationFragmentFragment
   >;
 };
 

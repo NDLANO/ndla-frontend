@@ -43,6 +43,7 @@ import handleError from './util/handleError';
 import SharedFolderPage from './containers/SharedFolderPage/SharedFolderPage';
 import FavoriteSubjectsPage from './containers/MyNdla/FavoriteSubjects/FavoriteSubjectsPage';
 import AboutPage from './containers/AboutPage/AboutPage';
+import ArenaNotificationPage from './containers/MyNdla/Arena/ArenaNotificationsPage';
 import H5pPage from './containers/ResourceEmbed/H5pPage';
 import PostsPage from './containers/MyNdla/Arena/PostsPage';
 
@@ -161,6 +162,10 @@ const AppRoutes = ({ base }: AppProps) => {
                       element={<TopicPage />}
                     />
                     <Route path="topic/:topicId" element={<PostsPage />} />
+                    <Route
+                      path="notifications"
+                      element={<ArenaNotificationPage />}
+                    />
                     <Route path="user/:username" element={<ArenaUserPage />} />
                   </Route>
                   <Route path="tags">

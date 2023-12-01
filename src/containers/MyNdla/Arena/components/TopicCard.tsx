@@ -13,9 +13,10 @@ import SafeLink from '@ndla/safelink';
 import { colors, spacing, breakpoints, mq, misc } from '@ndla/core';
 import { Locked } from '@ndla/icons/common';
 import { formatDateTime } from '../../../../util/formatDate';
+import { toArenaTopic } from '../utils';
 
 interface Props {
-  id: string;
+  id: number;
   title: string;
   timestamp: string;
   count: number;
@@ -79,11 +80,7 @@ const TopicCard = ({ id, title, locked, timestamp, count }: Props) => {
   const { t, i18n } = useTranslation();
 
   return (
-    <StyledSafelink
-      id={id}
-      css={TopicCardCSS}
-      to={`/minndla/arena/topic/${id}`}
-    >
+    <StyledSafelink css={TopicCardCSS} to={toArenaTopic(id)}>
       <div>
         <StyledHeader element="label" textStyle="label-small" margin="none">
           {title}

@@ -8,6 +8,8 @@
 
 import { gql, useApolloClient, useMutation } from '@apollo/client';
 import {
+  GQLMarkNotificationAsReadMutation,
+  GQLMarkNotificationAsReadMutationVariables,
   GQLMutationNewFlagArgs,
   GQLMutationSubscribeToTopicArgs,
   GQLMutationUnsubscribeFromTopicArgs,
@@ -15,6 +17,7 @@ import {
   GQLSubscribeToTopicMutation,
   GQLUnsubscribeFromTopicMutation,
 } from '../../graphqlTypes';
+import { arenaNotificationQuery } from './arenaQueries';
 
 const newFlagMutation = gql`
   mutation newFlag($id: Int!, $reason: String!, $type: String!) {
@@ -27,6 +30,22 @@ export const useNewFlagMutation = () => {
     newFlagMutation,
   );
   return { addNewFlag };
+};
+
+const arenaMarkNotificationAsReadMutation = gql`
+  mutation MarkNotificationAsRead($topicIds: [Int!]!) {
+    markNotificationAsRead(topicIds: $topicIds)
+  }
+`;
+
+export const useMarkNotificationsAsRead = () => {
+  const [markNotificationsAsRead] = useMutation<
+    GQLMarkNotificationAsReadMutation,
+    GQLMarkNotificationAsReadMutationVariables
+  >(arenaMarkNotificationAsReadMutation, {
+    refetchQueries: [{ query: arenaNotificationQuery }],
+  });
+  return { markNotificationsAsRead };
 };
 
 const subscribeToTopicMutation = gql`

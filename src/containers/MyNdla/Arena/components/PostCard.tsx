@@ -22,6 +22,7 @@ import UserProfileTag from '../../components/UserProfileTag';
 import SettingsMenu from '../../components/SettingsMenu';
 import FlagPostModalContent from './FlagPostModalContent';
 import { SKIP_TO_CONTENT_ID } from '../../../../constants';
+import { capitalizeFirstLetter } from '../utils';
 
 interface Props {
   id: number;
@@ -83,9 +84,6 @@ const Locales = {
   en: enGB,
   se: nb,
 };
-
-const capitalizeFirstLetter = (str: string) =>
-  str.charAt(0).toUpperCase() + str.slice(1);
 
 const PostCard = ({
   id,
