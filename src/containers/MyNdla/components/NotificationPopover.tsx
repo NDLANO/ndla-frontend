@@ -38,7 +38,6 @@ const NotificationPopover = () => {
   const { notifications } = useArenaNotifications();
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
-
   return (
     <Root open={open} onOpenChange={setOpen}>
       <Trigger asChild>

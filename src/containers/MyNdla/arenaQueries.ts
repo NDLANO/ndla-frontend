@@ -201,16 +201,16 @@ export const arenaNotificationQuery = gql`
 `;
 
 export const useArenaNotifications = () => {
-  const { data } = useGraphQuery<GQLArenaNotificationsQuery>(
+  const { data, refetch } = useGraphQuery<GQLArenaNotificationsQuery>(
     arenaNotificationQuery,
     {
       pollInterval: 60000,
       ssr: false,
-      nextFetchPolicy: 'no-cache',
     },
   );
   return {
     notifications: data?.arenaNotifications,
+    refetch,
   };
 };
 

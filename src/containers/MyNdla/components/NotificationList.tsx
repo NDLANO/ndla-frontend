@@ -100,7 +100,7 @@ interface Props {
 const NotificationList = ({ notifications, close }: Props) => {
   const { markNotificationsAsRead } = useMarkNotificationsAsRead();
   const { t, i18n } = useTranslation();
-  const now = useMemo(() => new Date(), []);
+  const now = new Date();
 
   const markAllRead = useCallback(async () => {
     const topicIdsToBeMarkedRead =

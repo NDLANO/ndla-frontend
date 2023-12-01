@@ -15,12 +15,17 @@ import { spacing } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import { HelmetWithTracker, useTracker } from '@ndla/tracker';
 import PostCard from './components/PostCard';
-import { useArenaCategory, useArenaTopic } from '../arenaQueries';
+import {
+  useArenaCategory,
+  useArenaNotifications,
+  useArenaTopic,
+} from '../arenaQueries';
 import { GQLArenaPostFragmentFragment } from '../../../graphqlTypes';
 import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
 import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import { getAllDimensions } from '../../../util/trackingUtil';
+import { useApolloClient } from '@apollo/client';
 
 const BreadcrumbWrapper = styled.div`
   padding-top: ${spacing.normal};
@@ -43,10 +48,15 @@ const PostCardWrapper = styled.li`
 const PostsPage = () => {
   const { t } = useTranslation();
   const { topicId } = useParams();
+  const { refetch } = useArenaNotifications();
   const { arenaTopic, loading } = useArenaTopic({
     variables: { topicId: Number(topicId), page: 1 },
     skip: !Number(topicId),
+    onCompleted() {
+      refetch();
+    },
   });
+
   const { arenaCategory } = useArenaCategory({
     variables: { categoryId: Number(arenaTopic?.categoryId), page: 1 },
     skip: !Number(arenaTopic?.categoryId),
