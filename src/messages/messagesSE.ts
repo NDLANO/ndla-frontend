@@ -32,11 +32,11 @@ const messages = {
     arenaPostPage: `{{name}} - Arena - ${titleTemplate}`,
   },
   podcastPage: {
-    episodes: 'Episoder',
+    episodes: 'Jearahusat',
     podcast: 'Podkast',
-    podcasts: 'Podkaster',
-    pageInfo: 'Side {{page}} av {{lastPage}}',
-    noResults: '...Ingen episoder',
+    podcasts: 'Podkasttat',
+    pageInfo: 'Siidu {{page}} eret {{lastPage}}',
+    noResults: '...Eai leat oasit',
   },
   myndla: {
     campaignBlock: {
@@ -55,23 +55,23 @@ const messages = {
   },
   validation: {
     fields: {
-      name: 'Namn',
-      description: 'Beskrivelse',
-      title: 'Tittel',
-      content: 'Innhold',
+      name: 'Namma',
+      description: 'Válddahus',
+      title: 'Namahus',
+      content: 'Sisdoallu',
     },
-    required: 'Dette feltet er påkrevd',
-    requiredField: '$t(validation.fields.{{field}}) er påkrevd',
-    notUnique: 'Finnes allereie',
-    maxLength: 'Dette feltet kan maks innehalde {{count}} teikn',
+    required: 'Dát fealta gáibiduvvo',
+    requiredField: '$t(validation.fields.{{field}}) gáibiduvvo',
+    notUnique: 'Gávdno juo',
+    maxLength: 'Dát fealta sáhttá sisttisdoallat eanemus {{count}} mearkkat',
     maxLengthField:
-      '$t(validation.fields.{{field}}) kan maks innehalde {{count}} teikn',
+      '$t(validation.fields.{{field}}) sáhttá sisttisdoallat {{count}} mearkkat',
   },
   resourcepageTitles: {
     video: 'Video',
-    image: 'Bilde',
-    concept: 'Forklaring',
-    audio: 'Audio',
+    image: 'Govva',
+    concept: 'Čilgehus',
+    audio: 'Jietna',
   },
   markdownEditor: {
     link: {

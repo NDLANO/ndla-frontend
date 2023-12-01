@@ -8,7 +8,7 @@
 
 import { useCallback, useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
@@ -109,7 +109,7 @@ const TopicPage = () => {
   }
 
   if (!user?.arenaEnabled && user?.arenaEnabled !== undefined) {
-    navigate('/minndla');
+    return <Navigate to="/minndla" />;
   }
 
   return (
