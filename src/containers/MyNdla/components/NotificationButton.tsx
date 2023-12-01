@@ -10,7 +10,7 @@ import { ButtonV2 } from '@ndla/button';
 import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
 import { Bell } from '@ndla/icons/common';
-import { HTMLAttributes, forwardRef, useMemo } from 'react';
+import { forwardRef, useMemo, ComponentPropsWithRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { GQLArenaNotificationFragmentFragment } from '../../../graphqlTypes';
 import { iconCss } from '../Folders/FoldersPage';
@@ -38,7 +38,7 @@ const IconWrapper = styled.div`
   vertical-align: center;
 `;
 
-interface Props extends HTMLAttributes<HTMLButtonElement> {
+interface Props extends ComponentPropsWithRef<'button'> {
   notifications?: GQLArenaNotificationFragmentFragment[];
 }
 

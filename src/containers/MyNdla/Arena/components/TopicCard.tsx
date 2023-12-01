@@ -13,7 +13,7 @@ import SafeLink from '@ndla/safelink';
 import { colors, spacing, breakpoints, mq, misc } from '@ndla/core';
 import { Locked } from '@ndla/icons/common';
 import { formatDateTime } from '../../../../util/formatDate';
-import { toArenaTopic } from './utils';
+import { toArenaTopic } from '../utils';
 
 interface Props {
   id: number;

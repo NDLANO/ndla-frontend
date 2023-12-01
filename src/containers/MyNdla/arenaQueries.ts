@@ -154,6 +154,15 @@ export const useArenaUser = (
   return { arenaUser: data?.arenaUser };
 };
 
+const arenaRecentTopics = gql`
+  query arenaRecentTopics {
+    arenaRecentTopics {
+      ...ArenaTopicFragment
+    }
+  }
+  ${arenaTopicFragment}
+`;
+
 export const useArenaCategories = () => {
   const { data, loading, error } =
     useGraphQuery<GQLArenaPageQuery>(arenaCategoriesQuery);
@@ -198,7 +207,6 @@ const arenaNotificationFragment = gql`
     user {
       displayName
       id
-      profilePicture
       slug
     }
   }
@@ -226,15 +234,6 @@ export const useArenaNotifications = () => {
     refetch,
   };
 };
-
-const arenaRecentTopics = gql`
-  query arenaRecentTopics {
-    arenaRecentTopics {
-      ...ArenaTopicFragment
-    }
-  }
-  ${arenaTopicFragment}
-`;
 
 export const useArenaTopicsByUser = (
   options: QueryHookOptions<GQLArenaTopicsByUserQuery>,

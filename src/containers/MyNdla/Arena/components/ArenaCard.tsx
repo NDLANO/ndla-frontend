@@ -13,7 +13,7 @@ import { Text } from '@ndla/typography';
 import SafeLink from '@ndla/safelink';
 import { colors, spacing, breakpoints, mq, misc } from '@ndla/core';
 import { Forum, ForumOutlined } from '@ndla/icons/common';
-import { toArenaCategory } from './utils';
+import { toArenaCategory } from '../utils';
 
 interface Props {
   id: number;

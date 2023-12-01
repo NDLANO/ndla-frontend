@@ -18,7 +18,7 @@ import { formatDistanceStrict } from 'date-fns';
 import { nb, nn, enGB } from 'date-fns/locale';
 import { GQLArenaNotificationFragmentFragment } from '../../../graphqlTypes';
 import { useMarkNotificationsAsRead } from '../arenaMutations';
-import { toArenaTopic, capitalizeFirstLetter } from '../Arena/components/utils';
+import { toArenaTopic, capitalizeFirstLetter } from '../Arena/utils';
 
 const TitleWrapper = styled.div`
   display: flex;

@@ -2966,6 +2966,17 @@ export type GQLArenaTopicsByUserQuery = {
   >;
 };
 
+export type GQLArenaRecentTopicsQueryVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type GQLArenaRecentTopicsQuery = {
+  __typename?: 'Query';
+  arenaRecentTopics: Array<
+    { __typename?: 'ArenaTopic' } & GQLArenaTopicFragmentFragment
+  >;
+};
+
 export type GQLArenaNotificationFragmentFragment = {
   __typename: 'ArenaNotification';
   bodyShort: string;
@@ -2984,7 +2995,6 @@ export type GQLArenaNotificationFragmentFragment = {
     __typename?: 'ArenaUser';
     displayName: string;
     id: number;
-    profilePicture?: string;
     slug: string;
   };
 };
@@ -2997,17 +3007,6 @@ export type GQLArenaNotificationsQuery = {
   __typename?: 'Query';
   arenaNotifications: Array<
     { __typename?: 'ArenaNotification' } & GQLArenaNotificationFragmentFragment
-  >;
-};
-
-export type GQLArenaRecentTopicsQueryVariables = Exact<{
-  [key: string]: never;
-}>;
-
-export type GQLArenaRecentTopicsQuery = {
-  __typename?: 'Query';
-  arenaRecentTopics: Array<
-    { __typename?: 'ArenaTopic' } & GQLArenaTopicFragmentFragment
   >;
 };
 

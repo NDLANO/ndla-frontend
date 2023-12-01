@@ -15,7 +15,7 @@ import { useTranslation } from 'react-i18next';
 import NotificationList from './NotificationList';
 import NotificationBellButton from './NotificationButton';
 import { useArenaNotifications } from '../arenaQueries';
-import { toAllNotifications } from '../Arena/components/utils';
+import { toAllNotifications } from '../Arena/utils';
 
 const StyledContent = styled(Content)`
   background-color: ${colors.background.default};

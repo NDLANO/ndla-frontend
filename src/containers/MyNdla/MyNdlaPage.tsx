@@ -231,7 +231,7 @@ const MyNdlaPage = () => {
               {recentArenaTopicsQuery.data.slice(0, 5).map((topic) => (
                 <li key={topic.id}>
                   <TopicCard
-                    id={topic.id.toString()}
+                    id={topic.id}
                     count={topic.postCount}
                     title={topic.title}
                     timestamp={topic.timestamp}
