@@ -15,7 +15,13 @@ import { Switch } from '@ndla/switch';
 import { Text, Heading } from '@ndla/typography';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useCallback, useContext, useMemo } from 'react';
+import {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useContext,
+  useMemo,
+} from 'react';
 import { nb, nn, enGB } from 'date-fns/locale';
 import { formatDistanceStrict } from 'date-fns';
 import { useSnack } from '@ndla/ui';
@@ -34,21 +40,18 @@ import FlagPostModalContent from './FlagPostModalContent';
 import { arenaCategoryQuery, arenaTopicById } from '../../arenaQueries';
 import { SKIP_TO_CONTENT_ID } from '../../../../constants';
 import { AuthContext } from '../../../../components/AuthenticationContext';
-import { capitalizeFirstLetter } from '../utils';
+import { capitalizeFirstLetter, toArenaCategory } from '../utils';
+import {
+  GQLArenaPostFragmentFragment,
+  GQLArenaTopicByIdQuery,
+} from '../../../../graphqlTypes';
 
 interface Props {
-  id: number;
-  timestamp: string;
-  isMainPost: boolean;
-  title: string;
-  content: string;
-  displayName: string;
-  username: string;
-  isFollowing: boolean;
   onFollowChange: (value: boolean) => void;
   affiliation: string;
-  topicId: number;
-  categoryId?: number;
+  post: GQLArenaPostFragmentFragment;
+  topic: GQLArenaTopicByIdQuery['arenaTopic'];
+  setFocusId: Dispatch<SetStateAction<number | undefined>>;
 }
 
 const StyledCardContainer = styled.div`
@@ -99,19 +102,21 @@ const Locales = {
 };
 
 const PostCard = ({
-  id,
-  title,
-  content,
-  timestamp,
-  isMainPost,
-  displayName,
-  username,
+  topic,
+  post,
   affiliation,
-  topicId,
-  categoryId,
-  isFollowing,
   onFollowChange,
+  setFocusId,
 }: Props) => {
+  const {
+    id: postId,
+    topicId,
+    isMainPost,
+    timestamp,
+    content,
+    user: { displayName, username },
+  } = post;
+
   const {
     t,
     i18n: { language },
@@ -147,37 +152,46 @@ const PostCard = ({
     refetchQueries: [
       {
         query: arenaCategoryQuery,
-        variables: { categoryId, page: 1 },
+        variables: { categoryId: topic?.categoryId, page: 1 },
       },
     ],
   });
 
-  const now = new Date();
   const type = isMainPost ? 'topic' : 'post';
+
+  const validPosts = useMemo(
+    () => topic?.posts.filter(({ deleted }) => !deleted),
+    [topic?.posts],
+  );
 
   const deleteTopicCallback = useCallback(
     async (close: VoidFunction) => {
       await deleteTopic({ variables: { topicId } });
       close();
-      navigate(`/minndla/arena/category/${categoryId}`);
+      navigate(toArenaCategory(topic?.categoryId ?? -1));
       addSnack({
         content: t('myNdla.arena.deleted.topic'),
         id: 'arenaTopicDeleted',
       });
     },
-    [topicId, deleteTopic, navigate, categoryId, addSnack, t],
+    [topicId, deleteTopic, navigate, topic?.categoryId, addSnack, t],
   );
 
   const deletePostCallback = useCallback(
-    async (close: VoidFunction) => {
-      await deletePost({ variables: { postId: id } });
+    async (close: VoidFunction, skipAutoFocus: VoidFunction) => {
+      await deletePost({ variables: { postId } });
       close();
       addSnack({
         content: t('myNdla.arena.deleted.post'),
         id: 'arenaPostDeleted',
       });
+      const index = validPosts?.indexOf(post) ?? 0;
+      const previousPostId = validPosts?.[index - 1]?.id;
+      const nextPostId = validPosts?.[index + 1]?.id;
+      setFocusId(nextPostId ?? previousPostId);
+      skipAutoFocus();
     },
-    [deletePost, id, addSnack, t],
+    [deletePost, postId, addSnack, t, setFocusId, validPosts, post],
   );
 
   const menu = useMemo(() => {
@@ -201,7 +215,7 @@ const PostCard = ({
             await updatePost({
               variables: {
                 content: data.content ?? '',
-                postId: id,
+                postId,
                 title: isMainPost ? data.title : undefined,
               },
             });
@@ -210,7 +224,7 @@ const PostCard = ({
               id: `arena${type}Updated`,
             });
           }}
-          title={title}
+          title={topic?.title}
           content={content}
         />
       ),
@@ -221,13 +235,13 @@ const PostCard = ({
       type: 'danger',
       text: t('myNdla.arena.posts.dropdownMenu.delete'),
       isModal: true,
-      modalContent: (close) => (
+      modalContent: (close, skipAutoFocus) => (
         <DeleteModalContent
           onClose={close}
           onDelete={async () => {
             isMainPost
               ? await deleteTopicCallback(close)
-              : await deletePostCallback(close);
+              : await deletePostCallback(close, skipAutoFocus);
           }}
           title={t(`myNdla.arena.deleteTitle.${type}`)}
           description={t(`myNdla.arena.description.${type}`)}
@@ -242,7 +256,9 @@ const PostCard = ({
       type: 'primary',
       isModal: true,
       modality: false,
-      modalContent: (close) => <FlagPostModalContent id={id} onClose={close} />,
+      modalContent: (close) => (
+        <FlagPostModalContent id={postId} onClose={close} />
+      ),
     };
 
     return (
@@ -252,30 +268,31 @@ const PostCard = ({
     );
   }, [
     t,
-    id,
     user,
     type,
-    title,
+    postId,
     content,
     addSnack,
     username,
     updatePost,
     isMainPost,
+    topic?.title,
     deletePostCallback,
     deleteTopicCallback,
   ]);
 
   const createReply = useCallback(
     async (data: Partial<ArenaFormValues>) => {
-      await replyToTopic({
+      const post = await replyToTopic({
         variables: { topicId, content: data.content ?? '' },
       });
+      setFocusId(post.data?.replyToTopic.id);
     },
-    [replyToTopic, topicId],
+    [replyToTopic, topicId, setFocusId],
   );
 
   return (
-    <StyledCardContainer key={id}>
+    <StyledCardContainer id={`post-${postId}`}>
       <StyledTopContainer>
         <UserProfileTag
           displayName={displayName}
@@ -285,7 +302,7 @@ const PostCard = ({
         {isMainPost && (
           <StyledSwitch
             onChange={onFollowChange}
-            checked={isFollowing}
+            checked={!!topic?.isFollowing}
             label={t('myNdla.arena.posts.notify')}
             id={t('myNdla.arena.posts.notify')}
           />
@@ -299,18 +316,18 @@ const PostCard = ({
             headingStyle="h4"
             margin="none"
           >
-            {title}
+            {topic?.title}
           </Heading>
         )}
         <Text element="p" textStyle="content-alt" margin="none">
-          {parse(content ?? '')}
+          {parse(content)}
         </Text>
       </StyledContentContainer>
       <BottomContainer>
         {!isMainPost && (
           <StyledTimestamp element="p" textStyle="content-alt" margin="none">
             {`${capitalizeFirstLetter(
-              formatDistanceStrict(Date.parse(timestamp), now, {
+              formatDistanceStrict(Date.parse(timestamp), Date.now(), {
                 addSuffix: true,
                 locale: Locales[language],
                 roundingMethod: 'floor',
