@@ -8,7 +8,7 @@
 
 import styled from '@emotion/styled';
 import { colors, spacing, breakpoints, mq } from '@ndla/core';
-import { Heading, Text } from '@ndla/typography';
+import { Heading } from '@ndla/typography';
 import UserAvatar from './UserAvatar';
 import EditProfilePicture from '../MyProfile/components/EditProfilePicture';
 import { isStudent, withRole } from '../Folders/util';
@@ -17,7 +17,6 @@ type UserProp = {
   username?: string;
   displayName?: string;
   primaryOrg?: string;
-  rootOrg?: string;
   role?: string;
 };
 
@@ -55,10 +54,6 @@ const UserWorkPlaceText = styled(Heading)`
   color: ${colors.brand.primary};
 `;
 
-const UserCountyText = styled(Text)`
-  color: ${colors.brand.primary};
-`;
-
 const MobileButtonContainer = styled.div`
   padding-top: ${spacing.xxsmall};
   ${mq.range({ from: breakpoints.tablet })} {
@@ -81,9 +76,6 @@ const MyContactArea = ({ user, showProfileButton }: MyContractAreaProps) => {
         <UserWorkPlaceText element="h2" headingStyle="list-title" margin="none">
           {user.primaryOrg}
         </UserWorkPlaceText>
-        <UserCountyText element="p" textStyle="meta-text-small" margin="none">
-          {user.rootOrg}
-        </UserCountyText>
       </UserInfoContainer>
       {showProfileButton && (
         <>
