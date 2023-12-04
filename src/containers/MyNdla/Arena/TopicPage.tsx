@@ -13,7 +13,6 @@ import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import { Heading, Text } from '@ndla/typography';
-import { useSnack } from '@ndla/ui';
 import { HelmetWithTracker, useTracker } from '@ndla/tracker';
 import { arenaCategoryQuery, useArenaCategory } from '../arenaQueries';
 import TopicCard from './components/TopicCard';
@@ -59,7 +58,6 @@ const TopicPage = () => {
   const { categoryId } = useParams();
   const { trackPageView } = useTracker();
   const navigate = useNavigate();
-  const { addSnack } = useSnack();
 
   const { loading, arenaCategory } = useArenaCategory({
     variables: { categoryId: Number(categoryId), page: 1 },
@@ -94,14 +92,10 @@ const TopicPage = () => {
             categoryId: arenaCategory?.id,
           },
         });
-        addSnack({
-          content: t('myNdla.arena.create.topic'),
-          id: 'arenaTopicCreated',
-        });
         navigate(toArenaTopic(topic.data?.newArenaTopic?.id));
       }
     },
-    [arenaCategory, createArenaTopic, navigate, addSnack, t],
+    [arenaCategory, createArenaTopic, navigate],
   );
 
   if (loading) {
