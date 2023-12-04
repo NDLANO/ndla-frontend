@@ -283,10 +283,10 @@ const PostCard = ({
 
   const createReply = useCallback(
     async (data: Partial<ArenaFormValues>) => {
-      const post = await replyToTopic({
+      const newReply = await replyToTopic({
         variables: { topicId, content: data.content ?? '' },
       });
-      setFocusId(post.data?.replyToTopic.id);
+      setFocusId(newReply.data?.replyToTopic.id);
     },
     [replyToTopic, topicId, setFocusId],
   );
