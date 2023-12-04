@@ -53,7 +53,6 @@ export interface MenuItemProps {
 
 interface Props {
   menuItems?: MenuItemProps[];
-  inToolbar?: boolean;
 }
 
 const StyledDrawer = styled(Drawer)`
@@ -139,11 +138,14 @@ const SettingsMenu = ({ menuItems }: Props) => {
 
   const close = useCallback(() => setOpen(false), []);
 
+  const title = t('myNdla.showEditOptions');
+
   if (isMobile || isTablet) {
     return (
       <Modal open={open} onOpenChange={setOpen}>
         <ModalTrigger>
           <IconButtonV2
+            title={title}
             aria-label={t('myNdla.more')}
             colorTheme="light"
             variant="ghost"
@@ -216,6 +218,7 @@ const SettingsMenu = ({ menuItems }: Props) => {
     <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownTrigger>
         <DropdownTriggerButton
+          title={title}
           aria-label={t('myNdla.more')}
           colorTheme="light"
           variant="ghost"
