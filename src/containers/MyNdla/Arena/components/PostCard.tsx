@@ -42,14 +42,14 @@ import { SKIP_TO_CONTENT_ID } from '../../../../constants';
 import { AuthContext } from '../../../../components/AuthenticationContext';
 import { capitalizeFirstLetter, toArenaCategory } from '../utils';
 import {
-  GQLArenaPostFragmentFragment,
+  GQLArenaPostFragment,
   GQLArenaTopicByIdQuery,
 } from '../../../../graphqlTypes';
 
 interface Props {
   onFollowChange: (value: boolean) => void;
   affiliation: string;
-  post: GQLArenaPostFragmentFragment;
+  post: GQLArenaPostFragment;
   topic: GQLArenaTopicByIdQuery['arenaTopic'];
   setFocusId: Dispatch<SetStateAction<number | undefined>>;
 }

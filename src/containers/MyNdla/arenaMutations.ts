@@ -55,7 +55,7 @@ export const useNewFlagMutation = () => {
 const replyToTopicMutation = gql`
   mutation ReplyToTopic($topicId: Int!, $content: String!) {
     replyToTopic(topicId: $topicId, content: $content) {
-      ...ArenaPostFragment
+      ...ArenaPost
     }
   }
   ${arenaPostFragment}
@@ -77,7 +77,7 @@ export const useReplyToTopic = (
 const updatePostMutation = gql`
   mutation UpdatePost($postId: Int!, $content: String!, $title: String) {
     updatePost(postId: $postId, content: $content, title: $title) {
-      ...ArenaPostFragment
+      ...ArenaPost
     }
   }
   ${arenaPostFragment}
@@ -141,7 +141,7 @@ const newArenaTopicMutation = gql`
     $title: String!
   ) {
     newArenaTopic(categoryId: $categoryId, content: $content, title: $title) {
-      ...ArenaTopicFragment
+      ...ArenaTopic
     }
   }
   ${arenaTopicFragment}
