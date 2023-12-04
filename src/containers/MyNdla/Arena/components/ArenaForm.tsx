@@ -52,7 +52,7 @@ const InformationLabel = styled.div`
 
 const StyledInformationOutline = styled(InformationOutline)`
   ${iconCss};
-  overflow: unset;
+  overflow: unset !important;
 `;
 
 const StyledInputContainer = styled(InputContainer)`
