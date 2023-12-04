@@ -25,6 +25,7 @@ import { Text } from '@ndla/typography';
 import { FieldLength } from '../../../../containers/MyNdla/Folders/FolderForm';
 import { MarkdownEditor } from '../../../../components/MarkdownEditor/MarkdownEditor';
 import useValidationTranslation from '../../../../util/useValidationTranslation';
+import { iconCss } from '../../Folders/FoldersPage';
 
 const StyledForm = styled.form`
   display: flex;
@@ -50,8 +51,8 @@ const InformationLabel = styled.div`
 `;
 
 const StyledInformationOutline = styled(InformationOutline)`
-  height: ${spacing.snormal};
-  width: ${spacing.snormal};
+  ${iconCss};
+  overflow: unset !important;
 `;
 
 const StyledInputContainer = styled(InputContainer)`
