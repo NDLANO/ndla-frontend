@@ -60,7 +60,7 @@ const StyledSafelink = styled(SafeLink)`
 
 const SpacingContainer = styled.div`
   display: flex;
-  flex-direction: row;
+  gap: ${spacing.small};
   justify-content: space-between;
   width: 100%;
 `;
@@ -79,9 +79,6 @@ const StyledDescriptionText = styled(Text)`
 
 const StyledCountContainer = styled.div`
   text-align: center;
-  ${mq.range({ until: breakpoints.tabletWide })} {
-    display: none;
-  }
 `;
 
 const iconCss = css`
