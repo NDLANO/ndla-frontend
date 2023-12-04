@@ -32,11 +32,12 @@ const StyledSafelink = styled(SafeLink)`
   border: 1px solid ${colors.brand.light};
   border-radius: ${misc.borderRadius};
   box-shadow: none;
-
   &:hover,
   &:focus-visible {
     background-color: ${colors.brand.lighter};
-    text-decoration: none;
+    [data-name='hover'] {
+      text-decoration: none;
+    }
   }
 `;
 
@@ -78,11 +79,15 @@ const LockedIconCSS = css`
 
 const TopicCard = ({ id, title, locked, timestamp, count }: Props) => {
   const { t, i18n } = useTranslation();
-
   return (
     <StyledSafelink css={TopicCardCSS} to={toArenaTopic(id)}>
       <div>
-        <StyledHeader element="label" textStyle="label-small" margin="none">
+        <StyledHeader
+          element="label"
+          textStyle="label-small"
+          margin="none"
+          data-name="hover"
+        >
           {title}
         </StyledHeader>
         <StyledText element="p" textStyle="meta-text-small" margin="none">
