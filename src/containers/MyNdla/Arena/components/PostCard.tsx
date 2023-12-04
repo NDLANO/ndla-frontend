@@ -40,7 +40,7 @@ import FlagPostModalContent from './FlagPostModalContent';
 import { arenaCategoryQuery, arenaTopicById } from '../../arenaQueries';
 import { SKIP_TO_CONTENT_ID } from '../../../../constants';
 import { AuthContext } from '../../../../components/AuthenticationContext';
-import { capitalizeFirstLetter, toArenaCategory } from '../utils';
+import { capitalizeFirstLetter, toArena, toArenaCategory } from '../utils';
 import {
   GQLArenaPostFragment,
   GQLArenaTopicByIdQuery,
@@ -168,11 +168,15 @@ const PostCard = ({
     async (close: VoidFunction) => {
       await deleteTopic({ variables: { topicId } });
       close();
-      navigate(toArenaCategory(topic?.categoryId ?? -1));
       addSnack({
         content: t('myNdla.arena.deleted.topic'),
         id: 'arenaTopicDeleted',
       });
+      if (topic?.categoryId) {
+        navigate(toArenaCategory(topic.categoryId));
+      } else {
+        navigate(toArena());
+      }
     },
     [topicId, deleteTopic, navigate, topic?.categoryId, addSnack, t],
   );

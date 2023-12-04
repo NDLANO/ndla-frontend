@@ -12,6 +12,8 @@ export const toArenaTopic = (topicId: number) =>
 export const toArenaCategory = (categoryId: number) =>
   `/minndla/arena/category/${categoryId}`;
 
+export const toArena = () => `/minndla/arena`;
+
 export const capitalizeFirstLetter = (str: string) =>
   str.charAt(0).toUpperCase() + str.slice(1);
 
