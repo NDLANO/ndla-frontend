@@ -12,9 +12,9 @@ import { Link, Share } from '@ndla/icons/common';
 import {
   Dispatch,
   SetStateAction,
+  memo,
   useCallback,
   useContext,
-  useMemo,
   useRef,
 } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -37,7 +37,7 @@ import { EditFolderModalContent } from './FolderEditModal';
 import DeleteModalContent from '../components/DeleteModalContent';
 
 interface Props {
-  selectedFolder: GQLFolder | null;
+  selectedFolder: GQLFolder;
   folderRefId?: string;
   setFocusId: Dispatch<SetStateAction<string | undefined>>;
   inToolbar?: boolean;
@@ -153,182 +153,164 @@ const FolderActions = ({
     t,
   ]);
 
-  const actionItems: MenuItemProps[] = useMemo(() => {
-    if (examLock) return [];
+  const student = isStudent(user);
 
-    const addFolderButton: MenuItemProps = {
-      icon: <Plus />,
-      text: t('myNdla.newFolder'),
-      isModal: true,
-      modalContent: (close, setFocus) => (
-        <CreateModalContent
-          onClose={close}
-          folders={selectedFolder?.subfolders}
-          parentFolder={selectedFolder}
-          onCreate={onFolderAdded}
-          skipAutoFocus={setFocus}
-        />
-      ),
-    };
+  const addFolderButton: MenuItemProps = {
+    icon: <Plus />,
+    text: t('myNdla.newFolder'),
+    isModal: true,
+    modalContent: (close, setFocus) => (
+      <CreateModalContent
+        onClose={close}
+        folders={selectedFolder?.subfolders}
+        parentFolder={selectedFolder}
+        onCreate={onFolderAdded}
+        skipAutoFocus={setFocus}
+      />
+    ),
+    remove: examLock && student,
+  };
 
-    if (!selectedFolder) return [addFolderButton];
+  const editFolder: MenuItemProps = {
+    icon: <Pencil />,
+    text: t('myNdla.folder.edit'),
+    isModal: true,
+    modalContent: (close) => (
+      <EditFolderModalContent
+        onClose={close}
+        onSaved={onFolderUpdated}
+        folder={selectedFolder}
+      />
+    ),
+    remove: false,
+  };
 
-    const editFolder: MenuItemProps = {
-      icon: <Pencil />,
-      text: t('myNdla.folder.edit'),
-      isModal: true,
-      modalContent: (close) => (
-        <EditFolderModalContent
-          onClose={close}
-          onSaved={onFolderUpdated}
-          folder={selectedFolder}
-        />
-      ),
-    };
+  const shareLink: MenuItemProps = {
+    icon: <Share />,
+    text: t('myNdla.folder.sharing.button.share'),
+    ref: previewRef,
+    isModal: true,
+    keepOpen: true,
+    modalContent: (close) => (
+      <FolderShareModalContent
+        type="shared"
+        folder={selectedFolder}
+        onClose={close}
+        onCopyText={() => copyFolderSharingLink(selectedFolder.id)}
+        onUpdateStatus={async (close) => {
+          close();
+          unShareRef.current?.click();
+        }}
+      />
+    ),
+    remove: selectedFolder.status !== 'shared' || student,
+  };
 
-    const shareLink: MenuItemProps = {
-      icon: <Share />,
-      text: t('myNdla.folder.sharing.button.share'),
-      ref: previewRef,
-      isModal: true,
-      keepOpen: true,
-      modalContent: (close) => (
-        <FolderShareModalContent
-          type="shared"
-          folder={selectedFolder}
-          onClose={close}
-          onCopyText={() => copyFolderSharingLink(selectedFolder.id)}
-          onUpdateStatus={async (close) => {
-            close();
-            unShareRef.current?.click();
-          }}
-        />
-      ),
-    };
+  const copyLink: MenuItemProps = {
+    icon: <Link />,
+    text: t('myNdla.folder.sharing.copyLink'),
+    onClick: () => {
+      navigator.clipboard.writeText(
+        `${config.ndlaFrontendDomain}/folder/${selectedFolder.id}`,
+      );
+      addSnack({
+        content: t('myNdla.resource.linkCopied'),
+        id: 'linkCopied',
+      });
+    },
+    remove: selectedFolder.status !== 'shared' || student,
+  };
 
-    const copyLink: MenuItemProps = {
-      icon: <Link />,
-      text: t('myNdla.folder.sharing.copyLink'),
-      onClick: () => {
-        navigator.clipboard.writeText(
-          `${config.ndlaFrontendDomain}/folder/${selectedFolder.id}`,
-        );
-        addSnack({
-          content: t('myNdla.resource.linkCopied'),
-          id: 'linkCopied',
-        });
-      },
-    };
+  const unShare: MenuItemProps = {
+    icon: <Cross />,
+    text: t('myNdla.folder.sharing.button.unShare'),
+    isModal: true,
+    ref: unShareRef,
+    modalContent: (close) => (
+      <FolderShareModalContent
+        type="unShare"
+        folder={selectedFolder}
+        onClose={close}
+        onUpdateStatus={async (close) => {
+          updateFolderStatus({
+            variables: {
+              folderId: selectedFolder.id,
+              status: 'private',
+            },
+          });
+          close();
+          addSnack({
+            id: 'sharingDeleted',
+            content: t('myNdla.folder.sharing.unShare'),
+          });
+        }}
+      />
+    ),
+    remove: selectedFolder.status !== 'shared' || student,
+  };
 
-    const unShare: MenuItemProps = {
-      icon: <Cross />,
-      text: t('myNdla.folder.sharing.button.unShare'),
-      isModal: true,
-      ref: unShareRef,
-      modalContent: (close) => (
-        <FolderShareModalContent
-          type="unShare"
-          folder={selectedFolder}
-          onClose={close}
-          onUpdateStatus={async (close) => {
-            updateFolderStatus({
-              variables: {
-                folderId: selectedFolder.id,
-                status: 'private',
-              },
-            });
-            close();
-            addSnack({
-              id: 'sharingDeleted',
-              content: t('myNdla.folder.sharing.unShare'),
-            });
-          }}
-        />
-      ),
-    };
+  const share: MenuItemProps = {
+    icon: <Share />,
+    text: t('myNdla.folder.sharing.share'),
+    isModal: true,
+    ref: shareRef,
+    modalContent: (close) => (
+      <FolderShareModalContent
+        type="private"
+        folder={selectedFolder}
+        onClose={close}
+        onUpdateStatus={async (close) => {
+          await updateFolderStatus({
+            variables: {
+              folderId: selectedFolder.id,
+              status: 'shared',
+            },
+          });
+          close();
+          addSnack({
+            id: 'folderShared',
+            content: t('myNdla.folder.sharing.header.shared'),
+          });
+        }}
+      />
+    ),
+    remove: selectedFolder.status !== 'private' || student,
+  };
 
-    const share: MenuItemProps = {
-      icon: <Share />,
-      text: t('myNdla.folder.sharing.share'),
-      isModal: true,
-      ref: shareRef,
-      modalContent: (close) => (
-        <FolderShareModalContent
-          type="private"
-          folder={selectedFolder}
-          onClose={close}
-          onUpdateStatus={async (close) => {
-            await updateFolderStatus({
-              variables: {
-                folderId: selectedFolder.id,
-                status: 'shared',
-              },
-            });
-            close();
-            addSnack({
-              id: 'folderShared',
-              content: t('myNdla.folder.sharing.header.shared'),
-            });
-          }}
-        />
-      ),
-    };
+  const deleteOpt: MenuItemProps = {
+    icon: <DeleteForever />,
+    text: t('myNdla.folder.delete'),
+    type: 'danger',
+    isModal: true,
+    modalContent: (close, setSkipAutoFocus) => (
+      <DeleteModalContent
+        title={t('myNdla.folder.delete')}
+        description={t('myNdla.confirmDeleteFolder')}
+        removeText={t('myNdla.folder.delete')}
+        onDelete={async () => {
+          setSkipAutoFocus?.();
+          await onDeleteFolder();
+          close();
+        }}
+        onClose={close}
+      />
+    ),
+    remove: false,
+  };
 
-    const deleteOpt: MenuItemProps = {
-      icon: <DeleteForever />,
-      text: t('myNdla.folder.delete'),
-      type: 'danger',
-      isModal: true,
-      modalContent: (close, setSkipAutoFocus) => (
-        <DeleteModalContent
-          title={t('myNdla.folder.delete')}
-          description={t('myNdla.confirmDeleteFolder')}
-          removeText={t('myNdla.folder.delete')}
-          onDelete={async () => {
-            setSkipAutoFocus?.();
-            await onDeleteFolder();
-            close();
-          }}
-          onClose={close}
-        />
-      ),
-    };
-
-    const actions = [];
-
-    if (inToolbar) {
-      actions.push(addFolderButton);
-    }
-
-    if (isStudent(user)) {
-      return actions.concat(editFolder, deleteOpt);
-    }
-
-    if (selectedFolder.status === 'shared') {
-      return actions.concat(
+  return (
+    <SettingsMenu
+      menuItems={[
+        addFolderButton,
         editFolder,
+        share,
         shareLink,
         copyLink,
         unShare,
         deleteOpt,
-      );
-    }
-
-    return actions.concat(editFolder, share, deleteOpt);
-  }, [
-    updateFolderStatus,
-    onFolderUpdated,
-    onDeleteFolder,
-    selectedFolder,
-    onFolderAdded,
-    inToolbar,
-    examLock,
-    addSnack,
-    user,
-    t,
-  ]);
-
-  return <SettingsMenu menuItems={actionItems} />;
+      ]}
+    />
+  );
 };
 
-export default FolderActions;
+export default memo(FolderActions);

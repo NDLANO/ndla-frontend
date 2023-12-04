@@ -180,15 +180,15 @@ const PostCard = ({
     [deletePost, id, addSnack, t],
   );
 
-  const menu = useMemo(() => {
-    // Regex replaces @ with -. Same method as in backend
-    const isCorrectUser =
-      user?.username.replace(
-        /[^'"\s\-.*0-9\u00BF-\u1FFF\u2C00-\uD7FF\w]+/,
-        '-',
-      ) === username;
+  // Regex replaces @ with -. Same method as in backend
+  const isCorrectUser =
+    user?.username.replace(
+      /[^'"\s\-.*0-9\u00BF-\u1FFF\u2C00-\uD7FF\w]+/,
+      '-',
+    ) === username;
 
-    const update: MenuItemProps = {
+  const update: MenuItemProps = useMemo(
+    () => ({
       icon: <Pencil />,
       text: t('myNdla.arena.posts.dropdownMenu.edit'),
       type: 'primary',
@@ -214,9 +214,23 @@ const PostCard = ({
           content={content}
         />
       ),
-    };
+      remove: !isCorrectUser,
+    }),
+    [
+      t,
+      isCorrectUser,
+      isMainPost,
+      title,
+      content,
+      addSnack,
+      updatePost,
+      id,
+      type,
+    ],
+  );
 
-    const deleteItem: MenuItemProps = {
+  const deleteItem: MenuItemProps = useMemo(
+    () => ({
       icon: <TrashCanOutline />,
       type: 'danger',
       text: t('myNdla.arena.posts.dropdownMenu.delete'),
@@ -234,36 +248,30 @@ const PostCard = ({
           removeText={t(`myNdla.arena.removeText.${type}`)}
         />
       ),
-    };
+      remove: !isCorrectUser,
+    }),
+    [
+      deletePostCallback,
+      deleteTopicCallback,
+      type,
+      isCorrectUser,
+      t,
+      isMainPost,
+    ],
+  );
 
-    const report: MenuItemProps = {
+  const report: MenuItemProps = useMemo(
+    () => ({
       icon: <ReportOutlined />,
       text: t('myNdla.arena.posts.dropdownMenu.report'),
       type: 'primary',
       isModal: true,
       modality: false,
       modalContent: (close) => <FlagPostModalContent id={id} onClose={close} />,
-    };
-
-    return (
-      <SettingsMenu
-        menuItems={isCorrectUser ? [update, deleteItem] : [report]}
-      />
-    );
-  }, [
-    t,
-    id,
-    user,
-    type,
-    title,
-    content,
-    addSnack,
-    username,
-    updatePost,
-    isMainPost,
-    deletePostCallback,
-    deleteTopicCallback,
-  ]);
+      remove: isCorrectUser,
+    }),
+    [t, isCorrectUser, id],
+  );
 
   const createReply = useCallback(
     async (data: Partial<ArenaFormValues>) => {
@@ -318,7 +326,7 @@ const PostCard = ({
             )}`}
           </StyledTimestamp>
         )}
-        {menu}
+        <SettingsMenu menuItems={[update, deleteItem, report]} />;
         {isMainPost && <ArenaTextModal type="post" onSave={createReply} />}
       </BottomContainer>
     </StyledCardContainer>

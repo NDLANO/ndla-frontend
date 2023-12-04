@@ -110,7 +110,7 @@ export type ViewType = 'list' | 'block' | 'listLarger';
 const FoldersPage = () => {
   const { t } = useTranslation();
   const { folderId } = useParams();
-  const { user, authContextLoaded } = useContext(AuthContext);
+  const { user, authContextLoaded, examLock } = useContext(AuthContext);
   const { trackPageView } = useTracker();
   const [viewType, _setViewType] = useState<ViewType>(
     (localStorage.getItem(STORED_RESOURCE_VIEW_SETTINGS) as ViewType) || 'list',
@@ -134,7 +134,6 @@ const FoldersPage = () => {
   );
   const [previousFolders, setPreviousFolders] = useState<GQLFolder[]>(folders);
   const [focusId, setFocusId] = useState<string | undefined>(undefined);
-  const [amountOfButtons, setAmountOfButtons] = useState<number>(0);
 
   const resourceRefId = useMemo(
     () =>
@@ -201,24 +200,21 @@ const FoldersPage = () => {
   }, []);
 
   const dropDownMenu = useMemo(
-    () => (
-      <FolderActions
-        selectedFolder={selectedFolder}
-        setFocusId={setFocusId}
-        folders={folders}
-        inToolbar
-      />
-    ),
+    () =>
+      selectedFolder ? (
+        <FolderActions
+          selectedFolder={selectedFolder}
+          setFocusId={setFocusId}
+          folders={folders}
+          inToolbar
+        />
+      ) : null,
     [selectedFolder, folders, setFocusId],
   );
 
   const folderButtons = useMemo(
     () => (
-      <FolderButtons
-        selectedFolder={selectedFolder}
-        setFocusId={setFocusId}
-        setAmountOfButtons={setAmountOfButtons}
-      />
+      <FolderButtons selectedFolder={selectedFolder} setFocusId={setFocusId} />
     ),
     [selectedFolder, setFocusId],
   );
@@ -230,7 +226,7 @@ const FoldersPage = () => {
       viewType={viewType}
       onViewTypeChange={setViewType}
       extendTabletView={selectedFolder?.status === 'shared'}
-      showButtons={amountOfButtons > 0}
+      showButtons={!examLock || !!selectedFolder}
     >
       <FoldersPageContainer>
         <HelmetWithTracker title={title} />

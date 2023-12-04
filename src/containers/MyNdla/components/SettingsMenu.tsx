@@ -36,6 +36,7 @@ import {
 } from '@ndla/dropdown-menu';
 
 export interface MenuItemProps {
+  remove: boolean;
   icon?: ReactNode;
   text?: string;
   disabled?: boolean;
@@ -176,34 +177,36 @@ const SettingsMenu = ({ menuItems }: Props) => {
           <StyledModalBody>
             {!!menuItems?.length && (
               <StyledUl>
-                {menuItems.map((item) => (
-                  <StyledLi key={item.text}>
-                    <Item
-                      keepOpen={item.keepOpen}
-                      handleDialogItemOpenChange={handleDialogItemOpenChange}
-                      isModal={item.isModal}
-                      modalContent={item.modalContent}
-                      modality={item.modality}
-                      setSkipAutoFocus={() => setSkipAutoFocus(true)}
-                    >
-                      <ButtonV2
-                        fontWeight="normal"
-                        variant="ghost"
-                        colorTheme={item.type}
-                        ref={item.ref}
-                        onClick={(e) => {
-                          if (item.onClick) {
-                            close();
-                            item.onClick(e);
-                          }
-                        }}
+                {menuItems
+                  .filter(({ remove }) => !remove)
+                  .map((item) => (
+                    <StyledLi key={item.text}>
+                      <Item
+                        keepOpen={item.keepOpen}
+                        handleDialogItemOpenChange={handleDialogItemOpenChange}
+                        isModal={item.isModal}
+                        modalContent={item.modalContent}
+                        modality={item.modality}
+                        setSkipAutoFocus={() => setSkipAutoFocus(true)}
                       >
-                        {item.icon}
-                        {item.text}
-                      </ButtonV2>
-                    </Item>
-                  </StyledLi>
-                ))}
+                        <ButtonV2
+                          fontWeight="normal"
+                          variant="ghost"
+                          colorTheme={item.type}
+                          ref={item.ref}
+                          onClick={(e) => {
+                            if (item.onClick) {
+                              close();
+                              item.onClick(e);
+                            }
+                          }}
+                        >
+                          {item.icon}
+                          {item.text}
+                        </ButtonV2>
+                      </Item>
+                    </StyledLi>
+                  ))}
               </StyledUl>
             )}
           </StyledModalBody>
@@ -242,41 +245,43 @@ const SettingsMenu = ({ menuItems }: Props) => {
           }
         }}
       >
-        {menuItems?.map((item) => (
-          <Item
-            key={item.text}
-            handleDialogItemOpenChange={handleDialogItemOpenChange}
-            isModal={item.isModal}
-            modalContent={item.modalContent}
-            keepOpen={item.keepOpen}
-            modality={item.modality}
-            setSkipAutoFocus={() => setSkipAutoFocus(true)}
-          >
-            <DropdownItem
-              asChild
-              onSelect={(e) => {
-                if (!item.onClick) {
-                  e.preventDefault();
-                }
-              }}
+        {menuItems
+          ?.filter(({ remove }) => !remove)
+          .map((item) => (
+            <Item
+              key={item.text}
+              handleDialogItemOpenChange={handleDialogItemOpenChange}
+              isModal={item.isModal}
+              modalContent={item.modalContent}
+              keepOpen={item.keepOpen}
+              modality={item.modality}
+              setSkipAutoFocus={() => setSkipAutoFocus(true)}
             >
-              <ItemButton
-                colorTheme={item.type === 'danger' ? 'danger' : 'light'}
-                disabled={item.disabled}
-                shape="sharp"
-                variant="ghost"
-                size="small"
-                fontWeight="normal"
-                data-type={item.type}
-                onClick={item.onClick}
-                ref={item.ref}
+              <DropdownItem
+                asChild
+                onSelect={(e) => {
+                  if (!item.onClick) {
+                    e.preventDefault();
+                  }
+                }}
               >
-                {item.icon}
-                {item.text}
-              </ItemButton>
-            </DropdownItem>
-          </Item>
-        ))}
+                <ItemButton
+                  colorTheme={item.type === 'danger' ? 'danger' : 'light'}
+                  disabled={item.disabled}
+                  shape="sharp"
+                  variant="ghost"
+                  size="small"
+                  fontWeight="normal"
+                  data-type={item.type}
+                  onClick={item.onClick}
+                  ref={item.ref}
+                >
+                  {item.icon}
+                  {item.text}
+                </ItemButton>
+              </DropdownItem>
+            </Item>
+          ))}
       </StyledDropdownContent>
     </DropdownMenu>
   );

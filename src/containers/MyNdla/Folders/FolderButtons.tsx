@@ -39,14 +39,9 @@ import { isStudent, copyFolderSharingLink, previewLink } from './util';
 interface FolderButtonProps {
   setFocusId: Dispatch<SetStateAction<string | undefined>>;
   selectedFolder: GQLFolder | null;
-  setAmountOfButtons: Dispatch<SetStateAction<number>>;
 }
 
-const FolderButtons = ({
-  setFocusId,
-  selectedFolder,
-  setAmountOfButtons,
-}: FolderButtonProps) => {
+const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { folderId } = useParams();
@@ -124,7 +119,7 @@ const FolderButtons = ({
   const isFolderShared = selectedFolder?.status !== 'private';
 
   const sharedButton =
-    selectedFolder && isFolderShared ? (
+    selectedFolder && isFolderShared && showShareFolder ? (
       <FolderShareModal
         key="sharedFolderButton"
         type="shared"
@@ -148,7 +143,7 @@ const FolderButtons = ({
     ) : null;
 
   const unShareButton =
-    selectedFolder && isFolderShared ? (
+    selectedFolder && isFolderShared && showShareFolder ? (
       <FolderShareModal
         key="unShareFolderButton"
         type="unShare"
@@ -181,7 +176,7 @@ const FolderButtons = ({
     ) : null;
 
   const shareButton =
-    selectedFolder && !isFolderShared ? (
+    selectedFolder && !isFolderShared && showShareFolder ? (
       <FolderShareModal
         key="shareFolderButton"
         type="private"
@@ -229,7 +224,7 @@ const FolderButtons = ({
     />
   ) : null;
 
-  const deleteFolderButton = selectedFolder?.id ? (
+  const deleteFolderButton = selectedFolder ? (
     <FolderDeleteModal
       key="deleteFolderButton"
       onDelete={onDeleteFolder}
@@ -244,7 +239,7 @@ const FolderButtons = ({
   ) : null;
 
   const copySharedFolderLink =
-    selectedFolder && isFolderShared ? (
+    selectedFolder && isFolderShared && showShareFolder ? (
       <ButtonV2
         key="copySharedLink"
         css={buttonCss}
@@ -265,7 +260,7 @@ const FolderButtons = ({
     ) : null;
 
   const previewFolderButton =
-    selectedFolder && isFolderShared ? (
+    selectedFolder && isFolderShared && showShareFolder ? (
       <SafeLinkButton
         key="previewFolder"
         css={buttonCss}
@@ -278,12 +273,7 @@ const FolderButtons = ({
       </SafeLinkButton>
     ) : null;
 
-  if (!showShareFolder) {
-    const buttons = [addFolderButton, editFolderButton, deleteFolderButton];
-    setAmountOfButtons(buttons.filter(Boolean).length);
-    return buttons;
-  }
-  const buttons = [
+  return [
     addFolderButton,
     editFolderButton,
     shareButton,
@@ -293,8 +283,6 @@ const FolderButtons = ({
     unShareButton,
     deleteFolderButton,
   ];
-  setAmountOfButtons(buttons.filter(Boolean).length);
-  return buttons;
 };
 
 export default memo(FolderButtons);
