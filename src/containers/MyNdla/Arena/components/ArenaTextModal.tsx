@@ -27,6 +27,7 @@ import ArenaForm, { ArenaFormValues } from './ArenaForm';
 const StyledModalBody = styled(ModalBody)`
   display: flex;
   flex-direction: column;
+  padding-top: 0px;
 `;
 
 const StyledPencil = styled(Pencil)`
