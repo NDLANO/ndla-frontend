@@ -8,8 +8,7 @@
 
 import { useTranslation } from 'react-i18next';
 import { useCallback, useContext, useEffect } from 'react';
-import { useParams } from 'react-router';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
