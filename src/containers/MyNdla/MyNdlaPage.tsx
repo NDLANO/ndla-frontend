@@ -7,18 +7,15 @@
  */
 
 import { useContext, useEffect, useMemo } from 'react';
-import { Trans, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import keyBy from 'lodash/keyBy';
 import styled from '@emotion/styled';
 import { colors, fonts, spacing } from '@ndla/core';
-import { ForwardArrow, HeartOutline, MenuBook } from '@ndla/icons/action';
+import { ForwardArrow } from '@ndla/icons/action';
 import SafeLink from '@ndla/safelink';
-import { FolderOutlined } from '@ndla/icons/contentType';
-import { Share } from '@ndla/icons/common';
 import { CampaignBlock, ListResource } from '@ndla/ui';
 import { HelmetWithTracker, useTracker } from '@ndla/tracker';
-import { Heading, Text } from '@ndla/typography';
-import InfoPart, { InfoPartIcon } from './InfoPart';
+import { Heading } from '@ndla/typography';
 import { AuthContext } from '../../components/AuthenticationContext';
 import {
   useFolderResourceMetaSearch,
@@ -32,11 +29,6 @@ import MyNdlaPageWrapper from './components/MyNdlaPageWrapper';
 import { useAiOrgs } from './configQueries';
 import { useRecentTopics } from './arenaQueries';
 import TopicCard from './Arena/components/TopicCard';
-
-const ShareIcon = InfoPartIcon.withComponent(Share);
-const HeartOutlineIcon = InfoPartIcon.withComponent(HeartOutline);
-const FolderOutlinedIcon = InfoPartIcon.withComponent(FolderOutlined);
-const FavoriteSubjectIcon = InfoPartIcon.withComponent(MenuBook);
 
 const StyledPageContentContainer = styled.div`
   display: flex;
@@ -161,33 +153,6 @@ const MyNdlaPage = () => {
             }}
           />
         )}
-        <InfoPart icon={<ShareIcon />} title={t('myNdla.myPage.sharing.title')}>
-          <Text textStyle="content-alt">{t('myNdla.myPage.sharing.text')}</Text>
-        </InfoPart>
-        <InfoPart
-          icon={<HeartOutlineIcon />}
-          title={t('myNdla.myPage.storageInfo.title')}
-        >
-          <Text textStyle="content-alt">
-            {t('myNdla.myPage.storageInfo.text')}
-          </Text>
-        </InfoPart>
-        <InfoPart
-          icon={<FavoriteSubjectIcon />}
-          title={t('myNdla.myPage.favoriteSubjects.title')}
-        >
-          <Text textStyle="content-alt">
-            {t('myNdla.myPage.favoriteSubjects.text')}
-          </Text>
-        </InfoPart>
-        <InfoPart
-          icon={<FolderOutlinedIcon />}
-          title={t('myNdla.myPage.folderInfo.title')}
-        >
-          <Text textStyle="content-alt">
-            <Trans i18nKey="myNdla.myPage.folderInfo.text" />
-          </Text>
-        </InfoPart>
         {allFolderResources && allFolderResources.length > 0 && (
           <SectionWrapper>
             <Heading element="h2" headingStyle="h2" margin="small">
