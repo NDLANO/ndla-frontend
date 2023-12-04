@@ -109,9 +109,8 @@ const DraggableResource = ({
 
   const Resource = viewType === 'block' ? BlockResource : ListResource;
 
-  const actions: MenuItemProps[] = useMemo(() => {
-    if (examLock) return [];
-    return [
+  const actions: MenuItemProps[] = useMemo(
+    () => [
       {
         icon: <FolderOutlined />,
         text: t('myNdla.resource.add'),
@@ -128,6 +127,7 @@ const DraggableResource = ({
             }}
           />
         ),
+        remove: !examLock,
       },
       {
         icon: <Link />,
@@ -141,6 +141,7 @@ const DraggableResource = ({
             id: 'linkCopied',
           });
         },
+        remove: !examLock,
       },
       {
         icon: <DeleteForever />,
@@ -160,9 +161,11 @@ const DraggableResource = ({
           />
         ),
         type: 'danger',
+        remove: !examLock,
       },
-    ];
-  }, [addSnack, examLock, index, onDeleteFolder, resource, selectedFolder, t]);
+    ],
+    [addSnack, examLock, index, onDeleteFolder, resource, selectedFolder, t],
+  );
 
   const menu = useMemo(() => <SettingsMenu menuItems={actions} />, [actions]);
 

@@ -87,6 +87,7 @@ const FavoriteSubjectsPage = () => {
             text: t('subjectsPage.allSubjects'),
             icon: <Forward css={iconCss} />,
             onClick: () => navigate('/subjects'),
+            remove: false,
           },
         ]}
       />

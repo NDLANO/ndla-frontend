@@ -178,41 +178,39 @@ const Resources = ({ resources }: ResourcesProps) => {
               }}
               menu={
                 <SettingsMenu
-                  menuItems={
-                    examLock
-                      ? []
-                      : [
-                          {
-                            icon: <FolderOutlined />,
-                            text: t('myNdla.resource.add'),
-                            isModal: true,
-                            modality: false,
-                            modalContent: (close) => (
-                              <AddResourceToFolderModalContent
-                                resource={{
-                                  id: resource.resourceId,
-                                  resourceType: resource.resourceType,
-                                  path: resource.path,
-                                }}
-                                close={close}
-                              />
-                            ),
-                          },
-                          {
-                            icon: <Link />,
-                            text: t('myNdla.resource.copyLink'),
-                            onClick: () => {
-                              navigator.clipboard.writeText(
-                                `${config.ndlaFrontendDomain}${resource.path}`,
-                              );
-                              addSnack({
-                                content: t('myNdla.resource.linkCopied'),
-                                id: 'linkCopied',
-                              });
-                            },
-                          },
-                        ]
-                  }
+                  menuItems={[
+                    {
+                      icon: <FolderOutlined />,
+                      text: t('myNdla.resource.add'),
+                      isModal: true,
+                      modality: false,
+                      modalContent: (close) => (
+                        <AddResourceToFolderModalContent
+                          resource={{
+                            id: resource.resourceId,
+                            resourceType: resource.resourceType,
+                            path: resource.path,
+                          }}
+                          close={close}
+                        />
+                      ),
+                      remove: !examLock,
+                    },
+                    {
+                      icon: <Link />,
+                      text: t('myNdla.resource.copyLink'),
+                      onClick: () => {
+                        navigator.clipboard.writeText(
+                          `${config.ndlaFrontendDomain}${resource.path}`,
+                        );
+                        addSnack({
+                          content: t('myNdla.resource.linkCopied'),
+                          id: 'linkCopied',
+                        });
+                      },
+                      remove: !examLock,
+                    },
+                  ]}
                 />
               }
             />
