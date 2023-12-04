@@ -60,6 +60,9 @@ const StyledNavList = styled.ul`
 `;
 
 const StyledLi = styled.li`
+  &:hover {
+    background-color: ${colors.brand.lighter};
+  }
   /* Menubar on phone should only display first 4 
   links and the rest when the modal is open */
   &:not(:nth-of-type(-n + 4)) {
