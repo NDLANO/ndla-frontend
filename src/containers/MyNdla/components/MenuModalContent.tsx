@@ -170,6 +170,7 @@ const MenuModalContent = ({
         variant="ghost"
         colorTheme="lighter"
         to={toAllNotifications()}
+        onClick={() => setIsOpen(false)}
         css={buttonCss}
       >
         <BellIcon
@@ -181,7 +182,7 @@ const MenuModalContent = ({
         {t('myNdla.arena.notification.title')}
       </SafeLinkButton>
     ),
-    [notifications, t],
+    [notifications, setIsOpen, t],
   );
 
   const onCloseModal = useCallback(
