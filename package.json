@@ -3,7 +3,7 @@
   "version": "0.1.16",
   "description": "NDLA Frontend",
   "scripts": {
-    "build": "tsc -b && cross-env NODE_ENV=production ts-node scripts/build",
+    "build": "tsc -b && cross-env NODE_ENV=production NODE_OPTIONS='--preserve-symlinks' ts-node scripts/build",
     "check-all": "yarn format-check && yarn lint-es && yarn test-ci",
     "clean": "rm -rf node_modules/.cache build",
     "test": "cross-env NDLA_ENVIRONMENT=test BABEL_ENV=test NODE_ENV=unittest jest",
