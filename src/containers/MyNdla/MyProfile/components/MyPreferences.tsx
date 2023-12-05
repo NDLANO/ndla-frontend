@@ -131,24 +131,26 @@ const MyPreferences = ({ user }: MyPreferencesProps) => {
               {t('myNdla.myProfile.preferenceText')}
             </Text>
           </OptionContainer>
-          <StyledRadioButtonGroup
-            options={[
-              {
-                title: t('myNdla.myProfile.namePreference.showName'),
-                value: 'showName',
-              },
-              {
-                title: t('myNdla.myProfile.namePreference.dontShowName'),
-                value: 'dontShowName',
-              },
-            ]}
-            direction="vertical"
-            uniqeIds
-            selected={userPreference}
-            onChange={(value) => {
-              setUserPref(value);
-            }}
-          />
+          <form>
+            <StyledRadioButtonGroup
+              options={[
+                {
+                  title: t('myNdla.myProfile.namePreference.showName'),
+                  value: 'showName',
+                },
+                {
+                  title: t('myNdla.myProfile.namePreference.dontShowName'),
+                  value: 'dontShowName',
+                },
+              ]}
+              direction="vertical"
+              uniqeIds
+              selected={userPreference}
+              onChange={(value) => {
+                setUserPref(value);
+              }}
+            />
+          </form>
         </>
       )}
     </PreferenceContainer>
