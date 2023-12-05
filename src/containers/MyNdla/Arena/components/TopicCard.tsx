@@ -10,7 +10,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Text } from '@ndla/typography';
 import SafeLink from '@ndla/safelink';
-import { colors, spacing, breakpoints, mq, misc } from '@ndla/core';
+import { colors, spacing, misc } from '@ndla/core';
 import { Locked } from '@ndla/icons/common';
 import { formatDateTime } from '../../../../util/formatDate';
 import { toArenaTopic } from '../utils';
@@ -27,6 +27,7 @@ const StyledSafelink = styled(SafeLink)`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  gap: ${spacing.normal};
   padding: ${spacing.normal} ${spacing.medium};
   padding-left: ${spacing.large};
   border: 1px solid ${colors.brand.light};
@@ -66,9 +67,6 @@ const StyledCountContainer = styled.div`
   flex-direction: column;
   align-items: center;
   color: ${colors.text.primary};
-  ${mq.range({ until: breakpoints.tabletWide })} {
-    display: none;
-  }
 `;
 
 const LockedIconCSS = css`

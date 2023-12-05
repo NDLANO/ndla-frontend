@@ -60,7 +60,7 @@ const StyledSafelink = styled(SafeLink)`
 
 const SpacingContainer = styled.div`
   display: flex;
-  gap: ${spacing.small};
+  gap: ${spacing.normal};
   justify-content: space-between;
   width: 100%;
 `;
