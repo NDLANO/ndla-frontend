@@ -46,14 +46,13 @@ export interface MenuItemProps {
   ref?: RefObject<HTMLButtonElement>;
   modalContent?: (
     close: VoidFunction,
-    setSkipAutoFocus?: VoidFunction,
+    setSkipAutoFocus: VoidFunction,
   ) => ReactNode;
   modality?: boolean;
 }
 
 interface Props {
   menuItems?: MenuItemProps[];
-  inToolbar?: boolean;
 }
 
 const StyledDrawer = styled(Drawer)`
@@ -139,12 +138,15 @@ const SettingsMenu = ({ menuItems }: Props) => {
 
   const close = useCallback(() => setOpen(false), []);
 
+  const title = t('myNdla.showEditOptions');
+
   if (isMobile || isTablet) {
     return (
       <Modal open={open} onOpenChange={setOpen}>
         <ModalTrigger>
           <IconButtonV2
-            aria-label={t('myNdla.more')}
+            title={title}
+            aria-label={title}
             colorTheme="light"
             variant="ghost"
             disabled={!menuItems?.length}
@@ -216,7 +218,8 @@ const SettingsMenu = ({ menuItems }: Props) => {
     <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownTrigger>
         <DropdownTriggerButton
-          aria-label={t('myNdla.more')}
+          title={title}
+          aria-label={title}
           colorTheme="light"
           variant="ghost"
           disabled={!menuItems?.length}
@@ -289,7 +292,7 @@ interface ItemProps
   > {
   children?: ReactNode;
   handleDialogItemOpenChange?: (open: boolean, keepOpen?: boolean) => void;
-  setSkipAutoFocus?: VoidFunction;
+  setSkipAutoFocus: VoidFunction;
 }
 
 const Item = ({

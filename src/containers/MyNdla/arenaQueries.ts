@@ -22,7 +22,7 @@ import {
 import { useGraphQuery } from '../../util/runQueries';
 
 const arenaUserFragment = gql`
-  fragment ArenaUserQueryFragment on ArenaUser {
+  fragment ArenaUser on ArenaUser {
     displayName
     id
     profilePicture
@@ -34,7 +34,7 @@ const arenaUserFragment = gql`
 `;
 
 export const arenaCategoriesFragment = gql`
-  fragment ArenaCategoriesFragment on ArenaCategory {
+  fragment ArenaCategories on ArenaCategory {
     __typename
     description
     disabled
@@ -47,7 +47,7 @@ export const arenaCategoriesFragment = gql`
 `;
 
 export const arenaCategoryFragment = gql`
-  fragment ArenaCategoryFragment on ArenaCategory {
+  fragment ArenaCategory on ArenaCategory {
     __typename
     description
     disabled
@@ -60,7 +60,7 @@ export const arenaCategoryFragment = gql`
 `;
 
 export const arenaTopicFragment = gql`
-  fragment ArenaTopicFragment on ArenaTopic {
+  fragment ArenaTopic on ArenaTopic {
     __typename
     categoryId
     id
@@ -75,7 +75,7 @@ export const arenaTopicFragment = gql`
 `;
 
 export const arenaPostFragment = gql`
-  fragment ArenaPostFragment on ArenaPost {
+  fragment ArenaPost on ArenaPost {
     __typename
     content
     id
@@ -94,7 +94,7 @@ export const arenaPostFragment = gql`
 export const arenaUserQuery = gql`
   query ArenaUser($username: String!) {
     arenaUser(username: $username) {
-      ...ArenaUserQueryFragment
+      ...ArenaUser
     }
   }
   ${arenaUserFragment}
@@ -103,7 +103,7 @@ export const arenaUserQuery = gql`
 export const arenaCategoriesQuery = gql`
   query arenaPage {
     arenaCategories {
-      ...ArenaCategoriesFragment
+      ...ArenaCategories
     }
   }
   ${arenaCategoriesFragment}
@@ -112,9 +112,9 @@ export const arenaCategoriesQuery = gql`
 export const arenaCategoryQuery = gql`
   query arenaCategory($categoryId: Int!, $page: Int!) {
     arenaCategory(categoryId: $categoryId, page: $page) {
-      ...ArenaCategoryFragment
+      ...ArenaCategory
       topics {
-        ...ArenaTopicFragment
+        ...ArenaTopic
       }
       topicCount
     }
@@ -126,9 +126,9 @@ export const arenaCategoryQuery = gql`
 export const arenaTopicById = gql`
   query arenaTopicById($topicId: Int!, $page: Int!) {
     arenaTopic(topicId: $topicId, page: $page) {
-      ...ArenaTopicFragment
+      ...ArenaTopic
       posts {
-        ...ArenaPostFragment
+        ...ArenaPost
       }
     }
   }
@@ -139,7 +139,7 @@ export const arenaTopicById = gql`
 export const arenaTopicsByUserQuery = gql`
   query arenaTopicsByUser($userSlug: String!) {
     arenaTopicsByUser(userSlug: $userSlug) {
-      ...ArenaTopicFragment
+      ...ArenaTopic
     }
   }
   ${arenaTopicFragment}
@@ -158,7 +158,7 @@ export const useArenaUser = (
 const arenaRecentTopics = gql`
   query arenaRecentTopics {
     arenaRecentTopics {
-      ...ArenaTopicFragment
+      ...ArenaTopic
     }
   }
   ${arenaTopicFragment}
@@ -191,7 +191,7 @@ export const useArenaTopic = (
 };
 
 const arenaNotificationFragment = gql`
-  fragment ArenaNotificationFragment on ArenaNotification {
+  fragment ArenaNotification on ArenaNotification {
     __typename
     bodyShort
     datetimeISO
@@ -216,7 +216,7 @@ const arenaNotificationFragment = gql`
 export const arenaNotificationQuery = gql`
   query arenaNotifications {
     arenaNotifications {
-      ...ArenaNotificationFragment
+      ...ArenaNotification
     }
   }
   ${arenaNotificationFragment}

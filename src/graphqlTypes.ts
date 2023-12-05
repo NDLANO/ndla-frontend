@@ -2828,7 +2828,7 @@ export type GQLReplyToTopicMutationVariables = Exact<{
 
 export type GQLReplyToTopicMutation = {
   __typename?: 'Mutation';
-  replyToTopic: { __typename?: 'ArenaPost' } & GQLArenaPostFragmentFragment;
+  replyToTopic: { __typename?: 'ArenaPost' } & GQLArenaPostFragment;
 };
 
 export type GQLUpdatePostMutationVariables = Exact<{
@@ -2839,7 +2839,7 @@ export type GQLUpdatePostMutationVariables = Exact<{
 
 export type GQLUpdatePostMutation = {
   __typename?: 'Mutation';
-  updatePost: { __typename?: 'ArenaPost' } & GQLArenaPostFragmentFragment;
+  updatePost: { __typename?: 'ArenaPost' } & GQLArenaPostFragment;
 };
 
 export type GQLDeletePostMutationVariables = Exact<{
@@ -2868,7 +2868,7 @@ export type GQLNewArenaTopicMutationVariables = Exact<{
 
 export type GQLNewArenaTopicMutation = {
   __typename?: 'Mutation';
-  newArenaTopic: { __typename?: 'ArenaTopic' } & GQLArenaTopicFragmentFragment;
+  newArenaTopic: { __typename?: 'ArenaTopic' } & GQLArenaTopicFragment;
 };
 
 export type GQLMarkNotificationAsReadMutationVariables = Exact<{
@@ -2898,7 +2898,7 @@ export type GQLUnsubscribeFromTopicMutation = {
   unsubscribeFromTopic: number;
 };
 
-export type GQLArenaUserQueryFragmentFragment = {
+export type GQLArenaUserFragment = {
   __typename?: 'ArenaUser';
   displayName: string;
   id: number;
@@ -2909,7 +2909,7 @@ export type GQLArenaUserQueryFragmentFragment = {
   username: string;
 };
 
-export type GQLArenaCategoriesFragmentFragment = {
+export type GQLArenaCategoriesFragment = {
   __typename: 'ArenaCategory';
   description: string;
   disabled: boolean;
@@ -2920,7 +2920,7 @@ export type GQLArenaCategoriesFragmentFragment = {
   slug: string;
 };
 
-export type GQLArenaCategoryFragmentFragment = {
+export type GQLArenaCategoryFragment = {
   __typename: 'ArenaCategory';
   description: string;
   disabled: boolean;
@@ -2931,7 +2931,7 @@ export type GQLArenaCategoryFragmentFragment = {
   slug: string;
 };
 
-export type GQLArenaTopicFragmentFragment = {
+export type GQLArenaTopicFragment = {
   __typename: 'ArenaTopic';
   categoryId: number;
   id: number;
@@ -2944,7 +2944,7 @@ export type GQLArenaTopicFragmentFragment = {
   isFollowing?: boolean;
 };
 
-export type GQLArenaPostFragmentFragment = {
+export type GQLArenaPostFragment = {
   __typename: 'ArenaPost';
   content: string;
   id: number;
@@ -2966,7 +2966,7 @@ export type GQLArenaUserQueryVariables = Exact<{
 
 export type GQLArenaUserQuery = {
   __typename?: 'Query';
-  arenaUser?: { __typename?: 'ArenaUser' } & GQLArenaUserQueryFragmentFragment;
+  arenaUser?: { __typename?: 'ArenaUser' } & GQLArenaUserFragment;
 };
 
 export type GQLArenaPageQueryVariables = Exact<{ [key: string]: never }>;
@@ -2974,7 +2974,7 @@ export type GQLArenaPageQueryVariables = Exact<{ [key: string]: never }>;
 export type GQLArenaPageQuery = {
   __typename?: 'Query';
   arenaCategories: Array<
-    { __typename?: 'ArenaCategory' } & GQLArenaCategoriesFragmentFragment
+    { __typename?: 'ArenaCategory' } & GQLArenaCategoriesFragment
   >;
 };
 
@@ -2988,10 +2988,8 @@ export type GQLArenaCategoryQuery = {
   arenaCategory?: {
     __typename?: 'ArenaCategory';
     topicCount: number;
-    topics?: Array<
-      { __typename?: 'ArenaTopic' } & GQLArenaTopicFragmentFragment
-    >;
-  } & GQLArenaCategoryFragmentFragment;
+    topics?: Array<{ __typename?: 'ArenaTopic' } & GQLArenaTopicFragment>;
+  } & GQLArenaCategoryFragment;
 };
 
 export type GQLArenaTopicByIdQueryVariables = Exact<{
@@ -3003,8 +3001,8 @@ export type GQLArenaTopicByIdQuery = {
   __typename?: 'Query';
   arenaTopic?: {
     __typename?: 'ArenaTopic';
-    posts: Array<{ __typename?: 'ArenaPost' } & GQLArenaPostFragmentFragment>;
-  } & GQLArenaTopicFragmentFragment;
+    posts: Array<{ __typename?: 'ArenaPost' } & GQLArenaPostFragment>;
+  } & GQLArenaTopicFragment;
 };
 
 export type GQLArenaTopicsByUserQueryVariables = Exact<{
@@ -3014,7 +3012,7 @@ export type GQLArenaTopicsByUserQueryVariables = Exact<{
 export type GQLArenaTopicsByUserQuery = {
   __typename?: 'Query';
   arenaTopicsByUser: Array<
-    { __typename?: 'ArenaTopic' } & GQLArenaTopicFragmentFragment
+    { __typename?: 'ArenaTopic' } & GQLArenaTopicFragment
   >;
 };
 
@@ -3025,11 +3023,11 @@ export type GQLArenaRecentTopicsQueryVariables = Exact<{
 export type GQLArenaRecentTopicsQuery = {
   __typename?: 'Query';
   arenaRecentTopics: Array<
-    { __typename?: 'ArenaTopic' } & GQLArenaTopicFragmentFragment
+    { __typename?: 'ArenaTopic' } & GQLArenaTopicFragment
   >;
 };
 
-export type GQLArenaNotificationFragmentFragment = {
+export type GQLArenaNotificationFragment = {
   __typename: 'ArenaNotification';
   bodyShort: string;
   datetimeISO: string;
@@ -3058,7 +3056,7 @@ export type GQLArenaNotificationsQueryVariables = Exact<{
 export type GQLArenaNotificationsQuery = {
   __typename?: 'Query';
   arenaNotifications: Array<
-    { __typename?: 'ArenaNotification' } & GQLArenaNotificationFragmentFragment
+    { __typename?: 'ArenaNotification' } & GQLArenaNotificationFragment
   >;
 };
 
