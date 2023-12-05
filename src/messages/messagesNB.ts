@@ -28,6 +28,9 @@ const messages = {
     myTagsPage: `Mine emneknagger - ${titleTemplate}`,
     sharedFolderPage: `{{name}} - ${titleTemplate}`,
     aboutPage: `{{name}} - ${titleTemplate}`,
+    arenaPage: `Arena - ${titleTemplate}`,
+    arenaTopicPage: `{{name}} - Arena - ${titleTemplate}`,
+    arenaPostPage: `{{name}} - Arena - ${titleTemplate}`,
   },
   podcastPage: {
     episodes: 'Episoder',
@@ -55,6 +58,8 @@ const messages = {
     fields: {
       name: 'Navn',
       description: 'Beskrivelse',
+      title: 'Tittel',
+      content: 'Innhold',
     },
     required: 'Dette feltet er påkrevd',
     requiredField: '$t(validation.fields.{{field}}) er påkrevd',

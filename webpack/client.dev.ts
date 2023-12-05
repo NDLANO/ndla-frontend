@@ -28,6 +28,8 @@ const clientDevConfig: Configuration = {
     alias: {
       // Useful when linking to avoid mismatching react versions.
       react: path.resolve('./node_modules/react'),
+      'react-router-dom': path.resolve('./node_modules/react-router-dom'),
+      'react-helmet-async': path.resolve('./node_modules/react-helmet-async'),
     },
   },
   devServer: {

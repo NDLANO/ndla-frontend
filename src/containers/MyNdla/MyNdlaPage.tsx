@@ -7,17 +7,15 @@
  */
 
 import { useContext, useEffect, useMemo } from 'react';
-import { Trans, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import keyBy from 'lodash/keyBy';
 import styled from '@emotion/styled';
-import { fonts, spacing } from '@ndla/core';
-import { HeartOutline, MenuBook } from '@ndla/icons/action';
-import { FolderOutlined } from '@ndla/icons/contentType';
-import { Share } from '@ndla/icons/common';
-import { BannerCard, ListResource } from '@ndla/ui';
+import { colors, fonts, spacing } from '@ndla/core';
+import { ForwardArrow } from '@ndla/icons/action';
+import SafeLink from '@ndla/safelink';
+import { CampaignBlock, ListResource } from '@ndla/ui';
 import { HelmetWithTracker, useTracker } from '@ndla/tracker';
-import { Text } from '@ndla/typography';
-import InfoPart, { InfoPartIcon } from './InfoPart';
+import { Heading } from '@ndla/typography';
 import { AuthContext } from '../../components/AuthenticationContext';
 import {
   useFolderResourceMetaSearch,
@@ -29,11 +27,8 @@ import { isStudent } from './Folders/util';
 import { getAllDimensions } from '../../util/trackingUtil';
 import MyNdlaPageWrapper from './components/MyNdlaPageWrapper';
 import { useAiOrgs } from './configQueries';
-
-const ShareIcon = InfoPartIcon.withComponent(Share);
-const HeartOutlineIcon = InfoPartIcon.withComponent(HeartOutline);
-const FolderOutlinedIcon = InfoPartIcon.withComponent(FolderOutlined);
-const FavoriteSubjectIcon = InfoPartIcon.withComponent(MenuBook);
+import { useRecentTopics } from './arenaQueries';
+import TopicCard from './Arena/components/TopicCard';
 
 const StyledPageContentContainer = styled.div`
   display: flex;
@@ -45,7 +40,35 @@ const StyledResourceList = styled.ul`
   display: flex;
   margin: 0;
   flex-direction: column;
+  list-style: none;
   gap: ${spacing.xsmall};
+  li {
+    margin: 0px;
+    padding: 0px;
+  }
+`;
+
+const SectionWrapper = styled.section`
+  display: flex;
+  flex-direction: column;
+  gap: ${spacing.small};
+`;
+
+const StyledSafeLink = styled(SafeLink)`
+  display: block;
+  box-shadow: none;
+  text-decoration: underline;
+  color: ${colors.brand.primary};
+  text-underline-offset: ${spacing.xsmall};
+  svg {
+    width: ${spacing.snormal};
+    height: ${spacing.snormal};
+    margin-left: ${spacing.xsmall};
+  }
+  &:focus-within,
+  &:hover {
+    text-decoration: none;
+  }
 `;
 
 const ListItem = styled.li`
@@ -58,7 +81,7 @@ const StyledDescription = styled.p`
   ${fonts.sizes('24px')};
 `;
 
-const StyledBannerCard = styled(BannerCard)`
+const StyledCampaignBlock = styled(CampaignBlock)`
   max-width: 100%;
   margin-bottom: ${spacing.normal};
 `;
@@ -69,6 +92,7 @@ const MyNdlaPage = () => {
   const { trackPageView } = useTracker();
   const { allFolderResources } = useRecentlyUsedResources();
   const { data: aiData } = useAiOrgs();
+  const recentArenaTopicsQuery = useRecentTopics({ skip: !user?.arenaEnabled });
   const { data: metaData, loading } = useFolderResourceMetaSearch(
     allFolderResources?.map((r) => ({
       id: r.resourceId,
@@ -106,58 +130,34 @@ const MyNdlaPage = () => {
         </TitleWrapper>
         <StyledDescription>{t('myNdla.myPage.welcome')}</StyledDescription>
         {allowedAiOrgs.includes(user?.organization ?? '') && (
-          <StyledBannerCard
-            link={`https://ai.ndla.no/${aiLang}`}
+          <StyledCampaignBlock
             title={{
               title: t('myndla.campaignBlock.title'),
-              lang: i18n.language,
+              language: i18n.language,
             }}
+            headingLevel="h3"
             image={{
-              imageSrc: '/static/ndla-ai.png',
-              altText: '',
+              src: '/static/ndla-ai.png',
+              alt: '',
             }}
-            linkText={{
+            imageSide="left"
+            url={{
+              url: `https://ai.ndla.no/${aiLang}`,
               text: t('myndla.campaignBlock.linkText'),
-              lang: i18n.language,
             }}
-            content={{
-              content: isStudent(user)
+            description={{
+              text: isStudent(user)
                 ? t('myndla.campaignBlock.ingressStudent')
                 : t('myndla.campaignBlock.ingress'),
-              lang: i18n.language,
+              language: i18n.language,
             }}
           />
         )}
-        <InfoPart icon={<ShareIcon />} title={t('myNdla.myPage.sharing.title')}>
-          <Text textStyle="content-alt">{t('myNdla.myPage.sharing.text')}</Text>
-        </InfoPart>
-        <InfoPart
-          icon={<HeartOutlineIcon />}
-          title={t('myNdla.myPage.storageInfo.title')}
-        >
-          <Text textStyle="content-alt">
-            {t('myNdla.myPage.storageInfo.text')}
-          </Text>
-        </InfoPart>
-        <InfoPart
-          icon={<FavoriteSubjectIcon />}
-          title={t('myNdla.myPage.favoriteSubjects.title')}
-        >
-          <Text textStyle="content-alt">
-            {t('myNdla.myPage.favoriteSubjects.text')}
-          </Text>
-        </InfoPart>
-        <InfoPart
-          icon={<FolderOutlinedIcon />}
-          title={t('myNdla.myPage.folderInfo.title')}
-        >
-          <Text textStyle="content-alt">
-            <Trans i18nKey="myNdla.myPage.folderInfo.text" />
-          </Text>
-        </InfoPart>
         {allFolderResources && allFolderResources.length > 0 && (
-          <>
-            <h2>{t('myNdla.myPage.recentFavourites.title')}</h2>
+          <SectionWrapper>
+            <Heading element="h2" headingStyle="h2" margin="small">
+              {t('myNdla.myPage.recentFavourites.title')}
+            </Heading>
             <StyledResourceList>
               {allFolderResources.map((res) => {
                 const meta = keyedData[`${res.resourceType}${res.resourceId}`];
@@ -181,7 +181,35 @@ const MyNdlaPage = () => {
                 );
               })}
             </StyledResourceList>
-          </>
+            <StyledSafeLink to="folders">
+              {t('myNdla.myPage.recentFavourites.link')}
+              <ForwardArrow />
+            </StyledSafeLink>
+          </SectionWrapper>
+        )}
+        {!!recentArenaTopicsQuery.data?.length && (
+          <SectionWrapper>
+            <Heading element="h2" headingStyle="h2" margin="small">
+              {t('myNdla.myPage.recentArenaPosts.title')}
+            </Heading>
+            <StyledResourceList>
+              {recentArenaTopicsQuery.data.slice(0, 5).map((topic) => (
+                <li key={topic.id}>
+                  <TopicCard
+                    id={topic.id}
+                    count={topic.postCount}
+                    title={topic.title}
+                    timestamp={topic.timestamp}
+                    locked={topic.locked}
+                  />
+                </li>
+              ))}
+            </StyledResourceList>
+            <StyledSafeLink to="arena">
+              {t('myNdla.myPage.recentArenaPosts.link')}
+              <ForwardArrow />
+            </StyledSafeLink>
+          </SectionWrapper>
         )}
       </StyledPageContentContainer>
     </MyNdlaPageWrapper>

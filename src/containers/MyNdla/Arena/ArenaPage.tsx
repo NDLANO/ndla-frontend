@@ -6,17 +6,20 @@
  *
  */
 
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import { Heading, Text } from '@ndla/typography';
+import { HelmetWithTracker, useTracker } from '@ndla/tracker';
 import { Navigate } from 'react-router-dom';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import { useArenaCategories } from '../arenaQueries';
 import ArenaCard from './components/ArenaCard';
 import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
+import { getAllDimensions } from '../../../util/trackingUtil';
+import { SKIP_TO_CONTENT_ID } from '../../../constants';
 
 const StyledCardContainer = styled.ul`
   display: flex;
@@ -33,7 +36,16 @@ const ArenaCardWrapper = styled.li`
 const ArenaPage = () => {
   const { t } = useTranslation();
   const { loading, arenaCategories } = useArenaCategories();
-  const { user } = useContext(AuthContext);
+  const { trackPageView } = useTracker();
+  const { user, authContextLoaded } = useContext(AuthContext);
+
+  useEffect(() => {
+    if (!authContextLoaded || !user?.arenaEnabled) return;
+    trackPageView({
+      title: t('htmlTitles.arenaPage'),
+      dimensions: getAllDimensions({ user }),
+    });
+  }, [authContextLoaded, t, trackPageView, user]);
 
   if (loading) {
     return <Spinner />;
@@ -45,7 +57,13 @@ const ArenaPage = () => {
 
   return (
     <MyNdlaPageWrapper>
-      <Heading element="h1" headingStyle="h1-resource" margin="small">
+      <HelmetWithTracker title={t('htmlTitles.arenaPage')} />
+      <Heading
+        element="h1"
+        id={SKIP_TO_CONTENT_ID}
+        headingStyle="h1-resource"
+        margin="small"
+      >
         {t('myNdla.arena.title')}
       </Heading>
       <Text element="p" textStyle="content-alt">
@@ -61,7 +79,7 @@ const ArenaPage = () => {
           {arenaCategories?.map((category) => (
             <ArenaCardWrapper key={`topic-${category.id}`}>
               <ArenaCard
-                id={category.id.toString()}
+                id={category.id}
                 title={category.name}
                 subText={category.description}
                 count={category.postCount}

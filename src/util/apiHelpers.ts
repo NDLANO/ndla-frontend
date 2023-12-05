@@ -225,6 +225,15 @@ const typePolicies: TypePolicies = {
   ConfigMetaStringList: {
     keyFields: ['key'],
   },
+  ArenaTopic: {
+    fields: {
+      isFollowing: {
+        merge: (existing, incoming) => {
+          return incoming != null ? incoming : existing;
+        },
+      },
+    },
+  },
 };
 
 function getCache() {
@@ -240,7 +249,6 @@ export const createApolloClient = (language = 'nb', versionHash?: string) => {
   const cache = getCache();
 
   return new ApolloClient({
-    ssrMode: true,
     link: createApolloLinks(language, versionHash),
     cache,
   });

@@ -13,34 +13,17 @@ import { Text } from '@ndla/typography';
 import SafeLink from '@ndla/safelink';
 import { colors, spacing, breakpoints, mq, misc } from '@ndla/core';
 import { Forum, ForumOutlined } from '@ndla/icons/common';
+import { toArenaCategory } from '../utils';
 
 interface Props {
-  id: string;
+  id: number;
   title: string;
   subText: string;
   count: number;
 }
 
-const StyledCategoryCard = css`
-  background-color: ${colors.background.default};
-  svg:nth-of-type(2) {
-    display: none;
-  }
-  &:hover,
-  &:focus-visible {
-    background-color: ${colors.background.lightBlue};
-    svg:nth-of-type(1) {
-      display: none;
-    }
-    svg:nth-of-type(2) {
-      display: block;
-    }
-  }
-`;
-
 const StyledSafelink = styled(SafeLink)`
   color: ${colors.text.primary};
-
   display: flex;
   flex-direction: row;
   gap: ${spacing.normal};
@@ -50,11 +33,27 @@ const StyledSafelink = styled(SafeLink)`
   border-radius: ${misc.borderRadius};
   box-shadow: none;
 
+  [data-hover-icon=''] {
+    display: none;
+  }
+
   &:hover,
-  &:focus-visible {
-    background-color: ${colors.brand.lighter};
+  &:focus-within {
+    background-color: ${colors.background.lightBlue};
     [data-name='hover'] {
       text-decoration: none;
+    }
+    svg {
+      display: none;
+    }
+  }
+
+  ${mq.range({ from: breakpoints.mobileWide })} {
+    &:hover,
+    &:focus-within {
+      [data-hover-icon=''] {
+        display: block;
+      }
     }
   }
 `;
@@ -85,7 +84,7 @@ const StyledCountContainer = styled.div`
   }
 `;
 
-const LeftIconCSS = css`
+const iconCss = css`
   width: ${spacing.large};
   height: ${spacing.large};
   color: ${colors.brand.primary};
@@ -97,13 +96,9 @@ const LeftIconCSS = css`
 const ArenaCard = ({ id, title, subText, count }: Props) => {
   const { t } = useTranslation();
   return (
-    <StyledSafelink
-      id={id}
-      css={StyledCategoryCard}
-      to={`/minndla/arena/category/${id}`}
-    >
-      <ForumOutlined css={LeftIconCSS} />
-      <Forum css={LeftIconCSS} />
+    <StyledSafelink to={toArenaCategory(id)}>
+      <ForumOutlined css={iconCss} />
+      <Forum data-hover-icon="" css={iconCss} />
       <SpacingContainer>
         <div>
           <StyledHeader

@@ -13,7 +13,7 @@ import { Text } from '@ndla/typography';
 import Avatar from './Avatar';
 import { useArenaUser } from '../arenaQueries';
 import config from '../../../config';
-import { GQLArenaUserQueryFragmentFragment } from '../../../graphqlTypes';
+import { GQLArenaUser } from '../../../graphqlTypes';
 
 type UserProfileTagProps = {
   displayName: string;
@@ -62,7 +62,7 @@ const ModeratorTag = styled(Text)`
   color: ${colors.white};
 `;
 
-const isModerator = (user?: GQLArenaUserQueryFragmentFragment): boolean => {
+const isModerator = (user?: GQLArenaUser): boolean => {
   return user?.groupTitleArray?.includes(config.arenaModeratorGroup) ?? false;
 };
 
@@ -72,10 +72,13 @@ const UserProfileTag = ({
   affiliation,
 }: UserProfileTagProps) => {
   const { t } = useTranslation();
-  const { arenaUser } = useArenaUser(username ?? '');
+  const { arenaUser } = useArenaUser({
+    variables: { username: username ?? '' },
+    skip: !username,
+  });
 
   return (
-    <UserProfileTagContainer to={`/myndla/arena/user/${username}`}>
+    <UserProfileTagContainer to={`/minndla/arena/user/${username}`}>
       <Avatar
         displayName={arenaUser?.displayName}
         profilePicture={arenaUser?.profilePicture}

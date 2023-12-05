@@ -90,7 +90,16 @@ const MyProfilePage = () => {
       <StyledPageContentContainer>
         <HelmetWithTracker title={t('myNdla.myProfile.title')} />
         <MyNdlaTitle title={t('myNdla.myProfile.title')} />
-        <MyContactArea user={user} />
+        <MyContactArea
+          user={{
+            username: user?.username,
+            displayName: user?.displayName,
+            role: user?.role,
+            primaryOrg:
+              user?.groups.find((g) => g.isPrimarySchool)?.displayName ??
+              user?.organization,
+          }}
+        />
         <MyPreferences user={user} />
         <InfoContainer>
           {user && (

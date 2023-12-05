@@ -216,6 +216,7 @@ const Folder = ({
                   onKeyDown={handleLinkClick}
                   onClick={() => {
                     setFocus(`shared-${folder.id}`);
+                    setIsOpen(true);
                     onClose?.();
                   }}
                 >
@@ -252,6 +253,7 @@ const Folder = ({
                 onKeyDown={handleKeydown}
                 onClick={() => {
                   setFocus(`shared-${folder.id}`);
+                  setIsOpen(true);
                 }}
               >
                 {name}

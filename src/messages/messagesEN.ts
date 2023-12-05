@@ -28,6 +28,9 @@ const messages = {
     myTagsPage: `My tags - ${titleTemplate}`,
     sharedFolderPage: `{{name}} - ${titleTemplate}`,
     aboutPage: `{{name}} - ${titleTemplate}`,
+    arenaPage: `Arena - ${titleTemplate}`,
+    arenaTopicPage: `{{name}} - Arena - ${titleTemplate}`,
+    arenaPostPage: `{{name}} - Arena - ${titleTemplate}`,
   },
   podcastPage: {
     episodes: 'Episodes',
@@ -55,6 +58,8 @@ const messages = {
     fields: {
       name: 'Name',
       description: 'Description',
+      title: 'Title',
+      content: 'Content',
     },
     required: 'This field is required',
     requiredField: '$t(validation.fields.{{field}}) is required',

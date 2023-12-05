@@ -43,6 +43,8 @@ type ArenaNotification {
 
 type ArenaPost {
   content: String!
+  deleted: Boolean!
+  flagId: Int
   id: Int!
   isMainPost: Boolean!
   timestamp: String!
@@ -53,7 +55,9 @@ type ArenaPost {
 type ArenaTopic {
   breadcrumbs: [ArenaBreadcrumb!]!
   categoryId: Int!
+  deleted: Boolean!
   id: Int!
+  isFollowing: Boolean
   locked: Boolean!
   postCount: Int!
   posts: [ArenaPost!]!
@@ -800,11 +804,15 @@ type Mutation {
   deleteFolder(id: String!): String!
   deleteFolderResource(folderId: String!, resourceId: String!): String!
   deletePersonalData: Boolean!
+  deletePost(postId: Int!): Int!
+  deleteTopic(topicId: Int!): Int!
   markNotificationAsRead(topicIds: [Int!]!): [Int!]!
   newArenaTopic(categoryId: Int!, content: String!, title: String!): ArenaTopic!
+  newFlag(id: Int!, reason: String!, type: String!): Int!
   replyToTopic(content: String!, topicId: Int!): ArenaPost!
   sortFolders(parentId: String, sortedIds: [String!]!): SortResult!
   sortResources(parentId: String!, sortedIds: [String!]!): SortResult!
+  subscribeToTopic(topicId: Int!): Int!
   transformArticleContent(
     absoluteUrl: Boolean
     content: String!
@@ -813,6 +821,7 @@ type Mutation {
     subject: String
     visualElement: String
   ): String!
+  unsubscribeFromTopic(topicId: Int!): Int!
   updateFolder(
     description: String
     id: String!
@@ -825,6 +834,7 @@ type Mutation {
     favoriteSubjects: [String]
     shareName: Boolean
   ): MyNdlaPersonalData!
+  updatePost(content: String!, postId: Int!, title: String): ArenaPost!
 }
 
 type MyNdlaGroup {
