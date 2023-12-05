@@ -180,18 +180,16 @@ const ArenaForm = ({
             >
               {t('myNdla.arena.topic.topicContent')}
             </StyledLabel>
-            <StyledInputContainer>
-              <MarkdownEditor
-                setContentWritten={(val) =>
-                  setValue('content', val, {
-                    shouldValidate: true,
-                    shouldDirty: true,
-                  })
-                }
-                initialValue={initialContent ?? ''}
-                {...field}
-              />
-            </StyledInputContainer>
+            <MarkdownEditor
+              setContentWritten={(val) =>
+                setValue('content', val, {
+                  shouldValidate: true,
+                  shouldDirty: true,
+                })
+              }
+              initialValue={initialContent ?? ''}
+              {...field}
+            />
             <FieldInfoWrapper>
               <FieldLength
                 value={field.value.length ?? 0}
