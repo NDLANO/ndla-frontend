@@ -146,7 +146,7 @@ const SettingsMenu = ({ menuItems }: Props) => {
         <ModalTrigger>
           <IconButtonV2
             title={title}
-            aria-label={t('myNdla.more')}
+            aria-label={title}
             colorTheme="light"
             variant="ghost"
             disabled={!menuItems?.length}
@@ -219,7 +219,7 @@ const SettingsMenu = ({ menuItems }: Props) => {
       <DropdownTrigger>
         <DropdownTriggerButton
           title={title}
-          aria-label={t('myNdla.more')}
+          aria-label={title}
           colorTheme="light"
           variant="ghost"
           disabled={!menuItems?.length}
