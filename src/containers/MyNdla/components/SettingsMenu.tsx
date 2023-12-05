@@ -46,7 +46,7 @@ export interface MenuItemProps {
   ref?: RefObject<HTMLButtonElement>;
   modalContent?: (
     close: VoidFunction,
-    setSkipAutoFocus?: VoidFunction,
+    setSkipAutoFocus: VoidFunction,
   ) => ReactNode;
   modality?: boolean;
 }
@@ -292,7 +292,7 @@ interface ItemProps
   > {
   children?: ReactNode;
   handleDialogItemOpenChange?: (open: boolean, keepOpen?: boolean) => void;
-  setSkipAutoFocus?: VoidFunction;
+  setSkipAutoFocus: VoidFunction;
 }
 
 const Item = ({

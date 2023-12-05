@@ -16,7 +16,6 @@ import { Heading, Text } from '@ndla/typography';
 import { HelmetWithTracker, useTracker } from '@ndla/tracker';
 import { arenaCategoryQuery, useArenaCategory } from '../arenaQueries';
 import TopicCard from './components/TopicCard';
-import { GQLArenaTopicFragmentFragment } from '../../../graphqlTypes';
 import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
 import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
 import { AuthContext } from '../../../components/AuthenticationContext';
@@ -141,7 +140,7 @@ const TopicPage = () => {
       <ListWrapper>
         {arenaCategory?.topics
           ?.filter(({ deleted }) => !deleted)
-          .map((topic: GQLArenaTopicFragmentFragment) => (
+          .map((topic) => (
             <StyledCardContainer key={`topicContainer-${topic.id}`}>
               <TopicCard
                 key={`topic-${topic.id}`}

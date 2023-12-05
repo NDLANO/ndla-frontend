@@ -57,12 +57,11 @@ const ArenaTextModal = ({ type, onSave }: Props) => {
 
   const onCreate = useCallback(
     async (data: Partial<ArenaFormValues> | ArenaFormValues) => {
-      await onSave(data);
       setCreated(true);
-      onModalClose();
       setOpen(false);
+      await onSave(data);
     },
-    [setCreated, onSave, onModalClose],
+    [setCreated, onSave, setOpen],
   );
 
   return (
@@ -103,7 +102,7 @@ export const ArenaTextModalContent = ({
 }: ContentProps) => {
   const { t } = useTranslation();
   return (
-    <ModalContent>
+    <ModalContent onCloseAutoFocus={onClose}>
       <ModalHeader>
         <ModalTitle>{t(`myNdla.arena.new.${type}`)}</ModalTitle>
         <ModalCloseButton />

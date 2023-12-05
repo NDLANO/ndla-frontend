@@ -18,7 +18,6 @@ import MyContactArea from './components/MyContactArea';
 import MyNdlaPageWrapper from './components/MyNdlaPageWrapper';
 import MyNdlaBreadcrumb from './components/MyNdlaBreadcrumb';
 import { useArenaTopicsByUser, useArenaUser } from './arenaQueries';
-import { GQLArenaTopicFragmentFragment } from '../../graphqlTypes';
 import TopicCard from './Arena/components/TopicCard';
 
 const BreadcrumbWrapper = styled.div`
@@ -88,7 +87,7 @@ const ArenaUserPage = () => {
         {`${t('myNdla.arena.topicsBy')} ${arenaUser?.displayName}`}
       </Heading>
       <StyledUlWrapper>
-        {arenaTopicsByUser?.map((topic: GQLArenaTopicFragmentFragment) => (
+        {arenaTopicsByUser?.map((topic) => (
           <CardListItem key={`topicContainer-${topic.id}`}>
             <TopicCard
               key={`topic-${topic.id}`}
