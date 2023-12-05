@@ -8,11 +8,12 @@
 
 import styled from '@emotion/styled';
 import { breakpoints, mq } from '@ndla/core';
-import { OneColumn } from '@ndla/ui';
-import { HelmetWithTracker } from '@ndla/tracker';
-import { useTranslation } from 'react-i18next';
 import { ButtonV2 } from '@ndla/button';
 import { Copy } from '@ndla/icons/action';
+import { InformationOutline } from '@ndla/icons/common';
+import { HelmetWithTracker } from '@ndla/tracker';
+import { MessageBox, OneColumn } from '@ndla/ui';
+import { useTranslation } from 'react-i18next';
 import { GQLFolder } from '../../../graphqlTypes';
 import ErrorPage from '../../ErrorPage';
 import CopyFolderModal from '../../../components/MyNdla/CopyFolderModal';
@@ -41,6 +42,12 @@ const FolderMeta = ({ folder, title }: Props) => {
   return (
     <main>
       <StyledOneColumn>
+        {folder.status !== 'shaed' ? (
+          <MessageBox>
+            <InformationOutline ariaHidden />
+            {t('myNdla.folder.sharing.previewInformation')}
+          </MessageBox>
+        ) : null}
         <HelmetWithTracker
           title={t('htmlTitles.sharedFolderPage', { name: title })}
         />
