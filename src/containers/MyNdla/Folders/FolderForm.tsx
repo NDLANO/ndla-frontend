@@ -35,13 +35,13 @@ const ButtonRow = styled.div`
   display: flex;
   justify-content: flex-end;
   gap: ${spacing.small};
-  margin-top: ${spacing.large};
+  margin-top: ${spacing.small};
 `;
 
 const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
-  gap: ${spacing.normal};
+  gap: ${spacing.small};
 `;
 
 const StyledParagraph = styled.p`
@@ -126,7 +126,9 @@ const FolderForm = ({
         }}
         render={({ field }) => (
           <FormControl id="name" isRequired isInvalid={!!errors.name?.message}>
-            <Label>{t('validation.fields.name')}</Label>
+            <Label textStyle="label-small" margin="none">
+              {t('validation.fields.name')}
+            </Label>
             <InputV3 {...field} />
             <FieldInfoWrapper>
               <FieldLength
@@ -156,7 +158,9 @@ const FolderForm = ({
             id="description"
             isInvalid={!!errors.description?.message}
           >
-            <Label>{t('validation.fields.description')}</Label>
+            <Label textStyle="label-small" margin="none">
+              {t('validation.fields.description')}
+            </Label>
             <TextAreaV3 {...field} />
             <FieldInfoWrapper>
               <FieldLength
