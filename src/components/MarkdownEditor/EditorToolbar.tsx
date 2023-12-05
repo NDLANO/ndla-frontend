@@ -65,6 +65,9 @@ const StyledButton = styled(IconButtonV2)`
   &[data-active='true'] {
     background: ${colors.brand.neutral7};
   }
+  &[disabled] {
+    background: ${colors.brand.greyLighter};
+  }
 `;
 
 export const getSelectedNode = (
