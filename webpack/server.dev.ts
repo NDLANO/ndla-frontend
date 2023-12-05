@@ -30,6 +30,8 @@ const serverDevConfig: Configuration = {
       react: path.resolve('./node_modules/react'),
       'react-router-dom': path.resolve('./node_modules/react-router-dom'),
       'react-helmet-async': path.resolve('./node_modules/react-helmet-async'),
+      '@emotion/react': path.resolve('./node_modules/@emotion/react'),
+      '@emotion/styled': path.resolve('./node_modules/@emotion/styled'),
     },
   },
   plugins: sharedPlugins.concat(serverPlugins),
