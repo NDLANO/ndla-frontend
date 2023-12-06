@@ -20,7 +20,7 @@ const ToolbarContainer = styled.div`
   justify-content: center;
   border-bottom: 1px solid ${colors.brand.lightest};
   padding: ${spacing.small} ${spacing.large};
-  height: ${spacingUnit * 3}px;
+  min-height: ${spacingUnit * 3}px;
 
   ${mq.range({ from: breakpoints.mobileWide })} {
     display: flex;
@@ -31,6 +31,7 @@ const ButtonContainer = styled.div`
   display: none;
   flex-direction: row;
   gap: ${spacing.small};
+  flex-wrap: wrap;
 
   ${mq.range({ from: breakpoints.wide })} {
     display: flex;

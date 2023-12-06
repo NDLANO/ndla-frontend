@@ -75,6 +75,7 @@ export const BlockWrapper = styled.ul`
 export const buttonCss = css`
   display: flex;
   justify-content: flex-start;
+  white-space: nowrap;
 
   ${mq.range({ until: breakpoints.tablet })} {
     font-weight: ${fonts.weight.normal};
