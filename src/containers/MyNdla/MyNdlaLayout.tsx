@@ -31,7 +31,7 @@ import { Folder } from '@ndla/icons/editor';
 import { Text } from '@ndla/typography';
 import { TFunction } from 'i18next';
 import { AuthContext } from '../../components/AuthenticationContext';
-import NavigationLink from './components/NavigationLink';
+import NavigationLinkButton from './components/NavigationLinkButton';
 import { toHref } from '../../util/urlHelper';
 
 const StyledLayout = styled.div`
@@ -148,7 +148,7 @@ const MyNdlaLayout = () => {
           }
           return (
             <StyledLi key={id}>
-              <NavigationLink
+              <NavigationLinkButton
                 id={id}
                 name={name}
                 shortName={shortName}
