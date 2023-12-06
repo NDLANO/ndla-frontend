@@ -76,7 +76,7 @@ const Placeholder = styled.div`
   left: 0;
   pointer-events: none;
   padding: ${spacing.small};
-  color: ${colors.brand.greyMedium};
+  color: ${colors.brand.grey};
 `;
 
 const InnerEditorContainer = styled.div`
