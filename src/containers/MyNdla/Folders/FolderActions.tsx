@@ -7,8 +7,9 @@
  */
 
 import { Cross, Pencil, Plus } from '@ndla/icons/action';
+import { Link, Share, ShareArrow } from '@ndla/icons/common';
 import { DeleteForever } from '@ndla/icons/editor';
-import { Link, Share } from '@ndla/icons/common';
+import { useSnack } from '@ndla/ui';
 import {
   Dispatch,
   SetStateAction,
@@ -18,23 +19,22 @@ import {
   useRef,
 } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSnack } from '@ndla/ui';
 import { useNavigate, useParams } from 'react-router-dom';
-import { GQLFolder } from '../../../graphqlTypes';
-import { AuthContext } from '../../../components/AuthenticationContext';
-import { copyFolderSharingLink, isStudent } from './util';
-import SettingsMenu, { MenuItemProps } from '../components/SettingsMenu';
+import { CreateModalContent } from './FolderCreateModal';
+import { EditFolderModalContent } from './FolderEditModal';
+import { FolderFormValues } from './FolderForm';
 import { FolderShareModalContent } from './FolderShareModal';
+import { copyFolderSharingLink, isStudent, previewLinkInternal } from './util';
+import DeleteModalContent from '../components/DeleteModalContent';
+import SettingsMenu, { MenuItemProps } from '../components/SettingsMenu';
 import {
   useAddFolderMutation,
   useDeleteFolderMutation,
   useUpdateFolderStatusMutation,
 } from '../folderMutations';
 import config from '../../../config';
-import { FolderFormValues } from './FolderForm';
-import { CreateModalContent } from './FolderCreateModal';
-import { EditFolderModalContent } from './FolderEditModal';
-import DeleteModalContent from '../components/DeleteModalContent';
+import { GQLFolder } from '../../../graphqlTypes';
+import { AuthContext } from '../../../components/AuthenticationContext';
 
 interface Props {
   selectedFolder: GQLFolder | null;
@@ -206,6 +206,15 @@ const FolderActions = ({
       ),
     };
 
+    const previewFolder: MenuItemProps = {
+      icon: <ShareArrow />,
+      text: t('myNdla.folder.sharing.button.preview'),
+      isModal: true,
+      onClick: () => {
+        navigate(previewLinkInternal(selectedFolder.id));
+      },
+    };
+
     const copyLink: MenuItemProps = {
       icon: <Link />,
       text: t('myNdla.folder.sharing.copyLink'),
@@ -308,6 +317,7 @@ const FolderActions = ({
       return actions.concat(
         editFolder,
         shareLink,
+        previewFolder,
         copyLink,
         unShare,
         deleteOpt,
@@ -324,6 +334,7 @@ const FolderActions = ({
     inToolbar,
     examLock,
     addSnack,
+    navigate,
     user,
     t,
   ]);
