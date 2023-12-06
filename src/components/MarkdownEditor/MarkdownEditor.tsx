@@ -7,6 +7,7 @@
  */
 
 import { forwardRef, useState } from 'react';
+import { TFunction } from 'i18next';
 import { $getRoot, $insertNodes, EditorState } from 'lexical';
 import {
   LexicalComposer,
@@ -83,13 +84,14 @@ const InnerEditorContainer = styled.div`
 `;
 
 interface Props {
+  t: TFunction;
   setContentWritten: (data: string) => void;
   initialValue: string;
   name: string;
 }
 
 export const MarkdownEditor = forwardRef(
-  ({ name, setContentWritten, initialValue }: Props, _) => {
+  ({ name, setContentWritten, initialValue, t }: Props, _) => {
     const [floatingAnchorElem, setFloatingAnchorElem] = useState<
       HTMLDivElement | undefined
     >(undefined);
@@ -134,7 +136,9 @@ export const MarkdownEditor = forwardRef(
                   <ContentEditable name={name} role="textbox" {...props} />
                 </EditableWrapper>
               }
-              placeholder={<Placeholder>Enter some text...</Placeholder>}
+              placeholder={
+                <Placeholder>{t('markdownEditor.placeholder')}</Placeholder>
+              }
               ErrorBoundary={LexicalErrorBoundary}
             />
           </InnerEditorContainer>

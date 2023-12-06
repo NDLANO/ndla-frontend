@@ -188,6 +188,7 @@ const ArenaForm = ({
                 })
               }
               initialValue={initialContent ?? ''}
+              t={t}
               {...field}
             />
             <FieldInfoWrapper>
