@@ -7,39 +7,17 @@
  */
 
 import styled from '@emotion/styled';
-import { breakpoints, colors, fonts, mq, spacing } from '@ndla/core';
+import { breakpoints, colors, mq, spacing } from '@ndla/core';
 import { ReactNode } from 'react';
 import { SafeLinkButton } from '@ndla/safelink';
 import { useLocation } from 'react-router-dom';
 import { Text } from '@ndla/typography';
 
 const StyledSafeLinkButton = styled(SafeLinkButton)`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  text-align: center;
-  padding: ${spacing.small};
-  margin: 0;
-  gap: ${spacing.xsmall};
-  box-shadow: none;
-
   color: ${colors.brand.primary};
-  font-weight: ${fonts.weight.normal};
-
-  &[aria-current='page'] {
-    color: ${colors.brand.primary};
-    font-weight: ${fonts.weight.semibold};
-  }
-
-  ${fonts.sizes('16px')};
-
   svg {
     height: ${spacing.normal};
     width: ${spacing.normal};
-  }
-
-  ${mq.range({ until: breakpoints.desktop })} {
-    flex-direction: column;
   }
 `;
 
@@ -52,7 +30,6 @@ const IconWrapper = styled.span`
 const LongText = styled(Text)`
   ${mq.range({ until: breakpoints.desktop })} {
     display: none;
-    width: 0px;
   }
 `;
 
