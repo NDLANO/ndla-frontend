@@ -16,7 +16,7 @@ import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { formatDistanceStrict } from 'date-fns';
 import { nb, nn, enGB } from 'date-fns/locale';
-import { GQLArenaNotificationFragmentFragment } from '../../../graphqlTypes';
+import { GQLArenaNotificationFragment } from '../../../graphqlTypes';
 import { useMarkNotificationsAsRead } from '../arenaMutations';
 import { toArenaTopic, capitalizeFirstLetter } from '../Arena/utils';
 
@@ -93,7 +93,7 @@ const Locales = {
 };
 
 interface Props {
-  notifications?: GQLArenaNotificationFragmentFragment[];
+  notifications?: GQLArenaNotificationFragment[];
   close?: VoidFunction;
 }
 

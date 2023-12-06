@@ -12,7 +12,7 @@ import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { breakpoints, colors, fonts, mq, spacing } from '@ndla/core';
 import { MessageBox } from '@ndla/ui';
-import { FolderOutlined } from '@ndla/icons/contentType';
+import { FolderOutlined, HorizontalMenu } from '@ndla/icons/contentType';
 import {
   Book,
   BookOutlined,
@@ -27,7 +27,7 @@ import {
 } from '@ndla/icons/common';
 import { Modal, ModalTrigger } from '@ndla/modal';
 import { IconButtonV2 } from '@ndla/button';
-import { DragHorizontal, Folder } from '@ndla/icons/editor';
+import { Folder } from '@ndla/icons/editor';
 import { Text } from '@ndla/typography';
 import { TFunction } from 'i18next';
 import { AuthContext } from '../../components/AuthenticationContext';
@@ -175,7 +175,7 @@ const MyNdlaLayout = () => {
               variant="stripped"
               aria-label={t('myNdla.iconMenu.more')}
             >
-              <DragHorizontal />
+              <HorizontalMenu />
               <Text margin="none" textStyle="meta-text-xxsmall">
                 {t('myNdla.iconMenu.more')}
               </Text>

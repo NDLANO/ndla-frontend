@@ -12,7 +12,7 @@ import { colors, spacing } from '@ndla/core';
 import { Bell } from '@ndla/icons/common';
 import { forwardRef, useMemo, ComponentPropsWithRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { GQLArenaNotificationFragmentFragment } from '../../../graphqlTypes';
+import { GQLArenaNotificationFragment } from '../../../graphqlTypes';
 import { iconCss } from '../Folders/FoldersPage';
 
 const NotificationCounter = styled.div`
@@ -39,7 +39,7 @@ const IconWrapper = styled.div`
 `;
 
 interface Props extends ComponentPropsWithRef<'button'> {
-  notifications?: GQLArenaNotificationFragmentFragment[];
+  notifications?: GQLArenaNotificationFragment[];
 }
 
 const NotificationBellButton = forwardRef<HTMLButtonElement, Props>(

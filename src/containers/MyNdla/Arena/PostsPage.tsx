@@ -7,19 +7,19 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { useCallback, useContext, useEffect } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import { HelmetWithTracker, useTracker } from '@ndla/tracker';
+import { useSnack } from '@ndla/ui';
 import PostCard from './components/PostCard';
 import {
   useArenaCategory,
   useArenaNotifications,
   useArenaTopic,
 } from '../arenaQueries';
-import { GQLArenaPostFragmentFragment } from '../../../graphqlTypes';
 import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
 import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
 import { AuthContext } from '../../../components/AuthenticationContext';
@@ -50,7 +50,9 @@ const PostCardWrapper = styled.li`
 const PostsPage = () => {
   const { t } = useTranslation();
   const { topicId } = useParams();
+  const { addSnack } = useSnack();
   const { refetch } = useArenaNotifications();
+  const [focusId, setFocusId] = useState<number | undefined>(undefined);
   const { arenaTopic, loading } = useArenaTopic({
     variables: { topicId: Number(topicId), page: 1 },
     skip: !Number(topicId),
@@ -81,10 +83,32 @@ const PostsPage = () => {
     if (!arenaTopic) return;
     if (arenaTopic?.isFollowing) {
       unsubscribeFromTopic({ variables: { topicId: arenaTopic.id } });
+      addSnack({
+        content: t('myNdla.arena.notification.unsubscribe'),
+        id: 'myNdla.arena.notification.unsubscribe',
+      });
     } else {
       subscribeToTopic({ variables: { topicId: arenaTopic.id } });
+      addSnack({
+        content: t('myNdla.arena.notification.subscribe'),
+        id: 'myNdla.arena.notification.subscribe',
+      });
     }
-  }, [arenaTopic, subscribeToTopic, unsubscribeFromTopic]);
+  }, [arenaTopic, subscribeToTopic, unsubscribeFromTopic, addSnack, t]);
+
+  useEffect(() => {
+    if (document.getElementById(`post-${focusId}`)) {
+      setTimeout(
+        () =>
+          document
+            .getElementById(`post-${focusId}`)
+            ?.getElementsByTagName('a')?.[0]
+            ?.focus(),
+        1,
+      );
+      setFocusId(undefined);
+    }
+  }, [focusId, arenaTopic?.posts]);
 
   if (loading) {
     return <Spinner />;
@@ -117,23 +141,16 @@ const PostsPage = () => {
       </BreadcrumbWrapper>
       <ListWrapper>
         {arenaTopic?.posts
-          ?.filter(({ deleted }) => !deleted)
-          .map((post: GQLArenaPostFragmentFragment) => (
+          .filter(({ deleted }) => !deleted)
+          ?.map((post) => (
             <PostCardWrapper key={post.id} data-main-post={post.isMainPost}>
               <PostCard
-                id={post.id}
+                post={post}
+                topic={arenaTopic}
                 onFollowChange={onFollowChange}
-                isFollowing={!!arenaTopic.isFollowing}
-                timestamp={post.timestamp}
-                isMainPost={post.isMainPost}
-                title={arenaTopic.title ?? ''}
-                content={post.content}
-                displayName={post.user.displayName}
-                username={post.user.username}
-                topicId={post.topicId}
-                categoryId={arenaCategory?.id}
                 // missing affiliation in user
                 affiliation=""
+                setFocusId={setFocusId}
               />
             </PostCardWrapper>
           ))}

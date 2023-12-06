@@ -25,6 +25,7 @@ import { Text } from '@ndla/typography';
 import { FieldLength } from '../../../../containers/MyNdla/Folders/FolderForm';
 import { MarkdownEditor } from '../../../../components/MarkdownEditor/MarkdownEditor';
 import useValidationTranslation from '../../../../util/useValidationTranslation';
+import { iconCss } from '../../Folders/FoldersPage';
 
 const StyledForm = styled.form`
   display: flex;
@@ -49,9 +50,20 @@ const InformationLabel = styled.div`
   background-color: ${colors.support.yellowLight};
 `;
 
+const StyledLabel = styled(Label)`
+  margin: 0;
+  margin-bottom: ${spacing.xxsmall};
+`;
+
+const FieldInfoWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row-reverse;
+`;
+
 const StyledInformationOutline = styled(InformationOutline)`
-  height: ${spacing.snormal};
-  width: ${spacing.snormal};
+  ${iconCss};
+  overflow: unset !important;
 `;
 
 const StyledInputContainer = styled(InputContainer)`
@@ -125,15 +137,19 @@ const ArenaForm = ({
               isRequired
               isInvalid={!!fieldState.error?.message}
             >
-              <Label>{t('title')}</Label>
+              <StyledLabel textStyle="label-small">{t('title')}</StyledLabel>
               <StyledInputContainer>
                 <InputV3 {...field} />
               </StyledInputContainer>
-              <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
-              <FieldLength
-                value={field.value.length ?? 0}
-                maxLength={titleMaxLength}
-              />
+              <FieldInfoWrapper>
+                <FieldLength
+                  value={field.value.length ?? 0}
+                  maxLength={titleMaxLength}
+                />
+                <FieldErrorMessage>
+                  {fieldState.error?.message}
+                </FieldErrorMessage>
+              </FieldInfoWrapper>
             </FormControl>
           )}
         />
@@ -158,28 +174,29 @@ const ArenaForm = ({
             isRequired
             isInvalid={!!fieldState.error?.message}
           >
-            <Label
+            <StyledLabel
+              textStyle="label-small"
               onClick={() => document.getElementById('field-editor')?.focus()}
             >
               {t('myNdla.arena.topic.topicContent')}
-            </Label>
-            <StyledInputContainer>
-              <MarkdownEditor
-                setContentWritten={(val) =>
-                  setValue('content', val, {
-                    shouldValidate: true,
-                    shouldDirty: true,
-                  })
-                }
-                initialValue={initialContent ?? ''}
-                {...field}
-              />
-            </StyledInputContainer>
-            <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
-            <FieldLength
-              value={field.value.length ?? 0}
-              maxLength={contentMaxLength}
+            </StyledLabel>
+            <MarkdownEditor
+              setContentWritten={(val) =>
+                setValue('content', val, {
+                  shouldValidate: true,
+                  shouldDirty: true,
+                })
+              }
+              initialValue={initialContent ?? ''}
+              {...field}
             />
+            <FieldInfoWrapper>
+              <FieldLength
+                value={field.value.length ?? 0}
+                maxLength={contentMaxLength}
+              />
+              <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
+            </FieldInfoWrapper>
           </FormControl>
         )}
       />
