@@ -10,7 +10,7 @@ import { useMemo, useContext, useState, Dispatch, SetStateAction } from 'react';
 import { Location, Outlet, useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
-import { breakpoints, colors, mq, spacing } from '@ndla/core';
+import { breakpoints, colors, fonts, mq, spacing } from '@ndla/core';
 import { MessageBox } from '@ndla/ui';
 import { FolderOutlined } from '@ndla/icons/contentType';
 import {
@@ -60,6 +60,9 @@ const StyledNavList = styled.ul`
 `;
 
 const StyledLi = styled.li`
+  p {
+    font-weight: ${fonts.weight.semibold};
+  }
   &:hover {
     background-color: ${colors.brand.lighter};
   }
@@ -68,10 +71,12 @@ const StyledLi = styled.li`
   &:not(:nth-of-type(-n + 4)) {
     display: none;
   }
-
   margin: 0;
   ${mq.range({ from: breakpoints.mobileWide })} {
     display: unset !important;
+  }
+  [aria-current='page'] p {
+    font-weight: ${fonts.weight.bold};
   }
 `;
 
