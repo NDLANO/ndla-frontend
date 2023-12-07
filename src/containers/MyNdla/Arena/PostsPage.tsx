@@ -13,6 +13,7 @@ import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import { HelmetWithTracker, useTracker } from '@ndla/tracker';
+import { useSnack } from '@ndla/ui';
 import PostCard from './components/PostCard';
 import {
   useArenaCategory,
@@ -49,6 +50,7 @@ const PostCardWrapper = styled.li`
 const PostsPage = () => {
   const { t } = useTranslation();
   const { topicId } = useParams();
+  const { addSnack } = useSnack();
   const { refetch } = useArenaNotifications();
   const [focusId, setFocusId] = useState<number | undefined>(undefined);
   const { arenaTopic, loading } = useArenaTopic({
@@ -81,10 +83,18 @@ const PostsPage = () => {
     if (!arenaTopic) return;
     if (arenaTopic?.isFollowing) {
       unsubscribeFromTopic({ variables: { topicId: arenaTopic.id } });
+      addSnack({
+        content: t('myNdla.arena.notification.unsubscribe'),
+        id: 'myNdla.arena.notification.unsubscribe',
+      });
     } else {
       subscribeToTopic({ variables: { topicId: arenaTopic.id } });
+      addSnack({
+        content: t('myNdla.arena.notification.subscribe'),
+        id: 'myNdla.arena.notification.subscribe',
+      });
     }
-  }, [arenaTopic, subscribeToTopic, unsubscribeFromTopic]);
+  }, [arenaTopic, subscribeToTopic, unsubscribeFromTopic, addSnack, t]);
 
   useEffect(() => {
     if (document.getElementById(`post-${focusId}`)) {

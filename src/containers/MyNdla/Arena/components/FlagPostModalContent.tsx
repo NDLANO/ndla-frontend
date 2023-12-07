@@ -109,15 +109,17 @@ const FlagPostModalContent = ({ id, onClose }: FlagPostModalProps) => {
         <Text element="p" textStyle="meta-text-medium" margin="none">
           {t('myNdla.arena.flag.disclaimer')}
         </Text>
-        <StyledRadioButtonGroup
-          options={[
-            { title: t('myNdla.arena.flag.spam'), value: 'spam' },
-            { title: t('myNdla.arena.flag.offensive'), value: 'offensive' },
-            { title: t('myNdla.arena.flag.other'), value: 'other' },
-          ]}
-          direction="vertical"
-          onChange={setFlaggedReason}
-        />
+        <form>
+          <StyledRadioButtonGroup
+            options={[
+              { title: t('myNdla.arena.flag.spam'), value: 'spam' },
+              { title: t('myNdla.arena.flag.offensive'), value: 'offensive' },
+              { title: t('myNdla.arena.flag.other'), value: 'other' },
+            ]}
+            direction="vertical"
+            onChange={setFlaggedReason}
+          />
+        </form>
         {flaggedReason === 'other' && (
           <FormControl id="flag-reason" isInvalid={!reportReasonText}>
             <Label textStyle="label-small" margin="none">
