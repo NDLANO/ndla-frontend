@@ -17,7 +17,7 @@ import { useLocation } from 'react-router-dom';
 import { ModalCloseButton } from '@ndla/modal';
 import { Heading, Text } from '@ndla/typography';
 import { toHref } from '../../util/urlHelper';
-import { toMyNdla } from '../../routeHelpers';
+import { MyNdla } from '../../routeHelpers';
 
 const LoginComponentContainer = styled.div`
   display: flex;
@@ -115,7 +115,7 @@ const LoginComponent = ({ masthead, content }: Props) => {
           </ModalCloseButton>
           <SafeLinkButton
             reloadDocument
-            to={`/login?state=${masthead ? toMyNdla() : toHref(location)}`}
+            to={`/login?state=${masthead ? MyNdla : toHref(location)}`}
           >
             {t('user.buttonLogIn')}
           </SafeLinkButton>

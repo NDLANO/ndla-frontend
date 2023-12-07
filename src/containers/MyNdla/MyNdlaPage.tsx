@@ -29,7 +29,7 @@ import MyNdlaPageWrapper from './components/MyNdlaPageWrapper';
 import { useAiOrgs } from './configQueries';
 import { useRecentTopics } from './arenaQueries';
 import TopicCard from './Arena/components/TopicCard';
-import { toMyNdlaTags } from '../../routeHelpers';
+import { MyNdlaTags } from '../../routeHelpers';
 
 const StyledPageContentContainer = styled.div`
   display: flex;
@@ -166,7 +166,7 @@ const MyNdlaPage = () => {
                   <ListItem key={res.id}>
                     <ListResource
                       id={res.id}
-                      tagLinkPrefix={toMyNdlaTags()}
+                      tagLinkPrefix={MyNdlaTags}
                       isLoading={loading}
                       key={res.id}
                       link={res.path}

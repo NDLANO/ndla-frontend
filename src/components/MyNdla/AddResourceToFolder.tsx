@@ -29,7 +29,7 @@ import { GQLFolder, GQLFolderResource } from '../../graphqlTypes';
 import { getAllTags, getResourceForPath } from '../../util/folderHelpers';
 import { AuthContext } from '../AuthenticationContext';
 import FolderSelect from './FolderSelect';
-import { toMyNdlaFolder, toMyNdlaTags } from '../../routeHelpers';
+import { toMyNdlaFolder, MyNdlaTags } from '../../routeHelpers';
 
 export interface ResourceAttributes {
   path: string;
@@ -198,7 +198,7 @@ const AddResourceToFolder = ({
     <AddResourceContainer>
       <ListResource
         id={resource.id.toString()}
-        tagLinkPrefix={toMyNdlaTags()}
+        tagLinkPrefix={MyNdlaTags}
         isLoading={metaLoading}
         link={resource.path}
         title={meta?.title ?? ''}

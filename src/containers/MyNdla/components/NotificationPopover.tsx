@@ -15,7 +15,7 @@ import { useTranslation } from 'react-i18next';
 import NotificationList from './NotificationList';
 import NotificationBellButton from './NotificationButton';
 import { useArenaNotifications } from '../arenaQueries';
-import { toAllNotifications } from '../Arena/utils';
+import { MyNdlaNotifications } from '../../../routeHelpers';
 
 const StyledContent = styled(Content)`
   background-color: ${colors.background.default};
@@ -51,7 +51,7 @@ const NotificationPopover = () => {
             close={() => setOpen(false)}
           />
           <ShowAllLink
-            to={toAllNotifications()}
+            to={MyNdlaNotifications}
             onClick={() => setOpen(false)}
             fontWeight="bold"
           >

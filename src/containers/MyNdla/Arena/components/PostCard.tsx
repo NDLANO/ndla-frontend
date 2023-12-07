@@ -40,7 +40,8 @@ import FlagPostModalContent from './FlagPostModalContent';
 import { arenaCategoryQuery, arenaTopicById } from '../../arenaQueries';
 import { SKIP_TO_CONTENT_ID } from '../../../../constants';
 import { AuthContext } from '../../../../components/AuthenticationContext';
-import { capitalizeFirstLetter, toArena, toArenaCategory } from '../utils';
+import { capitalizeFirstLetter } from '../utils';
+import { MyNdlaArena, toMyNdlaArenaCategory } from '../../../../routeHelpers';
 import {
   GQLArenaPostFragment,
   GQLArenaTopicByIdQuery,
@@ -173,9 +174,9 @@ const PostCard = ({
         id: 'arenaTopicDeleted',
       });
       if (topic?.categoryId) {
-        navigate(toArenaCategory(topic.categoryId));
+        navigate(toMyNdlaArenaCategory(topic.categoryId));
       } else {
-        navigate(toArena());
+        navigate(MyNdlaArena);
       }
     },
     [topicId, deleteTopic, navigate, topic?.categoryId, addSnack, t],

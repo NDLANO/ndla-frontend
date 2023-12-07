@@ -28,7 +28,7 @@ import NavigationLink from './NavigationLink';
 import { BellIcon } from './NotificationButton';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import { useArenaNotifications } from '../arenaQueries';
-import { toAllNotifications } from '../Arena/utils';
+import { MyNdlaNotifications } from '../../../routeHelpers';
 
 const MenuItem = styled.li`
   list-style: none;
@@ -174,7 +174,7 @@ const MenuModalContent = ({
       <SafeLinkButton
         variant="ghost"
         colorTheme="lighter"
-        to={toAllNotifications()}
+        to={MyNdlaNotifications}
         onClick={() => setIsOpen(false)}
         css={buttonCss}
       >

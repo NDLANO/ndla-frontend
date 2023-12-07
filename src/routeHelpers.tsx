@@ -232,38 +232,25 @@ export const useTypedParams = <TParams extends TypedParams>() => {
   return useParams() as TParams;
 };
 
-export function toMyNdla() {
-  return '/minndla';
-}
+export const MyNdla = '/minndla';
+export const MyNdlaArena = `${MyNdla}/arena`;
+export const MyNdlaFolders = `${MyNdla}/folders`;
+export const MyNdlaSubjects = `${MyNdla}/subjects`;
+export const MyNdlaTags = `${MyNdla}/tags`;
+export const MyNdlaNotifications = `${MyNdlaArena}/notifications`;
 
-export function toMyNdlaArena() {
-  return `${toMyNdla()}/arena`;
-}
+export const toMyNdlaArenaCategory = (categoryId: number) => {
+  return `${MyNdlaArena}/category/${categoryId}`;
+};
 
-export function toMyNdlaArenaCategory(categoryId: number) {
-  return `${toMyNdlaArena()}/category/${categoryId}`;
-}
+export const toMyNdlaArenaTopic = (topicId?: number) => {
+  return `${MyNdlaArena}/topic/${topicId}`;
+};
 
-export function toMyNdlaArenaTopic(topicId: number) {
-  return `${toMyNdlaArena()}/topic/${topicId}`;
-}
+export const toMyNdlaArenaUser = (username: String) => {
+  return `${MyNdlaArena}/user/${username}`;
+};
 
-export function toMyNdlaArenaUser(username: String) {
-  return `${toMyNdlaArena()}/user/${username}`;
-}
-
-export function toMyNdlaFolders() {
-  return `${toMyNdla()}/folders`;
-}
-
-export function toMyNdlaFolder(folderId: String) {
-  return `${toMyNdlaFolders()}/${folderId}`;
-}
-
-export function toMyNdlaSubjects() {
-  return `${toMyNdla()}/subjects`;
-}
-
-export function toMyNdlaTags() {
-  return `${toMyNdla()}/tags`;
-}
+export const toMyNdlaFolder = (folderId: String) => {
+  return `${MyNdlaFolders}/${folderId}`;
+};

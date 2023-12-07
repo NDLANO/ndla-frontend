@@ -17,8 +17,9 @@ import { useTranslation } from 'react-i18next';
 import { formatDistanceStrict } from 'date-fns';
 import { nb, nn, enGB } from 'date-fns/locale';
 import { GQLArenaNotificationFragment } from '../../../graphqlTypes';
+import { toMyNdlaArenaTopic } from '../../../routeHelpers';
 import { useMarkNotificationsAsRead } from '../arenaMutations';
-import { toArenaTopic, capitalizeFirstLetter } from '../Arena/utils';
+import { capitalizeFirstLetter } from '../Arena/utils';
 
 const TitleWrapper = styled.div`
   display: flex;
@@ -142,7 +143,7 @@ const NotificationList = ({ notifications, close }: Props) => {
               <StyledLink
                 variant="stripped"
                 data-not-viewed={!read}
-                to={toArenaTopic(topicId)}
+                to={toMyNdlaArenaTopic(topicId)}
                 onClick={() => close?.()}
               >
                 <Notification>

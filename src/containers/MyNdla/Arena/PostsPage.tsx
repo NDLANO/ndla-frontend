@@ -28,7 +28,7 @@ import {
   useSubscribeToTopicMutation,
   useUnsubscribeFromTopicMutation,
 } from '../arenaMutations';
-import { toMyNdla } from '../../../routeHelpers';
+import { MyNdla } from '../../../routeHelpers';
 
 const BreadcrumbWrapper = styled.div`
   padding-top: ${spacing.normal};
@@ -116,7 +116,7 @@ const PostsPage = () => {
   }
 
   if (!user?.arenaEnabled && user?.arenaEnabled !== undefined) {
-    return <Navigate to={toMyNdla()} />;
+    return <Navigate to={MyNdla} />;
   }
 
   return (

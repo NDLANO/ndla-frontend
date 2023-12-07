@@ -24,7 +24,7 @@ import { ArenaFormValues } from './components/ArenaForm';
 import { useCreateArenaTopic } from '../arenaMutations';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import { SKIP_TO_CONTENT_ID } from '../../../constants';
-import { toMyNdla } from '../../../routeHelpers';
+import { MyNdla, toMyNdlaArenaTopic } from '../../../routeHelpers';
 
 const BreadcrumbWrapper = styled.div`
   padding-top: ${spacing.normal};
@@ -49,9 +49,6 @@ const StyledCardContainer = styled.li`
   flex-direction: column;
   margin: 0;
 `;
-
-const toArenaTopic = (topicId: number | undefined) =>
-  `/minndla/arena/topic/${topicId}`;
 
 const TopicPage = () => {
   const { t } = useTranslation();
@@ -92,7 +89,7 @@ const TopicPage = () => {
             categoryId: arenaCategory?.id,
           },
         });
-        navigate(toArenaTopic(topic.data?.newArenaTopic?.id));
+        navigate(toMyNdlaArenaTopic(topic.data?.newArenaTopic?.id));
       }
     },
     [arenaCategory, createArenaTopic, navigate],
@@ -103,7 +100,7 @@ const TopicPage = () => {
   }
 
   if (!user?.arenaEnabled && user?.arenaEnabled !== undefined) {
-    return <Navigate to={toMyNdla()} />;
+    return <Navigate to={MyNdla} />;
   }
 
   return (

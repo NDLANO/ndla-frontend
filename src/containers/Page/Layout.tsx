@@ -19,7 +19,7 @@ import Masthead from '../Masthead';
 import config from '../../config';
 import FeideFooter from './components/FeideFooter';
 import Footer from './components/Footer';
-import { toMyNdla, useIsNdlaFilm, useUrnIds } from '../../routeHelpers';
+import { MyNdla, useIsNdlaFilm, useUrnIds } from '../../routeHelpers';
 import { usePrevious } from '../../util/utilityHooks';
 import TitleAnnouncer from './components/TitleAnnouncer';
 import {
@@ -58,7 +58,7 @@ const Layout = () => {
     pathname,
   );
   const noPaddingBottom =
-    !!matchPath(`${toMyNdla()}/*`, pathname) || !!matchPath('/', pathname);
+    !!matchPath(`${MyNdla}/*`, pathname) || !!matchPath('/', pathname);
 
   useEffect(() => {
     if (!prevPathname || pathname === prevPathname) {

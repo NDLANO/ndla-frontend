@@ -34,7 +34,7 @@ import { AuthContext } from '../../../components/AuthenticationContext';
 import SettingsMenu from '../components/SettingsMenu';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
-import { toMyNdlaTags } from '../../../routeHelpers';
+import { MyNdlaTags } from '../../../routeHelpers';
 
 const StyledUl = styled.ul`
   padding: 0px;
@@ -89,7 +89,7 @@ const TagsPage = () => {
 
   useEffect(() => {
     if (tag && !!previousResources?.length && resources.length === 0) {
-      navigate(toMyNdlaTags());
+      navigate(MyNdlaTags);
     }
   }, [resources, previousResources, tag, navigate]);
 
@@ -163,7 +163,7 @@ const Resources = ({ resources }: ResourcesProps) => {
           return (
             <Resource
               id={resource.id}
-              tagLinkPrefix={toMyNdlaTags()}
+              tagLinkPrefix={MyNdlaTags}
               isLoading={loading}
               key={resource.id}
               link={resource.path}

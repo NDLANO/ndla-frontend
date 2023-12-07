@@ -23,7 +23,7 @@ import { AuthContext } from '../AuthenticationContext';
 import { useFolderResourceMeta } from '../../containers/MyNdla/folderMutations';
 import { GQLFolder } from '../../graphqlTypes';
 import LoginModalContent from './LoginModalContent';
-import { toMyNdlaTags } from '../../routeHelpers';
+import { MyNdlaTags } from '../../routeHelpers';
 
 interface Props {
   defaultOpenFolder?: GQLFolder;
@@ -70,7 +70,7 @@ const AddResourceToFolderModal = ({
               <ListResource
                 isLoading={loading}
                 id={resource.id.toString()}
-                tagLinkPrefix={toMyNdlaTags()}
+                tagLinkPrefix={MyNdlaTags}
                 link={resource.path}
                 title={meta?.title ?? ''}
                 resourceImage={{
