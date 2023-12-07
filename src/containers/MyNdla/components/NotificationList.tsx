@@ -13,7 +13,7 @@ import { HelpCircleDual, KeyboardReturn } from '@ndla/icons/common';
 import { SafeLinkButton } from '@ndla/safelink';
 import { Heading, Text } from '@ndla/typography';
 import { useCallback, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { formatDistanceStrict } from 'date-fns';
 import { nb, nn, enGB } from 'date-fns/locale';
 import { GQLArenaNotificationFragment } from '../../../graphqlTypes';
@@ -150,8 +150,11 @@ const NotificationList = ({ notifications, close }: Props) => {
                   <div>
                     <StyledText textStyle="meta-text-medium" margin="none">
                       {user.displayName}
-                      {` ${t('myNdla.arena.notification.commentedOn')} `}
-                      <i>{topicTitle}</i>
+                      <Trans
+                        i18nKey={'myNdla.arena.notification.commentedOn'}
+                        tOptions={{ title: topicTitle }}
+                        t={t}
+                      />
                     </StyledText>
                     <Text textStyle="meta-text-small" margin="none">
                       {`${capitalizeFirstLetter(
