@@ -98,7 +98,8 @@ export const makeDndTranslations = (
 export const previewLink = (id: string) =>
   `${config.ndlaFrontendDomain}/folder/${id}`;
 
-export const previewLinkInternal = (id: string) => `/folder/${id}/preview`;
+export const previewLinkInternal = (id: string) =>
+  `/minndla/folders/${id}/preview`;
 
 export const copyFolderSharingLink = (id: string) =>
   window.navigator.clipboard.writeText(previewLink(id));
