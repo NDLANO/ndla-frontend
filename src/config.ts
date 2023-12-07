@@ -152,7 +152,7 @@ const config: ConfigType = {
   monsidoToken: getEnvironmentVariabel('MONSIDO_TOKEN', ''),
   arenaModeratorGroup: getEnvironmentVariabel(
     'ARENA_MODERATOR_GROUP',
-    'Moderator',
+    'Global Moderators',
   ),
 };
 

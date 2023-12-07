@@ -240,11 +240,11 @@ export function toMyNdlaArena() {
   return `${toMyNdla()}/arena`;
 }
 
-export function toMyNdlaArenaCategory(categoryId: String) {
+export function toMyNdlaArenaCategory(categoryId: number) {
   return `${toMyNdlaArena()}/category/${categoryId}`;
 }
 
-export function toMyNdlaArenaTopic(topicId: String) {
+export function toMyNdlaArenaTopic(topicId: number) {
   return `${toMyNdlaArena()}/topic/${topicId}`;
 }
 

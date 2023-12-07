@@ -15,7 +15,6 @@ import {
   useRef,
   useState,
 } from 'react';
-import urlRegexSafe from 'url-regex-safe';
 import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import {
@@ -130,8 +129,16 @@ const sanitizeUrl = (url: string) => {
   return url;
 };
 
-const validateUrl = (url: string) =>
-  url.match(urlRegexSafe({ strict: true, exact: true }));
+const VALID_URL_PROTOCOLS = ['http:', 'https:'];
+
+const validateUrl = (url: string) => {
+  try {
+    const parsedUrl = new URL(url);
+    return VALID_URL_PROTOCOLS.includes(parsedUrl.protocol);
+  } catch (_) {
+    return false;
+  }
+};
 
 const FloatingLinkEditor = ({
   editor,
@@ -304,7 +311,7 @@ const FloatingLinkEditor = ({
     setIsLinkEditMode(false);
   };
 
-  return (
+  return isLinkEditMode ? (
     <FloatingContainer ref={editorRef} data-visible={!!isLinkEditMode}>
       <FormControl id="url" isRequired isInvalid={!!error}>
         <Label margin="none" textStyle="label-small">
@@ -333,7 +340,7 @@ const FloatingLinkEditor = ({
         <FieldErrorMessage>{error}</FieldErrorMessage>
       </FormControl>
     </FloatingContainer>
-  );
+  ) : null;
 };
 
 interface Props {

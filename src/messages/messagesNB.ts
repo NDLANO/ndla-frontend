@@ -49,15 +49,12 @@ const messages = {
         'Vil du bruke KI i undervisninga? NDLA har laget to prateroboter som tar vare på personvernet ditt og trygt kan brukes til jobb og i undervisning. I perioder med eksamensgjennomføring kan det hende fylkeskommunen stenger tilgangen til praterobotene.',
     },
   },
-  myNdla: {
-    myPage: {
-      privacyLink: 'https://ndla.no/article/personvernerklaering',
-    },
-  },
   validation: {
     fields: {
       name: 'Navn',
       description: 'Beskrivelse',
+      title: 'Tittel',
+      content: 'Innhold',
     },
     required: 'Dette feltet er påkrevd',
     requiredField: '$t(validation.fields.{{field}}) er påkrevd',
@@ -76,6 +73,7 @@ const messages = {
     concept: 'Forklaring',
   },
   markdownEditor: {
+    placeholder: 'Skriv innhold her...',
     link: {
       url: 'Lenke',
       error: {

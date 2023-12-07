@@ -21,9 +21,9 @@ export function useGraphQuery<
   query: DocumentNode | TypedDocumentNode<TData, TVariables>,
   options?: QueryHookOptions<TData, TVariables>,
 ): QueryResult<TData, TVariables> {
-  const result = useQuery(query, {
+  return useQuery(query, {
     errorPolicy: 'all',
+    ssr: true,
     ...options,
   });
-  return result;
 }

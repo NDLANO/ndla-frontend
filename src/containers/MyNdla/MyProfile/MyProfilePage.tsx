@@ -95,9 +95,9 @@ const MyProfilePage = () => {
             username: user?.username,
             displayName: user?.displayName,
             role: user?.role,
-            rootOrg: user?.organization,
-            primaryOrg: user?.groups.find((g) => g.isPrimarySchool)
-              ?.displayName,
+            primaryOrg:
+              user?.groups.find((g) => g.isPrimarySchool)?.displayName ??
+              user?.organization,
           }}
         />
         <MyPreferences user={user} />

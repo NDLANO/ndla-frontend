@@ -7,11 +7,13 @@
  */
 
 import styled from '@emotion/styled';
-import { ReactNode } from 'react';
+import { ReactNode, useContext } from 'react';
 import { breakpoints, colors, mq, spacing, spacingUnit } from '@ndla/core';
 import { MY_NDLA_CONTENT_WIDTH } from '../../../constants';
 import { ViewType } from '../Folders/FoldersPage';
 import MenuModalContent from './MenuModalContent';
+import NotificationPopover from './NotificationPopover';
+import { AuthContext } from '../../../components/AuthenticationContext';
 
 const ToolbarContainer = styled.div`
   display: none;
@@ -47,8 +49,9 @@ const DropdownWrapper = styled.div`
   ${mq.range({ from: breakpoints.mobileWide, until: breakpoints.desktop })} {
     display: unset;
   }
+
   &[data-extend-tablet-view='true'] {
-    ${mq.range({ from: breakpoints.desktop, until: breakpoints.wide })} {
+    ${mq.range({ until: breakpoints.wide })} {
       display: unset;
     }
   }
@@ -56,9 +59,14 @@ const DropdownWrapper = styled.div`
 
 const Wrapper = styled.div`
   display: flex;
-  max-width: ${MY_NDLA_CONTENT_WIDTH}px;
   flex-grow: 1;
   justify-content: space-between;
+
+  max-width: ${MY_NDLA_CONTENT_WIDTH}px;
+
+  div {
+    flex-grow: 1;
+  }
 `;
 
 interface Props {
@@ -78,15 +86,19 @@ const Toolbar = ({
   extendTabletView,
   showButtons,
 }: Props) => {
+  const { user } = useContext(AuthContext);
   return (
     <ToolbarContainer>
       <Wrapper>
-        <ButtonContainer data-extend-tablet-view={extendTabletView}>
-          {buttons}
-        </ButtonContainer>
-        <DropdownWrapper data-extend-tablet-view={extendTabletView}>
-          {dropDownMenu}
-        </DropdownWrapper>
+        <div>
+          <ButtonContainer data-extend-tablet-view={!!extendTabletView}>
+            {buttons}
+          </ButtonContainer>
+          <DropdownWrapper data-extend-tablet-view={!!extendTabletView}>
+            {dropDownMenu}
+          </DropdownWrapper>
+        </div>
+        {user?.arenaEnabled && <NotificationPopover />}
       </Wrapper>
       <MenuModalContent
         onViewTypeChange={onViewTypeChange}
@@ -97,5 +109,4 @@ const Toolbar = ({
     </ToolbarContainer>
   );
 };
-
 export default Toolbar;

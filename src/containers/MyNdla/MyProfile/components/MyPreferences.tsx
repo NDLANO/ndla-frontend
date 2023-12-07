@@ -12,6 +12,8 @@ import styled from '@emotion/styled';
 import { colors, fonts, misc, spacing } from '@ndla/core';
 import { Heading, Text } from '@ndla/typography';
 import { RadioButtonGroup } from '@ndla/forms';
+import { useSnack } from '@ndla/ui';
+import { uuid } from '@ndla/util';
 import { GQLMyNdlaPersonalDataFragmentFragment } from '../../../../graphqlTypes';
 import { isStudent } from '../../Folders/util';
 import { useUpdatePersonalData } from '../../../MyNdla/userMutations';
@@ -77,12 +79,21 @@ const MyPreferences = ({ user }: MyPreferencesProps) => {
   const [userPreference, setUserPreference] = useState<string | undefined>();
   const { t } = useTranslation();
   const { updatePersonalData } = useUpdatePersonalData();
+  const { addSnack } = useSnack();
 
   const setUserPref = async (value: string) => {
     setUserPreference(value);
     const newPref = value === 'showName' ? true : false;
     await updatePersonalData({
       variables: { shareName: newPref },
+    });
+    addSnack({
+      id: uuid(),
+      content: t(
+        `myNdla.myProfile.namePreference.${
+          newPref ? 'onNameShown' : 'onNameHidden'
+        }`,
+      ),
     });
   };
 
@@ -120,24 +131,26 @@ const MyPreferences = ({ user }: MyPreferencesProps) => {
               {t('myNdla.myProfile.preferenceText')}
             </Text>
           </OptionContainer>
-          <StyledRadioButtonGroup
-            options={[
-              {
-                title: t('myNdla.myProfile.namePreference.showName'),
-                value: 'showName',
-              },
-              {
-                title: t('myNdla.myProfile.namePreference.dontShowName'),
-                value: 'dontShowName',
-              },
-            ]}
-            direction="vertical"
-            uniqeIds
-            selected={userPreference}
-            onChange={(value) => {
-              setUserPref(value);
-            }}
-          />
+          <form>
+            <StyledRadioButtonGroup
+              options={[
+                {
+                  title: t('myNdla.myProfile.namePreference.showName'),
+                  value: 'showName',
+                },
+                {
+                  title: t('myNdla.myProfile.namePreference.dontShowName'),
+                  value: 'dontShowName',
+                },
+              ]}
+              direction="vertical"
+              uniqeIds
+              selected={userPreference}
+              onChange={(value) => {
+                setUserPref(value);
+              }}
+            />
+          </form>
         </>
       )}
     </PreferenceContainer>

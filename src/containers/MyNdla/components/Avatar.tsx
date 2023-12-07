@@ -19,7 +19,7 @@ type AvatarProps = {
 };
 
 const StyledAvatarContainer = styled.div`
-  width: ${spacing.large};
+  min-width: ${spacing.large};
   height: ${spacing.large};
   border-radius: ${misc.borderRadiusLarge};
   border: 1px solid ${colors.brand.tertiary};

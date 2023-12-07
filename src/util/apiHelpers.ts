@@ -249,7 +249,6 @@ export const createApolloClient = (language = 'nb', versionHash?: string) => {
   const cache = getCache();
 
   return new ApolloClient({
-    ssrMode: true,
     link: createApolloLinks(language, versionHash),
     cache,
   });

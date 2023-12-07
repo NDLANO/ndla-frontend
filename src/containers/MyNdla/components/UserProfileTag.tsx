@@ -13,6 +13,7 @@ import { Text } from '@ndla/typography';
 import Avatar from './Avatar';
 import { useArenaUser } from '../arenaQueries';
 import config from '../../../config';
+import { GQLArenaUser } from '../../../graphqlTypes';
 import { GQLArenaUserQueryFragmentFragment } from '../../../graphqlTypes';
 import { toMyNdlaArenaUser } from '../../../routeHelpers';
 
@@ -63,7 +64,7 @@ const ModeratorTag = styled(Text)`
   color: ${colors.white};
 `;
 
-const isModerator = (user?: GQLArenaUserQueryFragmentFragment): boolean => {
+const isModerator = (user?: GQLArenaUser): boolean => {
   return user?.groupTitleArray?.includes(config.arenaModeratorGroup) ?? false;
 };
 

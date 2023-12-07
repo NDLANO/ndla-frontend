@@ -8,15 +8,18 @@
 import { useTranslation } from 'react-i18next';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { colors, spacing, breakpoints, mq, misc } from '@ndla/core';
+import { Text } from '@ndla/typography';
+import SafeLink from '@ndla/safelink';
+import { colors, spacing, misc } from '@ndla/core';
 import { Locked } from '@ndla/icons/common';
 import SafeLink from '@ndla/safelink';
 import { Text } from '@ndla/typography';
 import { formatDateTime } from '../../../../util/formatDate';
+import { toArenaTopic } from '../utils';
 import { toMyNdlaArenaTopic } from '../../../../routeHelpers';
 
 interface Props {
-  id: string;
+  id: number;
   title: string;
   timestamp: string;
   count: number;
@@ -27,16 +30,18 @@ const StyledSafelink = styled(SafeLink)`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  gap: ${spacing.normal};
   padding: ${spacing.normal} ${spacing.medium};
   padding-left: ${spacing.large};
   border: 1px solid ${colors.brand.light};
   border-radius: ${misc.borderRadius};
   box-shadow: none;
-
   &:hover,
   &:focus-visible {
     background-color: ${colors.brand.lighter};
-    text-decoration: none;
+    [data-name='hover'] {
+      text-decoration: none;
+    }
   }
 `;
 
@@ -65,9 +70,6 @@ const StyledCountContainer = styled.div`
   flex-direction: column;
   align-items: center;
   color: ${colors.text.primary};
-  ${mq.range({ until: breakpoints.tabletWide })} {
-    display: none;
-  }
 `;
 
 const LockedIconCSS = css`
@@ -78,11 +80,15 @@ const LockedIconCSS = css`
 
 const TopicCard = ({ id, title, locked, timestamp, count }: Props) => {
   const { t, i18n } = useTranslation();
-
   return (
-    <StyledSafelink id={id} css={TopicCardCSS} to={toMyNdlaArenaTopic(id)}>
+    <StyledSafelink css={TopicCardCSS} to={toArenaTopic(id)}>
       <div>
-        <StyledHeader element="label" textStyle="label-small" margin="none">
+        <StyledHeader
+          element="label"
+          textStyle="label-small"
+          margin="none"
+          data-name="hover"
+        >
           {title}
         </StyledHeader>
         <StyledText element="p" textStyle="meta-text-small" margin="none">

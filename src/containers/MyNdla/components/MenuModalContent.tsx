@@ -18,12 +18,17 @@ import {
   ModalTitle,
 } from '@ndla/modal';
 import { Text } from '@ndla/typography';
-import { ReactNode, useCallback, useMemo } from 'react';
+import { ReactNode, useCallback, useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { SafeLinkButton } from '@ndla/safelink';
 import { useLocation, useOutletContext } from 'react-router-dom';
-import { ViewType } from '../Folders/FoldersPage';
+import { ViewType, buttonCss } from '../Folders/FoldersPage';
 import { OutletContext, menuLinks } from '../MyNdlaLayout';
 import NavigationLink from './NavigationLink';
+import { BellIcon } from './NotificationButton';
+import { AuthContext } from '../../../components/AuthenticationContext';
+import { useArenaNotifications } from '../arenaQueries';
+import { toAllNotifications } from '../Arena/utils';
 
 const MenuItem = styled.li`
   list-style: none;
@@ -135,24 +140,54 @@ const MenuModalContent = ({
   const location = useLocation();
   const { setIsOpen, resetFocus, setResetFocus } =
     useOutletContext<OutletContext>();
+  const { user } = useContext(AuthContext);
+  const { notifications } = useArenaNotifications({
+    skip: !user?.arenaEnabled,
+  });
   const links = useMemo(
     () =>
       menuLinks(t, location).map(
-        ({ id, shortName, icon, to, name, iconFilled }) => (
-          <MenuItem key={id}>
-            <NavigationLink
-              id={id}
-              to={to}
-              name={name}
-              icon={icon}
-              shortName={shortName}
-              iconFilled={iconFilled}
-              onClick={() => setIsOpen(false)}
-            />
-          </MenuItem>
-        ),
+        ({ id, shortName, icon, to, name, iconFilled, restricted }) => {
+          if (restricted && !user?.arenaEnabled) {
+            return null;
+          }
+          return (
+            <MenuItem key={id}>
+              <NavigationLink
+                id={id}
+                to={to}
+                name={name}
+                icon={icon}
+                shortName={shortName}
+                iconFilled={iconFilled}
+                onClick={() => setIsOpen(false)}
+              />
+            </MenuItem>
+          );
+        },
       ),
-    [t, location, setIsOpen],
+    [t, location, user, setIsOpen],
+  );
+
+  const notificationLink = useMemo(
+    () => (
+      <SafeLinkButton
+        variant="ghost"
+        colorTheme="lighter"
+        to={toAllNotifications()}
+        onClick={() => setIsOpen(false)}
+        css={buttonCss}
+      >
+        <BellIcon
+          amountOfUnreadNotifications={
+            notifications?.filter(({ read }) => !read).length ?? 0
+          }
+          left={true}
+        />
+        {t('myNdla.arena.notification.title')}
+      </SafeLinkButton>
+    ),
+    [notifications, setIsOpen, t],
   );
 
   const onCloseModal = useCallback(
@@ -182,12 +217,15 @@ const MenuModalContent = ({
         <nav>
           <MenuItems role="tablist">{links}</MenuItems>
         </nav>
-        {!!buttons && showButtons && (
+        {showButtons && (!!buttons || user?.arenaEnabled) && (
           <>
             <StyledText margin="none" textStyle="meta-text-medium">
               {t('myNdla.tools')}
             </StyledText>
-            <ToolMenu>{buttons}</ToolMenu>
+            <ToolMenu>
+              {buttons}
+              {user?.arenaEnabled && notificationLink}
+            </ToolMenu>
           </>
         )}
         {!!viewType && (

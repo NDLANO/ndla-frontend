@@ -16,32 +16,14 @@ import { Text } from '@ndla/typography';
 import { toMyNdlaArenaCategory } from '../../../../routeHelpers';
 
 interface Props {
-  id: string;
+  id: number;
   title: string;
   subText: string;
   count: number;
 }
 
-const StyledCategoryCard = css`
-  background-color: ${colors.background.default};
-  svg:nth-of-type(2) {
-    display: none;
-  }
-  &:hover,
-  &:focus-visible {
-    background-color: ${colors.background.lightBlue};
-    svg:nth-of-type(1) {
-      display: none;
-    }
-    svg:nth-of-type(2) {
-      display: block;
-    }
-  }
-`;
-
 const StyledSafelink = styled(SafeLink)`
   color: ${colors.text.primary};
-
   display: flex;
   flex-direction: row;
   gap: ${spacing.normal};
@@ -51,18 +33,34 @@ const StyledSafelink = styled(SafeLink)`
   border-radius: ${misc.borderRadius};
   box-shadow: none;
 
+  [data-hover-icon=''] {
+    display: none;
+  }
+
   &:hover,
-  &:focus-visible {
-    background-color: ${colors.brand.lighter};
+  &:focus-within {
+    background-color: ${colors.background.lightBlue};
     [data-name='hover'] {
       text-decoration: none;
+    }
+    svg {
+      display: none;
+    }
+  }
+
+  ${mq.range({ from: breakpoints.mobileWide })} {
+    &:hover,
+    &:focus-within {
+      [data-hover-icon=''] {
+        display: block;
+      }
     }
   }
 `;
 
 const SpacingContainer = styled.div`
   display: flex;
-  flex-direction: row;
+  gap: ${spacing.normal};
   justify-content: space-between;
   width: 100%;
 `;
@@ -81,12 +79,9 @@ const StyledDescriptionText = styled(Text)`
 
 const StyledCountContainer = styled.div`
   text-align: center;
-  ${mq.range({ until: breakpoints.tabletWide })} {
-    display: none;
-  }
 `;
 
-const LeftIconCSS = css`
+const iconCss = css`
   width: ${spacing.large};
   height: ${spacing.large};
   color: ${colors.brand.primary};
@@ -98,13 +93,9 @@ const LeftIconCSS = css`
 const ArenaCard = ({ id, title, subText, count }: Props) => {
   const { t } = useTranslation();
   return (
-    <StyledSafelink
-      id={id}
-      css={StyledCategoryCard}
-      to={toMyNdlaArenaCategory(id)}
-    >
-      <ForumOutlined css={LeftIconCSS} />
-      <Forum css={LeftIconCSS} />
+    <StyledSafelink to={toMyNdlaArenaCategory(id)}>
+      <ForumOutlined css={iconCss} />
+      <Forum data-hover-icon="" css={iconCss} />
       <SpacingContainer>
         <div>
           <StyledHeader
