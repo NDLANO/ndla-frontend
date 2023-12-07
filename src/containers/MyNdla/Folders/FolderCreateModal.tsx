@@ -6,6 +6,8 @@
  *
  */
 
+import { useCallback, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { breakpoints, mq } from '@ndla/core';
@@ -19,12 +21,11 @@ import {
   ModalTitle,
   ModalTrigger,
 } from '@ndla/modal';
-import { useTranslation } from 'react-i18next';
-import { useCallback, useState } from 'react';
-import { useAddFolderMutation, useFolders } from '../folderMutations';
-import { GQLFolder } from '../../../graphqlTypes';
 import FolderForm, { FolderFormValues } from './FolderForm';
 import { buttonCss, iconCss } from './FoldersPage';
+import { useAddFolderMutation, useFolders } from '../folderMutations';
+import { GQLFolder } from '../../../graphqlTypes';
+import { useUserAgent } from '../../../UserAgentContext';
 
 const AddButton = styled(ButtonV2)`
   ${mq.range({ until: breakpoints.tablet })} {
@@ -42,6 +43,7 @@ const FolderCreateModal = ({ onSaved, parentFolder }: Props) => {
   const { t } = useTranslation();
   const { addFolder } = useAddFolderMutation();
   const [folderCreated, setFolderCreated] = useState(false);
+  const userAgent = useUserAgent();
 
   const { folders } = useFolders();
 
@@ -58,9 +60,18 @@ const FolderCreateModal = ({ onSaved, parentFolder }: Props) => {
   return (
     <Modal open={open} onOpenChange={setOpen}>
       <ModalTrigger>
-        <AddButton css={buttonCss} variant="ghost" colorTheme="lighter">
+        <AddButton
+          css={buttonCss}
+          variant="ghost"
+          colorTheme="lighter"
+          aria-label={t('myNdla.newFolder')}
+        >
           <Plus css={iconCss} />
-          <span>{t('myNdla.newFolder')}</span>
+          <span>
+            {userAgent?.isMobile
+              ? t('myNdla.newFolder')
+              : t('myNdla.newFolderShort')}
+          </span>
         </AddButton>
       </ModalTrigger>
       <CreateModalContent

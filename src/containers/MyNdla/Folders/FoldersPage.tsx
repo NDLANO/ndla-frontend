@@ -7,28 +7,28 @@
  */
 
 import isEqual from 'lodash/isEqual';
-import styled from '@emotion/styled';
-import { breakpoints, fonts, mq, spacing } from '@ndla/core';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import { HelmetWithTracker, useTracker } from '@ndla/tracker';
-import { FileDocumentOutline } from '@ndla/icons/common';
 import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+import { breakpoints, fonts, mq, spacing } from '@ndla/core';
+import { FileDocumentOutline } from '@ndla/icons/common';
+import { HelmetWithTracker, useTracker } from '@ndla/tracker';
+import FolderActions from './FolderActions';
+import { ResourceCountContainer } from './FolderAndResourceCount';
+import FolderButtons from './FolderButtons';
+import FolderList from './FolderList';
+import FoldersPageTitle from './FoldersPageTitle';
+import ListViewOptions from './ListViewOptions';
+import ResourceList from './ResourceList';
+import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
+import { foldersPageQuery, useFolder } from '../folderMutations';
+import { AuthContext } from '../../../components/AuthenticationContext';
+import { STORED_RESOURCE_VIEW_SETTINGS } from '../../../constants';
 import { GQLFolder, GQLFoldersPageQuery } from '../../../graphqlTypes';
 import { useGraphQuery } from '../../../util/runQueries';
-import ListViewOptions from './ListViewOptions';
-import { foldersPageQuery, useFolder } from '../folderMutations';
-import { STORED_RESOURCE_VIEW_SETTINGS } from '../../../constants';
-import FoldersPageTitle from './FoldersPageTitle';
-import { ResourceCountContainer } from './FolderAndResourceCount';
-import FolderList from './FolderList';
-import { AuthContext } from '../../../components/AuthenticationContext';
-import ResourceList from './ResourceList';
-import FolderActions from './FolderActions';
 import { getAllDimensions } from '../../../util/trackingUtil';
-import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
-import FolderButtons from './FolderButtons';
 
 const FoldersPageContainer = styled.div`
   display: flex;
@@ -111,7 +111,7 @@ export type ViewType = 'list' | 'block' | 'listLarger';
 const FoldersPage = () => {
   const { t } = useTranslation();
   const { folderId } = useParams();
-  const { user, authContextLoaded } = useContext(AuthContext);
+  const { user, authContextLoaded, examLock } = useContext(AuthContext);
   const { trackPageView } = useTracker();
   const [viewType, _setViewType] = useState<ViewType>(
     (localStorage.getItem(STORED_RESOURCE_VIEW_SETTINGS) as ViewType) || 'list',
@@ -135,7 +135,6 @@ const FoldersPage = () => {
   );
   const [previousFolders, setPreviousFolders] = useState<GQLFolder[]>(folders);
   const [focusId, setFocusId] = useState<string | undefined>(undefined);
-  const [amountOfButtons, setAmountOfButtons] = useState<number>(0);
 
   const resourceRefId = useMemo(
     () =>
@@ -215,11 +214,7 @@ const FoldersPage = () => {
 
   const folderButtons = useMemo(
     () => (
-      <FolderButtons
-        selectedFolder={selectedFolder}
-        setFocusId={setFocusId}
-        setAmountOfButtons={setAmountOfButtons}
-      />
+      <FolderButtons selectedFolder={selectedFolder} setFocusId={setFocusId} />
     ),
     [selectedFolder, setFocusId],
   );
@@ -230,8 +225,7 @@ const FoldersPage = () => {
       buttons={folderButtons}
       viewType={viewType}
       onViewTypeChange={setViewType}
-      extendTabletView={selectedFolder?.status === 'shared'}
-      showButtons={amountOfButtons > 0}
+      showButtons={(selectedFolder?.breadcrumbs.length || 0) < 5 && !examLock}
     >
       <FoldersPageContainer>
         <HelmetWithTracker title={title} />
