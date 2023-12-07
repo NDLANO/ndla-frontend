@@ -147,21 +147,26 @@ const MenuModalContent = ({
   const links = useMemo(
     () =>
       menuLinks(t, location).map(
-        ({ id, shortName, icon, to, name, iconFilled }) => (
-          <MenuItem key={id}>
-            <NavigationLink
-              id={id}
-              to={to}
-              name={name}
-              icon={icon}
-              shortName={shortName}
-              iconFilled={iconFilled}
-              onClick={() => setIsOpen(false)}
-            />
-          </MenuItem>
-        ),
+        ({ id, shortName, icon, to, name, iconFilled, restricted }) => {
+          if (restricted && !user?.arenaEnabled) {
+            return null;
+          }
+          return (
+            <MenuItem key={id}>
+              <NavigationLink
+                id={id}
+                to={to}
+                name={name}
+                icon={icon}
+                shortName={shortName}
+                iconFilled={iconFilled}
+                onClick={() => setIsOpen(false)}
+              />
+            </MenuItem>
+          );
+        },
       ),
-    [t, location, setIsOpen],
+    [t, location, user, setIsOpen],
   );
 
   const notificationLink = useMemo(
