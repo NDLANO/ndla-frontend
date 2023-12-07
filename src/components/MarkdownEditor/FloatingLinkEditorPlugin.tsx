@@ -319,6 +319,8 @@ const FloatingLinkEditor = ({
         </Label>
         <InputWrapper>
           <InputV3
+            // eslint-disable-next-line jsx-a11y/no-autofocus
+            autoFocus
             name="url"
             ref={inputRef}
             data-link-input=""
