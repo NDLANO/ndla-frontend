@@ -270,7 +270,7 @@ const FolderButtons = ({
       css={buttonCss}
       variant="ghost"
       colorTheme="lighter"
-      to={previewLink(selectedFolder.id)}
+      to={'preview'}
     >
       <ShareArrow css={iconCss} />
       {t(`myNdla.folder.sharing.button.${isFolderShared ? 'goTo' : 'preview'}`)}
