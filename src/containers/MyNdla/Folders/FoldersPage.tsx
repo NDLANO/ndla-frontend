@@ -225,7 +225,7 @@ const FoldersPage = () => {
       buttons={folderButtons}
       viewType={viewType}
       onViewTypeChange={setViewType}
-      showButtons={(selectedFolder?.breadcrumbs.length || 0) < 5 && !examLock}
+      showButtons={!examLock || !!selectedFolder}
     >
       <FoldersPageContainer>
         <HelmetWithTracker title={title} />
