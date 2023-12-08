@@ -117,6 +117,8 @@ const PostCard = ({
     user: { displayName, username },
   } = post;
 
+  console.log(content);
+
   const {
     t,
     i18n: { language },
@@ -323,7 +325,7 @@ const PostCard = ({
             {topic?.title}
           </Heading>
         )}
-        <Text element="p" textStyle="content-alt" margin="none">
+        <Text element="div" textStyle="content-alt" margin="none">
           {parse(content)}
         </Text>
       </StyledContentContainer>
