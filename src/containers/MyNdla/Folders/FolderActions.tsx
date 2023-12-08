@@ -208,6 +208,7 @@ const FolderActions = ({
 
     const previewFolder: MenuItemProps = {
       icon: <ShareArrow />,
+      link: previewLinkInternal(selectedFolder.id),
       text: t('myNdla.folder.sharing.button.preview'),
       isModal: true,
       onClick: () => {
