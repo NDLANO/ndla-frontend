@@ -34,7 +34,12 @@ import FolderDeleteModal from './FolderDeleteModal';
 import FolderEditModal from './FolderEditModal';
 import FolderShareModal from './FolderShareModal';
 import { buttonCss, iconCss } from './FoldersPage';
-import { isStudent, copyFolderSharingLink, previewLinkInternal } from './util';
+import {
+  isStudent,
+  copyFolderSharingLink,
+  previewLink,
+  previewLinkInternal,
+} from './util';
 
 interface FolderButtonProps {
   setFocusId: Dispatch<SetStateAction<string | undefined>>;
@@ -270,7 +275,11 @@ const FolderButtons = ({
       css={buttonCss}
       variant="ghost"
       colorTheme="lighter"
-      to={previewLinkInternal(selectedFolder.id)}
+      to={
+        isFolderShared
+          ? previewLink(selectedFolder.id)
+          : previewLinkInternal(selectedFolder.id)
+      }
     >
       <ShareArrow css={iconCss} />
       {t(`myNdla.folder.sharing.button.${isFolderShared ? 'goTo' : 'preview'}`)}
