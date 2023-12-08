@@ -117,8 +117,6 @@ const PostCard = ({
     user: { displayName, username },
   } = post;
 
-  console.log(content);
-
   const {
     t,
     i18n: { language },
