@@ -69,7 +69,6 @@ const messages = {
     audio: 'Jietna',
   },
   markdownEditor: {
-    placeholder: 'Čále sisdoalu dása...',
     link: {
       url: 'Liŋka',
       error: {

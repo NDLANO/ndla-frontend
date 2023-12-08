@@ -73,7 +73,6 @@ const messages = {
     audio: 'Audio',
   },
   markdownEditor: {
-    placeholder: 'Skriv innhald her...',
     link: {
       url: 'Lenke',
       error: {
