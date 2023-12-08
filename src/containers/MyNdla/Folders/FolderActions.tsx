@@ -305,7 +305,11 @@ const FolderActions = ({
 
     const actions = [];
 
-    if (inToolbar) {
+    if (
+      inToolbar &&
+      (selectedFolder?.breadcrumbs.length || 0) < 5 &&
+      !examLock
+    ) {
       actions.push(addFolderButton);
     }
 
