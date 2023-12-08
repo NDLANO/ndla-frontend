@@ -33,6 +33,7 @@ const FolderDeleteModal = ({ onDelete, onClose }: Props) => {
           variant="ghost"
           colorTheme="danger"
           aria-label={t('myNdla.folder.delete')}
+          title={t('myNdla.folder.delete')}
         >
           <TrashCanOutline css={iconCss} />
           {userAgent?.isMobile

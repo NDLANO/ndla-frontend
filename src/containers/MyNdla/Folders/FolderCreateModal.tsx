@@ -65,6 +65,7 @@ const FolderCreateModal = ({ onSaved, parentFolder }: Props) => {
           variant="ghost"
           colorTheme="lighter"
           aria-label={t('myNdla.newFolder')}
+          title={t('myNdla.newFolder')}
         >
           <Plus css={iconCss} />
           <span>

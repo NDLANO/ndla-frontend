@@ -138,6 +138,7 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
           variant="ghost"
           ref={previewRef}
           aria-label={t('myNdla.folder.sharing.button.share')}
+          title={t('myNdla.folder.sharing.button.share')}
         >
           <Share css={iconCss} />
           {userAgent?.isMobile
@@ -173,6 +174,8 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
           variant="ghost"
           colorTheme="lighter"
           ref={unShareRef}
+          aria-label={t('myNdla.folder.sharing.button.unShare')}
+          title={t('myNdla.folder.sharing.button.unShare')}
         >
           <Cross css={iconCss} />
           {t('myNdla.folder.sharing.button.unShare')}
@@ -207,6 +210,7 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
           colorTheme="lighter"
           ref={shareRef}
           aria-label={t('myNdla.folder.sharing.share')}
+          title={t('myNdla.folder.sharing.share')}
         >
           <Share css={iconCss} />
           {userAgent?.isMobile
@@ -261,6 +265,8 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
           });
           setIsOpen(false);
         }}
+        aria-label={t('myNdla.folder.sharing.button.shareLink')}
+        title={t('myNdla.folder.sharing.button.shareLink')}
       >
         <Copy css={iconCss} />
         {t('myNdla.folder.sharing.button.shareLink')}
@@ -276,6 +282,7 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
         colorTheme="lighter"
         to={previewLink(selectedFolder.id)}
         aria-label={t('myNdla.folder.sharing.button.preview')}
+        title={t('myNdla.folder.sharing.button.preview')}
       >
         <ShareArrow css={iconCss} />
         {userAgent?.isMobile

@@ -48,6 +48,7 @@ const FolderEditModal = ({ folder, onSaved }: Props) => {
           variant="ghost"
           colorTheme="lighter"
           aria-label={t('myNdla.folder.edit')}
+          title={t('myNdla.folder.edit')}
         >
           <Pencil css={iconCss} />
           {userAgent?.isMobile
