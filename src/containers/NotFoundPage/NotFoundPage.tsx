@@ -6,9 +6,9 @@
  *
  */
 
-import { OneColumn, ErrorMessage } from '@ndla/ui';
-import { HelmetWithTracker } from '@ndla/tracker';
 import { useTranslation } from 'react-i18next';
+import { HelmetWithTracker } from '@ndla/tracker';
+import { OneColumn, ErrorMessage } from '@ndla/ui';
 import { Status } from '../../components';
 
 const NotFound = () => {

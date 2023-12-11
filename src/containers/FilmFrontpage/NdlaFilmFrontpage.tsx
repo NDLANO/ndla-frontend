@@ -7,18 +7,18 @@
  */
 
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { gql, useLazyQuery } from '@apollo/client';
 
-import { useTranslation } from 'react-i18next';
 import FilmFrontpage, { filmFrontpageFragments } from './FilmFrontpage';
-import { searchFilmQuery } from '../../queries';
 import { movieResourceTypes } from './resourceTypes';
-import { useGraphQuery } from '../../util/runQueries';
+import { SKIP_TO_CONTENT_ID } from '../../constants';
 import {
   GQLFilmFrontPageQuery,
   GQLSearchWithoutPaginationQuery,
 } from '../../graphqlTypes';
-import { SKIP_TO_CONTENT_ID } from '../../constants';
+import { searchFilmQuery } from '../../queries';
+import { useGraphQuery } from '../../util/runQueries';
 
 const ALL_MOVIES_ID = 'ALL_MOVIES_ID';
 

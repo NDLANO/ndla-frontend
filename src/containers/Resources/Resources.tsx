@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2016-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -6,13 +6,16 @@
  *
  */
 
-import { gql } from '@apollo/client';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { ResourcesWrapper, ResourceGroup } from '@ndla/ui';
-import { useTranslation } from 'react-i18next';
 import sortBy from 'lodash/sortBy';
-import { contentTypeMapping } from '../../util/getContentType';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { gql } from '@apollo/client';
+import { ResourcesWrapper, ResourceGroup } from '@ndla/ui';
 import { getResourceGroups, sortResourceTypes } from './getResourceGroups';
+import ResourcesTopicTitle from './ResourcesTopicTitle';
+import FavoriteButton from '../../components/Article/FavoritesButton';
+import { ResourceAttributes } from '../../components/MyNdla/AddResourceToFolder';
+import AddResourceToFolderModal from '../../components/MyNdla/AddResourceToFolderModal';
 import {
   TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES,
   TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE,
@@ -22,12 +25,9 @@ import {
   GQLResources_ResourceTypeDefinitionFragment,
   GQLResources_TopicFragment,
 } from '../../graphqlTypes';
-import { useIsNdlaFilm, useUrnIds } from '../../routeHelpers';
-import AddResourceToFolderModal from '../../components/MyNdla/AddResourceToFolderModal';
-import FavoriteButton from '../../components/Article/FavoritesButton';
-import ResourcesTopicTitle from './ResourcesTopicTitle';
 import { HeadingType } from '../../interfaces';
-import { ResourceAttributes } from '../../components/MyNdla/AddResourceToFolder';
+import { useIsNdlaFilm, useUrnIds } from '../../routeHelpers';
+import { contentTypeMapping } from '../../util/getContentType';
 
 interface Props {
   topic: GQLResources_TopicFragment;

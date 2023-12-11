@@ -7,14 +7,14 @@
  */
 
 import { useContext } from 'react';
-import { OneColumn, ErrorResourceAccessDenied } from '@ndla/ui';
-import { HelmetWithTracker } from '@ndla/tracker';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
+import { HelmetWithTracker } from '@ndla/tracker';
+import { OneColumn, ErrorResourceAccessDenied } from '@ndla/ui';
 import { Status } from '../../components';
 import { AuthContext } from '../../components/AuthenticationContext';
-import { constructNewPath, toHref } from '../../util/urlHelper';
 import { useBaseName } from '../../components/BaseNameContext';
+import { constructNewPath, toHref } from '../../util/urlHelper';
 
 const AccessDenied = () => {
   const { t } = useTranslation();

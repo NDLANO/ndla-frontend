@@ -1,26 +1,27 @@
 /**
- * Copyright (C) 2023 -present, NDLA
+ * Copyright (c) 2023-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
+ *
  */
 
-import styled from '@emotion/styled';
-import { colors, spacing } from '@ndla/core';
-import { ConceptMetaData } from '@ndla/types-embed';
-import { ConceptEmbed } from '@ndla/ui';
+import { useTranslation } from 'react-i18next';
 import { gql } from '@apollo/client';
+import styled from '@emotion/styled';
 import {
   AccordionContent,
   AccordionHeader,
   AccordionItem,
   AccordionRoot,
 } from '@ndla/accordion';
+import { colors, spacing } from '@ndla/core';
+import { ConceptMetaData } from '@ndla/types-embed';
 import { Text } from '@ndla/typography';
-import { useTranslation } from 'react-i18next';
+import { ConceptEmbed } from '@ndla/ui';
+import { hasLicensedContent } from '../../containers/ResourceEmbed/components/ResourceEmbed';
 import ResourceEmbedLicenseBox from '../../containers/ResourceEmbed/components/ResourceEmbedLicenseBox';
 import { GQLNotionsContent_MetaFragment } from '../../graphqlTypes';
-import { hasLicensedContent } from '../../containers/ResourceEmbed/components/ResourceEmbed';
 
 const StyledAccordionHeader = styled(AccordionHeader)`
   background-color: ${colors.brand.lightest};

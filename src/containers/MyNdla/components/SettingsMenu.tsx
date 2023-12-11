@@ -14,10 +14,18 @@ import {
   useRef,
   RefObject,
 } from 'react';
-import styled from '@emotion/styled';
 import { isMobile, isTablet } from 'react-device-detect';
 import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
 import { IconButtonV2, ButtonV2 } from '@ndla/button';
+import { breakpoints, colors, fonts, misc, mq, spacing } from '@ndla/core';
+import {
+  DropdownMenu,
+  DropdownItem,
+  DropdownContent,
+  DropdownTrigger,
+} from '@ndla/dropdown-menu';
+import { HorizontalMenu } from '@ndla/icons/contentType';
 import {
   Drawer,
   Modal,
@@ -26,14 +34,6 @@ import {
   ModalHeader,
   ModalTrigger,
 } from '@ndla/modal';
-import { HorizontalMenu } from '@ndla/icons/contentType';
-import { breakpoints, colors, fonts, misc, mq, spacing } from '@ndla/core';
-import {
-  DropdownMenu,
-  DropdownItem,
-  DropdownContent,
-  DropdownTrigger,
-} from '@ndla/dropdown-menu';
 
 export interface MenuItemProps {
   icon?: ReactNode;

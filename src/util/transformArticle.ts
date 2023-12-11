@@ -6,11 +6,11 @@
  *
  */
 
-import { transform, TransformOptions } from '@ndla/article-converter';
 import { ReactNode } from 'react';
+import { transform, TransformOptions } from '@ndla/article-converter';
+import formatDate from './formatDate';
 import { GQLArticle } from '../graphqlTypes';
 import { LocaleType } from '../interfaces';
-import formatDate from './formatDate';
 
 function getContent(
   content: string,

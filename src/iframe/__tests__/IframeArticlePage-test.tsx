@@ -4,19 +4,18 @@
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
  *
- * @jest-environment jsdom
  */
 
 import { HelmetProvider } from 'react-helmet-async';
-import { render } from '@testing-library/react';
-import { createSerializer } from '@emotion/jest';
-import { MockedProvider } from '@apollo/client/testing';
 import { I18nextProvider, Translation } from 'react-i18next';
-import { i18nInstance } from '@ndla/ui';
 import { StaticRouter } from 'react-router-dom/server.js';
-import IframePageContainer from '../IframePageContainer';
-import IframeArticlePage from '../IframeArticlePage';
+import { MockedProvider } from '@apollo/client/testing';
+import { createSerializer } from '@emotion/jest';
+import { render } from '@testing-library/react';
+import { i18nInstance } from '@ndla/ui';
 import { initializeI18n } from '../../i18n';
+import IframeArticlePage from '../IframeArticlePage';
+import IframePageContainer from '../IframePageContainer';
 
 window._mtm = [];
 HelmetProvider.canUseDOM = false;

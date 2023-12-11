@@ -6,8 +6,8 @@
  *
  */
 
-import { Controller, useForm } from 'react-hook-form';
 import { useEffect } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { ButtonV2, LoadingButton } from '@ndla/button';
@@ -22,8 +22,8 @@ import {
 import { InformationOutline } from '@ndla/icons/common';
 import { ModalCloseButton } from '@ndla/modal';
 import { Text } from '@ndla/typography';
-import { FieldLength } from '../../../../containers/MyNdla/Folders/FolderForm';
 import { MarkdownEditor } from '../../../../components/MarkdownEditor/MarkdownEditor';
+import { FieldLength } from '../../../../containers/MyNdla/Folders/FolderForm';
 import useValidationTranslation from '../../../../util/useValidationTranslation';
 import { iconCss } from '../../Folders/FoldersPage';
 

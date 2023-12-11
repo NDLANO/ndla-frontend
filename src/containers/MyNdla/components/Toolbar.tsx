@@ -6,14 +6,14 @@
  *
  */
 
-import styled from '@emotion/styled';
 import { ReactNode, useContext } from 'react';
+import styled from '@emotion/styled';
 import { breakpoints, colors, mq, spacing, spacingUnit } from '@ndla/core';
-import { MY_NDLA_CONTENT_WIDTH } from '../../../constants';
-import { ViewType } from '../Folders/FoldersPage';
 import MenuModalContent from './MenuModalContent';
 import NotificationPopover from './NotificationPopover';
 import { AuthContext } from '../../../components/AuthenticationContext';
+import { MY_NDLA_CONTENT_WIDTH } from '../../../constants';
+import { ViewType } from '../Folders/FoldersPage';
 
 const ToolbarContainer = styled.div`
   display: none;

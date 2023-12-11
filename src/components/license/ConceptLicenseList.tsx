@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2016-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -6,7 +6,16 @@
  *
  */
 
+import uniqBy from 'lodash/uniqBy';
+import { ReactNode, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Link, useLocation } from 'react-router-dom';
 import { gql } from '@apollo/client';
+import { Concept, Globe } from '@ndla/icons/editor';
+import {
+  metaTypes,
+  getGroupedContributorDescriptionList,
+} from '@ndla/licenses';
 import {
   MediaList,
   MediaListItem,
@@ -16,26 +25,17 @@ import {
   MediaListItemMeta,
   ItemType,
 } from '@ndla/ui';
-import {
-  metaTypes,
-  getGroupedContributorDescriptionList,
-} from '@ndla/licenses';
-import { Concept, Globe } from '@ndla/icons/editor';
-import { useTranslation } from 'react-i18next';
-import { Link, useLocation } from 'react-router-dom';
-import { ReactNode, useMemo } from 'react';
-import uniqBy from 'lodash/uniqBy';
 import CopyTextButton from './CopyTextButton';
-import {
-  GQLConceptLicenseList_ConceptLicenseFragment,
-  GQLGlossLicenseList_GlossLicenseFragment,
-} from '../../graphqlTypes';
+import LicenseDescription from './LicenseDescription';
 import {
   isCopyrighted,
   licenseCopyrightToCopyrightType,
 } from './licenseHelpers';
 import config from '../../config';
-import LicenseDescription from './LicenseDescription';
+import {
+  GQLConceptLicenseList_ConceptLicenseFragment,
+  GQLGlossLicenseList_GlossLicenseFragment,
+} from '../../graphqlTypes';
 
 interface ConceptLicenseInfoProps {
   concept:

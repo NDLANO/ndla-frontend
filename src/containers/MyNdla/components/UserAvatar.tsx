@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2023-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -8,8 +8,8 @@
 
 import styled from '@emotion/styled';
 import { breakpoints, misc, mq } from '@ndla/core';
-import EditProfilePicture from '../MyProfile/components/EditProfilePicture';
 import Avatar from './Avatar';
+import EditProfilePicture from '../MyProfile/components/EditProfilePicture';
 
 type UserAvatarProps = {
   userName: string | undefined;

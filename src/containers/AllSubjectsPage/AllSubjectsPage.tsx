@@ -6,10 +6,17 @@
  *
  */
 
+import { TFunction } from 'i18next';
+import sortBy from 'lodash/sortBy';
+import { parse, stringify } from 'query-string';
+import { useContext, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
 import { Select } from '@ndla/select';
 import { HelmetWithTracker } from '@ndla/tracker';
+import { Heading } from '@ndla/typography';
 import {
   ErrorMessage,
   ContentPlaceholder,
@@ -17,22 +24,15 @@ import {
   constants,
   getMastheadHeight,
 } from '@ndla/ui';
-import { Heading } from '@ndla/typography';
-import { TFunction } from 'i18next';
-import sortBy from 'lodash/sortBy';
-import { parse, stringify } from 'query-string';
-import { useContext, useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../components/AuthenticationContext';
-import TabFilter from '../../components/TabFilter';
-import { MastheadHeightPx, SKIP_TO_CONTENT_ID } from '../../constants';
-import { useSubjects } from '../MyNdla/subjectQueries';
 import FavoriteSubjects from './FavoriteSubjects';
 import LetterNavigation from './LetterNavigation';
 import SubjectCategory from './SubjectCategory';
 import { filterSubjects, groupSubjects } from './utils';
+import { AuthContext } from '../../components/AuthenticationContext';
+import TabFilter from '../../components/TabFilter';
+import { MastheadHeightPx, SKIP_TO_CONTENT_ID } from '../../constants';
 import { useUserAgent } from '../../UserAgentContext';
+import { useSubjects } from '../MyNdla/subjectQueries';
 
 const { ACTIVE_SUBJECTS, ARCHIVE_SUBJECTS, BETA_SUBJECTS, OTHER } =
   constants.subjectCategories;

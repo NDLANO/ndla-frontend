@@ -9,16 +9,16 @@
 import { useTranslation } from 'react-i18next';
 import { gql } from '@apollo/client';
 import { Spinner } from '@ndla/icons';
-import NotFoundPage from '../NotFoundPage/NotFoundPage';
-import DefaultErrorMessage from '../../components/DefaultErrorMessage';
-import { subjectInfoFragment } from '../../queries';
-import { RedirectExternal, Status } from '../../components';
-import { useGraphQuery } from '../../util/runQueries';
-import { GQLProgrammePageQuery } from '../../graphqlTypes';
-import { toProgramme, TypedParams, useTypedParams } from '../../routeHelpers';
 import ProgrammeContainer from './ProgrammeContainer';
-import { programmeFragment } from '../WelcomePage/WelcomePage';
+import { RedirectExternal, Status } from '../../components';
+import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import { programmeRedirects } from '../../constants';
+import { GQLProgrammePageQuery } from '../../graphqlTypes';
+import { subjectInfoFragment } from '../../queries';
+import { toProgramme, TypedParams, useTypedParams } from '../../routeHelpers';
+import { useGraphQuery } from '../../util/runQueries';
+import NotFoundPage from '../NotFoundPage/NotFoundPage';
+import { programmeFragment } from '../WelcomePage/WelcomePage';
 
 interface MatchParams extends TypedParams {
   programme: string;

@@ -6,6 +6,8 @@
  *
  */
 
+import { useCallback, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { breakpoints, mq } from '@ndla/core';
@@ -19,12 +21,10 @@ import {
   ModalTitle,
   ModalTrigger,
 } from '@ndla/modal';
-import { useTranslation } from 'react-i18next';
-import { useCallback, useState } from 'react';
-import { useAddFolderMutation, useFolders } from '../folderMutations';
-import { GQLFolder } from '../../../graphqlTypes';
 import FolderForm, { FolderFormValues } from './FolderForm';
 import { buttonCss, iconCss } from './FoldersPage';
+import { GQLFolder } from '../../../graphqlTypes';
+import { useAddFolderMutation, useFolders } from '../folderMutations';
 
 const AddButton = styled(ButtonV2)`
   ${mq.range({ until: breakpoints.tablet })} {

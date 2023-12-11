@@ -6,16 +6,16 @@
  *
  */
 
-import { colors, spacing } from '@ndla/core';
-import { SafeLinkButton } from '@ndla/safelink';
-import styled from '@emotion/styled';
-import { Root, Trigger, Portal, Content, Arrow } from '@radix-ui/react-popover';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import NotificationList from './NotificationList';
+import styled from '@emotion/styled';
+import { Root, Trigger, Portal, Content, Arrow } from '@radix-ui/react-popover';
+import { colors, spacing } from '@ndla/core';
+import { SafeLinkButton } from '@ndla/safelink';
 import NotificationBellButton from './NotificationButton';
-import { useArenaNotifications } from '../arenaQueries';
+import NotificationList from './NotificationList';
 import { toAllNotifications } from '../Arena/utils';
+import { useArenaNotifications } from '../arenaQueries';
 
 const StyledContent = styled(Content)`
   background-color: ${colors.background.default};

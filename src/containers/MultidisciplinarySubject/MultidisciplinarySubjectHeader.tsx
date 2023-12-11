@@ -6,12 +6,12 @@
  *
  */
 
-import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
 import { breakpoints, mq, spacing } from '@ndla/core';
 import SafeLink from '@ndla/safelink';
-import { HomeBreadcrumb, SimpleBreadcrumbItem } from '@ndla/ui';
 import { Text } from '@ndla/typography';
+import { HomeBreadcrumb, SimpleBreadcrumbItem } from '@ndla/ui';
 import {
   ClimateIllustration,
   DemocracyClimateIllustration,

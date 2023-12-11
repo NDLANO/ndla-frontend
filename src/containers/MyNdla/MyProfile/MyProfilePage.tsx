@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2023-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -7,13 +7,11 @@
  */
 
 import { useContext, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
 import { ButtonV2 } from '@ndla/button';
-import SafeLink from '@ndla/safelink';
-import { HelmetWithTracker, useTracker } from '@ndla/tracker';
+import { spacing } from '@ndla/core';
 import {
   ModalBody,
   ModalCloseButton,
@@ -23,18 +21,20 @@ import {
   ModalTrigger,
   ModalContent,
 } from '@ndla/modal';
+import SafeLink from '@ndla/safelink';
+import { HelmetWithTracker, useTracker } from '@ndla/tracker';
 import { Heading, Text } from '@ndla/typography';
-import InfoPart from '../InfoPart';
-import { AuthContext } from '../../../components/AuthenticationContext';
-import { constructNewPath, toHref } from '../../../util/urlHelper';
-import { useBaseName } from '../../../components/BaseNameContext';
-import { useDeletePersonalData } from '../userMutations';
-import { getAllDimensions } from '../../../util/trackingUtil';
 import MyPreferences from './components/MyPreferences';
+import { AuthContext } from '../../../components/AuthenticationContext';
+import { useBaseName } from '../../../components/BaseNameContext';
+import { getAllDimensions } from '../../../util/trackingUtil';
+import { constructNewPath, toHref } from '../../../util/urlHelper';
 import MyContactArea from '../components/MyContactArea';
-import { UserInfo } from '../components/UserInfo';
 import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
 import MyNdlaTitle from '../components/MyNdlaTitle';
+import { UserInfo } from '../components/UserInfo';
+import InfoPart from '../InfoPart';
+import { useDeletePersonalData } from '../userMutations';
 
 const StyledPageContentContainer = styled.div`
   display: flex;

@@ -1,7 +1,3 @@
-// cypress/plugins/index.ts
-
-/// <reference types="cypress" />
-
 /**
  * Copyright (c) 2016-present, NDLA.
  *
@@ -9,6 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
+// cypress/plugins/index.ts
+/// <reference types="cypress" />
+
 const fs = require('fs');
 const path = require('path');
 
@@ -22,10 +22,10 @@ interface Fixture {
 /**
  * @type {Cypress.PluginConfig}
  */
-module.exports = on => {
+module.exports = (on) => {
   on('task', {
     writeFixtures: (fixtures: Fixture[]) =>
-      fixtures.map(fixture => {
+      fixtures.map((fixture) => {
         const fileName = path.join(fixturesDir, `${fixture.name}.json`);
         fs.writeFileSync(fileName, fixture.json, 'utf-8');
         return fixture.json;

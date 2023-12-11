@@ -7,40 +7,40 @@
  */
 
 import { useEffect, useMemo } from 'react';
-import { ArticleTitle, getMastheadHeight, OneColumn } from '@ndla/ui';
-import { Navigate, useLocation } from 'react-router-dom';
-import { HelmetWithTracker } from '@ndla/tracker';
 import { useTranslation } from 'react-i18next';
+import { Navigate, useLocation } from 'react-router-dom';
 import { gql, useQuery } from '@apollo/client';
 import styled from '@emotion/styled';
-import { colors, spacing } from '@ndla/core';
-import { transform } from '@ndla/article-converter';
 import {
   AccordionContent,
   AccordionHeader,
   AccordionItem,
   AccordionRoot,
 } from '@ndla/accordion';
+import { transform } from '@ndla/article-converter';
+import { colors, spacing } from '@ndla/core';
+import { HelmetWithTracker } from '@ndla/tracker';
 import { Text } from '@ndla/typography';
-import SocialMediaMetadata from '../../components/SocialMediaMetadata';
+import { ArticleTitle, getMastheadHeight, OneColumn } from '@ndla/ui';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
+import SocialMediaMetadata from '../../components/SocialMediaMetadata';
+import config from '../../config';
 import {
   AcquireLicensePage,
   MastheadHeightPx,
   PODCAST_SERIES_LIST_PAGE_PATH,
   SKIP_TO_CONTENT_ID,
 } from '../../constants';
-import config from '../../config';
-import { publisher } from '../../util/getStructuredDataFromArticle';
 import {
   GQLContributorInfoFragment,
   GQLCopyrightInfoFragment,
   GQLPodcastSeriesPageQuery,
 } from '../../graphqlTypes';
-import { TypedParams, useTypedParams } from '../../routeHelpers';
-import ResourceEmbedLicenseBox from '../ResourceEmbed/components/ResourceEmbedLicenseBox';
-import { hasLicensedContent } from '../ResourceEmbed/components/ResourceEmbed';
 import { copyrightInfoFragment } from '../../queries';
+import { TypedParams, useTypedParams } from '../../routeHelpers';
+import { publisher } from '../../util/getStructuredDataFromArticle';
+import { hasLicensedContent } from '../ResourceEmbed/components/ResourceEmbed';
+import ResourceEmbedLicenseBox from '../ResourceEmbed/components/ResourceEmbedLicenseBox';
 
 interface RouteParams extends TypedParams {
   id: string;

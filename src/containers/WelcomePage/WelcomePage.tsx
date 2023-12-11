@@ -6,14 +6,10 @@
  *
  */
 
-import styled from '@emotion/styled';
 import { useContext, useEffect, useMemo } from 'react';
-import { HelmetWithTracker, useTracker } from '@ndla/tracker';
-import {
-  ProgrammeV2,
-  FrontpageArticle,
-  WIDE_FRONTPAGE_ARTICLE_MAX_WIDTH,
-} from '@ndla/ui';
+import { useTranslation } from 'react-i18next';
+import { gql } from '@apollo/client';
+import styled from '@emotion/styled';
 import {
   breakpoints,
   colors,
@@ -22,21 +18,25 @@ import {
   spacingUnit,
   utils,
 } from '@ndla/core';
-import { useTranslation } from 'react-i18next';
-import { gql } from '@apollo/client';
+import { HelmetWithTracker, useTracker } from '@ndla/tracker';
+import {
+  ProgrammeV2,
+  FrontpageArticle,
+  WIDE_FRONTPAGE_ARTICLE_MAX_WIDTH,
+} from '@ndla/ui';
 
-import { PROGRAMME_PATH, SKIP_TO_CONTENT_ID } from '../../constants';
+import Programmes from './Components/Programmes';
+import { AuthContext } from '../../components/AuthenticationContext';
+import LicenseBox from '../../components/license/LicenseBox';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import config from '../../config';
+import { PROGRAMME_PATH, SKIP_TO_CONTENT_ID } from '../../constants';
 import { GQLFrontpageDataQuery, GQLProgrammePage } from '../../graphqlTypes';
-import Programmes from './Components/Programmes';
-import LicenseBox from '../../components/license/LicenseBox';
+import { getArticleScripts } from '../../util/getArticleScripts';
 import { structuredArticleDataFragment } from '../../util/getStructuredDataFromArticle';
 import { useGraphQuery } from '../../util/runQueries';
-import { transformArticle } from '../../util/transformArticle';
-import { getArticleScripts } from '../../util/getArticleScripts';
-import { AuthContext } from '../../components/AuthenticationContext';
 import { getAllDimensions } from '../../util/trackingUtil';
+import { transformArticle } from '../../util/transformArticle';
 
 const HiddenHeading = styled.h1`
   ${utils.visuallyHidden};

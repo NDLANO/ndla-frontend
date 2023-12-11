@@ -6,11 +6,11 @@
  *
  */
 
+import { Link } from 'react-router-dom';
 import { gql } from '@apollo/client';
 import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
 import { Heading, Text } from '@ndla/typography';
-import { Link } from 'react-router-dom';
 import { GQLPodcastSeries_PodcastSeriesSummaryFragment } from '../../graphqlTypes';
 
 const StyledCoverPhoto = styled.img`

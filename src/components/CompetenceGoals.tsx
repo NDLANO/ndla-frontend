@@ -2,15 +2,16 @@
  * Copyright (c) 2018-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
- * LICENSE file in the root directory of this source tree. *
+ * LICENSE file in the root directory of this source tree.
+ *
  */
 
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { CompetenceGoalTab } from '@ndla/ui';
-import { ButtonV2 } from '@ndla/button';
-import { FooterHeaderIcon } from '@ndla/icons/common';
 import styled from '@emotion/styled';
+import { ButtonV2 } from '@ndla/button';
+import { breakpoints, mq } from '@ndla/core';
+import { FooterHeaderIcon } from '@ndla/icons/common';
 import {
   Modal,
   ModalBody,
@@ -20,15 +21,15 @@ import {
   ModalTitle,
   ModalTrigger,
 } from '@ndla/modal';
-import { breakpoints, mq } from '@ndla/core';
-import { competenceGoalsQuery } from '../queries';
-import handleError from '../util/handleError';
+import { CompetenceGoalTab } from '@ndla/ui';
 import {
   GQLCompetenceGoal,
   GQLCompetenceGoalsQuery,
   GQLCoreElement,
 } from '../graphqlTypes';
 import { CompetenceGoalsType } from '../interfaces';
+import { competenceGoalsQuery } from '../queries';
+import handleError from '../util/handleError';
 import { useGraphQuery } from '../util/runQueries';
 
 interface Props {
