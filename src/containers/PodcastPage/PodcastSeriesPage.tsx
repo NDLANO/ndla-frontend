@@ -231,7 +231,10 @@ const PodcastSeriesPage = () => {
           </ArticleTitle>
         </TitleWrapper>
         <SeriesDescription>
-          <StyledImage src={podcastSeries.coverPhoto.url} alt={podcastSeries.coverPhoto.altText}/>
+          <StyledImage
+            src={podcastSeries.coverPhoto.url}
+            alt={podcastSeries.coverPhoto.altText}
+          />
           {podcastSeries.description.description}
         </SeriesDescription>
         <EpisodesWrapper>
