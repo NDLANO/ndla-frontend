@@ -22,13 +22,13 @@ import {
 } from '@ndla/modal';
 import FolderForm from './FolderForm';
 import { buttonCss, iconCss } from './FoldersPage';
+import { GQLFolder } from '../../../graphqlTypes';
+import { useUserAgent } from '../../../UserAgentContext';
 import {
   useUpdateFolderMutation,
   useFolders,
   getFolder,
 } from '../folderMutations';
-import { GQLFolder } from '../../../graphqlTypes';
-import { useUserAgent } from '../../../UserAgentContext';
 
 interface Props {
   folder?: GQLFolder;

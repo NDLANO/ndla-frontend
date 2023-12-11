@@ -33,14 +33,14 @@ import {
   sharedFolderLink,
   previewLink,
 } from './util';
+import { AuthContext } from '../../../components/AuthenticationContext';
+import { GQLFolder } from '../../../graphqlTypes';
+import { useUserAgent } from '../../../UserAgentContext';
 import {
   useUpdateFolderStatusMutation,
   useDeleteFolderMutation,
 } from '../folderMutations';
 import { OutletContext } from '../MyNdlaLayout';
-import { AuthContext } from '../../../components/AuthenticationContext';
-import { GQLFolder } from '../../../graphqlTypes';
-import { useUserAgent } from '../../../UserAgentContext';
 
 interface FolderButtonProps {
   setFocusId: Dispatch<SetStateAction<string | undefined>>;

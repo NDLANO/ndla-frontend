@@ -22,13 +22,13 @@ import FolderList from './FolderList';
 import FoldersPageTitle from './FoldersPageTitle';
 import ListViewOptions from './ListViewOptions';
 import ResourceList from './ResourceList';
-import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
-import { foldersPageQuery, useFolder } from '../folderMutations';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import { STORED_RESOURCE_VIEW_SETTINGS } from '../../../constants';
 import { GQLFolder, GQLFoldersPageQuery } from '../../../graphqlTypes';
 import { useGraphQuery } from '../../../util/runQueries';
 import { getAllDimensions } from '../../../util/trackingUtil';
+import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
+import { foldersPageQuery, useFolder } from '../folderMutations';
 
 const FoldersPageContainer = styled.div`
   display: flex;

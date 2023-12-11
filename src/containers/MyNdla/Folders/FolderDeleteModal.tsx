@@ -12,8 +12,8 @@ import { ButtonV2 } from '@ndla/button';
 import { TrashCanOutline } from '@ndla/icons/action';
 import { Modal, ModalTrigger } from '@ndla/modal';
 import { buttonCss, iconCss } from './FoldersPage';
-import DeleteModalContent from '../components/DeleteModalContent';
 import { useUserAgent } from '../../../UserAgentContext';
+import DeleteModalContent from '../components/DeleteModalContent';
 
 interface Props {
   onDelete: () => void;

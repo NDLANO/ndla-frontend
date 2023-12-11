@@ -23,9 +23,9 @@ import {
 } from '@ndla/modal';
 import FolderForm, { FolderFormValues } from './FolderForm';
 import { buttonCss, iconCss } from './FoldersPage';
-import { useAddFolderMutation, useFolders } from '../folderMutations';
 import { GQLFolder } from '../../../graphqlTypes';
 import { useUserAgent } from '../../../UserAgentContext';
+import { useAddFolderMutation, useFolders } from '../folderMutations';
 
 const AddButton = styled(ButtonV2)`
   ${mq.range({ until: breakpoints.tablet })} {
