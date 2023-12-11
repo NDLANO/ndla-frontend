@@ -38,7 +38,7 @@ const CardListItem = styled.li`
 
 const ArenaUserPage = () => {
   const { t } = useTranslation();
-  const { user } = useContext(AuthContext);
+  const { user, authContextLoaded } = useContext(AuthContext);
   const { username } = useParams();
   const { arenaUser } = useArenaUser({
     variables: { username: username ?? '' },
@@ -53,7 +53,7 @@ const ArenaUserPage = () => {
     return <Spinner />;
   }
 
-  if (!user?.arenaEnabled && user?.arenaEnabled !== undefined) {
+  if (!user?.arenaEnabled && authContextLoaded) {
     return <Navigate to="/minndla" />;
   }
 
