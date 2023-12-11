@@ -231,7 +231,7 @@ const PodcastSeriesPage = () => {
           </ArticleTitle>
         </TitleWrapper>
         <SeriesDescription>
-          <StyledImage src={podcastSeries.coverPhoto.url} />
+          <StyledImage src={podcastSeries.coverPhoto.url} alt={podcastSeries.coverPhoto.altText}/>
           {podcastSeries.description.description}
         </SeriesDescription>
         <EpisodesWrapper>
@@ -278,6 +278,7 @@ const podcastSeriesPageQuery = gql`
       supportedLanguages
       coverPhoto {
         url
+        altText
       }
       content {
         content
