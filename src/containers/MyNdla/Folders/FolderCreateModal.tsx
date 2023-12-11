@@ -24,6 +24,7 @@ import {
 import FolderForm, { FolderFormValues } from './FolderForm';
 import { buttonCss, iconCss } from './FoldersPage';
 import { GQLFolder } from '../../../graphqlTypes';
+import { useUserAgent } from '../../../UserAgentContext';
 import { useAddFolderMutation, useFolders } from '../folderMutations';
 
 const AddButton = styled(ButtonV2)`
@@ -42,6 +43,7 @@ const FolderCreateModal = ({ onSaved, parentFolder }: Props) => {
   const { t } = useTranslation();
   const { addFolder } = useAddFolderMutation();
   const [folderCreated, setFolderCreated] = useState(false);
+  const userAgent = useUserAgent();
 
   const { folders } = useFolders();
 
@@ -58,9 +60,19 @@ const FolderCreateModal = ({ onSaved, parentFolder }: Props) => {
   return (
     <Modal open={open} onOpenChange={setOpen}>
       <ModalTrigger>
-        <AddButton css={buttonCss} variant="ghost" colorTheme="lighter">
+        <AddButton
+          css={buttonCss}
+          variant="ghost"
+          colorTheme="lighter"
+          aria-label={t('myNdla.newFolder')}
+          title={t('myNdla.newFolder')}
+        >
           <Plus css={iconCss} />
-          <span>{t('myNdla.newFolder')}</span>
+          <span>
+            {userAgent?.isMobile
+              ? t('myNdla.newFolder')
+              : t('myNdla.newFolderShort')}
+          </span>
         </AddButton>
       </ModalTrigger>
       <CreateModalContent

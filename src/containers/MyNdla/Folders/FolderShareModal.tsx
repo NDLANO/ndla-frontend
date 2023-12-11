@@ -25,7 +25,7 @@ import { SafeLinkButton } from '@ndla/safelink';
 import Tooltip from '@ndla/tooltip';
 import { useSnack } from '@ndla/ui';
 import FolderAndResourceCount from './FolderAndResourceCount';
-import { previewLink } from './util';
+import { sharedFolderLink } from './util';
 import { GQLFolder } from '../../../graphqlTypes';
 import { toFolderPreview } from '../../../routeHelpers';
 import { useUserAgent } from '../../../UserAgentContext';
@@ -201,7 +201,7 @@ export const FolderShareModalContent = ({
             </CopyLinkHeader>
             <Tooltip tooltip={t('myNdla.folder.sharing.button.shareLink')}>
               <CopyLinkButton
-                aria-label={previewLink(folder.id)}
+                aria-label={sharedFolderLink(folder.id)}
                 variant="stripped"
                 onClick={() => {
                   onCopyText?.();
@@ -211,7 +211,7 @@ export const FolderShareModalContent = ({
                   });
                 }}
               >
-                <span>{previewLink(folder.id)}</span>
+                <span>{sharedFolderLink(folder.id)}</span>
                 <div>
                   <Copy />
                 </div>
