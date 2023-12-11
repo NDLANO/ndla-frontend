@@ -66,7 +66,7 @@ const StyledLi = styled.li`
     display: none;
   }
 
-  margin: 0;
+  padding: 0;
   ${mq.range({ from: breakpoints.mobileWide })} {
     display: unset !important;
   }

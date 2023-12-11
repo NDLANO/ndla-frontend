@@ -89,8 +89,8 @@ export const iconCss = css`
 export const ListItem = styled.li`
   overflow: hidden;
   list-style: none;
-  margin: 0;
   width: 100%;
+  padding: 0;
 `;
 
 const StyledRow = styled.div`

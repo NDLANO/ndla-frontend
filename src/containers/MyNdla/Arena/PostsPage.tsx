@@ -41,6 +41,7 @@ const ListWrapper = styled.ul`
 
 const PostCardWrapper = styled.li`
   list-style: none;
+  padding: 0;
   margin-bottom: ${spacing.normal};
   &[data-main-post='false'] {
     margin-left: 72px;

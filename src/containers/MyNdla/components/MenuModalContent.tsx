@@ -32,7 +32,7 @@ import { toAllNotifications } from '../Arena/utils';
 
 const MenuItem = styled.li`
   list-style: none;
-  margin: unset;
+  padding: unset;
 `;
 
 const StyledText = styled(Text)`

@@ -19,7 +19,7 @@ const ComponentRoot = styled.ul`
 `;
 
 const SubComponentRoot = styled.li`
-  margin: 0;
+  padding: 0;
 `;
 
 const LinkElement = styled.span`

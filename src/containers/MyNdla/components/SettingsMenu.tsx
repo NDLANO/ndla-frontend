@@ -75,6 +75,7 @@ const StyledModalBody = styled(ModalBody)`
 
 const StyledLi = styled.li`
   border-bottom: 1px solid ${colors.brand.neutral7};
+  padding: 0;
 `;
 
 const StyledDropdownContent = styled(DropdownContent)`

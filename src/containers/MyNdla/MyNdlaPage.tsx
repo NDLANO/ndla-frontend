@@ -38,12 +38,10 @@ const StyledPageContentContainer = styled.div`
 const StyledResourceList = styled.ul`
   padding: 0;
   display: flex;
-  margin: 0;
   flex-direction: column;
   list-style: none;
   gap: ${spacing.xsmall};
   li {
-    margin: 0px;
     padding: 0px;
   }
 `;

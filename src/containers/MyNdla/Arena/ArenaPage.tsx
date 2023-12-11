@@ -30,7 +30,7 @@ const StyledCardContainer = styled.ul`
 
 const ArenaCardWrapper = styled.li`
   list-style: none;
-  margin: 0;
+  padding: 0;
 `;
 
 const ArenaPage = () => {

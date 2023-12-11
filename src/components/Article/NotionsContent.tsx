@@ -33,7 +33,6 @@ const RelatedContentContainer = styled.ul`
   flex-wrap: wrap;
   list-style: none;
   padding: 0;
-  margin: 0;
 `;
 
 const NotionsWrapper = styled.div`

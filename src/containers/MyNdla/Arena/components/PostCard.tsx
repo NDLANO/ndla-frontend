@@ -94,6 +94,12 @@ const StyledTimestamp = styled(Text)`
   align-self: center;
 `;
 
+const Content = styled(Text)`
+  ul {
+    padding-left: ${spacing.normal};
+  }
+`;
+
 const Locales = {
   nn: nn,
   nb: nb,
@@ -295,6 +301,8 @@ const PostCard = ({
     [replyToTopic, topicId, setFocusId],
   );
 
+  console.log(content);
+
   return (
     <StyledCardContainer id={`post-${postId}`}>
       <StyledTopContainer>
@@ -323,9 +331,9 @@ const PostCard = ({
             {topic?.title}
           </Heading>
         )}
-        <Text element="p" textStyle="content-alt" margin="none">
+        <Content element="p" textStyle="content-alt" margin="none">
           {parse(content)}
-        </Text>
+        </Content>
       </StyledContentContainer>
       <BottomContainer>
         {!isMainPost && (

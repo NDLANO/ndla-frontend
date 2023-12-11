@@ -31,7 +31,7 @@ export const StyledUl = styled.ul`
 export const StyledLi = styled.li`
   display: flex;
   flex-direction: column;
-  margin: 0;
+  padding: 0;
 `;
 
 interface LinkProps {
