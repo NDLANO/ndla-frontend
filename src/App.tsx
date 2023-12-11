@@ -153,7 +153,10 @@ const AppRoutes = ({ base }: AppProps) => {
                   <Route index element={<MyNdlaPage />} />
                   <Route path="folders">
                     <Route index element={<FoldersPage />} />
-                    <Route path=":folderId" element={<FoldersPage />} />
+                    <Route path=":folderId">
+                      <Route index element={<FoldersPage />} />
+                      <Route path="preview" element={<SharedFolderPage />} />
+                    </Route>
                   </Route>
                   <Route path="arena">
                     <Route index element={<ArenaPage />} />

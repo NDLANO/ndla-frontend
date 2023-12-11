@@ -27,7 +27,12 @@ import FolderDeleteModal from './FolderDeleteModal';
 import FolderEditModal from './FolderEditModal';
 import FolderShareModal from './FolderShareModal';
 import { buttonCss, iconCss } from './FoldersPage';
-import { isStudent, copyFolderSharingLink, previewLink } from './util';
+import {
+  isStudent,
+  copyFolderSharingLink,
+  sharedFolderLink,
+  previewLink,
+} from './util';
 import {
   useUpdateFolderStatusMutation,
   useDeleteFolderMutation,
@@ -280,14 +285,22 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
         css={buttonCss}
         variant="ghost"
         colorTheme="lighter"
-        to={previewLink(selectedFolder.id)}
+        to={
+          isFolderShared
+            ? sharedFolderLink(selectedFolder.id)
+            : previewLink(selectedFolder.id)
+        }
         aria-label={t('myNdla.folder.sharing.button.preview')}
         title={t('myNdla.folder.sharing.button.preview')}
       >
         <ShareArrow css={iconCss} />
-        {userAgent?.isMobile
-          ? t('myNdla.folder.sharing.button.preview')
-          : t('myNdla.folder.sharing.button.previewShort')}
+        {isFolderShared
+          ? t('myNdla.folder.sharing.button.goTo')
+          : t(
+              `myNdla.folder.sharing.button.${
+                userAgent?.isMobile ? 'preview' : 'previewShort'
+              }`,
+            )}
       </SafeLinkButton>
     ) : null;
 
