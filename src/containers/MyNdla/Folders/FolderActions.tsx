@@ -24,7 +24,11 @@ import { CreateModalContent } from './FolderCreateModal';
 import { EditFolderModalContent } from './FolderEditModal';
 import { FolderFormValues } from './FolderForm';
 import { FolderShareModalContent } from './FolderShareModal';
-import { copyFolderSharingLink, isStudent, previewLinkInternal } from './util';
+import {
+  copyFolderSharingLink,
+  isStudent,
+  sharedFolderLinkInternal,
+} from './util';
 import DeleteModalContent from '../components/DeleteModalContent';
 import SettingsMenu, { MenuItemProps } from '../components/SettingsMenu';
 import {
@@ -208,11 +212,11 @@ const FolderActions = ({
 
     const previewFolder: MenuItemProps = {
       icon: <ShareArrow />,
-      link: previewLinkInternal(selectedFolder.id),
+      link: sharedFolderLinkInternal(selectedFolder.id),
       text: t('myNdla.folder.sharing.button.preview'),
       isModal: true,
       onClick: () => {
-        navigate(previewLinkInternal(selectedFolder.id));
+        navigate(sharedFolderLinkInternal(selectedFolder.id));
       },
     };
 

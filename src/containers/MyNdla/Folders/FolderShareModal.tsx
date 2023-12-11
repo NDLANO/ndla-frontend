@@ -27,7 +27,7 @@ import { ReactNode, useCallback, useMemo, useState } from 'react';
 import { GQLFolder } from '../../../graphqlTypes';
 import FolderAndResourceCount from './FolderAndResourceCount';
 import { toFolderPreview } from '../../../routeHelpers';
-import { previewLink } from './util';
+import { sharedFolderLink } from './util';
 import { useUserAgent } from '../../../UserAgentContext';
 
 const FolderName = styled.span`
@@ -201,7 +201,7 @@ export const FolderShareModalContent = ({
             </CopyLinkHeader>
             <Tooltip tooltip={t('myNdla.folder.sharing.button.shareLink')}>
               <CopyLinkButton
-                aria-label={previewLink(folder.id)}
+                aria-label={sharedFolderLink(folder.id)}
                 variant="stripped"
                 onClick={() => {
                   onCopyText?.();
@@ -211,7 +211,7 @@ export const FolderShareModalContent = ({
                   });
                 }}
               >
-                <span>{previewLink(folder.id)}</span>
+                <span>{sharedFolderLink(folder.id)}</span>
                 <div>
                   <Copy />
                 </div>
