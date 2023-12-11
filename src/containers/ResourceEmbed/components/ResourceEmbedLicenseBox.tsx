@@ -1,24 +1,25 @@
 /**
- * Copyright (C) 2023 -present, NDLA
+ * Copyright (c) 2023-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
+ *
  */
 
-import { useTranslation } from 'react-i18next';
 import { TFunction } from 'i18next';
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { gql } from '@apollo/client';
 import Tabs from '@ndla/tabs';
-import { GQLResourceEmbedLicenseBox_MetaFragment } from '../../../graphqlTypes';
-import ImageLicenseList from '../../../components/license/ImageLicenseList';
 import AudioLicenseList from '../../../components/license/AudioLicenseList';
-import PodcastLicenseList from '../../../components/license/PodcastLicenseList';
-import VideoLicenseList from '../../../components/license/VideoLicenseList';
-import H5pLicenseList from '../../../components/license/H5pLicenseList';
 import ConceptLicenseList, {
   GlossLicenseList,
 } from '../../../components/license/ConceptLicenseList';
+import H5pLicenseList from '../../../components/license/H5pLicenseList';
+import ImageLicenseList from '../../../components/license/ImageLicenseList';
+import PodcastLicenseList from '../../../components/license/PodcastLicenseList';
+import VideoLicenseList from '../../../components/license/VideoLicenseList';
+import { GQLResourceEmbedLicenseBox_MetaFragment } from '../../../graphqlTypes';
 
 interface Props {
   metaData: GQLResourceEmbedLicenseBox_MetaFragment;

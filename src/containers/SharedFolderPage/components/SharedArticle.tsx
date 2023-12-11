@@ -8,6 +8,9 @@
 
 import { gql } from '@apollo/client';
 import { Spinner } from '@ndla/icons';
+import SharedArticleContainer, {
+  sharedArticleContainerFragments,
+} from './SharedArticleContainer';
 import {
   GQLFolderResource,
   GQLFolderResourceMetaSearchQuery,
@@ -17,9 +20,6 @@ import {
 import { useGraphQuery } from '../../../util/runQueries';
 import ErrorPage from '../../ErrorPage';
 import NotFoundPage from '../../NotFoundPage/NotFoundPage';
-import SharedArticleContainer, {
-  sharedArticleContainerFragments,
-} from './SharedArticleContainer';
 
 const sharedResourceArticlePageQuery = gql`
   query sharedResourceArticlePage(

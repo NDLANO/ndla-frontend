@@ -6,6 +6,9 @@
  *
  */
 
+import { ReactNode, useCallback, useContext, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useLocation, useOutletContext } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { IconButtonV2 } from '@ndla/button';
 import { spacing, colors, fonts } from '@ndla/core';
@@ -17,18 +20,15 @@ import {
   ModalCloseButton,
   ModalTitle,
 } from '@ndla/modal';
-import { Text } from '@ndla/typography';
-import { ReactNode, useCallback, useContext, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
 import { SafeLinkButton } from '@ndla/safelink';
-import { useLocation, useOutletContext } from 'react-router-dom';
-import { ViewType, buttonCss } from '../Folders/FoldersPage';
-import { OutletContext, menuLinks } from '../MyNdlaLayout';
+import { Text } from '@ndla/typography';
 import NavigationLink from './NavigationLink';
 import { BellIcon } from './NotificationButton';
 import { AuthContext } from '../../../components/AuthenticationContext';
-import { useArenaNotifications } from '../arenaQueries';
 import { MyNdlaNotifications } from '../../../routeHelpers';
+import { useArenaNotifications } from '../arenaQueries';
+import { ViewType, buttonCss } from '../Folders/FoldersPage';
+import { OutletContext, menuLinks } from '../MyNdlaLayout';
 
 const MenuItem = styled.li`
   list-style: none;

@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2023-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 /// <reference types="cypress"/>
 /* eslint-disable @typescript-eslint/no-namespace */
 // ***********************************************
@@ -53,7 +61,7 @@ declare global {
 }
 // https://github.com/meinaart/cypress-plugin-snapshots/issues/10
 // This is required in order to fix a bug that occurs when calling Cypress.spec when running all specs.
-Cypress.Commands.add('fixCypressSpec', filename => {
+Cypress.Commands.add('fixCypressSpec', (filename) => {
   const path = require('path');
   const relative = filename.substr(1); // removes leading "/"
   const projectRoot = Cypress.config('projectRoot');
@@ -73,9 +81,9 @@ Cypress.Commands.add(
     alias,
     operations,
   }: InterceptOptions) => {
-    cy.intercept(method, url, req => {
+    cy.intercept(method, url, (req) => {
       const bodyOperationNames = Array.isArray(req.body)
-        ? req.body.map(b => b.operationName)
+        ? req.body.map((b) => b.operationName)
         : [req.body.operationName];
       const operationsMatch = isEqual(
         bodyOperationNames.sort(),
@@ -119,14 +127,14 @@ Cypress.Commands.add(
       let originalXhr: Interception;
       return cy
         .wait(alias)
-        .then(xhr => {
+        .then((xhr) => {
           originalXhr = xhr;
           return [xhr].flat();
         })
-        .then(xhrs =>
-          Promise.all(xhrs.map(xhr => readResponseBody(xhr.response?.body))),
+        .then((xhrs) =>
+          Promise.all(xhrs.map((xhr) => readResponseBody(xhr.response?.body))),
         )
-        .then(jsons =>
+        .then((jsons) =>
           cy.task(
             'writeFixtures',
             jsons.map((json, i) => {

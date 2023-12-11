@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2019-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -7,24 +7,17 @@
  */
 
 import { useMemo } from 'react';
-import { gql } from '@apollo/client';
 import { Helmet } from 'react-helmet-async';
-import { useLocation } from 'react-router-dom';
-import { spacing } from '@ndla/core';
-import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
+import { gql } from '@apollo/client';
+import styled from '@emotion/styled';
+import { DynamicComponents } from '@ndla/article-converter';
+import { spacing } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import { CreatedBy } from '@ndla/ui';
-import { DynamicComponents } from '@ndla/article-converter';
-import Article from '../Article';
-import { transformArticle } from '../../util/transformArticle';
-import { getArticleScripts } from '../../util/getArticleScripts';
-import getStructuredDataFromArticle, {
-  structuredArticleDataFragment,
-} from '../../util/getStructuredDataFromArticle';
-import { getArticleProps } from '../../util/getArticleProps';
 import LearningpathIframe, { urlIsNDLAUrl } from './LearningpathIframe';
-import { Breadcrumb } from '../../interfaces';
+import config from '../../config';
 import ErrorPage from '../../containers/ErrorPage';
 import {
   GQLLearningpathEmbed_LearningpathStepFragment,
@@ -32,9 +25,16 @@ import {
   GQLLearningpathStepQuery,
   GQLLearningpathStepQueryVariables,
 } from '../../graphqlTypes';
-import config from '../../config';
-import { useGraphQuery } from '../../util/runQueries';
 import { supportedLanguages } from '../../i18n';
+import { Breadcrumb } from '../../interfaces';
+import { getArticleProps } from '../../util/getArticleProps';
+import { getArticleScripts } from '../../util/getArticleScripts';
+import getStructuredDataFromArticle, {
+  structuredArticleDataFragment,
+} from '../../util/getStructuredDataFromArticle';
+import { useGraphQuery } from '../../util/runQueries';
+import { transformArticle } from '../../util/transformArticle';
+import Article from '../Article';
 import AddEmbedToFolder from '../MyNdla/AddEmbedToFolder';
 
 interface StyledIframeContainerProps {

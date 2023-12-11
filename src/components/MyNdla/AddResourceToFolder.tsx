@@ -18,6 +18,7 @@ import { colors, spacing } from '@ndla/core';
 import { InformationOutline } from '@ndla/icons/common';
 import SafeLink from '@ndla/safelink';
 import { ListResource, MessageBox, TagSelector, useSnack } from '@ndla/ui';
+import FolderSelect from './FolderSelect';
 import {
   useAddResourceToFolderMutation,
   useFolder,
@@ -26,10 +27,9 @@ import {
   useUpdateFolderResourceMutation,
 } from '../../containers/MyNdla/folderMutations';
 import { GQLFolder, GQLFolderResource } from '../../graphqlTypes';
+import { toMyNdlaFolder, MyNdlaTags } from '../../routeHelpers';
 import { getAllTags, getResourceForPath } from '../../util/folderHelpers';
 import { AuthContext } from '../AuthenticationContext';
-import FolderSelect from './FolderSelect';
-import { toMyNdlaFolder, MyNdlaTags } from '../../routeHelpers';
 
 export interface ResourceAttributes {
   path: string;

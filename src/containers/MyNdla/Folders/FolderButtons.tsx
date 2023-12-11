@@ -20,22 +20,27 @@ import { useNavigate, useParams, useOutletContext } from 'react-router-dom';
 import { ButtonV2 } from '@ndla/button';
 import { Cross, Copy } from '@ndla/icons/action';
 import { Share, ShareArrow } from '@ndla/icons/common';
-import { useSnack } from '@ndla/ui';
 import { SafeLinkButton } from '@ndla/safelink';
-import { AuthContext } from '../../../components/AuthenticationContext';
-import { GQLFolder } from '../../../graphqlTypes';
-import {
-  useUpdateFolderStatusMutation,
-  useDeleteFolderMutation,
-} from '../folderMutations';
-import { OutletContext } from '../MyNdlaLayout';
+import { useSnack } from '@ndla/ui';
 import FolderCreateModal from './FolderCreateModal';
 import FolderDeleteModal from './FolderDeleteModal';
 import FolderEditModal from './FolderEditModal';
 import FolderShareModal from './FolderShareModal';
 import { buttonCss, iconCss } from './FoldersPage';
-import { isStudent, copyFolderSharingLink, previewLink } from './util';
+import {
+  isStudent,
+  copyFolderSharingLink,
+  previewLink,
+  previewLinkInternal,
+} from './util';
+import { AuthContext } from '../../../components/AuthenticationContext';
+import { GQLFolder } from '../../../graphqlTypes';
 import { toMyNdlaFolder } from '../../../routeHelpers';
+import {
+  useUpdateFolderStatusMutation,
+  useDeleteFolderMutation,
+} from '../folderMutations';
+import { OutletContext } from '../MyNdlaLayout';
 
 interface FolderButtonProps {
   setFocusId: Dispatch<SetStateAction<string | undefined>>;
@@ -265,19 +270,22 @@ const FolderButtons = ({
       </ButtonV2>
     ) : null;
 
-  const previewFolderButton =
-    selectedFolder && isFolderShared ? (
-      <SafeLinkButton
-        key="previewFolder"
-        css={buttonCss}
-        variant="ghost"
-        colorTheme="lighter"
-        to={previewLink(selectedFolder.id)}
-      >
-        <ShareArrow css={iconCss} />
-        {t('myNdla.folder.sharing.button.preview')}
-      </SafeLinkButton>
-    ) : null;
+  const previewFolderButton = selectedFolder ? (
+    <SafeLinkButton
+      key="previewFolder"
+      css={buttonCss}
+      variant="ghost"
+      colorTheme="lighter"
+      to={
+        isFolderShared
+          ? previewLink(selectedFolder.id)
+          : previewLinkInternal(selectedFolder.id)
+      }
+    >
+      <ShareArrow css={iconCss} />
+      {t(`myNdla.folder.sharing.button.${isFolderShared ? 'goTo' : 'preview'}`)}
+    </SafeLinkButton>
+  ) : null;
 
   if (!showShareFolder) {
     const buttons = [addFolderButton, editFolderButton, deleteFolderButton];

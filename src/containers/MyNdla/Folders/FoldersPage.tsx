@@ -7,28 +7,28 @@
  */
 
 import isEqual from 'lodash/isEqual';
-import styled from '@emotion/styled';
-import { breakpoints, fonts, mq, spacing } from '@ndla/core';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import { HelmetWithTracker, useTracker } from '@ndla/tracker';
-import { FileDocumentOutline } from '@ndla/icons/common';
 import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+import { breakpoints, fonts, mq, spacing } from '@ndla/core';
+import { FileDocumentOutline } from '@ndla/icons/common';
+import { HelmetWithTracker, useTracker } from '@ndla/tracker';
+import FolderActions from './FolderActions';
+import { ResourceCountContainer } from './FolderAndResourceCount';
+import FolderButtons from './FolderButtons';
+import FolderList from './FolderList';
+import FoldersPageTitle from './FoldersPageTitle';
+import ListViewOptions from './ListViewOptions';
+import ResourceList from './ResourceList';
+import { AuthContext } from '../../../components/AuthenticationContext';
+import { STORED_RESOURCE_VIEW_SETTINGS } from '../../../constants';
 import { GQLFolder, GQLFoldersPageQuery } from '../../../graphqlTypes';
 import { useGraphQuery } from '../../../util/runQueries';
-import ListViewOptions from './ListViewOptions';
-import { foldersPageQuery, useFolder } from '../folderMutations';
-import { STORED_RESOURCE_VIEW_SETTINGS } from '../../../constants';
-import FoldersPageTitle from './FoldersPageTitle';
-import { ResourceCountContainer } from './FolderAndResourceCount';
-import FolderList from './FolderList';
-import { AuthContext } from '../../../components/AuthenticationContext';
-import ResourceList from './ResourceList';
-import FolderActions from './FolderActions';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
-import FolderButtons from './FolderButtons';
+import { foldersPageQuery, useFolder } from '../folderMutations';
 
 const FoldersPageContainer = styled.div`
   display: flex;

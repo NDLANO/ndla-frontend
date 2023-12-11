@@ -8,14 +8,14 @@
 
 import { NextFunction, Request, Response } from 'express';
 import {
+  isLearningPathResource,
+  getLearningPathUrlFromResource,
+} from '../../containers/Resources/resourceHelpers';
+import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,
   fetch,
 } from '../../util/apiHelpers';
-import {
-  isLearningPathResource,
-  getLearningPathUrlFromResource,
-} from '../../containers/Resources/resourceHelpers';
 
 interface ExternalIds {
   externalIds: string[];

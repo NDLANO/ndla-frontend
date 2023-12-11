@@ -12,12 +12,12 @@ import { CSS } from '@dnd-kit/utilities';
 import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
 import { Folder } from '@ndla/ui';
-import { GQLFolder } from '../../../graphqlTypes';
-import { FolderTotalCount } from '../../../util/folderHelpers';
-import { ViewType } from './FoldersPage';
 import DragHandle from './DragHandle';
 import FolderActions from './FolderActions';
+import { ViewType } from './FoldersPage';
+import { GQLFolder } from '../../../graphqlTypes';
 import { toMyNdlaFolder } from '../../../routeHelpers';
+import { FolderTotalCount } from '../../../util/folderHelpers';
 
 interface Props {
   folder: GQLFolder;

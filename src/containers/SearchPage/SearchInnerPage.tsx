@@ -2,7 +2,8 @@
  * Copyright (c) 2020-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
- * LICENSE file in the root directory of this source tree. *
+ * LICENSE file in the root directory of this source tree.
+ *
  */
 
 import { useState, useEffect, useRef } from 'react';
@@ -17,18 +18,18 @@ import {
   getTypeParams,
   TypeFilter,
 } from './searchHelpers';
-import { contentTypeMapping } from '../../util/getContentType';
-import handleError from '../../util/handleError';
-import { groupSearchQuery } from '../../queries';
-import { useGraphQuery } from '../../util/runQueries';
-import { getDefaultLocale } from '../../config';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
+import { getDefaultLocale } from '../../config';
 import {
   GQLGroupSearchQuery,
   GQLResourceTypeDefinition,
   GQLSubjectInfoFragment,
 } from '../../graphqlTypes';
 import { LtiData } from '../../interfaces';
+import { groupSearchQuery } from '../../queries';
+import { contentTypeMapping } from '../../util/getContentType';
+import handleError from '../../util/handleError';
+import { useGraphQuery } from '../../util/runQueries';
 
 const getStateSearchParams = (searchParams: Record<string, any>) => {
   const stateSearchParams: Record<string, any> = {};

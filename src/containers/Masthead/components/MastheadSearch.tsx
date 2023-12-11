@@ -1,31 +1,38 @@
-import { useState, useRef, useEffect, FormEvent } from 'react';
-import { SearchField, SearchResultSleeve, SearchFieldForm } from '@ndla/ui';
-import queryString from 'query-string';
-import { gql, useLazyQuery } from '@apollo/client';
-import { useLocation, useNavigate } from 'react-router-dom';
+/**
+ * Copyright (c) 2020-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
 import debounce from 'lodash/debounce';
+import queryString from 'query-string';
+import { useState, useRef, useEffect, FormEvent } from 'react';
 
 import { useTranslation } from 'react-i18next';
-import { Drawer, Modal, ModalTrigger } from '@ndla/modal';
-import { ButtonV2, IconButtonV2 } from '@ndla/button';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { gql, useLazyQuery } from '@apollo/client';
 import styled from '@emotion/styled';
+import { ButtonV2, IconButtonV2 } from '@ndla/button';
 import { colors, spacing } from '@ndla/core';
-import { Search } from '@ndla/icons/common';
 import { Cross } from '@ndla/icons/action';
-import { groupSearchQuery } from '../../../queries';
-import { searchResultToLinkProps } from '../../SearchPage/searchHelpers';
-import { contentTypeMapping } from '../../../util/getContentType';
+import { Search } from '@ndla/icons/common';
+import { Drawer, Modal, ModalTrigger } from '@ndla/modal';
+import { SearchField, SearchResultSleeve, SearchFieldForm } from '@ndla/ui';
 import {
   RESOURCE_TYPE_SUBJECT_MATERIAL,
   RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
   RESOURCE_TYPE_LEARNING_PATH,
 } from '../../../constants';
-import { toSearch, useIsNdlaFilm } from '../../../routeHelpers';
 import {
   GQLGroupSearchQuery,
   GQLGroupSearchQueryVariables,
   GQLMastheadSearch_SubjectFragment,
 } from '../../../graphqlTypes';
+import { groupSearchQuery } from '../../../queries';
+import { toSearch, useIsNdlaFilm } from '../../../routeHelpers';
+import { contentTypeMapping } from '../../../util/getContentType';
+import { searchResultToLinkProps } from '../../SearchPage/searchHelpers';
 
 const debounceCall = debounce((fun: (func?: Function) => void) => fun(), 250);
 

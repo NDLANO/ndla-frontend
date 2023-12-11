@@ -6,15 +6,15 @@
  *
  */
 
+import { useTranslation } from 'react-i18next';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { Text } from '@ndla/typography';
-import { useTranslation } from 'react-i18next';
+import { useArenaNotifications } from '../arenaQueries';
 import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
+import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
 import MyNdlaTitle from '../components/MyNdlaTitle';
 import NotificationList from '../components/NotificationList';
 import TitleWrapper from '../components/TitleWrapper';
-import { useArenaNotifications } from '../arenaQueries';
-import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
 
 const ArenaNotificationPage = () => {
   const { t } = useTranslation();

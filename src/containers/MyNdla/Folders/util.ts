@@ -6,9 +6,9 @@
  *
  */
 
+import { TFunction } from 'i18next';
 import { DragEndEvent, Announcements } from '@dnd-kit/core';
 import { arrayMove } from '@dnd-kit/sortable';
-import { TFunction } from 'i18next';
 import config from '../../../config';
 
 export const makeDndSortFunction = <PID, RES, T extends { id: string }>(
@@ -97,6 +97,9 @@ export const makeDndTranslations = (
 
 export const previewLink = (id: string) =>
   `${config.ndlaFrontendDomain}/folder/${id}`;
+
+export const previewLinkInternal = (id: string) =>
+  `/minndla/folders/${id}/preview`;
 
 export const copyFolderSharingLink = (id: string) =>
   window.navigator.clipboard.writeText(previewLink(id));

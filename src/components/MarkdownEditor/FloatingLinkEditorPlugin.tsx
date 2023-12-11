@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2023-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -6,17 +6,6 @@
  *
  */
 
-import {
-  Dispatch,
-  KeyboardEvent,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
-import { createPortal } from 'react-dom';
-import { useTranslation } from 'react-i18next';
 import {
   CLICK_COMMAND,
   COMMAND_PRIORITY_CRITICAL,
@@ -33,13 +22,24 @@ import {
   LexicalCommand,
   createCommand,
 } from 'lexical';
-import { $isLinkNode, TOGGLE_LINK_COMMAND } from '@lexical/link';
-import { mergeRegister, $findMatchingParent } from '@lexical/utils';
-import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import {
+  Dispatch,
+  KeyboardEvent,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
+import { createPortal } from 'react-dom';
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
+import { $isLinkNode, TOGGLE_LINK_COMMAND } from '@lexical/link';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { mergeRegister, $findMatchingParent } from '@lexical/utils';
+import { ButtonV2 } from '@ndla/button';
 import { colors, misc, shadows, spacing } from '@ndla/core';
 import { FieldErrorMessage, FormControl, InputV3, Label } from '@ndla/forms';
-import { ButtonV2 } from '@ndla/button';
 import { getSelectedNode } from './EditorToolbar';
 
 const VERTICAL_GAP = 10;
@@ -319,6 +319,8 @@ const FloatingLinkEditor = ({
         </Label>
         <InputWrapper>
           <InputV3
+            // eslint-disable-next-line jsx-a11y/no-autofocus
+            autoFocus
             name="url"
             ref={inputRef}
             data-link-input=""

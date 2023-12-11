@@ -72,7 +72,6 @@ const messages = {
     audio: 'Audio',
   },
   markdownEditor: {
-    placeholder: 'Write content here...',
     link: {
       url: 'Link',
       error: {

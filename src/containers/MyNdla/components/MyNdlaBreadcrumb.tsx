@@ -6,8 +6,8 @@
  *
  */
 
-import { Breadcrumb } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
+import { Breadcrumb } from '@ndla/ui';
 import { GQLBreadcrumb } from '../../../graphqlTypes';
 import {
   MyNdla,

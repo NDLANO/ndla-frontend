@@ -1,22 +1,23 @@
 /**
- * Copyright (C) 2023 -present, NDLA
+ * Copyright (c) 2023-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
+ *
  */
 
+import { useMemo } from 'react';
+import { useParams } from 'react-router-dom';
 import { gql } from '@apollo/client';
 import styled from '@emotion/styled';
 import { breakpoints, colors, mq, spacing } from '@ndla/core';
-import { SafeLinkButton } from '@ndla/safelink';
 import { Forward } from '@ndla/icons/common';
-import { FRONTPAGE_ARTICLE_MAX_WIDTH } from '@ndla/ui';
+import { SafeLinkButton } from '@ndla/safelink';
 import { Heading } from '@ndla/typography';
-import { useMemo } from 'react';
-import { useParams } from 'react-router-dom';
+import { FRONTPAGE_ARTICLE_MAX_WIDTH } from '@ndla/ui';
+import { findBreadcrumb } from './AboutPageContent';
 import { GQLAboutPageFooter_FrontpageMenuFragment } from '../../graphqlTypes';
 import { toAbout } from '../../routeHelpers';
-import { findBreadcrumb } from './AboutPageContent';
 
 interface Props {
   frontpage: GQLAboutPageFooter_FrontpageMenuFragment;

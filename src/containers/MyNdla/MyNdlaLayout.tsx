@@ -6,13 +6,13 @@
  *
  */
 
+import { TFunction } from 'i18next';
 import { useMemo, useContext, useState, Dispatch, SetStateAction } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Location, Outlet, useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
-import { useTranslation } from 'react-i18next';
+import { IconButtonV2 } from '@ndla/button';
 import { breakpoints, colors, mq, spacing } from '@ndla/core';
-import { MessageBox } from '@ndla/ui';
-import { FolderOutlined, HorizontalMenu } from '@ndla/icons/contentType';
 import {
   Book,
   BookOutlined,
@@ -25,13 +25,13 @@ import {
   ProfilePerson,
   ProfilePersonOutlined,
 } from '@ndla/icons/common';
-import { Modal, ModalTrigger } from '@ndla/modal';
-import { IconButtonV2 } from '@ndla/button';
+import { FolderOutlined, HorizontalMenu } from '@ndla/icons/contentType';
 import { Folder } from '@ndla/icons/editor';
+import { Modal, ModalTrigger } from '@ndla/modal';
 import { Text } from '@ndla/typography';
-import { TFunction } from 'i18next';
-import { AuthContext } from '../../components/AuthenticationContext';
+import { MessageBox } from '@ndla/ui';
 import NavigationLink from './components/NavigationLink';
+import { AuthContext } from '../../components/AuthenticationContext';
 import { toHref } from '../../util/urlHelper';
 
 const StyledLayout = styled.div`

@@ -5,18 +5,18 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { ContentLoader } from '@ndla/ui';
+import { memo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { FolderOutlined, FolderSharedOutlined } from '@ndla/icons/contentType';
-import styled from '@emotion/styled';
-import { css } from '@emotion/react';
-import { useTranslation } from 'react-i18next';
-import { memo } from 'react';
+import { ContentLoader } from '@ndla/ui';
+import WhileLoading from '../../../components/WhileLoading';
+import { GQLFolder } from '../../../graphqlTypes';
 import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
 import MyNdlaTitle from '../components/MyNdlaTitle';
 import TitleWrapper from '../components/TitleWrapper';
-import WhileLoading from '../../../components/WhileLoading';
-import { GQLFolder } from '../../../graphqlTypes';
 
 const TitleRow = styled.div`
   display: flex;

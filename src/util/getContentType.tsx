@@ -7,8 +7,6 @@
  */
 
 import { constants, HeroContentType } from '@ndla/ui';
-import { GQLResource, GQLTopic } from '../graphqlTypes';
-
 import {
   RESOURCE_TYPE_ASSESSMENT_RESOURCES,
   RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES,
@@ -17,6 +15,7 @@ import {
   RESOURCE_TYPE_SUBJECT_MATERIAL,
   RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
 } from '../constants';
+import { GQLResource, GQLTopic } from '../graphqlTypes';
 
 const { contentTypes } = constants;
 

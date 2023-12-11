@@ -9,22 +9,22 @@
 import express from 'express';
 import { PathMatch } from 'react-router-dom';
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
-import { BAD_REQUEST, INTERNAL_SERVER_ERROR } from '../../statusCodes';
-import { getArticleIdFromResource } from '../../containers/Resources/resourceHelpers';
+import config from '../../config';
+import { fetchArticle } from '../../containers/ArticlePage/articleApi';
 import {
   fetchResource,
   fetchTopic,
 } from '../../containers/Resources/resourceApi';
-import config from '../../config';
-import handleError from '../../util/handleError';
-import { fetchArticle } from '../../containers/ArticlePage/articleApi';
-import { parseOembedUrl } from '../../util/urlHelper';
-import { createApolloClient } from '../../util/apiHelpers';
-import { embedOembedQuery } from '../../queries';
+import { getArticleIdFromResource } from '../../containers/Resources/resourceHelpers';
 import {
   GQLEmbedOembedQuery,
   GQLEmbedOembedQueryVariables,
 } from '../../graphqlTypes';
+import { embedOembedQuery } from '../../queries';
+import { BAD_REQUEST, INTERNAL_SERVER_ERROR } from '../../statusCodes';
+import { createApolloClient } from '../../util/apiHelpers';
+import handleError from '../../util/handleError';
+import { parseOembedUrl } from '../../util/urlHelper';
 
 function getOembedObject(req: express.Request, title?: string, html?: string) {
   return {

@@ -17,25 +17,25 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Cross, Pencil, Plus } from '@ndla/icons/action';
-import { DeleteForever } from '@ndla/icons/editor';
 import { Link, Share } from '@ndla/icons/common';
+import { DeleteForever } from '@ndla/icons/editor';
 import { useSnack } from '@ndla/ui';
-import { GQLFolder } from '../../../graphqlTypes';
-import { AuthContext } from '../../../components/AuthenticationContext';
-import { copyFolderSharingLink, isStudent } from './util';
-import SettingsMenu, { MenuItemProps } from '../components/SettingsMenu';
+import { CreateModalContent } from './FolderCreateModal';
+import { EditFolderModalContent } from './FolderEditModal';
+import { FolderFormValues } from './FolderForm';
 import { FolderShareModalContent } from './FolderShareModal';
+import { copyFolderSharingLink, isStudent } from './util';
+import { AuthContext } from '../../../components/AuthenticationContext';
+import config from '../../../config';
+import { GQLFolder } from '../../../graphqlTypes';
+import { toMyNdlaFolder } from '../../../routeHelpers';
+import DeleteModalContent from '../components/DeleteModalContent';
+import SettingsMenu, { MenuItemProps } from '../components/SettingsMenu';
 import {
   useAddFolderMutation,
   useDeleteFolderMutation,
   useUpdateFolderStatusMutation,
 } from '../folderMutations';
-import config from '../../../config';
-import { FolderFormValues } from './FolderForm';
-import { CreateModalContent } from './FolderCreateModal';
-import { EditFolderModalContent } from './FolderEditModal';
-import DeleteModalContent from '../components/DeleteModalContent';
-import { toMyNdlaFolder } from '../../../routeHelpers';
 
 interface Props {
   selectedFolder: GQLFolder | null;

@@ -7,8 +7,12 @@
  */
 
 import { TFunction } from 'i18next';
+import { useEffect } from 'react';
+import { useForm, Controller } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { ButtonV2, LoadingButton } from '@ndla/button';
+import { spacing } from '@ndla/core';
 import {
   FieldErrorMessage,
   FormControl,
@@ -16,10 +20,6 @@ import {
   Label,
   TextAreaV3,
 } from '@ndla/forms';
-import { useEffect } from 'react';
-import { useForm, Controller } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
-import { spacing } from '@ndla/core';
 import { ModalCloseButton } from '@ndla/modal';
 import { GQLFolder } from '../../../graphqlTypes';
 import useValidationTranslation from '../../../util/useValidationTranslation';

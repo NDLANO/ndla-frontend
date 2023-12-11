@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2016-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -6,8 +6,14 @@
  *
  */
 
+import { useTranslation } from 'react-i18next';
 import { gql } from '@apollo/client';
-import { printPage } from '@ndla/util';
+import { ButtonV2 } from '@ndla/button';
+import { FileDocumentOutline } from '@ndla/icons/common';
+import {
+  metaTypes,
+  getGroupedContributorDescriptionList,
+} from '@ndla/licenses';
 import {
   MediaList,
   MediaListItem,
@@ -17,18 +23,12 @@ import {
   MediaListItemMeta,
 } from '@ndla/ui';
 import type { ItemType } from '@ndla/ui';
-import {
-  metaTypes,
-  getGroupedContributorDescriptionList,
-} from '@ndla/licenses';
-import { ButtonV2 } from '@ndla/button';
-import { FileDocumentOutline } from '@ndla/icons/common';
-import { useTranslation } from 'react-i18next';
+import { printPage } from '@ndla/util';
 import CopyTextButton from './CopyTextButton';
-import { GQLTextLicenseList_CopyrightFragment } from '../../graphqlTypes';
-import { licenseCopyrightToCopyrightType } from './licenseHelpers';
-import { licenseListCopyrightFragment } from './licenseFragments';
 import LicenseDescription from './LicenseDescription';
+import { licenseListCopyrightFragment } from './licenseFragments';
+import { licenseCopyrightToCopyrightType } from './licenseHelpers';
+import { GQLTextLicenseList_CopyrightFragment } from '../../graphqlTypes';
 
 interface TextLicenseInfoProps {
   text: TextItem;

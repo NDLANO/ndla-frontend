@@ -6,15 +6,15 @@
  *
  */
 
+import { useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { buttonStyleV2 } from '@ndla/button';
 import { breakpoints, colors, misc, mq, spacing } from '@ndla/core';
 import { useIntersectionObserver } from '@ndla/hooks';
 import { Forward } from '@ndla/icons/common';
-import { OneColumn, useMastheadHeight } from '@ndla/ui';
-import { useRef } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Heading, Text } from '@ndla/typography';
+import { OneColumn, useMastheadHeight } from '@ndla/ui';
 import { Subject } from './interfaces';
 import SubjectLink from './SubjectLink';
 

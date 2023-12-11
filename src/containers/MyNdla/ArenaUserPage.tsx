@@ -13,12 +13,12 @@ import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import { Heading } from '@ndla/typography';
-import { AuthContext } from '../../components/AuthenticationContext';
-import MyContactArea from './components/MyContactArea';
-import MyNdlaPageWrapper from './components/MyNdlaPageWrapper';
-import MyNdlaBreadcrumb from './components/MyNdlaBreadcrumb';
-import { useArenaTopicsByUser, useArenaUser } from './arenaQueries';
 import TopicCard from './Arena/components/TopicCard';
+import { useArenaTopicsByUser, useArenaUser } from './arenaQueries';
+import MyContactArea from './components/MyContactArea';
+import MyNdlaBreadcrumb from './components/MyNdlaBreadcrumb';
+import MyNdlaPageWrapper from './components/MyNdlaPageWrapper';
+import { AuthContext } from '../../components/AuthenticationContext';
 import { MyNdla } from '../../routeHelpers';
 
 const BreadcrumbWrapper = styled.div`

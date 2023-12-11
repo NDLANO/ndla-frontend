@@ -6,9 +6,9 @@
  *
  */
 
+import { ErrorInfo } from 'react';
 import { ApolloError } from '@apollo/client';
 import ErrorReporter from '@ndla/error-reporter';
-import { ErrorInfo } from 'react';
 
 const log =
   process.env.BUILD_TARGET === 'server'

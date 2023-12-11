@@ -3,6 +3,7 @@
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
+ *
  */
 
 import { useTranslation } from 'react-i18next';
@@ -11,7 +12,6 @@ import { colors, spacing, misc } from '@ndla/core';
 import SafeLink from '@ndla/safelink';
 import { Text } from '@ndla/typography';
 import Avatar from './Avatar';
-import { useArenaUser } from '../arenaQueries';
 import config from '../../../config';
 import { GQLArenaUser } from '../../../graphqlTypes';
 import { toMyNdlaArenaUser } from '../../../routeHelpers';

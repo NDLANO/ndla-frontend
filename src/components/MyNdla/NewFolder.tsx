@@ -10,12 +10,12 @@ import { memo, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useApolloClient } from '@apollo/client';
 import { FolderInput } from '@ndla/ui';
-import { GQLFolder } from '../../graphqlTypes';
 import {
   getFolder,
   useAddFolderMutation,
   useFolders,
 } from '../../containers/MyNdla/folderMutations';
+import { GQLFolder } from '../../graphqlTypes';
 import useValidationTranslation from '../../util/useValidationTranslation';
 
 interface Props {

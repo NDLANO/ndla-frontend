@@ -4,17 +4,16 @@
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
  *
- * @jest-environment jsdom
  */
 
 import { HelmetProvider } from 'react-helmet-async';
-import { StaticRouter } from 'react-router-dom/server.js';
-import { render } from '@testing-library/react';
-import { createSerializer } from '@emotion/jest';
 import { I18nextProvider } from 'react-i18next';
+import { StaticRouter } from 'react-router-dom/server.js';
+import { createSerializer } from '@emotion/jest';
+import { render } from '@testing-library/react';
 import { i18nInstance } from '@ndla/ui';
-import ErrorPage from '../ErrorPage';
 import { initializeI18n } from '../../../i18n';
+import ErrorPage from '../ErrorPage';
 
 HelmetProvider.canUseDOM = false;
 expect.addSnapshotSerializer(createSerializer());

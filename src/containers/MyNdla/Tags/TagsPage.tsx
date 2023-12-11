@@ -6,35 +6,35 @@
  *
  */
 
-import { useContext, useEffect, useMemo, useState } from 'react';
 import keyBy from 'lodash/keyBy';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useParams, useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
-import { HelmetWithTracker, useTracker } from '@ndla/tracker';
 import { spacing } from '@ndla/core';
 import { FileDocumentOutline, HashTag, Link } from '@ndla/icons/common';
 import { FolderOutlined } from '@ndla/icons/contentType';
 import { SafeLinkButton } from '@ndla/safelink';
+import { HelmetWithTracker, useTracker } from '@ndla/tracker';
 import { BlockResource, ListResource, useSnack } from '@ndla/ui';
-import config from '../../../config';
-import { useFolderResourceMetaSearch, useFolders } from '../folderMutations';
-import NotFoundPage from '../../NotFoundPage/NotFoundPage';
-import { getAllTags, getResourcesForTag } from '../../../util/folderHelpers';
-import { BlockWrapper, ViewType } from '../Folders/FoldersPage';
-import { GQLFolderResource } from '../../../graphqlTypes';
-import ListViewOptions from '../Folders/ListViewOptions';
-import { AddResourceToFolderModalContent } from '../../../components/MyNdla/AddResourceToFolderModal';
-import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
-import MyNdlaTitle from '../components/MyNdlaTitle';
-import TitleWrapper from '../components/TitleWrapper';
-import { usePrevious } from '../../../util/utilityHooks';
-import { STORED_RESOURCE_VIEW_SETTINGS } from '../../../constants';
 import { AuthContext } from '../../../components/AuthenticationContext';
-import SettingsMenu from '../components/SettingsMenu';
-import { getAllDimensions } from '../../../util/trackingUtil';
-import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
+import { AddResourceToFolderModalContent } from '../../../components/MyNdla/AddResourceToFolderModal';
+import config from '../../../config';
+import { STORED_RESOURCE_VIEW_SETTINGS } from '../../../constants';
+import { GQLFolderResource } from '../../../graphqlTypes';
 import { MyNdlaTags } from '../../../routeHelpers';
+import { getAllTags, getResourcesForTag } from '../../../util/folderHelpers';
+import { getAllDimensions } from '../../../util/trackingUtil';
+import { usePrevious } from '../../../util/utilityHooks';
+import NotFoundPage from '../../NotFoundPage/NotFoundPage';
+import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
+import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
+import MyNdlaTitle from '../components/MyNdlaTitle';
+import SettingsMenu from '../components/SettingsMenu';
+import TitleWrapper from '../components/TitleWrapper';
+import { useFolderResourceMetaSearch, useFolders } from '../folderMutations';
+import { BlockWrapper, ViewType } from '../Folders/FoldersPage';
+import ListViewOptions from '../Folders/ListViewOptions';
 
 const StyledUl = styled.ul`
   padding: 0px;

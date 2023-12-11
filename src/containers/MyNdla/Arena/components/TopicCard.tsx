@@ -12,8 +12,8 @@ import { colors, spacing, misc } from '@ndla/core';
 import { Locked } from '@ndla/icons/common';
 import SafeLink from '@ndla/safelink';
 import { Text } from '@ndla/typography';
-import { formatDateTime } from '../../../../util/formatDate';
 import { toMyNdlaArenaTopic } from '../../../../routeHelpers';
+import { formatDateTime } from '../../../../util/formatDate';
 
 interface Props {
   id: number;

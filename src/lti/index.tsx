@@ -7,13 +7,13 @@
  */
 
 import 'isomorphic-unfetch';
-import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { createRoot } from 'react-dom/client';
 import { HelmetProvider } from 'react-helmet-async';
 import { I18nextProvider } from 'react-i18next';
+import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import { ApolloProvider } from '@apollo/client';
 import ErrorReporter from '@ndla/error-reporter';
 import { i18nInstance } from '@ndla/ui';
-import { ApolloProvider } from '@apollo/client';
 import '@fontsource/source-sans-pro/index.css';
 import '@fontsource/source-sans-pro/400-italic.css';
 import '@fontsource/source-sans-pro/300.css';
@@ -27,13 +27,13 @@ import '@fontsource/source-serif-pro/index.css';
 import '@fontsource/source-serif-pro/400-italic.css';
 import '@fontsource/source-serif-pro/700.css';
 import { getCookie } from '@ndla/util';
-import { createApolloClient } from '../util/apiHelpers';
-import LtiProvider from './LtiProvider';
 import '../style/index.css';
+import { LtiIframePage } from './LtiIframePage';
+import LtiProvider from './LtiProvider';
+import { LtiContextProvider } from '../components/LtiContext';
 import { STORED_LANGUAGE_COOKIE_KEY } from '../constants';
 import { initializeI18n, isValidLocale } from '../i18n';
-import { LtiContextProvider } from '../components/LtiContext';
-import { LtiIframePage } from './LtiIframePage';
+import { createApolloClient } from '../util/apiHelpers';
 
 const {
   DATA: { initialProps, config },

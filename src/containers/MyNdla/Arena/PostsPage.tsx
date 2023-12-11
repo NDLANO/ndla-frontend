@@ -6,8 +6,8 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
 import { useCallback, useContext, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Navigate, useParams } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
@@ -15,20 +15,20 @@ import { Spinner } from '@ndla/icons';
 import { HelmetWithTracker, useTracker } from '@ndla/tracker';
 import { useSnack } from '@ndla/ui';
 import PostCard from './components/PostCard';
-import {
-  useArenaCategory,
-  useArenaNotifications,
-  useArenaTopic,
-} from '../arenaQueries';
-import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
-import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
 import { AuthContext } from '../../../components/AuthenticationContext';
+import { MyNdla } from '../../../routeHelpers';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import {
   useSubscribeToTopicMutation,
   useUnsubscribeFromTopicMutation,
 } from '../arenaMutations';
-import { MyNdla } from '../../../routeHelpers';
+import {
+  useArenaCategory,
+  useArenaNotifications,
+  useArenaTopic,
+} from '../arenaQueries';
+import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
+import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
 
 const BreadcrumbWrapper = styled.div`
   padding-top: ${spacing.normal};

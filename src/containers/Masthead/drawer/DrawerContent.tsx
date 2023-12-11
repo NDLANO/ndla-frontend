@@ -6,17 +6,17 @@
  *
  */
 
-import { gql } from '@apollo/client';
 import { Dispatch, SetStateAction } from 'react';
+import { gql } from '@apollo/client';
+import AboutMenu from './AboutMenu';
+import { MenuType } from './drawerMenuTypes';
+import ProgrammeMenu from './ProgrammeMenu';
+import SubjectMenu from './SubjectMenu';
 import {
   GQLDrawerContent_FrontpageMenuFragment,
   GQLDrawerContent_ProgrammePageFragment,
   GQLDrawerContent_SubjectFragment,
 } from '../../../graphqlTypes';
-import AboutMenu from './AboutMenu';
-import { MenuType } from './drawerMenuTypes';
-import ProgrammeMenu from './ProgrammeMenu';
-import SubjectMenu from './SubjectMenu';
 
 interface Props {
   onClose: () => void;
