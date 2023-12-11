@@ -30,12 +30,13 @@ import { buttonCss, iconCss } from './FoldersPage';
 import {
   isStudent,
   copyFolderSharingLink,
+  sharedFolderLink,
   previewLink,
-  previewLinkInternal,
 } from './util';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import { GQLFolder } from '../../../graphqlTypes';
 import { toMyNdlaFolder } from '../../../routeHelpers';
+import { useUserAgent } from '../../../UserAgentContext';
 import {
   useUpdateFolderStatusMutation,
   useDeleteFolderMutation,
@@ -45,20 +46,16 @@ import { OutletContext } from '../MyNdlaLayout';
 interface FolderButtonProps {
   setFocusId: Dispatch<SetStateAction<string | undefined>>;
   selectedFolder: GQLFolder | null;
-  setAmountOfButtons: Dispatch<SetStateAction<number>>;
 }
 
-const FolderButtons = ({
-  setFocusId,
-  selectedFolder,
-  setAmountOfButtons,
-}: FolderButtonProps) => {
+const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { folderId } = useParams();
   const { addSnack } = useSnack();
   const { examLock, user } = useContext(AuthContext);
   const { setResetFocus, setIsOpen } = useOutletContext<OutletContext>();
+  const userAgent = useUserAgent();
 
   const shareRef = useRef<HTMLButtonElement | null>(null);
   const unShareRef = useRef<HTMLButtonElement | null>(null);
@@ -146,9 +143,13 @@ const FolderButtons = ({
           colorTheme="lighter"
           variant="ghost"
           ref={previewRef}
+          aria-label={t('myNdla.folder.sharing.button.share')}
+          title={t('myNdla.folder.sharing.button.share')}
         >
           <Share css={iconCss} />
-          {t('myNdla.folder.sharing.button.share')}
+          {userAgent?.isMobile
+            ? t('myNdla.folder.sharing.button.share')
+            : t('myNdla.folder.sharing.button.shareShort')}
         </ButtonV2>
       </FolderShareModal>
     ) : null;
@@ -179,6 +180,8 @@ const FolderButtons = ({
           variant="ghost"
           colorTheme="lighter"
           ref={unShareRef}
+          aria-label={t('myNdla.folder.sharing.button.unShare')}
+          title={t('myNdla.folder.sharing.button.unShare')}
         >
           <Cross css={iconCss} />
           {t('myNdla.folder.sharing.button.unShare')}
@@ -212,9 +215,13 @@ const FolderButtons = ({
           variant="ghost"
           colorTheme="lighter"
           ref={shareRef}
+          aria-label={t('myNdla.folder.sharing.share')}
+          title={t('myNdla.folder.sharing.share')}
         >
           <Share css={iconCss} />
-          {t('myNdla.folder.sharing.share')}
+          {userAgent?.isMobile
+            ? t('myNdla.folder.sharing.share')
+            : t('myNdla.folder.sharing.button.shareShort')}
         </ButtonV2>
       </FolderShareModal>
     ) : null;
@@ -264,32 +271,42 @@ const FolderButtons = ({
           });
           setIsOpen(false);
         }}
+        aria-label={t('myNdla.folder.sharing.button.shareLink')}
+        title={t('myNdla.folder.sharing.button.shareLink')}
       >
         <Copy css={iconCss} />
         {t('myNdla.folder.sharing.button.shareLink')}
       </ButtonV2>
     ) : null;
 
-  const previewFolderButton = selectedFolder ? (
-    <SafeLinkButton
-      key="previewFolder"
-      css={buttonCss}
-      variant="ghost"
-      colorTheme="lighter"
-      to={
-        isFolderShared
-          ? previewLink(selectedFolder.id)
-          : previewLinkInternal(selectedFolder.id)
-      }
-    >
-      <ShareArrow css={iconCss} />
-      {t(`myNdla.folder.sharing.button.${isFolderShared ? 'goTo' : 'preview'}`)}
-    </SafeLinkButton>
-  ) : null;
+  const previewFolderButton =
+    selectedFolder && isFolderShared ? (
+      <SafeLinkButton
+        key="previewFolder"
+        css={buttonCss}
+        variant="ghost"
+        colorTheme="lighter"
+        to={
+          isFolderShared
+            ? sharedFolderLink(selectedFolder.id)
+            : previewLink(selectedFolder.id)
+        }
+        aria-label={t('myNdla.folder.sharing.button.preview')}
+        title={t('myNdla.folder.sharing.button.preview')}
+      >
+        <ShareArrow css={iconCss} />
+        {isFolderShared
+          ? t('myNdla.folder.sharing.button.goTo')
+          : t(
+              `myNdla.folder.sharing.button.${
+                userAgent?.isMobile ? 'preview' : 'previewShort'
+              }`,
+            )}
+      </SafeLinkButton>
+    ) : null;
 
   if (!showShareFolder) {
     const buttons = [addFolderButton, editFolderButton, deleteFolderButton];
-    setAmountOfButtons(buttons.filter(Boolean).length);
     return buttons;
   }
   const buttons = [
@@ -302,7 +319,6 @@ const FolderButtons = ({
     unShareButton,
     deleteFolderButton,
   ];
-  setAmountOfButtons(buttons.filter(Boolean).length);
   return buttons;
 };
 

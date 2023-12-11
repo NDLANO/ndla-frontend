@@ -17,14 +17,18 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Cross, Pencil, Plus } from '@ndla/icons/action';
-import { Link, Share } from '@ndla/icons/common';
+import { Link, Share, ShareArrow } from '@ndla/icons/common';
 import { DeleteForever } from '@ndla/icons/editor';
 import { useSnack } from '@ndla/ui';
 import { CreateModalContent } from './FolderCreateModal';
 import { EditFolderModalContent } from './FolderEditModal';
 import { FolderFormValues } from './FolderForm';
 import { FolderShareModalContent } from './FolderShareModal';
-import { copyFolderSharingLink, isStudent } from './util';
+import {
+  copyFolderSharingLink,
+  isStudent,
+  sharedFolderLinkInternal,
+} from './util';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import config from '../../../config';
 import { GQLFolder } from '../../../graphqlTypes';
@@ -207,6 +211,16 @@ const FolderActions = ({
       ),
     };
 
+    const previewFolder: MenuItemProps = {
+      icon: <ShareArrow />,
+      link: sharedFolderLinkInternal(selectedFolder.id),
+      text: t('myNdla.folder.sharing.button.preview'),
+      isModal: true,
+      onClick: () => {
+        navigate(sharedFolderLinkInternal(selectedFolder.id));
+      },
+    };
+
     const copyLink: MenuItemProps = {
       icon: <Link />,
       text: t('myNdla.folder.sharing.copyLink'),
@@ -297,7 +311,11 @@ const FolderActions = ({
 
     const actions = [];
 
-    if (inToolbar) {
+    if (
+      inToolbar &&
+      (selectedFolder?.breadcrumbs.length || 0) < 5 &&
+      !examLock
+    ) {
       actions.push(addFolderButton);
     }
 
@@ -309,6 +327,7 @@ const FolderActions = ({
       return actions.concat(
         editFolder,
         shareLink,
+        previewFolder,
         copyLink,
         unShare,
         deleteOpt,
@@ -325,6 +344,7 @@ const FolderActions = ({
     inToolbar,
     examLock,
     addSnack,
+    navigate,
     user,
     t,
   ]);

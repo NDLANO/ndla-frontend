@@ -75,6 +75,7 @@ export const BlockWrapper = styled.ul`
 export const buttonCss = css`
   display: flex;
   justify-content: flex-start;
+  white-space: nowrap;
 
   ${mq.range({ until: breakpoints.tablet })} {
     font-weight: ${fonts.weight.normal};
@@ -110,7 +111,7 @@ export type ViewType = 'list' | 'block' | 'listLarger';
 const FoldersPage = () => {
   const { t } = useTranslation();
   const { folderId } = useParams();
-  const { user, authContextLoaded } = useContext(AuthContext);
+  const { user, authContextLoaded, examLock } = useContext(AuthContext);
   const { trackPageView } = useTracker();
   const [viewType, _setViewType] = useState<ViewType>(
     (localStorage.getItem(STORED_RESOURCE_VIEW_SETTINGS) as ViewType) || 'list',
@@ -134,7 +135,6 @@ const FoldersPage = () => {
   );
   const [previousFolders, setPreviousFolders] = useState<GQLFolder[]>(folders);
   const [focusId, setFocusId] = useState<string | undefined>(undefined);
-  const [amountOfButtons, setAmountOfButtons] = useState<number>(0);
 
   const resourceRefId = useMemo(
     () =>
@@ -214,11 +214,7 @@ const FoldersPage = () => {
 
   const folderButtons = useMemo(
     () => (
-      <FolderButtons
-        selectedFolder={selectedFolder}
-        setFocusId={setFocusId}
-        setAmountOfButtons={setAmountOfButtons}
-      />
+      <FolderButtons selectedFolder={selectedFolder} setFocusId={setFocusId} />
     ),
     [selectedFolder, setFocusId],
   );
@@ -229,8 +225,7 @@ const FoldersPage = () => {
       buttons={folderButtons}
       viewType={viewType}
       onViewTypeChange={setViewType}
-      extendTabletView={selectedFolder?.status === 'shared'}
-      showButtons={amountOfButtons > 0}
+      showButtons={!examLock || !!selectedFolder}
     >
       <FoldersPageContainer>
         <HelmetWithTracker title={title} />
