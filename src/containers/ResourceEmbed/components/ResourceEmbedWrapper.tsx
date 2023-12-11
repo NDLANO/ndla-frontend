@@ -1,16 +1,17 @@
 /**
- * Copyright (C) 2023 -present, NDLA
+ * Copyright (c) 2023-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
+ *
  */
 
 import { ReactNode } from 'react';
-import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
 import { breakpoints, colors, fonts, mq, spacing } from '@ndla/core';
-import { OneColumn } from '@ndla/ui';
 import { Heading } from '@ndla/typography';
+import { OneColumn } from '@ndla/ui';
 import ResourceBadge from './ResourceBadge';
 import { SKIP_TO_CONTENT_ID } from '../../../constants';
 

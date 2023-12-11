@@ -5,22 +5,19 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-
-import { useContext, useEffect } from 'react';
-import { gql } from '@apollo/client';
-import { Helmet } from 'react-helmet-async';
-import { useTracker } from '@ndla/tracker';
-import { useTranslation } from 'react-i18next';
 import { TFunction } from 'i18next';
+import { useContext, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { gql } from '@apollo/client';
+import { useTracker } from '@ndla/tracker';
 import { constants } from '@ndla/ui';
-import { getArticleProps } from '../../util/getArticleProps';
-import { getAllDimensions } from '../../util/trackingUtil';
-import { htmlTitle } from '../../util/titleHelper';
-import SocialMediaMetadata from '../../components/SocialMediaMetadata';
-import Learningpath from '../../components/Learningpath';
+import { AuthContext } from '../../components/AuthenticationContext';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
-import { toBreadcrumbItems, toLearningPath } from '../../routeHelpers';
+import Learningpath from '../../components/Learningpath';
+import SocialMediaMetadata from '../../components/SocialMediaMetadata';
+import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from '../../constants';
 import {
   GQLLearningpath,
   GQLLearningpathPage_ResourceFragment,
@@ -30,8 +27,10 @@ import {
   GQLLearningpathPage_TopicPathFragment,
   GQLLearningpathStep,
 } from '../../graphqlTypes';
-import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from '../../constants';
-import { AuthContext } from '../../components/AuthenticationContext';
+import { toBreadcrumbItems, toLearningPath } from '../../routeHelpers';
+import { getArticleProps } from '../../util/getArticleProps';
+import { htmlTitle } from '../../util/titleHelper';
+import { getAllDimensions } from '../../util/trackingUtil';
 
 interface PropData {
   relevance: string;

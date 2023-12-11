@@ -6,15 +6,15 @@
  *
  */
 
+import { useParams } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { breakpoints, mq, spacing } from '@ndla/core';
-import { useParams } from 'react-router-dom';
+import Folder, { StyledUl } from './Folder';
 import {
   GQLFolder,
   GQLFolderResourceMetaSearchQuery,
 } from '../../../graphqlTypes';
 import useArrowNavigation from '../../Masthead/drawer/useArrowNavigation';
-import Folder, { StyledUl } from './Folder';
 
 interface Props {
   folder: GQLFolder;

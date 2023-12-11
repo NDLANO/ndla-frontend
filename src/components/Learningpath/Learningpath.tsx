@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2019-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -6,8 +6,10 @@
  *
  */
 
-import { gql } from '@apollo/client';
 import { useEffect, useState } from 'react';
+import { gql } from '@apollo/client';
+import styled from '@emotion/styled';
+import { breakpoints, mq } from '@ndla/core';
 import { useWindowSize } from '@ndla/hooks';
 import {
   LearningPathWrapper,
@@ -23,14 +25,9 @@ import {
   HomeBreadcrumb,
   HeroContent,
 } from '@ndla/ui';
-import { breakpoints, mq } from '@ndla/core';
-import styled from '@emotion/styled';
-import { toLearningPath, useIsNdlaFilm } from '../../routeHelpers';
 import LastLearningpathStepInfo from './LastLearningpathStepInfo';
 import LearningpathEmbed from './LearningpathEmbed';
 import config from '../../config';
-import { getContentType } from '../../util/getContentType';
-import { Breadcrumb as BreadcrumbType } from '../../interfaces';
 import {
   GQLLearningpath_LearningpathFragment,
   GQLLearningpath_LearningpathStepFragment,
@@ -40,8 +37,11 @@ import {
   GQLLearningpath_TopicFragment,
   GQLLearningpath_TopicPathFragment,
 } from '../../graphqlTypes';
-import AddResourceToFolderModal from '../MyNdla/AddResourceToFolderModal';
+import { Breadcrumb as BreadcrumbType } from '../../interfaces';
+import { toLearningPath, useIsNdlaFilm } from '../../routeHelpers';
+import { getContentType } from '../../util/getContentType';
 import FavoriteButton from '../Article/FavoritesButton';
+import AddResourceToFolderModal from '../MyNdla/AddResourceToFolderModal';
 
 const LEARNING_PATHS_STORAGE_KEY = 'LEARNING_PATHS_COOKIES_KEY';
 

@@ -6,25 +6,25 @@
  *
  */
 
-import { SnackbarProvider } from '@ndla/ui';
 import { Component, ErrorInfo, ReactNode } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import ArenaUserPage from './containers/MyNdla/ArenaUserPage';
-import VideoPage from './containers/ResourceEmbed/VideoPage';
-import ImagePage from './containers/ResourceEmbed/ImagePage';
-import ConceptPage from './containers/ResourceEmbed/ConceptPage';
-import AudioPage from './containers/ResourceEmbed/AudioPage';
+import { SnackbarProvider } from '@ndla/ui';
 import { AlertsProvider } from './components/AlertsContext';
 import AuthenticationContext from './components/AuthenticationContext';
 import { BaseNameProvider } from './components/BaseNameContext';
+import AboutPage from './containers/AboutPage/AboutPage';
 import AccessDenied from './containers/AccessDeniedPage/AccessDeniedPage';
 import AllSubjectsPage from './containers/AllSubjectsPage/AllSubjectsPage';
 import ErrorPage from './containers/ErrorPage/ErrorPage';
+import ArenaNotificationPage from './containers/MyNdla/Arena/ArenaNotificationsPage';
+import ArenaPage from './containers/MyNdla/Arena/ArenaPage';
+import PostsPage from './containers/MyNdla/Arena/PostsPage';
+import TopicPage from './containers/MyNdla/Arena/TopicPage';
+import ArenaUserPage from './containers/MyNdla/ArenaUserPage';
+import FavoriteSubjectsPage from './containers/MyNdla/FavoriteSubjects/FavoriteSubjectsPage';
 import FoldersPage from './containers/MyNdla/Folders/FoldersPage';
 import MyNdlaLayout from './containers/MyNdla/MyNdlaLayout';
 import MyNdlaPage from './containers/MyNdla/MyNdlaPage';
-import ArenaPage from './containers/MyNdla/Arena/ArenaPage';
-import TopicPage from './containers/MyNdla/Arena/TopicPage';
 import MyProfilePage from './containers/MyNdla/MyProfile/MyProfilePage';
 import TagsPage from './containers/MyNdla/Tags/TagsPage';
 import NotFound from './containers/NotFoundPage/NotFoundPage';
@@ -35,17 +35,17 @@ import PodcastSeriesListPage from './containers/PodcastPage/PodcastSeriesListPag
 import PodcastSeriesPage from './containers/PodcastPage/PodcastSeriesPage';
 import PrivateRoute from './containers/PrivateRoute/PrivateRoute';
 import ProgrammePage from './containers/ProgrammePage/ProgrammePage';
+import AudioPage from './containers/ResourceEmbed/AudioPage';
+import ConceptPage from './containers/ResourceEmbed/ConceptPage';
+import H5pPage from './containers/ResourceEmbed/H5pPage';
+import ImagePage from './containers/ResourceEmbed/ImagePage';
+import VideoPage from './containers/ResourceEmbed/VideoPage';
 import ResourcePage from './containers/ResourcePage/ResourcePage';
 import SearchPage from './containers/SearchPage/SearchPage';
+import SharedFolderPage from './containers/SharedFolderPage/SharedFolderPage';
 import SubjectRouting from './containers/SubjectPage/SubjectRouting';
 import WelcomePage from './containers/WelcomePage/WelcomePage';
 import handleError from './util/handleError';
-import SharedFolderPage from './containers/SharedFolderPage/SharedFolderPage';
-import FavoriteSubjectsPage from './containers/MyNdla/FavoriteSubjects/FavoriteSubjectsPage';
-import AboutPage from './containers/AboutPage/AboutPage';
-import ArenaNotificationPage from './containers/MyNdla/Arena/ArenaNotificationsPage';
-import H5pPage from './containers/ResourceEmbed/H5pPage';
-import PostsPage from './containers/MyNdla/Arena/PostsPage';
 
 interface State {
   hasError: boolean;

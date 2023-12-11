@@ -6,10 +6,13 @@
  *
  */
 
-import { gql } from '@apollo/client';
 import { createRef, useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet-async';
+import { useTranslation } from 'react-i18next';
+import { gql } from '@apollo/client';
 import styled from '@emotion/styled';
 import { breakpoints, mq } from '@ndla/core';
+import { Heading, Text } from '@ndla/typography';
 import {
   ContentPlaceholder,
   HomeBreadcrumb,
@@ -18,21 +21,18 @@ import {
   OneColumn,
   SimpleBreadcrumbItem,
 } from '@ndla/ui';
-import { Heading, Text } from '@ndla/typography';
-import { useTranslation } from 'react-i18next';
-import { Helmet } from 'react-helmet-async';
-import { removeUrn, toTopic, useUrnIds } from '../../routeHelpers';
-import { useGraphQuery } from '../../util/runQueries';
-import DefaultErrorMessage from '../../components/DefaultErrorMessage';
+import MultidisciplinaryArticleList from './components/MultidisciplinaryArticleList';
 import MultidisciplinaryTopicWrapper from './components/MultidisciplinaryTopicWrapper';
+import DefaultErrorMessage from '../../components/DefaultErrorMessage';
+import SocialMediaMetadata from '../../components/SocialMediaMetadata';
+import { SKIP_TO_CONTENT_ID } from '../../constants';
 import {
   GQLMultidisciplinarySubjectPageQuery,
   GQLMultidisciplinarySubjectPageQueryVariables,
 } from '../../graphqlTypes';
-import SocialMediaMetadata from '../../components/SocialMediaMetadata';
+import { removeUrn, toTopic, useUrnIds } from '../../routeHelpers';
+import { useGraphQuery } from '../../util/runQueries';
 import { htmlTitle } from '../../util/titleHelper';
-import { SKIP_TO_CONTENT_ID } from '../../constants';
-import MultidisciplinaryArticleList from './components/MultidisciplinaryArticleList';
 
 const multidisciplinarySubjectPageQuery = gql`
   query multidisciplinarySubjectPage($subjectId: String!) {

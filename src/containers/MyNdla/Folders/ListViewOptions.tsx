@@ -8,12 +8,12 @@
 
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
 import { css } from '@emotion/react';
-import Tooltip from '@ndla/tooltip';
+import styled from '@emotion/styled';
 import { IconButtonV2 } from '@ndla/button';
 import { breakpoints, colors, mq, spacing } from '@ndla/core';
 import { FourlineHamburger, GridListView, List } from '@ndla/icons/action';
+import Tooltip from '@ndla/tooltip';
 import { ViewType } from './FoldersPage';
 
 const StyledDisplayOptionsContainer = styled.div`

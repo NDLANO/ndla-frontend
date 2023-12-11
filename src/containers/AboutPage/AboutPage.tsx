@@ -1,26 +1,27 @@
 /**
- * Copyright (C) 2023 -present, NDLA
+ * Copyright (c) 2023-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
+ *
  */
 
+import { useContext } from 'react';
 import { gql } from '@apollo/client';
 import { ContentPlaceholder } from '@ndla/ui';
-import { useContext } from 'react';
-import { useGraphQuery } from '../../util/runQueries';
-import { useTypedParams } from '../../routeHelpers';
+import AboutPageContent, { aboutPageFragments } from './AboutPageContent';
+import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import RedirectContext, {
   RedirectInfo,
 } from '../../components/RedirectContext';
-import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import {
   GQLAboutPageQuery,
   GQLAboutPageQueryVariables,
 } from '../../graphqlTypes';
-import DefaultErrorMessage from '../../components/DefaultErrorMessage';
-import AboutPageContent, { aboutPageFragments } from './AboutPageContent';
+import { useTypedParams } from '../../routeHelpers';
 import { GONE } from '../../statusCodes';
+import { useGraphQuery } from '../../util/runQueries';
+import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
 const aboutPageQuery = gql`
   query aboutPage($slug: String!) {

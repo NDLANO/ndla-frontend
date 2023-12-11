@@ -6,11 +6,6 @@
  *
  */
 
-import { ButtonV2 } from '@ndla/button';
-import { Cross, Copy } from '@ndla/icons/action';
-import { Share, ShareArrow } from '@ndla/icons/common';
-import { useSnack } from '@ndla/ui';
-import { SafeLinkButton } from '@ndla/safelink';
 import {
   Dispatch,
   SetStateAction,
@@ -22,13 +17,11 @@ import {
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams, useOutletContext } from 'react-router-dom';
-import { AuthContext } from '../../../components/AuthenticationContext';
-import { GQLFolder } from '../../../graphqlTypes';
-import {
-  useUpdateFolderStatusMutation,
-  useDeleteFolderMutation,
-} from '../folderMutations';
-import { OutletContext } from '../MyNdlaLayout';
+import { ButtonV2 } from '@ndla/button';
+import { Cross, Copy } from '@ndla/icons/action';
+import { Share, ShareArrow } from '@ndla/icons/common';
+import { SafeLinkButton } from '@ndla/safelink';
+import { useSnack } from '@ndla/ui';
 import FolderCreateModal from './FolderCreateModal';
 import FolderDeleteModal from './FolderDeleteModal';
 import FolderEditModal from './FolderEditModal';
@@ -40,6 +33,13 @@ import {
   previewLink,
   previewLinkInternal,
 } from './util';
+import { AuthContext } from '../../../components/AuthenticationContext';
+import { GQLFolder } from '../../../graphqlTypes';
+import {
+  useUpdateFolderStatusMutation,
+  useDeleteFolderMutation,
+} from '../folderMutations';
+import { OutletContext } from '../MyNdlaLayout';
 
 interface FolderButtonProps {
   setFocusId: Dispatch<SetStateAction<string | undefined>>;

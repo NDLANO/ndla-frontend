@@ -13,6 +13,11 @@ import {
   useMutation,
 } from '@apollo/client';
 import {
+  arenaNotificationQuery,
+  arenaPostFragment,
+  arenaTopicFragment,
+} from './arenaQueries';
+import {
   GQLDeletePostMutation,
   GQLDeletePostMutationVariables,
   GQLDeleteTopicMutation,
@@ -32,11 +37,6 @@ import {
   GQLUpdatePostMutation,
   GQLUpdatePostMutationVariables,
 } from '../../graphqlTypes';
-import {
-  arenaNotificationQuery,
-  arenaPostFragment,
-  arenaTopicFragment,
-} from './arenaQueries';
 
 const newFlagMutation = gql`
   mutation newFlag($id: Int!, $reason: String!, $type: String!) {

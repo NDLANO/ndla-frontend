@@ -6,13 +6,13 @@
  *
  */
 
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ButtonV2 } from '@ndla/button';
 import { TrashCanOutline } from '@ndla/icons/action';
 import { Modal, ModalTrigger } from '@ndla/modal';
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import DeleteModalContent from '../components/DeleteModalContent';
 import { buttonCss, iconCss } from './FoldersPage';
+import DeleteModalContent from '../components/DeleteModalContent';
 
 interface Props {
   onDelete: () => void;

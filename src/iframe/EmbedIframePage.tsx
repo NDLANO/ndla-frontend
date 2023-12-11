@@ -6,11 +6,11 @@
  *
  */
 
+import PostResizeMessage from './PostResizeMessage';
 import NotFound from '../containers/NotFoundPage/NotFoundPage';
 import ResourceEmbed, {
   StandaloneEmbed,
 } from '../containers/ResourceEmbed/components/ResourceEmbed';
-import PostResizeMessage from './PostResizeMessage';
 
 interface Props {
   embedId?: string;

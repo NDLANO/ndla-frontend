@@ -5,30 +5,30 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { gql } from '@apollo/client';
-import { useTracker } from '@ndla/tracker';
-import { Topic as UITopic } from '@ndla/ui';
+import { TFunction } from 'i18next';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { TFunction } from 'i18next';
-
+import { gql } from '@apollo/client';
 import { DynamicComponents, extractEmbedMeta } from '@ndla/article-converter';
+import { useTracker } from '@ndla/tracker';
+import { Topic as UITopic } from '@ndla/ui';
+
 import ArticleContents from '../../../components/Article/ArticleContents';
+import { AuthContext } from '../../../components/AuthenticationContext';
+import AddEmbedToFolder from '../../../components/MyNdla/AddEmbedToFolder';
+import config from '../../../config';
+import { SKIP_TO_CONTENT_ID } from '../../../constants';
 import {
   GQLMultidisciplinaryTopic_SubjectFragment,
   GQLMultidisciplinaryTopic_TopicFragment,
 } from '../../../graphqlTypes';
 import { toTopic, useIsNdlaFilm, useUrnIds } from '../../../routeHelpers';
+import { getArticleScripts } from '../../../util/getArticleScripts';
 import { htmlTitle } from '../../../util/titleHelper';
 import { getAllDimensions } from '../../../util/trackingUtil';
-import Resources from '../../Resources/Resources';
-import { SKIP_TO_CONTENT_ID } from '../../../constants';
-import TopicVisualElementContent from '../../SubjectPage/components/TopicVisualElementContent';
-import config from '../../../config';
 import { transformArticle } from '../../../util/transformArticle';
-import { getArticleScripts } from '../../../util/getArticleScripts';
-import AddEmbedToFolder from '../../../components/MyNdla/AddEmbedToFolder';
-import { AuthContext } from '../../../components/AuthenticationContext';
+import Resources from '../../Resources/Resources';
+import TopicVisualElementContent from '../../SubjectPage/components/TopicVisualElementContent';
 
 interface Props {
   topicId: string;

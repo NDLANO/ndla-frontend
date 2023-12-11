@@ -6,15 +6,19 @@
  *
  */
 
+import { useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { gql } from '@apollo/client';
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { breakpoints, mq, spacing } from '@ndla/core';
-import { Menu } from '@ndla/icons/common';
 import { Cross } from '@ndla/icons/action';
+import { Menu } from '@ndla/icons/common';
 import { Drawer, Modal, ModalCloseButton, ModalTrigger } from '@ndla/modal';
-import { useCallback, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import DefaultMenu from './DefaultMenu';
+import DrawerContent from './DrawerContent';
+import { DrawerProvider } from './DrawerContext';
+import { MenuType } from './drawerMenuTypes';
 import {
   GQLDrawerContent_FrontpageMenuFragment,
   GQLMastheadDrawer_SubjectFragment,
@@ -22,13 +26,9 @@ import {
   GQLMastheadProgrammeQuery,
 } from '../../../graphqlTypes';
 import { useIsNdlaFilm, useUrnIds } from '../../../routeHelpers';
-import { usePrevious } from '../../../util/utilityHooks';
-import DefaultMenu from './DefaultMenu';
-import DrawerContent from './DrawerContent';
-import { MenuType } from './drawerMenuTypes';
-import { DrawerProvider } from './DrawerContext';
-import { findBreadcrumb } from '../../AboutPage/AboutPageContent';
 import { useGraphQuery } from '../../../util/runQueries';
+import { usePrevious } from '../../../util/utilityHooks';
+import { findBreadcrumb } from '../../AboutPage/AboutPageContent';
 
 const MainMenu = styled.div`
   display: flex;

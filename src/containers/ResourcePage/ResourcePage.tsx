@@ -6,30 +6,30 @@
  *
  */
 
-import { gql } from '@apollo/client';
 import { useContext } from 'react';
-import { Navigate, useLocation, Location } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { Navigate, useLocation, Location } from 'react-router-dom';
+import { gql } from '@apollo/client';
 import { ContentPlaceholder } from '@ndla/ui';
 
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
-import { useUrnIds } from '../../routeHelpers';
-import { getTopicPath } from '../../util/getTopicPath';
-import { isLearningPathResource } from '../Resources/resourceHelpers';
-import LearningpathPage, {
-  learningpathPageFragments,
-} from '../LearningpathPage/LearningpathPage';
-import ArticlePage, { articlePageFragments } from '../ArticlePage/ArticlePage';
-import NotFoundPage from '../NotFoundPage/NotFoundPage';
-import MovedResourcePage from '../MovedResourcePage/MovedResourcePage';
-import { useGraphQuery } from '../../util/runQueries';
-import { RELEVANCE_SUPPLEMENTARY, SKIP_TO_CONTENT_ID } from '../../constants';
-import { isAccessDeniedError } from '../../util/handleError';
-import AccessDeniedPage from '../AccessDeniedPage/AccessDeniedPage';
-import { GQLResource, GQLResourcePageQuery } from '../../graphqlTypes';
 import RedirectContext, {
   RedirectInfo,
 } from '../../components/RedirectContext';
+import { RELEVANCE_SUPPLEMENTARY, SKIP_TO_CONTENT_ID } from '../../constants';
+import { GQLResource, GQLResourcePageQuery } from '../../graphqlTypes';
+import { useUrnIds } from '../../routeHelpers';
+import { getTopicPath } from '../../util/getTopicPath';
+import { isAccessDeniedError } from '../../util/handleError';
+import { useGraphQuery } from '../../util/runQueries';
+import AccessDeniedPage from '../AccessDeniedPage/AccessDeniedPage';
+import ArticlePage, { articlePageFragments } from '../ArticlePage/ArticlePage';
+import LearningpathPage, {
+  learningpathPageFragments,
+} from '../LearningpathPage/LearningpathPage';
+import MovedResourcePage from '../MovedResourcePage/MovedResourcePage';
+import NotFoundPage from '../NotFoundPage/NotFoundPage';
+import { isLearningPathResource } from '../Resources/resourceHelpers';
 
 const urlInPaths = (
   location: Location,

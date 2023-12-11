@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2021-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -7,12 +7,11 @@
  */
 
 import { ReactNode, useContext } from 'react';
-import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { ButtonV2 as Button, ButtonV2 } from '@ndla/button';
 import { colors, spacing } from '@ndla/core';
-import { SafeLinkButton } from '@ndla/safelink';
 import { FeideText, LogOut } from '@ndla/icons/common';
 import {
   Modal,
@@ -22,10 +21,11 @@ import {
   ModalHeader,
   ModalTrigger,
 } from '@ndla/modal';
+import { SafeLinkButton } from '@ndla/safelink';
 import { UserInfo } from '../../containers/MyNdla/components/UserInfo';
-import { AuthContext } from '../AuthenticationContext';
 import { useIsNdlaFilm } from '../../routeHelpers';
 import { constructNewPath, toHref } from '../../util/urlHelper';
+import { AuthContext } from '../AuthenticationContext';
 import { useBaseName } from '../BaseNameContext';
 import LoginModalContent from '../MyNdla/LoginModalContent';
 

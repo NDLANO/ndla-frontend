@@ -6,20 +6,20 @@
  *
  */
 
+import { parse, stringify } from 'query-string';
 import { useEffect } from 'react';
-import { OneColumn } from '@ndla/ui';
-import { Spinner } from '@ndla/icons';
-import Pager from '@ndla/pager';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { gql, useApolloClient } from '@apollo/client';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
-import { parse, stringify } from 'query-string';
+import { Spinner } from '@ndla/icons';
+import Pager from '@ndla/pager';
 import { HelmetWithTracker } from '@ndla/tracker';
+import { OneColumn } from '@ndla/ui';
+import PodcastSeries from './PodcastSeries';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import { GQLPodcastSeriesListPageQuery } from '../../graphqlTypes';
-import PodcastSeries from './PodcastSeries';
 import { useGraphQuery } from '../../util/runQueries';
 
 type SearchObject = {

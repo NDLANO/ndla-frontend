@@ -7,10 +7,10 @@
  */
 
 import { ReactNode } from 'react';
-import { OneColumn, ErrorMessage } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
-import AccessDeniedPage from '../../AccessDeniedPage/AccessDeniedPage';
+import { OneColumn, ErrorMessage } from '@ndla/ui';
 import { AccessDeniedCodes } from '../../../util/handleError';
+import AccessDeniedPage from '../../AccessDeniedPage/AccessDeniedPage';
 
 interface Props {
   status?: number;

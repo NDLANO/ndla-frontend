@@ -6,9 +6,11 @@
  *
  */
 
+import { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useApolloClient } from '@apollo/client';
 import { ButtonV2 } from '@ndla/button';
 import { Pencil } from '@ndla/icons/action';
-import { useApolloClient } from '@apollo/client';
 import {
   Modal,
   ModalBody,
@@ -18,16 +20,14 @@ import {
   ModalTitle,
   ModalTrigger,
 } from '@ndla/modal';
-import { useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import FolderForm from './FolderForm';
+import { buttonCss, iconCss } from './FoldersPage';
 import { GQLFolder } from '../../../graphqlTypes';
 import {
   useUpdateFolderMutation,
   useFolders,
   getFolder,
 } from '../folderMutations';
-import FolderForm from './FolderForm';
-import { buttonCss, iconCss } from './FoldersPage';
 
 interface Props {
   folder?: GQLFolder;

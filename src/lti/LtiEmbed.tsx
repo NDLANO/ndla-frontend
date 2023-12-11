@@ -1,12 +1,14 @@
-/*
+/**
  * Copyright (c) 2019-present, NDLA.
+ *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
+ *
  */
 
-import LtiDefault from './components/LtiDefault';
-import LtiDeepLinking from './components/LtiDeepLinking';
 import LtiBasicLaunch from './components/LtiBasicLaunch';
+import LtiDeepLinking from './components/LtiDeepLinking';
+import LtiDefault from './components/LtiDefault';
 import { LtiData, LtiItem } from '../interfaces';
 
 interface Props {

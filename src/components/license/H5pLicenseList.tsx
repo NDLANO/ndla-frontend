@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2016-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -6,9 +6,16 @@
  *
  */
 
+import uniqBy from 'lodash/uniqBy';
+import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { gql } from '@apollo/client';
-import { uuid } from '@ndla/util';
+import { H5PBold } from '@ndla/icons/editor';
+import {
+  metaTypes,
+  getGroupedContributorDescriptionList,
+} from '@ndla/licenses';
 import {
   MediaList,
   MediaListItem,
@@ -18,19 +25,12 @@ import {
   MediaListItemMeta,
   ItemType,
 } from '@ndla/ui';
-import {
-  metaTypes,
-  getGroupedContributorDescriptionList,
-} from '@ndla/licenses';
-import { H5PBold } from '@ndla/icons/editor';
-import { useTranslation } from 'react-i18next';
-import { useMemo } from 'react';
-import uniqBy from 'lodash/uniqBy';
-import { GQLH5pLicenseList_H5pLicenseFragment } from '../../graphqlTypes';
+import { uuid } from '@ndla/util';
 import CopyTextButton from './CopyTextButton';
-import { licenseCopyrightToCopyrightType } from './licenseHelpers';
-import { licenseListCopyrightFragment } from './licenseFragments';
 import LicenseDescription from './LicenseDescription';
+import { licenseListCopyrightFragment } from './licenseFragments';
+import { licenseCopyrightToCopyrightType } from './licenseHelpers';
+import { GQLH5pLicenseList_H5pLicenseFragment } from '../../graphqlTypes';
 
 interface H5pLicenseInfoProps {
   h5p: GQLH5pLicenseList_H5pLicenseFragment;

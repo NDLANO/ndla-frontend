@@ -11,8 +11,8 @@ import { useTranslation } from 'react-i18next';
 import { useSortable } from '@dnd-kit/sortable';
 import styled from '@emotion/styled';
 import { IconButtonV2 } from '@ndla/button';
-import { DragVertical } from '@ndla/icons/editor';
 import { breakpoints, mq, spacing } from '@ndla/core';
+import { DragVertical } from '@ndla/icons/editor';
 
 interface Props extends HTMLProps<HTMLButtonElement> {
   sortableId: string;

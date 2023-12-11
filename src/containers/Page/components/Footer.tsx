@@ -6,7 +6,8 @@
  *
  */
 
-import { Footer, FooterText, EditorName, LanguageSelector } from '@ndla/ui';
+import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
 import {
   Facebook,
   Instagram,
@@ -14,8 +15,7 @@ import {
   EmailOutline,
   Youtube,
 } from '@ndla/icons/common';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
+import { Footer, FooterText, EditorName, LanguageSelector } from '@ndla/ui';
 import { supportedLanguages } from '../../../i18n';
 
 const FooterTextWrapper = styled.div`
