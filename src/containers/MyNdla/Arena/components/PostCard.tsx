@@ -268,6 +268,7 @@ const PostCard = ({
     return (
       <SettingsMenu
         menuItems={isCorrectUser ? [update, deleteItem] : [report]}
+        modalHeader={t('myNdla.tools')}
       />
     );
   }, [

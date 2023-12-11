@@ -328,7 +328,9 @@ const FolderActions = ({
     t,
   ]);
 
-  return <SettingsMenu menuItems={actionItems} />;
+  return (
+    <SettingsMenu menuItems={actionItems} modalHeader={t('myNdla.tools')} />
+  );
 };
 
 export default FolderActions;

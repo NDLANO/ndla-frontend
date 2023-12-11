@@ -53,6 +53,7 @@ export interface MenuItemProps {
 
 interface Props {
   menuItems?: MenuItemProps[];
+  modalHeader?: string;
 }
 
 const StyledDrawer = styled(Drawer)`
@@ -122,7 +123,7 @@ const ItemButton = styled(ButtonV2)`
   }
 `;
 
-const SettingsMenu = ({ menuItems }: Props) => {
+const SettingsMenu = ({ menuItems, modalHeader }: Props) => {
   const [open, setOpen] = useState(false);
   const [hasOpenModal, setHasOpenModal] = useState(false);
   const [skipAutoFocus, setSkipAutoFocus] = useState(false);
@@ -172,7 +173,7 @@ const SettingsMenu = ({ menuItems }: Props) => {
           }}
         >
           <ModalHeader>
-            <h1>{t('myNdla.settings')}</h1>
+            <h1>{modalHeader ?? t('myNdla.settings')}</h1>
             <ModalCloseButton />
           </ModalHeader>
           <StyledModalBody>
