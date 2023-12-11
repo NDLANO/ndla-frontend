@@ -211,7 +211,7 @@ const ArenaForm = ({
           <ButtonV2 variant="outline">{t('cancel')}</ButtonV2>
         </ModalCloseButton>
         <LoadingButton
-          colorTheme="light"
+          colorTheme="primary"
           type="submit"
           disabled={!formState.isDirty || !formState.isValid}
         >
