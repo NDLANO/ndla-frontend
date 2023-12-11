@@ -14,17 +14,17 @@ import {
   TypePolicies,
 } from '@apollo/client';
 import { BatchHttpLink } from '@apollo/client/link/batch-http';
-import { onError } from '@apollo/client/link/error';
 import { setContext } from '@apollo/client/link/context';
-import config from '../config';
-import handleError from './handleError';
-import { default as createFetch } from './fetch';
+import { onError } from '@apollo/client/link/error';
 import {
   getAccessToken,
   getFeideCookie,
   isAccessTokenValid,
   renewAuth,
 } from './authHelpers';
+import { default as createFetch } from './fetch';
+import handleError from './handleError';
+import config from '../config';
 import {
   GQLBucketResult,
   GQLGroupSearch,

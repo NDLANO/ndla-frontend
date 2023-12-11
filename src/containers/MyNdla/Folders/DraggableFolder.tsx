@@ -7,16 +7,16 @@
  */
 
 import { Dispatch, SetStateAction, memo, useMemo } from 'react';
-import styled from '@emotion/styled';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { Folder } from '@ndla/ui';
+import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
-import { GQLFolder } from '../../../graphqlTypes';
-import { FolderTotalCount } from '../../../util/folderHelpers';
-import { ViewType } from './FoldersPage';
+import { Folder } from '@ndla/ui';
 import DragHandle from './DragHandle';
 import FolderActions from './FolderActions';
+import { ViewType } from './FoldersPage';
+import { GQLFolder } from '../../../graphqlTypes';
+import { FolderTotalCount } from '../../../util/folderHelpers';
 
 interface Props {
   folder: GQLFolder;

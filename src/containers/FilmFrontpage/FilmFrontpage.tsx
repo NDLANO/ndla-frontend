@@ -6,32 +6,32 @@
  *
  */
 
+import { TFunction } from 'i18next';
 import { useMemo, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { css } from '@emotion/react';
-import { spacingUnit, utils } from '@ndla/core';
+import { withTranslation, WithTranslation } from 'react-i18next';
 import { gql } from '@apollo/client';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+import { spacingUnit, utils } from '@ndla/core';
+import { Spinner } from '@ndla/icons';
 import {
   FilmSlideshow,
   FilmMovieSearch,
   AllMoviesAlphabetically,
 } from '@ndla/ui';
-import { withTranslation, WithTranslation } from 'react-i18next';
-import { TFunction } from 'i18next';
-import styled from '@emotion/styled';
-import { Spinner } from '@ndla/icons';
 
+import AboutNdlaFilm from './AboutNdlaFilm';
 import MovieCategory from './MovieCategory';
-import { htmlTitle } from '../../util/titleHelper';
+import { MoviesByType } from './NdlaFilmFrontpage';
+import Article from '../../components/Article';
+import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import {
   GQLFilmFrontpage_FilmFrontpageFragment,
   GQLFilmFrontpage_SubjectFragment,
 } from '../../graphqlTypes';
-import { MoviesByType } from './NdlaFilmFrontpage';
-import AboutNdlaFilm from './AboutNdlaFilm';
 import { movieFragment } from '../../queries';
-import Article from '../../components/Article';
-import SocialMediaMetadata from '../../components/SocialMediaMetadata';
+import { htmlTitle } from '../../util/titleHelper';
 
 const sortAlphabetically = (movies: MoviesByType[], locale: string) =>
   movies.sort((a, b) => {

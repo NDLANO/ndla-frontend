@@ -7,8 +7,9 @@
  */
 
 import { useCallback, useState } from 'react';
-import { ButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
+import { ButtonV2 } from '@ndla/button';
 import {
   Modal,
   ModalBody,
@@ -17,10 +18,9 @@ import {
   ModalHeader,
   ModalTrigger,
 } from '@ndla/modal';
-import styled from '@emotion/styled';
+import config from '../../config';
 import { fetchArticleOembed } from '../../containers/ArticlePage/articleApi';
 import { LtiItem } from '../../interfaces';
-import config from '../../config';
 
 const MarginLeftParagraph = styled.p`
   margin-left: 26px;

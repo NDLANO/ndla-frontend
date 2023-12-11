@@ -6,23 +6,23 @@
  *
  */
 
-import { gql } from '@apollo/client';
 import { useRef } from 'react';
 import { Navigate } from 'react-router-dom';
+import { gql } from '@apollo/client';
 import { ContentPlaceholder } from '@ndla/ui';
+import MovedTopicPage from './components/MovedTopicPage';
 import SubjectContainer, {
   subjectContainerFragments,
 } from './SubjectContainer';
-import { useUrnIds } from '../../routeHelpers';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
-import NotFoundPage from '../NotFoundPage/NotFoundPage';
-import { useGraphQuery } from '../../util/runQueries';
-import MovedTopicPage from './components/MovedTopicPage';
 import { OLD_SUBJECT_PAGE_REDIRECT_CUSTOM_FIELD } from '../../constants';
 import {
   GQLSubjectPageTestQuery,
   GQLSubjectPageTestQueryVariables,
 } from '../../graphqlTypes';
+import { useUrnIds } from '../../routeHelpers';
+import { useGraphQuery } from '../../util/runQueries';
+import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
 const subjectPageQuery = gql`
   query subjectPageTest(

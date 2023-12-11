@@ -6,20 +6,20 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
 import { useContext, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ButtonV2 as Button, LoadingButton } from '@ndla/button';
 import { InformationOutline, WarningOutline } from '@ndla/icons/common';
 import { Folder, MessageBox, useSnack } from '@ndla/ui';
-import { GQLFolder } from '../../graphqlTypes';
+import { AddResourceContainer, ButtonRow } from './AddResourceToFolder';
 import FolderSelect from './FolderSelect';
 import {
   useCopySharedFolderMutation,
   useFolders,
 } from '../../containers/MyNdla/folderMutations';
-import { AuthContext } from '../AuthenticationContext';
-import { AddResourceContainer, ButtonRow } from './AddResourceToFolder';
+import { GQLFolder } from '../../graphqlTypes';
 import { getTotalCountForFolder } from '../../util/folderHelpers';
+import { AuthContext } from '../AuthenticationContext';
 
 interface Props {
   folder: GQLFolder;

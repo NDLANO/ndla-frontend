@@ -6,10 +6,10 @@
  *
  */
 
+import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { fonts, colors, spacing, misc } from '@ndla/core';
-import { useTranslation } from 'react-i18next';
-import { useMemo } from 'react';
 import { Text } from '@ndla/typography';
 
 type AvatarProps = {

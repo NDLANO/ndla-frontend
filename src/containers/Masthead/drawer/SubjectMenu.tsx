@@ -17,17 +17,17 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { gql } from '@apollo/client';
-import { ContentLoader } from '@ndla/ui';
 import { MenuBook } from '@ndla/icons/action';
-import { GQLSubjectMenu_SubjectFragment } from '../../../graphqlTypes';
+import { ContentLoader } from '@ndla/ui';
+import BackButton from './BackButton';
+import { useDrawerContext } from './DrawerContext';
 import DrawerMenuItem from './DrawerMenuItem';
 import DrawerPortion, { DrawerList } from './DrawerPortion';
-import TopicMenu from './TopicMenu';
 import DrawerRowHeader from './DrawerRowHeader';
-import { removeUrn } from '../../../routeHelpers';
-import BackButton from './BackButton';
+import TopicMenu from './TopicMenu';
 import useArrowNavigation from './useArrowNavigation';
-import { useDrawerContext } from './DrawerContext';
+import { GQLSubjectMenu_SubjectFragment } from '../../../graphqlTypes';
+import { removeUrn } from '../../../routeHelpers';
 
 interface Props {
   subject?: GQLSubjectMenu_SubjectFragment;

@@ -8,9 +8,9 @@
 
 import { gql, ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import config from '../config';
-import { createApolloClient } from '../util/apiHelpers';
-import { copyrightInfoFragment } from '../queries';
 import { GQLPodcastSeriesQuery } from '../graphqlTypes';
+import { copyrightInfoFragment } from '../queries';
+import { createApolloClient } from '../util/apiHelpers';
 
 let apolloClient: ApolloClient<NormalizedCacheObject>;
 let storedLocale: string;

@@ -11,6 +11,7 @@ import keyBy from 'lodash/keyBy';
 import { useMemo, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useApolloClient } from '@apollo/client';
+import { Reference } from '@apollo/client/cache';
 import {
   closestCenter,
   DndContext,
@@ -20,25 +21,24 @@ import {
   useSensors,
 } from '@dnd-kit/core';
 import {
+  restrictToParentElement,
+  restrictToVerticalAxis,
+} from '@dnd-kit/modifiers';
+import {
   SortableContext,
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
-import {
-  restrictToParentElement,
-  restrictToVerticalAxis,
-} from '@dnd-kit/modifiers';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
-import { Reference } from '@apollo/client/cache';
+import DraggableResource from './DraggableResource';
+import { BlockWrapper, ViewType } from './FoldersPage';
+import { makeDndSortFunction, makeDndTranslations } from './util';
 import { GQLFolder } from '../../../graphqlTypes';
 import {
   useFolderResourceMetaSearch,
   useSortResourcesMutation,
 } from '../folderMutations';
-import { BlockWrapper, ViewType } from './FoldersPage';
-import { makeDndSortFunction, makeDndTranslations } from './util';
-import DraggableResource from './DraggableResource';
 
 interface Props {
   selectedFolder: GQLFolder;

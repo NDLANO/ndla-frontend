@@ -6,10 +6,6 @@
  *
  */
 
-import { Cross, Pencil, Plus } from '@ndla/icons/action';
-import { Link, Share, ShareArrow } from '@ndla/icons/common';
-import { DeleteForever } from '@ndla/icons/editor';
-import { useSnack } from '@ndla/ui';
 import {
   Dispatch,
   SetStateAction,
@@ -20,6 +16,10 @@ import {
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
+import { Cross, Pencil, Plus } from '@ndla/icons/action';
+import { Link, Share, ShareArrow } from '@ndla/icons/common';
+import { DeleteForever } from '@ndla/icons/editor';
+import { useSnack } from '@ndla/ui';
 import { CreateModalContent } from './FolderCreateModal';
 import { EditFolderModalContent } from './FolderEditModal';
 import { FolderFormValues } from './FolderForm';
@@ -29,6 +29,9 @@ import {
   isStudent,
   sharedFolderLinkInternal,
 } from './util';
+import { AuthContext } from '../../../components/AuthenticationContext';
+import config from '../../../config';
+import { GQLFolder } from '../../../graphqlTypes';
 import DeleteModalContent from '../components/DeleteModalContent';
 import SettingsMenu, { MenuItemProps } from '../components/SettingsMenu';
 import {
@@ -36,9 +39,6 @@ import {
   useDeleteFolderMutation,
   useUpdateFolderStatusMutation,
 } from '../folderMutations';
-import config from '../../../config';
-import { GQLFolder } from '../../../graphqlTypes';
-import { AuthContext } from '../../../components/AuthenticationContext';
 
 interface Props {
   selectedFolder: GQLFolder | null;

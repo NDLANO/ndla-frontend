@@ -6,7 +6,12 @@
  *
  */
 
+import { ReactNode, useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
+import { ButtonV2 } from '@ndla/button';
+import { breakpoints, colors, fonts, misc, mq, spacing } from '@ndla/core';
+import { Copy, TrashCanOutline } from '@ndla/icons/action';
 import {
   ModalBody,
   ModalCloseButton,
@@ -16,18 +21,13 @@ import {
   Modal,
   ModalTrigger,
 } from '@ndla/modal';
-import styled from '@emotion/styled';
-import { breakpoints, colors, fonts, misc, mq, spacing } from '@ndla/core';
-import { ButtonV2 } from '@ndla/button';
-import { Copy, TrashCanOutline } from '@ndla/icons/action';
 import { SafeLinkButton } from '@ndla/safelink';
 import Tooltip from '@ndla/tooltip';
 import { useSnack } from '@ndla/ui';
-import { ReactNode, useCallback, useMemo, useState } from 'react';
-import { GQLFolder } from '../../../graphqlTypes';
 import FolderAndResourceCount from './FolderAndResourceCount';
-import { toFolderPreview } from '../../../routeHelpers';
 import { sharedFolderLink } from './util';
+import { GQLFolder } from '../../../graphqlTypes';
+import { toFolderPreview } from '../../../routeHelpers';
 import { useUserAgent } from '../../../UserAgentContext';
 
 const FolderName = styled.span`

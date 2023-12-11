@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2016-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -7,31 +7,31 @@
  */
 
 import { ReactElement, useEffect, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { gql } from '@apollo/client';
+import { extractEmbedMetas } from '@ndla/article-converter';
+import { webpageReferenceApa7CopyString } from '@ndla/licenses';
+import { ConceptMetaData } from '@ndla/types-embed';
 import {
   Article as UIArticle,
   ContentTypeBadge,
   getMastheadHeight,
 } from '@ndla/ui';
-import { webpageReferenceApa7CopyString } from '@ndla/licenses';
-import { useTranslation } from 'react-i18next';
-import { extractEmbedMetas } from '@ndla/article-converter';
-import { ConceptMetaData } from '@ndla/types-embed';
+import FavoriteButton from './FavoritesButton';
+import NotionsContent from './NotionsContent';
 import config from '../../config';
-import LicenseBox from '../license/LicenseBox';
-import CompetenceGoals from '../CompetenceGoals';
+import { MastheadHeightPx } from '../../constants';
 import {
   GQLArticleConceptEmbedsQuery,
   GQLArticle_ArticleFragment,
   GQLResourceEmbedInput,
 } from '../../graphqlTypes';
-import { MastheadHeightPx } from '../../constants';
 import { useGraphQuery } from '../../util/runQueries';
-import AddResourceToFolderModal from '../MyNdla/AddResourceToFolderModal';
-import FavoriteButton from './FavoritesButton';
-import NotionsContent from './NotionsContent';
 import { TransformedBaseArticle } from '../../util/transformArticle';
+import CompetenceGoals from '../CompetenceGoals';
+import LicenseBox from '../license/LicenseBox';
+import AddResourceToFolderModal from '../MyNdla/AddResourceToFolderModal';
 
 interface Props {
   id?: string;

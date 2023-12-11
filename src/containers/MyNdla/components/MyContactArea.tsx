@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2023-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -10,8 +10,8 @@ import styled from '@emotion/styled';
 import { colors, spacing, breakpoints, mq } from '@ndla/core';
 import { Heading } from '@ndla/typography';
 import UserAvatar from './UserAvatar';
-import EditProfilePicture from '../MyProfile/components/EditProfilePicture';
 import { isStudent, withRole } from '../Folders/util';
+import EditProfilePicture from '../MyProfile/components/EditProfilePicture';
 
 type UserProp = {
   username?: string;

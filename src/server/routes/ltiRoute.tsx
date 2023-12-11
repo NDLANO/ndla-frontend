@@ -8,10 +8,10 @@
 
 import { Request } from 'express';
 import { FilledContext, HelmetProvider } from 'react-helmet-async';
-import { BAD_REQUEST, OK } from '../../statusCodes';
 import { getHtmlLang, getLocaleObject } from '../../i18n';
-import { renderPage, renderHtml } from '../helpers/render';
+import { BAD_REQUEST, OK } from '../../statusCodes';
 import { Assets } from '../helpers/Document';
+import { renderPage, renderHtml } from '../helpers/render';
 
 const bodyFields: Record<string, { required: boolean; value?: any }> = {
   lti_message_type: {

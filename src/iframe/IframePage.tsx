@@ -6,21 +6,21 @@
  *
  */
 
-import { gql } from '@apollo/client';
-import { useLocation } from 'react-router-dom';
 import { useContext } from 'react';
-import { OneColumn, ErrorMessage } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
-import { useGraphQuery } from '../util/runQueries';
+import { useLocation } from 'react-router-dom';
+import { gql } from '@apollo/client';
+import { OneColumn, ErrorMessage } from '@ndla/ui';
 import IframeArticlePage, {
   iframeArticlePageFragments,
 } from './IframeArticlePage';
+import RedirectContext from '../components/RedirectContext';
+import NotFound from '../containers/NotFoundPage/NotFoundPage';
 import {
   GQLIframePageQuery,
   GQLIframePageQueryVariables,
 } from '../graphqlTypes';
-import RedirectContext from '../components/RedirectContext';
-import NotFound from '../containers/NotFoundPage/NotFoundPage';
+import { useGraphQuery } from '../util/runQueries';
 
 if (process.env.NODE_ENV !== 'production') {
   // Can't require in production because of multiple asses emit to the same filename..
