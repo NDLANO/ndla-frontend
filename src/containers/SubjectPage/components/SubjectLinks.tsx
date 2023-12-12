@@ -6,8 +6,8 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
 import { Fragment } from 'react';
+import { useTranslation } from 'react-i18next';
 import { gql } from '@apollo/client';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';

@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2022-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -7,12 +7,12 @@
  */
 
 import { ButtonHTMLAttributes, forwardRef, useContext, useMemo } from 'react';
-import { NoSSR } from '@ndla/util';
 import { FavoriteButton as UIFavoriteButton } from '@ndla/button';
+import { NoSSR } from '@ndla/util';
+import config from '../../config';
 import { useFolders } from '../../containers/MyNdla/folderMutations';
 import { getAllResources } from '../../util/folderHelpers';
 import { AuthContext } from '../AuthenticationContext';
-import config from '../../config';
 
 interface Props
   extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'size' | 'type'> {

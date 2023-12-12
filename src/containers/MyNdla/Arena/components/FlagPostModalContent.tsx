@@ -6,16 +6,11 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import {
-  ModalBody,
-  ModalCloseButton,
-  ModalHeader,
-  ModalTitle,
-  ModalContent,
-} from '@ndla/modal';
-import { Text } from '@ndla/typography';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
+import { ButtonV2 } from '@ndla/button';
+import { fonts, spacing } from '@ndla/core';
 import {
   FormControl,
   Label,
@@ -24,12 +19,17 @@ import {
   FieldHelper,
   FieldErrorMessage,
 } from '@ndla/forms';
-import { ButtonV2 } from '@ndla/button';
-import styled from '@emotion/styled';
-import { fonts, spacing } from '@ndla/core';
+import {
+  ModalBody,
+  ModalCloseButton,
+  ModalHeader,
+  ModalTitle,
+  ModalContent,
+} from '@ndla/modal';
+import { Text } from '@ndla/typography';
 import { useSnack } from '@ndla/ui';
-import { useNewFlagMutation } from '../../arenaMutations';
 import handleError from '../../../../util/handleError';
+import { useNewFlagMutation } from '../../arenaMutations';
 
 const MAXIMUM_LENGTH_TEXTFIELD = 120;
 

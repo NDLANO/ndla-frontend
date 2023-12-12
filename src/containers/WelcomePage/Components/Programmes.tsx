@@ -7,17 +7,17 @@
  */
 
 import { useMemo } from 'react';
-import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
-import { spacing, breakpoints, mq, colors } from '@ndla/core';
+import styled from '@emotion/styled';
 import {
   AccordionRoot,
   AccordionItem,
   AccordionHeader,
   AccordionContent,
 } from '@ndla/accordion';
-import { ContentLoader, ProgrammeCard, ProgrammeV2 } from '@ndla/ui';
+import { spacing, breakpoints, mq, colors } from '@ndla/core';
 import { Heading, Text } from '@ndla/typography';
+import { ContentLoader, ProgrammeCard, ProgrammeV2 } from '@ndla/ui';
 import { useUserAgent } from '../../../UserAgentContext';
 
 const StyledWrapper = styled.div`

@@ -8,8 +8,8 @@
 
 import { gql } from '@apollo/client';
 import SafeLink from '@ndla/safelink';
-import { toSubject } from '../routeHelpers';
 import { GQLSubjectLinkListSubjectFragment } from '../graphqlTypes';
+import { toSubject } from '../routeHelpers';
 
 interface Props {
   subjects?: GQLSubjectLinkListSubjectFragment[];

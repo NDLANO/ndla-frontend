@@ -6,11 +6,11 @@
  *
  */
 
+import { ReactNode } from 'react';
+import { useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { breakpoints, colors, mq, spacing } from '@ndla/core';
-import { ReactNode } from 'react';
 import { SafeLinkButton } from '@ndla/safelink';
-import { useLocation } from 'react-router-dom';
 import { Text } from '@ndla/typography';
 
 const StyledSafeLink = styled(SafeLinkButton)`

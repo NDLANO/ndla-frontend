@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2023-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -6,29 +6,29 @@
  *
  */
 
-import { forwardRef, useState } from 'react';
 import { $getRoot, $insertNodes, EditorState } from 'lexical';
+import { forwardRef, useState } from 'react';
+import styled from '@emotion/styled';
+import { $generateNodesFromDOM } from '@lexical/html';
+import { $convertToMarkdownString } from '@lexical/markdown';
 import {
   LexicalComposer,
   InitialConfigType,
 } from '@lexical/react/LexicalComposer';
 import { ContentEditable } from '@lexical/react/LexicalContentEditable';
-import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
-import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
-import { ListPlugin } from '@lexical/react/LexicalListPlugin';
-import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin';
-import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
-import { $convertToMarkdownString } from '@lexical/markdown';
-import { $generateNodesFromDOM } from '@lexical/html';
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
-import styled from '@emotion/styled';
+import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
+import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin';
+import { ListPlugin } from '@lexical/react/LexicalListPlugin';
+import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
+import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import { colors, misc, spacing } from '@ndla/core';
 import { useFormControl } from '@ndla/forms';
-import { EditorToolbar } from './EditorToolbar';
-import { editorNodes } from './nodes';
-import { MarkdownPlugin, PLAYGROUND_TRANSFORMERS } from './MarkdownPlugin';
 import { editorTheme } from './editorTheme';
+import { EditorToolbar } from './EditorToolbar';
 import { FloatingLinkEditorPlugin } from './FloatingLinkEditorPlugin';
+import { MarkdownPlugin, PLAYGROUND_TRANSFORMERS } from './MarkdownPlugin';
+import { editorNodes } from './nodes';
 
 const onError = (error: any) => {
   console.error(error);
@@ -67,15 +67,6 @@ const StyledEditorContainer = styled.div`
   flex-direction: column;
   border-radius: ${misc.borderRadius};
   border: 1px solid ${colors.brand.greyLight};
-`;
-
-const Placeholder = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  pointer-events: none;
-  padding: ${spacing.small};
-  color: ${colors.brand.greyMedium};
 `;
 
 const InnerEditorContainer = styled.div`
@@ -134,7 +125,7 @@ export const MarkdownEditor = forwardRef(
                   <ContentEditable name={name} role="textbox" {...props} />
                 </EditableWrapper>
               }
-              placeholder={<Placeholder>Enter some text...</Placeholder>}
+              placeholder={<span />}
               ErrorBoundary={LexicalErrorBoundary}
             />
           </InnerEditorContainer>

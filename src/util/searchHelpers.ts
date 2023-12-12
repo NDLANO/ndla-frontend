@@ -7,12 +7,12 @@
  */
 
 import { TFunction } from 'i18next';
-import { GQLFrontpageSearch, GQLSubjectInfoFragment } from '../graphqlTypes';
-import { toSubject } from '../routeHelpers';
 import {
   TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
 } from '../constants';
+import { GQLFrontpageSearch, GQLSubjectInfoFragment } from '../graphqlTypes';
+import { toSubject } from '../routeHelpers';
 
 export const searchSubjects = (
   query?: string,

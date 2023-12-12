@@ -6,15 +6,9 @@
  *
  */
 
+import { formatDistanceStrict } from 'date-fns';
+import { nb, nn, enGB } from 'date-fns/locale';
 import parse from 'html-react-parser';
-import styled from '@emotion/styled';
-import { colors, spacing, misc, mq, breakpoints } from '@ndla/core';
-import { Pencil, TrashCanOutline } from '@ndla/icons/action';
-import { ReportOutlined } from '@ndla/icons/common';
-import { Switch } from '@ndla/switch';
-import { Text, Heading } from '@ndla/typography';
-import { useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import {
   Dispatch,
   SetStateAction,
@@ -22,29 +16,35 @@ import {
   useContext,
   useMemo,
 } from 'react';
-import { nb, nn, enGB } from 'date-fns/locale';
-import { formatDistanceStrict } from 'date-fns';
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+import styled from '@emotion/styled';
+import { colors, spacing, misc, mq, breakpoints } from '@ndla/core';
+import { Pencil, TrashCanOutline } from '@ndla/icons/action';
+import { ReportOutlined } from '@ndla/icons/common';
+import { Switch } from '@ndla/switch';
+import { Text, Heading } from '@ndla/typography';
 import { useSnack } from '@ndla/ui';
-import UserProfileTag from '../../components/UserProfileTag';
-import SettingsMenu, { MenuItemProps } from '../../components/SettingsMenu';
-import ArenaTextModal, { ArenaTextModalContent } from './ArenaTextModal';
 import { ArenaFormValues } from './ArenaForm';
+import ArenaTextModal, { ArenaTextModalContent } from './ArenaTextModal';
+import FlagPostModalContent from './FlagPostModalContent';
+import { AuthContext } from '../../../../components/AuthenticationContext';
+import { SKIP_TO_CONTENT_ID } from '../../../../constants';
+import {
+  GQLArenaPostFragment,
+  GQLArenaTopicByIdQuery,
+} from '../../../../graphqlTypes';
 import {
   useDeletePost,
   useDeleteTopic,
   useReplyToTopic,
   useUpdatePost,
 } from '../../arenaMutations';
-import DeleteModalContent from '../../components/DeleteModalContent';
-import FlagPostModalContent from './FlagPostModalContent';
 import { arenaCategoryQuery, arenaTopicById } from '../../arenaQueries';
-import { SKIP_TO_CONTENT_ID } from '../../../../constants';
-import { AuthContext } from '../../../../components/AuthenticationContext';
+import DeleteModalContent from '../../components/DeleteModalContent';
+import SettingsMenu, { MenuItemProps } from '../../components/SettingsMenu';
+import UserProfileTag from '../../components/UserProfileTag';
 import { capitalizeFirstLetter, toArena, toArenaCategory } from '../utils';
-import {
-  GQLArenaPostFragment,
-  GQLArenaTopicByIdQuery,
-} from '../../../../graphqlTypes';
 
 interface Props {
   onFollowChange: (value: boolean) => void;
@@ -268,6 +268,7 @@ const PostCard = ({
     return (
       <SettingsMenu
         menuItems={isCorrectUser ? [update, deleteItem] : [report]}
+        modalHeader={t('myNdla.tools')}
       />
     );
   }, [
@@ -323,7 +324,7 @@ const PostCard = ({
             {topic?.title}
           </Heading>
         )}
-        <Text element="p" textStyle="content-alt" margin="none">
+        <Text element="div" textStyle="content-alt" margin="none">
           {parse(content)}
         </Text>
       </StyledContentContainer>

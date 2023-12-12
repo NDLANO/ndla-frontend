@@ -6,12 +6,12 @@
  *
  */
 
+import { RELEVANCE_CORE } from '../../constants';
 import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,
   fetch,
 } from '../../util/apiHelpers';
-import { RELEVANCE_CORE } from '../../constants';
 
 const baseUrl = apiResourceUrl('/taxonomy/v1');
 

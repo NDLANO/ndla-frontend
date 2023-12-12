@@ -1,44 +1,45 @@
 /**
- * Copyright (C) 2023 -present, NDLA
+ * Copyright (c) 2023-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
+ *
  */
 
+import { TFunction } from 'i18next';
 import { useContext, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
 import { gql } from '@apollo/client';
 import styled from '@emotion/styled';
-import { DynamicComponents, transform } from '@ndla/article-converter';
-import { Spinner } from '@ndla/icons';
-import { HelmetWithTracker, useTracker } from '@ndla/tracker';
 import {
   AccordionContent,
   AccordionHeader,
   AccordionItem,
   AccordionRoot,
 } from '@ndla/accordion';
-import { CreatedBy } from '@ndla/ui';
+import { DynamicComponents, transform } from '@ndla/article-converter';
 import { colors, spacing } from '@ndla/core';
+import { Spinner } from '@ndla/icons';
+import { HelmetWithTracker, useTracker } from '@ndla/tracker';
 import { Text } from '@ndla/typography';
-import { useLocation } from 'react-router-dom';
-import { TFunction } from 'i18next';
+import { CreatedBy } from '@ndla/ui';
 import ResourceEmbedLicenseBox from './ResourceEmbedLicenseBox';
+import ResourceEmbedWrapper from './ResourceEmbedWrapper';
+import { AuthContext } from '../../../components/AuthenticationContext';
+import AddEmbedToFolder from '../../../components/MyNdla/AddEmbedToFolder';
+import SocialMediaMetadata from '../../../components/SocialMediaMetadata';
+import config from '../../../config';
 import {
   GQLFolder,
   GQLResourceEmbedLicenseBox_MetaFragment,
   GQLResourceEmbedQuery,
   GQLResourceEmbedQueryVariables,
 } from '../../../graphqlTypes';
-import ErrorPage from '../../ErrorPage';
-import SocialMediaMetadata from '../../../components/SocialMediaMetadata';
-import ResourceEmbedWrapper from './ResourceEmbedWrapper';
-import NotFound from '../../NotFoundPage/NotFoundPage';
 import { useGraphQuery } from '../../../util/runQueries';
-import AddEmbedToFolder from '../../../components/MyNdla/AddEmbedToFolder';
-import config from '../../../config';
-import { AuthContext } from '../../../components/AuthenticationContext';
 import { getAllDimensions } from '../../../util/trackingUtil';
+import ErrorPage from '../../ErrorPage';
+import NotFound from '../../NotFoundPage/NotFoundPage';
 
 export type StandaloneEmbed = 'image' | 'audio' | 'video' | 'h5p' | 'concept';
 

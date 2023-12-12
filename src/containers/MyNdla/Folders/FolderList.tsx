@@ -7,8 +7,8 @@
  */
 
 import { useMemo, useState, useEffect, SetStateAction, Dispatch } from 'react';
-import { Reference, useApolloClient } from '@apollo/client';
 import { useTranslation } from 'react-i18next';
+import { Reference, useApolloClient } from '@apollo/client';
 import {
   closestCenter,
   DndContext,
@@ -18,16 +18,18 @@ import {
   useSensors,
 } from '@dnd-kit/core';
 import {
+  restrictToVerticalAxis,
+  restrictToParentElement,
+} from '@dnd-kit/modifiers';
+import {
   SortableContext,
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
-import {
-  restrictToVerticalAxis,
-  restrictToParentElement,
-} from '@dnd-kit/modifiers';
 import { Spinner } from '@ndla/icons';
+import DraggableFolder from './DraggableFolder';
 import { BlockWrapper, ViewType } from './FoldersPage';
+import { makeDndSortFunction, makeDndTranslations } from './util';
 import WhileLoading from '../../../components/WhileLoading';
 import { GQLFolder } from '../../../graphqlTypes';
 import {
@@ -35,8 +37,6 @@ import {
   getTotalCountForFolder,
 } from '../../../util/folderHelpers';
 import { useSortFoldersMutation } from '../folderMutations';
-import DraggableFolder from './DraggableFolder';
-import { makeDndSortFunction, makeDndTranslations } from './util';
 
 interface Props {
   loading: boolean;

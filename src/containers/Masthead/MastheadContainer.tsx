@@ -7,29 +7,29 @@
  */
 
 import { useContext } from 'react';
-import { Masthead, LanguageSelector, Logo } from '@ndla/ui';
+
+import { useTranslation } from 'react-i18next';
+import { gql } from '@apollo/client';
 import styled from '@emotion/styled';
 import { breakpoints, mq, spacing } from '@ndla/core';
-import { gql } from '@apollo/client';
-
 import { Feide } from '@ndla/icons/common';
-import { useTranslation } from 'react-i18next';
-import { useIsNdlaFilm, useUrnIds } from '../../routeHelpers';
+import { Masthead, LanguageSelector, Logo } from '@ndla/ui';
 
-import FeideLoginButton from '../../components/FeideLoginButton';
 import MastheadSearch from './components/MastheadSearch';
-import ErrorBoundary from '../ErrorPage/ErrorBoundary';
-import config from '../../config';
-import { useAlerts } from '../../components/AlertsContext';
-import { SKIP_TO_CONTENT_ID } from '../../constants';
-import { AuthContext } from '../../components/AuthenticationContext';
 import MastheadDrawer from './drawer/MastheadDrawer';
-import { useGraphQuery } from '../../util/runQueries';
+import { useAlerts } from '../../components/AlertsContext';
+import { AuthContext } from '../../components/AuthenticationContext';
+import FeideLoginButton from '../../components/FeideLoginButton';
+import config from '../../config';
+import { SKIP_TO_CONTENT_ID } from '../../constants';
 import {
   GQLMastHeadQuery,
   GQLMastHeadQueryVariables,
 } from '../../graphqlTypes';
 import { supportedLanguages } from '../../i18n';
+import { useIsNdlaFilm, useUrnIds } from '../../routeHelpers';
+import { useGraphQuery } from '../../util/runQueries';
+import ErrorBoundary from '../ErrorPage/ErrorBoundary';
 
 const FeideLoginLabel = styled.span`
   ${mq.range({ until: breakpoints.mobileWide })} {

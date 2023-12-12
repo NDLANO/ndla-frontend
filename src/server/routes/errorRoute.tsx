@@ -6,15 +6,15 @@
  *
  */
 
-import { I18nextProvider } from 'react-i18next';
 import { FilledContext, HelmetProvider } from 'react-helmet-async';
+import { I18nextProvider } from 'react-i18next';
 import { MissingRouterContext } from '@ndla/safelink';
 import { i18nInstance } from '@ndla/ui';
-import { INTERNAL_SERVER_ERROR } from '../../statusCodes';
-import ErrorPage from '../../containers/ErrorPage';
-import { renderHtml, renderPage } from '../helpers/render';
-import { Assets } from '../helpers/Document';
 import { RedirectInfo } from '../../components/RedirectContext';
+import ErrorPage from '../../containers/ErrorPage';
+import { INTERNAL_SERVER_ERROR } from '../../statusCodes';
+import { Assets } from '../helpers/Document';
+import { renderHtml, renderPage } from '../helpers/render';
 
 //@ts-ignore
 const assets: Record<string, string> = require(process.env

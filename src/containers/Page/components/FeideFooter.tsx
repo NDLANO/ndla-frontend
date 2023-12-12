@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2021-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -8,13 +8,13 @@
 
 import { useContext } from 'react';
 
-import { useInRouterContext } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useInRouterContext } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { FeideText, LogIn } from '@ndla/icons/common';
 
-import FeideLoginButton from '../../../components/FeideLoginButton';
 import { AuthContext } from '../../../components/AuthenticationContext';
+import FeideLoginButton from '../../../components/FeideLoginButton';
 
 const StyledFeideFooter = styled.div`
   display: flex;

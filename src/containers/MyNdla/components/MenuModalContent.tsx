@@ -6,6 +6,9 @@
  *
  */
 
+import { ReactNode, useCallback, useContext, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useLocation, useOutletContext } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { IconButtonV2 } from '@ndla/button';
 import { spacing, colors, fonts } from '@ndla/core';
@@ -17,18 +20,15 @@ import {
   ModalCloseButton,
   ModalTitle,
 } from '@ndla/modal';
-import { Text } from '@ndla/typography';
-import { ReactNode, useCallback, useContext, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
 import { SafeLinkButton } from '@ndla/safelink';
-import { useLocation, useOutletContext } from 'react-router-dom';
-import { ViewType, buttonCss } from '../Folders/FoldersPage';
-import { OutletContext, menuLinks } from '../MyNdlaLayout';
+import { Text } from '@ndla/typography';
 import NavigationLink from './NavigationLink';
 import { BellIcon } from './NotificationButton';
 import { AuthContext } from '../../../components/AuthenticationContext';
-import { useArenaNotifications } from '../arenaQueries';
 import { toAllNotifications } from '../Arena/utils';
+import { useArenaNotifications } from '../arenaQueries';
+import { ViewType, buttonCss } from '../Folders/FoldersPage';
+import { OutletContext, menuLinks } from '../MyNdlaLayout';
 
 const MenuItem = styled.li`
   list-style: none;
@@ -146,21 +146,26 @@ const MenuModalContent = ({
   const links = useMemo(
     () =>
       menuLinks(t, location).map(
-        ({ id, shortName, icon, to, name, iconFilled }) => (
-          <MenuItem key={id}>
-            <NavigationLink
-              id={id}
-              to={to}
-              name={name}
-              icon={icon}
-              shortName={shortName}
-              iconFilled={iconFilled}
-              onClick={() => setIsOpen(false)}
-            />
-          </MenuItem>
-        ),
+        ({ id, shortName, icon, to, name, iconFilled, restricted }) => {
+          if (restricted && !user?.arenaEnabled) {
+            return null;
+          }
+          return (
+            <MenuItem key={id}>
+              <NavigationLink
+                id={id}
+                to={to}
+                name={name}
+                icon={icon}
+                shortName={shortName}
+                iconFilled={iconFilled}
+                onClick={() => setIsOpen(false)}
+              />
+            </MenuItem>
+          );
+        },
       ),
-    [t, location, setIsOpen],
+    [t, location, user, setIsOpen],
   );
 
   const notificationLink = useMemo(

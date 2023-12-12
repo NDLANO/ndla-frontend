@@ -6,15 +6,15 @@
  *
  */
 
+import { MouseEvent, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
+import { useNavigate, useParams } from 'react-router-dom';
 import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
 import { Launch } from '@ndla/icons/common';
 import { SafeLinkButton } from '@ndla/safelink';
 import { ContentTypeBadge } from '@ndla/ui';
-import { MouseEvent, useCallback, useMemo } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
 import {
   GQLFolderResource,
   GQLFolderResourceMetaSearchQuery,

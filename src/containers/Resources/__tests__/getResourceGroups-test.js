@@ -6,9 +6,8 @@
  *
  */
 
-import { getResourceGroups, sortResourceTypes } from '../getResourceGroups';
-
 import { resourceData1, resourceData2, resourceTypes } from './mockResources';
+import { getResourceGroups, sortResourceTypes } from '../getResourceGroups';
 
 test('get core resources grouped by types', () => {
   const groups = getResourceGroups(resourceTypes, [], resourceData1);

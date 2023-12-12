@@ -6,33 +6,33 @@
  *
  */
 
-import { gql } from '@apollo/client';
+import { TFunction } from 'i18next';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { TFunction } from 'i18next';
-import { Topic as UITopic } from '@ndla/ui';
-import { useTracker } from '@ndla/tracker';
+import { gql } from '@apollo/client';
 import { DynamicComponents, extractEmbedMeta } from '@ndla/article-converter';
+import { useTracker } from '@ndla/tracker';
+import { Topic as UITopic } from '@ndla/ui';
+import TopicVisualElementContent from './TopicVisualElementContent';
+import ArticleContents from '../../../components/Article/ArticleContents';
+import { AuthContext } from '../../../components/AuthenticationContext';
+import AddEmbedToFolder from '../../../components/MyNdla/AddEmbedToFolder';
+import config from '../../../config';
 import {
   RELEVANCE_SUPPLEMENTARY,
   SKIP_TO_CONTENT_ID,
 } from '../../../constants';
-import ArticleContents from '../../../components/Article/ArticleContents';
-import Resources from '../../Resources/Resources';
-import { toTopic, useIsNdlaFilm, useUrnIds } from '../../../routeHelpers';
-import { getAllDimensions } from '../../../util/trackingUtil';
-import { htmlTitle } from '../../../util/titleHelper';
 import {
   GQLTopic_ResourceTypeDefinitionFragment,
   GQLTopic_SubjectFragment,
   GQLTopic_TopicFragment,
 } from '../../../graphqlTypes';
-import TopicVisualElementContent from './TopicVisualElementContent';
-import { transformArticle } from '../../../util/transformArticle';
-import config from '../../../config';
+import { toTopic, useIsNdlaFilm, useUrnIds } from '../../../routeHelpers';
 import { getArticleScripts } from '../../../util/getArticleScripts';
-import AddEmbedToFolder from '../../../components/MyNdla/AddEmbedToFolder';
-import { AuthContext } from '../../../components/AuthenticationContext';
+import { htmlTitle } from '../../../util/titleHelper';
+import { getAllDimensions } from '../../../util/trackingUtil';
+import { transformArticle } from '../../../util/transformArticle';
+import Resources from '../../Resources/Resources';
 
 const getDocumentTitle = ({
   t,

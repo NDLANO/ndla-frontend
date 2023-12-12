@@ -6,14 +6,14 @@
  *
  */
 
-import { gql } from '@apollo/client';
 import { Dispatch, RefObject, SetStateAction, useEffect } from 'react';
+import { gql } from '@apollo/client';
 import { NavigationBox, SimpleBreadcrumbItem } from '@ndla/ui';
-import { RELEVANCE_SUPPLEMENTARY } from '../../../constants';
-import { scrollToRef } from '../subjectPageHelpers';
-import { toTopic, useIsNdlaFilm } from '../../../routeHelpers';
 import TopicWrapper from './TopicWrapper';
+import { RELEVANCE_SUPPLEMENTARY } from '../../../constants';
 import { GQLSubjectPageContent_SubjectFragment } from '../../../graphqlTypes';
+import { toTopic, useIsNdlaFilm } from '../../../routeHelpers';
+import { scrollToRef } from '../subjectPageHelpers';
 
 interface Props {
   subject: GQLSubjectPageContent_SubjectFragment;

@@ -1,12 +1,13 @@
 /**
- * Copyright (C) 2021 -present, NDLA
+ * Copyright (c) 2021-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
+ *
  */
 
-import { Issuer, generators, Client } from 'openid-client';
 import { Request } from 'express';
+import { Issuer, generators, Client } from 'openid-client';
 import config, { getEnvironmentVariabel } from '../../config';
 
 const handleConfigTypes = (
