@@ -58,9 +58,6 @@ const StyledModalTitle = styled(ModalTitle)`
 const MenuItems = styled.ul`
   display: grid;
   grid-template-columns: repeat(4, minmax(auto, 1fr));
-  a {
-    min-width: 75px;
-  }
   justify-content: space-between;
   padding: unset;
   margin: unset;

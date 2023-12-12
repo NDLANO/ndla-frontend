@@ -60,9 +60,6 @@ const StyledNavList = styled.ul`
 `;
 
 const StyledLi = styled.li`
-  a {
-    min-width: 75px;
-  }
   p {
     font-weight: ${fonts.weight.semibold};
   }
