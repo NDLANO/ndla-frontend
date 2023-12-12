@@ -103,6 +103,10 @@ const TimestampText = styled(Text)`
   align-self: center;
 `;
 
+const StyledContent = styled(Text)`
+  word-wrap: break-word;
+`;
+
 const Locales = {
   nn: nn,
   nb: nb,
@@ -368,9 +372,9 @@ const PostCard = ({
             {topic?.title}
           </Heading>
         )}
-        <Text element="div" textStyle="content-alt" margin="none">
+        <StyledContent element="div" textStyle="content-alt" margin="none">
           {parse(content)}
-        </Text>
+        </StyledContent>
       </ContentWrapper>
       <FlexLine>{options(isMainPost)}</FlexLine>
     </PostCardWrapper>
