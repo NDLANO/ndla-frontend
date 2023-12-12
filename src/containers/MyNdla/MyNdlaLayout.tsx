@@ -31,7 +31,7 @@ import { Folder } from '@ndla/icons/editor';
 import { Text } from '@ndla/typography';
 import { TFunction } from 'i18next';
 import { AuthContext } from '../../components/AuthenticationContext';
-import NavigationLinkButton from './components/NavigationLinkButton';
+import NavigationLink from './components/NavigationLink';
 import { toHref } from '../../util/urlHelper';
 
 const StyledLayout = styled.div`
@@ -71,6 +71,8 @@ const StyledLi = styled.li`
   margin: 0;
   ${mq.range({ from: breakpoints.mobileWide })} {
     display: unset !important;
+  }
+  ${mq.range({ until: breakpoints.mobileWide })} {
   }
   [aria-current='page'] p {
     font-weight: ${fonts.weight.bold};
@@ -145,7 +147,7 @@ const MyNdlaLayout = () => {
           }
           return (
             <StyledLi key={id}>
-              <NavigationLinkButton
+              <NavigationLink
                 id={id}
                 name={name}
                 shortName={shortName}
