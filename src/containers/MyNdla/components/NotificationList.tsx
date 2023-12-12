@@ -149,7 +149,7 @@ const NotificationList = ({ notifications, close }: Props) => {
                   <StyledKeyboardReturn />
                   <div>
                     <StyledText textStyle="meta-text-medium" margin="none">
-                      {user.displayName}
+                      {`${user.displayName} `}
                       <Trans
                         i18nKey={'myNdla.arena.notification.commentedOn'}
                         tOptions={{ title: topicTitle }}
