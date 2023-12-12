@@ -49,11 +49,11 @@ const ArenaUserPage = () => {
     skip: !arenaUser?.slug,
   });
 
-  if (loading) {
+  if (loading || !authContextLoaded) {
     return <Spinner />;
   }
 
-  if (!user?.arenaEnabled && authContextLoaded) {
+  if (!user?.arenaEnabled) {
     return <Navigate to="/minndla" />;
   }
 
