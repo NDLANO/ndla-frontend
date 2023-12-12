@@ -48,7 +48,6 @@ import { capitalizeFirstLetter, toArena, toArenaCategory } from '../utils';
 
 interface Props {
   onFollowChange: (value: boolean) => void;
-  affiliation: string;
   post: GQLArenaPostFragment;
   topic: GQLArenaTopicByIdQuery['arenaTopic'];
   setFocusId: Dispatch<SetStateAction<number | undefined>>;
