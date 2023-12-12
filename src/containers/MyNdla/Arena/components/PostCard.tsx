@@ -81,7 +81,7 @@ const StyledSwitch = styled(Switch)`
   &:focus,
   &:focus-visible,
   &:focus-within {
-    border-color: black;
+    border-color: ${colors.brand.dark};
   }
 `;
 
