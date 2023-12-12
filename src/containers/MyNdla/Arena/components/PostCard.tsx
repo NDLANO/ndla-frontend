@@ -305,7 +305,7 @@ const PostCard = ({
 
   const postTime = (
     <TimestampText element="span" textStyle="content-alt" margin="none">
-      <span title={formatDateTime(timestamp, language)} aria-hidden>
+      <span title={formatDateTime(timestamp, language)}>
         {`${capitalizeFirstLetter(timeDistance)}`}
       </span>
     </TimestampText>
