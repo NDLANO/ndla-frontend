@@ -258,37 +258,39 @@ const SettingsMenu = ({ menuItems }: Props) => {
           }
         }}
       >
-        {menuItems?.map((item) =>
-          item.link ? (
-            <SafeLinkButton
-              key={item.text}
-              css={linkCss}
-              variant="ghost"
-              colorTheme="lighter"
-              to={item.link}
-              aria-label={t('myNdla.folder.sharing.button.preview')}
+        {menuItems?.map((item) => (
+          <Item
+            key={item.text}
+            handleDialogItemOpenChange={handleDialogItemOpenChange}
+            isModal={item.isModal}
+            modalContent={item.modalContent}
+            keepOpen={item.keepOpen}
+            modality={item.modality}
+            setSkipAutoFocus={() => setSkipAutoFocus(true)}
+          >
+            <DropdownItem
+              asChild
+              onSelect={(e) => {
+                if (!item.onClick) {
+                  e.preventDefault();
+                }
+              }}
             >
-              {item.icon}
-              {item.text}
-            </SafeLinkButton>
-          ) : (
-            <Item
-              key={item.text}
-              handleDialogItemOpenChange={handleDialogItemOpenChange}
-              isModal={item.isModal}
-              modalContent={item.modalContent}
-              keepOpen={item.keepOpen}
-              modality={item.modality}
-              setSkipAutoFocus={() => setSkipAutoFocus(true)}
-            >
-              <DropdownItem
-                asChild
-                onSelect={(e) => {
-                  if (!item.onClick) {
-                    e.preventDefault();
-                  }
-                }}
-              >
+              {item.link ? (
+                <SafeLinkButton
+                  tabIndex={-1}
+                  role="menuitem"
+                  key={item.text}
+                  css={linkCss}
+                  variant="ghost"
+                  colorTheme="lighter"
+                  to={item.link}
+                  aria-label={t('myNdla.folder.sharing.button.preview')}
+                >
+                  {item.icon}
+                  {item.text}
+                </SafeLinkButton>
+              ) : (
                 <ItemButton
                   colorTheme={item.type === 'danger' ? 'danger' : 'light'}
                   disabled={item.disabled}
@@ -303,10 +305,10 @@ const SettingsMenu = ({ menuItems }: Props) => {
                   {item.icon}
                   {item.text}
                 </ItemButton>
-              </DropdownItem>
-            </Item>
-          ),
-        )}
+              )}
+            </DropdownItem>
+          </Item>
+        ))}
       </StyledDropdownContent>
     </DropdownMenu>
   );
