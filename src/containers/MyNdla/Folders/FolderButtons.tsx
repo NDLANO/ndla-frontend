@@ -278,31 +278,30 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
       </ButtonV2>
     ) : null;
 
-  const previewFolderButton =
-    selectedFolder && isFolderShared ? (
-      <SafeLinkButton
-        key="previewFolder"
-        css={buttonCss}
-        variant="ghost"
-        colorTheme="lighter"
-        to={
-          isFolderShared
-            ? sharedFolderLink(selectedFolder.id)
-            : previewLink(selectedFolder.id)
-        }
-        aria-label={t('myNdla.folder.sharing.button.preview')}
-        title={t('myNdla.folder.sharing.button.preview')}
-      >
-        <ShareArrow css={iconCss} />
-        {isFolderShared
-          ? t('myNdla.folder.sharing.button.goTo')
-          : t(
-              `myNdla.folder.sharing.button.${
-                userAgent?.isMobile ? 'preview' : 'previewShort'
-              }`,
-            )}
-      </SafeLinkButton>
-    ) : null;
+  const previewFolderButton = selectedFolder ? (
+    <SafeLinkButton
+      key="previewFolder"
+      css={buttonCss}
+      variant="ghost"
+      colorTheme="lighter"
+      to={
+        isFolderShared
+          ? sharedFolderLink(selectedFolder.id)
+          : previewLink(selectedFolder.id)
+      }
+      aria-label={t('myNdla.folder.sharing.button.preview')}
+      title={t('myNdla.folder.sharing.button.preview')}
+    >
+      <ShareArrow css={iconCss} />
+      {isFolderShared
+        ? t('myNdla.folder.sharing.button.goTo')
+        : t(
+            `myNdla.folder.sharing.button.${
+              userAgent?.isMobile ? 'preview' : 'previewShort'
+            }`,
+          )}
+    </SafeLinkButton>
+  ) : null;
 
   if (!showShareFolder) {
     const buttons = [addFolderButton, editFolderButton, deleteFolderButton];
