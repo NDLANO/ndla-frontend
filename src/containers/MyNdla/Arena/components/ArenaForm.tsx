@@ -115,7 +115,7 @@ const ArenaForm = ({
   };
 
   return (
-    <StyledForm onSubmit={handleSubmit(onSubmit)}>
+    <StyledForm onSubmit={handleSubmit(onSubmit)} noValidate>
       {type === 'topic' && (
         <Controller
           control={control}
