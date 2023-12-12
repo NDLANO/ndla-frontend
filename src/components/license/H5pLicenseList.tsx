@@ -30,6 +30,7 @@ import CopyTextButton from './CopyTextButton';
 import LicenseDescription from './LicenseDescription';
 import { licenseListCopyrightFragment } from './licenseFragments';
 import { licenseCopyrightToCopyrightType } from './licenseHelpers';
+import { MediaListRef, mediaListIcon } from './licenseStyles';
 import { GQLH5pLicenseList_H5pLicenseFragment } from '../../graphqlTypes';
 
 interface H5pLicenseInfoProps {
@@ -62,7 +63,7 @@ const H5pLicenseInfo = ({ h5p }: H5pLicenseInfoProps) => {
           rel="noopener noreferrer"
           aria-label={t('embed.goTo', { type: t('embed.type.h5p') })}
         >
-          <H5PBold className="c-medialist__icon" />
+          <H5PBold css={mediaListIcon} />
         </a>
       </MediaListItemImage>
       <MediaListItemBody
@@ -73,14 +74,14 @@ const H5pLicenseInfo = ({ h5p }: H5pLicenseInfoProps) => {
         locale={i18n.language}
       >
         <MediaListItemActions>
-          <div className="c-medialist__ref">
+          <MediaListRef>
             <MediaListItemMeta items={items} />
             <CopyTextButton
               stringToCopy={`<iframe title="${h5p.title}" aria-label="${h5p.src}" height="400" width="500" frameborder="0" src="${h5p.src}" allowfullscreen=""></iframe>`}
               copyTitle={t('license.embed')}
               hasCopiedTitle={t('license.embedCopied')}
             />
-          </div>
+          </MediaListRef>
         </MediaListItemActions>
       </MediaListItemBody>
     </MediaListItem>
