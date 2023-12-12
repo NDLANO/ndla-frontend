@@ -89,6 +89,7 @@ const FavoriteSubjectsPage = () => {
             onClick: () => navigate('/subjects'),
           },
         ]}
+        modalHeader={t('myNdla.tools')}
       />
     ),
     [t, navigate],
