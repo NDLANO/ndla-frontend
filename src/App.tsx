@@ -23,6 +23,7 @@ import TopicPage from './containers/MyNdla/Arena/TopicPage';
 import ArenaUserPage from './containers/MyNdla/ArenaUserPage';
 import FavoriteSubjectsPage from './containers/MyNdla/FavoriteSubjects/FavoriteSubjectsPage';
 import FoldersPage from './containers/MyNdla/Folders/FoldersPage';
+import PreviewFoldersPage from './containers/MyNdla/Folders/PreviewFoldersPage';
 import MyNdlaLayout from './containers/MyNdla/MyNdlaLayout';
 import MyNdlaPage from './containers/MyNdla/MyNdlaPage';
 import MyProfilePage from './containers/MyNdla/MyProfile/MyProfilePage';
@@ -155,7 +156,7 @@ const AppRoutes = ({ base }: AppProps) => {
                     <Route index element={<FoldersPage />} />
                     <Route path=":folderId">
                       <Route index element={<FoldersPage />} />
-                      <Route path="preview" element={<SharedFolderPage />} />
+                      <Route path="preview" element={<PreviewFoldersPage />} />
                     </Route>
                   </Route>
                   <Route path="arena">
