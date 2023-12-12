@@ -6,7 +6,7 @@
  *
  */
 
-import { $getRoot, $insertNodes, EditorState } from 'lexical';
+import { $getRoot, EditorState } from 'lexical';
 import { forwardRef, useState } from 'react';
 import styled from '@emotion/styled';
 import { $generateNodesFromDOM } from '@lexical/html';
@@ -22,6 +22,7 @@ import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin';
 import { ListPlugin } from '@lexical/react/LexicalListPlugin';
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
+import { $rootTextContent } from '@lexical/text';
 import { colors, misc, spacing } from '@ndla/core';
 import { useFormControl } from '@ndla/forms';
 import { editorTheme } from './editorTheme';
@@ -75,12 +76,13 @@ const InnerEditorContainer = styled.div`
 
 interface Props {
   setContentWritten: (data: string) => void;
+  setContentLength: (data: number) => void;
   initialValue: string;
   name: string;
 }
 
 export const MarkdownEditor = forwardRef(
-  ({ name, setContentWritten, initialValue }: Props, _) => {
+  ({ name, setContentWritten, setContentLength, initialValue }: Props, _) => {
     const [floatingAnchorElem, setFloatingAnchorElem] = useState<
       HTMLDivElement | undefined
     >(undefined);
@@ -96,8 +98,8 @@ export const MarkdownEditor = forwardRef(
           editor,
           parser.parseFromString(initialValue, 'text/html'),
         );
-        $getRoot().select();
-        $insertNodes(nodes);
+        $getRoot().select().insertNodes(nodes);
+        setContentLength($rootTextContent().length);
       },
     };
 
@@ -107,10 +109,15 @@ export const MarkdownEditor = forwardRef(
       }
     };
 
+    /**
+     * ConvertToMarkDownString length also includes markdown markup to get correct content length we use $rootTextContent.
+     * Usage inspired by https://github.com/facebook/lexical/blob/main/packages/lexical-react/src/shared/useCharacterLimit.ts
+     * */
     const onChange = (editorState: EditorState) => {
       editorState.read(() => {
         const markdown = $convertToMarkdownString(PLAYGROUND_TRANSFORMERS);
         setContentWritten(markdown);
+        setContentLength($rootTextContent().length);
       });
     };
 
