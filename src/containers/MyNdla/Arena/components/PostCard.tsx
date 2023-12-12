@@ -101,20 +101,14 @@ const Locales = {
   se: nb,
 };
 
-const PostCard = ({
-  topic,
-  post,
-  affiliation,
-  onFollowChange,
-  setFocusId,
-}: Props) => {
+const PostCard = ({ topic, post, onFollowChange, setFocusId }: Props) => {
   const {
     id: postId,
     topicId,
     isMainPost,
     timestamp,
     content,
-    user: { displayName, username },
+    user: { displayName, username, location },
   } = post;
 
   const {
@@ -301,7 +295,7 @@ const PostCard = ({
         <UserProfileTag
           displayName={displayName}
           username={username}
-          affiliation={affiliation}
+          affiliation={location ?? ''}
         />
         {isMainPost && (
           <StyledSwitch

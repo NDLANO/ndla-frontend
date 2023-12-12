@@ -86,6 +86,7 @@ export const arenaPostFragment = gql`
       displayName
       profilePicture
       username
+      location
     }
     deleted
   }
