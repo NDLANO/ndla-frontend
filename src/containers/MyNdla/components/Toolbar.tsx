@@ -6,21 +6,21 @@
  *
  */
 
-import styled from '@emotion/styled';
 import { ReactNode, useContext } from 'react';
+import styled from '@emotion/styled';
 import { breakpoints, colors, mq, spacing, spacingUnit } from '@ndla/core';
-import { MY_NDLA_CONTENT_WIDTH } from '../../../constants';
-import { ViewType } from '../Folders/FoldersPage';
 import MenuModalContent from './MenuModalContent';
 import NotificationPopover from './NotificationPopover';
 import { AuthContext } from '../../../components/AuthenticationContext';
+import { MY_NDLA_CONTENT_WIDTH } from '../../../constants';
+import { ViewType } from '../Folders/FoldersPage';
 
 const ToolbarContainer = styled.div`
   display: none;
   justify-content: center;
   border-bottom: 1px solid ${colors.brand.lightest};
   padding: ${spacing.small} ${spacing.large};
-  height: ${spacingUnit * 3}px;
+  min-height: ${spacingUnit * 3}px;
 
   ${mq.range({ from: breakpoints.mobileWide })} {
     display: flex;
@@ -30,16 +30,11 @@ const ToolbarContainer = styled.div`
 const ButtonContainer = styled.div`
   display: none;
   flex-direction: row;
-  gap: ${spacing.small};
+  gap: ${spacing.xxsmall};
+  flex-wrap: wrap;
 
-  ${mq.range({ from: breakpoints.wide })} {
+  ${mq.range({ from: breakpoints.desktop })} {
     display: flex;
-  }
-
-  &[data-extend-tablet-view='false'] {
-    ${mq.range({ from: breakpoints.desktop })} {
-      display: flex;
-    }
   }
 `;
 
@@ -49,18 +44,13 @@ const DropdownWrapper = styled.div`
   ${mq.range({ from: breakpoints.mobileWide, until: breakpoints.desktop })} {
     display: unset;
   }
-
-  &[data-extend-tablet-view='true'] {
-    ${mq.range({ until: breakpoints.wide })} {
-      display: unset;
-    }
-  }
 `;
 
 const Wrapper = styled.div`
   display: flex;
   flex-grow: 1;
   justify-content: space-between;
+  align-items: flex-start;
 
   max-width: ${MY_NDLA_CONTENT_WIDTH}px;
 
@@ -74,7 +64,6 @@ interface Props {
   dropDownMenu?: ReactNode;
   viewType?: ViewType;
   onViewTypeChange?: (val: ViewType) => void;
-  extendTabletView?: boolean;
   showButtons?: boolean;
 }
 
@@ -83,7 +72,6 @@ const Toolbar = ({
   dropDownMenu,
   onViewTypeChange,
   viewType,
-  extendTabletView,
   showButtons,
 }: Props) => {
   const { user } = useContext(AuthContext);
@@ -91,12 +79,8 @@ const Toolbar = ({
     <ToolbarContainer>
       <Wrapper>
         <div>
-          <ButtonContainer data-extend-tablet-view={!!extendTabletView}>
-            {buttons}
-          </ButtonContainer>
-          <DropdownWrapper data-extend-tablet-view={!!extendTabletView}>
-            {dropDownMenu}
-          </DropdownWrapper>
+          <ButtonContainer>{buttons}</ButtonContainer>
+          <DropdownWrapper>{dropDownMenu}</DropdownWrapper>
         </div>
         {user?.arenaEnabled && <NotificationPopover />}
       </Wrapper>

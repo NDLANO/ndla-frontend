@@ -6,8 +6,8 @@
  *
  */
 
-import { render } from '@testing-library/react';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
+import { render } from '@testing-library/react';
 import { PageContainer } from '@ndla/ui';
 import Document from '../Document';
 

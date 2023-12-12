@@ -6,8 +6,8 @@
  *
  */
 
-import { MutableRefObject, useEffect, useRef, useState } from 'react';
 import parse from 'html-react-parser';
+import { MutableRefObject, useEffect, useRef, useState } from 'react';
 
 export const urlIsNDLAApiUrl = (url: string) =>
   /^(http|https):\/\/(ndla-frontend|www).([a-zA-Z]+.)?api.ndla.no/.test(url);

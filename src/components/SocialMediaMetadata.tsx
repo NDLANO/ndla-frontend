@@ -9,9 +9,9 @@
 import { ReactNode } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useLocation, Location } from 'react-router-dom';
+import { useBaseName } from './BaseNameContext';
 import config from '../config';
 import { preferredLocales, isValidLocale } from '../i18n';
-import { useBaseName } from './BaseNameContext';
 
 export const getCanonicalUrl = (location: Location) => {
   if (!location.pathname.includes('article-iframe')) {

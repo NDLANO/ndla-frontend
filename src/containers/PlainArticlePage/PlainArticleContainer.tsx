@@ -6,29 +6,29 @@
  *
  */
 
-import { gql } from '@apollo/client';
+import { TFunction } from 'i18next';
 import { useContext, useEffect, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
-import { TFunction } from 'i18next';
-import { OneColumn } from '@ndla/ui';
-import { useTracker } from '@ndla/tracker';
+import { gql } from '@apollo/client';
 import { DynamicComponents } from '@ndla/article-converter';
-import { transformArticle } from '../../util/transformArticle';
-import { getArticleScripts } from '../../util/getArticleScripts';
+import { useTracker } from '@ndla/tracker';
+import { OneColumn } from '@ndla/ui';
 import Article from '../../components/Article';
+import { AuthContext } from '../../components/AuthenticationContext';
+import AddEmbedToFolder from '../../components/MyNdla/AddEmbedToFolder';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
-import NotFoundPage from '../NotFoundPage/NotFoundPage';
+import config from '../../config';
+import { GQLPlainArticleContainer_ArticleFragment } from '../../graphqlTypes';
+import { getArticleProps } from '../../util/getArticleProps';
+import { getArticleScripts } from '../../util/getArticleScripts';
 import getStructuredDataFromArticle, {
   structuredArticleDataFragment,
 } from '../../util/getStructuredDataFromArticle';
 import { htmlTitle } from '../../util/titleHelper';
-import { GQLPlainArticleContainer_ArticleFragment } from '../../graphqlTypes';
-import config from '../../config';
-import { getArticleProps } from '../../util/getArticleProps';
 import { getAllDimensions } from '../../util/trackingUtil';
-import AddEmbedToFolder from '../../components/MyNdla/AddEmbedToFolder';
-import { AuthContext } from '../../components/AuthenticationContext';
+import { transformArticle } from '../../util/transformArticle';
+import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
 interface Props {
   article: GQLPlainArticleContainer_ArticleFragment;

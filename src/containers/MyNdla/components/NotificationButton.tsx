@@ -6,12 +6,12 @@
  *
  */
 
-import { ButtonV2 } from '@ndla/button';
-import styled from '@emotion/styled';
-import { colors, spacing } from '@ndla/core';
-import { Bell } from '@ndla/icons/common';
 import { forwardRef, useMemo, ComponentPropsWithRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
+import { ButtonV2 } from '@ndla/button';
+import { colors, spacing } from '@ndla/core';
+import { Bell } from '@ndla/icons/common';
 import { GQLArenaNotificationFragment } from '../../../graphqlTypes';
 import { iconCss } from '../Folders/FoldersPage';
 

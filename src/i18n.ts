@@ -7,12 +7,12 @@
  */
 
 import { i18n } from 'i18next';
-import nb from './messages/messagesNB';
-import nn from './messages/messagesNN';
-import en from './messages/messagesEN';
-import se from './messages/messagesSE';
 import config, { getDefaultLocale } from './config';
 import { LocaleType } from './interfaces';
+import en from './messages/messagesEN';
+import nb from './messages/messagesNB';
+import nn from './messages/messagesNN';
+import se from './messages/messagesSE';
 
 export const supportedLanguages: LocaleType[] = config.saamiEnabled
   ? ['nb', 'nn', 'en', 'se']

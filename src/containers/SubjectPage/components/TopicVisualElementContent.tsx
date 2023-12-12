@@ -1,10 +1,13 @@
 /**
- * Copyright (C) 2023 -present, NDLA
+ * Copyright (c) 2023-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
+ *
  */
 
+import { useTranslation } from 'react-i18next';
+import { gql } from '@apollo/client';
 import styled from '@emotion/styled';
 import {
   AccordionContent,
@@ -13,9 +16,8 @@ import {
   AccordionRoot,
 } from '@ndla/accordion';
 import { colors, spacing } from '@ndla/core';
-import { gql } from '@apollo/client';
-import { useTranslation } from 'react-i18next';
 import { EmbedMetaData } from '@ndla/types-embed';
+import { Text } from '@ndla/typography';
 import {
   BrightcoveEmbed,
   ExternalEmbed,
@@ -23,10 +25,9 @@ import {
   IframeEmbed,
   ImageEmbed,
 } from '@ndla/ui';
-import { Text } from '@ndla/typography';
-import ResourceEmbedLicenseBox from '../../ResourceEmbed/components/ResourceEmbedLicenseBox';
-import { hasLicensedContent } from '../../ResourceEmbed/components/ResourceEmbed';
 import { GQLTopicVisualElementContent_MetaFragment } from '../../../graphqlTypes';
+import { hasLicensedContent } from '../../ResourceEmbed/components/ResourceEmbed';
+import ResourceEmbedLicenseBox from '../../ResourceEmbed/components/ResourceEmbedLicenseBox';
 
 const Wrapper = styled.div`
   display: flex;

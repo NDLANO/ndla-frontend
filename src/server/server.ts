@@ -6,11 +6,19 @@
  *
  */
 
-import fetch from 'node-fetch';
 import express, { Request, Response, NextFunction } from 'express';
 import helmet from 'helmet';
+import fetch from 'node-fetch';
 import { matchPath } from 'react-router-dom';
 import { getCookie } from '@ndla/util';
+import contentSecurityPolicy from './contentSecurityPolicy';
+import { generateOauthData } from './helpers/oauthHelper';
+import {
+  getFeideToken,
+  getRedirectUrl,
+  feideLogout,
+} from './helpers/openidHelper';
+import ltiConfig from './ltiConfig';
 import {
   defaultRoute,
   errorRoute,
@@ -20,24 +28,16 @@ import {
   ltiRoute,
   iframeEmbedRoute,
 } from './routes';
-import contentSecurityPolicy from './contentSecurityPolicy';
-import handleError from '../util/handleError';
-import { privateRoutes, routes } from '../routes';
-import { getLocaleInfoFromPath } from '../i18n';
-import ltiConfig from './ltiConfig';
+import { podcastFeedRoute } from './routes/podcastFeedRoute';
+import config, { getDefaultLocale } from '../config';
 import {
   FILM_PAGE_PATH,
   NOT_FOUND_PAGE_PATH,
   STORED_LANGUAGE_COOKIE_KEY,
   UKR_PAGE_PATH,
 } from '../constants';
-import { generateOauthData } from './helpers/oauthHelper';
-import {
-  getFeideToken,
-  getRedirectUrl,
-  feideLogout,
-} from './helpers/openidHelper';
-import { podcastFeedRoute } from './routes/podcastFeedRoute';
+import { getLocaleInfoFromPath } from '../i18n';
+import { privateRoutes, routes } from '../routes';
 import {
   OK,
   INTERNAL_SERVER_ERROR,
@@ -47,8 +47,8 @@ import {
   GONE,
 } from '../statusCodes';
 import { isAccessTokenValid } from '../util/authHelpers';
+import handleError from '../util/handleError';
 import { constructNewPath } from '../util/urlHelper';
-import config, { getDefaultLocale } from '../config';
 
 // @ts-ignore
 global.fetch = fetch;

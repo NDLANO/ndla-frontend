@@ -3657,7 +3657,7 @@ export type GQLPodcastSeriesPageQuery = {
     hasRSS: boolean;
     title: { __typename?: 'Title'; title: string };
     description: { __typename?: 'Description'; description: string };
-    coverPhoto: { __typename?: 'CoverPhoto'; url: string };
+    coverPhoto: { __typename?: 'CoverPhoto'; url: string; altText: string };
     content?: {
       __typename?: 'ResourceEmbed';
       content: string;

@@ -6,19 +6,19 @@
  *
  */
 
+import { formatDistanceStrict } from 'date-fns';
+import { nb, nn, enGB } from 'date-fns/locale';
+import { useCallback, useMemo } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { spacing, colors, fonts } from '@ndla/core';
 import { HelpCircleDual, KeyboardReturn } from '@ndla/icons/common';
 import { SafeLinkButton } from '@ndla/safelink';
 import { Heading, Text } from '@ndla/typography';
-import { useCallback, useMemo } from 'react';
-import { Trans, useTranslation } from 'react-i18next';
-import { formatDistanceStrict } from 'date-fns';
-import { nb, nn, enGB } from 'date-fns/locale';
 import { GQLArenaNotificationFragment } from '../../../graphqlTypes';
-import { useMarkNotificationsAsRead } from '../arenaMutations';
 import { toArenaTopic, capitalizeFirstLetter } from '../Arena/utils';
+import { useMarkNotificationsAsRead } from '../arenaMutations';
 
 const TitleWrapper = styled.div`
   display: flex;
@@ -149,7 +149,7 @@ const NotificationList = ({ notifications, close }: Props) => {
                   <StyledKeyboardReturn />
                   <div>
                     <StyledText textStyle="meta-text-medium" margin="none">
-                      {user.displayName}
+                      {`${user.displayName} `}
                       <Trans
                         i18nKey={'myNdla.arena.notification.commentedOn'}
                         tOptions={{ title: topicTitle }}

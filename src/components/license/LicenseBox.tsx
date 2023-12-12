@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2016-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -6,18 +6,18 @@
  *
  */
 
+import { TFunction } from 'i18next';
+import { useTranslation } from 'react-i18next';
 import { gql } from '@apollo/client';
 import Tabs from '@ndla/tabs';
-import { useTranslation } from 'react-i18next';
-import { TFunction } from 'i18next';
-import ImageLicenseList from './ImageLicenseList';
 import AudioLicenseList from './AudioLicenseList';
+import ConceptLicenseList, { GlossLicenseList } from './ConceptLicenseList';
+import H5pLicenseList from './H5pLicenseList';
+import ImageLicenseList from './ImageLicenseList';
+import OembedItem from './OembedItem';
 import PodcastLicenseList from './PodcastLicenseList';
 import TextLicenseList from './TextLicenseList';
 import VideoLicenseList from './VideoLicenseList';
-import H5pLicenseList from './H5pLicenseList';
-import ConceptLicenseList, { GlossLicenseList } from './ConceptLicenseList';
-import OembedItem from './OembedItem';
 import { GQLLicenseBox_ArticleFragment } from '../../graphqlTypes';
 
 function buildLicenseTabList(

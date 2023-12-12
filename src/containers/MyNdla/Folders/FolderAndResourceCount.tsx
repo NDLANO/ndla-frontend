@@ -6,15 +6,15 @@
  *
  */
 import { useMemo } from 'react';
-import { FileDocumentOutline, Share } from '@ndla/icons/common';
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
+import { FileDocumentOutline, Share } from '@ndla/icons/common';
 import { FolderOutlined } from '@ndla/icons/contentType';
-import { useTranslation } from 'react-i18next';
 import { ContentLoader } from '@ndla/ui';
+import WhileLoading from '../../../components/WhileLoading';
 import { GQLFolder } from '../../../graphqlTypes';
 import { getTotalCountForFolder } from '../../../util/folderHelpers';
-import WhileLoading from '../../../components/WhileLoading';
 
 export const ResourceCountContainer = styled.div`
   display: flex;

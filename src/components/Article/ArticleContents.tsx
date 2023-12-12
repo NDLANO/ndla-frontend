@@ -16,10 +16,10 @@ import {
   ArticleFootNotes,
 } from '@ndla/ui';
 
-import LicenseBox from '../license/LicenseBox';
-import { TransformedBaseArticle } from '../../util/transformArticle';
 import { GQLArticleContents_ArticleFragment } from '../../graphqlTypes';
 import { Scripts } from '../../util/getArticleScripts';
+import { TransformedBaseArticle } from '../../util/transformArticle';
+import LicenseBox from '../license/LicenseBox';
 
 interface Props {
   article: TransformedBaseArticle<GQLArticleContents_ArticleFragment>;

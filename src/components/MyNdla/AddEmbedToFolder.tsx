@@ -6,9 +6,9 @@
  *
  */
 
+import { useContext, useMemo } from 'react';
 import { FavoriteButton } from '@ndla/button';
 import { EmbedMetaData } from '@ndla/types-embed';
-import { useContext, useMemo } from 'react';
 import { NoSSR } from '@ndla/util';
 import { ResourceAttributes } from './AddResourceToFolder';
 import AddResourceToFolderModal from './AddResourceToFolderModal';

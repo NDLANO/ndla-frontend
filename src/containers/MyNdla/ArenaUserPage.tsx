@@ -7,18 +7,18 @@
  */
 
 import { useContext } from 'react';
-import { Heading } from '@ndla/typography';
+import { useTranslation } from 'react-i18next';
+import { Navigate, useParams } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
-import { Navigate, useParams } from 'react-router-dom';
 import { Spinner } from '@ndla/icons';
-import { useTranslation } from 'react-i18next';
-import { AuthContext } from '../../components/AuthenticationContext';
-import MyContactArea from './components/MyContactArea';
-import MyNdlaPageWrapper from './components/MyNdlaPageWrapper';
-import MyNdlaBreadcrumb from './components/MyNdlaBreadcrumb';
-import { useArenaTopicsByUser, useArenaUser } from './arenaQueries';
+import { Heading } from '@ndla/typography';
 import TopicCard from './Arena/components/TopicCard';
+import { useArenaTopicsByUser, useArenaUser } from './arenaQueries';
+import MyContactArea from './components/MyContactArea';
+import MyNdlaBreadcrumb from './components/MyNdlaBreadcrumb';
+import MyNdlaPageWrapper from './components/MyNdlaPageWrapper';
+import { AuthContext } from '../../components/AuthenticationContext';
 
 const BreadcrumbWrapper = styled.div`
   padding-top: ${spacing.normal};
@@ -38,7 +38,7 @@ const CardListItem = styled.li`
 
 const ArenaUserPage = () => {
   const { t } = useTranslation();
-  const { user } = useContext(AuthContext);
+  const { user, authContextLoaded } = useContext(AuthContext);
   const { username } = useParams();
   const { arenaUser } = useArenaUser({
     variables: { username: username ?? '' },
@@ -49,11 +49,11 @@ const ArenaUserPage = () => {
     skip: !arenaUser?.slug,
   });
 
-  if (loading) {
+  if (loading || !authContextLoaded) {
     return <Spinner />;
   }
 
-  if (!user?.arenaEnabled && user?.arenaEnabled !== undefined) {
+  if (!user?.arenaEnabled) {
     return <Navigate to="/minndla" />;
   }
 

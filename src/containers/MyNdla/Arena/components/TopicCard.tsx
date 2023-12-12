@@ -8,10 +8,10 @@
 import { useTranslation } from 'react-i18next';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { Text } from '@ndla/typography';
-import SafeLink from '@ndla/safelink';
 import { colors, spacing, misc } from '@ndla/core';
 import { Locked } from '@ndla/icons/common';
+import SafeLink from '@ndla/safelink';
+import { Text } from '@ndla/typography';
 import { formatDateTime } from '../../../../util/formatDate';
 import { toArenaTopic } from '../utils';
 

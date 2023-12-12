@@ -6,12 +6,12 @@
  *
  */
 
-import { FilmMovieList, MovieGrid } from '@ndla/ui';
-import { gql } from '@apollo/client';
 import { useTranslation } from 'react-i18next';
+import { gql } from '@apollo/client';
+import { FilmMovieList, MovieGrid } from '@ndla/ui';
 import { findName } from './filmHelper';
-import { GQLMovieCategory_MovieThemeFragment } from '../../graphqlTypes';
 import { MoviesByType } from './NdlaFilmFrontpage';
+import { GQLMovieCategory_MovieThemeFragment } from '../../graphqlTypes';
 import { movieFragment } from '../../queries';
 
 interface Props {

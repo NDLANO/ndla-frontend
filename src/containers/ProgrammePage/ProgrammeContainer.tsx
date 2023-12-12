@@ -6,18 +6,18 @@
  *
  */
 
+import { TFunction } from 'i18next';
 import { useContext, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
-import { TFunction } from 'i18next';
 import { useTracker } from '@ndla/tracker';
 import { Programme } from '@ndla/ui';
+import { AuthContext } from '../../components/AuthenticationContext';
+import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { SKIP_TO_CONTENT_ID } from '../../constants';
 import { LocaleType } from '../../interfaces';
 import { htmlTitle } from '../../util/titleHelper';
 import { getAllDimensions } from '../../util/trackingUtil';
-import SocialMediaMetadata from '../../components/SocialMediaMetadata';
-import { AuthContext } from '../../components/AuthenticationContext';
 
 const getDocumentTitle = (title: string, grade: string, t: TFunction) => {
   return htmlTitle(`${title} - ${grade}`, [t('htmlTitles.titleTemplate')]);

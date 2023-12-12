@@ -13,19 +13,19 @@ import { CSS } from '@dnd-kit/utilities';
 import { FolderOutlined } from '@ndla/icons/contentType';
 import { DeleteForever, Link } from '@ndla/icons/editor';
 import { BlockResource, ListResource, useSnack } from '@ndla/ui';
+import { DraggableListItem, DragWrapper } from './DraggableFolder';
+import DragHandle from './DragHandle';
+import { ViewType } from './FoldersPage';
+import { AuthContext } from '../../../components/AuthenticationContext';
+import { AddResourceToFolderModalContent } from '../../../components/MyNdla/AddResourceToFolderModal';
 import config from '../../../config';
 import {
   GQLFolder,
   GQLFolderResource,
   GQLFolderResourceMeta,
 } from '../../../graphqlTypes';
-import { DraggableListItem, DragWrapper } from './DraggableFolder';
-import DragHandle from './DragHandle';
-import { ViewType } from './FoldersPage';
-import { AuthContext } from '../../../components/AuthenticationContext';
-import SettingsMenu, { MenuItemProps } from '../components/SettingsMenu';
-import { AddResourceToFolderModalContent } from '../../../components/MyNdla/AddResourceToFolderModal';
 import DeleteModalContent from '../components/DeleteModalContent';
+import SettingsMenu, { MenuItemProps } from '../components/SettingsMenu';
 import { useDeleteFolderResourceMutation } from '../folderMutations';
 
 interface Props {

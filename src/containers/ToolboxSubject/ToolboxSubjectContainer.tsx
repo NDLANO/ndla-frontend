@@ -6,7 +6,13 @@
  *
  */
 
+import { TFunction } from 'i18next';
+import { useEffect, createRef, useState, useMemo, useContext } from 'react';
+import { Helmet } from 'react-helmet-async';
+import { useTranslation } from 'react-i18next';
 import { gql } from '@apollo/client';
+import styled from '@emotion/styled';
+import { spacing } from '@ndla/core';
 import { useTracker } from '@ndla/tracker';
 import {
   HomeBreadcrumb,
@@ -15,20 +21,14 @@ import {
   SubjectBanner,
   ToolboxInfo,
 } from '@ndla/ui';
-import { useEffect, createRef, useState, useMemo, useContext } from 'react';
-import { Helmet } from 'react-helmet-async';
-import { useTranslation } from 'react-i18next';
-import { TFunction } from 'i18next';
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
+import { ToolboxTopicContainer } from './components/ToolboxTopicContainer';
+import { AuthContext } from '../../components/AuthenticationContext';
+import SocialMediaMetadata from '../../components/SocialMediaMetadata';
+import { SKIP_TO_CONTENT_ID } from '../../constants';
 import { GQLToolboxSubjectContainer_SubjectFragment } from '../../graphqlTypes';
 import { removeUrn, toTopic } from '../../routeHelpers';
 import { htmlTitle } from '../../util/titleHelper';
 import { getAllDimensions } from '../../util/trackingUtil';
-import { ToolboxTopicContainer } from './components/ToolboxTopicContainer';
-import SocialMediaMetadata from '../../components/SocialMediaMetadata';
-import { SKIP_TO_CONTENT_ID } from '../../constants';
-import { AuthContext } from '../../components/AuthenticationContext';
 
 interface Props {
   subject: GQLToolboxSubjectContainer_SubjectFragment;

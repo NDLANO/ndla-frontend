@@ -1,14 +1,16 @@
-/*
+/**
  * Copyright (c) 2019-present, NDLA.
+ *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
+ *
  */
 import { useEffect, useState } from 'react';
-import { ButtonV2 } from '@ndla/button';
 import { useTranslation } from 'react-i18next';
+import { ButtonV2 } from '@ndla/button';
 import config from '../../config';
-import { resolveJsonOrRejectWithError } from '../../util/apiHelpers';
 import { LtiData, LtiItem } from '../../interfaces';
+import { resolveJsonOrRejectWithError } from '../../util/apiHelpers';
 
 const getSignature = async (
   contentItemReturnUrl: string | undefined,

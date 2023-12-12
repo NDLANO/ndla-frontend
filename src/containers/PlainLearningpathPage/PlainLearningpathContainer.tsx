@@ -6,21 +6,21 @@
  *
  */
 
-import { gql } from '@apollo/client';
-import { useTracker } from '@ndla/tracker';
+import { TFunction } from 'i18next';
 import { useContext, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
-import { TFunction } from 'i18next';
 import { useNavigate } from 'react-router-dom';
+import { gql } from '@apollo/client';
+import { useTracker } from '@ndla/tracker';
+import { AuthContext } from '../../components/AuthenticationContext';
+import Learningpath from '../../components/Learningpath';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { GQLPlainLearningpathContainer_LearningpathFragment } from '../../graphqlTypes';
 import { toLearningPath } from '../../routeHelpers';
 import { htmlTitle } from '../../util/titleHelper';
 import { getAllDimensions } from '../../util/trackingUtil';
-import Learningpath from '../../components/Learningpath';
 import ErrorPage from '../ErrorPage';
-import { AuthContext } from '../../components/AuthenticationContext';
 
 const getDocumentTitle = (learningpath: Props['learningpath'], t: TFunction) =>
   htmlTitle(learningpath.title, [t('htmlTitles.titleTemplate')]);

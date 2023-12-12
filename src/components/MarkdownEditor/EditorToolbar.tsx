@@ -6,8 +6,6 @@
  *
  */
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import {
   $getSelection,
   $isRangeSelection,
@@ -21,8 +19,9 @@ import {
   COMMAND_PRIORITY_NORMAL,
   KEY_MODIFIER_COMMAND,
 } from 'lexical';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import { $isAtNodeEnd } from '@lexical/selection';
 import { $isLinkNode, TOGGLE_LINK_COMMAND } from '@lexical/link';
 import {
   $isListNode,
@@ -31,12 +30,13 @@ import {
   ListNode,
   REMOVE_LIST_COMMAND,
 } from '@lexical/list';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { $isAtNodeEnd } from '@lexical/selection';
 import {
   $findMatchingParent,
   mergeRegister,
   $getNearestNodeOfType,
 } from '@lexical/utils';
-import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { IconButtonV2 } from '@ndla/button';
 import { colors, misc, spacing } from '@ndla/core';
 import {

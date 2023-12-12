@@ -6,26 +6,26 @@
  *
  */
 
-import { gql } from '@apollo/client';
-import { useTranslation } from 'react-i18next';
-import { TFunction } from 'i18next';
 import parse from 'html-react-parser';
-import { Topic } from '@ndla/ui';
-import { useTracker } from '@ndla/tracker';
+import { TFunction } from 'i18next';
 import { useContext, useEffect, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { gql } from '@apollo/client';
 import { extractEmbedMeta } from '@ndla/article-converter';
-import { toTopic } from '../../../routeHelpers';
-import Resources from '../../Resources/Resources';
+import { useTracker } from '@ndla/tracker';
+import { Topic } from '@ndla/ui';
+import { AuthContext } from '../../../components/AuthenticationContext';
+import { SKIP_TO_CONTENT_ID } from '../../../constants';
 import {
   GQLToolboxTopicWrapper_ResourceTypeDefinitionFragment,
   GQLToolboxTopicWrapper_SubjectFragment,
   GQLToolboxTopicWrapper_TopicFragment,
 } from '../../../graphqlTypes';
-import { getAllDimensions } from '../../../util/trackingUtil';
+import { toTopic } from '../../../routeHelpers';
 import { htmlTitle } from '../../../util/titleHelper';
-import { SKIP_TO_CONTENT_ID } from '../../../constants';
+import { getAllDimensions } from '../../../util/trackingUtil';
+import Resources from '../../Resources/Resources';
 import TopicVisualElementContent from '../../SubjectPage/components/TopicVisualElementContent';
-import { AuthContext } from '../../../components/AuthenticationContext';
 
 interface Props {
   subject: GQLToolboxTopicWrapper_SubjectFragment;

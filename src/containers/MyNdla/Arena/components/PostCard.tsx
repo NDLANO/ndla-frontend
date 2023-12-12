@@ -6,15 +6,9 @@
  *
  */
 
+import { formatDistanceStrict } from 'date-fns';
+import { nb, nn, enGB } from 'date-fns/locale';
 import parse from 'html-react-parser';
-import styled from '@emotion/styled';
-import { colors, spacing, misc, mq, breakpoints } from '@ndla/core';
-import { Pencil, TrashCanOutline } from '@ndla/icons/action';
-import { ReportOutlined } from '@ndla/icons/common';
-import { Switch } from '@ndla/switch';
-import { Text, Heading } from '@ndla/typography';
-import { useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import {
   Dispatch,
   SetStateAction,
@@ -22,29 +16,36 @@ import {
   useContext,
   useMemo,
 } from 'react';
-import { nb, nn, enGB } from 'date-fns/locale';
-import { formatDistanceStrict } from 'date-fns';
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+import styled from '@emotion/styled';
+import { colors, spacing, misc, mq, breakpoints } from '@ndla/core';
+import { Pencil, TrashCanOutline } from '@ndla/icons/action';
+import { ReportOutlined } from '@ndla/icons/common';
+import { Switch } from '@ndla/switch';
+import { Text, Heading } from '@ndla/typography';
 import { useSnack } from '@ndla/ui';
-import UserProfileTag from '../../components/UserProfileTag';
-import SettingsMenu, { MenuItemProps } from '../../components/SettingsMenu';
-import ArenaTextModal, { ArenaTextModalContent } from './ArenaTextModal';
 import { ArenaFormValues } from './ArenaForm';
+import ArenaTextModal, { ArenaTextModalContent } from './ArenaTextModal';
+import FlagPostModalContent from './FlagPostModalContent';
+import { AuthContext } from '../../../../components/AuthenticationContext';
+import { SKIP_TO_CONTENT_ID } from '../../../../constants';
+import {
+  GQLArenaPostFragment,
+  GQLArenaTopicByIdQuery,
+} from '../../../../graphqlTypes';
+import { formatDateTime } from '../../../../util/formatDate';
 import {
   useDeletePost,
   useDeleteTopic,
   useReplyToTopic,
   useUpdatePost,
 } from '../../arenaMutations';
-import DeleteModalContent from '../../components/DeleteModalContent';
-import FlagPostModalContent from './FlagPostModalContent';
 import { arenaCategoryQuery, arenaTopicById } from '../../arenaQueries';
-import { SKIP_TO_CONTENT_ID } from '../../../../constants';
-import { AuthContext } from '../../../../components/AuthenticationContext';
+import DeleteModalContent from '../../components/DeleteModalContent';
+import SettingsMenu, { MenuItemProps } from '../../components/SettingsMenu';
+import UserProfileTag from '../../components/UserProfileTag';
 import { capitalizeFirstLetter, toArena, toArenaCategory } from '../utils';
-import {
-  GQLArenaPostFragment,
-  GQLArenaTopicByIdQuery,
-} from '../../../../graphqlTypes';
 
 interface Props {
   onFollowChange: (value: boolean) => void;
@@ -54,14 +55,14 @@ interface Props {
   setFocusId: Dispatch<SetStateAction<number | undefined>>;
 }
 
-const StyledCardContainer = styled.div`
+const PostCardWrapper = styled.div`
   background-color: ${colors.background.lightBlue};
   border: ${colors.brand.light} solid 1px;
   border-radius: ${misc.borderRadius};
   padding: ${spacing.normal};
 `;
 
-const StyledTopContainer = styled.div`
+const PostHeader = styled.div`
   display: flex;
   justify-content: space-between;
   ${mq.range({ until: breakpoints.desktop })} {
@@ -71,26 +72,34 @@ const StyledTopContainer = styled.div`
 
 const StyledSwitch = styled(Switch)`
   align-self: flex-start;
+  border: 2px solid transparent;
+  border-radius: ${misc.borderRadius};
   padding: ${spacing.xsmall};
   ${mq.range({ until: breakpoints.desktop })} {
     align-self: flex-end;
     margin-bottom: ${spacing.small};
   }
+  &:focus,
+  &:focus-visible,
+  &:focus-within {
+    border-color: ${colors.brand.dark};
+  }
 `;
 
-const StyledContentContainer = styled.div`
+const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${spacing.small};
   margin: ${spacing.normal} 0;
 `;
 
-const BottomContainer = styled.div`
+const FlexLine = styled.div`
   display: flex;
+  gap: ${spacing.normal};
   justify-content: space-between;
 `;
 
-const StyledTimestamp = styled(Text)`
+const TimestampText = styled(Text)`
   align-self: center;
 `;
 
@@ -268,6 +277,7 @@ const PostCard = ({
     return (
       <SettingsMenu
         menuItems={isCorrectUser ? [update, deleteItem] : [report]}
+        modalHeader={t('myNdla.tools')}
       />
     );
   }, [
@@ -295,9 +305,44 @@ const PostCard = ({
     [replyToTopic, topicId, setFocusId],
   );
 
+  const timeDistance = formatDistanceStrict(Date.parse(timestamp), Date.now(), {
+    addSuffix: true,
+    locale: Locales[language],
+    roundingMethod: 'floor',
+  });
+
+  const postTime = (
+    <TimestampText element="span" textStyle="content-alt" margin="none">
+      <span title={formatDateTime(timestamp, language)}>
+        {`${capitalizeFirstLetter(timeDistance)}`}
+      </span>
+    </TimestampText>
+  );
+
+  const options = (isMainPost: Boolean) => {
+    if (isMainPost) {
+      return (
+        <>
+          <FlexLine>
+            {menu}
+            {postTime}
+          </FlexLine>
+          <ArenaTextModal type="post" onSave={createReply} />
+        </>
+      );
+    } else {
+      return (
+        <>
+          {postTime}
+          {menu}
+        </>
+      );
+    }
+  };
+
   return (
-    <StyledCardContainer id={`post-${postId}`}>
-      <StyledTopContainer>
+    <PostCardWrapper id={`post-${postId}`}>
+      <PostHeader>
         <UserProfileTag
           displayName={displayName}
           username={username}
@@ -311,8 +356,8 @@ const PostCard = ({
             id={t('myNdla.arena.posts.notify')}
           />
         )}
-      </StyledTopContainer>
-      <StyledContentContainer>
+      </PostHeader>
+      <ContentWrapper>
         {isMainPost && (
           <Heading
             element="h1"
@@ -323,26 +368,12 @@ const PostCard = ({
             {topic?.title}
           </Heading>
         )}
-        <Text element="p" textStyle="content-alt" margin="none">
+        <Text element="div" textStyle="content-alt" margin="none">
           {parse(content)}
         </Text>
-      </StyledContentContainer>
-      <BottomContainer>
-        {!isMainPost && (
-          <StyledTimestamp element="p" textStyle="content-alt" margin="none">
-            {`${capitalizeFirstLetter(
-              formatDistanceStrict(Date.parse(timestamp), Date.now(), {
-                addSuffix: true,
-                locale: Locales[language],
-                roundingMethod: 'floor',
-              }),
-            )}`}
-          </StyledTimestamp>
-        )}
-        {menu}
-        {isMainPost && <ArenaTextModal type="post" onSave={createReply} />}
-      </BottomContainer>
-    </StyledCardContainer>
+      </ContentWrapper>
+      <FlexLine>{options(isMainPost)}</FlexLine>
+    </PostCardWrapper>
   );
 };
 

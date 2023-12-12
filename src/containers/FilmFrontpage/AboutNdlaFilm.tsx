@@ -22,12 +22,12 @@ import {
 import { Heading, Text } from '@ndla/typography';
 import { Image } from '@ndla/ui';
 import Article from '../../components/Article';
+import { GQLArticle_ArticleFragment } from '../../graphqlTypes';
 import {
   BaseArticle,
   TransformedBaseArticle,
   transformArticle,
 } from '../../util/transformArticle';
-import { GQLArticle_ArticleFragment } from '../../graphqlTypes';
 
 const StyledAside = styled.aside`
   background: ${colors.brand.dark};

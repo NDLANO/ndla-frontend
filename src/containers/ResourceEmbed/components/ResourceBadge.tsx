@@ -1,13 +1,15 @@
 /**
- * Copyright (C) 2023 -present, NDLA
+ * Copyright (c) 2023-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
+ *
  */
 
 import { ElementType, HTMLAttributes } from 'react';
 import styled from '@emotion/styled';
 import { breakpoints, colors, mq, spacing } from '@ndla/core';
+import { Podcast } from '@ndla/icons/common';
 import {
   Concept,
   H5PBold,
@@ -15,7 +17,6 @@ import {
   SquareAudio,
   SquareVideo,
 } from '@ndla/icons/editor';
-import { Podcast } from '@ndla/icons/common';
 import { EmbedType } from './ResourceEmbedWrapper';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
