@@ -60,6 +60,9 @@ const StyledNavList = styled.ul`
 `;
 
 const StyledLi = styled.li`
+  a {
+    min-width: 75px;
+  }
   p {
     font-weight: ${fonts.weight.semibold};
   }
@@ -71,8 +74,6 @@ const StyledLi = styled.li`
   margin: 0;
   ${mq.range({ from: breakpoints.mobileWide })} {
     display: unset !important;
-  }
-  ${mq.range({ until: breakpoints.mobileWide })} {
   }
   [aria-current='page'] p {
     font-weight: ${fonts.weight.bold};
