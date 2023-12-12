@@ -72,10 +72,17 @@ const PostHeader = styled.div`
 
 const StyledSwitch = styled(Switch)`
   align-self: flex-start;
+  border: 2px solid transparent;
+  border-radius: ${misc.borderRadius};
   padding: ${spacing.xsmall};
   ${mq.range({ until: breakpoints.desktop })} {
     align-self: flex-end;
     margin-bottom: ${spacing.small};
+  }
+  &:focus,
+  &:focus-visible,
+  &:focus-within {
+    border-color: ${colors.brand.dark};
   }
 `;
 
