@@ -88,6 +88,7 @@ const ContentWrapper = styled.div`
 
 const FlexLine = styled.div`
   display: flex;
+  gap: ${spacing.normal};
   justify-content: space-between;
 `;
 
