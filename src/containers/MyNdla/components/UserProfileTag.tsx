@@ -15,6 +15,7 @@ import Avatar from './Avatar';
 import config from '../../../config';
 import { GQLArenaUser } from '../../../graphqlTypes';
 import { toMyNdlaArenaUser } from '../../../routeHelpers';
+import { useArenaUser } from '../arenaQueries';
 
 type UserProfileTagProps = {
   displayName: string;
