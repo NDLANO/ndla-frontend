@@ -6,25 +6,25 @@
  *
  */
 
-import { gql } from '@apollo/client';
 import { useContext } from 'react';
 import { useLocation } from 'react-router-dom';
+import { gql } from '@apollo/client';
 import { ContentPlaceholder } from '@ndla/ui';
-import DefaultErrorMessage from '../../components/DefaultErrorMessage';
-import NotFoundPage from '../NotFoundPage/NotFoundPage';
-import { useGraphQuery } from '../../util/runQueries';
-import { isAccessDeniedError } from '../../util/handleError';
-import AccessDeniedPage from '../AccessDeniedPage/AccessDeniedPage';
 import PlainArticleContainer, {
   plainArticleContainerFragments,
 } from './PlainArticleContainer';
+import DefaultErrorMessage from '../../components/DefaultErrorMessage';
+import RedirectContext from '../../components/RedirectContext';
+import { SKIP_TO_CONTENT_ID } from '../../constants';
 import {
   GQLPlainArticlePageQuery,
   GQLPlainArticlePageQueryVariables,
 } from '../../graphqlTypes';
 import { TypedParams, useTypedParams } from '../../routeHelpers';
-import { SKIP_TO_CONTENT_ID } from '../../constants';
-import RedirectContext from '../../components/RedirectContext';
+import { isAccessDeniedError } from '../../util/handleError';
+import { useGraphQuery } from '../../util/runQueries';
+import AccessDeniedPage from '../AccessDeniedPage/AccessDeniedPage';
+import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
 interface MatchParams extends TypedParams {
   articleId: string;

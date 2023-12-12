@@ -7,12 +7,12 @@
  */
 
 import { Navigate } from 'react-router-dom';
+import SubjectPage from './SubjectPage';
 import { useUrnIds } from '../../routeHelpers';
 import NdlaFilm from '../FilmFrontpage/NdlaFilmFrontpage';
 import MultidisciplinarySubjectArticlePage from '../MultidisciplinarySubject/MultidisciplinarySubjectArticlePage';
 import MultidisciplinarySubjectPage from '../MultidisciplinarySubject/MultidisciplinarySubjectPage';
 import ToolboxSubjectPage from '../ToolboxSubject/ToolboxSubjectPage';
-import SubjectPage from './SubjectPage';
 
 const SubjectRouting = () => {
   const { topicList, subjectType } = useUrnIds();

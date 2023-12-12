@@ -7,25 +7,25 @@
  */
 
 import { useEffect } from 'react';
-import { Content, PageContainer, useMastheadHeight } from '@ndla/ui';
-import ZendeskButton from '@ndla/zendesk';
-import { colors, spacing } from '@ndla/core';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { css, Global } from '@emotion/react';
 import { matchPath, Outlet, useLocation } from 'react-router-dom';
-import Masthead from '../Masthead';
-import config from '../../config';
+import { css, Global } from '@emotion/react';
+import styled from '@emotion/styled';
+import { colors, spacing } from '@ndla/core';
+import { Content, PageContainer, useMastheadHeight } from '@ndla/ui';
+import ZendeskButton from '@ndla/zendesk';
 import FeideFooter from './components/FeideFooter';
 import Footer from './components/Footer';
-import { useIsNdlaFilm, useUrnIds } from '../../routeHelpers';
-import { usePrevious } from '../../util/utilityHooks';
 import TitleAnnouncer from './components/TitleAnnouncer';
 import {
   defaultValue,
   useVersionHash,
 } from '../../components/VersionHashContext';
+import config from '../../config';
+import { useIsNdlaFilm, useUrnIds } from '../../routeHelpers';
+import { usePrevious } from '../../util/utilityHooks';
+import Masthead from '../Masthead';
 
 const ZendeskWrapper = styled.div`
   z-index: 10;

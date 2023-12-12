@@ -1,17 +1,24 @@
-import { gql } from '@apollo/client';
+/**
+ * Copyright (c) 2020-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
 import { Dispatch, SetStateAction } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { gql } from '@apollo/client';
 import { Spinner } from '@ndla/icons';
 import { SimpleBreadcrumbItem } from '@ndla/ui';
 import Topic, { topicFragments } from './Topic';
-import { useGraphQuery } from '../../../util/runQueries';
-import handleError, { isAccessDeniedError } from '../../../util/handleError';
 import {
   GQLTopicWrapperQuery,
   GQLTopicWrapperQueryVariables,
   GQLTopicWrapper_SubjectFragment,
 } from '../../../graphqlTypes';
 import { removeUrn } from '../../../routeHelpers';
+import handleError, { isAccessDeniedError } from '../../../util/handleError';
+import { useGraphQuery } from '../../../util/runQueries';
 
 type Props = {
   topicId: string;

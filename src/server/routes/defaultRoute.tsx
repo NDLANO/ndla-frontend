@@ -6,36 +6,36 @@
  *
  */
 
-import { FilledContext, HelmetProvider } from 'react-helmet-async';
-import { StaticRouter } from 'react-router-dom/server.js';
-import { Request } from 'express';
-import { I18nextProvider } from 'react-i18next';
-import { getSelectorsByUserAgent } from 'react-device-detect';
-import { i18nInstance } from '@ndla/ui';
 import url from 'url';
+import { Request } from 'express';
+import { getSelectorsByUserAgent } from 'react-device-detect';
+import { FilledContext, HelmetProvider } from 'react-helmet-async';
+import { I18nextProvider } from 'react-i18next';
+import { StaticRouter } from 'react-router-dom/server.js';
 import { ApolloProvider } from '@apollo/client';
-import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
+import { CacheProvider } from '@emotion/react';
+import { i18nInstance } from '@ndla/ui';
 import { getCookie } from '@ndla/util';
 
+import App from '../../App';
 import RedirectContext, {
   RedirectInfo,
 } from '../../components/RedirectContext';
-import App from '../../App';
+import { VersionHashProvider } from '../../components/VersionHashContext';
 import config from '../../config';
-import { createApolloClient } from '../../util/apiHelpers';
+import { EmotionCacheKey, STORED_LANGUAGE_COOKIE_KEY } from '../../constants';
 import {
   getLocaleInfoFromPath,
   initializeI18n,
   isValidLocale,
 } from '../../i18n';
-import { renderHtml, renderPageWithData } from '../helpers/render';
-import { EmotionCacheKey, STORED_LANGUAGE_COOKIE_KEY } from '../../constants';
-import { VersionHashProvider } from '../../components/VersionHashContext';
-import { TEMPORARY_REDIRECT } from '../../statusCodes';
-import { Assets } from '../helpers/Document';
 import { LocaleType } from '../../interfaces';
+import { TEMPORARY_REDIRECT } from '../../statusCodes';
 import { UserAgentProvider } from '../../UserAgentContext';
+import { createApolloClient } from '../../util/apiHelpers';
+import { Assets } from '../helpers/Document';
+import { renderHtml, renderPageWithData } from '../helpers/render';
 
 //@ts-ignore
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST); //eslint-disable-line

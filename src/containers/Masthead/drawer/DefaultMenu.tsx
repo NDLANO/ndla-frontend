@@ -6,13 +6,19 @@
  *
  */
 
+import { useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { gql } from '@apollo/client';
 import styled from '@emotion/styled';
 import { IconButtonV2 } from '@ndla/button';
 import { breakpoints, colors, mq, spacing } from '@ndla/core';
 import { Back, Home } from '@ndla/icons/common';
-import { useCallback } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useDrawerContext } from './DrawerContext';
+import DrawerMenuItem from './DrawerMenuItem';
+import { MenuType } from './drawerMenuTypes';
+import DrawerPortion, { DrawerList } from './DrawerPortion';
+import DrawerRowHeader from './DrawerRowHeader';
+import useArrowNavigation from './useArrowNavigation';
 import {
   FILM_PAGE_PATH,
   MULTIDISCIPLINARY_SUBJECT_ID,
@@ -25,12 +31,6 @@ import {
 } from '../../../graphqlTypes';
 import { removeUrn } from '../../../routeHelpers';
 import { usePrevious } from '../../../util/utilityHooks';
-import { useDrawerContext } from './DrawerContext';
-import DrawerMenuItem from './DrawerMenuItem';
-import { MenuType } from './drawerMenuTypes';
-import DrawerPortion, { DrawerList } from './DrawerPortion';
-import DrawerRowHeader from './DrawerRowHeader';
-import useArrowNavigation from './useArrowNavigation';
 
 const StyledCollapsedMenu = styled.div`
   display: flex;

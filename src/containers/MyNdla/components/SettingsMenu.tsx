@@ -14,10 +14,19 @@ import {
   useRef,
   RefObject,
 } from 'react';
-import styled from '@emotion/styled';
 import { isMobile, isTablet } from 'react-device-detect';
 import { useTranslation } from 'react-i18next';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 import { IconButtonV2, ButtonV2 } from '@ndla/button';
+import { breakpoints, colors, fonts, misc, mq, spacing } from '@ndla/core';
+import {
+  DropdownMenu,
+  DropdownItem,
+  DropdownContent,
+  DropdownTrigger,
+} from '@ndla/dropdown-menu';
+import { HorizontalMenu } from '@ndla/icons/contentType';
 import {
   Drawer,
   Modal,
@@ -26,14 +35,7 @@ import {
   ModalHeader,
   ModalTrigger,
 } from '@ndla/modal';
-import { HorizontalMenu } from '@ndla/icons/contentType';
-import { breakpoints, colors, fonts, misc, mq, spacing } from '@ndla/core';
-import {
-  DropdownMenu,
-  DropdownItem,
-  DropdownContent,
-  DropdownTrigger,
-} from '@ndla/dropdown-menu';
+import { SafeLinkButton } from '@ndla/safelink';
 
 export interface MenuItemProps {
   icon?: ReactNode;
@@ -49,6 +51,7 @@ export interface MenuItemProps {
     setSkipAutoFocus: VoidFunction,
   ) => ReactNode;
   modality?: boolean;
+  link?: string;
 }
 
 interface Props {
@@ -106,7 +109,7 @@ const ItemButton = styled(ButtonV2)`
   display: flex;
   align-items: center;
   color: ${colors.text.primary};
-  ${fonts.sizes('16px', '16px')};
+  ${fonts.sizes(spacing.nsmall, spacing.nsmall)}
   justify-content: flex-start;
   &[data-type='danger'] {
     color: ${colors.support.red};
@@ -121,6 +124,16 @@ const ItemButton = styled(ButtonV2)`
   &[data-type='primary'] {
     color: ${colors.brand.primary};
   }
+`;
+
+export const linkCss = css`
+  color: ${colors.text.primary};
+  padding: ${spacing.xxsmall} ${spacing.xsmall};
+  display: flex;
+  justify-content: flex-start;
+  font-weight: normal;
+  min-height: 32px;
+  ${fonts.sizes(spacing.nsmall, spacing.nsmall)}
 `;
 
 const SettingsMenu = ({ menuItems, modalHeader }: Props) => {
@@ -264,20 +277,36 @@ const SettingsMenu = ({ menuItems, modalHeader }: Props) => {
                 }
               }}
             >
-              <ItemButton
-                colorTheme={item.type === 'danger' ? 'danger' : 'light'}
-                disabled={item.disabled}
-                shape="sharp"
-                variant="ghost"
-                size="small"
-                fontWeight="normal"
-                data-type={item.type}
-                onClick={item.onClick}
-                ref={item.ref}
-              >
-                {item.icon}
-                {item.text}
-              </ItemButton>
+              {item.link ? (
+                <SafeLinkButton
+                  tabIndex={-1}
+                  role="menuitem"
+                  key={item.text}
+                  css={linkCss}
+                  variant="ghost"
+                  colorTheme="lighter"
+                  to={item.link}
+                  aria-label={t('myNdla.folder.sharing.button.preview')}
+                >
+                  {item.icon}
+                  {item.text}
+                </SafeLinkButton>
+              ) : (
+                <ItemButton
+                  colorTheme={item.type === 'danger' ? 'danger' : 'light'}
+                  disabled={item.disabled}
+                  shape="sharp"
+                  variant="ghost"
+                  size="small"
+                  fontWeight="normal"
+                  data-type={item.type}
+                  onClick={item.onClick}
+                  ref={item.ref}
+                >
+                  {item.icon}
+                  {item.text}
+                </ItemButton>
+              )}
             </DropdownItem>
           </Item>
         ))}

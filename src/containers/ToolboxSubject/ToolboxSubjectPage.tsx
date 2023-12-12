@@ -8,16 +8,16 @@
 
 import { gql } from '@apollo/client';
 import { ContentPlaceholder } from '@ndla/ui';
-import { useUrnIds } from '../../routeHelpers';
-import { useGraphQuery } from '../../util/runQueries';
+import ToolboxSubjectContainer, {
+  toolboxSubjectContainerFragments,
+} from './ToolboxSubjectContainer';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import {
   GQLToolboxSubjectPageQuery,
   GQLToolboxSubjectPageQueryVariables,
 } from '../../graphqlTypes';
-import ToolboxSubjectContainer, {
-  toolboxSubjectContainerFragments,
-} from './ToolboxSubjectContainer';
+import { useUrnIds } from '../../routeHelpers';
+import { useGraphQuery } from '../../util/runQueries';
 
 const toolboxSubjectPageQuery = gql`
   query toolboxSubjectPage($subjectId: String!) {

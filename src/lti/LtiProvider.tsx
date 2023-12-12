@@ -12,21 +12,21 @@ import { useTranslation } from 'react-i18next';
 import { useApolloClient } from '@apollo/client';
 import { setCookie } from '@ndla/util';
 
-import SearchInnerPage from '../containers/SearchPage/SearchInnerPage';
-import ErrorPage from '../containers/ErrorPage/ErrorPage';
-import handleError from '../util/handleError';
-import { searchPageQuery } from '../queries';
-import ErrorBoundary from '../containers/ErrorPage/ErrorBoundary';
-import { useGraphQuery } from '../util/runQueries';
-import { searchSubjects } from '../util/searchHelpers';
+import { useLtiData } from '../components/LtiContext';
 import {
   RESOURCE_TYPE_LEARNING_PATH,
   STORED_LANGUAGE_COOKIE_KEY,
 } from '../constants';
-import { LocaleType } from '../interfaces';
+import ErrorBoundary from '../containers/ErrorPage/ErrorBoundary';
+import ErrorPage from '../containers/ErrorPage/ErrorPage';
+import SearchInnerPage from '../containers/SearchPage/SearchInnerPage';
 import { GQLSearchPageQuery } from '../graphqlTypes';
+import { LocaleType } from '../interfaces';
+import { searchPageQuery } from '../queries';
 import { createApolloLinks } from '../util/apiHelpers';
-import { useLtiData } from '../components/LtiContext';
+import handleError from '../util/handleError';
+import { useGraphQuery } from '../util/runQueries';
+import { searchSubjects } from '../util/searchHelpers';
 
 interface Props {
   locale?: LocaleType;

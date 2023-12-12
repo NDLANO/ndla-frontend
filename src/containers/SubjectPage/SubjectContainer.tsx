@@ -6,10 +6,16 @@
  *
  */
 
-import { gql } from '@apollo/client';
+import { TFunction } from 'i18next';
 import { useState, createRef, useEffect, useContext } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { useTranslation } from 'react-i18next';
+import { gql } from '@apollo/client';
+import styled from '@emotion/styled';
+import { colors, spacing } from '@ndla/core';
 import { InformationOutline } from '@ndla/icons/common';
+import { useTracker } from '@ndla/tracker';
+import { Heading } from '@ndla/typography';
 import {
   constants,
   ArticleHeaderWrapper,
@@ -20,27 +26,21 @@ import {
   SimpleBreadcrumbItem,
   HomeBreadcrumb,
 } from '@ndla/ui';
-import { Heading } from '@ndla/typography';
-import { useTracker } from '@ndla/tracker';
-import { useTranslation } from 'react-i18next';
-import { TFunction } from 'i18next';
-import styled from '@emotion/styled';
-import { colors, spacing } from '@ndla/core';
-import SubjectPageContent from './components/SubjectPageContent';
 import SubjectLinks from './components/SubjectLinks';
-import SocialMediaMetadata from '../../components/SocialMediaMetadata';
+import SubjectPageContent from './components/SubjectPageContent';
+import { AuthContext } from '../../components/AuthenticationContext';
 import CompetenceGoals from '../../components/CompetenceGoals';
-import { getAllDimensions } from '../../util/trackingUtil';
-import { htmlTitle } from '../../util/titleHelper';
-import { GQLSubjectContainer_SubjectFragment } from '../../graphqlTypes';
+import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import {
   SKIP_TO_CONTENT_ID,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE,
 } from '../../constants';
+import { GQLSubjectContainer_SubjectFragment } from '../../graphqlTypes';
 import { removeUrn, useIsNdlaFilm } from '../../routeHelpers';
-import { AuthContext } from '../../components/AuthenticationContext';
+import { htmlTitle } from '../../util/titleHelper';
+import { getAllDimensions } from '../../util/trackingUtil';
 
 type Props = {
   topicIds: string[];

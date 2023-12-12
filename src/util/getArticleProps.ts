@@ -6,8 +6,8 @@
  *
  */
 
-import { GQLResource } from '../graphqlTypes';
 import { getContentType } from './getContentType';
+import { GQLResource } from '../graphqlTypes';
 
 interface Topic {
   supplementaryResources?: { id: string }[];

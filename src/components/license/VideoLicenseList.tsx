@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2016-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -6,8 +6,16 @@
  *
  */
 
+import uniqBy from 'lodash/uniqBy';
+import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Link, useLocation } from 'react-router-dom';
 import { gql } from '@apollo/client';
-import { uuid } from '@ndla/util';
+import {
+  metaTypes,
+  getGroupedContributorDescriptionList,
+} from '@ndla/licenses';
+import { SafeLinkButton } from '@ndla/safelink';
 import {
   MediaList,
   MediaListItem,
@@ -17,23 +25,15 @@ import {
   MediaListItemMeta,
   ItemType,
 } from '@ndla/ui';
-import { SafeLinkButton } from '@ndla/safelink';
-import {
-  metaTypes,
-  getGroupedContributorDescriptionList,
-} from '@ndla/licenses';
-import { useTranslation } from 'react-i18next';
-import { Link, useLocation } from 'react-router-dom';
-import { useMemo } from 'react';
-import uniqBy from 'lodash/uniqBy';
+import { uuid } from '@ndla/util';
 import CopyTextButton from './CopyTextButton';
-import { GQLVideoLicenseList_BrightcoveLicenseFragment } from '../../graphqlTypes';
+import LicenseDescription from './LicenseDescription';
+import { licenseListCopyrightFragment } from './licenseFragments';
 import {
   isCopyrighted,
   licenseCopyrightToCopyrightType,
 } from './licenseHelpers';
-import { licenseListCopyrightFragment } from './licenseFragments';
-import LicenseDescription from './LicenseDescription';
+import { GQLVideoLicenseList_BrightcoveLicenseFragment } from '../../graphqlTypes';
 
 interface VideoLicenseInfoProps {
   video: GQLVideoLicenseList_BrightcoveLicenseFragment;

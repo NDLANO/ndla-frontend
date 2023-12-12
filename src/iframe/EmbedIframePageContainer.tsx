@@ -8,10 +8,10 @@
 
 import { Helmet } from 'react-helmet-async';
 import { PageContainer } from '@ndla/ui';
-import { isValidLocale } from '../i18n';
-import { BaseNameProvider } from '../components/BaseNameContext';
-import { LocaleType } from '../interfaces';
 import EmbedIframePage from './EmbedIframePage';
+import { BaseNameProvider } from '../components/BaseNameContext';
+import { isValidLocale } from '../i18n';
+import { LocaleType } from '../interfaces';
 
 interface Props {
   basename?: string;

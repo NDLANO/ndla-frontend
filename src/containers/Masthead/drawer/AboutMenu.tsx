@@ -6,7 +6,6 @@
  *
  */
 
-import styled from '@emotion/styled';
 import {
   Dispatch,
   SetStateAction,
@@ -16,6 +15,7 @@ import {
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import { gql } from '@apollo/client';
+import styled from '@emotion/styled';
 import BackButton from './BackButton';
 import { useDrawerContext } from './DrawerContext';
 import DrawerMenuItem from './DrawerMenuItem';

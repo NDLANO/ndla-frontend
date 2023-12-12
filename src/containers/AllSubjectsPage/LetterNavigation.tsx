@@ -6,10 +6,10 @@
  *
  */
 
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { buttonStyleV2 } from '@ndla/button';
 import { breakpoints, colors, fonts, misc, mq, spacing } from '@ndla/core';
-import { useTranslation } from 'react-i18next';
 import { subjectLetters } from './utils';
 
 const LetterNavigationWrapper = styled.ul`

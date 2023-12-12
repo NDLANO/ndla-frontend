@@ -1,18 +1,25 @@
+/**
+ * Copyright (c) 2020-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+import { Dispatch, SetStateAction } from 'react';
 import { gql } from '@apollo/client';
 import { Spinner } from '@ndla/icons';
 import { SimpleBreadcrumbItem } from '@ndla/ui';
-import { Dispatch, SetStateAction } from 'react';
-import { useGraphQuery } from '../../../util/runQueries';
 import MultidisciplinaryTopic, {
   multidisciplinaryTopicFragments,
 } from './MultidisciplinaryTopic';
+import DefaultErrorMessage from '../../../components/DefaultErrorMessage';
 import {
   GQLMultidisciplinaryTopicWrapperQuery,
   GQLMultidisciplinaryTopicWrapperQueryVariables,
   GQLMultidisciplinaryTopic_SubjectFragment,
 } from '../../../graphqlTypes';
-import DefaultErrorMessage from '../../../components/DefaultErrorMessage';
 import { removeUrn } from '../../../routeHelpers';
+import { useGraphQuery } from '../../../util/runQueries';
 
 interface Props {
   topicId: string;

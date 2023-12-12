@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2023-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -6,7 +6,6 @@
  *
  */
 
-import { MarkdownShortcutPlugin } from '@lexical/react/LexicalMarkdownShortcutPlugin';
 import {
   ORDERED_LIST,
   UNORDERED_LIST,
@@ -19,6 +18,7 @@ import {
   LINK,
   Transformer,
 } from '@lexical/markdown';
+import { MarkdownShortcutPlugin } from '@lexical/react/LexicalMarkdownShortcutPlugin';
 
 export const PLAYGROUND_TRANSFORMERS: Array<Transformer> = [
   ORDERED_LIST,

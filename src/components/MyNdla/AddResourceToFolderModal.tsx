@@ -8,7 +8,6 @@
 
 import { ReactNode, useCallback, useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ListResource } from '@ndla/ui';
 import {
   ModalBody,
   ModalCloseButton,
@@ -18,11 +17,12 @@ import {
   ModalTrigger,
   ModalContent,
 } from '@ndla/modal';
+import { ListResource } from '@ndla/ui';
 import AddResourceToFolder, { ResourceAttributes } from './AddResourceToFolder';
-import { AuthContext } from '../AuthenticationContext';
+import LoginModalContent from './LoginModalContent';
 import { useFolderResourceMeta } from '../../containers/MyNdla/folderMutations';
 import { GQLFolder } from '../../graphqlTypes';
-import LoginModalContent from './LoginModalContent';
+import { AuthContext } from '../AuthenticationContext';
 
 interface Props {
   defaultOpenFolder?: GQLFolder;

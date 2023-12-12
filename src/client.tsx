@@ -7,7 +7,14 @@
  */
 
 import './style/index.css';
+//@ts-ignore
+import queryString from 'query-string';
+import { ReactNode, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useDeviceSelectors } from 'react-device-detect';
+import { createRoot, hydrateRoot } from 'react-dom/client';
+import { HelmetProvider } from 'react-helmet-async';
+import { I18nextProvider, useTranslation } from 'react-i18next';
+import { BrowserRouter, MemoryRouter } from 'react-router-dom';
 import { ApolloProvider, useApolloClient } from '@apollo/client';
 import createCache from '@emotion/cache';
 import { CacheProvider } from '@emotion/react';
@@ -27,13 +34,6 @@ import '@fontsource/source-serif-pro/index.css';
 import ErrorReporter from '@ndla/error-reporter';
 import { i18nInstance } from '@ndla/ui';
 import { getCookie, setCookie } from '@ndla/util';
-// @ts-ignore
-import queryString from 'query-string';
-import { ReactNode, useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { HelmetProvider } from 'react-helmet-async';
-import { I18nextProvider, useTranslation } from 'react-i18next';
-import { BrowserRouter, MemoryRouter } from 'react-router-dom';
-import { createRoot, hydrateRoot } from 'react-dom/client';
 import App from './App';
 import { VersionHashProvider } from './components/VersionHashContext';
 import { getDefaultLocale } from './config';
@@ -45,8 +45,8 @@ import {
   supportedLanguages,
 } from './i18n';
 import { NDLAWindow } from './interfaces';
-import { createApolloClient, createApolloLinks } from './util/apiHelpers';
 import { UserAgentProvider } from './UserAgentContext';
+import { createApolloClient, createApolloLinks } from './util/apiHelpers';
 
 declare global {
   interface Window extends NDLAWindow {}

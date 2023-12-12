@@ -6,12 +6,12 @@
  *
  */
 
-import SafeLink, { SafeLinkProps } from '@ndla/safelink';
-import { ButtonV2 } from '@ndla/button';
 import { ReactNode } from 'react';
 import { css } from '@emotion/react';
-import { colors, fonts, misc, spacing } from '@ndla/core';
 import styled from '@emotion/styled';
+import { ButtonV2 } from '@ndla/button';
+import { colors, fonts, misc, spacing } from '@ndla/core';
+import SafeLink, { SafeLinkProps } from '@ndla/safelink';
 import { DrawerListItem } from './DrawerPortion';
 
 interface BaseProps {

@@ -6,9 +6,11 @@
  *
  */
 
-import { gql } from '@apollo/client';
 import format from 'date-fns/format';
+import { gql } from '@apollo/client';
 import { COPYRIGHTED, getLicenseByAbbreviation } from '@ndla/licenses';
+import config from '../config';
+import { AcquireLicensePage } from '../constants';
 import {
   GQLContributor,
   GQLStructuredArticleData_CopyrightFragment,
@@ -18,8 +20,6 @@ import {
   GQLStructuredArticleData_BrightcoveLicenseFragment,
   GQLStructuredArticleData_ImageLicenseFragment,
 } from '../graphqlTypes';
-import config from '../config';
-import { AcquireLicensePage } from '../constants';
 import { Breadcrumb } from '../interfaces';
 
 type CopyrightHolder = { '@type': string; name?: string };

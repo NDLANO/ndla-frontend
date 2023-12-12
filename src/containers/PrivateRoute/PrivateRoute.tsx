@@ -9,8 +9,8 @@ import { ReactElement, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import { NoSSR } from '@ndla/util';
 import { AuthContext } from '../../components/AuthenticationContext';
-import { constructNewPath, toHref } from '../../util/urlHelper';
 import { useBaseName } from '../../components/BaseNameContext';
+import { constructNewPath, toHref } from '../../util/urlHelper';
 
 interface Props {
   element: ReactElement;

@@ -1,4 +1,5 @@
 module.exports = {
+  ignorePatterns: ['**/graphqlTypes.ts'],
   extends: 'eslint-config-ndla',
   overrides: [
     {
