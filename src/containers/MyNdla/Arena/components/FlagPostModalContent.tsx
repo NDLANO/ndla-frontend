@@ -102,7 +102,7 @@ const FlagPostModalContent = ({ id, onClose }: FlagPostModalProps) => {
   return (
     <ModalContent forceOverlay>
       <ModalHeader>
-        <ModalTitle>Rapporter innlegg/kommentar</ModalTitle>
+        <ModalTitle>{t('myNdla.arena.flag.title')}</ModalTitle>
         <ModalCloseButton title={t('myNdla.folder.closeModal')} />
       </ModalHeader>
       <StyledModalBody>
