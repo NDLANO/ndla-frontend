@@ -9,7 +9,7 @@
 import isEqual from 'lodash/isEqual';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
+import { useOutletContext, useParams } from 'react-router-dom';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { breakpoints, fonts, mq, spacing } from '@ndla/core';
@@ -21,6 +21,7 @@ import FolderButtons from './FolderButtons';
 import FolderList from './FolderList';
 import FoldersPageTitle from './FoldersPageTitle';
 import ListViewOptions from './ListViewOptions';
+import FolderViewType from './ListViewOptionsMobile';
 import ResourceList from './ResourceList';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import { STORED_RESOURCE_VIEW_SETTINGS } from '../../../constants';
@@ -29,6 +30,7 @@ import { useGraphQuery } from '../../../util/runQueries';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
 import { foldersPageQuery, useFolder } from '../folderMutations';
+import { OutletContext } from '../MyNdlaLayout';
 
 const FoldersPageContainer = styled.div`
   display: flex;
@@ -119,6 +121,14 @@ const FoldersPage = () => {
   const { data, loading } =
     useGraphQuery<GQLFoldersPageQuery>(foldersPageQuery);
   const selectedFolder = useFolder(folderId);
+  const {
+    setResetFocus,
+    setIsOpen,
+    setButtons,
+    setMenu,
+    setShowButtons,
+    setListView,
+  } = useOutletContext<OutletContext>();
 
   const title = useMemo(() => {
     if (folderId) {
@@ -214,19 +224,40 @@ const FoldersPage = () => {
 
   const folderButtons = useMemo(
     () => (
-      <FolderButtons selectedFolder={selectedFolder} setFocusId={setFocusId} />
+      <FolderButtons
+        setResetFocus={setResetFocus}
+        setIsOpen={setIsOpen}
+        selectedFolder={selectedFolder}
+        setFocusId={setFocusId}
+      />
     ),
-    [selectedFolder, setFocusId],
+    [selectedFolder, setFocusId, setResetFocus, setIsOpen],
   );
 
+  const viewTypeMobile = useMemo(
+    () => <FolderViewType setViewType={setViewType} viewType={viewType} />,
+    [setViewType, viewType],
+  );
+
+  useEffect(() => {
+    setButtons(folderButtons);
+    setMenu(dropDownMenu);
+    setShowButtons(!examLock || !!selectedFolder);
+    setListView(viewTypeMobile);
+  }, [
+    folderButtons,
+    dropDownMenu,
+    examLock,
+    selectedFolder,
+    setButtons,
+    setMenu,
+    setShowButtons,
+    setListView,
+    viewTypeMobile,
+  ]);
+
   return (
-    <MyNdlaPageWrapper
-      dropDownMenu={dropDownMenu}
-      buttons={folderButtons}
-      viewType={viewType}
-      onViewTypeChange={setViewType}
-      showButtons={!examLock || !!selectedFolder}
-    >
+    <MyNdlaPageWrapper>
       <FoldersPageContainer>
         <HelmetWithTracker title={title} />
         <FoldersPageTitle

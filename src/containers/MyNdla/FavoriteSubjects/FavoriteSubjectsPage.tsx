@@ -8,7 +8,7 @@
 
 import { useEffect, useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useOutletContext } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
@@ -22,6 +22,7 @@ import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
 import MyNdlaTitle from '../components/MyNdlaTitle';
 import SettingsMenu from '../components/SettingsMenu';
 import { buttonCss, iconCss } from '../Folders/FoldersPage';
+import { OutletContext } from '../MyNdlaLayout';
 import { useSubjects } from '../subjectQueries';
 
 const StyledSubjectLink = styled(SubjectLink)`
@@ -50,19 +51,12 @@ const FavoriteSubjectsPage = () => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const { trackPageView } = useTracker();
   const navigate = useNavigate();
+  const { setButtons, setMenu } = useOutletContext<OutletContext>();
 
   const favoriteSubjects = useMemo(() => {
     if (loading || !subjects || !user?.favoriteSubjects) return [];
     return subjects.filter((s) => user.favoriteSubjects.includes(s.id));
   }, [loading, user?.favoriteSubjects, subjects]);
-
-  useEffect(() => {
-    if (!authContextLoaded) return;
-    trackPageView({
-      title: t('myNdla.favoriteSubjects.title'),
-      dimensions: getAllDimensions({ user }),
-    });
-  }, [authContextLoaded, t, trackPageView, user]);
 
   const allSubjects = useMemo(
     () => (
@@ -94,18 +88,29 @@ const FavoriteSubjectsPage = () => {
     [t, navigate],
   );
 
+  useEffect(() => {
+    if (!authContextLoaded) return;
+    trackPageView({
+      title: t('myNdla.favoriteSubjects.title'),
+      dimensions: getAllDimensions({ user }),
+    });
+  }, [authContextLoaded, t, trackPageView, user]);
+
+  useEffect(() => {
+    setButtons(allSubjects);
+    setMenu(dropDown);
+  }, [allSubjects, dropDown, setButtons, setMenu]);
+
   if (loading) {
     return <Spinner />;
   }
 
   return (
-    <MyNdlaPageWrapper buttons={allSubjects} dropDownMenu={dropDown}>
+    <MyNdlaPageWrapper>
       <Wrapper>
         <HelmetWithTracker title={t('myNdla.favoriteSubjects.title')} />
         <MyNdlaTitle title={t('myNdla.favoriteSubjects.title')} />
-        {loading ? (
-          <Spinner />
-        ) : !favoriteSubjects?.length ? (
+        {!favoriteSubjects?.length ? (
           <p>{t('myNdla.favoriteSubjects.noFavorites')}</p>
         ) : (
           <StyledUl>

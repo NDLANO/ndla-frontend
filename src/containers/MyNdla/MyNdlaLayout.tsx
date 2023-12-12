@@ -7,7 +7,14 @@
  */
 
 import { TFunction } from 'i18next';
-import { useMemo, useContext, useState, Dispatch, SetStateAction } from 'react';
+import {
+  useMemo,
+  useContext,
+  useState,
+  Dispatch,
+  SetStateAction,
+  ReactNode,
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import { Location, Outlet, useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
@@ -31,6 +38,7 @@ import { Modal, ModalTrigger } from '@ndla/modal';
 import { Text } from '@ndla/typography';
 import { MessageBox } from '@ndla/ui';
 import NavigationLink from './components/NavigationLink';
+import Toolbar from './components/Toolbar';
 import { AuthContext } from '../../components/AuthenticationContext';
 import { toHref } from '../../util/urlHelper';
 
@@ -122,6 +130,10 @@ export interface OutletContext {
   setResetFocus: Dispatch<SetStateAction<boolean>>;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
   resetFocus: boolean;
+  setButtons: Dispatch<SetStateAction<ReactNode>>;
+  setMenu: Dispatch<SetStateAction<ReactNode>>;
+  setShowButtons: Dispatch<SetStateAction<boolean>>;
+  setListView: Dispatch<SetStateAction<ReactNode>>;
 }
 
 const MyNdlaLayout = () => {
@@ -130,6 +142,10 @@ const MyNdlaLayout = () => {
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const [resetFocus, setResetFocus] = useState(false);
+  const [buttons, setButtons] = useState<ReactNode | undefined>(undefined);
+  const [menu, setMenu] = useState<ReactNode | undefined>(undefined);
+  const [listView, setListView] = useState<ReactNode | undefined>(undefined);
+  const [showButtons, setShowButtons] = useState<boolean>(false);
 
   const menuLink = useMemo(
     () =>
@@ -180,7 +196,26 @@ const MyNdlaLayout = () => {
               <MessageBox>{t('myNdla.examLockInfo')}</MessageBox>
             </MessageboxWrapper>
           )}
-          <Outlet context={{ setIsOpen, resetFocus, setResetFocus }} />
+          <Toolbar
+            buttons={buttons}
+            dropDownMenu={menu}
+            showButtons={showButtons}
+            setResetFocus={setResetFocus}
+            resetFocus={resetFocus}
+            setIsOpen={setIsOpen}
+            listView={listView}
+          />
+          <Outlet
+            context={{
+              setIsOpen,
+              resetFocus,
+              setResetFocus,
+              setButtons,
+              setMenu,
+              setShowButtons,
+              setListView,
+            }}
+          />
         </StyledContent>
       </Modal>
     </StyledLayout>

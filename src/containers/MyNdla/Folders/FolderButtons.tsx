@@ -16,7 +16,7 @@ import {
   useState,
 } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate, useParams, useOutletContext } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { ButtonV2 } from '@ndla/button';
 import { Cross, Copy } from '@ndla/icons/action';
 import { Share, ShareArrow } from '@ndla/icons/common';
@@ -40,20 +40,25 @@ import {
   useUpdateFolderStatusMutation,
   useDeleteFolderMutation,
 } from '../folderMutations';
-import { OutletContext } from '../MyNdlaLayout';
 
 interface FolderButtonProps {
   setFocusId: Dispatch<SetStateAction<string | undefined>>;
   selectedFolder: GQLFolder | null;
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
+  setResetFocus: Dispatch<SetStateAction<boolean>>;
 }
 
-const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
+const FolderButtons = ({
+  setFocusId,
+  selectedFolder,
+  setIsOpen,
+  setResetFocus,
+}: FolderButtonProps) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { folderId } = useParams();
   const { addSnack } = useSnack();
   const { examLock, user } = useContext(AuthContext);
-  const { setResetFocus, setIsOpen } = useOutletContext<OutletContext>();
   const userAgent = useUserAgent();
 
   const shareRef = useRef<HTMLButtonElement | null>(null);

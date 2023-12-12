@@ -6,12 +6,10 @@
  *
  */
 
-import { HTMLAttributes, ReactNode } from 'react';
+import { HTMLAttributes } from 'react';
 import styled from '@emotion/styled';
 import { breakpoints, mq, spacing, spacingUnit } from '@ndla/core';
-import Toolbar from './Toolbar';
 import { MY_NDLA_CONTENT_WIDTH } from '../../../constants';
-import { ViewType } from '../Folders/FoldersPage';
 
 const ContentWrapper = styled.div`
   display: flex;
@@ -28,36 +26,12 @@ export const Content = styled.div`
   width: 100%;
 `;
 
-interface Props extends HTMLAttributes<HTMLDivElement> {
-  dropDownMenu?: ReactNode;
-  buttons?: ReactNode;
-  viewType?: ViewType;
-  onViewTypeChange?: (val: ViewType) => void;
-  showButtons?: boolean;
-}
+interface Props extends HTMLAttributes<HTMLDivElement> {}
 
-const MyNdlaPageWrapper = ({
-  buttons,
-  dropDownMenu,
-  onViewTypeChange,
-  viewType,
-  showButtons,
-  children,
-}: Props) => {
-  return (
-    <>
-      <Toolbar
-        buttons={buttons}
-        dropDownMenu={dropDownMenu}
-        onViewTypeChange={onViewTypeChange}
-        viewType={viewType}
-        showButtons={showButtons}
-      />
-      <ContentWrapper>
-        <Content>{children}</Content>
-      </ContentWrapper>
-    </>
-  );
-};
+const MyNdlaPageWrapper = ({ children }: Props) => (
+  <ContentWrapper>
+    <Content>{children}</Content>
+  </ContentWrapper>
+);
 
 export default MyNdlaPageWrapper;

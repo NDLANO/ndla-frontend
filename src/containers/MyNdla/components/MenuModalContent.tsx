@@ -6,13 +6,18 @@
  *
  */
 
-import { ReactNode, useCallback, useContext, useMemo } from 'react';
+import {
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  useCallback,
+  useContext,
+  useMemo,
+} from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation, useOutletContext } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
-import { IconButtonV2 } from '@ndla/button';
 import { spacing, colors, fonts } from '@ndla/core';
-import { FourlineHamburger, List } from '@ndla/icons/action';
 import {
   ModalBody,
   ModalHeader,
@@ -27,8 +32,8 @@ import { BellIcon } from './NotificationButton';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import { toAllNotifications } from '../Arena/utils';
 import { useArenaNotifications } from '../arenaQueries';
-import { ViewType, buttonCss } from '../Folders/FoldersPage';
-import { OutletContext, menuLinks } from '../MyNdlaLayout';
+import { buttonCss } from '../Folders/FoldersPage';
+import { menuLinks } from '../MyNdlaLayout';
 
 const MenuItem = styled.li`
   list-style: none;
@@ -95,26 +100,6 @@ const StyledModalHeader = styled(ModalHeader)`
   background: ${colors.background.lightBlue};
 `;
 
-const ViewButtonWrapper = styled.div`
-  display: flex;
-  gap: ${spacing.xxsmall};
-  padding-left: ${spacing.small};
-`;
-
-const ViewButton = styled(IconButtonV2)`
-  display: flex;
-  flex-direction: column;
-
-  background-color: transparent;
-  color: ${colors.brand.primary};
-  border-radius: ${spacing.xxsmall};
-  border-color: ${colors.brand.light};
-
-  &[aria-current='true'] {
-    background-color: ${colors.brand.lightest};
-  }
-`;
-
 const CloseWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -124,22 +109,25 @@ const CloseWrapper = styled.div`
 `;
 
 interface Props {
-  onViewTypeChange?: (val: ViewType) => void;
-  viewType?: ViewType;
+  listView?: ReactNode;
   buttons?: ReactNode;
   showButtons?: boolean;
+  setResetFocus: Dispatch<SetStateAction<boolean>>;
+  resetFocus: boolean;
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 const MenuModalContent = ({
-  onViewTypeChange,
-  viewType,
+  listView,
   buttons,
+  setIsOpen,
+  resetFocus,
+  setResetFocus,
   showButtons = true,
 }: Props) => {
   const { t } = useTranslation();
   const location = useLocation();
-  const { setIsOpen, resetFocus, setResetFocus } =
-    useOutletContext<OutletContext>();
+
   const { user } = useContext(AuthContext);
   const { notifications } = useArenaNotifications({
     skip: !user?.arenaEnabled,
@@ -228,7 +216,7 @@ const MenuModalContent = ({
             </ToolMenu>
           </>
         )}
-        {!!viewType && (
+        {!!listView && (
           <>
             <StyledText
               data-border-top={showButtons}
@@ -237,28 +225,7 @@ const MenuModalContent = ({
             >
               {t('myNdla.selectView')}
             </StyledText>
-            <ViewButtonWrapper>
-              <ViewButton
-                aria-label={t('myNdla.listView')}
-                aria-current={viewType === 'list'}
-                onClick={() => onViewTypeChange?.('list')}
-              >
-                <FourlineHamburger />
-                <Text textStyle="meta-text-xxsmall" margin="none">
-                  {t('myNdla.simpleList')}
-                </Text>
-              </ViewButton>
-              <ViewButton
-                aria-label={t('myNdla.detailView')}
-                aria-current={viewType === 'listLarger'}
-                onClick={() => onViewTypeChange?.('listLarger')}
-              >
-                <List />
-                <Text textStyle="meta-text-xxsmall" margin="none">
-                  {t('myNdla.detailedList')}
-                </Text>
-              </ViewButton>
-            </ViewButtonWrapper>
+            {listView}
           </>
         )}
       </StyledModalBody>

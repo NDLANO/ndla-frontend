@@ -6,14 +6,13 @@
  *
  */
 
-import { ReactNode, useContext } from 'react';
+import { Dispatch, ReactNode, SetStateAction, useContext } from 'react';
 import styled from '@emotion/styled';
 import { breakpoints, colors, mq, spacing, spacingUnit } from '@ndla/core';
 import MenuModalContent from './MenuModalContent';
 import NotificationPopover from './NotificationPopover';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import { MY_NDLA_CONTENT_WIDTH } from '../../../constants';
-import { ViewType } from '../Folders/FoldersPage';
 
 const ToolbarContainer = styled.div`
   display: none;
@@ -62,17 +61,21 @@ const Wrapper = styled.div`
 interface Props {
   buttons?: ReactNode;
   dropDownMenu?: ReactNode;
-  viewType?: ViewType;
-  onViewTypeChange?: (val: ViewType) => void;
+  listView?: ReactNode;
   showButtons?: boolean;
+  setResetFocus: Dispatch<SetStateAction<boolean>>;
+  resetFocus: boolean;
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 const Toolbar = ({
   buttons,
   dropDownMenu,
-  onViewTypeChange,
-  viewType,
+  listView,
   showButtons,
+  setIsOpen,
+  resetFocus,
+  setResetFocus,
 }: Props) => {
   const { user } = useContext(AuthContext);
   return (
@@ -85,10 +88,12 @@ const Toolbar = ({
         {user?.arenaEnabled && <NotificationPopover />}
       </Wrapper>
       <MenuModalContent
-        onViewTypeChange={onViewTypeChange}
+        listView={listView}
         buttons={buttons}
-        viewType={viewType}
         showButtons={showButtons}
+        setIsOpen={setIsOpen}
+        resetFocus={resetFocus}
+        setResetFocus={setResetFocus}
       />
     </ToolbarContainer>
   );
