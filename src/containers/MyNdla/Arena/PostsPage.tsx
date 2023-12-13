@@ -148,8 +148,6 @@ const PostsPage = () => {
                 post={post}
                 topic={arenaTopic}
                 onFollowChange={onFollowChange}
-                // missing affiliation in user
-                affiliation=""
                 setFocusId={setFocusId}
               />
             </PostCardWrapper>

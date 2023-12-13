@@ -49,7 +49,6 @@ import { capitalizeFirstLetter, toArena, toArenaCategory } from '../utils';
 
 interface Props {
   onFollowChange: (value: boolean) => void;
-  affiliation: string;
   post: GQLArenaPostFragment;
   topic: GQLArenaTopicByIdQuery['arenaTopic'];
   setFocusId: Dispatch<SetStateAction<number | undefined>>;
@@ -110,20 +109,14 @@ const Locales = {
   se: nb,
 };
 
-const PostCard = ({
-  topic,
-  post,
-  affiliation,
-  onFollowChange,
-  setFocusId,
-}: Props) => {
+const PostCard = ({ topic, post, onFollowChange, setFocusId }: Props) => {
   const {
     id: postId,
     topicId,
     isMainPost,
     timestamp,
     content,
-    user: { displayName, username },
+    user: { displayName, username, location },
   } = post;
 
   const {
@@ -346,7 +339,7 @@ const PostCard = ({
         <UserProfileTag
           displayName={displayName}
           username={username}
-          affiliation={affiliation}
+          affiliation={location ?? ''}
         />
         {isMainPost && (
           <StyledSwitch
