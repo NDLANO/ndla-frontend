@@ -118,6 +118,7 @@ const FooterWrapper = () => {
     border-color: ${colors.brand.secondary};
     position: relative;
     right: ${spacing.large};
+    // Heigth of button is 40px, so this is to center it vertically.
     top: 20px;
     z-index: 10;
 
