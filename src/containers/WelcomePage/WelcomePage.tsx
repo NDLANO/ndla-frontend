@@ -47,7 +47,7 @@ const StyledMain = styled.main`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-bottom: ${spacingUnit * 3}px;
+  padding-bottom: ${spacing.xlarge};
   padding-top: ${spacing.normal};
   background-color: ${colors.background.lightBlue};
 
@@ -64,7 +64,7 @@ const StyledMain = styled.main`
   }
   /* This is a SSR-friendly :first-child */
   [data-wide] > section > *:not(:is(*:not(style) ~ *)) {
-    margin-top: ${spacingUnit * 4}px;
+    margin-top: ${spacing.xxlarge};
   }
 `;
 

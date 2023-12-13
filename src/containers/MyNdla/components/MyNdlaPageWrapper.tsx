@@ -8,7 +8,7 @@
 
 import { HTMLAttributes, ReactNode } from 'react';
 import styled from '@emotion/styled';
-import { breakpoints, mq, spacing, spacingUnit } from '@ndla/core';
+import { breakpoints, mq, spacing } from '@ndla/core';
 import Toolbar from './Toolbar';
 import { MY_NDLA_CONTENT_WIDTH } from '../../../constants';
 import { ViewType } from '../Folders/FoldersPage';
@@ -16,10 +16,10 @@ import { ViewType } from '../Folders/FoldersPage';
 const ContentWrapper = styled.div`
   display: flex;
   justify-content: center;
-  margin: 0 ${spacing.nsmall} ${spacingUnit * 3}px ${spacing.nsmall};
+  margin: 0 ${spacing.nsmall} ${spacing.xlarge} ${spacing.nsmall};
 
   ${mq.range({ from: breakpoints.tablet })} {
-    margin: 0 ${spacing.large} ${spacingUnit * 3}px ${spacing.large};
+    margin: 0 ${spacing.large} ${spacing.xlarge} ${spacing.large};
   }
 `;
 

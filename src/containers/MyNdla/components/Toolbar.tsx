@@ -8,7 +8,7 @@
 
 import { ReactNode, useContext } from 'react';
 import styled from '@emotion/styled';
-import { breakpoints, colors, mq, spacing, spacingUnit } from '@ndla/core';
+import { breakpoints, colors, mq, spacing } from '@ndla/core';
 import MenuModalContent from './MenuModalContent';
 import NotificationPopover from './NotificationPopover';
 import { AuthContext } from '../../../components/AuthenticationContext';
@@ -20,7 +20,7 @@ const ToolbarContainer = styled.div`
   justify-content: center;
   border-bottom: 1px solid ${colors.brand.lightest};
   padding: ${spacing.small} ${spacing.large};
-  min-height: ${spacingUnit * 3}px;
+  min-height: ${spacing.xlarge};
 
   ${mq.range({ from: breakpoints.mobileWide })} {
     display: flex;
