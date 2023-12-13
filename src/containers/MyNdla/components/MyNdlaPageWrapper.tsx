@@ -13,7 +13,7 @@ import Toolbar from './Toolbar';
 import { MY_NDLA_CONTENT_WIDTH } from '../../../constants';
 import { ViewType } from '../Folders/FoldersPage';
 
-const ContentWrapper = styled.div`
+const ContentWrapper = styled.main`
   display: flex;
   justify-content: center;
   margin: 0 ${spacing.nsmall} ${spacingUnit * 3}px ${spacing.nsmall};
