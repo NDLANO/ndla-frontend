@@ -458,7 +458,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                   data-margin="normal"
                   data-style="h1-resource"
                   id="54"
-                  lang="nb"
+                  lang="no"
                   tabindex="-1"
                 >
                   Politiske skillelinjer
@@ -466,7 +466,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
               </div>
               <div
                 class="emotion-1"
-                lang="nb"
+                lang="no"
               >
                 <p>
                   Politiske skillelinjer, eller konfliktlinjer, er varige og grunnleggende motsetninger i samfunnet og blant velgerne. Du synes kanskje det er vanskelig å se forskjell på de politiske partiene – det er du i så fall ikke alene om!
@@ -479,7 +479,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
           >
             <section>
               <p
-                lang="nb"
+                lang="no"
               >
                 Dersom du leser de ulike partiprogrammene, ser du fort at partiene har ulike svar både på hva som er viktige utfordringer, og på hvordan de skal løses.
               </p>
