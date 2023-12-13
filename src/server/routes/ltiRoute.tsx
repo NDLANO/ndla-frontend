@@ -30,8 +30,7 @@ const bodyFields: Record<string, { required: boolean; value?: any }> = {
 };
 
 //@ts-ignore
-const assets: Record<string, string> = require(process.env
-  .RAZZLE_ASSETS_MANIFEST); //eslint-disable-line
+const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
 
 if (process.env.NODE_ENV === 'unittest') {
   HelmetProvider.canUseDOM = false;
