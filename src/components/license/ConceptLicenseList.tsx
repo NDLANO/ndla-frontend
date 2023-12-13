@@ -31,6 +31,7 @@ import {
   isCopyrighted,
   licenseCopyrightToCopyrightType,
 } from './licenseHelpers';
+import { MediaListRef, mediaListIcon } from './licenseStyles';
 import config from '../../config';
 import {
   GQLConceptLicenseList_ConceptLicenseFragment,
@@ -113,14 +114,14 @@ const ConceptLicenseInfo = ({
         locale={i18n.language}
       >
         <MediaListItemActions>
-          <div className="c-medialist__ref">
+          <MediaListRef>
             <MediaListItemMeta items={items} />
             <CopyTextButton
               stringToCopy={`<iframe title="${concept.title}" aria-label="${concept.title}" height="400" width="500" frameborder="0" src="${src}" allowfullscreen=""></iframe>`}
               copyTitle={t('license.embed')}
               hasCopiedTitle={t('license.embedCopied')}
             />
-          </div>
+          </MediaListRef>
         </MediaListItemActions>
       </MediaListItemBody>
     </MediaListItem>
@@ -148,7 +149,7 @@ const ConceptLicenseList = ({ concepts }: Props) => {
             type="concept"
             concept={concept}
             key={index}
-            icon={<Concept className="c-medialist__icon" />}
+            icon={<Concept css={mediaListIcon} />}
           />
         ))}
       </MediaList>
@@ -173,7 +174,7 @@ export const GlossLicenseList = ({ glosses }: GlossLicenseListProps) => {
             type="gloss"
             concept={gloss}
             key={index}
-            icon={<Globe className="c-medialist__icon" />}
+            icon={<Globe css={mediaListIcon} />}
           />
         ))}
       </MediaList>
