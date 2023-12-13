@@ -23,7 +23,6 @@ import {
 import FolderForm from './FolderForm';
 import { buttonCss, iconCss } from './FoldersPage';
 import { GQLFolder } from '../../../graphqlTypes';
-import { useUserAgent } from '../../../UserAgentContext';
 import {
   useUpdateFolderMutation,
   useFolders,
@@ -38,7 +37,6 @@ interface Props {
 const FolderEditModal = ({ folder, onSaved }: Props) => {
   const [open, setOpen] = useState(false);
   const { t } = useTranslation();
-  const userAgent = useUserAgent();
 
   return (
     <Modal open={open} onOpenChange={setOpen}>
@@ -51,9 +49,7 @@ const FolderEditModal = ({ folder, onSaved }: Props) => {
           title={t('myNdla.folder.edit')}
         >
           <Pencil css={iconCss} />
-          {userAgent?.isMobile
-            ? t('myNdla.folder.edit')
-            : t('myNdla.folder.editShort')}
+          {t('myNdla.folder.editShort')}
         </ButtonV2>
       </ModalTrigger>
       <EditFolderModalContent
