@@ -100,7 +100,7 @@ export const sharedFolderLink = (id: string) =>
 
 export const sharedFolderLinkInternal = (id: string) => `/folder/${id}`;
 
-export const previewLink = (id: string) => `/minndla/folders/${id}/preview`;
+export const previewLink = (id: string) => `/minndla/folders/preview/${id}`;
 
 export const copyFolderSharingLink = (id: string) =>
   window.navigator.clipboard.writeText(sharedFolderLink(id));
