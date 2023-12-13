@@ -222,7 +222,11 @@ const FolderActions = ({
           ? t('myNdla.folder.sharing.button.goTo')
           : t('myNdla.folder.sharing.button.preview'),
       onClick: () => {
-        navigate(sharedFolderLinkInternal(selectedFolder.id));
+        if (selectedFolder.status === 'shared') {
+          navigate(sharedFolderLinkInternal(selectedFolder.id));
+        } else {
+          navigate(previewLink(selectedFolder.id));
+        }
       },
     };
 
