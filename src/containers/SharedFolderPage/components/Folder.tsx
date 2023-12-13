@@ -161,7 +161,7 @@ const Folder = ({
     return null;
   }
 
-  const preview = useMemo(() => status === 'private', [status]);
+  const preview = status === 'private';
 
   const handleKeydown = (
     e: KeyboardEvent<HTMLButtonElement | HTMLAnchorElement>,

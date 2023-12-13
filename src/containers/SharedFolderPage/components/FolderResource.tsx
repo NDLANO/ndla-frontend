@@ -117,7 +117,14 @@ const FolderResource = ({
         : preview
         ? `/minndla/folders/preview/${rootFolderId}/${parentId}/${resource.id}`
         : `/folder/${rootFolderId}/${parentId}/${resource.id}`,
-    [isLearningPathOrCase, resource.path, resource.id, rootFolderId, parentId],
+    [
+      isLearningPathOrCase,
+      resource.path,
+      resource.id,
+      rootFolderId,
+      parentId,
+      preview,
+    ],
   );
 
   const onClick = useCallback(
