@@ -9,7 +9,7 @@
 import { useTranslation } from 'react-i18next';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { spacingUnit } from '@ndla/core';
+import { spacing } from '@ndla/core';
 import {
   Facebook,
   HelpCircleOutline,
@@ -117,7 +117,7 @@ const FooterWrapper = () => {
   const StyledZendesk = styled(ZendeskButton)`
     position: relative;
     top: 20px;
-    right: ${spacingUnit * 2}px;
+    right: ${spacing.large};
     z-index: 10;
   `;
 
