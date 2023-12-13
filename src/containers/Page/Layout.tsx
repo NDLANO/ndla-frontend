@@ -37,6 +37,9 @@ const StyledPageContainer = styled(PageContainer)`
   &[data-film='true'] {
     background-color: ${colors.ndlaFilm.filmColor};
   }
+  &[data-frontpage='true'] {
+    background-color: ${colors.background.lightBlue};
+  }
 `;
 
 const Layout = () => {
@@ -46,12 +49,12 @@ const Layout = () => {
   const prevPathname = usePrevious(pathname);
   const params = useUrnIds();
   const ndlaFilm = useIsNdlaFilm();
+  const frontpage = !!matchPath('/', pathname);
   const backgroundWide = !!matchPath(
     '/learningpaths/:learningpathId',
     pathname,
   );
-  const noPaddingBottom =
-    !!matchPath('/minndla/*', pathname) || !!matchPath('/', pathname);
+  const noPaddingBottom = !!matchPath('/minndla/*', pathname) || frontpage;
 
   useEffect(() => {
     if (!prevPathname || pathname === prevPathname) {
@@ -80,7 +83,7 @@ const Layout = () => {
   return (
     <StyledPageContainer
       backgroundWide={backgroundWide}
-      ndlaFilm={ndlaFilm}
+      data-frontpage={frontpage}
       data-film={ndlaFilm}
     >
       <TitleAnnouncer />

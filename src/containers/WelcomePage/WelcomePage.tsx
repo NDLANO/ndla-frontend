@@ -10,14 +10,7 @@ import { useContext, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { gql } from '@apollo/client';
 import styled from '@emotion/styled';
-import {
-  breakpoints,
-  colors,
-  mq,
-  spacing,
-  spacingUnit,
-  utils,
-} from '@ndla/core';
+import { breakpoints, mq, spacing, utils } from '@ndla/core';
 import { HelmetWithTracker, useTracker } from '@ndla/tracker';
 import {
   ProgrammeV2,
@@ -49,7 +42,6 @@ const StyledMain = styled.main`
   align-items: center;
   padding-bottom: ${spacing.xlarge};
   padding-top: ${spacing.normal};
-  background-color: ${colors.background.lightBlue};
 
   section {
     padding: 0px;
