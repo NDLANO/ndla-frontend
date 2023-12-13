@@ -14,7 +14,6 @@ import { css, Global } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
 import { Content, PageContainer, useMastheadHeight } from '@ndla/ui';
-import ZendeskButton from '@ndla/zendesk';
 import FeideFooter from './components/FeideFooter';
 import Footer from './components/Footer';
 import TitleAnnouncer from './components/TitleAnnouncer';
@@ -26,10 +25,6 @@ import config from '../../config';
 import { useIsNdlaFilm, useUrnIds } from '../../routeHelpers';
 import { usePrevious } from '../../util/utilityHooks';
 import Masthead from '../Masthead';
-
-const ZendeskWrapper = styled.div`
-  z-index: 10;
-`;
 
 const BottomPadding = styled.div`
   padding-bottom: ${spacing.large};
@@ -50,8 +45,6 @@ const Layout = () => {
   const { height } = useMastheadHeight();
   const prevPathname = usePrevious(pathname);
   const params = useUrnIds();
-  const zendeskLanguage =
-    i18n.language === 'nb' || i18n.language === 'nn' ? 'no' : i18n.language;
   const ndlaFilm = useIsNdlaFilm();
   const backgroundWide = !!matchPath(
     '/learningpaths/:learningpathId',
@@ -112,17 +105,6 @@ const Layout = () => {
       </Content>
       <Footer />
       {config.feideEnabled && <FeideFooter />}
-      {config.zendeskWidgetKey && (
-        <ZendeskWrapper>
-          <ZendeskButton
-            id="zendesk"
-            locale={zendeskLanguage}
-            widgetKey={config.zendeskWidgetKey}
-          >
-            {t('askNDLA')}
-          </ZendeskButton>
-        </ZendeskWrapper>
-      )}
     </StyledPageContainer>
   );
 };

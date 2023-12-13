@@ -7,15 +7,20 @@
  */
 
 import { useTranslation } from 'react-i18next';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { spacingUnit } from '@ndla/core';
 import {
   Facebook,
+  HelpCircleOutline,
   Instagram,
   LinkedIn,
   EmailOutline,
   Youtube,
 } from '@ndla/icons/common';
 import { Footer, FooterText, EditorName, LanguageSelector } from '@ndla/ui';
+import ZendeskButton from '@ndla/zendesk';
+import config from '../../../config';
 import { supportedLanguages } from '../../../i18n';
 
 const FooterTextWrapper = styled.div`
@@ -29,6 +34,8 @@ const FooterTextWrapper = styled.div`
 
 const FooterWrapper = () => {
   const { t, i18n } = useTranslation();
+  const zendeskLanguage =
+    i18n.language === 'nb' || i18n.language === 'nn' ? 'no' : i18n.language;
 
   const links = [
     {
@@ -101,32 +108,64 @@ const FooterWrapper = () => {
     },
   ];
 
+  const ZendeskWrapper = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+  `;
+
+  const StyledZendesk = styled(ZendeskButton)`
+    position: relative;
+    top: 20px;
+    right: ${spacingUnit * 2}px;
+    z-index: 10;
+  `;
+
+  const IconCSS = css`
+    width: 20px;
+    height: 20px;
+  `;
+
   return (
-    <Footer
-      lang={i18n.language}
-      //@ts-ignore Wrongly typed as an array with a single element in frontend-packages.
-      commonLinks={commonLinks}
-      links={links}
-      languageSelector={
-        <LanguageSelector
-          inverted
-          locales={supportedLanguages}
-          onSelect={i18n.changeLanguage}
-          triggerId="languageSelectorFooter"
-        />
-      }
-      privacyLinks={privacyLinks}
-    >
-      <FooterTextWrapper>
-        <FooterText>
-          <EditorName
-            title={t('footer.editorInChief')}
-            name="Sigurd Trageton"
+    <>
+      {config.zendeskWidgetKey && (
+        <ZendeskWrapper>
+          <StyledZendesk
+            id="zendesk"
+            locale={zendeskLanguage}
+            widgetKey={config.zendeskWidgetKey}
+          >
+            <HelpCircleOutline css={IconCSS} />
+            {t('askNDLA')}
+          </StyledZendesk>
+        </ZendeskWrapper>
+      )}
+      <Footer
+        lang={i18n.language}
+        //@ts-ignore Wrongly typed as an array with a single element in frontend-packages.
+        commonLinks={commonLinks}
+        links={links}
+        languageSelector={
+          <LanguageSelector
+            inverted
+            locales={supportedLanguages}
+            onSelect={i18n.changeLanguage}
+            triggerId="languageSelectorFooter"
           />
-        </FooterText>
-        <FooterText>{t('footer.info')}</FooterText>
-      </FooterTextWrapper>
-    </Footer>
+        }
+        privacyLinks={privacyLinks}
+      >
+        <FooterTextWrapper>
+          <FooterText>
+            <EditorName
+              title={t('footer.editorInChief')}
+              name="Sigurd Trageton"
+            />
+          </FooterText>
+          <FooterText>{t('footer.info')}</FooterText>
+        </FooterTextWrapper>
+      </Footer>
+    </>
   );
 };
 
