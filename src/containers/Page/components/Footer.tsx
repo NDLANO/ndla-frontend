@@ -9,7 +9,7 @@
 import { useTranslation } from 'react-i18next';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
+import { colors, spacing } from '@ndla/core';
 import {
   Facebook,
   HelpCircleOutline,
@@ -115,10 +115,18 @@ const FooterWrapper = () => {
   `;
 
   const StyledZendesk = styled(ZendeskButton)`
+    border-color: ${colors.brand.secondary};
     position: relative;
-    top: 20px;
     right: ${spacing.large};
+    top: 20px;
     z-index: 10;
+
+    &[disabled] {
+      color: ${colors.brand.grey};
+      background-color: white;
+      border-color: ${colors.brand.secondary};
+      cursor: not-allowed;
+    }
   `;
 
   const IconCSS = css`

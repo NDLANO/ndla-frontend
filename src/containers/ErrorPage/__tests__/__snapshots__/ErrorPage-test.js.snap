@@ -159,9 +159,10 @@ exports[`ErrorPage renderers correctly 1`] = `
   border-color: #20588f;
   border-radius: 4px;
   background-color: white;
+  border-color: #507aa4;
   position: relative;
-  top: 20px;
   right: 48px;
+  top: 20px;
   z-index: 10;
 }
 
@@ -194,6 +195,13 @@ exports[`ErrorPage renderers correctly 1`] = `
   color: #777777;
   background-color: transparent;
   border-color: #777777;
+  cursor: not-allowed;
+}
+
+.emotion-13[disabled] {
+  color: #777777;
+  background-color: white;
+  border-color: #507aa4;
   cursor: not-allowed;
 }
 
