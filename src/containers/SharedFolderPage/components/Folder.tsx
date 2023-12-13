@@ -19,6 +19,10 @@ import {
   GQLFolder,
   GQLFolderResourceMetaSearchQuery,
 } from '../../../graphqlTypes';
+import {
+  previewLink,
+  sharedFolderLinkInternal,
+} from '../../MyNdla/Folders/util';
 
 export const StyledUl = styled.ul`
   list-style: none;
@@ -142,7 +146,7 @@ const Folder = ({
   onClose,
   subfolderKey,
 }: Props) => {
-  const { name, subfolders, resources } = folder;
+  const { name, subfolders, resources, status } = folder;
   const { folderId: rootFolderId, resourceId, subfolderId } = useParams();
   const { t } = useTranslation();
 
@@ -156,6 +160,8 @@ const Folder = ({
   if (isEmpty) {
     return null;
   }
+
+  const preview = useMemo(() => status === 'private', [status]);
 
   const handleKeydown = (
     e: KeyboardEvent<HTMLButtonElement | HTMLAnchorElement>,
@@ -205,7 +211,11 @@ const Folder = ({
                   <StyledArrow css={!isOpen ? arrowOpenCss : undefined} />
                 </ToggleOpenButton>
                 <FolderLink
-                  to={`/folder/${folder.id}`}
+                  to={
+                    preview
+                      ? previewLink(folder.id)
+                      : sharedFolderLinkInternal(folder.id)
+                  }
                   aria-owns={`folder-sublist-${folder.id}`}
                   id={`shared-${folder.id}`}
                   tabIndex={-1}
@@ -243,7 +253,13 @@ const Folder = ({
                 <StyledArrow css={!isOpen ? arrowOpenCss : undefined} />
               </ToggleOpenButton>
               <FolderLink
-                to={`/folder/${rootFolderId}/${subfolderKey}`}
+                to={
+                  preview
+                    ? `${previewLink(rootFolderId as string)}/${subfolderKey}`
+                    : `${sharedFolderLinkInternal(
+                        rootFolderId as string,
+                      )}/${subfolderKey}`
+                }
                 aria-owns={`folder-sublist-${folder.id}`}
                 id={`shared-${folder.id}`}
                 tabIndex={-1}
@@ -279,6 +295,7 @@ const Folder = ({
               isLast={i === resources.length - 1}
               meta={meta[`${resource.resourceType}-${resource.resourceId}`]}
               resource={resource}
+              preview={preview}
             />
           ))}
           {subfolders.map((subfolder) => (

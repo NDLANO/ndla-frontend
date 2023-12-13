@@ -156,6 +156,14 @@ const AppRoutes = ({ base }: AppProps) => {
                     <Route index element={<FoldersPage />} />
                     <Route path="preview/:folderId">
                       <Route index element={<PreviewFoldersPage />} />
+                      <Route
+                        path=":subfolderId"
+                        element={<PreviewFoldersPage />}
+                      />
+                      <Route
+                        path=":subfolderId/:resourceId"
+                        element={<PreviewFoldersPage />}
+                      />
                     </Route>
                     <Route path=":folderId" element={<FoldersPage />} />
                   </Route>
