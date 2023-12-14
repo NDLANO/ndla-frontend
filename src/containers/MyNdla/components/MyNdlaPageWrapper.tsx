@@ -16,10 +16,10 @@ import { ViewType } from '../Folders/FoldersPage';
 const ContentWrapper = styled.div`
   display: flex;
   justify-content: center;
-  margin: 0 ${spacing.nsmall} ${spacingUnit * 3}px ${spacing.nsmall};
+  margin: ${spacing.nsmall} ${spacing.nsmall} ${spacingUnit * 3}px;
 
   ${mq.range({ from: breakpoints.tablet })} {
-    margin: 0 ${spacing.large} ${spacingUnit * 3}px ${spacing.large};
+    margin: 0 ${spacing.large} ${spacingUnit * 3}px;
   }
 `;
 
