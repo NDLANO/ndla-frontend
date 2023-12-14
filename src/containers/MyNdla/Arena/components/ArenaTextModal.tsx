@@ -6,7 +6,7 @@
  *
  */
 
-import { useCallback, useState } from 'react';
+import { ReactNode, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
@@ -23,6 +23,7 @@ import {
 } from '@ndla/modal';
 import ArenaForm, { ArenaFormValues } from './ArenaForm';
 import { useUserAgent } from '../../../../UserAgentContext';
+import { buttonCss } from '../../Folders/FoldersPage';
 
 const StyledModalBody = styled(ModalBody)`
   display: flex;
@@ -36,11 +37,18 @@ const StyledPencil = styled(Pencil)`
 `;
 
 interface Props {
-  type: 'topic' | 'post';
   onSave: (data: Partial<ArenaFormValues>) => Promise<void>;
+  type: 'topic' | 'post';
+  toolbarTrigger?: boolean;
+  buttonIcon?: ReactNode;
 }
 
-const ArenaTextModal = ({ type, onSave }: Props) => {
+const ArenaTextModal = ({
+  buttonIcon,
+  onSave,
+  toolbarTrigger,
+  type,
+}: Props) => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [created, setCreated] = useState(false);
@@ -68,13 +76,16 @@ const ArenaTextModal = ({ type, onSave }: Props) => {
   return (
     <Modal open={open} onOpenChange={setOpen}>
       <ModalTrigger>
-        {userAgent?.isMobile ? (
-          <ButtonV2>
+        {toolbarTrigger ? (
+          <ButtonV2 css={buttonCss} variant="ghost" colorTheme="lighter">
+            {buttonIcon && buttonIcon}
             {t(`myNdla.arena.new.${type}`)}
-            {type === 'topic' && <StyledPencil />}
           </ButtonV2>
         ) : (
-          <ButtonV2>{t(`myNdla.arena.new.${type}`)}</ButtonV2>
+          <ButtonV2>
+            {t(`myNdla.arena.new.${type}`)}
+            {userAgent?.isMobile && type === 'topic' && <StyledPencil />}
+          </ButtonV2>
         )}
       </ModalTrigger>
       <ArenaTextModalContent

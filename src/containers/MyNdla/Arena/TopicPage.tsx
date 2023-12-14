@@ -6,7 +6,7 @@
  *
  */
 
-import { useCallback, useContext, useEffect } from 'react';
+import { useCallback, useContext, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import styled from '@emotion/styled';
@@ -14,6 +14,7 @@ import { spacing } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import { HelmetWithTracker, useTracker } from '@ndla/tracker';
 import { Heading, Text } from '@ndla/typography';
+import ArenaButtons from './ArenaButtons';
 import { ArenaFormValues } from './components/ArenaForm';
 import ArenaTextModal from './components/ArenaTextModal';
 import TopicCard from './components/TopicCard';
@@ -97,6 +98,8 @@ const TopicPage = () => {
     [arenaCategory, createArenaTopic, navigate],
   );
 
+  const arenaButtons = useMemo(() => <ArenaButtons inTopic />, []);
+
   if (loading) {
     return <Spinner />;
   }
@@ -106,7 +109,7 @@ const TopicPage = () => {
   }
 
   return (
-    <MyNdlaPageWrapper>
+    <MyNdlaPageWrapper buttons={arenaButtons}>
       <HelmetWithTracker
         title={t('htmlTitles.arenaTopicPage', { name: arenaCategory?.name })}
       />

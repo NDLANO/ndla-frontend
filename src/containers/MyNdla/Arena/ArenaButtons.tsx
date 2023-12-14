@@ -6,24 +6,45 @@
  *
  */
 
-import { memo, useCallback } from 'react';
+import { Dispatch, memo, SetStateAction, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Spinner } from '@ndla/icons';
+import { Plus } from '@ndla/icons/action';
 import { ArenaFormValues } from './components/ArenaForm';
 import ArenaTextModal from './components/ArenaTextModal';
-import { useCreateArenaTopic } from '../arenaMutations';
-import { arenaCategoryQuery, useArenaCategory } from '../arenaQueries';
+import { useCreateArenaTopic, useReplyToTopic } from '../arenaMutations';
+import {
+  arenaCategoryQuery,
+  arenaTopicById,
+  useArenaCategory,
+} from '../arenaQueries';
 
 const toArenaTopic = (topicId: number | undefined) =>
   `/minndla/arena/topic/${topicId}`;
 
 interface ArenaButtonsProps {
+  inPost?: boolean;
   inTopic?: boolean;
+  setFocusId?: Dispatch<SetStateAction<number | undefined>>;
+  topicId?: number;
 }
 
-const ArenaButtons = ({ inTopic }: ArenaButtonsProps) => {
+const ArenaButtons = ({
+  inPost,
+  inTopic,
+  setFocusId,
+  topicId,
+}: ArenaButtonsProps) => {
   const { categoryId } = useParams();
   const navigate = useNavigate();
+  const { replyToTopic } = useReplyToTopic({
+    refetchQueries: [
+      {
+        query: arenaTopicById,
+        variables: { topicId, page: 1 },
+      },
+    ],
+  });
 
   const { loading, arenaCategory } = useArenaCategory({
     variables: { categoryId: Number(categoryId), page: 1 },
@@ -38,6 +59,17 @@ const ArenaButtons = ({ inTopic }: ArenaButtonsProps) => {
       },
     ],
   });
+
+  const createReply = useCallback(
+    async (data: Partial<ArenaFormValues>) => {
+      const newReply = await replyToTopic({
+        variables: { topicId, content: data.content ?? '' },
+        skip: !topicId,
+      });
+      setFocusId?.(newReply.data?.replyToTopic.id);
+    },
+    [replyToTopic, topicId, setFocusId],
+  );
 
   const createTopic = useCallback(
     async (data: Partial<ArenaFormValues>) => {
@@ -60,12 +92,24 @@ const ArenaButtons = ({ inTopic }: ArenaButtonsProps) => {
   }
 
   const newPost = inTopic ? (
-    <ArenaTextModal type="topic" onSave={createTopic} />
+    <ArenaTextModal
+      buttonIcon={<Plus />}
+      onSave={createTopic}
+      toolbarTrigger
+      type="topic"
+    />
   ) : null;
 
-  /* const newReply */
+  const newReply = inPost ? (
+    <ArenaTextModal
+      buttonIcon={<Plus />}
+      onSave={createReply}
+      toolbarTrigger
+      type="post"
+    />
+  ) : null;
 
-  const buttons = [newPost];
+  const buttons = [newPost, newReply];
 
   return buttons;
 };

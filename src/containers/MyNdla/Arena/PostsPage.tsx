@@ -6,7 +6,7 @@
  *
  */
 
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useMemo, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Navigate, useParams } from 'react-router-dom';
 import styled from '@emotion/styled';
@@ -14,6 +14,7 @@ import { spacing, spacingUnit, mq, breakpoints } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import { HelmetWithTracker, useTracker } from '@ndla/tracker';
 import { useSnack } from '@ndla/ui';
+import ArenaButtons from './ArenaButtons';
 import PostCard from './components/PostCard';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import { getAllDimensions } from '../../../util/trackingUtil';
@@ -113,6 +114,13 @@ const PostsPage = () => {
     }
   }, [focusId, arenaTopic?.posts]);
 
+  const arenaButtons = useMemo(
+    () => (
+      <ArenaButtons inPost setFocusId={setFocusId} topicId={arenaTopic?.id} />
+    ),
+    [],
+  );
+
   if (loading) {
     return <Spinner />;
   }
@@ -122,7 +130,7 @@ const PostsPage = () => {
   }
 
   return (
-    <MyNdlaPageWrapper>
+    <MyNdlaPageWrapper buttons={arenaButtons}>
       <HelmetWithTracker
         title={t('htmlTitles.arenaPostPage', { name: arenaTopic?.title })}
       />
