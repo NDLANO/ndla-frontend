@@ -141,8 +141,8 @@ const FoldersPage = () => {
       folders.length === 0 && selectedFolder?.resources.length === 1
         ? 'languageSelectorFooter'
         : selectedFolder?.resources?.length !== 1
-        ? undefined
-        : `folder-${folders.slice(-1)[0]?.id}`,
+          ? undefined
+          : `folder-${folders.slice(-1)[0]?.id}`,
     [folders, selectedFolder?.resources],
   );
 
@@ -151,8 +151,8 @@ const FoldersPage = () => {
       folders.length === 1 && selectedFolder?.resources.length === 0
         ? 'languageSelectorFooter'
         : folders.length !== 1
-        ? undefined
-        : `resource-${selectedFolder?.resources[0]?.id}`,
+          ? undefined
+          : `resource-${selectedFolder?.resources[0]?.id}`,
     [selectedFolder?.resources, folders],
   );
 
