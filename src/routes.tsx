@@ -13,7 +13,6 @@ export const privateRoutes = [
   'minndla/folders/preview/:folderId/:subFolderId',
   'minndla/folders/preview/:folderId/:subFolderId/:resourceId',
   'minndla/folders/:folderId',
-  'minndla/folders/:folderId/preview',
   'minndla/arena',
   'minndla/arena/category/:categoryId',
   'minndla/arena/topic/:topicId',
