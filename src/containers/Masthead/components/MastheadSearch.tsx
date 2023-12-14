@@ -14,7 +14,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { gql, useLazyQuery } from '@apollo/client';
 import styled from '@emotion/styled';
 import { ButtonV2, IconButtonV2 } from '@ndla/button';
-import { colors, spacing } from '@ndla/core';
+import { breakpoints, colors, mq, spacing } from '@ndla/core';
 import { Cross } from '@ndla/icons/action';
 import { Search } from '@ndla/icons/common';
 import { Drawer, Modal, ModalTrigger } from '@ndla/modal';
@@ -46,6 +46,16 @@ const StyledButton = styled(ButtonV2)`
   svg {
     width: 24px;
     height: 24px;
+  }
+
+  ${mq.range({ until: breakpoints.mobileWide })} {
+    border-radius: 100%;
+    background: transparent;
+    border-color: transparent;
+    padding: ${spacing.xsmall};
+    span {
+      display: none;
+    }
   }
 `;
 
@@ -183,9 +193,11 @@ const MastheadSearch = ({ subject }: Props) => {
       <ModalTrigger>
         <StyledButton
           colorTheme={ndlaFilm ? 'primary' : 'greyLighter'}
+          aria-label={t('masthead.menu.search')}
+          title={t('masthead.menu.search')}
           fontWeight="normal"
         >
-          {t('masthead.menu.search')}
+          <span>{t('masthead.menu.search')}</span>
           <Search />
         </StyledButton>
       </ModalTrigger>
