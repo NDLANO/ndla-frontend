@@ -10,7 +10,6 @@ import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
-import { spacing } from '@ndla/core';
 import { Pencil } from '@ndla/icons/action';
 import {
   ModalBody,
@@ -31,8 +30,8 @@ const StyledModalBody = styled(ModalBody)`
 `;
 
 const StyledPencil = styled(Pencil)`
-  width: ${spacing.snormal};
-  height: ${spacing.snormal};
+  width: 20px;
+  height: 20px;
 `;
 
 interface Props {

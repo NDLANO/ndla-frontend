@@ -163,7 +163,7 @@ const FolderActions = ({
 
     const addFolderButton: MenuItemProps = {
       icon: <Plus />,
-      text: t('myNdla.newFolder'),
+      text: t('myNdla.newFolderShort'),
       isModal: true,
       modalContent: (close, setFocus) => (
         <CreateModalContent
@@ -180,7 +180,7 @@ const FolderActions = ({
 
     const editFolder: MenuItemProps = {
       icon: <Pencil />,
-      text: t('myNdla.folder.edit'),
+      text: t('myNdla.folder.editShort'),
       isModal: true,
       modalContent: (close) => (
         <EditFolderModalContent
@@ -193,7 +193,7 @@ const FolderActions = ({
 
     const shareLink: MenuItemProps = {
       icon: <Share />,
-      text: t('myNdla.folder.sharing.button.share'),
+      text: t('myNdla.folder.sharing.button.shareShort'),
       ref: previewRef,
       isModal: true,
       keepOpen: true,
@@ -296,7 +296,7 @@ const FolderActions = ({
 
     const deleteOpt: MenuItemProps = {
       icon: <DeleteForever />,
-      text: t('myNdla.folder.delete'),
+      text: t('myNdla.folder.deleteShort'),
       type: 'danger',
       isModal: true,
       modalContent: (close, setSkipAutoFocus) => (

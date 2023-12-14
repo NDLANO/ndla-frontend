@@ -61,8 +61,8 @@ const StyledSafeLink = styled(SafeLink)`
   color: ${colors.brand.primary};
   text-underline-offset: ${spacing.xsmall};
   svg {
-    width: ${spacing.snormal};
-    height: ${spacing.snormal};
+    width: 20px;
+    height: 20px;
     margin-left: ${spacing.xsmall};
   }
   &:focus-within,

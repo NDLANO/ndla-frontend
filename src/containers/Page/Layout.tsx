@@ -14,7 +14,6 @@ import { css, Global } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
 import { Content, PageContainer, useMastheadHeight } from '@ndla/ui';
-import ZendeskButton from '@ndla/zendesk';
 import FeideFooter from './components/FeideFooter';
 import Footer from './components/Footer';
 import TitleAnnouncer from './components/TitleAnnouncer';
@@ -27,10 +26,6 @@ import { useIsNdlaFilm, useUrnIds } from '../../routeHelpers';
 import { usePrevious } from '../../util/utilityHooks';
 import Masthead from '../Masthead';
 
-const ZendeskWrapper = styled.div`
-  z-index: 10;
-`;
-
 const BottomPadding = styled.div`
   padding-bottom: ${spacing.large};
   &[data-no-padding='true'] {
@@ -42,6 +37,9 @@ const StyledPageContainer = styled(PageContainer)`
   &[data-film='true'] {
     background-color: ${colors.ndlaFilm.filmColor};
   }
+  &[data-frontpage='true'] {
+    background-color: ${colors.background.lightBlue};
+  }
 `;
 
 const Layout = () => {
@@ -50,15 +48,13 @@ const Layout = () => {
   const { height } = useMastheadHeight();
   const prevPathname = usePrevious(pathname);
   const params = useUrnIds();
-  const zendeskLanguage =
-    i18n.language === 'nb' || i18n.language === 'nn' ? 'no' : i18n.language;
   const ndlaFilm = useIsNdlaFilm();
+  const frontpage = !!matchPath('/', pathname);
   const backgroundWide = !!matchPath(
     '/learningpaths/:learningpathId',
     pathname,
   );
-  const noPaddingBottom =
-    !!matchPath('/minndla/*', pathname) || !!matchPath('/', pathname);
+  const noPaddingBottom = !!matchPath('/minndla/*', pathname) || frontpage;
 
   useEffect(() => {
     if (!prevPathname || pathname === prevPathname) {
@@ -87,7 +83,7 @@ const Layout = () => {
   return (
     <StyledPageContainer
       backgroundWide={backgroundWide}
-      ndlaFilm={ndlaFilm}
+      data-frontpage={frontpage}
       data-film={ndlaFilm}
     >
       <TitleAnnouncer />
@@ -112,17 +108,6 @@ const Layout = () => {
       </Content>
       <Footer />
       {config.feideEnabled && <FeideFooter />}
-      {config.zendeskWidgetKey && (
-        <ZendeskWrapper>
-          <ZendeskButton
-            id="zendesk"
-            locale={zendeskLanguage}
-            widgetKey={config.zendeskWidgetKey}
-          >
-            {t('askNDLA')}
-          </ZendeskButton>
-        </ZendeskWrapper>
-      )}
     </StyledPageContainer>
   );
 };
