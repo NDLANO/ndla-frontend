@@ -80,17 +80,16 @@ const StyledArrow = styled(Forward)`
   transform: rotate(-90deg);
 `;
 
-interface GoToTopProps {
-  isSticky: boolean;
-}
-
-const GoToTop = styled(Text)<GoToTopProps>`
+const GoToTop = styled(Text)`
   display: flex;
   align-items: center;
   gap: ${spacing.small};
   box-shadow: none;
   color: ${colors.brand.primary};
-  opacity: ${({ isSticky }) => (isSticky ? 1 : 0)};
+  opacity: 0;
+  &[data-sticky='true'] {
+    opacity: 1;
+  }
   transition: ${misc.transition.default};
   :focus,
   :hover {
@@ -140,7 +139,7 @@ const SubjectCategory = ({ label, subjects, favorites }: Props) => {
           <GoToTop
             textStyle="button"
             element="a"
-            isSticky={!!entry?.isIntersecting}
+            data-sticky={!!entry?.isIntersecting}
             href="#SkipToContentId"
           >
             {t('subjectsPage.goToTop')} <StyledArrow />
