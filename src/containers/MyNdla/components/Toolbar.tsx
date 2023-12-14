@@ -20,7 +20,7 @@ const ToolbarContainer = styled.div`
   justify-content: center;
   border-bottom: 1px solid ${colors.brand.lightest};
   padding: ${spacing.small} ${spacing.large};
-  min-height: ${spacing.xlarge};
+  min-height: fit-content;
 
   ${mq.range({ from: breakpoints.mobileWide })} {
     display: flex;
