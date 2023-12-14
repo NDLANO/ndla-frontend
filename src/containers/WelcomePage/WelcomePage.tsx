@@ -10,14 +10,7 @@ import { useContext, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { gql } from '@apollo/client';
 import styled from '@emotion/styled';
-import {
-  breakpoints,
-  colors,
-  mq,
-  spacing,
-  spacingUnit,
-  utils,
-} from '@ndla/core';
+import { breakpoints, mq, spacing, utils } from '@ndla/core';
 import { HelmetWithTracker, useTracker } from '@ndla/tracker';
 import {
   ProgrammeV2,
@@ -47,9 +40,8 @@ const StyledMain = styled.main`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-bottom: ${spacingUnit * 3}px;
+  padding-bottom: ${spacing.xlarge};
   padding-top: ${spacing.normal};
-  background-color: ${colors.background.lightBlue};
 
   section {
     padding: 0px;
@@ -64,7 +56,7 @@ const StyledMain = styled.main`
   }
   /* This is a SSR-friendly :first-child */
   [data-wide] > section > *:not(:is(*:not(style) ~ *)) {
-    margin-top: ${spacingUnit * 4}px;
+    margin-top: ${spacing.xxlarge};
   }
 `;
 
