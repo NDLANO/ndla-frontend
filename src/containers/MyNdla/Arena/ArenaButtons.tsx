@@ -63,8 +63,7 @@ const ArenaButtons = ({
   const createReply = useCallback(
     async (data: Partial<ArenaFormValues>) => {
       const newReply = await replyToTopic({
-        variables: { topicId, content: data.content ?? '' },
-        skip: !topicId,
+        variables: { topicId: Number(topicId), content: data.content ?? '' },
       });
       setFocusId?.(newReply.data?.replyToTopic.id);
     },
