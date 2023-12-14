@@ -30,8 +30,8 @@ import { buttonCss, iconCss } from './FoldersPage';
 import {
   isStudent,
   copyFolderSharingLink,
-  sharedFolderLink,
   previewLink,
+  sharedFolderLinkInternal,
 } from './util';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import { GQLFolder } from '../../../graphqlTypes';
@@ -286,7 +286,7 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
       colorTheme="lighter"
       to={
         isFolderShared
-          ? sharedFolderLink(selectedFolder.id)
+          ? sharedFolderLinkInternal(selectedFolder.id)
           : previewLink(selectedFolder.id)
       }
       aria-label={t('myNdla.folder.sharing.button.preview')}
