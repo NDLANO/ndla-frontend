@@ -14,6 +14,7 @@ import { spacing, spacingUnit, mq, breakpoints } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import { HelmetWithTracker, useTracker } from '@ndla/tracker';
 import { useSnack } from '@ndla/ui';
+import DeletedPostCard from './components/DeletedPostCard';
 import PostCard from './components/PostCard';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import { getAllDimensions } from '../../../util/trackingUtil';
@@ -143,18 +144,20 @@ const PostsPage = () => {
         />
       </BreadcrumbWrapper>
       <ListWrapper>
-        {arenaTopic?.posts
-          .filter(({ deleted }) => !deleted)
-          ?.map((post) => (
-            <PostCardWrapper key={post.id} data-main-post={post.isMainPost}>
+        {arenaTopic?.posts?.map((post) => (
+          <PostCardWrapper key={post.id} data-main-post={post.isMainPost}>
+            {post.deleted ? (
+              <DeletedPostCard />
+            ) : (
               <PostCard
                 post={post}
                 topic={arenaTopic}
                 onFollowChange={onFollowChange}
                 setFocusId={setFocusId}
               />
-            </PostCardWrapper>
-          ))}
+            )}
+          </PostCardWrapper>
+        ))}
       </ListWrapper>
     </MyNdlaPageWrapper>
   );
