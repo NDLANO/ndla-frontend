@@ -69,8 +69,8 @@ const SearchWrapper = styled.div`
   display: flex;
   align-items: flex-start;
   gap: ${spacing.xsmall};
-  ${mq.range({ from: breakpoints.wide })} {
-    width: 80%;
+  ${mq.range({ from: breakpoints.desktop })} {
+    width: 60%;
   }
 `;
 
