@@ -53,7 +53,11 @@ export const transformArticle = <T extends BaseArticle>(
   locale: LocaleType,
   options?: TransformOptions,
 ): TransformedBaseArticle<T> => {
-  const content = getContent(article.content, options ?? {});
+  const updatedOptions =
+    options?.articleLanguage === 'nb'
+      ? { ...options, articleLanguage: 'no' }
+      : options;
+  const content = getContent(article.content, updatedOptions ?? {});
   const footNotes = article?.metaData?.footnotes ?? [];
   return {
     ...article,

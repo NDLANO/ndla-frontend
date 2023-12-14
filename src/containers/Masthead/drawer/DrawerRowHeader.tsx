@@ -10,7 +10,7 @@ import { ReactNode, useState } from 'react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
-import { colors, fonts, spacing, spacingUnit } from '@ndla/core';
+import { colors, fonts, spacing } from '@ndla/core';
 import { ForwardArrow, RightArrow } from '@ndla/icons/action';
 import { SafeLinkButton } from '@ndla/safelink';
 import { DrawerListItem } from './DrawerPortion';
@@ -39,9 +39,7 @@ interface LinkProps extends BaseProps {
 
 type Props = ButtonProps | LinkProps;
 
-const headerSpacing = `${spacing.small} ${spacingUnit * 1.5}px ${
-  spacing.small
-} ${spacing.normal}`;
+const headerSpacing = `${spacing.small} ${spacing.nsmall} ${spacing.small} ${spacing.normal}`;
 
 const rowHeaderWrapperStyles = css`
   display: flex;

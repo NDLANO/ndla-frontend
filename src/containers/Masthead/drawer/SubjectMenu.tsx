@@ -133,8 +133,8 @@ const SubjectMenu = ({
     initialFocused: topicPath.length
       ? topicPath[0]?.id
       : subject
-      ? `header-${subject.id}`
-      : undefined,
+        ? `header-${subject.id}`
+        : undefined,
     onLeftKeyPressed: onCloseMenuPortion,
     onRightKeyPressed: keyboardAddTopic,
   });

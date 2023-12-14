@@ -34,6 +34,7 @@ import {
   isCopyrighted,
   licenseCopyrightToCopyrightType,
 } from './licenseHelpers';
+import { MediaListRef, mediaListIcon } from './licenseStyles';
 import config from '../../config';
 import { GQLPodcastLicenseList_PodcastLicenseFragment } from '../../graphqlTypes';
 
@@ -97,7 +98,7 @@ const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
     <MediaListItem>
       <MediaListItemImage canOpen={shouldShowLink}>
         {!shouldShowLink ? (
-          <Podcast className="c-medialist__icon" />
+          <Podcast css={mediaListIcon} />
         ) : (
           <Link
             to={pageUrl}
@@ -105,7 +106,7 @@ const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
             rel="noopener noreferrer"
             aria-label={t('embed.goTo', { type: t('embed.type.podcast') })}
           >
-            <Podcast className="c-medialist__icon" />
+            <Podcast css={mediaListIcon} />
           </Link>
         )}
       </MediaListItemImage>
@@ -118,7 +119,7 @@ const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
         locale={i18n.language}
       >
         <MediaListItemActions>
-          <div className="c-medialist__ref">
+          <MediaListRef>
             <MediaListItemMeta items={items} />
             {podcast.copyright.license?.license !== 'COPYRIGHTED' && (
               <>
@@ -134,7 +135,7 @@ const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
                 </SafeLinkButton>
               </>
             )}
-          </div>
+          </MediaListRef>
         </MediaListItemActions>
       </MediaListItemBody>
     </MediaListItem>

@@ -14,7 +14,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { gql, useLazyQuery } from '@apollo/client';
 import styled from '@emotion/styled';
 import { ButtonV2, IconButtonV2 } from '@ndla/button';
-import { colors, spacing } from '@ndla/core';
+import { breakpoints, colors, mq, spacing } from '@ndla/core';
 import { Cross } from '@ndla/icons/action';
 import { Search } from '@ndla/icons/common';
 import { Drawer, Modal, ModalTrigger } from '@ndla/modal';
@@ -47,6 +47,16 @@ const StyledButton = styled(ButtonV2)`
     width: 24px;
     height: 24px;
   }
+
+  ${mq.range({ until: breakpoints.mobileWide })} {
+    border-radius: 100%;
+    background: transparent;
+    border-color: transparent;
+    padding: ${spacing.xsmall};
+    span {
+      display: none;
+    }
+  }
 `;
 
 const StyledCloseButton = styled(IconButtonV2)`
@@ -54,11 +64,14 @@ const StyledCloseButton = styled(IconButtonV2)`
 `;
 
 const SearchWrapper = styled.div`
-  width: 60%;
-  padding: ${spacing.normal} 0px;
+  width: 100%;
+  padding: ${spacing.normal} ${spacing.normal};
   display: flex;
   align-items: flex-start;
   gap: ${spacing.xsmall};
+  ${mq.range({ from: breakpoints.desktop })} {
+    width: 60%;
+  }
 `;
 
 const StyledDrawer = styled(Drawer)`
@@ -183,9 +196,11 @@ const MastheadSearch = ({ subject }: Props) => {
       <ModalTrigger>
         <StyledButton
           colorTheme={ndlaFilm ? 'primary' : 'greyLighter'}
+          aria-label={t('masthead.menu.search')}
+          title={t('masthead.menu.search')}
           fontWeight="normal"
         >
-          {t('masthead.menu.search')}
+          <span>{t('masthead.menu.search')}</span>
           <Search />
         </StyledButton>
       </ModalTrigger>
