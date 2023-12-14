@@ -24,10 +24,11 @@ import { SafeLinkButton } from '@ndla/safelink';
 import { Text } from '@ndla/typography';
 import NavigationLink from './NavigationLink';
 import { BellIcon } from './NotificationButton';
+import { tbButtonCss } from './toolbarStyles';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import { toAllNotifications } from '../Arena/utils';
 import { useArenaNotifications } from '../arenaQueries';
-import { ViewType, buttonCss } from '../Folders/FoldersPage';
+import { ViewType } from '../Folders/FoldersPage';
 import { OutletContext, menuLinks } from '../MyNdlaLayout';
 
 const MenuItem = styled.li`
@@ -176,7 +177,7 @@ const MenuModalContent = ({
         colorTheme="lighter"
         to={toAllNotifications()}
         onClick={() => setIsOpen(false)}
-        css={buttonCss}
+        css={tbButtonCss}
       >
         <BellIcon
           amountOfUnreadNotifications={

@@ -21,7 +21,8 @@ import SubjectLink from '../../AllSubjectsPage/SubjectLink';
 import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
 import MyNdlaTitle from '../components/MyNdlaTitle';
 import SettingsMenu from '../components/SettingsMenu';
-import { buttonCss, iconCss } from '../Folders/FoldersPage';
+import { tbButtonCss } from '../components/toolbarStyles';
+import { iconCss } from '../Folders/FoldersPage';
 import { useSubjects } from '../subjectQueries';
 
 const StyledSubjectLink = styled(SubjectLink)`
@@ -67,7 +68,7 @@ const FavoriteSubjectsPage = () => {
   const allSubjects = useMemo(
     () => (
       <SafeLinkButton
-        css={buttonCss}
+        css={tbButtonCss}
         variant="ghost"
         colorTheme="lighter"
         to="/subjects"

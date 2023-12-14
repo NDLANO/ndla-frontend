@@ -23,7 +23,7 @@ import {
 } from '@ndla/modal';
 import ArenaForm, { ArenaFormValues } from './ArenaForm';
 import { useUserAgent } from '../../../../UserAgentContext';
-import { buttonCss } from '../../Folders/FoldersPage';
+import { tbButtonCss } from '../../components/toolbarStyles';
 
 const StyledModalBody = styled(ModalBody)`
   display: flex;
@@ -77,7 +77,7 @@ const ArenaTextModal = ({
     <Modal open={open} onOpenChange={setOpen}>
       <ModalTrigger>
         {toolbarTrigger ? (
-          <ButtonV2 css={buttonCss} variant="ghost" colorTheme="lighter">
+          <ButtonV2 css={tbButtonCss} variant="ghost" colorTheme="lighter">
             {buttonIcon && buttonIcon}
             {t(`myNdla.arena.new.${type}`)}
           </ButtonV2>

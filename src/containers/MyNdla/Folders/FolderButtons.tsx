@@ -26,7 +26,7 @@ import FolderCreateModal from './FolderCreateModal';
 import FolderDeleteModal from './FolderDeleteModal';
 import FolderEditModal from './FolderEditModal';
 import FolderShareModal from './FolderShareModal';
-import { buttonCss, iconCss } from './FoldersPage';
+import { iconCss } from './FoldersPage';
 import {
   isStudent,
   copyFolderSharingLink,
@@ -36,6 +36,7 @@ import {
 import { AuthContext } from '../../../components/AuthenticationContext';
 import { GQLFolder } from '../../../graphqlTypes';
 import { useUserAgent } from '../../../UserAgentContext';
+import { tbButtonCss } from '../components/toolbarStyles';
 import {
   useUpdateFolderStatusMutation,
   useDeleteFolderMutation,
@@ -138,7 +139,7 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
         onCopyText={() => copyFolderSharingLink(selectedFolder.id)}
       >
         <ButtonV2
-          css={buttonCss}
+          css={tbButtonCss}
           colorTheme="lighter"
           variant="ghost"
           ref={previewRef}
@@ -175,7 +176,7 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
         }}
       >
         <ButtonV2
-          css={buttonCss}
+          css={tbButtonCss}
           variant="ghost"
           colorTheme="lighter"
           ref={unShareRef}
@@ -210,7 +211,7 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
         }}
       >
         <ButtonV2
-          css={buttonCss}
+          css={tbButtonCss}
           variant="ghost"
           colorTheme="lighter"
           ref={shareRef}
@@ -259,7 +260,7 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
     selectedFolder && isFolderShared ? (
       <ButtonV2
         key="copySharedLink"
-        css={buttonCss}
+        css={tbButtonCss}
         variant="ghost"
         colorTheme="lighter"
         onClick={() => {
@@ -281,7 +282,7 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
   const previewFolderButton = selectedFolder ? (
     <SafeLinkButton
       key="previewFolder"
-      css={buttonCss}
+      css={tbButtonCss}
       variant="ghost"
       colorTheme="lighter"
       to={

@@ -21,9 +21,10 @@ import {
   ModalTrigger,
 } from '@ndla/modal';
 import FolderForm from './FolderForm';
-import { buttonCss, iconCss } from './FoldersPage';
+import { iconCss } from './FoldersPage';
 import { GQLFolder } from '../../../graphqlTypes';
 import { useUserAgent } from '../../../UserAgentContext';
+import { tbButtonCss } from '../components/toolbarStyles';
 import {
   useUpdateFolderMutation,
   useFolders,
@@ -44,7 +45,7 @@ const FolderEditModal = ({ folder, onSaved }: Props) => {
     <Modal open={open} onOpenChange={setOpen}>
       <ModalTrigger>
         <ButtonV2
-          css={buttonCss}
+          css={tbButtonCss}
           variant="ghost"
           colorTheme="lighter"
           aria-label={t('myNdla.folder.edit')}
