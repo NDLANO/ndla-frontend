@@ -64,11 +64,14 @@ const StyledCloseButton = styled(IconButtonV2)`
 `;
 
 const SearchWrapper = styled.div`
-  width: 60%;
-  padding: ${spacing.normal} 0px;
+  width: 100%;
+  padding: ${spacing.normal} ${spacing.normal};
   display: flex;
   align-items: flex-start;
   gap: ${spacing.xsmall};
+  ${mq.range({ from: breakpoints.wide })} {
+    width: 80%;
+  }
 `;
 
 const StyledDrawer = styled(Drawer)`
