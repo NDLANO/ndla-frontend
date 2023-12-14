@@ -86,9 +86,8 @@ const GoToTop = styled(Text)`
   gap: ${spacing.small};
   box-shadow: none;
   color: ${colors.brand.primary};
-  opacity: 0;
-  &[data-sticky='true'] {
-    opacity: 1;
+  &[data-sticky='false'] {
+    opacity: 0;
   }
   transition: ${misc.transition.default};
   :focus,
