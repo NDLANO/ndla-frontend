@@ -8,7 +8,7 @@
 
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Navigate, useParams } from 'react-router-dom';
+import { Navigate, useParams, useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { spacing, spacingUnit, mq, breakpoints } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
@@ -55,9 +55,10 @@ const PostsPage = () => {
   const { t } = useTranslation();
   const { topicId } = useParams();
   const { addSnack } = useSnack();
+  const navigate = useNavigate();
   const { refetch } = useArenaNotifications();
   const [focusId, setFocusId] = useState<number | undefined>(undefined);
-  const { arenaTopic, loading } = useArenaTopic({
+  const { arenaTopic, loading, error } = useArenaTopic({
     variables: { topicId: Number(topicId), page: 1 },
     skip: !Number(topicId),
     onCompleted() {
@@ -113,6 +114,24 @@ const PostsPage = () => {
       setFocusId(undefined);
     }
   }, [focusId, arenaTopic?.posts]);
+
+  useEffect(() => {
+    if (
+      error?.graphQLErrors.map((err) => err.extensions.status).includes(403) ||
+      arenaTopic?.deleted ||
+      (!loading && !arenaTopic)
+    ) {
+      if (document.referrer.includes('/minndla')) {
+        navigate(-1);
+      } else {
+        navigate('/minndla');
+      }
+      addSnack({
+        content: t('myNdla.arena.topic.isDeleted'),
+        id: 'myNdla.arena.topic.isDeleted',
+      });
+    }
+  }, [error, arenaTopic, navigate, addSnack, t, loading]);
 
   if (loading) {
     return <Spinner />;
