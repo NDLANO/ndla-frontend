@@ -64,6 +64,9 @@ const PostsPage = () => {
     onCompleted() {
       refetch();
     },
+    onError(error) {
+      console.log(error);
+    },
   });
 
   const { arenaCategory } = useArenaCategory({
@@ -115,12 +118,15 @@ const PostsPage = () => {
     }
   }, [focusId, arenaTopic?.posts]);
 
+  console.log(error, loading, arenaTopic);
   useEffect(() => {
     if (
       error?.graphQLErrors.map((err) => err.extensions.status).includes(403) ||
-      !arenaTopic
+      arenaTopic?.deleted ||
+      (!loading && !arenaTopic)
     ) {
       if (document.referrer.includes('/minndla')) {
+        console.log('hello');
         navigate(-1);
       } else {
         navigate('/minndla');
