@@ -27,7 +27,9 @@ const ToolbarContainer = styled.div`
   }
 `;
 
-const ButtonContainer = styled.div`
+const ButtonContainer = styled.ul`
+  margin: 0;
+  list-style: none;
   display: none;
   flex-direction: row;
   gap: ${spacing.xxsmall};

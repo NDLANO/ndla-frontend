@@ -45,6 +45,10 @@ const StyledUl = styled.ul`
   width: 100%;
 `;
 
+const StyledListItem = styled.li`
+  margin: 0;
+`;
+
 const FavoriteSubjectsPage = () => {
   const { t } = useTranslation();
   const { loading, subjects } = useSubjects();
@@ -67,15 +71,17 @@ const FavoriteSubjectsPage = () => {
 
   const allSubjects = useMemo(
     () => (
-      <SafeLinkButton
-        css={tbButtonCss}
-        variant="ghost"
-        colorTheme="lighter"
-        to="/subjects"
-      >
-        {t('subjectsPage.allSubjects')}
-        <Forward css={iconCss} />
-      </SafeLinkButton>
+      <StyledListItem>
+        <SafeLinkButton
+          css={tbButtonCss}
+          variant="ghost"
+          colorTheme="lighter"
+          to="/subjects"
+        >
+          {t('subjectsPage.allSubjects')}
+          <Forward css={iconCss} />
+        </SafeLinkButton>
+      </StyledListItem>
     ),
     [t],
   );

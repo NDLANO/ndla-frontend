@@ -8,6 +8,7 @@
 
 import { Dispatch, memo, SetStateAction, useCallback } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import styled from '@emotion/styled';
 import { Spinner } from '@ndla/icons';
 import { Plus } from '@ndla/icons/action';
 import { ArenaFormValues } from './components/ArenaForm';
@@ -21,6 +22,10 @@ import {
 
 const toArenaTopic = (topicId: number | undefined) =>
   `/minndla/arena/topic/${topicId}`;
+
+const StyledListItem = styled.li`
+  margin: 0;
+`;
 
 interface ArenaButtonsProps {
   setFocusId?: Dispatch<SetStateAction<number | undefined>>;
@@ -88,21 +93,25 @@ const ArenaButtons = ({ setFocusId, topicId }: ArenaButtonsProps) => {
   const showNewReplyButton = location.pathname.includes('topic');
 
   const newPost = showNewPostButton ? (
-    <ArenaTextModal
-      buttonIcon={<Plus />}
-      onSave={createTopic}
-      toolbarTrigger
-      type="topic"
-    />
+    <StyledListItem>
+      <ArenaTextModal
+        buttonIcon={<Plus />}
+        onSave={createTopic}
+        toolbarTrigger
+        type="topic"
+      />
+    </StyledListItem>
   ) : null;
 
   const newReply = showNewReplyButton ? (
-    <ArenaTextModal
-      buttonIcon={<Plus />}
-      onSave={createReply}
-      toolbarTrigger
-      type="post"
-    />
+    <StyledListItem>
+      <ArenaTextModal
+        buttonIcon={<Plus />}
+        onSave={createReply}
+        toolbarTrigger
+        type="post"
+      />
+    </StyledListItem>
   ) : null;
 
   const buttons = [newPost, newReply];
