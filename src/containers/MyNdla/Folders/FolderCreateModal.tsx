@@ -24,7 +24,6 @@ import {
 import FolderForm, { FolderFormValues } from './FolderForm';
 import { iconCss } from './FoldersPage';
 import { GQLFolder } from '../../../graphqlTypes';
-import { useUserAgent } from '../../../UserAgentContext';
 import { tbButtonCss } from '../components/toolbarStyles';
 import { useAddFolderMutation, useFolders } from '../folderMutations';
 
@@ -44,7 +43,6 @@ const FolderCreateModal = ({ onSaved, parentFolder }: Props) => {
   const { t } = useTranslation();
   const { addFolder } = useAddFolderMutation();
   const [folderCreated, setFolderCreated] = useState(false);
-  const userAgent = useUserAgent();
 
   const { folders } = useFolders();
 
@@ -69,11 +67,7 @@ const FolderCreateModal = ({ onSaved, parentFolder }: Props) => {
           title={t('myNdla.newFolder')}
         >
           <Plus css={iconCss} />
-          <span>
-            {userAgent?.isMobile
-              ? t('myNdla.newFolder')
-              : t('myNdla.newFolderShort')}
-          </span>
+          <span>{t('myNdla.newFolderShort')}</span>
         </AddButton>
       </ModalTrigger>
       <CreateModalContent

@@ -153,9 +153,7 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
             title={t('myNdla.folder.sharing.button.share')}
           >
             <Share css={iconCss} />
-            {userAgent?.isMobile
-              ? t('myNdla.folder.sharing.button.share')
-              : t('myNdla.folder.sharing.button.shareShort')}
+            {t('myNdla.folder.sharing.button.shareShort')}
           </ButtonV2>
         </StyledListItem>
       </FolderShareModal>
