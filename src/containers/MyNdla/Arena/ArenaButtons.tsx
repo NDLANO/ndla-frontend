@@ -9,7 +9,6 @@
 import { Dispatch, memo, SetStateAction, useCallback } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import styled from '@emotion/styled';
-import { Spinner } from '@ndla/icons';
 import { Plus } from '@ndla/icons/action';
 import { ArenaFormValues } from './components/ArenaForm';
 import ArenaTextModal from './components/ArenaTextModal';
@@ -45,7 +44,7 @@ const ArenaButtons = ({ setFocusId, topicId }: ArenaButtonsProps) => {
     ],
   });
 
-  const { loading, arenaCategory } = useArenaCategory({
+  const { arenaCategory } = useArenaCategory({
     variables: { categoryId: Number(categoryId), page: 1 },
     skip: !Number(categoryId),
   });
@@ -84,10 +83,6 @@ const ArenaButtons = ({ setFocusId, topicId }: ArenaButtonsProps) => {
     },
     [arenaCategory, createArenaTopic, navigate],
   );
-
-  if (loading) {
-    return <Spinner />;
-  }
 
   const showNewPostButton = location.pathname.includes('category');
   const showNewReplyButton = location.pathname.includes('topic');
