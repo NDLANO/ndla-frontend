@@ -119,7 +119,7 @@ const ArenaCard = ({ id, title, subText, count }: Props) => {
             {count}
           </Text>
           <Text textStyle="meta-text-small" margin="none">
-            {t('myNdla.arena.category.posts')}
+            {t('myNdla.arena.category.posts', { count })}
           </Text>
         </StyledCountContainer>
       </SpacingContainer>
