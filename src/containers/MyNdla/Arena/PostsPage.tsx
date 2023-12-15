@@ -145,7 +145,6 @@ const PostsPage = () => {
     }
   }, [error, arenaTopic, navigate, addSnack, t, loading]);
 
-
   if (loading) {
     return <Spinner />;
   }
