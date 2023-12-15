@@ -310,9 +310,9 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId }: Props) => {
 
   const postTime = (
     <TimestampText element="span" textStyle="content-alt" margin="none">
-      <span title={formatDateTime(timestamp, language)}>
+      <a href={`#post-${postId}`} title={formatDateTime(timestamp, language)}>
         {`${capitalizeFirstLetter(timeDistance)}`}
-      </span>
+      </a>
     </TimestampText>
   );
 
