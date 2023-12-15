@@ -14,6 +14,7 @@ import { spacing, spacingUnit, mq, breakpoints } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import { HelmetWithTracker, useTracker } from '@ndla/tracker';
 import { useSnack } from '@ndla/ui';
+import ArenaActions from './ArenaActions';
 import ArenaButtons from './ArenaButtons';
 import PostCard from './components/PostCard';
 import { AuthContext } from '../../../components/AuthenticationContext';
@@ -114,11 +115,18 @@ const PostsPage = () => {
     }
   }, [focusId, arenaTopic?.posts]);
 
+  const dropDownMenu = useMemo(
+    () => (
+      <ArenaActions inPost setFocusId={setFocusId} topicId={arenaTopic?.id} />
+    ),
+    [arenaTopic?.id],
+  );
+
   const arenaButtons = useMemo(
     () => (
       <ArenaButtons inPost setFocusId={setFocusId} topicId={arenaTopic?.id} />
     ),
-    [],
+    [arenaTopic?.id],
   );
 
   if (loading) {
@@ -130,7 +138,7 @@ const PostsPage = () => {
   }
 
   return (
-    <MyNdlaPageWrapper buttons={arenaButtons}>
+    <MyNdlaPageWrapper buttons={arenaButtons} dropDownMenu={dropDownMenu}>
       <HelmetWithTracker
         title={t('htmlTitles.arenaPostPage', { name: arenaTopic?.title })}
       />

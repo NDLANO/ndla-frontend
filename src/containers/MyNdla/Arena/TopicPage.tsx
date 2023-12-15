@@ -14,6 +14,7 @@ import { spacing } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import { HelmetWithTracker, useTracker } from '@ndla/tracker';
 import { Heading, Text } from '@ndla/typography';
+import ArenaActions from './ArenaActions';
 import ArenaButtons from './ArenaButtons';
 import { ArenaFormValues } from './components/ArenaForm';
 import ArenaTextModal from './components/ArenaTextModal';
@@ -98,6 +99,8 @@ const TopicPage = () => {
     [arenaCategory, createArenaTopic, navigate],
   );
 
+  const dropDownMenu = useMemo(() => <ArenaActions inTopic />, []);
+
   const arenaButtons = useMemo(() => <ArenaButtons inTopic />, []);
 
   if (loading) {
@@ -109,7 +112,7 @@ const TopicPage = () => {
   }
 
   return (
-    <MyNdlaPageWrapper buttons={arenaButtons}>
+    <MyNdlaPageWrapper buttons={arenaButtons} dropDownMenu={dropDownMenu}>
       <HelmetWithTracker
         title={t('htmlTitles.arenaTopicPage', { name: arenaCategory?.name })}
       />
