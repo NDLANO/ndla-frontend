@@ -64,9 +64,6 @@ const PostsPage = () => {
     onCompleted() {
       refetch();
     },
-    onError(error) {
-      console.log(error);
-    },
   });
 
   const { arenaCategory } = useArenaCategory({
@@ -118,7 +115,6 @@ const PostsPage = () => {
     }
   }, [focusId, arenaTopic?.posts]);
 
-  console.log(error, loading, arenaTopic);
   useEffect(() => {
     if (
       error?.graphQLErrors.map((err) => err.extensions.status).includes(403) ||
@@ -126,7 +122,6 @@ const PostsPage = () => {
       (!loading && !arenaTopic)
     ) {
       if (document.referrer.includes('/minndla')) {
-        console.log('hello');
         navigate(-1);
       } else {
         navigate('/minndla');
@@ -136,7 +131,7 @@ const PostsPage = () => {
         id: 'myNdla.arena.topic.isDeleted',
       });
     }
-  }, [error, arenaTopic, navigate, addSnack, t]);
+  }, [error, arenaTopic, navigate, addSnack, t, loading]);
 
   if (loading) {
     return <Spinner />;
