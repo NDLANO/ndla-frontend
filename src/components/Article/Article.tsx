@@ -224,7 +224,7 @@ const Article = ({
             />
           ) : undefined
         }
-        lang={art.language}
+        lang={art.language === 'nb' ? 'no' : art.language}
         notions={notions}
         modifier={isResourceArticle ? resourceType : modifier ?? 'clean'}
         heartButton={

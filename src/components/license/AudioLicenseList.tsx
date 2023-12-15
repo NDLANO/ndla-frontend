@@ -33,6 +33,7 @@ import {
   isCopyrighted,
   licenseCopyrightToCopyrightType,
 } from './licenseHelpers';
+import { MediaListRef, mediaListIcon } from './licenseStyles';
 import { GQLAudioLicenseList_AudioLicenseFragment } from '../../graphqlTypes';
 
 interface AudioLicenseInfoProps {
@@ -82,7 +83,7 @@ const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
     <MediaListItem>
       <MediaListItemImage canOpen={shouldShowLink}>
         {!shouldShowLink ? (
-          <AudioDocument className="c-medialist__icon" />
+          <AudioDocument css={mediaListIcon} />
         ) : (
           <Link
             to={pageUrl}
@@ -90,7 +91,7 @@ const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
             rel="noopener noreferrer"
             aria-label={t('embed.goTo', { type: t('embed.type.audio') })}
           >
-            <AudioDocument className="c-medialist__icon" />
+            <AudioDocument css={mediaListIcon} />
           </Link>
         )}
       </MediaListItemImage>
@@ -103,7 +104,7 @@ const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
         locale={i18n.language}
       >
         <MediaListItemActions>
-          <div className="c-medialist__ref">
+          <MediaListRef>
             <MediaListItemMeta items={items} />
             {audio.copyright.license?.license !== 'COPYRIGHTED' && (
               <>
@@ -112,7 +113,7 @@ const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
                 </SafeLinkButton>
               </>
             )}
-          </div>
+          </MediaListRef>
         </MediaListItemActions>
       </MediaListItemBody>
     </MediaListItem>

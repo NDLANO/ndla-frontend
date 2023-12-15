@@ -13,7 +13,7 @@ import { withTranslation, WithTranslation } from 'react-i18next';
 import { gql } from '@apollo/client';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { spacingUnit, utils } from '@ndla/core';
+import { spacing, utils } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import {
   FilmSlideshow,
@@ -135,7 +135,7 @@ const FilmFrontpage = ({
         <div
           ref={movieListRef}
           css={css`
-            margin: ${spacingUnit * 3}px 0 ${spacingUnit * 4}px;
+            margin: ${spacing.xlarge} 0 ${spacing.xxlarge};
           `}
         >
           {showingAll ? (

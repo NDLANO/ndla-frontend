@@ -2957,6 +2957,7 @@ export type GQLArenaPostFragment = {
     displayName: string;
     profilePicture?: string;
     username: string;
+    location?: string;
   };
 };
 

@@ -36,6 +36,7 @@ import {
   isCopyrighted,
   licenseCopyrightToCopyrightType,
 } from './licenseHelpers';
+import { MediaListRef } from './licenseStyles';
 import config from '../../config';
 import { GQLImageLicenseList_ImageLicenseFragment } from '../../graphqlTypes';
 
@@ -134,7 +135,7 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
         locale={i18n.language}
       >
         <MediaListItemActions>
-          <div className="c-medialist__ref">
+          <MediaListRef>
             <MediaListItemMeta items={items} />
             {image.copyright.license?.license !== 'COPYRIGHTED' && (
               <>
@@ -154,7 +155,7 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
                 </SafeLinkButton>
               </>
             )}
-          </div>
+          </MediaListRef>
         </MediaListItemActions>
       </MediaListItemBody>
     </MediaListItem>
