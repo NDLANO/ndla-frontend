@@ -17,8 +17,7 @@ import { Assets } from '../helpers/Document';
 import { renderHtml, renderPage } from '../helpers/render';
 
 //@ts-ignore
-const assets: Record<string, string> = require(process.env
-  .RAZZLE_ASSETS_MANIFEST); //eslint-disable-line
+const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
 
 const getAssets = (): Assets => ({
   css: assets['client.css'],
