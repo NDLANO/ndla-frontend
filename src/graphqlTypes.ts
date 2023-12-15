@@ -2916,7 +2916,7 @@ export type GQLArenaCategoriesFragment = {
   htmlDescription: string;
   id: number;
   name: string;
-  postCount: number;
+  topicCount: number;
   slug: string;
 };
 
@@ -2927,7 +2927,7 @@ export type GQLArenaCategoryFragment = {
   htmlDescription: string;
   id: number;
   name: string;
-  postCount: number;
+  topicCount: number;
   slug: string;
 };
 
@@ -2957,6 +2957,7 @@ export type GQLArenaPostFragment = {
     displayName: string;
     profilePicture?: string;
     username: string;
+    location?: string;
   };
 };
 

@@ -256,8 +256,8 @@ const SearchInnerPage = ({
             activeFilters.length
               ? activeFilters
               : type === 'topic-article'
-              ? []
-              : [type],
+                ? []
+                : [type],
             type === 'topic-article' ? [] : resourceTypes,
           ),
         },

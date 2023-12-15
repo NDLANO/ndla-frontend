@@ -49,7 +49,6 @@ import { capitalizeFirstLetter, toArena, toArenaCategory } from '../utils';
 
 interface Props {
   onFollowChange: (value: boolean) => void;
-  affiliation: string;
   post: GQLArenaPostFragment;
   topic: GQLArenaTopicByIdQuery['arenaTopic'];
   setFocusId: Dispatch<SetStateAction<number | undefined>>;
@@ -103,6 +102,10 @@ const TimestampText = styled(Text)`
   align-self: center;
 `;
 
+const StyledContent = styled(Text)`
+  word-wrap: break-word;
+`;
+
 const Locales = {
   nn: nn,
   nb: nb,
@@ -110,20 +113,14 @@ const Locales = {
   se: nb,
 };
 
-const PostCard = ({
-  topic,
-  post,
-  affiliation,
-  onFollowChange,
-  setFocusId,
-}: Props) => {
+const PostCard = ({ topic, post, onFollowChange, setFocusId }: Props) => {
   const {
     id: postId,
     topicId,
     isMainPost,
     timestamp,
     content,
-    user: { displayName, username },
+    user: { displayName, username, location },
   } = post;
 
   const {
@@ -346,7 +343,7 @@ const PostCard = ({
         <UserProfileTag
           displayName={displayName}
           username={username}
-          affiliation={affiliation}
+          affiliation={location ?? ''}
         />
         {isMainPost && (
           <StyledSwitch
@@ -368,9 +365,9 @@ const PostCard = ({
             {topic?.title}
           </Heading>
         )}
-        <Text element="div" textStyle="content-alt" margin="none">
+        <StyledContent element="div" textStyle="content-alt" margin="none">
           {parse(content)}
-        </Text>
+        </StyledContent>
       </ContentWrapper>
       <FlexLine>{options(isMainPost)}</FlexLine>
     </PostCardWrapper>

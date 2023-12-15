@@ -10,10 +10,11 @@ import { useCallback, useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Navigate, useParams, useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
+import { spacing, spacingUnit, mq, breakpoints } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import { HelmetWithTracker, useTracker } from '@ndla/tracker';
 import { useSnack } from '@ndla/ui';
+import DeletedPostCard from './components/DeletedPostCard';
 import PostCard from './components/PostCard';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import { getAllDimensions } from '../../../util/trackingUtil';
@@ -42,8 +43,11 @@ const ListWrapper = styled.ul`
 const PostCardWrapper = styled.li`
   list-style: none;
   margin-bottom: ${spacing.normal};
-  &[data-main-post='false'] {
-    margin-left: 72px;
+
+  ${mq.range({ from: breakpoints.tablet })} {
+    &[data-main-post='false'] {
+      margin-left: ${spacingUnit * 3}px;
+    }
   }
 `;
 
@@ -158,20 +162,20 @@ const PostsPage = () => {
         />
       </BreadcrumbWrapper>
       <ListWrapper>
-        {arenaTopic?.posts
-          .filter(({ deleted }) => !deleted)
-          ?.map((post) => (
-            <PostCardWrapper key={post.id} data-main-post={post.isMainPost}>
+        {arenaTopic?.posts?.map((post) => (
+          <PostCardWrapper key={post.id} data-main-post={post.isMainPost}>
+            {post.deleted ? (
+              <DeletedPostCard />
+            ) : (
               <PostCard
                 post={post}
                 topic={arenaTopic}
                 onFollowChange={onFollowChange}
-                // missing affiliation in user
-                affiliation=""
                 setFocusId={setFocusId}
               />
-            </PostCardWrapper>
-          ))}
+            )}
+          </PostCardWrapper>
+        ))}
       </ListWrapper>
     </MyNdlaPageWrapper>
   );
