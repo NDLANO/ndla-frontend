@@ -143,7 +143,7 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
         }}
         onCopyText={() => copyFolderSharingLink(selectedFolder.id)}
       >
-        <StyledListItem>
+        <StyledListItem key="sharedFolderButton">
           <ButtonV2
             css={tbButtonCss}
             colorTheme="lighter"
@@ -182,7 +182,7 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
           setIsOpen(false);
         }}
       >
-        <StyledListItem>
+        <StyledListItem key="unShareFolderButton">
           <ButtonV2
             css={tbButtonCss}
             variant="ghost"
@@ -219,7 +219,7 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
           setIsOpen(false);
         }}
       >
-        <StyledListItem>
+        <StyledListItem key="shareFolderButton">
           <ButtonV2
             css={tbButtonCss}
             variant="ghost"
@@ -238,7 +238,7 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
     ) : null;
 
   const addFolderButton = showAddButton ? (
-    <StyledListItem>
+    <StyledListItem key="createFolderButton">
       <FolderCreateModal
         key="createFolderButton"
         onSaved={onFolderAdded}
@@ -248,7 +248,7 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
   ) : null;
 
   const editFolderButton = selectedFolder ? (
-    <StyledListItem>
+    <StyledListItem key="editFolderButton">
       <FolderEditModal
         key="editFolderButton"
         onSaved={onFolderUpdated}
@@ -258,7 +258,7 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
   ) : null;
 
   const deleteFolderButton = selectedFolder?.id ? (
-    <StyledListItem>
+    <StyledListItem key="deleteFolderButton">
       <FolderDeleteModal
         key="deleteFolderButton"
         onDelete={onDeleteFolder}
@@ -275,7 +275,7 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
 
   const copySharedFolderLink =
     selectedFolder && isFolderShared ? (
-      <StyledListItem>
+      <StyledListItem key="copySharedLink">
         <ButtonV2
           key="copySharedLink"
           css={tbButtonCss}
@@ -299,7 +299,7 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
     ) : null;
 
   const previewFolderButton = selectedFolder ? (
-    <StyledListItem>
+    <StyledListItem key="previewFolder">
       <SafeLinkButton
         key="previewFolder"
         css={tbButtonCss}

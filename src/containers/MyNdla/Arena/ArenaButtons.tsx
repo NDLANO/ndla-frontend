@@ -93,7 +93,7 @@ const ArenaButtons = ({ setFocusId, topicId }: ArenaButtonsProps) => {
   const showNewReplyButton = location.pathname.includes('topic');
 
   const newPost = showNewPostButton ? (
-    <StyledListItem>
+    <StyledListItem key="newTopic">
       <ArenaTextModal
         buttonIcon={<Plus />}
         onSave={createTopic}
@@ -104,7 +104,7 @@ const ArenaButtons = ({ setFocusId, topicId }: ArenaButtonsProps) => {
   ) : null;
 
   const newReply = showNewReplyButton ? (
-    <StyledListItem>
+    <StyledListItem key="newReply">
       <ArenaTextModal
         buttonIcon={<Plus />}
         onSave={createReply}

@@ -71,7 +71,7 @@ const FavoriteSubjectsPage = () => {
 
   const allSubjects = useMemo(
     () => (
-      <StyledListItem>
+      <StyledListItem key="allSubjects">
         <SafeLinkButton
           css={tbButtonCss}
           variant="ghost"
