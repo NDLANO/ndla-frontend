@@ -123,7 +123,7 @@ const ArenaActions = ({
     }
 
     return [];
-  }, []);
+  }, [createReply, createTopic, inPost, inTopic, t]);
 
   return (
     <SettingsMenu menuItems={actionItems} modalHeader={t('myNdla.tools')} />
