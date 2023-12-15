@@ -73,9 +73,8 @@ const NavigationLink = ({
 
   return (
     <StyledSafeLink
-      shape="sharp"
       colorTheme="lighter"
-      inverted
+      variant="ghost"
       aria-current={selected ? 'page' : undefined}
       to={linkTo}
       reloadDocument={!!to}
