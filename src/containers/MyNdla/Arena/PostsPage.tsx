@@ -116,16 +116,12 @@ const PostsPage = () => {
   }, [focusId, arenaTopic?.posts]);
 
   const dropDownMenu = useMemo(
-    () => (
-      <ArenaActions inPost setFocusId={setFocusId} topicId={arenaTopic?.id} />
-    ),
+    () => <ArenaActions setFocusId={setFocusId} topicId={arenaTopic?.id} />,
     [arenaTopic?.id],
   );
 
   const arenaButtons = useMemo(
-    () => (
-      <ArenaButtons inPost setFocusId={setFocusId} topicId={arenaTopic?.id} />
-    ),
+    () => <ArenaButtons setFocusId={setFocusId} topicId={arenaTopic?.id} />,
     [arenaTopic?.id],
   );
 

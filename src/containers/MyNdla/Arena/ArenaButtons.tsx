@@ -7,7 +7,7 @@
  */
 
 import { Dispatch, memo, SetStateAction, useCallback } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Spinner } from '@ndla/icons';
 import { Plus } from '@ndla/icons/action';
 import { ArenaFormValues } from './components/ArenaForm';
@@ -23,19 +23,13 @@ const toArenaTopic = (topicId: number | undefined) =>
   `/minndla/arena/topic/${topicId}`;
 
 interface ArenaButtonsProps {
-  inPost?: boolean;
-  inTopic?: boolean;
   setFocusId?: Dispatch<SetStateAction<number | undefined>>;
   topicId?: number;
 }
 
-const ArenaButtons = ({
-  inPost,
-  inTopic,
-  setFocusId,
-  topicId,
-}: ArenaButtonsProps) => {
+const ArenaButtons = ({ setFocusId, topicId }: ArenaButtonsProps) => {
   const { categoryId } = useParams();
+  const location = useLocation();
   const navigate = useNavigate();
   const { replyToTopic } = useReplyToTopic({
     refetchQueries: [
@@ -90,7 +84,10 @@ const ArenaButtons = ({
     return <Spinner />;
   }
 
-  const newPost = inTopic ? (
+  const showNewPostButton = location.pathname.includes('category');
+  const showNewReplyButton = location.pathname.includes('topic');
+
+  const newPost = showNewPostButton ? (
     <ArenaTextModal
       buttonIcon={<Plus />}
       onSave={createTopic}
@@ -99,7 +96,7 @@ const ArenaButtons = ({
     />
   ) : null;
 
-  const newReply = inPost ? (
+  const newReply = showNewReplyButton ? (
     <ArenaTextModal
       buttonIcon={<Plus />}
       onSave={createReply}

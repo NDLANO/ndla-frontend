@@ -8,7 +8,7 @@
 
 import { Dispatch, SetStateAction, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Plus } from '@ndla/icons/action';
 import { ArenaFormValues } from './components/ArenaForm';
 import { ArenaTextModalContent } from './components/ArenaTextModal';
@@ -24,20 +24,14 @@ const toArenaTopic = (topicId: number | undefined) =>
   `/minndla/arena/topic/${topicId}`;
 
 interface ArenaActionsProps {
-  inPost?: boolean;
-  inTopic?: boolean;
   setFocusId?: Dispatch<SetStateAction<number | undefined>>;
   topicId?: number;
 }
 
-const ArenaActions = ({
-  inPost,
-  inTopic,
-  setFocusId,
-  topicId,
-}: ArenaActionsProps) => {
+const ArenaActions = ({ setFocusId, topicId }: ArenaActionsProps) => {
   const { t } = useTranslation();
   const { categoryId } = useParams();
+  const location = useLocation();
   const navigate = useNavigate();
   const { replyToTopic } = useReplyToTopic({
     refetchQueries: [
@@ -88,6 +82,9 @@ const ArenaActions = ({
     [arenaCategory, createArenaTopic, navigate],
   );
 
+  const showNewPostButton = location.pathname.includes('category');
+  const showNewReplyButton = location.pathname.includes('topic');
+
   const actionItems: MenuItemProps[] = useMemo(() => {
     const newPost: MenuItemProps = {
       icon: <Plus />,
@@ -114,16 +111,16 @@ const ArenaActions = ({
       ),
     };
 
-    if (inTopic) {
+    if (showNewPostButton) {
       return [newPost];
     }
 
-    if (inPost) {
+    if (showNewReplyButton) {
       return [newReply];
     }
 
     return [];
-  }, [createReply, createTopic, inPost, inTopic, t]);
+  }, [createReply, createTopic, showNewPostButton, showNewReplyButton, t]);
 
   return (
     <SettingsMenu menuItems={actionItems} modalHeader={t('myNdla.tools')} />

@@ -99,9 +99,9 @@ const TopicPage = () => {
     [arenaCategory, createArenaTopic, navigate],
   );
 
-  const dropDownMenu = useMemo(() => <ArenaActions inTopic />, []);
+  const dropDownMenu = useMemo(() => <ArenaActions />, []);
 
-  const arenaButtons = useMemo(() => <ArenaButtons inTopic />, []);
+  const arenaButtons = useMemo(() => <ArenaButtons />, []);
 
   if (loading) {
     return <Spinner />;
