@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { Location, Outlet, useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { IconButtonV2 } from '@ndla/button';
-import { breakpoints, colors, fonts, mq, spacing } from '@ndla/core';
+import { breakpoints, colors, mq, spacing } from '@ndla/core';
 import {
   Book,
   BookOutlined,
@@ -56,13 +56,15 @@ const StyledNavList = styled.ul`
   ${mq.range({ from: breakpoints.mobileWide })} {
     display: flex;
     flex-direction: column;
+    align-items: center;
+  }
+
+  ${mq.range({ from: breakpoints.desktop })} {
+    align-items: flex-start;
   }
 `;
 
 const StyledLi = styled.li`
-  p {
-    font-weight: ${fonts.weight.semibold};
-  }
   /* Menubar on phone should only display first 4 
   links and the rest when the modal is open */
   &:not(:nth-of-type(-n + 4)) {
@@ -71,9 +73,6 @@ const StyledLi = styled.li`
   margin: 0;
   ${mq.range({ from: breakpoints.mobileWide })} {
     display: unset !important;
-  }
-  [aria-current='page'] p {
-    font-weight: ${fonts.weight.bold};
   }
 `;
 

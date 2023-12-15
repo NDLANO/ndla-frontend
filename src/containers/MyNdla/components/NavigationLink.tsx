@@ -9,13 +9,12 @@
 import { ReactNode } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
-import { breakpoints, colors, mq, spacing } from '@ndla/core';
+import { breakpoints, colors, mq, spacing, fonts } from '@ndla/core';
 import { SafeLinkButton } from '@ndla/safelink';
 import { Text } from '@ndla/typography';
 
 const StyledSafeLink = styled(SafeLinkButton)`
   color: ${colors.brand.primary};
-
   svg {
     height: ${spacing.normal};
     width: ${spacing.normal};
@@ -33,6 +32,10 @@ const IconWrapper = styled.span`
 `;
 
 const LongText = styled(Text)`
+  font-weight: ${fonts.weight.semibold};
+  &[data-current='true'] {
+    font-weight: ${fonts.weight.bold};
+  }
   ${mq.range({ until: breakpoints.desktop })} {
     display: none;
     width: 0px;
@@ -81,7 +84,11 @@ const NavigationLink = ({
       onClick={onClick}
     >
       <IconWrapper>{selectedIcon}</IconWrapper>
-      <LongText textStyle="meta-text-small" margin="none">
+      <LongText
+        textStyle="meta-text-small"
+        margin="none"
+        data-current={selected}
+      >
         {name}
       </LongText>
       <ShortText textStyle="meta-text-xxsmall" margin="none">
