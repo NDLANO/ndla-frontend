@@ -111,7 +111,7 @@ const MoreButton = styled(IconButtonV2)`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  padding: ${spacing.small};
+  padding: ${spacing.xxsmall} ${spacing.small};
   gap: ${spacing.xsmall};
   color: ${colors.brand.primary};
 
