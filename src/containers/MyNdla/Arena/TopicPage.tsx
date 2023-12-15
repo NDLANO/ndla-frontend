@@ -139,7 +139,7 @@ const TopicPage = () => {
       </Text>
       <StyledContainer>
         <Heading element="h2" headingStyle="h2" margin="none">
-          {t('myNdla.arena.category.posts')}
+          {t('myNdla.arena.posts.title')}
         </Heading>
         <ArenaTextModal type="topic" onSave={createTopic} />
       </StyledContainer>

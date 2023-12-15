@@ -101,7 +101,7 @@ const TopicCard = ({ id, title, locked, timestamp, count }: Props) => {
               {count}
             </Text>
             <StyledText textStyle="meta-text-small" margin="none">
-              {t('myNdla.arena.topic.responses')}
+              {t('myNdla.arena.topic.responses', { count })}
             </StyledText>
           </>
         )}
