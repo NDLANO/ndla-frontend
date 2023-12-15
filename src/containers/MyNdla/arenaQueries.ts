@@ -41,7 +41,7 @@ export const arenaCategoriesFragment = gql`
     htmlDescription
     id
     name
-    postCount
+    topicCount
     slug
   }
 `;
@@ -54,7 +54,7 @@ export const arenaCategoryFragment = gql`
     htmlDescription
     id
     name
-    postCount
+    topicCount
     slug
   }
 `;
