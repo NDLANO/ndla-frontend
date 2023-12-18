@@ -31,6 +31,7 @@ const StyledArrow = styled(Arrow)`
 `;
 
 const ShowAllLink = styled(SafeLinkButton)`
+  margin-top: ${spacing.small};
   width: 100%;
 `;
 

@@ -29,6 +29,7 @@ const ShortInfoDiv = styled.div`
 `;
 
 const StyledUl = styled.ul`
+  padding-left: ${spacing.mediumlarge};
   padding-bottom: ${spacing.small};
 `;
 
