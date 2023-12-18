@@ -6,35 +6,22 @@
  *
  */
 
-import { gql } from '@apollo/client';
+import { GraphQLError } from 'graphql';
+import { TFunction } from 'i18next';
 import { useContext, useEffect, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { OneColumn, LayoutItem, constants } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
-import { TFunction } from 'i18next';
-import { GraphQLError } from 'graphql';
+import { gql } from '@apollo/client';
 import { DynamicComponents } from '@ndla/article-converter';
 import { useTracker } from '@ndla/tracker';
-import Article from '../../components/Article';
-import ArticleHero from './components/ArticleHero';
+import { OneColumn, LayoutItem, constants } from '@ndla/ui';
 import ArticleErrorMessage from './components/ArticleErrorMessage';
-import { getContentType, isHeroContentType } from '../../util/getContentType';
-import { getArticleScripts } from '../../util/getArticleScripts';
-import getStructuredDataFromArticle, {
-  structuredArticleDataFragment,
-} from '../../util/getStructuredDataFromArticle';
-import { htmlTitle } from '../../util/titleHelper';
-import { getArticleProps } from '../../util/getArticleProps';
-import { getAllDimensions } from '../../util/trackingUtil';
-import { transformArticle } from '../../util/transformArticle';
-import Resources from '../Resources/Resources';
-import {
-  isLearningPathResource,
-  getLearningPathUrlFromResource,
-} from '../Resources/resourceHelpers';
+import ArticleHero from './components/ArticleHero';
 import { RedirectExternal, Status } from '../../components';
+import Article from '../../components/Article';
+import { AuthContext } from '../../components/AuthenticationContext';
+import AddEmbedToFolder from '../../components/MyNdla/AddEmbedToFolder';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
-import { toBreadcrumbItems } from '../../routeHelpers';
 import config from '../../config';
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from '../../constants';
 import {
@@ -44,8 +31,21 @@ import {
   GQLArticlePage_TopicFragment,
   GQLArticlePage_TopicPathFragment,
 } from '../../graphqlTypes';
-import AddEmbedToFolder from '../../components/MyNdla/AddEmbedToFolder';
-import { AuthContext } from '../../components/AuthenticationContext';
+import { toBreadcrumbItems } from '../../routeHelpers';
+import { getArticleProps } from '../../util/getArticleProps';
+import { getArticleScripts } from '../../util/getArticleScripts';
+import { getContentType, isHeroContentType } from '../../util/getContentType';
+import getStructuredDataFromArticle, {
+  structuredArticleDataFragment,
+} from '../../util/getStructuredDataFromArticle';
+import { htmlTitle } from '../../util/titleHelper';
+import { getAllDimensions } from '../../util/trackingUtil';
+import { transformArticle } from '../../util/transformArticle';
+import {
+  isLearningPathResource,
+  getLearningPathUrlFromResource,
+} from '../Resources/resourceHelpers';
+import Resources from '../Resources/Resources';
 
 interface Props {
   resource?: GQLArticlePage_ResourceFragment;

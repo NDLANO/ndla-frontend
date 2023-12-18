@@ -12,18 +12,18 @@ import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
-import { Heading, Text } from '@ndla/typography';
 import { HelmetWithTracker, useTracker } from '@ndla/tracker';
-import { arenaCategoryQuery, useArenaCategory } from '../arenaQueries';
-import TopicCard from './components/TopicCard';
-import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
-import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
-import { AuthContext } from '../../../components/AuthenticationContext';
-import ArenaTextModal from './components/ArenaTextModal';
+import { Heading, Text } from '@ndla/typography';
 import { ArenaFormValues } from './components/ArenaForm';
-import { useCreateArenaTopic } from '../arenaMutations';
-import { getAllDimensions } from '../../../util/trackingUtil';
+import ArenaTextModal from './components/ArenaTextModal';
+import TopicCard from './components/TopicCard';
+import { AuthContext } from '../../../components/AuthenticationContext';
 import { SKIP_TO_CONTENT_ID } from '../../../constants';
+import { getAllDimensions } from '../../../util/trackingUtil';
+import { useCreateArenaTopic } from '../arenaMutations';
+import { arenaCategoryQuery, useArenaCategory } from '../arenaQueries';
+import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
+import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
 
 const BreadcrumbWrapper = styled.div`
   padding-top: ${spacing.normal};
@@ -133,7 +133,7 @@ const TopicPage = () => {
       </Text>
       <StyledContainer>
         <Heading element="h2" headingStyle="h2" margin="none">
-          {t('myNdla.arena.category.posts')}
+          {t('myNdla.arena.posts.title')}
         </Heading>
         <ArenaTextModal type="topic" onSave={createTopic} />
       </StyledContainer>

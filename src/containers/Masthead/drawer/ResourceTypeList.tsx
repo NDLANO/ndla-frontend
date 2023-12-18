@@ -9,10 +9,10 @@
 import { ReactNode } from 'react';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
-import { ContentTypeBadge, resourceTypeColor } from '@ndla/ui';
 import { Heading } from '@ndla/typography';
-import { contentTypeMapping } from '../../../util/getContentType';
+import { ContentTypeBadge, resourceTypeColor } from '@ndla/ui';
 import { DrawerListItem } from './DrawerPortion';
+import { contentTypeMapping } from '../../../util/getContentType';
 
 const StyledResourceTypeList = styled.ul`
   flex: 1;

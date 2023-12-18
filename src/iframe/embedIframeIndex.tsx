@@ -7,15 +7,17 @@
  */
 
 import '../style/index.css';
-import { I18nextProvider } from 'react-i18next';
+import { ReactNode } from 'react';
+import { createRoot, hydrateRoot } from 'react-dom/client';
 import { HelmetProvider } from 'react-helmet-async';
-import { ApolloProvider } from '@apollo/client';
-import { i18nInstance } from '@ndla/ui';
-import { MissingRouterContext } from '@ndla/safelink';
-import ErrorReporter from '@ndla/error-reporter';
-import { CacheProvider } from '@emotion/react';
-import createCache from '@emotion/cache';
+import { I18nextProvider } from 'react-i18next';
 import { BrowserRouter } from 'react-router-dom';
+import { ApolloProvider } from '@apollo/client';
+import createCache from '@emotion/cache';
+import { CacheProvider } from '@emotion/react';
+import ErrorReporter from '@ndla/error-reporter';
+import { MissingRouterContext } from '@ndla/safelink';
+import { i18nInstance } from '@ndla/ui';
 import '@fontsource/source-sans-pro/index.css';
 import '@fontsource/source-sans-pro/400-italic.css';
 import '@fontsource/source-sans-pro/300.css';
@@ -28,13 +30,11 @@ import '@fontsource/source-code-pro/700.css';
 import '@fontsource/source-serif-pro/index.css';
 import '@fontsource/source-serif-pro/400-italic.css';
 import '@fontsource/source-serif-pro/700.css';
-import { ReactNode } from 'react';
-import { createRoot, hydrateRoot } from 'react-dom/client';
-import { EmotionCacheKey } from '../constants';
-import { createApolloClient } from '../util/apiHelpers';
-import { initializeI18n } from '../i18n';
 import EmbedIframePageContainer from './EmbedIframePageContainer';
+import { EmotionCacheKey } from '../constants';
+import { initializeI18n } from '../i18n';
 import { EmbedInitialProps } from '../server/routes/iframeEmbedRoute';
+import { createApolloClient } from '../util/apiHelpers';
 
 const { config, initialProps } = window.DATA;
 

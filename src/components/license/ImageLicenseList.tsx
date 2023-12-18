@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2016-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -6,7 +6,19 @@
  *
  */
 
+import uniqBy from 'lodash/uniqBy';
+import queryString from 'query-string';
+import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Link, useLocation } from 'react-router-dom';
 import { gql } from '@apollo/client';
+import styled from '@emotion/styled';
+import {
+  metaTypes,
+  getGroupedContributorDescriptionList,
+  figureApa7CopyString,
+} from '@ndla/licenses';
+import { SafeLinkButton } from '@ndla/safelink';
 import {
   Image,
   MediaList,
@@ -17,27 +29,16 @@ import {
   MediaListItemMeta,
   ItemType,
 } from '@ndla/ui';
-import {
-  metaTypes,
-  getGroupedContributorDescriptionList,
-  figureApa7CopyString,
-} from '@ndla/licenses';
-import { SafeLinkButton } from '@ndla/safelink';
-import queryString from 'query-string';
-import { useTranslation } from 'react-i18next';
-import { Link, useLocation } from 'react-router-dom';
-import styled from '@emotion/styled';
-import { useMemo } from 'react';
-import uniqBy from 'lodash/uniqBy';
 import CopyTextButton from './CopyTextButton';
-import { GQLImageLicenseList_ImageLicenseFragment } from '../../graphqlTypes';
+import LicenseDescription from './LicenseDescription';
+import { licenseListCopyrightFragment } from './licenseFragments';
 import {
   isCopyrighted,
   licenseCopyrightToCopyrightType,
 } from './licenseHelpers';
-import { licenseListCopyrightFragment } from './licenseFragments';
+import { MediaListRef } from './licenseStyles';
 import config from '../../config';
-import LicenseDescription from './LicenseDescription';
+import { GQLImageLicenseList_ImageLicenseFragment } from '../../graphqlTypes';
 
 export const downloadUrl = (imageSrc: string) => {
   const urlObject = queryString.parseUrl(imageSrc);
@@ -134,7 +135,7 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
         locale={i18n.language}
       >
         <MediaListItemActions>
-          <div className="c-medialist__ref">
+          <MediaListRef>
             <MediaListItemMeta items={items} />
             {image.copyright.license?.license !== 'COPYRIGHTED' && (
               <>
@@ -154,7 +155,7 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
                 </SafeLinkButton>
               </>
             )}
-          </div>
+          </MediaListRef>
         </MediaListItemActions>
       </MediaListItemBody>
     </MediaListItem>

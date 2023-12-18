@@ -6,11 +6,11 @@
  *
  */
 
-import { transform, TransformOptions } from '@ndla/article-converter';
 import { ReactNode } from 'react';
+import { transform, TransformOptions } from '@ndla/article-converter';
+import formatDate from './formatDate';
 import { GQLArticle } from '../graphqlTypes';
 import { LocaleType } from '../interfaces';
-import formatDate from './formatDate';
 
 function getContent(
   content: string,
@@ -53,7 +53,11 @@ export const transformArticle = <T extends BaseArticle>(
   locale: LocaleType,
   options?: TransformOptions,
 ): TransformedBaseArticle<T> => {
-  const content = getContent(article.content, options ?? {});
+  const updatedOptions =
+    options?.articleLanguage === 'nb'
+      ? { ...options, articleLanguage: 'no' }
+      : options;
+  const content = getContent(article.content, updatedOptions ?? {});
   const footNotes = article?.metaData?.footnotes ?? [];
   return {
     ...article,

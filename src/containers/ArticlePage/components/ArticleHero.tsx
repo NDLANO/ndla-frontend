@@ -6,8 +6,9 @@
  *
  */
 
-import styled from '@emotion/styled';
+import { ReactNode } from 'react';
 import { gql } from '@apollo/client';
+import styled from '@emotion/styled';
 import {
   Hero,
   HeroContent,
@@ -16,7 +17,6 @@ import {
   NdlaFilmHero,
   OneColumn,
 } from '@ndla/ui';
-import { ReactNode } from 'react';
 import {
   GQLArticleHero_MetaImageFragment,
   GQLArticleHero_SubjectFragment,

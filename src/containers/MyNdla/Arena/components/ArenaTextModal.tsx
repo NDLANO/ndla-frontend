@@ -6,6 +6,11 @@
  *
  */
 
+import { useCallback, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
+import { ButtonV2 } from '@ndla/button';
+import { Pencil } from '@ndla/icons/action';
 import {
   ModalBody,
   ModalCloseButton,
@@ -15,14 +20,8 @@ import {
   ModalTrigger,
   Modal,
 } from '@ndla/modal';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { useCallback, useState } from 'react';
-import { Pencil } from '@ndla/icons/action';
-import { spacing } from '@ndla/core';
-import { useUserAgent } from '../../../../UserAgentContext';
 import ArenaForm, { ArenaFormValues } from './ArenaForm';
+import { useUserAgent } from '../../../../UserAgentContext';
 
 const StyledModalBody = styled(ModalBody)`
   display: flex;
@@ -31,8 +30,8 @@ const StyledModalBody = styled(ModalBody)`
 `;
 
 const StyledPencil = styled(Pencil)`
-  width: ${spacing.snormal};
-  height: ${spacing.snormal};
+  width: 20px;
+  height: 20px;
 `;
 
 interface Props {

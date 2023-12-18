@@ -6,9 +6,9 @@
  *
  */
 
-import styled from '@emotion/styled';
 import { useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
+import styled from '@emotion/styled';
 import { useOnTopicPage } from '../../../routeHelpers';
 
 const VisuallyHiddenTitle = styled.p`

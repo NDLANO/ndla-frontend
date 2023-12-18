@@ -6,6 +6,10 @@
  *
  */
 
+import keyBy from 'lodash/keyBy';
+import { useCallback, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { breakpoints, colors, misc, mq, spacing } from '@ndla/core';
@@ -19,11 +23,12 @@ import {
   ModalTrigger,
 } from '@ndla/modal';
 import { ErrorMessage, OneColumn } from '@ndla/ui';
-import keyBy from 'lodash/keyBy';
-import { useCallback, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
+import FolderMeta from './components/FolderMeta';
+import FolderNavigation from './components/FolderNavigation';
+import SharedArticle from './components/SharedArticle';
+import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { GQLFolder, GQLFolderResource } from '../../graphqlTypes';
+import { useUserAgent } from '../../UserAgentContext';
 import ErrorPage from '../ErrorPage';
 import {
   useFolderResourceMetaSearch,
@@ -31,14 +36,9 @@ import {
   useSharedFolder,
 } from '../MyNdla/folderMutations';
 import NotFound from '../NotFoundPage/NotFoundPage';
-import FolderMeta from './components/FolderMeta';
-import FolderNavigation from './components/FolderNavigation';
-import SharedArticle from './components/SharedArticle';
-import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import ResourceEmbed, {
   StandaloneEmbed,
 } from '../ResourceEmbed/components/ResourceEmbed';
-import { useUserAgent } from '../../UserAgentContext';
 
 const Layout = styled.div`
   display: grid;

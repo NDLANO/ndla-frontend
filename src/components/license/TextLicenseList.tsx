@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2016-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -6,8 +6,14 @@
  *
  */
 
+import { useTranslation } from 'react-i18next';
 import { gql } from '@apollo/client';
-import { printPage } from '@ndla/util';
+import { ButtonV2 } from '@ndla/button';
+import { FileDocumentOutline } from '@ndla/icons/common';
+import {
+  metaTypes,
+  getGroupedContributorDescriptionList,
+} from '@ndla/licenses';
 import {
   MediaList,
   MediaListItem,
@@ -17,18 +23,13 @@ import {
   MediaListItemMeta,
 } from '@ndla/ui';
 import type { ItemType } from '@ndla/ui';
-import {
-  metaTypes,
-  getGroupedContributorDescriptionList,
-} from '@ndla/licenses';
-import { ButtonV2 } from '@ndla/button';
-import { FileDocumentOutline } from '@ndla/icons/common';
-import { useTranslation } from 'react-i18next';
+import { printPage } from '@ndla/util';
 import CopyTextButton from './CopyTextButton';
-import { GQLTextLicenseList_CopyrightFragment } from '../../graphqlTypes';
-import { licenseCopyrightToCopyrightType } from './licenseHelpers';
-import { licenseListCopyrightFragment } from './licenseFragments';
 import LicenseDescription from './LicenseDescription';
+import { licenseListCopyrightFragment } from './licenseFragments';
+import { licenseCopyrightToCopyrightType } from './licenseHelpers';
+import { MediaListRef, mediaListIcon } from './licenseStyles';
+import { GQLTextLicenseList_CopyrightFragment } from '../../graphqlTypes';
 
 interface TextLicenseInfoProps {
   text: TextItem;
@@ -71,7 +72,7 @@ const TextLicenseInfo = ({ text }: TextLicenseInfoProps) => {
   return (
     <MediaListItem>
       <MediaListItemImage>
-        <FileDocumentOutline className="c-medialist__icon" />
+        <FileDocumentOutline css={mediaListIcon} />
       </MediaListItemImage>
       <MediaListItemBody
         license={text.copyright.license?.license}
@@ -80,7 +81,7 @@ const TextLicenseInfo = ({ text }: TextLicenseInfoProps) => {
         locale={i18n.language}
       >
         <MediaListItemActions>
-          <div className="c-medialist__ref">
+          <MediaListRef>
             <MediaListItemMeta items={items} />
             {text.copyText && (
               <CopyTextButton
@@ -89,7 +90,7 @@ const TextLicenseInfo = ({ text }: TextLicenseInfoProps) => {
                 hasCopiedTitle={t('license.hasCopiedTitle')}
               />
             )}
-          </div>
+          </MediaListRef>
         </MediaListItemActions>
       </MediaListItemBody>
     </MediaListItem>

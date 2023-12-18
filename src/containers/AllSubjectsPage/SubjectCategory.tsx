@@ -6,15 +6,15 @@
  *
  */
 
+import { useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { buttonStyleV2 } from '@ndla/button';
 import { breakpoints, colors, misc, mq, spacing } from '@ndla/core';
 import { useIntersectionObserver } from '@ndla/hooks';
 import { Forward } from '@ndla/icons/common';
-import { OneColumn, useMastheadHeight } from '@ndla/ui';
-import { useRef } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Heading, Text } from '@ndla/typography';
+import { OneColumn, useMastheadHeight } from '@ndla/ui';
 import { Subject } from './interfaces';
 import SubjectLink from './SubjectLink';
 
@@ -80,17 +80,15 @@ const StyledArrow = styled(Forward)`
   transform: rotate(-90deg);
 `;
 
-interface GoToTopProps {
-  isSticky: boolean;
-}
-
-const GoToTop = styled(Text)<GoToTopProps>`
+const GoToTop = styled(Text)`
   display: flex;
   align-items: center;
   gap: ${spacing.small};
   box-shadow: none;
   color: ${colors.brand.primary};
-  opacity: ${({ isSticky }) => (isSticky ? 1 : 0)};
+  &[data-sticky='false'] {
+    opacity: 0;
+  }
   transition: ${misc.transition.default};
   :focus,
   :hover {
@@ -140,7 +138,7 @@ const SubjectCategory = ({ label, subjects, favorites }: Props) => {
           <GoToTop
             textStyle="button"
             element="a"
-            isSticky={!!entry?.isIntersecting}
+            data-sticky={!!entry?.isIntersecting}
             href="#SkipToContentId"
           >
             {t('subjectsPage.goToTop')} <StyledArrow />

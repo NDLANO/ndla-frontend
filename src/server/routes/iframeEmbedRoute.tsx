@@ -8,25 +8,25 @@
 
 import url from 'url';
 import { Request } from 'express';
-import { i18nInstance } from '@ndla/ui';
-import { I18nextProvider } from 'react-i18next';
 import { FilledContext, HelmetProvider } from 'react-helmet-async';
+import { I18nextProvider } from 'react-i18next';
 import { StaticRouter } from 'react-router-dom/server.js';
 import { ApolloProvider } from '@apollo/client';
-import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
-import { INTERNAL_SERVER_ERROR, OK } from '../../statusCodes';
-import { getHtmlLang, initializeI18n, isValidLocale } from '../../i18n';
-import config from '../../config';
-import handleError from '../../util/handleError';
-import { renderPageWithData, renderHtml } from '../helpers/render';
-import { EmotionCacheKey } from '../../constants';
-import { createApolloClient } from '../../util/apiHelpers';
+import { CacheProvider } from '@emotion/react';
+import { i18nInstance } from '@ndla/ui';
 import RedirectContext, {
   RedirectInfo,
 } from '../../components/RedirectContext';
-import { LocaleType, LtiData } from '../../interfaces';
+import config from '../../config';
+import { EmotionCacheKey } from '../../constants';
+import { getHtmlLang, initializeI18n, isValidLocale } from '../../i18n';
 import EmbedIframePageContainer from '../../iframe/EmbedIframePageContainer';
+import { LocaleType, LtiData } from '../../interfaces';
+import { INTERNAL_SERVER_ERROR, OK } from '../../statusCodes';
+import { createApolloClient } from '../../util/apiHelpers';
+import handleError from '../../util/handleError';
+import { renderPageWithData, renderHtml } from '../helpers/render';
 
 export type EmbedInitialProps = {
   embedId?: string;

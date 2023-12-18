@@ -7,8 +7,8 @@
  */
 
 import { Location } from 'react-router-dom';
-import { LocaleType } from '../interfaces';
 import { preferredLocales } from '../i18n';
+import { LocaleType } from '../interfaces';
 
 const getLocaleURL = (
   newLocale: LocaleType,

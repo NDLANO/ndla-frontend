@@ -15,10 +15,11 @@ export const privateRoutes = [
   'minndla/tags',
   'minndla/tags/:tag',
   'minndla/folders/:folderId',
+  'minndla/folders/:folderId/preview',
   'minndla/subjects',
   'minndla/arena/notifications',
   'minndla/profile',
-  'minndla/user/:username',
+  'minndla/arena/user/:username',
 ];
 
 export const routes = [

@@ -8,18 +8,18 @@
 
 import { useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Navigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
-import { Heading, Text } from '@ndla/typography';
 import { HelmetWithTracker, useTracker } from '@ndla/tracker';
-import { Navigate } from 'react-router-dom';
-import { AuthContext } from '../../../components/AuthenticationContext';
-import { useArenaCategories } from '../arenaQueries';
+import { Heading, Text } from '@ndla/typography';
 import ArenaCard from './components/ArenaCard';
-import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
-import { getAllDimensions } from '../../../util/trackingUtil';
+import { AuthContext } from '../../../components/AuthenticationContext';
 import { SKIP_TO_CONTENT_ID } from '../../../constants';
+import { getAllDimensions } from '../../../util/trackingUtil';
+import { useArenaCategories } from '../arenaQueries';
+import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
 
 const StyledCardContainer = styled.ul`
   display: flex;
@@ -82,7 +82,7 @@ const ArenaPage = () => {
                 id={category.id}
                 title={category.name}
                 subText={category.description}
-                count={category.postCount}
+                count={category.topicCount}
               />
             </ArenaCardWrapper>
           ))}

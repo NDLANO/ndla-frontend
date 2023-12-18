@@ -1,31 +1,38 @@
-import { useState, useRef, useEffect, FormEvent } from 'react';
-import { SearchField, SearchResultSleeve, SearchFieldForm } from '@ndla/ui';
-import queryString from 'query-string';
-import { gql, useLazyQuery } from '@apollo/client';
-import { useLocation, useNavigate } from 'react-router-dom';
+/**
+ * Copyright (c) 2020-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
 import debounce from 'lodash/debounce';
+import queryString from 'query-string';
+import { useState, useRef, useEffect, FormEvent } from 'react';
 
 import { useTranslation } from 'react-i18next';
-import { Drawer, Modal, ModalTrigger } from '@ndla/modal';
-import { ButtonV2, IconButtonV2 } from '@ndla/button';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { gql, useLazyQuery } from '@apollo/client';
 import styled from '@emotion/styled';
-import { colors, spacing } from '@ndla/core';
-import { Search } from '@ndla/icons/common';
+import { ButtonV2, IconButtonV2 } from '@ndla/button';
+import { breakpoints, colors, mq, spacing } from '@ndla/core';
 import { Cross } from '@ndla/icons/action';
-import { groupSearchQuery } from '../../../queries';
-import { searchResultToLinkProps } from '../../SearchPage/searchHelpers';
-import { contentTypeMapping } from '../../../util/getContentType';
+import { Search } from '@ndla/icons/common';
+import { Drawer, Modal, ModalTrigger } from '@ndla/modal';
+import { SearchField, SearchResultSleeve, SearchFieldForm } from '@ndla/ui';
 import {
   RESOURCE_TYPE_SUBJECT_MATERIAL,
   RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
   RESOURCE_TYPE_LEARNING_PATH,
 } from '../../../constants';
-import { toSearch, useIsNdlaFilm } from '../../../routeHelpers';
 import {
   GQLGroupSearchQuery,
   GQLGroupSearchQueryVariables,
   GQLMastheadSearch_SubjectFragment,
 } from '../../../graphqlTypes';
+import { groupSearchQuery } from '../../../queries';
+import { toSearch, useIsNdlaFilm } from '../../../routeHelpers';
+import { contentTypeMapping } from '../../../util/getContentType';
+import { searchResultToLinkProps } from '../../SearchPage/searchHelpers';
 
 const debounceCall = debounce((fun: (func?: Function) => void) => fun(), 250);
 
@@ -40,6 +47,16 @@ const StyledButton = styled(ButtonV2)`
     width: 24px;
     height: 24px;
   }
+
+  ${mq.range({ until: breakpoints.mobileWide })} {
+    border-radius: 100%;
+    background: transparent;
+    border-color: transparent;
+    padding: ${spacing.xsmall};
+    span {
+      display: none;
+    }
+  }
 `;
 
 const StyledCloseButton = styled(IconButtonV2)`
@@ -47,11 +64,14 @@ const StyledCloseButton = styled(IconButtonV2)`
 `;
 
 const SearchWrapper = styled.div`
-  width: 60%;
-  padding: ${spacing.normal} 0px;
+  width: 100%;
+  padding: ${spacing.normal} ${spacing.normal};
   display: flex;
   align-items: flex-start;
   gap: ${spacing.xsmall};
+  ${mq.range({ from: breakpoints.desktop })} {
+    width: 60%;
+  }
 `;
 
 const StyledDrawer = styled(Drawer)`
@@ -176,9 +196,11 @@ const MastheadSearch = ({ subject }: Props) => {
       <ModalTrigger>
         <StyledButton
           colorTheme={ndlaFilm ? 'primary' : 'greyLighter'}
+          aria-label={t('masthead.menu.search')}
+          title={t('masthead.menu.search')}
           fontWeight="normal"
         >
-          {t('masthead.menu.search')}
+          <span>{t('masthead.menu.search')}</span>
           <Search />
         </StyledButton>
       </ModalTrigger>

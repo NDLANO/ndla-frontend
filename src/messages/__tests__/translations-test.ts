@@ -7,9 +7,9 @@
  */
 
 import { validateTranslationFiles } from '@ndla/util';
+import en from '../messagesEN';
 import nb from '../messagesNB';
 import nn from '../messagesNN';
-import en from '../messagesEN';
 
 test('That all translations has all language keys', () => {
   const anyMissing = validateTranslationFiles(

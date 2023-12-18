@@ -8,10 +8,10 @@
 import { useTranslation } from 'react-i18next';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { Text } from '@ndla/typography';
-import SafeLink from '@ndla/safelink';
 import { colors, spacing, misc } from '@ndla/core';
 import { Locked } from '@ndla/icons/common';
+import SafeLink from '@ndla/safelink';
+import { Text } from '@ndla/typography';
 import { formatDateTime } from '../../../../util/formatDate';
 import { toArenaTopic } from '../utils';
 
@@ -101,7 +101,7 @@ const TopicCard = ({ id, title, locked, timestamp, count }: Props) => {
               {count}
             </Text>
             <StyledText textStyle="meta-text-small" margin="none">
-              {t('myNdla.arena.topic.responses')}
+              {t('myNdla.arena.topic.responses', { count })}
             </StyledText>
           </>
         )}

@@ -2,17 +2,18 @@
  * Copyright (c) 2020-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
- * LICENSE file in the root directory of this source tree. *
+ * LICENSE file in the root directory of this source tree.
+ *
  */
 
 import { useState, useEffect, useMemo, FormEvent } from 'react';
-import { SearchHeader as SearchHeaderUI } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
-import { getSubjectsCategories } from '../../../util/subjects';
+import { SearchHeader as SearchHeaderUI } from '@ndla/ui';
 import { groupCompetenceGoals } from '../../../components/CompetenceGoals';
-import { SearchCompetenceGoal, SearchCoreElements } from '../SearchInnerPage';
-import { LocaleType } from '../../../interfaces';
 import { GQLSubjectInfoFragment } from '../../../graphqlTypes';
+import { LocaleType } from '../../../interfaces';
+import { getSubjectsCategories } from '../../../util/subjects';
+import { SearchCompetenceGoal, SearchCoreElements } from '../SearchInnerPage';
 
 interface Props {
   handleSearchParamsChange: (updates: Record<string, any>) => void;

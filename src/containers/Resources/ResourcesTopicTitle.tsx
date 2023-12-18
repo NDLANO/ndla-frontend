@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2022-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -9,7 +9,9 @@
 import { useTranslation } from 'react-i18next';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { IconButtonV2 } from '@ndla/button';
 import { breakpoints, mq, spacing } from '@ndla/core';
+import { LearningPathQuiz } from '@ndla/icons/contentType';
 import {
   ModalBody,
   ModalHeader,
@@ -19,8 +21,6 @@ import {
   ModalContent,
 } from '@ndla/modal';
 import { Switch } from '@ndla/switch';
-import { LearningPathQuiz } from '@ndla/icons/contentType';
-import { IconButtonV2 } from '@ndla/button';
 import { Heading, Text } from '@ndla/typography';
 import { HeadingType } from '../../interfaces';
 

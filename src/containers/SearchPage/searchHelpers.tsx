@@ -1,20 +1,27 @@
-import { ReactNode } from 'react';
-import queryString from 'query-string';
+/**
+ * Copyright (c) 2020-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
 import { TFunction } from 'i18next';
+import queryString from 'query-string';
+import { ReactNode } from 'react';
 import { Location } from 'react-router-dom';
 import { ContentTypeBadge, Image } from '@ndla/ui';
-import {
-  contentTypeMapping,
-  resourceTypeMapping,
-} from '../../util/getContentType';
-import LtiEmbed from '../../lti/LtiEmbed';
-import { LocaleType, LtiData } from '../../interfaces';
+import { RELEVANCE_SUPPLEMENTARY } from '../../constants';
 import {
   GQLGroupSearchQuery,
   GQLGroupSearchResourceFragment,
   GQLResourceTypeDefinition,
 } from '../../graphqlTypes';
-import { RELEVANCE_SUPPLEMENTARY } from '../../constants';
+import { LocaleType, LtiData } from '../../interfaces';
+import LtiEmbed from '../../lti/LtiEmbed';
+import {
+  contentTypeMapping,
+  resourceTypeMapping,
+} from '../../util/getContentType';
 
 export const searchResultToLinkProps = (result?: { path?: string }) => {
   return result?.path ? { to: result.path } : { to: '/404' };
@@ -183,8 +190,8 @@ export const mapResourcesToItems = (
           language,
         )
       : resource.contexts?.length
-      ? resource.contexts[0]?.path || resource.path
-      : plainUrl(resource.path),
+        ? resource.contexts[0]?.path || resource.path
+        : plainUrl(resource.path),
     labels: [
       ...mapTraits(resource.traits, t),
       ...getContextLabels(resource.contexts),

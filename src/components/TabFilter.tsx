@@ -6,11 +6,11 @@
  *
  */
 
+import { useTranslation } from 'react-i18next';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { colors, spacing } from '@ndla/core';
-import { useTranslation } from 'react-i18next';
 
 interface StyledProps {
   selected: boolean;

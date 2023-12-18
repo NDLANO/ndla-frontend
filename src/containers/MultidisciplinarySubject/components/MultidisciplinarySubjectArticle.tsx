@@ -6,30 +6,30 @@
  *
  */
 
-import { gql } from '@apollo/client';
 import { useRef, useMemo, useEffect, useContext } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { OneColumn, SimpleBreadcrumbItem } from '@ndla/ui';
-import { useTracker } from '@ndla/tracker';
-import { DynamicComponents } from '@ndla/article-converter';
 import { useTranslation } from 'react-i18next';
-import { getAllDimensions } from '../../../util/trackingUtil';
-import { htmlTitle } from '../../../util/titleHelper';
+import { gql } from '@apollo/client';
+import { DynamicComponents } from '@ndla/article-converter';
+import { useTracker } from '@ndla/tracker';
+import { OneColumn, SimpleBreadcrumbItem } from '@ndla/ui';
 import Article from '../../../components/Article';
-import Resources from '../../Resources/Resources';
+import { AuthContext } from '../../../components/AuthenticationContext';
+import AddEmbedToFolder from '../../../components/MyNdla/AddEmbedToFolder';
+import config from '../../../config';
 import {
   GQLMultidisciplinarySubjectArticle_ResourceTypeDefinitionFragment,
   GQLMultidisciplinarySubjectArticle_SubjectFragment,
   GQLMultidisciplinarySubjectArticle_TopicFragment,
 } from '../../../graphqlTypes';
-import { transformArticle } from '../../../util/transformArticle';
-import config from '../../../config';
-import { getArticleScripts } from '../../../util/getArticleScripts';
-import AddEmbedToFolder from '../../../components/MyNdla/AddEmbedToFolder';
 import { removeUrn } from '../../../routeHelpers';
+import { getArticleScripts } from '../../../util/getArticleScripts';
 import { getTopicPath } from '../../../util/getTopicPath';
+import { htmlTitle } from '../../../util/titleHelper';
+import { getAllDimensions } from '../../../util/trackingUtil';
+import { transformArticle } from '../../../util/transformArticle';
+import Resources from '../../Resources/Resources';
 import MultidisciplinarySubjectHeader from '../MultidisciplinarySubjectHeader';
-import { AuthContext } from '../../../components/AuthenticationContext';
 
 const filterCodes: Record<string, 'publicHealth' | 'democracy' | 'climate'> = {
   TT1: 'publicHealth',

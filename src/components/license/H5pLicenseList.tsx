@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2016-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -6,9 +6,16 @@
  *
  */
 
+import uniqBy from 'lodash/uniqBy';
+import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { gql } from '@apollo/client';
-import { uuid } from '@ndla/util';
+import { H5PBold } from '@ndla/icons/editor';
+import {
+  metaTypes,
+  getGroupedContributorDescriptionList,
+} from '@ndla/licenses';
 import {
   MediaList,
   MediaListItem,
@@ -18,19 +25,13 @@ import {
   MediaListItemMeta,
   ItemType,
 } from '@ndla/ui';
-import {
-  metaTypes,
-  getGroupedContributorDescriptionList,
-} from '@ndla/licenses';
-import { H5PBold } from '@ndla/icons/editor';
-import { useTranslation } from 'react-i18next';
-import { useMemo } from 'react';
-import uniqBy from 'lodash/uniqBy';
-import { GQLH5pLicenseList_H5pLicenseFragment } from '../../graphqlTypes';
+import { uuid } from '@ndla/util';
 import CopyTextButton from './CopyTextButton';
-import { licenseCopyrightToCopyrightType } from './licenseHelpers';
-import { licenseListCopyrightFragment } from './licenseFragments';
 import LicenseDescription from './LicenseDescription';
+import { licenseListCopyrightFragment } from './licenseFragments';
+import { licenseCopyrightToCopyrightType } from './licenseHelpers';
+import { MediaListRef, mediaListIcon } from './licenseStyles';
+import { GQLH5pLicenseList_H5pLicenseFragment } from '../../graphqlTypes';
 
 interface H5pLicenseInfoProps {
   h5p: GQLH5pLicenseList_H5pLicenseFragment;
@@ -62,7 +63,7 @@ const H5pLicenseInfo = ({ h5p }: H5pLicenseInfoProps) => {
           rel="noopener noreferrer"
           aria-label={t('embed.goTo', { type: t('embed.type.h5p') })}
         >
-          <H5PBold className="c-medialist__icon" />
+          <H5PBold css={mediaListIcon} />
         </a>
       </MediaListItemImage>
       <MediaListItemBody
@@ -73,14 +74,14 @@ const H5pLicenseInfo = ({ h5p }: H5pLicenseInfoProps) => {
         locale={i18n.language}
       >
         <MediaListItemActions>
-          <div className="c-medialist__ref">
+          <MediaListRef>
             <MediaListItemMeta items={items} />
             <CopyTextButton
               stringToCopy={`<iframe title="${h5p.title}" aria-label="${h5p.src}" height="400" width="500" frameborder="0" src="${h5p.src}" allowfullscreen=""></iframe>`}
               copyTitle={t('license.embed')}
               hasCopiedTitle={t('license.embedCopied')}
             />
-          </div>
+          </MediaListRef>
         </MediaListItemActions>
       </MediaListItemBody>
     </MediaListItem>

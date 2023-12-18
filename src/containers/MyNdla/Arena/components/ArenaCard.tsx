@@ -9,10 +9,10 @@
 import { useTranslation } from 'react-i18next';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { Text } from '@ndla/typography';
-import SafeLink from '@ndla/safelink';
 import { colors, spacing, breakpoints, mq, misc } from '@ndla/core';
 import { Forum, ForumOutlined } from '@ndla/icons/common';
+import SafeLink from '@ndla/safelink';
+import { Text } from '@ndla/typography';
 import { toArenaCategory } from '../utils';
 
 interface Props {
@@ -119,7 +119,7 @@ const ArenaCard = ({ id, title, subText, count }: Props) => {
             {count}
           </Text>
           <Text textStyle="meta-text-small" margin="none">
-            {t('myNdla.arena.category.posts')}
+            {t('myNdla.arena.category.posts', { count })}
           </Text>
         </StyledCountContainer>
       </SpacingContainer>

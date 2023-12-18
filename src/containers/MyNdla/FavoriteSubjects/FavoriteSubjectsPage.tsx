@@ -6,23 +6,23 @@
  *
  */
 
-import { Spinner } from '@ndla/icons';
 import { useEffect, useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
-import { HelmetWithTracker, useTracker } from '@ndla/tracker';
-import { useNavigate } from 'react-router-dom';
-import { SafeLinkButton } from '@ndla/safelink';
+import { Spinner } from '@ndla/icons';
 import { Forward } from '@ndla/icons/common';
+import { SafeLinkButton } from '@ndla/safelink';
+import { HelmetWithTracker, useTracker } from '@ndla/tracker';
 import { AuthContext } from '../../../components/AuthenticationContext';
-import SubjectLink from '../../AllSubjectsPage/SubjectLink';
-import { useSubjects } from '../subjectQueries';
-import MyNdlaTitle from '../components/MyNdlaTitle';
 import { getAllDimensions } from '../../../util/trackingUtil';
+import SubjectLink from '../../AllSubjectsPage/SubjectLink';
 import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
-import { buttonCss, iconCss } from '../Folders/FoldersPage';
+import MyNdlaTitle from '../components/MyNdlaTitle';
 import SettingsMenu from '../components/SettingsMenu';
+import { buttonCss, iconCss } from '../Folders/FoldersPage';
+import { useSubjects } from '../subjectQueries';
 
 const StyledSubjectLink = styled(SubjectLink)`
   border: 1px solid ${colors.brand.neutral7};
@@ -91,6 +91,7 @@ const FavoriteSubjectsPage = () => {
             onClick: () => navigate('/subjects'),
           },
         ]}
+        modalHeader={t('myNdla.tools')}
       />
     ),
     [t, navigate],

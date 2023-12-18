@@ -6,29 +6,29 @@
  *
  */
 
+import keyBy from 'lodash/keyBy';
 import { useContext, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import keyBy from 'lodash/keyBy';
 import styled from '@emotion/styled';
 import { colors, fonts, spacing } from '@ndla/core';
 import { ForwardArrow } from '@ndla/icons/action';
 import SafeLink from '@ndla/safelink';
-import { CampaignBlock, ListResource } from '@ndla/ui';
 import { HelmetWithTracker, useTracker } from '@ndla/tracker';
 import { Heading } from '@ndla/typography';
-import { AuthContext } from '../../components/AuthenticationContext';
+import { CampaignBlock, ListResource } from '@ndla/ui';
+import TopicCard from './Arena/components/TopicCard';
+import { useRecentTopics } from './arenaQueries';
+import MyNdlaPageWrapper from './components/MyNdlaPageWrapper';
+import MyNdlaTitle from './components/MyNdlaTitle';
+import TitleWrapper from './components/TitleWrapper';
+import { useAiOrgs } from './configQueries';
 import {
   useFolderResourceMetaSearch,
   useRecentlyUsedResources,
 } from './folderMutations';
-import MyNdlaTitle from './components/MyNdlaTitle';
-import TitleWrapper from './components/TitleWrapper';
 import { isStudent } from './Folders/util';
+import { AuthContext } from '../../components/AuthenticationContext';
 import { getAllDimensions } from '../../util/trackingUtil';
-import MyNdlaPageWrapper from './components/MyNdlaPageWrapper';
-import { useAiOrgs } from './configQueries';
-import { useRecentTopics } from './arenaQueries';
-import TopicCard from './Arena/components/TopicCard';
 
 const StyledPageContentContainer = styled.div`
   display: flex;
@@ -59,8 +59,8 @@ const StyledSafeLink = styled(SafeLink)`
   color: ${colors.brand.primary};
   text-underline-offset: ${spacing.xsmall};
   svg {
-    width: ${spacing.snormal};
-    height: ${spacing.snormal};
+    width: 20px;
+    height: 20px;
     margin-left: ${spacing.xsmall};
   }
   &:focus-within,
@@ -124,7 +124,7 @@ const MyNdlaPage = () => {
       <StyledPageContentContainer>
         <HelmetWithTracker title={t('htmlTitles.myNdlaPage')} />
         <TitleWrapper>
-          <MyNdlaTitle title={t('myNdla.myPage.myPage')} />
+          <MyNdlaTitle title={t('myNdla.myNDLA')} />
         </TitleWrapper>
         <StyledDescription>{t('myNdla.myPage.welcome')}</StyledDescription>
         {allowedAiOrgs.includes(user?.organization ?? '') && (

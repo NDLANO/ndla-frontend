@@ -6,37 +6,30 @@
  *
  */
 
-import styled from '@emotion/styled';
 import { useContext, useEffect, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { gql } from '@apollo/client';
+import styled from '@emotion/styled';
+import { breakpoints, mq, spacing, utils } from '@ndla/core';
 import { HelmetWithTracker, useTracker } from '@ndla/tracker';
 import {
   ProgrammeV2,
   FrontpageArticle,
   WIDE_FRONTPAGE_ARTICLE_MAX_WIDTH,
 } from '@ndla/ui';
-import {
-  breakpoints,
-  colors,
-  mq,
-  spacing,
-  spacingUnit,
-  utils,
-} from '@ndla/core';
-import { useTranslation } from 'react-i18next';
-import { gql } from '@apollo/client';
 
-import { PROGRAMME_PATH, SKIP_TO_CONTENT_ID } from '../../constants';
+import Programmes from './Components/Programmes';
+import { AuthContext } from '../../components/AuthenticationContext';
+import LicenseBox from '../../components/license/LicenseBox';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import config from '../../config';
+import { PROGRAMME_PATH, SKIP_TO_CONTENT_ID } from '../../constants';
 import { GQLFrontpageDataQuery, GQLProgrammePage } from '../../graphqlTypes';
-import Programmes from './Components/Programmes';
-import LicenseBox from '../../components/license/LicenseBox';
+import { getArticleScripts } from '../../util/getArticleScripts';
 import { structuredArticleDataFragment } from '../../util/getStructuredDataFromArticle';
 import { useGraphQuery } from '../../util/runQueries';
-import { transformArticle } from '../../util/transformArticle';
-import { getArticleScripts } from '../../util/getArticleScripts';
-import { AuthContext } from '../../components/AuthenticationContext';
 import { getAllDimensions } from '../../util/trackingUtil';
+import { transformArticle } from '../../util/transformArticle';
 
 const HiddenHeading = styled.h1`
   ${utils.visuallyHidden};
@@ -47,9 +40,8 @@ const StyledMain = styled.main`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-bottom: ${spacingUnit * 3}px;
+  padding-bottom: ${spacing.xlarge};
   padding-top: ${spacing.normal};
-  background-color: ${colors.background.lightBlue};
 
   section {
     padding: 0px;
@@ -64,7 +56,7 @@ const StyledMain = styled.main`
   }
   /* This is a SSR-friendly :first-child */
   [data-wide] > section > *:not(:is(*:not(style) ~ *)) {
-    margin-top: ${spacingUnit * 4}px;
+    margin-top: ${spacing.xxlarge};
   }
 `;
 

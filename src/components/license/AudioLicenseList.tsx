@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2016-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -6,8 +6,17 @@
  *
  */
 
+import uniqBy from 'lodash/uniqBy';
+import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Link, useLocation } from 'react-router-dom';
 import { gql } from '@apollo/client';
-import { uuid } from '@ndla/util';
+import { AudioDocument } from '@ndla/icons/common';
+import {
+  getGroupedContributorDescriptionList,
+  metaTypes,
+} from '@ndla/licenses';
+import { SafeLinkButton } from '@ndla/safelink';
 import {
   MediaList,
   MediaListItem,
@@ -17,23 +26,15 @@ import {
   MediaListItemMeta,
   ItemType,
 } from '@ndla/ui';
-import { AudioDocument } from '@ndla/icons/common';
-import {
-  getGroupedContributorDescriptionList,
-  metaTypes,
-} from '@ndla/licenses';
-import { useTranslation } from 'react-i18next';
-import { SafeLinkButton } from '@ndla/safelink';
-import { Link, useLocation } from 'react-router-dom';
-import uniqBy from 'lodash/uniqBy';
-import { useMemo } from 'react';
-import { GQLAudioLicenseList_AudioLicenseFragment } from '../../graphqlTypes';
+import { uuid } from '@ndla/util';
+import LicenseDescription from './LicenseDescription';
+import { licenseListCopyrightFragment } from './licenseFragments';
 import {
   isCopyrighted,
   licenseCopyrightToCopyrightType,
 } from './licenseHelpers';
-import { licenseListCopyrightFragment } from './licenseFragments';
-import LicenseDescription from './LicenseDescription';
+import { MediaListRef, mediaListIcon } from './licenseStyles';
+import { GQLAudioLicenseList_AudioLicenseFragment } from '../../graphqlTypes';
 
 interface AudioLicenseInfoProps {
   audio: GQLAudioLicenseList_AudioLicenseFragment;
@@ -82,7 +83,7 @@ const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
     <MediaListItem>
       <MediaListItemImage canOpen={shouldShowLink}>
         {!shouldShowLink ? (
-          <AudioDocument className="c-medialist__icon" />
+          <AudioDocument css={mediaListIcon} />
         ) : (
           <Link
             to={pageUrl}
@@ -90,7 +91,7 @@ const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
             rel="noopener noreferrer"
             aria-label={t('embed.goTo', { type: t('embed.type.audio') })}
           >
-            <AudioDocument className="c-medialist__icon" />
+            <AudioDocument css={mediaListIcon} />
           </Link>
         )}
       </MediaListItemImage>
@@ -103,7 +104,7 @@ const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
         locale={i18n.language}
       >
         <MediaListItemActions>
-          <div className="c-medialist__ref">
+          <MediaListRef>
             <MediaListItemMeta items={items} />
             {audio.copyright.license?.license !== 'COPYRIGHTED' && (
               <>
@@ -112,7 +113,7 @@ const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
                 </SafeLinkButton>
               </>
             )}
-          </div>
+          </MediaListRef>
         </MediaListItemActions>
       </MediaListItemBody>
     </MediaListItem>

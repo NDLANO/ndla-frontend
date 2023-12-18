@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2023-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -6,13 +6,13 @@
  *
  */
 
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
-import Icon from '@ndla/icons';
-import { useTranslation } from 'react-i18next';
-import { Pencil } from '@ndla/icons/action';
-import { useState } from 'react';
 import { spacing } from '@ndla/core';
+import Icon from '@ndla/icons';
+import { Pencil } from '@ndla/icons/action';
 import { Modal, ModalTrigger } from '@ndla/modal';
 
 const StyledChangeAvatarButton = styled(ButtonV2)`
@@ -21,8 +21,8 @@ const StyledChangeAvatarButton = styled(ButtonV2)`
 `;
 
 const StyledPencilSvg = styled(Icon)`
-  width: ${spacing.snormal};
-  height: ${spacing.snormal};
+  width: 20px;
+  height: 20px;
 `;
 
 const PencilIcon = StyledPencilSvg.withComponent(Pencil);

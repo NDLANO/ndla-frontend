@@ -2916,7 +2916,7 @@ export type GQLArenaCategoriesFragment = {
   htmlDescription: string;
   id: number;
   name: string;
-  postCount: number;
+  topicCount: number;
   slug: string;
 };
 
@@ -2927,7 +2927,7 @@ export type GQLArenaCategoryFragment = {
   htmlDescription: string;
   id: number;
   name: string;
-  postCount: number;
+  topicCount: number;
   slug: string;
 };
 
@@ -2957,6 +2957,7 @@ export type GQLArenaPostFragment = {
     displayName: string;
     profilePicture?: string;
     username: string;
+    location?: string;
   };
 };
 
@@ -3657,7 +3658,7 @@ export type GQLPodcastSeriesPageQuery = {
     hasRSS: boolean;
     title: { __typename?: 'Title'; title: string };
     description: { __typename?: 'Description'; description: string };
-    coverPhoto: { __typename?: 'CoverPhoto'; url: string };
+    coverPhoto: { __typename?: 'CoverPhoto'; url: string; altText: string };
     content?: {
       __typename?: 'ResourceEmbed';
       content: string;

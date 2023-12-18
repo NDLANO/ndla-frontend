@@ -6,12 +6,12 @@
  *
  */
 
-import { TreeStructure } from '@ndla/ui';
-import { useTranslation } from 'react-i18next';
 import { useEffect, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { TreeStructure } from '@ndla/ui';
+import { ComboboxContainer } from './AddResourceToFolder';
 import NewFolder from './NewFolder';
 import { GQLFolder, GQLFolderResource } from '../../graphqlTypes';
-import { ComboboxContainer } from './AddResourceToFolder';
 
 interface Props {
   folders: GQLFolder[];
@@ -56,8 +56,8 @@ const FolderSelect = ({
     const defaultOpen = defaultOpenFolderIds
       ? ['folders'].concat(defaultOpenFolderIds)
       : firstFolderId
-      ? ['folders', firstFolderId]
-      : ['folders'];
+        ? ['folders', firstFolderId]
+        : ['folders'];
 
     return defaultOpen;
   }, [structureFolders, defaultOpenFolder?.breadcrumbs]);

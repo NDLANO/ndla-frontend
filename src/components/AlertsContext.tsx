@@ -1,4 +1,10 @@
-import { useQuery } from '@apollo/client';
+/**
+ * Copyright (c) 2022-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
 import partition from 'lodash/partition';
 import uniq from 'lodash/uniq';
 import {
@@ -9,6 +15,7 @@ import {
   useState,
   useCallback,
 } from 'react';
+import { useQuery } from '@apollo/client';
 import {
   GQLAlertsQuery,
   GQLAlertsQueryVariables,

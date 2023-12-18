@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2023-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -6,30 +6,30 @@
  *
  */
 
+import { $getRoot, EditorState } from 'lexical';
 import { forwardRef, useState } from 'react';
-import { TFunction } from 'i18next';
-import { $getRoot, $insertNodes, EditorState } from 'lexical';
+import styled from '@emotion/styled';
+import { $generateNodesFromDOM } from '@lexical/html';
+import { $convertToMarkdownString } from '@lexical/markdown';
 import {
   LexicalComposer,
   InitialConfigType,
 } from '@lexical/react/LexicalComposer';
 import { ContentEditable } from '@lexical/react/LexicalContentEditable';
-import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
-import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
-import { ListPlugin } from '@lexical/react/LexicalListPlugin';
-import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin';
-import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
-import { $convertToMarkdownString } from '@lexical/markdown';
-import { $generateNodesFromDOM } from '@lexical/html';
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
-import styled from '@emotion/styled';
+import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
+import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin';
+import { ListPlugin } from '@lexical/react/LexicalListPlugin';
+import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
+import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
+import { $rootTextContent } from '@lexical/text';
 import { colors, misc, spacing } from '@ndla/core';
 import { useFormControl } from '@ndla/forms';
-import { EditorToolbar } from './EditorToolbar';
-import { editorNodes } from './nodes';
-import { MarkdownPlugin, PLAYGROUND_TRANSFORMERS } from './MarkdownPlugin';
 import { editorTheme } from './editorTheme';
+import { EditorToolbar } from './EditorToolbar';
 import { FloatingLinkEditorPlugin } from './FloatingLinkEditorPlugin';
+import { MarkdownPlugin, PLAYGROUND_TRANSFORMERS } from './MarkdownPlugin';
+import { editorNodes } from './nodes';
 
 const onError = (error: any) => {
   console.error(error);
@@ -70,28 +70,19 @@ const StyledEditorContainer = styled.div`
   border: 1px solid ${colors.brand.greyLight};
 `;
 
-const Placeholder = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  pointer-events: none;
-  padding: ${spacing.small};
-  color: ${colors.brand.grey};
-`;
-
 const InnerEditorContainer = styled.div`
   position: relative;
 `;
 
 interface Props {
-  t: TFunction;
   setContentWritten: (data: string) => void;
+  setContentLength: (data: number) => void;
   initialValue: string;
   name: string;
 }
 
 export const MarkdownEditor = forwardRef(
-  ({ name, setContentWritten, initialValue, t }: Props, _) => {
+  ({ name, setContentWritten, setContentLength, initialValue }: Props, _) => {
     const [floatingAnchorElem, setFloatingAnchorElem] = useState<
       HTMLDivElement | undefined
     >(undefined);
@@ -107,8 +98,8 @@ export const MarkdownEditor = forwardRef(
           editor,
           parser.parseFromString(initialValue, 'text/html'),
         );
-        $getRoot().select();
-        $insertNodes(nodes);
+        $getRoot().select().insertNodes(nodes);
+        setContentLength($rootTextContent().length);
       },
     };
 
@@ -118,10 +109,15 @@ export const MarkdownEditor = forwardRef(
       }
     };
 
+    /**
+     * ConvertToMarkDownString length also includes markdown markup to get correct content length we use $rootTextContent.
+     * Usage inspired by https://github.com/facebook/lexical/blob/main/packages/lexical-react/src/shared/useCharacterLimit.ts
+     * */
     const onChange = (editorState: EditorState) => {
       editorState.read(() => {
         const markdown = $convertToMarkdownString(PLAYGROUND_TRANSFORMERS);
         setContentWritten(markdown);
+        setContentLength($rootTextContent().length);
       });
     };
 
@@ -136,9 +132,7 @@ export const MarkdownEditor = forwardRef(
                   <ContentEditable name={name} role="textbox" {...props} />
                 </EditableWrapper>
               }
-              placeholder={
-                <Placeholder>{t('markdownEditor.placeholder')}</Placeholder>
-              }
+              placeholder={<span />}
               ErrorBoundary={LexicalErrorBoundary}
             />
           </InnerEditorContainer>

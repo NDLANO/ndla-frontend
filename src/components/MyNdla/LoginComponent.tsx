@@ -6,15 +6,15 @@
  *
  */
 
+import { ReactNode } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { mq, breakpoints, fonts, spacing } from '@ndla/core';
 import { Feide } from '@ndla/icons/common';
-import SafeLink, { SafeLinkButton } from '@ndla/safelink';
-import { ReactNode } from 'react';
-import { Trans, useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router-dom';
 import { ModalCloseButton } from '@ndla/modal';
+import SafeLink, { SafeLinkButton } from '@ndla/safelink';
 import { Heading, Text } from '@ndla/typography';
 import { toHref } from '../../util/urlHelper';
 

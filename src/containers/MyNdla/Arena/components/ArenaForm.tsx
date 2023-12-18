@@ -6,8 +6,8 @@
  *
  */
 
+import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { ButtonV2, LoadingButton } from '@ndla/button';
@@ -22,8 +22,8 @@ import {
 import { InformationOutline } from '@ndla/icons/common';
 import { ModalCloseButton } from '@ndla/modal';
 import { Text } from '@ndla/typography';
-import { FieldLength } from '../../../../containers/MyNdla/Folders/FolderForm';
 import { MarkdownEditor } from '../../../../components/MarkdownEditor/MarkdownEditor';
+import { FieldLength } from '../../../../containers/MyNdla/Folders/FolderForm';
 import useValidationTranslation from '../../../../util/useValidationTranslation';
 import { iconCss } from '../../Folders/FoldersPage';
 
@@ -101,6 +101,7 @@ const ArenaForm = ({
     },
     mode: 'onChange',
   });
+  const [contentLength, setContentLength] = useState<number>(0);
 
   useEffect(() => {
     trigger();
@@ -115,7 +116,7 @@ const ArenaForm = ({
   };
 
   return (
-    <StyledForm onSubmit={handleSubmit(onSubmit)}>
+    <StyledForm onSubmit={handleSubmit(onSubmit)} noValidate>
       {type === 'topic' && (
         <Controller
           control={control}
@@ -181,19 +182,19 @@ const ArenaForm = ({
               {t('myNdla.arena.topic.topicContent')}
             </StyledLabel>
             <MarkdownEditor
-              setContentWritten={(val) =>
+              setContentWritten={(val) => {
                 setValue('content', val, {
                   shouldValidate: true,
                   shouldDirty: true,
-                })
-              }
+                });
+              }}
+              setContentLength={(number) => setContentLength(number)}
               initialValue={initialContent ?? ''}
-              t={t}
               {...field}
             />
             <FieldInfoWrapper>
               <FieldLength
-                value={field.value.length ?? 0}
+                value={contentLength ?? 0}
                 maxLength={contentMaxLength}
               />
               <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
@@ -212,7 +213,7 @@ const ArenaForm = ({
           <ButtonV2 variant="outline">{t('cancel')}</ButtonV2>
         </ModalCloseButton>
         <LoadingButton
-          colorTheme="light"
+          colorTheme="primary"
           type="submit"
           disabled={!formState.isDirty || !formState.isValid}
         >

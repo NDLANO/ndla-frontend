@@ -73,7 +73,6 @@ const messages = {
     concept: 'Forklaring',
   },
   markdownEditor: {
-    placeholder: 'Skriv innhold her...',
     link: {
       url: 'Lenke',
       error: {

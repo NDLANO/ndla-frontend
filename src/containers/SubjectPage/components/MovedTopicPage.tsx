@@ -6,14 +6,14 @@
  *
  */
 
-import { SearchResultList, OneColumn } from '@ndla/ui';
-import { gql } from '@apollo/client';
 import { useTranslation } from 'react-i18next';
-import { resultsWithContentTypeBadgeAndImage } from '../../SearchPage/searchHelpers';
+import { gql } from '@apollo/client';
+import { SearchResultList, OneColumn } from '@ndla/ui';
 import {
   GQLMovedTopicPage_TopicFragment,
   GQLSearchResult,
 } from '../../../graphqlTypes';
+import { resultsWithContentTypeBadgeAndImage } from '../../SearchPage/searchHelpers';
 
 interface GQLSearchResultExtended
   extends Omit<

@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2023-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -10,13 +10,13 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { colors, fonts, misc, spacing } from '@ndla/core';
-import { Heading, Text } from '@ndla/typography';
 import { RadioButtonGroup } from '@ndla/forms';
+import { Heading, Text } from '@ndla/typography';
 import { useSnack } from '@ndla/ui';
 import { uuid } from '@ndla/util';
 import { GQLMyNdlaPersonalDataFragmentFragment } from '../../../../graphqlTypes';
-import { isStudent } from '../../Folders/util';
 import { useUpdatePersonalData } from '../../../MyNdla/userMutations';
+import { isStudent } from '../../Folders/util';
 
 type MyPreferencesProps = {
   user: GQLMyNdlaPersonalDataFragmentFragment | undefined;

@@ -6,19 +6,19 @@
  *
  */
 
+import { KeyboardEvent, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors, misc, spacing } from '@ndla/core';
 import { ArrowDropDownRounded } from '@ndla/icons/common';
 import { SafeLinkButton } from '@ndla/safelink';
-import { KeyboardEvent, useMemo, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+import FolderResource from './FolderResource';
 import {
   GQLFolder,
   GQLFolderResourceMetaSearchQuery,
 } from '../../../graphqlTypes';
-import FolderResource from './FolderResource';
 
 export const StyledUl = styled.ul`
   list-style: none;

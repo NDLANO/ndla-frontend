@@ -1,42 +1,43 @@
 /**
- * Copyright (C) 2023 -present, NDLA
+ * Copyright (c) 2023-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
+ *
  */
 
+import { TFunction } from 'i18next';
+import { useContext, useEffect, useMemo } from 'react';
+import { Helmet } from 'react-helmet-async';
+import { useTranslation } from 'react-i18next';
 import { gql } from '@apollo/client';
+import styled from '@emotion/styled';
+import { DynamicComponents } from '@ndla/article-converter';
+import { breakpoints, colors, mq, spacing } from '@ndla/core';
+import { useTracker } from '@ndla/tracker';
 import {
   FRONTPAGE_ARTICLE_MAX_WIDTH,
   FrontpageArticle,
   HomeBreadcrumb,
 } from '@ndla/ui';
-import { DynamicComponents } from '@ndla/article-converter';
-import { useContext, useEffect, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Helmet } from 'react-helmet-async';
-import styled from '@emotion/styled';
-import { breakpoints, colors, mq, spacing } from '@ndla/core';
-import { TFunction } from 'i18next';
-import { useTracker } from '@ndla/tracker';
+import AboutPageFooter from './AboutPageFooter';
+import { AuthContext } from '../../components/AuthenticationContext';
 import LicenseBox from '../../components/license/LicenseBox';
+import AddEmbedToFolder from '../../components/MyNdla/AddEmbedToFolder';
+import SocialMediaMetadata from '../../components/SocialMediaMetadata';
+import config from '../../config';
+import { SKIP_TO_CONTENT_ID } from '../../constants';
 import {
   GQLAboutPage_ArticleFragment,
   GQLAboutPage_FrontpageMenuFragment,
 } from '../../graphqlTypes';
-import { transformArticle } from '../../util/transformArticle';
-import config from '../../config';
+import { toAbout } from '../../routeHelpers';
 import { getArticleScripts } from '../../util/getArticleScripts';
-import { SKIP_TO_CONTENT_ID } from '../../constants';
-import AddEmbedToFolder from '../../components/MyNdla/AddEmbedToFolder';
-import AboutPageFooter from './AboutPageFooter';
 import getStructuredDataFromArticle, {
   structuredArticleDataFragment,
 } from '../../util/getStructuredDataFromArticle';
 import { getAllDimensions } from '../../util/trackingUtil';
-import SocialMediaMetadata from '../../components/SocialMediaMetadata';
-import { toAbout } from '../../routeHelpers';
-import { AuthContext } from '../../components/AuthenticationContext';
+import { transformArticle } from '../../util/transformArticle';
 
 interface Props {
   article: GQLAboutPage_ArticleFragment;

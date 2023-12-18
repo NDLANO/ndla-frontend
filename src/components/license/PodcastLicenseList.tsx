@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2016-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -6,7 +6,18 @@
  *
  */
 
+import uniqBy from 'lodash/uniqBy';
+import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Link, useLocation } from 'react-router-dom';
 import { gql } from '@apollo/client';
+import { Podcast } from '@ndla/icons/common';
+import {
+  figureApa7CopyString,
+  getGroupedContributorDescriptionList,
+  metaTypes,
+} from '@ndla/licenses';
+import { SafeLinkButton } from '@ndla/safelink';
 import {
   MediaList,
   MediaListItem,
@@ -16,26 +27,16 @@ import {
   MediaListItemMeta,
   ItemType,
 } from '@ndla/ui';
-import { Podcast } from '@ndla/icons/common';
-import {
-  figureApa7CopyString,
-  getGroupedContributorDescriptionList,
-  metaTypes,
-} from '@ndla/licenses';
-import { useTranslation } from 'react-i18next';
-import { SafeLinkButton } from '@ndla/safelink';
-import { Link, useLocation } from 'react-router-dom';
-import { useMemo } from 'react';
-import uniqBy from 'lodash/uniqBy';
 import CopyTextButton from './CopyTextButton';
-import { GQLPodcastLicenseList_PodcastLicenseFragment } from '../../graphqlTypes';
+import LicenseDescription from './LicenseDescription';
+import { licenseListCopyrightFragment } from './licenseFragments';
 import {
   isCopyrighted,
   licenseCopyrightToCopyrightType,
 } from './licenseHelpers';
-import { licenseListCopyrightFragment } from './licenseFragments';
+import { MediaListRef, mediaListIcon } from './licenseStyles';
 import config from '../../config';
-import LicenseDescription from './LicenseDescription';
+import { GQLPodcastLicenseList_PodcastLicenseFragment } from '../../graphqlTypes';
 
 interface PodcastLicenseInfoProps {
   podcast: GQLPodcastLicenseList_PodcastLicenseFragment;
@@ -97,7 +98,7 @@ const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
     <MediaListItem>
       <MediaListItemImage canOpen={shouldShowLink}>
         {!shouldShowLink ? (
-          <Podcast className="c-medialist__icon" />
+          <Podcast css={mediaListIcon} />
         ) : (
           <Link
             to={pageUrl}
@@ -105,7 +106,7 @@ const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
             rel="noopener noreferrer"
             aria-label={t('embed.goTo', { type: t('embed.type.podcast') })}
           >
-            <Podcast className="c-medialist__icon" />
+            <Podcast css={mediaListIcon} />
           </Link>
         )}
       </MediaListItemImage>
@@ -118,7 +119,7 @@ const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
         locale={i18n.language}
       >
         <MediaListItemActions>
-          <div className="c-medialist__ref">
+          <MediaListRef>
             <MediaListItemMeta items={items} />
             {podcast.copyright.license?.license !== 'COPYRIGHTED' && (
               <>
@@ -134,7 +135,7 @@ const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
                 </SafeLinkButton>
               </>
             )}
-          </div>
+          </MediaListRef>
         </MediaListItemActions>
       </MediaListItemBody>
     </MediaListItem>

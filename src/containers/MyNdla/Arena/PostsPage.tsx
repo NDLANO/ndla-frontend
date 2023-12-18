@@ -6,28 +6,29 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
 import { useCallback, useContext, useEffect, useState } from 'react';
-import { Navigate, useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { Navigate, useParams, useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
+import { spacing, spacingUnit, mq, breakpoints } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import { HelmetWithTracker, useTracker } from '@ndla/tracker';
 import { useSnack } from '@ndla/ui';
+import DeletedPostCard from './components/DeletedPostCard';
 import PostCard from './components/PostCard';
-import {
-  useArenaCategory,
-  useArenaNotifications,
-  useArenaTopic,
-} from '../arenaQueries';
-import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
-import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import {
   useSubscribeToTopicMutation,
   useUnsubscribeFromTopicMutation,
 } from '../arenaMutations';
+import {
+  useArenaCategory,
+  useArenaNotifications,
+  useArenaTopic,
+} from '../arenaQueries';
+import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
+import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
 
 const BreadcrumbWrapper = styled.div`
   padding-top: ${spacing.normal};
@@ -43,8 +44,11 @@ const PostCardWrapper = styled.li`
   list-style: none;
   padding: 0;
   margin-bottom: ${spacing.normal};
-  &[data-main-post='false'] {
-    margin-left: 72px;
+
+  ${mq.range({ from: breakpoints.tablet })} {
+    &[data-main-post='false'] {
+      margin-left: ${spacingUnit * 3}px;
+    }
   }
 `;
 
@@ -52,9 +56,10 @@ const PostsPage = () => {
   const { t } = useTranslation();
   const { topicId } = useParams();
   const { addSnack } = useSnack();
+  const navigate = useNavigate();
   const { refetch } = useArenaNotifications();
   const [focusId, setFocusId] = useState<number | undefined>(undefined);
-  const { arenaTopic, loading } = useArenaTopic({
+  const { arenaTopic, loading, error } = useArenaTopic({
     variables: { topicId: Number(topicId), page: 1 },
     skip: !Number(topicId),
     onCompleted() {
@@ -111,6 +116,24 @@ const PostsPage = () => {
     }
   }, [focusId, arenaTopic?.posts]);
 
+  useEffect(() => {
+    if (
+      error?.graphQLErrors.map((err) => err.extensions.status).includes(403) ||
+      arenaTopic?.deleted ||
+      (!loading && !arenaTopic)
+    ) {
+      if (document.referrer.includes('/minndla')) {
+        navigate(-1);
+      } else {
+        navigate('/minndla');
+      }
+      addSnack({
+        content: t('myNdla.arena.topic.isDeleted'),
+        id: 'myNdla.arena.topic.isDeleted',
+      });
+    }
+  }, [error, arenaTopic, navigate, addSnack, t, loading]);
+
   if (loading) {
     return <Spinner />;
   }
@@ -141,20 +164,20 @@ const PostsPage = () => {
         />
       </BreadcrumbWrapper>
       <ListWrapper>
-        {arenaTopic?.posts
-          .filter(({ deleted }) => !deleted)
-          ?.map((post) => (
-            <PostCardWrapper key={post.id} data-main-post={post.isMainPost}>
+        {arenaTopic?.posts?.map((post) => (
+          <PostCardWrapper key={post.id} data-main-post={post.isMainPost}>
+            {post.deleted ? (
+              <DeletedPostCard />
+            ) : (
               <PostCard
                 post={post}
                 topic={arenaTopic}
                 onFollowChange={onFollowChange}
-                // missing affiliation in user
-                affiliation=""
                 setFocusId={setFocusId}
               />
-            </PostCardWrapper>
-          ))}
+            )}
+          </PostCardWrapper>
+        ))}
       </ListWrapper>
     </MyNdlaPageWrapper>
   );

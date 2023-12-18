@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2017-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -7,8 +7,8 @@
  */
 
 import { Component } from 'react';
-import { copyTextToClipboard } from '@ndla/util';
 import { ButtonV2 } from '@ndla/button';
+import { copyTextToClipboard } from '@ndla/util';
 
 interface Props {
   stringToCopy?: string;

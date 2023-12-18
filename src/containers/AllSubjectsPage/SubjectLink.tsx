@@ -6,21 +6,21 @@
  *
  */
 
+import { useContext, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { IconButtonV2 } from '@ndla/button';
 import { colors, fonts, misc, spacing } from '@ndla/core';
 import { Heart, HeartOutline } from '@ndla/icons/action';
+import { Modal, ModalTrigger } from '@ndla/modal';
 import SafeLink from '@ndla/safelink';
 import { useSnack } from '@ndla/ui';
-import { useContext, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Modal, ModalTrigger } from '@ndla/modal';
-import { AuthContext } from '../../components/AuthenticationContext';
-import { toSubject } from '../../routeHelpers';
-import { useUpdatePersonalData } from '../MyNdla/userMutations';
 import { Subject } from './interfaces';
+import { AuthContext } from '../../components/AuthenticationContext';
 import LoginModalContent from '../../components/MyNdla/LoginModalContent';
+import { toSubject } from '../../routeHelpers';
 import DeleteModalContent from '../MyNdla/components/DeleteModalContent';
+import { useUpdatePersonalData } from '../MyNdla/userMutations';
 
 const SubjectLinkWrapper = styled.li`
   display: flex;

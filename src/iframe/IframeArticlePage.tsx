@@ -7,20 +7,17 @@
  */
 
 import { useEffect, useMemo } from 'react';
-import { gql } from '@apollo/client';
-import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { OneColumn, CreatedBy, constants, LayoutItem } from '@ndla/ui';
-import { useTracker } from '@ndla/tracker';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+import { gql } from '@apollo/client';
 import { ButtonV2 } from '@ndla/button';
 import { Back } from '@ndla/icons/common';
-import { transformArticle } from '../util/transformArticle';
-import Article from '../components/Article';
-import { getArticleScripts } from '../util/getArticleScripts';
-import { getArticleProps } from '../util/getArticleProps';
-import { getAllDimensions } from '../util/trackingUtil';
+import { useTracker } from '@ndla/tracker';
+import { OneColumn, CreatedBy, constants, LayoutItem } from '@ndla/ui';
 import PostResizeMessage from './PostResizeMessage';
+import Article from '../components/Article';
+import { useLtiData } from '../components/LtiContext';
 import SocialMediaMetadata from '../components/SocialMediaMetadata';
 import config from '../config';
 import {
@@ -28,10 +25,13 @@ import {
   GQLIframeArticlePage_ResourceFragment,
 } from '../graphqlTypes';
 import { LocaleType } from '../interfaces';
+import { getArticleProps } from '../util/getArticleProps';
+import { getArticleScripts } from '../util/getArticleScripts';
 import getStructuredDataFromArticle, {
   structuredArticleDataFragment,
 } from '../util/getStructuredDataFromArticle';
-import { useLtiData } from '../components/LtiContext';
+import { getAllDimensions } from '../util/trackingUtil';
+import { transformArticle } from '../util/transformArticle';
 
 interface Props {
   locale?: LocaleType;
@@ -90,11 +90,11 @@ const IframeArticlePage = ({
     article.articleType === 'standard'
       ? getArticleProps(resource)
       : article.articleType === 'topic-article'
-      ? {
-          label: t('topicPage.topic'),
-          contentType: constants.contentTypes.TOPIC,
-        }
-      : { label: '' };
+        ? {
+            label: t('topicPage.topic'),
+            contentType: constants.contentTypes.TOPIC,
+          }
+        : { label: '' };
   return (
     <OneColumn>
       <Helmet>

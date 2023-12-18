@@ -8,10 +8,10 @@
 
 import { Request } from 'express';
 import { FilledContext, HelmetProvider } from 'react-helmet-async';
-import { BAD_REQUEST, OK } from '../../statusCodes';
 import { getHtmlLang, getLocaleObject } from '../../i18n';
-import { renderPage, renderHtml } from '../helpers/render';
+import { BAD_REQUEST, OK } from '../../statusCodes';
 import { Assets } from '../helpers/Document';
+import { renderPage, renderHtml } from '../helpers/render';
 
 const bodyFields: Record<string, { required: boolean; value?: any }> = {
   lti_message_type: {
@@ -30,8 +30,7 @@ const bodyFields: Record<string, { required: boolean; value?: any }> = {
 };
 
 //@ts-ignore
-const assets: Record<string, string> = require(process.env
-  .RAZZLE_ASSETS_MANIFEST); //eslint-disable-line
+const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
 
 if (process.env.NODE_ENV === 'unittest') {
   HelmetProvider.canUseDOM = false;

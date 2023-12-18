@@ -2,26 +2,27 @@
  * Copyright (c) 2016-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
- * LICENSE file in the root directory of this source tree. *
+ * LICENSE file in the root directory of this source tree.
+ *
  */
 
+import queryString from 'query-string';
+import { useContext, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { HelmetWithTracker, useTracker } from '@ndla/tracker';
 import { ContentPlaceholder, OneColumn } from '@ndla/ui';
-import queryString from 'query-string';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 
-import { useContext, useEffect } from 'react';
-import { searchPageQuery } from '../../queries';
-import SearchInnerPage from './SearchInnerPage';
 import {
   converSearchStringToObject,
   convertSearchParam,
 } from './searchHelpers';
-import { searchSubjects } from '../../util/searchHelpers';
-import { useGraphQuery } from '../../util/runQueries';
-import { GQLSearchPageQuery } from '../../graphqlTypes';
+import SearchInnerPage from './SearchInnerPage';
 import { AuthContext } from '../../components/AuthenticationContext';
+import { GQLSearchPageQuery } from '../../graphqlTypes';
+import { searchPageQuery } from '../../queries';
+import { useGraphQuery } from '../../util/runQueries';
+import { searchSubjects } from '../../util/searchHelpers';
 import { getAllDimensions } from '../../util/trackingUtil';
 
 const getStateSearchParams = (searchParams: Record<string, any>) => {
