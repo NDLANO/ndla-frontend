@@ -86,6 +86,12 @@ const ToolMenu = styled.div`
   }
 `;
 
+const ToolMenuList = styled.ul`
+  margin: 0;
+  list-style: none;
+  padding: 0;
+`;
+
 const StyledModalBody = styled(ModalBody)`
   display: flex;
   flex-direction: column;
@@ -224,7 +230,7 @@ const MenuModalContent = ({
               {t('myNdla.tools')}
             </StyledText>
             <ToolMenu>
-              {buttons}
+              {buttons ? <ToolMenuList>{buttons}</ToolMenuList> : null}
               {user?.arenaEnabled && notificationLink}
             </ToolMenu>
           </>
