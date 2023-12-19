@@ -3833,12 +3833,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/article-converter@npm:^6.0.33":
-  version: 6.0.33
-  resolution: "@ndla/article-converter@npm:6.0.33"
+"@ndla/article-converter@npm:^6.0.34":
+  version: 6.0.34
+  resolution: "@ndla/article-converter@npm:6.0.34"
   dependencies:
     "@ndla/code": "npm:^5.0.25"
-    "@ndla/ui": "npm:^50.6.1"
+    "@ndla/ui": "npm:^50.6.2"
     html-react-parser: "npm:^4.2.2"
     lodash: "npm:^4.17.20"
   peerDependencies:
@@ -3849,7 +3849,7 @@ __metadata:
     react-dom: ">= 16.8.0"
     react-i18next: ^13.3.0
     react-router-dom: ">= 6.0.0"
-  checksum: d3423bb8aaad15880e85830d217b808d37c4733b8c194ac4852bf02617bf28ad907597a193432209b7bd2721ce00b02c3dd759599142fe96fd7e4208cf0fd786
+  checksum: 489534a8f875bc18f98a04cefbfdba205fec24d9a01975112a72c7d28551c9cd9b019a7dc9c92358fbc6cb16dc014b65d67a89ac5cbaf1ce75d84c4c46e23d3a
   languageName: node
   linkType: hard
 
@@ -4154,10 +4154,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/types-embed@npm:^4.0.10":
-  version: 4.0.10
-  resolution: "@ndla/types-embed@npm:4.0.10"
-  checksum: 7a92a976d11d15076723ab0fdc39b958a8085665501097cdfe13466d66bdcd853086b29eec11bc0800f3b09e8d55e4c8e6e685c80f666b17a3ad0a3416b242a7
+"@ndla/types-embed@npm:^4.0.11":
+  version: 4.0.11
+  resolution: "@ndla/types-embed@npm:4.0.11"
+  checksum: 37173f0bd32ea0e3546fb7dde6854ee7d10b1d32658052f8b358edce91fd5e061212daaf4e8d2bfd1012287e97992b3a76e4d190ecc118792ca571187de601c3
   languageName: node
   linkType: hard
 
@@ -4174,9 +4174,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/ui@npm:^50.6.1":
-  version: 50.6.1
-  resolution: "@ndla/ui@npm:50.6.1"
+"@ndla/ui@npm:^50.6.2":
+  version: 50.6.2
+  resolution: "@ndla/ui@npm:50.6.2"
   dependencies:
     "@ndla/accordion": "npm:^3.0.15"
     "@ndla/button": "npm:^12.0.20"
@@ -4214,7 +4214,7 @@ __metadata:
     react-dom: ">= 16.8.0"
     react-i18next: ^13.3.0
     react-router-dom: "> 6.0.0"
-  checksum: 4d173e14b5b7cbbc66eb77ab29448cb70feb0c89ad6b3091cfa2d8dc389d53cbdd204d4cde19146392856669aa47d47e6ed149676376453493a713524835d33e
+  checksum: df1da37fd96ed6259a8f308bceda999a15f31cb215d86894fd085d180ce86b849f28b5e7fef18f70b13daef0d838e0f0b14c51b03c803e48b70647a6a4e7b9ca
   languageName: node
   linkType: hard
 
@@ -13653,7 +13653,7 @@ __metadata:
     "@graphql-codegen/typescript-operations": "npm:^4.0.1"
     "@graphql-eslint/eslint-plugin": "npm:^3.20.1"
     "@lexical/react": "npm:^0.12.4"
-    "@ndla/article-converter": "npm:^6.0.33"
+    "@ndla/article-converter": "npm:^6.0.34"
     "@ndla/button": "npm:^12.0.20"
     "@ndla/core": "npm:^4.3.1"
     "@ndla/dropdown-menu": "npm:^1.0.21"
@@ -13669,9 +13669,9 @@ __metadata:
     "@ndla/tabs": "npm:^3.2.7"
     "@ndla/tracker": "npm:^5.0.5"
     "@ndla/types-backend": "npm:0.2.31"
-    "@ndla/types-embed": "npm:^4.0.10"
+    "@ndla/types-embed": "npm:^4.0.11"
     "@ndla/typography": "npm:^0.4.4"
-    "@ndla/ui": "npm:^50.6.1"
+    "@ndla/ui": "npm:^50.6.2"
     "@ndla/util": "npm:^4.0.3"
     "@ndla/zendesk": "npm:^1.3.2"
     "@pmmmwh/react-refresh-webpack-plugin": "npm:^0.5.10"
