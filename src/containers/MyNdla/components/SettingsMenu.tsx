@@ -286,7 +286,7 @@ const SettingsMenu = ({ menuItems, modalHeader }: Props) => {
                   variant="ghost"
                   colorTheme="lighter"
                   to={item.link}
-                  aria-label={t('myNdla.folder.sharing.button.preview')}
+                  aria-label={item.text}
                 >
                   {item.icon}
                   {item.text}
