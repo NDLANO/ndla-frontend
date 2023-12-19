@@ -115,8 +115,8 @@ const FolderResource = ({
       isLearningPathOrCase
         ? resource.path
         : preview
-        ? `/minndla/folders/preview/${rootFolderId}/${parentId}/${resource.id}`
-        : `/folder/${rootFolderId}/${parentId}/${resource.id}`,
+          ? `/minndla/folders/preview/${rootFolderId}/${parentId}/${resource.id}`
+          : `/folder/${rootFolderId}/${parentId}/${resource.id}`,
     [
       isLearningPathOrCase,
       resource.path,
