@@ -33,7 +33,7 @@ const ErrorPage = () => {
   return (
     <PageContainer backgroundWide={true} ndlaFilm={false}>
       <Helmet
-        htmlAttributes={{ lang: i18n.language }}
+        htmlAttributes={{ lang: i18n.language === 'nb' ? 'no' : i18n.language }}
         title="NDLA"
         meta={[{ name: 'description', content: t('meta.description') }]}
       />

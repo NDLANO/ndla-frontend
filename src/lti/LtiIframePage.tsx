@@ -15,7 +15,7 @@ export const LtiIframePage = () => {
   const { taxonomyId, articleId, lang } = useParams();
   return (
     <PageContainer>
-      <Helmet htmlAttributes={{ lang: lang }} />
+      <Helmet htmlAttributes={{ lang: lang === 'nb' ? 'no' : lang }} />
       <IframePage
         status="success"
         taxonomyId={taxonomyId}

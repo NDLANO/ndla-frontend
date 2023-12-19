@@ -21,7 +21,7 @@ test('Document renderers correctly', () => {
       <PageContainer>
         <h1>Hello World</h1>
         <Helmet
-          htmlAttributes={{ lang: 'nb' }}
+          htmlAttributes={{ lang: 'no' }}
           title="NDLA test title"
           meta={[{ name: 'description', content: 'NDLA meta description' }]}
         />

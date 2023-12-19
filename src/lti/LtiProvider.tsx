@@ -95,7 +95,7 @@ const LtiProvider = ({ locale: propsLocale }: Props) => {
 
   return (
     <ErrorBoundary>
-      <Helmet htmlAttributes={{ lang: locale }}>
+      <Helmet htmlAttributes={{ lang: locale === 'nb' ? 'no' : locale }}>
         <title>{`${t('htmlTitles.lti')}`}</title>
       </Helmet>
       <SearchInnerPage
