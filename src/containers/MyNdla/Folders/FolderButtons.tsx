@@ -288,7 +288,11 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
           : previewLink(selectedFolder.id)
       }
       aria-label={t('myNdla.folder.sharing.button.preview')}
-      title={t('myNdla.folder.sharing.button.preview')}
+      title={
+        isFolderShared
+          ? t('myNdla.folder.sharing.button.goTo')
+          : t('myNdla.folder.sharing.button.preview')
+      }
     >
       <ShareArrow css={iconCss} />
       {isFolderShared
