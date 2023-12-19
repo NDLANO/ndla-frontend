@@ -52,8 +52,8 @@ const StyledLink = styled(SafeLinkButton)`
   }
 
   &[data-not-viewed='true'] {
-    background-color: ${colors.brand.lightest};
-    border: solid 1px ${colors.brand.lighter};
+    background-color: ${colors.background.lightBlue};
+    border: solid 1px ${colors.brand.secondary};
   }
 `;
 
