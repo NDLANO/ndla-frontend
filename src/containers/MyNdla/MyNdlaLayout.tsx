@@ -196,7 +196,7 @@ export default MyNdlaLayout;
 export const menuLinks = (t: TFunction, location: Location) => [
   {
     id: '',
-    name: t('myNdla.myPage.myPage'),
+    name: t('myNdla.myNDLA'),
     shortName: t('myNdla.myNDLA'),
     icon: <HomeOutline />,
     iconFilled: <Home />,

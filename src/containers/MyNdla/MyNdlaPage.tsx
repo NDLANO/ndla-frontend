@@ -126,7 +126,7 @@ const MyNdlaPage = () => {
       <StyledPageContentContainer>
         <HelmetWithTracker title={t('htmlTitles.myNdlaPage')} />
         <TitleWrapper>
-          <MyNdlaTitle title={t('myNdla.myPage.myPage')} />
+          <MyNdlaTitle title={t('myNdla.myNDLA')} />
         </TitleWrapper>
         <StyledDescription>{t('myNdla.myPage.welcome')}</StyledDescription>
         {allowedAiOrgs.includes(user?.organization ?? '') && (
