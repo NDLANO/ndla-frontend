@@ -5,6 +5,13 @@ exports[`Document renderers correctly 1`] = `
   lang="nb"
 >
   <head>
+    <script>
+      
+        var _mtm = window._mtm = window._mtm || [];
+        _mtm.push({'mtm.startTime': (new Date().getTime()), 'event': 'mtm.Start'});
+        var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+        g.async=true; g.src='https://tall.ndla.no/js/container_sp23zBP7_test_8c894f44539601c6f3ce54df.js'; s.parentNode.insertBefore(g,s);
+    </script>
     <meta
       content="IE=edge"
       http-equiv="X-UA-Compatible"
@@ -52,11 +59,48 @@ exports[`Document renderers correctly 1`] = `
   <body>
     <script>
       
+        var _paq = window._paq = window._paq || [];
+        _paq.push(['trackPageView']);
+        _paq.push(['enableLinkTracking']);
+        (function() {
+            var u="https://tall.ndla.no/";
+            _paq.push(['setTrackerUrl', u+'matomo.php']);
+            _paq.push(['setSiteId', '1']);
+            var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+            g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+        })();
+    </script>
+    <script>
+      
             window.dataLayer = window.dataLayer || [];
             window._mtm = window._mtm || [];
             window.originalLocation = { originalLocation: document.location.protocol + '//' + document.location.hostname + document.location.pathname + document.location.search };
             window.dataLayer.push(window.originalLocation);
     </script>
+    <script
+      type="text/javascript"
+    >
+      
+    window._monsido = window._monsido || {
+        token: "o87-2yZyFjFUi_fuV7D4mQ",
+        statistics: {
+            enabled: true,
+            cookieLessTracking: true,
+            documentTracking: {
+                enabled: false,
+                documentCls: "monsido_download",
+                documentIgnoreCls: "monsido_ignore_download",
+                documentExt: [],
+            },
+        },
+    };
+
+    </script>
+    <script
+      async=""
+      src="https://app-script.monsido.com/v2/monsido-script.js"
+      type="text/javascript"
+    />
     <div
       id="root"
     >
