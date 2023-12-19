@@ -9,7 +9,7 @@
 import { css } from '@emotion/react';
 import { breakpoints, fonts, mq } from '@ndla/core';
 
-export const tbButtonCss = css`
+export const toolbarButtonCss = css`
   display: flex;
   justify-content: flex-start;
   white-space: nowrap;

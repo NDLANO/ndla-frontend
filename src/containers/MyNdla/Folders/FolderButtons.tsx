@@ -37,7 +37,7 @@ import {
 import { AuthContext } from '../../../components/AuthenticationContext';
 import { GQLFolder } from '../../../graphqlTypes';
 import { useUserAgent } from '../../../UserAgentContext';
-import { tbButtonCss } from '../components/toolbarStyles';
+import { toolbarButtonCss } from '../components/toolbarStyles';
 import {
   useUpdateFolderStatusMutation,
   useDeleteFolderMutation,
@@ -145,7 +145,7 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
       >
         <StyledListItem key="sharedFolderButton">
           <ButtonV2
-            css={tbButtonCss}
+            css={toolbarButtonCss}
             colorTheme="lighter"
             variant="ghost"
             ref={previewRef}
@@ -182,7 +182,7 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
       >
         <StyledListItem key="unShareFolderButton">
           <ButtonV2
-            css={tbButtonCss}
+            css={toolbarButtonCss}
             variant="ghost"
             colorTheme="lighter"
             ref={unShareRef}
@@ -219,7 +219,7 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
       >
         <StyledListItem key="shareFolderButton">
           <ButtonV2
-            css={tbButtonCss}
+            css={toolbarButtonCss}
             variant="ghost"
             colorTheme="lighter"
             ref={shareRef}
@@ -276,7 +276,7 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
       <StyledListItem key="copySharedLink">
         <ButtonV2
           key="copySharedLink"
-          css={tbButtonCss}
+          css={toolbarButtonCss}
           variant="ghost"
           colorTheme="lighter"
           onClick={() => {
@@ -300,7 +300,7 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
     <StyledListItem key="previewFolder">
       <SafeLinkButton
         key="previewFolder"
-        css={tbButtonCss}
+        css={toolbarButtonCss}
         variant="ghost"
         colorTheme="lighter"
         to={

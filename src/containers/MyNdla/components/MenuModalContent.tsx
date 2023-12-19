@@ -24,7 +24,7 @@ import { SafeLinkButton } from '@ndla/safelink';
 import { Text } from '@ndla/typography';
 import NavigationLink from './NavigationLink';
 import { BellIcon } from './NotificationButton';
-import { tbButtonCss } from './toolbarStyles';
+import { toolbarButtonCss } from './toolbarStyles';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import { toAllNotifications } from '../Arena/utils';
 import { useArenaNotifications } from '../arenaQueries';
@@ -183,7 +183,7 @@ const MenuModalContent = ({
         colorTheme="lighter"
         to={toAllNotifications()}
         onClick={() => setIsOpen(false)}
-        css={tbButtonCss}
+        css={toolbarButtonCss}
       >
         <BellIcon
           amountOfUnreadNotifications={

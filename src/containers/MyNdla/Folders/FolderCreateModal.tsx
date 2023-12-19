@@ -24,7 +24,7 @@ import {
 import FolderForm, { FolderFormValues } from './FolderForm';
 import { iconCss } from './FoldersPage';
 import { GQLFolder } from '../../../graphqlTypes';
-import { tbButtonCss } from '../components/toolbarStyles';
+import { toolbarButtonCss } from '../components/toolbarStyles';
 import { useAddFolderMutation, useFolders } from '../folderMutations';
 
 const AddButton = styled(ButtonV2)`
@@ -60,7 +60,7 @@ const FolderCreateModal = ({ onSaved, parentFolder }: Props) => {
     <Modal open={open} onOpenChange={setOpen}>
       <ModalTrigger>
         <AddButton
-          css={tbButtonCss}
+          css={toolbarButtonCss}
           variant="ghost"
           colorTheme="lighter"
           aria-label={t('myNdla.newFolder')}
