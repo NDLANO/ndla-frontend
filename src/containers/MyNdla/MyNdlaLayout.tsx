@@ -48,7 +48,6 @@ const StyledNavList = styled.ul`
   display: grid;
   grid-template-columns: repeat(4, minmax(auto, 1fr));
   grid-gap: ${spacing.xsmall};
-
   margin: 0px;
   padding: 0 ${spacing.xsmall} 0 0;
   justify-content: space-between;
@@ -56,9 +55,8 @@ const StyledNavList = styled.ul`
   ${mq.range({ from: breakpoints.mobileWide })} {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    width: 100%;
   }
-
   ${mq.range({ from: breakpoints.desktop })} {
     align-items: flex-start;
   }
@@ -73,6 +71,9 @@ const StyledLi = styled.li`
   margin: 0;
   ${mq.range({ from: breakpoints.mobileWide })} {
     display: unset !important;
+  }
+  ${mq.range({ from: breakpoints.desktop })} {
+    width: 100%;
   }
 `;
 
@@ -114,7 +115,6 @@ const MoreButton = styled(IconButtonV2)`
   padding: ${spacing.xxsmall} ${spacing.small};
   gap: ${spacing.xsmall};
   color: ${colors.brand.primary};
-
   border-radius: ${spacing.xxsmall};
 
   ${mq.range({ from: breakpoints.mobileWide })} {

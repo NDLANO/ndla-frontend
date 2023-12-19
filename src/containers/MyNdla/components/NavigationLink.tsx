@@ -15,6 +15,10 @@ import { Text } from '@ndla/typography';
 
 const StyledSafeLink = styled(SafeLinkButton)`
   color: ${colors.brand.primary};
+  width: 100%;
+  display: flex;
+  align-self: center;
+  justify-content: flex-start;
   svg {
     height: ${spacing.normal};
     width: ${spacing.normal};
