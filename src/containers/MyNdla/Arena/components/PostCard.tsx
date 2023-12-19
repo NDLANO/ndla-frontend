@@ -34,6 +34,7 @@ import {
   GQLArenaPostFragment,
   GQLArenaTopicByIdQuery,
 } from '../../../../graphqlTypes';
+import { formatDateTime } from '../../../../util/formatDate';
 import {
   useDeletePost,
   useDeleteTopic,
@@ -48,20 +49,19 @@ import { capitalizeFirstLetter, toArena, toArenaCategory } from '../utils';
 
 interface Props {
   onFollowChange: (value: boolean) => void;
-  affiliation: string;
   post: GQLArenaPostFragment;
   topic: GQLArenaTopicByIdQuery['arenaTopic'];
   setFocusId: Dispatch<SetStateAction<number | undefined>>;
 }
 
-const StyledCardContainer = styled.div`
+const PostCardWrapper = styled.div`
   background-color: ${colors.background.lightBlue};
   border: ${colors.brand.light} solid 1px;
   border-radius: ${misc.borderRadius};
   padding: ${spacing.normal};
 `;
 
-const StyledTopContainer = styled.div`
+const PostHeader = styled.div`
   display: flex;
   justify-content: space-between;
   ${mq.range({ until: breakpoints.desktop })} {
@@ -71,27 +71,39 @@ const StyledTopContainer = styled.div`
 
 const StyledSwitch = styled(Switch)`
   align-self: flex-start;
+  border: 2px solid transparent;
+  border-radius: ${misc.borderRadius};
   padding: ${spacing.xsmall};
   ${mq.range({ until: breakpoints.desktop })} {
     align-self: flex-end;
     margin-bottom: ${spacing.small};
   }
+  &:focus,
+  &:focus-visible,
+  &:focus-within {
+    border-color: ${colors.brand.dark};
+  }
 `;
 
-const StyledContentContainer = styled.div`
+const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${spacing.small};
   margin: ${spacing.normal} 0;
 `;
 
-const BottomContainer = styled.div`
+const FlexLine = styled.div`
   display: flex;
+  gap: ${spacing.normal};
   justify-content: space-between;
 `;
 
-const StyledTimestamp = styled(Text)`
+const TimestampText = styled(Text)`
   align-self: center;
+`;
+
+const StyledContent = styled(Text)`
+  word-wrap: break-word;
 `;
 
 const Locales = {
@@ -101,20 +113,14 @@ const Locales = {
   se: nb,
 };
 
-const PostCard = ({
-  topic,
-  post,
-  affiliation,
-  onFollowChange,
-  setFocusId,
-}: Props) => {
+const PostCard = ({ topic, post, onFollowChange, setFocusId }: Props) => {
   const {
     id: postId,
     topicId,
     isMainPost,
     timestamp,
     content,
-    user: { displayName, username },
+    user: { displayName, username, location },
   } = post;
 
   const {
@@ -296,13 +302,48 @@ const PostCard = ({
     [replyToTopic, topicId, setFocusId],
   );
 
+  const timeDistance = formatDistanceStrict(Date.parse(timestamp), Date.now(), {
+    addSuffix: true,
+    locale: Locales[language],
+    roundingMethod: 'floor',
+  });
+
+  const postTime = (
+    <TimestampText element="span" textStyle="content-alt" margin="none">
+      <span title={formatDateTime(timestamp, language)}>
+        {`${capitalizeFirstLetter(timeDistance)}`}
+      </span>
+    </TimestampText>
+  );
+
+  const options = (isMainPost: Boolean) => {
+    if (isMainPost) {
+      return (
+        <>
+          <FlexLine>
+            {menu}
+            {postTime}
+          </FlexLine>
+          <ArenaTextModal type="post" onSave={createReply} />
+        </>
+      );
+    } else {
+      return (
+        <>
+          {postTime}
+          {menu}
+        </>
+      );
+    }
+  };
+
   return (
-    <StyledCardContainer id={`post-${postId}`}>
-      <StyledTopContainer>
+    <PostCardWrapper id={`post-${postId}`}>
+      <PostHeader>
         <UserProfileTag
           displayName={displayName}
           username={username}
-          affiliation={affiliation}
+          affiliation={location ?? ''}
         />
         {isMainPost && (
           <StyledSwitch
@@ -312,8 +353,8 @@ const PostCard = ({
             id={t('myNdla.arena.posts.notify')}
           />
         )}
-      </StyledTopContainer>
-      <StyledContentContainer>
+      </PostHeader>
+      <ContentWrapper>
         {isMainPost && (
           <Heading
             element="h1"
@@ -324,26 +365,12 @@ const PostCard = ({
             {topic?.title}
           </Heading>
         )}
-        <Text element="div" textStyle="content-alt" margin="none">
+        <StyledContent element="div" textStyle="content-alt" margin="none">
           {parse(content)}
-        </Text>
-      </StyledContentContainer>
-      <BottomContainer>
-        {!isMainPost && (
-          <StyledTimestamp element="p" textStyle="content-alt" margin="none">
-            {`${capitalizeFirstLetter(
-              formatDistanceStrict(Date.parse(timestamp), Date.now(), {
-                addSuffix: true,
-                locale: Locales[language],
-                roundingMethod: 'floor',
-              }),
-            )}`}
-          </StyledTimestamp>
-        )}
-        {menu}
-        {isMainPost && <ArenaTextModal type="post" onSave={createReply} />}
-      </BottomContainer>
-    </StyledCardContainer>
+        </StyledContent>
+      </ContentWrapper>
+      <FlexLine>{options(isMainPost)}</FlexLine>
+    </PostCardWrapper>
   );
 };
 

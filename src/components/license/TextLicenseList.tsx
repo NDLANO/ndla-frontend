@@ -28,6 +28,7 @@ import CopyTextButton from './CopyTextButton';
 import LicenseDescription from './LicenseDescription';
 import { licenseListCopyrightFragment } from './licenseFragments';
 import { licenseCopyrightToCopyrightType } from './licenseHelpers';
+import { MediaListRef, mediaListIcon } from './licenseStyles';
 import { GQLTextLicenseList_CopyrightFragment } from '../../graphqlTypes';
 
 interface TextLicenseInfoProps {
@@ -71,7 +72,7 @@ const TextLicenseInfo = ({ text }: TextLicenseInfoProps) => {
   return (
     <MediaListItem>
       <MediaListItemImage>
-        <FileDocumentOutline className="c-medialist__icon" />
+        <FileDocumentOutline css={mediaListIcon} />
       </MediaListItemImage>
       <MediaListItemBody
         license={text.copyright.license?.license}
@@ -80,7 +81,7 @@ const TextLicenseInfo = ({ text }: TextLicenseInfoProps) => {
         locale={i18n.language}
       >
         <MediaListItemActions>
-          <div className="c-medialist__ref">
+          <MediaListRef>
             <MediaListItemMeta items={items} />
             {text.copyText && (
               <CopyTextButton
@@ -89,7 +90,7 @@ const TextLicenseInfo = ({ text }: TextLicenseInfoProps) => {
                 hasCopiedTitle={t('license.hasCopiedTitle')}
               />
             )}
-          </div>
+          </MediaListRef>
         </MediaListItemActions>
       </MediaListItemBody>
     </MediaListItem>

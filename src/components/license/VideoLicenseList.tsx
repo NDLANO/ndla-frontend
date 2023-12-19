@@ -33,6 +33,7 @@ import {
   isCopyrighted,
   licenseCopyrightToCopyrightType,
 } from './licenseHelpers';
+import { MediaListRef } from './licenseStyles';
 import { GQLVideoLicenseList_BrightcoveLicenseFragment } from '../../graphqlTypes';
 
 interface VideoLicenseInfoProps {
@@ -86,7 +87,7 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
         locale={i18n.language}
       >
         <MediaListItemActions>
-          <div className="c-medialist__ref">
+          <MediaListRef>
             <MediaListItemMeta items={items} />
             {video.copyright?.license?.license !== 'COPYRIGHTED' &&
               video.download && (
@@ -99,7 +100,7 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
               copyTitle={t('license.embed')}
               hasCopiedTitle={t('license.embedCopied')}
             />
-          </div>
+          </MediaListRef>
         </MediaListItemActions>
       </MediaListItemBody>
     </MediaListItem>

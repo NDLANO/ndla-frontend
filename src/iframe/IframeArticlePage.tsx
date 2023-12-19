@@ -90,11 +90,11 @@ const IframeArticlePage = ({
     article.articleType === 'standard'
       ? getArticleProps(resource)
       : article.articleType === 'topic-article'
-      ? {
-          label: t('topicPage.topic'),
-          contentType: constants.contentTypes.TOPIC,
-        }
-      : { label: '' };
+        ? {
+            label: t('topicPage.topic'),
+            contentType: constants.contentTypes.TOPIC,
+          }
+        : { label: '' };
   return (
     <OneColumn>
       <Helmet>

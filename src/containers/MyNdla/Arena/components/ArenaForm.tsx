@@ -6,7 +6,7 @@
  *
  */
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
@@ -101,6 +101,7 @@ const ArenaForm = ({
     },
     mode: 'onChange',
   });
+  const [contentLength, setContentLength] = useState<number>(0);
 
   useEffect(() => {
     trigger();
@@ -115,7 +116,7 @@ const ArenaForm = ({
   };
 
   return (
-    <StyledForm onSubmit={handleSubmit(onSubmit)}>
+    <StyledForm onSubmit={handleSubmit(onSubmit)} noValidate>
       {type === 'topic' && (
         <Controller
           control={control}
@@ -181,18 +182,19 @@ const ArenaForm = ({
               {t('myNdla.arena.topic.topicContent')}
             </StyledLabel>
             <MarkdownEditor
-              setContentWritten={(val) =>
+              setContentWritten={(val) => {
                 setValue('content', val, {
                   shouldValidate: true,
                   shouldDirty: true,
-                })
-              }
+                });
+              }}
+              setContentLength={(number) => setContentLength(number)}
               initialValue={initialContent ?? ''}
               {...field}
             />
             <FieldInfoWrapper>
               <FieldLength
-                value={field.value.length ?? 0}
+                value={contentLength ?? 0}
                 maxLength={contentMaxLength}
               />
               <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>

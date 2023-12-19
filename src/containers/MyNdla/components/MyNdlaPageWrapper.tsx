@@ -8,12 +8,12 @@
 
 import { HTMLAttributes, ReactNode } from 'react';
 import styled from '@emotion/styled';
-import { breakpoints, mq, spacing, spacingUnit } from '@ndla/core';
+import { breakpoints, mq, spacing } from '@ndla/core';
 import Toolbar from './Toolbar';
 import { MY_NDLA_CONTENT_WIDTH } from '../../../constants';
 import { ViewType } from '../Folders/FoldersPage';
 
-const ContentWrapper = styled.div`
+const ContentWrapper = styled.main`
   display: flex;
   justify-content: center;
   margin: ${spacing.nsmall} ${spacing.nsmall} ${spacingUnit * 3}px;
