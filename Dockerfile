@@ -1,5 +1,5 @@
 ### Build stage
-FROM node:20.9.0-alpine3.18 as builder
+FROM node:lts-alpine3.18 as builder
 
 ENV HOME=/home/app
 ENV APP_PATH=$HOME/ndla-frontend
@@ -26,7 +26,7 @@ COPY public $APP_PATH/public
 RUN yarn run build
 
 ### Run stage
-FROM node:20.9.0-alpine3.18
+FROM node:lts-alpine3.18
 
 RUN apk add py-pip jq && pip install awscli
 COPY run-ndla-frontend.sh /
