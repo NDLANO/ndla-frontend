@@ -294,7 +294,7 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
         </ButtonV2>
       </StyledListItem>
     ) : null;
-  
+
   const previewFolderButton =
     selectedFolder && isFolderShared ? (
       <SafeLinkButton
