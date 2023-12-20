@@ -88,6 +88,7 @@ interface Props {
   setFocus: (id: string) => void;
   level: number;
   isLast?: boolean;
+  preview?: boolean;
 }
 
 const FolderResource = ({
@@ -98,6 +99,7 @@ const FolderResource = ({
   level,
   isLast,
   onClose,
+  preview,
 }: Props) => {
   const { folderId: rootFolderId, subfolderId, resourceId } = useParams();
   const { t } = useTranslation();
@@ -112,8 +114,17 @@ const FolderResource = ({
     () =>
       isLearningPathOrCase
         ? resource.path
-        : `/folder/${rootFolderId}/${parentId}/${resource.id}`,
-    [isLearningPathOrCase, resource.path, resource.id, rootFolderId, parentId],
+        : preview
+          ? `/minndla/folders/preview/${rootFolderId}/${parentId}/${resource.id}`
+          : `/folder/${rootFolderId}/${parentId}/${resource.id}`,
+    [
+      isLearningPathOrCase,
+      resource.path,
+      resource.id,
+      rootFolderId,
+      parentId,
+      preview,
+    ],
   );
 
   const onClick = useCallback(

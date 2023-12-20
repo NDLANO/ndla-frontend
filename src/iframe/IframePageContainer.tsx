@@ -32,7 +32,7 @@ const IframePageContainer = ({
   return (
     <BaseNameProvider value={isValidLocale(basename) ? basename : ''}>
       <PageContainer>
-        <Helmet htmlAttributes={{ lang: locale }} />
+        <Helmet htmlAttributes={{ lang: locale === 'nb' ? 'no' : locale }} />
         <IframePage
           status={status}
           taxonomyId={taxonomyId}

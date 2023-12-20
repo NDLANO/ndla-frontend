@@ -297,7 +297,7 @@ const CompetenceGoals = ({
         <ModalContent size="full">
           <ModalHeader>
             <ModalTitle>
-              <FooterHeaderIcon size="24px" style={{ marginRight: '20px' }} />
+              <FooterHeaderIcon size="normal" style={{ marginRight: '20px' }} />
               {t('competenceGoals.modalText')}
             </ModalTitle>
             <ModalCloseButton />

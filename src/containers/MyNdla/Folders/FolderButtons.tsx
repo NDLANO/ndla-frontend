@@ -31,8 +31,7 @@ import { iconCss } from './FoldersPage';
 import {
   isStudent,
   copyFolderSharingLink,
-  sharedFolderLink,
-  previewLink,
+  sharedFolderLinkInternal,
 } from './util';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import { GQLFolder } from '../../../graphqlTypes';
@@ -295,33 +294,22 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
         </ButtonV2>
       </StyledListItem>
     ) : null;
-
-  const previewFolderButton = selectedFolder ? (
-    <StyledListItem key="previewFolder">
+  
+  const previewFolderButton =
+    selectedFolder && isFolderShared ? (
       <SafeLinkButton
         key="previewFolder"
         css={toolbarButtonCss}
         variant="ghost"
         colorTheme="lighter"
-        to={
-          isFolderShared
-            ? sharedFolderLink(selectedFolder.id)
-            : previewLink(selectedFolder.id)
-        }
-        aria-label={t('myNdla.folder.sharing.button.preview')}
-        title={t('myNdla.folder.sharing.button.preview')}
+        to={sharedFolderLinkInternal(selectedFolder.id)}
+        aria-label={t('myNdla.folder.sharing.button.goTo')}
+        title={t('myNdla.folder.sharing.button.goTo')}
       >
         <ShareArrow css={iconCss} />
-        {isFolderShared
-          ? t('myNdla.folder.sharing.button.goTo')
-          : t(
-              `myNdla.folder.sharing.button.${
-                userAgent?.isMobile ? 'preview' : 'previewShort'
-              }`,
-            )}
+        {t('myNdla.folder.sharing.button.goTo')}
       </SafeLinkButton>
-    </StyledListItem>
-  ) : null;
+    ) : null;
 
   if (!showShareFolder) {
     const buttons = [addFolderButton, editFolderButton, deleteFolderButton];
