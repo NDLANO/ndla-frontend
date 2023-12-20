@@ -67,7 +67,7 @@ const StyledEditorContainer = styled.div`
   width: 100%;
   flex-direction: column;
   border-radius: ${misc.borderRadius};
-  border: 1px solid ${colors.brand.greyLight};
+  border: 1px solid ${colors.brand.grey};
 `;
 
 const InnerEditorContainer = styled.div`
