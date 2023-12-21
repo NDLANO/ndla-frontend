@@ -123,7 +123,11 @@ const MastheadContainer = () => {
             <LanguageSelector
               inverted={ndlaFilm}
               locales={supportedLanguages}
-              onSelect={i18n.changeLanguage}
+              onSelect={(value) =>
+                value === 'se'
+                  ? i18n.changeLanguage('nb')
+                  : i18n.changeLanguage(value)
+              }
             />
           </LanguageSelectWrapper>
           {config.feideEnabled && (
