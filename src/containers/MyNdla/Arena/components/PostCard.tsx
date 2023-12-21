@@ -38,7 +38,6 @@ import { formatDateTime } from '../../../../util/formatDate';
 import {
   useDeletePost,
   useDeleteTopic,
-  useReplyToTopic,
   useUpdatePost,
 } from '../../arenaMutations';
 import { arenaCategoryQuery, arenaTopicById } from '../../arenaQueries';
@@ -52,6 +51,7 @@ interface Props {
   post: GQLArenaPostFragment;
   topic: GQLArenaTopicByIdQuery['arenaTopic'];
   setFocusId: Dispatch<SetStateAction<number | undefined>>;
+  createReply: (data: Partial<ArenaFormValues>) => Promise<void>;
 }
 
 const PostCardWrapper = styled.div`
@@ -113,7 +113,13 @@ const Locales = {
   se: nb,
 };
 
-const PostCard = ({ topic, post, onFollowChange, setFocusId }: Props) => {
+const PostCard = ({
+  topic,
+  post,
+  onFollowChange,
+  setFocusId,
+  createReply,
+}: Props) => {
   const {
     id: postId,
     topicId,
@@ -130,14 +136,6 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId }: Props) => {
   const navigate = useNavigate();
   const { addSnack } = useSnack();
   const { user } = useContext(AuthContext);
-  const { replyToTopic } = useReplyToTopic({
-    refetchQueries: [
-      {
-        query: arenaTopicById,
-        variables: { topicId, page: 1 },
-      },
-    ],
-  });
   const { updatePost } = useUpdatePost({
     refetchQueries: [
       {
@@ -291,16 +289,6 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId }: Props) => {
     deletePostCallback,
     deleteTopicCallback,
   ]);
-
-  const createReply = useCallback(
-    async (data: Partial<ArenaFormValues>) => {
-      const newReply = await replyToTopic({
-        variables: { topicId, content: data.content ?? '' },
-      });
-      setFocusId(newReply.data?.replyToTopic.id);
-    },
-    [replyToTopic, topicId, setFocusId],
-  );
 
   const timeDistance = formatDistanceStrict(Date.parse(timestamp), Date.now(), {
     addSuffix: true,

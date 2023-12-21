@@ -6,54 +6,34 @@
  *
  */
 
-import { Dispatch, memo, SetStateAction } from 'react';
-import { useLocation } from 'react-router-dom';
+import { memo } from 'react';
 import styled from '@emotion/styled';
 import { Plus } from '@ndla/icons/action';
+import { ArenaFormValues } from './components/ArenaForm';
 import ArenaTextModal from './components/ArenaTextModal';
-import useArenaModal from '../useArenaModalActions';
 
 const StyledListItem = styled.li`
   margin: 0;
 `;
 
 interface ArenaButtonsProps {
-  setFocusId?: Dispatch<SetStateAction<number | undefined>>;
-  topicId?: number;
+  key: string;
+  type: 'topic' | 'post';
+  onSave: (data: Partial<ArenaFormValues>) => Promise<void>;
 }
 
-const ArenaButtons = ({ setFocusId, topicId }: ArenaButtonsProps) => {
-  const location = useLocation();
-  const { createReply, createTopic } = useArenaModal({ setFocusId, topicId });
-
-  const showNewPostButton = location.pathname.includes('category');
-  const showNewReplyButton = location.pathname.includes('topic');
-
-  const newPost = showNewPostButton ? (
-    <StyledListItem key="newTopic">
+const ArenaButtons = ({ key, type, onSave }: ArenaButtonsProps) => {
+  const button = (
+    <StyledListItem key={key}>
       <ArenaTextModal
         buttonIcon={<Plus />}
-        onSave={createTopic}
+        onSave={onSave}
         toolbarTrigger
-        type="topic"
+        type={type}
       />
     </StyledListItem>
-  ) : null;
-
-  const newReply = showNewReplyButton ? (
-    <StyledListItem key="newReply">
-      <ArenaTextModal
-        buttonIcon={<Plus />}
-        onSave={createReply}
-        toolbarTrigger
-        type="post"
-      />
-    </StyledListItem>
-  ) : null;
-
-  const buttons = [newPost, newReply];
-
-  return buttons;
+  );
+  return [button];
 };
 
 export default memo(ArenaButtons);

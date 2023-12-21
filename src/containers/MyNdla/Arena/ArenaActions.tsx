@@ -6,63 +6,32 @@
  *
  */
 
-import { Dispatch, SetStateAction, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router-dom';
 import { Plus } from '@ndla/icons/action';
+import { ArenaFormValues } from './components/ArenaForm';
 import { ArenaTextModalContent } from './components/ArenaTextModal';
 import SettingsMenu, { MenuItemProps } from '../components/SettingsMenu';
-import useArenaModal from '../useArenaModalActions';
 
 interface ArenaActionsProps {
-  setFocusId?: Dispatch<SetStateAction<number | undefined>>;
-  topicId?: number;
+  text: string;
+  onSave: (data: Partial<ArenaFormValues>) => Promise<void>;
 }
 
-const ArenaActions = ({ setFocusId, topicId }: ArenaActionsProps) => {
+const ArenaActions = ({ text, onSave }: ArenaActionsProps) => {
   const { t } = useTranslation();
-  const location = useLocation();
-  const { createReply, createTopic } = useArenaModal({ setFocusId, topicId });
-
-  const showNewPostButton = location.pathname.includes('category');
-  const showNewReplyButton = location.pathname.includes('topic');
 
   const actionItems: MenuItemProps[] = useMemo(() => {
-    const newPost: MenuItemProps = {
+    const action: MenuItemProps = {
       icon: <Plus />,
       isModal: true,
-      text: t('myNdla.arena.new.topic'),
+      text,
       modalContent: (close) => (
-        <ArenaTextModalContent
-          onClose={close}
-          onSave={createTopic}
-          type="topic"
-        />
+        <ArenaTextModalContent onClose={close} type="topic" onSave={onSave} />
       ),
     };
-    const newReply: MenuItemProps = {
-      icon: <Plus />,
-      isModal: true,
-      text: t(`myNdla.arena.new.post`),
-      modalContent: (close) => (
-        <ArenaTextModalContent
-          onClose={close}
-          onSave={createReply}
-          type="post"
-        />
-      ),
-    };
-
-    if (showNewPostButton) {
-      return [newPost];
-    }
-
-    if (showNewReplyButton) {
-      return [newReply];
-    }
-
-    return [];
-  }, [createReply, createTopic, showNewPostButton, showNewReplyButton, t]);
+    return [action];
+  }, [text, onSave]);
 
   return (
     <SettingsMenu menuItems={actionItems} modalHeader={t('myNdla.tools')} />

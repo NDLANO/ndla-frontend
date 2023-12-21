@@ -99,9 +99,17 @@ const TopicPage = () => {
     [arenaCategory, createArenaTopic, navigate],
   );
 
-  const dropDownMenu = useMemo(() => <ArenaActions />, []);
+  const dropDownMenu = useMemo(
+    () => (
+      <ArenaActions text={t('myNdla.arena.new.topic')} onSave={createTopic} />
+    ),
+    [t, createTopic],
+  );
 
-  const arenaButtons = useMemo(() => <ArenaButtons />, []);
+  const arenaButtons = useMemo(
+    () => <ArenaButtons type="topic" key="newTopic" onSave={createTopic} />,
+    [createTopic],
+  );
 
   if (loading) {
     return <Spinner />;

@@ -8,7 +8,7 @@
 
 import { useCallback, useContext, useMemo, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Navigate, useParams, useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { spacing, spacingUnit, mq, breakpoints } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
@@ -16,15 +16,18 @@ import { HelmetWithTracker, useTracker } from '@ndla/tracker';
 import { useSnack } from '@ndla/ui';
 import ArenaActions from './ArenaActions';
 import ArenaButtons from './ArenaButtons';
+import { ArenaFormValues } from './components/ArenaForm';
 import DeletedPostCard from './components/DeletedPostCard';
 import PostCard from './components/PostCard';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import {
+  useReplyToTopic,
   useSubscribeToTopicMutation,
   useUnsubscribeFromTopicMutation,
 } from '../arenaMutations';
 import {
+  arenaTopicById,
   useArenaCategory,
   useArenaNotifications,
   useArenaTopic,
@@ -117,14 +120,35 @@ const PostsPage = () => {
     }
   }, [focusId, arenaTopic?.posts]);
 
+  const { replyToTopic } = useReplyToTopic({
+    refetchQueries: [
+      {
+        query: arenaTopicById,
+        variables: { topicId, page: 1 },
+      },
+    ],
+  });
+
+  const createReply = useCallback(
+    async (data: Partial<ArenaFormValues>) => {
+      const newReply = await replyToTopic({
+        variables: { topicId: Number(topicId), content: data.content ?? '' },
+      });
+      setFocusId(newReply.data?.replyToTopic.id);
+    },
+    [replyToTopic, topicId, setFocusId],
+  );
+
   const dropDownMenu = useMemo(
-    () => <ArenaActions setFocusId={setFocusId} topicId={arenaTopic?.id} />,
-    [arenaTopic?.id],
+    () => (
+      <ArenaActions text={t('myNdla.arena.new.post')} onSave={createReply} />
+    ),
+    [createReply, t],
   );
 
   const arenaButtons = useMemo(
-    () => <ArenaButtons setFocusId={setFocusId} topicId={arenaTopic?.id} />,
-    [arenaTopic?.id],
+    () => <ArenaButtons key="newReply" type="post" onSave={createReply} />,
+    [createReply],
   );
 
   useEffect(() => {
@@ -185,6 +209,7 @@ const PostsPage = () => {
                 topic={arenaTopic}
                 onFollowChange={onFollowChange}
                 setFocusId={setFocusId}
+                createReply={createReply}
               />
             )}
           </PostCardWrapper>
