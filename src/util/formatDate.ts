@@ -24,8 +24,9 @@ const timeFormatOptions = {
 };
 
 export function formatDateTime(timestamp: string, locale: LocaleType) {
-  return format(
-    new Date(timestamp),
-    timeFormatOptions[locale] ?? 'dd/MM/yyyy HH:mm:ss',
-  );
+  return formateDateObject(new Date(timestamp), locale);
+}
+
+export function formateDateObject(date: Date, locale: LocaleType) {
+  return format(date, timeFormatOptions[locale] ?? 'dd/MM/yyyy HH:mm:ss');
 }

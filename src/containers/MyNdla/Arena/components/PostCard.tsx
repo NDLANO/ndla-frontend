@@ -30,20 +30,20 @@ import { Text, Heading } from '@ndla/typography';
 import { useSnack } from '@ndla/ui';
 import ArenaForm, { ArenaFormValues, ArenaFormWrapper } from './ArenaForm';
 import FlagPostModalContent from './FlagPostModalContent';
+import {
+  useArenaDeletePost,
+  useArenaDeleteTopic,
+  useArenaReplyToTopicMutation,
+  useArenaUpdatePost,
+} from './temporaryNodebbHooks';
 import { AuthContext } from '../../../../components/AuthenticationContext';
+import config from '../../../../config';
 import { SKIP_TO_CONTENT_ID } from '../../../../constants';
 import {
-  GQLArenaPostFragment,
-  GQLArenaTopicByIdQuery,
+  GQLArenaPostV2Fragment,
+  GQLArenaTopicByIdV2Query,
 } from '../../../../graphqlTypes';
 import { formatDateTime } from '../../../../util/formatDate';
-import {
-  useDeletePost,
-  useDeleteTopic,
-  useReplyToTopic,
-  useUpdatePost,
-} from '../../arenaMutations';
-import { arenaCategoryQuery, arenaTopicById } from '../../arenaQueries';
 import DeleteModalContent from '../../components/DeleteModalContent';
 import SettingsMenu, { MenuItemProps } from '../../components/SettingsMenu';
 import UserProfileTag from '../../components/UserProfileTag';
@@ -51,9 +51,10 @@ import { capitalizeFirstLetter, toArena, toArenaCategory } from '../utils';
 
 interface Props {
   onFollowChange: (value: boolean) => void;
-  post: GQLArenaPostFragment;
-  topic: GQLArenaTopicByIdQuery['arenaTopic'];
+  post: GQLArenaPostV2Fragment;
+  topic: GQLArenaTopicByIdV2Query['arenaTopicV2'];
   setFocusId: Dispatch<SetStateAction<number | undefined>>;
+  isMainPost: boolean;
 }
 
 const PostWrapper = styled.div`
@@ -131,16 +132,37 @@ const Locales = {
   se: nb,
 };
 
-const PostCard = ({ topic, post, onFollowChange, setFocusId }: Props) => {
+export const compareUsernames = (
+  userUsername: string | undefined,
+  postUsername: string,
+) => {
+  if (config.enableNodeBB) {
+    return (
+      userUsername?.replace(
+        /[^'"\s\-.*0-9\u00BF-\u1FFF\u2C00-\uD7FF\w]+/,
+        '-',
+      ) === postUsername
+    );
+  }
+
+  return userUsername === postUsername;
+};
+
+const PostCard = ({
+  topic,
+  post,
+  onFollowChange,
+  setFocusId,
+  isMainPost,
+}: Props) => {
   const [isReplying, setIsReplying] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const {
     id: postId,
     topicId,
-    isMainPost,
-    timestamp,
-    content,
-    user: { displayName, username, location },
+    created,
+    contentAsHTML,
+    owner: { username },
   } = post;
   const replyToRef = useRef<HTMLButtonElement | null>(null);
 
@@ -151,45 +173,17 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId }: Props) => {
   const navigate = useNavigate();
   const { addSnack } = useSnack();
   const { user } = useContext(AuthContext);
-  const { replyToTopic } = useReplyToTopic({
-    refetchQueries: [
-      {
-        query: arenaTopicById,
-        variables: { topicId, page: 1 },
-      },
-    ],
-  });
-  const { updatePost } = useUpdatePost({
-    refetchQueries: [
-      {
-        query: arenaTopicById,
-        variables: { topicId, page: 1 },
-      },
-    ],
-  });
-  const { deletePost } = useDeletePost({
-    refetchQueries: [
-      {
-        query: arenaTopicById,
-        variables: { topicId, page: 1 },
-      },
-    ],
-  });
-  const { deleteTopic } = useDeleteTopic({
-    refetchQueries: [
-      {
-        query: arenaCategoryQuery,
-        variables: { categoryId: topic?.categoryId, page: 1 },
-      },
-    ],
-  });
+  const { replyToTopic } = useArenaReplyToTopicMutation(topicId);
+  const { updatePost } = useArenaUpdatePost(topicId);
+  // TODO: Update topic got broken, i think when we stopped with the modals
+  //       lets worry about that later
+
+  const { deletePost } = useArenaDeletePost(topicId);
+  const { deleteTopic } = useArenaDeleteTopic(topic?.categoryId);
 
   const type = isMainPost ? 'topic' : 'post';
 
-  const validPosts = useMemo(
-    () => topic?.posts.filter(({ deleted }) => !deleted),
-    [topic?.posts],
-  );
+  const validPosts = useMemo(() => topic?.posts, [topic?.posts]);
 
   const deleteTopicCallback = useCallback(
     async (close: VoidFunction) => {
@@ -216,9 +210,9 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId }: Props) => {
         content: t('myNdla.arena.deleted.post'),
         id: 'arenaPostDeleted',
       });
-      const index = validPosts?.indexOf(post) ?? 0;
-      const previousPostId = validPosts?.[index - 1]?.id;
-      const nextPostId = validPosts?.[index + 1]?.id;
+      const index = validPosts?.items?.indexOf(post) ?? 0;
+      const previousPostId = validPosts?.items?.[index - 1]?.id;
+      const nextPostId = validPosts?.items?.[index + 1]?.id;
       setFocusId(nextPostId ?? previousPostId);
       skipAutoFocus();
     },
@@ -226,12 +220,7 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId }: Props) => {
   );
 
   const menu = useMemo(() => {
-    // Regex replaces @ with -. Same method as in backend
-    const isCorrectUser =
-      user?.username.replace(
-        /[^'"\s\-.*0-9\u00BF-\u1FFF\u2C00-\uD7FF\w]+/,
-        '-',
-      ) === username;
+    const isOwnPost = compareUsernames(user?.username, username);
 
     const update: MenuItemProps = {
       icon: <Pencil />,
@@ -271,11 +260,20 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId }: Props) => {
       ),
     };
 
+    const menuItems: MenuItemProps[] = [];
+    if (user?.isModerator) {
+      menuItems.push(deleteItem);
+      menuItems.push(update);
+      menuItems.push(report);
+    } else if (isOwnPost) {
+      menuItems.push(deleteItem);
+      menuItems.push(update);
+    } else {
+      menuItems.push(report);
+    }
+
     return (
-      <SettingsMenu
-        menuItems={isCorrectUser ? [update, deleteItem] : [report]}
-        modalHeader={t('myNdla.tools')}
-      />
+      <SettingsMenu menuItems={menuItems} modalHeader={t('myNdla.tools')} />
     );
   }, [
     t,
@@ -293,12 +291,20 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId }: Props) => {
       const newReply = await replyToTopic({
         variables: { topicId, content: data.content ?? '' },
       });
-      setFocusId(newReply.data?.replyToTopic.id);
+
+      // TODO: Replace this with `setFocusId(newReply.data.replyToTopicV2.id)` when nodebb dies
+      if (!newReply.data) return;
+      if ('replyToTopic' in newReply.data) {
+        setFocusId(newReply.data.replyToTopic.id);
+      }
+      if ('replyToTopicV2' in newReply.data) {
+        setFocusId(newReply.data.replyToTopicV2.id);
+      }
     },
     [replyToTopic, topicId, setFocusId],
   );
 
-  const timeDistance = formatDistanceStrict(Date.parse(timestamp), Date.now(), {
+  const timeDistance = formatDistanceStrict(Date.parse(created), Date.now(), {
     addSuffix: true,
     locale: Locales[language],
     roundingMethod: 'floor',
@@ -306,7 +312,7 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId }: Props) => {
 
   const postTime = (
     <TimestampText element="span" textStyle="content-alt" margin="none">
-      <span title={formatDateTime(timestamp, language)}>
+      <span title={formatDateTime(created, language)}>
         {`${capitalizeFirstLetter(timeDistance)}`}
       </span>
     </TimestampText>
@@ -359,11 +365,7 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId }: Props) => {
         ) : (
           <>
             <PostHeader>
-              <UserProfileTag
-                displayName={displayName}
-                username={username}
-                affiliation={location ?? ''}
-              />
+              <UserProfileTag user={post.owner} />
               {isMainPost && (
                 <StyledSwitch
                   onChange={onFollowChange}
@@ -385,7 +387,7 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId }: Props) => {
                 </Heading>
               )}
               <Content element="div" textStyle="content-alt" margin="none">
-                {parse(content)}
+                {parse(contentAsHTML!)}
               </Content>
             </ContentWrapper>
             <FlexLine>{options(isMainPost)}</FlexLine>

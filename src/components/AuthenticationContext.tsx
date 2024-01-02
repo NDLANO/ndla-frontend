@@ -14,6 +14,7 @@ import {
   useCallback,
 } from 'react';
 import { gql } from '@apollo/client';
+import config from '../config';
 import {
   GQLMyNdlaDataQuery,
   GQLMyNdlaPersonalDataFragmentFragment,
@@ -21,12 +22,16 @@ import {
 import { isAccessTokenValid, millisUntilExpiration } from '../util/authHelpers';
 import { useGraphQuery } from '../util/runQueries';
 
+export type MyNDLAUserType = GQLMyNdlaPersonalDataFragmentFragment & {
+  isModerator: boolean;
+};
+
 interface AuthContextType {
   authenticated: boolean;
   authContextLoaded: boolean;
   login: () => void;
   logout: () => void;
-  user: GQLMyNdlaPersonalDataFragmentFragment | undefined;
+  user: MyNDLAUserType | undefined;
   examLock: boolean;
 }
 
@@ -44,8 +49,15 @@ interface Props {
   initialValue?: string;
 }
 
-const personalDataQueryFragment = gql`
+export const isArenaModerator = (groups?: string[]): boolean => {
+  if (!groups) return false;
+  return groups.includes(config.arenaAdminGroup) ?? false;
+};
+
+export const personalDataQueryFragment = gql`
   fragment MyNdlaPersonalDataFragment on MyNdlaPersonalData {
+    __typename
+    id
     username
     email
     displayName
@@ -59,6 +71,7 @@ const personalDataQueryFragment = gql`
     favoriteSubjects
     role
     arenaEnabled
+    arenaGroups
     shareName
   }
 `;
@@ -79,9 +92,7 @@ const myNdlaQuery = gql`
 const AuthenticationContext = ({ children }: Props) => {
   const [authenticated, setAuthenticated] = useState(false);
   const [authContextLoaded, setLoaded] = useState(false);
-  const [user, setUser] = useState<
-    GQLMyNdlaPersonalDataFragmentFragment | undefined
-  >(undefined);
+  const [user, setUser] = useState<MyNDLAUserType | undefined>(undefined);
   const [examLock, setExamLock] = useState(false);
 
   const myNdlaData = useGraphQuery<GQLMyNdlaDataQuery>(myNdlaQuery, {
@@ -100,7 +111,10 @@ const AuthenticationContext = ({ children }: Props) => {
       if (personalData?.role === 'student') {
         setExamLock(examLockStatus?.value === true);
       }
-      setUser(personalData);
+      setUser({
+        isModerator: isArenaModerator(personalData?.arenaGroups),
+        ...personalData,
+      });
       setLoaded(true);
       // Since we can't listen to cookies set a timeout to update context
       const timeoutMillis = millisUntilExpiration();

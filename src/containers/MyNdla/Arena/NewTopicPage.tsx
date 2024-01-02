@@ -17,11 +17,13 @@ import ArenaForm, {
   ArenaFormValues,
   ArenaFormWrapper,
 } from './components/ArenaForm';
+import {
+  useArenaCategory,
+  useArenaCreateTopic,
+} from './components/temporaryNodebbHooks';
 import { toArena, toArenaCategory, toArenaTopic } from './utils';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import { getAllDimensions } from '../../../util/trackingUtil';
-import { useCreateArenaTopic } from '../arenaMutations';
-import { arenaCategoryQuery, useArenaCategory } from '../arenaQueries';
 import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
 import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
 
@@ -40,20 +42,8 @@ export const NewTopicPage = () => {
   const { categoryId } = useParams();
   const { trackPageView } = useTracker();
   const navigate = useNavigate();
-
-  const arenaTopicMutation = useCreateArenaTopic({
-    refetchQueries: [
-      {
-        query: arenaCategoryQuery,
-        variables: { categoryId: categoryId, page: 1 },
-      },
-    ],
-  });
-
-  const { loading, arenaCategory } = useArenaCategory({
-    variables: { categoryId: Number(categoryId), page: 1 },
-    skip: !Number(categoryId),
-  });
+  const arenaTopicMutation = useArenaCreateTopic(categoryId);
+  const { loading, arenaCategory } = useArenaCategory(categoryId);
   const { user, authContextLoaded } = useContext(AuthContext);
 
   useEffect(() => {
@@ -62,7 +52,14 @@ export const NewTopicPage = () => {
       title: t('htmlTitles.arenaNewTopicPage'),
       dimensions: getAllDimensions({ user }),
     });
-  }, [arenaCategory?.name, authContextLoaded, loading, t, trackPageView, user]);
+  }, [
+    arenaCategory?.title,
+    authContextLoaded,
+    loading,
+    t,
+    trackPageView,
+    user,
+  ]);
 
   const onSave = useCallback(
     async (values: Partial<ArenaFormValues>) => {
@@ -73,8 +70,14 @@ export const NewTopicPage = () => {
           categoryId: Number(categoryId),
         },
       });
-      if (topic.data?.newArenaTopic.id) {
-        navigate(toArenaTopic(topic.data?.newArenaTopic?.id));
+      const data = topic?.data;
+
+      if (data && 'newArenaTopicV2' in data && data.newArenaTopicV2?.id) {
+        navigate(toArenaTopic(data.newArenaTopicV2?.id));
+      }
+
+      if (data && 'newArenaTopic' in data && data.newArenaTopic?.id) {
+        navigate(toArenaTopic(data.newArenaTopic?.id));
       }
     },
     [arenaTopicMutation, categoryId, navigate],
@@ -93,7 +96,7 @@ export const NewTopicPage = () => {
               categoryId
                 ? [
                     {
-                      name: arenaCategory?.name ?? '',
+                      name: arenaCategory?.title ?? '',
                       id: `category/${categoryId}`,
                     },
                     { name: t('myNdla.arena.new.topic'), id: 'newTopic' },

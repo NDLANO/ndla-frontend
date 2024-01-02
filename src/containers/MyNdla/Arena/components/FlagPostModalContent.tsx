@@ -28,9 +28,9 @@ import {
 } from '@ndla/modal';
 import { Text } from '@ndla/typography';
 import { useSnack } from '@ndla/ui';
+import { useArenaNewFlagMutation } from './temporaryNodebbHooks';
 import handleError from '../../../../util/handleError';
 import useValidationTranslation from '../../../../util/useValidationTranslation';
-import { useNewFlagMutation } from '../../arenaMutations';
 
 const MAXIMUM_LENGTH_TEXTFIELD = 120;
 
@@ -81,7 +81,7 @@ interface FlagPostModalProps {
 }
 
 const FlagPostModalContent = ({ id, onClose }: FlagPostModalProps) => {
-  const { addNewFlag } = useNewFlagMutation();
+  const { addNewFlag } = useArenaNewFlagMutation();
   const { validationT } = useValidationTranslation();
   const { t } = useTranslation();
   const { addSnack } = useSnack();

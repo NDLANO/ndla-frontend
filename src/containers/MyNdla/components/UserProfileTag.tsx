@@ -12,14 +12,11 @@ import { colors, spacing, misc } from '@ndla/core';
 import SafeLink from '@ndla/safelink';
 import { Text } from '@ndla/typography';
 import Avatar from './Avatar';
-import config from '../../../config';
-import { GQLArenaUser } from '../../../graphqlTypes';
-import { useArenaUser } from '../arenaQueries';
+import { isArenaModerator } from '../../../components/AuthenticationContext';
+import { GQLArenaUserV2 } from '../../../graphqlTypes';
 
 type UserProfileTagProps = {
-  displayName: string;
-  username: string;
-  affiliation: string;
+  user: GQLArenaUserV2;
 };
 
 const Name = styled(Text)`
@@ -63,40 +60,26 @@ const ModeratorTag = styled(Text)`
   color: ${colors.white};
 `;
 
-const isModerator = (user?: GQLArenaUser): boolean => {
-  return user?.groupTitleArray?.includes(config.arenaModeratorGroup) ?? false;
-};
-
-const UserProfileTag = ({
-  displayName,
-  username,
-  affiliation,
-}: UserProfileTagProps) => {
+const UserProfileTag = ({ user }: UserProfileTagProps) => {
+  const { username, displayName, location } = user;
   const { t } = useTranslation();
-  const { arenaUser } = useArenaUser({
-    variables: { username: username ?? '' },
-    skip: !username,
-  });
 
   return (
     <UserProfileTagContainer to={`/minndla/arena/user/${username}`}>
-      <Avatar
-        displayName={arenaUser?.displayName}
-        profilePicture={arenaUser?.profilePicture}
-      />
+      <Avatar displayName={displayName} profilePicture={undefined} />
       <UserInformationContainer>
         <NameAndTagContainer>
           <Name textStyle="meta-text-large" margin="none" data-name="hover">
             {displayName}
           </Name>
-          {isModerator(arenaUser) && (
+          {isArenaModerator(user.groups) && (
             <ModeratorTag textStyle="meta-text-xsmall" margin="none">
               {t('user.moderator')}
             </ModeratorTag>
           )}
         </NameAndTagContainer>
         <Text textStyle="meta-text-small" margin="none">
-          {affiliation}
+          {location}
         </Text>
       </UserInformationContainer>
     </UserProfileTagContainer>

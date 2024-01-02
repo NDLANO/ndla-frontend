@@ -39,7 +39,7 @@ const ArenaNotificationPage = () => {
       <Text textStyle="content-alt" margin="small">
         {t('myNdla.arena.notification.description')}
       </Text>
-      <NotificationList notifications={notifications} />
+      <NotificationList notifications={notifications?.items} />
     </MyNdlaPageWrapper>
   );
 };
