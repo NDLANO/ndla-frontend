@@ -22,7 +22,6 @@ import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin';
 import { ListPlugin } from '@lexical/react/LexicalListPlugin';
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
-import { $rootTextContent } from '@lexical/text';
 import { colors, misc, spacing } from '@ndla/core';
 import { useFormControl } from '@ndla/forms';
 import { editorTheme } from './editorTheme';
@@ -38,7 +37,7 @@ const onError = (error: any) => {
 const EditableWrapper = styled.div`
   border-bottom-left-radius: ${misc.borderRadius};
   border-bottom-right-radius: ${misc.borderRadius};
-  background-color: ${colors.brand.greyLightest};
+  background-color: ${colors.white};
   min-height: 115px;
   display: flex;
   flex-direction: column;
@@ -67,7 +66,7 @@ const StyledEditorContainer = styled.div`
   width: 100%;
   flex-direction: column;
   border-radius: ${misc.borderRadius};
-  border: 1px solid ${colors.brand.greyLight};
+  border: 1px solid ${colors.brand.secondary};
 `;
 
 const InnerEditorContainer = styled.div`
@@ -76,13 +75,12 @@ const InnerEditorContainer = styled.div`
 
 interface Props {
   setContentWritten: (data: string) => void;
-  setContentLength: (data: number) => void;
   initialValue: string;
   name: string;
 }
 
 export const MarkdownEditor = forwardRef(
-  ({ name, setContentWritten, setContentLength, initialValue }: Props, _) => {
+  ({ name, setContentWritten, initialValue }: Props, _) => {
     const [floatingAnchorElem, setFloatingAnchorElem] = useState<
       HTMLDivElement | undefined
     >(undefined);
@@ -99,7 +97,6 @@ export const MarkdownEditor = forwardRef(
           parser.parseFromString(initialValue, 'text/html'),
         );
         $getRoot().select().insertNodes(nodes);
-        setContentLength($rootTextContent().length);
       },
     };
 
@@ -117,7 +114,6 @@ export const MarkdownEditor = forwardRef(
       editorState.read(() => {
         const markdown = $convertToMarkdownString(PLAYGROUND_TRANSFORMERS);
         setContentWritten(markdown);
-        setContentLength($rootTextContent().length);
       });
     };
 

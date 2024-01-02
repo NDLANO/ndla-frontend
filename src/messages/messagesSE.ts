@@ -30,6 +30,7 @@ const messages = {
     arenaPage: `Arena - ${titleTemplate}`,
     arenaTopicPage: `{{name}} - Arena - ${titleTemplate}`,
     arenaPostPage: `{{name}} - Arena - ${titleTemplate}`,
+    arenaNewTopicPage: `Ođđa reivvet - Arena - ${titleTemplate}`,
   },
   podcastPage: {
     episodes: 'Jearahusat',
