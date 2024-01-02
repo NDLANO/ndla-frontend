@@ -5,30 +5,30 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { TFunction } from 'i18next';
-import { useContext, useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { gql } from '@apollo/client';
-import { DynamicComponents, extractEmbedMeta } from '@ndla/article-converter';
-import { useTracker } from '@ndla/tracker';
-import { Topic as UITopic } from '@ndla/ui';
+import { TFunction } from "i18next";
+import { useContext, useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { gql } from "@apollo/client";
+import { DynamicComponents, extractEmbedMeta } from "@ndla/article-converter";
+import { useTracker } from "@ndla/tracker";
+import { Topic as UITopic } from "@ndla/ui";
 
-import ArticleContents from '../../../components/Article/ArticleContents';
-import { AuthContext } from '../../../components/AuthenticationContext';
-import AddEmbedToFolder from '../../../components/MyNdla/AddEmbedToFolder';
-import config from '../../../config';
-import { SKIP_TO_CONTENT_ID } from '../../../constants';
+import ArticleContents from "../../../components/Article/ArticleContents";
+import { AuthContext } from "../../../components/AuthenticationContext";
+import AddEmbedToFolder from "../../../components/MyNdla/AddEmbedToFolder";
+import config from "../../../config";
+import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import {
   GQLMultidisciplinaryTopic_SubjectFragment,
   GQLMultidisciplinaryTopic_TopicFragment,
-} from '../../../graphqlTypes';
-import { toTopic, useIsNdlaFilm, useUrnIds } from '../../../routeHelpers';
-import { getArticleScripts } from '../../../util/getArticleScripts';
-import { htmlTitle } from '../../../util/titleHelper';
-import { getAllDimensions } from '../../../util/trackingUtil';
-import { transformArticle } from '../../../util/transformArticle';
-import Resources from '../../Resources/Resources';
-import TopicVisualElementContent from '../../SubjectPage/components/TopicVisualElementContent';
+} from "../../../graphqlTypes";
+import { toTopic, useIsNdlaFilm, useUrnIds } from "../../../routeHelpers";
+import { getArticleScripts } from "../../../util/getArticleScripts";
+import { htmlTitle } from "../../../util/titleHelper";
+import { getAllDimensions } from "../../../util/trackingUtil";
+import { transformArticle } from "../../../util/transformArticle";
+import Resources from "../../Resources/Resources";
+import TopicVisualElementContent from "../../SubjectPage/components/TopicVisualElementContent";
 
 interface Props {
   topicId: string;
@@ -41,7 +41,7 @@ interface Props {
 }
 
 const getDocumentTitle = (name: string, t: TFunction) => {
-  return htmlTitle(name, [t('htmlTitles.titleTemplate')]);
+  return htmlTitle(name, [t("htmlTitles.titleTemplate")]);
 };
 
 const converterComponents: DynamicComponents = {
@@ -63,9 +63,9 @@ const MultidisciplinaryTopic = ({ topicId, subjectId, subTopicId, topic, subject
   useEffect(() => {
     if (!topic?.article || !authContextLoaded) return;
     const topicPath = topic.path
-      ?.split('/')
+      ?.split("/")
       .slice(2)
-      .map((t) => subject.allTopics?.find((topic) => topic.id.replace('urn:', '') === t));
+      .map((t) => subject.allTopics?.find((topic) => topic.id.replace("urn:", "") === t));
     const dimensions = getAllDimensions(
       {
         subject,
@@ -93,7 +93,7 @@ const MultidisciplinaryTopic = ({ topicId, subjectId, subTopicId, topic, subject
   }, [embedMeta, topic.article?.visualElementEmbed?.meta]);
 
   const topicPath = topic.path
-    ?.split('/')
+    ?.split("/")
     .slice(2)
     .map((id) => `urn:${id}`);
   const subTopics =
@@ -128,7 +128,7 @@ const MultidisciplinaryTopic = ({ topicId, subjectId, subTopicId, topic, subject
       metaImage={article.metaImage}
       visualElementEmbedMeta={embedMeta}
       visualElement={visualElement}
-      onToggleShowContent={topic.article?.content !== '' ? () => setShowContent(!showContent) : undefined}
+      onToggleShowContent={topic.article?.content !== "" ? () => setShowContent(!showContent) : undefined}
       showContent={showContent}
       subTopics={!disableNav ? subTopics : undefined}
       isLoading={false}

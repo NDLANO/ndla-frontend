@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { createContext, ReactNode, useContext } from 'react';
+import { createContext, ReactNode, useContext } from "react";
 
-export const defaultValue = 'default';
+export const defaultValue = "default";
 const VersionHashContext = createContext<string>(defaultValue);
 
 interface Props {

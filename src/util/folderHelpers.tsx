@@ -6,9 +6,9 @@
  *
  */
 
-import uniq from 'lodash/uniq';
-import uniqBy from 'lodash/uniqBy';
-import { GQLFolder, GQLFolderResource } from '../graphqlTypes';
+import uniq from "lodash/uniq";
+import uniqBy from "lodash/uniqBy";
+import { GQLFolder, GQLFolderResource } from "../graphqlTypes";
 
 export const getAllTags = (allFolders: GQLFolder[]): string[] => {
   const allTags = allFolders.flatMap((f) => f.resources.flatMap((r) => r.tags).concat(getAllTags(f.subfolders)));

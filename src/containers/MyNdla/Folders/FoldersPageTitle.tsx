@@ -5,18 +5,18 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { memo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
-import { FolderOutlined, FolderSharedOutlined } from '@ndla/icons/contentType';
-import { ContentLoader } from '@ndla/ui';
-import WhileLoading from '../../../components/WhileLoading';
-import { GQLFolder } from '../../../graphqlTypes';
-import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
-import MyNdlaTitle from '../components/MyNdlaTitle';
-import TitleWrapper from '../components/TitleWrapper';
+import { memo } from "react";
+import { useTranslation } from "react-i18next";
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
+import { spacing } from "@ndla/core";
+import { FolderOutlined, FolderSharedOutlined } from "@ndla/icons/contentType";
+import { ContentLoader } from "@ndla/ui";
+import WhileLoading from "../../../components/WhileLoading";
+import { GQLFolder } from "../../../graphqlTypes";
+import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
+import MyNdlaTitle from "../components/MyNdlaTitle";
+import TitleWrapper from "../components/TitleWrapper";
 
 const TitleRow = styled.div`
   display: flex;
@@ -43,7 +43,7 @@ const FoldersPageTitle = ({ loading, selectedFolder }: Props) => {
         isLoading={loading}
         fallback={
           !!selectedFolder && (
-            <ContentLoader width={500} height={30} css={{ maxWidth: '500px', minWidth: '500px' }}>
+            <ContentLoader width={500} height={30} css={{ maxWidth: "500px", minWidth: "500px" }}>
               <rect x="0" y="2" rx="3" ry="3" width="400" height="25" key="rect-1" />
             </ContentLoader>
           )
@@ -54,20 +54,20 @@ const FoldersPageTitle = ({ loading, selectedFolder }: Props) => {
       <TitleRow>
         <WhileLoading
           fallback={
-            <ContentLoader width={500} height={selectedFolder ? 44 : 28} css={{ maxWidth: '500px', minWidth: '500px' }}>
-              <rect x="0" y="2" rx="3" ry="3" width="300" height={selectedFolder ? '40' : '24'} key="rect-1" />
+            <ContentLoader width={500} height={selectedFolder ? 44 : 28} css={{ maxWidth: "500px", minWidth: "500px" }}>
+              <rect x="0" y="2" rx="3" ry="3" width="300" height={selectedFolder ? "40" : "24"} key="rect-1" />
             </ContentLoader>
           }
           isLoading={loading}
         >
           {selectedFolder ? (
-            selectedFolder.status === 'shared' ? (
+            selectedFolder.status === "shared" ? (
               <FolderSharedOutlined css={IconCSS} />
             ) : (
               <FolderOutlined css={IconCSS} />
             )
           ) : null}
-          <MyNdlaTitle title={selectedFolder?.name ?? t('myNdla.myFolders')} />
+          <MyNdlaTitle title={selectedFolder?.name ?? t("myNdla.myFolders")} />
         </WhileLoading>
       </TitleRow>
     </TitleWrapper>

@@ -6,11 +6,11 @@
  *
  */
 
-import { ErrorInfo } from 'react';
-import { ApolloError } from '@apollo/client';
-import ErrorReporter from '@ndla/error-reporter';
+import { ErrorInfo } from "react";
+import { ApolloError } from "@apollo/client";
+import ErrorReporter from "@ndla/error-reporter";
 
-const log = process.env.BUILD_TARGET === 'server' ? require('./logger').default : undefined;
+const log = process.env.BUILD_TARGET === "server" ? require("./logger").default : undefined;
 
 type UnknownGQLError = {
   status?: number;
@@ -44,9 +44,9 @@ export const isAccessDeniedError = (error: ApolloError | undefined | null): bool
 };
 
 const handleError = (error: ApolloError | Error | string | unknown, info?: ErrorInfo | { clientTime: Date }) => {
-  if (process.env.NODE_ENV === 'production' && process.env.BUILD_TARGET === 'client') {
+  if (process.env.NODE_ENV === "production" && process.env.BUILD_TARGET === "client") {
     ErrorReporter.getInstance().captureError(error, info);
-  } else if (process.env.NODE_ENV === 'production' && process.env.BUILD_TARGET === 'server') {
+  } else if (process.env.NODE_ENV === "production" && process.env.BUILD_TARGET === "server") {
     log.error(error);
   } else {
     console.error(error); // eslint-disable-line no-console

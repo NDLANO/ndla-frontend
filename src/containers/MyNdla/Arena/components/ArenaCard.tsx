@@ -6,14 +6,14 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
-import { colors, spacing, breakpoints, mq, misc } from '@ndla/core';
-import { Forum, ForumOutlined } from '@ndla/icons/common';
-import SafeLink from '@ndla/safelink';
-import { Text } from '@ndla/typography';
-import { toArenaCategory } from '../utils';
+import { useTranslation } from "react-i18next";
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
+import { colors, spacing, breakpoints, mq, misc } from "@ndla/core";
+import { Forum, ForumOutlined } from "@ndla/icons/common";
+import SafeLink from "@ndla/safelink";
+import { Text } from "@ndla/typography";
+import { toArenaCategory } from "../utils";
 
 interface Props {
   id: number;
@@ -33,14 +33,14 @@ const StyledSafelink = styled(SafeLink)`
   border-radius: ${misc.borderRadius};
   box-shadow: none;
 
-  [data-hover-icon=''] {
+  [data-hover-icon=""] {
     display: none;
   }
 
   &:hover,
   &:focus-within {
     background-color: ${colors.background.lightBlue};
-    [data-name='hover'] {
+    [data-name="hover"] {
       text-decoration: none;
     }
     svg {
@@ -51,7 +51,7 @@ const StyledSafelink = styled(SafeLink)`
   ${mq.range({ from: breakpoints.mobileWide })} {
     &:hover,
     &:focus-within {
-      [data-hover-icon=''] {
+      [data-hover-icon=""] {
         display: block;
       }
     }
@@ -110,7 +110,7 @@ const ArenaCard = ({ id, title, subText, count }: Props) => {
             {count}
           </Text>
           <Text textStyle="meta-text-small" margin="none">
-            {t('myNdla.arena.category.posts', { count })}
+            {t("myNdla.arena.category.posts", { count })}
           </Text>
         </StyledCountContainer>
       </SpacingContainer>

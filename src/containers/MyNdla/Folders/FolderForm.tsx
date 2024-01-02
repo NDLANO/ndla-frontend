@@ -6,17 +6,17 @@
  *
  */
 
-import { TFunction } from 'i18next';
-import { useEffect } from 'react';
-import { useForm, Controller } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { ButtonV2, LoadingButton } from '@ndla/button';
-import { spacing } from '@ndla/core';
-import { FieldErrorMessage, FormControl, InputV3, Label, TextAreaV3 } from '@ndla/forms';
-import { ModalCloseButton } from '@ndla/modal';
-import { GQLFolder } from '../../../graphqlTypes';
-import useValidationTranslation from '../../../util/useValidationTranslation';
+import { TFunction } from "i18next";
+import { useEffect } from "react";
+import { useForm, Controller } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { ButtonV2, LoadingButton } from "@ndla/button";
+import { spacing } from "@ndla/core";
+import { FieldErrorMessage, FormControl, InputV3, Label, TextAreaV3 } from "@ndla/forms";
+import { ModalCloseButton } from "@ndla/modal";
+import { GQLFolder } from "../../../graphqlTypes";
+import useValidationTranslation from "../../../util/useValidationTranslation";
 
 interface EditFolderFormProps {
   folder?: GQLFolder;
@@ -55,8 +55,8 @@ export interface FolderFormValues {
 
 const toFormValues = (folder: GQLFolder | undefined, t: TFunction): FolderFormValues => {
   return {
-    name: folder?.name ?? '',
-    description: folder?.description ?? t('myNdla.sharedFolder.description.all'),
+    name: folder?.name ?? "",
+    description: folder?.description ?? t("myNdla.sharedFolder.description.all"),
   };
 };
 
@@ -73,8 +73,8 @@ const FolderForm = ({ folder, onSave, siblings, loading }: EditFolderFormProps) 
     formState: { isValid, isDirty, errors },
   } = useForm({
     defaultValues: toFormValues(folder, t),
-    reValidateMode: 'onChange',
-    mode: 'all',
+    reValidateMode: "onChange",
+    mode: "all",
   });
 
   // Validate on mount.
@@ -90,19 +90,19 @@ const FolderForm = ({ folder, onSave, siblings, loading }: EditFolderFormProps) 
         name="name"
         control={control}
         rules={{
-          required: validationT({ type: 'required', field: 'name' }),
+          required: validationT({ type: "required", field: "name" }),
           maxLength: {
             value: nameMaxLength,
             message: validationT({
-              type: 'maxLength',
-              field: 'name',
+              type: "maxLength",
+              field: "name",
               vars: { count: nameMaxLength },
             }),
           },
           validate: (name) => {
             const exists = siblings.every((f) => f.name.toLowerCase() !== name.toLowerCase());
             if (!exists) {
-              return validationT('validation.notUnique');
+              return validationT("validation.notUnique");
             }
             return true;
           },
@@ -110,7 +110,7 @@ const FolderForm = ({ folder, onSave, siblings, loading }: EditFolderFormProps) 
         render={({ field }) => (
           <FormControl id="name" isRequired isInvalid={!!errors.name?.message}>
             <Label textStyle="label-small" margin="none">
-              {t('validation.fields.name')}
+              {t("validation.fields.name")}
             </Label>
             <InputV3 {...field} />
             <FieldInfoWrapper>
@@ -127,8 +127,8 @@ const FolderForm = ({ folder, onSave, siblings, loading }: EditFolderFormProps) 
           maxLength: {
             value: descriptionMaxLength,
             message: validationT({
-              type: 'maxLength',
-              field: 'description',
+              type: "maxLength",
+              field: "description",
               vars: { count: descriptionMaxLength },
             }),
           },
@@ -136,7 +136,7 @@ const FolderForm = ({ folder, onSave, siblings, loading }: EditFolderFormProps) 
         render={({ field }) => (
           <FormControl id="description" isInvalid={!!errors.description?.message}>
             <Label textStyle="label-small" margin="none">
-              {t('validation.fields.description')}
+              {t("validation.fields.description")}
             </Label>
             <TextAreaV3 {...field} />
             <FieldInfoWrapper>
@@ -146,13 +146,13 @@ const FolderForm = ({ folder, onSave, siblings, loading }: EditFolderFormProps) 
           </FormControl>
         )}
       />
-      <StyledParagraph>{t('myNdla.folder.sharedWarning')}</StyledParagraph>
+      <StyledParagraph>{t("myNdla.folder.sharedWarning")}</StyledParagraph>
       <ButtonRow>
         <ModalCloseButton>
-          <ButtonV2 variant="outline">{t('cancel')}</ButtonV2>
+          <ButtonV2 variant="outline">{t("cancel")}</ButtonV2>
         </ModalCloseButton>
         <LoadingButton colorTheme="primary" loading={loading} type="submit" disabled={!isValid || !isDirty || loading}>
-          {t('save')}
+          {t("save")}
         </LoadingButton>
       </ButtonRow>
     </StyledForm>

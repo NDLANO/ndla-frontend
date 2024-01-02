@@ -6,14 +6,14 @@
  *
  */
 
-import { Dispatch, RefObject, SetStateAction, useEffect } from 'react';
-import { gql } from '@apollo/client';
-import { NavigationBox, SimpleBreadcrumbItem } from '@ndla/ui';
-import TopicWrapper from './TopicWrapper';
-import { RELEVANCE_SUPPLEMENTARY } from '../../../constants';
-import { GQLSubjectPageContent_SubjectFragment } from '../../../graphqlTypes';
-import { toTopic, useIsNdlaFilm } from '../../../routeHelpers';
-import { scrollToRef } from '../subjectPageHelpers';
+import { Dispatch, RefObject, SetStateAction, useEffect } from "react";
+import { gql } from "@apollo/client";
+import { NavigationBox, SimpleBreadcrumbItem } from "@ndla/ui";
+import TopicWrapper from "./TopicWrapper";
+import { RELEVANCE_SUPPLEMENTARY } from "../../../constants";
+import { GQLSubjectPageContent_SubjectFragment } from "../../../graphqlTypes";
+import { toTopic, useIsNdlaFilm } from "../../../routeHelpers";
+import { scrollToRef } from "../subjectPageHelpers";
 
 interface Props {
   subject: GQLSubjectPageContent_SubjectFragment;
@@ -34,7 +34,7 @@ const SubjectPageContent = ({ subject, topicIds, refs, setBreadCrumb }: Props) =
       label: topic?.name,
       selected: topic?.id === topicIds[0],
       url: toTopic(subject.id, topic?.id),
-      isRestrictedResource: topic.availability !== 'everyone',
+      isRestrictedResource: topic.availability !== "everyone",
       isAdditionalResource: topic.relevanceId === RELEVANCE_SUPPLEMENTARY,
     };
   });

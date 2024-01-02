@@ -5,34 +5,34 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import debounce from 'lodash/debounce';
-import queryString from 'query-string';
-import { useState, useRef, useEffect, FormEvent } from 'react';
+import debounce from "lodash/debounce";
+import queryString from "query-string";
+import { useState, useRef, useEffect, FormEvent } from "react";
 
-import { useTranslation } from 'react-i18next';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { gql, useLazyQuery } from '@apollo/client';
-import styled from '@emotion/styled';
-import { ButtonV2, IconButtonV2 } from '@ndla/button';
-import { breakpoints, colors, mq, spacing } from '@ndla/core';
-import { Cross } from '@ndla/icons/action';
-import { Search } from '@ndla/icons/common';
-import { Drawer, Modal, ModalTrigger } from '@ndla/modal';
-import { SearchField, SearchResultSleeve, SearchFieldForm } from '@ndla/ui';
+import { useTranslation } from "react-i18next";
+import { useLocation, useNavigate } from "react-router-dom";
+import { gql, useLazyQuery } from "@apollo/client";
+import styled from "@emotion/styled";
+import { ButtonV2, IconButtonV2 } from "@ndla/button";
+import { breakpoints, colors, mq, spacing } from "@ndla/core";
+import { Cross } from "@ndla/icons/action";
+import { Search } from "@ndla/icons/common";
+import { Drawer, Modal, ModalTrigger } from "@ndla/modal";
+import { SearchField, SearchResultSleeve, SearchFieldForm } from "@ndla/ui";
 import {
   RESOURCE_TYPE_SUBJECT_MATERIAL,
   RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
   RESOURCE_TYPE_LEARNING_PATH,
-} from '../../../constants';
+} from "../../../constants";
 import {
   GQLGroupSearchQuery,
   GQLGroupSearchQueryVariables,
   GQLMastheadSearch_SubjectFragment,
-} from '../../../graphqlTypes';
-import { groupSearchQuery } from '../../../queries';
-import { toSearch, useIsNdlaFilm } from '../../../routeHelpers';
-import { contentTypeMapping } from '../../../util/getContentType';
-import { searchResultToLinkProps } from '../../SearchPage/searchHelpers';
+} from "../../../graphqlTypes";
+import { groupSearchQuery } from "../../../queries";
+import { toSearch, useIsNdlaFilm } from "../../../routeHelpers";
+import { contentTypeMapping } from "../../../util/getContentType";
+import { searchResultToLinkProps } from "../../SearchPage/searchHelpers";
 
 const debounceCall = debounce((fun: (func?: Function) => void) => fun(), 250);
 
@@ -87,34 +87,34 @@ const MastheadSearch = ({ subject }: Props) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const inputRef = useRef(null);
-  const [query, setQuery] = useState('');
-  const [delayedSearchQuery, setDelayedQuery] = useState('');
+  const [query, setQuery] = useState("");
+  const [delayedSearchQuery, setDelayedQuery] = useState("");
   const [subjects, setSubjects] = useState(subject ? subject.id : undefined);
 
   useEffect(() => {
-    setQuery('');
+    setQuery("");
   }, [pathname]);
 
   useEffect(() => {
     const onSlashPressed = (evt: KeyboardEvent) => {
       if (
-        evt.key === '/' &&
-        !['input', 'textarea'].includes(document.activeElement?.tagName.toLowerCase() ?? '') &&
-        document.activeElement?.attributes.getNamedItem('contenteditable')?.value !== 'true' &&
+        evt.key === "/" &&
+        !["input", "textarea"].includes(document.activeElement?.tagName.toLowerCase() ?? "") &&
+        document.activeElement?.attributes.getNamedItem("contenteditable")?.value !== "true" &&
         !isOpen
       ) {
         evt.preventDefault();
         setIsOpen(true);
       }
     };
-    window.addEventListener('keydown', onSlashPressed);
-    return () => window.removeEventListener('keydown', onSlashPressed);
+    window.addEventListener("keydown", onSlashPressed);
+    return () => window.removeEventListener("keydown", onSlashPressed);
   }, [isOpen]);
 
   const [runSearch, { loading, data: searchResult = {}, error }] = useLazyQuery<
     GQLGroupSearchQuery,
     GQLGroupSearchQueryVariables
-  >(groupSearchQuery, { fetchPolicy: 'no-cache' });
+  >(groupSearchQuery, { fetchPolicy: "no-cache" });
 
   useEffect(() => {
     setSubjects(subject?.id);
@@ -148,10 +148,10 @@ const MastheadSearch = ({ subject }: Props) => {
 
   const onNavigate = () => {
     setIsOpen(false);
-    setQuery('');
+    setQuery("");
   };
 
-  type MapResultsType = Pick<Required<GQLGroupSearchQuery>['groupSearch'][0], 'resourceType' | 'resources'>;
+  type MapResultsType = Pick<Required<GQLGroupSearchQuery>["groupSearch"][0], "resourceType" | "resources">;
 
   const mapResults = (results: MapResultsType[] = []) =>
     query.length > 1
@@ -178,7 +178,7 @@ const MastheadSearch = ({ subject }: Props) => {
   const onSearch = (evt: FormEvent) => {
     evt.preventDefault();
 
-    navigate({ pathname: '/search', search: `?${searchString}` });
+    navigate({ pathname: "/search", search: `?${searchString}` });
     setIsOpen(false);
   };
 
@@ -188,17 +188,17 @@ const MastheadSearch = ({ subject }: Props) => {
     <Modal open={isOpen} onOpenChange={setIsOpen}>
       <ModalTrigger>
         <StyledButton
-          colorTheme={ndlaFilm ? 'primary' : 'greyLighter'}
-          aria-label={t('masthead.menu.search')}
-          title={t('masthead.menu.search')}
+          colorTheme={ndlaFilm ? "primary" : "greyLighter"}
+          aria-label={t("masthead.menu.search")}
+          title={t("masthead.menu.search")}
           fontWeight="normal"
         >
-          <span>{t('masthead.menu.search')}</span>
+          <span>{t("masthead.menu.search")}</span>
           <Search />
         </StyledButton>
       </ModalTrigger>
       <StyledDrawer
-        aria-label={t('searchPage.searchFieldPlaceholder')}
+        aria-label={t("searchPage.searchFieldPlaceholder")}
         position="top"
         expands
         size="small"
@@ -208,7 +208,7 @@ const MastheadSearch = ({ subject }: Props) => {
           {!error ? (
             <SearchFieldForm onSubmit={onSearch}>
               <SearchField
-                placeholder={t('searchPage.searchFieldPlaceholder')}
+                placeholder={t("searchPage.searchFieldPlaceholder")}
                 value={query}
                 inputRef={inputRef}
                 onChange={onQueryChange}
@@ -229,8 +229,8 @@ const MastheadSearch = ({ subject }: Props) => {
             </SearchFieldForm>
           ) : null}
           <StyledCloseButton
-            aria-label={t('close')}
-            title={t('close')}
+            aria-label={t("close")}
+            title={t("close")}
             variant="ghost"
             colorTheme="light"
             onClick={() => setIsOpen(false)}

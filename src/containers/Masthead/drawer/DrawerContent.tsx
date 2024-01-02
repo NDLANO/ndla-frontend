@@ -6,17 +6,17 @@
  *
  */
 
-import { Dispatch, SetStateAction } from 'react';
-import { gql } from '@apollo/client';
-import AboutMenu from './AboutMenu';
-import { MenuType } from './drawerMenuTypes';
-import ProgrammeMenu from './ProgrammeMenu';
-import SubjectMenu from './SubjectMenu';
+import { Dispatch, SetStateAction } from "react";
+import { gql } from "@apollo/client";
+import AboutMenu from "./AboutMenu";
+import { MenuType } from "./drawerMenuTypes";
+import ProgrammeMenu from "./ProgrammeMenu";
+import SubjectMenu from "./SubjectMenu";
 import {
   GQLDrawerContent_FrontpageMenuFragment,
   GQLDrawerContent_ProgrammePageFragment,
   GQLDrawerContent_SubjectFragment,
-} from '../../../graphqlTypes';
+} from "../../../graphqlTypes";
 
 interface Props {
   onClose: () => void;
@@ -41,9 +41,9 @@ const DrawerContent = ({
   menuItems,
   programmes,
 }: Props) => {
-  if (type === 'programme') {
+  if (type === "programme") {
     return <ProgrammeMenu programmes={programmes} onClose={onClose} onCloseMenuPortion={onCloseMenuPortion} />;
-  } else if (type === 'subject') {
+  } else if (type === "subject") {
     return (
       <SubjectMenu
         subject={subject}

@@ -6,24 +6,24 @@
  *
  */
 
-import { ApolloClient, ApolloLink, FieldFunctionOptions, InMemoryCache, TypePolicies } from '@apollo/client';
-import { BatchHttpLink } from '@apollo/client/link/batch-http';
-import { setContext } from '@apollo/client/link/context';
-import { onError } from '@apollo/client/link/error';
-import { getAccessToken, getFeideCookie, isAccessTokenValid, renewAuth } from './authHelpers';
-import { default as createFetch } from './fetch';
-import handleError from './handleError';
-import config from '../config';
-import { GQLBucketResult, GQLGroupSearch, GQLQueryFolderResourceMetaSearchArgs } from '../graphqlTypes';
+import { ApolloClient, ApolloLink, FieldFunctionOptions, InMemoryCache, TypePolicies } from "@apollo/client";
+import { BatchHttpLink } from "@apollo/client/link/batch-http";
+import { setContext } from "@apollo/client/link/context";
+import { onError } from "@apollo/client/link/error";
+import { getAccessToken, getFeideCookie, isAccessTokenValid, renewAuth } from "./authHelpers";
+import { default as createFetch } from "./fetch";
+import handleError from "./handleError";
+import config from "../config";
+import { GQLBucketResult, GQLGroupSearch, GQLQueryFolderResourceMetaSearchArgs } from "../graphqlTypes";
 
 export const fetch = createFetch;
 
-const __SERVER__ = process.env.BUILD_TARGET === 'server'; //eslint-disable-line
-const __CLIENT__ = process.env.BUILD_TARGET === 'client'; //eslint-disable-line
+const __SERVER__ = process.env.BUILD_TARGET === "server"; //eslint-disable-line
+const __CLIENT__ = process.env.BUILD_TARGET === "client"; //eslint-disable-line
 
 const apiBaseUrl = (() => {
-  if (process.env.NODE_ENV === 'unittest') {
-    return 'http://ndla-api';
+  if (process.env.NODE_ENV === "unittest") {
+    return "http://ndla-api";
   }
 
   const NDLA_API_URL = __SERVER__ ? config.ndlaApiUrl : window.DATA.config.ndlaApiUrl;
@@ -58,9 +58,9 @@ export function resolveJsonOrRejectWithError<T>(res: Response): Promise<T | unde
 
 const uri = (() => {
   if (config.localGraphQLApi) {
-    return 'http://localhost:4000/graphql-api/graphql';
+    return "http://localhost:4000/graphql-api/graphql";
   }
-  return apiResourceUrl('/graphql-api/graphql');
+  return apiResourceUrl("/graphql-api/graphql");
 })();
 
 const getParentType = (type: string, aggregations?: GQLBucketResult[]) => {
@@ -75,7 +75,7 @@ const mergeGroupSearch = (existing: GQLGroupSearch[], incoming: GQLGroupSearch[]
     const searchResults = incoming.filter((result) => {
       if (group.resourceType === result.resourceType) {
         return true;
-      } else if (result.resourceType === 'topic-article') {
+      } else if (result.resourceType === "topic-article") {
         return false;
       } else return group.resourceType === getParentType(result.resourceType, result.aggregations?.[0]?.values);
     });
@@ -96,16 +96,16 @@ const mergeGroupSearch = (existing: GQLGroupSearch[], incoming: GQLGroupSearch[]
 };
 
 const possibleTypes = {
-  TaxonomyEntity: ['Resource', 'Topic'],
-  SearchResult: ['ArticleSearchResult', 'LearningpathSearchResult'],
-  FolderResourceMeta: ['ArticleFolderResourceMeta', 'LearningpathFolderResourceMeta'],
+  TaxonomyEntity: ["Resource", "Topic"],
+  SearchResult: ["ArticleSearchResult", "LearningpathSearchResult"],
+  FolderResourceMeta: ["ArticleFolderResourceMeta", "LearningpathFolderResourceMeta"],
 };
 
 const typePolicies: TypePolicies = {
   Query: {
     fields: {
       groupSearch: {
-        keyArgs: ['query', 'subjects', 'grepCodes'],
+        keyArgs: ["query", "subjects", "grepCodes"],
         merge(existing, incoming, { args }) {
           return mergeGroupSearch(existing, incoming, args?.page);
         },
@@ -120,7 +120,7 @@ const typePolicies: TypePolicies = {
         read(_, { args, toReference, canRead }: FieldFunctionOptions<GQLQueryFolderResourceMetaSearchArgs>) {
           const refs = args?.resources.map((arg) =>
             toReference(
-              `${arg.resourceType === 'learningpath' ? 'Learningpath' : 'Article'}FolderResourceMeta:${
+              `${arg.resourceType === "learningpath" ? "Learningpath" : "Article"}FolderResourceMeta:${
                 arg.resourceType
               }${arg.id}`,
             ),
@@ -149,19 +149,19 @@ const typePolicies: TypePolicies = {
     },
   },
   SearchContext: {
-    keyFields: ['path'],
+    keyFields: ["path"],
   },
   GroupSearchResult: {
-    keyFields: ['path'],
+    keyFields: ["path"],
   },
   Filter: {
     keyFields: (object) => `${object.id}+${object.relevanceId}`,
   },
   FrontpageMenu: {
-    keyFields: ['articleId'],
+    keyFields: ["articleId"],
   },
   FrontpageSearchResult: {
-    keyFields: ['path'],
+    keyFields: ["path"],
   },
   FolderResourceMeta: {
     keyFields: (obj) => `${obj.__typename}:${obj.type}${obj.id}`,
@@ -170,10 +170,10 @@ const typePolicies: TypePolicies = {
     keyFields: (obj) => obj.__typename,
   },
   ConfigMetaBoolean: {
-    keyFields: ['key'],
+    keyFields: ["key"],
   },
   ConfigMetaStringList: {
-    keyFields: ['key'],
+    keyFields: ["key"],
   },
   ArenaTopic: {
     fields: {
@@ -195,7 +195,7 @@ function getCache() {
   return cache;
 }
 
-export const createApolloClient = (language = 'nb', versionHash?: string) => {
+export const createApolloClient = (language = "nb", versionHash?: string) => {
   const cache = getCache();
 
   return new ApolloClient({
@@ -205,7 +205,7 @@ export const createApolloClient = (language = 'nb', versionHash?: string) => {
 };
 
 export const createApolloLinks = (lang: string, versionHash?: string) => {
-  const cookieString = __CLIENT__ ? document.cookie : '';
+  const cookieString = __CLIENT__ ? document.cookie : "";
   const feideCookie = getFeideCookie(cookieString);
   const accessTokenValid = isAccessTokenValid(feideCookie);
   const accessToken = feideCookie?.access_token;
@@ -215,7 +215,7 @@ export const createApolloLinks = (lang: string, versionHash?: string) => {
     return {
       headers: {
         ...headers,
-        'Accept-Language': lang,
+        "Accept-Language": lang,
         ...versionHeader,
         ...(accessToken && accessTokenValid ? { FeideAuthorization: `Bearer ${accessToken}` } : {}),
       },
@@ -225,7 +225,7 @@ export const createApolloLinks = (lang: string, versionHash?: string) => {
     onError(({ graphQLErrors, networkError }) => {
       if (graphQLErrors) {
         graphQLErrors.forEach(({ message, locations, path, extensions }) => {
-          if (process.env.BUILD_TARGET === 'server' || extensions?.status !== 404) {
+          if (process.env.BUILD_TARGET === "server" || extensions?.status !== 404) {
             handleError(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`);
           }
         });
@@ -246,7 +246,7 @@ export const createApolloLinks = (lang: string, versionHash?: string) => {
 
 type HttpHeaders = {
   headers?: {
-    'Content-Type': string;
+    "Content-Type": string;
   };
 };
 
@@ -257,9 +257,9 @@ export const fetchWithAuthorization = async (url: string, forceAuth: boolean, co
     await renewAuth();
   }
 
-  const contentType = config?.headers ? config?.headers['Content-Type'] : 'text/plain';
-  const extraHeaders = contentType ? { 'Content-Type': contentType } : {};
-  const cacheControl = { 'Cache-Control': 'no-cache' };
+  const contentType = config?.headers ? config?.headers["Content-Type"] : "text/plain";
+  const extraHeaders = contentType ? { "Content-Type": contentType } : {};
+  const cacheControl = { "Cache-Control": "no-cache" };
 
   return fetch(url, {
     ...config,

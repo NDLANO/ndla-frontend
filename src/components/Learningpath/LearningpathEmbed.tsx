@@ -6,34 +6,34 @@
  *
  */
 
-import { useMemo } from 'react';
-import { Helmet } from 'react-helmet-async';
-import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router-dom';
-import { gql } from '@apollo/client';
-import styled from '@emotion/styled';
-import { DynamicComponents } from '@ndla/article-converter';
-import { spacing } from '@ndla/core';
-import { Spinner } from '@ndla/icons';
-import { CreatedBy } from '@ndla/ui';
-import LearningpathIframe, { urlIsNDLAUrl } from './LearningpathIframe';
-import config from '../../config';
-import ErrorPage from '../../containers/ErrorPage';
+import { useMemo } from "react";
+import { Helmet } from "react-helmet-async";
+import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router-dom";
+import { gql } from "@apollo/client";
+import styled from "@emotion/styled";
+import { DynamicComponents } from "@ndla/article-converter";
+import { spacing } from "@ndla/core";
+import { Spinner } from "@ndla/icons";
+import { CreatedBy } from "@ndla/ui";
+import LearningpathIframe, { urlIsNDLAUrl } from "./LearningpathIframe";
+import config from "../../config";
+import ErrorPage from "../../containers/ErrorPage";
 import {
   GQLLearningpathEmbed_LearningpathStepFragment,
   GQLLearningpathEmbed_TopicFragment,
   GQLLearningpathStepQuery,
   GQLLearningpathStepQueryVariables,
-} from '../../graphqlTypes';
-import { supportedLanguages } from '../../i18n';
-import { Breadcrumb } from '../../interfaces';
-import { getArticleProps } from '../../util/getArticleProps';
-import { getArticleScripts } from '../../util/getArticleScripts';
-import getStructuredDataFromArticle, { structuredArticleDataFragment } from '../../util/getStructuredDataFromArticle';
-import { useGraphQuery } from '../../util/runQueries';
-import { transformArticle } from '../../util/transformArticle';
-import Article from '../Article';
-import AddEmbedToFolder from '../MyNdla/AddEmbedToFolder';
+} from "../../graphqlTypes";
+import { supportedLanguages } from "../../i18n";
+import { Breadcrumb } from "../../interfaces";
+import { getArticleProps } from "../../util/getArticleProps";
+import { getArticleScripts } from "../../util/getArticleScripts";
+import getStructuredDataFromArticle, { structuredArticleDataFragment } from "../../util/getStructuredDataFromArticle";
+import { useGraphQuery } from "../../util/runQueries";
+import { transformArticle } from "../../util/transformArticle";
+import Article from "../Article";
+import AddEmbedToFolder from "../MyNdla/AddEmbedToFolder";
 
 interface StyledIframeContainerProps {
   oembedWidth: number;
@@ -50,13 +50,13 @@ const StyledIframeContainer = styled.div<StyledIframeContainerProps>`
   }
 `;
 
-const regex = new RegExp(`\\/(${supportedLanguages.join('|')})($|\\/)`, '');
+const regex = new RegExp(`\\/(${supportedLanguages.join("|")})($|\\/)`, "");
 
 const getIdFromIframeUrl = (_url: string): [string | undefined, string | undefined] => {
-  const url = _url.split('/article-iframe')?.[1]?.replace(regex, '')?.replace('article/', '')?.split('?')?.[0];
+  const url = _url.split("/article-iframe")?.[1]?.replace(regex, "")?.replace("article/", "")?.split("?")?.[0];
 
-  if (url?.includes('/')) {
-    const [taxId, articleId] = url.split('/');
+  if (url?.includes("/")) {
+    const [taxId, articleId] = url.split("/");
     if (parseInt(articleId!)) {
       return [taxId, articleId];
     }
@@ -97,7 +97,7 @@ const LearningpathEmbed = ({ learningpathStep, skipToContentId, topic, subjectId
       variables: {
         articleId: articleId ?? learningpathStep.resource?.article?.id.toString()!,
         path: location.pathname,
-        resourceId: taxId ?? '',
+        resourceId: taxId ?? "",
         includeResource: !!taxId,
       },
       skip: !!learningpathStep.resource?.article || (!learningpathStep.embedUrl && !learningpathStep.resource),
@@ -129,7 +129,7 @@ const LearningpathEmbed = ({ learningpathStep, skipToContentId, topic, subjectId
     !learningpathStep.resource &&
     !shouldUseConverter &&
     embedUrl &&
-    (embedUrl.embedType === 'oembed' || embedUrl.embedType === 'iframe') &&
+    (embedUrl.embedType === "oembed" || embedUrl.embedType === "iframe") &&
     oembed &&
     oembed.html
   ) {
@@ -175,7 +175,7 @@ const LearningpathEmbed = ({ learningpathStep, skipToContentId, topic, subjectId
         article={article}
         {...getArticleProps(resource, topic)}
       >
-        {path ? <CreatedBy name={t('createdBy.content')} description={t('createdBy.text')} url={contentUrl} /> : <></>}
+        {path ? <CreatedBy name={t("createdBy.content")} description={t("createdBy.text")} url={contentUrl} /> : <></>}
       </Article>
     </>
   );

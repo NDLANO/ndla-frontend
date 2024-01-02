@@ -6,23 +6,23 @@
  *
  */
 
-import { useMemo } from 'react';
-import { useParams } from 'react-router-dom';
+import { useMemo } from "react";
+import { useParams } from "react-router-dom";
 import {
   ABOUT_PATH,
   MULTIDISCIPLINARY_SUBJECT_ID,
   PROGRAMME_PATH,
   TOOLBOX_STUDENT_SUBJECT_ID,
   TOOLBOX_TEACHER_SUBJECT_ID,
-} from './constants';
-import { GQLResource, GQLSubject, GQLTopic } from './graphqlTypes';
-import { Breadcrumb } from './interfaces';
+} from "./constants";
+import { GQLResource, GQLSubject, GQLTopic } from "./graphqlTypes";
+import { Breadcrumb } from "./interfaces";
 
 export function toSearch(searchString?: string) {
-  return `/search?${searchString || ''}`;
+  return `/search?${searchString || ""}`;
 }
 
-export const removeUrn = (str?: string) => str?.replace('urn:', '') ?? '';
+export const removeUrn = (str?: string) => str?.replace("urn:", "") ?? "";
 
 interface MatchParams extends TypedParams {
   subjectId?: string;
@@ -44,7 +44,7 @@ export const useOnTopicPage = () => {
     return false;
   }
   const subjectType = getSubjectType(subjectId);
-  if (subjectType === 'multiDisciplinary') {
+  if (subjectType === "multiDisciplinary") {
     return topicList.length < 3;
   }
 
@@ -56,11 +56,11 @@ export const useUrnIds = () => {
   const subjectId = params.subjectId ? `urn:subject${params.subjectId}` : undefined;
   const topicList = useMemo(() => {
     return [
-      params.topic1 ? `urn:topic${params.topic1}` : '',
-      params.topic2 ? `urn:topic${params.topic2}` : '',
-      params.topic3 ? `urn:topic${params.topic3}` : '',
-      params.topic4 ? `urn:topic${params.topic4}` : '',
-      params.topicId ? `urn:topic${params.topicId}` : '',
+      params.topic1 ? `urn:topic${params.topic1}` : "",
+      params.topic2 ? `urn:topic${params.topic2}` : "",
+      params.topic3 ? `urn:topic${params.topic3}` : "",
+      params.topic4 ? `urn:topic${params.topic4}` : "",
+      params.topicId ? `urn:topic${params.topicId}` : "",
     ].filter((s) => !!s.length);
   }, [params.topicId, params.topic1, params.topic2, params.topic3, params.topic4]);
 
@@ -77,17 +77,17 @@ export const useUrnIds = () => {
   };
 };
 
-type SubjectType = 'multiDisciplinary' | 'standard' | 'toolbox' | 'film' | undefined;
+type SubjectType = "multiDisciplinary" | "standard" | "toolbox" | "film" | undefined;
 
 export const getSubjectType = (subjectId: string): SubjectType => {
   if (subjectId === MULTIDISCIPLINARY_SUBJECT_ID) {
-    return 'multiDisciplinary';
+    return "multiDisciplinary";
   } else if (subjectId === TOOLBOX_STUDENT_SUBJECT_ID || subjectId === TOOLBOX_TEACHER_SUBJECT_ID) {
-    return 'toolbox';
-  } else if (subjectId === 'urn:subject:20') {
-    return 'film';
-  } else if (typeof subjectId === 'string') {
-    return 'standard';
+    return "toolbox";
+  } else if (subjectId === "urn:subject:20") {
+    return "film";
+  } else if (typeof subjectId === "string") {
+    return "standard";
   }
 
   return undefined;
@@ -95,11 +95,11 @@ export const getSubjectType = (subjectId: string): SubjectType => {
 
 export const useIsNdlaFilm = () => {
   const { subjectType } = useUrnIds();
-  return subjectType === 'film';
+  return subjectType === "film";
 };
 
 function toLearningpaths() {
-  return '/learningpaths';
+  return "/learningpaths";
 }
 
 type Resource = {
@@ -107,7 +107,7 @@ type Resource = {
   id: string;
 };
 
-export function toLearningPath(pathId?: string | number, stepId?: string | number, resource?: Pick<Resource, 'path'>) {
+export function toLearningPath(pathId?: string | number, stepId?: string | number, resource?: Pick<Resource, "path">) {
   if (resource) {
     return stepId ? `${resource.path}/${stepId}` : resource.path;
   }
@@ -130,7 +130,7 @@ export function toArticle(articleId: number, resource: Resource, subjectTopicPat
   return `/article/${articleId}`;
 }
 
-export const toAbout = (slug = '') => `${ABOUT_PATH}${slug}`;
+export const toAbout = (slug = "") => `${ABOUT_PATH}${slug}`;
 
 export function toSubject(subjectId: string) {
   return `/${removeUrn(subjectId)}`;
@@ -142,7 +142,7 @@ export function toTopic(subjectId: string, ...topicIds: string[]) {
     return toSubject(urnFreeSubjectId);
   }
   const urnFreeTopicIds = topicIds.filter((id) => !!id).map(removeUrn);
-  const t = fixEndSlash(`/${urnFreeSubjectId}/${urnFreeTopicIds.join('/')}`);
+  const t = fixEndSlash(`/${urnFreeSubjectId}/${urnFreeTopicIds.join("/")}`);
   return t;
 }
 
@@ -166,12 +166,12 @@ export function toBreadcrumbItems(rootName: string, paths: ({ id: string; name: 
   const links = [breadcrumbSubject, ...rest];
   const breadcrumbs = links
     .reduce<Breadcrumb[]>((acc, link) => {
-      const prefix = acc.length ? acc[acc.length - 1]?.to : '';
+      const prefix = acc.length ? acc[acc.length - 1]?.to : "";
       const to = `${prefix}/${removeUrn(link.id)}`;
       return acc.concat([{ to, name: link.name }]);
     }, [])
     .map((bc) => ({ ...bc, to: fixEndSlash(bc.to) }));
-  return [{ to: '/', name: rootName }, ...breadcrumbs];
+  return [{ to: "/", name: rootName }, ...breadcrumbs];
 }
 
 export function fixEndSlash(link: string) {
@@ -183,7 +183,7 @@ export function fixEndSlash(link: string) {
 }
 
 export function toProgramme(programmePath: string, grade?: string) {
-  const gradeString = grade ? `/${grade}` : '';
+  const gradeString = grade ? `/${grade}` : "";
   return `${PROGRAMME_PATH}/${programmePath}${gradeString}`;
 }
 

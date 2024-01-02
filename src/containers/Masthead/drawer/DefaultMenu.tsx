@@ -6,28 +6,28 @@
  *
  */
 
-import { useCallback } from 'react';
-import { useTranslation } from 'react-i18next';
-import { gql } from '@apollo/client';
-import styled from '@emotion/styled';
-import { IconButtonV2 } from '@ndla/button';
-import { breakpoints, colors, mq, spacing } from '@ndla/core';
-import { Back, Home } from '@ndla/icons/common';
-import { useDrawerContext } from './DrawerContext';
-import DrawerMenuItem from './DrawerMenuItem';
-import { MenuType } from './drawerMenuTypes';
-import DrawerPortion, { DrawerList } from './DrawerPortion';
-import DrawerRowHeader from './DrawerRowHeader';
-import useArrowNavigation from './useArrowNavigation';
+import { useCallback } from "react";
+import { useTranslation } from "react-i18next";
+import { gql } from "@apollo/client";
+import styled from "@emotion/styled";
+import { IconButtonV2 } from "@ndla/button";
+import { breakpoints, colors, mq, spacing } from "@ndla/core";
+import { Back, Home } from "@ndla/icons/common";
+import { useDrawerContext } from "./DrawerContext";
+import DrawerMenuItem from "./DrawerMenuItem";
+import { MenuType } from "./drawerMenuTypes";
+import DrawerPortion, { DrawerList } from "./DrawerPortion";
+import DrawerRowHeader from "./DrawerRowHeader";
+import useArrowNavigation from "./useArrowNavigation";
 import {
   FILM_PAGE_PATH,
   MULTIDISCIPLINARY_SUBJECT_ID,
   TOOLBOX_STUDENT_SUBJECT_ID,
   TOOLBOX_TEACHER_SUBJECT_ID,
-} from '../../../constants';
-import { GQLDefaultMenu_SubjectFragment, GQLDrawerContent_FrontpageMenuFragment } from '../../../graphqlTypes';
-import { removeUrn } from '../../../routeHelpers';
-import { usePrevious } from '../../../util/utilityHooks';
+} from "../../../constants";
+import { GQLDefaultMenu_SubjectFragment, GQLDrawerContent_FrontpageMenuFragment } from "../../../graphqlTypes";
+import { removeUrn } from "../../../routeHelpers";
+import { usePrevious } from "../../../util/utilityHooks";
 
 const StyledCollapsedMenu = styled.div`
   display: flex;
@@ -68,7 +68,7 @@ interface Props {
   onCloseMenuPortion: () => void;
 }
 
-const validMenus: MenuType[] = ['subject', 'programme', 'about'];
+const validMenus: MenuType[] = ["subject", "programme", "about"];
 
 const DefaultMenu = ({
   onClose,
@@ -86,18 +86,18 @@ const DefaultMenu = ({
 
   const onRightClick = useCallback(
     (id: string | undefined) => {
-      const strippedId = id?.replace('header-', '');
+      const strippedId = id?.replace("header-", "");
       if (validMenus.includes(strippedId as MenuType)) {
         setActiveMenu(strippedId as MenuType);
-      } else if (id?.endsWith('-dynamic')) {
-        setFrontpageMenu(dynamicMenus.find((menu) => menu.article.slug === strippedId?.replace('-dynamic', ''))!);
+      } else if (id?.endsWith("-dynamic")) {
+        setFrontpageMenu(dynamicMenus.find((menu) => menu.article.slug === strippedId?.replace("-dynamic", ""))!);
       }
     },
     [dynamicMenus, setActiveMenu, setFrontpageMenu],
   );
 
   useArrowNavigation(!type, {
-    initialFocused: `header-${dynamicId ?? type ?? previousType ?? 'programme'}`,
+    initialFocused: `header-${dynamicId ?? type ?? previousType ?? "programme"}`,
     onRightKeyPressed: onRightClick,
   });
 
@@ -120,14 +120,14 @@ const DefaultMenu = ({
           ownsId="programme-menu"
           id="programme"
           type="button"
-          title={t('masthead.menuOptions.programme')}
-          onClick={() => setActiveMenu('programme')}
+          title={t("masthead.menuOptions.programme")}
+          onClick={() => setActiveMenu("programme")}
         />
         <DrawerRowHeader
           type="link"
           id="subjects"
           to="/subjects"
-          title={t('masthead.menuOptions.subjects')}
+          title={t("masthead.menuOptions.subjects")}
           onClose={onClose}
         />
         {subject && (
@@ -136,7 +136,7 @@ const DefaultMenu = ({
             id="subject"
             type="button"
             title={subject.name}
-            onClick={() => setActiveMenu('subject')}
+            onClick={() => setActiveMenu("subject")}
           />
         )}
         {dynamicMenus.map((menu) => (
@@ -150,16 +150,16 @@ const DefaultMenu = ({
           />
         ))}
         <DrawerMenuItem id="multidisciplinary" type="link" to={multiDiscUrl} onClose={onClose}>
-          {t('masthead.menuOptions.multidisciplinarySubjects')}
+          {t("masthead.menuOptions.multidisciplinarySubjects")}
         </DrawerMenuItem>
         <DrawerMenuItem id="toolboxStudents" type="link" to={studentToolboxUrl} onClose={onClose}>
-          {t('masthead.menuOptions.toolboxStudents')}
+          {t("masthead.menuOptions.toolboxStudents")}
         </DrawerMenuItem>
         <DrawerMenuItem id="toolboxTeachers" type="link" to={teacherToolboxUrl} onClose={onClose}>
-          {t('masthead.menuOptions.toolboxTeachers')}
+          {t("masthead.menuOptions.toolboxTeachers")}
         </DrawerMenuItem>
         <DrawerMenuItem id="film" type="link" to={FILM_PAGE_PATH} onClose={onClose}>
-          {t('masthead.menuOptions.film')}
+          {t("masthead.menuOptions.film")}
         </DrawerMenuItem>
       </DrawerList>
     </StyledDrawerPortion>

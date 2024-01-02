@@ -6,17 +6,17 @@
  *
  */
 
-import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { colors, fonts, misc, spacing } from '@ndla/core';
-import { RadioButtonGroup } from '@ndla/forms';
-import { Heading, Text } from '@ndla/typography';
-import { useSnack } from '@ndla/ui';
-import { uuid } from '@ndla/util';
-import { GQLMyNdlaPersonalDataFragmentFragment } from '../../../../graphqlTypes';
-import { useUpdatePersonalData } from '../../../MyNdla/userMutations';
-import { isStudent } from '../../Folders/util';
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { colors, fonts, misc, spacing } from "@ndla/core";
+import { RadioButtonGroup } from "@ndla/forms";
+import { Heading, Text } from "@ndla/typography";
+import { useSnack } from "@ndla/ui";
+import { uuid } from "@ndla/util";
+import { GQLMyNdlaPersonalDataFragmentFragment } from "../../../../graphqlTypes";
+import { useUpdatePersonalData } from "../../../MyNdla/userMutations";
+import { isStudent } from "../../Folders/util";
 
 type MyPreferencesProps = {
   user: GQLMyNdlaPersonalDataFragmentFragment | undefined;
@@ -51,7 +51,7 @@ const StyledRadioButtonGroup = styled(RadioButtonGroup)`
     padding: ${spacing.small} ${spacing.normal};
     border-color: ${colors.brand.light};
     &:focus-within,
-    &[data-state='checked'] {
+    &[data-state="checked"] {
       outline: 0px;
       border-color: ${colors.brand.primary};
       border-radius: 0px;
@@ -69,7 +69,7 @@ const StyledRadioButtonGroup = styled(RadioButtonGroup)`
       border-bottom-right-radius: ${misc.borderRadius};
     }
     > label {
-      ${fonts.sizes('16px', '24px')}
+      ${fonts.sizes("16px", "24px")}
       font-weight: ${fonts.weight.semibold};
     }
   }
@@ -83,18 +83,18 @@ const MyPreferences = ({ user }: MyPreferencesProps) => {
 
   const setUserPref = async (value: string) => {
     setUserPreference(value);
-    const newPref = value === 'showName' ? true : false;
+    const newPref = value === "showName" ? true : false;
     await updatePersonalData({
       variables: { shareName: newPref },
     });
     addSnack({
       id: uuid(),
-      content: t(`myNdla.myProfile.namePreference.${newPref ? 'onNameShown' : 'onNameHidden'}`),
+      content: t(`myNdla.myProfile.namePreference.${newPref ? "onNameShown" : "onNameHidden"}`),
     });
   };
 
   useEffect(() => {
-    setUserPreference(user?.shareName ? 'showName' : 'dontShowName');
+    setUserPreference(user?.shareName ? "showName" : "dontShowName");
   }, [user]);
 
   return (
@@ -111,22 +111,22 @@ const MyPreferences = ({ user }: MyPreferencesProps) => {
         <>
           <OptionContainer>
             <Heading element="h2" id="myProfileTitle" margin="none" headingStyle="h2">
-              {t('myNdla.myProfile.preferenceTitle')}
+              {t("myNdla.myProfile.preferenceTitle")}
             </Heading>
             <Text element="p" textStyle="content-alt" margin="none">
-              {t('myNdla.myProfile.preferenceText')}
+              {t("myNdla.myProfile.preferenceText")}
             </Text>
           </OptionContainer>
           <form>
             <StyledRadioButtonGroup
               options={[
                 {
-                  title: t('myNdla.myProfile.namePreference.showName'),
-                  value: 'showName',
+                  title: t("myNdla.myProfile.namePreference.showName"),
+                  value: "showName",
                 },
                 {
-                  title: t('myNdla.myProfile.namePreference.dontShowName'),
-                  value: 'dontShowName',
+                  title: t("myNdla.myProfile.namePreference.dontShowName"),
+                  value: "dontShowName",
                 },
               ]}
               direction="vertical"

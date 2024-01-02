@@ -6,23 +6,23 @@
  *
  */
 
-import { TFunction } from 'i18next';
-import { useEffect, createRef, useState, useMemo, useContext } from 'react';
-import { Helmet } from 'react-helmet-async';
-import { useTranslation } from 'react-i18next';
-import { gql } from '@apollo/client';
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
-import { useTracker } from '@ndla/tracker';
-import { HomeBreadcrumb, OneColumn, SimpleBreadcrumbItem, SubjectBanner, ToolboxInfo } from '@ndla/ui';
-import { ToolboxTopicContainer } from './components/ToolboxTopicContainer';
-import { AuthContext } from '../../components/AuthenticationContext';
-import SocialMediaMetadata from '../../components/SocialMediaMetadata';
-import { SKIP_TO_CONTENT_ID } from '../../constants';
-import { GQLToolboxSubjectContainer_SubjectFragment } from '../../graphqlTypes';
-import { removeUrn, toTopic } from '../../routeHelpers';
-import { htmlTitle } from '../../util/titleHelper';
-import { getAllDimensions } from '../../util/trackingUtil';
+import { TFunction } from "i18next";
+import { useEffect, createRef, useState, useMemo, useContext } from "react";
+import { Helmet } from "react-helmet-async";
+import { useTranslation } from "react-i18next";
+import { gql } from "@apollo/client";
+import styled from "@emotion/styled";
+import { spacing } from "@ndla/core";
+import { useTracker } from "@ndla/tracker";
+import { HomeBreadcrumb, OneColumn, SimpleBreadcrumbItem, SubjectBanner, ToolboxInfo } from "@ndla/ui";
+import { ToolboxTopicContainer } from "./components/ToolboxTopicContainer";
+import { AuthContext } from "../../components/AuthenticationContext";
+import SocialMediaMetadata from "../../components/SocialMediaMetadata";
+import { SKIP_TO_CONTENT_ID } from "../../constants";
+import { GQLToolboxSubjectContainer_SubjectFragment } from "../../graphqlTypes";
+import { removeUrn, toTopic } from "../../routeHelpers";
+import { htmlTitle } from "../../util/titleHelper";
+import { getAllDimensions } from "../../util/trackingUtil";
 
 interface Props {
   subject: GQLToolboxSubjectContainer_SubjectFragment;
@@ -34,7 +34,7 @@ const BreadcrumbWrapper = styled.div`
 `;
 
 const getSocialMediaMetaData = (
-  { subject, topicList, t }: Pick<Props, 'subject' | 'topicList'> & { t: TFunction },
+  { subject, topicList, t }: Pick<Props, "subject" | "topicList"> & { t: TFunction },
   selectedTopics?: string[],
 ) => {
   const topics = selectedTopics ?? getInitialSelectedTopics(topicList, subject);
@@ -55,7 +55,7 @@ const getSocialMediaMetaData = (
       selectedMetadata?.meta?.introduction ||
       subject.subjectpage?.about?.description ||
       subject.subjectpage?.metaDescription ||
-      t('frontpageMultidisciplinarySubject.text'),
+      t("frontpageMultidisciplinarySubject.text"),
     image: selectedMetadata?.meta?.metaImage || subject.subjectpage?.about?.visualElement,
   };
 };
@@ -109,8 +109,8 @@ const ToolboxSubjectContainer = ({ topicList, subject }: Props) => {
     () =>
       [
         {
-          name: t('breadcrumb.toFrontpage'),
-          to: '/',
+          name: t("breadcrumb.toFrontpage"),
+          to: "/",
         },
         {
           to: `${removeUrn(subject.id)}`,
@@ -120,7 +120,7 @@ const ToolboxSubjectContainer = ({ topicList, subject }: Props) => {
       ].reduce<SimpleBreadcrumbItem[]>((crumbs, crumb) => {
         crumbs.push({
           name: crumb.name,
-          to: `${crumbs[crumbs.length - 1]?.to ?? ''}${crumb.to}`,
+          to: `${crumbs[crumbs.length - 1]?.to ?? ""}${crumb.to}`,
         });
 
         return crumbs;
@@ -136,7 +136,7 @@ const ToolboxSubjectContainer = ({ topicList, subject }: Props) => {
       const positionFromTop = ref.current.getBoundingClientRect().top + document?.documentElement?.scrollTop || 100;
       window.scrollTo({
         top: positionFromTop - 185,
-        behavior: 'smooth',
+        behavior: "smooth",
       });
     }
   };
@@ -167,14 +167,14 @@ const ToolboxSubjectContainer = ({ topicList, subject }: Props) => {
   return (
     <>
       <Helmet>
-        <title>{htmlTitle(socialMediaMetaData.title, [t('htmlTitles.titleTemplate')])}</title>
+        <title>{htmlTitle(socialMediaMetaData.title, [t("htmlTitles.titleTemplate")])}</title>
       </Helmet>
       <SocialMediaMetadata
         title={socialMediaMetaData.title}
         description={socialMediaMetaData.description}
         imageUrl={socialMediaMetaData.image?.url}
       />
-      <OneColumn className={''}>
+      <OneColumn className={""}>
         <BreadcrumbWrapper>
           <HomeBreadcrumb items={breadCrumbs} />
         </BreadcrumbWrapper>
@@ -182,7 +182,7 @@ const ToolboxSubjectContainer = ({ topicList, subject }: Props) => {
           id={!topicList.length ? SKIP_TO_CONTENT_ID : undefined}
           topics={topics}
           title={subject.name}
-          introduction={t('toolboxPage.introduction')}
+          introduction={t("toolboxPage.introduction")}
         />
         {selectedTopics.map((topic: string, index: number) => (
           <div key={topic} ref={refs[index]}>
@@ -197,7 +197,7 @@ const ToolboxSubjectContainer = ({ topicList, subject }: Props) => {
           </div>
         ))}
         {subject.subjectpage?.banner && (
-          <SubjectBanner image={subject.subjectpage?.banner.desktopUrl || ''} negativeTopMargin={!topics} />
+          <SubjectBanner image={subject.subjectpage?.banner.desktopUrl || ""} negativeTopMargin={!topics} />
         )}
       </OneColumn>
     </>

@@ -6,10 +6,10 @@
  *
  */
 
-import { useState, useEffect, useRef } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Location } from 'react-router-dom';
-import SearchContainer from './SearchContainer';
+import { useState, useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
+import { Location } from "react-router-dom";
+import SearchContainer from "./SearchContainer";
 import {
   getTypeFilter,
   mapSearchDataToGroups,
@@ -17,15 +17,15 @@ import {
   converSearchStringToObject,
   getTypeParams,
   TypeFilter,
-} from './searchHelpers';
-import DefaultErrorMessage from '../../components/DefaultErrorMessage';
-import { getDefaultLocale } from '../../config';
-import { GQLGroupSearchQuery, GQLResourceTypeDefinition, GQLSubjectInfoFragment } from '../../graphqlTypes';
-import { LtiData } from '../../interfaces';
-import { groupSearchQuery } from '../../queries';
-import { contentTypeMapping } from '../../util/getContentType';
-import handleError from '../../util/handleError';
-import { useGraphQuery } from '../../util/runQueries';
+} from "./searchHelpers";
+import DefaultErrorMessage from "../../components/DefaultErrorMessage";
+import { getDefaultLocale } from "../../config";
+import { GQLGroupSearchQuery, GQLResourceTypeDefinition, GQLSubjectInfoFragment } from "../../graphqlTypes";
+import { LtiData } from "../../interfaces";
+import { groupSearchQuery } from "../../queries";
+import { contentTypeMapping } from "../../util/getContentType";
+import handleError from "../../util/handleError";
+import { useGraphQuery } from "../../util/runQueries";
 
 const getStateSearchParams = (searchParams: Record<string, any>) => {
   const stateSearchParams: Record<string, any> = {};
@@ -42,9 +42,9 @@ export interface SubjectItem {
   img?: { url: string };
 }
 
-export type SearchCompetenceGoal = Required<GQLGroupSearchQuery>['competenceGoals'][0];
+export type SearchCompetenceGoal = Required<GQLGroupSearchQuery>["competenceGoals"][0];
 
-export type SearchCoreElements = Required<GQLGroupSearchQuery>['coreElements'][0];
+export type SearchCoreElements = Required<GQLGroupSearchQuery>["coreElements"][0];
 interface Props {
   selectedFilters: string[];
   activeSubFilters: string[];
@@ -90,7 +90,7 @@ const SearchInnerPage = ({
       }
     : getStateSearchParams(searchParams);
 
-  const activeSubFiltersWithoutLeading = activeSubFilters.map((asf) => asf.substring(asf.indexOf(':urn:') + 1));
+  const activeSubFiltersWithoutLeading = activeSubFilters.map((asf) => asf.substring(asf.indexOf(":urn:") + 1));
 
   const { data, previousData, error, loading, fetchMore } = useGraphQuery<GQLGroupSearchQuery>(groupSearchQuery, {
     variables: {
@@ -99,7 +99,7 @@ const SearchInnerPage = ({
       page: 1,
       pageSize: 12,
       ...getTypeParams([], resourceTypes),
-      aggregatePaths: ['contexts.resourceTypes.id'],
+      aggregatePaths: ["contexts.resourceTypes.id"],
       grepCodesList: searchParams.grepCodes,
       filterInactive: subjectIds.length === 0,
     },
@@ -122,7 +122,7 @@ const SearchInnerPage = ({
     const filterUpdate = { ...typeFilter };
     for (const [key, value] of Object.entries(filterUpdate)) {
       const filters = value.filters?.map((filter) => {
-        filter.active = filter.id === 'all';
+        filter.active = filter.id === "all";
         return filter;
       });
       filterUpdate[key] = {
@@ -151,14 +151,14 @@ const SearchInnerPage = ({
   };
 
   const getActiveFilters = (type: string) =>
-    typeFilter[type]?.filters.filter((f) => f.id !== 'all' && f.active).map((f) => f.id) ?? [];
+    typeFilter[type]?.filters.filter((f) => f.id !== "all" && f.active).map((f) => f.id) ?? [];
 
   const getActiveSubFilters = (typeFilters: Record<string, TypeFilter>) => {
     return Object.entries(typeFilters)
       ?.filter(([, value]) => !!value.filters)
       ?.flatMap(([key, value]) => {
         return value.filters
-          ?.filter((filter) => !!filter.active && filter.id !== 'all')
+          ?.filter((filter) => !!filter.active && filter.id !== "all")
           .map((filter) => `${key}:${filter.id}`);
       });
   };
@@ -168,9 +168,9 @@ const SearchInnerPage = ({
     const filters = typeFilter[type]?.filters;
     const selectedFilter = filters?.find((item) => filterId === item.id);
     if (!filters || !selectedFilter) return;
-    if (filterId === 'all') {
+    if (filterId === "all") {
       filters.forEach((filter) => {
-        filter.active = filter.id === 'all';
+        filter.active = filter.id === "all";
       });
       const toKeep = activeSubFilters.filter((asf) => !asf.startsWith(type));
       handleSearchParamsChange({ activeSubFilters: toKeep });
@@ -178,7 +178,7 @@ const SearchInnerPage = ({
         variables: getTypeParams([type], resourceTypes),
       });
     } else {
-      const allFilter = filters.find((item) => 'all' === item.id)!;
+      const allFilter = filters.find((item) => "all" === item.id)!;
       allFilter.active = false;
       selectedFilter.active = !selectedFilter.active;
       if (!filters.some((item) => item.active)) {
@@ -188,7 +188,7 @@ const SearchInnerPage = ({
       handleSearchParamsChange({ activeSubFilters: subFilters });
       fetchMore({
         variables: getTypeParams(
-          filters.filter((filter) => filter.active && filter.id !== 'all').map((f) => f.id),
+          filters.filter((filter) => filter.active && filter.id !== "all").map((f) => f.id),
           resourceTypes,
         ),
       });
@@ -209,7 +209,7 @@ const SearchInnerPage = ({
     const selectedKeys = Object.entries(updatedFilters)
       .filter(([, value]) => !!value.selected)
       .map(([key]) => key);
-    handleSearchParamsChange({ selectedFilters: selectedKeys.join(',') });
+    handleSearchParamsChange({ selectedFilters: selectedKeys.join(",") });
   };
 
   const handleShowMore = (type: string) => {
@@ -229,8 +229,8 @@ const SearchInnerPage = ({
           page: page,
           pageSize: pageSize,
           ...getTypeParams(
-            activeFilters.length ? activeFilters : type === 'topic-article' ? [] : [type],
-            type === 'topic-article' ? [] : resourceTypes,
+            activeFilters.length ? activeFilters : type === "topic-article" ? [] : [type],
+            type === "topic-article" ? [] : resourceTypes,
           ),
         },
       });

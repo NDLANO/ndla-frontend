@@ -6,19 +6,19 @@
  *
  */
 
-import { TFunction } from 'i18next';
-import { useTranslation } from 'react-i18next';
-import { gql } from '@apollo/client';
-import Tabs from '@ndla/tabs';
-import AudioLicenseList from './AudioLicenseList';
-import ConceptLicenseList, { GlossLicenseList } from './ConceptLicenseList';
-import H5pLicenseList from './H5pLicenseList';
-import ImageLicenseList from './ImageLicenseList';
-import OembedItem from './OembedItem';
-import PodcastLicenseList from './PodcastLicenseList';
-import TextLicenseList from './TextLicenseList';
-import VideoLicenseList from './VideoLicenseList';
-import { GQLLicenseBox_ArticleFragment } from '../../graphqlTypes';
+import { TFunction } from "i18next";
+import { useTranslation } from "react-i18next";
+import { gql } from "@apollo/client";
+import Tabs from "@ndla/tabs";
+import AudioLicenseList from "./AudioLicenseList";
+import ConceptLicenseList, { GlossLicenseList } from "./ConceptLicenseList";
+import H5pLicenseList from "./H5pLicenseList";
+import ImageLicenseList from "./ImageLicenseList";
+import OembedItem from "./OembedItem";
+import PodcastLicenseList from "./PodcastLicenseList";
+import TextLicenseList from "./TextLicenseList";
+import VideoLicenseList from "./VideoLicenseList";
+import { GQLLicenseBox_ArticleFragment } from "../../graphqlTypes";
 
 function buildLicenseTabList(
   article: GQLLicenseBox_ArticleFragment,
@@ -37,14 +37,14 @@ function buildLicenseTabList(
   const tabs = [];
   if (images.length > 0) {
     tabs.push({
-      title: t('license.tabs.images'),
-      id: 'images',
+      title: t("license.tabs.images"),
+      id: "images",
       content: <ImageLicenseList images={images} />,
     });
   }
   tabs.push({
-    title: t('license.tabs.text'),
-    id: 'text',
+    title: t("license.tabs.text"),
+    id: "text",
     content: (
       <TextLicenseList
         printUrl={printUrl}
@@ -62,58 +62,58 @@ function buildLicenseTabList(
 
   if (audios.length > 0) {
     tabs.push({
-      title: t('license.tabs.audio'),
-      id: 'audio',
+      title: t("license.tabs.audio"),
+      id: "audio",
       content: <AudioLicenseList audios={audios} />,
     });
   }
 
   if (podcasts.length > 0) {
     tabs.push({
-      title: t('license.tabs.podcast'),
-      id: 'podcast',
+      title: t("license.tabs.podcast"),
+      id: "podcast",
       content: <PodcastLicenseList podcasts={podcasts} />,
     });
   }
 
   if (brightcove.length > 0) {
     tabs.push({
-      title: t('license.tabs.video'),
-      id: 'video',
+      title: t("license.tabs.video"),
+      id: "video",
       content: <VideoLicenseList videos={brightcove} />,
     });
   }
 
   if (h5ps.length) {
     tabs.push({
-      title: t('license.tabs.h5p'),
-      id: 'h5p',
+      title: t("license.tabs.h5p"),
+      id: "h5p",
       content: <H5pLicenseList h5ps={h5ps} />,
     });
   }
 
   if (
-    concepts.some((concept) => concept.copyright?.license?.license && concept.copyright.license.license !== 'unknown')
+    concepts.some((concept) => concept.copyright?.license?.license && concept.copyright.license.license !== "unknown")
   ) {
     tabs.push({
-      title: t('license.tabs.concept'),
-      id: 'concept',
+      title: t("license.tabs.concept"),
+      id: "concept",
       content: <ConceptLicenseList concepts={concepts} />,
     });
   }
 
   if (glosses.length) {
     tabs.push({
-      title: t('license.tabs.gloss'),
-      id: 'gloss',
+      title: t("license.tabs.gloss"),
+      id: "gloss",
       content: <GlossLicenseList glosses={glosses} />,
     });
   }
 
   if (oembed) {
     tabs.push({
-      title: t('license.tabs.embedlink'),
-      id: 'embedLink',
+      title: t("license.tabs.embedlink"),
+      id: "embedLink",
       content: <OembedItem oembed={oembed} />,
     });
   }

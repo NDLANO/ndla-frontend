@@ -6,12 +6,12 @@
  *
  */
 
-import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Heading } from '@ndla/typography';
-import { Subject } from './interfaces';
-import { GridList } from './SubjectCategory';
-import SubjectLink from './SubjectLink';
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { Heading } from "@ndla/typography";
+import { Subject } from "./interfaces";
+import { GridList } from "./SubjectCategory";
+import SubjectLink from "./SubjectLink";
 
 interface Props {
   subjects: Subject[];
@@ -25,7 +25,7 @@ const FavoriteSubjects = ({ favorites, subjects }: Props) => {
   return (
     <div>
       <Heading element="h2" headingStyle="list-title">
-        {t('subjectsPage.myFavoriteSubjects')}
+        {t("subjectsPage.myFavoriteSubjects")}
       </Heading>
       <GridList>
         {mappedFavorites.map((subject) => (

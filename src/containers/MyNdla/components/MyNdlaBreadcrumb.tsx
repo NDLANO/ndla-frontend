@@ -6,33 +6,33 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import { Breadcrumb } from '@ndla/ui';
-import { GQLBreadcrumb } from '../../../graphqlTypes';
+import { useTranslation } from "react-i18next";
+import { Breadcrumb } from "@ndla/ui";
+import { GQLBreadcrumb } from "../../../graphqlTypes";
 
 interface Props {
   breadcrumbs: GQLBreadcrumb[];
   page: PageType;
 }
 
-type PageType = 'folders' | 'tags' | 'subjects' | 'arena';
+type PageType = "folders" | "tags" | "subjects" | "arena";
 
 const types = {
   folders: {
-    to: '/minndla/folders',
-    name: 'myNdla.myFolders',
+    to: "/minndla/folders",
+    name: "myNdla.myFolders",
   },
   tags: {
-    to: '/minndla/tags',
-    name: 'myNdla.myTags',
+    to: "/minndla/tags",
+    name: "myNdla.myTags",
   },
   subjects: {
-    to: '/minndla/subjects',
-    name: 'myNdla.favoriteSubjects',
+    to: "/minndla/subjects",
+    name: "myNdla.favoriteSubjects",
   },
   arena: {
-    to: '/minndla/arena',
-    name: 'myNdla.arena.title',
+    to: "/minndla/arena",
+    name: "myNdla.arena.title",
   },
 };
 

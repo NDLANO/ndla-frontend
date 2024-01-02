@@ -6,14 +6,14 @@
  *
  */
 
-import { useState, useEffect, useMemo, FormEvent } from 'react';
-import { useTranslation } from 'react-i18next';
-import { SearchHeader as SearchHeaderUI } from '@ndla/ui';
-import { groupCompetenceGoals } from '../../../components/CompetenceGoals';
-import { GQLSubjectInfoFragment } from '../../../graphqlTypes';
-import { LocaleType } from '../../../interfaces';
-import { getSubjectsCategories } from '../../../util/subjects';
-import { SearchCompetenceGoal, SearchCoreElements } from '../SearchInnerPage';
+import { useState, useEffect, useMemo, FormEvent } from "react";
+import { useTranslation } from "react-i18next";
+import { SearchHeader as SearchHeaderUI } from "@ndla/ui";
+import { groupCompetenceGoals } from "../../../components/CompetenceGoals";
+import { GQLSubjectInfoFragment } from "../../../graphqlTypes";
+import { LocaleType } from "../../../interfaces";
+import { getSubjectsCategories } from "../../../util/subjects";
+import { SearchCompetenceGoal, SearchCoreElements } from "../SearchInnerPage";
 
 interface Props {
   handleSearchParamsChange: (updates: Record<string, any>) => void;
@@ -57,7 +57,7 @@ const SearchHeader = ({
 
   useEffect(() => {
     const activeSubjects = subjectIds.map((id) => {
-      const name = subjects?.find((subject) => subject.id === id)?.name || '';
+      const name = subjects?.find((subject) => subject.id === id)?.name || "";
       return {
         value: id,
         name: name,
@@ -94,9 +94,9 @@ const SearchHeader = ({
       onSubjectValuesChange: onSubjectValuesChange,
     },
     messages: {
-      filterLabel: t('searchPage.searchFilterMessages.filterLabel'),
-      closeButton: t('searchPage.close'),
-      buttonText: t('searchPage.searchFilterMessages.noValuesButtonText'),
+      filterLabel: t("searchPage.searchFilterMessages.filterLabel"),
+      closeButton: t("searchPage.close"),
+      buttonText: t("searchPage.searchFilterMessages.noValuesButtonText"),
     },
   };
 
@@ -117,13 +117,13 @@ const SearchHeader = ({
   };
 
   const onSearchValueChange = (value: string) => {
-    if (value === '' && (searchValue ?? '').length > 2) {
-      handleSearchParamsChange({ query: '' });
+    if (value === "" && (searchValue ?? "").length > 2) {
+      handleSearchParamsChange({ query: "" });
     }
     setSearchValue(value);
   };
 
-  const competenceGoalsMetadata = groupCompetenceGoals(competenceGoals, false, 'LK06')?.flatMap((e) => e.elements);
+  const competenceGoalsMetadata = groupCompetenceGoals(competenceGoals, false, "LK06")?.flatMap((e) => e.elements);
 
   return (
     <SearchHeaderUI

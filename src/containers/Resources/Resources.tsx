@@ -6,25 +6,25 @@
  *
  */
 
-import sortBy from 'lodash/sortBy';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { gql } from '@apollo/client';
-import { ResourcesWrapper, ResourceGroup } from '@ndla/ui';
-import { getResourceGroups, sortResourceTypes } from './getResourceGroups';
-import ResourcesTopicTitle from './ResourcesTopicTitle';
-import FavoriteButton from '../../components/Article/FavoritesButton';
-import { ResourceAttributes } from '../../components/MyNdla/AddResourceToFolder';
-import AddResourceToFolderModal from '../../components/MyNdla/AddResourceToFolderModal';
-import { TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES, TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE } from '../../constants';
+import sortBy from "lodash/sortBy";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { gql } from "@apollo/client";
+import { ResourcesWrapper, ResourceGroup } from "@ndla/ui";
+import { getResourceGroups, sortResourceTypes } from "./getResourceGroups";
+import ResourcesTopicTitle from "./ResourcesTopicTitle";
+import FavoriteButton from "../../components/Article/FavoritesButton";
+import { ResourceAttributes } from "../../components/MyNdla/AddResourceToFolder";
+import AddResourceToFolderModal from "../../components/MyNdla/AddResourceToFolderModal";
+import { TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES, TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE } from "../../constants";
 import {
   GQLResources_ResourceFragment,
   GQLResources_ResourceTypeDefinitionFragment,
   GQLResources_TopicFragment,
-} from '../../graphqlTypes';
-import { HeadingType } from '../../interfaces';
-import { useIsNdlaFilm, useUrnIds } from '../../routeHelpers';
-import { contentTypeMapping } from '../../util/getContentType';
+} from "../../graphqlTypes";
+import { HeadingType } from "../../interfaces";
+import { useIsNdlaFilm, useUrnIds } from "../../routeHelpers";
+import { contentTypeMapping } from "../../util/getContentType";
 
 interface Props {
   topic: GQLResources_TopicFragment;
@@ -69,7 +69,7 @@ const Resources = ({ topic, resourceTypes, headingType, subHeadingType }: Props)
           active: !!resourceId && res.id.endsWith(resourceId),
         })),
         contentType: contentTypeMapping[type.id],
-        noContentLabel: t('resource.noCoreResourcesAvailable', {
+        noContentLabel: t("resource.noCoreResourcesAvailable", {
           name: type.name.toLowerCase(),
         }),
       }));
@@ -90,13 +90,13 @@ const Resources = ({ topic, resourceTypes, headingType, subHeadingType }: Props)
   }, [coreResources, isGrouped, resourceId, resourceTypes, sortedResources, supplementaryResources, t]);
 
   useEffect(() => {
-    const showAdditional = window.localStorage.getItem('showAdditionalResources');
-    setShowAdditionalResources(showAdditional === 'true');
+    const showAdditional = window.localStorage.getItem("showAdditionalResources");
+    setShowAdditionalResources(showAdditional === "true");
   }, []);
 
   const toggleAdditionalResources = useCallback(() => {
     setShowAdditionalResources((prev) => {
-      window?.localStorage.setItem('showAdditionalResources', `${!prev}`);
+      window?.localStorage.setItem("showAdditionalResources", `${!prev}`);
       return !prev;
     });
   }, []);
@@ -110,7 +110,7 @@ const Resources = ({ topic, resourceTypes, headingType, subHeadingType }: Props)
       header={
         <ResourcesTopicTitle
           heading={headingType}
-          title={t('resource.label')}
+          title={t("resource.label")}
           subTitle={topic.name}
           toggleAdditionalResources={toggleAdditionalResources}
           showAdditionalResources={showAdditionalResources}
@@ -154,7 +154,7 @@ interface AddResourceProps {
 const AddResource = ({ resources, path }: AddResourceProps) => {
   const resource: ResourceAttributes | undefined = useMemo(() => {
     const res = resources?.find((r) => r.path === path);
-    const [, resourceType, articleIdString] = res?.contentUri?.split(':') ?? [];
+    const [, resourceType, articleIdString] = res?.contentUri?.split(":") ?? [];
     const articleId = articleIdString ? parseInt(articleIdString) : undefined;
     if (!resourceType || !articleId || !path) return undefined;
 

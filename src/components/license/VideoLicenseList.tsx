@@ -6,13 +6,13 @@
  *
  */
 
-import uniqBy from 'lodash/uniqBy';
-import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Link, useLocation } from 'react-router-dom';
-import { gql } from '@apollo/client';
-import { metaTypes, getGroupedContributorDescriptionList } from '@ndla/licenses';
-import { SafeLinkButton } from '@ndla/safelink';
+import uniqBy from "lodash/uniqBy";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { Link, useLocation } from "react-router-dom";
+import { gql } from "@apollo/client";
+import { metaTypes, getGroupedContributorDescriptionList } from "@ndla/licenses";
+import { SafeLinkButton } from "@ndla/safelink";
 import {
   MediaList,
   MediaListItem,
@@ -21,14 +21,14 @@ import {
   MediaListItemActions,
   MediaListItemMeta,
   ItemType,
-} from '@ndla/ui';
-import { uuid } from '@ndla/util';
-import CopyTextButton from './CopyTextButton';
-import LicenseDescription from './LicenseDescription';
-import { licenseListCopyrightFragment } from './licenseFragments';
-import { isCopyrighted, licenseCopyrightToCopyrightType } from './licenseHelpers';
-import { MediaListRef } from './licenseStyles';
-import { GQLVideoLicenseList_BrightcoveLicenseFragment } from '../../graphqlTypes';
+} from "@ndla/ui";
+import { uuid } from "@ndla/util";
+import CopyTextButton from "./CopyTextButton";
+import LicenseDescription from "./LicenseDescription";
+import { licenseListCopyrightFragment } from "./licenseFragments";
+import { isCopyrighted, licenseCopyrightToCopyrightType } from "./licenseHelpers";
+import { MediaListRef } from "./licenseStyles";
+import { GQLVideoLicenseList_BrightcoveLicenseFragment } from "../../graphqlTypes";
 
 interface VideoLicenseInfoProps {
   video: GQLVideoLicenseList_BrightcoveLicenseFragment;
@@ -48,7 +48,7 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
   const items: ItemType[] = getGroupedContributorDescriptionList(safeCopyright, i18n.language);
   if (video.title) {
     items.unshift({
-      label: t('license.images.title'),
+      label: t("license.images.title"),
       description: video.title,
       metaType: metaTypes.title,
     });
@@ -63,15 +63,15 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
             to={pageUrl}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label={t('embed.goTo', { type: t('embed.type.video') })}
+            aria-label={t("embed.goTo", { type: t("embed.type.video") })}
           >
             <img alt="presentation" src={video.cover} />
           </Link>
         )}
       </MediaListItemImage>
       <MediaListItemBody
-        title={t('license.video.rules')}
-        license={video.copyright?.license?.license ?? ''}
+        title={t("license.video.rules")}
+        license={video.copyright?.license?.license ?? ""}
         resourceType="video"
         resourceUrl={video.src}
         locale={i18n.language}
@@ -79,15 +79,15 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
         <MediaListItemActions>
           <MediaListRef>
             <MediaListItemMeta items={items} />
-            {video.copyright?.license?.license !== 'COPYRIGHTED' && video.download && (
+            {video.copyright?.license?.license !== "COPYRIGHTED" && video.download && (
               <SafeLinkButton to={video.download} download variant="outline">
-                {t('license.download')}
+                {t("license.download")}
               </SafeLinkButton>
             )}
             <CopyTextButton
               stringToCopy={`<iframe title="${video.title}" height="${video.iframe?.height}" aria-label="${video.title}" width="${video.iframe?.width}" frameborder="0" src="${video.iframe?.src}" allowfullscreen=""></iframe>`}
-              copyTitle={t('license.embed')}
-              hasCopiedTitle={t('license.embedCopied')}
+              copyTitle={t("license.embed")}
+              hasCopiedTitle={t("license.embedCopied")}
             />
           </MediaListRef>
         </MediaListItemActions>
@@ -105,7 +105,7 @@ const VideoLicenseList = ({ videos }: Props) => {
   const unique = useMemo(() => uniqBy(videos, (video) => video.id), [videos]);
   return (
     <div>
-      <LicenseDescription>{t('license.video.description')}</LicenseDescription>
+      <LicenseDescription>{t("license.video.description")}</LicenseDescription>
       <MediaList>
         {unique.map((video) => (
           <VideoLicenseInfo video={video} key={uuid()} />

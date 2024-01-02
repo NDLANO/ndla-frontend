@@ -6,20 +6,20 @@
  *
  */
 
-import { useContext, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Navigate } from 'react-router-dom';
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
-import { Spinner } from '@ndla/icons';
-import { HelmetWithTracker, useTracker } from '@ndla/tracker';
-import { Heading, Text } from '@ndla/typography';
-import ArenaCard from './components/ArenaCard';
-import { AuthContext } from '../../../components/AuthenticationContext';
-import { SKIP_TO_CONTENT_ID } from '../../../constants';
-import { getAllDimensions } from '../../../util/trackingUtil';
-import { useArenaCategories } from '../arenaQueries';
-import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
+import { useContext, useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { Navigate } from "react-router-dom";
+import styled from "@emotion/styled";
+import { spacing } from "@ndla/core";
+import { Spinner } from "@ndla/icons";
+import { HelmetWithTracker, useTracker } from "@ndla/tracker";
+import { Heading, Text } from "@ndla/typography";
+import ArenaCard from "./components/ArenaCard";
+import { AuthContext } from "../../../components/AuthenticationContext";
+import { SKIP_TO_CONTENT_ID } from "../../../constants";
+import { getAllDimensions } from "../../../util/trackingUtil";
+import { useArenaCategories } from "../arenaQueries";
+import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 
 const StyledCardContainer = styled.ul`
   display: flex;
@@ -42,7 +42,7 @@ const ArenaPage = () => {
   useEffect(() => {
     if (!authContextLoaded || !user?.arenaEnabled) return;
     trackPageView({
-      title: t('htmlTitles.arenaPage'),
+      title: t("htmlTitles.arenaPage"),
       dimensions: getAllDimensions({ user }),
     });
   }, [authContextLoaded, t, trackPageView, user]);
@@ -57,15 +57,15 @@ const ArenaPage = () => {
 
   return (
     <MyNdlaPageWrapper>
-      <HelmetWithTracker title={t('htmlTitles.arenaPage')} />
+      <HelmetWithTracker title={t("htmlTitles.arenaPage")} />
       <Heading element="h1" id={SKIP_TO_CONTENT_ID} headingStyle="h1-resource" margin="small">
-        {t('myNdla.arena.title')}
+        {t("myNdla.arena.title")}
       </Heading>
       <Text element="p" textStyle="content-alt">
-        {t('myNdla.arena.notification.description')}
+        {t("myNdla.arena.notification.description")}
       </Text>
       <Heading element="h2" headingStyle="h2" margin="large">
-        {t('myNdla.arena.category.title')}
+        {t("myNdla.arena.category.title")}
       </Heading>
       {loading ? (
         <Spinner />
@@ -84,7 +84,7 @@ const ArenaPage = () => {
         </StyledCardContainer>
       )}
       <Text element="p" textStyle="meta-text-small" margin="none">
-        {t('myNdla.arena.bottomText')}
+        {t("myNdla.arena.bottomText")}
       </Text>
     </MyNdlaPageWrapper>
   );

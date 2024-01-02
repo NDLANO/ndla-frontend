@@ -6,26 +6,26 @@
  *
  */
 
-import keyBy from 'lodash/keyBy';
-import { useContext, useEffect, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { colors, fonts, spacing } from '@ndla/core';
-import { ForwardArrow } from '@ndla/icons/action';
-import SafeLink from '@ndla/safelink';
-import { HelmetWithTracker, useTracker } from '@ndla/tracker';
-import { Heading } from '@ndla/typography';
-import { CampaignBlock, ListResource } from '@ndla/ui';
-import TopicCard from './Arena/components/TopicCard';
-import { useRecentTopics } from './arenaQueries';
-import MyNdlaPageWrapper from './components/MyNdlaPageWrapper';
-import MyNdlaTitle from './components/MyNdlaTitle';
-import TitleWrapper from './components/TitleWrapper';
-import { useAiOrgs } from './configQueries';
-import { useFolderResourceMetaSearch, useRecentlyUsedResources } from './folderMutations';
-import { isStudent } from './Folders/util';
-import { AuthContext } from '../../components/AuthenticationContext';
-import { getAllDimensions } from '../../util/trackingUtil';
+import keyBy from "lodash/keyBy";
+import { useContext, useEffect, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { colors, fonts, spacing } from "@ndla/core";
+import { ForwardArrow } from "@ndla/icons/action";
+import SafeLink from "@ndla/safelink";
+import { HelmetWithTracker, useTracker } from "@ndla/tracker";
+import { Heading } from "@ndla/typography";
+import { CampaignBlock, ListResource } from "@ndla/ui";
+import TopicCard from "./Arena/components/TopicCard";
+import { useRecentTopics } from "./arenaQueries";
+import MyNdlaPageWrapper from "./components/MyNdlaPageWrapper";
+import MyNdlaTitle from "./components/MyNdlaTitle";
+import TitleWrapper from "./components/TitleWrapper";
+import { useAiOrgs } from "./configQueries";
+import { useFolderResourceMetaSearch, useRecentlyUsedResources } from "./folderMutations";
+import { isStudent } from "./Folders/util";
+import { AuthContext } from "../../components/AuthenticationContext";
+import { getAllDimensions } from "../../util/trackingUtil";
 
 const StyledPageContentContainer = styled.div`
   display: flex;
@@ -75,7 +75,7 @@ const ListItem = styled.li`
 
 const StyledDescription = styled.p`
   line-height: 1.5;
-  ${fonts.sizes('24px')};
+  ${fonts.sizes("24px")};
 `;
 
 const StyledCampaignBlock = styled(CampaignBlock)`
@@ -104,14 +104,14 @@ const MyNdlaPage = () => {
   useEffect(() => {
     if (!authContextLoaded) return;
     trackPageView({
-      title: t('htmlTitles.myNdlaPage'),
+      title: t("htmlTitles.myNdlaPage"),
       dimensions: getAllDimensions({ user }),
     });
   }, [authContextLoaded, t, trackPageView, user]);
 
   const keyedData = keyBy(metaData ?? [], (r) => `${r.type}${r.id}`);
 
-  const aiLang = i18n.language === 'nn' ? 'nn' : '';
+  const aiLang = i18n.language === "nn" ? "nn" : "";
 
   const allowedAiOrgs = useMemo(() => {
     if (!aiData?.aiEnabledOrgs?.value) return [];
@@ -121,29 +121,29 @@ const MyNdlaPage = () => {
   return (
     <MyNdlaPageWrapper>
       <StyledPageContentContainer>
-        <HelmetWithTracker title={t('htmlTitles.myNdlaPage')} />
+        <HelmetWithTracker title={t("htmlTitles.myNdlaPage")} />
         <TitleWrapper>
-          <MyNdlaTitle title={t('myNdla.myNDLA')} />
+          <MyNdlaTitle title={t("myNdla.myNDLA")} />
         </TitleWrapper>
-        <StyledDescription>{t('myNdla.myPage.welcome')}</StyledDescription>
-        {allowedAiOrgs.includes(user?.organization ?? '') && (
+        <StyledDescription>{t("myNdla.myPage.welcome")}</StyledDescription>
+        {allowedAiOrgs.includes(user?.organization ?? "") && (
           <StyledCampaignBlock
             title={{
-              title: t('myndla.campaignBlock.title'),
+              title: t("myndla.campaignBlock.title"),
               language: i18n.language,
             }}
             headingLevel="h3"
             image={{
-              src: '/static/ndla-ai.png',
-              alt: '',
+              src: "/static/ndla-ai.png",
+              alt: "",
             }}
             imageSide="left"
             url={{
               url: `https://ai.ndla.no/${aiLang}`,
-              text: t('myndla.campaignBlock.linkText'),
+              text: t("myndla.campaignBlock.linkText"),
             }}
             description={{
-              text: isStudent(user) ? t('myndla.campaignBlock.ingressStudent') : t('myndla.campaignBlock.ingress'),
+              text: isStudent(user) ? t("myndla.campaignBlock.ingressStudent") : t("myndla.campaignBlock.ingress"),
               language: i18n.language,
             }}
           />
@@ -151,7 +151,7 @@ const MyNdlaPage = () => {
         {allFolderResources && allFolderResources.length > 0 && (
           <SectionWrapper>
             <Heading element="h2" headingStyle="h2" margin="small">
-              {t('myNdla.myPage.recentFavourites.title')}
+              {t("myNdla.myPage.recentFavourites.title")}
             </Heading>
             <StyledResourceList>
               {allFolderResources.map((res) => {
@@ -164,10 +164,10 @@ const MyNdlaPage = () => {
                       isLoading={loading}
                       key={res.id}
                       link={res.path}
-                      title={meta?.title ?? ''}
+                      title={meta?.title ?? ""}
                       resourceImage={{
-                        src: meta?.metaImage?.url ?? '',
-                        alt: '',
+                        src: meta?.metaImage?.url ?? "",
+                        alt: "",
                       }}
                       tags={res.tags}
                       resourceTypes={meta?.resourceTypes ?? []}
@@ -177,7 +177,7 @@ const MyNdlaPage = () => {
               })}
             </StyledResourceList>
             <StyledSafeLink to="folders">
-              {t('myNdla.myPage.recentFavourites.link')}
+              {t("myNdla.myPage.recentFavourites.link")}
               <ForwardArrow />
             </StyledSafeLink>
           </SectionWrapper>
@@ -185,7 +185,7 @@ const MyNdlaPage = () => {
         {!!recentArenaTopicsQuery.data?.length && (
           <SectionWrapper>
             <Heading element="h2" headingStyle="h2" margin="small">
-              {t('myNdla.myPage.recentArenaPosts.title')}
+              {t("myNdla.myPage.recentArenaPosts.title")}
             </Heading>
             <StyledResourceList>
               {recentArenaTopicsQuery.data.slice(0, 5).map((topic) => (
@@ -201,7 +201,7 @@ const MyNdlaPage = () => {
               ))}
             </StyledResourceList>
             <StyledSafeLink to="arena">
-              {t('myNdla.myPage.recentArenaPosts.link')}
+              {t("myNdla.myPage.recentArenaPosts.link")}
               <ForwardArrow />
             </StyledSafeLink>
           </SectionWrapper>

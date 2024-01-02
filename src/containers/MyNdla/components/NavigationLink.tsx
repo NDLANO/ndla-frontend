@@ -6,12 +6,12 @@
  *
  */
 
-import { ReactNode } from 'react';
-import { useLocation } from 'react-router-dom';
-import styled from '@emotion/styled';
-import { breakpoints, colors, mq, spacing, fonts } from '@ndla/core';
-import { SafeLinkButton } from '@ndla/safelink';
-import { Text } from '@ndla/typography';
+import { ReactNode } from "react";
+import { useLocation } from "react-router-dom";
+import styled from "@emotion/styled";
+import { breakpoints, colors, mq, spacing, fonts } from "@ndla/core";
+import { SafeLinkButton } from "@ndla/safelink";
+import { Text } from "@ndla/typography";
 
 const StyledSafeLink = styled(SafeLinkButton)`
   color: ${colors.brand.primary};
@@ -37,7 +37,7 @@ const IconWrapper = styled.span`
 
 const LongText = styled(Text)`
   font-weight: ${fonts.weight.semibold};
-  &[data-current='true'] {
+  &[data-current="true"] {
     font-weight: ${fonts.weight.bold};
   }
   ${mq.range({ until: breakpoints.desktop })} {
@@ -64,15 +64,15 @@ interface Props {
 
 const NavigationLink = ({ id, icon, iconFilled, name, shortName, onClick, to }: Props) => {
   const location = useLocation();
-  const selected = id ? location.pathname.startsWith(`/minndla/${id}`) : location.pathname === '/minndla';
+  const selected = id ? location.pathname.startsWith(`/minndla/${id}`) : location.pathname === "/minndla";
   const selectedIcon = selected ? iconFilled ?? icon : icon;
-  const linkTo = to ?? `/minndla${id ? `/${id}` : ''}`;
+  const linkTo = to ?? `/minndla${id ? `/${id}` : ""}`;
 
   return (
     <StyledSafeLink
       colorTheme="lighter"
       variant="ghost"
-      aria-current={selected ? 'page' : undefined}
+      aria-current={selected ? "page" : undefined}
       to={linkTo}
       reloadDocument={!!to}
       onClick={onClick}

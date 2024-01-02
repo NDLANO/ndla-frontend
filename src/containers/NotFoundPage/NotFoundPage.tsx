@@ -6,26 +6,26 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import { HelmetWithTracker } from '@ndla/tracker';
-import { OneColumn, ErrorMessage } from '@ndla/ui';
-import { Status } from '../../components';
+import { useTranslation } from "react-i18next";
+import { HelmetWithTracker } from "@ndla/tracker";
+import { OneColumn, ErrorMessage } from "@ndla/ui";
+import { Status } from "../../components";
 
 const NotFound = () => {
   const { t } = useTranslation();
   return (
     <Status code={404}>
-      <HelmetWithTracker title={t('htmlTitles.notFound')} />
+      <HelmetWithTracker title={t("htmlTitles.notFound")} />
       <OneColumn cssModifier="clear">
         <ErrorMessage
           illustration={{
-            url: '/static/not-exist.gif',
-            altText: t('errorMessage.title'),
+            url: "/static/not-exist.gif",
+            altText: t("errorMessage.title"),
           }}
           messages={{
-            title: t('notFoundPage.title'),
-            description: t('notFoundPage.errorDescription'),
-            goToFrontPage: t('errorMessage.goToFrontPage'),
+            title: t("notFoundPage.title"),
+            description: t("notFoundPage.errorDescription"),
+            goToFrontPage: t("errorMessage.goToFrontPage"),
           }}
         />
       </OneColumn>

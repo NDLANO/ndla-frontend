@@ -6,32 +6,32 @@
  *
  */
 
-import sortBy from 'lodash/sortBy';
-import { useCallback, useEffect, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router-dom';
-import { gql } from '@apollo/client';
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
-import { Bookmark, Class } from '@ndla/icons/action';
-import { ContentTypeBadge } from '@ndla/ui';
-import BackButton from './BackButton';
-import { useDrawerContext } from './DrawerContext';
-import DrawerMenuItem from './DrawerMenuItem';
-import DrawerPortion, { DrawerList } from './DrawerPortion';
-import DrawerRowHeader from './DrawerRowHeader';
-import ResourceTypeList from './ResourceTypeList';
-import { TopicWithSubTopics } from './SubjectMenu';
-import useArrowNavigation from './useArrowNavigation';
-import { TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES, TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE } from '../../../constants';
+import sortBy from "lodash/sortBy";
+import { useCallback, useEffect, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router-dom";
+import { gql } from "@apollo/client";
+import styled from "@emotion/styled";
+import { spacing } from "@ndla/core";
+import { Bookmark, Class } from "@ndla/icons/action";
+import { ContentTypeBadge } from "@ndla/ui";
+import BackButton from "./BackButton";
+import { useDrawerContext } from "./DrawerContext";
+import DrawerMenuItem from "./DrawerMenuItem";
+import DrawerPortion, { DrawerList } from "./DrawerPortion";
+import DrawerRowHeader from "./DrawerRowHeader";
+import ResourceTypeList from "./ResourceTypeList";
+import { TopicWithSubTopics } from "./SubjectMenu";
+import useArrowNavigation from "./useArrowNavigation";
+import { TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES, TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE } from "../../../constants";
 import {
   GQLTopicMenuResourcesQuery,
   GQLTopicMenuResourcesQueryVariables,
   GQLTopicMenu_SubjectFragment,
-} from '../../../graphqlTypes';
-import { contentTypeMapping } from '../../../util/getContentType';
-import { useGraphQuery } from '../../../util/runQueries';
-import { getResourceGroups, sortResourceTypes } from '../../Resources/getResourceGroups';
+} from "../../../graphqlTypes";
+import { contentTypeMapping } from "../../../util/getContentType";
+import { useGraphQuery } from "../../../util/runQueries";
+import { getResourceGroups, sortResourceTypes } from "../../Resources/getResourceGroups";
 
 interface Props {
   topic: TopicWithSubTopics;
@@ -52,7 +52,7 @@ const StyledResourceSpan = styled.span`
 
 const TopicMenu = ({ topic, subject, onClose, topicPath, onCloseMenuPortion, addTopic, level, removeTopic }: Props) => {
   const { t } = useTranslation();
-  const parentIsTopic = topic.parentId?.startsWith('urn:subject');
+  const parentIsTopic = topic.parentId?.startsWith("urn:subject");
   const location = useLocation();
   const { shouldCloseLevel, setLevelClosed } = useDrawerContext();
   const Icon = parentIsTopic ? Class : Bookmark;
@@ -159,7 +159,7 @@ const TopicMenu = ({ topic, subject, onClose, topicPath, onCloseMenuPortion, add
               </ResourceTypeList>
             ))
           : sortedResources.map((res) => {
-              const type = res.resourceTypes[0] ? contentTypeMapping[res.resourceTypes[0]?.id]! : 'subject-material';
+              const type = res.resourceTypes[0] ? contentTypeMapping[res.resourceTypes[0]?.id]! : "subject-material";
               return (
                 <DrawerMenuItem
                   id={`${topic.id}-${res.id}`}

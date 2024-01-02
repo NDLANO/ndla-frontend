@@ -6,14 +6,14 @@
  *
  */
 
-import { useCallback, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { Pencil } from '@ndla/icons/action';
-import { ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger, Modal } from '@ndla/modal';
-import ArenaForm, { ArenaFormValues } from './ArenaForm';
-import { useUserAgent } from '../../../../UserAgentContext';
+import { useCallback, useState } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { Pencil } from "@ndla/icons/action";
+import { ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger, Modal } from "@ndla/modal";
+import ArenaForm, { ArenaFormValues } from "./ArenaForm";
+import { useUserAgent } from "../../../../UserAgentContext";
 
 const StyledModalBody = styled(ModalBody)`
   display: flex;
@@ -27,7 +27,7 @@ const StyledPencil = styled(Pencil)`
 `;
 
 interface Props {
-  type: 'topic' | 'post';
+  type: "topic" | "post";
   onSave: (data: Partial<ArenaFormValues>) => Promise<void>;
 }
 
@@ -62,7 +62,7 @@ const ArenaTextModal = ({ type, onSave }: Props) => {
         {userAgent?.isMobile ? (
           <ButtonV2>
             {t(`myNdla.arena.new.${type}`)}
-            {type === 'topic' && <StyledPencil />}
+            {type === "topic" && <StyledPencil />}
           </ButtonV2>
         ) : (
           <ButtonV2>{t(`myNdla.arena.new.${type}`)}</ButtonV2>
@@ -74,7 +74,7 @@ const ArenaTextModal = ({ type, onSave }: Props) => {
 };
 
 interface ContentProps {
-  type: 'topic' | 'post';
+  type: "topic" | "post";
   content?: string;
   title?: string;
   onSave: (data: Partial<ArenaFormValues>) => Promise<void>;

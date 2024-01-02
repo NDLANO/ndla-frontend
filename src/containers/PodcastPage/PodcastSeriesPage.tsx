@@ -6,32 +6,32 @@
  *
  */
 
-import { useEffect, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Navigate, useLocation } from 'react-router-dom';
-import { gql, useQuery } from '@apollo/client';
-import styled from '@emotion/styled';
-import { AccordionContent, AccordionHeader, AccordionItem, AccordionRoot } from '@ndla/accordion';
-import { transform } from '@ndla/article-converter';
-import { colors, spacing } from '@ndla/core';
-import { HelmetWithTracker } from '@ndla/tracker';
-import { Text } from '@ndla/typography';
-import { ArticleTitle, getMastheadHeight, OneColumn } from '@ndla/ui';
-import DefaultErrorMessage from '../../components/DefaultErrorMessage';
-import SocialMediaMetadata from '../../components/SocialMediaMetadata';
-import config from '../../config';
+import { useEffect, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { Navigate, useLocation } from "react-router-dom";
+import { gql, useQuery } from "@apollo/client";
+import styled from "@emotion/styled";
+import { AccordionContent, AccordionHeader, AccordionItem, AccordionRoot } from "@ndla/accordion";
+import { transform } from "@ndla/article-converter";
+import { colors, spacing } from "@ndla/core";
+import { HelmetWithTracker } from "@ndla/tracker";
+import { Text } from "@ndla/typography";
+import { ArticleTitle, getMastheadHeight, OneColumn } from "@ndla/ui";
+import DefaultErrorMessage from "../../components/DefaultErrorMessage";
+import SocialMediaMetadata from "../../components/SocialMediaMetadata";
+import config from "../../config";
 import {
   AcquireLicensePage,
   MastheadHeightPx,
   PODCAST_SERIES_LIST_PAGE_PATH,
   SKIP_TO_CONTENT_ID,
-} from '../../constants';
-import { GQLContributorInfoFragment, GQLCopyrightInfoFragment, GQLPodcastSeriesPageQuery } from '../../graphqlTypes';
-import { copyrightInfoFragment } from '../../queries';
-import { TypedParams, useTypedParams } from '../../routeHelpers';
-import { publisher } from '../../util/getStructuredDataFromArticle';
-import { hasLicensedContent } from '../ResourceEmbed/components/ResourceEmbed';
-import ResourceEmbedLicenseBox from '../ResourceEmbed/components/ResourceEmbedLicenseBox';
+} from "../../constants";
+import { GQLContributorInfoFragment, GQLCopyrightInfoFragment, GQLPodcastSeriesPageQuery } from "../../graphqlTypes";
+import { copyrightInfoFragment } from "../../queries";
+import { TypedParams, useTypedParams } from "../../routeHelpers";
+import { publisher } from "../../util/getStructuredDataFromArticle";
+import { hasLicensedContent } from "../ResourceEmbed/components/ResourceEmbed";
+import ResourceEmbedLicenseBox from "../ResourceEmbed/components/ResourceEmbedLicenseBox";
 
 interface RouteParams extends TypedParams {
   id: string;
@@ -82,7 +82,7 @@ const PodcastSeriesPage = () => {
 
   const embeds = useMemo(() => {
     if (!podcastSeries?.content?.content) return;
-    return transform(podcastSeries.content.content, { renderContext: 'embed' });
+    return transform(podcastSeries.content.content, { renderContext: "embed" });
   }, [podcastSeries?.content?.content]);
 
   const location = useLocation();
@@ -98,7 +98,7 @@ const PodcastSeriesPage = () => {
 
         window.scrollTo({
           top: scrollPosition,
-          behavior: 'smooth',
+          behavior: "smooth",
         });
       }, 200);
     }
@@ -106,8 +106,8 @@ const PodcastSeriesPage = () => {
 
   const { t } = useTranslation();
 
-  const getDocumentTitle = (podcast: GQLPodcastSeriesPageQuery['podcastSeries']) => {
-    return `${podcast?.title?.title || t('podcastPage.podcast')} - ${t('htmlTitles.titleTemplate')}`;
+  const getDocumentTitle = (podcast: GQLPodcastSeriesPageQuery["podcastSeries"]) => {
+    return `${podcast?.title?.title || t("podcastPage.podcast")} - ${t("htmlTitles.titleTemplate")}`;
   };
 
   if (loading) {
@@ -127,7 +127,7 @@ const PodcastSeriesPage = () => {
 
   const mapType = (type: string, arr?: GQLContributorInfoFragment[]) =>
     arr?.map((item) => ({
-      '@type': type,
+      "@type": type,
       name: item.name,
     }));
 
@@ -135,16 +135,16 @@ const PodcastSeriesPage = () => {
     const { creators, rightsholders, license, processors } = copyright;
     return {
       license: license?.url,
-      author: mapType('Person', creators),
-      copyrightHolder: mapType('Organization', rightsholders),
-      contributor: mapType('Person', processors),
+      author: mapType("Person", creators),
+      copyrightHolder: mapType("Organization", rightsholders),
+      contributor: mapType("Person", processors),
     };
   };
 
   const podcastSeriesJSONLd = () => {
     const seriesData = {
-      '@context': 'https://schema.org',
-      '@type': 'PodcastSeries',
+      "@context": "https://schema.org",
+      "@type": "PodcastSeries",
       url: url,
       name: podcastSeries.title.title,
       abstract: podcastSeries.description.description,
@@ -155,19 +155,19 @@ const PodcastSeriesPage = () => {
     };
     const episodes = podcastSeries.episodes?.map((episode) => {
       return {
-        '@context': 'https://schema.org',
-        '@type': 'PodcastEpisode',
-        '@id': `${url}/#${episode?.id}`,
+        "@context": "https://schema.org",
+        "@type": "PodcastEpisode",
+        "@id": `${url}/#${episode?.id}`,
         name: episode?.title.title,
         audio: {
-          '@type': 'AudioObject',
+          "@type": "AudioObject",
           contentUrl: episode?.audioFile.url,
         },
         abstract: episode?.podcastMeta?.introduction,
         acquireLicensePage: AcquireLicensePage,
         partOfSeries: {
-          '@context': 'https://schema.org',
-          '@type': 'PodcastSeries',
+          "@context": "https://schema.org",
+          "@type": "PodcastSeries",
           url: url,
         },
         ...publisher,
@@ -191,7 +191,7 @@ const PodcastSeriesPage = () => {
       </HelmetWithTracker>
       <SocialMediaMetadata
         type="website"
-        title={podcastSeries.title.title ?? ''}
+        title={podcastSeries.title.title ?? ""}
         trackableContent={{
           tags: podcastSeries?.episodes?.flatMap((ep) => ep.tags?.tags || []),
           supportedLanguages: podcastSeries.supportedLanguages,
@@ -201,7 +201,7 @@ const PodcastSeriesPage = () => {
       />
       <OneColumn>
         <TitleWrapper>
-          <ArticleTitle label={t('podcastPage.podcast')} id={SKIP_TO_CONTENT_ID}>
+          <ArticleTitle label={t("podcastPage.podcast")} id={SKIP_TO_CONTENT_ID}>
             {podcastSeries.title.title}
           </ArticleTitle>
         </TitleWrapper>
@@ -212,14 +212,14 @@ const PodcastSeriesPage = () => {
         <EpisodesWrapper>
           {podcastSeries.content ? (
             <>
-              <h2>{t('podcastPage.episodes')}</h2>
+              <h2>{t("podcastPage.episodes")}</h2>
               {embeds}
               <AccordionRoot type="single" collapsible>
                 {podcastSeries.content.meta && hasLicensedContent(podcastSeries.content.meta) && (
                   <AccordionItem value="rulesForUse">
                     <StyledAccordionHeader>
                       <Text element="span" textStyle="button" margin="none">
-                        {t('article.useContent')}
+                        {t("article.useContent")}
                       </Text>
                     </StyledAccordionHeader>
                     <AccordionContent>
@@ -230,7 +230,7 @@ const PodcastSeriesPage = () => {
               </AccordionRoot>
             </>
           ) : (
-            <NoResults>{t('podcastPage.noResults')}</NoResults>
+            <NoResults>{t("podcastPage.noResults")}</NoResults>
           )}
         </EpisodesWrapper>
       </OneColumn>

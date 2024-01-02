@@ -6,11 +6,11 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { buttonStyleV2 } from '@ndla/button';
-import { breakpoints, colors, fonts, misc, mq, spacing } from '@ndla/core';
-import { subjectLetters } from './utils';
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { buttonStyleV2 } from "@ndla/button";
+import { breakpoints, colors, fonts, misc, mq, spacing } from "@ndla/core";
+import { subjectLetters } from "./utils";
 
 const LetterNavigationWrapper = styled.ul`
   display: flex;
@@ -34,8 +34,8 @@ interface StyledProps {
 }
 
 const StyledLetter = styled.a<StyledProps>`
-  ${buttonStyleV2({ colorTheme: 'lighter', variant: 'ghost' })}
-  ${fonts.sizes('18px', '24px')};
+  ${buttonStyleV2({ colorTheme: "lighter", variant: "ghost" })}
+  ${fonts.sizes("18px", "24px")};
   font-weight: ${fonts.weight.bold};
   min-width: 20px;
   min-height: unset;
@@ -66,7 +66,7 @@ const StyledLetter = styled.a<StyledProps>`
     border-color: ${colors.brand.primary};
   }
   ${mq.range({ until: breakpoints.tabletWide })} {
-    ${fonts.sizes('24px', '24px')};
+    ${fonts.sizes("24px", "24px")};
     box-shadow: inset 0 -3px 0px -1px;
     min-height: 48px;
     min-width: 48px;
@@ -80,7 +80,7 @@ interface Props {
 const LetterNavigation = ({ activeLetters }: Props) => {
   const { t } = useTranslation();
   return (
-    <LetterNavigationWrapper aria-label={t('subjectsPage.scrollToGroup')}>
+    <LetterNavigationWrapper aria-label={t("subjectsPage.scrollToGroup")}>
       {subjectLetters.map((letter) => {
         const enabled = activeLetters.includes(letter);
         return (
@@ -90,7 +90,7 @@ const LetterNavigation = ({ activeLetters }: Props) => {
               disabled={!enabled}
               aria-disabled={!enabled}
               tabIndex={enabled ? 0 : -1}
-              aria-label={`${t('subjectsPage.scrollToGroup')} "${letter === '#' ? t('labels.other') : letter}"`}
+              aria-label={`${t("subjectsPage.scrollToGroup")} "${letter === "#" ? t("labels.other") : letter}"`}
             >
               {letter}
             </StyledLetter>

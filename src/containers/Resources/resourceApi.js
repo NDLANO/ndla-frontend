@@ -6,10 +6,10 @@
  *
  */
 
-import { RELEVANCE_CORE } from '../../constants';
-import { resolveJsonOrRejectWithError, apiResourceUrl, fetch } from '../../util/apiHelpers';
+import { RELEVANCE_CORE } from "../../constants";
+import { resolveJsonOrRejectWithError, apiResourceUrl, fetch } from "../../util/apiHelpers";
 
-const baseUrl = apiResourceUrl('/taxonomy/v1');
+const baseUrl = apiResourceUrl("/taxonomy/v1");
 
 export const fetchResourceTypesForResource = (resourceId, locale) =>
   fetch(`${baseUrl}/resources/${resourceId}/resource-types?language=${locale}`).then(resolveJsonOrRejectWithError);

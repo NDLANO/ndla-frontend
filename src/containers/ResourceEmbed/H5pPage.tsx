@@ -6,9 +6,9 @@
  *
  */
 
-import { useParams } from 'react-router-dom';
-import ResourceEmbed from './components/ResourceEmbed';
-import NotFound from '../NotFoundPage/NotFoundPage';
+import { useParams } from "react-router-dom";
+import ResourceEmbed from "./components/ResourceEmbed";
+import NotFound from "../NotFoundPage/NotFoundPage";
 
 const H5pPage = () => {
   const { h5pId } = useParams();

@@ -5,12 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { Callback, FlatNamespace, i18n, KeyPrefix, Namespace, TFunction } from 'i18next';
-import { $Tuple } from 'react-i18next/helpers';
-import { LocaleType } from '../interfaces';
+import { Callback, FlatNamespace, i18n, KeyPrefix, Namespace, TFunction } from "i18next";
+import { $Tuple } from "react-i18next/helpers";
+import { LocaleType } from "../interfaces";
 
-declare module 'react-i18next' {
-  interface CustomI18n extends Omit<i18n, 'language' | 'changeLanguage'> {
+declare module "react-i18next" {
+  interface CustomI18n extends Omit<i18n, "language" | "changeLanguage"> {
     language: LocaleType;
     changeLanguage: (lng: LocaleType, callback?: Callback) => Promise<TFunction>;
   }

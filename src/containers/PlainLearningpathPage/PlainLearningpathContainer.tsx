@@ -6,24 +6,24 @@
  *
  */
 
-import { TFunction } from 'i18next';
-import { useContext, useEffect } from 'react';
-import { Helmet } from 'react-helmet-async';
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-import { gql } from '@apollo/client';
-import { useTracker } from '@ndla/tracker';
-import { AuthContext } from '../../components/AuthenticationContext';
-import Learningpath from '../../components/Learningpath';
-import SocialMediaMetadata from '../../components/SocialMediaMetadata';
-import { GQLPlainLearningpathContainer_LearningpathFragment } from '../../graphqlTypes';
-import { toLearningPath } from '../../routeHelpers';
-import { htmlTitle } from '../../util/titleHelper';
-import { getAllDimensions } from '../../util/trackingUtil';
-import ErrorPage from '../ErrorPage';
+import { TFunction } from "i18next";
+import { useContext, useEffect } from "react";
+import { Helmet } from "react-helmet-async";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+import { gql } from "@apollo/client";
+import { useTracker } from "@ndla/tracker";
+import { AuthContext } from "../../components/AuthenticationContext";
+import Learningpath from "../../components/Learningpath";
+import SocialMediaMetadata from "../../components/SocialMediaMetadata";
+import { GQLPlainLearningpathContainer_LearningpathFragment } from "../../graphqlTypes";
+import { toLearningPath } from "../../routeHelpers";
+import { htmlTitle } from "../../util/titleHelper";
+import { getAllDimensions } from "../../util/trackingUtil";
+import ErrorPage from "../ErrorPage";
 
-const getDocumentTitle = (learningpath: Props['learningpath'], t: TFunction) =>
-  htmlTitle(learningpath.title, [t('htmlTitles.titleTemplate')]);
+const getDocumentTitle = (learningpath: Props["learningpath"], t: TFunction) =>
+  htmlTitle(learningpath.title, [t("htmlTitles.titleTemplate")]);
 
 interface Props {
   learningpath: GQLPlainLearningpathContainer_LearningpathFragment;
@@ -38,7 +38,7 @@ const PlainLearningpathContainer = ({ learningpath, skipToContentId, stepId }: P
   const steps = learningpath.learningsteps;
 
   useEffect(() => {
-    if (window.MathJax && typeof window.MathJax.typeset === 'function') {
+    if (window.MathJax && typeof window.MathJax.typeset === "function") {
       try {
         window.MathJax.typeset();
       } catch (err) {
@@ -60,8 +60,8 @@ const PlainLearningpathContainer = ({ learningpath, skipToContentId, stepId }: P
   const onKeyUpEvent = (evt: KeyboardEvent) => {
     const currentStep = stepId ? steps?.find((step) => step.id.toString() === stepId) : steps?.[0];
     if (!currentStep) return;
-    if (evt.code === 'ArrowRight' || evt.code === 'ArrowLeft') {
-      const directionValue = evt.code === 'ArrowRight' ? 1 : -1;
+    if (evt.code === "ArrowRight" || evt.code === "ArrowLeft") {
+      const directionValue = evt.code === "ArrowRight" ? 1 : -1;
       const newSeqNo = currentStep.seqNo + directionValue;
       const newLearningpathStep = learningpath.learningsteps?.find((step) => step.seqNo === newSeqNo);
       if (newLearningpathStep) {
@@ -83,7 +83,7 @@ const PlainLearningpathContainer = ({ learningpath, skipToContentId, stepId }: P
         <meta name="robots" content="noindex" />
       </Helmet>
       <SocialMediaMetadata
-        title={htmlTitle(learningpath.title, [t('htmlTitles.titleTemplate')])}
+        title={htmlTitle(learningpath.title, [t("htmlTitles.titleTemplate")])}
         trackableContent={learningpath}
         description={learningpath.description}
         imageUrl={learningpath.coverphoto?.url}

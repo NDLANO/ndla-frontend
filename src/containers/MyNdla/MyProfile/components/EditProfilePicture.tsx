@@ -6,14 +6,14 @@
  *
  */
 
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { spacing } from '@ndla/core';
-import Icon from '@ndla/icons';
-import { Pencil } from '@ndla/icons/action';
-import { Modal, ModalTrigger } from '@ndla/modal';
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { spacing } from "@ndla/core";
+import Icon from "@ndla/icons";
+import { Pencil } from "@ndla/icons/action";
+import { Modal, ModalTrigger } from "@ndla/modal";
 
 const StyledChangeAvatarButton = styled(ButtonV2)`
   gap: ${spacing.xsmall};
@@ -36,7 +36,7 @@ const EditProfilePicture = () => {
       <ModalTrigger>
         <StyledChangeAvatarButton colorTheme="primary" onClick={() => setShowModal(!showModal)}>
           <PencilIcon />
-          {t('myNdla.myProfile.editButtonText')}
+          {t("myNdla.myProfile.editButtonText")}
         </StyledChangeAvatarButton>
       </ModalTrigger>
     </Modal>

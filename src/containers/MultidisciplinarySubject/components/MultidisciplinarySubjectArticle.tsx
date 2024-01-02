@@ -6,35 +6,35 @@
  *
  */
 
-import { useRef, useMemo, useEffect, useContext } from 'react';
-import { Helmet } from 'react-helmet-async';
-import { useTranslation } from 'react-i18next';
-import { gql } from '@apollo/client';
-import { DynamicComponents } from '@ndla/article-converter';
-import { useTracker } from '@ndla/tracker';
-import { OneColumn, SimpleBreadcrumbItem } from '@ndla/ui';
-import Article from '../../../components/Article';
-import { AuthContext } from '../../../components/AuthenticationContext';
-import AddEmbedToFolder from '../../../components/MyNdla/AddEmbedToFolder';
-import config from '../../../config';
+import { useRef, useMemo, useEffect, useContext } from "react";
+import { Helmet } from "react-helmet-async";
+import { useTranslation } from "react-i18next";
+import { gql } from "@apollo/client";
+import { DynamicComponents } from "@ndla/article-converter";
+import { useTracker } from "@ndla/tracker";
+import { OneColumn, SimpleBreadcrumbItem } from "@ndla/ui";
+import Article from "../../../components/Article";
+import { AuthContext } from "../../../components/AuthenticationContext";
+import AddEmbedToFolder from "../../../components/MyNdla/AddEmbedToFolder";
+import config from "../../../config";
 import {
   GQLMultidisciplinarySubjectArticle_ResourceTypeDefinitionFragment,
   GQLMultidisciplinarySubjectArticle_SubjectFragment,
   GQLMultidisciplinarySubjectArticle_TopicFragment,
-} from '../../../graphqlTypes';
-import { removeUrn } from '../../../routeHelpers';
-import { getArticleScripts } from '../../../util/getArticleScripts';
-import { getTopicPath } from '../../../util/getTopicPath';
-import { htmlTitle } from '../../../util/titleHelper';
-import { getAllDimensions } from '../../../util/trackingUtil';
-import { transformArticle } from '../../../util/transformArticle';
-import Resources from '../../Resources/Resources';
-import MultidisciplinarySubjectHeader from '../MultidisciplinarySubjectHeader';
+} from "../../../graphqlTypes";
+import { removeUrn } from "../../../routeHelpers";
+import { getArticleScripts } from "../../../util/getArticleScripts";
+import { getTopicPath } from "../../../util/getTopicPath";
+import { htmlTitle } from "../../../util/titleHelper";
+import { getAllDimensions } from "../../../util/trackingUtil";
+import { transformArticle } from "../../../util/transformArticle";
+import Resources from "../../Resources/Resources";
+import MultidisciplinarySubjectHeader from "../MultidisciplinarySubjectHeader";
 
-const filterCodes: Record<string, 'publicHealth' | 'democracy' | 'climate'> = {
-  TT1: 'publicHealth',
-  TT2: 'democracy',
-  TT3: 'climate',
+const filterCodes: Record<string, "publicHealth" | "democracy" | "climate"> = {
+  TT1: "publicHealth",
+  TT2: "democracy",
+  TT3: "climate",
 };
 
 interface Props {
@@ -61,9 +61,9 @@ const MultidisciplinarySubjectArticle = ({ topic, subject, resourceTypes, skipTo
   useEffect(() => {
     if (!topic?.article || !authContextLoaded) return;
     const topicPath = topic.path
-      ?.split('/')
+      ?.split("/")
       .slice(2)
-      .map((id) => subject.allTopics?.find((t) => t.id.replace('urn:', '') === id));
+      .map((id) => subject.allTopics?.find((t) => t.id.replace("urn:", "") === id));
     const dimensions = getAllDimensions(
       {
         subject,
@@ -77,7 +77,7 @@ const MultidisciplinarySubjectArticle = ({ topic, subject, resourceTypes, skipTo
     );
     trackPageView({
       dimensions,
-      title: htmlTitle(topic.name || '', [t('htmlTitles.titleTemplate')]),
+      title: htmlTitle(topic.name || "", [t("htmlTitles.titleTemplate")]),
     });
   }, [authContextLoaded, subject, t, topic.article, topic.name, topic.path, trackPageView, user]);
 
@@ -85,8 +85,8 @@ const MultidisciplinarySubjectArticle = ({ topic, subject, resourceTypes, skipTo
     () =>
       [
         {
-          name: t('breadcrumb.toFrontpage'),
-          to: '/',
+          name: t("breadcrumb.toFrontpage"),
+          to: "/",
         },
         {
           name: subject.name,
@@ -99,7 +99,7 @@ const MultidisciplinarySubjectArticle = ({ topic, subject, resourceTypes, skipTo
       ].reduce<SimpleBreadcrumbItem[]>((crumbs, crumb) => {
         crumbs.push({
           name: crumb.name,
-          to: `${crumbs[crumbs.length - 1]?.to ?? ''}${crumb.to}`,
+          to: `${crumbs[crumbs.length - 1]?.to ?? ""}${crumb.to}`,
         });
 
         return crumbs;
@@ -126,10 +126,10 @@ const MultidisciplinarySubjectArticle = ({ topic, subject, resourceTypes, skipTo
 
   const subjectLinks = topic.article.crossSubjectTopics?.map((crossSubjectTopic) => ({
     label: crossSubjectTopic.title,
-    url: crossSubjectTopic.path || subject.path || '',
+    url: crossSubjectTopic.path || subject.path || "",
   }));
   const subjects = topic.article?.grepCodes
-    ?.filter((grepCode) => grepCode.startsWith('TT'))
+    ?.filter((grepCode) => grepCode.startsWith("TT"))
     .map((code) => filterCodes[code]!);
 
   return (

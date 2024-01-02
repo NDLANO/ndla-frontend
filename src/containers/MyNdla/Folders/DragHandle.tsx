@@ -6,17 +6,17 @@
  *
  */
 
-import { HTMLProps } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useSortable } from '@dnd-kit/sortable';
-import styled from '@emotion/styled';
-import { IconButtonV2 } from '@ndla/button';
-import { breakpoints, mq, spacing } from '@ndla/core';
-import { DragVertical } from '@ndla/icons/editor';
+import { HTMLProps } from "react";
+import { useTranslation } from "react-i18next";
+import { useSortable } from "@dnd-kit/sortable";
+import styled from "@emotion/styled";
+import { IconButtonV2 } from "@ndla/button";
+import { breakpoints, mq, spacing } from "@ndla/core";
+import { DragVertical } from "@ndla/icons/editor";
 
 interface Props extends HTMLProps<HTMLButtonElement> {
   sortableId: string;
-  type: 'folder' | 'resource';
+  type: "folder" | "resource";
   name: string;
 }
 
@@ -39,10 +39,10 @@ const DragHandle = ({ sortableId, type, name, ...rest }: Props) => {
     <StyledDragHandle
       {...rest}
       aria-label={t(`myNdla.${type}.dragHandle`, { name })}
-      type={'button'}
-      variant={'ghost'}
-      colorTheme={'light'}
-      size={'small'}
+      type={"button"}
+      variant={"ghost"}
+      colorTheme={"light"}
+      size={"small"}
       tabIndex={0}
       {...listeners}
       ref={setActivatorNodeRef}

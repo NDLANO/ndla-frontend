@@ -6,13 +6,13 @@
  *
  */
 
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { ButtonV2 } from '@ndla/button';
-import { TrashCanOutline } from '@ndla/icons/action';
-import { Modal, ModalTrigger } from '@ndla/modal';
-import { buttonCss, iconCss } from './FoldersPage';
-import DeleteModalContent from '../components/DeleteModalContent';
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { ButtonV2 } from "@ndla/button";
+import { TrashCanOutline } from "@ndla/icons/action";
+import { Modal, ModalTrigger } from "@ndla/modal";
+import { buttonCss, iconCss } from "./FoldersPage";
+import DeleteModalContent from "../components/DeleteModalContent";
 
 interface Props {
   onDelete: () => void;
@@ -30,11 +30,11 @@ const FolderDeleteModal = ({ onDelete, onClose }: Props) => {
           css={buttonCss}
           variant="ghost"
           colorTheme="danger"
-          aria-label={t('myNdla.folder.delete')}
-          title={t('myNdla.folder.delete')}
+          aria-label={t("myNdla.folder.delete")}
+          title={t("myNdla.folder.delete")}
         >
           <TrashCanOutline css={iconCss} />
-          {t('myNdla.folder.deleteShort')}
+          {t("myNdla.folder.deleteShort")}
         </ButtonV2>
       </ModalTrigger>
       <DeleteModalContent
@@ -44,9 +44,9 @@ const FolderDeleteModal = ({ onDelete, onClose }: Props) => {
           setOpen(false);
           onClose();
         }}
-        title={t('myNdla.folder.delete')}
-        description={t('myNdla.confirmDeleteFolder')}
-        removeText={t('myNdla.folder.delete')}
+        title={t("myNdla.folder.delete")}
+        description={t("myNdla.confirmDeleteFolder")}
+        removeText={t("myNdla.folder.delete")}
       />
     </Modal>
   );

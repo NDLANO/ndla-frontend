@@ -6,27 +6,27 @@
  *
  */
 
-import { $getRoot, EditorState } from 'lexical';
-import { forwardRef, useState } from 'react';
-import styled from '@emotion/styled';
-import { $generateNodesFromDOM } from '@lexical/html';
-import { $convertToMarkdownString } from '@lexical/markdown';
-import { LexicalComposer, InitialConfigType } from '@lexical/react/LexicalComposer';
-import { ContentEditable } from '@lexical/react/LexicalContentEditable';
-import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
-import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
-import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin';
-import { ListPlugin } from '@lexical/react/LexicalListPlugin';
-import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
-import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
-import { $rootTextContent } from '@lexical/text';
-import { colors, misc, spacing } from '@ndla/core';
-import { useFormControl } from '@ndla/forms';
-import { editorTheme } from './editorTheme';
-import { EditorToolbar } from './EditorToolbar';
-import { FloatingLinkEditorPlugin } from './FloatingLinkEditorPlugin';
-import { MarkdownPlugin, PLAYGROUND_TRANSFORMERS } from './MarkdownPlugin';
-import { editorNodes } from './nodes';
+import { $getRoot, EditorState } from "lexical";
+import { forwardRef, useState } from "react";
+import styled from "@emotion/styled";
+import { $generateNodesFromDOM } from "@lexical/html";
+import { $convertToMarkdownString } from "@lexical/markdown";
+import { LexicalComposer, InitialConfigType } from "@lexical/react/LexicalComposer";
+import { ContentEditable } from "@lexical/react/LexicalContentEditable";
+import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary";
+import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
+import { LinkPlugin } from "@lexical/react/LexicalLinkPlugin";
+import { ListPlugin } from "@lexical/react/LexicalListPlugin";
+import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
+import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
+import { $rootTextContent } from "@lexical/text";
+import { colors, misc, spacing } from "@ndla/core";
+import { useFormControl } from "@ndla/forms";
+import { editorTheme } from "./editorTheme";
+import { EditorToolbar } from "./EditorToolbar";
+import { FloatingLinkEditorPlugin } from "./FloatingLinkEditorPlugin";
+import { MarkdownPlugin, PLAYGROUND_TRANSFORMERS } from "./MarkdownPlugin";
+import { editorNodes } from "./nodes";
 
 const onError = (error: any) => {
   console.error(error);
@@ -82,13 +82,13 @@ export const MarkdownEditor = forwardRef(({ name, setContentWritten, setContentL
   const [floatingAnchorElem, setFloatingAnchorElem] = useState<HTMLDivElement | undefined>(undefined);
   const props = useFormControl({});
   const initialConfig: InitialConfigType = {
-    namespace: 'MyEditor',
+    namespace: "MyEditor",
     onError,
     nodes: editorNodes,
     theme: editorTheme,
     editorState: (editor) => {
       const parser = new DOMParser();
-      const nodes = $generateNodesFromDOM(editor, parser.parseFromString(initialValue, 'text/html'));
+      const nodes = $generateNodesFromDOM(editor, parser.parseFromString(initialValue, "text/html"));
       $getRoot().select().insertNodes(nodes);
       setContentLength($rootTextContent().length);
     },
@@ -127,7 +127,7 @@ export const MarkdownEditor = forwardRef(({ name, setContentWritten, setContentL
             ErrorBoundary={LexicalErrorBoundary}
           />
         </InnerEditorContainer>
-        {floatingAnchorElem ? <FloatingLinkEditorPlugin anchorElement={floatingAnchorElem} /> : ''}
+        {floatingAnchorElem ? <FloatingLinkEditorPlugin anchorElement={floatingAnchorElem} /> : ""}
         <ListPlugin />
         <LinkPlugin />
         <MarkdownPlugin />

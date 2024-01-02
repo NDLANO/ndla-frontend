@@ -6,11 +6,11 @@
  *
  */
 
-import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { fonts, colors, spacing, misc } from '@ndla/core';
-import { Text } from '@ndla/typography';
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { fonts, colors, spacing, misc } from "@ndla/core";
+import { Text } from "@ndla/typography";
 
 type AvatarProps = {
   myProfile?: boolean;
@@ -23,7 +23,7 @@ const StyledAvatarContainer = styled.div`
   height: ${spacing.large};
   border-radius: ${misc.borderRadiusLarge};
   border: 1px solid ${colors.brand.tertiary};
-  &[data-myprofile='true'] {
+  &[data-myprofile="true"] {
     width: 250px;
     height: 250px;
     border: ${misc.borderRadius} solid ${colors.brand.tertiary};
@@ -36,8 +36,8 @@ const StyledAvatarContainer = styled.div`
 
 const UserInitials = styled(Text)`
   color: ${colors.brand.dark};
-  &[data-myprofile='true'] {
-    ${fonts.sizes('130px')};
+  &[data-myprofile="true"] {
+    ${fonts.sizes("130px")};
   }
 `;
 
@@ -51,9 +51,9 @@ const UserPersonalPicture = styled.img`
 // a function to split up displayName, get the initials of first and last names and merge them
 export const getFirstLastInitials = (userName: string | undefined) => {
   return userName
-    ?.split(' ')
+    ?.split(" ")
     .map((value, index, array) => (index === 0 || index + 1 === array.length ? value.at(0) : null))
-    .join('');
+    .join("");
 };
 
 const Avatar = ({ myProfile, displayName, profilePicture }: AvatarProps) => {
@@ -63,7 +63,7 @@ const Avatar = ({ myProfile, displayName, profilePicture }: AvatarProps) => {
   return (
     <StyledAvatarContainer data-myprofile={myProfile}>
       {profilePicture ? (
-        <UserPersonalPicture src={profilePicture} alt={t('myNdla.userPictureAltText')} />
+        <UserPersonalPicture src={profilePicture} alt={t("myNdla.userPictureAltText")} />
       ) : (
         <UserInitials element="p" textStyle="ingress" margin="none" data-myprofile={myProfile}>
           {initials}

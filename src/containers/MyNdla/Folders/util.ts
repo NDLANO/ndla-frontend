@@ -6,10 +6,10 @@
  *
  */
 
-import { TFunction } from 'i18next';
-import { DragEndEvent, Announcements } from '@dnd-kit/core';
-import { arrayMove } from '@dnd-kit/sortable';
-import config from '../../../config';
+import { TFunction } from "i18next";
+import { DragEndEvent, Announcements } from "@dnd-kit/core";
+import { arrayMove } from "@dnd-kit/sortable";
+import config from "../../../config";
 
 export const makeDndSortFunction = <PID, RES, T extends { id: string }>(
   parentId: PID,
@@ -50,7 +50,7 @@ interface DraggableData {
   index: number;
 }
 
-export const makeDndTranslations = (type: 'folder' | 'resource', t: TFunction, length: number): Announcements => {
+export const makeDndTranslations = (type: "folder" | "resource", t: TFunction, length: number): Announcements => {
   return {
     onDragStart: ({ active }) => {
       const { name, index } = active.data.current as DraggableData;
@@ -69,7 +69,7 @@ export const makeDndTranslations = (type: 'folder' | 'resource', t: TFunction, l
             index: overData.index,
             length,
           })
-        : t('myNdla.folder.onDragMissingOver', { name });
+        : t("myNdla.folder.onDragMissingOver", { name });
     },
     onDragEnd: ({ active, over }) => {
       const { name } = active.data.current as DraggableData;
@@ -101,4 +101,4 @@ export interface withRole {
   role: string;
 }
 
-export const isStudent = (user: withRole | undefined) => user?.role === 'student';
+export const isStudent = (user: withRole | undefined) => user?.role === "student";

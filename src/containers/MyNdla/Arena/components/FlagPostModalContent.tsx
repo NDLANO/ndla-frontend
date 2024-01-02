@@ -6,17 +6,17 @@
  *
  */
 
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { fonts, spacing } from '@ndla/core';
-import { FormControl, Label, TextAreaV3, RadioButtonGroup, FieldHelper, FieldErrorMessage } from '@ndla/forms';
-import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle, ModalContent } from '@ndla/modal';
-import { Text } from '@ndla/typography';
-import { useSnack } from '@ndla/ui';
-import handleError from '../../../../util/handleError';
-import { useNewFlagMutation } from '../../arenaMutations';
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { fonts, spacing } from "@ndla/core";
+import { FormControl, Label, TextAreaV3, RadioButtonGroup, FieldHelper, FieldErrorMessage } from "@ndla/forms";
+import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle, ModalContent } from "@ndla/modal";
+import { Text } from "@ndla/typography";
+import { useSnack } from "@ndla/ui";
+import handleError from "../../../../util/handleError";
+import { useNewFlagMutation } from "../../arenaMutations";
 
 const MAXIMUM_LENGTH_TEXTFIELD = 120;
 
@@ -56,8 +56,8 @@ interface FlagPostModalProps {
 }
 
 const FlagPostModalContent = ({ id, onClose }: FlagPostModalProps) => {
-  const [flaggedReason, setFlaggedReason] = useState<string>('spam');
-  const [reportReasonText, setReportReasonText] = useState<string>('');
+  const [flaggedReason, setFlaggedReason] = useState<string>("spam");
+  const [reportReasonText, setReportReasonText] = useState<string>("");
   const { addNewFlag } = useNewFlagMutation();
   const { t } = useTranslation();
   const { addSnack } = useSnack();
@@ -67,19 +67,19 @@ const FlagPostModalContent = ({ id, onClose }: FlagPostModalProps) => {
       await addNewFlag({
         variables: {
           id,
-          type: 'post',
-          reason: flaggedReason === 'other' ? reportReasonText : flaggedReason,
+          type: "post",
+          reason: flaggedReason === "other" ? reportReasonText : flaggedReason,
         },
       });
       addSnack({
-        content: t('myNdla.arena.flag.success'),
-        id: 'reportPostAdded',
+        content: t("myNdla.arena.flag.success"),
+        id: "reportPostAdded",
       });
     } catch (err) {
       const typedError = err as { message?: string };
       addSnack({
         content: typedError.message,
-        id: 'reportPostAddedError',
+        id: "reportPostAddedError",
       });
       handleError(err);
     }
@@ -89,28 +89,28 @@ const FlagPostModalContent = ({ id, onClose }: FlagPostModalProps) => {
   return (
     <ModalContent forceOverlay>
       <ModalHeader>
-        <ModalTitle>{t('myNdla.arena.flag.title')}</ModalTitle>
-        <ModalCloseButton title={t('myNdla.folder.closeModal')} />
+        <ModalTitle>{t("myNdla.arena.flag.title")}</ModalTitle>
+        <ModalCloseButton title={t("myNdla.folder.closeModal")} />
       </ModalHeader>
       <StyledModalBody>
         <Text element="p" textStyle="meta-text-medium" margin="none">
-          {t('myNdla.arena.flag.disclaimer')}
+          {t("myNdla.arena.flag.disclaimer")}
         </Text>
         <form>
           <StyledRadioButtonGroup
             options={[
-              { title: t('myNdla.arena.flag.spam'), value: 'spam' },
-              { title: t('myNdla.arena.flag.offensive'), value: 'offensive' },
-              { title: t('myNdla.arena.flag.other'), value: 'other' },
+              { title: t("myNdla.arena.flag.spam"), value: "spam" },
+              { title: t("myNdla.arena.flag.offensive"), value: "offensive" },
+              { title: t("myNdla.arena.flag.other"), value: "other" },
             ]}
             direction="vertical"
             onChange={setFlaggedReason}
           />
         </form>
-        {flaggedReason === 'other' && (
+        {flaggedReason === "other" && (
           <FormControl id="flag-reason" isInvalid={!reportReasonText}>
             <Label textStyle="label-small" margin="none">
-              {t('myNdla.arena.flag.reason')}
+              {t("myNdla.arena.flag.reason")}
             </Label>
             <StyledTextArea
               onChange={(e) => setReportReasonText(e.target.value)}
@@ -120,17 +120,17 @@ const FlagPostModalContent = ({ id, onClose }: FlagPostModalProps) => {
               {`${reportReasonText.length ?? 0}/${MAXIMUM_LENGTH_TEXTFIELD}`}
             </StyledText>
             {reportReasonText.length === MAXIMUM_LENGTH_TEXTFIELD && (
-              <FieldHelper aria-live="polite">{t('myNdla.arena.flag.maxLength')}</FieldHelper>
+              <FieldHelper aria-live="polite">{t("myNdla.arena.flag.maxLength")}</FieldHelper>
             )}
-            <FieldErrorMessage>{t('myNdla.arena.flag.error')}</FieldErrorMessage>
+            <FieldErrorMessage>{t("myNdla.arena.flag.error")}</FieldErrorMessage>
           </FormControl>
         )}
         <StyledButtonRow>
           <ButtonV2 onClick={onClose} variant="outline">
-            {t('cancel')}
+            {t("cancel")}
           </ButtonV2>
-          <ButtonV2 onClick={sendReport} disabled={flaggedReason === 'other' && !reportReasonText}>
-            {t('myNdla.arena.flag.send')}
+          <ButtonV2 onClick={sendReport} disabled={flaggedReason === "other" && !reportReasonText}>
+            {t("myNdla.arena.flag.send")}
           </ButtonV2>
         </StyledButtonRow>
       </StyledModalBody>

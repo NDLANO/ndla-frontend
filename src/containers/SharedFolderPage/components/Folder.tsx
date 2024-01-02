@@ -6,17 +6,17 @@
  *
  */
 
-import { KeyboardEvent, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
-import { colors, misc, spacing } from '@ndla/core';
-import { ArrowDropDownRounded } from '@ndla/icons/common';
-import { SafeLinkButton } from '@ndla/safelink';
-import FolderResource from './FolderResource';
-import { GQLFolder, GQLFolderResourceMetaSearchQuery } from '../../../graphqlTypes';
-import { previewLink, sharedFolderLinkInternal } from '../../MyNdla/Folders/util';
+import { KeyboardEvent, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useParams } from "react-router-dom";
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
+import { colors, misc, spacing } from "@ndla/core";
+import { ArrowDropDownRounded } from "@ndla/icons/common";
+import { SafeLinkButton } from "@ndla/safelink";
+import FolderResource from "./FolderResource";
+import { GQLFolder, GQLFolderResourceMetaSearchQuery } from "../../../graphqlTypes";
+import { previewLink, sharedFolderLinkInternal } from "../../MyNdla/Folders/util";
 
 export const StyledUl = styled.ul`
   list-style: none;
@@ -36,7 +36,7 @@ interface LinkProps {
   level?: number;
 }
 
-const forwardLink = (p: string) => p !== 'level';
+const forwardLink = (p: string) => p !== "level";
 
 const folderLinkOptions = { shouldForwardProp: forwardLink };
 
@@ -73,14 +73,14 @@ const StyledArrow = styled(ArrowDropDownRounded)`
   color: ${colors.text.primary};
 `;
 
-const FolderNavigation = styled('div', folderLinkOptions)<LinkProps>`
+const FolderNavigation = styled("div", folderLinkOptions)<LinkProps>`
   padding-left: calc(${(p) => p.level} * ${spacing.small});
 `;
 
 const FolderNavigationContent = styled.div`
   display: flex;
   align-content: center;
-  &[data-selected='true'] {
+  &[data-selected="true"] {
     background: ${colors.brand.light};
     border-radius: ${misc.borderRadius};
     &:hover {
@@ -116,7 +116,7 @@ interface Props {
   onClose?: () => void;
   defaultOpenFolder: string;
   setFocus: (id: string) => void;
-  meta: Record<string, GQLFolderResourceMetaSearchQuery['folderResourceMetaSearch'][0]>;
+  meta: Record<string, GQLFolderResourceMetaSearchQuery["folderResourceMetaSearch"][0]>;
   root?: boolean;
   subfolderKey?: string;
 }
@@ -135,19 +135,19 @@ const Folder = ({ folder, meta, setFocus, defaultOpenFolder, root, level, onClos
     return null;
   }
 
-  const preview = status === 'private';
+  const preview = status === "private";
 
   const handleKeydown = (e: KeyboardEvent<HTMLButtonElement | HTMLAnchorElement>) => {
-    if (e.key === 'ArrowLeft') {
+    if (e.key === "ArrowLeft") {
       setIsOpen(false);
-    } else if (e.key === 'ArrowRight') {
+    } else if (e.key === "ArrowRight") {
       setIsOpen(true);
     }
   };
 
   const handleLinkClick = (e: KeyboardEvent<HTMLButtonElement | HTMLAnchorElement>) => {
     handleKeydown(e);
-    if (e.key === ' ' || e.key === 'Enter') {
+    if (e.key === " " || e.key === "Enter") {
       (e.target as HTMLElement | undefined)?.click();
       onClose?.();
       e.preventDefault();
@@ -157,7 +157,7 @@ const Folder = ({ folder, meta, setFocus, defaultOpenFolder, root, level, onClos
   const rootSelected = !resourceId && !subfolderId;
   const subfolderSelected = !resourceId && subfolderKey === subfolderId;
 
-  const toggleButtonAriaLabel = isOpen ? t('myNdla.folder.close') : t('myNdla.folder.open');
+  const toggleButtonAriaLabel = isOpen ? t("myNdla.folder.close") : t("myNdla.folder.open");
 
   return (
     <StyledLi role="none" data-list-item>

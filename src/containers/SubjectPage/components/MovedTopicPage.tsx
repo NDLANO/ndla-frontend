@@ -6,14 +6,14 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import { gql } from '@apollo/client';
-import { SearchResultList, OneColumn } from '@ndla/ui';
-import { GQLMovedTopicPage_TopicFragment, GQLSearchResult } from '../../../graphqlTypes';
-import { resultsWithContentTypeBadgeAndImage } from '../../SearchPage/searchHelpers';
+import { useTranslation } from "react-i18next";
+import { gql } from "@apollo/client";
+import { SearchResultList, OneColumn } from "@ndla/ui";
+import { GQLMovedTopicPage_TopicFragment, GQLSearchResult } from "../../../graphqlTypes";
+import { resultsWithContentTypeBadgeAndImage } from "../../SearchPage/searchHelpers";
 
 interface GQLSearchResultExtended
-  extends Omit<GQLSearchResult, 'id' | 'contexts' | 'metaDescription' | 'supportedLanguages' | 'traits'> {
+  extends Omit<GQLSearchResult, "id" | "contexts" | "metaDescription" | "supportedLanguages" | "traits"> {
   subjects?: {
     url?: string;
     title: string;
@@ -28,15 +28,15 @@ const convertTopicToResult = (topic: GQLMovedTopicPage_TopicFragment): GQLSearch
   return {
     metaImage: topic.meta?.metaImage,
     title: topic.name,
-    url: topic.path || '',
+    url: topic.path || "",
     id: topic.id,
-    ingress: topic.meta?.metaDescription ?? '',
+    ingress: topic.meta?.metaDescription ?? "",
     subjects: topic.contexts?.map(({ breadcrumbs }) => ({
       url: topic.path,
       title: breadcrumbs[0]!,
       breadcrumb: breadcrumbs,
     })),
-    contentType: 'topic',
+    contentType: "topic",
   };
 };
 
@@ -64,7 +64,7 @@ const MovedTopicPage = ({ topics }: Props) => {
 
   return (
     <OneColumn>
-      <h1>{t('movedResourcePage.title')}</h1>
+      <h1>{t("movedResourcePage.title")}</h1>
       <div className="c-search-result">
         <SearchResultList results={mergedTopic} />
       </div>

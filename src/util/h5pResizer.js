@@ -15,22 +15,22 @@
    */
   actionHandlers.hello = (iframe, data, respond) => {
     // Make iframe responsive
-    iframe.style.width = '100%'; // eslint-disable-line no-param-reassign
+    iframe.style.width = "100%"; // eslint-disable-line no-param-reassign
 
     // Tell iframe that it needs to resize when our window resizes
     const resize = () => {
       if (iframe.contentWindow) {
         // Limit resize calls to avoid flickering
-        respond('resize');
+        respond("resize");
       } else {
         // Frame is gone, unregister.
-        window.removeEventListener('resize', resize);
+        window.removeEventListener("resize", resize);
       }
     };
-    window.addEventListener('resize', resize, false);
+    window.addEventListener("resize", resize, false);
 
     // Respond to let the iframe know we can resize it
-    respond('hello');
+    respond("hello");
   };
 
   /**
@@ -41,7 +41,7 @@
     if (iframe.clientHeight !== data.scrollHeight || data.scrollHeight !== data.clientHeight) {
       // Reset iframe height, in case content has shrinked.
       iframe.style.height = `${data.clientHeight}px`; // eslint-disable-line no-param-reassign
-      respond('resizePrepared');
+      respond("resizePrepared");
     }
   };
 
@@ -54,15 +54,15 @@
 
   // Listen for messages from iframes
   window.addEventListener(
-    'message',
+    "message",
     (event) => {
-      if (event.data.context !== 'h5p') {
+      if (event.data.context !== "h5p") {
         return; // Only handle h5p requests.
       }
 
       // Find out who sent the message
       let iframe;
-      const iframes = document.getElementsByTagName('iframe');
+      const iframes = document.getElementsByTagName("iframe");
       for (let i = 0; i < iframes.length; i += 1) {
         if (iframes[i].contentWindow === event.source) {
           iframe = iframes[i];
@@ -77,7 +77,7 @@
       // Find action handler handler
       if (actionHandlers[event.data.action]) {
         actionHandlers[event.data.action](iframe, event.data, (action, data = {}) => {
-          const payload = Object.assign({}, data, { action, context: 'h5p' });
+          const payload = Object.assign({}, data, { action, context: "h5p" });
           event.source.postMessage(payload, event.origin);
         });
       }
@@ -86,14 +86,14 @@
   );
 
   // Let h5p iframes know we're ready!
-  const iframes = document.getElementsByTagName('iframe');
+  const iframes = document.getElementsByTagName("iframe");
   const ready = {
-    context: 'h5p',
-    action: 'ready',
+    context: "h5p",
+    action: "ready",
   };
   for (let i = 0; i < iframes.length; i += 1) {
-    if (iframes[i].src.indexOf('h5p') !== -1) {
-      iframes[i].contentWindow.postMessage(ready, '*');
+    if (iframes[i].src.indexOf("h5p") !== -1) {
+      iframes[i].contentWindow.postMessage(ready, "*");
     }
   }
 })();

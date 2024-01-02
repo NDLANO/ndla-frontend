@@ -6,22 +6,22 @@
  *
  */
 
-import { useCallback, useContext, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Navigate, useParams, useNavigate } from 'react-router-dom';
-import styled from '@emotion/styled';
-import { spacing, spacingUnit, mq, breakpoints } from '@ndla/core';
-import { Spinner } from '@ndla/icons';
-import { HelmetWithTracker, useTracker } from '@ndla/tracker';
-import { useSnack } from '@ndla/ui';
-import DeletedPostCard from './components/DeletedPostCard';
-import PostCard from './components/PostCard';
-import { AuthContext } from '../../../components/AuthenticationContext';
-import { getAllDimensions } from '../../../util/trackingUtil';
-import { useSubscribeToTopicMutation, useUnsubscribeFromTopicMutation } from '../arenaMutations';
-import { useArenaCategory, useArenaNotifications, useArenaTopic } from '../arenaQueries';
-import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
-import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
+import { useCallback, useContext, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Navigate, useParams, useNavigate } from "react-router-dom";
+import styled from "@emotion/styled";
+import { spacing, spacingUnit, mq, breakpoints } from "@ndla/core";
+import { Spinner } from "@ndla/icons";
+import { HelmetWithTracker, useTracker } from "@ndla/tracker";
+import { useSnack } from "@ndla/ui";
+import DeletedPostCard from "./components/DeletedPostCard";
+import PostCard from "./components/PostCard";
+import { AuthContext } from "../../../components/AuthenticationContext";
+import { getAllDimensions } from "../../../util/trackingUtil";
+import { useSubscribeToTopicMutation, useUnsubscribeFromTopicMutation } from "../arenaMutations";
+import { useArenaCategory, useArenaNotifications, useArenaTopic } from "../arenaQueries";
+import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
+import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 
 const BreadcrumbWrapper = styled.div`
   padding-top: ${spacing.normal};
@@ -38,7 +38,7 @@ const PostCardWrapper = styled.li`
   margin-bottom: ${spacing.normal};
 
   ${mq.range({ from: breakpoints.tablet })} {
-    &[data-main-post='false'] {
+    &[data-main-post="false"] {
       margin-left: ${spacingUnit * 3}px;
     }
   }
@@ -72,7 +72,7 @@ const PostsPage = () => {
   useEffect(() => {
     if (!authContextLoaded || !user?.arenaEnabled || loading) return;
     trackPageView({
-      title: t('htmlTitles.arenaPostPage', { name: arenaTopic?.title ?? '' }),
+      title: t("htmlTitles.arenaPostPage", { name: arenaTopic?.title ?? "" }),
       dimensions: getAllDimensions({ user }),
     });
   }, [arenaTopic?.title, authContextLoaded, loading, t, trackPageView, user]);
@@ -82,21 +82,21 @@ const PostsPage = () => {
     if (arenaTopic?.isFollowing) {
       unsubscribeFromTopic({ variables: { topicId: arenaTopic.id } });
       addSnack({
-        content: t('myNdla.arena.notification.unsubscribe'),
-        id: 'myNdla.arena.notification.unsubscribe',
+        content: t("myNdla.arena.notification.unsubscribe"),
+        id: "myNdla.arena.notification.unsubscribe",
       });
     } else {
       subscribeToTopic({ variables: { topicId: arenaTopic.id } });
       addSnack({
-        content: t('myNdla.arena.notification.subscribe'),
-        id: 'myNdla.arena.notification.subscribe',
+        content: t("myNdla.arena.notification.subscribe"),
+        id: "myNdla.arena.notification.subscribe",
       });
     }
   }, [arenaTopic, subscribeToTopic, unsubscribeFromTopic, addSnack, t]);
 
   useEffect(() => {
     if (document.getElementById(`post-${focusId}`)) {
-      setTimeout(() => document.getElementById(`post-${focusId}`)?.getElementsByTagName('a')?.[0]?.focus(), 1);
+      setTimeout(() => document.getElementById(`post-${focusId}`)?.getElementsByTagName("a")?.[0]?.focus(), 1);
       setFocusId(undefined);
     }
   }, [focusId, arenaTopic?.posts]);
@@ -107,14 +107,14 @@ const PostsPage = () => {
       arenaTopic?.deleted ||
       (!loading && !arenaTopic)
     ) {
-      if (document.referrer.includes('/minndla')) {
+      if (document.referrer.includes("/minndla")) {
         navigate(-1);
       } else {
-        navigate('/minndla');
+        navigate("/minndla");
       }
       addSnack({
-        content: t('myNdla.arena.topic.isDeleted'),
-        id: 'myNdla.arena.topic.isDeleted',
+        content: t("myNdla.arena.topic.isDeleted"),
+        id: "myNdla.arena.topic.isDeleted",
       });
     }
   }, [error, arenaTopic, navigate, addSnack, t, loading]);
@@ -129,21 +129,21 @@ const PostsPage = () => {
 
   return (
     <MyNdlaPageWrapper>
-      <HelmetWithTracker title={t('htmlTitles.arenaPostPage', { name: arenaTopic?.title })} />
+      <HelmetWithTracker title={t("htmlTitles.arenaPostPage", { name: arenaTopic?.title })} />
       <BreadcrumbWrapper>
         <MyNdlaBreadcrumb
           breadcrumbs={
             topicId
               ? [
                   {
-                    name: arenaCategory?.name ?? '',
+                    name: arenaCategory?.name ?? "",
                     id: `category/${arenaTopic?.categoryId}`,
                   },
-                  { name: arenaTopic?.title ?? '', id: topicId },
+                  { name: arenaTopic?.title ?? "", id: topicId },
                 ]
               : []
           }
-          page={'arena'}
+          page={"arena"}
         />
       </BreadcrumbWrapper>
       <ListWrapper>

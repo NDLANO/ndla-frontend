@@ -6,7 +6,7 @@
  *
  */
 
-import { constants, HeroContentType } from '@ndla/ui';
+import { constants, HeroContentType } from "@ndla/ui";
 import {
   RESOURCE_TYPE_ASSESSMENT_RESOURCES,
   RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES,
@@ -14,8 +14,8 @@ import {
   RESOURCE_TYPE_SOURCE_MATERIAL,
   RESOURCE_TYPE_SUBJECT_MATERIAL,
   RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
-} from '../constants';
-import { GQLResource, GQLTopic } from '../graphqlTypes';
+} from "../constants";
+import { GQLResource, GQLTopic } from "../graphqlTypes";
 
 const { contentTypes } = constants;
 
@@ -52,10 +52,10 @@ export const resourceTypeMapping: Record<string, string> = {
 };
 
 export const resourceEmbedTypeMapping: Record<string, string> = {
-  image: 'image',
-  video: 'video',
-  concept: 'concept',
-  audio: 'audio',
+  image: "image",
+  video: "video",
+  concept: "concept",
+  audio: "audio",
 };
 
 interface ResourceType {
@@ -75,17 +75,17 @@ export function getContentTypeFromResourceTypes(resourceTypes: ResourceType[] = 
 }
 
 const heroResourceTypes = [
-  'subject-material',
-  'tasks-and-activities',
-  'assessment-resources',
-  'subject',
-  'external-learning-resources',
-  'source-material',
-  'learning-path',
-  'topic',
-  'beta',
-  'ndla-film',
-  'ndla-film has-image',
+  "subject-material",
+  "tasks-and-activities",
+  "assessment-resources",
+  "subject",
+  "external-learning-resources",
+  "source-material",
+  "learning-path",
+  "topic",
+  "beta",
+  "ndla-film",
+  "ndla-film has-image",
 ];
 
 export const isHeroContentType = (type: string): type is HeroContentType => {
@@ -95,7 +95,7 @@ export const isHeroContentType = (type: string): type is HeroContentType => {
   return false;
 };
 
-export function getContentType(resourceOrTopic: Pick<GQLResource, 'id' | 'resourceTypes'> | GQLTopic) {
+export function getContentType(resourceOrTopic: Pick<GQLResource, "id" | "resourceTypes"> | GQLTopic) {
   if (isTopic(resourceOrTopic)) {
     return contentTypes.TOPIC;
   } else {
@@ -103,5 +103,5 @@ export function getContentType(resourceOrTopic: Pick<GQLResource, 'id' | 'resour
   }
 }
 
-const isTopic = (resourceOrTopic: Pick<GQLResource | GQLTopic, 'id'>): resourceOrTopic is GQLTopic =>
-  !!resourceOrTopic.id && resourceOrTopic.id.startsWith('urn:topic');
+const isTopic = (resourceOrTopic: Pick<GQLResource | GQLTopic, "id">): resourceOrTopic is GQLTopic =>
+  !!resourceOrTopic.id && resourceOrTopic.id.startsWith("urn:topic");

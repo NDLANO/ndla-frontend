@@ -6,9 +6,9 @@
  *
  */
 
-import { gql } from '@apollo/client';
-import { GQLSubjectsQuery } from '../../graphqlTypes';
-import { useGraphQuery } from '../../util/runQueries';
+import { gql } from "@apollo/client";
+import { GQLSubjectsQuery } from "../../graphqlTypes";
+import { useGraphQuery } from "../../util/runQueries";
 
 const subjectsQueryFragment = gql`
   fragment MySubjectsSubjectFragment on Subject {

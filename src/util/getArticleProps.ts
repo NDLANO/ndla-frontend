@@ -6,14 +6,14 @@
  *
  */
 
-import { getContentType } from './getContentType';
-import { GQLResource } from '../graphqlTypes';
+import { getContentType } from "./getContentType";
+import { GQLResource } from "../graphqlTypes";
 
 interface Topic {
   supplementaryResources?: { id: string }[];
 }
 export const getArticleProps = <T extends Topic>(
-  resource: Pick<GQLResource, 'resourceTypes' | 'id'> | undefined,
+  resource: Pick<GQLResource, "resourceTypes" | "id"> | undefined,
   topic?: T,
 ) => {
   const hasResourceTypes = resource?.resourceTypes && resource?.resourceTypes?.length > 0;
@@ -22,6 +22,6 @@ export const getArticleProps = <T extends Topic>(
 
   const additional = topic?.supplementaryResources?.some((item) => item?.id === resource?.id) ?? false;
 
-  const label = (hasResourceTypes && resource?.resourceTypes![0]?.name) || '';
+  const label = (hasResourceTypes && resource?.resourceTypes![0]?.name) || "";
   return { contentType, label, additional };
 };

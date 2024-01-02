@@ -12,8 +12,8 @@ import {
   RESOURCE_TYPE_ASSESSMENT_RESOURCES,
   RESOURCE_TYPE_SOURCE_MATERIAL,
   RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES,
-} from '../../constants';
-import { GQLResource, GQLResourceType } from '../../graphqlTypes';
+} from "../../constants";
+import { GQLResource, GQLResourceType } from "../../graphqlTypes";
 
 export const sortOrder: Record<string, number> = {
   [RESOURCE_TYPE_LEARNING_PATH]: 1,
@@ -24,7 +24,7 @@ export const sortOrder: Record<string, number> = {
   [RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES]: 6,
 };
 
-type GQLResourceLike = Pick<GQLResource, 'id' | 'resourceTypes'>;
+type GQLResourceLike = Pick<GQLResource, "id" | "resourceTypes">;
 
 const groupResourcesByResourceTypes = <T extends GQLResourceLike>(supplementaryResources: T[], coreResources: T[]) => {
   const resources = [
@@ -46,7 +46,7 @@ const groupResourcesByResourceTypes = <T extends GQLResourceLike>(supplementaryR
   }, {});
 };
 
-type SharedResourceType = Pick<GQLResourceType, 'id' | 'name'>;
+type SharedResourceType = Pick<GQLResourceType, "id" | "name">;
 
 export const sortResourceTypes = (resourceTypes: SharedResourceType[]) =>
   [...resourceTypes].sort((a, b) => {

@@ -6,17 +6,17 @@
  *
  */
 
-import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { ButtonV2 as Button } from '@ndla/button';
-import { breakpoints, colors, mq, spacing } from '@ndla/core';
-import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTrigger } from '@ndla/modal';
-import { Heading, Text } from '@ndla/typography';
-import { Image } from '@ndla/ui';
-import Article from '../../components/Article';
-import { GQLArticle_ArticleFragment } from '../../graphqlTypes';
-import { BaseArticle, TransformedBaseArticle, transformArticle } from '../../util/transformArticle';
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { ButtonV2 as Button } from "@ndla/button";
+import { breakpoints, colors, mq, spacing } from "@ndla/core";
+import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTrigger } from "@ndla/modal";
+import { Heading, Text } from "@ndla/typography";
+import { Image } from "@ndla/ui";
+import Article from "../../components/Article";
+import { GQLArticle_ArticleFragment } from "../../graphqlTypes";
+import { BaseArticle, TransformedBaseArticle, transformArticle } from "../../util/transformArticle";
 
 const StyledAside = styled.aside`
   background: ${colors.brand.dark};
@@ -75,9 +75,9 @@ interface VisualElementProps {
 
 const VisualElement = ({ visualElement }: VisualElementProps) => {
   const { type, url, alt } = visualElement;
-  if (type === 'image') {
-    return <Image src={url} alt={alt ?? ''} />;
-  } else if (type === 'brightcove') {
+  if (type === "image") {
+    return <Image src={url} alt={alt ?? ""} />;
+  } else if (type === "brightcove") {
     return <StylediFrame allowFullScreen={true} src={url} />;
   } else {
     return null;
@@ -99,7 +99,7 @@ interface AboutNdlaFilmProps {
 
 const AboutNdlaFilm = ({ aboutNDLAVideo, article }: AboutNdlaFilmProps) => {
   const { t, i18n } = useTranslation();
-  const titleId = 'about-ndla-film-title';
+  const titleId = "about-ndla-film-title";
 
   const iArticle = useMemo(() => {
     if (article) {
@@ -122,7 +122,7 @@ const AboutNdlaFilm = ({ aboutNDLAVideo, article }: AboutNdlaFilmProps) => {
           {iArticle && (
             <Modal>
               <ModalTrigger>
-                <Button variant="link">{t('ndlaFilm.about.more')}</Button>
+                <Button variant="link">{t("ndlaFilm.about.more")}</Button>
               </ModalTrigger>
               <ModalContent size="full">
                 <ModalHeader>

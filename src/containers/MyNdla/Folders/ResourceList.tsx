@@ -6,22 +6,22 @@
  *
  */
 
-import isEqual from 'lodash/isEqual';
-import keyBy from 'lodash/keyBy';
-import { useMemo, useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useApolloClient } from '@apollo/client';
-import { Reference } from '@apollo/client/cache';
-import { closestCenter, DndContext, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
-import { restrictToParentElement, restrictToVerticalAxis } from '@dnd-kit/modifiers';
-import { SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
-import DraggableResource from './DraggableResource';
-import { BlockWrapper, ViewType } from './FoldersPage';
-import { makeDndSortFunction, makeDndTranslations } from './util';
-import { GQLFolder } from '../../../graphqlTypes';
-import { useFolderResourceMetaSearch, useSortResourcesMutation } from '../folderMutations';
+import isEqual from "lodash/isEqual";
+import keyBy from "lodash/keyBy";
+import { useMemo, useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { useApolloClient } from "@apollo/client";
+import { Reference } from "@apollo/client/cache";
+import { closestCenter, DndContext, KeyboardSensor, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
+import { restrictToParentElement, restrictToVerticalAxis } from "@dnd-kit/modifiers";
+import { SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from "@dnd-kit/sortable";
+import styled from "@emotion/styled";
+import { spacing } from "@ndla/core";
+import DraggableResource from "./DraggableResource";
+import { BlockWrapper, ViewType } from "./FoldersPage";
+import { makeDndSortFunction, makeDndTranslations } from "./util";
+import { GQLFolder } from "../../../graphqlTypes";
+import { useFolderResourceMetaSearch, useSortResourcesMutation } from "../folderMutations";
 
 interface Props {
   selectedFolder: GQLFolder;
@@ -54,7 +54,7 @@ const ResourceList = ({ selectedFolder, viewType, resourceRefId }: Props) => {
     const prevResourceIds = prevResources?.map((f) => f.id).sort();
     if (!isEqual(resourceIds, prevResourceIds) && focusId) {
       setTimeout(
-        () => document.getElementById(`resource-${focusId}`)?.getElementsByTagName('a')?.[0]?.focus(),
+        () => document.getElementById(`resource-${focusId}`)?.getElementsByTagName("a")?.[0]?.focus(),
         // Timeout needs to be bigger than 0 in order for timeout to execute on FireFox
         1,
       );
@@ -101,7 +101,7 @@ const ResourceList = ({ selectedFolder, viewType, resourceRefId }: Props) => {
     }),
   );
 
-  const announcements = useMemo(() => makeDndTranslations('resource', t, resources.length), [t, resources]);
+  const announcements = useMemo(() => makeDndTranslations("resource", t, resources.length), [t, resources]);
 
   const keyedData = keyBy(data ?? [], (resource) => `${resource.type}-${resource.id}`);
 

@@ -14,4 +14,4 @@ export const toArena = () => `/minndla/arena`;
 
 export const capitalizeFirstLetter = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
 
-export const toAllNotifications = () => '/minndla/arena/notifications';
+export const toAllNotifications = () => "/minndla/arena/notifications";

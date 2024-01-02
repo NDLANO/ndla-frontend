@@ -6,10 +6,10 @@
  *
  */
 
-import { TFunction } from 'i18next';
-import { TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE, TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from '../constants';
-import { GQLFrontpageSearch, GQLSubjectInfoFragment } from '../graphqlTypes';
-import { toSubject } from '../routeHelpers';
+import { TFunction } from "i18next";
+import { TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE, TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from "../constants";
+import { GQLFrontpageSearch, GQLSubjectInfoFragment } from "../graphqlTypes";
+import { toSubject } from "../routeHelpers";
 
 export const searchSubjects = (query?: string, subjects?: GQLSubjectInfoFragment[]) => {
   const trimmedQuery = query?.trim().toLowerCase();
@@ -31,7 +31,7 @@ export const searchSubjects = (query?: string, subjects?: GQLSubjectInfoFragment
       id: subject.id,
       url: toSubject(subject.id),
       title: subject.name,
-      img: { url: subject.subjectpage?.banner?.desktopUrl ?? '' },
+      img: { url: subject.subjectpage?.banner?.desktopUrl ?? "" },
     };
   });
 };
@@ -63,8 +63,8 @@ export const frontPageSearchSuggestion = (searchResult: SearchResult) => {
 export const mapSearchToFrontPageStructure = (data: SearchResult, t: TFunction, query: string) => {
   const subjectHits = searchSubjects(query, data.subjects);
   const subjects = {
-    title: t('searchPage.label.subjects'),
-    contentType: 'results-frontpage',
+    title: t("searchPage.label.subjects"),
+    contentType: "results-frontpage",
     resources: subjectHits,
   };
 
@@ -80,14 +80,14 @@ export const mapSearchToFrontPageStructure = (data: SearchResult, t: TFunction, 
   } = data;
 
   const topics = {
-    title: `${t('subjectPage.tabs.topics')}:`,
-    contentType: 'results-frontpage',
+    title: `${t("subjectPage.tabs.topics")}:`,
+    contentType: "results-frontpage",
     resources: topicResources?.results,
     totalCount: topicResources?.totalCount,
   };
   const resource = {
-    title: `${t('resource.label')}:`,
-    contentType: 'results-frontpage',
+    title: `${t("resource.label")}:`,
+    contentType: "results-frontpage",
     resources: learningResources?.results,
     totalCount: learningResources?.totalCount,
   };

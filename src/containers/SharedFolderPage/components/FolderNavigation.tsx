@@ -6,17 +6,17 @@
  *
  */
 
-import { useParams } from 'react-router-dom';
-import styled from '@emotion/styled';
-import { breakpoints, mq, spacing } from '@ndla/core';
-import Folder, { StyledUl } from './Folder';
-import { GQLFolder, GQLFolderResourceMetaSearchQuery } from '../../../graphqlTypes';
-import useArrowNavigation from '../../Masthead/drawer/useArrowNavigation';
+import { useParams } from "react-router-dom";
+import styled from "@emotion/styled";
+import { breakpoints, mq, spacing } from "@ndla/core";
+import Folder, { StyledUl } from "./Folder";
+import { GQLFolder, GQLFolderResourceMetaSearchQuery } from "../../../graphqlTypes";
+import useArrowNavigation from "../../Masthead/drawer/useArrowNavigation";
 
 interface Props {
   folder: GQLFolder;
   onClose?: () => void;
-  meta: Record<string, GQLFolderResourceMetaSearchQuery['folderResourceMetaSearch'][0]>;
+  meta: Record<string, GQLFolderResourceMetaSearchQuery["folderResourceMetaSearch"][0]>;
 }
 
 const RootUl = styled(StyledUl)`

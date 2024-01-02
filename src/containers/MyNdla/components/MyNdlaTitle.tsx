@@ -6,8 +6,8 @@
  *
  */
 
-import { Heading } from '@ndla/typography';
-import { SKIP_TO_CONTENT_ID } from '../../../constants';
+import { Heading } from "@ndla/typography";
+import { SKIP_TO_CONTENT_ID } from "../../../constants";
 
 interface Props {
   title: string;

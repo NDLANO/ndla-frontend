@@ -6,16 +6,16 @@
  *
  */
 
-import { TFunction } from 'i18next';
-import { useState, createRef, useEffect, useContext } from 'react';
-import { Helmet } from 'react-helmet-async';
-import { useTranslation } from 'react-i18next';
-import { gql } from '@apollo/client';
-import styled from '@emotion/styled';
-import { colors, spacing } from '@ndla/core';
-import { InformationOutline } from '@ndla/icons/common';
-import { useTracker } from '@ndla/tracker';
-import { Heading } from '@ndla/typography';
+import { TFunction } from "i18next";
+import { useState, createRef, useEffect, useContext } from "react";
+import { Helmet } from "react-helmet-async";
+import { useTranslation } from "react-i18next";
+import { gql } from "@apollo/client";
+import styled from "@emotion/styled";
+import { colors, spacing } from "@ndla/core";
+import { InformationOutline } from "@ndla/icons/common";
+import { useTracker } from "@ndla/tracker";
+import { Heading } from "@ndla/typography";
 import {
   constants,
   ArticleHeaderWrapper,
@@ -25,22 +25,22 @@ import {
   MessageBox,
   SimpleBreadcrumbItem,
   HomeBreadcrumb,
-} from '@ndla/ui';
-import SubjectLinks from './components/SubjectLinks';
-import SubjectPageContent from './components/SubjectPageContent';
-import { AuthContext } from '../../components/AuthenticationContext';
-import CompetenceGoals from '../../components/CompetenceGoals';
-import SocialMediaMetadata from '../../components/SocialMediaMetadata';
+} from "@ndla/ui";
+import SubjectLinks from "./components/SubjectLinks";
+import SubjectPageContent from "./components/SubjectPageContent";
+import { AuthContext } from "../../components/AuthenticationContext";
+import CompetenceGoals from "../../components/CompetenceGoals";
+import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import {
   SKIP_TO_CONTENT_ID,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE,
-} from '../../constants';
-import { GQLSubjectContainer_SubjectFragment } from '../../graphqlTypes';
-import { removeUrn, useIsNdlaFilm } from '../../routeHelpers';
-import { htmlTitle } from '../../util/titleHelper';
-import { getAllDimensions } from '../../util/trackingUtil';
+} from "../../constants";
+import { GQLSubjectContainer_SubjectFragment } from "../../graphqlTypes";
+import { removeUrn, useIsNdlaFilm } from "../../routeHelpers";
+import { htmlTitle } from "../../util/titleHelper";
+import { getAllDimensions } from "../../util/trackingUtil";
 
 type Props = {
   topicIds: string[];
@@ -53,7 +53,7 @@ const BreadcrumbWrapper = styled.div`
 `;
 
 const StyledHeading = styled(Heading)`
-  &[data-inverted='true'] {
+  &[data-inverted="true"] {
     color: ${colors.white};
   }
 `;
@@ -62,7 +62,7 @@ const getSubjectCategoryMessage = (subjectCategory: string | undefined, t: TFunc
   if (!subjectCategory || subjectCategory === constants.subjectCategories.ACTIVE_SUBJECTS) {
     return undefined;
   } else if (subjectCategory === constants.subjectCategories.ARCHIVE_SUBJECTS) {
-    return t('messageBoxInfo.subjectOutdated');
+    return t("messageBoxInfo.subjectOutdated");
   } else {
     return undefined;
   }
@@ -72,9 +72,9 @@ const getSubjectTypeMessage = (subjectType: string | undefined, t: TFunction): s
   if (!subjectType || subjectType === constants.subjectTypes.SUBJECT) {
     return undefined;
   } else if (subjectType === constants.subjectTypes.RESOURCE_COLLECTION) {
-    return t('messageBoxInfo.resources');
+    return t("messageBoxInfo.resources");
   } else if (subjectType === constants.subjectTypes.BETA_SUBJECT) {
-    return t('messageBoxInfo.subjectBeta');
+    return t("messageBoxInfo.subjectBeta");
   } else {
     return undefined;
   }
@@ -99,7 +99,7 @@ const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
       });
       trackPageView({
         dimensions,
-        title: htmlTitle(subject.name, [t('htmlTitles.titleTemplate')]),
+        title: htmlTitle(subject.name, [t("htmlTitles.titleTemplate")]),
       });
     }
   }, [authContextLoaded, loading, subject, t, topicIds, trackPageView, user]);
@@ -112,8 +112,8 @@ const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
 
   const breadCrumbs: SimpleBreadcrumbItem[] = [
     {
-      name: t('breadcrumb.toFrontpage'),
-      to: '/',
+      name: t("breadcrumb.toFrontpage"),
+      to: "/",
     },
     {
       to: `${removeUrn(subject.id)}`,
@@ -123,7 +123,7 @@ const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
   ].reduce<SimpleBreadcrumbItem[]>((crumbs, crumb) => {
     crumbs.push({
       name: crumb.name,
-      to: `${crumbs[crumbs.length - 1]?.to ?? ''}${crumb.to}`,
+      to: `${crumbs[crumbs.length - 1]?.to ?? ""}${crumb.to}`,
     });
 
     return crumbs;
@@ -137,14 +137,14 @@ const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
 
   const topicTitle = topicPath?.[topicPath.length - 1]?.name;
   const subjectTitle = subject.name;
-  const title = [topicTitle, subjectTitle].filter((e) => !!e).join(' - ');
+  const title = [topicTitle, subjectTitle].filter((e) => !!e).join(" - ");
   const socialMediaMetadata = {
     title,
     description: topicPath?.[topicPath.length - 1]?.meta?.metaDescription || subject.subjectpage?.metaDescription,
     image: topicPath?.[topicPath.length - 1]?.meta?.metaImage || about?.visualElement,
   };
 
-  const pageTitle = htmlTitle(socialMediaMetadata.title, [t('htmlTitles.titleTemplate')]);
+  const pageTitle = htmlTitle(socialMediaMetadata.title, [t("htmlTitles.titleTemplate")]);
 
   const topicsOnPage =
     (topicIds.length > 0 ? subject.topics?.filter((topic) => topicIds.includes(topic.id)) : subject.topics) || [];
@@ -162,7 +162,7 @@ const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
       <Helmet>
         <title>{pageTitle}</title>
         {(customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] === constants.subjectCategories.ARCHIVE_SUBJECTS ||
-          customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] === 'true') && (
+          customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] === "true") && (
           <meta name="robots" content="noindex, nofollow" />
         )}
       </Helmet>
@@ -216,7 +216,7 @@ const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
         </LayoutItem>
       </OneColumn>
       {subject.subjectpage?.banner && (
-        <SubjectBanner image={subject.subjectpage?.banner.desktopUrl || ''} negativeTopMargin={moveBannerUp} />
+        <SubjectBanner image={subject.subjectpage?.banner.desktopUrl || ""} negativeTopMargin={moveBannerUp} />
       )}
     </main>
   );

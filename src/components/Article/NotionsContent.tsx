@@ -6,17 +6,17 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import { gql } from '@apollo/client';
-import styled from '@emotion/styled';
-import { AccordionContent, AccordionHeader, AccordionItem, AccordionRoot } from '@ndla/accordion';
-import { colors, spacing } from '@ndla/core';
-import { ConceptMetaData } from '@ndla/types-embed';
-import { Text } from '@ndla/typography';
-import { ConceptEmbed } from '@ndla/ui';
-import { hasLicensedContent } from '../../containers/ResourceEmbed/components/ResourceEmbed';
-import ResourceEmbedLicenseBox from '../../containers/ResourceEmbed/components/ResourceEmbedLicenseBox';
-import { GQLNotionsContent_MetaFragment } from '../../graphqlTypes';
+import { useTranslation } from "react-i18next";
+import { gql } from "@apollo/client";
+import styled from "@emotion/styled";
+import { AccordionContent, AccordionHeader, AccordionItem, AccordionRoot } from "@ndla/accordion";
+import { colors, spacing } from "@ndla/core";
+import { ConceptMetaData } from "@ndla/types-embed";
+import { Text } from "@ndla/typography";
+import { ConceptEmbed } from "@ndla/ui";
+import { hasLicensedContent } from "../../containers/ResourceEmbed/components/ResourceEmbed";
+import ResourceEmbedLicenseBox from "../../containers/ResourceEmbed/components/ResourceEmbedLicenseBox";
+import { GQLNotionsContent_MetaFragment } from "../../graphqlTypes";
 
 const StyledAccordionHeader = styled(AccordionHeader)`
   background-color: ${colors.brand.lightest};
@@ -57,7 +57,7 @@ const NotionsContent = ({ embeds, relatedContent, metadata }: Props) => {
       ))}
       {!!relatedContent?.length && (
         <>
-          <h2>{t('related.title')}</h2>
+          <h2>{t("related.title")}</h2>
           <RelatedContentContainer>
             {relatedContent.map((content, i) => (
               <li key={`notion-related-item-${i + 1}`}>
@@ -72,7 +72,7 @@ const NotionsContent = ({ embeds, relatedContent, metadata }: Props) => {
           <AccordionItem value="rulesForUse">
             <StyledAccordionHeader>
               <Text element="span" textStyle="button" margin="none">
-                {t('article.useContent')}
+                {t("article.useContent")}
               </Text>
             </StyledAccordionHeader>
             <AccordionContent>

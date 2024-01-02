@@ -6,6 +6,6 @@
  *
  */
 
-import Learningpath from './Learningpath';
+import Learningpath from "./Learningpath";
 
 export default Learningpath;

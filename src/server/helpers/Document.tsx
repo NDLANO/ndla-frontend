@@ -6,11 +6,11 @@
  *
  */
 
-import { HelmetServerState } from 'react-helmet-async';
-import serialize from 'serialize-javascript';
-import { Matomo } from './Matomo';
-import Tagmanager from './Tagmanager';
-import config, { ConfigType } from '../../config';
+import { HelmetServerState } from "react-helmet-async";
+import serialize from "serialize-javascript";
+import { Matomo } from "./Matomo";
+import Tagmanager from "./Tagmanager";
+import config, { ConfigType } from "../../config";
 
 export interface Assets {
   css?: string;
@@ -49,13 +49,13 @@ const Document = ({ helmet, assets, data, styles }: Props) => {
         {helmet.link.toComponent()}
         {assets.css && <link rel="stylesheet" href={assets.css} />}
 
-        {config.ndlaEnvironment === 'prod' ? (
+        {config.ndlaEnvironment === "prod" ? (
           <>
             <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-prod-32x32.png" />
             <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-prod-16x16.png" />
             <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="/static/apple-touch-icon-prod.png" />
           </>
-        ) : config.ndlaEnvironment === 'staging' ? (
+        ) : config.ndlaEnvironment === "staging" ? (
           <>
             <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-staging-32x32.png" />
             <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-staging-16x16.png" />

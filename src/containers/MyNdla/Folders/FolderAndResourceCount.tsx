@@ -5,16 +5,16 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
-import { FileDocumentOutline, Share } from '@ndla/icons/common';
-import { FolderOutlined } from '@ndla/icons/contentType';
-import { ContentLoader } from '@ndla/ui';
-import WhileLoading from '../../../components/WhileLoading';
-import { GQLFolder } from '../../../graphqlTypes';
-import { getTotalCountForFolder } from '../../../util/folderHelpers';
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { spacing } from "@ndla/core";
+import { FileDocumentOutline, Share } from "@ndla/icons/common";
+import { FolderOutlined } from "@ndla/icons/contentType";
+import { ContentLoader } from "@ndla/ui";
+import WhileLoading from "../../../components/WhileLoading";
+import { GQLFolder } from "../../../graphqlTypes";
+import { getTotalCountForFolder } from "../../../util/folderHelpers";
 
 export const ResourceCountContainer = styled.div`
   display: flex;
@@ -35,11 +35,11 @@ const CountLoadingShimmer = () => {
     <ContentLoader
       width={75}
       height={15}
-      preserveAspectRatio={'none'}
+      preserveAspectRatio={"none"}
       css={{
-        maxWidth: '75px',
-        minWidth: '75px',
-        maxHeight: '15px',
+        maxWidth: "75px",
+        minWidth: "75px",
+        maxHeight: "15px",
       }}
     >
       <rect x="0" y="3" rx="3" ry="3" width="75" height="15" key="rect-1" />
@@ -65,10 +65,10 @@ const FolderAndResourceCount = ({ folders, selectedFolder, hasSelectedFolder, fo
   return (
     <>
       <ResourceCountContainer>
-        {selectedFolder?.status === 'shared' && (
+        {selectedFolder?.status === "shared" && (
           <>
             <Share />
-            <span>{t('myNdla.folder.sharing.shared')}</span>
+            <span>{t("myNdla.folder.sharing.shared")}</span>
           </>
         )}
         {folders && (
@@ -76,7 +76,7 @@ const FolderAndResourceCount = ({ folders, selectedFolder, hasSelectedFolder, fo
             <FolderOutlined />
             <span>
               <WhileLoading isLoading={loading} fallback={<CountLoadingShimmer />}>
-                {t('myNdla.folders', {
+                {t("myNdla.folders", {
                   count: hasSelectedFolder ? selectedFolderCount?.folders : allFoldersCount,
                 })}
               </WhileLoading>
@@ -88,7 +88,7 @@ const FolderAndResourceCount = ({ folders, selectedFolder, hasSelectedFolder, fo
             <FileDocumentOutline />
             <span>
               <WhileLoading isLoading={loading} fallback={<CountLoadingShimmer />}>
-                {t('myNdla.resources', {
+                {t("myNdla.resources", {
                   count: selectedFolderCount?.resources ?? allFoldersCount,
                 })}
               </WhileLoading>

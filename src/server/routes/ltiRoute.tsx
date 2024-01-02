@@ -6,19 +6,19 @@
  *
  */
 
-import { Request } from 'express';
-import { FilledContext, HelmetProvider } from 'react-helmet-async';
-import { getHtmlLang, getLocaleObject } from '../../i18n';
-import { BAD_REQUEST, OK } from '../../statusCodes';
-import { Assets } from '../helpers/Document';
-import { renderPage, renderHtml } from '../helpers/render';
+import { Request } from "express";
+import { FilledContext, HelmetProvider } from "react-helmet-async";
+import { getHtmlLang, getLocaleObject } from "../../i18n";
+import { BAD_REQUEST, OK } from "../../statusCodes";
+import { Assets } from "../helpers/Document";
+import { renderPage, renderHtml } from "../helpers/render";
 
 const bodyFields: Record<string, { required: boolean; value?: any }> = {
   lti_message_type: {
     required: true,
-    value: ['basic-lti-launch-request', 'ToolProxyRegistrationRequest', 'ContentItemSelectionRequest'],
+    value: ["basic-lti-launch-request", "ToolProxyRegistrationRequest", "ContentItemSelectionRequest"],
   },
-  lti_version: { required: true, value: ['LTI-1p0', 'LTI-2p0'] },
+  lti_version: { required: true, value: ["LTI-1p0", "LTI-2p0"] },
   launch_presentation_return_url: { required: false },
   launch_presentation_document_target: { required: false },
   launch_presentation_height: { required: false },
@@ -28,20 +28,20 @@ const bodyFields: Record<string, { required: boolean; value?: any }> = {
 //@ts-ignore
 const assets = require(process.env.ASSETS_MANIFEST);
 
-if (process.env.NODE_ENV === 'unittest') {
+if (process.env.NODE_ENV === "unittest") {
   HelmetProvider.canUseDOM = false;
 }
 
 const getAssets = (): Assets => ({
-  css: assets['client.css'],
-  js: [{ src: assets['lti.js']! }],
-  mathJaxConfig: { js: assets['mathJaxConfig.js']! },
+  css: assets["client.css"],
+  js: [{ src: assets["lti.js"]! }],
+  mathJaxConfig: { js: assets["mathJaxConfig.js"]! },
 });
 
 function doRenderPage<T extends object>(initialProps: T) {
   //@ts-ignore
   const helmetContext: FilledContext = {};
-  const Page = <HelmetProvider context={helmetContext}>{''}</HelmetProvider>;
+  const Page = <HelmetProvider context={helmetContext}>{""}</HelmetProvider>;
   const { html, ...docProps } = renderPage(Page, getAssets(), {
     initialProps,
   });
@@ -55,7 +55,7 @@ export function parseAndValidateParameters(body: any) {
     const bodyValue = body[key];
     if (bodyFields[key]?.required && !bodyValue) {
       validBody = false;
-      errorMessages.push({ field: key, message: 'Missing required field' });
+      errorMessages.push({ field: key, message: "Missing required field" });
       return;
     }
     if (bodyFields[key]?.value && !bodyFields[key]?.value.includes(bodyValue)) {
@@ -77,13 +77,13 @@ export function parseAndValidateParameters(body: any) {
 }
 
 export function ltiRoute(req: Request) {
-  const isPostRequest = req.method === 'POST';
+  const isPostRequest = req.method === "POST";
   const validParameters = isPostRequest ? parseAndValidateParameters(req.body) : undefined;
   if (isPostRequest) {
     if (!validParameters?.valid) {
       const messages = validParameters?.messages
         ?.map((msg) => `Field ${msg.field} with error: ${msg.message}.`)
-        .join(',');
+        .join(",");
       return {
         status: BAD_REQUEST,
         data: `Bad request. ${messages}`,
@@ -91,7 +91,7 @@ export function ltiRoute(req: Request) {
     }
   }
 
-  const lang = getHtmlLang(req.params.lang ?? '');
+  const lang = getHtmlLang(req.params.lang ?? "");
   const locale = getLocaleObject(lang).abbreviation;
 
   const { html, docProps, helmetContext } = doRenderPage({

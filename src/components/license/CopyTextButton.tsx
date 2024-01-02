@@ -6,9 +6,9 @@
  *
  */
 
-import { Component } from 'react';
-import { ButtonV2 } from '@ndla/button';
-import { copyTextToClipboard } from '@ndla/util';
+import { Component } from "react";
+import { ButtonV2 } from "@ndla/button";
+import { copyTextToClipboard } from "@ndla/util";
 
 interface Props {
   stringToCopy?: string;
@@ -35,7 +35,7 @@ class CopyTextButton extends Component<Props, State> {
 
   handleClick() {
     const { stringToCopy } = this.props;
-    const success = copyTextToClipboard(stringToCopy ?? '', this.buttonContainer!);
+    const success = copyTextToClipboard(stringToCopy ?? "", this.buttonContainer!);
 
     if (success) {
       this.setState({ hasCopied: true });

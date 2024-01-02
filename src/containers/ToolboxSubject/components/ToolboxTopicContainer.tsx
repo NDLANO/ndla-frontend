@@ -6,19 +6,19 @@
  *
  */
 
-import { Dispatch, SetStateAction } from 'react';
-import { gql } from '@apollo/client';
-import { Spinner } from '@ndla/icons';
-import { SimpleBreadcrumbItem } from '@ndla/ui';
-import ToolboxTopicWrapper, { toolboxTopicWrapperFragments } from './ToolboxTopicWrapper';
-import DefaultErrorMessage from '../../../components/DefaultErrorMessage';
+import { Dispatch, SetStateAction } from "react";
+import { gql } from "@apollo/client";
+import { Spinner } from "@ndla/icons";
+import { SimpleBreadcrumbItem } from "@ndla/ui";
+import ToolboxTopicWrapper, { toolboxTopicWrapperFragments } from "./ToolboxTopicWrapper";
+import DefaultErrorMessage from "../../../components/DefaultErrorMessage";
 import {
   GQLToolboxTopicContainerQuery,
   GQLToolboxTopicContainerQueryVariables,
   GQLToolboxTopicContainer_SubjectFragment,
-} from '../../../graphqlTypes';
-import { removeUrn } from '../../../routeHelpers';
-import { useGraphQuery } from '../../../util/runQueries';
+} from "../../../graphqlTypes";
+import { removeUrn } from "../../../routeHelpers";
+import { useGraphQuery } from "../../../util/runQueries";
 
 interface Props {
   subject: GQLToolboxTopicContainer_SubjectFragment;

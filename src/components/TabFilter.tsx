@@ -6,11 +6,11 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { colors, spacing } from '@ndla/core';
+import { useTranslation } from "react-i18next";
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { colors, spacing } from "@ndla/core";
 
 interface StyledProps {
   selected: boolean;
@@ -60,7 +60,7 @@ interface Props {
 const TabFilter = ({ value: selectedValue, onChange, options }: Props) => {
   const { t } = useTranslation();
   return (
-    <ButtonContainer aria-label={t('subjectsPage.filterSubjects')}>
+    <ButtonContainer aria-label={t("subjectsPage.filterSubjects")}>
       {options.map(({ value, label }) => (
         <StyledLi role="none" key={value}>
           <StyledButton
@@ -68,7 +68,7 @@ const TabFilter = ({ value: selectedValue, onChange, options }: Props) => {
             fontWeight="bold"
             aria-current={selectedValue === value}
             selected={selectedValue === value}
-            variant={selectedValue === value ? undefined : 'outline'}
+            variant={selectedValue === value ? undefined : "outline"}
             onClick={() => onChange(value)}
           >
             {label}

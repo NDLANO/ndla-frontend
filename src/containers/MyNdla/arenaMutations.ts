@@ -6,8 +6,8 @@
  *
  */
 
-import { MutationHookOptions, gql, useApolloClient, useMutation } from '@apollo/client';
-import { arenaNotificationQuery, arenaPostFragment, arenaTopicFragment } from './arenaQueries';
+import { MutationHookOptions, gql, useApolloClient, useMutation } from "@apollo/client";
+import { arenaNotificationQuery, arenaPostFragment, arenaTopicFragment } from "./arenaQueries";
 import {
   GQLDeletePostMutation,
   GQLDeletePostMutationVariables,
@@ -27,7 +27,7 @@ import {
   GQLUnsubscribeFromTopicMutation,
   GQLUpdatePostMutation,
   GQLUpdatePostMutationVariables,
-} from '../../graphqlTypes';
+} from "../../graphqlTypes";
 
 const newFlagMutation = gql`
   mutation newFlag($id: Int!, $reason: String!, $type: String!) {
@@ -147,7 +147,7 @@ export const useSubscribeToTopicMutation = () => {
     onCompleted: (data) => {
       cache.modify({
         id: cache.identify({
-          __typename: 'ArenaTopic',
+          __typename: "ArenaTopic",
           id: data.subscribeToTopic,
         }),
         fields: {
@@ -172,7 +172,7 @@ export const useUnsubscribeFromTopicMutation = () => {
       onCompleted: (data) => {
         cache.modify({
           id: cache.identify({
-            __typename: 'ArenaTopic',
+            __typename: "ArenaTopic",
             id: data.unsubscribeFromTopic,
           }),
           fields: {

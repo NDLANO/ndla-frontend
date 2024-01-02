@@ -6,17 +6,17 @@
  *
  */
 
-import { ReactElement } from 'react';
-import { renderToString, renderToStaticMarkup } from 'react-dom/server';
-import { FilledContext } from 'react-helmet-async';
-import { ApolloClient } from '@apollo/client';
-import { renderToStringWithData } from '@apollo/client/react/ssr';
-import { EmotionCache } from '@emotion/cache';
-import createEmotionServer from '@emotion/server/create-instance';
-import Document, { Assets, DocumentData } from './Document';
-import { RedirectInfo } from '../../components/RedirectContext';
-import config from '../../config';
-import { OK, MOVED_PERMANENTLY } from '../../statusCodes';
+import { ReactElement } from "react";
+import { renderToString, renderToStaticMarkup } from "react-dom/server";
+import { FilledContext } from "react-helmet-async";
+import { ApolloClient } from "@apollo/client";
+import { renderToStringWithData } from "@apollo/client/react/ssr";
+import { EmotionCache } from "@emotion/cache";
+import createEmotionServer from "@emotion/server/create-instance";
+import Document, { Assets, DocumentData } from "./Document";
+import { RedirectInfo } from "../../components/RedirectContext";
+import config from "../../config";
+import { OK, MOVED_PERMANENTLY } from "../../statusCodes";
 
 export function renderPage<T extends object>(Page: ReactElement, assets: Assets, data?: T) {
   const html = renderToString(Page);
@@ -104,6 +104,6 @@ export async function renderHtml(
 
   return {
     status,
-    data: `<!doctype html>${doc.replace('REPLACE_ME', html)}`,
+    data: `<!doctype html>${doc.replace("REPLACE_ME", html)}`,
   };
 }

@@ -6,15 +6,15 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { colors, spacing, misc } from '@ndla/core';
-import SafeLink from '@ndla/safelink';
-import { Text } from '@ndla/typography';
-import Avatar from './Avatar';
-import config from '../../../config';
-import { GQLArenaUser } from '../../../graphqlTypes';
-import { useArenaUser } from '../arenaQueries';
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { colors, spacing, misc } from "@ndla/core";
+import SafeLink from "@ndla/safelink";
+import { Text } from "@ndla/typography";
+import Avatar from "./Avatar";
+import config from "../../../config";
+import { GQLArenaUser } from "../../../graphqlTypes";
+import { useArenaUser } from "../arenaQueries";
 
 type UserProfileTagProps = {
   displayName: string;
@@ -35,7 +35,7 @@ const UserProfileTagContainer = styled(SafeLink)`
   text-decoration: none;
   box-shadow: none;
   &:hover {
-    [data-name='hover'] {
+    [data-name="hover"] {
       text-decoration: none;
     }
   }
@@ -70,7 +70,7 @@ const isModerator = (user?: GQLArenaUser): boolean => {
 const UserProfileTag = ({ displayName, username, affiliation }: UserProfileTagProps) => {
   const { t } = useTranslation();
   const { arenaUser } = useArenaUser({
-    variables: { username: username ?? '' },
+    variables: { username: username ?? "" },
     skip: !username,
   });
 
@@ -84,7 +84,7 @@ const UserProfileTag = ({ displayName, username, affiliation }: UserProfileTagPr
           </Name>
           {isModerator(arenaUser) && (
             <ModeratorTag textStyle="meta-text-xsmall" margin="none">
-              {t('user.moderator')}
+              {t("user.moderator")}
             </ModeratorTag>
           )}
         </NameAndTagContainer>

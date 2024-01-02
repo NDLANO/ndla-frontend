@@ -6,17 +6,17 @@
  *
  */
 
-import { useContext } from 'react';
-import { gql } from '@apollo/client';
-import { ContentPlaceholder } from '@ndla/ui';
-import AboutPageContent, { aboutPageFragments } from './AboutPageContent';
-import DefaultErrorMessage from '../../components/DefaultErrorMessage';
-import RedirectContext, { RedirectInfo } from '../../components/RedirectContext';
-import { GQLAboutPageQuery, GQLAboutPageQueryVariables } from '../../graphqlTypes';
-import { useTypedParams } from '../../routeHelpers';
-import { GONE } from '../../statusCodes';
-import { useGraphQuery } from '../../util/runQueries';
-import NotFoundPage from '../NotFoundPage/NotFoundPage';
+import { useContext } from "react";
+import { gql } from "@apollo/client";
+import { ContentPlaceholder } from "@ndla/ui";
+import AboutPageContent, { aboutPageFragments } from "./AboutPageContent";
+import DefaultErrorMessage from "../../components/DefaultErrorMessage";
+import RedirectContext, { RedirectInfo } from "../../components/RedirectContext";
+import { GQLAboutPageQuery, GQLAboutPageQueryVariables } from "../../graphqlTypes";
+import { useTypedParams } from "../../routeHelpers";
+import { GONE } from "../../statusCodes";
+import { useGraphQuery } from "../../util/runQueries";
+import NotFoundPage from "../NotFoundPage/NotFoundPage";
 
 const aboutPageQuery = gql`
   query aboutPage($slug: String!) {

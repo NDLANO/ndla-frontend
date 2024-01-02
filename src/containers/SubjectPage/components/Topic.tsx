@@ -6,33 +6,33 @@
  *
  */
 
-import { TFunction } from 'i18next';
-import { useContext, useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { gql } from '@apollo/client';
-import { DynamicComponents, extractEmbedMeta } from '@ndla/article-converter';
-import { useTracker } from '@ndla/tracker';
-import { Topic as UITopic } from '@ndla/ui';
-import TopicVisualElementContent from './TopicVisualElementContent';
-import ArticleContents from '../../../components/Article/ArticleContents';
-import { AuthContext } from '../../../components/AuthenticationContext';
-import AddEmbedToFolder from '../../../components/MyNdla/AddEmbedToFolder';
-import config from '../../../config';
-import { RELEVANCE_SUPPLEMENTARY, SKIP_TO_CONTENT_ID } from '../../../constants';
+import { TFunction } from "i18next";
+import { useContext, useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { gql } from "@apollo/client";
+import { DynamicComponents, extractEmbedMeta } from "@ndla/article-converter";
+import { useTracker } from "@ndla/tracker";
+import { Topic as UITopic } from "@ndla/ui";
+import TopicVisualElementContent from "./TopicVisualElementContent";
+import ArticleContents from "../../../components/Article/ArticleContents";
+import { AuthContext } from "../../../components/AuthenticationContext";
+import AddEmbedToFolder from "../../../components/MyNdla/AddEmbedToFolder";
+import config from "../../../config";
+import { RELEVANCE_SUPPLEMENTARY, SKIP_TO_CONTENT_ID } from "../../../constants";
 import {
   GQLTopic_ResourceTypeDefinitionFragment,
   GQLTopic_SubjectFragment,
   GQLTopic_TopicFragment,
-} from '../../../graphqlTypes';
-import { toTopic, useIsNdlaFilm, useUrnIds } from '../../../routeHelpers';
-import { getArticleScripts } from '../../../util/getArticleScripts';
-import { htmlTitle } from '../../../util/titleHelper';
-import { getAllDimensions } from '../../../util/trackingUtil';
-import { transformArticle } from '../../../util/transformArticle';
-import Resources from '../../Resources/Resources';
+} from "../../../graphqlTypes";
+import { toTopic, useIsNdlaFilm, useUrnIds } from "../../../routeHelpers";
+import { getArticleScripts } from "../../../util/getArticleScripts";
+import { htmlTitle } from "../../../util/titleHelper";
+import { getAllDimensions } from "../../../util/trackingUtil";
+import { transformArticle } from "../../../util/transformArticle";
+import Resources from "../../Resources/Resources";
 
-const getDocumentTitle = ({ t, topic }: { t: TFunction; topic: Props['topic'] }) => {
-  return htmlTitle(topic?.name, [t('htmlTitles.titleTemplate')]);
+const getDocumentTitle = ({ t, topic }: { t: TFunction; topic: Props["topic"] }) => {
+  return htmlTitle(topic?.name, [t("htmlTitles.titleTemplate")]);
 };
 
 const converterComponents: DynamicComponents = {
@@ -62,9 +62,9 @@ const Topic = ({ topicId, subjectId, subTopicId, topic, resourceTypes, showResou
   useEffect(() => {
     if (showResources && !loading && topic.article && authContextLoaded) {
       const topicPath = topic?.path
-        ?.split('/')
+        ?.split("/")
         .slice(2)
-        .map((t) => subject?.allTopics?.find((topic) => topic.id.replace('urn:', '') === t));
+        .map((t) => subject?.allTopics?.find((topic) => topic.id.replace("urn:", "") === t));
       const dimensions = getAllDimensions(
         {
           subject,
@@ -118,9 +118,9 @@ const Topic = ({ topicId, subjectId, subTopicId, topic, resourceTypes, showResou
     return null;
   }
 
-  const path = topic?.path || '';
+  const path = topic?.path || "";
   const topicPath = path
-    ?.split('/')
+    ?.split("/")
     .slice(2)
     .map((id) => `urn:${id}`);
 
@@ -139,7 +139,7 @@ const Topic = ({ topicId, subjectId, subTopicId, topic, resourceTypes, showResou
       visualElement={visualElement}
       visualElementEmbedMeta={embedMeta}
       id={urnTopicId === topicId ? SKIP_TO_CONTENT_ID : undefined}
-      onToggleShowContent={topic.article?.content !== '' ? () => setShowContent(!showContent) : undefined}
+      onToggleShowContent={topic.article?.content !== "" ? () => setShowContent(!showContent) : undefined}
       showContent={showContent}
       title={article.title}
       introduction={article.introduction}

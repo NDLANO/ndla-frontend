@@ -6,7 +6,7 @@
  *
  */
 
-import { GQLArticle } from '../graphqlTypes';
+import { GQLArticle } from "../graphqlTypes";
 
 export interface Scripts {
   key?: string;
@@ -16,13 +16,13 @@ export interface Scripts {
   defer?: boolean;
 }
 
-export function getArticleScripts(article: Pick<GQLArticle, 'requiredLibraries' | 'content'>, locale = 'nb') {
+export function getArticleScripts(article: Pick<GQLArticle, "requiredLibraries" | "content">, locale = "nb") {
   const scripts: Array<Scripts> =
     article.requiredLibraries?.map((lib) => ({
       src: lib.url,
       type: lib.mediaType,
     })) || [];
-  if (article && article.content.indexOf('<math') > -1 && process.env.BUILD_TARGET === 'client') {
+  if (article && article.content.indexOf("<math") > -1 && process.env.BUILD_TARGET === "client") {
     if (!window.MathJax) {
       window.MathJax = {
         chtml: {
@@ -38,9 +38,9 @@ export function getArticleScripts(article: Pick<GQLArticle, 'requiredLibraries' 
             },
           },
           sre: {
-            domain: 'mathspeak',
-            style: 'sbrief',
-            speech: 'shallow',
+            domain: "mathspeak",
+            style: "sbrief",
+            speech: "shallow",
             locale: locale,
             structure: false,
           },
@@ -51,8 +51,8 @@ export function getArticleScripts(article: Pick<GQLArticle, 'requiredLibraries' 
     }
 
     scripts.push({
-      src: 'https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/mml-chtml.js',
-      type: 'text/javascript',
+      src: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/mml-chtml.js",
+      type: "text/javascript",
       async: false,
       defer: true,
     });
@@ -60,8 +60,8 @@ export function getArticleScripts(article: Pick<GQLArticle, 'requiredLibraries' 
 
   if (article && article.content.indexOf('data-resource="h5p"') > -1) {
     scripts.push({
-      src: 'https://ca.h5p.ndla.no/h5p-php-library/js/h5p-resizer.js',
-      type: 'text/javascript',
+      src: "https://ca.h5p.ndla.no/h5p-php-library/js/h5p-resizer.js",
+      type: "text/javascript",
       async: false,
       defer: true,
     });

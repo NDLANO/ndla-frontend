@@ -6,16 +6,16 @@
  *
  */
 
-import { Helmet } from 'react-helmet-async';
-import { useParams } from 'react-router-dom';
-import { PageContainer } from '@ndla/ui';
-import IframePage from '../iframe/IframePage';
+import { Helmet } from "react-helmet-async";
+import { useParams } from "react-router-dom";
+import { PageContainer } from "@ndla/ui";
+import IframePage from "../iframe/IframePage";
 
 export const LtiIframePage = () => {
   const { taxonomyId, articleId, lang } = useParams();
   return (
     <PageContainer>
-      <Helmet htmlAttributes={{ lang: lang === 'nb' ? 'no' : lang }} />
+      <Helmet htmlAttributes={{ lang: lang === "nb" ? "no" : lang }} />
       <IframePage status="success" taxonomyId={taxonomyId} articleId={articleId} />
     </PageContainer>
   );

@@ -6,29 +6,29 @@
  *
  */
 
-import { parse, stringify } from 'query-string';
-import { useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { gql, useApolloClient } from '@apollo/client';
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
-import { Spinner } from '@ndla/icons';
-import Pager from '@ndla/pager';
-import { HelmetWithTracker } from '@ndla/tracker';
-import { OneColumn } from '@ndla/ui';
-import PodcastSeries from './PodcastSeries';
-import DefaultErrorMessage from '../../components/DefaultErrorMessage';
-import { GQLPodcastSeriesListPageQuery } from '../../graphqlTypes';
-import { useGraphQuery } from '../../util/runQueries';
+import { parse, stringify } from "query-string";
+import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { useNavigate, useLocation } from "react-router-dom";
+import { gql, useApolloClient } from "@apollo/client";
+import styled from "@emotion/styled";
+import { spacing } from "@ndla/core";
+import { Spinner } from "@ndla/icons";
+import Pager from "@ndla/pager";
+import { HelmetWithTracker } from "@ndla/tracker";
+import { OneColumn } from "@ndla/ui";
+import PodcastSeries from "./PodcastSeries";
+import DefaultErrorMessage from "../../components/DefaultErrorMessage";
+import { GQLPodcastSeriesListPageQuery } from "../../graphqlTypes";
+import { useGraphQuery } from "../../util/runQueries";
 
 type SearchObject = {
   page: string;
-  'page-size': string;
+  "page-size": string;
 };
 
 export const getPageSize = (searchObject: SearchObject) => {
-  return Number(searchObject['page-size']) || 5;
+  return Number(searchObject["page-size"]) || 5;
 };
 export const getPage = (searchObject: SearchObject) => {
   return Number(searchObject.page) || 1;
@@ -102,7 +102,7 @@ const PodcastSeriesListPage = () => {
     };
 
     // Remove unused/empty query params
-    Object.keys(searchQuery).forEach((key) => searchQuery[key] === '' && delete searchQuery[key]);
+    Object.keys(searchQuery).forEach((key) => searchQuery[key] === "" && delete searchQuery[key]);
     navigate(`/podkast?${stringify(searchQuery)}`);
   };
 
@@ -116,12 +116,12 @@ const PodcastSeriesListPage = () => {
 
   return (
     <>
-      <HelmetWithTracker title={t('htmlTitles.podcast', { page: page })} />
+      <HelmetWithTracker title={t("htmlTitles.podcast", { page: page })} />
       <OneColumn>
         <StyledTitle>
-          <h1>{t('podcastPage.podcasts')}</h1>
+          <h1>{t("podcastPage.podcasts")}</h1>
           {(!!data || !!previousData) && (
-            <StyledTitlePageInfo>{t('podcastPage.pageInfo', { page, lastPage })}</StyledTitlePageInfo>
+            <StyledTitlePageInfo>{t("podcastPage.pageInfo", { page, lastPage })}</StyledTitlePageInfo>
           )}
         </StyledTitle>
         {loading ? (
@@ -133,7 +133,7 @@ const PodcastSeriesListPage = () => {
                 return <PodcastSeries key={`podcast-${series.id}`} {...series} />;
               })
             ) : (
-              <NoResult>{t('podcastPage.noResults')}</NoResult>
+              <NoResult>{t("podcastPage.noResults")}</NoResult>
             )}
           </div>
         )}

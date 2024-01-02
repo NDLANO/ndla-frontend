@@ -6,24 +6,24 @@
  *
  */
 
-import { useCallback, useContext, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Navigate, useNavigate, useParams } from 'react-router-dom';
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
-import { Spinner } from '@ndla/icons';
-import { HelmetWithTracker, useTracker } from '@ndla/tracker';
-import { Heading, Text } from '@ndla/typography';
-import { ArenaFormValues } from './components/ArenaForm';
-import ArenaTextModal from './components/ArenaTextModal';
-import TopicCard from './components/TopicCard';
-import { AuthContext } from '../../../components/AuthenticationContext';
-import { SKIP_TO_CONTENT_ID } from '../../../constants';
-import { getAllDimensions } from '../../../util/trackingUtil';
-import { useCreateArenaTopic } from '../arenaMutations';
-import { arenaCategoryQuery, useArenaCategory } from '../arenaQueries';
-import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
-import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
+import { useCallback, useContext, useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
+import styled from "@emotion/styled";
+import { spacing } from "@ndla/core";
+import { Spinner } from "@ndla/icons";
+import { HelmetWithTracker, useTracker } from "@ndla/tracker";
+import { Heading, Text } from "@ndla/typography";
+import { ArenaFormValues } from "./components/ArenaForm";
+import ArenaTextModal from "./components/ArenaTextModal";
+import TopicCard from "./components/TopicCard";
+import { AuthContext } from "../../../components/AuthenticationContext";
+import { SKIP_TO_CONTENT_ID } from "../../../constants";
+import { getAllDimensions } from "../../../util/trackingUtil";
+import { useCreateArenaTopic } from "../arenaMutations";
+import { arenaCategoryQuery, useArenaCategory } from "../arenaQueries";
+import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
+import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 
 const BreadcrumbWrapper = styled.div`
   padding-top: ${spacing.normal};
@@ -66,7 +66,7 @@ const TopicPage = () => {
   useEffect(() => {
     if (!authContextLoaded || !user?.arenaEnabled || !loading) return;
     trackPageView({
-      title: t('htmlTitles.arenaTopicPage', { name: arenaCategory?.name }),
+      title: t("htmlTitles.arenaTopicPage", { name: arenaCategory?.name }),
       dimensions: getAllDimensions({ user }),
     });
   }, [arenaCategory?.name, authContextLoaded, loading, t, trackPageView, user]);
@@ -85,8 +85,8 @@ const TopicPage = () => {
       if (arenaCategory) {
         const topic = await createArenaTopic({
           variables: {
-            content: data.content ?? '',
-            title: data.title ?? '',
+            content: data.content ?? "",
+            title: data.title ?? "",
             categoryId: arenaCategory?.id,
           },
         });
@@ -106,11 +106,11 @@ const TopicPage = () => {
 
   return (
     <MyNdlaPageWrapper>
-      <HelmetWithTracker title={t('htmlTitles.arenaTopicPage', { name: arenaCategory?.name })} />
+      <HelmetWithTracker title={t("htmlTitles.arenaTopicPage", { name: arenaCategory?.name })} />
       <BreadcrumbWrapper>
         <MyNdlaBreadcrumb
-          breadcrumbs={categoryId ? [{ name: arenaCategory?.name ?? '', id: categoryId }] : []}
-          page={'arena'}
+          breadcrumbs={categoryId ? [{ name: arenaCategory?.name ?? "", id: categoryId }] : []}
+          page={"arena"}
         />
       </BreadcrumbWrapper>
       <Heading element="h1" id={SKIP_TO_CONTENT_ID} headingStyle="h1-resource" margin="small">
@@ -121,7 +121,7 @@ const TopicPage = () => {
       </Text>
       <StyledContainer>
         <Heading element="h2" headingStyle="h2" margin="none">
-          {t('myNdla.arena.posts.title')}
+          {t("myNdla.arena.posts.title")}
         </Heading>
         <ArenaTextModal type="topic" onSave={createTopic} />
       </StyledContainer>

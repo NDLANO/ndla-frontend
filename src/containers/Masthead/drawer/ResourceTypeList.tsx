@@ -6,13 +6,13 @@
  *
  */
 
-import { ReactNode } from 'react';
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
-import { Heading } from '@ndla/typography';
-import { ContentTypeBadge, resourceTypeColor } from '@ndla/ui';
-import { DrawerListItem } from './DrawerPortion';
-import { contentTypeMapping } from '../../../util/getContentType';
+import { ReactNode } from "react";
+import styled from "@emotion/styled";
+import { spacing } from "@ndla/core";
+import { Heading } from "@ndla/typography";
+import { ContentTypeBadge, resourceTypeColor } from "@ndla/ui";
+import { DrawerListItem } from "./DrawerPortion";
+import { contentTypeMapping } from "../../../util/getContentType";
 
 const StyledResourceTypeList = styled.ul`
   margin: 0;
@@ -25,9 +25,9 @@ interface HeaderProps {
   backgroundColor: string;
 }
 
-const shouldForwardProp = (p: string) => p !== 'backgroundColor';
+const shouldForwardProp = (p: string) => p !== "backgroundColor";
 
-const ResourceTypeHeader = styled('li', { shouldForwardProp })<HeaderProps>`
+const ResourceTypeHeader = styled("li", { shouldForwardProp })<HeaderProps>`
   background-color: ${(p) => p.backgroundColor};
   display: flex;
   align-items: center;

@@ -6,13 +6,13 @@
  *
  */
 
-import { TFunction } from 'i18next';
-import { useMemo, useContext, useState, Dispatch, SetStateAction } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Location, Outlet, useLocation } from 'react-router-dom';
-import styled from '@emotion/styled';
-import { IconButtonV2 } from '@ndla/button';
-import { breakpoints, colors, mq, spacing } from '@ndla/core';
+import { TFunction } from "i18next";
+import { useMemo, useContext, useState, Dispatch, SetStateAction } from "react";
+import { useTranslation } from "react-i18next";
+import { Location, Outlet, useLocation } from "react-router-dom";
+import styled from "@emotion/styled";
+import { IconButtonV2 } from "@ndla/button";
+import { breakpoints, colors, mq, spacing } from "@ndla/core";
 import {
   Book,
   BookOutlined,
@@ -24,15 +24,15 @@ import {
   LogOut,
   ProfilePerson,
   ProfilePersonOutlined,
-} from '@ndla/icons/common';
-import { FolderOutlined, HorizontalMenu } from '@ndla/icons/contentType';
-import { Folder } from '@ndla/icons/editor';
-import { Modal, ModalTrigger } from '@ndla/modal';
-import { Text } from '@ndla/typography';
-import { MessageBox } from '@ndla/ui';
-import NavigationLink from './components/NavigationLink';
-import { AuthContext } from '../../components/AuthenticationContext';
-import { toHref } from '../../util/urlHelper';
+} from "@ndla/icons/common";
+import { FolderOutlined, HorizontalMenu } from "@ndla/icons/contentType";
+import { Folder } from "@ndla/icons/editor";
+import { Modal, ModalTrigger } from "@ndla/modal";
+import { Text } from "@ndla/typography";
+import { MessageBox } from "@ndla/ui";
+import NavigationLink from "./components/NavigationLink";
+import { AuthContext } from "../../components/AuthenticationContext";
+import { toHref } from "../../util/urlHelper";
 
 const StyledLayout = styled.div`
   display: flex;
@@ -158,10 +158,10 @@ const MyNdlaLayout = () => {
             <StyledNavList>{menuLink}</StyledNavList>
           </nav>
           <ModalTrigger>
-            <MoreButton variant="stripped" aria-label={t('myNdla.iconMenu.more')}>
+            <MoreButton variant="stripped" aria-label={t("myNdla.iconMenu.more")}>
               <HorizontalMenu />
               <Text margin="none" textStyle="meta-text-xxsmall">
-                {t('myNdla.iconMenu.more')}
+                {t("myNdla.iconMenu.more")}
               </Text>
             </MoreButton>
           </ModalTrigger>
@@ -169,7 +169,7 @@ const MyNdlaLayout = () => {
         <StyledContent>
           {examLock && (
             <MessageboxWrapper>
-              <MessageBox>{t('myNdla.examLockInfo')}</MessageBox>
+              <MessageBox>{t("myNdla.examLockInfo")}</MessageBox>
             </MessageboxWrapper>
           )}
           <Outlet context={{ setIsOpen, resetFocus, setResetFocus }} />
@@ -183,51 +183,51 @@ export default MyNdlaLayout;
 
 export const menuLinks = (t: TFunction, location: Location) => [
   {
-    id: '',
-    name: t('myNdla.myNDLA'),
-    shortName: t('myNdla.myNDLA'),
+    id: "",
+    name: t("myNdla.myNDLA"),
+    shortName: t("myNdla.myNDLA"),
     icon: <HomeOutline />,
     iconFilled: <Home />,
   },
   {
-    id: 'folders',
-    name: t('myNdla.myFolders'),
-    shortName: t('myNdla.iconMenu.folders'),
+    id: "folders",
+    name: t("myNdla.myFolders"),
+    shortName: t("myNdla.iconMenu.folders"),
     icon: <FolderOutlined />,
     iconFilled: <Folder />,
   },
   {
-    id: 'subjects',
-    name: t('myNdla.favoriteSubjects.title'),
-    shortName: t('myNdla.iconMenu.subjects'),
+    id: "subjects",
+    name: t("myNdla.favoriteSubjects.title"),
+    shortName: t("myNdla.iconMenu.subjects"),
     icon: <BookOutlined />,
     iconFilled: <Book />,
   },
   {
-    id: 'tags',
-    name: t('myNdla.myTags'),
-    shortName: t('myNdla.iconMenu.tags'),
+    id: "tags",
+    name: t("myNdla.myTags"),
+    shortName: t("myNdla.iconMenu.tags"),
     icon: <HashTag />,
   },
   {
-    id: 'arena',
-    name: t('myNdla.arena.title'),
-    shortName: t('myNdla.arena.title'),
+    id: "arena",
+    name: t("myNdla.arena.title"),
+    shortName: t("myNdla.arena.title"),
     icon: <ForumOutlined />,
     iconFilled: <Forum />,
     restricted: true,
   },
   {
-    id: 'profile',
-    name: t('myNdla.myProfile.title'),
-    shortName: t('myNdla.iconMenu.profile'),
+    id: "profile",
+    name: t("myNdla.myProfile.title"),
+    shortName: t("myNdla.iconMenu.profile"),
     icon: <ProfilePersonOutlined />,
     iconFilled: <ProfilePerson />,
   },
   {
-    id: 'logout-path',
-    name: t('user.buttonLogOut'),
-    shortName: t('user.buttonLogOut'),
+    id: "logout-path",
+    name: t("user.buttonLogOut"),
+    shortName: t("user.buttonLogOut"),
     icon: <LogOut />,
     to: `/logout?state=${toHref(location)}`,
   },

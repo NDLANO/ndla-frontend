@@ -6,34 +6,34 @@
  *
  */
 
-import 'isomorphic-unfetch';
-import { createRoot } from 'react-dom/client';
-import { HelmetProvider } from 'react-helmet-async';
-import { I18nextProvider } from 'react-i18next';
-import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import { ApolloProvider } from '@apollo/client';
-import ErrorReporter from '@ndla/error-reporter';
-import { i18nInstance } from '@ndla/ui';
-import '@fontsource/source-sans-pro/index.css';
-import '@fontsource/source-sans-pro/400-italic.css';
-import '@fontsource/source-sans-pro/300.css';
-import '@fontsource/source-sans-pro/300-italic.css';
-import '@fontsource/source-sans-pro/600.css';
-import '@fontsource/source-sans-pro/700.css';
-import '@fontsource/source-code-pro/index.css';
-import '@fontsource/source-code-pro/400-italic.css';
-import '@fontsource/source-code-pro/700.css';
-import '@fontsource/source-serif-pro/index.css';
-import '@fontsource/source-serif-pro/400-italic.css';
-import '@fontsource/source-serif-pro/700.css';
-import { getCookie } from '@ndla/util';
-import '../style/index.css';
-import { LtiIframePage } from './LtiIframePage';
-import LtiProvider from './LtiProvider';
-import { LtiContextProvider } from '../components/LtiContext';
-import { STORED_LANGUAGE_COOKIE_KEY } from '../constants';
-import { initializeI18n, isValidLocale } from '../i18n';
-import { createApolloClient } from '../util/apiHelpers';
+import "isomorphic-unfetch";
+import { createRoot } from "react-dom/client";
+import { HelmetProvider } from "react-helmet-async";
+import { I18nextProvider } from "react-i18next";
+import { MemoryRouter, Route, Routes } from "react-router-dom";
+import { ApolloProvider } from "@apollo/client";
+import ErrorReporter from "@ndla/error-reporter";
+import { i18nInstance } from "@ndla/ui";
+import "@fontsource/source-sans-pro/index.css";
+import "@fontsource/source-sans-pro/400-italic.css";
+import "@fontsource/source-sans-pro/300.css";
+import "@fontsource/source-sans-pro/300-italic.css";
+import "@fontsource/source-sans-pro/600.css";
+import "@fontsource/source-sans-pro/700.css";
+import "@fontsource/source-code-pro/index.css";
+import "@fontsource/source-code-pro/400-italic.css";
+import "@fontsource/source-code-pro/700.css";
+import "@fontsource/source-serif-pro/index.css";
+import "@fontsource/source-serif-pro/400-italic.css";
+import "@fontsource/source-serif-pro/700.css";
+import { getCookie } from "@ndla/util";
+import "../style/index.css";
+import { LtiIframePage } from "./LtiIframePage";
+import LtiProvider from "./LtiProvider";
+import { LtiContextProvider } from "../components/LtiContext";
+import { STORED_LANGUAGE_COOKIE_KEY } from "../constants";
+import { initializeI18n, isValidLocale } from "../i18n";
+import { createApolloClient } from "../util/apiHelpers";
 
 const {
   DATA: { initialProps, config },
@@ -53,13 +53,13 @@ const language = isValidLocale(storedLanguage) ? storedLanguage : config.default
 const client = createApolloClient(language);
 const i18n = initializeI18n(i18nInstance, language);
 
-const root = createRoot(document.getElementById('root')!);
+const root = createRoot(document.getElementById("root")!);
 root.render(
   <HelmetProvider>
     <LtiContextProvider ltiData={initialProps.ltiData}>
       <I18nextProvider i18n={i18n}>
         <ApolloProvider client={client}>
-          <MemoryRouter initialEntries={['/lti']} basename="/">
+          <MemoryRouter initialEntries={["/lti"]} basename="/">
             <Routes>
               <Route path="lti" element={<LtiProvider />} />
               <Route path="article-iframe" element={<LtiIframePage />}>

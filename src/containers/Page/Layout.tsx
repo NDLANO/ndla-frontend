@@ -6,35 +6,35 @@
  *
  */
 
-import { useEffect } from 'react';
-import { Helmet } from 'react-helmet-async';
-import { useTranslation } from 'react-i18next';
-import { matchPath, Outlet, useLocation } from 'react-router-dom';
-import { css, Global } from '@emotion/react';
-import styled from '@emotion/styled';
-import { colors, spacing } from '@ndla/core';
-import { Content, PageContainer, useMastheadHeight } from '@ndla/ui';
-import FeideFooter from './components/FeideFooter';
-import Footer from './components/Footer';
-import TitleAnnouncer from './components/TitleAnnouncer';
-import { defaultValue, useVersionHash } from '../../components/VersionHashContext';
-import config from '../../config';
-import { useIsNdlaFilm, useUrnIds } from '../../routeHelpers';
-import { usePrevious } from '../../util/utilityHooks';
-import Masthead from '../Masthead';
+import { useEffect } from "react";
+import { Helmet } from "react-helmet-async";
+import { useTranslation } from "react-i18next";
+import { matchPath, Outlet, useLocation } from "react-router-dom";
+import { css, Global } from "@emotion/react";
+import styled from "@emotion/styled";
+import { colors, spacing } from "@ndla/core";
+import { Content, PageContainer, useMastheadHeight } from "@ndla/ui";
+import FeideFooter from "./components/FeideFooter";
+import Footer from "./components/Footer";
+import TitleAnnouncer from "./components/TitleAnnouncer";
+import { defaultValue, useVersionHash } from "../../components/VersionHashContext";
+import config from "../../config";
+import { useIsNdlaFilm, useUrnIds } from "../../routeHelpers";
+import { usePrevious } from "../../util/utilityHooks";
+import Masthead from "../Masthead";
 
 const BottomPadding = styled.div`
   padding-bottom: ${spacing.large};
-  &[data-no-padding='true'] {
+  &[data-no-padding="true"] {
     padding-bottom: unset;
   }
 `;
 
 const StyledPageContainer = styled(PageContainer)`
-  &[data-film='true'] {
+  &[data-film="true"] {
     background-color: ${colors.ndlaFilm.filmColor};
   }
-  &[data-frontpage='true'] {
+  &[data-frontpage="true"] {
     background-color: ${colors.background.lightBlue};
   }
 `;
@@ -46,17 +46,17 @@ const Layout = () => {
   const prevPathname = usePrevious(pathname);
   const params = useUrnIds();
   const ndlaFilm = useIsNdlaFilm();
-  const frontpage = !!matchPath('/', pathname);
-  const backgroundWide = !!matchPath('/learningpaths/:learningpathId', pathname);
-  const noPaddingBottom = !!matchPath('/minndla/*', pathname) || frontpage;
+  const frontpage = !!matchPath("/", pathname);
+  const backgroundWide = !!matchPath("/learningpaths/:learningpathId", pathname);
+  const noPaddingBottom = !!matchPath("/minndla/*", pathname) || frontpage;
 
   useEffect(() => {
     if (!prevPathname || pathname === prevPathname) {
       return;
     }
-    const inSubjectOrTopic = params.subjectType !== 'multiDisciplinary' && params.topicId && !params.resourceId;
-    const inMulti = params.subjectType === 'multiDisciplinary' && params.topicId && params.topicList.length !== 3;
-    const searchUpdate = pathname === '/search' && prevPathname === '/search';
+    const inSubjectOrTopic = params.subjectType !== "multiDisciplinary" && params.topicId && !params.resourceId;
+    const inMulti = params.subjectType === "multiDisciplinary" && params.topicId && params.topicList.length !== 3;
+    const searchUpdate = pathname === "/search" && prevPathname === "/search";
     if (!searchUpdate && !inSubjectOrTopic && !inMulti) {
       window.scrollTo(0, 0);
     }
@@ -77,8 +77,8 @@ const Layout = () => {
         `}
       />
       <Helmet
-        htmlAttributes={{ lang: i18n.language === 'nb' ? 'no' : i18n.language }}
-        meta={[{ name: 'description', content: t('meta.description') }]}
+        htmlAttributes={{ lang: i18n.language === "nb" ? "no" : i18n.language }}
+        meta={[{ name: "description", content: t("meta.description") }]}
       >
         {metaChildren}
       </Helmet>

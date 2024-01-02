@@ -5,12 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { ReactElement, useContext } from 'react';
-import { useLocation } from 'react-router-dom';
-import { NoSSR } from '@ndla/util';
-import { AuthContext } from '../../components/AuthenticationContext';
-import { useBaseName } from '../../components/BaseNameContext';
-import { constructNewPath, toHref } from '../../util/urlHelper';
+import { ReactElement, useContext } from "react";
+import { useLocation } from "react-router-dom";
+import { NoSSR } from "@ndla/util";
+import { AuthContext } from "../../components/AuthenticationContext";
+import { useBaseName } from "../../components/BaseNameContext";
+import { constructNewPath, toHref } from "../../util/urlHelper";
 
 interface Props {
   element: ReactElement;

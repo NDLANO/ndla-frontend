@@ -6,37 +6,37 @@
  *
  */
 
-import { formatDistanceStrict } from 'date-fns';
-import { nb, nn, enGB } from 'date-fns/locale';
-import parse from 'html-react-parser';
-import { Dispatch, SetStateAction, useCallback, useContext, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-import styled from '@emotion/styled';
-import { colors, spacing, misc, mq, breakpoints } from '@ndla/core';
-import { Pencil, TrashCanOutline } from '@ndla/icons/action';
-import { ReportOutlined } from '@ndla/icons/common';
-import { Switch } from '@ndla/switch';
-import { Text, Heading } from '@ndla/typography';
-import { useSnack } from '@ndla/ui';
-import { ArenaFormValues } from './ArenaForm';
-import ArenaTextModal, { ArenaTextModalContent } from './ArenaTextModal';
-import FlagPostModalContent from './FlagPostModalContent';
-import { AuthContext } from '../../../../components/AuthenticationContext';
-import { SKIP_TO_CONTENT_ID } from '../../../../constants';
-import { GQLArenaPostFragment, GQLArenaTopicByIdQuery } from '../../../../graphqlTypes';
-import { formatDateTime } from '../../../../util/formatDate';
-import { useDeletePost, useDeleteTopic, useReplyToTopic, useUpdatePost } from '../../arenaMutations';
-import { arenaCategoryQuery, arenaTopicById } from '../../arenaQueries';
-import DeleteModalContent from '../../components/DeleteModalContent';
-import SettingsMenu, { MenuItemProps } from '../../components/SettingsMenu';
-import UserProfileTag from '../../components/UserProfileTag';
-import { capitalizeFirstLetter, toArena, toArenaCategory } from '../utils';
+import { formatDistanceStrict } from "date-fns";
+import { nb, nn, enGB } from "date-fns/locale";
+import parse from "html-react-parser";
+import { Dispatch, SetStateAction, useCallback, useContext, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+import styled from "@emotion/styled";
+import { colors, spacing, misc, mq, breakpoints } from "@ndla/core";
+import { Pencil, TrashCanOutline } from "@ndla/icons/action";
+import { ReportOutlined } from "@ndla/icons/common";
+import { Switch } from "@ndla/switch";
+import { Text, Heading } from "@ndla/typography";
+import { useSnack } from "@ndla/ui";
+import { ArenaFormValues } from "./ArenaForm";
+import ArenaTextModal, { ArenaTextModalContent } from "./ArenaTextModal";
+import FlagPostModalContent from "./FlagPostModalContent";
+import { AuthContext } from "../../../../components/AuthenticationContext";
+import { SKIP_TO_CONTENT_ID } from "../../../../constants";
+import { GQLArenaPostFragment, GQLArenaTopicByIdQuery } from "../../../../graphqlTypes";
+import { formatDateTime } from "../../../../util/formatDate";
+import { useDeletePost, useDeleteTopic, useReplyToTopic, useUpdatePost } from "../../arenaMutations";
+import { arenaCategoryQuery, arenaTopicById } from "../../arenaQueries";
+import DeleteModalContent from "../../components/DeleteModalContent";
+import SettingsMenu, { MenuItemProps } from "../../components/SettingsMenu";
+import UserProfileTag from "../../components/UserProfileTag";
+import { capitalizeFirstLetter, toArena, toArenaCategory } from "../utils";
 
 interface Props {
   onFollowChange: (value: boolean) => void;
   post: GQLArenaPostFragment;
-  topic: GQLArenaTopicByIdQuery['arenaTopic'];
+  topic: GQLArenaTopicByIdQuery["arenaTopic"];
   setFocusId: Dispatch<SetStateAction<number | undefined>>;
 }
 
@@ -149,7 +149,7 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId }: Props) => {
     ],
   });
 
-  const type = isMainPost ? 'topic' : 'post';
+  const type = isMainPost ? "topic" : "post";
 
   const validPosts = useMemo(() => topic?.posts.filter(({ deleted }) => !deleted), [topic?.posts]);
 
@@ -158,8 +158,8 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId }: Props) => {
       await deleteTopic({ variables: { topicId } });
       close();
       addSnack({
-        content: t('myNdla.arena.deleted.topic'),
-        id: 'arenaTopicDeleted',
+        content: t("myNdla.arena.deleted.topic"),
+        id: "arenaTopicDeleted",
       });
       if (topic?.categoryId) {
         navigate(toArenaCategory(topic.categoryId));
@@ -175,8 +175,8 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId }: Props) => {
       await deletePost({ variables: { postId } });
       close();
       addSnack({
-        content: t('myNdla.arena.deleted.post'),
-        id: 'arenaPostDeleted',
+        content: t("myNdla.arena.deleted.post"),
+        id: "arenaPostDeleted",
       });
       const index = validPosts?.indexOf(post) ?? 0;
       const previousPostId = validPosts?.[index - 1]?.id;
@@ -189,12 +189,12 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId }: Props) => {
 
   const menu = useMemo(() => {
     // Regex replaces @ with -. Same method as in backend
-    const isCorrectUser = user?.username.replace(/[^'"\s\-.*0-9\u00BF-\u1FFF\u2C00-\uD7FF\w]+/, '-') === username;
+    const isCorrectUser = user?.username.replace(/[^'"\s\-.*0-9\u00BF-\u1FFF\u2C00-\uD7FF\w]+/, "-") === username;
 
     const update: MenuItemProps = {
       icon: <Pencil />,
-      text: t('myNdla.arena.posts.dropdownMenu.edit'),
-      type: 'primary',
+      text: t("myNdla.arena.posts.dropdownMenu.edit"),
+      type: "primary",
       isModal: true,
       modalContent: (close) => (
         <ArenaTextModalContent
@@ -203,7 +203,7 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId }: Props) => {
           onSave={async (data) => {
             await updatePost({
               variables: {
-                content: data.content ?? '',
+                content: data.content ?? "",
                 postId,
                 title: isMainPost ? data.title : undefined,
               },
@@ -221,8 +221,8 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId }: Props) => {
 
     const deleteItem: MenuItemProps = {
       icon: <TrashCanOutline />,
-      type: 'danger',
-      text: t('myNdla.arena.posts.dropdownMenu.delete'),
+      type: "danger",
+      text: t("myNdla.arena.posts.dropdownMenu.delete"),
       isModal: true,
       modalContent: (close, skipAutoFocus) => (
         <DeleteModalContent
@@ -239,14 +239,14 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId }: Props) => {
 
     const report: MenuItemProps = {
       icon: <ReportOutlined />,
-      text: t('myNdla.arena.posts.dropdownMenu.report'),
-      type: 'primary',
+      text: t("myNdla.arena.posts.dropdownMenu.report"),
+      type: "primary",
       isModal: true,
       modality: false,
       modalContent: (close) => <FlagPostModalContent id={postId} onClose={close} />,
     };
 
-    return <SettingsMenu menuItems={isCorrectUser ? [update, deleteItem] : [report]} modalHeader={t('myNdla.tools')} />;
+    return <SettingsMenu menuItems={isCorrectUser ? [update, deleteItem] : [report]} modalHeader={t("myNdla.tools")} />;
   }, [
     t,
     user,
@@ -265,7 +265,7 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId }: Props) => {
   const createReply = useCallback(
     async (data: Partial<ArenaFormValues>) => {
       const newReply = await replyToTopic({
-        variables: { topicId, content: data.content ?? '' },
+        variables: { topicId, content: data.content ?? "" },
       });
       setFocusId(newReply.data?.replyToTopic.id);
     },
@@ -275,7 +275,7 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId }: Props) => {
   const timeDistance = formatDistanceStrict(Date.parse(timestamp), Date.now(), {
     addSuffix: true,
     locale: Locales[language],
-    roundingMethod: 'floor',
+    roundingMethod: "floor",
   });
 
   const postTime = (
@@ -308,13 +308,13 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId }: Props) => {
   return (
     <PostCardWrapper id={`post-${postId}`}>
       <PostHeader>
-        <UserProfileTag displayName={displayName} username={username} affiliation={location ?? ''} />
+        <UserProfileTag displayName={displayName} username={username} affiliation={location ?? ""} />
         {isMainPost && (
           <StyledSwitch
             onChange={onFollowChange}
             checked={!!topic?.isFollowing}
-            label={t('myNdla.arena.posts.notify')}
-            id={t('myNdla.arena.posts.notify')}
+            label={t("myNdla.arena.posts.notify")}
+            id={t("myNdla.arena.posts.notify")}
           />
         )}
       </PostHeader>

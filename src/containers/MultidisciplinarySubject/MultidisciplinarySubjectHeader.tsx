@@ -6,12 +6,12 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { breakpoints, mq, spacing } from '@ndla/core';
-import SafeLink from '@ndla/safelink';
-import { Text } from '@ndla/typography';
-import { HomeBreadcrumb, SimpleBreadcrumbItem } from '@ndla/ui';
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { breakpoints, mq, spacing } from "@ndla/core";
+import SafeLink from "@ndla/safelink";
+import { Text } from "@ndla/typography";
+import { HomeBreadcrumb, SimpleBreadcrumbItem } from "@ndla/ui";
 import {
   ClimateIllustration,
   DemocracyClimateIllustration,
@@ -20,7 +20,7 @@ import {
   PublicHealthDemocracyClimateIllustration,
   PublicHealthDemocracyIllustration,
   PublicHealthIllustration,
-} from './Illustrations';
+} from "./Illustrations";
 
 const StyledWrapper = styled.div`
   width: 100%;
@@ -65,7 +65,7 @@ const IllustrationsWrapper = styled.div<IllustrationsWrapperProps>`
   margin-bottom: 24px;
 `;
 
-type subjects = 'climate' | 'democracy' | 'publicHealth';
+type subjects = "climate" | "democracy" | "publicHealth";
 
 type subjectLink = {
   label: string;
@@ -84,20 +84,20 @@ const MultidisciplinarySubjectHeader = ({ subjects = [], subjectsLinks = [], bre
     if (subjects.length === 3) {
       return <PublicHealthDemocracyClimateIllustration />;
     }
-    if (subjects.includes('publicHealth') && subjects.includes('democracy')) {
+    if (subjects.includes("publicHealth") && subjects.includes("democracy")) {
       return <PublicHealthDemocracyIllustration />;
     }
-    if (subjects.includes('climate') && subjects.includes('democracy')) {
+    if (subjects.includes("climate") && subjects.includes("democracy")) {
       return <DemocracyClimateIllustration />;
     }
-    if (subjects.includes('climate') && subjects.includes('publicHealth')) {
+    if (subjects.includes("climate") && subjects.includes("publicHealth")) {
       return <PublicHealthClimateIllustration />;
     }
     return (
       <>
-        {subjects.includes('publicHealth') && <PublicHealthIllustration />}
-        {subjects.includes('democracy') && <DemocracyIllustration />}
-        {subjects.includes('climate') && <ClimateIllustration />}
+        {subjects.includes("publicHealth") && <PublicHealthIllustration />}
+        {subjects.includes("democracy") && <DemocracyIllustration />}
+        {subjects.includes("climate") && <ClimateIllustration />}
       </>
     );
   };
@@ -107,16 +107,16 @@ const MultidisciplinarySubjectHeader = ({ subjects = [], subjectsLinks = [], bre
         <TextWrapper>
           <HomeBreadcrumb items={breadcrumbs} />
           <Text element="span" textStyle="meta-text-medium">
-            {t('frontpageMultidisciplinarySubject.heading')}
+            {t("frontpageMultidisciplinarySubject.heading")}
           </Text>
           <SubjectsWrapper>
             <Text textStyle="content-alt" element="span" margin="none">
-              {t('multidisciplinarySubject.subjectsLinksDescription')}:{' '}
+              {t("multidisciplinarySubject.subjectsLinksDescription")}:{" "}
             </Text>
             {subjectsLinks.map((subject, index) => {
               return (
                 <span key={subject.label}>
-                  {index > 0 && (index < subjectsLinks.length - 1 ? ', ' : ' og ')}
+                  {index > 0 && (index < subjectsLinks.length - 1 ? ", " : " og ")}
                   <SafeLink to={subject.url}>{subject.label}</SafeLink>
                 </span>
               );

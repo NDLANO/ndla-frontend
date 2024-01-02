@@ -6,15 +6,15 @@
  *
  */
 
-import { ButtonHTMLAttributes, forwardRef, useContext, useMemo } from 'react';
-import { FavoriteButton as UIFavoriteButton } from '@ndla/button';
-import { NoSSR } from '@ndla/util';
-import config from '../../config';
-import { useFolders } from '../../containers/MyNdla/folderMutations';
-import { getAllResources } from '../../util/folderHelpers';
-import { AuthContext } from '../AuthenticationContext';
+import { ButtonHTMLAttributes, forwardRef, useContext, useMemo } from "react";
+import { FavoriteButton as UIFavoriteButton } from "@ndla/button";
+import { NoSSR } from "@ndla/util";
+import config from "../../config";
+import { useFolders } from "../../containers/MyNdla/folderMutations";
+import { getAllResources } from "../../util/folderHelpers";
+import { AuthContext } from "../AuthenticationContext";
 
-interface Props extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'size' | 'type'> {
+interface Props extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "size" | "type"> {
   path: string;
 }
 

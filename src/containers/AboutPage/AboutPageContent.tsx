@@ -6,29 +6,29 @@
  *
  */
 
-import { TFunction } from 'i18next';
-import { useContext, useEffect, useMemo } from 'react';
-import { Helmet } from 'react-helmet-async';
-import { useTranslation } from 'react-i18next';
-import { gql } from '@apollo/client';
-import styled from '@emotion/styled';
-import { DynamicComponents } from '@ndla/article-converter';
-import { breakpoints, colors, mq, spacing } from '@ndla/core';
-import { useTracker } from '@ndla/tracker';
-import { FRONTPAGE_ARTICLE_MAX_WIDTH, FrontpageArticle, HomeBreadcrumb } from '@ndla/ui';
-import AboutPageFooter from './AboutPageFooter';
-import { AuthContext } from '../../components/AuthenticationContext';
-import LicenseBox from '../../components/license/LicenseBox';
-import AddEmbedToFolder from '../../components/MyNdla/AddEmbedToFolder';
-import SocialMediaMetadata from '../../components/SocialMediaMetadata';
-import config from '../../config';
-import { SKIP_TO_CONTENT_ID } from '../../constants';
-import { GQLAboutPage_ArticleFragment, GQLAboutPage_FrontpageMenuFragment } from '../../graphqlTypes';
-import { toAbout } from '../../routeHelpers';
-import { getArticleScripts } from '../../util/getArticleScripts';
-import getStructuredDataFromArticle, { structuredArticleDataFragment } from '../../util/getStructuredDataFromArticle';
-import { getAllDimensions } from '../../util/trackingUtil';
-import { transformArticle } from '../../util/transformArticle';
+import { TFunction } from "i18next";
+import { useContext, useEffect, useMemo } from "react";
+import { Helmet } from "react-helmet-async";
+import { useTranslation } from "react-i18next";
+import { gql } from "@apollo/client";
+import styled from "@emotion/styled";
+import { DynamicComponents } from "@ndla/article-converter";
+import { breakpoints, colors, mq, spacing } from "@ndla/core";
+import { useTracker } from "@ndla/tracker";
+import { FRONTPAGE_ARTICLE_MAX_WIDTH, FrontpageArticle, HomeBreadcrumb } from "@ndla/ui";
+import AboutPageFooter from "./AboutPageFooter";
+import { AuthContext } from "../../components/AuthenticationContext";
+import LicenseBox from "../../components/license/LicenseBox";
+import AddEmbedToFolder from "../../components/MyNdla/AddEmbedToFolder";
+import SocialMediaMetadata from "../../components/SocialMediaMetadata";
+import config from "../../config";
+import { SKIP_TO_CONTENT_ID } from "../../constants";
+import { GQLAboutPage_ArticleFragment, GQLAboutPage_FrontpageMenuFragment } from "../../graphqlTypes";
+import { toAbout } from "../../routeHelpers";
+import { getArticleScripts } from "../../util/getArticleScripts";
+import getStructuredDataFromArticle, { structuredArticleDataFragment } from "../../util/getStructuredDataFromArticle";
+import { getAllDimensions } from "../../util/trackingUtil";
+import { transformArticle } from "../../util/transformArticle";
 
 interface Props {
   article: GQLAboutPage_ArticleFragment;
@@ -86,8 +86,8 @@ const getBreadcrumb = (slug: string | undefined, frontpage: GQLAboutPage_Frontpa
   const crumbs = findBreadcrumb(frontpage.menu as GQLAboutPage_FrontpageMenuFragment[], slug);
   return [
     {
-      name: t('breadcrumb.toFrontpage'),
-      to: '/',
+      name: t("breadcrumb.toFrontpage"),
+      to: "/",
     },
   ].concat(
     crumbs.map((crumb) => ({
@@ -97,7 +97,7 @@ const getBreadcrumb = (slug: string | undefined, frontpage: GQLAboutPage_Frontpa
   );
 };
 
-const getDocumentTitle = (t: TFunction, title: string) => t('htmlTitles.aboutPage', { name: title });
+const getDocumentTitle = (t: TFunction, title: string) => t("htmlTitles.aboutPage", { name: title });
 
 const converterComponents: DynamicComponents = {
   heartButton: AddEmbedToFolder,
@@ -129,14 +129,14 @@ const AboutPageContent = ({ article: _article, frontpage }: Props) => {
           ..._article.copyright,
           processed: _article.copyright.processed ?? false,
         },
-        introduction: transformedArticle.introduction ?? '',
+        introduction: transformedArticle.introduction ?? "",
       },
       getArticleScripts(_article, i18n.language),
     ];
   }, [_article, i18n.language])!;
 
   useEffect(() => {
-    if (window.MathJax && typeof window.MathJax.typeset === 'function') {
+    if (window.MathJax && typeof window.MathJax.typeset === "function") {
       try {
         window.MathJax.typeset();
       } catch (err) {

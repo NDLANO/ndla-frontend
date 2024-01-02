@@ -5,20 +5,20 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { Dispatch, SetStateAction } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { gql } from '@apollo/client';
-import { Spinner } from '@ndla/icons';
-import { SimpleBreadcrumbItem } from '@ndla/ui';
-import Topic, { topicFragments } from './Topic';
+import { Dispatch, SetStateAction } from "react";
+import { useNavigate } from "react-router-dom";
+import { gql } from "@apollo/client";
+import { Spinner } from "@ndla/icons";
+import { SimpleBreadcrumbItem } from "@ndla/ui";
+import Topic, { topicFragments } from "./Topic";
 import {
   GQLTopicWrapperQuery,
   GQLTopicWrapperQueryVariables,
   GQLTopicWrapper_SubjectFragment,
-} from '../../../graphqlTypes';
-import { removeUrn } from '../../../routeHelpers';
-import handleError, { isAccessDeniedError } from '../../../util/handleError';
-import { useGraphQuery } from '../../../util/runQueries';
+} from "../../../graphqlTypes";
+import { removeUrn } from "../../../routeHelpers";
+import handleError, { isAccessDeniedError } from "../../../util/handleError";
+import { useGraphQuery } from "../../../util/runQueries";
 
 type Props = {
   topicId: string;
@@ -71,9 +71,9 @@ const TopicWrapper = ({ subTopicId, topicId, subjectId, setBreadCrumb, showResou
   if (error) {
     handleError(error);
     if (isAccessDeniedError(error)) {
-      navigate('/403', { replace: true });
+      navigate("/403", { replace: true });
     } else {
-      navigate('/404', { replace: true });
+      navigate("/404", { replace: true });
     }
   }
 

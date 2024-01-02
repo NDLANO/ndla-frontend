@@ -6,16 +6,16 @@
  *
  */
 
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { Root, Trigger, Portal, Content, Arrow } from '@radix-ui/react-popover';
-import { colors, spacing } from '@ndla/core';
-import { SafeLinkButton } from '@ndla/safelink';
-import NotificationBellButton from './NotificationButton';
-import NotificationList from './NotificationList';
-import { toAllNotifications } from '../Arena/utils';
-import { useArenaNotifications } from '../arenaQueries';
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { Root, Trigger, Portal, Content, Arrow } from "@radix-ui/react-popover";
+import { colors, spacing } from "@ndla/core";
+import { SafeLinkButton } from "@ndla/safelink";
+import NotificationBellButton from "./NotificationButton";
+import NotificationList from "./NotificationList";
+import { toAllNotifications } from "../Arena/utils";
+import { useArenaNotifications } from "../arenaQueries";
 
 const StyledContent = styled(Content)`
   background-color: ${colors.background.default};
@@ -48,7 +48,7 @@ const NotificationPopover = () => {
           <StyledArrow />
           <NotificationList notifications={notifications} close={() => setOpen(false)} />
           <ShowAllLink to={toAllNotifications()} onClick={() => setOpen(false)} fontWeight="bold">
-            {t('myNdla.arena.notification.showAll')}
+            {t("myNdla.arena.notification.showAll")}
           </ShowAllLink>
         </StyledContent>
       </Portal>

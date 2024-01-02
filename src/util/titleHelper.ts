@@ -7,6 +7,6 @@
  */
 
 export const htmlTitle = (main: string | undefined, elements?: Array<string | undefined>): string => {
-  const subs = elements?.filter((e) => e).map((e) => ' - ' + e) || [];
-  return `${main || ''}${subs.join('')}`;
+  const subs = elements?.filter((e) => e).map((e) => " - " + e) || [];
+  return `${main || ""}${subs.join("")}`;
 };

@@ -6,20 +6,20 @@
  *
  */
 
-import { useContext } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router-dom';
-import { gql } from '@apollo/client';
-import { OneColumn, ErrorMessage } from '@ndla/ui';
-import IframeArticlePage, { iframeArticlePageFragments } from './IframeArticlePage';
-import RedirectContext from '../components/RedirectContext';
-import NotFound from '../containers/NotFoundPage/NotFoundPage';
-import { GQLIframePageQuery, GQLIframePageQueryVariables } from '../graphqlTypes';
-import { useGraphQuery } from '../util/runQueries';
+import { useContext } from "react";
+import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router-dom";
+import { gql } from "@apollo/client";
+import { OneColumn, ErrorMessage } from "@ndla/ui";
+import IframeArticlePage, { iframeArticlePageFragments } from "./IframeArticlePage";
+import RedirectContext from "../components/RedirectContext";
+import NotFound from "../containers/NotFoundPage/NotFoundPage";
+import { GQLIframePageQuery, GQLIframePageQueryVariables } from "../graphqlTypes";
+import { useGraphQuery } from "../util/runQueries";
 
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV !== "production") {
   // Can't require in production because of multiple asses emit to the same filename..
-  require('../style/index.css'); // eslint-disable-line global-require
+  require("../style/index.css"); // eslint-disable-line global-require
 }
 
 const Error = () => {
@@ -28,12 +28,12 @@ const Error = () => {
     <OneColumn cssModifier="clear">
       <ErrorMessage
         illustration={{
-          url: '/static/oops.gif',
-          altText: t('errorMessage.title'),
+          url: "/static/oops.gif",
+          altText: t("errorMessage.title"),
         }}
         messages={{
-          title: t('errorMessage.title'),
-          description: t('errorMessage.description'),
+          title: t("errorMessage.title"),
+          description: t("errorMessage.description"),
         }}
       />
     </OneColumn>
@@ -43,7 +43,7 @@ const Error = () => {
 interface Props {
   articleId?: string;
   taxonomyId?: string;
-  status?: 'success' | 'error';
+  status?: "success" | "error";
   isOembed?: string;
 }
 
@@ -81,14 +81,14 @@ export const IframePage = ({ status, taxonomyId, articleId, isOembed }: Props) =
       articleId: articleId!,
       isOembed,
       path: location.pathname,
-      taxonomyId: taxonomyId || '',
-      showVisualElement: 'true',
+      taxonomyId: taxonomyId || "",
+      showVisualElement: "true",
       convertEmbeds: true,
     },
     skip: !articleId,
   });
 
-  if (status !== 'success' || !articleId) {
+  if (status !== "success" || !articleId) {
     return <Error />;
   }
 

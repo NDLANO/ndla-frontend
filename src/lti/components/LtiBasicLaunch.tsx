@@ -6,13 +6,13 @@
  *
  */
 
-import queryString from 'query-string';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import config from '../../config';
-import { LtiData, LtiItem } from '../../interfaces';
+import queryString from "query-string";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import config from "../../config";
+import { LtiData, LtiItem } from "../../interfaces";
 
-const StyledLinkAsButton = styled('a')`
+const StyledLinkAsButton = styled("a")`
   display: inline-block;
   color: white;
   background-color: #20588f;
@@ -40,18 +40,18 @@ const StyledLinkAsButton = styled('a')`
 
 const getReturnType = (ltiData: LtiData) => {
   if (!ltiData.ext_content_return_types) {
-    return 'iframe';
+    return "iframe";
   }
-  if (ltiData.ext_content_return_types === 'lti_launch_url') {
-    return 'lti_launch_url';
+  if (ltiData.ext_content_return_types === "lti_launch_url") {
+    return "lti_launch_url";
   }
-  if (ltiData.ext_content_return_types.includes('iframe') || ltiData.ext_content_return_types.includes('oembed')) {
-    return 'iframe';
+  if (ltiData.ext_content_return_types.includes("iframe") || ltiData.ext_content_return_types.includes("oembed")) {
+    return "iframe";
   }
-  return 'lti_launch_url';
+  return "lti_launch_url";
 };
 const getQuery = (ltiData: LtiData, item: LtiItem) => {
-  const baseUrl = config.ndlaEnvironment === 'dev' ? 'http://localhost:3000' : config.ndlaFrontendDomain;
+  const baseUrl = config.ndlaEnvironment === "dev" ? "http://localhost:3000" : config.ndlaFrontendDomain;
   const query = {
     url: `${baseUrl}/article-iframe/article/${item.id}`,
     title: item.title,
@@ -61,7 +61,7 @@ const getQuery = (ltiData: LtiData, item: LtiItem) => {
   };
   return `${ltiData.launch_presentation_return_url}?${queryString.stringify({
     ...query,
-    text: query.return_type === 'lti_launch_url' ? item.title : undefined,
+    text: query.return_type === "lti_launch_url" ? item.title : undefined,
   })}`;
 };
 
@@ -71,7 +71,7 @@ interface Props {
 }
 const LtiBasicLaunch = ({ ltiData, item }: Props) => {
   const { t } = useTranslation();
-  return <StyledLinkAsButton href={getQuery(ltiData, item)}>{t('lti.embed')}</StyledLinkAsButton>;
+  return <StyledLinkAsButton href={getQuery(ltiData, item)}>{t("lti.embed")}</StyledLinkAsButton>;
 };
 
 export default LtiBasicLaunch;

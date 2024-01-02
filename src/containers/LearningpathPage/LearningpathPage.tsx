@@ -5,19 +5,19 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { TFunction } from 'i18next';
-import { useContext, useEffect } from 'react';
-import { Helmet } from 'react-helmet-async';
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-import { gql } from '@apollo/client';
-import { useTracker } from '@ndla/tracker';
-import { constants } from '@ndla/ui';
-import { AuthContext } from '../../components/AuthenticationContext';
-import DefaultErrorMessage from '../../components/DefaultErrorMessage';
-import Learningpath from '../../components/Learningpath';
-import SocialMediaMetadata from '../../components/SocialMediaMetadata';
-import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from '../../constants';
+import { TFunction } from "i18next";
+import { useContext, useEffect } from "react";
+import { Helmet } from "react-helmet-async";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+import { gql } from "@apollo/client";
+import { useTracker } from "@ndla/tracker";
+import { constants } from "@ndla/ui";
+import { AuthContext } from "../../components/AuthenticationContext";
+import DefaultErrorMessage from "../../components/DefaultErrorMessage";
+import Learningpath from "../../components/Learningpath";
+import SocialMediaMetadata from "../../components/SocialMediaMetadata";
+import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from "../../constants";
 import {
   GQLLearningpath,
   GQLLearningpathPage_ResourceFragment,
@@ -26,11 +26,11 @@ import {
   GQLLearningpathPage_TopicFragment,
   GQLLearningpathPage_TopicPathFragment,
   GQLLearningpathStep,
-} from '../../graphqlTypes';
-import { toBreadcrumbItems, toLearningPath } from '../../routeHelpers';
-import { getArticleProps } from '../../util/getArticleProps';
-import { htmlTitle } from '../../util/titleHelper';
-import { getAllDimensions } from '../../util/trackingUtil';
+} from "../../graphqlTypes";
+import { toBreadcrumbItems, toLearningPath } from "../../routeHelpers";
+import { getArticleProps } from "../../util/getArticleProps";
+import { htmlTitle } from "../../util/titleHelper";
+import { getAllDimensions } from "../../util/trackingUtil";
 
 interface PropData {
   relevance: string;
@@ -54,7 +54,7 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
   const { trackPageView } = useTracker();
   const navigate = useNavigate();
   useEffect(() => {
-    if (window.MathJax && typeof window.MathJax.typeset === 'function') {
+    if (window.MathJax && typeof window.MathJax.typeset === "function") {
       try {
         window.MathJax.typeset();
       } catch (err) {
@@ -90,8 +90,8 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
   const onKeyUpEvent = (evt: KeyboardEvent) => {
     const steps = data?.resource?.learningpath?.learningsteps;
     const learningpathStep = stepId ? steps?.find((step) => step.id.toString() === stepId.toString()) : steps?.[0];
-    if (evt.code === 'ArrowRight' || evt.code === 'ArrowLeft') {
-      const directionValue = evt.code === 'ArrowRight' ? 1 : -1;
+    if (evt.code === "ArrowRight" || evt.code === "ArrowLeft") {
+      const directionValue = evt.code === "ArrowRight" ? 1 : -1;
       const newSeqNo = (learningpathStep?.seqNo ?? 0) + directionValue;
       const newLearningpathStep = steps?.find((step) => step.seqNo === newSeqNo);
       if (newLearningpathStep) {
@@ -124,12 +124,12 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
 
   const breadcrumbItems =
     subject && topicPath
-      ? toBreadcrumbItems(t('breadcrumb.toFrontpage'), [
+      ? toBreadcrumbItems(t("breadcrumb.toFrontpage"), [
           subject,
           ...topicPath,
           { name: learningpath.title, id: `${learningpath.id}` },
         ])
-      : toBreadcrumbItems(t('breadcrumb.toFrontpage'), [{ name: learningpath.title, id: `${learningpath.id}` }]);
+      : toBreadcrumbItems(t("breadcrumb.toFrontpage"), [{ name: learningpath.title, id: `${learningpath.id}` }]);
 
   return (
     <div>
@@ -139,7 +139,7 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
           constants.subjectCategories.ARCHIVE_SUBJECTS && <meta name="robots" content="noindex, nofollow" />}
       </Helmet>
       <SocialMediaMetadata
-        title={htmlTitle(getTitle(subject, learningpath, learningpathStep), [t('htmlTitles.titleTemplate')])}
+        title={htmlTitle(getTitle(subject, learningpath, learningpathStep), [t("htmlTitles.titleTemplate")])}
         trackableContent={learningpath}
         description={learningpath.description}
         imageUrl={learningpath.coverphoto?.url}
@@ -161,9 +161,9 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
 };
 
 const getTitle = (
-  subject?: Pick<GQLLearningpathPage_SubjectFragment, 'name' | 'subjectpage'>,
-  learningpath?: Pick<GQLLearningpath, 'title'>,
-  learningpathStep?: Pick<GQLLearningpathStep, 'title'>,
+  subject?: Pick<GQLLearningpathPage_SubjectFragment, "name" | "subjectpage">,
+  learningpath?: Pick<GQLLearningpath, "title">,
+  learningpathStep?: Pick<GQLLearningpathStep, "title">,
 ) => {
   return htmlTitle(learningpath?.title, [learningpathStep?.title, subject?.name]);
 };
@@ -171,9 +171,9 @@ const getTitle = (
 const getDocumentTitle = (t: TFunction, data: PropData, stepId?: string) => {
   const subject = data.subject;
   const learningpath = data.resource?.learningpath;
-  const maybeStepId = parseInt(stepId ?? '');
+  const maybeStepId = parseInt(stepId ?? "");
   const step = learningpath?.learningsteps.find((step) => step.id === maybeStepId);
-  return htmlTitle(getTitle(subject, learningpath, step), [t('htmlTitles.titleTemplate')]);
+  return htmlTitle(getTitle(subject, learningpath, step), [t("htmlTitles.titleTemplate")]);
 };
 
 export const learningpathPageFragments = {

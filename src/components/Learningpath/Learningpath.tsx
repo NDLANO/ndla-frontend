@@ -6,11 +6,11 @@
  *
  */
 
-import { useEffect, useState } from 'react';
-import { gql } from '@apollo/client';
-import styled from '@emotion/styled';
-import { breakpoints, mq } from '@ndla/core';
-import { useWindowSize } from '@ndla/hooks';
+import { useEffect, useState } from "react";
+import { gql } from "@apollo/client";
+import styled from "@emotion/styled";
+import { breakpoints, mq } from "@ndla/core";
+import { useWindowSize } from "@ndla/hooks";
 import {
   LearningPathWrapper,
   LearningPathMenu,
@@ -24,10 +24,10 @@ import {
   constants,
   HomeBreadcrumb,
   HeroContent,
-} from '@ndla/ui';
-import LastLearningpathStepInfo from './LastLearningpathStepInfo';
-import LearningpathEmbed from './LearningpathEmbed';
-import config from '../../config';
+} from "@ndla/ui";
+import LastLearningpathStepInfo from "./LastLearningpathStepInfo";
+import LearningpathEmbed from "./LearningpathEmbed";
+import config from "../../config";
 import {
   GQLLearningpath_LearningpathFragment,
   GQLLearningpath_LearningpathStepFragment,
@@ -36,14 +36,14 @@ import {
   GQLLearningpath_SubjectFragment,
   GQLLearningpath_TopicFragment,
   GQLLearningpath_TopicPathFragment,
-} from '../../graphqlTypes';
-import { Breadcrumb as BreadcrumbType } from '../../interfaces';
-import { toLearningPath, useIsNdlaFilm } from '../../routeHelpers';
-import { getContentType } from '../../util/getContentType';
-import FavoriteButton from '../Article/FavoritesButton';
-import AddResourceToFolderModal from '../MyNdla/AddResourceToFolderModal';
+} from "../../graphqlTypes";
+import { Breadcrumb as BreadcrumbType } from "../../interfaces";
+import { toLearningPath, useIsNdlaFilm } from "../../routeHelpers";
+import { getContentType } from "../../util/getContentType";
+import FavoriteButton from "../Article/FavoritesButton";
+import AddResourceToFolderModal from "../MyNdla/AddResourceToFolderModal";
 
-const LEARNING_PATHS_STORAGE_KEY = 'LEARNING_PATHS_COOKIES_KEY';
+const LEARNING_PATHS_STORAGE_KEY = "LEARNING_PATHS_COOKIES_KEY";
 
 interface Props {
   learningpath: GQLLearningpath_LearningpathFragment;
@@ -75,7 +75,7 @@ const Learningpath = ({
 
   const lastUpdatedDate = new Date(lastUpdated);
 
-  const lastUpdatedString = `${lastUpdatedDate.getDate()}.${lastUpdatedDate.getMonth() + 1 < 10 ? '0' : ''}${
+  const lastUpdatedString = `${lastUpdatedDate.getDate()}.${lastUpdatedDate.getMonth() + 1 < 10 ? "0" : ""}${
     lastUpdatedDate.getMonth() + 1
   }.${lastUpdatedDate.getFullYear()}`;
 
@@ -105,10 +105,10 @@ const Learningpath = ({
 
   useEffect(() => updateViewedSteps(), [learningpathStep.id]); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => {
-    window.addEventListener('keyup', onKeyUpEvent);
+    window.addEventListener("keyup", onKeyUpEvent);
     updateViewedSteps();
     return () => {
-      window.removeEventListener('keyup', onKeyUpEvent);
+      window.removeEventListener("keyup", onKeyUpEvent);
     };
   }, [onKeyUpEvent]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -133,7 +133,7 @@ const Learningpath = ({
             resource={{
               id: learningpath.id.toString(),
               path: resource.path,
-              resourceType: 'learningpath',
+              resourceType: "learningpath",
             }}
           >
             <FavoriteButton path={resource.path} />

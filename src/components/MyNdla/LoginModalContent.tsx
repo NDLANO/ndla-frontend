@@ -6,11 +6,11 @@
  *
  */
 
-import { ReactNode } from 'react';
-import styled from '@emotion/styled';
-import { ModalBody, ModalCloseButton, ModalHeader, ModalContent } from '@ndla/modal';
-import { Heading } from '@ndla/typography';
-import LoginComponent from './LoginComponent';
+import { ReactNode } from "react";
+import styled from "@emotion/styled";
+import { ModalBody, ModalCloseButton, ModalHeader, ModalContent } from "@ndla/modal";
+import { Heading } from "@ndla/typography";
+import LoginComponent from "./LoginComponent";
 
 interface Props {
   title?: string;

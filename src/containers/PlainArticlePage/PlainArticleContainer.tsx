@@ -6,27 +6,27 @@
  *
  */
 
-import { TFunction } from 'i18next';
-import { useContext, useEffect, useMemo } from 'react';
-import { Helmet } from 'react-helmet-async';
-import { useTranslation } from 'react-i18next';
-import { gql } from '@apollo/client';
-import { DynamicComponents } from '@ndla/article-converter';
-import { useTracker } from '@ndla/tracker';
-import { OneColumn } from '@ndla/ui';
-import Article from '../../components/Article';
-import { AuthContext } from '../../components/AuthenticationContext';
-import AddEmbedToFolder from '../../components/MyNdla/AddEmbedToFolder';
-import SocialMediaMetadata from '../../components/SocialMediaMetadata';
-import config from '../../config';
-import { GQLPlainArticleContainer_ArticleFragment } from '../../graphqlTypes';
-import { getArticleProps } from '../../util/getArticleProps';
-import { getArticleScripts } from '../../util/getArticleScripts';
-import getStructuredDataFromArticle, { structuredArticleDataFragment } from '../../util/getStructuredDataFromArticle';
-import { htmlTitle } from '../../util/titleHelper';
-import { getAllDimensions } from '../../util/trackingUtil';
-import { transformArticle } from '../../util/transformArticle';
-import NotFoundPage from '../NotFoundPage/NotFoundPage';
+import { TFunction } from "i18next";
+import { useContext, useEffect, useMemo } from "react";
+import { Helmet } from "react-helmet-async";
+import { useTranslation } from "react-i18next";
+import { gql } from "@apollo/client";
+import { DynamicComponents } from "@ndla/article-converter";
+import { useTracker } from "@ndla/tracker";
+import { OneColumn } from "@ndla/ui";
+import Article from "../../components/Article";
+import { AuthContext } from "../../components/AuthenticationContext";
+import AddEmbedToFolder from "../../components/MyNdla/AddEmbedToFolder";
+import SocialMediaMetadata from "../../components/SocialMediaMetadata";
+import config from "../../config";
+import { GQLPlainArticleContainer_ArticleFragment } from "../../graphqlTypes";
+import { getArticleProps } from "../../util/getArticleProps";
+import { getArticleScripts } from "../../util/getArticleScripts";
+import getStructuredDataFromArticle, { structuredArticleDataFragment } from "../../util/getStructuredDataFromArticle";
+import { htmlTitle } from "../../util/titleHelper";
+import { getAllDimensions } from "../../util/trackingUtil";
+import { transformArticle } from "../../util/transformArticle";
+import NotFoundPage from "../NotFoundPage/NotFoundPage";
 
 interface Props {
   article: GQLPlainArticleContainer_ArticleFragment;
@@ -37,14 +37,14 @@ const converterComponents: DynamicComponents = {
   heartButton: AddEmbedToFolder,
 };
 
-const getDocumentTitle = (t: TFunction, title: string) => htmlTitle(title, [t('htmlTitles.titleTemplate')]);
+const getDocumentTitle = (t: TFunction, title: string) => htmlTitle(title, [t("htmlTitles.titleTemplate")]);
 
 const PlainArticleContainer = ({ article: propArticle, skipToContentId }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const { t, i18n } = useTranslation();
   const { trackPageView } = useTracker();
   useEffect(() => {
-    if (window.MathJax && typeof window.MathJax.typeset === 'function') {
+    if (window.MathJax && typeof window.MathJax.typeset === "function") {
       try {
         window.MathJax.typeset();
       } catch (err) {

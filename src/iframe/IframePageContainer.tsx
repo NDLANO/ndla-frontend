@@ -6,26 +6,26 @@
  *
  */
 
-import { Helmet } from 'react-helmet-async';
-import { PageContainer } from '@ndla/ui';
-import IframePage from './IframePage';
-import { BaseNameProvider } from '../components/BaseNameContext';
-import { isValidLocale } from '../i18n';
-import { LocaleType } from '../interfaces';
+import { Helmet } from "react-helmet-async";
+import { PageContainer } from "@ndla/ui";
+import IframePage from "./IframePage";
+import { BaseNameProvider } from "../components/BaseNameContext";
+import { isValidLocale } from "../i18n";
+import { LocaleType } from "../interfaces";
 
 interface Props {
   locale?: LocaleType;
   basename?: string;
   articleId?: string;
   taxonomyId?: string;
-  status?: 'success' | 'error';
+  status?: "success" | "error";
   isOembed?: string;
 }
 const IframePageContainer = ({ basename, status, taxonomyId, articleId, isOembed, locale }: Props) => {
   return (
-    <BaseNameProvider value={isValidLocale(basename) ? basename : ''}>
+    <BaseNameProvider value={isValidLocale(basename) ? basename : ""}>
       <PageContainer>
-        <Helmet htmlAttributes={{ lang: locale === 'nb' ? 'no' : locale }} />
+        <Helmet htmlAttributes={{ lang: locale === "nb" ? "no" : locale }} />
         <IframePage status={status} taxonomyId={taxonomyId} articleId={articleId} isOembed={isOembed} />
       </PageContainer>
     </BaseNameProvider>

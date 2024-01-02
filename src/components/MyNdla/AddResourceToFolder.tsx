@@ -6,29 +6,29 @@
  *
  */
 
-import compact from 'lodash/compact';
-import isEqual from 'lodash/isEqual';
-import sortBy from 'lodash/sortBy';
-import uniq from 'lodash/uniq';
-import { useEffect, useState, useContext } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { ButtonV2 as Button, LoadingButton } from '@ndla/button';
-import { colors, spacing } from '@ndla/core';
-import { InformationOutline } from '@ndla/icons/common';
-import SafeLink from '@ndla/safelink';
-import { ListResource, MessageBox, TagSelector, useSnack } from '@ndla/ui';
-import FolderSelect from './FolderSelect';
+import compact from "lodash/compact";
+import isEqual from "lodash/isEqual";
+import sortBy from "lodash/sortBy";
+import uniq from "lodash/uniq";
+import { useEffect, useState, useContext } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { ButtonV2 as Button, LoadingButton } from "@ndla/button";
+import { colors, spacing } from "@ndla/core";
+import { InformationOutline } from "@ndla/icons/common";
+import SafeLink from "@ndla/safelink";
+import { ListResource, MessageBox, TagSelector, useSnack } from "@ndla/ui";
+import FolderSelect from "./FolderSelect";
 import {
   useAddResourceToFolderMutation,
   useFolder,
   useFolderResourceMeta,
   useFolders,
   useUpdateFolderResourceMutation,
-} from '../../containers/MyNdla/folderMutations';
-import { GQLFolder, GQLFolderResource } from '../../graphqlTypes';
-import { getAllTags, getResourceForPath } from '../../util/folderHelpers';
-import { AuthContext } from '../AuthenticationContext';
+} from "../../containers/MyNdla/folderMutations";
+import { GQLFolder, GQLFolderResource } from "../../graphqlTypes";
+import { getAllTags, getResourceForPath } from "../../util/folderHelpers";
+import { AuthContext } from "../AuthenticationContext";
 
 export interface ResourceAttributes {
   path: string;
@@ -82,7 +82,7 @@ const ResourceAddedSnack = ({ folder }: ResourceAddedSnackProps) => {
   return (
     <StyledResourceAddedSnack>
       <StyledResource>
-        {t('myNdla.resource.addedToFolder')}
+        {t("myNdla.resource.addedToFolder")}
         <StyledSafeLink to={`/minndla/folders/${folder.id}`}>"{folder.name}"</StyledSafeLink>
       </StyledResource>
     </StyledResourceAddedSnack>
@@ -114,7 +114,7 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
   useEffect(() => {
     const tagsChanged = !!(storedResource && shouldUpdateFolderResource(storedResource, selectedTags));
     if (selectedFolder) {
-      if (selectedFolder.id === 'folders') {
+      if (selectedFolder.id === "folders") {
         setCanSave(false);
       } else if (selectedFolder.resources.some((resource) => resource.id === storedResource?.id)) {
         setCanSave(tagsChanged);
@@ -133,7 +133,7 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
   };
 
   const { updateFolderResource } = useUpdateFolderResourceMutation();
-  const { addResourceToFolder, loading: addResourceLoading } = useAddResourceToFolderMutation(selectedFolder?.id ?? '');
+  const { addResourceToFolder, loading: addResourceLoading } = useAddResourceToFolderMutation(selectedFolder?.id ?? "");
 
   const alreadyAdded = selectedFolder?.resources.some((resource) => resource.id === storedResource?.id);
 
@@ -157,14 +157,14 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
         variables: { id: storedResource.id, tags: selectedTags },
       });
       addSnack({
-        content: t('myNdla.resource.tagsUpdated'),
-        id: 'tagsUpdated',
+        content: t("myNdla.resource.tagsUpdated"),
+        id: "tagsUpdated",
       });
     }
     onClose();
   };
 
-  const noFolderSelected = selectedFolderId === 'folders';
+  const noFolderSelected = selectedFolderId === "folders";
 
   return (
     <AddResourceContainer>
@@ -173,17 +173,17 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
         tagLinkPrefix="/minndla/tags"
         isLoading={metaLoading}
         link={resource.path}
-        title={meta?.title ?? ''}
+        title={meta?.title ?? ""}
         resourceTypes={meta?.resourceTypes ?? []}
         resourceImage={{
-          src: meta?.metaImage?.url ?? '',
-          alt: meta?.metaImage?.alt ?? '',
+          src: meta?.metaImage?.url ?? "",
+          alt: meta?.metaImage?.alt ?? "",
         }}
       />
       {examLock ? (
         <MessageBox>
           <InformationOutline />
-          {t('myNdla.examLockInfo')}
+          {t("myNdla.examLockInfo")}
         </MessageBox>
       ) : (
         <>
@@ -196,17 +196,17 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
             storedResource={storedResource}
           />
           <div id="treestructure-error-label" aria-live="assertive">
-            {alreadyAdded && <MessageBox>{t('myNdla.alreadyInFolder')}</MessageBox>}
+            {alreadyAdded && <MessageBox>{t("myNdla.alreadyInFolder")}</MessageBox>}
             {noFolderSelected && (
               <MessageBox type="danger">
                 <InformationOutline />
-                {t('myNdla.noFolderSelected')}
+                {t("myNdla.noFolderSelected")}
               </MessageBox>
             )}
           </div>
           <ComboboxContainer>
             <TagSelector
-              label={t('myNdla.myTags')}
+              label={t("myNdla.myTags")}
               selected={selectedTags}
               tags={tags}
               onChange={(tags) => {
@@ -231,7 +231,7 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
             e.preventDefault();
           }}
         >
-          {t('cancel')}
+          {t("cancel")}
         </Button>
         <LoadingButton
           loading={addResourceLoading}
@@ -245,7 +245,7 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
             e.preventDefault();
           }}
         >
-          {t('myNdla.resource.save')}
+          {t("myNdla.resource.save")}
         </LoadingButton>
       </ButtonRow>
     </AddResourceContainer>

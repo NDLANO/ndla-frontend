@@ -6,13 +6,13 @@
  *
  */
 
-import uniqBy from 'lodash/uniqBy';
-import { ReactNode, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Link, useLocation } from 'react-router-dom';
-import { gql } from '@apollo/client';
-import { Concept, Globe } from '@ndla/icons/editor';
-import { metaTypes, getGroupedContributorDescriptionList } from '@ndla/licenses';
+import uniqBy from "lodash/uniqBy";
+import { ReactNode, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { Link, useLocation } from "react-router-dom";
+import { gql } from "@apollo/client";
+import { Concept, Globe } from "@ndla/icons/editor";
+import { metaTypes, getGroupedContributorDescriptionList } from "@ndla/licenses";
 import {
   MediaList,
   MediaListItem,
@@ -21,27 +21,27 @@ import {
   MediaListItemActions,
   MediaListItemMeta,
   ItemType,
-} from '@ndla/ui';
-import CopyTextButton from './CopyTextButton';
-import LicenseDescription from './LicenseDescription';
-import { isCopyrighted, licenseCopyrightToCopyrightType } from './licenseHelpers';
-import { MediaListRef, mediaListIcon } from './licenseStyles';
-import config from '../../config';
+} from "@ndla/ui";
+import CopyTextButton from "./CopyTextButton";
+import LicenseDescription from "./LicenseDescription";
+import { isCopyrighted, licenseCopyrightToCopyrightType } from "./licenseHelpers";
+import { MediaListRef, mediaListIcon } from "./licenseStyles";
+import config from "../../config";
 import {
   GQLConceptLicenseList_ConceptLicenseFragment,
   GQLGlossLicenseList_GlossLicenseFragment,
-} from '../../graphqlTypes';
+} from "../../graphqlTypes";
 
 interface ConceptLicenseInfoProps {
   concept: GQLConceptLicenseList_ConceptLicenseFragment | GQLGlossLicenseList_GlossLicenseFragment;
   icon: ReactNode;
-  type: 'gloss' | 'concept';
+  type: "gloss" | "concept";
 }
 
 const ConceptLicenseInfo = ({ concept, icon, type }: ConceptLicenseInfoProps) => {
   const { t, i18n } = useTranslation();
   const { pathname } = useLocation();
-  if (concept.copyright?.license?.license === undefined || concept.copyright.license.license === 'unknown') return null;
+  if (concept.copyright?.license?.license === undefined || concept.copyright.license.license === "unknown") return null;
 
   const pageUrl = `/concept/${concept.id}`;
 
@@ -59,14 +59,14 @@ const ConceptLicenseInfo = ({ concept, icon, type }: ConceptLicenseInfoProps) =>
   }
   if (concept.copyright.origin) {
     items.push({
-      label: t('source'),
+      label: t("source"),
       description: concept.copyright.origin,
       metaType: metaTypes.other,
     });
   }
   if (concept.copyright.processed === true) {
     items.push({
-      label: t('license.processed'),
+      label: t("license.processed"),
       metaType: metaTypes.otherWithoutDescription,
     });
   }
@@ -81,7 +81,7 @@ const ConceptLicenseInfo = ({ concept, icon, type }: ConceptLicenseInfoProps) =>
             to={pageUrl}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label={t('embed.goTo', { type: t(`embed.type.${type}`) })}
+            aria-label={t("embed.goTo", { type: t(`embed.type.${type}`) })}
           >
             {icon}
           </Link>
@@ -98,8 +98,8 @@ const ConceptLicenseInfo = ({ concept, icon, type }: ConceptLicenseInfoProps) =>
             <MediaListItemMeta items={items} />
             <CopyTextButton
               stringToCopy={`<iframe title="${concept.title}" aria-label="${concept.title}" height="400" width="500" frameborder="0" src="${src}" allowfullscreen=""></iframe>`}
-              copyTitle={t('license.embed')}
-              hasCopiedTitle={t('license.embedCopied')}
+              copyTitle={t("license.embed")}
+              hasCopiedTitle={t("license.embedCopied")}
             />
           </MediaListRef>
         </MediaListItemActions>
@@ -117,7 +117,7 @@ const ConceptLicenseList = ({ concepts }: Props) => {
   const unique = useMemo(() => uniqBy(concepts, (concept) => concept.id), [concepts]);
   return (
     <div>
-      <LicenseDescription>{t('license.concept.description')}</LicenseDescription>
+      <LicenseDescription>{t("license.concept.description")}</LicenseDescription>
       <MediaList>
         {unique.map((concept, index) => (
           <ConceptLicenseInfo type="concept" concept={concept} key={index} icon={<Concept css={mediaListIcon} />} />
@@ -137,7 +137,7 @@ export const GlossLicenseList = ({ glosses }: GlossLicenseListProps) => {
 
   return (
     <div>
-      <LicenseDescription>{t('license.gloss.description')}</LicenseDescription>
+      <LicenseDescription>{t("license.gloss.description")}</LicenseDescription>
       <MediaList>
         {unique.map((gloss, index) => (
           <ConceptLicenseInfo type="gloss" concept={gloss} key={index} icon={<Globe css={mediaListIcon} />} />

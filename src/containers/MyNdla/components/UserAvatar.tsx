@@ -6,10 +6,10 @@
  *
  */
 
-import styled from '@emotion/styled';
-import { breakpoints, misc, mq } from '@ndla/core';
-import Avatar from './Avatar';
-import EditProfilePicture from '../MyProfile/components/EditProfilePicture';
+import styled from "@emotion/styled";
+import { breakpoints, misc, mq } from "@ndla/core";
+import Avatar from "./Avatar";
+import EditProfilePicture from "../MyProfile/components/EditProfilePicture";
 
 type UserAvatarProps = {
   userName: string | undefined;

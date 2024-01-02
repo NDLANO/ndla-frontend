@@ -6,35 +6,35 @@
  *
  */
 
-import '../style/index.css';
-import { ReactNode } from 'react';
-import { createRoot, hydrateRoot } from 'react-dom/client';
-import { HelmetProvider } from 'react-helmet-async';
-import { I18nextProvider } from 'react-i18next';
-import { BrowserRouter } from 'react-router-dom';
-import { ApolloProvider } from '@apollo/client';
-import createCache from '@emotion/cache';
-import { CacheProvider } from '@emotion/react';
-import ErrorReporter from '@ndla/error-reporter';
-import { MissingRouterContext } from '@ndla/safelink';
-import { i18nInstance } from '@ndla/ui';
-import '@fontsource/source-sans-pro/index.css';
-import '@fontsource/source-sans-pro/400-italic.css';
-import '@fontsource/source-sans-pro/300.css';
-import '@fontsource/source-sans-pro/300-italic.css';
-import '@fontsource/source-sans-pro/600.css';
-import '@fontsource/source-sans-pro/700.css';
-import '@fontsource/source-code-pro/index.css';
-import '@fontsource/source-code-pro/400-italic.css';
-import '@fontsource/source-code-pro/700.css';
-import '@fontsource/source-serif-pro/index.css';
-import '@fontsource/source-serif-pro/400-italic.css';
-import '@fontsource/source-serif-pro/700.css';
-import EmbedIframePageContainer from './EmbedIframePageContainer';
-import { EmotionCacheKey } from '../constants';
-import { initializeI18n } from '../i18n';
-import { EmbedInitialProps } from '../server/routes/iframeEmbedRoute';
-import { createApolloClient } from '../util/apiHelpers';
+import "../style/index.css";
+import { ReactNode } from "react";
+import { createRoot, hydrateRoot } from "react-dom/client";
+import { HelmetProvider } from "react-helmet-async";
+import { I18nextProvider } from "react-i18next";
+import { BrowserRouter } from "react-router-dom";
+import { ApolloProvider } from "@apollo/client";
+import createCache from "@emotion/cache";
+import { CacheProvider } from "@emotion/react";
+import ErrorReporter from "@ndla/error-reporter";
+import { MissingRouterContext } from "@ndla/safelink";
+import { i18nInstance } from "@ndla/ui";
+import "@fontsource/source-sans-pro/index.css";
+import "@fontsource/source-sans-pro/400-italic.css";
+import "@fontsource/source-sans-pro/300.css";
+import "@fontsource/source-sans-pro/300-italic.css";
+import "@fontsource/source-sans-pro/600.css";
+import "@fontsource/source-sans-pro/700.css";
+import "@fontsource/source-code-pro/index.css";
+import "@fontsource/source-code-pro/400-italic.css";
+import "@fontsource/source-code-pro/700.css";
+import "@fontsource/source-serif-pro/index.css";
+import "@fontsource/source-serif-pro/400-italic.css";
+import "@fontsource/source-serif-pro/700.css";
+import EmbedIframePageContainer from "./EmbedIframePageContainer";
+import { EmotionCacheKey } from "../constants";
+import { initializeI18n } from "../i18n";
+import { EmbedInitialProps } from "../server/routes/iframeEmbedRoute";
+import { createApolloClient } from "../util/apiHelpers";
 
 const { config, initialProps } = window.DATA;
 
@@ -62,7 +62,7 @@ const renderOrHydrate = (container: HTMLElement, children: ReactNode) => {
   }
 };
 renderOrHydrate(
-  document.getElementById('root')!,
+  document.getElementById("root")!,
   <HelmetProvider>
     <I18nextProvider i18n={i18n}>
       <ApolloProvider client={client}>

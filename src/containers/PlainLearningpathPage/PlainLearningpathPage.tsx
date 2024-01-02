@@ -6,14 +6,14 @@
  *
  */
 
-import { gql } from '@apollo/client';
-import { ContentPlaceholder } from '@ndla/ui';
-import PlainLearningpathContainer, { plainLearningpathContainerFragments } from './PlainLearningpathContainer';
-import DefaultErrorMessage from '../../components/DefaultErrorMessage';
-import { SKIP_TO_CONTENT_ID } from '../../constants';
-import { GQLPlainLearningpathPageQuery, GQLPlainLearningpathPageQueryVariables } from '../../graphqlTypes';
-import { TypedParams, useTypedParams } from '../../routeHelpers';
-import { useGraphQuery } from '../../util/runQueries';
+import { gql } from "@apollo/client";
+import { ContentPlaceholder } from "@ndla/ui";
+import PlainLearningpathContainer, { plainLearningpathContainerFragments } from "./PlainLearningpathContainer";
+import DefaultErrorMessage from "../../components/DefaultErrorMessage";
+import { SKIP_TO_CONTENT_ID } from "../../constants";
+import { GQLPlainLearningpathPageQuery, GQLPlainLearningpathPageQueryVariables } from "../../graphqlTypes";
+import { TypedParams, useTypedParams } from "../../routeHelpers";
+import { useGraphQuery } from "../../util/runQueries";
 
 interface MatchParams extends TypedParams {
   learningpathId: string;

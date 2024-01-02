@@ -6,42 +6,42 @@
  *
  */
 
-import { searchSubjects, mapSearchToFrontPageStructure } from '../searchHelpers';
+import { searchSubjects, mapSearchToFrontPageStructure } from "../searchHelpers";
 
 const subjects = [
   {
-    id: 'urn:subject:1',
-    name: 'Fag (Vg2)',
+    id: "urn:subject:1",
+    name: "Fag (Vg2)",
     metadata: {
       customFields: {
-        subjectCategory: 'active',
+        subjectCategory: "active",
       },
     },
   },
 ];
 
-test('search subjects', () => {
+test("search subjects", () => {
   // can fail if subjects.js is updated
-  const searchResult = searchSubjects('(Vg2)', subjects);
+  const searchResult = searchSubjects("(Vg2)", subjects);
   expect(searchResult?.length).toBe(1);
 });
 
-test('search subjects with one character', () => {
-  const searchResult = searchSubjects('1', subjects);
+test("search subjects with one character", () => {
+  const searchResult = searchSubjects("1", subjects);
   expect(searchResult?.length).toBe(0);
 });
 
-test('map function', () => {
+test("map function", () => {
   expect(mapSearchToFrontPageStructure({}, () => {}, undefined, [])).toEqual([]);
   const returnArray = mapSearchToFrontPageStructure(
     {
       frontpageSearch: {
         learningResources: { results: [], totalCount: 0 },
-        topicResources: { results: ['tetr', 'geeg'], totalCount: 2 },
+        topicResources: { results: ["tetr", "geeg"], totalCount: 2 },
       },
     },
     () => {},
-    'Vg2 og',
+    "Vg2 og",
   );
   expect(returnArray.length).toBe(1);
 });

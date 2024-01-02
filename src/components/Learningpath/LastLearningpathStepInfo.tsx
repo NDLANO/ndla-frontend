@@ -6,15 +6,15 @@
  *
  */
 
-import { gql } from '@apollo/client';
-import { LearningPathLastStepNavigation } from '@ndla/ui';
-import Resources from '../../containers/Resources/Resources';
+import { gql } from "@apollo/client";
+import { LearningPathLastStepNavigation } from "@ndla/ui";
+import Resources from "../../containers/Resources/Resources";
 import {
   GQLLastLearningpathStepInfo_ResourceTypeDefinitionFragment,
   GQLLastLearningpathStepInfo_SubjectFragment,
   GQLLastLearningpathStepInfo_TopicFragment,
   GQLLastLearningpathStepInfo_TopicPathFragment,
-} from '../../graphqlTypes';
+} from "../../graphqlTypes";
 
 interface Props {
   topic?: GQLLastLearningpathStepInfo_TopicFragment;

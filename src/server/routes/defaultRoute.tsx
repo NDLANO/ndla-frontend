@@ -6,44 +6,44 @@
  *
  */
 
-import url from 'url';
-import { Request } from 'express';
-import { getSelectorsByUserAgent } from 'react-device-detect';
-import { FilledContext, HelmetProvider } from 'react-helmet-async';
-import { I18nextProvider } from 'react-i18next';
-import { StaticRouter } from 'react-router-dom/server.js';
-import { ApolloProvider } from '@apollo/client';
-import createCache from '@emotion/cache';
-import { CacheProvider } from '@emotion/react';
-import { i18nInstance } from '@ndla/ui';
-import { getCookie } from '@ndla/util';
+import url from "url";
+import { Request } from "express";
+import { getSelectorsByUserAgent } from "react-device-detect";
+import { FilledContext, HelmetProvider } from "react-helmet-async";
+import { I18nextProvider } from "react-i18next";
+import { StaticRouter } from "react-router-dom/server.js";
+import { ApolloProvider } from "@apollo/client";
+import createCache from "@emotion/cache";
+import { CacheProvider } from "@emotion/react";
+import { i18nInstance } from "@ndla/ui";
+import { getCookie } from "@ndla/util";
 
-import App from '../../App';
-import RedirectContext, { RedirectInfo } from '../../components/RedirectContext';
-import { VersionHashProvider } from '../../components/VersionHashContext';
-import config from '../../config';
-import { EmotionCacheKey, STORED_LANGUAGE_COOKIE_KEY } from '../../constants';
-import { getLocaleInfoFromPath, initializeI18n, isValidLocale } from '../../i18n';
-import { LocaleType } from '../../interfaces';
-import { TEMPORARY_REDIRECT } from '../../statusCodes';
-import { UserAgentProvider } from '../../UserAgentContext';
-import { createApolloClient } from '../../util/apiHelpers';
-import { Assets } from '../helpers/Document';
-import { renderHtml, renderPageWithData } from '../helpers/render';
+import App from "../../App";
+import RedirectContext, { RedirectInfo } from "../../components/RedirectContext";
+import { VersionHashProvider } from "../../components/VersionHashContext";
+import config from "../../config";
+import { EmotionCacheKey, STORED_LANGUAGE_COOKIE_KEY } from "../../constants";
+import { getLocaleInfoFromPath, initializeI18n, isValidLocale } from "../../i18n";
+import { LocaleType } from "../../interfaces";
+import { TEMPORARY_REDIRECT } from "../../statusCodes";
+import { UserAgentProvider } from "../../UserAgentContext";
+import { createApolloClient } from "../../util/apiHelpers";
+import { Assets } from "../helpers/Document";
+import { renderHtml, renderPageWithData } from "../helpers/render";
 
 //@ts-ignore
 const assets = require(process.env.ASSETS_MANIFEST); //eslint-disable-line
 
 const getAssets = (): Assets => ({
-  css: assets['client.css'],
-  js: [{ src: assets['client.js'] }],
-  mathJaxConfig: { js: assets['mathJaxConfig.js'] },
+  css: assets["client.css"],
+  js: [{ src: assets["client.js"] }],
+  mathJaxConfig: { js: assets["mathJaxConfig.js"] },
 });
 
 const disableSSR = (req: Request) => {
   const urlParts = url.parse(req.url, true);
   if (urlParts.query && urlParts.query.disableSSR) {
-    return urlParts.query.disableSSR === 'true';
+    return urlParts.query.disableSSR === "true";
   }
   return config.disableSSR;
 };
@@ -51,10 +51,10 @@ const disableSSR = (req: Request) => {
 async function doRender(req: Request) {
   //@ts-ignore
   global.assets = assets; // used for including mathjax js in pages with math
-  const resCookie = req.headers['cookie'] ?? '';
-  const userAgent = req.headers['user-agent'];
+  const resCookie = req.headers["cookie"] ?? "";
+  const userAgent = req.headers["user-agent"];
   const userAgentSelectors = userAgent ? getSelectorsByUserAgent(userAgent) : undefined;
-  const versionHash = typeof req.query.versionHash === 'string' ? req.query.versionHash : undefined;
+  const versionHash = typeof req.query.versionHash === "string" ? req.query.versionHash : undefined;
   const { basename, abbreviation } = getLocaleInfoFromPath(req.path);
   const locale = getCookieLocaleOrFallback(resCookie, abbreviation);
   const noSSR = disableSSR(req);
@@ -87,7 +87,7 @@ async function doRender(req: Request) {
       </HelmetProvider>
     </RedirectContext.Provider>
   ) : (
-    <HelmetProvider context={helmetContext}>{''}</HelmetProvider>
+    <HelmetProvider context={helmetContext}>{""}</HelmetProvider>
   );
 
   const apolloState = client.extract();
@@ -113,7 +113,7 @@ async function doRender(req: Request) {
 }
 
 function getCookieLocaleOrFallback(resCookie: string, abbreviation: LocaleType) {
-  const cookieLocale = getCookie(STORED_LANGUAGE_COOKIE_KEY, resCookie) ?? '';
+  const cookieLocale = getCookie(STORED_LANGUAGE_COOKIE_KEY, resCookie) ?? "";
   if (cookieLocale.length && isValidLocale(cookieLocale)) {
     return cookieLocale;
   }
@@ -121,10 +121,10 @@ function getCookieLocaleOrFallback(resCookie: string, abbreviation: LocaleType) 
 }
 
 export async function defaultRoute(req: Request) {
-  const resCookie = req.headers['cookie'] ?? '';
+  const resCookie = req.headers["cookie"] ?? "";
   const { basename, basepath, abbreviation } = getLocaleInfoFromPath(req.originalUrl);
   const locale = getCookieLocaleOrFallback(resCookie, abbreviation);
-  if ((locale === 'nb' && basename === '') || locale === basename) {
+  if ((locale === "nb" && basename === "") || locale === basename) {
     const { html, context, docProps, helmetContext } = await doRender(req);
     return renderHtml(html, context, docProps, helmetContext);
   }

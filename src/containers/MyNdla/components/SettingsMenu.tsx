@@ -6,23 +6,23 @@
  *
  */
 
-import { ReactNode, MouseEvent, useState, useCallback, useRef, RefObject } from 'react';
-import { isMobile, isTablet } from 'react-device-detect';
-import { useTranslation } from 'react-i18next';
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
-import { IconButtonV2, ButtonV2 } from '@ndla/button';
-import { breakpoints, colors, fonts, misc, mq, spacing } from '@ndla/core';
-import { DropdownMenu, DropdownItem, DropdownContent, DropdownTrigger } from '@ndla/dropdown-menu';
-import { HorizontalMenu } from '@ndla/icons/contentType';
-import { Drawer, Modal, ModalBody, ModalCloseButton, ModalHeader, ModalTrigger } from '@ndla/modal';
-import { SafeLinkButton } from '@ndla/safelink';
+import { ReactNode, MouseEvent, useState, useCallback, useRef, RefObject } from "react";
+import { isMobile, isTablet } from "react-device-detect";
+import { useTranslation } from "react-i18next";
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
+import { IconButtonV2, ButtonV2 } from "@ndla/button";
+import { breakpoints, colors, fonts, misc, mq, spacing } from "@ndla/core";
+import { DropdownMenu, DropdownItem, DropdownContent, DropdownTrigger } from "@ndla/dropdown-menu";
+import { HorizontalMenu } from "@ndla/icons/contentType";
+import { Drawer, Modal, ModalBody, ModalCloseButton, ModalHeader, ModalTrigger } from "@ndla/modal";
+import { SafeLinkButton } from "@ndla/safelink";
 
 export interface MenuItemProps {
   icon?: ReactNode;
   text?: string;
   disabled?: boolean;
-  type?: 'danger' | 'primary';
+  type?: "danger" | "primary";
   isModal?: boolean;
   onClick?: (e?: MouseEvent<HTMLElement>) => void;
   keepOpen?: boolean;
@@ -89,7 +89,7 @@ const ItemButton = styled(ButtonV2)`
   color: ${colors.text.primary};
   ${fonts.sizes(spacing.nsmall, spacing.nsmall)}
   justify-content: flex-start;
-  &[data-type='danger'] {
+  &[data-type="danger"] {
     color: ${colors.support.red};
     &:hover,
     &:focus-within,
@@ -99,7 +99,7 @@ const ItemButton = styled(ButtonV2)`
     }
   }
 
-  &[data-type='primary'] {
+  &[data-type="primary"] {
     color: ${colors.brand.primary};
   }
 `;
@@ -130,7 +130,7 @@ const SettingsMenu = ({ menuItems, modalHeader }: Props) => {
 
   const close = useCallback(() => setOpen(false), []);
 
-  const title = t('myNdla.showEditOptions');
+  const title = t("myNdla.showEditOptions");
 
   if (isMobile || isTablet) {
     return (
@@ -164,7 +164,7 @@ const SettingsMenu = ({ menuItems, modalHeader }: Props) => {
           }}
         >
           <ModalHeader>
-            <h1>{modalHeader ?? t('myNdla.settings')}</h1>
+            <h1>{modalHeader ?? t("myNdla.settings")}</h1>
             <ModalCloseButton />
           </ModalHeader>
           <StyledModalBody>
@@ -271,7 +271,7 @@ const SettingsMenu = ({ menuItems, modalHeader }: Props) => {
                 </SafeLinkButton>
               ) : (
                 <ItemButton
-                  colorTheme={item.type === 'danger' ? 'danger' : 'light'}
+                  colorTheme={item.type === "danger" ? "danger" : "light"}
                   disabled={item.disabled}
                   shape="sharp"
                   variant="ghost"
@@ -293,7 +293,7 @@ const SettingsMenu = ({ menuItems, modalHeader }: Props) => {
   );
 };
 
-interface ItemProps extends Pick<MenuItemProps, 'isModal' | 'modalContent' | 'keepOpen' | 'modality'> {
+interface ItemProps extends Pick<MenuItemProps, "isModal" | "modalContent" | "keepOpen" | "modality"> {
   children?: ReactNode;
   handleDialogItemOpenChange?: (open: boolean, keepOpen?: boolean) => void;
   setSkipAutoFocus: VoidFunction;

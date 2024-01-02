@@ -6,20 +6,20 @@
  *
  */
 
-import { useContext } from 'react';
-import { useLocation } from 'react-router-dom';
-import { gql } from '@apollo/client';
-import { ContentPlaceholder } from '@ndla/ui';
-import PlainArticleContainer, { plainArticleContainerFragments } from './PlainArticleContainer';
-import DefaultErrorMessage from '../../components/DefaultErrorMessage';
-import RedirectContext from '../../components/RedirectContext';
-import { SKIP_TO_CONTENT_ID } from '../../constants';
-import { GQLPlainArticlePageQuery, GQLPlainArticlePageQueryVariables } from '../../graphqlTypes';
-import { TypedParams, useTypedParams } from '../../routeHelpers';
-import { isAccessDeniedError } from '../../util/handleError';
-import { useGraphQuery } from '../../util/runQueries';
-import AccessDeniedPage from '../AccessDeniedPage/AccessDeniedPage';
-import NotFoundPage from '../NotFoundPage/NotFoundPage';
+import { useContext } from "react";
+import { useLocation } from "react-router-dom";
+import { gql } from "@apollo/client";
+import { ContentPlaceholder } from "@ndla/ui";
+import PlainArticleContainer, { plainArticleContainerFragments } from "./PlainArticleContainer";
+import DefaultErrorMessage from "../../components/DefaultErrorMessage";
+import RedirectContext from "../../components/RedirectContext";
+import { SKIP_TO_CONTENT_ID } from "../../constants";
+import { GQLPlainArticlePageQuery, GQLPlainArticlePageQueryVariables } from "../../graphqlTypes";
+import { TypedParams, useTypedParams } from "../../routeHelpers";
+import { isAccessDeniedError } from "../../util/handleError";
+import { useGraphQuery } from "../../util/runQueries";
+import AccessDeniedPage from "../AccessDeniedPage/AccessDeniedPage";
+import NotFoundPage from "../NotFoundPage/NotFoundPage";
 
 interface MatchParams extends TypedParams {
   articleId: string;
@@ -55,9 +55,9 @@ const PlainArticlePage = () => {
     {
       variables: {
         articleId,
-        isOembed: 'false',
+        isOembed: "false",
         path: pathname,
-        showVisualElement: 'true',
+        showVisualElement: "true",
         convertEmbeds: true,
       },
     },

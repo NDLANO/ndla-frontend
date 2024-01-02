@@ -6,25 +6,25 @@
  *
  */
 
-import express from 'express';
-import { PathMatch } from 'react-router-dom';
-import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
-import config from '../../config';
-import { fetchArticle } from '../../containers/ArticlePage/articleApi';
-import { fetchResource, fetchTopic } from '../../containers/Resources/resourceApi';
-import { getArticleIdFromResource } from '../../containers/Resources/resourceHelpers';
-import { GQLEmbedOembedQuery, GQLEmbedOembedQueryVariables } from '../../graphqlTypes';
-import { embedOembedQuery } from '../../queries';
-import { BAD_REQUEST, INTERNAL_SERVER_ERROR } from '../../statusCodes';
-import { createApolloClient } from '../../util/apiHelpers';
-import handleError from '../../util/handleError';
-import { parseOembedUrl } from '../../util/urlHelper';
+import express from "express";
+import { PathMatch } from "react-router-dom";
+import { ApolloClient, NormalizedCacheObject } from "@apollo/client";
+import config from "../../config";
+import { fetchArticle } from "../../containers/ArticlePage/articleApi";
+import { fetchResource, fetchTopic } from "../../containers/Resources/resourceApi";
+import { getArticleIdFromResource } from "../../containers/Resources/resourceHelpers";
+import { GQLEmbedOembedQuery, GQLEmbedOembedQueryVariables } from "../../graphqlTypes";
+import { embedOembedQuery } from "../../queries";
+import { BAD_REQUEST, INTERNAL_SERVER_ERROR } from "../../statusCodes";
+import { createApolloClient } from "../../util/apiHelpers";
+import handleError from "../../util/handleError";
+import { parseOembedUrl } from "../../util/urlHelper";
 
 function getOembedObject(req: express.Request, title?: string, html?: string) {
   return {
     data: {
-      type: 'rich',
-      version: '1.0', // oEmbed version
+      type: "rich",
+      version: "1.0", // oEmbed version
       height: req.query.height || 480,
       width: req.query.width || 854,
       title,
@@ -33,7 +33,7 @@ function getOembedObject(req: express.Request, title?: string, html?: string) {
   };
 }
 
-type MatchParams = 'resourceId' | 'topicId' | 'lang' | 'articleId';
+type MatchParams = "resourceId" | "topicId" | "lang" | "articleId";
 
 let apolloClient: ApolloClient<NormalizedCacheObject>;
 let storedLocale: string;
@@ -81,14 +81,14 @@ const getHTMLandTitle = async (match: PathMatch<MatchParams>, req: express.Reque
 };
 
 export const getEmbedTitle = (type: string, data: GQLEmbedOembedQuery) => {
-  if (type === 'concept') {
-    return data.resourceEmbed.meta.concepts?.[0]?.title ?? '';
-  } else if (type === 'audio') {
-    return data.resourceEmbed.meta.podcasts?.[0]?.title ?? data.resourceEmbed.meta.audios?.[0]?.title ?? '';
-  } else if (type === 'video') {
-    return data.resourceEmbed.meta.brightcoves?.[0]?.title ?? '';
+  if (type === "concept") {
+    return data.resourceEmbed.meta.concepts?.[0]?.title ?? "";
+  } else if (type === "audio") {
+    return data.resourceEmbed.meta.podcasts?.[0]?.title ?? data.resourceEmbed.meta.audios?.[0]?.title ?? "";
+  } else if (type === "video") {
+    return data.resourceEmbed.meta.brightcoves?.[0]?.title ?? "";
   } else {
-    return data.resourceEmbed.meta.images?.[0]?.title ?? '';
+    return data.resourceEmbed.meta.images?.[0]?.title ?? "";
   }
 };
 
@@ -116,10 +116,10 @@ export const getEmbedObject = async (lang: string, embedId: string, embedType: s
 
 export async function oembedArticleRoute(req: express.Request) {
   const { url } = req.query;
-  if (!url || typeof url !== 'string') {
+  if (!url || typeof url !== "string") {
     return {
       status: BAD_REQUEST,
-      data: 'Bad request. Missing url param.',
+      data: "Bad request. Missing url param.",
     };
   }
 
@@ -127,7 +127,7 @@ export async function oembedArticleRoute(req: express.Request) {
   if (!match) {
     return {
       status: BAD_REQUEST,
-      data: 'Bad request. Invalid url.',
+      data: "Bad request. Invalid url.",
     };
   }
 
@@ -136,15 +136,15 @@ export async function oembedArticleRoute(req: express.Request) {
   } = match;
   try {
     if (conceptId) {
-      return await getEmbedObject(lang, conceptId, 'concept', req);
+      return await getEmbedObject(lang, conceptId, "concept", req);
     } else if (audioId) {
-      return await getEmbedObject(lang, audioId, 'audio', req);
+      return await getEmbedObject(lang, audioId, "audio", req);
     } else if (videoId) {
-      return await getEmbedObject(lang, videoId, 'video', req);
+      return await getEmbedObject(lang, videoId, "video", req);
     } else if (imageId) {
-      return await getEmbedObject(lang, imageId, 'image', req);
+      return await getEmbedObject(lang, imageId, "image", req);
     } else if (h5pId) {
-      return await getEmbedObject(lang, h5pId, 'h5p', req);
+      return await getEmbedObject(lang, h5pId, "h5p", req);
     } else if (!resourceId && !topicId) {
       const {
         params: { articleId },
@@ -170,7 +170,7 @@ export async function oembedArticleRoute(req: express.Request) {
 
     return {
       status,
-      data: typedError.status === 404 ? 'Not found' : 'Internal server error',
+      data: typedError.status === 404 ? "Not found" : "Internal server error",
     };
   }
 }

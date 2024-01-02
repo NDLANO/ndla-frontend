@@ -6,27 +6,27 @@
  *
  */
 
-import keyBy from 'lodash/keyBy';
-import { useCallback, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { breakpoints, colors, misc, mq, spacing } from '@ndla/core';
-import { Spinner } from '@ndla/icons';
-import { HumanMaleBoard } from '@ndla/icons/common';
-import { Drawer, Modal, ModalCloseButton, ModalHeader, ModalTrigger } from '@ndla/modal';
-import { ErrorMessage, OneColumn } from '@ndla/ui';
-import FolderMeta from './components/FolderMeta';
-import FolderNavigation from './components/FolderNavigation';
-import SharedArticle from './components/SharedArticle';
-import SocialMediaMetadata from '../../components/SocialMediaMetadata';
-import { GQLFolder, GQLFolderResource } from '../../graphqlTypes';
-import { useUserAgent } from '../../UserAgentContext';
-import ErrorPage from '../ErrorPage';
-import { useFolderResourceMetaSearch, useGetSharedFolder, useSharedFolder } from '../MyNdla/folderMutations';
-import NotFound from '../NotFoundPage/NotFoundPage';
-import ResourceEmbed, { StandaloneEmbed } from '../ResourceEmbed/components/ResourceEmbed';
+import keyBy from "lodash/keyBy";
+import { useCallback, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useParams } from "react-router-dom";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { breakpoints, colors, misc, mq, spacing } from "@ndla/core";
+import { Spinner } from "@ndla/icons";
+import { HumanMaleBoard } from "@ndla/icons/common";
+import { Drawer, Modal, ModalCloseButton, ModalHeader, ModalTrigger } from "@ndla/modal";
+import { ErrorMessage, OneColumn } from "@ndla/ui";
+import FolderMeta from "./components/FolderMeta";
+import FolderNavigation from "./components/FolderNavigation";
+import SharedArticle from "./components/SharedArticle";
+import SocialMediaMetadata from "../../components/SocialMediaMetadata";
+import { GQLFolder, GQLFolderResource } from "../../graphqlTypes";
+import { useUserAgent } from "../../UserAgentContext";
+import ErrorPage from "../ErrorPage";
+import { useFolderResourceMetaSearch, useGetSharedFolder, useSharedFolder } from "../MyNdla/folderMutations";
+import NotFound from "../NotFoundPage/NotFoundPage";
+import ResourceEmbed, { StandaloneEmbed } from "../ResourceEmbed/components/ResourceEmbed";
 
 const Layout = styled.div`
   display: grid;
@@ -135,11 +135,11 @@ const LandingPageMobileWrapper = styled.div`
   padding: ${spacing.small};
 `;
 
-const embedResourceTypes = ['video', 'audio', 'concept', 'image'];
+const embedResourceTypes = ["video", "audio", "concept", "image"];
 
 const SharedFolderPage = () => {
   const [open, setOpen] = useState(false);
-  const { folderId = '', resourceId, subfolderId } = useParams();
+  const { folderId = "", resourceId, subfolderId } = useParams();
   const { t } = useTranslation();
   const selectors = useUserAgent();
 
@@ -182,7 +182,7 @@ const SharedFolderPage = () => {
 
   const metaWithMetaImage = data?.find((d) => !!d.metaImage?.url);
 
-  const title = `${selectedFolder?.name} - ${articleMeta?.title ?? t('myNdla.folder.sharing.sharedFolder')}`;
+  const title = `${selectedFolder?.name} - ${articleMeta?.title ?? t("myNdla.folder.sharing.sharedFolder")}`;
 
   return (
     <Layout>
@@ -190,7 +190,7 @@ const SharedFolderPage = () => {
         type="website"
         title={title}
         imageUrl={metaWithMetaImage?.metaImage?.url}
-        description={t('myNdla.sharedFolder.description.info1')}
+        description={t("myNdla.sharedFolder.description.info1")}
       >
         <meta name="robots" content="noindex, nofollow" />
       </SocialMediaMetadata>
@@ -200,8 +200,8 @@ const SharedFolderPage = () => {
             <InfoBox>
               <HumanMaleBoard />
               <span>
-                {t('myNdla.sharedFolder.shared', {
-                  sharedBy: folder.owner?.name ?? t('myNdla.sharedFolder.aTeacher'),
+                {t("myNdla.sharedFolder.shared", {
+                  sharedBy: folder.owner?.name ?? t("myNdla.sharedFolder.aTeacher"),
                 })}
               </span>
             </InfoBox>
@@ -211,13 +211,13 @@ const SharedFolderPage = () => {
           <Modal open={open} onOpenChange={setOpen}>
             <ModalTrigger>
               <DrawerButton shape="sharp" colorTheme="light">
-                <span id="folder-drawer-button">{t('myNdla.sharedFolder.drawerButton')}</span>
+                <span id="folder-drawer-button">{t("myNdla.sharedFolder.drawerButton")}</span>
               </DrawerButton>
             </ModalTrigger>
             <StyledDrawer position="bottom" size="small" expands aria-labelledby="folder-drawer-button">
               <StyledDrawerContent>
                 <ModalHeader>
-                  <h1>{t('myNdla.sharedFolder.drawerTitle')}</h1>
+                  <h1>{t("myNdla.sharedFolder.drawerTitle")}</h1>
                   <ModalCloseButton />
                 </ModalHeader>
                 <FolderNavigation onClose={close} folder={folder} meta={keyedData} />
@@ -228,7 +228,7 @@ const SharedFolderPage = () => {
       </Sidebar>
       <StyledSection>
         {selectedResource ? (
-          selectedResource.resourceType === 'learningpath' || selectedResource.resourceType === 'multidisciplinary' ? (
+          selectedResource.resourceType === "learningpath" || selectedResource.resourceType === "multidisciplinary" ? (
             <SharedLearningpathWarning />
           ) : embedResourceTypes.includes(selectedResource.resourceType) ? (
             <ResourceEmbed
@@ -248,8 +248,8 @@ const SharedFolderPage = () => {
             <InfoBox>
               <HumanMaleBoard />
               <span>
-                {t('myNdla.sharedFolder.shared', {
-                  sharedBy: folder.owner?.name ?? t('myNdla.sharedFolder.aTeacher'),
+                {t("myNdla.sharedFolder.shared", {
+                  sharedBy: folder.owner?.name ?? t("myNdla.sharedFolder.aTeacher"),
                 })}
               </span>
             </InfoBox>
@@ -268,12 +268,12 @@ const SharedLearningpathWarning = () => {
     <OneColumn>
       <ErrorMessage
         messages={{
-          title: '',
-          description: t('myNdla.sharedFolder.learningpathUnsupported'),
+          title: "",
+          description: t("myNdla.sharedFolder.learningpathUnsupported"),
         }}
         illustration={{
-          url: '/static/oops.gif',
-          altText: t('errorMessage.title'),
+          url: "/static/oops.gif",
+          altText: t("errorMessage.title"),
         }}
       />
     </OneColumn>

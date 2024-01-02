@@ -6,23 +6,23 @@
  *
  */
 
-import { Helmet } from 'react-helmet-async';
-import { useTranslation } from 'react-i18next';
-import { gql } from '@apollo/client';
-import { ContentPlaceholder } from '@ndla/ui';
+import { Helmet } from "react-helmet-async";
+import { useTranslation } from "react-i18next";
+import { gql } from "@apollo/client";
+import { ContentPlaceholder } from "@ndla/ui";
 import MultidisciplinarySubjectArticle, {
   multidisciplinarySubjectArticleFragments,
-} from './components/MultidisciplinarySubjectArticle';
-import DefaultErrorMessage from '../../components/DefaultErrorMessage';
-import SocialMediaMetadata from '../../components/SocialMediaMetadata';
-import { SKIP_TO_CONTENT_ID } from '../../constants';
+} from "./components/MultidisciplinarySubjectArticle";
+import DefaultErrorMessage from "../../components/DefaultErrorMessage";
+import SocialMediaMetadata from "../../components/SocialMediaMetadata";
+import { SKIP_TO_CONTENT_ID } from "../../constants";
 import {
   GQLMultidisciplinarySubjectArticlePageQuery,
   GQLMultidisciplinarySubjectArticlePageQueryVariables,
-} from '../../graphqlTypes';
-import { useUrnIds } from '../../routeHelpers';
-import { useGraphQuery } from '../../util/runQueries';
-import { htmlTitle } from '../../util/titleHelper';
+} from "../../graphqlTypes";
+import { useUrnIds } from "../../routeHelpers";
+import { useGraphQuery } from "../../util/runQueries";
+import { htmlTitle } from "../../util/titleHelper";
 
 const multidisciplinarySubjectArticlePageQuery = gql`
   query multidisciplinarySubjectArticlePage($topicId: String!, $subjectId: String!, $convertEmbeds: Boolean) {
@@ -83,7 +83,7 @@ const MultidisciplinarySubjectArticlePage = () => {
   return (
     <>
       <Helmet>
-        <title>{htmlTitle(socialMediaMetaData.title, [t('htmlTitles.titleTemplate')])}</title>
+        <title>{htmlTitle(socialMediaMetaData.title, [t("htmlTitles.titleTemplate")])}</title>
       </Helmet>
       <SocialMediaMetadata
         title={socialMediaMetaData.title}

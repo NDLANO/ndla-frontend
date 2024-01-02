@@ -6,17 +6,17 @@
  *
  */
 
-import { Dispatch, SetStateAction, memo, useMemo } from 'react';
-import { useSortable } from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
-import styled from '@emotion/styled';
-import { colors, spacing } from '@ndla/core';
-import { Folder } from '@ndla/ui';
-import DragHandle from './DragHandle';
-import FolderActions from './FolderActions';
-import { ViewType } from './FoldersPage';
-import { GQLFolder } from '../../../graphqlTypes';
-import { FolderTotalCount } from '../../../util/folderHelpers';
+import { Dispatch, SetStateAction, memo, useMemo } from "react";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import styled from "@emotion/styled";
+import { colors, spacing } from "@ndla/core";
+import { Folder } from "@ndla/ui";
+import DragHandle from "./DragHandle";
+import FolderActions from "./FolderActions";
+import { ViewType } from "./FoldersPage";
+import { GQLFolder } from "../../../graphqlTypes";
+import { FolderTotalCount } from "../../../util/folderHelpers";
 
 interface Props {
   folder: GQLFolder;
@@ -39,7 +39,7 @@ export const DraggableListItem = styled.li<DraggableListItemProps>`
   margin: 0;
   align-items: center;
   gap: ${spacing.xsmall};
-  z-index: ${(p) => (p.isDragging ? '10' : '0')};
+  z-index: ${(p) => (p.isDragging ? "10" : "0")};
 `;
 
 export const DragWrapper = styled.div`
@@ -79,7 +79,7 @@ const DraggableFolder = ({ index, folder, type, foldersCount, folders, setFocusI
     <DraggableListItem id={`folder-${folder.id}`} ref={setNodeRef} style={style} isDragging={isDragging}>
       <DragHandle
         sortableId={folder.id}
-        disabled={type === 'block' || items.length < 2}
+        disabled={type === "block" || items.length < 2}
         name={folder.name}
         type="folder"
         {...attributes}
@@ -87,7 +87,7 @@ const DraggableFolder = ({ index, folder, type, foldersCount, folders, setFocusI
       <DragWrapper>
         <Folder
           id={folder.id}
-          isShared={folder.status === 'shared'}
+          isShared={folder.status === "shared"}
           link={`/minndla/folders/${folder.id}`}
           title={folder.name}
           type={type}

@@ -6,12 +6,12 @@
  *
  */
 
-import { Helmet } from 'react-helmet-async';
-import { PageContainer } from '@ndla/ui';
-import EmbedIframePage from './EmbedIframePage';
-import { BaseNameProvider } from '../components/BaseNameContext';
-import { isValidLocale } from '../i18n';
-import { LocaleType } from '../interfaces';
+import { Helmet } from "react-helmet-async";
+import { PageContainer } from "@ndla/ui";
+import EmbedIframePage from "./EmbedIframePage";
+import { BaseNameProvider } from "../components/BaseNameContext";
+import { isValidLocale } from "../i18n";
+import { LocaleType } from "../interfaces";
 
 interface Props {
   basename?: string;
@@ -21,9 +21,9 @@ interface Props {
 }
 const EmbedIframePageContainer = ({ basename, embedType, embedId, locale }: Props) => {
   return (
-    <BaseNameProvider value={isValidLocale(basename) ? basename : ''}>
+    <BaseNameProvider value={isValidLocale(basename) ? basename : ""}>
       <PageContainer>
-        <Helmet htmlAttributes={{ lang: locale === 'nb' ? 'no' : locale }} />
+        <Helmet htmlAttributes={{ lang: locale === "nb" ? "no" : locale }} />
         <EmbedIframePage embedId={embedId} embedType={embedType} />
       </PageContainer>
     </BaseNameProvider>

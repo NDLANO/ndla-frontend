@@ -6,9 +6,9 @@
  *
  */
 
-import { DetailedHTMLProps, HTMLAttributes } from 'react';
-import styled from '@emotion/styled';
-import { breakpoints, colors, mq } from '@ndla/core';
+import { DetailedHTMLProps, HTMLAttributes } from "react";
+import styled from "@emotion/styled";
+import { breakpoints, colors, mq } from "@ndla/core";
 
 const StyledDiv = styled.div`
   display: none;

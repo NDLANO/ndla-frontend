@@ -6,22 +6,22 @@
  *
  */
 
-import partition from 'lodash/partition';
-import { Dispatch, SetStateAction, useCallback, useEffect, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router-dom';
-import { gql } from '@apollo/client';
-import { MenuBook } from '@ndla/icons/action';
-import { ContentLoader } from '@ndla/ui';
-import BackButton from './BackButton';
-import { useDrawerContext } from './DrawerContext';
-import DrawerMenuItem from './DrawerMenuItem';
-import DrawerPortion, { DrawerList } from './DrawerPortion';
-import DrawerRowHeader from './DrawerRowHeader';
-import TopicMenu from './TopicMenu';
-import useArrowNavigation from './useArrowNavigation';
-import { GQLSubjectMenu_SubjectFragment } from '../../../graphqlTypes';
-import { removeUrn } from '../../../routeHelpers';
+import partition from "lodash/partition";
+import { Dispatch, SetStateAction, useCallback, useEffect, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router-dom";
+import { gql } from "@apollo/client";
+import { MenuBook } from "@ndla/icons/action";
+import { ContentLoader } from "@ndla/ui";
+import BackButton from "./BackButton";
+import { useDrawerContext } from "./DrawerContext";
+import DrawerMenuItem from "./DrawerMenuItem";
+import DrawerPortion, { DrawerList } from "./DrawerPortion";
+import DrawerRowHeader from "./DrawerRowHeader";
+import TopicMenu from "./TopicMenu";
+import useArrowNavigation from "./useArrowNavigation";
+import { GQLSubjectMenu_SubjectFragment } from "../../../graphqlTypes";
+import { removeUrn } from "../../../routeHelpers";
 
 interface Props {
   subject?: GQLSubjectMenu_SubjectFragment;
@@ -31,7 +31,7 @@ interface Props {
   setTopicPathIds: Dispatch<SetStateAction<string[]>>;
 }
 
-type AllTopicsType = NonNullable<GQLSubjectMenu_SubjectFragment['allTopics']>[0];
+type AllTopicsType = NonNullable<GQLSubjectMenu_SubjectFragment["allTopics"]>[0];
 
 export type TopicWithSubTopics = AllTopicsType & {
   subtopics: TopicWithSubTopics[];
@@ -104,12 +104,12 @@ const SubjectMenu = ({ subject, onClose, onCloseMenuPortion, setTopicPathIds, to
     onRightKeyPressed: keyboardAddTopic,
   });
 
-  const path = subject ? `/${removeUrn(subject.id)}` : '';
+  const path = subject ? `/${removeUrn(subject.id)}` : "";
 
   return (
     <>
       <DrawerPortion>
-        <BackButton onGoBack={onCloseMenuPortion} title={t('masthead.menu.goToMainMenu')} homeButton />
+        <BackButton onGoBack={onCloseMenuPortion} title={t("masthead.menu.goToMainMenu")} homeButton />
         {subject ? (
           <DrawerList id={`list-${subject?.id}`}>
             <DrawerRowHeader
@@ -141,7 +141,7 @@ const SubjectMenu = ({ subject, onClose, onCloseMenuPortion, setTopicPathIds, to
             ))}
           </DrawerList>
         ) : (
-          <ContentLoader height={'100%'} width={'100%'} viewBox={null} preserveAspectRatio="none">
+          <ContentLoader height={"100%"} width={"100%"} viewBox={null} preserveAspectRatio="none">
             <rect x="5" y="2" rx="3" ry="3" height="50" width="90%" />
             {placeholders.map((p) => (
               <rect key={p} x="20" y={65 + p * 30} rx="3" ry="3" height="25" width="80%" />

@@ -6,10 +6,10 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { colors, misc, spacing } from '@ndla/core';
-import { Text } from '@ndla/typography';
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { colors, misc, spacing } from "@ndla/core";
+import { Text } from "@ndla/typography";
 
 const StyledDeletedCard = styled.div`
   background-color: ${colors.brand.greyLightest};
@@ -23,7 +23,7 @@ const DeletedPostCard = () => {
   return (
     <StyledDeletedCard>
       <Text textStyle="content-alt" margin="none">
-        {t('myNdla.arena.posts.deleted')}
+        {t("myNdla.arena.posts.deleted")}
       </Text>
     </StyledDeletedCard>
   );

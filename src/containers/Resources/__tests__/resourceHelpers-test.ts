@@ -6,42 +6,42 @@
  *
  */
 
-import * as helper from '../resourceHelpers';
+import * as helper from "../resourceHelpers";
 
 const testHelper = <T, R>(fn: (val: T) => R, input: T, expected: R) => expect(fn(input)).toBe(expected);
 
-test('resourceHelpers/isLearningPathResource ', () => {
-  testHelper(helper.isLearningPathResource, { contentUri: 'urn:learningpath:123' }, true);
-  testHelper(helper.isLearningPathResource, { contentUri: 'urn:learningpath:123asfdlj1sdbnfk23edsdsdf' }, true);
-  testHelper(helper.isLearningPathResource, { contentUri: 'urn:article:123' }, false);
+test("resourceHelpers/isLearningPathResource ", () => {
+  testHelper(helper.isLearningPathResource, { contentUri: "urn:learningpath:123" }, true);
+  testHelper(helper.isLearningPathResource, { contentUri: "urn:learningpath:123asfdlj1sdbnfk23edsdsdf" }, true);
+  testHelper(helper.isLearningPathResource, { contentUri: "urn:article:123" }, false);
   testHelper(helper.isLearningPathResource, {}, false);
 });
 
-test('resourceHelpers/isArticleResource ', () => {
-  testHelper(helper.isArticleResource, { contentUri: 'urn:article:123' }, true);
-  testHelper(helper.isArticleResource, { contentUri: 'urn:learningpath:123' }, false);
-  testHelper(helper.isArticleResource, { contentUri: 'urn:articl:123' }, false);
+test("resourceHelpers/isArticleResource ", () => {
+  testHelper(helper.isArticleResource, { contentUri: "urn:article:123" }, true);
+  testHelper(helper.isArticleResource, { contentUri: "urn:learningpath:123" }, false);
+  testHelper(helper.isArticleResource, { contentUri: "urn:articl:123" }, false);
   testHelper(helper.isArticleResource, {}, false);
 });
 
-test('resourceHelpers/getArticleIdFromResource ', () => {
-  testHelper(helper.getArticleIdFromResource, { contentUri: 'urn:article:123' }, '123');
-  testHelper(helper.getArticleIdFromResource, { contentUri: 'urn:learningpath:123' }, undefined);
+test("resourceHelpers/getArticleIdFromResource ", () => {
+  testHelper(helper.getArticleIdFromResource, { contentUri: "urn:article:123" }, "123");
+  testHelper(helper.getArticleIdFromResource, { contentUri: "urn:learningpath:123" }, undefined);
   testHelper(
     helper.getArticleIdFromResource,
-    { contentUri: 'urn:article:123s0-dfnsdf-jkhs-dhfkj1l237' },
-    '123s0-dfnsdf-jkhs-dhfkj1l237',
+    { contentUri: "urn:article:123s0-dfnsdf-jkhs-dhfkj1l237" },
+    "123s0-dfnsdf-jkhs-dhfkj1l237",
   );
   testHelper(helper.getArticleIdFromResource, {}, undefined);
 });
 
-test('resourceHelpers/getLearningPathIdFromResource ', () => {
-  testHelper(helper.getLearningPathIdFromResource, { contentUri: 'urn:learningpath:123' }, '123');
-  testHelper(helper.getLearningPathIdFromResource, { contentUri: 'urn:article:123' }, undefined);
+test("resourceHelpers/getLearningPathIdFromResource ", () => {
+  testHelper(helper.getLearningPathIdFromResource, { contentUri: "urn:learningpath:123" }, "123");
+  testHelper(helper.getLearningPathIdFromResource, { contentUri: "urn:article:123" }, undefined);
   testHelper(
     helper.getLearningPathIdFromResource,
-    { contentUri: 'urn:learningpath:123s0-dfnsdf-jkhs-dhfkj1l237' },
-    '123s0-dfnsdf-jkhs-dhfkj1l237',
+    { contentUri: "urn:learningpath:123s0-dfnsdf-jkhs-dhfkj1l237" },
+    "123s0-dfnsdf-jkhs-dhfkj1l237",
   );
   testHelper(helper.getLearningPathIdFromResource, {}, undefined);
 });

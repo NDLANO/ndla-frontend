@@ -6,12 +6,12 @@
  *
  */
 
-import { ElementType, HTMLAttributes } from 'react';
-import styled from '@emotion/styled';
-import { breakpoints, colors, mq, spacing } from '@ndla/core';
-import { Podcast } from '@ndla/icons/common';
-import { Concept, H5PBold, Media, SquareAudio, SquareVideo } from '@ndla/icons/editor';
-import { EmbedType } from './ResourceEmbedWrapper';
+import { ElementType, HTMLAttributes } from "react";
+import styled from "@emotion/styled";
+import { breakpoints, colors, mq, spacing } from "@ndla/core";
+import { Podcast } from "@ndla/icons/common";
+import { Concept, H5PBold, Media, SquareAudio, SquareVideo } from "@ndla/icons/editor";
+import { EmbedType } from "./ResourceEmbedWrapper";
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   type: EmbedType;
@@ -43,7 +43,7 @@ const typeIconMapping: Record<EmbedType, ElementType> = {
 };
 
 const ResourceBadge = ({ type }: Props) => {
-  const Icon = typeIconMapping[type] ?? typeIconMapping['image'];
+  const Icon = typeIconMapping[type] ?? typeIconMapping["image"];
   return (
     <BadgeWrapper>
       <Icon />

@@ -6,26 +6,26 @@
  *
  */
 
-import parse from 'html-react-parser';
-import { TFunction } from 'i18next';
-import { useContext, useEffect, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { gql } from '@apollo/client';
-import { extractEmbedMeta } from '@ndla/article-converter';
-import { useTracker } from '@ndla/tracker';
-import { Topic } from '@ndla/ui';
-import { AuthContext } from '../../../components/AuthenticationContext';
-import { SKIP_TO_CONTENT_ID } from '../../../constants';
+import parse from "html-react-parser";
+import { TFunction } from "i18next";
+import { useContext, useEffect, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { gql } from "@apollo/client";
+import { extractEmbedMeta } from "@ndla/article-converter";
+import { useTracker } from "@ndla/tracker";
+import { Topic } from "@ndla/ui";
+import { AuthContext } from "../../../components/AuthenticationContext";
+import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import {
   GQLToolboxTopicWrapper_ResourceTypeDefinitionFragment,
   GQLToolboxTopicWrapper_SubjectFragment,
   GQLToolboxTopicWrapper_TopicFragment,
-} from '../../../graphqlTypes';
-import { toTopic } from '../../../routeHelpers';
-import { htmlTitle } from '../../../util/titleHelper';
-import { getAllDimensions } from '../../../util/trackingUtil';
-import Resources from '../../Resources/Resources';
-import TopicVisualElementContent from '../../SubjectPage/components/TopicVisualElementContent';
+} from "../../../graphqlTypes";
+import { toTopic } from "../../../routeHelpers";
+import { htmlTitle } from "../../../util/titleHelper";
+import { getAllDimensions } from "../../../util/trackingUtil";
+import Resources from "../../Resources/Resources";
+import TopicVisualElementContent from "../../SubjectPage/components/TopicVisualElementContent";
 
 interface Props {
   subject: GQLToolboxTopicWrapper_SubjectFragment;
@@ -37,7 +37,7 @@ interface Props {
 }
 
 const getDocumentTitle = (name: string, t: TFunction) => {
-  return htmlTitle(name, [t('htmlTitles.titleTemplate')]);
+  return htmlTitle(name, [t("htmlTitles.titleTemplate")]);
 };
 
 const ToolboxTopicWrapper = ({ subject, topicList, index, topic, resourceTypes, loading }: Props) => {
@@ -82,9 +82,9 @@ const ToolboxTopicWrapper = ({ subject, topicList, index, topic, resourceTypes, 
   }
 
   const subTopics = topic?.subtopics?.map((subtopic) => {
-    const path = topic.path || '';
+    const path = topic.path || "";
     const topicPath = path
-      .split('/')
+      .split("/")
       .slice(2)
       .map((id) => `urn:${id}`);
     return {
@@ -102,7 +102,7 @@ const ToolboxTopicWrapper = ({ subject, topicList, index, topic, resourceTypes, 
       isLoading={loading}
       subTopics={subTopics}
       title={topic.article.title}
-      introduction={parse(topic.article.introduction ?? '')}
+      introduction={parse(topic.article.introduction ?? "")}
       metaImage={topic.article.metaImage}
       visualElementEmbedMeta={embedMeta}
       visualElement={visualElement}

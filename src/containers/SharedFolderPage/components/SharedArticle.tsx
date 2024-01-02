@@ -6,18 +6,18 @@
  *
  */
 
-import { gql } from '@apollo/client';
-import { Spinner } from '@ndla/icons';
-import SharedArticleContainer, { sharedArticleContainerFragments } from './SharedArticleContainer';
+import { gql } from "@apollo/client";
+import { Spinner } from "@ndla/icons";
+import SharedArticleContainer, { sharedArticleContainerFragments } from "./SharedArticleContainer";
 import {
   GQLFolderResource,
   GQLFolderResourceMetaSearchQuery,
   GQLSharedResourceArticlePageQuery,
   GQLSharedResourceArticlePageQueryVariables,
-} from '../../../graphqlTypes';
-import { useGraphQuery } from '../../../util/runQueries';
-import ErrorPage from '../../ErrorPage';
-import NotFoundPage from '../../NotFoundPage/NotFoundPage';
+} from "../../../graphqlTypes";
+import { useGraphQuery } from "../../../util/runQueries";
+import ErrorPage from "../../ErrorPage";
+import NotFoundPage from "../../NotFoundPage/NotFoundPage";
 
 const sharedResourceArticlePageQuery = gql`
   query sharedResourceArticlePage(
@@ -42,7 +42,7 @@ const sharedResourceArticlePageQuery = gql`
 
 interface Props {
   resource: GQLFolderResource;
-  meta?: GQLFolderResourceMetaSearchQuery['folderResourceMetaSearch'][0];
+  meta?: GQLFolderResourceMetaSearchQuery["folderResourceMetaSearch"][0];
   title: string;
 }
 
@@ -53,9 +53,9 @@ const SharedArticle = ({ resource, meta, title }: Props) => {
   >(sharedResourceArticlePageQuery, {
     variables: {
       articleId: `${resource.resourceId}`,
-      isOembed: 'false',
+      isOembed: "false",
       path: resource.path,
-      showVisualElement: 'true',
+      showVisualElement: "true",
       convertEmbeds: true,
     },
   });

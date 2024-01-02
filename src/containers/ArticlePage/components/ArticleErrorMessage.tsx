@@ -6,11 +6,11 @@
  *
  */
 
-import { ReactNode } from 'react';
-import { useTranslation } from 'react-i18next';
-import { OneColumn, ErrorMessage } from '@ndla/ui';
-import { AccessDeniedCodes } from '../../../util/handleError';
-import AccessDeniedPage from '../../AccessDeniedPage/AccessDeniedPage';
+import { ReactNode } from "react";
+import { useTranslation } from "react-i18next";
+import { OneColumn, ErrorMessage } from "@ndla/ui";
+import { AccessDeniedCodes } from "../../../util/handleError";
+import AccessDeniedPage from "../../AccessDeniedPage/AccessDeniedPage";
 
 interface Props {
   status?: number;
@@ -27,13 +27,13 @@ const ArticleErrorMessage = ({ status, children }: Props) => {
       <article className="c-article--clean">
         <ErrorMessage
           illustration={{
-            url: status === 404 ? '/static/not-exist.gif' : '/static/oops.gif',
-            altText: t('errorMessage.title'),
+            url: status === 404 ? "/static/not-exist.gif" : "/static/oops.gif",
+            altText: t("errorMessage.title"),
           }}
           messages={{
-            title: t('errorMessage.title'),
-            description: status === 404 ? t('articlePage.error404Description') : t('articlePage.errorDescription'),
-            goToFrontPage: t('errorMessage.goToFrontPage'),
+            title: t("errorMessage.title"),
+            description: status === 404 ? t("articlePage.error404Description") : t("articlePage.errorDescription"),
+            goToFrontPage: t("errorMessage.goToFrontPage"),
           }}
         />
         {children}

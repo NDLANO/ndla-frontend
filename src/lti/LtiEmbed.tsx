@@ -6,10 +6,10 @@
  *
  */
 
-import LtiBasicLaunch from './components/LtiBasicLaunch';
-import LtiDeepLinking from './components/LtiDeepLinking';
-import LtiDefault from './components/LtiDefault';
-import { LtiData, LtiItem } from '../interfaces';
+import LtiBasicLaunch from "./components/LtiBasicLaunch";
+import LtiDeepLinking from "./components/LtiDeepLinking";
+import LtiDefault from "./components/LtiDefault";
+import { LtiData, LtiItem } from "../interfaces";
 
 interface Props {
   item: LtiItem;
@@ -17,9 +17,9 @@ interface Props {
 }
 const LtiEmbed = ({ ltiData = {}, item }: Props) => {
   switch (ltiData?.lti_message_type) {
-    case 'basic-lti-launch-request':
+    case "basic-lti-launch-request":
       return <LtiBasicLaunch ltiData={ltiData} item={item} />;
-    case 'ContentItemSelectionRequest':
+    case "ContentItemSelectionRequest":
       return <LtiDeepLinking ltiData={ltiData} item={item} />;
     default:
       return <LtiDefault item={item} />;

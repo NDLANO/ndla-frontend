@@ -14,7 +14,7 @@ import {
   Reference,
   useApolloClient,
   useMutation,
-} from '@apollo/client';
+} from "@apollo/client";
 import {
   GQLAddFolderMutation,
   GQLAddResourceToFolderMutation,
@@ -43,8 +43,8 @@ import {
   GQLUpdateFolderMutation,
   GQLUpdateFolderResourceMutation,
   GQLUpdateFolderStatusMutation,
-} from '../../graphqlTypes';
-import { useGraphQuery } from '../../util/runQueries';
+} from "../../graphqlTypes";
+import { useGraphQuery } from "../../util/runQueries";
 
 export const folderResourceFragment = gql`
   fragment FolderResourceFragment on FolderResource {
@@ -360,10 +360,10 @@ export const getFolder = (cache: ApolloCache<object>, folderId?: string, shared?
   if (!folderId) return null;
 
   return cache.readFragment({
-    fragmentName: shared ? 'SharedFoldersPageQueryFragment' : 'FoldersPageQueryFragment',
+    fragmentName: shared ? "SharedFoldersPageQueryFragment" : "FoldersPageQueryFragment",
     fragment: shared ? sharedFoldersPageQueryFragment : foldersPageQueryFragment,
     id: cache.identify({
-      __typename: shared ? 'SharedFolder' : 'Folder',
+      __typename: shared ? "SharedFolder" : "Folder",
       id: folderId,
     }),
   });
@@ -479,7 +479,7 @@ export const useDeleteFolderMutation = () => {
         return [{ query: recentlyUsedQuery }];
       },
       onCompleted: ({ deleteFolder: id }) => {
-        const normalizedId = client.cache.identify({ id, __typename: 'Folder' });
+        const normalizedId = client.cache.identify({ id, __typename: "Folder" });
         client.cache.evict({ id: normalizedId, broadcast: false });
         client.cache.gc();
       },
@@ -506,7 +506,7 @@ export const useUpdateFolderStatusMutation = () => {
     onCompleted: (data, values) => {
       data?.updateFolderStatus.forEach((folderId) => {
         cache.modify({
-          id: cache.identify({ id: folderId, __typename: 'Folder' }),
+          id: cache.identify({ id: folderId, __typename: "Folder" }),
           fields: {
             status: () => {
               return values!.variables!.status;
@@ -564,7 +564,7 @@ export const useUpdateFolderMutation = () => {
         cache.modify({
           id: cache.identify({
             id: data.updateFolder.id,
-            __typename: 'SharedFolder',
+            __typename: "SharedFolder",
           }),
           fields: {
             name: () => {
@@ -654,7 +654,7 @@ export const useDeleteFolderResourceMutation = (folderId: string) => {
       refetchQueries: [{ query: recentlyUsedQuery }],
       onCompleted: ({ deleteFolderResource: id }) => {
         cache.modify({
-          id: cache.identify({ __typename: 'Folder', id: folderId }),
+          id: cache.identify({ __typename: "Folder", id: folderId }),
           fields: {
             resources(existing = []) {
               return existing.filter((res: Reference) => res.__ref !== `FolderResource:${id}`);

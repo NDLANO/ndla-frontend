@@ -5,20 +5,20 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { ButtonV2 } from '@ndla/button';
-import config from '../../config';
-import { LtiData, LtiItem } from '../../interfaces';
-import { resolveJsonOrRejectWithError } from '../../util/apiHelpers';
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { ButtonV2 } from "@ndla/button";
+import config from "../../config";
+import { LtiData, LtiItem } from "../../interfaces";
+import { resolveJsonOrRejectWithError } from "../../util/apiHelpers";
 
 const getSignature = async (contentItemReturnUrl: string | undefined, postData: LtiPostData) => {
-  const url = contentItemReturnUrl ? encodeURI(contentItemReturnUrl) : '';
+  const url = contentItemReturnUrl ? encodeURI(contentItemReturnUrl) : "";
   const oauthData = await fetch(`/lti/oauth?url=${url}`, {
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
-    method: 'POST',
+    method: "POST",
     body: JSON.stringify({
       ...postData,
       content_items: JSON.stringify(postData.content_items),
@@ -39,10 +39,10 @@ interface LtiPostData {
   lti_message_type: string;
   lti_version: string;
   content_items: {
-    '@context': string;
-    '@graph': {
-      '@type': string;
-      '@id:': string | number;
+    "@context": string;
+    "@graph": {
+      "@type": string;
+      "@id:": string | number;
       url: string;
       mediaType: string;
       title?: string;
@@ -56,28 +56,28 @@ interface LtiPostData {
 }
 
 const getLtiPostData = async (ltiData: LtiData, item: LtiItem): Promise<LtiPostData> => {
-  const baseUrl = config.ndlaEnvironment === 'dev' ? 'http://localhost:3000' : config.ndlaFrontendDomain;
+  const baseUrl = config.ndlaEnvironment === "dev" ? "http://localhost:3000" : config.ndlaFrontendDomain;
   const iframeurl = `${baseUrl}/article-iframe/article/${item.id}`;
   const postData = {
-    oauth_callback: ltiData.oauth_callback || '',
-    oauth_consumer_key: ltiData.oauth_consumer_key || 'key',
-    oauth_signature_method: ltiData.oauth_signature_method || '',
-    oauth_timestamp: ltiData.oauth_timestamp || '',
-    oauth_version: ltiData.oauth_version || '',
-    data: ltiData.data || '',
-    lti_message_type: 'ContentItemSelection',
-    lti_version: 'LTI-1p0',
+    oauth_callback: ltiData.oauth_callback || "",
+    oauth_consumer_key: ltiData.oauth_consumer_key || "key",
+    oauth_signature_method: ltiData.oauth_signature_method || "",
+    oauth_timestamp: ltiData.oauth_timestamp || "",
+    oauth_version: ltiData.oauth_version || "",
+    data: ltiData.data || "",
+    lti_message_type: "ContentItemSelection",
+    lti_version: "LTI-1p0",
     content_items: {
-      '@context': 'http://purl.imsglobal.org/ctx/lti/v1/ContentItem',
-      '@graph': [
+      "@context": "http://purl.imsglobal.org/ctx/lti/v1/ContentItem",
+      "@graph": [
         {
-          '@type': 'LtiLinkItem',
-          '@id:': item.id,
+          "@type": "LtiLinkItem",
+          "@id:": item.id,
           url: iframeurl,
-          mediaType: 'application/vnd.ims.lti.v1.ltilink',
+          mediaType: "application/vnd.ims.lti.v1.ltilink",
           title: item.title,
           placementAdvice: {
-            presentationDocumentTarget: 'iframe',
+            presentationDocumentTarget: "iframe",
             displayWidth: 900,
             displayHeight: 2000,
           },
@@ -122,7 +122,7 @@ const LtiDeepLinking = ({ ltiData = {}, item }: Props) => {
           value={postData[key] instanceof Object ? JSON.stringify(postData[key]) : postData[key]}
         />
       ))}
-      <ButtonV2 type="submit">{t('lti.embed')}</ButtonV2>
+      <ButtonV2 type="submit">{t("lti.embed")}</ButtonV2>
     </form>
   );
 };

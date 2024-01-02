@@ -6,7 +6,7 @@
  *
  */
 
-import { QueryHookOptions, gql } from '@apollo/client';
+import { QueryHookOptions, gql } from "@apollo/client";
 import {
   GQLArenaNotificationsQuery,
   GQLArenaUserQuery,
@@ -18,8 +18,8 @@ import {
   GQLArenaCategoryQueryVariables,
   GQLArenaUserQueryVariables,
   GQLArenaRecentTopicsQuery,
-} from '../../graphqlTypes';
-import { useGraphQuery } from '../../util/runQueries';
+} from "../../graphqlTypes";
+import { useGraphQuery } from "../../util/runQueries";
 
 const arenaUserFragment = gql`
   fragment ArenaUser on ArenaUser {

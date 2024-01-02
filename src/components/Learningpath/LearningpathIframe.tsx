@@ -6,8 +6,8 @@
  *
  */
 
-import parse from 'html-react-parser';
-import { MutableRefObject, useEffect, useRef, useState } from 'react';
+import parse from "html-react-parser";
+import { MutableRefObject, useEffect, useRef, useState } from "react";
 
 export const urlIsNDLAApiUrl = (url: string) =>
   /^(http|https):\/\/(ndla-frontend|www).([a-zA-Z]+.)?api.ndla.no/.test(url);
@@ -41,12 +41,12 @@ const LearningpathIframe = ({ html, url }: Props) => {
   };
 
   const enableIframeMessageListener = () => {
-    window.addEventListener('message', handleIframeMessages);
+    window.addEventListener("message", handleIframeMessages);
     setListeningToMessages(true);
   };
 
   const disableIframeMessageListener = () => {
-    window.removeEventListener('message', handleIframeMessages);
+    window.removeEventListener("message", handleIframeMessages);
     setListeningToMessages(false);
   };
 
@@ -76,7 +76,7 @@ const LearningpathIframe = ({ html, url }: Props) => {
     const iframe = getIframeDOM();
     /* Needed to enforce content to stay within iframe on Safari iOS */
     if (iframe) {
-      iframe.setAttribute('scrolling', 'no');
+      iframe.setAttribute("scrolling", "no");
     }
 
     if (!listeningToMessages || !event || !event.data) {
@@ -84,10 +84,10 @@ const LearningpathIframe = ({ html, url }: Props) => {
     }
 
     switch (event.data.event) {
-      case 'resize':
+      case "resize":
         handleResize(event);
         break;
-      case 'scrollTo':
+      case "scrollTo":
         handleScrollTo(event);
         break;
       default:

@@ -6,13 +6,13 @@
  *
  */
 
-import { ReactNode } from 'react';
-import { gql } from '@apollo/client';
-import styled from '@emotion/styled';
-import { Hero, HeroContent, HeroContentType, HomeBreadcrumb, NdlaFilmHero, OneColumn } from '@ndla/ui';
-import { GQLArticleHero_MetaImageFragment, GQLArticleHero_SubjectFragment } from '../../../graphqlTypes';
-import { Breadcrumb as BreadcrumbType } from '../../../interfaces';
-import { useIsNdlaFilm } from '../../../routeHelpers';
+import { ReactNode } from "react";
+import { gql } from "@apollo/client";
+import styled from "@emotion/styled";
+import { Hero, HeroContent, HeroContentType, HomeBreadcrumb, NdlaFilmHero, OneColumn } from "@ndla/ui";
+import { GQLArticleHero_MetaImageFragment, GQLArticleHero_SubjectFragment } from "../../../graphqlTypes";
+import { Breadcrumb as BreadcrumbType } from "../../../interfaces";
+import { useIsNdlaFilm } from "../../../routeHelpers";
 
 interface WrapperProps {
   children: ReactNode;
@@ -40,7 +40,7 @@ const HeroBackground = styled.div`
   }
 
   &:after {
-    content: '';
+    content: "";
     position: absolute;
     display: block;
     background-image: linear-gradient(#091a2a00, #091a2aff);

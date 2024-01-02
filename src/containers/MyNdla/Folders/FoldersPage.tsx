@@ -6,29 +6,29 @@
  *
  */
 
-import isEqual from 'lodash/isEqual';
-import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
-import { breakpoints, fonts, mq, spacing } from '@ndla/core';
-import { FileDocumentOutline } from '@ndla/icons/common';
-import { HelmetWithTracker, useTracker } from '@ndla/tracker';
-import FolderActions from './FolderActions';
-import { ResourceCountContainer } from './FolderAndResourceCount';
-import FolderButtons from './FolderButtons';
-import FolderList from './FolderList';
-import FoldersPageTitle from './FoldersPageTitle';
-import ListViewOptions from './ListViewOptions';
-import ResourceList from './ResourceList';
-import { AuthContext } from '../../../components/AuthenticationContext';
-import { STORED_RESOURCE_VIEW_SETTINGS } from '../../../constants';
-import { GQLFolder, GQLFoldersPageQuery } from '../../../graphqlTypes';
-import { useGraphQuery } from '../../../util/runQueries';
-import { getAllDimensions } from '../../../util/trackingUtil';
-import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
-import { foldersPageQuery, useFolder } from '../folderMutations';
+import isEqual from "lodash/isEqual";
+import { useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useParams } from "react-router-dom";
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
+import { breakpoints, fonts, mq, spacing } from "@ndla/core";
+import { FileDocumentOutline } from "@ndla/icons/common";
+import { HelmetWithTracker, useTracker } from "@ndla/tracker";
+import FolderActions from "./FolderActions";
+import { ResourceCountContainer } from "./FolderAndResourceCount";
+import FolderButtons from "./FolderButtons";
+import FolderList from "./FolderList";
+import FoldersPageTitle from "./FoldersPageTitle";
+import ListViewOptions from "./ListViewOptions";
+import ResourceList from "./ResourceList";
+import { AuthContext } from "../../../components/AuthenticationContext";
+import { STORED_RESOURCE_VIEW_SETTINGS } from "../../../constants";
+import { GQLFolder, GQLFoldersPageQuery } from "../../../graphqlTypes";
+import { useGraphQuery } from "../../../util/runQueries";
+import { getAllDimensions } from "../../../util/trackingUtil";
+import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
+import { foldersPageQuery, useFolder } from "../folderMutations";
 
 const FoldersPageContainer = styled.div`
   display: flex;
@@ -52,7 +52,7 @@ export const BlockWrapper = styled.ul`
   margin-bottom: ${spacing.medium};
   padding: 0 0 0 ${spacing.medium};
 
-  &[data-type='block'] {
+  &[data-type="block"] {
     padding: 0;
     gap: ${spacing.normal};
     margin-top: ${spacing.normal};
@@ -67,7 +67,7 @@ export const BlockWrapper = styled.ul`
     padding: 0;
   }
 
-  &[data-no-padding='true'] {
+  &[data-no-padding="true"] {
     padding: 0;
   }
 `;
@@ -106,7 +106,7 @@ const StyledEm = styled.em`
   white-space: pre-wrap;
 `;
 
-export type ViewType = 'list' | 'block' | 'listLarger';
+export type ViewType = "list" | "block" | "listLarger";
 
 const FoldersPage = () => {
   const { t } = useTranslation();
@@ -114,15 +114,15 @@ const FoldersPage = () => {
   const { user, authContextLoaded, examLock } = useContext(AuthContext);
   const { trackPageView } = useTracker();
   const [viewType, _setViewType] = useState<ViewType>(
-    (localStorage.getItem(STORED_RESOURCE_VIEW_SETTINGS) as ViewType) || 'list',
+    (localStorage.getItem(STORED_RESOURCE_VIEW_SETTINGS) as ViewType) || "list",
   );
   const { data, loading } = useGraphQuery<GQLFoldersPageQuery>(foldersPageQuery);
   const selectedFolder = useFolder(folderId);
 
   const title = useMemo(() => {
     if (folderId) {
-      return t('htmlTitles.myFolderPage', { folderName: selectedFolder?.name });
-    } else return t('htmlTitles.myFoldersPage');
+      return t("htmlTitles.myFolderPage", { folderName: selectedFolder?.name });
+    } else return t("htmlTitles.myFoldersPage");
   }, [folderId, selectedFolder?.name, t]);
 
   const folders: GQLFolder[] = useMemo(
@@ -135,7 +135,7 @@ const FoldersPage = () => {
   const resourceRefId = useMemo(
     () =>
       folders.length === 0 && selectedFolder?.resources.length === 1
-        ? 'languageSelectorFooter'
+        ? "languageSelectorFooter"
         : selectedFolder?.resources?.length !== 1
           ? undefined
           : `folder-${folders.slice(-1)[0]?.id}`,
@@ -145,7 +145,7 @@ const FoldersPage = () => {
   const folderRefId = useMemo(
     () =>
       folders.length === 1 && selectedFolder?.resources.length === 0
-        ? 'languageSelectorFooter'
+        ? "languageSelectorFooter"
         : folders.length !== 1
           ? undefined
           : `resource-${selectedFolder?.resources[0]?.id}`,
@@ -161,13 +161,13 @@ const FoldersPage = () => {
     const folderIds = folders.map((f) => f.id).sort();
     const prevFolderIds = previousFolders.map((f) => f.id).sort();
     if (!isEqual(folderIds, prevFolderIds) && focusId) {
-      setTimeout(() => document.getElementById(`folder-${focusId}`)?.getElementsByTagName('a')?.[0]?.focus(), 0);
+      setTimeout(() => document.getElementById(`folder-${focusId}`)?.getElementsByTagName("a")?.[0]?.focus(), 0);
       setFocusId(undefined);
       setPreviousFolders(folders);
     } else if (!isEqual(folderIds, prevFolderIds) && folderIds.length === 1 && prevFolderIds?.length === 1) {
       const id = folders[0]?.id;
       if (id) {
-        setTimeout(() => document.getElementById(`folder-${id}`)?.getElementsByTagName('a')?.[0]?.focus(), 0);
+        setTimeout(() => document.getElementById(`folder-${id}`)?.getElementsByTagName("a")?.[0]?.focus(), 0);
         setPreviousFolders(folders);
       }
     }
@@ -201,7 +201,7 @@ const FoldersPage = () => {
         <FoldersPageTitle key={selectedFolder?.id} loading={loading} selectedFolder={selectedFolder} />
         {selectedFolder && (
           <p>
-            <StyledEm>{selectedFolder.description ?? t('myNdla.folder.defaultPageDescription')}</StyledEm>
+            <StyledEm>{selectedFolder.description ?? t("myNdla.folder.defaultPageDescription")}</StyledEm>
           </p>
         )}
         <StyledRow>
@@ -221,7 +221,7 @@ const FoldersPage = () => {
           <ResourceCountContainer>
             <FileDocumentOutline />
             <span>
-              {t('myNdla.resources', {
+              {t("myNdla.resources", {
                 count: selectedFolder?.resources.length,
               })}
             </span>

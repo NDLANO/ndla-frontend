@@ -6,27 +6,27 @@
  *
  */
 
-import { useEffect, useMemo } from 'react';
-import { Helmet } from 'react-helmet-async';
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-import { gql } from '@apollo/client';
-import { ButtonV2 } from '@ndla/button';
-import { Back } from '@ndla/icons/common';
-import { useTracker } from '@ndla/tracker';
-import { OneColumn, CreatedBy, constants, LayoutItem } from '@ndla/ui';
-import PostResizeMessage from './PostResizeMessage';
-import Article from '../components/Article';
-import { useLtiData } from '../components/LtiContext';
-import SocialMediaMetadata from '../components/SocialMediaMetadata';
-import config from '../config';
-import { GQLIframeArticlePage_ArticleFragment, GQLIframeArticlePage_ResourceFragment } from '../graphqlTypes';
-import { LocaleType } from '../interfaces';
-import { getArticleProps } from '../util/getArticleProps';
-import { getArticleScripts } from '../util/getArticleScripts';
-import getStructuredDataFromArticle, { structuredArticleDataFragment } from '../util/getStructuredDataFromArticle';
-import { getAllDimensions } from '../util/trackingUtil';
-import { transformArticle } from '../util/transformArticle';
+import { useEffect, useMemo } from "react";
+import { Helmet } from "react-helmet-async";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+import { gql } from "@apollo/client";
+import { ButtonV2 } from "@ndla/button";
+import { Back } from "@ndla/icons/common";
+import { useTracker } from "@ndla/tracker";
+import { OneColumn, CreatedBy, constants, LayoutItem } from "@ndla/ui";
+import PostResizeMessage from "./PostResizeMessage";
+import Article from "../components/Article";
+import { useLtiData } from "../components/LtiContext";
+import SocialMediaMetadata from "../components/SocialMediaMetadata";
+import config from "../config";
+import { GQLIframeArticlePage_ArticleFragment, GQLIframeArticlePage_ResourceFragment } from "../graphqlTypes";
+import { LocaleType } from "../interfaces";
+import { getArticleProps } from "../util/getArticleProps";
+import { getArticleScripts } from "../util/getArticleScripts";
+import getStructuredDataFromArticle, { structuredArticleDataFragment } from "../util/getStructuredDataFromArticle";
+import { getAllDimensions } from "../util/trackingUtil";
+import { transformArticle } from "../util/transformArticle";
 
 interface Props {
   locale?: LocaleType;
@@ -34,11 +34,11 @@ interface Props {
   article: GQLIframeArticlePage_ArticleFragment;
 }
 
-const getDocumentTitle = ({ article }: Pick<Props, 'article'>) => {
+const getDocumentTitle = ({ article }: Pick<Props, "article">) => {
   if (article?.id) {
     return `NDLA | ${article.title}`;
   }
-  return '';
+  return "";
 };
 
 const IframeArticlePage = ({ resource, article: propArticle, locale: localeProp }: Props) => {
@@ -72,14 +72,14 @@ const IframeArticlePage = ({ resource, article: propArticle, locale: localeProp 
   const contentUrl = resource?.path ? `${config.ndlaFrontendDomain}${resource.path}` : undefined;
 
   const articleProps =
-    article.articleType === 'standard'
+    article.articleType === "standard"
       ? getArticleProps(resource)
-      : article.articleType === 'topic-article'
+      : article.articleType === "topic-article"
         ? {
-            label: t('topicPage.topic'),
+            label: t("topicPage.topic"),
             contentType: constants.contentTypes.TOPIC,
           }
-        : { label: '' };
+        : { label: "" };
   return (
     <OneColumn>
       <Helmet>
@@ -104,20 +104,20 @@ const IframeArticlePage = ({ resource, article: propArticle, locale: localeProp 
           <LayoutItem layout="center">
             <ButtonV2 variant="link" onClick={() => navigate(-1)}>
               <Back />
-              {t('lti.goBack')}
+              {t("lti.goBack")}
             </ButtonV2>
           </LayoutItem>
         )}
         <Article
           contentTransformed
           article={article}
-          isTopicArticle={article.articleType === 'topic-article'}
+          isTopicArticle={article.articleType === "topic-article"}
           isPlainArticle
           isOembed
           modifier="clean iframe"
           {...articleProps}
         >
-          <CreatedBy name={t('createdBy.content')} description={t('createdBy.text')} url={contentUrl} />
+          <CreatedBy name={t("createdBy.content")} description={t("createdBy.text")} url={contentUrl} />
         </Article>
       </main>
     </OneColumn>

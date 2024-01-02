@@ -6,8 +6,8 @@
  *
  */
 
-import { MatomoTracker } from '@ndla/tracker';
-import config from '../../config';
+import { MatomoTracker } from "@ndla/tracker";
+import config from "../../config";
 
 export const Matomo = () => {
   if (config.matomoSiteId) {

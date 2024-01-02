@@ -6,23 +6,23 @@
  *
  */
 
-import { MouseEvent, useCallback, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useNavigate, useParams } from 'react-router-dom';
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
-import { colors, spacing } from '@ndla/core';
-import { Launch } from '@ndla/icons/common';
-import { SafeLinkButton } from '@ndla/safelink';
-import { ContentTypeBadge } from '@ndla/ui';
-import { GQLFolderResource, GQLFolderResourceMetaSearchQuery } from '../../../graphqlTypes';
-import { contentTypeMapping, resourceEmbedTypeMapping } from '../../../util/getContentType';
+import { MouseEvent, useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { useNavigate, useParams } from "react-router-dom";
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
+import { colors, spacing } from "@ndla/core";
+import { Launch } from "@ndla/icons/common";
+import { SafeLinkButton } from "@ndla/safelink";
+import { ContentTypeBadge } from "@ndla/ui";
+import { GQLFolderResource, GQLFolderResourceMetaSearchQuery } from "../../../graphqlTypes";
+import { contentTypeMapping, resourceEmbedTypeMapping } from "../../../util/getContentType";
 
 interface StyledProps {
   level: number;
 }
 
-const shouldForwardProp = (p: string) => p !== 'level';
+const shouldForwardProp = (p: string) => p !== "level";
 const styledOptions = { shouldForwardProp };
 
 const StyledSafelinkButton = styled(SafeLinkButton, styledOptions)<StyledProps>`
@@ -76,7 +76,7 @@ const allContentTypes = {
 
 interface Props {
   parentId: string;
-  meta?: GQLFolderResourceMetaSearchQuery['folderResourceMetaSearch'][0];
+  meta?: GQLFolderResourceMetaSearchQuery["folderResourceMetaSearch"][0];
   resource: GQLFolderResource;
   onClose?: () => void;
   setFocus: (id: string) => void;
@@ -90,7 +90,7 @@ const FolderResource = ({ parentId, resource, meta, setFocus, level, isLast, onC
   const { t } = useTranslation();
   const navigate = useNavigate();
   const isLearningPathOrCase = useMemo(
-    () => resource.resourceType === 'learningpath' || resource.resourceType === 'multidisciplinary',
+    () => resource.resourceType === "learningpath" || resource.resourceType === "multidisciplinary",
     [resource.resourceType],
   );
   const link = useMemo(
@@ -118,31 +118,31 @@ const FolderResource = ({ parentId, resource, meta, setFocus, level, isLast, onC
   );
 
   const isCurrent = resource.id === resourceId && parentId === subfolderId;
-  const openInfo = resource.resourceType === 'learningpath' ? t('myNdla.sharedFolder.willOpenInNewTab') : '';
+  const openInfo = resource.resourceType === "learningpath" ? t("myNdla.sharedFolder.willOpenInNewTab") : "";
 
   const maybeContentType = meta?.resourceTypes?.find((rt) => allContentTypes[rt.id]);
 
-  const contentType = allContentTypes[maybeContentType?.id ?? 'default'];
+  const contentType = allContentTypes[maybeContentType?.id ?? "default"];
 
   return (
     <ListElement css={isLast ? isLastStyle : undefined} role="none">
       <StyledSafelinkButton
-        aria-current={isCurrent ? 'page' : undefined}
+        aria-current={isCurrent ? "page" : undefined}
         tabIndex={-1}
         level={level}
         id={`shared-${parentId}-${resource.id}`}
-        aria-label={[`${meta?.title}.`, `${t(`contentTypes.${contentType}`)}`, openInfo].filter((i) => !!i).join(' ')}
+        aria-label={[`${meta?.title}.`, `${t(`contentTypes.${contentType}`)}`, openInfo].filter((i) => !!i).join(" ")}
         role="treeitem"
-        target={resource.resourceType === 'learningpath' ? '_blank' : undefined}
+        target={resource.resourceType === "learningpath" ? "_blank" : undefined}
         onClick={onClick}
-        variant={isCurrent ? 'solid' : 'ghost'}
+        variant={isCurrent ? "solid" : "ghost"}
         colorTheme="light"
         to={link}
       >
         <ContentTypeBadge type={contentType!} border={false} />
         <StyledSpan>{meta?.title}</StyledSpan>
-        {(resource.resourceType === 'learningpath' || resource.resourceType === 'multidisciplinary') && (
-          <Launch height={'24px'} width={'24px'} />
+        {(resource.resourceType === "learningpath" || resource.resourceType === "multidisciplinary") && (
+          <Launch height={"24px"} width={"24px"} />
         )}
       </StyledSafelinkButton>
     </ListElement>

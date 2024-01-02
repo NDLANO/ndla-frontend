@@ -6,11 +6,11 @@
  *
  */
 
-import { createContext, ReactNode, useEffect, useState, useCallback } from 'react';
-import { gql } from '@apollo/client';
-import { GQLMyNdlaDataQuery, GQLMyNdlaPersonalDataFragmentFragment } from '../graphqlTypes';
-import { isAccessTokenValid, millisUntilExpiration } from '../util/authHelpers';
-import { useGraphQuery } from '../util/runQueries';
+import { createContext, ReactNode, useEffect, useState, useCallback } from "react";
+import { gql } from "@apollo/client";
+import { GQLMyNdlaDataQuery, GQLMyNdlaPersonalDataFragmentFragment } from "../graphqlTypes";
+import { isAccessTokenValid, millisUntilExpiration } from "../util/authHelpers";
+import { useGraphQuery } from "../util/runQueries";
 
 interface AuthContextType {
   authenticated: boolean;
@@ -74,7 +74,7 @@ const AuthenticationContext = ({ children }: Props) => {
   const [examLock, setExamLock] = useState(false);
 
   const myNdlaData = useGraphQuery<GQLMyNdlaDataQuery>(myNdlaQuery, {
-    skip: typeof window === 'undefined',
+    skip: typeof window === "undefined",
   });
 
   useEffect(() => {
@@ -86,7 +86,7 @@ const AuthenticationContext = ({ children }: Props) => {
     const { personalData, examLockStatus } = myNdlaData.data;
 
     if (isValid && personalData !== undefined) {
-      if (personalData?.role === 'student') {
+      if (personalData?.role === "student") {
         setExamLock(examLockStatus?.value === true);
       }
       setUser(personalData);

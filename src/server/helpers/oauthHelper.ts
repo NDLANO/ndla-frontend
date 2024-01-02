@@ -6,31 +6,31 @@
  *
  */
 
-import crypto from 'crypto';
-import { getEnvironmentVariabel } from '../../config';
+import crypto from "crypto";
+import { getEnvironmentVariabel } from "../../config";
 
 export const generateOauthData = (url: string, body: any) => {
-  const consumerSecret = getEnvironmentVariabel('NDLA_LTI_OAUTH_SECRET_KEY', '');
-  const nonce = crypto.randomBytes(16).toString('base64');
+  const consumerSecret = getEnvironmentVariabel("NDLA_LTI_OAUTH_SECRET_KEY", "");
+  const nonce = crypto.randomBytes(16).toString("base64");
 
   const data = { ...body, oauth_nonce: nonce };
   const sortedBody: Record<string, any> = {};
   Object.keys(data)
     .sort()
     .forEach(function (key) {
-      sortedBody[key] = data[key] || '';
+      sortedBody[key] = data[key] || "";
     });
 
   const params = Object.keys(sortedBody)
     .map((key) => `${key}=${encodeURIComponent(sortedBody[key])}`)
-    .join('&');
+    .join("&");
 
   const signatureBaseString = `POST&${encodeURIComponent(url)}&${encodeURIComponent(params)}`;
 
   const hashedBaseString = crypto
-    .createHmac('SHA256', `${consumerSecret}&`) //& because there could be a token there, but it is not...
+    .createHmac("SHA256", `${consumerSecret}&`) //& because there could be a token there, but it is not...
     .update(signatureBaseString)
-    .digest('base64');
+    .digest("base64");
 
   return { oauth_signature: hashedBaseString, oauth_nonce: nonce };
 };

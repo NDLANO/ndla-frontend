@@ -5,15 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import partition from 'lodash/partition';
-import uniq from 'lodash/uniq';
-import { createContext, ReactNode, useContext, useEffect, useState, useCallback } from 'react';
-import { useQuery } from '@apollo/client';
-import { GQLAlertsQuery, GQLAlertsQueryVariables, GQLUptimeAlert } from '../graphqlTypes';
-import { alertsQuery } from '../queries';
+import partition from "lodash/partition";
+import uniq from "lodash/uniq";
+import { createContext, ReactNode, useContext, useEffect, useState, useCallback } from "react";
+import { useQuery } from "@apollo/client";
+import { GQLAlertsQuery, GQLAlertsQueryVariables, GQLUptimeAlert } from "../graphqlTypes";
+import { alertsQuery } from "../queries";
 
 interface AlertsContextProps {
-  openAlerts: GQLAlertsQuery['alerts'];
+  openAlerts: GQLAlertsQuery["alerts"];
   closeAlert: (id: number) => void;
 }
 
@@ -28,7 +28,7 @@ interface Props {
 
 const getClosedAlerts = (): number[] => {
   try {
-    const stored = localStorage.getItem('closedAlerts');
+    const stored = localStorage.getItem("closedAlerts");
     if (stored) {
       const ids = JSON.parse(stored);
       if (Array.isArray(ids)) {
@@ -37,7 +37,7 @@ const getClosedAlerts = (): number[] => {
     }
     return [];
   } catch {
-    console.error('Could not read closedAlerts from localStorage.');
+    console.error("Could not read closedAlerts from localStorage.");
     return [];
   }
 };
@@ -46,18 +46,18 @@ const setClosedAlert = (id: number) => {
   try {
     const stored = getClosedAlerts();
     const updated = uniq([...stored, id]);
-    localStorage.setItem('closedAlerts', JSON.stringify(updated));
+    localStorage.setItem("closedAlerts", JSON.stringify(updated));
   } catch {
-    console.error('Could not save closedAlerts to localStorage.');
+    console.error("Could not save closedAlerts to localStorage.");
   }
 };
 
 const setClosedAlerts = (alerts: GQLUptimeAlert[]) => {
   try {
     const ids = alerts.map((alert) => alert.number);
-    localStorage.setItem('closedAlerts', JSON.stringify(ids));
+    localStorage.setItem("closedAlerts", JSON.stringify(ids));
   } catch {
-    console.error('Could not save closedAlerts to localStorage.');
+    console.error("Could not save closedAlerts to localStorage.");
   }
 };
 
@@ -95,7 +95,7 @@ const AlertsProvider = ({ children }: Props) => {
 const useAlerts = () => {
   const context = useContext(AlertsContext);
   if (context === undefined) {
-    throw new Error('useAlerts must be used within a AlertsProvider');
+    throw new Error("useAlerts must be used within a AlertsProvider");
   }
   return context;
 };

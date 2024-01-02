@@ -6,34 +6,34 @@
  *
  */
 
-import { TFunction } from 'i18next';
-import { useContext, useEffect, useMemo } from 'react';
-import { Helmet } from 'react-helmet-async';
-import { useTranslation } from 'react-i18next';
-import { gql } from '@apollo/client';
-import { DynamicComponents } from '@ndla/article-converter';
-import { useTracker } from '@ndla/tracker';
-import { OneColumn } from '@ndla/ui';
-import Article from '../../../components/Article';
-import { AuthContext } from '../../../components/AuthenticationContext';
-import AddEmbedToFolder from '../../../components/MyNdla/AddEmbedToFolder';
-import SocialMediaMetadata from '../../../components/SocialMediaMetadata';
-import config from '../../../config';
-import { SKIP_TO_CONTENT_ID } from '../../../constants';
+import { TFunction } from "i18next";
+import { useContext, useEffect, useMemo } from "react";
+import { Helmet } from "react-helmet-async";
+import { useTranslation } from "react-i18next";
+import { gql } from "@apollo/client";
+import { DynamicComponents } from "@ndla/article-converter";
+import { useTracker } from "@ndla/tracker";
+import { OneColumn } from "@ndla/ui";
+import Article from "../../../components/Article";
+import { AuthContext } from "../../../components/AuthenticationContext";
+import AddEmbedToFolder from "../../../components/MyNdla/AddEmbedToFolder";
+import SocialMediaMetadata from "../../../components/SocialMediaMetadata";
+import config from "../../../config";
+import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import {
   GQLFolderResourceMetaSearchQuery,
   GQLSharedResourceArticleContainer_ArticleFragment,
-} from '../../../graphqlTypes';
-import { getArticleProps } from '../../../util/getArticleProps';
-import { getArticleScripts } from '../../../util/getArticleScripts';
-import { getContentTypeFromResourceTypes } from '../../../util/getContentType';
-import { structuredArticleDataFragment } from '../../../util/getStructuredDataFromArticle';
-import { getAllDimensions } from '../../../util/trackingUtil';
-import { transformArticle } from '../../../util/transformArticle';
+} from "../../../graphqlTypes";
+import { getArticleProps } from "../../../util/getArticleProps";
+import { getArticleScripts } from "../../../util/getArticleScripts";
+import { getContentTypeFromResourceTypes } from "../../../util/getContentType";
+import { structuredArticleDataFragment } from "../../../util/getStructuredDataFromArticle";
+import { getAllDimensions } from "../../../util/trackingUtil";
+import { transformArticle } from "../../../util/transformArticle";
 
 interface Props {
   article: GQLSharedResourceArticleContainer_ArticleFragment;
-  meta?: GQLFolderResourceMetaSearchQuery['folderResourceMetaSearch'][0];
+  meta?: GQLFolderResourceMetaSearchQuery["folderResourceMetaSearch"][0];
   title: string;
 }
 
@@ -46,7 +46,7 @@ const SharedArticleContainer = ({ article: propArticle, meta, title }: Props) =>
   const { user, authContextLoaded } = useContext(AuthContext);
   const { trackPageView } = useTracker();
   useEffect(() => {
-    if (window.MathJax && typeof window.MathJax.typeset === 'function') {
+    if (window.MathJax && typeof window.MathJax.typeset === "function") {
       try {
         window.MathJax.typeset();
       } catch (err) {
@@ -102,15 +102,15 @@ const SharedArticleContainer = ({ article: propArticle, meta, title }: Props) =>
         article={article}
         {...getArticleProps(undefined, undefined)}
         contentType={contentType?.contentType}
-        label={contentType?.label || ''}
+        label={contentType?.label || ""}
       />
     </OneColumn>
   );
 };
 
 const getDocumentTitle = (title: string, contentType: string | undefined, t: TFunction) =>
-  t('htmlTitles.sharedFolderPage', {
-    name: `${title}${contentType ? ` - ${contentType}` : ''}`,
+  t("htmlTitles.sharedFolderPage", {
+    name: `${title}${contentType ? ` - ${contentType}` : ""}`,
   });
 
 export default SharedArticleContainer;
