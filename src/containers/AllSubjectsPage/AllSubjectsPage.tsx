@@ -71,6 +71,10 @@ const createFilters = (t: TFunction) => [
   },
 ];
 
+const StyledMain = styled.main`
+  padding-top: ${spacing.large};
+`;
+
 const StyledColumn = styled(OneColumn)`
   display: flex;
   flex-direction: column;
@@ -163,7 +167,7 @@ const AllSubjectsPage = () => {
     );
 
   return (
-    <main className="c-resources u-padding-top-large">
+    <StyledMain>
       <HelmetWithTracker title={t('htmlTitles.subjectsPage')} />
       <StyledColumn wide>
         <Heading element="h1" headingStyle="h1" serif id={SKIP_TO_CONTENT_ID}>
@@ -206,7 +210,7 @@ const AllSubjectsPage = () => {
           />
         ))}
       </StyledList>
-    </main>
+    </StyledMain>
   );
 };
 
