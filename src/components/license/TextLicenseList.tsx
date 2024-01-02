@@ -10,10 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { gql } from '@apollo/client';
 import { ButtonV2 } from '@ndla/button';
 import { FileDocumentOutline } from '@ndla/icons/common';
-import {
-  metaTypes,
-  getGroupedContributorDescriptionList,
-} from '@ndla/licenses';
+import { metaTypes, getGroupedContributorDescriptionList } from '@ndla/licenses';
 import {
   MediaList,
   MediaListItem,
@@ -37,10 +34,7 @@ interface TextLicenseInfoProps {
 const TextLicenseInfo = ({ text }: TextLicenseInfoProps) => {
   const { t, i18n } = useTranslation();
   const safeCopyright = licenseCopyrightToCopyrightType(text.copyright);
-  const items: ItemType[] = getGroupedContributorDescriptionList(
-    safeCopyright,
-    i18n.language,
-  );
+  const items: ItemType[] = getGroupedContributorDescriptionList(safeCopyright, i18n.language);
   if (text.title) {
     items.unshift({
       label: t('title'),

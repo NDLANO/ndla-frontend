@@ -83,32 +83,22 @@ const ResourceAddedSnack = ({ folder }: ResourceAddedSnackProps) => {
     <StyledResourceAddedSnack>
       <StyledResource>
         {t('myNdla.resource.addedToFolder')}
-        <StyledSafeLink to={`/minndla/folders/${folder.id}`}>
-          "{folder.name}"
-        </StyledSafeLink>
+        <StyledSafeLink to={`/minndla/folders/${folder.id}`}>"{folder.name}"</StyledSafeLink>
       </StyledResource>
     </StyledResourceAddedSnack>
   );
 };
 
-const AddResourceToFolder = ({
-  onClose,
-  resource,
-  defaultOpenFolder,
-}: Props) => {
+const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) => {
   const { t } = useTranslation();
   const { examLock } = useContext(AuthContext);
   const { meta, loading: metaLoading } = useFolderResourceMeta(resource);
   const { folders, loading } = useFolders();
-  const [storedResource, setStoredResource] = useState<
-    GQLFolderResource | undefined
-  >(undefined);
+  const [storedResource, setStoredResource] = useState<GQLFolderResource | undefined>(undefined);
   const [tags, setTags] = useState<string[]>([]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [canSave, setCanSave] = useState<boolean>(false);
-  const [selectedFolderId, setSelectedFolderId] = useState<string | undefined>(
-    undefined,
-  );
+  const [selectedFolderId, setSelectedFolderId] = useState<string | undefined>(undefined);
   const selectedFolder = useFolder(selectedFolderId);
   const { addSnack } = useSnack();
 
@@ -117,24 +107,16 @@ const AddResourceToFolder = ({
       const _storedResource = getResourceForPath(folders, resource.path);
       setStoredResource(_storedResource ?? undefined);
       setTags((tags) => uniq(compact(tags.concat(getAllTags(folders)))));
-      setSelectedTags((prevTags) =>
-        uniq(prevTags.concat(_storedResource?.tags ?? [])),
-      );
+      setSelectedTags((prevTags) => uniq(prevTags.concat(_storedResource?.tags ?? [])));
     }
   }, [folders, loading, resource.path, storedResource]);
 
   useEffect(() => {
-    const tagsChanged = !!(
-      storedResource && shouldUpdateFolderResource(storedResource, selectedTags)
-    );
+    const tagsChanged = !!(storedResource && shouldUpdateFolderResource(storedResource, selectedTags));
     if (selectedFolder) {
       if (selectedFolder.id === 'folders') {
         setCanSave(false);
-      } else if (
-        selectedFolder.resources.some(
-          (resource) => resource.id === storedResource?.id,
-        )
-      ) {
+      } else if (selectedFolder.resources.some((resource) => resource.id === storedResource?.id)) {
         setCanSave(tagsChanged);
       } else {
         setCanSave(true);
@@ -144,22 +126,16 @@ const AddResourceToFolder = ({
     }
   }, [storedResource, selectedTags, selectedFolder, defaultOpenFolder?.id]);
 
-  const shouldUpdateFolderResource = (
-    storedResource: GQLFolderResource,
-    selectedTags: string[],
-  ) => {
+  const shouldUpdateFolderResource = (storedResource: GQLFolderResource, selectedTags: string[]) => {
     const sortedStored = sortBy(storedResource.tags);
     const sortedSelected = sortBy(selectedTags);
     return !isEqual(sortedStored, sortedSelected);
   };
 
   const { updateFolderResource } = useUpdateFolderResourceMutation();
-  const { addResourceToFolder, loading: addResourceLoading } =
-    useAddResourceToFolderMutation(selectedFolder?.id ?? '');
+  const { addResourceToFolder, loading: addResourceLoading } = useAddResourceToFolderMutation(selectedFolder?.id ?? '');
 
-  const alreadyAdded = selectedFolder?.resources.some(
-    (resource) => resource.id === storedResource?.id,
-  );
+  const alreadyAdded = selectedFolder?.resources.some((resource) => resource.id === storedResource?.id);
 
   const onSave = async () => {
     if (selectedFolder && !alreadyAdded) {
@@ -176,10 +152,7 @@ const AddResourceToFolder = ({
         id: `addedToFolder${selectedFolder.name}`,
         content: <ResourceAddedSnack folder={selectedFolder} />,
       });
-    } else if (
-      storedResource &&
-      shouldUpdateFolderResource(storedResource, selectedTags)
-    ) {
+    } else if (storedResource && shouldUpdateFolderResource(storedResource, selectedTags)) {
       await updateFolderResource({
         variables: { id: storedResource.id, tags: selectedTags },
       });
@@ -223,9 +196,7 @@ const AddResourceToFolder = ({
             storedResource={storedResource}
           />
           <div id="treestructure-error-label" aria-live="assertive">
-            {alreadyAdded && (
-              <MessageBox>{t('myNdla.alreadyInFolder')}</MessageBox>
-            )}
+            {alreadyAdded && <MessageBox>{t('myNdla.alreadyInFolder')}</MessageBox>}
             {noFolderSelected && (
               <MessageBox type="danger">
                 <InformationOutline />
@@ -265,9 +236,7 @@ const AddResourceToFolder = ({
         <LoadingButton
           loading={addResourceLoading}
           colorTheme="light"
-          disabled={
-            !canSave || addResourceLoading || noFolderSelected || examLock
-          }
+          disabled={!canSave || addResourceLoading || noFolderSelected || examLock}
           onClick={onSave}
           onMouseDown={(e) => {
             e.preventDefault();

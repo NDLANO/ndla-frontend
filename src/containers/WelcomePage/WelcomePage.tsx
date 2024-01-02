@@ -12,11 +12,7 @@ import { gql } from '@apollo/client';
 import styled from '@emotion/styled';
 import { breakpoints, mq, spacing, utils } from '@ndla/core';
 import { HelmetWithTracker, useTracker } from '@ndla/tracker';
-import {
-  ProgrammeV2,
-  FrontpageArticle,
-  WIDE_FRONTPAGE_ARTICLE_MAX_WIDTH,
-} from '@ndla/ui';
+import { ProgrammeV2, FrontpageArticle, WIDE_FRONTPAGE_ARTICLE_MAX_WIDTH } from '@ndla/ui';
 
 import Programmes from './Components/Programmes';
 import { AuthContext } from '../../components/AuthenticationContext';
@@ -203,9 +199,7 @@ const WelcomePage = () => {
         <ProgrammeWrapper data-testid="programme-list">
           <Programmes programmes={programmes} loading={fpQuery.loading} />
         </ProgrammeWrapper>
-        {article && (
-          <FrontpageArticle isWide id={SKIP_TO_CONTENT_ID} article={article} />
-        )}
+        {article && <FrontpageArticle isWide id={SKIP_TO_CONTENT_ID} article={article} />}
       </StyledMain>
     </>
   );

@@ -10,23 +10,16 @@ import { Request } from 'express';
 import { Issuer, generators, Client } from 'openid-client';
 import config, { getEnvironmentVariabel } from '../../config';
 
-const handleConfigTypes = (
-  configVariable: string | boolean | undefined,
-): string => {
+const handleConfigTypes = (configVariable: string | boolean | undefined): string => {
   if (typeof configVariable === 'string') {
     return configVariable;
   }
   return '';
 };
 
-const OPENID_DOMAIN =
-  'https://auth.dataporten.no/.well-known/openid-configuration';
-const FEIDE_CLIENT_ID = handleConfigTypes(
-  getEnvironmentVariabel('FEIDE_CLIENT_ID'),
-);
-const FEIDE_CLIENT_SECRET = handleConfigTypes(
-  getEnvironmentVariabel('FEIDE_CLIENT_SECRET'),
-);
+const OPENID_DOMAIN = 'https://auth.dataporten.no/.well-known/openid-configuration';
+const FEIDE_CLIENT_ID = handleConfigTypes(getEnvironmentVariabel('FEIDE_CLIENT_ID'));
+const FEIDE_CLIENT_SECRET = handleConfigTypes(getEnvironmentVariabel('FEIDE_CLIENT_SECRET'));
 
 let storedIssuer: Issuer<Client>;
 
@@ -62,8 +55,7 @@ export const getRedirectUrl = (req: Request, state: string) => {
   return getClient(redirect_uri_login)
     .then((client) =>
       client.authorizationUrl({
-        scope:
-          'email openid userinfo-photo groups-edu userinfo-language userid userinfo-name groups-org userid-feide',
+        scope: 'email openid userinfo-photo groups-edu userinfo-language userid userinfo-name groups-org userid-feide',
         code_challenge,
         state: state,
       }),

@@ -15,9 +15,7 @@ import { ApolloProvider } from '@apollo/client';
 import createCache from '@emotion/cache';
 import { CacheProvider } from '@emotion/react';
 import { i18nInstance } from '@ndla/ui';
-import RedirectContext, {
-  RedirectInfo,
-} from '../../components/RedirectContext';
+import RedirectContext, { RedirectInfo } from '../../components/RedirectContext';
 import config from '../../config';
 import { EmotionCacheKey } from '../../constants';
 import { getHtmlLang, initializeI18n, isValidLocale } from '../../i18n';
@@ -67,10 +65,7 @@ async function doRenderPage(req: Request, initialProps: InitialProps) {
   const cache = createCache({ key: EmotionCacheKey });
   const noSSR = disableSSR(req);
 
-  const i18n = initializeI18n(
-    i18nInstance,
-    initialProps.locale ?? config.defaultLocale,
-  );
+  const i18n = initializeI18n(i18nInstance, initialProps.locale ?? config.defaultLocale);
   const Page = (
     <HelmetProvider context={helmetContext}>
       {noSSR ? (
@@ -107,22 +102,16 @@ export async function iframeArticleRoute(req: Request) {
   const locale = isValidLocale(htmlLang) ? htmlLang : undefined;
   const { articleId, taxonomyId } = req.params;
   try {
-    const { html, docProps, helmetContext, redirectContext } =
-      await doRenderPage(req, {
-        articleId,
-        taxonomyId,
-        isOembed: 'true',
-        basename: lang,
-        locale,
-        status: 'success',
-      });
+    const { html, docProps, helmetContext, redirectContext } = await doRenderPage(req, {
+      articleId,
+      taxonomyId,
+      isOembed: 'true',
+      basename: lang,
+      locale,
+      status: 'success',
+    });
 
-    return renderHtml(
-      html,
-      { status: redirectContext.status ?? OK },
-      docProps,
-      helmetContext,
-    );
+    return renderHtml(html, { status: redirectContext.status ?? OK }, docProps, helmetContext);
   } catch (error) {
     if (process.env.NODE_ENV !== 'unittest') {
       // skip log in unittests

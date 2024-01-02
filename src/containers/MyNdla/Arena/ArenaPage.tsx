@@ -58,12 +58,7 @@ const ArenaPage = () => {
   return (
     <MyNdlaPageWrapper>
       <HelmetWithTracker title={t('htmlTitles.arenaPage')} />
-      <Heading
-        element="h1"
-        id={SKIP_TO_CONTENT_ID}
-        headingStyle="h1-resource"
-        margin="small"
-      >
+      <Heading element="h1" id={SKIP_TO_CONTENT_ID} headingStyle="h1-resource" margin="small">
         {t('myNdla.arena.title')}
       </Heading>
       <Text element="p" textStyle="content-alt">

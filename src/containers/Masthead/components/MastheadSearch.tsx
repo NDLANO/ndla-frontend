@@ -99,11 +99,8 @@ const MastheadSearch = ({ subject }: Props) => {
     const onSlashPressed = (evt: KeyboardEvent) => {
       if (
         evt.key === '/' &&
-        !['input', 'textarea'].includes(
-          document.activeElement?.tagName.toLowerCase() ?? '',
-        ) &&
-        document.activeElement?.attributes.getNamedItem('contenteditable')
-          ?.value !== 'true' &&
+        !['input', 'textarea'].includes(document.activeElement?.tagName.toLowerCase() ?? '') &&
+        document.activeElement?.attributes.getNamedItem('contenteditable')?.value !== 'true' &&
         !isOpen
       ) {
         evt.preventDefault();
@@ -154,10 +151,7 @@ const MastheadSearch = ({ subject }: Props) => {
     setQuery('');
   };
 
-  type MapResultsType = Pick<
-    Required<GQLGroupSearchQuery>['groupSearch'][0],
-    'resourceType' | 'resources'
-  >;
+  type MapResultsType = Pick<Required<GQLGroupSearchQuery>['groupSearch'][0], 'resourceType' | 'resources'>;
 
   const mapResults = (results: MapResultsType[] = []) =>
     query.length > 1
@@ -188,8 +182,7 @@ const MastheadSearch = ({ subject }: Props) => {
     setIsOpen(false);
   };
 
-  const filters =
-    subjects && subject ? [{ title: subject.name, value: subject.id }] : [];
+  const filters = subjects && subject ? [{ title: subject.name, value: subject.id }] : [];
 
   return (
     <Modal open={isOpen} onOpenChange={setIsOpen}>

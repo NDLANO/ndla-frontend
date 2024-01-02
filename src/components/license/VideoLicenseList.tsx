@@ -11,10 +11,7 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation } from 'react-router-dom';
 import { gql } from '@apollo/client';
-import {
-  metaTypes,
-  getGroupedContributorDescriptionList,
-} from '@ndla/licenses';
+import { metaTypes, getGroupedContributorDescriptionList } from '@ndla/licenses';
 import { SafeLinkButton } from '@ndla/safelink';
 import {
   MediaList,
@@ -29,10 +26,7 @@ import { uuid } from '@ndla/util';
 import CopyTextButton from './CopyTextButton';
 import LicenseDescription from './LicenseDescription';
 import { licenseListCopyrightFragment } from './licenseFragments';
-import {
-  isCopyrighted,
-  licenseCopyrightToCopyrightType,
-} from './licenseHelpers';
+import { isCopyrighted, licenseCopyrightToCopyrightType } from './licenseHelpers';
 import { MediaListRef } from './licenseStyles';
 import { GQLVideoLicenseList_BrightcoveLicenseFragment } from '../../graphqlTypes';
 
@@ -46,16 +40,12 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
   const pageUrl = useMemo(() => `/video/${video.id}`, [video.id]);
 
   const shouldShowLink = useMemo(
-    () =>
-      pathname !== pageUrl && !isCopyrighted(video.copyright?.license.license),
+    () => pathname !== pageUrl && !isCopyrighted(video.copyright?.license.license),
     [pageUrl, pathname, video.copyright?.license.license],
   );
 
   const safeCopyright = licenseCopyrightToCopyrightType(video.copyright);
-  const items: ItemType[] = getGroupedContributorDescriptionList(
-    safeCopyright,
-    i18n.language,
-  );
+  const items: ItemType[] = getGroupedContributorDescriptionList(safeCopyright, i18n.language);
   if (video.title) {
     items.unshift({
       label: t('license.images.title'),
@@ -89,12 +79,11 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
         <MediaListItemActions>
           <MediaListRef>
             <MediaListItemMeta items={items} />
-            {video.copyright?.license?.license !== 'COPYRIGHTED' &&
-              video.download && (
-                <SafeLinkButton to={video.download} download variant="outline">
-                  {t('license.download')}
-                </SafeLinkButton>
-              )}
+            {video.copyright?.license?.license !== 'COPYRIGHTED' && video.download && (
+              <SafeLinkButton to={video.download} download variant="outline">
+                {t('license.download')}
+              </SafeLinkButton>
+            )}
             <CopyTextButton
               stringToCopy={`<iframe title="${video.title}" height="${video.iframe?.height}" aria-label="${video.title}" width="${video.iframe?.width}" frameborder="0" src="${video.iframe?.src}" allowfullscreen=""></iframe>`}
               copyTitle={t('license.embed')}

@@ -48,14 +48,7 @@ const converterComponents: DynamicComponents = {
   heartButton: AddEmbedToFolder,
 };
 
-const MultidisciplinaryTopic = ({
-  topicId,
-  subjectId,
-  subTopicId,
-  topic,
-  subject,
-  disableNav,
-}: Props) => {
+const MultidisciplinaryTopic = ({ topicId, subjectId, subTopicId, topic, subject, disableNav }: Props) => {
   const { t, i18n } = useTranslation();
   const { user, authContextLoaded } = useContext(AuthContext);
   const { trackPageView } = useTracker();
@@ -72,12 +65,7 @@ const MultidisciplinaryTopic = ({
     const topicPath = topic.path
       ?.split('/')
       .slice(2)
-      .map(
-        (t) =>
-          subject.allTopics?.find(
-            (topic) => topic.id.replace('urn:', '') === t,
-          ),
-      );
+      .map((t) => subject.allTopics?.find((topic) => topic.id.replace('urn:', '') === t));
     const dimensions = getAllDimensions(
       {
         subject,
@@ -91,34 +79,17 @@ const MultidisciplinaryTopic = ({
     );
 
     trackPageView({ dimensions, title: getDocumentTitle(topic.name, t) });
-  }, [
-    authContextLoaded,
-    subject,
-    t,
-    topic.article,
-    topic.name,
-    topic.path,
-    trackPageView,
-    user,
-  ]);
+  }, [authContextLoaded, subject, t, topic.article, topic.name, topic.path, trackPageView, user]);
 
   const embedMeta = useMemo(() => {
     if (!topic.article?.visualElementEmbed?.content) return undefined;
-    const embedMeta = extractEmbedMeta(
-      topic.article.visualElementEmbed.content,
-    );
+    const embedMeta = extractEmbedMeta(topic.article.visualElementEmbed.content);
     return embedMeta;
   }, [topic?.article?.visualElementEmbed?.content]);
 
   const visualElement = useMemo(() => {
-    if (!embedMeta || !topic.article?.visualElementEmbed?.meta)
-      return undefined;
-    return (
-      <TopicVisualElementContent
-        embed={embedMeta}
-        metadata={topic.article?.visualElementEmbed?.meta}
-      />
-    );
+    if (!embedMeta || !topic.article?.visualElementEmbed?.meta) return undefined;
+    return <TopicVisualElementContent embed={embedMeta} metadata={topic.article?.visualElementEmbed?.meta} />;
   }, [embedMeta, topic.article?.visualElementEmbed?.meta]);
 
   const topicPath = topic.path
@@ -151,32 +122,19 @@ const MultidisciplinaryTopic = ({
 
   return (
     <UITopic
-      id={
-        topicId === topicList[topicList.length - 1]
-          ? SKIP_TO_CONTENT_ID
-          : undefined
-      }
+      id={topicId === topicList[topicList.length - 1] ? SKIP_TO_CONTENT_ID : undefined}
       title={article.title}
       introduction={article.introduction}
       metaImage={article.metaImage}
       visualElementEmbedMeta={embedMeta}
       visualElement={visualElement}
-      onToggleShowContent={
-        topic.article?.content !== ''
-          ? () => setShowContent(!showContent)
-          : undefined
-      }
+      onToggleShowContent={topic.article?.content !== '' ? () => setShowContent(!showContent) : undefined}
       showContent={showContent}
       subTopics={!disableNav ? subTopics : undefined}
       isLoading={false}
       invertedStyle={ndlaFilm}
     >
-      <ArticleContents
-        article={article}
-        scripts={scripts}
-        modifier="in-topic"
-        showIngress={false}
-      />
+      <ArticleContents article={article} scripts={scripts} modifier="in-topic" showIngress={false} />
     </UITopic>
   );
 };

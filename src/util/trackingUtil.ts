@@ -14,22 +14,7 @@ import {
   GQLMyNdlaPersonalDataFragmentFragment,
 } from '../graphqlTypes';
 
-type DimensionKeys =
-  | '3'
-  | '4'
-  | '5'
-  | '6'
-  | '7'
-  | '8'
-  | '9'
-  | '10'
-  | '13'
-  | '14'
-  | '16'
-  | '17'
-  | '18'
-  | '19'
-  | '20';
+type DimensionKeys = '3' | '4' | '5' | '6' | '7' | '8' | '9' | '10' | '13' | '14' | '16' | '17' | '18' | '19' | '20';
 type DimensionType = Record<DimensionKeys, string | number | undefined>;
 
 export const getDimensionsCodes = {
@@ -50,9 +35,7 @@ export const getDimensionsCodes = {
   '20': 'CustDimKompetansemaal',
 };
 
-export const convertToGaOrGtmDimension = (
-  dimensions: DimensionType,
-): Record<string | number, any> => {
+export const convertToGaOrGtmDimension = (dimensions: DimensionType): Record<string | number, any> => {
   return Object.keys(dimensions).reduce((prev, curr) => {
     const key = curr as DimensionKeys;
     return {
@@ -63,8 +46,7 @@ export const convertToGaOrGtmDimension = (
 };
 
 const getGrepCodeOfType = (pattern: string, grepCodes?: string[]) =>
-  grepCodes?.filter((code) => code?.startsWith(pattern))?.join('|') ||
-  undefined;
+  grepCodes?.filter((code) => code?.startsWith(pattern))?.join('|') || undefined;
 
 type RequiredLearningpath = {
   learningsteps?: any[];
@@ -81,21 +63,8 @@ interface Props {
   user?: GQLMyNdlaPersonalDataFragmentFragment;
 }
 
-export const getAllDimensions = (
-  props: Props,
-  contentTypeLabel?: string,
-  isArticle: boolean = false,
-) => {
-  const {
-    article,
-    relevance,
-    subject,
-    topicPath,
-    learningpath,
-    learningstep,
-    filter,
-    user,
-  } = props;
+export const getAllDimensions = (props: Props, contentTypeLabel?: string, isArticle: boolean = false) => {
+  const { article, relevance, subject, topicPath, learningpath, learningstep, filter, user } = props;
   const rightsholders = article?.copyright.rightsholders;
   const authors = article?.copyright.creators || rightsholders;
 
@@ -104,10 +73,7 @@ export const getAllDimensions = (
     '4': contentTypeLabel,
     '5': subject?.name,
     '6': topicPath?.[0]?.name,
-    '7':
-      topicPath && topicPath[1]
-        ? topicPath[topicPath.length - 1]?.name
-        : undefined,
+    '7': topicPath && topicPath[1] ? topicPath[topicPath.length - 1]?.name : undefined,
     '8': isArticle && article ? article.title : undefined,
     '9': authors?.map((author) => author?.name).join(', '),
     '10': getGrepCodeOfType('KE', article?.grepCodes),

@@ -11,15 +11,10 @@ import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { gql } from '@apollo/client';
 import { OneColumn, ErrorMessage } from '@ndla/ui';
-import IframeArticlePage, {
-  iframeArticlePageFragments,
-} from './IframeArticlePage';
+import IframeArticlePage, { iframeArticlePageFragments } from './IframeArticlePage';
 import RedirectContext from '../components/RedirectContext';
 import NotFound from '../containers/NotFoundPage/NotFoundPage';
-import {
-  GQLIframePageQuery,
-  GQLIframePageQueryVariables,
-} from '../graphqlTypes';
+import { GQLIframePageQuery, GQLIframePageQueryVariables } from '../graphqlTypes';
 import { useGraphQuery } from '../util/runQueries';
 
 if (process.env.NODE_ENV !== 'production') {
@@ -78,18 +73,10 @@ const iframePageQuery = gql`
   ${iframeArticlePageFragments.article}
 `;
 
-export const IframePage = ({
-  status,
-  taxonomyId,
-  articleId,
-  isOembed,
-}: Props) => {
+export const IframePage = ({ status, taxonomyId, articleId, isOembed }: Props) => {
   const location = useLocation();
   const redirectContext = useContext(RedirectContext);
-  const { loading, data, error } = useGraphQuery<
-    GQLIframePageQuery,
-    GQLIframePageQueryVariables
-  >(iframePageQuery, {
+  const { loading, data, error } = useGraphQuery<GQLIframePageQuery, GQLIframePageQueryVariables>(iframePageQuery, {
     variables: {
       articleId: articleId!,
       isOembed,
@@ -108,10 +95,7 @@ export const IframePage = ({
   if (loading) {
     return null;
   }
-  if (
-    error?.graphQLErrors.some((err) => err.extensions.status === 410) &&
-    redirectContext
-  ) {
+  if (error?.graphQLErrors.some((err) => err.extensions.status === 410) && redirectContext) {
     redirectContext.status = 410;
   }
 

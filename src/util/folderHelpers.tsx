@@ -11,25 +11,16 @@ import uniqBy from 'lodash/uniqBy';
 import { GQLFolder, GQLFolderResource } from '../graphqlTypes';
 
 export const getAllTags = (allFolders: GQLFolder[]): string[] => {
-  const allTags = allFolders.flatMap((f) =>
-    f.resources.flatMap((r) => r.tags).concat(getAllTags(f.subfolders)),
-  );
+  const allTags = allFolders.flatMap((f) => f.resources.flatMap((r) => r.tags).concat(getAllTags(f.subfolders)));
   return uniq(allTags);
 };
 
-export const getAllResources = (
-  allFolders: GQLFolder[],
-): GQLFolderResource[] => {
-  const allResources = allFolders.flatMap((f) =>
-    f.resources.concat(getAllResources(f.subfolders)),
-  );
+export const getAllResources = (allFolders: GQLFolder[]): GQLFolderResource[] => {
+  const allResources = allFolders.flatMap((f) => f.resources.concat(getAllResources(f.subfolders)));
   return uniq(allResources);
 };
 
-export const getResourceForPath = (
-  allFolders: GQLFolder[],
-  path: string,
-): GQLFolderResource | undefined => {
+export const getResourceForPath = (allFolders: GQLFolder[], path: string): GQLFolderResource | undefined => {
   return getAllResources(allFolders).find((r) => r.path === path);
 };
 
@@ -54,14 +45,9 @@ export const getTotalCountForFolder = (folder: GQLFolder): FolderTotalCount => {
   );
 };
 
-export const getResourcesForTag = (
-  allFolders: GQLFolder[],
-  tag: string,
-): GQLFolderResource[] => {
+export const getResourcesForTag = (allFolders: GQLFolder[], tag: string): GQLFolderResource[] => {
   const resources = allFolders.flatMap((f) =>
-    f.resources
-      .filter((r) => r.tags.some((t) => t === tag))
-      .concat(getResourcesForTag(f.subfolders, tag)),
+    f.resources.filter((r) => r.tags.some((t) => t === tag)).concat(getResourcesForTag(f.subfolders, tag)),
   );
   return uniqBy(resources, (r) => r.id);
 };

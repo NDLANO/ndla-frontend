@@ -22,10 +22,7 @@ const ClientPrivateRoute = ({ element }: Props) => {
   const basename = useBaseName();
 
   if (!authenticated) {
-    window.location.href = constructNewPath(
-      `/login?state=${toHref(location)}`,
-      basename,
-    );
+    window.location.href = constructNewPath(`/login?state=${toHref(location)}`, basename);
     return null;
   }
 

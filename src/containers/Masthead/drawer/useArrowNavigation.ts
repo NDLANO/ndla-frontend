@@ -14,9 +14,7 @@ const ROOT_SELECTOR = '[role="menubar"], [role="tree"]';
 const ITEM_SELECTOR = '[role="menuitem"], [role="treeitem"]';
 
 const getItem = (activeElement: Element, direction: number) => {
-  const elements = activeElement
-    .closest(ROOT_SELECTOR)
-    ?.querySelectorAll(ITEM_SELECTOR);
+  const elements = activeElement.closest(ROOT_SELECTOR)?.querySelectorAll(ITEM_SELECTOR);
 
   const index = findIndex(elements, (el) => el === activeElement);
 
@@ -33,13 +31,7 @@ interface ArrowNavigationConfig {
 
 const useArrowNavigation = (
   active: boolean,
-  {
-    initialFocused,
-    initialSelected,
-    onLeftKeyPressed,
-    onRightKeyPressed,
-    multilevel,
-  }: ArrowNavigationConfig,
+  { initialFocused, initialSelected, onLeftKeyPressed, onRightKeyPressed, multilevel }: ArrowNavigationConfig,
 ) => {
   const [focused, _setFocused] = useState<string | undefined>(undefined);
 
@@ -65,15 +57,11 @@ const useArrowNavigation = (
         activeElement.setAttribute('tabindex', '-1');
         const listItem = activeElement.closest('[data-list-item="true"]');
 
-        const resourceGroup = activeElement?.closest(
-          '[data-resource-group="true"]',
-        );
+        const resourceGroup = activeElement?.closest('[data-resource-group="true"]');
 
         const element = multilevel
           ? getItem(activeElement, +1)
-          : (
-              listItem?.nextElementSibling ?? resourceGroup?.nextElementSibling
-            )?.querySelector(ITEM_SELECTOR);
+          : (listItem?.nextElementSibling ?? resourceGroup?.nextElementSibling)?.querySelector(ITEM_SELECTOR);
 
         if (element?.id) {
           setFocused(element.id);
@@ -96,12 +84,8 @@ const useArrowNavigation = (
         if (element?.id) {
           setFocused(element.id);
         } else {
-          const resourceGroup = activeElement?.closest(
-            '[data-resource-group="true"]',
-          )?.previousElementSibling;
-          const elements = (resourceGroup ?? listElement).querySelectorAll(
-            ITEM_SELECTOR,
-          );
+          const resourceGroup = activeElement?.closest('[data-resource-group="true"]')?.previousElementSibling;
+          const elements = (resourceGroup ?? listElement).querySelectorAll(ITEM_SELECTOR);
           const element = elements[elements.length - 1];
           if (element?.id) {
             setFocused(element.id);
@@ -137,9 +121,7 @@ const useArrowNavigation = (
 
   useEffect(() => {
     if (initialSelected) {
-      document
-        .getElementById(initialSelected)
-        ?.setAttribute('tabindex', active ? '0' : '-1');
+      document.getElementById(initialSelected)?.setAttribute('tabindex', active ? '0' : '-1');
     }
   }, [initialSelected, active]);
 
@@ -151,9 +133,7 @@ const useArrowNavigation = (
 
   useEffect(() => {
     if (focused) {
-      document
-        .getElementById(focused)
-        ?.setAttribute('tabindex', active ? '0' : '-1');
+      document.getElementById(focused)?.setAttribute('tabindex', active ? '0' : '-1');
     }
   }, [active, focused]);
 

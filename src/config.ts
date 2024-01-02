@@ -9,14 +9,8 @@ import { LocaleType } from './interfaces';
 
 export function getEnvironmentVariabel(key: string, fallback: string): string;
 export function getEnvironmentVariabel(key: string, fallback: boolean): boolean;
-export function getEnvironmentVariabel(
-  key: string,
-  fallback?: string,
-): string | undefined;
-export function getEnvironmentVariabel(
-  key: string,
-  fallback?: string | boolean,
-): string | boolean | undefined {
+export function getEnvironmentVariabel(key: string, fallback?: string): string | undefined;
+export function getEnvironmentVariabel(key: string, fallback?: string | boolean): string | boolean | undefined {
   const env = 'env';
   const variableValue = process[env][key]; // Hack to prevent DefinePlugin replacing process.env
   if (typeof fallback === 'boolean') {
@@ -87,8 +81,7 @@ const logglyApiKey = (): string | undefined => {
   return getEnvironmentVariabel('LOGGLY_API_KEY');
 };
 
-export const getDefaultLocale = () =>
-  getEnvironmentVariabel('NDLA_DEFAULT_LOCALE', 'nb');
+export const getDefaultLocale = () => getEnvironmentVariabel('NDLA_DEFAULT_LOCALE', 'nb');
 
 export type ConfigType = {
   defaultLocale: LocaleType;
@@ -118,10 +111,7 @@ export type ConfigType = {
 };
 
 const config: ConfigType = {
-  defaultLocale: getEnvironmentVariabel(
-    'NDLA_DEFAULT_LOCALE',
-    'nb',
-  ) as LocaleType,
+  defaultLocale: getEnvironmentVariabel('NDLA_DEFAULT_LOCALE', 'nb') as LocaleType,
   componentName: 'ndla-frontend',
   ndlaEnvironment,
   host: getEnvironmentVariabel('NDLA_FRONTEND_HOST', 'localhost'),
@@ -132,14 +122,8 @@ const config: ConfigType = {
   disableSSR: getEnvironmentVariabel('DISABLE_SSR', false),
   isNdlaProdEnvironment: ndlaEnvironment === 'prod',
   ndlaApiUrl: getEnvironmentVariabel('NDLA_API_URL', apiDomain()),
-  ndlaFrontendDomain: getEnvironmentVariabel(
-    'FRONTEND_DOMAIN',
-    ndlaFrontendDomain(),
-  ),
-  learningPathDomain: getEnvironmentVariabel(
-    'LEARNINGPATH_DOMAIN',
-    learningPathDomain(),
-  ),
+  ndlaFrontendDomain: getEnvironmentVariabel('FRONTEND_DOMAIN', ndlaFrontendDomain()),
+  learningPathDomain: getEnvironmentVariabel('LEARNINGPATH_DOMAIN', learningPathDomain()),
   zendeskWidgetKey: getEnvironmentVariabel('NDLA_ZENDESK_WIDGET_KEY'),
   localGraphQLApi: getEnvironmentVariabel('LOCAL_GRAPHQL_API', false),
   saamiEnabled: getEnvironmentVariabel('SAAMI_ENABLED', false),
@@ -150,17 +134,11 @@ const config: ConfigType = {
   matomoTagmanagerId: getEnvironmentVariabel('MATOMO_TAGMANAGER_ID', ''),
   isVercel: getEnvironmentVariabel('IS_VERCEL', false),
   monsidoToken: getEnvironmentVariabel('MONSIDO_TOKEN', ''),
-  arenaModeratorGroup: getEnvironmentVariabel(
-    'ARENA_MODERATOR_GROUP',
-    'Global Moderators',
-  ),
+  arenaModeratorGroup: getEnvironmentVariabel('ARENA_MODERATOR_GROUP', 'Global Moderators'),
 };
 
 export function getUniversalConfig() {
-  return process.env.BUILD_TARGET === 'server' ||
-    process.env.NODE_ENV === 'unittest'
-    ? config
-    : window.DATA.config;
+  return process.env.BUILD_TARGET === 'server' || process.env.NODE_ENV === 'unittest' ? config : window.DATA.config;
 }
 
 export default getUniversalConfig();

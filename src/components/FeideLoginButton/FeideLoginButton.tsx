@@ -13,14 +13,7 @@ import styled from '@emotion/styled';
 import { ButtonV2 as Button, ButtonV2 } from '@ndla/button';
 import { colors, spacing } from '@ndla/core';
 import { FeideText, LogOut } from '@ndla/icons/common';
-import {
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalTrigger,
-} from '@ndla/modal';
+import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTrigger } from '@ndla/modal';
 import { SafeLinkButton } from '@ndla/safelink';
 import { UserInfo } from '../../containers/MyNdla/components/UserInfo';
 import { useIsNdlaFilm } from '../../routeHelpers';
@@ -130,10 +123,7 @@ const FeideLoginButton = ({ footer, children }: Props) => {
           {user && <UserInfo user={user} />}
           <StyledButton
             onClick={() => {
-              window.location.href = constructNewPath(
-                `/logout?state=${toHref(location)}`,
-                basename,
-              );
+              window.location.href = constructNewPath(`/logout?state=${toHref(location)}`, basename);
             }}
           >
             {t('user.buttonLogOut')}

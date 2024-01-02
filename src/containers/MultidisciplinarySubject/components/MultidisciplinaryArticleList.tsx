@@ -89,14 +89,7 @@ interface ListItemProps {
   subjects?: string[];
 }
 
-const ListItem = ({
-  title,
-  introduction,
-  url,
-  image,
-  imageAlt = '',
-  subjects = [],
-}: ListItemProps) => (
+const ListItem = ({ title, introduction, url, image, imageAlt = '', subjects = [] }: ListItemProps) => (
   <div>
     <SafeLink to={url}>
       {image && <Image src={image} alt={imageAlt} />}

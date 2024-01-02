@@ -93,11 +93,7 @@ function buildLicenseTabList(
   }
 
   if (
-    concepts.some(
-      (concept) =>
-        concept.copyright?.license?.license &&
-        concept.copyright.license.license !== 'unknown',
-    )
+    concepts.some((concept) => concept.copyright?.license?.license && concept.copyright.license.license !== 'unknown')
   ) {
     tabs.push({
       title: t('license.tabs.concept'),

@@ -12,10 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { Link, useLocation } from 'react-router-dom';
 import { gql } from '@apollo/client';
 import { AudioDocument } from '@ndla/icons/common';
-import {
-  getGroupedContributorDescriptionList,
-  metaTypes,
-} from '@ndla/licenses';
+import { getGroupedContributorDescriptionList, metaTypes } from '@ndla/licenses';
 import { SafeLinkButton } from '@ndla/safelink';
 import {
   MediaList,
@@ -29,10 +26,7 @@ import {
 import { uuid } from '@ndla/util';
 import LicenseDescription from './LicenseDescription';
 import { licenseListCopyrightFragment } from './licenseFragments';
-import {
-  isCopyrighted,
-  licenseCopyrightToCopyrightType,
-} from './licenseHelpers';
+import { isCopyrighted, licenseCopyrightToCopyrightType } from './licenseHelpers';
 import { MediaListRef, mediaListIcon } from './licenseStyles';
 import { GQLAudioLicenseList_AudioLicenseFragment } from '../../graphqlTypes';
 
@@ -47,16 +41,12 @@ const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
   const pageUrl = useMemo(() => `/audio/${audio.id}`, [audio.id]);
 
   const shouldShowLink = useMemo(
-    () =>
-      pathname !== pageUrl && !isCopyrighted(audio.copyright.license.license),
+    () => pathname !== pageUrl && !isCopyrighted(audio.copyright.license.license),
     [pathname, pageUrl, audio.copyright.license.license],
   );
 
   const safeCopyright = licenseCopyrightToCopyrightType(audio.copyright);
-  const items: ItemType[] = getGroupedContributorDescriptionList(
-    safeCopyright,
-    i18n.language,
-  );
+  const items: ItemType[] = getGroupedContributorDescriptionList(safeCopyright, i18n.language);
 
   if (audio.title) {
     items.unshift({

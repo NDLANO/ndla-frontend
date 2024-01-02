@@ -12,15 +12,7 @@ import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { breakpoints, mq } from '@ndla/core';
 import { Plus } from '@ndla/icons/action';
-import {
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalTitle,
-  ModalTrigger,
-} from '@ndla/modal';
+import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from '@ndla/modal';
 import FolderForm, { FolderFormValues } from './FolderForm';
 import { buttonCss, iconCss } from './FoldersPage';
 import { GQLFolder } from '../../../graphqlTypes';
@@ -101,13 +93,7 @@ interface ContentProps {
   skipAutoFocus?: VoidFunction;
 }
 
-export const CreateModalContent = ({
-  onClose,
-  parentFolder,
-  folders,
-  onCreate,
-  skipAutoFocus,
-}: ContentProps) => {
+export const CreateModalContent = ({ onClose, parentFolder, folders, onCreate, skipAutoFocus }: ContentProps) => {
   const { t } = useTranslation();
   return (
     <ModalContent onCloseAutoFocus={onClose}>

@@ -59,8 +59,7 @@ const messages = {
     requiredField: '$t(validation.fields.{{field}}) gáibiduvvo',
     notUnique: 'Gávdno juo',
     maxLength: 'Dát fealta sáhttá sisttisdoallat eanemus {{count}} mearkkat',
-    maxLengthField:
-      '$t(validation.fields.{{field}}) sáhttá sisttisdoallat {{count}} mearkkat',
+    maxLengthField: '$t(validation.fields.{{field}}) sáhttá sisttisdoallat {{count}} mearkkat',
   },
   resourcepageTitles: {
     video: 'Video',

@@ -16,11 +16,7 @@ import { renderPage, renderHtml } from '../helpers/render';
 const bodyFields: Record<string, { required: boolean; value?: any }> = {
   lti_message_type: {
     required: true,
-    value: [
-      'basic-lti-launch-request',
-      'ToolProxyRegistrationRequest',
-      'ContentItemSelectionRequest',
-    ],
+    value: ['basic-lti-launch-request', 'ToolProxyRegistrationRequest', 'ContentItemSelectionRequest'],
   },
   lti_version: { required: true, value: ['LTI-1p0', 'LTI-2p0'] },
   launch_presentation_return_url: { required: false },
@@ -82,9 +78,7 @@ export function parseAndValidateParameters(body: any) {
 
 export function ltiRoute(req: Request) {
   const isPostRequest = req.method === 'POST';
-  const validParameters = isPostRequest
-    ? parseAndValidateParameters(req.body)
-    : undefined;
+  const validParameters = isPostRequest ? parseAndValidateParameters(req.body) : undefined;
   if (isPostRequest) {
     if (!validParameters?.valid) {
       const messages = validParameters?.messages

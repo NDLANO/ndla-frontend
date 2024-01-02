@@ -43,10 +43,7 @@ const Document = ({ helmet, assets, data, styles }: Props) => {
         <Tagmanager />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <meta charSet="utf-8" />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1 viewport-fit=cover"
-        />
+        <meta name="viewport" content="width=device-width, initial-scale=1 viewport-fit=cover" />
         {helmet.title.toComponent()}
         {helmet.meta.toComponent()}
         {helmet.link.toComponent()}
@@ -54,66 +51,21 @@ const Document = ({ helmet, assets, data, styles }: Props) => {
 
         {config.ndlaEnvironment === 'prod' ? (
           <>
-            <link
-              rel="icon"
-              type="image/png"
-              sizes="32x32"
-              href="/static/favicon-prod-32x32.png"
-            />
-            <link
-              rel="icon"
-              type="image/png"
-              sizes="16x16"
-              href="/static/favicon-prod-16x16.png"
-            />
-            <link
-              rel="apple-touch-icon"
-              type="image/png"
-              sizes="180x180"
-              href="/static/apple-touch-icon-prod.png"
-            />
+            <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-prod-32x32.png" />
+            <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-prod-16x16.png" />
+            <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="/static/apple-touch-icon-prod.png" />
           </>
         ) : config.ndlaEnvironment === 'staging' ? (
           <>
-            <link
-              rel="icon"
-              type="image/png"
-              sizes="32x32"
-              href="/static/favicon-staging-32x32.png"
-            />
-            <link
-              rel="icon"
-              type="image/png"
-              sizes="16x16"
-              href="/static/favicon-staging-16x16.png"
-            />
-            <link
-              rel="apple-touch-icon"
-              type="image/png"
-              sizes="180x180"
-              href="/static/apple-touch-icon-staging.png"
-            />
+            <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-staging-32x32.png" />
+            <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-staging-16x16.png" />
+            <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="/static/apple-touch-icon-staging.png" />
           </>
         ) : (
           <>
-            <link
-              rel="icon"
-              type="image/png"
-              sizes="32x32"
-              href="/static/favicon-test-32x32.png"
-            />
-            <link
-              rel="icon"
-              type="image/png"
-              sizes="16x16"
-              href="/static/favicon-test-16x16.png"
-            />
-            <link
-              rel="apple-touch-icon"
-              type="image/png"
-              sizes="180x180"
-              href="/static/apple-touch-icon-test.png"
-            />
+            <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-test-32x32.png" />
+            <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-test-16x16.png" />
+            <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="/static/apple-touch-icon-test.png" />
           </>
         )}
         {helmet.script.toComponent()}
@@ -152,11 +104,7 @@ const Document = ({ helmet, assets, data, styles }: Props) => {
 `,
               }}
             />
-            <script
-              type="text/javascript"
-              async
-              src="https://app-script.monsido.com/v2/monsido-script.js"
-            ></script>
+            <script type="text/javascript" async src="https://app-script.monsido.com/v2/monsido-script.js"></script>
           </>
         ) : null}
         <div id="root">REPLACE_ME</div>
@@ -167,13 +115,7 @@ const Document = ({ helmet, assets, data, styles }: Props) => {
           }}
         />
         {assets.js.map((asset) => (
-          <script
-            key={asset.src}
-            type="text/javascript"
-            src={asset.src}
-            defer
-            crossOrigin="anonymous"
-          />
+          <script key={asset.src} type="text/javascript" src={asset.src} defer crossOrigin="anonymous" />
         ))}
       </body>
     </html>

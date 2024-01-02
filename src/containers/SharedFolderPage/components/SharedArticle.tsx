@@ -8,9 +8,7 @@
 
 import { gql } from '@apollo/client';
 import { Spinner } from '@ndla/icons';
-import SharedArticleContainer, {
-  sharedArticleContainerFragments,
-} from './SharedArticleContainer';
+import SharedArticleContainer, { sharedArticleContainerFragments } from './SharedArticleContainer';
 import {
   GQLFolderResource,
   GQLFolderResourceMetaSearchQuery,

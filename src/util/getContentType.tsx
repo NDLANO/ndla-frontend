@@ -28,8 +28,7 @@ export const contentTypeMapping: Record<string, string> = {
 
   [RESOURCE_TYPE_ASSESSMENT_RESOURCES]: contentTypes.ASSESSMENT_RESOURCES,
 
-  [RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES]:
-    contentTypes.EXTERNAL_LEARNING_RESOURCES,
+  [RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES]: contentTypes.EXTERNAL_LEARNING_RESOURCES,
 
   [RESOURCE_TYPE_SOURCE_MATERIAL]: contentTypes.SOURCE_MATERIAL,
 
@@ -45,8 +44,7 @@ export const resourceTypeMapping: Record<string, string> = {
 
   [contentTypes.ASSESSMENT_RESOURCES]: RESOURCE_TYPE_ASSESSMENT_RESOURCES,
 
-  [contentTypes.EXTERNAL_LEARNING_RESOURCES]:
-    RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES,
+  [contentTypes.EXTERNAL_LEARNING_RESOURCES]: RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES,
 
   [contentTypes.SOURCE_MATERIAL]: RESOURCE_TYPE_SOURCE_MATERIAL,
 
@@ -65,12 +63,8 @@ interface ResourceType {
   name: string;
 }
 
-export function getContentTypeFromResourceTypes(
-  resourceTypes: ResourceType[] = [],
-) {
-  const resourceType = resourceTypes.find(
-    (type) => contentTypeMapping[type.id],
-  );
+export function getContentTypeFromResourceTypes(resourceTypes: ResourceType[] = []) {
+  const resourceType = resourceTypes.find((type) => contentTypeMapping[type.id]);
   if (resourceType) {
     return {
       contentType: contentTypeMapping[resourceType.id],
@@ -101,18 +95,13 @@ export const isHeroContentType = (type: string): type is HeroContentType => {
   return false;
 };
 
-export function getContentType(
-  resourceOrTopic: Pick<GQLResource, 'id' | 'resourceTypes'> | GQLTopic,
-) {
+export function getContentType(resourceOrTopic: Pick<GQLResource, 'id' | 'resourceTypes'> | GQLTopic) {
   if (isTopic(resourceOrTopic)) {
     return contentTypes.TOPIC;
   } else {
-    return getContentTypeFromResourceTypes(resourceOrTopic.resourceTypes)
-      .contentType;
+    return getContentTypeFromResourceTypes(resourceOrTopic.resourceTypes).contentType;
   }
 }
 
-const isTopic = (
-  resourceOrTopic: Pick<GQLResource | GQLTopic, 'id'>,
-): resourceOrTopic is GQLTopic =>
+const isTopic = (resourceOrTopic: Pick<GQLResource | GQLTopic, 'id'>): resourceOrTopic is GQLTopic =>
   !!resourceOrTopic.id && resourceOrTopic.id.startsWith('urn:topic');

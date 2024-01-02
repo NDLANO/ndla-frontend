@@ -11,10 +11,7 @@ import { forwardRef, useState } from 'react';
 import styled from '@emotion/styled';
 import { $generateNodesFromDOM } from '@lexical/html';
 import { $convertToMarkdownString } from '@lexical/markdown';
-import {
-  LexicalComposer,
-  InitialConfigType,
-} from '@lexical/react/LexicalComposer';
+import { LexicalComposer, InitialConfigType } from '@lexical/react/LexicalComposer';
 import { ContentEditable } from '@lexical/react/LexicalContentEditable';
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
@@ -81,73 +78,62 @@ interface Props {
   name: string;
 }
 
-export const MarkdownEditor = forwardRef(
-  ({ name, setContentWritten, setContentLength, initialValue }: Props, _) => {
-    const [floatingAnchorElem, setFloatingAnchorElem] = useState<
-      HTMLDivElement | undefined
-    >(undefined);
-    const props = useFormControl({});
-    const initialConfig: InitialConfigType = {
-      namespace: 'MyEditor',
-      onError,
-      nodes: editorNodes,
-      theme: editorTheme,
-      editorState: (editor) => {
-        const parser = new DOMParser();
-        const nodes = $generateNodesFromDOM(
-          editor,
-          parser.parseFromString(initialValue, 'text/html'),
-        );
-        $getRoot().select().insertNodes(nodes);
-        setContentLength($rootTextContent().length);
-      },
-    };
+export const MarkdownEditor = forwardRef(({ name, setContentWritten, setContentLength, initialValue }: Props, _) => {
+  const [floatingAnchorElem, setFloatingAnchorElem] = useState<HTMLDivElement | undefined>(undefined);
+  const props = useFormControl({});
+  const initialConfig: InitialConfigType = {
+    namespace: 'MyEditor',
+    onError,
+    nodes: editorNodes,
+    theme: editorTheme,
+    editorState: (editor) => {
+      const parser = new DOMParser();
+      const nodes = $generateNodesFromDOM(editor, parser.parseFromString(initialValue, 'text/html'));
+      $getRoot().select().insertNodes(nodes);
+      setContentLength($rootTextContent().length);
+    },
+  };
 
-    const onRef = (_floatingAnchorElem: HTMLDivElement) => {
-      if (_floatingAnchorElem !== null) {
-        setFloatingAnchorElem(_floatingAnchorElem);
-      }
-    };
+  const onRef = (_floatingAnchorElem: HTMLDivElement) => {
+    if (_floatingAnchorElem !== null) {
+      setFloatingAnchorElem(_floatingAnchorElem);
+    }
+  };
 
-    /**
-     * ConvertToMarkDownString length also includes markdown markup to get correct content length we use $rootTextContent.
-     * Usage inspired by https://github.com/facebook/lexical/blob/main/packages/lexical-react/src/shared/useCharacterLimit.ts
-     * */
-    const onChange = (editorState: EditorState) => {
-      editorState.read(() => {
-        const markdown = $convertToMarkdownString(PLAYGROUND_TRANSFORMERS);
-        setContentWritten(markdown);
-        setContentLength($rootTextContent().length);
-      });
-    };
+  /**
+   * ConvertToMarkDownString length also includes markdown markup to get correct content length we use $rootTextContent.
+   * Usage inspired by https://github.com/facebook/lexical/blob/main/packages/lexical-react/src/shared/useCharacterLimit.ts
+   * */
+  const onChange = (editorState: EditorState) => {
+    editorState.read(() => {
+      const markdown = $convertToMarkdownString(PLAYGROUND_TRANSFORMERS);
+      setContentWritten(markdown);
+      setContentLength($rootTextContent().length);
+    });
+  };
 
-    return (
-      <StyledEditorContainer>
-        <LexicalComposer initialConfig={initialConfig}>
-          <EditorToolbar />
-          <InnerEditorContainer>
-            <RichTextPlugin
-              contentEditable={
-                <EditableWrapper ref={onRef}>
-                  <ContentEditable name={name} role="textbox" {...props} />
-                </EditableWrapper>
-              }
-              placeholder={<span />}
-              ErrorBoundary={LexicalErrorBoundary}
-            />
-          </InnerEditorContainer>
-          {floatingAnchorElem ? (
-            <FloatingLinkEditorPlugin anchorElement={floatingAnchorElem} />
-          ) : (
-            ''
-          )}
-          <ListPlugin />
-          <LinkPlugin />
-          <MarkdownPlugin />
-          <HistoryPlugin />
-          <OnChangePlugin ignoreSelectionChange onChange={onChange} />
-        </LexicalComposer>
-      </StyledEditorContainer>
-    );
-  },
-);
+  return (
+    <StyledEditorContainer>
+      <LexicalComposer initialConfig={initialConfig}>
+        <EditorToolbar />
+        <InnerEditorContainer>
+          <RichTextPlugin
+            contentEditable={
+              <EditableWrapper ref={onRef}>
+                <ContentEditable name={name} role="textbox" {...props} />
+              </EditableWrapper>
+            }
+            placeholder={<span />}
+            ErrorBoundary={LexicalErrorBoundary}
+          />
+        </InnerEditorContainer>
+        {floatingAnchorElem ? <FloatingLinkEditorPlugin anchorElement={floatingAnchorElem} /> : ''}
+        <ListPlugin />
+        <LinkPlugin />
+        <MarkdownPlugin />
+        <HistoryPlugin />
+        <OnChangePlugin ignoreSelectionChange onChange={onChange} />
+      </LexicalComposer>
+    </StyledEditorContainer>
+  );
+});

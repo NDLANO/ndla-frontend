@@ -47,13 +47,7 @@ const CountLoadingShimmer = () => {
   );
 };
 
-const FolderAndResourceCount = ({
-  folders,
-  selectedFolder,
-  hasSelectedFolder,
-  folderData,
-  loading,
-}: Props) => {
+const FolderAndResourceCount = ({ folders, selectedFolder, hasSelectedFolder, folderData, loading }: Props) => {
   const { t } = useTranslation();
   const allFoldersCount = useMemo(() => {
     return (
@@ -81,14 +75,9 @@ const FolderAndResourceCount = ({
           <>
             <FolderOutlined />
             <span>
-              <WhileLoading
-                isLoading={loading}
-                fallback={<CountLoadingShimmer />}
-              >
+              <WhileLoading isLoading={loading} fallback={<CountLoadingShimmer />}>
                 {t('myNdla.folders', {
-                  count: hasSelectedFolder
-                    ? selectedFolderCount?.folders
-                    : allFoldersCount,
+                  count: hasSelectedFolder ? selectedFolderCount?.folders : allFoldersCount,
                 })}
               </WhileLoading>
             </span>
@@ -98,10 +87,7 @@ const FolderAndResourceCount = ({
           <>
             <FileDocumentOutline />
             <span>
-              <WhileLoading
-                isLoading={loading}
-                fallback={<CountLoadingShimmer />}
-              >
+              <WhileLoading isLoading={loading} fallback={<CountLoadingShimmer />}>
                 {t('myNdla.resources', {
                   count: selectedFolderCount?.resources ?? allFoldersCount,
                 })}

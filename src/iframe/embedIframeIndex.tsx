@@ -69,9 +69,7 @@ renderOrHydrate(
         <CacheProvider value={cache}>
           <BrowserRouter>
             <MissingRouterContext.Provider value={true}>
-              <EmbedIframePageContainer
-                {...(initialProps as EmbedInitialProps)}
-              />
+              <EmbedIframePageContainer {...(initialProps as EmbedInitialProps)} />
             </MissingRouterContext.Provider>
           </BrowserRouter>
         </CacheProvider>

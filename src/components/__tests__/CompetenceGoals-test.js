@@ -45,8 +45,7 @@ const competenceGoals = [
     },
     competenceGoalSet: {
       id: 'KV115',
-      title:
-        'Competence aims and assessment Vg3 programmes for general studies',
+      title: 'Competence aims and assessment Vg3 programmes for general studies',
     },
   },
 ];
@@ -62,11 +61,6 @@ test('That addUrl param adds url to element ', () => {
 });
 
 test('That addUrl and subjectId params adds extended url to element ', () => {
-  const grouped = groupCompetenceGoals(
-    competenceGoals,
-    true,
-    'LK20',
-    'urn:subject:20',
-  );
+  const grouped = groupCompetenceGoals(competenceGoals, true, 'LK20', 'urn:subject:20');
   expect(grouped).toMatchSnapshot();
 });

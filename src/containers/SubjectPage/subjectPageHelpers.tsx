@@ -7,10 +7,7 @@
  */
 import { RefObject } from 'react';
 
-export const scrollToRef = (
-  ref: RefObject<HTMLElement | null>,
-  offset = 100,
-) => {
+export const scrollToRef = (ref: RefObject<HTMLElement | null>, offset = 100) => {
   const scrollPosition = (ref.current?.offsetTop ?? 0) - offset;
   return window.scrollTo({
     top: scrollPosition,

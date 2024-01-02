@@ -11,23 +11,12 @@ import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { ButtonV2 as Button } from '@ndla/button';
 import { breakpoints, colors, mq, spacing } from '@ndla/core';
-import {
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalTrigger,
-} from '@ndla/modal';
+import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTrigger } from '@ndla/modal';
 import { Heading, Text } from '@ndla/typography';
 import { Image } from '@ndla/ui';
 import Article from '../../components/Article';
 import { GQLArticle_ArticleFragment } from '../../graphqlTypes';
-import {
-  BaseArticle,
-  TransformedBaseArticle,
-  transformArticle,
-} from '../../util/transformArticle';
+import { BaseArticle, TransformedBaseArticle, transformArticle } from '../../util/transformArticle';
 
 const StyledAside = styled.aside`
   background: ${colors.brand.dark};
@@ -114,10 +103,7 @@ const AboutNdlaFilm = ({ aboutNDLAVideo, article }: AboutNdlaFilmProps) => {
 
   const iArticle = useMemo(() => {
     if (article) {
-      return transformArticle(
-        article,
-        i18n.language,
-      ) as TransformedBaseArticle<GQLArticle_ArticleFragment>;
+      return transformArticle(article, i18n.language) as TransformedBaseArticle<GQLArticle_ArticleFragment>;
     }
     return undefined;
   }, [article, i18n.language]);

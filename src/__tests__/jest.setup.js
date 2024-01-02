@@ -10,8 +10,6 @@ import { TextEncoder } from 'util';
 
 global.TextEncoder = TextEncoder;
 
-const jestTimeout = process.env.JEST_TIMEOUT
-  ? parseInt(process.env.JEST_TIMEOUT, 10)
-  : 30000;
+const jestTimeout = process.env.JEST_TIMEOUT ? parseInt(process.env.JEST_TIMEOUT, 10) : 30000;
 
 jest.setTimeout(jestTimeout);

@@ -15,14 +15,8 @@ import { colors, spacing } from '@ndla/core';
 import { Launch } from '@ndla/icons/common';
 import { SafeLinkButton } from '@ndla/safelink';
 import { ContentTypeBadge } from '@ndla/ui';
-import {
-  GQLFolderResource,
-  GQLFolderResourceMetaSearchQuery,
-} from '../../../graphqlTypes';
-import {
-  contentTypeMapping,
-  resourceEmbedTypeMapping,
-} from '../../../util/getContentType';
+import { GQLFolderResource, GQLFolderResourceMetaSearchQuery } from '../../../graphqlTypes';
+import { contentTypeMapping, resourceEmbedTypeMapping } from '../../../util/getContentType';
 
 interface StyledProps {
   level: number;
@@ -91,23 +85,12 @@ interface Props {
   preview?: boolean;
 }
 
-const FolderResource = ({
-  parentId,
-  resource,
-  meta,
-  setFocus,
-  level,
-  isLast,
-  onClose,
-  preview,
-}: Props) => {
+const FolderResource = ({ parentId, resource, meta, setFocus, level, isLast, onClose, preview }: Props) => {
   const { folderId: rootFolderId, subfolderId, resourceId } = useParams();
   const { t } = useTranslation();
   const navigate = useNavigate();
   const isLearningPathOrCase = useMemo(
-    () =>
-      resource.resourceType === 'learningpath' ||
-      resource.resourceType === 'multidisciplinary',
+    () => resource.resourceType === 'learningpath' || resource.resourceType === 'multidisciplinary',
     [resource.resourceType],
   );
   const link = useMemo(
@@ -117,14 +100,7 @@ const FolderResource = ({
         : preview
           ? `/minndla/folders/preview/${rootFolderId}/${parentId}/${resource.id}`
           : `/folder/${rootFolderId}/${parentId}/${resource.id}`,
-    [
-      isLearningPathOrCase,
-      resource.path,
-      resource.id,
-      rootFolderId,
-      parentId,
-      preview,
-    ],
+    [isLearningPathOrCase, resource.path, resource.id, rootFolderId, parentId, preview],
   );
 
   const onClick = useCallback(
@@ -138,26 +114,13 @@ const FolderResource = ({
       }
       onClose?.();
     },
-    [
-      setFocus,
-      parentId,
-      resource.id,
-      isLearningPathOrCase,
-      onClose,
-      link,
-      navigate,
-    ],
+    [setFocus, parentId, resource.id, isLearningPathOrCase, onClose, link, navigate],
   );
 
   const isCurrent = resource.id === resourceId && parentId === subfolderId;
-  const openInfo =
-    resource.resourceType === 'learningpath'
-      ? t('myNdla.sharedFolder.willOpenInNewTab')
-      : '';
+  const openInfo = resource.resourceType === 'learningpath' ? t('myNdla.sharedFolder.willOpenInNewTab') : '';
 
-  const maybeContentType = meta?.resourceTypes?.find(
-    (rt) => allContentTypes[rt.id],
-  );
+  const maybeContentType = meta?.resourceTypes?.find((rt) => allContentTypes[rt.id]);
 
   const contentType = allContentTypes[maybeContentType?.id ?? 'default'];
 
@@ -168,13 +131,7 @@ const FolderResource = ({
         tabIndex={-1}
         level={level}
         id={`shared-${parentId}-${resource.id}`}
-        aria-label={[
-          `${meta?.title}.`,
-          `${t(`contentTypes.${contentType}`)}`,
-          openInfo,
-        ]
-          .filter((i) => !!i)
-          .join(' ')}
+        aria-label={[`${meta?.title}.`, `${t(`contentTypes.${contentType}`)}`, openInfo].filter((i) => !!i).join(' ')}
         role="treeitem"
         target={resource.resourceType === 'learningpath' ? '_blank' : undefined}
         onClick={onClick}
@@ -184,8 +141,7 @@ const FolderResource = ({
       >
         <ContentTypeBadge type={contentType!} border={false} />
         <StyledSpan>{meta?.title}</StyledSpan>
-        {(resource.resourceType === 'learningpath' ||
-          resource.resourceType === 'multidisciplinary') && (
+        {(resource.resourceType === 'learningpath' || resource.resourceType === 'multidisciplinary') && (
           <Launch height={'24px'} width={'24px'} />
         )}
       </StyledSafelinkButton>

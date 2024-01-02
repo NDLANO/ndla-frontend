@@ -7,17 +7,11 @@
  */
 
 import { TFunction } from 'i18next';
-import {
-  TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE,
-  TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
-} from '../constants';
+import { TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE, TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from '../constants';
 import { GQLFrontpageSearch, GQLSubjectInfoFragment } from '../graphqlTypes';
 import { toSubject } from '../routeHelpers';
 
-export const searchSubjects = (
-  query?: string,
-  subjects?: GQLSubjectInfoFragment[],
-) => {
+export const searchSubjects = (query?: string, subjects?: GQLSubjectInfoFragment[]) => {
   const trimmedQuery = query?.trim().toLowerCase();
   if (!trimmedQuery || trimmedQuery?.length < 2) {
     return [];
@@ -25,15 +19,11 @@ export const searchSubjects = (
 
   const filtered = subjects?.filter(
     (subject) =>
-      subject.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] !==
-        undefined ||
-      subject.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE] !==
-        undefined,
+      subject.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] !== undefined ||
+      subject.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE] !== undefined,
   );
 
-  const foundInSubjects = filtered?.filter((subject) =>
-    subject.name.toLowerCase().includes(trimmedQuery),
-  );
+  const foundInSubjects = filtered?.filter((subject) => subject.name.toLowerCase().includes(trimmedQuery));
 
   return foundInSubjects?.map((subject) => {
     return {
@@ -70,11 +60,7 @@ export const frontPageSearchSuggestion = (searchResult: SearchResult) => {
   return suggestions[0]?.text;
 };
 
-export const mapSearchToFrontPageStructure = (
-  data: SearchResult,
-  t: TFunction,
-  query: string,
-) => {
+export const mapSearchToFrontPageStructure = (data: SearchResult, t: TFunction, query: string) => {
   const subjectHits = searchSubjects(query, data.subjects);
   const subjects = {
     title: t('searchPage.label.subjects'),

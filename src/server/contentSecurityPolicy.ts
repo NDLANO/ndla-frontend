@@ -40,11 +40,7 @@ const connectSrc = (() => {
   }
   // Temp for testing xapi
   if (config.ndlaEnvironment === 'test') {
-    return [
-      ...defaultConnectSrc,
-      'https://xapi.com',
-      'https://learninglocker.kf.no',
-    ];
+    return [...defaultConnectSrc, 'https://xapi.com', 'https://learninglocker.kf.no'];
   }
 
   return defaultConnectSrc;
@@ -112,11 +108,7 @@ const scriptSrc = (() => {
   }
   // Temp for testing xapi
   if (config.ndlaEnvironment === 'test') {
-    return [
-      ...defaultScriptSrc,
-      'https://xapi.com',
-      'https://learninglocker.kf.no',
-    ];
+    return [...defaultScriptSrc, 'https://xapi.com', 'https://learninglocker.kf.no'];
   }
   return defaultScriptSrc;
 })();
@@ -193,11 +185,7 @@ const frameSrc = (() => {
     'jeopardylabs.com',
   ];
   if (process.env.NODE_ENV === 'development') {
-    return [
-      ...defaultFrameSrc,
-      `http://localhost:${hmrPort}`,
-      'http://localhost:3000',
-    ];
+    return [...defaultFrameSrc, `http://localhost:${hmrPort}`, 'http://localhost:3000'];
   }
   return defaultFrameSrc;
 })();
@@ -221,11 +209,7 @@ const contentSecurityPolicy = {
   directives: {
     baseUri: ["'self'", 'https://tall.ndla.no'],
     defaultSrc: ["'self'", 'blob:'],
-    upgradeInsecureRequests:
-      process.env.NODE_ENV === 'development' ||
-      config.ndlaEnvironment === 'local'
-        ? null
-        : [],
+    upgradeInsecureRequests: process.env.NODE_ENV === 'development' || config.ndlaEnvironment === 'local' ? null : [],
     scriptSrc,
     frameSrc,
     frameAncestors: null,
@@ -260,13 +244,7 @@ const contentSecurityPolicy = {
       '*.twimg.com',
       ' data:',
     ],
-    mediaSrc: [
-      "'self'",
-      'blob:',
-      'https://*.ndla.no',
-      '*.brightcove.com',
-      'brightcove.com',
-    ],
+    mediaSrc: ["'self'", 'blob:', 'https://*.ndla.no', '*.brightcove.com', 'brightcove.com'],
     connectSrc,
   },
 };

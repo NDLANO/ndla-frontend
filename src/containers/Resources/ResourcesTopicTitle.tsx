@@ -12,14 +12,7 @@ import styled from '@emotion/styled';
 import { IconButtonV2 } from '@ndla/button';
 import { breakpoints, mq, spacing } from '@ndla/core';
 import { LearningPathQuiz } from '@ndla/icons/contentType';
-import {
-  ModalBody,
-  ModalHeader,
-  ModalCloseButton,
-  Modal,
-  ModalTrigger,
-  ModalContent,
-} from '@ndla/modal';
+import { ModalBody, ModalHeader, ModalCloseButton, Modal, ModalTrigger, ModalContent } from '@ndla/modal';
 import { Switch } from '@ndla/switch';
 import { Heading, Text } from '@ndla/typography';
 import { HeadingType } from '../../interfaces';
@@ -85,9 +78,7 @@ const ResourcesTopicTitle = ({
   const tooltipId = 'popupDialogTooltip';
 
   return (
-    <TopicTitleWrapper
-      css={invertedStyle ? invertedTopicTitleWrapperStyle : undefined}
-    >
+    <TopicTitleWrapper css={invertedStyle ? invertedTopicTitleWrapperStyle : undefined}>
       <StyledHGroup>
         <Heading element={heading} headingStyle="list-title" margin="none">
           {title}

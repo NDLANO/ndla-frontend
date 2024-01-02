@@ -16,20 +16,13 @@ export interface Scripts {
   defer?: boolean;
 }
 
-export function getArticleScripts(
-  article: Pick<GQLArticle, 'requiredLibraries' | 'content'>,
-  locale = 'nb',
-) {
+export function getArticleScripts(article: Pick<GQLArticle, 'requiredLibraries' | 'content'>, locale = 'nb') {
   const scripts: Array<Scripts> =
     article.requiredLibraries?.map((lib) => ({
       src: lib.url,
       type: lib.mediaType,
     })) || [];
-  if (
-    article &&
-    article.content.indexOf('<math') > -1 &&
-    process.env.BUILD_TARGET === 'client'
-  ) {
+  if (article && article.content.indexOf('<math') > -1 && process.env.BUILD_TARGET === 'client') {
     if (!window.MathJax) {
       window.MathJax = {
         chtml: {

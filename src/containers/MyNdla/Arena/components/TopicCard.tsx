@@ -80,12 +80,7 @@ const TopicCard = ({ id, title, locked, timestamp, count }: Props) => {
   return (
     <StyledSafelink css={TopicCardCSS} to={toArenaTopic(id)}>
       <div>
-        <StyledHeader
-          element="label"
-          textStyle="label-small"
-          margin="none"
-          data-name="hover"
-        >
+        <StyledHeader element="label" textStyle="label-small" margin="none" data-name="hover">
           {title}
         </StyledHeader>
         <StyledText element="p" textStyle="meta-text-small" margin="none">

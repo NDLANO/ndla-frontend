@@ -787,12 +787,7 @@ type MovieTheme {
 }
 
 type Mutation {
-  addFolder(
-    description: String
-    name: String!
-    parentId: String
-    status: String
-  ): Folder!
+  addFolder(description: String, name: String!, parentId: String, status: String): Folder!
   addFolderResource(
     folderId: String!
     path: String!
@@ -822,18 +817,10 @@ type Mutation {
     visualElement: String
   ): String!
   unsubscribeFromTopic(topicId: Int!): Int!
-  updateFolder(
-    description: String
-    id: String!
-    name: String
-    status: String
-  ): Folder!
+  updateFolder(description: String, id: String!, name: String, status: String): Folder!
   updateFolderResource(id: String!, tags: [String!]): FolderResource!
   updateFolderStatus(folderId: String!, status: String!): [String!]!
-  updatePersonalData(
-    favoriteSubjects: [String]
-    shareName: Boolean
-  ): MyNdlaPersonalData!
+  updatePersonalData(favoriteSubjects: [String], shareName: Boolean): MyNdlaPersonalData!
   updatePost(content: String!, postId: Int!, title: String): ArenaPost!
 }
 
@@ -998,17 +985,9 @@ type Query {
   coreElements(codes: [String], language: String): [CoreElement!]
   examLockStatus: ConfigMetaBoolean!
   filmfrontpage: FilmFrontpage
-  folder(
-    id: String!
-    includeResources: Boolean
-    includeSubfolders: Boolean
-  ): Folder!
-  folderResourceMeta(
-    resource: FolderResourceMetaSearchInput!
-  ): FolderResourceMeta
-  folderResourceMetaSearch(
-    resources: [FolderResourceMetaSearchInput!]!
-  ): [FolderResourceMeta!]!
+  folder(id: String!, includeResources: Boolean, includeSubfolders: Boolean): Folder!
+  folderResourceMeta(resource: FolderResourceMetaSearchInput!): FolderResourceMeta
+  folderResourceMetaSearch(resources: [FolderResourceMetaSearchInput!]!): [FolderResourceMeta!]!
   folders(includeResources: Boolean, includeSubfolders: Boolean): [Folder!]!
   frontpage: FrontpageMenu
   frontpageSearch(query: String): FrontpageSearch
@@ -1032,11 +1011,7 @@ type Query {
   personalData: MyNdlaPersonalData
   podcastSearch(fallback: Boolean, page: Int!, pageSize: Int!): AudioSearch
   podcastSeries(id: Int!): PodcastSeriesWithEpisodes
-  podcastSeriesSearch(
-    fallback: Boolean
-    page: Int!
-    pageSize: Int!
-  ): PodcastSeriesSearch
+  podcastSeriesSearch(fallback: Boolean, page: Int!, pageSize: Int!): PodcastSeriesSearch
   programme(path: String): ProgrammePage
   programmes: [ProgrammePage!]
   resource(id: String!, subjectId: String, topicId: String): Resource
@@ -1076,18 +1051,10 @@ type Query {
     sort: String
     subjects: String
   ): SearchWithoutPagination
-  sharedFolder(
-    id: String!
-    includeResources: Boolean
-    includeSubfolders: Boolean
-  ): SharedFolder!
+  sharedFolder(id: String!, includeResources: Boolean, includeSubfolders: Boolean): SharedFolder!
   subject(id: String!): Subject
   subjectpage(id: Int!): SubjectPage
-  subjects(
-    filterVisible: Boolean
-    metadataFilterKey: String
-    metadataFilterValue: String
-  ): [Subject!]
+  subjects(filterVisible: Boolean, metadataFilterKey: String, metadataFilterValue: String): [Subject!]
   topic(id: String!, subjectId: String): Topic
   topics(contentUri: String, filterVisible: Boolean): [Topic!]
 }
@@ -1352,11 +1319,7 @@ type Title {
 
 type Topic implements TaxonomyEntity & WithArticle {
   alternateTopics: [Topic!]
-  article(
-    convertEmbeds: Boolean
-    showVisualElement: String
-    subjectId: String
-  ): Article
+  article(convertEmbeds: Boolean, showVisualElement: String, subjectId: String): Article
   availability: String
   breadcrumbs: [String!]!
   contentUri: String

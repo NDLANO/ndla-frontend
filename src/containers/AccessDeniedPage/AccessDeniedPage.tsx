@@ -30,10 +30,7 @@ const AccessDenied = () => {
         <ErrorResourceAccessDenied
           onAuthenticateClick={() => {
             const route = authenticated ? 'logout' : 'login';
-            window.location.href = constructNewPath(
-              `/${route}?state=${toHref(location)}`,
-              basename,
-            );
+            window.location.href = constructNewPath(`/${route}?state=${toHref(location)}`, basename);
           }}
         />
       </OneColumn>

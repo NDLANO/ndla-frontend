@@ -48,13 +48,9 @@ const FolderMeta = ({ folder, title }: Props) => {
             {t('myNdla.folder.sharing.previewInformation')}
           </MessageBox>
         ) : null}
-        <HelmetWithTracker
-          title={t('htmlTitles.sharedFolderPage', { name: title })}
-        />
+        <HelmetWithTracker title={t('htmlTitles.sharedFolderPage', { name: title })} />
         <h1>{folder.name}</h1>
-        <StyledDescription>
-          {folder.description || t('myNdla.sharedFolder.description.all')}
-        </StyledDescription>
+        <StyledDescription>{folder.description || t('myNdla.sharedFolder.description.all')}</StyledDescription>
 
         <CopyFolderModal folder={folder}>
           <ButtonV2 colorTheme="light">

@@ -13,13 +13,7 @@ import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { ButtonV2, LoadingButton } from '@ndla/button';
 import { spacing } from '@ndla/core';
-import {
-  FieldErrorMessage,
-  FormControl,
-  InputV3,
-  Label,
-  TextAreaV3,
-} from '@ndla/forms';
+import { FieldErrorMessage, FormControl, InputV3, Label, TextAreaV3 } from '@ndla/forms';
 import { ModalCloseButton } from '@ndla/modal';
 import { GQLFolder } from '../../../graphqlTypes';
 import useValidationTranslation from '../../../util/useValidationTranslation';
@@ -59,26 +53,17 @@ export interface FolderFormValues {
   description?: string;
 }
 
-const toFormValues = (
-  folder: GQLFolder | undefined,
-  t: TFunction,
-): FolderFormValues => {
+const toFormValues = (folder: GQLFolder | undefined, t: TFunction): FolderFormValues => {
   return {
     name: folder?.name ?? '',
-    description:
-      folder?.description ?? t('myNdla.sharedFolder.description.all'),
+    description: folder?.description ?? t('myNdla.sharedFolder.description.all'),
   };
 };
 
 const descriptionMaxLength = 300;
 const nameMaxLength = 64;
 
-const FolderForm = ({
-  folder,
-  onSave,
-  siblings,
-  loading,
-}: EditFolderFormProps) => {
+const FolderForm = ({ folder, onSave, siblings, loading }: EditFolderFormProps) => {
   const { t } = useTranslation();
   const { validationT } = useValidationTranslation();
   const {
@@ -115,9 +100,7 @@ const FolderForm = ({
             }),
           },
           validate: (name) => {
-            const exists = siblings.every(
-              (f) => f.name.toLowerCase() !== name.toLowerCase(),
-            );
+            const exists = siblings.every((f) => f.name.toLowerCase() !== name.toLowerCase());
             if (!exists) {
               return validationT('validation.notUnique');
             }
@@ -131,10 +114,7 @@ const FolderForm = ({
             </Label>
             <InputV3 {...field} />
             <FieldInfoWrapper>
-              <FieldLength
-                value={field.value?.length ?? 0}
-                maxLength={nameMaxLength}
-              />
+              <FieldLength value={field.value?.length ?? 0} maxLength={nameMaxLength} />
               <FieldErrorMessage>{errors.name?.message}</FieldErrorMessage>
             </FieldInfoWrapper>
           </FormControl>
@@ -154,22 +134,14 @@ const FolderForm = ({
           },
         }}
         render={({ field }) => (
-          <FormControl
-            id="description"
-            isInvalid={!!errors.description?.message}
-          >
+          <FormControl id="description" isInvalid={!!errors.description?.message}>
             <Label textStyle="label-small" margin="none">
               {t('validation.fields.description')}
             </Label>
             <TextAreaV3 {...field} />
             <FieldInfoWrapper>
-              <FieldLength
-                value={field.value?.length ?? 0}
-                maxLength={descriptionMaxLength}
-              />
-              <FieldErrorMessage>
-                {errors.description?.message}
-              </FieldErrorMessage>
+              <FieldLength value={field.value?.length ?? 0} maxLength={descriptionMaxLength} />
+              <FieldErrorMessage>{errors.description?.message}</FieldErrorMessage>
             </FieldInfoWrapper>
           </FormControl>
         )}
@@ -179,12 +151,7 @@ const FolderForm = ({
         <ModalCloseButton>
           <ButtonV2 variant="outline">{t('cancel')}</ButtonV2>
         </ModalCloseButton>
-        <LoadingButton
-          colorTheme="primary"
-          loading={loading}
-          type="submit"
-          disabled={!isValid || !isDirty || loading}
-        >
+        <LoadingButton colorTheme="primary" loading={loading} type="submit" disabled={!isValid || !isDirty || loading}>
           {t('save')}
         </LoadingButton>
       </ButtonRow>

@@ -57,20 +57,15 @@ const ProgrammePage = () => {
   const { i18n } = useTranslation();
   const { programme: path, grade: gradeParam } = useTypedParams<MatchParams>();
   const oldProgramme = programmeRedirects[path] !== undefined;
-  const { loading, data } = useGraphQuery<GQLProgrammePageQuery>(
-    programmePageQuery,
-    { variables: { path: path }, skip: oldProgramme },
-  );
+  const { loading, data } = useGraphQuery<GQLProgrammePageQuery>(programmePageQuery, {
+    variables: { path: path },
+    skip: oldProgramme,
+  });
 
   if (oldProgramme) {
     return (
       <Status code={301}>
-        <RedirectExternal
-          to={toProgramme(
-            encodeURIComponent(programmeRedirects[path] || ''),
-            gradeParam,
-          )}
-        />
+        <RedirectExternal to={toProgramme(encodeURIComponent(programmeRedirects[path] || ''), gradeParam)} />
       </Status>
     );
   }
@@ -88,16 +83,11 @@ const ProgrammePage = () => {
   }
 
   const selectedGrade =
-    data.programme.grades?.find(
-      (grade) => grade.title.title.toLowerCase() === gradeParam,
-    ) ?? data.programme.grades?.[0];
+    data.programme.grades?.find((grade) => grade.title.title.toLowerCase() === gradeParam) ??
+    data.programme.grades?.[0];
 
   return (
-    <ProgrammeContainer
-      programme={data.programme}
-      grade={selectedGrade?.title.title || ''}
-      locale={i18n.language}
-    />
+    <ProgrammeContainer programme={data.programme} grade={selectedGrade?.title.title || ''} locale={i18n.language} />
   );
 };
 

@@ -9,22 +9,11 @@
 import { useTranslation } from 'react-i18next';
 import { gql } from '@apollo/client';
 import styled from '@emotion/styled';
-import {
-  AccordionContent,
-  AccordionHeader,
-  AccordionItem,
-  AccordionRoot,
-} from '@ndla/accordion';
+import { AccordionContent, AccordionHeader, AccordionItem, AccordionRoot } from '@ndla/accordion';
 import { colors, spacing } from '@ndla/core';
 import { EmbedMetaData } from '@ndla/types-embed';
 import { Text } from '@ndla/typography';
-import {
-  BrightcoveEmbed,
-  ExternalEmbed,
-  H5pEmbed,
-  IframeEmbed,
-  ImageEmbed,
-} from '@ndla/ui';
+import { BrightcoveEmbed, ExternalEmbed, H5pEmbed, IframeEmbed, ImageEmbed } from '@ndla/ui';
 import { GQLTopicVisualElementContent_MetaFragment } from '../../../graphqlTypes';
 import { hasLicensedContent } from '../../ResourceEmbed/components/ResourceEmbed';
 import ResourceEmbedLicenseBox from '../../ResourceEmbed/components/ResourceEmbedLicenseBox';

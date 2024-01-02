@@ -108,18 +108,13 @@ const structuredDataBase = {
   '@context': 'http://schema.org',
 };
 
-const mapType = (
-  type: typeof PERSON_TYPE | typeof ORGANIZATION_TYPE,
-  arr?: GQLContributor[],
-) =>
+const mapType = (type: typeof PERSON_TYPE | typeof ORGANIZATION_TYPE, arr?: GQLContributor[]) =>
   arr?.map((item) => ({
     '@type': type,
     name: item.name,
   }));
 
-const getCopyrightData = (
-  copyright: GQLStructuredArticleData_CopyrightFragment,
-): StructuredData => {
+const getCopyrightData = (copyright: GQLStructuredArticleData_CopyrightFragment): StructuredData => {
   const { creators, rightsholders, license, processors } = copyright;
   return {
     license: license?.url,
@@ -136,18 +131,14 @@ const getCopyrightDataImage = (
 
   const isCopyrighted = license.license?.toLocaleLowerCase() === COPYRIGHTED;
 
-  const licenseUrl = isCopyrighted
-    ? getLicenseByAbbreviation(license.license, language).url
-    : license?.url;
+  const licenseUrl = isCopyrighted ? getLicenseByAbbreviation(license.license, language).url : license?.url;
 
   return {
     license: licenseUrl,
     creator: mapType(PERSON_TYPE, creators),
     copyrightHolder: mapType(ORGANIZATION_TYPE, rightsholders),
     contributor: mapType(PERSON_TYPE, processors),
-    ...(rightsholders.length
-      ? { creditText: rightsholders.map((r) => r.name).join(', ') }
-      : {}),
+    ...(rightsholders.length ? { creditText: rightsholders.map((r) => r.name).join(', ') } : {}),
     ...(isCopyrighted
       ? {
           copyrightNotice: rightsholders.map((r) => r.name).join(', '),
@@ -156,9 +147,7 @@ const getCopyrightDataImage = (
   };
 };
 
-const getBreadcrumbs = (
-  breadcrumbItems?: Breadcrumb[],
-): StructuredData | undefined => {
+const getBreadcrumbs = (breadcrumbItems?: Breadcrumb[]): StructuredData | undefined => {
   if (!breadcrumbItems) {
     return undefined;
   }
@@ -177,9 +166,7 @@ const getBreadcrumbs = (
   };
 };
 
-const getAllignments = (
-  article: GQLStructuredArticleDataFragment,
-): Alignment[] | undefined => {
+const getAllignments = (article: GQLStructuredArticleDataFragment): Alignment[] | undefined => {
   const core = article.coreElements
     ? article.coreElements?.map((ce) => {
         return {
@@ -342,20 +329,12 @@ const getStructuredDataFromArticle = (
     abstract: article.metaDescription,
     audience: {
       '@type': AUDIENCE_TYPE,
-      educationalRole: [
-        article.availability === 'teacher' ? 'teacher' : 'student',
-      ],
+      educationalRole: [article.availability === 'teacher' ? 'teacher' : 'student'],
     },
     description: article.metaDescription,
-    dateCreated: article.published
-      ? format(new Date(article.published), 'yyyy-MM-dd')
-      : undefined,
-    datePublished: article.published
-      ? format(new Date(article.published), 'yyyy-MM-dd')
-      : undefined,
-    dateModified: article.updated
-      ? format(new Date(article.updated), 'yyyy-MM-dd')
-      : undefined,
+    dateCreated: article.published ? format(new Date(article.published), 'yyyy-MM-dd') : undefined,
+    datePublished: article.published ? format(new Date(article.published), 'yyyy-MM-dd') : undefined,
+    dateModified: article.updated ? format(new Date(article.updated), 'yyyy-MM-dd') : undefined,
     educationalAlignment,
     image: article.metaImage?.url,
     thumbnailUrl: article.metaImage?.url,
@@ -384,10 +363,7 @@ const getStructuredDataFromArticle = (
   };
 };
 
-const createMediaData = (
-  media: Mediaelements[],
-  language: string,
-): StructuredData[] =>
+const createMediaData = (media: Mediaelements[], language: string): StructuredData[] =>
   media.map((media) => {
     const { data, type } = media;
     return {
@@ -397,15 +373,11 @@ const createMediaData = (
       name: data?.title,
       contentUrl: data?.src,
       acquireLicensePage: AcquireLicensePage,
-      ...(type === IMAGE_TYPE
-        ? getCopyrightDataImage(data?.copyright!, language)
-        : getCopyrightData(data?.copyright!)),
+      ...(type === IMAGE_TYPE ? getCopyrightDataImage(data?.copyright!, language) : getCopyrightData(data?.copyright!)),
     };
   });
 
-const createPodcastData = (
-  podcasts: GQLStructuredArticleData_PodcastLicenseFragment[],
-): StructuredData[] =>
+const createPodcastData = (podcasts: GQLStructuredArticleData_PodcastLicenseFragment[]): StructuredData[] =>
   podcasts.map((podcast) => {
     return {
       ...structuredDataBase,
@@ -422,9 +394,7 @@ const createPodcastData = (
     };
   });
 
-const createVideoData = (
-  videos: GQLStructuredArticleData_BrightcoveLicenseFragment[],
-): StructuredData[] =>
+const createVideoData = (videos: GQLStructuredArticleData_BrightcoveLicenseFragment[]): StructuredData[] =>
   videos.map((video) => {
     return {
       ...structuredDataBase,
@@ -435,9 +405,7 @@ const createVideoData = (
       thumbnailUrl: video?.cover,
       description: video?.description,
       acquireLicensePage: AcquireLicensePage,
-      uploadDate: video?.uploadDate
-        ? format(new Date(video?.uploadDate!), 'yyyy-MM-dd')
-        : undefined,
+      uploadDate: video?.uploadDate ? format(new Date(video?.uploadDate!), 'yyyy-MM-dd') : undefined,
       ...getCopyrightData(video?.copyright!),
     };
   });

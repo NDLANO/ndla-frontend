@@ -11,12 +11,9 @@ import { MutableRefObject, useEffect, useRef, useState } from 'react';
 
 export const urlIsNDLAApiUrl = (url: string) =>
   /^(http|https):\/\/(ndla-frontend|www).([a-zA-Z]+.)?api.ndla.no/.test(url);
-export const urlIsNDLAEnvUrl = (url: string) =>
-  /^(http|https):\/\/(www.)?([a-zA-Z]+.)?ndla.no/.test(url);
-export const urlIsLocalNdla = (url: string) =>
-  /^http:\/\/(proxy.ndla-local|localhost):30017/.test(url);
-export const urlIsNDLAUrl = (url: string) =>
-  urlIsNDLAApiUrl(url) || urlIsNDLAEnvUrl(url) || urlIsLocalNdla(url);
+export const urlIsNDLAEnvUrl = (url: string) => /^(http|https):\/\/(www.)?([a-zA-Z]+.)?ndla.no/.test(url);
+export const urlIsLocalNdla = (url: string) => /^http:\/\/(proxy.ndla-local|localhost):30017/.test(url);
+export const urlIsNDLAUrl = (url: string) => urlIsNDLAApiUrl(url) || urlIsNDLAEnvUrl(url) || urlIsLocalNdla(url);
 
 interface Props {
   html: string;
@@ -57,8 +54,7 @@ const LearningpathIframe = ({ html, url }: Props) => {
     const iframe = getIframeDOM();
     if (iframe) {
       const rect = iframe.getBoundingClientRect();
-      const scrollTop =
-        window.pageYOffset || document.documentElement.scrollTop;
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
       const top = evt.data.top + rect.top + scrollTop;
       window.scroll({ top });

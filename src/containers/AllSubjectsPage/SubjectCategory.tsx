@@ -119,11 +119,7 @@ const SubjectCategory = ({ label, subjects, favorites }: Props) => {
   const { height = 85 } = useMastheadHeight();
 
   return (
-    <li
-      ref={rootRef}
-      aria-owns={`subject-${label}`}
-      aria-labelledby={`subject-header-${label}`}
-    >
+    <li ref={rootRef} aria-owns={`subject-${label}`} aria-labelledby={`subject-header-${label}`}>
       <StickyHeading ref={stickyRef} offset={height}>
         <StyledColumn wide>
           <Heading
@@ -135,12 +131,7 @@ const SubjectCategory = ({ label, subjects, favorites }: Props) => {
           >
             {label.toUpperCase()}
           </Heading>
-          <GoToTop
-            textStyle="button"
-            element="a"
-            data-sticky={!!entry?.isIntersecting}
-            href="#SkipToContentId"
-          >
+          <GoToTop textStyle="button" element="a" data-sticky={!!entry?.isIntersecting} href="#SkipToContentId">
             {t('subjectsPage.goToTop')} <StyledArrow />
           </GoToTop>
         </StyledColumn>
@@ -153,11 +144,7 @@ const SubjectCategory = ({ label, subjects, favorites }: Props) => {
           })}
         >
           {subjects.map((subject) => (
-            <SubjectLink
-              favorites={favorites}
-              key={subject.id}
-              subject={subject}
-            />
+            <SubjectLink favorites={favorites} key={subject.id} subject={subject} />
           ))}
         </GridList>
       </StyledColumn>

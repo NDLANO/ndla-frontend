@@ -25,11 +25,7 @@ import { useGraphQuery } from '../../util/runQueries';
 import { htmlTitle } from '../../util/titleHelper';
 
 const multidisciplinarySubjectArticlePageQuery = gql`
-  query multidisciplinarySubjectArticlePage(
-    $topicId: String!
-    $subjectId: String!
-    $convertEmbeds: Boolean
-  ) {
+  query multidisciplinarySubjectArticlePage($topicId: String!, $subjectId: String!, $convertEmbeds: Boolean) {
     subject(id: $subjectId) {
       ...MultidisciplinarySubjectArticle_Subject
     }
@@ -87,11 +83,7 @@ const MultidisciplinarySubjectArticlePage = () => {
   return (
     <>
       <Helmet>
-        <title>
-          {htmlTitle(socialMediaMetaData.title, [
-            t('htmlTitles.titleTemplate'),
-          ])}
-        </title>
+        <title>{htmlTitle(socialMediaMetaData.title, [t('htmlTitles.titleTemplate')])}</title>
       </Helmet>
       <SocialMediaMetadata
         title={socialMediaMetaData.title}

@@ -35,10 +35,7 @@ class CopyTextButton extends Component<Props, State> {
 
   handleClick() {
     const { stringToCopy } = this.props;
-    const success = copyTextToClipboard(
-      stringToCopy ?? '',
-      this.buttonContainer!,
-    );
+    const success = copyTextToClipboard(stringToCopy ?? '', this.buttonContainer!);
 
     if (success) {
       this.setState({ hasCopied: true });
@@ -59,12 +56,7 @@ class CopyTextButton extends Component<Props, State> {
           this.buttonContainer = r;
         }}
       >
-        <ButtonV2
-          variant="outline"
-          className="c-licenseToggle__button"
-          disabled={hasCopied}
-          onClick={this.handleClick}
-        >
+        <ButtonV2 variant="outline" className="c-licenseToggle__button" disabled={hasCopied} onClick={this.handleClick}>
           {hasCopied ? hasCopiedTitle : copyTitle}
         </ButtonV2>
       </span>

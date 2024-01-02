@@ -47,9 +47,7 @@ interface GroupedSubject {
   subjects: GQLMySubjectsSubjectFragmentFragment[];
 }
 
-export const groupSubjects = (
-  subjects: GQLMySubjectsSubjectFragmentFragment[],
-): GroupedSubject[] => {
+export const groupSubjects = (subjects: GQLMySubjectsSubjectFragmentFragment[]): GroupedSubject[] => {
   return Object.entries(
     groupBy(subjects, (subject) => {
       const firstChar = subject.name[0]?.toUpperCase();
@@ -61,19 +59,10 @@ export const groupSubjects = (
     .sort((a, b) => (a.label > b.label ? 1 : -1));
 };
 
-export const filterSubjects = (
-  allSubjects: GQLMySubjectsSubjectFragmentFragment[],
-  status: string,
-) => {
-  const subjects = allSubjects.filter(
-    (subject) => subject.metadata.customFields.forklaringsfag !== 'true',
-  );
+export const filterSubjects = (allSubjects: GQLMySubjectsSubjectFragmentFragment[], status: string) => {
+  const subjects = allSubjects.filter((subject) => subject.metadata.customFields.forklaringsfag !== 'true');
   if (status === 'all') {
-    return subjects.filter(
-      (subject) => subject.metadata.customFields.subjectCategory,
-    );
+    return subjects.filter((subject) => subject.metadata.customFields.subjectCategory);
   }
-  return subjects.filter(
-    (subject) => subject.metadata.customFields.subjectCategory === status,
-  );
+  return subjects.filter((subject) => subject.metadata.customFields.subjectCategory === status);
 };

@@ -52,9 +52,7 @@ export const getLocaleObject = (localeAbbreviation?: string): LocaleObject => {
   return locale || NB; // defaults to NB
 };
 
-export const isValidLocale = (
-  localeAbbreviation: string | undefined | null,
-): localeAbbreviation is LocaleType =>
+export const isValidLocale = (localeAbbreviation: string | undefined | null): localeAbbreviation is LocaleType =>
   appLocales.find((l) => l.abbreviation === localeAbbreviation) !== undefined;
 
 export const getHtmlLang = (localeAbbreviation?: string): string => {

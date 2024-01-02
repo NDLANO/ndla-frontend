@@ -35,13 +35,8 @@ type OembedReturnParams =
   | 'conceptId'
   | 'h5pId';
 
-const matchUrl = (
-  pathname: string,
-  lang: boolean = false,
-): PathMatch<OembedReturnParams> | null => {
-  const possiblePaths = lang
-    ? oembedRoutes.map((r) => `/:lang/${r}`)
-    : oembedRoutes;
+const matchUrl = (pathname: string, lang: boolean = false): PathMatch<OembedReturnParams> | null => {
+  const possiblePaths = lang ? oembedRoutes.map((r) => `/:lang/${r}`) : oembedRoutes;
 
   let match: PathMatch<OembedParams> | undefined;
   for (let i = 0; i < possiblePaths.length; i++) {

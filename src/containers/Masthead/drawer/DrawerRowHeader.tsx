@@ -84,14 +84,7 @@ const IconTitleWrapper = styled.div`
   justify-content: center;
 `;
 
-const DrawerRowHeader = ({
-  title,
-  icon,
-  active,
-  id,
-  current,
-  ...rest
-}: Props) => {
+const DrawerRowHeader = ({ title, icon, active, id, current, ...rest }: Props) => {
   const [expanded, setExpanded] = useState(false);
 
   const contents = (

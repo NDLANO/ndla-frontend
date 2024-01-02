@@ -21,24 +21,12 @@ interface Props {
   status?: 'success' | 'error';
   isOembed?: string;
 }
-const IframePageContainer = ({
-  basename,
-  status,
-  taxonomyId,
-  articleId,
-  isOembed,
-  locale,
-}: Props) => {
+const IframePageContainer = ({ basename, status, taxonomyId, articleId, isOembed, locale }: Props) => {
   return (
     <BaseNameProvider value={isValidLocale(basename) ? basename : ''}>
       <PageContainer>
         <Helmet htmlAttributes={{ lang: locale === 'nb' ? 'no' : locale }} />
-        <IframePage
-          status={status}
-          taxonomyId={taxonomyId}
-          articleId={articleId}
-          isOembed={isOembed}
-        />
+        <IframePage status={status} taxonomyId={taxonomyId} articleId={articleId} isOembed={isOembed} />
       </PageContainer>
     </BaseNameProvider>
   );

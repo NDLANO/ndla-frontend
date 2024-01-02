@@ -98,19 +98,10 @@ const ArenaCard = ({ id, title, subText, count }: Props) => {
       <Forum data-hover-icon="" css={iconCss} />
       <SpacingContainer>
         <div>
-          <StyledHeader
-            element="label"
-            textStyle="label-small"
-            margin="none"
-            data-name="hover"
-          >
+          <StyledHeader element="label" textStyle="label-small" margin="none" data-name="hover">
             {title}
           </StyledHeader>
-          <StyledDescriptionText
-            element="p"
-            textStyle="meta-text-small"
-            margin="none"
-          >
+          <StyledDescriptionText element="p" textStyle="meta-text-small" margin="none">
             {subText}
           </StyledDescriptionText>
         </div>

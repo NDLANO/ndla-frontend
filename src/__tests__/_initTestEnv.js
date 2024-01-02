@@ -15,6 +15,4 @@ global.__SERVER__ = true;
 
 jest.mock('../style/index.css', () => {});
 
-global.DEFAULT_TIMEOUT = process.env.DEFAULT_TIMEOUT
-  ? parseInt(process.env.DEFAULT_TIMEOUT, 10)
-  : 250;
+global.DEFAULT_TIMEOUT = process.env.DEFAULT_TIMEOUT ? parseInt(process.env.DEFAULT_TIMEOUT, 10) : 250;

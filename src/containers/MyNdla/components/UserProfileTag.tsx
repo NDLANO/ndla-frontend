@@ -67,11 +67,7 @@ const isModerator = (user?: GQLArenaUser): boolean => {
   return user?.groupTitleArray?.includes(config.arenaModeratorGroup) ?? false;
 };
 
-const UserProfileTag = ({
-  displayName,
-  username,
-  affiliation,
-}: UserProfileTagProps) => {
+const UserProfileTag = ({ displayName, username, affiliation }: UserProfileTagProps) => {
   const { t } = useTranslation();
   const { arenaUser } = useArenaUser({
     variables: { username: username ?? '' },
@@ -80,10 +76,7 @@ const UserProfileTag = ({
 
   return (
     <UserProfileTagContainer to={`/minndla/arena/user/${username}`}>
-      <Avatar
-        displayName={arenaUser?.displayName}
-        profilePicture={arenaUser?.profilePicture}
-      />
+      <Avatar displayName={arenaUser?.displayName} profilePicture={arenaUser?.profilePicture} />
       <UserInformationContainer>
         <NameAndTagContainer>
           <Name textStyle="meta-text-large" margin="none" data-name="hover">

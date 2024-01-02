@@ -81,9 +81,7 @@ const SubjectLink = ({ subject, favorites, className }: Props) => {
     if (!favorites) {
       return;
     }
-    const newFavorites = favorites?.filter(
-      (favorite) => favorite !== subject.id,
-    );
+    const newFavorites = favorites?.filter((favorite) => favorite !== subject.id);
     await updatePersonalData({
       variables: { favoriteSubjects: newFavorites, shareName: undefined },
     });
@@ -148,18 +146,14 @@ const SubjectLink = ({ subject, favorites, className }: Props) => {
               <>
                 <span>{t('subjectsPage.subjectFavoriteGuide')}</span>
                 <ModalSubjectContainer>
-                  <SubjectSafeLink to={toSubject(subject.id)}>
-                    {subject.name}
-                  </SubjectSafeLink>
+                  <SubjectSafeLink to={toSubject(subject.id)}>{subject.name}</SubjectSafeLink>
                 </ModalSubjectContainer>
               </>
             }
           />
         </Modal>
       )}
-      <SubjectSafeLink to={toSubject(subject.id)}>
-        {subject.name}
-      </SubjectSafeLink>
+      <SubjectSafeLink to={toSubject(subject.id)}>{subject.name}</SubjectSafeLink>
     </SubjectLinkWrapper>
   );
 };

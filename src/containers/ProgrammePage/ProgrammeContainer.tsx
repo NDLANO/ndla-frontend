@@ -91,8 +91,7 @@ export const mapGradesData = (grades: GradeResult[]): GradesData[] => {
   return grades?.map((grade) => {
     let foundProgrammeSubject = false;
     const categories = grade.categories?.map((category) => {
-      foundProgrammeSubject =
-        foundProgrammeSubject || category.isProgrammeSubject;
+      foundProgrammeSubject = foundProgrammeSubject || category.isProgrammeSubject;
       const categorySubjects = category.subjects?.map((subject) => {
         return {
           label: subject.subjectpage?.about?.title || subject.name || '',
@@ -142,11 +141,7 @@ const ProgrammeContainer = ({ programme, grade }: Props) => {
       <Helmet>
         <title>{pageTitle}</title>
       </Helmet>
-      <SocialMediaMetadata
-        title={socialMediaTitle}
-        description={metaDescription}
-        imageUrl={image}
-      />
+      <SocialMediaMetadata title={socialMediaTitle} description={metaDescription} imageUrl={image} />
       <main>
         <Programme
           headingId={SKIP_TO_CONTENT_ID}

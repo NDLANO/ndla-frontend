@@ -98,15 +98,7 @@ const CurrentIndicator = styled.span`
 
 type Props = DrawerMenuButtonProps | DrawerMenuLinkProps;
 
-const DrawerMenuItem = ({
-  bold,
-  children,
-  className,
-  active,
-  current,
-  id,
-  ...specificProps
-}: Props) => {
+const DrawerMenuItem = ({ bold, children, className, active, current, id, ...specificProps }: Props) => {
   const style = bold ? boldItemStyle : normalItemStyle;
   if (specificProps.type === 'button') {
     return (
@@ -124,9 +116,7 @@ const DrawerMenuItem = ({
         >
           <TextWrapper>
             {children}
-            {current && (
-              <CurrentIndicator aria-hidden={true}>•</CurrentIndicator>
-            )}
+            {current && <CurrentIndicator aria-hidden={true}>•</CurrentIndicator>}
           </TextWrapper>
         </StyledButton>
       </DrawerListItem>
@@ -146,9 +136,7 @@ const DrawerMenuItem = ({
         >
           <TextWrapper>
             {children}
-            {current && (
-              <CurrentIndicator aria-hidden={true}>•</CurrentIndicator>
-            )}
+            {current && <CurrentIndicator aria-hidden={true}>•</CurrentIndicator>}
           </TextWrapper>
         </SafeLink>
       </DrawerListItem>

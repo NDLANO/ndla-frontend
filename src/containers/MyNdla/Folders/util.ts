@@ -14,9 +14,7 @@ import config from '../../../config';
 export const makeDndSortFunction = <PID, RES, T extends { id: string }>(
   parentId: PID,
   sortables: T[],
-  sortFunction: (options: {
-    variables: { sortedIds: string[]; parentId: PID };
-  }) => Promise<RES>,
+  sortFunction: (options: { variables: { sortedIds: string[]; parentId: PID } }) => Promise<RES>,
   updateCache: (newOrder: string[]) => void,
   setSortedFoldersState: (setNew: T[]) => void,
 ) => {
@@ -52,11 +50,7 @@ interface DraggableData {
   index: number;
 }
 
-export const makeDndTranslations = (
-  type: 'folder' | 'resource',
-  t: TFunction,
-  length: number,
-): Announcements => {
+export const makeDndTranslations = (type: 'folder' | 'resource', t: TFunction, length: number): Announcements => {
   return {
     onDragStart: ({ active }) => {
       const { name, index } = active.data.current as DraggableData;
@@ -95,19 +89,16 @@ export const makeDndTranslations = (
   };
 };
 
-export const sharedFolderLink = (id: string) =>
-  `${config.ndlaFrontendDomain}/folder/${id}`;
+export const sharedFolderLink = (id: string) => `${config.ndlaFrontendDomain}/folder/${id}`;
 
 export const sharedFolderLinkInternal = (id: string) => `/folder/${id}`;
 
 export const previewLink = (id: string) => `/minndla/folders/preview/${id}`;
 
-export const copyFolderSharingLink = (id: string) =>
-  window.navigator.clipboard.writeText(sharedFolderLink(id));
+export const copyFolderSharingLink = (id: string) => window.navigator.clipboard.writeText(sharedFolderLink(id));
 
 export interface withRole {
   role: string;
 }
 
-export const isStudent = (user: withRole | undefined) =>
-  user?.role === 'student';
+export const isStudent = (user: withRole | undefined) => user?.role === 'student';

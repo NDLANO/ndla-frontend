@@ -17,10 +17,7 @@ import { Content, PageContainer, useMastheadHeight } from '@ndla/ui';
 import FeideFooter from './components/FeideFooter';
 import Footer from './components/Footer';
 import TitleAnnouncer from './components/TitleAnnouncer';
-import {
-  defaultValue,
-  useVersionHash,
-} from '../../components/VersionHashContext';
+import { defaultValue, useVersionHash } from '../../components/VersionHashContext';
 import config from '../../config';
 import { useIsNdlaFilm, useUrnIds } from '../../routeHelpers';
 import { usePrevious } from '../../util/utilityHooks';
@@ -50,24 +47,15 @@ const Layout = () => {
   const params = useUrnIds();
   const ndlaFilm = useIsNdlaFilm();
   const frontpage = !!matchPath('/', pathname);
-  const backgroundWide = !!matchPath(
-    '/learningpaths/:learningpathId',
-    pathname,
-  );
+  const backgroundWide = !!matchPath('/learningpaths/:learningpathId', pathname);
   const noPaddingBottom = !!matchPath('/minndla/*', pathname) || frontpage;
 
   useEffect(() => {
     if (!prevPathname || pathname === prevPathname) {
       return;
     }
-    const inSubjectOrTopic =
-      params.subjectType !== 'multiDisciplinary' &&
-      params.topicId &&
-      !params.resourceId;
-    const inMulti =
-      params.subjectType === 'multiDisciplinary' &&
-      params.topicId &&
-      params.topicList.length !== 3;
+    const inSubjectOrTopic = params.subjectType !== 'multiDisciplinary' && params.topicId && !params.resourceId;
+    const inMulti = params.subjectType === 'multiDisciplinary' && params.topicId && params.topicList.length !== 3;
     const searchUpdate = pathname === '/search' && prevPathname === '/search';
     if (!searchUpdate && !inSubjectOrTopic && !inMulti) {
       window.scrollTo(0, 0);
@@ -76,16 +64,10 @@ const Layout = () => {
 
   const hash = useVersionHash();
   const isDefaultVersion = hash === defaultValue;
-  const metaChildren = isDefaultVersion ? null : (
-    <meta name="robots" content="noindex" />
-  );
+  const metaChildren = isDefaultVersion ? null : <meta name="robots" content="noindex" />;
 
   return (
-    <StyledPageContainer
-      backgroundWide={backgroundWide}
-      data-frontpage={frontpage}
-      data-film={ndlaFilm}
-    >
+    <StyledPageContainer backgroundWide={backgroundWide} data-frontpage={frontpage} data-film={ndlaFilm}>
       <TitleAnnouncer />
       <Global
         styles={css`

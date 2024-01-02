@@ -11,21 +11,8 @@ import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { fonts, spacing } from '@ndla/core';
-import {
-  FormControl,
-  Label,
-  TextAreaV3,
-  RadioButtonGroup,
-  FieldHelper,
-  FieldErrorMessage,
-} from '@ndla/forms';
-import {
-  ModalBody,
-  ModalCloseButton,
-  ModalHeader,
-  ModalTitle,
-  ModalContent,
-} from '@ndla/modal';
+import { FormControl, Label, TextAreaV3, RadioButtonGroup, FieldHelper, FieldErrorMessage } from '@ndla/forms';
+import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle, ModalContent } from '@ndla/modal';
 import { Text } from '@ndla/typography';
 import { useSnack } from '@ndla/ui';
 import handleError from '../../../../util/handleError';
@@ -133,23 +120,16 @@ const FlagPostModalContent = ({ id, onClose }: FlagPostModalProps) => {
               {`${reportReasonText.length ?? 0}/${MAXIMUM_LENGTH_TEXTFIELD}`}
             </StyledText>
             {reportReasonText.length === MAXIMUM_LENGTH_TEXTFIELD && (
-              <FieldHelper aria-live="polite">
-                {t('myNdla.arena.flag.maxLength')}
-              </FieldHelper>
+              <FieldHelper aria-live="polite">{t('myNdla.arena.flag.maxLength')}</FieldHelper>
             )}
-            <FieldErrorMessage>
-              {t('myNdla.arena.flag.error')}
-            </FieldErrorMessage>
+            <FieldErrorMessage>{t('myNdla.arena.flag.error')}</FieldErrorMessage>
           </FormControl>
         )}
         <StyledButtonRow>
           <ButtonV2 onClick={onClose} variant="outline">
             {t('cancel')}
           </ButtonV2>
-          <ButtonV2
-            onClick={sendReport}
-            disabled={flaggedReason === 'other' && !reportReasonText}
-          >
+          <ButtonV2 onClick={sendReport} disabled={flaggedReason === 'other' && !reportReasonText}>
             {t('myNdla.arena.flag.send')}
           </ButtonV2>
         </StyledButtonRow>

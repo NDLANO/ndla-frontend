@@ -22,10 +22,7 @@ import MyNdlaPageWrapper from './components/MyNdlaPageWrapper';
 import MyNdlaTitle from './components/MyNdlaTitle';
 import TitleWrapper from './components/TitleWrapper';
 import { useAiOrgs } from './configQueries';
-import {
-  useFolderResourceMetaSearch,
-  useRecentlyUsedResources,
-} from './folderMutations';
+import { useFolderResourceMetaSearch, useRecentlyUsedResources } from './folderMutations';
 import { isStudent } from './Folders/util';
 import { AuthContext } from '../../components/AuthenticationContext';
 import { getAllDimensions } from '../../util/trackingUtil';
@@ -146,9 +143,7 @@ const MyNdlaPage = () => {
               text: t('myndla.campaignBlock.linkText'),
             }}
             description={{
-              text: isStudent(user)
-                ? t('myndla.campaignBlock.ingressStudent')
-                : t('myndla.campaignBlock.ingress'),
+              text: isStudent(user) ? t('myndla.campaignBlock.ingressStudent') : t('myndla.campaignBlock.ingress'),
               language: i18n.language,
             }}
           />

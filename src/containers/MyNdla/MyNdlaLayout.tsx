@@ -137,25 +137,16 @@ const MyNdlaLayout = () => {
 
   const menuLink = useMemo(
     () =>
-      menuLinks(t, location).map(
-        ({ name, shortName, id, icon, to, iconFilled, restricted }) => {
-          if (restricted && !user?.arenaEnabled) {
-            return null;
-          }
-          return (
-            <StyledLi key={id}>
-              <NavigationLink
-                id={id}
-                name={name}
-                shortName={shortName}
-                icon={icon}
-                to={to}
-                iconFilled={iconFilled}
-              />
-            </StyledLi>
-          );
-        },
-      ),
+      menuLinks(t, location).map(({ name, shortName, id, icon, to, iconFilled, restricted }) => {
+        if (restricted && !user?.arenaEnabled) {
+          return null;
+        }
+        return (
+          <StyledLi key={id}>
+            <NavigationLink id={id} name={name} shortName={shortName} icon={icon} to={to} iconFilled={iconFilled} />
+          </StyledLi>
+        );
+      }),
     [location, t, user],
   );
 
@@ -167,10 +158,7 @@ const MyNdlaLayout = () => {
             <StyledNavList>{menuLink}</StyledNavList>
           </nav>
           <ModalTrigger>
-            <MoreButton
-              variant="stripped"
-              aria-label={t('myNdla.iconMenu.more')}
-            >
+            <MoreButton variant="stripped" aria-label={t('myNdla.iconMenu.more')}>
               <HorizontalMenu />
               <Text margin="none" textStyle="meta-text-xxsmall">
                 {t('myNdla.iconMenu.more')}

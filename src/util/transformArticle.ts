@@ -12,10 +12,7 @@ import formatDate from './formatDate';
 import { GQLArticle } from '../graphqlTypes';
 import { LocaleType } from '../interfaces';
 
-function getContent(
-  content: string,
-  { path, isOembed, subject, components, articleLanguage }: TransformOptions,
-) {
+function getContent(content: string, { path, isOembed, subject, components, articleLanguage }: TransformOptions) {
   return transform(content, {
     frontendDomain: '',
     path,
@@ -31,20 +28,10 @@ function getContent(
 
 export type BaseArticle = Pick<
   GQLArticle,
-  | 'content'
-  | 'introduction'
-  | 'metaData'
-  | 'created'
-  | 'updated'
-  | 'published'
-  | 'requiredLibraries'
-  | 'revisionDate'
+  'content' | 'introduction' | 'metaData' | 'created' | 'updated' | 'published' | 'requiredLibraries' | 'revisionDate'
 >;
 
-export type TransformedBaseArticle<T extends BaseArticle> = Omit<
-  T,
-  'content' | 'introduction'
-> & {
+export type TransformedBaseArticle<T extends BaseArticle> = Omit<T, 'content' | 'introduction'> & {
   content: ReactNode;
   introduction: ReactNode;
 };
@@ -53,10 +40,7 @@ export const transformArticle = <T extends BaseArticle>(
   locale: LocaleType,
   options?: TransformOptions,
 ): TransformedBaseArticle<T> => {
-  const updatedOptions =
-    options?.articleLanguage === 'nb'
-      ? { ...options, articleLanguage: 'no' }
-      : options;
+  const updatedOptions = options?.articleLanguage === 'nb' ? { ...options, articleLanguage: 'no' } : options;
   const content = getContent(article.content, updatedOptions ?? {});
   const footNotes = article?.metaData?.footnotes ?? [];
   return {

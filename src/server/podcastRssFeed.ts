@@ -28,11 +28,10 @@ const getApolloClient = (locale: string) => {
 const podcastRssFeed = async (seriesId: number): Promise<string> => {
   const client = getApolloClient('nb');
 
-  const { data: { podcastSeries } = {} } =
-    await client.query<GQLPodcastSeriesQuery>({
-      query: podcastSeriesQuery,
-      variables: { id: seriesId },
-    });
+  const { data: { podcastSeries } = {} } = await client.query<GQLPodcastSeriesQuery>({
+    query: podcastSeriesQuery,
+    variables: { id: seriesId },
+  });
 
   try {
     const podcastUrl = `${config?.ndlaFrontendDomain}/podkast/${podcastSeries?.id}`;
@@ -48,8 +47,7 @@ const podcastRssFeed = async (seriesId: number): Promise<string> => {
 
     const episodes = podcastSeries?.episodes?.map((episode) => {
       const episodeLink = `${podcastUrl}#episode-${episode.id}`;
-      const GUIDEnvPart =
-        config.ndlaEnvironment === 'prod' ? '' : `${config.ndlaEnvironment}-`;
+      const GUIDEnvPart = config.ndlaEnvironment === 'prod' ? '' : `${config.ndlaEnvironment}-`;
       const episodeGUID = `NDLA-${GUIDEnvPart}${episode.id}`;
       const episodePubDate = new Date(episode.created).toUTCString();
       const description = !episode.podcastMeta?.introduction

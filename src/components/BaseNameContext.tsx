@@ -15,11 +15,7 @@ interface Props {
 }
 
 const BaseNameProvider = ({ children, value = '' }: Props) => {
-  return (
-    <BaseNameContext.Provider value={value}>
-      {children}
-    </BaseNameContext.Provider>
-  );
+  return <BaseNameContext.Provider value={value}>{children}</BaseNameContext.Provider>;
 };
 
 const useBaseName = () => {

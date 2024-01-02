@@ -49,8 +49,7 @@ const StyledCardContainer = styled.li`
   margin: 0;
 `;
 
-const toArenaTopic = (topicId: number | undefined) =>
-  `/minndla/arena/topic/${topicId}`;
+const toArenaTopic = (topicId: number | undefined) => `/minndla/arena/topic/${topicId}`;
 
 const TopicPage = () => {
   const { t } = useTranslation();
@@ -107,25 +106,14 @@ const TopicPage = () => {
 
   return (
     <MyNdlaPageWrapper>
-      <HelmetWithTracker
-        title={t('htmlTitles.arenaTopicPage', { name: arenaCategory?.name })}
-      />
+      <HelmetWithTracker title={t('htmlTitles.arenaTopicPage', { name: arenaCategory?.name })} />
       <BreadcrumbWrapper>
         <MyNdlaBreadcrumb
-          breadcrumbs={
-            categoryId
-              ? [{ name: arenaCategory?.name ?? '', id: categoryId }]
-              : []
-          }
+          breadcrumbs={categoryId ? [{ name: arenaCategory?.name ?? '', id: categoryId }] : []}
           page={'arena'}
         />
       </BreadcrumbWrapper>
-      <Heading
-        element="h1"
-        id={SKIP_TO_CONTENT_ID}
-        headingStyle="h1-resource"
-        margin="small"
-      >
+      <Heading element="h1" id={SKIP_TO_CONTENT_ID} headingStyle="h1-resource" margin="small">
         {arenaCategory?.name}
       </Heading>
       <Text element="p" textStyle="content-alt" margin="none">

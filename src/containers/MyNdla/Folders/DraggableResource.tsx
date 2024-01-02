@@ -19,11 +19,7 @@ import { ViewType } from './FoldersPage';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import { AddResourceToFolderModalContent } from '../../../components/MyNdla/AddResourceToFolderModal';
 import config from '../../../config';
-import {
-  GQLFolder,
-  GQLFolderResource,
-  GQLFolderResourceMeta,
-} from '../../../graphqlTypes';
+import { GQLFolder, GQLFolderResource, GQLFolderResourceMeta } from '../../../graphqlTypes';
 import DeleteModalContent from '../components/DeleteModalContent';
 import SettingsMenu, { MenuItemProps } from '../components/SettingsMenu';
 import { useDeleteFolderResourceMutation } from '../folderMutations';
@@ -54,18 +50,15 @@ const DraggableResource = ({
   const { t } = useTranslation();
   const { examLock } = useContext(AuthContext);
   const { addSnack } = useSnack();
-  const { attributes, setNodeRef, transform, items, transition, isDragging } =
-    useSortable({
-      id: resource.id,
-      data: {
-        name: resourceMeta?.title,
-        index: index + 1,
-      },
-    });
+  const { attributes, setNodeRef, transform, items, transition, isDragging } = useSortable({
+    id: resource.id,
+    data: {
+      name: resourceMeta?.title,
+      index: index + 1,
+    },
+  });
 
-  const { deleteFolderResource } = useDeleteFolderResourceMutation(
-    selectedFolder.id,
-  );
+  const { deleteFolderResource } = useDeleteFolderResourceMutation(selectedFolder.id);
 
   const onDeleteFolder = useCallback(
     async (resource: GQLFolderResource, index?: number) => {
@@ -86,25 +79,14 @@ const DraggableResource = ({
         setTimeout(
           () =>
             (
-              document
-                .getElementById(resourceRefId)
-                ?.getElementsByTagName('a')?.[0] ??
+              document.getElementById(resourceRefId)?.getElementsByTagName('a')?.[0] ??
               document.getElementById(resourceRefId)
             )?.focus({ preventScroll: true }),
           1,
         );
       }
     },
-    [
-      addSnack,
-      deleteFolderResource,
-      resources,
-      selectedFolder.id,
-      selectedFolder.name,
-      setFocusId,
-      resourceRefId,
-      t,
-    ],
+    [addSnack, deleteFolderResource, resources, selectedFolder.id, selectedFolder.name, setFocusId, resourceRefId, t],
   );
 
   const Resource = viewType === 'block' ? BlockResource : ListResource;
@@ -133,9 +115,7 @@ const DraggableResource = ({
         icon: <Link />,
         text: t('myNdla.resource.copyLink'),
         onClick: () => {
-          navigator.clipboard.writeText(
-            `${config.ndlaFrontendDomain}${resource.path}`,
-          );
+          navigator.clipboard.writeText(`${config.ndlaFrontendDomain}${resource.path}`);
           addSnack({
             content: t('myNdla.resource.linkCopied'),
             id: 'linkCopied',
@@ -199,9 +179,7 @@ const DraggableResource = ({
           tags={resource.tags}
           resourceTypes={resourceMeta?.resourceTypes ?? []}
           title={resourceMeta?.title ?? ''}
-          description={
-            viewType !== 'list' ? resourceMeta?.description ?? '' : undefined
-          }
+          description={viewType !== 'list' ? resourceMeta?.description ?? '' : undefined}
           menu={menu}
         />
       </DragWrapper>

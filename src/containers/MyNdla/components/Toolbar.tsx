@@ -67,13 +67,7 @@ interface Props {
   showButtons?: boolean;
 }
 
-const Toolbar = ({
-  buttons,
-  dropDownMenu,
-  onViewTypeChange,
-  viewType,
-  showButtons,
-}: Props) => {
+const Toolbar = ({ buttons, dropDownMenu, onViewTypeChange, viewType, showButtons }: Props) => {
   const { user } = useContext(AuthContext);
   return (
     <ToolbarContainer>

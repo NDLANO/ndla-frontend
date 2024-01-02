@@ -12,9 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { gql } from '@apollo/client';
 import Tabs from '@ndla/tabs';
 import AudioLicenseList from '../../../components/license/AudioLicenseList';
-import ConceptLicenseList, {
-  GlossLicenseList,
-} from '../../../components/license/ConceptLicenseList';
+import ConceptLicenseList, { GlossLicenseList } from '../../../components/license/ConceptLicenseList';
 import H5pLicenseList from '../../../components/license/H5pLicenseList';
 import ImageLicenseList from '../../../components/license/ImageLicenseList';
 import PodcastLicenseList from '../../../components/license/PodcastLicenseList';
@@ -25,10 +23,7 @@ interface Props {
   metaData: GQLResourceEmbedLicenseBox_MetaFragment;
 }
 
-const buildLicenseTabList = (
-  metaData: GQLResourceEmbedLicenseBox_MetaFragment,
-  t: TFunction,
-) => {
+const buildLicenseTabList = (metaData: GQLResourceEmbedLicenseBox_MetaFragment, t: TFunction) => {
   const tabs = [];
   if (metaData.images?.length) {
     tabs.push({

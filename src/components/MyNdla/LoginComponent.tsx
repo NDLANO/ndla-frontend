@@ -85,20 +85,14 @@ const LoginComponent = ({ masthead, content }: Props) => {
           <Heading headingStyle="h2" element="h1">
             <Trans t={t} i18nKey="myNdla.myPage.loginWelcome" />
           </Heading>
-          <StyledImage
-            src="/static/my-ndla-login.png"
-            alt={t('myNdla.myPage.imageAlt')}
-          />
+          <StyledImage src="/static/my-ndla-login.png" alt={t('myNdla.myPage.imageAlt')} />
         </TitleRow>
       )}
       {content}
       <ContentWrapper>
         <Text textStyle="meta-text-medium">
           {t('myNdla.myPage.loginText')}
-          <SafeLink
-            target="_blank"
-            to="https://ndla.no/article/personvernerklaering"
-          >
+          <SafeLink target="_blank" to="https://ndla.no/article/personvernerklaering">
             {t('myNdla.myPage.loginTextLink')}
           </SafeLink>
         </Text>
@@ -112,10 +106,7 @@ const LoginComponent = ({ masthead, content }: Props) => {
           <ModalCloseButton>
             <ButtonV2 variant="outline">{t('cancel')}</ButtonV2>
           </ModalCloseButton>
-          <SafeLinkButton
-            reloadDocument
-            to={`/login?state=${masthead ? '/minndla' : toHref(location)}`}
-          >
+          <SafeLinkButton reloadDocument to={`/login?state=${masthead ? '/minndla' : toHref(location)}`}>
             {t('user.buttonLogIn')}
           </SafeLinkButton>
         </ButtonRow>

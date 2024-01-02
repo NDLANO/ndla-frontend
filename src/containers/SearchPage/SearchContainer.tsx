@@ -11,20 +11,12 @@ import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { spacingUnit } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
-import {
-  SearchSubjectResult,
-  SearchFilterContent,
-  LanguageSelector,
-} from '@ndla/ui';
+import { SearchSubjectResult, SearchFilterContent, LanguageSelector } from '@ndla/ui';
 
 import SearchHeader from './components/SearchHeader';
 import SearchResults, { ViewType } from './components/SearchResults';
 import { SearchGroup, sortResourceTypes, TypeFilter } from './searchHelpers';
-import {
-  SearchCompetenceGoal,
-  SearchCoreElements,
-  SubjectItem,
-} from './SearchInnerPage';
+import { SearchCompetenceGoal, SearchCoreElements, SubjectItem } from './SearchInnerPage';
 import { GQLSubjectInfoFragment } from '../../graphqlTypes';
 import { supportedLanguages } from '../../i18n';
 import { LocaleType } from '../../interfaces';
@@ -107,12 +99,8 @@ const SearchContainer = ({
         coreElements={coreElements}
         loading={loading}
       />
-      {subjectItems && subjectItems?.length > 0 && (
-        <SearchSubjectResult items={subjectItems} />
-      )}
-      <div aria-live="assertive">
-        {loading && searchGroups.length === 0 && <Spinner />}
-      </div>
+      {subjectItems && subjectItems?.length > 0 && <SearchSubjectResult items={subjectItems} />}
+      <div aria-live="assertive">{loading && searchGroups.length === 0 && <Spinner />}</div>
       {searchGroups && searchGroups.length > 0 && (
         <>
           {sortedFilterButtonItems.length > 1 && (
@@ -135,10 +123,7 @@ const SearchContainer = ({
           />
           {isLti && (
             <StyledLanguageSelector>
-              <LanguageSelector
-                locales={supportedLanguages}
-                onSelect={i18n.changeLanguage}
-              />
+              <LanguageSelector locales={supportedLanguages} onSelect={i18n.changeLanguage} />
             </StyledLanguageSelector>
           )}
         </>

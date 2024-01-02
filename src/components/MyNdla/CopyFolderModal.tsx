@@ -8,15 +8,7 @@
 
 import { ReactNode, useCallback, useContext, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  ModalBody,
-  ModalCloseButton,
-  ModalHeader,
-  ModalTitle,
-  Modal,
-  ModalTrigger,
-  ModalContent,
-} from '@ndla/modal';
+import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle, Modal, ModalTrigger, ModalContent } from '@ndla/modal';
 import { Folder } from '@ndla/ui';
 import CopyFolder from './CopyFolder';
 import LoginModalContent from './LoginModalContent';

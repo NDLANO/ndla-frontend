@@ -31,11 +31,7 @@ const StyledTitle = styled.h1`
   padding: ${spacing.normal} 0 ${spacing.normal} 40px;
 `;
 
-const ProgrammeMenu = ({
-  onClose,
-  onCloseMenuPortion,
-  programmes: programmesProp,
-}: Props) => {
+const ProgrammeMenu = ({ onClose, onCloseMenuPortion, programmes: programmesProp }: Props) => {
   const { t } = useTranslation();
   const { programme: urlProgramme } = useUrnIds();
   const { shouldCloseLevel, setLevelClosed } = useDrawerContext();
@@ -65,14 +61,8 @@ const ProgrammeMenu = ({
 
   return (
     <DrawerPortion>
-      <BackButton
-        title={t('masthead.menu.goToMainMenu')}
-        homeButton
-        onGoBack={onCloseMenuPortion}
-      />
-      <StyledTitle aria-hidden={true}>
-        {t('masthead.menuOptions.programme')}
-      </StyledTitle>
+      <BackButton title={t('masthead.menu.goToMainMenu')} homeButton onGoBack={onCloseMenuPortion} />
+      <StyledTitle aria-hidden={true}>{t('masthead.menuOptions.programme')}</StyledTitle>
       <DrawerList id="programme-menu">
         {programmes.map((programme) => (
           <DrawerMenuItem

@@ -21,9 +21,7 @@ interface Props {
 }
 
 export const UserAgentProvider = ({ children, value }: Props) => (
-  <UserAgentContext.Provider value={value}>
-    {children}
-  </UserAgentContext.Provider>
+  <UserAgentContext.Provider value={value}>{children}</UserAgentContext.Provider>
 );
 
 export const useUserAgent = () => {

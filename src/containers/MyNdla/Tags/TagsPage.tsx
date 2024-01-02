@@ -68,16 +68,9 @@ const TagsPage = () => {
   const { folders } = useFolders();
   const { tag } = useParams();
   const { t } = useTranslation();
-  const title = useMemo(
-    () =>
-      tag ? t('htmlTitles.myTagPage', { tag }) : t('htmlTitles.myTagsPage'),
-    [t, tag],
-  );
+  const title = useMemo(() => (tag ? t('htmlTitles.myTagPage', { tag }) : t('htmlTitles.myTagsPage')), [t, tag]);
   const tags = useMemo(() => getAllTags(folders), [folders]);
-  const resources = useMemo(
-    () => (tag ? getResourcesForTag(folders, tag) : []),
-    [tag, folders],
-  );
+  const resources = useMemo(() => (tag ? getResourcesForTag(folders, tag) : []), [tag, folders]);
   const previousResources = usePrevious(resources);
   const navigate = useNavigate();
 
@@ -101,10 +94,7 @@ const TagsPage = () => {
       <TagsPageContainer>
         <HelmetWithTracker title={title} />
         <TitleWrapper>
-          <MyNdlaBreadcrumb
-            page="tags"
-            breadcrumbs={tag ? [{ name: tag, id: tag }] : []}
-          />
+          <MyNdlaBreadcrumb page="tags" breadcrumbs={tag ? [{ name: tag, id: tag }] : []} />
           <MyNdlaTitle title={tag ? tag : t('myNdla.myTags')} />
         </TitleWrapper>
         {!tag && tags.length ? <Tags tags={tags} /> : null}
@@ -137,10 +127,7 @@ const Resources = ({ resources }: ResourcesProps) => {
     })),
     { skip: resources.length === 0 },
   );
-  const keyedData = keyBy(
-    data ?? [],
-    (resource) => `${resource.type}-${resource.id}`,
-  );
+  const keyedData = keyBy(data ?? [], (resource) => `${resource.type}-${resource.id}`);
 
   const setViewType = (type: ViewType) => {
     _setViewType(type);
@@ -157,8 +144,7 @@ const Resources = ({ resources }: ResourcesProps) => {
       <ListViewOptions type={viewType} onTypeChange={setViewType} />
       <BlockWrapper data-type={viewType}>
         {resources.map((resource) => {
-          const meta =
-            keyedData[`${resource.resourceType}-${resource.resourceId}`];
+          const meta = keyedData[`${resource.resourceType}-${resource.resourceId}`];
           return (
             <Resource
               id={resource.id}
@@ -167,9 +153,7 @@ const Resources = ({ resources }: ResourcesProps) => {
               key={resource.id}
               link={resource.path}
               title={meta?.title ?? ''}
-              description={
-                viewType !== 'list' ? meta?.description ?? '' : undefined
-              }
+              description={viewType !== 'list' ? meta?.description ?? '' : undefined}
               tags={resource.tags}
               resourceTypes={meta?.resourceTypes ?? []}
               resourceImage={{
@@ -202,9 +186,7 @@ const Resources = ({ resources }: ResourcesProps) => {
                             icon: <Link />,
                             text: t('myNdla.resource.copyLink'),
                             onClick: () => {
-                              navigator.clipboard.writeText(
-                                `${config.ndlaFrontendDomain}${resource.path}`,
-                              );
+                              navigator.clipboard.writeText(`${config.ndlaFrontendDomain}${resource.path}`);
                               addSnack({
                                 content: t('myNdla.resource.linkCopied'),
                                 id: 'linkCopied',
@@ -235,12 +217,7 @@ const Tags = ({ tags }: TagsProps) => {
         <StyledUl>
           {tags.map((tag) => (
             <li key={tag}>
-              <StyledSafeLinkButton
-                colorTheme="greyLighter"
-                shape="pill"
-                key={tag}
-                to={encodeURIComponent(tag)}
-              >
+              <StyledSafeLinkButton colorTheme="greyLighter" shape="pill" key={tag} to={encodeURIComponent(tag)}>
                 <HashTag />
                 {tag}
               </StyledSafeLinkButton>

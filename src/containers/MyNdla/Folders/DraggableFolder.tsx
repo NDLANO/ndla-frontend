@@ -48,23 +48,14 @@ export const DragWrapper = styled.div`
   flex-grow: 1;
 `;
 
-const DraggableFolder = ({
-  index,
-  folder,
-  type,
-  foldersCount,
-  folders,
-  setFocusId,
-  folderRefId,
-}: Props) => {
-  const { attributes, setNodeRef, transform, transition, items, isDragging } =
-    useSortable({
-      id: folder.id,
-      data: {
-        name: folder.name,
-        index: index + 1,
-      },
-    });
+const DraggableFolder = ({ index, folder, type, foldersCount, folders, setFocusId, folderRefId }: Props) => {
+  const { attributes, setNodeRef, transform, transition, items, isDragging } = useSortable({
+    id: folder.id,
+    data: {
+      name: folder.name,
+      index: index + 1,
+    },
+  });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -85,12 +76,7 @@ const DraggableFolder = ({
   );
 
   return (
-    <DraggableListItem
-      id={`folder-${folder.id}`}
-      ref={setNodeRef}
-      style={style}
-      isDragging={isDragging}
-    >
+    <DraggableListItem id={`folder-${folder.id}`} ref={setNodeRef} style={style} isDragging={isDragging}>
       <DragHandle
         sortableId={folder.id}
         disabled={type === 'block' || items.length < 2}

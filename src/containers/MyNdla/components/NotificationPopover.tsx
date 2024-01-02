@@ -46,15 +46,8 @@ const NotificationPopover = () => {
       <Portal>
         <StyledContent align="end">
           <StyledArrow />
-          <NotificationList
-            notifications={notifications}
-            close={() => setOpen(false)}
-          />
-          <ShowAllLink
-            to={toAllNotifications()}
-            onClick={() => setOpen(false)}
-            fontWeight="bold"
-          >
+          <NotificationList notifications={notifications} close={() => setOpen(false)} />
+          <ShowAllLink to={toAllNotifications()} onClick={() => setOpen(false)} fontWeight="bold">
             {t('myNdla.arena.notification.showAll')}
           </ShowAllLink>
         </StyledContent>

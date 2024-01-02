@@ -6,18 +6,9 @@
  *
  */
 
-import {
-  createContext,
-  ReactNode,
-  useEffect,
-  useState,
-  useCallback,
-} from 'react';
+import { createContext, ReactNode, useEffect, useState, useCallback } from 'react';
 import { gql } from '@apollo/client';
-import {
-  GQLMyNdlaDataQuery,
-  GQLMyNdlaPersonalDataFragmentFragment,
-} from '../graphqlTypes';
+import { GQLMyNdlaDataQuery, GQLMyNdlaPersonalDataFragmentFragment } from '../graphqlTypes';
 import { isAccessTokenValid, millisUntilExpiration } from '../util/authHelpers';
 import { useGraphQuery } from '../util/runQueries';
 
@@ -79,9 +70,7 @@ const myNdlaQuery = gql`
 const AuthenticationContext = ({ children }: Props) => {
   const [authenticated, setAuthenticated] = useState(false);
   const [authContextLoaded, setLoaded] = useState(false);
-  const [user, setUser] = useState<
-    GQLMyNdlaPersonalDataFragmentFragment | undefined
-  >(undefined);
+  const [user, setUser] = useState<GQLMyNdlaPersonalDataFragmentFragment | undefined>(undefined);
   const [examLock, setExamLock] = useState(false);
 
   const myNdlaData = useGraphQuery<GQLMyNdlaDataQuery>(myNdlaQuery, {

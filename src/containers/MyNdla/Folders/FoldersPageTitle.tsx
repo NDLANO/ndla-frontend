@@ -43,46 +43,19 @@ const FoldersPageTitle = ({ loading, selectedFolder }: Props) => {
         isLoading={loading}
         fallback={
           !!selectedFolder && (
-            <ContentLoader
-              width={500}
-              height={30}
-              css={{ maxWidth: '500px', minWidth: '500px' }}
-            >
-              <rect
-                x="0"
-                y="2"
-                rx="3"
-                ry="3"
-                width="400"
-                height="25"
-                key="rect-1"
-              />
+            <ContentLoader width={500} height={30} css={{ maxWidth: '500px', minWidth: '500px' }}>
+              <rect x="0" y="2" rx="3" ry="3" width="400" height="25" key="rect-1" />
             </ContentLoader>
           )
         }
       >
-        <MyNdlaBreadcrumb
-          breadcrumbs={selectedFolder?.breadcrumbs ?? []}
-          page="folders"
-        />
+        <MyNdlaBreadcrumb breadcrumbs={selectedFolder?.breadcrumbs ?? []} page="folders" />
       </WhileLoading>
       <TitleRow>
         <WhileLoading
           fallback={
-            <ContentLoader
-              width={500}
-              height={selectedFolder ? 44 : 28}
-              css={{ maxWidth: '500px', minWidth: '500px' }}
-            >
-              <rect
-                x="0"
-                y="2"
-                rx="3"
-                ry="3"
-                width="300"
-                height={selectedFolder ? '40' : '24'}
-                key="rect-1"
-              />
+            <ContentLoader width={500} height={selectedFolder ? 44 : 28} css={{ maxWidth: '500px', minWidth: '500px' }}>
+              <rect x="0" y="2" rx="3" ry="3" width="300" height={selectedFolder ? '40' : '24'} key="rect-1" />
             </ContentLoader>
           }
           isLoading={loading}

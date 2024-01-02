@@ -28,8 +28,7 @@ const LogoWrapper = styled.div`
 
 const ErrorPage = () => {
   const { t, i18n } = useTranslation();
-  const zendeskLanguage =
-    i18n.language === 'nb' || i18n.language === 'nn' ? 'no' : i18n.language;
+  const zendeskLanguage = i18n.language === 'nb' || i18n.language === 'nn' ? 'no' : i18n.language;
   return (
     <PageContainer backgroundWide={true} ndlaFilm={false}>
       <Helmet
@@ -49,10 +48,7 @@ const ErrorPage = () => {
       {config.feideEnabled && <FeideFooter />}
       {config.zendeskWidgetKey && (
         <ZendeskWrapper>
-          <ZendeskButton
-            locale={zendeskLanguage}
-            widgetKey={config.zendeskWidgetKey}
-          >
+          <ZendeskButton locale={zendeskLanguage} widgetKey={config.zendeskWidgetKey}>
             {t('askNDLA')}
           </ZendeskButton>
         </ZendeskWrapper>

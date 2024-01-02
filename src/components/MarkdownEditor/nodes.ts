@@ -10,8 +10,4 @@ import type { Klass, LexicalNode } from 'lexical';
 import { LinkNode } from '@lexical/link';
 import { ListItemNode, ListNode } from '@lexical/list';
 
-export const editorNodes: Array<Klass<LexicalNode>> = [
-  ListNode,
-  ListItemNode,
-  LinkNode,
-];
+export const editorNodes: Array<Klass<LexicalNode>> = [ListNode, ListItemNode, LinkNode];

@@ -13,10 +13,7 @@ import { useApolloClient } from '@apollo/client';
 import { setCookie } from '@ndla/util';
 
 import { useLtiData } from '../components/LtiContext';
-import {
-  RESOURCE_TYPE_LEARNING_PATH,
-  STORED_LANGUAGE_COOKIE_KEY,
-} from '../constants';
+import { RESOURCE_TYPE_LEARNING_PATH, STORED_LANGUAGE_COOKIE_KEY } from '../constants';
 import ErrorBoundary from '../containers/ErrorPage/ErrorBoundary';
 import ErrorPage from '../containers/ErrorPage/ErrorPage';
 import SearchInnerPage from '../containers/SearchPage/SearchInnerPage';
@@ -57,8 +54,7 @@ const LtiProvider = ({ locale: propsLocale }: Props) => {
     url: subject.path,
   }));
 
-  const { data, error, loading } =
-    useGraphQuery<GQLSearchPageQuery>(searchPageQuery);
+  const { data, error, loading } = useGraphQuery<GQLSearchPageQuery>(searchPageQuery);
   const client = useApolloClient();
 
   i18n.on('languageChanged', (lang) => {
@@ -72,11 +68,8 @@ const LtiProvider = ({ locale: propsLocale }: Props) => {
     document.documentElement.lang = lang;
   });
 
-  const handleSearchParamsChange = (searchParamUpdates: {
-    selectedFilters?: string;
-  }) => {
-    const selectedFilters =
-      searchParamUpdates.selectedFilters?.split(',') ?? [];
+  const handleSearchParamsChange = (searchParamUpdates: { selectedFilters?: string }) => {
+    const selectedFilters = searchParamUpdates.selectedFilters?.split(',') ?? [];
     setSearchParams((prevState) => ({
       ...prevState,
       ...searchParamUpdates,
@@ -106,9 +99,7 @@ const LtiProvider = ({ locale: propsLocale }: Props) => {
         activeSubFilters={searchParams.activeSubFilters}
         subjects={data?.subjects}
         subjectItems={subjectItems}
-        resourceTypes={data?.resourceTypes?.filter(
-          (type) => type.id !== RESOURCE_TYPE_LEARNING_PATH,
-        )}
+        resourceTypes={data?.resourceTypes?.filter((type) => type.id !== RESOURCE_TYPE_LEARNING_PATH)}
         ltiData={ltiContext?.ltiData}
         isLti
       />

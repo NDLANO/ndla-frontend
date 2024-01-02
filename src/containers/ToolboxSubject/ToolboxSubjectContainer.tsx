@@ -14,13 +14,7 @@ import { gql } from '@apollo/client';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { useTracker } from '@ndla/tracker';
-import {
-  HomeBreadcrumb,
-  OneColumn,
-  SimpleBreadcrumbItem,
-  SubjectBanner,
-  ToolboxInfo,
-} from '@ndla/ui';
+import { HomeBreadcrumb, OneColumn, SimpleBreadcrumbItem, SubjectBanner, ToolboxInfo } from '@ndla/ui';
 import { ToolboxTopicContainer } from './components/ToolboxTopicContainer';
 import { AuthContext } from '../../components/AuthenticationContext';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
@@ -40,18 +34,12 @@ const BreadcrumbWrapper = styled.div`
 `;
 
 const getSocialMediaMetaData = (
-  {
-    subject,
-    topicList,
-    t,
-  }: Pick<Props, 'subject' | 'topicList'> & { t: TFunction },
+  { subject, topicList, t }: Pick<Props, 'subject' | 'topicList'> & { t: TFunction },
   selectedTopics?: string[],
 ) => {
   const topics = selectedTopics ?? getInitialSelectedTopics(topicList, subject);
 
-  const selectedMetadata = [...(subject.allTopics ?? [])]
-    .reverse()
-    .find((t) => topics.includes(t.id));
+  const selectedMetadata = [...(subject.allTopics ?? [])].reverse().find((t) => topics.includes(t.id));
 
   const selectedTitle = selectedMetadata?.name || selectedMetadata?.meta?.title;
   const subjectTitle = subject.name;
@@ -68,9 +56,7 @@ const getSocialMediaMetaData = (
       subject.subjectpage?.about?.description ||
       subject.subjectpage?.metaDescription ||
       t('frontpageMultidisciplinarySubject.text'),
-    image:
-      selectedMetadata?.meta?.metaImage ||
-      subject.subjectpage?.about?.visualElement,
+    image: selectedMetadata?.meta?.metaImage || subject.subjectpage?.about?.visualElement,
   };
 };
 
@@ -80,9 +66,7 @@ const getInitialSelectedTopics = (
 ): string[] => {
   let initialSelectedTopics: string[] = [];
   topicList.forEach((topicId) => {
-    const alreadySelected = initialSelectedTopics.find(
-      (topic) => topic === topicId,
-    );
+    const alreadySelected = initialSelectedTopics.find((topic) => topic === topicId);
     if (!alreadySelected) {
       const exist = subject?.allTopics?.find((topic) => topic.id === topicId);
       if (exist) initialSelectedTopics = [exist.id, ...initialSelectedTopics];
@@ -101,9 +85,7 @@ const ToolboxSubjectContainer = ({ topicList, subject }: Props) => {
   useEffect(() => {
     if (!authContextLoaded) return;
     if (subject && topicList.length === 0) {
-      const topicPath = topicList.map(
-        (id) => subject.allTopics?.find((t) => t.id === id),
-      );
+      const topicPath = topicList.map((id) => subject.allTopics?.find((t) => t.id === id));
       const dimensions = getAllDimensions({
         subject,
         topicPath,
@@ -151,9 +133,7 @@ const ToolboxSubjectContainer = ({ topicList, subject }: Props) => {
   const scrollToTopic = (index: number) => {
     const ref = refs[index];
     if (ref && ref.current) {
-      const positionFromTop =
-        ref.current.getBoundingClientRect().top +
-          document?.documentElement?.scrollTop || 100;
+      const positionFromTop = ref.current.getBoundingClientRect().top + document?.documentElement?.scrollTop || 100;
       window.scrollTo({
         top: positionFromTop - 185,
         behavior: 'smooth',
@@ -182,19 +162,12 @@ const ToolboxSubjectContainer = ({ topicList, subject }: Props) => {
     return null;
   }
 
-  const socialMediaMetaData = getSocialMediaMetaData(
-    { subject, topicList, t },
-    selectedTopics,
-  );
+  const socialMediaMetaData = getSocialMediaMetaData({ subject, topicList, t }, selectedTopics);
 
   return (
     <>
       <Helmet>
-        <title>
-          {htmlTitle(socialMediaMetaData.title, [
-            t('htmlTitles.titleTemplate'),
-          ])}
-        </title>
+        <title>{htmlTitle(socialMediaMetaData.title, [t('htmlTitles.titleTemplate')])}</title>
       </Helmet>
       <SocialMediaMetadata
         title={socialMediaMetaData.title}
@@ -224,10 +197,7 @@ const ToolboxSubjectContainer = ({ topicList, subject }: Props) => {
           </div>
         ))}
         {subject.subjectpage?.banner && (
-          <SubjectBanner
-            image={subject.subjectpage?.banner.desktopUrl || ''}
-            negativeTopMargin={!topics}
-          />
+          <SubjectBanner image={subject.subjectpage?.banner.desktopUrl || ''} negativeTopMargin={!topics} />
         )}
       </OneColumn>
     </>

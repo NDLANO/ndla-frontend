@@ -6,13 +6,7 @@
  *
  */
 
-import {
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useState,
-} from 'react';
+import { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { gql } from '@apollo/client';
 import styled from '@emotion/styled';
@@ -40,12 +34,7 @@ interface NewAboutMenuProps extends Props {
   onClose: () => void;
 }
 
-export const AboutMenu = ({
-  onCloseMenuPortion,
-  onClose,
-  setMenu: _setMenu,
-  menuItems,
-}: NewAboutMenuProps) => {
+export const AboutMenu = ({ onCloseMenuPortion, onClose, setMenu: _setMenu, menuItems }: NewAboutMenuProps) => {
   const setMenu = useCallback(
     (value: GQLAboutMenu_FrontpageMenuFragment) => {
       const newMenu = findBreadcrumb(menuItems, value.article.slug);
@@ -89,9 +78,7 @@ const NewAboutMenuPortion = ({
 }: NewAboutMenuPortionProps) => {
   const { t } = useTranslation();
   const { slug } = useTypedParams();
-  const [selected, setSelected] = useState<GQLAboutMenuFragment | undefined>(
-    undefined,
-  );
+  const [selected, setSelected] = useState<GQLAboutMenuFragment | undefined>(undefined);
   const [initialKey, setInitialKey] = useState<string | undefined>(undefined);
 
   const { shouldCloseLevel, setLevelClosed } = useDrawerContext();
@@ -142,11 +129,7 @@ const NewAboutMenuPortion = ({
   return (
     <PortionWrapper>
       <DrawerPortion>
-        <BackButton
-          title={t('masthead.menu.goToMainMenu')}
-          homeButton={homeButton}
-          onGoBack={onGoBack}
-        />
+        <BackButton title={t('masthead.menu.goToMainMenu')} homeButton={homeButton} onGoBack={onGoBack} />
         <DrawerList id={`list-${item.article.slug}`}>
           <DrawerRowHeader
             id={item.article.slug}

@@ -38,12 +38,7 @@ import App from './App';
 import { VersionHashProvider } from './components/VersionHashContext';
 import { getDefaultLocale } from './config';
 import { EmotionCacheKey, STORED_LANGUAGE_COOKIE_KEY } from './constants';
-import {
-  getLocaleInfoFromPath,
-  initializeI18n,
-  isValidLocale,
-  supportedLanguages,
-} from './i18n';
+import { getLocaleInfoFromPath, initializeI18n, isValidLocale, supportedLanguages } from './i18n';
 import { NDLAWindow } from './interfaces';
 import { UserAgentProvider } from './UserAgentContext';
 import { createApolloClient, createApolloLinks } from './util/apiHelpers';
@@ -63,18 +58,13 @@ const basename = isValidLocale(paths[1] ?? '') ? `${paths[1]}` : undefined;
 
 const { versionHash } = queryString.parse(window.location.search);
 
-const serverQueryString = decodeURIComponent(
-  queryString.stringify(serverQuery),
-);
+const serverQueryString = decodeURIComponent(queryString.stringify(serverQuery));
 const locationFromServer = {
   pathname: basepath || '/',
   search: serverQueryString ? `?${serverQueryString}` : '',
 };
 
-const maybeStoredLanguage = getCookie(
-  STORED_LANGUAGE_COOKIE_KEY,
-  document.cookie,
-);
+const maybeStoredLanguage = getCookie(STORED_LANGUAGE_COOKIE_KEY, document.cookie);
 // Set storedLanguage to a sane value if non-existent
 if (maybeStoredLanguage === null || maybeStoredLanguage === undefined) {
   setCookie({
@@ -98,8 +88,7 @@ const cache = createCache({ key: EmotionCacheKey });
 
 // Use memory router if running under google translate
 const testLocation = locationFromServer?.pathname + locationFromServer?.search;
-const isGoogleUrl =
-  decodeURIComponent(window.location.search).indexOf(testLocation) > -1;
+const isGoogleUrl = decodeURIComponent(window.location.search).indexOf(testLocation) > -1;
 
 interface RCProps {
   children: ReactNode;
@@ -108,9 +97,7 @@ interface RCProps {
 
 const RouterComponent = ({ children, base }: RCProps) =>
   isGoogleUrl ? (
-    <MemoryRouter initialEntries={[locationFromServer]}>
-      {children}
-    </MemoryRouter>
+    <MemoryRouter initialEntries={[locationFromServer]}>{children}</MemoryRouter>
   ) : (
     <BrowserRouter key={base} basename={base}>
       {children}
@@ -174,10 +161,7 @@ const LanguageWrapper = ({ basename }: { basename?: string }) => {
   // handle initial redirect if URL has wrong or missing locale prefix.
   // only relevant when disableSSR=true
   useLayoutEffect(() => {
-    const storedLanguage = getCookie(
-      STORED_LANGUAGE_COOKIE_KEY,
-      document.cookie,
-    )!;
+    const storedLanguage = getCookie(STORED_LANGUAGE_COOKIE_KEY, document.cookie)!;
     if (storedLanguage === getDefaultLocale() && !base) return;
     if (isValidLocale(storedLanguage) && storedLanguage === base) {
       setBase(storedLanguage);

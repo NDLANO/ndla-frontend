@@ -9,33 +9,16 @@
 import { useMemo, useState, useEffect, SetStateAction, Dispatch } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Reference, useApolloClient } from '@apollo/client';
-import {
-  closestCenter,
-  DndContext,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors,
-} from '@dnd-kit/core';
-import {
-  restrictToVerticalAxis,
-  restrictToParentElement,
-} from '@dnd-kit/modifiers';
-import {
-  SortableContext,
-  sortableKeyboardCoordinates,
-  verticalListSortingStrategy,
-} from '@dnd-kit/sortable';
+import { closestCenter, DndContext, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
+import { restrictToVerticalAxis, restrictToParentElement } from '@dnd-kit/modifiers';
+import { SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { Spinner } from '@ndla/icons';
 import DraggableFolder from './DraggableFolder';
 import { BlockWrapper, ViewType } from './FoldersPage';
 import { makeDndSortFunction, makeDndTranslations } from './util';
 import WhileLoading from '../../../components/WhileLoading';
 import { GQLFolder } from '../../../graphqlTypes';
-import {
-  FolderTotalCount,
-  getTotalCountForFolder,
-} from '../../../util/folderHelpers';
+import { FolderTotalCount, getTotalCountForFolder } from '../../../util/folderHelpers';
 import { useSortFoldersMutation } from '../folderMutations';
 
 interface Props {
@@ -47,14 +30,7 @@ interface Props {
   folderRefId?: string;
 }
 
-const FolderList = ({
-  loading,
-  type,
-  folders,
-  folderId,
-  setFocusId,
-  folderRefId,
-}: Props) => {
+const FolderList = ({ loading, type, folders, folderId, setFocusId, folderRefId }: Props) => {
   const { t } = useTranslation();
   const { sortFolders } = useSortFoldersMutation();
   const client = useApolloClient();
@@ -74,12 +50,8 @@ const FolderList = ({
   );
 
   const updateCache = (newOrder: string[]) => {
-    const sortCacheModifierFunction = <T extends Reference>(
-      existing: readonly T[],
-    ): T[] => {
-      return newOrder.map(
-        (id) => existing.find((ef) => ef.__ref === `Folder:${id}`)!,
-      );
+    const sortCacheModifierFunction = <T extends Reference>(existing: readonly T[]): T[] => {
+      return newOrder.map((id) => existing.find((ef) => ef.__ref === `Folder:${id}`)!);
     };
 
     if (folderId) {
@@ -96,18 +68,9 @@ const FolderList = ({
     }
   };
 
-  const announcements = useMemo(
-    () => makeDndTranslations('folder', t, folders.length),
-    [folders, t],
-  );
+  const announcements = useMemo(() => makeDndTranslations('folder', t, folders.length), [folders, t]);
 
-  const sortFolderIds = makeDndSortFunction(
-    folderId,
-    folders,
-    sortFolders,
-    updateCache,
-    setSortedFolders,
-  );
+  const sortFolderIds = makeDndSortFunction(folderId, folders, sortFolders, updateCache, setSortedFolders);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -127,11 +90,7 @@ const FolderList = ({
             accessibility={{ announcements }}
             modifiers={[restrictToVerticalAxis, restrictToParentElement]}
           >
-            <SortableContext
-              items={sortedFolders}
-              disabled={folders.length < 2}
-              strategy={verticalListSortingStrategy}
-            >
+            <SortableContext items={sortedFolders} disabled={folders.length < 2} strategy={verticalListSortingStrategy}>
               {folders.map((folder, index) => (
                 <DraggableFolder
                   key={`folder-${folder.id}`}

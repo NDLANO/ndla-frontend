@@ -25,10 +25,7 @@ import {
   TOOLBOX_STUDENT_SUBJECT_ID,
   TOOLBOX_TEACHER_SUBJECT_ID,
 } from '../../../constants';
-import {
-  GQLDefaultMenu_SubjectFragment,
-  GQLDrawerContent_FrontpageMenuFragment,
-} from '../../../graphqlTypes';
+import { GQLDefaultMenu_SubjectFragment, GQLDrawerContent_FrontpageMenuFragment } from '../../../graphqlTypes';
 import { removeUrn } from '../../../routeHelpers';
 import { usePrevious } from '../../../util/utilityHooks';
 
@@ -93,38 +90,24 @@ const DefaultMenu = ({
       if (validMenus.includes(strippedId as MenuType)) {
         setActiveMenu(strippedId as MenuType);
       } else if (id?.endsWith('-dynamic')) {
-        setFrontpageMenu(
-          dynamicMenus.find(
-            (menu) => menu.article.slug === strippedId?.replace('-dynamic', ''),
-          )!,
-        );
+        setFrontpageMenu(dynamicMenus.find((menu) => menu.article.slug === strippedId?.replace('-dynamic', ''))!);
       }
     },
     [dynamicMenus, setActiveMenu, setFrontpageMenu],
   );
 
   useArrowNavigation(!type, {
-    initialFocused: `header-${
-      dynamicId ?? type ?? previousType ?? 'programme'
-    }`,
+    initialFocused: `header-${dynamicId ?? type ?? previousType ?? 'programme'}`,
     onRightKeyPressed: onRightClick,
   });
 
   if (type) {
     return (
       <StyledCollapsedMenu>
-        <IconButtonV2
-          onClick={setShouldCloseLevel}
-          aria-label="Go back"
-          colorTheme="light"
-        >
+        <IconButtonV2 onClick={setShouldCloseLevel} aria-label="Go back" colorTheme="light">
           <Back />
         </IconButtonV2>
-        <IconButtonV2
-          onClick={closeSubMenu}
-          aria-label="Home"
-          colorTheme="light"
-        >
+        <IconButtonV2 onClick={closeSubMenu} aria-label="Home" colorTheme="light">
           <Home />
         </IconButtonV2>
       </StyledCollapsedMenu>
@@ -166,36 +149,16 @@ const DefaultMenu = ({
             onClick={() => setFrontpageMenu(menu)}
           />
         ))}
-        <DrawerMenuItem
-          id="multidisciplinary"
-          type="link"
-          to={multiDiscUrl}
-          onClose={onClose}
-        >
+        <DrawerMenuItem id="multidisciplinary" type="link" to={multiDiscUrl} onClose={onClose}>
           {t('masthead.menuOptions.multidisciplinarySubjects')}
         </DrawerMenuItem>
-        <DrawerMenuItem
-          id="toolboxStudents"
-          type="link"
-          to={studentToolboxUrl}
-          onClose={onClose}
-        >
+        <DrawerMenuItem id="toolboxStudents" type="link" to={studentToolboxUrl} onClose={onClose}>
           {t('masthead.menuOptions.toolboxStudents')}
         </DrawerMenuItem>
-        <DrawerMenuItem
-          id="toolboxTeachers"
-          type="link"
-          to={teacherToolboxUrl}
-          onClose={onClose}
-        >
+        <DrawerMenuItem id="toolboxTeachers" type="link" to={teacherToolboxUrl} onClose={onClose}>
           {t('masthead.menuOptions.toolboxTeachers')}
         </DrawerMenuItem>
-        <DrawerMenuItem
-          id="film"
-          type="link"
-          to={FILM_PAGE_PATH}
-          onClose={onClose}
-        >
+        <DrawerMenuItem id="film" type="link" to={FILM_PAGE_PATH} onClose={onClose}>
           {t('masthead.menuOptions.film')}
         </DrawerMenuItem>
       </DrawerList>

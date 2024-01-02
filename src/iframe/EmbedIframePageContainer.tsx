@@ -19,12 +19,7 @@ interface Props {
   embedId?: string;
   locale?: LocaleType;
 }
-const EmbedIframePageContainer = ({
-  basename,
-  embedType,
-  embedId,
-  locale,
-}: Props) => {
+const EmbedIframePageContainer = ({ basename, embedType, embedId, locale }: Props) => {
   return (
     <BaseNameProvider value={isValidLocale(basename) ? basename : ''}>
       <PageContainer>

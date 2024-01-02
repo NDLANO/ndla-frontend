@@ -41,11 +41,7 @@ const converterComponents: DynamicComponents = {
   heartButton: AddEmbedToFolder,
 };
 
-const SharedArticleContainer = ({
-  article: propArticle,
-  meta,
-  title,
-}: Props) => {
+const SharedArticleContainer = ({ article: propArticle, meta, title }: Props) => {
   const { t, i18n } = useTranslation();
   const { user, authContextLoaded } = useContext(AuthContext);
   const { trackPageView } = useTracker();
@@ -72,14 +68,7 @@ const SharedArticleContainer = ({
         title: getDocumentTitle(propArticle.title, contentType?.label, t),
       });
     }
-  }, [
-    authContextLoaded,
-    user,
-    meta?.resourceTypes,
-    propArticle,
-    t,
-    trackPageView,
-  ]);
+  }, [authContextLoaded, user, meta?.resourceTypes, propArticle, t, trackPageView]);
 
   const [article, scripts] = useMemo(() => {
     return [
@@ -92,20 +81,13 @@ const SharedArticleContainer = ({
     ];
   }, [propArticle, i18n.language]);
 
-  const contentType =
-    meta?.resourceTypes && getContentTypeFromResourceTypes(meta.resourceTypes);
+  const contentType = meta?.resourceTypes && getContentTypeFromResourceTypes(meta.resourceTypes);
 
   return (
     <OneColumn>
       <Helmet title={getDocumentTitle(title, contentType?.label, t)}>
         {scripts.map((script) => (
-          <script
-            key={script.src}
-            src={script.src}
-            type={script.type}
-            async={script.async}
-            defer={script.defer}
-          />
+          <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
         ))}
       </Helmet>
       <SocialMediaMetadata
@@ -126,11 +108,7 @@ const SharedArticleContainer = ({
   );
 };
 
-const getDocumentTitle = (
-  title: string,
-  contentType: string | undefined,
-  t: TFunction,
-) =>
+const getDocumentTitle = (title: string, contentType: string | undefined, t: TFunction) =>
   t('htmlTitles.sharedFolderPage', {
     name: `${title}${contentType ? ` - ${contentType}` : ''}`,
   });

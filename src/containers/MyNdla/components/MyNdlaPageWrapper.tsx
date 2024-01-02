@@ -36,14 +36,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   showButtons?: boolean;
 }
 
-const MyNdlaPageWrapper = ({
-  buttons,
-  dropDownMenu,
-  onViewTypeChange,
-  viewType,
-  showButtons,
-  children,
-}: Props) => {
+const MyNdlaPageWrapper = ({ buttons, dropDownMenu, onViewTypeChange, viewType, showButtons, children }: Props) => {
   return (
     <>
       <Toolbar

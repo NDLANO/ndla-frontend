@@ -102,22 +102,12 @@ const AppRoutes = ({ base }: AppProps) => {
                   <Route index element={<PodcastSeriesListPage />} />
                   <Route path=":id" element={<PodcastSeriesPage />} />
                 </Route>
-                <Route
-                  path="article/:articleId"
-                  element={<PlainArticlePage />}
-                />
-                <Route
-                  path="learningpaths/:learningpathId"
-                  element={<PlainLearningpathPage />}
-                >
+                <Route path="article/:articleId" element={<PlainArticlePage />} />
+                <Route path="learningpaths/:learningpathId" element={<PlainLearningpathPage />}>
                   <Route path="steps/:stepId" element={null} />
                 </Route>
-                <Route path="subject:subjectId/topic:topicId/resource:resourceId">
-                  {resourceRoutes}
-                </Route>
-                <Route path="subject:subjectId/topic:topic1/topic:topicId/resource:resourceId">
-                  {resourceRoutes}
-                </Route>
+                <Route path="subject:subjectId/topic:topicId/resource:resourceId">{resourceRoutes}</Route>
+                <Route path="subject:subjectId/topic:topic1/topic:topicId/resource:resourceId">{resourceRoutes}</Route>
                 <Route path="subject:subjectId/topic:topic1/topic:topic2/topic:topicId/resource:resourceId">
                   {resourceRoutes}
                 </Route>
@@ -147,37 +137,22 @@ const AppRoutes = ({ base }: AppProps) => {
                 <Route path="concept/:conceptId" element={<ConceptPage />} />
                 <Route path="audio/:audioId" element={<AudioPage />} />
                 <Route path="h5p/:h5pId" element={<H5pPage />} />
-                <Route
-                  path="minndla"
-                  element={<PrivateRoute element={<MyNdlaLayout />} />}
-                >
+                <Route path="minndla" element={<PrivateRoute element={<MyNdlaLayout />} />}>
                   <Route index element={<MyNdlaPage />} />
                   <Route path="folders">
                     <Route index element={<FoldersPage />} />
                     <Route path="preview/:folderId">
                       <Route index element={<PreviewFoldersPage />} />
-                      <Route
-                        path=":subfolderId"
-                        element={<PreviewFoldersPage />}
-                      />
-                      <Route
-                        path=":subfolderId/:resourceId"
-                        element={<PreviewFoldersPage />}
-                      />
+                      <Route path=":subfolderId" element={<PreviewFoldersPage />} />
+                      <Route path=":subfolderId/:resourceId" element={<PreviewFoldersPage />} />
                     </Route>
                     <Route path=":folderId" element={<FoldersPage />} />
                   </Route>
                   <Route path="arena">
                     <Route index element={<ArenaPage />} />
-                    <Route
-                      path="category/:categoryId"
-                      element={<TopicPage />}
-                    />
+                    <Route path="category/:categoryId" element={<TopicPage />} />
                     <Route path="topic/:topicId" element={<PostsPage />} />
-                    <Route
-                      path="notifications"
-                      element={<ArenaNotificationPage />}
-                    />
+                    <Route path="notifications" element={<ArenaNotificationPage />} />
                     <Route path="user/:username" element={<ArenaUserPage />} />
                   </Route>
                   <Route path="tags">
@@ -192,10 +167,7 @@ const AppRoutes = ({ base }: AppProps) => {
                 <Route path="folder/:folderId">
                   <Route index element={<SharedFolderPage />} />
                   <Route path=":subfolderId" element={<SharedFolderPage />} />
-                  <Route
-                    path=":subfolderId/:resourceId"
-                    element={<SharedFolderPage />}
-                  />
+                  <Route path=":subfolderId/:resourceId" element={<SharedFolderPage />} />
                 </Route>
                 <Route path="404" element={<NotFound />} />
                 <Route path="403" element={<AccessDenied />} />

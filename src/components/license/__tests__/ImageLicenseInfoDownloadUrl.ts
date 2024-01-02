@@ -9,25 +9,15 @@
 import { downloadUrl } from '../ImageLicenseList';
 
 test('That downloadUrl adds download query param to image source', () => {
-  expect(
-    downloadUrl(
-      'http://api-gateway.ndla-local/image-api/raw/394537450.jpg?width=200',
-    ),
-  ).toBe(
+  expect(downloadUrl('http://api-gateway.ndla-local/image-api/raw/394537450.jpg?width=200')).toBe(
     'http://api-gateway.ndla-local/image-api/raw/394537450.jpg?width=200&download=true',
   );
 
-  expect(
-    downloadUrl('http://api-gateway.ndla-local/image-api/raw/394537450.jpg'),
-  ).toBe(
+  expect(downloadUrl('http://api-gateway.ndla-local/image-api/raw/394537450.jpg')).toBe(
     'http://api-gateway.ndla-local/image-api/raw/394537450.jpg?download=true',
   );
 
-  expect(
-    downloadUrl(
-      'http://api-gateway.ndla-local/image-api/raw/394537450.jpg?download=true',
-    ),
-  ).toBe(
+  expect(downloadUrl('http://api-gateway.ndla-local/image-api/raw/394537450.jpg?download=true')).toBe(
     'http://api-gateway.ndla-local/image-api/raw/394537450.jpg?download=true',
   );
 });

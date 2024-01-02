@@ -15,12 +15,7 @@ interface Props {
 
 const MyNdlaTitle = ({ title }: Props) => {
   return (
-    <Heading
-      element="h1"
-      headingStyle="h1-resource"
-      margin="none"
-      id={SKIP_TO_CONTENT_ID}
-    >
+    <Heading element="h1" headingStyle="h1-resource" margin="none" id={SKIP_TO_CONTENT_ID}>
       {title}
     </Heading>
   );

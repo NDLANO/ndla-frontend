@@ -7,20 +7,9 @@
  */
 import partition from 'lodash/partition';
 import uniq from 'lodash/uniq';
-import {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useState,
-  useCallback,
-} from 'react';
+import { createContext, ReactNode, useContext, useEffect, useState, useCallback } from 'react';
 import { useQuery } from '@apollo/client';
-import {
-  GQLAlertsQuery,
-  GQLAlertsQueryVariables,
-  GQLUptimeAlert,
-} from '../graphqlTypes';
+import { GQLAlertsQuery, GQLAlertsQueryVariables, GQLUptimeAlert } from '../graphqlTypes';
 import { alertsQuery } from '../queries';
 
 interface AlertsContextProps {
@@ -74,10 +63,9 @@ const setClosedAlerts = (alerts: GQLUptimeAlert[]) => {
 
 const AlertsProvider = ({ children }: Props) => {
   const [openAlerts, setOpenAlerts] = useState<GQLUptimeAlert[]>([]);
-  const { data: { alerts } = {} } = useQuery<
-    GQLAlertsQuery,
-    GQLAlertsQueryVariables
-  >(alertsQuery, { pollInterval: 10 * 60 * 1000 });
+  const { data: { alerts } = {} } = useQuery<GQLAlertsQuery, GQLAlertsQueryVariables>(alertsQuery, {
+    pollInterval: 10 * 60 * 1000,
+  });
 
   const closeAlert = useCallback((id: number) => {
     setClosedAlert(id);
@@ -101,11 +89,7 @@ const AlertsProvider = ({ children }: Props) => {
     }
   }, [alerts]);
 
-  return (
-    <AlertsContext.Provider value={{ openAlerts, closeAlert }}>
-      {children}
-    </AlertsContext.Provider>
-  );
+  return <AlertsContext.Provider value={{ openAlerts, closeAlert }}>{children}</AlertsContext.Provider>;
 };
 
 const useAlerts = () => {

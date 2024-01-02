@@ -10,14 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
-import {
-  Facebook,
-  HelpCircleOutline,
-  Instagram,
-  LinkedIn,
-  EmailOutline,
-  Youtube,
-} from '@ndla/icons/common';
+import { Facebook, HelpCircleOutline, Instagram, LinkedIn, EmailOutline, Youtube } from '@ndla/icons/common';
 import { Footer, FooterText, EditorName, LanguageSelector } from '@ndla/ui';
 import ZendeskButton from '@ndla/zendesk';
 import config from '../../../config';
@@ -34,8 +27,7 @@ const FooterTextWrapper = styled.div`
 
 const FooterWrapper = () => {
   const { t, i18n } = useTranslation();
-  const zendeskLanguage =
-    i18n.language === 'nb' || i18n.language === 'nn' ? 'no' : i18n.language;
+  const zendeskLanguage = i18n.language === 'nb' || i18n.language === 'nn' ? 'no' : i18n.language;
 
   const links = [
     {
@@ -139,11 +131,7 @@ const FooterWrapper = () => {
     <>
       {config.zendeskWidgetKey && (
         <ZendeskWrapper>
-          <StyledZendesk
-            id="zendesk"
-            locale={zendeskLanguage}
-            widgetKey={config.zendeskWidgetKey}
-          >
+          <StyledZendesk id="zendesk" locale={zendeskLanguage} widgetKey={config.zendeskWidgetKey}>
             <HelpCircleOutline css={IconCSS} />
             {t('askNDLA')}
           </StyledZendesk>
@@ -166,10 +154,7 @@ const FooterWrapper = () => {
       >
         <FooterTextWrapper>
           <FooterText>
-            <EditorName
-              title={t('footer.editorInChief')}
-              name="Sigurd Trageton"
-            />
+            <EditorName title={t('footer.editorInChief')} name="Sigurd Trageton" />
           </FooterText>
           <FooterText>{t('footer.info')}</FooterText>
         </FooterTextWrapper>

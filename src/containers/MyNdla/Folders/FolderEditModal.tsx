@@ -11,23 +11,11 @@ import { useTranslation } from 'react-i18next';
 import { useApolloClient } from '@apollo/client';
 import { ButtonV2 } from '@ndla/button';
 import { Pencil } from '@ndla/icons/action';
-import {
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalTitle,
-  ModalTrigger,
-} from '@ndla/modal';
+import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from '@ndla/modal';
 import FolderForm from './FolderForm';
 import { buttonCss, iconCss } from './FoldersPage';
 import { GQLFolder } from '../../../graphqlTypes';
-import {
-  useUpdateFolderMutation,
-  useFolders,
-  getFolder,
-} from '../folderMutations';
+import { useUpdateFolderMutation, useFolders, getFolder } from '../folderMutations';
 
 interface Props {
   folder?: GQLFolder;
@@ -52,11 +40,7 @@ const FolderEditModal = ({ folder, onSaved }: Props) => {
           {t('myNdla.folder.editShort')}
         </ButtonV2>
       </ModalTrigger>
-      <EditFolderModalContent
-        folder={folder}
-        onClose={() => setOpen(false)}
-        onSaved={onSaved}
-      />
+      <EditFolderModalContent folder={folder} onClose={() => setOpen(false)} onSaved={onSaved} />
     </Modal>
   );
 };
@@ -69,21 +53,14 @@ interface ContentProps {
   onSaved: () => void;
 }
 
-export const EditFolderModalContent = ({
-  folder,
-  onClose,
-  onSaved,
-}: ContentProps) => {
+export const EditFolderModalContent = ({ folder, onClose, onSaved }: ContentProps) => {
   const { t } = useTranslation();
   const { updateFolder, loading } = useUpdateFolderMutation();
   const { cache } = useApolloClient();
   const { folders } = useFolders();
 
   const levelFolders = useMemo(
-    () =>
-      folder?.parentId
-        ? getFolder(cache, folder.parentId)?.subfolders ?? []
-        : folders,
+    () => (folder?.parentId ? getFolder(cache, folder.parentId)?.subfolders ?? [] : folders),
     [cache, folder?.parentId, folders],
   );
 

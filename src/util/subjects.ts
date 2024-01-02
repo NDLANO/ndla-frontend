@@ -10,15 +10,8 @@ import { constants } from '@ndla/ui';
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from '../constants';
 import { GQLSubjectInfoFragment } from '../graphqlTypes';
 
-const filterSubjects = (
-  subjects: GQLSubjectInfoFragment[],
-  customField: string,
-  category: any,
-  message?: string,
-) => {
-  const filtered = subjects.filter(
-    (s) => s.metadata?.customFields?.[customField] === category,
-  );
+const filterSubjects = (subjects: GQLSubjectInfoFragment[], customField: string, category: any, message?: string) => {
+  const filtered = subjects.filter((s) => s.metadata?.customFields?.[customField] === category);
 
   return {
     type: category,
@@ -34,10 +27,7 @@ const filterSubjects = (
 };
 
 // TODO: Fix messy mapping of subjects to make path absolute.
-export const getSubjectsCategories = (
-  t: TFunction,
-  subjects: GQLSubjectInfoFragment[] = [],
-) => {
+export const getSubjectsCategories = (t: TFunction, subjects: GQLSubjectInfoFragment[] = []) => {
   const active = filterSubjects(
     subjects,
     TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
@@ -54,11 +44,7 @@ export const getSubjectsCategories = (
     TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
     constants.subjectCategories.BETA_SUBJECTS,
   );
-  const other = filterSubjects(
-    subjects,
-    TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
-    constants.subjectCategories.OTHER,
-  );
+  const other = filterSubjects(subjects, TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY, constants.subjectCategories.OTHER);
 
   return [active, archived, beta, other];
 };

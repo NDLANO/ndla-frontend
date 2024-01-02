@@ -24,9 +24,7 @@ interface Props {
   topicPath: string[];
   subject?: GQLDrawerContent_SubjectFragment;
   type: MenuType;
-  setFrontpageMenu: Dispatch<
-    SetStateAction<GQLDrawerContent_FrontpageMenuFragment[]>
-  >;
+  setFrontpageMenu: Dispatch<SetStateAction<GQLDrawerContent_FrontpageMenuFragment[]>>;
   setTopicPathIds: Dispatch<SetStateAction<string[]>>;
   menuItems: GQLDrawerContent_FrontpageMenuFragment[];
   programmes: GQLDrawerContent_ProgrammePageFragment[];
@@ -44,13 +42,7 @@ const DrawerContent = ({
   programmes,
 }: Props) => {
   if (type === 'programme') {
-    return (
-      <ProgrammeMenu
-        programmes={programmes}
-        onClose={onClose}
-        onCloseMenuPortion={onCloseMenuPortion}
-      />
-    );
+    return <ProgrammeMenu programmes={programmes} onClose={onClose} onCloseMenuPortion={onCloseMenuPortion} />;
   } else if (type === 'subject') {
     return (
       <SubjectMenu

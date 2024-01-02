@@ -47,12 +47,7 @@ const StyledDescription = styled(Text)`
   overflow: hidden;
 `;
 
-const PodcastSeries = ({
-  coverPhoto,
-  description,
-  title,
-  id,
-}: GQLPodcastSeries_PodcastSeriesSummaryFragment) => {
+const PodcastSeries = ({ coverPhoto, description, title, id }: GQLPodcastSeries_PodcastSeriesSummaryFragment) => {
   return (
     <FlexWrapper>
       <ImageWrapper>

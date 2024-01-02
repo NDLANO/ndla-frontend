@@ -11,10 +11,7 @@ import { gql } from '@apollo/client';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { SearchResultList, OneColumn } from '@ndla/ui';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
-import {
-  GQLMovedResourcePage_ResourceFragment,
-  GQLMovedResourceQuery,
-} from '../../graphqlTypes';
+import { GQLMovedResourcePage_ResourceFragment, GQLMovedResourceQuery } from '../../graphqlTypes';
 import { movedResourceQuery } from '../../queries';
 import { contentTypeMapping } from '../../util/getContentType';
 import handleError from '../../util/handleError';
@@ -29,30 +26,19 @@ const MovedResourcePage = ({ resource }: Props) => {
   const { t } = useTranslation();
   const isLearningpath = !!resource.learningpath;
 
-  const { error, loading, data } = useGraphQuery<GQLMovedResourceQuery>(
-    movedResourceQuery,
-    {
-      variables: { resourceId: resource.id },
-    },
-  );
+  const { error, loading, data } = useGraphQuery<GQLMovedResourceQuery>(movedResourceQuery, {
+    variables: { resourceId: resource.id },
+  });
 
-  const convertResourceToResult = (
-    resource: GQLMovedResourcePage_ResourceFragment,
-  ) => {
-    const resultId = isLearningpath
-      ? resource.learningpath?.id
-      : resource.article?.id;
+  const convertResourceToResult = (resource: GQLMovedResourcePage_ResourceFragment) => {
+    const resultId = isLearningpath ? resource.learningpath?.id : resource.article?.id;
     if (!resultId) return [];
     return [
       {
         title: resource.name,
         url: resource.path ?? '',
-        contentType: resource.resourceTypes
-          ?.map((type) => contentTypeMapping[type.id])
-          .find((t) => t),
-        type: resource.resourceTypes?.find(
-          (type) => !contentTypeMapping[type.id],
-        )?.name,
+        contentType: resource.resourceTypes?.map((type) => contentTypeMapping[type.id]).find((t) => t),
+        type: resource.resourceTypes?.find((type) => !contentTypeMapping[type.id])?.name,
         subjects: data?.resource?.contexts.map(({ breadcrumbs, path }) => ({
           url: path,
           title: breadcrumbs[0] ?? '',
@@ -88,10 +74,7 @@ const MovedResourcePage = ({ resource }: Props) => {
     return <DefaultErrorMessage />;
   }
 
-  const results = resultsWithContentTypeBadgeAndImage(
-    convertResourceToResult(resource),
-    t,
-  );
+  const results = resultsWithContentTypeBadgeAndImage(convertResourceToResult(resource), t);
 
   return (
     <>

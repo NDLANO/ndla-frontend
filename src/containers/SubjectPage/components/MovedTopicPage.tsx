@@ -9,17 +9,11 @@
 import { useTranslation } from 'react-i18next';
 import { gql } from '@apollo/client';
 import { SearchResultList, OneColumn } from '@ndla/ui';
-import {
-  GQLMovedTopicPage_TopicFragment,
-  GQLSearchResult,
-} from '../../../graphqlTypes';
+import { GQLMovedTopicPage_TopicFragment, GQLSearchResult } from '../../../graphqlTypes';
 import { resultsWithContentTypeBadgeAndImage } from '../../SearchPage/searchHelpers';
 
 interface GQLSearchResultExtended
-  extends Omit<
-    GQLSearchResult,
-    'id' | 'contexts' | 'metaDescription' | 'supportedLanguages' | 'traits'
-  > {
+  extends Omit<GQLSearchResult, 'id' | 'contexts' | 'metaDescription' | 'supportedLanguages' | 'traits'> {
   subjects?: {
     url?: string;
     title: string;
@@ -30,9 +24,7 @@ interface GQLSearchResultExtended
   contentType: string;
 }
 
-const convertTopicToResult = (
-  topic: GQLMovedTopicPage_TopicFragment,
-): GQLSearchResultExtended => {
+const convertTopicToResult = (topic: GQLMovedTopicPage_TopicFragment): GQLSearchResultExtended => {
   return {
     metaImage: topic.meta?.metaImage,
     title: topic.name,
@@ -55,9 +47,7 @@ const mergeTopicSubjects = (results: GQLSearchResultExtended[]) => {
   return [
     {
       ...firstResult,
-      subjects: results.flatMap(
-        (topic: GQLSearchResultExtended) => topic.subjects ?? [],
-      ),
+      subjects: results.flatMap((topic: GQLSearchResultExtended) => topic.subjects ?? []),
     },
   ];
 };

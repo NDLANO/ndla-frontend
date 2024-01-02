@@ -12,10 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { gql } from '@apollo/client';
 import { H5PBold } from '@ndla/icons/editor';
-import {
-  metaTypes,
-  getGroupedContributorDescriptionList,
-} from '@ndla/licenses';
+import { metaTypes, getGroupedContributorDescriptionList } from '@ndla/licenses';
 import {
   MediaList,
   MediaListItem,
@@ -41,10 +38,7 @@ const H5pLicenseInfo = ({ h5p }: H5pLicenseInfoProps) => {
   const { t, i18n } = useTranslation();
   const { pathname } = useLocation();
   const safeCopyright = licenseCopyrightToCopyrightType(h5p.copyright);
-  const items: ItemType[] = getGroupedContributorDescriptionList(
-    safeCopyright,
-    i18n.language,
-  );
+  const items: ItemType[] = getGroupedContributorDescriptionList(safeCopyright, i18n.language);
   if (h5p.title) {
     items.unshift({
       label: t('license.images.title'),
@@ -56,9 +50,7 @@ const H5pLicenseInfo = ({ h5p }: H5pLicenseInfoProps) => {
     <MediaListItem>
       <MediaListItemImage canOpen>
         <a
-          href={
-            pathname.includes('/h5p/') && h5p.src ? h5p.src : `/h5p/${h5p.id}`
-          }
+          href={pathname.includes('/h5p/') && h5p.src ? h5p.src : `/h5p/${h5p.id}`}
           target="_blank"
           rel="noopener noreferrer"
           aria-label={t('embed.goTo', { type: t('embed.type.h5p') })}

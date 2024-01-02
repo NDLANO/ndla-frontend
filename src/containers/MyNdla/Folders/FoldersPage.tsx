@@ -116,8 +116,7 @@ const FoldersPage = () => {
   const [viewType, _setViewType] = useState<ViewType>(
     (localStorage.getItem(STORED_RESOURCE_VIEW_SETTINGS) as ViewType) || 'list',
   );
-  const { data, loading } =
-    useGraphQuery<GQLFoldersPageQuery>(foldersPageQuery);
+  const { data, loading } = useGraphQuery<GQLFoldersPageQuery>(foldersPageQuery);
   const selectedFolder = useFolder(folderId);
 
   const title = useMemo(() => {
@@ -127,10 +126,7 @@ const FoldersPage = () => {
   }, [folderId, selectedFolder?.name, t]);
 
   const folders: GQLFolder[] = useMemo(
-    () =>
-      selectedFolder
-        ? selectedFolder.subfolders
-        : (data?.folders as GQLFolder[]) ?? [],
+    () => (selectedFolder ? selectedFolder.subfolders : (data?.folders as GQLFolder[]) ?? []),
     [selectedFolder, data?.folders],
   );
   const [previousFolders, setPreviousFolders] = useState<GQLFolder[]>(folders);
@@ -165,31 +161,13 @@ const FoldersPage = () => {
     const folderIds = folders.map((f) => f.id).sort();
     const prevFolderIds = previousFolders.map((f) => f.id).sort();
     if (!isEqual(folderIds, prevFolderIds) && focusId) {
-      setTimeout(
-        () =>
-          document
-            .getElementById(`folder-${focusId}`)
-            ?.getElementsByTagName('a')?.[0]
-            ?.focus(),
-        0,
-      );
+      setTimeout(() => document.getElementById(`folder-${focusId}`)?.getElementsByTagName('a')?.[0]?.focus(), 0);
       setFocusId(undefined);
       setPreviousFolders(folders);
-    } else if (
-      !isEqual(folderIds, prevFolderIds) &&
-      folderIds.length === 1 &&
-      prevFolderIds?.length === 1
-    ) {
+    } else if (!isEqual(folderIds, prevFolderIds) && folderIds.length === 1 && prevFolderIds?.length === 1) {
       const id = folders[0]?.id;
       if (id) {
-        setTimeout(
-          () =>
-            document
-              .getElementById(`folder-${id}`)
-              ?.getElementsByTagName('a')?.[0]
-              ?.focus(),
-          0,
-        );
+        setTimeout(() => document.getElementById(`folder-${id}`)?.getElementsByTagName('a')?.[0]?.focus(), 0);
         setPreviousFolders(folders);
       }
     }
@@ -201,21 +179,12 @@ const FoldersPage = () => {
   }, []);
 
   const dropDownMenu = useMemo(
-    () => (
-      <FolderActions
-        selectedFolder={selectedFolder}
-        setFocusId={setFocusId}
-        folders={folders}
-        inToolbar
-      />
-    ),
+    () => <FolderActions selectedFolder={selectedFolder} setFocusId={setFocusId} folders={folders} inToolbar />,
     [selectedFolder, folders, setFocusId],
   );
 
   const folderButtons = useMemo(
-    () => (
-      <FolderButtons selectedFolder={selectedFolder} setFocusId={setFocusId} />
-    ),
+    () => <FolderButtons selectedFolder={selectedFolder} setFocusId={setFocusId} />,
     [selectedFolder, setFocusId],
   );
 
@@ -229,17 +198,10 @@ const FoldersPage = () => {
     >
       <FoldersPageContainer>
         <HelmetWithTracker title={title} />
-        <FoldersPageTitle
-          key={selectedFolder?.id}
-          loading={loading}
-          selectedFolder={selectedFolder}
-        />
+        <FoldersPageTitle key={selectedFolder?.id} loading={loading} selectedFolder={selectedFolder} />
         {selectedFolder && (
           <p>
-            <StyledEm>
-              {selectedFolder.description ??
-                t('myNdla.folder.defaultPageDescription')}
-            </StyledEm>
+            <StyledEm>{selectedFolder.description ?? t('myNdla.folder.defaultPageDescription')}</StyledEm>
           </p>
         )}
         <StyledRow>
@@ -266,11 +228,7 @@ const FoldersPage = () => {
           </ResourceCountContainer>
         )}
         {selectedFolder && (
-          <ResourceList
-            selectedFolder={selectedFolder}
-            viewType={viewType}
-            resourceRefId={resourceRefId}
-          />
+          <ResourceList selectedFolder={selectedFolder} viewType={viewType} resourceRefId={resourceRefId} />
         )}
       </FoldersPageContainer>
     </MyNdlaPageWrapper>

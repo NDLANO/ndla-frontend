@@ -11,15 +11,7 @@ import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { Pencil } from '@ndla/icons/action';
-import {
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalTitle,
-  ModalTrigger,
-  Modal,
-} from '@ndla/modal';
+import { ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger, Modal } from '@ndla/modal';
 import ArenaForm, { ArenaFormValues } from './ArenaForm';
 import { useUserAgent } from '../../../../UserAgentContext';
 
@@ -76,11 +68,7 @@ const ArenaTextModal = ({ type, onSave }: Props) => {
           <ButtonV2>{t(`myNdla.arena.new.${type}`)}</ButtonV2>
         )}
       </ModalTrigger>
-      <ArenaTextModalContent
-        type={type}
-        onClose={onModalClose}
-        onSave={onCreate}
-      />
+      <ArenaTextModalContent type={type} onClose={onModalClose} onSave={onCreate} />
     </Modal>
   );
 };
@@ -93,13 +81,7 @@ interface ContentProps {
   onClose: () => void;
 }
 
-export const ArenaTextModalContent = ({
-  type,
-  title,
-  content,
-  onSave,
-  onClose,
-}: ContentProps) => {
+export const ArenaTextModalContent = ({ type, title, content, onSave, onClose }: ContentProps) => {
   const { t } = useTranslation();
   return (
     <ModalContent onCloseAutoFocus={onClose}>

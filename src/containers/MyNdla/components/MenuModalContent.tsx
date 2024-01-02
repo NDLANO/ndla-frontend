@@ -13,13 +13,7 @@ import styled from '@emotion/styled';
 import { IconButtonV2 } from '@ndla/button';
 import { spacing, colors, fonts } from '@ndla/core';
 import { FourlineHamburger, List } from '@ndla/icons/action';
-import {
-  ModalBody,
-  ModalHeader,
-  ModalContent,
-  ModalCloseButton,
-  ModalTitle,
-} from '@ndla/modal';
+import { ModalBody, ModalHeader, ModalContent, ModalCloseButton, ModalTitle } from '@ndla/modal';
 import { SafeLinkButton } from '@ndla/safelink';
 import { Text } from '@ndla/typography';
 import NavigationLink from './NavigationLink';
@@ -129,42 +123,34 @@ interface Props {
   showButtons?: boolean;
 }
 
-const MenuModalContent = ({
-  onViewTypeChange,
-  viewType,
-  buttons,
-  showButtons = true,
-}: Props) => {
+const MenuModalContent = ({ onViewTypeChange, viewType, buttons, showButtons = true }: Props) => {
   const { t } = useTranslation();
   const location = useLocation();
-  const { setIsOpen, resetFocus, setResetFocus } =
-    useOutletContext<OutletContext>();
+  const { setIsOpen, resetFocus, setResetFocus } = useOutletContext<OutletContext>();
   const { user } = useContext(AuthContext);
   const { notifications } = useArenaNotifications({
     skip: !user?.arenaEnabled,
   });
   const links = useMemo(
     () =>
-      menuLinks(t, location).map(
-        ({ id, shortName, icon, to, name, iconFilled, restricted }) => {
-          if (restricted && !user?.arenaEnabled) {
-            return null;
-          }
-          return (
-            <MenuItem key={id}>
-              <NavigationLink
-                id={id}
-                to={to}
-                name={name}
-                icon={icon}
-                shortName={shortName}
-                iconFilled={iconFilled}
-                onClick={() => setIsOpen(false)}
-              />
-            </MenuItem>
-          );
-        },
-      ),
+      menuLinks(t, location).map(({ id, shortName, icon, to, name, iconFilled, restricted }) => {
+        if (restricted && !user?.arenaEnabled) {
+          return null;
+        }
+        return (
+          <MenuItem key={id}>
+            <NavigationLink
+              id={id}
+              to={to}
+              name={name}
+              icon={icon}
+              shortName={shortName}
+              iconFilled={iconFilled}
+              onClick={() => setIsOpen(false)}
+            />
+          </MenuItem>
+        );
+      }),
     [t, location, user, setIsOpen],
   );
 
@@ -177,12 +163,7 @@ const MenuModalContent = ({
         onClick={() => setIsOpen(false)}
         css={buttonCss}
       >
-        <BellIcon
-          amountOfUnreadNotifications={
-            notifications?.filter(({ read }) => !read).length ?? 0
-          }
-          left={true}
-        />
+        <BellIcon amountOfUnreadNotifications={notifications?.filter(({ read }) => !read).length ?? 0} left={true} />
         {t('myNdla.arena.notification.title')}
       </SafeLinkButton>
     ),
@@ -202,9 +183,7 @@ const MenuModalContent = ({
   return (
     <ModalContent onCloseAutoFocus={onCloseModal}>
       <StyledModalHeader>
-        <StyledModalTitle data-no-padding-top={true}>
-          {t('myNdla.myNDLA')}
-        </StyledModalTitle>
+        <StyledModalTitle data-no-padding-top={true}>{t('myNdla.myNDLA')}</StyledModalTitle>
         <CloseWrapper>
           <ModalCloseButton />
           <Text textStyle="meta-text-xxsmall" margin="none">
@@ -229,11 +208,7 @@ const MenuModalContent = ({
         )}
         {!!viewType && (
           <>
-            <StyledText
-              data-border-top={showButtons}
-              textStyle="meta-text-medium"
-              margin="none"
-            >
+            <StyledText data-border-top={showButtons} textStyle="meta-text-medium" margin="none">
               {t('myNdla.selectView')}
             </StyledText>
             <ViewButtonWrapper>

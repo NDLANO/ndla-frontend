@@ -35,16 +35,11 @@ import { toBreadcrumbItems } from '../../routeHelpers';
 import { getArticleProps } from '../../util/getArticleProps';
 import { getArticleScripts } from '../../util/getArticleScripts';
 import { getContentType, isHeroContentType } from '../../util/getContentType';
-import getStructuredDataFromArticle, {
-  structuredArticleDataFragment,
-} from '../../util/getStructuredDataFromArticle';
+import getStructuredDataFromArticle, { structuredArticleDataFragment } from '../../util/getStructuredDataFromArticle';
 import { htmlTitle } from '../../util/titleHelper';
 import { getAllDimensions } from '../../util/trackingUtil';
 import { transformArticle } from '../../util/transformArticle';
-import {
-  isLearningPathResource,
-  getLearningPathUrlFromResource,
-} from '../Resources/resourceHelpers';
+import { isLearningPathResource, getLearningPathUrlFromResource } from '../Resources/resourceHelpers';
 import Resources from '../Resources/Resources';
 
 interface Props {
@@ -97,16 +92,7 @@ const ArticlePage = ({
         title: getDocumentTitle(t, resource, subject),
       });
     }
-  }, [
-    authContextLoaded,
-    loading,
-    resource,
-    subject,
-    t,
-    topicPath,
-    trackPageView,
-    user,
-  ]);
+  }, [authContextLoaded, loading, resource, subject, t, topicPath, trackPageView, user]);
 
   const [article, scripts] = useMemo(() => {
     if (!resource?.article) return [];
@@ -147,33 +133,19 @@ const ArticlePage = ({
           //@ts-ignore
           status={error?.status}
         >
-          {topic && (
-            <Resources
-              topic={topic}
-              resourceTypes={resourceTypes}
-              headingType="h2"
-              subHeadingType="h3"
-            />
-          )}
+          {topic && <Resources topic={topic} resourceTypes={resourceTypes} headingType="h2" subHeadingType="h3" />}
         </ArticleErrorMessage>
       </div>
     );
   }
 
   const contentType = resource ? getContentType(resource) : undefined;
-  const resourceType =
-    contentType && isHeroContentType(contentType) ? contentType : undefined;
+  const resourceType = contentType && isHeroContentType(contentType) ? contentType : undefined;
 
-  const copyPageUrlLink = topic
-    ? `${subjectPageUrl}${topic.path}/${resource.id.replace('urn:', '')}`
-    : undefined;
+  const copyPageUrlLink = topic ? `${subjectPageUrl}${topic.path}/${resource.id.replace('urn:', '')}` : undefined;
   const printUrl = `${subjectPageUrl}/article-iframe/${i18n.language}/article/${resource.article.id}`;
 
-  const breadcrumbItems = toBreadcrumbItems(t('breadcrumb.toFrontpage'), [
-    subject,
-    ...topicPath,
-    resource,
-  ]);
+  const breadcrumbItems = toBreadcrumbItems(t('breadcrumb.toFrontpage'), [subject, ...topicPath, resource]);
 
   return (
     <main>
@@ -186,13 +158,7 @@ const ArticlePage = ({
       <Helmet>
         <title>{`${getDocumentTitle(t, resource, subject)}`}</title>
         {scripts?.map((script) => (
-          <script
-            key={script.src}
-            src={script.src}
-            type={script.type}
-            async={script.async}
-            defer={script.defer}
-          />
+          <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
         ))}
         {copyPageUrlLink && (
           <link
@@ -202,20 +168,11 @@ const ArticlePage = ({
             title={article.title}
           />
         )}
-        {subject?.metadata.customFields?.[
-          TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY
-        ] === constants.subjectCategories.ARCHIVE_SUBJECTS && (
-          <meta name="robots" content="noindex, nofollow" />
-        )}
+        {subject?.metadata.customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] ===
+          constants.subjectCategories.ARCHIVE_SUBJECTS && <meta name="robots" content="noindex, nofollow" />}
         <meta name="pageid" content={`${article.id}`} />
         <script type="application/ld+json">
-          {JSON.stringify(
-            getStructuredDataFromArticle(
-              resource.article,
-              i18n.language,
-              breadcrumbItems,
-            ),
-          )}
+          {JSON.stringify(getStructuredDataFromArticle(resource.article, i18n.language, breadcrumbItems))}
         </script>
       </Helmet>
       <SocialMediaMetadata
@@ -239,12 +196,7 @@ const ArticlePage = ({
         />
         {topic && (
           <LayoutItem layout="extend">
-            <Resources
-              topic={topic}
-              resourceTypes={resourceTypes}
-              headingType="h2"
-              subHeadingType="h3"
-            />
+            <Resources topic={topic} resourceTypes={resourceTypes} headingType="h2" subHeadingType="h3" />
           </LayoutItem>
         )}
       </OneColumn>

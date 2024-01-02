@@ -6,15 +6,7 @@
  *
  */
 
-import {
-  Dispatch,
-  SetStateAction,
-  useContext,
-  useRef,
-  useCallback,
-  memo,
-  useState,
-} from 'react';
+import { Dispatch, SetStateAction, useContext, useRef, useCallback, memo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams, useOutletContext } from 'react-router-dom';
 import { ButtonV2 } from '@ndla/button';
@@ -27,18 +19,11 @@ import FolderDeleteModal from './FolderDeleteModal';
 import FolderEditModal from './FolderEditModal';
 import FolderShareModal from './FolderShareModal';
 import { buttonCss, iconCss } from './FoldersPage';
-import {
-  isStudent,
-  copyFolderSharingLink,
-  sharedFolderLinkInternal,
-} from './util';
+import { isStudent, copyFolderSharingLink, sharedFolderLinkInternal } from './util';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import { GQLFolder } from '../../../graphqlTypes';
 import { useUserAgent } from '../../../UserAgentContext';
-import {
-  useUpdateFolderStatusMutation,
-  useDeleteFolderMutation,
-} from '../folderMutations';
+import { useUpdateFolderStatusMutation, useDeleteFolderMutation } from '../folderMutations';
 import { OutletContext } from '../MyNdlaLayout';
 
 interface FolderButtonProps {
@@ -107,20 +92,9 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
     setResetFocus(true);
     setIsOpen(false);
     setPreventDefault(true);
-  }, [
-    addSnack,
-    deleteFolder,
-    folderId,
-    navigate,
-    selectedFolder,
-    t,
-    setResetFocus,
-    setIsOpen,
-    setPreventDefault,
-  ]);
+  }, [addSnack, deleteFolder, folderId, navigate, selectedFolder, t, setResetFocus, setIsOpen, setPreventDefault]);
 
-  const showAddButton =
-    (selectedFolder?.breadcrumbs.length || 0) < 5 && !examLock;
+  const showAddButton = (selectedFolder?.breadcrumbs.length || 0) < 5 && !examLock;
   const showShareFolder = folderId !== null && !isStudent(user);
   const isFolderShared = selectedFolder?.status !== 'private';
 
@@ -215,27 +189,17 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
           title={t('myNdla.folder.sharing.share')}
         >
           <Share css={iconCss} />
-          {userAgent?.isMobile
-            ? t('myNdla.folder.sharing.share')
-            : t('myNdla.folder.sharing.button.shareShort')}
+          {userAgent?.isMobile ? t('myNdla.folder.sharing.share') : t('myNdla.folder.sharing.button.shareShort')}
         </ButtonV2>
       </FolderShareModal>
     ) : null;
 
   const addFolderButton = showAddButton ? (
-    <FolderCreateModal
-      key="createFolderButton"
-      onSaved={onFolderAdded}
-      parentFolder={selectedFolder}
-    />
+    <FolderCreateModal key="createFolderButton" onSaved={onFolderAdded} parentFolder={selectedFolder} />
   ) : null;
 
   const editFolderButton = selectedFolder ? (
-    <FolderEditModal
-      key="editFolderButton"
-      onSaved={onFolderUpdated}
-      folder={selectedFolder}
-    />
+    <FolderEditModal key="editFolderButton" onSaved={onFolderUpdated} folder={selectedFolder} />
   ) : null;
 
   const deleteFolderButton = selectedFolder?.id ? (

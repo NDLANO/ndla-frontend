@@ -61,10 +61,7 @@ class PostResizeMessage extends Component<Props, State> {
   };
 
   sendResizeToParentWindow = () => {
-    const outerWidth =
-      document && document.body
-        ? document.body.getBoundingClientRect().width
-        : 0;
+    const outerWidth = document && document.body ? document.body.getBoundingClientRect().width : 0;
     if (window.parent && this.state.width !== outerWidth) {
       this.resizer(outerWidth);
     }

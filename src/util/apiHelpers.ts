@@ -6,30 +6,15 @@
  *
  */
 
-import {
-  ApolloClient,
-  ApolloLink,
-  FieldFunctionOptions,
-  InMemoryCache,
-  TypePolicies,
-} from '@apollo/client';
+import { ApolloClient, ApolloLink, FieldFunctionOptions, InMemoryCache, TypePolicies } from '@apollo/client';
 import { BatchHttpLink } from '@apollo/client/link/batch-http';
 import { setContext } from '@apollo/client/link/context';
 import { onError } from '@apollo/client/link/error';
-import {
-  getAccessToken,
-  getFeideCookie,
-  isAccessTokenValid,
-  renewAuth,
-} from './authHelpers';
+import { getAccessToken, getFeideCookie, isAccessTokenValid, renewAuth } from './authHelpers';
 import { default as createFetch } from './fetch';
 import handleError from './handleError';
 import config from '../config';
-import {
-  GQLBucketResult,
-  GQLGroupSearch,
-  GQLQueryFolderResourceMetaSearchArgs,
-} from '../graphqlTypes';
+import { GQLBucketResult, GQLGroupSearch, GQLQueryFolderResourceMetaSearchArgs } from '../graphqlTypes';
 
 export const fetch = createFetch;
 
@@ -41,9 +26,7 @@ const apiBaseUrl = (() => {
     return 'http://ndla-api';
   }
 
-  const NDLA_API_URL = __SERVER__
-    ? config.ndlaApiUrl
-    : window.DATA.config.ndlaApiUrl;
+  const NDLA_API_URL = __SERVER__ ? config.ndlaApiUrl : window.DATA.config.ndlaApiUrl;
 
   return NDLA_API_URL;
 })();
@@ -58,9 +41,7 @@ export function createErrorPayload(status: number, message: string, json: any) {
   return Object.assign(new Error(message), { status, json });
 }
 
-export function resolveJsonOrRejectWithError<T>(
-  res: Response,
-): Promise<T | undefined> {
+export function resolveJsonOrRejectWithError<T>(res: Response): Promise<T | undefined> {
   return new Promise((resolve, reject) => {
     if (res.ok) {
       return res.status === 204 ? resolve(undefined) : resolve(res.json());
@@ -68,11 +49,7 @@ export function resolveJsonOrRejectWithError<T>(
     return res
       .json()
       .then((json) => {
-        const payload = createErrorPayload(
-          res.status,
-          json.message ?? res.statusText,
-          json,
-        );
+        const payload = createErrorPayload(res.status, json.message ?? res.statusText, json);
         reject(payload);
       })
       .catch(reject);
@@ -89,16 +66,10 @@ const uri = (() => {
 const getParentType = (type: string, aggregations?: GQLBucketResult[]) => {
   if (!aggregations) return undefined;
   const typeValue = aggregations.find((agg) => agg.value === type);
-  return aggregations.find(
-    (agg) => agg.count === typeValue?.count && agg.value !== type,
-  )?.value;
+  return aggregations.find((agg) => agg.count === typeValue?.count && agg.value !== type)?.value;
 };
 
-const mergeGroupSearch = (
-  existing: GQLGroupSearch[],
-  incoming: GQLGroupSearch[],
-  page: number,
-) => {
+const mergeGroupSearch = (existing: GQLGroupSearch[], incoming: GQLGroupSearch[], page: number) => {
   if (!existing) return incoming;
   return existing.map((group) => {
     const searchResults = incoming.filter((result) => {
@@ -106,11 +77,7 @@ const mergeGroupSearch = (
         return true;
       } else if (result.resourceType === 'topic-article') {
         return false;
-      } else
-        return (
-          group.resourceType ===
-          getParentType(result.resourceType, result.aggregations?.[0]?.values)
-        );
+      } else return group.resourceType === getParentType(result.resourceType, result.aggregations?.[0]?.values);
     });
     if (searchResults.length) {
       const result = searchResults.reduce((accumulator, currentValue) => ({
@@ -120,10 +87,7 @@ const mergeGroupSearch = (
       }));
       return {
         ...group,
-        resources:
-          page === 1
-            ? result.resources
-            : [...group.resources, ...result.resources],
+        resources: page === 1 ? result.resources : [...group.resources, ...result.resources],
         totalCount: result.totalCount,
       };
     }
@@ -134,10 +98,7 @@ const mergeGroupSearch = (
 const possibleTypes = {
   TaxonomyEntity: ['Resource', 'Topic'],
   SearchResult: ['ArticleSearchResult', 'LearningpathSearchResult'],
-  FolderResourceMeta: [
-    'ArticleFolderResourceMeta',
-    'LearningpathFolderResourceMeta',
-  ],
+  FolderResourceMeta: ['ArticleFolderResourceMeta', 'LearningpathFolderResourceMeta'],
 };
 
 const typePolicies: TypePolicies = {
@@ -151,28 +112,17 @@ const typePolicies: TypePolicies = {
       },
       folderResourceMeta: {
         read(_, { args, toReference }) {
-          return toReference(
-            `FolderResourceMeta:${args!.resource.resourceType}${
-              args!.resource.id
-            }`,
-          );
+          return toReference(`FolderResourceMeta:${args!.resource.resourceType}${args!.resource.id}`);
         },
       },
       folderResourceMetaSearch: {
         //@ts-ignore
-        read(
-          _,
-          {
-            args,
-            toReference,
-            canRead,
-          }: FieldFunctionOptions<GQLQueryFolderResourceMetaSearchArgs>,
-        ) {
+        read(_, { args, toReference, canRead }: FieldFunctionOptions<GQLQueryFolderResourceMetaSearchArgs>) {
           const refs = args?.resources.map((arg) =>
             toReference(
-              `${
-                arg.resourceType === 'learningpath' ? 'Learningpath' : 'Article'
-              }FolderResourceMeta:${arg.resourceType}${arg.id}`,
+              `${arg.resourceType === 'learningpath' ? 'Learningpath' : 'Article'}FolderResourceMeta:${
+                arg.resourceType
+              }${arg.id}`,
             ),
           );
 
@@ -267,9 +217,7 @@ export const createApolloLinks = (lang: string, versionHash?: string) => {
         ...headers,
         'Accept-Language': lang,
         ...versionHeader,
-        ...(accessToken && accessTokenValid
-          ? { FeideAuthorization: `Bearer ${accessToken}` }
-          : {}),
+        ...(accessToken && accessTokenValid ? { FeideAuthorization: `Bearer ${accessToken}` } : {}),
       },
     };
   });
@@ -277,13 +225,8 @@ export const createApolloLinks = (lang: string, versionHash?: string) => {
     onError(({ graphQLErrors, networkError }) => {
       if (graphQLErrors) {
         graphQLErrors.forEach(({ message, locations, path, extensions }) => {
-          if (
-            process.env.BUILD_TARGET === 'server' ||
-            extensions?.status !== 404
-          ) {
-            handleError(
-              `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
-            );
+          if (process.env.BUILD_TARGET === 'server' || extensions?.status !== 404) {
+            handleError(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`);
           }
         });
       }
@@ -307,21 +250,14 @@ type HttpHeaders = {
   };
 };
 
-export const fetchAuthorized = (url: string, config?: HttpHeaders) =>
-  fetchWithAuthorization(url, false, config);
+export const fetchAuthorized = (url: string, config?: HttpHeaders) => fetchWithAuthorization(url, false, config);
 
-export const fetchWithAuthorization = async (
-  url: string,
-  forceAuth: boolean,
-  config?: HttpHeaders,
-) => {
+export const fetchWithAuthorization = async (url: string, forceAuth: boolean, config?: HttpHeaders) => {
   if (forceAuth || !isAccessTokenValid()) {
     await renewAuth();
   }
 
-  const contentType = config?.headers
-    ? config?.headers['Content-Type']
-    : 'text/plain';
+  const contentType = config?.headers ? config?.headers['Content-Type'] : 'text/plain';
   const extraHeaders = contentType ? { 'Content-Type': contentType } : {};
   const cacheControl = { 'Cache-Control': 'no-cache' };
 

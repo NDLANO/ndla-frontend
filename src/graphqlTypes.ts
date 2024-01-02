@@ -9,10 +9,9 @@ export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
   [SubKey in K]: Maybe<T[SubKey]>;
 };
-export type MakeEmpty<
-  T extends { [key: string]: unknown },
-  K extends keyof T,
-> = { [_ in K]?: never };
+export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = {
+  [_ in K]?: never;
+};
 export type Incremental<T> =
   | T
   | {
@@ -2218,28 +2217,20 @@ export type GQLLicenseBox_ArticleFragment = {
         __typename?: 'ConceptLicense';
       } & GQLConceptLicenseList_ConceptLicenseFragment
     >;
-    glosses?: Array<
-      { __typename?: 'GlossLicense' } & GQLGlossLicenseList_GlossLicenseFragment
-    >;
-    h5ps?: Array<
-      { __typename?: 'H5pLicense' } & GQLH5pLicenseList_H5pLicenseFragment
-    >;
+    glosses?: Array<{ __typename?: 'GlossLicense' } & GQLGlossLicenseList_GlossLicenseFragment>;
+    h5ps?: Array<{ __typename?: 'H5pLicense' } & GQLH5pLicenseList_H5pLicenseFragment>;
     brightcoves?: Array<
       {
         __typename?: 'BrightcoveLicense';
       } & GQLVideoLicenseList_BrightcoveLicenseFragment
     >;
-    audios?: Array<
-      { __typename?: 'AudioLicense' } & GQLAudioLicenseList_AudioLicenseFragment
-    >;
+    audios?: Array<{ __typename?: 'AudioLicense' } & GQLAudioLicenseList_AudioLicenseFragment>;
     podcasts?: Array<
       {
         __typename?: 'PodcastLicense';
       } & GQLPodcastLicenseList_PodcastLicenseFragment
     >;
-    images?: Array<
-      { __typename?: 'ImageLicense' } & GQLImageLicenseList_ImageLicenseFragment
-    >;
+    images?: Array<{ __typename?: 'ImageLicense' } & GQLImageLicenseList_ImageLicenseFragment>;
   };
 };
 
@@ -2317,9 +2308,7 @@ export type GQLAboutPage_ArticleFragment = {
 
 export type GQLAboutPage_FrontpageMenuFragment = {
   __typename?: 'FrontpageMenu';
-  menu?: Array<
-    { __typename?: 'FrontpageMenu' } & GQLAboutPageFooter_FrontpageMenuFragment
-  >;
+  menu?: Array<{ __typename?: 'FrontpageMenu' } & GQLAboutPageFooter_FrontpageMenuFragment>;
 } & GQLFrontpageMenuFragmentFragment;
 
 export type GQLFrontpageMenuFragmentFragment = {
@@ -2333,9 +2322,7 @@ export type GQLAboutPageFooter_FrontpageMenuFragment = {
   menu?: Array<
     {
       __typename?: 'FrontpageMenu';
-      menu?: Array<
-        { __typename?: 'FrontpageMenu' } & GQLFrontpageMenuFragmentFragment
-      >;
+      menu?: Array<{ __typename?: 'FrontpageMenu' } & GQLFrontpageMenuFragmentFragment>;
     } & GQLFrontpageMenuFragmentFragment
   >;
 } & GQLFrontpageMenuFragmentFragment;
@@ -2407,9 +2394,7 @@ export type GQLFilmFrontpage_SubjectFragment = {
 export type GQLFilmFrontpage_FilmFrontpageFragment = {
   __typename?: 'FilmFrontpage';
   slideShow: Array<{ __typename?: 'Movie' } & GQLMovieInfoFragment>;
-  movieThemes: Array<
-    { __typename?: 'MovieTheme' } & GQLMovieCategory_MovieThemeFragment
-  >;
+  movieThemes: Array<{ __typename?: 'MovieTheme' } & GQLMovieCategory_MovieThemeFragment>;
   about: Array<{
     __typename?: 'FilmPageAbout';
     title: string;
@@ -2561,9 +2546,7 @@ export type GQLMastheadProgrammeQueryVariables = Exact<{
 
 export type GQLMastheadProgrammeQuery = {
   __typename?: 'Query';
-  programmes?: Array<
-    { __typename?: 'ProgrammePage' } & GQLDrawerContent_ProgrammePageFragment
-  >;
+  programmes?: Array<{ __typename?: 'ProgrammePage' } & GQLDrawerContent_ProgrammePageFragment>;
 };
 
 export type GQLMastheadDrawer_SubjectFragment = {
@@ -2766,10 +2749,9 @@ export type GQLMultidisciplinarySubjectArticle_SubjectFragment = {
   };
 };
 
-export type GQLMultidisciplinarySubjectArticle_ResourceTypeDefinitionFragment =
-  {
-    __typename?: 'ResourceTypeDefinition';
-  } & GQLResources_ResourceTypeDefinitionFragment;
+export type GQLMultidisciplinarySubjectArticle_ResourceTypeDefinitionFragment = {
+  __typename?: 'ResourceTypeDefinition';
+} & GQLResources_ResourceTypeDefinitionFragment;
 
 export type GQLMultidisciplinaryTopic_TopicFragment = {
   __typename?: 'Topic';
@@ -2974,9 +2956,7 @@ export type GQLArenaPageQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GQLArenaPageQuery = {
   __typename?: 'Query';
-  arenaCategories: Array<
-    { __typename?: 'ArenaCategory' } & GQLArenaCategoriesFragment
-  >;
+  arenaCategories: Array<{ __typename?: 'ArenaCategory' } & GQLArenaCategoriesFragment>;
 };
 
 export type GQLArenaCategoryQueryVariables = Exact<{
@@ -3012,9 +2992,7 @@ export type GQLArenaTopicsByUserQueryVariables = Exact<{
 
 export type GQLArenaTopicsByUserQuery = {
   __typename?: 'Query';
-  arenaTopicsByUser: Array<
-    { __typename?: 'ArenaTopic' } & GQLArenaTopicFragment
-  >;
+  arenaTopicsByUser: Array<{ __typename?: 'ArenaTopic' } & GQLArenaTopicFragment>;
 };
 
 export type GQLArenaRecentTopicsQueryVariables = Exact<{
@@ -3023,9 +3001,7 @@ export type GQLArenaRecentTopicsQueryVariables = Exact<{
 
 export type GQLArenaRecentTopicsQuery = {
   __typename?: 'Query';
-  arenaRecentTopics: Array<
-    { __typename?: 'ArenaTopic' } & GQLArenaTopicFragment
-  >;
+  arenaRecentTopics: Array<{ __typename?: 'ArenaTopic' } & GQLArenaTopicFragment>;
 };
 
 export type GQLArenaNotificationFragment = {
@@ -3056,9 +3032,7 @@ export type GQLArenaNotificationsQueryVariables = Exact<{
 
 export type GQLArenaNotificationsQuery = {
   __typename?: 'Query';
-  arenaNotifications: Array<
-    { __typename?: 'ArenaNotification' } & GQLArenaNotificationFragment
-  >;
+  arenaNotifications: Array<{ __typename?: 'ArenaNotification' } & GQLArenaNotificationFragment>;
 };
 
 export type GQLAiOrganizationsQueryVariables = Exact<{ [key: string]: never }>;
@@ -3093,9 +3067,7 @@ export type GQLFolderFragmentFragment = {
   description?: string;
   breadcrumbs: Array<{ __typename: 'Breadcrumb'; id: string; name: string }>;
   owner?: { __typename: 'Owner'; name: string };
-  resources: Array<
-    { __typename?: 'FolderResource' } & GQLFolderResourceFragmentFragment
-  >;
+  resources: Array<{ __typename?: 'FolderResource' } & GQLFolderResourceFragmentFragment>;
 };
 
 export type GQLSharedFolderFragmentFragment = {
@@ -3109,9 +3081,7 @@ export type GQLSharedFolderFragmentFragment = {
   description?: string;
   breadcrumbs: Array<{ __typename: 'Breadcrumb'; id: string; name: string }>;
   owner?: { __typename: 'Owner'; name: string };
-  resources: Array<
-    { __typename?: 'FolderResource' } & GQLFolderResourceFragmentFragment
-  >;
+  resources: Array<{ __typename?: 'FolderResource' } & GQLFolderResourceFragmentFragment>;
 };
 
 export type GQLDeleteFolderMutationVariables = Exact<{
@@ -3225,9 +3195,7 @@ export type GQLFoldersPageQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GQLFoldersPageQuery = {
   __typename?: 'Query';
-  folders: Array<
-    { __typename?: 'Folder' } & GQLFoldersPageQueryFragmentFragment
-  >;
+  folders: Array<{ __typename?: 'Folder' } & GQLFoldersPageQueryFragmentFragment>;
 };
 
 export type GQLUpdateFolderResourceMutationVariables = Exact<{
@@ -3313,9 +3281,7 @@ export type GQLCopySharedFolderMutation = {
   __typename?: 'Mutation';
   copySharedFolder: {
     __typename?: 'Folder';
-    subfolders: Array<
-      { __typename?: 'Folder' } & GQLFoldersPageQueryFragmentFragment
-    >;
+    subfolders: Array<{ __typename?: 'Folder' } & GQLFoldersPageQueryFragmentFragment>;
   } & GQLFolderFragmentFragment;
 };
 
@@ -3452,9 +3418,7 @@ export type GQLFolderResourceMetaQuery = {
 };
 
 export type GQLFolderResourceMetaSearchQueryVariables = Exact<{
-  resources:
-    | Array<GQLFolderResourceMetaSearchInput>
-    | GQLFolderResourceMetaSearchInput;
+  resources: Array<GQLFolderResourceMetaSearchInput> | GQLFolderResourceMetaSearchInput;
 }>;
 
 export type GQLFolderResourceMetaSearchQuery = {
@@ -3501,9 +3465,7 @@ export type GQLAddResourceToFolderMutationVariables = Exact<{
   folderId: Scalars['String']['input'];
   resourceType: Scalars['String']['input'];
   path: Scalars['String']['input'];
-  tags?: InputMaybe<
-    Array<Scalars['String']['input']> | Scalars['String']['input']
-  >;
+  tags?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
 }>;
 
 export type GQLAddResourceToFolderMutation = {
@@ -3534,9 +3496,7 @@ export type GQLAllSubjectsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GQLAllSubjectsQuery = {
   __typename?: 'Query';
-  subjects?: Array<
-    { __typename?: 'Subject' } & GQLMySubjectsSubjectFragmentFragment
-  >;
+  subjects?: Array<{ __typename?: 'Subject' } & GQLMySubjectsSubjectFragmentFragment>;
 };
 
 export type GQLDeletePersonalDataMutationVariables = Exact<{
@@ -3558,9 +3518,7 @@ export type GQLMySubjectMyNdlaPersonalDataFragmentFragment = {
 };
 
 export type GQLUpdatePersonalDataMutationVariables = Exact<{
-  favoriteSubjects?: InputMaybe<
-    Array<Scalars['String']['input']> | Scalars['String']['input']
-  >;
+  favoriteSubjects?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
   shareName?: InputMaybe<Scalars['Boolean']['input']>;
 }>;
 
@@ -3735,18 +3693,14 @@ export type GQLResourceEmbedLicenseBox_MetaFragment = {
       metaImageUrl?: string;
     } & GQLGlossLicenseList_GlossLicenseFragment
   >;
-  h5ps?: Array<
-    { __typename?: 'H5pLicense' } & GQLH5pLicenseList_H5pLicenseFragment
-  >;
+  h5ps?: Array<{ __typename?: 'H5pLicense' } & GQLH5pLicenseList_H5pLicenseFragment>;
   brightcoves?: Array<
     {
       __typename?: 'BrightcoveLicense';
       description?: string;
     } & GQLVideoLicenseList_BrightcoveLicenseFragment
   >;
-  audios?: Array<
-    { __typename?: 'AudioLicense' } & GQLAudioLicenseList_AudioLicenseFragment
-  >;
+  audios?: Array<{ __typename?: 'AudioLicense' } & GQLAudioLicenseList_AudioLicenseFragment>;
   podcasts?: Array<
     {
       __typename?: 'PodcastLicense';
@@ -3787,8 +3741,7 @@ export type GQLResourcePageQuery = {
     } & GQLArticlePage_ResourceTypeFragment &
       GQLLearningpathPage_ResourceTypeDefinitionFragment
   >;
-  topic?: { __typename?: 'Topic' } & GQLLearningpathPage_TopicFragment &
-    GQLArticlePage_TopicFragment;
+  topic?: { __typename?: 'Topic' } & GQLLearningpathPage_TopicFragment & GQLArticlePage_TopicFragment;
   resource?: {
     __typename?: 'Resource';
     relevanceId?: string;
@@ -3823,12 +3776,8 @@ export type GQLResources_ResourceTypeDefinitionFragment = {
 export type GQLResources_TopicFragment = {
   __typename?: 'Topic';
   name: string;
-  coreResources?: Array<
-    { __typename?: 'Resource' } & GQLResources_ResourceFragment
-  >;
-  supplementaryResources?: Array<
-    { __typename?: 'Resource' } & GQLResources_ResourceFragment
-  >;
+  coreResources?: Array<{ __typename?: 'Resource' } & GQLResources_ResourceFragment>;
+  supplementaryResources?: Array<{ __typename?: 'Resource' } & GQLResources_ResourceFragment>;
   metadata: { __typename?: 'TaxonomyMetadata'; customFields: any };
 };
 
@@ -3898,9 +3847,7 @@ export type GQLSubjectPageTestQuery = {
   subject?: { __typename?: 'Subject' } & GQLSubjectContainer_SubjectFragment;
   topic?: {
     __typename?: 'Topic';
-    alternateTopics?: Array<
-      { __typename?: 'Topic' } & GQLMovedTopicPage_TopicFragment
-    >;
+    alternateTopics?: Array<{ __typename?: 'Topic' } & GQLMovedTopicPage_TopicFragment>;
   };
   subjects?: Array<{
     __typename?: 'Subject';
@@ -4140,9 +4087,7 @@ export type GQLFrontpageDataQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GQLFrontpageDataQuery = {
   __typename?: 'Query';
-  programmes?: Array<
-    { __typename?: 'ProgrammePage' } & GQLProgrammeFragmentFragment
-  >;
+  programmes?: Array<{ __typename?: 'ProgrammePage' } & GQLProgrammeFragmentFragment>;
   frontpage?: {
     __typename?: 'FrontpageMenu';
     articleId: number;
@@ -4323,13 +4268,8 @@ export type GQLGroupSearchQueryVariables = Exact<{
   language?: InputMaybe<Scalars['String']['input']>;
   fallback?: InputMaybe<Scalars['String']['input']>;
   grepCodes?: InputMaybe<Scalars['String']['input']>;
-  aggregatePaths?: InputMaybe<
-    Array<Scalars['String']['input']> | Scalars['String']['input']
-  >;
-  grepCodesList?: InputMaybe<
-    | Array<InputMaybe<Scalars['String']['input']>>
-    | InputMaybe<Scalars['String']['input']>
-  >;
+  aggregatePaths?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
+  grepCodesList?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>> | InputMaybe<Scalars['String']['input']>>;
   filterInactive?: InputMaybe<Scalars['Boolean']['input']>;
 }>;
 
@@ -4340,9 +4280,7 @@ export type GQLGroupSearchQuery = {
     resourceType: string;
     totalCount: number;
     language: string;
-    resources: Array<
-      { __typename?: 'GroupSearchResult' } & GQLGroupSearchResourceFragment
-    >;
+    resources: Array<{ __typename?: 'GroupSearchResult' } & GQLGroupSearchResourceFragment>;
     aggregations: Array<{
       __typename?: 'AggregationResult';
       values: Array<{ __typename?: 'BucketResult'; value: string }>;
@@ -4381,12 +4319,8 @@ export type GQLCopyrightInfoFragment = {
     description?: string;
   };
   creators: Array<{ __typename?: 'Contributor' } & GQLContributorInfoFragment>;
-  processors: Array<
-    { __typename?: 'Contributor' } & GQLContributorInfoFragment
-  >;
-  rightsholders: Array<
-    { __typename?: 'Contributor' } & GQLContributorInfoFragment
-  >;
+  processors: Array<{ __typename?: 'Contributor' } & GQLContributorInfoFragment>;
+  rightsholders: Array<{ __typename?: 'Contributor' } & GQLContributorInfoFragment>;
 };
 
 export type GQLFrontpageSearchQueryVariables = Exact<{
@@ -4506,9 +4440,7 @@ export type GQLMovedResourceQuery = {
 };
 
 export type GQLCompetenceGoalsQueryVariables = Exact<{
-  codes?: InputMaybe<
-    Array<Scalars['String']['input']> | Scalars['String']['input']
-  >;
+  codes?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
   language?: InputMaybe<Scalars['String']['input']>;
 }>;
 

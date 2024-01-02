@@ -20,9 +20,7 @@ interface Props {
   embed: Extract<EmbedMetaData, { status: 'success' }>;
 }
 
-const embedToResource = (
-  embed: Extract<EmbedMetaData, { status: 'success' }>,
-): ResourceAttributes | undefined => {
+const embedToResource = (embed: Extract<EmbedMetaData, { status: 'success' }>): ResourceAttributes | undefined => {
   switch (embed.resource) {
     case 'audio':
       return {

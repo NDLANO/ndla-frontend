@@ -8,11 +8,7 @@
 import { GQLTopic } from '../graphqlTypes';
 
 type Topic = Pick<GQLTopic, 'parentId' | 'id'>;
-export const getTopicPath = <T extends Topic>(
-  subjectId: string,
-  topicId: string,
-  topics?: T[],
-): T[] => {
+export const getTopicPath = <T extends Topic>(subjectId: string, topicId: string, topics?: T[]): T[] => {
   if (!topics) return [];
   const leaf = topics.find((topic) => topicId === topic.id);
   if (!leaf) {

@@ -11,12 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { Navigate, useLocation } from 'react-router-dom';
 import { gql, useQuery } from '@apollo/client';
 import styled from '@emotion/styled';
-import {
-  AccordionContent,
-  AccordionHeader,
-  AccordionItem,
-  AccordionRoot,
-} from '@ndla/accordion';
+import { AccordionContent, AccordionHeader, AccordionItem, AccordionRoot } from '@ndla/accordion';
 import { transform } from '@ndla/article-converter';
 import { colors, spacing } from '@ndla/core';
 import { HelmetWithTracker } from '@ndla/tracker';
@@ -31,11 +26,7 @@ import {
   PODCAST_SERIES_LIST_PAGE_PATH,
   SKIP_TO_CONTENT_ID,
 } from '../../constants';
-import {
-  GQLContributorInfoFragment,
-  GQLCopyrightInfoFragment,
-  GQLPodcastSeriesPageQuery,
-} from '../../graphqlTypes';
+import { GQLContributorInfoFragment, GQLCopyrightInfoFragment, GQLPodcastSeriesPageQuery } from '../../graphqlTypes';
 import { copyrightInfoFragment } from '../../queries';
 import { TypedParams, useTypedParams } from '../../routeHelpers';
 import { publisher } from '../../util/getStructuredDataFromArticle';
@@ -103,8 +94,7 @@ const PodcastSeriesPage = () => {
         const elementTop = element?.getBoundingClientRect().top ?? 0;
         const bodyTop = document.body.getBoundingClientRect().top ?? 0;
         const absoluteTop = elementTop - bodyTop;
-        const scrollPosition =
-          absoluteTop - (getMastheadHeight() || MastheadHeightPx) - 20;
+        const scrollPosition = absoluteTop - (getMastheadHeight() || MastheadHeightPx) - 20;
 
         window.scrollTo({
           top: scrollPosition,
@@ -116,12 +106,8 @@ const PodcastSeriesPage = () => {
 
   const { t } = useTranslation();
 
-  const getDocumentTitle = (
-    podcast: GQLPodcastSeriesPageQuery['podcastSeries'],
-  ) => {
-    return `${podcast?.title?.title || t('podcastPage.podcast')} - ${t(
-      'htmlTitles.titleTemplate',
-    )}`;
+  const getDocumentTitle = (podcast: GQLPodcastSeriesPageQuery['podcastSeries']) => {
+    return `${podcast?.title?.title || t('podcastPage.podcast')} - ${t('htmlTitles.titleTemplate')}`;
   };
 
   if (loading) {
@@ -196,18 +182,10 @@ const PodcastSeriesPage = () => {
     <>
       <HelmetWithTracker title={`${getDocumentTitle(podcastSeries)}`}>
         {podcastSeries.description.description && (
-          <meta
-            name="description"
-            content={podcastSeries.description.description}
-          />
+          <meta name="description" content={podcastSeries.description.description} />
         )}
         {podcastSeries.hasRSS && (
-          <link
-            type="application/rss+xml"
-            rel="alternate"
-            title={podcastSeries.title.title}
-            href={rssUrl}
-          />
+          <link type="application/rss+xml" rel="alternate" title={podcastSeries.title.title} href={rssUrl} />
         )}
         <script type="application/ld+json">{podcastSeriesJSONLd()}</script>
       </HelmetWithTracker>
@@ -223,18 +201,12 @@ const PodcastSeriesPage = () => {
       />
       <OneColumn>
         <TitleWrapper>
-          <ArticleTitle
-            label={t('podcastPage.podcast')}
-            id={SKIP_TO_CONTENT_ID}
-          >
+          <ArticleTitle label={t('podcastPage.podcast')} id={SKIP_TO_CONTENT_ID}>
             {podcastSeries.title.title}
           </ArticleTitle>
         </TitleWrapper>
         <SeriesDescription>
-          <StyledImage
-            src={podcastSeries.coverPhoto.url}
-            alt={podcastSeries.coverPhoto.altText}
-          />
+          <StyledImage src={podcastSeries.coverPhoto.url} alt={podcastSeries.coverPhoto.altText} />
           {podcastSeries.description.description}
         </SeriesDescription>
         <EpisodesWrapper>
@@ -243,21 +215,18 @@ const PodcastSeriesPage = () => {
               <h2>{t('podcastPage.episodes')}</h2>
               {embeds}
               <AccordionRoot type="single" collapsible>
-                {podcastSeries.content.meta &&
-                  hasLicensedContent(podcastSeries.content.meta) && (
-                    <AccordionItem value="rulesForUse">
-                      <StyledAccordionHeader>
-                        <Text element="span" textStyle="button" margin="none">
-                          {t('article.useContent')}
-                        </Text>
-                      </StyledAccordionHeader>
-                      <AccordionContent>
-                        <ResourceEmbedLicenseBox
-                          metaData={podcastSeries.content.meta}
-                        />
-                      </AccordionContent>
-                    </AccordionItem>
-                  )}
+                {podcastSeries.content.meta && hasLicensedContent(podcastSeries.content.meta) && (
+                  <AccordionItem value="rulesForUse">
+                    <StyledAccordionHeader>
+                      <Text element="span" textStyle="button" margin="none">
+                        {t('article.useContent')}
+                      </Text>
+                    </StyledAccordionHeader>
+                    <AccordionContent>
+                      <ResourceEmbedLicenseBox metaData={podcastSeries.content.meta} />
+                    </AccordionContent>
+                  </AccordionItem>
+                )}
               </AccordionRoot>
             </>
           ) : (

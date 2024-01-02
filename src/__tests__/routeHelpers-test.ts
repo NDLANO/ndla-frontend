@@ -41,7 +41,5 @@ test('breadcrumb items from from subject and topicpath', () => {
 });
 
 test('breadcrumb items from from subject, topicpath and resouce', () => {
-  expect(
-    toBreadcrumbItems('Home', [subject, ...topics, resource]),
-  ).toMatchSnapshot();
+  expect(toBreadcrumbItems('Home', [subject, ...topics, resource])).toMatchSnapshot();
 });

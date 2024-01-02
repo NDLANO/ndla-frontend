@@ -75,9 +75,9 @@ const Learningpath = ({
 
   const lastUpdatedDate = new Date(lastUpdated);
 
-  const lastUpdatedString = `${lastUpdatedDate.getDate()}.${
-    lastUpdatedDate.getMonth() + 1 < 10 ? '0' : ''
-  }${lastUpdatedDate.getMonth() + 1}.${lastUpdatedDate.getFullYear()}`;
+  const lastUpdatedString = `${lastUpdatedDate.getDate()}.${lastUpdatedDate.getMonth() + 1 < 10 ? '0' : ''}${
+    lastUpdatedDate.getMonth() + 1
+  }.${lastUpdatedDate.getFullYear()}`;
 
   const { contentTypes } = constants;
 
@@ -94,21 +94,12 @@ const Learningpath = ({
   const [viewedSteps, setViewedSteps] = useState({});
 
   const updateViewedSteps = () => {
-    if (
-      learningpath &&
-      learningpathStep &&
-      learningpathStep.seqNo !== undefined
-    ) {
+    if (learningpath && learningpathStep && learningpathStep.seqNo !== undefined) {
       const currentViewedSteps = window.localStorage.getItem(storageKey);
-      const updatedViewedSteps = currentViewedSteps
-        ? JSON.parse(currentViewedSteps)
-        : {};
+      const updatedViewedSteps = currentViewedSteps ? JSON.parse(currentViewedSteps) : {};
       setViewedSteps(updatedViewedSteps);
       updatedViewedSteps[learningpathStep.id] = true;
-      window.localStorage.setItem(
-        storageKey,
-        JSON.stringify(updatedViewedSteps),
-      );
+      window.localStorage.setItem(storageKey, JSON.stringify(updatedViewedSteps));
     }
   };
 
@@ -128,9 +119,7 @@ const Learningpath = ({
       invertedStyle={ndlaFilm}
       learningPathId={id}
       learningsteps={mappedLearningsteps}
-      toLearningPathUrl={(pathId, stepId) =>
-        toLearningPath(pathId, stepId, resource)
-      }
+      toLearningPathUrl={(pathId, stepId) => toLearningPath(pathId, stepId, resource)}
       lastUpdated={lastUpdatedString}
       copyright={copyright}
       currentIndex={learningpathStep.seqNo}
@@ -186,9 +175,7 @@ const Learningpath = ({
               />
             )}
             <LearningpathEmbed
-              skipToContentId={
-                !learningpathStep.showTitle ? skipToContentId : undefined
-              }
+              skipToContentId={!learningpathStep.showTitle ? skipToContentId : undefined}
               topic={topic}
               subjectId={subject?.id}
               learningpathStep={learningpathStep}
@@ -213,26 +200,19 @@ const Learningpath = ({
             arrow="left"
             pathId={learningpath.id}
             stepId={previousStep.id}
-            toLearningPathUrl={(pathId, stepId) =>
-              toLearningPath(pathId, stepId, resource)
-            }
+            toLearningPathUrl={(pathId, stepId) => toLearningPath(pathId, stepId, resource)}
             title={previousStep.title}
           />
         ) : (
           <LearningPathStickyPlaceholder />
         )}
-        <LearningPathMobileStepInfo
-          total={learningsteps.length}
-          current={learningpathStep.seqNo + 1}
-        />
+        <LearningPathMobileStepInfo total={learningsteps.length} current={learningpathStep.seqNo + 1} />
         {nextStep ? (
           <LearningPathStickySibling
             arrow="right"
             pathId={learningpath.id}
             stepId={nextStep.id}
-            toLearningPathUrl={(pathId, stepId) =>
-              toLearningPath(pathId, stepId, resource)
-            }
+            toLearningPathUrl={(pathId, stepId) => toLearningPath(pathId, stepId, resource)}
             title={nextStep.title}
           />
         ) : (

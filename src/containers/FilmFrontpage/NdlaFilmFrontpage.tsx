@@ -13,10 +13,7 @@ import { gql, useLazyQuery } from '@apollo/client';
 import FilmFrontpage, { filmFrontpageFragments } from './FilmFrontpage';
 import { movieResourceTypes } from './resourceTypes';
 import { SKIP_TO_CONTENT_ID } from '../../constants';
-import {
-  GQLFilmFrontPageQuery,
-  GQLSearchWithoutPaginationQuery,
-} from '../../graphqlTypes';
+import { GQLFilmFrontPageQuery, GQLSearchWithoutPaginationQuery } from '../../graphqlTypes';
 import { searchFilmQuery } from '../../queries';
 import { useGraphQuery } from '../../util/runQueries';
 
@@ -51,31 +48,25 @@ const NdlaFilm = () => {
   const [fetchingMoviesByType, setFetchingMoviesByType] = useState(false);
   const { t, i18n } = useTranslation();
 
-  const { data: { filmfrontpage, subject } = {}, loading } =
-    useGraphQuery<GQLFilmFrontPageQuery>(filmFrontPageQuery, {
-      variables: { subjectId: 'urn:subject:20' },
-    });
+  const { data: { filmfrontpage, subject } = {}, loading } = useGraphQuery<GQLFilmFrontPageQuery>(filmFrontPageQuery, {
+    variables: { subjectId: 'urn:subject:20' },
+  });
 
-  const [searchAllMovies, { data: allMovies }] =
-    useLazyQuery<GQLSearchWithoutPaginationQuery>(searchFilmQuery, {
-      variables: { language: i18n.language, fallback: 'true' },
-    });
+  const [searchAllMovies, { data: allMovies }] = useLazyQuery<GQLSearchWithoutPaginationQuery>(searchFilmQuery, {
+    variables: { language: i18n.language, fallback: 'true' },
+  });
 
   useEffect(() => {
     // if we receive new movies we map them into state
     if (allMovies) {
-      const byType = allMovies.searchWithoutPagination?.results?.map(
-        (movie) => {
-          const contexts = movie.contexts.filter(
-            (ctx) => ctx.contextType === 'standard',
-          );
-          return {
-            ...movie,
-            path: contexts[0]?.path ?? '',
-            resourceTypes: contexts.flatMap((ctx) => ctx.resourceTypes),
-          };
-        },
-      );
+      const byType = allMovies.searchWithoutPagination?.results?.map((movie) => {
+        const contexts = movie.contexts.filter((ctx) => ctx.contextType === 'standard');
+        return {
+          ...movie,
+          path: contexts[0]?.path ?? '',
+          resourceTypes: contexts.flatMap((ctx) => ctx.resourceTypes),
+        };
+      });
 
       setMoviesByType(byType ?? []);
       setFetchingMoviesByType(false);
@@ -105,9 +96,7 @@ const NdlaFilm = () => {
     id: ALL_MOVIES_ID,
   };
 
-  const allResourceTypes = movieResourceTypes
-    .map((rt) => ({ ...rt, name: t(rt.name) }))
-    .concat([allResources]);
+  const allResourceTypes = movieResourceTypes.map((rt) => ({ ...rt, name: t(rt.name) })).concat([allResources]);
 
   return (
     <FilmFrontpage

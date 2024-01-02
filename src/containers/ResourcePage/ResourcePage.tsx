@@ -13,9 +13,7 @@ import { gql } from '@apollo/client';
 import { ContentPlaceholder } from '@ndla/ui';
 
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
-import RedirectContext, {
-  RedirectInfo,
-} from '../../components/RedirectContext';
+import RedirectContext, { RedirectInfo } from '../../components/RedirectContext';
 import { RELEVANCE_SUPPLEMENTARY, SKIP_TO_CONTENT_ID } from '../../constants';
 import { GQLResource, GQLResourcePageQuery } from '../../graphqlTypes';
 import { useUrnIds } from '../../routeHelpers';
@@ -24,27 +22,17 @@ import { isAccessDeniedError } from '../../util/handleError';
 import { useGraphQuery } from '../../util/runQueries';
 import AccessDeniedPage from '../AccessDeniedPage/AccessDeniedPage';
 import ArticlePage, { articlePageFragments } from '../ArticlePage/ArticlePage';
-import LearningpathPage, {
-  learningpathPageFragments,
-} from '../LearningpathPage/LearningpathPage';
+import LearningpathPage, { learningpathPageFragments } from '../LearningpathPage/LearningpathPage';
 import MovedResourcePage from '../MovedResourcePage/MovedResourcePage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { isLearningPathResource } from '../Resources/resourceHelpers';
 
-const urlInPaths = (
-  location: Location,
-  resource: Pick<GQLResource, 'paths'>,
-) => {
+const urlInPaths = (location: Location, resource: Pick<GQLResource, 'paths'>) => {
   return resource.paths?.find((p) => location.pathname.includes(p));
 };
 
 const resourcePageQuery = gql`
-  query resourcePage(
-    $topicId: String!
-    $subjectId: String!
-    $resourceId: String!
-    $convertEmbeds: Boolean
-  ) {
+  query resourcePage($topicId: String!, $subjectId: String!, $resourceId: String!, $convertEmbeds: Boolean) {
     subject(id: $subjectId) {
       topics(all: true) {
         parentId
@@ -86,17 +74,14 @@ const ResourcePage = () => {
   const { t } = useTranslation();
   const { subjectId, resourceId, topicId, stepId } = useUrnIds();
   const location = useLocation();
-  const { error, loading, data } = useGraphQuery<GQLResourcePageQuery>(
-    resourcePageQuery,
-    {
-      variables: {
-        subjectId,
-        topicId,
-        resourceId,
-        convertEmbeds: true,
-      },
+  const { error, loading, data } = useGraphQuery<GQLResourcePageQuery>(resourcePageQuery, {
+    variables: {
+      subjectId,
+      topicId,
+      resourceId,
+      convertEmbeds: true,
     },
-  );
+  });
   const redirectContext = useContext<RedirectInfo | undefined>(RedirectContext);
 
   if (loading) {
@@ -107,10 +92,7 @@ const ResourcePage = () => {
     return <AccessDeniedPage />;
   }
 
-  if (
-    error?.graphQLErrors.some((err) => err.extensions.status === 410) &&
-    redirectContext
-  ) {
+  if (error?.graphQLErrors.some((err) => err.extensions.status === 410) && redirectContext) {
     redirectContext.status = 410;
   }
 
@@ -144,8 +126,7 @@ const ResourcePage = () => {
     relevanceId === RELEVANCE_SUPPLEMENTARY
       ? t('searchPage.searchFilterMessages.supplementaryRelevance')
       : t('searchPage.searchFilterMessages.coreRelevance');
-  const topicPath =
-    subject && topic ? getTopicPath(subject.id, topic.id, subject.topics) : [];
+  const topicPath = subject && topic ? getTopicPath(subject.id, topic.id, subject.topics) : [];
   if (isLearningPathResource(resource)) {
     return (
       <LearningpathPage

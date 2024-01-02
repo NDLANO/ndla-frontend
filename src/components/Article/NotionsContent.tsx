@@ -9,12 +9,7 @@
 import { useTranslation } from 'react-i18next';
 import { gql } from '@apollo/client';
 import styled from '@emotion/styled';
-import {
-  AccordionContent,
-  AccordionHeader,
-  AccordionItem,
-  AccordionRoot,
-} from '@ndla/accordion';
+import { AccordionContent, AccordionHeader, AccordionItem, AccordionRoot } from '@ndla/accordion';
 import { colors, spacing } from '@ndla/core';
 import { ConceptMetaData } from '@ndla/types-embed';
 import { Text } from '@ndla/typography';

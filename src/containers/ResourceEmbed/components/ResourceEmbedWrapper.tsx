@@ -15,13 +15,7 @@ import { OneColumn } from '@ndla/ui';
 import ResourceBadge from './ResourceBadge';
 import { SKIP_TO_CONTENT_ID } from '../../../constants';
 
-export type EmbedType =
-  | 'video'
-  | 'audio'
-  | 'podcast'
-  | 'image'
-  | 'h5p'
-  | 'concept';
+export type EmbedType = 'video' | 'audio' | 'podcast' | 'image' | 'h5p' | 'concept';
 
 interface Props {
   children: ReactNode;
@@ -95,12 +89,7 @@ const StyledOneColumn = styled(OneColumn)`
   }
 `;
 
-const ResourceEmbedWrapper = ({
-  children,
-  type,
-  title,
-  noBackground = false,
-}: Props) => {
+const ResourceEmbedWrapper = ({ children, type, title, noBackground = false }: Props) => {
   const { t } = useTranslation();
   return (
     <>
@@ -110,19 +99,10 @@ const ResourceEmbedWrapper = ({
           <TitleWrapper>
             <ResourceBadge type={type} />
             <hgroup>
-              <StyledEmbedTypeHeader
-                element="p"
-                headingStyle="list-title"
-                margin="none"
-              >
+              <StyledEmbedTypeHeader element="p" headingStyle="list-title" margin="none">
                 {t(`embed.type.${type}`)}
               </StyledEmbedTypeHeader>
-              <Heading
-                element="h1"
-                headingStyle="h1-resource"
-                id={SKIP_TO_CONTENT_ID}
-                tabIndex={-1}
-              >
+              <Heading element="h1" headingStyle="h1-resource" id={SKIP_TO_CONTENT_ID} tabIndex={-1}>
                 {title}
               </Heading>
             </hgroup>

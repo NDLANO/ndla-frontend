@@ -6,17 +6,8 @@
  *
  */
 
-import {
-  MutationHookOptions,
-  gql,
-  useApolloClient,
-  useMutation,
-} from '@apollo/client';
-import {
-  arenaNotificationQuery,
-  arenaPostFragment,
-  arenaTopicFragment,
-} from './arenaQueries';
+import { MutationHookOptions, gql, useApolloClient, useMutation } from '@apollo/client';
+import { arenaNotificationQuery, arenaPostFragment, arenaTopicFragment } from './arenaQueries';
 import {
   GQLDeletePostMutation,
   GQLDeletePostMutationVariables,
@@ -45,10 +36,7 @@ const newFlagMutation = gql`
 `;
 
 export const useNewFlagMutation = () => {
-  const [addNewFlag] = useMutation<
-    GQLNewFlagMutation,
-    GQLNewFlagMutationVariables
-  >(newFlagMutation);
+  const [addNewFlag] = useMutation<GQLNewFlagMutation, GQLNewFlagMutationVariables>(newFlagMutation);
   return { addNewFlag };
 };
 
@@ -62,15 +50,12 @@ const replyToTopicMutation = gql`
 `;
 
 export const useReplyToTopic = (
-  options?: MutationHookOptions<
-    GQLReplyToTopicMutation,
-    GQLReplyToTopicMutationVariables
-  >,
+  options?: MutationHookOptions<GQLReplyToTopicMutation, GQLReplyToTopicMutationVariables>,
 ) => {
-  const [replyToTopic] = useMutation<
-    GQLReplyToTopicMutation,
-    GQLReplyToTopicMutationVariables
-  >(replyToTopicMutation, options);
+  const [replyToTopic] = useMutation<GQLReplyToTopicMutation, GQLReplyToTopicMutationVariables>(
+    replyToTopicMutation,
+    options,
+  );
   return { replyToTopic };
 };
 
@@ -83,16 +68,8 @@ const updatePostMutation = gql`
   ${arenaPostFragment}
 `;
 
-export const useUpdatePost = (
-  options: MutationHookOptions<
-    GQLUpdatePostMutation,
-    GQLUpdatePostMutationVariables
-  >,
-) => {
-  const [updatePost] = useMutation<
-    GQLUpdatePostMutation,
-    GQLUpdatePostMutationVariables
-  >(updatePostMutation, options);
+export const useUpdatePost = (options: MutationHookOptions<GQLUpdatePostMutation, GQLUpdatePostMutationVariables>) => {
+  const [updatePost] = useMutation<GQLUpdatePostMutation, GQLUpdatePostMutationVariables>(updatePostMutation, options);
   return { updatePost };
 };
 
@@ -102,16 +79,8 @@ const deletePostMutation = gql`
   }
 `;
 
-export const useDeletePost = (
-  options: MutationHookOptions<
-    GQLDeletePostMutation,
-    GQLDeletePostMutationVariables
-  >,
-) => {
-  const [deletePost] = useMutation<
-    GQLDeletePostMutation,
-    GQLDeletePostMutationVariables
-  >(deletePostMutation, options);
+export const useDeletePost = (options: MutationHookOptions<GQLDeletePostMutation, GQLDeletePostMutationVariables>) => {
+  const [deletePost] = useMutation<GQLDeletePostMutation, GQLDeletePostMutationVariables>(deletePostMutation, options);
   return { deletePost };
 };
 
@@ -122,24 +91,17 @@ const deleteTopicMutation = gql`
 `;
 
 export const useDeleteTopic = (
-  options: MutationHookOptions<
-    GQLDeleteTopicMutation,
-    GQLDeleteTopicMutationVariables
-  >,
+  options: MutationHookOptions<GQLDeleteTopicMutation, GQLDeleteTopicMutationVariables>,
 ) => {
-  const [deleteTopic] = useMutation<
-    GQLDeleteTopicMutation,
-    GQLDeleteTopicMutationVariables
-  >(deleteTopicMutation, options);
+  const [deleteTopic] = useMutation<GQLDeleteTopicMutation, GQLDeleteTopicMutationVariables>(
+    deleteTopicMutation,
+    options,
+  );
   return { deleteTopic };
 };
 
 const newArenaTopicMutation = gql`
-  mutation NewArenaTopic(
-    $categoryId: Int!
-    $content: String!
-    $title: String!
-  ) {
+  mutation NewArenaTopic($categoryId: Int!, $content: String!, $title: String!) {
     newArenaTopic(categoryId: $categoryId, content: $content, title: $title) {
       ...ArenaTopic
     }
@@ -148,15 +110,12 @@ const newArenaTopicMutation = gql`
 `;
 
 export const useCreateArenaTopic = (
-  options: MutationHookOptions<
-    GQLNewArenaTopicMutation,
-    GQLNewArenaTopicMutationVariables
-  >,
+  options: MutationHookOptions<GQLNewArenaTopicMutation, GQLNewArenaTopicMutationVariables>,
 ) => {
-  const [createArenaTopic] = useMutation<
-    GQLNewArenaTopicMutation,
-    GQLNewArenaTopicMutationVariables
-  >(newArenaTopicMutation, options);
+  const [createArenaTopic] = useMutation<GQLNewArenaTopicMutation, GQLNewArenaTopicMutationVariables>(
+    newArenaTopicMutation,
+    options,
+  );
   return { createArenaTopic };
 };
 
@@ -184,10 +143,7 @@ const subscribeToTopicMutation = gql`
 
 export const useSubscribeToTopicMutation = () => {
   const { cache } = useApolloClient();
-  return useMutation<
-    GQLSubscribeToTopicMutation,
-    GQLMutationSubscribeToTopicArgs
-  >(subscribeToTopicMutation, {
+  return useMutation<GQLSubscribeToTopicMutation, GQLMutationSubscribeToTopicArgs>(subscribeToTopicMutation, {
     onCompleted: (data) => {
       cache.modify({
         id: cache.identify({
@@ -210,20 +166,20 @@ const unsubscribeFromTopicMutation = gql`
 
 export const useUnsubscribeFromTopicMutation = () => {
   const { cache } = useApolloClient();
-  return useMutation<
-    GQLUnsubscribeFromTopicMutation,
-    GQLMutationUnsubscribeFromTopicArgs
-  >(unsubscribeFromTopicMutation, {
-    onCompleted: (data) => {
-      cache.modify({
-        id: cache.identify({
-          __typename: 'ArenaTopic',
-          id: data.unsubscribeFromTopic,
-        }),
-        fields: {
-          isFollowing: () => false,
-        },
-      });
+  return useMutation<GQLUnsubscribeFromTopicMutation, GQLMutationUnsubscribeFromTopicArgs>(
+    unsubscribeFromTopicMutation,
+    {
+      onCompleted: (data) => {
+        cache.modify({
+          id: cache.identify({
+            __typename: 'ArenaTopic',
+            id: data.unsubscribeFromTopic,
+          }),
+          fields: {
+            isFollowing: () => false,
+          },
+        });
+      },
     },
-  });
+  );
 };

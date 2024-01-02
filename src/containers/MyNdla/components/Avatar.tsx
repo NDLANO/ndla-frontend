@@ -52,33 +52,20 @@ const UserPersonalPicture = styled.img`
 export const getFirstLastInitials = (userName: string | undefined) => {
   return userName
     ?.split(' ')
-    .map((value, index, array) =>
-      index === 0 || index + 1 === array.length ? value.at(0) : null,
-    )
+    .map((value, index, array) => (index === 0 || index + 1 === array.length ? value.at(0) : null))
     .join('');
 };
 
 const Avatar = ({ myProfile, displayName, profilePicture }: AvatarProps) => {
   const { t } = useTranslation();
-  const initials = useMemo(
-    () => getFirstLastInitials(displayName),
-    [displayName],
-  );
+  const initials = useMemo(() => getFirstLastInitials(displayName), [displayName]);
 
   return (
     <StyledAvatarContainer data-myprofile={myProfile}>
       {profilePicture ? (
-        <UserPersonalPicture
-          src={profilePicture}
-          alt={t('myNdla.userPictureAltText')}
-        />
+        <UserPersonalPicture src={profilePicture} alt={t('myNdla.userPictureAltText')} />
       ) : (
-        <UserInitials
-          element="p"
-          textStyle="ingress"
-          margin="none"
-          data-myprofile={myProfile}
-        >
+        <UserInitials element="p" textStyle="ingress" margin="none" data-myprofile={myProfile}>
           {initials}
         </UserInitials>
       )}

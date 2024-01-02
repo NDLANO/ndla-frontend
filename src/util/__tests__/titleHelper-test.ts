@@ -9,9 +9,7 @@
 import { htmlTitle } from '../titleHelper';
 
 test('title with elements gets formatted correctly', () => {
-  expect(htmlTitle('Page', ['With', 'Many', 'Elements', 'Together'])).toBe(
-    'Page - With - Many - Elements - Together',
-  );
+  expect(htmlTitle('Page', ['With', 'Many', 'Elements', 'Together'])).toBe('Page - With - Many - Elements - Together');
   expect(htmlTitle('Page', ['Subject', 'NDLA'])).toBe('Page - Subject - NDLA');
   expect(htmlTitle('Page', [undefined, 'NDLA'])).toBe('Page - NDLA');
   expect(htmlTitle(undefined, [undefined, 'NDLA'])).toBe(' - NDLA');

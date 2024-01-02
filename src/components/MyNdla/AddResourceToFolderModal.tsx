@@ -8,15 +8,7 @@
 
 import { ReactNode, useCallback, useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  ModalBody,
-  ModalCloseButton,
-  ModalHeader,
-  ModalTitle,
-  Modal,
-  ModalTrigger,
-  ModalContent,
-} from '@ndla/modal';
+import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle, Modal, ModalTrigger, ModalContent } from '@ndla/modal';
 import { ListResource } from '@ndla/ui';
 import AddResourceToFolder, { ResourceAttributes } from './AddResourceToFolder';
 import LoginModalContent from './LoginModalContent';
@@ -30,11 +22,7 @@ interface Props {
   children: ReactNode;
 }
 
-const AddResourceToFolderModal = ({
-  resource,
-  children,
-  defaultOpenFolder,
-}: Props) => {
+const AddResourceToFolderModal = ({ resource, children, defaultOpenFolder }: Props) => {
   const [open, setOpen] = useState(false);
   const { t } = useTranslation();
   const { authenticated } = useContext(AuthContext);
@@ -54,11 +42,7 @@ const AddResourceToFolderModal = ({
             <ModalCloseButton title={t('modal.closeModal')} />
           </ModalHeader>
           <ModalBody>
-            <AddResourceToFolder
-              onClose={close}
-              resource={resource}
-              defaultOpenFolder={defaultOpenFolder}
-            />
+            <AddResourceToFolder onClose={close} resource={resource} defaultOpenFolder={defaultOpenFolder} />
           </ModalBody>
         </ModalContent>
       ) : (
@@ -92,11 +76,7 @@ interface ContentProps {
   resource: ResourceAttributes;
 }
 
-export const AddResourceToFolderModalContent = ({
-  resource,
-  defaultOpenFolder,
-  close,
-}: ContentProps) => {
+export const AddResourceToFolderModalContent = ({ resource, defaultOpenFolder, close }: ContentProps) => {
   const { t } = useTranslation();
   return (
     <ModalContent forceOverlay>
@@ -105,11 +85,7 @@ export const AddResourceToFolderModalContent = ({
         <ModalCloseButton title={t('modal.closeModal')} />
       </ModalHeader>
       <ModalBody>
-        <AddResourceToFolder
-          onClose={close}
-          resource={resource}
-          defaultOpenFolder={defaultOpenFolder}
-        />
+        <AddResourceToFolder onClose={close} resource={resource} defaultOpenFolder={defaultOpenFolder} />
       </ModalBody>
     </ModalContent>
   );

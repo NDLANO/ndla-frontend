@@ -12,11 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { Link, useLocation } from 'react-router-dom';
 import { gql } from '@apollo/client';
 import { Podcast } from '@ndla/icons/common';
-import {
-  figureApa7CopyString,
-  getGroupedContributorDescriptionList,
-  metaTypes,
-} from '@ndla/licenses';
+import { figureApa7CopyString, getGroupedContributorDescriptionList, metaTypes } from '@ndla/licenses';
 import { SafeLinkButton } from '@ndla/safelink';
 import {
   MediaList,
@@ -30,10 +26,7 @@ import {
 import CopyTextButton from './CopyTextButton';
 import LicenseDescription from './LicenseDescription';
 import { licenseListCopyrightFragment } from './licenseFragments';
-import {
-  isCopyrighted,
-  licenseCopyrightToCopyrightType,
-} from './licenseHelpers';
+import { isCopyrighted, licenseCopyrightToCopyrightType } from './licenseHelpers';
 import { MediaListRef, mediaListIcon } from './licenseStyles';
 import config from '../../config';
 import { GQLPodcastLicenseList_PodcastLicenseFragment } from '../../graphqlTypes';
@@ -49,16 +42,12 @@ const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
   const pageUrl = useMemo(() => `/audio/${podcast.id}`, [podcast.id]);
 
   const shouldShowLink = useMemo(
-    () =>
-      pathname !== pageUrl && !isCopyrighted(podcast.copyright.license.license),
+    () => pathname !== pageUrl && !isCopyrighted(podcast.copyright.license.license),
     [pageUrl, pathname, podcast.copyright.license.license],
   );
 
   const safeCopyright = licenseCopyrightToCopyrightType(podcast.copyright);
-  const items: ItemType[] = getGroupedContributorDescriptionList(
-    safeCopyright,
-    i18n.language,
-  );
+  const items: ItemType[] = getGroupedContributorDescriptionList(safeCopyright, i18n.language);
 
   const copyText = figureApa7CopyString(
     podcast.title,
@@ -153,15 +142,10 @@ const PodcastLicenseList = ({ podcasts }: Props) => {
 
   return (
     <div>
-      <LicenseDescription>
-        {t('license.podcast.description')}
-      </LicenseDescription>
+      <LicenseDescription>{t('license.podcast.description')}</LicenseDescription>
       <MediaList>
         {unique.map((podcast, index) => (
-          <PodcastLicenseInfo
-            podcast={podcast}
-            key={`${podcast.id}-${index}`}
-          />
+          <PodcastLicenseInfo podcast={podcast} key={`${podcast.id}-${index}`} />
         ))}
       </MediaList>
     </div>

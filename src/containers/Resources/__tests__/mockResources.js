@@ -87,19 +87,13 @@ export const resourceData1 = [
   {
     id: 'urn:resource:2',
     name: 'Hva er en idé?',
-    resourceTypes: [
-      { id: 'urn:resourcetype:subjectMaterial' },
-      { id: 'urn:resourcetype:learningPath' },
-    ],
+    resourceTypes: [{ id: 'urn:resourcetype:subjectMaterial' }, { id: 'urn:resourcetype:learningPath' }],
     contentUri: 'urn:article:1',
   },
   {
     id: 'urn:resource:3',
     name: 'Ideer og idéutvikling',
-    resourceTypes: [
-      { id: 'urn:resourcetype:subjectMaterial' },
-      { id: 'urn:resourcetype:academicArticle' },
-    ],
+    resourceTypes: [{ id: 'urn:resourcetype:subjectMaterial' }, { id: 'urn:resourcetype:academicArticle' }],
     contentUri: 'urn:article:2',
   },
 ];
@@ -120,10 +114,7 @@ export const resourceData2 = [
   {
     id: 'urn:resource:6',
     name: 'Endring av NATOs strategi',
-    resourceTypes: [
-      { id: 'urn:resourcetype:subjectMaterial' },
-      { id: 'urn:resourcetype:academicArticle' },
-    ],
+    resourceTypes: [{ id: 'urn:resourcetype:subjectMaterial' }, { id: 'urn:resourcetype:academicArticle' }],
     contentUri: 'urn:article:2',
   },
 ];

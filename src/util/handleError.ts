@@ -10,19 +10,14 @@ import { ErrorInfo } from 'react';
 import { ApolloError } from '@apollo/client';
 import ErrorReporter from '@ndla/error-reporter';
 
-const log =
-  process.env.BUILD_TARGET === 'server'
-    ? require('./logger').default
-    : undefined;
+const log = process.env.BUILD_TARGET === 'server' ? require('./logger').default : undefined;
 
 type UnknownGQLError = {
   status?: number;
   graphQLErrors?: { status?: number }[] | null;
 };
 
-export const getErrorStatuses = (
-  unknownError: ApolloError | null | undefined,
-): number[] => {
+export const getErrorStatuses = (unknownError: ApolloError | null | undefined): number[] => {
   const statuses: number[] = [];
   // We cast to our own error type since we append status in graphql-api
   const error = unknownError as UnknownGQLError | null | undefined;
@@ -42,27 +37,16 @@ export const getErrorStatuses = (
 
 export const AccessDeniedCodes = [401, 403];
 
-export const isAccessDeniedError = (
-  error: ApolloError | undefined | null,
-): boolean => {
+export const isAccessDeniedError = (error: ApolloError | undefined | null): boolean => {
   if (!error) return false;
   const codes = getErrorStatuses(error);
   return codes.find((c) => AccessDeniedCodes.includes(c)) !== undefined;
 };
 
-const handleError = (
-  error: ApolloError | Error | string | unknown,
-  info?: ErrorInfo | { clientTime: Date },
-) => {
-  if (
-    process.env.NODE_ENV === 'production' &&
-    process.env.BUILD_TARGET === 'client'
-  ) {
+const handleError = (error: ApolloError | Error | string | unknown, info?: ErrorInfo | { clientTime: Date }) => {
+  if (process.env.NODE_ENV === 'production' && process.env.BUILD_TARGET === 'client') {
     ErrorReporter.getInstance().captureError(error, info);
-  } else if (
-    process.env.NODE_ENV === 'production' &&
-    process.env.BUILD_TARGET === 'server'
-  ) {
+  } else if (process.env.NODE_ENV === 'production' && process.env.BUILD_TARGET === 'server') {
     log.error(error);
   } else {
     console.error(error); // eslint-disable-line no-console

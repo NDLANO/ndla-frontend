@@ -18,15 +18,8 @@ import DeletedPostCard from './components/DeletedPostCard';
 import PostCard from './components/PostCard';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import { getAllDimensions } from '../../../util/trackingUtil';
-import {
-  useSubscribeToTopicMutation,
-  useUnsubscribeFromTopicMutation,
-} from '../arenaMutations';
-import {
-  useArenaCategory,
-  useArenaNotifications,
-  useArenaTopic,
-} from '../arenaQueries';
+import { useSubscribeToTopicMutation, useUnsubscribeFromTopicMutation } from '../arenaMutations';
+import { useArenaCategory, useArenaNotifications, useArenaTopic } from '../arenaQueries';
 import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
 import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
 
@@ -103,14 +96,7 @@ const PostsPage = () => {
 
   useEffect(() => {
     if (document.getElementById(`post-${focusId}`)) {
-      setTimeout(
-        () =>
-          document
-            .getElementById(`post-${focusId}`)
-            ?.getElementsByTagName('a')?.[0]
-            ?.focus(),
-        1,
-      );
+      setTimeout(() => document.getElementById(`post-${focusId}`)?.getElementsByTagName('a')?.[0]?.focus(), 1);
       setFocusId(undefined);
     }
   }, [focusId, arenaTopic?.posts]);
@@ -143,9 +129,7 @@ const PostsPage = () => {
 
   return (
     <MyNdlaPageWrapper>
-      <HelmetWithTracker
-        title={t('htmlTitles.arenaPostPage', { name: arenaTopic?.title })}
-      />
+      <HelmetWithTracker title={t('htmlTitles.arenaPostPage', { name: arenaTopic?.title })} />
       <BreadcrumbWrapper>
         <MyNdlaBreadcrumb
           breadcrumbs={
@@ -168,12 +152,7 @@ const PostsPage = () => {
             {post.deleted ? (
               <DeletedPostCard />
             ) : (
-              <PostCard
-                post={post}
-                topic={arenaTopic}
-                onFollowChange={onFollowChange}
-                setFocusId={setFocusId}
-              />
+              <PostCard post={post} topic={arenaTopic} onFollowChange={onFollowChange} setFocusId={setFocusId} />
             )}
           </PostCardWrapper>
         ))}

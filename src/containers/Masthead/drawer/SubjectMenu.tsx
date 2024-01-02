@@ -7,13 +7,7 @@
  */
 
 import partition from 'lodash/partition';
-import {
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useMemo,
-} from 'react';
+import { Dispatch, SetStateAction, useCallback, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { gql } from '@apollo/client';
@@ -37,9 +31,7 @@ interface Props {
   setTopicPathIds: Dispatch<SetStateAction<string[]>>;
 }
 
-type AllTopicsType = NonNullable<
-  GQLSubjectMenu_SubjectFragment['allTopics']
->[0];
+type AllTopicsType = NonNullable<GQLSubjectMenu_SubjectFragment['allTopics']>[0];
 
 export type TopicWithSubTopics = AllTopicsType & {
   subtopics: TopicWithSubTopics[];
@@ -47,56 +39,33 @@ export type TopicWithSubTopics = AllTopicsType & {
 
 const placeholders = [0, 1, 2, 3, 4, 5];
 
-const groupTopics = (
-  root: AllTopicsType,
-  topics: AllTopicsType[],
-): TopicWithSubTopics => {
-  const [children, descendants] = partition(
-    topics,
-    (t) => t.parentId === root.id,
-  );
+const groupTopics = (root: AllTopicsType, topics: AllTopicsType[]): TopicWithSubTopics => {
+  const [children, descendants] = partition(topics, (t) => t.parentId === root.id);
   return {
     ...root,
     subtopics: children.map((c) => groupTopics(c, descendants)),
   };
 };
 
-const constructTopicPath = (
-  topics: TopicWithSubTopics[],
-  topicList: string[],
-): TopicWithSubTopics[] => {
+const constructTopicPath = (topics: TopicWithSubTopics[], topicList: string[]): TopicWithSubTopics[] => {
   if (!topicList.length || !topics.length) return [];
   const topic = topics.find((t) => t.id === topicList[0])!;
   if (!topic) {
     return [];
   }
-  return [topic].concat(
-    constructTopicPath(topic.subtopics, topicList.slice(1)),
-  );
+  return [topic].concat(constructTopicPath(topic.subtopics, topicList.slice(1)));
 };
 
-const SubjectMenu = ({
-  subject,
-  onClose,
-  onCloseMenuPortion,
-  setTopicPathIds,
-  topicPathIds,
-}: Props) => {
+const SubjectMenu = ({ subject, onClose, onCloseMenuPortion, setTopicPathIds, topicPathIds }: Props) => {
   const { t } = useTranslation();
   const location = useLocation();
   const { shouldCloseLevel, setLevelClosed } = useDrawerContext();
   const groupedTopics = useMemo(() => {
-    const [roots, rest] = partition(
-      subject?.allTopics?.filter((t) => !!t.parentId),
-      (t) => t.parentId === subject?.id,
-    );
+    const [roots, rest] = partition(subject?.allTopics?.filter((t) => !!t.parentId), (t) => t.parentId === subject?.id);
     return roots.map((r) => groupTopics(r, rest));
   }, [subject?.allTopics, subject?.id]);
 
-  const topicPath = useMemo(
-    () => constructTopicPath(groupedTopics ?? [], topicPathIds),
-    [topicPathIds, groupedTopics],
-  );
+  const topicPath = useMemo(() => constructTopicPath(groupedTopics ?? [], topicPathIds), [topicPathIds, groupedTopics]);
 
   useEffect(() => {
     if (!topicPath.length && shouldCloseLevel) {
@@ -130,11 +99,7 @@ const SubjectMenu = ({
   );
 
   useArrowNavigation(!topicPath.length, {
-    initialFocused: topicPath.length
-      ? topicPath[0]?.id
-      : subject
-        ? `header-${subject.id}`
-        : undefined,
+    initialFocused: topicPath.length ? topicPath[0]?.id : subject ? `header-${subject.id}` : undefined,
     onLeftKeyPressed: onCloseMenuPortion,
     onRightKeyPressed: keyboardAddTopic,
   });
@@ -144,11 +109,7 @@ const SubjectMenu = ({
   return (
     <>
       <DrawerPortion>
-        <BackButton
-          onGoBack={onCloseMenuPortion}
-          title={t('masthead.menu.goToMainMenu')}
-          homeButton
-        />
+        <BackButton onGoBack={onCloseMenuPortion} title={t('masthead.menu.goToMainMenu')} homeButton />
         {subject ? (
           <DrawerList id={`list-${subject?.id}`}>
             <DrawerRowHeader
@@ -180,23 +141,10 @@ const SubjectMenu = ({
             ))}
           </DrawerList>
         ) : (
-          <ContentLoader
-            height={'100%'}
-            width={'100%'}
-            viewBox={null}
-            preserveAspectRatio="none"
-          >
+          <ContentLoader height={'100%'} width={'100%'} viewBox={null} preserveAspectRatio="none">
             <rect x="5" y="2" rx="3" ry="3" height="50" width="90%" />
             {placeholders.map((p) => (
-              <rect
-                key={p}
-                x="20"
-                y={65 + p * 30}
-                rx="3"
-                ry="3"
-                height="25"
-                width="80%"
-              />
+              <rect key={p} x="20" y={65 + p * 30} rx="3" ry="3" height="25" width="80%" />
             ))}
           </ContentLoader>
         )}

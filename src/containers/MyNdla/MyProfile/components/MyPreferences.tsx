@@ -89,11 +89,7 @@ const MyPreferences = ({ user }: MyPreferencesProps) => {
     });
     addSnack({
       id: uuid(),
-      content: t(
-        `myNdla.myProfile.namePreference.${
-          newPref ? 'onNameShown' : 'onNameHidden'
-        }`,
-      ),
+      content: t(`myNdla.myProfile.namePreference.${newPref ? 'onNameShown' : 'onNameHidden'}`),
     });
   };
 
@@ -104,12 +100,7 @@ const MyPreferences = ({ user }: MyPreferencesProps) => {
   return (
     <PreferenceContainer>
       <DisclaimerContainer>
-        <Heading
-          element="h2"
-          id="myProfileTitle"
-          margin="none"
-          headingStyle="h2"
-        >
+        <Heading element="h2" id="myProfileTitle" margin="none" headingStyle="h2">
           {t(`myNdla.myProfile.disclaimerTitle.${user?.role}`)}
         </Heading>
         <Text element="p" textStyle="content-alt" margin="none">
@@ -119,12 +110,7 @@ const MyPreferences = ({ user }: MyPreferencesProps) => {
       {!isStudent(user) && (
         <>
           <OptionContainer>
-            <Heading
-              element="h2"
-              id="myProfileTitle"
-              margin="none"
-              headingStyle="h2"
-            >
+            <Heading element="h2" id="myProfileTitle" margin="none" headingStyle="h2">
               {t('myNdla.myProfile.preferenceTitle')}
             </Heading>
             <Text element="p" textStyle="content-alt" margin="none">

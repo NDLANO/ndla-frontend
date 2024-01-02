@@ -28,22 +28,11 @@ interface Props {
   scripts?: Scripts[];
 }
 
-const ArticleContents = ({
-  article,
-  modifier = 'clean',
-  showIngress = true,
-  scripts,
-}: Props) => {
+const ArticleContents = ({ article, modifier = 'clean', showIngress = true, scripts }: Props) => {
   return (
     <ArticleWrapper modifier={modifier}>
       {scripts?.map((script) => (
-        <script
-          key={script.src}
-          src={script.src}
-          type={script.type}
-          async={script.async}
-          defer={script.defer}
-        />
+        <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
       ))}
       {showIngress && (
         <LayoutItem layout="extend">
@@ -54,9 +43,7 @@ const ArticleContents = ({
       )}
       <LayoutItem layout="extend">{article.content}</LayoutItem>
       <LayoutItem layout="extend">
-        {article.metaData?.footnotes?.length ? (
-          <ArticleFootNotes footNotes={article.metaData?.footnotes} />
-        ) : undefined}
+        {article.metaData?.footnotes?.length ? <ArticleFootNotes footNotes={article.metaData?.footnotes} /> : undefined}
       </LayoutItem>
       <LayoutItem layout="extend">
         <ArticleByline

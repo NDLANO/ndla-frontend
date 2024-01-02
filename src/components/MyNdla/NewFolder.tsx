@@ -10,11 +10,7 @@ import { memo, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useApolloClient } from '@apollo/client';
 import { FolderInput } from '@ndla/ui';
-import {
-  getFolder,
-  useAddFolderMutation,
-  useFolders,
-} from '../../containers/MyNdla/folderMutations';
+import { getFolder, useAddFolderMutation, useFolders } from '../../containers/MyNdla/folderMutations';
 import { GQLFolder } from '../../graphqlTypes';
 import useValidationTranslation from '../../util/useValidationTranslation';
 
@@ -26,23 +22,14 @@ interface Props {
   className?: string;
 }
 
-const NewFolder = ({
-  parentId,
-  onClose,
-  initialValue = '',
-  onCreate,
-  className,
-}: Props) => {
+const NewFolder = ({ parentId, onClose, initialValue = '', onCreate, className }: Props) => {
   const [name, setName] = useState(initialValue);
   const hasWritten = useRef(false);
   const [error, setError] = useState('');
   const { folders } = useFolders();
   const { cache } = useApolloClient();
   const siblings = useMemo(
-    () =>
-      parentId !== 'folders'
-        ? getFolder(cache, parentId)?.subfolders ?? []
-        : folders,
+    () => (parentId !== 'folders' ? getFolder(cache, parentId)?.subfolders ?? [] : folders),
     [parentId, cache, folders],
   );
   const siblingNames = siblings.map((sib) => sib.name.toLowerCase());

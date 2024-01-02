@@ -12,10 +12,7 @@ import config from '../../config';
 import { LtiData, LtiItem } from '../../interfaces';
 import { resolveJsonOrRejectWithError } from '../../util/apiHelpers';
 
-const getSignature = async (
-  contentItemReturnUrl: string | undefined,
-  postData: LtiPostData,
-) => {
+const getSignature = async (contentItemReturnUrl: string | undefined, postData: LtiPostData) => {
   const url = contentItemReturnUrl ? encodeURI(contentItemReturnUrl) : '';
   const oauthData = await fetch(`/lti/oauth?url=${url}`, {
     headers: {
@@ -58,14 +55,8 @@ interface LtiPostData {
   };
 }
 
-const getLtiPostData = async (
-  ltiData: LtiData,
-  item: LtiItem,
-): Promise<LtiPostData> => {
-  const baseUrl =
-    config.ndlaEnvironment === 'dev'
-      ? 'http://localhost:3000'
-      : config.ndlaFrontendDomain;
+const getLtiPostData = async (ltiData: LtiData, item: LtiItem): Promise<LtiPostData> => {
+  const baseUrl = config.ndlaEnvironment === 'dev' ? 'http://localhost:3000' : config.ndlaFrontendDomain;
   const iframeurl = `${baseUrl}/article-iframe/article/${item.id}`;
   const postData = {
     oauth_callback: ltiData.oauth_callback || '',
@@ -95,10 +86,7 @@ const getLtiPostData = async (
     },
   };
 
-  const oauthData = await getSignature(
-    ltiData.content_item_return_url,
-    postData,
-  );
+  const oauthData = await getSignature(ltiData.content_item_return_url, postData);
   return {
     ...postData,
     oauth_signature: oauthData?.oauth_signature,
@@ -125,21 +113,13 @@ const LtiDeepLinking = ({ ltiData = {}, item }: Props) => {
   };
 
   return (
-    <form
-      method="POST"
-      action={ltiData?.content_item_return_url}
-      encType="application/x-www-form-urlencoded"
-    >
+    <form method="POST" action={ltiData?.content_item_return_url} encType="application/x-www-form-urlencoded">
       {Object.keys(postData).map((key) => (
         <input
           type="hidden"
           key={key}
           name={key}
-          value={
-            postData[key] instanceof Object
-              ? JSON.stringify(postData[key])
-              : postData[key]
-          }
+          value={postData[key] instanceof Object ? JSON.stringify(postData[key]) : postData[key]}
         />
       ))}
       <ButtonV2 type="submit">{t('lti.embed')}</ButtonV2>

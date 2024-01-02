@@ -16,9 +16,7 @@ const OembedItem = ({ oembed }: Props) => {
   const { t } = useTranslation();
   return (
     <div>
-      <LicenseDescription>
-        {t('license.embedlink.description')}
-      </LicenseDescription>
+      <LicenseDescription>{t('license.embedlink.description')}</LicenseDescription>
       <CopyTextButton
         copyTitle={t('license.embedlink.copyTitle')}
         hasCopiedTitle={t('license.embedlink.hasCopiedTitle')}

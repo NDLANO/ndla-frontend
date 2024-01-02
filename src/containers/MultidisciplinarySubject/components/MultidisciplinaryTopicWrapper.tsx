@@ -9,9 +9,7 @@ import { Dispatch, SetStateAction } from 'react';
 import { gql } from '@apollo/client';
 import { Spinner } from '@ndla/icons';
 import { SimpleBreadcrumbItem } from '@ndla/ui';
-import MultidisciplinaryTopic, {
-  multidisciplinaryTopicFragments,
-} from './MultidisciplinaryTopic';
+import MultidisciplinaryTopic, { multidisciplinaryTopicFragments } from './MultidisciplinaryTopic';
 import DefaultErrorMessage from '../../../components/DefaultErrorMessage';
 import {
   GQLMultidisciplinaryTopicWrapperQuery,
@@ -32,11 +30,7 @@ interface Props {
 }
 
 const multidisciplinaryTopicWrapperQuery = gql`
-  query multidisciplinaryTopicWrapper(
-    $topicId: String!
-    $subjectId: String
-    $convertEmbeds: Boolean
-  ) {
+  query multidisciplinaryTopicWrapper($topicId: String!, $subjectId: String, $convertEmbeds: Boolean) {
     topic(id: $topicId, subjectId: $subjectId) {
       id
       ...MultidisciplinaryTopic_Topic

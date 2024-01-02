@@ -34,10 +34,7 @@ const EditProfilePicture = () => {
   return (
     <Modal open={showModal} onOpenChange={setShowModal}>
       <ModalTrigger>
-        <StyledChangeAvatarButton
-          colorTheme="primary"
-          onClick={() => setShowModal(!showModal)}
-        >
+        <StyledChangeAvatarButton colorTheme="primary" onClick={() => setShowModal(!showModal)}>
           <PencilIcon />
           {t('myNdla.myProfile.editButtonText')}
         </StyledChangeAvatarButton>

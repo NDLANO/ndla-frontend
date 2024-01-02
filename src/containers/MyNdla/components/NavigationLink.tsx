@@ -62,19 +62,9 @@ interface Props {
   onClick?: () => void;
 }
 
-const NavigationLink = ({
-  id,
-  icon,
-  iconFilled,
-  name,
-  shortName,
-  onClick,
-  to,
-}: Props) => {
+const NavigationLink = ({ id, icon, iconFilled, name, shortName, onClick, to }: Props) => {
   const location = useLocation();
-  const selected = id
-    ? location.pathname.startsWith(`/minndla/${id}`)
-    : location.pathname === '/minndla';
+  const selected = id ? location.pathname.startsWith(`/minndla/${id}`) : location.pathname === '/minndla';
   const selectedIcon = selected ? iconFilled ?? icon : icon;
   const linkTo = to ?? `/minndla${id ? `/${id}` : ''}`;
 
@@ -88,11 +78,7 @@ const NavigationLink = ({
       onClick={onClick}
     >
       <IconWrapper>{selectedIcon}</IconWrapper>
-      <LongText
-        textStyle="meta-text-small"
-        margin="none"
-        data-current={selected}
-      >
+      <LongText textStyle="meta-text-small" margin="none" data-current={selected}>
         {name}
       </LongText>
       <ShortText textStyle="meta-text-xxsmall" margin="none">

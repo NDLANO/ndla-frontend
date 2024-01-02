@@ -20,10 +20,7 @@ interface Props {
 
 const FavoriteSubjects = ({ favorites, subjects }: Props) => {
   const { t } = useTranslation();
-  const mappedFavorites = useMemo(
-    () => subjects.filter((s) => favorites.includes(s.id)),
-    [subjects, favorites],
-  );
+  const mappedFavorites = useMemo(() => subjects.filter((s) => favorites.includes(s.id)), [subjects, favorites]);
 
   return (
     <div>
@@ -32,11 +29,7 @@ const FavoriteSubjects = ({ favorites, subjects }: Props) => {
       </Heading>
       <GridList>
         {mappedFavorites.map((subject) => (
-          <SubjectLink
-            favorites={favorites}
-            key={subject.id}
-            subject={subject}
-          />
+          <SubjectLink favorites={favorites} key={subject.id} subject={subject} />
         ))}
       </GridList>
     </div>

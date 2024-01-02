@@ -20,16 +20,11 @@ import Article from '../components/Article';
 import { useLtiData } from '../components/LtiContext';
 import SocialMediaMetadata from '../components/SocialMediaMetadata';
 import config from '../config';
-import {
-  GQLIframeArticlePage_ArticleFragment,
-  GQLIframeArticlePage_ResourceFragment,
-} from '../graphqlTypes';
+import { GQLIframeArticlePage_ArticleFragment, GQLIframeArticlePage_ResourceFragment } from '../graphqlTypes';
 import { LocaleType } from '../interfaces';
 import { getArticleProps } from '../util/getArticleProps';
 import { getArticleScripts } from '../util/getArticleScripts';
-import getStructuredDataFromArticle, {
-  structuredArticleDataFragment,
-} from '../util/getStructuredDataFromArticle';
+import getStructuredDataFromArticle, { structuredArticleDataFragment } from '../util/getStructuredDataFromArticle';
 import { getAllDimensions } from '../util/trackingUtil';
 import { transformArticle } from '../util/transformArticle';
 
@@ -46,11 +41,7 @@ const getDocumentTitle = ({ article }: Pick<Props, 'article'>) => {
   return '';
 };
 
-const IframeArticlePage = ({
-  resource,
-  article: propArticle,
-  locale: localeProp,
-}: Props) => {
+const IframeArticlePage = ({ resource, article: propArticle, locale: localeProp }: Props) => {
   const { trackPageView } = useTracker();
   const navigate = useNavigate();
   const ltiData = useLtiData();
@@ -71,20 +62,14 @@ const IframeArticlePage = ({
   useEffect(() => {
     if (propArticle?.id) return;
     const articleProps = getArticleProps(resource?.id ? resource : undefined);
-    const dimensions = getAllDimensions(
-      { article: propArticle },
-      articleProps.label,
-      true,
-    );
+    const dimensions = getAllDimensions({ article: propArticle }, articleProps.label, true);
     trackPageView({
       dimensions,
       title: getDocumentTitle({ article: propArticle }),
     });
   }, [propArticle, resource, trackPageView]);
 
-  const contentUrl = resource?.path
-    ? `${config.ndlaFrontendDomain}${resource.path}`
-    : undefined;
+  const contentUrl = resource?.path ? `${config.ndlaFrontendDomain}${resource.path}` : undefined;
 
   const articleProps =
     article.articleType === 'standard'
@@ -101,18 +86,10 @@ const IframeArticlePage = ({
         <title>{getDocumentTitle({ article: propArticle })}</title>
         <meta name="robots" content="noindex" />
         {scripts.map((script) => (
-          <script
-            key={script.src}
-            src={script.src}
-            type={script.type}
-            async={script.async}
-            defer={script.defer}
-          />
+          <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
         ))}
         <script type="application/ld+json">
-          {JSON.stringify(
-            getStructuredDataFromArticle(propArticle, i18n.language),
-          )}
+          {JSON.stringify(getStructuredDataFromArticle(propArticle, i18n.language))}
         </script>
       </Helmet>
       <SocialMediaMetadata
@@ -140,11 +117,7 @@ const IframeArticlePage = ({
           modifier="clean iframe"
           {...articleProps}
         >
-          <CreatedBy
-            name={t('createdBy.content')}
-            description={t('createdBy.text')}
-            url={contentUrl}
-          />
+          <CreatedBy name={t('createdBy.content')} description={t('createdBy.text')} url={contentUrl} />
         </Article>
       </main>
     </OneColumn>

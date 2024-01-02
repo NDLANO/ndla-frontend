@@ -48,12 +48,7 @@ const converterComponents: DynamicComponents = {
   heartButton: AddEmbedToFolder,
 };
 
-const MultidisciplinarySubjectArticle = ({
-  topic,
-  subject,
-  resourceTypes,
-  skipToContentId,
-}: Props) => {
+const MultidisciplinarySubjectArticle = ({ topic, subject, resourceTypes, skipToContentId }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const { t, i18n } = useTranslation();
   const { trackPageView } = useTracker();
@@ -68,9 +63,7 @@ const MultidisciplinarySubjectArticle = ({
     const topicPath = topic.path
       ?.split('/')
       .slice(2)
-      .map(
-        (id) => subject.allTopics?.find((t) => t.id.replace('urn:', '') === id),
-      );
+      .map((id) => subject.allTopics?.find((t) => t.id.replace('urn:', '') === id));
     const dimensions = getAllDimensions(
       {
         subject,
@@ -86,16 +79,7 @@ const MultidisciplinarySubjectArticle = ({
       dimensions,
       title: htmlTitle(topic.name || '', [t('htmlTitles.titleTemplate')]),
     });
-  }, [
-    authContextLoaded,
-    subject,
-    t,
-    topic.article,
-    topic.name,
-    topic.path,
-    trackPageView,
-    user,
-  ]);
+  }, [authContextLoaded, subject, t, topic.article, topic.name, topic.path, trackPageView, user]);
 
   const breadCrumbs: SimpleBreadcrumbItem[] = useMemo(
     () =>
@@ -140,12 +124,10 @@ const MultidisciplinarySubjectArticle = ({
     return null;
   }
 
-  const subjectLinks = topic.article.crossSubjectTopics?.map(
-    (crossSubjectTopic) => ({
-      label: crossSubjectTopic.title,
-      url: crossSubjectTopic.path || subject.path || '',
-    }),
-  );
+  const subjectLinks = topic.article.crossSubjectTopics?.map((crossSubjectTopic) => ({
+    label: crossSubjectTopic.title,
+    url: crossSubjectTopic.path || subject.path || '',
+  }));
   const subjects = topic.article?.grepCodes
     ?.filter((grepCode) => grepCode.startsWith('TT'))
     .map((code) => filterCodes[code]!);
@@ -154,20 +136,10 @@ const MultidisciplinarySubjectArticle = ({
     <main>
       <Helmet>
         {scripts?.map((script) => (
-          <script
-            key={script.src}
-            src={script.src}
-            type={script.type}
-            async={script.async}
-            defer={script.defer}
-          />
+          <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
         ))}
       </Helmet>
-      <MultidisciplinarySubjectHeader
-        breadcrumbs={breadCrumbs}
-        subjects={subjects}
-        subjectsLinks={subjectLinks}
-      />
+      <MultidisciplinarySubjectHeader breadcrumbs={breadCrumbs} subjects={subjects} subjectsLinks={subjectLinks} />
       <OneColumn>
         <Article
           contentTransformed
@@ -181,12 +153,7 @@ const MultidisciplinarySubjectArticle = ({
           path={topic.path}
         />
         <div ref={resourcesRef}>
-          <Resources
-            topic={topic}
-            resourceTypes={resourceTypes}
-            headingType="h2"
-            subHeadingType="h3"
-          />
+          <Resources topic={topic} resourceTypes={resourceTypes} headingType="h2" subHeadingType="h3" />
         </div>
       </OneColumn>
     </main>

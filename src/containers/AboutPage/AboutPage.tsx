@@ -11,13 +11,8 @@ import { gql } from '@apollo/client';
 import { ContentPlaceholder } from '@ndla/ui';
 import AboutPageContent, { aboutPageFragments } from './AboutPageContent';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
-import RedirectContext, {
-  RedirectInfo,
-} from '../../components/RedirectContext';
-import {
-  GQLAboutPageQuery,
-  GQLAboutPageQueryVariables,
-} from '../../graphqlTypes';
+import RedirectContext, { RedirectInfo } from '../../components/RedirectContext';
+import { GQLAboutPageQuery, GQLAboutPageQueryVariables } from '../../graphqlTypes';
 import { useTypedParams } from '../../routeHelpers';
 import { GONE } from '../../statusCodes';
 import { useGraphQuery } from '../../util/runQueries';
@@ -38,10 +33,7 @@ const aboutPageQuery = gql`
 
 const AboutPage = () => {
   const { slug } = useTypedParams<{ slug: string }>();
-  const { error, loading, data } = useGraphQuery<
-    GQLAboutPageQuery,
-    GQLAboutPageQueryVariables
-  >(aboutPageQuery, {
+  const { error, loading, data } = useGraphQuery<GQLAboutPageQuery, GQLAboutPageQueryVariables>(aboutPageQuery, {
     skip: !slug,
     variables: {
       slug,
@@ -54,10 +46,7 @@ const AboutPage = () => {
     return <ContentPlaceholder />;
   }
 
-  if (
-    error?.graphQLErrors.some((err) => err.extensions.status === GONE) &&
-    redirectContext
-  ) {
+  if (error?.graphQLErrors.some((err) => err.extensions.status === GONE) && redirectContext) {
     redirectContext.status = GONE;
   }
 

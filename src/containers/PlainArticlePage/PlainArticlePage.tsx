@@ -10,16 +10,11 @@ import { useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import { gql } from '@apollo/client';
 import { ContentPlaceholder } from '@ndla/ui';
-import PlainArticleContainer, {
-  plainArticleContainerFragments,
-} from './PlainArticleContainer';
+import PlainArticleContainer, { plainArticleContainerFragments } from './PlainArticleContainer';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import RedirectContext from '../../components/RedirectContext';
 import { SKIP_TO_CONTENT_ID } from '../../constants';
-import {
-  GQLPlainArticlePageQuery,
-  GQLPlainArticlePageQueryVariables,
-} from '../../graphqlTypes';
+import { GQLPlainArticlePageQuery, GQLPlainArticlePageQueryVariables } from '../../graphqlTypes';
 import { TypedParams, useTypedParams } from '../../routeHelpers';
 import { isAccessDeniedError } from '../../util/handleError';
 import { useGraphQuery } from '../../util/runQueries';
@@ -55,26 +50,23 @@ const PlainArticlePage = () => {
   const { articleId } = useTypedParams<MatchParams>();
   const { pathname } = useLocation();
   const redirectContext = useContext(RedirectContext);
-  const { loading, data, error } = useGraphQuery<
-    GQLPlainArticlePageQuery,
-    GQLPlainArticlePageQueryVariables
-  >(plainArticlePageQuery, {
-    variables: {
-      articleId,
-      isOembed: 'false',
-      path: pathname,
-      showVisualElement: 'true',
-      convertEmbeds: true,
+  const { loading, data, error } = useGraphQuery<GQLPlainArticlePageQuery, GQLPlainArticlePageQueryVariables>(
+    plainArticlePageQuery,
+    {
+      variables: {
+        articleId,
+        isOembed: 'false',
+        path: pathname,
+        showVisualElement: 'true',
+        convertEmbeds: true,
+      },
     },
-  });
+  );
 
   if (loading) {
     return <ContentPlaceholder />;
   }
-  if (
-    error?.graphQLErrors.some((err) => err.extensions.status === 410) &&
-    redirectContext
-  ) {
+  if (error?.graphQLErrors.some((err) => err.extensions.status === 410) && redirectContext) {
     redirectContext.status = 410;
   }
 
@@ -93,12 +85,7 @@ const PlainArticlePage = () => {
     return <NotFoundPage />;
   }
 
-  return (
-    <PlainArticleContainer
-      article={data.article}
-      skipToContentId={SKIP_TO_CONTENT_ID}
-    />
-  );
+  return <PlainArticleContainer article={data.article} skipToContentId={SKIP_TO_CONTENT_ID} />;
 };
 
 export default PlainArticlePage;

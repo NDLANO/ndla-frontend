@@ -45,19 +45,13 @@ const getReturnType = (ltiData: LtiData) => {
   if (ltiData.ext_content_return_types === 'lti_launch_url') {
     return 'lti_launch_url';
   }
-  if (
-    ltiData.ext_content_return_types.includes('iframe') ||
-    ltiData.ext_content_return_types.includes('oembed')
-  ) {
+  if (ltiData.ext_content_return_types.includes('iframe') || ltiData.ext_content_return_types.includes('oembed')) {
     return 'iframe';
   }
   return 'lti_launch_url';
 };
 const getQuery = (ltiData: LtiData, item: LtiItem) => {
-  const baseUrl =
-    config.ndlaEnvironment === 'dev'
-      ? 'http://localhost:3000'
-      : config.ndlaFrontendDomain;
+  const baseUrl = config.ndlaEnvironment === 'dev' ? 'http://localhost:3000' : config.ndlaFrontendDomain;
   const query = {
     url: `${baseUrl}/article-iframe/article/${item.id}`,
     title: item.title,
@@ -77,11 +71,7 @@ interface Props {
 }
 const LtiBasicLaunch = ({ ltiData, item }: Props) => {
   const { t } = useTranslation();
-  return (
-    <StyledLinkAsButton href={getQuery(ltiData, item)}>
-      {t('lti.embed')}
-    </StyledLinkAsButton>
-  );
+  return <StyledLinkAsButton href={getQuery(ltiData, item)}>{t('lti.embed')}</StyledLinkAsButton>;
 };
 
 export default LtiBasicLaunch;

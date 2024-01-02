@@ -50,9 +50,7 @@ const FolderSelect = ({
 
   const defaultOpenFolders = useMemo(() => {
     const firstFolderId = structureFolders?.[0]?.subfolders[0]?.id;
-    const defaultOpenFolderIds = defaultOpenFolder?.breadcrumbs.map(
-      (bc) => bc.id,
-    );
+    const defaultOpenFolderIds = defaultOpenFolder?.breadcrumbs.map((bc) => bc.id);
     const defaultOpen = defaultOpenFolderIds
       ? ['folders'].concat(defaultOpenFolderIds)
       : firstFolderId
@@ -80,11 +78,7 @@ const FolderSelect = ({
         type="picker"
         targetResource={storedResource}
         newFolderInput={({ parentId, onClose, onCreate }) => (
-          <NewFolder
-            parentId={parentId}
-            onClose={onClose}
-            onCreate={onCreate}
-          />
+          <NewFolder parentId={parentId} onClose={onClose} onCreate={onCreate} />
         )}
         ariaDescribedby="treestructure-error-label"
       />

@@ -58,14 +58,8 @@ const StyledHeading = styled(Heading)`
   }
 `;
 
-const getSubjectCategoryMessage = (
-  subjectCategory: string | undefined,
-  t: TFunction,
-): string | undefined => {
-  if (
-    !subjectCategory ||
-    subjectCategory === constants.subjectCategories.ACTIVE_SUBJECTS
-  ) {
+const getSubjectCategoryMessage = (subjectCategory: string | undefined, t: TFunction): string | undefined => {
+  if (!subjectCategory || subjectCategory === constants.subjectCategories.ACTIVE_SUBJECTS) {
     return undefined;
   } else if (subjectCategory === constants.subjectCategories.ARCHIVE_SUBJECTS) {
     return t('messageBoxInfo.subjectOutdated');
@@ -74,10 +68,7 @@ const getSubjectCategoryMessage = (
   }
 };
 
-const getSubjectTypeMessage = (
-  subjectType: string | undefined,
-  t: TFunction,
-): string | undefined => {
+const getSubjectTypeMessage = (subjectType: string | undefined, t: TFunction): string | undefined => {
   if (!subjectType || subjectType === constants.subjectTypes.SUBJECT) {
     return undefined;
   } else if (subjectType === constants.subjectTypes.RESOURCE_COLLECTION) {
@@ -99,9 +90,7 @@ const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
   useEffect(() => {
     if (!authContextLoaded) return;
     if (!loading && !!subject.topics?.length && topicIds.length === 0) {
-      const topicPath = topicIds.map(
-        (id) => subject.allTopics?.find((t) => t.id === id),
-      );
+      const topicPath = topicIds.map((id) => subject.allTopics?.find((t) => t.id === id));
       const dimensions = getAllDimensions({
         subject,
         topicPath,
@@ -144,55 +133,38 @@ const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
 
   const moveBannerUp = !topicIds?.length;
 
-  const topicPath = topicIds?.map(
-    (t) => subject.allTopics?.find((topic) => topic.id === t),
-  );
+  const topicPath = topicIds?.map((t) => subject.allTopics?.find((topic) => topic.id === t));
 
   const topicTitle = topicPath?.[topicPath.length - 1]?.name;
   const subjectTitle = subject.name;
   const title = [topicTitle, subjectTitle].filter((e) => !!e).join(' - ');
   const socialMediaMetadata = {
     title,
-    description:
-      topicPath?.[topicPath.length - 1]?.meta?.metaDescription ||
-      subject.subjectpage?.metaDescription,
-    image:
-      topicPath?.[topicPath.length - 1]?.meta?.metaImage ||
-      about?.visualElement,
+    description: topicPath?.[topicPath.length - 1]?.meta?.metaDescription || subject.subjectpage?.metaDescription,
+    image: topicPath?.[topicPath.length - 1]?.meta?.metaImage || about?.visualElement,
   };
 
-  const pageTitle = htmlTitle(socialMediaMetadata.title, [
-    t('htmlTitles.titleTemplate'),
-  ]);
+  const pageTitle = htmlTitle(socialMediaMetadata.title, [t('htmlTitles.titleTemplate')]);
 
   const topicsOnPage =
-    (topicIds.length > 0
-      ? subject.topics?.filter((topic) => topicIds.includes(topic.id))
-      : subject.topics) || [];
+    (topicIds.length > 0 ? subject.topics?.filter((topic) => topicIds.includes(topic.id)) : subject.topics) || [];
 
-  const supportedLanguages =
-    topicsOnPage[topicsOnPage.length - 1]?.supportedLanguages;
+  const supportedLanguages = topicsOnPage[topicsOnPage.length - 1]?.supportedLanguages;
 
   const customFields = subject?.metadata.customFields || {};
 
-  const nonRegularSubjectMessage = getSubjectCategoryMessage(
-    customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY],
-    t,
-  );
+  const nonRegularSubjectMessage = getSubjectCategoryMessage(customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY], t);
 
-  const nonRegularSubjectTypeMessage = getSubjectTypeMessage(
-    customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE],
-    t,
-  );
+  const nonRegularSubjectTypeMessage = getSubjectTypeMessage(customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE], t);
 
   return (
     <main>
       <Helmet>
         <title>{pageTitle}</title>
-        {(customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] ===
-          constants.subjectCategories.ARCHIVE_SUBJECTS ||
-          customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] ===
-            'true') && <meta name="robots" content="noindex, nofollow" />}
+        {(customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] === constants.subjectCategories.ARCHIVE_SUBJECTS ||
+          customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] === 'true') && (
+          <meta name="robots" content="noindex, nofollow" />
+        )}
       </Helmet>
       <OneColumn>
         <LayoutItem layout="extend">
@@ -205,10 +177,7 @@ const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
           <ArticleHeaderWrapper
             competenceGoals={
               subject.grepCodes?.length ? (
-                <CompetenceGoals
-                  codes={subject.grepCodes}
-                  subjectId={subject.id}
-                />
+                <CompetenceGoals codes={subject.grepCodes} subjectId={subject.id} />
               ) : undefined
             }
           >
@@ -243,19 +212,11 @@ const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
               {nonRegularSubjectTypeMessage}
             </MessageBox>
           )}
-          <SubjectPageContent
-            subject={subject}
-            topicIds={topicIds}
-            refs={topicRefs}
-            setBreadCrumb={setTopicCrumbs}
-          />
+          <SubjectPageContent subject={subject} topicIds={topicIds} refs={topicRefs} setBreadCrumb={setTopicCrumbs} />
         </LayoutItem>
       </OneColumn>
       {subject.subjectpage?.banner && (
-        <SubjectBanner
-          image={subject.subjectpage?.banner.desktopUrl || ''}
-          negativeTopMargin={moveBannerUp}
-        />
+        <SubjectBanner image={subject.subjectpage?.banner.desktopUrl || ''} negativeTopMargin={moveBannerUp} />
       )}
     </main>
   );

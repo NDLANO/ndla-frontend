@@ -18,10 +18,7 @@ import ArticleContents from '../../../components/Article/ArticleContents';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import AddEmbedToFolder from '../../../components/MyNdla/AddEmbedToFolder';
 import config from '../../../config';
-import {
-  RELEVANCE_SUPPLEMENTARY,
-  SKIP_TO_CONTENT_ID,
-} from '../../../constants';
+import { RELEVANCE_SUPPLEMENTARY, SKIP_TO_CONTENT_ID } from '../../../constants';
 import {
   GQLTopic_ResourceTypeDefinitionFragment,
   GQLTopic_SubjectFragment,
@@ -34,13 +31,7 @@ import { getAllDimensions } from '../../../util/trackingUtil';
 import { transformArticle } from '../../../util/transformArticle';
 import Resources from '../../Resources/Resources';
 
-const getDocumentTitle = ({
-  t,
-  topic,
-}: {
-  t: TFunction;
-  topic: Props['topic'];
-}) => {
+const getDocumentTitle = ({ t, topic }: { t: TFunction; topic: Props['topic'] }) => {
   return htmlTitle(topic?.name, [t('htmlTitles.titleTemplate')]);
 };
 
@@ -60,16 +51,7 @@ type Props = {
   resourceTypes?: GQLTopic_ResourceTypeDefinitionFragment[];
 };
 
-const Topic = ({
-  topicId,
-  subjectId,
-  subTopicId,
-  topic,
-  resourceTypes,
-  showResources,
-  loading,
-  subject,
-}: Props) => {
+const Topic = ({ topicId, subjectId, subTopicId, topic, resourceTypes, showResources, loading, subject }: Props) => {
   const { t, i18n } = useTranslation();
   const { user, authContextLoaded } = useContext(AuthContext);
   const { topicId: urnTopicId } = useUrnIds();
@@ -82,12 +64,7 @@ const Topic = ({
       const topicPath = topic?.path
         ?.split('/')
         .slice(2)
-        .map(
-          (t) =>
-            subject?.allTopics?.find(
-              (topic) => topic.id.replace('urn:', '') === t,
-            ),
-        );
+        .map((t) => subject?.allTopics?.find((topic) => topic.id.replace('urn:', '') === t));
       const dimensions = getAllDimensions(
         {
           subject,
@@ -101,34 +78,17 @@ const Topic = ({
       );
       trackPageView({ dimensions, title: getDocumentTitle({ t, topic }) });
     }
-  }, [
-    authContextLoaded,
-    loading,
-    showResources,
-    subject,
-    t,
-    topic,
-    trackPageView,
-    user,
-  ]);
+  }, [authContextLoaded, loading, showResources, subject, t, topic, trackPageView, user]);
 
   const embedMeta = useMemo(() => {
     if (!topic.article?.visualElementEmbed?.content) return undefined;
-    const embedMeta = extractEmbedMeta(
-      topic.article.visualElementEmbed.content,
-    );
+    const embedMeta = extractEmbedMeta(topic.article.visualElementEmbed.content);
     return embedMeta;
   }, [topic?.article?.visualElementEmbed?.content]);
 
   const visualElement = useMemo(() => {
-    if (!embedMeta || !topic.article?.visualElementEmbed?.meta)
-      return undefined;
-    return (
-      <TopicVisualElementContent
-        embed={embedMeta}
-        metadata={topic.article?.visualElementEmbed?.meta}
-      />
-    );
+    if (!embedMeta || !topic.article?.visualElementEmbed?.meta) return undefined;
+    return <TopicVisualElementContent embed={embedMeta} metadata={topic.article?.visualElementEmbed?.meta} />;
   }, [embedMeta, topic.article?.visualElementEmbed?.meta]);
 
   useEffect(() => {
@@ -137,14 +97,7 @@ const Topic = ({
 
   const resources = useMemo(() => {
     if (topic.subtopics) {
-      return (
-        <Resources
-          topic={topic}
-          resourceTypes={resourceTypes}
-          headingType="h3"
-          subHeadingType="h4"
-        />
-      );
+      return <Resources topic={topic} resourceTypes={resourceTypes} headingType="h3" subHeadingType="h4" />;
     }
     return null;
   }, [resourceTypes, topic]);
@@ -186,11 +139,7 @@ const Topic = ({
       visualElement={visualElement}
       visualElementEmbedMeta={embedMeta}
       id={urnTopicId === topicId ? SKIP_TO_CONTENT_ID : undefined}
-      onToggleShowContent={
-        topic.article?.content !== ''
-          ? () => setShowContent(!showContent)
-          : undefined
-      }
+      onToggleShowContent={topic.article?.content !== '' ? () => setShowContent(!showContent) : undefined}
       showContent={showContent}
       title={article.title}
       introduction={article.introduction}
@@ -201,12 +150,7 @@ const Topic = ({
       invertedStyle={ndlaFilm}
       isAdditionalTopic={topic.relevanceId === RELEVANCE_SUPPLEMENTARY}
     >
-      <ArticleContents
-        article={article}
-        scripts={scripts}
-        modifier="in-topic"
-        showIngress={false}
-      />
+      <ArticleContents article={article} scripts={scripts} modifier="in-topic" showIngress={false} />
     </UITopic>
   );
 };

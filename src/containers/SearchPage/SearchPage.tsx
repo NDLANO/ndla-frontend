@@ -13,10 +13,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { HelmetWithTracker, useTracker } from '@ndla/tracker';
 import { ContentPlaceholder, OneColumn } from '@ndla/ui';
 
-import {
-  converSearchStringToObject,
-  convertSearchParam,
-} from './searchHelpers';
+import { converSearchStringToObject, convertSearchParam } from './searchHelpers';
 import SearchInnerPage from './SearchInnerPage';
 import { AuthContext } from '../../components/AuthenticationContext';
 import { GQLSearchPageQuery } from '../../graphqlTypes';

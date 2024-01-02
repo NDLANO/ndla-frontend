@@ -40,23 +40,14 @@ const getDocumentTitle = (name: string, t: TFunction) => {
   return htmlTitle(name, [t('htmlTitles.titleTemplate')]);
 };
 
-const ToolboxTopicWrapper = ({
-  subject,
-  topicList,
-  index,
-  topic,
-  resourceTypes,
-  loading,
-}: Props) => {
+const ToolboxTopicWrapper = ({ subject, topicList, index, topic, resourceTypes, loading }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const { trackPageView } = useTracker();
   const { t } = useTranslation();
 
   useEffect(() => {
     if (authContextLoaded && topic && index === topicList.length - 1) {
-      const topicPath = topicList.map(
-        (t) => subject.allTopics?.find((topic) => topic.id === t),
-      );
+      const topicPath = topicList.map((t) => subject.allTopics?.find((topic) => topic.id === t));
       const dimensions = getAllDimensions({
         subject,
         topicPath,
@@ -66,46 +57,22 @@ const ToolboxTopicWrapper = ({
       });
       trackPageView({ dimensions, title: getDocumentTitle(topic.name, t) });
     }
-  }, [
-    authContextLoaded,
-    index,
-    subject,
-    t,
-    topic,
-    topicList,
-    trackPageView,
-    user,
-  ]);
+  }, [authContextLoaded, index, subject, t, topic, topicList, trackPageView, user]);
 
   const embedMeta = useMemo(() => {
     if (!topic.article?.visualElementEmbed?.content) return undefined;
-    const embedMeta = extractEmbedMeta(
-      topic.article.visualElementEmbed?.content,
-    );
+    const embedMeta = extractEmbedMeta(topic.article.visualElementEmbed?.content);
     return embedMeta;
   }, [topic?.article?.visualElementEmbed?.content]);
 
   const visualElement = useMemo(() => {
-    if (!embedMeta || !topic.article?.visualElementEmbed?.meta)
-      return undefined;
-    return (
-      <TopicVisualElementContent
-        embed={embedMeta}
-        metadata={topic.article?.visualElementEmbed?.meta}
-      />
-    );
+    if (!embedMeta || !topic.article?.visualElementEmbed?.meta) return undefined;
+    return <TopicVisualElementContent embed={embedMeta} metadata={topic.article?.visualElementEmbed?.meta} />;
   }, [embedMeta, topic.article?.visualElementEmbed?.meta]);
 
   const resources = useMemo(() => {
     if (topic.subtopics) {
-      return (
-        <Resources
-          topic={topic}
-          resourceTypes={resourceTypes}
-          headingType="h3"
-          subHeadingType="h4"
-        />
-      );
+      return <Resources topic={topic} resourceTypes={resourceTypes} headingType="h3" subHeadingType="h4" />;
     }
     return null;
   }, [resourceTypes, topic]);
@@ -130,11 +97,7 @@ const ToolboxTopicWrapper = ({
 
   return (
     <Topic
-      id={
-        topic.id === topicList[topicList.length - 1]
-          ? SKIP_TO_CONTENT_ID
-          : undefined
-      }
+      id={topic.id === topicList[topicList.length - 1] ? SKIP_TO_CONTENT_ID : undefined}
       frame={subTopics?.length === 0}
       isLoading={loading}
       subTopics={subTopics}

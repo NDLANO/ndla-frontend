@@ -17,13 +17,7 @@ import { colors, spacing } from '@ndla/core';
 import { Select } from '@ndla/select';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { Heading } from '@ndla/typography';
-import {
-  ErrorMessage,
-  ContentPlaceholder,
-  OneColumn,
-  constants,
-  getMastheadHeight,
-} from '@ndla/ui';
+import { ErrorMessage, ContentPlaceholder, OneColumn, constants, getMastheadHeight } from '@ndla/ui';
 import FavoriteSubjects from './FavoriteSubjects';
 import LetterNavigation from './LetterNavigation';
 import SubjectCategory from './SubjectCategory';
@@ -34,8 +28,7 @@ import { MastheadHeightPx, SKIP_TO_CONTENT_ID } from '../../constants';
 import { useUserAgent } from '../../UserAgentContext';
 import { useSubjects } from '../MyNdla/subjectQueries';
 
-const { ACTIVE_SUBJECTS, ARCHIVE_SUBJECTS, BETA_SUBJECTS, OTHER } =
-  constants.subjectCategories;
+const { ACTIVE_SUBJECTS, ARCHIVE_SUBJECTS, BETA_SUBJECTS, OTHER } = constants.subjectCategories;
 
 const createFilterTranslation = (t: TFunction, key: string, addTail = true) => {
   const label = addTail
@@ -104,8 +97,7 @@ const AllSubjectsPage = () => {
         const elementTop = element?.getBoundingClientRect().top ?? 0;
         const bodyTop = document.body.getBoundingClientRect().top ?? 0;
         const absoluteTop = elementTop - bodyTop;
-        const scrollPosition =
-          absoluteTop - (getMastheadHeight() || MastheadHeightPx) - 20;
+        const scrollPosition = absoluteTop - (getMastheadHeight() || MastheadHeightPx) - 20;
 
         window.scrollTo({
           top: scrollPosition,
@@ -118,9 +110,7 @@ const AllSubjectsPage = () => {
   const { error, loading, subjects } = useSubjects();
 
   const filterOptions = useMemo(() => createFilters(t), [t]);
-  const [filter, _setFilter] = useState<string>(
-    parse(location.search).filter || ACTIVE_SUBJECTS,
-  );
+  const [filter, _setFilter] = useState<string>(parse(location.search).filter || ACTIVE_SUBJECTS);
   const setFilter = (value: string) => {
     const searchObject = parse(location.search);
     _setFilter(value);
@@ -132,19 +122,13 @@ const AllSubjectsPage = () => {
   };
 
   const favoriteSubjects = user?.favoriteSubjects;
-  const sortedSubjects = useMemo(
-    () => sortBy(subjects, (s) => s.name),
-    [subjects],
-  );
+  const sortedSubjects = useMemo(() => sortBy(subjects, (s) => s.name), [subjects]);
   const groupedSubjects = useMemo(() => {
     const filteredSubjects = filterSubjects(sortedSubjects, filter);
     return groupSubjects(filteredSubjects);
   }, [sortedSubjects, filter]);
 
-  const letters = useMemo(
-    () => groupedSubjects.map((group) => group.label),
-    [groupedSubjects],
-  );
+  const letters = useMemo(() => groupedSubjects.map((group) => group.label), [groupedSubjects]);
 
   if (loading) return <ContentPlaceholder />;
   if (error)
@@ -169,12 +153,7 @@ const AllSubjectsPage = () => {
         <Heading element="h1" headingStyle="h1" serif id={SKIP_TO_CONTENT_ID}>
           {t('subjectsPage.allSubjects')}
         </Heading>
-        {!!favoriteSubjects?.length && (
-          <FavoriteSubjects
-            favorites={favoriteSubjects}
-            subjects={sortedSubjects}
-          />
-        )}
+        {!!favoriteSubjects?.length && <FavoriteSubjects favorites={favoriteSubjects} subjects={sortedSubjects} />}
         {selectors?.isMobile ? (
           <SelectWrapper>
             <Select<false>
@@ -188,22 +167,13 @@ const AllSubjectsPage = () => {
             />
           </SelectWrapper>
         ) : (
-          <TabFilter
-            value={filter}
-            onChange={setFilter}
-            options={filterOptions}
-          />
+          <TabFilter value={filter} onChange={setFilter} options={filterOptions} />
         )}
         <LetterNavigation activeLetters={letters} />
       </StyledColumn>
       <StyledList aria-label={t('subjectsPage.alphabeticSort')}>
         {groupedSubjects.map(({ label, subjects }) => (
-          <SubjectCategory
-            favorites={favoriteSubjects}
-            key={label}
-            label={label}
-            subjects={subjects}
-          />
+          <SubjectCategory favorites={favoriteSubjects} key={label} label={label} subjects={subjects} />
         ))}
       </StyledList>
     </main>

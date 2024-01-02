@@ -74,17 +74,8 @@ const StyledWrapper = styled.div`
 
 const StyledBackground = styled.div`
   width: 100%;
-  background: linear-gradient(
-      179.64deg,
-      rgba(255, 255, 255, 0.6) 80.1%,
-      rgba(255, 255, 255) 99.05%
-    ),
-    linear-gradient(
-      318.9deg,
-      rgb(239, 238, 220, 0.6) 35.53%,
-      rgb(250, 246, 235) 74.23%
-    ),
-    rgb(221, 216, 175);
+  background: linear-gradient(179.64deg, rgba(255, 255, 255, 0.6) 80.1%, rgba(255, 255, 255) 99.05%),
+    linear-gradient(318.9deg, rgb(239, 238, 220, 0.6) 35.53%, rgb(250, 246, 235) 74.23%), rgb(221, 216, 175);
 `;
 
 const Illustration = styled.div`
@@ -132,9 +123,7 @@ const MultidisciplinarySubjectPage = () => {
   useEffect(() => {
     if (selectedTopics.length) {
       const ref = refs[selectedTopics.length - 1];
-      const positionFromTop =
-        (ref?.current?.getBoundingClientRect().top ?? 0) +
-        document.documentElement.scrollTop;
+      const positionFromTop = (ref?.current?.getBoundingClientRect().top ?? 0) + document.documentElement.scrollTop;
       window.scrollTo({
         top: positionFromTop - 100,
         behavior: 'smooth',
@@ -192,9 +181,7 @@ const MultidisciplinarySubjectPage = () => {
 
   const selectionLimit = 2;
   const isNotLastTopic = selectedTopics.length < selectionLimit;
-  const selectedSubject = subject.topics?.find(
-    (t) => t.id === selectedTopics[0],
-  )!;
+  const selectedSubject = subject.topics?.find((t) => t.id === selectedTopics[0])!;
 
   const cards = isNotLastTopic
     ? []
@@ -214,9 +201,7 @@ const MultidisciplinarySubjectPage = () => {
           ...topic,
         })) || [];
 
-  const selectedMetadata = [...(subject.allTopics ?? [])]
-    .reverse()
-    .find((t) => selectedTopics.includes(t.id));
+  const selectedMetadata = [...(subject.allTopics ?? [])].reverse().find((t) => selectedTopics.includes(t.id));
 
   const selectedTitle = selectedMetadata?.name || selectedMetadata?.meta?.title;
   const subjectTitle = subject.name;
@@ -237,11 +222,7 @@ const MultidisciplinarySubjectPage = () => {
   return (
     <>
       <Helmet>
-        <title>
-          {htmlTitle(socialMediaMetaData.title, [
-            t('htmlTitles.titleTemplate'),
-          ])}
-        </title>
+        <title>{htmlTitle(socialMediaMetaData.title, [t('htmlTitles.titleTemplate')])}</title>
       </Helmet>
       <SocialMediaMetadata
         title={socialMediaMetaData.title}
@@ -258,18 +239,12 @@ const MultidisciplinarySubjectPage = () => {
                   <Heading
                     element="h1"
                     headingStyle="h1-resource"
-                    id={
-                      selectedTopics.length === 0
-                        ? SKIP_TO_CONTENT_ID
-                        : undefined
-                    }
+                    id={selectedTopics.length === 0 ? SKIP_TO_CONTENT_ID : undefined}
                     tabIndex={-1}
                   >
                     {t('frontpageMultidisciplinarySubject.heading')}
                   </Heading>
-                  <Text textStyle="ingress">
-                    {t('frontpageMultidisciplinarySubject.text')}
-                  </Text>
+                  <Text textStyle="ingress">{t('frontpageMultidisciplinarySubject.text')}</Text>
                 </LayoutItem>
                 <Illustration />
               </Header>
@@ -291,12 +266,7 @@ const MultidisciplinarySubjectPage = () => {
                   />
                 </div>
               ))}
-              {isNotLastTopic || (
-                <MultidisciplinaryArticleList
-                  items={cards}
-                  totalCount={cards.length}
-                />
-              )}
+              {isNotLastTopic || <MultidisciplinaryArticleList items={cards} totalCount={cards.length} />}
             </LayoutItem>
           </OneColumn>
         </StyledWrapper>

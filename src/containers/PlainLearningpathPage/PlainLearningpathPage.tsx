@@ -8,15 +8,10 @@
 
 import { gql } from '@apollo/client';
 import { ContentPlaceholder } from '@ndla/ui';
-import PlainLearningpathContainer, {
-  plainLearningpathContainerFragments,
-} from './PlainLearningpathContainer';
+import PlainLearningpathContainer, { plainLearningpathContainerFragments } from './PlainLearningpathContainer';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
 import { SKIP_TO_CONTENT_ID } from '../../constants';
-import {
-  GQLPlainLearningpathPageQuery,
-  GQLPlainLearningpathPageQueryVariables,
-} from '../../graphqlTypes';
+import { GQLPlainLearningpathPageQuery, GQLPlainLearningpathPageQueryVariables } from '../../graphqlTypes';
 import { TypedParams, useTypedParams } from '../../routeHelpers';
 import { useGraphQuery } from '../../util/runQueries';
 
@@ -37,33 +32,25 @@ const plainLearningpathPageQuery = gql`
 const PlainLearningpathPage = () => {
   const { learningpathId, stepId } = useTypedParams<MatchParams>();
 
-  const { data, loading } = useGraphQuery<
-    GQLPlainLearningpathPageQuery,
-    GQLPlainLearningpathPageQueryVariables
-  >(plainLearningpathPageQuery, {
-    variables: {
-      pathId: learningpathId,
-      convertEmbeds: true,
+  const { data, loading } = useGraphQuery<GQLPlainLearningpathPageQuery, GQLPlainLearningpathPageQueryVariables>(
+    plainLearningpathPageQuery,
+    {
+      variables: {
+        pathId: learningpathId,
+        convertEmbeds: true,
+      },
     },
-  });
+  );
 
   if (loading) {
     return <ContentPlaceholder />;
   }
-  if (
-    !data ||
-    !data.learningpath ||
-    (data.learningpath.learningsteps?.length ?? 0) < 1
-  ) {
+  if (!data || !data.learningpath || (data.learningpath.learningsteps?.length ?? 0) < 1) {
     return <DefaultErrorMessage />;
   }
 
   return (
-    <PlainLearningpathContainer
-      learningpath={data.learningpath}
-      skipToContentId={SKIP_TO_CONTENT_ID}
-      stepId={stepId}
-    />
+    <PlainLearningpathContainer learningpath={data.learningpath} skipToContentId={SKIP_TO_CONTENT_ID} stepId={stepId} />
   );
 };
 

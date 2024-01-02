@@ -21,9 +21,7 @@ const ArenaNotificationPage = () => {
   const { notifications } = useArenaNotifications();
   return (
     <MyNdlaPageWrapper>
-      <HelmetWithTracker
-        title={t('myNdla.arena.notification.myNotification')}
-      />
+      <HelmetWithTracker title={t('myNdla.arena.notification.myNotification')} />
       <TitleWrapper>
         <MyNdlaBreadcrumb
           breadcrumbs={[

@@ -6,10 +6,7 @@
  *
  */
 
-import {
-  searchSubjects,
-  mapSearchToFrontPageStructure,
-} from '../searchHelpers';
+import { searchSubjects, mapSearchToFrontPageStructure } from '../searchHelpers';
 
 const subjects = [
   {
@@ -35,9 +32,7 @@ test('search subjects with one character', () => {
 });
 
 test('map function', () => {
-  expect(mapSearchToFrontPageStructure({}, () => {}, undefined, [])).toEqual(
-    [],
-  );
+  expect(mapSearchToFrontPageStructure({}, () => {}, undefined, [])).toEqual([]);
   const returnArray = mapSearchToFrontPageStructure(
     {
       frontpageSearch: {

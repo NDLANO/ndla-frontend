@@ -66,16 +66,14 @@ test('IframeArticlePage with article renderers correctly', () => {
         created: '2019-06-17T13:53:27Z',
         tags: [],
         image: {
-          title:
-            'Oppgavebilde – T-hjelpercelle stilulerer og T-drepercelle dreper',
+          title: 'Oppgavebilde – T-hjelpercelle stilulerer og T-drepercelle dreper',
           src: 'https://api.test.ndla.no/image-api/raw/t-hjelper-t-dreper-drep-cella-fagocytt.jpg',
           altText: 'Oppgavebilde av T-celler',
           copyright: {
             license: {
               url: 'https://creativecommons.org/licenses/by-sa/4.0/',
               license: 'CC-BY-SA-4.0',
-              description:
-                'Creative Commons Attribution-ShareAlike 4.0 International',
+              description: 'Creative Commons Attribution-ShareAlike 4.0 International',
             },
             creators: [
               {
@@ -148,8 +146,7 @@ test('IframeArticlePage with article renderers correctly', () => {
           license: {
             license: 'CC-BY-SA-4.0',
             url: 'https://creativecommons.org/licenses/by-sa/4.0/',
-            description:
-              'Creative Commons Attribution-ShareAlike 4.0 International',
+            description: 'Creative Commons Attribution-ShareAlike 4.0 International',
           },
           creators: [
             {

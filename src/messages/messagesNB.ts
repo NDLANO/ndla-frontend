@@ -60,8 +60,7 @@ const messages = {
     requiredField: '$t(validation.fields.{{field}}) er påkrevd',
     notUnique: 'Finnes allerede',
     maxLength: 'Dette feltet kan maks inneholde {{count}} tegn',
-    maxLengthField:
-      '$t(validation.fields.{{field}}) kan maks innholde {{count}} tegn',
+    maxLengthField: '$t(validation.fields.{{field}}) kan maks innholde {{count}} tegn',
   },
   lti: {
     goBack: 'Tilbake til LTI-søk',

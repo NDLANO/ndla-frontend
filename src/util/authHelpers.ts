@@ -28,13 +28,7 @@ const locationOrigin = (() => {
   if (typeof window.location.origin === 'undefined') {
     window.location = {
       ...window.location,
-      origin: [
-        window.location.protocol,
-        '//',
-        window.location.host,
-        ':',
-        window.location.port,
-      ].join(''),
+      origin: [window.location.protocol, '//', window.location.host, ':', window.location.port].join(''),
     };
   }
 
@@ -65,18 +59,14 @@ export const getAccessToken = (cookies?: string) => {
   return cookie?.access_token;
 };
 
-export const millisUntilExpiration = (
-  cookie: FeideCookie | null = getFeideCookieClient(),
-): number => {
+export const millisUntilExpiration = (cookie: FeideCookie | null = getFeideCookieClient()): number => {
   const expiration = cookie?.ndla_expires_at ?? 0;
   const currentTime = new Date().getTime();
 
   return Math.max(0, expiration - currentTime);
 };
 
-export const isAccessTokenValid = (
-  cookie: FeideCookie | null = getFeideCookieClient(),
-): boolean => {
+export const isAccessTokenValid = (cookie: FeideCookie | null = getFeideCookieClient()): boolean => {
   return millisUntilExpiration(cookie) > 10000;
 };
 

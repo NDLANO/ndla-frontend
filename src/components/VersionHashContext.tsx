@@ -15,15 +15,8 @@ interface Props {
   value?: string;
 }
 
-export const VersionHashProvider = ({
-  children,
-  value = defaultValue,
-}: Props) => {
-  return (
-    <VersionHashContext.Provider value={value}>
-      {children}
-    </VersionHashContext.Provider>
-  );
+export const VersionHashProvider = ({ children, value = defaultValue }: Props) => {
+  return <VersionHashContext.Provider value={value}>{children}</VersionHashContext.Provider>;
 };
 
 export const useVersionHash = () => {

@@ -62,21 +62,21 @@ const PodcastSeriesListPage = () => {
 
   const apolloClient = useApolloClient();
 
-  const { error, loading, data, previousData } =
-    useGraphQuery<GQLPodcastSeriesListPageQuery>(podcastSeriesListPageQuery, {
+  const { error, loading, data, previousData } = useGraphQuery<GQLPodcastSeriesListPageQuery>(
+    podcastSeriesListPageQuery,
+    {
       variables: {
         page: page,
         pageSize: pageSize,
         fallback: true,
       },
-    });
+    },
+  );
 
   const results = data?.podcastSeriesSearch?.results;
 
   const lastPage = Math.ceil(
-    (data?.podcastSeriesSearch?.totalCount ??
-      previousData?.podcastSeriesSearch?.totalCount ??
-      0) / pageSize,
+    (data?.podcastSeriesSearch?.totalCount ?? previousData?.podcastSeriesSearch?.totalCount ?? 0) / pageSize,
   );
 
   useEffect(() => {
@@ -102,9 +102,7 @@ const PodcastSeriesListPage = () => {
     };
 
     // Remove unused/empty query params
-    Object.keys(searchQuery).forEach(
-      (key) => searchQuery[key] === '' && delete searchQuery[key],
-    );
+    Object.keys(searchQuery).forEach((key) => searchQuery[key] === '' && delete searchQuery[key]);
     navigate(`/podkast?${stringify(searchQuery)}`);
   };
 
@@ -123,9 +121,7 @@ const PodcastSeriesListPage = () => {
         <StyledTitle>
           <h1>{t('podcastPage.podcasts')}</h1>
           {(!!data || !!previousData) && (
-            <StyledTitlePageInfo>
-              {t('podcastPage.pageInfo', { page, lastPage })}
-            </StyledTitlePageInfo>
+            <StyledTitlePageInfo>{t('podcastPage.pageInfo', { page, lastPage })}</StyledTitlePageInfo>
           )}
         </StyledTitle>
         {loading ? (
@@ -134,9 +130,7 @@ const PodcastSeriesListPage = () => {
           <div>
             {results?.length ? (
               results.map((series) => {
-                return (
-                  <PodcastSeries key={`podcast-${series.id}`} {...series} />
-                );
+                return <PodcastSeries key={`podcast-${series.id}`} {...series} />;
               })
             ) : (
               <NoResult>{t('podcastPage.noResults')}</NoResult>
@@ -157,11 +151,7 @@ const PodcastSeriesListPage = () => {
 
 const podcastSeriesListPageQuery = gql`
   ${PodcastSeries.fragments.series}
-  query podcastSeriesListPage(
-    $page: Int!
-    $pageSize: Int!
-    $fallback: Boolean
-  ) {
+  query podcastSeriesListPage($page: Int!, $pageSize: Int!, $fallback: Boolean) {
     podcastSeriesSearch(page: $page, pageSize: $pageSize, fallback: $fallback) {
       results {
         ...PodcastSeries_PodcastSeriesSummary

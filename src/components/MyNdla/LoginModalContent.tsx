@@ -8,12 +8,7 @@
 
 import { ReactNode } from 'react';
 import styled from '@emotion/styled';
-import {
-  ModalBody,
-  ModalCloseButton,
-  ModalHeader,
-  ModalContent,
-} from '@ndla/modal';
+import { ModalBody, ModalCloseButton, ModalHeader, ModalContent } from '@ndla/modal';
 import { Heading } from '@ndla/typography';
 import LoginComponent from './LoginComponent';
 

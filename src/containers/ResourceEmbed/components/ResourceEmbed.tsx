@@ -12,12 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { gql } from '@apollo/client';
 import styled from '@emotion/styled';
-import {
-  AccordionContent,
-  AccordionHeader,
-  AccordionItem,
-  AccordionRoot,
-} from '@ndla/accordion';
+import { AccordionContent, AccordionHeader, AccordionItem, AccordionRoot } from '@ndla/accordion';
 import { DynamicComponents, transform } from '@ndla/article-converter';
 import { colors, spacing } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
@@ -85,10 +80,8 @@ const metaToProperties = (
     return {
       title: audio.title,
       audioUrl: audio.src,
-      description:
-        audio.__typename === 'PodcastLicense' ? audio.description : undefined,
-      imageUrl:
-        audio.__typename === 'PodcastLicense' ? audio.coverPhotoUrl : undefined,
+      description: audio.__typename === 'PodcastLicense' ? audio.description : undefined,
+      imageUrl: audio.__typename === 'PodcastLicense' ? audio.coverPhotoUrl : undefined,
       type: audio.__typename === 'PodcastLicense' ? 'podcast' : 'audio',
     };
   } else if (type === 'image') {
@@ -129,9 +122,7 @@ const metaToProperties = (
   }
 };
 
-export const hasLicensedContent = (
-  meta: GQLResourceEmbedLicenseBox_MetaFragment,
-) => {
+export const hasLicensedContent = (meta: GQLResourceEmbedLicenseBox_MetaFragment) => {
   if (meta.h5ps?.some((value) => value.copyright)) {
     return true;
   } else if (meta.images?.some((val) => val.copyright)) {
@@ -156,18 +147,15 @@ const ResourceEmbed = ({ id, type, noBackground, isOembed, folder }: Props) => {
   const { t } = useTranslation();
   const { pathname } = useLocation();
 
-  const { data, loading, error } = useGraphQuery<
-    GQLResourceEmbedQuery,
-    GQLResourceEmbedQueryVariables
-  >(ResourceEmbedQuery, {
-    variables: { id: id ?? '', type },
-    skip: !id,
-  });
-
-  const properties = useMemo(
-    () => metaToProperties(data?.resourceEmbed.meta, type),
-    [data?.resourceEmbed.meta, type],
+  const { data, loading, error } = useGraphQuery<GQLResourceEmbedQuery, GQLResourceEmbedQueryVariables>(
+    ResourceEmbedQuery,
+    {
+      variables: { id: id ?? '', type },
+      skip: !id,
+    },
   );
+
+  const properties = useMemo(() => metaToProperties(data?.resourceEmbed.meta, type), [data?.resourceEmbed.meta, type]);
 
   const transformedContent = useMemo(() => {
     if (!data?.resourceEmbed.content) {
@@ -184,12 +172,7 @@ const ResourceEmbed = ({ id, type, noBackground, isOembed, folder }: Props) => {
   useEffect(() => {
     if (!authContextLoaded || !properties) return;
     const dimensions = getAllDimensions({ user }, properties.type, false);
-    const title = getDocumentTitle(
-      folder?.name,
-      properties.title,
-      properties.type,
-      t,
-    );
+    const title = getDocumentTitle(folder?.name, properties.title, properties.type, t);
     trackPageView({ dimensions, title });
   }, [authContextLoaded, properties, t, trackPageView, user, folder]);
 
@@ -204,19 +187,10 @@ const ResourceEmbed = ({ id, type, noBackground, isOembed, folder }: Props) => {
   if (error || !transformedContent || !properties) {
     return <ErrorPage />;
   }
-  const socialMediaTitle = `${properties.title} - ${t(
-    `embed.type.${properties.type}`,
-  )}`;
+  const socialMediaTitle = `${properties.title} - ${t(`embed.type.${properties.type}`)}`;
   return (
     <>
-      <HelmetWithTracker
-        title={getDocumentTitle(
-          folder?.name,
-          properties.title,
-          properties.type,
-          t,
-        )}
-      />
+      <HelmetWithTracker title={getDocumentTitle(folder?.name, properties.title, properties.type, t)} />
       <SocialMediaMetadata
         type="website"
         audioUrl={properties?.audioUrl}
@@ -227,28 +201,21 @@ const ResourceEmbed = ({ id, type, noBackground, isOembed, folder }: Props) => {
         <meta name="robots" content="noindex" />
       </SocialMediaMetadata>
       <main>
-        <ResourceEmbedWrapper
-          type={type}
-          title={properties?.title}
-          noBackground={noBackground}
-        >
+        <ResourceEmbedWrapper type={type} title={properties?.title} noBackground={noBackground}>
           {transformedContent}
           <AccordionRoot type="single" collapsible>
-            {data?.resourceEmbed.meta &&
-              hasLicensedContent(data.resourceEmbed.meta) && (
-                <AccordionItem value="rulesForUse">
-                  <StyledAccordionHeader>
-                    <Text element="span" textStyle="button" margin="none">
-                      {t('article.useContent')}
-                    </Text>
-                  </StyledAccordionHeader>
-                  <AccordionContent>
-                    <ResourceEmbedLicenseBox
-                      metaData={data.resourceEmbed.meta}
-                    />
-                  </AccordionContent>
-                </AccordionItem>
-              )}
+            {data?.resourceEmbed.meta && hasLicensedContent(data.resourceEmbed.meta) && (
+              <AccordionItem value="rulesForUse">
+                <StyledAccordionHeader>
+                  <Text element="span" textStyle="button" margin="none">
+                    {t('article.useContent')}
+                  </Text>
+                </StyledAccordionHeader>
+                <AccordionContent>
+                  <ResourceEmbedLicenseBox metaData={data.resourceEmbed.meta} />
+                </AccordionContent>
+              </AccordionItem>
+            )}
           </AccordionRoot>
           {isOembed && (
             <CreatedByWrapper>
@@ -265,12 +232,7 @@ const ResourceEmbed = ({ id, type, noBackground, isOembed, folder }: Props) => {
   );
 };
 
-const getDocumentTitle = (
-  folderName: string | undefined,
-  title: string,
-  type: string | undefined,
-  t: TFunction,
-) => {
+const getDocumentTitle = (folderName: string | undefined, title: string, type: string | undefined, t: TFunction) => {
   const maybeFolder = folderName ? `${folderName} - ` : '';
   const maybeType = type ? ` - ${t(`embed.type.${type}`)}` : '';
   return t('htmlTitles.sharedFolderPage', {

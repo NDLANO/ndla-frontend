@@ -22,12 +22,7 @@ interface Props {
   setBreadCrumb: Dispatch<SetStateAction<SimpleBreadcrumbItem[]>>;
 }
 
-const SubjectPageContent = ({
-  subject,
-  topicIds,
-  refs,
-  setBreadCrumb,
-}: Props) => {
+const SubjectPageContent = ({ subject, topicIds, refs, setBreadCrumb }: Props) => {
   const ndlaFilm = useIsNdlaFilm();
   useEffect(() => {
     if (topicIds.length) scrollToRef(refs[topicIds.length - 1]!);
@@ -46,11 +41,7 @@ const SubjectPageContent = ({
 
   return (
     <>
-      <NavigationBox
-        items={mainTopics || []}
-        invertedStyle={ndlaFilm}
-        listDirection="horizontal"
-      />
+      <NavigationBox items={mainTopics || []} invertedStyle={ndlaFilm} listDirection="horizontal" />
       {topicIds.map((topicId, index) => {
         return (
           <div ref={refs[index]} key={index}>

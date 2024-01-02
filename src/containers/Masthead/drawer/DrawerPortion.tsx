@@ -35,10 +35,7 @@ const StyledDiv = styled.div`
     }
   }
 `;
-const DrawerPortion = ({
-  children,
-  ...rest
-}: DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>) => {
+const DrawerPortion = ({ children, ...rest }: DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>) => {
   return <StyledDiv {...rest}>{children}</StyledDiv>;
 };
 

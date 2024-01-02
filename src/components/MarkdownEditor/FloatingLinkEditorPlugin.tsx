@@ -22,15 +22,7 @@ import {
   LexicalCommand,
   createCommand,
 } from 'lexical';
-import {
-  Dispatch,
-  KeyboardEvent,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { Dispatch, KeyboardEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
@@ -140,12 +132,7 @@ const validateUrl = (url: string) => {
   }
 };
 
-const FloatingLinkEditor = ({
-  editor,
-  isLink,
-  setIsLink,
-  anchorElement,
-}: FloatingLinkEditorProps) => {
+const FloatingLinkEditor = ({ editor, isLink, setIsLink, anchorElement }: FloatingLinkEditorProps) => {
   const { t } = useTranslation();
   const editorRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -199,21 +186,13 @@ const FloatingLinkEditor = ({
       rootElement?.contains(nativeSelection.anchorNode) &&
       editor.isEditable()
     ) {
-      const domRect =
-        nativeSelection.focusNode?.parentElement?.getBoundingClientRect();
+      const domRect = nativeSelection.focusNode?.parentElement?.getBoundingClientRect();
       if (domRect) {
         domRect.y += 40;
-        setFloatingElemPositionForLinkEditor(
-          domRect,
-          editorElem,
-          anchorElement,
-        );
+        setFloatingElemPositionForLinkEditor(domRect, editorElem, anchorElement);
       }
       setLastSelection(selection);
-    } else if (
-      !activeElement ||
-      !activeElement.hasAttribute('data-link-input')
-    ) {
+    } else if (!activeElement || !activeElement.hasAttribute('data-link-input')) {
       if (rootElement !== null) {
         setFloatingElemPositionForLinkEditor(null, editorElem, anchorElement);
       }
@@ -332,10 +311,7 @@ const FloatingLinkEditor = ({
               monitorInputInteraction(event);
             }}
           />
-          <ButtonV2
-            onClick={handleLinkSubmission}
-            disabled={!isDirty || !!error}
-          >
+          <ButtonV2 onClick={handleLinkSubmission} disabled={!isDirty || !!error}>
             {t('save')}
           </ButtonV2>
         </InputWrapper>
@@ -398,12 +374,7 @@ export const FloatingLinkEditorPlugin = ({ anchorElement }: Props) => {
   }, [editor]);
 
   return createPortal(
-    <FloatingLinkEditor
-      editor={activeEditor}
-      isLink={isLink}
-      anchorElement={anchorElement}
-      setIsLink={setIsLink}
-    />,
+    <FloatingLinkEditor editor={activeEditor} isLink={isLink} anchorElement={anchorElement} setIsLink={setIsLink} />,
     anchorElement,
   );
 };

@@ -6,14 +6,10 @@
  *
  */
 export const RESOURCE_TYPE_LEARNING_PATH = 'urn:resourcetype:learningPath';
-export const RESOURCE_TYPE_SUBJECT_MATERIAL =
-  'urn:resourcetype:subjectMaterial';
-export const RESOURCE_TYPE_TASKS_AND_ACTIVITIES =
-  'urn:resourcetype:tasksAndActivities';
-export const RESOURCE_TYPE_ASSESSMENT_RESOURCES =
-  'urn:resourcetype:reviewResource';
-export const RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES =
-  'urn:resourcetype:externalResource';
+export const RESOURCE_TYPE_SUBJECT_MATERIAL = 'urn:resourcetype:subjectMaterial';
+export const RESOURCE_TYPE_TASKS_AND_ACTIVITIES = 'urn:resourcetype:tasksAndActivities';
+export const RESOURCE_TYPE_ASSESSMENT_RESOURCES = 'urn:resourcetype:reviewResource';
+export const RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES = 'urn:resourcetype:externalResource';
 export const RESOURCE_TYPE_SOURCE_MATERIAL = 'urn:resourcetype:SourceMaterial';
 
 export const RELEVANCE_CORE = 'urn:relevance:core';
@@ -22,12 +18,9 @@ export const RELEVANCE_SUPPLEMENTARY = 'urn:relevance:supplementary';
 export const NOT_FOUND_PAGE_PATH = '/404';
 export const FILM_PAGE_PATH = '/subject:20';
 export const UKR_PAGE_PATH = '/subject:27e8623d-c092-4f00-9a6f-066438d6c466';
-export const MULTIDISCIPLINARY_SUBJECT_ID =
-  'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7';
-export const TOOLBOX_TEACHER_SUBJECT_ID =
-  'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc';
-export const TOOLBOX_STUDENT_SUBJECT_ID =
-  'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4';
+export const MULTIDISCIPLINARY_SUBJECT_ID = 'urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7';
+export const TOOLBOX_TEACHER_SUBJECT_ID = 'urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc';
+export const TOOLBOX_STUDENT_SUBJECT_ID = 'urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4';
 
 export const SKIP_TO_CONTENT_ID = 'SkipToContentId';
 export const SUPPORTED_LANGUAGES = ['nb', 'nn', 'en', 'se'];
@@ -62,14 +55,11 @@ export const MY_NDLA_CONTENT_WIDTH = 1440;
 export const programmeRedirects: Record<string, string> = {
   'bygg-og-anleggsteknikk': 'bygg-og-anleggsteknikk__847f59182173',
   'elektro-og-datateknologi': 'elektro-og-datateknologi__55ad4a85ba78',
-  'frisor-blomster-interior-og-eksponeringsdesign':
-    'frisor-blomster-interiør-og-eksponeringsdesign__235c13273508',
-  'handverk-design-og-produktutvikling':
-    'håndverk-design-og-produktutvikling__28899b73c188',
+  'frisor-blomster-interior-og-eksponeringsdesign': 'frisor-blomster-interiør-og-eksponeringsdesign__235c13273508',
+  'handverk-design-og-produktutvikling': 'håndverk-design-og-produktutvikling__28899b73c188',
   'helse-og-oppvekstfag': 'helse-og-oppvekstfag__5ad439a5dacb',
   idrettsfag: 'idrettsfag__dd37b407714d',
-  'informasjonsteknologi-og-medieproduksjon':
-    'informasjonsteknologi-og-medieproduksjon__23f18a24131e',
+  'informasjonsteknologi-og-medieproduksjon': 'informasjonsteknologi-og-medieproduksjon__23f18a24131e',
   'kunst-design-og-arkitektur': 'kunst-design-og-arkitektur__72376dcfd25a',
   'medier-og-kommunikasjon': 'medier-og-kommunikasjon__57b0e8cd7270',
   'musikk-dans-og-drama': 'musikk-dans-og-drama__338394ba465c',

@@ -13,11 +13,7 @@ import { useTranslation } from 'react-i18next';
 import { Link, useLocation } from 'react-router-dom';
 import { gql } from '@apollo/client';
 import styled from '@emotion/styled';
-import {
-  metaTypes,
-  getGroupedContributorDescriptionList,
-  figureApa7CopyString,
-} from '@ndla/licenses';
+import { metaTypes, getGroupedContributorDescriptionList, figureApa7CopyString } from '@ndla/licenses';
 import { SafeLinkButton } from '@ndla/safelink';
 import {
   Image,
@@ -32,10 +28,7 @@ import {
 import CopyTextButton from './CopyTextButton';
 import LicenseDescription from './LicenseDescription';
 import { licenseListCopyrightFragment } from './licenseFragments';
-import {
-  isCopyrighted,
-  licenseCopyrightToCopyrightType,
-} from './licenseHelpers';
+import { isCopyrighted, licenseCopyrightToCopyrightType } from './licenseHelpers';
 import { MediaListRef } from './licenseStyles';
 import config from '../../config';
 import { GQLImageLicenseList_ImageLicenseFragment } from '../../graphqlTypes';
@@ -65,16 +58,12 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
   const pageUrl = useMemo(() => `/image/${image.id}`, [image.id]);
 
   const shouldShowLink = useMemo(
-    () =>
-      pathname !== pageUrl && !isCopyrighted(image.copyright.license.license),
+    () => pathname !== pageUrl && !isCopyrighted(image.copyright.license.license),
     [pathname, pageUrl, image.copyright.license.license],
   );
 
   const safeCopyright = licenseCopyrightToCopyrightType(image.copyright);
-  const items: ItemType[] = getGroupedContributorDescriptionList(
-    safeCopyright,
-    i18n.language,
-  );
+  const items: ItemType[] = getGroupedContributorDescriptionList(safeCopyright, i18n.language);
 
   const copyText = figureApa7CopyString(
     image.title,
@@ -146,11 +135,7 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
                     hasCopiedTitle={t('license.hasCopiedTitle')}
                   />
                 )}
-                <SafeLinkButton
-                  to={downloadUrl(image.src)}
-                  variant="outline"
-                  download
-                >
+                <SafeLinkButton to={downloadUrl(image.src)} variant="outline" download>
                   {t('license.download')}
                 </SafeLinkButton>
               </>

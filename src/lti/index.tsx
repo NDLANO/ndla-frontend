@@ -49,9 +49,7 @@ window.errorReporter = ErrorReporter.getInstance({
 });
 
 const storedLanguage = getCookie(STORED_LANGUAGE_COOKIE_KEY, document.cookie);
-const language = isValidLocale(storedLanguage)
-  ? storedLanguage
-  : config.defaultLocale;
+const language = isValidLocale(storedLanguage) ? storedLanguage : config.defaultLocale;
 const client = createApolloClient(language);
 const i18n = initializeI18n(i18nInstance, language);
 

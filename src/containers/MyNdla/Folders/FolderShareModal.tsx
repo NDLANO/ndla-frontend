@@ -12,15 +12,7 @@ import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { breakpoints, colors, fonts, misc, mq, spacing } from '@ndla/core';
 import { Copy, TrashCanOutline } from '@ndla/icons/action';
-import {
-  ModalBody,
-  ModalCloseButton,
-  ModalHeader,
-  ModalTitle,
-  ModalContent,
-  Modal,
-  ModalTrigger,
-} from '@ndla/modal';
+import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle, ModalContent, Modal, ModalTrigger } from '@ndla/modal';
 import { SafeLinkButton } from '@ndla/safelink';
 import Tooltip from '@ndla/tooltip';
 import { useSnack } from '@ndla/ui';
@@ -143,22 +135,14 @@ export const FolderShareModalContent = ({
   const modalButton = useMemo(() => {
     if (type === 'shared') {
       return (
-        <SafeLinkButton
-          shape="pill"
-          to={toFolderPreview(folder.id)}
-          colorTheme="light"
-        >
+        <SafeLinkButton shape="pill" to={toFolderPreview(folder.id)} colorTheme="light">
           {t('myNdla.folder.sharing.button.preview')}
         </SafeLinkButton>
       );
     } else {
       return (
         <ButtonV2 shape="pill" onClick={onUpdate} colorTheme="light">
-          {t(
-            `myNdla.folder.sharing.button.${
-              type === 'private' ? 'share' : 'unShare'
-            }`,
-          )}
+          {t(`myNdla.folder.sharing.button.${type === 'private' ? 'share' : 'unShare'}`)}
         </ButtonV2>
       );
     }
@@ -196,9 +180,7 @@ export const FolderShareModalContent = ({
         />
         {type === 'shared' && (
           <div>
-            <CopyLinkHeader>
-              {t('myNdla.folder.sharing.description.copy')}
-            </CopyLinkHeader>
+            <CopyLinkHeader>{t('myNdla.folder.sharing.description.copy')}</CopyLinkHeader>
             <Tooltip tooltip={t('myNdla.folder.sharing.button.shareLink')}>
               <CopyLinkButton
                 aria-label={sharedFolderLink(folder.id)}
@@ -241,13 +223,7 @@ export const FolderShareModalContent = ({
   );
 };
 
-const FolderShareModal = ({
-  children,
-  type,
-  folder,
-  onUpdateStatus,
-  onCopyText,
-}: FolderShareModalProps) => {
+const FolderShareModal = ({ children, type, folder, onUpdateStatus, onCopyText }: FolderShareModalProps) => {
   const [open, setOpen] = useState(false);
 
   const close = useCallback(() => setOpen(false), []);

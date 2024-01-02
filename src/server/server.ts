@@ -13,11 +13,7 @@ import { matchPath } from 'react-router-dom';
 import { getCookie } from '@ndla/util';
 import contentSecurityPolicy from './contentSecurityPolicy';
 import { generateOauthData } from './helpers/oauthHelper';
-import {
-  getFeideToken,
-  getRedirectUrl,
-  feideLogout,
-} from './helpers/openidHelper';
+import { getFeideToken, getRedirectUrl, feideLogout } from './helpers/openidHelper';
 import ltiConfig from './ltiConfig';
 import {
   defaultRoute,
@@ -30,22 +26,10 @@ import {
 } from './routes';
 import { podcastFeedRoute } from './routes/podcastFeedRoute';
 import config, { getDefaultLocale } from '../config';
-import {
-  FILM_PAGE_PATH,
-  NOT_FOUND_PAGE_PATH,
-  STORED_LANGUAGE_COOKIE_KEY,
-  UKR_PAGE_PATH,
-} from '../constants';
+import { FILM_PAGE_PATH, NOT_FOUND_PAGE_PATH, STORED_LANGUAGE_COOKIE_KEY, UKR_PAGE_PATH } from '../constants';
 import { getLocaleInfoFromPath } from '../i18n';
 import { privateRoutes, routes } from '../routes';
-import {
-  OK,
-  INTERNAL_SERVER_ERROR,
-  MOVED_PERMANENTLY,
-  TEMPORARY_REDIRECT,
-  BAD_REQUEST,
-  GONE,
-} from '../statusCodes';
+import { OK, INTERNAL_SERVER_ERROR, MOVED_PERMANENTLY, TEMPORARY_REDIRECT, BAD_REQUEST, GONE } from '../statusCodes';
 import { isAccessTokenValid } from '../util/authHelpers';
 import handleError from '../util/handleError';
 import { constructNewPath } from '../util/urlHelper';
@@ -53,10 +37,7 @@ import { constructNewPath } from '../util/urlHelper';
 // @ts-ignore
 global.fetch = fetch;
 const app = express();
-const allowedBodyContentTypes = [
-  'application/json',
-  'application/x-www-form-urlencoded',
-];
+const allowedBodyContentTypes = ['application/json', 'application/x-www-form-urlencoded'];
 
 app.disable('x-powered-by');
 app.enable('trust proxy');
@@ -69,8 +50,7 @@ const ndlaMiddleware = [
   }),
   express.urlencoded({ extended: true }),
   express.json({
-    type: (req) =>
-      allowedBodyContentTypes.includes(req.headers['content-type'] ?? ''),
+    type: (req) => allowedBodyContentTypes.includes(req.headers['content-type'] ?? ''),
   }),
   helmet({
     crossOriginEmbedderPolicy: false,
@@ -109,27 +89,16 @@ app.get('/health', ndlaMiddleware, (_req: Request, res: Response) => {
   res.status(OK).json({ status: OK, text: 'Health check ok' });
 });
 
-app.get(
-  '/film',
-  ndlaMiddleware,
-  (_req: Request, res: Response, _next: NextFunction) => {
-    res.redirect(FILM_PAGE_PATH);
-  },
-);
+app.get('/film', ndlaMiddleware, (_req: Request, res: Response, _next: NextFunction) => {
+  res.redirect(FILM_PAGE_PATH);
+});
 
-app.get(
-  '/ukr',
-  ndlaMiddleware,
-  (_req: Request, res: Response, _next: NextFunction) => {
-    res.cookie(STORED_LANGUAGE_COOKIE_KEY, 'en');
-    res.redirect(`/en${UKR_PAGE_PATH}`);
-  },
-);
+app.get('/ukr', ndlaMiddleware, (_req: Request, res: Response, _next: NextFunction) => {
+  res.cookie(STORED_LANGUAGE_COOKIE_KEY, 'en');
+  res.redirect(`/en${UKR_PAGE_PATH}`);
+});
 
-const getLang = (
-  paramLang?: string,
-  cookieLang?: string | null,
-): string | undefined => {
+const getLang = (paramLang?: string, cookieLang?: string | null): string | undefined => {
   if (paramLang) {
     return paramLang;
   }
@@ -144,10 +113,7 @@ app.get('/:lang?/login', async (req: Request, res: Response) => {
   const feideToken = feideCookie ? JSON.parse(feideCookie) : undefined;
   const state = typeof req.query.state === 'string' ? req.query.state : '';
   res.setHeader('Cache-Control', 'private');
-  const lang = getLang(
-    req.params.lang,
-    getCookie(STORED_LANGUAGE_COOKIE_KEY, req.headers.cookie ?? ''),
-  );
+  const lang = getLang(req.params.lang, getCookie(STORED_LANGUAGE_COOKIE_KEY, req.headers.cookie ?? ''));
   const redirect = constructNewPath(state, lang);
 
   if (feideToken && isAccessTokenValid(feideToken)) {
@@ -182,17 +148,11 @@ app.get('/login/success', async (req: Request, res: Response) => {
       encode: String,
       domain: `.${config.feideDomain}`,
     });
-    const languageCookie = getCookie(
-      STORED_LANGUAGE_COOKIE_KEY,
-      req.headers.cookie ?? '',
-    );
+    const languageCookie = getCookie(STORED_LANGUAGE_COOKIE_KEY, req.headers.cookie ?? '');
     //workaround to ensure language cookie is set before redirecting to state path
     if (!languageCookie) {
       const { basename } = getLocaleInfoFromPath(state);
-      res.cookie(
-        STORED_LANGUAGE_COOKIE_KEY,
-        basename.length ? basename : getDefaultLocale(),
-      );
+      res.cookie(STORED_LANGUAGE_COOKIE_KEY, basename.length ? basename : getDefaultLocale());
     }
     return res.redirect(state);
   } catch (e) {
@@ -228,14 +188,10 @@ app.get('/logout/session', (req: Request, res: Response) => {
   return res.redirect(redirect);
 });
 
-app.get(
-  '/:lang?/subjects/:path(*)',
-  ndlaMiddleware,
-  (req: Request, res: Response, _next: NextFunction) => {
-    const { lang, path } = req.params;
-    res.redirect(301, lang ? `/${lang}/${path}` : `/${path}`);
-  },
-);
+app.get('/:lang?/subjects/:path(*)', ndlaMiddleware, (req: Request, res: Response, _next: NextFunction) => {
+  const { lang, path } = req.params;
+  res.redirect(301, lang ? `/${lang}/${path}` : `/${path}`);
+});
 
 export async function sendInternalServerError(res: Response) {
   if (res.getHeader('Content-Type') === 'application/json') {
@@ -283,62 +239,30 @@ const iframeEmbedCallback = async (req: Request, res: Response) => {
   handleRequest(req, res, iframeEmbedRoute);
 };
 
-app.get(
-  '/embed-iframe/:lang?/:embedType/:embedId',
-  ndlaMiddleware,
-  iframeEmbedCallback,
-);
+app.get('/embed-iframe/:lang?/:embedType/:embedId', ndlaMiddleware, iframeEmbedCallback);
 
-app.get(
-  '/article-iframe/:lang?/article/:articleId',
-  ndlaMiddleware,
-  iframArticleCallback,
-);
-app.get(
-  '/article-iframe/:lang?/:taxonomyId/:articleId',
-  ndlaMiddleware,
-  iframArticleCallback,
-);
-app.post(
-  '/article-iframe/:lang?/article/:articleId',
-  ndlaMiddleware,
-  iframArticleCallback,
-);
-app.post(
-  '/article-iframe/:lang?/:taxonomyId/:articleId',
-  ndlaMiddleware,
-  iframArticleCallback,
-);
+app.get('/article-iframe/:lang?/article/:articleId', ndlaMiddleware, iframArticleCallback);
+app.get('/article-iframe/:lang?/:taxonomyId/:articleId', ndlaMiddleware, iframArticleCallback);
+app.post('/article-iframe/:lang?/article/:articleId', ndlaMiddleware, iframArticleCallback);
+app.post('/article-iframe/:lang?/:taxonomyId/:articleId', ndlaMiddleware, iframArticleCallback);
 
 app.get('/oembed', ndlaMiddleware, async (req: Request, res: Response) => {
   res.setHeader('Content-Type', 'application/json');
   handleRequest(req, res, oembedArticleRoute);
 });
 
-app.get(
-  '/lti/config.xml',
-  ndlaMiddleware,
-  async (_req: Request, res: Response) => {
-    res.removeHeader('X-Frame-Options');
-    res.setHeader('Content-Type', 'application/xml');
-    res.send(ltiConfig());
-  },
-);
+app.get('/lti/config.xml', ndlaMiddleware, async (_req: Request, res: Response) => {
+  res.removeHeader('X-Frame-Options');
+  res.setHeader('Content-Type', 'application/xml');
+  res.send(ltiConfig());
+});
 
-app.get(
-  '/utdanningsprogram-sitemap.txt',
-  ndlaMiddleware,
-  async (_req: Request, res: Response) => {
-    sendResponse(res, undefined, 410);
-  },
-);
+app.get('/utdanningsprogram-sitemap.txt', ndlaMiddleware, async (_req: Request, res: Response) => {
+  sendResponse(res, undefined, 410);
+});
 
 app.get('/podkast/:seriesId/feed.xml', ndlaMiddleware, podcastFeedRoute);
-app.get(
-  '/podkast/:seriesId_:seriesTitle/feed.xml',
-  ndlaMiddleware,
-  podcastFeedRoute,
-);
+app.get('/podkast/:seriesId_:seriesTitle/feed.xml', ndlaMiddleware, podcastFeedRoute);
 
 app.post('/lti/oauth', ndlaMiddleware, async (req: Request, res: Response) => {
   const { body, query } = req;
@@ -361,23 +285,12 @@ app.get('/lti', ndlaMiddleware, async (req: Request, res: Response) => {
 });
 
 /** Handle different paths to a node in old ndla. */
-[
-  'node',
-  'printpdf',
-  'easyreader',
-  'contentbrowser/node',
-  'print',
-  'aktualitet',
-  'oppgave',
-  'fagstoff',
-].forEach((path) => {
-  app.get(`/:lang?/${path}/:nodeId`, async (req, res, next) =>
-    forwardingRoute(req, res, next),
-  );
-  app.get(`/:lang?/${path}/:nodeId/*`, async (req, res, next) =>
-    forwardingRoute(req, res, next),
-  );
-});
+['node', 'printpdf', 'easyreader', 'contentbrowser/node', 'print', 'aktualitet', 'oppgave', 'fagstoff'].forEach(
+  (path) => {
+    app.get(`/:lang?/${path}/:nodeId`, async (req, res, next) => forwardingRoute(req, res, next));
+    app.get(`/:lang?/${path}/:nodeId/*`, async (req, res, next) => forwardingRoute(req, res, next));
+  },
+);
 
 app.get('/favicon.ico', ndlaMiddleware);
 app.get(
@@ -404,12 +317,9 @@ app.get(
   },
 );
 
-app.get(
-  '/*/search/apachesolr_search*',
-  (_req: Request, res: Response, _next: NextFunction) => {
-    sendResponse(res, undefined, 410);
-  },
-);
+app.get('/*/search/apachesolr_search*', (_req: Request, res: Response, _next: NextFunction) => {
+  sendResponse(res, undefined, 410);
+});
 app.get('/*', (_req: Request, res: Response, _next: NextFunction) => {
   res.redirect(NOT_FOUND_PAGE_PATH);
 });

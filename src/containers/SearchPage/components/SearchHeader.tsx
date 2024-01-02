@@ -49,10 +49,7 @@ const SearchHeader = ({
   const [searchValue, setSearchValue] = useState(query);
   const [activeFilters, setActiveFilters] = useState<ActiveFilter[]>([]);
 
-  const localeSubjectCategories = useMemo(
-    () => getSubjectsCategories(t, subjects),
-    [t, subjects],
-  );
+  const localeSubjectCategories = useMemo(() => getSubjectsCategories(t, subjects), [t, subjects]);
 
   useEffect(() => {
     setSearchValue(query);
@@ -83,10 +80,7 @@ const SearchHeader = ({
     });
   };
 
-  const onFilterValueChange = (
-    grepCodeFilters: string[],
-    subjectFilters: string[],
-  ) => {
+  const onFilterValueChange = (grepCodeFilters: string[], subjectFilters: string[]) => {
     handleSearchParamsChange({
       grepCodes: grepCodeFilters,
       subjects: subjectFilters,
@@ -129,19 +123,13 @@ const SearchHeader = ({
     setSearchValue(value);
   };
 
-  const competenceGoalsMetadata = groupCompetenceGoals(
-    competenceGoals,
-    false,
-    'LK06',
-  )?.flatMap((e) => e.elements);
+  const competenceGoalsMetadata = groupCompetenceGoals(competenceGoals, false, 'LK06')?.flatMap((e) => e.elements);
 
   return (
     <SearchHeaderUI
       searchPhrase={query}
       searchPhraseSuggestion={suggestion}
-      searchPhraseSuggestionOnClick={() =>
-        handleSearchParamsChange({ query: suggestion })
-      }
+      searchPhraseSuggestionOnClick={() => handleSearchParamsChange({ query: suggestion })}
       searchValue={searchValue}
       onSearchValueChange={(value: string) => onSearchValueChange(value)}
       onSubmit={handleSearchSubmit}

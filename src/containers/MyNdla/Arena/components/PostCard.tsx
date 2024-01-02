@@ -9,13 +9,7 @@
 import { formatDistanceStrict } from 'date-fns';
 import { nb, nn, enGB } from 'date-fns/locale';
 import parse from 'html-react-parser';
-import {
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useContext,
-  useMemo,
-} from 'react';
+import { Dispatch, SetStateAction, useCallback, useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
@@ -30,17 +24,9 @@ import ArenaTextModal, { ArenaTextModalContent } from './ArenaTextModal';
 import FlagPostModalContent from './FlagPostModalContent';
 import { AuthContext } from '../../../../components/AuthenticationContext';
 import { SKIP_TO_CONTENT_ID } from '../../../../constants';
-import {
-  GQLArenaPostFragment,
-  GQLArenaTopicByIdQuery,
-} from '../../../../graphqlTypes';
+import { GQLArenaPostFragment, GQLArenaTopicByIdQuery } from '../../../../graphqlTypes';
 import { formatDateTime } from '../../../../util/formatDate';
-import {
-  useDeletePost,
-  useDeleteTopic,
-  useReplyToTopic,
-  useUpdatePost,
-} from '../../arenaMutations';
+import { useDeletePost, useDeleteTopic, useReplyToTopic, useUpdatePost } from '../../arenaMutations';
 import { arenaCategoryQuery, arenaTopicById } from '../../arenaQueries';
 import DeleteModalContent from '../../components/DeleteModalContent';
 import SettingsMenu, { MenuItemProps } from '../../components/SettingsMenu';
@@ -165,10 +151,7 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId }: Props) => {
 
   const type = isMainPost ? 'topic' : 'post';
 
-  const validPosts = useMemo(
-    () => topic?.posts.filter(({ deleted }) => !deleted),
-    [topic?.posts],
-  );
+  const validPosts = useMemo(() => topic?.posts.filter(({ deleted }) => !deleted), [topic?.posts]);
 
   const deleteTopicCallback = useCallback(
     async (close: VoidFunction) => {
@@ -206,11 +189,7 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId }: Props) => {
 
   const menu = useMemo(() => {
     // Regex replaces @ with -. Same method as in backend
-    const isCorrectUser =
-      user?.username.replace(
-        /[^'"\s\-.*0-9\u00BF-\u1FFF\u2C00-\uD7FF\w]+/,
-        '-',
-      ) === username;
+    const isCorrectUser = user?.username.replace(/[^'"\s\-.*0-9\u00BF-\u1FFF\u2C00-\uD7FF\w]+/, '-') === username;
 
     const update: MenuItemProps = {
       icon: <Pencil />,
@@ -249,9 +228,7 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId }: Props) => {
         <DeleteModalContent
           onClose={close}
           onDelete={async () => {
-            isMainPost
-              ? await deleteTopicCallback(close)
-              : await deletePostCallback(close, skipAutoFocus);
+            isMainPost ? await deleteTopicCallback(close) : await deletePostCallback(close, skipAutoFocus);
           }}
           title={t(`myNdla.arena.deleteTitle.${type}`)}
           description={t(`myNdla.arena.description.${type}`)}
@@ -266,17 +243,10 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId }: Props) => {
       type: 'primary',
       isModal: true,
       modality: false,
-      modalContent: (close) => (
-        <FlagPostModalContent id={postId} onClose={close} />
-      ),
+      modalContent: (close) => <FlagPostModalContent id={postId} onClose={close} />,
     };
 
-    return (
-      <SettingsMenu
-        menuItems={isCorrectUser ? [update, deleteItem] : [report]}
-        modalHeader={t('myNdla.tools')}
-      />
-    );
+    return <SettingsMenu menuItems={isCorrectUser ? [update, deleteItem] : [report]} modalHeader={t('myNdla.tools')} />;
   }, [
     t,
     user,
@@ -310,9 +280,7 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId }: Props) => {
 
   const postTime = (
     <TimestampText element="span" textStyle="content-alt" margin="none">
-      <span title={formatDateTime(timestamp, language)}>
-        {`${capitalizeFirstLetter(timeDistance)}`}
-      </span>
+      <span title={formatDateTime(timestamp, language)}>{`${capitalizeFirstLetter(timeDistance)}`}</span>
     </TimestampText>
   );
 
@@ -340,11 +308,7 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId }: Props) => {
   return (
     <PostCardWrapper id={`post-${postId}`}>
       <PostHeader>
-        <UserProfileTag
-          displayName={displayName}
-          username={username}
-          affiliation={location ?? ''}
-        />
+        <UserProfileTag displayName={displayName} username={username} affiliation={location ?? ''} />
         {isMainPost && (
           <StyledSwitch
             onChange={onFollowChange}
@@ -356,12 +320,7 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId }: Props) => {
       </PostHeader>
       <ContentWrapper>
         {isMainPost && (
-          <Heading
-            element="h1"
-            id={SKIP_TO_CONTENT_ID}
-            headingStyle="h4"
-            margin="none"
-          >
+          <Heading element="h1" id={SKIP_TO_CONTENT_ID} headingStyle="h4" margin="none">
             {topic?.title}
           </Heading>
         )}

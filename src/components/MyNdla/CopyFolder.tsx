@@ -13,10 +13,7 @@ import { InformationOutline, WarningOutline } from '@ndla/icons/common';
 import { Folder, MessageBox, useSnack } from '@ndla/ui';
 import { AddResourceContainer, ButtonRow } from './AddResourceToFolder';
 import FolderSelect from './FolderSelect';
-import {
-  useCopySharedFolderMutation,
-  useFolders,
-} from '../../containers/MyNdla/folderMutations';
+import { useCopySharedFolderMutation, useFolders } from '../../containers/MyNdla/folderMutations';
 import { GQLFolder } from '../../graphqlTypes';
 import { getTotalCountForFolder } from '../../util/folderHelpers';
 import { AuthContext } from '../AuthenticationContext';
@@ -27,9 +24,7 @@ interface Props {
 }
 
 const CopyFolder = ({ folder, onClose }: Props) => {
-  const [selectedFolderId, setSelectedFolderId] = useState<string | undefined>(
-    undefined,
-  );
+  const [selectedFolderId, setSelectedFolderId] = useState<string | undefined>(undefined);
 
   const { examLock } = useContext(AuthContext);
   const { t } = useTranslation();
@@ -42,8 +37,7 @@ const CopyFolder = ({ folder, onClose }: Props) => {
     await copySharedFolderMutation.copySharedFolder({
       variables: {
         folderId: folder.id,
-        destinationFolderId:
-          selectedFolderId === 'folders' ? undefined : selectedFolderId,
+        destinationFolderId: selectedFolderId === 'folders' ? undefined : selectedFolderId,
       },
     });
     onClose();

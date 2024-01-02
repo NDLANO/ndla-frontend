@@ -10,13 +10,7 @@ import { ElementType, HTMLAttributes } from 'react';
 import styled from '@emotion/styled';
 import { breakpoints, colors, mq, spacing } from '@ndla/core';
 import { Podcast } from '@ndla/icons/common';
-import {
-  Concept,
-  H5PBold,
-  Media,
-  SquareAudio,
-  SquareVideo,
-} from '@ndla/icons/editor';
+import { Concept, H5PBold, Media, SquareAudio, SquareVideo } from '@ndla/icons/editor';
 import { EmbedType } from './ResourceEmbedWrapper';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {

@@ -88,9 +88,7 @@ const mastheadProgrammeQuery = gql`
 
 const MastheadDrawer = ({ subject }: Props) => {
   const [open, setOpen] = useState(false);
-  const [frontpageMenu, _setFrontpageMenu] = useState<
-    GQLDrawerContent_FrontpageMenuFragment[]
-  >([]);
+  const [frontpageMenu, _setFrontpageMenu] = useState<GQLDrawerContent_FrontpageMenuFragment[]>([]);
   const { subjectId, topicList, programme, slug } = useUrnIds();
   const prevProgramme = usePrevious(programme);
   const [type, setType] = useState<MenuType | undefined>(undefined);
@@ -98,13 +96,9 @@ const MastheadDrawer = ({ subject }: Props) => {
   const ndlaFilm = useIsNdlaFilm();
   const { t } = useTranslation();
 
-  const frontpageQuery = useGraphQuery<GQLMastheadFrontpageQuery>(
-    mastheadFrontpageQuery,
-  );
+  const frontpageQuery = useGraphQuery<GQLMastheadFrontpageQuery>(mastheadFrontpageQuery);
 
-  const programmesQuery = useGraphQuery<GQLMastheadProgrammeQuery>(
-    mastheadProgrammeQuery,
-  );
+  const programmesQuery = useGraphQuery<GQLMastheadProgrammeQuery>(mastheadProgrammeQuery);
 
   useEffect(() => {
     if (prevProgramme && !programme && type === 'programme') {
@@ -117,17 +111,10 @@ const MastheadDrawer = ({ subject }: Props) => {
     if (subjectId) {
       setType('subject');
     } else if (slug) {
-      const crumb = findBreadcrumb(
-        frontpageQuery.data?.frontpage?.menu ?? [],
-        slug,
-      );
-      const menuItems = !crumb[crumb.length - 1]?.menu?.length
-        ? crumb.slice(0, -1)
-        : crumb;
+      const crumb = findBreadcrumb(frontpageQuery.data?.frontpage?.menu ?? [], slug);
+      const menuItems = !crumb[crumb.length - 1]?.menu?.length ? crumb.slice(0, -1) : crumb;
       setType('about');
-      _setFrontpageMenu(
-        (menuItems ?? []) as GQLDrawerContent_FrontpageMenuFragment[],
-      );
+      _setFrontpageMenu((menuItems ?? []) as GQLDrawerContent_FrontpageMenuFragment[]);
     } else {
       setType(undefined);
     }
@@ -139,13 +126,10 @@ const MastheadDrawer = ({ subject }: Props) => {
     }
   }, [programme, prevProgramme]);
 
-  const setFrontpageMenu = useCallback(
-    (menu: GQLDrawerContent_FrontpageMenuFragment) => {
-      _setFrontpageMenu([menu]);
-      setType('about');
-    },
-    [],
-  );
+  const setFrontpageMenu = useCallback((menu: GQLDrawerContent_FrontpageMenuFragment) => {
+    _setFrontpageMenu([menu]);
+    setType('about');
+  }, []);
 
   const close = useCallback(() => setOpen(false), []);
 
@@ -190,13 +174,7 @@ const MastheadDrawer = ({ subject }: Props) => {
           <span>{t('masthead.menu.button')}</span>
         </DrawerButton>
       </ModalTrigger>
-      <Drawer
-        expands
-        position="left"
-        size="xsmall"
-        animationDuration={100}
-        aria-label={t('masthead.menu.modalLabel')}
-      >
+      <Drawer expands position="left" size="xsmall" animationDuration={100} aria-label={t('masthead.menu.modalLabel')}>
         <MainMenu>
           <HeadWrapper>
             <ModalCloseButton>
@@ -209,19 +187,12 @@ const MastheadDrawer = ({ subject }: Props) => {
           <DrawerContainer>
             <DrawerProvider>
               <DefaultMenu
-                dynamicId={
-                  frontpageMenu?.[0]
-                    ? `${frontpageMenu[0].article.slug}-dynamic`
-                    : undefined
-                }
+                dynamicId={frontpageMenu?.[0] ? `${frontpageMenu[0].article.slug}-dynamic` : undefined}
                 onClose={close}
                 onCloseMenuPortion={onCloseMenuPortion}
                 setActiveMenu={setType}
                 setFrontpageMenu={setFrontpageMenu}
-                dynamicMenus={
-                  (frontpageQuery.data?.frontpage?.menu ??
-                    []) as GQLDrawerContent_FrontpageMenuFragment[]
-                }
+                dynamicMenus={(frontpageQuery.data?.frontpage?.menu ?? []) as GQLDrawerContent_FrontpageMenuFragment[]}
                 subject={subject}
                 type={type}
                 closeSubMenu={closeSubMenu}

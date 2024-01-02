@@ -54,9 +54,7 @@ export const UserInfo = ({ user }: Props) => {
       <UnOrderedList>
         {user?.groups.map((org) => (
           <Text element="li" textStyle="content-alt" margin="none" key={org.id}>
-            {`${org.displayName}${
-              org.isPrimarySchool ? ` (${t('user.primarySchool')})` : ''
-            }`}
+            {`${org.displayName}${org.isPrimarySchool ? ` (${t('user.primarySchool')})` : ''}`}
           </Text>
         ))}
       </UnOrderedList>

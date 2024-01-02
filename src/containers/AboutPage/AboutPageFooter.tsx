@@ -88,10 +88,7 @@ const StyledNav = styled.nav`
 const AboutPageFooter = ({ frontpage }: Props) => {
   const { slug } = useParams();
 
-  const crumb = useMemo(
-    () => findBreadcrumb(frontpage.menu ?? [], slug),
-    [frontpage.menu, slug],
-  );
+  const crumb = useMemo(() => findBreadcrumb(frontpage.menu ?? [], slug), [frontpage.menu, slug]);
 
   const [title, menu] = useMemo(() => {
     if (frontpage.article.slug === slug) {
@@ -101,10 +98,7 @@ const AboutPageFooter = ({ frontpage }: Props) => {
     // If the current page does not have a menu, use the parent menu.
     const menu = item?.menu ?? crumb[crumb.length - 2]?.menu ?? [];
     // If the current page does not have a menu, use the parent title.
-    return [
-      item?.menu ? item.article.title : crumb[crumb.length - 2]?.article.title,
-      menu,
-    ];
+    return [item?.menu ? item.article.title : crumb[crumb.length - 2]?.article.title, menu];
   }, [crumb, frontpage, slug]);
 
   const isRoot = useMemo(() => crumb.length === 1, [crumb]);

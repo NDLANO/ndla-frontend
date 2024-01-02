@@ -46,9 +46,7 @@ const TitleAnnouncer = () => {
       >
         {title}
       </VisuallyHiddenTitle>
-      <Helmet
-        onChangeClientState={(state) => state.title && setTitle(state.title)}
-      />
+      <Helmet onChangeClientState={(state) => state.title && setTitle(state.title)} />
     </>
   );
 };

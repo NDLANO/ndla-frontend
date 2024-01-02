@@ -53,9 +53,7 @@ export const useOnTopicPage = () => {
 
 export const useUrnIds = () => {
   const params = useTypedParams<MatchParams>();
-  const subjectId = params.subjectId
-    ? `urn:subject${params.subjectId}`
-    : undefined;
+  const subjectId = params.subjectId ? `urn:subject${params.subjectId}` : undefined;
   const topicList = useMemo(() => {
     return [
       params.topic1 ? `urn:topic${params.topic1}` : '',
@@ -64,20 +62,12 @@ export const useUrnIds = () => {
       params.topic4 ? `urn:topic${params.topic4}` : '',
       params.topicId ? `urn:topic${params.topicId}` : '',
     ].filter((s) => !!s.length);
-  }, [
-    params.topicId,
-    params.topic1,
-    params.topic2,
-    params.topic3,
-    params.topic4,
-  ]);
+  }, [params.topicId, params.topic1, params.topic2, params.topic3, params.topic4]);
 
   return {
     subjectId,
     topicList,
-    resourceId: params.resourceId
-      ? `urn:resource${params.resourceId}`
-      : undefined,
+    resourceId: params.resourceId ? `urn:resource${params.resourceId}` : undefined,
     articleId: params.articleId,
     topicId: topicList[topicList.length - 1],
     programme: params.programme,
@@ -87,20 +77,12 @@ export const useUrnIds = () => {
   };
 };
 
-type SubjectType =
-  | 'multiDisciplinary'
-  | 'standard'
-  | 'toolbox'
-  | 'film'
-  | undefined;
+type SubjectType = 'multiDisciplinary' | 'standard' | 'toolbox' | 'film' | undefined;
 
 export const getSubjectType = (subjectId: string): SubjectType => {
   if (subjectId === MULTIDISCIPLINARY_SUBJECT_ID) {
     return 'multiDisciplinary';
-  } else if (
-    subjectId === TOOLBOX_STUDENT_SUBJECT_ID ||
-    subjectId === TOOLBOX_TEACHER_SUBJECT_ID
-  ) {
+  } else if (subjectId === TOOLBOX_STUDENT_SUBJECT_ID || subjectId === TOOLBOX_TEACHER_SUBJECT_ID) {
     return 'toolbox';
   } else if (subjectId === 'urn:subject:20') {
     return 'film';
@@ -125,11 +107,7 @@ type Resource = {
   id: string;
 };
 
-export function toLearningPath(
-  pathId?: string | number,
-  stepId?: string | number,
-  resource?: Pick<Resource, 'path'>,
-) {
+export function toLearningPath(pathId?: string | number, stepId?: string | number, resource?: Pick<Resource, 'path'>) {
   if (resource) {
     return stepId ? `${resource.path}/${stepId}` : resource.path;
   }
@@ -142,11 +120,7 @@ export function toLearningPath(
   return toLearningpaths();
 }
 
-export function toArticle(
-  articleId: number,
-  resource: Resource,
-  subjectTopicPath: string,
-) {
+export function toArticle(articleId: number, resource: Resource, subjectTopicPath: string) {
   if (subjectTopicPath) {
     return `${subjectTopicPath}/${removeUrn(resource.id)}`;
   }
@@ -182,13 +156,8 @@ export type SubjectURI = {
   to?: string;
 };
 
-export function toBreadcrumbItems(
-  rootName: string,
-  paths: ({ id: string; name: string } | undefined)[],
-): Breadcrumb[] {
-  const safePaths = paths.filter(
-    (p): p is GQLTopic | GQLResource | GQLSubject => p !== undefined,
-  );
+export function toBreadcrumbItems(rootName: string, paths: ({ id: string; name: string } | undefined)[]): Breadcrumb[] {
+  const safePaths = paths.filter((p): p is GQLTopic | GQLResource | GQLSubject => p !== undefined);
   const [subject, ...rest] = safePaths;
   if (!subject) return [];
   // henter longname fra filter og bruk i stedet for første ledd i path
@@ -218,11 +187,7 @@ export function toProgramme(programmePath: string, grade?: string) {
   return `${PROGRAMME_PATH}/${programmePath}${gradeString}`;
 }
 
-export function toProgrammeSubject(
-  programmePath: string,
-  subjectId: string,
-  topicIds: string[],
-) {
+export function toProgrammeSubject(programmePath: string, subjectId: string, topicIds: string[]) {
   return `${toProgramme(programmePath)}${toTopic(subjectId, ...topicIds)}`;
 }
 

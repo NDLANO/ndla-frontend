@@ -31,11 +31,7 @@ type Props = {
 };
 
 const topicWrapperQuery = gql`
-  query topicWrapper(
-    $topicId: String!
-    $subjectId: String
-    $convertEmbeds: Boolean
-  ) {
+  query topicWrapper($topicId: String!, $subjectId: String, $convertEmbeds: Boolean) {
     topic(id: $topicId, subjectId: $subjectId) {
       id
       ...Topic_Topic
@@ -48,37 +44,29 @@ const topicWrapperQuery = gql`
   ${topicFragments.resourceType}
 `;
 
-const TopicWrapper = ({
-  subTopicId,
-  topicId,
-  subjectId,
-  setBreadCrumb,
-  showResources,
-  subject,
-  index,
-}: Props) => {
+const TopicWrapper = ({ subTopicId, topicId, subjectId, setBreadCrumb, showResources, subject, index }: Props) => {
   const navigate = useNavigate();
-  const { data, loading, error } = useGraphQuery<
-    GQLTopicWrapperQuery,
-    GQLTopicWrapperQueryVariables
-  >(topicWrapperQuery, {
-    variables: {
-      topicId,
-      subjectId,
-      convertEmbeds: true,
+  const { data, loading, error } = useGraphQuery<GQLTopicWrapperQuery, GQLTopicWrapperQueryVariables>(
+    topicWrapperQuery,
+    {
+      variables: {
+        topicId,
+        subjectId,
+        convertEmbeds: true,
+      },
+      onCompleted: (data) => {
+        const topic = data.topic;
+        if (topic) {
+          setBreadCrumb((crumbs) =>
+            crumbs.slice(0, index).concat({
+              to: `/${removeUrn(topic.id)}`,
+              name: topic.name,
+            }),
+          );
+        }
+      },
     },
-    onCompleted: (data) => {
-      const topic = data.topic;
-      if (topic) {
-        setBreadCrumb((crumbs) =>
-          crumbs.slice(0, index).concat({
-            to: `/${removeUrn(topic.id)}`,
-            name: topic.name,
-          }),
-        );
-      }
-    },
-  });
+  );
 
   if (error) {
     handleError(error);

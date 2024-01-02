@@ -12,15 +12,7 @@ import { useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
-import {
-  ModalBody,
-  ModalCloseButton,
-  ModalHeader,
-  ModalTitle,
-  Modal,
-  ModalTrigger,
-  ModalContent,
-} from '@ndla/modal';
+import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle, Modal, ModalTrigger, ModalContent } from '@ndla/modal';
 import SafeLink from '@ndla/safelink';
 import { HelmetWithTracker, useTracker } from '@ndla/tracker';
 import { Heading, Text } from '@ndla/typography';
@@ -79,10 +71,7 @@ const MyProfilePage = () => {
 
   const onDeleteAccount = async () => {
     await deletePersonalData();
-    window.location.href = constructNewPath(
-      `/logout?state=${toHref(location)}`,
-      basename,
-    );
+    window.location.href = constructNewPath(`/logout?state=${toHref(location)}`, basename);
   };
 
   return (
@@ -95,9 +84,7 @@ const MyProfilePage = () => {
             username: user?.username,
             displayName: user?.displayName,
             role: user?.role,
-            primaryOrg:
-              user?.groups.find((g) => g.isPrimarySchool)?.displayName ??
-              user?.organization,
+            primaryOrg: user?.groups.find((g) => g.isPrimarySchool)?.displayName ?? user?.organization,
           }}
         />
         <MyPreferences user={user} />
@@ -107,9 +94,7 @@ const MyProfilePage = () => {
               <UserInfo user={user} />
               <Text element="p" textStyle="content-alt" margin="none">
                 {t('user.wrongUserInfoDisclaimer')}
-                <SafeLink to="https://feide.no/brukerstotte">
-                  feide.no/brukerstotte
-                </SafeLink>
+                <SafeLink to="https://feide.no/brukerstotte">feide.no/brukerstotte</SafeLink>
               </Text>
             </InfoPart>
           )}
@@ -122,12 +107,7 @@ const MyProfilePage = () => {
           </Text>
         </InfoContainer>
         <ButtonContainer>
-          <Heading
-            element="h2"
-            id="deleteUserTitle"
-            margin="none"
-            headingStyle="h2"
-          >
+          <Heading element="h2" id="deleteUserTitle" margin="none" headingStyle="h2">
             {t('myNdla.myPage.wishToDelete')}
           </Heading>
           <Modal>
@@ -147,11 +127,7 @@ const MyProfilePage = () => {
                   <ModalCloseButton>
                     <ButtonV2 variant="outline">{t('cancel')}</ButtonV2>
                   </ModalCloseButton>
-                  <ButtonV2
-                    colorTheme="danger"
-                    variant="outline"
-                    onClick={onDeleteAccount}
-                  >
+                  <ButtonV2 colorTheme="danger" variant="outline" onClick={onDeleteAccount}>
                     {t('myNdla.myPage.confirmDeleteAccountButton')}
                   </ButtonV2>
                 </ButtonRow>

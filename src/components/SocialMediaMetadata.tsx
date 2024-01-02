@@ -24,10 +24,7 @@ export const getCanonicalUrl = (location: Location) => {
   return `${config.ndlaFrontendDomain}${paths.join('/')}`;
 };
 
-export const getAlternateUrl = (
-  location: Location,
-  alternateLanguage: string,
-) => {
+export const getAlternateUrl = (location: Location, alternateLanguage: string) => {
   if (!location.pathname.includes('article-iframe')) {
     return `${config.ndlaFrontendDomain}/${alternateLanguage}${location.pathname}`;
   }
@@ -46,9 +43,7 @@ export const getAlternateLanguages = (trackableContent?: TrackableContent) => {
   if (trackableContent?.supportedLanguages?.length === 0) {
     return [];
   }
-  return trackableContent.supportedLanguages.filter((language) =>
-    isValidLocale(language),
-  );
+  return trackableContent.supportedLanguages.filter((language) => isValidLocale(language));
 };
 
 export const getOgUrl = (location: Location, basename: string) => {
@@ -94,9 +89,7 @@ const SocialMediaMetadata = ({
         />
       ))}
       {children}
-      {trackableContent?.tags && (
-        <meta property="keywords" content={`${trackableContent?.tags}`} />
-      )}
+      {trackableContent?.tags && <meta property="keywords" content={`${trackableContent?.tags}`} />}
       <meta property="og:type" content={type} />
       <meta name="twitter:card" content="summary" />
       <meta name="twitter:site" content="@ndla_no" />
@@ -110,22 +103,8 @@ const SocialMediaMetadata = ({
       {audioUrl && <meta property="og:audio" content={audioUrl} />}
       {imageUrl && <meta property="og:image" content={imageUrl} />}
       {imageUrl && <meta name="twitter:image:src" content={imageUrl} />}
-      {!imageUrl ? (
-        <meta
-          name="twitter:image:src"
-          content={`${config.ndlaFrontendDomain}/static/metalogo.jpg`}
-        />
-      ) : (
-        ''
-      )}
-      {!imageUrl ? (
-        <meta
-          property="og:image"
-          content={`${config.ndlaFrontendDomain}/static/metalogo.jpg`}
-        />
-      ) : (
-        ''
-      )}
+      {!imageUrl ? <meta name="twitter:image:src" content={`${config.ndlaFrontendDomain}/static/metalogo.jpg`} /> : ''}
+      {!imageUrl ? <meta property="og:image" content={`${config.ndlaFrontendDomain}/static/metalogo.jpg`} /> : ''}
       <meta property="og:site_name" content="ndla.no" />
     </Helmet>
   );

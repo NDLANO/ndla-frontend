@@ -66,12 +66,7 @@ const FavoriteSubjectsPage = () => {
 
   const allSubjects = useMemo(
     () => (
-      <SafeLinkButton
-        css={buttonCss}
-        variant="ghost"
-        colorTheme="lighter"
-        to="/subjects"
-      >
+      <SafeLinkButton css={buttonCss} variant="ghost" colorTheme="lighter" to="/subjects">
         {t('subjectsPage.allSubjects')}
         <Forward css={iconCss} />
       </SafeLinkButton>
@@ -111,11 +106,7 @@ const FavoriteSubjectsPage = () => {
         ) : (
           <StyledUl>
             {favoriteSubjects.map((subject) => (
-              <StyledSubjectLink
-                key={subject.id}
-                favorites={user?.favoriteSubjects}
-                subject={subject}
-              />
+              <StyledSubjectLink key={subject.id} favorites={user?.favoriteSubjects} subject={subject} />
             ))}
           </StyledUl>
         )}

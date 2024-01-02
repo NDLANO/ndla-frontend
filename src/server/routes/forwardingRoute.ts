@@ -7,15 +7,8 @@
  */
 
 import { NextFunction, Request, Response } from 'express';
-import {
-  isLearningPathResource,
-  getLearningPathUrlFromResource,
-} from '../../containers/Resources/resourceHelpers';
-import {
-  resolveJsonOrRejectWithError,
-  apiResourceUrl,
-  fetch,
-} from '../../util/apiHelpers';
+import { isLearningPathResource, getLearningPathUrlFromResource } from '../../containers/Resources/resourceHelpers';
+import { resolveJsonOrRejectWithError, apiResourceUrl, fetch } from '../../util/apiHelpers';
 
 interface ExternalIds {
   externalIds: string[];
@@ -58,11 +51,7 @@ async function resolve(path: string) {
   return resolveJsonOrRejectWithError<Resolve>(response);
 }
 
-export async function forwardingRoute(
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) {
+export async function forwardingRoute(req: Request, res: Response, next: NextFunction) {
   const { lang } = req.params;
 
   try {
@@ -75,15 +64,9 @@ export async function forwardingRoute(
 
     const languagePrefix = lang && lang !== 'nb' ? lang : ''; // send urls with nb to root/default lang
     if (isLearningPathResource(resource!)) {
-      res.redirect(
-        301,
-        getLearningPathUrlFromResource(resource!, languagePrefix),
-      );
+      res.redirect(301, getLearningPathUrlFromResource(resource!, languagePrefix));
     } else {
-      res.redirect(
-        301,
-        `${languagePrefix ? `/${languagePrefix}` : ''}${data!.path}`,
-      );
+      res.redirect(301, `${languagePrefix ? `/${languagePrefix}` : ''}${data!.path}`);
     }
   } catch (e) {
     next();

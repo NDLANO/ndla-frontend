@@ -32,10 +32,7 @@ const ArticleErrorMessage = ({ status, children }: Props) => {
           }}
           messages={{
             title: t('errorMessage.title'),
-            description:
-              status === 404
-                ? t('articlePage.error404Description')
-                : t('articlePage.errorDescription'),
+            description: status === 404 ? t('articlePage.error404Description') : t('articlePage.errorDescription'),
             goToFrontPage: t('errorMessage.goToFrontPage'),
           }}
         />

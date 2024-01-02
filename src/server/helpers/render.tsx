@@ -18,11 +18,7 @@ import { RedirectInfo } from '../../components/RedirectContext';
 import config from '../../config';
 import { OK, MOVED_PERMANENTLY } from '../../statusCodes';
 
-export function renderPage<T extends object>(
-  Page: ReactElement,
-  assets: Assets,
-  data?: T,
-) {
+export function renderPage<T extends object>(Page: ReactElement, assets: Assets, data?: T) {
   const html = renderToString(Page);
   return {
     html,
@@ -54,8 +50,7 @@ export async function renderPageWithData<T extends object>({
   disableSSR,
 }: Props<T>) {
   if (cache) {
-    const { extractCriticalToChunks, constructStyleTagsFromChunks } =
-      createEmotionServer(cache);
+    const { extractCriticalToChunks, constructStyleTagsFromChunks } = createEmotionServer(cache);
     const html = await renderToStringWithData(Page);
     const chunks = extractCriticalToChunks(html);
     const styles = constructStyleTagsFromChunks(chunks);
@@ -94,9 +89,7 @@ export async function renderHtml(
   props: DocumentData,
   helmetContext: FilledContext,
 ) {
-  const doc = renderToStaticMarkup(
-    <Document {...props} helmet={helmetContext.helmet} />,
-  );
+  const doc = renderToStaticMarkup(<Document {...props} helmet={helmetContext.helmet} />);
 
   if (context.url) {
     return {

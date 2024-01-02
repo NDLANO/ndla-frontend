@@ -9,12 +9,7 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import {
-  AccordionRoot,
-  AccordionItem,
-  AccordionHeader,
-  AccordionContent,
-} from '@ndla/accordion';
+import { AccordionRoot, AccordionItem, AccordionHeader, AccordionContent } from '@ndla/accordion';
 import { spacing, breakpoints, mq, colors } from '@ndla/core';
 import { Heading, Text } from '@ndla/typography';
 import { ContentLoader, ProgrammeCard, ProgrammeV2 } from '@ndla/ui';
@@ -106,33 +101,9 @@ interface Props {
 const placeholder = (
   <ContentLoader width={1150} height={350}>
     <rect x="0" y="10" rx="3" ry="3" width="250" height="350" key="rect-1-1" />
-    <rect
-      x="274"
-      y="10"
-      rx="3"
-      ry="3"
-      width="250"
-      height="350"
-      key="rect-1-2"
-    />
-    <rect
-      x="548"
-      y="10"
-      rx="3"
-      ry="3"
-      width="250"
-      height="350"
-      key="rect-1-3"
-    />
-    <rect
-      x="812"
-      y="10"
-      rx="3"
-      ry="3"
-      width="250"
-      height="350"
-      key="rect-1-4"
-    />
+    <rect x="274" y="10" rx="3" ry="3" width="250" height="350" key="rect-1-2" />
+    <rect x="548" y="10" rx="3" ry="3" width="250" height="350" key="rect-1-3" />
+    <rect x="812" y="10" rx="3" ry="3" width="250" height="350" key="rect-1-4" />
   </ContentLoader>
 );
 
