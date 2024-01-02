@@ -34,8 +34,10 @@ const getIssuer = async () => {
   if (storedIssuer) {
     return storedIssuer;
   }
+  // eslint-disable-next-line no-console
   console.info('Issuer does not exist. Trying to refetch');
   storedIssuer = await Issuer.discover(OPENID_DOMAIN);
+  // eslint-disable-next-line no-console
   console.info('Issuer refetch:', storedIssuer ? 'Success' : 'Failed');
   return storedIssuer;
 };

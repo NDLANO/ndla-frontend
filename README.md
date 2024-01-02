@@ -19,7 +19,7 @@ What's in the box?
 - React
 - GraphQL
 - Express
-- Webpack + Babel (ES6) via Razzle
+- Webpack + Babel (ES6)
 
 ### Dependencies
 
