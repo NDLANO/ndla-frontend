@@ -92,7 +92,10 @@ export const NewTopicPage = () => {
             breadcrumbs={
               categoryId
                 ? [
-                    { name: arenaCategory?.name ?? '', id: categoryId },
+                    {
+                      name: arenaCategory?.name ?? '',
+                      id: `category/${categoryId}`,
+                    },
                     { name: t('myNdla.arena.new.topic'), id: 'newTopic' },
                   ]
                 : []
