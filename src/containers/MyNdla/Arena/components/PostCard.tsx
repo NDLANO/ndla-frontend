@@ -62,7 +62,9 @@ const PostWrapper = styled.div`
 `;
 
 const StyledArenaFormWrapper = styled(ArenaFormWrapper)`
-  margin-left: ${spacing.xlarge};
+  ${mq.range({ from: breakpoints.tablet })} {
+    margin-left: ${spacing.xlarge};
+  }
 `;
 
 const PostCardWrapper = styled.div`
