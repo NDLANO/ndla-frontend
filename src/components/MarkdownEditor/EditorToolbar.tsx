@@ -68,6 +68,11 @@ const StyledButton = styled(IconButtonV2)`
   &[disabled] {
     background: ${colors.brand.greyLighter};
   }
+  &:focus-visible {
+    outline-width: 2px;
+    outline-style: solid;
+    outline-color: ${colors.brand.primary};
+  }
 `;
 
 export const getSelectedNode = (
