@@ -28,10 +28,7 @@ const connectSrc = (() => {
     'https://*.dataporten.no',
     'https://*.clarity.ms',
   ];
-  if (
-    process.env.NODE_ENV === 'development' ||
-    process.env.RAZZLE_LOCAL_ARTICLE_CONVERTER
-  ) {
+  if (process.env.NODE_ENV === 'development') {
     return [
       ...defaultConnectSrc,
       'https://devtools.apollodata.com/graphql',
