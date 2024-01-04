@@ -24,7 +24,7 @@ describe('Toolbox page', () => {
     });
     cy.get('button:contains("Meny")').click();
     cy.get('a:contains("Verktøykassa - for elever")').click();
-    cy.get('[class="o-wrapper "] h1:contains("Verktøykassa – for elever")');
+    cy.get('h1:contains("Verktøykassa – for elever")');
 
     cy.get('[data-testid="nav-box-item"] span').contains(/\w+/);
 
@@ -42,7 +42,7 @@ describe('Toolbox page', () => {
     cy.get('button:contains("Meny")').click();
     cy.get('a:contains("Verktøykassa - for lærere")').click();
 
-    cy.get('[class="o-wrapper "] h1:contains("Verktøykassa – for lærere")');
+    cy.get('h1:contains("Verktøykassa – for lærere")');
 
     cy.get('[data-testid="nav-box-item"] span').contains(/\w+/);
 
