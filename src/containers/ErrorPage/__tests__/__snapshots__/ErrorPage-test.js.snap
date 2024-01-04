@@ -856,7 +856,7 @@ exports[`ErrorPage renderers correctly 1`] = `
       class="o-content"
     >
       <div
-        class="o-wrapper o-wrapper--clear undefined"
+        class="o-wrapper o-wrapper--clear"
       >
         <article
           class="emotion-5 emotion-6"
