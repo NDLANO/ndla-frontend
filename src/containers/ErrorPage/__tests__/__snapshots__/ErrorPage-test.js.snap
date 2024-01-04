@@ -166,14 +166,11 @@ exports[`ErrorPage renderers correctly 1`] = `
   z-index: 10;
 }
 
-.emotion-13:hover {
+.emotion-13:hover,
+.emotion-13:focus-visible {
   color: #20588f;
   background-color: #ceddea;
   border-color: #ceddea;
-}
-
-.emotion-13:focus-visible {
-  border-color: #272728;
 }
 
 .emotion-13[disabled] {
@@ -294,14 +291,11 @@ exports[`ErrorPage renderers correctly 1`] = `
   border-color: #fff;
 }
 
-.emotion-20:hover {
+.emotion-20:hover,
+.emotion-20:focus-visible {
   color: #20588f;
   background-color: #ceddea;
   border-color: #ceddea;
-}
-
-.emotion-20:focus-visible {
-  border-color: #272728;
 }
 
 .emotion-20[disabled] {
@@ -773,14 +767,11 @@ exports[`ErrorPage renderers correctly 1`] = `
   background-color: white;
 }
 
-.emotion-132:hover {
+.emotion-132:hover,
+.emotion-132:focus-visible {
   color: #20588f;
   background-color: #ceddea;
   border-color: #ceddea;
-}
-
-.emotion-132:focus-visible {
-  border-color: #272728;
 }
 
 .emotion-132[disabled] {
