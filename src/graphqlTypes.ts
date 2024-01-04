@@ -2115,12 +2115,6 @@ export type GQLLearningpathStepQuery = {
   };
 };
 
-export type GQLSubjectLinkListSubjectFragment = {
-  __typename?: 'Subject';
-  id: string;
-  name: string;
-};
-
 export type GQLAudioLicenseList_AudioLicenseFragment = {
   __typename?: 'AudioLicense';
   id: string;

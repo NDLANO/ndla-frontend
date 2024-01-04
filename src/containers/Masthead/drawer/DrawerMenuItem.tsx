@@ -17,7 +17,6 @@ import { DrawerListItem } from './DrawerPortion';
 interface BaseProps {
   bold?: boolean;
   type: 'button' | 'link';
-  className?: string;
   active?: boolean;
   id: string;
   current?: boolean;
@@ -101,7 +100,6 @@ type Props = DrawerMenuButtonProps | DrawerMenuLinkProps;
 const DrawerMenuItem = ({
   bold,
   children,
-  className,
   active,
   current,
   id,
@@ -120,7 +118,6 @@ const DrawerMenuItem = ({
           id={id}
           onClick={() => specificProps.onClick(!!active)}
           css={[style, active ? activeStyle : []]}
-          className={className}
         >
           <TextWrapper>
             {children}
@@ -141,7 +138,6 @@ const DrawerMenuItem = ({
           aria-current={current ? 'page' : undefined}
           to={specificProps.to}
           onClick={specificProps.onClose}
-          className={className}
           css={[style, active ? activeStyle : []]}
         >
           <TextWrapper>
