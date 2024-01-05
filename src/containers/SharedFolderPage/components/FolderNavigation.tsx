@@ -6,6 +6,7 @@
  *
  */
 
+import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { breakpoints, mq, spacing } from '@ndla/core';
@@ -37,6 +38,7 @@ const RootUl = styled(StyledUl)`
 
 const FolderNavigation = ({ folder, meta, onClose }: Props) => {
   const { subfolderId, resourceId, folderId } = useParams();
+  const { t } = useTranslation();
 
   const defaultSelected =
     subfolderId && resourceId
@@ -49,7 +51,7 @@ const FolderNavigation = ({ folder, meta, onClose }: Props) => {
   });
 
   return (
-    <nav>
+    <nav aria-label={t('myNdla.folder.navigation')}>
       <RootUl role="tree" data-list>
         <Folder
           setFocus={setFocused}
