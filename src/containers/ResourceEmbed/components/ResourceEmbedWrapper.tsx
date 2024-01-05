@@ -32,7 +32,7 @@ interface Props {
 
 const TitleWrapper = styled.div`
   display: flex;
-  gap: ${spacing.normal};
+  gap: ${spacing.medium};
   align-items: flex-start;
   h1 {
     margin: 0;
