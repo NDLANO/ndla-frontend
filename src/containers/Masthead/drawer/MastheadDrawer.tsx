@@ -200,7 +200,7 @@ const MastheadDrawer = ({ subject }: Props) => {
         <MainMenu>
           <HeadWrapper>
             <ModalCloseButton>
-              <ButtonV2 variant="outline" shape="pill">
+              <ButtonV2 variant="outline" shape="pill" aria-expanded="true">
                 <Cross />
                 {t('close')}
               </ButtonV2>
