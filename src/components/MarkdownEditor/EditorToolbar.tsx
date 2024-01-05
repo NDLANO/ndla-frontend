@@ -55,7 +55,7 @@ const ButtonRow = styled.div`
   background-color: ${colors.white};
   border-top-left-radius: ${misc.borderRadius};
   border-top-right-radius: ${misc.borderRadius};
-  border-bottom: 1px solid ${colors.brand.greyLight};
+  border-bottom: 1px solid ${colors.brand.grey};
   padding: ${spacing.small};
 `;
 
@@ -67,6 +67,11 @@ const StyledButton = styled(IconButtonV2)`
   }
   &[disabled] {
     background: ${colors.brand.greyLighter};
+  }
+  &:focus-visible {
+    outline-width: 2px;
+    outline-style: solid;
+    outline-color: ${colors.brand.primary};
   }
 `;
 
