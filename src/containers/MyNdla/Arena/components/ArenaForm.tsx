@@ -76,6 +76,7 @@ interface ArenaFormProps {
   onSave: (data: Partial<ArenaFormValues>) => Promise<void>;
   onAbort: () => void;
   loading?: boolean;
+  id?: number;
 }
 
 export interface ArenaFormValues {
@@ -83,7 +84,6 @@ export interface ArenaFormValues {
   content: string;
 }
 
-const contentMaxLength = 300;
 const titleMaxLength = 64;
 
 const ArenaForm = ({
@@ -92,6 +92,7 @@ const ArenaForm = ({
   type,
   initialTitle,
   initialContent,
+  id,
 }: ArenaFormProps) => {
   const { t } = useTranslation();
   const { validationT } = useValidationTranslation();
@@ -106,6 +107,17 @@ const ArenaForm = ({
   useEffect(() => {
     trigger();
   }, [trigger]);
+
+  useEffect(() => {
+    type === 'topic'
+      ? setTimeout(() => document.getElementById('field-title')?.focus(), 1)
+      : id
+        ? setTimeout(
+            () => document.getElementById(`field-editor-${id}`)?.focus(),
+            1,
+          )
+        : setTimeout(() => document.getElementById(`field-editor`)?.focus(), 1);
+  }, []);
 
   const onSubmit = async (data: ArenaFormValues) => {
     await onSave(
@@ -158,18 +170,10 @@ const ArenaForm = ({
         name="content"
         rules={{
           required: validationT({ type: 'required', field: 'content' }),
-          maxLength: {
-            value: contentMaxLength,
-            message: validationT({
-              type: 'maxLength',
-              field: 'content',
-              vars: { count: contentMaxLength },
-            }),
-          },
         }}
         render={({ field, fieldState }) => (
           <FormControl
-            id="editor"
+            id={id ? `editor-${id}` : 'editor'}
             isRequired
             isInvalid={!!fieldState.error?.message}
           >

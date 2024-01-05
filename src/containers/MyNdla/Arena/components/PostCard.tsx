@@ -15,6 +15,7 @@ import {
   useCallback,
   useContext,
   useMemo,
+  useRef,
   useState,
 } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -137,6 +138,7 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId }: Props) => {
     content,
     user: { displayName, username, location },
   } = post;
+  const replyToRef = useRef<HTMLButtonElement | null>(null);
 
   const {
     t,
@@ -314,7 +316,11 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId }: Props) => {
             {menu}
             {postTime}
           </FlexLine>
-          <ButtonV2 onClick={() => setIsReplying(true)} disabled={isReplying}>
+          <ButtonV2
+            ref={replyToRef}
+            onClick={() => setIsReplying(true)}
+            disabled={isReplying}
+          >
             {t('myNdla.arena.new.post')}
           </ButtonV2>
         </>
@@ -334,6 +340,7 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId }: Props) => {
       <PostCardWrapper id={`post-${postId}`}>
         {isEditing ? (
           <ArenaForm
+            id={postId}
             type={type}
             initialTitle={topic?.title}
             initialContent={post.content}
@@ -388,7 +395,10 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId }: Props) => {
       {isReplying && (
         <StyledArenaFormWrapper>
           <ArenaForm
-            onAbort={() => setIsReplying(false)}
+            onAbort={async () => {
+              setIsReplying(false);
+              setTimeout(() => replyToRef.current?.focus(), 1);
+            }}
             type="post"
             onSave={async (values) => {
               await createReply(values);
