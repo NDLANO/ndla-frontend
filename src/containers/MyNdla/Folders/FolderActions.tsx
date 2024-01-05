@@ -27,7 +27,6 @@ import { FolderShareModalContent } from './FolderShareModal';
 import {
   copyFolderSharingLink,
   isStudent,
-  previewLink,
   sharedFolderLinkInternal,
 } from './util';
 import { AuthContext } from '../../../components/AuthenticationContext';
@@ -213,14 +212,8 @@ const FolderActions = ({
 
     const previewFolder: MenuItemProps = {
       icon: <ShareArrow />,
-      link:
-        selectedFolder.status === 'shared'
-          ? sharedFolderLinkInternal(selectedFolder.id)
-          : previewLink(selectedFolder.id),
-      text:
-        selectedFolder.status === 'shared'
-          ? t('myNdla.folder.sharing.button.goTo')
-          : t('myNdla.folder.sharing.button.preview'),
+      link: sharedFolderLinkInternal(selectedFolder.id),
+      text: t('myNdla.folder.sharing.button.goTo'),
       onClick: () => {
         navigate(sharedFolderLinkInternal(selectedFolder.id));
       },
@@ -339,7 +332,7 @@ const FolderActions = ({
       );
     }
 
-    return actions.concat(editFolder, share, previewFolder, deleteOpt);
+    return actions.concat(editFolder, share, deleteOpt);
   }, [
     updateFolderStatus,
     onFolderUpdated,

@@ -129,7 +129,7 @@ const config: ConfigType = {
   redirectPort: getEnvironmentVariabel('NDLA_REDIRECT_PORT', '3001'),
   logEnvironment: getEnvironmentVariabel('NDLA_ENVIRONMENT', 'local'),
   logglyApiKey: logglyApiKey(),
-  disableSSR: getEnvironmentVariabel('RAZZLE_DISABLE_SSR', false),
+  disableSSR: getEnvironmentVariabel('DISABLE_SSR', false),
   isNdlaProdEnvironment: ndlaEnvironment === 'prod',
   ndlaApiUrl: getEnvironmentVariabel('NDLA_API_URL', apiDomain()),
   ndlaFrontendDomain: getEnvironmentVariabel(

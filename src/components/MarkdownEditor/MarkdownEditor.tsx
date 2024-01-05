@@ -67,11 +67,20 @@ const StyledEditorContainer = styled.div`
   width: 100%;
   flex-direction: column;
   border-radius: ${misc.borderRadius};
-  border: 1px solid ${colors.brand.greyLight};
+  border: 1px solid ${colors.brand.grey};
 `;
 
 const InnerEditorContainer = styled.div`
   position: relative;
+`;
+
+const StyledContentEditable = styled(ContentEditable)`
+  &:focus-visible {
+    outline-width: 2px;
+    outline-style: solid;
+    outline-color: ${colors.brand.primary};
+    border-radius: ${misc.borderRadius};
+  }
 `;
 
 interface Props {
@@ -129,7 +138,11 @@ export const MarkdownEditor = forwardRef(
             <RichTextPlugin
               contentEditable={
                 <EditableWrapper ref={onRef}>
-                  <ContentEditable name={name} role="textbox" {...props} />
+                  <StyledContentEditable
+                    name={name}
+                    role="textbox"
+                    {...props}
+                  />
                 </EditableWrapper>
               }
               placeholder={<span />}

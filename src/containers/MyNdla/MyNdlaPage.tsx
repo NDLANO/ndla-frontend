@@ -133,7 +133,7 @@ const MyNdlaPage = () => {
               title: t('myndla.campaignBlock.title'),
               language: i18n.language,
             }}
-            headingLevel="h3"
+            headingLevel="h2"
             image={{
               src: '/static/ndla-ai.png',
               alt: '',

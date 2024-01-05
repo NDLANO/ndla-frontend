@@ -17,7 +17,7 @@ import { Assets } from '../helpers/Document';
 import { renderHtml, renderPage } from '../helpers/render';
 
 //@ts-ignore
-const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
+const assets = require(process.env.ASSETS_MANIFEST);
 
 const getAssets = (): Assets => ({
   css: assets['client.css'],

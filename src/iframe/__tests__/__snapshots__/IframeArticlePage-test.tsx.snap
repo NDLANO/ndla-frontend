@@ -362,7 +362,16 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   background-color: #ffffff;
 }
 
-.emotion-21 {
+.emotion-22 {
+  display: inline-block;
+  fill: currentColor;
+  vertical-align: middle;
+  line-height: 1em;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
   color: #20588f;
   -webkit-transition: all 200ms ease-in-out;
   transition: all 200ms ease-in-out;
@@ -370,33 +379,33 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   height: 24px;
 }
 
-.emotion-20[data-state='open']>.emotion-21 {
+.emotion-20[data-state='open']>.emotion-22 {
   -webkit-transform: rotate(180deg);
   -moz-transform: rotate(180deg);
   -ms-transform: rotate(180deg);
   transform: rotate(180deg);
 }
 
-.emotion-23 {
+.emotion-24 {
   overflow: hidden;
 }
 
-.emotion-23[data-state='open'] {
+.emotion-24[data-state='open'] {
   -webkit-animation: animation-0 300ms ease-out;
   animation: animation-0 300ms ease-out;
 }
 
-.emotion-23[data-state='closed'] {
+.emotion-24[data-state='closed'] {
   -webkit-animation: animation-1 300ms ease-out;
   animation: animation-1 300ms ease-out;
 }
 
-.emotion-23[data-disable-animate='true'] {
+.emotion-24[data-disable-animate='true'] {
   -webkit-animation: none;
   animation: none;
 }
 
-.emotion-25 {
+.emotion-26 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -407,7 +416,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   justify-content: flex-end;
 }
 
-.emotion-27 {
+.emotion-28 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -418,7 +427,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   align-items: center;
 }
 
-.emotion-29 {
+.emotion-30 {
   color: #595959;
   margin-right: 38px;
   font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
@@ -427,17 +436,17 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   line-height: 20px;
 }
 
-.emotion-29:where([lang='zh'], .emotion-29[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-30:where([lang='zh'], .emotion-30[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(20px * 1.11);
   font-size: calc(1.1111111111111112rem * 1.11);
 }
 
-.emotion-31 {
+.emotion-32 {
   color: #595959;
 }
 
 <div
-    class="o-wrapper undefined"
+    class="o-wrapper"
   >
     <main>
       <div>
@@ -542,31 +551,27 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                       Regler for bruk
                       <svg
                         aria-hidden="true"
-                        class="c-icon emotion-21 emotion-22"
+                        class="emotion-21 emotion-22 emotion-23"
+                        data-icon=""
                         data-license="Apache License 2.0"
                         data-source="Material Design"
                         fill="currentColor"
-                        height="1em"
                         preserveAspectRatio="xMidYMid meet"
-                        style="vertical-align: middle;"
                         viewBox="0 0 24 24"
-                        width="1em"
                       >
-                        <g>
-                          <path
-                            d="M16.6 8.6 12 13.2 7.4 8.6 6 10l6 6 6-6z"
-                          />
-                          <path
-                            d="M0 0h24v24H0z"
-                            fill="none"
-                          />
-                        </g>
+                        <path
+                          d="M16.6 8.6 12 13.2 7.4 8.6 6 10l6 6 6-6z"
+                        />
+                        <path
+                          d="M0 0h24v24H0z"
+                          fill="none"
+                        />
                       </svg>
                     </button>
                   </h2>
                   <div
                     aria-labelledby="radix-:r0:"
-                    class="emotion-23 emotion-24"
+                    class="emotion-24 emotion-25"
                     data-orientation="vertical"
                     data-state="closed"
                     hidden=""
@@ -582,16 +587,16 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
             class="u-10/12@desktop u-push-1/12@desktop u-10/12@tablet u-push-1/12@tablet"
           >
             <div
-              class="emotion-25 emotion-26"
+              class="emotion-26 emotion-27"
             >
               <div
-                class="emotion-27 emotion-28"
+                class="emotion-28 emotion-29"
               >
                 <div
-                  class="emotion-29 emotion-30"
+                  class="emotion-30 emotion-31"
                 >
                   <a
-                    class="emotion-31 emotion-32"
+                    class="emotion-32 emotion-33"
                     href="https://test.ndla.no/subject:1/resource:1"
                     target="_blank"
                   >
@@ -599,7 +604,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                   </a>
                    er hentet fra 
                   <a
-                    class="emotion-31 emotion-32"
+                    class="emotion-32 emotion-33"
                     href="https://ndla.no"
                     target="_blank"
                   >
@@ -690,7 +695,7 @@ exports[`IframePage with article displays error message on status === error 1`] 
     class="o-container"
   >
     <div
-      class="o-wrapper o-wrapper--clear undefined"
+      class="o-wrapper o-wrapper--clear"
     >
       <article
         class="emotion-0 emotion-1"

@@ -69,6 +69,12 @@ const StyledResource = styled.p`
   margin: 0;
 `;
 
+const StyledInfoMessages = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${spacing.small};
+`;
+
 interface ResourceAddedSnackProps {
   folder: GQLFolder;
 }
@@ -222,9 +228,15 @@ const AddResourceToFolder = ({
             defaultOpenFolder={defaultOpenFolder}
             storedResource={storedResource}
           />
-          <div id="treestructure-error-label" aria-live="assertive">
+          <StyledInfoMessages
+            id="treestructure-error-label"
+            aria-live="assertive"
+          >
             {alreadyAdded && (
               <MessageBox>{t('myNdla.alreadyInFolder')}</MessageBox>
+            )}
+            {selectedFolder?.status === 'shared' && (
+              <MessageBox>{t('myNdla.addInSharedFolder')}</MessageBox>
             )}
             {noFolderSelected && (
               <MessageBox type="danger">
@@ -232,7 +244,7 @@ const AddResourceToFolder = ({
                 {t('myNdla.noFolderSelected')}
               </MessageBox>
             )}
-          </div>
+          </StyledInfoMessages>
           <ComboboxContainer>
             <TagSelector
               label={t('myNdla.myTags')}

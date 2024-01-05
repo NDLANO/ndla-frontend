@@ -9,30 +9,16 @@
 import { ReactNode } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
-import { breakpoints, colors, fonts, mq, spacing } from '@ndla/core';
-import SafeLink from '@ndla/safelink';
+import { breakpoints, colors, mq, spacing, fonts } from '@ndla/core';
+import { SafeLinkButton } from '@ndla/safelink';
 import { Text } from '@ndla/typography';
 
-const StyledSafeLink = styled(SafeLink)`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  text-align: center;
-  padding: ${spacing.small};
-  margin: 0;
-  gap: ${spacing.xsmall};
-  box-shadow: none;
-
+const StyledSafeLink = styled(SafeLinkButton)`
   color: ${colors.brand.primary};
-  font-weight: ${fonts.weight.normal};
-
-  &[aria-current='page'] {
-    color: ${colors.brand.primary};
-    font-weight: ${fonts.weight.semibold};
-  }
-
-  ${fonts.sizes('16px')};
-
+  width: 100%;
+  display: flex;
+  align-self: center;
+  justify-content: flex-start;
   svg {
     height: ${spacing.normal};
     width: ${spacing.normal};
@@ -50,6 +36,10 @@ const IconWrapper = styled.span`
 `;
 
 const LongText = styled(Text)`
+  font-weight: ${fonts.weight.semibold};
+  &[data-current='true'] {
+    font-weight: ${fonts.weight.bold};
+  }
   ${mq.range({ until: breakpoints.desktop })} {
     display: none;
     width: 0px;
@@ -90,13 +80,19 @@ const NavigationLink = ({
 
   return (
     <StyledSafeLink
+      colorTheme="lighter"
+      variant="ghost"
       aria-current={selected ? 'page' : undefined}
       to={linkTo}
       reloadDocument={!!to}
       onClick={onClick}
     >
       <IconWrapper>{selectedIcon}</IconWrapper>
-      <LongText textStyle="meta-text-small" margin="none">
+      <LongText
+        textStyle="meta-text-small"
+        margin="none"
+        data-current={selected}
+      >
         {name}
       </LongText>
       <ShortText textStyle="meta-text-xxsmall" margin="none">

@@ -61,7 +61,7 @@ const allowedBodyContentTypes = [
 app.disable('x-powered-by');
 app.enable('trust proxy');
 
-const PublicDir = process.env.RAZZLE_PUBLIC_DIR ?? '';
+const PublicDir = process.env.PUBLIC_DIR ?? '';
 
 const ndlaMiddleware = [
   express.static(PublicDir, {
