@@ -103,7 +103,8 @@ const TimestampText = styled(Text)`
 `;
 
 const Content = styled(Text)`
-  ul {
+  ul,
+  ol {
     padding-left: ${spacing.normal};
   }
   word-wrap: break-word;
