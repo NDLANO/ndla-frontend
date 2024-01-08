@@ -104,7 +104,7 @@ const TopicPage = () => {
         <Heading element="h2" headingStyle="h2" margin="none">
           {t('myNdla.arena.posts.title')}
         </Heading>
-        <SafeLinkButton to="newTopic">
+        <SafeLinkButton to="topic/new">
           {t('myNdla.arena.new.topic')}
         </SafeLinkButton>
       </StyledContainer>

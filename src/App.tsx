@@ -172,7 +172,7 @@ const AppRoutes = ({ base }: AppProps) => {
                     <Route index element={<ArenaPage />} />
                     <Route path="category/:categoryId">
                       <Route index element={<TopicPage />} />
-                      <Route path="newTopic" element={<NewTopicPage />} />
+                      <Route path="topic/new" element={<NewTopicPage />} />
                     </Route>
                     <Route path="topic/:topicId" element={<PostsPage />} />
                     <Route
