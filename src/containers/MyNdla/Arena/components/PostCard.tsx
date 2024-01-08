@@ -107,7 +107,7 @@ const Content = styled(Text)`
   ol {
     padding-left: ${spacing.normal};
   }
-  word-wrap: break-word;
+  word-break: break-word;
 `;
 
 const Locales = {
