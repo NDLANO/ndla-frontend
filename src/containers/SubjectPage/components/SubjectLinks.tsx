@@ -14,7 +14,7 @@ import { spacing } from '@ndla/core';
 import SafeLink from '@ndla/safelink';
 
 const ComponentRoot = styled.ul`
-  margin-bottom: ${spacing.medium};
+  padding: 0 0 ${spacing.medium} 0;
   list-style: none;
 `;
 
