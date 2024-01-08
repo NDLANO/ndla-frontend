@@ -61,7 +61,6 @@ class CopyTextButton extends Component<Props, State> {
       >
         <ButtonV2
           variant="outline"
-          className="c-licenseToggle__button"
           disabled={hasCopied}
           onClick={this.handleClick}
         >

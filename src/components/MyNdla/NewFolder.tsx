@@ -23,7 +23,6 @@ interface Props {
   onClose?: () => void;
   initialValue?: string;
   onCreate?: (folder: GQLFolder, parentId: string) => void;
-  className?: string;
 }
 
 const NewFolder = ({
@@ -31,7 +30,6 @@ const NewFolder = ({
   onClose,
   initialValue = '',
   onCreate,
-  className,
 }: Props) => {
   const [name, setName] = useState(initialValue);
   const hasWritten = useRef(false);
@@ -90,7 +88,6 @@ const NewFolder = ({
 
   return (
     <FolderInput
-      className={className}
       // Necessary to move focus from new folder-button to input on click
       // eslint-disable-next-line jsx-a11y/no-autofocus
       autoFocus

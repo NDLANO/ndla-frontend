@@ -213,7 +213,7 @@ const MenuModalContent = ({
         </CloseWrapper>
       </StyledModalHeader>
       <StyledModalBody>
-        <nav>
+        <nav aria-label={t('myNdla.myNDLAMenu')}>
           <MenuItems role="tablist">{links}</MenuItems>
         </nav>
         {showButtons && (!!buttons || user?.arenaEnabled) && (

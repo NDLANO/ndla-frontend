@@ -206,7 +206,7 @@ const MastheadDrawer = ({ subject }: Props) => {
               </ButtonV2>
             </ModalCloseButton>
           </HeadWrapper>
-          <DrawerContainer>
+          <DrawerContainer aria-label={t('myNdla.mainMenu')}>
             <DrawerProvider>
               <DefaultMenu
                 dynamicId={

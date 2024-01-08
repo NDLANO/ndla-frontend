@@ -82,7 +82,7 @@ const ArenaPage = () => {
                 id={category.id}
                 title={category.name}
                 subText={category.description}
-                count={category.topicCount}
+                //count={category.topicCount}
               />
             </ArenaCardWrapper>
           ))}

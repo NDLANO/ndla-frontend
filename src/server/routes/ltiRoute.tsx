@@ -30,7 +30,7 @@ const bodyFields: Record<string, { required: boolean; value?: any }> = {
 };
 
 //@ts-ignore
-const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
+const assets = require(process.env.ASSETS_MANIFEST);
 
 if (process.env.NODE_ENV === 'unittest') {
   HelmetProvider.canUseDOM = false;

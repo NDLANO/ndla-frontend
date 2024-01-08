@@ -117,7 +117,7 @@ const ArenaForm = ({
             1,
           )
         : setTimeout(() => document.getElementById(`field-editor`)?.focus(), 1);
-  }, []);
+  }, [id, type]);
 
   const onSubmit = async (data: ArenaFormValues) => {
     await onSave(
