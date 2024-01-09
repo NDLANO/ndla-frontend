@@ -70,6 +70,7 @@ const StyledLi = styled.li`
   }
 
   padding: 0;
+  margin: 0;
   ${mq.range({ from: breakpoints.mobileWide })} {
     display: unset !important;
   }

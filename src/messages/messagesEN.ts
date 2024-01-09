@@ -31,6 +31,7 @@ const messages = {
     arenaPage: `Arena - ${titleTemplate}`,
     arenaTopicPage: `{{name}} - Arena - ${titleTemplate}`,
     arenaPostPage: `{{name}} - Arena - ${titleTemplate}`,
+    arenaNewTopicPage: `New post - Arena - ${titleTemplate}`,
   },
   podcastPage: {
     episodes: 'Episodes',

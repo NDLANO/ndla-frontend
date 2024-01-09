@@ -125,7 +125,7 @@ const PostsPage = () => {
       if (document.referrer.includes('/minndla')) {
         navigate(-1);
       } else {
-        navigate('/minndla');
+        navigate('/minndla/arena');
       }
       addSnack({
         content: t('myNdla.arena.topic.isDeleted'),
