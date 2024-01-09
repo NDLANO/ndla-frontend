@@ -18,6 +18,7 @@ import AllSubjectsPage from './containers/AllSubjectsPage/AllSubjectsPage';
 import ErrorPage from './containers/ErrorPage/ErrorPage';
 import ArenaNotificationPage from './containers/MyNdla/Arena/ArenaNotificationsPage';
 import ArenaPage from './containers/MyNdla/Arena/ArenaPage';
+import { NewTopicPage } from './containers/MyNdla/Arena/NewTopicPage';
 import PostsPage from './containers/MyNdla/Arena/PostsPage';
 import TopicPage from './containers/MyNdla/Arena/TopicPage';
 import ArenaUserPage from './containers/MyNdla/ArenaUserPage';
@@ -169,10 +170,10 @@ const AppRoutes = ({ base }: AppProps) => {
                   </Route>
                   <Route path="arena">
                     <Route index element={<ArenaPage />} />
-                    <Route
-                      path="category/:categoryId"
-                      element={<TopicPage />}
-                    />
+                    <Route path="category/:categoryId">
+                      <Route index element={<TopicPage />} />
+                      <Route path="topic/new" element={<NewTopicPage />} />
+                    </Route>
                     <Route path="topic/:topicId" element={<PostsPage />} />
                     <Route
                       path="notifications"
