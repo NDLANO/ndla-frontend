@@ -117,7 +117,7 @@ const TimestampText = styled(Text)`
 `;
 
 const StyledContent = styled(Text)`
-  word-wrap: break-word;
+  word-break: break-word;
 `;
 
 const Locales = {

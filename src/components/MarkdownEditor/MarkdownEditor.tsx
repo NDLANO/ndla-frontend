@@ -106,6 +106,7 @@ export const MarkdownEditor = forwardRef(
           parser.parseFromString(initialValue, 'text/html'),
         );
         $getRoot().select().insertNodes(nodes);
+        setContentWritten($convertToMarkdownString(PLAYGROUND_TRANSFORMERS));
       },
     };
 
