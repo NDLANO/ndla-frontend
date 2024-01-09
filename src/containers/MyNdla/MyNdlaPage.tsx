@@ -7,7 +7,7 @@
  */
 
 import keyBy from 'lodash/keyBy';
-import { useContext, useEffect, useMemo } from 'react';
+import { useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { colors, fonts, spacing } from '@ndla/core';
@@ -21,7 +21,6 @@ import { useRecentTopics } from './arenaQueries';
 import MyNdlaPageWrapper from './components/MyNdlaPageWrapper';
 import MyNdlaTitle from './components/MyNdlaTitle';
 import TitleWrapper from './components/TitleWrapper';
-import { useAiOrgs } from './configQueries';
 import {
   useFolderResourceMetaSearch,
   useRecentlyUsedResources,
@@ -91,7 +90,6 @@ const MyNdlaPage = () => {
   const { t, i18n } = useTranslation();
   const { trackPageView } = useTracker();
   const { allFolderResources } = useRecentlyUsedResources();
-  const { data: aiData } = useAiOrgs();
   const recentArenaTopicsQuery = useRecentTopics({ skip: !user?.arenaEnabled });
   const { data: metaData, loading } = useFolderResourceMetaSearch(
     allFolderResources?.map((r) => ({
@@ -116,11 +114,6 @@ const MyNdlaPage = () => {
 
   const aiLang = i18n.language === 'nn' ? 'nn' : '';
 
-  const allowedAiOrgs = useMemo(() => {
-    if (!aiData?.aiEnabledOrgs?.value) return [];
-    return aiData?.aiEnabledOrgs.value;
-  }, [aiData]);
-
   return (
     <MyNdlaPageWrapper>
       <StyledPageContentContainer>
@@ -129,30 +122,28 @@ const MyNdlaPage = () => {
           <MyNdlaTitle title={t('myNdla.myNDLA')} />
         </TitleWrapper>
         <StyledDescription>{t('myNdla.myPage.welcome')}</StyledDescription>
-        {allowedAiOrgs.includes(user?.organization ?? '') && (
-          <StyledCampaignBlock
-            title={{
-              title: t('myndla.campaignBlock.title'),
-              language: i18n.language,
-            }}
-            headingLevel="h2"
-            image={{
-              src: '/static/ndla-ai.png',
-              alt: '',
-            }}
-            imageSide="left"
-            url={{
-              url: `https://ai.ndla.no/${aiLang}`,
-              text: t('myndla.campaignBlock.linkText'),
-            }}
-            description={{
-              text: isStudent(user)
-                ? t('myndla.campaignBlock.ingressStudent')
-                : t('myndla.campaignBlock.ingress'),
-              language: i18n.language,
-            }}
-          />
-        )}
+        <StyledCampaignBlock
+          title={{
+            title: t('myndla.campaignBlock.title'),
+            language: i18n.language,
+          }}
+          headingLevel="h2"
+          image={{
+            src: '/static/ndla-ai.png',
+            alt: '',
+          }}
+          imageSide="left"
+          url={{
+            url: `https://ai.ndla.no/${aiLang}`,
+            text: t('myndla.campaignBlock.linkText'),
+          }}
+          description={{
+            text: isStudent(user)
+              ? t('myndla.campaignBlock.ingressStudent')
+              : t('myndla.campaignBlock.ingress'),
+            language: i18n.language,
+          }}
+        />
         {allFolderResources && allFolderResources.length > 0 && (
           <SectionWrapper>
             <Heading element="h2" headingStyle="h2" margin="small">
