@@ -18,6 +18,7 @@ import {
   useRef,
   useState,
 } from 'react';
+import { isMobile } from 'react-device-detect';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
@@ -78,8 +79,8 @@ const PostCardWrapper = styled.div`
 const PostHeader = styled.div`
   display: flex;
   justify-content: space-between;
-  ${mq.range({ until: breakpoints.desktop })} {
-    flex-direction: column-reverse;
+  ${mq.range({ until: breakpoints.tablet })} {
+    flex-direction: column;
   }
 `;
 
@@ -308,9 +309,9 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId }: Props) => {
     </TimestampText>
   );
 
-  const options = (isMainPost: Boolean) => {
-    if (isMainPost) {
-      return (
+  const options = useMemo(
+    () =>
+      isMainPost ? (
         <>
           <FlexLine>
             {menu}
@@ -324,16 +325,47 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId }: Props) => {
             {t('myNdla.arena.new.post')}
           </ButtonV2>
         </>
-      );
-    } else {
-      return (
+      ) : (
         <>
           {postTime}
           {menu}
         </>
-      );
-    }
-  };
+      ),
+    [menu, isMainPost, t, postTime, replyToRef, setIsReplying, isReplying],
+  );
+
+  const followSwitch = isMainPost ? (
+    <StyledSwitch
+      onChange={onFollowChange}
+      checked={!!topic?.isFollowing}
+      label={t('myNdla.arena.posts.notify')}
+      id={t('myNdla.arena.posts.notify')}
+    />
+  ) : null;
+
+  const profileTag = (
+    <UserProfileTag
+      displayName={displayName}
+      username={username}
+      affiliation={location ?? ''}
+    />
+  );
+
+  const header = useMemo(
+    () =>
+      isMobile ? (
+        <>
+          {followSwitch}
+          {profileTag}
+        </>
+      ) : (
+        <>
+          {profileTag}
+          {followSwitch}
+        </>
+      ),
+    [followSwitch, profileTag],
+  );
 
   return (
     <PostWrapper>
@@ -354,21 +386,7 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId }: Props) => {
           />
         ) : (
           <>
-            <PostHeader>
-              <UserProfileTag
-                displayName={displayName}
-                username={username}
-                affiliation={location ?? ''}
-              />
-              {isMainPost && (
-                <StyledSwitch
-                  onChange={onFollowChange}
-                  checked={!!topic?.isFollowing}
-                  label={t('myNdla.arena.posts.notify')}
-                  id={t('myNdla.arena.posts.notify')}
-                />
-              )}
-            </PostHeader>
+            <PostHeader>{header}</PostHeader>
             <ContentWrapper>
               {isMainPost && (
                 <Heading
@@ -388,7 +406,7 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId }: Props) => {
                 {parse(content)}
               </StyledContent>
             </ContentWrapper>
-            <FlexLine>{options(isMainPost)}</FlexLine>
+            <FlexLine>{options}</FlexLine>
           </>
         )}
       </PostCardWrapper>
