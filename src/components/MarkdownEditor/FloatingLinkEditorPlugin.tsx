@@ -156,6 +156,7 @@ const FloatingLinkEditor = ({
   const { t } = useTranslation();
   const editorRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const [linkText, setLinkText] = useState('');
   const [linkUrl, setLinkUrl] = useState('');
   const [editedLinkElement, setEditedLinkElement] =
     useState<LexicalNode | null>(null);
@@ -170,7 +171,7 @@ const FloatingLinkEditor = ({
       return t('markdownEditor.link.error.invalid');
     } else return undefined;
   }, [editedLinkUrl, t]);
-  const isDirty = editedLinkUrl !== linkUrl;
+  const isDirty = editedLinkUrl !== linkUrl || editedLinkText !== linkText;
 
   const updateLinkEditor = useCallback(() => {
     const selection = $getSelection();
@@ -178,21 +179,27 @@ const FloatingLinkEditor = ({
       const node = getSelectedNode(selection);
       const linkParent = $findMatchingParent(node, $isLinkNode);
 
-      let linkUrl = undefined;
+      let linkUrl = undefined,
+        linkText = undefined;
       if (linkParent) {
         linkUrl = linkParent.getURL();
+        linkText = linkParent.getFirstChild().getTextContent();
         setEditedLinkElement(linkParent);
       } else if ($isLinkNode(node)) {
         linkUrl = node.getURL();
+        linkText = node.getFirstChild()?.getTextContent();
         setEditedLinkElement(node);
       }
 
       setLinkUrl(linkUrl ?? '');
+      setLinkText(linkText ?? '');
       if (!selection.is(lastSelection)) {
         setIsLinkEditMode(linkUrl);
         if (linkUrl) {
           setEditedLinkUrl(linkUrl);
-          setEditedLinkText(node.__text);
+        }
+        if (linkText) {
+          setEditedLinkText(linkText);
         }
       }
     }
@@ -235,6 +242,7 @@ const FloatingLinkEditor = ({
       setEditedLinkUrl('');
       setEditedLinkText('');
       setLinkUrl('');
+      setLinkText('');
     }
 
     return true;
@@ -279,6 +287,7 @@ const FloatingLinkEditor = ({
           setEditedLinkUrl('');
           setEditedLinkText('');
           setLinkUrl('');
+          setLinkText('');
           setIsLinkEditMode(true);
           return true;
         },
@@ -352,6 +361,7 @@ const FloatingLinkEditor = ({
     setEditedLinkUrl('');
     setEditedLinkText('');
     setLinkUrl('');
+    setLinkText('');
     setIsLinkEditMode(false);
     setEditedLinkElement(null);
   };
