@@ -23,6 +23,7 @@ import {
   createCommand,
   $createTextNode,
   $createParagraphNode,
+  LexicalNode,
 } from 'lexical';
 import {
   Dispatch,
@@ -156,6 +157,8 @@ const FloatingLinkEditor = ({
   const editorRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const [linkUrl, setLinkUrl] = useState('');
+  const [editedLinkElement, setEditedLinkElement] =
+    useState<LexicalNode | null>(null);
   const [editedLinkText, setEditedLinkText] = useState('');
   const [editedLinkUrl, setEditedLinkUrl] = useState('');
   const [lastSelection, setLastSelection] = useState<LexicalSelection>(null);
@@ -178,8 +181,10 @@ const FloatingLinkEditor = ({
       let linkUrl = undefined;
       if (linkParent) {
         linkUrl = linkParent.getURL();
+        setEditedLinkElement(linkParent);
       } else if ($isLinkNode(node)) {
         linkUrl = node.getURL();
+        setEditedLinkElement(node);
       }
 
       setLinkUrl(linkUrl ?? '');
@@ -187,6 +192,7 @@ const FloatingLinkEditor = ({
         setIsLinkEditMode(linkUrl);
         if (linkUrl) {
           setEditedLinkUrl(linkUrl);
+          setEditedLinkText(node.__text);
         }
       }
     }
@@ -310,32 +316,42 @@ const FloatingLinkEditor = ({
     }
   };
 
-  const handleLinkSubmission = () => {
-    editor.update(() => {
-      let targetNode;
-      const selection = $getSelection();
-      const textNode = $createTextNode(editedLinkText);
-      const linkNode = $createLinkNode(sanitizeUrl(editedLinkUrl));
-      linkNode.append(textNode);
+  //toggleLink
 
-      if ($isRangeSelection(selection)) {
-        const selectedNode = getSelectedNode(selection);
-        if (selectedNode.getType() === 'root') {
-          targetNode = $createParagraphNode();
-          selectedNode.append(targetNode);
-        } else if (selectedNode.getType() === 'paragraph') {
-          targetNode = selectedNode;
-        } else {
-          targetNode = selectedNode.getParent() ?? selectedNode;
+  const handleLinkSubmission = () => {
+    if (editedLinkElement) {
+      editor.update(() => {
+        editedLinkElement.setURL(sanitizeUrl(editedLinkUrl));
+        editedLinkElement.getFirstChild().setTextContent(editedLinkText);
+      });
+    } else {
+      editor.update(() => {
+        let targetNode;
+        const selection = $getSelection();
+        const linkNode = $createLinkNode(sanitizeUrl(editedLinkUrl));
+        linkNode.append($createTextNode(editedLinkText));
+
+        if ($isRangeSelection(selection)) {
+          const selectedNode = getSelectedNode(selection);
+          if (selectedNode.getType() === 'root') {
+            targetNode = $createParagraphNode();
+            selectedNode.append(targetNode);
+          } else if (selectedNode.getType() === 'paragraph') {
+            targetNode = selectedNode;
+          } else {
+            targetNode = selectedNode.getParent() ?? selectedNode;
+          }
+          targetNode.append(linkNode);
         }
-        targetNode.append(linkNode);
-      }
-    });
+      });
+    }
+
     setLastSelection(null);
     setEditedLinkUrl('');
     setEditedLinkText('');
     setLinkUrl('');
     setIsLinkEditMode(false);
+    setEditedLinkElement(null);
   };
 
   return isLinkEditMode ? (
@@ -347,6 +363,8 @@ const FloatingLinkEditor = ({
               Lenketekst
             </Label>
             <InputV3
+              // eslint-disable-next-line jsx-a11y/no-autofocus
+              autoFocus
               name="text"
               value={editedLinkText}
               onChange={(event) => {
@@ -362,8 +380,6 @@ const FloatingLinkEditor = ({
               {t('markdownEditor.link.url')}
             </Label>
             <InputV3
-              // eslint-disable-next-line jsx-a11y/no-autofocus
-              autoFocus
               name="url"
               ref={inputRef}
               data-link-input=""
