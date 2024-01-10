@@ -10,7 +10,6 @@ import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { Text } from '@ndla/typography';
-import { UnOrderedList } from '@ndla/ui';
 import { GQLMyNdlaPersonalDataFragmentFragment } from '../../../graphqlTypes';
 
 interface Props {
@@ -18,14 +17,21 @@ interface Props {
 }
 
 const StyledComponentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${spacing.normal};
   max-width: 700px;
 `;
 
 const ShortInfoDiv = styled.div`
-  margin: ${spacing.normal} auto;
   display: flex;
   flex-direction: column;
   gap: ${spacing.xxsmall};
+`;
+
+const StyledUl = styled.ul`
+  padding-left: ${spacing.mediumlarge};
+  padding-bottom: ${spacing.small};
 `;
 
 export const UserInfo = ({ user }: Props) => {
@@ -51,7 +57,7 @@ export const UserInfo = ({ user }: Props) => {
           {t('user.mail')}: {user?.email}
         </Text>
       </ShortInfoDiv>
-      <UnOrderedList>
+      <StyledUl>
         {user?.groups.map((org) => (
           <Text element="li" textStyle="content-alt" margin="none" key={org.id}>
             {`${org.displayName}${
@@ -59,7 +65,7 @@ export const UserInfo = ({ user }: Props) => {
             }`}
           </Text>
         ))}
-      </UnOrderedList>
+      </StyledUl>
     </StyledComponentContainer>
   );
 };

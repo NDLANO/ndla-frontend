@@ -37,10 +37,15 @@ import ListViewOptions from '../Folders/ListViewOptions';
 
 const StyledUl = styled.ul`
   padding: 0px;
+  margin: ${spacing.small} 0;
   list-style: none;
   display: flex;
   gap: ${spacing.small};
   flex-wrap: wrap;
+`;
+
+const StyledLi = styled.li`
+  padding: 0;
 `;
 
 const TagsPageContainer = styled.div`
@@ -234,7 +239,7 @@ const Tags = ({ tags }: TagsProps) => {
       <nav aria-label={t('myNdla.myTags')}>
         <StyledUl>
           {tags.map((tag) => (
-            <li key={tag}>
+            <StyledLi key={tag}>
               <StyledSafeLinkButton
                 colorTheme="greyLighter"
                 shape="pill"
@@ -244,7 +249,7 @@ const Tags = ({ tags }: TagsProps) => {
                 <HashTag />
                 {tag}
               </StyledSafeLinkButton>
-            </li>
+            </StyledLi>
           ))}
         </StyledUl>
       </nav>

@@ -116,7 +116,11 @@ const TimestampText = styled(Text)`
   align-self: center;
 `;
 
-const StyledContent = styled(Text)`
+const Content = styled(Text)`
+  ul,
+  ol {
+    padding-left: ${spacing.normal};
+  }
   word-break: break-word;
 `;
 
@@ -380,13 +384,9 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId }: Props) => {
                   {topic?.title}
                 </Heading>
               )}
-              <StyledContent
-                element="div"
-                textStyle="content-alt"
-                margin="none"
-              >
+              <Content element="div" textStyle="content-alt" margin="none">
                 {parse(content)}
-              </StyledContent>
+              </Content>
             </ContentWrapper>
             <FlexLine>{options(isMainPost)}</FlexLine>
           </>

@@ -44,7 +44,7 @@ const StyledContainer = styled.div`
 const StyledCardContainer = styled.li`
   display: flex;
   flex-direction: column;
-  margin: 0;
+  padding: 0;
 `;
 
 const TopicPage = () => {

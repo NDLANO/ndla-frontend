@@ -28,18 +28,18 @@ interface Props {
   folderRefId?: string;
 }
 
-interface DraggableListItemProps {
-  isDragging: boolean;
-}
-
-export const DraggableListItem = styled.li<DraggableListItemProps>`
+export const DraggableListItem = styled.li`
   display: flex;
   position: relative;
   list-style: none;
-  margin: 0;
+  padding: 0;
   align-items: center;
   gap: ${spacing.xsmall};
-  z-index: ${(p) => (p.isDragging ? '10' : '0')};
+  z-index: 0;
+
+  &[data-is-dragging='true'] {
+    z-index: '10';
+  }
 `;
 
 export const DragWrapper = styled.div`
@@ -89,7 +89,7 @@ const DraggableFolder = ({
       id={`folder-${folder.id}`}
       ref={setNodeRef}
       style={style}
-      isDragging={isDragging}
+      data-is-dragging={isDragging}
     >
       <DragHandle
         sortableId={folder.id}

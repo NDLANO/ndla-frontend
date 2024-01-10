@@ -17,7 +17,7 @@ interface StyledProps {
 }
 
 const StyledLi = styled.li`
-  margin: 0;
+  padding: 0;
 `;
 
 const StyledButton = styled(ButtonV2)<StyledProps>`

@@ -42,6 +42,7 @@ const ListWrapper = styled.ul`
 
 const PostCardWrapper = styled.li`
   list-style: none;
+  padding: 0;
   margin-bottom: ${spacing.normal};
 
   ${mq.range({ from: breakpoints.tablet })} {

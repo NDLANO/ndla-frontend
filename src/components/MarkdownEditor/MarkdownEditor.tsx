@@ -54,7 +54,7 @@ const EditableWrapper = styled.div`
     ul,
     ol {
       padding: 0px;
-      padding-left: ${spacing.small};
+      padding-left: ${spacing.normal};
       margin: 0px;
     }
   }
