@@ -79,9 +79,7 @@ const PostCardWrapper = styled.div`
 const PostHeader = styled.div`
   display: flex;
   justify-content: space-between;
-  ${mq.range({ until: breakpoints.tablet })} {
-    flex-direction: column;
-  }
+  flex-wrap: wrap;
 `;
 
 const StyledSwitch = styled(Switch)`
@@ -301,12 +299,15 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId }: Props) => {
     roundingMethod: 'floor',
   });
 
-  const postTime = (
-    <TimestampText element="span" textStyle="content-alt" margin="none">
-      <span title={formatDateTime(timestamp, language)}>
-        {`${capitalizeFirstLetter(timeDistance)}`}
-      </span>
-    </TimestampText>
+  const postTime = useMemo(
+    () => (
+      <TimestampText element="span" textStyle="content-alt" margin="none">
+        <span title={formatDateTime(timestamp, language)}>
+          {`${capitalizeFirstLetter(timeDistance)}`}
+        </span>
+      </TimestampText>
+    ),
+    [timestamp, language, timeDistance],
   );
 
   const options = useMemo(
@@ -334,21 +335,28 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId }: Props) => {
     [menu, isMainPost, t, postTime, replyToRef, setIsReplying, isReplying],
   );
 
-  const followSwitch = isMainPost ? (
-    <StyledSwitch
-      onChange={onFollowChange}
-      checked={!!topic?.isFollowing}
-      label={t('myNdla.arena.posts.notify')}
-      id={t('myNdla.arena.posts.notify')}
-    />
-  ) : null;
+  const followSwitch = useMemo(
+    () =>
+      isMainPost ? (
+        <StyledSwitch
+          onChange={onFollowChange}
+          checked={!!topic?.isFollowing}
+          label={t('myNdla.arena.posts.notify')}
+          id={t('myNdla.arena.posts.notify')}
+        />
+      ) : null,
+    [onFollowChange, topic?.isFollowing, isMainPost, t],
+  );
 
-  const profileTag = (
-    <UserProfileTag
-      displayName={displayName}
-      username={username}
-      affiliation={location ?? ''}
-    />
+  const profileTag = useMemo(
+    () => (
+      <UserProfileTag
+        displayName={displayName}
+        username={username}
+        affiliation={location ?? ''}
+      />
+    ),
+    [displayName, username, location],
   );
 
   const header = useMemo(
