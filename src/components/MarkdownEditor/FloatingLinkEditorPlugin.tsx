@@ -21,6 +21,9 @@ import {
   RangeSelection,
   LexicalCommand,
   createCommand,
+  $createTextNode,
+  $getRoot,
+  $createParagraphNode,
 } from 'lexical';
 import {
   Dispatch,
@@ -34,7 +37,7 @@ import {
 import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import { $isLinkNode, TOGGLE_LINK_COMMAND } from '@lexical/link';
+import { $isLinkNode, $createLinkNode } from '@lexical/link';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { mergeRegister, $findMatchingParent } from '@lexical/utils';
 import { ButtonV2 } from '@ndla/button';
@@ -62,11 +65,15 @@ const FloatingContainer = styled.div`
     display: flex;
   }
 `;
-
-const InputWrapper = styled.div`
+const InputWrapperWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: ${spacing.small};
+`;
+const InputWrapper = styled.div`
+  display: flex;
+  align-items: left;
+  flex-direction: column;
 `;
 
 export const setFloatingElemPositionForLinkEditor = (
@@ -150,6 +157,7 @@ const FloatingLinkEditor = ({
   const editorRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const [linkUrl, setLinkUrl] = useState('');
+  const [editedLinkText, setEditedLinkText] = useState('');
   const [editedLinkUrl, setEditedLinkUrl] = useState('');
   const [lastSelection, setLastSelection] = useState<LexicalSelection>(null);
   const [isLinkEditMode, setIsLinkEditMode] = useState(false);
@@ -304,9 +312,27 @@ const FloatingLinkEditor = ({
   };
 
   const handleLinkSubmission = () => {
-    editor.dispatchCommand(TOGGLE_LINK_COMMAND, sanitizeUrl(editedLinkUrl));
+    editor.update(() => {
+      const root = $getRoot();
+      const selection = $getSelection();
+
+      const textNode = $createTextNode(editedLinkText);
+      const linkNode = $createLinkNode(sanitizeUrl(editedLinkUrl));
+      linkNode.append(textNode);
+
+      if ($isRangeSelection(selection)) {
+        const node = getSelectedNode(selection);
+        const parent = node.getParent();
+        parent?.append(linkNode);
+      } else {
+        const paragraphNode = $createParagraphNode();
+        paragraphNode.append(linkNode);
+        root.append(paragraphNode);
+      }
+    });
     setLastSelection(null);
     setEditedLinkUrl('');
+    setEditedLinkText('');
     setLinkUrl('');
     setIsLinkEditMode(false);
   };
@@ -314,32 +340,46 @@ const FloatingLinkEditor = ({
   return isLinkEditMode ? (
     <FloatingContainer ref={editorRef} data-visible={!!isLinkEditMode}>
       <FormControl id="url" isRequired isInvalid={!!error}>
-        <Label margin="none" textStyle="label-small">
-          {t('markdownEditor.link.url')}
-        </Label>
-        <InputWrapper>
-          <InputV3
-            // eslint-disable-next-line jsx-a11y/no-autofocus
-            autoFocus
-            name="url"
-            ref={inputRef}
-            data-link-input=""
-            value={editedLinkUrl}
-            onChange={(event) => {
-              setEditedLinkUrl(event.currentTarget.value);
-            }}
-            onKeyDown={(event) => {
-              monitorInputInteraction(event);
-            }}
-          />
-          <ButtonV2
-            onClick={handleLinkSubmission}
-            disabled={!isDirty || !!error}
-          >
-            {t('save')}
-          </ButtonV2>
-        </InputWrapper>
-        <FieldErrorMessage>{error}</FieldErrorMessage>
+        <InputWrapperWrapper>
+          <InputWrapper>
+            <Label margin="none" textStyle="label-small">
+              Lenketekst
+            </Label>
+            <InputV3
+              name="text"
+              value={editedLinkText}
+              onChange={(event) => {
+                setEditedLinkText(event.currentTarget.value);
+              }}
+            />
+            <FieldErrorMessage>
+              Lenketeksten kan ikke være tom
+            </FieldErrorMessage>
+          </InputWrapper>
+          <InputWrapper>
+            <Label margin="none" textStyle="label-small">
+              {t('markdownEditor.link.url')}
+            </Label>
+            <InputV3
+              // eslint-disable-next-line jsx-a11y/no-autofocus
+              autoFocus
+              name="url"
+              ref={inputRef}
+              data-link-input=""
+              value={editedLinkUrl}
+              onChange={(event) => {
+                setEditedLinkUrl(event.currentTarget.value);
+              }}
+              onKeyDown={(event) => {
+                monitorInputInteraction(event);
+              }}
+            />
+            <FieldErrorMessage>{error}</FieldErrorMessage>
+          </InputWrapper>
+        </InputWrapperWrapper>
+        <ButtonV2 onClick={handleLinkSubmission} disabled={!isDirty || !!error}>
+          {t('save')}
+        </ButtonV2>
       </FormControl>
     </FloatingContainer>
   ) : null;

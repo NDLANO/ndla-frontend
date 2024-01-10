@@ -309,10 +309,9 @@ export const EditorToolbar = () => {
       </StyledButton>
       <StyledButton
         variant="ghost"
-        data-active={isLink}
-        disabled={!isLink && !hasSelectedText}
-        onClick={insertLink}
         colorTheme="greyLighter"
+        data-active={isLink}
+        onClick={insertLink}
         aria-label={linkLabel}
         title={linkLabel}
       >
