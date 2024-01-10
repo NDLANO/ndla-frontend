@@ -102,8 +102,8 @@ const ToolboxTopicWrapper = ({
         <Resources
           topic={topic}
           resourceTypes={resourceTypes}
-          headingType="h3"
-          subHeadingType="h4"
+          headingType="h2"
+          subHeadingType="h3"
         />
       );
     }
