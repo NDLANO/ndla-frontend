@@ -233,6 +233,7 @@ const FloatingLinkEditor = ({
       setLastSelection(null);
       setIsLinkEditMode(false);
       setEditedLinkUrl('');
+      setEditedLinkText('');
       setLinkUrl('');
     }
 
@@ -276,6 +277,7 @@ const FloatingLinkEditor = ({
         (_) => {
           setLastSelection(null);
           setEditedLinkUrl('');
+          setEditedLinkText('');
           setLinkUrl('');
           setIsLinkEditMode(true);
           return true;
