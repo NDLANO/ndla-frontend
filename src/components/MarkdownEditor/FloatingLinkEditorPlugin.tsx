@@ -22,7 +22,6 @@ import {
   LexicalCommand,
   createCommand,
   $createTextNode,
-  $getRoot,
   $createParagraphNode,
 } from 'lexical';
 import {
@@ -313,21 +312,23 @@ const FloatingLinkEditor = ({
 
   const handleLinkSubmission = () => {
     editor.update(() => {
-      const root = $getRoot();
+      let targetNode;
       const selection = $getSelection();
-
       const textNode = $createTextNode(editedLinkText);
       const linkNode = $createLinkNode(sanitizeUrl(editedLinkUrl));
       linkNode.append(textNode);
 
       if ($isRangeSelection(selection)) {
-        const node = getSelectedNode(selection);
-        const parent = node.getParent();
-        parent?.append(linkNode);
-      } else {
-        const paragraphNode = $createParagraphNode();
-        paragraphNode.append(linkNode);
-        root.append(paragraphNode);
+        const selectedNode = getSelectedNode(selection);
+        if (selectedNode.getType() === 'root') {
+          targetNode = $createParagraphNode();
+          selectedNode.append(targetNode);
+        } else if (selectedNode.getType() === 'paragraph') {
+          targetNode = selectedNode;
+        } else {
+          targetNode = selectedNode.getParent() ?? selectedNode;
+        }
+        targetNode.append(linkNode);
       }
     });
     setLastSelection(null);
