@@ -26,7 +26,7 @@ const LetterNavigationWrapper = styled.ul`
 `;
 
 const StyledLi = styled.li`
-  margin: 0;
+  padding: 0;
 `;
 
 interface StyledProps {

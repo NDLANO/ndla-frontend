@@ -68,6 +68,8 @@ const StyledLi = styled.li`
   &:not(:nth-of-type(-n + 4)) {
     display: none;
   }
+
+  padding: 0;
   margin: 0;
   ${mq.range({ from: breakpoints.mobileWide })} {
     display: unset !important;

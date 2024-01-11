@@ -32,7 +32,7 @@ import { OutletContext, menuLinks } from '../MyNdlaLayout';
 
 const MenuItem = styled.li`
   list-style: none;
-  margin: unset;
+  padding: unset;
 `;
 
 const StyledText = styled(Text)`

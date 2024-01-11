@@ -42,6 +42,7 @@ const ListWrapper = styled.ul`
 
 const PostCardWrapper = styled.li`
   list-style: none;
+  padding: 0;
   margin-bottom: ${spacing.normal};
 
   ${mq.range({ from: breakpoints.tablet })} {
@@ -124,7 +125,7 @@ const PostsPage = () => {
       if (document.referrer.includes('/minndla')) {
         navigate(-1);
       } else {
-        navigate('/minndla');
+        navigate('/minndla/arena');
       }
       addSnack({
         content: t('myNdla.arena.topic.isDeleted'),
