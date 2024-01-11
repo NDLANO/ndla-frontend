@@ -21,11 +21,7 @@ import {
   RangeSelection,
   LexicalCommand,
   createCommand,
-  $createTextNode,
-  $createParagraphNode,
   LexicalNode,
-  $isElementNode,
-  ElementNode,
 } from 'lexical';
 import {
   Dispatch,
@@ -39,7 +35,7 @@ import {
 import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import { $isLinkNode, $createLinkNode, LinkNode } from '@lexical/link';
+import { $isLinkNode, toggleLink, TOGGLE_LINK_COMMAND } from '@lexical/link';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { mergeRegister, $findMatchingParent } from '@lexical/utils';
 import { ButtonV2 } from '@ndla/button';
@@ -177,7 +173,6 @@ const FloatingLinkEditor = ({
 
   const updateLinkEditor = useCallback(() => {
     const selection = $getSelection();
-    console.log(selection?.getTextContent());
     if ($isRangeSelection(selection)) {
       const node = getSelectedNode(selection);
       const linkParent = $findMatchingParent(node, $isLinkNode);
@@ -332,8 +327,6 @@ const FloatingLinkEditor = ({
     }
   };
 
-  //toggleLink
-
   const handleLinkSubmission = () => {
     editor.update(() => {
       const selection = $getSelection();
@@ -341,93 +334,14 @@ const FloatingLinkEditor = ({
         editedLinkElement.setURL(sanitizeUrl(editedLinkUrl));
         editedLinkElement.getFirstChild().setTextContent(editedLinkText);
       } else {
-        if (selection?.getTextContent()) {
-          const nodes = selection.extract();
-          nodes.forEach((node) => {
-            const parent = node.getParent();
-            let prevParent: ElementNode | LinkNode | null = null;
-            let linkNode: LinkNode | null = null;
-
-            if (
-              parent === linkNode ||
-              parent === null ||
-              ($isElementNode(node) && !node.isInline())
-            ) {
-              return;
-            }
-
-            if ($isLinkNode(parent)) {
-              linkNode = parent;
-              parent.setURL(editedLinkUrl);
-              // if (target !== undefined) {
-              //   parent.setTarget(target);
-              // }
-              // if (rel !== null) {
-              //   linkNode.setRel(rel);
-              // }
-              // if (title !== undefined) {
-              //   linkNode.setTitle(title);
-              // }
-              return;
-            }
-
-            if (!parent.is(prevParent)) {
-              prevParent = parent;
-              linkNode = $createLinkNode(editedLinkUrl);
-
-              if ($isLinkNode(parent)) {
-                if (node.getPreviousSibling() === null) {
-                  parent.insertBefore(linkNode);
-                } else {
-                  parent.insertAfter(linkNode);
-                }
-              } else {
-                node.insertBefore(linkNode);
-              }
-            }
-
-            if ($isLinkNode(node)) {
-              if (node.is(linkNode)) {
-                return;
-              }
-              if (linkNode !== null) {
-                const children = node.getChildren();
-
-                for (let i = 0; i < children.length; i++) {
-                  children[i] !== undefined &&
-                    linkNode.append(children[i] as LexicalNode);
-                }
-              }
-
-              node.remove();
-              return;
-            }
-
-            if (linkNode !== null) {
-              linkNode.append(node);
-            }
-          });
-        } else {
-          let targetNode;
-
-          const linkNode = $createLinkNode(sanitizeUrl(editedLinkUrl));
-          linkNode.append($createTextNode(editedLinkText));
-
-          if ($isRangeSelection(selection)) {
-            const selectedNode = getSelectedNode(selection);
-            if (selectedNode.getType() === 'root') {
-              targetNode = $createParagraphNode();
-              selectedNode.append(targetNode);
-            } else if (selectedNode.getType() === 'paragraph') {
-              targetNode = selectedNode;
-            } else {
-              targetNode = selectedNode.getParent() ?? selectedNode;
-            }
-            targetNode.append(linkNode);
-          }
+        if ($isRangeSelection(selection)) {
+          selection.removeText();
+          selection.insertRawText(editedLinkText);
+          toggleLink(sanitizeUrl(editedLinkUrl));
         }
       }
     });
+    editor.dispatchCommand(TOGGLE_LINK_COMMAND, editedLinkUrl);
 
     setLastSelection(null);
     setEditedLinkUrl('');
@@ -436,6 +350,15 @@ const FloatingLinkEditor = ({
     setLinkText('');
     setIsLinkEditMode(false);
     setEditedLinkElement(null);
+  };
+
+  const handleLinkDeletion = () => {
+    editor.update(() => {
+      const selection = $getSelection();
+      if ($isRangeSelection(selection)) {
+        toggleLink(null);
+      }
+    });
   };
 
   return isLinkEditMode ? (
@@ -479,10 +402,7 @@ const FloatingLinkEditor = ({
           </InputWrapper>
         </InputWrapperWrapper>
         <InputWrapperWrapper>
-          <ButtonV2
-            onClick={() => console.log('test')}
-            disabled={!editedLinkElement}
-          >
+          <ButtonV2 onClick={handleLinkDeletion} disabled={!editedLinkElement}>
             {t('myNdla.resource.remove')}
           </ButtonV2>
           <ButtonV2
