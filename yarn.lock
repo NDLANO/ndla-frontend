@@ -4147,17 +4147,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/types-backend@npm:0.2.31":
-  version: 0.2.31
-  resolution: "@ndla/types-backend@npm:0.2.31"
-  checksum: 2a723ffea5e046b9b7b5c7e71135398330e6b4b8848a5d0b0801731a557bfcf5854ed8c546c058adcd727aae7e27983f9732605abbdcc91666b43a427cd97b74
+"@ndla/types-backend@npm:0.2.37":
+  version: 0.2.37
+  resolution: "@ndla/types-backend@npm:0.2.37"
+  checksum: be006342f9d9d9a6469c251b994b7cd0f1e803a70778bd6fe742351523640793c754e8626b046cd6611eca615b7da068d472d104b89a6a77d09773677d3d7871
   languageName: node
   linkType: hard
 
-"@ndla/types-embed@npm:^4.0.11":
-  version: 4.0.11
-  resolution: "@ndla/types-embed@npm:4.0.11"
-  checksum: 37173f0bd32ea0e3546fb7dde6854ee7d10b1d32658052f8b358edce91fd5e061212daaf4e8d2bfd1012287e97992b3a76e4d190ecc118792ca571187de601c3
+"@ndla/types-embed@npm:^4.0.12":
+  version: 4.0.13
+  resolution: "@ndla/types-embed@npm:4.0.13"
+  checksum: 6f9fce28adc0282537f860fbf8a31443efaec1f8ca0d4940d8ee6c314c33010ec2e772bfa5e73d75254d32aa4922ab53d3492e7261d4ea53c113a343c548b23b
   languageName: node
   linkType: hard
 
@@ -13668,8 +13668,8 @@ __metadata:
     "@ndla/select": "npm:^3.2.11"
     "@ndla/tabs": "npm:^3.2.10"
     "@ndla/tracker": "npm:^5.0.6"
-    "@ndla/types-backend": "npm:0.2.31"
-    "@ndla/types-embed": "npm:^4.0.11"
+    "@ndla/types-backend": "npm:0.2.37"
+    "@ndla/types-embed": "npm:^4.0.12"
     "@ndla/typography": "npm:^0.4.7"
     "@ndla/ui": "npm:^50.8.1"
     "@ndla/util": "npm:^4.0.4"
