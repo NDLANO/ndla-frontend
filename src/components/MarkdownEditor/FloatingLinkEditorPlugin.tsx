@@ -284,6 +284,7 @@ const FloatingLinkEditor = ({
         ADD_LINK_COMMAND,
         (_) => {
           setLastSelection(null);
+          setEditedLinkElement(null);
           setEditedLinkUrl('');
           setEditedLinkText('');
           setLinkUrl('');
@@ -330,15 +331,14 @@ const FloatingLinkEditor = ({
   //toggleLink
 
   const handleLinkSubmission = () => {
-    if (editedLinkElement) {
-      editor.update(() => {
+    editor.update(() => {
+      const selection = $getSelection();
+      if (editedLinkElement) {
         editedLinkElement.setURL(sanitizeUrl(editedLinkUrl));
         editedLinkElement.getFirstChild().setTextContent(editedLinkText);
-      });
-    } else {
-      editor.update(() => {
+      } else {
         let targetNode;
-        const selection = $getSelection();
+
         const linkNode = $createLinkNode(sanitizeUrl(editedLinkUrl));
         linkNode.append($createTextNode(editedLinkText));
 
@@ -354,8 +354,8 @@ const FloatingLinkEditor = ({
           }
           targetNode.append(linkNode);
         }
-      });
-    }
+      }
+    });
 
     setLastSelection(null);
     setEditedLinkUrl('');
