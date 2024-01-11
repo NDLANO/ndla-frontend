@@ -227,7 +227,7 @@ exports[`ErrorPage renderers correctly 1`] = `
   z-index: 0;
 }
 
-.emotion-16[data-margin='true'] {
+.emotion-16[data-margin="true"] {
   margin-top: 96px;
 }
 
