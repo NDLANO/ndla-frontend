@@ -24,6 +24,8 @@ import {
   $createTextNode,
   $createParagraphNode,
   LexicalNode,
+  $isElementNode,
+  ElementNode,
 } from 'lexical';
 import {
   Dispatch,
@@ -37,7 +39,7 @@ import {
 import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import { $isLinkNode, $createLinkNode } from '@lexical/link';
+import { $isLinkNode, $createLinkNode, LinkNode } from '@lexical/link';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { mergeRegister, $findMatchingParent } from '@lexical/utils';
 import { ButtonV2 } from '@ndla/button';
@@ -175,6 +177,7 @@ const FloatingLinkEditor = ({
 
   const updateLinkEditor = useCallback(() => {
     const selection = $getSelection();
+    console.log(selection?.getTextContent());
     if ($isRangeSelection(selection)) {
       const node = getSelectedNode(selection);
       const linkParent = $findMatchingParent(node, $isLinkNode);
@@ -283,10 +286,11 @@ const FloatingLinkEditor = ({
       editor.registerCommand(
         ADD_LINK_COMMAND,
         (_) => {
+          const selection = $getSelection();
           setLastSelection(null);
           setEditedLinkElement(null);
           setEditedLinkUrl('');
-          setEditedLinkText('');
+          setEditedLinkText(selection?.getTextContent() ?? '');
           setLinkUrl('');
           setLinkText('');
           setIsLinkEditMode(true);
@@ -337,22 +341,90 @@ const FloatingLinkEditor = ({
         editedLinkElement.setURL(sanitizeUrl(editedLinkUrl));
         editedLinkElement.getFirstChild().setTextContent(editedLinkText);
       } else {
-        let targetNode;
+        if (selection?.getTextContent()) {
+          const nodes = selection.extract();
+          nodes.forEach((node) => {
+            const parent = node.getParent();
+            let prevParent: ElementNode | LinkNode | null = null;
+            let linkNode: LinkNode | null = null;
 
-        const linkNode = $createLinkNode(sanitizeUrl(editedLinkUrl));
-        linkNode.append($createTextNode(editedLinkText));
+            if (
+              parent === linkNode ||
+              parent === null ||
+              ($isElementNode(node) && !node.isInline())
+            ) {
+              return;
+            }
 
-        if ($isRangeSelection(selection)) {
-          const selectedNode = getSelectedNode(selection);
-          if (selectedNode.getType() === 'root') {
-            targetNode = $createParagraphNode();
-            selectedNode.append(targetNode);
-          } else if (selectedNode.getType() === 'paragraph') {
-            targetNode = selectedNode;
-          } else {
-            targetNode = selectedNode.getParent() ?? selectedNode;
+            if ($isLinkNode(parent)) {
+              linkNode = parent;
+              parent.setURL(editedLinkUrl);
+              // if (target !== undefined) {
+              //   parent.setTarget(target);
+              // }
+              // if (rel !== null) {
+              //   linkNode.setRel(rel);
+              // }
+              // if (title !== undefined) {
+              //   linkNode.setTitle(title);
+              // }
+              return;
+            }
+
+            if (!parent.is(prevParent)) {
+              prevParent = parent;
+              linkNode = $createLinkNode(editedLinkUrl);
+
+              if ($isLinkNode(parent)) {
+                if (node.getPreviousSibling() === null) {
+                  parent.insertBefore(linkNode);
+                } else {
+                  parent.insertAfter(linkNode);
+                }
+              } else {
+                node.insertBefore(linkNode);
+              }
+            }
+
+            if ($isLinkNode(node)) {
+              if (node.is(linkNode)) {
+                return;
+              }
+              if (linkNode !== null) {
+                const children = node.getChildren();
+
+                for (let i = 0; i < children.length; i++) {
+                  children[i] !== undefined &&
+                    linkNode.append(children[i] as LexicalNode);
+                }
+              }
+
+              node.remove();
+              return;
+            }
+
+            if (linkNode !== null) {
+              linkNode.append(node);
+            }
+          });
+        } else {
+          let targetNode;
+
+          const linkNode = $createLinkNode(sanitizeUrl(editedLinkUrl));
+          linkNode.append($createTextNode(editedLinkText));
+
+          if ($isRangeSelection(selection)) {
+            const selectedNode = getSelectedNode(selection);
+            if (selectedNode.getType() === 'root') {
+              targetNode = $createParagraphNode();
+              selectedNode.append(targetNode);
+            } else if (selectedNode.getType() === 'paragraph') {
+              targetNode = selectedNode;
+            } else {
+              targetNode = selectedNode.getParent() ?? selectedNode;
+            }
+            targetNode.append(linkNode);
           }
-          targetNode.append(linkNode);
         }
       }
     });
@@ -406,9 +478,20 @@ const FloatingLinkEditor = ({
             <FieldErrorMessage>{error}</FieldErrorMessage>
           </InputWrapper>
         </InputWrapperWrapper>
-        <ButtonV2 onClick={handleLinkSubmission} disabled={!isDirty || !!error}>
-          {t('save')}
-        </ButtonV2>
+        <InputWrapperWrapper>
+          <ButtonV2
+            onClick={() => console.log('test')}
+            disabled={!editedLinkElement}
+          >
+            {t('myNdla.resource.remove')}
+          </ButtonV2>
+          <ButtonV2
+            onClick={handleLinkSubmission}
+            disabled={!isDirty || !!error}
+          >
+            {t('save')}
+          </ButtonV2>
+        </InputWrapperWrapper>
       </FormControl>
     </FloatingContainer>
   ) : null;
