@@ -65,8 +65,9 @@ const FloatingContainer = styled.div`
 `;
 const InputWrapperWrapper = styled.div`
   display: flex;
-  align-items: center;
+  justify-content: end;
   gap: ${spacing.small};
+  margin: ${spacing.xsmall};
 `;
 const InputWrapper = styled.div`
   display: flex;
@@ -169,6 +170,11 @@ const FloatingLinkEditor = ({
       return t('markdownEditor.link.error.invalid');
     } else return undefined;
   }, [editedLinkUrl, t]);
+  const textError = useMemo(() => {
+    return editedLinkText === ''
+      ? 'Lenketeksten kan ikke være tom '
+      : undefined;
+  }, [editedLinkText]);
   const isDirty = editedLinkUrl !== linkUrl || editedLinkText !== linkText;
 
   const updateLinkEditor = useCallback(() => {
@@ -363,7 +369,7 @@ const FloatingLinkEditor = ({
 
   return isLinkEditMode ? (
     <FloatingContainer ref={editorRef} data-visible={!!isLinkEditMode}>
-      <FormControl id="url" isRequired isInvalid={!!error}>
+      <FormControl id="url" isRequired isInvalid={!!error || !!textError}>
         <InputWrapperWrapper>
           <InputWrapper>
             <Label margin="none" textStyle="label-small">
@@ -378,9 +384,7 @@ const FloatingLinkEditor = ({
                 setEditedLinkText(event.currentTarget.value);
               }}
             />
-            <FieldErrorMessage>
-              Lenketeksten kan ikke være tom
-            </FieldErrorMessage>
+            <FieldErrorMessage>{textError}</FieldErrorMessage>
           </InputWrapper>
           <InputWrapper>
             <Label margin="none" textStyle="label-small">
