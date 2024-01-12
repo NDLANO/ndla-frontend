@@ -73,10 +73,16 @@ const messages = {
   },
   markdownEditor: {
     link: {
-      url: 'Link',
+      url: 'URL',
+      text: 'Text',
       error: {
-        empty: 'Link must not be empty',
-        invalid: 'Invalid link. Follow the format https://ndla.no',
+        url: {
+          empty: 'Link URL must not be empty',
+          invalid: 'Invalid link URL. Follow the format https://ndla.no',
+        },
+        text: {
+          empty: 'Link text must not be empty',
+        },
       },
     },
     toolbar: {

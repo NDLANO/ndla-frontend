@@ -74,10 +74,16 @@ const messages = {
   },
   markdownEditor: {
     link: {
-      url: 'Lenke',
+      url: 'Lenkeadresse',
+      text: 'Lenketekst',
       error: {
-        empty: 'Lenka kan ikke være tom',
-        invalid: 'Ugyldig lenke. Følg formatet https://ndla.no',
+        url: {
+          empty: 'Lenkeadressa kan ikke være tom',
+          invalid: 'Ugyldig lenkeadresse. Følg formatet https://ndla.no',
+        },
+        text: {
+          empty: 'Lenketeksten kan ikke være tom',
+        },
       },
     },
     toolbar: {

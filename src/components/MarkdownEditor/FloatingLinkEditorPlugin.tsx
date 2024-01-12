@@ -165,16 +165,16 @@ const FloatingLinkEditor = ({
   const [isLinkEditMode, setIsLinkEditMode] = useState(false);
   const error = useMemo(() => {
     if (editedLinkUrl === '') {
-      return t('markdownEditor.link.error.empty');
+      return t('markdownEditor.link.error.url.empty');
     } else if (!validateUrl(editedLinkUrl)) {
-      return t('markdownEditor.link.error.invalid');
+      return t('markdownEditor.link.error.url.invalid');
     } else return undefined;
   }, [editedLinkUrl, t]);
   const textError = useMemo(() => {
     return editedLinkText === ''
-      ? 'Lenketeksten kan ikke være tom '
+      ? t('markdownEditor.link.error.text.empty')
       : undefined;
-  }, [editedLinkText]);
+  }, [editedLinkText, t]);
   const isDirty = editedLinkUrl !== linkUrl || editedLinkText !== linkText;
 
   const updateLinkEditor = useCallback(() => {
@@ -373,7 +373,7 @@ const FloatingLinkEditor = ({
         <InputWrapperWrapper>
           <InputWrapper>
             <Label margin="none" textStyle="label-small">
-              Lenketekst
+              {t('markdownEditor.link.text')}
             </Label>
             <InputV3
               // eslint-disable-next-line jsx-a11y/no-autofocus
