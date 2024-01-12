@@ -83,7 +83,7 @@ const messages = {
           invalid: 'Ugyldig lenkeadresse. Følg formatet https://ndla.no',
         },
         text: {
-          empty: 'Lenketeksta kan ikkje vere tom',
+          empty: 'Lenketeksten kan ikkje vere tom',
         },
       },
     },
