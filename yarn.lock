@@ -3833,12 +3833,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/article-converter@npm:^6.0.44":
-  version: 6.0.44
-  resolution: "@ndla/article-converter@npm:6.0.44"
+"@ndla/article-converter@npm:^6.0.45":
+  version: 6.0.45
+  resolution: "@ndla/article-converter@npm:6.0.45"
   dependencies:
     "@ndla/code": "npm:^5.0.31"
-    "@ndla/ui": "npm:^50.8.2"
+    "@ndla/ui": "npm:^50.8.3"
     html-react-parser: "npm:^4.2.2"
     lodash: "npm:^4.17.20"
   peerDependencies:
@@ -3849,7 +3849,7 @@ __metadata:
     react-dom: ">= 16.8.0"
     react-i18next: ^13.3.0
     react-router-dom: ">= 6.0.0"
-  checksum: 4e13defbc34eaa621523bcbb7bf5003e8b5d4dc77f973752f9da36b4d4bf0510a35381cb08a8d6ed01b22a24812f618bcecbcedce4a1058af8f7f7298bf1759a
+  checksum: 79b8d45395ab8ff539547dc1eb986a88ff3d43d846b56cd07ecdc3c70eda718d16527a78935dd264398499b0f985af9628afa078927026d24a79f1ac491cf2ef
   languageName: node
   linkType: hard
 
@@ -4174,9 +4174,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/ui@npm:^50.8.2":
-  version: 50.8.2
-  resolution: "@ndla/ui@npm:50.8.2"
+"@ndla/ui@npm:^50.8.3":
+  version: 50.8.3
+  resolution: "@ndla/ui@npm:50.8.3"
   dependencies:
     "@ndla/accordion": "npm:^3.0.21"
     "@ndla/button": "npm:^12.0.26"
@@ -4214,7 +4214,7 @@ __metadata:
     react-dom: ">= 16.8.0"
     react-i18next: ^13.3.0
     react-router-dom: "> 6.0.0"
-  checksum: fbfd534c25b247b90805dcc897c202e02627e136f31e13819a3824fd90054d67dcc49a8866db6381b414fba0c3582a96d2076de22f870cfe25c907cfe67bda1e
+  checksum: e4e03a05eadacf1cfa0764255bfb77cb129d8081fe765b729fa779de955c65738d77a9e0381c18827b55db246454333258299c77fcaf312d077b19b61aa92044
   languageName: node
   linkType: hard
 
@@ -13653,7 +13653,7 @@ __metadata:
     "@graphql-codegen/typescript-operations": "npm:^4.0.1"
     "@graphql-eslint/eslint-plugin": "npm:^3.20.1"
     "@lexical/react": "npm:^0.12.4"
-    "@ndla/article-converter": "npm:^6.0.44"
+    "@ndla/article-converter": "npm:^6.0.45"
     "@ndla/button": "npm:^12.0.26"
     "@ndla/core": "npm:^4.3.5"
     "@ndla/dropdown-menu": "npm:^1.0.25"
@@ -13671,7 +13671,7 @@ __metadata:
     "@ndla/types-backend": "npm:^0.2.38"
     "@ndla/types-embed": "npm:^4.0.13"
     "@ndla/typography": "npm:^0.4.8"
-    "@ndla/ui": "npm:^50.8.2"
+    "@ndla/ui": "npm:^50.8.3"
     "@ndla/util": "npm:^4.0.4"
     "@ndla/zendesk": "npm:^1.3.8"
     "@pmmmwh/react-refresh-webpack-plugin": "npm:^0.5.10"
