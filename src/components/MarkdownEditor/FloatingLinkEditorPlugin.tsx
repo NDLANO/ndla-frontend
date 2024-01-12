@@ -62,6 +62,7 @@ const FloatingContainer = styled.div`
   &[data-visible='true'] {
     display: flex;
     flex-direction: column;
+    transform: translate(0, 40px);
   }
 `;
 const InputWrapper = styled.div`
@@ -375,7 +376,7 @@ const FloatingLinkEditor = ({
           </Label>
           <InputV3
             // eslint-disable-next-line jsx-a11y/no-autofocus
-            autoFocus
+            autoFocus={!linkUrl}
             name="text"
             value={editedLinkText}
             onChange={(event) => {
