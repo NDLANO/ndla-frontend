@@ -52,7 +52,7 @@ const FloatingContainer = styled.div`
   position: absolute;
   z-index: 1000;
   display: none;
-  align-items: center;
+  align-items: end;
   gap: ${spacing.small};
   background-color: ${colors.white};
   border: 1px solid ${colors.brand.greyLight};
@@ -61,18 +61,14 @@ const FloatingContainer = styled.div`
   box-shadow: ${shadows.levitate1};
   &[data-visible='true'] {
     display: flex;
+    flex-direction: column;
   }
-`;
-const InputWrapperWrapper = styled.div`
-  display: flex;
-  justify-content: end;
-  gap: ${spacing.small};
-  margin: ${spacing.xsmall};
 `;
 const InputWrapper = styled.div`
   display: flex;
-  align-items: left;
-  flex-direction: column;
+  flex-direction: row-end;
+  gap: ${spacing.small};
+  justify-content: end;
 `;
 
 export const setFloatingElemPositionForLinkEditor = (
@@ -170,11 +166,6 @@ const FloatingLinkEditor = ({
       return t('markdownEditor.link.error.url.invalid');
     } else return undefined;
   }, [editedLinkUrl, t]);
-  const textError = useMemo(() => {
-    return editedLinkText === ''
-      ? t('markdownEditor.link.error.text.empty')
-      : undefined;
-  }, [editedLinkText, t]);
   const isDirty = editedLinkUrl !== linkUrl || editedLinkText !== linkText;
 
   const closeLinkWindow = () => {
@@ -358,7 +349,6 @@ const FloatingLinkEditor = ({
       }
     });
     editor.dispatchCommand(TOGGLE_LINK_COMMAND, editedLinkUrl);
-
     closeLinkWindow();
   };
 
@@ -369,60 +359,62 @@ const FloatingLinkEditor = ({
         toggleLink(null);
       }
     });
-
     closeLinkWindow();
   };
 
   return open ? (
     <FloatingContainer ref={editorRef} data-visible={!!open}>
-      <FormControl id="url" isRequired isInvalid={!!error || !!textError}>
-        <InputWrapperWrapper>
-          <InputWrapper>
-            <Label margin="none" textStyle="label-small">
-              {t('markdownEditor.link.text')}
-            </Label>
-            <InputV3
-              // eslint-disable-next-line jsx-a11y/no-autofocus
-              autoFocus
-              name="text"
-              value={editedLinkText}
-              onChange={(event) => {
-                setEditedLinkText(event.currentTarget.value);
-              }}
-            />
-            <FieldErrorMessage>{textError}</FieldErrorMessage>
-          </InputWrapper>
-          <InputWrapper>
-            <Label margin="none" textStyle="label-small">
-              {t('markdownEditor.link.url')}
-            </Label>
-            <InputV3
-              name="url"
-              ref={inputRef}
-              data-link-input=""
-              value={editedLinkUrl}
-              onChange={(event) => {
-                setEditedLinkUrl(event.currentTarget.value);
-              }}
-              onKeyDown={(event) => {
-                monitorInputInteraction(event);
-              }}
-            />
-            <FieldErrorMessage>{error}</FieldErrorMessage>
-          </InputWrapper>
-        </InputWrapperWrapper>
-        <InputWrapperWrapper>
-          <ButtonV2 onClick={handleLinkDeletion} disabled={!editedLinkElement}>
-            {t('myNdla.resource.remove')}
-          </ButtonV2>
-          <ButtonV2
-            onClick={handleLinkSubmission}
-            disabled={!isDirty || !!error}
-          >
-            {t('save')}
-          </ButtonV2>
-        </InputWrapperWrapper>
-      </FormControl>
+      <InputWrapper>
+        <FormControl
+          id="text"
+          isRequired
+          isInvalid={editedLinkText.length === 0}
+        >
+          <Label margin="none" textStyle="label-small">
+            {t('markdownEditor.link.text')}
+          </Label>
+          <InputV3
+            // eslint-disable-next-line jsx-a11y/no-autofocus
+            autoFocus
+            name="text"
+            value={editedLinkText}
+            onChange={(event) => {
+              setEditedLinkText(event.currentTarget.value);
+            }}
+          />
+          <FieldErrorMessage>
+            {editedLinkText.length === 0
+              ? t('markdownEditor.link.error.text.empty')
+              : undefined}
+          </FieldErrorMessage>
+        </FormControl>
+        <FormControl id="url" isRequired isInvalid={!!error}>
+          <Label margin="none" textStyle="label-small">
+            {t('markdownEditor.link.url')}
+          </Label>
+          <InputV3
+            name="url"
+            ref={inputRef}
+            data-link-input=""
+            value={editedLinkUrl}
+            onChange={(event) => {
+              setEditedLinkUrl(event.currentTarget.value);
+            }}
+            onKeyDown={(event) => {
+              monitorInputInteraction(event);
+            }}
+          />
+          <FieldErrorMessage>{error}</FieldErrorMessage>
+        </FormControl>
+      </InputWrapper>
+      <InputWrapper>
+        <ButtonV2 onClick={handleLinkDeletion} disabled={!editedLinkElement}>
+          {t('myNdla.resource.remove')}
+        </ButtonV2>
+        <ButtonV2 onClick={handleLinkSubmission} disabled={!isDirty || !!error}>
+          {t('save')}
+        </ButtonV2>
+      </InputWrapper>
     </FloatingContainer>
   ) : null;
 };
