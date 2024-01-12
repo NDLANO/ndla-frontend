@@ -162,7 +162,7 @@ const FloatingLinkEditor = ({
   const [editedLinkText, setEditedLinkText] = useState('');
   const [editedLinkUrl, setEditedLinkUrl] = useState('');
   const [lastSelection, setLastSelection] = useState<LexicalSelection>(null);
-  const [isLinkEditMode, setIsLinkEditMode] = useState(false);
+  const [open, setOpen] = useState(false);
   const error = useMemo(() => {
     if (editedLinkUrl === '') {
       return t('markdownEditor.link.error.url.empty');
@@ -176,6 +176,16 @@ const FloatingLinkEditor = ({
       : undefined;
   }, [editedLinkText, t]);
   const isDirty = editedLinkUrl !== linkUrl || editedLinkText !== linkText;
+
+  const closeLinkWindow = () => {
+    setEditedLinkText('');
+    setEditedLinkUrl('');
+    setLinkText('');
+    setLinkUrl('');
+    setEditedLinkElement(null);
+    setLastSelection(null);
+    setOpen(false);
+  };
 
   const updateLinkEditor = useCallback(() => {
     const selection = $getSelection();
@@ -198,7 +208,7 @@ const FloatingLinkEditor = ({
       setLinkUrl(linkUrl ?? '');
       setLinkText(linkText ?? '');
       if (!selection.is(lastSelection)) {
-        setIsLinkEditMode(linkUrl);
+        setOpen(linkUrl);
         if (linkUrl) {
           setEditedLinkUrl(linkUrl);
         }
@@ -242,7 +252,7 @@ const FloatingLinkEditor = ({
         setFloatingElemPositionForLinkEditor(null, editorElem, anchorElement);
       }
       setLastSelection(null);
-      setIsLinkEditMode(false);
+      setOpen(false);
       setEditedLinkUrl('');
       setEditedLinkText('');
       setLinkUrl('');
@@ -294,7 +304,7 @@ const FloatingLinkEditor = ({
           setEditedLinkText(selection?.getTextContent() ?? '');
           setLinkUrl('');
           setLinkText('');
-          setIsLinkEditMode(true);
+          setOpen(true);
           return true;
         },
         COMMAND_PRIORITY_LOW,
@@ -328,7 +338,7 @@ const FloatingLinkEditor = ({
       handleLinkSubmission();
     } else if (event.key === 'Escape') {
       event.preventDefault();
-      setIsLinkEditMode(false);
+      setOpen(false);
       editor.focus();
     }
   };
@@ -349,13 +359,7 @@ const FloatingLinkEditor = ({
     });
     editor.dispatchCommand(TOGGLE_LINK_COMMAND, editedLinkUrl);
 
-    setLastSelection(null);
-    setEditedLinkUrl('');
-    setEditedLinkText('');
-    setLinkUrl('');
-    setLinkText('');
-    setIsLinkEditMode(false);
-    setEditedLinkElement(null);
+    closeLinkWindow();
   };
 
   const handleLinkDeletion = () => {
@@ -365,10 +369,12 @@ const FloatingLinkEditor = ({
         toggleLink(null);
       }
     });
+
+    closeLinkWindow();
   };
 
-  return isLinkEditMode ? (
-    <FloatingContainer ref={editorRef} data-visible={!!isLinkEditMode}>
+  return open ? (
+    <FloatingContainer ref={editorRef} data-visible={!!open}>
       <FormControl id="url" isRequired isInvalid={!!error || !!textError}>
         <InputWrapperWrapper>
           <InputWrapper>
