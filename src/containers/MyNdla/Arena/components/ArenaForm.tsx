@@ -6,28 +6,20 @@
  *
  */
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import { ButtonV2, LoadingButton } from '@ndla/button';
+import { LoadingButton } from '@ndla/button';
 import { colors, misc, spacing } from '@ndla/core';
 import { FormControl, InputV3, Label, FieldErrorMessage } from '@ndla/forms';
 import { InformationOutline } from '@ndla/icons/common';
-import {
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalTitle,
-  ModalTrigger,
-} from '@ndla/modal';
 import { Text } from '@ndla/typography';
 import { MarkdownEditor } from '../../../../components/MarkdownEditor/MarkdownEditor';
 import { FieldLength } from '../../../../containers/MyNdla/Folders/FolderForm';
 import useValidationTranslation from '../../../../util/useValidationTranslation';
 import { iconCss } from '../../Folders/FoldersPage';
+import AlertModal from './AlertModal';
 
 export const ArenaFormWrapper = styled.div`
   display: flex;
@@ -78,10 +70,6 @@ const StyledInput = styled(InputV3)`
   background: ${colors.white};
 `;
 
-const StyledWarningText = styled(Text)`
-  padding: ${spacing.large} 0 ${spacing.large} ${spacing.normal};
-`;
-
 interface ArenaFormProps {
   type: 'topic' | 'post';
   initialTitle?: string;
@@ -109,7 +97,6 @@ const ArenaForm = ({
 }: ArenaFormProps) => {
   const { t } = useTranslation();
   const { validationT } = useValidationTranslation();
-  const [open, setOpen] = useState<boolean>(false);
   const { formState, trigger, control, handleSubmit, setValue } = useForm({
     defaultValues: {
       title: initialTitle ?? '',
@@ -220,37 +207,12 @@ const ArenaForm = ({
         </Text>
       </InformationLabel>
       <ButtonRow>
-        <Modal open={open} onOpenChange={setOpen}>
-          <ModalTrigger>
-            <ButtonV2
-              variant="outline"
-              onClick={() => (formState.isDirty ? setOpen(true) : onAbort())}
-            >
-              {t('cancel')}
-            </ButtonV2>
-          </ModalTrigger>
-          <ModalContent>
-            <ModalBody>
-              <ModalHeader>
-                <ModalTitle>
-                  {t(`myNdla.arena.cancel.title.${type}`)}
-                </ModalTitle>
-                <ModalCloseButton title={t('myNdla.folder.closeModal')} />
-              </ModalHeader>
-              <StyledWarningText margin="none" textStyle="meta-text-medium">
-                {t(`myNdla.arena.cancel.content.${type}`)}
-              </StyledWarningText>
-              <ButtonRow>
-                <ButtonV2 variant="outline" onClick={() => setOpen(false)}>
-                  {t(`myNdla.arena.cancel.continue.${type}`)}
-                </ButtonV2>
-                <ButtonV2 colorTheme="danger" onClick={onAbort}>
-                  {t(`myNdla.arena.cancel.cancel.${type}`)}
-                </ButtonV2>
-              </ButtonRow>
-            </ModalBody>
-          </ModalContent>
-        </Modal>
+        <AlertModal
+          onAbort={onAbort}
+          postType={type}
+          formState={formState}
+          initialContent={initialContent}
+        />
         <LoadingButton
           colorTheme="primary"
           type="submit"
