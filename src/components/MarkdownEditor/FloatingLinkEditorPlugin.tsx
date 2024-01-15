@@ -60,6 +60,7 @@ const FloatingContainer = styled.div`
   box-shadow: ${shadows.levitate1};
   &[data-visible='true'] {
     display: flex;
+    transform: translate(0, 40px);
   }
 `;
 
@@ -320,7 +321,7 @@ const FloatingLinkEditor = ({
         <InputWrapper>
           <InputV3
             // eslint-disable-next-line jsx-a11y/no-autofocus
-            autoFocus
+            autoFocus={!linkUrl}
             name="url"
             ref={inputRef}
             data-link-input=""
