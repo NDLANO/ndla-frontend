@@ -167,7 +167,10 @@ const FloatingLinkEditor = ({
       return t('markdownEditor.link.error.url.invalid');
     } else return undefined;
   }, [editedLinkUrl, t]);
-  const isDirty = editedLinkUrl !== linkUrl || editedLinkText !== linkText;
+
+  const isDirty = useMemo(() => {
+    return editedLinkUrl !== linkUrl || editedLinkText !== linkText;
+  }, [editedLinkUrl, editedLinkText, linkUrl, linkText]);
 
   const closeLinkWindow = () => {
     setEditedLinkText('');
