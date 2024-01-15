@@ -41,6 +41,7 @@ const typeIconMapping: Record<EmbedType, ElementType> = {
   h5p: H5P,
   image: Media,
   concept: Concept,
+  gloss: Video, //just a placeholder, gloss cant be accessed as a single resource
 };
 
 const ResourceBadge = ({ type }: Props) => {
