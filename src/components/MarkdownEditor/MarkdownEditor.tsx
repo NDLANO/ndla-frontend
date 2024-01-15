@@ -94,6 +94,7 @@ export const MarkdownEditor = forwardRef(
       HTMLDivElement | undefined
     >(undefined);
     const props = useFormControl({});
+    const [editorFocused, setEditorFocused] = useState(false);
     const initialConfig: InitialConfigType = {
       namespace: 'MyEditor',
       onError,
@@ -111,7 +112,7 @@ export const MarkdownEditor = forwardRef(
     };
 
     const onRef = (_floatingAnchorElem: HTMLDivElement) => {
-      if (_floatingAnchorElem !== null) {
+      if (_floatingAnchorElem !== null && editorFocused) {
         setFloatingAnchorElem(_floatingAnchorElem);
       }
     };
@@ -138,6 +139,12 @@ export const MarkdownEditor = forwardRef(
                   <StyledContentEditable
                     name={name}
                     role="textbox"
+                    onFocus={() => {
+                      setEditorFocused(true);
+                    }}
+                    onBlur={() => {
+                      setEditorFocused(false);
+                    }}
                     {...props}
                   />
                 </EditableWrapper>
