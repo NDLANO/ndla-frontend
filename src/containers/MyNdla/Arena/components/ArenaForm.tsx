@@ -15,11 +15,11 @@ import { colors, misc, spacing } from '@ndla/core';
 import { FormControl, InputV3, Label, FieldErrorMessage } from '@ndla/forms';
 import { InformationOutline } from '@ndla/icons/common';
 import { Text } from '@ndla/typography';
+import AlertModal from './AlertModal';
 import { MarkdownEditor } from '../../../../components/MarkdownEditor/MarkdownEditor';
 import { FieldLength } from '../../../../containers/MyNdla/Folders/FolderForm';
 import useValidationTranslation from '../../../../util/useValidationTranslation';
 import { iconCss } from '../../Folders/FoldersPage';
-import AlertModal from './AlertModal';
 
 export const ArenaFormWrapper = styled.div`
   display: flex;

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2023-present, NDLA.
+ * Copyright (c) 2024-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
@@ -8,7 +8,16 @@
 
 import { History, Blocker, Transition } from 'history';
 import { useContext, useEffect, useState } from 'react';
+import { FormState } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
+import {
+  UNSAFE_NavigationContext,
+  useNavigate,
+  Location,
+} from 'react-router-dom';
+import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
+import { spacing } from '@ndla/core';
 import {
   Modal,
   ModalBody,
@@ -18,18 +27,9 @@ import {
   ModalTitle,
   ModalTrigger,
 } from '@ndla/modal';
-import {
-  UNSAFE_NavigationContext,
-  useNavigate,
-  Location,
-} from 'react-router-dom';
-import { supportedLanguages } from '../../../../i18n';
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
 import { Text } from '@ndla/typography';
 import { ButtonRow } from '../../../../components/MyNdla/AddResourceToFolder';
-import { FormState } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
+import { supportedLanguages } from '../../../../i18n';
 
 // V6 has not added useBlocker hook yet. Source taken from react-router.
 const useBlocker = (blocker: Blocker, when = true): void => {
@@ -79,7 +79,7 @@ const AlertModal = ({
   );
   const { t } = useTranslation();
 
-  const type = !!initialContent ? 'edit' : postType;
+  const type = initialContent ? 'edit' : postType;
   const navigate = useNavigate();
 
   const shouldBlock = !(
