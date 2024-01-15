@@ -70,6 +70,12 @@ const InputWrapper = styled.div`
   gap: ${spacing.small};
 `;
 
+const StyledFieldErrorMessage = styled(FieldErrorMessage)`
+  &[data-disabled='true'] {
+    color: black;
+  }
+`;
+
 export const setFloatingElemPositionForLinkEditor = (
   targetRect: DOMRect | null,
   floatingElem: HTMLElement,
@@ -340,7 +346,9 @@ const FloatingLinkEditor = ({
             {t('save')}
           </ButtonV2>
         </InputWrapper>
-        <FieldErrorMessage>{error}</FieldErrorMessage>
+        <StyledFieldErrorMessage data-disabled={editedLinkUrl.length === 0}>
+          {error}
+        </StyledFieldErrorMessage>
       </FormControl>
     </FloatingContainer>
   ) : null;
