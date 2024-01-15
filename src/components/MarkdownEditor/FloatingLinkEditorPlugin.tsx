@@ -160,13 +160,20 @@ const FloatingLinkEditor = ({
   const [editedLinkUrl, setEditedLinkUrl] = useState('');
   const [lastSelection, setLastSelection] = useState<LexicalSelection>(null);
   const [open, setOpen] = useState(false);
-  const error = useMemo(() => {
+
+  const urlError = useMemo(() => {
     if (editedLinkUrl === '') {
       return t('markdownEditor.link.error.url.empty');
     } else if (!validateUrl(editedLinkUrl)) {
       return t('markdownEditor.link.error.url.invalid');
     } else return undefined;
   }, [editedLinkUrl, t]);
+
+  const textError = useMemo(() => {
+    if (editedLinkText === '') {
+      return t('markdownEditor.link.error.text.empty');
+    } else return undefined;
+  }, [editedLinkText, t]);
 
   const isDirty = useMemo(() => {
     return editedLinkUrl !== linkUrl || editedLinkText !== linkText;
@@ -369,11 +376,7 @@ const FloatingLinkEditor = ({
   return open ? (
     <FloatingContainer ref={editorRef} data-visible={!!open}>
       <InputWrapper>
-        <FormControl
-          id="text"
-          isRequired
-          isInvalid={editedLinkText.length === 0}
-        >
+        <FormControl id="text" isRequired isInvalid={!!textError}>
           <Label margin="none" textStyle="label-small">
             {t('markdownEditor.link.text')}
           </Label>
@@ -386,13 +389,9 @@ const FloatingLinkEditor = ({
               setEditedLinkText(event.currentTarget.value);
             }}
           />
-          <FieldErrorMessage>
-            {editedLinkText.length === 0
-              ? t('markdownEditor.link.error.text.empty')
-              : undefined}
-          </FieldErrorMessage>
+          <FieldErrorMessage>{textError}</FieldErrorMessage>
         </FormControl>
-        <FormControl id="url" isRequired isInvalid={!!error}>
+        <FormControl id="url" isRequired isInvalid={!!urlError}>
           <Label margin="none" textStyle="label-small">
             {t('markdownEditor.link.url')}
           </Label>
@@ -408,14 +407,17 @@ const FloatingLinkEditor = ({
               monitorInputInteraction(event);
             }}
           />
-          <FieldErrorMessage>{error}</FieldErrorMessage>
+          <FieldErrorMessage>{urlError}</FieldErrorMessage>
         </FormControl>
       </InputWrapper>
       <InputWrapper>
         <ButtonV2 onClick={handleLinkDeletion} disabled={!editedLinkElement}>
           {t('myNdla.resource.remove')}
         </ButtonV2>
-        <ButtonV2 onClick={handleLinkSubmission} disabled={!isDirty || !!error}>
+        <ButtonV2
+          onClick={handleLinkSubmission}
+          disabled={!isDirty || !!urlError}
+        >
           {t('save')}
         </ButtonV2>
       </InputWrapper>
