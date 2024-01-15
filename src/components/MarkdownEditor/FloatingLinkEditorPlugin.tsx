@@ -195,16 +195,19 @@ const FloatingLinkEditor = ({
       const node = getSelectedNode(selection);
       const linkParent = $findMatchingParent(node, $isLinkNode);
 
+      let linkNode = undefined;
+      if (linkParent) {
+        linkNode = linkParent;
+      } else if ($isLinkNode(node)) {
+        linkNode = node;
+      }
+
       let linkUrl = undefined,
         linkText = undefined;
-      if (linkParent) {
-        linkUrl = linkParent.getURL();
-        linkText = linkParent.getFirstChild().getTextContent();
-        setEditedLinkElement(linkParent);
-      } else if ($isLinkNode(node)) {
-        linkUrl = node.getURL();
-        linkText = node.getFirstChild()?.getTextContent();
-        setEditedLinkElement(node);
+      if (linkNode) {
+        linkUrl = linkNode.getURL();
+        linkText = linkNode.getFirstChild()?.getTextContent();
+        setEditedLinkElement(linkNode);
       }
 
       setLinkUrl(linkUrl ?? '');
