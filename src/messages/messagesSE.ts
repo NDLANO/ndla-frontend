@@ -55,6 +55,8 @@ const messages = {
       description: 'Válddahus',
       title: 'Namahus',
       content: 'Sisdoallu',
+      reason: 'Årsak',
+      flaggedReason: 'Årsak',
     },
     required: 'Dát fealta gáibiduvvo',
     requiredField: '$t(validation.fields.{{field}}) gáibiduvvo',

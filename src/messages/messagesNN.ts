@@ -56,6 +56,8 @@ const messages = {
       title: 'Tittel',
       content: 'Innhald',
       description: 'Beskriving',
+      reason: 'Årsak',
+      flaggedReason: 'Årsak',
     },
     required: 'Dette feltet er påkrevd',
     requiredField: '$t(validation.fields.{{field}}) er påkrevd',
