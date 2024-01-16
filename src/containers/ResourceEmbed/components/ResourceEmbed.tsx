@@ -49,7 +49,6 @@ const CreatedByWrapper = styled.div`
 
 const StyledAccordionHeader = styled(AccordionHeader)`
   background-color: ${colors.brand.lightest};
-  border: 1px solid ${colors.brand.tertiary};
 `;
 
 interface Props {
