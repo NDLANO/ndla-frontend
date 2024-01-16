@@ -67,9 +67,15 @@ const FloatingContainer = styled.div`
 `;
 const InputWrapper = styled.div`
   display: flex;
-  flex-direction: row-end;
+  flex-direction: column;
+`;
+const ButtonWrapper = styled.div`
+  display: flex;
+  width: 100%;
   gap: ${spacing.small};
-  justify-content: end;
+  > button {
+    flex: 1;
+  }
 `;
 
 export const setFloatingElemPositionForLinkEditor = (
@@ -413,7 +419,7 @@ const FloatingLinkEditor = ({
           <FieldErrorMessage>{urlError}</FieldErrorMessage>
         </FormControl>
       </InputWrapper>
-      <InputWrapper>
+      <ButtonWrapper>
         <ButtonV2 onClick={handleLinkDeletion} disabled={!editedLinkElement}>
           {t('myNdla.resource.remove')}
         </ButtonV2>
@@ -423,7 +429,7 @@ const FloatingLinkEditor = ({
         >
           {t('save')}
         </ButtonV2>
-      </InputWrapper>
+      </ButtonWrapper>
     </FloatingContainer>
   ) : null;
 };
