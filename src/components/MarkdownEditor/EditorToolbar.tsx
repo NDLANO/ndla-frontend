@@ -114,12 +114,11 @@ export const EditorToolbar = () => {
   );
 
   const linkLabel = useMemo(() => {
-    if (!hasSelectedText) return t('markdownEditor.toolbar.link.noSelection');
     const baseText = t(
       `markdownEditor.toolbar.link.${isLink ? 'active' : 'inactive'}`,
     );
     return `${baseText} ${osCtrl('k')}`;
-  }, [hasSelectedText, isLink, osCtrl, t]);
+  }, [isLink, osCtrl, t]);
 
   const insertLink = useCallback(() => {
     if (isLink) {

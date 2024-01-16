@@ -106,7 +106,6 @@ const messages = {
       link: {
         active: 'Remove link',
         inactive: 'Add link',
-        noSelection: 'Select text to add link',
       },
     },
   },

@@ -107,7 +107,6 @@ const messages = {
       link: {
         active: 'Fjern lenke',
         inactive: 'Legg til lenke',
-        noSelection: 'Marker tekst for å legge til lenke',
       },
     },
   },

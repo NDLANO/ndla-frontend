@@ -103,7 +103,6 @@ const messages = {
       link: {
         active: 'Váldde eret liŋkka',
         inactive: 'Lasit liŋkka',
-        noSelection: 'Merke teavstta liŋkka lasihit',
       },
     },
   },
