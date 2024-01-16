@@ -31,7 +31,8 @@ import { Text } from '@ndla/typography';
 import { ButtonRow } from '../../../../components/MyNdla/AddResourceToFolder';
 import { supportedLanguages } from '../../../../i18n';
 
-// V6 has not added useBlocker hook yet. Source taken from react-router.
+// TODO: Remove when upgrading react-router
+// V6 has not added useBlocker hook yet. Source taken from react-router. Same logic used in editorial frontend
 const useBlocker = (blocker: Blocker, when = true): void => {
   const navigator = useContext(UNSAFE_NavigationContext).navigator as History;
 
