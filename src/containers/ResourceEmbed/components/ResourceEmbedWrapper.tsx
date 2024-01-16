@@ -21,7 +21,8 @@ export type EmbedType =
   | 'podcast'
   | 'image'
   | 'h5p'
-  | 'concept';
+  | 'concept'
+  | 'gloss';
 
 interface Props {
   children: ReactNode;

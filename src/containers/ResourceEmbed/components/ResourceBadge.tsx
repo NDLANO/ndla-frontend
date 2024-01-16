@@ -10,7 +10,7 @@ import { ElementType, HTMLAttributes } from 'react';
 import styled from '@emotion/styled';
 import { colors, spacing, misc } from '@ndla/core';
 import { Podcast, Audio } from '@ndla/icons/common';
-import { Concept, H5P, Media, Video } from '@ndla/icons/editor';
+import { Concept, H5P, Media, Video, Globe } from '@ndla/icons/editor';
 import { EmbedType } from './ResourceEmbedWrapper';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
@@ -41,6 +41,7 @@ const typeIconMapping: Record<EmbedType, ElementType> = {
   h5p: H5P,
   image: Media,
   concept: Concept,
+  gloss: Globe,
 };
 
 const ResourceBadge = ({ type }: Props) => {

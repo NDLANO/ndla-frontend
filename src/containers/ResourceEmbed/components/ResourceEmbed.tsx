@@ -228,7 +228,7 @@ const ResourceEmbed = ({ id, type, noBackground, isOembed, folder }: Props) => {
       </SocialMediaMetadata>
       <main>
         <ResourceEmbedWrapper
-          type={type}
+          type={properties?.type}
           title={properties?.title}
           noBackground={noBackground}
         >
