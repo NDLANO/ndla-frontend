@@ -121,9 +121,7 @@ export const EditorToolbar = () => {
   }, [isLink, osCtrl, t]);
 
   const insertLink = useCallback(() => {
-    if (isLink) {
-      editor.dispatchCommand(TOGGLE_LINK_COMMAND, null);
-    } else {
+    if (!isLink) {
       editor.dispatchCommand(ADD_LINK_COMMAND, null);
     }
   }, [editor, isLink]);
