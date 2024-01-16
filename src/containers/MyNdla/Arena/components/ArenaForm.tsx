@@ -10,11 +10,12 @@ import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import { ButtonV2, LoadingButton } from '@ndla/button';
+import { LoadingButton } from '@ndla/button';
 import { colors, misc, spacing } from '@ndla/core';
 import { FormControl, InputV3, Label, FieldErrorMessage } from '@ndla/forms';
 import { InformationOutline } from '@ndla/icons/common';
 import { Text } from '@ndla/typography';
+import AlertModal from './AlertModal';
 import { MarkdownEditor } from '../../../../components/MarkdownEditor/MarkdownEditor';
 import { FieldLength } from '../../../../containers/MyNdla/Folders/FolderForm';
 import useValidationTranslation from '../../../../util/useValidationTranslation';
@@ -206,9 +207,12 @@ const ArenaForm = ({
         </Text>
       </InformationLabel>
       <ButtonRow>
-        <ButtonV2 variant="outline" onClick={onAbort}>
-          {t('cancel')}
-        </ButtonV2>
+        <AlertModal
+          onAbort={onAbort}
+          postType={type}
+          formState={formState}
+          initialContent={initialContent}
+        />
         <LoadingButton
           colorTheme="primary"
           type="submit"
