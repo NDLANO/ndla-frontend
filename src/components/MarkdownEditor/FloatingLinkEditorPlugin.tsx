@@ -78,6 +78,12 @@ const ButtonWrapper = styled.div`
   }
 `;
 
+const StyledFieldErrorMessage = styled(FieldErrorMessage)`
+  &[data-disabled='true'] {
+    color: ${colors.black};
+  }
+`;
+
 export const setFloatingElemPositionForLinkEditor = (
   targetRect: DOMRect | null,
   floatingElem: HTMLElement,
@@ -398,7 +404,9 @@ const FloatingLinkEditor = ({
               setEditedLinkText(event.currentTarget.value);
             }}
           />
-          <FieldErrorMessage>{textError}</FieldErrorMessage>
+          <StyledFieldErrorMessage data-disabled={editedLinkText.length < 1}>
+            {textError}
+          </StyledFieldErrorMessage>
         </FormControl>
         <FormControl id="url" isRequired isInvalid={!!urlError}>
           <Label margin="none" textStyle="label-small">
@@ -416,7 +424,9 @@ const FloatingLinkEditor = ({
               monitorInputInteraction(event);
             }}
           />
-          <FieldErrorMessage>{urlError}</FieldErrorMessage>
+          <StyledFieldErrorMessage data-disabled={editedLinkUrl.length < 1}>
+            {urlError}
+          </StyledFieldErrorMessage>
         </FormControl>
       </InputWrapper>
       <ButtonWrapper>
