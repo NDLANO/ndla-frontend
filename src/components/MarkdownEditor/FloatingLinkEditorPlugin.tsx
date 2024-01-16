@@ -126,6 +126,7 @@ interface FloatingLinkEditorProps {
   isLink: boolean;
   setIsLink: Dispatch<boolean>;
   anchorElement: HTMLElement;
+  editorIsFocused?: boolean;
 }
 
 type LexicalSelection = RangeSelection | GridSelection | NodeSelection | null;
@@ -160,6 +161,7 @@ const FloatingLinkEditor = ({
   isLink,
   setIsLink,
   anchorElement,
+  editorIsFocused,
 }: FloatingLinkEditorProps) => {
   const { t } = useTranslation();
   const editorRef = useRef<HTMLDivElement | null>(null);
@@ -202,6 +204,9 @@ const FloatingLinkEditor = ({
   };
 
   const updateLinkEditor = useCallback(() => {
+    if (!editorIsFocused) {
+      return;
+    }
     const selection = $getSelection();
     if ($isRangeSelection(selection)) {
       const node = getSelectedNode(selection);
@@ -277,7 +282,7 @@ const FloatingLinkEditor = ({
     }
 
     return true;
-  }, [anchorElement, editor, lastSelection]);
+  }, [anchorElement, editor, lastSelection, editorIsFocused]);
 
   useEffect(() => {
     const scrollerElem = anchorElement.parentElement;
@@ -446,9 +451,13 @@ const FloatingLinkEditor = ({
 
 interface Props {
   anchorElement: HTMLElement;
+  editorIsFocused: boolean;
 }
 
-export const FloatingLinkEditorPlugin = ({ anchorElement }: Props) => {
+export const FloatingLinkEditorPlugin = ({
+  anchorElement,
+  editorIsFocused,
+}: Props) => {
   const [editor] = useLexicalComposerContext();
   const [activeEditor, setActiveEditor] = useState(editor);
   const [isLink, setIsLink] = useState(false);
@@ -502,6 +511,7 @@ export const FloatingLinkEditorPlugin = ({ anchorElement }: Props) => {
       isLink={isLink}
       anchorElement={anchorElement}
       setIsLink={setIsLink}
+      editorIsFocused={editorIsFocused}
     />,
     anchorElement,
   );

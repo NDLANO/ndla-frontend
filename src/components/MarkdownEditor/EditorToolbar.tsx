@@ -93,7 +93,11 @@ export const getSelectedNode = (
   }
 };
 
-export const EditorToolbar = () => {
+interface EditorToolbarProps {
+  editorIsFocused: boolean;
+}
+
+export const EditorToolbar = ({ editorIsFocused }: EditorToolbarProps) => {
   const { t } = useTranslation();
   const [editor] = useLexicalComposerContext();
   const [activeEditor, setActiveEditor] = useState(editor);
@@ -144,7 +148,7 @@ export const EditorToolbar = () => {
 
   const $updateToolbar = useCallback(() => {
     const selection = $getSelection();
-    if ($isRangeSelection(selection)) {
+    if ($isRangeSelection(selection) && editorIsFocused) {
       const anchorNode = selection.anchor.getNode();
       let element =
         anchorNode.getKey() === 'root'
@@ -188,7 +192,7 @@ export const EditorToolbar = () => {
         }
       }
     }
-  }, [activeEditor]);
+  }, [activeEditor, editorIsFocused]);
 
   useEffect(() => {
     return editor.registerCommand(

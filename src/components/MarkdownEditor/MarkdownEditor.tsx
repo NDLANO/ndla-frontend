@@ -112,7 +112,7 @@ export const MarkdownEditor = forwardRef(
     };
 
     const onRef = (_floatingAnchorElem: HTMLDivElement) => {
-      if (_floatingAnchorElem !== null && editorFocused) {
+      if (_floatingAnchorElem !== null) {
         setFloatingAnchorElem(_floatingAnchorElem);
       }
     };
@@ -131,7 +131,7 @@ export const MarkdownEditor = forwardRef(
     return (
       <StyledEditorContainer>
         <LexicalComposer initialConfig={initialConfig}>
-          <EditorToolbar />
+          <EditorToolbar editorIsFocused={editorFocused} />
           <InnerEditorContainer>
             <RichTextPlugin
               contentEditable={
@@ -154,7 +154,10 @@ export const MarkdownEditor = forwardRef(
             />
           </InnerEditorContainer>
           {floatingAnchorElem ? (
-            <FloatingLinkEditorPlugin anchorElement={floatingAnchorElem} />
+            <FloatingLinkEditorPlugin
+              anchorElement={floatingAnchorElem}
+              editorIsFocused={editorFocused}
+            />
           ) : (
             ''
           )}
