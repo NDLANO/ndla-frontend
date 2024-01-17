@@ -171,6 +171,13 @@ const ArenaForm = ({
         name="content"
         rules={{
           required: validationT({ type: 'required', field: 'content' }),
+          maxLength: {
+            value: 32767,
+            message: validationT({
+              type: 'maxLength',
+              field: 'content',
+            }),
+          },
         }}
         render={({ field, fieldState }) => (
           <FormControl
