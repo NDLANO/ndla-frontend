@@ -356,6 +356,7 @@ const FloatingLinkEditor = ({
 
   const monitorInputInteraction = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
+      event.stopPropagation();
       event.preventDefault();
       handleLinkSubmission();
     } else if (event.key === 'Escape') {
@@ -407,6 +408,9 @@ const FloatingLinkEditor = ({
             value={editedLinkText}
             onChange={(event) => {
               setEditedLinkText(event.currentTarget.value);
+            }}
+            onKeyDown={(event) => {
+              monitorInputInteraction(event);
             }}
           />
           <StyledFieldErrorMessage data-disabled={editedLinkText.length < 1}>
