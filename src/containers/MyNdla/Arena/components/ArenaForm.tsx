@@ -86,6 +86,7 @@ export interface ArenaFormValues {
 }
 
 const titleMaxLength = 64;
+const contentMaxLength = 32767;
 
 const ArenaForm = ({
   onSave,
@@ -137,7 +138,7 @@ const ArenaForm = ({
           rules={{
             required: validationT({ type: 'required', field: 'content' }),
             maxLength: {
-              value: 64,
+              value: titleMaxLength,
               message: validationT({
                 type: 'maxLength',
                 field: 'title',
@@ -172,10 +173,11 @@ const ArenaForm = ({
         rules={{
           required: validationT({ type: 'required', field: 'content' }),
           maxLength: {
-            value: 32767,
+            value: contentMaxLength,
             message: validationT({
               type: 'maxLength',
               field: 'content',
+              vars: { count: contentMaxLength },
             }),
           },
         }}
