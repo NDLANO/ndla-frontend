@@ -21,6 +21,7 @@ import {
   RangeSelection,
   LexicalCommand,
   createCommand,
+  LexicalNode,
 } from 'lexical';
 import {
   Dispatch,
@@ -34,7 +35,7 @@ import {
 import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import { $isLinkNode, TOGGLE_LINK_COMMAND } from '@lexical/link';
+import { $isLinkNode, toggleLink, TOGGLE_LINK_COMMAND } from '@lexical/link';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { mergeRegister, $findMatchingParent } from '@lexical/utils';
 import { ButtonV2 } from '@ndla/button';
@@ -51,7 +52,7 @@ const FloatingContainer = styled.div`
   position: absolute;
   z-index: 1000;
   display: none;
-  align-items: center;
+  align-items: end;
   gap: ${spacing.small};
   background-color: ${colors.white};
   border: 1px solid ${colors.brand.greyLight};
@@ -60,14 +61,27 @@ const FloatingContainer = styled.div`
   box-shadow: ${shadows.levitate1};
   &[data-visible='true'] {
     display: flex;
+    flex-direction: column;
     transform: translate(0, 40px);
   }
 `;
-
 const InputWrapper = styled.div`
   display: flex;
-  align-items: center;
+  flex-direction: column;
+`;
+const ButtonWrapper = styled.div`
+  display: flex;
+  width: 100%;
   gap: ${spacing.small};
+  > button {
+    flex: 1;
+  }
+`;
+
+const StyledFieldErrorMessage = styled(FieldErrorMessage)`
+  &[data-disabled='true'] {
+    color: ${colors.black};
+  }
 `;
 
 export const setFloatingElemPositionForLinkEditor = (
@@ -112,6 +126,7 @@ interface FloatingLinkEditorProps {
   isLink: boolean;
   setIsLink: Dispatch<boolean>;
   anchorElement: HTMLElement;
+  editorIsFocused?: boolean;
 }
 
 type LexicalSelection = RangeSelection | GridSelection | NodeSelection | null;
@@ -146,41 +161,81 @@ const FloatingLinkEditor = ({
   isLink,
   setIsLink,
   anchorElement,
+  editorIsFocused,
 }: FloatingLinkEditorProps) => {
   const { t } = useTranslation();
   const editorRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const [linkText, setLinkText] = useState('');
   const [linkUrl, setLinkUrl] = useState('');
+  const [editedLinkElement, setEditedLinkElement] =
+    useState<LexicalNode | null>(null);
+  const [editedLinkText, setEditedLinkText] = useState('');
   const [editedLinkUrl, setEditedLinkUrl] = useState('');
   const [lastSelection, setLastSelection] = useState<LexicalSelection>(null);
-  const [isLinkEditMode, setIsLinkEditMode] = useState(false);
-  const error = useMemo(() => {
+  const [open, setOpen] = useState(false);
+
+  const urlError = useMemo(() => {
     if (editedLinkUrl === '') {
-      return t('markdownEditor.link.error.empty');
+      return t('markdownEditor.link.error.url.empty');
     } else if (!validateUrl(editedLinkUrl)) {
-      return t('markdownEditor.link.error.invalid');
+      return t('markdownEditor.link.error.url.invalid');
     } else return undefined;
   }, [editedLinkUrl, t]);
-  const isDirty = editedLinkUrl !== linkUrl;
+
+  const textError = useMemo(() => {
+    if (editedLinkText === '') {
+      return t('markdownEditor.link.error.text.empty');
+    } else return undefined;
+  }, [editedLinkText, t]);
+
+  const isDirty = useMemo(() => {
+    return editedLinkUrl !== linkUrl || editedLinkText !== linkText;
+  }, [editedLinkUrl, editedLinkText, linkUrl, linkText]);
+
+  const closeLinkWindow = () => {
+    setEditedLinkText('');
+    setEditedLinkUrl('');
+    setLinkText('');
+    setLinkUrl('');
+    setEditedLinkElement(null);
+    setLastSelection(null);
+    setOpen(false);
+  };
 
   const updateLinkEditor = useCallback(() => {
+    if (!editorIsFocused) {
+      return;
+    }
     const selection = $getSelection();
     if ($isRangeSelection(selection)) {
       const node = getSelectedNode(selection);
       const linkParent = $findMatchingParent(node, $isLinkNode);
 
-      let linkUrl = undefined;
+      let linkNode = undefined;
       if (linkParent) {
-        linkUrl = linkParent.getURL();
+        linkNode = linkParent;
       } else if ($isLinkNode(node)) {
-        linkUrl = node.getURL();
+        linkNode = node;
+      }
+
+      let linkUrl = undefined,
+        linkText = undefined;
+      if (linkNode) {
+        linkUrl = linkNode.getURL();
+        linkText = linkNode.getFirstChild()?.getTextContent();
+        setEditedLinkElement(linkNode);
       }
 
       setLinkUrl(linkUrl ?? '');
+      setLinkText(linkText ?? '');
       if (!selection.is(lastSelection)) {
-        setIsLinkEditMode(linkUrl);
+        setOpen(linkUrl);
         if (linkUrl) {
           setEditedLinkUrl(linkUrl);
+        }
+        if (linkText) {
+          setEditedLinkText(linkText);
         }
       }
     }
@@ -219,13 +274,15 @@ const FloatingLinkEditor = ({
         setFloatingElemPositionForLinkEditor(null, editorElem, anchorElement);
       }
       setLastSelection(null);
-      setIsLinkEditMode(false);
+      setOpen(false);
       setEditedLinkUrl('');
+      setEditedLinkText('');
       setLinkUrl('');
+      setLinkText('');
     }
 
     return true;
-  }, [anchorElement, editor, lastSelection]);
+  }, [anchorElement, editor, lastSelection, editorIsFocused]);
 
   useEffect(() => {
     const scrollerElem = anchorElement.parentElement;
@@ -262,10 +319,14 @@ const FloatingLinkEditor = ({
       editor.registerCommand(
         ADD_LINK_COMMAND,
         (_) => {
+          const selection = $getSelection();
           setLastSelection(null);
+          setEditedLinkElement(null);
           setEditedLinkUrl('');
+          setEditedLinkText(selection?.getTextContent() ?? '');
           setLinkUrl('');
-          setIsLinkEditMode(true);
+          setLinkText('');
+          setOpen(true);
           return true;
         },
         COMMAND_PRIORITY_LOW,
@@ -295,33 +356,72 @@ const FloatingLinkEditor = ({
 
   const monitorInputInteraction = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
+      event.stopPropagation();
       event.preventDefault();
       handleLinkSubmission();
     } else if (event.key === 'Escape') {
       event.preventDefault();
-      setIsLinkEditMode(false);
+      setOpen(false);
       editor.focus();
     }
   };
 
   const handleLinkSubmission = () => {
-    editor.dispatchCommand(TOGGLE_LINK_COMMAND, sanitizeUrl(editedLinkUrl));
-    setLastSelection(null);
-    setEditedLinkUrl('');
-    setLinkUrl('');
-    setIsLinkEditMode(false);
+    editor.update(() => {
+      const selection = $getSelection();
+      if (editedLinkElement) {
+        editedLinkElement.setURL(sanitizeUrl(editedLinkUrl));
+        editedLinkElement.getFirstChild().setTextContent(editedLinkText);
+      } else {
+        if ($isRangeSelection(selection)) {
+          selection.removeText();
+          selection.insertRawText(editedLinkText);
+          toggleLink(sanitizeUrl(editedLinkUrl));
+        }
+      }
+    });
+    editor.dispatchCommand(TOGGLE_LINK_COMMAND, editedLinkUrl);
+    closeLinkWindow();
   };
 
-  return isLinkEditMode ? (
-    <FloatingContainer ref={editorRef} data-visible={!!isLinkEditMode}>
-      <FormControl id="url" isRequired isInvalid={!!error}>
-        <Label margin="none" textStyle="label-small">
-          {t('markdownEditor.link.url')}
-        </Label>
-        <InputWrapper>
+  const handleLinkDeletion = () => {
+    editor.update(() => {
+      const selection = $getSelection();
+      if ($isRangeSelection(selection)) {
+        toggleLink(null);
+      }
+    });
+    closeLinkWindow();
+  };
+
+  return open ? (
+    <FloatingContainer ref={editorRef} data-visible={!!open}>
+      <InputWrapper>
+        <FormControl id="text" isRequired isInvalid={!!textError}>
+          <Label margin="none" textStyle="label-small">
+            {t('markdownEditor.link.text')}
+          </Label>
           <InputV3
             // eslint-disable-next-line jsx-a11y/no-autofocus
             autoFocus={!linkUrl}
+            name="text"
+            value={editedLinkText}
+            onChange={(event) => {
+              setEditedLinkText(event.currentTarget.value);
+            }}
+            onKeyDown={(event) => {
+              monitorInputInteraction(event);
+            }}
+          />
+          <StyledFieldErrorMessage data-disabled={editedLinkText.length < 1}>
+            {textError}
+          </StyledFieldErrorMessage>
+        </FormControl>
+        <FormControl id="url" isRequired isInvalid={!!urlError}>
+          <Label margin="none" textStyle="label-small">
+            {t('markdownEditor.link.url')}
+          </Label>
+          <InputV3
             name="url"
             ref={inputRef}
             data-link-input=""
@@ -333,24 +433,35 @@ const FloatingLinkEditor = ({
               monitorInputInteraction(event);
             }}
           />
-          <ButtonV2
-            onClick={handleLinkSubmission}
-            disabled={!isDirty || !!error}
-          >
-            {t('save')}
-          </ButtonV2>
-        </InputWrapper>
-        <FieldErrorMessage>{error}</FieldErrorMessage>
-      </FormControl>
+          <StyledFieldErrorMessage data-disabled={editedLinkUrl.length < 1}>
+            {urlError}
+          </StyledFieldErrorMessage>
+        </FormControl>
+      </InputWrapper>
+      <ButtonWrapper>
+        <ButtonV2 onClick={handleLinkDeletion} disabled={!editedLinkElement}>
+          {t('myNdla.resource.remove')}
+        </ButtonV2>
+        <ButtonV2
+          onClick={handleLinkSubmission}
+          disabled={!isDirty || !!urlError}
+        >
+          {t('save')}
+        </ButtonV2>
+      </ButtonWrapper>
     </FloatingContainer>
   ) : null;
 };
 
 interface Props {
   anchorElement: HTMLElement;
+  editorIsFocused: boolean;
 }
 
-export const FloatingLinkEditorPlugin = ({ anchorElement }: Props) => {
+export const FloatingLinkEditorPlugin = ({
+  anchorElement,
+  editorIsFocused,
+}: Props) => {
   const [editor] = useLexicalComposerContext();
   const [activeEditor, setActiveEditor] = useState(editor);
   const [isLink, setIsLink] = useState(false);
@@ -404,6 +515,7 @@ export const FloatingLinkEditorPlugin = ({ anchorElement }: Props) => {
       isLink={isLink}
       anchorElement={anchorElement}
       setIsLink={setIsLink}
+      editorIsFocused={editorIsFocused}
     />,
     anchorElement,
   );

@@ -94,6 +94,7 @@ export const MarkdownEditor = forwardRef(
       HTMLDivElement | undefined
     >(undefined);
     const props = useFormControl({});
+    const [editorFocused, setEditorFocused] = useState(false);
     const initialConfig: InitialConfigType = {
       namespace: 'MyEditor',
       onError,
@@ -130,7 +131,7 @@ export const MarkdownEditor = forwardRef(
     return (
       <StyledEditorContainer>
         <LexicalComposer initialConfig={initialConfig}>
-          <EditorToolbar />
+          <EditorToolbar editorIsFocused={editorFocused} />
           <InnerEditorContainer>
             <RichTextPlugin
               contentEditable={
@@ -138,6 +139,12 @@ export const MarkdownEditor = forwardRef(
                   <StyledContentEditable
                     name={name}
                     role="textbox"
+                    onFocus={() => {
+                      setEditorFocused(true);
+                    }}
+                    onBlur={() => {
+                      setEditorFocused(false);
+                    }}
                     {...props}
                   />
                 </EditableWrapper>
@@ -147,7 +154,10 @@ export const MarkdownEditor = forwardRef(
             />
           </InnerEditorContainer>
           {floatingAnchorElem ? (
-            <FloatingLinkEditorPlugin anchorElement={floatingAnchorElem} />
+            <FloatingLinkEditorPlugin
+              anchorElement={floatingAnchorElem}
+              editorIsFocused={editorFocused}
+            />
           ) : (
             ''
           )}
