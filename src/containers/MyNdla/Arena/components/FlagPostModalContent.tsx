@@ -86,7 +86,13 @@ const FlagPostModalContent = ({ id, onClose }: FlagPostModalProps) => {
   const { t } = useTranslation();
   const { addSnack } = useSnack();
   const [showReasonField, setShowReasonField] = useState<boolean>(false);
-  const { handleSubmit, getValues, control, setValue } = useForm({
+  const {
+    handleSubmit,
+    getValues,
+    control,
+    setValue,
+    formState: { dirtyFields },
+  } = useForm({
     defaultValues: {
       flaggedReason: 'spam',
       reason: '',
@@ -94,7 +100,7 @@ const FlagPostModalContent = ({ id, onClose }: FlagPostModalProps) => {
     mode: 'onChange',
   });
 
-  const { flaggedReason, reason } = getValues();
+  const { flaggedReason } = getValues();
 
   const sendReport = async (data: FlagPost) => {
     try {
@@ -192,7 +198,6 @@ const FlagPostModalContent = ({ id, onClose }: FlagPostModalProps) => {
                     {...field}
                     maxLength={MAXIMUM_LENGTH_TEXTFIELD}
                   />
-
                   <FieldInfoWrapper>
                     <StyledText
                       element="p"
@@ -217,7 +222,7 @@ const FlagPostModalContent = ({ id, onClose }: FlagPostModalProps) => {
           <LoadingButton
             colorTheme="primary"
             type="submit"
-            disabled={flaggedReason === 'other' && reason === ''}
+            disabled={flaggedReason === 'other' && !dirtyFields.reason}
           >
             {t('myNdla.arena.flag.send')}
           </LoadingButton>

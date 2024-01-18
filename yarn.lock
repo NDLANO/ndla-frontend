@@ -13729,7 +13729,7 @@ __metadata:
     react-device-detect: "npm:^2.2.3"
     react-dom: "npm:^18.2.0"
     react-helmet-async: "npm:^1.3.0"
-    react-hook-form: "npm:^7.34.2"
+    react-hook-form: "npm:^7.49.3"
     react-i18next: "npm:^13.3.0"
     react-refresh: "npm:^0.14.0"
     react-router-dom: "npm:^6.3.0"
@@ -15724,12 +15724,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-hook-form@npm:^7.34.2":
-  version: 7.34.2
-  resolution: "react-hook-form@npm:7.34.2"
+"react-hook-form@npm:^7.49.3":
+  version: 7.49.3
+  resolution: "react-hook-form@npm:7.49.3"
   peerDependencies:
     react: ^16.8.0 || ^17 || ^18
-  checksum: da4f1c519ad4e365c7094166df638ed9d3f72579e6c7803c182567c51676e6fd16c84e5adb0a756a052be5850aa114403476d03fa694c6ae95c242983042aaed
+  checksum: f8e5b2dcc3d97c820b4fbac262d7e914d74f385f26f34da31b8efc6c0f32ba995f2a2330bdfd3d8b7c8b56a52349a0cbc0c0dbe9053b3971e5e0c78003dfb7f0
   languageName: node
   linkType: hard
 
