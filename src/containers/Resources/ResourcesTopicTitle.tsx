@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { IconButtonV2 } from '@ndla/button';
-import { breakpoints, mq, spacing } from '@ndla/core';
+import { breakpoints, colors, misc, mq, spacing } from '@ndla/core';
 import { LearningPathQuiz } from '@ndla/icons/contentType';
 import {
   ModalBody,
@@ -56,6 +56,16 @@ const StyledRow = styled.div`
   gap: ${spacing.xsmall};
 `;
 
+const StyledSwitch = styled(Switch)`
+  border: 2px solid transparent;
+  border-radius: ${misc.borderRadius};
+  &:focus,
+  &:focus-visible,
+  &:focus-within {
+    border-color: ${colors.brand.dark};
+  }
+`;
+
 const StyledHGroup = styled.hgroup`
   display: flex;
   gap: ${spacing.small};
@@ -99,7 +109,7 @@ const ResourcesTopicTitle = ({
       {hasAdditionalResources && (
         <StyledRow>
           <form>
-            <Switch
+            <StyledSwitch
               id="toggleAdditionID"
               checked={showAdditionalResources}
               label={t('resource.activateAdditionalResources')}
