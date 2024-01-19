@@ -13,6 +13,7 @@ import { useTranslation } from 'react-i18next';
 import { Link, useLocation } from 'react-router-dom';
 import { gql } from '@apollo/client';
 import styled from '@emotion/styled';
+import { stackOrder } from '@ndla/core';
 import {
   metaTypes,
   getGroupedContributorDescriptionList,
@@ -50,7 +51,7 @@ export const downloadUrl = (imageSrc: string) => {
 
 const StyledLink = styled(Link)`
   ::before {
-    z-index: 1;
+    z-index: ${stackOrder.offsetSingle};
   }
 `;
 
