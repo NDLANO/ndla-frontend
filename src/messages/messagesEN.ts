@@ -56,8 +56,6 @@ const messages = {
       description: 'Description',
       title: 'Title',
       content: 'Content',
-      reason: 'Reason',
-      flaggedReason: 'Reason',
     },
     required: 'This field is required',
     requiredField: '$t(validation.fields.{{field}}) is required',

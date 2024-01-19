@@ -71,7 +71,7 @@ const FieldInfoWrapper = styled.div`
 `;
 
 interface FlagPost {
-  flaggedReason: string;
+  type: string;
   reason: string;
 }
 
@@ -94,13 +94,13 @@ const FlagPostModalContent = ({ id, onClose }: FlagPostModalProps) => {
     formState: { dirtyFields },
   } = useForm({
     defaultValues: {
-      flaggedReason: 'spam',
+      type: 'spam',
       reason: '',
     },
     mode: 'onChange',
   });
 
-  const { flaggedReason } = getValues();
+  const { type } = getValues();
 
   const sendReport = async (data: FlagPost) => {
     try {
@@ -108,7 +108,7 @@ const FlagPostModalContent = ({ id, onClose }: FlagPostModalProps) => {
         variables: {
           id,
           type: 'post',
-          reason: data.reason === 'other' ? data.flaggedReason : data.reason,
+          reason: data.reason === 'other' ? data.type : data.reason,
         },
       });
       addSnack({
@@ -139,15 +139,14 @@ const FlagPostModalContent = ({ id, onClose }: FlagPostModalProps) => {
         <form onSubmit={handleSubmit(sendReport)} noValidate>
           <Controller
             control={control}
-            name="flaggedReason"
+            name="type"
             rules={{
               required: validationT({
                 type: 'required',
-                field: 'flaggedReason',
               }),
             }}
             render={({ field }) => (
-              <FormControl id="flaggedReason" isRequired>
+              <FormControl id="type" isRequired>
                 <StyledRadioButtonGroup
                   {...field}
                   options={[
@@ -160,7 +159,7 @@ const FlagPostModalContent = ({ id, onClose }: FlagPostModalProps) => {
                   ]}
                   direction="vertical"
                   onChange={(value) => {
-                    setValue('flaggedReason', value, {
+                    setValue('type', value, {
                       shouldDirty: true,
                       shouldValidate: true,
                     });
@@ -176,19 +175,18 @@ const FlagPostModalContent = ({ id, onClose }: FlagPostModalProps) => {
               control={control}
               name="reason"
               rules={{
-                required: validationT({ type: 'required', field: 'reason' }),
+                required: validationT({ type: 'required' }),
                 maxLength: {
                   value: MAXIMUM_LENGTH_TEXTFIELD,
                   message: validationT({
                     type: 'maxLength',
-                    field: 'reason',
                     vars: { count: MAXIMUM_LENGTH_TEXTFIELD },
                   }),
                 },
               }}
               render={({ field, fieldState }) => (
                 <FormControl
-                  id="flag-reason"
+                  id="reason"
                   isInvalid={!!fieldState.error?.message}
                 >
                   <Label textStyle="label-small" margin="none">
@@ -221,7 +219,7 @@ const FlagPostModalContent = ({ id, onClose }: FlagPostModalProps) => {
             <LoadingButton
               colorTheme="primary"
               type="submit"
-              disabled={flaggedReason === 'other' && !dirtyFields.reason}
+              disabled={type === 'other' && !dirtyFields.reason}
             >
               {t('myNdla.arena.flag.send')}
             </LoadingButton>
