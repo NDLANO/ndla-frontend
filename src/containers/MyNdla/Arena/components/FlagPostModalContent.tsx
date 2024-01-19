@@ -214,19 +214,19 @@ const FlagPostModalContent = ({ id, onClose }: FlagPostModalProps) => {
               )}
             />
           )}
+          <StyledButtonRow>
+            <ButtonV2 onClick={onClose} variant="outline">
+              {t('cancel')}
+            </ButtonV2>
+            <LoadingButton
+              colorTheme="primary"
+              type="submit"
+              disabled={flaggedReason === 'other' && !dirtyFields.reason}
+            >
+              {t('myNdla.arena.flag.send')}
+            </LoadingButton>
+          </StyledButtonRow>
         </form>
-        <StyledButtonRow>
-          <ButtonV2 onClick={onClose} variant="outline">
-            {t('cancel')}
-          </ButtonV2>
-          <LoadingButton
-            colorTheme="primary"
-            type="submit"
-            disabled={flaggedReason === 'other' && !dirtyFields.reason}
-          >
-            {t('myNdla.arena.flag.send')}
-          </LoadingButton>
-        </StyledButtonRow>
       </StyledModalBody>
     </ModalContent>
   );
