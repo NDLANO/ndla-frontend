@@ -58,7 +58,7 @@ const messages = {
       content: 'Innhold',
     },
     required: 'Dette feltet er påkrevd',
-    requiredField: '$t(validation.fields.{{field}}) er påkrevd',
+    requiredField: '$t(validation.fields.{{field}}) kan ikke være tom',
     notUnique: 'Finnes allerede',
     maxLength: 'Dette feltet kan maks inneholde {{count}} tegn',
     maxLengthField:

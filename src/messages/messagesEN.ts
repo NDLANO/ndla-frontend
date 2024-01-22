@@ -58,7 +58,7 @@ const messages = {
       content: 'Content',
     },
     required: 'This field is required',
-    requiredField: '$t(validation.fields.{{field}}) is required',
+    requiredField: '$t(validation.fields.{{field}}) can not be empty',
     notUnique: 'Already exists',
     maxLength: 'This field can only contain {{count}} characters',
     maxLengthField: `$t(validation.fields.{{field}}) can only contain {{count}} characters`,
