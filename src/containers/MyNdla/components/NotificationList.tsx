@@ -68,11 +68,13 @@ const Notification = styled.div`
 const StyledList = styled.ul`
   list-style: none;
   gap: ${spacing.xxsmall};
+  display: flex;
+  flex-direction: column;
   padding: 0 0 ${spacing.small} 0;
 `;
 
 const StyledLi = styled.li`
-  margin-bottom: ${spacing.xxsmall};
+  padding: 0;
 `;
 
 const StyledText = styled(Text)`

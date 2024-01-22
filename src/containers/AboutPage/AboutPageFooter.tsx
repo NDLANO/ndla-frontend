@@ -26,12 +26,11 @@ interface Props {
 const StyledList = styled.ul`
   display: flex;
   flex-direction: column;
-  margin: 0px;
   padding: 0px;
   list-style: none;
   gap: ${spacing.small};
   li {
-    margin: 0px;
+    padding: 0px;
   }
 `;
 

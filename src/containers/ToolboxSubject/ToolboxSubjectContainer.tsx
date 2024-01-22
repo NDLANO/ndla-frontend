@@ -174,7 +174,7 @@ const ToolboxSubjectContainer = ({ topicList, subject }: Props) => {
         description={socialMediaMetaData.description}
         imageUrl={socialMediaMetaData.image?.url}
       />
-      <OneColumn className={""}>
+      <OneColumn>
         <BreadcrumbWrapper>
           <HomeBreadcrumb items={breadCrumbs} />
         </BreadcrumbWrapper>

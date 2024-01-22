@@ -64,6 +64,10 @@ const createFilters = (t: TFunction) => [
   },
 ];
 
+const StyledMain = styled.main`
+  padding-top: ${spacing.large};
+`;
+
 const StyledColumn = styled(OneColumn)`
   display: flex;
   flex-direction: column;
@@ -71,7 +75,6 @@ const StyledColumn = styled(OneColumn)`
 
 const StyledList = styled.ul`
   list-style: none;
-  margin: 0;
   padding: 0;
 `;
 
@@ -147,7 +150,7 @@ const AllSubjectsPage = () => {
     );
 
   return (
-    <main className="c-resources u-padding-top-large">
+    <StyledMain>
       <HelmetWithTracker title={t("htmlTitles.subjectsPage")} />
       <StyledColumn wide>
         <Heading element="h1" headingStyle="h1" serif id={SKIP_TO_CONTENT_ID}>
@@ -176,7 +179,7 @@ const AllSubjectsPage = () => {
           <SubjectCategory favorites={favoriteSubjects} key={label} label={label} subjects={subjects} />
         ))}
       </StyledList>
-    </main>
+    </StyledMain>
   );
 };
 

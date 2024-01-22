@@ -17,7 +17,6 @@ import { DrawerListItem } from "./DrawerPortion";
 interface BaseProps {
   bold?: boolean;
   type: "button" | "link";
-  className?: string;
   active?: boolean;
   id: string;
   current?: boolean;
@@ -98,7 +97,7 @@ const CurrentIndicator = styled.span`
 
 type Props = DrawerMenuButtonProps | DrawerMenuLinkProps;
 
-const DrawerMenuItem = ({ bold, children, className, active, current, id, ...specificProps }: Props) => {
+const DrawerMenuItem = ({ bold, children, active, current, id, ...specificProps }: Props) => {
   const style = bold ? boldItemStyle : normalItemStyle;
   if (specificProps.type === "button") {
     return (
@@ -112,7 +111,6 @@ const DrawerMenuItem = ({ bold, children, className, active, current, id, ...spe
           id={id}
           onClick={() => specificProps.onClick(!!active)}
           css={[style, active ? activeStyle : []]}
-          className={className}
         >
           <TextWrapper>
             {children}
@@ -131,7 +129,6 @@ const DrawerMenuItem = ({ bold, children, className, active, current, id, ...spe
           aria-current={current ? "page" : undefined}
           to={specificProps.to}
           onClick={specificProps.onClose}
-          className={className}
           css={[style, active ? activeStyle : []]}
         >
           <TextWrapper>

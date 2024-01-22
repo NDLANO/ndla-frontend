@@ -19,7 +19,7 @@ interface Props {
   id: number;
   title: string;
   subText: string;
-  count: number;
+  count?: number;
 }
 
 const StyledSafelink = styled(SafeLink)`
@@ -105,14 +105,16 @@ const ArenaCard = ({ id, title, subText, count }: Props) => {
             {subText}
           </StyledDescriptionText>
         </div>
-        <StyledCountContainer>
-          <Text element="p" textStyle="content-alt" margin="none">
-            {count}
-          </Text>
-          <Text textStyle="meta-text-small" margin="none">
-            {t("myNdla.arena.category.posts", { count })}
-          </Text>
-        </StyledCountContainer>
+        {count && (
+          <StyledCountContainer>
+            <Text element="p" textStyle="content-alt" margin="none">
+              {count}
+            </Text>
+            <Text textStyle="meta-text-small" margin="none">
+              {t("myNdla.arena.category.posts", { count })}
+            </Text>
+          </StyledCountContainer>
+        )}
       </SpacingContainer>
     </StyledSafelink>
   );

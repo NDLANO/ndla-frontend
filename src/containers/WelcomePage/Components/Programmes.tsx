@@ -84,7 +84,7 @@ const StyledNav = styled.nav`
 
 const StyledLi = styled.li`
   list-style: none;
-  margin: unset;
+  padding: 0;
   line-height: unset;
   &[data-mobile="false"] {
     min-height: 350px;

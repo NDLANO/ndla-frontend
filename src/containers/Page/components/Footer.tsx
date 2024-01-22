@@ -104,14 +104,15 @@ const FooterWrapper = () => {
     width: 100%;
     display: flex;
     justify-content: flex-end;
+    position: relative;
   `;
 
   const StyledZendesk = styled(ZendeskButton)`
     border-color: ${colors.brand.secondary};
-    position: relative;
+    position: absolute;
     right: ${spacing.large};
     // Heigth of button is 40px, so this is to center it vertically.
-    top: 20px;
+    top: -20px;
     z-index: 10;
 
     &[disabled] {

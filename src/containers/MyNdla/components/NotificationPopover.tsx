@@ -31,7 +31,13 @@ const StyledArrow = styled(Arrow)`
 `;
 
 const ShowAllLink = styled(SafeLinkButton)`
+  margin-top: ${spacing.small};
   width: 100%;
+  &:focus-visible {
+    outline-width: 2px;
+    outline-style: solid;
+    outline-color: ${colors.black};
+  }
 `;
 
 const NotificationPopover = () => {

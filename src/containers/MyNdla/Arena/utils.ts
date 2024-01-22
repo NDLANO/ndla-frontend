@@ -6,9 +6,9 @@
  *
  */
 
-export const toArenaTopic = (topicId: number) => `/minndla/arena/topic/${topicId}`;
+export const toArenaTopic = (topicId: number | string) => `/minndla/arena/topic/${topicId}`;
 
-export const toArenaCategory = (categoryId: number) => `/minndla/arena/category/${categoryId}`;
+export const toArenaCategory = (categoryId: number | string) => `/minndla/arena/category/${categoryId}`;
 
 export const toArena = () => `/minndla/arena`;
 

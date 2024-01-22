@@ -156,7 +156,7 @@ const DraggableResource = ({
       id={`resource-${resource.id}`}
       ref={setNodeRef}
       style={style}
-      isDragging={isDragging}
+      data-is-dragging={isDragging}
     >
       <DragHandle
         type="resource"

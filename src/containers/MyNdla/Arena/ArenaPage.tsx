@@ -30,7 +30,7 @@ const StyledCardContainer = styled.ul`
 
 const ArenaCardWrapper = styled.li`
   list-style: none;
-  margin: 0;
+  padding: 0;
 `;
 
 const ArenaPage = () => {
@@ -77,7 +77,7 @@ const ArenaPage = () => {
                 id={category.id}
                 title={category.name}
                 subText={category.description}
-                count={category.topicCount}
+                //count={category.topicCount}
               />
             </ArenaCardWrapper>
           ))}

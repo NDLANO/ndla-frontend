@@ -9,18 +9,18 @@
 import { formatDistanceStrict } from "date-fns";
 import { nb, nn, enGB } from "date-fns/locale";
 import parse from "html-react-parser";
-import { Dispatch, SetStateAction, useCallback, useContext, useMemo } from "react";
+import { Dispatch, SetStateAction, useCallback, useContext, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
 import { colors, spacing, misc, mq, breakpoints } from "@ndla/core";
 import { Pencil, TrashCanOutline } from "@ndla/icons/action";
 import { ReportOutlined } from "@ndla/icons/common";
 import { Switch } from "@ndla/switch";
 import { Text, Heading } from "@ndla/typography";
 import { useSnack } from "@ndla/ui";
-import { ArenaFormValues } from "./ArenaForm";
-import ArenaTextModal, { ArenaTextModalContent } from "./ArenaTextModal";
+import ArenaForm, { ArenaFormValues, ArenaFormWrapper } from "./ArenaForm";
 import FlagPostModalContent from "./FlagPostModalContent";
 import { AuthContext } from "../../../../components/AuthenticationContext";
 import { SKIP_TO_CONTENT_ID } from "../../../../constants";
@@ -39,6 +39,18 @@ interface Props {
   topic: GQLArenaTopicByIdQuery["arenaTopic"];
   setFocusId: Dispatch<SetStateAction<number | undefined>>;
 }
+
+const PostWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${spacing.large};
+`;
+
+const StyledArenaFormWrapper = styled(ArenaFormWrapper)`
+  ${mq.range({ from: breakpoints.tablet })} {
+    margin-left: ${spacing.xlarge};
+  }
+`;
 
 const PostCardWrapper = styled.div`
   background-color: ${colors.background.lightBlue};
@@ -88,8 +100,12 @@ const TimestampText = styled(Text)`
   align-self: center;
 `;
 
-const StyledContent = styled(Text)`
-  word-wrap: break-word;
+const Content = styled(Text)`
+  ul,
+  ol {
+    padding-left: ${spacing.normal};
+  }
+  word-break: break-word;
 `;
 
 const Locales = {
@@ -100,6 +116,8 @@ const Locales = {
 };
 
 const PostCard = ({ topic, post, onFollowChange, setFocusId }: Props) => {
+  const [isReplying, setIsReplying] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
   const {
     id: postId,
     topicId,
@@ -108,6 +126,7 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId }: Props) => {
     content,
     user: { displayName, username, location },
   } = post;
+  const replyToRef = useRef<HTMLButtonElement | null>(null);
 
   const {
     t,
@@ -195,28 +214,7 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId }: Props) => {
       icon: <Pencil />,
       text: t("myNdla.arena.posts.dropdownMenu.edit"),
       type: "primary",
-      isModal: true,
-      modalContent: (close) => (
-        <ArenaTextModalContent
-          type={type}
-          onClose={close}
-          onSave={async (data) => {
-            await updatePost({
-              variables: {
-                content: data.content ?? "",
-                postId,
-                title: isMainPost ? data.title : undefined,
-              },
-            });
-            addSnack({
-              content: t(`myNdla.arena.updated.${type}`),
-              id: `arena${type}Updated`,
-            });
-          }}
-          title={topic?.title}
-          content={content}
-        />
-      ),
+      onClick: () => setIsEditing(true),
     };
 
     const deleteItem: MenuItemProps = {
@@ -247,20 +245,7 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId }: Props) => {
     };
 
     return <SettingsMenu menuItems={isCorrectUser ? [update, deleteItem] : [report]} modalHeader={t("myNdla.tools")} />;
-  }, [
-    t,
-    user,
-    type,
-    postId,
-    content,
-    addSnack,
-    username,
-    updatePost,
-    isMainPost,
-    topic?.title,
-    deletePostCallback,
-    deleteTopicCallback,
-  ]);
+  }, [t, user, type, postId, username, isMainPost, deletePostCallback, deleteTopicCallback]);
 
   const createReply = useCallback(
     async (data: Partial<ArenaFormValues>) => {
@@ -292,7 +277,9 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId }: Props) => {
             {menu}
             {postTime}
           </FlexLine>
-          <ArenaTextModal type="post" onSave={createReply} />
+          <ButtonV2 ref={replyToRef} onClick={() => setIsReplying(true)} disabled={isReplying}>
+            {t("myNdla.arena.new.post")}
+          </ButtonV2>
         </>
       );
     } else {
@@ -306,30 +293,65 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId }: Props) => {
   };
 
   return (
-    <PostCardWrapper id={`post-${postId}`}>
-      <PostHeader>
-        <UserProfileTag displayName={displayName} username={username} affiliation={location ?? ""} />
-        {isMainPost && (
-          <StyledSwitch
-            onChange={onFollowChange}
-            checked={!!topic?.isFollowing}
-            label={t("myNdla.arena.posts.notify")}
-            id={t("myNdla.arena.posts.notify")}
+    <PostWrapper>
+      <PostCardWrapper id={`post-${postId}`}>
+        {isEditing ? (
+          <ArenaForm
+            id={postId}
+            type={type}
+            initialTitle={topic?.title}
+            initialContent={post.content}
+            onAbort={() => setIsEditing(false)}
+            onSave={async (values) => {
+              await updatePost({
+                variables: { postId, content: values.content ?? "" },
+              });
+              setIsEditing(false);
+            }}
           />
+        ) : (
+          <>
+            <PostHeader>
+              <UserProfileTag displayName={displayName} username={username} affiliation={location ?? ""} />
+              {isMainPost && (
+                <StyledSwitch
+                  onChange={onFollowChange}
+                  checked={!!topic?.isFollowing}
+                  label={t("myNdla.arena.posts.notify")}
+                  id={t("myNdla.arena.posts.notify")}
+                />
+              )}
+            </PostHeader>
+            <ContentWrapper>
+              {isMainPost && (
+                <Heading element="h1" id={SKIP_TO_CONTENT_ID} headingStyle="h4" margin="none">
+                  {topic?.title}
+                </Heading>
+              )}
+              <Content element="div" textStyle="content-alt" margin="none">
+                {parse(content)}
+              </Content>
+            </ContentWrapper>
+            <FlexLine>{options(isMainPost)}</FlexLine>
+          </>
         )}
-      </PostHeader>
-      <ContentWrapper>
-        {isMainPost && (
-          <Heading element="h1" id={SKIP_TO_CONTENT_ID} headingStyle="h4" margin="none">
-            {topic?.title}
-          </Heading>
-        )}
-        <StyledContent element="div" textStyle="content-alt" margin="none">
-          {parse(content)}
-        </StyledContent>
-      </ContentWrapper>
-      <FlexLine>{options(isMainPost)}</FlexLine>
-    </PostCardWrapper>
+      </PostCardWrapper>
+      {isReplying && (
+        <StyledArenaFormWrapper>
+          <ArenaForm
+            onAbort={async () => {
+              setIsReplying(false);
+              setTimeout(() => replyToRef.current?.focus(), 1);
+            }}
+            type="post"
+            onSave={async (values) => {
+              await createReply(values);
+              setIsReplying(false);
+            }}
+          />
+        </StyledArenaFormWrapper>
+      )}
+    </PostWrapper>
   );
 };
 

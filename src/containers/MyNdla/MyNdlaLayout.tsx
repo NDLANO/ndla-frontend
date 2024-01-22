@@ -68,6 +68,8 @@ const StyledLi = styled.li`
   &:not(:nth-of-type(-n + 4)) {
     display: none;
   }
+
+  padding: 0;
   margin: 0;
   ${mq.range({ from: breakpoints.mobileWide })} {
     display: unset !important;
@@ -154,7 +156,7 @@ const MyNdlaLayout = () => {
     <StyledLayout>
       <Modal open={isOpen} onOpenChange={setIsOpen}>
         <StyledSideBar>
-          <nav>
+          <nav aria-label={t("myNdla.myNDLAMenu")}>
             <StyledNavList>{menuLink}</StyledNavList>
           </nav>
           <ModalTrigger>

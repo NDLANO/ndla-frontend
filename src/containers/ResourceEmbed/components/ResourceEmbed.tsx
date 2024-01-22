@@ -44,7 +44,6 @@ const CreatedByWrapper = styled.div`
 
 const StyledAccordionHeader = styled(AccordionHeader)`
   background-color: ${colors.brand.lightest};
-  border: 1px solid ${colors.brand.tertiary};
 `;
 
 interface Props {
@@ -201,7 +200,7 @@ const ResourceEmbed = ({ id, type, noBackground, isOembed, folder }: Props) => {
         <meta name="robots" content="noindex" />
       </SocialMediaMetadata>
       <main>
-        <ResourceEmbedWrapper type={type} title={properties?.title} noBackground={noBackground}>
+        <ResourceEmbedWrapper type={properties?.type} title={properties?.title} noBackground={noBackground}>
           {transformedContent}
           <AccordionRoot type="single" collapsible>
             {data?.resourceEmbed.meta && hasLicensedContent(data.resourceEmbed.meta) && (

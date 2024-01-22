@@ -6,20 +6,30 @@
  *
  */
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { ButtonV2, LoadingButton } from "@ndla/button";
-import { colors, spacing } from "@ndla/core";
-import { FormControl, InputV3, InputContainer, Label, FieldErrorMessage } from "@ndla/forms";
+import { LoadingButton } from "@ndla/button";
+import { colors, misc, spacing } from "@ndla/core";
+import { FormControl, InputV3, Label, FieldErrorMessage } from "@ndla/forms";
 import { InformationOutline } from "@ndla/icons/common";
-import { ModalCloseButton } from "@ndla/modal";
 import { Text } from "@ndla/typography";
+import AlertModal from "./AlertModal";
 import { MarkdownEditor } from "../../../../components/MarkdownEditor/MarkdownEditor";
 import { FieldLength } from "../../../../containers/MyNdla/Folders/FolderForm";
 import useValidationTranslation from "../../../../util/useValidationTranslation";
 import { iconCss } from "../../Folders/FoldersPage";
+
+export const ArenaFormWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${spacing.normal};
+  padding: ${spacing.normal};
+  background-color: ${colors.background.lightBlue};
+  border: 1px solid ${colors.brand.light};
+  border-radius: ${misc.borderRadius};
+`;
 
 const StyledForm = styled.form`
   display: flex;
@@ -36,12 +46,8 @@ const ButtonRow = styled.div`
 
 const InformationLabel = styled.div`
   display: flex;
-  flex-direction: row;
   gap: ${spacing.small};
   align-items: center;
-  border-radius: ${spacing.xxsmall};
-  padding: ${spacing.small} ${spacing.normal};
-  background-color: ${colors.support.yellowLight};
 `;
 
 const StyledLabel = styled(Label)`
@@ -60,8 +66,8 @@ const StyledInformationOutline = styled(InformationOutline)`
   overflow: unset !important;
 `;
 
-const StyledInputContainer = styled(InputContainer)`
-  padding: unset;
+const StyledInput = styled(InputV3)`
+  background: ${colors.white};
 `;
 
 interface ArenaFormProps {
@@ -69,7 +75,9 @@ interface ArenaFormProps {
   initialTitle?: string;
   initialContent?: string;
   onSave: (data: Partial<ArenaFormValues>) => Promise<void>;
+  onAbort: () => void;
   loading?: boolean;
+  id?: number;
 }
 
 export interface ArenaFormValues {
@@ -77,10 +85,10 @@ export interface ArenaFormValues {
   content: string;
 }
 
-const contentMaxLength = 300;
 const titleMaxLength = 64;
+const contentMaxLength = 32767;
 
-const ArenaForm = ({ onSave, type, initialTitle, initialContent }: ArenaFormProps) => {
+const ArenaForm = ({ onSave, onAbort, type, initialTitle, initialContent, id }: ArenaFormProps) => {
   const { t } = useTranslation();
   const { validationT } = useValidationTranslation();
   const { formState, trigger, control, handleSubmit, setValue } = useForm({
@@ -90,11 +98,18 @@ const ArenaForm = ({ onSave, type, initialTitle, initialContent }: ArenaFormProp
     },
     mode: "onChange",
   });
-  const [contentLength, setContentLength] = useState<number>(0);
 
   useEffect(() => {
     trigger();
   }, [trigger]);
+
+  useEffect(() => {
+    type === "topic"
+      ? setTimeout(() => document.getElementById("field-title")?.focus(), 1)
+      : id
+        ? setTimeout(() => document.getElementById(`field-editor-${id}`)?.focus(), 1)
+        : setTimeout(() => document.getElementById(`field-editor`)?.focus(), 1);
+  }, [id, type]);
 
   const onSubmit = async (data: ArenaFormValues) => {
     await onSave(type === "topic" ? { title: data.title, content: data.content } : { content: data.content });
@@ -109,7 +124,7 @@ const ArenaForm = ({ onSave, type, initialTitle, initialContent }: ArenaFormProp
           rules={{
             required: validationT({ type: "required", field: "content" }),
             maxLength: {
-              value: 64,
+              value: titleMaxLength,
               message: validationT({
                 type: "maxLength",
                 field: "title",
@@ -120,9 +135,7 @@ const ArenaForm = ({ onSave, type, initialTitle, initialContent }: ArenaFormProp
           render={({ field, fieldState }) => (
             <FormControl id="title" isRequired isInvalid={!!fieldState.error?.message}>
               <StyledLabel textStyle="label-small">{t("title")}</StyledLabel>
-              <StyledInputContainer>
-                <InputV3 {...field} />
-              </StyledInputContainer>
+              <StyledInput {...field} />
               <FieldInfoWrapper>
                 <FieldLength value={field.value.length ?? 0} maxLength={titleMaxLength} />
                 <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
@@ -146,9 +159,9 @@ const ArenaForm = ({ onSave, type, initialTitle, initialContent }: ArenaFormProp
           },
         }}
         render={({ field, fieldState }) => (
-          <FormControl id="editor" isRequired isInvalid={!!fieldState.error?.message}>
+          <FormControl id={id ? `editor-${id}` : "editor"} isRequired isInvalid={!!fieldState.error?.message}>
             <StyledLabel textStyle="label-small" onClick={() => document.getElementById("field-editor")?.focus()}>
-              {t("myNdla.arena.topic.topicContent")}
+              {type === "post" ? t("myNdla.arena.new.post") : t("myNdla.arena.topic.topicContent")}
             </StyledLabel>
             <MarkdownEditor
               setContentWritten={(val) => {
@@ -157,14 +170,10 @@ const ArenaForm = ({ onSave, type, initialTitle, initialContent }: ArenaFormProp
                   shouldDirty: true,
                 });
               }}
-              setContentLength={(number) => setContentLength(number)}
               initialValue={initialContent ?? ""}
               {...field}
             />
-            <FieldInfoWrapper>
-              <FieldLength value={contentLength ?? 0} maxLength={contentMaxLength} />
-              <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
-            </FieldInfoWrapper>
+            <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
           </FormControl>
         )}
       />
@@ -175,9 +184,7 @@ const ArenaForm = ({ onSave, type, initialTitle, initialContent }: ArenaFormProp
         </Text>
       </InformationLabel>
       <ButtonRow>
-        <ModalCloseButton>
-          <ButtonV2 variant="outline">{t("cancel")}</ButtonV2>
-        </ModalCloseButton>
+        <AlertModal onAbort={onAbort} postType={type} formState={formState} initialContent={initialContent} />
         <LoadingButton colorTheme="primary" type="submit" disabled={!formState.isDirty || !formState.isValid}>
           {t("myNdla.arena.publish")}
         </LoadingButton>

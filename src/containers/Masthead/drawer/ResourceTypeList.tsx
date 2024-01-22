@@ -15,7 +15,6 @@ import { DrawerListItem } from "./DrawerPortion";
 import { contentTypeMapping } from "../../../util/getContentType";
 
 const StyledResourceTypeList = styled.ul`
-  margin: 0;
   flex: 1;
   padding: 0;
   list-style: none;
@@ -33,7 +32,6 @@ const ResourceTypeHeader = styled("li", { shouldForwardProp })<HeaderProps>`
   align-items: center;
   padding: ${spacing.xxsmall} 0 ${spacing.xxsmall} ${spacing.normal};
   gap: ${spacing.small};
-  margin: 0;
   margin-top: ${spacing.small};
 `;
 

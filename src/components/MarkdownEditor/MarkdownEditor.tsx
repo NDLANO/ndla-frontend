@@ -19,7 +19,6 @@ import { LinkPlugin } from "@lexical/react/LexicalLinkPlugin";
 import { ListPlugin } from "@lexical/react/LexicalListPlugin";
 import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
-import { $rootTextContent } from "@lexical/text";
 import { colors, misc, spacing } from "@ndla/core";
 import { useFormControl } from "@ndla/forms";
 import { editorTheme } from "./editorTheme";
@@ -35,7 +34,7 @@ const onError = (error: any) => {
 const EditableWrapper = styled.div`
   border-bottom-left-radius: ${misc.borderRadius};
   border-bottom-right-radius: ${misc.borderRadius};
-  background-color: ${colors.brand.greyLightest};
+  background-color: ${colors.white};
   min-height: 115px;
   display: flex;
   flex-direction: column;
@@ -52,7 +51,7 @@ const EditableWrapper = styled.div`
     ul,
     ol {
       padding: 0px;
-      padding-left: ${spacing.small};
+      padding-left: ${spacing.normal};
       margin: 0px;
     }
   }
@@ -64,23 +63,32 @@ const StyledEditorContainer = styled.div`
   width: 100%;
   flex-direction: column;
   border-radius: ${misc.borderRadius};
-  border: 1px solid ${colors.brand.greyLight};
+  border: 1px solid ${colors.brand.grey};
 `;
 
 const InnerEditorContainer = styled.div`
   position: relative;
 `;
 
+const StyledContentEditable = styled(ContentEditable)`
+  &:focus-visible {
+    outline-width: 2px;
+    outline-style: solid;
+    outline-color: ${colors.brand.primary};
+    border-radius: ${misc.borderRadius};
+  }
+`;
+
 interface Props {
   setContentWritten: (data: string) => void;
-  setContentLength: (data: number) => void;
   initialValue: string;
   name: string;
 }
 
-export const MarkdownEditor = forwardRef(({ name, setContentWritten, setContentLength, initialValue }: Props, _) => {
+export const MarkdownEditor = forwardRef(({ name, setContentWritten, initialValue }: Props, _) => {
   const [floatingAnchorElem, setFloatingAnchorElem] = useState<HTMLDivElement | undefined>(undefined);
   const props = useFormControl({});
+  const [editorFocused, setEditorFocused] = useState(false);
   const initialConfig: InitialConfigType = {
     namespace: "MyEditor",
     onError,
@@ -90,7 +98,7 @@ export const MarkdownEditor = forwardRef(({ name, setContentWritten, setContentL
       const parser = new DOMParser();
       const nodes = $generateNodesFromDOM(editor, parser.parseFromString(initialValue, "text/html"));
       $getRoot().select().insertNodes(nodes);
-      setContentLength($rootTextContent().length);
+      setContentWritten($convertToMarkdownString(PLAYGROUND_TRANSFORMERS));
     },
   };
 
@@ -108,26 +116,39 @@ export const MarkdownEditor = forwardRef(({ name, setContentWritten, setContentL
     editorState.read(() => {
       const markdown = $convertToMarkdownString(PLAYGROUND_TRANSFORMERS);
       setContentWritten(markdown);
-      setContentLength($rootTextContent().length);
     });
   };
 
   return (
     <StyledEditorContainer>
       <LexicalComposer initialConfig={initialConfig}>
-        <EditorToolbar />
+        <EditorToolbar editorIsFocused={editorFocused} />
         <InnerEditorContainer>
           <RichTextPlugin
             contentEditable={
               <EditableWrapper ref={onRef}>
-                <ContentEditable name={name} role="textbox" {...props} />
+                <StyledContentEditable
+                  name={name}
+                  role="textbox"
+                  onFocus={() => {
+                    setEditorFocused(true);
+                  }}
+                  onBlur={() => {
+                    setEditorFocused(false);
+                  }}
+                  {...props}
+                />
               </EditableWrapper>
             }
             placeholder={<span />}
             ErrorBoundary={LexicalErrorBoundary}
           />
         </InnerEditorContainer>
-        {floatingAnchorElem ? <FloatingLinkEditorPlugin anchorElement={floatingAnchorElem} /> : ""}
+        {floatingAnchorElem ? (
+          <FloatingLinkEditorPlugin anchorElement={floatingAnchorElem} editorIsFocused={editorFocused} />
+        ) : (
+          ""
+        )}
         <ListPlugin />
         <LinkPlugin />
         <MarkdownPlugin />

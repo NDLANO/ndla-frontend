@@ -15,7 +15,7 @@ import { OneColumn } from "@ndla/ui";
 import ResourceBadge from "./ResourceBadge";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 
-export type EmbedType = "video" | "audio" | "podcast" | "image" | "h5p" | "concept";
+export type EmbedType = "video" | "audio" | "podcast" | "image" | "h5p" | "concept" | "gloss";
 
 interface Props {
   children: ReactNode;
@@ -26,7 +26,7 @@ interface Props {
 
 const TitleWrapper = styled.div`
   display: flex;
-  gap: ${spacing.normal};
+  gap: ${spacing.medium};
   align-items: flex-start;
   h1 {
     margin: 0;

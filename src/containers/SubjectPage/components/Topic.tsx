@@ -97,7 +97,7 @@ const Topic = ({ topicId, subjectId, subTopicId, topic, resourceTypes, showResou
 
   const resources = useMemo(() => {
     if (topic.subtopics) {
-      return <Resources topic={topic} resourceTypes={resourceTypes} headingType="h3" subHeadingType="h4" />;
+      return <Resources topic={topic} resourceTypes={resourceTypes} headingType="h2" subHeadingType="h3" />;
     }
     return null;
   }, [resourceTypes, topic]);

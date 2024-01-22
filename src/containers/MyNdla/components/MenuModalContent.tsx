@@ -26,7 +26,7 @@ import { OutletContext, menuLinks } from "../MyNdlaLayout";
 
 const MenuItem = styled.li`
   list-style: none;
-  margin: unset;
+  padding: unset;
 `;
 
 const StyledText = styled(Text)`
@@ -192,7 +192,7 @@ const MenuModalContent = ({ onViewTypeChange, viewType, buttons, showButtons = t
         </CloseWrapper>
       </StyledModalHeader>
       <StyledModalBody>
-        <nav>
+        <nav aria-label={t("myNdla.myNDLAMenu")}>
           <MenuItems role="tablist">{links}</MenuItems>
         </nav>
         {showButtons && (!!buttons || user?.arenaEnabled) && (

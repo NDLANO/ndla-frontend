@@ -119,6 +119,7 @@ exports[`ErrorPage renderers correctly 1`] = `
   -ms-flex-pack: end;
   -webkit-justify-content: flex-end;
   justify-content: flex-end;
+  position: relative;
 }
 
 .emotion-13 {
@@ -160,9 +161,9 @@ exports[`ErrorPage renderers correctly 1`] = `
   border-radius: 4px;
   background-color: white;
   border-color: #507aa4;
-  position: relative;
+  position: absolute;
   right: 48px;
-  top: 20px;
+  top: -20px;
   z-index: 10;
 }
 
@@ -227,7 +228,7 @@ exports[`ErrorPage renderers correctly 1`] = `
   z-index: 0;
 }
 
-.emotion-16[data-margin='true'] {
+.emotion-16[data-margin="true"] {
   margin-top: 96px;
 }
 
@@ -856,7 +857,7 @@ exports[`ErrorPage renderers correctly 1`] = `
       class="o-content"
     >
       <div
-        class="o-wrapper o-wrapper--clear undefined"
+        class="o-wrapper o-wrapper--clear"
       >
         <article
           class="emotion-5 emotion-6"

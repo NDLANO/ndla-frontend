@@ -8,9 +8,9 @@
 
 import { ElementType, HTMLAttributes } from "react";
 import styled from "@emotion/styled";
-import { breakpoints, colors, mq, spacing } from "@ndla/core";
-import { Podcast } from "@ndla/icons/common";
-import { Concept, H5PBold, Media, SquareAudio, SquareVideo } from "@ndla/icons/editor";
+import { colors, spacing, misc } from "@ndla/core";
+import { Podcast, Audio } from "@ndla/icons/common";
+import { Concept, H5P, Media, Video, Globe } from "@ndla/icons/editor";
 import { EmbedType } from "./ResourceEmbedWrapper";
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
@@ -18,28 +18,30 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 }
 
 const BadgeWrapper = styled.div`
+  min-width: ${spacing.large};
+  min-height: ${spacing.large};
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: ${colors.brand.greyLight};
-  padding: ${spacing.small};
   border: 2px solid ${colors.brand.grey};
-  border-radius: 50%;
-  stroke-width: 20px;
-  line-height: 24px;
+  border-radius: ${misc.borderRadiusLarge};
+
   svg {
     width: 24px;
     height: 24px;
-  }
-  ${mq.range({ from: breakpoints.tablet })} {
-    margin-top: ${spacing.small};
+    color: ${colors.brand.grey};
   }
 `;
 
 const typeIconMapping: Record<EmbedType, ElementType> = {
-  video: SquareVideo,
-  audio: SquareAudio,
+  video: Video,
+  audio: Audio,
   podcast: Podcast,
-  h5p: H5PBold,
+  h5p: H5P,
   image: Media,
   concept: Concept,
+  gloss: Globe,
 };
 
 const ResourceBadge = ({ type }: Props) => {
