@@ -58,7 +58,7 @@ const messages = {
       description: 'Beskriving',
     },
     required: 'Dette feltet er påkrevd',
-    requiredField: '$t(validation.fields.{{field}}) er påkrevd',
+    requiredField: '$t(validation.fields.{{field}}) kan ikkje være tom',
     notUnique: 'Finnes allereie',
     maxLength: 'Dette feltet kan maks innehalde {{count}} teikn',
     maxLengthField:

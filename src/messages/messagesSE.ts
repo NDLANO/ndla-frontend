@@ -57,7 +57,7 @@ const messages = {
       content: 'Sisdoallu',
     },
     required: 'Dát fealta gáibiduvvo',
-    requiredField: '$t(validation.fields.{{field}}) gáibiduvvo',
+    requiredField: '$t(validation.fields.{{field}}) ii sáhte leat guoros',
     notUnique: 'Gávdno juo',
     maxLength: 'Dát fealta sáhttá sisttisdoallat eanemus {{count}} mearkkat',
     maxLengthField:
