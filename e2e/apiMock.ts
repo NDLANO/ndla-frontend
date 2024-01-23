@@ -8,6 +8,7 @@
 
 import { Page } from '@playwright/test';
 import { readFile, writeFile, mkdir } from 'fs/promises';
+import isEqual from 'lodash/isEqual';
 const mockDir = 'e2e/apiMocks/';
 
 interface MockRoute {
@@ -66,6 +67,12 @@ interface GraphqlMockRoute {
   overrideRoute?: boolean;
 }
 
+interface GQLBody {
+  operationName: string;
+  variables: Record<string, string>;
+  query: string;
+}
+
 export const mockGraphqlRoute = async ({
   page,
   operationNames,
@@ -78,31 +85,40 @@ export const mockGraphqlRoute = async ({
 
   return await page.route('**/graphql-api/graphql', async (route) => {
     if (process.env.RECORD_FIXTURES === 'true') {
-      const body = await route.request().postDataJSON();
-      const res = await route.fetch();
-      if (operationNames.includes(body.operationName)) {
+      const body: GQLBody[] = await route.request().postDataJSON();
+      const res = await (await route.fetch()).text();
+
+      if (
+        isEqual(
+          operationNames.sort(),
+          body.map(({ operationName }) => operationName).sort(),
+        )
+      ) {
         await mkdir(mockDir, { recursive: true });
-        await writeFile(
-          `${mockDir}${fixture}_${body.operationName}.json`,
-          await res.text(),
-          {
-            flag: 'w',
-          },
-        );
+        await writeFile(`${mockDir}${fixture}.json`, res, {
+          flag: 'w',
+        });
         return route.fulfill({
+          status: 200,
           contentType: 'application/json',
-          body: await res.text(),
+          body: res,
         });
       }
     } else {
       const body = await route.request().postDataJSON();
-      if (operationNames.includes(body.operationName)) {
+      if (
+        isEqual(
+          operationNames.sort(),
+          body.map(({ operationName }) => operationName).sort(),
+        )
+      ) {
         try {
-          const res = await readFile(
-            `${mockDir}${fixture}_${body.operationName}.json`,
-            'utf-8',
-          );
-          return route.fulfill({ contentType: 'application/json', body: res });
+          const res = await readFile(`${mockDir}${fixture}.json`, 'utf-8');
+          return route.fulfill({
+            status: 200,
+            contentType: 'application/json',
+            body: res,
+          });
         } catch (e) {
           route.abort();
         }
