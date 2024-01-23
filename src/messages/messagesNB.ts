@@ -58,7 +58,7 @@ const messages = {
       content: 'Innhold',
     },
     required: 'Dette feltet er påkrevd',
-    requiredField: '$t(validation.fields.{{field}}) er påkrevd',
+    requiredField: '$t(validation.fields.{{field}}) kan ikke være tom',
     notUnique: 'Finnes allerede',
     maxLength: 'Dette feltet kan maks inneholde {{count}} tegn',
     maxLengthField:
@@ -75,10 +75,16 @@ const messages = {
   },
   markdownEditor: {
     link: {
-      url: 'Lenke',
+      url: 'Lenkeadresse',
+      text: 'Lenketekst',
       error: {
-        empty: 'Lenka kan ikke være tom',
-        invalid: 'Ugyldig lenke. Følg formatet https://ndla.no',
+        url: {
+          empty: 'Lenkeadressa kan ikke være tom',
+          invalid: 'Ugyldig lenkeadresse. Følg formatet https://ndla.no',
+        },
+        text: {
+          empty: 'Lenketeksten kan ikke være tom',
+        },
       },
     },
     toolbar: {
@@ -101,7 +107,6 @@ const messages = {
       link: {
         active: 'Fjern lenke',
         inactive: 'Legg til lenke',
-        noSelection: 'Marker tekst for å legge til lenke',
       },
     },
   },

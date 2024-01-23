@@ -57,7 +57,7 @@ const messages = {
       content: 'Sisdoallu',
     },
     required: 'Dát fealta gáibiduvvo',
-    requiredField: '$t(validation.fields.{{field}}) gáibiduvvo',
+    requiredField: '$t(validation.fields.{{field}}) ii sáhte leat guoros',
     notUnique: 'Gávdno juo',
     maxLength: 'Dát fealta sáhttá sisttisdoallat eanemus {{count}} mearkkat',
     maxLengthField:
@@ -71,10 +71,16 @@ const messages = {
   },
   markdownEditor: {
     link: {
-      url: 'Liŋka',
+      url: 'Lenkeadresse',
+      text: 'Lenketekst',
       error: {
-        empty: 'Liŋka ii sáhte leat guorus',
-        invalid: 'Gustohis liŋka. Čuovo formáhta dáppe https://ndla.no',
+        url: {
+          empty: 'Lenkeadressa kan ikke være tom',
+          invalid: 'Ugyldig lenkeadresse. Følg formatet https://ndla.no',
+        },
+        text: {
+          empty: 'Lenketeksta kan ikke være tom',
+        },
       },
     },
     toolbar: {
@@ -97,7 +103,6 @@ const messages = {
       link: {
         active: 'Váldde eret liŋkka',
         inactive: 'Lasit liŋkka',
-        noSelection: 'Merke teavstta liŋkka lasihit',
       },
     },
   },

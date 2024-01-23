@@ -93,7 +93,11 @@ export const getSelectedNode = (
   }
 };
 
-export const EditorToolbar = () => {
+interface EditorToolbarProps {
+  editorIsFocused: boolean;
+}
+
+export const EditorToolbar = ({ editorIsFocused }: EditorToolbarProps) => {
   const { t } = useTranslation();
   const [editor] = useLexicalComposerContext();
   const [activeEditor, setActiveEditor] = useState(editor);
@@ -114,17 +118,14 @@ export const EditorToolbar = () => {
   );
 
   const linkLabel = useMemo(() => {
-    if (!hasSelectedText) return t('markdownEditor.toolbar.link.noSelection');
     const baseText = t(
       `markdownEditor.toolbar.link.${isLink ? 'active' : 'inactive'}`,
     );
     return `${baseText} ${osCtrl('k')}`;
-  }, [hasSelectedText, isLink, osCtrl, t]);
+  }, [isLink, osCtrl, t]);
 
   const insertLink = useCallback(() => {
-    if (isLink) {
-      editor.dispatchCommand(TOGGLE_LINK_COMMAND, null);
-    } else {
+    if (!isLink) {
       editor.dispatchCommand(ADD_LINK_COMMAND, null);
     }
   }, [editor, isLink]);
@@ -147,7 +148,7 @@ export const EditorToolbar = () => {
 
   const $updateToolbar = useCallback(() => {
     const selection = $getSelection();
-    if ($isRangeSelection(selection)) {
+    if ($isRangeSelection(selection) && editorIsFocused) {
       const anchorNode = selection.anchor.getNode();
       let element =
         anchorNode.getKey() === 'root'
@@ -191,7 +192,7 @@ export const EditorToolbar = () => {
         }
       }
     }
-  }, [activeEditor]);
+  }, [activeEditor, editorIsFocused]);
 
   useEffect(() => {
     return editor.registerCommand(
@@ -309,10 +310,9 @@ export const EditorToolbar = () => {
       </StyledButton>
       <StyledButton
         variant="ghost"
-        data-active={isLink}
-        disabled={!isLink && !hasSelectedText}
-        onClick={insertLink}
         colorTheme="greyLighter"
+        data-active={isLink}
+        onClick={insertLink}
         aria-label={linkLabel}
         title={linkLabel}
       >

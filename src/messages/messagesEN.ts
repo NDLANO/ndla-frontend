@@ -58,7 +58,7 @@ const messages = {
       content: 'Content',
     },
     required: 'This field is required',
-    requiredField: '$t(validation.fields.{{field}}) is required',
+    requiredField: '$t(validation.fields.{{field}}) can not be empty',
     notUnique: 'Already exists',
     maxLength: 'This field can only contain {{count}} characters',
     maxLengthField: `$t(validation.fields.{{field}}) can only contain {{count}} characters`,
@@ -74,10 +74,16 @@ const messages = {
   },
   markdownEditor: {
     link: {
-      url: 'Link',
+      url: 'URL',
+      text: 'Text',
       error: {
-        empty: 'Link must not be empty',
-        invalid: 'Invalid link. Follow the format https://ndla.no',
+        url: {
+          empty: 'Link URL must not be empty',
+          invalid: 'Invalid link URL. Follow the format https://ndla.no',
+        },
+        text: {
+          empty: 'Link text must not be empty',
+        },
       },
     },
     toolbar: {
@@ -100,7 +106,6 @@ const messages = {
       link: {
         active: 'Remove link',
         inactive: 'Add link',
-        noSelection: 'Select text to add link',
       },
     },
   },
