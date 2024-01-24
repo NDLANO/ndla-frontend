@@ -14,18 +14,18 @@ test.beforeEach(async ({ page }) => {
     page,
     operationNames: [
       'myNdlaData',
-      'plainArticlePage',
+      'plainLearningpathPage',
       'alerts',
       'mastheadFrontpage',
       'mastheadProgramme',
     ],
-    fixture: 'article',
+    fixture: 'learningpath',
   });
-  await page.goto('/article/1/?disableSSR=true');
+  await page.goto('/learningpaths/8/?disableSSR=true');
 });
 
 test('contains content', async ({ page }) => {
-  const heading = page.getByRole('heading').getByText('Utforskeren');
+  const heading = page.getByRole('heading').getByText('Introduksjon');
   expect(heading).toBeDefined();
   await expect(heading).toBeVisible();
 });
