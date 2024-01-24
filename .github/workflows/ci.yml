@@ -49,6 +49,10 @@ jobs:
         run: yarn install --immutable
       - name: 'Check-all'
         run: yarn check-all
+      - name: Install Playwright Browsers
+        run: yarn playwright install --with-deps chromium
+      - name: 'E2E'
+        run: yarn e2e:headless
   integration_tests:
     name: 'Integration tests'
     runs-on: ubuntu-latest
@@ -86,7 +90,3 @@ jobs:
         run: |
           yarn cross-env NDLA_ENVIRONMENT=mock NODE_ENV=production node build/server &
           yarn e2e-ci
-      - name: Install Playwright Browsers
-        run: yarn playwright install --with-deps chromium
-      - name: 'E2E'
-        run: yarn e2e:headless
