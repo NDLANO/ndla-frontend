@@ -41,7 +41,7 @@ test('should have list of valid links on frontpage', async ({ page }) => {
 });
 
 test('show have functioning language box', async ({ page }) => {
-  await page.waitForResponse('**/graphql-api/*');
+  await mockWaitResponse(page, '**/graphql-api/*');
   await page.getByRole('button', { name: 'Velg språk' }).first().click();
 
   expect(

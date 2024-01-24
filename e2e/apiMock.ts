@@ -86,7 +86,6 @@ export const mockGraphqlRoute = async ({
   return await page.route('**/graphql-api/graphql', async (route) => {
     if (process.env.RECORD_FIXTURES === 'true') {
       const body: GQLBody[] | GQLBody = await route.request().postDataJSON();
-      console.log(body);
       const res = await (await route.fetch()).text();
 
       const bodyOperationNames = Array.isArray(body)
