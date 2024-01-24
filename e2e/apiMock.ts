@@ -85,15 +85,19 @@ export const mockGraphqlRoute = async ({
 
   return await page.route('**/graphql-api/graphql', async (route) => {
     if (process.env.RECORD_FIXTURES === 'true') {
-      const body: GQLBody[] = await route.request().postDataJSON();
+      const body: GQLBody[] | GQLBody = await route.request().postDataJSON();
+      console.log(body);
       const res = await (await route.fetch()).text();
 
-      if (
-        isEqual(
-          operationNames.sort(),
-          body.map(({ operationName }) => operationName).sort(),
-        )
-      ) {
+      const bodyOperationNames = Array.isArray(body)
+        ? body.map((b) => b.operationName)
+        : [body.operationName];
+      const operationsMatch = isEqual(
+        bodyOperationNames.sort(),
+        operationNames.sort(),
+      );
+
+      if (operationsMatch) {
         await mkdir(mockDir, { recursive: true });
         await writeFile(`${mockDir}${fixture}.json`, res, {
           flag: 'w',
@@ -106,12 +110,14 @@ export const mockGraphqlRoute = async ({
       }
     } else {
       const body = await route.request().postDataJSON();
-      if (
-        isEqual(
-          operationNames.sort(),
-          body.map(({ operationName }) => operationName).sort(),
-        )
-      ) {
+      const bodyOperationNames = Array.isArray(body)
+        ? body.map((b) => b.operationName)
+        : [body.operationName];
+      const operationsMatch = isEqual(
+        bodyOperationNames.sort(),
+        operationNames.sort(),
+      );
+      if (operationsMatch) {
         try {
           const res = await readFile(`${mockDir}${fixture}.json`, 'utf-8');
           return route.fulfill({
