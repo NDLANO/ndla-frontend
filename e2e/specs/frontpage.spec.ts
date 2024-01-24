@@ -22,10 +22,10 @@ test.beforeEach(async ({ page }) => {
     fixture: 'frontpage',
   });
   await page.goto('/?disableSSR=true');
-  await mockWaitResponse(page, '**/graphql-api/*');
 });
 
 test('should have list of valid links on frontpage', async ({ page }) => {
+  await mockWaitResponse(page, '**/graphql-api/*');
   const programmes = await page
     .getByTestId('programme-list')
     .getByRole('navigation')
