@@ -15,3 +15,7 @@ yarn-error.log
 .env
 /.vercel
 /.yarn/
+/test-results/
+/playwright-report/
+/playwright/.cache/
+/e2e/.auth/
