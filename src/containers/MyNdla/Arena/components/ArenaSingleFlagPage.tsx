@@ -36,6 +36,7 @@ const ArenaSingleFlagPage = () => {
       postId: Number(postId),
       pageSize: 1,
     },
+    skip: !Number(postId),
   });
 
   if (loading) return <Spinner />;
