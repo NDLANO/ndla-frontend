@@ -9,6 +9,7 @@
 import { ReactNode } from 'react';
 import { gql } from '@apollo/client';
 import styled from '@emotion/styled';
+import { stackOrder } from '@ndla/core';
 import {
   Hero,
   HeroContent,
@@ -77,7 +78,7 @@ interface Props {
 }
 
 const StyledSection = styled.section`
-  z-index: 1;
+  z-index: ${stackOrder.offsetSingle};
 `;
 
 const ArticleHero = ({

@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
-import { breakpoints, colors, misc, mq, spacing } from '@ndla/core';
+import { breakpoints, colors, misc, mq, spacing, stackOrder } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import { HumanMaleBoard } from '@ndla/icons/common';
 import {
@@ -105,7 +105,7 @@ const DrawerButton = styled(ButtonV2)`
   background-color: ${colors.brand.greyLighter};
   border-top: 2px solid ${colors.brand.tertiary};
   width: 100%;
-  z-index: 10;
+  z-index: ${stackOrder.trigger};
   &:focus-within,
   &:hover {
     border-top: 1px solid ${colors.brand.light};

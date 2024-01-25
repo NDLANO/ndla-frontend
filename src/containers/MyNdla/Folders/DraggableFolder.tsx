@@ -10,7 +10,7 @@ import { Dispatch, SetStateAction, memo, useMemo } from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import styled from '@emotion/styled';
-import { colors, spacing } from '@ndla/core';
+import { colors, spacing, stackOrder } from '@ndla/core';
 import { Folder } from '@ndla/ui';
 import DragHandle from './DragHandle';
 import FolderActions from './FolderActions';
@@ -35,10 +35,10 @@ export const DraggableListItem = styled.li`
   padding: 0;
   align-items: center;
   gap: ${spacing.xsmall};
-  z-index: 0;
+  z-index: ${stackOrder.base};
 
   &[data-is-dragging='true'] {
-    z-index: '10';
+    z-index: ${stackOrder.offsetSingle};
   }
 `;
 

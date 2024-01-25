@@ -3,7 +3,7 @@
 exports[`ErrorPage renderers correctly 1`] = `
 <DocumentFragment>
   .emotion-0 {
-  z-index: 99;
+  z-index: 100;
   position: relative;
   background: white;
   border-bottom: 1px solid #eff0f2;
