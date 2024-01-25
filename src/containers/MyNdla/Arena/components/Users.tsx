@@ -30,7 +30,7 @@ const rowStyle = css`
   box-shadow: none;
   line-height: unset;
 
-  padding: 10px;
+  padding: ${spacing.small};
 `;
 
 const StyledRow = styled.li`

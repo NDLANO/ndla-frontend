@@ -12,11 +12,11 @@ import { colors, spacing, misc, mq, breakpoints } from '@ndla/core';
 import { Switch } from '@ndla/switch';
 import { Text } from '@ndla/typography';
 import { GQLArenaFlagFragment } from '../../../../graphqlTypes';
+import { DateFNSLocales } from '../../../../i18n';
 import { formatDateTime } from '../../../../util/formatDate';
 import { useResolveFlagMutation } from '../../arenaMutations';
 import UserProfileTag from '../../components/UserProfileTag';
 import { capitalizeFirstLetter } from '../utils';
-import { DateFNSLocales } from '../../../../i18n';
 
 interface Props {
   flag: GQLArenaFlagFragment;
