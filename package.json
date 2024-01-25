@@ -52,7 +52,7 @@
     "@ndla/scripts": "^2.0.5",
     "@ndla/types-backend": "^0.2.38",
     "@ndla/types-embed": "^4.0.13",
-    "@playwright/test": "^1.39.0",
+    "@playwright/test": "^1.41.1",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.10",
     "@testing-library/react": "14.0.0",
     "@types/bunyan": "^1.8.8",

@@ -86,7 +86,8 @@ export const mockGraphqlRoute = async ({
   return await page.route('**/graphql-api/graphql', async (route) => {
     if (process.env.RECORD_FIXTURES === 'true') {
       const body: GQLBody[] | GQLBody = await route.request().postDataJSON();
-      const res = await (await route.fetch()).text();
+      const resp = await route.fetch();
+      const text = await resp.text();
 
       const bodyOperationNames = Array.isArray(body)
         ? body.map((b) => b.operationName)
@@ -98,13 +99,11 @@ export const mockGraphqlRoute = async ({
 
       if (operationsMatch) {
         await mkdir(mockDir, { recursive: true });
-        await writeFile(`${mockDir}${fixture}.json`, res, {
+        await writeFile(`${mockDir}${fixture}.json`, text, {
           flag: 'w',
         });
         return route.fulfill({
-          status: 200,
-          contentType: 'application/json',
-          body: res,
+          body: text,
         });
       }
     } else {
