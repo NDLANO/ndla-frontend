@@ -6,6 +6,7 @@
  *
  */
 
+import { ReactNode } from 'react';
 import styled from '@emotion/styled';
 import { colors, spacing, breakpoints, mq, misc } from '@ndla/core';
 import SafeLink from '@ndla/safelink';
@@ -16,7 +17,7 @@ interface Props {
   title: string;
   subText: string;
   rightText?: string;
-  icon: React.ReactNode;
+  icon: ReactNode;
 }
 
 const StyledSafelink = styled(SafeLink)`
