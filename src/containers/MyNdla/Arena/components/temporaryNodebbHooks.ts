@@ -182,7 +182,7 @@ export const useArenaUser = (username: string | undefined) => {
     return {
       arenaUser: {
         ...nodebbUser,
-        groups: [],
+        groups: nodebbUser?.groupTitleArray,
       },
       loading: nodebbLoading,
     };

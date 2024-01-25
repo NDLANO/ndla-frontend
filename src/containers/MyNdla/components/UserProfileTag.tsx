@@ -14,6 +14,7 @@ import { Text } from '@ndla/typography';
 import Avatar from './Avatar';
 import { isArenaModerator } from '../../../components/AuthenticationContext';
 import { GQLArenaUserV2 } from '../../../graphqlTypes';
+import { useArenaUser } from '../Arena/components/temporaryNodebbHooks';
 
 type UserProfileTagProps = {
   user: GQLArenaUserV2;
@@ -62,6 +63,8 @@ const ModeratorTag = styled(Text)`
 
 const UserProfileTag = ({ user }: UserProfileTagProps) => {
   const { username, displayName, location } = user;
+  const { arenaUser } = useArenaUser(username); // TODO: Delete this hook and use user directly when nodebb dies
+
   const { t } = useTranslation();
 
   return (
@@ -72,7 +75,7 @@ const UserProfileTag = ({ user }: UserProfileTagProps) => {
           <Name textStyle="meta-text-large" margin="none" data-name="hover">
             {displayName}
           </Name>
-          {isArenaModerator(user.groups) && (
+          {isArenaModerator(arenaUser.groups) && (
             <ModeratorTag textStyle="meta-text-xsmall" margin="none">
               {t('user.moderator')}
             </ModeratorTag>

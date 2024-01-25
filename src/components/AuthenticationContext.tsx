@@ -51,7 +51,10 @@ interface Props {
 
 export const isArenaModerator = (groups?: string[]): boolean => {
   if (!groups) return false;
-  return groups.includes(config.arenaAdminGroup) ?? false;
+  return (
+    groups.includes(config.arenaAdminGroup) ||
+    groups.includes(config.arenaModeratorGroup)
+  );
 };
 
 export const personalDataQueryFragment = gql`
