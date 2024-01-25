@@ -137,12 +137,12 @@ export const compareUsernames = (
   postUsername: string,
 ) => {
   if (config.enableNodeBB) {
-    return (
-      userUsername?.replace(
-        /[^'"\s\-.*0-9\u00BF-\u1FFF\u2C00-\uD7FF\w]+/,
-        '-',
-      ) === postUsername
+    // Nodebb usernames cannot contain every character so we need to replace them :^)
+    const nodebbUsername = userUsername?.replace(
+      /[^'"\s\-.*0-9\u00BF-\u1FFF\u2C00-\uD7FF\w]+/,
+      '-',
     );
+    return nodebbUsername === postUsername;
   }
 
   return userUsername === postUsername;
