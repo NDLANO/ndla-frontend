@@ -90,8 +90,6 @@ export const mockGraphqlRoute = async ({
       const resp = await route.fetch();
       const text = await resp.text();
 
-      console.log(text, resp);
-
       const bodyOperationNames = Array.isArray(body)
         ? body.map((b) => b.operationName)
         : [body.operationName];
