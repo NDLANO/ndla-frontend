@@ -224,6 +224,40 @@ export const useArenaTopicsByUser = (
   }
 };
 
+export const useArenaRecentTopics = (skip?: boolean, pageSize?: number) => {
+  const { data, loading } = myndlaQueries.useArenaRecentTopics({
+    skip: config.enableNodeBB || !!skip,
+    variables: {
+      pageSize,
+    },
+  });
+
+  const { data: nodebbData, loading: nodebbLoading } =
+    nodebbQueries.useRecentTopics({
+      skip: !config.enableNodeBB || !!skip,
+    });
+
+  if (!config.enableNodeBB) return { data, loading };
+  else {
+    return {
+      data: {
+        totalCount: nodebbData?.length,
+        page: 1,
+        pageSize: pageSize,
+        items: nodebbData?.slice(0, 5).map((topic) => {
+          return {
+            ...topic,
+            __typename: 'ArenaTopicV2',
+            created: topic?.timestamp,
+            updated: topic?.timestamp,
+          };
+        }),
+      },
+      loading: nodebbLoading,
+    };
+  }
+};
+
 export const useArenaFollowTopicMutation = () => {
   const subscribeToTopic = myndlaMutations.useFollowTopicMutation();
   const subscribeNodebbToTopic = nodebbMutations.useSubscribeToTopicMutation();

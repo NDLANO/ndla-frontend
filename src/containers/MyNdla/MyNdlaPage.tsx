@@ -16,8 +16,8 @@ import SafeLink from '@ndla/safelink';
 import { HelmetWithTracker, useTracker } from '@ndla/tracker';
 import { Heading } from '@ndla/typography';
 import { CampaignBlock, ListResource } from '@ndla/ui';
+import { useArenaRecentTopics } from './Arena/components/temporaryNodebbHooks';
 import TopicCard from './Arena/components/TopicCard';
-import { useArenaRecentTopics } from './arenaQueries';
 import MyNdlaPageWrapper from './components/MyNdlaPageWrapper';
 import MyNdlaTitle from './components/MyNdlaTitle';
 import TitleWrapper from './components/TitleWrapper';
@@ -88,12 +88,7 @@ const MyNdlaPage = () => {
   const { t, i18n } = useTranslation();
   const { trackPageView } = useTracker();
   const { allFolderResources } = useRecentlyUsedResources();
-  const recentArenaTopicsQuery = useArenaRecentTopics({
-    skip: !user?.arenaEnabled,
-    variables: {
-      pageSize: 5,
-    },
-  });
+  const recentArenaTopicsQuery = useArenaRecentTopics(!user?.arenaEnabled, 5);
   const { data: metaData, loading } = useFolderResourceMetaSearch(
     allFolderResources?.map((r) => ({
       id: r.resourceId,
