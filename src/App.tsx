@@ -191,8 +191,8 @@ const AppRoutes = ({ base }: AppProps) => {
                   </Route>
                   <Route path="admin">
                     <Route index element={<ArenaAdminPage />} />
-                    <Route path={'users'} element={<ArenaUserListPage />} />
-                    <Route path={'flags'}>
+                    <Route path="users" element={<ArenaUserListPage />} />
+                    <Route path="flags">
                       <Route index element={<ArenaFlagPage />} />
                       <Route path=":postId" element={<ArenaSingleFlagPage />} />
                     </Route>
