@@ -97,10 +97,12 @@ const FlaggedPosts = () => {
       ...newSearchObject,
     };
 
-    Object.keys(searchQuery).forEach(
-      (key) => searchQuery[key] === '' && delete searchQuery[key],
-    );
-    navigate(`/minndla/admin/flags?${stringify(searchQuery)}`);
+    const newSearchQuery = Object.keys(searchQuery).reduce((acc, key) => {
+      if (searchQuery[key] === '') return acc;
+      return { ...acc, [key]: searchQuery[key] };
+    }, {});
+
+    navigate(`/minndla/admin/flags?${stringify(newSearchQuery)}`);
   };
 
   if (loading) return <Spinner />;
