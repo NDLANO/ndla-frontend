@@ -119,7 +119,7 @@ const FlagCard = ({ flag }: Props) => {
         <TimedistanceField date={flag.created} />
         {flag.resolved && (
           <span>
-            Løst for{' '}
+            {t('myNdla.arena.admin.flags.solvedFor')}{' '}
             <TimedistanceField
               date={flag.resolved}
               disableCapitalization={true}

@@ -68,6 +68,7 @@ const PostCard = ({ topic, post }: Props) => {
   const { id: postId, topicId, created, contentAsHTML } = post;
 
   const {
+    t,
     i18n: { language },
   } = useTranslation();
 
@@ -105,7 +106,9 @@ const PostCard = ({ topic, post }: Props) => {
       </ContentWrapper>
       <FlexLine>
         <FlexLine>{postTime}</FlexLine>
-        <SafeLinkButton to={toArenaTopic(topicId)}>Gå til tråd</SafeLinkButton>
+        <SafeLinkButton to={toArenaTopic(topicId)}>
+          {t('myNdla.arena.admin.flags.goToTopic')}
+        </SafeLinkButton>
       </FlexLine>
     </PostCardWrapper>
   );

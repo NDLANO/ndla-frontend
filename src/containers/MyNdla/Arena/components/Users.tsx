@@ -114,7 +114,8 @@ const Users = () => {
   };
 
   if (loading) return <Spinner />;
-  if ((users?.items?.length ?? 0) === 0) return <div>No users found</div>;
+  if ((users?.items?.length ?? 0) === 0)
+    return <div>{t('myNdla.arena.admin.users.noUsers')}</div>;
 
   return (
     <>
