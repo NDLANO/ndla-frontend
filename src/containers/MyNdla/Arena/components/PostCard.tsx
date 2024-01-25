@@ -34,6 +34,7 @@ import {
   useArenaDeleteTopic,
   useArenaReplyToTopicMutation,
   useArenaUpdatePost,
+  useArenaUpdateTopic,
 } from './temporaryNodebbHooks';
 import { AuthContext } from '../../../../components/AuthenticationContext';
 import config from '../../../../config';
@@ -168,9 +169,7 @@ const PostCard = ({
   const { user } = useContext(AuthContext);
   const { replyToTopic } = useArenaReplyToTopicMutation(topicId);
   const { updatePost } = useArenaUpdatePost(topicId);
-  // TODO: Update topic got broken, i think when we stopped with the modals
-  //       lets worry about that later
-
+  const { updateTopic } = useArenaUpdateTopic(topicId);
   const { deletePost } = useArenaDeletePost(topicId);
   const { deleteTopic } = useArenaDeleteTopic(topic?.categoryId);
 
@@ -349,9 +348,19 @@ const PostCard = ({
             initialContent={post.content}
             onAbort={() => setIsEditing(false)}
             onSave={async (values) => {
-              await updatePost({
-                variables: { postId, content: values.content ?? '' },
-              });
+              if (isMainPost) {
+                await updateTopic({
+                  variables: {
+                    topicId,
+                    title: values.title ?? '',
+                    content: values.content ?? '',
+                  },
+                });
+              } else {
+                await updatePost({
+                  variables: { postId, content: values.content ?? '' },
+                });
+              }
               setIsEditing(false);
             }}
           />

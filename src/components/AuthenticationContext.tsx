@@ -112,7 +112,8 @@ const AuthenticationContext = ({ children }: Props) => {
         setExamLock(examLockStatus?.value === true);
       }
       setUser({
-        isModerator: isArenaModerator(personalData?.arenaGroups),
+        isModerator:
+          isArenaModerator(personalData?.arenaGroups) && !config.enableNodeBB,
         ...personalData,
       });
       setLoaded(true);

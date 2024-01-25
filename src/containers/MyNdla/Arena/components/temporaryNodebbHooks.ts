@@ -6,13 +6,15 @@
  *
  */
 
-import { ApolloError } from '@apollo/client';
+import { ApolloError, MutationFunctionOptions } from '@apollo/client';
 import config from '../../../../config';
 import {
+  Exact,
   GQLArenaCategoryV2Fragment,
   GQLArenaPostV2Fragment,
   GQLArenaTopicV2Fragment,
   GQLPaginatedPostsFragment,
+  GQLUpdateTopicV2Mutation,
 } from '../../../../graphqlTypes';
 import * as myndlaMutations from '../../arenaMutations';
 import * as myndlaQueries from '../../arenaQueries';
@@ -299,6 +301,54 @@ export const useArenaUpdatePost = (topicId: number) => {
 
   if (config.enableNodeBB) return newNodebbUpdatePost;
   else return updatePost;
+};
+
+export const useArenaUpdateTopic = (topicId: number) => {
+  const updateTopic = myndlaMutations.useUpdateTopicV2({
+    refetchQueries: [
+      {
+        query: myndlaQueries.arenaTopicByIdV2,
+        variables: { topicId, page: 1, pageSize: 100 },
+      },
+    ],
+  });
+  const newNodebbUpdatePost = nodebbMutations.useUpdatePost({
+    refetchQueries: [
+      {
+        query: nodebbQueries.arenaTopicById,
+        variables: { topicId, page: 1, pageSize: 100 },
+      },
+    ],
+  });
+
+  if (config.enableNodeBB) {
+    const nodebbUpdateTopicFunction = async (
+      options?:
+        | MutationFunctionOptions<
+            GQLUpdateTopicV2Mutation,
+            Exact<{ topicId: number; content: string; title: string }>
+          >
+        | undefined,
+    ) => {
+      const postId = options?.variables?.topicId;
+      if (!postId)
+        throw new Error(
+          'Missing topicId to updateTopic, this seems like a bug.',
+        );
+      const content = options?.variables?.content ?? '';
+      const title = options?.variables?.title;
+
+      return newNodebbUpdatePost.updatePost({
+        variables: {
+          postId,
+          title,
+          content,
+        },
+      });
+    };
+
+    return { updateTopic: nodebbUpdateTopicFunction };
+  } else return updateTopic;
 };
 
 export const useArenaDeletePost = (topicId: number) => {
