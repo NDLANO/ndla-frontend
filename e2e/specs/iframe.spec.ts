@@ -12,8 +12,7 @@ import { mockGraphqlRoute, mockWaitResponse } from '../apiMock';
 test('topic contains content', async ({ page }) => {
   await mockGraphqlRoute({
     page,
-    operationNames: ['iframePage'],
-    fixture: 'iframeTopic',
+    operation: [{ names: ['iframePage'], fixture: 'iframeTopic' }],
   });
   await page.goto('/article-iframe/nb/urn:topic:2:170165/2?disableSSR=true');
   await mockWaitResponse(page, '**/graphql-api/*');
@@ -27,8 +26,7 @@ test('topic contains content', async ({ page }) => {
 test('resource contains content', async ({ page }) => {
   await mockGraphqlRoute({
     page,
-    operationNames: ['iframePage'],
-    fixture: 'iframeResource',
+    operation: [{ names: ['iframePage'], fixture: 'iframeResource' }],
   });
   await page.goto('/article-iframe/nb/urn:resource:1:124037/3?disableSSR=true');
   await mockWaitResponse(page, '**/graphql-api/*');
@@ -45,8 +43,7 @@ test('resource contains content', async ({ page }) => {
 test('oembed contains content', async ({ page }) => {
   await mockGraphqlRoute({
     page,
-    operationNames: ['iframePage'],
-    fixture: 'iframeOembed',
+    operation: [{ names: ['iframePage'], fixture: 'iframeOembed' }],
   });
   await page.goto('/article-iframe/nb/article/4?disableSSR=true');
   await mockWaitResponse(page, '**/graphql-api/*');

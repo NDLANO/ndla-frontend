@@ -12,25 +12,27 @@ import { mockGraphqlRoute, mockWaitResponse } from '../apiMock';
 test.beforeEach(async ({ page }) => {
   await mockGraphqlRoute({
     page,
-    operationNames: [
-      'myNdlaData',
-      'alerts',
-      'frontpageData',
-      'mastheadProgramme',
-      'mastheadFrontpage',
+    operation: [
+      {
+        names: [
+          'myNdlaData',
+          'alerts',
+          'frontpageData',
+          'mastheadProgramme',
+          'mastheadFrontpage',
+        ],
+        fixture: 'multidisciplinary_frontpage',
+      },
+      {
+        names: ['multidisciplinarySubjectPage', 'mastHead'],
+        fixture: 'multidisciplinary_page',
+      },
     ],
-    fixture: 'multidisciplinary_frontpage',
   });
   await page.goto('/?disableSSR=true');
 });
 
 test('contains content', async ({ page }) => {
-  await mockGraphqlRoute({
-    page,
-    operationNames: ['multidisciplinarySubjectPage', 'mastHead'],
-    fixture: 'multidisciplinary_page',
-    overrideRoute: true,
-  });
   await mockWaitResponse(page, '**/graphql-api/graphql*');
   await page.getByRole('button').getByText('Meny').click();
   await page

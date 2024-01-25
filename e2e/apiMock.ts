@@ -62,8 +62,10 @@ export const mockRoute = async ({
 
 interface GraphqlMockRoute {
   page: Page;
-  operationNames: string[];
-  fixture: string;
+  operation: {
+    names: string[];
+    fixture: string;
+  }[];
   overrideRoute?: boolean;
 }
 
@@ -75,8 +77,7 @@ interface GQLBody {
 
 export const mockGraphqlRoute = async ({
   page,
-  operationNames,
-  fixture,
+  operation,
   overrideRoute,
 }: GraphqlMockRoute) => {
   if (overrideRoute) {
@@ -89,17 +90,19 @@ export const mockGraphqlRoute = async ({
       const resp = await route.fetch();
       const text = await resp.text();
 
+      console.log(text, resp);
+
       const bodyOperationNames = Array.isArray(body)
         ? body.map((b) => b.operationName)
         : [body.operationName];
-      const operationsMatch = isEqual(
-        bodyOperationNames.sort(),
-        operationNames.sort(),
-      );
 
-      if (operationsMatch) {
+      const match = operation
+        .filter((op) => isEqual(bodyOperationNames.sort(), op.names.sort()))
+        .pop();
+      console.log(match);
+      if (match) {
         await mkdir(mockDir, { recursive: true });
-        await writeFile(`${mockDir}${fixture}.json`, text, {
+        await writeFile(`${mockDir}${match.fixture}.json`, text, {
           flag: 'w',
         });
         return route.fulfill({
@@ -111,13 +114,17 @@ export const mockGraphqlRoute = async ({
       const bodyOperationNames = Array.isArray(body)
         ? body.map((b) => b.operationName)
         : [body.operationName];
-      const operationsMatch = isEqual(
-        bodyOperationNames.sort(),
-        operationNames.sort(),
-      );
-      if (operationsMatch) {
+
+      const match = operation
+        .filter((op) => isEqual(bodyOperationNames.sort(), op.names.sort()))
+        .pop();
+
+      if (match) {
         try {
-          const res = await readFile(`${mockDir}${fixture}.json`, 'utf-8');
+          const res = await readFile(
+            `${mockDir}${match.fixture}.json`,
+            'utf-8',
+          );
           return route.fulfill({
             status: 200,
             contentType: 'application/json',

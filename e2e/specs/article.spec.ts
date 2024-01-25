@@ -12,14 +12,18 @@ import { mockGraphqlRoute, mockWaitResponse } from '../apiMock';
 test.beforeEach(async ({ page }) => {
   await mockGraphqlRoute({
     page,
-    operationNames: [
-      'myNdlaData',
-      'plainArticlePage',
-      'alerts',
-      'mastheadFrontpage',
-      'mastheadProgramme',
+    operation: [
+      {
+        names: [
+          'myNdlaData',
+          'plainArticlePage',
+          'alerts',
+          'mastheadFrontpage',
+          'mastheadProgramme',
+        ],
+        fixture: 'article',
+      },
     ],
-    fixture: 'article',
   });
   await page.goto('/article/1/?disableSSR=true');
 });
