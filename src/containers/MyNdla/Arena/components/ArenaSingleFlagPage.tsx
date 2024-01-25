@@ -18,6 +18,7 @@ import Flags from './FlagCard';
 import FlaggedPostCard from './FlaggedPostCard';
 import { SKIP_TO_CONTENT_ID } from '../../../../constants';
 import { useArenaPostInContext } from '../../arenaQueries';
+import MyNdlaBreadcrumb from '../../components/MyNdlaBreadcrumb';
 import MyNdlaPageWrapper from '../../components/MyNdlaPageWrapper';
 import { toArenaTopic } from '../utils';
 
@@ -49,6 +50,19 @@ const ArenaSingleFlagPage = () => {
   return (
     <MyNdlaPageWrapper>
       <HelmetWithTracker title={t('htmlTitles.arenaAdminPage')} />
+      <MyNdlaBreadcrumb
+        breadcrumbs={[
+          {
+            name: t('myNdla.arena.admin.flags.title'),
+            id: `flags`,
+          },
+          {
+            name: 'Ett flagg',
+            id: 'flags/singleFlag',
+          },
+        ]}
+        page="admin"
+      />
       <Heading
         element="h1"
         id={SKIP_TO_CONTENT_ID}
