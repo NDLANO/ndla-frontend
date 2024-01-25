@@ -20,7 +20,7 @@ import { isArenaModerator } from '../../../../components/AuthenticationContext';
 import { GQLArenaUserV2Fragment } from '../../../../graphqlTypes';
 import { useArenaUsers } from '../../arenaQueries';
 
-const RowStyle = css`
+const rowStyle = css`
   color: ${colors.text.primary};
   display: grid;
   border: 1px solid ${colors.brand.light};
@@ -40,13 +40,13 @@ const StyledRow = styled.li`
     text-decoration: underline;
   }
 
-  ${RowStyle}
+  ${rowStyle}
 `;
 
 const StyledHeaderRow = styled.div`
   background-color: ${colors.brand.lighter};
 
-  ${RowStyle}
+  ${rowStyle}
 `;
 
 const Cell = styled.div`

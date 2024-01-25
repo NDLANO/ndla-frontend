@@ -19,11 +19,11 @@ import SafeLink from '@ndla/safelink';
 import { formateDateObject } from '../../../../util/formatDate';
 import { useArenaFlags } from '../../arenaQueries';
 
-const RowStyle = css`
+const rowStyle = css`
   color: ${colors.text.primary};
   display: grid;
   border: 1px solid ${colors.brand.light};
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: repeat(4, 1fr);
   margin: ${spacing.xxsmall} 0px;
   border-radius: ${misc.borderRadius};
   box-shadow: none;
@@ -39,16 +39,16 @@ const StyledRow = styled.li`
     text-decoration: underline;
   }
 
-  ${RowStyle}
+  ${rowStyle}
 `;
 
 const StyledHeaderRow = styled.div`
   background-color: ${colors.brand.lighter};
 
-  ${RowStyle}
+  ${rowStyle}
 `;
 
-const StateBoxStyle = css`
+const stateBoxStyle = css`
   color: ${colors.white};
   padding: ${spacing.xxsmall};
   border-radius: ${misc.borderRadius};
@@ -57,16 +57,14 @@ const StateBoxStyle = css`
 const ResolvedBox = styled.span`
   background-color: ${colors.support.green};
 
-  ${StateBoxStyle}
+  ${stateBoxStyle}
 `;
 
 const UnresolvedBox = styled.span`
   background-color: ${colors.support.red};
 
-  ${StateBoxStyle}
+  ${stateBoxStyle}
 `;
-
-const Cell = styled.div``;
 
 type SearchObject = {
   page: string;
@@ -113,10 +111,10 @@ const FlaggedPosts = () => {
     <>
       <div>
         <StyledHeaderRow>
-          <Cell>{t('myNdla.arena.admin.flags.postId')}</Cell>
-          <Cell>{t('myNdla.arena.admin.flags.numFlags')}</Cell>
-          <Cell>{t('myNdla.arena.admin.flags.latestFlag')}</Cell>
-          <Cell>{t('myNdla.arena.admin.flags.status.title')}</Cell>
+          <div>{t('myNdla.arena.admin.flags.postId')}</div>
+          <div>{t('myNdla.arena.admin.flags.numFlags')}</div>
+          <div>{t('myNdla.arena.admin.flags.latestFlag')}</div>
+          <div>{t('myNdla.arena.admin.flags.status.title')}</div>
         </StyledHeaderRow>
         {arenaAllFlags?.items.map((post) => {
           const flags = (post.flags ?? []).map((f) => {
@@ -150,10 +148,10 @@ const FlaggedPosts = () => {
           return (
             <SafeLink to={`${post.id}`} key={`btn-${post.id}`}>
               <StyledRow key={`post-${post.id}`}>
-                <Cell>Post {post.id}</Cell>
-                <Cell>{count}</Cell>
-                {<Cell>{lastFlagAt}</Cell>}
-                {<Cell>{state}</Cell>}
+                <div>Post {post.id}</div>
+                <div>{count}</div>
+                {<div>{lastFlagAt}</div>}
+                {<div>{state}</div>}
               </StyledRow>
             </SafeLink>
           );
