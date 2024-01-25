@@ -82,6 +82,7 @@ const FlaggedPosts = () => {
   const page = getPage(searchObject);
   const pageSize = 30;
   const { arenaAllFlags, loading } = useArenaFlags({
+    fetchPolicy: 'no-cache',
     variables: {
       page,
       pageSize,

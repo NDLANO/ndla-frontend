@@ -69,7 +69,7 @@ export const useNewFlagMutationV2 = () => {
     GQLNewFlagV2Mutation,
     GQLNewFlagV2MutationVariables
   >(newFlagMutationV2, {
-    refetchQueries: [arenaFlagV2Query],
+    refetchQueries: [{ query: arenaFlagV2Query }],
   });
   return { addNewFlag };
 };
