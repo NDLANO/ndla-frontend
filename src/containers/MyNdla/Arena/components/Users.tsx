@@ -132,7 +132,7 @@ const Users = () => {
               to={`/minndla/arena/user/${user.username}`}
               key={`btn-${user.id}`}
             >
-              <StyledRow key={`user-${user.id}`}>
+              <StyledRow>
                 <Cell>{user.username}</Cell>
                 <Cell>{user.displayName}</Cell>
                 <Cell>{user.location}</Cell>
