@@ -107,10 +107,14 @@ const Users = () => {
       ...newSearchObject,
     };
 
-    const newSearchQuery = Object.keys(searchQuery).reduce((acc, key) => {
-      if (searchQuery[key] === '') return acc;
-      return { ...acc, [key]: searchQuery[key] === '' };
-    }, {});
+    const newSearchQuery = Object.keys(searchQuery).reduce(
+      (acc: Record<string, string>, key) => {
+        if (searchQuery[key] === '') return acc;
+        acc[key] = searchQuery[key];
+        return acc;
+      },
+      {},
+    );
     navigate(`/minndla/admin/users?${stringify(newSearchQuery)}`);
   };
 
