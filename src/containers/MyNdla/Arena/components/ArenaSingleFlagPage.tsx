@@ -57,7 +57,7 @@ const ArenaSingleFlagPage = () => {
             id: `flags`,
           },
           {
-            name: 'Ett flagg',
+            name: t('myNdla.arena.admin.flags.singleFlagTitle', { postId }),
             id: 'flags/singleFlag',
           },
         ]}
