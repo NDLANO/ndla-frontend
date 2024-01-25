@@ -8,6 +8,8 @@
 
 import { useTranslation } from 'react-i18next';
 import { gql } from '@apollo/client';
+import styled from '@emotion/styled';
+import { breakpoints, colors, mq, spacing } from '@ndla/core';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { SearchResultList, OneColumn } from '@ndla/ui';
 import DefaultErrorMessage from '../../components/DefaultErrorMessage';
@@ -24,6 +26,15 @@ import { resultsWithContentTypeBadgeAndImage } from '../SearchPage/searchHelpers
 interface Props {
   resource: GQLMovedResourcePage_ResourceFragment;
 }
+
+const StyledSearchResultListWrapper = styled.div`
+  padding-bottom: ${spacing.medium};
+  margin-bottom: ${spacing.large};
+  border: 1px solid ${colors.brand.greyLight};
+  ${mq.range({ from: breakpoints.desktop })} {
+    padding: ${spacing.medium};
+  }
+`;
 
 const MovedResourcePage = ({ resource }: Props) => {
   const { t } = useTranslation();
@@ -98,9 +109,9 @@ const MovedResourcePage = ({ resource }: Props) => {
       <HelmetWithTracker title={t('htmlTitles.movedResourcePage')} />
       <OneColumn>
         <h1>{t('movedResourcePage.title')}</h1>
-        <div className="c-search-result">
+        <StyledSearchResultListWrapper>
           <SearchResultList results={results} />
-        </div>
+        </StyledSearchResultListWrapper>
       </OneColumn>
     </>
   );
