@@ -7,7 +7,6 @@
  */
 
 import { formatDistanceStrict } from 'date-fns';
-import { nb, nn, enGB } from 'date-fns/locale';
 import parse from 'html-react-parser';
 import {
   Dispatch,
@@ -43,6 +42,7 @@ import {
   GQLArenaPostV2Fragment,
   GQLArenaTopicByIdV2Query,
 } from '../../../../graphqlTypes';
+import { DateFNSLocales } from '../../../../i18n';
 import { formatDateTime } from '../../../../util/formatDate';
 import DeleteModalContent from '../../components/DeleteModalContent';
 import SettingsMenu, { MenuItemProps } from '../../components/SettingsMenu';
@@ -124,13 +124,6 @@ const Content = styled(Text)`
   }
   word-break: break-word;
 `;
-
-const Locales = {
-  nn: nn,
-  nb: nb,
-  en: enGB,
-  se: nb,
-};
 
 export const compareUsernames = (
   userUsername: string | undefined,
@@ -306,7 +299,7 @@ const PostCard = ({
 
   const timeDistance = formatDistanceStrict(Date.parse(created), Date.now(), {
     addSuffix: true,
-    locale: Locales[language],
+    locale: DateFNSLocales[language],
     roundingMethod: 'floor',
   });
 

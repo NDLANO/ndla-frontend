@@ -6,7 +6,6 @@
  *
  */
 import { formatDistanceStrict } from 'date-fns';
-import { nb, nn, enGB } from 'date-fns/locale';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { colors, spacing, misc, mq, breakpoints } from '@ndla/core';
@@ -17,6 +16,7 @@ import { formatDateTime } from '../../../../util/formatDate';
 import { useResolveFlagMutation } from '../../arenaMutations';
 import UserProfileTag from '../../components/UserProfileTag';
 import { capitalizeFirstLetter } from '../utils';
+import { DateFNSLocales } from '../../../../i18n';
 
 interface Props {
   flag: GQLArenaFlagFragment;
@@ -61,13 +61,6 @@ const StyledSwitch = styled(Switch)`
   }
 `;
 
-const Locales = {
-  nn: nn,
-  nb: nb,
-  en: enGB,
-  se: nb,
-};
-
 const TimestampText = styled(Text)`
   align-self: center;
 `;
@@ -89,7 +82,7 @@ const TimedistanceField = ({
 
   const timeDistance = formatDistanceStrict(Date.parse(date), Date.now(), {
     addSuffix: true,
-    locale: Locales[i18n.language],
+    locale: DateFNSLocales[i18n.language],
     roundingMethod: 'floor',
   });
 

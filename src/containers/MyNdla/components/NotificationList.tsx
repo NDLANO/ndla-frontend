@@ -7,7 +7,6 @@
  */
 
 import { formatDistanceStrict } from 'date-fns';
-import { nb, nn, enGB } from 'date-fns/locale';
 import { useCallback, useMemo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
@@ -17,6 +16,7 @@ import { HelpCircleDual, KeyboardReturn } from '@ndla/icons/common';
 import { SafeLinkButton } from '@ndla/safelink';
 import { Heading, Text } from '@ndla/typography';
 import { GQLArenaNotificationV2Fragment } from '../../../graphqlTypes';
+import { DateFNSLocales } from '../../../i18n';
 import { useArenaMarkNotificationsAsRead } from '../Arena/components/temporaryNodebbHooks';
 import { toArenaTopic, capitalizeFirstLetter } from '../Arena/utils';
 
@@ -86,13 +86,6 @@ const StyledKeyboardReturn = styled(KeyboardReturn)`
   min-width: ${spacing.normal};
   min-height: ${spacing.normal};
 `;
-
-const Locales = {
-  nn: nn,
-  nb: nb,
-  en: enGB,
-  se: nb,
-};
 
 interface Props {
   notifications?: GQLArenaNotificationV2Fragment[];
@@ -165,7 +158,7 @@ const NotificationList = ({ notifications, close }: Props) => {
                           now,
                           {
                             addSuffix: true,
-                            locale: Locales[i18n.language],
+                            locale: DateFNSLocales[i18n.language],
                             roundingMethod: 'floor',
                           },
                         ),
