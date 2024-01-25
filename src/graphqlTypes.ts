@@ -1621,8 +1621,10 @@ export type GQLQueryLearningpathArgs = {
 };
 
 export type GQLQueryListArenaUserV2Args = {
+  filterTeachers?: InputMaybe<Scalars['Boolean']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   pageSize?: InputMaybe<Scalars['Int']['input']>;
+  query?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type GQLQueryListingPageArgs = {
@@ -3436,6 +3438,8 @@ export type GQLArenaPostInContextQuery = {
 };
 
 export type GQLArenaUsersQueryVariables = Exact<{
+  query?: InputMaybe<Scalars['String']['input']>;
+  filterTeachers?: InputMaybe<Scalars['Boolean']['input']>;
   page: Scalars['Int']['input'];
   pageSize: Scalars['Int']['input'];
 }>;

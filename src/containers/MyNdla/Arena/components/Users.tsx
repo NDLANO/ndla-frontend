@@ -7,20 +7,18 @@
  */
 
 import { parse, stringify } from 'query-string';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors, spacing, misc } from '@ndla/core';
-import { Spinner } from '@ndla/icons';
+import { InputV3 } from '@ndla/forms';
 import Pager from '@ndla/pager';
-import SafeLink from '@ndla/safelink';
-import { Text } from '@ndla/typography';
-import { isArenaModerator } from '../../../../components/AuthenticationContext';
-import { GQLArenaUserV2Fragment } from '../../../../graphqlTypes';
+import UserList from './UserList';
 import { useArenaUsers } from '../../arenaQueries';
 
-const rowStyle = css`
+export const userListRowStyle = css`
   color: ${colors.text.primary};
   display: grid;
   border: 1px solid ${colors.brand.light};
@@ -33,23 +31,13 @@ const rowStyle = css`
   padding: ${spacing.small};
 `;
 
-const StyledRow = styled.li`
-  &:hover,
-  &:focus-within {
-    background-color: ${colors.background.lightBlue};
-    text-decoration: underline;
-  }
-
-  ${rowStyle}
-`;
-
 const StyledHeaderRow = styled.div`
   background-color: ${colors.brand.lighter};
 
-  ${rowStyle}
+  ${userListRowStyle}
 `;
 
-const Cell = styled.div`
+export const Cell = styled.div`
   white-space: nowrap;
 `;
 
@@ -57,30 +45,12 @@ type SearchObject = {
   page: string;
 };
 
-const ModeratorTag = styled(Text)`
-  border-radius: ${misc.borderRadius};
-  padding: 2px ${spacing.small};
-  background-color: ${colors.brand.primary};
-  width: fit-content;
-  height: fit-content;
-  color: ${colors.white};
+const SearchInput = styled(InputV3)`
+  width: 35%;
 `;
 
 export const getPage = (searchObject: SearchObject) => {
   return Number(searchObject.page) || 1;
-};
-
-const ModTag = ({ user }: { user: GQLArenaUserV2Fragment }) => {
-  const { t } = useTranslation();
-  if (!isArenaModerator(user.groups)) {
-    return null;
-  }
-
-  return (
-    <ModeratorTag textStyle="meta-text-xsmall" margin="none">
-      {t('user.moderator')}
-    </ModeratorTag>
-  );
 };
 
 const Users = () => {
@@ -88,12 +58,15 @@ const Users = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const searchObject = parse(location.search);
+  const [queryString, setQueryString] = useState('');
   const page = getPage(searchObject);
   const pageSize = 30;
   const { users, loading } = useArenaUsers({
     variables: {
       page,
       pageSize,
+      filterTeachers: true,
+      query: queryString ? queryString : undefined,
     },
   });
 
@@ -118,36 +91,23 @@ const Users = () => {
     navigate(`/minndla/admin/users?${stringify(newSearchQuery)}`);
   };
 
-  if (loading) return <Spinner />;
-  if ((users?.items?.length ?? 0) === 0)
-    return <div>{t('myNdla.arena.admin.users.noUsers')}</div>;
-
   return (
     <>
       <div>
+        <SearchInput
+          placeholder={t('myNdla.arena.admin.users.search')}
+          onChange={(e) => {
+            setQueryString(e.target.value);
+            navigate(`/minndla/admin/users?page=1`); // Reset page number when searching
+          }}
+        />
         <StyledHeaderRow>
           <Cell>{t('myNdla.arena.admin.users.username')}</Cell>
           <Cell>{t('myNdla.arena.admin.users.displayName')}</Cell>
           <Cell>{t('myNdla.arena.admin.users.location')}</Cell>
           <Cell>{t('myNdla.arena.admin.users.isAdmin')}</Cell>
         </StyledHeaderRow>
-        {users?.items.map((user) => {
-          return (
-            <SafeLink
-              to={`/minndla/arena/user/${user.username}`}
-              key={`btn-${user.id}`}
-            >
-              <StyledRow>
-                <Cell>{user.username}</Cell>
-                <Cell>{user.displayName}</Cell>
-                <Cell>{user.location}</Cell>
-                <Cell>
-                  <ModTag user={user} />
-                </Cell>
-              </StyledRow>
-            </SafeLink>
-          );
-        })}
+        <UserList loading={loading} users={users} />
       </div>
       <Pager
         page={page}

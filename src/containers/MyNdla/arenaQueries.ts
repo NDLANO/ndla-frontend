@@ -300,8 +300,18 @@ export const arenaPostInContextQuery = gql`
 `;
 
 const arenaUsersQuery = gql`
-  query arenaUsers($page: Int!, $pageSize: Int!) {
-    listArenaUserV2(pageSize: $pageSize, page: $page) {
+  query arenaUsers(
+    $query: String
+    $filterTeachers: Boolean
+    $page: Int!
+    $pageSize: Int!
+  ) {
+    listArenaUserV2(
+      pageSize: $pageSize
+      page: $page
+      query: $query
+      filterTeachers: $filterTeachers
+    ) {
       __typename
       page
       pageSize

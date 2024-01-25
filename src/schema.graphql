@@ -1170,7 +1170,12 @@ type Query {
   ): [GroupSearch!]
   image(id: String!): ImageMetaInformationV2
   learningpath(pathId: String!): Learningpath
-  listArenaUserV2(page: Int, pageSize: Int): PaginatedArenaUsers!
+  listArenaUserV2(
+    filterTeachers: Boolean
+    page: Int
+    pageSize: Int
+    query: String
+  ): PaginatedArenaUsers!
   listingPage(subjects: String): ListingPage
   personalData: MyNdlaPersonalData
   podcastSearch(fallback: Boolean, page: Int!, pageSize: Int!): AudioSearch
