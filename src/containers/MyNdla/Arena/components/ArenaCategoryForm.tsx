@@ -158,10 +158,7 @@ const ArenaCategoryForm = ({
             isRequired
             isInvalid={!!fieldState.error?.message}
           >
-            <StyledLabel
-              textStyle="label-small"
-              onClick={() => document.getElementById('field-editor')?.focus()}
-            >
+            <StyledLabel textStyle="label-small">
               {t('myNdla.arena.admin.category.form.description')}
             </StyledLabel>
             <StyledInput {...field} />
