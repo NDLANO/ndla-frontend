@@ -30,22 +30,11 @@ test.beforeEach(async ({ page }) => {
 
 test('should have list of valid links on frontpage', async ({ page }) => {
   await mockWaitResponse(page, '**/graphql-api/*');
-  const programmes = await page
-    .getByTestId('programme-list')
-    .getByRole('navigation')
-    .getByRole('link')
-    .all();
-
-  expect(programmes.length).toEqual(16);
-
-  programmes.forEach((locator) => {
-    expect(locator.getAttribute('href')).toBeDefined();
-    expect(locator.allInnerTexts()).toBeDefined();
-  });
+  const programmes = page.getByTestId('programme-list').getByRole('link');
+  await expect(programmes).toHaveCount(16);
 });
 
 test('show have functioning language box', async ({ page }) => {
-  await mockWaitResponse(page, '**/graphql-api/*');
   await page.getByRole('button', { name: 'Velg språk' }).first().click();
 
   expect(

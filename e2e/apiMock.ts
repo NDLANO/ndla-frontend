@@ -124,7 +124,6 @@ export const mockGraphqlRoute = async ({
             'utf-8',
           );
           return route.fulfill({
-            status: 200,
             contentType: 'application/json',
             body: res,
           });
