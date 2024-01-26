@@ -11,12 +11,17 @@ import { colors, spacing, misc } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import SafeLink from '@ndla/safelink';
 import { Text } from '@ndla/typography';
-import { Cell, userListRowStyle } from './Users';
+import { Cell } from './Users';
 import { isArenaModerator } from '../../../../components/AuthenticationContext';
 import {
   GQLArenaUserV2Fragment,
   GQLPaginatedArenaUsers,
 } from '../../../../graphqlTypes';
+
+interface Props {
+  loading: boolean;
+  users: GQLPaginatedArenaUsers | undefined;
+}
 
 const StyledRow = styled.li`
   &:hover,
@@ -25,7 +30,15 @@ const StyledRow = styled.li`
     text-decoration: underline;
   }
 
-  ${userListRowStyle}
+  color: ${colors.text.primary};
+  display: grid;
+  border: 1px solid ${colors.brand.light};
+  grid-template-columns: 1fr 1fr 1fr 0.5fr;
+  margin: ${spacing.xxsmall} 0px;
+  border-radius: ${misc.borderRadius};
+  box-shadow: none;
+  line-height: unset;
+  padding: ${spacing.small};
 `;
 
 const ModeratorTag = styled(Text)`
@@ -50,13 +63,7 @@ const ModTag = ({ user }: { user: GQLArenaUserV2Fragment }) => {
   );
 };
 
-const UserList = ({
-  loading,
-  users,
-}: {
-  loading: boolean;
-  users: GQLPaginatedArenaUsers | undefined;
-}) => {
+const UserList = ({ loading, users }: Props) => {
   const { t } = useTranslation();
   if (loading) return <Spinner />;
   if ((users?.items?.length ?? 0) === 0)

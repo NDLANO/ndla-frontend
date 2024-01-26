@@ -10,7 +10,6 @@ import { parse, stringify } from 'query-string';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { colors, spacing, misc } from '@ndla/core';
 import { InputV3 } from '@ndla/forms';
@@ -18,7 +17,8 @@ import Pager from '@ndla/pager';
 import UserList from './UserList';
 import { useArenaUsers } from '../../arenaQueries';
 
-export const userListRowStyle = css`
+const StyledHeaderRow = styled.div`
+  background-color: ${colors.brand.lighter};
   color: ${colors.text.primary};
   display: grid;
   border: 1px solid ${colors.brand.light};
@@ -27,14 +27,7 @@ export const userListRowStyle = css`
   border-radius: ${misc.borderRadius};
   box-shadow: none;
   line-height: unset;
-
   padding: ${spacing.small};
-`;
-
-const StyledHeaderRow = styled.div`
-  background-color: ${colors.brand.lighter};
-
-  ${userListRowStyle}
 `;
 
 export const Cell = styled.div`
