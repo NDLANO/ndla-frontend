@@ -6,9 +6,9 @@
  *
  */
 
-import { Page } from '@playwright/test';
 import { readFile, writeFile, mkdir } from 'fs/promises';
 import isEqual from 'lodash/isEqual';
+import { Page } from '@playwright/test';
 const mockDir = 'e2e/apiMocks/';
 
 interface MockRoute {
