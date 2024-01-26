@@ -8,6 +8,8 @@
 
 import { useTranslation } from 'react-i18next';
 import { gql } from '@apollo/client';
+import styled from '@emotion/styled';
+import { breakpoints, colors, mq, spacing } from '@ndla/core';
 import { SearchResultList, OneColumn } from '@ndla/ui';
 import {
   GQLMovedTopicPage_TopicFragment,
@@ -66,6 +68,15 @@ interface Props {
   topics: GQLMovedTopicPage_TopicFragment[];
 }
 
+const StyledSearchResultListWrapper = styled.div`
+  padding-bottom: ${spacing.medium};
+  margin-bottom: ${spacing.large};
+  border: 1px solid ${colors.brand.greyLight};
+  ${mq.range({ from: breakpoints.desktop })} {
+    padding: ${spacing.medium};
+  }
+`;
+
 const MovedTopicPage = ({ topics }: Props) => {
   const { t } = useTranslation();
   const topicsAsResults = topics.map(convertTopicToResult);
@@ -75,9 +86,9 @@ const MovedTopicPage = ({ topics }: Props) => {
   return (
     <OneColumn>
       <h1>{t('movedResourcePage.title')}</h1>
-      <div className="c-search-result">
+      <StyledSearchResultListWrapper>
         <SearchResultList results={mergedTopic} />
-      </div>
+      </StyledSearchResultListWrapper>
     </OneColumn>
   );
 };

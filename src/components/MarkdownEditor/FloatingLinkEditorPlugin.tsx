@@ -39,7 +39,7 @@ import { $isLinkNode, toggleLink, TOGGLE_LINK_COMMAND } from '@lexical/link';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { mergeRegister, $findMatchingParent } from '@lexical/utils';
 import { ButtonV2 } from '@ndla/button';
-import { colors, misc, shadows, spacing } from '@ndla/core';
+import { colors, misc, shadows, spacing, stackOrder } from '@ndla/core';
 import { FieldErrorMessage, FormControl, InputV3, Label } from '@ndla/forms';
 import { getSelectedNode } from './EditorToolbar';
 
@@ -50,7 +50,7 @@ export const ADD_LINK_COMMAND: LexicalCommand<null> = createCommand();
 
 const FloatingContainer = styled.div`
   position: absolute;
-  z-index: 1000;
+  z-index: ${stackOrder.popover};
   display: none;
   align-items: end;
   gap: ${spacing.small};

@@ -9,7 +9,7 @@
 import { useTranslation } from 'react-i18next';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { colors, spacing } from '@ndla/core';
+import { colors, spacing, stackOrder } from '@ndla/core';
 import {
   Facebook,
   HelpCircleOutline,
@@ -121,7 +121,7 @@ const FooterWrapper = () => {
     right: ${spacing.large};
     // Heigth of button is 40px, so this is to center it vertically.
     top: -20px;
-    z-index: 10;
+    z-index: ${stackOrder.trigger};
 
     &[disabled] {
       color: ${colors.brand.grey};

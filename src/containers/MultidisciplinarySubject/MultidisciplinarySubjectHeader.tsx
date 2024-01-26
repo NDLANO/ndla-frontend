@@ -8,7 +8,7 @@
 
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import { breakpoints, mq, spacing } from '@ndla/core';
+import { breakpoints, mq, spacing, stackOrder } from '@ndla/core';
 import SafeLink from '@ndla/safelink';
 import { Text } from '@ndla/typography';
 import { HomeBreadcrumb, SimpleBreadcrumbItem } from '@ndla/ui';
@@ -50,7 +50,7 @@ const TextWrapper = styled.div`
   flex-direction: column;
   gap: ${spacing.small};
   width: 100%;
-  z-index: 2;
+  z-index: ${stackOrder.offsetDouble};
   ${mq.range({ from: breakpoints.tablet })} {
     padding: 44px 44px 0;
   }
