@@ -56,7 +56,6 @@ jobs:
       DEFAULT_TIMEOUT: 5000
       JEST_TIMEOUT: 15000
       NDLA_PERSONAL_CLIENT_ID: ${{ secrets.NDLA_PERSONAL_CLIENT_ID }}
-      CYPRESS_RECORD_KEY: ${{ secrets.NDLA_FRONTEND_CYPRESS_RECORD_KEY }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3

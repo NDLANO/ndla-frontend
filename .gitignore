@@ -8,8 +8,6 @@ yarn-error.log
 /build/
 /coverage/
 /cache/
-/e2e/screenshots
-/cypress/e2e/screenshots
 /htdocs/
 /.vscode
 .env
