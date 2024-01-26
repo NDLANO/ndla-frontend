@@ -97,7 +97,7 @@ export const mockGraphqlRoute = async ({
       const match = operation
         .filter((op) => isEqual(bodyOperationNames.sort(), op.names.sort()))
         .pop();
-      console.log(match);
+
       if (match) {
         await mkdir(mockDir, { recursive: true });
         await writeFile(`${mockDir}${match.fixture}.json`, text, {
