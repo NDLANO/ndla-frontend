@@ -16,7 +16,7 @@ import { DragVertical } from '@ndla/icons/editor';
 
 interface Props extends HTMLProps<HTMLButtonElement> {
   sortableId: string;
-  type: 'folder' | 'resource';
+  type: 'folder' | 'resource' | 'category';
   name: string;
 }
 

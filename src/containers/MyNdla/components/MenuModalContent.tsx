@@ -146,8 +146,8 @@ const MenuModalContent = ({
   const links = useMemo(
     () =>
       menuLinks(t, location).map(
-        ({ id, shortName, icon, to, name, iconFilled, restricted }) => {
-          if (restricted && !user?.arenaEnabled) {
+        ({ id, shortName, icon, to, name, iconFilled, shownForUser }) => {
+          if (shownForUser && !shownForUser(user)) {
             return null;
           }
           return (
@@ -179,7 +179,7 @@ const MenuModalContent = ({
       >
         <BellIcon
           amountOfUnreadNotifications={
-            notifications?.filter(({ read }) => !read).length ?? 0
+            notifications?.items?.filter(({ isRead }) => !isRead).length ?? 0
           }
           left={true}
         />

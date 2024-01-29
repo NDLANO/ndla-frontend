@@ -13,8 +13,12 @@ import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { Spinner } from '@ndla/icons';
 import { Heading } from '@ndla/typography';
+import {
+  useArenaTopicsByUser,
+  useArenaUser,
+} from './Arena/components/temporaryNodebbHooks';
 import TopicCard from './Arena/components/TopicCard';
-import { useArenaTopicsByUser, useArenaUser } from './arenaQueries';
+import UserProfileAdministration from './Arena/components/UserProfileAdministration';
 import MyContactArea from './components/MyContactArea';
 import MyNdlaBreadcrumb from './components/MyNdlaBreadcrumb';
 import MyNdlaPageWrapper from './components/MyNdlaPageWrapper';
@@ -40,16 +44,13 @@ const ArenaUserPage = () => {
   const { t } = useTranslation();
   const { user, authContextLoaded } = useContext(AuthContext);
   const { username } = useParams();
-  const { arenaUser } = useArenaUser({
-    variables: { username: username ?? '' },
-    skip: !username,
-  });
-  const { arenaTopicsByUser, loading } = useArenaTopicsByUser({
-    variables: { userSlug: arenaUser?.slug ?? '' },
-    skip: !arenaUser?.slug,
-  });
+  const { arenaUser, loading: userLoading } = useArenaUser(username);
+  const { arenaTopicsByUser, loading } = useArenaTopicsByUser(
+    arenaUser?.id,
+    arenaUser?.slug,
+  );
 
-  if (loading || !authContextLoaded) {
+  if (loading || userLoading || !authContextLoaded) {
     return <Spinner />;
   }
 
@@ -66,7 +67,7 @@ const ArenaUserPage = () => {
               ? [
                   {
                     name: arenaUser?.displayName ?? '',
-                    id: arenaUser?.id.toString() ?? '',
+                    id: arenaUser?.id?.toString() ?? '',
                   },
                 ]
               : []
@@ -87,18 +88,19 @@ const ArenaUserPage = () => {
         {`${t('myNdla.arena.topicsBy')} ${arenaUser?.displayName}`}
       </Heading>
       <StyledUlWrapper>
-        {arenaTopicsByUser?.map((topic) => (
+        {arenaTopicsByUser?.items?.map((topic) => (
           <CardListItem key={`topicContainer-${topic.id}`}>
             <TopicCard
               key={`topic-${topic.id}`}
               id={topic.id}
               title={topic.title}
-              timestamp={topic.timestamp}
+              timestamp={topic.created}
               count={topic.postCount}
             />
           </CardListItem>
         ))}
       </StyledUlWrapper>
+      <UserProfileAdministration userToAdmin={arenaUser} />
     </MyNdlaPageWrapper>
   );
 };

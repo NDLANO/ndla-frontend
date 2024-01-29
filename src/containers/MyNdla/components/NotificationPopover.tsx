@@ -47,13 +47,13 @@ const NotificationPopover = () => {
   return (
     <Root open={open} onOpenChange={setOpen}>
       <Trigger asChild>
-        <NotificationBellButton notifications={notifications} />
+        <NotificationBellButton notifications={notifications?.items} />
       </Trigger>
       <Portal>
         <StyledContent align="end">
           <StyledArrow />
           <NotificationList
-            notifications={notifications}
+            notifications={notifications?.items}
             close={() => setOpen(false)}
           />
           <ShowAllLink

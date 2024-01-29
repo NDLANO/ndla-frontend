@@ -29,9 +29,11 @@ const messages = {
     sharedFolderPage: `{{name}} - ${titleTemplate}`,
     aboutPage: `{{name}} - ${titleTemplate}`,
     arenaPage: `Arena - ${titleTemplate}`,
+    arenaAdminPage: `Administrate Arena - ${titleTemplate}`,
     arenaTopicPage: `{{name}} - Arena - ${titleTemplate}`,
     arenaPostPage: `{{name}} - Arena - ${titleTemplate}`,
     arenaNewTopicPage: `New post - Arena - ${titleTemplate}`,
+    arenaNewCategoryPage: `New category - Arena - ${titleTemplate}`,
   },
   podcastPage: {
     episodes: 'Episodes',
