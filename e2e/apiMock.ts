@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2023-present, NDLA.
+ * Copyright (c) 2024-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
@@ -22,6 +22,11 @@ interface MockRoute {
 
 const skipHttpMethods = ['POST', 'PATCH', 'PUT', 'DELETE'];
 
+/**
+ *  Method for capturing and mocking calls that are not graphql calls.
+ *  We only per now capture get methods.
+ *
+ */
 export const mockRoute = async ({
   page,
   path,
@@ -75,6 +80,15 @@ interface GQLBody {
   query: string;
 }
 
+/**
+ * Method for capturing multiple graphql calls.
+ * Graphql calls comes in batches of operations
+ * and this method accepts an object with an array of
+ * batches GQL operations and fixture name. The call is
+ * only recorded/mocked if the batched operation names
+ * match the gql body operation names
+ *
+ */
 export const mockGraphqlRoute = async ({
   page,
   operation,
