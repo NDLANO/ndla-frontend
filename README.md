@@ -51,22 +51,22 @@ yarn test
 
 ### e2e tests
 
-[Cypress](https://www.cypress.io/) is used for end to end testing.
+[Playwright](https://playwright.dev/) is used for end to end testing.
 
-```yarn
-yarn e2e
+```
+$ yarn e2e
 ```
 
 To circumvent api call flakiness all request are mocked when the tests are run on ci. Use the following command to record new mocks when api-calls change:
 
-```yarn
-yarn e2e-record-fixtures
+```
+$ yarn e2e:record
 ```
 
-To run the e2e tests with recorded/mocked api-calls run
+Playwright tests can also be run in headless mode with mocked API calls.
 
-```yarn
-yarn e2e-use-fixtures
+```
+$ yarn e2e:headless
 ```
 
 ### Code style
