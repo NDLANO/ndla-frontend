@@ -6,6 +6,7 @@
  *
  */
 
+import parse from 'html-react-parser';
 import { useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Navigate } from 'react-router-dom';
@@ -67,7 +68,7 @@ const ArenaPage = () => {
         {t('myNdla.arena.title')}
       </Heading>
       <Text element="p" textStyle="content-alt">
-        {t('myNdla.arena.notification.description')}
+        {parse(t('myNdla.arena.notification.description'))}
       </Text>
       <Heading element="h2" headingStyle="h2" margin="large">
         {t('myNdla.arena.category.title')}

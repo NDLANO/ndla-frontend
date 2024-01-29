@@ -50,6 +50,14 @@ const messages = {
         'Do you want to use AI in your teaching? NDLA has created two chatbots that protect your privacy and can be safely used for work and in teaching. During exams the county may deny access to the chatbots.',
     },
   },
+  myNdla: {
+    arena: {
+      notification: {
+        description:
+          'Velkommen inn i arenaen for lærere i videregående opplæring! Dette er <em>din</em> arena:<br/><br/>Et faglig møtested for diskusjon, inspirasjon, deling og utviklende samarbeid.',
+      },
+    },
+  },
   validation: {
     fields: {
       name: 'Name',
