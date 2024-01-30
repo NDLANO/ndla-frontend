@@ -54,7 +54,7 @@ const messages = {
     arena: {
       notification: {
         description:
-          'Velkomen inn i arenaen for lærerar i videregåande opplæring! Dette er <em>din</em> arena:<br/><br/>Ein fagleg møtestad for diskusjon, inspirasjon, deling og utviklande samarbeid.',
+          'Velkommen inn i arenaen for lærarar i vidaregåande opplæring! Dette er <em>din</em> arena: ein fagleg møtestad for diskusjon, inspirasjon, deling og utviklande samarbeid.',
       },
     },
   },
