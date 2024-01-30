@@ -9,7 +9,7 @@
 import { defineConfig } from '@playwright/test';
 import { join } from 'path';
 
-export const STORAGE_STATE = join(__dirname, 'e2e/auth/teacher.json');
+export const STORAGE_STATE = join(__dirname, 'e2e/.auth/teacher.json');
 
 export default defineConfig({
   testDir: './e2e',
@@ -23,19 +23,23 @@ export default defineConfig({
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: 'http://localhost:3000',
     trace: 'on-first-retry',
+    viewport: {
+      width: 2560,
+      height: 1440,
+    },
   },
-
   projects: [
     { name: 'setup', testMatch: 'e2e/auth.setup.ts' },
     {
-      name: 'specs',
-      testMatch: 'e2e/**/*.spec.ts',
+      name: 'NDLA specs',
+      testMatch: 'e2e/specs/unauthenticated/*.spec.ts',
+    },
+    {
+      name: 'MyNdla specs',
+      testMatch: 'e2e/specs/authenticated/*.spec.ts',
+      dependencies: ['setup'],
       use: {
-        viewport: {
-          width: 2560,
-          height: 1440,
-        },
-        storageState: STORAGE_STATE
+        storageState: STORAGE_STATE,
       },
     },
   ],
@@ -43,8 +47,8 @@ export default defineConfig({
   // Automatically run against prod-build on CI for speed and accuracy.
   webServer: process.env.CI
     ? {
-      command: 'cross-env NODE_ENV=production node build/server',
-      port: 3000,
-    }
+        command: 'cross-env NODE_ENV=production node build/server',
+        port: 3000,
+      }
     : undefined,
 });

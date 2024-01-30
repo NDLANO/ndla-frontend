@@ -92,12 +92,7 @@ interface GQLBody {
 export const mockGraphqlRoute = async ({
   page,
   operation,
-  overrideRoute,
 }: GraphqlMockRoute) => {
-  if (overrideRoute) {
-    await page.unroute('**/graphql-api/graphql');
-  }
-
   return await page.route('**/graphql-api/graphql', async (route) => {
     if (process.env.RECORD_FIXTURES === 'true') {
       const body: GQLBody[] | GQLBody = await route.request().postDataJSON();

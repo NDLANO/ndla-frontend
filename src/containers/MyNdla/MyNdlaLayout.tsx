@@ -166,7 +166,7 @@ const MyNdlaLayout = () => {
       <Modal open={isOpen} onOpenChange={setIsOpen}>
         <StyledSideBar>
           <nav aria-label={t('myNdla.myNDLAMenu')}>
-            <StyledNavList>{menuLink}</StyledNavList>
+            <StyledNavList data-testid="my-ndla-menu">{menuLink}</StyledNavList>
           </nav>
           <ModalTrigger>
             <MoreButton

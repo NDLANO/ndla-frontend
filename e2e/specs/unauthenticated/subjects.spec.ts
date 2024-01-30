@@ -7,7 +7,7 @@
  */
 
 import { test, expect } from '@playwright/test';
-import { mockGraphqlRoute, mockWaitResponse } from '../apiMock';
+import { mockGraphqlRoute, mockWaitResponse } from '../../apiMock';
 
 test.beforeEach(async ({ page }) => {
   await mockGraphqlRoute({
@@ -16,32 +16,25 @@ test.beforeEach(async ({ page }) => {
       {
         names: [
           'myNdlaData',
-          'frontpageData',
           'alerts',
-          'mastheadFrontpage',
+          'frontpageData',
           'mastheadProgramme',
+          'mastheadFrontpage',
         ],
-        fixture: 'topic_menu_topicmenu',
+        fixture: 'subjects_frontpage',
       },
       {
         names: ['programmePage'],
-        fixture: 'topic_menu_programme',
+        fixture: 'subjects_programme',
       },
       {
         names: ['mastHead', 'subjectPageTest'],
-        fixture: 'topic_menu_subject_topic_menu',
-      },
-      {
-        names: ['competenceGoals'],
-        fixture: 'topic_menu_competence_goals',
+        fixture: 'subjects_masthead',
       },
     ],
   });
-
   await page.goto('/?disableSSR=true');
-});
 
-test('menu is displayed', async ({ page }) => {
   await page
     .getByTestId('programme-list')
     .getByRole('link', { name: 'Medier og kommunikasjon' })
@@ -49,7 +42,20 @@ test('menu is displayed', async ({ page }) => {
   await mockWaitResponse(page, '**/graphql-api/graphql');
   await page.getByRole('link', { name: 'Mediesamfunnet 1' }).last().click();
   await mockWaitResponse(page, '**/graphql-api/graphql');
-  await page.getByTestId('masthead-menu-button').click();
-  await mockWaitResponse(page, '**/graphql-api/graphql');
-  expect(page.getByRole('link', { name: 'Mediesamfunnet 1' })).toBeDefined();
+});
+
+test('should have valid breadcrumbs', async ({ page }) => {
+  const breadcrumb = page
+    .getByRole('list')
+    .filter({ has: page.locator('svg') });
+  await expect(breadcrumb).toHaveCount(1);
+  await expect(breadcrumb.getByRole('link')).toHaveCount(1);
+});
+
+test('include a list of valid topic links', async ({ page }) => {
+  await expect(page.getByTestId('nav-box-item')).toHaveCount(8);
+
+  const links = await page.getByTestId('nav-box-list').getByRole('link').all();
+
+  expect(links).toHaveLength(8);
 });

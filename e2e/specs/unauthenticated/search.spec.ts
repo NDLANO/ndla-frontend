@@ -7,7 +7,7 @@
  */
 
 import { test, expect } from '@playwright/test';
-import { mockGraphqlRoute, mockWaitResponse } from '../apiMock';
+import { mockGraphqlRoute, mockWaitResponse } from '../../apiMock';
 
 test.beforeEach(async ({ page }) => {
   await mockGraphqlRoute({
