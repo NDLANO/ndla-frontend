@@ -91,6 +91,11 @@ const FooterWrapper = () => {
       to: 'https://ndla.no/about/utlysninger',
       external: false,
     },
+    {
+      text: 'Davvisámegiella',
+      to: 'se/subject:e474cd73-5b8a-42cf-b0f1-b027e522057c',
+      external: false,
+    },
   ];
 
   const privacyLinks = [

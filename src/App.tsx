@@ -6,14 +6,11 @@
  *
  */
 
-import { Component, ErrorInfo, ReactNode, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Outlet, Route, Routes, useParams } from 'react-router-dom';
-import { useApolloClient } from '@apollo/client';
+import { Component, ErrorInfo, ReactNode } from 'react';
+import { Outlet, Route, Routes } from 'react-router-dom';
 import { SnackbarProvider } from '@ndla/ui';
 import { AlertsProvider } from './components/AlertsContext';
 import AuthenticationContext from './components/AuthenticationContext';
-import { useVersionHash } from './components/VersionHashContext';
 import AboutPage from './containers/AboutPage/AboutPage';
 import AccessDenied from './containers/AccessDeniedPage/AccessDeniedPage';
 import AllSubjectsPage from './containers/AllSubjectsPage/AllSubjectsPage';
@@ -55,8 +52,7 @@ import SearchPage from './containers/SearchPage/SearchPage';
 import SharedFolderPage from './containers/SharedFolderPage/SharedFolderPage';
 import SubjectRouting from './containers/SubjectPage/SubjectRouting';
 import WelcomePage from './containers/WelcomePage/WelcomePage';
-import { LocaleType } from './interfaces';
-import { createApolloLinks } from './util/apiHelpers';
+import { LanguagePath } from './LanguagePath';
 import handleError from './util/handleError';
 
 interface State {
@@ -95,35 +91,22 @@ class App extends Component<{}, State> {
   }
 }
 
-const LanguagePath = () => {
-  const { i18n } = useTranslation();
-  const { lang } = useParams();
-  const client = useApolloClient();
-  const versionHash = useVersionHash();
-
-  useEffect(() => {
-    if (lang && i18n.language !== lang) {
-      i18n.changeLanguage(lang as LocaleType);
-    }
-  }, [i18n, lang]);
-
-  i18n.on('languageChanged', (lang) => {
-    client.resetStore();
-    client.setLink(createApolloLinks(lang, versionHash));
-    document.documentElement.lang = lang;
-  });
-
-  return <Outlet />;
-};
-
 const AppRoutes = () => {
   return (
     <AlertsProvider>
       <AuthenticationContext>
         <SnackbarProvider>
           <Routes>
-            <Route path="/" element={<Layout />}>
-              <Route path=":lang" element={<LanguagePath />}>
+            <Route path="/" element={<Layout includeLanguageSwitcher />}>
+              <Route
+                path=":lang"
+                element={
+                  <>
+                    <LanguagePath />
+                    <Outlet />
+                  </>
+                }
+              >
                 <Route index element={<WelcomePage />} />
                 <Route path="subjects" element={<AllSubjectsPage />} />
                 <Route path="search" element={<SearchPage />} />
