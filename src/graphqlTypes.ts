@@ -2789,7 +2789,14 @@ export type GQLAboutMenu_FrontpageMenuFragment = {
       menu?: Array<
         {
           __typename?: 'FrontpageMenu';
-          menu?: Array<{ __typename?: 'FrontpageMenu' } & GQLAboutMenuFragment>;
+          menu?: Array<
+            {
+              __typename?: 'FrontpageMenu';
+              menu?: Array<
+                { __typename?: 'FrontpageMenu' } & GQLAboutMenuFragment
+              >;
+            } & GQLAboutMenuFragment
+          >;
         } & GQLAboutMenuFragment
       >;
     } & GQLAboutMenuFragment

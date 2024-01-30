@@ -197,12 +197,13 @@ const PortionWrapper = styled.div`
 const aboutMenuFragment = gql`
   fragment AboutMenu on FrontpageMenu {
     articleId
+    hideLevel
     article {
       id
       title
       slug
     }
-    hideLevel
+
   }
 `;
 
@@ -216,6 +217,9 @@ AboutMenu.fragments = {
           ...AboutMenu
           menu {
             ...AboutMenu
+            menu {
+              ...AboutMenu
+            }
           }
         }
       }
