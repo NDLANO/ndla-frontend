@@ -9,7 +9,7 @@ import { test, expect } from '@playwright/test';
 import { STORAGE_STATE } from '../playwright.config';
 
 test('authenticate', async ({ page }) => {
-  if (process.env.RECORD_FIXTURES) {
+  if (process.env.RECORD_FIXTURES === 'true') {
     await page.goto('/login?state=/minndla');
     await page.getByRole('link').getByText('Feide test users').click();
     await page
@@ -21,13 +21,10 @@ test('authenticate', async ({ page }) => {
     await page.getByRole('button', { name: 'Log in' }).click();
     await expect(page.getByRole('heading').getByText('Min NDLA')).toBeVisible();
   } else {
+    // Create a minimal fake feide token to trick the authenticated portion context
     const expAt = (32518706430 - 1687564890 - 60) * 1000 + new Date().getTime();
     const test = {
-      token_type: 'Bearer',
       expires_at: expAt,
-      scope:
-        'email groups-org openid userid userid-feide userinfo-language userinfo-name',
-      ndla_expires_at: expAt,
     };
 
     await page.context().addCookies([
