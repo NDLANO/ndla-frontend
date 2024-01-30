@@ -21,10 +21,9 @@ test('authenticate', async ({ page }) => {
     await page.getByRole('button', { name: 'Log in' }).click();
     await expect(page.getByRole('heading').getByText('Min NDLA')).toBeVisible();
   } else {
-    // Create a minimal fake feide token to trick the authenticated portion context
     const expAt = (32518706430 - 1687564890 - 60) * 1000 + new Date().getTime();
     const test = {
-      expires_at: expAt,
+      ndla_expires_at: expAt,
     };
 
     await page.context().addCookies([
