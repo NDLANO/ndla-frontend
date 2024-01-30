@@ -7,7 +7,7 @@
  */
 
 import { test, expect } from '@playwright/test';
-import { mockGraphqlRoute, mockWaitResponse } from '../apiMock';
+import { mockGraphqlRoute, mockWaitResponse } from '../../apiMock';
 
 test.beforeEach(async ({ page }) => {
   await mockGraphqlRoute({
@@ -16,25 +16,32 @@ test.beforeEach(async ({ page }) => {
       {
         names: [
           'myNdlaData',
-          'alerts',
           'frontpageData',
-          'mastheadProgramme',
+          'alerts',
           'mastheadFrontpage',
+          'mastheadProgramme',
         ],
-        fixture: 'subjects_frontpage',
+        fixture: 'topic_menu_topicmenu',
       },
       {
         names: ['programmePage'],
-        fixture: 'subjects_programme',
+        fixture: 'topic_menu_programme',
       },
       {
         names: ['mastHead', 'subjectPageTest'],
-        fixture: 'subjects_masthead',
+        fixture: 'topic_menu_subject_topic_menu',
+      },
+      {
+        names: ['competenceGoals'],
+        fixture: 'topic_menu_competence_goals',
       },
     ],
   });
-  await page.goto('/?disableSSR=true');
 
+  await page.goto('/?disableSSR=true');
+});
+
+test('menu is displayed', async ({ page }) => {
   await page
     .getByTestId('programme-list')
     .getByRole('link', { name: 'Medier og kommunikasjon' })
@@ -42,20 +49,7 @@ test.beforeEach(async ({ page }) => {
   await mockWaitResponse(page, '**/graphql-api/graphql');
   await page.getByRole('link', { name: 'Mediesamfunnet 1' }).last().click();
   await mockWaitResponse(page, '**/graphql-api/graphql');
-});
-
-test('should have valid breadcrumbs', async ({ page }) => {
-  const breadcrumb = page
-    .getByRole('list')
-    .filter({ has: page.locator('svg') });
-  await expect(breadcrumb).toHaveCount(1);
-  await expect(breadcrumb.getByRole('link')).toHaveCount(1);
-});
-
-test('include a list of valid topic links', async ({ page }) => {
-  await expect(page.getByTestId('nav-box-item')).toHaveCount(8);
-
-  const links = await page.getByTestId('nav-box-list').getByRole('link').all();
-
-  expect(links).toHaveLength(8);
+  await page.getByTestId('masthead-menu-button').click();
+  await mockWaitResponse(page, '**/graphql-api/graphql');
+  expect(page.getByRole('link', { name: 'Mediesamfunnet 1' })).toBeDefined();
 });

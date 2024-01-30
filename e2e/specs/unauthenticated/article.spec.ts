@@ -7,7 +7,7 @@
  */
 
 import { test, expect } from '@playwright/test';
-import { mockGraphqlRoute, mockWaitResponse } from '../apiMock';
+import { mockGraphqlRoute } from '../../apiMock';
 
 test.beforeEach(async ({ page }) => {
   await mockGraphqlRoute({
@@ -16,20 +16,20 @@ test.beforeEach(async ({ page }) => {
       {
         names: [
           'myNdlaData',
-          'plainLearningpathPage',
+          'plainArticlePage',
           'alerts',
           'mastheadFrontpage',
           'mastheadProgramme',
         ],
-        fixture: 'learningpath',
+        fixture: 'article',
       },
     ],
   });
-  await page.goto('/learningpaths/8/?disableSSR=true');
+  await page.goto('/article/1/?disableSSR=true');
 });
 
 test('contains content', async ({ page }) => {
-  const heading = page.getByRole('heading').getByText('Introduksjon');
+  const heading = page.getByRole('heading').getByText('Utforskeren');
   expect(heading).toBeDefined();
   await expect(heading).toBeVisible();
 });
