@@ -7,7 +7,6 @@
  */
 
 import { formatDistanceStrict } from 'date-fns';
-import { nb, nn, enGB } from 'date-fns/locale';
 import { useCallback, useMemo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
@@ -16,9 +15,10 @@ import { spacing, colors, fonts } from '@ndla/core';
 import { HelpCircleDual, KeyboardReturn } from '@ndla/icons/common';
 import { SafeLinkButton } from '@ndla/safelink';
 import { Heading, Text } from '@ndla/typography';
-import { GQLArenaNotificationFragment } from '../../../graphqlTypes';
+import { GQLArenaNotificationV2Fragment } from '../../../graphqlTypes';
+import { DateFNSLocales } from '../../../i18n';
+import { useArenaMarkNotificationsAsRead } from '../Arena/components/temporaryNodebbHooks';
 import { toArenaTopic, capitalizeFirstLetter } from '../Arena/utils';
-import { useMarkNotificationsAsRead } from '../arenaMutations';
 
 const TitleWrapper = styled.div`
   display: flex;
@@ -87,27 +87,20 @@ const StyledKeyboardReturn = styled(KeyboardReturn)`
   min-height: ${spacing.normal};
 `;
 
-const Locales = {
-  nn: nn,
-  nb: nb,
-  en: enGB,
-  se: nb,
-};
-
 interface Props {
-  notifications?: GQLArenaNotificationFragment[];
+  notifications?: GQLArenaNotificationV2Fragment[];
   close?: VoidFunction;
 }
 
 const NotificationList = ({ notifications, close }: Props) => {
-  const { markNotificationsAsRead } = useMarkNotificationsAsRead();
+  const { markNotificationsAsRead } = useArenaMarkNotificationsAsRead();
   const { t, i18n } = useTranslation();
   const now = new Date();
 
   const markAllRead = useCallback(async () => {
     const topicIdsToBeMarkedRead =
       notifications
-        ?.filter(({ read }) => !read)
+        ?.filter(({ isRead }) => !isRead)
         ?.map(({ topicId }) => topicId) ?? [];
 
     await markNotificationsAsRead({
@@ -138,42 +131,46 @@ const NotificationList = ({ notifications, close }: Props) => {
         </ButtonV2>
       </TitleWrapper>
       <StyledList>
-        {notifcationsToShow?.map(
-          ({ topicId, read, user, datetimeISO, topicTitle }, index) => (
+        {notifcationsToShow?.map((notification, index) => {
+          return (
             <StyledLi key={index}>
               <StyledLink
                 variant="stripped"
-                data-not-viewed={!read}
-                to={toArenaTopic(topicId)}
+                data-not-viewed={!notification.isRead}
+                to={toArenaTopic(notification.topicId)}
                 onClick={() => close?.()}
               >
                 <Notification>
                   <StyledKeyboardReturn />
                   <div>
                     <StyledText textStyle="meta-text-medium" margin="none">
-                      {`${user.displayName} `}
+                      {`${notification.post.owner.displayName} `}
                       <Trans
                         i18nKey={'myNdla.arena.notification.commentedOn'}
-                        tOptions={{ title: topicTitle }}
+                        tOptions={{ title: notification.topicTitle }}
                         t={t}
                       />
                     </StyledText>
                     <Text textStyle="meta-text-small" margin="none">
                       {`${capitalizeFirstLetter(
-                        formatDistanceStrict(Date.parse(datetimeISO), now, {
-                          addSuffix: true,
-                          locale: Locales[i18n.language],
-                          roundingMethod: 'floor',
-                        }),
+                        formatDistanceStrict(
+                          Date.parse(notification.notificationTime),
+                          now,
+                          {
+                            addSuffix: true,
+                            locale: DateFNSLocales[i18n.language],
+                            roundingMethod: 'floor',
+                          },
+                        ),
                       )}`}
                     </Text>
                   </div>
                 </Notification>
-                {!read && <StyledDot />}
+                {!notification.isRead && <StyledDot />}
               </StyledLink>
             </StyledLi>
-          ),
-        )}
+          );
+        })}
       </StyledList>
     </>
   );

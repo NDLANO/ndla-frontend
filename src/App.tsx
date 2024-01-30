@@ -16,8 +16,14 @@ import AboutPage from './containers/AboutPage/AboutPage';
 import AccessDenied from './containers/AccessDeniedPage/AccessDeniedPage';
 import AllSubjectsPage from './containers/AllSubjectsPage/AllSubjectsPage';
 import ErrorPage from './containers/ErrorPage/ErrorPage';
+import ArenaAdminPage from './containers/MyNdla/Arena/ArenaAdminPage';
 import ArenaNotificationPage from './containers/MyNdla/Arena/ArenaNotificationsPage';
 import ArenaPage from './containers/MyNdla/Arena/ArenaPage';
+import CategoryEditPage from './containers/MyNdla/Arena/CategoryEditPage';
+import ArenaFlagPage from './containers/MyNdla/Arena/components/ArenaFlagPage';
+import ArenaSingleFlagPage from './containers/MyNdla/Arena/components/ArenaSingleFlagPage';
+import ArenaUserListPage from './containers/MyNdla/Arena/components/ArenaUserListPage';
+import NewCategoryPage from './containers/MyNdla/Arena/NewCategoryPage';
 import { NewTopicPage } from './containers/MyNdla/Arena/NewTopicPage';
 import PostsPage from './containers/MyNdla/Arena/PostsPage';
 import TopicPage from './containers/MyNdla/Arena/TopicPage';
@@ -170,8 +176,10 @@ const AppRoutes = ({ base }: AppProps) => {
                   </Route>
                   <Route path="arena">
                     <Route index element={<ArenaPage />} />
+                    <Route path="category/new" element={<NewCategoryPage />} />
                     <Route path="category/:categoryId">
                       <Route index element={<TopicPage />} />
+                      <Route path="edit" element={<CategoryEditPage />} />
                       <Route path="topic/new" element={<NewTopicPage />} />
                     </Route>
                     <Route path="topic/:topicId" element={<PostsPage />} />
@@ -180,6 +188,14 @@ const AppRoutes = ({ base }: AppProps) => {
                       element={<ArenaNotificationPage />}
                     />
                     <Route path="user/:username" element={<ArenaUserPage />} />
+                  </Route>
+                  <Route path="admin">
+                    <Route index element={<ArenaAdminPage />} />
+                    <Route path="users" element={<ArenaUserListPage />} />
+                    <Route path="flags">
+                      <Route index element={<ArenaFlagPage />} />
+                      <Route path=":postId" element={<ArenaSingleFlagPage />} />
+                    </Route>
                   </Route>
                   <Route path="tags">
                     <Route index element={<TagsPage />} />

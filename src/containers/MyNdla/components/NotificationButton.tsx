@@ -12,7 +12,7 @@ import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { colors, spacing } from '@ndla/core';
 import { Bell } from '@ndla/icons/common';
-import { GQLArenaNotificationFragment } from '../../../graphqlTypes';
+import { GQLArenaNotificationV2Fragment } from '../../../graphqlTypes';
 import { iconCss } from '../Folders/FoldersPage';
 
 const NotificationCounter = styled.div`
@@ -39,14 +39,14 @@ const IconWrapper = styled.div`
 `;
 
 interface Props extends ComponentPropsWithRef<'button'> {
-  notifications?: GQLArenaNotificationFragment[];
+  notifications?: GQLArenaNotificationV2Fragment[];
 }
 
 const NotificationBellButton = forwardRef<HTMLButtonElement, Props>(
   ({ notifications, ...rest }, ref) => {
     const { t } = useTranslation();
     const newNotifications = useMemo(
-      () => notifications?.filter(({ read }) => !read).length,
+      () => notifications?.filter(({ isRead }) => !isRead).length,
       [notifications],
     );
 

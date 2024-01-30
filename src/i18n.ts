@@ -6,6 +6,7 @@
  *
  */
 
+import * as datefnslocale from 'date-fns/locale';
 import { i18n } from 'i18next';
 import config, { getDefaultLocale } from './config';
 import { LocaleType } from './interfaces';
@@ -88,4 +89,11 @@ export const initializeI18n = (i18n: i18n, language: string): i18n => {
   i18n.addResourceBundle('nn', 'translation', nn, true, true);
   i18n.addResourceBundle('se', 'translation', se, true, true);
   return instance;
+};
+
+export const DateFNSLocales = {
+  nn: datefnslocale.nn,
+  nb: datefnslocale.nb,
+  en: datefnslocale.enGB,
+  se: datefnslocale.nb,
 };
