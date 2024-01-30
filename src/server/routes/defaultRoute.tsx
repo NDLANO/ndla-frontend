@@ -16,7 +16,6 @@ import { ApolloProvider } from '@apollo/client';
 import createCache from '@emotion/cache';
 import { CacheProvider } from '@emotion/react';
 import { i18nInstance } from '@ndla/ui';
-import { getCookie } from '@ndla/util';
 
 import App from '../../App';
 import RedirectContext, {
@@ -24,12 +23,8 @@ import RedirectContext, {
 } from '../../components/RedirectContext';
 import { VersionHashProvider } from '../../components/VersionHashContext';
 import config from '../../config';
-import { EmotionCacheKey, STORED_LANGUAGE_COOKIE_KEY } from '../../constants';
-import {
-  getLocaleInfoFromPath,
-  initializeI18n,
-  isValidLocale,
-} from '../../i18n';
+import { EmotionCacheKey } from '../../constants';
+import { getLocaleInfoFromPath, initializeI18n } from '../../i18n';
 import { LocaleType } from '../../interfaces';
 import { TEMPORARY_REDIRECT } from '../../statusCodes';
 import { UserAgentProvider } from '../../UserAgentContext';
@@ -124,7 +119,7 @@ async function doRender(req: Request) {
 }
 
 function getCookieLocaleOrFallback(
-  resCookie: string,
+  _resCookie: string,
   abbreviation: LocaleType,
 ) {
   // const cookieLocale = getCookie(STORED_LANGUAGE_COOKIE_KEY, resCookie) ?? '';
