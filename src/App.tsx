@@ -6,12 +6,14 @@
  *
  */
 
-import { Component, ErrorInfo, ReactNode } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Component, ErrorInfo, ReactNode, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Outlet, Route, Routes, useParams } from 'react-router-dom';
+import { useApolloClient } from '@apollo/client';
 import { SnackbarProvider } from '@ndla/ui';
 import { AlertsProvider } from './components/AlertsContext';
 import AuthenticationContext from './components/AuthenticationContext';
-import { BaseNameProvider } from './components/BaseNameContext';
+import { useVersionHash } from './components/VersionHashContext';
 import AboutPage from './containers/AboutPage/AboutPage';
 import AccessDenied from './containers/AccessDeniedPage/AccessDeniedPage';
 import AllSubjectsPage from './containers/AllSubjectsPage/AllSubjectsPage';
@@ -53,6 +55,8 @@ import SearchPage from './containers/SearchPage/SearchPage';
 import SharedFolderPage from './containers/SharedFolderPage/SharedFolderPage';
 import SubjectRouting from './containers/SubjectPage/SubjectRouting';
 import WelcomePage from './containers/WelcomePage/WelcomePage';
+import { LocaleType } from './interfaces';
+import { createApolloLinks } from './util/apiHelpers';
 import handleError from './util/handleError';
 
 interface State {
@@ -66,8 +70,8 @@ const resourceRoutes = (
   </>
 );
 
-class App extends Component<AppProps, State> {
-  constructor(props: AppProps) {
+class App extends Component<{}, State> {
+  constructor(props: {}) {
     super(props);
     this.state = {
       hasError: false,
@@ -87,18 +91,39 @@ class App extends Component<AppProps, State> {
       return <ErrorPage />;
     }
 
-    return <AppRoutes base={this.props.base} />;
+    return <AppRoutes />;
   }
 }
 
-const AppRoutes = ({ base }: AppProps) => {
+const LanguagePath = () => {
+  const { i18n } = useTranslation();
+  const { lang } = useParams();
+  const client = useApolloClient();
+  const versionHash = useVersionHash();
+
+  useEffect(() => {
+    if (lang && i18n.language !== lang) {
+      i18n.changeLanguage(lang as LocaleType);
+    }
+  }, [i18n, lang]);
+
+  i18n.on('languageChanged', (lang) => {
+    client.resetStore();
+    client.setLink(createApolloLinks(lang, versionHash));
+    document.documentElement.lang = lang;
+  });
+
+  return <Outlet />;
+};
+
+const AppRoutes = () => {
   return (
     <AlertsProvider>
-      <BaseNameProvider value={base}>
-        <AuthenticationContext>
-          <SnackbarProvider>
-            <Routes>
-              <Route path="/" element={<Layout />}>
+      <AuthenticationContext>
+        <SnackbarProvider>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route path=":lang" element={<LanguagePath />}>
                 <Route index element={<WelcomePage />} />
                 <Route path="subjects" element={<AllSubjectsPage />} />
                 <Route path="search" element={<SearchPage />} />
@@ -219,16 +244,128 @@ const AppRoutes = ({ base }: AppProps) => {
                 <Route path="*" element={<NotFound />} />
                 <Route path="p/:articleId" element={<PlainArticlePage />} />
               </Route>
-            </Routes>
-          </SnackbarProvider>
-        </AuthenticationContext>
-      </BaseNameProvider>
+              <Route index element={<WelcomePage />} />
+              <Route path="subjects" element={<AllSubjectsPage />} />
+              <Route path="search" element={<SearchPage />} />
+              <Route path="utdanning/:programme" element={<ProgrammePage />}>
+                <Route path=":grade" element={null} />
+              </Route>
+              <Route path="podkast">
+                <Route index element={<PodcastSeriesListPage />} />
+                <Route path=":id" element={<PodcastSeriesPage />} />
+              </Route>
+              <Route path="article/:articleId" element={<PlainArticlePage />} />
+              <Route
+                path="learningpaths/:learningpathId"
+                element={<PlainLearningpathPage />}
+              >
+                <Route path="steps/:stepId" element={null} />
+              </Route>
+              <Route path="subject:subjectId/topic:topicId/resource:resourceId">
+                {resourceRoutes}
+              </Route>
+              <Route path="subject:subjectId/topic:topic1/topic:topicId/resource:resourceId">
+                {resourceRoutes}
+              </Route>
+              <Route path="subject:subjectId/topic:topic1/topic:topic2/topic:topicId/resource:resourceId">
+                {resourceRoutes}
+              </Route>
+              <Route path="subject:subjectId/topic:topic1/topic:topic2/topic:topic3/topic:topicId/resource:resourceId">
+                {resourceRoutes}
+              </Route>
+              <Route path="subject:subjectId/topic:topic1/topic:topic2/topic:topic3/topic:topic4/topic:topicId/resource:resourceId">
+                {resourceRoutes}
+              </Route>
+              <Route path="subject:subjectId" element={<SubjectRouting />}>
+                <Route path="topic:topicId" element={null} />
+                <Route path="topic:topic1" element={null}>
+                  <Route path="topic:topicId" element={null} />
+                  <Route path="topic:topic2" element={null}>
+                    <Route path="topic:topicId" element={null} />
+                    <Route path="topic:topic3" element={null}>
+                      <Route path="topic:topicId" element={null} />
+                      <Route path="topic:topic4" element={null}>
+                        <Route path="topic:topicId" element={null} />
+                      </Route>
+                    </Route>
+                  </Route>
+                </Route>
+              </Route>
+              <Route path="video/:videoId" element={<VideoPage />} />
+              <Route path="image/:imageId" element={<ImagePage />} />
+              <Route path="concept/:conceptId" element={<ConceptPage />} />
+              <Route path="audio/:audioId" element={<AudioPage />} />
+              <Route path="h5p/:h5pId" element={<H5pPage />} />
+              <Route
+                path="minndla"
+                element={<PrivateRoute element={<MyNdlaLayout />} />}
+              >
+                <Route index element={<MyNdlaPage />} />
+                <Route path="folders">
+                  <Route index element={<FoldersPage />} />
+                  <Route path="preview/:folderId">
+                    <Route index element={<PreviewFoldersPage />} />
+                    <Route
+                      path=":subfolderId"
+                      element={<PreviewFoldersPage />}
+                    />
+                    <Route
+                      path=":subfolderId/:resourceId"
+                      element={<PreviewFoldersPage />}
+                    />
+                  </Route>
+                  <Route path=":folderId" element={<FoldersPage />} />
+                </Route>
+                <Route path="arena">
+                  <Route index element={<ArenaPage />} />
+                  <Route path="category/new" element={<NewCategoryPage />} />
+                  <Route path="category/:categoryId">
+                    <Route index element={<TopicPage />} />
+                    <Route path="edit" element={<CategoryEditPage />} />
+                    <Route path="topic/new" element={<NewTopicPage />} />
+                  </Route>
+                  <Route path="topic/:topicId" element={<PostsPage />} />
+                  <Route
+                    path="notifications"
+                    element={<ArenaNotificationPage />}
+                  />
+                  <Route path="user/:username" element={<ArenaUserPage />} />
+                </Route>
+                <Route path="admin">
+                  <Route index element={<ArenaAdminPage />} />
+                  <Route path="users" element={<ArenaUserListPage />} />
+                  <Route path="flags">
+                    <Route index element={<ArenaFlagPage />} />
+                    <Route path=":postId" element={<ArenaSingleFlagPage />} />
+                  </Route>
+                </Route>
+                <Route path="tags">
+                  <Route index element={<TagsPage />} />
+                  <Route path=":tag" element={<TagsPage />} />
+                </Route>
+                <Route path="subjects" element={<FavoriteSubjectsPage />} />
+                <Route path="profile" element={<MyProfilePage />} />
+              </Route>
+              <Route path="about/:slug" element={<AboutPage />} />
+
+              <Route path="folder/:folderId">
+                <Route index element={<SharedFolderPage />} />
+                <Route path=":subfolderId" element={<SharedFolderPage />} />
+                <Route
+                  path=":subfolderId/:resourceId"
+                  element={<SharedFolderPage />}
+                />
+              </Route>
+              <Route path="404" element={<NotFound />} />
+              <Route path="403" element={<AccessDenied />} />
+              <Route path="*" element={<NotFound />} />
+              <Route path="p/:articleId" element={<PlainArticlePage />} />
+            </Route>
+          </Routes>
+        </SnackbarProvider>
+      </AuthenticationContext>
     </AlertsProvider>
   );
 };
-
-interface AppProps {
-  base?: string;
-}
 
 export default App;

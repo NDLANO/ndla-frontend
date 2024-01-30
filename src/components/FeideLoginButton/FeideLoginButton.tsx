@@ -8,7 +8,7 @@
 
 import { ReactNode, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { ButtonV2 as Button, ButtonV2 } from '@ndla/button';
 import { colors, spacing } from '@ndla/core';
@@ -26,7 +26,6 @@ import { UserInfo } from '../../containers/MyNdla/components/UserInfo';
 import { useIsNdlaFilm } from '../../routeHelpers';
 import { constructNewPath, toHref } from '../../util/urlHelper';
 import { AuthContext } from '../AuthenticationContext';
-import { useBaseName } from '../BaseNameContext';
 import LoginModalContent from '../MyNdla/LoginModalContent';
 
 const FeideFooterButton = styled(Button)`
@@ -76,7 +75,7 @@ const FeideLoginButton = ({ footer, children }: Props) => {
   const location = useLocation();
   const { t } = useTranslation();
   const { authenticated, user } = useContext(AuthContext);
-  const basename = useBaseName();
+  const { lang } = useParams();
   const ndlaFilm = useIsNdlaFilm();
 
   if (authenticated && !footer) {
@@ -132,7 +131,7 @@ const FeideLoginButton = ({ footer, children }: Props) => {
             onClick={() => {
               window.location.href = constructNewPath(
                 `/logout?state=${toHref(location)}`,
-                basename,
+                lang,
               );
             }}
           >

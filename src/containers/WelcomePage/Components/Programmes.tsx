@@ -18,6 +18,7 @@ import {
 import { spacing, breakpoints, mq, colors } from '@ndla/core';
 import { Heading, Text } from '@ndla/typography';
 import { ContentLoader, ProgrammeCard, ProgrammeV2 } from '@ndla/ui';
+import { toLanguagePath } from '../../../toLanguagePath';
 import { useUserAgent } from '../../../UserAgentContext';
 
 const StyledWrapper = styled.div`
@@ -142,7 +143,7 @@ const Description = styled(Text)`
 `;
 
 const Programmes = ({ programmes, loading }: Props) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const selectors = useUserAgent();
 
   const programmeCards = useMemo(() => {
@@ -153,11 +154,11 @@ const Programmes = ({ programmes, loading }: Props) => {
           title={programme.title}
           wideImage={selectors?.isMobile ? programme.wideImage : undefined}
           narrowImage={selectors?.isMobile ? undefined : programme.narrowImage}
-          url={programme.url}
+          url={toLanguagePath(programme.url, i18n.language)}
         />
       </StyledLi>
     ));
-  }, [selectors?.isMobile, programmes]);
+  }, [programmes, selectors?.isMobile, i18n.language]);
 
   return (
     <StyledWrapper>

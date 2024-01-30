@@ -7,7 +7,16 @@
  */
 
 import * as datefnslocale from 'date-fns/locale';
-import { i18n } from 'i18next';
+import i18n, { i18n as i18nType } from 'i18next';
+import LanguageDetector from 'i18next-browser-languagedetector';
+import { initReactI18next } from 'react-i18next';
+import {
+  messagesEN,
+  messagesNB,
+  messagesNN,
+  messagesSE,
+  messagesSMA,
+} from '@ndla/ui';
 import config, { getDefaultLocale } from './config';
 import { LocaleType } from './interfaces';
 import en from './messages/messagesEN';
@@ -79,7 +88,47 @@ export const getLocaleInfoFromPath = (path: string): RetType => {
   };
 };
 
-export const initializeI18n = (i18n: i18n, language: string): i18n => {
+const DETECTION_OPTIONS = {
+  order: ['path'],
+  caches: ['localStorage'],
+};
+
+export const supportedTranslationLanguages = [
+  'nb',
+  'nn',
+  'en',
+  'se',
+  'sma',
+] as const;
+const i18nInstance = i18n.use(LanguageDetector).use(initReactI18next);
+
+i18nInstance.init({
+  compatibilityJSON: 'v3',
+  detection: DETECTION_OPTIONS,
+  fallbackLng: 'nb',
+  supportedLngs: supportedTranslationLanguages,
+  resources: {
+    en: {
+      translation: messagesEN,
+    },
+    nn: {
+      translation: messagesNN,
+    },
+    nb: {
+      translation: messagesNB,
+    },
+    se: {
+      translation: messagesSE,
+    },
+    sma: {
+      translation: messagesSMA,
+    },
+  },
+});
+
+export { i18nInstance };
+
+export const initializeI18n = (i18n: i18nType, language: string): i18nType => {
   const instance = i18n.cloneInstance({
     lng: language,
     supportedLngs: preferredLanguages,

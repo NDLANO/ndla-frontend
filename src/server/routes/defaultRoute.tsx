@@ -127,10 +127,10 @@ function getCookieLocaleOrFallback(
   resCookie: string,
   abbreviation: LocaleType,
 ) {
-  const cookieLocale = getCookie(STORED_LANGUAGE_COOKIE_KEY, resCookie) ?? '';
-  if (cookieLocale.length && isValidLocale(cookieLocale)) {
-    return cookieLocale;
-  }
+  // const cookieLocale = getCookie(STORED_LANGUAGE_COOKIE_KEY, resCookie) ?? '';
+  // if (cookieLocale.length && isValidLocale(cookieLocale)) {
+  //   return cookieLocale;
+  // }
   return abbreviation;
 }
 
