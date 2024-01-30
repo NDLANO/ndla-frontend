@@ -51,6 +51,14 @@ const messages = {
         'Áiggut go AI geavahit oahpahusas? NDLA lea ráhkadan guokte hupmanrobota mat suodjalit du priváhtavuođa ja maid sáhttá geavahit sihkkarit sihke barggus ja oahpahusas.',
     },
   },
+  myNdla: {
+    arena: {
+      notification: {
+        description:
+          'Velkommen inn i arenaen for lærere i videregående opplæring! Dette er <em>din</em> arena: et faglig møtested for diskusjon, inspirasjon, deling og utviklende samarbeid.',
+      },
+    },
+  },
   validation: {
     fields: {
       name: 'Namma',
