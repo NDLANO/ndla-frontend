@@ -647,6 +647,7 @@ export type GQLFrontpageMenu = {
   __typename?: 'FrontpageMenu';
   article: GQLArticle;
   articleId: Scalars['Int']['output'];
+  hideLevel?: Maybe<Scalars['Boolean']['output']>;
   menu?: Maybe<Array<Maybe<GQLFrontpageMenu>>>;
 };
 
@@ -2776,6 +2777,7 @@ export type GQLMastheadSearch_SubjectFragment = {
 export type GQLAboutMenuFragment = {
   __typename?: 'FrontpageMenu';
   articleId: number;
+  hideLevel?: boolean;
   article: { __typename?: 'Article'; id: number; title: string; slug?: string };
 };
 

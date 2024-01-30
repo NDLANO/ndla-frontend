@@ -555,6 +555,7 @@ type FrontPageResources {
 type FrontpageMenu {
   article: Article!
   articleId: Int!
+  hideLevel: Boolean
   menu: [FrontpageMenu]
 }
 

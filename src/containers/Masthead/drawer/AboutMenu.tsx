@@ -202,6 +202,7 @@ const aboutMenuFragment = gql`
       title
       slug
     }
+    hideLevel
   }
 `;
 
