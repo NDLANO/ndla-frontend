@@ -105,7 +105,7 @@ const i18nInstance = i18n.use(LanguageDetector).use(initReactI18next);
 i18nInstance.init({
   compatibilityJSON: 'v3',
   detection: DETECTION_OPTIONS,
-  fallbackLng: 'nb',
+  fallbackLng: 'en',
   supportedLngs: supportedTranslationLanguages,
   resources: {
     en: {
