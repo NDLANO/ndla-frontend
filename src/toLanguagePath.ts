@@ -6,13 +6,15 @@
  *
  */
 
-import { isValidLocale } from './i18n';
+import config from './config';
+import { supportedLanguages } from './i18n';
+import { LocaleType } from './interfaces';
 import { constructNewPath } from './util/urlHelper';
 
-export const toLanguagePath = (path: string, language?: string) => {
-  if (language === 'nb' || !isValidLocale(language)) {
-    return path;
-  } else if (!path.startsWith('/')) {
-    return `/${language}/${path}`;
-  } else return constructNewPath(path, language);
-};
+export const toLanguagePath = (path: string, language?: string) =>
+  language === config.defaultLocale
+    ? constructNewPath(path)
+    : constructNewPath(
+        path,
+        supportedLanguages.includes(language as LocaleType) ? language : 'en',
+      );
