@@ -96,6 +96,11 @@ const FooterWrapper = () => {
       to: 'se/subject:e474cd73-5b8a-42cf-b0f1-b027e522057c',
       external: false,
     },
+    {
+      text: 'Українська',
+      to: 'en/subject:27e8623d-c092-4f00-9a6f-066438d6c466',
+      external: false,
+    },
   ];
 
   const privacyLinks = [
