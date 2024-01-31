@@ -165,5 +165,5 @@
   "homepage": "https://github.com/NDLANO/ndla-frontend",
   "author": "ndla@knowit.no",
   "license": "GPL-3.0",
-  "packageManager": "yarn@4.0.2"
+  "packageManager": "yarn@4.1.0"
 }
