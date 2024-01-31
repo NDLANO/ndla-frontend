@@ -25,6 +25,7 @@ import config from '../../config';
 import { useIsNdlaFilm, useUrnIds } from '../../routeHelpers';
 import { usePrevious } from '../../util/utilityHooks';
 import Masthead from '../Masthead';
+import { LanguagePath } from '../../LanguagePath';
 
 const BottomPadding = styled.div`
   padding-bottom: ${spacing.large};
@@ -42,7 +43,11 @@ const StyledPageContainer = styled(PageContainer)`
   }
 `;
 
-const Layout = () => {
+interface Props {
+  includeLanguageSwitcher?: boolean;
+}
+
+const Layout = ({ includeLanguageSwitcher }: Props) => {
   const { t, i18n } = useTranslation();
   const { pathname } = useLocation();
   const { height } = useMastheadHeight();
@@ -87,6 +92,7 @@ const Layout = () => {
       data-film={ndlaFilm}
     >
       <TitleAnnouncer />
+      {includeLanguageSwitcher && <LanguagePath />}
       <Global
         styles={css`
           html {

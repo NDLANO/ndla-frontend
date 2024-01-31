@@ -16,6 +16,7 @@ import { AuthContext } from '../../components/AuthenticationContext';
 import SocialMediaMetadata from '../../components/SocialMediaMetadata';
 import { SKIP_TO_CONTENT_ID } from '../../constants';
 import { LocaleType } from '../../interfaces';
+import { toLanguagePath } from '../../toLanguagePath';
 import { htmlTitle } from '../../util/titleHelper';
 import { getAllDimensions } from '../../util/trackingUtil';
 
@@ -87,7 +88,10 @@ interface Props {
   grade: string;
 }
 
-export const mapGradesData = (grades: GradeResult[]): GradesData[] => {
+export const mapGradesData = (
+  grades: GradeResult[],
+  currentLanguage: string,
+): GradesData[] => {
   return grades?.map((grade) => {
     let foundProgrammeSubject = false;
     const categories = grade.categories?.map((category) => {
@@ -96,7 +100,10 @@ export const mapGradesData = (grades: GradeResult[]): GradesData[] => {
       const categorySubjects = category.subjects?.map((subject) => {
         return {
           label: subject.subjectpage?.about?.title || subject.name || '',
-          url: subject.path,
+          url: toLanguagePath(
+            subject.path,
+            subject.metadata.customFields.language ?? currentLanguage,
+          ),
         };
       });
       return {
@@ -115,9 +122,9 @@ export const mapGradesData = (grades: GradeResult[]): GradesData[] => {
 
 const ProgrammeContainer = ({ programme, grade }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const heading = programme.title.title;
-  const grades = mapGradesData(programme.grades || []);
+  const grades = mapGradesData(programme.grades || [], i18n.language);
   const socialMediaTitle = `${programme.title.title} - ${grade}`;
   const metaDescription = programme.metaDescription;
   const image = programme.desktopImage?.url || '';

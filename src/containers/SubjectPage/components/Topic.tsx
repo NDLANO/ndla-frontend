@@ -28,6 +28,7 @@ import {
   GQLTopic_TopicFragment,
 } from '../../../graphqlTypes';
 import { toTopic, useIsNdlaFilm, useUrnIds } from '../../../routeHelpers';
+import { toLanguagePath } from '../../../toLanguagePath';
 import { getArticleScripts } from '../../../util/getArticleScripts';
 import { htmlTitle } from '../../../util/titleHelper';
 import { getAllDimensions } from '../../../util/trackingUtil';
@@ -176,7 +177,10 @@ const Topic = ({
       ...subtopic,
       label: subtopic.name,
       selected: subtopic.id === subTopicId,
-      url: toTopic(subjectId, ...topicPath, subtopic.id),
+      url: toLanguagePath(
+        toTopic(subjectId, ...topicPath, subtopic.id),
+        subtopic.article?.language ?? i18n.language,
+      ),
       isAdditionalResource: subtopic.relevanceId === RELEVANCE_SUPPLEMENTARY,
     };
   });
@@ -231,6 +235,10 @@ export const topicFragments = {
         id
         name
         relevanceId
+        article(convertEmbeds: true) {
+          id
+          language
+        }
       }
       article(convertEmbeds: $convertEmbeds) {
         metaImage {

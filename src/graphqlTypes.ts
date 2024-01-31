@@ -4454,6 +4454,7 @@ export type GQLResources_ResourceFragment = {
     id: string;
     name: string;
   }>;
+  article?: { __typename?: 'Article'; language: string };
 };
 
 export type GQLResources_ResourceTypeDefinitionFragment = {
@@ -4586,6 +4587,7 @@ export type GQLSubjectPageContent_SubjectFragment = {
     id: string;
     availability?: string;
     relevanceId?: string;
+    article?: { __typename?: 'Article'; id: number; language: string };
   }>;
 } & GQLTopicWrapper_SubjectFragment;
 
@@ -4606,6 +4608,7 @@ export type GQLTopic_TopicFragment = {
     id: string;
     name: string;
     relevanceId?: string;
+    article?: { __typename?: 'Article'; id: number; language: string };
   }>;
   article?: {
     __typename?: 'Article';

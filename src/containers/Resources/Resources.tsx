@@ -27,6 +27,7 @@ import {
 } from '../../graphqlTypes';
 import { HeadingType } from '../../interfaces';
 import { useIsNdlaFilm, useUrnIds } from '../../routeHelpers';
+import { toLanguagePath } from '../../toLanguagePath';
 import { contentTypeMapping } from '../../util/getContentType';
 
 interface Props {
@@ -45,7 +46,7 @@ const Resources = ({
   const { resourceId } = useUrnIds();
   const [showAdditionalResources, setShowAdditionalResources] = useState(false);
   const ndlaFilm = useIsNdlaFilm();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const isGrouped = useMemo(
     () =>
@@ -81,6 +82,10 @@ const Resources = ({
         resources: type?.resources?.map((res) => ({
           ...res,
           active: !!resourceId && res.id.endsWith(resourceId),
+          path: toLanguagePath(
+            res.path,
+            res.article?.language ?? i18n.language,
+          ),
         })),
         contentType: contentTypeMapping[type.id],
         noContentLabel: t('resource.noCoreResourcesAvailable', {
@@ -95,6 +100,7 @@ const Resources = ({
       const firstResourceType = resourceTypes?.[0];
       return {
         ...res,
+        path: toLanguagePath(res.path, res.article?.language ?? i18n.language),
         active: !!resourceId && res.id.endsWith(resourceId),
         contentTypeName: firstResourceType?.name,
         contentType: firstResourceType
@@ -105,6 +111,7 @@ const Resources = ({
     return { groupedResources: [], ungroupedResources };
   }, [
     coreResources,
+    i18n.language,
     isGrouped,
     resourceId,
     resourceTypes,
@@ -216,6 +223,9 @@ const resourceFragment = gql`
     resourceTypes {
       id
       name
+    }
+    article(convertEmbeds: true) {
+      language
     }
   }
 `;

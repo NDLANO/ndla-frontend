@@ -8,18 +8,17 @@
 
 import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { OneColumn, ErrorResourceAccessDenied } from '@ndla/ui';
 import { Status } from '../../components';
 import { AuthContext } from '../../components/AuthenticationContext';
-import { useBaseName } from '../../components/BaseNameContext';
 import { constructNewPath, toHref } from '../../util/urlHelper';
 
 const AccessDenied = () => {
   const { t } = useTranslation();
   const location = useLocation();
-  const basename = useBaseName();
+  const { lang } = useParams();
   const { authenticated } = useContext(AuthContext);
   const statusCode = authenticated ? 403 : 401;
 
@@ -32,7 +31,7 @@ const AccessDenied = () => {
             const route = authenticated ? 'logout' : 'login';
             window.location.href = constructNewPath(
               `/${route}?state=${toHref(location)}`,
-              basename,
+              lang,
             );
           }}
         />

@@ -8,7 +8,7 @@
 
 import { useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
@@ -26,7 +26,6 @@ import { HelmetWithTracker, useTracker } from '@ndla/tracker';
 import { Heading, Text } from '@ndla/typography';
 import MyPreferences from './components/MyPreferences';
 import { AuthContext } from '../../../components/AuthenticationContext';
-import { useBaseName } from '../../../components/BaseNameContext';
 import { getAllDimensions } from '../../../util/trackingUtil';
 import { constructNewPath, toHref } from '../../../util/urlHelper';
 import MyContactArea from '../components/MyContactArea';
@@ -65,7 +64,7 @@ const ButtonContainer = styled.div`
 const MyProfilePage = () => {
   const { user } = useContext(AuthContext);
   const { t } = useTranslation();
-  const basename = useBaseName();
+  const { lang } = useParams();
   const location = useLocation();
   const { trackPageView } = useTracker();
   const { deletePersonalData } = useDeletePersonalData();
@@ -81,7 +80,7 @@ const MyProfilePage = () => {
     await deletePersonalData();
     window.location.href = constructNewPath(
       `/logout?state=${toHref(location)}`,
-      basename,
+      lang,
     );
   };
 

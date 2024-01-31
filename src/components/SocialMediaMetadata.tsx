@@ -8,8 +8,7 @@
 
 import { ReactNode } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useLocation, Location } from 'react-router-dom';
-import { useBaseName } from './BaseNameContext';
+import { useLocation, Location, useParams } from 'react-router-dom';
 import config from '../config';
 import { preferredLocales, isValidLocale } from '../i18n';
 
@@ -51,8 +50,8 @@ export const getAlternateLanguages = (trackableContent?: TrackableContent) => {
   );
 };
 
-export const getOgUrl = (location: Location, basename: string) => {
-  const ogBaseName = basename === '' ? '' : `/${basename}`;
+export const getOgUrl = (location: Location, basename?: string) => {
+  const ogBaseName = !basename?.length ? '' : `/${basename}`;
   return `${config.ndlaFrontendDomain}${ogBaseName}${location.pathname}`;
 };
 
@@ -81,7 +80,7 @@ const SocialMediaMetadata = ({
   type = 'article',
 }: Props) => {
   const location = useLocation();
-  const basename = useBaseName();
+  const { lang } = useParams();
   return (
     <Helmet>
       <link rel="canonical" href={getCanonicalUrl(location)} />
@@ -101,7 +100,7 @@ const SocialMediaMetadata = ({
       <meta name="twitter:card" content="summary" />
       <meta name="twitter:site" content="@ndla_no" />
       <meta name="twitter:creator" content="@ndla_no" />
-      <meta property="og:url" content={getOgUrl(location, basename)} />
+      <meta property="og:url" content={getOgUrl(location, lang)} />
       {title && <meta property="og:title" content={`${title} - NDLA`} />}
       {title && <meta name="twitter:title" content={`${title} - NDLA`} />}
       {description && <meta property="og:description" content={description} />}

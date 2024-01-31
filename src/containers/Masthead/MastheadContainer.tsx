@@ -9,11 +9,13 @@
 import { useContext } from 'react';
 
 import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
 import { gql } from '@apollo/client';
 import styled from '@emotion/styled';
 import { breakpoints, mq, spacing } from '@ndla/core';
 import { Feide } from '@ndla/icons/common';
-import { Masthead, LanguageSelector, Logo } from '@ndla/ui';
+import SafeLink from '@ndla/safelink';
+import { Masthead, Logo } from '@ndla/ui';
 
 import MastheadSearch from './components/MastheadSearch';
 import MastheadDrawer from './drawer/MastheadDrawer';
@@ -26,9 +28,10 @@ import {
   GQLMastHeadQuery,
   GQLMastHeadQueryVariables,
 } from '../../graphqlTypes';
-import { supportedLanguages } from '../../i18n';
 import { useIsNdlaFilm, useUrnIds } from '../../routeHelpers';
+import { toLanguagePath } from '../../toLanguagePath';
 import { useGraphQuery } from '../../util/runQueries';
+import { constructNewPath } from '../../util/urlHelper';
 import ErrorBoundary from '../ErrorPage/ErrorBoundary';
 
 const FeideLoginLabel = styled.span`
@@ -39,6 +42,8 @@ const FeideLoginLabel = styled.span`
 
 const LanguageSelectWrapper = styled.div`
   margin-left: ${spacing.xxsmall};
+  display: flex;
+  gap: ${spacing.small};
   ${mq.range({ until: breakpoints.desktop })} {
     display: none;
   }
@@ -79,6 +84,7 @@ const MastheadContainer = () => {
   const { user } = useContext(AuthContext);
   const { openAlerts, closeAlert } = useAlerts();
   const ndlaFilm = useIsNdlaFilm();
+  const location = useLocation();
   const { data: freshData, previousData } = useGraphQuery<
     GQLMastHeadQuery,
     GQLMastHeadQueryVariables
@@ -111,7 +117,7 @@ const MastheadContainer = () => {
         </DrawerWrapper>
         <LogoWrapper>
           <Logo
-            to="/"
+            to={toLanguagePath('/', locale)}
             locale={locale}
             label="NDLA"
             cssModifier={ndlaFilm ? 'white' : ''}
@@ -120,11 +126,12 @@ const MastheadContainer = () => {
         <ButtonWrapper>
           <MastheadSearch subject={data?.subject} />
           <LanguageSelectWrapper>
-            <LanguageSelector
-              inverted={ndlaFilm}
-              locales={supportedLanguages}
-              onSelect={i18n.changeLanguage}
-            />
+            <SafeLink to={constructNewPath(location.pathname, 'nb')}>
+              Bokmål
+            </SafeLink>
+            <SafeLink to={constructNewPath(location.pathname, 'nn')}>
+              Nynorsk
+            </SafeLink>
           </LanguageSelectWrapper>
           {config.feideEnabled && (
             <FeideLoginButton>
