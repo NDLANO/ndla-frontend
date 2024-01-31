@@ -1,0 +1,2 @@
+[{"data":{"arenaCategoryV2":{"__typename":"ArenaCategoryV2","id":1,"title":"Test kategori","description":"Testorama","topicCount":1,"postCount":11,"visible":true,"topics":[{"__typename":"ArenaTopicV2","id":1,"postCount":11,"created":"2024-01-26T12:36:15.449Z","updated":"2024-01-26T12:36:15.449Z","title":"Larver","isFollowing":true,"categoryId":1}]}}}
+]

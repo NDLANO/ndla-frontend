@@ -78,7 +78,11 @@ const LockedIconCSS = css`
 const TopicCard = ({ id, title, locked, timestamp, count }: Props) => {
   const { t, i18n } = useTranslation();
   return (
-    <StyledSafelink css={TopicCardCSS} to={toArenaTopic(id)}>
+    <StyledSafelink
+      css={TopicCardCSS}
+      to={toArenaTopic(id)}
+      data-testid="arena-topic-card"
+    >
       <div>
         <StyledHeader
           element="label"
