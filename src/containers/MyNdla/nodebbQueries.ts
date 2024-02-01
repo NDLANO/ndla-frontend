@@ -228,7 +228,7 @@ export const arenaNotificationQuery = gql`
 export const useArenaNotifications = (
   options?: QueryHookOptions<GQLArenaNotificationsQuery>,
 ) => {
-  const { data, refetch } = useGraphQuery<GQLArenaNotificationsQuery>(
+  const { data, refetch, loading } = useGraphQuery<GQLArenaNotificationsQuery>(
     arenaNotificationQuery,
     {
       ...options,
@@ -239,6 +239,7 @@ export const useArenaNotifications = (
   return {
     notifications: data?.arenaNotifications,
     refetch,
+    loading,
   };
 };
 
