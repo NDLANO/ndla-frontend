@@ -61,7 +61,7 @@ interface Props {
 const ListViewOptions = ({ onTypeChange, type }: Props) => {
   const { t } = useTranslation();
   return (
-    <StyledDisplayOptionsContainer>
+    <StyledDisplayOptionsContainer data-testid="list-view-options">
       <Tooltip tooltip={t('myNdla.listView')}>
         <StyledIconButton
           selected={type === 'list'}
