@@ -35,9 +35,6 @@ const ArenaNotificationPage = () => {
         />
         <MyNdlaTitle title={t('myNdla.arena.notification.myNotification')} />
       </TitleWrapper>
-      <Text textStyle="content-alt" margin="small">
-        {t('myNdla.arena.notification.description')}
-      </Text>
       <NotificationList notifications={notifications?.items} />
     </MyNdlaPageWrapper>
   );
