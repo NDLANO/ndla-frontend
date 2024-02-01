@@ -11,8 +11,10 @@ import config from '../../../../config';
 import {
   Exact,
   GQLArenaCategoryV2Fragment,
+  GQLArenaNotificationV2Fragment,
   GQLArenaPostV2Fragment,
   GQLArenaTopicV2Fragment,
+  GQLPaginatedNotificationsFragment,
   GQLPaginatedPostsFragment,
   GQLUpdateTopicV2Mutation,
 } from '../../../../graphqlTypes';
@@ -450,4 +452,57 @@ export const useArenaCreateTopic = (categoryId: string | undefined) => {
 
   if (config.enableNodeBB) return newNodebbCreateArenaTopic;
   else return createArenaTopic;
+};
+
+export const useTemporaryArenaNotifications = (skip?: boolean) => {
+  const { notifications, loading } = myndlaQueries.useArenaNotifications({
+    skip: config.enableNodeBB || skip,
+  });
+  const { notifications: nodebbNotifications, loading: nodebbLoading } =
+    nodebbQueries.useArenaNotifications({
+      skip: !config.enableNodeBB || skip,
+    });
+
+  if (config.enableNodeBB) {
+    const items: GQLArenaNotificationV2Fragment[] =
+      nodebbNotifications?.map((notification) => {
+        return {
+          __typename: 'ArenaNewPostNotificationV2',
+          id: 123,
+          topicId: notification.topicId,
+          topicTitle: notification.topicTitle,
+          notificationTime: notification.datetimeISO,
+          isRead: notification.read,
+          post: {
+            __typename: 'ArenaPostV2',
+            id: notification.postId,
+            contentAsHTML: notification.bodyShort,
+            content: notification.bodyShort,
+            created: notification.datetimeISO,
+            topicId: notification.topicId,
+            updated: notification.datetimeISO,
+            owner: {
+              __typename: 'ArenaUserV2',
+              id: notification.user.id,
+              username: notification.user.slug,
+              displayName: notification.user.displayName,
+              location: '',
+              groups: [],
+            },
+          },
+        };
+      }) ?? [];
+
+    const notifications: GQLPaginatedNotificationsFragment = {
+      __typename: 'PaginatedArenaNewPostNotificationV2',
+      totalCount: items.length,
+      page: 1,
+      pageSize: 100,
+      items,
+    };
+    return {
+      notifications,
+      loading: nodebbLoading,
+    };
+  } else return { notifications, loading };
 };
