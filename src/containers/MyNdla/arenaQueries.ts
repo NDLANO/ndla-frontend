@@ -263,15 +263,14 @@ export const arenaNotificationV2Query = gql`
 export const useArenaNotifications = (
   options?: QueryHookOptions<GQLArenaNotificationsV2Query>,
 ) => {
-  const { data, refetch } = useGraphQuery<GQLArenaNotificationsV2Query>(
-    arenaNotificationV2Query,
-    {
+  const { data, refetch, loading } =
+    useGraphQuery<GQLArenaNotificationsV2Query>(arenaNotificationV2Query, {
       ...options,
       pollInterval: 60000,
       ssr: false,
-    },
-  );
+    });
   return {
+    loading,
     notifications: data?.arenaNotificationsV2,
     refetch,
   };

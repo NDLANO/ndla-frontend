@@ -14,8 +14,8 @@ import { colors, spacing } from '@ndla/core';
 import { SafeLinkButton } from '@ndla/safelink';
 import NotificationBellButton from './NotificationButton';
 import NotificationList from './NotificationList';
+import { useTemporaryArenaNotifications } from '../Arena/components/temporaryNodebbHooks';
 import { toAllNotifications } from '../Arena/utils';
-import { useArenaNotifications } from '../arenaQueries';
 
 const StyledContent = styled(Content)`
   background-color: ${colors.background.default};
@@ -41,7 +41,7 @@ const ShowAllLink = styled(SafeLinkButton)`
 `;
 
 const NotificationPopover = () => {
-  const { notifications } = useArenaNotifications();
+  const { notifications } = useTemporaryArenaNotifications();
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   return (

@@ -128,8 +128,10 @@ const Content = styled(Text)`
 
 export const compareUsernames = (
   userUsername: string | undefined,
-  postUsername: string,
+  postUsername: string | undefined,
 ) => {
+  if (!userUsername || !postUsername) return false;
+
   if (config.enableNodeBB) {
     // Nodebb usernames cannot contain every character so we need to replace them :^)
     const nodebbUsername = userUsername?.replace(
@@ -151,13 +153,7 @@ const PostCard = ({
 }: Props) => {
   const [isReplying, setIsReplying] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const {
-    id: postId,
-    topicId,
-    created,
-    contentAsHTML,
-    owner: { username },
-  } = post;
+  const { id: postId, topicId, created, contentAsHTML, owner } = post;
   const replyToRef = useRef<HTMLButtonElement | null>(null);
 
   const {
@@ -212,7 +208,7 @@ const PostCard = ({
   );
 
   const menu = useMemo(() => {
-    const isOwnPost = compareUsernames(user?.username, username);
+    const isOwnPost = compareUsernames(user?.username, owner?.username);
 
     const update: MenuItemProps = {
       icon: <Pencil />,
@@ -272,7 +268,7 @@ const PostCard = ({
     user,
     type,
     postId,
-    username,
+    owner?.username,
     isMainPost,
     deletePostCallback,
     deleteTopicCallback,

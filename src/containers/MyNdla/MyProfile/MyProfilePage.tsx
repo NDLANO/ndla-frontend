@@ -8,7 +8,6 @@
 
 import { useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { ButtonV2 } from '@ndla/button';
 import { spacing } from '@ndla/core';
@@ -28,7 +27,7 @@ import MyPreferences from './components/MyPreferences';
 import { AuthContext } from '../../../components/AuthenticationContext';
 import { useBaseName } from '../../../components/BaseNameContext';
 import { getAllDimensions } from '../../../util/trackingUtil';
-import { constructNewPath, toHref } from '../../../util/urlHelper';
+import { constructNewPath } from '../../../util/urlHelper';
 import MyContactArea from '../components/MyContactArea';
 import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
 import MyNdlaTitle from '../components/MyNdlaTitle';
@@ -66,7 +65,6 @@ const MyProfilePage = () => {
   const { user } = useContext(AuthContext);
   const { t } = useTranslation();
   const basename = useBaseName();
-  const location = useLocation();
   const { trackPageView } = useTracker();
   const { deletePersonalData } = useDeletePersonalData();
 
@@ -79,10 +77,7 @@ const MyProfilePage = () => {
 
   const onDeleteAccount = async () => {
     await deletePersonalData();
-    window.location.href = constructNewPath(
-      `/logout?state=${toHref(location)}`,
-      basename,
-    );
+    window.location.href = constructNewPath(`/logout?state=/`, basename);
   };
 
   return (
