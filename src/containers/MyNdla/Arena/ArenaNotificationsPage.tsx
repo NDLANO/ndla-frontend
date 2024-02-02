@@ -8,8 +8,7 @@
 
 import { useTranslation } from "react-i18next";
 import { HelmetWithTracker } from "@ndla/tracker";
-import { Text } from "@ndla/typography";
-import { useArenaNotifications } from "../arenaQueries";
+import { useTemporaryArenaNotifications } from "./components/temporaryNodebbHooks";
 import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 import MyNdlaTitle from "../components/MyNdlaTitle";
@@ -18,7 +17,7 @@ import TitleWrapper from "../components/TitleWrapper";
 
 const ArenaNotificationPage = () => {
   const { t } = useTranslation();
-  const { notifications } = useArenaNotifications();
+  const { notifications } = useTemporaryArenaNotifications();
   return (
     <MyNdlaPageWrapper>
       <HelmetWithTracker title={t("myNdla.arena.notification.myNotification")} />
@@ -34,10 +33,7 @@ const ArenaNotificationPage = () => {
         />
         <MyNdlaTitle title={t("myNdla.arena.notification.myNotification")} />
       </TitleWrapper>
-      <Text textStyle="content-alt" margin="small">
-        {t("myNdla.arena.notification.description")}
-      </Text>
-      <NotificationList notifications={notifications} />
+      <NotificationList notifications={notifications?.items} />
     </MyNdlaPageWrapper>
   );
 };

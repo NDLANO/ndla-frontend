@@ -9,7 +9,7 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { colors, fonts, misc, spacing } from "@ndla/core";
+import { colors, fonts, misc, spacing, stackOrder } from "@ndla/core";
 import { RadioButtonGroup } from "@ndla/forms";
 import { Heading, Text } from "@ndla/typography";
 import { useSnack } from "@ndla/ui";
@@ -55,7 +55,7 @@ const StyledRadioButtonGroup = styled(RadioButtonGroup)`
       outline: 0px;
       border-color: ${colors.brand.primary};
       border-radius: 0px;
-      z-index: 1;
+      z-index: ${stackOrder.offsetSingle};
     }
     &:first-of-type {
       border-top-left-radius: ${misc.borderRadius};

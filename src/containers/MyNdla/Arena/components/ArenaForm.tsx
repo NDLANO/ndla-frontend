@@ -91,17 +91,14 @@ const contentMaxLength = 32767;
 const ArenaForm = ({ onSave, onAbort, type, initialTitle, initialContent, id }: ArenaFormProps) => {
   const { t } = useTranslation();
   const { validationT } = useValidationTranslation();
-  const { formState, trigger, control, handleSubmit, setValue } = useForm({
+  const { formState, control, handleSubmit, setValue } = useForm({
     defaultValues: {
       title: initialTitle ?? "",
       content: initialContent ?? "",
     },
-    mode: "onChange",
+    mode: "onSubmit",
+    reValidateMode: "onSubmit",
   });
-
-  useEffect(() => {
-    trigger();
-  }, [trigger]);
 
   useEffect(() => {
     type === "topic"
@@ -111,8 +108,8 @@ const ArenaForm = ({ onSave, onAbort, type, initialTitle, initialContent, id }: 
         : setTimeout(() => document.getElementById(`field-editor`)?.focus(), 1);
   }, [id, type]);
 
-  const onSubmit = async (data: ArenaFormValues) => {
-    await onSave(type === "topic" ? { title: data.title, content: data.content } : { content: data.content });
+  const onSubmit = async ({ title, content }: ArenaFormValues) => {
+    await onSave(type === "topic" ? { title: title, content: content } : { content: content });
   };
 
   return (
@@ -122,7 +119,7 @@ const ArenaForm = ({ onSave, onAbort, type, initialTitle, initialContent, id }: 
           control={control}
           name="title"
           rules={{
-            required: validationT({ type: "required", field: "content" }),
+            required: validationT({ type: "required", field: "title" }),
             maxLength: {
               value: titleMaxLength,
               message: validationT({
@@ -148,7 +145,10 @@ const ArenaForm = ({ onSave, onAbort, type, initialTitle, initialContent, id }: 
         control={control}
         name="content"
         rules={{
-          required: validationT({ type: "required", field: "content" }),
+          required: validationT({
+            type: "required",
+            field: "content",
+          }),
           maxLength: {
             value: contentMaxLength,
             message: validationT({
@@ -166,7 +166,6 @@ const ArenaForm = ({ onSave, onAbort, type, initialTitle, initialContent, id }: 
             <MarkdownEditor
               setContentWritten={(val) => {
                 setValue("content", val, {
-                  shouldValidate: true,
                   shouldDirty: true,
                 });
               }}
@@ -185,7 +184,7 @@ const ArenaForm = ({ onSave, onAbort, type, initialTitle, initialContent, id }: 
       </InformationLabel>
       <ButtonRow>
         <AlertModal onAbort={onAbort} postType={type} formState={formState} initialContent={initialContent} />
-        <LoadingButton colorTheme="primary" type="submit" disabled={!formState.isDirty || !formState.isValid}>
+        <LoadingButton colorTheme="primary" type="submit">
           {t("myNdla.arena.publish")}
         </LoadingButton>
       </ButtonRow>

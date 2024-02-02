@@ -9,9 +9,7 @@ export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
   [SubKey in K]: Maybe<T[SubKey]>;
 };
-export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = {
-  [_ in K]?: never;
-};
+export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
 export type Incremental<T> =
   | T
   | {
@@ -55,6 +53,38 @@ export type GQLArenaCategory = {
   topics?: Maybe<Array<GQLArenaTopic>>;
 };
 
+export type GQLArenaCategoryV2 = {
+  __typename?: "ArenaCategoryV2";
+  description: Scalars["String"]["output"];
+  id: Scalars["Int"]["output"];
+  isFollowing: Scalars["Boolean"]["output"];
+  postCount: Scalars["Int"]["output"];
+  title: Scalars["String"]["output"];
+  topicCount: Scalars["Int"]["output"];
+  topics?: Maybe<Array<GQLArenaTopicV2>>;
+  visible: Scalars["Boolean"]["output"];
+};
+
+export type GQLArenaFlag = {
+  __typename?: "ArenaFlag";
+  created: Scalars["String"]["output"];
+  flagger: GQLArenaUserV2;
+  id: Scalars["Int"]["output"];
+  isResolved: Scalars["Boolean"]["output"];
+  reason: Scalars["String"]["output"];
+  resolved?: Maybe<Scalars["String"]["output"]>;
+};
+
+export type GQLArenaNewPostNotificationV2 = {
+  __typename?: "ArenaNewPostNotificationV2";
+  id: Scalars["Int"]["output"];
+  isRead: Scalars["Boolean"]["output"];
+  notificationTime: Scalars["String"]["output"];
+  post: GQLArenaPostV2;
+  topicId: Scalars["Int"]["output"];
+  topicTitle: Scalars["String"]["output"];
+};
+
 export type GQLArenaNotification = {
   __typename?: "ArenaNotification";
   bodyShort: Scalars["String"]["output"];
@@ -86,6 +116,18 @@ export type GQLArenaPost = {
   user: GQLArenaUser;
 };
 
+export type GQLArenaPostV2 = {
+  __typename?: "ArenaPostV2";
+  content: Scalars["String"]["output"];
+  contentAsHTML?: Maybe<Scalars["String"]["output"]>;
+  created: Scalars["String"]["output"];
+  flags?: Maybe<Array<GQLArenaFlag>>;
+  id: Scalars["Int"]["output"];
+  owner: GQLArenaUserV2;
+  topicId: Scalars["Int"]["output"];
+  updated: Scalars["String"]["output"];
+};
+
 export type GQLArenaTopic = {
   __typename?: "ArenaTopic";
   breadcrumbs: Array<GQLArenaBreadcrumb>;
@@ -101,6 +143,18 @@ export type GQLArenaTopic = {
   title: Scalars["String"]["output"];
 };
 
+export type GQLArenaTopicV2 = {
+  __typename?: "ArenaTopicV2";
+  categoryId: Scalars["Int"]["output"];
+  created: Scalars["String"]["output"];
+  id: Scalars["Int"]["output"];
+  isFollowing: Scalars["Boolean"]["output"];
+  postCount: Scalars["Int"]["output"];
+  posts?: Maybe<GQLPaginatedPosts>;
+  title: Scalars["String"]["output"];
+  updated: Scalars["String"]["output"];
+};
+
 export type GQLArenaUser = {
   __typename?: "ArenaUser";
   displayName: Scalars["String"]["output"];
@@ -110,6 +164,22 @@ export type GQLArenaUser = {
   profilePicture?: Maybe<Scalars["String"]["output"]>;
   slug: Scalars["String"]["output"];
   username: Scalars["String"]["output"];
+};
+
+export type GQLArenaUserV2 = {
+  __typename?: "ArenaUserV2";
+  displayName: Scalars["String"]["output"];
+  groups: Array<Scalars["String"]["output"]>;
+  id: Scalars["Int"]["output"];
+  location: Scalars["String"]["output"];
+  username: Scalars["String"]["output"];
+};
+
+export type GQLArenaUserV2Input = {
+  arenaEnabled?: InputMaybe<Scalars["Boolean"]["input"]>;
+  arenaGroups?: InputMaybe<Array<Scalars["String"]["input"]>>;
+  favoriteSubjects?: InputMaybe<Array<Scalars["String"]["input"]>>;
+  shareName?: InputMaybe<Scalars["Boolean"]["input"]>;
 };
 
 export type GQLArticle = {
@@ -910,25 +980,44 @@ export type GQLMutation = {
   addFolder: GQLFolder;
   addFolderResource: GQLFolderResource;
   copySharedFolder: GQLFolder;
+  deleteCategory: Scalars["Int"]["output"];
   deleteFolder: Scalars["String"]["output"];
   deleteFolderResource: Scalars["String"]["output"];
   deletePersonalData: Scalars["Boolean"]["output"];
   deletePost: Scalars["Int"]["output"];
+  deletePostV2: Scalars["Int"]["output"];
   deleteTopic: Scalars["Int"]["output"];
+  deleteTopicV2: Scalars["Int"]["output"];
+  followCategory: GQLArenaCategoryV2;
+  followTopic: GQLArenaTopicV2;
+  markAllNotificationsAsRead: Scalars["Boolean"]["output"];
   markNotificationAsRead: Array<Scalars["Int"]["output"]>;
+  markNotificationsAsReadV2: Array<Scalars["Int"]["output"]>;
+  newArenaCategory: GQLArenaCategoryV2;
   newArenaTopic: GQLArenaTopic;
+  newArenaTopicV2: GQLArenaTopicV2;
   newFlag: Scalars["Int"]["output"];
+  newFlagV2: Scalars["Int"]["output"];
   replyToTopic: GQLArenaPost;
+  replyToTopicV2: GQLArenaPostV2;
+  resolveFlag: GQLArenaFlag;
+  sortArenaCategories: Array<GQLArenaCategoryV2>;
   sortFolders: GQLSortResult;
   sortResources: GQLSortResult;
   subscribeToTopic: Scalars["Int"]["output"];
   transformArticleContent: Scalars["String"]["output"];
+  unfollowCategory: GQLArenaCategoryV2;
+  unfollowTopic: GQLArenaTopicV2;
   unsubscribeFromTopic: Scalars["Int"]["output"];
+  updateArenaCategory: GQLArenaCategoryV2;
   updateFolder: GQLFolder;
   updateFolderResource: GQLFolderResource;
   updateFolderStatus: Array<Scalars["String"]["output"]>;
+  updateOtherArenaUser: GQLMyNdlaPersonalData;
   updatePersonalData: GQLMyNdlaPersonalData;
   updatePost: GQLArenaPost;
+  updatePostV2: GQLArenaPostV2;
+  updateTopicV2: GQLArenaTopicV2;
 };
 
 export type GQLMutationAddFolderArgs = {
@@ -951,6 +1040,10 @@ export type GQLMutationCopySharedFolderArgs = {
   folderId: Scalars["String"]["input"];
 };
 
+export type GQLMutationDeleteCategoryArgs = {
+  categoryId: Scalars["Int"]["input"];
+};
+
 export type GQLMutationDeleteFolderArgs = {
   id: Scalars["String"]["input"];
 };
@@ -964,7 +1057,23 @@ export type GQLMutationDeletePostArgs = {
   postId: Scalars["Int"]["input"];
 };
 
+export type GQLMutationDeletePostV2Args = {
+  postId: Scalars["Int"]["input"];
+};
+
 export type GQLMutationDeleteTopicArgs = {
+  topicId: Scalars["Int"]["input"];
+};
+
+export type GQLMutationDeleteTopicV2Args = {
+  topicId: Scalars["Int"]["input"];
+};
+
+export type GQLMutationFollowCategoryArgs = {
+  categoryId: Scalars["Int"]["input"];
+};
+
+export type GQLMutationFollowTopicArgs = {
   topicId: Scalars["Int"]["input"];
 };
 
@@ -972,7 +1081,23 @@ export type GQLMutationMarkNotificationAsReadArgs = {
   topicIds: Array<Scalars["Int"]["input"]>;
 };
 
+export type GQLMutationMarkNotificationsAsReadV2Args = {
+  notificationIds: Array<Scalars["Int"]["input"]>;
+};
+
+export type GQLMutationNewArenaCategoryArgs = {
+  description: Scalars["String"]["input"];
+  title: Scalars["String"]["input"];
+  visible: Scalars["Boolean"]["input"];
+};
+
 export type GQLMutationNewArenaTopicArgs = {
+  categoryId: Scalars["Int"]["input"];
+  content: Scalars["String"]["input"];
+  title: Scalars["String"]["input"];
+};
+
+export type GQLMutationNewArenaTopicV2Args = {
   categoryId: Scalars["Int"]["input"];
   content: Scalars["String"]["input"];
   title: Scalars["String"]["input"];
@@ -984,9 +1109,27 @@ export type GQLMutationNewFlagArgs = {
   type: Scalars["String"]["input"];
 };
 
+export type GQLMutationNewFlagV2Args = {
+  postId: Scalars["Int"]["input"];
+  reason: Scalars["String"]["input"];
+};
+
 export type GQLMutationReplyToTopicArgs = {
   content: Scalars["String"]["input"];
   topicId: Scalars["Int"]["input"];
+};
+
+export type GQLMutationReplyToTopicV2Args = {
+  content: Scalars["String"]["input"];
+  topicId: Scalars["Int"]["input"];
+};
+
+export type GQLMutationResolveFlagArgs = {
+  flagId: Scalars["Int"]["input"];
+};
+
+export type GQLMutationSortArenaCategoriesArgs = {
+  sortedIds: Array<Scalars["Int"]["input"]>;
 };
 
 export type GQLMutationSortFoldersArgs = {
@@ -1012,8 +1155,23 @@ export type GQLMutationTransformArticleContentArgs = {
   visualElement?: InputMaybe<Scalars["String"]["input"]>;
 };
 
+export type GQLMutationUnfollowCategoryArgs = {
+  categoryId: Scalars["Int"]["input"];
+};
+
+export type GQLMutationUnfollowTopicArgs = {
+  topicId: Scalars["Int"]["input"];
+};
+
 export type GQLMutationUnsubscribeFromTopicArgs = {
   topicId: Scalars["Int"]["input"];
+};
+
+export type GQLMutationUpdateArenaCategoryArgs = {
+  categoryId: Scalars["Int"]["input"];
+  description: Scalars["String"]["input"];
+  title: Scalars["String"]["input"];
+  visible: Scalars["Boolean"]["input"];
 };
 
 export type GQLMutationUpdateFolderArgs = {
@@ -1033,6 +1191,11 @@ export type GQLMutationUpdateFolderStatusArgs = {
   status: Scalars["String"]["input"];
 };
 
+export type GQLMutationUpdateOtherArenaUserArgs = {
+  data: GQLArenaUserV2Input;
+  userId: Scalars["Int"]["input"];
+};
+
 export type GQLMutationUpdatePersonalDataArgs = {
   favoriteSubjects?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
   shareName?: InputMaybe<Scalars["Boolean"]["input"]>;
@@ -1042,6 +1205,17 @@ export type GQLMutationUpdatePostArgs = {
   content: Scalars["String"]["input"];
   postId: Scalars["Int"]["input"];
   title?: InputMaybe<Scalars["String"]["input"]>;
+};
+
+export type GQLMutationUpdatePostV2Args = {
+  content: Scalars["String"]["input"];
+  postId: Scalars["Int"]["input"];
+};
+
+export type GQLMutationUpdateTopicV2Args = {
+  content: Scalars["String"]["input"];
+  title: Scalars["String"]["input"];
+  topicId: Scalars["Int"]["input"];
 };
 
 export type GQLMyNdlaGroup = {
@@ -1055,6 +1229,7 @@ export type GQLMyNdlaGroup = {
 export type GQLMyNdlaPersonalData = {
   __typename?: "MyNdlaPersonalData";
   arenaEnabled: Scalars["Boolean"]["output"];
+  arenaGroups: Array<Scalars["String"]["output"]>;
   displayName: Scalars["String"]["output"];
   email: Scalars["String"]["output"];
   favoriteSubjects: Array<Scalars["String"]["output"]>;
@@ -1090,6 +1265,38 @@ export type GQLNewFolderResource = {
 export type GQLOwner = {
   __typename?: "Owner";
   name: Scalars["String"]["output"];
+};
+
+export type GQLPaginatedArenaNewPostNotificationV2 = {
+  __typename?: "PaginatedArenaNewPostNotificationV2";
+  items: Array<GQLArenaNewPostNotificationV2>;
+  page: Scalars["Int"]["output"];
+  pageSize: Scalars["Int"]["output"];
+  totalCount: Scalars["Int"]["output"];
+};
+
+export type GQLPaginatedArenaUsers = {
+  __typename?: "PaginatedArenaUsers";
+  items: Array<GQLArenaUserV2>;
+  page: Scalars["Int"]["output"];
+  pageSize: Scalars["Int"]["output"];
+  totalCount: Scalars["Int"]["output"];
+};
+
+export type GQLPaginatedPosts = {
+  __typename?: "PaginatedPosts";
+  items: Array<GQLArenaPostV2>;
+  page: Scalars["Int"]["output"];
+  pageSize: Scalars["Int"]["output"];
+  totalCount: Scalars["Int"]["output"];
+};
+
+export type GQLPaginatedTopics = {
+  __typename?: "PaginatedTopics";
+  items: Array<GQLArenaTopicV2>;
+  page: Scalars["Int"]["output"];
+  pageSize: Scalars["Int"]["output"];
+  totalCount: Scalars["Int"]["output"];
 };
 
 export type GQLPodcastLicense = {
@@ -1180,14 +1387,23 @@ export type GQLQuery = {
   aiEnabledOrgs?: Maybe<GQLConfigMetaStringList>;
   alerts?: Maybe<Array<Maybe<GQLUptimeAlert>>>;
   allFolderResources: Array<GQLFolderResource>;
+  arenaAllFlags: GQLPaginatedPosts;
   arenaCategories: Array<GQLArenaCategory>;
+  arenaCategoriesV2: Array<GQLArenaCategoryV2>;
   arenaCategory?: Maybe<GQLArenaCategory>;
+  arenaCategoryV2?: Maybe<GQLArenaCategoryV2>;
   arenaEnabledOrgs?: Maybe<GQLConfigMetaStringList>;
   arenaNotifications: Array<GQLArenaNotification>;
+  arenaNotificationsV2: GQLPaginatedArenaNewPostNotificationV2;
+  arenaPostInContext?: Maybe<GQLArenaTopicV2>;
   arenaRecentTopics: Array<GQLArenaTopic>;
+  arenaRecentTopicsV2: GQLPaginatedTopics;
   arenaTopic?: Maybe<GQLArenaTopic>;
+  arenaTopicV2?: Maybe<GQLArenaTopicV2>;
   arenaTopicsByUser: Array<GQLArenaTopic>;
+  arenaTopicsByUserV2: GQLPaginatedTopics;
   arenaUser?: Maybe<GQLArenaUser>;
+  arenaUserV2?: Maybe<GQLArenaUserV2>;
   article?: Maybe<GQLArticle>;
   articleResource?: Maybe<GQLResource>;
   audio?: Maybe<GQLAudio>;
@@ -1208,6 +1424,7 @@ export type GQLQuery = {
   groupSearch?: Maybe<Array<GQLGroupSearch>>;
   image?: Maybe<GQLImageMetaInformationV2>;
   learningpath?: Maybe<GQLLearningpath>;
+  listArenaUserV2: GQLPaginatedArenaUsers;
   listingPage?: Maybe<GQLListingPage>;
   personalData?: Maybe<GQLMyNdlaPersonalData>;
   podcastSearch?: Maybe<GQLAudioSearch>;
@@ -1233,9 +1450,39 @@ export type GQLQueryAllFolderResourcesArgs = {
   size?: InputMaybe<Scalars["Int"]["input"]>;
 };
 
+export type GQLQueryArenaAllFlagsArgs = {
+  page?: InputMaybe<Scalars["Int"]["input"]>;
+  pageSize?: InputMaybe<Scalars["Int"]["input"]>;
+};
+
+export type GQLQueryArenaCategoriesV2Args = {
+  filterFollowed?: InputMaybe<Scalars["Boolean"]["input"]>;
+};
+
 export type GQLQueryArenaCategoryArgs = {
   categoryId: Scalars["Int"]["input"];
   page: Scalars["Int"]["input"];
+};
+
+export type GQLQueryArenaCategoryV2Args = {
+  categoryId: Scalars["Int"]["input"];
+  page?: InputMaybe<Scalars["Int"]["input"]>;
+  pageSize?: InputMaybe<Scalars["Int"]["input"]>;
+};
+
+export type GQLQueryArenaNotificationsV2Args = {
+  page?: InputMaybe<Scalars["Int"]["input"]>;
+  pageSize?: InputMaybe<Scalars["Int"]["input"]>;
+};
+
+export type GQLQueryArenaPostInContextArgs = {
+  pageSize?: InputMaybe<Scalars["Int"]["input"]>;
+  postId: Scalars["Int"]["input"];
+};
+
+export type GQLQueryArenaRecentTopicsV2Args = {
+  page?: InputMaybe<Scalars["Int"]["input"]>;
+  pageSize?: InputMaybe<Scalars["Int"]["input"]>;
 };
 
 export type GQLQueryArenaTopicArgs = {
@@ -1243,11 +1490,27 @@ export type GQLQueryArenaTopicArgs = {
   topicId: Scalars["Int"]["input"];
 };
 
+export type GQLQueryArenaTopicV2Args = {
+  page?: InputMaybe<Scalars["Int"]["input"]>;
+  pageSize?: InputMaybe<Scalars["Int"]["input"]>;
+  topicId: Scalars["Int"]["input"];
+};
+
 export type GQLQueryArenaTopicsByUserArgs = {
   userSlug: Scalars["String"]["input"];
 };
 
+export type GQLQueryArenaTopicsByUserV2Args = {
+  page?: InputMaybe<Scalars["Int"]["input"]>;
+  pageSize?: InputMaybe<Scalars["Int"]["input"]>;
+  userId: Scalars["Int"]["input"];
+};
+
 export type GQLQueryArenaUserArgs = {
+  username: Scalars["String"]["input"];
+};
+
+export type GQLQueryArenaUserV2Args = {
   username: Scalars["String"]["input"];
 };
 
@@ -1352,6 +1615,13 @@ export type GQLQueryImageArgs = {
 
 export type GQLQueryLearningpathArgs = {
   pathId: Scalars["String"]["input"];
+};
+
+export type GQLQueryListArenaUserV2Args = {
+  filterTeachers?: InputMaybe<Scalars["Boolean"]["input"]>;
+  page?: InputMaybe<Scalars["Int"]["input"]>;
+  pageSize?: InputMaybe<Scalars["Int"]["input"]>;
+  query?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type GQLQueryListingPageArgs = {
@@ -1934,7 +2204,8 @@ export type GQLNotionsContent_MetaFragment = {
 } & GQLResourceEmbedLicenseBox_MetaFragment;
 
 export type GQLMyNdlaPersonalDataFragmentFragment = {
-  __typename?: "MyNdlaPersonalData";
+  __typename: "MyNdlaPersonalData";
+  id: number;
   username: string;
   email: string;
   displayName: string;
@@ -1942,6 +2213,7 @@ export type GQLMyNdlaPersonalDataFragmentFragment = {
   favoriteSubjects: Array<string>;
   role: string;
   arenaEnabled: boolean;
+  arenaGroups: Array<string>;
   shareName: boolean;
   groups: Array<{
     __typename?: "MyNdlaGroup";
@@ -2789,244 +3061,374 @@ export type GQLMultidisciplinaryTopicWrapper_SubjectFragment = {
   __typename?: "Subject";
 } & GQLMultidisciplinaryTopic_SubjectFragment;
 
-export type GQLNewFlagMutationVariables = Exact<{
+export type GQLNewFlagV2MutationVariables = Exact<{
   id: Scalars["Int"]["input"];
   reason: Scalars["String"]["input"];
-  type: Scalars["String"]["input"];
 }>;
 
-export type GQLNewFlagMutation = { __typename?: "Mutation"; newFlag: number };
+export type GQLNewFlagV2Mutation = {
+  __typename?: "Mutation";
+  newFlagV2: number;
+};
 
-export type GQLReplyToTopicMutationVariables = Exact<{
+export type GQLReplyToTopicV2MutationVariables = Exact<{
   topicId: Scalars["Int"]["input"];
   content: Scalars["String"]["input"];
 }>;
 
-export type GQLReplyToTopicMutation = {
+export type GQLReplyToTopicV2Mutation = {
   __typename?: "Mutation";
-  replyToTopic: { __typename?: "ArenaPost" } & GQLArenaPostFragment;
+  replyToTopicV2: { __typename?: "ArenaPostV2" } & GQLArenaPostV2Fragment;
 };
 
-export type GQLUpdatePostMutationVariables = Exact<{
+export type GQLUpdatePostV2MutationVariables = Exact<{
   postId: Scalars["Int"]["input"];
   content: Scalars["String"]["input"];
-  title?: InputMaybe<Scalars["String"]["input"]>;
 }>;
 
-export type GQLUpdatePostMutation = {
+export type GQLUpdatePostV2Mutation = {
   __typename?: "Mutation";
-  updatePost: { __typename?: "ArenaPost" } & GQLArenaPostFragment;
+  updatePostV2: { __typename?: "ArenaPostV2" } & GQLArenaPostV2Fragment;
 };
 
-export type GQLDeletePostMutationVariables = Exact<{
+export type GQLUpdateTopicV2MutationVariables = Exact<{
+  topicId: Scalars["Int"]["input"];
+  content: Scalars["String"]["input"];
+  title: Scalars["String"]["input"];
+}>;
+
+export type GQLUpdateTopicV2Mutation = {
+  __typename?: "Mutation";
+  updateTopicV2: { __typename?: "ArenaTopicV2" } & GQLArenaTopicV2Fragment;
+};
+
+export type GQLDeletePostV2MutationVariables = Exact<{
   postId: Scalars["Int"]["input"];
 }>;
 
-export type GQLDeletePostMutation = {
+export type GQLDeletePostV2Mutation = {
   __typename?: "Mutation";
-  deletePost: number;
+  deletePostV2: number;
 };
 
-export type GQLDeleteTopicMutationVariables = Exact<{
+export type GQLDeleteTopicV2MutationVariables = Exact<{
   topicId: Scalars["Int"]["input"];
 }>;
 
-export type GQLDeleteTopicMutation = {
+export type GQLDeleteTopicV2Mutation = {
   __typename?: "Mutation";
-  deleteTopic: number;
+  deleteTopicV2: number;
 };
 
-export type GQLNewArenaTopicMutationVariables = Exact<{
+export type GQLNewArenaTopicV2MutationVariables = Exact<{
   categoryId: Scalars["Int"]["input"];
   content: Scalars["String"]["input"];
   title: Scalars["String"]["input"];
 }>;
 
-export type GQLNewArenaTopicMutation = {
+export type GQLNewArenaTopicV2Mutation = {
   __typename?: "Mutation";
-  newArenaTopic: { __typename?: "ArenaTopic" } & GQLArenaTopicFragment;
+  newArenaTopicV2: { __typename?: "ArenaTopicV2" } & GQLArenaTopicV2Fragment;
 };
 
-export type GQLMarkNotificationAsReadMutationVariables = Exact<{
-  topicIds: Array<Scalars["Int"]["input"]> | Scalars["Int"]["input"];
+export type GQLNewArenaCategoryMutationVariables = Exact<{
+  title: Scalars["String"]["input"];
+  description: Scalars["String"]["input"];
+  visible: Scalars["Boolean"]["input"];
 }>;
 
-export type GQLMarkNotificationAsReadMutation = {
+export type GQLNewArenaCategoryMutation = {
   __typename?: "Mutation";
-  markNotificationAsRead: Array<number>;
+  newArenaCategory: {
+    __typename?: "ArenaCategoryV2";
+  } & GQLArenaCategoryV2Fragment;
 };
 
-export type GQLSubscribeToTopicMutationVariables = Exact<{
+export type GQLUpdateArenaCategoryMutationVariables = Exact<{
+  categoryId: Scalars["Int"]["input"];
+  title: Scalars["String"]["input"];
+  description: Scalars["String"]["input"];
+  visible: Scalars["Boolean"]["input"];
+}>;
+
+export type GQLUpdateArenaCategoryMutation = {
+  __typename?: "Mutation";
+  updateArenaCategory: {
+    __typename?: "ArenaCategoryV2";
+  } & GQLArenaCategoryV2Fragment;
+};
+
+export type GQLSortArenaCategoriesMutationVariables = Exact<{
+  categoryIds: Array<Scalars["Int"]["input"]> | Scalars["Int"]["input"];
+}>;
+
+export type GQLSortArenaCategoriesMutation = {
+  __typename?: "Mutation";
+  sortArenaCategories: Array<{ __typename?: "ArenaCategoryV2" } & GQLArenaCategoryV2Fragment>;
+};
+
+export type GQLDeleteArenaCategoryMutationVariables = Exact<{
+  categoryId: Scalars["Int"]["input"];
+}>;
+
+export type GQLDeleteArenaCategoryMutation = {
+  __typename?: "Mutation";
+  deleteCategory: number;
+};
+
+export type GQLMarkAllNotificationsAsReadMutationVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type GQLMarkAllNotificationsAsReadMutation = {
+  __typename?: "Mutation";
+  markAllNotificationsAsRead: boolean;
+};
+
+export type GQLResolveFlagMutationVariables = Exact<{
+  flagId: Scalars["Int"]["input"];
+}>;
+
+export type GQLResolveFlagMutation = {
+  __typename?: "Mutation";
+  resolveFlag: { __typename?: "ArenaFlag" } & GQLArenaFlagFragment;
+};
+
+export type GQLUpdateOtherUserMutationVariables = Exact<{
+  userId: Scalars["Int"]["input"];
+  user: GQLArenaUserV2Input;
+}>;
+
+export type GQLUpdateOtherUserMutation = {
+  __typename?: "Mutation";
+  updateOtherArenaUser: {
+    __typename?: "MyNdlaPersonalData";
+  } & GQLMyNdlaPersonalDataFragmentFragment;
+};
+
+export type GQLFollowTopicMutationVariables = Exact<{
   topicId: Scalars["Int"]["input"];
 }>;
 
-export type GQLSubscribeToTopicMutation = {
+export type GQLFollowTopicMutation = {
   __typename?: "Mutation";
-  subscribeToTopic: number;
+  followTopic: { __typename?: "ArenaTopicV2" } & GQLArenaTopicV2Fragment;
 };
 
-export type GQLUnsubscribeFromTopicMutationVariables = Exact<{
+export type GQLUnfollowTopicMutationVariables = Exact<{
   topicId: Scalars["Int"]["input"];
 }>;
 
-export type GQLUnsubscribeFromTopicMutation = {
+export type GQLUnfollowTopicMutation = {
   __typename?: "Mutation";
-  unsubscribeFromTopic: number;
+  unfollowTopic: { __typename?: "ArenaTopicV2" } & GQLArenaTopicV2Fragment;
 };
 
-export type GQLArenaUserFragment = {
-  __typename?: "ArenaUser";
+export type GQLArenaUserV2Fragment = {
+  __typename?: "ArenaUserV2";
   displayName: string;
   id: number;
-  profilePicture?: string;
-  slug: string;
-  groupTitleArray?: Array<string>;
-  location?: string;
+  groups: Array<string>;
+  location: string;
   username: string;
 };
 
-export type GQLArenaCategoriesFragment = {
-  __typename: "ArenaCategory";
-  description: string;
-  disabled: boolean;
-  htmlDescription: string;
+export type GQLArenaCategoryV2Fragment = {
+  __typename: "ArenaCategoryV2";
   id: number;
-  name: string;
-  topicCount: number;
-  slug: string;
-};
-
-export type GQLArenaCategoryFragment = {
-  __typename: "ArenaCategory";
-  description: string;
-  disabled: boolean;
-  htmlDescription: string;
-  id: number;
-  name: string;
-  topicCount: number;
-  slug: string;
-};
-
-export type GQLArenaTopicFragment = {
-  __typename: "ArenaTopic";
-  categoryId: number;
-  id: number;
-  locked: boolean;
-  postCount: number;
-  slug: string;
-  timestamp: string;
   title: string;
-  deleted: boolean;
-  isFollowing?: boolean;
+  description: string;
+  topicCount: number;
+  postCount: number;
+  visible: boolean;
 };
 
-export type GQLArenaPostFragment = {
-  __typename: "ArenaPost";
-  content: string;
+export type GQLArenaTopicV2Fragment = {
+  __typename: "ArenaTopicV2";
   id: number;
-  timestamp: string;
-  topicId: number;
-  isMainPost: boolean;
-  deleted: boolean;
-  user: {
-    __typename?: "ArenaUser";
-    displayName: string;
-    profilePicture?: string;
-    username: string;
-    location?: string;
-  };
+  postCount: number;
+  created: string;
+  updated: string;
+  title: string;
+  isFollowing: boolean;
+  categoryId: number;
 };
 
-export type GQLArenaUserQueryVariables = Exact<{
+export type GQLArenaFlagFragment = {
+  __typename: "ArenaFlag";
+  id: number;
+  reason: string;
+  created: string;
+  resolved?: string;
+  isResolved: boolean;
+  flagger: { __typename?: "ArenaUserV2" } & GQLArenaUserV2Fragment;
+};
+
+export type GQLArenaPostV2Fragment = {
+  __typename: "ArenaPostV2";
+  content: string;
+  contentAsHTML?: string;
+  id: number;
+  created: string;
+  updated: string;
+  topicId: number;
+  owner: { __typename?: "ArenaUserV2" } & GQLArenaUserV2Fragment;
+  flags?: Array<{ __typename?: "ArenaFlag" } & GQLArenaFlagFragment>;
+};
+
+export type GQLPaginatedPostsFragment = {
+  __typename: "PaginatedPosts";
+  totalCount: number;
+  page: number;
+  pageSize: number;
+  items: Array<{ __typename?: "ArenaPostV2" } & GQLArenaPostV2Fragment>;
+};
+
+export type GQLPaginatedTopicsFragment = {
+  __typename: "PaginatedTopics";
+  totalCount: number;
+  page: number;
+  pageSize: number;
+  items: Array<{ __typename?: "ArenaTopicV2" } & GQLArenaTopicV2Fragment>;
+};
+
+export type GQLArenaUserV2QueryVariables = Exact<{
   username: Scalars["String"]["input"];
 }>;
 
-export type GQLArenaUserQuery = {
+export type GQLArenaUserV2Query = {
   __typename?: "Query";
-  arenaUser?: { __typename?: "ArenaUser" } & GQLArenaUserFragment;
+  arenaUserV2?: { __typename?: "ArenaUserV2" } & GQLArenaUserV2Fragment;
 };
 
-export type GQLArenaPageQueryVariables = Exact<{ [key: string]: never }>;
+export type GQLArenaPage2QueryVariables = Exact<{ [key: string]: never }>;
 
-export type GQLArenaPageQuery = {
+export type GQLArenaPage2Query = {
   __typename?: "Query";
-  arenaCategories: Array<{ __typename?: "ArenaCategory" } & GQLArenaCategoriesFragment>;
+  arenaCategoriesV2: Array<{ __typename?: "ArenaCategoryV2" } & GQLArenaCategoryV2Fragment>;
 };
 
-export type GQLArenaCategoryQueryVariables = Exact<{
+export type GQLArenaCategoryV2QueryVariables = Exact<{
   categoryId: Scalars["Int"]["input"];
   page: Scalars["Int"]["input"];
 }>;
 
-export type GQLArenaCategoryQuery = {
+export type GQLArenaCategoryV2Query = {
   __typename?: "Query";
-  arenaCategory?: {
-    __typename?: "ArenaCategory";
-    topicCount: number;
-    topics?: Array<{ __typename?: "ArenaTopic" } & GQLArenaTopicFragment>;
-  } & GQLArenaCategoryFragment;
+  arenaCategoryV2?: {
+    __typename?: "ArenaCategoryV2";
+    topics?: Array<{ __typename?: "ArenaTopicV2" } & GQLArenaTopicV2Fragment>;
+  } & GQLArenaCategoryV2Fragment;
 };
 
-export type GQLArenaTopicByIdQueryVariables = Exact<{
+export type GQLArenaTopicByIdV2QueryVariables = Exact<{
   topicId: Scalars["Int"]["input"];
   page: Scalars["Int"]["input"];
+  pageSize: Scalars["Int"]["input"];
 }>;
 
-export type GQLArenaTopicByIdQuery = {
+export type GQLArenaTopicByIdV2Query = {
   __typename?: "Query";
-  arenaTopic?: {
-    __typename?: "ArenaTopic";
-    posts: Array<{ __typename?: "ArenaPost" } & GQLArenaPostFragment>;
-  } & GQLArenaTopicFragment;
+  arenaTopicV2?: {
+    __typename?: "ArenaTopicV2";
+    posts?: { __typename?: "PaginatedPosts" } & GQLPaginatedPostsFragment;
+  } & GQLArenaTopicV2Fragment;
 };
 
-export type GQLArenaTopicsByUserQueryVariables = Exact<{
-  userSlug: Scalars["String"]["input"];
+export type GQLArenaTopicsByUserV2QueryVariables = Exact<{
+  userId: Scalars["Int"]["input"];
 }>;
 
-export type GQLArenaTopicsByUserQuery = {
+export type GQLArenaTopicsByUserV2Query = {
   __typename?: "Query";
-  arenaTopicsByUser: Array<{ __typename?: "ArenaTopic" } & GQLArenaTopicFragment>;
+  arenaTopicsByUserV2: {
+    __typename?: "PaginatedTopics";
+  } & GQLPaginatedTopicsFragment;
 };
 
-export type GQLArenaRecentTopicsQueryVariables = Exact<{
-  [key: string]: never;
+export type GQLArenaRecentTopicsV2QueryVariables = Exact<{
+  pageSize: Scalars["Int"]["input"];
 }>;
 
-export type GQLArenaRecentTopicsQuery = {
+export type GQLArenaRecentTopicsV2Query = {
   __typename?: "Query";
-  arenaRecentTopics: Array<{ __typename?: "ArenaTopic" } & GQLArenaTopicFragment>;
+  arenaRecentTopicsV2: {
+    __typename?: "PaginatedTopics";
+  } & GQLPaginatedTopicsFragment;
 };
 
-export type GQLArenaNotificationFragment = {
-  __typename: "ArenaNotification";
-  bodyShort: string;
-  datetimeISO: string;
-  from: number;
-  importance: number;
-  path: string;
-  read: boolean;
+export type GQLArenaNotificationV2Fragment = {
+  __typename: "ArenaNewPostNotificationV2";
+  id: number;
   topicId: number;
-  postId: number;
-  notificationId: string;
   topicTitle: string;
-  subject: string;
-  type: string;
-  user: {
-    __typename?: "ArenaUser";
-    displayName: string;
-    id: number;
-    slug: string;
-  };
+  notificationTime: string;
+  isRead: boolean;
+  post: { __typename?: "ArenaPostV2" } & GQLArenaPostV2Fragment;
 };
 
-export type GQLArenaNotificationsQueryVariables = Exact<{
+export type GQLPaginatedNotificationsFragment = {
+  __typename: "PaginatedArenaNewPostNotificationV2";
+  totalCount: number;
+  page: number;
+  pageSize: number;
+  items: Array<
+    {
+      __typename?: "ArenaNewPostNotificationV2";
+    } & GQLArenaNotificationV2Fragment
+  >;
+};
+
+export type GQLArenaNotificationsV2QueryVariables = Exact<{
   [key: string]: never;
 }>;
 
-export type GQLArenaNotificationsQuery = {
+export type GQLArenaNotificationsV2Query = {
   __typename?: "Query";
-  arenaNotifications: Array<{ __typename?: "ArenaNotification" } & GQLArenaNotificationFragment>;
+  arenaNotificationsV2: {
+    __typename?: "PaginatedArenaNewPostNotificationV2";
+  } & GQLPaginatedNotificationsFragment;
+};
+
+export type GQLAllFlagsV2QueryVariables = Exact<{
+  pageSize?: InputMaybe<Scalars["Int"]["input"]>;
+  page?: InputMaybe<Scalars["Int"]["input"]>;
+}>;
+
+export type GQLAllFlagsV2Query = {
+  __typename?: "Query";
+  arenaAllFlags: { __typename?: "PaginatedPosts" } & GQLPaginatedPostsFragment;
+};
+
+export type GQLArenaPostInContextQueryVariables = Exact<{
+  postId: Scalars["Int"]["input"];
+  pageSize?: InputMaybe<Scalars["Int"]["input"]>;
+}>;
+
+export type GQLArenaPostInContextQuery = {
+  __typename?: "Query";
+  arenaPostInContext?: {
+    __typename?: "ArenaTopicV2";
+    posts?: { __typename?: "PaginatedPosts" } & GQLPaginatedPostsFragment;
+  } & GQLArenaTopicV2Fragment;
+};
+
+export type GQLArenaUsersQueryVariables = Exact<{
+  query?: InputMaybe<Scalars["String"]["input"]>;
+  filterTeachers?: InputMaybe<Scalars["Boolean"]["input"]>;
+  page: Scalars["Int"]["input"];
+  pageSize: Scalars["Int"]["input"];
+}>;
+
+export type GQLArenaUsersQuery = {
+  __typename?: "Query";
+  listArenaUserV2: {
+    __typename: "PaginatedArenaUsers";
+    page: number;
+    pageSize: number;
+    totalCount: number;
+    items: Array<{ __typename?: "ArenaUserV2" } & GQLArenaUserV2Fragment>;
+  };
 };
 
 export type GQLAiOrganizationsQueryVariables = Exact<{ [key: string]: never }>;
@@ -3477,6 +3879,246 @@ export type GQLDeleteFolderResourceMutationVariables = Exact<{
 export type GQLDeleteFolderResourceMutation = {
   __typename?: "Mutation";
   deleteFolderResource: string;
+};
+
+export type GQLNewFlagMutationVariables = Exact<{
+  id: Scalars["Int"]["input"];
+  reason: Scalars["String"]["input"];
+  type: Scalars["String"]["input"];
+}>;
+
+export type GQLNewFlagMutation = { __typename?: "Mutation"; newFlag: number };
+
+export type GQLReplyToTopicMutationVariables = Exact<{
+  topicId: Scalars["Int"]["input"];
+  content: Scalars["String"]["input"];
+}>;
+
+export type GQLReplyToTopicMutation = {
+  __typename?: "Mutation";
+  replyToTopic: { __typename?: "ArenaPost" } & GQLArenaPostFragment;
+};
+
+export type GQLUpdatePostMutationVariables = Exact<{
+  postId: Scalars["Int"]["input"];
+  content: Scalars["String"]["input"];
+  title?: InputMaybe<Scalars["String"]["input"]>;
+}>;
+
+export type GQLUpdatePostMutation = {
+  __typename?: "Mutation";
+  updatePost: { __typename?: "ArenaPost" } & GQLArenaPostFragment;
+};
+
+export type GQLDeletePostMutationVariables = Exact<{
+  postId: Scalars["Int"]["input"];
+}>;
+
+export type GQLDeletePostMutation = {
+  __typename?: "Mutation";
+  deletePost: number;
+};
+
+export type GQLDeleteTopicMutationVariables = Exact<{
+  topicId: Scalars["Int"]["input"];
+}>;
+
+export type GQLDeleteTopicMutation = {
+  __typename?: "Mutation";
+  deleteTopic: number;
+};
+
+export type GQLNewArenaTopicMutationVariables = Exact<{
+  categoryId: Scalars["Int"]["input"];
+  content: Scalars["String"]["input"];
+  title: Scalars["String"]["input"];
+}>;
+
+export type GQLNewArenaTopicMutation = {
+  __typename?: "Mutation";
+  newArenaTopic: { __typename?: "ArenaTopic" } & GQLArenaTopicFragment;
+};
+
+export type GQLMarkNotificationAsReadMutationVariables = Exact<{
+  topicIds: Array<Scalars["Int"]["input"]> | Scalars["Int"]["input"];
+}>;
+
+export type GQLMarkNotificationAsReadMutation = {
+  __typename?: "Mutation";
+  markNotificationAsRead: Array<number>;
+};
+
+export type GQLSubscribeToTopicMutationVariables = Exact<{
+  topicId: Scalars["Int"]["input"];
+}>;
+
+export type GQLSubscribeToTopicMutation = {
+  __typename?: "Mutation";
+  subscribeToTopic: number;
+};
+
+export type GQLUnsubscribeFromTopicMutationVariables = Exact<{
+  topicId: Scalars["Int"]["input"];
+}>;
+
+export type GQLUnsubscribeFromTopicMutation = {
+  __typename?: "Mutation";
+  unsubscribeFromTopic: number;
+};
+
+export type GQLArenaUserFragment = {
+  __typename?: "ArenaUser";
+  displayName: string;
+  id: number;
+  profilePicture?: string;
+  slug: string;
+  groupTitleArray?: Array<string>;
+  location?: string;
+  username: string;
+};
+
+export type GQLArenaCategoriesFragment = {
+  __typename: "ArenaCategory";
+  description: string;
+  disabled: boolean;
+  htmlDescription: string;
+  id: number;
+  name: string;
+  topicCount: number;
+  slug: string;
+};
+
+export type GQLArenaCategoryFragment = {
+  __typename: "ArenaCategory";
+  description: string;
+  disabled: boolean;
+  htmlDescription: string;
+  id: number;
+  name: string;
+  topicCount: number;
+  slug: string;
+};
+
+export type GQLArenaTopicFragment = {
+  __typename: "ArenaTopic";
+  categoryId: number;
+  id: number;
+  locked: boolean;
+  postCount: number;
+  slug: string;
+  timestamp: string;
+  title: string;
+  deleted: boolean;
+  isFollowing?: boolean;
+};
+
+export type GQLArenaPostFragment = {
+  __typename: "ArenaPost";
+  content: string;
+  id: number;
+  timestamp: string;
+  topicId: number;
+  isMainPost: boolean;
+  deleted: boolean;
+  user: {
+    __typename?: "ArenaUser";
+    displayName: string;
+    profilePicture?: string;
+    username: string;
+    location?: string;
+  };
+};
+
+export type GQLArenaUserQueryVariables = Exact<{
+  username: Scalars["String"]["input"];
+}>;
+
+export type GQLArenaUserQuery = {
+  __typename?: "Query";
+  arenaUser?: { __typename?: "ArenaUser" } & GQLArenaUserFragment;
+};
+
+export type GQLArenaPageQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GQLArenaPageQuery = {
+  __typename?: "Query";
+  arenaCategories: Array<{ __typename?: "ArenaCategory" } & GQLArenaCategoriesFragment>;
+};
+
+export type GQLArenaCategoryQueryVariables = Exact<{
+  categoryId: Scalars["Int"]["input"];
+  page: Scalars["Int"]["input"];
+}>;
+
+export type GQLArenaCategoryQuery = {
+  __typename?: "Query";
+  arenaCategory?: {
+    __typename?: "ArenaCategory";
+    topicCount: number;
+    topics?: Array<{ __typename?: "ArenaTopic" } & GQLArenaTopicFragment>;
+  } & GQLArenaCategoryFragment;
+};
+
+export type GQLArenaTopicByIdQueryVariables = Exact<{
+  topicId: Scalars["Int"]["input"];
+  page: Scalars["Int"]["input"];
+}>;
+
+export type GQLArenaTopicByIdQuery = {
+  __typename?: "Query";
+  arenaTopic?: {
+    __typename?: "ArenaTopic";
+    posts: Array<{ __typename?: "ArenaPost" } & GQLArenaPostFragment>;
+  } & GQLArenaTopicFragment;
+};
+
+export type GQLArenaTopicsByUserQueryVariables = Exact<{
+  userSlug: Scalars["String"]["input"];
+}>;
+
+export type GQLArenaTopicsByUserQuery = {
+  __typename?: "Query";
+  arenaTopicsByUser: Array<{ __typename?: "ArenaTopic" } & GQLArenaTopicFragment>;
+};
+
+export type GQLArenaRecentTopicsQueryVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type GQLArenaRecentTopicsQuery = {
+  __typename?: "Query";
+  arenaRecentTopics: Array<{ __typename?: "ArenaTopic" } & GQLArenaTopicFragment>;
+};
+
+export type GQLArenaNotificationFragment = {
+  __typename: "ArenaNotification";
+  bodyShort: string;
+  datetimeISO: string;
+  from: number;
+  importance: number;
+  path: string;
+  read: boolean;
+  topicId: number;
+  postId: number;
+  notificationId: string;
+  topicTitle: string;
+  subject: string;
+  type: string;
+  user: {
+    __typename?: "ArenaUser";
+    displayName: string;
+    id: number;
+    slug: string;
+  };
+};
+
+export type GQLArenaNotificationsQueryVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type GQLArenaNotificationsQuery = {
+  __typename?: "Query";
+  arenaNotifications: Array<{ __typename?: "ArenaNotification" } & GQLArenaNotificationFragment>;
 };
 
 export type GQLMySubjectsSubjectFragmentFragment = {

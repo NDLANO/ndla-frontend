@@ -19,8 +19,8 @@ import { Text } from "@ndla/typography";
 import NavigationLink from "./NavigationLink";
 import { BellIcon } from "./NotificationButton";
 import { AuthContext } from "../../../components/AuthenticationContext";
+import { useTemporaryArenaNotifications } from "../Arena/components/temporaryNodebbHooks";
 import { toAllNotifications } from "../Arena/utils";
-import { useArenaNotifications } from "../arenaQueries";
 import { ViewType, buttonCss } from "../Folders/FoldersPage";
 import { OutletContext, menuLinks } from "../MyNdlaLayout";
 
@@ -128,13 +128,11 @@ const MenuModalContent = ({ onViewTypeChange, viewType, buttons, showButtons = t
   const location = useLocation();
   const { setIsOpen, resetFocus, setResetFocus } = useOutletContext<OutletContext>();
   const { user } = useContext(AuthContext);
-  const { notifications } = useArenaNotifications({
-    skip: !user?.arenaEnabled,
-  });
+  const { notifications } = useTemporaryArenaNotifications(!user?.arenaEnabled);
   const links = useMemo(
     () =>
-      menuLinks(t, location).map(({ id, shortName, icon, to, name, iconFilled, restricted }) => {
-        if (restricted && !user?.arenaEnabled) {
+      menuLinks(t, location).map(({ id, shortName, icon, to, name, iconFilled, shownForUser }) => {
+        if (shownForUser && !shownForUser(user)) {
           return null;
         }
         return (
@@ -163,7 +161,10 @@ const MenuModalContent = ({ onViewTypeChange, viewType, buttons, showButtons = t
         onClick={() => setIsOpen(false)}
         css={buttonCss}
       >
-        <BellIcon amountOfUnreadNotifications={notifications?.filter(({ read }) => !read).length ?? 0} left={true} />
+        <BellIcon
+          amountOfUnreadNotifications={notifications?.items?.filter(({ isRead }) => !isRead).length ?? 0}
+          left={true}
+        />
         {t("myNdla.arena.notification.title")}
       </SafeLinkButton>
     ),

@@ -6,31 +6,35 @@
  *
  */
 
-import { useContext, useEffect } from "react";
+import parse from "html-react-parser";
+import { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate } from "react-router-dom";
 import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { Spinner } from "@ndla/icons";
+import { SafeLinkButton } from "@ndla/safelink";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { Heading, Text } from "@ndla/typography";
-import ArenaCard from "./components/ArenaCard";
+import SortableArenaCards from "./components/SortableArenaCards";
+import { useArenaCategories } from "./components/temporaryNodebbHooks";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { getAllDimensions } from "../../../util/trackingUtil";
-import { useArenaCategories } from "../arenaQueries";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 
-const StyledCardContainer = styled.ul`
+const StyledContainer = styled.div`
   display: flex;
-  flex-direction: column;
-  gap: ${spacing.xsmall};
-  padding: ${spacing.normal} 0;
+  justify-content: space-between;
+  margin: ${spacing.large} 0 ${spacing.normal};
 `;
 
-const ArenaCardWrapper = styled.li`
-  list-style: none;
-  padding: 0;
+const ModeratorButtonWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: ${spacing.xsmall};
 `;
 
 const ArenaPage = () => {
@@ -38,6 +42,7 @@ const ArenaPage = () => {
   const { loading, arenaCategories } = useArenaCategories();
   const { trackPageView } = useTracker();
   const { user, authContextLoaded } = useContext(AuthContext);
+  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     if (!authContextLoaded || !user?.arenaEnabled) return;
@@ -47,13 +52,11 @@ const ArenaPage = () => {
     });
   }, [authContextLoaded, t, trackPageView, user]);
 
-  if (loading) {
+  if (loading || !authContextLoaded) {
     return <Spinner />;
   }
 
-  if (!user?.arenaEnabled && user?.arenaEnabled !== undefined) {
-    return <Navigate to="/minndla" />;
-  }
+  if (!user?.arenaEnabled) return <Navigate to="/minndla" />;
 
   return (
     <MyNdlaPageWrapper>
@@ -61,27 +64,26 @@ const ArenaPage = () => {
       <Heading element="h1" id={SKIP_TO_CONTENT_ID} headingStyle="h1-resource" margin="small">
         {t("myNdla.arena.title")}
       </Heading>
-      <Text element="p" textStyle="content-alt">
-        {t("myNdla.arena.notification.description")}
+      <Text element="p" textStyle="content-alt" margin="none">
+        {parse(t("myNdla.arena.notification.description"))}
       </Text>
-      <Heading element="h2" headingStyle="h2" margin="large">
-        {t("myNdla.arena.category.title")}
-      </Heading>
+      <StyledContainer>
+        <Heading element="h2" headingStyle="h2" margin="none">
+          {t("myNdla.arena.category.title")}
+        </Heading>
+        {user.isModerator && (
+          <ModeratorButtonWrapper>
+            <ButtonV2 onClick={() => setIsEditing((prev) => !prev)}>
+              {isEditing ? t("myNdla.arena.admin.category.stopEditing") : t("myNdla.arena.admin.category.startEditing")}
+            </ButtonV2>
+            <SafeLinkButton to="category/new">{t("myNdla.arena.admin.category.form.newCategory")}</SafeLinkButton>
+          </ModeratorButtonWrapper>
+        )}
+      </StyledContainer>
       {loading ? (
         <Spinner />
       ) : (
-        <StyledCardContainer>
-          {arenaCategories?.map((category) => (
-            <ArenaCardWrapper key={`topic-${category.id}`}>
-              <ArenaCard
-                id={category.id}
-                title={category.name}
-                subText={category.description}
-                //count={category.topicCount}
-              />
-            </ArenaCardWrapper>
-          ))}
-        </StyledCardContainer>
+        <SortableArenaCards isEditing={isEditing} categories={arenaCategories ?? []} user={user} />
       )}
       <Text element="p" textStyle="meta-text-small" margin="none">
         {t("myNdla.arena.bottomText")}

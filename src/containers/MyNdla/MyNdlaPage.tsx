@@ -16,8 +16,8 @@ import SafeLink from "@ndla/safelink";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { Heading } from "@ndla/typography";
 import { CampaignBlock, ListResource } from "@ndla/ui";
+import { useArenaRecentTopics } from "./Arena/components/temporaryNodebbHooks";
 import TopicCard from "./Arena/components/TopicCard";
-import { useRecentTopics } from "./arenaQueries";
 import MyNdlaPageWrapper from "./components/MyNdlaPageWrapper";
 import MyNdlaTitle from "./components/MyNdlaTitle";
 import TitleWrapper from "./components/TitleWrapper";
@@ -85,7 +85,7 @@ const MyNdlaPage = () => {
   const { t, i18n } = useTranslation();
   const { trackPageView } = useTracker();
   const { allFolderResources } = useRecentlyUsedResources();
-  const recentArenaTopicsQuery = useRecentTopics({ skip: !user?.arenaEnabled });
+  const recentArenaTopicsQuery = useArenaRecentTopics(!user?.arenaEnabled, 5);
   const { data: metaData, loading } = useFolderResourceMetaSearch(
     allFolderResources?.map((r) => ({
       id: r.resourceId,
@@ -171,21 +171,15 @@ const MyNdlaPage = () => {
             </StyledSafeLink>
           </SectionWrapper>
         )}
-        {!!recentArenaTopicsQuery.data?.length && (
+        {!!recentArenaTopicsQuery.data?.items?.length && (
           <SectionWrapper>
             <Heading element="h2" headingStyle="h2" margin="small">
               {t("myNdla.myPage.recentArenaPosts.title")}
             </Heading>
             <StyledResourceList>
-              {recentArenaTopicsQuery.data.slice(0, 5).map((topic) => (
+              {recentArenaTopicsQuery.data?.items?.map((topic) => (
                 <li key={topic.id}>
-                  <TopicCard
-                    id={topic.id}
-                    count={topic.postCount}
-                    title={topic.title}
-                    timestamp={topic.timestamp}
-                    locked={topic.locked}
-                  />
+                  <TopicCard id={topic.id} count={topic.postCount} title={topic.title} timestamp={topic.created} />
                 </li>
               ))}
             </StyledResourceList>

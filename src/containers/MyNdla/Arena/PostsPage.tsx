@@ -16,10 +16,14 @@ import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { useSnack } from "@ndla/ui";
 import DeletedPostCard from "./components/DeletedPostCard";
 import PostCard from "./components/PostCard";
+import {
+  useArenaTopic,
+  useArenaCategory,
+  useArenaFollowTopicMutation,
+  useArenaUnfollowTopicMutation,
+} from "./components/temporaryNodebbHooks";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { getAllDimensions } from "../../../util/trackingUtil";
-import { useSubscribeToTopicMutation, useUnsubscribeFromTopicMutation } from "../arenaMutations";
-import { useArenaCategory, useArenaNotifications, useArenaTopic } from "../arenaQueries";
 import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 
@@ -50,25 +54,17 @@ const PostsPage = () => {
   const { topicId } = useParams();
   const { addSnack } = useSnack();
   const navigate = useNavigate();
-  const { refetch } = useArenaNotifications();
   const [focusId, setFocusId] = useState<number | undefined>(undefined);
-  const { arenaTopic, loading, error } = useArenaTopic({
-    variables: { topicId: Number(topicId), page: 1 },
-    skip: !Number(topicId),
-    onCompleted() {
-      refetch();
-    },
-  });
+  const postPage = 1;
+  const postPageSize = 100;
+  const { arenaTopic, loading, error } = useArenaTopic(topicId, postPage, postPageSize);
 
-  const { arenaCategory } = useArenaCategory({
-    variables: { categoryId: Number(arenaTopic?.categoryId), page: 1 },
-    skip: !Number(arenaTopic?.categoryId),
-  });
+  const { arenaCategory } = useArenaCategory(arenaTopic?.categoryId?.toString());
   const { trackPageView } = useTracker();
   const { user, authContextLoaded } = useContext(AuthContext);
 
-  const [subscribeToTopic] = useSubscribeToTopicMutation();
-  const [unsubscribeFromTopic] = useUnsubscribeFromTopicMutation();
+  const [subscribeToTopic] = useArenaFollowTopicMutation();
+  const [unsubscribeFromTopic] = useArenaUnfollowTopicMutation();
 
   useEffect(() => {
     if (!authContextLoaded || !user?.arenaEnabled || loading) return;
@@ -103,11 +99,7 @@ const PostsPage = () => {
   }, [focusId, arenaTopic?.posts]);
 
   useEffect(() => {
-    if (
-      error?.graphQLErrors.map((err) => err.extensions.status).includes(403) ||
-      arenaTopic?.deleted ||
-      (!loading && !arenaTopic)
-    ) {
+    if (error?.graphQLErrors.map((err) => err.extensions.status).includes(403) || (!loading && !arenaTopic)) {
       if (document.referrer.includes("/minndla")) {
         navigate(-1);
       } else {
@@ -120,11 +112,8 @@ const PostsPage = () => {
     }
   }, [error, arenaTopic, navigate, addSnack, t, loading]);
 
-  if (loading) {
-    return <Spinner />;
-  }
-
-  if (!user?.arenaEnabled && user?.arenaEnabled !== undefined) {
+  if (loading) return <Spinner />;
+  if (authContextLoaded && !user?.arenaEnabled) {
     return <Navigate to="/minndla" />;
   }
 
@@ -137,7 +126,7 @@ const PostsPage = () => {
             topicId
               ? [
                   {
-                    name: arenaCategory?.name ?? "",
+                    name: arenaCategory?.title ?? "",
                     id: `category/${arenaTopic?.categoryId}`,
                   },
                   { name: arenaTopic?.title ?? "", id: topicId },
@@ -148,15 +137,25 @@ const PostsPage = () => {
         />
       </BreadcrumbWrapper>
       <ListWrapper>
-        {arenaTopic?.posts?.map((post) => (
-          <PostCardWrapper key={post.id} data-main-post={post.isMainPost}>
-            {post.deleted ? (
-              <DeletedPostCard />
-            ) : (
-              <PostCard post={post} topic={arenaTopic} onFollowChange={onFollowChange} setFocusId={setFocusId} />
-            )}
-          </PostCardWrapper>
-        ))}
+        {arenaTopic?.posts?.items?.map((post, postIdx) => {
+          const isMainPost = postIdx === 0 && postPage === 1;
+          return (
+            <PostCardWrapper key={post.id} data-main-post={isMainPost}>
+              {/* @ts-ignore TODO: Delete this when nodebb is gone */}
+              {post.deleted ? (
+                <DeletedPostCard />
+              ) : (
+                <PostCard
+                  post={post}
+                  topic={arenaTopic}
+                  onFollowChange={onFollowChange}
+                  setFocusId={setFocusId}
+                  isMainPost={isMainPost}
+                />
+              )}
+            </PostCardWrapper>
+          );
+        })}
       </ListWrapper>
     </MyNdlaPageWrapper>
   );

@@ -29,9 +29,11 @@ const messages = {
     sharedFolderPage: `{{name}} - ${titleTemplate}`,
     aboutPage: `{{name}} - ${titleTemplate}`,
     arenaPage: `Arena - ${titleTemplate}`,
+    arenaAdminPage: `Administrate Arena - ${titleTemplate}`,
     arenaTopicPage: `{{name}} - Arena - ${titleTemplate}`,
     arenaPostPage: `{{name}} - Arena - ${titleTemplate}`,
     arenaNewTopicPage: `New post - Arena - ${titleTemplate}`,
+    arenaNewCategoryPage: `New category - Arena - ${titleTemplate}`,
   },
   podcastPage: {
     episodes: "Episodes",
@@ -50,6 +52,14 @@ const messages = {
         "Do you want to use AI in your teaching? NDLA has created two chatbots that protect your privacy and can be safely used for work and in teaching. During exams the county may deny access to the chatbots.",
     },
   },
+  myNdla: {
+    arena: {
+      notification: {
+        description:
+          "Welcome to the arena for teachers in upper secondary education. This is <em>your</em> arena: a professional meeting place for discussion, inspiration, sharing, development, and collaboration.",
+      },
+    },
+  },
   validation: {
     fields: {
       name: "Name",
@@ -58,7 +68,7 @@ const messages = {
       content: "Content",
     },
     required: "This field is required",
-    requiredField: "$t(validation.fields.{{field}}) is required",
+    requiredField: "$t(validation.fields.{{field}}) can not be empty",
     notUnique: "Already exists",
     maxLength: "This field can only contain {{count}} characters",
     maxLengthField: `$t(validation.fields.{{field}}) can only contain {{count}} characters`,

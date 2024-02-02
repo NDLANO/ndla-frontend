@@ -7,121 +7,254 @@
  */
 
 import { MutationHookOptions, gql, useApolloClient, useMutation } from "@apollo/client";
-import { arenaNotificationQuery, arenaPostFragment, arenaTopicFragment } from "./arenaQueries";
 import {
+  arenaCategoriesV2Query,
+  arenaCategoryV2Fragment,
+  arenaCategoryV2Query,
+  arenaFlagFragment,
+  arenaFlagV2Query,
+  arenaNotificationV2Query,
+  arenaPostV2Fragment,
+  arenaTopicV2Fragment,
+} from "./arenaQueries";
+import { personalDataQueryFragment } from "../../components/AuthenticationContext";
+import {
+  GQLDeleteArenaCategoryMutation,
+  GQLDeleteArenaCategoryMutationVariables,
   GQLDeletePostMutation,
   GQLDeletePostMutationVariables,
-  GQLDeleteTopicMutation,
-  GQLDeleteTopicMutationVariables,
+  GQLDeleteTopicV2Mutation,
+  GQLDeleteTopicV2MutationVariables,
+  GQLFollowTopicMutation,
   GQLMarkNotificationAsReadMutation,
   GQLMarkNotificationAsReadMutationVariables,
-  GQLMutationSubscribeToTopicArgs,
-  GQLMutationUnsubscribeFromTopicArgs,
-  GQLNewArenaTopicMutation,
-  GQLNewArenaTopicMutationVariables,
-  GQLNewFlagMutation,
-  GQLNewFlagMutationVariables,
-  GQLReplyToTopicMutation,
-  GQLReplyToTopicMutationVariables,
-  GQLSubscribeToTopicMutation,
-  GQLUnsubscribeFromTopicMutation,
-  GQLUpdatePostMutation,
-  GQLUpdatePostMutationVariables,
+  GQLMutationFollowTopicArgs,
+  GQLMutationResolveFlagArgs,
+  GQLMutationUnfollowTopicArgs,
+  GQLNewArenaCategoryMutation,
+  GQLNewArenaCategoryMutationVariables,
+  GQLNewArenaTopicV2Mutation,
+  GQLNewArenaTopicV2MutationVariables,
+  GQLNewFlagV2Mutation,
+  GQLNewFlagV2MutationVariables,
+  GQLReplyToTopicV2Mutation,
+  GQLReplyToTopicV2MutationVariables,
+  GQLResolveFlagMutation,
+  GQLSortArenaCategoriesMutation,
+  GQLSortArenaCategoriesMutationVariables,
+  GQLUnfollowTopicMutation,
+  GQLUpdateArenaCategoryMutation,
+  GQLUpdateArenaCategoryMutationVariables,
+  GQLUpdateOtherUserMutation,
+  GQLUpdateOtherUserMutationVariables,
+  GQLUpdatePostV2Mutation,
+  GQLUpdatePostV2MutationVariables,
+  GQLUpdateTopicV2Mutation,
+  GQLUpdateTopicV2MutationVariables,
 } from "../../graphqlTypes";
 
-const newFlagMutation = gql`
-  mutation newFlag($id: Int!, $reason: String!, $type: String!) {
-    newFlag(id: $id, reason: $reason, type: $type)
+const newFlagMutationV2 = gql`
+  mutation newFlagV2($id: Int!, $reason: String!) {
+    newFlagV2(postId: $id, reason: $reason)
   }
 `;
 
-export const useNewFlagMutation = () => {
-  const [addNewFlag] = useMutation<GQLNewFlagMutation, GQLNewFlagMutationVariables>(newFlagMutation);
+export const useNewFlagMutationV2 = () => {
+  const [addNewFlag] = useMutation<GQLNewFlagV2Mutation, GQLNewFlagV2MutationVariables>(newFlagMutationV2, {
+    refetchQueries: [{ query: arenaFlagV2Query }],
+  });
   return { addNewFlag };
 };
 
-const replyToTopicMutation = gql`
-  mutation ReplyToTopic($topicId: Int!, $content: String!) {
-    replyToTopic(topicId: $topicId, content: $content) {
-      ...ArenaPost
+const replyToTopicV2Mutation = gql`
+  mutation ReplyToTopicV2($topicId: Int!, $content: String!) {
+    replyToTopicV2(topicId: $topicId, content: $content) {
+      ...ArenaPostV2
     }
   }
-  ${arenaPostFragment}
+  ${arenaPostV2Fragment}
 `;
 
-export const useReplyToTopic = (
-  options?: MutationHookOptions<GQLReplyToTopicMutation, GQLReplyToTopicMutationVariables>,
+export const useReplyToTopicV2 = (
+  options?: MutationHookOptions<GQLReplyToTopicV2Mutation, GQLReplyToTopicV2MutationVariables>,
 ) => {
-  const [replyToTopic] = useMutation<GQLReplyToTopicMutation, GQLReplyToTopicMutationVariables>(
-    replyToTopicMutation,
+  const [replyToTopic] = useMutation<GQLReplyToTopicV2Mutation, GQLReplyToTopicV2MutationVariables>(
+    replyToTopicV2Mutation,
     options,
   );
   return { replyToTopic };
 };
 
-const updatePostMutation = gql`
-  mutation UpdatePost($postId: Int!, $content: String!, $title: String) {
-    updatePost(postId: $postId, content: $content, title: $title) {
-      ...ArenaPost
+const updatePostMutationV2 = gql`
+  mutation UpdatePostV2($postId: Int!, $content: String!) {
+    updatePostV2(postId: $postId, content: $content) {
+      ...ArenaPostV2
     }
   }
-  ${arenaPostFragment}
+  ${arenaPostV2Fragment}
 `;
 
-export const useUpdatePost = (options: MutationHookOptions<GQLUpdatePostMutation, GQLUpdatePostMutationVariables>) => {
-  const [updatePost] = useMutation<GQLUpdatePostMutation, GQLUpdatePostMutationVariables>(updatePostMutation, options);
+export const useUpdatePostV2 = (
+  options: MutationHookOptions<GQLUpdatePostV2Mutation, GQLUpdatePostV2MutationVariables>,
+) => {
+  const [updatePost] = useMutation<GQLUpdatePostV2Mutation, GQLUpdatePostV2MutationVariables>(
+    updatePostMutationV2,
+    options,
+  );
   return { updatePost };
 };
 
-const deletePostMutation = gql`
-  mutation DeletePost($postId: Int!) {
-    deletePost(postId: $postId)
+const updateTopicMutationV2 = gql`
+  mutation UpdateTopicV2($topicId: Int!, $content: String!, $title: String!) {
+    updateTopicV2(topicId: $topicId, content: $content, title: $title) {
+      ...ArenaTopicV2
+    }
+  }
+  ${arenaTopicV2Fragment}
+`;
+
+export const useUpdateTopicV2 = (
+  options: MutationHookOptions<GQLUpdateTopicV2Mutation, GQLUpdateTopicV2MutationVariables>,
+) => {
+  const [updateTopic] = useMutation<GQLUpdateTopicV2Mutation, GQLUpdateTopicV2MutationVariables>(
+    updateTopicMutationV2,
+    options,
+  );
+  return { updateTopic };
+};
+
+const deletePostMutationV2 = gql`
+  mutation DeletePostV2($postId: Int!) {
+    deletePostV2(postId: $postId)
   }
 `;
 
-export const useDeletePost = (options: MutationHookOptions<GQLDeletePostMutation, GQLDeletePostMutationVariables>) => {
-  const [deletePost] = useMutation<GQLDeletePostMutation, GQLDeletePostMutationVariables>(deletePostMutation, options);
+export const useDeletePostV2 = (
+  options: MutationHookOptions<GQLDeletePostMutation, GQLDeletePostMutationVariables>,
+) => {
+  const [deletePost] = useMutation<GQLDeletePostMutation, GQLDeletePostMutationVariables>(deletePostMutationV2, {
+    refetchQueries: [{ query: arenaFlagV2Query }],
+    ...options,
+  });
   return { deletePost };
 };
 
-const deleteTopicMutation = gql`
-  mutation DeleteTopic($topicId: Int!) {
-    deleteTopic(topicId: $topicId)
+const deleteTopicMutationV2 = gql`
+  mutation DeleteTopicV2($topicId: Int!) {
+    deleteTopicV2(topicId: $topicId)
   }
 `;
 
-export const useDeleteTopic = (
-  options: MutationHookOptions<GQLDeleteTopicMutation, GQLDeleteTopicMutationVariables>,
+export const useDeleteTopicV2 = (
+  options: MutationHookOptions<GQLDeleteTopicV2Mutation, GQLDeleteTopicV2MutationVariables>,
 ) => {
-  const [deleteTopic] = useMutation<GQLDeleteTopicMutation, GQLDeleteTopicMutationVariables>(
-    deleteTopicMutation,
-    options,
+  const [deleteTopic] = useMutation<GQLDeleteTopicV2Mutation, GQLDeleteTopicV2MutationVariables>(
+    deleteTopicMutationV2,
+    {
+      refetchQueries: [{ query: arenaFlagV2Query }],
+      ...options,
+    },
   );
   return { deleteTopic };
 };
 
-const newArenaTopicMutation = gql`
-  mutation NewArenaTopic($categoryId: Int!, $content: String!, $title: String!) {
-    newArenaTopic(categoryId: $categoryId, content: $content, title: $title) {
-      ...ArenaTopic
+const newArenaTopicMutationV2 = gql`
+  mutation NewArenaTopicV2($categoryId: Int!, $content: String!, $title: String!) {
+    newArenaTopicV2(categoryId: $categoryId, content: $content, title: $title) {
+      ...ArenaTopicV2
     }
   }
-  ${arenaTopicFragment}
+  ${arenaTopicV2Fragment}
 `;
 
-export const useCreateArenaTopic = (
-  options: MutationHookOptions<GQLNewArenaTopicMutation, GQLNewArenaTopicMutationVariables>,
+export const useCreateArenaTopicV2 = (
+  options: MutationHookOptions<GQLNewArenaTopicV2Mutation, GQLNewArenaTopicV2MutationVariables>,
 ) => {
-  const [createArenaTopic] = useMutation<GQLNewArenaTopicMutation, GQLNewArenaTopicMutationVariables>(
-    newArenaTopicMutation,
+  const [createArenaTopic] = useMutation<GQLNewArenaTopicV2Mutation, GQLNewArenaTopicV2MutationVariables>(
+    newArenaTopicMutationV2,
     options,
   );
   return { createArenaTopic };
 };
 
+const newArenaCategoryMutation = gql`
+  mutation NewArenaCategory($title: String!, $description: String!, $visible: Boolean!) {
+    newArenaCategory(title: $title, description: $description, visible: $visible) {
+      ...ArenaCategoryV2
+    }
+  }
+  ${arenaCategoryV2Fragment}
+`;
+
+export const useCreateArenaCategory = () => {
+  const [createArenaCategory] = useMutation<GQLNewArenaCategoryMutation, GQLNewArenaCategoryMutationVariables>(
+    newArenaCategoryMutation,
+    {
+      refetchQueries: [{ query: arenaCategoriesV2Query }, { query: arenaCategoryV2Query }],
+    },
+  );
+  return { createArenaCategory };
+};
+
+const updateArenaCategoryMutation = gql`
+  mutation UpdateArenaCategory($categoryId: Int!, $title: String!, $description: String!, $visible: Boolean!) {
+    updateArenaCategory(categoryId: $categoryId, title: $title, description: $description, visible: $visible) {
+      ...ArenaCategoryV2
+    }
+  }
+  ${arenaCategoryV2Fragment}
+`;
+
+export const useEditArenaCategory = () => {
+  const [editArenaCategory] = useMutation<GQLUpdateArenaCategoryMutation, GQLUpdateArenaCategoryMutationVariables>(
+    updateArenaCategoryMutation,
+    {
+      refetchQueries: [{ query: arenaCategoriesV2Query }, { query: arenaCategoryV2Query }],
+    },
+  );
+
+  return { editArenaCategory };
+};
+
+const sortArenaCategoriesMutation = gql`
+  mutation SortArenaCategories($categoryIds: [Int!]!) {
+    sortArenaCategories(sortedIds: $categoryIds) {
+      ...ArenaCategoryV2
+    }
+  }
+  ${arenaCategoryV2Fragment}
+`;
+
+export const useArenaSortCategories = () => {
+  const [sortArenaCategories] = useMutation<GQLSortArenaCategoriesMutation, GQLSortArenaCategoriesMutationVariables>(
+    sortArenaCategoriesMutation,
+    {
+      refetchQueries: [{ query: arenaCategoriesV2Query }],
+    },
+  );
+
+  return sortArenaCategories;
+};
+
+const deleteArenaCategoryMutation = gql`
+  mutation DeleteArenaCategory($categoryId: Int!) {
+    deleteCategory(categoryId: $categoryId)
+  }
+`;
+
+export const useArenaDeleteCategoryMutation = () => {
+  const [deleteCategory] = useMutation<GQLDeleteArenaCategoryMutation, GQLDeleteArenaCategoryMutationVariables>(
+    deleteArenaCategoryMutation,
+    {
+      refetchQueries: [{ query: arenaCategoriesV2Query }, { query: arenaCategoryV2Query }],
+    },
+  );
+  return { deleteCategory };
+};
+
 const arenaMarkNotificationAsReadMutation = gql`
-  mutation MarkNotificationAsRead($topicIds: [Int!]!) {
-    markNotificationAsRead(topicIds: $topicIds)
+  mutation MarkAllNotificationsAsRead {
+    markAllNotificationsAsRead
   }
 `;
 
@@ -130,25 +263,86 @@ export const useMarkNotificationsAsRead = () => {
     GQLMarkNotificationAsReadMutation,
     GQLMarkNotificationAsReadMutationVariables
   >(arenaMarkNotificationAsReadMutation, {
-    refetchQueries: [{ query: arenaNotificationQuery }],
+    refetchQueries: [{ query: arenaNotificationV2Query }],
   });
   return { markNotificationsAsRead };
 };
 
-const subscribeToTopicMutation = gql`
-  mutation subscribeToTopic($topicId: Int!) {
-    subscribeToTopic(topicId: $topicId)
+const resolveFlagMutation = gql`
+  mutation resolveFlag($flagId: Int!) {
+    resolveFlag(flagId: $flagId) {
+      ...ArenaFlag
+    }
   }
+  ${arenaFlagFragment}
 `;
 
-export const useSubscribeToTopicMutation = () => {
+const updateOtherUserMutation = gql`
+  mutation updateOtherUser($userId: Int!, $user: ArenaUserV2Input!) {
+    updateOtherArenaUser(userId: $userId, data: $user) {
+      ...MyNdlaPersonalDataFragment
+    }
+  }
+  ${personalDataQueryFragment}
+`;
+
+export const useUpdateOtherUser = () => {
   const { cache } = useApolloClient();
-  return useMutation<GQLSubscribeToTopicMutation, GQLMutationSubscribeToTopicArgs>(subscribeToTopicMutation, {
+  return useMutation<GQLUpdateOtherUserMutation, GQLUpdateOtherUserMutationVariables>(updateOtherUserMutation, {
     onCompleted: (data) => {
       cache.modify({
         id: cache.identify({
-          __typename: "ArenaTopic",
-          id: data.subscribeToTopic,
+          __typename: "ArenaUserV2",
+          id: data.updateOtherArenaUser.id,
+        }),
+        fields: {
+          groups: () => data.updateOtherArenaUser.arenaGroups,
+        },
+      });
+    },
+  });
+};
+
+export const useResolveFlagMutation = () => {
+  const { cache } = useApolloClient();
+  return useMutation<GQLResolveFlagMutation, GQLMutationResolveFlagArgs>(resolveFlagMutation, {
+    onCompleted: (data) => {
+      cache.modify({
+        id: cache.identify({
+          __typename: "ArenaFlag",
+          id: data.resolveFlag.id,
+        }),
+        fields: {
+          resolved(_, { DELETE }) {
+            if (!data.resolveFlag.resolved) {
+              return DELETE;
+            }
+            return data.resolveFlag.resolved;
+          },
+          isResolved: () => data.resolveFlag.isResolved,
+        },
+      });
+    },
+  });
+};
+
+const followTopicMutation = gql`
+  mutation followTopic($topicId: Int!) {
+    followTopic(topicId: $topicId) {
+      ...ArenaTopicV2
+    }
+  }
+  ${arenaTopicV2Fragment}
+`;
+
+export const useFollowTopicMutation = () => {
+  const { cache } = useApolloClient();
+  return useMutation<GQLFollowTopicMutation, GQLMutationFollowTopicArgs>(followTopicMutation, {
+    onCompleted: (data) => {
+      cache.modify({
+        id: cache.identify({
+          __typename: "ArenaTopicV2",
+          id: data.followTopic.id,
         }),
         fields: {
           isFollowing: () => true,
@@ -158,28 +352,28 @@ export const useSubscribeToTopicMutation = () => {
   });
 };
 
-const unsubscribeFromTopicMutation = gql`
-  mutation unsubscribeFromTopic($topicId: Int!) {
-    unsubscribeFromTopic(topicId: $topicId)
+const unfollowTopicMutation = gql`
+  mutation unfollowTopic($topicId: Int!) {
+    unfollowTopic(topicId: $topicId) {
+      ...ArenaTopicV2
+    }
   }
+  ${arenaTopicV2Fragment}
 `;
 
 export const useUnsubscribeFromTopicMutation = () => {
   const { cache } = useApolloClient();
-  return useMutation<GQLUnsubscribeFromTopicMutation, GQLMutationUnsubscribeFromTopicArgs>(
-    unsubscribeFromTopicMutation,
-    {
-      onCompleted: (data) => {
-        cache.modify({
-          id: cache.identify({
-            __typename: "ArenaTopic",
-            id: data.unsubscribeFromTopic,
-          }),
-          fields: {
-            isFollowing: () => false,
-          },
-        });
-      },
+  return useMutation<GQLUnfollowTopicMutation, GQLMutationUnfollowTopicArgs>(unfollowTopicMutation, {
+    onCompleted: (data) => {
+      cache.modify({
+        id: cache.identify({
+          __typename: "ArenaTopicV2",
+          id: data.unfollowTopic.id,
+        }),
+        fields: {
+          isFollowing: () => false,
+        },
+      });
     },
-  );
+  });
 };

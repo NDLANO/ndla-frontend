@@ -14,8 +14,8 @@ import { colors, spacing } from "@ndla/core";
 import { SafeLinkButton } from "@ndla/safelink";
 import NotificationBellButton from "./NotificationButton";
 import NotificationList from "./NotificationList";
+import { useTemporaryArenaNotifications } from "../Arena/components/temporaryNodebbHooks";
 import { toAllNotifications } from "../Arena/utils";
-import { useArenaNotifications } from "../arenaQueries";
 
 const StyledContent = styled(Content)`
   background-color: ${colors.background.default};
@@ -41,18 +41,18 @@ const ShowAllLink = styled(SafeLinkButton)`
 `;
 
 const NotificationPopover = () => {
-  const { notifications } = useArenaNotifications();
+  const { notifications } = useTemporaryArenaNotifications();
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   return (
     <Root open={open} onOpenChange={setOpen}>
       <Trigger asChild>
-        <NotificationBellButton notifications={notifications} />
+        <NotificationBellButton notifications={notifications?.items} />
       </Trigger>
       <Portal>
         <StyledContent align="end">
           <StyledArrow />
-          <NotificationList notifications={notifications} close={() => setOpen(false)} />
+          <NotificationList notifications={notifications?.items} close={() => setOpen(false)} />
           <ShowAllLink to={toAllNotifications()} onClick={() => setOpen(false)} fontWeight="bold">
             {t("myNdla.arena.notification.showAll")}
           </ShowAllLink>

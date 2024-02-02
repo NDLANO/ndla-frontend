@@ -9,6 +9,7 @@
 import { ReactNode } from "react";
 import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
+import { stackOrder } from "@ndla/core";
 import { Hero, HeroContent, HeroContentType, HomeBreadcrumb, NdlaFilmHero, OneColumn } from "@ndla/ui";
 import { GQLArticleHero_MetaImageFragment, GQLArticleHero_SubjectFragment } from "../../../graphqlTypes";
 import { Breadcrumb as BreadcrumbType } from "../../../interfaces";
@@ -58,7 +59,7 @@ interface Props {
 }
 
 const StyledSection = styled.section`
-  z-index: 1;
+  z-index: ${stackOrder.offsetSingle};
 `;
 
 const ArticleHero = ({ resourceType, metaImage, subject, breadcrumbItems }: Props) => {

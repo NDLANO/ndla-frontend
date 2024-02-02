@@ -50,7 +50,11 @@ interface DraggableData {
   index: number;
 }
 
-export const makeDndTranslations = (type: "folder" | "resource", t: TFunction, length: number): Announcements => {
+export const makeDndTranslations = (
+  type: "folder" | "resource" | "category",
+  t: TFunction,
+  length: number,
+): Announcements => {
   return {
     onDragStart: ({ active }) => {
       const { name, index } = active.data.current as DraggableData;
@@ -69,7 +73,7 @@ export const makeDndTranslations = (type: "folder" | "resource", t: TFunction, l
             index: overData.index,
             length,
           })
-        : t("myNdla.folder.onDragMissingOver", { name });
+        : t(`myNdla.${type}.onDragMissingOver`, { name });
     },
     onDragEnd: ({ active, over }) => {
       const { name } = active.data.current as DraggableData;

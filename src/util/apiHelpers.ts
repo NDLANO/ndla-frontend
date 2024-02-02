@@ -166,9 +166,6 @@ const typePolicies: TypePolicies = {
   FolderResourceMeta: {
     keyFields: (obj) => `${obj.__typename}:${obj.type}${obj.id}`,
   },
-  MyNdlaPersonalData: {
-    keyFields: (obj) => obj.__typename,
-  },
   ConfigMetaBoolean: {
     keyFields: ["key"],
   },

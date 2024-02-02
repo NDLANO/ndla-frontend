@@ -9,6 +9,7 @@
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
+import { stackOrder } from "@ndla/core";
 import { Content, Masthead, Logo, PageContainer } from "@ndla/ui";
 import ZendeskButton from "@ndla/zendesk";
 import DefaultErrorMessage from "../../components/DefaultErrorMessage";
@@ -17,7 +18,7 @@ import FeideFooter from "../Page/components/FeideFooter";
 import Footer from "../Page/components/Footer";
 
 const ZendeskWrapper = styled.div`
-  z-index: 10;
+  z-index: ${stackOrder.trigger};
 `;
 
 const LogoWrapper = styled.div`

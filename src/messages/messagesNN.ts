@@ -29,9 +29,11 @@ const messages = {
     sharedFolderPage: `{{name}} - ${titleTemplate}`,
     aboutPage: `{{name}} - ${titleTemplate}`,
     arenaPage: `Arena - ${titleTemplate}`,
+    arenaAdminPage: `Administrer Arena - ${titleTemplate}`,
     arenaTopicPage: `{{name}} - Arena - ${titleTemplate}`,
     arenaPostPage: `{{name}} - Arena - ${titleTemplate}`,
     arenaNewTopicPage: `Nytt innlegg - Arena - ${titleTemplate}`,
+    arenaNewCategoryPage: `Ny kategori - Arena - ${titleTemplate}`,
   },
   podcastPage: {
     episodes: "Episoder",
@@ -50,6 +52,14 @@ const messages = {
         "Vil du bruke KI i undervisninga? NDLA har laga to praterobotar som tek vare på personvernet ditt og trygt kan brukast til jobb og i undervisning. I periodar med eksamensgjennomføring kan det hende fylkeskommunen stenger tilgangen til praterobotane.",
     },
   },
+  myNdla: {
+    arena: {
+      notification: {
+        description:
+          "Velkommen inn i arenaen for lærarar i vidaregåande opplæring! Dette er <em>din</em> arena: ein fagleg møtestad for diskusjon, inspirasjon, deling og utviklande samarbeid.",
+      },
+    },
+  },
   validation: {
     fields: {
       name: "Namn",
@@ -58,7 +68,7 @@ const messages = {
       description: "Beskriving",
     },
     required: "Dette feltet er påkrevd",
-    requiredField: "$t(validation.fields.{{field}}) er påkrevd",
+    requiredField: "$t(validation.fields.{{field}}) kan ikkje være tom",
     notUnique: "Finnes allereie",
     maxLength: "Dette feltet kan maks innehalde {{count}} teikn",
     maxLengthField: "$t(validation.fields.{{field}}) kan maks innehalde {{count}} teikn",

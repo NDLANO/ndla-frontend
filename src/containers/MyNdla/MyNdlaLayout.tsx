@@ -24,6 +24,8 @@ import {
   LogOut,
   ProfilePerson,
   ProfilePersonOutlined,
+  AdminPanelSettings,
+  AdminPanelSettingsFilled,
 } from "@ndla/icons/common";
 import { FolderOutlined, HorizontalMenu } from "@ndla/icons/contentType";
 import { Folder } from "@ndla/icons/editor";
@@ -31,7 +33,7 @@ import { Modal, ModalTrigger } from "@ndla/modal";
 import { Text } from "@ndla/typography";
 import { MessageBox } from "@ndla/ui";
 import NavigationLink from "./components/NavigationLink";
-import { AuthContext } from "../../components/AuthenticationContext";
+import { AuthContext, MyNDLAUserType } from "../../components/AuthenticationContext";
 import { toHref } from "../../util/urlHelper";
 
 const StyledLayout = styled.div`
@@ -139,8 +141,8 @@ const MyNdlaLayout = () => {
 
   const menuLink = useMemo(
     () =>
-      menuLinks(t, location).map(({ name, shortName, id, icon, to, iconFilled, restricted }) => {
-        if (restricted && !user?.arenaEnabled) {
+      menuLinks(t, location).map(({ name, shortName, id, icon, to, iconFilled, shownForUser }) => {
+        if (shownForUser && !shownForUser(user)) {
           return null;
         }
         return (
@@ -157,7 +159,7 @@ const MyNdlaLayout = () => {
       <Modal open={isOpen} onOpenChange={setIsOpen}>
         <StyledSideBar>
           <nav aria-label={t("myNdla.myNDLAMenu")}>
-            <StyledNavList>{menuLink}</StyledNavList>
+            <StyledNavList data-testid="my-ndla-menu">{menuLink}</StyledNavList>
           </nav>
           <ModalTrigger>
             <MoreButton variant="stripped" aria-label={t("myNdla.iconMenu.more")}>
@@ -217,7 +219,15 @@ export const menuLinks = (t: TFunction, location: Location) => [
     shortName: t("myNdla.arena.title"),
     icon: <ForumOutlined />,
     iconFilled: <Forum />,
-    restricted: true,
+    shownForUser: (user: MyNDLAUserType | undefined) => user?.arenaEnabled,
+  },
+  {
+    id: "admin",
+    name: t("myNdla.arena.admin.title"),
+    shortName: t("myNdla.arena.admin.title"),
+    icon: <AdminPanelSettings />,
+    iconFilled: <AdminPanelSettingsFilled />,
+    shownForUser: (user: MyNDLAUserType | undefined) => user?.arenaEnabled && user?.isModerator,
   },
   {
     id: "profile",

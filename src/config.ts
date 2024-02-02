@@ -108,6 +108,8 @@ export type ConfigType = {
   isVercel: boolean;
   monsidoToken: string;
   arenaModeratorGroup: string;
+  arenaAdminGroup: string;
+  enableNodeBB: boolean;
 };
 
 const config: ConfigType = {
@@ -135,6 +137,8 @@ const config: ConfigType = {
   isVercel: getEnvironmentVariabel("IS_VERCEL", false),
   monsidoToken: getEnvironmentVariabel("MONSIDO_TOKEN", ""),
   arenaModeratorGroup: getEnvironmentVariabel("ARENA_MODERATOR_GROUP", "Global Moderators"),
+  arenaAdminGroup: getEnvironmentVariabel("ARENA_ADMIN_GROUP", "ADMIN"),
+  enableNodeBB: getEnvironmentVariabel("ENABLE_NODEBB", false),
 };
 
 export function getUniversalConfig() {

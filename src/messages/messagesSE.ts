@@ -28,9 +28,11 @@ const messages = {
     myTagsPage: `Mu lihput - ${titleTemplate}`,
     aboutPage: `{{name}} - ${titleTemplate}`,
     arenaPage: `Arena - ${titleTemplate}`,
+    arenaAdminPage: `Administrer Arena - ${titleTemplate}`,
     arenaTopicPage: `{{name}} - Arena - ${titleTemplate}`,
     arenaPostPage: `{{name}} - Arena - ${titleTemplate}`,
     arenaNewTopicPage: `Ođđa reivvet - Arena - ${titleTemplate}`,
+    arenaNewCategoryPage: `Ny kategori - Arena - ${titleTemplate}`,
   },
   podcastPage: {
     episodes: "Jearahusat",
@@ -49,6 +51,14 @@ const messages = {
         "Áiggut go AI geavahit oahpahusas? NDLA lea ráhkadan guokte hupmanrobota mat suodjalit du priváhtavuođa ja maid sáhttá geavahit sihkkarit sihke barggus ja oahpahusas.",
     },
   },
+  myNdla: {
+    arena: {
+      notification: {
+        description:
+          "Velkommen inn i arenaen for lærere i videregående opplæring! Dette er <em>din</em> arena: et faglig møtested for diskusjon, inspirasjon, deling og utviklende samarbeid.",
+      },
+    },
+  },
   validation: {
     fields: {
       name: "Namma",
@@ -57,7 +67,7 @@ const messages = {
       content: "Sisdoallu",
     },
     required: "Dát fealta gáibiduvvo",
-    requiredField: "$t(validation.fields.{{field}}) gáibiduvvo",
+    requiredField: "$t(validation.fields.{{field}}) ii sáhte leat guoros",
     notUnique: "Gávdno juo",
     maxLength: "Dát fealta sáhttá sisttisdoallat eanemus {{count}} mearkkat",
     maxLengthField: "$t(validation.fields.{{field}}) sáhttá sisttisdoallat {{count}} mearkkat",

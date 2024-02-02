@@ -3,7 +3,7 @@
 exports[`ErrorPage renderers correctly 1`] = `
 <DocumentFragment>
   .emotion-0 {
-  z-index: 99;
+  z-index: 100;
   position: relative;
   background: white;
   border-bottom: 1px solid #eff0f2;
@@ -416,7 +416,13 @@ exports[`ErrorPage renderers correctly 1`] = `
   }
 }
 
-.emotion-30 {
+.emotion-31 {
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  font-size: 1rem;
+  line-height: 29px;
+  margin: 0px;
   font-size: 20;
   font-size: 1.1111111111111112rem;
   line-height: 1.5;
@@ -425,13 +431,18 @@ exports[`ErrorPage renderers correctly 1`] = `
   text-align: center;
 }
 
-.emotion-30:where([lang='zh'], .emotion-30[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-31:where([lang='zh'], .emotion-31[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+  font-size: calc(18px * 1.11);
+  font-size: calc(1rem * 1.11);
+}
+
+.emotion-31:where([lang='zh'], .emotion-31[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(20 * 1.11);
   font-size: calc(1.1111111111111112rem * 1.11);
 }
 
 @media (min-width: 48em) {
-  .emotion-30 {
+  .emotion-31 {
     font-size: 24;
     font-size: 1.3333333333333333rem;
     line-height: 1.5;
@@ -439,7 +450,7 @@ exports[`ErrorPage renderers correctly 1`] = `
     text-align: left;
   }
 
-  .emotion-30:where([lang='zh'], .emotion-30[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+  .emotion-31:where([lang='zh'], .emotion-31[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
     font-size: calc(24 * 1.11);
     font-size: calc(1.3333333333333333rem * 1.11);
   }
@@ -479,15 +490,24 @@ exports[`ErrorPage renderers correctly 1`] = `
   }
 }
 
-.emotion-34 {
+.emotion-35 {
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  font-size: 1rem;
+  line-height: 29px;
   font-size: 16;
   font-size: 0.8888888888888888rem;
   line-height: 1.5;
   font-weight: 600;
-  margin: 6px 0;
 }
 
-.emotion-34:where([lang='zh'], .emotion-34[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-35:where([lang='zh'], .emotion-35[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+  font-size: calc(18px * 1.11);
+  font-size: calc(1rem * 1.11);
+}
+
+.emotion-35:where([lang='zh'], .emotion-35[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(16 * 1.11);
   font-size: calc(0.8888888888888888rem * 1.11);
 }
@@ -984,21 +1004,21 @@ exports[`ErrorPage renderers correctly 1`] = `
               </svg>
             </div>
             <div>
-              <h2
+              <div
                 class="emotion-30 emotion-31"
               >
                 Sammen skaper vi framtidas læring
-              </h2>
+              </div>
               <div
                 class="emotion-32 emotion-33"
               >
                 <div>
-                  <h3
+                  <span
                     class="emotion-34 emotion-35"
                     id="otherLinks"
                   >
                     Andre NDLA-nettsteder
-                  </h3>
+                  </span>
                   <nav
                     aria-labelledby="otherLinks"
                     class="emotion-36 emotion-37"
