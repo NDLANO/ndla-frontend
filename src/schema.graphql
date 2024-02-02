@@ -36,7 +36,7 @@ type ArenaCategoryV2 {
 
 type ArenaFlag {
   created: String!
-  flagger: ArenaUserV2!
+  flagger: ArenaUserV2
   id: Int!
   isResolved: Boolean!
   reason: String!
@@ -87,7 +87,7 @@ type ArenaPostV2 {
   created: String!
   flags: [ArenaFlag!]
   id: Int!
-  owner: ArenaUserV2!
+  owner: ArenaUserV2
   topicId: Int!
   updated: String!
 }

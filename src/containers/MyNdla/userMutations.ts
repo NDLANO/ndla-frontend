@@ -23,7 +23,7 @@ export const useDeletePersonalData = () => {
   const [deletePersonalData] = useMutation<boolean>(
     deletePersonalDataMutation,
     {
-      onCompleted: () => client.resetStore(),
+      onCompleted: () => client.clearStore(),
     },
   );
 
