@@ -3772,11 +3772,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/accordion@npm:^3.0.25":
-  version: 3.0.25
-  resolution: "@ndla/accordion@npm:3.0.25"
+"@ndla/accordion@npm:^3.0.26":
+  version: 3.0.26
+  resolution: "@ndla/accordion@npm:3.0.26"
   dependencies:
-    "@ndla/button": "npm:^12.0.30"
+    "@ndla/button": "npm:^12.0.31"
     "@ndla/core": "npm:^4.4.0"
     "@ndla/icons": "npm:^5.0.9"
     "@radix-ui/react-accordion": "npm:^1.1.2"
@@ -3786,16 +3786,16 @@ __metadata:
     react: ">= 16.8.0"
     react-dom: ">= 16.8.0"
     react-i18next: ^13.3.0
-  checksum: 10c0/383a9801c84cf664c4cd31461f24c410080bec13b44d47ed1dcdad0936e6fd140828eb809e8f6735a7b8af85d12e72a8cf43dcfd513de2e41be6f51e9e28ed52
+  checksum: 10c0/8dc6295936a8afaf2fd9a768db7002345468fc700c58121305cead8f75951a917ec98825e8da5ec34dec4df4631931911e43716b0ce46934ce0a88ae3afad00b
   languageName: node
   linkType: hard
 
-"@ndla/article-converter@npm:^6.0.52":
-  version: 6.0.52
-  resolution: "@ndla/article-converter@npm:6.0.52"
+"@ndla/article-converter@npm:^6.0.53":
+  version: 6.0.53
+  resolution: "@ndla/article-converter@npm:6.0.53"
   dependencies:
-    "@ndla/code": "npm:^5.0.35"
-    "@ndla/ui": "npm:^50.9.6"
+    "@ndla/code": "npm:^5.0.36"
+    "@ndla/ui": "npm:^50.9.7"
     html-react-parser: "npm:^4.2.2"
     lodash: "npm:^4.17.20"
   peerDependencies:
@@ -3806,25 +3806,25 @@ __metadata:
     react-dom: ">= 16.8.0"
     react-i18next: ^13.3.0
     react-router-dom: ">= 6.0.0"
-  checksum: 10c0/00deaf2f83fe49d2c95a536e0bc80b643a34dc58cad049560033c074eaa8eea561ea929a8cc7a9aef2d80a24359f539945b77344de069eca0cd22ae7d6938ace
+  checksum: 10c0/51a528e5d5559e290b7042cd100ccbbe72058a648fd251c9007909a5c08147878d3d4d8a09630d827a2db13a0bc5b3e49ec157b45e429fc6737fa551ada6c70d
   languageName: node
   linkType: hard
 
-"@ndla/button@npm:^12.0.30":
-  version: 12.0.30
-  resolution: "@ndla/button@npm:12.0.30"
+"@ndla/button@npm:^12.0.31":
+  version: 12.0.31
+  resolution: "@ndla/button@npm:12.0.31"
   dependencies:
     "@ndla/core": "npm:^4.4.0"
     "@ndla/dropdown-menu": "npm:^1.0.28"
     "@ndla/icons": "npm:^5.0.9"
-    "@ndla/tooltip": "npm:^6.0.16"
+    "@ndla/tooltip": "npm:^6.0.17"
   peerDependencies:
     "@emotion/react": ^11.10.4
     "@emotion/styled": ^11.10.4
     react: ">= 16.8.0"
     react-dom: ">= 16.8.0"
     react-i18next: ^13.3.0
-  checksum: 10c0/853b0c714950281cd73fbad8a6700ffae0e1ecc5bc90917838fd687bec98883fd66ec6877e7732f87fc1e63e1945d898dfe93e066a6668d356004bc68f1ebb67
+  checksum: 10c0/9b35b80364bcdadb7f3c87e3cd16b1d809eab833e0f450e96285baccf80f9143033acd73682780bf358cd55b08d957ebc0a9e8d1e2c1c99325b53f7bcca54194
   languageName: node
   linkType: hard
 
@@ -3842,11 +3842,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/code@npm:^5.0.35":
-  version: 5.0.35
-  resolution: "@ndla/code@npm:5.0.35"
+"@ndla/code@npm:^5.0.36":
+  version: 5.0.36
+  resolution: "@ndla/code@npm:5.0.36"
   dependencies:
-    "@ndla/button": "npm:^12.0.30"
+    "@ndla/button": "npm:^12.0.31"
     "@ndla/core": "npm:^4.4.0"
     "@ndla/icons": "npm:^5.0.9"
     "@ndla/util": "npm:^4.0.4"
@@ -3857,7 +3857,7 @@ __metadata:
     react: ">= 16.8.0"
     react-dom: ">= 16.8.0"
     react-i18next: ^13.3.0
-  checksum: 10c0/d021d2a4801de90dab89b13beeb37b9ceedbc72cf2bc71bb49b25da3bfadee786bbe0268a170fc8d51aa28c98a9f7da81d49883d70225bb37bd6b9fc8dd5a454
+  checksum: 10c0/79206f986fb492b54035f5ef7478be72a659436101a98d7e0445d1f3ba04dbafdf0d6523a06e2f3386a85284cd961dd093e839e90c0efa1c1a075ef435bb7d40
   languageName: node
   linkType: hard
 
@@ -3898,13 +3898,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/forms@npm:^5.2.21":
-  version: 5.2.21
-  resolution: "@ndla/forms@npm:5.2.21"
+"@ndla/forms@npm:^5.2.22":
+  version: 5.2.22
+  resolution: "@ndla/forms@npm:5.2.22"
   dependencies:
     "@ndla/core": "npm:^4.4.0"
     "@ndla/icons": "npm:^5.0.9"
-    "@ndla/pager": "npm:^2.2.55"
+    "@ndla/pager": "npm:^2.2.56"
     "@ndla/typography": "npm:^0.4.11"
     "@ndla/util": "npm:^4.0.4"
     "@radix-ui/react-radio-group": "npm:^1.1.3"
@@ -3914,7 +3914,7 @@ __metadata:
     react: ">= 16.8.0"
     react-dom: ">= 16.8.0"
     react-i18next: ^13.3.0
-  checksum: 10c0/112f6f40769ed79c4cd265697a9768bd16e4a6ba28a9c4637ee2a5b458cf4449c6470b8097202568472aa417588393d71cb0c993bdd6f75c663bcd4a9261287a
+  checksum: 10c0/0e6f15ea4f656f79fc365e775498c5757f9c9d8ccdde47afc2ba89f5caf7348ca956dda496404f038b720503adbf41993ff6bf9ae8e5ca863a45aec1f787140f
   languageName: node
   linkType: hard
 
@@ -3985,32 +3985,32 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/pager@npm:^2.2.55":
-  version: 2.2.55
-  resolution: "@ndla/pager@npm:2.2.55"
+"@ndla/pager@npm:^2.2.56":
+  version: 2.2.56
+  resolution: "@ndla/pager@npm:2.2.56"
   dependencies:
     "@ndla/core": "npm:^4.4.0"
-    "@ndla/safelink": "npm:^4.1.55"
+    "@ndla/safelink": "npm:^4.1.56"
   peerDependencies:
     "@emotion/react": ^11.10.4
     "@emotion/styled": ^11.10.4
     react: ">= 16.8.0"
-  checksum: 10c0/4001fb6ce13aec8a08a8f2e46013f1a4028582ca0aa36a43c7ab05ab683b440d443bd453e1262068c596abc5b2d95aef3fb6b5449b5c2cfe5368ee16a50a012a
+  checksum: 10c0/ea5f55d7e83da5fc3d0d8a544a7c183fffe66a21c8509033c7f5dfae4f2b6d4a459a084ee4af6d8b299c99ff65da45955bb9146d80e62421f674a792ebd79bbe
   languageName: node
   linkType: hard
 
-"@ndla/safelink@npm:^4.1.55":
-  version: 4.1.55
-  resolution: "@ndla/safelink@npm:4.1.55"
+"@ndla/safelink@npm:^4.1.56":
+  version: 4.1.56
+  resolution: "@ndla/safelink@npm:4.1.56"
   dependencies:
-    "@ndla/button": "npm:^12.0.30"
+    "@ndla/button": "npm:^12.0.31"
     "@ndla/icons": "npm:^5.0.9"
   peerDependencies:
     "@emotion/react": ^11.10.4
     "@emotion/styled": ^11.10.4
     react: ">= 16.8.0"
     react-router-dom: ^6.3.0
-  checksum: 10c0/5761042cfa2bec25d59f99ba276b5f5217fca9dcdbc5025633f9b3744d1a220bedc64d02a2a0f5d7a83d81e6552120560470d8728ec4c3a2e46caa0b090ca932
+  checksum: 10c0/19cdc1b1ffd000f3b8070cd266ffee80acddf137b0c9a7eedda5d1f567791e5fa01808c67be2916c74591446cda180e162153d12f1c0159d4a7319ec4454c1f9
   languageName: node
   linkType: hard
 
@@ -4074,9 +4074,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/tooltip@npm:^6.0.16":
-  version: 6.0.16
-  resolution: "@ndla/tooltip@npm:6.0.16"
+"@ndla/tooltip@npm:^6.0.17":
+  version: 6.0.17
+  resolution: "@ndla/tooltip@npm:6.0.17"
   dependencies:
     "@ndla/core": "npm:^4.4.0"
     "@radix-ui/react-tooltip": "npm:^1.0.7"
@@ -4086,7 +4086,7 @@ __metadata:
     react: ">= 16.8.0"
     react-dom: ">= 16.8.0"
     react-i18next: ^13.3.0
-  checksum: 10c0/9b662a63f695e1447693df9af46970093af356a9e8e95901f528c471ff79d324d6c135d88ebd96dfe9420ee3adbe7876411400d322648b493bd53ae4c9884616
+  checksum: 10c0/fb4d53824f325645539a2c5a4e69d76d3366655b99ea24b84fb568c33169fad565cef47aa80ca64927357a1a2215454d735ca5fb5a153955f313a0ecd84697a2
   languageName: node
   linkType: hard
 
@@ -4104,10 +4104,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/types-backend@npm:^0.2.42":
-  version: 0.2.42
-  resolution: "@ndla/types-backend@npm:0.2.42"
-  checksum: 10c0/79cd727bd102fc0eee9b89d86640f0b09f0c61ccbff90d1074177e071771f814937f226344b06501a6250e1bc3f6eb5dc5bbc3998f2d07f0528db05a1d4cd9b8
+"@ndla/types-backend@npm:^0.2.46":
+  version: 0.2.46
+  resolution: "@ndla/types-backend@npm:0.2.46"
+  checksum: 10c0/7dd18712963ab20857abb2aadc0b56a4fc2cf543a969a7c4fe921f88959fe5895b39bcc4fac9a220fd01683892b6390ea185d9284178ad2c99871eb559494418
   languageName: node
   linkType: hard
 
@@ -4131,26 +4131,26 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/ui@npm:^50.9.6":
-  version: 50.9.6
-  resolution: "@ndla/ui@npm:50.9.6"
+"@ndla/ui@npm:^50.9.7":
+  version: 50.9.7
+  resolution: "@ndla/ui@npm:50.9.7"
   dependencies:
-    "@ndla/accordion": "npm:^3.0.25"
-    "@ndla/button": "npm:^12.0.30"
+    "@ndla/accordion": "npm:^3.0.26"
+    "@ndla/button": "npm:^12.0.31"
     "@ndla/carousel": "npm:^4.0.30"
     "@ndla/core": "npm:^4.4.0"
     "@ndla/dropdown-menu": "npm:^1.0.28"
-    "@ndla/forms": "npm:^5.2.21"
+    "@ndla/forms": "npm:^5.2.22"
     "@ndla/hooks": "npm:^2.1.5"
     "@ndla/icons": "npm:^5.0.9"
     "@ndla/licenses": "npm:^7.2.5"
     "@ndla/modal": "npm:^5.0.29"
     "@ndla/notion": "npm:^6.0.30"
-    "@ndla/safelink": "npm:^4.1.55"
+    "@ndla/safelink": "npm:^4.1.56"
     "@ndla/select": "npm:^3.3.4"
     "@ndla/switch": "npm:^1.1.34"
     "@ndla/tabs": "npm:^3.2.14"
-    "@ndla/tooltip": "npm:^6.0.16"
+    "@ndla/tooltip": "npm:^6.0.17"
     "@ndla/typography": "npm:^0.4.11"
     "@ndla/util": "npm:^4.0.4"
     "@radix-ui/react-popover": "npm:^1.0.7"
@@ -4171,7 +4171,7 @@ __metadata:
     react-dom: ">= 16.8.0"
     react-i18next: ^13.3.0
     react-router-dom: "> 6.0.0"
-  checksum: 10c0/490e853398fd96557496e2e13bb8d64085d3acc4e7c082b7db846a90cb77169cbdc0eef29e0e055ce111c3c4b703931aa1b912d2aad79c33fa0b5ea463c77f00
+  checksum: 10c0/8ef0f913d047f329ecc083dac442c300f309a891a339017e555b5c64bf0cbc0aa242f49a786dcae8a4ad83a3c6ae4ea4ff3ab3e4c506421e48d6c51c9d4b878a
   languageName: node
   linkType: hard
 
@@ -4184,16 +4184,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/zendesk@npm:^1.3.12":
-  version: 1.3.12
-  resolution: "@ndla/zendesk@npm:1.3.12"
+"@ndla/zendesk@npm:^1.3.13":
+  version: 1.3.13
+  resolution: "@ndla/zendesk@npm:1.3.13"
   dependencies:
-    "@ndla/button": "npm:^12.0.30"
+    "@ndla/button": "npm:^12.0.31"
     "@ndla/core": "npm:^4.4.0"
   peerDependencies:
     "@emotion/react": ^11.10.4
     react: ">= 16.8.0"
-  checksum: 10c0/e479d49bda9ed2f2831c9d9e170b01fe3cf45d1c24deeb5a9d53d2f34692bd873378ee2531882b5763c89f036396ee71b73dddda833e595789a8447eadd4a62f
+  checksum: 10c0/e6265216f2000a2194c36b88b3995b38a363dfc8da0c38e985a98e37c82a41fd3c321ac4d0a78a25db1ed404d6966b59ac6343510a1ecf3a97c9a295cc992622
   languageName: node
   linkType: hard
 
@@ -13140,27 +13140,27 @@ __metadata:
     "@graphql-codegen/typescript-operations": "npm:^4.0.1"
     "@graphql-eslint/eslint-plugin": "npm:^3.20.1"
     "@lexical/react": "npm:^0.12.4"
-    "@ndla/article-converter": "npm:^6.0.52"
-    "@ndla/button": "npm:^12.0.30"
+    "@ndla/article-converter": "npm:^6.0.53"
+    "@ndla/button": "npm:^12.0.31"
     "@ndla/core": "npm:^4.4.0"
     "@ndla/dropdown-menu": "npm:^1.0.28"
     "@ndla/error-reporter": "npm:^1.0.37"
-    "@ndla/forms": "npm:^5.2.21"
+    "@ndla/forms": "npm:^5.2.22"
     "@ndla/icons": "npm:^5.0.9"
     "@ndla/licenses": "npm:^7.2.5"
     "@ndla/modal": "npm:^5.0.29"
-    "@ndla/pager": "npm:^2.2.55"
-    "@ndla/safelink": "npm:^4.1.55"
+    "@ndla/pager": "npm:^2.2.56"
+    "@ndla/safelink": "npm:^4.1.56"
     "@ndla/scripts": "npm:^2.0.5"
     "@ndla/select": "npm:^3.3.4"
     "@ndla/tabs": "npm:^3.2.14"
     "@ndla/tracker": "npm:^5.0.6"
-    "@ndla/types-backend": "npm:^0.2.42"
+    "@ndla/types-backend": "npm:^0.2.46"
     "@ndla/types-embed": "npm:^4.0.13"
     "@ndla/typography": "npm:^0.4.11"
-    "@ndla/ui": "npm:^50.9.6"
+    "@ndla/ui": "npm:^50.9.7"
     "@ndla/util": "npm:^4.0.4"
-    "@ndla/zendesk": "npm:^1.3.12"
+    "@ndla/zendesk": "npm:^1.3.13"
     "@playwright/test": "npm:^1.41.1"
     "@pmmmwh/react-refresh-webpack-plugin": "npm:^0.5.10"
     "@testing-library/react": "npm:14.0.0"

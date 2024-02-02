@@ -68,7 +68,7 @@ export type GQLArenaCategoryV2 = {
 export type GQLArenaFlag = {
   __typename?: "ArenaFlag";
   created: Scalars["String"]["output"];
-  flagger: GQLArenaUserV2;
+  flagger?: Maybe<GQLArenaUserV2>;
   id: Scalars["Int"]["output"];
   isResolved: Scalars["Boolean"]["output"];
   reason: Scalars["String"]["output"];
@@ -123,7 +123,7 @@ export type GQLArenaPostV2 = {
   created: Scalars["String"]["output"];
   flags?: Maybe<Array<GQLArenaFlag>>;
   id: Scalars["Int"]["output"];
-  owner: GQLArenaUserV2;
+  owner?: Maybe<GQLArenaUserV2>;
   topicId: Scalars["Int"]["output"];
   updated: Scalars["String"]["output"];
 };
@@ -3261,7 +3261,7 @@ export type GQLArenaFlagFragment = {
   created: string;
   resolved?: string;
   isResolved: boolean;
-  flagger: { __typename?: "ArenaUserV2" } & GQLArenaUserV2Fragment;
+  flagger?: { __typename?: "ArenaUserV2" } & GQLArenaUserV2Fragment;
 };
 
 export type GQLArenaPostV2Fragment = {
@@ -3272,7 +3272,7 @@ export type GQLArenaPostV2Fragment = {
   created: string;
   updated: string;
   topicId: number;
-  owner: { __typename?: "ArenaUserV2" } & GQLArenaUserV2Fragment;
+  owner?: { __typename?: "ArenaUserV2" } & GQLArenaUserV2Fragment;
   flags?: Array<{ __typename?: "ArenaFlag" } & GQLArenaFlagFragment>;
 };
 

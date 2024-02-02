@@ -115,7 +115,9 @@ const Content = styled(Text)`
   word-break: break-word;
 `;
 
-export const compareUsernames = (userUsername: string | undefined, postUsername: string) => {
+export const compareUsernames = (userUsername: string | undefined, postUsername: string | undefined) => {
+  if (!userUsername || !postUsername) return false;
+
   if (config.enableNodeBB) {
     // Nodebb usernames cannot contain every character so we need to replace them :^)
     const nodebbUsername = userUsername?.replace(/[^'"\s\-.*0-9\u00BF-\u1FFF\u2C00-\uD7FF\w]+/, "-");
@@ -128,13 +130,7 @@ export const compareUsernames = (userUsername: string | undefined, postUsername:
 const PostCard = ({ topic, post, onFollowChange, setFocusId, isMainPost }: Props) => {
   const [isReplying, setIsReplying] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const {
-    id: postId,
-    topicId,
-    created,
-    contentAsHTML,
-    owner: { username },
-  } = post;
+  const { id: postId, topicId, created, contentAsHTML, owner } = post;
   const replyToRef = useRef<HTMLButtonElement | null>(null);
 
   const {
@@ -189,7 +185,7 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId, isMainPost }: Props
   );
 
   const menu = useMemo(() => {
-    const isOwnPost = compareUsernames(user?.username, username);
+    const isOwnPost = compareUsernames(user?.username, owner?.username);
 
     const update: MenuItemProps = {
       icon: <Pencil />,
@@ -238,7 +234,7 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId, isMainPost }: Props
     }
 
     return <SettingsMenu menuItems={menuItems} modalHeader={t("myNdla.tools")} />;
-  }, [t, user, type, postId, username, isMainPost, deletePostCallback, deleteTopicCallback]);
+  }, [t, user, type, postId, owner?.username, isMainPost, deletePostCallback, deleteTopicCallback]);
 
   const createReply = useCallback(
     async (data: Partial<ArenaFormValues>) => {

@@ -6,7 +6,9 @@
  *
  */
 
+import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
+import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { colors, spacing, misc } from "@ndla/core";
 import SafeLink from "@ndla/safelink";
@@ -17,14 +19,14 @@ import { GQLArenaUserV2 } from "../../../graphqlTypes";
 import { useArenaUser } from "../Arena/components/temporaryNodebbHooks";
 
 type UserProfileTagProps = {
-  user: GQLArenaUserV2;
+  user: GQLArenaUserV2 | undefined;
 };
 
 const Name = styled(Text)`
   text-decoration: underline;
 `;
 
-const UserProfileTagContainer = styled(SafeLink)`
+const userProfileTagContainerStyle = css`
   display: flex;
   gap: ${spacing.normal};
   color: ${colors.text.primary};
@@ -32,12 +34,21 @@ const UserProfileTagContainer = styled(SafeLink)`
   width: fit-content;
   text-decoration: none;
   box-shadow: none;
+  padding: ${spacing.xsmall};
+`;
+
+const UserProfileTagContainer = styled(SafeLink)`
   &:hover {
     [data-name="hover"] {
       text-decoration: none;
     }
   }
-  padding: ${spacing.xsmall};
+
+  ${userProfileTagContainerStyle}
+`;
+
+const UserProfileTagContainerNoLink = styled.div`
+  ${userProfileTagContainerStyle}
 `;
 
 const UserInformationContainer = styled.div`
@@ -61,14 +72,23 @@ const ModeratorTag = styled(Text)`
   color: ${colors.white};
 `;
 
-const UserProfileTag = ({ user }: UserProfileTagProps) => {
-  const { username, displayName, location } = user;
-  const { arenaUser } = useArenaUser(username); // TODO: Delete this hook and use user directly when nodebb dies
+const TagContainer = ({ username, children }: { children: ReactNode; username: string | undefined }) => {
+  const link = username ? `/minndla/arena/user/${username}` : null;
+  if (!link) {
+    return <UserProfileTagContainerNoLink>{children}</UserProfileTagContainerNoLink>;
+  }
 
+  return <UserProfileTagContainer to={link}>{children}</UserProfileTagContainer>;
+};
+
+const UserProfileTag = ({ user }: UserProfileTagProps) => {
+  const { arenaUser } = useArenaUser(user?.username); // TODO: Delete this hook and use user directly when nodebb dies
   const { t } = useTranslation();
 
+  const displayName = user?.displayName ? user.displayName : t("user.deletedUser");
+
   return (
-    <UserProfileTagContainer to={`/minndla/arena/user/${username}`}>
+    <TagContainer username={user?.username}>
       <Avatar displayName={displayName} profilePicture={undefined} />
       <UserInformationContainer>
         <NameAndTagContainer>
@@ -81,11 +101,13 @@ const UserProfileTag = ({ user }: UserProfileTagProps) => {
             </ModeratorTag>
           )}
         </NameAndTagContainer>
-        <Text textStyle="meta-text-small" margin="none">
-          {location}
-        </Text>
+        {user?.location && (
+          <Text textStyle="meta-text-small" margin="none">
+            {user?.location}
+          </Text>
+        )}
       </UserInformationContainer>
-    </UserProfileTagContainer>
+    </TagContainer>
   );
 };
 

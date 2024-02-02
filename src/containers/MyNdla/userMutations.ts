@@ -18,7 +18,7 @@ const deletePersonalDataMutation = gql`
 export const useDeletePersonalData = () => {
   const client = useApolloClient();
   const [deletePersonalData] = useMutation<boolean>(deletePersonalDataMutation, {
-    onCompleted: () => client.resetStore(),
+    onCompleted: () => client.clearStore(),
   });
 
   return { deletePersonalData };
