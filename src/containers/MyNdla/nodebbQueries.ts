@@ -7,6 +7,7 @@
  */
 
 import { QueryHookOptions, gql } from '@apollo/client';
+import config from '../../config';
 import {
   GQLArenaNotificationsQuery,
   GQLArenaUserQuery,
@@ -234,6 +235,7 @@ export const useArenaNotifications = (
       ...options,
       pollInterval: 60000,
       ssr: false,
+      skip: !config.enableNodeBB,
     },
   );
   return {
