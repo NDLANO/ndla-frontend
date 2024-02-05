@@ -6,10 +6,10 @@
  *
  */
 
-import styled from '@emotion/styled';
-import { breakpoints, colors, fonts, misc, mq, spacing } from '@ndla/core';
-import SafeLink from '@ndla/safelink';
-import { Heading, Text } from '@ndla/typography';
+import styled from "@emotion/styled";
+import { breakpoints, colors, fonts, misc, mq, spacing } from "@ndla/core";
+import SafeLink from "@ndla/safelink";
+import { Heading, Text } from "@ndla/typography";
 
 const ListWrapper = styled.div`
   display: grid;
@@ -61,7 +61,7 @@ const TextWrapper = styled.div`
 `;
 
 const Title = styled.h3`
-  ${fonts.sizes('18px', '28px')};
+  ${fonts.sizes("18px", "28px")};
   font-weight: ${fonts.weight.semibold};
   color: ${colors.brand.primary};
   margin: 0 0 8px;
@@ -89,14 +89,7 @@ interface ListItemProps {
   subjects?: string[];
 }
 
-const ListItem = ({
-  title,
-  introduction,
-  url,
-  image,
-  imageAlt = '',
-  subjects = [],
-}: ListItemProps) => (
+const ListItem = ({ title, introduction, url, image, imageAlt = "", subjects = [] }: ListItemProps) => (
   <div>
     <SafeLink to={url}>
       {image && <Image src={image} alt={imageAlt} />}

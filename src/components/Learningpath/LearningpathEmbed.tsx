@@ -6,36 +6,34 @@
  *
  */
 
-import { useMemo } from 'react';
-import { Helmet } from 'react-helmet-async';
-import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router-dom';
-import { gql } from '@apollo/client';
-import styled from '@emotion/styled';
-import { DynamicComponents } from '@ndla/article-converter';
-import { spacing } from '@ndla/core';
-import { Spinner } from '@ndla/icons';
-import { CreatedBy } from '@ndla/ui';
-import LearningpathIframe, { urlIsNDLAUrl } from './LearningpathIframe';
-import config from '../../config';
-import ErrorPage from '../../containers/ErrorPage';
+import { useMemo } from "react";
+import { Helmet } from "react-helmet-async";
+import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router-dom";
+import { gql } from "@apollo/client";
+import styled from "@emotion/styled";
+import { DynamicComponents } from "@ndla/article-converter";
+import { spacing } from "@ndla/core";
+import { Spinner } from "@ndla/icons";
+import { CreatedBy } from "@ndla/ui";
+import LearningpathIframe, { urlIsNDLAUrl } from "./LearningpathIframe";
+import config from "../../config";
+import ErrorPage from "../../containers/ErrorPage";
 import {
   GQLLearningpathEmbed_LearningpathStepFragment,
   GQLLearningpathEmbed_TopicFragment,
   GQLLearningpathStepQuery,
   GQLLearningpathStepQueryVariables,
-} from '../../graphqlTypes';
-import { supportedLanguages } from '../../i18n';
-import { Breadcrumb } from '../../interfaces';
-import { getArticleProps } from '../../util/getArticleProps';
-import { getArticleScripts } from '../../util/getArticleScripts';
-import getStructuredDataFromArticle, {
-  structuredArticleDataFragment,
-} from '../../util/getStructuredDataFromArticle';
-import { useGraphQuery } from '../../util/runQueries';
-import { transformArticle } from '../../util/transformArticle';
-import Article from '../Article';
-import AddEmbedToFolder from '../MyNdla/AddEmbedToFolder';
+} from "../../graphqlTypes";
+import { supportedLanguages } from "../../i18n";
+import { Breadcrumb } from "../../interfaces";
+import { getArticleProps } from "../../util/getArticleProps";
+import { getArticleScripts } from "../../util/getArticleScripts";
+import getStructuredDataFromArticle, { structuredArticleDataFragment } from "../../util/getStructuredDataFromArticle";
+import { useGraphQuery } from "../../util/runQueries";
+import { transformArticle } from "../../util/transformArticle";
+import Article from "../Article";
+import AddEmbedToFolder from "../MyNdla/AddEmbedToFolder";
 
 interface StyledIframeContainerProps {
   oembedWidth: number;
@@ -52,19 +50,13 @@ const StyledIframeContainer = styled.div<StyledIframeContainerProps>`
   }
 `;
 
-const regex = new RegExp(`\\/(${supportedLanguages.join('|')})($|\\/)`, '');
+const regex = new RegExp(`\\/(${supportedLanguages.join("|")})($|\\/)`, "");
 
-const getIdFromIframeUrl = (
-  _url: string,
-): [string | undefined, string | undefined] => {
-  const url = _url
-    .split('/article-iframe')?.[1]
-    ?.replace(regex, '')
-    ?.replace('article/', '')
-    ?.split('?')?.[0];
+const getIdFromIframeUrl = (_url: string): [string | undefined, string | undefined] => {
+  const url = _url.split("/article-iframe")?.[1]?.replace(regex, "")?.replace("article/", "")?.split("?")?.[0];
 
-  if (url?.includes('/')) {
-    const [taxId, articleId] = url.split('/');
+  if (url?.includes("/")) {
+    const [taxId, articleId] = url.split("/");
     if (parseInt(articleId!)) {
       return [taxId, articleId];
     }
@@ -85,13 +77,7 @@ interface Props {
   breadcrumbItems: Breadcrumb[];
   subjectId?: string;
 }
-const LearningpathEmbed = ({
-  learningpathStep,
-  skipToContentId,
-  topic,
-  subjectId,
-  breadcrumbItems,
-}: Props) => {
+const LearningpathEmbed = ({ learningpathStep, skipToContentId, topic, subjectId, breadcrumbItems }: Props) => {
   const { t, i18n } = useTranslation();
   const location = useLocation();
   const [taxId, articleId] =
@@ -105,31 +91,24 @@ const LearningpathEmbed = ({
     learningpathStep.embedUrl &&
     urlIsNDLAUrl(learningpathStep.embedUrl?.url);
 
-  const { data, loading } = useGraphQuery<
-    GQLLearningpathStepQuery,
-    GQLLearningpathStepQueryVariables
-  >(learningpathStepQuery, {
-    variables: {
-      articleId:
-        articleId ?? learningpathStep.resource?.article?.id.toString()!,
-      path: location.pathname,
-      resourceId: taxId ?? '',
-      includeResource: !!taxId,
+  const { data, loading } = useGraphQuery<GQLLearningpathStepQuery, GQLLearningpathStepQueryVariables>(
+    learningpathStepQuery,
+    {
+      variables: {
+        articleId: articleId ?? learningpathStep.resource?.article?.id.toString()!,
+        path: location.pathname,
+        resourceId: taxId ?? "",
+        includeResource: !!taxId,
+      },
+      skip: !!learningpathStep.resource?.article || (!learningpathStep.embedUrl && !learningpathStep.resource),
     },
-    skip:
-      !!learningpathStep.resource?.article ||
-      (!learningpathStep.embedUrl && !learningpathStep.resource),
-  });
+  );
 
-  const path = !learningpathStep.resource?.path
-    ? data?.resource?.path
-    : undefined;
+  const path = !learningpathStep.resource?.path ? data?.resource?.path : undefined;
   const contentUrl = path ? `${config.ndlaFrontendDomain}${path}` : undefined;
 
   const [article, scripts] = useMemo(() => {
-    const article = learningpathStep.resource?.article
-      ? learningpathStep.resource.article
-      : data?.article;
+    const article = learningpathStep.resource?.article ? learningpathStep.resource.article : data?.article;
     if (!article) return [undefined, undefined];
     return [
       transformArticle(article, i18n.language, {
@@ -140,18 +119,9 @@ const LearningpathEmbed = ({
       }),
       getArticleScripts(article, i18n.language),
     ];
-  }, [
-    data?.article,
-    i18n.language,
-    learningpathStep.resource?.article,
-    subjectId,
-  ]);
+  }, [data?.article, i18n.language, learningpathStep.resource?.article, subjectId]);
 
-  if (
-    !learningpathStep ||
-    (!learningpathStep.resource &&
-      (!learningpathStep.embedUrl || !learningpathStep.oembed))
-  ) {
+  if (!learningpathStep || (!learningpathStep.resource && (!learningpathStep.embedUrl || !learningpathStep.oembed))) {
     return null;
   }
   const { embedUrl, oembed } = learningpathStep;
@@ -159,15 +129,12 @@ const LearningpathEmbed = ({
     !learningpathStep.resource &&
     !shouldUseConverter &&
     embedUrl &&
-    (embedUrl.embedType === 'oembed' || embedUrl.embedType === 'iframe') &&
+    (embedUrl.embedType === "oembed" || embedUrl.embedType === "iframe") &&
     oembed &&
     oembed.html
   ) {
     return (
-      <StyledIframeContainer
-        oembedWidth={oembed.width}
-        oembedHeight={oembed.height}
-      >
+      <StyledIframeContainer oembedWidth={oembed.width} oembedHeight={oembed.height}>
         <LearningpathIframe html={oembed.html} url={embedUrl.url} />
       </StyledIframeContainer>
     );
@@ -192,27 +159,13 @@ const LearningpathEmbed = ({
   return (
     <>
       <Helmet>
-        {article && article.metaDescription && (
-          <meta name="description" content={article.metaDescription} />
-        )}
+        {article && article.metaDescription && <meta name="description" content={article.metaDescription} />}
         {scripts.map((script) => (
-          <script
-            key={script.src}
-            src={script.src}
-            type={script.type}
-            async={script.async}
-            defer={script.defer}
-          />
+          <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
         ))}
 
         <script type="application/ld+json">
-          {JSON.stringify(
-            getStructuredDataFromArticle(
-              stepArticle,
-              i18n.language,
-              breadcrumbItems,
-            ),
-          )}
+          {JSON.stringify(getStructuredDataFromArticle(stepArticle, i18n.language, breadcrumbItems))}
         </script>
       </Helmet>
       <Article
@@ -222,15 +175,7 @@ const LearningpathEmbed = ({
         article={article}
         {...getArticleProps(resource, topic)}
       >
-        {path ? (
-          <CreatedBy
-            name={t('createdBy.content')}
-            description={t('createdBy.text')}
-            url={contentUrl}
-          />
-        ) : (
-          <></>
-        )}
+        {path ? <CreatedBy name={t("createdBy.content")} description={t("createdBy.text")} url={contentUrl} /> : <></>}
       </Article>
     </>
   );
@@ -290,12 +235,7 @@ LearningpathEmbed.fragments = {
 };
 
 const learningpathStepQuery = gql`
-  query learningpathStep(
-    $articleId: String!
-    $path: String
-    $resourceId: String!
-    $includeResource: Boolean!
-  ) {
+  query learningpathStep($articleId: String!, $path: String, $resourceId: String!, $includeResource: Boolean!) {
     article(id: $articleId, path: $path, convertEmbeds: true) {
       ...LearningpathEmbed_Article
     }

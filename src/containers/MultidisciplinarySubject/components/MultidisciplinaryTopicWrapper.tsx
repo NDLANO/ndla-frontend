@@ -5,21 +5,19 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { Dispatch, SetStateAction } from 'react';
-import { gql } from '@apollo/client';
-import { Spinner } from '@ndla/icons';
-import { SimpleBreadcrumbItem } from '@ndla/ui';
-import MultidisciplinaryTopic, {
-  multidisciplinaryTopicFragments,
-} from './MultidisciplinaryTopic';
-import DefaultErrorMessage from '../../../components/DefaultErrorMessage';
+import { Dispatch, SetStateAction } from "react";
+import { gql } from "@apollo/client";
+import { Spinner } from "@ndla/icons";
+import { SimpleBreadcrumbItem } from "@ndla/ui";
+import MultidisciplinaryTopic, { multidisciplinaryTopicFragments } from "./MultidisciplinaryTopic";
+import DefaultErrorMessage from "../../../components/DefaultErrorMessage";
 import {
   GQLMultidisciplinaryTopicWrapperQuery,
   GQLMultidisciplinaryTopicWrapperQueryVariables,
   GQLMultidisciplinaryTopic_SubjectFragment,
-} from '../../../graphqlTypes';
-import { removeUrn } from '../../../routeHelpers';
-import { useGraphQuery } from '../../../util/runQueries';
+} from "../../../graphqlTypes";
+import { removeUrn } from "../../../routeHelpers";
+import { useGraphQuery } from "../../../util/runQueries";
 
 interface Props {
   topicId: string;
@@ -32,11 +30,7 @@ interface Props {
 }
 
 const multidisciplinaryTopicWrapperQuery = gql`
-  query multidisciplinaryTopicWrapper(
-    $topicId: String!
-    $subjectId: String
-    $convertEmbeds: Boolean
-  ) {
+  query multidisciplinaryTopicWrapper($topicId: String!, $subjectId: String, $convertEmbeds: Boolean) {
     topic(id: $topicId, subjectId: $subjectId) {
       id
       ...MultidisciplinaryTopic_Topic

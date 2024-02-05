@@ -6,42 +6,26 @@
  *
  */
 
-import { RELEVANCE_CORE } from '../../constants';
-import {
-  resolveJsonOrRejectWithError,
-  apiResourceUrl,
-  fetch,
-} from '../../util/apiHelpers';
+import { RELEVANCE_CORE } from "../../constants";
+import { resolveJsonOrRejectWithError, apiResourceUrl, fetch } from "../../util/apiHelpers";
 
-const baseUrl = apiResourceUrl('/taxonomy/v1');
+const baseUrl = apiResourceUrl("/taxonomy/v1");
 
 export const fetchResourceTypesForResource = (resourceId, locale) =>
-  fetch(
-    `${baseUrl}/resources/${resourceId}/resource-types?language=${locale}`,
-  ).then(resolveJsonOrRejectWithError);
+  fetch(`${baseUrl}/resources/${resourceId}/resource-types?language=${locale}`).then(resolveJsonOrRejectWithError);
 
 export const fetchTopic = (topicId, locale) =>
-  fetch(`${baseUrl}/topics/${topicId}?language=${locale}`).then(
+  fetch(`${baseUrl}/topics/${topicId}?language=${locale}`).then(resolveJsonOrRejectWithError);
+
+export const fetchTopicResources = (topicId, locale, relevance = RELEVANCE_CORE) =>
+  fetch(`${baseUrl}/topics/${topicId}/resources?language=${locale}&relevance=${relevance}`).then(
     resolveJsonOrRejectWithError,
   );
-
-export const fetchTopicResources = (
-  topicId,
-  locale,
-  relevance = RELEVANCE_CORE,
-) =>
-  fetch(
-    `${baseUrl}/topics/${topicId}/resources?language=${locale}&relevance=${relevance}`,
-  ).then(resolveJsonOrRejectWithError);
 
 export const fetchResourceTypes = (locale) =>
-  fetch(`${baseUrl}/resource-types?language=${locale}`).then(
-    resolveJsonOrRejectWithError,
-  );
+  fetch(`${baseUrl}/resource-types?language=${locale}`).then(resolveJsonOrRejectWithError);
 
 export const fetchResource = async (resourceId, locale) => {
-  const response = await fetch(
-    `${baseUrl}/resources/${resourceId}?language=${locale}`,
-  );
+  const response = await fetch(`${baseUrl}/resources/${resourceId}?language=${locale}`);
   return resolveJsonOrRejectWithError(response);
 };

@@ -6,21 +6,21 @@
  *
  */
 
-import { useContext, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { IconButtonV2 } from '@ndla/button';
-import { colors, fonts, misc, spacing } from '@ndla/core';
-import { Heart, HeartOutline } from '@ndla/icons/action';
-import { Modal, ModalTrigger } from '@ndla/modal';
-import SafeLink from '@ndla/safelink';
-import { useSnack } from '@ndla/ui';
-import { Subject } from './interfaces';
-import { AuthContext } from '../../components/AuthenticationContext';
-import LoginModalContent from '../../components/MyNdla/LoginModalContent';
-import { toSubject } from '../../routeHelpers';
-import DeleteModalContent from '../MyNdla/components/DeleteModalContent';
-import { useUpdatePersonalData } from '../MyNdla/userMutations';
+import { useContext, useState } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { IconButtonV2 } from "@ndla/button";
+import { colors, fonts, misc, spacing } from "@ndla/core";
+import { Heart, HeartOutline } from "@ndla/icons/action";
+import { Modal, ModalTrigger } from "@ndla/modal";
+import SafeLink from "@ndla/safelink";
+import { useSnack } from "@ndla/ui";
+import { Subject } from "./interfaces";
+import { AuthContext } from "../../components/AuthenticationContext";
+import LoginModalContent from "../../components/MyNdla/LoginModalContent";
+import { toSubject } from "../../routeHelpers";
+import DeleteModalContent from "../MyNdla/components/DeleteModalContent";
+import { useUpdatePersonalData } from "../MyNdla/userMutations";
 
 const SubjectLinkWrapper = styled.li`
   display: flex;
@@ -73,7 +73,7 @@ const SubjectLink = ({ subject, favorites, className }: Props) => {
     });
     addSnack({
       id: `addedFavorite-${subject.id}`,
-      content: t('subjectsPage.addConfirmed', { subject: subject.name }),
+      content: t("subjectsPage.addConfirmed", { subject: subject.name }),
     });
   };
 
@@ -81,16 +81,14 @@ const SubjectLink = ({ subject, favorites, className }: Props) => {
     if (!favorites) {
       return;
     }
-    const newFavorites = favorites?.filter(
-      (favorite) => favorite !== subject.id,
-    );
+    const newFavorites = favorites?.filter((favorite) => favorite !== subject.id);
     await updatePersonalData({
       variables: { favoriteSubjects: newFavorites, shareName: undefined },
     });
     setShowDeleteModal(false);
     addSnack({
       id: `removedFavorite-${subject.id}`,
-      content: t('subjectsPage.removeConfirmed', { subject: subject.name }),
+      content: t("subjectsPage.removeConfirmed", { subject: subject.name }),
     });
   };
 
@@ -99,8 +97,8 @@ const SubjectLink = ({ subject, favorites, className }: Props) => {
       {authenticated && !isFavorite ? (
         <StyledIconButton
           onClick={setFavorite}
-          aria-label={t('subjectspage.addFavorite')}
-          title={t('subjectspage.addFavorite')}
+          aria-label={t("subjectspage.addFavorite")}
+          title={t("subjectspage.addFavorite")}
           variant="ghost"
           size="xsmall"
           colorTheme="lighter"
@@ -111,8 +109,8 @@ const SubjectLink = ({ subject, favorites, className }: Props) => {
         <Modal open={showDeleteModal} onOpenChange={setShowDeleteModal}>
           <ModalTrigger>
             <StyledIconButton
-              aria-label={t('subjectsPage.removeFavorite')}
-              title={t('subjectsPage.removeFavorite')}
+              aria-label={t("subjectsPage.removeFavorite")}
+              title={t("subjectsPage.removeFavorite")}
               variant="ghost"
               size="xsmall"
               colorTheme="lighter"
@@ -122,9 +120,9 @@ const SubjectLink = ({ subject, favorites, className }: Props) => {
           </ModalTrigger>
           <DeleteModalContent
             onDelete={removeFavorite}
-            title={t('subjectsPage.removeFavorite')}
-            removeText={t('myNdla.resource.remove')}
-            description={t('subjectsPage.confirmRemove', {
+            title={t("subjectsPage.removeFavorite")}
+            removeText={t("myNdla.resource.remove")}
+            description={t("subjectsPage.confirmRemove", {
               subject: subject.name,
             })}
           />
@@ -133,8 +131,8 @@ const SubjectLink = ({ subject, favorites, className }: Props) => {
         <Modal>
           <ModalTrigger>
             <StyledIconButton
-              aria-label={`${t('subjectsPage.addFavorite')}, ${subject.name}`}
-              title={`${t('subjectsPage.addFavorite')}, ${subject.name}`}
+              aria-label={`${t("subjectsPage.addFavorite")}, ${subject.name}`}
+              title={`${t("subjectsPage.addFavorite")}, ${subject.name}`}
               variant="ghost"
               size="xsmall"
               colorTheme="lighter"
@@ -143,23 +141,19 @@ const SubjectLink = ({ subject, favorites, className }: Props) => {
             </StyledIconButton>
           </ModalTrigger>
           <LoginModalContent
-            title={t('subjectsPage.subjectFavoritePitch')}
+            title={t("subjectsPage.subjectFavoritePitch")}
             content={
               <>
-                <span>{t('subjectsPage.subjectFavoriteGuide')}</span>
+                <span>{t("subjectsPage.subjectFavoriteGuide")}</span>
                 <ModalSubjectContainer>
-                  <SubjectSafeLink to={toSubject(subject.id)}>
-                    {subject.name}
-                  </SubjectSafeLink>
+                  <SubjectSafeLink to={toSubject(subject.id)}>{subject.name}</SubjectSafeLink>
                 </ModalSubjectContainer>
               </>
             }
           />
         </Modal>
       )}
-      <SubjectSafeLink to={toSubject(subject.id)}>
-        {subject.name}
-      </SubjectSafeLink>
+      <SubjectSafeLink to={toSubject(subject.id)}>{subject.name}</SubjectSafeLink>
     </SubjectLinkWrapper>
   );
 };

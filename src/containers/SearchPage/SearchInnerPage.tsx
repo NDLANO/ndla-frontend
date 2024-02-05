@@ -6,10 +6,10 @@
  *
  */
 
-import { useState, useEffect, useRef } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Location } from 'react-router-dom';
-import SearchContainer from './SearchContainer';
+import { useState, useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
+import { Location } from "react-router-dom";
+import SearchContainer from "./SearchContainer";
 import {
   getTypeFilter,
   mapSearchDataToGroups,
@@ -17,19 +17,15 @@ import {
   converSearchStringToObject,
   getTypeParams,
   TypeFilter,
-} from './searchHelpers';
-import DefaultErrorMessage from '../../components/DefaultErrorMessage';
-import { getDefaultLocale } from '../../config';
-import {
-  GQLGroupSearchQuery,
-  GQLResourceTypeDefinition,
-  GQLSubjectInfoFragment,
-} from '../../graphqlTypes';
-import { LtiData } from '../../interfaces';
-import { groupSearchQuery } from '../../queries';
-import { contentTypeMapping } from '../../util/getContentType';
-import handleError from '../../util/handleError';
-import { useGraphQuery } from '../../util/runQueries';
+} from "./searchHelpers";
+import DefaultErrorMessage from "../../components/DefaultErrorMessage";
+import { getDefaultLocale } from "../../config";
+import { GQLGroupSearchQuery, GQLResourceTypeDefinition, GQLSubjectInfoFragment } from "../../graphqlTypes";
+import { LtiData } from "../../interfaces";
+import { groupSearchQuery } from "../../queries";
+import { contentTypeMapping } from "../../util/getContentType";
+import handleError from "../../util/handleError";
+import { useGraphQuery } from "../../util/runQueries";
 
 const getStateSearchParams = (searchParams: Record<string, any>) => {
   const stateSearchParams: Record<string, any> = {};
@@ -46,11 +42,9 @@ export interface SubjectItem {
   img?: { url: string };
 }
 
-export type SearchCompetenceGoal =
-  Required<GQLGroupSearchQuery>['competenceGoals'][0];
+export type SearchCompetenceGoal = Required<GQLGroupSearchQuery>["competenceGoals"][0];
 
-export type SearchCoreElements =
-  Required<GQLGroupSearchQuery>['coreElements'][0];
+export type SearchCoreElements = Required<GQLGroupSearchQuery>["coreElements"][0];
 interface Props {
   selectedFilters: string[];
   activeSubFilters: string[];
@@ -80,16 +74,12 @@ const SearchInnerPage = ({
 }: Props) => {
   const { t, i18n } = useTranslation();
   const [typeFilter, setTypeFilter] = useState<Record<string, TypeFilter>>({});
-  const [competenceGoals, setCompetenceGoals] = useState<
-    SearchCompetenceGoal[]
-  >([]);
+  const [competenceGoals, setCompetenceGoals] = useState<SearchCompetenceGoal[]>([]);
   const [coreElements, setCoreElements] = useState<SearchCoreElements[]>([]);
   const initialGQLCall = useRef(true);
 
   useEffect(() => {
-    setTypeFilter(
-      getTypeFilter(resourceTypes, selectedFilters, activeSubFilters, t),
-    );
+    setTypeFilter(getTypeFilter(resourceTypes, selectedFilters, activeSubFilters, t));
   }, [resourceTypes, selectedFilters, activeSubFilters, t]);
 
   const searchParams = converSearchStringToObject(location, i18n.language);
@@ -100,45 +90,39 @@ const SearchInnerPage = ({
       }
     : getStateSearchParams(searchParams);
 
-  const activeSubFiltersWithoutLeading = activeSubFilters.map((asf) =>
-    asf.substring(asf.indexOf(':urn:') + 1),
-  );
+  const activeSubFiltersWithoutLeading = activeSubFilters.map((asf) => asf.substring(asf.indexOf(":urn:") + 1));
 
-  const { data, previousData, error, loading, fetchMore } =
-    useGraphQuery<GQLGroupSearchQuery>(groupSearchQuery, {
-      variables: {
-        ...stateSearchParams,
-        language: i18n.language,
-        page: 1,
-        pageSize: 12,
-        ...getTypeParams([], resourceTypes),
-        aggregatePaths: ['contexts.resourceTypes.id'],
-        grepCodesList: searchParams.grepCodes,
-        filterInactive: subjectIds.length === 0,
-      },
-      notifyOnNetworkStatusChange: true,
-      onCompleted: async (data) => {
-        if (
-          initialGQLCall.current &&
-          activeSubFiltersWithoutLeading.length !== 0
-        ) {
-          await fetchMore({
-            variables: {
-              ...getTypeParams(activeSubFiltersWithoutLeading, resourceTypes),
-            },
-          });
-          initialGQLCall.current = false;
-        }
-        setCompetenceGoals(data.competenceGoals ?? []);
-        setCoreElements(data.coreElements ?? []);
-      },
-    });
+  const { data, previousData, error, loading, fetchMore } = useGraphQuery<GQLGroupSearchQuery>(groupSearchQuery, {
+    variables: {
+      ...stateSearchParams,
+      language: i18n.language,
+      page: 1,
+      pageSize: 12,
+      ...getTypeParams([], resourceTypes),
+      aggregatePaths: ["contexts.resourceTypes.id"],
+      grepCodesList: searchParams.grepCodes,
+      filterInactive: subjectIds.length === 0,
+    },
+    notifyOnNetworkStatusChange: true,
+    onCompleted: async (data) => {
+      if (initialGQLCall.current && activeSubFiltersWithoutLeading.length !== 0) {
+        await fetchMore({
+          variables: {
+            ...getTypeParams(activeSubFiltersWithoutLeading, resourceTypes),
+          },
+        });
+        initialGQLCall.current = false;
+      }
+      setCompetenceGoals(data.competenceGoals ?? []);
+      setCoreElements(data.coreElements ?? []);
+    },
+  });
 
   const resetSelected = () => {
     const filterUpdate = { ...typeFilter };
     for (const [key, value] of Object.entries(filterUpdate)) {
       const filters = value.filters?.map((filter) => {
-        filter.active = filter.id === 'all';
+        filter.active = filter.id === "all";
         return filter;
       });
       filterUpdate[key] = {
@@ -154,10 +138,7 @@ const SearchInnerPage = ({
     setTypeFilter(filterUpdate);
   };
 
-  const updateTypeFilter = <K extends keyof TypeFilter>(
-    type: string,
-    updates: Pick<TypeFilter, K>,
-  ) => {
+  const updateTypeFilter = <K extends keyof TypeFilter>(type: string, updates: Pick<TypeFilter, K>) => {
     const filterUpdate = { ...typeFilter };
     const filter = filterUpdate[type];
     if (!filter) return filterUpdate;
@@ -170,16 +151,14 @@ const SearchInnerPage = ({
   };
 
   const getActiveFilters = (type: string) =>
-    typeFilter[type]?.filters
-      .filter((f) => f.id !== 'all' && f.active)
-      .map((f) => f.id) ?? [];
+    typeFilter[type]?.filters.filter((f) => f.id !== "all" && f.active).map((f) => f.id) ?? [];
 
   const getActiveSubFilters = (typeFilters: Record<string, TypeFilter>) => {
     return Object.entries(typeFilters)
       ?.filter(([, value]) => !!value.filters)
       ?.flatMap(([key, value]) => {
         return value.filters
-          ?.filter((filter) => !!filter.active && filter.id !== 'all')
+          ?.filter((filter) => !!filter.active && filter.id !== "all")
           .map((filter) => `${key}:${filter.id}`);
       });
   };
@@ -189,9 +168,9 @@ const SearchInnerPage = ({
     const filters = typeFilter[type]?.filters;
     const selectedFilter = filters?.find((item) => filterId === item.id);
     if (!filters || !selectedFilter) return;
-    if (filterId === 'all') {
+    if (filterId === "all") {
       filters.forEach((filter) => {
-        filter.active = filter.id === 'all';
+        filter.active = filter.id === "all";
       });
       const toKeep = activeSubFilters.filter((asf) => !asf.startsWith(type));
       handleSearchParamsChange({ activeSubFilters: toKeep });
@@ -199,7 +178,7 @@ const SearchInnerPage = ({
         variables: getTypeParams([type], resourceTypes),
       });
     } else {
-      const allFilter = filters.find((item) => 'all' === item.id)!;
+      const allFilter = filters.find((item) => "all" === item.id)!;
       allFilter.active = false;
       selectedFilter.active = !selectedFilter.active;
       if (!filters.some((item) => item.active)) {
@@ -209,9 +188,7 @@ const SearchInnerPage = ({
       handleSearchParamsChange({ activeSubFilters: subFilters });
       fetchMore({
         variables: getTypeParams(
-          filters
-            .filter((filter) => filter.active && filter.id !== 'all')
-            .map((f) => f.id),
+          filters.filter((filter) => filter.active && filter.id !== "all").map((f) => f.id),
           resourceTypes,
         ),
       });
@@ -232,7 +209,7 @@ const SearchInnerPage = ({
     const selectedKeys = Object.entries(updatedFilters)
       .filter(([, value]) => !!value.selected)
       .map(([key]) => key);
-    handleSearchParamsChange({ selectedFilters: selectedKeys.join(',') });
+    handleSearchParamsChange({ selectedFilters: selectedKeys.join(",") });
   };
 
   const handleShowMore = (type: string) => {
@@ -241,8 +218,7 @@ const SearchInnerPage = ({
     const pageSize = showAll ? 6 : 12;
     const page = filter.page + 1;
     const currentGroup = data?.groupSearch?.find(
-      (group) =>
-        type === (contentTypeMapping[group.resourceType] || group.resourceType),
+      (group) => type === (contentTypeMapping[group.resourceType] || group.resourceType),
     );
     const toCount = filter.page * filter.pageSize;
     updateTypeFilter(type, { page });
@@ -253,12 +229,8 @@ const SearchInnerPage = ({
           page: page,
           pageSize: pageSize,
           ...getTypeParams(
-            activeFilters.length
-              ? activeFilters
-              : type === 'topic-article'
-                ? []
-                : [type],
-            type === 'topic-article' ? [] : resourceTypes,
+            activeFilters.length ? activeFilters : type === "topic-article" ? [] : [type],
+            type === "topic-article" ? [] : resourceTypes,
           ),
         },
       });
@@ -270,8 +242,7 @@ const SearchInnerPage = ({
     return <DefaultErrorMessage />;
   }
 
-  const language =
-    i18n.language !== getDefaultLocale() ? i18n.language : undefined;
+  const language = i18n.language !== getDefaultLocale() ? i18n.language : undefined;
   const searchGroups = mapSearchDataToGroups(
     data?.groupSearch || previousData?.groupSearch,
     resourceTypes,
@@ -281,9 +252,7 @@ const SearchInnerPage = ({
     t,
   );
 
-  const suggestion =
-    data?.groupSearch?.[0]?.suggestions?.[0]?.suggestions?.[0]?.options?.[0]
-      ?.text;
+  const suggestion = data?.groupSearch?.[0]?.suggestions?.[0]?.suggestions?.[0]?.options?.[0]?.text;
 
   const showAll = !Object.values(typeFilter).some((value) => value.selected);
 

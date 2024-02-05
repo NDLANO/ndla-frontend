@@ -6,30 +6,24 @@
  *
  */
 
-import { test, expect } from '@playwright/test';
-import { mockGraphqlRoute } from '../../apiMock';
+import { test, expect } from "@playwright/test";
+import { mockGraphqlRoute } from "../../apiMock";
 
 test.beforeEach(async ({ page }) => {
   await mockGraphqlRoute({
     page,
     operation: [
       {
-        names: [
-          'myNdlaData',
-          'plainArticlePage',
-          'alerts',
-          'mastheadFrontpage',
-          'mastheadProgramme',
-        ],
-        fixture: 'article',
+        names: ["myNdlaData", "plainArticlePage", "alerts", "mastheadFrontpage", "mastheadProgramme"],
+        fixture: "article",
       },
     ],
   });
-  await page.goto('/article/1/?disableSSR=true');
+  await page.goto("/article/1/?disableSSR=true");
 });
 
-test('contains content', async ({ page }) => {
-  const heading = page.getByRole('heading').getByText('Utforskeren');
+test("contains content", async ({ page }) => {
+  const heading = page.getByRole("heading").getByText("Utforskeren");
   expect(heading).toBeDefined();
   await expect(heading).toBeVisible();
 });

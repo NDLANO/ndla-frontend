@@ -6,29 +6,29 @@
  *
  */
 
-import { Navigate } from 'react-router-dom';
-import SubjectPage from './SubjectPage';
-import { useUrnIds } from '../../routeHelpers';
-import NdlaFilm from '../FilmFrontpage/NdlaFilmFrontpage';
-import MultidisciplinarySubjectArticlePage from '../MultidisciplinarySubject/MultidisciplinarySubjectArticlePage';
-import MultidisciplinarySubjectPage from '../MultidisciplinarySubject/MultidisciplinarySubjectPage';
-import ToolboxSubjectPage from '../ToolboxSubject/ToolboxSubjectPage';
+import { Navigate } from "react-router-dom";
+import SubjectPage from "./SubjectPage";
+import { useUrnIds } from "../../routeHelpers";
+import NdlaFilm from "../FilmFrontpage/NdlaFilmFrontpage";
+import MultidisciplinarySubjectArticlePage from "../MultidisciplinarySubject/MultidisciplinarySubjectArticlePage";
+import MultidisciplinarySubjectPage from "../MultidisciplinarySubject/MultidisciplinarySubjectPage";
+import ToolboxSubjectPage from "../ToolboxSubject/ToolboxSubjectPage";
 
 const SubjectRouting = () => {
   const { topicList, subjectType } = useUrnIds();
 
-  if (subjectType === 'standard') {
+  if (subjectType === "standard") {
     return <SubjectPage />;
-  } else if (subjectType === 'multiDisciplinary') {
+  } else if (subjectType === "multiDisciplinary") {
     if (topicList.length === 3) {
       return <MultidisciplinarySubjectArticlePage />;
     }
     return <MultidisciplinarySubjectPage />;
-  } else if (subjectType === 'toolbox') {
+  } else if (subjectType === "toolbox") {
     return <ToolboxSubjectPage />;
-  } else if (subjectType === 'film' && topicList.length === 0) {
+  } else if (subjectType === "film" && topicList.length === 0) {
     return <NdlaFilm />;
-  } else if (subjectType === 'film') {
+  } else if (subjectType === "film") {
     return <SubjectPage />;
   }
 

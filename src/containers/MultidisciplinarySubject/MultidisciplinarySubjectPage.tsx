@@ -6,13 +6,13 @@
  *
  */
 
-import { createRef, useEffect, useState } from 'react';
-import { Helmet } from 'react-helmet-async';
-import { useTranslation } from 'react-i18next';
-import { gql } from '@apollo/client';
-import styled from '@emotion/styled';
-import { breakpoints, mq } from '@ndla/core';
-import { Heading, Text } from '@ndla/typography';
+import { createRef, useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
+import { useTranslation } from "react-i18next";
+import { gql } from "@apollo/client";
+import styled from "@emotion/styled";
+import { breakpoints, mq } from "@ndla/core";
+import { Heading, Text } from "@ndla/typography";
 import {
   ContentPlaceholder,
   HomeBreadcrumb,
@@ -20,19 +20,19 @@ import {
   NavigationBox,
   OneColumn,
   SimpleBreadcrumbItem,
-} from '@ndla/ui';
-import MultidisciplinaryArticleList from './components/MultidisciplinaryArticleList';
-import MultidisciplinaryTopicWrapper from './components/MultidisciplinaryTopicWrapper';
-import DefaultErrorMessage from '../../components/DefaultErrorMessage';
-import SocialMediaMetadata from '../../components/SocialMediaMetadata';
-import { SKIP_TO_CONTENT_ID } from '../../constants';
+} from "@ndla/ui";
+import MultidisciplinaryArticleList from "./components/MultidisciplinaryArticleList";
+import MultidisciplinaryTopicWrapper from "./components/MultidisciplinaryTopicWrapper";
+import DefaultErrorMessage from "../../components/DefaultErrorMessage";
+import SocialMediaMetadata from "../../components/SocialMediaMetadata";
+import { SKIP_TO_CONTENT_ID } from "../../constants";
 import {
   GQLMultidisciplinarySubjectPageQuery,
   GQLMultidisciplinarySubjectPageQueryVariables,
-} from '../../graphqlTypes';
-import { removeUrn, toTopic, useUrnIds } from '../../routeHelpers';
-import { useGraphQuery } from '../../util/runQueries';
-import { htmlTitle } from '../../util/titleHelper';
+} from "../../graphqlTypes";
+import { removeUrn, toTopic, useUrnIds } from "../../routeHelpers";
+import { useGraphQuery } from "../../util/runQueries";
+import { htmlTitle } from "../../util/titleHelper";
 
 const multidisciplinarySubjectPageQuery = gql`
   query multidisciplinarySubjectPage($subjectId: String!) {
@@ -74,21 +74,12 @@ const StyledWrapper = styled.div`
 
 const StyledBackground = styled.div`
   width: 100%;
-  background: linear-gradient(
-      179.64deg,
-      rgba(255, 255, 255, 0.6) 80.1%,
-      rgba(255, 255, 255) 99.05%
-    ),
-    linear-gradient(
-      318.9deg,
-      rgb(239, 238, 220, 0.6) 35.53%,
-      rgb(250, 246, 235) 74.23%
-    ),
-    rgb(221, 216, 175);
+  background: linear-gradient(179.64deg, rgba(255, 255, 255, 0.6) 80.1%, rgba(255, 255, 255) 99.05%),
+    linear-gradient(318.9deg, rgb(239, 238, 220, 0.6) 35.53%, rgb(250, 246, 235) 74.23%), rgb(221, 216, 175);
 `;
 
 const Illustration = styled.div`
-  background-image: url('/static/illustrations/frontpage_multidisciplinary.svg');
+  background-image: url("/static/illustrations/frontpage_multidisciplinary.svg");
   background-size: contain;
   background-repeat: no-repeat;
   background-position: bottom;
@@ -132,12 +123,10 @@ const MultidisciplinarySubjectPage = () => {
   useEffect(() => {
     if (selectedTopics.length) {
       const ref = refs[selectedTopics.length - 1];
-      const positionFromTop =
-        (ref?.current?.getBoundingClientRect().top ?? 0) +
-        document.documentElement.scrollTop;
+      const positionFromTop = (ref?.current?.getBoundingClientRect().top ?? 0) + document.documentElement.scrollTop;
       window.scrollTo({
         top: positionFromTop - 100,
-        behavior: 'smooth',
+        behavior: "smooth",
       });
     }
   }, [refs, selectedTopics]);
@@ -161,8 +150,8 @@ const MultidisciplinarySubjectPage = () => {
 
   const breadCrumbs: SimpleBreadcrumbItem[] = [
     {
-      name: t('breadcrumb.toFrontpage'),
-      to: '/',
+      name: t("breadcrumb.toFrontpage"),
+      to: "/",
     },
     {
       to: `${removeUrn(data.subject.id)}`,
@@ -172,7 +161,7 @@ const MultidisciplinarySubjectPage = () => {
   ].reduce<SimpleBreadcrumbItem[]>((crumbs, crumb) => {
     crumbs.push({
       name: crumb.name,
-      to: `${crumbs[crumbs.length - 1]?.to ?? ''}${crumb.to}`,
+      to: `${crumbs[crumbs.length - 1]?.to ?? ""}${crumb.to}`,
     });
 
     return crumbs;
@@ -192,9 +181,7 @@ const MultidisciplinarySubjectPage = () => {
 
   const selectionLimit = 2;
   const isNotLastTopic = selectedTopics.length < selectionLimit;
-  const selectedSubject = subject.topics?.find(
-    (t) => t.id === selectedTopics[0],
-  )!;
+  const selectedSubject = subject.topics?.find((t) => t.id === selectedTopics[0])!;
 
   const cards = isNotLastTopic
     ? []
@@ -206,17 +193,15 @@ const MultidisciplinarySubjectPage = () => {
         .map((topic) => ({
           title: topic.name,
           topicId: topic.id,
-          introduction: topic.meta?.metaDescription ?? '',
+          introduction: topic.meta?.metaDescription ?? "",
           image: topic.meta?.metaImage?.url,
           imageAlt: topic.meta?.metaImage?.alt,
           subjects: isNotLastTopic ? undefined : [selectedSubject?.name],
-          url: topic.path ?? '',
+          url: topic.path ?? "",
           ...topic,
         })) || [];
 
-  const selectedMetadata = [...(subject.allTopics ?? [])]
-    .reverse()
-    .find((t) => selectedTopics.includes(t.id));
+  const selectedMetadata = [...(subject.allTopics ?? [])].reverse().find((t) => selectedTopics.includes(t.id));
 
   const selectedTitle = selectedMetadata?.name || selectedMetadata?.meta?.title;
   const subjectTitle = subject.name;
@@ -230,18 +215,14 @@ const MultidisciplinarySubjectPage = () => {
     description:
       selectedMetadata?.meta?.metaDescription ||
       selectedMetadata?.meta?.introduction ||
-      t('frontpageMultidisciplinarySubject.text'),
+      t("frontpageMultidisciplinarySubject.text"),
     image: selectedMetadata?.meta?.metaImage,
   };
 
   return (
     <>
       <Helmet>
-        <title>
-          {htmlTitle(socialMediaMetaData.title, [
-            t('htmlTitles.titleTemplate'),
-          ])}
-        </title>
+        <title>{htmlTitle(socialMediaMetaData.title, [t("htmlTitles.titleTemplate")])}</title>
       </Helmet>
       <SocialMediaMetadata
         title={socialMediaMetaData.title}
@@ -258,18 +239,12 @@ const MultidisciplinarySubjectPage = () => {
                   <Heading
                     element="h1"
                     headingStyle="h1-resource"
-                    id={
-                      selectedTopics.length === 0
-                        ? SKIP_TO_CONTENT_ID
-                        : undefined
-                    }
+                    id={selectedTopics.length === 0 ? SKIP_TO_CONTENT_ID : undefined}
                     tabIndex={-1}
                   >
-                    {t('frontpageMultidisciplinarySubject.heading')}
+                    {t("frontpageMultidisciplinarySubject.heading")}
                   </Heading>
-                  <Text textStyle="ingress">
-                    {t('frontpageMultidisciplinarySubject.text')}
-                  </Text>
+                  <Text textStyle="ingress">{t("frontpageMultidisciplinarySubject.text")}</Text>
                 </LayoutItem>
                 <Illustration />
               </Header>
@@ -291,12 +266,7 @@ const MultidisciplinarySubjectPage = () => {
                   />
                 </div>
               ))}
-              {isNotLastTopic || (
-                <MultidisciplinaryArticleList
-                  items={cards}
-                  totalCount={cards.length}
-                />
-              )}
+              {isNotLastTopic || <MultidisciplinaryArticleList items={cards} totalCount={cards.length} />}
             </LayoutItem>
           </OneColumn>
         </StyledWrapper>

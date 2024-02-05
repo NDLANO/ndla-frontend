@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { useParams } from 'react-router-dom';
-import ResourceEmbed from './components/ResourceEmbed';
-import NotFound from '../NotFoundPage/NotFoundPage';
+import { useParams } from "react-router-dom";
+import ResourceEmbed from "./components/ResourceEmbed";
+import NotFound from "../NotFoundPage/NotFoundPage";
 
 const ConceptPage = () => {
   const { conceptId } = useParams();
