@@ -25,6 +25,17 @@ test.beforeEach(async ({ page }) => {
                 fixture: 'minndla_folder_updateStatus',
                 names: ['updateFolderStatus'],
             },
+            {
+                fixture: 'minndla_folder_notifications',
+                names: ['arenaNotificationsV2']
+            },
+            {
+                fixture: 'minndla_folder_sharedFolder',
+                names: ['sharedFolder']
+            }, {
+                fixture: 'minndla_folder_meta',
+                names: ['folderResourceMetaSearch']
+            }
         ],
     });
     await page.goto('/minndla/folders');
@@ -212,7 +223,6 @@ test('can share and unshare folder', async ({ page }) => {
     ).toStrictEqual(sharedFolderTitle);
 });
 
-
 test('can unshare folder from share modal', async ({ page }) => {
     await expect(
         page.getByRole('heading').getByText('Mine mapper'),
@@ -252,9 +262,7 @@ test('can unshare folder from share modal', async ({ page }) => {
     ).toStrictEqual(sharedFolderTitle);
 
     await folderList.first().getByRole('button').nth(1).click();
-    await page
-        .getByRole('menuitem', { name: 'Del', exact: true })
-        .click();
+    await page.getByRole('menuitem', { name: 'Del', exact: true }).click();
 
     await page
         .getByRole('dialog')
@@ -275,8 +283,7 @@ test('can unshare folder from share modal', async ({ page }) => {
             .getByRole('heading')
             .textContent(),
     ).toStrictEqual(sharedFolderTitle);
-})
-
+});
 
 test('can copy sharable link to folder', async ({ page }) => {
     await expect(
@@ -294,18 +301,52 @@ test('can copy sharable link to folder', async ({ page }) => {
         .getByRole('listitem')
         .filter({ has: page.getByLabel('Delt Mappe', { exact: true }) })
         .first();
+
     const sharedFolderTitle =
         (await sharedFolder.getByRole('heading').textContent()) ?? '';
     expect(sharedFolder).toBeDefined();
-
 
     await sharedFolder.getByRole('button').nth(1).click();
     await page
         .getByRole('menuitem', { name: 'Kopier lenke til mappa', exact: true })
         .click();
 
+    const url: string = await page.evaluate('navigator.clipboard.readText()');
+    expect(url).toBeDefined();
+
+    await page.goto(url);
+
+    const heading = page.getByRole('main').getByRole('heading').first();
+    await expect(heading).toHaveText(sharedFolderTitle);
+});
 
 
+test('can go to shared folder page', async ({ page }) => {
+    await expect(
+        page.getByRole('heading').getByText('Mine mapper'),
+    ).toBeInViewport();
+    const folderList = page
+        .getByRole('list')
+        .filter({ has: page.locator('[data-type="list"]') });
+    await expect(folderList).toBeInViewport();
+    expect(await folderList.getByRole('listitem').count()).toBeGreaterThanOrEqual(
+        2,
+    );
+    const sharedFolder = folderList
+        .getByRole('listitem')
+        .filter({ has: page.getByLabel('Delt Mappe', { exact: true }) })
+        .first();
 
+    const sharedFolderTitle =
+        (await sharedFolder.getByRole('heading').textContent()) ?? '';
+    expect(sharedFolder).toBeDefined();
 
+    await sharedFolder.getByRole('button').nth(1).click();
+    await page
+        .getByRole('menuitem', { name: 'Gå til delt mappe', exact: true })
+        .click();
+
+    await page.waitForURL('/folder/*');
+
+    await expect(page.getByRole('main').getByRole('heading')).toHaveText(sharedFolderTitle);
 })

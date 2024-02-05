@@ -39,6 +39,7 @@ export default defineConfig({
       testMatch: 'e2e/specs/authenticated/*.spec.ts',
       dependencies: ['setup'],
       use: {
+        permissions: ['clipboard-read', 'clipboard-write'],
         storageState: STORAGE_STATE,
       },
     },
@@ -47,8 +48,8 @@ export default defineConfig({
   // Automatically run against prod-build on CI for speed and accuracy.
   webServer: process.env.CI
     ? {
-        command: 'cross-env NODE_ENV=production node build/server',
-        port: 3000,
-      }
+      command: 'cross-env NODE_ENV=production node build/server',
+      port: 3000,
+    }
     : undefined,
 });
