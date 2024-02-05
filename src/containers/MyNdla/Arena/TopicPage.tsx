@@ -152,6 +152,7 @@ const TopicPage = () => {
               title={topic.title}
               timestamp={topic.created}
               count={topic.postCount}
+              locked={topic.locked}
             />
           </StyledCardContainer>
         ))}

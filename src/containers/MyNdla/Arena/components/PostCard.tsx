@@ -317,7 +317,7 @@ const PostCard = ({
           <ButtonV2
             ref={replyToRef}
             onClick={() => setIsReplying(true)}
-            disabled={isReplying}
+            disabled={isReplying || topic?.isLocked}
           >
             {t('myNdla.arena.new.post')}
           </ButtonV2>

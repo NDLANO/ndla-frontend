@@ -99,6 +99,7 @@ type ArenaTopic {
   id: Int!
   isFollowing: Boolean
   locked: Boolean!
+  pinned: Boolean!
   postCount: Int!
   posts: [ArenaPost!]!
   slug: String!
@@ -111,6 +112,8 @@ type ArenaTopicV2 {
   created: String!
   id: Int!
   isFollowing: Boolean!
+  isLocked: Boolean!
+  isPinned: Boolean!
   postCount: Int!
   posts: PaginatedPosts
   title: String!
@@ -889,6 +892,8 @@ type Mutation {
   newArenaTopicV2(
     categoryId: Int!
     content: String!
+    isLocked: Boolean
+    isPinned: Boolean
     title: String!
   ): ArenaTopicV2!
   newFlag(id: Int!, reason: String!, type: String!): Int!
@@ -935,7 +940,13 @@ type Mutation {
   ): MyNdlaPersonalData!
   updatePost(content: String!, postId: Int!, title: String): ArenaPost!
   updatePostV2(content: String!, postId: Int!): ArenaPostV2!
-  updateTopicV2(content: String!, title: String!, topicId: Int!): ArenaTopicV2!
+  updateTopicV2(
+    content: String!
+    isLocked: Boolean
+    isPinned: Boolean
+    title: String!
+    topicId: Int!
+  ): ArenaTopicV2!
 }
 
 type MyNdlaGroup {

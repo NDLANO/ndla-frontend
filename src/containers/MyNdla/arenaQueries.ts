@@ -57,6 +57,7 @@ export const arenaTopicV2Fragment = gql`
     title
     isFollowing
     categoryId
+    isLocked
   }
 `;
 

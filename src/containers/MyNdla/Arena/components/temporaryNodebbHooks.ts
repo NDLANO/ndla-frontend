@@ -156,6 +156,7 @@ export const useArenaTopic = (
             } as GQLArenaPostV2Fragment;
           }),
         },
+        isLocked: nodebbArenaTopic?.locked,
       } as GQLArenaTopicV2Fragment & {
         posts: GQLPaginatedPostsFragment & {
           items: (GQLArenaPostV2Fragment & { deleted?: boolean })[];
