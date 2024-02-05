@@ -365,7 +365,18 @@ const FloatingLinkEditor = ({ editor, isLink, setIsLink, anchorElement, editorIs
     editor.update(() => {
       const selection = $getSelection();
       if ($isRangeSelection(selection)) {
+        const node = getSelectedNode(selection);
         toggleLink(null);
+        let validUrl = false;
+        try {
+          new URL(node.getTextContent());
+          validUrl = true;
+        } catch (_) {
+          validUrl = false;
+        }
+        if (validUrl) {
+          node.remove();
+        }
       }
     });
     closeLinkWindow();
