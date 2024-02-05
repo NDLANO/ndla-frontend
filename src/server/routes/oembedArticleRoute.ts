@@ -9,16 +9,28 @@
 import express from "express";
 import { PathMatch } from "react-router-dom";
 import { ApolloClient, NormalizedCacheObject } from "@apollo/client";
+import { Node } from "@ndla/types-taxonomy";
 import config from "../../config";
 import { fetchArticle } from "../../containers/ArticlePage/articleApi";
-import { fetchResource, fetchTopic } from "../../containers/Resources/resourceApi";
 import { getArticleIdFromResource } from "../../containers/Resources/resourceHelpers";
 import { GQLEmbedOembedQuery, GQLEmbedOembedQueryVariables } from "../../graphqlTypes";
 import { embedOembedQuery } from "../../queries";
 import { BAD_REQUEST, INTERNAL_SERVER_ERROR } from "../../statusCodes";
-import { createApolloClient } from "../../util/apiHelpers";
+import { apiResourceUrl, createApolloClient, resolveJsonOrRejectWithError } from "../../util/apiHelpers";
 import handleError from "../../util/handleError";
 import { parseOembedUrl } from "../../util/urlHelper";
+
+const baseUrl = apiResourceUrl("/taxonomy/v1");
+
+export const fetchTopic = (topicId: string | number, locale: string): Promise<Node> =>
+  fetch(`${baseUrl}/topics/${topicId}?language=${locale}`).then(
+    (r) => resolveJsonOrRejectWithError<Node>(r) as Promise<Node>,
+  );
+
+export const fetchResource = async (resourceId: string | number, locale: string) => {
+  const response = await fetch(`${baseUrl}/resources/${resourceId}?language=${locale}`);
+  return resolveJsonOrRejectWithError(response) as Promise<Node>;
+};
 
 function getOembedObject(req: express.Request, title?: string, html?: string) {
   return {
