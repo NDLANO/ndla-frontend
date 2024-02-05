@@ -15,6 +15,7 @@ export default defineConfig({
   testDir: './e2e',
   fullyParallel: true,
   maxFailures: process.env.CI ? 10 : undefined,
+  repeatEach: 10,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   retries: 2,

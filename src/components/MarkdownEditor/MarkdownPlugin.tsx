@@ -17,8 +17,8 @@ import {
   ITALIC_UNDERSCORE,
   LINK,
   Transformer,
-} from '@lexical/markdown';
-import { MarkdownShortcutPlugin } from '@lexical/react/LexicalMarkdownShortcutPlugin';
+} from "@lexical/markdown";
+import { MarkdownShortcutPlugin } from "@lexical/react/LexicalMarkdownShortcutPlugin";
 
 export const PLAYGROUND_TRANSFORMERS: Array<Transformer> = [
   ORDERED_LIST,

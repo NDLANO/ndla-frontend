@@ -6,38 +6,32 @@
  *
  */
 
-import sortBy from 'lodash/sortBy';
-import { useCallback, useEffect, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router-dom';
-import { gql } from '@apollo/client';
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
-import { Bookmark, Class } from '@ndla/icons/action';
-import { ContentTypeBadge } from '@ndla/ui';
-import BackButton from './BackButton';
-import { useDrawerContext } from './DrawerContext';
-import DrawerMenuItem from './DrawerMenuItem';
-import DrawerPortion, { DrawerList } from './DrawerPortion';
-import DrawerRowHeader from './DrawerRowHeader';
-import ResourceTypeList from './ResourceTypeList';
-import { TopicWithSubTopics } from './SubjectMenu';
-import useArrowNavigation from './useArrowNavigation';
-import {
-  TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES,
-  TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE,
-} from '../../../constants';
+import sortBy from "lodash/sortBy";
+import { useCallback, useEffect, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router-dom";
+import { gql } from "@apollo/client";
+import styled from "@emotion/styled";
+import { spacing } from "@ndla/core";
+import { Bookmark, Class } from "@ndla/icons/action";
+import { ContentTypeBadge } from "@ndla/ui";
+import BackButton from "./BackButton";
+import { useDrawerContext } from "./DrawerContext";
+import DrawerMenuItem from "./DrawerMenuItem";
+import DrawerPortion, { DrawerList } from "./DrawerPortion";
+import DrawerRowHeader from "./DrawerRowHeader";
+import ResourceTypeList from "./ResourceTypeList";
+import { TopicWithSubTopics } from "./SubjectMenu";
+import useArrowNavigation from "./useArrowNavigation";
+import { TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES, TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE } from "../../../constants";
 import {
   GQLTopicMenuResourcesQuery,
   GQLTopicMenuResourcesQueryVariables,
   GQLTopicMenu_SubjectFragment,
-} from '../../../graphqlTypes';
-import { contentTypeMapping } from '../../../util/getContentType';
-import { useGraphQuery } from '../../../util/runQueries';
-import {
-  getResourceGroups,
-  sortResourceTypes,
-} from '../../Resources/getResourceGroups';
+} from "../../../graphqlTypes";
+import { contentTypeMapping } from "../../../util/getContentType";
+import { useGraphQuery } from "../../../util/runQueries";
+import { getResourceGroups, sortResourceTypes } from "../../Resources/getResourceGroups";
 
 interface Props {
   topic: TopicWithSubTopics;
@@ -56,33 +50,20 @@ const StyledResourceSpan = styled.span`
   gap: ${spacing.small};
 `;
 
-const TopicMenu = ({
-  topic,
-  subject,
-  onClose,
-  topicPath,
-  onCloseMenuPortion,
-  addTopic,
-  level,
-  removeTopic,
-}: Props) => {
+const TopicMenu = ({ topic, subject, onClose, topicPath, onCloseMenuPortion, addTopic, level, removeTopic }: Props) => {
   const { t } = useTranslation();
-  const parentIsTopic = topic.parentId?.startsWith('urn:subject');
+  const parentIsTopic = topic.parentId?.startsWith("urn:subject");
   const location = useLocation();
   const { shouldCloseLevel, setLevelClosed } = useDrawerContext();
   const Icon = parentIsTopic ? Class : Bookmark;
 
-  const { data } = useGraphQuery<
-    GQLTopicMenuResourcesQuery,
-    GQLTopicMenuResourcesQueryVariables
-  >(resourceQuery, {
+  const { data } = useGraphQuery<GQLTopicMenuResourcesQuery, GQLTopicMenuResourcesQueryVariables>(resourceQuery, {
     variables: { topicId: topic.id, subjectId: subject.id },
   });
 
   const isUngrouped =
-    data?.topic?.metadata?.customFields[
-      TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES
-    ] === TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE || false;
+    data?.topic?.metadata?.customFields[TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES] ===
+      TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE || false;
 
   const arrowAddTopic = useCallback(
     (id: string | undefined) => {
@@ -94,10 +75,7 @@ const TopicMenu = ({
     [addTopic, level, topic.subtopics],
   );
 
-  const active = useMemo(
-    () => topicPath[topicPath.length - 1]?.id === topic.id,
-    [topic, topicPath],
-  );
+  const active = useMemo(() => topicPath[topicPath.length - 1]?.id === topic.id, [topic, topicPath]);
 
   useArrowNavigation(active, {
     initialFocused: active ? `header-${topic.id}` : topicPath[level]?.id,
@@ -112,10 +90,7 @@ const TopicMenu = ({
     }
   }, [active, shouldCloseLevel, setLevelClosed, onCloseMenuPortion]);
 
-  const coreResources = useMemo(
-    () => data?.topic?.coreResources ?? [],
-    [data?.topic?.coreResources],
-  );
+  const coreResources = useMemo(() => data?.topic?.coreResources ?? [], [data?.topic?.coreResources]);
   const supplementaryResources = useMemo(
     () => data?.topic?.supplementaryResources ?? [],
     [data?.topic?.supplementaryResources],
@@ -123,12 +98,10 @@ const TopicMenu = ({
 
   const sortedResources = useMemo(
     () =>
-      sortBy(coreResources.concat(supplementaryResources), (r) => r.rank).map(
-        (r) => ({
-          ...r,
-          resourceTypes: sortResourceTypes(r.resourceTypes ?? []),
-        }),
-      ),
+      sortBy(coreResources.concat(supplementaryResources), (r) => r.rank).map((r) => ({
+        ...r,
+        resourceTypes: sortResourceTypes(r.resourceTypes ?? []),
+      })),
     [coreResources, supplementaryResources],
   );
 
@@ -140,19 +113,12 @@ const TopicMenu = ({
         data?.topic?.supplementaryResources ?? [],
         data?.topic?.coreResources ?? [],
       ),
-    [
-      data?.resourceTypes,
-      data?.topic?.supplementaryResources,
-      data?.topic?.coreResources,
-    ],
+    [data?.resourceTypes, data?.topic?.supplementaryResources, data?.topic?.coreResources],
   );
 
   return (
     <DrawerPortion>
-      <BackButton
-        title={topicPath[level - 2]?.name ?? subject.name}
-        onGoBack={onCloseMenuPortion}
-      />
+      <BackButton title={topicPath[level - 2]?.name ?? subject.name} onGoBack={onCloseMenuPortion} />
       <DrawerList id={`list-${topic.id}`}>
         <DrawerRowHeader
           id={topic.id}
@@ -170,9 +136,7 @@ const TopicMenu = ({
             current={t.path === location.pathname}
             type="button"
             active={levelId === t.id}
-            onClick={(expanded) =>
-              expanded ? removeTopic(level) : addTopic(t, level)
-            }
+            onClick={(expanded) => (expanded ? removeTopic(level) : addTopic(t, level))}
           >
             {t.name}
           </DrawerMenuItem>
@@ -195,9 +159,7 @@ const TopicMenu = ({
               </ResourceTypeList>
             ))
           : sortedResources.map((res) => {
-              const type = res.resourceTypes[0]
-                ? contentTypeMapping[res.resourceTypes[0]?.id]!
-                : 'subject-material';
+              const type = res.resourceTypes[0] ? contentTypeMapping[res.resourceTypes[0]?.id]! : "subject-material";
               return (
                 <DrawerMenuItem
                   id={`${topic.id}-${res.id}`}
@@ -207,9 +169,7 @@ const TopicMenu = ({
                   onClose={onClose}
                   key={res.id}
                 >
-                  <StyledResourceSpan
-                    aria-label={`${res.name}, ${t(`contentTypes.${type}`)}`}
-                  >
+                  <StyledResourceSpan aria-label={`${res.name}, ${t(`contentTypes.${type}`)}`}>
                     <ContentTypeBadge type={type} border={false} />
                     {res.name}
                   </StyledResourceSpan>

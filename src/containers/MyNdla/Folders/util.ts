@@ -6,17 +6,15 @@
  *
  */
 
-import { TFunction } from 'i18next';
-import { DragEndEvent, Announcements } from '@dnd-kit/core';
-import { arrayMove } from '@dnd-kit/sortable';
-import config from '../../../config';
+import { TFunction } from "i18next";
+import { DragEndEvent, Announcements } from "@dnd-kit/core";
+import { arrayMove } from "@dnd-kit/sortable";
+import config from "../../../config";
 
 export const makeDndSortFunction = <PID, RES, T extends { id: string }>(
   parentId: PID,
   sortables: T[],
-  sortFunction: (options: {
-    variables: { sortedIds: string[]; parentId: PID };
-  }) => Promise<RES>,
+  sortFunction: (options: { variables: { sortedIds: string[]; parentId: PID } }) => Promise<RES>,
   updateCache: (newOrder: string[]) => void,
   setSortedFoldersState: (setNew: T[]) => void,
 ) => {
@@ -53,7 +51,7 @@ interface DraggableData {
 }
 
 export const makeDndTranslations = (
-  type: 'folder' | 'resource' | 'category',
+  type: "folder" | "resource" | "category",
   t: TFunction,
   length: number,
 ): Announcements => {
@@ -95,19 +93,16 @@ export const makeDndTranslations = (
   };
 };
 
-export const sharedFolderLink = (id: string) =>
-  `${config.ndlaFrontendDomain}/folder/${id}`;
+export const sharedFolderLink = (id: string) => `${config.ndlaFrontendDomain}/folder/${id}`;
 
 export const sharedFolderLinkInternal = (id: string) => `/folder/${id}`;
 
 export const previewLink = (id: string) => `/minndla/folders/preview/${id}`;
 
-export const copyFolderSharingLink = (id: string) =>
-  window.navigator.clipboard.writeText(sharedFolderLink(id));
+export const copyFolderSharingLink = (id: string) => window.navigator.clipboard.writeText(sharedFolderLink(id));
 
 export interface withRole {
   role: string;
 }
 
-export const isStudent = (user: withRole | undefined) =>
-  user?.role === 'student';
+export const isStudent = (user: withRole | undefined) => user?.role === "student";

@@ -6,46 +6,41 @@
  *
  */
 
-import { GraphQLError } from 'graphql';
-import { TFunction } from 'i18next';
-import { useContext, useEffect, useMemo } from 'react';
-import { Helmet } from 'react-helmet-async';
-import { useTranslation } from 'react-i18next';
-import { gql } from '@apollo/client';
-import { DynamicComponents } from '@ndla/article-converter';
-import { useTracker } from '@ndla/tracker';
-import { OneColumn, LayoutItem, constants } from '@ndla/ui';
-import ArticleErrorMessage from './components/ArticleErrorMessage';
-import ArticleHero from './components/ArticleHero';
-import { RedirectExternal, Status } from '../../components';
-import Article from '../../components/Article';
-import { AuthContext } from '../../components/AuthenticationContext';
-import AddEmbedToFolder from '../../components/MyNdla/AddEmbedToFolder';
-import SocialMediaMetadata from '../../components/SocialMediaMetadata';
-import config from '../../config';
-import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from '../../constants';
+import { GraphQLError } from "graphql";
+import { TFunction } from "i18next";
+import { useContext, useEffect, useMemo } from "react";
+import { Helmet } from "react-helmet-async";
+import { useTranslation } from "react-i18next";
+import { gql } from "@apollo/client";
+import { DynamicComponents } from "@ndla/article-converter";
+import { useTracker } from "@ndla/tracker";
+import { OneColumn, LayoutItem, constants } from "@ndla/ui";
+import ArticleErrorMessage from "./components/ArticleErrorMessage";
+import ArticleHero from "./components/ArticleHero";
+import { RedirectExternal, Status } from "../../components";
+import Article from "../../components/Article";
+import { AuthContext } from "../../components/AuthenticationContext";
+import AddEmbedToFolder from "../../components/MyNdla/AddEmbedToFolder";
+import SocialMediaMetadata from "../../components/SocialMediaMetadata";
+import config from "../../config";
+import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from "../../constants";
 import {
   GQLArticlePage_ResourceFragment,
   GQLArticlePage_ResourceTypeFragment,
   GQLArticlePage_SubjectFragment,
   GQLArticlePage_TopicFragment,
   GQLArticlePage_TopicPathFragment,
-} from '../../graphqlTypes';
-import { toBreadcrumbItems } from '../../routeHelpers';
-import { getArticleProps } from '../../util/getArticleProps';
-import { getArticleScripts } from '../../util/getArticleScripts';
-import { getContentType, isHeroContentType } from '../../util/getContentType';
-import getStructuredDataFromArticle, {
-  structuredArticleDataFragment,
-} from '../../util/getStructuredDataFromArticle';
-import { htmlTitle } from '../../util/titleHelper';
-import { getAllDimensions } from '../../util/trackingUtil';
-import { transformArticle } from '../../util/transformArticle';
-import {
-  isLearningPathResource,
-  getLearningPathUrlFromResource,
-} from '../Resources/resourceHelpers';
-import Resources from '../Resources/Resources';
+} from "../../graphqlTypes";
+import { toBreadcrumbItems } from "../../routeHelpers";
+import { getArticleProps } from "../../util/getArticleProps";
+import { getArticleScripts } from "../../util/getArticleScripts";
+import { getContentType, isHeroContentType } from "../../util/getContentType";
+import getStructuredDataFromArticle, { structuredArticleDataFragment } from "../../util/getStructuredDataFromArticle";
+import { htmlTitle } from "../../util/titleHelper";
+import { getAllDimensions } from "../../util/trackingUtil";
+import { transformArticle } from "../../util/transformArticle";
+import { isLearningPathResource, getLearningPathUrlFromResource } from "../Resources/resourceHelpers";
+import Resources from "../Resources/Resources";
 
 interface Props {
   resource?: GQLArticlePage_ResourceFragment;
@@ -97,16 +92,7 @@ const ArticlePage = ({
         title: getDocumentTitle(t, resource, subject),
       });
     }
-  }, [
-    authContextLoaded,
-    loading,
-    resource,
-    subject,
-    t,
-    topicPath,
-    trackPageView,
-    user,
-  ]);
+  }, [authContextLoaded, loading, resource, subject, t, topicPath, trackPageView, user]);
 
   const [article, scripts] = useMemo(() => {
     if (!resource?.article) return [];
@@ -122,7 +108,7 @@ const ArticlePage = ({
   }, [subject?.id, resource?.article, i18n.language])!;
 
   useEffect(() => {
-    if (window.MathJax && typeof window.MathJax.typeset === 'function') {
+    if (window.MathJax && typeof window.MathJax.typeset === "function") {
       try {
         window.MathJax.typeset();
       } catch (err) {
@@ -140,40 +126,26 @@ const ArticlePage = ({
     );
   }
   if (!resource?.article || !article) {
-    const error = errors?.find((e) => e.path?.includes('resource'));
+    const error = errors?.find((e) => e.path?.includes("resource"));
     return (
       <div>
         <ArticleErrorMessage
           //@ts-ignore
           status={error?.status}
         >
-          {topic && (
-            <Resources
-              topic={topic}
-              resourceTypes={resourceTypes}
-              headingType="h2"
-              subHeadingType="h3"
-            />
-          )}
+          {topic && <Resources topic={topic} resourceTypes={resourceTypes} headingType="h2" subHeadingType="h3" />}
         </ArticleErrorMessage>
       </div>
     );
   }
 
   const contentType = resource ? getContentType(resource) : undefined;
-  const resourceType =
-    contentType && isHeroContentType(contentType) ? contentType : undefined;
+  const resourceType = contentType && isHeroContentType(contentType) ? contentType : undefined;
 
-  const copyPageUrlLink = topic
-    ? `${subjectPageUrl}${topic.path}/${resource.id.replace('urn:', '')}`
-    : undefined;
+  const copyPageUrlLink = topic ? `${subjectPageUrl}${topic.path}/${resource.id.replace("urn:", "")}` : undefined;
   const printUrl = `${subjectPageUrl}/article-iframe/${i18n.language}/article/${resource.article.id}`;
 
-  const breadcrumbItems = toBreadcrumbItems(t('breadcrumb.toFrontpage'), [
-    subject,
-    ...topicPath,
-    resource,
-  ]);
+  const breadcrumbItems = toBreadcrumbItems(t("breadcrumb.toFrontpage"), [subject, ...topicPath, resource]);
 
   return (
     <main>
@@ -186,13 +158,7 @@ const ArticlePage = ({
       <Helmet>
         <title>{`${getDocumentTitle(t, resource, subject)}`}</title>
         {scripts?.map((script) => (
-          <script
-            key={script.src}
-            src={script.src}
-            type={script.type}
-            async={script.async}
-            defer={script.defer}
-          />
+          <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
         ))}
         {copyPageUrlLink && (
           <link
@@ -202,20 +168,11 @@ const ArticlePage = ({
             title={article.title}
           />
         )}
-        {subject?.metadata.customFields?.[
-          TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY
-        ] === constants.subjectCategories.ARCHIVE_SUBJECTS && (
-          <meta name="robots" content="noindex, nofollow" />
-        )}
+        {subject?.metadata.customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] ===
+          constants.subjectCategories.ARCHIVE_SUBJECTS && <meta name="robots" content="noindex, nofollow" />}
         <meta name="pageid" content={`${article.id}`} />
         <script type="application/ld+json">
-          {JSON.stringify(
-            getStructuredDataFromArticle(
-              resource.article,
-              i18n.language,
-              breadcrumbItems,
-            ),
-          )}
+          {JSON.stringify(getStructuredDataFromArticle(resource.article, i18n.language, breadcrumbItems))}
         </script>
       </Helmet>
       <SocialMediaMetadata
@@ -239,12 +196,7 @@ const ArticlePage = ({
         />
         {topic && (
           <LayoutItem layout="extend">
-            <Resources
-              topic={topic}
-              resourceTypes={resourceTypes}
-              headingType="h2"
-              subHeadingType="h3"
-            />
+            <Resources topic={topic} resourceTypes={resourceTypes} headingType="h2" subHeadingType="h3" />
           </LayoutItem>
         )}
       </OneColumn>
@@ -259,7 +211,7 @@ const getDocumentTitle = (
 ) =>
   htmlTitle(resource?.article?.title, [
     subject?.subjectpage?.about?.title || subject?.name,
-    t('htmlTitles.titleTemplate'),
+    t("htmlTitles.titleTemplate"),
   ]);
 
 export const articlePageFragments = {

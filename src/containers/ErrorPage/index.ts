@@ -6,6 +6,6 @@
  *
  */
 
-import ErrorPage from './ErrorPage';
+import ErrorPage from "./ErrorPage";
 
 export default ErrorPage;

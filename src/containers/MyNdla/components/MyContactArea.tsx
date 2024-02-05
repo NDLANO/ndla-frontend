@@ -6,12 +6,12 @@
  *
  */
 
-import styled from '@emotion/styled';
-import { colors, spacing, breakpoints, mq } from '@ndla/core';
-import { Heading } from '@ndla/typography';
-import UserAvatar from './UserAvatar';
-import { isStudent, withRole } from '../Folders/util';
-import EditProfilePicture from '../MyProfile/components/EditProfilePicture';
+import styled from "@emotion/styled";
+import { colors, spacing, breakpoints, mq } from "@ndla/core";
+import { Heading } from "@ndla/typography";
+import UserAvatar from "./UserAvatar";
+import { isStudent, withRole } from "../Folders/util";
+import EditProfilePicture from "../MyProfile/components/EditProfilePicture";
 
 type UserProp = {
   username?: string;

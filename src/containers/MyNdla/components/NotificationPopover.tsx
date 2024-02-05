@@ -6,16 +6,16 @@
  *
  */
 
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { Root, Trigger, Portal, Content, Arrow } from '@radix-ui/react-popover';
-import { colors, spacing } from '@ndla/core';
-import { SafeLinkButton } from '@ndla/safelink';
-import NotificationBellButton from './NotificationButton';
-import NotificationList from './NotificationList';
-import { toAllNotifications } from '../Arena/utils';
-import { useArenaNotifications } from '../arenaQueries';
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { Root, Trigger, Portal, Content, Arrow } from "@radix-ui/react-popover";
+import { colors, spacing } from "@ndla/core";
+import { SafeLinkButton } from "@ndla/safelink";
+import NotificationBellButton from "./NotificationButton";
+import NotificationList from "./NotificationList";
+import { useTemporaryArenaNotifications } from "../Arena/components/temporaryNodebbHooks";
+import { toAllNotifications } from "../Arena/utils";
 
 const StyledContent = styled(Content)`
   background-color: ${colors.background.default};
@@ -41,7 +41,7 @@ const ShowAllLink = styled(SafeLinkButton)`
 `;
 
 const NotificationPopover = () => {
-  const { notifications } = useArenaNotifications();
+  const { notifications } = useTemporaryArenaNotifications();
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   return (
@@ -52,16 +52,9 @@ const NotificationPopover = () => {
       <Portal>
         <StyledContent align="end">
           <StyledArrow />
-          <NotificationList
-            notifications={notifications?.items}
-            close={() => setOpen(false)}
-          />
-          <ShowAllLink
-            to={toAllNotifications()}
-            onClick={() => setOpen(false)}
-            fontWeight="bold"
-          >
-            {t('myNdla.arena.notification.showAll')}
+          <NotificationList notifications={notifications?.items} close={() => setOpen(false)} />
+          <ShowAllLink to={toAllNotifications()} onClick={() => setOpen(false)} fontWeight="bold">
+            {t("myNdla.arena.notification.showAll")}
           </ShowAllLink>
         </StyledContent>
       </Portal>

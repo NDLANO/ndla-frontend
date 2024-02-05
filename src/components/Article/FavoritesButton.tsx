@@ -6,40 +6,35 @@
  *
  */
 
-import { ButtonHTMLAttributes, forwardRef, useContext, useMemo } from 'react';
-import { FavoriteButton as UIFavoriteButton } from '@ndla/button';
-import { NoSSR } from '@ndla/util';
-import config from '../../config';
-import { useFolders } from '../../containers/MyNdla/folderMutations';
-import { getAllResources } from '../../util/folderHelpers';
-import { AuthContext } from '../AuthenticationContext';
+import { ButtonHTMLAttributes, forwardRef, useContext, useMemo } from "react";
+import { FavoriteButton as UIFavoriteButton } from "@ndla/button";
+import { NoSSR } from "@ndla/util";
+import config from "../../config";
+import { useFolders } from "../../containers/MyNdla/folderMutations";
+import { getAllResources } from "../../util/folderHelpers";
+import { AuthContext } from "../AuthenticationContext";
 
-interface Props
-  extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'size' | 'type'> {
+interface Props extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "size" | "type"> {
   path: string;
 }
 
-const ClientFavorite = forwardRef<HTMLButtonElement, Props>(
-  ({ path, ...rest }, ref) => {
-    const { authenticated } = useContext(AuthContext);
-    const { folders } = useFolders({ skip: !authenticated });
-    const resources = useMemo(() => getAllResources(folders), [folders]);
-    const exists = resources.some((r) => r.path === path);
-    return <UIFavoriteButton isFavorite={exists} {...rest} ref={ref} />;
-  },
-);
+const ClientFavorite = forwardRef<HTMLButtonElement, Props>(({ path, ...rest }, ref) => {
+  const { authenticated } = useContext(AuthContext);
+  const { folders } = useFolders({ skip: !authenticated });
+  const resources = useMemo(() => getAllResources(folders), [folders]);
+  const exists = resources.some((r) => r.path === path);
+  return <UIFavoriteButton isFavorite={exists} {...rest} ref={ref} />;
+});
 
-const FavoriteButton = forwardRef<HTMLButtonElement, Props>(
-  (props: Props, ref) => {
-    if (!config.feideEnabled) {
-      return null;
-    }
-    return (
-      <NoSSR fallback={<UIFavoriteButton />}>
-        <ClientFavorite {...props} ref={ref} />
-      </NoSSR>
-    );
-  },
-);
+const FavoriteButton = forwardRef<HTMLButtonElement, Props>((props: Props, ref) => {
+  if (!config.feideEnabled) {
+    return null;
+  }
+  return (
+    <NoSSR fallback={<UIFavoriteButton />}>
+      <ClientFavorite {...props} ref={ref} />
+    </NoSSR>
+  );
+});
 
 export default FavoriteButton;

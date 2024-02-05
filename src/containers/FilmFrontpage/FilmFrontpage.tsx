@@ -6,32 +6,25 @@
  *
  */
 
-import { TFunction } from 'i18next';
-import { useMemo, useRef, useState } from 'react';
-import { Helmet } from 'react-helmet-async';
-import { withTranslation, WithTranslation } from 'react-i18next';
-import { gql } from '@apollo/client';
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
-import { spacing, utils } from '@ndla/core';
-import { Spinner } from '@ndla/icons';
-import {
-  FilmSlideshow,
-  FilmMovieSearch,
-  AllMoviesAlphabetically,
-} from '@ndla/ui';
+import { TFunction } from "i18next";
+import { useMemo, useRef, useState } from "react";
+import { Helmet } from "react-helmet-async";
+import { withTranslation, WithTranslation } from "react-i18next";
+import { gql } from "@apollo/client";
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
+import { spacing, utils } from "@ndla/core";
+import { Spinner } from "@ndla/icons";
+import { FilmSlideshow, FilmMovieSearch, AllMoviesAlphabetically } from "@ndla/ui";
 
-import AboutNdlaFilm from './AboutNdlaFilm';
-import MovieCategory from './MovieCategory';
-import { MoviesByType } from './NdlaFilmFrontpage';
-import Article from '../../components/Article';
-import SocialMediaMetadata from '../../components/SocialMediaMetadata';
-import {
-  GQLFilmFrontpage_FilmFrontpageFragment,
-  GQLFilmFrontpage_SubjectFragment,
-} from '../../graphqlTypes';
-import { movieFragment } from '../../queries';
-import { htmlTitle } from '../../util/titleHelper';
+import AboutNdlaFilm from "./AboutNdlaFilm";
+import MovieCategory from "./MovieCategory";
+import { MoviesByType } from "./NdlaFilmFrontpage";
+import Article from "../../components/Article";
+import SocialMediaMetadata from "../../components/SocialMediaMetadata";
+import { GQLFilmFrontpage_FilmFrontpageFragment, GQLFilmFrontpage_SubjectFragment } from "../../graphqlTypes";
+import { movieFragment } from "../../queries";
+import { htmlTitle } from "../../util/titleHelper";
 
 const sortAlphabetically = (movies: MoviesByType[], locale: string) =>
   movies.sort((a, b) => {
@@ -59,10 +52,8 @@ interface Props extends WithTranslation {
   skipToContentId?: string;
   loading?: boolean;
 }
-const getDocumentTitle = (
-  t: TFunction,
-  subject: GQLFilmFrontpage_SubjectFragment | undefined,
-) => htmlTitle(subject?.name, [t('htmlTitles.titleTemplate')]);
+const getDocumentTitle = (t: TFunction, subject: GQLFilmFrontpage_SubjectFragment | undefined) =>
+  htmlTitle(subject?.name, [t("htmlTitles.titleTemplate")]);
 
 const FilmFrontpage = ({
   filmFrontpage,
@@ -77,23 +68,17 @@ const FilmFrontpage = ({
   i18n,
   loading,
 }: Props) => {
-  const [resourceTypeSelected, setResourceTypeSelected] = useState<
-    string | undefined
-  >(undefined);
-  const [loadingPlaceholderHeight, setLoadingPlaceholderHeight] =
-    useState<string>('');
+  const [resourceTypeSelected, setResourceTypeSelected] = useState<string | undefined>(undefined);
+  const [loadingPlaceholderHeight, setLoadingPlaceholderHeight] = useState<string>("");
   const movieListRef = useRef<HTMLDivElement | null>(null);
-  const about = filmFrontpage?.about?.find(
-    (about) => about.language === i18n.language,
-  );
+  const about = filmFrontpage?.about?.find((about) => about.language === i18n.language);
 
   const definedSlideshowMovies = useMemo(
     () => filmFrontpage?.slideShow.filter((slideshow) => !!slideshow.metaImage),
     [filmFrontpage?.slideShow],
   );
   const onChangeResourceType = (resourceType?: string) => {
-    const placeholderHeight = `${movieListRef.current?.getBoundingClientRect()
-      .height}px`;
+    const placeholderHeight = `${movieListRef.current?.getBoundingClientRect().height}px`;
 
     if (resourceType) {
       onSelectedMovieByType(resourceType);
@@ -113,18 +98,10 @@ const FilmFrontpage = ({
       <Helmet>
         <title>{pageTitle}</title>
       </Helmet>
-      <SocialMediaMetadata
-        type="website"
-        title={subject?.name ?? ''}
-        description={about?.description}
-      />
-      <StyledH1>{t('ndlaFilm.heading')}</StyledH1>
+      <SocialMediaMetadata type="website" title={subject?.name ?? ""} description={about?.description} />
+      <StyledH1>{t("ndlaFilm.heading")}</StyledH1>
       <main>
-        {loading ? (
-          <Spinner />
-        ) : definedSlideshowMovies ? (
-          <FilmSlideshow slideshow={definedSlideshowMovies} />
-        ) : null}
+        {loading ? <Spinner /> : definedSlideshowMovies ? <FilmSlideshow slideshow={definedSlideshowMovies} /> : null}
         <FilmMovieSearch
           skipToContentId={skipToContentId}
           topics={subject?.topics ?? []}
@@ -139,9 +116,7 @@ const FilmFrontpage = ({
           `}
         >
           {showingAll ? (
-            <AllMoviesAlphabetically
-              movies={sortAlphabetically(moviesByType, i18n.language)}
-            />
+            <AllMoviesAlphabetically movies={sortAlphabetically(moviesByType, i18n.language)} />
           ) : (
             <MovieCategory
               resourceTypeName={resourceTypeName}
@@ -154,12 +129,7 @@ const FilmFrontpage = ({
             />
           )}
         </div>
-        {about && (
-          <AboutNdlaFilm
-            aboutNDLAVideo={about}
-            article={filmFrontpage?.article}
-          />
-        )}
+        {about && <AboutNdlaFilm aboutNDLAVideo={about} article={filmFrontpage?.article} />}
       </main>
     </>
   );

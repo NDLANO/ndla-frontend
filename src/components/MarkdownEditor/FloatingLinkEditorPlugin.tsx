@@ -22,26 +22,18 @@ import {
   LexicalCommand,
   createCommand,
   LexicalNode,
-} from 'lexical';
-import {
-  Dispatch,
-  KeyboardEvent,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
-import { createPortal } from 'react-dom';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { $isLinkNode, toggleLink, TOGGLE_LINK_COMMAND } from '@lexical/link';
-import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
-import { mergeRegister, $findMatchingParent } from '@lexical/utils';
-import { ButtonV2 } from '@ndla/button';
-import { colors, misc, shadows, spacing, stackOrder } from '@ndla/core';
-import { FieldErrorMessage, FormControl, InputV3, Label } from '@ndla/forms';
-import { getSelectedNode } from './EditorToolbar';
+} from "lexical";
+import { Dispatch, KeyboardEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { $isLinkNode, toggleLink, TOGGLE_LINK_COMMAND } from "@lexical/link";
+import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
+import { mergeRegister, $findMatchingParent } from "@lexical/utils";
+import { ButtonV2 } from "@ndla/button";
+import { colors, misc, shadows, spacing, stackOrder } from "@ndla/core";
+import { FieldErrorMessage, FormControl, InputV3, Label } from "@ndla/forms";
+import { getSelectedNode } from "./EditorToolbar";
 
 const VERTICAL_GAP = 10;
 const HORIZONTAL_OFFSET = 5;
@@ -59,7 +51,7 @@ const FloatingContainer = styled.div`
   border-radius: ${misc.borderRadius};
   padding: ${spacing.small};
   box-shadow: ${shadows.levitate1};
-  &[data-visible='true'] {
+  &[data-visible="true"] {
     display: flex;
     flex-direction: column;
     transform: translate(0, 40px);
@@ -79,7 +71,7 @@ const ButtonWrapper = styled.div`
 `;
 
 const StyledFieldErrorMessage = styled(FieldErrorMessage)`
-  &[data-disabled='true'] {
+  &[data-disabled="true"] {
     color: ${colors.black};
   }
 `;
@@ -94,8 +86,8 @@ export const setFloatingElemPositionForLinkEditor = (
   const scrollerElem = anchorElem.parentElement;
 
   if (targetRect === null || !scrollerElem) {
-    floatingElem.style.opacity = '0';
-    floatingElem.style.transform = 'translate(-10000px, -10000px)';
+    floatingElem.style.opacity = "0";
+    floatingElem.style.transform = "translate(-10000px, -10000px)";
     return;
   }
 
@@ -117,7 +109,7 @@ export const setFloatingElemPositionForLinkEditor = (
   top -= anchorElementRect.top;
   left -= anchorElementRect.left;
 
-  floatingElem.style.opacity = '1';
+  floatingElem.style.opacity = "1";
   floatingElem.style.transform = `translate(${left}px, ${top}px)`;
 };
 
@@ -131,13 +123,13 @@ interface FloatingLinkEditorProps {
 
 type LexicalSelection = RangeSelection | GridSelection | NodeSelection | null;
 
-const SUPPORTED_URL_PROTOCOLS = ['http:', 'https:'];
+const SUPPORTED_URL_PROTOCOLS = ["http:", "https:"];
 
 const sanitizeUrl = (url: string) => {
   try {
     const parsedUrl = new URL(url);
     if (!SUPPORTED_URL_PROTOCOLS.includes(parsedUrl.protocol)) {
-      return 'about:blank';
+      return "about:blank";
     }
   } catch {
     return url;
@@ -145,7 +137,7 @@ const sanitizeUrl = (url: string) => {
   return url;
 };
 
-const VALID_URL_PROTOCOLS = ['http:', 'https:'];
+const VALID_URL_PROTOCOLS = ["http:", "https:"];
 
 const validateUrl = (url: string) => {
   try {
@@ -156,36 +148,29 @@ const validateUrl = (url: string) => {
   }
 };
 
-const FloatingLinkEditor = ({
-  editor,
-  isLink,
-  setIsLink,
-  anchorElement,
-  editorIsFocused,
-}: FloatingLinkEditorProps) => {
+const FloatingLinkEditor = ({ editor, isLink, setIsLink, anchorElement, editorIsFocused }: FloatingLinkEditorProps) => {
   const { t } = useTranslation();
   const editorRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const [linkText, setLinkText] = useState('');
-  const [linkUrl, setLinkUrl] = useState('');
-  const [editedLinkElement, setEditedLinkElement] =
-    useState<LexicalNode | null>(null);
-  const [editedLinkText, setEditedLinkText] = useState('');
-  const [editedLinkUrl, setEditedLinkUrl] = useState('');
+  const [linkText, setLinkText] = useState("");
+  const [linkUrl, setLinkUrl] = useState("");
+  const [editedLinkElement, setEditedLinkElement] = useState<LexicalNode | null>(null);
+  const [editedLinkText, setEditedLinkText] = useState("");
+  const [editedLinkUrl, setEditedLinkUrl] = useState("");
   const [lastSelection, setLastSelection] = useState<LexicalSelection>(null);
   const [open, setOpen] = useState(false);
 
   const urlError = useMemo(() => {
-    if (editedLinkUrl === '') {
-      return t('markdownEditor.link.error.url.empty');
+    if (editedLinkUrl === "") {
+      return t("markdownEditor.link.error.url.empty");
     } else if (!validateUrl(editedLinkUrl)) {
-      return t('markdownEditor.link.error.url.invalid');
+      return t("markdownEditor.link.error.url.invalid");
     } else return undefined;
   }, [editedLinkUrl, t]);
 
   const textError = useMemo(() => {
-    if (editedLinkText === '') {
-      return t('markdownEditor.link.error.text.empty');
+    if (editedLinkText === "") {
+      return t("markdownEditor.link.error.text.empty");
     } else return undefined;
   }, [editedLinkText, t]);
 
@@ -194,10 +179,10 @@ const FloatingLinkEditor = ({
   }, [editedLinkUrl, editedLinkText, linkUrl, linkText]);
 
   const closeLinkWindow = () => {
-    setEditedLinkText('');
-    setEditedLinkUrl('');
-    setLinkText('');
-    setLinkUrl('');
+    setEditedLinkText("");
+    setEditedLinkUrl("");
+    setLinkText("");
+    setLinkUrl("");
     setEditedLinkElement(null);
     setLastSelection(null);
     setOpen(false);
@@ -227,8 +212,8 @@ const FloatingLinkEditor = ({
         setEditedLinkElement(linkNode);
       }
 
-      setLinkUrl(linkUrl ?? '');
-      setLinkText(linkText ?? '');
+      setLinkUrl(linkUrl ?? "");
+      setLinkText(linkText ?? "");
       if (!selection.is(lastSelection)) {
         setOpen(linkUrl);
         if (linkUrl) {
@@ -255,30 +240,22 @@ const FloatingLinkEditor = ({
       rootElement?.contains(nativeSelection.anchorNode) &&
       editor.isEditable()
     ) {
-      const domRect =
-        nativeSelection.focusNode?.parentElement?.getBoundingClientRect();
+      const domRect = nativeSelection.focusNode?.parentElement?.getBoundingClientRect();
       if (domRect) {
         domRect.y += 40;
-        setFloatingElemPositionForLinkEditor(
-          domRect,
-          editorElem,
-          anchorElement,
-        );
+        setFloatingElemPositionForLinkEditor(domRect, editorElem, anchorElement);
       }
       setLastSelection(selection);
-    } else if (
-      !activeElement ||
-      !activeElement.hasAttribute('data-link-input')
-    ) {
+    } else if (!activeElement || !activeElement.hasAttribute("data-link-input")) {
       if (rootElement !== null) {
         setFloatingElemPositionForLinkEditor(null, editorElem, anchorElement);
       }
       setLastSelection(null);
       setOpen(false);
-      setEditedLinkUrl('');
-      setEditedLinkText('');
-      setLinkUrl('');
-      setLinkText('');
+      setEditedLinkUrl("");
+      setEditedLinkText("");
+      setLinkUrl("");
+      setLinkText("");
     }
 
     return true;
@@ -293,17 +270,17 @@ const FloatingLinkEditor = ({
       });
     };
 
-    window.addEventListener('resize', update);
+    window.addEventListener("resize", update);
 
     if (scrollerElem) {
-      scrollerElem.addEventListener('scroll', update);
+      scrollerElem.addEventListener("scroll", update);
     }
 
     return () => {
-      window.removeEventListener('resize', update);
+      window.removeEventListener("resize", update);
 
       if (scrollerElem) {
-        scrollerElem.removeEventListener('scroll', update);
+        scrollerElem.removeEventListener("scroll", update);
       }
     };
   }, [anchorElement.parentElement, editor, updateLinkEditor]);
@@ -322,10 +299,10 @@ const FloatingLinkEditor = ({
           const selection = $getSelection();
           setLastSelection(null);
           setEditedLinkElement(null);
-          setEditedLinkUrl('');
-          setEditedLinkText(selection?.getTextContent() ?? '');
-          setLinkUrl('');
-          setLinkText('');
+          setEditedLinkUrl("");
+          setEditedLinkText(selection?.getTextContent() ?? "");
+          setLinkUrl("");
+          setLinkText("");
           setOpen(true);
           return true;
         },
@@ -355,11 +332,11 @@ const FloatingLinkEditor = ({
   }, [editor, updateLinkEditor, setIsLink, isLink]);
 
   const monitorInputInteraction = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       event.stopPropagation();
       event.preventDefault();
       handleLinkSubmission();
-    } else if (event.key === 'Escape') {
+    } else if (event.key === "Escape") {
       event.preventDefault();
       setOpen(false);
       editor.focus();
@@ -399,7 +376,7 @@ const FloatingLinkEditor = ({
       <InputWrapper>
         <FormControl id="text" isRequired isInvalid={!!textError}>
           <Label margin="none" textStyle="label-small">
-            {t('markdownEditor.link.text')}
+            {t("markdownEditor.link.text")}
           </Label>
           <InputV3
             // eslint-disable-next-line jsx-a11y/no-autofocus
@@ -413,13 +390,11 @@ const FloatingLinkEditor = ({
               monitorInputInteraction(event);
             }}
           />
-          <StyledFieldErrorMessage data-disabled={editedLinkText.length < 1}>
-            {textError}
-          </StyledFieldErrorMessage>
+          <StyledFieldErrorMessage data-disabled={editedLinkText.length < 1}>{textError}</StyledFieldErrorMessage>
         </FormControl>
         <FormControl id="url" isRequired isInvalid={!!urlError}>
           <Label margin="none" textStyle="label-small">
-            {t('markdownEditor.link.url')}
+            {t("markdownEditor.link.url")}
           </Label>
           <InputV3
             name="url"
@@ -433,20 +408,15 @@ const FloatingLinkEditor = ({
               monitorInputInteraction(event);
             }}
           />
-          <StyledFieldErrorMessage data-disabled={editedLinkUrl.length < 1}>
-            {urlError}
-          </StyledFieldErrorMessage>
+          <StyledFieldErrorMessage data-disabled={editedLinkUrl.length < 1}>{urlError}</StyledFieldErrorMessage>
         </FormControl>
       </InputWrapper>
       <ButtonWrapper>
         <ButtonV2 onClick={handleLinkDeletion} disabled={!editedLinkElement}>
-          {t('myNdla.resource.remove')}
+          {t("myNdla.resource.remove")}
         </ButtonV2>
-        <ButtonV2
-          onClick={handleLinkSubmission}
-          disabled={!isDirty || !!urlError}
-        >
-          {t('save')}
+        <ButtonV2 onClick={handleLinkSubmission} disabled={!isDirty || !!urlError}>
+          {t("save")}
         </ButtonV2>
       </ButtonWrapper>
     </FloatingContainer>
@@ -458,10 +428,7 @@ interface Props {
   editorIsFocused: boolean;
 }
 
-export const FloatingLinkEditorPlugin = ({
-  anchorElement,
-  editorIsFocused,
-}: Props) => {
+export const FloatingLinkEditorPlugin = ({ anchorElement, editorIsFocused }: Props) => {
   const [editor] = useLexicalComposerContext();
   const [activeEditor, setActiveEditor] = useState(editor);
   const [isLink, setIsLink] = useState(false);
@@ -498,7 +465,7 @@ export const FloatingLinkEditorPlugin = ({
             const node = getSelectedNode(selection);
             const linkNode = $findMatchingParent(node, $isLinkNode);
             if ($isLinkNode(linkNode) && (payload.metaKey || payload.ctrlKey)) {
-              window.open(linkNode.getURL(), '_blank');
+              window.open(linkNode.getURL(), "_blank");
               return true;
             }
           }

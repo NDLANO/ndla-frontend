@@ -6,15 +6,15 @@
  *
  */
 
-import { memo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
-import { IconButtonV2 } from '@ndla/button';
-import { breakpoints, colors, mq, spacing } from '@ndla/core';
-import { FourlineHamburger, GridListView, List } from '@ndla/icons/action';
-import Tooltip from '@ndla/tooltip';
-import { ViewType } from './FoldersPage';
+import { memo } from "react";
+import { useTranslation } from "react-i18next";
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
+import { IconButtonV2 } from "@ndla/button";
+import { breakpoints, colors, mq, spacing } from "@ndla/core";
+import { FourlineHamburger, GridListView, List } from "@ndla/icons/action";
+import Tooltip from "@ndla/tooltip";
+import { ViewType } from "./FoldersPage";
 
 const StyledDisplayOptionsContainer = styled.div`
   display: flex;
@@ -62,38 +62,38 @@ const ListViewOptions = ({ onTypeChange, type }: Props) => {
   const { t } = useTranslation();
   return (
     <StyledDisplayOptionsContainer data-testid="list-view-options">
-      <Tooltip tooltip={t('myNdla.listView')}>
+      <Tooltip tooltip={t("myNdla.listView")}>
         <StyledIconButton
-          selected={type === 'list'}
+          selected={type === "list"}
           variant="ghost"
           colorTheme="light"
-          onClick={() => onTypeChange('list')}
+          onClick={() => onTypeChange("list")}
           size="small"
-          aria-label={t('myNdla.listView')}
+          aria-label={t("myNdla.listView")}
         >
           <FourlineHamburger />
         </StyledIconButton>
       </Tooltip>
-      <Tooltip tooltip={t('myNdla.detailView')}>
+      <Tooltip tooltip={t("myNdla.detailView")}>
         <StyledIconButton
-          selected={type === 'listLarger'}
+          selected={type === "listLarger"}
           variant="ghost"
           colorTheme="light"
-          onClick={() => onTypeChange('listLarger')}
+          onClick={() => onTypeChange("listLarger")}
           size="small"
-          aria-label={t('myNdla.detailView')}
+          aria-label={t("myNdla.detailView")}
         >
           <List />
         </StyledIconButton>
       </Tooltip>
-      <Tooltip tooltip={t('myNdla.shortView')} css={hiddenOnMobileStyle}>
+      <Tooltip tooltip={t("myNdla.shortView")} css={hiddenOnMobileStyle}>
         <StyledIconButton
-          selected={type === 'block'}
+          selected={type === "block"}
           variant="ghost"
           colorTheme="light"
-          onClick={() => onTypeChange('block')}
+          onClick={() => onTypeChange("block")}
           size="small"
-          aria-label={t('myNdla.shortView')}
+          aria-label={t("myNdla.shortView")}
         >
           <GridListView />
         </StyledIconButton>

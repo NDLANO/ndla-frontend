@@ -6,23 +6,20 @@
  *
  */
 
-import { useContext } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Navigate, useParams } from 'react-router-dom';
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
-import { Spinner } from '@ndla/icons';
-import { Heading } from '@ndla/typography';
-import {
-  useArenaTopicsByUser,
-  useArenaUser,
-} from './Arena/components/temporaryNodebbHooks';
-import TopicCard from './Arena/components/TopicCard';
-import UserProfileAdministration from './Arena/components/UserProfileAdministration';
-import MyContactArea from './components/MyContactArea';
-import MyNdlaBreadcrumb from './components/MyNdlaBreadcrumb';
-import MyNdlaPageWrapper from './components/MyNdlaPageWrapper';
-import { AuthContext } from '../../components/AuthenticationContext';
+import { useContext } from "react";
+import { useTranslation } from "react-i18next";
+import { Navigate, useParams } from "react-router-dom";
+import styled from "@emotion/styled";
+import { spacing } from "@ndla/core";
+import { Spinner } from "@ndla/icons";
+import { Heading } from "@ndla/typography";
+import { useArenaTopicsByUser, useArenaUser } from "./Arena/components/temporaryNodebbHooks";
+import TopicCard from "./Arena/components/TopicCard";
+import UserProfileAdministration from "./Arena/components/UserProfileAdministration";
+import MyContactArea from "./components/MyContactArea";
+import MyNdlaBreadcrumb from "./components/MyNdlaBreadcrumb";
+import MyNdlaPageWrapper from "./components/MyNdlaPageWrapper";
+import { AuthContext } from "../../components/AuthenticationContext";
 
 const BreadcrumbWrapper = styled.div`
   padding-top: ${spacing.normal};
@@ -45,10 +42,7 @@ const ArenaUserPage = () => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const { username } = useParams();
   const { arenaUser, loading: userLoading } = useArenaUser(username);
-  const { arenaTopicsByUser, loading } = useArenaTopicsByUser(
-    arenaUser?.id,
-    arenaUser?.slug,
-  );
+  const { arenaTopicsByUser, loading } = useArenaTopicsByUser(arenaUser?.id, arenaUser?.slug);
 
   if (loading || userLoading || !authContextLoaded) {
     return <Spinner />;
@@ -66,8 +60,8 @@ const ArenaUserPage = () => {
             username
               ? [
                   {
-                    name: arenaUser?.displayName ?? '',
-                    id: arenaUser?.id?.toString() ?? '',
+                    name: arenaUser?.displayName ?? "",
+                    id: arenaUser?.id?.toString() ?? "",
                   },
                 ]
               : []
@@ -85,7 +79,7 @@ const ArenaUserPage = () => {
         />
       </MyContactAreaWrapper>
       <Heading element="h2" headingStyle="h2" margin="normal">
-        {`${t('myNdla.arena.topicsBy')} ${arenaUser?.displayName}`}
+        {`${t("myNdla.arena.topicsBy")} ${arenaUser?.displayName}`}
       </Heading>
       <StyledUlWrapper>
         {arenaTopicsByUser?.items?.map((topic) => (

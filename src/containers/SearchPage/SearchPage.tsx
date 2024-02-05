@@ -6,24 +6,21 @@
  *
  */
 
-import queryString from 'query-string';
-import { useContext, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { HelmetWithTracker, useTracker } from '@ndla/tracker';
-import { ContentPlaceholder, OneColumn } from '@ndla/ui';
+import queryString from "query-string";
+import { useContext, useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { useLocation, useNavigate } from "react-router-dom";
+import { HelmetWithTracker, useTracker } from "@ndla/tracker";
+import { ContentPlaceholder, OneColumn } from "@ndla/ui";
 
-import {
-  converSearchStringToObject,
-  convertSearchParam,
-} from './searchHelpers';
-import SearchInnerPage from './SearchInnerPage';
-import { AuthContext } from '../../components/AuthenticationContext';
-import { GQLSearchPageQuery } from '../../graphqlTypes';
-import { searchPageQuery } from '../../queries';
-import { useGraphQuery } from '../../util/runQueries';
-import { searchSubjects } from '../../util/searchHelpers';
-import { getAllDimensions } from '../../util/trackingUtil';
+import { converSearchStringToObject, convertSearchParam } from "./searchHelpers";
+import SearchInnerPage from "./SearchInnerPage";
+import { AuthContext } from "../../components/AuthenticationContext";
+import { GQLSearchPageQuery } from "../../graphqlTypes";
+import { searchPageQuery } from "../../queries";
+import { useGraphQuery } from "../../util/runQueries";
+import { searchSubjects } from "../../util/searchHelpers";
+import { getAllDimensions } from "../../util/trackingUtil";
 
 const getStateSearchParams = (searchParams: Record<string, any>) => {
   const stateSearchParams: Record<string, any> = {};
@@ -46,7 +43,7 @@ const SearchPage = () => {
   useEffect(() => {
     if (!loading && authContextLoaded) {
       trackPageView({
-        title: t('htmlTitles.searchPage'),
+        title: t("htmlTitles.searchPage"),
         dimensions: getAllDimensions({ user }),
       });
     }
@@ -60,7 +57,7 @@ const SearchPage = () => {
 
   const handleSearchParamsChange = (searchParams: Record<string, any>) => {
     navigate({
-      pathname: '/search',
+      pathname: "/search",
       search: queryString.stringify({
         ...queryString.parse(location.search),
         ...getStateSearchParams(searchParams),
@@ -70,14 +67,14 @@ const SearchPage = () => {
 
   return (
     <>
-      <HelmetWithTracker title={t('htmlTitles.searchPage')} />
+      <HelmetWithTracker title={t("htmlTitles.searchPage")} />
       <OneColumn cssModifier="clear-desktop" wide>
         <SearchInnerPage
           handleSearchParamsChange={handleSearchParamsChange}
           query={searchParams.query}
           subjectIds={searchParams.subjects}
-          selectedFilters={searchParams.selectedFilters?.split(',') ?? []}
-          activeSubFilters={searchParams.activeSubFilters?.split(',') ?? []}
+          selectedFilters={searchParams.selectedFilters?.split(",") ?? []}
+          activeSubFilters={searchParams.activeSubFilters?.split(",") ?? []}
           subjectItems={subjectItems}
           subjects={data?.subjects}
           resourceTypes={data?.resourceTypes}

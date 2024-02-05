@@ -6,11 +6,11 @@
  *
  */
 
-import { ReactNode } from 'react';
-import styled from '@emotion/styled';
-import { colors, spacing, breakpoints, mq, misc } from '@ndla/core';
-import SafeLink from '@ndla/safelink';
-import { Text } from '@ndla/typography';
+import { ReactNode } from "react";
+import styled from "@emotion/styled";
+import { colors, spacing, breakpoints, mq, misc } from "@ndla/core";
+import SafeLink from "@ndla/safelink";
+import { Text } from "@ndla/typography";
 
 interface Props {
   to: string;
@@ -31,14 +31,14 @@ const StyledSafelink = styled(SafeLink)`
   border-radius: ${misc.borderRadius};
   box-shadow: none;
 
-  [data-hover-icon=''] {
+  [data-hover-icon=""] {
     display: none;
   }
 
   &:hover,
   &:focus-within {
     background-color: ${colors.background.lightBlue};
-    [data-name='hover'] {
+    [data-name="hover"] {
       text-decoration: none;
     }
   }
@@ -46,7 +46,7 @@ const StyledSafelink = styled(SafeLink)`
   ${mq.range({ from: breakpoints.mobileWide })} {
     &:hover,
     &:focus-within {
-      [data-hover-icon=''] {
+      [data-hover-icon=""] {
         display: block;
       }
     }
@@ -97,19 +97,10 @@ const AdminNavLink = ({ to, title, subText, rightText, icon }: Props) => {
         {icon}
         <SpacingContainer>
           <div>
-            <StyledHeader
-              element="label"
-              textStyle="label-small"
-              margin="none"
-              data-name="hover"
-            >
+            <StyledHeader element="label" textStyle="label-small" margin="none" data-name="hover">
               {title}
             </StyledHeader>
-            <StyledDescriptionText
-              element="p"
-              textStyle="meta-text-small"
-              margin="none"
-            >
+            <StyledDescriptionText element="p" textStyle="meta-text-small" margin="none">
               {subText}
             </StyledDescriptionText>
           </div>

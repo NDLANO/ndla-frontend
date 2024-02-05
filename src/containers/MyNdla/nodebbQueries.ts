@@ -6,7 +6,8 @@
  *
  */
 
-import { QueryHookOptions, gql } from '@apollo/client';
+import { QueryHookOptions, gql } from "@apollo/client";
+import config from "../../config";
 import {
   GQLArenaNotificationsQuery,
   GQLArenaUserQuery,
@@ -19,8 +20,8 @@ import {
   GQLArenaUserQueryVariables,
   GQLArenaRecentTopicsQuery,
   GQLArenaPageQueryVariables,
-} from '../../graphqlTypes';
-import { useGraphQuery } from '../../util/runQueries';
+} from "../../graphqlTypes";
+import { useGraphQuery } from "../../util/runQueries";
 
 const arenaUserFragment = gql`
   fragment ArenaUser on ArenaUser {
@@ -147,13 +148,8 @@ export const arenaTopicsByUserQuery = gql`
   ${arenaTopicFragment}
 `;
 
-export const useArenaUser = (
-  options: QueryHookOptions<GQLArenaUserQuery, GQLArenaUserQueryVariables>,
-) => {
-  const { data, loading } = useGraphQuery<
-    GQLArenaUserQuery,
-    GQLArenaUserQueryVariables
-  >(arenaUserQuery, options);
+export const useArenaUser = (options: QueryHookOptions<GQLArenaUserQuery, GQLArenaUserQueryVariables>) => {
+  const { data, loading } = useGraphQuery<GQLArenaUserQuery, GQLArenaUserQueryVariables>(arenaUserQuery, options);
   return { arenaUser: data?.arenaUser, loading };
 };
 
@@ -166,29 +162,17 @@ const arenaRecentTopics = gql`
   ${arenaTopicFragment}
 `;
 
-export const useArenaCategories = (
-  options: QueryHookOptions<GQLArenaPageQuery, GQLArenaPageQueryVariables>,
-) => {
+export const useArenaCategories = (options: QueryHookOptions<GQLArenaPageQuery, GQLArenaPageQueryVariables>) => {
   const { data, loading, error } = useGraphQuery(arenaCategoriesQuery, options);
   return { arenaCategories: data?.arenaCategories, loading, error };
 };
 
-export const useArenaCategory = (
-  options: QueryHookOptions<
-    GQLArenaCategoryQuery,
-    GQLArenaCategoryQueryVariables
-  >,
-) => {
+export const useArenaCategory = (options: QueryHookOptions<GQLArenaCategoryQuery, GQLArenaCategoryQueryVariables>) => {
   const { data, loading, error } = useGraphQuery(arenaCategoryQuery, options);
   return { arenaCategory: data?.arenaCategory, loading, error };
 };
 
-export const useArenaTopic = (
-  options: QueryHookOptions<
-    GQLArenaTopicByIdQuery,
-    GQLArenaTopicByIdQueryVariables
-  >,
-) => {
+export const useArenaTopic = (options: QueryHookOptions<GQLArenaTopicByIdQuery, GQLArenaTopicByIdQueryVariables>) => {
   const { data, loading, error } = useGraphQuery(arenaTopicById, options);
   return { arenaTopic: data?.arenaTopic, loading, error };
 };
@@ -225,40 +209,27 @@ export const arenaNotificationQuery = gql`
   ${arenaNotificationFragment}
 `;
 
-export const useArenaNotifications = (
-  options?: QueryHookOptions<GQLArenaNotificationsQuery>,
-) => {
-  const { data, refetch } = useGraphQuery<GQLArenaNotificationsQuery>(
-    arenaNotificationQuery,
-    {
-      ...options,
-      pollInterval: 60000,
-      ssr: false,
-    },
-  );
+export const useArenaNotifications = (options?: QueryHookOptions<GQLArenaNotificationsQuery>) => {
+  const { data, refetch, loading } = useGraphQuery<GQLArenaNotificationsQuery>(arenaNotificationQuery, {
+    ...options,
+    pollInterval: 60000,
+    ssr: false,
+    skip: !config.enableNodeBB,
+  });
   return {
     notifications: data?.arenaNotifications,
     refetch,
+    loading,
   };
 };
 
-export const useArenaTopicsByUser = (
-  options: QueryHookOptions<GQLArenaTopicsByUserQuery>,
-) => {
-  const { data, loading, error } = useGraphQuery<GQLArenaTopicsByUserQuery>(
-    arenaTopicsByUserQuery,
-    options,
-  );
+export const useArenaTopicsByUser = (options: QueryHookOptions<GQLArenaTopicsByUserQuery>) => {
+  const { data, loading, error } = useGraphQuery<GQLArenaTopicsByUserQuery>(arenaTopicsByUserQuery, options);
   return { arenaTopicsByUser: data?.arenaTopicsByUser, loading, error };
 };
 
-export const useRecentTopics = (
-  options?: QueryHookOptions<GQLArenaRecentTopicsQuery>,
-) => {
-  const { data, ...rest } = useGraphQuery<GQLArenaRecentTopicsQuery>(
-    arenaRecentTopics,
-    options,
-  );
+export const useRecentTopics = (options?: QueryHookOptions<GQLArenaRecentTopicsQuery>) => {
+  const { data, ...rest } = useGraphQuery<GQLArenaRecentTopicsQuery>(arenaRecentTopics, options);
   return {
     data: data?.arenaRecentTopics,
     ...rest,

@@ -6,23 +6,23 @@
  *
  */
 
-import parse from 'html-react-parser';
-import { useContext, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Navigate } from 'react-router-dom';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { spacing } from '@ndla/core';
-import { Spinner } from '@ndla/icons';
-import { SafeLinkButton } from '@ndla/safelink';
-import { HelmetWithTracker, useTracker } from '@ndla/tracker';
-import { Heading, Text } from '@ndla/typography';
-import SortableArenaCards from './components/SortableArenaCards';
-import { useArenaCategories } from './components/temporaryNodebbHooks';
-import { AuthContext } from '../../../components/AuthenticationContext';
-import { SKIP_TO_CONTENT_ID } from '../../../constants';
-import { getAllDimensions } from '../../../util/trackingUtil';
-import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
+import parse from "html-react-parser";
+import { useContext, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Navigate } from "react-router-dom";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { spacing } from "@ndla/core";
+import { Spinner } from "@ndla/icons";
+import { SafeLinkButton } from "@ndla/safelink";
+import { HelmetWithTracker, useTracker } from "@ndla/tracker";
+import { Heading, Text } from "@ndla/typography";
+import SortableArenaCards from "./components/SortableArenaCards";
+import { useArenaCategories } from "./components/temporaryNodebbHooks";
+import { AuthContext } from "../../../components/AuthenticationContext";
+import { SKIP_TO_CONTENT_ID } from "../../../constants";
+import { getAllDimensions } from "../../../util/trackingUtil";
+import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 
 const StyledContainer = styled.div`
   display: flex;
@@ -47,7 +47,7 @@ const ArenaPage = () => {
   useEffect(() => {
     if (!authContextLoaded || !user?.arenaEnabled) return;
     trackPageView({
-      title: t('htmlTitles.arenaPage'),
+      title: t("htmlTitles.arenaPage"),
       dimensions: getAllDimensions({ user }),
     });
   }, [authContextLoaded, t, trackPageView, user]);
@@ -60,46 +60,33 @@ const ArenaPage = () => {
 
   return (
     <MyNdlaPageWrapper>
-      <HelmetWithTracker title={t('htmlTitles.arenaPage')} />
-      <Heading
-        element="h1"
-        id={SKIP_TO_CONTENT_ID}
-        headingStyle="h1-resource"
-        margin="small"
-      >
-        {t('myNdla.arena.title')}
+      <HelmetWithTracker title={t("htmlTitles.arenaPage")} />
+      <Heading element="h1" id={SKIP_TO_CONTENT_ID} headingStyle="h1-resource" margin="small">
+        {t("myNdla.arena.title")}
       </Heading>
       <Text element="p" textStyle="content-alt" margin="none">
-        {parse(t('myNdla.arena.notification.description'))}
+        {parse(t("myNdla.arena.notification.description"))}
       </Text>
       <StyledContainer>
         <Heading element="h2" headingStyle="h2" margin="none">
-          {t('myNdla.arena.category.title')}
+          {t("myNdla.arena.category.title")}
         </Heading>
         {user.isModerator && (
           <ModeratorButtonWrapper>
             <ButtonV2 onClick={() => setIsEditing((prev) => !prev)}>
-              {isEditing
-                ? t('myNdla.arena.admin.category.stopEditing')
-                : t('myNdla.arena.admin.category.startEditing')}
+              {isEditing ? t("myNdla.arena.admin.category.stopEditing") : t("myNdla.arena.admin.category.startEditing")}
             </ButtonV2>
-            <SafeLinkButton to="category/new">
-              {t('myNdla.arena.admin.category.form.newCategory')}
-            </SafeLinkButton>
+            <SafeLinkButton to="category/new">{t("myNdla.arena.admin.category.form.newCategory")}</SafeLinkButton>
           </ModeratorButtonWrapper>
         )}
       </StyledContainer>
       {loading ? (
         <Spinner />
       ) : (
-        <SortableArenaCards
-          isEditing={isEditing}
-          categories={arenaCategories ?? []}
-          user={user}
-        />
+        <SortableArenaCards isEditing={isEditing} categories={arenaCategories ?? []} user={user} />
       )}
       <Text element="p" textStyle="meta-text-small" margin="none">
-        {t('myNdla.arena.bottomText')}
+        {t("myNdla.arena.bottomText")}
       </Text>
     </MyNdlaPageWrapper>
   );

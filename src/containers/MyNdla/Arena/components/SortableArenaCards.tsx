@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Reference, useApolloClient } from '@apollo/client';
+import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Reference, useApolloClient } from "@apollo/client";
 import {
   closestCenter,
   DndContext,
@@ -16,24 +16,21 @@ import {
   PointerSensor,
   useSensor,
   useSensors,
-} from '@dnd-kit/core';
-import {
-  restrictToVerticalAxis,
-  restrictToParentElement,
-} from '@dnd-kit/modifiers';
+} from "@dnd-kit/core";
+import { restrictToVerticalAxis, restrictToParentElement } from "@dnd-kit/modifiers";
 import {
   SortableContext,
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
   arrayMove,
-} from '@dnd-kit/sortable';
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
-import ArenaCard from './ArenaCard';
-import { MyNDLAUserType } from '../../../../components/AuthenticationContext';
-import { GQLArenaCategoryV2Fragment } from '../../../../graphqlTypes';
-import { useArenaSortCategories } from '../../arenaMutations';
-import { makeDndTranslations } from '../../Folders/util';
+} from "@dnd-kit/sortable";
+import styled from "@emotion/styled";
+import { spacing } from "@ndla/core";
+import ArenaCard from "./ArenaCard";
+import { MyNDLAUserType } from "../../../../components/AuthenticationContext";
+import { GQLArenaCategoryV2Fragment } from "../../../../graphqlTypes";
+import { useArenaSortCategories } from "../../arenaMutations";
+import { makeDndTranslations } from "../../Folders/util";
 
 interface Props {
   categories: GQLArenaCategoryV2Fragment[];
@@ -55,20 +52,13 @@ const SortableArenaCards = ({ categories, isEditing, user }: Props) => {
   );
   const { t } = useTranslation();
 
-  const announcements = useMemo(
-    () => makeDndTranslations('category', t, categories.length),
-    [categories.length, t],
-  );
+  const announcements = useMemo(() => makeDndTranslations("category", t, categories.length), [categories.length, t]);
 
   const sortCategories = useArenaSortCategories();
 
   const updateCache = (newOrder: number[]) => {
-    const sortCacheModifierFunction = <T extends Reference>(
-      existing: readonly T[],
-    ): T[] => {
-      return newOrder.map(
-        (id) => existing.find((ef) => ef.__ref === `ArenaCategoryV2:${id}`)!,
-      );
+    const sortCacheModifierFunction = <T extends Reference>(existing: readonly T[]): T[] => {
+      return newOrder.map((id) => existing.find((ef) => ef.__ref === `ArenaCategoryV2:${id}`)!);
     };
 
     client.cache.modify({
