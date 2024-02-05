@@ -141,7 +141,7 @@ const NotificationList = ({ notifications, close }: Props) => {
                   <StyledKeyboardReturn />
                   <div>
                     <StyledText textStyle="meta-text-medium" margin="none">
-                      {`${notification.post?.owner?.displayName} `}
+                      {`${notification.post?.owner?.displayName ?? t("user.deletedUser")} `}
                       <Trans
                         i18nKey={"myNdla.arena.notification.commentedOn"}
                         tOptions={{ title: notification.topicTitle }}
