@@ -15,7 +15,6 @@ export default defineConfig({
   testDir: './e2e',
   fullyParallel: true,
   maxFailures: process.env.CI ? 10 : undefined,
-  repeatEach: 10,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   retries: 2,
@@ -49,8 +48,8 @@ export default defineConfig({
   // Automatically run against prod-build on CI for speed and accuracy.
   webServer: process.env.CI
     ? {
-      command: 'cross-env NODE_ENV=production node build/server',
-      port: 3000,
-    }
+        command: 'cross-env NODE_ENV=production node build/server',
+        port: 3000,
+      }
     : undefined,
 });
