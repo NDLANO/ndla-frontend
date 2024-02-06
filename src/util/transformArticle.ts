@@ -6,18 +6,15 @@
  *
  */
 
-import { ReactNode } from 'react';
-import { transform, TransformOptions } from '@ndla/article-converter';
-import formatDate from './formatDate';
-import { GQLArticle } from '../graphqlTypes';
-import { LocaleType } from '../interfaces';
+import { ReactNode } from "react";
+import { transform, TransformOptions } from "@ndla/article-converter";
+import formatDate from "./formatDate";
+import { GQLArticle } from "../graphqlTypes";
+import { LocaleType } from "../interfaces";
 
-function getContent(
-  content: string,
-  { path, isOembed, subject, components, articleLanguage }: TransformOptions,
-) {
+function getContent(content: string, { path, isOembed, subject, components, articleLanguage }: TransformOptions) {
   return transform(content, {
-    frontendDomain: '',
+    frontendDomain: "",
     path,
     isOembed,
     subject,
@@ -31,20 +28,10 @@ function getContent(
 
 export type BaseArticle = Pick<
   GQLArticle,
-  | 'content'
-  | 'introduction'
-  | 'metaData'
-  | 'created'
-  | 'updated'
-  | 'published'
-  | 'requiredLibraries'
-  | 'revisionDate'
+  "content" | "introduction" | "metaData" | "created" | "updated" | "published" | "requiredLibraries" | "revisionDate"
 >;
 
-export type TransformedBaseArticle<T extends BaseArticle> = Omit<
-  T,
-  'content' | 'introduction'
-> & {
+export type TransformedBaseArticle<T extends BaseArticle> = Omit<T, "content" | "introduction"> & {
   content: ReactNode;
   introduction: ReactNode;
 };
@@ -53,26 +40,23 @@ export const transformArticle = <T extends BaseArticle>(
   locale: LocaleType,
   options?: TransformOptions,
 ): TransformedBaseArticle<T> => {
-  const updatedOptions =
-    options?.articleLanguage === 'nb'
-      ? { ...options, articleLanguage: 'no' }
-      : options;
+  const updatedOptions = options?.articleLanguage === "nb" ? { ...options, articleLanguage: "no" } : options;
   const content = getContent(article.content, updatedOptions ?? {});
   const footNotes = article?.metaData?.footnotes ?? [];
   return {
     ...article,
     content,
-    introduction: transform(article.introduction ?? '', {}),
+    introduction: transform(article.introduction ?? "", {}),
     created: formatDate(article.created, locale),
     updated: formatDate(article.updated, locale),
     published: formatDate(article.published, locale),
     footNotes,
     requiredLibraries: article.requiredLibraries
       ? article.requiredLibraries.map((lib) => {
-          if (lib?.url.startsWith('http://')) {
+          if (lib?.url.startsWith("http://")) {
             return {
               ...lib,
-              url: lib.url.replace('http://', 'https://'),
+              url: lib.url.replace("http://", "https://"),
             };
           }
           return lib;

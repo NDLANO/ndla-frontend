@@ -6,15 +6,13 @@
  *
  */
 
-import 'isomorphic-unfetch';
+import "isomorphic-unfetch";
 
 /* eslint-disable */
 global.__CLIENT__ = false;
 global.__SERVER__ = true;
 /* eslint-enable */
 
-jest.mock('../style/index.css', () => {});
+jest.mock("../style/index.css", () => {});
 
-global.DEFAULT_TIMEOUT = process.env.DEFAULT_TIMEOUT
-  ? parseInt(process.env.DEFAULT_TIMEOUT, 10)
-  : 250;
+global.DEFAULT_TIMEOUT = process.env.DEFAULT_TIMEOUT ? parseInt(process.env.DEFAULT_TIMEOUT, 10) : 250;

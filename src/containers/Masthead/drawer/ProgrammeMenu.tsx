@@ -6,18 +6,18 @@
  *
  */
 
-import { useEffect, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { gql } from '@apollo/client';
-import styled from '@emotion/styled';
-import { fonts, spacing } from '@ndla/core';
-import BackButton from './BackButton';
-import { useDrawerContext } from './DrawerContext';
-import DrawerMenuItem from './DrawerMenuItem';
-import DrawerPortion, { DrawerList } from './DrawerPortion';
-import useArrowNavigation from './useArrowNavigation';
-import { GQLProgrammeMenu_ProgrammePageFragment } from '../../../graphqlTypes';
-import { toProgramme, useUrnIds } from '../../../routeHelpers';
+import { useEffect, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { gql } from "@apollo/client";
+import styled from "@emotion/styled";
+import { fonts, spacing } from "@ndla/core";
+import BackButton from "./BackButton";
+import { useDrawerContext } from "./DrawerContext";
+import DrawerMenuItem from "./DrawerMenuItem";
+import DrawerPortion, { DrawerList } from "./DrawerPortion";
+import useArrowNavigation from "./useArrowNavigation";
+import { GQLProgrammeMenu_ProgrammePageFragment } from "../../../graphqlTypes";
+import { toProgramme, useUrnIds } from "../../../routeHelpers";
 
 interface Props {
   programmes: GQLProgrammeMenu_ProgrammePageFragment[];
@@ -27,15 +27,11 @@ interface Props {
 
 const StyledTitle = styled.h1`
   margin: 0px;
-  ${fonts.sizes('20px', '24px')};
+  ${fonts.sizes("20px", "24px")};
   padding: ${spacing.normal} 0 ${spacing.normal} 40px;
 `;
 
-const ProgrammeMenu = ({
-  onClose,
-  onCloseMenuPortion,
-  programmes: programmesProp,
-}: Props) => {
+const ProgrammeMenu = ({ onClose, onCloseMenuPortion, programmes: programmesProp }: Props) => {
   const { t } = useTranslation();
   const { programme: urlProgramme } = useUrnIds();
   const { shouldCloseLevel, setLevelClosed } = useDrawerContext();
@@ -65,14 +61,8 @@ const ProgrammeMenu = ({
 
   return (
     <DrawerPortion>
-      <BackButton
-        title={t('masthead.menu.goToMainMenu')}
-        homeButton
-        onGoBack={onCloseMenuPortion}
-      />
-      <StyledTitle aria-hidden={true}>
-        {t('masthead.menuOptions.programme')}
-      </StyledTitle>
+      <BackButton title={t("masthead.menu.goToMainMenu")} homeButton onGoBack={onCloseMenuPortion} />
+      <StyledTitle aria-hidden={true}>{t("masthead.menuOptions.programme")}</StyledTitle>
       <DrawerList id="programme-menu">
         {programmes.map((programme) => (
           <DrawerMenuItem

@@ -6,23 +6,16 @@
  *
  */
 
-import { ReactNode } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { breakpoints, colors, fonts, mq, spacing } from '@ndla/core';
-import { Heading } from '@ndla/typography';
-import { OneColumn } from '@ndla/ui';
-import ResourceBadge from './ResourceBadge';
-import { SKIP_TO_CONTENT_ID } from '../../../constants';
+import { ReactNode } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { breakpoints, colors, fonts, mq, spacing } from "@ndla/core";
+import { Heading } from "@ndla/typography";
+import { OneColumn } from "@ndla/ui";
+import ResourceBadge from "./ResourceBadge";
+import { SKIP_TO_CONTENT_ID } from "../../../constants";
 
-export type EmbedType =
-  | 'video'
-  | 'audio'
-  | 'podcast'
-  | 'image'
-  | 'h5p'
-  | 'concept'
-  | 'gloss';
+export type EmbedType = "video" | "audio" | "podcast" | "image" | "h5p" | "concept" | "gloss";
 
 interface Props {
   children: ReactNode;
@@ -68,14 +61,14 @@ const StyledArticle = styled.article`
     padding: 65px 70px;
   }
 
-  &[data-no-background='false'] {
+  &[data-no-background="false"] {
     margin-top: -144px;
     ${mq.range({ until: breakpoints.tablet })} {
       margin-top: -44px;
     }
   }
 
-  &[data-no-background='true'] {
+  &[data-no-background="true"] {
     border: none;
     padding: 20px 80px;
     ${mq.range({ until: breakpoints.desktop })} {
@@ -96,12 +89,7 @@ const StyledOneColumn = styled(OneColumn)`
   }
 `;
 
-const ResourceEmbedWrapper = ({
-  children,
-  type,
-  title,
-  noBackground = false,
-}: Props) => {
+const ResourceEmbedWrapper = ({ children, type, title, noBackground = false }: Props) => {
   const { t } = useTranslation();
   return (
     <>
@@ -111,19 +99,10 @@ const ResourceEmbedWrapper = ({
           <TitleWrapper>
             <ResourceBadge type={type} />
             <hgroup>
-              <StyledEmbedTypeHeader
-                element="p"
-                headingStyle="list-title"
-                margin="none"
-              >
+              <StyledEmbedTypeHeader element="p" headingStyle="list-title" margin="none">
                 {t(`embed.type.${type}`)}
               </StyledEmbedTypeHeader>
-              <Heading
-                element="h1"
-                headingStyle="h1-resource"
-                id={SKIP_TO_CONTENT_ID}
-                tabIndex={-1}
-              >
+              <Heading element="h1" headingStyle="h1-resource" id={SKIP_TO_CONTENT_ID} tabIndex={-1}>
                 {title}
               </Heading>
             </hgroup>

@@ -12,17 +12,14 @@ import {
   QueryResult,
   TypedDocumentNode,
   useQuery,
-} from '@apollo/client';
+} from "@apollo/client";
 
-export function useGraphQuery<
-  TData extends any = any,
-  TVariables extends OperationVariables = OperationVariables,
->(
+export function useGraphQuery<TData extends any = any, TVariables extends OperationVariables = OperationVariables>(
   query: DocumentNode | TypedDocumentNode<TData, TVariables>,
   options?: QueryHookOptions<TData, TVariables>,
 ): QueryResult<TData, TVariables> {
   return useQuery(query, {
-    errorPolicy: 'all',
+    errorPolicy: "all",
     ssr: true,
     ...options,
   });

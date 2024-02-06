@@ -6,11 +6,11 @@
  *
  */
 
-import styled from '@emotion/styled';
-import { breakpoints, mq } from '@ndla/core';
+import styled from "@emotion/styled";
+import { breakpoints, mq } from "@ndla/core";
 
 export const ClimateIllustration = styled.div`
-  background-image: url('/static/illustrations/climate.svg');
+  background-image: url("/static/illustrations/climate.svg");
   background-repeat: no-repeat;
   background-size: auto 100%;
   background-position: 75% 100%;
@@ -27,7 +27,7 @@ export const ClimateIllustration = styled.div`
 `;
 
 export const PublicHealthIllustration = styled.div`
-  background-image: url('/static/illustrations/public_health.svg');
+  background-image: url("/static/illustrations/public_health.svg");
   background-repeat: no-repeat;
   background-size: auto 100%;
   background-position: 75% 100%;
@@ -44,7 +44,7 @@ export const PublicHealthIllustration = styled.div`
   }
 `;
 export const DemocracyIllustration = styled.div`
-  background-image: url('/static/illustrations/democracy.svg');
+  background-image: url("/static/illustrations/democracy.svg");
   background-repeat: no-repeat;
   background-size: auto 100%;
   background-position: 75% 100%;
@@ -64,7 +64,7 @@ export const DemocracyIllustration = styled.div`
 `;
 
 export const PublicHealthDemocracyIllustration = styled.div`
-  background-image: url('/static/illustrations/public_health_democracy.svg');
+  background-image: url("/static/illustrations/public_health_democracy.svg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: 100% 100%;
@@ -85,7 +85,7 @@ export const PublicHealthDemocracyIllustration = styled.div`
 `;
 
 export const DemocracyClimateIllustration = styled.div`
-  background-image: url('/static/illustrations/democracy_climate.svg');
+  background-image: url("/static/illustrations/democracy_climate.svg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: 100% 100%;
@@ -101,13 +101,13 @@ export const DemocracyClimateIllustration = styled.div`
     background-size: auto 100%;
     height: 178px;
   }
-  ${mq.range({ from: '1120px' })} {
+  ${mq.range({ from: "1120px" })} {
     margin-top: -56px;
   }
 `;
 
 export const PublicHealthClimateIllustration = styled.div`
-  background-image: url('/static/illustrations/public_health_climate.svg');
+  background-image: url("/static/illustrations/public_health_climate.svg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: 100% 100%;
@@ -120,7 +120,7 @@ export const PublicHealthClimateIllustration = styled.div`
   ${mq.range({ from: breakpoints.tabletWide })} {
     height: 128px;
   }
-  ${mq.range({ from: '1050px' })} {
+  ${mq.range({ from: "1050px" })} {
     background-size: auto 100%;
     height: 178px;
     margin-top: -56px;
@@ -128,7 +128,7 @@ export const PublicHealthClimateIllustration = styled.div`
 `;
 
 export const PublicHealthDemocracyClimateIllustration = styled.div`
-  background-image: url('/static/illustrations/public_health_democracy_climate.svg');
+  background-image: url("/static/illustrations/public_health_democracy_climate.svg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: 100% 100%;
@@ -144,7 +144,7 @@ export const PublicHealthDemocracyClimateIllustration = styled.div`
   ${mq.range({ from: breakpoints.tabletWide })} {
     height: 118px;
   }
-  ${mq.range({ from: '900px' })} {
+  ${mq.range({ from: "900px" })} {
     height: 138px;
   }
   ${mq.range({ from: breakpoints.desktop })} {

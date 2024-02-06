@@ -6,19 +6,14 @@
  *
  */
 
-import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import {
-  AccordionRoot,
-  AccordionItem,
-  AccordionHeader,
-  AccordionContent,
-} from '@ndla/accordion';
-import { spacing, breakpoints, mq, colors } from '@ndla/core';
-import { Heading, Text } from '@ndla/typography';
-import { ContentLoader, ProgrammeCard, ProgrammeV2 } from '@ndla/ui';
-import { useUserAgent } from '../../../UserAgentContext';
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { AccordionRoot, AccordionItem, AccordionHeader, AccordionContent } from "@ndla/accordion";
+import { spacing, breakpoints, mq, colors } from "@ndla/core";
+import { Heading, Text } from "@ndla/typography";
+import { ContentLoader, ProgrammeCard, ProgrammeV2 } from "@ndla/ui";
+import { useUserAgent } from "../../../UserAgentContext";
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -44,7 +39,7 @@ const Mobile = styled.div`
 `;
 
 const AllSubjectsPersonIllustration = styled.div`
-  background-image: url('/static/illustrations/all_subjects_person.svg');
+  background-image: url("/static/illustrations/all_subjects_person.svg");
   background-repeat: no-repeat;
   background-size: auto 100%;
   background-position: 100% 100%;
@@ -91,7 +86,7 @@ const StyledLi = styled.li`
   list-style: none;
   padding: 0;
   line-height: unset;
-  &[data-mobile='false'] {
+  &[data-mobile="false"] {
     min-height: 350px;
     min-width: 250px;
     max-height: 350px;
@@ -106,33 +101,9 @@ interface Props {
 const placeholder = (
   <ContentLoader width={1150} height={350}>
     <rect x="0" y="10" rx="3" ry="3" width="250" height="350" key="rect-1-1" />
-    <rect
-      x="274"
-      y="10"
-      rx="3"
-      ry="3"
-      width="250"
-      height="350"
-      key="rect-1-2"
-    />
-    <rect
-      x="548"
-      y="10"
-      rx="3"
-      ry="3"
-      width="250"
-      height="350"
-      key="rect-1-3"
-    />
-    <rect
-      x="812"
-      y="10"
-      rx="3"
-      ry="3"
-      width="250"
-      height="350"
-      key="rect-1-4"
-    />
+    <rect x="274" y="10" rx="3" ry="3" width="250" height="350" key="rect-1-2" />
+    <rect x="548" y="10" rx="3" ry="3" width="250" height="350" key="rect-1-3" />
+    <rect x="812" y="10" rx="3" ry="3" width="250" height="350" key="rect-1-4" />
   </ContentLoader>
 );
 
@@ -162,10 +133,10 @@ const Programmes = ({ programmes, loading }: Props) => {
   return (
     <StyledWrapper>
       <Heading element="h2" headingStyle="h1" serif id="programmes-heading">
-        {t('programmes.header')}
+        {t("programmes.header")}
       </Heading>
       <Description textStyle="content-alt" margin="none">
-        {t('programmes.description')}
+        {t("programmes.description")}
       </Description>
       {selectors?.isMobile ? (
         <Mobile>
@@ -176,7 +147,7 @@ const Programmes = ({ programmes, loading }: Props) => {
             <AccordionItem value="1">
               <StyledAccordionHeader id="accordionHeader">
                 <Text element="span" textStyle="button" margin="none">
-                  {t('programmes.accordionHeader')}
+                  {t("programmes.accordionHeader")}
                 </Text>
               </StyledAccordionHeader>
               <StyledAccordionContent>

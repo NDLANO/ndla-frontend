@@ -5,16 +5,16 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { useCallback } from 'react';
-import { FieldError } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
-import messages from '../messages/messagesNB';
+import { useCallback } from "react";
+import { FieldError } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+import messages from "../messages/messagesNB";
 
-type SupportedFields = keyof (typeof messages)['validation']['fields'];
+type SupportedFields = keyof (typeof messages)["validation"]["fields"];
 
 interface TranslationProps {
   field?: SupportedFields;
-  type: FieldError['type'];
+  type: FieldError["type"];
   vars?: Record<string, any>;
 }
 
@@ -25,7 +25,7 @@ const useValidationTranslation = () => {
 
   const validationT = useCallback(
     (translation: Props | string) => {
-      if (typeof translation === 'string') {
+      if (typeof translation === "string") {
         return internalT(translation);
       } else {
         const { type, field, vars } = translation;

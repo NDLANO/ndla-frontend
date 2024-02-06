@@ -6,24 +6,24 @@
  *
  */
 
-import { useContext, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Navigate, useParams } from 'react-router-dom';
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
-import { Spinner } from '@ndla/icons';
-import { Eye } from '@ndla/icons/editor';
-import { SafeLinkButton } from '@ndla/safelink';
-import { HelmetWithTracker, useTracker } from '@ndla/tracker';
-import { Heading, Text } from '@ndla/typography';
-import { useArenaCategory } from './components/temporaryNodebbHooks';
-import TopicCard from './components/TopicCard';
-import { toArena } from './utils';
-import { AuthContext } from '../../../components/AuthenticationContext';
-import { SKIP_TO_CONTENT_ID } from '../../../constants';
-import { getAllDimensions } from '../../../util/trackingUtil';
-import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
-import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
+import { useContext, useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { Navigate, useParams } from "react-router-dom";
+import styled from "@emotion/styled";
+import { spacing } from "@ndla/core";
+import { Spinner } from "@ndla/icons";
+import { Eye } from "@ndla/icons/editor";
+import { SafeLinkButton } from "@ndla/safelink";
+import { HelmetWithTracker, useTracker } from "@ndla/tracker";
+import { Heading, Text } from "@ndla/typography";
+import { useArenaCategory } from "./components/temporaryNodebbHooks";
+import TopicCard from "./components/TopicCard";
+import { toArena } from "./utils";
+import { AuthContext } from "../../../components/AuthenticationContext";
+import { SKIP_TO_CONTENT_ID } from "../../../constants";
+import { getAllDimensions } from "../../../util/trackingUtil";
+import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
+import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 const BreadcrumbWrapper = styled.div`
   padding-top: ${spacing.normal};
 `;
@@ -77,17 +77,10 @@ const TopicPage = () => {
   useEffect(() => {
     if (!authContextLoaded || !user?.arenaEnabled || !loading) return;
     trackPageView({
-      title: t('htmlTitles.arenaTopicPage', { name: arenaCategory?.title }),
+      title: t("htmlTitles.arenaTopicPage", { name: arenaCategory?.title }),
       dimensions: getAllDimensions({ user }),
     });
-  }, [
-    arenaCategory?.title,
-    authContextLoaded,
-    loading,
-    t,
-    trackPageView,
-    user,
-  ]);
+  }, [arenaCategory?.title, authContextLoaded, loading, t, trackPageView, user]);
 
   if (loading || !authContextLoaded) return <Spinner />;
   if (!user?.arenaEnabled) return <Navigate to="/minndla" />;
@@ -95,31 +88,20 @@ const TopicPage = () => {
 
   return (
     <MyNdlaPageWrapper>
-      <HelmetWithTracker
-        title={t('htmlTitles.arenaTopicPage', { name: arenaCategory?.title })}
-      />
+      <HelmetWithTracker title={t("htmlTitles.arenaTopicPage", { name: arenaCategory?.title })} />
       <BreadcrumbWrapper>
         <MyNdlaBreadcrumb
-          breadcrumbs={
-            categoryId
-              ? [{ name: arenaCategory?.title ?? '', id: categoryId }]
-              : []
-          }
-          page={'arena'}
+          breadcrumbs={categoryId ? [{ name: arenaCategory?.title ?? "", id: categoryId }] : []}
+          page={"arena"}
         />
       </BreadcrumbWrapper>
       <HeaderWrapper>
-        <Heading
-          element="h1"
-          id={SKIP_TO_CONTENT_ID}
-          headingStyle="h1-resource"
-          margin="small"
-        >
+        <Heading element="h1" id={SKIP_TO_CONTENT_ID} headingStyle="h1-resource" margin="small">
           {arenaCategory?.title}
           {user.isModerator && !arenaCategory?.visible && (
             <StyledEye
-              title={t('myNdla.arena.admin.category.notVisible')}
-              aria-label={t('myNdla.arena.admin.category.notVisible')}
+              title={t("myNdla.arena.admin.category.notVisible")}
+              aria-label={t("myNdla.arena.admin.category.notVisible")}
               aria-hidden={false}
             />
           )}
@@ -130,17 +112,11 @@ const TopicPage = () => {
       </Text>
       <StyledContainer>
         <Heading element="h2" headingStyle="h2" margin="none">
-          {t('myNdla.arena.posts.title')}
+          {t("myNdla.arena.posts.title")}
         </Heading>
         <ButtonContainer>
-          {user.isModerator && (
-            <SafeLinkButton to="edit">
-              {t('myNdla.arena.admin.category.edit')}
-            </SafeLinkButton>
-          )}
-          <SafeLinkButton to="topic/new">
-            {t('myNdla.arena.new.topic')}
-          </SafeLinkButton>
+          {user.isModerator && <SafeLinkButton to="edit">{t("myNdla.arena.admin.category.edit")}</SafeLinkButton>}
+          <SafeLinkButton to="topic/new">{t("myNdla.arena.new.topic")}</SafeLinkButton>
         </ButtonContainer>
       </StyledContainer>
       <ListWrapper>

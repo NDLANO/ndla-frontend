@@ -6,9 +6,9 @@
  *
  */
 
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
-import { breakpoints, colors, mq, spacing, spacingUnit } from '@ndla/core';
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
+import { breakpoints, colors, mq, spacing, spacingUnit } from "@ndla/core";
 
 export const MediaListRef = styled.div`
   background: ${colors.white};

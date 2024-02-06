@@ -6,15 +6,15 @@
  *
  */
 
-import { gql } from '@apollo/client';
-import { LearningPathLastStepNavigation } from '@ndla/ui';
-import Resources from '../../containers/Resources/Resources';
+import { gql } from "@apollo/client";
+import { LearningPathLastStepNavigation } from "@ndla/ui";
+import Resources from "../../containers/Resources/Resources";
 import {
   GQLLastLearningpathStepInfo_ResourceTypeDefinitionFragment,
   GQLLastLearningpathStepInfo_SubjectFragment,
   GQLLastLearningpathStepInfo_TopicFragment,
   GQLLastLearningpathStepInfo_TopicPathFragment,
-} from '../../graphqlTypes';
+} from "../../graphqlTypes";
 
 interface Props {
   topic?: GQLLastLearningpathStepInfo_TopicFragment;
@@ -39,17 +39,13 @@ const LastLearningpathStepInfo = ({
   if (!isLastStep) {
     return null;
   }
-  const topicWithPath =
-    topicPath && topic
-      ? topicPath.find((path) => path.id === topic.id)
-      : undefined;
+  const topicWithPath = topicPath && topic ? topicPath.find((path) => path.id === topic.id) : undefined;
 
   const showResources =
     topic &&
     resourceTypes &&
     ((topic.coreResources && topic.coreResources.length > 0) ||
-      (topic.supplementaryResources &&
-        topic.supplementaryResources.length > 0));
+      (topic.supplementaryResources && topic.supplementaryResources.length > 0));
 
   return (
     <LearningPathLastStepNavigation
@@ -68,13 +64,7 @@ const LastLearningpathStepInfo = ({
       }
     >
       {showResources && topic && (
-        <Resources
-          headingType="h2"
-          key="resources"
-          resourceTypes={resourceTypes}
-          topic={topic}
-          subHeadingType="h3"
-        />
+        <Resources headingType="h2" key="resources" resourceTypes={resourceTypes} topic={topic} subHeadingType="h3" />
       )}
     </LearningPathLastStepNavigation>
   );

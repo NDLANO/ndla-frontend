@@ -6,31 +6,19 @@
  *
  */
 
-import { useState } from 'react';
-import { useForm, Controller } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { ButtonV2, LoadingButton } from '@ndla/button';
-import { fonts, spacing } from '@ndla/core';
-import {
-  FormControl,
-  Label,
-  TextAreaV3,
-  RadioButtonGroup,
-  FieldErrorMessage,
-} from '@ndla/forms';
-import {
-  ModalBody,
-  ModalCloseButton,
-  ModalHeader,
-  ModalTitle,
-  ModalContent,
-} from '@ndla/modal';
-import { Text } from '@ndla/typography';
-import { useSnack } from '@ndla/ui';
-import { useArenaNewFlagMutation } from './temporaryNodebbHooks';
-import handleError from '../../../../util/handleError';
-import useValidationTranslation from '../../../../util/useValidationTranslation';
+import { useState } from "react";
+import { useForm, Controller } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { ButtonV2, LoadingButton } from "@ndla/button";
+import { fonts, spacing } from "@ndla/core";
+import { FormControl, Label, TextAreaV3, RadioButtonGroup, FieldErrorMessage } from "@ndla/forms";
+import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle, ModalContent } from "@ndla/modal";
+import { Text } from "@ndla/typography";
+import { useSnack } from "@ndla/ui";
+import { useArenaNewFlagMutation } from "./temporaryNodebbHooks";
+import handleError from "../../../../util/handleError";
+import useValidationTranslation from "../../../../util/useValidationTranslation";
 
 const MAXIMUM_LENGTH_TEXTFIELD = 120;
 
@@ -94,10 +82,10 @@ const FlagPostModalContent = ({ id, onClose }: FlagPostModalProps) => {
     formState: { dirtyFields },
   } = useForm({
     defaultValues: {
-      type: 'spam',
-      reason: '',
+      type: "spam",
+      reason: "",
     },
-    mode: 'onChange',
+    mode: "onChange",
   });
 
   const { type } = getValues();
@@ -107,19 +95,19 @@ const FlagPostModalContent = ({ id, onClose }: FlagPostModalProps) => {
       await addNewFlag({
         variables: {
           id,
-          type: 'post',
-          reason: data.reason === 'other' ? data.type : data.reason,
+          type: "post",
+          reason: data.reason === "other" ? data.type : data.reason,
         },
       });
       addSnack({
-        content: t('myNdla.arena.flag.success'),
-        id: 'reportPostAdded',
+        content: t("myNdla.arena.flag.success"),
+        id: "reportPostAdded",
       });
     } catch (err) {
       const typedError = err as { message?: string };
       addSnack({
         content: typedError.message,
-        id: 'reportPostAddedError',
+        id: "reportPostAddedError",
       });
       handleError(err);
     }
@@ -129,12 +117,12 @@ const FlagPostModalContent = ({ id, onClose }: FlagPostModalProps) => {
   return (
     <ModalContent forceOverlay>
       <ModalHeader>
-        <ModalTitle>{t('myNdla.arena.flag.title')}</ModalTitle>
-        <ModalCloseButton title={t('myNdla.folder.closeModal')} />
+        <ModalTitle>{t("myNdla.arena.flag.title")}</ModalTitle>
+        <ModalCloseButton title={t("myNdla.folder.closeModal")} />
       </ModalHeader>
       <StyledModalBody>
         <Text element="p" textStyle="meta-text-medium" margin="none">
-          {t('myNdla.arena.flag.disclaimer')}
+          {t("myNdla.arena.flag.disclaimer")}
         </Text>
         <form onSubmit={handleSubmit(sendReport)} noValidate>
           <Controller
@@ -142,7 +130,7 @@ const FlagPostModalContent = ({ id, onClose }: FlagPostModalProps) => {
             name="type"
             rules={{
               required: validationT({
-                type: 'required',
+                type: "required",
               }),
             }}
             render={({ field }) => (
@@ -150,20 +138,20 @@ const FlagPostModalContent = ({ id, onClose }: FlagPostModalProps) => {
                 <StyledRadioButtonGroup
                   {...field}
                   options={[
-                    { title: t('myNdla.arena.flag.spam'), value: 'spam' },
+                    { title: t("myNdla.arena.flag.spam"), value: "spam" },
                     {
-                      title: t('myNdla.arena.flag.offensive'),
-                      value: 'offensive',
+                      title: t("myNdla.arena.flag.offensive"),
+                      value: "offensive",
                     },
-                    { title: t('myNdla.arena.flag.other'), value: 'other' },
+                    { title: t("myNdla.arena.flag.other"), value: "other" },
                   ]}
                   direction="vertical"
                   onChange={(value) => {
-                    setValue('type', value, {
+                    setValue("type", value, {
                       shouldDirty: true,
                       shouldValidate: true,
                     });
-                    setShowReasonField(value === 'other');
+                    setShowReasonField(value === "other");
                   }}
                 />
               </FormControl>
@@ -175,38 +163,26 @@ const FlagPostModalContent = ({ id, onClose }: FlagPostModalProps) => {
               control={control}
               name="reason"
               rules={{
-                required: validationT({ type: 'required' }),
+                required: validationT({ type: "required" }),
                 maxLength: {
                   value: MAXIMUM_LENGTH_TEXTFIELD,
                   message: validationT({
-                    type: 'maxLength',
+                    type: "maxLength",
                     vars: { count: MAXIMUM_LENGTH_TEXTFIELD },
                   }),
                 },
               }}
               render={({ field, fieldState }) => (
-                <FormControl
-                  id="reason"
-                  isInvalid={!!fieldState.error?.message}
-                >
+                <FormControl id="reason" isInvalid={!!fieldState.error?.message}>
                   <Label textStyle="label-small" margin="none">
-                    {t('myNdla.arena.flag.reason')}
+                    {t("myNdla.arena.flag.reason")}
                   </Label>
-                  <StyledTextArea
-                    {...field}
-                    maxLength={MAXIMUM_LENGTH_TEXTFIELD}
-                  />
+                  <StyledTextArea {...field} maxLength={MAXIMUM_LENGTH_TEXTFIELD} />
                   <FieldInfoWrapper>
-                    <StyledText
-                      element="p"
-                      textStyle="meta-text-medium"
-                      margin="none"
-                    >
+                    <StyledText element="p" textStyle="meta-text-medium" margin="none">
                       {`${field.value.length}/${MAXIMUM_LENGTH_TEXTFIELD}`}
                     </StyledText>
-                    <FieldErrorMessage>
-                      {fieldState.error?.message}
-                    </FieldErrorMessage>
+                    <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
                   </FieldInfoWrapper>
                 </FormControl>
               )}
@@ -214,14 +190,10 @@ const FlagPostModalContent = ({ id, onClose }: FlagPostModalProps) => {
           )}
           <StyledButtonRow>
             <ButtonV2 onClick={onClose} variant="outline">
-              {t('cancel')}
+              {t("cancel")}
             </ButtonV2>
-            <LoadingButton
-              colorTheme="primary"
-              type="submit"
-              disabled={type === 'other' && !dirtyFields.reason}
-            >
-              {t('myNdla.arena.flag.send')}
+            <LoadingButton colorTheme="primary" type="submit" disabled={type === "other" && !dirtyFields.reason}>
+              {t("myNdla.arena.flag.send")}
             </LoadingButton>
           </StyledButtonRow>
         </form>

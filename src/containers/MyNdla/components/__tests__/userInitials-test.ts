@@ -5,12 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { getFirstLastInitials } from '../Avatar';
+import { getFirstLastInitials } from "../Avatar";
 
-test('that function produces right initials', () => {
-  expect(typeof getFirstLastInitials).toBe('function');
+test("that function produces right initials", () => {
+  expect(typeof getFirstLastInitials).toBe("function");
 
-  expect(getFirstLastInitials('Nordmann')).toBe('N');
-  expect(getFirstLastInitials('Ole Ås Nordmann')).toBe('ON');
-  expect(getFirstLastInitials('Åse Ås Peter Åsen')).toBe('ÅÅ');
+  expect(getFirstLastInitials("Nordmann")).toBe("N");
+  expect(getFirstLastInitials("Ole Ås Nordmann")).toBe("ON");
+  expect(getFirstLastInitials("Åse Ås Peter Åsen")).toBe("ÅÅ");
 });

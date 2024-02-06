@@ -6,23 +6,15 @@
  *
  */
 
-import { ReactNode, useCallback, useContext, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import {
-  ModalBody,
-  ModalCloseButton,
-  ModalHeader,
-  ModalTitle,
-  Modal,
-  ModalTrigger,
-  ModalContent,
-} from '@ndla/modal';
-import { Folder } from '@ndla/ui';
-import CopyFolder from './CopyFolder';
-import LoginModalContent from './LoginModalContent';
-import { GQLFolder } from '../../graphqlTypes';
-import { getTotalCountForFolder } from '../../util/folderHelpers';
-import { AuthContext } from '../AuthenticationContext';
+import { ReactNode, useCallback, useContext, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle, Modal, ModalTrigger, ModalContent } from "@ndla/modal";
+import { Folder } from "@ndla/ui";
+import CopyFolder from "./CopyFolder";
+import LoginModalContent from "./LoginModalContent";
+import { GQLFolder } from "../../graphqlTypes";
+import { getTotalCountForFolder } from "../../util/folderHelpers";
+import { AuthContext } from "../AuthenticationContext";
 
 interface Props {
   folder: GQLFolder;
@@ -44,8 +36,8 @@ const CopyFolderModal = ({ folder, children }: Props) => {
       {authenticated ? (
         <ModalContent>
           <ModalHeader>
-            <ModalTitle>{t('myNdla.resource.copyToMyNdla')}</ModalTitle>
-            <ModalCloseButton title={t('modal.closeModal')} />
+            <ModalTitle>{t("myNdla.resource.copyToMyNdla")}</ModalTitle>
+            <ModalCloseButton title={t("modal.closeModal")} />
           </ModalHeader>
           <ModalBody>
             <CopyFolder folder={folder} onClose={close} />
@@ -53,12 +45,12 @@ const CopyFolderModal = ({ folder, children }: Props) => {
         </ModalContent>
       ) : (
         <LoginModalContent
-          title={t('myNdla.loginCopyFolderPitch')}
+          title={t("myNdla.loginCopyFolderPitch")}
           content={
             folder && (
               <Folder
                 id={folder.id.toString()}
-                title={folder.name ?? ''}
+                title={folder.name ?? ""}
                 link={`/folder/${folder.id}`}
                 isShared={true}
                 subFolders={folderCount.folders}
