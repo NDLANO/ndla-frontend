@@ -55,9 +55,7 @@ test('can change folder sharing settings', async ({ page }) => {
   await dontShow.click();
   await expect(dontShow).toBeChecked();
   await expect(show).toBeChecked({ checked: false });
-  await expect(
-    page.getByText('Navnet ditt er nå fjernet fra alle dine delte mapper'),
-  ).toHaveCount(1);
+
   await expect(
     page.getByText('Navnet ditt er nå fjernet fra alle dine delte mapper'),
   ).toBeInViewport();
@@ -65,9 +63,7 @@ test('can change folder sharing settings', async ({ page }) => {
   await show.click();
   await expect(show).toBeChecked();
   await expect(dontShow).toBeChecked({ checked: false });
-  await expect(
-    page.getByText('Navnet ditt vises nå på alle dine delte mapper'),
-  ).toHaveCount(1);
+
   await expect(
     page.getByText('Navnet ditt vises nå på alle dine delte mapper'),
   ).toBeInViewport();
