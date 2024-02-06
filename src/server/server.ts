@@ -25,7 +25,7 @@ import {
   iframeEmbedRoute,
 } from "./routes";
 import { podcastFeedRoute } from "./routes/podcastFeedRoute";
-import config, { getDefaultLocale } from "../config";
+import config from "../config";
 import { FILM_PAGE_PATH, NOT_FOUND_PAGE_PATH, STORED_LANGUAGE_COOKIE_KEY, UKR_PAGE_PATH } from "../constants";
 import { getLocaleInfoFromPath } from "../i18n";
 import { privateRoutes, routes } from "../routes";
@@ -102,7 +102,7 @@ const getLang = (paramLang?: string, cookieLang?: string | null): string | undef
   if (paramLang) {
     return paramLang;
   }
-  if (!paramLang && cookieLang && cookieLang !== getDefaultLocale()) {
+  if (!paramLang && cookieLang && cookieLang !== config.defaultLocale) {
     return cookieLang;
   }
   return undefined;
@@ -152,7 +152,7 @@ app.get("/login/success", async (req: Request, res: Response) => {
     //workaround to ensure language cookie is set before redirecting to state path
     if (!languageCookie) {
       const { basename } = getLocaleInfoFromPath(state);
-      res.cookie(STORED_LANGUAGE_COOKIE_KEY, basename.length ? basename : getDefaultLocale());
+      res.cookie(STORED_LANGUAGE_COOKIE_KEY, basename.length ? basename : config.defaultLocale);
     }
     return res.redirect(state);
   } catch (e) {

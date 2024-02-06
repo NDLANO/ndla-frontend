@@ -8,7 +8,7 @@
 
 import * as datefnslocale from "date-fns/locale";
 import { i18n } from "i18next";
-import config, { getDefaultLocale } from "./config";
+import config from "./config";
 import { LocaleType } from "./interfaces";
 import en from "./messages/messagesEN";
 import nb from "./messages/messagesNB";
@@ -58,7 +58,7 @@ export const isValidLocale = (localeAbbreviation: string | undefined | null): lo
 
 export const getHtmlLang = (localeAbbreviation?: string): string => {
   const locale = appLocales.find((l) => l.abbreviation === localeAbbreviation);
-  return locale?.abbreviation ?? getDefaultLocale();
+  return locale?.abbreviation ?? config.defaultLocale;
 };
 
 interface RetType extends LocaleObject {

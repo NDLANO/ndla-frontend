@@ -36,7 +36,6 @@ import { i18nInstance } from "@ndla/ui";
 import { getCookie, setCookie } from "@ndla/util";
 import App from "./App";
 import { VersionHashProvider } from "./components/VersionHashContext";
-import { getDefaultLocale } from "./config";
 import { EmotionCacheKey, STORED_LANGUAGE_COOKIE_KEY } from "./constants";
 import { getLocaleInfoFromPath, initializeI18n, isValidLocale, supportedLanguages } from "./i18n";
 import { NDLAWindow } from "./interfaces";
@@ -162,7 +161,7 @@ const LanguageWrapper = ({ basename }: { basename?: string }) => {
   // only relevant when disableSSR=true
   useLayoutEffect(() => {
     const storedLanguage = getCookie(STORED_LANGUAGE_COOKIE_KEY, document.cookie)!;
-    if (storedLanguage === getDefaultLocale() && !base) return;
+    if (storedLanguage === config.defaultLocale && !base) return;
     if (isValidLocale(storedLanguage) && storedLanguage === base) {
       setBase(storedLanguage);
     }

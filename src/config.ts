@@ -84,8 +84,6 @@ const logglyApiKey = (): string | undefined => {
   return getEnvironmentVariabel("LOGGLY_API_KEY");
 };
 
-export const getDefaultLocale = () => getEnvironmentVariabel("NDLA_DEFAULT_LOCALE", "nb");
-
 export type ConfigType = {
   defaultLocale: LocaleType;
   componentName: string;
@@ -150,9 +148,11 @@ const getServerSideConfig = (): ConfigType => {
 };
 
 export function getUniversalConfig() {
-  return process.env.BUILD_TARGET === "server" || process.env.NODE_ENV === "unittest"
-    ? getServerSideConfig()
-    : window.DATA.config;
+  if (typeof window === "undefined" || process.env.NODE_ENV === "unittest") {
+    return getServerSideConfig();
+  }
+
+  return window.config;
 }
 
 export default getUniversalConfig();

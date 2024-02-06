@@ -33,6 +33,7 @@ export interface WindowData {
 
 export interface NDLAWindow {
   DATA: WindowData;
+  config: ConfigType;
   errorReporter: any;
 }
 
