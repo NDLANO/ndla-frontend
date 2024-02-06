@@ -203,7 +203,6 @@ const aboutMenuFragment = gql`
       title
       slug
     }
-
   }
 `;
 
