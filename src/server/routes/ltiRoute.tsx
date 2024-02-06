@@ -8,6 +8,7 @@
 
 import { Request } from "express";
 import { FilledContext, HelmetProvider } from "react-helmet-async";
+import config from "../../config";
 import { getHtmlLang, getLocaleObject } from "../../i18n";
 import { BAD_REQUEST, OK } from "../../statusCodes";
 import { Assets } from "../helpers/Document";
@@ -28,7 +29,7 @@ const bodyFields: Record<string, { required: boolean; value?: any }> = {
 //@ts-ignore
 const assets = require(process.env.ASSETS_MANIFEST);
 
-if (process.env.NODE_ENV === "unittest") {
+if (config.runtimeType === "unittest") {
   HelmetProvider.canUseDOM = false;
 }
 

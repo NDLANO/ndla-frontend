@@ -33,11 +33,11 @@ const MOCK_ASSETS = {
 };
 
 const assets =
-  process.env.NODE_ENV !== "unittest" && process.env.ASSETS_MANIFEST
+  config.runtimeType !== "unittest" && process.env.ASSETS_MANIFEST
     ? require(process.env.ASSETS_MANIFEST) //eslint-disable-line
     : MOCK_ASSETS;
 
-if (process.env.NODE_ENV === "unittest") {
+if (config.runtimeType === "unittest") {
   HelmetProvider.canUseDOM = false;
 }
 
@@ -113,7 +113,7 @@ export async function iframeArticleRoute(req: Request) {
 
     return renderHtml(html, { status: redirectContext.status ?? OK }, docProps, helmetContext);
   } catch (error) {
-    if (process.env.NODE_ENV !== "unittest") {
+    if (config.runtimeType !== "unittest") {
       // skip log in unittests
       handleError(error);
     }

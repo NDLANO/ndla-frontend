@@ -13,6 +13,7 @@ jest.mock("../../../config", () => ({
   isNdlaProdEnvironment: true,
   learningPathDomain: "https://stier.test.ndla.no",
   getEnvironmentVariabel: () => {},
+  runtimeType: "unittest",
 }));
 
 function prepareNock(status, nodeId = "1337", contentUri = "urn:article:233", subjectId = "subject:3") {

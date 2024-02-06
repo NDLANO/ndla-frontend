@@ -12,6 +12,7 @@ import { SnackbarProvider } from "@ndla/ui";
 import { AlertsProvider } from "./components/AlertsContext";
 import AuthenticationContext from "./components/AuthenticationContext";
 import { BaseNameProvider } from "./components/BaseNameContext";
+import config from "./config";
 import AboutPage from "./containers/AboutPage/AboutPage";
 import AccessDenied from "./containers/AccessDeniedPage/AccessDeniedPage";
 import AllSubjectsPage from "./containers/AllSubjectsPage/AllSubjectsPage";
@@ -75,7 +76,7 @@ class App extends Component<AppProps, State> {
   }
 
   componentDidCatch(error: Error, info: ErrorInfo) {
-    if (process.env.NODE_ENV === "production") {
+    if (config.runtimeType === "production") {
       // React prints all errors that occurred during rendering to the console in development
       handleError(error, info);
     }

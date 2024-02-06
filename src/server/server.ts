@@ -63,7 +63,7 @@ const ndlaMiddleware = [
     },
     contentSecurityPolicy,
     frameguard:
-      process.env.NODE_ENV === "development"
+      config.runtimeType === "development"
         ? {
             action: "sameorigin",
           }
