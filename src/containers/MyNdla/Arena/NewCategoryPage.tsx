@@ -6,22 +6,22 @@
  *
  */
 
-import { useCallback, useContext, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
-import { HelmetWithTracker, useTracker } from '@ndla/tracker';
-import { INewCategory } from '@ndla/types-backend/myndla-api';
-import { Heading } from '@ndla/typography';
-import ArenaCategoryForm from './components/ArenaCategoryForm';
-import { ArenaFormWrapper } from './components/ArenaForm';
-import { toArena, toArenaCategory } from './utils';
-import { AuthContext } from '../../../components/AuthenticationContext';
-import { getAllDimensions } from '../../../util/trackingUtil';
-import { useCreateArenaCategory } from '../arenaMutations';
-import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
-import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
+import { useCallback, useContext, useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+import styled from "@emotion/styled";
+import { spacing } from "@ndla/core";
+import { HelmetWithTracker, useTracker } from "@ndla/tracker";
+import { INewCategory } from "@ndla/types-backend/myndla-api";
+import { Heading } from "@ndla/typography";
+import ArenaCategoryForm from "./components/ArenaCategoryForm";
+import { ArenaFormWrapper } from "./components/ArenaForm";
+import { toArena, toArenaCategory } from "./utils";
+import { AuthContext } from "../../../components/AuthenticationContext";
+import { getAllDimensions } from "../../../util/trackingUtil";
+import { useCreateArenaCategory } from "../arenaMutations";
+import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
+import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 
 const BreadcrumbWrapper = styled.div`
   padding-top: ${spacing.normal};
@@ -43,7 +43,7 @@ export const NewCategoryPage = () => {
   useEffect(() => {
     if (!authContextLoaded || !user?.arenaEnabled || !user?.isModerator) return;
     trackPageView({
-      title: t('htmlTitles.arenaNewCategoryPage'),
+      title: t("htmlTitles.arenaNewCategoryPage"),
       dimensions: getAllDimensions({ user }),
     });
   }, [authContextLoaded, t, trackPageView, user]);
@@ -52,8 +52,8 @@ export const NewCategoryPage = () => {
     async (values: Partial<INewCategory>) => {
       const category = await newCategoryMutation.createArenaCategory({
         variables: {
-          description: values.description ?? '',
-          title: values.title ?? '',
+          description: values.description ?? "",
+          title: values.title ?? "",
           visible: values.visible ?? true,
         },
       });
@@ -74,17 +74,17 @@ export const NewCategoryPage = () => {
           <MyNdlaBreadcrumb
             breadcrumbs={[
               {
-                name: t('myNdla.arena.admin.category.form.newCategory'),
-                id: 'newCategory',
+                name: t("myNdla.arena.admin.category.form.newCategory"),
+                id: "newCategory",
               },
             ]}
-            page={'arena'}
+            page={"arena"}
           />
         </BreadcrumbWrapper>
-        <HelmetWithTracker title={t('htmlTitles.arenaNewCategoryPage')} />
+        <HelmetWithTracker title={t("htmlTitles.arenaNewCategoryPage")} />
         <ArenaFormWrapper>
           <Heading element="h1" headingStyle="h1-resource" margin="none">
-            {t('myNdla.arena.admin.category.form.newCategory')}
+            {t("myNdla.arena.admin.category.form.newCategory")}
           </Heading>
           <ArenaCategoryForm onAbort={onAbort} onSave={onSave} />
         </ArenaFormWrapper>

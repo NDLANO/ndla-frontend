@@ -5,20 +5,20 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { Dispatch, SetStateAction } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { gql } from '@apollo/client';
-import { Spinner } from '@ndla/icons';
-import { SimpleBreadcrumbItem } from '@ndla/ui';
-import Topic, { topicFragments } from './Topic';
+import { Dispatch, SetStateAction } from "react";
+import { useNavigate } from "react-router-dom";
+import { gql } from "@apollo/client";
+import { Spinner } from "@ndla/icons";
+import { SimpleBreadcrumbItem } from "@ndla/ui";
+import Topic, { topicFragments } from "./Topic";
 import {
   GQLTopicWrapperQuery,
   GQLTopicWrapperQueryVariables,
   GQLTopicWrapper_SubjectFragment,
-} from '../../../graphqlTypes';
-import { removeUrn } from '../../../routeHelpers';
-import handleError, { isAccessDeniedError } from '../../../util/handleError';
-import { useGraphQuery } from '../../../util/runQueries';
+} from "../../../graphqlTypes";
+import { removeUrn } from "../../../routeHelpers";
+import handleError, { isAccessDeniedError } from "../../../util/handleError";
+import { useGraphQuery } from "../../../util/runQueries";
 
 type Props = {
   topicId: string;
@@ -31,11 +31,7 @@ type Props = {
 };
 
 const topicWrapperQuery = gql`
-  query topicWrapper(
-    $topicId: String!
-    $subjectId: String
-    $convertEmbeds: Boolean
-  ) {
+  query topicWrapper($topicId: String!, $subjectId: String, $convertEmbeds: Boolean) {
     topic(id: $topicId, subjectId: $subjectId) {
       id
       ...Topic_Topic
@@ -48,44 +44,36 @@ const topicWrapperQuery = gql`
   ${topicFragments.resourceType}
 `;
 
-const TopicWrapper = ({
-  subTopicId,
-  topicId,
-  subjectId,
-  setBreadCrumb,
-  showResources,
-  subject,
-  index,
-}: Props) => {
+const TopicWrapper = ({ subTopicId, topicId, subjectId, setBreadCrumb, showResources, subject, index }: Props) => {
   const navigate = useNavigate();
-  const { data, loading, error } = useGraphQuery<
-    GQLTopicWrapperQuery,
-    GQLTopicWrapperQueryVariables
-  >(topicWrapperQuery, {
-    variables: {
-      topicId,
-      subjectId,
-      convertEmbeds: true,
+  const { data, loading, error } = useGraphQuery<GQLTopicWrapperQuery, GQLTopicWrapperQueryVariables>(
+    topicWrapperQuery,
+    {
+      variables: {
+        topicId,
+        subjectId,
+        convertEmbeds: true,
+      },
+      onCompleted: (data) => {
+        const topic = data.topic;
+        if (topic) {
+          setBreadCrumb((crumbs) =>
+            crumbs.slice(0, index).concat({
+              to: `/${removeUrn(topic.id)}`,
+              name: topic.name,
+            }),
+          );
+        }
+      },
     },
-    onCompleted: (data) => {
-      const topic = data.topic;
-      if (topic) {
-        setBreadCrumb((crumbs) =>
-          crumbs.slice(0, index).concat({
-            to: `/${removeUrn(topic.id)}`,
-            name: topic.name,
-          }),
-        );
-      }
-    },
-  });
+  );
 
   if (error) {
     handleError(error);
     if (isAccessDeniedError(error)) {
-      navigate('/403', { replace: true });
+      navigate("/403", { replace: true });
     } else {
-      navigate('/404', { replace: true });
+      navigate("/404", { replace: true });
     }
   }
 

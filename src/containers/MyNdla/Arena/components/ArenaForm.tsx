@@ -6,20 +6,20 @@
  *
  */
 
-import { useEffect } from 'react';
-import { Controller, useForm } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { LoadingButton } from '@ndla/button';
-import { colors, misc, spacing } from '@ndla/core';
-import { FormControl, InputV3, Label, FieldErrorMessage } from '@ndla/forms';
-import { InformationOutline } from '@ndla/icons/common';
-import { Text } from '@ndla/typography';
-import AlertModal from './AlertModal';
-import { MarkdownEditor } from '../../../../components/MarkdownEditor/MarkdownEditor';
-import { FieldLength } from '../../../../containers/MyNdla/Folders/FolderForm';
-import useValidationTranslation from '../../../../util/useValidationTranslation';
-import { iconCss } from '../../Folders/FoldersPage';
+import { useEffect } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { LoadingButton } from "@ndla/button";
+import { colors, misc, spacing } from "@ndla/core";
+import { FormControl, InputV3, Label, FieldErrorMessage } from "@ndla/forms";
+import { InformationOutline } from "@ndla/icons/common";
+import { Text } from "@ndla/typography";
+import AlertModal from "./AlertModal";
+import { MarkdownEditor } from "../../../../components/MarkdownEditor/MarkdownEditor";
+import { FieldLength } from "../../../../containers/MyNdla/Folders/FolderForm";
+import useValidationTranslation from "../../../../util/useValidationTranslation";
+import { iconCss } from "../../Folders/FoldersPage";
 
 export const ArenaFormWrapper = styled.div`
   display: flex;
@@ -71,7 +71,7 @@ const StyledInput = styled(InputV3)`
 `;
 
 interface ArenaFormProps {
-  type: 'topic' | 'post';
+  type: "topic" | "post";
   initialTitle?: string;
   initialContent?: string;
   onSave: (data: Partial<ArenaFormValues>) => Promise<void>;
@@ -88,77 +88,54 @@ export interface ArenaFormValues {
 const titleMaxLength = 64;
 const contentMaxLength = 32767;
 
-const ArenaForm = ({
-  onSave,
-  onAbort,
-  type,
-  initialTitle,
-  initialContent,
-  id,
-}: ArenaFormProps) => {
+const ArenaForm = ({ onSave, onAbort, type, initialTitle, initialContent, id }: ArenaFormProps) => {
   const { t } = useTranslation();
   const { validationT } = useValidationTranslation();
   const { formState, control, handleSubmit, setValue } = useForm({
     defaultValues: {
-      title: initialTitle ?? '',
-      content: initialContent ?? '',
+      title: initialTitle ?? "",
+      content: initialContent ?? "",
     },
-    mode: 'onSubmit',
-    reValidateMode: 'onSubmit',
+    mode: "onSubmit",
+    reValidateMode: "onSubmit",
   });
 
   useEffect(() => {
-    type === 'topic'
-      ? setTimeout(() => document.getElementById('field-title')?.focus(), 1)
+    type === "topic"
+      ? setTimeout(() => document.getElementById("field-title")?.focus(), 1)
       : id
-        ? setTimeout(
-            () => document.getElementById(`field-editor-${id}`)?.focus(),
-            1,
-          )
+        ? setTimeout(() => document.getElementById(`field-editor-${id}`)?.focus(), 1)
         : setTimeout(() => document.getElementById(`field-editor`)?.focus(), 1);
   }, [id, type]);
 
   const onSubmit = async ({ title, content }: ArenaFormValues) => {
-    await onSave(
-      type === 'topic'
-        ? { title: title, content: content }
-        : { content: content },
-    );
+    await onSave(type === "topic" ? { title: title, content: content } : { content: content });
   };
 
   return (
     <StyledForm onSubmit={handleSubmit(onSubmit)} noValidate>
-      {type === 'topic' && (
+      {type === "topic" && (
         <Controller
           control={control}
           name="title"
           rules={{
-            required: validationT({ type: 'required', field: 'title' }),
+            required: validationT({ type: "required", field: "title" }),
             maxLength: {
               value: titleMaxLength,
               message: validationT({
-                type: 'maxLength',
-                field: 'title',
+                type: "maxLength",
+                field: "title",
                 vars: { count: titleMaxLength },
               }),
             },
           }}
           render={({ field, fieldState }) => (
-            <FormControl
-              id="title"
-              isRequired
-              isInvalid={!!fieldState.error?.message}
-            >
-              <StyledLabel textStyle="label-small">{t('title')}</StyledLabel>
+            <FormControl id="title" isRequired isInvalid={!!fieldState.error?.message}>
+              <StyledLabel textStyle="label-small">{t("title")}</StyledLabel>
               <StyledInput {...field} />
               <FieldInfoWrapper>
-                <FieldLength
-                  value={field.value.length ?? 0}
-                  maxLength={titleMaxLength}
-                />
-                <FieldErrorMessage>
-                  {fieldState.error?.message}
-                </FieldErrorMessage>
+                <FieldLength value={field.value.length ?? 0} maxLength={titleMaxLength} />
+                <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
               </FieldInfoWrapper>
             </FormControl>
           )}
@@ -169,39 +146,30 @@ const ArenaForm = ({
         name="content"
         rules={{
           required: validationT({
-            type: 'required',
-            field: 'content',
+            type: "required",
+            field: "content",
           }),
           maxLength: {
             value: contentMaxLength,
             message: validationT({
-              type: 'maxLength',
-              field: 'content',
+              type: "maxLength",
+              field: "content",
               vars: { count: contentMaxLength },
             }),
           },
         }}
         render={({ field, fieldState }) => (
-          <FormControl
-            id={id ? `editor-${id}` : 'editor'}
-            isRequired
-            isInvalid={!!fieldState.error?.message}
-          >
-            <StyledLabel
-              textStyle="label-small"
-              onClick={() => document.getElementById('field-editor')?.focus()}
-            >
-              {type === 'post'
-                ? t('myNdla.arena.new.post')
-                : t('myNdla.arena.topic.topicContent')}
+          <FormControl id={id ? `editor-${id}` : "editor"} isRequired isInvalid={!!fieldState.error?.message}>
+            <StyledLabel textStyle="label-small" onClick={() => document.getElementById("field-editor")?.focus()}>
+              {type === "post" ? t("myNdla.arena.new.post") : t("myNdla.arena.topic.topicContent")}
             </StyledLabel>
             <MarkdownEditor
               setContentWritten={(val) => {
-                setValue('content', val, {
+                setValue("content", val, {
                   shouldDirty: true,
                 });
               }}
-              initialValue={initialContent ?? ''}
+              initialValue={initialContent ?? ""}
               {...field}
             />
             <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
@@ -215,14 +183,9 @@ const ArenaForm = ({
         </Text>
       </InformationLabel>
       <ButtonRow>
-        <AlertModal
-          onAbort={onAbort}
-          postType={type}
-          formState={formState}
-          initialContent={initialContent}
-        />
+        <AlertModal onAbort={onAbort} postType={type} formState={formState} initialContent={initialContent} />
         <LoadingButton colorTheme="primary" type="submit">
-          {t('myNdla.arena.publish')}
+          {t("myNdla.arena.publish")}
         </LoadingButton>
       </ButtonRow>
     </StyledForm>

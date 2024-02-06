@@ -6,30 +6,30 @@
  *
  */
 
-import { ReactNode } from 'react';
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { colors, fonts, misc, spacing } from '@ndla/core';
-import SafeLink, { SafeLinkProps } from '@ndla/safelink';
-import { DrawerListItem } from './DrawerPortion';
+import { ReactNode } from "react";
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { colors, fonts, misc, spacing } from "@ndla/core";
+import SafeLink, { SafeLinkProps } from "@ndla/safelink";
+import { DrawerListItem } from "./DrawerPortion";
 
 interface BaseProps {
   bold?: boolean;
-  type: 'button' | 'link';
+  type: "button" | "link";
   active?: boolean;
   id: string;
   current?: boolean;
 }
 
 interface DrawerMenuButtonProps extends BaseProps {
-  type: 'button';
+  type: "button";
   onClick: (expanded: boolean) => void;
   children?: ReactNode;
 }
 
-interface DrawerMenuLinkProps extends BaseProps, Omit<SafeLinkProps, 'id'> {
-  type: 'link';
+interface DrawerMenuLinkProps extends BaseProps, Omit<SafeLinkProps, "id"> {
+  type: "link";
   onClose?: () => void;
 }
 
@@ -54,12 +54,12 @@ const commonStyle = css`
 
 const boldItemStyle = css`
   font-weight: ${fonts.weight.bold};
-  ${fonts.sizes('24px', '32px')};
+  ${fonts.sizes("24px", "32px")};
   ${commonStyle};
 `;
 
 const normalItemStyle = css`
-  ${fonts.sizes('18px', '32px')};
+  ${fonts.sizes("18px", "32px")};
   ${commonStyle};
 `;
 
@@ -72,7 +72,7 @@ const activeStyle = css`
   color: ${colors.white};
 `;
 
-const shouldForwardProp = (prop: string) => prop !== 'active';
+const shouldForwardProp = (prop: string) => prop !== "active";
 
 const StyledButton = styled(ButtonV2, { shouldForwardProp })<StyledButtonProps>`
   ${(p) =>
@@ -97,16 +97,9 @@ const CurrentIndicator = styled.span`
 
 type Props = DrawerMenuButtonProps | DrawerMenuLinkProps;
 
-const DrawerMenuItem = ({
-  bold,
-  children,
-  active,
-  current,
-  id,
-  ...specificProps
-}: Props) => {
+const DrawerMenuItem = ({ bold, children, active, current, id, ...specificProps }: Props) => {
   const style = bold ? boldItemStyle : normalItemStyle;
-  if (specificProps.type === 'button') {
+  if (specificProps.type === "button") {
     return (
       <DrawerListItem role="none" data-list-item>
         <StyledButton
@@ -121,9 +114,7 @@ const DrawerMenuItem = ({
         >
           <TextWrapper>
             {children}
-            {current && (
-              <CurrentIndicator aria-hidden={true}>•</CurrentIndicator>
-            )}
+            {current && <CurrentIndicator aria-hidden={true}>•</CurrentIndicator>}
           </TextWrapper>
         </StyledButton>
       </DrawerListItem>
@@ -135,16 +126,14 @@ const DrawerMenuItem = ({
           tabIndex={-1}
           role="menuitem"
           id={id}
-          aria-current={current ? 'page' : undefined}
+          aria-current={current ? "page" : undefined}
           to={specificProps.to}
           onClick={specificProps.onClose}
           css={[style, active ? activeStyle : []]}
         >
           <TextWrapper>
             {children}
-            {current && (
-              <CurrentIndicator aria-hidden={true}>•</CurrentIndicator>
-            )}
+            {current && <CurrentIndicator aria-hidden={true}>•</CurrentIndicator>}
           </TextWrapper>
         </SafeLink>
       </DrawerListItem>

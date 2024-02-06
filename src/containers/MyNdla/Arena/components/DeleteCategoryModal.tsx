@@ -5,16 +5,16 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { IconButtonV2 } from '@ndla/button';
-import { colors, spacing } from '@ndla/core';
-import { DeleteForever } from '@ndla/icons/editor';
-import { Modal, ModalTrigger } from '@ndla/modal';
-import { useSnack } from '@ndla/ui';
-import { useArenaDeleteCategoryMutation } from '../../arenaMutations';
-import DeleteModalContent from '../../components/DeleteModalContent';
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { IconButtonV2 } from "@ndla/button";
+import { colors, spacing } from "@ndla/core";
+import { DeleteForever } from "@ndla/icons/editor";
+import { Modal, ModalTrigger } from "@ndla/modal";
+import { useSnack } from "@ndla/ui";
+import { useArenaDeleteCategoryMutation } from "../../arenaMutations";
+import DeleteModalContent from "../../components/DeleteModalContent";
 
 interface Props {
   categoryId: number;
@@ -37,8 +37,8 @@ const DeleteCategoryModal = ({ categoryId }: Props) => {
     <Modal open={open} onOpenChange={setOpen}>
       <ModalTrigger>
         <StyledIconButton
-          title={t('myNdla.arena.admin.category.form.deleteCategory')}
-          aria-label={t('myNdla.arena.admin.category.form.deleteCategory')}
+          title={t("myNdla.arena.admin.category.form.deleteCategory")}
+          aria-label={t("myNdla.arena.admin.category.form.deleteCategory")}
         >
           <DeleteForever />
         </StyledIconButton>
@@ -52,13 +52,13 @@ const DeleteCategoryModal = ({ categoryId }: Props) => {
           });
           setOpen(false);
           addSnack({
-            content: t('myNdla.arena.admin.category.deleteSnack'),
-            id: 'arenaCategoryDeleted',
+            content: t("myNdla.arena.admin.category.deleteSnack"),
+            id: "arenaCategoryDeleted",
           });
         }}
-        title={t('myNdla.arena.admin.category.form.modalTitle')}
-        description={t('myNdla.arena.admin.category.form.modalDescription')}
-        removeText={t('myNdla.arena.admin.category.form.deleteText')}
+        title={t("myNdla.arena.admin.category.form.modalTitle")}
+        description={t("myNdla.arena.admin.category.form.modalDescription")}
+        removeText={t("myNdla.arena.admin.category.form.deleteText")}
       />
     </Modal>
   );

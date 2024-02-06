@@ -6,19 +6,19 @@
  *
  */
 
-import * as datefnslocale from 'date-fns/locale';
-import { i18n } from 'i18next';
-import config, { getDefaultLocale } from './config';
-import { LocaleType } from './interfaces';
-import en from './messages/messagesEN';
-import nb from './messages/messagesNB';
-import nn from './messages/messagesNN';
-import se from './messages/messagesSE';
+import * as datefnslocale from "date-fns/locale";
+import { i18n } from "i18next";
+import config, { getDefaultLocale } from "./config";
+import { LocaleType } from "./interfaces";
+import en from "./messages/messagesEN";
+import nb from "./messages/messagesNB";
+import nn from "./messages/messagesNN";
+import se from "./messages/messagesSE";
 
 export const supportedLanguages: LocaleType[] = config.saamiEnabled
-  ? ['nb', 'nn', 'en', 'se']
-  : ['nb', 'nn', 'en', 'se'];
-export const preferredLanguages: LocaleType[] = ['nb', 'nn', 'en', 'se'];
+  ? ["nb", "nn", "en", "se"]
+  : ["nb", "nn", "en", "se"];
+export const preferredLanguages: LocaleType[] = ["nb", "nn", "en", "se"];
 
 type LocaleObject = {
   name: string;
@@ -26,22 +26,22 @@ type LocaleObject = {
 };
 
 const NB: LocaleObject = {
-  name: 'Bokmål',
-  abbreviation: 'nb',
+  name: "Bokmål",
+  abbreviation: "nb",
 };
 const NN: LocaleObject = {
-  name: 'Nynorsk',
-  abbreviation: 'nn',
+  name: "Nynorsk",
+  abbreviation: "nn",
 };
 
 const EN: LocaleObject = {
-  name: 'English',
-  abbreviation: 'en',
+  name: "English",
+  abbreviation: "en",
 };
 
 const SE: LocaleObject = {
-  name: 'Nordsamisk',
-  abbreviation: 'se',
+  name: "Nordsamisk",
+  abbreviation: "se",
 };
 
 export const appLocales = [NB, NN, EN, SE];
@@ -53,9 +53,7 @@ export const getLocaleObject = (localeAbbreviation?: string): LocaleObject => {
   return locale || NB; // defaults to NB
 };
 
-export const isValidLocale = (
-  localeAbbreviation: string | undefined | null,
-): localeAbbreviation is LocaleType =>
+export const isValidLocale = (localeAbbreviation: string | undefined | null): localeAbbreviation is LocaleType =>
   appLocales.find((l) => l.abbreviation === localeAbbreviation) !== undefined;
 
 export const getHtmlLang = (localeAbbreviation?: string): string => {
@@ -69,11 +67,11 @@ interface RetType extends LocaleObject {
 }
 
 export const getLocaleInfoFromPath = (path: string): RetType => {
-  const paths = path.split('/');
-  const basename = paths[1] && isValidLocale(paths[1]) ? paths[1] : '';
-  const basepath = basename ? path.replace(`/${basename}`, '') : path;
+  const paths = path.split("/");
+  const basename = paths[1] && isValidLocale(paths[1]) ? paths[1] : "";
+  const basepath = basename ? path.replace(`/${basename}`, "") : path;
   return {
-    basepath: basepath.length === 0 ? '/' : basepath,
+    basepath: basepath.length === 0 ? "/" : basepath,
     basename,
     ...getLocaleObject(basename),
   };
@@ -84,10 +82,10 @@ export const initializeI18n = (i18n: i18n, language: string): i18n => {
     lng: language,
     supportedLngs: preferredLanguages,
   });
-  i18n.addResourceBundle('en', 'translation', en, true, true);
-  i18n.addResourceBundle('nb', 'translation', nb, true, true);
-  i18n.addResourceBundle('nn', 'translation', nn, true, true);
-  i18n.addResourceBundle('se', 'translation', se, true, true);
+  i18n.addResourceBundle("en", "translation", en, true, true);
+  i18n.addResourceBundle("nb", "translation", nb, true, true);
+  i18n.addResourceBundle("nn", "translation", nn, true, true);
+  i18n.addResourceBundle("se", "translation", se, true, true);
   return instance;
 };
 

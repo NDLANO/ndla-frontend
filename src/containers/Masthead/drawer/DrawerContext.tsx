@@ -5,13 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import {
-  createContext,
-  ReactNode,
-  useCallback,
-  useContext,
-  useState,
-} from 'react';
+import { createContext, ReactNode, useCallback, useContext, useState } from "react";
 
 interface DrawerContextType {
   shouldCloseLevel: boolean;
@@ -35,9 +29,7 @@ export const DrawerProvider = ({ children }: Props) => {
   const setLevelClosed = useCallback(() => _setShouldCloseLevel(false), []);
 
   return (
-    <DrawerContext.Provider
-      value={{ shouldCloseLevel, setShouldCloseLevel, setLevelClosed }}
-    >
+    <DrawerContext.Provider value={{ shouldCloseLevel, setShouldCloseLevel, setLevelClosed }}>
       {children}
     </DrawerContext.Provider>
   );
@@ -46,7 +38,7 @@ export const DrawerProvider = ({ children }: Props) => {
 export const useDrawerContext = () => {
   const context = useContext(DrawerContext);
   if (context === undefined) {
-    throw new Error('useDrawerContext must be used within a DrawerProvider');
+    throw new Error("useDrawerContext must be used within a DrawerProvider");
   }
   return context;
 };

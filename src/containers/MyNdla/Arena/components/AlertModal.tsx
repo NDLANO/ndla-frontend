@@ -6,30 +6,18 @@
  *
  */
 
-import { History, Blocker, Transition } from 'history';
-import { useContext, useEffect, useState } from 'react';
-import { FormState } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
-import {
-  UNSAFE_NavigationContext,
-  useNavigate,
-  Location,
-} from 'react-router-dom';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { spacing } from '@ndla/core';
-import {
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalTitle,
-  ModalTrigger,
-} from '@ndla/modal';
-import { Text } from '@ndla/typography';
-import { ButtonRow } from '../../../../components/MyNdla/AddResourceToFolder';
-import { supportedLanguages } from '../../../../i18n';
+import { History, Blocker, Transition } from "history";
+import { useContext, useEffect, useState } from "react";
+import { FormState } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+import { UNSAFE_NavigationContext, useNavigate, Location } from "react-router-dom";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { spacing } from "@ndla/core";
+import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
+import { Text } from "@ndla/typography";
+import { ButtonRow } from "../../../../components/MyNdla/AddResourceToFolder";
+import { supportedLanguages } from "../../../../i18n";
 
 // TODO: Remove when upgrading react-router
 // V6 has not added useBlocker hook yet. Source taken from react-router. Same logic used in editorial frontend
@@ -62,32 +50,21 @@ const StyledWarningText = styled(Text)`
 
 interface Props {
   onAbort: VoidFunction;
-  postType: 'topic' | 'post';
+  postType: "topic" | "post";
   formState: FormState<{ title: string; content: string }>;
   initialContent?: string;
 }
 
-const AlertModal = ({
-  onAbort,
-  postType,
-  formState,
-  initialContent,
-}: Props) => {
+const AlertModal = ({ onAbort, postType, formState, initialContent }: Props) => {
   const [open, setOpen] = useState<boolean>(false);
   const [discardChanges, setDiscardChanges] = useState(false);
-  const [nextLocation, setNextLocation] = useState<Location | undefined>(
-    undefined,
-  );
+  const [nextLocation, setNextLocation] = useState<Location | undefined>(undefined);
   const { t } = useTranslation();
 
-  const type = initialContent ? 'edit' : postType;
+  const type = initialContent ? "edit" : postType;
   const navigate = useNavigate();
 
-  const shouldBlock = !(
-    !formState.isDirty ||
-    formState.isSubmitting ||
-    discardChanges
-  );
+  const shouldBlock = !(!formState.isDirty || formState.isSubmitting || discardChanges);
 
   const onCancel = () => {
     setNextLocation(undefined);
@@ -103,10 +80,8 @@ const AlertModal = ({
   useBlocker((transition) => {
     if (shouldBlock) {
       // transition does not respect basename. Filter out basename until it is fixed.
-      const pathRegex = new RegExp(
-        supportedLanguages.map((l) => `/${l}/`).join('|'),
-      );
-      const pathname = transition.location.pathname.replace(pathRegex, '/');
+      const pathRegex = new RegExp(supportedLanguages.map((l) => `/${l}/`).join("|"));
+      const pathname = transition.location.pathname.replace(pathRegex, "/");
       setOpen(true);
       setNextLocation({ ...transition.location, pathname });
     } else {
@@ -123,18 +98,15 @@ const AlertModal = ({
   return (
     <Modal open={open} onOpenChange={setOpen}>
       <ModalTrigger>
-        <ButtonV2
-          variant="outline"
-          onClick={() => (shouldBlock ? setOpen(true) : onAbort())}
-        >
-          {t('cancel')}
+        <ButtonV2 variant="outline" onClick={() => (shouldBlock ? setOpen(true) : onAbort())}>
+          {t("cancel")}
         </ButtonV2>
       </ModalTrigger>
       <ModalContent>
         <ModalBody>
           <ModalHeader>
             <ModalTitle>{t(`myNdla.arena.cancel.title.${type}`)}</ModalTitle>
-            <ModalCloseButton title={t('myNdla.folder.closeModal')} />
+            <ModalCloseButton title={t("myNdla.folder.closeModal")} />
           </ModalHeader>
           <StyledWarningText margin="none" textStyle="meta-text-medium">
             {t(`myNdla.arena.cancel.content.${type}`)}

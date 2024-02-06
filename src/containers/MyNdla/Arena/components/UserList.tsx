@@ -5,18 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { colors, spacing, misc } from '@ndla/core';
-import { Spinner } from '@ndla/icons';
-import SafeLink from '@ndla/safelink';
-import { Text } from '@ndla/typography';
-import { Cell } from './Users';
-import { isArenaModerator } from '../../../../components/AuthenticationContext';
-import {
-  GQLArenaUserV2Fragment,
-  GQLPaginatedArenaUsers,
-} from '../../../../graphqlTypes';
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { colors, spacing, misc } from "@ndla/core";
+import { Spinner } from "@ndla/icons";
+import SafeLink from "@ndla/safelink";
+import { Text } from "@ndla/typography";
+import { Cell } from "./Users";
+import { isArenaModerator } from "../../../../components/AuthenticationContext";
+import { GQLArenaUserV2Fragment, GQLPaginatedArenaUsers } from "../../../../graphqlTypes";
 
 interface Props {
   loading: boolean;
@@ -58,7 +55,7 @@ const ModTag = ({ user }: { user: GQLArenaUserV2Fragment }) => {
 
   return (
     <ModeratorTag textStyle="meta-text-xsmall" margin="none">
-      {t('user.moderator')}
+      {t("user.moderator")}
     </ModeratorTag>
   );
 };
@@ -66,17 +63,13 @@ const ModTag = ({ user }: { user: GQLArenaUserV2Fragment }) => {
 const UserList = ({ loading, users }: Props) => {
   const { t } = useTranslation();
   if (loading) return <Spinner />;
-  if ((users?.items?.length ?? 0) === 0)
-    return <div>{t('myNdla.arena.admin.users.noUsers')}</div>;
+  if ((users?.items?.length ?? 0) === 0) return <div>{t("myNdla.arena.admin.users.noUsers")}</div>;
 
   return (
     <>
       {users?.items.map((user) => {
         return (
-          <SafeLink
-            to={`/minndla/arena/user/${user.username}`}
-            key={`btn-${user.id}`}
-          >
+          <SafeLink to={`/minndla/arena/user/${user.username}`} key={`btn-${user.id}`}>
             <StyledRow>
               <Cell>{user.username}</Cell>
               <Cell>{user.displayName}</Cell>

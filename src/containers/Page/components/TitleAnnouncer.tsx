@@ -6,10 +6,10 @@
  *
  */
 
-import { useEffect, useRef, useState } from 'react';
-import { Helmet } from 'react-helmet-async';
-import styled from '@emotion/styled';
-import { useOnTopicPage } from '../../../routeHelpers';
+import { useEffect, useRef, useState } from "react";
+import { Helmet } from "react-helmet-async";
+import styled from "@emotion/styled";
+import { useOnTopicPage } from "../../../routeHelpers";
 
 const VisuallyHiddenTitle = styled.p`
   position: absolute;
@@ -23,7 +23,7 @@ const VisuallyHiddenTitle = styled.p`
 `;
 
 const TitleAnnouncer = () => {
-  const [title, setTitle] = useState('');
+  const [title, setTitle] = useState("");
   const prevTitle = useRef(title);
   const titleRef = useRef<HTMLParagraphElement | null>(null);
   const onTopicPage = useOnTopicPage();
@@ -46,9 +46,7 @@ const TitleAnnouncer = () => {
       >
         {title}
       </VisuallyHiddenTitle>
-      <Helmet
-        onChangeClientState={(state) => state.title && setTitle(state.title)}
-      />
+      <Helmet onChangeClientState={(state) => state.title && setTitle(state.title)} />
     </>
   );
 };

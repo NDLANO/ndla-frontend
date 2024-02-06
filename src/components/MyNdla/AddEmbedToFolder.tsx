@@ -6,46 +6,44 @@
  *
  */
 
-import { useContext, useMemo } from 'react';
-import { FavoriteButton } from '@ndla/button';
-import { EmbedMetaData } from '@ndla/types-embed';
-import { NoSSR } from '@ndla/util';
-import { ResourceAttributes } from './AddResourceToFolder';
-import AddResourceToFolderModal from './AddResourceToFolderModal';
-import { useFolders } from '../../containers/MyNdla/folderMutations';
-import { getAllResources } from '../../util/folderHelpers';
-import { AuthContext } from '../AuthenticationContext';
+import { useContext, useMemo } from "react";
+import { FavoriteButton } from "@ndla/button";
+import { EmbedMetaData } from "@ndla/types-embed";
+import { NoSSR } from "@ndla/util";
+import { ResourceAttributes } from "./AddResourceToFolder";
+import AddResourceToFolderModal from "./AddResourceToFolderModal";
+import { useFolders } from "../../containers/MyNdla/folderMutations";
+import { getAllResources } from "../../util/folderHelpers";
+import { AuthContext } from "../AuthenticationContext";
 
 interface Props {
-  embed: Extract<EmbedMetaData, { status: 'success' }>;
+  embed: Extract<EmbedMetaData, { status: "success" }>;
 }
 
-const embedToResource = (
-  embed: Extract<EmbedMetaData, { status: 'success' }>,
-): ResourceAttributes | undefined => {
+const embedToResource = (embed: Extract<EmbedMetaData, { status: "success" }>): ResourceAttributes | undefined => {
   switch (embed.resource) {
-    case 'audio':
+    case "audio":
       return {
         id: embed.data.id.toString(),
-        resourceType: 'audio',
+        resourceType: "audio",
         path: `/audio/${embed.data.id}`,
       };
-    case 'brightcove':
+    case "brightcove":
       return {
         id: embed.data.id.toString(),
-        resourceType: 'video',
+        resourceType: "video",
         path: `/video/${embed.data.id}`,
       };
-    case 'image':
+    case "image":
       return {
         id: embed.data.id.toString(),
-        resourceType: 'image',
+        resourceType: "image",
         path: `/image/${embed.data.id}`,
       };
-    case 'concept':
+    case "concept":
       return {
         id: embed.data.concept.id.toString(),
-        resourceType: 'concept',
+        resourceType: "concept",
         path: `/concept/${embed.data.concept.id}`,
       };
     default:

@@ -6,10 +6,10 @@
  *
  */
 
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { breakpoints, colors, mq, spacing } from '@ndla/core';
-import { Back, Home } from '@ndla/icons/common';
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { breakpoints, colors, mq, spacing } from "@ndla/core";
+import { Back, Home } from "@ndla/icons/common";
 
 interface Props {
   onGoBack: () => void;

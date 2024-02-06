@@ -6,15 +6,15 @@
  *
  */
 
-import { useContext } from 'react';
+import { useContext } from "react";
 
-import { useTranslation } from 'react-i18next';
-import { useInRouterContext } from 'react-router-dom';
-import styled from '@emotion/styled';
-import { FeideText, LogIn } from '@ndla/icons/common';
+import { useTranslation } from "react-i18next";
+import { useInRouterContext } from "react-router-dom";
+import styled from "@emotion/styled";
+import { FeideText, LogIn } from "@ndla/icons/common";
 
-import { AuthContext } from '../../../components/AuthenticationContext';
-import FeideLoginButton from '../../../components/FeideLoginButton';
+import { AuthContext } from "../../../components/AuthenticationContext";
+import FeideLoginButton from "../../../components/FeideLoginButton";
 
 const StyledFeideFooter = styled.div`
   display: flex;
@@ -64,14 +64,14 @@ const FeideFooter = () => {
           <FeideLoginButton footer>
             {authenticated && user ? (
               <span>
-                {' '}
-                {t('user.loggedInAsButton', {
-                  role: t('user.role.' + affiliationRole),
+                {" "}
+                {t("user.loggedInAsButton", {
+                  role: t("user.role." + affiliationRole),
                 })}
               </span>
             ) : (
               <span>
-                {t('user.buttonLogIn')} <StyledLogIn />
+                {t("user.buttonLogIn")} <StyledLogIn />
               </span>
             )}
           </FeideLoginButton>

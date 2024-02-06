@@ -6,17 +6,11 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { spacing } from '@ndla/core';
-import {
-  ModalContent,
-  ModalHeader,
-  ModalTitle,
-  ModalCloseButton,
-  ModalBody,
-} from '@ndla/modal';
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { spacing } from "@ndla/core";
+import { ModalContent, ModalHeader, ModalTitle, ModalCloseButton, ModalBody } from "@ndla/modal";
 
 interface Props {
   onDelete: () => void;
@@ -32,13 +26,7 @@ const StyledButtonRow = styled.div`
   gap: ${spacing.small};
 `;
 
-const DeleteModalContent = ({
-  onDelete,
-  onClose,
-  title,
-  description,
-  removeText,
-}: Props) => {
+const DeleteModalContent = ({ onDelete, onClose, title, description, removeText }: Props) => {
   const { t } = useTranslation();
   return (
     <ModalContent onCloseAutoFocus={onClose}>
@@ -50,7 +38,7 @@ const DeleteModalContent = ({
         <p>{description}</p>
         <StyledButtonRow>
           <ModalCloseButton>
-            <ButtonV2 variant="outline">{t('cancel')}</ButtonV2>
+            <ButtonV2 variant="outline">{t("cancel")}</ButtonV2>
           </ModalCloseButton>
           <ButtonV2 colorTheme="danger" variant="outline" onClick={onDelete}>
             {removeText}

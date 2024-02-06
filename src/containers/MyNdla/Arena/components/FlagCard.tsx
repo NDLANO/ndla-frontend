@@ -5,18 +5,18 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { formatDistanceStrict } from 'date-fns';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { colors, spacing, misc, mq, breakpoints } from '@ndla/core';
-import { Switch } from '@ndla/switch';
-import { Text } from '@ndla/typography';
-import { GQLArenaFlagFragment } from '../../../../graphqlTypes';
-import { DateFNSLocales } from '../../../../i18n';
-import { formatDateTime } from '../../../../util/formatDate';
-import { useResolveFlagMutation } from '../../arenaMutations';
-import UserProfileTag from '../../components/UserProfileTag';
-import { capitalizeFirstLetter } from '../utils';
+import { formatDistanceStrict } from "date-fns";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { colors, spacing, misc, mq, breakpoints } from "@ndla/core";
+import { Switch } from "@ndla/switch";
+import { Text } from "@ndla/typography";
+import { GQLArenaFlagFragment } from "../../../../graphqlTypes";
+import { DateFNSLocales } from "../../../../i18n";
+import { formatDateTime } from "../../../../util/formatDate";
+import { useResolveFlagMutation } from "../../arenaMutations";
+import UserProfileTag from "../../components/UserProfileTag";
+import { capitalizeFirstLetter } from "../utils";
 
 interface Props {
   flag: GQLArenaFlagFragment;
@@ -71,27 +71,19 @@ const FlexLine = styled.div`
   justify-content: space-between;
 `;
 
-const TimedistanceField = ({
-  date,
-  disableCapitalization,
-}: {
-  date: string;
-  disableCapitalization?: boolean;
-}) => {
+const TimedistanceField = ({ date, disableCapitalization }: { date: string; disableCapitalization?: boolean }) => {
   const { i18n } = useTranslation();
 
   const timeDistance = formatDistanceStrict(Date.parse(date), Date.now(), {
     addSuffix: true,
     locale: DateFNSLocales[i18n.language],
-    roundingMethod: 'floor',
+    roundingMethod: "floor",
   });
 
   return (
     <TimestampText element="span" textStyle="content-alt" margin="none">
       <span title={formatDateTime(date, i18n.language)}>
-        {disableCapitalization
-          ? timeDistance
-          : `${capitalizeFirstLetter(timeDistance)}`}
+        {disableCapitalization ? timeDistance : `${capitalizeFirstLetter(timeDistance)}`}
       </span>
     </TimestampText>
   );
@@ -106,12 +98,10 @@ const FlagCard = ({ flag }: Props) => {
       <FlagHeader>
         <UserProfileTag user={flag.flagger} />
         <StyledSwitch
-          onChange={() =>
-            toggleFlagResolution({ variables: { flagId: flag.id } })
-          }
+          onChange={() => toggleFlagResolution({ variables: { flagId: flag.id } })}
           checked={flag.isResolved}
-          label={t('myNdla.arena.admin.flags.status.resolved')}
-          id={t('myNdla.arena.posts.flags.status')}
+          label={t("myNdla.arena.admin.flags.status.resolved")}
+          id={t("myNdla.arena.posts.flags.status")}
         />
       </FlagHeader>
       <FlagContentWrapper>{flag.reason}</FlagContentWrapper>
@@ -119,11 +109,8 @@ const FlagCard = ({ flag }: Props) => {
         <TimedistanceField date={flag.created} />
         {flag.resolved && (
           <span>
-            {t('myNdla.arena.admin.flags.solvedFor')}{' '}
-            <TimedistanceField
-              date={flag.resolved}
-              disableCapitalization={true}
-            />
+            {t("myNdla.arena.admin.flags.solvedFor")}{" "}
+            <TimedistanceField date={flag.resolved} disableCapitalization={true} />
           </span>
         )}
       </FlexLine>
