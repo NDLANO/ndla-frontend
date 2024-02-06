@@ -46,7 +46,7 @@ export const useArenaCategory = (categoryId: string | undefined) => {
           return {
             ...topic,
             created: topic.timestamp,
-            isLocked: topic?.locked,
+            isLocked: topic.locked,
           };
         }),
       },
