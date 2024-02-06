@@ -7,7 +7,7 @@
  */
 
 import { test, expect } from '@playwright/test';
-import { mockGraphqlRoute } from '../../apiMock';
+import { mockGraphqlRoute, mockWaitResponse } from '../../apiMock';
 
 test.beforeEach(async ({ page }) => {
   await mockGraphqlRoute({
@@ -32,6 +32,14 @@ test.beforeEach(async ({ page }) => {
       {
         fixture: 'minndla_topic_post_loaded',
         names: ['arenaCategoryV2', 'arenaTopicByIdV2', 'arenaNotifications'],
+      },
+      {
+        fixture: 'minndla_topic_post_data_create',
+        names: ['arenaCategoryV2', 'arenaTopicByIdV2'],
+      },
+      {
+        fixture: 'minndla_topic_post_loaded_new',
+        names: ['arenaTopicByIdV2'],
       },
     ],
   });
@@ -67,7 +75,7 @@ test('can create topic', async ({ page }) => {
   await page.getByRole('link', { name: 'Nytt innlegg' }).click();
   await page.waitForURL('/minndla/arena/category/1/topic/new');
 
-  const tittel = 'Playwright test tittle';
+  const tittel = 'Playwright test tittel';
   const content = 'Playwright test content';
   await page.getByLabel('Tittel').click();
   await page.keyboard.type(tittel);
@@ -112,5 +120,9 @@ test('can cancel and get usaved edits message when creating topic', async ({
   );
   await page.getByRole('button', { name: 'Forkast innlegget' }).click();
   await page.waitForURL('/minndla/arena/category/1');
-  expect(page.getByRole('link', { name: 'Nytt innlegg' })).toBeInViewport();
+  await expect(
+    page
+      .getByRole('main')
+      .filter({ has: page.locator('[data-style="h1-resource"]') }),
+  ).toBeInViewport();
 });

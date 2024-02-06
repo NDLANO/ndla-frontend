@@ -104,7 +104,9 @@ export const mockGraphqlRoute = async ({
         : [body.operationName];
 
       const match = operation
-        .filter((op) => isEqual(bodyOperationNames.sort(), op.names.sort()))
+        .filter((op) =>
+          isEqual(new Set(bodyOperationNames.sort()), new Set(op.names.sort())),
+        )
         .pop();
 
       if (match) {
@@ -123,7 +125,9 @@ export const mockGraphqlRoute = async ({
         : [body.operationName];
 
       const match = operation
-        .filter((op) => isEqual(bodyOperationNames.sort(), op.names.sort()))
+        .filter((op) =>
+          isEqual(new Set(bodyOperationNames.sort()), new Set(op.names.sort())),
+        )
         .pop();
 
       if (match) {
