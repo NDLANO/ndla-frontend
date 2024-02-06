@@ -38,7 +38,7 @@ test.beforeEach(async ({ page }) => {
   await page.goto('/minndla/arena/category/1');
 });
 
-test('can open post in category', async ({ page }) => {
+test('can open post in topic', async ({ page }) => {
   await expect(
     page
       .getByRole('main')
@@ -91,4 +91,26 @@ test('can cancel when creating topic', async ({ page }) => {
   await page.waitForURL('/minndla/arena/category/1/topic/new');
   await page.getByRole('button', { name: 'Avbryt' }).click();
   await page.waitForURL('/minndla/arena/category/1');
+});
+
+test('can cancel and get usaved edits message when creating topic', async ({
+  page,
+}) => {
+  await expect(
+    page
+      .getByRole('main')
+      .filter({ has: page.locator('[data-style="h1-resource"]') }),
+  ).toBeInViewport();
+  await page.getByRole('link', { name: 'Nytt innlegg' }).click();
+  await page.waitForURL('/minndla/arena/category/1/topic/new');
+  await page.getByLabel('Tittel').click();
+  await page.keyboard.type('Test test');
+  await page.getByRole('button', { name: 'Avbryt' }).click();
+  await expect(page.getByRole('dialog')).toBeInViewport();
+  await expect(page.getByRole('dialog').getByRole('heading')).toHaveText(
+    'Forkast nytt innlegg',
+  );
+  await page.getByRole('button', { name: 'Forkast innlegget' }).click();
+  await page.waitForURL('/minndla/arena/category/1');
+  expect(page.getByRole('link', { name: 'Nytt innlegg' })).toBeInViewport();
 });
