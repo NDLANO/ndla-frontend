@@ -136,6 +136,7 @@ export type GQLArenaTopic = {
   id: Scalars["Int"]["output"];
   isFollowing?: Maybe<Scalars["Boolean"]["output"]>;
   locked: Scalars["Boolean"]["output"];
+  pinned: Scalars["Boolean"]["output"];
   postCount: Scalars["Int"]["output"];
   posts: Array<GQLArenaPost>;
   slug: Scalars["String"]["output"];
@@ -149,6 +150,8 @@ export type GQLArenaTopicV2 = {
   created: Scalars["String"]["output"];
   id: Scalars["Int"]["output"];
   isFollowing: Scalars["Boolean"]["output"];
+  isLocked: Scalars["Boolean"]["output"];
+  isPinned: Scalars["Boolean"]["output"];
   postCount: Scalars["Int"]["output"];
   posts?: Maybe<GQLPaginatedPosts>;
   title: Scalars["String"]["output"];
@@ -1100,6 +1103,8 @@ export type GQLMutationNewArenaTopicArgs = {
 export type GQLMutationNewArenaTopicV2Args = {
   categoryId: Scalars["Int"]["input"];
   content: Scalars["String"]["input"];
+  isLocked?: InputMaybe<Scalars["Boolean"]["input"]>;
+  isPinned?: InputMaybe<Scalars["Boolean"]["input"]>;
   title: Scalars["String"]["input"];
 };
 
@@ -1214,6 +1219,8 @@ export type GQLMutationUpdatePostV2Args = {
 
 export type GQLMutationUpdateTopicV2Args = {
   content: Scalars["String"]["input"];
+  isLocked?: InputMaybe<Scalars["Boolean"]["input"]>;
+  isPinned?: InputMaybe<Scalars["Boolean"]["input"]>;
   title: Scalars["String"]["input"];
   topicId: Scalars["Int"]["input"];
 };
@@ -3252,6 +3259,7 @@ export type GQLArenaTopicV2Fragment = {
   title: string;
   isFollowing: boolean;
   categoryId: number;
+  isLocked: boolean;
 };
 
 export type GQLArenaFlagFragment = {

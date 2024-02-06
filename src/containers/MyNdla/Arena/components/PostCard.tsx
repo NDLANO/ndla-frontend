@@ -274,7 +274,7 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId, isMainPost }: Props
             {menu}
             {postTime}
           </FlexLine>
-          <ButtonV2 ref={replyToRef} onClick={() => setIsReplying(true)} disabled={isReplying}>
+          <ButtonV2 ref={replyToRef} onClick={() => setIsReplying(true)} disabled={isReplying || topic?.isLocked}>
             {t("myNdla.arena.new.post")}
           </ButtonV2>
         </>
